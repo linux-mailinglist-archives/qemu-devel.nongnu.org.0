@@ -2,53 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC282D5D32
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:11:15 +0100 (CET)
-Received: from localhost ([::1]:59482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FDC2D5CA9
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:02:12 +0100 (CET)
+Received: from localhost ([::1]:38416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knMf4-0008Nv-S3
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:11:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41878)
+	id 1knMWE-0007ju-3J
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:02:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knLiv-0001sJ-4N
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:11:09 -0500
-Received: from mx2.suse.de ([195.135.220.15]:50294)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knLis-0007OS-LI
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:11:08 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5A8C6AC6A;
- Thu, 10 Dec 2020 13:11:05 +0000 (UTC)
-Subject: Re: [PATCH v10 00/32] i386 cleanup
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>
-References: <20201210121226.19822-1-cfontana@suse.de>
- <3b70ca52-8b06-42c3-1187-9cf700a506f3@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <d25c5912-8945-b1dd-e7c0-9922fe09ba07@suse.de>
-Date: Thu, 10 Dec 2020 14:11:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1knMJ4-00029q-Lp
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:48:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44162)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1knMJ0-0002Ui-EI
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:48:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607608105;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ulMUWJhPnu4f0g/wIardZXW7c36v91u4ATkIG/ONjyg=;
+ b=ArTQTcy3FXFs1jzLmExg4fo+1a9AkfgT5G2UqXmmCrl8lHbQyNhfBSQRpRj6E0pMBAGCMl
+ 5hdqmu1bftOnBvh18399JQ8Ns8TrvpEsOBB+dMETawNM5DoDOYWH5sch7U7YLUBlDCC50Q
+ qALAWN7A/cDuPetGh9AEsCUotFOLkGQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-63-8PrYjN8sPoKWRVQm0sBUGQ-1; Thu, 10 Dec 2020 08:48:20 -0500
+X-MC-Unique: 8PrYjN8sPoKWRVQm0sBUGQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 044E1107ACE4;
+ Thu, 10 Dec 2020 13:48:19 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 428966064B;
+ Thu, 10 Dec 2020 13:48:10 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 01/13] qemu/atomic: Drop special case for unsupported
+ compiler
+Date: Thu, 10 Dec 2020 17:47:40 +0400
+Message-Id: <20201210134752.780923-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20201210134752.780923-1-marcandre.lureau@redhat.com>
+References: <20201210134752.780923-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <3b70ca52-8b06-42c3-1187-9cf700a506f3@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,96 +80,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/20 2:05 PM, Philippe Mathieu-Daudé wrote:
-> Hi Claudio,
-> 
-> On 12/10/20 1:11 PM, Claudio Fontana wrote:
->> Hello, this is version 10 of the cleanup, changed from RFC to PATCH.
->>
->> v9 -> v10: minor tweaks and fixes
->>
->> * in "i386: split cpu accelerators from cpu.c",
->>
->> use kvm/kvm-cpu.c, hvf/hvf-cpu.c, tcg/tcg-cpu.c.
->> Easier to understand compared to editing multiple cpu.c files,
->> and matches the header files if needed (kvm-cpu.h).
->>
->> * in "accel: replace struct CpusAccel with AccelOpsClass",
->>
->> make it a bit more consistent, by naming the files defining
->> the AccelOpsClass types "...-accel-ops.c" instead of the old
->> naming "...-cpus.c".
->>
->> * in "cpu: move cc->transaction_failed to tcg_ops",
->>
->> protect with CONFIG_TCG the use of tcg_ops for hw/misc/jazz.c,
->>
->>  #include "exec/memattrs.h" (Philippe, Eduardo)
->>
->> * in "cpu: Move synchronize_from_tb() to tcg_ops",
->>
->>  #include "hw/core/cpu.h" (Philippe, Eduardo)
->>
->> do not remove the comment about struct TcgCpuOperations (Philippe)
->>
->> * in "accel/tcg: split TCG-only code from cpu_exec_realizefn",
->>
->> invert tcg_target_initialized set order (Alex)
->>
->> * in "i386: move TCG cpu class initialization out of helper.c",
->>
->> extract helper-tcg.h, tcg-cpu.c, and tcg-cpu.h directly into
->> tcg/, avoiding the extra move later to tcg/ (Alex)
->>
-> ...
-> 
->> Claudio Fontana (23):
->>   accel/tcg: split CpusAccel into three TCG variants
->>   accel/tcg: split tcg_start_vcpu_thread
->>   accel/tcg: rename tcg-cpus functions to match module name
->>   i386: move kvm accel files into kvm/
->>   i386: move whpx accel files into whpx/
->>   i386: move hax accel files into hax/
->>   i386: hvf: remove stale MAINTAINERS entry for old hvf stubs
->>   i386: move TCG accel files into tcg/
->>   i386: move cpu dump out of helper.c into cpu-dump.c
->>   i386: move TCG cpu class initialization out of helper.c
->>   target/riscv: remove CONFIG_TCG, as it is always TCG
->>   accel/tcg: split TCG-only code from cpu_exec_realizefn
->>   target/arm: do not use cc->do_interrupt for KVM directly
->>   cpu: move cc->do_interrupt to tcg_ops
->>   cpu: move cc->transaction_failed to tcg_ops
->>   cpu: move do_unaligned_access to tcg_ops
-> 
-> To be honest this is a lot to digest... I'd split your
-> series in 2, the first part until here, almost ready;
-> 
-> And this second part, the accel refactor:
-> 
->>   accel: extend AccelState and AccelClass to user-mode
->>   accel: replace struct CpusAccel with AccelOpsClass
->>   accel: introduce AccelCPUClass extending CPUClass
->>   i386: split cpu accelerators from cpu.c, using AccelCPUClass
->>   cpu: call AccelCPUClass::cpu_realizefn in cpu_exec_realizefn
->>   hw/core/cpu: call qemu_init_vcpu in cpu_common_realizefn
->>   cpu: introduce cpu_accel_instance_init
-> 
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Ok, will do for the next spin
+Since commit efc6c070aca ("configure: Add a test for the
+minimum compiler version") the minimum compiler version
+required for GCC is 4.8, which has the GCC BZ#36793 bug fixed.
 
-Ciao,
+We can safely remove the special case introduced in commit
+a281ebc11a6 ("virtio: add missing mb() on notification").
 
-Claudio
+With clang 3.4, __ATOMIC_RELAXED is defined, so the chunk to
+remove (which is x86-specific), isn't reached either.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ include/qemu/atomic.h | 17 -----------------
+ 1 file changed, 17 deletions(-)
+
+diff --git a/include/qemu/atomic.h b/include/qemu/atomic.h
+index c1d211a351..8f4b3a80fb 100644
+--- a/include/qemu/atomic.h
++++ b/include/qemu/atomic.h
+@@ -241,23 +241,6 @@
+ 
+ #else /* __ATOMIC_RELAXED */
+ 
+-/*
+- * We use GCC builtin if it's available, as that can use mfence on
+- * 32-bit as well, e.g. if built with -march=pentium-m. However, on
+- * i386 the spec is buggy, and the implementation followed it until
+- * 4.3 (http://gcc.gnu.org/bugzilla/show_bug.cgi?id=36793).
+- */
+-#if defined(__i386__) || defined(__x86_64__)
+-#if !QEMU_GNUC_PREREQ(4, 4)
+-#if defined __x86_64__
+-#define smp_mb()    ({ asm volatile("mfence" ::: "memory"); (void)0; })
+-#else
+-#define smp_mb()    ({ asm volatile("lock; addl $0,0(%%esp) " ::: "memory"); (void)0; })
+-#endif
+-#endif
+-#endif
+-
+-
+ #ifdef __alpha__
+ #define smp_read_barrier_depends()   asm volatile("mb":::"memory")
+ #endif
+-- 
+2.29.0
+
 
