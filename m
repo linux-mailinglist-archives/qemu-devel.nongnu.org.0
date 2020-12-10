@@ -2,71 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120CD2D5C6A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:54:41 +0100 (CET)
-Received: from localhost ([::1]:48928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C06A2D5C8E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:58:16 +0100 (CET)
+Received: from localhost ([::1]:58760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knMP2-0000K6-1j
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:54:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52166)
+	id 1knMSV-0004Tv-6N
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:58:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1knMKt-0004Mz-D0
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:50:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1knMKr-0003DG-KA
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:50:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607608220;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=655teq4WQH113PO8F0kS3wL4OZKf3txyzGY5haGVOpE=;
- b=iOk1ZZZbmSaC4t74ALXYq1wQzlzd/EaoS6VEfl+7CHTEfP8Cso0/cPKRJXn0Sb1grYaQXE
- 7ajBmjD3E9tFgCpbgln2IcAQY1vzhwLw7NywdoieILo0I6/NNcpsWc80Y4403Z6AtaJSDw
- LIe/63q7kPRTTldA3uE4vxIanyzXLGM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-Gmi7SMuINcumk-1cNlsFsA-1; Thu, 10 Dec 2020 08:50:19 -0500
-X-MC-Unique: Gmi7SMuINcumk-1cNlsFsA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79F67100C662;
- Thu, 10 Dec 2020 13:50:17 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 06182709A0;
- Thu, 10 Dec 2020 13:50:05 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/13] poison: remove GNUC check
-Date: Thu, 10 Dec 2020 17:47:48 +0400
-Message-Id: <20201210134752.780923-10-marcandre.lureau@redhat.com>
-In-Reply-To: <20201210134752.780923-1-marcandre.lureau@redhat.com>
-References: <20201210134752.780923-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1knMQ4-0002gO-TU
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:55:46 -0500
+Received: from relay68.bu.edu ([128.197.228.73]:58099)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1knMQ2-00059B-SI
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:55:44 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 0BADsx8e007631
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 10 Dec 2020 08:55:03 -0500
+Date: Thu, 10 Dec 2020 08:54:59 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] fuzz: map all BARs and enable PCI devices
+Message-ID: <20201210135459.w6o7chqwmrorrrmz@mozz.bu.edu>
+References: <20201209201054.391408-1-alxndr@bu.edu> <m2im99ao4m.fsf@oracle.com>
+ <114d98b5-5c4e-6315-d91d-92c6baf49d09@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <114d98b5-5c4e-6315-d91d-92c6baf49d09@redhat.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.344, RCVD_IN_BL_SPAMCOP_NET=1.347, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,47 +56,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- philmd@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 201210 1411, Philippe Mathieu-Daudé wrote:
+> On 12/10/20 12:36 PM, Darren Kenny wrote:
+> > Hi Alex,
+> > 
+> > On Wednesday, 2020-12-09 at 15:10:54 -05, Alexander Bulekov wrote:
+> >> Prior to this patch, the fuzzer found inputs to map PCI device BARs and
+> >> enable the device. While it is nice that the fuzzer can do this, it
+> >> added significant overhead, since the fuzzer needs to map all the
+> >> BARs (regenerating the memory topology), at the start of each input.
+> >> With this patch, we do this once, before fuzzing, mitigating some of
+> >> this overhead.
+> >>
+> >> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > 
+> > In general this looks good, I've a small comment/nit below, but nothing
+> > serious, so:
+> > 
+> > Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+> > 
+> >> ---
+> >>  tests/qtest/fuzz/generic_fuzz.c | 23 +++++++++++++++++++++++
+> >>  1 file changed, 23 insertions(+)
+> >>
+> >> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+> >> index 07ad690683..d95093ee53 100644
+> >> --- a/tests/qtest/fuzz/generic_fuzz.c
+> >> +++ b/tests/qtest/fuzz/generic_fuzz.c
+> >> @@ -16,6 +16,7 @@
+> >>  
+> >>  #include "hw/core/cpu.h"
+> >>  #include "tests/qtest/libqos/libqtest.h"
+> >> +#include "tests/qtest/libqos/pci-pc.h"
+> >>  #include "fuzz.h"
+> >>  #include "fork_fuzz.h"
+> >>  #include "exec/address-spaces.h"
+> >> @@ -762,6 +763,22 @@ static int locate_fuzz_objects(Object *child, void *opaque)
+> >>      return 0;
+> >>  }
+> >>  
+> >> +
+> >> +static void pci_enum(gpointer pcidev, gpointer bus)
+> >> +{
+> >> +    PCIDevice *dev = pcidev;
+> >> +    QPCIDevice *qdev;
+> >> +
+> >> +    qdev = qpci_device_find(bus, dev->devfn);
+> >> +    g_assert(qdev != NULL);
+> >> +    for (int i = 0; i < 6; i++) {
+> >> +        if (dev->io_regions[i].size) {
+> >> +            qpci_iomap(qdev, i, NULL);
+> >> +        }
+> >> +    }
+> >> +    qpci_device_enable(qdev);
+> >> +}
+> >> +
+> >>  static void generic_pre_fuzz(QTestState *s)
+> >>  {
+> >>      GHashTableIter iter;
+> >> @@ -810,6 +827,12 @@ static void generic_pre_fuzz(QTestState *s)
+> >>          exit(1);
+> >>      }
+> >>  
+> >> +    QPCIBus *pcibus;
+> > 
+> > NIT: I'm not a huge fan of defining variables in the middle of code,
+> >      call me old-fashioned if you will, but I tend to prefer them at the
+> >      top of the function, or block ;)
+> 
+> This is barely tolerated in for(;;) loops.
+> 
+> See commit 7be41675f7c ("configure: Force the C standard to gnu99")
+> and QEMU CODING_STYLE.rst:
+> 
+>  Declarations
+>  ============
+> 
+>  Mixed declarations (interleaving statements and declarations within
+>  blocks) are generally not allowed; declarations should be at the
+>  beginning of blocks.
+> 
+>  Every now and then, an exception is made for declarations inside a
+>  #ifdef or #ifndef block: if the code looks nicer, such declarations can
+>  be placed at the top of the block even if there are statements above.
+>  On the other hand, however, it's often best to move that #ifdef/#ifndef
+>  block to a separate function altogether.
+> 
+> Regards,
+>
 
-QEMU requires Clang or GCC, that define and support __GNUC__ extensions
+Sounds good - I'll send out a v2.
+Thanks
+-Alex
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/exec/poison.h | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/include/exec/poison.h b/include/exec/poison.h
-index 7b9ac361dc..d7ae1f23e7 100644
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -3,7 +3,6 @@
- 
- #ifndef HW_POISON_H
- #define HW_POISON_H
--#ifdef __GNUC__
- 
- #pragma GCC poison TARGET_I386
- #pragma GCC poison TARGET_X86_64
-@@ -93,4 +92,3 @@
- #pragma GCC poison CONFIG_SOFTMMU
- 
- #endif
--#endif
--- 
-2.29.0
-
+> Phil.
+> 
 
