@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48D22D5A57
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:20:50 +0100 (CET)
-Received: from localhost ([::1]:58326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF4572D5A6E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:25:11 +0100 (CET)
+Received: from localhost ([::1]:39498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKwD-000224-PG
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:20:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56338)
+	id 1knL0Q-0005vm-JL
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:25:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoG-0001sI-4q
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:36 -0500
-Received: from mx2.suse.de ([195.135.220.15]:46926)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoF-0001qr-JL
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:35 -0500
+Received: from mx2.suse.de ([195.135.220.15]:46988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoB-0006PD-SE
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoC-0006PP-B2
  for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:35 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 32150AD3F;
- Thu, 10 Dec 2020 12:12:29 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 060E7AD4D;
+ Thu, 10 Dec 2020 12:12:31 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,12 +29,13 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v10 00/32] i386 cleanup
-Date: Thu, 10 Dec 2020 13:11:54 +0100
-Message-Id: <20201210121226.19822-1-cfontana@suse.de>
+Subject: [PATCH v10 02/32] accel/tcg: split tcg_start_vcpu_thread
+Date: Thu, 10 Dec 2020 13:11:56 +0100
+Message-Id: <20201210121226.19822-3-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201210121226.19822-1-cfontana@suse.de>
+References: <20201210121226.19822-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -69,434 +70,293 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello, this is version 10 of the cleanup, changed from RFC to PATCH.
-
-v9 -> v10: minor tweaks and fixes
-
-* in "i386: split cpu accelerators from cpu.c",
-
-use kvm/kvm-cpu.c, hvf/hvf-cpu.c, tcg/tcg-cpu.c.
-Easier to understand compared to editing multiple cpu.c files,
-and matches the header files if needed (kvm-cpu.h).
-
-* in "accel: replace struct CpusAccel with AccelOpsClass",
-
-make it a bit more consistent, by naming the files defining
-the AccelOpsClass types "...-accel-ops.c" instead of the old
-naming "...-cpus.c".
-
-* in "cpu: move cc->transaction_failed to tcg_ops",
-
-protect with CONFIG_TCG the use of tcg_ops for hw/misc/jazz.c,
-
- #include "exec/memattrs.h" (Philippe, Eduardo)
-
-* in "cpu: Move synchronize_from_tb() to tcg_ops",
-
- #include "hw/core/cpu.h" (Philippe, Eduardo)
-
-do not remove the comment about struct TcgCpuOperations (Philippe)
-
-* in "accel/tcg: split TCG-only code from cpu_exec_realizefn",
-
-invert tcg_target_initialized set order (Alex)
-
-* in "i386: move TCG cpu class initialization out of helper.c",
-
-extract helper-tcg.h, tcg-cpu.c, and tcg-cpu.h directly into
-tcg/, avoiding the extra move later to tcg/ (Alex)
-
-
-
-v8 -> v9: move additional methods to CPUClass->tcg_ops
-
-do_unaligned_access, transaction_failed and do_interrupt.
-
-do_interrupt is a bit tricky, as the same code is reused
-(albeit not usually directly) for KVM under certain odd conditions.
-
-Change arm, as the only user of do_interrupt callback for KVM,
-to instead call the target function directly arm_do_interrupt.
-
-v7 -> v8: add missing CONFIG_TCGs, fix bugs
-
-* add the prerequisite patches for "3 tcg" at the beginning of the
-  series for convenience (already reviewed, queued by RH).
-
-* add CONFIG_TCG to TCGCpuOperations and tcg_ops variable use
-
-* reduce the scope of the realizefn refactoring, do not
-  introduce a separate cpu_accel_realize, and instead use the
-  existing cpu_exec_realizefn, there is not enough benefit
-  to introduce a new function.
-
-* fix bugs in user mode due to attempt to move the tcg_region_init()
-  early, so it could be done just once in tcg_init() for both
-  softmmu and user mode. Unfortunately it needs to remain deferred
-  for user mode, as it needs to be done after prologue init and
-  after the GUEST_BASE has been set.
-
-v6 -> v7: integrate TCGCpuOperations, refactored cpu_exec_realizefn
-
-* integrate TCGCpuOperations (Eduardo)
-
-Taken some refactoring from Eduardo for Tcg-only operations on
-CPUClass.
-
-* refactored cpu_exec_realizefn
-
-The other main change is a refactoring of cpu_exec_realizefn,
-directly linked to the effort of making many cpu_exec operations
-TCG-only (Eduardo series above):
-
-cpu_exec_realizefn is actually a TCG-only thing, with the
-exception of a couple things that can be done in base cpu code.
-
-This changes all targets realizefn, so I guess I have to Cc:
-the Multiverse? (Universe was already CCed for all accelerators).
-
-
-v5 -> v6: remove MODULE_INIT_ACCEL_CPU
-
-
-instead, use a call to accel_init_interfaces().
-
-* The class lookups are now general and performed in accel/
-
-  new AccelCPUClass for new archs are supported as new
-  ones appear in the class hierarchy, no need for stubs.
-
-* Split the code a bit better
-
-
-v4 -> v5: centralized and simplified initializations
-
-I put in Cc: Emilio G. Cota, specifically because in patch 8
-I (re)moved for user-mode the call to tcg_regions_init().
-
-The call happens now inside the tcg AccelClass machine_init,
-(so earlier). This seems to work fine, but thought to get the
-author opinion on this.
-
-Rebased on "tcg-cpus: split into 3 tcg variants" series
-(queued by Richard), to avoid some code churn:
-
-
-https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg04356.html
-
-
-* Extended AccelClass to user-mode.
-
-user-mode now does not call tcg_exec_init directly,
-instead it uses the tcg accel class, and its init_machine method.
-
-Since user-mode does not define or use a machine state,
-the machine is just passed as NULL.
-
-The immediate advantage is that now we can call current_accel()
-from both user mode and softmmu, so we can work out the correct
-class to use for accelerator initializations.
-
-* QOMification of CpusAccelOps
-
-simple QOMification of CpusAccelOps abstract class.
-
-* Centralized all accel_cpu_init, so only one per cpu-arch,
-  plus one for all accels will remain.
-
-  So we can expect accel_cpu_init() to be limited to:
-  
-  softmmu/cpus.c - initializes the chosen softmmu accel ops for the cpus module.
-  target/ARCH/cpu.c - initializes the chosen arch-specific cpu accelerator.
-  
-These changes are meant to address concerns/issues (Paolo):
-
-1) the use of if (tcg_enabled()) and similar in the module_init call path
-
-2) the excessive number of accel_cpu_init() to hunt down in the codebase.
-
-
-* Fixed wrong use of host_cpu_class_init (Eduardo)
-
-
-v3 -> v4: QOMification of X86CPUAccelClass
-
-
-In this version I basically QOMified X86CPUAccel, taking the
-suggestions from Eduardo as the starting point,
-but stopping just short of making it an actual QOM interface,
-using a plain abstract class, and then subclasses for the
-actual objects.
-
-Initialization is still using the existing qemu initialization
-framework (module_call_init), which is I still think is better
-than the alternatives proposed, in the current state.
-
-Possibly some improvements could be developed in the future here.
-In this case, effort should be put in keeping things extendible,
-in order not to be blocked once accelerators also become modules.
-
-Motivation and higher level steps:
-
-https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
-
-Looking forward to your comments on this proposal,
-
-Ciao,
-
-Claudio
-
-
-Claudio Fontana (23):
-  accel/tcg: split CpusAccel into three TCG variants
-  accel/tcg: split tcg_start_vcpu_thread
-  accel/tcg: rename tcg-cpus functions to match module name
-  i386: move kvm accel files into kvm/
-  i386: move whpx accel files into whpx/
-  i386: move hax accel files into hax/
-  i386: hvf: remove stale MAINTAINERS entry for old hvf stubs
-  i386: move TCG accel files into tcg/
-  i386: move cpu dump out of helper.c into cpu-dump.c
-  i386: move TCG cpu class initialization out of helper.c
-  target/riscv: remove CONFIG_TCG, as it is always TCG
-  accel/tcg: split TCG-only code from cpu_exec_realizefn
-  target/arm: do not use cc->do_interrupt for KVM directly
-  cpu: move cc->do_interrupt to tcg_ops
-  cpu: move cc->transaction_failed to tcg_ops
-  cpu: move do_unaligned_access to tcg_ops
-  accel: extend AccelState and AccelClass to user-mode
-  accel: replace struct CpusAccel with AccelOpsClass
-  accel: introduce AccelCPUClass extending CPUClass
-  i386: split cpu accelerators from cpu.c, using AccelCPUClass
-  cpu: call AccelCPUClass::cpu_realizefn in cpu_exec_realizefn
-  hw/core/cpu: call qemu_init_vcpu in cpu_common_realizefn
-  cpu: introduce cpu_accel_instance_init
-
-Eduardo Habkost (9):
-  tcg: cpu_exec_{enter,exit} helpers
-  tcg: make CPUClass.cpu_exec_* optional
-  tcg: Make CPUClass.debug_excp_handler optional
-  cpu: Remove unnecessary noop methods
-  cpu: Introduce TCGCpuOperations struct
-  cpu: Move synchronize_from_tb() to tcg_ops
-  cpu: Move cpu_exec_* to tcg_ops
-  cpu: Move tlb_fill to tcg_ops
-  cpu: Move debug_excp_handler to tcg_ops
-
- meson.build                                   |   1 +
- accel/accel-softmmu.h                         |  15 +
- accel/kvm/kvm-cpus.h                          |   2 -
- accel/tcg/tcg-accel-ops-icount.h              |  19 +
- accel/tcg/tcg-accel-ops-mttcg.h               |  19 +
- accel/tcg/tcg-accel-ops-rr.h                  |  21 +
- accel/tcg/{tcg-cpus.h => tcg-accel-ops.h}     |   8 +-
- include/hw/boards.h                           |   2 +-
- include/hw/core/accel-cpu.h                   |  25 +
- include/hw/core/cpu.h                         |  92 ++-
- include/hw/core/tcg-cpu-ops.h                 |  77 +++
- include/{sysemu => qemu}/accel.h              |  16 +-
- include/sysemu/accel-ops.h                    |  45 ++
- include/sysemu/cpus.h                         |  26 +-
- include/sysemu/hvf.h                          |   2 +-
- include/sysemu/kvm.h                          |   2 +-
- include/sysemu/kvm_int.h                      |   2 +-
- target/i386/cpu.h                             | 120 +---
- .../i386/{hax-cpus.h => hax/hax-accel-ops.h}  |   2 -
- target/i386/{ => hax}/hax-i386.h              |   6 +-
- target/i386/{ => hax}/hax-interface.h         |   0
- target/i386/{ => hax}/hax-posix.h             |   0
- target/i386/{ => hax}/hax-windows.h           |   2 +-
- target/i386/host-cpu.h                        |  19 +
- .../i386/hvf/{hvf-cpus.h => hvf-accel-ops.h}  |   2 -
- target/i386/hvf/hvf-i386.h                    |   2 +-
- target/i386/{ => kvm}/hyperv-proto.h          |   0
- target/i386/{ => kvm}/hyperv.h                |   0
- target/i386/kvm/kvm-cpu.h                     |  41 ++
- target/i386/{ => kvm}/kvm_i386.h              |   0
- target/i386/kvm/trace.h                       |   1 +
- target/i386/tcg/helper-tcg.h                  | 112 ++++
- target/i386/{ => whpx}/whp-dispatch.h         |   0
- .../{whpx-cpus.h => whpx/whpx-accel-ops.h}    |   2 -
- accel/accel-common.c                          | 105 ++++
- accel/{accel.c => accel-softmmu.c}            |  60 +-
- accel/accel-user.c                            |  24 +
- accel/kvm/{kvm-cpus.c => kvm-accel-ops.c}     |  26 +-
- accel/kvm/kvm-all.c                           |   2 -
- accel/qtest/qtest.c                           |  25 +-
- accel/tcg/cpu-exec.c                          |  70 ++-
- accel/tcg/cputlb.c                            |   6 +-
- accel/tcg/tcg-accel-ops-icount.c              | 138 +++++
- accel/tcg/tcg-accel-ops-mttcg.c               | 134 ++++
- accel/tcg/tcg-accel-ops-rr.c                  | 298 +++++++++
- accel/tcg/tcg-accel-ops.c                     | 125 ++++
- accel/tcg/tcg-all.c                           |  14 +-
- accel/tcg/tcg-cpus.c                          | 570 ------------------
- accel/tcg/user-exec.c                         |   6 +-
- accel/xen/xen-all.c                           |  24 +-
- bsd-user/main.c                               |  11 +-
- cpu.c                                         |  71 ++-
- hw/core/cpu.c                                 |  30 +-
- hw/i386/fw_cfg.c                              |   2 +-
- hw/i386/intel_iommu.c                         |   2 +-
- hw/i386/kvm/apic.c                            |   2 +-
- hw/i386/kvm/clock.c                           |   2 +-
- hw/i386/microvm.c                             |   2 +-
- hw/i386/pc.c                                  |   2 +-
- hw/i386/pc_piix.c                             |   1 +
- hw/i386/x86.c                                 |   2 +-
- hw/mips/jazz.c                                |   9 +-
- linux-user/main.c                             |   7 +-
- softmmu/cpus.c                                |  12 +-
- softmmu/icount.c                              |   2 +-
- softmmu/memory.c                              |   2 +-
- softmmu/qtest.c                               |   2 +-
- softmmu/vl.c                                  |   8 +-
- target/alpha/cpu.c                            |  18 +-
- target/arm/cpu.c                              |  26 +-
- target/arm/cpu64.c                            |   5 +-
- target/arm/cpu_tcg.c                          |   8 +-
- target/arm/helper.c                           |   4 +
- target/arm/kvm64.c                            |   6 +-
- target/avr/cpu.c                              |  13 +-
- target/avr/helper.c                           |   4 +-
- target/cris/cpu.c                             |  30 +-
- target/cris/helper.c                          |   4 +-
- target/hppa/cpu.c                             |  15 +-
- target/i386/cpu-dump.c                        | 537 +++++++++++++++++
- target/i386/cpu.c                             | 418 ++-----------
- .../i386/{hax-cpus.c => hax/hax-accel-ops.c}  |  31 +-
- target/i386/{ => hax}/hax-all.c               |   7 +-
- target/i386/{ => hax}/hax-mem.c               |   2 +-
- target/i386/{ => hax}/hax-posix.c             |   2 +-
- target/i386/{ => hax}/hax-windows.c           |   2 +-
- target/i386/helper.c                          | 539 +----------------
- target/i386/host-cpu.c                        | 198 ++++++
- .../i386/hvf/{hvf-cpus.c => hvf-accel-ops.c}  |  29 +-
- target/i386/hvf/hvf-cpu.c                     |  65 ++
- target/i386/hvf/hvf.c                         |   5 +-
- target/i386/hvf/x86_task.c                    |   2 +-
- target/i386/hvf/x86hvf.c                      |   2 +-
- target/i386/{ => kvm}/hyperv-stub.c           |   0
- target/i386/{ => kvm}/hyperv.c                |   0
- target/i386/kvm/kvm-cpu.c                     | 148 +++++
- target/i386/{ => kvm}/kvm-stub.c              |   0
- target/i386/{ => kvm}/kvm.c                   |   3 +-
- target/i386/machine.c                         |   4 +-
- target/i386/{ => tcg}/bpt_helper.c            |   1 +
- target/i386/{ => tcg}/cc_helper.c             |   1 +
- target/i386/{ => tcg}/excp_helper.c           |   1 +
- target/i386/{ => tcg}/fpu_helper.c            |  33 +-
- target/i386/{ => tcg}/int_helper.c            |   1 +
- target/i386/{ => tcg}/mem_helper.c            |   1 +
- target/i386/{ => tcg}/misc_helper.c           |   1 +
- target/i386/{ => tcg}/mpx_helper.c            |   1 +
- target/i386/{ => tcg}/seg_helper.c            |   1 +
- target/i386/{ => tcg}/smm_helper.c            |   2 +
- target/i386/{ => tcg}/svm_helper.c            |   1 +
- target/i386/tcg/tcg-cpu.c                     | 173 ++++++
- target/i386/{ => tcg}/tcg-stub.c              |   0
- target/i386/{ => tcg}/translate.c             |   1 +
- .../{whpx-cpus.c => whpx/whpx-accel-ops.c}    |  31 +-
- target/i386/{ => whpx}/whpx-all.c             |   6 +-
- target/lm32/cpu.c                             |  13 +-
- target/m68k/cpu.c                             |  12 +-
- target/microblaze/cpu.c                       |  23 +-
- target/mips/cpu.c                             |  21 +-
- target/moxie/cpu.c                            |  10 +-
- target/nios2/cpu.c                            |  14 +-
- target/openrisc/cpu.c                         |  12 +-
- target/riscv/cpu.c                            |  25 +-
- target/rx/cpu.c                               |  18 +-
- target/s390x/cpu.c                            |  15 +-
- target/sh4/cpu.c                              |  14 +-
- target/sparc/cpu.c                            |  18 +-
- target/tilegx/cpu.c                           |  10 +-
- target/tricore/cpu.c                          |   8 +-
- target/unicore32/cpu.c                        |  14 +-
- target/xtensa/cpu.c                           |  16 +-
- MAINTAINERS                                   |  19 +-
- accel/kvm/meson.build                         |   2 +-
- accel/meson.build                             |   4 +-
- accel/tcg/meson.build                         |   9 +-
- target/i386/hax/meson.build                   |   7 +
- target/i386/hvf/meson.build                   |   3 +-
- target/i386/kvm/meson.build                   |   8 +
- target/i386/kvm/trace-events                  |   7 +
- target/i386/meson.build                       |  38 +-
- target/i386/tcg/meson.build                   |  14 +
- target/i386/trace-events                      |   6 -
- target/i386/whpx/meson.build                  |   4 +
- target/ppc/translate_init.c.inc               |  23 +-
- 144 files changed, 3104 insertions(+), 2144 deletions(-)
- create mode 100644 accel/accel-softmmu.h
- create mode 100644 accel/tcg/tcg-accel-ops-icount.h
- create mode 100644 accel/tcg/tcg-accel-ops-mttcg.h
- create mode 100644 accel/tcg/tcg-accel-ops-rr.h
- rename accel/tcg/{tcg-cpus.h => tcg-accel-ops.h} (52%)
- create mode 100644 include/hw/core/accel-cpu.h
- create mode 100644 include/hw/core/tcg-cpu-ops.h
- rename include/{sysemu => qemu}/accel.h (94%)
- create mode 100644 include/sysemu/accel-ops.h
- rename target/i386/{hax-cpus.h => hax/hax-accel-ops.h} (95%)
- rename target/i386/{ => hax}/hax-i386.h (95%)
- rename target/i386/{ => hax}/hax-interface.h (100%)
- rename target/i386/{ => hax}/hax-posix.h (100%)
- rename target/i386/{ => hax}/hax-windows.h (99%)
- create mode 100644 target/i386/host-cpu.h
- rename target/i386/hvf/{hvf-cpus.h => hvf-accel-ops.h} (94%)
- rename target/i386/{ => kvm}/hyperv-proto.h (100%)
- rename target/i386/{ => kvm}/hyperv.h (100%)
- create mode 100644 target/i386/kvm/kvm-cpu.h
- rename target/i386/{ => kvm}/kvm_i386.h (100%)
- create mode 100644 target/i386/kvm/trace.h
- create mode 100644 target/i386/tcg/helper-tcg.h
- rename target/i386/{ => whpx}/whp-dispatch.h (100%)
- rename target/i386/{whpx-cpus.h => whpx/whpx-accel-ops.h} (96%)
- create mode 100644 accel/accel-common.c
- rename accel/{accel.c => accel-softmmu.c} (64%)
- create mode 100644 accel/accel-user.c
- rename accel/kvm/{kvm-cpus.c => kvm-accel-ops.c} (72%)
- create mode 100644 accel/tcg/tcg-accel-ops-icount.c
- create mode 100644 accel/tcg/tcg-accel-ops-mttcg.c
- create mode 100644 accel/tcg/tcg-accel-ops-rr.c
- create mode 100644 accel/tcg/tcg-accel-ops.c
- delete mode 100644 accel/tcg/tcg-cpus.c
- create mode 100644 target/i386/cpu-dump.c
- rename target/i386/{hax-cpus.c => hax/hax-accel-ops.c} (69%)
- rename target/i386/{ => hax}/hax-all.c (99%)
- rename target/i386/{ => hax}/hax-mem.c (99%)
- rename target/i386/{ => hax}/hax-posix.c (99%)
- rename target/i386/{ => hax}/hax-windows.c (99%)
- create mode 100644 target/i386/host-cpu.c
- rename target/i386/hvf/{hvf-cpus.c => hvf-accel-ops.c} (84%)
- create mode 100644 target/i386/hvf/hvf-cpu.c
- rename target/i386/{ => kvm}/hyperv-stub.c (100%)
- rename target/i386/{ => kvm}/hyperv.c (100%)
- create mode 100644 target/i386/kvm/kvm-cpu.c
- rename target/i386/{ => kvm}/kvm-stub.c (100%)
- rename target/i386/{ => kvm}/kvm.c (99%)
- rename target/i386/{ => tcg}/bpt_helper.c (99%)
- rename target/i386/{ => tcg}/cc_helper.c (99%)
- rename target/i386/{ => tcg}/excp_helper.c (99%)
- rename target/i386/{ => tcg}/fpu_helper.c (99%)
- rename target/i386/{ => tcg}/int_helper.c (99%)
- rename target/i386/{ => tcg}/mem_helper.c (99%)
- rename target/i386/{ => tcg}/misc_helper.c (99%)
- rename target/i386/{ => tcg}/mpx_helper.c (99%)
- rename target/i386/{ => tcg}/seg_helper.c (99%)
- rename target/i386/{ => tcg}/smm_helper.c (99%)
- rename target/i386/{ => tcg}/svm_helper.c (99%)
- create mode 100644 target/i386/tcg/tcg-cpu.c
- rename target/i386/{ => tcg}/tcg-stub.c (100%)
- rename target/i386/{ => tcg}/translate.c (99%)
- rename target/i386/{whpx-cpus.c => whpx/whpx-accel-ops.c} (72%)
- rename target/i386/{ => whpx}/whpx-all.c (99%)
- create mode 100644 target/i386/hax/meson.build
- create mode 100644 target/i386/kvm/meson.build
- create mode 100644 target/i386/kvm/trace-events
- create mode 100644 target/i386/tcg/meson.build
- create mode 100644 target/i386/whpx/meson.build
-
+after the initial split into 3 tcg variants, we proceed to also
+split tcg_start_vcpu_thread.
+
+We actually split it in 2 this time, since the icount variant
+just uses the round robin function.
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ accel/tcg/tcg-cpus-mttcg.h  | 21 --------------
+ accel/tcg/tcg-cpus-rr.h     |  3 +-
+ accel/tcg/tcg-cpus.h        |  1 -
+ accel/tcg/tcg-all.c         |  5 ++++
+ accel/tcg/tcg-cpus-icount.c |  2 +-
+ accel/tcg/tcg-cpus-mttcg.c  | 29 +++++++++++++++++--
+ accel/tcg/tcg-cpus-rr.c     | 39 +++++++++++++++++++++++--
+ accel/tcg/tcg-cpus.c        | 58 -------------------------------------
+ 8 files changed, 71 insertions(+), 87 deletions(-)
+ delete mode 100644 accel/tcg/tcg-cpus-mttcg.h
+
+diff --git a/accel/tcg/tcg-cpus-mttcg.h b/accel/tcg/tcg-cpus-mttcg.h
+deleted file mode 100644
+index d1bd771f49..0000000000
+--- a/accel/tcg/tcg-cpus-mttcg.h
++++ /dev/null
+@@ -1,21 +0,0 @@
+-/*
+- * QEMU TCG Multi Threaded vCPUs implementation
+- *
+- * Copyright 2020 SUSE LLC
+- *
+- * This work is licensed under the terms of the GNU GPL, version 2 or later.
+- * See the COPYING file in the top-level directory.
+- */
+-
+-#ifndef TCG_CPUS_MTTCG_H
+-#define TCG_CPUS_MTTCG_H
+-
+-/*
+- * In the multi-threaded case each vCPU has its own thread. The TLS
+- * variable current_cpu can be used deep in the code to find the
+- * current CPUState for a given thread.
+- */
+-
+-void *tcg_cpu_thread_fn(void *arg);
+-
+-#endif /* TCG_CPUS_MTTCG_H */
+diff --git a/accel/tcg/tcg-cpus-rr.h b/accel/tcg/tcg-cpus-rr.h
+index 1936fd16ab..2e5943eda9 100644
+--- a/accel/tcg/tcg-cpus-rr.h
++++ b/accel/tcg/tcg-cpus-rr.h
+@@ -15,6 +15,7 @@
+ /* Kick all RR vCPUs. */
+ void qemu_cpu_kick_rr_cpus(CPUState *unused);
+ 
+-void *tcg_rr_cpu_thread_fn(void *arg);
++/* start the round robin vcpu thread */
++void rr_start_vcpu_thread(CPUState *cpu);
+ 
+ #endif /* TCG_CPUS_RR_H */
+diff --git a/accel/tcg/tcg-cpus.h b/accel/tcg/tcg-cpus.h
+index 279ba72e1f..b7ca954e13 100644
+--- a/accel/tcg/tcg-cpus.h
++++ b/accel/tcg/tcg-cpus.h
+@@ -18,7 +18,6 @@ extern const CpusAccel tcg_cpus_mttcg;
+ extern const CpusAccel tcg_cpus_icount;
+ extern const CpusAccel tcg_cpus_rr;
+ 
+-void tcg_start_vcpu_thread(CPUState *cpu);
+ void qemu_tcg_destroy_vcpu(CPUState *cpu);
+ int tcg_cpu_exec(CPUState *cpu);
+ void tcg_handle_interrupt(CPUState *cpu, int mask);
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index e42a028043..1ac0b76515 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -105,6 +105,11 @@ static int tcg_init(MachineState *ms)
+     tcg_exec_init(s->tb_size * 1024 * 1024);
+     mttcg_enabled = s->mttcg_enabled;
+ 
++    /*
++     * Initialize TCG regions
++     */
++    tcg_region_init();
++
+     if (mttcg_enabled) {
+         cpus_register_accel(&tcg_cpus_mttcg);
+     } else if (icount_enabled()) {
+diff --git a/accel/tcg/tcg-cpus-icount.c b/accel/tcg/tcg-cpus-icount.c
+index d3af3afb6d..82dbe2cacf 100644
+--- a/accel/tcg/tcg-cpus-icount.c
++++ b/accel/tcg/tcg-cpus-icount.c
+@@ -138,7 +138,7 @@ static void icount_handle_interrupt(CPUState *cpu, int mask)
+ }
+ 
+ const CpusAccel tcg_cpus_icount = {
+-    .create_vcpu_thread = tcg_start_vcpu_thread,
++    .create_vcpu_thread = rr_start_vcpu_thread,
+     .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
+ 
+     .handle_interrupt = icount_handle_interrupt,
+diff --git a/accel/tcg/tcg-cpus-mttcg.c b/accel/tcg/tcg-cpus-mttcg.c
+index dac724fc85..f2b892a380 100644
+--- a/accel/tcg/tcg-cpus-mttcg.c
++++ b/accel/tcg/tcg-cpus-mttcg.c
+@@ -33,7 +33,6 @@
+ #include "hw/boards.h"
+ 
+ #include "tcg-cpus.h"
+-#include "tcg-cpus-mttcg.h"
+ 
+ /*
+  * In the multi-threaded case each vCPU has its own thread. The TLS
+@@ -41,7 +40,7 @@
+  * current CPUState for a given thread.
+  */
+ 
+-void *tcg_cpu_thread_fn(void *arg)
++static void *tcg_cpu_thread_fn(void *arg)
+ {
+     CPUState *cpu = arg;
+ 
+@@ -109,8 +108,32 @@ static void mttcg_kick_vcpu_thread(CPUState *cpu)
+     cpu_exit(cpu);
+ }
+ 
++static void mttcg_start_vcpu_thread(CPUState *cpu)
++{
++    char thread_name[VCPU_THREAD_NAME_SIZE];
++
++    g_assert(tcg_enabled());
++
++    parallel_cpus = (current_machine->smp.max_cpus > 1);
++
++    cpu->thread = g_malloc0(sizeof(QemuThread));
++    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
++    qemu_cond_init(cpu->halt_cond);
++
++    /* create a thread per vCPU with TCG (MTTCG) */
++    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
++             cpu->cpu_index);
++
++    qemu_thread_create(cpu->thread, thread_name, tcg_cpu_thread_fn,
++                       cpu, QEMU_THREAD_JOINABLE);
++
++#ifdef _WIN32
++    cpu->hThread = qemu_thread_get_handle(cpu->thread);
++#endif
++}
++
+ const CpusAccel tcg_cpus_mttcg = {
+-    .create_vcpu_thread = tcg_start_vcpu_thread,
++    .create_vcpu_thread = mttcg_start_vcpu_thread,
+     .kick_vcpu_thread = mttcg_kick_vcpu_thread,
+ 
+     .handle_interrupt = tcg_handle_interrupt,
+diff --git a/accel/tcg/tcg-cpus-rr.c b/accel/tcg/tcg-cpus-rr.c
+index ad50a3765f..f3b262bec7 100644
+--- a/accel/tcg/tcg-cpus-rr.c
++++ b/accel/tcg/tcg-cpus-rr.c
+@@ -144,7 +144,7 @@ static void deal_with_unplugged_cpus(void)
+  * elsewhere.
+  */
+ 
+-void *tcg_rr_cpu_thread_fn(void *arg)
++static void *tcg_rr_cpu_thread_fn(void *arg)
+ {
+     CPUState *cpu = arg;
+ 
+@@ -262,8 +262,43 @@ void *tcg_rr_cpu_thread_fn(void *arg)
+     return NULL;
+ }
+ 
++void rr_start_vcpu_thread(CPUState *cpu)
++{
++    char thread_name[VCPU_THREAD_NAME_SIZE];
++    static QemuCond *single_tcg_halt_cond;
++    static QemuThread *single_tcg_cpu_thread;
++
++    g_assert(tcg_enabled());
++    parallel_cpus = false;
++
++    if (!single_tcg_cpu_thread) {
++        cpu->thread = g_malloc0(sizeof(QemuThread));
++        cpu->halt_cond = g_malloc0(sizeof(QemuCond));
++        qemu_cond_init(cpu->halt_cond);
++
++        /* share a single thread for all cpus with TCG */
++        snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
++        qemu_thread_create(cpu->thread, thread_name,
++                           tcg_rr_cpu_thread_fn,
++                           cpu, QEMU_THREAD_JOINABLE);
++
++        single_tcg_halt_cond = cpu->halt_cond;
++        single_tcg_cpu_thread = cpu->thread;
++#ifdef _WIN32
++        cpu->hThread = qemu_thread_get_handle(cpu->thread);
++#endif
++    } else {
++        /* we share the thread */
++        cpu->thread = single_tcg_cpu_thread;
++        cpu->halt_cond = single_tcg_halt_cond;
++        cpu->thread_id = first_cpu->thread_id;
++        cpu->can_do_io = 1;
++        cpu->created = true;
++    }
++}
++
+ const CpusAccel tcg_cpus_rr = {
+-    .create_vcpu_thread = tcg_start_vcpu_thread,
++    .create_vcpu_thread = rr_start_vcpu_thread,
+     .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
+ 
+     .handle_interrupt = tcg_handle_interrupt,
+diff --git a/accel/tcg/tcg-cpus.c b/accel/tcg/tcg-cpus.c
+index f2b9bbf99e..86fd09545a 100644
+--- a/accel/tcg/tcg-cpus.c
++++ b/accel/tcg/tcg-cpus.c
+@@ -35,67 +35,9 @@
+ #include "hw/boards.h"
+ 
+ #include "tcg-cpus.h"
+-#include "tcg-cpus-mttcg.h"
+-#include "tcg-cpus-rr.h"
+ 
+ /* common functionality among all TCG variants */
+ 
+-void tcg_start_vcpu_thread(CPUState *cpu)
+-{
+-    char thread_name[VCPU_THREAD_NAME_SIZE];
+-    static QemuCond *single_tcg_halt_cond;
+-    static QemuThread *single_tcg_cpu_thread;
+-    static int tcg_region_inited;
+-
+-    assert(tcg_enabled());
+-    /*
+-     * Initialize TCG regions--once. Now is a good time, because:
+-     * (1) TCG's init context, prologue and target globals have been set up.
+-     * (2) qemu_tcg_mttcg_enabled() works now (TCG init code runs before the
+-     *     -accel flag is processed, so the check doesn't work then).
+-     */
+-    if (!tcg_region_inited) {
+-        tcg_region_inited = 1;
+-        tcg_region_init();
+-        parallel_cpus = qemu_tcg_mttcg_enabled() && current_machine->smp.max_cpus > 1;
+-    }
+-
+-    if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread) {
+-        cpu->thread = g_malloc0(sizeof(QemuThread));
+-        cpu->halt_cond = g_malloc0(sizeof(QemuCond));
+-        qemu_cond_init(cpu->halt_cond);
+-
+-        if (qemu_tcg_mttcg_enabled()) {
+-            /* create a thread per vCPU with TCG (MTTCG) */
+-            snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
+-                 cpu->cpu_index);
+-
+-            qemu_thread_create(cpu->thread, thread_name, tcg_cpu_thread_fn,
+-                               cpu, QEMU_THREAD_JOINABLE);
+-
+-        } else {
+-            /* share a single thread for all cpus with TCG */
+-            snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
+-            qemu_thread_create(cpu->thread, thread_name,
+-                               tcg_rr_cpu_thread_fn,
+-                               cpu, QEMU_THREAD_JOINABLE);
+-
+-            single_tcg_halt_cond = cpu->halt_cond;
+-            single_tcg_cpu_thread = cpu->thread;
+-        }
+-#ifdef _WIN32
+-        cpu->hThread = qemu_thread_get_handle(cpu->thread);
+-#endif
+-    } else {
+-        /* For non-MTTCG cases we share the thread */
+-        cpu->thread = single_tcg_cpu_thread;
+-        cpu->halt_cond = single_tcg_halt_cond;
+-        cpu->thread_id = first_cpu->thread_id;
+-        cpu->can_do_io = 1;
+-        cpu->created = true;
+-    }
+-}
+-
+ void qemu_tcg_destroy_vcpu(CPUState *cpu)
+ {
+     cpu_thread_signal_destroyed(cpu);
 -- 
 2.26.2
 
