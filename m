@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987B02D5A78
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:27:05 +0100 (CET)
-Received: from localhost ([::1]:45316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D362D5A8A
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:29:48 +0100 (CET)
+Received: from localhost ([::1]:53946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knL2G-0008Ll-Ge
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:27:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56342)
+	id 1knL4t-0003O9-9V
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:29:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoG-0001tN-N6
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:36 -0500
-Received: from mx2.suse.de ([195.135.220.15]:47044)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoJ-0001zX-CW
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:39 -0500
+Received: from mx2.suse.de ([195.135.220.15]:47076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoD-0006Pb-IP
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:36 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoE-0006QR-DC
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:39 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2865CAD45;
- Thu, 10 Dec 2020 12:12:32 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 2093EAD5C;
+ Thu, 10 Dec 2020 12:12:33 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,10 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v10 03/32] accel/tcg: rename tcg-cpus functions to match
- module name
-Date: Thu, 10 Dec 2020 13:11:57 +0100
-Message-Id: <20201210121226.19822-4-cfontana@suse.de>
+Subject: [PATCH v10 04/32] i386: move kvm accel files into kvm/
+Date: Thu, 10 Dec 2020 13:11:58 +0100
+Message-Id: <20201210121226.19822-5-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201210121226.19822-1-cfontana@suse.de>
 References: <20201210121226.19822-1-cfontana@suse.de>
@@ -61,8 +60,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
  qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
  Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
@@ -74,431 +73,318 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/tcg-cpus-icount.h |  6 +--
- accel/tcg/tcg-cpus-rr.h     |  2 +-
- accel/tcg/tcg-cpus.h        |  6 +--
- accel/tcg/tcg-cpus-icount.c | 24 ++++++------
- accel/tcg/tcg-cpus-mttcg.c  | 10 ++---
- accel/tcg/tcg-cpus-rr.c     | 74 ++++++++++++++++++-------------------
- accel/tcg/tcg-cpus.c        |  6 +--
- 7 files changed, 64 insertions(+), 64 deletions(-)
+ meson.build                          | 1 +
+ target/i386/cpu.h                    | 2 +-
+ target/i386/{ => kvm}/hyperv-proto.h | 0
+ target/i386/{ => kvm}/hyperv.h       | 0
+ target/i386/{ => kvm}/kvm_i386.h     | 0
+ target/i386/kvm/trace.h              | 1 +
+ hw/i386/fw_cfg.c                     | 2 +-
+ hw/i386/intel_iommu.c                | 2 +-
+ hw/i386/kvm/apic.c                   | 2 +-
+ hw/i386/kvm/clock.c                  | 2 +-
+ hw/i386/microvm.c                    | 2 +-
+ hw/i386/pc.c                         | 2 +-
+ hw/i386/x86.c                        | 2 +-
+ target/i386/cpu.c                    | 2 +-
+ target/i386/helper.c                 | 2 +-
+ target/i386/{ => kvm}/hyperv-stub.c  | 0
+ target/i386/{ => kvm}/hyperv.c       | 0
+ target/i386/{ => kvm}/kvm-stub.c     | 0
+ target/i386/{ => kvm}/kvm.c          | 0
+ target/i386/machine.c                | 4 ++--
+ MAINTAINERS                          | 2 +-
+ target/i386/kvm/meson.build          | 3 +++
+ target/i386/kvm/trace-events         | 7 +++++++
+ target/i386/meson.build              | 4 +---
+ target/i386/trace-events             | 6 ------
+ 25 files changed, 26 insertions(+), 22 deletions(-)
+ rename target/i386/{ => kvm}/hyperv-proto.h (100%)
+ rename target/i386/{ => kvm}/hyperv.h (100%)
+ rename target/i386/{ => kvm}/kvm_i386.h (100%)
+ create mode 100644 target/i386/kvm/trace.h
+ rename target/i386/{ => kvm}/hyperv-stub.c (100%)
+ rename target/i386/{ => kvm}/hyperv.c (100%)
+ rename target/i386/{ => kvm}/kvm-stub.c (100%)
+ rename target/i386/{ => kvm}/kvm.c (100%)
+ create mode 100644 target/i386/kvm/meson.build
+ create mode 100644 target/i386/kvm/trace-events
 
-diff --git a/accel/tcg/tcg-cpus-icount.h b/accel/tcg/tcg-cpus-icount.h
-index cbcf76b413..b695939dfa 100644
---- a/accel/tcg/tcg-cpus-icount.h
-+++ b/accel/tcg/tcg-cpus-icount.h
-@@ -10,8 +10,8 @@
- #ifndef TCG_CPUS_ICOUNT_H
- #define TCG_CPUS_ICOUNT_H
+diff --git a/meson.build b/meson.build
+index 732b29a1f3..d3f4aeeb32 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1467,6 +1467,7 @@ trace_events_subdirs += [
+   'target/arm',
+   'target/hppa',
+   'target/i386',
++  'target/i386/kvm',
+   'target/mips',
+   'target/ppc',
+   'target/riscv',
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 88e8586f8f..9ecda75aec 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -22,7 +22,7 @@
  
--void handle_icount_deadline(void);
--void prepare_icount_for_run(CPUState *cpu);
--void process_icount_data(CPUState *cpu);
-+void icount_handle_deadline(void);
-+void icount_prepare_for_run(CPUState *cpu);
-+void icount_process_data(CPUState *cpu);
+ #include "sysemu/tcg.h"
+ #include "cpu-qom.h"
+-#include "hyperv-proto.h"
++#include "kvm/hyperv-proto.h"
+ #include "exec/cpu-defs.h"
+ #include "qapi/qapi-types-common.h"
  
- #endif /* TCG_CPUS_ICOUNT_H */
-diff --git a/accel/tcg/tcg-cpus-rr.h b/accel/tcg/tcg-cpus-rr.h
-index 2e5943eda9..54f6ae6e86 100644
---- a/accel/tcg/tcg-cpus-rr.h
-+++ b/accel/tcg/tcg-cpus-rr.h
-@@ -13,7 +13,7 @@
- #define TCG_KICK_PERIOD (NANOSECONDS_PER_SECOND / 10)
+diff --git a/target/i386/hyperv-proto.h b/target/i386/kvm/hyperv-proto.h
+similarity index 100%
+rename from target/i386/hyperv-proto.h
+rename to target/i386/kvm/hyperv-proto.h
+diff --git a/target/i386/hyperv.h b/target/i386/kvm/hyperv.h
+similarity index 100%
+rename from target/i386/hyperv.h
+rename to target/i386/kvm/hyperv.h
+diff --git a/target/i386/kvm_i386.h b/target/i386/kvm/kvm_i386.h
+similarity index 100%
+rename from target/i386/kvm_i386.h
+rename to target/i386/kvm/kvm_i386.h
+diff --git a/target/i386/kvm/trace.h b/target/i386/kvm/trace.h
+new file mode 100644
+index 0000000000..46b75c6942
+--- /dev/null
++++ b/target/i386/kvm/trace.h
+@@ -0,0 +1 @@
++#include "trace/trace-target_i386_kvm.h"
+diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+index e06579490c..fae1bb380f 100644
+--- a/hw/i386/fw_cfg.c
++++ b/hw/i386/fw_cfg.c
+@@ -21,7 +21,7 @@
+ #include "hw/timer/hpet.h"
+ #include "hw/nvram/fw_cfg.h"
+ #include "e820_memory_layout.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include CONFIG_DEVICES
  
- /* Kick all RR vCPUs. */
--void qemu_cpu_kick_rr_cpus(CPUState *unused);
-+void rr_kick_vcpu_thread(CPUState *unused);
- 
- /* start the round robin vcpu thread */
- void rr_start_vcpu_thread(CPUState *cpu);
-diff --git a/accel/tcg/tcg-cpus.h b/accel/tcg/tcg-cpus.h
-index b7ca954e13..d6893a32f8 100644
---- a/accel/tcg/tcg-cpus.h
-+++ b/accel/tcg/tcg-cpus.h
-@@ -18,8 +18,8 @@ extern const CpusAccel tcg_cpus_mttcg;
- extern const CpusAccel tcg_cpus_icount;
- extern const CpusAccel tcg_cpus_rr;
- 
--void qemu_tcg_destroy_vcpu(CPUState *cpu);
--int tcg_cpu_exec(CPUState *cpu);
--void tcg_handle_interrupt(CPUState *cpu, int mask);
-+void tcg_cpus_destroy(CPUState *cpu);
-+int tcg_cpus_exec(CPUState *cpu);
-+void tcg_cpus_handle_interrupt(CPUState *cpu, int mask);
- 
- #endif /* TCG_CPUS_H */
-diff --git a/accel/tcg/tcg-cpus-icount.c b/accel/tcg/tcg-cpus-icount.c
-index 82dbe2cacf..9f45432275 100644
---- a/accel/tcg/tcg-cpus-icount.c
-+++ b/accel/tcg/tcg-cpus-icount.c
-@@ -36,7 +36,7 @@
- #include "tcg-cpus-icount.h"
- #include "tcg-cpus-rr.h"
- 
--static int64_t tcg_get_icount_limit(void)
-+static int64_t icount_get_limit(void)
- {
-     int64_t deadline;
- 
-@@ -68,37 +68,37 @@ static int64_t tcg_get_icount_limit(void)
-     }
- }
- 
--static void notify_aio_contexts(void)
-+static void icount_notify_aio_contexts(void)
- {
-     /* Wake up other AioContexts.  */
-     qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
-     qemu_clock_run_timers(QEMU_CLOCK_VIRTUAL);
- }
- 
--void handle_icount_deadline(void)
-+void icount_handle_deadline(void)
- {
-     assert(qemu_in_vcpu_thread());
-     int64_t deadline = qemu_clock_deadline_ns_all(QEMU_CLOCK_VIRTUAL,
-                                                   QEMU_TIMER_ATTR_ALL);
- 
-     if (deadline == 0) {
--        notify_aio_contexts();
-+        icount_notify_aio_contexts();
-     }
- }
- 
--void prepare_icount_for_run(CPUState *cpu)
-+void icount_prepare_for_run(CPUState *cpu)
- {
-     int insns_left;
- 
-     /*
--     * These should always be cleared by process_icount_data after
-+     * These should always be cleared by icount_process_data after
-      * each vCPU execution. However u16.high can be raised
--     * asynchronously by cpu_exit/cpu_interrupt/tcg_handle_interrupt
-+     * asynchronously by cpu_exit/cpu_interrupt/tcg_cpus_handle_interrupt
-      */
-     g_assert(cpu_neg(cpu)->icount_decr.u16.low == 0);
-     g_assert(cpu->icount_extra == 0);
- 
--    cpu->icount_budget = tcg_get_icount_limit();
-+    cpu->icount_budget = icount_get_limit();
-     insns_left = MIN(0xffff, cpu->icount_budget);
-     cpu_neg(cpu)->icount_decr.u16.low = insns_left;
-     cpu->icount_extra = cpu->icount_budget - insns_left;
-@@ -106,11 +106,11 @@ void prepare_icount_for_run(CPUState *cpu)
-     replay_mutex_lock();
- 
-     if (cpu->icount_budget == 0 && replay_has_checkpoint()) {
--        notify_aio_contexts();
-+        icount_notify_aio_contexts();
-     }
- }
- 
--void process_icount_data(CPUState *cpu)
-+void icount_process_data(CPUState *cpu)
- {
-     /* Account for executed instructions */
-     icount_update(cpu);
-@@ -129,7 +129,7 @@ static void icount_handle_interrupt(CPUState *cpu, int mask)
- {
-     int old_mask = cpu->interrupt_request;
- 
--    tcg_handle_interrupt(cpu, mask);
-+    tcg_cpus_handle_interrupt(cpu, mask);
-     if (qemu_cpu_is_self(cpu) &&
-         !cpu->can_do_io
-         && (mask & ~old_mask) != 0) {
-@@ -139,7 +139,7 @@ static void icount_handle_interrupt(CPUState *cpu, int mask)
- 
- const CpusAccel tcg_cpus_icount = {
-     .create_vcpu_thread = rr_start_vcpu_thread,
--    .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
-+    .kick_vcpu_thread = rr_kick_vcpu_thread,
- 
-     .handle_interrupt = icount_handle_interrupt,
-     .get_virtual_clock = icount_get,
-diff --git a/accel/tcg/tcg-cpus-mttcg.c b/accel/tcg/tcg-cpus-mttcg.c
-index f2b892a380..9c3767d260 100644
---- a/accel/tcg/tcg-cpus-mttcg.c
-+++ b/accel/tcg/tcg-cpus-mttcg.c
-@@ -40,7 +40,7 @@
-  * current CPUState for a given thread.
-  */
- 
--static void *tcg_cpu_thread_fn(void *arg)
-+static void *mttcg_cpu_thread_fn(void *arg)
- {
-     CPUState *cpu = arg;
- 
-@@ -66,7 +66,7 @@ static void *tcg_cpu_thread_fn(void *arg)
-         if (cpu_can_run(cpu)) {
-             int r;
-             qemu_mutex_unlock_iothread();
--            r = tcg_cpu_exec(cpu);
-+            r = tcg_cpus_exec(cpu);
-             qemu_mutex_lock_iothread();
-             switch (r) {
-             case EXCP_DEBUG:
-@@ -97,7 +97,7 @@ static void *tcg_cpu_thread_fn(void *arg)
-         qemu_wait_io_event(cpu);
-     } while (!cpu->unplug || cpu_can_run(cpu));
- 
--    qemu_tcg_destroy_vcpu(cpu);
-+    tcg_cpus_destroy(cpu);
-     qemu_mutex_unlock_iothread();
-     rcu_unregister_thread();
-     return NULL;
-@@ -124,7 +124,7 @@ static void mttcg_start_vcpu_thread(CPUState *cpu)
-     snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
-              cpu->cpu_index);
- 
--    qemu_thread_create(cpu->thread, thread_name, tcg_cpu_thread_fn,
-+    qemu_thread_create(cpu->thread, thread_name, mttcg_cpu_thread_fn,
-                        cpu, QEMU_THREAD_JOINABLE);
- 
- #ifdef _WIN32
-@@ -136,5 +136,5 @@ const CpusAccel tcg_cpus_mttcg = {
-     .create_vcpu_thread = mttcg_start_vcpu_thread,
-     .kick_vcpu_thread = mttcg_kick_vcpu_thread,
- 
--    .handle_interrupt = tcg_handle_interrupt,
-+    .handle_interrupt = tcg_cpus_handle_interrupt,
- };
-diff --git a/accel/tcg/tcg-cpus-rr.c b/accel/tcg/tcg-cpus-rr.c
-index f3b262bec7..0181d2e4eb 100644
---- a/accel/tcg/tcg-cpus-rr.c
-+++ b/accel/tcg/tcg-cpus-rr.c
+ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 0cc71e4057..b4f5094259 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
 @@ -37,7 +37,7 @@
- #include "tcg-cpus-icount.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/i386/apic_internal.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "migration/vmstate.h"
+ #include "trace.h"
  
- /* Kick all RR vCPUs */
--void qemu_cpu_kick_rr_cpus(CPUState *unused)
-+void rr_kick_vcpu_thread(CPUState *unused)
- {
-     CPUState *cpu;
+diff --git a/hw/i386/kvm/apic.c b/hw/i386/kvm/apic.c
+index dd29906061..07bebc1282 100644
+--- a/hw/i386/kvm/apic.c
++++ b/hw/i386/kvm/apic.c
+@@ -17,7 +17,7 @@
+ #include "hw/pci/msi.h"
+ #include "sysemu/hw_accel.h"
+ #include "sysemu/kvm.h"
+-#include "target/i386/kvm_i386.h"
++#include "kvm/kvm_i386.h"
  
-@@ -58,62 +58,62 @@ void qemu_cpu_kick_rr_cpus(CPUState *unused)
-  * idleness is complete.
-  */
+ static inline void kvm_apic_set_reg(struct kvm_lapic_state *kapic,
+                                     int reg_id, uint32_t val)
+diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
+index 24fe5091b6..2d8a366369 100644
+--- a/hw/i386/kvm/clock.c
++++ b/hw/i386/kvm/clock.c
+@@ -20,7 +20,7 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/hw_accel.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "migration/vmstate.h"
+ #include "hw/sysbus.h"
+ #include "hw/kvm/clock.h"
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 5428448b70..3ed6adff83 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -51,7 +51,7 @@
  
--static QEMUTimer *tcg_kick_vcpu_timer;
--static CPUState *tcg_current_rr_cpu;
-+static QEMUTimer *rr_kick_vcpu_timer;
-+static CPUState *rr_current_cpu;
+ #include "cpu.h"
+ #include "elf.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "hw/xen/start_info.h"
  
- #define TCG_KICK_PERIOD (NANOSECONDS_PER_SECOND / 10)
+ #define MICROVM_QBOOT_FILENAME "qboot.rom"
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 9e29f3792b..e562f5e190 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -61,7 +61,7 @@
+ #include "sysemu/qtest.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "hw/xen/xen.h"
+ #include "hw/xen/start_info.h"
+ #include "ui/qemu-spice.h"
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 5944fc44ed..88d0c70e12 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -52,7 +52,7 @@
+ #include "elf.h"
+ #include "standard-headers/asm-x86/bootparam.h"
+ #include CONFIG_DEVICES
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
  
--static inline int64_t qemu_tcg_next_kick(void)
-+static inline int64_t rr_next_kick_time(void)
- {
-     return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + TCG_KICK_PERIOD;
- }
+ #define BIOS_FILENAME "bios.bin"
  
- /* Kick the currently round-robin scheduled vCPU to next */
--static void qemu_cpu_kick_rr_next_cpu(void)
-+static void rr_kick_next_cpu(void)
- {
-     CPUState *cpu;
-     do {
--        cpu = qatomic_mb_read(&tcg_current_rr_cpu);
-+        cpu = qatomic_mb_read(&rr_current_cpu);
-         if (cpu) {
-             cpu_exit(cpu);
-         }
--    } while (cpu != qatomic_mb_read(&tcg_current_rr_cpu));
-+    } while (cpu != qatomic_mb_read(&rr_current_cpu));
- }
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 5a8c96072e..b9bd249c8f 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -30,7 +30,7 @@
+ #include "sysemu/hvf.h"
+ #include "sysemu/cpus.h"
+ #include "sysemu/xen.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "sev_i386.h"
  
--static void kick_tcg_thread(void *opaque)
-+static void rr_kick_thread(void *opaque)
- {
--    timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
--    qemu_cpu_kick_rr_next_cpu();
-+    timer_mod(rr_kick_vcpu_timer, rr_next_kick_time());
-+    rr_kick_next_cpu();
- }
+ #include "qemu/error-report.h"
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 034f46bcc2..a1b3367ab2 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -24,7 +24,7 @@
+ #include "qemu/qemu-print.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/runstate.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "sysemu/tcg.h"
+ #include "sysemu/hw_accel.h"
+diff --git a/target/i386/hyperv-stub.c b/target/i386/kvm/hyperv-stub.c
+similarity index 100%
+rename from target/i386/hyperv-stub.c
+rename to target/i386/kvm/hyperv-stub.c
+diff --git a/target/i386/hyperv.c b/target/i386/kvm/hyperv.c
+similarity index 100%
+rename from target/i386/hyperv.c
+rename to target/i386/kvm/hyperv.c
+diff --git a/target/i386/kvm-stub.c b/target/i386/kvm/kvm-stub.c
+similarity index 100%
+rename from target/i386/kvm-stub.c
+rename to target/i386/kvm/kvm-stub.c
+diff --git a/target/i386/kvm.c b/target/i386/kvm/kvm.c
+similarity index 100%
+rename from target/i386/kvm.c
+rename to target/i386/kvm/kvm.c
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 233e46bb70..1614e8c2f8 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -3,9 +3,9 @@
+ #include "exec/exec-all.h"
+ #include "hw/isa/isa.h"
+ #include "migration/cpu.h"
+-#include "hyperv.h"
++#include "kvm/hyperv.h"
+ #include "hw/i386/x86.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
  
--static void start_tcg_kick_timer(void)
-+static void rr_start_kick_timer(void)
- {
--    if (!tcg_kick_vcpu_timer && CPU_NEXT(first_cpu)) {
--        tcg_kick_vcpu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
--                                           kick_tcg_thread, NULL);
-+    if (!rr_kick_vcpu_timer && CPU_NEXT(first_cpu)) {
-+        rr_kick_vcpu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-+                                           rr_kick_thread, NULL);
-     }
--    if (tcg_kick_vcpu_timer && !timer_pending(tcg_kick_vcpu_timer)) {
--        timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
-+    if (rr_kick_vcpu_timer && !timer_pending(rr_kick_vcpu_timer)) {
-+        timer_mod(rr_kick_vcpu_timer, rr_next_kick_time());
-     }
- }
+ #include "sysemu/kvm.h"
+ #include "sysemu/tcg.h"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 68bc160f41..5b3eced829 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -425,7 +425,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
+ M: Marcelo Tosatti <mtosatti@redhat.com>
+ L: kvm@vger.kernel.org
+ S: Supported
+-F: target/i386/kvm.c
++F: target/i386/kvm/
+ F: scripts/kvm/vmxcap
  
--static void stop_tcg_kick_timer(void)
-+static void rr_stop_kick_timer(void)
- {
--    if (tcg_kick_vcpu_timer && timer_pending(tcg_kick_vcpu_timer)) {
--        timer_del(tcg_kick_vcpu_timer);
-+    if (rr_kick_vcpu_timer && timer_pending(rr_kick_vcpu_timer)) {
-+        timer_del(rr_kick_vcpu_timer);
-     }
- }
+ Guest CPU Cores (other accelerators)
+diff --git a/target/i386/kvm/meson.build b/target/i386/kvm/meson.build
+new file mode 100644
+index 0000000000..1d66559187
+--- /dev/null
++++ b/target/i386/kvm/meson.build
+@@ -0,0 +1,3 @@
++i386_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
++i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
++i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
+diff --git a/target/i386/kvm/trace-events b/target/i386/kvm/trace-events
+new file mode 100644
+index 0000000000..b4e2d9e4ea
+--- /dev/null
++++ b/target/i386/kvm/trace-events
+@@ -0,0 +1,7 @@
++# See docs/devel/tracing.txt for syntax documentation.
++
++# kvm.c
++kvm_x86_fixup_msi_error(uint32_t gsi) "VT-d failed to remap interrupt for GSI %" PRIu32
++kvm_x86_add_msi_route(int virq) "Adding route entry for virq %d"
++kvm_x86_remove_msi_route(int virq) "Removing route entry for virq %d"
++kvm_x86_update_msi_routes(int num) "Updated %d MSI routes"
+diff --git a/target/i386/meson.build b/target/i386/meson.build
+index a1a02f3e99..0209542a8a 100644
+--- a/target/i386/meson.build
++++ b/target/i386/meson.build
+@@ -18,7 +18,6 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'smm_helper.c',
+   'svm_helper.c',
+   'translate.c'), if_false: files('tcg-stub.c'))
+-i386_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
+ i386_ss.add(when: 'CONFIG_SEV', if_true: files('sev.c'), if_false: files('sev-stub.c'))
  
--static void qemu_tcg_rr_wait_io_event(void)
-+static void rr_wait_io_event(void)
- {
-     CPUState *cpu;
+ i386_softmmu_ss = ss.source_set()
+@@ -28,8 +27,6 @@ i386_softmmu_ss.add(files(
+   'machine.c',
+   'monitor.c',
+ ))
+-i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
+-i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
+ i386_softmmu_ss.add(when: 'CONFIG_WHPX', if_true: files(
+   'whpx-all.c',
+   'whpx-cpus.c',
+@@ -42,6 +39,7 @@ i386_softmmu_ss.add(when: 'CONFIG_HAX', if_true: files(
+ i386_softmmu_ss.add(when: ['CONFIG_HAX', 'CONFIG_POSIX'], if_true: files('hax-posix.c'))
+ i386_softmmu_ss.add(when: ['CONFIG_HAX', 'CONFIG_WIN32'], if_true: files('hax-windows.c'))
  
-     while (all_cpu_threads_idle()) {
--        stop_tcg_kick_timer();
-+        rr_stop_kick_timer();
-         qemu_cond_wait_iothread(first_cpu->halt_cond);
-     }
++subdir('kvm')
+ subdir('hvf')
  
--    start_tcg_kick_timer();
-+    rr_start_kick_timer();
+ target_arch += {'i386': i386_ss}
+diff --git a/target/i386/trace-events b/target/i386/trace-events
+index 789c700d4a..d166f9d5e0 100644
+--- a/target/i386/trace-events
++++ b/target/i386/trace-events
+@@ -1,11 +1,5 @@
+ # See docs/devel/tracing.txt for syntax documentation.
  
-     CPU_FOREACH(cpu) {
-         qemu_wait_io_event_common(cpu);
-@@ -124,13 +124,13 @@ static void qemu_tcg_rr_wait_io_event(void)
-  * Destroy any remaining vCPUs which have been unplugged and have
-  * finished running
-  */
--static void deal_with_unplugged_cpus(void)
-+static void rr_deal_with_unplugged_cpus(void)
- {
-     CPUState *cpu;
- 
-     CPU_FOREACH(cpu) {
-         if (cpu->unplug && !cpu_can_run(cpu)) {
--            qemu_tcg_destroy_vcpu(cpu);
-+            tcg_cpus_destroy(cpu);
-             break;
-         }
-     }
-@@ -144,7 +144,7 @@ static void deal_with_unplugged_cpus(void)
-  * elsewhere.
-  */
- 
--static void *tcg_rr_cpu_thread_fn(void *arg)
-+static void *rr_cpu_thread_fn(void *arg)
- {
-     CPUState *cpu = arg;
- 
-@@ -171,7 +171,7 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
-         }
-     }
- 
--    start_tcg_kick_timer();
-+    rr_start_kick_timer();
- 
-     cpu = first_cpu;
- 
-@@ -190,7 +190,7 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
-              * Run the timers here.  This is much more efficient than
-              * waking up the I/O thread and waiting for completion.
-              */
--            handle_icount_deadline();
-+            icount_handle_deadline();
-         }
- 
-         replay_mutex_unlock();
-@@ -201,7 +201,7 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
- 
-         while (cpu && cpu_work_list_empty(cpu) && !cpu->exit_request) {
- 
--            qatomic_mb_set(&tcg_current_rr_cpu, cpu);
-+            qatomic_mb_set(&rr_current_cpu, cpu);
-             current_cpu = cpu;
- 
-             qemu_clock_enable(QEMU_CLOCK_VIRTUAL,
-@@ -212,11 +212,11 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
- 
-                 qemu_mutex_unlock_iothread();
-                 if (icount_enabled()) {
--                    prepare_icount_for_run(cpu);
-+                    icount_prepare_for_run(cpu);
-                 }
--                r = tcg_cpu_exec(cpu);
-+                r = tcg_cpus_exec(cpu);
-                 if (icount_enabled()) {
--                    process_icount_data(cpu);
-+                    icount_process_data(cpu);
-                 }
-                 qemu_mutex_lock_iothread();
- 
-@@ -240,7 +240,7 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
-         } /* while (cpu && !cpu->exit_request).. */
- 
-         /* Does not need qatomic_mb_set because a spurious wakeup is okay.  */
--        qatomic_set(&tcg_current_rr_cpu, NULL);
-+        qatomic_set(&rr_current_cpu, NULL);
- 
-         if (cpu && cpu->exit_request) {
-             qatomic_mb_set(&cpu->exit_request, 0);
-@@ -254,8 +254,8 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
-             qemu_notify_event();
-         }
- 
--        qemu_tcg_rr_wait_io_event();
--        deal_with_unplugged_cpus();
-+        rr_wait_io_event();
-+        rr_deal_with_unplugged_cpus();
-     }
- 
-     rcu_unregister_thread();
-@@ -279,7 +279,7 @@ void rr_start_vcpu_thread(CPUState *cpu)
-         /* share a single thread for all cpus with TCG */
-         snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
-         qemu_thread_create(cpu->thread, thread_name,
--                           tcg_rr_cpu_thread_fn,
-+                           rr_cpu_thread_fn,
-                            cpu, QEMU_THREAD_JOINABLE);
- 
-         single_tcg_halt_cond = cpu->halt_cond;
-@@ -299,7 +299,7 @@ void rr_start_vcpu_thread(CPUState *cpu)
- 
- const CpusAccel tcg_cpus_rr = {
-     .create_vcpu_thread = rr_start_vcpu_thread,
--    .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
-+    .kick_vcpu_thread = rr_kick_vcpu_thread,
- 
--    .handle_interrupt = tcg_handle_interrupt,
-+    .handle_interrupt = tcg_cpus_handle_interrupt,
- };
-diff --git a/accel/tcg/tcg-cpus.c b/accel/tcg/tcg-cpus.c
-index 86fd09545a..e335f9f155 100644
---- a/accel/tcg/tcg-cpus.c
-+++ b/accel/tcg/tcg-cpus.c
-@@ -38,12 +38,12 @@
- 
- /* common functionality among all TCG variants */
- 
--void qemu_tcg_destroy_vcpu(CPUState *cpu)
-+void tcg_cpus_destroy(CPUState *cpu)
- {
-     cpu_thread_signal_destroyed(cpu);
- }
- 
--int tcg_cpu_exec(CPUState *cpu)
-+int tcg_cpus_exec(CPUState *cpu)
- {
-     int ret;
- #ifdef CONFIG_PROFILER
-@@ -64,7 +64,7 @@ int tcg_cpu_exec(CPUState *cpu)
- }
- 
- /* mask must never be zero, except for A20 change call */
--void tcg_handle_interrupt(CPUState *cpu, int mask)
-+void tcg_cpus_handle_interrupt(CPUState *cpu, int mask)
- {
-     g_assert(qemu_mutex_iothread_locked());
- 
+-# kvm.c
+-kvm_x86_fixup_msi_error(uint32_t gsi) "VT-d failed to remap interrupt for GSI %" PRIu32
+-kvm_x86_add_msi_route(int virq) "Adding route entry for virq %d"
+-kvm_x86_remove_msi_route(int virq) "Removing route entry for virq %d"
+-kvm_x86_update_msi_routes(int num) "Updated %d MSI routes"
+-
+ # sev.c
+ kvm_sev_init(void) ""
+ kvm_memcrypt_register_region(void *addr, size_t len) "addr %p len 0x%zu"
 -- 
 2.26.2
 
