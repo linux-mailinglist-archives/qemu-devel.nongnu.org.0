@@ -2,131 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB502D6518
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 19:34:04 +0100 (CET)
-Received: from localhost ([::1]:36856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844A92D6553
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 19:44:02 +0100 (CET)
+Received: from localhost ([::1]:44484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knQlP-0003Nc-Dz
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 13:34:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39038)
+	id 1knQv2-0006yA-W9
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 13:44:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1knQhz-0002Uu-2s; Thu, 10 Dec 2020 13:30:35 -0500
-Received: from mail-eopbgr60094.outbound.protection.outlook.com
- ([40.107.6.94]:26790 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1knQhs-0000Ex-If; Thu, 10 Dec 2020 13:30:30 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RaTp+0wOBC657IRO/nf8edMhPIt3uku5TYvqeB1Qb15r5M1MeYSXGjSMuTcgnrkv6QV+h1p2lKq6KUIc7WoWr7Y5S1Vl0USwx+TsRGFxddV5JBL1JYlFmteW9kQUUcGujXaFqhxhhBoj44Brqi5vlVM5ICNsmiAn9A76fdqN6NpjmgvdtUhSIx4+duHHMt5YWVlGoU4KGHrvOciP9EFOBHSDnIdny7w8rFybRxGNMrs9p0IyCCK7pIKfmVdO1vD+ksZ5cJ9DtyLufxgBg6QbxrZqIQw5iz5tPZ9ehTlEUtbJks8sGr1+D5cIaD0UiuXdS6CqJtAvAh3u51XzUEmGvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZZ6LTojsLoA6c+BZX99qnSzTEiayQkN83cCVjUk98q0=;
- b=jSu6zUX9fbJqHbli4GgPoKCjC4q8HembBannJnhM9rVm7hAM2xhjCrgxAhcY7l0xsTrXaRVGxahLdendvtfGq2MQCquPQu668NcX6D+3JE9czyekMxz3gxhzqSSeMhYnDK91xTEjz+u+EnCQmaZN24FUY5P8Eh3jjrnp8gsTkgRq5s84+ce2quCJ1u3SO/+UD0QritLSriCvLdiu3m8SV2sqXvJ68Xn6NkL4eHAFrrGT7+FEEVP5C2mla1a9WGsyMsVzm/hR78wdx0V0L438kldulTjsEEaDGIvjk+Y1cjisYFTS/v+rw7VOZKXPEffFxSrKVqiGDWBdX7CzK0nb5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZZ6LTojsLoA6c+BZX99qnSzTEiayQkN83cCVjUk98q0=;
- b=c2R3DzdNOLBlQWpYo326LYqvPN1ynSL1vq8/d6v8WuNMJloFyhoRmXMZI7nZQBKHz0Dbh56Ulhy7SPHb0RYunLKogyf4Uvw5Dp+tlnxGNn4ulYTdsPK4k72CXVZCXW3jYJHw0FIn/i0GaI5Ouo/FO0eXdwYgECGLNidkoBOe9xU=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from DB8PR08MB5499.eurprd08.prod.outlook.com (2603:10a6:10:fa::16)
- by DBBPR08MB6041.eurprd08.prod.outlook.com (2603:10a6:10:206::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Thu, 10 Dec
- 2020 18:30:16 +0000
-Received: from DB8PR08MB5499.eurprd08.prod.outlook.com
- ([fe80::382b:db97:31c6:7520]) by DB8PR08MB5499.eurprd08.prod.outlook.com
- ([fe80::382b:db97:31c6:7520%9]) with mapi id 15.20.3654.012; Thu, 10 Dec 2020
- 18:30:16 +0000
-Subject: Re: [PATCH v14 05/13] qapi: create BlockdevOptionsCor structure for
- COR driver
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
- <20201204220758.2879-6-vsementsov@virtuozzo.com>
- <e3621773-9000-31e6-5f41-9a7bfd5ccbbe@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <42e4cd28-e073-b8d6-4853-ddf3a47dec59@virtuozzo.com>
-Date: Thu, 10 Dec 2020 21:30:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
-In-Reply-To: <e3621773-9000-31e6-5f41-9a7bfd5ccbbe@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.91]
-X-ClientProxiedBy: AM9P193CA0002.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:20b:21e::7) To DB8PR08MB5499.eurprd08.prod.outlook.com
- (2603:10a6:10:fa::16)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1knQrI-0005dX-Tb
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 13:40:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33903)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1knQrC-0003dG-9z
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 13:40:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607625600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UyUf2z94P2VdxWHOSrvh5OP2sMM8+a+b2gFBtx5ni24=;
+ b=iV7dDLU9Q1DldNu8ZimLlcndVHzVE759sLM+m/sLdbdd/HMPUlzO23yauhj1WV4LK+mimq
+ CM+ox7fn4JraLzE0lg7U6DHZmbF6CWKZ7+mjztl96CQ92HbCgkTf0cgCusRG1M6mEZeQbt
+ dO1QSbKs02AQJZjewSlNKjKDgDmBkpQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-geo25HAcMRqT69Ew2LGsZw-1; Thu, 10 Dec 2020 13:39:58 -0500
+X-MC-Unique: geo25HAcMRqT69Ew2LGsZw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABC53184214B;
+ Thu, 10 Dec 2020 18:39:56 +0000 (UTC)
+Received: from gondolin (ovpn-112-67.ams2.redhat.com [10.36.112.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D5FA1F443;
+ Thu, 10 Dec 2020 18:39:41 +0000 (UTC)
+Date: Thu, 10 Dec 2020 19:39:39 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Shenming Lu <lushenming@huawei.com>
+Subject: Re: [RFC PATCH v2 2/3] vfio: Set the priority of the VFIO VM state
+ change handler explicitly
+Message-ID: <20201210193939.5c29997b.cohuck@redhat.com>
+In-Reply-To: <817ace0f-ddcf-db7f-8f92-f94cc450fb90@huawei.com>
+References: <20201209080919.156-1-lushenming@huawei.com>
+ <20201209080919.156-3-lushenming@huawei.com>
+ <20201209134537.5c7ab401.cohuck@redhat.com>
+ <817ace0f-ddcf-db7f-8f92-f94cc450fb90@huawei.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.91) by
- AM9P193CA0002.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:21e::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12 via Frontend Transport; Thu, 10 Dec 2020 18:30:15 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 784dc7c2-5ad4-4f10-1331-08d89d39a43e
-X-MS-TrafficTypeDiagnostic: DBBPR08MB6041:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DBBPR08MB604180E591DC2D8D17B223F6C1CB0@DBBPR08MB6041.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HE/9VTMVHytb9gp22raQneXFMNndCPkApeKxh038waEeuQ4olFY0i3hKAehWI7Ik0gs89VHeRPJpWQFZaQZbjcdvLzqzvC06TvChK+MiPZ+D2A0MWBiVWeVro2LbawhiK/SxM1YIfTsLqEVdNzmz59pUfCgVNQnpAdSIxo3E8fAFR9ncKSkuoXhZ2pUXyWfruF97hU3F87VM/ggPi4qEGLnbTHQ9mNOSTyz2w79cdxRZ8zif7QXApvDyulri4Jgq25Y8Uag2yOT2UbN8qx9rSVji1oqOObnlbju+Ucyj6j5UZNYj7SDZsN20ZdExaiABNjYMl2ETHosA+CY4IcH4DIk4Ti+V+hu5WZNc7YT816Gj1QKpupWUt97hhLZdGOlw8oJdE1YVGH5pLS94nCUXqaax79ihGlarBmdGa0eBeYU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB8PR08MB5499.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(366004)(376002)(136003)(346002)(396003)(8936002)(16526019)(66476007)(66556008)(66946007)(16576012)(36756003)(4326008)(107886003)(5660300002)(2906002)(31686004)(316002)(8676002)(478600001)(6486002)(956004)(86362001)(53546011)(2616005)(52116002)(31696002)(186003)(26005)(83380400001)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TUI0emN1MGdaUC9CQWZkRkgzQSttVzZENUp3bnI5U1o5QkJoM0RyeWZ6N0wz?=
- =?utf-8?B?eFpPYWJsVUtsakJxVU9MSUMxOWhXbVFqYlNZOGg2R1RUQmJqckZFR3VWU3Bu?=
- =?utf-8?B?YTFwZWZLaEk1dzZ1OWFMeUpXdWdmTk44VjUxK0t4dVhlbG1OMDNaOTlET3pN?=
- =?utf-8?B?UTU0N05iVUtrL3hCK2l0T1plaUNEa2ExUm5jSnh4VDlpOVNKaGQ0MW5raDg4?=
- =?utf-8?B?T2VsSllnV2pqVHJzTCtmNXQ2RllSbG5FUHp2MDJhM3BmOEdUM0p6UmV5MWRM?=
- =?utf-8?B?aGJweFpFcTVWZDFqSmFUQ0QwVHJOMG5uSzJMS3pUcWJ5QVNGYmFtWURIejJh?=
- =?utf-8?B?M3NZUUhLMmZuWkRWcXljbjFrRUtPODlIMVhVZU1pZ2JhZmJWbWphWmZXN0Iy?=
- =?utf-8?B?cVYvQlBFTmxvR1Z0cHVXZm1hTEpEdE01UnhxZUVrSkgxcFRVc3J1TmxOdllT?=
- =?utf-8?B?NXFrWFc5R29HOUQrSm5hMDhyTnRUcHNkVmdjZmhJczZSQ2JYbGcrYnI2VDFz?=
- =?utf-8?B?UUFVcENXaGlRQWY3bmFsL0NhOS8xV2xpeFk5VTJPYjJ2aHFTd2x2OVRQME8w?=
- =?utf-8?B?YWVoOE9sdXgwUEZRWGdGdGNSN04xWjMxTFhFUmpxNkx5YkNjTjAyeDVKcm9h?=
- =?utf-8?B?WUQ4RCtDSElSbUV1WnNDdHpSYnJsMDlBNmEyMDVPVzYyVHhROUMwVk9vc1pF?=
- =?utf-8?B?b3llUTFmeHhGNEt1RU1JZXdUYytwU2VpMzZpV3dJZTZXdmtSQlM2S290S2dE?=
- =?utf-8?B?VHo1RElWWTN3ME5qY1dwTHIzeTZ5dkx2V1JzaTFHQXRIQVorRWNIMHZjdDFY?=
- =?utf-8?B?RHhaYTgzQm15LzJkckhPQk1GUUN6QmNIeFowbkRRNWhnVnhLdGM4SC9ZSGNm?=
- =?utf-8?B?eXFxSGhid3Iycis5UmE1dXF6RE9HWFEwK1hoZWs3TDUyVkJKMHplay9lbUZv?=
- =?utf-8?B?eHJ2S3UrUlppSEdlVlZrRFdsbXh5WjNuMU1iM1B6RVRNcStGL3RkdXFGQnN4?=
- =?utf-8?B?WlBHa0JqL01XR1czcitKRW9mazNLQ3BKZWVWWVRlZVV4RUl4OUduWEFQZU92?=
- =?utf-8?B?ZjU5YytZNEhLNFZQTldjSUpDQmZDalFxdTMvRko1RFJFcHNxNUJBa253UlJx?=
- =?utf-8?B?SjFsTTRHaG8xbzNrNDZyeWRRSWZ5UUhTVUlrb1g1RHpNem9vTzlGNWw0bHpB?=
- =?utf-8?B?VDVpRXFiK2RhV3pRVitFa0s2V2tXUFl1eVo1ZjJxaTZkTGpZUkhhSElsN241?=
- =?utf-8?B?cFBtUnBwUEFoZUFMVmF2QmZlNC90SW8xeGo2SjE3b01YQzJ5RWNwNUVoTkZU?=
- =?utf-8?Q?QoPqGaCzWm7anqFEUeJM3zUoFBOF4whRrg?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR08MB5499.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2020 18:30:16.6187 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: 784dc7c2-5ad4-4f10-1331-08d89d39a43e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ABsgQ+BIPP4v0/0GiDZb7ekQC04z9tDTWXlSXgaAKYlHQiCHQXTf4ijtFE+4vl6ck91AYEsKQcJc4U6OVW6DgNsK8u5QF2yXB7AoXmoxo4E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB6041
-Received-SPF: pass client-ip=40.107.6.94;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -139,128 +81,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
- jsnow@redhat.com
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
+ mst@redhat.com, qemu-devel@nongnu.org, Marc Zyngier <maz@kernel.org>,
+ Kirti Wankhede <kwankhede@nvidia.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ yuzenghui@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-10.12.2020 20:43, Max Reitz wrote:
-> I don’t like this patch’s subject very much, because I find the implementation of the @bottom option to be more noteworthy than the addition of the QAPI structure.
-> 
-> 
-> On 04.12.20 23:07, Vladimir Sementsov-Ogievskiy wrote:
->> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>
->> Create the BlockdevOptionsCor structure for COR driver specific options
->> splitting it off form the BlockdevOptionsGenericFormat. The only option
->> 'bottom' node in the structure denotes an image file that limits the
->> COR operations in the backing chain.
->> We are going to use the COR-filter for a block-stream job and will pass
->> a bottom node name to the COR driver. The bottom node is the first
->> non-filter overlay of the base. It was introduced because the base node
->> itself may change due to possible concurrent jobs.
->>
->> Suggested-by: Max Reitz <mreitz@redhat.com>
->> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>    [vsementsov: fix bdrv_is_allocated_above() usage]
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   qapi/block-core.json | 21 +++++++++++++++-
->>   block/copy-on-read.c | 57 ++++++++++++++++++++++++++++++++++++++++++--
->>   2 files changed, 75 insertions(+), 3 deletions(-)
->>
->> diff --git a/qapi/block-core.json b/qapi/block-core.json
->> index 8ef3df6767..04055ef50c 100644
->> --- a/qapi/block-core.json
->> +++ b/qapi/block-core.json
->> @@ -3942,6 +3942,25 @@
->>     'data': { 'throttle-group': 'str',
->>               'file' : 'BlockdevRef'
->>                } }
->> +
->> +##
->> +# @BlockdevOptionsCor:
->> +#
->> +# Driver specific block device options for the copy-on-read driver.
->> +#
->> +# @bottom: the name of a non-filter node (allocation-bearing layer) that limits
->> +#          the COR operations in the backing chain (inclusive).
-> 
-> This seems to me like something’s missing.  Perhaps technically there isn’t, but “limits the COR operations” begs the question (to me) “Limits them in what way?” (to which the answer is: No data below @bottom is copied).
-> 
-> Could you make it more verbose?  Perhaps something like “The name of a non-filter node (allocation-bearing layer) that limits the COR operations in the backing chain (inclusive), so that no data below this node will be copied by this filter”?
+On Thu, 10 Dec 2020 11:11:17 +0800
+Shenming Lu <lushenming@huawei.com> wrote:
 
-Sounds good for me.
+> On 2020/12/9 20:45, Cornelia Huck wrote:
+> > On Wed, 9 Dec 2020 16:09:18 +0800
+> > Shenming Lu <lushenming@huawei.com> wrote:
+> >   
+> >> In the VFIO VM state change handler, VFIO devices are transitioned
+> >> in the _SAVING state, which should keep them from sending interrupts.
+> >> Then we can save the pending states of all interrupts in the GIC VM
+> >> state change handler (on ARM).
+> >>
+> >> So we have to set the priority of the VFIO VM state change handler
+> >> explicitly (like virtio devices) to ensure it is called before the
+> >> GIC's in saving.  
+> > 
+> > What this patch does is to make the priority of the vfio migration
+> > state change handler depending on the position in the qdev tree. As all
+> > state change handlers with no explicit priority are added at priority
+> > 0, this will make sure that this handler runs before (save) resp. after
+> > (restore) nearly all other handlers, which will address your issue here
+> > (and possibly similar ones).
+> > 
+> > So, this patch seems fine for now, but I'm wondering whether we need to
+> > think more about priorities for handlers in general, and if there are
+> > more hidden dependencies lurking in there.  
+> 
+> As far as I know, as for the migration of interrupt, on x86 the sync from
+> the PIR field to the Virtual-APIC page for posted interrupts (in
+> KVM_GET_LAPIC ioctl) is after the pause of VFIO devices, which is fine.
+> Not sure about others...
+
+Interrupt handling had been my first guess, but it seems most interrupt
+controllers don't use a state change handler anyway.
+
+"handlers in general" actually also referred to use cases outside of
+vfio migration, so out of scope of this patch...
 
 > 
->> +#          For the block-stream job, it will be the first non-filter overlay of
->> +#          the base node. We do not involve the base node into the COR
->> +#          operations because the base may change due to a concurrent
->> +#          block-commit job on the same backing chain.
+> Thanks,
+> Shenming
+> 
+> >   
+> >>
+> >> Signed-off-by: Shenming Lu <lushenming@huawei.com>
+> >> Reviewed-by: Kirti Wankhede <kwankhede@nvidia.com>
+> >> ---
+> >>  hw/vfio/migration.c | 3 ++-
+> >>  1 file changed, 2 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> >> index 3b9de1353a..97ea82b100 100644
+> >> --- a/hw/vfio/migration.c
+> >> +++ b/hw/vfio/migration.c
+> >> @@ -862,7 +862,8 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+> >>      register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1, &savevm_vfio_handlers,
+> >>                           vbasedev);
+> >>  
+> >> -    migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+> >> +    migration->vm_state = qdev_add_vm_change_state_handler(vbasedev->dev,
+> >> +                                                           vfio_vmstate_change,
+> >>                                                             vbasedev);
+> >>      migration->migration_state.notify = vfio_migration_state_notifier;
+> >>      add_migration_state_change_notifier(&migration->migration_state);  
+> > 
+> > .
+> >   
 > 
 
-I now see that paragraph conflicts with further introduce of "bottom" for stream job itself. I think it may be safely dropped. It's a wrong place to describe how block-stream works.
+In any case,
 
-> I think the default behavior should be mentioned here somewhere, i.e. that no limit is applied, so that data from all backing layers may be copied.
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-agree
-
-> 
->> +#
->> +# Since: 5.2
-> 
-> *6.0
-> 
->> +##
->> +{ 'struct': 'BlockdevOptionsCor',
->> +  'base': 'BlockdevOptionsGenericFormat',
->> +  'data': { '*bottom': 'str' } }
->> +
->>   ##
->>   # @BlockdevOptions:
->>   #
-> 
-> [...]
-> 
->> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
->> index 618c4c4f43..67f61983c0 100644
->> --- a/block/copy-on-read.c
->> +++ b/block/copy-on-read.c
-> 
-> [...]
-> 
->> @@ -51,7 +56,17 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
->>           ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
->>               bs->file->bs->supported_zero_flags);
->> +    if (bottom_node) {
->> +        bottom_bs = bdrv_lookup_bs(NULL, bottom_node, errp);
->> +        if (!bottom_bs) {
->> +            error_setg(errp, "Bottom node '%s' not found", bottom_node);
->> +            qdict_del(options, "bottom");
->> +            return -EINVAL;
->> +        }
-> 
-> Should we verify that bottom_bs is not a filter, as required by the schema?
-> 
-
-yes, thanks for the catch!
-
-
-Hmm.. Interesting, we don't freeze the backing chain in cor filter open. And I think we shouldn't. But then, bottom node may disappear. We should handle it without a crash.
-
-I suggest:
-
-1. document, that if bottom node disappear from the backing chain of the filter, it continues to work like without any specified "bottom" node
-
-2. do bdrv_ref/bdrv_unref of bottom_bs, to not work with dead pointer
-
-3. check in cor_co_preadv_part() is bottom_bs is still in backing chain or not
-
-Haha, bottom node may return into backing chain at some moment and we can continue to handle it:)
-
--- 
-Best regards,
-Vladimir
 
