@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0710C2D55AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 09:52:41 +0100 (CET)
-Received: from localhost ([::1]:50554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F542D55CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 09:56:13 +0100 (CET)
+Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knHgm-0004Pq-0r
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 03:52:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39090)
+	id 1knHkC-0006mW-Ld
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 03:56:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHfY-0003Oa-06
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:24 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58638)
+ id 1knHfZ-0003Qy-92
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:25 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHfV-0005nR-VX
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:23 -0500
+ id 1knHfV-0005n2-Qi
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:25 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1knHfT-0003kD-B0
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:51:19 +0000
+ id 1knHfS-0003jv-9e
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:51:18 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 12FA02E8147
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:51:19 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A5E2C2E815B
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:51:17 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Dec 2020 08:40:24 -0000
-From: Thomas Huth <1881231@bugs.launchpad.net>
+Date: Thu, 10 Dec 2020 08:42:39 -0000
+From: Thomas Huth <1892540@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: sparc testcase
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alanjager2321 dgilbert-h th-huth zhangckid
-X-Launchpad-Bug-Reporter: ye.zou (alanjager2321)
+X-Launchpad-Bug-Commenters: gson laurent-vivier mark-cave-ayland mst-0 philmd
+ pmaydell th-huth
+X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159072520391.13844.465385675639953986.malonedeb@soybean.canonical.com>
-Message-Id: <160758962501.16321.10388694695693484272.malone@chaenomeles.canonical.com>
-Subject: [Bug 1881231] Re: colo: Can not recover colo after svm failover twice
+References: <159803735569.2614.10182276398047269277.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160758975958.5632.10323659632940680713.malone@gac.canonical.com>
+Subject: [Bug 1892540] Re: qemu can no longer boot NetBSD/sparc
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 9d70717a88654c5f49445d78f38114d80738eb47
+X-Launchpad-Hash: 5b7c0eb207d9ad3597e521a9fc1016505e297775
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,11 +72,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1881231 <1881231@bugs.launchpad.net>
+Reply-To: Bug 1892540 <1892540@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU v5.2 has been released now and should contain the fix
+Released with QEMU v5.2.0.
 
 ** Changed in: qemu
        Status: Fix Committed =3D> Fix Released
@@ -83,57 +85,43 @@ QEMU v5.2 has been released now and should contain the fix
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1881231
+https://bugs.launchpad.net/bugs/1892540
 
 Title:
-  colo: Can not  recover colo after svm failover twice
+  qemu can no longer boot NetBSD/sparc
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Hi Expert,
-  x-blockdev-change met some error, during testing colo
+  Booting NetBSD/sparc in qemu no longer works.  It broke between qemu
+  version 5.0.0 and 5.1.0, and a bisection identified the following as
+  the offending commit:
 
-  Host os:
-  CentOS Linux release 7.6.1810 (Core)
+    [5d971f9e672507210e77d020d89e0e89165c8fc9] memory: Revert "memory:
+  accept mismatching sizes in memory_region_access_valid"
 
-  Reproduce steps:
-  1. create colo vm following https://github.com/qemu/qemu/blob/master/docs=
-/COLO-FT.txt
-  2. kill secondary vm and remove the nbd child from the quorum to wait for=
- recover
-    type those commands on primary vm console:
-    { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'colo-disk0',=
- 'child': 'children.1'}}
-    { 'execute': 'human-monitor-command','arguments': {'command-line': 'dri=
-ve_del replication0'}}
-    { 'execute': 'x-colo-lost-heartbeat'}
-  3. recover colo
-  4. kill secondary vm again after recover colo and type same commands as s=
-tep 2:
-    { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'colo-disk0',=
- 'child': 'children.1'}}
-    { 'execute': 'human-monitor-command','arguments': {'command-line': 'dri=
-ve_del replication0'}}
-    { 'execute': 'x-colo-lost-heartbeat'}
-    but the first command got error
-    { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'colo-disk0',=
- 'child': 'children.1'}}
-  {"error": {"class": "GenericError", "desc": "Node 'colo-disk0' does not h=
-ave child 'children.1'"}}
+  It's still broken as of 7fd51e68c34fcefdb4d6fd646ed3346f780f89f4.
 
-  according to https://www.qemu.org/docs/master/qemu-qmp-ref.html
-  Command: x-blockdev-change
-  Dynamically reconfigure the block driver state graph. It can be used to a=
-dd, remove, insert or replace a graph node. Currently only the Quorum drive=
-r implements this feature to add or remove its child. This is useful to fix=
- a broken quorum child.
+  To reproduce, run
 
-  It seems x-blockdev-change not worked as expected.
+    wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-9.0/images/NetBSD-9.0-spar=
+c.iso
+    qemu-system-sparc -nographic -cdrom NetBSD-9.0-sparc.iso -boot d
 
-  Thanks.
+  The expected behavior is that the guest boots to the prompt
+
+    Installation medium to load the additional utilities from:
+
+  The observed behavior is a panic:
+
+    [   1.0000050] system[0]: trap 0x29: pc=3D0xf0046b14 sfsr=3D0xb6 sfva=
+=3D0x54000000
+    [   1.0000050] cpu0: data fault: pc=3D0xf0046b14 addr=3D0x54000000 sfsr=
+=3D0xb6<PERR=3D0x0,LVL=3D0x0,AT=3D0x5,FT=3D0x5,FAV,OW>
+    [   1.0000050] panic: kernel fault
+    [   1.0000050] halted
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1881231/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1892540/+subscriptions
 
