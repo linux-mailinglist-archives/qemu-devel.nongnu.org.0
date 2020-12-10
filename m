@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06102D612F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 17:07:55 +0100 (CET)
-Received: from localhost ([::1]:50786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118192D60D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 17:03:22 +0100 (CET)
+Received: from localhost ([::1]:42190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knOTy-0005tK-Pw
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 11:07:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59098)
+	id 1knOPZ-0001PQ-0d
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 11:03:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knOKw-00084G-L6
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:58:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23137)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knOKx-00086M-S6
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:58:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knOKt-0004yR-UN
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:58:34 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knOKv-0004yh-Vh
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:58:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607615911;
+ s=mimecast20190719; t=1607615913;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fj9jNjj2BTEasgPF1P2Lic67ObpUzYoy7SwmaiR2uPo=;
- b=hsRwYchu7GtLrpy3Ic94DPYeVudaUxUw4CFNRrAJC/Y6tIJpxonAqxkkM4auORgBXj7frT
- MpmzWMfxFTs8l97DgyNdkXynhRts1OLbtKdCadba+JDRcc03DL1dqhp+ofWVHFiVTS1B5S
- N20gy77XwJL4bBes6+RFvXW20z12KzY=
+ bh=5/6X1Q0Vn+1CyF4/TCkAOIvTcfz9+jq1y6vKssndBYU=;
+ b=Lipx5TgV31Ags8V0zBy4dEoqOW5P30us5fMpg3xKGTKtJ+5715dN8VEU5ZQRzOsjTX6a+q
+ AZDUhf113iRx6eHNCYZ4/TNRcVl+YhNrH7doHzDaEcY0htJF0o/j4Q+EYpbL27jo5vucHj
+ 8b8InZtXxf3MxH9JlRnB5JEP1LW0vdI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-j97em6ukMYG9uqT1h1aJCA-1; Thu, 10 Dec 2020 10:58:29 -0500
-X-MC-Unique: j97em6ukMYG9uqT1h1aJCA-1
+ us-mta-293-aiut_sd2MJm7-ZtL65YvPg-1; Thu, 10 Dec 2020 10:58:31 -0500
+X-MC-Unique: aiut_sd2MJm7-ZtL65YvPg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F0208049E0
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 15:58:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FDC119251A0
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 15:58:30 +0000 (UTC)
 Received: from thuth.com (ovpn-112-62.ams2.redhat.com [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6476D6F968;
- Thu, 10 Dec 2020 15:58:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC27B6F987;
+ Thu, 10 Dec 2020 15:58:28 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 2/4] docs/system: Move the list of removed features to a
- separate file
-Date: Thu, 10 Dec 2020 16:58:06 +0100
-Message-Id: <20201210155808.233895-3-thuth@redhat.com>
+Subject: [PATCH 3/4] Remove the deprecated -realtime option
+Date: Thu, 10 Dec 2020 16:58:07 +0100
+Message-Id: <20201210155808.233895-4-thuth@redhat.com>
 In-Reply-To: <20201210155808.233895-1-thuth@redhat.com>
 References: <20201210155808.233895-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -84,495 +83,157 @@ Cc: libvir-list@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Otherwise there is a chance that new deprecated features get added
-to the list of removed features at the end of the file by accident.
-It's way less confusing if the removed features reside in a separate
-file.
+It has been marked as deprecated since QEMU v4.2, replaced by
+the -overcommit option. Time to remove it now.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/system/deprecated.rst       | 232 -------------------------------
- docs/system/removed-features.rst | 231 ++++++++++++++++++++++++++++++
- 2 files changed, 231 insertions(+), 232 deletions(-)
- create mode 100644 docs/system/removed-features.rst
+ docs/system/deprecated.rst          |  6 ------
+ docs/system/removed-features.rst    |  6 ++++++
+ qemu-options.hx                     | 14 +-------------
+ softmmu/vl.c                        | 29 +----------------------------
+ tests/migration/guestperf/engine.py |  2 +-
+ 5 files changed, 9 insertions(+), 48 deletions(-)
 
 diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 70bdb62a6d..fa1ecf0958 100644
+index fa1ecf0958..307b83ea60 100644
 --- a/docs/system/deprecated.rst
 +++ b/docs/system/deprecated.rst
-@@ -493,235 +493,3 @@ nanoMIPS ISA
+@@ -75,12 +75,6 @@ The ``pretty=on|off`` switch has no effect for HMP monitors, but is
+ silently ignored. Using the switch with HMP monitors will become an
+ error in the future.
  
- The ``nanoMIPS`` ISA has never been upstreamed to any compiler toolchain.
- As it is hard to generate binaries for it, declare it deprecated.
--
--
--Recently removed features
--=========================
--
--What follows is a record of recently removed, formerly deprecated
--features that serves as a record for users who have encountered
--trouble after a recent upgrade.
--
--System emulator command line arguments
----------------------------------------
--
--``-net ...,name=``\ *name* (removed in 5.1)
--'''''''''''''''''''''''''''''''''''''''''''
--
--The ``name`` parameter of the ``-net`` option was a synonym
--for the ``id`` parameter, which should now be used instead.
--
--``-no-kvm`` (removed in 5.2)
--''''''''''''''''''''''''''''
--
--The ``-no-kvm`` argument was a synonym for setting ``-machine accel=tcg``.
--
--``-tb-size`` option (removed in 6.0)
--'''''''''''''''''''''''''''''''
--
--QEMU 5.0 introduced an alternative syntax to specify the size of the translation
--block cache, ``-accel tcg,tb-size=``.
--
--QEMU Machine Protocol (QMP) commands
--------------------------------------
--
--``block-dirty-bitmap-add`` "autoload" parameter (since 4.2.0)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--The "autoload" parameter has been ignored since 2.12.0. All bitmaps
--are automatically loaded from qcow2 images.
--
--``cpu-add`` (removed in 5.2)
--''''''''''''''''''''''''''''
--
--Use ``device_add`` for hotplugging vCPUs instead of ``cpu-add``.  See
--documentation of ``query-hotpluggable-cpus`` for additional details.
--
--Human Monitor Protocol (HMP) commands
---------------------------------------
--
--The ``hub_id`` parameter of ``hostfwd_add`` / ``hostfwd_remove`` (removed in 5.0)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--The ``[hub_id name]`` parameter tuple of the 'hostfwd_add' and
--'hostfwd_remove' HMP commands has been replaced by ``netdev_id``.
--
--``cpu-add`` (removed in 5.2)
--''''''''''''''''''''''''''''
--
--Use ``device_add`` for hotplugging vCPUs instead of ``cpu-add``.  See
--documentation of ``query-hotpluggable-cpus`` for additional details.
--
--Guest Emulator ISAs
---------------------
--
--RISC-V ISA privilege specification version 1.09.1 (removed in 5.1)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--The RISC-V ISA privilege specification version 1.09.1 has been removed.
--QEMU supports both the newer version 1.10.0 and the ratified version 1.11.0, these
--should be used instead of the 1.09.1 version.
--
--System emulator CPUS
----------------------
--
--KVM guest support on 32-bit Arm hosts (removed in 5.2)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--The Linux kernel has dropped support for allowing 32-bit Arm systems
--to host KVM guests as of the 5.7 kernel. Accordingly, QEMU is deprecating
--its support for this configuration and will remove it in a future version.
--Running 32-bit guests on a 64-bit Arm host remains supported.
--
--RISC-V ISA Specific CPUs (removed in 5.1)
--'''''''''''''''''''''''''''''''''''''''''
--
--The RISC-V cpus with the ISA version in the CPU name have been removed. The
--four CPUs are: ``rv32gcsu-v1.9.1``, ``rv32gcsu-v1.10.0``, ``rv64gcsu-v1.9.1`` and
--``rv64gcsu-v1.10.0``. Instead the version can be specified via the CPU ``priv_spec``
--option when using the ``rv32`` or ``rv64`` CPUs.
--
--RISC-V no MMU CPUs (removed in 5.1)
--'''''''''''''''''''''''''''''''''''
--
--The RISC-V no MMU cpus have been removed. The two CPUs: ``rv32imacu-nommu`` and
--``rv64imacu-nommu`` can no longer be used. Instead the MMU status can be specified
--via the CPU ``mmu`` option when using the ``rv32`` or ``rv64`` CPUs.
--
--System emulator machines
--------------------------
--
--``spike_v1.9.1`` and ``spike_v1.10`` (removed in 5.1)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--The version specific Spike machines have been removed in favour of the
--generic ``spike`` machine. If you need to specify an older version of the RISC-V
--spec you can use the ``-cpu rv64gcsu,priv_spec=v1.10.0`` command line argument.
--
--mips ``r4k`` platform (removed in 5.2)
--''''''''''''''''''''''''''''''''''''''
--
--This machine type was very old and unmaintained. Users should use the ``malta``
--machine type instead.
--
--Related binaries
------------------
--
--``qemu-nbd --partition`` (removed in 5.0)
--'''''''''''''''''''''''''''''''''''''''''
--
--The ``qemu-nbd --partition $digit`` code (also spelled ``-P``)
--could only handle MBR partitions, and never correctly handled logical
--partitions beyond partition 5.  Exporting a partition can still be
--done by utilizing the ``--image-opts`` option with a raw blockdev
--using the ``offset`` and ``size`` parameters layered on top of
--any other existing blockdev. For example, if partition 1 is 100MiB
--long starting at 1MiB, the old command::
--
--  qemu-nbd -t -P 1 -f qcow2 file.qcow2
--
--can be rewritten as::
--
--  qemu-nbd -t --image-opts driver=raw,offset=1M,size=100M,file.driver=qcow2,file.file.driver=file,file.file.filename=file.qcow2
--
--``qemu-img convert -n -o`` (removed in 5.1)
--'''''''''''''''''''''''''''''''''''''''''''
--
--All options specified in ``-o`` are image creation options, so
--they are now rejected when used with ``-n`` to skip image creation.
--
--
--``qemu-img create -b bad file $size`` (removed in 5.1)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--When creating an image with a backing file that could not be opened,
--``qemu-img create`` used to issue a warning about the failure but
--proceed with the image creation if an explicit size was provided.
--However, as the ``-u`` option exists for this purpose, it is safer to
--enforce that any failure to open the backing image (including if the
--backing file is missing or an incorrect format was specified) is an
--error when ``-u`` is not used.
--
--Command line options
----------------------
--
--``-smp`` (invalid topologies) (removed 5.2)
--'''''''''''''''''''''''''''''''''''''''''''
--
--CPU topology properties should describe whole machine topology including
--possible CPUs.
--
--However, historically it was possible to start QEMU with an incorrect topology
--where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
--which could lead to an incorrect topology enumeration by the guest.
--Support for invalid topologies is removed, the user must ensure
--topologies described with -smp include all possible cpus, i.e.
--*sockets* * *cores* * *threads* = *maxcpus*.
--
--``-numa`` node (without memory specified) (removed 5.2)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--Splitting RAM by default between NUMA nodes had the same issues as ``mem``
--parameter with the difference that the role of the user plays QEMU using
--implicit generic or board specific splitting rule.
--Use ``memdev`` with *memory-backend-ram* backend or ``mem`` (if
--it's supported by used machine type) to define mapping explicitly instead.
--Users of existing VMs, wishing to preserve the same RAM distribution, should
--configure it explicitly using ``-numa node,memdev`` options. Current RAM
--distribution can be retrieved using HMP command ``info numa`` and if separate
--memory devices (pc|nv-dimm) are present use ``info memory-device`` and subtract
--device memory from output of ``info numa``.
--
--``-numa node,mem=``\ *size* (removed in 5.1)
--''''''''''''''''''''''''''''''''''''''''''''
--
--The parameter ``mem`` of ``-numa node`` was used to assign a part of
--guest RAM to a NUMA node. But when using it, it's impossible to manage a specified
--RAM chunk on the host side (like bind it to a host node, setting bind policy, ...),
--so the guest ends up with the fake NUMA configuration with suboptiomal performance.
--However since 2014 there is an alternative way to assign RAM to a NUMA node
--using parameter ``memdev``, which does the same as ``mem`` and adds
--means to actually manage node RAM on the host side. Use parameter ``memdev``
--with *memory-backend-ram* backend as replacement for parameter ``mem``
--to achieve the same fake NUMA effect or a properly configured
--*memory-backend-file* backend to actually benefit from NUMA configuration.
--New machine versions (since 5.1) will not accept the option but it will still
--work with old machine types. User can check the QAPI schema to see if the legacy
--option is supported by looking at MachineInfo::numa-mem-supported property.
--
--``-mem-path`` fallback to RAM (removed in 5.0)
--''''''''''''''''''''''''''''''''''''''''''''''
--
--If guest RAM allocation from file pointed by ``mem-path`` failed,
--QEMU was falling back to allocating from RAM, which might have resulted
--in unpredictable behavior since the backing file specified by the user
--as ignored. Currently, users are responsible for making sure the backing storage
--specified with ``-mem-path`` can actually provide the guest RAM configured with
--``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
--
--``-smp`` (invalid topologies) (removed 5.2)
--'''''''''''''''''''''''''''''''''''''''''''
--
--CPU topology properties should describe whole machine topology including
--possible CPUs.
--
--However, historically it was possible to start QEMU with an incorrect topology
--where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
--which could lead to an incorrect topology enumeration by the guest.
--Support for invalid topologies is removed, the user must ensure
--topologies described with -smp include all possible cpus, i.e.
--*sockets* * *cores* * *threads* = *maxcpus*.
--
--``-machine enforce-config-section=on|off`` (removed 5.2)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--The ``enforce-config-section`` property was replaced by the
--``-global migration.send-configuration={on|off}`` option.
--
--Block devices
---------------
--
--VXHS backend (removed in 5.1)
--'''''''''''''''''''''''''''''
--
--The VXHS code does not compile since v2.12.0. It was removed in 5.1.
+-``-realtime`` (since 4.1)
+-'''''''''''''''''''''''''
+-
+-The ``-realtime mlock=on|off`` argument has been replaced by the
+-``-overcommit mem-lock=on|off`` argument.
+-
+ RISC-V ``-bios`` (since 5.1)
+ ''''''''''''''''''''''''''''
+ 
 diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-new file mode 100644
-index 0000000000..8f0578f1eb
---- /dev/null
+index 8f0578f1eb..63046d5c24 100644
+--- a/docs/system/removed-features.rst
 +++ b/docs/system/removed-features.rst
-@@ -0,0 +1,231 @@
+@@ -20,6 +20,12 @@ for the ``id`` parameter, which should now be used instead.
+ 
+ The ``-no-kvm`` argument was a synonym for setting ``-machine accel=tcg``.
+ 
++``-realtime`` (removed in 6.0)
++''''''''''''''''''''''''''''''
 +
-+Removed features
-+================
++The ``-realtime mlock=on|off`` argument has been replaced by the
++``-overcommit mem-lock=on|off`` argument.
 +
-+What follows is a record of recently removed, formerly deprecated
-+features that serves as a record for users who have encountered
-+trouble after a recent upgrade.
-+
-+System emulator command line arguments
-+--------------------------------------
-+
-+``-net ...,name=``\ *name* (removed in 5.1)
-+'''''''''''''''''''''''''''''''''''''''''''
-+
-+The ``name`` parameter of the ``-net`` option was a synonym
-+for the ``id`` parameter, which should now be used instead.
-+
-+``-no-kvm`` (removed in 5.2)
-+''''''''''''''''''''''''''''
-+
-+The ``-no-kvm`` argument was a synonym for setting ``-machine accel=tcg``.
-+
-+``-tb-size`` option (removed in 6.0)
-+'''''''''''''''''''''''''''''''
-+
-+QEMU 5.0 introduced an alternative syntax to specify the size of the translation
-+block cache, ``-accel tcg,tb-size=``.
-+
-+QEMU Machine Protocol (QMP) commands
-+------------------------------------
-+
-+``block-dirty-bitmap-add`` "autoload" parameter (removed in 4.2.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The "autoload" parameter has been ignored since 2.12.0. All bitmaps
-+are automatically loaded from qcow2 images.
-+
-+``cpu-add`` (removed in 5.2)
-+''''''''''''''''''''''''''''
-+
-+Use ``device_add`` for hotplugging vCPUs instead of ``cpu-add``.  See
-+documentation of ``query-hotpluggable-cpus`` for additional details.
-+
-+Human Monitor Protocol (HMP) commands
-+-------------------------------------
-+
-+The ``hub_id`` parameter of ``hostfwd_add`` / ``hostfwd_remove`` (removed in 5.0)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The ``[hub_id name]`` parameter tuple of the 'hostfwd_add' and
-+'hostfwd_remove' HMP commands has been replaced by ``netdev_id``.
-+
-+``cpu-add`` (removed in 5.2)
-+''''''''''''''''''''''''''''
-+
-+Use ``device_add`` for hotplugging vCPUs instead of ``cpu-add``.  See
-+documentation of ``query-hotpluggable-cpus`` for additional details.
-+
-+Guest Emulator ISAs
-+-------------------
-+
-+RISC-V ISA privilege specification version 1.09.1 (removed in 5.1)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The RISC-V ISA privilege specification version 1.09.1 has been removed.
-+QEMU supports both the newer version 1.10.0 and the ratified version 1.11.0, these
-+should be used instead of the 1.09.1 version.
-+
-+System emulator CPUS
-+--------------------
-+
-+KVM guest support on 32-bit Arm hosts (removed in 5.2)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The Linux kernel has dropped support for allowing 32-bit Arm systems
-+to host KVM guests as of the 5.7 kernel. Accordingly, QEMU is deprecating
-+its support for this configuration and will remove it in a future version.
-+Running 32-bit guests on a 64-bit Arm host remains supported.
-+
-+RISC-V ISA Specific CPUs (removed in 5.1)
-+'''''''''''''''''''''''''''''''''''''''''
-+
-+The RISC-V cpus with the ISA version in the CPU name have been removed. The
-+four CPUs are: ``rv32gcsu-v1.9.1``, ``rv32gcsu-v1.10.0``, ``rv64gcsu-v1.9.1`` and
-+``rv64gcsu-v1.10.0``. Instead the version can be specified via the CPU ``priv_spec``
-+option when using the ``rv32`` or ``rv64`` CPUs.
-+
-+RISC-V no MMU CPUs (removed in 5.1)
-+'''''''''''''''''''''''''''''''''''
-+
-+The RISC-V no MMU cpus have been removed. The two CPUs: ``rv32imacu-nommu`` and
-+``rv64imacu-nommu`` can no longer be used. Instead the MMU status can be specified
-+via the CPU ``mmu`` option when using the ``rv32`` or ``rv64`` CPUs.
-+
-+System emulator machines
-+------------------------
-+
-+``spike_v1.9.1`` and ``spike_v1.10`` (removed in 5.1)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The version specific Spike machines have been removed in favour of the
-+generic ``spike`` machine. If you need to specify an older version of the RISC-V
-+spec you can use the ``-cpu rv64gcsu,priv_spec=v1.10.0`` command line argument.
-+
-+mips ``r4k`` platform (removed in 5.2)
-+''''''''''''''''''''''''''''''''''''''
-+
-+This machine type was very old and unmaintained. Users should use the ``malta``
-+machine type instead.
-+
-+Related binaries
-+----------------
-+
-+``qemu-nbd --partition`` (removed in 5.0)
-+'''''''''''''''''''''''''''''''''''''''''
-+
-+The ``qemu-nbd --partition $digit`` code (also spelled ``-P``)
-+could only handle MBR partitions, and never correctly handled logical
-+partitions beyond partition 5.  Exporting a partition can still be
-+done by utilizing the ``--image-opts`` option with a raw blockdev
-+using the ``offset`` and ``size`` parameters layered on top of
-+any other existing blockdev. For example, if partition 1 is 100MiB
-+long starting at 1MiB, the old command::
-+
-+  qemu-nbd -t -P 1 -f qcow2 file.qcow2
-+
-+can be rewritten as::
-+
-+  qemu-nbd -t --image-opts driver=raw,offset=1M,size=100M,file.driver=qcow2,file.file.driver=file,file.file.filename=file.qcow2
-+
-+``qemu-img convert -n -o`` (removed in 5.1)
-+'''''''''''''''''''''''''''''''''''''''''''
-+
-+All options specified in ``-o`` are image creation options, so
-+they are now rejected when used with ``-n`` to skip image creation.
-+
-+
-+``qemu-img create -b bad file $size`` (removed in 5.1)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+When creating an image with a backing file that could not be opened,
-+``qemu-img create`` used to issue a warning about the failure but
-+proceed with the image creation if an explicit size was provided.
-+However, as the ``-u`` option exists for this purpose, it is safer to
-+enforce that any failure to open the backing image (including if the
-+backing file is missing or an incorrect format was specified) is an
-+error when ``-u`` is not used.
-+
-+Command line options
-+--------------------
-+
-+``-smp`` (invalid topologies) (removed 5.2)
-+'''''''''''''''''''''''''''''''''''''''''''
-+
-+CPU topology properties should describe whole machine topology including
-+possible CPUs.
-+
-+However, historically it was possible to start QEMU with an incorrect topology
-+where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
-+which could lead to an incorrect topology enumeration by the guest.
-+Support for invalid topologies is removed, the user must ensure
-+topologies described with -smp include all possible cpus, i.e.
-+*sockets* * *cores* * *threads* = *maxcpus*.
-+
-+``-numa`` node (without memory specified) (removed 5.2)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Splitting RAM by default between NUMA nodes had the same issues as ``mem``
-+parameter with the difference that the role of the user plays QEMU using
-+implicit generic or board specific splitting rule.
-+Use ``memdev`` with *memory-backend-ram* backend or ``mem`` (if
-+it's supported by used machine type) to define mapping explicitly instead.
-+Users of existing VMs, wishing to preserve the same RAM distribution, should
-+configure it explicitly using ``-numa node,memdev`` options. Current RAM
-+distribution can be retrieved using HMP command ``info numa`` and if separate
-+memory devices (pc|nv-dimm) are present use ``info memory-device`` and subtract
-+device memory from output of ``info numa``.
-+
-+``-numa node,mem=``\ *size* (removed in 5.1)
-+''''''''''''''''''''''''''''''''''''''''''''
-+
-+The parameter ``mem`` of ``-numa node`` was used to assign a part of
-+guest RAM to a NUMA node. But when using it, it's impossible to manage a specified
-+RAM chunk on the host side (like bind it to a host node, setting bind policy, ...),
-+so the guest ends up with the fake NUMA configuration with suboptiomal performance.
-+However since 2014 there is an alternative way to assign RAM to a NUMA node
-+using parameter ``memdev``, which does the same as ``mem`` and adds
-+means to actually manage node RAM on the host side. Use parameter ``memdev``
-+with *memory-backend-ram* backend as replacement for parameter ``mem``
-+to achieve the same fake NUMA effect or a properly configured
-+*memory-backend-file* backend to actually benefit from NUMA configuration.
-+New machine versions (since 5.1) will not accept the option but it will still
-+work with old machine types. User can check the QAPI schema to see if the legacy
-+option is supported by looking at MachineInfo::numa-mem-supported property.
-+
-+``-mem-path`` fallback to RAM (removed in 5.0)
-+''''''''''''''''''''''''''''''''''''''''''''''
-+
-+If guest RAM allocation from file pointed by ``mem-path`` failed,
-+QEMU was falling back to allocating from RAM, which might have resulted
-+in unpredictable behavior since the backing file specified by the user
-+as ignored. Currently, users are responsible for making sure the backing storage
-+specified with ``-mem-path`` can actually provide the guest RAM configured with
-+``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
-+
-+``-smp`` (invalid topologies) (removed 5.2)
-+'''''''''''''''''''''''''''''''''''''''''''
-+
-+CPU topology properties should describe whole machine topology including
-+possible CPUs.
-+
-+However, historically it was possible to start QEMU with an incorrect topology
-+where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
-+which could lead to an incorrect topology enumeration by the guest.
-+Support for invalid topologies is removed, the user must ensure
-+topologies described with -smp include all possible cpus, i.e.
-+*sockets* * *cores* * *threads* = *maxcpus*.
-+
-+``-machine enforce-config-section=on|off`` (removed 5.2)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The ``enforce-config-section`` property was replaced by the
-+``-global migration.send-configuration={on|off}`` option.
-+
-+Block devices
-+-------------
-+
-+VXHS backend (removed in 5.1)
-+'''''''''''''''''''''''''''''
-+
-+The VXHS code did not compile since v2.12.0. It was removed in 5.1.
+ ``-tb-size`` option (removed in 6.0)
+ '''''''''''''''''''''''''''''''
+ 
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 7ce06290b6..79a4c35b49 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3713,17 +3713,6 @@ SRST
+     Do not start CPU at startup (you must type 'c' in the monitor).
+ ERST
+ 
+-DEF("realtime", HAS_ARG, QEMU_OPTION_realtime,
+-    "-realtime [mlock=on|off]\n"
+-    "                run qemu with realtime features\n"
+-    "                mlock=on|off controls mlock support (default: on)\n",
+-    QEMU_ARCH_ALL)
+-SRST
+-``-realtime mlock=on|off``
+-    Run qemu with realtime features. mlocking qemu and guest memory can
+-    be enabled via ``mlock=on`` (enabled by default).
+-ERST
+-
+ DEF("overcommit", HAS_ARG, QEMU_OPTION_overcommit,
+     "-overcommit [mem-lock=on|off][cpu-pm=on|off]\n"
+     "                run qemu with overcommit hints\n"
+@@ -3739,8 +3728,7 @@ SRST
+ 
+     Locking qemu and guest memory can be enabled via ``mem-lock=on``
+     (disabled by default). This works when host memory is not
+-    overcommitted and reduces the worst-case latency for guest. This is
+-    equivalent to ``realtime``.
++    overcommitted and reduces the worst-case latency for guest.
+ 
+     Guest ability to manage power state of host cpus (increasing latency
+     for other processes on the same host cpu, but decreasing latency for
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 3f052849d8..9f4c228c0e 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -354,18 +354,6 @@ static QemuOptsList qemu_tpmdev_opts = {
+     },
+ };
+ 
+-static QemuOptsList qemu_realtime_opts = {
+-    .name = "realtime",
+-    .head = QTAILQ_HEAD_INITIALIZER(qemu_realtime_opts.head),
+-    .desc = {
+-        {
+-            .name = "mlock",
+-            .type = QEMU_OPT_BOOL,
+-        },
+-        { /* end of list */ }
+-    },
+-};
+-
+ static QemuOptsList qemu_overcommit_opts = {
+     .name = "overcommit",
+     .head = QTAILQ_HEAD_INITIALIZER(qemu_overcommit_opts.head),
+@@ -2940,7 +2928,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_add_opts(&qemu_add_fd_opts);
+     qemu_add_opts(&qemu_object_opts);
+     qemu_add_opts(&qemu_tpmdev_opts);
+-    qemu_add_opts(&qemu_realtime_opts);
+     qemu_add_opts(&qemu_overcommit_opts);
+     qemu_add_opts(&qemu_msg_opts);
+     qemu_add_opts(&qemu_name_opts);
+@@ -3771,27 +3758,13 @@ void qemu_init(int argc, char **argv, char **envp)
+                     exit(1);
+                 }
+                 break;
+-            case QEMU_OPTION_realtime:
+-                warn_report("'-realtime mlock=...' is deprecated, please use "
+-                             "'-overcommit mem-lock=...' instead");
+-                opts = qemu_opts_parse_noisily(qemu_find_opts("realtime"),
+-                                               optarg, false);
+-                if (!opts) {
+-                    exit(1);
+-                }
+-                /* Don't override the -overcommit option if set */
+-                enable_mlock = enable_mlock ||
+-                    qemu_opt_get_bool(opts, "mlock", true);
+-                break;
+             case QEMU_OPTION_overcommit:
+                 opts = qemu_opts_parse_noisily(qemu_find_opts("overcommit"),
+                                                optarg, false);
+                 if (!opts) {
+                     exit(1);
+                 }
+-                /* Don't override the -realtime option if set */
+-                enable_mlock = enable_mlock ||
+-                    qemu_opt_get_bool(opts, "mem-lock", false);
++                enable_mlock = qemu_opt_get_bool(opts, "mem-lock", false);
+                 enable_cpu_pm = qemu_opt_get_bool(opts, "cpu-pm", false);
+                 break;
+             case QEMU_OPTION_msg:
+diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+index e2a214bdab..83bfc3b6bb 100644
+--- a/tests/migration/guestperf/engine.py
++++ b/tests/migration/guestperf/engine.py
+@@ -304,7 +304,7 @@ class Engine(object):
+             argv_source += ["-mem-path", "/dev/shm",
+                             "-mem-prealloc"]
+         if hardware._locked_pages:
+-            argv_source += ["-realtime", "mlock=on"]
++            argv_source += ["-overcommit", "mem-lock=on"]
+         if hardware._huge_pages:
+             pass
+ 
 -- 
 2.27.0
 
