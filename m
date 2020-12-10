@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F872D5B80
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:21:35 +0100 (CET)
-Received: from localhost ([::1]:52196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8C92D5BC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:31:36 +0100 (CET)
+Received: from localhost ([::1]:48980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knLsz-0007tb-Qm
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:21:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43566)
+	id 1knM2h-0001by-44
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:31:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knLpj-0006FX-91
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:18:11 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knLpg-0000p2-H5
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:18:11 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F291BAB91;
- Thu, 10 Dec 2020 13:18:05 +0000 (UTC)
-Subject: Re: [PATCH v10 25/32] cpu: move do_unaligned_access to tcg_ops
-From: Claudio Fontana <cfontana@suse.de>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>
-References: <20201210121226.19822-1-cfontana@suse.de>
- <20201210121226.19822-26-cfontana@suse.de>
- <a69f4101-5b0f-7ca5-d39a-7ad8b68a92bf@redhat.com>
- <a7ce2d59-2177-e873-8a2c-40e3682923c8@suse.de>
-Message-ID: <30aee4f1-f827-b4bf-f1b2-ba020928a278@suse.de>
-Date: Thu, 10 Dec 2020 14:18:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1knKqB-0003ld-Kl
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:14:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39638)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1knKq1-0006w4-HN
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:14:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607602464;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vsnziv8lsVasLDIsDSb35ijlknBI77YgIERjlDvVxNQ=;
+ b=Hr0j0ogN0EnHUs5cOljP5+kmL4eGVeMI686zgG8gzWigVCE1Uy6He7BAMb+YPfx3aqXJzx
+ g4AoL05+Ky5mXsOSnutAXbDnLYK/m+zQcBim2kC23fypTGZRzHPjIMPQUeSAK03kyMLsAq
+ cWVBAlrtzE1lcpSo6rcwHPIPFBw4r38=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-37-U3NcXLbeNuCPM1zbZkfnmw-1; Thu, 10 Dec 2020 07:14:22 -0500
+X-MC-Unique: U3NcXLbeNuCPM1zbZkfnmw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88B5318C8C02;
+ Thu, 10 Dec 2020 12:14:21 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
+ [10.36.112.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A001F6E41C;
+ Thu, 10 Dec 2020 12:14:11 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id ECB689D9C; Thu, 10 Dec 2020 13:13:59 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 06/11] microvm: add second ioapic
+Date: Thu, 10 Dec 2020 13:13:54 +0100
+Message-Id: <20201210121359.18320-7-kraxel@redhat.com>
+In-Reply-To: <20201210121359.18320-1-kraxel@redhat.com>
+References: <20201210121359.18320-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <a7ce2d59-2177-e873-8a2c-40e3682923c8@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,105 +79,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/20 2:14 PM, Claudio Fontana wrote:
-> On 12/10/20 2:01 PM, Philippe Mathieu-Daudé wrote:
->> On 12/10/20 1:12 PM, Claudio Fontana wrote:
->>> make it consistently SOFTMMU-only.
->>>
->>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->>> ---
->>>  include/hw/core/cpu.h           | 17 +++--------------
->>>  include/hw/core/tcg-cpu-ops.h   |  7 +++++++
->>>  target/alpha/cpu.c              |  2 +-
->>>  target/arm/cpu.c                |  2 +-
->>>  target/hppa/cpu.c               |  4 +++-
->>>  target/microblaze/cpu.c         |  2 +-
->>>  target/mips/cpu.c               |  3 ++-
->>>  target/nios2/cpu.c              |  2 +-
->>>  target/riscv/cpu.c              |  2 +-
->>>  target/s390x/cpu.c              |  2 +-
->>>  target/sh4/cpu.c                |  2 +-
->>>  target/sparc/cpu.c              |  2 +-
->>>  target/xtensa/cpu.c             |  2 +-
->>>  target/ppc/translate_init.c.inc |  2 +-
->>>  14 files changed, 25 insertions(+), 26 deletions(-)
->> ...
->>
->>> -#ifdef CONFIG_SOFTMMU
->>> +#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
->>>  static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
->>>                                          MMUAccessType access_type,
->>>                                          int mmu_idx, uintptr_t retaddr)
->>>  {
->>>      CPUClass *cc = CPU_GET_CLASS(cpu);
->>>  
->>> -    cc->do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
->>> +    cc->tcg_ops.do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
->>>  }
->>> -#ifdef CONFIG_TCG
->>>  static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
->>>                                            vaddr addr, unsigned size,
->>>                                            MMUAccessType access_type,
->>> @@ -858,10 +850,7 @@ static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
->>>                                            mmu_idx, attrs, response, retaddr);
->>>      }
->>>  }
->>> -#endif /* CONFIG_TCG */
->>> -#endif /* CONFIG_SOFTMMU */
->>> -
->>> -#endif /* NEED_CPU_H */
->>> +#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
->>>  
->>>  /**
->>>   * cpu_set_pc:
->>> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
->>> index 3cc2733410..bac0165db6 100644
->>> --- a/include/hw/core/tcg-cpu-ops.h
->>> +++ b/include/hw/core/tcg-cpu-ops.h
->>> @@ -50,6 +50,13 @@ typedef struct TcgCpuOperations {
->>>                                    unsigned size, MMUAccessType access_type,
->>>                                    int mmu_idx, MemTxAttrs attrs,
->>>                                    MemTxResult response, uintptr_t retaddr);
->>> +    /**
->>> +     * @do_unaligned_access: Callback for unaligned access handling, if
->>> +     * the target defines #TARGET_ALIGNED_ONLY.
->>> +     */
->>> +    void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
->>> +                                MMUAccessType access_type,
->>> +                                int mmu_idx, uintptr_t retaddr);
->>
->> Similarly to previous patch, don't we want to restrict this
->> to system-mode?
-> 
-> In theory yes, (and what about exec_interrupt..?)
+Create second ioapic, route virtio-mmio IRQs to it,
+allow more virtio-mmio devices (24 instead of 8).
 
-exec_interrupt: probably not.
+Needs ACPI, enabled by default, can be turned off
+using -machine ioapic2=off
 
-> but we need to triple check the targets, because they tend to set these unconditionally.
-> 
-> Same concern about CONFIG_USER_ONLY vs NEED_CPU_H / CONFIG_SOFTMMU, would use CONFIG_USER_ONLY for consistency with the other targets?
-> 
-> 
-> 
->>
->>>  
->>>      /**
->>>       * @tlb_fill: Handle a softmmu tlb miss or user-only address fault
->>
-> 
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Sergio Lopez <slp@redhat.com>
+Message-id: 20201203105423.10431-8-kraxel@redhat.com
+---
+ include/hw/i386/microvm.h      |  2 ++
+ hw/i386/microvm.c              | 56 +++++++++++++++++++++++++++++++---
+ tests/qtest/bios-tables-test.c |  8 ++---
+ 3 files changed, 57 insertions(+), 9 deletions(-)
+
+diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
+index f1e9db059b85..f25f8374413f 100644
+--- a/include/hw/i386/microvm.h
++++ b/include/hw/i386/microvm.h
+@@ -72,6 +72,7 @@
+ #define MICROVM_MACHINE_PIC                 "pic"
+ #define MICROVM_MACHINE_RTC                 "rtc"
+ #define MICROVM_MACHINE_PCIE                "pcie"
++#define MICROVM_MACHINE_IOAPIC2             "ioapic2"
+ #define MICROVM_MACHINE_ISA_SERIAL          "isa-serial"
+ #define MICROVM_MACHINE_OPTION_ROMS         "x-option-roms"
+ #define MICROVM_MACHINE_AUTO_KERNEL_CMDLINE "auto-kernel-cmdline"
+@@ -90,6 +91,7 @@ struct MicrovmMachineState {
+     OnOffAuto pit;
+     OnOffAuto rtc;
+     OnOffAuto pcie;
++    OnOffAuto ioapic2;
+     bool isa_serial;
+     bool option_roms;
+     bool auto_kernel_cmdline;
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 829b376a1278..56886086133c 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -145,32 +145,53 @@ static void create_gpex(MicrovmMachineState *mms)
+     }
+ }
+ 
++static int microvm_ioapics(MicrovmMachineState *mms)
++{
++    if (!x86_machine_is_acpi_enabled(X86_MACHINE(mms))) {
++        return 1;
++    }
++    if (mms->ioapic2 == ON_OFF_AUTO_OFF) {
++        return 1;
++    }
++    return 2;
++}
++
+ static void microvm_devices_init(MicrovmMachineState *mms)
+ {
+     X86MachineState *x86ms = X86_MACHINE(mms);
+     ISABus *isa_bus;
+     ISADevice *rtc_state;
+     GSIState *gsi_state;
++    int ioapics;
+     int i;
+ 
+     /* Core components */
+-
++    ioapics = microvm_ioapics(mms);
+     gsi_state = g_malloc0(sizeof(*gsi_state));
+-    x86ms->gsi = qemu_allocate_irqs(gsi_handler, gsi_state, GSI_NUM_PINS);
++    x86ms->gsi = qemu_allocate_irqs(gsi_handler, gsi_state,
++                                    IOAPIC_NUM_PINS * ioapics);
+ 
+     isa_bus = isa_bus_new(NULL, get_system_memory(), get_system_io(),
+                           &error_abort);
+     isa_bus_irqs(isa_bus, x86ms->gsi);
+ 
+     ioapic_init_gsi(gsi_state, "machine");
++    if (ioapics > 1) {
++        x86ms->ioapic2 = ioapic_init_secondary(gsi_state);
++    }
+ 
+     kvmclock_create(true);
+ 
+     mms->virtio_irq_base = 5;
+     mms->virtio_num_transports = 8;
+-    if (x86_machine_is_acpi_enabled(x86ms)) {
+-        mms->pcie_irq_base = 12;
+-        mms->virtio_irq_base = 16;
++    if (x86ms->ioapic2) {
++        mms->pcie_irq_base = 16;    /* 16 -> 19 */
++        /* use second ioapic (24 -> 47) for virtio-mmio irq lines */
++        mms->virtio_irq_base = IO_APIC_SECONDARY_IRQBASE;
++        mms->virtio_num_transports = IOAPIC_NUM_PINS;
++    } else if (x86_machine_is_acpi_enabled(x86ms)) {
++        mms->pcie_irq_base = 12;    /* 12 -> 15 */
++        mms->virtio_irq_base = 16;  /* 16 -> 23 */
+     }
+ 
+     for (i = 0; i < mms->virtio_num_transports; i++) {
+@@ -544,6 +565,23 @@ static void microvm_machine_set_pcie(Object *obj, Visitor *v, const char *name,
+     visit_type_OnOffAuto(v, name, &mms->pcie, errp);
+ }
+ 
++static void microvm_machine_get_ioapic2(Object *obj, Visitor *v, const char *name,
++                                        void *opaque, Error **errp)
++{
++    MicrovmMachineState *mms = MICROVM_MACHINE(obj);
++    OnOffAuto ioapic2 = mms->ioapic2;
++
++    visit_type_OnOffAuto(v, name, &ioapic2, errp);
++}
++
++static void microvm_machine_set_ioapic2(Object *obj, Visitor *v, const char *name,
++                                        void *opaque, Error **errp)
++{
++    MicrovmMachineState *mms = MICROVM_MACHINE(obj);
++
++    visit_type_OnOffAuto(v, name, &mms->ioapic2, errp);
++}
++
+ static bool microvm_machine_get_isa_serial(Object *obj, Error **errp)
+ {
+     MicrovmMachineState *mms = MICROVM_MACHINE(obj);
+@@ -620,6 +658,7 @@ static void microvm_machine_initfn(Object *obj)
+     mms->pit = ON_OFF_AUTO_AUTO;
+     mms->rtc = ON_OFF_AUTO_AUTO;
+     mms->pcie = ON_OFF_AUTO_AUTO;
++    mms->ioapic2 = ON_OFF_AUTO_AUTO;
+     mms->isa_serial = true;
+     mms->option_roms = true;
+     mms->auto_kernel_cmdline = true;
+@@ -693,6 +732,13 @@ static void microvm_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, MICROVM_MACHINE_PCIE,
+         "Enable PCIe");
+ 
++    object_class_property_add(oc, MICROVM_MACHINE_IOAPIC2, "OnOffAuto",
++                              microvm_machine_get_ioapic2,
++                              microvm_machine_set_ioapic2,
++                              NULL, NULL);
++    object_class_property_set_description(oc, MICROVM_MACHINE_IOAPIC2,
++        "Enable second IO-APIC");
++
+     object_class_property_add_bool(oc, MICROVM_MACHINE_ISA_SERIAL,
+                                    microvm_machine_get_isa_serial,
+                                    microvm_machine_set_isa_serial);
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 64a9a772eee7..61bf861ac91d 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1124,7 +1124,7 @@ static void test_acpi_microvm_tcg(void)
+     test_data data;
+ 
+     test_acpi_microvm_prepare(&data);
+-    test_acpi_one(" -machine microvm,acpi=on,rtc=off",
++    test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=off",
+                   &data);
+     free_test_data(&data);
+ }
+@@ -1135,7 +1135,7 @@ static void test_acpi_microvm_usb_tcg(void)
+ 
+     test_acpi_microvm_prepare(&data);
+     data.variant = ".usb";
+-    test_acpi_one(" -machine microvm,acpi=on,usb=on,rtc=off",
++    test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,usb=on,rtc=off",
+                   &data);
+     free_test_data(&data);
+ }
+@@ -1146,7 +1146,7 @@ static void test_acpi_microvm_rtc_tcg(void)
+ 
+     test_acpi_microvm_prepare(&data);
+     data.variant = ".rtc";
+-    test_acpi_one(" -machine microvm,acpi=on,rtc=on",
++    test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=on",
+                   &data);
+     free_test_data(&data);
+ }
+@@ -1158,7 +1158,7 @@ static void test_acpi_microvm_pcie_tcg(void)
+     test_acpi_microvm_prepare(&data);
+     data.variant = ".pcie";
+     data.tcg_only = true; /* need constant host-phys-bits */
+-    test_acpi_one(" -machine microvm,acpi=on,rtc=off,pcie=on",
++    test_acpi_one(" -machine microvm,acpi=on,ioapic2=off,rtc=off,pcie=on",
+                   &data);
+     free_test_data(&data);
+ }
+-- 
+2.27.0
 
 
