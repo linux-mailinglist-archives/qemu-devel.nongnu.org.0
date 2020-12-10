@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19232D5734
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:32:42 +0100 (CET)
-Received: from localhost ([::1]:48826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9FB2D5755
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:39:10 +0100 (CET)
+Received: from localhost ([::1]:37038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knIJV-000631-Me
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:32:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45498)
+	id 1knIPl-0004e9-QO
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:39:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knI8J-0002z0-8d
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:21:07 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35924)
+ id 1knI8H-0002va-L8
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:21:05 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knI8G-0007BS-Mc
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:21:07 -0500
+ id 1knI8F-0007BH-Nf
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:21:05 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1knI8E-0007hJ-9m
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:21:02 +0000
+ id 1knI8D-0007hP-Ck
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:21:01 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4822D2E8138
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:21:02 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4DD072E813C
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:21:01 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Dec 2020 09:06:20 -0000
-From: Thomas Huth <1900241@bugs.launchpad.net>
+Date: Thu, 10 Dec 2020 09:06:40 -0000
+From: Thomas Huth <1901981@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=gromero@br.ibm.com; 
-X-Launchpad-Bug-Tags: kvm powerpc xive
+ assignee=pgn@zju.edu.cn; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gkurz sathnaga th-huth
-X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
+X-Launchpad-Bug-Commenters: hades0506 kraxel-redhat th-huth
+X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160293454254.8431.993577940537988142.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160759118062.10906.9756399073924431257.malone@wampee.canonical.com>
-Subject: [Bug 1900241] Re: [regression][powerpc] some vcpus are found offline
- inside guest with different vsmt setting from qemu-cmdline and breaks
- subsequent vcpu hotplug operation (xive)
+References: <160395133608.8291.17236692663498581160.malonedeb@soybean.canonical.com>
+Message-Id: <160759120029.16767.7882461627736147131.malone@chaenomeles.canonical.com>
+Subject: [Bug 1901981] Re: assert issue locates in hw/usb/dev-storage.c:248:
+ usb_msd_send_status
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 1f5c9251d746167c3dce32b18a17a065b6545d39
+X-Launchpad-Hash: 1b04a7ede2ab6d14c482e487219b9362710436cb
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,167 +71,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900241 <1900241@bugs.launchpad.net>
+Reply-To: Bug 1901981 <1901981@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Released with QEMU v5.2.0.
 
 ** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+       Status: Confirmed =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900241
+https://bugs.launchpad.net/bugs/1901981
 
 Title:
-  [regression][powerpc] some vcpus are found offline inside guest with
-  different vsmt setting from qemu-cmdline and breaks subsequent vcpu
-  hotplug operation (xive)
+  assert issue locates in hw/usb/dev-storage.c:248: usb_msd_send_status
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Env:
-  Host: Power9 HW ppc64le
+  Hello,
 
-  # lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          128
-  On-line CPU(s) list:             24-31,40-159
-  Thread(s) per core:              4
-  Core(s) per socket:              16
-  Socket(s):                       2
-  NUMA node(s):                    2
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9, altivec supported
-  Frequency boost:                 enabled
-  CPU max MHz:                     3800.0000
-  CPU min MHz:                     2300.0000
-  L1d cache:                       1 MiB
-  L1i cache:                       1 MiB
-  L2 cache:                        8 MiB
-  L3 cache:                        160 MiB
-  NUMA node0 CPU(s):               24-31,40-79
-  NUMA node8 CPU(s):               80-159
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardware accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
+  I found an assertion failure through hw/usb/dev-storage.c.
 
+  This was found in latest version 5.1.0.
 
-  Host Kernel: 5.9.0-0.rc8.28.fc34.ppc64le (Fedora rawhide)
-  Guest Kernel: Fedora33(5.8.6-301.fc33.ppc64le)
+  --------
 
-  Qemu: e12ce85b2c79d83a340953291912875c30b3af06 (qemu/master)
+  qemu-system-x86_64: hw/usb/dev-storage.c:248: usb_msd_send_status: Assert=
+ion `s->csw.sig =3D=3D cpu_to_le32(0x53425355)' failed.
+  [1]    29544 abort      sudo  -enable-kvm -boot c -m 2G -drive format=3Dq=
+cow2,file=3D./ubuntu.img -nic
+
+  To reproduce the assertion failure, please run the QEMU with following
+  command line.
 
   =
 
-  Steps to reproduce:
+  $ qemu-system-x86_64 -enable-kvm -boot c -m 2G -drive format=3Dqcow2,file=
+=3D./ubuntu.img -nic user,model=3Drtl8139,hostfwd=3Dtcp:0.0.0.0:5555-:22 -d=
+evice piix4-usb-uhci,id=3Duhci -device usb-storage,drive=3Dmydrive -drive i=
+d=3Dmydrive,file=3Dnull-co://,size=3D2M,format=3Draw,if=3Dnone
 
-  Boot below kvm guest: (-M pseries,vsmt=3D2 -smp 8,cores=3D8,threads=3D1)
-
-   /home/sath/qemu/build/qemu-system-ppc64 -name vm1 -M pseries,vsmt=3D2
-  -accel kvm -m 4096  -smp 8,cores=3D8,threads=3D1 -nographic -nodefaults
-  -serial mon:stdio -vga none -nographic -device virtio-scsi-pci -drive
-  file=3D/home/sath/tests/data/avocado-vt/images/fdevel-
-  ppc64le.qcow2,if=3Dnone,id=3Dhd0,format=3Dqcow2,cache=3Dnone -device scsi-
-  hd,drive=3Dhd0
-
-  =
-
-  lscpu inside guest:
-  Actual:
-  [root@atest-guest ~]# lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          8
-  On-line CPU(s) list:             0,2,4,6
-  Off-line CPU(s) list:            1,3,5,7 --------------------------NOK
-  Thread(s) per core:              1
-  Core(s) per socket:              4
-  Socket(s):                       1
-  NUMA node(s):                    1
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9 (architected), altivec supported
-  Hypervisor vendor:               KVM
-  Virtualization type:             para
-  L1d cache:                       128 KiB
-  L1i cache:                       128 KiB
-  NUMA node0 CPU(s):               0,2,4,6
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 =
-
-                                   speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardwar
-                                   e accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-  =
-
-  Expected:
-
-  [root@atest-guest ~]# lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          8
-  On-line CPU(s) list:             0-7
-  Thread(s) per core:              1
-  Core(s) per socket:              8
-  Socket(s):                       1
-  NUMA node(s):                    1
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9 (architected), altivec supported
-  Hypervisor vendor:               KVM
-  Virtualization type:             para
-  L1d cache:                       256 KiB
-  L1i cache:                       256 KiB
-  NUMA node0 CPU(s):               0-7
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 =
-
-                                   speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardwar
-                                   e accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-
-  There by further vcpuhotplug operation fails...
+  The poc is attached.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900241/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1901981/+subscriptions
 
