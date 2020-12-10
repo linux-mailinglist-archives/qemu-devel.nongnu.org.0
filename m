@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 916522D5A11
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:12:46 +0100 (CET)
-Received: from localhost ([::1]:35636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C630B2D5A23
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:15:48 +0100 (CET)
+Received: from localhost ([::1]:44092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKoP-0000y8-Ij
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:12:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51538)
+	id 1knKrL-0004bu-QA
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:15:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKR8-0001gD-RL
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:42 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42489)
+ id 1knKR9-0001iJ-Oc
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:43 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKR0-00078q-BF
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:42 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id m5so5154036wrx.9
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:32 -0800 (PST)
+ id 1knKR0-000793-Bm
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:43 -0500
+Received: by mail-wr1-x433.google.com with SMTP id y17so5133943wrr.10
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Z717ki7dYMmiKcMEWYBMDmmyMdFhoLlq4Y+YjRsXmOI=;
- b=PyAC70+11+DXDVN0hrYa1h8+gRZ9DGiWRfLqhKqcr1OoyXnL8sA27U+a08j7pa73GO
- Uloe+h13QJgzFMRLPeVjPPViQkYA2HRfizfvvGzjKPAMF2VKtwmyMJKjjooSiSoT4ujV
- ZavniwHf1nxKQ6j6oiNK5Lz/vW+QBDzqRNue9KzPvR5hoxU4QBBs4g2c717eiRWu6DBQ
- v5KQP6Tcd01tuknvnXckZaqWugqC41AOaNbpkX0C02Ezz3tCQTDAK/VCBm/mKdQ1b1by
- NUUaZENrcHDcVNVSZm1RraNY+zHM9oq0DuJu3XPZpLnEKUj+YUHh5+tJ5KJ9uSBo+fTv
- Ir7A==
+ bh=J7TAdII+zoL9ZYUXkFl6fW/f+7IWQ2Rf6gIgGSvs/e8=;
+ b=vd01gzaV9SPnOo56IPYIho20N5JDv3X0Ynm4sUsJ7F/SuQVQzxPRdkLIVG3JcDP17D
+ uvMWCjFgTUvFwKFRryt4hV0Ta11QL9mx4MwMTkweGgIyKEb5oMo4QtsguxJxTsfV7eKB
+ fQCauhFO5R4VRm4c5US00EvUl0WTpLKUSNDjvbgp2s6s9uFWBQcyBgWTgkASuv6ZRvr/
+ SIqt+IZ5NoVUxWSqBEp7BSLpOIahbv2tE/IcVS0etWbxlApvltdq0FoOL2qf4Gfts/Jj
+ 590yAHCaUaD9YuKsiD9voixEZQjEH9UCqc/4/ihgN2JN8DTs6h9dmbMD1SjTLLHWJtOp
+ 188Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z717ki7dYMmiKcMEWYBMDmmyMdFhoLlq4Y+YjRsXmOI=;
- b=q3z/9yfT7Q4H0Nf/OVnaa+OIIdwShip+tK0qXV6Kzl+KoB6yRtfB4eBVXVJ+CmGx1F
- boa23tif1Rvte/rJClRAUyOsiLMiVstMfe+CFSkKfNYpfca/MP9dvF/iJcurpacEDPYk
- Z4F4GeSLjqVsu6BTAulqeopofcUlg1YgHQWq93852y/k5W3e6AHA8TGUc37OmoozxPQn
- bCc4Gp3Y+L2TqaHfymrfeDA/DS7AQbS3F3+SI04ZKTV8003LQ7WuEKSGMB5+Q/MOB+We
- YdJNYXYgSIlR421a7/udTX39tcFrziLYgN1B1/QVXd1jnQh7oTsvsvsgB/DupETtiagU
- j5hA==
-X-Gm-Message-State: AOAM5311K1XXsTP2HDkL48hN2HByhhuWhCnSBaZ6Z8AynMcniyg6TY5e
- 7s4udzbt15/3L+CGsrSOT9LHISYug/oQmA==
-X-Google-Smtp-Source: ABdhPJyonpJk+4S0+TWXrZIqO9iY+rQfz+gm+Z8XU+o6Bvt4+4Ye5Gj4UC44iyLusQBR3XMOgxqrjg==
-X-Received: by 2002:adf:aad3:: with SMTP id i19mr7638540wrc.119.1607600911732; 
- Thu, 10 Dec 2020 03:48:31 -0800 (PST)
+ bh=J7TAdII+zoL9ZYUXkFl6fW/f+7IWQ2Rf6gIgGSvs/e8=;
+ b=gtQvANBpAAwTUpYtbwjeBtFjovZx+ssjtEVPgUq/iDFn2868viKyS1nSSY4d2gmZ3p
+ NZ9DPQp9/9IPl/xfNjgSKtH9MrDo6V9GLPIIw5rpPTmqaF6Y3NywUBITsPDucu3FhiGq
+ 66CIamJORVJHU6YuicVtFV57GKfX9VLNVW3Nje2fm+0z8RJ9P//UuPdLBn9aU16OHMWp
+ UL83Zo0IgqzZcEAzx5Auneeo014c5jjp01IqCZkoduU4mrC9B5wZvsjV7m3uF+L973cu
+ Ir6OdnLdf2cyCiVP/PWv8/R2m7j8N466kT56h/o0W2w3/b83/sv6ijc6gJc60G2v7KQl
+ AWTQ==
+X-Gm-Message-State: AOAM531K8VtWjJfk4DBCLtYL8kygy9Hcji2XcW7sdkEHarH305U4VlQF
+ SXh0mDBPe1KRh1vAp7HWVNEgFmUCxpAvdA==
+X-Google-Smtp-Source: ABdhPJzqlbevQuvklcHmJifaYvDnE1KTr+YQlKT2fZJh4JyytWP/9CEpNNIWPKDVnpBL4MjJC6F8AQ==
+X-Received: by 2002:adf:efc5:: with SMTP id i5mr7629530wrp.377.1607600912876; 
+ Thu, 10 Dec 2020 03:48:32 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.30
+ by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 03:48:31 -0800 (PST)
+ Thu, 10 Dec 2020 03:48:32 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/36] target/arm: Implement new v8.1M NOCP check for exception
- return
-Date: Thu, 10 Dec 2020 11:47:49 +0000
-Message-Id: <20201210114756.16501-30-peter.maydell@linaro.org>
+Subject: [PULL 30/36] target/arm: Implement new v8.1M VLLDM and VLSTM encodings
+Date: Thu, 10 Dec 2020 11:47:50 +0000
+Message-Id: <20201210114756.16501-31-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210114756.16501-1-peter.maydell@linaro.org>
 References: <20201210114756.16501-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,58 +86,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In v8.1M a new exception return check is added which may cause a NOCP
-UsageFault (see rule R_XLTP): before we clear s0..s15 and the FPSCR
-we must check whether access to CP10 from the Security state of the
-returning exception is disabled; if it is then we must take a fault.
+v8.1M adds new encodings of VLLDM and VLSTM (where bit 7 is set).
+The only difference is that:
+ * the old T1 encodings UNDEF if the implementation implements 32
+   Dregs (this is currently architecturally impossible for M-profile)
+ * the new T2 encodings have the implementation-defined option to
+   read from memory (discarding the data) or write UNKNOWN values to
+   memory for the stack slots that would be D16-D31
 
-(Note that for our implementation CPPWR is always RAZ/WI and so can
-never cause CP10 accesses to fail.)
-
-The other v8.1M change to this register-clearing code is that if MVE
-is implemented VPR must also be cleared, so add a TODO comment to
-that effect.
+We choose not to make those accesses, so for us the two
+instructions behave identically assuming they don't UNDEF.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201119215617.29887-20-peter.maydell@linaro.org
+Message-id: 20201119215617.29887-21-peter.maydell@linaro.org
 ---
- target/arm/m_helper.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ target/arm/m-nocp.decode       |  2 +-
+ target/arm/translate-vfp.c.inc | 25 +++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 9cdc8a64c29..0bdd3cc10e9 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -1515,7 +1515,27 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-             v7m_exception_taken(cpu, excret, true, false);
-             return;
-         } else {
--            /* Clear s0..s15 and FPSCR */
-+            if (arm_feature(env, ARM_FEATURE_V8_1M)) {
-+                /* v8.1M adds this NOCP check */
-+                bool nsacr_pass = exc_secure ||
-+                    extract32(env->v7m.nsacr, 10, 1);
-+                bool cpacr_pass = v7m_cpacr_pass(env, exc_secure, true);
-+                if (!nsacr_pass) {
-+                    armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE, true);
-+                    env->v7m.cfsr[M_REG_S] |= R_V7M_CFSR_NOCP_MASK;
-+                    qemu_log_mask(CPU_LOG_INT, "...taking UsageFault on existing "
-+                        "stackframe: NSACR prevents clearing FPU registers\n");
-+                    v7m_exception_taken(cpu, excret, true, false);
-+                } else if (!cpacr_pass) {
-+                    armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE,
-+                                            exc_secure);
-+                    env->v7m.cfsr[exc_secure] |= R_V7M_CFSR_NOCP_MASK;
-+                    qemu_log_mask(CPU_LOG_INT, "...taking UsageFault on existing "
-+                        "stackframe: CPACR prevents clearing FPU registers\n");
-+                    v7m_exception_taken(cpu, excret, true, false);
-+                }
-+            }
-+            /* Clear s0..s15 and FPSCR; TODO also VPR when MVE is implemented */
-             int i;
+diff --git a/target/arm/m-nocp.decode b/target/arm/m-nocp.decode
+index ccd62e8739a..6699626d7cb 100644
+--- a/target/arm/m-nocp.decode
++++ b/target/arm/m-nocp.decode
+@@ -36,7 +36,7 @@
  
-             for (i = 0; i < 16; i += 2) {
+ {
+   # Special cases which do not take an early NOCP: VLLDM and VLSTM
+-  VLLDM_VLSTM  1110 1100 001 l:1 rn:4 0000 1010 0000 0000
++  VLLDM_VLSTM  1110 1100 001 l:1 rn:4 0000 1010 op:1 000 0000
+   # VSCCLRM (new in v8.1M) is similar:
+   VSCCLRM      1110 1100 1.01 1111 .... 1011 imm:7 0   vd=%vd_dp size=3
+   VSCCLRM      1110 1100 1.01 1111 .... 1010 imm:8     vd=%vd_sp size=2
+diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
+index 808b4077054..0db936084bd 100644
+--- a/target/arm/translate-vfp.c.inc
++++ b/target/arm/translate-vfp.c.inc
+@@ -3721,6 +3721,31 @@ static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
+         !arm_dc_feature(s, ARM_FEATURE_V8)) {
+         return false;
+     }
++
++    if (a->op) {
++        /*
++         * T2 encoding ({D0-D31} reglist): v8.1M and up. We choose not
++         * to take the IMPDEF option to make memory accesses to the stack
++         * slots that correspond to the D16-D31 registers (discarding
++         * read data and writing UNKNOWN values), so for us the T2
++         * encoding behaves identically to the T1 encoding.
++         */
++        if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
++            return false;
++        }
++    } else {
++        /*
++         * T1 encoding ({D0-D15} reglist); undef if we have 32 Dregs.
++         * This is currently architecturally impossible, but we add the
++         * check to stay in line with the pseudocode. Note that we must
++         * emit code for the UNDEF so it takes precedence over the NOCP.
++         */
++        if (dc_isar_feature(aa32_simd_r32, s)) {
++            unallocated_encoding(s);
++            return true;
++        }
++    }
++
+     /*
+      * If not secure, UNDEF. We must emit code for this
+      * rather than returning false so that this takes
 -- 
 2.20.1
 
