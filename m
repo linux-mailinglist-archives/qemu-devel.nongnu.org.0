@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26CE2D7D86
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:01:50 +0100 (CET)
-Received: from localhost ([::1]:55028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1ED2D7DA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:07:56 +0100 (CET)
+Received: from localhost ([::1]:45148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knmjl-0007LX-Ju
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:01:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51710)
+	id 1knmpf-0006rp-M7
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:07:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knlxn-0007Tc-Ne
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:12:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31517)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knlxu-0007XN-Gf
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:12:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knlxa-0003RC-CG
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:12:15 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knlxc-0003Rm-5I
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:12:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607706720;
+ s=mimecast20190719; t=1607706722;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p/eMu2svoHlmpVYmEmm9c+Bi9DvBEDcRHM9OpjEAao8=;
- b=E9IfPykMhEGHCvD7Xg+3doDL9dtJ8QPkUCJS2MSL8m6Bw+t/4z2x9uA406TFkWEfO/lmnW
- p7LnY5V0G8h5yyALUAj8klvlVCLoJ2UGB4dIc3a2FCbdjv5jk/h63iAr+eTEK9gfX3kghr
- 0YxAhsYzics+ZfzuxS69LpNqBfI8Svo=
+ bh=lk5ali7RysWOeziX07zCa33PM4Rz5F9fnFC9/rOs+H0=;
+ b=EO7+aBbU0v5LSky9IKZIOwEz8afIu9WzEaqMXLi++Sqb4ZzxX5LNlVHEYv6xNVFikWG/0A
+ 7HrKnZWb9KRXQDu9J2ZCCsNworyQHiFjuZWRjwkFLya/6rc94PO2QlK6Bw+S2a39rc/e/v
+ vSKyoxxMipb4stfYcBrhdLyr5BwItGo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-zear8r8fOEO68FIx5ptR3Q-1; Fri, 11 Dec 2020 12:11:58 -0500
-X-MC-Unique: zear8r8fOEO68FIx5ptR3Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-280-WLSJUjmlMxWJI-zWP6K27A-1; Fri, 11 Dec 2020 12:11:58 -0500
+X-MC-Unique: WLSJUjmlMxWJI-zWP6K27A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D3B3107ACE8;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B22F0800D55;
  Fri, 11 Dec 2020 17:11:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5883410013C0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A57860BD9;
  Fri, 11 Dec 2020 17:11:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E795F112E5DE; Fri, 11 Dec 2020 18:11:52 +0100 (CET)
+ id EB992112E5E0; Fri, 11 Dec 2020 18:11:52 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/20] block: Use GString instead of QString to build filenames
-Date: Fri, 11 Dec 2020 18:11:51 +0100
-Message-Id: <20201211171152.146877-20-armbru@redhat.com>
+Subject: [PATCH 20/20] qobject: Make QString immutable
+Date: Fri, 11 Dec 2020 18:11:52 +0100
+Message-Id: <20201211171152.146877-21-armbru@redhat.com>
 In-Reply-To: <20201211171152.146877-1-armbru@redhat.com>
 References: <20201211171152.146877-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,58 +79,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, mdroth@linux.vnet.ibm.com,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QString supports modifying its string, but it's quite limited: you can
-only append.  Just one caller remains:
-bdrv_parse_filename_strip_prefix() uses it just for building an
-initial string.
+The functions to modify a QString's string are all unused now.  Drop
+them, and make the string immutable.  Saves 16 bytes per QString on my
+system.
 
-Change it to do build the initial string with GString.  This is
-another step towards making QString immutable.
-
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Max Reitz <mreitz@redhat.com>
-Cc: qemu-block@nongnu.org
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- block.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ include/qapi/qmp/qstring.h |  8 +----
+ qobject/qstring.c          | 65 ++------------------------------------
+ tests/check-qobject.c      |  3 +-
+ tests/check-qstring.c      | 16 ----------
+ 4 files changed, 4 insertions(+), 88 deletions(-)
 
-diff --git a/block.c b/block.c
-index 94d3a15081..75ffbe9092 100644
---- a/block.c
-+++ b/block.c
-@@ -216,7 +216,7 @@ void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
-         /* Stripping the explicit protocol prefix may result in a protocol
-          * prefix being (wrongly) detected (if the filename contains a colon) */
-         if (path_has_protocol(filename)) {
--            QString *fat_filename;
-+            GString *fat_filename;
+diff --git a/include/qapi/qmp/qstring.h b/include/qapi/qmp/qstring.h
+index 53567db6c0..1d8ba46936 100644
+--- a/include/qapi/qmp/qstring.h
++++ b/include/qapi/qmp/qstring.h
+@@ -17,19 +17,13 @@
  
-             /* This means there is some colon before the first slash; therefore,
-              * this cannot be an absolute path */
-@@ -224,12 +224,13 @@ void bdrv_parse_filename_strip_prefix(const char *filename, const char *prefix,
+ struct QString {
+     struct QObjectBase_ base;
+-    char *string;
+-    size_t length;
+-    size_t capacity;
++    const char *string;
+ };
  
-             /* And we can thus fix the protocol detection issue by prefixing it
-              * by "./" */
--            fat_filename = qstring_from_str("./");
--            qstring_append(fat_filename, filename);
-+            fat_filename = g_string_new("./");
-+            g_string_append(fat_filename, filename);
+ QString *qstring_new(void);
+ QString *qstring_from_str(const char *str);
+ QString *qstring_from_substr(const char *str, size_t start, size_t end);
+ QString *qstring_from_gstring(GString *gstr);
+-size_t qstring_get_length(const QString *qstring);
+ const char *qstring_get_str(const QString *qstring);
+-void qstring_append_int(QString *qstring, int64_t value);
+-void qstring_append(QString *qstring, const char *str);
+-void qstring_append_chr(QString *qstring, int c);
  
--            assert(!path_has_protocol(qstring_get_str(fat_filename)));
-+            assert(!path_has_protocol(fat_filename->str));
+ #endif /* QSTRING_H */
+diff --git a/qobject/qstring.c b/qobject/qstring.c
+index ea86d80cf0..b4613899b9 100644
+--- a/qobject/qstring.c
++++ b/qobject/qstring.c
+@@ -24,14 +24,6 @@ QString *qstring_new(void)
+     return qstring_from_str("");
+ }
  
--            qdict_put(options, "filename", fat_filename);
-+            qdict_put(options, "filename",
-+                      qstring_from_gstring(fat_filename));
-         } else {
-             /* If no protocol prefix was detected, we can use the shortened
-              * filename as-is */
+-/**
+- * qstring_get_length(): Get the length of a QString
+- */
+-size_t qstring_get_length(const QString *qstring)
+-{
+-    return qstring->length;
+-}
+-
+ /**
+  * qstring_from_substr(): Create a new QString from a C string substring
+  *
+@@ -42,18 +34,9 @@ QString *qstring_from_substr(const char *str, size_t start, size_t end)
+     QString *qstring;
+ 
+     assert(start <= end);
+-
+     qstring = g_malloc(sizeof(*qstring));
+     qobject_init(QOBJECT(qstring), QTYPE_QSTRING);
+-
+-    qstring->length = end - start;
+-    qstring->capacity = qstring->length;
+-
+-    assert(qstring->capacity < SIZE_MAX);
+-    qstring->string = g_malloc(qstring->capacity + 1);
+-    memcpy(qstring->string, str + start, qstring->length);
+-    qstring->string[qstring->length] = 0;
+-
++    qstring->string = g_strndup(str + start, end - start);
+     return qstring;
+ }
+ 
+@@ -79,55 +62,11 @@ QString *qstring_from_gstring(GString *gstr)
+ 
+     qstring = g_malloc(sizeof(*qstring));
+     qobject_init(QOBJECT(qstring), QTYPE_QSTRING);
+-    qstring->length = gstr->len;
+-    qstring->capacity = gstr->allocated_len;
+     qstring->string = g_string_free(gstr, false);
+     return qstring;
+ }
+ 
+ 
+-static void capacity_increase(QString *qstring, size_t len)
+-{
+-    if (qstring->capacity < (qstring->length + len)) {
+-        assert(len <= SIZE_MAX - qstring->capacity);
+-        qstring->capacity += len;
+-        assert(qstring->capacity <= SIZE_MAX / 2);
+-        qstring->capacity *= 2; /* use exponential growth */
+-
+-        qstring->string = g_realloc(qstring->string, qstring->capacity + 1);
+-    }
+-}
+-
+-/* qstring_append(): Append a C string to a QString
+- */
+-void qstring_append(QString *qstring, const char *str)
+-{
+-    size_t len = strlen(str);
+-
+-    capacity_increase(qstring, len);
+-    memcpy(qstring->string + qstring->length, str, len);
+-    qstring->length += len;
+-    qstring->string[qstring->length] = 0;
+-}
+-
+-void qstring_append_int(QString *qstring, int64_t value)
+-{
+-    char num[32];
+-
+-    snprintf(num, sizeof(num), "%" PRId64, value);
+-    qstring_append(qstring, num);
+-}
+-
+-/**
+- * qstring_append_chr(): Append a C char to a QString
+- */
+-void qstring_append_chr(QString *qstring, int c)
+-{
+-    capacity_increase(qstring, 1);
+-    qstring->string[qstring->length++] = c;
+-    qstring->string[qstring->length] = 0;
+-}
+-
+ /**
+  * qstring_get_str(): Return a pointer to the stored string
+  *
+@@ -158,6 +97,6 @@ void qstring_destroy_obj(QObject *obj)
+ 
+     assert(obj != NULL);
+     qs = qobject_to(QString, obj);
+-    g_free(qs->string);
++    g_free((char *)qs->string);
+     g_free(qs);
+ }
+diff --git a/tests/check-qobject.c b/tests/check-qobject.c
+index 6b6deaeb8b..c1713d15af 100644
+--- a/tests/check-qobject.c
++++ b/tests/check-qobject.c
+@@ -155,8 +155,7 @@ static void qobject_is_equal_string_test(void)
+     str_case = qstring_from_str("Foo");
+ 
+     /* Should yield "foo" */
+-    str_built = qstring_from_substr("form", 0, 2);
+-    qstring_append_chr(str_built, 'o');
++    str_built = qstring_from_substr("buffoon", 3, 6);
+ 
+     check_unequal(str_base, str_whitespace_0, str_whitespace_1,
+                   str_whitespace_2, str_whitespace_3, str_case);
+diff --git a/tests/check-qstring.c b/tests/check-qstring.c
+index 2d079921e3..4bf9772093 100644
+--- a/tests/check-qstring.c
++++ b/tests/check-qstring.c
+@@ -47,21 +47,6 @@ static void qstring_get_str_test(void)
+     qobject_unref(qstring);
+ }
+ 
+-static void qstring_append_chr_test(void)
+-{
+-    int i;
+-    QString *qstring;
+-    const char *str = "qstring append char unit-test";
+-
+-    qstring = qstring_new();
+-
+-    for (i = 0; str[i]; i++)
+-        qstring_append_chr(qstring, str[i]);
+-
+-    g_assert(strcmp(str, qstring_get_str(qstring)) == 0);
+-    qobject_unref(qstring);
+-}
+-
+ static void qstring_from_substr_test(void)
+ {
+     QString *qs;
+@@ -90,7 +75,6 @@ int main(int argc, char **argv)
+ 
+     g_test_add_func("/public/from_str", qstring_from_str_test);
+     g_test_add_func("/public/get_str", qstring_get_str_test);
+-    g_test_add_func("/public/append_chr", qstring_append_chr_test);
+     g_test_add_func("/public/from_substr", qstring_from_substr_test);
+     g_test_add_func("/public/to_qstring", qobject_to_qstring_test);
+ 
 -- 
 2.26.2
 
