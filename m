@@ -2,85 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 647CC2D7E12
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:29:00 +0100 (CET)
-Received: from localhost ([::1]:42270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC032D7DE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:18:09 +0100 (CET)
+Received: from localhost ([::1]:45054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knnA3-00059a-Cv
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:28:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34084)
+	id 1knmzY-0002A0-QS
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:18:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knmgk-0005if-Vs
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:58:43 -0500
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:36357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knmgg-0002qh-5m
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:58:42 -0500
-Received: by mail-oo1-xc44.google.com with SMTP id j8so2344051oon.3
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 09:58:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=W9Fj1tHnWea4raCWw/4AczCJoYaNDEhwpNFqzPT0pF4=;
- b=KwXTyrmzHtMRukZicQs7bMjgjagtru8TI21SPT/5kd/2NoLKoY2N+SZjaw+GLkIGzy
- UCK1yMcbXDi/UMDtPt8T8L2WuvuVlHPreDVTYrvtBeX0LnyZpyj7aT1LD+EO94korrZI
- injTUobFssMmoJTGWJFdTm6BoWar0THMZ/QmfRSswsx3Hml9YSJWwSYJavjLnvZhglhv
- MUcN7VCA3HCnniV+gOi6CYtX2kyUKffkGm5qV/MJlC34dkay+uXgDg3bPOTrM7WVV+20
- P12K6YpDNsvOEBN3Xz5fujV6Vb5e2jASn26Yv9YFbJLsdHwLMyL1hVAU1z5yOhG3zknM
- yu4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=W9Fj1tHnWea4raCWw/4AczCJoYaNDEhwpNFqzPT0pF4=;
- b=qNA6gUr592nJhRkECc5q+5hzgqFJprJPzMMrrIm0UeAm871cQzuxKYN0BiihcmM55h
- /rYXaiIYImMmO1eOshhecOrONAS7RjQZ4xDdtPMsm9ghGVife+69k10iE3T5xKjOIWMW
- WoJT09ebgPhhlIqh3y4iV4/jCprvDhUhRaW7XrfONCDvlNHR2OUkNXLaAtIWP5nESXMs
- kTVslmVBTIA0KF76XG0/y8FY0zpS3VuPNzEOAmvKuHVamLRRqKFwJ5s9E5vL9T+2lCLp
- G3DpJ5k/hT6qjiB7dj4EoN7lOgWmtRdRajQH5zd05xQf8E7wi6aD75vgiXo4b2tSX1A7
- b4lA==
-X-Gm-Message-State: AOAM531okuQuYaZFZPab7df/GqswSWsXW2LRcpuhSfoktVpeT6gI5Do9
- VOXmrg6NYgbSG/oNJcCxKb+qcw==
-X-Google-Smtp-Source: ABdhPJxRfy5JgIjMuod+sVFhy4EWY24kZGzVlW6QJHJuxAen0EFNuPHXRrBGkTiSlWg4COLfDczpow==
-X-Received: by 2002:a4a:4988:: with SMTP id z130mr11035098ooa.34.1607709516671; 
- Fri, 11 Dec 2020 09:58:36 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id d62sm1945483oia.6.2020.12.11.09.58.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 09:58:35 -0800 (PST)
-Subject: Re: [PATCH v11 25/25] cpu: move do_unaligned_access to tcg_ops
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knmx6-0000WZ-QL
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 13:15:36 -0500
+Received: from mx2.suse.de ([195.135.220.15]:39430)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knmx4-0008WM-J0
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 13:15:36 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id BC6DDAE4A;
+ Fri, 11 Dec 2020 18:15:32 +0000 (UTC)
+Subject: Re: [PATCH v11 18/25] cpu: Move synchronize_from_tb() to tcg_ops
+From: Claudio Fontana <cfontana@suse.de>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
  Wenchao Wang <wenchao.wang@intel.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 References: <20201211083143.14350-1-cfontana@suse.de>
- <20201211083143.14350-26-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ef309063-196b-9b73-4770-5602349b0a6f@linaro.org>
-Date: Fri, 11 Dec 2020 11:58:32 -0600
+ <20201211083143.14350-19-cfontana@suse.de>
+ <78a7119d-1b4b-47dc-8f16-510708c9fcd4@linaro.org>
+ <cca08e8d-9235-46da-3610-8acafbc2de14@suse.de>
+ <15b884b7-94e4-1476-f883-e84379b2661e@linaro.org>
+ <5d9457df-c7c6-dd61-bbd7-1563d29102f8@suse.de>
+Message-ID: <946cb717-d1f3-5b30-5622-0126437420d7@suse.de>
+Date: Fri, 11 Dec 2020 19:15:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201211083143.14350-26-cfontana@suse.de>
+In-Reply-To: <5d9457df-c7c6-dd61-bbd7-1563d29102f8@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc44.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,30 +78,108 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 2:31 AM, Claudio Fontana wrote:
-> +++ b/include/hw/core/tcg-cpu-ops.h
-> @@ -66,6 +66,13 @@ typedef struct TcgCpuOperations {
->                                    unsigned size, MMUAccessType access_type,
->                                    int mmu_idx, MemTxAttrs attrs,
->                                    MemTxResult response, uintptr_t retaddr);
-> +    /**
-> +     * @do_unaligned_access: Callback for unaligned access handling, if
-> +     * the target defines #TARGET_ALIGNED_ONLY.
-> +     */
-> +    void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
-> +                                MMUAccessType access_type,
-> +                                int mmu_idx, uintptr_t retaddr);
+On 12/11/20 6:47 PM, Claudio Fontana wrote:
+> On 12/11/20 6:28 PM, Richard Henderson wrote:
+>> On 12/11/20 11:10 AM, Claudio Fontana wrote:
+>>> On 12/11/20 6:05 PM, Richard Henderson wrote:
+>>>> On 12/11/20 2:31 AM, Claudio Fontana wrote:
+>>>>> From: Eduardo Habkost <ehabkost@redhat.com>
+>>>>>
+>>>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>>>>> [claudio: wrapped in CONFIG_TCG]
+>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>>>>> ---
+>>>>>  include/hw/core/cpu.h         |  8 --------
+>>>>>  include/hw/core/tcg-cpu-ops.h | 12 ++++++++++++
+>>>>>  accel/tcg/cpu-exec.c          |  4 ++--
+>>>>>  target/arm/cpu.c              |  4 +++-
+>>>>>  target/avr/cpu.c              |  2 +-
+>>>>>  target/hppa/cpu.c             |  2 +-
+>>>>>  target/i386/tcg/tcg-cpu.c     |  2 +-
+>>>>>  target/microblaze/cpu.c       |  2 +-
+>>>>>  target/mips/cpu.c             |  4 +++-
+>>>>>  target/riscv/cpu.c            |  2 +-
+>>>>>  target/rx/cpu.c               |  2 +-
+>>>>>  target/sh4/cpu.c              |  2 +-
+>>>>>  target/sparc/cpu.c            |  2 +-
+>>>>>  target/tricore/cpu.c          |  2 +-
+>>>>>  14 files changed, 29 insertions(+), 21 deletions(-)
+>>>>>
+>>>>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+>>>>> index ea648d52ad..83007d262c 100644
+>>>>> --- a/include/hw/core/cpu.h
+>>>>> +++ b/include/hw/core/cpu.h
+>>>>> @@ -110,13 +110,6 @@ struct TranslationBlock;
+>>>>>   *       If the target behaviour here is anything other than "set
+>>>>>   *       the PC register to the value passed in" then the target must
+>>>>>   *       also implement the synchronize_from_tb hook.
+>>>>> - * @synchronize_from_tb: Callback for synchronizing state from a TCG
+>>>>> - *       #TranslationBlock. This is called when we abandon execution
+>>>>> - *       of a TB before starting it, and must set all parts of the CPU
+>>>>> - *       state which the previous TB in the chain may not have updated.
+>>>>> - *       This always includes at least the program counter; some targets
+>>>>> - *       will need to do more. If this hook is not implemented then the
+>>>>> - *       default is to call @set_pc(tb->pc).
+>>>>>   * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
+>>>>>   *       address fault.  For system mode, if the access is valid, call
+>>>>>   *       tlb_set_page and return true; if the access is invalid, and
+>>>>> @@ -193,7 +186,6 @@ struct CPUClass {
+>>>>>      void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
+>>>>>                                 Error **errp);
+>>>>>      void (*set_pc)(CPUState *cpu, vaddr value);
+>>>>> -    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
+>>>>>      bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+>>>>>                       MMUAccessType access_type, int mmu_idx,
+>>>>>                       bool probe, uintptr_t retaddr);
+>>>>> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+>>>>> index 4475ef0996..e1d50b3c8b 100644
+>>>>> --- a/include/hw/core/tcg-cpu-ops.h
+>>>>> +++ b/include/hw/core/tcg-cpu-ops.h
+>>>>> @@ -10,6 +10,8 @@
+>>>>>  #ifndef TCG_CPU_OPS_H
+>>>>>  #define TCG_CPU_OPS_H
+>>>>>  
+>>>>> +#include "hw/core/cpu.h"
+>>>>
+>>>> This include is circular.
+>>>
+>>> Yes, it's protected though, it was asked that way.
+>>
+>> Well, in my strong opinion, someone asked incorrectly.  It's "harmless" because
+>> of the protection ifdefs, but it's Wrong because it has the potential to hide bugs.
+>>
+>> What is it that you thought you needed from core/cpu.h anyway?
+>>
+>>>> Are you sure that splitting out hw/core/tcg-cpu-ops.h from hw/core/cpu.h in
+>>>> patch 15 is even useful?
+>>>
+>>> it avoids a huge #ifdef CONFIG_TCG
+>>
+>> So?  The question should be: is it useful on its own, and I think the answer to
+>> that is clearly not.  Thus it should not pretend to be a standalone header file.
+>>
+>>
+>> r~
+>>
+> 
+> The whole point of the exercise is to sort out what is tcg specific and only compile it under CONFIG_TCG.
+> 
+> Having everything inside cpu.h wrapped in a 100 line #ifdef is not particularly readable or discoverable,
+> so I think it is actually useful for understanding purposes to have it separate,
+> but that said, I don't feel strongly on this, as I intend to improve this in later series.
+> 
 
-The comment is out of date.  TARGET_ALIGNED_ONLY is no longer relevant.  That
-define only controls the default for MO_ALIGN.  The target can specify all
-sorts of alignment apart from the default.
 
-So let's lose everything after the "," and everything is ok.
+Should I return this file to the original state (without the extra #includes that pretend it to be a standalone header file,
+and call it
 
-Amusingly, I was this week considering how easy it would be to add alignment
-checks to user-only.  But we're a fair way off from that now, so,
+tcg-cpu-ops.h.inc
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+?
 
-r~
+Ciao,
+
+Claudio
 
