@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902A42D78CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:08:14 +0100 (CET)
-Received: from localhost ([::1]:56038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4958A2D78D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:12:12 +0100 (CET)
+Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knk1l-00033U-Ja
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:08:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48972)
+	id 1knk5b-0005ks-18
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:12:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1knk0C-0001uf-F2
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:06:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23146)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1knk3L-0004Aa-HV
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:09:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1knk09-0007v1-4p
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:06:36 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1knk3G-0000Y1-Jx
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:09:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607699191;
+ s=mimecast20190719; t=1607699385;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AMyOQ/SQr1ylYm5dL7mzpknuvUVVtyg3g7QaEdmNMR4=;
- b=OjNKDSKoU9ztIiDgrvyquqherKk2av7pwVqWeNm0CvmnOs4FcE1snwLLDZsp22c+IkBB3r
- 5qid4CBBmyvugi0aqz0QZGPTQPWeWWAkY/kU+CLHjBDkIN/3xemco4F3nAI2pHF0Apgu7C
- TV2goTWYZQaG73KZ8B7aSssoNqq+04w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-oYpHdVuHP9CZd3yH5MBn0w-1; Fri, 11 Dec 2020 10:06:29 -0500
-X-MC-Unique: oYpHdVuHP9CZd3yH5MBn0w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C3E71009471;
- Fri, 11 Dec 2020 15:06:28 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-237.rdu2.redhat.com [10.10.115.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7C361992D;
- Fri, 11 Dec 2020 15:06:24 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 71E5C220BCF; Fri, 11 Dec 2020 10:06:24 -0500 (EST)
-Date: Fri, 11 Dec 2020 10:06:24 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: ceph + freeipa ubuntu/fedora common small bug
-Message-ID: <20201211150624.GC3285@redhat.com>
-References: <20201207183021.22752-1-vgoyal@redhat.com>
- <20201207183021.22752-4-vgoyal@redhat.com>
- <20201210200303.GN3629@work-vm>
- <20201210200931.GA185111@redhat.com>
- <97a0de57-8422-2fdc-e16e-0d6f133f615c@gmail.com>
- <20201211110522.GB3380@work-vm>
+ bh=8aRwaiUmW/i/Vcul3m7aFoGLwlsjZRwKJTzFcR9h7Jk=;
+ b=X1RxvHdwWuK8gfRPcQRDhxwy3Q0fAN2dHVzE+n/sibaXlhmxMU0MBhempMJ6oFUhyX5Uce
+ VLIjQMKQbo+mpLrUkziuAh36hHUr8Yr51Ze1Glisw+lH6oTU23A104sQ8qsX2Lbh/1O7+Y
+ b8dAbXdDVp1imO70ecDVRSifoMygCjg=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-PhQLnDPhPmO_6oQw8YorOQ-1; Fri, 11 Dec 2020 10:09:43 -0500
+X-MC-Unique: PhQLnDPhPmO_6oQw8YorOQ-1
+Received: by mail-qt1-f197.google.com with SMTP id z43so6751538qtb.0
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 07:09:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8aRwaiUmW/i/Vcul3m7aFoGLwlsjZRwKJTzFcR9h7Jk=;
+ b=A+yVkej2sqf2SUwIypejC8sj15qMcA1jPSYOQD89tgwKn5j1FZxjqcEwHQmWEdMbmP
+ VfkmsAMyWL/gj4GyGcRkON85Hdh+PFheqmfrB0ykk7hI8wIpLbTJIwQOLWmgkFGGA515
+ fRinVqITJq/VKihlt0+GZrtfqf5gDDOvqmiGHwnso4mGiHbdSdvb1YLzVoPRrgQLzTEu
+ wv1Wmm2IMVsI5iNFZ3JC5ZT9aIIU5vKxjOk0ThGJge2Cx68muGgYz6ce+JG7wmHRoQci
+ SffkgjXYSgMx+AznsBfLhzTr0VDHg7ibSBvtdbvcFglpNo5hT6MsPMN008Q5zu5V/ohp
+ S+Yw==
+X-Gm-Message-State: AOAM530OitNjODPL7rXWgPRTAUpICWNheeXRP3TRmGKusQUk0pPnK7Nl
+ 4bwnZ2BkFCbcD1NU1gOqdD0RbOP/blnzmc4gFbrgCE1iH6HZAwQSL+dNbkk+zY0R/GHtieJoLQ1
+ 0PLw2XwM01xd90AA=
+X-Received: by 2002:a37:5242:: with SMTP id g63mr16281821qkb.317.1607699383221; 
+ Fri, 11 Dec 2020 07:09:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzl7rnqkYM2alV0l4dr6DPT+cNU1Y8YJhkeK9t+T4bfLZqJUPhnokcEBDzDebv88xiynIjPlw==
+X-Received: by 2002:a37:5242:: with SMTP id g63mr16281784qkb.317.1607699382930; 
+ Fri, 11 Dec 2020 07:09:42 -0800 (PST)
+Received: from xz-x1 ([142.126.83.202])
+ by smtp.gmail.com with ESMTPSA id o21sm6207814qko.9.2020.12.11.07.09.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Dec 2020 07:09:41 -0800 (PST)
+Date: Fri, 11 Dec 2020 10:09:40 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v6 0/4] migration: UFFD write-tracking migration/snapshots
+Message-ID: <20201211150940.GC6520@xz-x1>
+References: <20201209100811.190316-1-andrey.gruzdev@virtuozzo.com>
+ <3f19b8d2-0b4b-95e3-8a1f-a1cfe791a4e1@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20201211110522.GB3380@work-vm>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <3f19b8d2-0b4b-95e3-8a1f-a1cfe791a4e1@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,51 +91,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, "Harry G. Coin" <hgcoin@gmail.com>, lersek@redhat.com,
- qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 11, 2020 at 11:05:22AM +0000, Dr. David Alan Gilbert wrote:
-> * Harry G. Coin (hgcoin@gmail.com) wrote:
-> > FYI.  Same thing we saw on Fedora installing freeipa, this on ubuntu
-> > with ceph.  Identical bitmask report.
-> > 
-> > ...
-> > 
-> > Fixing /var/run/ceph ownership....done
-> > 
-> > Cannot set file attribute for '/var/log/journal', value=0x00800000,
-> > mask=0x00800000, ignoring: Function not implemented
-> > 
-> > Cannot set file attribute for
-> > '/var/log/journal/fd007229322043ad8778c214d19ed3ac', value=0x00800000,
-> > mask=0x00800000, ignoring: Function not implemented
+On Fri, Dec 11, 2020 at 04:13:02PM +0300, Andrey Gruzdev wrote:
+> I've also made wr-fault resolution latency measurements, for the case when migration
+> stream is dumped to a file in cached mode.. Should approximately match saving to the
+> file fd directly though I used 'migrate exec:<>' using a hand-written tool.
 > 
-> This looks like it comes out of systemd's  src/tmpfiles/tmpfiles.c:
+> VM config is 6 vCPUs + 16GB RAM, qcow2 image on Seagate 7200.11 series 1.5TB HDD,
+> snapshot goes to the same disk. Guest is Windows 10.
 > 
->         r = chattr_fd(procfs_fd, f, item->attribute_mask, NULL);
->         if (r < 0)
->                 log_full_errno(IN_SET(r, -ENOTTY, -EOPNOTSUPP) ? LOG_DEBUG : LOG_WARNING,
->                                r,
->                                "Cannot set file attribute for '%s', value=0x%08x, mask=0x%08x, ignoring: %m",
->                                path, item->attribute_value, item->attribute_mask);
+> The test scenario is playing full-HD youtube video in Firefox while saving snapshot.
 > 
-> and it's chattr_fd is in it's src/basic/chattr-util.c
-> which is using FS_IOC_GET/SETFLAGS, which seems to be an older
-> way of doing things.
+> Latency measurement begin/end points are fs/userfaultfd.c:handle_userfault() and
+> mm/userfaultfd.c:mwriteprotect_range(), respectively. For any faulting page, the
+> oldest wr-fault timestamp is accounted.
 > 
-> Now, is that supposed to promote itself to a newer call or is it OK?
+> The whole time to take snapshot was ~30secs, file size is around 3GB.
+> So far seems to be not a very bad picture.. However 16-255msecs range is worrying
+> me a bit, seems it causes audio backend buffer underflows sometimes.
+> 
+> 
+>      msecs               : count     distribution
+>          0 -> 1          : 111755   |****************************************|
+>          2 -> 3          : 52       |                                        |
+>          4 -> 7          : 105      |                                        |
+>          8 -> 15         : 428      |                                        |
+>         16 -> 31         : 335      |                                        |
+>         32 -> 63         : 4        |                                        |
+>         64 -> 127        : 8        |                                        |
+>        128 -> 255        : 5        |                                        |
 
-I see that we don't have any ->ioctl function registered in
-passthrough_ll.c and that's why do_ioctl() (fuse_lowlevel.c) will
-return -ENOSYS.
+Great test!  Thanks for sharing these information.
 
-So we probably need to modify passthrough_ll.c to support some select
-ioctls. Right now it looks like all fs ioctls will return -ENOSYS.
+Yes it's good enough for a 1st version, so it's already better than
+functionally work. :)
 
-I tried "chattr +i foo.txt" and that return -ENOSYS as well.
+So did you try your last previous patch to see whether it could improve in some
+way?  Again we can gradually optimize upon your current work.
 
-Vivek
+Btw, you reminded me that why not we track all these from kernel? :) That's a
+good idea.  So, how did you trace it yourself?  Something like below should
+work with bpftrace, but I feel like you were done in some other way, so just
+fyi:
+
+        # cat latency.bpf
+        kprobe:handle_userfault
+        {
+                @start[tid] = nsecs;
+        }
+
+        kretprobe:handle_userfault
+        {
+                if (@start[tid]) {
+                        $delay = nsecs - @start[tid];
+                        delete(@start[tid]);
+                        @delay_us = hist($delay / 1000);
+                }
+        }
+        # bpftrace latency.bpf
+
+Tracing return of handle_userfault() could be more accurate in that it also
+takes the latency between UFFDIO_WRITEPROTECT until vcpu got waked up again.
+However it's inaccurate because after a recent change to this code path in
+commit f9bf352224d7 ("userfaultfd: simplify fault handling", 2020-08-03)
+handle_userfault() could return even before page fault resolved.  However it
+should be good enough in most cases because even if it happens, it'll fault
+into handle_userfault() again, then we just got one more count.
+
+Thanks!
+
+-- 
+Peter Xu
 
 
