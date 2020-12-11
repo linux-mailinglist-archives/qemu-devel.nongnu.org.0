@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839952D6F6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:48:09 +0100 (CET)
-Received: from localhost ([::1]:43342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 145272D6F65
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:42:45 +0100 (CET)
+Received: from localhost ([::1]:55646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knaLg-0006YC-Gk
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:48:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34230)
+	id 1knaGS-00088Y-2L
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:42:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZqi-0005yl-At; Thu, 10 Dec 2020 23:16:09 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:48227 helo=ozlabs.org)
+ id 1knZqi-0005ym-Ay; Thu, 10 Dec 2020 23:16:09 -0500
+Received: from ozlabs.org ([203.11.71.1]:57039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZqd-0000uk-3D; Thu, 10 Dec 2020 23:16:05 -0500
+ id 1knZqc-0000un-Vl; Thu, 10 Dec 2020 23:16:06 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cscrg2Ljlz9sXZ; Fri, 11 Dec 2020 15:15:15 +1100 (AEDT)
+ id 4Cscrg3PwYz9sXY; Fri, 11 Dec 2020 15:15:15 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607660115;
- bh=pcjBBUPDwioP0908GC4CNJoGjgvaGxW2KTfiNcpWvwc=;
+ bh=GANHHFYVShuhZdNxXbeviRaQLeLYW3TTRD3WfP4D4Nw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BgxkI0Sxdp2ZpOowMEaK1mnl2AdxIZ0MoHJfmQl5b1HTRX2XdlfY7AeBCgS7Oh50W
- 2kwYe1VT9cWCDektaBB4G5inKoJ2EqRnpmpBQXNkc/5AXXPoqmUpQafq24PsKCNwjz
- 5JT294Tsb0mnkl9JEet59fOU352A0aBBqYePTFF8=
+ b=bGGxhjJTtZg7p9cCtQoUGZIQ0CmKFI6kEOjPdqYPygUVqkuaKemVgAeJ4sswVShmM
+ oS4zC1dmK06hdU1hMaXRIZ+gksGzIw757wDgrGCKX7pDaNzhn8iVTe//jUcr3DNycw
+ SOJNV5Mu7IspqcfGwnnySHzVQFDAcqIiaYd2f6ro=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 27/30] spapr: Pass sPAPR machine state down to
- spapr_pci_switch_vga()
-Date: Fri, 11 Dec 2020 15:15:04 +1100
-Message-Id: <20201211041507.425378-28-david@gibson.dropbear.id.au>
+Subject: [PULL 28/30] spapr: Don't use qdev_get_machine() in spapr_msi_write()
+Date: Fri, 11 Dec 2020 15:15:05 +1100
+Message-Id: <20201211041507.425378-29-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,81 +63,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-This allows to drop a user of qdev_get_machine().
+spapr_phb_realize() passes the sPAPR machine state as opaque data
+for the I/O callbacks:
+
+memory_region_init_io(&sphb->msiwindow, OBJECT(sphb), &spapr_msi_ops, spapr,
+                                                                      ^^^^^
+                      "msi", msi_window_size);
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201209170052.1431440-4-groug@kaod.org>
+Message-Id: <20201209170052.1431440-5-groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_hcall.c   | 7 ++++---
- hw/ppc/spapr_pci.c     | 3 +--
- include/hw/ppc/spapr.h | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ hw/ppc/spapr_pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 1d8e8e6a88..c0ea0bd579 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1351,6 +1351,7 @@ static target_ulong h_logical_dcbf(PowerPCCPU *cpu, SpaprMachineState *spapr,
- }
- 
- static target_ulong h_set_mode_resource_le(PowerPCCPU *cpu,
-+                                           SpaprMachineState *spapr,
-                                            target_ulong mflags,
-                                            target_ulong value1,
-                                            target_ulong value2)
-@@ -1365,12 +1366,12 @@ static target_ulong h_set_mode_resource_le(PowerPCCPU *cpu,
-     switch (mflags) {
-     case H_SET_MODE_ENDIAN_BIG:
-         spapr_set_all_lpcrs(0, LPCR_ILE);
--        spapr_pci_switch_vga(true);
-+        spapr_pci_switch_vga(spapr, true);
-         return H_SUCCESS;
- 
-     case H_SET_MODE_ENDIAN_LITTLE:
-         spapr_set_all_lpcrs(LPCR_ILE, LPCR_ILE);
--        spapr_pci_switch_vga(false);
-+        spapr_pci_switch_vga(spapr, false);
-         return H_SUCCESS;
-     }
- 
-@@ -1411,7 +1412,7 @@ static target_ulong h_set_mode(PowerPCCPU *cpu, SpaprMachineState *spapr,
- 
-     switch (resource) {
-     case H_SET_MODE_RESOURCE_LE:
--        ret = h_set_mode_resource_le(cpu, args[0], args[2], args[3]);
-+        ret = h_set_mode_resource_le(cpu, spapr, args[0], args[2], args[3]);
-         break;
-     case H_SET_MODE_RESOURCE_ADDR_TRANS_MODE:
-         ret = h_set_mode_resource_addr_trans_mode(cpu, args[0],
 diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index e946bd5055..cff76479c7 100644
+index cff76479c7..76d7c91e9c 100644
 --- a/hw/ppc/spapr_pci.c
 +++ b/hw/ppc/spapr_pci.c
-@@ -2493,9 +2493,8 @@ static int spapr_switch_one_vga(DeviceState *dev, void *opaque)
-     return 0;
- }
- 
--void spapr_pci_switch_vga(bool big_endian)
-+void spapr_pci_switch_vga(SpaprMachineState *spapr, bool big_endian)
+@@ -747,7 +747,7 @@ static PCIINTxRoute spapr_route_intx_pin_to_irq(void *opaque, int pin)
+ static void spapr_msi_write(void *opaque, hwaddr addr,
+                             uint64_t data, unsigned size)
  {
 -    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
-     SpaprPhbState *sphb;
++    SpaprMachineState *spapr = opaque;
+     uint32_t irq = data;
  
-     /*
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index b7ced9faeb..e0f10f252c 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -834,7 +834,7 @@ int spapr_dma_dt(void *fdt, int node_off, const char *propname,
-                  uint32_t liobn, uint64_t window, uint32_t size);
- int spapr_tcet_dma_dt(void *fdt, int node_off, const char *propname,
-                       SpaprTceTable *tcet);
--void spapr_pci_switch_vga(bool big_endian);
-+void spapr_pci_switch_vga(SpaprMachineState *spapr, bool big_endian);
- void spapr_hotplug_req_add_by_index(SpaprDrc *drc);
- void spapr_hotplug_req_remove_by_index(SpaprDrc *drc);
- void spapr_hotplug_req_add_by_count(SpaprDrcType drc_type,
+     trace_spapr_pci_msi_write(addr, data, irq);
 -- 
 2.29.2
 
