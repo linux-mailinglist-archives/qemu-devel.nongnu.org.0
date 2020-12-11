@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E222D7FC4
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 21:05:34 +0100 (CET)
-Received: from localhost ([::1]:34254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE722D7FC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 21:09:25 +0100 (CET)
+Received: from localhost ([::1]:40608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knofV-0006df-8P
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 15:05:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59384)
+	id 1knojE-0001HZ-2k
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 15:09:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1knobY-0005Df-AY
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 15:01:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37450)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1knoca-00067k-CF
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 15:02:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1knobS-0007Zo-OX
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 15:01:27 -0500
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1knocY-0007wZ-2w
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 15:02:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607716881;
+ s=mimecast20190719; t=1607716948;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bFM8FSVJwubnfTnJrWGXX+7jwf6vCqgFqrrJzhSWcMY=;
- b=Fm9Hi3NrGqYZuFcBtjW1lAdIVF3n/ncAVVUB6rmiY8OtgsIADS5tZLKbWQ8W0PFpkZooOD
- fFGgXt9HLIH2ZmVmiecyMzqCvwJB0fU4Ay3fLckBNjQm+5w7gF5lQU0eRGZnXNpcrknm+K
- 8LPx+sFGbC0YzTcwycthCyOa9IbnhW4=
+ bh=r5JeWOTbzuATA/GDTNGb3GRRrk9Mp92k20NzGVoOBDc=;
+ b=STT19c6mIODXnJeZjfufrhWldeVutGjyhjnxgC9uOM7WjljDd3wM73bCP0MFhVu6HXnPj/
+ xfaNgLwzA64lj6xpSDPemCZbnGI7icd+BVnB+wZ85t88aAB6o6qlYBujo0t4XmzcPw4imc
+ MqeB3VX7H/a+RypiKmUIxwfkeWco01Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-jRIxGeBiOqe9rkcKOCaOiA-1; Fri, 11 Dec 2020 15:01:17 -0500
-X-MC-Unique: jRIxGeBiOqe9rkcKOCaOiA-1
+ us-mta-506-Q16x9S-rNru-imWW3h9nkQ-1; Fri, 11 Dec 2020 15:02:27 -0500
+X-MC-Unique: Q16x9S-rNru-imWW3h9nkQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11E69107ACE3;
- Fri, 11 Dec 2020 20:01:16 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-237.rdu2.redhat.com [10.10.115.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 485656F45B;
- Fri, 11 Dec 2020 20:01:09 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id CF0DE220BCF; Fri, 11 Dec 2020 15:01:08 -0500 (EST)
-Date: Fri, 11 Dec 2020 15:01:08 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: Some performance numbers for virtiofs, DAX and virtio-9p
-Message-ID: <20201211200108.GG3285@redhat.com>
-References: <20201210161126.GA125438@redhat.com>
- <CAOssrKcKaosJo1W+sek0AOA3CdyE+ZUWzx8KPsn=Gz3Nor+_iQ@mail.gmail.com>
- <20201211160603.GD3285@redhat.com> <20201211182956.GF3380@work-vm>
- <20201211192517.GF3285@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3D9E801817;
+ Fri, 11 Dec 2020 20:02:24 +0000 (UTC)
+Received: from localhost (ovpn-116-160.rdu2.redhat.com [10.10.116.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 356196F7E8;
+ Fri, 11 Dec 2020 20:02:23 +0000 (UTC)
+Date: Fri, 11 Dec 2020 15:02:21 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH v11 18/25] cpu: Move synchronize_from_tb() to tcg_ops
+Message-ID: <20201211200221.GE1289986@habkost.net>
+References: <20201211083143.14350-1-cfontana@suse.de>
+ <20201211083143.14350-19-cfontana@suse.de>
+ <78a7119d-1b4b-47dc-8f16-510708c9fcd4@linaro.org>
+ <cca08e8d-9235-46da-3610-8acafbc2de14@suse.de>
+ <15b884b7-94e4-1476-f883-e84379b2661e@linaro.org>
+ <5d9457df-c7c6-dd61-bbd7-1563d29102f8@suse.de>
+ <946cb717-d1f3-5b30-5622-0126437420d7@suse.de>
+ <b7db8e36-f623-a090-a19a-644b02c3cd76@linaro.org>
+ <6c117162-7b6d-14bc-9d6e-f5169d7d1e31@redhat.com>
+ <2d76e092-14bf-f9dc-4703-811f7768f1a7@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20201211192517.GF3285@redhat.com>
+In-Reply-To: <2d76e092-14bf-f9dc-4703-811f7768f1a7@suse.de>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,54 +88,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, "Venegas Munoz,
- Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>, virtio-fs-list <virtio-fs@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 11, 2020 at 02:25:17PM -0500, Vivek Goyal wrote:
-> On Fri, Dec 11, 2020 at 06:29:56PM +0000, Dr. David Alan Gilbert wrote:
-> 
-> [..]
-> > > > 
-> > > > Could we measure at what point does a large window size actually make
-> > > > performance worse?
-> > > 
-> > > Will do. Will run tests with varying window sizes (small to large)
-> > > and see how does it impact performance for same workload with
-> > > same guest memory.
+On Fri, Dec 11, 2020 at 07:51:54PM +0100, Claudio Fontana wrote:
+> On 12/11/20 7:26 PM, Philippe Mathieu-Daudé wrote:
+> > On 12/11/20 7:22 PM, Richard Henderson wrote:
+> >> On 12/11/20 12:15 PM, Claudio Fontana wrote:
+> >>> Should I return this file to the original state (without the extra #includes that pretend it to be a standalone header file,
+> >>> and call it
+> >>>
+> >>> tcg-cpu-ops.h.inc
+> >>>
+> >>> ?
+> >>
+> >> If this header can work with qemu/typedefs.h, then no, because the circularity
+> >> has been resolved.  Otherwise, yes.
 > > 
-> > I wonder how realistic it is though;  it makes some sense if you have a
-> > scenario like a fairly small root filesystem - something tractable;  but
-> > if you have a large FS you're not realistically going to be able to set
-> > the cache size to match it - that's why it's a cache!
+> > My editor got confused with TranslationBlock, which is why I asked
+> > to include its declaration.
+> > 
+> > Easier to forward-declare TranslationBlock in qemu/typedefs.h?
+> > 
+> > Regards,
+> > 
+> > Phil.
+> > 
 > 
-> I think its more about active dataset size and not necessarily total
-> FS size. FS might be big but if application is not accessing all of
-> the in reasonabl small time window, then it does not matter.
+> Hello Philippe,
 > 
-> What worries me most is that cost of reclaim of a dax range seems
-> too high (or keeps the process blocked for long enogh), that it
-> kills the performance. I will need to revisit the reclaim path
-> and see if I can optimize something.
+> ok you propose to move the existing fwd declaration of TranslationBlock from cpu.h to qemu/typedefs.h .
 
-I see that while reclaiming a range, we are sending a remvemapping
-command to virtiofsd. We are holding locks so that no new mappings
-can be added to that inode.
+It seems simpler to just add a
 
-We had decided that removemapping is not necessary. It helps in
-the sense that if guest is not using a mapping, qemu will unmap
-it too.
+    typedef struct TranslationBlock TranslationBlock;
 
-If we stop sending remove mapping, then it might improve reclaim
-performance significantly. With the downside that host will
-have something mapped (despite the fact that guest is not using
-it anymore). And these will be cleaned up only when guest shuts
-down.
+line to tcg-cpu-ops.h.
 
-Vivek
+Or, an even simpler solution: just use `struct TranslationBlock`
+instead of `TranslationBlock` in the declarations being moved to
+tcg-cpu-ops.h.
+
+We don't need to move declarations to typedefs.h anymore, because
+now the compilers we support don't warn about typedef
+redefinitions:
+https://lore.kernel.org/qemu-devel/20200914134636.GZ1618070@habkost.net/
+
+
+> 
+> And what about #include "exec/memattrs.h"?
+> 
+> I assume you propose to put struct MemTxAttrs there as a fwd declaration too,
+
+This can't be done, because MemTxAttrs can't be an incomplete
+type in the code you are moving (the methods get a MemTxAttrs
+value, not a pointer).
+
+> 
+> and this concludes our experiment here?
+> 
+> Thanks,
+> 
+> Claudio
+> 
+
+-- 
+Eduardo
 
 
