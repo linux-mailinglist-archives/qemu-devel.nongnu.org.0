@@ -2,84 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D210D2D7C77
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:09:33 +0100 (CET)
-Received: from localhost ([::1]:53084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9456C2D7C87
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:12:33 +0100 (CET)
+Received: from localhost ([::1]:32998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knlvA-0002aM-Kj
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:09:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48902)
+	id 1knly4-0006bk-8H
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:12:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knlrA-0000CN-1x
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:05:24 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:44175)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knlr7-0000Ro-Nt
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:05:23 -0500
-Received: by mail-ot1-x341.google.com with SMTP id f16so8804447otl.11
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 09:05:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CigRTGsSPNwlww9HtA4ymsGwungcEfYRDup6Asy6PdM=;
- b=AsMzC2b7HMejoZ2SXo7ZgkA+OH2ZmU68Zx0DxjmhOcsd84x01a45Q8NsUBVKWO3Mbp
- twMm/D+WabOs1HkeSr6sARpFfmYzYk45xzk2ihNBjUdbQnsD76RNZIMS44OOVTpyjzYQ
- 37kq1uM+9d3MjD2HCmrK4P37UDgmDXHeghlDUZPFMPp8DpFIRQtHO3q9m0Ti+2P7o8RN
- u4gwC+6zsPLn3aOj7QXbKZa7vNotdFbFpy1d7QG11gE9ozexI8dok1NEFGF/8bglvgdZ
- 7Y/Q//YZxwCQWlJ0FdwkqWN4UQ8mbzmrvG2rfKgpO5ps4pDslCC9uucnFbYaVZd1raCK
- VLUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CigRTGsSPNwlww9HtA4ymsGwungcEfYRDup6Asy6PdM=;
- b=fcyCnRYQnSPXbzgiSmSubHSp3FzrGVxYOw437p9uVdyWrunbMcwOoyrMmDSeVZc6XA
- A7teB/TwW4Yy+B7rlKywYrY1Fdz6+i8CxUHx0OA9DhN7RVWUCYbaQq/IgLZAzT4V5yzf
- w2jDY4BP4H+oJ+1JuUekfpGz4b3NHNUVWGixFplYuctCsefsq2WXYGVCpjfk2wwkUa6K
- 8sFpQAGePaEUg/QFBoy6VgbiEH8NiqFPGxrLvK1Ep2wi4AOvYEfOcLNGuKc3sW4wE+Tz
- nFWdFe2H2/FrGVRADvYzQtIZZrJ7n/XlNgKgLw6+6I+8TmpKzbvVkgyv7jaayoOSQlyG
- o+3w==
-X-Gm-Message-State: AOAM533IsH71Ic4I5kyDr2X/ijr68t0mLpe05xRQsIeGn9TKXPIG6fkZ
- sM8/bS4RyE1GdXkPBc1in8a16w==
-X-Google-Smtp-Source: ABdhPJzecyZ4N4CjTTHDxP5XfFn83ftyzWufX1Kyr/zoUD5qf4xYi8yfFJdFXDc2xfHz+vXS8MERTA==
-X-Received: by 2002:a9d:4005:: with SMTP id m5mr7177986ote.120.1607706320213; 
- Fri, 11 Dec 2020 09:05:20 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id 94sm1945883otw.41.2020.12.11.09.05.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 09:05:19 -0800 (PST)
-Subject: Re: [PATCH v11 18/25] cpu: Move synchronize_from_tb() to tcg_ops
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20201211083143.14350-1-cfontana@suse.de>
- <20201211083143.14350-19-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <78a7119d-1b4b-47dc-8f16-510708c9fcd4@linaro.org>
-Date: Fri, 11 Dec 2020 11:05:03 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1knlsu-0002Gi-KF
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:07:12 -0500
+Resent-Date: Fri, 11 Dec 2020 12:07:12 -0500
+Resent-Message-Id: <E1knlsu-0002Gi-KF@lists.gnu.org>
+Received: from sender4-of-o56.zoho.com ([136.143.188.56]:21611)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1knlsr-0001az-Id
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:07:12 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1607706410; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=FTImHDBGaEaIYepQIyAPwTEHLZuxP+gCxQjQfVivBselFvaaZyAtnlNlg15aC31/OwkcmQXN6cbd4JCs5hd7SUnFV5ai3DkIWLTeV4sM4B5y7GGLRFYNHGW2EXIr52/AK3bH0ognibX8mW7CU+lM7BJODsG1kQ62apBYzDNH2J8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1607706410;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=ilSsWdBPL/8bS1/BM1fNAb2K04uUm6Dkmk0ZqcxzebU=; 
+ b=OJUukMwArv5gAsCG5MaxH9RmdWyUOmrRna0jSR07bRD4g51dpfbHYdC5m5kSf+NBgGNe9t4HGB3GFiXtM+3mnezyZfy0+MRXjMWAWE+xWT7rGSwc+95ifq0+hJBNa/uTqtx1Z1a/xudpcSVN7HWSjNnVmixQiNNWhByrTTTpy68=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1607706409258554.2499984279261;
+ Fri, 11 Dec 2020 09:06:49 -0800 (PST)
+In-Reply-To: <20201211152426.350966-1-thuth@redhat.com>
+Subject: Re: [PATCH 00/12] Compile QEMU with -Wimplicit-fallthrough
+Message-ID: <160770640798.24901.16868706250624415505@600e7e483b3a>
 MIME-Version: 1.0
-In-Reply-To: <20201211083143.14350-19-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x341.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: thuth@redhat.com
+Date: Fri, 11 Dec 2020 09:06:49 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.56; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o56.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,87 +67,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, pbonzini@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 2:31 AM, Claudio Fontana wrote:
-> From: Eduardo Habkost <ehabkost@redhat.com>
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> [claudio: wrapped in CONFIG_TCG]
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  include/hw/core/cpu.h         |  8 --------
->  include/hw/core/tcg-cpu-ops.h | 12 ++++++++++++
->  accel/tcg/cpu-exec.c          |  4 ++--
->  target/arm/cpu.c              |  4 +++-
->  target/avr/cpu.c              |  2 +-
->  target/hppa/cpu.c             |  2 +-
->  target/i386/tcg/tcg-cpu.c     |  2 +-
->  target/microblaze/cpu.c       |  2 +-
->  target/mips/cpu.c             |  4 +++-
->  target/riscv/cpu.c            |  2 +-
->  target/rx/cpu.c               |  2 +-
->  target/sh4/cpu.c              |  2 +-
->  target/sparc/cpu.c            |  2 +-
->  target/tricore/cpu.c          |  2 +-
->  14 files changed, 29 insertions(+), 21 deletions(-)
-> 
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index ea648d52ad..83007d262c 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -110,13 +110,6 @@ struct TranslationBlock;
->   *       If the target behaviour here is anything other than "set
->   *       the PC register to the value passed in" then the target must
->   *       also implement the synchronize_from_tb hook.
-> - * @synchronize_from_tb: Callback for synchronizing state from a TCG
-> - *       #TranslationBlock. This is called when we abandon execution
-> - *       of a TB before starting it, and must set all parts of the CPU
-> - *       state which the previous TB in the chain may not have updated.
-> - *       This always includes at least the program counter; some targets
-> - *       will need to do more. If this hook is not implemented then the
-> - *       default is to call @set_pc(tb->pc).
->   * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
->   *       address fault.  For system mode, if the access is valid, call
->   *       tlb_set_page and return true; if the access is invalid, and
-> @@ -193,7 +186,6 @@ struct CPUClass {
->      void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
->                                 Error **errp);
->      void (*set_pc)(CPUState *cpu, vaddr value);
-> -    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
->      bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
->                       MMUAccessType access_type, int mmu_idx,
->                       bool probe, uintptr_t retaddr);
-> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-> index 4475ef0996..e1d50b3c8b 100644
-> --- a/include/hw/core/tcg-cpu-ops.h
-> +++ b/include/hw/core/tcg-cpu-ops.h
-> @@ -10,6 +10,8 @@
->  #ifndef TCG_CPU_OPS_H
->  #define TCG_CPU_OPS_H
->  
-> +#include "hw/core/cpu.h"
-
-This include is circular.
-
-Are you sure that splitting out hw/core/tcg-cpu-ops.h from hw/core/cpu.h in
-patch 15 is even useful?
-
-Otherwise the actual code change looks ok.
-
-
-r~
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIxMTE1MjQyNi4zNTA5
+NjYtMS10aHV0aEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDEyMTExNTI0MjYuMzUwOTY2
+LTEtdGh1dGhAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggMDAvMTJdIENvbXBpbGUgUUVNVSB3
+aXRoIC1XaW1wbGljaXQtZmFsbHRocm91Z2gKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEv
+YmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29u
+ZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJl
+bmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4v
+c2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBF
+TkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0
+CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBk
+YXRlXSAgICAgIHBhdGNoZXcvMjAyMDEyMDQyMjA3NTguMjg3OS0xLXZzZW1lbnRzb3ZAdmlydHVv
+enpvLmNvbSAtPiBwYXRjaGV3LzIwMjAxMjA0MjIwNzU4LjI4NzktMS12c2VtZW50c292QHZpcnR1
+b3p6by5jb20KICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMTIxMTE1MjQyNi4zNTA5
+NjYtMS10aHV0aEByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMDEyMTExNTI0MjYuMzUwOTY2LTEt
+dGh1dGhAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjJkYWY5ZTcg
+Y29uZmlndXJlOiBDb21waWxlIHdpdGggLVdpbXBsaWNpdC1mYWxsdGhyb3VnaD0yCmJmNDczYWYg
+dGVzdHMvZnA6IERvIG5vdCBlbWl0IGltcGxpY2l0LWZhbGx0aHJvdWdoIHdhcm5pbmdzIGluIHRo
+ZSBzb2Z0ZmxvYXQgdGVzdHMKZTdiMjE2YiB0Y2cvb3B0aW1pemU6IEFkZCBmYWxsdGhyb3VnaCBh
+bm5vdGF0aW9ucwpjMWQwMjMyIHRhcmdldC9zcGFyYy93aW5faGVscGVyOiBzaWxlbmNlIHRoZSBj
+b21waWxlciB3YXJuaW5ncwpmYzE4MDkxIHRhcmdldC9zcGFyYy90cmFuc2xhdGU6IHNpbGVuY2Ug
+dGhlIGNvbXBpbGVyIHdhcm5pbmdzCjk2MTBkNzUgYWNjZWwvdGNnL3VzZXItZXhlYzogc2lsZW5j
+ZSB0aGUgY29tcGlsZXIgd2FybmluZ3MKNTgwYTJmYyBody9pbnRjL2FybV9naWN2M19rdm06IHNp
+bGVuY2UgdGhlIGNvbXBpbGVyIHdhcm5pbmdzCjNmNGVlM2QgdGFyZ2V0L2kzODY6IHNpbGVuY2Ug
+dGhlIGNvbXBpbGVyIHdhcm5pbmdzIGluIGdlbl9zaGlmdGRfcm1fVDEKMTM0M2U4YyBody90aW1l
+ci9yZW5lc2FzX3Rtcjogc2lsZW5jZSB0aGUgY29tcGlsZXIgd2FybmluZ3MKMTk4YmU0YyBody9y
+dGMvdHdsOTIyMzA6IFNpbGVuY2Ugd2FybmluZ3MgYWJvdXQgbWlzc2luZyBmYWxsdGhyb3VnaCBz
+dGF0ZW1lbnRzCjE3YzQ3M2EgdGFyZ2V0L3VuaWNvcmUzMi90cmFuc2xhdGU6IEFkZCBtaXNzaW5n
+IGZhbGx0aHJvdWdoIGFubm90YXRpb25zCjY5N2IyODIgZGlzYXMvbGlidml4bDogRml4IGZhbGwt
+dGhyb3VnaCBhbm5vdGF0aW9uIGZvciBHQ0MgPj0gNwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8x
+MiBDaGVja2luZyBjb21taXQgNjk3YjI4MmM5YTE5IChkaXNhcy9saWJ2aXhsOiBGaXggZmFsbC10
+aHJvdWdoIGFubm90YXRpb24gZm9yIEdDQyA+PSA3KQpFUlJPUjogZG8gbm90IHVzZSBDOTkgLy8g
+Y29tbWVudHMKIzQ2OiBGSUxFOiBkaXNhcy9saWJ2aXhsL3ZpeGwvZ2xvYmFscy5oOjExMToKKy8v
+IEZhbGx0aHJvdWdoIGFubm90YXRpb24gZm9yIENsYW5nIGFuZCBDKysxMSgyMDExMDNMKS4KCkVS
+Uk9SOiBkbyBub3QgdXNlIEM5OSAvLyBjb21tZW50cwojNDk6IEZJTEU6IGRpc2FzL2xpYnZpeGwv
+dml4bC9nbG9iYWxzLmg6MTE0OgorLy8gRmFsbHRocm91Z2ggYW5ub3RhdGlvbiBmb3IgR0NDID49
+IDcuCgp0b3RhbDogMiBlcnJvcnMsIDAgd2FybmluZ3MsIDI0IGxpbmVzIGNoZWNrZWQKClBhdGNo
+IDEvMTIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
+IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
+LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIvMTIgQ2hlY2tpbmcgY29tbWl0IDE3
+YzQ3M2FmODlhMyAodGFyZ2V0L3VuaWNvcmUzMi90cmFuc2xhdGU6IEFkZCBtaXNzaW5nIGZhbGx0
+aHJvdWdoIGFubm90YXRpb25zKQozLzEyIENoZWNraW5nIGNvbW1pdCAxOThiZTRjNGRkNzkgKGh3
+L3J0Yy90d2w5MjIzMDogU2lsZW5jZSB3YXJuaW5ncyBhYm91dCBtaXNzaW5nIGZhbGx0aHJvdWdo
+IHN0YXRlbWVudHMpCjQvMTIgQ2hlY2tpbmcgY29tbWl0IDEzNDNlOGMyNDQ1NyAoaHcvdGltZXIv
+cmVuZXNhc190bXI6IHNpbGVuY2UgdGhlIGNvbXBpbGVyIHdhcm5pbmdzKQo1LzEyIENoZWNraW5n
+IGNvbW1pdCAzZjRlZTNkZWNhNWEgKHRhcmdldC9pMzg2OiBzaWxlbmNlIHRoZSBjb21waWxlciB3
+YXJuaW5ncyBpbiBnZW5fc2hpZnRkX3JtX1QxKQo2LzEyIENoZWNraW5nIGNvbW1pdCA1ODBhMmZj
+NjMyZDUgKGh3L2ludGMvYXJtX2dpY3YzX2t2bTogc2lsZW5jZSB0aGUgY29tcGlsZXIgd2Fybmlu
+Z3MpCjcvMTIgQ2hlY2tpbmcgY29tbWl0IDk2MTBkNzU4OGI5YyAoYWNjZWwvdGNnL3VzZXItZXhl
+Yzogc2lsZW5jZSB0aGUgY29tcGlsZXIgd2FybmluZ3MpCjgvMTIgQ2hlY2tpbmcgY29tbWl0IGZj
+MTgwOTEzNDQxOCAodGFyZ2V0L3NwYXJjL3RyYW5zbGF0ZTogc2lsZW5jZSB0aGUgY29tcGlsZXIg
+d2FybmluZ3MpCjkvMTIgQ2hlY2tpbmcgY29tbWl0IGMxZDAyMzJiNDE4NSAodGFyZ2V0L3NwYXJj
+L3dpbl9oZWxwZXI6IHNpbGVuY2UgdGhlIGNvbXBpbGVyIHdhcm5pbmdzKQoxMC8xMiBDaGVja2lu
+ZyBjb21taXQgZTdiMjE2YjMxYzRlICh0Y2cvb3B0aW1pemU6IEFkZCBmYWxsdGhyb3VnaCBhbm5v
+dGF0aW9ucykKV0FSTklORzogYXJjaGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJl
+IGF2b2lkZWQKIzMyOiBGSUxFOiBpbmNsdWRlL3FlbXUvY29tcGlsZXIuaDoyNTE6CisjaWYgX19o
+YXNfYXR0cmlidXRlKGZhbGx0aHJvdWdoKQoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA0
+MyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMC8xMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgox
+MS8xMiBDaGVja2luZyBjb21taXQgYmY0NzNhZjUwM2Q1ICh0ZXN0cy9mcDogRG8gbm90IGVtaXQg
+aW1wbGljaXQtZmFsbHRocm91Z2ggd2FybmluZ3MgaW4gdGhlIHNvZnRmbG9hdCB0ZXN0cykKMTIv
+MTIgQ2hlY2tpbmcgY29tbWl0IDJkYWY5ZTc4Yjg4OSAoY29uZmlndXJlOiBDb21waWxlIHdpdGgg
+LVdpbXBsaWNpdC1mYWxsdGhyb3VnaD0yKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFu
+ZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRw
+Oi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMTIxMTE1MjQyNi4zNTA5NjYtMS10aHV0aEByZWRoYXQu
+Y29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVk
+IGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ug
+c2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
