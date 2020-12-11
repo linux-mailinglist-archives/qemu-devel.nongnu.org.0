@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4382D81B8
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 23:15:17 +0100 (CET)
-Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961F62D81C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 23:17:32 +0100 (CET)
+Received: from localhost ([::1]:52178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knqh2-0007S8-Ic
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 17:15:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59326)
+	id 1knqjD-0000K6-Ki
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 17:17:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1knqXz-0001cz-PI
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 17:05:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45883)
+ id 1knqY3-0001en-A3
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 17:05:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1knqXw-0006F8-HJ
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 17:05:55 -0500
+ id 1knqY0-0006G9-5U
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 17:05:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607724351;
+ s=mimecast20190719; t=1607724355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6VgW1WJzNx3ziSLIiqjF5nUJXSkAS2F3VOXub7WDYto=;
- b=CTjY4toh4p+csuEbtQqARf401YFvkcGwZjK2UW38rpJwqRZLwatHm/QXzVbJO1mejyUv/+
- Xtzdb+0PA6kkF2V+lHUrt/dQVR+13MiMjXvdowgJgel7fkf4pm+wtG3oMc7pk6AJ0Xkejy
- /0qW7VEkrEW8qGscjGoyYMUbE9qZykI=
+ bh=vEjTnFSP6RWWnn7yq/e5wvK10BECB3NOm0e4zn5Aqds=;
+ b=gFkV4eGhxLgogTIHYO9lNqSv0su6BEgvLFJULH4rOwQ760L2iTzA3l41uMf5UvYjafMTIA
+ bVsY9m2G0yCSpmdG+9EwjrfxqR65OVB1M+QtoQKF4hzpGIx8ULwhEU7ll0uCnnu6Hgsibu
+ qY88x0grw7q9VQzA6BXEahyTrNQzoxU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-F9eXSwzCMUus9MNoPr-ICQ-1; Fri, 11 Dec 2020 17:05:49 -0500
-X-MC-Unique: F9eXSwzCMUus9MNoPr-ICQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-557-uj4neX3iMYqnewQD6xGI6Q-1; Fri, 11 Dec 2020 17:05:54 -0500
+X-MC-Unique: uj4neX3iMYqnewQD6xGI6Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C531107ACE3;
- Fri, 11 Dec 2020 22:05:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE548107ACE4;
+ Fri, 11 Dec 2020 22:05:52 +0000 (UTC)
 Received: from localhost (ovpn-116-160.rdu2.redhat.com [10.10.116.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5E875D9E2;
- Fri, 11 Dec 2020 22:05:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E15560BE5;
+ Fri, 11 Dec 2020 22:05:49 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/32] qdev: Move property code to qdev-properties.[ch]
-Date: Fri, 11 Dec 2020 17:05:00 -0500
-Message-Id: <20201211220529.2290218-4-ehabkost@redhat.com>
+Subject: [PATCH v4 04/32] qdev: Check dev->realized at set_size()
+Date: Fri, 11 Dec 2020 17:05:01 -0500
+Message-Id: <20201211220529.2290218-5-ehabkost@redhat.com>
 In-Reply-To: <20201211220529.2290218-1-ehabkost@redhat.com>
 References: <20201211220529.2290218-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,9 +88,11 @@ Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move everything related to Property and PropertyInfo to
-qdev-properties.[ch] to make it easier to refactor that code.
+This setter is one of the very few property setters that don't
+check dev->realized, and there's no reason to make size
+properties different from the rest.  Add the missing check.
 
+Fixes: e8cd45c78f53 ("qdev: Add SIZE type to qdev properties")
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
@@ -99,388 +101,25 @@ Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/qdev-core.h       |  37 -----------
- include/hw/qdev-properties.h |  38 +++++++++++
- hw/core/qdev-properties.c    | 120 +++++++++++++++++++++++++++++++++++
- hw/core/qdev.c               | 120 -----------------------------------
- softmmu/qdev-monitor.c       |   1 +
- 5 files changed, 159 insertions(+), 157 deletions(-)
+ hw/core/qdev-properties.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 9fbb22a48d..8f91faebc3 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -276,43 +276,6 @@ struct BusState {
-     ResettableState reset;
- };
- 
--/**
-- * Property:
-- * @set_default: true if the default value should be set from @defval,
-- *    in which case @info->set_default_value must not be NULL
-- *    (if false then no default value is set by the property system
-- *     and the field retains whatever value it was given by instance_init).
-- * @defval: default value for the property. This is used only if @set_default
-- *     is true.
-- */
--struct Property {
--    const char   *name;
--    const PropertyInfo *info;
--    ptrdiff_t    offset;
--    uint8_t      bitnr;
--    bool         set_default;
--    union {
--        int64_t i;
--        uint64_t u;
--    } defval;
--    int          arrayoffset;
--    const PropertyInfo *arrayinfo;
--    int          arrayfieldsize;
--    const char   *link_type;
--};
--
--struct PropertyInfo {
--    const char *name;
--    const char *description;
--    const QEnumLookup *enum_table;
--    int (*print)(DeviceState *dev, Property *prop, char *dest, size_t len);
--    void (*set_default_value)(ObjectProperty *op, const Property *prop);
--    void (*create)(ObjectClass *oc, Property *prop);
--    ObjectPropertyAccessor *get;
--    ObjectPropertyAccessor *set;
--    ObjectPropertyRelease *release;
--};
--
- /**
-  * GlobalProperty:
-  * @used: Set to true if property was used when initializing a device.
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 4437450065..db7ce51dd5 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -3,6 +3,44 @@
- 
- #include "hw/qdev-core.h"
- 
-+/**
-+ * Property:
-+ * @set_default: true if the default value should be set from @defval,
-+ *    in which case @info->set_default_value must not be NULL
-+ *    (if false then no default value is set by the property system
-+ *     and the field retains whatever value it was given by instance_init).
-+ * @defval: default value for the property. This is used only if @set_default
-+ *     is true.
-+ */
-+struct Property {
-+    const char   *name;
-+    const PropertyInfo *info;
-+    ptrdiff_t    offset;
-+    uint8_t      bitnr;
-+    bool         set_default;
-+    union {
-+        int64_t i;
-+        uint64_t u;
-+    } defval;
-+    int          arrayoffset;
-+    const PropertyInfo *arrayinfo;
-+    int          arrayfieldsize;
-+    const char   *link_type;
-+};
-+
-+struct PropertyInfo {
-+    const char *name;
-+    const char *description;
-+    const QEnumLookup *enum_table;
-+    int (*print)(DeviceState *dev, Property *prop, char *dest, size_t len);
-+    void (*set_default_value)(ObjectProperty *op, const Property *prop);
-+    void (*create)(ObjectClass *oc, Property *prop);
-+    ObjectPropertyAccessor *get;
-+    ObjectPropertyAccessor *set;
-+    ObjectPropertyRelease *release;
-+};
-+
-+
- /*** qdev-properties.c ***/
- 
- extern const PropertyInfo qdev_prop_bit;
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 509cbf155d..12a053e732 100644
+index 12a053e732..67ae19df05 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -929,3 +929,123 @@ const PropertyInfo qdev_prop_link = {
-     .name = "link",
-     .create = create_link_property,
- };
-+
-+void qdev_property_add_static(DeviceState *dev, Property *prop)
-+{
-+    Object *obj = OBJECT(dev);
-+    ObjectProperty *op;
-+
-+    assert(!prop->info->create);
-+
-+    op = object_property_add(obj, prop->name, prop->info->name,
-+                             prop->info->get, prop->info->set,
-+                             prop->info->release,
-+                             prop);
-+
-+    object_property_set_description(obj, prop->name,
-+                                    prop->info->description);
-+
-+    if (prop->set_default) {
-+        prop->info->set_default_value(op, prop);
-+        if (op->init) {
-+            op->init(obj, op);
-+        }
-+    }
-+}
-+
-+static void qdev_class_add_property(DeviceClass *klass, Property *prop)
-+{
-+    ObjectClass *oc = OBJECT_CLASS(klass);
-+
-+    if (prop->info->create) {
-+        prop->info->create(oc, prop);
-+    } else {
-+        ObjectProperty *op;
-+
-+        op = object_class_property_add(oc,
-+                                       prop->name, prop->info->name,
-+                                       prop->info->get, prop->info->set,
-+                                       prop->info->release,
-+                                       prop);
-+        if (prop->set_default) {
-+            prop->info->set_default_value(op, prop);
-+        }
-+    }
-+    object_class_property_set_description(oc, prop->name,
-+                                          prop->info->description);
-+}
-+
-+/**
-+ * Legacy property handling
-+ */
-+
-+static void qdev_get_legacy_property(Object *obj, Visitor *v,
-+                                     const char *name, void *opaque,
-+                                     Error **errp)
-+{
-+    DeviceState *dev = DEVICE(obj);
-+    Property *prop = opaque;
-+
-+    char buffer[1024];
-+    char *ptr = buffer;
-+
-+    prop->info->print(dev, prop, buffer, sizeof(buffer));
-+    visit_type_str(v, name, &ptr, errp);
-+}
-+
-+/**
-+ * qdev_class_add_legacy_property:
-+ * @dev: Device to add the property to.
-+ * @prop: The qdev property definition.
-+ *
-+ * Add a legacy QOM property to @dev for qdev property @prop.
-+ *
-+ * Legacy properties are string versions of QOM properties.  The format of
-+ * the string depends on the property type.  Legacy properties are only
-+ * needed for "info qtree".
-+ *
-+ * Do not use this in new code!  QOM Properties added through this interface
-+ * will be given names in the "legacy" namespace.
-+ */
-+static void qdev_class_add_legacy_property(DeviceClass *dc, Property *prop)
-+{
-+    g_autofree char *name = NULL;
-+
-+    /* Register pointer properties as legacy properties */
-+    if (!prop->info->print && prop->info->get) {
+@@ -905,6 +905,11 @@ static void set_size(Object *obj, Visitor *v, const char *name, void *opaque,
+     Property *prop = opaque;
+     uint64_t *ptr = qdev_get_prop_ptr(dev, prop);
+ 
++    if (dev->realized) {
++        qdev_prop_set_after_realize(dev, name, errp);
 +        return;
 +    }
 +
-+    name = g_strdup_printf("legacy-%s", prop->name);
-+    object_class_property_add(OBJECT_CLASS(dc), name, "str",
-+        prop->info->print ? qdev_get_legacy_property : prop->info->get,
-+        NULL, NULL, prop);
-+}
-+
-+void device_class_set_props(DeviceClass *dc, Property *props)
-+{
-+    Property *prop;
-+
-+    dc->props_ = props;
-+    for (prop = props; prop && prop->name; prop++) {
-+        qdev_class_add_legacy_property(dc, prop);
-+        qdev_class_add_property(dc, prop);
-+    }
-+}
-+
-+void qdev_alias_all_properties(DeviceState *target, Object *source)
-+{
-+    ObjectClass *class;
-+    Property *prop;
-+
-+    class = object_get_class(OBJECT(target));
-+    do {
-+        DeviceClass *dc = DEVICE_CLASS(class);
-+
-+        for (prop = dc->props_; prop && prop->name; prop++) {
-+            object_property_add_alias(source, prop->name,
-+                                      OBJECT(target), prop->name);
-+        }
-+        class = object_class_get_parent(class);
-+    } while (class != object_class_by_name(TYPE_DEVICE));
-+}
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index cbdff0b6c6..d3611e7c03 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -705,115 +705,6 @@ char *qdev_get_dev_path(DeviceState *dev)
-     return NULL;
+     visit_type_size(v, name, ptr, errp);
  }
  
--/**
-- * Legacy property handling
-- */
--
--static void qdev_get_legacy_property(Object *obj, Visitor *v,
--                                     const char *name, void *opaque,
--                                     Error **errp)
--{
--    DeviceState *dev = DEVICE(obj);
--    Property *prop = opaque;
--
--    char buffer[1024];
--    char *ptr = buffer;
--
--    prop->info->print(dev, prop, buffer, sizeof(buffer));
--    visit_type_str(v, name, &ptr, errp);
--}
--
--/**
-- * qdev_class_add_legacy_property:
-- * @dev: Device to add the property to.
-- * @prop: The qdev property definition.
-- *
-- * Add a legacy QOM property to @dev for qdev property @prop.
-- *
-- * Legacy properties are string versions of QOM properties.  The format of
-- * the string depends on the property type.  Legacy properties are only
-- * needed for "info qtree".
-- *
-- * Do not use this in new code!  QOM Properties added through this interface
-- * will be given names in the "legacy" namespace.
-- */
--static void qdev_class_add_legacy_property(DeviceClass *dc, Property *prop)
--{
--    g_autofree char *name = NULL;
--
--    /* Register pointer properties as legacy properties */
--    if (!prop->info->print && prop->info->get) {
--        return;
--    }
--
--    name = g_strdup_printf("legacy-%s", prop->name);
--    object_class_property_add(OBJECT_CLASS(dc), name, "str",
--        prop->info->print ? qdev_get_legacy_property : prop->info->get,
--        NULL, NULL, prop);
--}
--
--void qdev_property_add_static(DeviceState *dev, Property *prop)
--{
--    Object *obj = OBJECT(dev);
--    ObjectProperty *op;
--
--    assert(!prop->info->create);
--
--    op = object_property_add(obj, prop->name, prop->info->name,
--                             prop->info->get, prop->info->set,
--                             prop->info->release,
--                             prop);
--
--    object_property_set_description(obj, prop->name,
--                                    prop->info->description);
--
--    if (prop->set_default) {
--        prop->info->set_default_value(op, prop);
--        if (op->init) {
--            op->init(obj, op);
--        }
--    }
--}
--
--static void qdev_class_add_property(DeviceClass *klass, Property *prop)
--{
--    ObjectClass *oc = OBJECT_CLASS(klass);
--
--    if (prop->info->create) {
--        prop->info->create(oc, prop);
--    } else {
--        ObjectProperty *op;
--
--        op = object_class_property_add(oc,
--                                       prop->name, prop->info->name,
--                                       prop->info->get, prop->info->set,
--                                       prop->info->release,
--                                       prop);
--        if (prop->set_default) {
--            prop->info->set_default_value(op, prop);
--        }
--    }
--    object_class_property_set_description(oc, prop->name,
--                                          prop->info->description);
--}
--
--void qdev_alias_all_properties(DeviceState *target, Object *source)
--{
--    ObjectClass *class;
--    Property *prop;
--
--    class = object_get_class(OBJECT(target));
--    do {
--        DeviceClass *dc = DEVICE_CLASS(class);
--
--        for (prop = dc->props_; prop && prop->name; prop++) {
--            object_property_add_alias(source, prop->name,
--                                      OBJECT(target), prop->name);
--        }
--        class = object_class_get_parent(class);
--    } while (class != object_class_by_name(TYPE_DEVICE));
--}
--
- static bool device_get_realized(Object *obj, Error **errp)
- {
-     DeviceState *dev = DEVICE(obj);
-@@ -1208,17 +1099,6 @@ static void device_class_init(ObjectClass *class, void *data)
-                                    offsetof(DeviceState, parent_bus), NULL, 0);
- }
- 
--void device_class_set_props(DeviceClass *dc, Property *props)
--{
--    Property *prop;
--
--    dc->props_ = props;
--    for (prop = props; prop && prop->name; prop++) {
--        qdev_class_add_legacy_property(dc, prop);
--        qdev_class_add_property(dc, prop);
--    }
--}
--
- void device_class_set_parent_reset(DeviceClass *dc,
-                                    DeviceReset dev_reset,
-                                    DeviceReset *parent_reset)
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 832e254842..8c072e3efc 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -38,6 +38,7 @@
- #include "migration/misc.h"
- #include "migration/migration.h"
- #include "qemu/cutils.h"
-+#include "hw/qdev-properties.h"
- #include "hw/clock.h"
- 
- /*
 -- 
 2.28.0
 
