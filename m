@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 792972D6F1D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:25:28 +0100 (CET)
-Received: from localhost ([::1]:44414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC692D6F1C
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:25:00 +0100 (CET)
+Received: from localhost ([::1]:42894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knZzh-0007cq-Mu
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:25:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33984)
+	id 1knZzH-0006s5-Gq
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:24:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq9-0005d8-3z; Thu, 10 Dec 2020 23:15:33 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:35153 helo=ozlabs.org)
+ id 1knZq9-0005dY-RY; Thu, 10 Dec 2020 23:15:33 -0500
+Received: from ozlabs.org ([203.11.71.1]:38183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq6-0000jw-LK; Thu, 10 Dec 2020 23:15:32 -0500
+ id 1knZq6-0000kB-KN; Thu, 10 Dec 2020 23:15:33 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cscrb3szPz9sWm; Fri, 11 Dec 2020 15:15:11 +1100 (AEDT)
+ id 4Cscrb4wjYz9sWr; Fri, 11 Dec 2020 15:15:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607660111;
- bh=YJ4Jigd9pqVM/AMHgPpnrIhzspdOwtzbr2NR178Pci8=;
+ bh=17cTpbz/QhNvG4fokN1yrwIa9P/Ftht4ag1uIyHuKAQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=W9rGj2p6Si0IW5H3xpPSDtGnMuWPq/0MxaTwXW2Yytou6ZSRM0Xhh9H9kugPzR+0j
- 3tt6hLAUVamNTetGjKhJAHRDmu3A0obxuqI9ubaU59i68uxFgaMSdM/IRoAKG7H9CH
- A/GFEz4KXWbHMgTg2rD18/ulA2DI8bZeVZ9EBIRI=
+ b=R/2H3BO5l+oQb7X0U2jwnzAjUPnfwGwhvncBU9ZHE02hzHpYr0NdGCOpbmiLg9nzb
+ GfuBGKj3tKlhO4QgPy9agscPFIyVMlcUuHfGTMH4XxcJvC7sHRfR1MDkuz2qIrg7kx
+ DIYW6ExfVlStFCK0nKUYZgh7txLbKeKp0hbZ44mU=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 10/30] ppc/translate: Fix unordered f64/f128 comparisons
-Date: Fri, 11 Dec 2020 15:14:47 +1100
-Message-Id: <20201211041507.425378-11-david@gibson.dropbear.id.au>
+Subject: [PULL 11/30] ppc/translate: Turn the helper macros into functions
+Date: Fri, 11 Dec 2020 15:14:48 +1100
+Message-Id: <20201211041507.425378-12-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
@@ -56,94 +56,265 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: LemonBoy <thatlemon@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: LemonBoy <thatlemon@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ groug@kaod.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: LemonBoy <thatlemon@gmail.com>
 
-According to the PowerISA v3.1 reference, Table 68 "Actions for xscmpudp
-- Part 1: Compare Unordered", whenever one of the two operands is a NaN
-the SO bit is set while the other three bits are cleared.
-
-Apply the same change to xscmpuqp.
-
-The respective ordered counterparts are unaffected.
-
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
-Message-Id: <20201112230130.65262-2-thatlemon@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20201112230130.65262-3-thatlemon@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/fpu_helper.c | 32 ++++++++++++++++++++++----------
- 1 file changed, 22 insertions(+), 10 deletions(-)
+ target/ppc/fpu_helper.c | 228 ++++++++++++++++++++++------------------
+ 1 file changed, 123 insertions(+), 105 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 32a9a8a0f8..6d3648f5b1 100644
+index 6d3648f5b1..34f5bc1f3c 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -2479,13 +2479,11 @@ void helper_##op(CPUPPCState *env, uint32_t opcode,                      \
-     if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||        \
-         float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {        \
-         vxsnan_flag = true;                                              \
--        cc = CRF_SO;                                                     \
-         if (fpscr_ve == 0 && ordered) {                                  \
-             vxvc_flag = true;                                            \
-         }                                                                \
-     } else if (float64_is_quiet_nan(xa->VsrD(0), &env->fp_status) ||     \
-                float64_is_quiet_nan(xb->VsrD(0), &env->fp_status)) {     \
--        cc = CRF_SO;                                                     \
-         if (ordered) {                                                   \
-             vxvc_flag = true;                                            \
-         }                                                                \
-@@ -2497,12 +2495,19 @@ void helper_##op(CPUPPCState *env, uint32_t opcode,                      \
-         float_invalid_op_vxvc(env, 0, GETPC());                          \
-     }                                                                    \
-                                                                          \
--    if (float64_lt(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) {         \
-+    switch (float64_compare(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) {\
-+    case float_relation_less:                                            \
-         cc |= CRF_LT;                                                    \
--    } else if (!float64_le(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) { \
+@@ -2467,113 +2467,131 @@ void helper_xscmpexpqp(CPUPPCState *env, uint32_t opcode,
+     do_float_check_status(env, GETPC());
+ }
+ 
+-#define VSX_SCALAR_CMP(op, ordered)                                      \
+-void helper_##op(CPUPPCState *env, uint32_t opcode,                      \
+-                 ppc_vsr_t *xa, ppc_vsr_t *xb)                           \
+-{                                                                        \
+-    uint32_t cc = 0;                                                     \
+-    bool vxsnan_flag = false, vxvc_flag = false;                         \
+-                                                                         \
+-    helper_reset_fpstatus(env);                                          \
+-                                                                         \
+-    if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||        \
+-        float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {        \
+-        vxsnan_flag = true;                                              \
+-        if (fpscr_ve == 0 && ordered) {                                  \
+-            vxvc_flag = true;                                            \
+-        }                                                                \
+-    } else if (float64_is_quiet_nan(xa->VsrD(0), &env->fp_status) ||     \
+-               float64_is_quiet_nan(xb->VsrD(0), &env->fp_status)) {     \
+-        if (ordered) {                                                   \
+-            vxvc_flag = true;                                            \
+-        }                                                                \
+-    }                                                                    \
+-    if (vxsnan_flag) {                                                   \
+-        float_invalid_op_vxsnan(env, GETPC());                           \
+-    }                                                                    \
+-    if (vxvc_flag) {                                                     \
+-        float_invalid_op_vxvc(env, 0, GETPC());                          \
+-    }                                                                    \
+-                                                                         \
+-    switch (float64_compare(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) {\
+-    case float_relation_less:                                            \
+-        cc |= CRF_LT;                                                    \
+-        break;                                                           \
+-    case float_relation_equal:                                           \
+-        cc |= CRF_EQ;                                                    \
+-        break;                                                           \
+-    case float_relation_greater:                                         \
 -        cc |= CRF_GT;                                                    \
--    } else {                                                             \
-+        break;                                                           \
-+    case float_relation_equal:                                           \
-         cc |= CRF_EQ;                                                    \
-+        break;                                                           \
-+    case float_relation_greater:                                         \
-+        cc |= CRF_GT;                                                    \
-+        break;                                                           \
-+    case float_relation_unordered:                                       \
-+        cc |= CRF_SO;                                                    \
-+        break;                                                           \
-     }                                                                    \
-                                                                          \
-     env->fpscr &= ~FP_FPCC;                                              \
-@@ -2545,12 +2550,19 @@ void helper_##op(CPUPPCState *env, uint32_t opcode,                     \
-         float_invalid_op_vxvc(env, 0, GETPC());                         \
-     }                                                                   \
-                                                                         \
--    if (float128_lt(xa->f128, xb->f128, &env->fp_status)) {             \
-+    switch (float128_compare(xa->f128, xb->f128, &env->fp_status)) {    \
-+    case float_relation_less:                                           \
-         cc |= CRF_LT;                                                   \
--    } else if (!float128_le(xa->f128, xb->f128, &env->fp_status)) {     \
+-        break;                                                           \
+-    case float_relation_unordered:                                       \
+-        cc |= CRF_SO;                                                    \
+-        break;                                                           \
+-    }                                                                    \
+-                                                                         \
+-    env->fpscr &= ~FP_FPCC;                                              \
+-    env->fpscr |= cc << FPSCR_FPCC;                                      \
+-    env->crf[BF(opcode)] = cc;                                           \
+-                                                                         \
+-    do_float_check_status(env, GETPC());                                 \
+-}
+-
+-VSX_SCALAR_CMP(xscmpodp, 1)
+-VSX_SCALAR_CMP(xscmpudp, 0)
+-
+-#define VSX_SCALAR_CMPQ(op, ordered)                                    \
+-void helper_##op(CPUPPCState *env, uint32_t opcode,                     \
+-                 ppc_vsr_t *xa, ppc_vsr_t *xb)                          \
+-{                                                                       \
+-    uint32_t cc = 0;                                                    \
+-    bool vxsnan_flag = false, vxvc_flag = false;                        \
+-                                                                        \
+-    helper_reset_fpstatus(env);                                         \
+-                                                                        \
+-    if (float128_is_signaling_nan(xa->f128, &env->fp_status) ||         \
+-        float128_is_signaling_nan(xb->f128, &env->fp_status)) {         \
+-        vxsnan_flag = true;                                             \
+-        cc = CRF_SO;                                                    \
+-        if (fpscr_ve == 0 && ordered) {                                 \
+-            vxvc_flag = true;                                           \
+-        }                                                               \
+-    } else if (float128_is_quiet_nan(xa->f128, &env->fp_status) ||      \
+-               float128_is_quiet_nan(xb->f128, &env->fp_status)) {      \
+-        cc = CRF_SO;                                                    \
+-        if (ordered) {                                                  \
+-            vxvc_flag = true;                                           \
+-        }                                                               \
+-    }                                                                   \
+-    if (vxsnan_flag) {                                                  \
+-        float_invalid_op_vxsnan(env, GETPC());                          \
+-    }                                                                   \
+-    if (vxvc_flag) {                                                    \
+-        float_invalid_op_vxvc(env, 0, GETPC());                         \
+-    }                                                                   \
+-                                                                        \
+-    switch (float128_compare(xa->f128, xb->f128, &env->fp_status)) {    \
+-    case float_relation_less:                                           \
+-        cc |= CRF_LT;                                                   \
+-        break;                                                          \
+-    case float_relation_equal:                                          \
+-        cc |= CRF_EQ;                                                   \
+-        break;                                                          \
+-    case float_relation_greater:                                        \
 -        cc |= CRF_GT;                                                   \
--    } else {                                                            \
-+        break;                                                          \
-+    case float_relation_equal:                                          \
-         cc |= CRF_EQ;                                                   \
-+        break;                                                          \
-+    case float_relation_greater:                                        \
-+        cc |= CRF_GT;                                                   \
-+        break;                                                          \
-+    case float_relation_unordered:                                      \
-+        cc |= CRF_SO;                                                   \
-+        break;                                                          \
-     }                                                                   \
-                                                                         \
-     env->fpscr &= ~FP_FPCC;                                             \
+-        break;                                                          \
+-    case float_relation_unordered:                                      \
+-        cc |= CRF_SO;                                                   \
+-        break;                                                          \
+-    }                                                                   \
+-                                                                        \
+-    env->fpscr &= ~FP_FPCC;                                             \
+-    env->fpscr |= cc << FPSCR_FPCC;                                     \
+-    env->crf[BF(opcode)] = cc;                                          \
+-                                                                        \
+-    do_float_check_status(env, GETPC());                                \
++static inline void do_scalar_cmp(CPUPPCState *env, ppc_vsr_t *xa, ppc_vsr_t *xb,
++                                 int crf_idx, bool ordered)
++{
++    uint32_t cc;
++    bool vxsnan_flag = false, vxvc_flag = false;
++
++    helper_reset_fpstatus(env);
++
++    if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||
++        float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {
++        vxsnan_flag = true;
++        if (fpscr_ve == 0 && ordered) {
++            vxvc_flag = true;
++        }
++    } else if (float64_is_quiet_nan(xa->VsrD(0), &env->fp_status) ||
++               float64_is_quiet_nan(xb->VsrD(0), &env->fp_status)) {
++        if (ordered) {
++            vxvc_flag = true;
++        }
++    }
++    if (vxsnan_flag) {
++        float_invalid_op_vxsnan(env, GETPC());
++    }
++    if (vxvc_flag) {
++        float_invalid_op_vxvc(env, 0, GETPC());
++    }
++
++    switch (float64_compare(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) {
++    case float_relation_less:
++        cc = CRF_LT;
++        break;
++    case float_relation_equal:
++        cc = CRF_EQ;
++        break;
++    case float_relation_greater:
++        cc = CRF_GT;
++        break;
++    case float_relation_unordered:
++        cc = CRF_SO;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    env->fpscr &= ~FP_FPCC;
++    env->fpscr |= cc << FPSCR_FPCC;
++    env->crf[crf_idx] = cc;
++
++    do_float_check_status(env, GETPC());
++}
++
++void helper_xscmpodp(CPUPPCState *env, uint32_t opcode, ppc_vsr_t *xa,
++                     ppc_vsr_t *xb)
++{
++    do_scalar_cmp(env, xa, xb, BF(opcode), true);
++}
++
++void helper_xscmpudp(CPUPPCState *env, uint32_t opcode, ppc_vsr_t *xa,
++                     ppc_vsr_t *xb)
++{
++    do_scalar_cmp(env, xa, xb, BF(opcode), false);
++}
++
++static inline void do_scalar_cmpq(CPUPPCState *env, ppc_vsr_t *xa,
++                                  ppc_vsr_t *xb, int crf_idx, bool ordered)
++{
++    uint32_t cc;
++    bool vxsnan_flag = false, vxvc_flag = false;
++
++    helper_reset_fpstatus(env);
++
++    if (float128_is_signaling_nan(xa->f128, &env->fp_status) ||
++        float128_is_signaling_nan(xb->f128, &env->fp_status)) {
++        vxsnan_flag = true;
++        if (fpscr_ve == 0 && ordered) {
++            vxvc_flag = true;
++        }
++    } else if (float128_is_quiet_nan(xa->f128, &env->fp_status) ||
++               float128_is_quiet_nan(xb->f128, &env->fp_status)) {
++        if (ordered) {
++            vxvc_flag = true;
++        }
++    }
++    if (vxsnan_flag) {
++        float_invalid_op_vxsnan(env, GETPC());
++    }
++    if (vxvc_flag) {
++        float_invalid_op_vxvc(env, 0, GETPC());
++    }
++
++    switch (float128_compare(xa->f128, xb->f128, &env->fp_status)) {
++    case float_relation_less:
++        cc = CRF_LT;
++        break;
++    case float_relation_equal:
++        cc = CRF_EQ;
++        break;
++    case float_relation_greater:
++        cc = CRF_GT;
++        break;
++    case float_relation_unordered:
++        cc = CRF_SO;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    env->fpscr &= ~FP_FPCC;
++    env->fpscr |= cc << FPSCR_FPCC;
++    env->crf[crf_idx] = cc;
++
++    do_float_check_status(env, GETPC());
+ }
+ 
+-VSX_SCALAR_CMPQ(xscmpoqp, 1)
+-VSX_SCALAR_CMPQ(xscmpuqp, 0)
++void helper_xscmpoqp(CPUPPCState *env, uint32_t opcode, ppc_vsr_t *xa,
++                     ppc_vsr_t *xb)
++{
++    do_scalar_cmpq(env, xa, xb, BF(opcode), true);
++}
++
++void helper_xscmpuqp(CPUPPCState *env, uint32_t opcode, ppc_vsr_t *xa,
++                     ppc_vsr_t *xb)
++{
++    do_scalar_cmpq(env, xa, xb, BF(opcode), false);
++}
+ 
+ /*
+  * VSX_MAX_MIN - VSX floating point maximum/minimum
 -- 
 2.29.2
 
