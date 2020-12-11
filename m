@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244242D6F0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:18:13 +0100 (CET)
-Received: from localhost ([::1]:53388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEAB2D6F11
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:19:27 +0100 (CET)
+Received: from localhost ([::1]:55216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knZsi-0007Zd-44
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:18:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33906)
+	id 1knZtu-0008J3-4z
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:19:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq3-0005X0-Vi; Thu, 10 Dec 2020 23:15:28 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:46059)
+ id 1knZq3-0005Wz-Uq; Thu, 10 Dec 2020 23:15:28 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:53795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq0-0000VV-Nk; Thu, 10 Dec 2020 23:15:27 -0500
+ id 1knZq0-0000Vu-7o; Thu, 10 Dec 2020 23:15:27 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CscrZ5fsZz9sWb; Fri, 11 Dec 2020 15:15:10 +1100 (AEDT)
+ id 4CscrZ67jtz9sWY; Fri, 11 Dec 2020 15:15:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607660110;
- bh=EQ0RM4keCvuyRhFDOSVesL8cPCVi1p1rmqjz0xDso0M=;
+ bh=r9GZYOFvPych2CvL1GEjt7EgTnJk/WvnutzNTlPHufw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hXxDjlMr+CbD68+oYM8plNse6aGh/JosD+rKYAD3sjXnfPjsP7khklBOkri4Nt+PB
- X2vKFAUamB1FLPNOqqsmVhXzY58a6NaGNSLEkOpYsBoCbfuCoeEDMnSooLqTyA+3E6
- 4xfpay1pkihhazbPQSAloqipaySZvTAlLN/+qHzA=
+ b=ORcUPABHwIlWW80vCJ3t1hLFfVlHt6NfS/vX6h9ohdon4NKGGXMyDALxpLhETJN5h
+ sy2dOaK8JpX4LX4jaXDC6AjGl1Y/Buz4bvgbj6aBRqaairmCKMx3kJPllks6TBTBI7
+ wXrzTm80VqC/oTR3zQYVdFKM8xGSuo/7EaPOFR2Q=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 03/30] spapr: Do PCI device hotplug sanity checks at pre-plug
- only
-Date: Fri, 11 Dec 2020 15:14:40 +1100
-Message-Id: <20201211041507.425378-4-david@gibson.dropbear.id.au>
+Subject: [PULL 04/30] spapr: Do NVDIMM/PC-DIMM device hotplug sanity checks at
+ pre-plug only
+Date: Fri, 11 Dec 2020 15:14:41 +1100
+Message-Id: <20201211041507.425378-5-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
@@ -64,123 +64,156 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The PHB acts as the hotplug handler for PCI devices. It does some
-sanity checks on DR enablement, PCI bridge chassis numbers and
-multifunction. These checks are currently performed at plug time,
-but they would best sit in a pre-plug handler in order to error
-out as early as possible.
+Pre-plug of a memory device, be it an NVDIMM or a PC-DIMM, ensures
+that the memory slot is available and that addresses don't overlap
+with existing memory regions. The corresponding DRCs in the LMB
+and PMEM namespaces are thus necessarily attachable at plug time.
 
-Create a spapr_pci_pre_plug() handler and move all the checking
-there. Add a check that the associated DRC doesn't already have
-an attached device. This is equivalent to the slot availability
-check performed by do_pci_register_device() upon realization of
-the PCI device.
-
-This allows to pass &error_abort to spapr_drc_attach() and to end
-up with a plug handler that doesn't need to report errors anymore.
+Pass &error_abort to spapr_drc_attach() in spapr_add_lmbs() and
+spapr_add_nvdimm(). This allows to greatly simplify error handling
+on the plug path.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201120234208.683521-2-groug@kaod.org>
+Message-Id: <20201120234208.683521-3-groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_pci.c | 43 +++++++++++++++++++++++++++++++++----------
- 1 file changed, 33 insertions(+), 10 deletions(-)
+ hw/ppc/spapr.c                | 40 ++++++++++++-----------------------
+ hw/ppc/spapr_nvdimm.c         | 11 +++++-----
+ include/hw/ppc/spapr_nvdimm.h |  2 +-
+ 3 files changed, 20 insertions(+), 33 deletions(-)
 
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 88ce87f130..2829f298d9 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1532,8 +1532,8 @@ static bool bridge_has_valid_chassis_nr(Object *bridge, Error **errp)
-     return true;
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index c060702013..3be27ee2cd 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3382,8 +3382,8 @@ int spapr_lmb_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+     return 0;
  }
  
--static void spapr_pci_plug(HotplugHandler *plug_handler,
--                           DeviceState *plugged_dev, Error **errp)
-+static void spapr_pci_pre_plug(HotplugHandler *plug_handler,
-+                               DeviceState *plugged_dev, Error **errp)
+-static bool spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
+-                           bool dedicated_hp_event_source, Error **errp)
++static void spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
++                           bool dedicated_hp_event_source)
  {
-     SpaprPhbState *phb = SPAPR_PCI_HOST_BRIDGE(DEVICE(plug_handler));
-     PCIDevice *pdev = PCI_DEVICE(plugged_dev);
-@@ -1542,9 +1542,6 @@ static void spapr_pci_plug(HotplugHandler *plug_handler,
-     PCIBus *bus = PCI_BUS(qdev_get_parent_bus(DEVICE(pdev)));
-     uint32_t slotnr = PCI_SLOT(pdev->devfn);
+     SpaprDrc *drc;
+     uint32_t nr_lmbs = size/SPAPR_MEMORY_BLOCK_SIZE;
+@@ -3396,15 +3396,12 @@ static bool spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
+                               addr / SPAPR_MEMORY_BLOCK_SIZE);
+         g_assert(drc);
  
--    /* if DR is disabled we don't need to do anything in the case of
--     * hotplug or coldplug callbacks
--     */
-     if (!phb->dr_enabled) {
-         /* if this is a hotplug operation initiated by the user
-          * we need to let them know it's not enabled
-@@ -1552,17 +1549,14 @@ static void spapr_pci_plug(HotplugHandler *plug_handler,
-         if (plugged_dev->hotplugged) {
-             error_setg(errp, QERR_BUS_NO_HOTPLUG,
-                        object_get_typename(OBJECT(phb)));
-+            return;
+-        if (!spapr_drc_attach(drc, dev, errp)) {
+-            while (addr > addr_start) {
+-                addr -= SPAPR_MEMORY_BLOCK_SIZE;
+-                drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
+-                                      addr / SPAPR_MEMORY_BLOCK_SIZE);
+-                spapr_drc_detach(drc);
+-            }
+-            return false;
+-        }
++        /*
++         * memory_device_get_free_addr() provided a range of free addresses
++         * that doesn't overlap with any existing mapping at pre-plug. The
++         * corresponding LMB DRCs are thus assumed to be all attachable.
++         */
++        spapr_drc_attach(drc, dev, &error_abort);
+         if (!hotplugged) {
+             spapr_drc_reset(drc);
          }
--        return;
+@@ -3425,11 +3422,9 @@ static bool spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
+                                            nr_lmbs);
+         }
      }
+-    return true;
+ }
  
--    g_assert(drc);
+-static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+-                              Error **errp)
++static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev)
+ {
+     SpaprMachineState *ms = SPAPR_MACHINE(hotplug_dev);
+     PCDIMMDevice *dimm = PC_DIMM(dev);
+@@ -3444,24 +3439,15 @@ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+     if (!is_nvdimm) {
+         addr = object_property_get_uint(OBJECT(dimm),
+                                         PC_DIMM_ADDR_PROP, &error_abort);
+-        if (!spapr_add_lmbs(dev, addr, size,
+-                            spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT), errp)) {
+-            goto out_unplug;
+-        }
++        spapr_add_lmbs(dev, addr, size,
++                       spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT));
+     } else {
+         slot = object_property_get_int(OBJECT(dimm),
+                                        PC_DIMM_SLOT_PROP, &error_abort);
+         /* We should have valid slot number at this point */
+         g_assert(slot >= 0);
+-        if (!spapr_add_nvdimm(dev, slot, errp)) {
+-            goto out_unplug;
+-        }
++        spapr_add_nvdimm(dev, slot);
+     }
 -
-     if (pc->is_bridge) {
-         if (!bridge_has_valid_chassis_nr(OBJECT(plugged_dev), errp)) {
-             return;
-         }
--        spapr_pci_bridge_plug(phb, PCI_BRIDGE(plugged_dev));
-     }
+-    return;
+-
+-out_unplug:
+-    pc_dimm_unplug(dimm, MACHINE(ms));
+ }
  
-     /* Following the QEMU convention used for PCIe multifunction
-@@ -1574,13 +1568,41 @@ static void spapr_pci_plug(HotplugHandler *plug_handler,
-         error_setg(errp, "PCI: slot %d function 0 already occupied by %s,"
-                    " additional functions can no longer be exposed to guest.",
-                    slotnr, bus->devices[PCI_DEVFN(slotnr, 0)]->name);
-+    }
-+
-+    if (drc && drc->dev) {
-+        error_setg(errp, "PCI: slot %d already occupied by %s", slotnr,
-+                   pci_get_function_0(PCI_DEVICE(drc->dev))->name);
-         return;
-     }
-+}
-+
-+static void spapr_pci_plug(HotplugHandler *plug_handler,
-+                           DeviceState *plugged_dev, Error **errp)
-+{
-+    SpaprPhbState *phb = SPAPR_PCI_HOST_BRIDGE(DEVICE(plug_handler));
-+    PCIDevice *pdev = PCI_DEVICE(plugged_dev);
-+    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(plugged_dev);
-+    SpaprDrc *drc = drc_from_dev(phb, pdev);
-+    uint32_t slotnr = PCI_SLOT(pdev->devfn);
+ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+@@ -4009,7 +3995,7 @@ static void spapr_machine_device_plug(HotplugHandler *hotplug_dev,
+                                       DeviceState *dev, Error **errp)
+ {
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+-        spapr_memory_plug(hotplug_dev, dev, errp);
++        spapr_memory_plug(hotplug_dev, dev);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)) {
+         spapr_core_plug(hotplug_dev, dev, errp);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index a833a63b5e..2f1c196e1b 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -89,7 +89,7 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+ }
  
--    if (!spapr_drc_attach(drc, DEVICE(pdev), errp)) {
+ 
+-bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp)
++void spapr_add_nvdimm(DeviceState *dev, uint64_t slot)
+ {
+     SpaprDrc *drc;
+     bool hotplugged = spapr_drc_hotplugged(dev);
+@@ -97,14 +97,15 @@ bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp)
+     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_PMEM, slot);
+     g_assert(drc);
+ 
+-    if (!spapr_drc_attach(drc, dev, errp)) {
+-        return false;
+-    }
 +    /*
-+     * If DR is disabled we don't need to do anything in the case of
-+     * hotplug or coldplug callbacks.
++     * pc_dimm_get_free_slot() provided a free slot at pre-plug. The
++     * corresponding DRC is thus assumed to be attachable.
 +     */
-+    if (!phb->dr_enabled) {
-         return;
-     }
++    spapr_drc_attach(drc, dev, &error_abort);
  
-+    g_assert(drc);
-+
-+    if (pc->is_bridge) {
-+        spapr_pci_bridge_plug(phb, PCI_BRIDGE(plugged_dev));
-+    }
-+
-+    /* spapr_pci_pre_plug() already checked the DRC is attachable */
-+    spapr_drc_attach(drc, DEVICE(pdev), &error_abort);
-+
-     /* If this is function 0, signal hotplug for all the device functions.
-      * Otherwise defer sending the hotplug event.
-      */
-@@ -2223,6 +2245,7 @@ static void spapr_phb_class_init(ObjectClass *klass, void *data)
-     /* Supported by TYPE_SPAPR_MACHINE */
-     dc->user_creatable = true;
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+    hp->pre_plug = spapr_pci_pre_plug;
-     hp->plug = spapr_pci_plug;
-     hp->unplug = spapr_pci_unplug;
-     hp->unplug_request = spapr_pci_unplug_request;
+     if (hotplugged) {
+         spapr_hotplug_req_add_by_index(drc);
+     }
+-    return true;
+ }
+ 
+ static int spapr_dt_nvdimm(SpaprMachineState *spapr, void *fdt,
+diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
+index 344582d2f5..73be250e2a 100644
+--- a/include/hw/ppc/spapr_nvdimm.h
++++ b/include/hw/ppc/spapr_nvdimm.h
+@@ -30,6 +30,6 @@ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+ void spapr_dt_persistent_memory(SpaprMachineState *spapr, void *fdt);
+ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+                            uint64_t size, Error **errp);
+-bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
++void spapr_add_nvdimm(DeviceState *dev, uint64_t slot);
+ 
+ #endif
 -- 
 2.29.2
 
