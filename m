@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBB12D7E47
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:45:36 +0100 (CET)
-Received: from localhost ([::1]:41488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D372D7E7F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:49:55 +0100 (CET)
+Received: from localhost ([::1]:50944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knnQ7-0000rK-K9
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:45:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43518)
+	id 1knnUI-0004yW-8z
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:49:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1knnKg-0006VR-6U; Fri, 11 Dec 2020 13:39:58 -0500
-Received: from mail-eopbgr70090.outbound.protection.outlook.com
- ([40.107.7.90]:11267 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ id 1knnKi-0006ZX-7P; Fri, 11 Dec 2020 13:40:00 -0500
+Received: from mail-eopbgr70097.outbound.protection.outlook.com
+ ([40.107.7.97]:21414 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1knnKb-00089o-7A; Fri, 11 Dec 2020 13:39:57 -0500
+ id 1knnKg-0008BO-52; Fri, 11 Dec 2020 13:39:59 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hRBUoGcfstd58ubwyNCdO/kNmRRVt/A+SLny//Dw5fuRSqFJnp0KaxQBYZtKftBVehzqRQMduTDx2KTermG0/y0JSOuH/8d03rEl+RAXeZwB7HuPmwLg7Zpz/ff1UGS1dRJr/QNAENcLlwYGP8E1uB/CSSwdR+QornYQOYmy4S/YY9ugL/W2O2yOUU1TwAokgq1eJrZmHOZD94PeykKXaSoyxoQfy1amZTM/Q0nYaTAl2fWDdyfYyd8Ji+WKQ7YoqGJ1HTHf4kdStRCFNDtu7sSG1dp6IXMnA90dcak8Q+RdBIGGlmrPLyX8nizjIM3KYN0LOKLi1M5zB5yM9isJgA==
+ b=I9/XDbyRGvBWyN7jszWJpW1JvGrYxTNv21rVRFTn5RBr5Bhw+yKJW/Th+dmHmUm1CVMTBYKTMAbegxTvkG0P7kYS02bShgeJgD29YeZ0Ngh4eb1K5J3MF/ibyTCeYJiYq1YIdRTlJkULvl9V6ZOxT6qEa27P0CkfWczu26nZPAfdlM75E3CWEQmmzGkwHLHxs4Lk8DiKgTA+qfqe+EQJgPJjUZsEkyMsEV0YAtOCJf/DnVU7/naKnLiwr6b4j57YsOltFz1MWIR81gy6nX1WFynSsyiD+oouhMTn3e+gqb8PiX8JVNm9EN7irLBOcpwkev16/5I7xy11mPelRQWIZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LQxnsTT3INe67YFBDEOyC9XtHilShDbRP2JSfk1hpZM=;
- b=ZEHmMxBAElaakbT8jOONR9ItU2PfX9MqmsLRsNCGBGk6FdE44fjGIS9N4XN3HUABDVBAXzLsOIs+VMBf+z2kkxYwUD0l+uWArpu49i0D2L8RbdyH7owM6fzjq/UDNTeImM3LfzT44k4q1vf9EqPhbS+8isxteo14u3wQdwHW2a2L/p4gWIxKBDQmOSjIb97BhSRNuVsQSsf7DxawkpSmcngDp3I6CCupkpE+MVB7922UDQgZWuuIVXTXUYKyYn0ykL5LjMMTSaVkxAozlmmxuPQLuCI0CwlkJwI8+nb7lzVmzVBi8DFsKVU4otOVGIW+fRc3U4H/PmmboM9WRQ28Kg==
+ bh=2JpdCHTK3bZRWATwoEg6jCckd+CehiaAAyYNYOyVKMs=;
+ b=YwdVl2iOC5L0tpD8YGDW8MfBZJ293gO0/32BDvA3YXHO+mXguYTsWzJ2BUH0K+hPiV/Lu/e2izAwtNpBt2p19UVWp+wMCx8KgJDane4R0jnjnSStSbCrggiXf1pNgsAqS4NDjAC5WJ37gUbhocR6ebmmQcUkVBs239/3u89de4iPDoNTdYeWvkm4YAxrWqzLxEkpaa8jgsJRVQ4VBVpIEY/G0jUJcbM7tlJ4rq2Z/RMcWDIzVCXHD3qOd0ruyxci+sazYF7P4h3/9izxHtWr75mxQnbYtL3d3HaHZw+IENB/gQ6dgY5FexSaiHeZYBwpq8d2cS619vbQb7p/9M8fXA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LQxnsTT3INe67YFBDEOyC9XtHilShDbRP2JSfk1hpZM=;
- b=hfTbPH1tgNQkZ9lgow7QKAI0Wq/4LF9ladV62Zeyh8QxZBnFeZ3oWhQCoUAH4gq3dqy0xkMHTEPkML+ZQgPpflOLg9Qmupovq3VohpXRTD+44/Jg5MHMlUPy9pi9qM48EefwVUTXh/a6ifpTzu21lxAHc6vwseuclh8PfpPes/s=
+ bh=2JpdCHTK3bZRWATwoEg6jCckd+CehiaAAyYNYOyVKMs=;
+ b=TGxPy2qH4nC+LDn1XaVzJyx2SbUQRG3a0dsVCbM1zt+d53NjxtQz568auGfp+z25kCmI9i3xPIotxVXIV+c1TBY7S/G/CS8sShQJRYzSiSdJAh4NuB4BR8hoRuN0NB9IaeErljCpigOMzGx/EONOXJdKHxvwM7E+VcclHEHjRzw=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4915.eurprd08.prod.outlook.com (2603:10a6:20b:d1::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.18; Fri, 11 Dec
- 2020 18:39:47 +0000
+ 2020 18:39:48 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3654.016; Fri, 11 Dec 2020
- 18:39:47 +0000
+ 18:39:48 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 00/16] 64bit block-layer: part I
-Date: Fri, 11 Dec 2020 21:39:18 +0300
-Message-Id: <20201211183934.169161-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 01/16] block: refactor bdrv_check_request: add errp
+Date: Fri, 11 Dec 2020 21:39:19 +0300
+Message-Id: <20201211183934.169161-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20201211183934.169161-1-vsementsov@virtuozzo.com>
+References: <20201211183934.169161-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [185.215.60.91]
@@ -61,59 +63,58 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.91) by
  AM0PR04CA0050.eurprd04.prod.outlook.com (2603:10a6:208:1::27) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12 via Frontend Transport; Fri, 11 Dec 2020 18:39:46 +0000
+ 15.20.3654.12 via Frontend Transport; Fri, 11 Dec 2020 18:39:47 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e9af9f9b-afe6-43ad-2130-08d89e0422ec
+X-MS-Office365-Filtering-Correlation-Id: 4754144b-06b3-4320-9b42-08d89e04237c
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4915:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4915A37689F4173AE29F78EFC1CA0@AM6PR08MB4915.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:546;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB49151B008325A9B628E27322C1CA0@AM6PR08MB4915.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pKL5trpkl9/lTj+h4ImW7EBS7am1c4QcCbdPN3R9NJKz1XFD8yuGRgMpZw0K4U4i089W7V9UaeMSNE6o4yCy8AVTgQGN7kfP78mqRkqRA257ZtjX9c2mZ9Xq9+/p27MuSHGRjDgXbI0htTznCPjAxAXxWYmMydVigxOymcr4tXIdjlUZGhcPr3hzXzxj5G3p8jJcFp8kUDRSvNxOC4NbELfJz4jhouRJ2fJU8gsEMdBYiS3mMoxvEYyZGnHJTA8Z1Q4uO5m90j4ToU0AE2JdalmCsRup6SUFCBAzv34waOwNJjwgBE4LBJG9mXRUVEff41YZLvX/V+xNQg/3dlJtmbQmNBtEA24Kgs5expinlB9LV9kn2s4JtoWcw8yQtJ9TIePXUO/9adbVIwS5dybd6w==
+X-Microsoft-Antispam-Message-Info: /KZX3owjgHLX0lnv25eVYcAD5NTFbh+wz32gdcIDrHjgJ0RqrjYMq2o5AGNo8nWGQOHtInlxESSuEDJEiM5nAuE+zKVfGKyfE0UnabafRizvqAccQsrbPjdv5Tty4IiC46yCoJzNfsvwCEq5Ud1ImOm22xJuAVnpUkvpwTvIUHJUbNBd9VTFaF1vCkdG0jx34TK673p2W4tAaHCVvI2NJUVHUCUrWjBirRz0Tk8uacpmJJbSNyBSE9ts98uO5W0l9b+ZEaM0dWJRMENaT4kz3enVBB6UhFpiDf8yG1bDkpzhaJcPHKt34wZn0Pc1l+R3
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(346002)(39840400004)(136003)(396003)(376002)(66476007)(6506007)(66946007)(956004)(6486002)(86362001)(4326008)(66556008)(6916009)(6512007)(2616005)(6666004)(83380400001)(1076003)(26005)(316002)(966005)(16526019)(5660300002)(8676002)(186003)(478600001)(8936002)(2906002)(36756003)(107886003)(52116002);
+ SFS:(4636009)(366004)(346002)(39840400004)(136003)(396003)(376002)(66476007)(6506007)(66946007)(956004)(6486002)(86362001)(4326008)(66556008)(6916009)(6512007)(2616005)(6666004)(83380400001)(1076003)(26005)(316002)(16526019)(5660300002)(8676002)(186003)(478600001)(8936002)(2906002)(36756003)(107886003)(52116002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?7Dx6Po0HvjQQOKMIZyiwOYzWMni9A+GL5MnUrbBtgGq0iUy7ZKJXhXG99oc0?=
- =?us-ascii?Q?Tfg04kQxISRdKaYtm81n2C9ykSrX5lzR7OzxZvFvBHUK9yF5/1aZIoO6+gWM?=
- =?us-ascii?Q?WLfkwQtkXd0nR4vzqaKtTvfIgdnuWlQZRHy6yVoENFxDMy2CbWL1qqc4MIgH?=
- =?us-ascii?Q?9aDbMMmgjenVZDzmeq2QbDcyyRjUlGF8M26yxWVYN7wfahQMTTsStTSIqaRp?=
- =?us-ascii?Q?6Od/MGGV9FC7l291OnHEjdaTiwpirgz8UJMyJ+76G841UfM3mQNe4FnsDBZi?=
- =?us-ascii?Q?sJuXdgsSvkMdWo+7wbXnewLjDB10noY7OrRZ0qOncbLbfOdY7Q9res3Cs0LZ?=
- =?us-ascii?Q?mmxI9C/NoVTRypy4cccdmHyPJS9P6YL3QpP/uRVp6EBuKnyzyqBL4Mv4XudY?=
- =?us-ascii?Q?KoEP/rTTOzbBOPPnidqnr3vDrr3Z1Z4TW+eDydrqqiXUVXQ65M4ARBPbBwI4?=
- =?us-ascii?Q?aDgDxJd3mDlannimWwQoIFrSEQhzbcS0gWfCGHoTvnIn5HjK17+bCUKD9Q0C?=
- =?us-ascii?Q?tjsrOrDu49lpRle9DMnCRmo2eZigfOJ77G6oI9ocXyU/fk0ppf1TX31ijCaa?=
- =?us-ascii?Q?BQxVnYUkwJLvREpvPoz6+ab4jdGuYeL/WOB3MmrQ4TQ9YiYrWgLtPcxK8sJa?=
- =?us-ascii?Q?2zJ9L/hsbg500SNZuuEFoEMq3pRjkAiSgNxjhyO24Lsu5BL1FBZb+vYlWRZs?=
- =?us-ascii?Q?QfnDIIvv6u54YS1dtzCWGQyNg/e/1fxGG1HdY9CpoKv/7HjFIp+niMbEoOqD?=
- =?us-ascii?Q?0yOAvOkMxmwSB73JoXgIV/LIkzG1RqonScM18NZ842MxvIreS77RFwpU9XZp?=
- =?us-ascii?Q?vbtxsj9yU9f+6lXpl63HIr24R/HZMbnYxA2AZhImw80pU4sWXrnftZcy3QXy?=
- =?us-ascii?Q?yTpdh1Ed1wEduouiViiZEZIDgplxuJXLdkDxVVYpB7H1r/vkdHqMD9GXYP5z?=
- =?us-ascii?Q?P3KobpRdYHGPiVslRipmphQQ886lx+gz8qkze0OrC8nUPKzs9Y0bArLa+vQm?=
- =?us-ascii?Q?GrFO?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?F2UZex2+/icDGQCu19ZtpZmapg8pue8/rKdgSlf3M52IGn4XrYbJB+zwv2b8?=
+ =?us-ascii?Q?Gg6YaJ3fKAD0Yb06c7MzYGG8UP/BsnCy6uM2IPPs0dYmOX2TU/4LHy4hSRxx?=
+ =?us-ascii?Q?SnPXGfFB8PTepx/TnokZiZrxc72CJJ7hazpYuc2ofYCx8l9j00ekgwvkql6G?=
+ =?us-ascii?Q?Q6n394lwwI4+mZ+CYsNEwDzYuakhilX24FA2pYVc8CVj3X+F7zBDjLmuiHXA?=
+ =?us-ascii?Q?+ankjg5e/pMPIcIbyjlbltaDQbxVrzE2EfeXP9i9bbI5b3pQn2xH/QBhXUME?=
+ =?us-ascii?Q?DR1kNRNs+Z1aORTnDI2VL7t1RrQyHn9lx9z+3NdboNp0ZPWUgNX5yvvoOTnm?=
+ =?us-ascii?Q?IRYjQAaBw3aFc3KrtNycBDiJUgk9LgQcE7ZknoT3Wbnt6QGWVwdBb4XVDocQ?=
+ =?us-ascii?Q?deGyWfF5cGmfaS+TpFuMaSg1Jd+jNIi3kDxh/Y+y0R8GdSjiFoJuyoxG71XC?=
+ =?us-ascii?Q?9Mn5KmlZdu/OAw5EmNXpTVgSQlaPYWz09nV6oaDVfBNyVQpSviFFlHpnR6hL?=
+ =?us-ascii?Q?Vx2xa4+FZ3Ahtm0RGDqAyIUJuZ1ksnRDzvPrpEmSAt2JwFPrS/62J4r7pzyR?=
+ =?us-ascii?Q?rz1kRV9SwbMKimYVWQWBuyFVkGlh01XKWUt9qzYNbF5MGbo+Nz9MWPauL67s?=
+ =?us-ascii?Q?PBJ/v2FFkG9zW9GR/j7H1kdP4V/vwRdSxCHqATKqENfjGsj/95UdNuGpprLB?=
+ =?us-ascii?Q?v+BA+C0dRz3G3v1O9Pbpo0wulcj6dDpy32H8P+OHpVDt6lZRewzhWTLG0DGe?=
+ =?us-ascii?Q?OZcEFF5RI3kIWq5S9XLXVFk3+yyUN+rGfEIL1J3kbiUx116/FKe5SaZdY8mp?=
+ =?us-ascii?Q?ahGNO56WfqkT+WZtTaIv49/FSDZHdbtaW4zkY4B/lHdJwpFK2U6lt3wiTzYA?=
+ =?us-ascii?Q?h8QtXe3AO9HTdjzqTi/U6PLMhcKVTBoYLBR78vxa1iqFwmqfkneZVQjXVYZQ?=
+ =?us-ascii?Q?m4XPoB/DrFFXAF5/x66KvjvIfVrO/YA2gaNLH4qZy0G0rLwTXOkPQTLmJCXt?=
+ =?us-ascii?Q?NUUr?=
 X-OriginatorOrg: virtuozzo.com
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2020 18:39:47.4608 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2020 18:39:48.3898 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9af9f9b-afe6-43ad-2130-08d89e0422ec
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4754144b-06b3-4320-9b42-08d89e04237c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x40TR5wCpVzU184Ti7VCDM9oXOwU2SwZYjdWVh9YwXWvlR/MnGD4YBsM9HCwf+vTK1HvbzKliVG/9XZHLeI3P82s4+lJngjH0VKuo8ZllSI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: FihgZj9kXTqsFr14ztEhBNpJ4gI1zbx4mB4vjodZylhHg6INfK8NqwSxCSdbkrI7XDpBr7iKetuBA/wbpl931PVfeLJjNSdbhmyPQz0fcxA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4915
-Received-SPF: pass client-ip=40.107.7.90;
+Received-SPF: pass client-ip=40.107.7.97;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -132,65 +133,144 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+It's better to pass &error_abort than just assert that result is 0: on
+crash, we'll immediately see the reason in the backtrace.
 
-We want 64bit write-zeroes, and for this, convert all io functions to
-64bit.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ include/block/block_int.h    |  2 +-
+ block/file-posix.c           |  2 +-
+ block/io.c                   | 29 ++++++++++++++++++++++-------
+ tests/test-write-threshold.c |  5 +++--
+ 4 files changed, 27 insertions(+), 11 deletions(-)
 
-We chose signed type, to be consistent with off_t (which is signed) and
-with possibility for signed return type (where negative value means
-error).
-
-Please refer to initial cover-letter 
- https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg08723.html
-for more info.
-
-v4: I found, that some more work is needed for block/block-backend, so
-decided to make partI, converting block/io
-
-v4 is based on Kevin's block branch ([PULL 00/34] Block layer patches)
-   for BDRV_MAX_LENGTH
-
-changes:
-01-05: new
-06: add Alberto's r-b
-07: new
-08-16: rebase, add new-style request check, improve commit-msg, drop r-bs
-
-Based-on: <20201211170812.228643-1-kwolf@redhat.com>
-
-Vladimir Sementsov-Ogievskiy (16):
-  block: refactor bdrv_check_request: add errp
-  util/iov: make qemu_iovec_init_extended() honest
-  block: fix theoretical overflow in bdrv_init_padding()
-  block/io: refactor bdrv_pad_request(): move bdrv_pad_request() up
-  block/io: bdrv_pad_request(): support qemu_iovec_init_extended failure
-  block/throttle-groups: throttle_group_co_io_limits_intercept(): 64bit
-    bytes
-  block/io: improve bdrv_check_request: check qiov too
-  block: use int64_t as bytes type in tracked requests
-  block/io: use int64_t bytes in driver wrappers
-  block/io: support int64_t bytes in bdrv_co_do_pwrite_zeroes()
-  block/io: support int64_t bytes in bdrv_aligned_pwritev()
-  block/io: support int64_t bytes in bdrv_co_do_copy_on_readv()
-  block/io: support int64_t bytes in bdrv_aligned_preadv()
-  block/io: support int64_t bytes in bdrv_co_p{read,write}v_part()
-  block/io: support int64_t bytes in read/write wrappers
-  block/io: use int64_t bytes in copy_range
-
- include/block/block.h           |  17 +-
- include/block/block_int.h       |  26 +--
- include/block/throttle-groups.h |   2 +-
- include/qemu/iov.h              |   2 +-
- block/blkverify.c               |   2 +-
- block/file-posix.c              |   2 +-
- block/io.c                      | 274 ++++++++++++++++++++++----------
- block/throttle-groups.c         |   5 +-
- tests/test-write-threshold.c    |   5 +-
- util/iov.c                      |  25 ++-
- block/trace-events              |  12 +-
- 11 files changed, 252 insertions(+), 120 deletions(-)
-
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 1eeafc118c..ff29f31451 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -93,7 +93,7 @@ typedef struct BdrvTrackedRequest {
+     struct BdrvTrackedRequest *waiting_for;
+ } BdrvTrackedRequest;
+ 
+-int bdrv_check_request(int64_t offset, int64_t bytes);
++int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp);
+ 
+ struct BlockDriver {
+     const char *format_name;
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 83e2cc5530..fc35a47832 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2951,7 +2951,7 @@ raw_do_pwrite_zeroes(BlockDriverState *bs, int64_t offset, int bytes,
+ 
+         req->bytes = BDRV_MAX_LENGTH - req->offset;
+ 
+-        assert(bdrv_check_request(req->offset, req->bytes) == 0);
++        bdrv_check_request(req->offset, req->bytes, &error_abort);
+ 
+         bdrv_mark_request_serialising(req, bs->bl.request_alignment);
+     }
+diff --git a/block/io.c b/block/io.c
+index 24205f5168..e076236db2 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -898,17 +898,34 @@ static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self
+     return waited;
+ }
+ 
+-int bdrv_check_request(int64_t offset, int64_t bytes)
++int bdrv_check_request(int64_t offset, int64_t bytes, Error **errp)
+ {
+-    if (offset < 0 || bytes < 0) {
++    if (offset < 0) {
++        error_setg(errp, "offset is negative: %" PRIi64, offset);
++        return -EIO;
++    }
++
++    if (bytes < 0) {
++        error_setg(errp, "bytes is negative: %" PRIi64, bytes);
+         return -EIO;
+     }
+ 
+     if (bytes > BDRV_MAX_LENGTH) {
++        error_setg(errp, "bytes(%" PRIi64 ") exceeds maximum(%" PRIi64 ")",
++                   bytes, BDRV_MAX_LENGTH);
++        return -EIO;
++    }
++
++    if (offset > BDRV_MAX_LENGTH) {
++        error_setg(errp, "offset(%" PRIi64 ") exceeds maximum(%" PRIi64 ")",
++                   offset, BDRV_MAX_LENGTH);
+         return -EIO;
+     }
+ 
+     if (offset > BDRV_MAX_LENGTH - bytes) {
++        error_setg(errp, "sum of offset(%" PRIi64 ") and bytes(%" PRIi64 ") "
++                   "exceeds maximum(%" PRIi64 ")", offset, bytes,
++                   BDRV_MAX_LENGTH);
+         return -EIO;
+     }
+ 
+@@ -917,7 +934,7 @@ int bdrv_check_request(int64_t offset, int64_t bytes)
+ 
+ static int bdrv_check_request32(int64_t offset, int64_t bytes)
+ {
+-    int ret = bdrv_check_request(offset, bytes);
++    int ret = bdrv_check_request(offset, bytes, NULL);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -2819,7 +2836,7 @@ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
+         return -EPERM;
+     }
+ 
+-    ret = bdrv_check_request(offset, bytes);
++    ret = bdrv_check_request(offset, bytes, NULL);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -3221,10 +3238,8 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
+         return -EINVAL;
+     }
+ 
+-    ret = bdrv_check_request(offset, 0);
++    ret = bdrv_check_request(offset, 0, errp);
+     if (ret < 0) {
+-        error_setg(errp, "Required too big image size, it must be not greater "
+-                   "than %" PRId64, BDRV_MAX_LENGTH);
+         return ret;
+     }
+ 
+diff --git a/tests/test-write-threshold.c b/tests/test-write-threshold.c
+index 4cf032652d..fc1c45a2eb 100644
+--- a/tests/test-write-threshold.c
++++ b/tests/test-write-threshold.c
+@@ -7,6 +7,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qapi/error.h"
+ #include "block/block_int.h"
+ #include "block/write-threshold.h"
+ 
+@@ -64,7 +65,7 @@ static void test_threshold_not_trigger(void)
+     req.offset = 1024;
+     req.bytes = 1024;
+ 
+-    assert(bdrv_check_request(req.offset, req.bytes) == 0);
++    bdrv_check_request(req.offset, req.bytes, &error_abort);
+ 
+     bdrv_write_threshold_set(&bs, threshold);
+     amount = bdrv_write_threshold_exceeded(&bs, &req);
+@@ -84,7 +85,7 @@ static void test_threshold_trigger(void)
+     req.offset = (4 * 1024 * 1024) - 1024;
+     req.bytes = 2 * 1024;
+ 
+-    assert(bdrv_check_request(req.offset, req.bytes) == 0);
++    bdrv_check_request(req.offset, req.bytes, &error_abort);
+ 
+     bdrv_write_threshold_set(&bs, threshold);
+     amount = bdrv_write_threshold_exceeded(&bs, &req);
 -- 
 2.25.4
 
