@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15122D6F0B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:18:12 +0100 (CET)
-Received: from localhost ([::1]:53352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6982D6F12
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:21:27 +0100 (CET)
+Received: from localhost ([::1]:33514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knZsh-0007Yc-0i
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:18:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33898)
+	id 1knZvo-0002hM-Uu
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:21:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq3-0005Wf-Cq; Thu, 10 Dec 2020 23:15:27 -0500
-Received: from ozlabs.org ([203.11.71.1]:38175)
+ id 1knZq3-0005Wg-D4; Thu, 10 Dec 2020 23:15:27 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:42299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq0-0000Vr-0l; Thu, 10 Dec 2020 23:15:26 -0500
+ id 1knZq0-0000Uy-0e; Thu, 10 Dec 2020 23:15:26 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CscrZ3Pjgz9sVY; Fri, 11 Dec 2020 15:15:10 +1100 (AEDT)
+ id 4CscrZ4f84z9sWV; Fri, 11 Dec 2020 15:15:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607660110;
- bh=gfeNh3a0FmYAZk7sxGaHo1IQu2z3E9m3i+0g+ViVWlk=;
+ bh=30IN9E+iDeGmA9l4nt+SQ3Bx4uYn26iJRk5Uk+ZSwk4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZzfcGidja2chQ8kpJWJxsyRM4E4tXtSkMOsakB0BVogHINpHn4frfsiOkKIBY1SnW
- 1e2svEM0r7cZ+0zcoeiAq02jO1k42RNdCtmat0Eu/pvc5wPVSoZ9SVMgu3J7cIoGVn
- A40CdUAEcUB1ytdvJ56+UV+kd1hYx+En79DdJDOQ=
+ b=AxGFT7LQz2oGNOfugpoGgDtdFdpyHJcvc/J8Qkc1SWOh1D3VWsabt84ldFeemxCmw
+ aNz4sE87ok5uli4ZD6QJjeWR52WbXrKgF+mdnGCxCiOfl2CLMx/NpisdYT9N9O7GT8
+ 46HEgxo8Z5W1Ql1joj7hSPOuSW36FzwI1P7m5psM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/30] spapr/xive: Turn some sanity checks into assertions
-Date: Fri, 11 Dec 2020 15:14:38 +1100
-Message-Id: <20201211041507.425378-2-david@gibson.dropbear.id.au>
+Subject: [PULL 02/30] spapr/xics: Drop unused argument to
+ xics_kvm_has_broken_disconnect()
+Date: Fri, 11 Dec 2020 15:14:39 +1100
+Message-Id: <20201211041507.425378-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,52 +66,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The sPAPR XIVE device is created by the machine in spapr_irq_init().
-The latter overrides any value provided by the user with -global for
-the "nr-irqs" and "nr-ends" properties with strictly positive values.
-
-It seems reasonable to assume these properties should never be 0,
-which wouldn't make much sense by the way.
+Never used from the start.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201120174646.619395-2-groug@kaod.org>
+Message-Id: <20201120174646.619395-6-groug@kaod.org>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ hw/intc/xics_kvm.c          | 2 +-
+ hw/ppc/spapr_irq.c          | 2 +-
+ include/hw/ppc/xics_spapr.h | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 1fa09f287a..60e0d5769d 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -296,22 +296,16 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
-     XiveENDSource *end_xsrc = &xive->end_source;
-     Error *local_err = NULL;
+diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
+index 68bb1914b9..570d635bcc 100644
+--- a/hw/intc/xics_kvm.c
++++ b/hw/intc/xics_kvm.c
+@@ -484,7 +484,7 @@ void xics_kvm_disconnect(SpaprInterruptController *intc)
+  * support destruction of a KVM XICS device while the VM is running.
+  * Required to start a spapr machine with ic-mode=dual,kernel-irqchip=on.
+  */
+-bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr)
++bool xics_kvm_has_broken_disconnect(void)
+ {
+     int rc;
  
-+    /* Set by spapr_irq_init() */
-+    g_assert(xive->nr_irqs);
-+    g_assert(xive->nr_ends);
-+
-     sxc->parent_realize(dev, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-     }
+diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+index f59960339e..a0d1e1298e 100644
+--- a/hw/ppc/spapr_irq.c
++++ b/hw/ppc/spapr_irq.c
+@@ -186,7 +186,7 @@ static int spapr_irq_check(SpaprMachineState *spapr, Error **errp)
+     if (kvm_enabled() &&
+         spapr->irq == &spapr_irq_dual &&
+         kvm_kernel_irqchip_required() &&
+-        xics_kvm_has_broken_disconnect(spapr)) {
++        xics_kvm_has_broken_disconnect()) {
+         error_setg(errp,
+             "KVM is incompatible with ic-mode=dual,kernel-irqchip=on");
+         error_append_hint(errp,
+diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
+index 0b8182e40b..de752c0d2c 100644
+--- a/include/hw/ppc/xics_spapr.h
++++ b/include/hw/ppc/xics_spapr.h
+@@ -38,6 +38,6 @@ DECLARE_INSTANCE_CHECKER(ICSState, ICS_SPAPR,
+ int xics_kvm_connect(SpaprInterruptController *intc, uint32_t nr_servers,
+                      Error **errp);
+ void xics_kvm_disconnect(SpaprInterruptController *intc);
+-bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
++bool xics_kvm_has_broken_disconnect(void);
  
--    if (!xive->nr_irqs) {
--        error_setg(errp, "Number of interrupt needs to be greater 0");
--        return;
--    }
--
--    if (!xive->nr_ends) {
--        error_setg(errp, "Number of interrupt needs to be greater 0");
--        return;
--    }
--
-     /*
-      * Initialize the internal sources, for IPIs and virtual devices.
-      */
+ #endif /* XICS_SPAPR_H */
 -- 
 2.29.2
 
