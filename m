@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D337D2D71E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 09:37:43 +0100 (CET)
-Received: from localhost ([::1]:45060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7342D7219
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 09:47:32 +0100 (CET)
+Received: from localhost ([::1]:44794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kndvq-0006BD-Rm
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 03:37:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42526)
+	id 1kne5K-0001P5-I5
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 03:47:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kndqY-0008H2-GQ
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 03:32:16 -0500
-Received: from mx2.suse.de ([195.135.220.15]:35106)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kndqe-0008Lt-0p
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 03:32:20 -0500
+Received: from mx2.suse.de ([195.135.220.15]:35142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kndqR-00029T-FM
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 03:32:14 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kndqR-00029c-JJ
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 03:32:19 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id BC177B113;
- Fri, 11 Dec 2020 08:31:54 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 797D3B173;
+ Fri, 11 Dec 2020 08:31:55 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,9 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v11 13/25] tcg: Make CPUClass.debug_excp_handler optional
-Date: Fri, 11 Dec 2020 09:31:31 +0100
-Message-Id: <20201211083143.14350-14-cfontana@suse.de>
+Subject: [PATCH v11 14/25] cpu: Remove unnecessary noop methods
+Date: Fri, 11 Dec 2020 09:31:32 +0100
+Message-Id: <20201211083143.14350-15-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201211083143.14350-1-cfontana@suse.de>
 References: <20201211083143.14350-1-cfontana@suse.de>
@@ -45,7 +45,7 @@ X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,24 +78,41 @@ Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/core/cpu.c | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 890b88861a..64cba89356 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -482,7 +482,9 @@ static inline void cpu_handle_debug_exception(CPUState *cpu)
-         }
-     }
- 
--    cc->debug_excp_handler(cpu);
-+    if (cc->debug_excp_handler) {
-+        cc->debug_excp_handler(cpu);
-+    }
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index 576fa1d7ba..994a12cb35 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -199,15 +199,6 @@ static bool cpu_common_virtio_is_big_endian(CPUState *cpu)
+     return target_words_bigendian();
  }
  
- static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
+-static void cpu_common_noop(CPUState *cpu)
+-{
+-}
+-
+-static bool cpu_common_exec_interrupt(CPUState *cpu, int int_req)
+-{
+-    return false;
+-}
+-
+ #if !defined(CONFIG_USER_ONLY)
+ GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
+ {
+@@ -410,11 +401,7 @@ static void cpu_class_init(ObjectClass *klass, void *data)
+     k->gdb_read_register = cpu_common_gdb_read_register;
+     k->gdb_write_register = cpu_common_gdb_write_register;
+     k->virtio_is_big_endian = cpu_common_virtio_is_big_endian;
+-    k->debug_excp_handler = cpu_common_noop;
+     k->debug_check_watchpoint = cpu_common_debug_check_watchpoint;
+-    k->cpu_exec_enter = cpu_common_noop;
+-    k->cpu_exec_exit = cpu_common_noop;
+-    k->cpu_exec_interrupt = cpu_common_exec_interrupt;
+     k->adjust_watchpoint_address = cpu_adjust_watchpoint_address;
+     set_bit(DEVICE_CATEGORY_CPU, dc->categories);
+     dc->realize = cpu_common_realizefn;
 -- 
 2.26.2
 
