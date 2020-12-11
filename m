@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA65D2D811A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 22:29:19 +0100 (CET)
-Received: from localhost ([::1]:46908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 591182D8137
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 22:40:40 +0100 (CET)
+Received: from localhost ([::1]:50994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knpyY-0007fX-90
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 16:29:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49618)
+	id 1knq9W-0001c0-R3
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 16:40:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1knpwg-0007BK-Bn
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 16:27:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37969)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1knpwb-0002Nd-Es
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 16:27:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607722036;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2baaQLSNBEeqb8s4I052o+MuhTpKsGsOVMcltvWRcFE=;
- b=aNOyP9+mVucR+xYL6sH7miLPM4QhzsiSGg9Xi+nSnX5Q+Eg773ks3WHh85JgLapAQFN8Iz
- +1tJJM0OmTuP4Dz7ewoPZIWIRSjkWvhV5YvmZk38pddyRZRQN/rh4S5dpmhZRg6lisPom3
- yVv5FhWOmYnt3EzKIgqvK/TEM44hfz8=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-nLhMBtfXPIazlqPOpVUHtQ-1; Fri, 11 Dec 2020 16:27:13 -0500
-X-MC-Unique: nLhMBtfXPIazlqPOpVUHtQ-1
-Received: by mail-ua1-f71.google.com with SMTP id o5so1941309uad.18
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 13:27:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1knq6m-000162-U5
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 16:37:48 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:41105)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1knq6j-0005lY-HM
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 16:37:48 -0500
+Received: by mail-ej1-x644.google.com with SMTP id ce23so14304269ejb.8
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 13:37:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CZaYkU6fHDFR60wiJGeoWZEVL8jGIzUmhNFV9+Ek3Ds=;
+ b=KyIsVLv7zPTV7Js8fen2jGH73VLg+zxQrUVVNztT/NYG357j119nMFDugbu4E7iBHb
+ tKr8PosHxs3RwCrYkc4GS1CTMmd+pbNv0NQ+iqzsKFx97Z8KLw0vrhE2stuG2YOy+QH+
+ 3cHGCC9WbFWByVEuOicMJKG+puSE4bddqSzCekHBHeVU40EexBziTaSw03EUdsQyE6ic
+ V5WY4NFhJA7AZGV7Pai1rTAdRr0qy1lv1VssZ99PEozBqhzcGlOavQQPJEB//nxr9AiT
+ BnnkohnOXSYUFqf3sy5ai4yoxUXleRMbN0b7vxyb/f5MXYFV0ZyHHIUDXsPvIy3pmosm
+ cfBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2baaQLSNBEeqb8s4I052o+MuhTpKsGsOVMcltvWRcFE=;
- b=MJEYBIcLmsGBrDxGtMHopF5eeKaHRQ94XWoRgl9nfucxfA9K6MQnglCIkK/0rd2F55
- C4g7wogFOvtIC03UH43dEUIf995gfYesBeB93uDQ4pCY2FoldSDt7CzSDIrSsvwmM2hv
- T5IppV3P9c84uH6jYyJylB81j9zH5FJ3MLpNXKWjFWBmJrnqm6sr+rWjfjTdfBcVr2Ly
- lc9Dl9wfcVYqROWDTJUWwSbaVwB5TgYxTB0KeZfAoM0gyqX02RMY14HFzg4Qt8C3+Ewi
- 1+lndoC9ASdTkPflqTiiwIXSVFIW3LjxvX5aI7XtJBnYq4D2+Z/Gj/lmrRaDMtjT7S/9
- MVhA==
-X-Gm-Message-State: AOAM532n+kVP14bXE/6MuO5hFZGuol/i4AwtoS9Lcqv1sgVsjLGwWfCU
- /ijZY04YMuiTR+V4Jb4hDMBuGAMFDZ9BnaPkgI9TNDEzE3HqWbeKaXMTgzZ7vfPXdqZv3PikcpX
- tyMfYzstbPZs/3sMPMO5SVta2m8nahLU=
-X-Received: by 2002:a1f:3216:: with SMTP id y22mr16017731vky.1.1607722032624; 
- Fri, 11 Dec 2020 13:27:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzoAxYS7LmWjUd46I3qBH/wmX8+rEnzXAY9WUS8yNPb88aaCCmUw66PGF9HvP9W43g/thyTvGXx+ar4+M0xIEI=
-X-Received: by 2002:a1f:3216:: with SMTP id y22mr16017712vky.1.1607722032420; 
- Fri, 11 Dec 2020 13:27:12 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=CZaYkU6fHDFR60wiJGeoWZEVL8jGIzUmhNFV9+Ek3Ds=;
+ b=mqF7KZJgT0S9nvmEod8IhXiAsKbgVaC25EOrmzXj77KXupyy4OUBI60hpDjxA3j8qE
+ dABmMTuCi73iv6DtG7UdBdeNngONPWYwGt018tP7Vt4lQ9hPwCooTAsTITy1Dt0iT7zF
+ R7RMRNxP376gLavRczBGnBbCLMV3A3S3f7Mh9ZMBMvFJ1yQFCCmInxQ0k/CHEqdOAKib
+ +QGqNDEv1Evsuj+yuTg6c//o/OA6RDEYNK2uX3sTi/wK0IHyugo9sD8D0nz15dZPd6aA
+ L4KFBqHKX4ZKUId2EE2R0ZyOZPNqu1eDca/JVEgOgVbHvKwYVQG5ke054iVUiv2/gpul
+ Z2OA==
+X-Gm-Message-State: AOAM530iJ58oPGTjs/qYqrAhAY0HVZ0dG3pCXkgFHJRIamcybH0yaxKS
+ 8TE10pt1XqEV5FMpEdMuq0OXlV97CUunhoixcvf/dQ==
+X-Google-Smtp-Source: ABdhPJxlv/VM/X+tN/JbBVGOkIaypDqu7TxEkjpDsLJoPGJ2+3TXSgEPgFGWcMwzLu+9CGgsQzNJhZPnVOIoFERaqpo=
+X-Received: by 2002:a17:906:31d2:: with SMTP id
+ f18mr12731354ejf.407.1607722660076; 
+ Fri, 11 Dec 2020 13:37:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20201207131503.3858889-1-philmd@redhat.com>
- <20201207131503.3858889-2-philmd@redhat.com>
-In-Reply-To: <20201207131503.3858889-2-philmd@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 11 Dec 2020 18:27:01 -0300
-Message-ID: <CAKJDGDYwUdGxHC4ctzqO6JfrsGQDv7uwdCC29x5Ty61=fzV2RA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] gitlab-ci: Document 'build-tcg-disabled' is a KVM
- X86 job
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20201211051359.3231-1-rebecca@nuviainc.com>
+ <20201211051359.3231-2-rebecca@nuviainc.com>
+ <6dd32a22-e3a6-db57-fc5b-9a3da4e1a709@linaro.org>
+ <284b9f4e-55b7-81a3-f1c5-7f7b6d0c9784@nuviainc.com>
+ <46d7b991-d305-bd2f-91f9-cdc2ee1e73ce@linaro.org>
+In-Reply-To: <46d7b991-d305-bd2f-91f9-cdc2ee1e73ce@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 11 Dec 2020 21:37:28 +0000
+Message-ID: <CAFEAcA9NOez16SaKsegpURPtMJDByYQ2MaeUKjQAiKhm=O-7LA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] target/arm: add support for FEAT_DIT, Data
+ Independent Timing
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,32 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- xen-devel@lists.xenproject.org, kvm@vger.kernel.org,
- Paul Durrant <paul@xen.org>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Cornelia Huck <cohuck@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Rebecca Cran <rebecca@nuviainc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 7, 2020 at 10:15 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Fri, 11 Dec 2020 at 19:51, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Document what this job cover (build X86 targets with
-> KVM being the single accelerator available).
+> On 12/11/20 1:33 PM, Rebecca Cran wrote:
+> > Is the comment in target/arm/op_helper.c:397 still relevant?
+> >
+> > uint32_t HELPER(cpsr_read)(CPUARMState *env)
+> > {
+> >     /*
+> >      * We store the ARMv8 PSTATE.SS bit in env->uncached_cpsr.
+> >      * This is convenient for populating SPSR_ELx, but must be
+> >      * hidden from aarch32 mode, where it is not visible.
+> >      *
+> >      * TODO: ARMv8.4-DIT -- need to move SS somewhere else.
+> >      */
+> >     return cpsr_read(env) & ~(CPSR_EXEC | PSTATE_SS);
+> > }
 >
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  .gitlab-ci.yml | 5 +++++
->  1 file changed, 5 insertions(+)
+> I forgot about this.  So we can't "just" store DIT in uncached_cpsr.
+>
+> I'll let Peter weigh in, but I think it makes sense to move the SS bit
+> somewhere else (e.g. env->pstate) and merge it into SPSR_ELx upon interrupt.
+> While what we're doing here is convenient, it's not architectural, and it would
+> be better to follow GetPSRFromPSTATE pseudocode.
 
-Reviewed-by: WIllian Rampazzo <willianr@redhat.com>
+Yes, I think that's the best thing to do. We've been skating
+by on CPSR and SPSR being the same thing and it's just
+stopped working.
 
+-- PMM
 
