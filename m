@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340752D788F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:04:00 +0100 (CET)
-Received: from localhost ([::1]:49934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CE82D78CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:08:12 +0100 (CET)
+Received: from localhost ([::1]:55970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knjxf-0000LQ-8E
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:03:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47350)
+	id 1knk1j-00031i-3g
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:08:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knjur-00077N-Mz
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:01:05 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35451)
+ id 1knk08-0001sq-8s
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:06:32 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:43588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knjuo-0005u6-RD
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:01:04 -0500
-Received: by mail-ej1-x631.google.com with SMTP id f23so12768932ejk.2
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 07:01:02 -0800 (PST)
+ id 1knk06-0007uT-C4
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:06:31 -0500
+Received: by mail-ej1-x641.google.com with SMTP id jx16so12760800ejb.10
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 07:06:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/XB560NryjUGuFjmBhrqM/yLUzNMNWxFqcILxiYMJcw=;
- b=So2tSKpodw65uM0BXq5LMlQm8RKyOZ/fEXAkA5FYA+3VpSmundwZPUk04dSbQMgtFR
- zD+X6zzNuyqfJI2VRFUCjQlG3oJsnJSE3fPqA0wskPMJ882JHo/gv1FLqVEMYDvzmb+8
- GWxq9OPK+hf0gm4DgiWopsYNjMhxxeN0lnEsmtqk6V7VJPZ/e3+5C3wqS5csFAKFr8Q/
- XbeMGck3d8L13xxY2eTV7E5M6eaNt7izkzgjDN7Ow6O4UlzsH7TSYATsdA3LooNo8qcY
- JFiY1aX6PBPfUNETdNPWq0yxxJwTma8idOjl8aSfrkxxsMHREYEjA0acd43mZz40HnNQ
- 7K4g==
+ :cc; bh=xuAJqAOcxP8T8FKeW9g2d58aSGCAwZ6psuOS3a6hOT8=;
+ b=mwmnApxQMrWJr62Ki5srffosdroeRrwYVaM+HtaQb8EKZDi3EpgGTxklqykhobPyfN
+ PJhmmQgY0bSr6rwegTovtwPMk8TTiqlCqQWO24qZTR6reSBNvyT0rllyrNZaOpjXX/4x
+ zVnkJT5c62dIcpHovqzhm+DiaCElU7qSnJA7ABuAS+lxukjRFJA3msO6Z36BJrrRB4qy
+ S/F/UT34jg+KXX8/O+yfx+xeOAexIkn0x8tkFyw0LG30DiiUz1LKWWQCR2UbeUB/e3Ak
+ frr9WZvzMWgy1nwOKZ5av2zU0K8/rMSBS3UhNLu4IVnlNnPWuL5vwWhKLlPeUmpvCRH4
+ zqEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/XB560NryjUGuFjmBhrqM/yLUzNMNWxFqcILxiYMJcw=;
- b=khUZpzgpXv+6E0bZsiclgUGz9mafnSNibmGXbdLn4DTrm3w1ZuWDcNnVpNhuHZhoB4
- uTMN7GCipBCJDDm5IrGt2uvwGZBW6MFVrIXpF8YuLHyXFJhHh1IduzIEqeJCgi6ZkB3q
- +PU4ZACXHdN15aGzTJmPhW19ms5adP4nTpoW7YRxBVERv2vA+/i5ODkjYnLCOODWKxYy
- K8+We/FDvvzypXdp5QUyF47ghX9znZAYPTX6Kt/2eSxEnW/AyFltMuGIin8e7vhw1UHp
- sOwPwja2FHsP4Cw0rlJ+/KfJeuons2xrwr8qy2a5TaAtjNraap0pwq536REs/Z3mvQg5
- PUjQ==
-X-Gm-Message-State: AOAM530Ug/yZZbw4av+1hvjhmp9xWy2sB2NaUk2FTf3tIQE6hAnV+Bt+
- et1BhckdMSVkcUcgdXQah0vU9RAG1mJfvA9zoQKKYw==
-X-Google-Smtp-Source: ABdhPJzTZQ9AS3CwwHF02y+NrsPE9Ax0lt4NfruybAnA+5q4UPACUcWp+sB5wyqvCCU6/tpCt+tm7jZwNQbyukuXSMU=
-X-Received: by 2002:a17:907:971c:: with SMTP id
- jg28mr11294262ejc.85.1607698855224; 
- Fri, 11 Dec 2020 07:00:55 -0800 (PST)
+ bh=xuAJqAOcxP8T8FKeW9g2d58aSGCAwZ6psuOS3a6hOT8=;
+ b=YzNhiHup2ffGAesNgMp9rLzvs6avYCGbzhkFHns35fcxWp8W4S4nms8Alhop1Q1cvR
+ uUQ/3glYMees9NSShK7Xs6PYHOLspGR5/6E8GpOGhdajLFKB4YJ0tS9vhJ6oEOVCEaA+
+ hfYb6GVwalMJBRqu/iezCxxPkrHVKUp2+EkwjvBJ5UTPhrphF92Vwxrx0wOfsqxz7vLd
+ q+0Gp40C9w6YW46AzkQ7b+TEl4nF8Yx/mW+KCLcw4NzKj21+2GZaVHoK2Cr1ghkmulOS
+ ewTp892GX/iRVtoNf9V1f8c8FaMZ1PJ2Y3Uguuo99fuGex8LDSBnZEygTNilBgUzz984
+ D/Ew==
+X-Gm-Message-State: AOAM531F3CVEmquDPYGEeZd+V9aduwiXGG0YmSd/sFiiIy/yA0PNBve2
+ KYnfBVOrvVbiunESaT27dFkWa1+Af+sm/g6iRp/3aA==
+X-Google-Smtp-Source: ABdhPJxmJZw38YrZlYCUeNsg0d5l25V2FIQ55hbXsosDL3JZayksQhpgk+fKq+p0voFTTvVLIdOMaeIuLBmPFNTSwaU=
+X-Received: by 2002:a17:906:e94c:: with SMTP id
+ jw12mr11459891ejb.56.1607699188714; 
+ Fri, 11 Dec 2020 07:06:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20201211123103.615007-1-pbonzini@redhat.com>
-In-Reply-To: <20201211123103.615007-1-pbonzini@redhat.com>
+References: <20201209174225.401337-1-stefanha@redhat.com>
+ <20201209174225.401337-4-stefanha@redhat.com>
+In-Reply-To: <20201209174225.401337-4-stefanha@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 11 Dec 2020 15:00:44 +0000
-Message-ID: <CAFEAcA-Su3FXL+xJVTg7ezpazWcPCP2hxAXPAstPzMTS-Q2KnQ@mail.gmail.com>
-Subject: Re: [PULL v2 000/113] First batch of misc (i386, kernel-doc, memory, 
- vl.c) changes for QEMU 6.0
-To: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 11 Dec 2020 15:06:17 +0000
+Message-ID: <CAFEAcA9nwUtgVF3-n=tfJ6JDTViP-G2XQhSWk-n-tEuV_aGvyQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] trace: recommend "log" backend for getting started
+ with tracing
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,39 +83,89 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 11 Dec 2020 at 12:34, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Wed, 9 Dec 2020 at 17:42, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> The following changes since commit 379e9eaed497a2e09b5985e1e15967d7bfea8296:
+> The "simple" backend is actually more complicated to use than the "log"
+> backend. Update the quickstart documentation to feature the "log"
+> backend instead of the "simple" backend.
 >
->   Merge remote-tracking branch 'remotes/legoater/tags/pull-aspeed-20201210' into staging (2020-12-10 14:26:35 +0000)
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  docs/devel/tracing.rst | 19 ++++++++-----------
+>  1 file changed, 8 insertions(+), 11 deletions(-)
 >
-> are available in the Git repository at:
+> diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
+> index 76cc1b24fa..039a0bb267 100644
+> --- a/docs/devel/tracing.rst
+> +++ b/docs/devel/tracing.rst
+> @@ -11,9 +11,9 @@ for debugging, profiling, and observing execution.
+>  Quickstart
+>  ==========
 >
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+> -1. Build with the 'simple' trace backend::
+> +1. Build with the 'log' trace backend::
 >
-> for you to fetch changes up to 953d0c333e2825656ba1ec5bd1c18bc53485b39c:
->
->   scripts: kernel-doc: remove unnecessary change wrt Linux (2020-12-10 12:15:25 -0500)
->
-> ----------------------------------------------------------------
-> * Fix for NULL segments (Bin Meng)
-> * Support for 32768 CPUs on x86 without IOMMU (David)
-> * PDEP/PEXT fix and testcase (myself)
-> * Remove bios_name and ram_size globals (myself)
-> * qemu_init rationalization (myself)
-> * Update kernel-doc (myself + upstream patches)
-> * Propagate MemTxResult across DMA and PCI functions (Philippe)
-> * Remove master/slave when applicable (Philippe)
-> * WHPX support for in-kernel irqchip (Sunil)
->
-> ----------------------------------------------------------------
->
+> -    ./configure --enable-trace-backends=simple
+> +    ./configure --enable-trace-backends=log
+>      make
 
+Isn't this the default ?
 
-Applied, thanks.
+It seems to me that the real "quickstart" is
+"your QEMU binary was likely already built with the log backend,
+so all you need to do is pass it '-trace eventname -trace eventname'
+or '-trace some-pattern*'" (or whatever the syntax is: I
+usually use -d trace=something but I assume we'd rather suggest
+-trace to new users ?)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+We can suggest also "if you have a lot of events you might find
+it useful to put them in a file and use --trace events=file"
+but IME that's not the common case for "getting started with
+just outputting trace events" because you can usually enable
+a whole device's trace events with one suitable glob pattern.
 
+>  2. Create a file with the events you want to trace::
+> @@ -24,10 +24,6 @@ Quickstart
+>
+>      qemu --trace events=/tmp/events ... # your normal QEMU invocation
+>
+> -4. Pretty-print the binary trace file::
+> -
+> -    ./scripts/simpletrace.py trace-events-all trace-* # Override * with QEMU <pid>
+> -
+>  Trace events
+>  ============
+>
+> @@ -195,7 +191,7 @@ script.
+>
+>  The trace backends are chosen at configure time::
+>
+> -    ./configure --enable-trace-backends=simple
+> +    ./configure --enable-trace-backends=log
+
+'log' is the default so we don't need to specifically suggest people
+select it as a configure argument.
+
+>  For a list of supported trace backends, try ./configure --help or see below.
+>  If multiple backends are enabled, the trace is sent to them all.
+> @@ -227,10 +223,11 @@ uses DPRINTF().
+>  Simpletrace
+>  -----------
+>
+> -The "simple" backend supports common use cases and comes as part of the QEMU
+> -source tree.  It may not be as powerful as platform-specific or third-party
+> -trace backends but it is portable.  This is the recommended trace backend
+> -unless you have specific needs for more advanced backends.
+> +The "simple" backend writes binary trace logs to a file from a thread, making
+> +it lower overhead than the "log" backend. A Python API is available for writing
+> +offline trace file analysis scripts. It may not be as powerful as
+> +platform-specific or third-party trace backends but it is portable and has no
+> +special library dependencies.
+>
+>  Monitor commands
+>  ~~~~~~~~~~~~~~~~
+
+thanks
 -- PMM
 
