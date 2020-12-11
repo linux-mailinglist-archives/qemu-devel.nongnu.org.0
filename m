@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9A22D73AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 11:15:58 +0100 (CET)
-Received: from localhost ([::1]:59450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6682E2D73C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 11:18:12 +0100 (CET)
+Received: from localhost ([::1]:37044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knfSv-0005Ec-2j
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 05:15:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39234)
+	id 1knfV5-0007pz-Ez
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 05:18:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knfMW-0006jN-Jy
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 05:09:20 -0500
-Received: from mx2.suse.de ([195.135.220.15]:49778)
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1knfTn-00071E-BK; Fri, 11 Dec 2020 05:16:53 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knfMT-0007dT-Ee
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 05:09:20 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 22565B16A;
- Fri, 11 Dec 2020 10:09:16 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v11 7/7] cpu: introduce cpu_accel_instance_init
-Date: Fri, 11 Dec 2020 11:09:08 +0100
-Message-Id: <20201211100908.19696-8-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201211100908.19696-1-cfontana@suse.de>
-References: <20201211100908.19696-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1knfTi-0002yY-AX; Fri, 11 Dec 2020 05:16:51 -0500
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Csmrq3T2RzkpS0;
+ Fri, 11 Dec 2020 18:15:55 +0800 (CST)
+Received: from [10.174.187.138] (10.174.187.138) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 11 Dec 2020 18:16:32 +0800
+Message-ID: <5FD34700.3090001@huawei.com>
+Date: Fri, 11 Dec 2020 18:16:32 +0800
+From: Alex Chen <alex.chen@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
+ rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH] virtiofsd: Fix potential NULL pointer dereference in
+ virtio_send_msg()
+References: <20201210151426.89244-1-alex.chen@huawei.com>
+ <20201210180010.GG3629@work-vm>
+In-Reply-To: <20201210180010.GG3629@work-vm>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.187.138]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=alex.chen@huawei.com;
+ helo=szxga04-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,100 +59,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Claudio Fontana <cfontana@suse.de>,
- Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>,
- Colin Xu <colin.xu@intel.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, stefanha@redhat.com,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-centralize the calls to cpu->accel_cpu_interface
+Hi Dave,
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- include/hw/core/cpu.h | 6 ++++++
- hw/core/cpu.c         | 9 +++++++++
- target/i386/cpu.c     | 9 ++-------
- 3 files changed, 17 insertions(+), 7 deletions(-)
+On 2020/12/11 2:00, Dr. David Alan Gilbert wrote:
+> * Alex Chen (alex.chen@huawei.com) wrote:
+>> The 'ch' will be NULL in the following stack:
+>> send_notify_iov()->fuse_send_msg()->virtio_send_msg(),
+>> so we should check 'ch' is valid before dereferencing it
+>>
+>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+> 
+> Please check, but I don't think we can currently hit this because
+> we never call send_notify_iov - it's currently called by
+> fuse_lowlevel_notify_inval_entry, inval_inode, and
+> fuse_lowlevel_notify_poll -
+> but I don't think those are called anywhere.
+>
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 97e1dd8279..cc05c8fc96 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -664,6 +664,12 @@ void cpu_list_remove(CPUState *cpu);
-  */
- void cpu_reset(CPUState *cpu);
- 
-+/**
-+ * cpu_accel_instance_init:
-+ * @cpu: The CPU that needs to do accel-specific object initializations.
-+ */
-+void cpu_accel_instance_init(CPUState *cpu);
-+
- /**
-  * cpu_class_by_name:
-  * @typename: The CPU base type.
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index f41c009e6c..873cf5e4ef 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -242,6 +242,15 @@ void cpu_reset(CPUState *cpu)
-     trace_guest_cpu_reset(cpu);
- }
- 
-+void cpu_accel_instance_init(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (cc->accel_cpu_interface) {
-+        cc->accel_cpu_interface->cpu_instance_init(cpu);
-+    }
-+}
-+
- static void cpu_common_reset(DeviceState *dev)
- {
-     CPUState *cpu = CPU(dev);
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 5615d9e8bc..8ee39bea24 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -28,7 +28,6 @@
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "sysemu/hvf.h"
--#include "hw/core/accel-cpu.h"
- #include "sysemu/xen.h"
- #include "kvm/kvm_i386.h"
- #include "sev_i386.h"
-@@ -6621,8 +6620,6 @@ static void x86_cpu_initfn(Object *obj)
- {
-     X86CPU *cpu = X86_CPU(obj);
-     X86CPUClass *xcc = X86_CPU_GET_CLASS(obj);
--    CPUClass *cc = CPU_CLASS(xcc);
--
-     CPUX86State *env = &cpu->env;
-     FeatureWord w;
- 
-@@ -6680,10 +6677,8 @@ static void x86_cpu_initfn(Object *obj)
-         x86_cpu_load_model(cpu, xcc->model);
-     }
- 
--    /* if required, do the accelerator-specific cpu initialization */
--    if (cc->accel_cpu_interface) {
--        cc->accel_cpu_interface->cpu_instance_init(CPU(obj));
--    }
-+    /* if required, do accelerator-specific cpu initializations */
-+    cpu_accel_instance_init(CPU(obj));
- }
- 
- static int64_t x86_cpu_get_arch_id(CPUState *cs)
--- 
-2.26.2
+Thanks for your review.
+The send_notify_iov() is really not being called.
+
+> In that case, probably the best fix is to remove those until we
+> put notify back in.
+> 
+
+OK, I will remove those temporarily useless code and send patch v2 to fix this problem.
+
+Thanks,
+Alex
+
+> Dave
+> 
+>> ---
+>>  tools/virtiofsd/fuse_virtio.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+>> index 623812c432..31b2187a15 100644
+>> --- a/tools/virtiofsd/fuse_virtio.c
+>> +++ b/tools/virtiofsd/fuse_virtio.c
+>> @@ -205,6 +205,8 @@ static void copy_iov(struct iovec *src_iov, int src_count,
+>>  int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
+>>                      struct iovec *iov, int count)
+>>  {
+>> +    assert(ch);
+>> +
+>>      FVRequest *req = container_of(ch, FVRequest, ch);
+>>      struct fv_QueueInfo *qi = ch->qi;
+>>      VuDev *dev = &se->virtio_dev->dev;
+>> -- 
+>> 2.19.1
+>>
 
 
