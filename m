@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452232D759A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 13:29:47 +0100 (CET)
-Received: from localhost ([::1]:54560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B7D2D759B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 13:29:49 +0100 (CET)
+Received: from localhost ([::1]:54998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knhYP-0005wo-H9
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 07:29:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43116)
+	id 1knhYS-00067S-NI
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 07:29:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1knhVv-0004Nk-Jc
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 07:27:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43599)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1knhVz-0004Q6-1K
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 07:27:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1knhVs-0000xX-Rt
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 07:27:10 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1knhVt-0000xc-2k
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 07:27:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1607689627;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=nuJSxJzKQ1ayfu3dZUrQFZtNX10JTlggfwkcFz+1K1U=;
- b=BmIXH71mIKFphKy27ODnMfBk9ZsneQlC0y6J6jPLb3LhxWj0qbIUSBVs4EVele3XLFtOAu
- 1++li42Q59ixjtg2BQuYWihykO3kAk4aM5WxhWXW36I/5Ik3t7bm3Yv6IjCHHX8QeIsEfY
- PuIERuuiMSl9zFu9IXp9EsKmpTkHQ54=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nTR6ajFnVBvqLUOuaeayLvCRV/vrVbjOUhjKSN/1HKc=;
+ b=btI7Gylcq+i53/Jbq6mKh2AFH0yFJ899oTN06GSsEFuugPy4fqK8eO+4CQi+TRxQVTm31X
+ Uxv/XVvjSQ2FuMJR9hEQeGTHMM97BNUgeudiZ4vmkh/sZjGB7BmIu1SazaV0Yv/Doka7Qy
+ A5EDln01SEEp9X800bB4mExpQGThkPc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-_YeV--KrN5q0uXdltyQJJg-1; Fri, 11 Dec 2020 07:27:03 -0500
-X-MC-Unique: _YeV--KrN5q0uXdltyQJJg-1
+ us-mta-108-SNMaESbOPh63s48IWHIPlg-1; Fri, 11 Dec 2020 07:27:05 -0500
+X-MC-Unique: SNMaESbOPh63s48IWHIPlg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EA8E1005504;
- Fri, 11 Dec 2020 12:27:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 58775107ACE8;
+ Fri, 11 Dec 2020 12:27:04 +0000 (UTC)
 Received: from gondolin.redhat.com (ovpn-112-240.ams2.redhat.com
  [10.36.112.240])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D99C10016F4;
- Fri, 11 Dec 2020 12:27:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E56C610023BD;
+ Fri, 11 Dec 2020 12:27:02 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/6] s390x update
-Date: Fri, 11 Dec 2020 13:26:52 +0100
-Message-Id: <20201211122658.24481-1-cohuck@redhat.com>
+Subject: [PULL 1/6] hw/watchdog/wdt_diag288: Remove unnecessary includes
+Date: Fri, 11 Dec 2020 13:26:53 +0100
+Message-Id: <20201211122658.24481-2-cohuck@redhat.com>
+In-Reply-To: <20201211122658.24481-1-cohuck@redhat.com>
+References: <20201211122658.24481-1-cohuck@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -53,15 +56,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,52 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2ecfc0657afa5d29a373271b342f704a1a3c6737:
+From: Thomas Huth <thuth@redhat.com>
 
-  Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2020-12-10' into staging (2020-12-10 17:01:05 +0000)
+Neither sysbus.h nor module.h are required to compile this file.
+diag288 is not a sysbus device, and module.h (for type_init) is
+included eventually through qom/object.h.
 
-are available in the Git repository at:
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-Id: <20201118090344.243117-1-thuth@redhat.com>
+[CH: tweaked description]
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+---
+ hw/watchdog/wdt_diag288.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-  https://github.com/cohuck/qemu tags/s390x-20201211
-
-for you to fetch changes up to c7454f05171405b8013a9d6b57045cd614ccc386:
-
-  s390x/cpu: Use timer_free() in the finalize function to avoid memleaks (2020-12-11 11:38:10 +0100)
-
-----------------------------------------------------------------
-First set of 6.0 patches for s390x:
-- acceptance test for device detection
-- bugfixes
-
-----------------------------------------------------------------
-
-
-CI: https://gitlab.com/cohuck/qemu/-/pipelines/228422460
-
-Cornelia Huck (4):
-  tests/acceptance: add a test for devices on s390x
-  tests/acceptance: test virtio-ccw revision handling
-  tests/acceptance: verify s390x device detection
-  tests/acceptance: test s390x zpci fid propagation
-
-Gan Qixin (1):
-  s390x/cpu: Use timer_free() in the finalize function to avoid memleaks
-
-Thomas Huth (1):
-  hw/watchdog/wdt_diag288: Remove unnecessary includes
-
- MAINTAINERS                                 |   1 +
- hw/watchdog/wdt_diag288.c                   |   2 -
- target/s390x/cpu.c                          |   5 +
- tests/acceptance/machine_s390_ccw_virtio.py | 101 ++++++++++++++++++++
- 4 files changed, 107 insertions(+), 2 deletions(-)
- create mode 100644 tests/acceptance/machine_s390_ccw_virtio.py
-
+diff --git a/hw/watchdog/wdt_diag288.c b/hw/watchdog/wdt_diag288.c
+index 71a945f0bdf3..4c4b6a6ab704 100644
+--- a/hw/watchdog/wdt_diag288.c
++++ b/hw/watchdog/wdt_diag288.c
+@@ -14,12 +14,10 @@
+ #include "qemu/osdep.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/watchdog.h"
+-#include "hw/sysbus.h"
+ #include "qemu/timer.h"
+ #include "hw/watchdog/wdt_diag288.h"
+ #include "migration/vmstate.h"
+ #include "qemu/log.h"
+-#include "qemu/module.h"
+ 
+ static WatchdogTimerModel model = {
+     .wdt_name = TYPE_WDT_DIAG288,
 -- 
 2.26.2
 
