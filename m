@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB4D2D783E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 15:53:49 +0100 (CET)
-Received: from localhost ([::1]:32908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF802D7841
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 15:54:05 +0100 (CET)
+Received: from localhost ([::1]:33730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knjno-0001IS-84
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 09:53:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45402)
+	id 1knjo4-0001gF-9A
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 09:54:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knjlX-00006d-Lv
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:51:30 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:42378)
+ id 1knjlu-0000Nz-9O
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:51:50 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:39526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knjlU-0002Sp-NF
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:51:27 -0500
-Received: by mail-ej1-x643.google.com with SMTP id d17so12696103ejy.9
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 06:51:24 -0800 (PST)
+ id 1knjls-0002bZ-Om
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:51:50 -0500
+Received: by mail-ej1-x644.google.com with SMTP id n26so12700251eju.6
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 06:51:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ATarSdgZ4SHf3l2vLgaCEZfDsVKDkLa+HC7ltLN2fIU=;
- b=FQ7TkphATazrlxtDMbuBbdxLmjEZxW9RUDj8RN+TviGuiGy37B7QIfzh0/OFnQEm9Z
- RweANuuqnWdWY2lP8flTQhMQGivlG751z5XhtoafPLD15M6qWWnFb5hTUIuWXfzs0g6H
- 0b+6Y5DQKc/7Gwv1Tl/kmfKnpnhyc0/Hpwc0k7azjRlfryb31E88v83jGPSOuv+v7Wjo
- e8tdzJ29JYn1Awu7t9m2gbWNHlwBJRhxn9zZy+UsQ/OTv2lxGjJrIdpIjnPTN6ITq92X
- VsOzyyVyZOsi4O4g2JEkMGeD5Br7mcn/0eu9+s5z9YUKaOSvEF4eIDzS1m2LXo06R/oo
- 9f+A==
+ :cc; bh=SdE1nP/Fjn5tnjTUQcE7M1jl0Cw9oeIDGSnKk/3Ukt8=;
+ b=Y92IQHpcWsWF4yNkKIt3/tqIdelNYR514444/vMz4zsdNPMXNCLQfrrtegLLG/vKWU
+ L4nv+XB65mjPiql5dvZM5I2mVtsPHdtmDNXdfgDIsXah7OSB2ycPf1J1aLoz2LI6Ifue
+ XLDJPuv/DlyHtPvlRKy26deh0iUl77+vGvuQkYBYyarqS2b4v8l6FaTwqSWuCduf9MpH
+ O5RggVT91CpQMyQKGX/EYrolbmfv2MLUnHZUEwAcR5V9jjpHIagpUIn9IDmi4a7pbc0Q
+ IAQQrUn74JWUk7pAqro4s7Qd3B7YqtETrAIqtwGGeimcEpAqFF00TMloa5UOVwgufiQM
+ 2xAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ATarSdgZ4SHf3l2vLgaCEZfDsVKDkLa+HC7ltLN2fIU=;
- b=X+t82hnrRYVK4KMPodCp9vEQgQ+5AM5ExrTk0qvPqka1cj1kBVUgFJRGJMoFdLvqDf
- 0P9ByyYlJUrpk2mAQWYoYsz2B47ZH9Yiwu/A4rG6ZjF3/JuZnIaJnp8ozJhzGUbawkpL
- 7HRXY9GYPPtWVSw7BTkYMKFBvMiJitDCwwobSc/mH2TzbiJ7XCSBX/DMLTiyO6qqEfpP
- WWMOGm0GaQ6LuJzioJni+YmmYiZrpVlg2/SS4AjEXESLRBUYt4U4foWFHnyjwqdpscbC
- LrnIT60OTB2X5I93Li+khCBPhI489OMm5dIS0ZrlguR9ioeI6gG6rHTyDFVwBIGBP1Rg
- lASg==
-X-Gm-Message-State: AOAM532MP3kFZ6fPR/KZ2dFj3baNk/9M/XyWIAZaQcOdBGT9SfZHHOP3
- OObF3KzPkQC73+fltxj7TAHzYjeY5t+O2FpIEFcJ0g==
-X-Google-Smtp-Source: ABdhPJz//MqmgN9jR/LO0Vf0IAlF2TRMNzbsIgSVcVtiuBR11H3oWIlxQ4xmWB/zkH/Dpxue/BEKGMIo109qtBCMMRs=
-X-Received: by 2002:a17:907:971c:: with SMTP id
- jg28mr11261616ejc.85.1607698283039; 
- Fri, 11 Dec 2020 06:51:23 -0800 (PST)
+ bh=SdE1nP/Fjn5tnjTUQcE7M1jl0Cw9oeIDGSnKk/3Ukt8=;
+ b=prQrrg5hOMPg5cuiCGrEbUOHI+Dl74pwIC7KUyVI1YDR/uQMcmJWn+0UWuToa8VsHm
+ HJc8Bq0ad7knvVdmNVLEqSJWJGwJyHlRy/F1KYiTdnudKfWGhzWq4F/NBcIHlUVDohyi
+ 5Me4qk+rk/YvUhX3+P+m6fSpeT+TBj9+Q847HweDFfaUNUjZZtvBTI9tutMXHfDS/c0S
+ MSKve3KoWzTc/QGf0Ujqepnnq+KBDmV1/PVPzj66u3owUBT1sdLEAI3wRU9h8vlJGypr
+ TXD0vPSsN1B/hdjDm2Jp86Gvomjyhmjx9nTlUCz/27NCIA8PLIXrWkVh7xcAXd8cPwHY
+ xYWg==
+X-Gm-Message-State: AOAM530EgIcuLDa5Bo4qwyyv3etyWezxTw4zRVjUqHGBxmZGxflFw+tV
+ BHC//18u/VFTmsEy0ofUVP+wLJzjs0Ew9/EpBWVOpw==
+X-Google-Smtp-Source: ABdhPJyRfasSvKQGT1RLuaORuvQCA/DZmUbJOpwrNqJRzqnKGvupV9bj6XwDeHs7F1p+lLobIuLTuxH1iTPKRU/YnQA=
+X-Received: by 2002:a17:906:4bc6:: with SMTP id
+ x6mr11193883ejv.4.1607698307401; 
+ Fri, 11 Dec 2020 06:51:47 -0800 (PST)
 MIME-Version: 1.0
 References: <20201208122306.8933-1-leif@nuviainc.com>
- <20201208122306.8933-6-leif@nuviainc.com>
-In-Reply-To: <20201208122306.8933-6-leif@nuviainc.com>
+ <20201208122306.8933-2-leif@nuviainc.com>
+In-Reply-To: <20201208122306.8933-2-leif@nuviainc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 11 Dec 2020 14:51:11 +0000
-Message-ID: <CAFEAcA-KhOTnWiVxWdwABaiq7Eg9zw2ny8LH5ee=2=rGF2-pcg@mail.gmail.com>
-Subject: Re: [PATCH 5/5] target/arm: add aarch32 ID register fields to cpu.h
+Date: Fri, 11 Dec 2020 14:51:36 +0000
+Message-ID: <CAFEAcA-Ojn9a6As4oo+PWyLPr3LH-JmZnJFJDaW_vD+yprKA5Q@mail.gmail.com>
+Subject: Re: [PATCH 1/5] target/arm: fix typo in cpu.h ID_AA64PFR1 field name
 To: Leif Lindholm <leif@nuviainc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,31 +85,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, 8 Dec 2020 at 12:23, Leif Lindholm <leif@nuviainc.com> wrote:
 >
-> Add entries present in ARM DDI 0487F.c (August 2020).
+> SBSS -> SSBS
 >
 > Signed-off-by: Leif Lindholm <leif@nuviainc.com>
-> ---
->  target/arm/cpu.h | 37 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
 
->  FIELD(ID_MMFR4, CCIDX, 24, 4)
->  FIELD(ID_MMFR4, EVT, 28, 4)
->
-> +FIELD(ID_MMFR5, ETS, 0, 4)
-> +
-> +FIELD(ID_PFR0, STATE0, 0, 4)
-> +FIELD(ID_PFR0, STATE1, 4, 4)
-> +FIELD(ID_PFR0, STATE2, 8, 4)
-> +FIELD(ID_PFR0, STATE3, 12, 4)
-> +FIELD(ID_PFR0, CSV2, 16, 4)
-> +FIELD(ID_PFR0, AMU, 20, 4)
-> +FIELD(ID_PFR0, DIT, 24, 4)
-> +FIELD(ID_PFR0, RAS, 28, 4)
-
-The ID_PFR0 definitions are already in master now
-commit 46f4976f22a45 has gone in.
-
-Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
