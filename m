@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5062D7D7F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:59:28 +0100 (CET)
-Received: from localhost ([::1]:50182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99B42D7D9A
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:05:37 +0100 (CET)
+Received: from localhost ([::1]:38728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knmhT-0005Lb-Ps
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:59:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59328)
+	id 1knmnQ-00046a-Nr
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:05:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knmTd-0007JS-5W
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:45:14 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:41501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knmTZ-0006rv-Kf
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:45:08 -0500
-Received: by mail-ot1-x341.google.com with SMTP id x13so8955976oto.8
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 09:45:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1Ckgl0ODLGVKf7uJcnm7LRxtMpkJq9580RATMalb/3s=;
- b=EKGEnYyttrk4BE0zlw5yjEJeW7TofMTfQNmHDMEgvMZZVNu0buoZ/3HD4goM69oRAQ
- msZEy9pF3CFy6rTmUXvqGZKfqw7GVDUCRR8rr7TevjaH2t8Ow/FYillz2jaAh0O2hvoT
- 4v02u/vCZQeutPx8jWa5G6vMTAD/me6iPGeM7nFckpxwcnFJ5I2da6VYk6TG2BcFZlHY
- nBDuNm7uuvGi4MoAHhxwVH3hx8urmrPDXJ1wmNvBO4/s5lYQE/mt4vhNu+BGc+PBdgBn
- Vfnp2/T3Xi2hYcV6ULU1hyfngZek1dsyicRh8V7rufwiTuT9K+xMlzMaQXEwTdqXyiLK
- W1qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1Ckgl0ODLGVKf7uJcnm7LRxtMpkJq9580RATMalb/3s=;
- b=hhm+MMcJ7bu8rc9D0nxnszYmyO/EmjrtvfYqQfFAsIxcBDTHAK1RbneG+degiQXE3K
- dbOcFYvLgzQ2HRhzO4ICMz5Dpj+R2+OQ7OOPkpcSOQGzqgw7bkFHfsZW4VqM0u6cdt7w
- sWr2fdkITkSlNMAr0xlC+1QxXALuAT+YLZY0SwVk6biauQtP55rLzZCbbbt/Oy0zvnKm
- 3u0MufHi7qK8Byx8b1PPC2exXmlkf1FDb0nKhis/n/6J5SIr+KLbXVdtzE3HlN2Mj7vD
- 50kBSUFKmU20zPZuDm5cWNT7PZKrPSUL8ZfTk++FWVOW3X0KAoCeSzeSNAkqH/GTX/QE
- 17pQ==
-X-Gm-Message-State: AOAM531c4Zp69687loIA36MGWTomd28LOFuEAk8WYuSLAARmCk3A05JT
- NmHi/ESK0ueWebeACQKLpdX/Pw==
-X-Google-Smtp-Source: ABdhPJzQCSYQSq9q2jsqd6Bq30AD6kmL5M7/kYFsdMeM+UGMbZSFjXg+ZLThumCB4rXsYHkIMLWTFA==
-X-Received: by 2002:a9d:7c82:: with SMTP id q2mr10504866otn.205.1607708703925; 
- Fri, 11 Dec 2020 09:45:03 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id t24sm1938249oou.4.2020.12.11.09.45.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 09:45:02 -0800 (PST)
-Subject: Re: [PATCH v11 22/25] target/arm: do not use cc->do_interrupt for KVM
- directly
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20201211083143.14350-1-cfontana@suse.de>
- <20201211083143.14350-23-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e800f6a4-666d-fb91-fa68-2f9fd080c914@linaro.org>
-Date: Fri, 11 Dec 2020 11:44:58 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knlxk-0007S3-DE
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:12:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knlxa-0003Qt-94
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:12:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607706719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=O367y6556fykMhoFJUm54PqNrOpGP+td3HV0hIkAe3Y=;
+ b=HAVWoJy2L94oJcaHG/6VtzjF5Lg+UaKdEd4jMATu9NCR1AtifSg5FMTpWXJ+6+UIW1G9xI
+ 1om7fLvSrPOBBSNTBzy2eyhx+KqBNwMnJdgAJtp6tC+0oy9RtVVqYETSLAAisY4nEyqd7x
+ 3lz8rWtKj8EPWgPB3g+u16+LyQ8bWGg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-419-1n-DyEegNZyq9zriQyGYDA-1; Fri, 11 Dec 2020 12:11:56 -0500
+X-MC-Unique: 1n-DyEegNZyq9zriQyGYDA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C41B800FFC;
+ Fri, 11 Dec 2020 17:11:54 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 26A5719C78;
+ Fri, 11 Dec 2020 17:11:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9E1EC11329A5; Fri, 11 Dec 2020 18:11:52 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/20] Immutable QString, and also one JSON writer less
+Date: Fri, 11 Dec 2020 18:11:32 +0100
+Message-Id: <20201211171152.146877-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201211083143.14350-23-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,57 +76,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
+ mdroth@linux.vnet.ibm.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 2:31 AM, Claudio Fontana wrote:
-> cc->do_interrupt is in theory a TCG callback used in accel/tcg only,
-> to prepare the emulated architecture to take an interrupt as defined
-> in the hardware specifications,
-> 
-> but in reality the _do_interrupt style of functions in targets are
-> also occasionally reused by KVM to prepare the architecture state in a
-> similar way where userspace code has identified that it needs to
-> deliver an exception to the guest.
-> 
-> In the case of ARM, that includes:
-> 
-> 1) the vcpu thread got a SIGBUS indicating a memory error,
->    and we need to deliver a Synchronous External Abort to the guest to
->    let it know about the error.
-> 2) the kernel told us about a debug exception (breakpoint, watchpoint)
->    but it is not for one of QEMU's own gdbstub breakpoints/watchpoints
->    so it must be a breakpoint the guest itself has set up, therefore
->    we need to deliver it to the guest.
-> 
-> So in order to reuse code, the same arm_do_interrupt function is used.
-> This is all fine, but we need to avoid calling it using the callback
-> registered in CPUClass, since that one is now TCG-only.
-> 
-> Fortunately this is easily solved by replacing calls to
-> CPUClass::do_interrupt() with explicit calls to arm_do_interrupt().
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  target/arm/helper.c | 4 ++++
->  target/arm/kvm64.c  | 6 ++----
->  2 files changed, 6 insertions(+), 4 deletions(-)
+Based-on: <20201210161452.2813491-1-armbru@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
+Cc: qemu-block@nongnu.org
 
-r~
+Markus Armbruster (20):
+  hmp: Simplify how qmp_human_monitor_command() gets output
+  monitor: Use GString instead of QString for output buffer
+  qobject: Make qobject_to_json_pretty() take a pretty argument
+  qobject: Use GString instead of QString to accumulate JSON
+  qobject: Change qobject_to_json()'s value to GString
+  Revert "qstring: add qstring_free()"
+  hw/rdma: Replace QList by GQueue
+  qobject: Move internals to qobject-internal.h
+  qmp: Fix tracing of non-string command IDs
+  block: Avoid qobject_get_try_str()
+  Revert "qobject: let object_property_get_str() use new API"
+  qobject: Drop qobject_get_try_str()
+  qobject: Drop qstring_get_try_str()
+  qobject: Factor quoted_str() out of to_json()
+  qobject: Factor JSON writer out of qobject_to_json()
+  migration: Replace migration's JSON writer by the general one
+  json: Use GString instead of QString to accumulate strings
+  keyval: Use GString to accumulate value strings
+  block: Use GString instead of QString to build filenames
+  qobject: Make QString immutable
+
+ hw/rdma/rdma_backend_defs.h        |   2 +-
+ hw/rdma/rdma_utils.h               |  15 +-
+ include/migration/vmstate.h        |   7 +-
+ include/qapi/qmp/json-writer.h     |  35 ++++
+ include/qapi/qmp/qbool.h           |   2 -
+ include/qapi/qmp/qdict.h           |   2 -
+ include/qapi/qmp/qjson.h           |   4 +-
+ include/qapi/qmp/qlist.h           |   2 -
+ include/qapi/qmp/qnull.h           |   2 -
+ include/qapi/qmp/qnum.h            |   3 -
+ include/qapi/qmp/qobject.h         |   9 +-
+ include/qapi/qmp/qstring.h         |  14 +-
+ include/qemu/typedefs.h            |   4 +-
+ migration/qjson.h                  |  29 ----
+ monitor/monitor-internal.h         |   2 +-
+ qobject/qobject-internal.h         |  39 +++++
+ block.c                            |  23 +--
+ block/rbd.c                        |   2 +-
+ hw/display/virtio-gpu.c            |   2 +-
+ hw/intc/s390_flic_kvm.c            |   2 +-
+ hw/nvram/eeprom93xx.c              |   2 +-
+ hw/nvram/fw_cfg.c                  |   2 +-
+ hw/pci/msix.c                      |   2 +-
+ hw/pci/pci.c                       |   4 +-
+ hw/pci/shpc.c                      |   2 +-
+ hw/rdma/rdma_backend.c             |  10 +-
+ hw/rdma/rdma_utils.c               |  29 ++--
+ hw/rtc/twl92230.c                  |   2 +-
+ hw/scsi/scsi-bus.c                 |   2 +-
+ hw/usb/redirect.c                  |   7 +-
+ hw/virtio/virtio.c                 |   4 +-
+ migration/qjson.c                  | 114 -------------
+ migration/savevm.c                 |  53 ++++---
+ migration/vmstate-types.c          |  38 ++---
+ migration/vmstate.c                |  52 +++---
+ monitor/misc.c                     |   6 +-
+ monitor/monitor.c                  |  20 +--
+ monitor/qmp.c                      |  46 +++---
+ qemu-img.c                         |  33 ++--
+ qga/main.c                         |  22 +--
+ qobject/json-parser.c              |  30 ++--
+ qobject/json-writer.c              | 247 +++++++++++++++++++++++++++++
+ qobject/qbool.c                    |   1 +
+ qobject/qdict.c                    |   1 +
+ qobject/qjson.c                    | 144 ++++-------------
+ qobject/qlist.c                    |   1 +
+ qobject/qnull.c                    |   1 +
+ qobject/qnum.c                     |   6 +-
+ qobject/qobject.c                  |   1 +
+ qobject/qstring.c                  | 117 +++-----------
+ qom/object.c                       |   9 +-
+ qom/object_interfaces.c            |   4 +-
+ qom/qom-hmp-cmds.c                 |   7 +-
+ target/alpha/machine.c             |   2 +-
+ target/arm/machine.c               |   6 +-
+ target/avr/machine.c               |   4 +-
+ target/hppa/machine.c              |   4 +-
+ target/microblaze/machine.c        |   2 +-
+ target/mips/machine.c              |   4 +-
+ target/openrisc/machine.c          |   2 +-
+ target/ppc/machine.c               |  10 +-
+ target/sparc/machine.c             |   2 +-
+ tests/check-qjson.c                |  67 ++++----
+ tests/check-qobject.c              |   3 +-
+ tests/check-qstring.c              |  16 --
+ tests/qtest/libqtest.c             |  20 ++-
+ tests/test-visitor-serialization.c |   6 +-
+ util/keyval.c                      |  11 +-
+ migration/meson.build              |   1 -
+ qobject/meson.build                |   5 +-
+ 70 files changed, 679 insertions(+), 705 deletions(-)
+ create mode 100644 include/qapi/qmp/json-writer.h
+ delete mode 100644 migration/qjson.h
+ create mode 100644 qobject/qobject-internal.h
+ delete mode 100644 migration/qjson.c
+ create mode 100644 qobject/json-writer.c
+
+-- 
+2.26.2
 
 
