@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D0F2D6F10
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:19:25 +0100 (CET)
-Received: from localhost ([::1]:55190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5802D6F1E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:25:59 +0100 (CET)
+Received: from localhost ([::1]:45288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knZts-0008IL-Fw
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:19:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
+	id 1kna0E-0007zs-30
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:25:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq7-0005bn-Sw; Thu, 10 Dec 2020 23:15:32 -0500
-Received: from ozlabs.org ([203.11.71.1]:56227)
+ id 1knZqA-0005ef-FJ; Thu, 10 Dec 2020 23:15:34 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:45783 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq5-0000ix-Rn; Thu, 10 Dec 2020 23:15:31 -0500
+ id 1knZq6-0000j1-R8; Thu, 10 Dec 2020 23:15:34 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CscrZ72FFz9sWc; Fri, 11 Dec 2020 15:15:10 +1100 (AEDT)
+ id 4Cscrb0xFwz9sWg; Fri, 11 Dec 2020 15:15:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607660110;
- bh=y3ZYqJOuxDBOt14MWrcs2ZMXCYZC6a8TEZBKCXfJFN4=;
+ d=gibson.dropbear.id.au; s=201602; t=1607660111;
+ bh=OQC8DXtu1Qm/Hn1u4TG7T1Oemxye5jQb1DbAfIzZWW8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N+qiJhRYTnU5tgcq/zN79fmKrHgtOuxoT9CcKMTOapzZ0YH1Jbs/XRnQeRpgsWIG9
- is91CL9IAex4X4ga0vNZF5x2lHtF/bwtZyQr2vyuiTAGsROOf0EMm9PKOfeUEfFjeV
- JoyZJLGAORUtJ5ULRlKlm8g+G9wVBB+tKnqklJ+A=
+ b=hcICFaHUTJjzIeWfQV3QRIm3QOiLEkAlK+M09+r4BuhByrRtgTWN1ljkoeYtnEr7D
+ szjClYncuxW91Qg5WEe+7cUgHfdjE1+Ma8EYGQRM/QcqeD0wO02g76LsFWKj/rt7nz
+ Nfg372b1oIOCnupOAIXzs7aUOhoTqmaAhE39mOyI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/30] spapr: Make PHB placement functions and
- spapr_pre_plug_phb() return status
-Date: Fri, 11 Dec 2020 15:14:42 +1100
-Message-Id: <20201211041507.425378-6-david@gibson.dropbear.id.au>
+Subject: [PULL 06/30] spapr: Do PHB hoplug sanity check at pre-plug
+Date: Fri, 11 Dec 2020 15:14:43 +1100
+Message-Id: <20201211041507.425378-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
@@ -64,156 +63,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Read documentation in "qapi/error.h" and changelog of commit
-e3fe3988d785 ("error: Document Error API usage rules") for
-rationale.
+We currently detect that a PHB index is already in use at plug time.
+But this can be decteted at pre-plug in order to error out earlier.
+
+This allows to pass &error_abort to spapr_drc_attach() and to end
+up with a plug handler that doesn't need to report errors anymore.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201120234208.683521-7-groug@kaod.org>
+Message-Id: <20201120234208.683521-8-groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c         | 40 +++++++++++++++++++++++-----------------
- include/hw/ppc/spapr.h |  2 +-
- 2 files changed, 24 insertions(+), 18 deletions(-)
+ hw/ppc/spapr.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 3be27ee2cd..90db845cbb 100644
+index 90db845cbb..b270172369 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -3882,7 +3882,7 @@ int spapr_phb_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
-     return 0;
- }
- 
--static void spapr_phb_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-+static bool spapr_phb_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-                                Error **errp)
- {
-     SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
-@@ -3892,24 +3892,25 @@ static void spapr_phb_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+@@ -3889,6 +3889,7 @@ static bool spapr_phb_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+     SpaprPhbState *sphb = SPAPR_PCI_HOST_BRIDGE(dev);
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
+     const unsigned windows_supported = spapr_phb_windows_supported(sphb);
++    SpaprDrc *drc;
  
      if (dev->hotplugged && !smc->dr_phb_enabled) {
          error_setg(errp, "PHB hotplug not supported for this machine");
--        return;
-+        return false;
+@@ -3900,6 +3901,12 @@ static bool spapr_phb_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+         return false;
      }
  
-     if (sphb->index == (uint32_t)-1) {
-         error_setg(errp, "\"index\" for PAPR PHB is mandatory");
--        return;
-+        return false;
-     }
- 
-     /*
-      * This will check that sphb->index doesn't exceed the maximum number of
-      * PHBs for the current machine type.
-      */
--    smc->phb_placement(spapr, sphb->index,
--                       &sphb->buid, &sphb->io_win_addr,
--                       &sphb->mem_win_addr, &sphb->mem64_win_addr,
--                       windows_supported, sphb->dma_liobn,
--                       &sphb->nv2_gpa_win_addr, &sphb->nv2_atsd_win_addr,
--                       errp);
-+    return
-+        smc->phb_placement(spapr, sphb->index,
-+                           &sphb->buid, &sphb->io_win_addr,
-+                           &sphb->mem_win_addr, &sphb->mem64_win_addr,
-+                           windows_supported, sphb->dma_liobn,
-+                           &sphb->nv2_gpa_win_addr, &sphb->nv2_atsd_win_addr,
-+                           errp);
- }
- 
- static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-@@ -4147,7 +4148,7 @@ static const CPUArchIdList *spapr_possible_cpu_arch_ids(MachineState *machine)
-     return machine->possible_cpus;
- }
- 
--static void spapr_phb_placement(SpaprMachineState *spapr, uint32_t index,
-+static bool spapr_phb_placement(SpaprMachineState *spapr, uint32_t index,
-                                 uint64_t *buid, hwaddr *pio,
-                                 hwaddr *mmio32, hwaddr *mmio64,
-                                 unsigned n_dma, uint32_t *liobns,
-@@ -4185,7 +4186,7 @@ static void spapr_phb_placement(SpaprMachineState *spapr, uint32_t index,
-     if (index >= SPAPR_MAX_PHBS) {
-         error_setg(errp, "\"index\" for PAPR PHB is too large (max %llu)",
-                    SPAPR_MAX_PHBS - 1);
--        return;
-+        return false;
-     }
- 
-     *buid = base_buid + index;
-@@ -4199,6 +4200,7 @@ static void spapr_phb_placement(SpaprMachineState *spapr, uint32_t index,
- 
-     *nv2gpa = SPAPR_PCI_NV2RAM64_WIN_BASE + index * SPAPR_PCI_NV2RAM64_WIN_SIZE;
-     *nv2atsd = SPAPR_PCI_NV2ATSD_WIN_BASE + index * SPAPR_PCI_NV2ATSD_WIN_SIZE;
-+    return true;
- }
- 
- static ICSState *spapr_ics_get(XICSFabric *dev, int irq)
-@@ -4589,18 +4591,21 @@ DEFINE_SPAPR_MACHINE(4_1, "4.1", false);
- /*
-  * pseries-4.0
-  */
--static void phb_placement_4_0(SpaprMachineState *spapr, uint32_t index,
-+static bool phb_placement_4_0(SpaprMachineState *spapr, uint32_t index,
-                               uint64_t *buid, hwaddr *pio,
-                               hwaddr *mmio32, hwaddr *mmio64,
-                               unsigned n_dma, uint32_t *liobns,
-                               hwaddr *nv2gpa, hwaddr *nv2atsd, Error **errp)
- {
--    spapr_phb_placement(spapr, index, buid, pio, mmio32, mmio64, n_dma, liobns,
--                        nv2gpa, nv2atsd, errp);
-+    if (!spapr_phb_placement(spapr, index, buid, pio, mmio32, mmio64, n_dma,
-+                             liobns, nv2gpa, nv2atsd, errp)) {
++    drc = spapr_drc_by_id(TYPE_SPAPR_DRC_PHB, sphb->index);
++    if (drc && drc->dev) {
++        error_setg(errp, "PHB %d already attached", sphb->index);
 +        return false;
 +    }
 +
-     *nv2gpa = 0;
-     *nv2atsd = 0;
-+    return true;
+     /*
+      * This will check that sphb->index doesn't exceed the maximum number of
+      * PHBs for the current machine type.
+@@ -3913,8 +3920,7 @@ static bool spapr_phb_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+                            errp);
  }
--
- static void spapr_machine_4_0_class_options(MachineClass *mc)
+ 
+-static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+-                           Error **errp)
++static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev)
  {
-     SpaprMachineClass *smc = SPAPR_MACHINE_CLASS(mc);
-@@ -4760,7 +4765,7 @@ DEFINE_SPAPR_MACHINE(2_8, "2.8", false);
-  * pseries-2.7
-  */
+     SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
+@@ -3930,9 +3936,8 @@ static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+     /* hotplug hooks should check it's enabled before getting this far */
+     assert(drc);
  
--static void phb_placement_2_7(SpaprMachineState *spapr, uint32_t index,
-+static bool phb_placement_2_7(SpaprMachineState *spapr, uint32_t index,
-                               uint64_t *buid, hwaddr *pio,
-                               hwaddr *mmio32, hwaddr *mmio64,
-                               unsigned n_dma, uint32_t *liobns,
-@@ -4792,7 +4797,7 @@ static void phb_placement_2_7(SpaprMachineState *spapr, uint32_t index,
-     if (index > max_index) {
-         error_setg(errp, "\"index\" for PAPR PHB is too large (max %u)",
-                    max_index);
+-    if (!spapr_drc_attach(drc, dev, errp)) {
 -        return;
-+        return false;
+-    }
++    /* spapr_phb_pre_plug() already checked the DRC is attachable */
++    spapr_drc_attach(drc, dev, &error_abort);
+ 
+     if (hotplugged) {
+         spapr_hotplug_req_add_by_index(drc);
+@@ -4000,7 +4005,7 @@ static void spapr_machine_device_plug(HotplugHandler *hotplug_dev,
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)) {
+         spapr_core_plug(hotplug_dev, dev, errp);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
+-        spapr_phb_plug(hotplug_dev, dev, errp);
++        spapr_phb_plug(hotplug_dev, dev);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
+         spapr_tpm_proxy_plug(hotplug_dev, dev, errp);
      }
- 
-     *buid = base_buid + index;
-@@ -4811,6 +4816,7 @@ static void phb_placement_2_7(SpaprMachineState *spapr, uint32_t index,
- 
-     *nv2gpa = 0;
-     *nv2atsd = 0;
-+    return true;
- }
- 
- static void spapr_machine_2_7_class_options(MachineClass *mc)
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 2e89e36cfb..b7ced9faeb 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -140,7 +140,7 @@ struct SpaprMachineClass {
-     bool pre_5_1_assoc_refpoints;
-     bool pre_5_2_numa_associativity;
- 
--    void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
-+    bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
-                           uint64_t *buid, hwaddr *pio, 
-                           hwaddr *mmio32, hwaddr *mmio64,
-                           unsigned n_dma, uint32_t *liobns, hwaddr *nv2gpa,
 -- 
 2.29.2
 
