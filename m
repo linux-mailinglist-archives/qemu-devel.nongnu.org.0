@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308DD2D7DBF
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:11:43 +0100 (CET)
-Received: from localhost ([::1]:54378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A7A2D7DED
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:22:01 +0100 (CET)
+Received: from localhost ([::1]:55684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knmtK-0002O5-73
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:11:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53902)
+	id 1knn3I-0006lF-Cd
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:22:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knm6j-0000rR-PU
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:21:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44039)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knm6h-00070o-Df
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:21:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607707286;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1a7jRgN6EDHHtr30+VpGBj0+vBVKrsLqKpbF+8gWhsA=;
- b=S3yZ+3l/3xaDhW9D7g3wNoRniKUaVAYMuE7vKAchTcHo1H1U6HS1AGPUwfcxGrrO4U1ND4
- e1kdsx7Lht2plB772OUH97TH3izUGNC5dyizxbSOTWPBdirTiBahjn4yxnKRQXsYIWwpoS
- KCBNiwabny2tGTATvA+H9oUW0vMdosg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-1Anh4zB0Oey-Ssnt0t2ObA-1; Fri, 11 Dec 2020 12:21:24 -0500
-X-MC-Unique: 1Anh4zB0Oey-Ssnt0t2ObA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D2CD180A09C;
- Fri, 11 Dec 2020 17:21:23 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-98.ams2.redhat.com
- [10.36.112.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C00E65F9B7;
- Fri, 11 Dec 2020 17:21:11 +0000 (UTC)
-Subject: Re: [PATCH v14 13/13] block: apply COR-filter to block-stream jobs
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
- <20201204220758.2879-14-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <6aa8bbb7-6745-eed3-ade6-3ef47d5ee08d@redhat.com>
-Date: Fri, 11 Dec 2020 18:21:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1knmFx-0007s8-0v
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:31:01 -0500
+Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:38770)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1knmFv-0001rq-6V
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:31:00 -0500
+Received: by mail-oo1-xc41.google.com with SMTP id i18so2321283ooh.5
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 09:30:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zEkonvWBCoRhQW0ZRR/bbk5DdZBzKwciItVBYqQ/Gxg=;
+ b=r77VfrcB4POcJQvfIaThLta06tIxLtQ6/y/G6cH/hpMm9QddcCXKi5wM7UZRK6f6YI
+ Akt3AciGV6Us5C7Gl8QNWosqsn5ENUdVKObMfxdZWTwo/+ZeGWIkkTqoRAX568eiS4Mp
+ ANiMZRlbYQJfnam/gS4BMSmOJ/Ss7ZqL0i1dxuA2kpkvI2LFnoxZPJpIRgUvXbuZEKzp
+ a+YOD2gRkDH6xPgA62zuTpthRdmp6V175jzLEjgzBFO67MY+cvfyyzcrZeTJ1ixe3OaP
+ 3PAsrYd1C+JqHf1GrclRPvtWYW/bCNxyEZZiHzntZlJWNoWv4lMXwG1ZdPcHBL40Iz3E
+ 9Iwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zEkonvWBCoRhQW0ZRR/bbk5DdZBzKwciItVBYqQ/Gxg=;
+ b=uoDkRp+gf1ND3BQD9wY7B0Pu7yOiThfgb4CaPwNQuB8928+mOldiYWIMiL4PuIUsWM
+ +WpWhHP64EftZEOIsBn9VCZHFrTbhYr0bY+xaFRggsm/Mhnlw7aVDZMQ9gSKLi1hqV+S
+ EQR/qJdHAmJC7I49COfastJ1+yuBZ5Gaq6mPAaCDK5p1xpKq0CAwZWjRe17COBjFNoRA
+ BM09HRWJaZeHIFthS35pqOOhumI8659ERsqzaT6ibYvycZTWmnoL1F1WmNEwK/oabYR+
+ 6Qq+2gmhW0uvUOvAcm9RpPgrshC1Hc+oGkm+1fq3tSYeZN+gMVe1t031NKhFGrfPCrxd
+ 8jvw==
+X-Gm-Message-State: AOAM533ieSd0iOvJ21LhrQvHlEBEWG4jrqyyCfltLGi9NcZ0BHFD9/c5
+ hao006t6DLSJF0oFGt+kY3jkpA==
+X-Google-Smtp-Source: ABdhPJykQLuJR3nvjwDlQwHbRyooRy6WfT42HLmsgg35ABjlrlnTR0M87xd/9S2vThilUYthDuoP3A==
+X-Received: by 2002:a4a:d5d3:: with SMTP id a19mr10953622oot.61.1607707857931; 
+ Fri, 11 Dec 2020 09:30:57 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id r12sm1931694ooo.25.2020.12.11.09.30.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Dec 2020 09:30:56 -0800 (PST)
+Subject: Re: [PATCH v11 19/25] cpu: Move cpu_exec_* to tcg_ops
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20201211083143.14350-1-cfontana@suse.de>
+ <20201211083143.14350-20-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3433b2ce-ddb0-7f7d-c69c-733e199be939@linaro.org>
+Date: Fri, 11 Dec 2020 11:30:53 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201204220758.2879-14-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20201211083143.14350-20-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc41.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,70 +93,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
- jsnow@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
+ haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
+ Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.12.20 23:07, Vladimir Sementsov-Ogievskiy wrote:
-> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+On 12/11/20 2:31 AM, Claudio Fontana wrote:
+> From: Eduardo Habkost <ehabkost@redhat.com>
 > 
-> This patch completes the series with the COR-filter applied to
-> block-stream operations.
-> 
-> Adding the filter makes it possible in future implement discarding
-> copied regions in backing files during the block-stream job, to reduce
-> the disk overuse (we need control on permissions).
-> 
-> Also, the filter now is smart enough to do copy-on-read with specified
-> base, so we have benefit on guest reads even when doing block-stream of
-> the part of the backing chain.
-> 
-> Several iotests are slightly modified due to filter insertion.
-> 
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> [claudio: wrapped in CONFIG_TCG]
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   block/stream.c             | 78 ++++++++++++++++++++++++++------------
->   tests/qemu-iotests/030     |  8 ++--
->   tests/qemu-iotests/141.out |  2 +-
->   tests/qemu-iotests/245     | 20 ++++++----
->   4 files changed, 72 insertions(+), 36 deletions(-)
-> 
-> diff --git a/block/stream.c b/block/stream.c
-> index a7fd8945ad..b92f7de55b 100644
-> --- a/block/stream.c
-> +++ b/block/stream.c
+>  include/hw/core/cpu.h           |  6 ------
+>  include/hw/core/tcg-cpu-ops.h   |  6 ++++++
+>  accel/tcg/cpu-exec.c            | 12 ++++++------
+>  target/alpha/cpu.c              |  2 +-
+>  target/arm/cpu.c                |  2 +-
+>  target/arm/cpu64.c              |  5 ++++-
+>  target/arm/cpu_tcg.c            |  7 ++++++-
+>  target/avr/cpu.c                |  2 +-
+>  target/cris/cpu.c               |  2 +-
+>  target/hppa/cpu.c               |  2 +-
+>  target/i386/tcg/tcg-cpu.c       |  6 +++---
+>  target/lm32/cpu.c               |  2 +-
+>  target/m68k/cpu.c               |  2 +-
+>  target/microblaze/cpu.c         |  2 +-
+>  target/mips/cpu.c               |  2 +-
+>  target/nios2/cpu.c              |  2 +-
+>  target/openrisc/cpu.c           |  2 +-
+>  target/riscv/cpu.c              |  2 +-
+>  target/rx/cpu.c                 |  2 +-
+>  target/s390x/cpu.c              |  2 +-
+>  target/sh4/cpu.c                |  2 +-
+>  target/sparc/cpu.c              |  2 +-
+>  target/tilegx/cpu.c             |  2 +-
+>  target/unicore32/cpu.c          |  2 +-
+>  target/xtensa/cpu.c             |  2 +-
+>  target/ppc/translate_init.c.inc | 16 ++++++++++------
+>  26 files changed, 54 insertions(+), 42 deletions(-)
 
-[...]
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> @@ -295,17 +287,49 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-
-[...]
-
-> +    opts = qdict_new();
-> +
-> +    qdict_put_str(opts, "driver", "copy-on-read");
-> +    qdict_put_str(opts, "file", bdrv_get_node_name(bs));
-> +    /* Pass the base_overlay node name as 'bottom' to COR driver */
-> +    qdict_put_str(opts, "bottom", base_overlay->node_name);
-
-Hm.  Should we set this option even if no base was specified?
-
-On one hand, omitting this option would cor_co_preadv_part() a bit quicker.
-
-On the other, what happens when you add a backing file below the bottom 
-node during streaming (yes, a largely theoretical case)...  Now, all 
-data from it is ignored.  That seemed a bit strange to me at first, but 
-on second thought, it makes more sense.  Doing anything else would 
-produce a garbage result basically, because stream_run() doesn’t take 
-such a change into account.
-
-So...  After all I think I agree with setting @bottom unconditionally.
-
-And that’s the only comment I had. :)
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+r~
 
 
