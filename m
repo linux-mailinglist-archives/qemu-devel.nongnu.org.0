@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81252D7FC3
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 21:04:31 +0100 (CET)
-Received: from localhost ([::1]:33680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E222D7FC4
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 21:05:34 +0100 (CET)
+Received: from localhost ([::1]:34254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knoeT-0006Ns-L8
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 15:04:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58126)
+	id 1knofV-0006df-8P
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 15:05:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1knoV5-0001fH-PX
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 14:54:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34618)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1knobY-0005Df-AY
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 15:01:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1knoV1-0005De-T6
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 14:54:46 -0500
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1knobS-0007Zo-OX
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 15:01:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607716481;
+ s=mimecast20190719; t=1607716881;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=506Wc3dX1LozkWGIyxxUa7HAHYTWy8UFotmvyrixl14=;
- b=WeywEzQfKDMO05QR7JAWdX8Q8UsmIl1BdvTpIppq2EMRKrNjjl6sZRpWg0ZgsKwH/n4FtJ
- Ku1XpfuOPC4buSMczE+SAaVfAM4/AdbTgc9ChRWDrpSF5nC5BfV32m4MugD/gyBnTCDgV4
- 7F1eO/VFXo8uTMSZRrVV6j5R9W/8OMU=
+ bh=bFM8FSVJwubnfTnJrWGXX+7jwf6vCqgFqrrJzhSWcMY=;
+ b=Fm9Hi3NrGqYZuFcBtjW1lAdIVF3n/ncAVVUB6rmiY8OtgsIADS5tZLKbWQ8W0PFpkZooOD
+ fFGgXt9HLIH2ZmVmiecyMzqCvwJB0fU4Ay3fLckBNjQm+5w7gF5lQU0eRGZnXNpcrknm+K
+ 8LPx+sFGbC0YzTcwycthCyOa9IbnhW4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-ybxP6S3kMRSKYeB4RNIPlQ-1; Fri, 11 Dec 2020 14:54:39 -0500
-X-MC-Unique: ybxP6S3kMRSKYeB4RNIPlQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-238-jRIxGeBiOqe9rkcKOCaOiA-1; Fri, 11 Dec 2020 15:01:17 -0500
+X-MC-Unique: jRIxGeBiOqe9rkcKOCaOiA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B768800D62
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 19:54:38 +0000 (UTC)
-Received: from work-vm (ovpn-113-63.ams2.redhat.com [10.36.113.63])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DFF75D973;
- Fri, 11 Dec 2020 19:54:16 +0000 (UTC)
-Date: Fri, 11 Dec 2020 19:54:14 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH 3/3] virtiofsd: Check file type in lo_flush()
-Message-ID: <20201211195414.GG3380@work-vm>
-References: <20201207183021.22752-1-vgoyal@redhat.com>
- <20201207183021.22752-4-vgoyal@redhat.com>
- <20201210200303.GN3629@work-vm>
- <20201210200931.GA185111@redhat.com>
- <20201210201431.GP3629@work-vm> <20201211142544.GB3285@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11E69107ACE3;
+ Fri, 11 Dec 2020 20:01:16 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-115-237.rdu2.redhat.com [10.10.115.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 485656F45B;
+ Fri, 11 Dec 2020 20:01:09 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id CF0DE220BCF; Fri, 11 Dec 2020 15:01:08 -0500 (EST)
+Date: Fri, 11 Dec 2020 15:01:08 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: Some performance numbers for virtiofs, DAX and virtio-9p
+Message-ID: <20201211200108.GG3285@redhat.com>
+References: <20201210161126.GA125438@redhat.com>
+ <CAOssrKcKaosJo1W+sek0AOA3CdyE+ZUWzx8KPsn=Gz3Nor+_iQ@mail.gmail.com>
+ <20201211160603.GD3285@redhat.com> <20201211182956.GF3380@work-vm>
+ <20201211192517.GF3285@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201211142544.GB3285@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201211192517.GF3285@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,120 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, mszeredi@redhat.com, lersek@redhat.com,
- qemu-devel@nongnu.org, stefanha@redhat.com
+Cc: Miklos Szeredi <mszeredi@redhat.com>, "Venegas Munoz,
+ Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, virtio-fs-list <virtio-fs@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> On Thu, Dec 10, 2020 at 08:14:31PM +0000, Dr. David Alan Gilbert wrote:
-> > * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > > On Thu, Dec 10, 2020 at 08:03:03PM +0000, Dr. David Alan Gilbert wrote:
-> > > > * Vivek Goyal (vgoyal@redhat.com) wrote:
-> > > > > Currently lo_flush() is written in such a way that it expects to receive
-> > > > > a FLUSH requests on a regular file (and not directories). For example,
-> > > > > we call lo_fi_fd() which searches lo->fd_map. If we open directories
-> > > > > using opendir(), we keep don't keep track of these in lo->fd_map instead
-> > > > > we keep them in lo->dir_map. So we expect lo_flush() to be called on
-> > > > > regular files only.
-> > > > > 
-> > > > > Even linux fuse client calls FLUSH only for regular files and not
-> > > > > directories. So put a check for filetype and return EBADF if
-> > > > > lo_flush() is called on a non-regular file.
-> > > > > 
-> > > > > Reported-by: Laszlo Ersek <lersek@redhat.com>
-> > > > > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > > > > ---
-> > > > >  tools/virtiofsd/passthrough_ll.c | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > > > > index 8ba79f503a..48a109d3f6 100644
-> > > > > --- a/tools/virtiofsd/passthrough_ll.c
-> > > > > +++ b/tools/virtiofsd/passthrough_ll.c
-> > > > > @@ -1968,7 +1968,7 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
-> > > > >      struct lo_data *lo = lo_data(req);
-> > > > >  
-> > > > >      inode = lo_inode(req, ino);
-> > > > > -    if (!inode) {
-> > > > > +    if (!inode || !S_ISREG(inode->filetype)) {
-> > > > >          fuse_reply_err(req, EBADF);
+On Fri, Dec 11, 2020 at 02:25:17PM -0500, Vivek Goyal wrote:
+> On Fri, Dec 11, 2020 at 06:29:56PM +0000, Dr. David Alan Gilbert wrote:
+> 
+> [..]
 > > > > 
-> > > > Does that need a lo_inode_put(lo, &inode) in the new case?
+> > > > Could we measure at what point does a large window size actually make
+> > > > performance worse?
 > > > 
-> > > Good catch. Yes if inode is valid but file type is not regular, we need
-> > > to put inode reference.
-> > > 
-> > > Do you want me to post a new patch or you will like to take care of
-> > > it.
+> > > Will do. Will run tests with varying window sizes (small to large)
+> > > and see how does it impact performance for same workload with
+> > > same guest memory.
 > > 
-> > OK, so if we make this :
-> > 
-> >   if (!inode) {
-> >       fuse_reply_err(req, EBADF);
-> >       return;
-> >   }
-> > 
-> >   if (!S_ISREG(inode->filetype)) {
-> >       lo_inode_put(lo_data(req), &inode);
-> >       fuse_reply_err(req, EBADF);
-> >       return;
-> >   }
-> > 
-> > (Untested)
+> > I wonder how realistic it is though;  it makes some sense if you have a
+> > scenario like a fairly small root filesystem - something tractable;  but
+> > if you have a large FS you're not realistically going to be able to set
+> > the cache size to match it - that's why it's a cache!
 > 
-> Hi Dave,
+> I think its more about active dataset size and not necessarily total
+> FS size. FS might be big but if application is not accessing all of
+> the in reasonabl small time window, then it does not matter.
 > 
-> Above looks good. For your convenience, I updated the patch and also
-> tested it by running blogbench and things look fine.
-> 
-> Vivek
-> 
-> Subject: virtiofsd: Check file type in lo_flush()
-> 
-> Currently lo_flush() is written in such a way that it expects to receive
-> a FLUSH requests on a regular file (and not directories). For example,
-> we call lo_fi_fd() which searches lo->fd_map. If we open directories
-> using opendir(), we keep don't keep track of these in lo->fd_map instead
-> we keep them in lo->dir_map. So we expect lo_flush() to be called on
-> regular files only.
-> 
-> Even linux fuse client calls FLUSH only for regular files and not
-> directories. So put a check for filetype and return EBADF if 
-> lo_flush() is called on a non-regular file.
-> 
-> Reported-by: Laszlo Ersek <lersek@redhat.com>
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> What worries me most is that cost of reclaim of a dax range seems
+> too high (or keeps the process blocked for long enogh), that it
+> kills the performance. I will need to revisit the reclaim path
+> and see if I can optimize something.
 
-OK< thanks
+I see that while reclaiming a range, we are sending a remvemapping
+command to virtiofsd. We are holding locks so that no new mappings
+can be added to that inode.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+We had decided that removemapping is not necessary. It helps in
+the sense that if guest is not using a mapping, qemu will unmap
+it too.
 
-and queued.
-(I've dropped the Tested-by since it's had a bit of forceful rework).
+If we stop sending remove mapping, then it might improve reclaim
+performance significantly. With the downside that host will
+have something mapped (despite the fact that guest is not using
+it anymore). And these will be cleaned up only when guest shuts
+down.
 
-> ---
->  tools/virtiofsd/passthrough_ll.c |    6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
-> ===================================================================
-> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2020-12-11 09:00:28.787669761 -0500
-> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2020-12-11 09:03:38.239496505 -0500
-> @@ -1973,6 +1973,12 @@ static void lo_flush(fuse_req_t req, fus
->          return;
->      }
->  
-> +    if (!S_ISREG(inode->filetype)) {
-> +        lo_inode_put(lo, &inode);
-> +        fuse_reply_err(req, EBADF);
-> +        return;
-> +    }
-> +
->      /* An fd is going away. Cleanup associated posix locks */
->      if (lo->posix_lock) {
->          pthread_mutex_lock(&inode->plock_mutex);
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Vivek
 
 
