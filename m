@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1642D8163
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 22:58:49 +0100 (CET)
-Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF162D81BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 23:15:46 +0100 (CET)
+Received: from localhost ([::1]:50572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knqR5-0007zK-MP
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 16:58:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55934)
+	id 1knqhV-00084l-6C
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 17:15:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1knqOe-000749-Qx
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 16:56:16 -0500
-Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:38297)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1knqOc-00035r-E3
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 16:56:16 -0500
-Received: by mail-ua1-x942.google.com with SMTP id y26so3353106uan.5
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 13:56:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=coyXN2x4BlNVsfzvsFcVwdCBVk9lEyEa87g+7NNNuO8=;
- b=jZfnrgAwBgQf2VdVNzh45isjfnI9CjHXpvSDZDNbBYo47mtk+kpmhCaNyOxsZByV7e
- R+7Pab36SFzq2iPSSyRRw/U+FJQegzepd7Lm2urakOragmiKbpW+SI8BqcUFos+WCQjz
- Mk1er1f3SqJqI11XcwPZYviJuuFneTr4nUhA7RmXB7h1Pc/sqB4hcasqIXw2N0yxP849
- 3gsR8IapLm0XdprZj3KjBpZRrebfFBulqWau5GvQMJMyqO0ySAqceWPN6+sDZB/Y8IBz
- 5j4R96yGRc/uANeYYJRpJFvuJeSBkT6gFrO2p+8HwtfB04lehtSB57A7wzcfFn0oVgq9
- 1GDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=coyXN2x4BlNVsfzvsFcVwdCBVk9lEyEa87g+7NNNuO8=;
- b=I3Vw8LTRzJ5aGDc4euW04prduj9xIz7p41AhaBNn6eQMTD3LIT4oD1WaWh0o1TBWgB
- Zi2JFhiFfVk/9KJn5WSGjLe6CA33k+HdOHSL7Im4mQ57E1WoKOr7QQaMDmtyxoCB5cvy
- Hp3UIKOsmfB6wqPKUh8mKHnT0Ba3oAKaWe36mE7HOQLVYCjvSWq2xxHIbq9VoKyS3Fz3
- 9HHeaNMIgA310v9/cDHymsY8O+HM2kpgSPuF2xQquey7Mqp0/J1DaftI862OU8tEe8VN
- djkHTkEV7rwZ+P9vyF7TaVhYzI8Reo2HdAJ/XoxZ4jUkex6gyAgMUJMkaQ3DTOyZu/yT
- FTTA==
-X-Gm-Message-State: AOAM531BhoTrweutbrRycvVCx1qP97adP/JHUNdRvN2gUD7Lkhbncii7
- JL0rLNzjHiFhem1WFytsF4lmKAII1tjGf60F3CPcwA==
-X-Google-Smtp-Source: ABdhPJwnI2WoloB+2i9HQS75rt44gPDQFIg1lya0+9VRh/3HxZRROu5Gi82xreChxOmktjwXoW0EcOMw+6VsUhQk/cg=
-X-Received: by 2002:a9f:2e0d:: with SMTP id t13mr14988685uaj.41.1607723767682; 
- Fri, 11 Dec 2020 13:56:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1knqXr-0001aL-Az
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 17:05:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56961)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1knqXl-0006AI-0U
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 17:05:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607724338;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=m1GJb0zsIyPCCggZgwbFOjzH1MnRrz0xo/iJG9YkhiY=;
+ b=hzkSVny/N88iKO6rE8JfclIwuszFJyOb05exOX7P4cYpn2rHZKtg/kBL4HfWqDr+Nr0FoH
+ ayYZi66yYPXYFRADCrojkGG9tabypZ4haaSsgRO2JrLGFqjdQSFjurRz8Ygo2cqQHkkK5w
+ Rs501H29B781Eleg7Pz0FBcphXyM8EY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-2miFwqcIM7uuBgNGOtaCrg-1; Fri, 11 Dec 2020 17:05:36 -0500
+X-MC-Unique: 2miFwqcIM7uuBgNGOtaCrg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4C0F10A0F41;
+ Fri, 11 Dec 2020 22:05:34 +0000 (UTC)
+Received: from localhost (ovpn-116-160.rdu2.redhat.com [10.10.116.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 45FD35F9C2;
+ Fri, 11 Dec 2020 22:05:31 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/32] qdev property code cleanup
+Date: Fri, 11 Dec 2020 17:04:57 -0500
+Message-Id: <20201211220529.2290218-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-References: <20201125215245.3514695-1-dje@google.com>
- <20201210112540.GE416119@stefanha-x1.localdomain>
-In-Reply-To: <20201210112540.GE416119@stefanha-x1.localdomain>
-From: Doug Evans <dje@google.com>
-Date: Fri, 11 Dec 2020 13:55:31 -0800
-Message-ID: <CADPb22SACmhu1h=aNC=C5Dmi738DhV_BVPq-LOVRnS0GjKKaSA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] trace: Send "-d trace:help" output to stdout
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000001235f505b6375c04"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::942;
- envelope-from=dje@google.com; helo=mail-ua1-x942.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,66 +75,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001235f505b6375c04
-Content-Type: text/plain; charset="UTF-8"
+This code contains the first 32 patches from the series:=0D
+=0D
+  Subject: [PATCH v3 00/53] Make qdev static property API usable by any QOM=
+ type=0D
+  https://lore.kernel.org/qemu-devel/20201112214350.872250-1-ehabkost@redha=
+t.com=0D
+=0D
+I'm submitting this separately so we can merge the qdev-specific=0D
+cleanup while we discuss our long term plans for QOM properties.=0D
+=0D
+Eduardo Habkost (32):=0D
+  cs4231: Get rid of empty property array=0D
+  cpu: Move cpu_common_props to hw/core/cpu.c=0D
+  qdev: Move property code to qdev-properties.[ch]=0D
+  qdev: Check dev->realized at set_size()=0D
+  sparc: Check dev->realized at sparc_set_nwindows()=0D
+  qdev: Don't use dev->id on set_size32() error message=0D
+  qdev: Make PropertyInfo.print method get Object* argument=0D
+  qdev: Make bit_prop_set() get Object* argument=0D
+  qdev: Make qdev_get_prop_ptr() get Object* arg=0D
+  qdev: Make qdev_find_global_prop() get Object* argument=0D
+  qdev: Make check_prop_still_unset() get Object* argument=0D
+  qdev: Make error_set_from_qdev_prop_error() get Object* argument=0D
+  qdev: Make qdev_propinfo_get_uint16() static=0D
+  qdev: Move UUID property to qdev-properties-system.c=0D
+  qdev: Move softmmu properties to qdev-properties-system.h=0D
+  qdev: Reuse DEFINE_PROP in all DEFINE_PROP_* macros=0D
+  sparc: Use DEFINE_PROP for nwindows property=0D
+  qdev: Get just property name at error_set_from_qdev_prop_error()=0D
+  qdev: Avoid using prop->name unnecessarily=0D
+  qdev: Add name parameter to qdev_class_add_property()=0D
+  qdev: Add name argument to PropertyInfo.create method=0D
+  qdev: Wrap getters and setters in separate helpers=0D
+  qdev: Move dev->realized check to qdev_property_set()=0D
+  qdev: Make PropertyInfo.create return ObjectProperty*=0D
+  qdev: Make qdev_class_add_property() more flexible=0D
+  qdev: Separate generic and device-specific property registration=0D
+  qdev: Rename qdev_propinfo_* to field_prop_*=0D
+  qdev: Move qdev_prop_tpm declaration to tpm_prop.h=0D
+  qdev: Rename qdev_prop_* to prop_info_*=0D
+  qdev: Rename qdev_get_prop_ptr() to object_field_prop_ptr()=0D
+  qdev: Avoid unnecessary DeviceState* variable at set_prop_arraylen()=0D
+  tests: Add unit test for qdev array properties=0D
+=0D
+ audio/audio.h                       |   1 +=0D
+ hw/core/qdev-prop-internal.h        |  76 +++-=0D
+ hw/tpm/tpm_prop.h                   |   2 +=0D
+ include/hw/block/block.h            |   1 +=0D
+ include/hw/core/cpu.h               |   1 -=0D
+ include/hw/qdev-core.h              |  37 --=0D
+ include/hw/qdev-properties-system.h |  77 ++++=0D
+ include/hw/qdev-properties.h        | 289 ++++++---------=0D
+ include/net/net.h                   |   1 +=0D
+ backends/tpm/tpm_util.c             |  16 +-=0D
+ cpu.c                               |  15 -=0D
+ hw/acpi/vmgenid.c                   |   1 +=0D
+ hw/arm/pxa2xx.c                     |   1 +=0D
+ hw/arm/strongarm.c                  |   1 +=0D
+ hw/audio/cs4231.c                   |   5 -=0D
+ hw/block/fdc.c                      |   1 +=0D
+ hw/block/m25p80.c                   |   1 +=0D
+ hw/block/nand.c                     |   1 +=0D
+ hw/block/onenand.c                  |   1 +=0D
+ hw/block/pflash_cfi01.c             |   1 +=0D
+ hw/block/pflash_cfi02.c             |   1 +=0D
+ hw/block/vhost-user-blk.c           |   1 +=0D
+ hw/block/xen-block.c                |  11 +-=0D
+ hw/char/avr_usart.c                 |   1 +=0D
+ hw/char/bcm2835_aux.c               |   1 +=0D
+ hw/char/cadence_uart.c              |   1 +=0D
+ hw/char/cmsdk-apb-uart.c            |   1 +=0D
+ hw/char/debugcon.c                  |   1 +=0D
+ hw/char/digic-uart.c                |   1 +=0D
+ hw/char/escc.c                      |   1 +=0D
+ hw/char/etraxfs_ser.c               |   1 +=0D
+ hw/char/exynos4210_uart.c           |   1 +=0D
+ hw/char/grlib_apbuart.c             |   1 +=0D
+ hw/char/ibex_uart.c                 |   1 +=0D
+ hw/char/imx_serial.c                |   1 +=0D
+ hw/char/ipoctal232.c                |   1 +=0D
+ hw/char/lm32_juart.c                |   1 +=0D
+ hw/char/lm32_uart.c                 |   1 +=0D
+ hw/char/mcf_uart.c                  |   1 +=0D
+ hw/char/milkymist-uart.c            |   1 +=0D
+ hw/char/nrf51_uart.c                |   1 +=0D
+ hw/char/parallel.c                  |   1 +=0D
+ hw/char/pl011.c                     |   1 +=0D
+ hw/char/renesas_sci.c               |   1 +=0D
+ hw/char/sclpconsole-lm.c            |   1 +=0D
+ hw/char/sclpconsole.c               |   1 +=0D
+ hw/char/serial-pci-multi.c          |   1 +=0D
+ hw/char/serial.c                    |   1 +=0D
+ hw/char/spapr_vty.c                 |   1 +=0D
+ hw/char/stm32f2xx_usart.c           |   1 +=0D
+ hw/char/terminal3270.c              |   1 +=0D
+ hw/char/virtio-console.c            |   1 +=0D
+ hw/char/xilinx_uartlite.c           |   1 +=0D
+ hw/core/cpu.c                       |  15 +=0D
+ hw/core/qdev-properties-system.c    | 256 ++++++-------=0D
+ hw/core/qdev-properties.c           | 552 +++++++++++++++-------------=0D
+ hw/core/qdev.c                      | 120 ------=0D
+ hw/hyperv/vmbus.c                   |   1 +=0D
+ hw/i386/kvm/i8254.c                 |   1 +=0D
+ hw/ide/qdev.c                       |   1 +=0D
+ hw/intc/arm_gicv3_common.c          |   2 +-=0D
+ hw/intc/rx_icu.c                    |   4 +-=0D
+ hw/ipmi/ipmi_bmc_extern.c           |   1 +=0D
+ hw/ipmi/ipmi_bmc_sim.c              |   1 +=0D
+ hw/misc/allwinner-sid.c             |   1 +=0D
+ hw/misc/arm_sysctl.c                |   4 +-=0D
+ hw/misc/ivshmem.c                   |   1 +=0D
+ hw/misc/mac_via.c                   |   1 +=0D
+ hw/misc/sifive_u_otp.c              |   1 +=0D
+ hw/net/e1000e.c                     |   6 +-=0D
+ hw/net/rocker/rocker.c              |   1 +=0D
+ hw/nvram/eeprom_at24c.c             |   1 +=0D
+ hw/nvram/spapr_nvram.c              |   1 +=0D
+ hw/pci-bridge/gen_pcie_root_port.c  |   1 +=0D
+ hw/pci/pci.c                        |   1 +=0D
+ hw/ppc/pnv_pnor.c                   |   1 +=0D
+ hw/rdma/vmw/pvrdma_main.c           |   1 +=0D
+ hw/rtc/mc146818rtc.c                |   1 +=0D
+ hw/s390x/css.c                      |  13 +-=0D
+ hw/s390x/s390-pci-bus.c             |  10 +-=0D
+ hw/scsi/scsi-disk.c                 |   1 +=0D
+ hw/scsi/scsi-generic.c              |   1 +=0D
+ hw/scsi/vhost-user-scsi.c           |   1 +=0D
+ hw/sd/sd.c                          |   1 +=0D
+ hw/usb/ccid-card-passthru.c         |   1 +=0D
+ hw/usb/dev-serial.c                 |   1 +=0D
+ hw/usb/redirect.c                   |   1 +=0D
+ hw/vfio/pci-quirks.c                |  11 +-=0D
+ hw/vfio/pci.c                       |   1 +=0D
+ hw/virtio/vhost-user-fs.c           |   1 +=0D
+ hw/virtio/vhost-user-vsock.c        |   1 +=0D
+ hw/virtio/virtio-iommu-pci.c        |   1 +=0D
+ hw/xen/xen_pt.c                     |   1 +=0D
+ migration/migration.c               |   1 +=0D
+ softmmu/qdev-monitor.c              |   1 +=0D
+ target/arm/cpu.c                    |   2 +-=0D
+ target/sparc/cpu.c                  |   5 +-=0D
+ tests/test-qdev-global-props.c      |  61 +++=0D
+ 98 files changed, 838 insertions(+), 826 deletions(-)=0D
+ create mode 100644 include/hw/qdev-properties-system.h=0D
+=0D
+--=20=0D
+2.28.0=0D
+=0D
 
-Thanks.
-I gather this is a first step in getting the patch into master?
-If so, OOC, how many separate "staging" trees are there for the master
-branch? (is there a list?)
-
-On Thu, Dec 10, 2020 at 3:25 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
-
-> On Wed, Nov 25, 2020 at 01:52:45PM -0800, Doug Evans wrote:
-> > ... for consistency with "-d help".
-> >
-> > Signed-off-by: Doug Evans <dje@google.com>
-> > ---
-> >  trace/control.c | 12 ++++++------
-> >  trace/control.h |  3 ++-
-> >  2 files changed, 8 insertions(+), 7 deletions(-)
->
-> Thanks, applied to my tracing tree:
-> https://gitlab.com/stefanha/qemu/commits/tracing
->
-> Stefan
->
-
---0000000000001235f505b6375c04
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Tha=
-nks.</div><div class=3D"gmail_default" style=3D"font-size:small">I gather t=
-his is a first step in getting the patch into master?</div><div class=3D"gm=
-ail_default" style=3D"font-size:small">If so, OOC, how many separate &quot;=
-staging&quot; trees are there for the master branch? (is there a list?)</di=
-v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-">On Thu, Dec 10, 2020 at 3:25 AM Stefan Hajnoczi &lt;<a href=3D"mailto:ste=
-fanha@redhat.com">stefanha@redhat.com</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">On Wed, Nov 25, 2020 at 01:52:45PM -08=
-00, Doug Evans wrote:<br>
-&gt; ... for consistency with &quot;-d help&quot;.<br>
-&gt; <br>
-&gt; Signed-off-by: Doug Evans &lt;<a href=3D"mailto:dje@google.com" target=
-=3D"_blank">dje@google.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 trace/control.c | 12 ++++++------<br>
-&gt;=C2=A0 trace/control.h |=C2=A0 3 ++-<br>
-&gt;=C2=A0 2 files changed, 8 insertions(+), 7 deletions(-)<br>
-<br>
-Thanks, applied to my tracing tree:<br>
-<a href=3D"https://gitlab.com/stefanha/qemu/commits/tracing" rel=3D"norefer=
-rer" target=3D"_blank">https://gitlab.com/stefanha/qemu/commits/tracing</a>=
-<br>
-<br>
-Stefan<br>
-</blockquote></div>
-
---0000000000001235f505b6375c04--
 
