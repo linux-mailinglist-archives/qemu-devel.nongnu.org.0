@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749BE2D7F3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 20:16:26 +0100 (CET)
-Received: from localhost ([::1]:60028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F6B2D7F4F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 20:25:38 +0100 (CET)
+Received: from localhost ([::1]:40514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knntx-0004g9-FW
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 14:16:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43724)
+	id 1kno2q-0000N7-MC
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 14:25:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1knnL5-0006kb-S8; Fri, 11 Dec 2020 13:40:23 -0500
-Received: from mail-eopbgr70090.outbound.protection.outlook.com
- ([40.107.7.90]:11267 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ id 1knnL9-0006rS-Jb; Fri, 11 Dec 2020 13:40:27 -0500
+Received: from mail-eopbgr70097.outbound.protection.outlook.com
+ ([40.107.7.97]:21414 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1knnKs-00089o-AD; Fri, 11 Dec 2020 13:40:23 -0500
+ id 1knnL3-0008BO-IY; Fri, 11 Dec 2020 13:40:27 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Uy9ioJGKg1yxlJCU9MZVX3HTj97Wv/+Z+T35fw2wrgpfNLtEFR09aZg8r6OeZ653JQr9v++9O7NKPFLArWQb7N55Ui6YWnEpXaoXwbCxOtM0ltzTGhrXwYX3QkOO7k8GldUejBYWbUPjWdD595iki7ks1awqK0hrcYR7gScM9uhb3Ha8tVbEW1P/r9N23eZ1AT2oSJIlH66xOeZ71Ii8PLYbDh6ut83rTkrghUJdoTh3pey4bGdip+dKdtmi18vCGrSInfQr50EJzxoQqrxNjtzuPQpC1n7uRFPIowVFt87OPb8zWAHKkpr/X1wJpOWGzH4D9t+0616ZmT96ud5upQ==
+ b=XDBeE009uxFh+V59r+FEnAqFfyUdKn00p9qe8GrxgvH6SvbactN9H5OOluq9ns2EkLIaGeB5yxufTUM0iEam0s4Kj1NmaPSYPP9RqKRBnvMno90P1oMmPdK2eLojopnUkVHfPtalVpE0iB9T61j03t3esXh7rXhl2+AkPxKE/KEUlKssnqB/bZ10x/iuHpZWhDNwXCf3nDXWnDHY83MuuJycX5nS6ydjlLWSrIHulr0D6hiOvHZao0iyFf5v91ErmQKZWz7+0nneyJUjcBvmtzS8CEP+vRGyB5Tel5Eu6FzabXxDWJZDXUi/xT2rhnR+mCozzVM5mapdWW6PXReZ3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9fpKfrQ2GcMX74J1uBIDqrWQTDh6khkW6lExgvhocEg=;
- b=CcFhGpItO+SfOdx4OeA10+gpcgMaYnzJgG6RRJUssJ7idTi3oeiASAb434LQh/4sbaoa4U9TPIQHP9fhmddRm31ARIo7v1+AQcaFE8MajJAQB1dJVPASTw2NLhqRYQOMBwflCd2YzwlJ7Y37BhhaKmC3yDUn6wp0P1ISTSte1fV5msgIh14xT2XSxB/sF82aO61VQPhU2cLmYyupnIXVzcpLjV5RVEt5gLt9ZFRcdxLjl6ipFmHDxApNZMCvByXruQoxfsjRidF8iDC2sXps3PSlWXkbuiEwg0Gm20L5xUfhPPrIZA9jhSdYZf/nZsYtAzvpHWbnotwfCrgUwpfGFw==
+ bh=Fx/hAaIC2EAKEDXeCBLuq8xobo0AOX2o0mpmedLOCrc=;
+ b=bElNM/4E+Khb8WaV+nbiKmlGKDMxrOnhilYXeskKdHydctNuPraSUhPmXZ4NTJ4kPl8nBPWDOif/fCYBhq+gl/vCFRntHLxCOLOZArIpXT0LhhhfEWyB+nF1a/9jDQ+/3ukon0YNxnI6opKsTXiIWuu0FhjW4RJRcxjr1F/xzKm8+Q/Ezm9mTIPvqKRUWGA1nUIa9uIJlKd7+CpbwgMyuOgj2Ogv2XN3kA+Dlt4uwKLyDPpB/P/Mdmza7+IN7SJBt19947A99GHidBSZ5JzmI3jPXvFJ54kzyReEKg+N+DniDKALV79lUOpalFp7/biQ18yamF4VHu5Hu/2KlpYr3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9fpKfrQ2GcMX74J1uBIDqrWQTDh6khkW6lExgvhocEg=;
- b=AojKft0KEgiq9mgqYvGI6cPEs+qbN1tLeTP+et5WAXRHkAUCyjifsHwSf/aq0ZGim5WlhZvHWDUgcwNuKu+BW5JAD5/6iG6W4KAExxotG/+RemfVa7frL3hhJWV1adsMs+s98TPNhnJbWp8um2y7LlTo7DJUN5vAm4/JEasZhWA=
+ bh=Fx/hAaIC2EAKEDXeCBLuq8xobo0AOX2o0mpmedLOCrc=;
+ b=ZLLRAVaclMdxn52NheRy2KM32YsTCCtLi9qv0/5m0EMQDnuwN+ZU32OuZwhCONgjuqChvHk5G/NdQ2CwcxL0Ba0rcQzCQ+obpHMhIpJk8QyX+jOSZ8qQocgg173hKvwkXgH5ReGbQl3o1lmele2pB3hAid2e7lEIp08LhFJsBYY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4915.eurprd08.prod.outlook.com (2603:10a6:20b:d1::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.18; Fri, 11 Dec
- 2020 18:39:54 +0000
+ 2020 18:39:55 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3654.016; Fri, 11 Dec 2020
- 18:39:54 +0000
+ 18:39:55 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 08/16] block: use int64_t as bytes type in tracked requests
-Date: Fri, 11 Dec 2020 21:39:26 +0300
-Message-Id: <20201211183934.169161-9-vsementsov@virtuozzo.com>
+Subject: [PATCH v4 09/16] block/io: use int64_t bytes in driver wrappers
+Date: Fri, 11 Dec 2020 21:39:27 +0300
+Message-Id: <20201211183934.169161-10-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20201211183934.169161-1-vsementsov@virtuozzo.com>
 References: <20201211183934.169161-1-vsementsov@virtuozzo.com>
@@ -63,59 +63,58 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.91) by
  AM0PR04CA0050.eurprd04.prod.outlook.com (2603:10a6:208:1::27) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12 via Frontend Transport; Fri, 11 Dec 2020 18:39:53 +0000
+ 15.20.3654.12 via Frontend Transport; Fri, 11 Dec 2020 18:39:54 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5aee86d2-224e-44f4-acb8-08d89e0426ff
+X-MS-Office365-Filtering-Correlation-Id: 05063f38-3443-4d50-4a40-08d89e04278b
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4915:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4915B19FB18279757019E512C1CA0@AM6PR08MB4915.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB49159A911F115F04B3CD3079C1CA0@AM6PR08MB4915.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DL0DvESihqrxghc/E7eqZsbzyXhIG4hp5mV/UNYo5DrIwRzKU+w89YDqL40AKih4MHUYf8iWAhZlUjYFQhJbx/SdPbLg4GGxCNpaE5gDZDdsapE5NUZni8IRvY8FYpht1SL+IZyTE9OXakffQ5xJjzSgpSaXYdaCXAdPfzhq2fBvLu6tR8hJu0PXfGwcSC3u1VmoaDO6e9BvN8ULxzqlN8NZSmD4KFffLzLfeYM39POwPxtXwDR2pgFjN4gyq3GtG0xRwadWE5pXMOivtmuwSAsMcKAqaEKQmTtY+EhKT8rUIeUvAIRZKg/j4NthwuxSOj71u9fyDy4Lt9sklmLtEQ==
+X-Microsoft-Antispam-Message-Info: mGKGEcvDxSAzk0gjPIv8V3YnlczJObPHKIZWOYF7DEtoVkmgPOTg25DxRAtqpEqjDURoisLyqJQnPzfeIRqPsVJfXMn20Q85CGcre8TYdyZTPEPH2hz1C0fdqQDuFBA3TzGSilJ4KG4ySIqCSZhDIe+xv7zPjFo1cP9SOY3q7avqTp2/SFC31Ndzf0fEPCoebzFaqqoKizWvjZH7ptxpAjdaM4uNNdkOecu+RR+2iVMoMx+9e6boIAa52wUTP2nMF/PZ5AZVIjFuLL6YxYGTxlDv7R4RSOdcWM90fVFUUJt8ow5c22mhPIKAYqHT6oQXb45yUh/nDQdtL2Pa01PKfA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(346002)(39840400004)(136003)(396003)(376002)(66476007)(6506007)(66946007)(956004)(6486002)(86362001)(4326008)(66556008)(6916009)(6512007)(2616005)(6666004)(83380400001)(1076003)(26005)(316002)(16526019)(5660300002)(8676002)(186003)(478600001)(8936002)(2906002)(36756003)(107886003)(52116002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ObZfFKX3/BgQKX0WEYy9vdGy5hveyxnXrbDSvkVcTpA+usbNWrfo6BUrsOgt?=
- =?us-ascii?Q?D2kzGAqLdyhtuvtf6zUcP5V/n9/kg7NKC1mtvea32HJAmuxyg/4jYwmoRshB?=
- =?us-ascii?Q?P5uWhUbIq/UCwIV22MKBiwWcEIwJs0zXRnMO17zVd3tizsns6jCynpG1tfWe?=
- =?us-ascii?Q?pIyn1jQlSkEO47KcITbI8Y1wTjUFhClYfhi5ZWR8yi4vFm24+ntkaqo7OJZW?=
- =?us-ascii?Q?CGoZwRlQtOs2e8JT0Uh29IcU0HJ1s8+UI5YRdPyzlXMUkr0nL76LFRMChUUo?=
- =?us-ascii?Q?sBIpzdBuMKBlqiRUD00NOSaWZZQ/+KW2Bqy5AZAMYwb49a6meCyvpNSmZ8fi?=
- =?us-ascii?Q?u/feZa7mlmYAoq/VRO33b41kjzn2ZO8188triXdf3NI4VdyhE5OtTbn7YSU+?=
- =?us-ascii?Q?TVy14PcSSYVvVE6vcf3pwKdU3NjA5cSOMO7hCuvdt0i18LC2+dSL3sCP2TpX?=
- =?us-ascii?Q?T34vueqhB5wqcrR1xEg7ULBb2FWVI9/KsEtv6zXANwAwXVDq+WwHIG4ifHrd?=
- =?us-ascii?Q?ddQDVrHfoowNFlisZ45CWXZOtcKqYZePU1qk/L0lC6EfKbr54jq1pjelz/wM?=
- =?us-ascii?Q?puDdgAluidbnXzdP2VhEqkGBH3ksV2bAJHrSj83fkipKyPIwQSh5tLdcXmQ1?=
- =?us-ascii?Q?N/DNIGDIBFrABJQyHV3t4KNBJEOy7iXK2xQxxoeG+vygGV1MJDJaiDE1BC0p?=
- =?us-ascii?Q?iT+iCg2stX4NLFn2rvetSAcHgYAvORm5pjSZZRO2roOLvctGXIqz2Nyz7yUN?=
- =?us-ascii?Q?DENYFO6FdHexbd9TEWqeXtQMYUvta+fRd3GI5LAfiLPBa1rwDXwkwyieKWID?=
- =?us-ascii?Q?V+cjunbMbfpF8p1PTE2SnkrS4kJjKZiD9z36vcM7flocjbMJSBc53zYFGzOP?=
- =?us-ascii?Q?HDe342XKdnGgueLmy/x7JXhIwg5lqB3SlyD7PNPEj8OMvDTxc8ZzC1I7IyO8?=
- =?us-ascii?Q?sBBzoPLLjiWiot/U5oNNt+f7fR+CabmOuLf9l33mKLlvCXnnTEV8VdxNfOhA?=
- =?us-ascii?Q?aDnX?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?jt/dl+Mj1/1V18ac5hSPTg682X7hGehCURh8y+PB2RnM4azYawQEeL7PFraU?=
+ =?us-ascii?Q?S6Z5tVglHCATBn1oxOlj7fCPYPgj5bUdmyuXf49JoiHCHnNKBiphTTsdtVhN?=
+ =?us-ascii?Q?Q2eGRe5ithJ6vRFhf0NQAbzhvOTc0i/rypJ+cGqE4eyI9cgsaDVlhz66GWNd?=
+ =?us-ascii?Q?7h2uXKZMlQ43jFDHMsr7lImAnrq94NFj3QXASru2oAjS2BTPwkyeqSC5/BR8?=
+ =?us-ascii?Q?Nv+Ftp5xe5l2CzJ0x6KyvUB0M0YUlSA2qnTJ07S7MC/WmPpB0zCY9sh+ppaR?=
+ =?us-ascii?Q?3XOMc1qh8AliyB0PLdPyhc2Y5wI/wWTAMOUAHZj1sZtBgp97Cn0D1vVNPyEc?=
+ =?us-ascii?Q?ZaswEWpAFq6v9k47fkSdoXeDSVnWBQKAv+8cIKY8DNP3J9bNeR5Jxxxj9YAm?=
+ =?us-ascii?Q?YZhwGIjrItSTZZ0/5QwgfIupGgRlTyWGnRWm+NLl4VfNfUSen3aU3WvajUQ2?=
+ =?us-ascii?Q?Xr3xc7TcHMAxEggpKZAHsLOJoHLE06cLUTJvc69Hdolajl05cwdk/MNpYcjJ?=
+ =?us-ascii?Q?G1h+H3OFzjCeku0ZRuyZdXr5q+7xBGyL+Url4J5JwyRKJjoCB/jmBsqf1N/J?=
+ =?us-ascii?Q?8YqRF1reS9aBSpZ3PtD1wu8xa6vAu5aFljVBq3nAxShentqcyqclKXUhCGBh?=
+ =?us-ascii?Q?ZOUKSMHgPRHQeaeqS6jAikJqI+DqKdGR8xx2YK8JQOdJEyxqmAznso6nQ2jV?=
+ =?us-ascii?Q?8Bzi7RAbnBSifWToWqqCMF2lnpA2l+D7aOA+y+YZoy5FI9zdZugCBOu4fiKf?=
+ =?us-ascii?Q?zUWAxd+51cu0S8RnO+Kzhrf8dWO8jIv6+VCEFM5i9IBpLaq+epYxfZ+cgLh3?=
+ =?us-ascii?Q?R4Sgkj3k7b9Uno2SF1n88n4Oxu7d5NKCNYBTKx1jcdq0xqnoWcKpJUsHPU/n?=
+ =?us-ascii?Q?XuuyKKYVj7hMYz3YPGy4xFiDWW1GJCMaZXCtqcNJRh4nVajXCd9A2k0YEXEf?=
+ =?us-ascii?Q?xfT9pr8Lk3CJo0x0fReMtWNQGC89OJQdANzTk6N8b4pkSs+B+kpqQb03ZfaG?=
+ =?us-ascii?Q?vD4Q?=
 X-OriginatorOrg: virtuozzo.com
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2020 18:39:54.3835 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2020 18:39:55.2188 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5aee86d2-224e-44f4-acb8-08d89e0426ff
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05063f38-3443-4d50-4a40-08d89e04278b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GDDUNEF8txIg8Es1COji0KstUo6nFL87YGcwyHQi+i5aAMNyS/7Yk27wfRT8ndjJc0IxU7Jof+lfpBrED6Yq3Gd1uTonRJ7YCacr1MO4L64=
+X-MS-Exchange-CrossTenant-UserPrincipalName: hHcVdH/AuaRCJA552h2ZwwHHKlSOzGffo6NMUCqpkS7BZlAe2SwSG8yxOpqxk3OvV7hgR05DtqvU5P796Mua7fiJX9/Li11tqmfOkzbb/9c=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4915
-Received-SPF: pass client-ip=40.107.7.90;
+Received-SPF: pass client-ip=40.107.7.97;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -144,79 +143,76 @@ We chose signed type, to be consistent with off_t (which is signed) and
 with possibility for signed return type (where negative value means
 error).
 
-All requests in block/io must not overflow BDRV_MAX_LENGTH, all
-external users of BdrvTrackedRequest already have corresponding
-assertions, so we are safe. Add some assertions still.
+So, convert driver wrappers parameters which are already 64bit to
+signed type.
+
+Requests in block/io.c must never exceed BDRV_MAX_LENGTH (which is less
+than INT64_MAX), which makes the conversion to signed 64bit type safe.
+
+Add corresponding assertions.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/block_int.h |  4 ++--
- block/io.c                | 14 +++++++++-----
- 2 files changed, 11 insertions(+), 7 deletions(-)
+ block/io.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index ff29f31451..04c1e5cb58 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -79,12 +79,12 @@ enum BdrvTrackedRequestType {
- typedef struct BdrvTrackedRequest {
-     BlockDriverState *bs;
-     int64_t offset;
--    uint64_t bytes;
-+    int64_t bytes;
-     enum BdrvTrackedRequestType type;
- 
-     bool serialising;
-     int64_t overlap_offset;
--    uint64_t overlap_bytes;
-+    int64_t overlap_bytes;
- 
-     QLIST_ENTRY(BdrvTrackedRequest) list;
-     Coroutine *co; /* owner, used for deadlock detection */
 diff --git a/block/io.c b/block/io.c
-index 42e687a388..5dec6ab925 100644
+index 5dec6ab925..b2bf18038b 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -717,10 +717,10 @@ static void tracked_request_end(BdrvTrackedRequest *req)
- static void tracked_request_begin(BdrvTrackedRequest *req,
-                                   BlockDriverState *bs,
-                                   int64_t offset,
--                                  uint64_t bytes,
-+                                  int64_t bytes,
-                                   enum BdrvTrackedRequestType type)
- {
--    assert(bytes <= INT64_MAX && offset <= INT64_MAX - bytes);
-+    bdrv_check_request(offset, bytes, &error_abort);
- 
-     *req = (BdrvTrackedRequest){
-         .bs = bs,
-@@ -741,8 +741,10 @@ static void tracked_request_begin(BdrvTrackedRequest *req,
+@@ -1103,7 +1103,7 @@ static void bdrv_co_io_em_complete(void *opaque, int ret)
  }
  
- static bool tracked_request_overlaps(BdrvTrackedRequest *req,
--                                     int64_t offset, uint64_t bytes)
-+                                     int64_t offset, int64_t bytes)
+ static int coroutine_fn bdrv_driver_preadv(BlockDriverState *bs,
+-                                           uint64_t offset, uint64_t bytes,
++                                           int64_t offset, int64_t bytes,
+                                            QEMUIOVector *qiov,
+                                            size_t qiov_offset, int flags)
  {
-+    bdrv_check_request(offset, bytes, &error_abort);
-+
-     /*        aaaa   bbbb */
-     if (offset >= req->overlap_offset + req->overlap_bytes) {
-         return false;
-@@ -798,10 +800,12 @@ bool bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
- {
-     BlockDriverState *bs = req->bs;
-     int64_t overlap_offset = req->offset & ~(align - 1);
--    uint64_t overlap_bytes = ROUND_UP(req->offset + req->bytes, align)
--                               - overlap_offset;
-+    int64_t overlap_bytes =
-+        ROUND_UP(req->offset + req->bytes, align) - overlap_offset;
-     bool waited;
+@@ -1113,6 +1113,7 @@ static int coroutine_fn bdrv_driver_preadv(BlockDriverState *bs,
+     QEMUIOVector local_qiov;
+     int ret;
  
-+    bdrv_check_request(req->offset, req->bytes, &error_abort);
++    bdrv_check_qiov_request(offset, bytes, qiov, qiov_offset, &error_abort);
+     assert(!(flags & ~BDRV_REQ_MASK));
+     assert(!(flags & BDRV_REQ_NO_FALLBACK));
+ 
+@@ -1172,7 +1173,7 @@ out:
+ }
+ 
+ static int coroutine_fn bdrv_driver_pwritev(BlockDriverState *bs,
+-                                            uint64_t offset, uint64_t bytes,
++                                            int64_t offset, int64_t bytes,
+                                             QEMUIOVector *qiov,
+                                             size_t qiov_offset, int flags)
+ {
+@@ -1182,6 +1183,7 @@ static int coroutine_fn bdrv_driver_pwritev(BlockDriverState *bs,
+     QEMUIOVector local_qiov;
+     int ret;
+ 
++    bdrv_check_qiov_request(offset, bytes, qiov, qiov_offset, &error_abort);
+     assert(!(flags & ~BDRV_REQ_MASK));
+     assert(!(flags & BDRV_REQ_NO_FALLBACK));
+ 
+@@ -1252,14 +1254,16 @@ emulate_flags:
+ }
+ 
+ static int coroutine_fn
+-bdrv_driver_pwritev_compressed(BlockDriverState *bs, uint64_t offset,
+-                               uint64_t bytes, QEMUIOVector *qiov,
++bdrv_driver_pwritev_compressed(BlockDriverState *bs, int64_t offset,
++                               int64_t bytes, QEMUIOVector *qiov,
+                                size_t qiov_offset)
+ {
+     BlockDriver *drv = bs->drv;
+     QEMUIOVector local_qiov;
+     int ret;
+ 
++    bdrv_check_qiov_request(offset, bytes, qiov, qiov_offset, &error_abort);
 +
-     qemu_co_mutex_lock(&bs->reqs_lock);
-     if (!req->serialising) {
-         qatomic_inc(&req->bs->serialising_in_flight);
+     if (!drv) {
+         return -ENOMEDIUM;
+     }
 -- 
 2.25.4
 
