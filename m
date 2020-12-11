@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8FF62D7CAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:19:47 +0100 (CET)
-Received: from localhost ([::1]:50380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7A72D7CC1
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:25:25 +0100 (CET)
+Received: from localhost ([::1]:41620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knm54-000622-U8
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:19:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49784)
+	id 1knmAW-0006Lp-AJ
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:25:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluG-0003YY-Re
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57639)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluJ-0003ZX-JI
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knlu8-00024R-LN
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:36 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knlu9-00025D-AM
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1607706508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NnM6dYlYZRgd2ExH9w41QSV9/yrt19fOVsd+vEwELuw=;
- b=do8ve7+e+CRUSWnMCjuyp21GCTZo9KQg62hb9n47IqPZgFAm1CiS+HWZPqJcZilhaZgEab
- Z9PCth48zR9mCIG7m0rJ8OIfYC6xk2Ax60KMfr4Di1rNqR5ImwGSTWvCe3LfcjEsLEhExu
- GXnu4iFOZp1VGu1ea8AyDVna1ktGXy8=
+ bh=1GM0EIEy4CkX7YJmc8u/hwt0dMlsfVX2LCZh1LZVuEw=;
+ b=PBpsI2KAADAaRFOIXr4YeHUd4EkZpfiixriej0QMxDAiLxlcvWqwPxZqf7l4JyPt3KgQwa
+ 3AVo2j9TuRf4VfaaS/9ZgBIZdkoSxuL/J3miLXIAEUeea7dP4qF0li1UkOfvOFBFaZIiKo
+ gEhr4clOb2UpvVk9XKjRYj+1D/Myg5A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-JenYioVRM5GCif73l6RSbQ-1; Fri, 11 Dec 2020 12:08:23 -0500
-X-MC-Unique: JenYioVRM5GCif73l6RSbQ-1
+ us-mta-5-_6fgInrCPzGFeAhrTOXiZA-1; Fri, 11 Dec 2020 12:08:25 -0500
+X-MC-Unique: _6fgInrCPzGFeAhrTOXiZA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B51CB800D53;
- Fri, 11 Dec 2020 17:08:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EDF2858182;
+ Fri, 11 Dec 2020 17:08:24 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-231.ams2.redhat.com [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 945D05D71D;
- Fri, 11 Dec 2020 17:08:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0CC515D731;
+ Fri, 11 Dec 2020 17:08:22 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 03/34] block/throttle-groups: Use lock guard macros
-Date: Fri, 11 Dec 2020 18:07:41 +0100
-Message-Id: <20201211170812.228643-4-kwolf@redhat.com>
+Subject: [PULL 04/34] block/iscsi: Use lock guard macros
+Date: Fri, 11 Dec 2020 18:07:42 +0100
+Message-Id: <20201211170812.228643-5-kwolf@redhat.com>
 In-Reply-To: <20201211170812.228643-1-kwolf@redhat.com>
 References: <20201211170812.228643-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,14 +55,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,100 +83,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Gan Qixin <ganqixin@huawei.com>
 
 Replace manual lock()/unlock() calls with lock guard macros
-(QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/throttle-groups.
+(QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/iscsi.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
-Message-Id: <20201203075055.127773-4-ganqixin@huawei.com>
+Message-Id: <20201203075055.127773-5-ganqixin@huawei.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/throttle-groups.c | 48 ++++++++++++++++++++---------------------
- 1 file changed, 23 insertions(+), 25 deletions(-)
+ block/iscsi.c | 50 ++++++++++++++++++++++++--------------------------
+ 1 file changed, 24 insertions(+), 26 deletions(-)
 
-diff --git a/block/throttle-groups.c b/block/throttle-groups.c
-index e2f2813c0f..abd16ed9db 100644
---- a/block/throttle-groups.c
-+++ b/block/throttle-groups.c
-@@ -546,7 +546,7 @@ void throttle_group_register_tgm(ThrottleGroupMember *tgm,
-     tgm->aio_context = ctx;
-     qatomic_set(&tgm->restart_pending, 0);
+diff --git a/block/iscsi.c b/block/iscsi.c
+index e30a7e3606..7d4b3b56d5 100644
+--- a/block/iscsi.c
++++ b/block/iscsi.c
+@@ -322,25 +322,23 @@ iscsi_aio_cancel(BlockAIOCB *blockacb)
+     IscsiAIOCB *acb = (IscsiAIOCB *)blockacb;
+     IscsiLun *iscsilun = acb->iscsilun;
  
--    qemu_mutex_lock(&tg->lock);
-+    QEMU_LOCK_GUARD(&tg->lock);
-     /* If the ThrottleGroup is new set this ThrottleGroupMember as the token */
-     for (i = 0; i < 2; i++) {
-         if (!tg->tokens[i]) {
-@@ -565,8 +565,6 @@ void throttle_group_register_tgm(ThrottleGroupMember *tgm,
-     qemu_co_mutex_init(&tgm->throttled_reqs_lock);
-     qemu_co_queue_init(&tgm->throttled_reqs[0]);
-     qemu_co_queue_init(&tgm->throttled_reqs[1]);
+-    qemu_mutex_lock(&iscsilun->mutex);
++    WITH_QEMU_LOCK_GUARD(&iscsilun->mutex) {
+ 
+-    /* If it was cancelled or completed already, our work is done here */
+-    if (acb->cancelled || acb->status != -EINPROGRESS) {
+-        qemu_mutex_unlock(&iscsilun->mutex);
+-        return;
+-    }
++        /* If it was cancelled or completed already, our work is done here */
++        if (acb->cancelled || acb->status != -EINPROGRESS) {
++            return;
++        }
+ 
+-    acb->cancelled = true;
++        acb->cancelled = true;
+ 
+-    qemu_aio_ref(acb); /* released in iscsi_abort_task_cb() */
++        qemu_aio_ref(acb); /* released in iscsi_abort_task_cb() */
+ 
+-    /* send a task mgmt call to the target to cancel the task on the target */
+-    if (iscsi_task_mgmt_abort_task_async(iscsilun->iscsi, acb->task,
+-                                         iscsi_abort_task_cb, acb) < 0) {
+-        qemu_aio_unref(acb); /* since iscsi_abort_task_cb() won't be called */
++        /* send a task mgmt call to the target to cancel the task on the target */
++        if (iscsi_task_mgmt_abort_task_async(iscsilun->iscsi, acb->task,
++                                             iscsi_abort_task_cb, acb) < 0) {
++            qemu_aio_unref(acb); /* since iscsi_abort_task_cb() won't be called */
++        }
+     }
 -
--    qemu_mutex_unlock(&tg->lock);
+-    qemu_mutex_unlock(&iscsilun->mutex);
  }
  
- /* Unregister a ThrottleGroupMember from its group, removing it from the list,
-@@ -594,25 +592,25 @@ void throttle_group_unregister_tgm(ThrottleGroupMember *tgm)
-     /* Wait for throttle_group_restart_queue_entry() coroutines to finish */
-     AIO_WAIT_WHILE(tgm->aio_context, qatomic_read(&tgm->restart_pending) > 0);
+ static const AIOCBInfo iscsi_aiocb_info = {
+@@ -375,22 +373,22 @@ static void iscsi_timed_check_events(void *opaque)
+ {
+     IscsiLun *iscsilun = opaque;
  
--    qemu_mutex_lock(&tg->lock);
--    for (i = 0; i < 2; i++) {
--        assert(tgm->pending_reqs[i] == 0);
--        assert(qemu_co_queue_empty(&tgm->throttled_reqs[i]));
--        assert(!timer_pending(tgm->throttle_timers.timers[i]));
--        if (tg->tokens[i] == tgm) {
--            token = throttle_group_next_tgm(tgm);
--            /* Take care of the case where this is the last tgm in the group */
--            if (token == tgm) {
--                token = NULL;
-+    WITH_QEMU_LOCK_GUARD(&tg->lock) {
-+        for (i = 0; i < 2; i++) {
-+            assert(tgm->pending_reqs[i] == 0);
-+            assert(qemu_co_queue_empty(&tgm->throttled_reqs[i]));
-+            assert(!timer_pending(tgm->throttle_timers.timers[i]));
-+            if (tg->tokens[i] == tgm) {
-+                token = throttle_group_next_tgm(tgm);
-+                /* Take care of the case where this is the last tgm in the group */
-+                if (token == tgm) {
-+                    token = NULL;
-+                }
-+                tg->tokens[i] = token;
-             }
--            tg->tokens[i] = token;
-         }
--    }
+-    qemu_mutex_lock(&iscsilun->mutex);
++    WITH_QEMU_LOCK_GUARD(&iscsilun->mutex) {
++        /* check for timed out requests */
++        iscsi_service(iscsilun->iscsi, 0);
  
--    /* remove the current tgm from the list */
--    QLIST_REMOVE(tgm, round_robin);
--    throttle_timers_destroy(&tgm->throttle_timers);
--    qemu_mutex_unlock(&tg->lock);
-+        /* remove the current tgm from the list */
-+        QLIST_REMOVE(tgm, round_robin);
-+        throttle_timers_destroy(&tgm->throttle_timers);
-+    }
+-    /* check for timed out requests */
+-    iscsi_service(iscsilun->iscsi, 0);
++        if (iscsilun->request_timed_out) {
++            iscsilun->request_timed_out = false;
++            iscsi_reconnect(iscsilun->iscsi);
++        }
  
-     throttle_group_unref(&tg->ts);
-     tgm->throttle_state = NULL;
-@@ -638,14 +636,14 @@ void throttle_group_detach_aio_context(ThrottleGroupMember *tgm)
-     assert(qemu_co_queue_empty(&tgm->throttled_reqs[1]));
- 
-     /* Kick off next ThrottleGroupMember, if necessary */
--    qemu_mutex_lock(&tg->lock);
--    for (i = 0; i < 2; i++) {
--        if (timer_pending(tt->timers[i])) {
--            tg->any_timer_armed[i] = false;
--            schedule_next_request(tgm, i);
-+    WITH_QEMU_LOCK_GUARD(&tg->lock) {
-+        for (i = 0; i < 2; i++) {
-+            if (timer_pending(tt->timers[i])) {
-+                tg->any_timer_armed[i] = false;
-+                schedule_next_request(tgm, i);
-+            }
-         }
+-    if (iscsilun->request_timed_out) {
+-        iscsilun->request_timed_out = false;
+-        iscsi_reconnect(iscsilun->iscsi);
++        /*
++         * newer versions of libiscsi may return zero events. Ensure we are
++         * able to return to service once this situation changes.
++         */
++        iscsi_set_events(iscsilun);
      }
--    qemu_mutex_unlock(&tg->lock);
  
-     throttle_timers_detach_aio_context(tt);
-     tgm->aio_context = NULL;
+-    /* newer versions of libiscsi may return zero events. Ensure we are able
+-     * to return to service once this situation changes. */
+-    iscsi_set_events(iscsilun);
+-
+-    qemu_mutex_unlock(&iscsilun->mutex);
+-
+     timer_mod(iscsilun->event_timer,
+               qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + EVENT_INTERVAL);
+ }
 -- 
 2.29.2
 
