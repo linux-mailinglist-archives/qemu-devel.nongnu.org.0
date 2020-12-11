@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D8182D7DFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:23:55 +0100 (CET)
-Received: from localhost ([::1]:32882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647CC2D7E12
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:29:00 +0100 (CET)
+Received: from localhost ([::1]:42270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knn58-0000sn-Jm
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:23:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60522)
+	id 1knnA3-00059a-Cv
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:28:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knmZ8-0004Vz-8y
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:50:50 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:39212)
+ id 1knmgk-0005if-Vs
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:58:43 -0500
+Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:36357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knmZ6-0000CV-II
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:50:50 -0500
-Received: by mail-oi1-x241.google.com with SMTP id w124so7599620oia.6
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 09:50:48 -0800 (PST)
+ id 1knmgg-0002qh-5m
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:58:42 -0500
+Received: by mail-oo1-xc44.google.com with SMTP id j8so2344051oon.3
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 09:58:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EqhuRUZhBLLCIuFJVTk6bzOsQEX8bcT4bJOBTe/2Ukw=;
- b=sQMUaXFfuMu2oatPL9SZ6sdSdiqNwMwRIURP4FpzQMgqpRizTdhw2VKjumU+8qfeG5
- vjDqujBLi3FWpcO0Pq2LIpE64p79qEV3o47Y0Zg3OHmOuDVGHqt9pxTznVM+YCT9+ztk
- pfFT4zxnG1siPXuuNHcICcTfu1lXqtKXJtNvS+o//TSp2UE7nUDLy9EdGhp3QnRFrKmr
- YAD3GBxR6RwacmRCO/JEDrtU/T7sgbDUTijTKswO5/xXstdhsu01iX98licZ3qA0i/qk
- gWuRU32Keg5utc6SN55YMuNJmsvbE7C3IvnHOEweBoiWcRbN7gLz05W5cPWPPkIeMty3
- fa1g==
+ bh=W9Fj1tHnWea4raCWw/4AczCJoYaNDEhwpNFqzPT0pF4=;
+ b=KwXTyrmzHtMRukZicQs7bMjgjagtru8TI21SPT/5kd/2NoLKoY2N+SZjaw+GLkIGzy
+ UCK1yMcbXDi/UMDtPt8T8L2WuvuVlHPreDVTYrvtBeX0LnyZpyj7aT1LD+EO94korrZI
+ injTUobFssMmoJTGWJFdTm6BoWar0THMZ/QmfRSswsx3Hml9YSJWwSYJavjLnvZhglhv
+ MUcN7VCA3HCnniV+gOi6CYtX2kyUKffkGm5qV/MJlC34dkay+uXgDg3bPOTrM7WVV+20
+ P12K6YpDNsvOEBN3Xz5fujV6Vb5e2jASn26Yv9YFbJLsdHwLMyL1hVAU1z5yOhG3zknM
+ yu4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EqhuRUZhBLLCIuFJVTk6bzOsQEX8bcT4bJOBTe/2Ukw=;
- b=EeU3xPuVLi4aMvY4X+ckviy5tldwhjE6Qmv5UrupjwGn6UQ9X6eRrBqlcEPOQCApLR
- jGjIx+BoGS2XXCggi4yRVkuFHWoeVNkd7VU4Yqih+aZIamAGjEgRZ3bu/PRSbNzay4Fl
- wi3tIKd0hBzvLsU2t1JQvFoHS/UCkxIts9LlRRnrWs/yVKeAzT11AiEcdghbVmVUqWWa
- KeJPf1o2txHZHceE9hnkcNBLF1ArC2V5YsuM3XFBAX+tHgYOontk5JQLmKcpAl7cOVcA
- BU9HNvKriXBmaRqNO6LOWciRpUDDjYLvnPebnJkyPs+MjLMRbkw185Wvsqz40GVOWznW
- Di0w==
-X-Gm-Message-State: AOAM530MrcqIY/3b2aSCwVGcXyheS9e8rHzTByc5oRpWQ9wlervjp+Y+
- dREqALdxvexcaqqTA1j+Qb10BA==
-X-Google-Smtp-Source: ABdhPJyKklGSnxMwn2fIpJGDrUEY+tWXt92mf5nb7ZDBERxBEXKrh2xee+P7MqEdBsfItliByhSmlQ==
-X-Received: by 2002:aca:578d:: with SMTP id
- l135mr10102665oib.105.1607709047220; 
- Fri, 11 Dec 2020 09:50:47 -0800 (PST)
+ bh=W9Fj1tHnWea4raCWw/4AczCJoYaNDEhwpNFqzPT0pF4=;
+ b=qNA6gUr592nJhRkECc5q+5hzgqFJprJPzMMrrIm0UeAm871cQzuxKYN0BiihcmM55h
+ /rYXaiIYImMmO1eOshhecOrONAS7RjQZ4xDdtPMsm9ghGVife+69k10iE3T5xKjOIWMW
+ WoJT09ebgPhhlIqh3y4iV4/jCprvDhUhRaW7XrfONCDvlNHR2OUkNXLaAtIWP5nESXMs
+ kTVslmVBTIA0KF76XG0/y8FY0zpS3VuPNzEOAmvKuHVamLRRqKFwJ5s9E5vL9T+2lCLp
+ G3DpJ5k/hT6qjiB7dj4EoN7lOgWmtRdRajQH5zd05xQf8E7wi6aD75vgiXo4b2tSX1A7
+ b4lA==
+X-Gm-Message-State: AOAM531okuQuYaZFZPab7df/GqswSWsXW2LRcpuhSfoktVpeT6gI5Do9
+ VOXmrg6NYgbSG/oNJcCxKb+qcw==
+X-Google-Smtp-Source: ABdhPJxRfy5JgIjMuod+sVFhy4EWY24kZGzVlW6QJHJuxAen0EFNuPHXRrBGkTiSlWg4COLfDczpow==
+X-Received: by 2002:a4a:4988:: with SMTP id z130mr11035098ooa.34.1607709516671; 
+ Fri, 11 Dec 2020 09:58:36 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id j126sm1957515oib.13.2020.12.11.09.50.44
+ by smtp.gmail.com with ESMTPSA id d62sm1945483oia.6.2020.12.11.09.58.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 09:50:46 -0800 (PST)
-Subject: Re: [PATCH v11 24/25] cpu: move cc->transaction_failed to tcg_ops
+ Fri, 11 Dec 2020 09:58:35 -0800 (PST)
+Subject: Re: [PATCH v11 25/25] cpu: move do_unaligned_access to tcg_ops
 To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
  Wenchao Wang <wenchao.wang@intel.com>,
@@ -62,19 +61,19 @@ To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 References: <20201211083143.14350-1-cfontana@suse.de>
- <20201211083143.14350-25-cfontana@suse.de>
+ <20201211083143.14350-26-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d5ae24dd-26c7-cbc1-d0e2-f2dc17939480@linaro.org>
-Date: Fri, 11 Dec 2020 11:50:43 -0600
+Message-ID: <ef309063-196b-9b73-4770-5602349b0a6f@linaro.org>
+Date: Fri, 11 Dec 2020 11:58:32 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201211083143.14350-25-cfontana@suse.de>
+In-Reply-To: <20201211083143.14350-26-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x241.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc44.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,15 +107,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/11/20 2:31 AM, Claudio Fontana wrote:
-> @@ -848,7 +842,7 @@ static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
->  
->      cc->do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
->  }
-> -
-> +#ifdef CONFIG_TCG
->  static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
+> +++ b/include/hw/core/tcg-cpu-ops.h
+> @@ -66,6 +66,13 @@ typedef struct TcgCpuOperations {
+>                                    unsigned size, MMUAccessType access_type,
+>                                    int mmu_idx, MemTxAttrs attrs,
+>                                    MemTxResult response, uintptr_t retaddr);
+> +    /**
+> +     * @do_unaligned_access: Callback for unaligned access handling, if
+> +     * the target defines #TARGET_ALIGNED_ONLY.
+> +     */
+> +    void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
+> +                                MMUAccessType access_type,
+> +                                int mmu_idx, uintptr_t retaddr);
 
-Keep the whitespace between functions.  Otherwise,
+The comment is out of date.  TARGET_ALIGNED_ONLY is no longer relevant.  That
+define only controls the default for MO_ALIGN.  The target can specify all
+sorts of alignment apart from the default.
+
+So let's lose everything after the "," and everything is ok.
+
+Amusingly, I was this week considering how easy it would be to add alignment
+checks to user-only.  But we're a fair way off from that now, so,
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
