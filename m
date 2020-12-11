@@ -2,83 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4958A2D78D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:12:12 +0100 (CET)
-Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 022C22D7919
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:22:16 +0100 (CET)
+Received: from localhost ([::1]:33222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knk5b-0005ks-18
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:12:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49808)
+	id 1knkFK-0000g7-UX
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:22:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1knk3L-0004Aa-HV
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:09:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23707)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1knk3G-0000Y1-Jx
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:09:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607699385;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8aRwaiUmW/i/Vcul3m7aFoGLwlsjZRwKJTzFcR9h7Jk=;
- b=X1RxvHdwWuK8gfRPcQRDhxwy3Q0fAN2dHVzE+n/sibaXlhmxMU0MBhempMJ6oFUhyX5Uce
- VLIjQMKQbo+mpLrUkziuAh36hHUr8Yr51Ze1Glisw+lH6oTU23A104sQ8qsX2Lbh/1O7+Y
- b8dAbXdDVp1imO70ecDVRSifoMygCjg=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-PhQLnDPhPmO_6oQw8YorOQ-1; Fri, 11 Dec 2020 10:09:43 -0500
-X-MC-Unique: PhQLnDPhPmO_6oQw8YorOQ-1
-Received: by mail-qt1-f197.google.com with SMTP id z43so6751538qtb.0
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 07:09:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8aRwaiUmW/i/Vcul3m7aFoGLwlsjZRwKJTzFcR9h7Jk=;
- b=A+yVkej2sqf2SUwIypejC8sj15qMcA1jPSYOQD89tgwKn5j1FZxjqcEwHQmWEdMbmP
- VfkmsAMyWL/gj4GyGcRkON85Hdh+PFheqmfrB0ykk7hI8wIpLbTJIwQOLWmgkFGGA515
- fRinVqITJq/VKihlt0+GZrtfqf5gDDOvqmiGHwnso4mGiHbdSdvb1YLzVoPRrgQLzTEu
- wv1Wmm2IMVsI5iNFZ3JC5ZT9aIIU5vKxjOk0ThGJge2Cx68muGgYz6ce+JG7wmHRoQci
- SffkgjXYSgMx+AznsBfLhzTr0VDHg7ibSBvtdbvcFglpNo5hT6MsPMN008Q5zu5V/ohp
- S+Yw==
-X-Gm-Message-State: AOAM530OitNjODPL7rXWgPRTAUpICWNheeXRP3TRmGKusQUk0pPnK7Nl
- 4bwnZ2BkFCbcD1NU1gOqdD0RbOP/blnzmc4gFbrgCE1iH6HZAwQSL+dNbkk+zY0R/GHtieJoLQ1
- 0PLw2XwM01xd90AA=
-X-Received: by 2002:a37:5242:: with SMTP id g63mr16281821qkb.317.1607699383221; 
- Fri, 11 Dec 2020 07:09:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzl7rnqkYM2alV0l4dr6DPT+cNU1Y8YJhkeK9t+T4bfLZqJUPhnokcEBDzDebv88xiynIjPlw==
-X-Received: by 2002:a37:5242:: with SMTP id g63mr16281784qkb.317.1607699382930; 
- Fri, 11 Dec 2020 07:09:42 -0800 (PST)
-Received: from xz-x1 ([142.126.83.202])
- by smtp.gmail.com with ESMTPSA id o21sm6207814qko.9.2020.12.11.07.09.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Dec 2020 07:09:41 -0800 (PST)
-Date: Fri, 11 Dec 2020 10:09:40 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v6 0/4] migration: UFFD write-tracking migration/snapshots
-Message-ID: <20201211150940.GC6520@xz-x1>
-References: <20201209100811.190316-1-andrey.gruzdev@virtuozzo.com>
- <3f19b8d2-0b4b-95e3-8a1f-a1cfe791a4e1@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1knk6a-0007ZF-7W; Fri, 11 Dec 2020 10:13:12 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:36476
+ helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1knk6S-0001sW-Uv; Fri, 11 Dec 2020 10:13:11 -0500
+Received: from localhost.localdomain
+ (dynamic-077-007-081-179.77.7.pool.telefonica.de [77.7.81.179])
+ by csgraf.de (Postfix) with ESMTPSA id B855539001AD;
+ Fri, 11 Dec 2020 16:13:01 +0100 (CET)
+From: Alexander Graf <agraf@csgraf.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/11] hvf: Implement Apple Silicon Support
+Date: Fri, 11 Dec 2020 16:12:49 +0100
+Message-Id: <20201211151300.85322-1-agraf@csgraf.de>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-In-Reply-To: <3f19b8d2-0b4b-95e3-8a1f-a1cfe791a4e1@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,81 +48,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-arm@nongnu.org, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 11, 2020 at 04:13:02PM +0300, Andrey Gruzdev wrote:
-> I've also made wr-fault resolution latency measurements, for the case when migration
-> stream is dumped to a file in cached mode.. Should approximately match saving to the
-> file fd directly though I used 'migrate exec:<>' using a hand-written tool.
-> 
-> VM config is 6 vCPUs + 16GB RAM, qcow2 image on Seagate 7200.11 series 1.5TB HDD,
-> snapshot goes to the same disk. Guest is Windows 10.
-> 
-> The test scenario is playing full-HD youtube video in Firefox while saving snapshot.
-> 
-> Latency measurement begin/end points are fs/userfaultfd.c:handle_userfault() and
-> mm/userfaultfd.c:mwriteprotect_range(), respectively. For any faulting page, the
-> oldest wr-fault timestamp is accounted.
-> 
-> The whole time to take snapshot was ~30secs, file size is around 3GB.
-> So far seems to be not a very bad picture.. However 16-255msecs range is worrying
-> me a bit, seems it causes audio backend buffer underflows sometimes.
-> 
-> 
->      msecs               : count     distribution
->          0 -> 1          : 111755   |****************************************|
->          2 -> 3          : 52       |                                        |
->          4 -> 7          : 105      |                                        |
->          8 -> 15         : 428      |                                        |
->         16 -> 31         : 335      |                                        |
->         32 -> 63         : 4        |                                        |
->         64 -> 127        : 8        |                                        |
->        128 -> 255        : 5        |                                        |
+Now that Apple Silicon is widely available, people are obviously excited
+to try and run virtualized workloads on them, such as Linux and Windows.
 
-Great test!  Thanks for sharing these information.
+This patch set implements a fully functional version to get the ball
+going on that. With this applied, I can successfully run both Linux and
+Windows as guests. I am not aware of any limitations specific to
+Hypervisor.framework apart from:
 
-Yes it's good enough for a 1st version, so it's already better than
-functionally work. :)
+  - Live migration / savevm
+  - gdbstub debugging (SP register)
 
-So did you try your last previous patch to see whether it could improve in some
-way?  Again we can gradually optimize upon your current work.
 
-Btw, you reminded me that why not we track all these from kernel? :) That's a
-good idea.  So, how did you trace it yourself?  Something like below should
-work with bpftrace, but I feel like you were done in some other way, so just
-fyi:
+Enjoy!
 
-        # cat latency.bpf
-        kprobe:handle_userfault
-        {
-                @start[tid] = nsecs;
-        }
+Alex
 
-        kretprobe:handle_userfault
-        {
-                if (@start[tid]) {
-                        $delay = nsecs - @start[tid];
-                        delete(@start[tid]);
-                        @delay_us = hist($delay / 1000);
-                }
-        }
-        # bpftrace latency.bpf
+v1 -> v2:
 
-Tracing return of handle_userfault() could be more accurate in that it also
-takes the latency between UFFDIO_WRITEPROTECT until vcpu got waked up again.
-However it's inaccurate because after a recent change to this code path in
-commit f9bf352224d7 ("userfaultfd: simplify fault handling", 2020-08-03)
-handle_userfault() could return even before page fault resolved.  However it
-should be good enough in most cases because even if it happens, it'll fault
-into handle_userfault() again, then we just got one more count.
+  - New patch: hvf: Actually set SIG_IPI mask
+  - New patch: hvf: Introduce hvf vcpu struct
+  - New patch: hvf: arm: Mark CPU as dirty on reset
+  - Removed patch: hw/arm/virt: Disable highmem when on hypervisor.framework
+  - Removed patch: arm: Synchronize CPU on PSCI on
+  - Fix build on 32bit arm
+  - Merge vcpu kick function patch into ARM enablement
+  - Implement WFI handling (allows vCPUs to sleep)
+  - Synchronize system registers (fixes OVMF crashes and reboot)
+  - Don't always call cpu_synchronize_state()
+  - Use more fine grained iothread locking
+  - Populate aa64mmfr0 from hardware
+  - Make safe to ctrl-C entitlement application
 
-Thanks!
+v2 -> v3:
+
+  - Removed patch: hvf: Actually set SIG_IPI mask
+  - New patch: hvf: arm: Add support for GICv3
+  - New patch: hvf: arm: Implement -cpu host
+  - Advance PC on SMC
+  - Use cp list interface for sysreg syncs
+  - Do not set current_cpu
+  - Fix sysreg isread mask
+  - Move sysreg handling to functions
+  - Remove WFI logic again
+  - Revert to global iothread locking
+
+v3 -> v4:
+
+  - Removed patch: hvf: arm: Mark CPU as dirty on reset
+  - New patch: hvf: Simplify post reset/init/loadvm hooks
+  - Remove i386-softmmu target (meson.build for hvf target)
+  - Combine both if statements (PSCI)
+  - Use hv.h instead of Hypervisor.h for 10.15 compat
+  - Remove manual inclusion of Hypervisor.h in common .c files
+  - No longer include Hypervisor.h in arm hvf .c files
+  - Remove unused exe_full variable
+  - Reuse exe_name variable
+
+v4 -> v5:
+
+  - Use g_free() on destroy
+
+Alexander Graf (10):
+  hvf: Add hypervisor entitlement to output binaries
+  hvf: x86: Remove unused definitions
+  hvf: Move common code out
+  hvf: Introduce hvf vcpu struct
+  arm: Set PSCI to 0.2 for HVF
+  hvf: Simplify post reset/init/loadvm hooks
+  hvf: Add Apple Silicon support
+  arm: Add Hypervisor.framework build target
+  hvf: arm: Add support for GICv3
+  hvf: arm: Implement -cpu host
+
+Peter Collingbourne (1):
+  arm/hvf: Add a WFI handler
+
+ MAINTAINERS                  |  14 +-
+ accel/hvf/entitlements.plist |   8 +
+ accel/hvf/hvf-all.c          |  54 +++
+ accel/hvf/hvf-cpus.c         | 466 +++++++++++++++++++
+ accel/hvf/meson.build        |   7 +
+ accel/meson.build            |   1 +
+ include/hw/core/cpu.h        |   3 +-
+ include/sysemu/hvf.h         |   2 +
+ include/sysemu/hvf_int.h     |  66 +++
+ meson.build                  |  40 +-
+ scripts/entitlement.sh       |  13 +
+ target/arm/cpu.c             |  13 +-
+ target/arm/cpu.h             |   2 +
+ target/arm/hvf/hvf.c         | 856 +++++++++++++++++++++++++++++++++++
+ target/arm/hvf/meson.build   |   3 +
+ target/arm/kvm_arm.h         |   2 -
+ target/arm/meson.build       |   2 +
+ target/i386/hvf/hvf-cpus.c   | 131 ------
+ target/i386/hvf/hvf-cpus.h   |  25 -
+ target/i386/hvf/hvf-i386.h   |  49 +-
+ target/i386/hvf/hvf.c        | 462 +++----------------
+ target/i386/hvf/meson.build  |   1 -
+ target/i386/hvf/vmx.h        |  24 +-
+ target/i386/hvf/x86.c        |  28 +-
+ target/i386/hvf/x86_descr.c  |  26 +-
+ target/i386/hvf/x86_emu.c    |  62 +--
+ target/i386/hvf/x86_mmu.c    |   4 +-
+ target/i386/hvf/x86_task.c   |  12 +-
+ target/i386/hvf/x86hvf.c     | 224 ++++-----
+ target/i386/hvf/x86hvf.h     |   2 -
+ 30 files changed, 1786 insertions(+), 816 deletions(-)
+ create mode 100644 accel/hvf/entitlements.plist
+ create mode 100644 accel/hvf/hvf-all.c
+ create mode 100644 accel/hvf/hvf-cpus.c
+ create mode 100644 accel/hvf/meson.build
+ create mode 100644 include/sysemu/hvf_int.h
+ create mode 100755 scripts/entitlement.sh
+ create mode 100644 target/arm/hvf/hvf.c
+ create mode 100644 target/arm/hvf/meson.build
+ delete mode 100644 target/i386/hvf/hvf-cpus.c
+ delete mode 100644 target/i386/hvf/hvf-cpus.h
 
 -- 
-Peter Xu
+2.24.3 (Apple Git-128)
 
 
