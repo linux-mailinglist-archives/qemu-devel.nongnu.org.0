@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6E12D7CB4
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:22:44 +0100 (CET)
-Received: from localhost ([::1]:58972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D210D2D7C77
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:09:33 +0100 (CET)
+Received: from localhost ([::1]:53084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knm7v-0001KP-DP
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:22:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48406)
+	id 1knlvA-0002aM-Kj
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:09:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1knlpw-0007wJ-2k
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:04:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1knlpk-0008DQ-Fq
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:04:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607706226;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Leog1T7cuecv5R6fqJMs7ncd85agCnp/s8z42hrWKr0=;
- b=NF6G+CbThvASc9torbmVurRMcVKi73DWtowOtQ9RtrVQGufaTmta/xB865SGtfP732sJb/
- ZS/T1pjRPxixjg54s7IIiUvYwiPQjEIeIXCgEchXt3zPaVvkqhcWrGP4FwoAAMBioCtXZE
- t+YJeXjY+QBOZeaLkEG61dCaBGcDUQQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-j0uHi-AaORKFbfD_QMHVaQ-1; Fri, 11 Dec 2020 12:03:44 -0500
-X-MC-Unique: j0uHi-AaORKFbfD_QMHVaQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDC751087D78;
- Fri, 11 Dec 2020 17:03:40 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-114-123.rdu2.redhat.com
- [10.10.114.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E77FB5D9E8;
- Fri, 11 Dec 2020 17:03:31 +0000 (UTC)
-Subject: Re: [PATCH v3 1/5] gitlab-ci: Document 'build-tcg-disabled' is a KVM
- X86 job
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201207131503.3858889-1-philmd@redhat.com>
- <20201207131503.3858889-2-philmd@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <41db8ee1-23bf-bbde-f99a-5a314fac215d@redhat.com>
-Date: Fri, 11 Dec 2020 14:03:30 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1knlrA-0000CN-1x
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:05:24 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:44175)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1knlr7-0000Ro-Nt
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:05:23 -0500
+Received: by mail-ot1-x341.google.com with SMTP id f16so8804447otl.11
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 09:05:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CigRTGsSPNwlww9HtA4ymsGwungcEfYRDup6Asy6PdM=;
+ b=AsMzC2b7HMejoZ2SXo7ZgkA+OH2ZmU68Zx0DxjmhOcsd84x01a45Q8NsUBVKWO3Mbp
+ twMm/D+WabOs1HkeSr6sARpFfmYzYk45xzk2ihNBjUdbQnsD76RNZIMS44OOVTpyjzYQ
+ 37kq1uM+9d3MjD2HCmrK4P37UDgmDXHeghlDUZPFMPp8DpFIRQtHO3q9m0Ti+2P7o8RN
+ u4gwC+6zsPLn3aOj7QXbKZa7vNotdFbFpy1d7QG11gE9ozexI8dok1NEFGF/8bglvgdZ
+ 7Y/Q//YZxwCQWlJ0FdwkqWN4UQ8mbzmrvG2rfKgpO5ps4pDslCC9uucnFbYaVZd1raCK
+ VLUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CigRTGsSPNwlww9HtA4ymsGwungcEfYRDup6Asy6PdM=;
+ b=fcyCnRYQnSPXbzgiSmSubHSp3FzrGVxYOw437p9uVdyWrunbMcwOoyrMmDSeVZc6XA
+ A7teB/TwW4Yy+B7rlKywYrY1Fdz6+i8CxUHx0OA9DhN7RVWUCYbaQq/IgLZAzT4V5yzf
+ w2jDY4BP4H+oJ+1JuUekfpGz4b3NHNUVWGixFplYuctCsefsq2WXYGVCpjfk2wwkUa6K
+ 8sFpQAGePaEUg/QFBoy6VgbiEH8NiqFPGxrLvK1Ep2wi4AOvYEfOcLNGuKc3sW4wE+Tz
+ nFWdFe2H2/FrGVRADvYzQtIZZrJ7n/XlNgKgLw6+6I+8TmpKzbvVkgyv7jaayoOSQlyG
+ o+3w==
+X-Gm-Message-State: AOAM533IsH71Ic4I5kyDr2X/ijr68t0mLpe05xRQsIeGn9TKXPIG6fkZ
+ sM8/bS4RyE1GdXkPBc1in8a16w==
+X-Google-Smtp-Source: ABdhPJzecyZ4N4CjTTHDxP5XfFn83ftyzWufX1Kyr/zoUD5qf4xYi8yfFJdFXDc2xfHz+vXS8MERTA==
+X-Received: by 2002:a9d:4005:: with SMTP id m5mr7177986ote.120.1607706320213; 
+ Fri, 11 Dec 2020 09:05:20 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id 94sm1945883otw.41.2020.12.11.09.05.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Dec 2020 09:05:19 -0800 (PST)
+Subject: Re: [PATCH v11 18/25] cpu: Move synchronize_from_tb() to tcg_ops
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20201211083143.14350-1-cfontana@suse.de>
+ <20201211083143.14350-19-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <78a7119d-1b4b-47dc-8f16-510708c9fcd4@linaro.org>
+Date: Fri, 11 Dec 2020 11:05:03 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201207131503.3858889-2-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201211083143.14350-19-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x341.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,48 +93,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- xen-devel@lists.xenproject.org, kvm@vger.kernel.org,
- Paul Durrant <paul@xen.org>, Marcelo Tosatti <mtosatti@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Willian Rampazzo <wrampazz@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
+ haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
+ Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-On 12/7/20 10:14 AM, Philippe Mathieu-Daudé wrote:
-> Document what this job cover (build X86 targets with
-> KVM being the single accelerator available).
->
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 12/11/20 2:31 AM, Claudio Fontana wrote:
+> From: Eduardo Habkost <ehabkost@redhat.com>
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> [claudio: wrapped in CONFIG_TCG]
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   .gitlab-ci.yml | 5 +++++
->   1 file changed, 5 insertions(+)
+>  include/hw/core/cpu.h         |  8 --------
+>  include/hw/core/tcg-cpu-ops.h | 12 ++++++++++++
+>  accel/tcg/cpu-exec.c          |  4 ++--
+>  target/arm/cpu.c              |  4 +++-
+>  target/avr/cpu.c              |  2 +-
+>  target/hppa/cpu.c             |  2 +-
+>  target/i386/tcg/tcg-cpu.c     |  2 +-
+>  target/microblaze/cpu.c       |  2 +-
+>  target/mips/cpu.c             |  4 +++-
+>  target/riscv/cpu.c            |  2 +-
+>  target/rx/cpu.c               |  2 +-
+>  target/sh4/cpu.c              |  2 +-
+>  target/sparc/cpu.c            |  2 +-
+>  target/tricore/cpu.c          |  2 +-
+>  14 files changed, 29 insertions(+), 21 deletions(-)
+> 
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index ea648d52ad..83007d262c 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -110,13 +110,6 @@ struct TranslationBlock;
+>   *       If the target behaviour here is anything other than "set
+>   *       the PC register to the value passed in" then the target must
+>   *       also implement the synchronize_from_tb hook.
+> - * @synchronize_from_tb: Callback for synchronizing state from a TCG
+> - *       #TranslationBlock. This is called when we abandon execution
+> - *       of a TB before starting it, and must set all parts of the CPU
+> - *       state which the previous TB in the chain may not have updated.
+> - *       This always includes at least the program counter; some targets
+> - *       will need to do more. If this hook is not implemented then the
+> - *       default is to call @set_pc(tb->pc).
+>   * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
+>   *       address fault.  For system mode, if the access is valid, call
+>   *       tlb_set_page and return true; if the access is invalid, and
+> @@ -193,7 +186,6 @@ struct CPUClass {
+>      void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
+>                                 Error **errp);
+>      void (*set_pc)(CPUState *cpu, vaddr value);
+> -    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
+>      bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+>                       MMUAccessType access_type, int mmu_idx,
+>                       bool probe, uintptr_t retaddr);
+> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+> index 4475ef0996..e1d50b3c8b 100644
+> --- a/include/hw/core/tcg-cpu-ops.h
+> +++ b/include/hw/core/tcg-cpu-ops.h
+> @@ -10,6 +10,8 @@
+>  #ifndef TCG_CPU_OPS_H
+>  #define TCG_CPU_OPS_H
+>  
+> +#include "hw/core/cpu.h"
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+This include is circular.
 
->
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index d0173e82b16..ee31b1020fe 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -220,6 +220,11 @@ build-disabled:
->         s390x-softmmu i386-linux-user
->       MAKE_CHECK_ARGS: check-qtest SPEED=slow
->   
-> +# This jobs explicitly disable TCG (--disable-tcg), KVM is detected by
-> +# the configure script. The container doesn't contain Xen headers so
-> +# Xen accelerator is not detected / selected. As result it build the
-> +# i386-softmmu and x86_64-softmmu with KVM being the single accelerator
-> +# available.
->   build-tcg-disabled:
->     <<: *native_build_job_definition
->     variables:
+Are you sure that splitting out hw/core/tcg-cpu-ops.h from hw/core/cpu.h in
+patch 15 is even useful?
 
+Otherwise the actual code change looks ok.
+
+
+r~
 
