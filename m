@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E775D2D6E37
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 03:48:22 +0100 (CET)
-Received: from localhost ([::1]:38064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE1E2D6E52
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 04:07:41 +0100 (CET)
+Received: from localhost ([::1]:42686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knYTl-0003m2-Hd
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 21:48:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42922)
+	id 1knYmS-0006qf-8n
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 22:07:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1knYSd-00034S-S6
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 21:47:12 -0500
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:42250)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1knYk0-0005pF-OH; Thu, 10 Dec 2020 22:05:08 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1knYSZ-0001al-Hl
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 21:47:11 -0500
-Received: by mail-il1-x142.google.com with SMTP id 2so7398264ilg.9
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 18:47:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1knYja-0007Cc-Pl; Thu, 10 Dec 2020 22:05:08 -0500
+Received: by mail-oi1-x243.google.com with SMTP id l200so8271901oig.9;
+ Thu, 10 Dec 2020 19:04:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+cH6NhrNCymGCFQefWZaTuhQOjdQkzFTug/Zw1PJ2LE=;
- b=maJZgRgqrlHrNqjbd0QOZYCP9DnzOWBWsBvON2HOdGWEDLXeL0zpYpO/mKaXIjJoxh
- akZZfL2pOZN04SY3/kQZjc+eyXHqnVt2aHd+PODVFW9WJ5YRoxMfv4SPZSCSPcy6vCwW
- 1+oo8yfl8wprzXEb2Tn7r60/X8iVzQtU+uJm/rTzpfEJ5ukaaf6hFvFXBq/8sahAenHr
- 1FyYU3FlKVMchG5M0FVDwdujNkzxWoaM4gHPGL0LBx6mRIG4vxwhi1gTDWfuSC9mTLVb
- +37eq85mvmUT5iEym33hGJVWMerMdlKF/MB5moSE7YjqBi3HWNYP6iqjqIxXC6AnFLhJ
- 6d0g==
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7Bqe7TUfqEXtWYklNV7hKPySGhYcLApAf1F2RPky7D4=;
+ b=MTz+Yx0futif80qpy7eoEareq5bBeomWVnSSVCUp3d/LG9w7RZFzlXbFgjXAmuS15v
+ jnIMbJbEvUwk1tpY1FZRMhBPabzqn1+m3TGaxnJDQstH7J9zuFNyZ5VhQ10upXiGUpSV
+ N+uVOKU4JP0CwiwdAFUQOPpVa7GHJcNBauPk+n+H9Qb8wNNz0PLOJVcNsxklPvZhariY
+ R5AF0WnRE76IO247iD/a3p26EBARnpOyLyomuZLscjzBf7XmEFQF+ib6hakCJvStuTw6
+ YVb30naQY1tJEZ5aMmF5HEprIPZSAvDAbzJPIj47CYBnyXimNZpO7acBDVO+IWWm+Sau
+ rORQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+cH6NhrNCymGCFQefWZaTuhQOjdQkzFTug/Zw1PJ2LE=;
- b=B4TWFTEPAvEaXpYJv7HBioImT09m3Sx9ovU8ideq0vV0/ThwnYe3/iRfgmll8r4UWQ
- b8zaKLOqY7NYdc4xifeyo4eyqdO7oPwun7QeRYsm9WaFEb2leOqz0DRlJGIPukdKQfjJ
- B2y4P/g8k+WXfdj5ZwLnm7hICe9GRP8Lo6aEdHbdbm7WKPIYn7DihuLTC1J3YHdRrsMX
- VPfojdqaMxRz9EnE/XsPF3/eKDO0LiHImSbhKjEofmak8rhAgX2e/pg31iS1zO8Kd0Vk
- Bxx7WAF2/R3AGN8lPq4DJVVRQmZW27I6e71n5AiSSEZDgYsAPEQTWuomejE+kDqPUbDB
- Je8A==
-X-Gm-Message-State: AOAM533+gz3ukc4gyzNnqwzj3uj6StCMS5QIRuZ7Zv1vt1BZJ22gmC+T
- j+DplTdEPIDcH6KYGCVlfHk5lBZCGFDupunHYTE=
-X-Google-Smtp-Source: ABdhPJyqwmVI3KLeOFbtTtuRtIjiOZQ+1v2SPSHCo1+gSf7plJyACwC3oqTYC57kuMQsOWSSMLvOihL/sz+ycpqF5Ls=
-X-Received: by 2002:a05:6e02:f88:: with SMTP id
- v8mr12854316ilo.270.1607654825668; 
- Thu, 10 Dec 2020 18:47:05 -0800 (PST)
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to;
+ bh=7Bqe7TUfqEXtWYklNV7hKPySGhYcLApAf1F2RPky7D4=;
+ b=hDt3YWnliGFAmDZb/QRVcGK6BqoZE7sWhM01h8VFMVdgNxjLbAeA9ypyZqIy+2+0gM
+ bk1Cj/5ZFrxqp7MhEoZENNLn89Z+brYgbjOzqfuK4T3UaxoSJgNHZR4k+AAFnRygZr7s
+ Bvwn4odM2q7yJ1qZW5KL2Z8VJyjMO03nl5LiA4PQNGMdPvwb3iEXHR0szgJ8RT3Tl4Ss
+ zLu1EGX7F3kLrfKwyc7dnEpWE21RKXQvemvnDiaPt93Uj4w/0x6VQPLhQJkTRLuOW3LE
+ zJeDKaceqc1g8p1ub/wypT/dRTiJpQtY3MU8ol7xHylgeMF9V6oayxPoFfdNep+eiQM5
+ Ii8A==
+X-Gm-Message-State: AOAM532SjyJ+/+yJrslry53acIt2HH0wiZUmWns4Oyd0GgSRcGuHhX5A
+ O7NHqnsCEiTcGOVEoj4rCw==
+X-Google-Smtp-Source: ABdhPJxFlvvv0pZ/35xbJ+Y1JHGa/Yn0JATIhP8XfkBhXf/0FbxVJlj7UKf0zpQYPHICIriOdJm3tA==
+X-Received: by 2002:aca:ad8d:: with SMTP id w135mr7466149oie.27.1607655879006; 
+ Thu, 10 Dec 2020 19:04:39 -0800 (PST)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id y35sm1566582otb.5.2020.12.10.19.04.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Dec 2020 19:04:38 -0800 (PST)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:9cf8:f63f:d424:8677])
+ by serve.minyard.net (Postfix) with ESMTPSA id 0CBB2180570;
+ Fri, 11 Dec 2020 03:04:37 +0000 (UTC)
+Date: Thu, 10 Dec 2020 21:04:35 -0600
+From: Corey Minyard <minyard@acm.org>
+To: Hao Wu <wuhaotsh@google.com>
+Subject: Re: [PATCH 0/7] Additional NPCM7xx devices and IPMI BMC emulation
+ support
+Message-ID: <20201211030435.GI11017@minyard.net>
+References: <20201211015156.2053372-1-wuhaotsh@google.com>
 MIME-Version: 1.0
-References: <1604636510-8347-1-git-send-email-chenhc@lemote.com>
- <1604636510-8347-5-git-send-email-chenhc@lemote.com>
- <e85cc640-e5f4-bec1-2e3a-b5a57abe21c7@amsat.org>
- <CAAhV-H7ALVV=3Gj4iq4TVqL+czm3kK+F_uKvxGTJB-wonpGRHw@mail.gmail.com>
- <215f01d5-3fad-1dc6-bb1b-e8face969e23@amsat.org>
-In-Reply-To: <215f01d5-3fad-1dc6-bb1b-e8face969e23@amsat.org>
-From: Huacai Chen <chenhuacai@gmail.com>
-Date: Fri, 11 Dec 2020 10:46:54 +0800
-Message-ID: <CAAhV-H6d1gDGKha=D+TNg-vwTL_5+9ON+x9GCE0QsrQktby01A@mail.gmail.com>
-Subject: Re: [PATCH V17 4/6] hw/mips: Add Loongson-3 boot parameter helpers
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
- envelope-from=chenhuacai@gmail.com; helo=mail-il1-x142.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201211015156.2053372-1-wuhaotsh@google.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=tcminyard@gmail.com; helo=mail-oi1-x243.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,116 +86,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <zltjiangshi@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: minyard@acm.org
+Cc: peter.maydell@linaro.org, venture@google.com, hskinnemoen@google.com,
+ qemu-devel@nongnu.org, kfting@nuvoton.com, qemu-arm@nongnu.org,
+ Avi.Fishman@nuvoton.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Rechard and Peter,
+On Thu, Dec 10, 2020 at 05:51:49PM -0800, Hao Wu wrote:
+> This patch series include a few more NPCM7XX devices including
+> 
+> - Analog Digital Converter (ADC)
+> - Pulse Width Modulation (PWM)
+> - Keyboard Style Controller (KSC)
+> 
+> To utilize these modules we also add two extra functionalities:
+> 
+> 1. We modified the CLK module to generate clock values using qdev_clock.
+>    These clocks are used to determine various clocks in NPCM7XX devices.
+> 2. We added support for emulating IPMI responder devices in BMC machines,
+>    similar to the existing IPMI device support for CPU emulation. This allows
+>    a qemu instance running BMC firmware to serve as an external BMC for a qemu
+>    instance running server software. It utilizes the KCS module we implemented.
 
-On Wed, Dec 2, 2020 at 5:32 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
-> wrote:
->
-> On 12/2/20 2:14 AM, Huacai Chen wrote:
-> > Hi, Phillippe,
-> >
-> > On Tue, Nov 24, 2020 at 6:25 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
-t.org> wrote:
-> >>
-> >> On 11/6/20 5:21 AM, Huacai Chen wrote:
-> >>> Preparing to add Loongson-3 machine support, add Loongson-3's LEFI (a
-> >>> UEFI-like interface for BIOS-Kernel boot parameters) helpers first.
-> >>>
-> >>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >>> Signed-off-by: Huacai Chen <chenhc@lemote.com>
-> >>> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> >>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> >>> ---
-> >>>  hw/mips/loongson3_bootp.c | 165 +++++++++++++++++++++++++++++++
-> >>>  hw/mips/loongson3_bootp.h | 241 ++++++++++++++++++++++++++++++++++++=
-++++++++++
-> >>>  hw/mips/meson.build       |   1 +
-> >>>  3 files changed, 407 insertions(+)
-> >>>  create mode 100644 hw/mips/loongson3_bootp.c
-> >>>  create mode 100644 hw/mips/loongson3_bootp.h
-> >>>
-> >>> diff --git a/hw/mips/loongson3_bootp.c b/hw/mips/loongson3_bootp.c
-> >>> new file mode 100644
-> >>> index 0000000..3a16081
-> >>> --- /dev/null
-> >>> +++ b/hw/mips/loongson3_bootp.c
-> >>> @@ -0,0 +1,165 @@
-> >>> +/*
-> >>> + * LEFI (a UEFI-like interface for BIOS-Kernel boot parameters) help=
-ers
-> >>> + *
-> >>> + * Copyright (c) 2018-2020 Huacai Chen (chenhc@lemote.com)
-> >>> + * Copyright (c) 2018-2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
-> >>> + *
-> >>> + * This program is free software: you can redistribute it and/or mod=
-ify
-> >>> + * it under the terms of the GNU General Public License as published=
- by
-> >>> + * the Free Software Foundation, either version 2 of the License, or
-> >>> + * (at your option) any later version.
-> >>> + *
-> >>> + * This program is distributed in the hope that it will be useful,
-> >>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> >>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-> >>> + * GNU General Public License for more details.
-> >>> + *
-> >>> + * You should have received a copy of the GNU General Public License
-> >>> + * along with this program. If not, see <https://www.gnu.org/license=
-s/>.
-> >>> + */
-> >>> +
-> >>> +#include "qemu/osdep.h"
-> >>> +#include "qemu/units.h"
-> >>> +#include "qemu/cutils.h"
-> >>> +#include "cpu.h"
-> >>> +#include "hw/boards.h"
-> >>> +#include "hw/mips/loongson3_bootp.h"
-> >>> +
-> >>> +#define LOONGSON3_CORE_PER_NODE 4
-> >>> +
-> >>> +static struct efi_cpuinfo_loongson *init_cpu_info(void *g_cpuinfo, u=
-int64_t cpu_freq)
-> >>> +{
-> >>> +    struct efi_cpuinfo_loongson *c =3D g_cpuinfo;
-> >>> +
-> >>> +    stl_le_p(&c->cputype, Loongson_3A);
-> >>> +    stl_le_p(&c->processor_id, MIPS_CPU(first_cpu)->env.CP0_PRid);
-> >>
-> >> Build failing with Clang:
-> >>
-> >> FAILED: libqemu-mips64el-softmmu.fa.p/hw_mips_loongson3_bootp.c.o
-> >> hw/mips/loongson3_bootp.c:35:15: error: taking address of packed membe=
-r
-> >> 'processor_id' of class or structure 'efi_cpuinfo_loongson' may result
-> >> in an unaligned pointer value [-Werror,-Waddress-of-packed-member]
-> >>     stl_le_p(&c->processor_id, MIPS_CPU(first_cpu)->env.CP0_PRid);
-> >>               ^~~~~~~~~~~~~~~
-> >> 1 error generated.
-> > We cannot reproduce it on X86/MIPS with clang...
->
-> You can reproduce running the Clang job on Gitlab-CI:
->
-> https://wiki.qemu.org/Testing/CI/GitLabCI
->
-> > And I found that
-> > stl_le_p() will be __builtin_memcpy(), I don't think memcpy() will
-> > cause unaligned access. So, any suggestions?
->
-> I'll defer this question to Richard/Peter who have deeper understanding.
-Any sugguestions? Other patches are updated, except this one.
+Looking at the IPMI changes, why didn't you just re-use the existing
+IPMI infrastructure?  ipmi_host.[ch] is basically a subset of ipmi.[ch],
+and the ipmi_host_extern looks like a copy of of ipmi_bmc_extern with
+some names changed.  That kind of code duplication is not acceptable.
+Plus you copied my code and removed my copyrights, which is really
+not acceptable and illegal.
 
-Huacai
->
-> >
-> > Huacai
+I'm not exactly sure why you needed you own KCS interface, either.  It
+looks like the interface is somewhat different in some ways, but
+integrating it into the current KCS code is probably a better choice if
+that can be done.
+
+-corey
+
+> 
+> Hao Wu (7):
+>   hw/misc: Add clock converter in NPCM7XX CLK module
+>   hw/timer: Refactor NPCM7XX Timer to use CLK clock
+>   hw/adc: Add an ADC module for NPCM7XX
+>   hw/misc: Add a PWM module for NPCM7XX
+>   hw/ipmi: Add an IPMI host interface
+>   hw/ipmi: Add a KCS Module for NPCM7XX
+>   hw/ipmi: Add an IPMI external host device
+> 
+>  default-configs/devices/arm-softmmu.mak |   2 +
+>  docs/system/arm/nuvoton.rst             |   6 +-
+>  hw/adc/meson.build                      |   1 +
+>  hw/adc/npcm7xx_adc.c                    | 318 ++++++++++
+>  hw/arm/npcm7xx.c                        |  65 +-
+>  hw/ipmi/Kconfig                         |   5 +
+>  hw/ipmi/ipmi_host.c                     |  40 ++
+>  hw/ipmi/ipmi_host_extern.c              | 435 +++++++++++++
+>  hw/ipmi/meson.build                     |   3 +
+>  hw/ipmi/npcm7xx_kcs.c                   | 570 +++++++++++++++++
+>  hw/misc/meson.build                     |   1 +
+>  hw/misc/npcm7xx_clk.c                   | 795 +++++++++++++++++++++++-
+>  hw/misc/npcm7xx_pwm.c                   | 535 ++++++++++++++++
+>  hw/timer/npcm7xx_timer.c                |  25 +-
+>  include/hw/adc/npcm7xx_adc.h            |  72 +++
+>  include/hw/arm/npcm7xx.h                |   6 +
+>  include/hw/ipmi/ipmi_host.h             |  56 ++
+>  include/hw/ipmi/ipmi_responder.h        |  66 ++
+>  include/hw/ipmi/npcm7xx_kcs.h           | 105 ++++
+>  include/hw/misc/npcm7xx_clk.h           | 146 ++++-
+>  include/hw/misc/npcm7xx_pwm.h           | 106 ++++
+>  include/hw/timer/npcm7xx_timer.h        |   1 +
+>  tests/qtest/meson.build                 |   4 +-
+>  tests/qtest/npcm7xx_adc-test.c          | 400 ++++++++++++
+>  tests/qtest/npcm7xx_pwm-test.c          | 490 +++++++++++++++
+>  25 files changed, 4221 insertions(+), 32 deletions(-)
+>  create mode 100644 hw/adc/npcm7xx_adc.c
+>  create mode 100644 hw/ipmi/ipmi_host.c
+>  create mode 100644 hw/ipmi/ipmi_host_extern.c
+>  create mode 100644 hw/ipmi/npcm7xx_kcs.c
+>  create mode 100644 hw/misc/npcm7xx_pwm.c
+>  create mode 100644 include/hw/adc/npcm7xx_adc.h
+>  create mode 100644 include/hw/ipmi/ipmi_host.h
+>  create mode 100644 include/hw/ipmi/ipmi_responder.h
+>  create mode 100644 include/hw/ipmi/npcm7xx_kcs.h
+>  create mode 100644 include/hw/misc/npcm7xx_pwm.h
+>  create mode 100644 tests/qtest/npcm7xx_adc-test.c
+>  create mode 100644 tests/qtest/npcm7xx_pwm-test.c
+> 
+> -- 
+> 2.29.2.684.gfbc64c5ab5-goog
+> 
 
