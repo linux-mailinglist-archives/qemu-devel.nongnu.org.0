@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3092D7302
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 10:45:38 +0100 (CET)
-Received: from localhost ([::1]:55282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9C92D7307
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 10:48:29 +0100 (CET)
+Received: from localhost ([::1]:57610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knezZ-00078Z-Nb
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 04:45:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58280)
+	id 1knf2K-0008Cb-Ny
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 04:48:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1kneyU-0006he-OC
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 04:44:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1kneyN-0002hJ-NS
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 04:44:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607679861;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BadPyGQDD+eF9tuq+3iOfgsp5QDV/AJ+W6Iy78LESoM=;
- b=V4yA+UhGCsfRkzncoym7z7YjJ/VE1Bk/HGKuiXbGw02M8dJHl6TUfi+UTgq5iYq7nxkU+1
- 3a+1k0J2xcNNVpzpZ9COND8GIEZyKcR/8Zp9a4Xa6FkURNDl05AnioAGXClBzm9PE3Ysi0
- F8W6aAkPxgXy1kpnn8gXzO8tBCcjf9s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-52OCbnXkO9uO0B0aSSkuHA-1; Fri, 11 Dec 2020 04:44:19 -0500
-X-MC-Unique: 52OCbnXkO9uO0B0aSSkuHA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 075B1107ACE4;
- Fri, 11 Dec 2020 09:44:18 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 323DF5D705;
- Fri, 11 Dec 2020 09:44:07 +0000 (UTC)
-Date: Fri, 11 Dec 2020 10:44:04 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: RFC: don't store backing filename in qcow2 image
-Message-ID: <20201211094404.GI2986915@angien.pipo.sk>
-References: <20581556-6550-e0f7-aca9-6b4034821f6c@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1knf0o-0007m9-VI
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 04:46:55 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51251)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1knf0m-0003xM-3o
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 04:46:54 -0500
+Received: by mail-wm1-x343.google.com with SMTP id v14so6997686wml.1
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 01:46:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=IvSTK3jPh8dX77bdvTlELOrL/VTypnA6Ggj1OSGhi3M=;
+ b=bopoGUzBb6ApPCaDwQvf4pnT6Bf1de73ZTlTHDTXBuLo3aIpqS6Y3K+SsDGpyFqS/K
+ S5hF21hVeSGBgpgH3dm2qGNVEfPiSnbE9Y2CvJdKTjnoNx59cQFPRdlymox3SC79O7tS
+ 0jn554osWwkNbZb47iX76BK6CQDT1/Kt8O52cIu5PqIcG80SCD7b4a//U0aWAZmEnc5/
+ lGzVrit/67mIhzXmhNXqoOEqwV6Ir5rJCi6SGZIod/npAYV44WR+S2ClHnUOM/Hzeh0a
+ /T/dNWWbGNr/RX8jveLLZG4V8DATLYMC/pLklp+MOSD34K1APLAt1W09WVsB4oJXNCRC
+ mXTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=IvSTK3jPh8dX77bdvTlELOrL/VTypnA6Ggj1OSGhi3M=;
+ b=h+1zPC7Ao2Kb6WDkzyHp3prMGVc/bBTvfWT+MiDo6a4EKBph5l9o6hwPL6GZGB5cAY
+ ZnWYdtoSHbkYQubxjgd59JrcMswtUxUdYTu+rHXbo1bHufzL9txQT78QdwXr0XbVyL3K
+ 5Vn19Mz+s0V+k8hL10sLpf85a5Hx6uEZb+IVIWqrwaxQPwLdNN+CYtBspBI7SwzYWRST
+ nP1XUPireUTS4OM9mBUmg5xgd0a5l+cF0bPk4ianFrcjB5kY5945aF7voVSyEOruEdYu
+ pe3j68F0Uaf9Mfhq8SDvTiXLuhdLrjuNFZUUeCu8Bcflu2YIBBqzvxHQls0uW2fq4rqN
+ o4jA==
+X-Gm-Message-State: AOAM531Hqdx1HJ8/SIiF5jP7J8Bzq7Z7gilGz7vD1fhp70BkVoOVcy/k
+ Vu/W8m/4hdgqzoIuNoHh3/pR+w==
+X-Google-Smtp-Source: ABdhPJxDgz+R6l6FdXZgI8I/usP44WmntqV7/k9ySa19zYF5aRdTdXfGXkNl6N9DREFYdbuuo0aCnw==
+X-Received: by 2002:a1c:7f90:: with SMTP id a138mr12858702wmd.61.1607680010203; 
+ Fri, 11 Dec 2020 01:46:50 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a13sm14256251wrt.96.2020.12.11.01.46.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Dec 2020 01:46:49 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 362A51FF7E;
+ Fri, 11 Dec 2020 09:46:48 +0000 (GMT)
+References: <20201210190417.31673-1-alex.bennee@linaro.org>
+ <20201210190417.31673-5-alex.bennee@linaro.org>
+ <dad53fb4-8aa4-441b-1daa-01b635396ad4@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 4/8] configure: add --without-default-features
+Date: Fri, 11 Dec 2020 09:44:11 +0000
+In-reply-to: <dad53fb4-8aa4-441b-1daa-01b635396ad4@redhat.com>
+Message-ID: <87360cd69j.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20581556-6550-e0f7-aca9-6b4034821f6c@virtuozzo.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,63 +88,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu block <qemu-block@nongnu.org>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ richard.henderson@linaro.org, f4bug@amsat.org, qemu-devel@nongnu.org,
+ cota@braap.org, stefanha@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 10, 2020 at 17:26:52 +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
 
-Hi,
+Thomas Huth <thuth@redhat.com> writes:
 
-> 
-> I have an idea, that not storing backing filename in qcow2 image at all may be a good thing. I'll give some reasons and want to know what do you think about it.
-> 
-> 1. Libvirt has to manage and keep in mind backing chains anyway.
-> 
-> This means, that storing this information in qcow2 header is a source of bugs when we update it in one place but failed/forget to update in another. Of course, Libvirt is not the only user of qemu.. But we are moving to "blockdev" anyway, when management tool should control all node-names at least. It would be strange to not control the relations between images in the same time.
+> On 10/12/2020 20.04, Alex Benn=C3=A9e wrote:
+>> By default QEMU enables a lot of features if it can probe and find the
+>> support libraries. It also enables a bunch of features by default.
+>> This patch adds the ability to build --without-default-features which
+>> can be paired with a --without-default-devices for a barely functional
+>> build.
+>>=20
+<snip>
+>> -# is impossible without a --enable-foo that exits if a feature is not f=
+ound.
+>> +# is impossible without a --enable-foo that exits if a feature is not
+>> +# found.
+>
+> Why did you wrap the second long line, but not the first one?
 
-At the same time many users depend on this. If you move in images from
-another host, you'd have to remember the dependencies/order.
+Hmm I probably just hit return on that line and my editor wrapped it.
+Revert or reflow?
 
-> 2. backing file name specified in qcow2 metadata doesn't relate to any other thing, and nothing rely on it.
-> 
-> 3. calculating and updating backing file name in Qemu is a headache:
->    - with some options specified or with filters we risk to write json filenames into qcow2 metadata, which is almost never what user wants. Also, json may exceed the qcow2 limitation of backing_file_size to be <= 1023
+>
+>> -brlapi=3D""
+>> -curl=3D""
+>> +default_feature=3D""
+>> +# parse CC options second
+>> +for opt do
+>> +  optarg=3D$(expr "x$opt" : 'x[^=3D]*=3D\(.*\)')
+>> +  case "$opt" in
+>> +      --without-default-features)
+>> +          default_feature=3D"no"
+>> +  ;;
+>> +  esac
+>> +done
+>> +
+>> +brlapi=3D"$default_feature"
+>> +curl=3D"$default_feature"
+>>  iconv=3D"auto"
+>>  curses=3D"auto"
+>>  docs=3D"auto"
+>> @@ -303,52 +315,52 @@ netmap=3D"no"
+>>  sdl=3D"auto"
+>>  sdl_image=3D"auto"
+>>  virtiofsd=3D"auto"
+>> -virtfs=3D""
+>> +virtfs=3D"$default_feature"
+>
+> So this currently only deals with the variables that are pre-initialized =
+to
+> "" ... but what about those that are initialized to "auto" ? I think they
+> should be handled, too? Well, it can still be done in a later patch, I
+> guess.
 
-As long as it works (libvirt and qemu have parsers for json:) I don't
-think the user cares.
+Most of the auto flags go through to meson which can then squash them
+with the -Dauto_features=3Ddisabled, but I can fixup the auto's left in
+configure with additional patches.
 
->    - updating it in transactional way for read-only image during reopen, when another transactional permission update is ongoing is difficult (who know, how to do it?) (remember recent d669ed6ab02849 "block: make bdrv_drop_intermediate() less wrong")
-> 
-> 4. Moving qcow2 files to another directory is a problem: you should care to update backing file names in all dependent qcow2 images.
+>
+> Acked-by: Thomas Huth <thuth@redhat.com>
 
-Or alternatively use relative names.
 
-> So, what about moving libvirt (at least) to not rely on backing file name stored in qcow2 image? Backing chain then should be in xml? Is it hard or not? Finally, will it make the code simpler, or more difficult?
-> 
-> 
-> Then, if the idea is good in general, what to do on Qemu part? If we want to finally get rid of problem code (see [3.]) we should deprecate something.. Just deprecate support for qcow2 images with backing file specified, requiring user always specify backing chain by hand? I don't see anything that should be changed in qcow2 format itself: no reason to add some kind of restricted bits, etc..
-
-I think this will create headaches for many users. Libvirt does support
-specification of the chain manually, but doesn't mandate it.
-
-It's also a fairly recent addition to libvirt so I doubt that any other
-project which uses libvirt only for a part of the functionality (such as
-oVirt or openstack) picked up the full specification of chain in the
-XML. The problem here is that libvirt isn't used for the whole knowledge
-state here. Rather projects like oVirt feed us a new XML every single
-time. This means that they'd need to start keeping the chain info
-internally too.
-
-Rather they currently rely on our detection code and the proper setting
-of paths in the image, and thus removing it would be a rather serious
-regression in behaviour, which would be visible beyond libvirt without
-any way for us to make it opaque to higher levels.
-
+--=20
+Alex Benn=C3=A9e
 
