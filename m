@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 747B52D7A97
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:13:10 +0100 (CET)
-Received: from localhost ([::1]:42986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF732D7A9B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:14:13 +0100 (CET)
+Received: from localhost ([::1]:47380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knl2b-0003zD-Ex
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:13:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36830)
+	id 1knl3c-0005zl-Tk
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:14:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knkza-000287-Kz
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:10:02 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:34616)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knkzZ-0005lq-1v
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:10:02 -0500
-Received: by mail-ej1-x632.google.com with SMTP id g20so13095538ejb.1
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 08:10:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kAhbbqTOiHk578QnuvXmuM0iunsvSiGf+znXVKxv1a8=;
- b=dUBooUB4E0GR1FXiIF3JUUQ+798OHQ5Fn6CONLUQ4iAx/+WgOfjWPjFPy+VVLIxGAQ
- z2U/yoN85Eq+R+F6bgXCQn4vbn0AEMKEwwObGFUlF3iNybDqo5Y+hcxZ86X8gXlb0zZZ
- ZtFjIeB5diItnw0wnK2BUN31iwRGDd3hFtzalmsNtr78yUjdotrkcb9YsRuGWzha/Xln
- +AZPtDN8pSpzzOGp+GIy2l7ZojwKEq8oqTIi1IcNqUtjlO0yp0iXvS0tAvztyyNrEdgH
- qZU9Tnsdz5N6fPOo0Jz5CwBcrqlggVJ1HPWUGhYVRk0C23y+xe5VhebdtQyfZkei4+qi
- eFzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kAhbbqTOiHk578QnuvXmuM0iunsvSiGf+znXVKxv1a8=;
- b=hLMJQpnElU5KHDeYVp1niIYmABXAtM48Z7fXIczy5Nr++q8DgtCq78+Y6gt7ys43zr
- YfpQU8UYep1ce4AlCs55paoLOWnI7Yv2h/z/EWrtJQlomWT2Fz/QZXqaMDpnNPKnOrdb
- duHOp1k8L+hF4cYid/BWN6m8l28jBsKYFXNVdMNjlwSe066QQeueqqIx8YevqsgY+uYY
- Gpf14VTa8imFGSHEFOB9uDn76SFdqxvlV8BnDXb0tsEJsJ0Fu6Ztl1opxBTaJxE+e1Lm
- on/o1vuk3V6ZHM3mU+wDKH4xiT0mIygwNCSJ8KTxquP3YKY2JQSM4RVHrhemqmMGtHQp
- d2ow==
-X-Gm-Message-State: AOAM530PiAUUp0NxmOwe55HeTePW1iw6OvUjxai/b15CHALb67zezvL3
- Oo4YLUDPdZqGwN3jc9/CgN5snNOEITgpRk7XQihaHQ==
-X-Google-Smtp-Source: ABdhPJwfQ9ZBWn6BAlavhKkBnouxSlBSVMDhl0N4OT2ZxfEc3aI0yZlhN5fKH012KzItiRhsChBE9f1LpM0MPwSqDVI=
-X-Received: by 2002:a17:906:6b88:: with SMTP id
- l8mr11678204ejr.482.1607702999228; 
- Fri, 11 Dec 2020 08:09:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knkzm-0002KY-0V
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:10:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42543)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knkze-0005oL-Kd
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:10:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607703005;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qg0Lq80o/24arYFmamo9BysVV3UR7KgCYaBFSHTg+AI=;
+ b=ZkxN1Ve0ap6LmJnHDxWfGbpx0E20g/ymAE7AszDBqBVQWpEO6rIQLIRNzDkaJZi6G75vAQ
+ UdAKpVjq/xb73KHMTs2djDjHv5z4VRJRXAQSKFlFWHdG0+gK7FdTwafsKduhXc9+4CDB3G
+ Iwn7i3ZTRTVpBo5Ua3OlNQlEYSpPT+U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-C29YZHuyNl62bR0ikRnSJA-1; Fri, 11 Dec 2020 11:10:01 -0500
+X-MC-Unique: C29YZHuyNl62bR0ikRnSJA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 477811842141;
+ Fri, 11 Dec 2020 16:10:00 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-98.ams2.redhat.com
+ [10.36.112.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7263D10016F5;
+ Fri, 11 Dec 2020 16:09:54 +0000 (UTC)
+Subject: Re: [PATCH v14 11/13] iotests: 30: prepare to COR filter insertion by
+ stream job
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
+ <20201204220758.2879-12-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <f3d41669-5689-c548-1fa9-4a8f40ddbd02@redhat.com>
+Date: Fri, 11 Dec 2020 17:09:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <1607023357-5096-1-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1607023357-5096-1-git-send-email-sai.pavan.boddu@xilinx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 11 Dec 2020 16:09:48 +0000
-Message-ID: <CAFEAcA8-KcdSrFKFGcuPcTQPBvgDapR3epNScaQSbW8s9E9zwg@mail.gmail.com>
-Subject: Re: [PATCH v15 0/4] Add Versal usb model
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+In-Reply-To: <20201204220758.2879-12-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,26 +84,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Paul Zimmerman <pauldzim@gmail.com>, Sai Pavan Boddu <saipava@xilinx.com>,
- Edgar Iglesias <edgari@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Dec 2020 at 19:18, Sai Pavan Boddu <sai.pavan.boddu@xilinx.com> wrote:
->
-> This patch series adds dwc3 usb controller to versal SOC.
->
+On 04.12.20 23:07, Vladimir Sementsov-Ogievskiy wrote:
+> test_stream_parallel run parallel stream jobs, intersecting so that top
+> of one is base of another. It's OK now, but it would be a problem if
+> insert the filter, as one job will want to use another job's filter as
+> above_base node.
+> 
+> Correct thing to do is move to new interface: "bottom" argument instead
+> of base. This guarantees that jobs don't intersect by their actions.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/030 | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-
-Applied to target-arm.next, thanks.
-
--- PMM
 
