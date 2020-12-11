@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D982D6F3E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:29:15 +0100 (CET)
-Received: from localhost ([::1]:53282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB65C2D6F40
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:29:46 +0100 (CET)
+Received: from localhost ([::1]:54106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kna3O-00038e-Mv
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:29:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34024)
+	id 1kna3t-0003X9-NA
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:29:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZqB-0005gE-Rl; Thu, 10 Dec 2020 23:15:36 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:35219 helo=ozlabs.org)
+ id 1knZqC-0005gK-4C; Thu, 10 Dec 2020 23:15:36 -0500
+Received: from ozlabs.org ([203.11.71.1]:35405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZqA-0000ni-5N; Thu, 10 Dec 2020 23:15:35 -0500
+ id 1knZqA-0000no-DI; Thu, 10 Dec 2020 23:15:35 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cscrc0V7Cz9sWt; Fri, 11 Dec 2020 15:15:11 +1100 (AEDT)
+ id 4Cscrc0z0Wz9sWx; Fri, 11 Dec 2020 15:15:12 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607660112;
- bh=PY63Yfb95gZfHPkDRqTgk6oSSfAef8g/nYcMHoJai1Y=;
+ bh=sdlVB+emes7vJuse7GtNvJdXbpvkFx/28Hlg5MBiQf4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GbhimUGJZcIHHKtJatoe/CLXtmDA3cIaNcQaIK9kHuXMACNWYyg1IpEEHLZqFaFSH
- 8gb8qwWxUTkDTeWVs2AS1V8PHhk4lkiiwwDiWMPkqWh5f4Z1VMusQqQ9i7ObrgeJqi
- FCkF3PtjInDJnYDUxuf/r11l2POPjKhSJQihhB20=
+ b=AhJWCRUnKEieEZVuTORwHan4OAEf5rgpmgBS8iQISgTI07wEBpPIBzRaFh0D2brPY
+ Mc1sOasnxqcEjFEfxz4CKrNx/50vTs1mgpofeETy4BpIo7qCCyUH1lsxXyJX0w/4Hk
+ Sc8kSXRUPloTHCaAiwCbuHvbRddb1JsIZ0GtO4dY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/30] ppc/translate: Raise exceptions after setting the cc
-Date: Fri, 11 Dec 2020 15:14:50 +1100
-Message-Id: <20201211041507.425378-14-david@gibson.dropbear.id.au>
+Subject: [PULL 14/30] ppc/translate: Rewrite gen_lxvdsx to use gvec primitives
+Date: Fri, 11 Dec 2020 15:14:51 +1100
+Message-Id: <20201211041507.425378-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
@@ -65,80 +65,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: LemonBoy <thatlemon@gmail.com>
 
-The PowerISA reference states that the comparison operators update the
-FPCC, CR and FPSCR and, if VE=1, jump to the exception handler.
+Make the implementation match the lxvwsx one.
+The code is now shorter smaller and potentially faster as the
+translation will use the host SIMD capabilities if available.
 
-Moving the exception-triggering code after the CC update sequence solves
-the problem.
+No functional change.
 
 Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+Message-Id: <a463dea379da4cb3a22de49c678932f74fb15dd7.1604912739.git.thatlemon@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201112230130.65262-5-thatlemon@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/fpu_helper.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ target/ppc/translate/vsx-impl.c.inc | 46 ++++++++++++++---------------
+ 1 file changed, 23 insertions(+), 23 deletions(-)
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index f5a4be595a..44315fca0b 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -2501,13 +2501,6 @@ static inline void do_scalar_cmp(CPUPPCState *env, ppc_vsr_t *xa, ppc_vsr_t *xb,
-             }
-         }
- 
--        if (vxsnan_flag) {
--            float_invalid_op_vxsnan(env, GETPC());
--        }
--        if (vxvc_flag) {
--            float_invalid_op_vxvc(env, 0, GETPC());
--        }
--
-         break;
-     default:
-         g_assert_not_reached();
-@@ -2517,6 +2510,13 @@ static inline void do_scalar_cmp(CPUPPCState *env, ppc_vsr_t *xa, ppc_vsr_t *xb,
-     env->fpscr |= cc << FPSCR_FPCC;
-     env->crf[crf_idx] = cc;
- 
-+    if (vxsnan_flag) {
-+        float_invalid_op_vxsnan(env, GETPC());
-+    }
-+    if (vxvc_flag) {
-+        float_invalid_op_vxvc(env, 0, GETPC());
-+    }
-+
-     do_float_check_status(env, GETPC());
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index 075f063e98..b817d31260 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -75,29 +75,6 @@ static void gen_lxvd2x(DisasContext *ctx)
+     tcg_temp_free_i64(t0);
  }
  
-@@ -2566,13 +2566,6 @@ static inline void do_scalar_cmpq(CPUPPCState *env, ppc_vsr_t *xa,
-             }
-         }
- 
--        if (vxsnan_flag) {
--            float_invalid_op_vxsnan(env, GETPC());
--        }
--        if (vxvc_flag) {
--            float_invalid_op_vxvc(env, 0, GETPC());
--        }
+-static void gen_lxvdsx(DisasContext *ctx)
+-{
+-    TCGv EA;
+-    TCGv_i64 t0;
+-    TCGv_i64 t1;
+-    if (unlikely(!ctx->vsx_enabled)) {
+-        gen_exception(ctx, POWERPC_EXCP_VSXU);
+-        return;
+-    }
+-    t0 = tcg_temp_new_i64();
+-    t1 = tcg_temp_new_i64();
+-    gen_set_access_type(ctx, ACCESS_INT);
+-    EA = tcg_temp_new();
+-    gen_addr_reg_index(ctx, EA);
+-    gen_qemu_ld64_i64(ctx, t0, EA);
+-    set_cpu_vsrh(xT(ctx->opcode), t0);
+-    tcg_gen_mov_i64(t1, t0);
+-    set_cpu_vsrl(xT(ctx->opcode), t1);
+-    tcg_temp_free(EA);
+-    tcg_temp_free_i64(t0);
+-    tcg_temp_free_i64(t1);
+-}
 -
-         break;
-     default:
-         g_assert_not_reached();
-@@ -2582,6 +2575,13 @@ static inline void do_scalar_cmpq(CPUPPCState *env, ppc_vsr_t *xa,
-     env->fpscr |= cc << FPSCR_FPCC;
-     env->crf[crf_idx] = cc;
- 
-+    if (vxsnan_flag) {
-+        float_invalid_op_vxsnan(env, GETPC());
-+    }
-+    if (vxvc_flag) {
-+        float_invalid_op_vxvc(env, 0, GETPC());
-+    }
-+
-     do_float_check_status(env, GETPC());
+ static void gen_lxvw4x(DisasContext *ctx)
+ {
+     TCGv EA;
+@@ -169,6 +146,29 @@ static void gen_lxvwsx(DisasContext *ctx)
+     tcg_temp_free_i32(data);
  }
  
++static void gen_lxvdsx(DisasContext *ctx)
++{
++    TCGv EA;
++    TCGv_i64 data;
++
++    if (unlikely(!ctx->vsx_enabled)) {
++        gen_exception(ctx, POWERPC_EXCP_VSXU);
++        return;
++    }
++
++    gen_set_access_type(ctx, ACCESS_INT);
++    EA = tcg_temp_new();
++
++    gen_addr_reg_index(ctx, EA);
++
++    data = tcg_temp_new_i64();
++    tcg_gen_qemu_ld_i64(data, EA, ctx->mem_idx, MO_TEQ);
++    tcg_gen_gvec_dup_i64(MO_Q, vsr_full_offset(xT(ctx->opcode)), 16, 16, data);
++
++    tcg_temp_free(EA);
++    tcg_temp_free_i64(data);
++}
++
+ static void gen_bswap16x8(TCGv_i64 outh, TCGv_i64 outl,
+                           TCGv_i64 inh, TCGv_i64 inl)
+ {
 -- 
 2.29.2
 
