@@ -2,26 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7340A2D7D41
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:49:59 +0100 (CET)
-Received: from localhost ([::1]:51798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0687F2D7CF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:32:01 +0100 (CET)
+Received: from localhost ([::1]:35334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knmYI-0002Eo-Bg
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:49:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51068)
+	id 1knmGt-0007ug-T4
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:31:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knlvq-0005E3-Tt
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:10:16 -0500
-Received: from mx2.suse.de ([195.135.220.15]:39646)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knlwx-0006cg-93
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:11:23 -0500
+Received: from mx2.suse.de ([195.135.220.15]:41038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knlvn-0002g2-HS
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:10:14 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knlws-0003CU-67
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:11:22 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A9867B283;
- Fri, 11 Dec 2020 17:10:09 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 74336ACF1;
+ Fri, 11 Dec 2020 17:11:16 +0000 (UTC)
 Subject: Re: [PATCH v11 18/25] cpu: Move synchronize_from_tb() to tcg_ops
+From: Claudio Fontana <cfontana@suse.de>
 To: Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Stefano Stabellini <sstabellini@kernel.org>,
@@ -32,13 +33,13 @@ To: Richard Henderson <richard.henderson@linaro.org>,
 References: <20201211083143.14350-1-cfontana@suse.de>
  <20201211083143.14350-19-cfontana@suse.de>
  <78a7119d-1b4b-47dc-8f16-510708c9fcd4@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <cca08e8d-9235-46da-3610-8acafbc2de14@suse.de>
-Date: Fri, 11 Dec 2020 18:10:05 +0100
+ <cca08e8d-9235-46da-3610-8acafbc2de14@suse.de>
+Message-ID: <c827290b-ca3a-0fd8-67b3-6b0c53f911e3@suse.de>
+Date: Fri, 11 Dec 2020 18:11:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <78a7119d-1b4b-47dc-8f16-510708c9fcd4@linaro.org>
+In-Reply-To: <cca08e8d-9235-46da-3610-8acafbc2de14@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -75,84 +76,88 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 6:05 PM, Richard Henderson wrote:
-> On 12/11/20 2:31 AM, Claudio Fontana wrote:
->> From: Eduardo Habkost <ehabkost@redhat.com>
+On 12/11/20 6:10 PM, Claudio Fontana wrote:
+> On 12/11/20 6:05 PM, Richard Henderson wrote:
+>> On 12/11/20 2:31 AM, Claudio Fontana wrote:
+>>> From: Eduardo Habkost <ehabkost@redhat.com>
+>>>
+>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>>> [claudio: wrapped in CONFIG_TCG]
+>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>>> ---
+>>>  include/hw/core/cpu.h         |  8 --------
+>>>  include/hw/core/tcg-cpu-ops.h | 12 ++++++++++++
+>>>  accel/tcg/cpu-exec.c          |  4 ++--
+>>>  target/arm/cpu.c              |  4 +++-
+>>>  target/avr/cpu.c              |  2 +-
+>>>  target/hppa/cpu.c             |  2 +-
+>>>  target/i386/tcg/tcg-cpu.c     |  2 +-
+>>>  target/microblaze/cpu.c       |  2 +-
+>>>  target/mips/cpu.c             |  4 +++-
+>>>  target/riscv/cpu.c            |  2 +-
+>>>  target/rx/cpu.c               |  2 +-
+>>>  target/sh4/cpu.c              |  2 +-
+>>>  target/sparc/cpu.c            |  2 +-
+>>>  target/tricore/cpu.c          |  2 +-
+>>>  14 files changed, 29 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+>>> index ea648d52ad..83007d262c 100644
+>>> --- a/include/hw/core/cpu.h
+>>> +++ b/include/hw/core/cpu.h
+>>> @@ -110,13 +110,6 @@ struct TranslationBlock;
+>>>   *       If the target behaviour here is anything other than "set
+>>>   *       the PC register to the value passed in" then the target must
+>>>   *       also implement the synchronize_from_tb hook.
+>>> - * @synchronize_from_tb: Callback for synchronizing state from a TCG
+>>> - *       #TranslationBlock. This is called when we abandon execution
+>>> - *       of a TB before starting it, and must set all parts of the CPU
+>>> - *       state which the previous TB in the chain may not have updated.
+>>> - *       This always includes at least the program counter; some targets
+>>> - *       will need to do more. If this hook is not implemented then the
+>>> - *       default is to call @set_pc(tb->pc).
+>>>   * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
+>>>   *       address fault.  For system mode, if the access is valid, call
+>>>   *       tlb_set_page and return true; if the access is invalid, and
+>>> @@ -193,7 +186,6 @@ struct CPUClass {
+>>>      void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
+>>>                                 Error **errp);
+>>>      void (*set_pc)(CPUState *cpu, vaddr value);
+>>> -    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
+>>>      bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+>>>                       MMUAccessType access_type, int mmu_idx,
+>>>                       bool probe, uintptr_t retaddr);
+>>> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+>>> index 4475ef0996..e1d50b3c8b 100644
+>>> --- a/include/hw/core/tcg-cpu-ops.h
+>>> +++ b/include/hw/core/tcg-cpu-ops.h
+>>> @@ -10,6 +10,8 @@
+>>>  #ifndef TCG_CPU_OPS_H
+>>>  #define TCG_CPU_OPS_H
+>>>  
+>>> +#include "hw/core/cpu.h"
 >>
->> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->> [claudio: wrapped in CONFIG_TCG]
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->> ---
->>  include/hw/core/cpu.h         |  8 --------
->>  include/hw/core/tcg-cpu-ops.h | 12 ++++++++++++
->>  accel/tcg/cpu-exec.c          |  4 ++--
->>  target/arm/cpu.c              |  4 +++-
->>  target/avr/cpu.c              |  2 +-
->>  target/hppa/cpu.c             |  2 +-
->>  target/i386/tcg/tcg-cpu.c     |  2 +-
->>  target/microblaze/cpu.c       |  2 +-
->>  target/mips/cpu.c             |  4 +++-
->>  target/riscv/cpu.c            |  2 +-
->>  target/rx/cpu.c               |  2 +-
->>  target/sh4/cpu.c              |  2 +-
->>  target/sparc/cpu.c            |  2 +-
->>  target/tricore/cpu.c          |  2 +-
->>  14 files changed, 29 insertions(+), 21 deletions(-)
+>> This include is circular.
+> 
+> Yes, it's protected though, it was asked that way.
+
+I mean, during the review. I personally would have preferred to avoid these as only cpu.h is including this for now.
+> 
 >>
->> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
->> index ea648d52ad..83007d262c 100644
->> --- a/include/hw/core/cpu.h
->> +++ b/include/hw/core/cpu.h
->> @@ -110,13 +110,6 @@ struct TranslationBlock;
->>   *       If the target behaviour here is anything other than "set
->>   *       the PC register to the value passed in" then the target must
->>   *       also implement the synchronize_from_tb hook.
->> - * @synchronize_from_tb: Callback for synchronizing state from a TCG
->> - *       #TranslationBlock. This is called when we abandon execution
->> - *       of a TB before starting it, and must set all parts of the CPU
->> - *       state which the previous TB in the chain may not have updated.
->> - *       This always includes at least the program counter; some targets
->> - *       will need to do more. If this hook is not implemented then the
->> - *       default is to call @set_pc(tb->pc).
->>   * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
->>   *       address fault.  For system mode, if the access is valid, call
->>   *       tlb_set_page and return true; if the access is invalid, and
->> @@ -193,7 +186,6 @@ struct CPUClass {
->>      void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
->>                                 Error **errp);
->>      void (*set_pc)(CPUState *cpu, vaddr value);
->> -    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
->>      bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
->>                       MMUAccessType access_type, int mmu_idx,
->>                       bool probe, uintptr_t retaddr);
->> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
->> index 4475ef0996..e1d50b3c8b 100644
->> --- a/include/hw/core/tcg-cpu-ops.h
->> +++ b/include/hw/core/tcg-cpu-ops.h
->> @@ -10,6 +10,8 @@
->>  #ifndef TCG_CPU_OPS_H
->>  #define TCG_CPU_OPS_H
->>  
->> +#include "hw/core/cpu.h"
+>> Are you sure that splitting out hw/core/tcg-cpu-ops.h from hw/core/cpu.h in
+>> patch 15 is even useful?
 > 
-> This include is circular.
-
-Yes, it's protected though, it was asked that way.
-
-> 
-> Are you sure that splitting out hw/core/tcg-cpu-ops.h from hw/core/cpu.h in
-> patch 15 is even useful?
-
-it avoids a huge #ifdef CONFIG_TCG
-
-
-> 
-> Otherwise the actual code change looks ok.
+> it avoids a huge #ifdef CONFIG_TCG
 > 
 > 
-> r~
+>>
+>> Otherwise the actual code change looks ok.
+>>
+>>
+>> r~
+>>
 > 
 
 
