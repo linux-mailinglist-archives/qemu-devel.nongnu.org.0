@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C0DF2D79DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:53:18 +0100 (CET)
-Received: from localhost ([::1]:56976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7AD72D7994
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:41:28 +0100 (CET)
+Received: from localhost ([::1]:52744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knkjN-0001TA-L8
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:53:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56754)
+	id 1knkXv-00049P-Q8
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:41:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knkSe-0007yW-6J
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:36:01 -0500
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:42997)
+ id 1knkUn-0001s3-76
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:38:13 -0500
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:38324)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knkSb-0001Oc-Ao
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:35:59 -0500
-Received: by mail-ed1-x544.google.com with SMTP id v22so9763186edt.9
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 07:35:56 -0800 (PST)
+ id 1knkUj-00023v-Vg
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:38:11 -0500
+Received: by mail-ej1-x642.google.com with SMTP id a16so12917085ejj.5
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 07:38:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=63G5y3EwCA1Fk9RLyqiZH89/eHjiCrdaeTHbpxtZ3BI=;
- b=j3m9Ert8KtMTCJY5Zy8MTCUKdjZSPGLaMeCD9ZXIHfDQQoJcF/EhiwKWqKqEFb241m
- C1w+4dCbXcTSGzPET32ig45DKz8v93Y80Y0iytX4CKM7H/cnqay0l+OzmzslRY9GZ4OO
- x3Spu5sOvZOWrcmZ0bsSbklxr0ZvAoUTqsGiyZXAWRmRKfFwfFQb7MhTbnGn0WTjZHPO
- 769Uc9J3HrKJZBcWAlKNOw1uBiHhtG28/ZAYlMhkPp9RYs8nADeWCOtcA4KQrSSvCtUu
- 44kRSakBr42EiJRRVopgvAkggT3nGakvKVIZNwEZKmgwqNCj5cl910pk/PSsR8giE3St
- 6qIA==
+ :cc; bh=yRFIs3S2KRGCER4PNZT6ok60qekcFvkbGCRnJqmoxLs=;
+ b=LKRJ2hsSaZ2edrnkbCLKcqlS3ONNk67UYhmqPapq8/78o0SDomvGIQxoLecUgTiju+
+ aSHYCotxti0+wdgl01SNvMLSeH899fOmvHf2ggidqOvi5IgKc17w3OOr/bbw6BJxqm6X
+ xcNLopy8mQtt9MAcxTuJvvsFGvqbVIiVwx+ejcNMfdP2EewFEq3t1PAHaHTyMx4uJBKq
+ 3leTgQtA707nb36cp9T4dBuZaoR9F+Wo73MbYWWw3SyDy7t6KzEUggzaodGRHQPvrJJQ
+ ub94otd+HcE/k/xrrPQVNTN7IE688I9k1n2ZT9acGlPS2cuDOqok2whfQLtGUfrouW87
+ jD3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=63G5y3EwCA1Fk9RLyqiZH89/eHjiCrdaeTHbpxtZ3BI=;
- b=JAbPrrYk8x+N+UJ9jPqOXcO8MxUO5KXuSZ7V/Io5T8impN7hu2qtKYC0Esvq8wd7g9
- Le9g0G29kn3+AQ/yjH/R3TGW1/sgY+i5wgE0K+XYWLJSFIl4YckV4br9T/7PaycB4xNn
- ndEqSeLUdwVGtSgAGLASv77b7pDN5Os8F27u3yoKStCkrmmiyeT3q/iFryhZheQSYKxE
- qkMZ50y8Rv5lnJ5tNITjcGld4aTJNO7dGGSNooBJNxP1mZEj1HWZrbMtpOXKEGQUPyQk
- 3WUzRQ982U02/Dy1tBveUfPPq/C4Q47ns6qpfkuKLQ+JLd52Fj8pLBXaiFpCfZ4fAmzi
- 3BgA==
-X-Gm-Message-State: AOAM533/gtTrcq2QsL8cnmffPWMu4e3fA/kmbeYxpqJgbwVbxt/Y9v2s
- rvwsldU5pqB00RTbLcHnTWK534XwgQTiun7H878PdQ==
-X-Google-Smtp-Source: ABdhPJy2ztYBk6PA/ZNnomuf7Ksk55EErbAPvzyI7z4H/krQVX20vY/Bh1ZxhqKk6ram4ytMvnYZuOujPUgp10qsHrI=
-X-Received: by 2002:aa7:cdc3:: with SMTP id h3mr12272700edw.52.1607700955307; 
- Fri, 11 Dec 2020 07:35:55 -0800 (PST)
+ bh=yRFIs3S2KRGCER4PNZT6ok60qekcFvkbGCRnJqmoxLs=;
+ b=Io3Yejm1WhudNyOYXG3XCjl1xMDtCXNJOvkJqEHBNGDIoylI8xy4ukKL2NxYRFNpd7
+ WfCu8ORos+s78jFl6rgdcJ0W3+NRVnvPWHh3M3TmyqP4YIIVFAJr4PmovZMrRMrNuyUF
+ jDciWtbcysKEIJJWBHutbA+oUfzQ95JTksjMIDbjkF1KAbTqh8no4oT3LjyryB+9aXF9
+ nqtmn7fPtSC6rvwtK9Zn+FUfC/MWUngoVs6lVA6oP/0EvZr7UrRanxG/pVVI6ZtShUQx
+ FjeqyytkU7BWb/1HfOv8bCy+TCF2KAzEESe6ecRvzIPnPx44E4TXGupqxSFAdBLzNdyQ
+ AKDw==
+X-Gm-Message-State: AOAM531B4V8yk5SsOCyTZqjbaxTtItB3HXGFT0HL3nEutjgeCZFuIel8
+ QUlVhTV7jIXoP15P0nf2skE3AfDC6CtbojZsgI04Rw==
+X-Google-Smtp-Source: ABdhPJx9rc+ro2vRZVZRa76BDN1w2lgOyEk9CG9W+YdEbLE2RovtNb6jf5eYLtB7Za4ddQgThtoe22iVsr7p25uqHqQ=
+X-Received: by 2002:a17:906:1151:: with SMTP id
+ i17mr11742760eja.250.1607701088404; 
+ Fri, 11 Dec 2020 07:38:08 -0800 (PST)
 MIME-Version: 1.0
 References: <20201211152426.350966-1-thuth@redhat.com>
- <20201211152426.350966-2-thuth@redhat.com>
-In-Reply-To: <20201211152426.350966-2-thuth@redhat.com>
+ <20201211152426.350966-4-thuth@redhat.com>
+In-Reply-To: <20201211152426.350966-4-thuth@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 11 Dec 2020 15:35:44 +0000
-Message-ID: <CAFEAcA9DN6GHHLEYTHUkiywmwWN-iHTiTHG2N0Bp7rr8J6ne1A@mail.gmail.com>
-Subject: Re: [PATCH 01/12] disas/libvixl: Fix fall-through annotation for GCC
- >= 7
+Date: Fri, 11 Dec 2020 15:37:57 +0000
+Message-ID: <CAFEAcA8A47_vmX5hcPffjUj0v0isH0zV8cjr70LjCG2pAsvKjQ@mail.gmail.com>
+Subject: Re: [PATCH 03/12] hw/rtc/twl92230: Silence warnings about missing
+ fallthrough statements
 To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,24 +87,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 11 Dec 2020 at 15:24, Thomas Huth <thuth@redhat.com> wrote:
 >
-> For compiling with -Wimplicit-fallthrough we need to fix the
-> fallthrough annotations in the libvixl code. This is based on
-> the following upstream vixl commit by Martyn Capewell:
->
->  https://git.linaro.org/arm/vixl.git/commit/?id=de326f850f736c3a337
->
->  "GCC 7 enables switch/case fallthrough checking, but this fails in
->   VIXL, because the annotation we use is Clang specific.
->
->   Also, fix a missing annotation in the disassembler."
+> When compiling with -Werror=implicit-fallthrough, gcc complains about
+> missing fallthrough annotations in this file. Looking at the code,
+> the fallthrough is indeed wanted here, but instead of adding the
+> annotations, it can be done more efficiently by simply calculating
+> the offset with a subtraction instead of increasing a local variable
+> one by one.
 >
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Let's not block -Wimplicit-fallthrough on either updating
-our vixl or deciding what we're doing with disassembly more
-generally...
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
