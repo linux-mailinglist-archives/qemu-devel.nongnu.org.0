@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 635E82D7CFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:37:18 +0100 (CET)
-Received: from localhost ([::1]:46696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C332D7D25
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:41:03 +0100 (CET)
+Received: from localhost ([::1]:56480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knmM0-0004iy-DE
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:37:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50346)
+	id 1knmPe-0000da-Cn
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:41:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knlux-0004A4-Q9
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:09:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27533)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluz-0004Bj-Bu
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:09:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluN-0002CN-QU
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:09:15 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluR-0002Dk-Jf
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:09:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607706523;
+ s=mimecast20190719; t=1607706526;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Zn3uzvzjHLTFN8HuDvq8ZStsD36R6lONUzG018HcE+s=;
- b=TRQ0boAka0ayhGObwb4uTGYehEWuwvQttqJen+uTTlL5e6EAloY0OOWuvRWHuyG+77KVU1
- jba4vmAbRDuZ1FrawwvBrT9ruSaC8PavNWeXWJ94mh30S4JU5YMovm0dNuK0cT3mRWSeXN
- leUDRFRadXuuTZS9gSyA1ch1QFoKQ8c=
+ bh=9bLvWWq8ylxzJiVSvMxxdy1clocGP94myryRr59obHs=;
+ b=KQCrPcWQPsN/D/GgGrwiTVzUSjRPW5Nyb/cfIzCrrWQ28Mj7HI6VeczjrLIHJbi5qdw4gL
+ o5Ndr3gN8Uof9Ig4EODTUHftQBqtjLzls1CoBuqKpYTmx+l4hSS7pCOjxv1OuDsqAqCt06
+ bb6hD2OsiolikiLmai2Ng76GTWidUH8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-lK9oX9KsOGy__q-d_4Iamg-1; Fri, 11 Dec 2020 12:08:41 -0500
-X-MC-Unique: lK9oX9KsOGy__q-d_4Iamg-1
+ us-mta-429-FpLqifqOMPy_Ouh-PkIVFg-1; Fri, 11 Dec 2020 12:08:42 -0500
+X-MC-Unique: FpLqifqOMPy_Ouh-PkIVFg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5966B8105;
- Fri, 11 Dec 2020 17:08:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3ED5A107ACE6;
+ Fri, 11 Dec 2020 17:08:41 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-231.ams2.redhat.com [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E488D5D731;
- Fri, 11 Dec 2020 17:08:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D2DB5D6A8;
+ Fri, 11 Dec 2020 17:08:40 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 16/34] iotests/091: Use _cleanup_qemu instad of "wait"
-Date: Fri, 11 Dec 2020 18:07:54 +0100
-Message-Id: <20201211170812.228643-17-kwolf@redhat.com>
+Subject: [PULL 17/34] iotests: Restrict some Python tests to file
+Date: Fri, 11 Dec 2020 18:07:55 +0100
+Message-Id: <20201211170812.228643-18-kwolf@redhat.com>
 In-Reply-To: <20201211170812.228643-1-kwolf@redhat.com>
 References: <20201211170812.228643-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -82,35 +82,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-If the test environment has some other child processes running (like a
-storage daemon that provides a FUSE export), then "wait" will never
-finish.  Use wait=yes _cleanup_qemu instead.
-
-(We need to discard the output so there is no change to the reference
-output.)
+Most Python tests are restricted to the file protocol (without
+explicitly saying so), but these are the ones that would break
+./check -fuse -qcow2.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20201027190600.192171-13-mreitz@redhat.com>
+Message-Id: <20201027190600.192171-14-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/091 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/206 | 3 ++-
+ tests/qemu-iotests/242 | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/091 b/tests/qemu-iotests/091
-index 68fbfd777b..8a4ce5b7e2 100755
---- a/tests/qemu-iotests/091
-+++ b/tests/qemu-iotests/091
-@@ -96,7 +96,8 @@ _send_qemu_cmd $h2 'qemu-io disk flush' "(qemu)"
- _send_qemu_cmd $h2 'quit' ""
- _send_qemu_cmd $h1 'quit' ""
+diff --git a/tests/qemu-iotests/206 b/tests/qemu-iotests/206
+index 11bc51f256..0a3ee5ef00 100755
+--- a/tests/qemu-iotests/206
++++ b/tests/qemu-iotests/206
+@@ -23,7 +23,8 @@
+ import iotests
+ from iotests import imgfmt
  
--wait
-+wait=yes _cleanup_qemu >/dev/null
-+
- echo "Check image pattern"
- ${QEMU_IO} -c "read -P 0x22 0 4M" "${TEST_IMG}" | _filter_testdir | _filter_qemu_io
+-iotests.script_initialize(supported_fmts=['qcow2'])
++iotests.script_initialize(supported_fmts=['qcow2'],
++                          supported_protocols=['file'])
+ iotests.verify_working_luks()
  
+ with iotests.FilePath('t.qcow2') as disk_path, \
+diff --git a/tests/qemu-iotests/242 b/tests/qemu-iotests/242
+index 64f1bd95e4..a16de3085f 100755
+--- a/tests/qemu-iotests/242
++++ b/tests/qemu-iotests/242
+@@ -24,7 +24,8 @@ import struct
+ from iotests import qemu_img_create, qemu_io, qemu_img_pipe, \
+     file_path, img_info_log, log, filter_qemu_io
+ 
+-iotests.script_initialize(supported_fmts=['qcow2'])
++iotests.script_initialize(supported_fmts=['qcow2'],
++                          supported_protocols=['file'])
+ 
+ disk = file_path('disk')
+ chunk = 256 * 1024
 -- 
 2.29.2
 
