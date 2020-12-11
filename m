@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250AD2D7A93
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:12:43 +0100 (CET)
-Received: from localhost ([::1]:41724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747B52D7A97
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:13:10 +0100 (CET)
+Received: from localhost ([::1]:42986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knl2A-0003Pk-3e
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:12:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36768)
+	id 1knl2b-0003zD-Ex
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:13:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knkzE-0001gU-SF
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:09:40 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43719)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1knkza-000287-Kz
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:10:02 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:34616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knkz3-0005cl-NE
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:09:40 -0500
-Received: by mail-oi1-x241.google.com with SMTP id q25so10336369oij.10
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 08:09:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1knkzZ-0005lq-1v
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:10:02 -0500
+Received: by mail-ej1-x632.google.com with SMTP id g20so13095538ejb.1
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 08:10:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tGkQkh7uB9pGhQ2wxRSCb3rLd7oL56ZPft7z/PdyQ7A=;
- b=nT/4qUH9bsQ47QxK67gCeULZfKxAML4zxoyYFJnsw/rvbkA6/IEyVmE+IPacayAk3G
- H9jgfNwpIUUKpod92Erp4hnA0FEwUFqAXullBdClbAivHsA00Q9FfEujnvAdlBLUyHPu
- /Te3ZOaRucqg45l1mLofCs0tLVTwg/QCGu8j2Op3QLBLHW9tbsQbgmCA1IN9FYGxWr/w
- 6VS1yaCAyI6EeFkwGcMgf7dVShYwfCPM6OHBVTwiFV70hD63nP5tL7skAFEZxkPXpM9n
- bPaQD3wUOX3iHQZPqZtsyTJ7uy0R2HB+VMUqFfhsXvmQuWUSRz6FuJQ4h21zPuVz6AEM
- 9LXg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kAhbbqTOiHk578QnuvXmuM0iunsvSiGf+znXVKxv1a8=;
+ b=dUBooUB4E0GR1FXiIF3JUUQ+798OHQ5Fn6CONLUQ4iAx/+WgOfjWPjFPy+VVLIxGAQ
+ z2U/yoN85Eq+R+F6bgXCQn4vbn0AEMKEwwObGFUlF3iNybDqo5Y+hcxZ86X8gXlb0zZZ
+ ZtFjIeB5diItnw0wnK2BUN31iwRGDd3hFtzalmsNtr78yUjdotrkcb9YsRuGWzha/Xln
+ +AZPtDN8pSpzzOGp+GIy2l7ZojwKEq8oqTIi1IcNqUtjlO0yp0iXvS0tAvztyyNrEdgH
+ qZU9Tnsdz5N6fPOo0Jz5CwBcrqlggVJ1HPWUGhYVRk0C23y+xe5VhebdtQyfZkei4+qi
+ eFzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tGkQkh7uB9pGhQ2wxRSCb3rLd7oL56ZPft7z/PdyQ7A=;
- b=MW4mmc0Qj4oA3D/r4XWzq+hMD48mQEF/pVbS3Ldi45cR3xiSfvOeZiVpvZBk27IEjB
- Yxu5roNM2E+FOd5WwcrXuwXZ/cTTc++SzuH/7YV/RWPpBflS1BVjF70YRNYntXsDcvsX
- nw3smoWw76lpc1TyjGyM1a2w5AOCUnn+r7Skl6c0BQumHSVNHXd9mfHaPF0GV8CDTf1A
- xl3xMz0OwRApLzgJfXZ7HADg/DYl2Oy6cshS2PTqXV1NMSYvRxm8PCJ4VnF+CXH2TZRd
- CI1mQB78FtNmGG7P4ixsAEi/bY7b6pExVGP5F5D6rxFNTgy2sXbY7vfzeKd9ao4TgI/m
- 9JAA==
-X-Gm-Message-State: AOAM533ogv3r7lIx39A/OKWppsgd4lm+96JbAIdMy44CT56tJUuu1dKH
- XFBvalGRyzvkj7+jKn7DJiv6Ng==
-X-Google-Smtp-Source: ABdhPJyuh4IvdcKVc4hTRynmR4fgMmz7ebM4W6ZDzdES2saw6CyHp4T2zeIZGEKAFZUeZFil8zU+xw==
-X-Received: by 2002:aca:474b:: with SMTP id u72mr10109746oia.114.1607702966713; 
- Fri, 11 Dec 2020 08:09:26 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id n16sm574708oop.9.2020.12.11.08.09.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 08:09:25 -0800 (PST)
-Subject: Re: [PATCH v11 05/25] i386: move whpx accel files into whpx/
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20201211083143.14350-1-cfontana@suse.de>
- <20201211083143.14350-6-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <12625788-3428-1a29-4ac2-e20aa4e943bd@linaro.org>
-Date: Fri, 11 Dec 2020 10:09:22 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kAhbbqTOiHk578QnuvXmuM0iunsvSiGf+znXVKxv1a8=;
+ b=hLMJQpnElU5KHDeYVp1niIYmABXAtM48Z7fXIczy5Nr++q8DgtCq78+Y6gt7ys43zr
+ YfpQU8UYep1ce4AlCs55paoLOWnI7Yv2h/z/EWrtJQlomWT2Fz/QZXqaMDpnNPKnOrdb
+ duHOp1k8L+hF4cYid/BWN6m8l28jBsKYFXNVdMNjlwSe066QQeueqqIx8YevqsgY+uYY
+ Gpf14VTa8imFGSHEFOB9uDn76SFdqxvlV8BnDXb0tsEJsJ0Fu6Ztl1opxBTaJxE+e1Lm
+ on/o1vuk3V6ZHM3mU+wDKH4xiT0mIygwNCSJ8KTxquP3YKY2JQSM4RVHrhemqmMGtHQp
+ d2ow==
+X-Gm-Message-State: AOAM530PiAUUp0NxmOwe55HeTePW1iw6OvUjxai/b15CHALb67zezvL3
+ Oo4YLUDPdZqGwN3jc9/CgN5snNOEITgpRk7XQihaHQ==
+X-Google-Smtp-Source: ABdhPJwfQ9ZBWn6BAlavhKkBnouxSlBSVMDhl0N4OT2ZxfEc3aI0yZlhN5fKH012KzItiRhsChBE9f1LpM0MPwSqDVI=
+X-Received: by 2002:a17:906:6b88:: with SMTP id
+ l8mr11678204ejr.482.1607702999228; 
+ Fri, 11 Dec 2020 08:09:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201211083143.14350-6-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x241.google.com
+References: <1607023357-5096-1-git-send-email-sai.pavan.boddu@xilinx.com>
+In-Reply-To: <1607023357-5096-1-git-send-email-sai.pavan.boddu@xilinx.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 11 Dec 2020 16:09:48 +0000
+Message-ID: <CAFEAcA8-KcdSrFKFGcuPcTQPBvgDapR3epNScaQSbW8s9E9zwg@mail.gmail.com>
+Subject: Re: [PATCH v15 0/4] Add Versal usb model
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,39 +77,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
+Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Paul Zimmerman <pauldzim@gmail.com>, Sai Pavan Boddu <saipava@xilinx.com>,
+ Edgar Iglesias <edgari@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 2:31 AM, Claudio Fontana wrote:
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  target/i386/{ => whpx}/whp-dispatch.h | 0
->  target/i386/{ => whpx}/whpx-cpus.h    | 0
->  target/i386/{ => whpx}/whpx-all.c     | 0
->  target/i386/{ => whpx}/whpx-cpus.c    | 0
->  MAINTAINERS                           | 5 +----
->  target/i386/meson.build               | 5 +----
->  target/i386/whpx/meson.build          | 4 ++++
->  7 files changed, 6 insertions(+), 8 deletions(-)
->  rename target/i386/{ => whpx}/whp-dispatch.h (100%)
->  rename target/i386/{ => whpx}/whpx-cpus.h (100%)
->  rename target/i386/{ => whpx}/whpx-all.c (100%)
->  rename target/i386/{ => whpx}/whpx-cpus.c (100%)
->  create mode 100644 target/i386/whpx/meson.build
+On Thu, 3 Dec 2020 at 19:18, Sai Pavan Boddu <sai.pavan.boddu@xilinx.com> wrote:
+>
+> This patch series adds dwc3 usb controller to versal SOC.
+>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-r~
 
+Applied to target-arm.next, thanks.
+
+-- PMM
 
