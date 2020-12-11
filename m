@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8D52D7AA5
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:16:38 +0100 (CET)
-Received: from localhost ([::1]:53112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4F92D7AA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:16:06 +0100 (CET)
+Received: from localhost ([::1]:50470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knl5x-0000De-Vh
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:16:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36918)
+	id 1knl5R-0007Ls-Io
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:16:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knkzr-0002MN-1X
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:10:20 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:36450)
+ id 1knl0d-0003Mt-NE
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:11:07 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knkzn-0005qU-Le
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:10:18 -0500
-Received: by mail-ot1-x341.google.com with SMTP id y24so8660937otk.3
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 08:10:14 -0800 (PST)
+ id 1knl0Y-0006BB-Aq
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:11:07 -0500
+Received: by mail-ot1-x342.google.com with SMTP id f16so8636669otl.11
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 08:11:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VgP1eFbssYNWRRTfYpJhhIHOlqCANnB9ZL8waR8thxo=;
- b=xfYARLaLGUMhr43DJAz1U6wPISZj3IUWurIvMmvEAhlHt7M0XzfshEiZIVzWuJWMGq
- T9vmCHZWX8Z6moqGqBszHpPh6moAdt3kakfsCvI1HeB3DcypavouI2dPcz7m22KcdTYi
- g8whk1a/qhZ2+PFHlr9V/k4VU+uIOAWNponkcIlChxpvuxVIQiLJ/UyITsV5W95y3HFs
- My5sJnsmVuKjryzkrQKwtOzFsGos3NbplxqJF1h9+KNI+KX/gXD1Kr6m1PbgOfHgYOdl
- Em1tR7rJRcJPNI4AIff6cI+FqVmZqNqoC05zF5nju/gX5cKemM44ROdFgLBe3nTUzXi0
- 3QZw==
+ bh=XmoXDestb3B3cbvKUcASKMhVQwpa5/1GAKyeY6epvTE=;
+ b=P1OKWKKI6yHCI4PBPFrFQxH8oZv/CfpYbIhOsUIxYs9mHdQK4Dx1A/0SXW8jGcGSzn
+ VLAMGvRzZL3LWgnDe1Glxu4O3HGbqC5DqIG9AY+tYak1xWQ2gNf50VVnItWaKFPerlgE
+ 1LfqaBSDpgfIR8DM5851HFC4OuHEJeDRVF4NtHpY/cmA6zudbMqUy+woAFhTdWnmZXfi
+ xCxe+Lv8ao5FLESiXq8KdGZKoe4JMPTRqQ3i16pnG8vHY6IoCiCgezKEyp9WaS6bUv6N
+ mVVWJgjOnqxYwIrDRvKfIir2SZBspQO052JikyNEbZmAwFYlArnkrgFoQhTZDL/5koPq
+ ir0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VgP1eFbssYNWRRTfYpJhhIHOlqCANnB9ZL8waR8thxo=;
- b=FMNJ5zm2kwaNZhzKL6Z3Kt2JpMEiD3ZrKIOuiD6UfEg5SrNxfO6tUhvrjD0VEacl3F
- 1o5laXDofcjOV6GRtLYp/QdPEgO6dn5C00N/YBaVNXDtY9niIDVsuFzA5Ajc3AS7RBVK
- hEZx4cRtrbQ8TIz0ye9R2wtj6qTvudFvsRJgztdXf9M8xTlbwx6WF51ZofH5n8iHfBsm
- Ytoz/LVqyc99UOjVkEUVuPIZy95epaSrB7AaPlozFaktgy3y/sz9Zu4xQ70EqwWwjukk
- 5dt4sr2xTgLIYfrcWc+DfwraEB6hqCRsGTfvJADzndkcCvdIWu68/kvSk4YD7Y0Aelsa
- A45Q==
-X-Gm-Message-State: AOAM5311Gd+fJ/6NWbF39FTJGN8aWyKIzg7p/6yBATvzj6o/vGsIcol+
- x+GrutbFEI2y7DCGd41q6YLSQw==
-X-Google-Smtp-Source: ABdhPJxTNK186b8q0CC39G3jan/p3l+KvfW3OcsRJH5iFLpl96UXfv9chhYLyS31TxbHxYHWq0+JuA==
-X-Received: by 2002:a9d:37c4:: with SMTP id x62mr9387836otb.87.1607703012589; 
- Fri, 11 Dec 2020 08:10:12 -0800 (PST)
+ bh=XmoXDestb3B3cbvKUcASKMhVQwpa5/1GAKyeY6epvTE=;
+ b=hxGnH7PGUJLSUoHkIN4EcR9Fm35v8U/NpXb4lZvFEIaDQiU15ySOyBbn3J7efqNiD0
+ BInk1jLKVGbhV/z/dBU3JzxY6X4TeYVVjBwOfX7fbabsA6juWigZAmVcfuUe+onxg5zS
+ 4KnGQPOfMnqW2mJalIZJ3QjO+pnHEhG1I3nR3BLHq81CC8t0E1lwURT3RaXnP9NL3/ku
+ CZDibxJ/AGpmlE3YobvcMRQLmGZPSHLO0vRO+labs+rpSSQuEpB/dTC6ALXw1H4wSvgP
+ jYQfVfEJ0dgYquDF5+u4r19OdfgYQAY4sAFNFCsKSVYrZirynn/9EBwaGsYqzLjrP0wy
+ /rkQ==
+X-Gm-Message-State: AOAM531XCRGskgpnFuzH9xwnzIrB/si/Or+zH5XSC2Nf0L/StzLUptI4
+ 9iezagqMpsN2wEEthZWqmtqvtA==
+X-Google-Smtp-Source: ABdhPJz8m2pdJqu8TMFkXdBixoeeUYNDbpVtVVJ0rsJBdQA5ch393D/yyGfoQqxCB7o9HnoWtfR6cw==
+X-Received: by 2002:a9d:73d1:: with SMTP id m17mr10189104otk.187.1607703059885; 
+ Fri, 11 Dec 2020 08:10:59 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id r12sm1877091ooo.25.2020.12.11.08.10.09
+ by smtp.gmail.com with ESMTPSA id h93sm1908974otb.29.2020.12.11.08.10.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 08:10:11 -0800 (PST)
-Subject: Re: [PATCH v11 06/25] i386: move hax accel files into hax/
+ Fri, 11 Dec 2020 08:10:59 -0800 (PST)
+Subject: Re: [PATCH v11 08/25] i386: move TCG accel files into tcg/
 To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
  Wenchao Wang <wenchao.wang@intel.com>,
@@ -61,19 +61,19 @@ To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 References: <20201211083143.14350-1-cfontana@suse.de>
- <20201211083143.14350-7-cfontana@suse.de>
+ <20201211083143.14350-9-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <101846d3-8998-94c8-b126-2217b367db1f@linaro.org>
-Date: Fri, 11 Dec 2020 10:10:07 -0600
+Message-ID: <a119be4d-885c-0212-3461-e6c1bf6cd6ff@linaro.org>
+Date: Fri, 11 Dec 2020 10:10:55 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201211083143.14350-7-cfontana@suse.de>
+In-Reply-To: <20201211083143.14350-9-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -110,31 +110,36 @@ On 12/11/20 2:31 AM, Claudio Fontana wrote:
 > Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  target/i386/{ => hax}/hax-cpus.h      | 0
->  target/i386/{ => hax}/hax-i386.h      | 6 +++---
->  target/i386/{ => hax}/hax-interface.h | 0
->  target/i386/{ => hax}/hax-posix.h     | 0
->  target/i386/{ => hax}/hax-windows.h   | 0
->  target/i386/{ => hax}/hax-all.c       | 0
->  target/i386/{ => hax}/hax-cpus.c      | 0
->  target/i386/{ => hax}/hax-mem.c       | 0
->  target/i386/{ => hax}/hax-posix.c     | 0
->  target/i386/{ => hax}/hax-windows.c   | 0
->  MAINTAINERS                           | 2 +-
->  target/i386/hax/meson.build           | 7 +++++++
->  target/i386/meson.build               | 8 +-------
->  13 files changed, 12 insertions(+), 11 deletions(-)
->  rename target/i386/{ => hax}/hax-cpus.h (100%)
->  rename target/i386/{ => hax}/hax-i386.h (95%)
->  rename target/i386/{ => hax}/hax-interface.h (100%)
->  rename target/i386/{ => hax}/hax-posix.h (100%)
->  rename target/i386/{ => hax}/hax-windows.h (100%)
->  rename target/i386/{ => hax}/hax-all.c (100%)
->  rename target/i386/{ => hax}/hax-cpus.c (100%)
->  rename target/i386/{ => hax}/hax-mem.c (100%)
->  rename target/i386/{ => hax}/hax-posix.c (100%)
->  rename target/i386/{ => hax}/hax-windows.c (100%)
->  create mode 100644 target/i386/hax/meson.build
+>  target/i386/{ => tcg}/bpt_helper.c  |  0
+>  target/i386/{ => tcg}/cc_helper.c   |  0
+>  target/i386/{ => tcg}/excp_helper.c |  0
+>  target/i386/{ => tcg}/fpu_helper.c  |  0
+>  target/i386/{ => tcg}/int_helper.c  |  0
+>  target/i386/{ => tcg}/mem_helper.c  |  0
+>  target/i386/{ => tcg}/misc_helper.c |  0
+>  target/i386/{ => tcg}/mpx_helper.c  |  0
+>  target/i386/{ => tcg}/seg_helper.c  |  0
+>  target/i386/{ => tcg}/smm_helper.c  |  0
+>  target/i386/{ => tcg}/svm_helper.c  |  0
+>  target/i386/{ => tcg}/tcg-stub.c    |  0
+>  target/i386/{ => tcg}/translate.c   |  0
+>  target/i386/meson.build             | 14 +-------------
+>  target/i386/tcg/meson.build         | 13 +++++++++++++
+>  15 files changed, 14 insertions(+), 13 deletions(-)
+>  rename target/i386/{ => tcg}/bpt_helper.c (100%)
+>  rename target/i386/{ => tcg}/cc_helper.c (100%)
+>  rename target/i386/{ => tcg}/excp_helper.c (100%)
+>  rename target/i386/{ => tcg}/fpu_helper.c (100%)
+>  rename target/i386/{ => tcg}/int_helper.c (100%)
+>  rename target/i386/{ => tcg}/mem_helper.c (100%)
+>  rename target/i386/{ => tcg}/misc_helper.c (100%)
+>  rename target/i386/{ => tcg}/mpx_helper.c (100%)
+>  rename target/i386/{ => tcg}/seg_helper.c (100%)
+>  rename target/i386/{ => tcg}/smm_helper.c (100%)
+>  rename target/i386/{ => tcg}/svm_helper.c (100%)
+>  rename target/i386/{ => tcg}/tcg-stub.c (100%)
+>  rename target/i386/{ => tcg}/translate.c (100%)
+>  create mode 100644 target/i386/tcg/meson.build
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
