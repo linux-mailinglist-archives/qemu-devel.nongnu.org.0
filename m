@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BCE2D6F21
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:27:53 +0100 (CET)
-Received: from localhost ([::1]:50674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D982D6F3E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:29:15 +0100 (CET)
+Received: from localhost ([::1]:53282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kna24-00020b-9g
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:27:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33998)
+	id 1kna3O-00038e-Mv
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:29:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq9-0005da-S4; Thu, 10 Dec 2020 23:15:33 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33781 helo=ozlabs.org)
+ id 1knZqB-0005gE-Rl; Thu, 10 Dec 2020 23:15:36 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:35219 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq6-0000kG-Qf; Thu, 10 Dec 2020 23:15:33 -0500
+ id 1knZqA-0000ni-5N; Thu, 10 Dec 2020 23:15:35 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cscrb6qccz9sWw; Fri, 11 Dec 2020 15:15:11 +1100 (AEDT)
+ id 4Cscrc0V7Cz9sWt; Fri, 11 Dec 2020 15:15:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607660111;
- bh=O7Iod8ha/UKbiX0jn4dxF+eTwrAB9Z9FYv3hOWjC50A=;
+ d=gibson.dropbear.id.au; s=201602; t=1607660112;
+ bh=PY63Yfb95gZfHPkDRqTgk6oSSfAef8g/nYcMHoJai1Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DYpyzEWqnAv5HO8+Jda/h3PLyW0r5Zc4hWk3OlB4/eES93iQfU6RskC51KzRrjnbP
- 9w2Mh/neYzpOxZD9wbJZyqa8G9aDQ0rfQC1Sb9x51lnz1qLCvNRc+wLwjkA4PWP4Po
- jKPsZIJrBO8ebSTZW1mzXbON1pjb1wmFXPxbxFxg=
+ b=GbhimUGJZcIHHKtJatoe/CLXtmDA3cIaNcQaIK9kHuXMACNWYyg1IpEEHLZqFaFSH
+ 8gb8qwWxUTkDTeWVs2AS1V8PHhk4lkiiwwDiWMPkqWh5f4Z1VMusQqQ9i7ObrgeJqi
+ FCkF3PtjInDJnYDUxuf/r11l2POPjKhSJQihhB20=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/30] ppc/translate: Delay NaN checking after comparison
-Date: Fri, 11 Dec 2020 15:14:49 +1100
-Message-Id: <20201211041507.425378-13-david@gibson.dropbear.id.au>
+Subject: [PULL 13/30] ppc/translate: Raise exceptions after setting the cc
+Date: Fri, 11 Dec 2020 15:14:50 +1100
+Message-Id: <20201211041507.425378-14-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,130 +65,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: LemonBoy <thatlemon@gmail.com>
 
-Since we always perform a comparison between the two operands avoid
-checking for NaN unless the result states they're unordered.
+The PowerISA reference states that the comparison operators update the
+FPCC, CR and FPSCR and, if VE=1, jump to the exception handler.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Moving the exception-triggering code after the CC update sequence solves
+the problem.
+
 Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201112230130.65262-4-thatlemon@gmail.com>
+Message-Id: <20201112230130.65262-5-thatlemon@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/fpu_helper.c | 80 +++++++++++++++++++++--------------------
- 1 file changed, 42 insertions(+), 38 deletions(-)
+ target/ppc/fpu_helper.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 34f5bc1f3c..f5a4be595a 100644
+index f5a4be595a..44315fca0b 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -2475,25 +2475,6 @@ static inline void do_scalar_cmp(CPUPPCState *env, ppc_vsr_t *xa, ppc_vsr_t *xb,
+@@ -2501,13 +2501,6 @@ static inline void do_scalar_cmp(CPUPPCState *env, ppc_vsr_t *xa, ppc_vsr_t *xb,
+             }
+         }
  
-     helper_reset_fpstatus(env);
- 
--    if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||
--        float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {
--        vxsnan_flag = true;
--        if (fpscr_ve == 0 && ordered) {
--            vxvc_flag = true;
+-        if (vxsnan_flag) {
+-            float_invalid_op_vxsnan(env, GETPC());
 -        }
--    } else if (float64_is_quiet_nan(xa->VsrD(0), &env->fp_status) ||
--               float64_is_quiet_nan(xb->VsrD(0), &env->fp_status)) {
--        if (ordered) {
--            vxvc_flag = true;
+-        if (vxvc_flag) {
+-            float_invalid_op_vxvc(env, 0, GETPC());
 -        }
--    }
--    if (vxsnan_flag) {
--        float_invalid_op_vxsnan(env, GETPC());
--    }
--    if (vxvc_flag) {
--        float_invalid_op_vxvc(env, 0, GETPC());
--    }
 -
-     switch (float64_compare(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) {
-     case float_relation_less:
-         cc = CRF_LT;
-@@ -2506,6 +2487,27 @@ static inline void do_scalar_cmp(CPUPPCState *env, ppc_vsr_t *xa, ppc_vsr_t *xb,
-         break;
-     case float_relation_unordered:
-         cc = CRF_SO;
-+
-+        if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||
-+            float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {
-+            vxsnan_flag = true;
-+            if (fpscr_ve == 0 && ordered) {
-+                vxvc_flag = true;
-+            }
-+        } else if (float64_is_quiet_nan(xa->VsrD(0), &env->fp_status) ||
-+                   float64_is_quiet_nan(xb->VsrD(0), &env->fp_status)) {
-+            if (ordered) {
-+                vxvc_flag = true;
-+            }
-+        }
-+
-+        if (vxsnan_flag) {
-+            float_invalid_op_vxsnan(env, GETPC());
-+        }
-+        if (vxvc_flag) {
-+            float_invalid_op_vxvc(env, 0, GETPC());
-+        }
-+
          break;
      default:
          g_assert_not_reached();
-@@ -2538,25 +2540,6 @@ static inline void do_scalar_cmpq(CPUPPCState *env, ppc_vsr_t *xa,
+@@ -2517,6 +2510,13 @@ static inline void do_scalar_cmp(CPUPPCState *env, ppc_vsr_t *xa, ppc_vsr_t *xb,
+     env->fpscr |= cc << FPSCR_FPCC;
+     env->crf[crf_idx] = cc;
  
-     helper_reset_fpstatus(env);
++    if (vxsnan_flag) {
++        float_invalid_op_vxsnan(env, GETPC());
++    }
++    if (vxvc_flag) {
++        float_invalid_op_vxvc(env, 0, GETPC());
++    }
++
+     do_float_check_status(env, GETPC());
+ }
  
--    if (float128_is_signaling_nan(xa->f128, &env->fp_status) ||
--        float128_is_signaling_nan(xb->f128, &env->fp_status)) {
--        vxsnan_flag = true;
--        if (fpscr_ve == 0 && ordered) {
--            vxvc_flag = true;
+@@ -2566,13 +2566,6 @@ static inline void do_scalar_cmpq(CPUPPCState *env, ppc_vsr_t *xa,
+             }
+         }
+ 
+-        if (vxsnan_flag) {
+-            float_invalid_op_vxsnan(env, GETPC());
 -        }
--    } else if (float128_is_quiet_nan(xa->f128, &env->fp_status) ||
--               float128_is_quiet_nan(xb->f128, &env->fp_status)) {
--        if (ordered) {
--            vxvc_flag = true;
+-        if (vxvc_flag) {
+-            float_invalid_op_vxvc(env, 0, GETPC());
 -        }
--    }
--    if (vxsnan_flag) {
--        float_invalid_op_vxsnan(env, GETPC());
--    }
--    if (vxvc_flag) {
--        float_invalid_op_vxvc(env, 0, GETPC());
--    }
 -
-     switch (float128_compare(xa->f128, xb->f128, &env->fp_status)) {
-     case float_relation_less:
-         cc = CRF_LT;
-@@ -2569,6 +2552,27 @@ static inline void do_scalar_cmpq(CPUPPCState *env, ppc_vsr_t *xa,
-         break;
-     case float_relation_unordered:
-         cc = CRF_SO;
-+
-+        if (float128_is_signaling_nan(xa->f128, &env->fp_status) ||
-+            float128_is_signaling_nan(xb->f128, &env->fp_status)) {
-+            vxsnan_flag = true;
-+            if (fpscr_ve == 0 && ordered) {
-+                vxvc_flag = true;
-+            }
-+        } else if (float128_is_quiet_nan(xa->f128, &env->fp_status) ||
-+                   float128_is_quiet_nan(xb->f128, &env->fp_status)) {
-+            if (ordered) {
-+                vxvc_flag = true;
-+            }
-+        }
-+
-+        if (vxsnan_flag) {
-+            float_invalid_op_vxsnan(env, GETPC());
-+        }
-+        if (vxvc_flag) {
-+            float_invalid_op_vxvc(env, 0, GETPC());
-+        }
-+
          break;
      default:
          g_assert_not_reached();
+@@ -2582,6 +2575,13 @@ static inline void do_scalar_cmpq(CPUPPCState *env, ppc_vsr_t *xa,
+     env->fpscr |= cc << FPSCR_FPCC;
+     env->crf[crf_idx] = cc;
+ 
++    if (vxsnan_flag) {
++        float_invalid_op_vxsnan(env, GETPC());
++    }
++    if (vxvc_flag) {
++        float_invalid_op_vxvc(env, 0, GETPC());
++    }
++
+     do_float_check_status(env, GETPC());
+ }
+ 
 -- 
 2.29.2
 
