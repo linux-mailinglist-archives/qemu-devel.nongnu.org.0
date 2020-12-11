@@ -2,87 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD802D74B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 12:35:35 +0100 (CET)
-Received: from localhost ([::1]:52980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 843392D74DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 12:46:44 +0100 (CET)
+Received: from localhost ([::1]:56064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knghy-0006iD-Ir
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 06:35:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33920)
+	id 1kngsk-0000Lv-Vk
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 06:46:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kngei-00052K-OR
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 06:32:12 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:40593)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kngeg-0006aj-Qs
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 06:32:12 -0500
-Received: by mail-ed1-x541.google.com with SMTP id h16so8979967edt.7
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 03:32:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qtlDBXZozdDzlj7thgBSAXPUA0+sOcgdC7iCLa3VOkM=;
- b=i6JZsAh+2Mp+DLXv2539yyUHpU+6X2ephw2fGZlb1yc6BBlpRic3kFAiLH5ZCP2Tuf
- HrUfiQX6PX4cdRKTnD45exR+YyP/11ABGIkclo6iyfKGLC6ld12lam2FjHrFFbHSoXBJ
- SQI2WEjwoWz8Iqjb7ECj20RVIFQuPHG3TCMGhv+DB3QOO4XrHJetkK4ZZVJUJxBVX/5s
- tMrxWMnkHtUBgUe8pKKtqzp+wjV3XwcAJq78rKxAL2/gVjdm6KOBz/9dAAVhfunYCwO9
- O6I1MhTU7hyQzs2U+s8Etjd9KbRdR7pkzU6Fi0qCqKpsNXWGCFtPP5m/MCa/pGFVGeFS
- V7fQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kngre-0008ID-Co
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 06:45:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30666)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kngra-0002kh-Cs
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 06:45:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607687127;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XZ8LQlF1TgAAts50HSe0nuGMsad+vhVtkH3XH2HyUcE=;
+ b=LEM0NjbU/t91mUun80/TRKZLtLMtJBAVidzbpmazyOyyK6CoIgBNmfnVIRoHwHxnyju9Xs
+ He6BAOH57fNh5RE69swU86IsyFiRugpnx5oyPyhxHc+1UVR/7yjiH+poj+eP4QlChF7jzg
+ xB0kOyJ1sqfby/d30x4kjGcXRuzsRr4=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-WqtPEAQHPCCqxSZw8p3b8A-1; Fri, 11 Dec 2020 06:45:26 -0500
+X-MC-Unique: WqtPEAQHPCCqxSZw8p3b8A-1
+Received: by mail-ed1-f72.google.com with SMTP id r16so3807351eds.13
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 03:45:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=qtlDBXZozdDzlj7thgBSAXPUA0+sOcgdC7iCLa3VOkM=;
- b=GbE5PWMiyKEfCWCPge3roKspPS9IBxXULRhHzkxc93XXeUSu9uKCb9jom+k/7ORr4Z
- JOeEwJjKN1YAXMvo2DFs00G5MSw7XaIc7htoTAShVoo96CthlsU05Ez0HxNIc9SYmJa1
- oTilxvoXQ+FyTBeW6cHnlBQUTFQAgTiaUT35tSQkGUlICWK09GN4um1JVnfbxvTWXXG7
- x9y0VHuC3JlvSnhEnNvEBIuaU9CoWg2OOY9Tb4uf/STrSYJT9JP1eilPHUiQCbMtiT3K
- lwvmMqBq41o5UxVi3PGgauJP0JZLejtcDqwhAwZcuHZHiQwdeJaHw6Vf/ttnDTD8ELNh
- txBg==
-X-Gm-Message-State: AOAM531IVZwdxJFM+/iB6UwxSqJvkXh0pejuHlBgREYJ/6V8uqt7wWbq
- +7UfDr9V38EVMkzSU9qrUTg=
-X-Google-Smtp-Source: ABdhPJz6xX7FJKVJn6hnYqzJHPsZB3dWmCCbEpnG2edIUbV+eiTCASM/2rB1S64tkdDv6sI1/lk3OA==
-X-Received: by 2002:a50:b761:: with SMTP id g88mr11525740ede.387.1607686329264; 
- Fri, 11 Dec 2020 03:32:09 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id n20sm6554326ejo.83.2020.12.11.03.32.07
+ bh=XZ8LQlF1TgAAts50HSe0nuGMsad+vhVtkH3XH2HyUcE=;
+ b=S26FU6Am3W99tK8+4UArEQcpia6QuhGsqipNVBu+c2C7BQ7rX+rjV17ngtUpg/Zfwv
+ 9Doalpcxp3g37H0yGuMiJAWyxWcmMPCylhWThFc4ZrvhXKM2y8tRY5XJ57uwhiUmd29I
+ 8rK7spMbxENom8eykJEp04sT3U+pDj5TnDeLDoOKCd/jlYlVH0Of6xDuwfy2g0EUPzRs
+ fl1gZaH/HiP6a/PpcitYRWB0s34nnj0c+wJeUMBI9/byEXG2u9JmjUobW4PitWEIoYGe
+ 5MtDIoHzc7Ouy5T5WneOfMjOjB4svmJp0MXJQuyND5h0rKgAnerTNhUWjgf0lKgRW8YY
+ 4zMQ==
+X-Gm-Message-State: AOAM531Yrz7mQze4KzZtLY9/coRpGuCacqVVS16WY+3ebniyD1L/g0Ax
+ vPUJW8sA0YXohYXocg+WIzH278jhbg6d1abOPxypjKcvZdPpa3vXqF/hSvjA1wR6+UvnqAha8XC
+ n4b8yI1BtxTEM2SMqYbm20E/RzTAHnYQgA+esXWTfwr/9KIAscXezWpx6iGDiSiryGyk=
+X-Received: by 2002:a17:906:34ca:: with SMTP id
+ h10mr10763772ejb.417.1607687124337; 
+ Fri, 11 Dec 2020 03:45:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxw4zkXEmkqcL54xDsQtv0p92mQlu3b1ZAsYqIm2MRZRPMLFVKWMaZlGWM0TlqlxcvtneCa0w==
+X-Received: by 2002:a17:906:34ca:: with SMTP id
+ h10mr10763747ejb.417.1607687124088; 
+ Fri, 11 Dec 2020 03:45:24 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id u23sm6670441ejy.87.2020.12.11.03.45.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 03:32:08 -0800 (PST)
-Subject: Re: [PATCH V17 4/6] hw/mips: Add Loongson-3 boot parameter helpers
-To: Huacai Chen <chenhuacai@gmail.com>, Eric Blake <eblake@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <1604636510-8347-1-git-send-email-chenhc@lemote.com>
- <1604636510-8347-5-git-send-email-chenhc@lemote.com>
- <e85cc640-e5f4-bec1-2e3a-b5a57abe21c7@amsat.org>
- <CAAhV-H7ALVV=3Gj4iq4TVqL+czm3kK+F_uKvxGTJB-wonpGRHw@mail.gmail.com>
- <215f01d5-3fad-1dc6-bb1b-e8face969e23@amsat.org>
- <CAAhV-H6d1gDGKha=D+TNg-vwTL_5+9ON+x9GCE0QsrQktby01A@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1e7b7abd-cd4a-8f2a-2957-acd90884e0fd@amsat.org>
-Date: Fri, 11 Dec 2020 12:32:06 +0100
+ Fri, 11 Dec 2020 03:45:23 -0800 (PST)
+Subject: Re: [PATCH] ide:atapi: check io_buffer_index in
+ ide_atapi_cmd_reply_end
+To: Wenxiang Qian <leonwxqian@gmail.com>, P J P <ppandit@redhat.com>
+References: <20201118142745.112579-1-ppandit@redhat.com>
+ <204751s9-11np-413q-q3pr-3o6os86078@erqung.pbz>
+ <492170b8-8056-bd65-5150-62c6e89cb3f0@redhat.com>
+ <933np1s-8p4p-o74p-rp94-517r98nop2o6@erqung.pbz>
+ <a964ffea-ece6-3f33-3dd1-ee9c2b729b75@redhat.com>
+ <87sg8o65ys.fsf@dusky.pond.sub.org>
+ <212n55r-9n3q-8r4r-85p7-14n495r53s6n@erqung.pbz>
+ <CAKZf9JDg=5y=2v=O6ZQjcLCYXXEn2szM_c3rrQgtTHvLsSicww@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2c1b5a52-cce0-560e-269b-9d61348cfa92@redhat.com>
+Date: Fri, 11 Dec 2020 12:45:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAAhV-H6d1gDGKha=D+TNg-vwTL_5+9ON+x9GCE0QsrQktby01A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAKZf9JDg=5y=2v=O6ZQjcLCYXXEn2szM_c3rrQgtTHvLsSicww@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x541.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,125 +109,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <zltjiangshi@gmail.com>, David Hildenbrand <david@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 3:46 AM, Huacai Chen wrote:
-> Hi, Rechard and Peter,
+On 11/12/20 09:23, Wenxiang Qian wrote:
+> Hello,
 > 
-> On Wed, Dec 2, 2020 at 5:32 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> On 12/2/20 2:14 AM, Huacai Chen wrote:
->>> Hi, Phillippe,
->>>
->>> On Tue, Nov 24, 2020 at 6:25 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>>
->>>> On 11/6/20 5:21 AM, Huacai Chen wrote:
->>>>> Preparing to add Loongson-3 machine support, add Loongson-3's LEFI (a
->>>>> UEFI-like interface for BIOS-Kernel boot parameters) helpers first.
->>>>>
->>>>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>> Signed-off-by: Huacai Chen <chenhc@lemote.com>
->>>>> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->>>>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->>>>> ---
->>>>>  hw/mips/loongson3_bootp.c | 165 +++++++++++++++++++++++++++++++
->>>>>  hw/mips/loongson3_bootp.h | 241 ++++++++++++++++++++++++++++++++++++++++++++++
->>>>>  hw/mips/meson.build       |   1 +
->>>>>  3 files changed, 407 insertions(+)
->>>>>  create mode 100644 hw/mips/loongson3_bootp.c
->>>>>  create mode 100644 hw/mips/loongson3_bootp.h
->>>>>
->>>>> diff --git a/hw/mips/loongson3_bootp.c b/hw/mips/loongson3_bootp.c
->>>>> new file mode 100644
->>>>> index 0000000..3a16081
->>>>> --- /dev/null
->>>>> +++ b/hw/mips/loongson3_bootp.c
->>>>> @@ -0,0 +1,165 @@
->>>>> +/*
->>>>> + * LEFI (a UEFI-like interface for BIOS-Kernel boot parameters) helpers
->>>>> + *
->>>>> + * Copyright (c) 2018-2020 Huacai Chen (chenhc@lemote.com)
->>>>> + * Copyright (c) 2018-2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
->>>>> + *
->>>>> + * This program is free software: you can redistribute it and/or modify
->>>>> + * it under the terms of the GNU General Public License as published by
->>>>> + * the Free Software Foundation, either version 2 of the License, or
->>>>> + * (at your option) any later version.
->>>>> + *
->>>>> + * This program is distributed in the hope that it will be useful,
->>>>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
->>>>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
->>>>> + * GNU General Public License for more details.
->>>>> + *
->>>>> + * You should have received a copy of the GNU General Public License
->>>>> + * along with this program. If not, see <https://www.gnu.org/licenses/>.
->>>>> + */
->>>>> +
->>>>> +#include "qemu/osdep.h"
->>>>> +#include "qemu/units.h"
->>>>> +#include "qemu/cutils.h"
->>>>> +#include "cpu.h"
->>>>> +#include "hw/boards.h"
->>>>> +#include "hw/mips/loongson3_bootp.h"
->>>>> +
->>>>> +#define LOONGSON3_CORE_PER_NODE 4
->>>>> +
->>>>> +static struct efi_cpuinfo_loongson *init_cpu_info(void *g_cpuinfo, uint64_t cpu_freq)
->>>>> +{
->>>>> +    struct efi_cpuinfo_loongson *c = g_cpuinfo;
->>>>> +
->>>>> +    stl_le_p(&c->cputype, Loongson_3A);
->>>>> +    stl_le_p(&c->processor_id, MIPS_CPU(first_cpu)->env.CP0_PRid);
->>>>
->>>> Build failing with Clang:
->>>>
->>>> FAILED: libqemu-mips64el-softmmu.fa.p/hw_mips_loongson3_bootp.c.o
->>>> hw/mips/loongson3_bootp.c:35:15: error: taking address of packed member
->>>> 'processor_id' of class or structure 'efi_cpuinfo_loongson' may result
->>>> in an unaligned pointer value [-Werror,-Waddress-of-packed-member]
->>>>     stl_le_p(&c->processor_id, MIPS_CPU(first_cpu)->env.CP0_PRid);
->>>>               ^~~~~~~~~~~~~~~
->>>> 1 error generated.
->>> We cannot reproduce it on X86/MIPS with clang...
->>
->> You can reproduce running the Clang job on Gitlab-CI:
->>
->> https://wiki.qemu.org/Testing/CI/GitLabCI
->>
->>> And I found that
->>> stl_le_p() will be __builtin_memcpy(), I don't think memcpy() will
->>> cause unaligned access. So, any suggestions?
-
-My understanding is the compiler is complaining for the argument
-passed to the caller, with no knowledge of the callee implementation.
-
-Which makes me wonder if these functions are really inlined...
-
-Do we need to use QEMU_ALWAYS_INLINE for these LDST helpers?
-
-I see Richard used it in commit 80d9d1c6785 ("cputlb: Split out
-load/store_memop").
-
->>
->> I'll defer this question to Richard/Peter who have deeper understanding.
-> Any sugguestions? Other patches are updated, except this one.
-
-Searching on the list, I see Marc-André resolved that by
-using a copy on the stack:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg614482.html
-
+> I may not have made the detail clear in my previous email. The details 
+> of the AHCI device, after running the reproducer I attached in my report 
+> are as follows. If there is any information I can provide, please let me 
+> know. Thank you.
 > 
-> Huacai
->>
->>>
->>> Huacai
-> 
+> ###root cause###
+> (1) The s->packet_transfer_size is bigger than the actual data.
+> (2) packet_transfer_size is passed into  ide_atapi_cmd_reply_end, as the 
+> total number of iterations. Each iterate round, s->io_buffer_index is 
+> increased by 2048, but without boundary check.
+> (3) The call to ide_transfer_start_norecurse use s->io_buffer + 
+> s->io_buffer_index - size as the index, cause an OOB access.
+
+This is not the root cause.  These are the last steps before bad things 
+happen; the root cause is what _led_ to those last steps.  In this case, 
+the root cause is that a read request with s->lba == -1 is mistaken for 
+a non-read.  Read requests are able to reset s->io_buffer_index and 
+start with the index pointing just after the end of the sector buffer; 
+non-read requests instead visit the buffer just once and start with 
+s->io_buffer_index == 0.
+
+In turn, the fix is to validate:
+
+1) that s->lba is in range when issuing a read request
+
+2) that the size of the device is sane (e.g. the number of blocks is a 
+positive 32-bit integer).
+
+Paolo
+
 
