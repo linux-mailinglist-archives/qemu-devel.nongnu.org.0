@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0102D7F4B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 20:23:46 +0100 (CET)
-Received: from localhost ([::1]:38388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39CE2D7F5B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 20:29:56 +0100 (CET)
+Received: from localhost ([::1]:47832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kno12-0007ju-S7
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 14:23:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45656)
+	id 1kno71-0003ee-Vh
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 14:29:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1knnSB-0004EN-Rw
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 13:47:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1knnan-0002r2-16
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 13:56:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1knnS9-0002DF-0a
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 13:47:43 -0500
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1knnak-0004pN-DR
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 13:56:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607712458;
+ s=mimecast20190719; t=1607712992;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wZ3lg9vTZDy1x4hxQ17Z+NTB9UYWzsNWY3zYp8SD/T0=;
- b=Hia4+3DHDM75TS4frW9ycAyurVeyCXvhKsfax4aIbQxNES+WCw2/KeUFnV4ZMa2z8AsTQq
- dlRaJDuNSbJJS6rYXmpSaR6P1N8FfZBtjuAL+Ol1fj3rxyRjCzxpq4C9RC14KFPKZAHbx7
- mJtos6fzArBZ1c2j5rZQMz6xUjc68Qo=
+ bh=BOgJ+NZOFqwfkgP9Kdv5qlJVb0fc32q6fmKf5L5l8Rc=;
+ b=TbqKPc5F0n/nHluMaL4UdU6E0PFtqDtmnqL9iJHC6nm8O+pFUu9uiqs+fX2k39Il4NYRHM
+ uwm5C9RNEU71iRG1oLy1WKIl11thfWDw5hZr9L7xWJntSb7QAcS+hSWgIonBcPnP5eE4qw
+ rtMjSM0gwn7ffAJGHgz25flyyVthGi8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-40yvv17kPeqECv9Vp44grg-1; Fri, 11 Dec 2020 13:47:36 -0500
-X-MC-Unique: 40yvv17kPeqECv9Vp44grg-1
+ us-mta-396-NKh6JXoNNCac5idwiREB9w-1; Fri, 11 Dec 2020 13:56:28 -0500
+X-MC-Unique: NKh6JXoNNCac5idwiREB9w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEBCE858184;
- Fri, 11 Dec 2020 18:47:34 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-237.rdu2.redhat.com [10.10.115.237])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C067461D2D;
- Fri, 11 Dec 2020 18:47:23 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 13CD7220BCF; Fri, 11 Dec 2020 13:47:23 -0500 (EST)
-Date: Fri, 11 Dec 2020 13:47:22 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Subject: Re: Some performance numbers for virtiofs, DAX and virtio-9p
-Message-ID: <20201211184722.GE3285@redhat.com>
-References: <20201210161126.GA125438@redhat.com>
- <CAOssrKcKaosJo1W+sek0AOA3CdyE+ZUWzx8KPsn=Gz3Nor+_iQ@mail.gmail.com>
- <20201211160603.GD3285@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B96DD8143EF;
+ Fri, 11 Dec 2020 18:55:32 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-114-123.rdu2.redhat.com
+ [10.10.114.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 50ED25F9A6;
+ Fri, 11 Dec 2020 18:55:28 +0000 (UTC)
+Subject: Re: [PATCH v2 6/8] gitlab: move --without-default-devices build from
+ Travis
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20201210190417.31673-1-alex.bennee@linaro.org>
+ <20201210190417.31673-7-alex.bennee@linaro.org>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <32564462-080c-bbff-246c-cfce9cb8f3e7@redhat.com>
+Date: Fri, 11 Dec 2020 15:55:26 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201211160603.GD3285@redhat.com>
+In-Reply-To: <20201210190417.31673-7-alex.bennee@linaro.org>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,330 +86,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Venegas Munoz, Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- virtio-fs-list <virtio-fs@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ stefanb@linux.vnet.ibm.com, richard.henderson@linaro.org, f4bug@amsat.org,
+ cota@braap.org, stefanha@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 11, 2020 at 11:06:03AM -0500, Vivek Goyal wrote:
+Hi,
 
-[..]
-> > 
-> > Could we measure at what point does a large window size actually make
-> > performance worse?
-> 
-> Will do. Will run tests with varying window sizes (small to large)
-> and see how does it impact performance for same workload with
-> same guest memory.
+On 12/10/20 4:04 PM, Alex Bennée wrote:
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 >
+> ---
+> v2
+>    - move to centos8
+> ---
+>   .gitlab-ci.yml | 7 +++++++
+>   .travis.yml    | 8 --------
+>   2 files changed, 7 insertions(+), 8 deletions(-)
 
-Ok, I ran some tests with virtiofs cache=auto and varied dax window
-size from 1G to 64G. (1, 2, 4, 8, 16, 32, 64). Still using file size
-4G each. And -multi test use 4 files of 4G each. Here are the test
-results.
+lgtm.
 
-To run tests faster, I ran one iteration of each job (instead of running
-3 iterations and taking average). This should be good enough to give
-some idea.
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-I have also pushed raw data file and test results here.
-
-https://github.com/rhvgoyal/virtiofs-tests/tree/master/performance-results/dec-10-2020
-
-First line is vtfs cache auto without dax to see with what dax window
-size dax helps as opposed to without dax.
-
-Conclusion
-----------
-- Decreasing window size hurts tremendously for random read and random
-  write workloads.
-
-- seqread/seqwrite still perform reasonably well even with smaller
-  window size.
-
-- Increasing DAX window does not hurt.
-
-
-I will try to spend some time with smaller dax window and random read
-and ramdom write workloads and see if there is anything I can do to
-reduce the performance drop.
-
-Thanks
-Vivek
-
-NAME                    WORKLOAD                Bandwidth       IOPS            
-vtfs-auto               seqread-psync           650.0mb         162.5k          
-vtfs-auto-dax-1G        seqread-psync           653.1mb         163.2k          
-vtfs-auto-dax-2G        seqread-psync           668.2mb         167.0k          
-vtfs-auto-dax-4G        seqread-psync           657.8mb         164.4k          
-vtfs-auto-dax-8G        seqread-psync           699.5mb         174.8k          
-vtfs-auto-dax-16G       seqread-psync           674.3mb         168.5k          
-vtfs-auto-dax-32G       seqread-psync           667.6mb         166.9k          
-vtfs-auto-dax-64G       seqread-psync           696.1mb         174.0k          
-
-vtfs-auto               seqread-psync-multi     2530.7mb        632.6k          
-vtfs-auto-dax-1G        seqread-psync-multi     1931.1mb        482.7k          
-vtfs-auto-dax-2G        seqread-psync-multi     2105.6mb        526.4k          
-vtfs-auto-dax-4G        seqread-psync-multi     2142.2mb        535.5k          
-vtfs-auto-dax-8G        seqread-psync-multi     2229.7mb        557.4k          
-vtfs-auto-dax-16G       seqread-psync-multi     2324.3mb        581.0k          
-vtfs-auto-dax-32G       seqread-psync-multi     2421.1mb        605.2k          
-vtfs-auto-dax-64G       seqread-psync-multi     2469.7mb        617.4k          
-
-vtfs-auto               seqread-mmap            570.6mb         142.6k          
-vtfs-auto-dax-1G        seqread-mmap            823.9mb         205.9k          
-vtfs-auto-dax-2G        seqread-mmap            798.1mb         199.5k          
-vtfs-auto-dax-4G        seqread-mmap            874.4mb         218.6k          
-vtfs-auto-dax-8G        seqread-mmap            960.5mb         240.1k          
-vtfs-auto-dax-16G       seqread-mmap            917.1mb         229.2k          
-vtfs-auto-dax-32G       seqread-mmap            884.4mb         221.1k          
-vtfs-auto-dax-64G       seqread-mmap            855.6mb         213.9k          
-
-vtfs-auto               seqread-mmap-multi      2210.1mb        552.5k          
-vtfs-auto-dax-1G        seqread-mmap-multi      2722.9mb        680.7k          
-vtfs-auto-dax-2G        seqread-mmap-multi      2828.2mb        707.0k          
-vtfs-auto-dax-4G        seqread-mmap-multi      2777.4mb        694.3k          
-vtfs-auto-dax-8G        seqread-mmap-multi      2880.4mb        720.1k          
-vtfs-auto-dax-16G       seqread-mmap-multi      3159.2mb        789.8k          
-vtfs-auto-dax-32G       seqread-mmap-multi      2989.2mb        747.3k          
-vtfs-auto-dax-64G       seqread-mmap-multi      3007.3mb        751.8k          
-
-vtfs-auto               seqread-libaio          303.3mb         75.8k           
-vtfs-auto-dax-1G        seqread-libaio          396.4mb         99.1k           
-vtfs-auto-dax-2G        seqread-libaio          391.9mb         97.9k           
-vtfs-auto-dax-4G        seqread-libaio          422.9mb         105.7k          
-vtfs-auto-dax-8G        seqread-libaio          419.0mb         104.7k          
-vtfs-auto-dax-16G       seqread-libaio          411.2mb         102.8k          
-vtfs-auto-dax-32G       seqread-libaio          436.1mb         109.0k          
-vtfs-auto-dax-64G       seqread-libaio          418.0mb         104.5k          
-
-vtfs-auto               seqread-libaio-multi    1500.0mb        375.0k          
-vtfs-auto-dax-1G        seqread-libaio-multi    1271.7mb        317.9k          
-vtfs-auto-dax-2G        seqread-libaio-multi    1338.1mb        334.5k          
-vtfs-auto-dax-4G        seqread-libaio-multi    1306.6mb        326.6k          
-vtfs-auto-dax-8G        seqread-libaio-multi    1416.8mb        354.2k          
-vtfs-auto-dax-16G       seqread-libaio-multi    1461.9mb        365.4k          
-vtfs-auto-dax-32G       seqread-libaio-multi    1531.9mb        382.9k          
-vtfs-auto-dax-64G       seqread-libaio-multi    1495.4mb        373.8k          
-
-vtfs-auto               randread-psync          77.9mb          19.4k           
-vtfs-auto-dax-1G        randread-psync          18.7mb          4792            
-vtfs-auto-dax-2G        randread-psync          25.2mb          6463            
-vtfs-auto-dax-4G        randread-psync          59.9mb          14.9k           
-vtfs-auto-dax-8G        randread-psync          693.7mb         173.4k          
-vtfs-auto-dax-16G       randread-psync          646.0mb         161.5k          
-vtfs-auto-dax-32G       randread-psync          635.4mb         158.8k          
-vtfs-auto-dax-64G       randread-psync          663.4mb         165.8k          
-
-vtfs-auto               randread-psync-multi    285.2mb         71.3k           
-vtfs-auto-dax-1G        randread-psync-multi    28.7mb          7357            
-vtfs-auto-dax-2G        randread-psync-multi    29.6mb          7596            
-vtfs-auto-dax-4G        randread-psync-multi    35.0mb          8969            
-vtfs-auto-dax-8G        randread-psync-multi    51.3mb          12.8k           
-vtfs-auto-dax-16G       randread-psync-multi    497.1mb         124.2k          
-vtfs-auto-dax-32G       randread-psync-multi    2092.9mb        523.2k          
-vtfs-auto-dax-64G       randread-psync-multi    2051.0mb        512.7k          
-
-vtfs-auto               randread-mmap           57.7mb          14.4k           
-vtfs-auto-dax-1G        randread-mmap           15.1mb          3889            
-vtfs-auto-dax-2G        randread-mmap           21.5mb          5506            
-vtfs-auto-dax-4G        randread-mmap           59.4mb          14.8k           
-vtfs-auto-dax-8G        randread-mmap           970.1mb         242.5k          
-vtfs-auto-dax-16G       randread-mmap           883.1mb         220.7k          
-vtfs-auto-dax-32G       randread-mmap           874.2mb         218.5k          
-vtfs-auto-dax-64G       randread-mmap           954.3mb         238.5k          
-
-vtfs-auto               randread-mmap-multi     243.5mb         60.8k           
-vtfs-auto-dax-1G        randread-mmap-multi     11.7mb          3005            
-vtfs-auto-dax-2G        randread-mmap-multi     20.4mb          5232            
-vtfs-auto-dax-4G        randread-mmap-multi     23.1mb          5937            
-vtfs-auto-dax-8G        randread-mmap-multi     35.3mb          9058            
-vtfs-auto-dax-16G       randread-mmap-multi     1009.8mb        252.4k          
-vtfs-auto-dax-32G       randread-mmap-multi     2612.6mb        653.1k          
-vtfs-auto-dax-64G       randread-mmap-multi     2908.5mb        727.1k          
-
-vtfs-auto               randread-libaio         276.2mb         69.0k           
-vtfs-auto-dax-1G        randread-libaio         19.4mb          4968            
-vtfs-auto-dax-2G        randread-libaio         23.3mb          5981            
-vtfs-auto-dax-4G        randread-libaio         60.6mb          15.1k           
-vtfs-auto-dax-8G        randread-libaio         413.5mb         103.3k          
-vtfs-auto-dax-16G       randread-libaio         410.8mb         102.7k          
-vtfs-auto-dax-32G       randread-libaio         392.0mb         98.0k           
-vtfs-auto-dax-64G       randread-libaio         412.9mb         103.2k          
-
-vtfs-auto               randread-libaio-multi   271.0mb         67.7k           
-vtfs-auto-dax-1G        randread-libaio-multi   29.2mb          7479            
-vtfs-auto-dax-2G        randread-libaio-multi   30.4mb          7803            
-vtfs-auto-dax-4G        randread-libaio-multi   36.6mb          9387            
-vtfs-auto-dax-8G        randread-libaio-multi   49.0mb          12.2k           
-vtfs-auto-dax-16G       randread-libaio-multi   364.3mb         91.0k           
-vtfs-auto-dax-32G       randread-libaio-multi   1435.0mb        358.7k          
-vtfs-auto-dax-64G       randread-libaio-multi   1358.4mb        339.6k          
-
-vtfs-auto               seqwrite-psync          78.6mb          19.6k           
-vtfs-auto-dax-1G        seqwrite-psync          440.7mb         110.1k          
-vtfs-auto-dax-2G        seqwrite-psync          428.6mb         107.1k          
-vtfs-auto-dax-4G        seqwrite-psync          476.5mb         119.1k          
-vtfs-auto-dax-8G        seqwrite-psync          547.8mb         136.9k          
-vtfs-auto-dax-16G       seqwrite-psync          530.1mb         132.5k          
-vtfs-auto-dax-32G       seqwrite-psync          486.6mb         121.6k          
-vtfs-auto-dax-64G       seqwrite-psync          515.8mb         128.9k          
-
-vtfs-auto               seqwrite-psync-multi    305.7mb         76.4k           
-vtfs-auto-dax-1G        seqwrite-psync-multi    1405.0mb        351.2k          
-vtfs-auto-dax-2G        seqwrite-psync-multi    1447.0mb        361.7k          
-vtfs-auto-dax-4G        seqwrite-psync-multi    1329.4mb        332.3k          
-vtfs-auto-dax-8G        seqwrite-psync-multi    1250.4mb        312.5k          
-vtfs-auto-dax-16G       seqwrite-psync-multi    1264.7mb        316.1k          
-vtfs-auto-dax-32G       seqwrite-psync-multi    1224.5mb        306.1k          
-vtfs-auto-dax-64G       seqwrite-psync-multi    1165.6mb        291.4k          
-
-vtfs-auto               seqwrite-mmap           199.7mb         49.9k           
-vtfs-auto-dax-1G        seqwrite-mmap           1262.6mb        315.6k          
-vtfs-auto-dax-2G        seqwrite-mmap           1369.4mb        342.3k          
-vtfs-auto-dax-4G        seqwrite-mmap           1363.5mb        340.8k          
-vtfs-auto-dax-8G        seqwrite-mmap           1368.9mb        342.2k          
-vtfs-auto-dax-16G       seqwrite-mmap           1305.2mb        326.3k          
-vtfs-auto-dax-32G       seqwrite-mmap           1299.4mb        324.8k          
-vtfs-auto-dax-64G       seqwrite-mmap           1301.1mb        325.2k          
-
-vtfs-auto               seqwrite-mmap-multi     384.1mb         96.0k           
-vtfs-auto-dax-1G        seqwrite-mmap-multi     2162.9mb        540.7k          
-vtfs-auto-dax-2G        seqwrite-mmap-multi     2191.8mb        547.9k          
-vtfs-auto-dax-4G        seqwrite-mmap-multi     2045.1mb        511.2k          
-vtfs-auto-dax-8G        seqwrite-mmap-multi     1973.0mb        493.2k          
-vtfs-auto-dax-16G       seqwrite-mmap-multi     1911.3mb        477.8k          
-vtfs-auto-dax-32G       seqwrite-mmap-multi     2263.9mb        565.9k          
-vtfs-auto-dax-64G       seqwrite-mmap-multi     1718.4mb        429.6k          
-
-vtfs-auto               seqwrite-libaio         279.1mb         69.7k           
-vtfs-auto-dax-1G        seqwrite-libaio         294.2mb         73.5k           
-vtfs-auto-dax-2G        seqwrite-libaio         308.7mb         77.1k           
-vtfs-auto-dax-4G        seqwrite-libaio         308.3mb         77.0k           
-vtfs-auto-dax-8G        seqwrite-libaio         339.0mb         84.7k           
-vtfs-auto-dax-16G       seqwrite-libaio         323.3mb         80.8k           
-vtfs-auto-dax-32G       seqwrite-libaio         311.4mb         77.8k           
-vtfs-auto-dax-64G       seqwrite-libaio         334.2mb         83.5k           
-
-vtfs-auto               seqwrite-libaio-multi   306.4mb         76.6k           
-vtfs-auto-dax-1G        seqwrite-libaio-multi   968.7mb         242.1k          
-vtfs-auto-dax-2G        seqwrite-libaio-multi   1050.7mb        262.6k          
-vtfs-auto-dax-4G        seqwrite-libaio-multi   989.4mb         247.3k          
-vtfs-auto-dax-8G        seqwrite-libaio-multi   1017.8mb        254.4k          
-vtfs-auto-dax-16G       seqwrite-libaio-multi   1101.5mb        275.3k          
-vtfs-auto-dax-32G       seqwrite-libaio-multi   915.0mb         228.7k          
-vtfs-auto-dax-64G       seqwrite-libaio-multi   1067.5mb        266.8k          
-
-vtfs-auto               randwrite-psync         82.2mb          20.5k           
-vtfs-auto-dax-1G        randwrite-psync         20.4mb          5240            
-vtfs-auto-dax-2G        randwrite-psync         29.6mb          7585            
-vtfs-auto-dax-4G        randwrite-psync         65.4mb          16.3k           
-vtfs-auto-dax-8G        randwrite-psync         502.6mb         125.6k          
-vtfs-auto-dax-16G       randwrite-psync         501.6mb         125.4k          
-vtfs-auto-dax-32G       randwrite-psync         461.6mb         115.4k          
-vtfs-auto-dax-64G       randwrite-psync         481.2mb         120.2k          
-
-vtfs-auto               randwrite-psync-multi   302.1mb         75.5k           
-vtfs-auto-dax-1G        randwrite-psync-multi   30.9mb          7915            
-vtfs-auto-dax-2G        randwrite-psync-multi   35.0mb          8968            
-vtfs-auto-dax-4G        randwrite-psync-multi   36.7mb          9399            
-vtfs-auto-dax-8G        randwrite-psync-multi   57.1mb          14.2k           
-vtfs-auto-dax-16G       randwrite-psync-multi   499.0mb         124.7k          
-vtfs-auto-dax-32G       randwrite-psync-multi   1123.0mb        280.7k          
-vtfs-auto-dax-64G       randwrite-psync-multi   1058.3mb        264.5k          
-
-vtfs-auto               randwrite-mmap          55.9mb          13.9k           
-vtfs-auto-dax-1G        randwrite-mmap          16.4mb          4221            
-vtfs-auto-dax-2G        randwrite-mmap          22.0mb          5648            
-vtfs-auto-dax-4G        randwrite-mmap          60.6mb          15.1k           
-vtfs-auto-dax-8G        randwrite-mmap          763.3mb         190.8k          
-vtfs-auto-dax-16G       randwrite-mmap          859.2mb         214.8k          
-vtfs-auto-dax-32G       randwrite-mmap          792.5mb         198.1k          
-vtfs-auto-dax-64G       randwrite-mmap          807.7mb         201.9k          
-
-vtfs-auto               randwrite-mmap-multi    208.9mb         52.2k           
-vtfs-auto-dax-1G        randwrite-mmap-multi    12.4mb          3191            
-vtfs-auto-dax-2G        randwrite-mmap-multi    19.8mb          5072            
-vtfs-auto-dax-4G        randwrite-mmap-multi    22.3mb          5710            
-vtfs-auto-dax-8G        randwrite-mmap-multi    33.2mb          8511            
-vtfs-auto-dax-16G       randwrite-mmap-multi    1061.2mb        265.3k          
-vtfs-auto-dax-32G       randwrite-mmap-multi    2113.2mb        528.3k          
-vtfs-auto-dax-64G       randwrite-mmap-multi    2099.4mb        524.8k          
-
-vtfs-auto               randwrite-libaio        258.7mb         64.6k           
-vtfs-auto-dax-1G        randwrite-libaio        20.4mb          5231            
-vtfs-auto-dax-2G        randwrite-libaio        26.4mb          6774            
-vtfs-auto-dax-4G        randwrite-libaio        64.9mb          16.2k           
-vtfs-auto-dax-8G        randwrite-libaio        326.7mb         81.6k           
-vtfs-auto-dax-16G       randwrite-libaio        303.6mb         75.9k           
-vtfs-auto-dax-32G       randwrite-libaio        298.2mb         74.5k           
-vtfs-auto-dax-64G       randwrite-libaio        328.5mb         82.1k           
-
-vtfs-auto               randwrite-libaio-multi  320.9mb         80.2k           
-vtfs-auto-dax-1G        randwrite-libaio-multi  31.1mb          7977            
-vtfs-auto-dax-2G        randwrite-libaio-multi  34.2mb          8772            
-vtfs-auto-dax-4G        randwrite-libaio-multi  38.8mb          9945            
-vtfs-auto-dax-8G        randwrite-libaio-multi  55.9mb          13.9k           
-vtfs-auto-dax-16G       randwrite-libaio-multi  363.2mb         90.8k           
-vtfs-auto-dax-32G       randwrite-libaio-multi  800.4mb         200.1k          
-vtfs-auto-dax-64G       randwrite-libaio-multi  805.5mb         201.3k          
-
-vtfs-auto               randrw-psync            38.1mb/12.7mb   9775/3265       
-vtfs-auto-dax-1G        randrw-psync            15.0mb/5134kb   3855/1283       
-vtfs-auto-dax-2G        randrw-psync            19.0mb/6490kb   4866/1622       
-vtfs-auto-dax-4G        randrw-psync            41.9mb/14.0mb   10.4k/3595      
-vtfs-auto-dax-8G        randrw-psync            422.2mb/141.1mb 105.5k/35.2k    
-vtfs-auto-dax-16G       randrw-psync            395.9mb/132.3mb 98.9k/33.0k     
-vtfs-auto-dax-32G       randrw-psync            378.2mb/126.4mb 94.5k/31.5k     
-vtfs-auto-dax-64G       randrw-psync            419.2mb/140.1mb 104.8k/35.0k    
-
-vtfs-auto               randrw-psync-multi      151.4mb/50.7mb  37.8k/12.6k     
-vtfs-auto-dax-1G        randrw-psync-multi      23.5mb/8091kb   6020/2022       
-vtfs-auto-dax-2G        randrw-psync-multi      24.7mb/8515kb   6343/2128       
-vtfs-auto-dax-4G        randrw-psync-multi      27.9mb/9606kb   7148/2401       
-vtfs-auto-dax-8G        randrw-psync-multi      38.6mb/12.9mb   9882/3309       
-vtfs-auto-dax-16G       randrw-psync-multi      277.7mb/93.0mb  69.4k/23.2k     
-vtfs-auto-dax-32G       randrw-psync-multi      1233.6mb/412.5mb308.4k/103.1k   
-vtfs-auto-dax-64G       randrw-psync-multi      1447.4mb/483.9mb361.8k/120.9k   
-
-vtfs-auto               randrw-mmap             44.4mb/14.8mb   11.1k/3806      
-vtfs-auto-dax-1G        randrw-mmap             11.6mb/3978kb   2980/994        
-vtfs-auto-dax-2G        randrw-mmap             15.0mb/5133kb   3854/1283       
-vtfs-auto-dax-4G        randrw-mmap             36.1mb/12.0mb   9247/3088       
-vtfs-auto-dax-8G        randrw-mmap             618.2mb/206.6mb 154.5k/51.6k    
-vtfs-auto-dax-16G       randrw-mmap             638.2mb/213.3mb 159.5k/53.3k    
-vtfs-auto-dax-32G       randrw-mmap             554.6mb/185.3mb 138.6k/46.3k    
-vtfs-auto-dax-64G       randrw-mmap             608.5mb/203.3mb 152.1k/50.8k    
-
-vtfs-auto               randrw-mmap-multi       179.3mb/60.0mb  44.8k/15.0k     
-vtfs-auto-dax-1G        randrw-mmap-multi       11.7mb/4069kb   3007/1017       
-vtfs-auto-dax-2G        randrw-mmap-multi       14.7mb/5088kb   3768/1272       
-vtfs-auto-dax-4G        randrw-mmap-multi       16.8mb/5806kb   4307/1451       
-vtfs-auto-dax-8G        randrw-mmap-multi       24.7mb/8515kb   6341/2128       
-vtfs-auto-dax-16G       randrw-mmap-multi       479.4mb/160.4mb 119.8k/40.1k    
-vtfs-auto-dax-32G       randrw-mmap-multi       1290.1mb/431.3mb322.5k/107.8k   
-vtfs-auto-dax-64G       randrw-mmap-multi       1828.4mb/611.4mb457.1k/152.8k   
-
-vtfs-auto               randrw-libaio           83.4mb/27.9mb   20.8k/7161      
-vtfs-auto-dax-1G        randrw-libaio           13.9mb/4725kb   3565/1181       
-vtfs-auto-dax-2G        randrw-libaio           17.1mb/5866kb   4396/1466       
-vtfs-auto-dax-4G        randrw-libaio           38.1mb/12.7mb   9756/3259       
-vtfs-auto-dax-8G        randrw-libaio           253.0mb/84.5mb  63.2k/21.1k     
-vtfs-auto-dax-16G       randrw-libaio           252.5mb/84.4mb  63.1k/21.1k     
-vtfs-auto-dax-32G       randrw-libaio           239.9mb/80.1mb  59.9k/20.0k     
-vtfs-auto-dax-64G       randrw-libaio           255.7mb/85.4mb  63.9k/21.3k     
-
-vtfs-auto               randrw-libaio-multi     209.6mb/70.2mb  52.4k/17.5k     
-vtfs-auto-dax-1G        randrw-libaio-multi     23.8mb/8197kb   6105/2049       
-vtfs-auto-dax-2G        randrw-libaio-multi     21.5mb/7418kb   5507/1854       
-vtfs-auto-dax-4G        randrw-libaio-multi     28.0mb/9651kb   7186/2412       
-vtfs-auto-dax-8G        randrw-libaio-multi     34.6mb/11.6mb   8873/2976       
-vtfs-auto-dax-16G       randrw-libaio-multi     197.4mb/66.1mb  49.3k/16.5k     
-vtfs-auto-dax-32G       randrw-libaio-multi     633.8mb/211.9mb 158.4k/52.9k    
-vtfs-auto-dax-64G       randrw-libaio-multi     943.8mb/315.5mb 235.9k/78.8k    
-
+>
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index b3bcaacf7b..2134453717 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -514,6 +514,13 @@ build-trace-ust-system:
+>       IMAGE: ubuntu2004
+>       CONFIGURE_ARGS: --enable-trace-backends=ust --target-list=x86_64-softmmu
+>   
+> +# Check our reduced build configurations
+> +build-without-default-devices:
+> +  <<: *native_build_job_definition
+> +  variables:
+> +    IMAGE: centos8
+> +    CONFIGURE_ARGS: --without-default-devices --disable-user
+> +
+>   check-patch:
+>     stage: build
+>     image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+> diff --git a/.travis.yml b/.travis.yml
+> index d01714a5ae..f2a101936c 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -205,14 +205,6 @@ jobs:
+>           - ${SRC_DIR}/scripts/travis/coverage-summary.sh
+>   
+>   
+> -    # We manually include builds which we disable "make check" for
+> -    - name: "GCC without-default-devices (softmmu)"
+> -      env:
+> -        - CONFIG="--without-default-devices --disable-user"
+> -        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+> -        - TEST_CMD=""
+> -
+> -
+>       # Using newer GCC with sanitizers
+>       - name: "GCC9 with sanitizers (softmmu)"
+>         dist: bionic
 
 
