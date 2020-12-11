@@ -2,82 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260412D7945
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:31:05 +0100 (CET)
-Received: from localhost ([::1]:58878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 125332D792E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:27:26 +0100 (CET)
+Received: from localhost ([::1]:46038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knkNs-000351-23
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:31:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51650)
+	id 1knkKK-0006FA-W0
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:27:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1knkA7-0003Sh-9c; Fri, 11 Dec 2020 10:16:51 -0500
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:39331)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1knkA4-0003J6-2g; Fri, 11 Dec 2020 10:16:51 -0500
-Received: by mail-lj1-x241.google.com with SMTP id b10so8958945ljp.6;
- Fri, 11 Dec 2020 07:16:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=NowN3KDlHecC8Yju5jlolxM7WEmyeoBIA6X/e+tDU6I=;
- b=XuZdz5m2s+NJXMcivJhJ5A8ekmXhwFgpA+Ms6bcDXVXhX46VI0QlkdXk9s+90ay73U
- ANPtInjKzsJXMoM5Rm5WLtn48Xbi4QZhgXBwG4ZpPqbXmt2/Yn6LwPP0ZBWEmlR/kkZ0
- F4ye+bxC14jBaFjNrqfvRz+atceUmabin7xYAAd3sebWixmD0ZO/UmYBg9E/fvCZXb6Z
- zGZXF4bMUDmeHACsUnJME3uBoPCDRq/zIOWgbsMVD7rKMUPJaUwzGeHm3x3815VV8oVv
- FYJftQEmWeG6S25Z2RnOAQFYn0MSpMJZfF11BwJCLrBXAAE2Q9XRQ2X5IDjAv4I2Vjf0
- QVvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=NowN3KDlHecC8Yju5jlolxM7WEmyeoBIA6X/e+tDU6I=;
- b=RDvxf+7xR2vwZkeOFZdAsquqSSgKv8v4ZlhOPpaJYJQWy8Lko7JWr/kM23rJ9RzWFT
- MY5i78AdEZ3d2v3TPjI6x9l+ge+NFJuY1M2wt9gHM5LNJ51vWO8FJ8Nf+XQXPSvKCFhi
- 30DVd8yCVKqputa9Ury79oCaKO32VqUqDgx3Ya40FMmDvM3d7e6pSPLVEX3tR1462bJm
- LW6aYBDa7Z69oS+OUqlnd3T9qbtcY6YKO2yI1B5QMWQTqLvxI6t3rvcoMh7umysIjA7K
- 7G4ZcXVVChmRxS8H0QiYg3/MpR9gE8Xgu5ADtrESY/QFdcg2FibziVdVjBFg2c28JO5X
- mEDA==
-X-Gm-Message-State: AOAM530laUJA4+WAnIV89VNK5/uO+0NpRPzUmrjk7xOpeDxWJwEqOPn8
- 1xU4W8zT4dD0tz/KL1N4wbo=
-X-Google-Smtp-Source: ABdhPJwZK05QyVRGSkr3wPKBuAh2i598XgNxXSSdzNRYt1sx/9w7MIUQil7Yt8Q4wQMtgPAVhW76Vw==
-X-Received: by 2002:a2e:8548:: with SMTP id u8mr5270989ljj.17.1607699805236;
- Fri, 11 Dec 2020 07:16:45 -0800 (PST)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- y12sm890390lfy.300.2020.12.11.07.16.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Dec 2020 07:16:44 -0800 (PST)
-Date: Fri, 11 Dec 2020 16:16:42 +0100
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH] hw/block: m25p80: Fix fast read for SST flashes
-Message-ID: <20201211151641.GA12361@fralle-msi>
-References: <1606704602-59435-1-git-send-email-bmeng.cn@gmail.com>
- <CAKmqyKOWRENRYr0iz-bX7gGmksQdtTc_uMy_iY1YNvvRFr-PLg@mail.gmail.com>
- <20201203083759.GA2661@fralle-msi>
- <CAEUhbmVkF9W12o04JnYofLLWwTfnNBJDnC+_8iZvdgnyonMYag@mail.gmail.com>
- <20201204104652.GA16865@fralle-dell>
- <CAEUhbmWAFf2sJLfb4i5JxhQgT88cVf54AzREuGrn+0C17ShxoQ@mail.gmail.com>
- <20201204112847.GA16964@fralle-dell>
- <CAEUhbmVo268ks+t1tLBcNLFYs4DAM6hexhYzXx=2B+YU31kR3w@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knkHh-0004MC-2G
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:24:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33130)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knkHd-0005y7-RS
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:24:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607700276;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8LEhcsBCa7OW/zRxpFNgEFg9VeV2ZqjK7BphDmbJByg=;
+ b=erfRijHRolXUL+vAgqzQ87WIeiepXdqmDg18elwdhHIkYKm3t9KAqvD1U5l93qiuRDp2Jb
+ 5Yrf/0PYKtShIdwIwFSKz3WPXhmrBlCk7yXARbFNKl1EuqZFV6T8DPn68QKnm5QeI0zbDx
+ eQBJQrg05smPcg6ZjL2dz9SOfEv1mkY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-150-lviZAzoKP26wckYngtjMCg-1; Fri, 11 Dec 2020 10:24:32 -0500
+X-MC-Unique: lviZAzoKP26wckYngtjMCg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BABDF107ACE4;
+ Fri, 11 Dec 2020 15:24:30 +0000 (UTC)
+Received: from thuth.com (ovpn-113-76.ams2.redhat.com [10.36.113.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F118100239F;
+ Fri, 11 Dec 2020 15:24:28 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PATCH 00/12] Compile QEMU with -Wimplicit-fallthrough
+Date: Fri, 11 Dec 2020 16:24:14 +0100
+Message-Id: <20201211152426.350966-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEUhbmVo268ks+t1tLBcNLFYs4DAM6hexhYzXx=2B+YU31kR3w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::241;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x241.google.com
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,131 +74,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair23@gmail.com>
+Cc: Chen Qun <kuhn.chenqun@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Bin,
+Coverity is already reporting switch-case statements where code
+can fall through from one case to another without a proper comment
+(since this could indicate a missing "break" and thus a bug).
+However, it's cumbersome to fix these issues after they have been
+merged already, it would be better if the author of the code would
+already take care of this when writing the patch. Fortunately,
+GCC and Clang can already warn about those code spots, too.
+So let's fix our remaining statements that fall through without
+a proper comment, so we can finally turn on -Wimplicit-fallthrough
+for all compilation runs.
 
-On [2020 Dec 11] Fri 14:07:21, Bin Meng wrote:
-> Hi Francisco,
-> 
-> On Fri, Dec 4, 2020 at 7:28 PM Francisco Iglesias
-> <frasse.iglesias@gmail.com> wrote:
-> >
-> > Hello Bin,
-> >
-> > On [2020 Dec 04] Fri 18:52:50, Bin Meng wrote:
-> > > Hi Francisco,
-> > >
-> > > On Fri, Dec 4, 2020 at 6:46 PM Francisco Iglesias
-> > > <frasse.iglesias@gmail.com> wrote:
-> > > >
-> > > > Hello Bin,
-> > > >
-> > > > On [2020 Dec 04] Fri 15:52:12, Bin Meng wrote:
-> > > > > Hi Francisco,
-> > > > >
-> > > > > On Thu, Dec 3, 2020 at 4:38 PM Francisco Iglesias
-> > > > > <frasse.iglesias@gmail.com> wrote:
-> > > > > >
-> > > > > > Hi Bin and Alistair,
-> > > > > >
-> > > > > > On [2020 Dec 02] Wed 11:40:11, Alistair Francis wrote:
-> > > > > > > On Sun, Nov 29, 2020 at 6:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > > > > >
-> > > > > > > > From: Bin Meng <bin.meng@windriver.com>
-> > > > > > > >
-> > > > > > > > SST flashes require a dummy byte after the address bits.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > > > > >
-> > > > > > > I couldn't find a datasheet that says this... But the actual code
-> > > > > > > change looks fine, so:
-> > > > > > >
-> > > > > > > Acked-by: Alistair Francis <alistair.francis@wdc.com>
-> > > > > > >
-> > > > > > > Alistair
-> > > > > > >
-> > > > > > > > ---
-> > > > > > > >
-> > > > > > > >  hw/block/m25p80.c | 3 +++
-> > > > > > > >  1 file changed, 3 insertions(+)
-> > > > > > > >
-> > > > > > > > diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> > > > > > > > index 483925f..9b36762 100644
-> > > > > > > > --- a/hw/block/m25p80.c
-> > > > > > > > +++ b/hw/block/m25p80.c
-> > > > > > > > @@ -825,6 +825,9 @@ static void decode_fast_read_cmd(Flash *s)
-> > > > > > > >      s->needed_bytes = get_addr_length(s);
-> > > > > > > >      switch (get_man(s)) {
-> > > > > > > >      /* Dummy cycles - modeled with bytes writes instead of bits */
-> > > > > > > > +    case MAN_SST:
-> > > > > > > > +        s->needed_bytes += 1;
-> > > > > >
-> > > > > > 1 dummy clk cycle is modelled as 1 byte write (see the comment above), so 1
-> > > > > > dummy byte (8 dummy clk cycles) will need +8 above.
-> > > > >
-> > > > > I think you were confused by the WINBOND codes. The comments are
-> > > > > correct. It is modeled with bytes instead of bits, so we should +=1.
-> > > >
-> > > > What the comment says is (perhaps not superclear) that 1 dummy clock cycle
-> > > > is modeled as one 1 byte write into the flash (meaining that 8 byte writes
-> > > > are needed for 1 dummy byte). Perhaps it is easier to understand
-> > > > looking into how the controllers issue the command towards the flash model
-> > > > (for example the xilinx_spips), the start of the FAST_READ cmd is issued
-> > > > as writing the following into the flash: 1 byte (cmd), 3 bytes (address),
-> > > > 8 bytes (8 dummy cycles -> 1 dummy byte).
-> > > >
-> > >
-> > > My interpretation of the comments are opposite: one cycle is a bit,
-> > > but we are not using bits, instead we are using bytes.
-> >
-> > Yes, the mentioning of 'bits' in the comment makes it not very clear at first read.
-> > Maybe just bellow would have been better:
-> >
-> > /* Dummy clock cycles - modeled with bytes writes */
-> >
-> > >
-> > > Testing shows that +=1 is the correct way with the imx_spi controller,
-> > > and with my SiFive SPI model in my local tree (not upstreamed yet)
-> >
-> > Perhaps an option could be to look into how the aspeed_smc, xilinx_spips or the
-> > npcm7xx_fiu generate dummy clock cycles and see if a similar solution to one of
-> > those could work aswell for the imx_spi?
-> >
-> 
-> Thanks for pointing this out. So there is some inconsistency among
-> different SPI controller modeling.
+Chen Qun (6):
+  hw/timer/renesas_tmr: silence the compiler warnings
+  target/i386: silence the compiler warnings in gen_shiftd_rm_T1
+  hw/intc/arm_gicv3_kvm: silence the compiler warnings
+  accel/tcg/user-exec: silence the compiler warnings
+  target/sparc/translate: silence the compiler warnings
+  target/sparc/win_helper: silence the compiler warnings
 
-I'm not sure I understand you correctly but the controllers supporting
-commands with dummy clock cycles can only do it following the modeled
-approach, so I would rather say it is pretty consistent across the
-controllers (not all controllers support these commands though).
+Thomas Huth (6):
+  disas/libvixl: Fix fall-through annotation for GCC >= 7
+  target/unicore32/translate: Add missing fallthrough annotations
+  hw/rtc/twl92230: Silence warnings about missing fallthrough statements
+  tcg/optimize: Add fallthrough annotations
+  tests/fp: Do not emit implicit-fallthrough warnings in the softfloat
+    tests
+  configure: Compile with -Wimplicit-fallthrough=2
 
-> 
-> Or maybe fixing aspeed_smc, xilinx_spips and npcm7xx_fiu to work like
-> imx_spi?
+ accel/tcg/user-exec.c                |  3 +-
+ configure                            |  1 +
+ disas/libvixl/vixl/a64/disasm-a64.cc |  4 +++
+ disas/libvixl/vixl/globals.h         |  6 ++--
+ hw/intc/arm_gicv3_kvm.c              |  8 ++++++
+ hw/rtc/twl92230.c                    | 43 +++++++++-------------------
+ hw/timer/renesas_tmr.c               |  1 +
+ include/qemu/compiler.h              | 11 +++++++
+ target/i386/translate.c              |  7 +++--
+ target/sparc/translate.c             |  2 +-
+ target/sparc/win_helper.c            |  2 +-
+ target/unicore32/translate.c         |  2 ++
+ tcg/optimize.c                       |  4 +++
+ tests/fp/meson.build                 |  2 ++
+ 14 files changed, 59 insertions(+), 37 deletions(-)
 
-For me I would say no to above (it makes more sense to let new controllers
-implement the currently modeled approach).
+-- 
+2.27.0
 
-> Which one is the expected behavior for dummy cycles?
-
-Dummy clock cycles are modeled as 1 byte written to the flash per dummy clock
-cycle (expected behavior).
-
-Best regards,
-Francisco Iglesias
-
-> 
-> > Regarding this patch, with += 8 it looks correct to me (and will work with
-> > above controllers as far as I can see).
-> >
-> 
-> Regards,
-> Bin
 
