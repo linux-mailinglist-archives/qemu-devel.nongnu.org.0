@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109BF2D7A1F
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:59:26 +0100 (CET)
-Received: from localhost ([::1]:43640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 744CD2D7A5E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:01:53 +0100 (CET)
+Received: from localhost ([::1]:47998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knkpJ-0007p3-3j
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:59:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60648)
+	id 1knkrg-0001GT-Fu
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:01:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1knkiv-0001s1-Cu
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:52:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22351)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knkjb-0002Rv-2a
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:53:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1knkip-0007LD-05
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:52:47 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knkjZ-0007aD-0E
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:53:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607701961;
+ s=mimecast20190719; t=1607702008;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yerYWN2qb7qmQWJcAh9h6aMETd3uymTfWIRyOYuWjzw=;
- b=f6UJy8t/okgFBHiIQiggFmDGdz5swZZ2NHGaE12hCa3KgNgHweYgOKfv5m10tektyWGaOo
- YnykLqIyLZAQMpCcvEVn+WdQG+AF+mJ5RIKbaH2xtM4oC8UtXxPqC03K6Vb7PAqaQCW8TK
- SYyVR2odVotucsNOSJUhiqj2/2MtjIA=
+ bh=rRw/A1BuerAs5PcyOio/aB/yUWmxQV8/LVLsGla7Kik=;
+ b=e1FTPN1hyQfNkldr8uugkNKQ1fKTmDkmR1T2Z1OzFB7xIM2C5GPAat29Z2VwsAMPxvbS79
+ ww+KFx9igDGCNykDvOYPU7dIPY1VF0lmqveQDH29UWmMEL+1mx83eHV3dJ2E4ymK8SYECS
+ vp0MtF84v5LM25Zd2qHNULA3hznoc9k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-539-Z-9VozpaOL2BYuafK__uCg-1; Fri, 11 Dec 2020 10:52:37 -0500
-X-MC-Unique: Z-9VozpaOL2BYuafK__uCg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-109-W7NJbX0mN5ygsuEsRXcnuw-1; Fri, 11 Dec 2020 10:53:26 -0500
+X-MC-Unique: W7NJbX0mN5ygsuEsRXcnuw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CC0C107ACE4;
- Fri, 11 Dec 2020 15:52:36 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-114-123.rdu2.redhat.com
- [10.10.114.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A25D10016FE;
- Fri, 11 Dec 2020 15:52:33 +0000 (UTC)
-Subject: Re: [PATCH v3] tests/acceptance: test hot(un)plug of ccw devices
-To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>
-References: <20201208122843.147186-1-cohuck@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <b381f43a-c1c1-cae3-fff3-ccfa266ce8e3@redhat.com>
-Date: Fri, 11 Dec 2020 12:52:32 -0300
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29A58E745;
+ Fri, 11 Dec 2020 15:53:25 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-76.ams2.redhat.com [10.36.113.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C083F5F9A6;
+ Fri, 11 Dec 2020 15:53:23 +0000 (UTC)
+Subject: Re: [PATCH] hw/rtc/twl92230: Add missing 'break'
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201211154605.511714-1-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <ab22ad23-d529-397a-9c92-3b6a9a08fa07@redhat.com>
+Date: Fri, 11 Dec 2020 16:53:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201208122843.147186-1-cohuck@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20201211154605.511714-1-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -84,67 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 11/12/2020 16.46, Philippe Mathieu-Daudé wrote:
+> Add missing 'break' to fix:
+> 
+>   hw/rtc/twl92230.c: In function ‘menelaus_write’:
+>   hw/rtc/twl92230.c:713:5: error: label at end of compound statement
+>     713 |     default:
+>         |     ^~~~~~~
 
-On 12/8/20 9:28 AM, Cornelia Huck wrote:
-> Hotplug a virtio-net-ccw device, and then hotunplug it again.
->
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+... which occurs when disabling the "VERBOSE" switch in this file (that is
+enabled by default - that's why we've not noticed this before).
+
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
-> v2->v3:
-> - do the dmesg cleanout and waiting for messages properly [Thomas]
->
-> Wainer: I dropped your r-b, as there had been too many changes for
->          me to be comfortable with retaining it
-Ok.
->
+> I noticed Thomas "Compile QEMU with -Wimplicit-fallthrough" series
+> and remembered this old patch.
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   tests/acceptance/machine_s390_ccw_virtio.py | 24 +++++++++++++++++++++
->   1 file changed, 24 insertions(+)
+>  hw/rtc/twl92230.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/rtc/twl92230.c b/hw/rtc/twl92230.c
+> index f838913b378..28656cb0e59 100644
+> --- a/hw/rtc/twl92230.c
+> +++ b/hw/rtc/twl92230.c
+> @@ -714,6 +714,7 @@ static void menelaus_write(void *opaque, uint8_t addr, uint8_t value)
+>  #ifdef VERBOSE
+>          printf("%s: unknown register %02x\n", __func__, addr);
+>  #endif
+> +        break;
+>      }
+>  }
 
-lgtm.
-
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
->
-> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
-> index 81d14088818c..864ef4ee6e9b 100644
-> --- a/tests/acceptance/machine_s390_ccw_virtio.py
-> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
-> @@ -99,3 +99,27 @@ class S390CCWVirtioMachine(Test):
->           exec_command_and_wait_for_pattern(self,
->                           'cat /sys/bus/pci/devices/000a\:00\:00.0/function_id',
->                           '0x0000000c')
-> +        # add another device
-> +        exec_command_and_wait_for_pattern(self,
-> +                                    'dmesg -c > /dev/null; echo dm_clear\ 1',
-> +                                    'dm_clear 1')
-> +        self.vm.command('device_add', driver='virtio-net-ccw',
-> +                        devno='fe.0.4711', id='net_4711')
-> +        exec_command_and_wait_for_pattern(self,
-> +                        'while ! (dmesg -c | grep CRW) ; do sleep 1 ; done',
-> +                        'CRW reports')
-> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
-> +                                          '0.0.4711')
-> +        # and detach it again
-> +        exec_command_and_wait_for_pattern(self,
-> +                                    'dmesg -c > /dev/null; echo dm_clear\ 2',
-> +                                    'dm_clear 2')
-> +        self.vm.command('device_del', id='net_4711')
-> +        self.vm.event_wait(name='DEVICE_DELETED',
-> +                           match={'data': {'device': 'net_4711'}})
-> +        exec_command_and_wait_for_pattern(self,
-> +                        'while ! (dmesg -c | grep CRW) ; do sleep 1 ; done',
-> +                        'CRW reports')
-> +        exec_command_and_wait_for_pattern(self,
-> +                                          'ls /sys/bus/ccw/devices/0.0.4711',
-> +                                          'No such file or directory')
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
