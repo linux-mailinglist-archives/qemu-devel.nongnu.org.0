@@ -2,73 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2592D2D7050
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 07:41:18 +0100 (CET)
-Received: from localhost ([::1]:43418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9CFF2D7053
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 07:46:53 +0100 (CET)
+Received: from localhost ([::1]:46888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knc7A-0007Kx-J7
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 01:41:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53686)
+	id 1kncCa-0000Z4-CL
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 01:46:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1knc3d-0006FU-L0; Fri, 11 Dec 2020 01:37:37 -0500
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:36152)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1knc3Z-0008Ig-NX; Fri, 11 Dec 2020 01:37:36 -0500
-Received: by mail-io1-xd44.google.com with SMTP id z136so8379011iof.3;
- Thu, 10 Dec 2020 22:37:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=XTFIv2WAE9rfla/uFVmPb7zUifAPllrvJphk9LyH7Dw=;
- b=o1/ycS/IPqypeVnZG3/oSOzWfjte6oUpj1AFxT22+VAK7pMH2FX/oedZgXHYsjQ3Lu
- PzV3/9Ec2oeilb3tEus4c6uGDyngQV9ZWY5uBiSUtTn/8ibEfEMspPJjknxg9ZoxOYTQ
- Vp/YKmSIppEitjd1ca0jXHYcygCwy2UQxvvqfQ7L7KtmlZNx3dbH6Pl0bHqKdrer1AUu
- nMcl0NUuACAj0WoE1jVkqMFLlyALC02Yy6RVGri+NeOrQvqX1xcTCJ1izVInzkjQP9vi
- rnMx3dgBuC6WnhV9Z0GTiSed5uDi8d7zpoIaSFZ8ULA/EwCy7JPa+jMavBbWb4k58S39
- g4uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=XTFIv2WAE9rfla/uFVmPb7zUifAPllrvJphk9LyH7Dw=;
- b=UdA9r4p3Hb0HnllX4cJ1SegFQmT9a+rOILUTU/HiOGzm8QDVZ7O8JscbDZimhoH+JT
- hNcOH38K3mrVp2xeNrODFKlIpVjFLYvN8wIvbvqTNt5YFxL5Iu4sYdSwnYxT0xoyYkAb
- AjXInYL2/NrSHL+VZo4aEcrp7NtpWXeL7Njp5zEmAZY5ro/maZuO38L1ZPJntpzv0jXu
- kJAIOXUUtjrgq/TpBjhwAEDE3DkwowGYtXLd2jKYZ5h9JP50mRdHuCJkGGDDejHa00pt
- 0uWPOwKWaobeYb2n6+qN8fyaDnodcvXCspTFllWSmoi/3haYBP2RrzFa4lhpntTTlQhT
- 4wgw==
-X-Gm-Message-State: AOAM531fP8FCwuQFe+BvxVL9pRLcP2zmdsDNihuTrnzPaXTuvqJEzm6o
- 3uCPWgD8nEJhlCXzJf7or9E=
-X-Google-Smtp-Source: ABdhPJzs1xRk2GrWBF01rV70L/k5a6TD9kjVejLuclkoLepMUvcTLA2JjTsrIWl3u8ctDwOMk4VR1Q==
-X-Received: by 2002:a5d:8793:: with SMTP id f19mr13443723ion.106.1607668650458; 
- Thu, 10 Dec 2020 22:37:30 -0800 (PST)
-Received: from pek-vx-bsp2.wrs.com (unknown-124-94.windriver.com.
- [147.11.124.94])
- by smtp.gmail.com with ESMTPSA id k18sm157620ils.73.2020.12.10.22.37.26
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 10 Dec 2020 22:37:30 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>,
- Francisco Iglesias <frasse.iglesias@gmail.com>,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] hw/block: m25p80: Implement AAI-WP command support for
- SST flashes
-Date: Fri, 11 Dec 2020 14:37:20 +0800
-Message-Id: <1607668640-33970-2-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1607668640-33970-1-git-send-email-bmeng.cn@gmail.com>
-References: <1607668640-33970-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=bmeng.cn@gmail.com; helo=mail-io1-xd44.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1knc3n-0006Yf-NC; Fri, 11 Dec 2020 01:37:47 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:60725)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1knc3l-0008Pt-3D; Fri, 11 Dec 2020 01:37:47 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 44F4058020B;
+ Fri, 11 Dec 2020 01:37:42 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 11 Dec 2020 01:37:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=mdjHgxF4NVMKyAox8nI+GvgUaLa
+ WQr5Pdtx6Ij6jo3g=; b=pRhIUgwS25fFIKgSocr2PX0AxP+AFrZkEhzv1ss1vs9
+ zejsdy1o3mafvQaQ1xbE28BvY7H4/7Ktvxu0Mu2ghiO09t3erPkJGsHg4gAdPOjg
+ tqZl7u0bIGa3TPlGtz3A5L3B7jUczinGI6OTPIefFfJ7QHomiZEXwTBu1cTcNZK8
+ M5gw7M/vSU+jXWv2m/O6lzPcDoXwQV/KOx9ksbNk3jeG4GFNSbA4GTm8VKzwHU05
+ 6PXCkzLNBYLRMWgYamBrgFbcJ+dwoigcxk0MI+FA37q8Nna9OeBPpCTeEilLWnXX
+ +2f9cQGzb+Ern+SF91XI+yIo3Xt47Mw6YfQLYjwhE3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=mdjHgx
+ F4NVMKyAox8nI+GvgUaLaWQr5Pdtx6Ij6jo3g=; b=kuzr33Q6JQSe7YRgSxaXDv
+ i8buREWuREoxT+199mnInjigGBWiV9jR6GAvIM+IpFipbWs2BYZHtuSzyUD/BmJs
+ ZJsv60M/hCc7+O04fVYRYRAtBabBLN+OnbG/9qRvdLP+5Vc84CcjHA+yd6bYZQUW
+ qrf1bAVxzOU2Zr3PRlZKGdL4sfDNkQclK0tFEccozh1DLLqwVlfXsMwNbaFkhxKr
+ yzucsdvd/Glbb8ULr57nMuHRa5W5P4IySu5ozEMFpiIbxvu0dgZegeGHF/Fc5k5s
+ 6MOaUga4qMLvWt4Th/pd06yb2qhSkFUO+nuO2fjhvf9YVZQ20m+uPSrOljvFLC/Q
+ ==
+X-ME-Sender: <xms:tRPTX7IQO9Z89kVsKb_nMDe9i-oIZc4SHfD-YpIVMUeOUdBhvcNFSg>
+ <xme:tRPTX_IjNFCXgXDOxfi6gIS2pOqA99OYvrLn0Ws4mNl3Fei_eSK8E0zhj1KGtPQ_D
+ Qj3n9o2qf7nwMsBd1U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekuddgleejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:tRPTXzsS9_TLt6Fx1MwlRZNInFL09OYLJtLfK_wxrOHNKYxvILOL3g>
+ <xmx:tRPTX0Yx24SR7fL2Eo02T9XlNU4DUpxfpHoHwWCBE0J4sU37FAdAkw>
+ <xmx:tRPTXyajZNy2wJvHP0uhZBjlLiZ7iHSP5jFVGulADwXFHQGVXbDeSA>
+ <xmx:thPTX0Aqb5Ejef-VZd5X28gEadRfSoLLYxH8zyuVwt2ft6ZP2YO3Fw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7D54A108005C;
+ Fri, 11 Dec 2020 01:37:39 -0500 (EST)
+Date: Fri, 11 Dec 2020 07:37:37 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
+Subject: Re: [PATCH v11 00/13] hw/block/nvme: Support Namespace Types and
+ Zoned Namespace Command Set
+Message-ID: <X9MTsbXZQv4l0QYj@apples.localdomain>
+References: <20201208200410.27900-1-dmitry.fomichev@wdc.com>
+ <X9Cfod3RaAOM9dJP@apples.localdomain>
+ <BN8PR04MB5940316D7867218AC28E0519E1CB0@BN8PR04MB5940.namprd04.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bjWbwWYrzruvKnvo"
+Content-Disposition: inline
+In-Reply-To: <BN8PR04MB5940316D7867218AC28E0519E1CB0@BN8PR04MB5940.namprd04.prod.outlook.com>
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
+ helo=new2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,179 +96,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Niklas Cassel <Niklas.Cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <Matias.Bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-Auto Address Increment (AAI) Word-Program is a special command of
-SST flashes. AAI-WP allows multiple bytes of data to be programmed
-without re-issuing the next sequential address location.
+--bjWbwWYrzruvKnvo
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
+On Dec 10 19:25, Dmitry Fomichev wrote:
+> > -----Original Message-----
+> > From: Klaus Jensen <its@irrelevant.dk>
+> > Sent: Wednesday, December 9, 2020 4:58 AM
+> > To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
+> > Cc: Keith Busch <kbusch@kernel.org>; Klaus Jensen
+> > <k.jensen@samsung.com>; Kevin Wolf <kwolf@redhat.com>; Philippe
+> > Mathieu-Daud=C3=A9 <philmd@redhat.com>; Max Reitz <mreitz@redhat.com>;
+> > Maxim Levitsky <mlevitsk@redhat.com>; Fam Zheng <fam@euphon.net>;
+> > Niklas Cassel <Niklas.Cassel@wdc.com>; Damien Le Moal
+> > <Damien.LeMoal@wdc.com>; qemu-block@nongnu.org; qemu-
+> > devel@nongnu.org; Alistair Francis <Alistair.Francis@wdc.com>; Matias
+> > Bjorling <Matias.Bjorling@wdc.com>
+> > Subject: Re: [PATCH v11 00/13] hw/block/nvme: Support Namespace Types
+> > and Zoned Namespace Command Set
+> >=20
+> > Hi Dmitry,
+> >=20
+> > By and large, this looks OK to me. There are still some issues here and
+> > there, and some comments of mine that you did not address, but I will
+> > follow up with patches to fix that. Let's get this merged.
+> >=20
+> > It looks like the nvme-next you rebased on is slightly old and missing
+> > two commits:
+> >=20
+> >   "hw/block/nvme: remove superfluous NvmeCtrl parameter" and
+> >   "hw/block/nvme: pull aio error handling"
+> >=20
+> > It caused a couple of conflicts, but nothing that I couldn't fix up.
+> >=20
+> > Since I didn't manage to convince anyone about the zsze and zcap
+> > parameters being in terms of LBAs, I'll revert that to be
+> > 'zoned.zone_size' and 'zoned.zone_capacity'.
+> >=20
+> > Finally, would you accept that we skip "hw/block/nvme: Add injection of
+> > Offline/Read-Only zones" for now? I'd like to discuss it a bit since I
+> > think the random injects feels a bit ad-hoc. Back when I did OCSSD
+> > emulation with Hans, we did something like this for setting up state
+> > through a descriptor text file - I think we should explore something
+> > like that before we lock down the two parameters. I'll amend the final
+> > documentation commit to not include those parameters.
+> >=20
+> > Sounds good?
+>=20
+> Klaus,
+>=20
+> Sounds great! Sure, we can leave out the injection patch. It  was made
+> to increase our internal test coverage, but it is not ideal. Since the zo=
+nes
+> are injected randomly, there is no consistency between test runs and
+> it is impossible to reliably create many specific test cases (e.g. the fi=
+rst or
+> the last zone is offline).
 
----
+Yes, exactly.
 
-Changes in v3:
-- initialize aai_enable to false in reset_memory()
+> The descriptor input file seems like a much more
+> flexible and capable approach. If you have something in works, I'll be
+> happy to discuss or review.
+>=20
 
-Changes in v2:
-- add aai_enable into the vmstate
-- validate AAI command before decoding a new command
-- log guest errors during AAI_WP command handling
-- report AAI status in the status register
-- abort AAI programming when address is wrapped
-- make sure AAI programming starts from the even address
+Sure, I'll rip some stuff from OCSSD and cook up a patch.
 
- hw/block/m25p80.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+> Thank you for your very thorough reviews!
+>=20
 
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 236e1b4..802a21d 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -359,6 +359,7 @@ typedef enum {
-     QPP_4 = 0x34,
-     RDID_90 = 0x90,
-     RDID_AB = 0xab,
-+    AAI_WP = 0xad,
- 
-     ERASE_4K = 0x20,
-     ERASE4_4K = 0x21,
-@@ -449,6 +450,7 @@ struct Flash {
-     bool four_bytes_address_mode;
-     bool reset_enable;
-     bool quad_enable;
-+    bool aai_enable;
-     uint8_t ear;
- 
-     int64_t dirty_page;
-@@ -664,6 +666,11 @@ static void complete_collecting_data(Flash *s)
-     case PP4_4:
-         s->state = STATE_PAGE_PROGRAM;
-         break;
-+    case AAI_WP:
-+        /* AAI programming starts from the even address */
-+        s->cur_addr &= ~BIT(0);
-+        s->state = STATE_PAGE_PROGRAM;
-+        break;
-     case READ:
-     case READ4:
-     case FAST_READ:
-@@ -762,6 +769,7 @@ static void reset_memory(Flash *s)
-     s->write_enable = false;
-     s->reset_enable = false;
-     s->quad_enable = false;
-+    s->aai_enable = false;
- 
-     switch (get_man(s)) {
-     case MAN_NUMONYX:
-@@ -932,6 +940,15 @@ static void decode_qio_read_cmd(Flash *s)
-     s->state = STATE_COLLECTING_DATA;
- }
- 
-+static bool is_valid_aai_cmd(uint32_t value)
-+{
-+    if (value == AAI_WP || value == WRDI || value == RDSR) {
-+        return true;
-+    } else {
-+        return false;
-+    }
-+}
-+
- static void decode_new_cmd(Flash *s, uint32_t value)
- {
-     int i;
-@@ -943,6 +960,11 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-         s->reset_enable = false;
-     }
- 
-+    if (get_man(s) == MAN_SST && s->aai_enable && !is_valid_aai_cmd(value)) {
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "M25P80: Invalid cmd within AAI programming sequence");
-+    }
-+
-     switch (value) {
- 
-     case ERASE_4K:
-@@ -1008,6 +1030,9 @@ static void decode_new_cmd(Flash *s, uint32_t value)
- 
-     case WRDI:
-         s->write_enable = false;
-+        if (get_man(s) == MAN_SST) {
-+            s->aai_enable = false;
-+        }
-         break;
-     case WREN:
-         s->write_enable = true;
-@@ -1018,6 +1043,10 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-         if (get_man(s) == MAN_MACRONIX) {
-             s->data[0] |= (!!s->quad_enable) << 6;
-         }
-+        if (get_man(s) == MAN_SST) {
-+            s->data[0] |= (!!s->aai_enable) << 6;
-+        }
-+
-         s->pos = 0;
-         s->len = 1;
-         s->data_read_loop = true;
-@@ -1160,6 +1189,24 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-     case RSTQIO:
-         s->quad_enable = false;
-         break;
-+    case AAI_WP:
-+        if (get_man(s) == MAN_SST) {
-+            if (s->write_enable) {
-+                if (s->aai_enable) {
-+                    s->state = STATE_PAGE_PROGRAM;
-+                } else {
-+                    s->aai_enable = true;
-+                    s->needed_bytes = get_addr_length(s);
-+                    s->state = STATE_COLLECTING_DATA;
-+                }
-+            } else {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                              "M25P80: AAI_WP with write protect\n");
-+            }
-+        } else {
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Unknown cmd %x\n", value);
-+        }
-+        break;
-     default:
-         s->pos = 0;
-         s->len = 1;
-@@ -1205,6 +1252,19 @@ static uint32_t m25p80_transfer8(SSISlave *ss, uint32_t tx)
-         trace_m25p80_page_program(s, s->cur_addr, (uint8_t)tx);
-         flash_write8(s, s->cur_addr, (uint8_t)tx);
-         s->cur_addr = (s->cur_addr + 1) & (s->size - 1);
-+
-+        if (get_man(s) == MAN_SST && s->aai_enable && s->cur_addr == 0) {
-+            /*
-+             * There is no wrap mode during AAI programming once the highest
-+             * unprotected memory address is reached. The Write-Enable-Latch
-+             * bit is automatically reset, and AAI programming mode aborts.
-+             */
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "M25P80: AAI highest memory address reached");
-+            s->write_enable = false;
-+            s->aai_enable = false;
-+        }
-+
-         break;
- 
-     case STATE_READ:
-@@ -1372,6 +1432,7 @@ static const VMStateDescription vmstate_m25p80 = {
-         VMSTATE_UINT32(volatile_cfg, Flash),
-         VMSTATE_UINT32(enh_volatile_cfg, Flash),
-         VMSTATE_BOOL(quad_enable, Flash),
-+        VMSTATE_BOOL(aai_enable, Flash),
-         VMSTATE_UINT8(spansion_cr1nv, Flash),
-         VMSTATE_UINT8(spansion_cr2nv, Flash),
-         VMSTATE_UINT8(spansion_cr3nv, Flash),
--- 
-2.7.4
+Thanks for contributing this.
 
+Keith, you wanna take a look an give this an Ack or so?
+
+--bjWbwWYrzruvKnvo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/TE60ACgkQTeGvMW1P
+Den+hQgAgXyEn2BbCCHzMRZi4V2jGKVH2ZzwPMVzod0wb5v/icO0KeEaPd2+fBBa
+Ui4pwmCZOuxWL+ggvo5AvxFVcMuFXfbr4sbXUMuMeLlugS6Sy/PQH+p8H97Dlc9n
+hB3addvf4XKGFe/S6abUeaf7I1sMiT1mc0Ux9w9Lmu+0KNULqekVPaoc0YxyPSHz
+dI+eVEEXGKcMpzWwDoTTt2R4MKnqSIFox7WsGas4YUx8H91BwTUykVHo2IYzMXTG
+SHJYIDOOQ/E8LIRM0lT+GukYxfzCFfDOFdmMIO59Hy1ZjgmLHwOp30NEbnW8YqyN
+Z+40xV82gM08UWV+StVeyHoHnU5eEw==
+=851Y
+-----END PGP SIGNATURE-----
+
+--bjWbwWYrzruvKnvo--
 
