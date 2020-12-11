@@ -2,89 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53ADA2D7E1D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:33:25 +0100 (CET)
-Received: from localhost ([::1]:50374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623362D7EF2
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:59:56 +0100 (CET)
+Received: from localhost ([::1]:40484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knnEK-0000NN-CO
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:33:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35666)
+	id 1knndz-0004Hu-94
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:59:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knmm6-0003Ux-Dq
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 13:04:14 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35937)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knmm4-0004do-EW
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 13:04:13 -0500
-Received: by mail-oi1-x241.google.com with SMTP id 9so3629920oiq.3
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 10:04:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5PIu2Z9/L7ek2TySoizXaCbU/iB7JTBy9qoc63a/zes=;
- b=DpWR/K1vVu0R/dUR8kZzgKv9rpt0qRfZQQ44vNCF7UMs2+VuaYljVlhZZz3xya7qjS
- YjdriD3zqQOfuhwzH1wymSuIuuoisz0EdUG4DIbKTnmW58nzuE/bW7bbWDejwhcnoYs7
- 1u1kNLatfjpt3/uG3HktdlEAutbXK7CJv2s/y/Y/LGlEqGAWGTAJL7kH5Y+RGn9pnmre
- u8x20t7pALYBVK4Rab1Pm7JXCPhNNq0wMNnJ+iIbrOoNHntrKqqnUyQvf7EMj+HdZyHF
- gXpUZXM+nCzF/0dSNBoB+MsanGSD5fU7R5RtXnmTye/4o99jg6rzO/oUIrJrqTCjbiMh
- wDTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5PIu2Z9/L7ek2TySoizXaCbU/iB7JTBy9qoc63a/zes=;
- b=nWvDHqI1EW+/voGyJ3p5a8ZGTDi0FR7zk5mZ6yP7FH6w9UaP0fi5RNQ6to12l1AtmZ
- byx6Xf9HJQJI0gNR410GO9LLjzKH+nqACliYm4PKvX1UjXFJer/N7PiluetfQoHPjWB4
- /cnjzLh9qLtwpe4GwIFseQcYIe3fHJo1ynlq+Nv/AuVMGKYphfYeDV31xVH6E79RNWKD
- RR5xTSwT/X9bt1jKMric3YmLG9YkbtUVJZOyMo3cTDw4PfkBkRugTvKQkH8mJ01W3R9o
- hiils4TiL019gW4fg0yRRTF2HmszMpk/5rY/HWxDHa5CnZ5BUO5W3rKS/jRG+WGhthjE
- BEOQ==
-X-Gm-Message-State: AOAM5325haN0WBUL6O+cjjv/x/LmVZDFkShw22eyDW70Y9kelUxMWPBC
- 7bR0mrYggnK9LmgGaUJGSmURSQ==
-X-Google-Smtp-Source: ABdhPJwd9dNivJ8PqQKvZAM/MArFtaO9WBWOvX3RWw5Ws3Hz5mFKzDZG0/9o964ZOoLBPBFUmDG1vw==
-X-Received: by 2002:aca:72cf:: with SMTP id p198mr10304226oic.60.1607709851110; 
- Fri, 11 Dec 2020 10:04:11 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id 8sm2084261otq.18.2020.12.11.10.04.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 10:04:10 -0800 (PST)
-Subject: Re: [PATCH v11 18/25] cpu: Move synchronize_from_tb() to tcg_ops
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20201211083143.14350-1-cfontana@suse.de>
- <20201211083143.14350-19-cfontana@suse.de>
- <78a7119d-1b4b-47dc-8f16-510708c9fcd4@linaro.org>
- <cca08e8d-9235-46da-3610-8acafbc2de14@suse.de>
- <15b884b7-94e4-1476-f883-e84379b2661e@linaro.org>
- <5d9457df-c7c6-dd61-bbd7-1563d29102f8@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f4145cb8-5f22-6ca2-c568-1b874319c8da@linaro.org>
-Date: Fri, 11 Dec 2020 12:04:06 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <5d9457df-c7c6-dd61-bbd7-1563d29102f8@suse.de>
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1knnDL-0000o7-CE
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 13:32:23 -0500
+Received: from mail-bn8nam11on2087.outbound.protection.outlook.com
+ ([40.107.236.87]:36787 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1knnDH-0005Tw-HI
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 13:32:21 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QrSbc9ambHy6nuQpeTmJ8D9dwcn3qeyHCaEur3Jyn34HNZGsg2KjqKmWNanGqybza50O0F1zS1mfUW1hXDSR3CsBh2vFs2Icws9nbWZSA8XQ+0p6kvoGUsIxflK/CJh9LQxgeThOzTmv6Fpf3uxqF8XFiDDmdsxLBzU8aUC3lAZhmmTqBoRMjgeTc59qHoAHxDlddbeDfvex143Jb1XxMky8Q7UO7RTZ4KZiMg5PFBqg6xNW5imIYyk4hSFcUk+8G3M8tX6qK/j+9qUlK78vBn8yOxWzWbV/jIh9IOwnCJjY46kNmpRu+sEJBFtgTCzBqrQC3I56JRrYuLbNEoL0uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HfVP9RODutVSjjpN/r9wrfJKFq1tDneSRdo9nky3MAQ=;
+ b=Bhi/J2ltHLowBMlfnajTz2Xoq4zwbBsbULdaMxmBTzgguR8bKyyabDnmzalHDnkCYgoKhOXYh7LvNv7NywOOxSPubtQKInQnuqmMEdbPBID4QKfTyILYuou5waqXCduBpL5T4qJu1tPhKFN3yF3+X7s3chVj4j4rOupBYyPk6WTQRD5bRpNAD5tL62WkhqaguZUcFJALZEVImtx3Dds4fGA3qPU3dPl5azQEDwNKfmbcS8IzjZMo9TTlf0IuWD8ByR8vV4e8MLAb5lH1XuTtM7JFzuExNYKtOzHRlwDJgcvci8DtRa0GKoWPZds6y3LJmqbegrcWDlKJmXq+bwNYDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HfVP9RODutVSjjpN/r9wrfJKFq1tDneSRdo9nky3MAQ=;
+ b=j2jK6bVGuollBLHAdsrcfp22Sc2dYxwSzhvp48KgC9w6cNT0+BcdFcKCKhq7vTRxTAVZEoTf2NzCthxS2BlNwU/AUwVBwjHuP01SdojDEVbh/cw/z2f+F8nfEftSf8ow/8dbhZakLKLJBvfquCdFEDehjMVC9n5tW0wz1ObUlgI=
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
+ by BYAPR02MB6439.namprd02.prod.outlook.com (2603:10b6:a03:126::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Fri, 11 Dec
+ 2020 18:17:12 +0000
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::8163:86a2:8279:471c]) by BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::8163:86a2:8279:471c%8]) with mapi id 15.20.3632.021; Fri, 11 Dec 2020
+ 18:17:12 +0000
+From: Sai Pavan Boddu <saipava@xilinx.com>
+To: Vikram Garhwal <fnuv@xilinx.com>, Edgar Iglesias <edgari@xilinx.com>
+Subject: FW: [PATCH v15 0/4] Add Versal usb model
+Thread-Topic: [PATCH v15 0/4] Add Versal usb model
+Thread-Index: AQHWyakU1Iuit5fsw0GKEeicQIOwC6nyHMYAgAAiHvA=
+Date: Fri, 11 Dec 2020 18:17:12 +0000
+Message-ID: <BY5PR02MB677253233940444E962F521ECACA0@BY5PR02MB6772.namprd02.prod.outlook.com>
+References: <1607023357-5096-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <CAFEAcA8-KcdSrFKFGcuPcTQPBvgDapR3epNScaQSbW8s9E9zwg@mail.gmail.com>
+In-Reply-To: <CAFEAcA8-KcdSrFKFGcuPcTQPBvgDapR3epNScaQSbW8s9E9zwg@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x241.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: xilinx.com; dkim=none (message not signed)
+ header.d=none;xilinx.com; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [149.199.50.128]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 648263c2-ab64-47f5-4a68-08d89e00fb19
+x-ms-traffictypediagnostic: BYAPR02MB6439:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB6439EC230C763C450A852D01CACA0@BYAPR02MB6439.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: XL4NB+AMW554tJ6VFWtO3/YKoSUQ/ffGaHuGfPDNH3nDq2JViUmzdjRZ7Ioc4880pwH1/fb0YJjFyOhiwibFbME1UphAckyzyGiJvMfyueF2YIYsJc520cluCIzys4zpi4k/HIJyQtvlY+0RPsJkcIzf5W0wSta9yT4Hoir0OcULsfYi+Rf7+B73OyMoLY4mFPpMqmAFXfWUl7fFi0Uu8XfdpAPVhlMkK7dD+uLKc4yf1dqdTkhGC3smCHSeT1u+FekB3KLzTV2qSzjQfQJh1dJxkHfAbY1Zz4rxBomgmIigliHREad2Zb7ABWXPdL7/YywNaw/iYQcmAzXrwxO5Aw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(346002)(136003)(86362001)(55016002)(64756008)(66476007)(83380400001)(52536014)(7696005)(71200400001)(26005)(5660300002)(4326008)(6636002)(9686003)(2906002)(53546011)(66446008)(4744005)(110136005)(66556008)(8676002)(76116006)(66946007)(508600001)(186003)(33656002)(8936002)(6506007);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?WlhsN004cWMyNGtUZW5raGxOcHc5UFJBN2IyMDVsUCsvNEtZNlF2UllpaEF4?=
+ =?utf-8?B?Z05CTUhrbUcvNFJCRUdsUzM4VlNPd2dCNWpsWnNNd1pVU3ZLR2wxMTNWOVpY?=
+ =?utf-8?B?Wjd2cER3b1hPc1dRVzVTVi9JbEJwcnZNWmQ4M25HSzFRbWpGMHA0MGtHMGxQ?=
+ =?utf-8?B?RG1vRlQzM3dGakVJNWJrNlkzSEZxVE9XK3NFdk15R2xkTmd6bzc2cHk4dVM3?=
+ =?utf-8?B?cnB6SWVNWFpHUmFRRFNNcGMxRThBY3RIVkdoU3lMN3FaYWIxb3NZbnkwSXdF?=
+ =?utf-8?B?c2poNldVU1RHRHlKT0tqNG9Da2xHSVpnUmIxMUZoTHNHd2JIb2E1aDlzdWVE?=
+ =?utf-8?B?Q3Y2WExFQ3VQYnBXM0xROFdlenNVeFA1azFPNUI5YlBwU0djSDNkamh0ZEJ3?=
+ =?utf-8?B?ZG52UHVhcVZ1czRmcFZneDhHWEZFTGZrZlJvWGxTNU92bUZpU1l6cnZZeDh2?=
+ =?utf-8?B?N3BMQ1NLUkF6ODlyU2lRalVSYkV4NTgvSEVjdDJIYk82VTJJWU9EelFtMG5O?=
+ =?utf-8?B?RnpIL3lIQytLSEQ5emIrY2hKOXM5TDMrTzEwemVtRURLSWQxdmx5NEl5OWNM?=
+ =?utf-8?B?RzNlK2VPMEdtQXgwQUE0a2FQVDJkcFlLbDlGVUNENkVpZE9IdzQ5TDI1NnBT?=
+ =?utf-8?B?eGxCOWI5dDFHcWpaSHZ0NWtxL21QVHc5RVAwYjN3OW1Vc1VRYnpxL1FLRGtq?=
+ =?utf-8?B?NlBCNXIyb05kUlpycWRPeVR4aUdpUlpNWXdUbFFITzgvMHBNRkFTa3hkcUdw?=
+ =?utf-8?B?RVhmOS83dDhFaUxUN3N5K3dYS3hmdE9FemRFVk5EbG9EWURybmlZUTJueEJm?=
+ =?utf-8?B?aGlqd2djSU5ZUFI5NkJiYlluQXdacloxRGl1c0g1VStmbUhGaHMzaHQ3Sit6?=
+ =?utf-8?B?WDd3QXYrZkQzOTkzZzQyb2EyQ25OWEtOR1BQcEFRS1hVUzJBRXoyLysvdjI5?=
+ =?utf-8?B?UW1qRjhXUDlkeGUyb1hicCtrd0FNTHpyWHh6WlZuR3dyR0VVcTZGc1libGZk?=
+ =?utf-8?B?ZjV1ZS9xR0c3Ym9rOFhnUzhMU055Z21neDI4cFBLdW5DeTFUcmZ5R2tHelRi?=
+ =?utf-8?B?bmVEMUZ6eUdwcDZKK1EvemZDS1l0eXFQMlZKZHdKMnhtNnBWdmJ3cHNQSy8z?=
+ =?utf-8?B?UlNmZSsveGNPeUhRNDZnY0pObVFIa3BFZDl1S3NnbmdwL1o3NUVhNmQzNDZS?=
+ =?utf-8?B?Qmk5Mlpnc2pyNE82SmRXWkpkdlptMnRSZitmY01YSnNoU1gwamlmaUFqdEhX?=
+ =?utf-8?B?eDNRdytEa08zZFh5RG5yQjMvYVBDNnRPOW9ocXlMMkFQb0JwNDZHbWhxMjhz?=
+ =?utf-8?Q?OhnSgyc2QHlfE=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 648263c2-ab64-47f5-4a68-08d89e00fb19
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2020 18:17:12.1368 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ISSExm3GXMpYX+yQzhi5WWySlfQMZ84HbgqTgSovtlcipYMICpoJdeYJsSIRMHZLzNaPTPgOB7PbSHBv8KAadQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB6439
+Received-SPF: pass client-ip=40.107.236.87; envelope-from=saipava@xilinx.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,43 +132,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 11:47 AM, Claudio Fontana wrote:
->> What is it that you thought you needed from core/cpu.h anyway?
-...
->>>> Are you sure that splitting out hw/core/tcg-cpu-ops.h from hw/core/cpu.h in
->>>> patch 15 is even useful?
->>>
->>> it avoids a huge #ifdef CONFIG_TCG
->>
->> So?  The question should be: is it useful on its own, and I think the answer to
->> that is clearly not.  Thus it should not pretend to be a standalone header file.
->>
-> 
-> The whole point of the exercise is to sort out what is tcg specific and
-> only compile it under CONFIG_TCG.
-> 
-> Having everything inside cpu.h wrapped in a 100 line #ifdef is not
-> particularly readable or discoverable, so I think it is actually useful
-> for understanding purposes to have it separate...
-Ok, so separate, but perhaps not standalone.
-
-My question above remains: what did you need from core/cpu.h?  Was it in fact
-just a typedef for CPUState?
-In which case "qemu/typedefs.h" is a better choice.
-
-
-r~
+SGksDQoNCkZpbmFsbHksIHVzYiBzZXJpZXMgZ290IGFjY2VwdGVkLiBJIHRoYW5rIFZpa3JhbSBh
+bmQgRWRnYXIgZm9yIHRoZSBncmVhdCBzdXBwb3J0Lg0KDQpSZWdhcmRzLA0KU2FpIFBhdmFuDQoN
+Ci0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBQZXRlciBNYXlkZWxsIDxwZXRlci5t
+YXlkZWxsQGxpbmFyby5vcmc+IA0KU2VudDogRnJpZGF5LCBEZWNlbWJlciAxMSwgMjAyMCA5OjQw
+IFBNDQpUbzogU2FpIFBhdmFuIEJvZGR1IDxzYWlwYXZhQHhpbGlueC5jb20+DQpDYzogTWFya3Vz
+IEFybWJydXN0ZXIgPGFybWJydUByZWRoYXQuY29tPjsgTWFyYy1BbmRyw6kgTHVyZWF1IDxtYXJj
+YW5kcmUubHVyZWF1QHJlZGhhdC5jb20+OyBQYW9sbyBCb256aW5pIDxwYm9uemluaUByZWRoYXQu
+Y29tPjsgR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+OyBFZGdhciBJZ2xlc2lhcyA8
+ZWRnYXJpQHhpbGlueC5jb20+OyBGcmFuY2lzY28gRWR1YXJkbyBJZ2xlc2lhcyA8ZmlnbGVzaWFA
+eGlsaW54LmNvbT47IEFsaXN0YWlyIEZyYW5jaXMgPGFsaXN0YWlyLmZyYW5jaXNAd2RjLmNvbT47
+IEVkdWFyZG8gSGFia29zdCA8ZWhhYmtvc3RAcmVkaGF0LmNvbT47IFlpbmcgRmFuZyA8ZmFuZ3lp
+bmcxQGh1YXdlaS5jb20+OyBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbG1kQHJlZGhhdC5j
+b20+OyBWaWtyYW0gR2FyaHdhbCA8Zm51dkB4aWxpbnguY29tPjsgUGF1bCBaaW1tZXJtYW4gPHBh
+dWxkemltQGdtYWlsLmNvbT47IFNhaSBQYXZhbiBCb2RkdSA8c2FpcGF2YUB4aWxpbnguY29tPjsg
+UUVNVSBEZXZlbG9wZXJzIDxxZW11LWRldmVsQG5vbmdudS5vcmc+DQpTdWJqZWN0OiBSZTogW1BB
+VENIIHYxNSAwLzRdIEFkZCBWZXJzYWwgdXNiIG1vZGVsDQoNCk9uIFRodSwgMyBEZWMgMjAyMCBh
+dCAxOToxOCwgU2FpIFBhdmFuIEJvZGR1IDxzYWkucGF2YW4uYm9kZHVAeGlsaW54LmNvbT4gd3Jv
+dGU6DQo+DQo+IFRoaXMgcGF0Y2ggc2VyaWVzIGFkZHMgZHdjMyB1c2IgY29udHJvbGxlciB0byB2
+ZXJzYWwgU09DLg0KPg0KDQoNCg0KQXBwbGllZCB0byB0YXJnZXQtYXJtLm5leHQsIHRoYW5rcy4N
+Cg0KLS0gUE1NDQo=
 
