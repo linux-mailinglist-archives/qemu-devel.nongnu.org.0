@@ -2,78 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE1E2D6E52
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 04:07:41 +0100 (CET)
-Received: from localhost ([::1]:42686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735A32D6F13
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:21:29 +0100 (CET)
+Received: from localhost ([::1]:33714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knYmS-0006qf-8n
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 22:07:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46406)
+	id 1knZvs-0002m6-AT
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:21:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1knYk0-0005pF-OH; Thu, 10 Dec 2020 22:05:08 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:42415)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1knYja-0007Cc-Pl; Thu, 10 Dec 2020 22:05:08 -0500
-Received: by mail-oi1-x243.google.com with SMTP id l200so8271901oig.9;
- Thu, 10 Dec 2020 19:04:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=7Bqe7TUfqEXtWYklNV7hKPySGhYcLApAf1F2RPky7D4=;
- b=MTz+Yx0futif80qpy7eoEareq5bBeomWVnSSVCUp3d/LG9w7RZFzlXbFgjXAmuS15v
- jnIMbJbEvUwk1tpY1FZRMhBPabzqn1+m3TGaxnJDQstH7J9zuFNyZ5VhQ10upXiGUpSV
- N+uVOKU4JP0CwiwdAFUQOPpVa7GHJcNBauPk+n+H9Qb8wNNz0PLOJVcNsxklPvZhariY
- R5AF0WnRE76IO247iD/a3p26EBARnpOyLyomuZLscjzBf7XmEFQF+ib6hakCJvStuTw6
- YVb30naQY1tJEZ5aMmF5HEprIPZSAvDAbzJPIj47CYBnyXimNZpO7acBDVO+IWWm+Sau
- rORQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=7Bqe7TUfqEXtWYklNV7hKPySGhYcLApAf1F2RPky7D4=;
- b=hDt3YWnliGFAmDZb/QRVcGK6BqoZE7sWhM01h8VFMVdgNxjLbAeA9ypyZqIy+2+0gM
- bk1Cj/5ZFrxqp7MhEoZENNLn89Z+brYgbjOzqfuK4T3UaxoSJgNHZR4k+AAFnRygZr7s
- Bvwn4odM2q7yJ1qZW5KL2Z8VJyjMO03nl5LiA4PQNGMdPvwb3iEXHR0szgJ8RT3Tl4Ss
- zLu1EGX7F3kLrfKwyc7dnEpWE21RKXQvemvnDiaPt93Uj4w/0x6VQPLhQJkTRLuOW3LE
- zJeDKaceqc1g8p1ub/wypT/dRTiJpQtY3MU8ol7xHylgeMF9V6oayxPoFfdNep+eiQM5
- Ii8A==
-X-Gm-Message-State: AOAM532SjyJ+/+yJrslry53acIt2HH0wiZUmWns4Oyd0GgSRcGuHhX5A
- O7NHqnsCEiTcGOVEoj4rCw==
-X-Google-Smtp-Source: ABdhPJxFlvvv0pZ/35xbJ+Y1JHGa/Yn0JATIhP8XfkBhXf/0FbxVJlj7UKf0zpQYPHICIriOdJm3tA==
-X-Received: by 2002:aca:ad8d:: with SMTP id w135mr7466149oie.27.1607655879006; 
- Thu, 10 Dec 2020 19:04:39 -0800 (PST)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id y35sm1566582otb.5.2020.12.10.19.04.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 19:04:38 -0800 (PST)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:9cf8:f63f:d424:8677])
- by serve.minyard.net (Postfix) with ESMTPSA id 0CBB2180570;
- Fri, 11 Dec 2020 03:04:37 +0000 (UTC)
-Date: Thu, 10 Dec 2020 21:04:35 -0600
-From: Corey Minyard <minyard@acm.org>
-To: Hao Wu <wuhaotsh@google.com>
-Subject: Re: [PATCH 0/7] Additional NPCM7xx devices and IPMI BMC emulation
- support
-Message-ID: <20201211030435.GI11017@minyard.net>
-References: <20201211015156.2053372-1-wuhaotsh@google.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1knZq3-0005Wy-RN; Thu, 10 Dec 2020 23:15:28 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57213 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1knZq0-0000Vt-83; Thu, 10 Dec 2020 23:15:27 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CscrZ2MvKz9sWS; Fri, 11 Dec 2020 15:15:10 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1607660110;
+ bh=MZNQj2GHcmTvFmaWxWZvyf7ujr4it3gNqWEBCWEzBG4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=V4/zcOpkKpdV7x7WBEyj+Zmo6iA5EAWNaBmEPB3TV4YzbJ8yAFLaC9nlagk4LOHLP
+ Vb70VpCtBiQigizPdbrdObvKUnM9spPUzzgEK/aXHOLPyh+Pi0FZ/0OhZSaN4Uac61
+ zEJ7Alo0cESwzmgsUgbPeqsNMvFm/L4wnQMBNyuI=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/30] ppc-for-6.0 queue 20201211
+Date: Fri, 11 Dec 2020 15:14:37 +1100
+Message-Id: <20201211041507.425378-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201211015156.2053372-1-wuhaotsh@google.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=tcminyard@gmail.com; helo=mail-oi1-x243.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,93 +55,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: peter.maydell@linaro.org, venture@google.com, hskinnemoen@google.com,
- qemu-devel@nongnu.org, kfting@nuvoton.com, qemu-arm@nongnu.org,
- Avi.Fishman@nuvoton.com
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 10, 2020 at 05:51:49PM -0800, Hao Wu wrote:
-> This patch series include a few more NPCM7XX devices including
-> 
-> - Analog Digital Converter (ADC)
-> - Pulse Width Modulation (PWM)
-> - Keyboard Style Controller (KSC)
-> 
-> To utilize these modules we also add two extra functionalities:
-> 
-> 1. We modified the CLK module to generate clock values using qdev_clock.
->    These clocks are used to determine various clocks in NPCM7XX devices.
-> 2. We added support for emulating IPMI responder devices in BMC machines,
->    similar to the existing IPMI device support for CPU emulation. This allows
->    a qemu instance running BMC firmware to serve as an external BMC for a qemu
->    instance running server software. It utilizes the KCS module we implemented.
+The following changes since commit 2ecfc0657afa5d29a373271b342f704a1a3c6737:
 
-Looking at the IPMI changes, why didn't you just re-use the existing
-IPMI infrastructure?  ipmi_host.[ch] is basically a subset of ipmi.[ch],
-and the ipmi_host_extern looks like a copy of of ipmi_bmc_extern with
-some names changed.  That kind of code duplication is not acceptable.
-Plus you copied my code and removed my copyrights, which is really
-not acceptable and illegal.
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2020-12-10' into staging (2020-12-10 17:01:05 +0000)
 
-I'm not exactly sure why you needed you own KCS interface, either.  It
-looks like the interface is somewhat different in some ways, but
-integrating it into the current KCS code is probably a better choice if
-that can be done.
+are available in the Git repository at:
 
--corey
+  https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.0-20201211
 
-> 
-> Hao Wu (7):
->   hw/misc: Add clock converter in NPCM7XX CLK module
->   hw/timer: Refactor NPCM7XX Timer to use CLK clock
->   hw/adc: Add an ADC module for NPCM7XX
->   hw/misc: Add a PWM module for NPCM7XX
->   hw/ipmi: Add an IPMI host interface
->   hw/ipmi: Add a KCS Module for NPCM7XX
->   hw/ipmi: Add an IPMI external host device
-> 
->  default-configs/devices/arm-softmmu.mak |   2 +
->  docs/system/arm/nuvoton.rst             |   6 +-
->  hw/adc/meson.build                      |   1 +
->  hw/adc/npcm7xx_adc.c                    | 318 ++++++++++
->  hw/arm/npcm7xx.c                        |  65 +-
->  hw/ipmi/Kconfig                         |   5 +
->  hw/ipmi/ipmi_host.c                     |  40 ++
->  hw/ipmi/ipmi_host_extern.c              | 435 +++++++++++++
->  hw/ipmi/meson.build                     |   3 +
->  hw/ipmi/npcm7xx_kcs.c                   | 570 +++++++++++++++++
->  hw/misc/meson.build                     |   1 +
->  hw/misc/npcm7xx_clk.c                   | 795 +++++++++++++++++++++++-
->  hw/misc/npcm7xx_pwm.c                   | 535 ++++++++++++++++
->  hw/timer/npcm7xx_timer.c                |  25 +-
->  include/hw/adc/npcm7xx_adc.h            |  72 +++
->  include/hw/arm/npcm7xx.h                |   6 +
->  include/hw/ipmi/ipmi_host.h             |  56 ++
->  include/hw/ipmi/ipmi_responder.h        |  66 ++
->  include/hw/ipmi/npcm7xx_kcs.h           | 105 ++++
->  include/hw/misc/npcm7xx_clk.h           | 146 ++++-
->  include/hw/misc/npcm7xx_pwm.h           | 106 ++++
->  include/hw/timer/npcm7xx_timer.h        |   1 +
->  tests/qtest/meson.build                 |   4 +-
->  tests/qtest/npcm7xx_adc-test.c          | 400 ++++++++++++
->  tests/qtest/npcm7xx_pwm-test.c          | 490 +++++++++++++++
->  25 files changed, 4221 insertions(+), 32 deletions(-)
->  create mode 100644 hw/adc/npcm7xx_adc.c
->  create mode 100644 hw/ipmi/ipmi_host.c
->  create mode 100644 hw/ipmi/ipmi_host_extern.c
->  create mode 100644 hw/ipmi/npcm7xx_kcs.c
->  create mode 100644 hw/misc/npcm7xx_pwm.c
->  create mode 100644 include/hw/adc/npcm7xx_adc.h
->  create mode 100644 include/hw/ipmi/ipmi_host.h
->  create mode 100644 include/hw/ipmi/ipmi_responder.h
->  create mode 100644 include/hw/ipmi/npcm7xx_kcs.h
->  create mode 100644 include/hw/misc/npcm7xx_pwm.h
->  create mode 100644 tests/qtest/npcm7xx_adc-test.c
->  create mode 100644 tests/qtest/npcm7xx_pwm-test.c
-> 
-> -- 
-> 2.29.2.684.gfbc64c5ab5-goog
-> 
+for you to fetch changes up to 7728c7ef126468a3e982b03b427196b1cccfa2c8:
+
+  spapr.c: set a 'kvm-type' default value instead of relying on NULL (2020-12-11 12:02:10 +1100)
+
+----------------------------------------------------------------
+ppc patch queue 2020-12-11
+
+Here's my first pull request for qemu-6.0, with a bunch of things
+queued over the freeze.  Highlights are:
+ * A bunch of cleanups to hotplug error paths from Greg Kurz
+ * A number of TCG fixes from new contributor LemonBoy
+ * Added Greg Kurz as co-maintainer
+ * Assorted other bugfixes and cleanups
+
+----------------------------------------------------------------
+Chen Qun (2):
+      target/ppc: replaced the TODO with LOG_UNIMP and add break for silence warnings
+      ppc: Add a missing break for PPC6xx_INPUT_TBEN
+
+Cédric Le Goater (1):
+      xive: Add trace events
+
+Daniel Henrique Barboza (1):
+      spapr.c: set a 'kvm-type' default value instead of relying on NULL
+
+David Gibson (1):
+      MAINTAINERS: Add Greg Kurz as co-maintainer for ppc
+
+Gan Qixin (1):
+      ppc/e500: Free irqs array to avoid memleak
+
+Greg Kurz (17):
+      spapr/xive: Turn some sanity checks into assertions
+      spapr/xics: Drop unused argument to xics_kvm_has_broken_disconnect()
+      spapr: Do PCI device hotplug sanity checks at pre-plug only
+      spapr: Do NVDIMM/PC-DIMM device hotplug sanity checks at pre-plug only
+      spapr: Make PHB placement functions and spapr_pre_plug_phb() return status
+      spapr: Do PHB hoplug sanity check at pre-plug
+      spapr: Do TPM proxy hotplug sanity checks at pre-plug
+      spapr: Fix pre-2.10 dummy ICP hack
+      spapr: Abort if ppc_set_compat() fails for hot-plugged CPUs
+      spapr: Simplify error path of spapr_core_plug()
+      spapr: spapr_drc_attach() cannot fail
+      target/ppc: Remove "compat" property of server class POWER CPUs
+      hw/ppc: Do not re-read the clock on pre_save if doing savevm
+      target/ppc: Introduce an mmu_is_64bit() helper
+      spapr: Pass sPAPR machine state down to spapr_pci_switch_vga()
+      spapr: Don't use qdev_get_machine() in spapr_msi_write()
+      spapr: Pass sPAPR machine state to some RTAS events handling functions
+
+LemonBoy (5):
+      ppc/translate: Fix unordered f64/f128 comparisons
+      ppc/translate: Turn the helper macros into functions
+      ppc/translate: Delay NaN checking after comparison
+      ppc/translate: Raise exceptions after setting the cc
+      ppc/translate: Rewrite gen_lxvdsx to use gvec primitives
+
+Philippe Mathieu-Daudé (1):
+      hw/ppc/spapr_tpm_proxy: Fix hexadecimal format string specifier
+
+Stephane Duverger (1):
+      ppc/translate: Use POWERPC_MMU_64 to detect 64-bit MMU models
+
+ MAINTAINERS                         |  17 ++-
+ docs/system/deprecated.rst          |   7 --
+ hw/intc/spapr_xive.c                |  47 ++++++--
+ hw/intc/spapr_xive_kvm.c            |   5 +
+ hw/intc/trace-events                |  33 ++++++
+ hw/intc/xics_kvm.c                  |   2 +-
+ hw/intc/xive.c                      |  40 ++++++-
+ hw/ppc/e500.c                       |   1 +
+ hw/ppc/ppc.c                        |   6 +-
+ hw/ppc/spapr.c                      | 186 ++++++++++++++++--------------
+ hw/ppc/spapr_drc.c                  |   8 +-
+ hw/ppc/spapr_events.c               |  21 ++--
+ hw/ppc/spapr_hcall.c                |   7 +-
+ hw/ppc/spapr_irq.c                  |   2 +-
+ hw/ppc/spapr_nvdimm.c               |  11 +-
+ hw/ppc/spapr_pci.c                  |  48 +++++---
+ hw/ppc/trace-events                 |   2 +-
+ include/hw/ppc/spapr.h              |   4 +-
+ include/hw/ppc/spapr_drc.h          |   8 +-
+ include/hw/ppc/spapr_nvdimm.h       |   2 +-
+ include/hw/ppc/xics_spapr.h         |   2 +-
+ target/ppc/cpu-qom.h                |   5 +
+ target/ppc/excp_helper.c            |   4 +-
+ target/ppc/fpu_helper.c             | 220 +++++++++++++++++++++---------------
+ target/ppc/machine.c                |   4 +-
+ target/ppc/mmu-hash64.c             |   2 +-
+ target/ppc/mmu_helper.c             |  15 +--
+ target/ppc/translate.c              |   4 +-
+ target/ppc/translate/vsx-impl.c.inc |  46 ++++----
+ target/ppc/translate_init.c.inc     |  61 +---------
+ 30 files changed, 478 insertions(+), 342 deletions(-)
 
