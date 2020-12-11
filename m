@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3C442D7FD5
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 21:18:12 +0100 (CET)
-Received: from localhost ([::1]:46652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 649492D7FF9
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 21:27:04 +0100 (CET)
+Received: from localhost ([::1]:55174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knorj-0003zU-SD
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 15:18:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32992)
+	id 1knp0I-0008Gt-HD
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 15:27:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1knokO-0002XH-Ln
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 15:10:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59731)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1knoka-0002cu-SQ
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 15:10:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40260)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1knokM-0002ID-Tg
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 15:10:36 -0500
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1knokU-0002LB-Mw
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 15:10:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607717434;
+ s=mimecast20190719; t=1607717438;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ndVRTb+G2k0I7YH++Y7dS7OAYJgT79NiWa3TD872+ug=;
- b=hHpnvfBt3Hw2sKdCkl+vxZhGTBpi3H1LhhN+6s/IGwqTNP+REyiynB487OjviAbkK+hRUI
- u2S0JNbhJ9lamZzZ9H6ZevVvRAdWO5OeKqKt8w2lB/wn/AHxJOsRwj5NPnsejoaoCth0Rl
- sgUNhWjuOVorb+cH1B2sVtwTHQkjaNo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-1wFdFs9wMFSq5unJUsJU9w-1; Fri, 11 Dec 2020 15:10:31 -0500
-X-MC-Unique: 1wFdFs9wMFSq5unJUsJU9w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D6FD10054FF;
- Fri, 11 Dec 2020 20:10:30 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-114-123.rdu2.redhat.com
- [10.10.114.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C06065D9D2;
- Fri, 11 Dec 2020 20:10:27 +0000 (UTC)
-Subject: Re: [PATCH 1/3] tests/acceptance: Extract the code to clear dmesg and
- wait for CRW reports
+ bh=bQZv72fM3esNNv9lIC3wtkIw3XptRtEucGnbqfc2VVc=;
+ b=SDjKoQY5EcjMTYxQ2TjY2L/YzZEB6jFtxxhlSfR6t66C8ZftO2FuKVmMq1xIRyzBgKALeK
+ nTSe5B2Yoj+obm1bL0M6LSIwEi15vfnw2j4Ob/fBfGowcn7v+RJSlgxkvOUrLB2JBL24we
+ KbJA8uUkh4pSHeKW2D2zSdYo0VPGcP0=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-p8d5Ir_hNLuG9LfC3LYKyA-1; Fri, 11 Dec 2020 15:10:37 -0500
+X-MC-Unique: p8d5Ir_hNLuG9LfC3LYKyA-1
+Received: by mail-qt1-f199.google.com with SMTP id v18so7283128qta.22
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 12:10:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bQZv72fM3esNNv9lIC3wtkIw3XptRtEucGnbqfc2VVc=;
+ b=VPRAt/ly2wWalU4rGQIpLok92BfKVgJI1C6L4AAp/SjFhn+aSpUtcVx8UCpU114fiu
+ gGYF8jU6Hi0Ci8w6z4Ara7wJdIvBZrfzI2U6AkFFGTxrcKsyjtv5pksda/1omp9Y4xLj
+ pKOYyfPNZxdPcuf4RP8twB97HQEYY9Q2dJbTBJRmdTuBtOggDLApQaNWiTMt3/wKnT5d
+ 1JnfwhRcJPeraacgsCHY2Dc5QmpkKHfMngyml/RX14oUyqSe5oPPtwvUptqd9TfR21e9
+ BG4f7tKBaLcv43dsK8XtMBdFGhprgxoiGAA9iotNCZH42cglRObMXus3abyCSmibo4QP
+ Ap6Q==
+X-Gm-Message-State: AOAM532yE0b2l9l0ghgevUEv294W8O2K3BVZf0lkMnLV6rPQUaaIfaSu
+ zE8uKStg/s60nZ4SPzppm1G3jBNK5jz3iaKrc4W0+rSOc2MytQfBSEoJ9mkaXY2ZauMVQapRbZJ
+ B2ZX7oLMn68Mvxxw=
+X-Received: by 2002:a37:6f04:: with SMTP id k4mr18938328qkc.426.1607717436342; 
+ Fri, 11 Dec 2020 12:10:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzW7VtcULHviKbSKLUIlDDGTVGKe6IRKmYQ2lWbkrWz77mbvAwusYnLltglMWCcKPNhfCXgGA==
+X-Received: by 2002:a37:6f04:: with SMTP id k4mr18938300qkc.426.1607717436119; 
+ Fri, 11 Dec 2020 12:10:36 -0800 (PST)
+Received: from [192.168.0.13] ([177.194.7.8])
+ by smtp.gmail.com with ESMTPSA id a35sm8316530qtk.82.2020.12.11.12.10.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Dec 2020 12:10:35 -0800 (PST)
+Subject: Re: [PATCH 0/3] tests/acceptance: Test virtio-rng and -balloon on
+ s390x
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
  Cornelia Huck <cohuck@redhat.com>
 References: <20201211173134.376078-1-thuth@redhat.com>
- <20201211173134.376078-2-thuth@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <7647459b-789a-1dd6-ea6c-03fc6d8e7b5b@redhat.com>
-Date: Fri, 11 Dec 2020 17:10:26 -0300
+From: Willian Rampazzo <wrampazz@redhat.com>
+Message-ID: <15276695-1718-e3a9-907e-c6e145294a87@redhat.com>
+Date: Fri, 11 Dec 2020 17:10:31 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201211173134.376078-2-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201211173134.376078-1-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -88,86 +102,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-s390x@nongnu.org,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
 On 12/11/20 2:31 PM, Thomas Huth wrote:
-> We will use this in more spots soon, so it's easier to put this into
-> a separate function.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   tests/acceptance/machine_s390_ccw_virtio.py | 30 ++++++++++++---------
->   1 file changed, 17 insertions(+), 13 deletions(-)
+> Add two more simple tests to check that virtio-rng and virtio-balloon
+> are at least (very) basically working on s390x.
+> 
+> Based-on: 20201204121450.120730-1-cohuck@redhat.com
+> 
+> Thomas Huth (3):
+>    tests/acceptance: Extract the code to clear dmesg and wait for CRW
+>      reports
+>    tests/acceptance/machine_s390_ccw_virtio: Test virtio-rng via
+>      /dev/hwrng
+>    tests/acceptance/machine_s390_ccw_virtio: Test the virtio-balloon
+>      device
+> 
+>   tests/acceptance/machine_s390_ccw_virtio.py | 59 +++++++++++++++------
+>   1 file changed, 43 insertions(+), 16 deletions(-)
+> 
 
+One observation, test_s390x_devices tends to get longer and difficult to 
+debug in case of problems. If a test covers one specific device type, It 
+will improve readability, flexibility, and debugging. In case you don't 
+want to spend time breaking this into multiple tests, I'll be glad to do 
+that after the whole series is merged.
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+As far as code concerned,
 
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Tested-by: Willian Rampazzo <willianr@redhat.com>
 
->
-> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
-> index 864ef4ee6e..733a7ca24a 100644
-> --- a/tests/acceptance/machine_s390_ccw_virtio.py
-> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
-> @@ -17,12 +17,24 @@ from avocado_qemu import wait_for_console_pattern
->   class S390CCWVirtioMachine(Test):
->       KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
->   
-> +    timeout = 120
-> +
->       def wait_for_console_pattern(self, success_message, vm=None):
->           wait_for_console_pattern(self, success_message,
->                                    failure_message='Kernel panic - not syncing',
->                                    vm=vm)
->   
-> -    timeout = 120
-> +    def wait_for_crw_reports(self):
-> +        exec_command_and_wait_for_pattern(self,
-> +                        'while ! (dmesg -c | grep CRW) ; do sleep 1 ; done',
-> +                        'CRW reports')
-> +
-> +    dmesg_clear_count = 1
-> +    def clear_guests_dmesg(self):
-> +        exec_command_and_wait_for_pattern(self, 'dmesg -c > /dev/null; '
-> +                    'echo dm_clear\ ' + str(self.dmesg_clear_count),
-> +                    'dm_clear ' + str(self.dmesg_clear_count))
-> +        self.dmesg_clear_count += 1
->   
->       def test_s390x_devices(self):
->   
-> @@ -100,26 +112,18 @@ class S390CCWVirtioMachine(Test):
->                           'cat /sys/bus/pci/devices/000a\:00\:00.0/function_id',
->                           '0x0000000c')
->           # add another device
-> -        exec_command_and_wait_for_pattern(self,
-> -                                    'dmesg -c > /dev/null; echo dm_clear\ 1',
-> -                                    'dm_clear 1')
-> +        self.clear_guests_dmesg()
->           self.vm.command('device_add', driver='virtio-net-ccw',
->                           devno='fe.0.4711', id='net_4711')
-> -        exec_command_and_wait_for_pattern(self,
-> -                        'while ! (dmesg -c | grep CRW) ; do sleep 1 ; done',
-> -                        'CRW reports')
-> +        self.wait_for_crw_reports()
->           exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
->                                             '0.0.4711')
->           # and detach it again
-> -        exec_command_and_wait_for_pattern(self,
-> -                                    'dmesg -c > /dev/null; echo dm_clear\ 2',
-> -                                    'dm_clear 2')
-> +        self.clear_guests_dmesg()
->           self.vm.command('device_del', id='net_4711')
->           self.vm.event_wait(name='DEVICE_DELETED',
->                              match={'data': {'device': 'net_4711'}})
-> -        exec_command_and_wait_for_pattern(self,
-> -                        'while ! (dmesg -c | grep CRW) ; do sleep 1 ; done',
-> -                        'CRW reports')
-> +        self.wait_for_crw_reports()
->           exec_command_and_wait_for_pattern(self,
->                                             'ls /sys/bus/ccw/devices/0.0.4711',
->                                             'No such file or directory')
+Fetching asset from 
+tests/acceptance/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_devices
+Fetching asset from 
+tests/acceptance/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_devices
+JOB ID     : 8ba8e572f2582f9a48f2542423342e51e257db97
+JOB LOG    : 
+/home/linux1/src/qemu.dev/build/tests/results/job-2020-12-11T15.01-8ba8e57/job.log
+  (1/1) 
+tests/acceptance/machine_s390_ccw_virtio.py:S390CCWVirtioMachine.test_s390x_devices: 
+PASS (7.89 s)
+RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | 
+CANCEL 0
+JOB TIME   : 8.03 s
 
 
