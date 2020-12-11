@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D332D7731
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 14:58:31 +0100 (CET)
-Received: from localhost ([::1]:33598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B19122D7759
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 15:03:38 +0100 (CET)
+Received: from localhost ([::1]:37696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kniwI-0006D9-Pe
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 08:58:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32966)
+	id 1knj1E-0008Fl-3E
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 09:03:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knivD-0005Mi-1W
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 08:57:23 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36221)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kniyt-0007HS-93
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:01:11 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knivB-0007uz-4g
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 08:57:22 -0500
-Received: by mail-ej1-x642.google.com with SMTP id lt17so12467523ejb.3
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 05:57:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=erxHkoXgdmItC8gUliN46G+5Vd7viBWnNfJtTmKeqFI=;
- b=MhI2M+CdC82H47HSWSC7PZAetoQY0vmbNiXsJoUibTP0Ir639vp0+wX5VQrXLgpAgo
- TXi7fJB35NKKgjpX2Gr1O24g0eUD+a84bLSo8dPjsv5wEaJ4Tm7oxCdPY5xipQI1WJ6y
- hF8ftF6kjMFh1zbEJispdkzGJKYNp+HyOKO/sJSFkqnUxBUSJiJuuoS7IGICt7HoAJd3
- v9e5rfOjqp4miiDyYsPvxosED1zL+VaPespSmZbo7stDf0AW5wJwD9sqHCwFPgE6faO3
- luhvXjdhIEGN2b8YdOh8SND8Dt2z4wFEm0Rz/Ja09w4kDStf5K4rhLjti8xpgm1WVvZi
- 5+9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=erxHkoXgdmItC8gUliN46G+5Vd7viBWnNfJtTmKeqFI=;
- b=rhhCjswq7mQp/8Bf0DN0C4Hooe7Kje92lG/IyBoFOpkAfmXwUlWygh3K0ge0qPTIx7
- W6DQ+D7IFL/fJU8UGThciljA1Li1lUMuul1hO8GRYNvI3mTg1YqPvPp+b9WBm0vE3hiS
- 2MAN0A3wUzSNIOTJZltu7hGReFfRTKYJCd8l1ma82xwmdmEyzvqFyCpauzFmEdn7J/Yu
- cIvzDzX8FdAhjbbCTNh1bVYa6gNzHFjeCSPsELvE6/HbXgnQ01K377bwSwyFVGpM6G4R
- CNUnzwSDYlEXyjLxywXu82m/8pJIGrtzSHn0qS0Rba/r7+X5XOfX2scxbUrFXG8vz6oG
- V1Eg==
-X-Gm-Message-State: AOAM533hEXBMCuKcBiRwFEJwLSa0oKEst+polwa8n/MlSxCCLcHNN06r
- BVwDQsDPFjTXifgJwdJrq5UtJKUZuAEVnJKzzI6ZEEHaWkQ=
-X-Google-Smtp-Source: ABdhPJwu55PNOkIdjaymzh78t3PyvgipsaMZaWQh1lcuqoVItWL9+cjj6Dz78N4qKrYlFFGw2pFinTuW64Ep5syJgjc=
-X-Received: by 2002:a17:906:1151:: with SMTP id
- i17mr11316369eja.250.1607695039229; 
- Fri, 11 Dec 2020 05:57:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kniyc-0000dM-VY
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:01:11 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kniyZ-00044Z-UO
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 14:00:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DECEF2E8138
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 14:00:51 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201127225127.14770-1-peter.maydell@linaro.org>
-In-Reply-To: <20201127225127.14770-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 11 Dec 2020 13:57:06 +0000
-Message-ID: <CAFEAcA_aMpSR39tyLOt04ZfwRyWc3PQnvXgZQqd+yLEkynAkOw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] target/openrisc: Move pic_cpu code into CPU object
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 11 Dec 2020 13:51:37 -0000
+From: Matus K <1907817@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: assertion tcg v5.2.0
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: qwart279
+X-Launchpad-Bug-Reporter: Matus K (qwart279)
+X-Launchpad-Bug-Modifier: Matus K (qwart279)
+Message-Id: <160769469739.30645.13581268559432751632.malonedeb@soybean.canonical.com>
+Subject: [Bug 1907817] [NEW] qemu-aarch64 tcg assertion v5.2.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: 8cd265a1a41c334ba64b37d3525c76033e7a3f53
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,35 +69,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stafford Horne <shorne@gmail.com>, Jia Liu <proljc@gmail.com>
+Reply-To: Bug 1907817 <1907817@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Nov 2020 at 22:51, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The openrisc code uses an old style of interrupt handling, where a
-> separate standalone set of qemu_irqs invoke a function
-> openrisc_pic_cpu_handler() which signals the interrupt to the CPU
-> proper by directly calling cpu_interrupt() and cpu_reset_interrupt().
-> Because CPU objects now inherit (indirectly) from TYPE_DEVICE, they
-> can have GPIO input lines themselves, and the neater modern way to
-> implement this is to simply have the CPU object itself provide the
-> input IRQ lines.
->
-> The main aim of this patch series is to make that refactoring,
-> which fixes a trivial memory leak reported by Coverity of the IRQs
-> allocated in cpu_openrisc_pic_init(), and removes one callsite of
-> the qemu_allocate_irqs() function.
->
-> Patch 1 is a minor bugfix noticed along the way; patch 2 is
-> there to make the change in patch 3 simpler and clearer to review.
->
-> Tested with 'make check' and 'make check-acceptance'.
+Public bug reported:
 
-Now the tree is open for 6.0 development, I'll take this
-via target-arm.next, since Stafford doesn't have any other
-openrisc patches in a queue currently.
+After updating to 5.2 I am getting following assertion error:
+qemu-aarch64: ../tcg/tcg-op-gvec.c:54: check_size_align: Assertion `(maxsz =
+& max_align) =3D=3D 0' failed.
 
-thanks
--- PMM
+I think it was introduced by commit:
+e2e7168a214b0ed98dc357bba96816486a289762
+
+Becasue before this change, in function simd_desc only maxsz % 8 =3D=3D 0 w=
+as checked, but after this change qemu check for following:
+ =
+
+max_align =3D maxsz >=3D 16 ? 15 : 7;
+tcg_debug_assert((maxsz & max_align) =3D=3D 0);  <--- here assertion happens
+
+in my case maxsz=3D56.
+
+
+Whole backtrace:
+#4  0x0000004000314770 in check_size_align (oprsz=3D56, maxsz=3D56, ofs=3D0=
+) at ../tcg/tcg-op-gvec.c:54
+#5  0x0000004000314950 in simd_desc (oprsz=3D56, maxsz=3D56, data=3D0) at .=
+./tcg/tcg-op-gvec.c:89
+#6  0x0000004000316270 in do_dup (vece=3D0, dofs=3D3144, oprsz=3D56, maxsz=
+=3D56, in_32=3D0x0, in_64=3D0x0, in_c=3D0) at ../tcg/tcg-op-gvec.c:630
+#7  0x00000040003164d0 in expand_clr (dofs=3D3144, maxsz=3D56) at ../tcg/tc=
+g-op-gvec.c:679
+#8  0x0000004000319bb0 in tcg_gen_gvec_mov (vece=3D3, dofs=3D3136, aofs=3D3=
+136, oprsz=3D8, maxsz=3D64) at ../tcg/tcg-op-gvec.c:1538
+#9  0x0000004000200dc0 in clear_vec_high (s=3D0x40021a8180, is_q=3Dfalse, r=
+d=3D0) at ../target/arm/translate-a64.c:592
+#10 0x0000004000200e40 in write_fp_dreg (s=3D0x40021a8180, reg=3D0, v=3D0x1=
+108) at ../target/arm/translate-a64.c:600
+--Type <RET> for more, q to quit, c to continue without paging--
+#11 0x0000004000200e90 in write_fp_sreg (s=3D0x40021a8180, reg=3D0, v=3D0x1=
+060) at ../target/arm/translate-a64.c:608
+#12 0x0000004000214210 in handle_fpfpcvt (s=3D0x40021a8180, rd=3D0, rn=3D0,=
+ opcode=3D2, itof=3Dtrue, rmode=3D0, scale=3D64, sf=3D0, type=3D0)
+    at ../target/arm/translate-a64.c:6988
+#13 0x0000004000214f90 in disas_fp_int_conv (s=3D0x40021a8180, insn=3D50554=
+4704) at ../target/arm/translate-a64.c:7299
+#14 0x0000004000215350 in disas_data_proc_fp (s=3D0x40021a8180, insn=3D5055=
+44704) at ../target/arm/translate-a64.c:7389
+#15 0x000000400022aa70 in disas_data_proc_simd_fp (s=3D0x40021a8180, insn=
+=3D505544704) at ../target/arm/translate-a64.c:14494
+#16 0x000000400022af90 in disas_a64_insn (env=3D0x7fac59b6b490, s=3D0x40021=
+a8180) at ../target/arm/translate-a64.c:14663
+#17 0x000000400022b750 in aarch64_tr_translate_insn (dcbase=3D0x40021a8180,=
+ cpu=3D0x7fac59b63150) at ../target/arm/translate-a64.c:14823
+#18 0x00000040002e8630 in translator_loop (ops=3D0x4000902e00 <aarch64_tran=
+slator_ops>, db=3D0x40021a8180, cpu=3D0x7fac59b63150, =
+
+    tb=3D0x7fac3419c5c0, max_insns=3D512) at ../accel/tcg/translator.c:103
+#19 0x00000040002e3a60 in gen_intermediate_code (cpu=3D0x7fac59b63150, tb=
+=3D0x7fac3419c5c0, max_insns=3D512)
+    at ../target/arm/translate.c:9283
+#20 0x00000040002fed30 in tb_gen_code (cpu=3D0x7fac59b63150, pc=3D4458820, =
+cs_base=3D0, flags=3D2148544819, cflags=3D-16777216)
+    at ../accel/tcg/translate-all.c:1744
+#21 0x000000400036a6e0 in tb_find (cpu=3D0x7fac59b63150, last_tb=3D0x7fac34=
+19c400, tb_exit=3D0, cf_mask=3D0) at ../accel/tcg/cpu-exec.c:414
+--Type <RET> for more, q to quit, c to continue without paging--
+#22 0x000000400036b040 in cpu_exec (cpu=3D0x7fac59b63150) at ../accel/tcg/c=
+pu-exec.c:770
+#23 0x0000004000113a90 in cpu_loop (env=3D0x7fac59b6b490) at ../linux-user/=
+aarch64/cpu_loop.c:84
+#24 0x00000040002fb8c0 in main (argc=3D2, argv=3D0x40021a8e68, envp=3D0x400=
+21a8e80) at ../linux-user/main.c:864
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: assertion tcg v5.2.0
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1907817
+
+Title:
+  qemu-aarch64 tcg assertion v5.2.0
+
+Status in QEMU:
+  New
+
+Bug description:
+  After updating to 5.2 I am getting following assertion error:
+  qemu-aarch64: ../tcg/tcg-op-gvec.c:54: check_size_align: Assertion `(maxs=
+z & max_align) =3D=3D 0' failed.
+
+  I think it was introduced by commit:
+  e2e7168a214b0ed98dc357bba96816486a289762
+
+  Becasue before this change, in function simd_desc only maxsz % 8 =3D=3D 0=
+ was checked, but after this change qemu check for following:
+   =
+
+  max_align =3D maxsz >=3D 16 ? 15 : 7;
+  tcg_debug_assert((maxsz & max_align) =3D=3D 0);  <--- here assertion happ=
+ens
+
+  in my case maxsz=3D56.
+
+  =
+
+  Whole backtrace:
+  #4  0x0000004000314770 in check_size_align (oprsz=3D56, maxsz=3D56, ofs=
+=3D0) at ../tcg/tcg-op-gvec.c:54
+  #5  0x0000004000314950 in simd_desc (oprsz=3D56, maxsz=3D56, data=3D0) at=
+ ../tcg/tcg-op-gvec.c:89
+  #6  0x0000004000316270 in do_dup (vece=3D0, dofs=3D3144, oprsz=3D56, maxs=
+z=3D56, in_32=3D0x0, in_64=3D0x0, in_c=3D0) at ../tcg/tcg-op-gvec.c:630
+  #7  0x00000040003164d0 in expand_clr (dofs=3D3144, maxsz=3D56) at ../tcg/=
+tcg-op-gvec.c:679
+  #8  0x0000004000319bb0 in tcg_gen_gvec_mov (vece=3D3, dofs=3D3136, aofs=
+=3D3136, oprsz=3D8, maxsz=3D64) at ../tcg/tcg-op-gvec.c:1538
+  #9  0x0000004000200dc0 in clear_vec_high (s=3D0x40021a8180, is_q=3Dfalse,=
+ rd=3D0) at ../target/arm/translate-a64.c:592
+  #10 0x0000004000200e40 in write_fp_dreg (s=3D0x40021a8180, reg=3D0, v=3D0=
+x1108) at ../target/arm/translate-a64.c:600
+  --Type <RET> for more, q to quit, c to continue without paging--
+  #11 0x0000004000200e90 in write_fp_sreg (s=3D0x40021a8180, reg=3D0, v=3D0=
+x1060) at ../target/arm/translate-a64.c:608
+  #12 0x0000004000214210 in handle_fpfpcvt (s=3D0x40021a8180, rd=3D0, rn=3D=
+0, opcode=3D2, itof=3Dtrue, rmode=3D0, scale=3D64, sf=3D0, type=3D0)
+      at ../target/arm/translate-a64.c:6988
+  #13 0x0000004000214f90 in disas_fp_int_conv (s=3D0x40021a8180, insn=3D505=
+544704) at ../target/arm/translate-a64.c:7299
+  #14 0x0000004000215350 in disas_data_proc_fp (s=3D0x40021a8180, insn=3D50=
+5544704) at ../target/arm/translate-a64.c:7389
+  #15 0x000000400022aa70 in disas_data_proc_simd_fp (s=3D0x40021a8180, insn=
+=3D505544704) at ../target/arm/translate-a64.c:14494
+  #16 0x000000400022af90 in disas_a64_insn (env=3D0x7fac59b6b490, s=3D0x400=
+21a8180) at ../target/arm/translate-a64.c:14663
+  #17 0x000000400022b750 in aarch64_tr_translate_insn (dcbase=3D0x40021a818=
+0, cpu=3D0x7fac59b63150) at ../target/arm/translate-a64.c:14823
+  #18 0x00000040002e8630 in translator_loop (ops=3D0x4000902e00 <aarch64_tr=
+anslator_ops>, db=3D0x40021a8180, cpu=3D0x7fac59b63150, =
+
+      tb=3D0x7fac3419c5c0, max_insns=3D512) at ../accel/tcg/translator.c:103
+  #19 0x00000040002e3a60 in gen_intermediate_code (cpu=3D0x7fac59b63150, tb=
+=3D0x7fac3419c5c0, max_insns=3D512)
+      at ../target/arm/translate.c:9283
+  #20 0x00000040002fed30 in tb_gen_code (cpu=3D0x7fac59b63150, pc=3D4458820=
+, cs_base=3D0, flags=3D2148544819, cflags=3D-16777216)
+      at ../accel/tcg/translate-all.c:1744
+  #21 0x000000400036a6e0 in tb_find (cpu=3D0x7fac59b63150, last_tb=3D0x7fac=
+3419c400, tb_exit=3D0, cf_mask=3D0) at ../accel/tcg/cpu-exec.c:414
+  --Type <RET> for more, q to quit, c to continue without paging--
+  #22 0x000000400036b040 in cpu_exec (cpu=3D0x7fac59b63150) at ../accel/tcg=
+/cpu-exec.c:770
+  #23 0x0000004000113a90 in cpu_loop (env=3D0x7fac59b6b490) at ../linux-use=
+r/aarch64/cpu_loop.c:84
+  #24 0x00000040002fb8c0 in main (argc=3D2, argv=3D0x40021a8e68, envp=3D0x4=
+0021a8e80) at ../linux-user/main.c:864
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1907817/+subscriptions
 
