@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C3B2D7A86
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:11:26 +0100 (CET)
-Received: from localhost ([::1]:38888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 250AD2D7A93
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:12:43 +0100 (CET)
+Received: from localhost ([::1]:41724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knl0v-00023U-9c
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:11:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36668)
+	id 1knl2A-0003Pk-3e
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:12:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knkya-00014D-PU
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:09:02 -0500
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:36684)
+ id 1knkzE-0001gU-SF
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:09:40 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:43719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knkyP-0005Re-V5
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:09:00 -0500
-Received: by mail-oi1-x232.google.com with SMTP id 9so3216525oiq.3
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 08:08:49 -0800 (PST)
+ id 1knkz3-0005cl-NE
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:09:40 -0500
+Received: by mail-oi1-x241.google.com with SMTP id q25so10336369oij.10
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 08:09:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sTBaiesWmShQLOiqogNisGXEJBLm2mWXp90YuRQCmkY=;
- b=YiCtYn1y9a1TbiAnMCPqr9T9dmO1/07a/eA4I7ztI9zRB73G5Yxv65ugHasbhsf9Tc
- s/nDKLldjSPUNFVht7DCBuhkVj7BVtFMwieh7tpMIsnmBjlM5dtPJT5/9HTxn188qwln
- WmeOMu807ySx+B+GbVpKVJXyCHkePMfqOo8a09FxbzeZm2yZtsvxGVdEaCYcBiEuwHnF
- /ZWhTHZSZsVXx8BdsIsfX9YWoDjWDJLuetvwW56pgBjdE80mLEqpNOtK2hDnfNCj2Ddk
- GSDqmNQwybMyuE9Tp34mqe6QxNegmQLa561m4zuQmH0kq8DGWMRx9cSlFms71+1/nz4p
- Vi9Q==
+ bh=tGkQkh7uB9pGhQ2wxRSCb3rLd7oL56ZPft7z/PdyQ7A=;
+ b=nT/4qUH9bsQ47QxK67gCeULZfKxAML4zxoyYFJnsw/rvbkA6/IEyVmE+IPacayAk3G
+ H9jgfNwpIUUKpod92Erp4hnA0FEwUFqAXullBdClbAivHsA00Q9FfEujnvAdlBLUyHPu
+ /Te3ZOaRucqg45l1mLofCs0tLVTwg/QCGu8j2Op3QLBLHW9tbsQbgmCA1IN9FYGxWr/w
+ 6VS1yaCAyI6EeFkwGcMgf7dVShYwfCPM6OHBVTwiFV70hD63nP5tL7skAFEZxkPXpM9n
+ bPaQD3wUOX3iHQZPqZtsyTJ7uy0R2HB+VMUqFfhsXvmQuWUSRz6FuJQ4h21zPuVz6AEM
+ 9LXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sTBaiesWmShQLOiqogNisGXEJBLm2mWXp90YuRQCmkY=;
- b=TqRFEY+smbOFY2OW0vTAZKZtOUlku8dCIr2nCLtzj2tql2vtH24IjqMqcHPCPOcEAC
- uHy9yftvcCboXsdkcCUHEb9x1zAI/WwNnH1hlGGTFLUrhHkPG5yJmBNCdk78Jhrt26r9
- RvcJBWHijck1O7oQbtkwti7ZEIQzLQ36Ayaz9x8j2oAuro0vVszbyFny9kBc2HCvojN7
- Cq4NvZQyaByrO6UvAXO4PK7TgRaQEIMNfD7nJBaVfakkbE8JrofX8fGneSy6GbF/WO8u
- LXmiAjWaNAXIOzjmCAO7osoQlaslKcfz+AIawPViqcKIbxyAHjA4cacSByLzrEax2wqy
- kONg==
-X-Gm-Message-State: AOAM5325FRwOCLlS0I6CaBdHdKWlV1MIwqgZ7vppVFNFD9i0NI7kZoS1
- BPgQdJp98Hjgnfq5oi2NUwL1aQ==
-X-Google-Smtp-Source: ABdhPJyBNGi5Q0OuZuBTYWiv+V/KmLb2uigzUUe68K761778MToEuuIUry10VV6ZBHhm63g5hsH74A==
-X-Received: by 2002:aca:59c2:: with SMTP id n185mr9710609oib.96.1607702928686; 
- Fri, 11 Dec 2020 08:08:48 -0800 (PST)
+ bh=tGkQkh7uB9pGhQ2wxRSCb3rLd7oL56ZPft7z/PdyQ7A=;
+ b=MW4mmc0Qj4oA3D/r4XWzq+hMD48mQEF/pVbS3Ldi45cR3xiSfvOeZiVpvZBk27IEjB
+ Yxu5roNM2E+FOd5WwcrXuwXZ/cTTc++SzuH/7YV/RWPpBflS1BVjF70YRNYntXsDcvsX
+ nw3smoWw76lpc1TyjGyM1a2w5AOCUnn+r7Skl6c0BQumHSVNHXd9mfHaPF0GV8CDTf1A
+ xl3xMz0OwRApLzgJfXZ7HADg/DYl2Oy6cshS2PTqXV1NMSYvRxm8PCJ4VnF+CXH2TZRd
+ CI1mQB78FtNmGG7P4ixsAEi/bY7b6pExVGP5F5D6rxFNTgy2sXbY7vfzeKd9ao4TgI/m
+ 9JAA==
+X-Gm-Message-State: AOAM533ogv3r7lIx39A/OKWppsgd4lm+96JbAIdMy44CT56tJUuu1dKH
+ XFBvalGRyzvkj7+jKn7DJiv6Ng==
+X-Google-Smtp-Source: ABdhPJyuh4IvdcKVc4hTRynmR4fgMmz7ebM4W6ZDzdES2saw6CyHp4T2zeIZGEKAFZUeZFil8zU+xw==
+X-Received: by 2002:aca:474b:: with SMTP id u72mr10109746oia.114.1607702966713; 
+ Fri, 11 Dec 2020 08:09:26 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id i16sm1914276otc.61.2020.12.11.08.08.45
+ by smtp.gmail.com with ESMTPSA id n16sm574708oop.9.2020.12.11.08.09.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 08:08:47 -0800 (PST)
-Subject: Re: [PATCH v11 04/25] i386: move kvm accel files into kvm/
+ Fri, 11 Dec 2020 08:09:25 -0800 (PST)
+Subject: Re: [PATCH v11 05/25] i386: move whpx accel files into whpx/
 To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
  Wenchao Wang <wenchao.wang@intel.com>,
@@ -61,19 +61,19 @@ To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 References: <20201211083143.14350-1-cfontana@suse.de>
- <20201211083143.14350-5-cfontana@suse.de>
+ <20201211083143.14350-6-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <042299f1-e69d-aac1-514a-e1f90c1755ee@linaro.org>
-Date: Fri, 11 Dec 2020 10:08:44 -0600
+Message-ID: <12625788-3428-1a29-4ac2-e20aa4e943bd@linaro.org>
+Date: Fri, 11 Dec 2020 10:09:22 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201211083143.14350-5-cfontana@suse.de>
+In-Reply-To: <20201211083143.14350-6-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x232.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x241.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -109,44 +109,22 @@ On 12/11/20 2:31 AM, Claudio Fontana wrote:
 > Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  meson.build                          | 1 +
->  target/i386/cpu.h                    | 2 +-
->  target/i386/{ => kvm}/hyperv-proto.h | 0
->  target/i386/{ => kvm}/hyperv.h       | 0
->  target/i386/{ => kvm}/kvm_i386.h     | 0
->  target/i386/kvm/trace.h              | 1 +
->  hw/i386/fw_cfg.c                     | 2 +-
->  hw/i386/intel_iommu.c                | 2 +-
->  hw/i386/kvm/apic.c                   | 2 +-
->  hw/i386/kvm/clock.c                  | 2 +-
->  hw/i386/microvm.c                    | 2 +-
->  hw/i386/pc.c                         | 2 +-
->  hw/i386/x86.c                        | 2 +-
->  target/i386/cpu.c                    | 2 +-
->  target/i386/helper.c                 | 2 +-
->  target/i386/{ => kvm}/hyperv-stub.c  | 0
->  target/i386/{ => kvm}/hyperv.c       | 0
->  target/i386/{ => kvm}/kvm-stub.c     | 0
->  target/i386/{ => kvm}/kvm.c          | 0
->  target/i386/machine.c                | 4 ++--
->  MAINTAINERS                          | 2 +-
->  target/i386/kvm/meson.build          | 3 +++
->  target/i386/kvm/trace-events         | 7 +++++++
->  target/i386/meson.build              | 4 +---
->  target/i386/trace-events             | 6 ------
->  25 files changed, 26 insertions(+), 22 deletions(-)
->  rename target/i386/{ => kvm}/hyperv-proto.h (100%)
->  rename target/i386/{ => kvm}/hyperv.h (100%)
->  rename target/i386/{ => kvm}/kvm_i386.h (100%)
->  create mode 100644 target/i386/kvm/trace.h
->  rename target/i386/{ => kvm}/hyperv-stub.c (100%)
->  rename target/i386/{ => kvm}/hyperv.c (100%)
->  rename target/i386/{ => kvm}/kvm-stub.c (100%)
->  rename target/i386/{ => kvm}/kvm.c (100%)
->  create mode 100644 target/i386/kvm/meson.build
->  create mode 100644 target/i386/kvm/trace-events
+>  target/i386/{ => whpx}/whp-dispatch.h | 0
+>  target/i386/{ => whpx}/whpx-cpus.h    | 0
+>  target/i386/{ => whpx}/whpx-all.c     | 0
+>  target/i386/{ => whpx}/whpx-cpus.c    | 0
+>  MAINTAINERS                           | 5 +----
+>  target/i386/meson.build               | 5 +----
+>  target/i386/whpx/meson.build          | 4 ++++
+>  7 files changed, 6 insertions(+), 8 deletions(-)
+>  rename target/i386/{ => whpx}/whp-dispatch.h (100%)
+>  rename target/i386/{ => whpx}/whpx-cpus.h (100%)
+>  rename target/i386/{ => whpx}/whpx-all.c (100%)
+>  rename target/i386/{ => whpx}/whpx-cpus.c (100%)
+>  create mode 100644 target/i386/whpx/meson.build
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
