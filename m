@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7862D701A
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 07:20:08 +0100 (CET)
-Received: from localhost ([::1]:46352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7280C2D7021
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 07:25:08 +0100 (CET)
+Received: from localhost ([::1]:53744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knbmg-0003Vd-CD
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 01:20:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49692)
+	id 1knbrW-00078T-Tu
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 01:25:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knbjG-0002DK-IL
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 01:16:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35676)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knble-0003ma-LD
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 01:19:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knbjE-0006ZY-V7
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 01:16:34 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knblZ-0007Xi-1F
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 01:19:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607667391;
+ s=mimecast20190719; t=1607667536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wsP3EqZtsRig9B97BwTKjz6ao1B2svKnFMlNkUIxi5c=;
- b=TqnWAkODyIdrc751MsdT5Q2uNQeOCD7SxiJUrZkDwbZdRGOsYWagKOMWohL/8ilWybTq+J
- Gp3eVEC97QeH8zYOjTJOWeoK/+ixTZ8LSPmsXfW5By4BBAaeY9D8EwxdYjzXNj31gt+A9K
- 1Z/uA5/eh0xaCa0ySnPq0AHlVZ/bmOg=
+ bh=Dfj1CKZOBNk7tZeD10i7f3QMxv+oTBhEWgsqSEkOXHs=;
+ b=WJR5a2ziT20rz0yMYho5VzJGl/LMDxlrYCWgNlBSnx/QUGUEyd5Snr6StT/S7yMCB2MAvC
+ GnmcmIW9We28tiGQC3ERTHTQNWBJRGTqF/BHEKrpKLmJgLBcCdNI27CVC2GwPXU24ZCH+i
+ zApMivcj6pP0LPAOIhN75zEUMViNmlM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-jjXG0k4GOSq-Z6CR21ZTcQ-1; Fri, 11 Dec 2020 01:16:30 -0500
-X-MC-Unique: jjXG0k4GOSq-Z6CR21ZTcQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-108-oQErJHI6OEmwcfqU_3Kefw-1; Fri, 11 Dec 2020 01:18:54 -0500
+X-MC-Unique: oQErJHI6OEmwcfqU_3Kefw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2182180E46A;
- Fri, 11 Dec 2020 06:16:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B72B107ACF5;
+ Fri, 11 Dec 2020 06:18:52 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-85.ams2.redhat.com [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0256A5D9CC;
- Fri, 11 Dec 2020 06:16:15 +0000 (UTC)
-Subject: Re: [PATCH v2 7/8] gitlab: add --without-default-features build
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5C4AA10016F6;
+ Fri, 11 Dec 2020 06:18:39 +0000 (UTC)
+Subject: Re: [PATCH v2 1/8] configure: include moxie-softmmu in
+ deprecated_targets_list
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20201210190417.31673-1-alex.bennee@linaro.org>
- <20201210190417.31673-8-alex.bennee@linaro.org>
+ <20201210190417.31673-2-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <8ae95524-01ae-0dc6-72e4-a574b820ebc4@redhat.com>
-Date: Fri, 11 Dec 2020 07:16:14 +0100
+Message-ID: <f050dd32-bdce-c6c1-32de-194022d742ab@redhat.com>
+Date: Fri, 11 Dec 2020 07:18:38 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201210190417.31673-8-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201210190417.31673-2-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,42 +84,52 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ Anthony Green <green@moxielogic.com>, richard.henderson@linaro.org,
+ f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ cota@braap.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/12/2020 20.04, Alex Bennée wrote:
+> We still build it but there is no point including it in the normal
+> builds as it is ushered out of the door.
+> 
+> Fixes: 4258c8e221 ("docs/system/deprecated: Mark the 'moxie' CPU as deprecated")
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
 > ---
-> v2
->   - swap with centos8, don't include --without-default-devuces
-> ---
->  .gitlab-ci.yml | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  configure      | 2 +-
+>  .gitlab-ci.yml | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
+> diff --git a/configure b/configure
+> index 18c26e0389..8f2095a2db 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1610,7 +1610,7 @@ if [ "$ARCH" = "unknown" ]; then
+>  fi
+>  
+>  default_target_list=""
+> -deprecated_targets_list=ppc64abi32-linux-user,tilegx-linux-user,lm32-softmmu,unicore32-softmmu
+> +deprecated_targets_list=moxie-softmmu,ppc64abi32-linux-user,tilegx-linux-user,lm32-softmmu,unicore32-softmmu
+>  deprecated_features=""
+>  mak_wilds=""
+>  
 > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 2134453717..229545bc03 100644
+> index 98bff03b47..b3bcaacf7b 100644
 > --- a/.gitlab-ci.yml
 > +++ b/.gitlab-ci.yml
-> @@ -521,6 +521,13 @@ build-without-default-devices:
->      IMAGE: centos8
->      CONFIGURE_ARGS: --without-default-devices --disable-user
->  
-> +build-without-default-features:
-> +  <<: *native_build_job_definition
-> +  variables:
-> +    IMAGE: debian-amd64
-> +    CONFIGURE_ARGS: --without-default-features --disable-user
-> +    MAKE_CHECK_ARGS: check-unit
-> +
->  check-patch:
->    stage: build
->    image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+> @@ -355,7 +355,7 @@ build-deprecated:
+>      IMAGE: debian-all-test-cross
+>      CONFIGURE_ARGS: --disable-docs --disable-tools
+>      MAKE_CHECK_ARGS: build-tcg
+> -    TARGETS: ppc64abi32-linux-user tilegx-linux-user lm32-softmmu
+> +    TARGETS: moxie-softmmu ppc64abi32-linux-user tilegx-linux-user lm32-softmmu
+>        unicore32-softmmu
+>    artifacts:
+>      expire_in: 2 days
 > 
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
