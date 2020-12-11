@@ -2,41 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 784622D7933
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:28:37 +0100 (CET)
-Received: from localhost ([::1]:50610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25BEF2D7911
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:21:03 +0100 (CET)
+Received: from localhost ([::1]:56648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knkLU-00088B-Es
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:28:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51024)
+	id 1knkEA-000726-2q
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:21:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1knk6w-000861-L1; Fri, 11 Dec 2020 10:13:35 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:36588
- helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1knk6u-0001uv-8Z; Fri, 11 Dec 2020 10:13:34 -0500
-Received: from localhost.localdomain
- (dynamic-077-007-081-179.77.7.pool.telefonica.de [77.7.81.179])
- by csgraf.de (Postfix) with ESMTPSA id CE51739003C7;
- Fri, 11 Dec 2020 16:13:07 +0100 (CET)
-From: Alexander Graf <agraf@csgraf.de>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 11/11] hvf: arm: Implement -cpu host
-Date: Fri, 11 Dec 2020 16:13:00 +0100
-Message-Id: <20201211151300.85322-12-agraf@csgraf.de>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20201211151300.85322-1-agraf@csgraf.de>
-References: <20201211151300.85322-1-agraf@csgraf.de>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knk9U-0002vW-7u
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:16:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49057)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knk9R-00034S-5D
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:16:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607699768;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OntNca3yJw99bCjQjQU27B+oPSt4e6UwgKtXS6xv6+U=;
+ b=QOXLADbbmkCVl1QsEf1H7n1akeMysmlHOQN92f4UfO6v5XlZdRaMZPDsTWABmkgPCR9VLa
+ BcxxnzfHZccaP6WpnmIHH3CtF5jtfJEe9Hqrt5Gyccts7WYxdS0OdsNL2VT23fBDA8xW3n
+ VWd1LzcSFj7P4bKQS73/Kyy1pExHITY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-545-QTrjqMmvNn-vtUmNkxzAAg-1; Fri, 11 Dec 2020 10:16:06 -0500
+X-MC-Unique: QTrjqMmvNn-vtUmNkxzAAg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFF3E18C89C4;
+ Fri, 11 Dec 2020 15:16:04 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-98.ams2.redhat.com
+ [10.36.112.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B32B5D6A8;
+ Fri, 11 Dec 2020 15:15:58 +0000 (UTC)
+Subject: Re: [PATCH v14 09/13] stream: skip filters when writing backing file
+ name to QCOW2 header
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
+ <20201204220758.2879-10-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <a55e0557-2b86-b2ee-b9a9-406da522b53c@redhat.com>
+Date: Fri, 11 Dec 2020 16:15:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <20201204220758.2879-10-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -50,163 +84,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-arm@nongnu.org, Frank Yang <lfy@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have working system register sync, we push more target CPU
-properties into the virtual machine. That might be useful in some
-situations, but is not the typical case that users want.
+On 04.12.20 23:07, Vladimir Sementsov-Ogievskiy wrote:
+> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> 
+> Avoid writing a filter JSON file name and a filter format name to QCOW2
+> image when the backing file is being changed after the block stream
+> job. It can occur due to a concurrent commit job on the same backing
+> chain.
+> A user is still able to assign the 'backing-file' parameter for a
+> block-stream job keeping in mind the possible issue mentioned above.
+> If the user does not specify the 'backing-file' parameter, QEMU will
+> assign it automatically.
+> 
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>   [vsementsov: use unfiltered_bs for bdrv_find_backing_image()]
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   block/stream.c | 21 +++++++++++++++++++--
+>   blockdev.c     |  8 +-------
+>   2 files changed, 20 insertions(+), 9 deletions(-)
+> 
+> diff --git a/block/stream.c b/block/stream.c
+> index 6e281c71ac..c208393c34 100644
+> --- a/block/stream.c
+> +++ b/block/stream.c
 
-So let's add a -cpu host option that allows them to explicitly pass all
-CPU capabilities of their host CPU into the guest.
+[...]
 
-Signed-off-by: Alexander Graf <agraf@csgraf.de>
-Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
----
- include/sysemu/hvf.h |  2 ++
- target/arm/cpu.c     |  9 ++++++---
- target/arm/cpu.h     |  2 ++
- target/arm/hvf/hvf.c | 41 +++++++++++++++++++++++++++++++++++++++++
- target/arm/kvm_arm.h |  2 --
- 5 files changed, 51 insertions(+), 5 deletions(-)
+> @@ -75,8 +78,22 @@ static int stream_prepare(Job *job)
+>           const char *base_id = NULL, *base_fmt = NULL;
+>           if (base) {
+>               base_id = s->backing_file_str;
+> -            if (base->drv) {
+> -                base_fmt = base->drv->format_name;
+> +            if (base_id) {
+> +                backing_bs = bdrv_find_backing_image(unfiltered_bs, base_id);
+> +                if (backing_bs && backing_bs->drv) {
+> +                    base_fmt = backing_bs->drv->format_name;
+> +                } else {
+> +                    error_report("Format not found for backing file %s",
+> +                                 s->backing_file_str);
 
-diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index f893768df9..7eb61cf094 100644
---- a/include/sysemu/hvf.h
-+++ b/include/sysemu/hvf.h
-@@ -19,6 +19,8 @@
- #ifdef CONFIG_HVF
- uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-                                  int reg);
-+struct ARMCPU;
-+void hvf_arm_set_cpu_features_from_host(struct ARMCPU *cpu);
- extern bool hvf_allowed;
- #define hvf_enabled() (hvf_allowed)
- #else /* !CONFIG_HVF */
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 86cf167d1d..228d9a1dee 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2276,12 +2276,16 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
- #endif
- }
- 
--#ifdef CONFIG_KVM
-+#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
- static void arm_host_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
- 
-+#ifdef CONFIG_KVM
-     kvm_arm_set_cpu_features_from_host(cpu);
-+#else
-+    hvf_arm_set_cpu_features_from_host(cpu);
-+#endif
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-         aarch64_add_sve_properties(obj);
-     }
-@@ -2293,7 +2297,6 @@ static const TypeInfo host_arm_cpu_type_info = {
-     .parent = TYPE_AARCH64_CPU,
-     .instance_init = arm_host_initfn,
- };
--
- #endif
- 
- static void arm_cpu_instance_init(Object *obj)
-@@ -2352,7 +2355,7 @@ static void arm_cpu_register_types(void)
- 
-     type_register_static(&arm_cpu_type_info);
- 
--#ifdef CONFIG_KVM
-+#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
-     type_register_static(&host_arm_cpu_type_info);
- #endif
- 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 7e6c881a7e..5e8d9c07c9 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2855,6 +2855,8 @@ bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync);
- #define ARM_CPU_TYPE_NAME(name) (name ARM_CPU_TYPE_SUFFIX)
- #define CPU_RESOLVING_TYPE TYPE_ARM_CPU
- 
-+#define TYPE_ARM_HOST_CPU "host-" TYPE_ARM_CPU
-+
- #define cpu_signal_handler cpu_arm_signal_handler
- #define cpu_list arm_cpu_list
- 
-diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-index bc955c097f..87b32dc8c9 100644
---- a/target/arm/hvf/hvf.c
-+++ b/target/arm/hvf/hvf.c
-@@ -372,6 +372,47 @@ static uint64_t hvf_get_reg(CPUState *cpu, int rt)
-     return val;
- }
- 
-+void hvf_arm_set_cpu_features_from_host(ARMCPU *cpu)
-+{
-+    ARMISARegisters host_isar;
-+    const struct isar_regs {
-+        int reg;
-+        uint64_t *val;
-+    } regs[] = {
-+        { HV_SYS_REG_ID_AA64PFR0_EL1, &host_isar.id_aa64pfr0 },
-+        { HV_SYS_REG_ID_AA64PFR1_EL1, &host_isar.id_aa64pfr1 },
-+        { HV_SYS_REG_ID_AA64DFR0_EL1, &host_isar.id_aa64dfr0 },
-+        { HV_SYS_REG_ID_AA64DFR1_EL1, &host_isar.id_aa64dfr1 },
-+        { HV_SYS_REG_ID_AA64ISAR0_EL1, &host_isar.id_aa64isar0 },
-+        { HV_SYS_REG_ID_AA64ISAR1_EL1, &host_isar.id_aa64isar1 },
-+        { HV_SYS_REG_ID_AA64MMFR0_EL1, &host_isar.id_aa64mmfr0 },
-+        { HV_SYS_REG_ID_AA64MMFR1_EL1, &host_isar.id_aa64mmfr1 },
-+        { HV_SYS_REG_ID_AA64MMFR2_EL1, &host_isar.id_aa64mmfr2 },
-+    };
-+    hv_vcpu_t fd;
-+    hv_vcpu_exit_t *exit;
-+    int i;
-+
-+    cpu->dtb_compatible = "arm,arm-v8";
-+    cpu->env.features = (1ULL << ARM_FEATURE_V8) |
-+                        (1ULL << ARM_FEATURE_NEON) |
-+                        (1ULL << ARM_FEATURE_AARCH64) |
-+                        (1ULL << ARM_FEATURE_PMU) |
-+                        (1ULL << ARM_FEATURE_GENERIC_TIMER);
-+
-+    /* We set up a small vcpu to extract host registers */
-+
-+    assert_hvf_ok(hv_vcpu_create(&fd, &exit, NULL));
-+    for (i = 0; i < ARRAY_SIZE(regs); i++) {
-+        assert_hvf_ok(hv_vcpu_get_sys_reg(fd, regs[i].reg, regs[i].val));
-+    }
-+    assert_hvf_ok(hv_vcpu_get_sys_reg(fd, HV_SYS_REG_MIDR_EL1, &cpu->midr));
-+    assert_hvf_ok(hv_vcpu_destroy(fd));
-+
-+    cpu->isar = host_isar;
-+    cpu->reset_sctlr = 0x00c50078;
-+}
-+
- void hvf_arch_vcpu_destroy(CPUState *cpu)
- {
- }
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index eb81b7059e..081727a37e 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -214,8 +214,6 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
-  */
- void kvm_arm_destroy_scratch_host_vcpu(int *fdarray);
- 
--#define TYPE_ARM_HOST_CPU "host-" TYPE_ARM_CPU
--
- /**
-  * ARMHostCPUFeatures: information about the host CPU (identified
-  * by asking the host kernel)
--- 
-2.24.3 (Apple Git-128)
+I think it’s actually going to be rather likely that we’re not going to 
+find the backing file here.  If the user were to use a filename that 
+just appears as-such in the backing chain, they wouldn’t need to specify 
+a backing-file parameter at all, because the one figured out 
+automatically would be just fine.
+
+But then again, what are we supposed to do then.  We can continue as 
+before, which is to just use the base node’s format.  But if the user 
+wants to perhaps use a backing file that isn’t even open in qemu (a copy 
+of the the base on some different storage), we have no idea what format 
+it’s in.
+
+So printing an error here, but continuing on with setting a backing_fmt 
+is probably the most reasonable thing to do indeed.
+
+> +                }
+> +            } else {
+> +                base_unfiltered = bdrv_skip_filters(base);
+> +                if (base_unfiltered) {
+
+@base_unfiltered cannot be NULL here (because @base is sure not to be 
+NULL).  Of course, double-checking isn’t wrong, it just looks a bit 
+weird, because it seems to imply that we might end up with a case where 
+base != NULL, but base_id == NULL.  Anyway:
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+> +                    base_id = base_unfiltered->filename;
+> +                    if (base_unfiltered->drv) {
+> +                        base_fmt = base_unfiltered->drv->format_name;
+> +                    }
+> +                }
+>               }
+>           }
+>           bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
 
 
