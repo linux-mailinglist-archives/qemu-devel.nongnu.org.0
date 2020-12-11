@@ -2,77 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669C22D7D40
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:49:56 +0100 (CET)
-Received: from localhost ([::1]:51430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 576252D7D4F
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:52:45 +0100 (CET)
+Received: from localhost ([::1]:60292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knmYF-00025q-AS
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:49:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54926)
+	id 1knmay-0005xi-A8
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:52:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knmAQ-0007Sx-Ds
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:25:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26884)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knmAN-0008Cz-Nv
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:25:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607707514;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NVDN5gUsSQ9EKZ2dI+Xzgczl23uuzPpUZ8JYm4gzgvo=;
- b=WUDU8oVy4eq1hg2qWdVLN41be/10kZj/9DP9oJX11okCKjiJLyqv0oGN9Vx7ZM5b4JhiHx
- Nm1YNUSATjoCULkwQxvM9/6zmplKsQARgheMotiVvoQ1imP1Tir0Pov/6As5Y94AkiSeDg
- /yJVMGR8NsHq/as9tsu47xQfatg2F10=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-HgTBRevUNSKA8sRPPTXJXg-1; Fri, 11 Dec 2020 12:25:10 -0500
-X-MC-Unique: HgTBRevUNSKA8sRPPTXJXg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94015858185;
- Fri, 11 Dec 2020 17:25:08 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-98.ams2.redhat.com
- [10.36.112.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C2C77271BB;
- Fri, 11 Dec 2020 17:24:52 +0000 (UTC)
-Subject: Re: [PATCH v14 10/13] qapi: block-stream: add "bottom" argument
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
- <20201204220758.2879-11-vsementsov@virtuozzo.com>
- <79993af7-1993-5af1-d343-04f208b03d73@redhat.com>
- <9e131589-84b5-761b-3e26-c4e8eb32ec09@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <ef0cc817-69c0-017c-bf94-cc19a66d9dc5@redhat.com>
-Date: Fri, 11 Dec 2020 18:24:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1knmDj-0004KO-2n
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:28:43 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41395)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1knmDh-0000zc-0w
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:28:42 -0500
+Received: by mail-ot1-x342.google.com with SMTP id x13so8906107oto.8
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 09:28:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=OV9MbGHfVbUkjbx0MIwT0kdacZmwG4Zsoqb9GHZwd44=;
+ b=dmwNRACQXczOd4n8E2PkKHsE+2KDZvuy+PskMlamfspKRbfD5+cH/xdFlZ4m7ti5w2
+ dbDkh20zAtP97pbfpCm4AXjLdzybyVd+dnd2lhjtHYFYBlmg9VaINhYpzqpMNxr3S2rw
+ /dk4Bi6QCgMGeZiQC1yqzYyK2uoD/JpjxIslgNwZGhW60rz5v3HzotBevWjE+9B/ohVI
+ z7I0zgDGUOwuWJwUVDpIRgatrN7wHcq/tnaoEr0dfMKUawRZYm2Fu/S4bUjkKWVsV7dV
+ d+pIQFDdO1xBLVrq8EYIZq5M2v+/0+m4SYPcuJnhU3dMLrvrXP6OUJig2ZETZhaGRlSZ
+ JC5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OV9MbGHfVbUkjbx0MIwT0kdacZmwG4Zsoqb9GHZwd44=;
+ b=UYOoTSGqwGwQSN5rcRnbHKQxwbQIQfDjux3kl7cfCHJ/rNYlyVoJ6ff0nHcGO3wPeR
+ MWPX6A9kVcpMPlYiJx/bar6fKM7zmUgUuwuj3Fgjq2LYCP0L7y9PcNrvnK66YoBzVHer
+ YnY0iXf6eDPTt2mVbAjzoU53ZzW1JoYM6sVeDmcusFHovFgZ+jQILF0S4BIrRaxLNR0y
+ ApEiC/F8X3MJN4ByMdlrvRjds1ttnFQKnmiDS5F+/P0lGLUqx2YxW8M3T5SOpcKLDh1q
+ Z5c41XVq6xPMIVnydCLkl9VKpPQ2mcIKxLJtV4tTIbUFsHh27dVwEIhVB8ePKmMORzmh
+ OSgw==
+X-Gm-Message-State: AOAM530nqpsGD+2BYYWGaY55GmlbeABVTMjNTTjGyyp4jWoDTCkQ+W52
+ EC8UbJX7dY3s7ohx+dzlfznpZA==
+X-Google-Smtp-Source: ABdhPJxb9hq1Xyx4e2MO4sAL7kukUMUVZlVeUWZKUGUAGI5lWdbAsdveWs76sPfIp+UZxuTvjVkZNw==
+X-Received: by 2002:a9d:e91:: with SMTP id 17mr10519380otj.237.1607707719632; 
+ Fri, 11 Dec 2020 09:28:39 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id m10sm2039424oig.27.2020.12.11.09.28.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Dec 2020 09:28:38 -0800 (PST)
+Subject: Re: [PATCH v11 18/25] cpu: Move synchronize_from_tb() to tcg_ops
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20201211083143.14350-1-cfontana@suse.de>
+ <20201211083143.14350-19-cfontana@suse.de>
+ <78a7119d-1b4b-47dc-8f16-510708c9fcd4@linaro.org>
+ <cca08e8d-9235-46da-3610-8acafbc2de14@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <15b884b7-94e4-1476-f883-e84379b2661e@linaro.org>
+Date: Fri, 11 Dec 2020 11:28:35 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <9e131589-84b5-761b-3e26-c4e8eb32ec09@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <cca08e8d-9235-46da-3610-8acafbc2de14@suse.de>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,90 +95,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
- jsnow@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
+ haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
+ Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11.12.20 17:50, Vladimir Sementsov-Ogievskiy wrote:
-> 11.12.2020 19:05, Max Reitz wrote:
->> On 04.12.20 23:07, Vladimir Sementsov-Ogievskiy wrote:
->>> The code already don't freeze base node and we try to make it prepared
->>> for the situation when base node is changed during the operation. In
->>> other words, block-stream doesn't own base node.
+On 12/11/20 11:10 AM, Claudio Fontana wrote:
+> On 12/11/20 6:05 PM, Richard Henderson wrote:
+>> On 12/11/20 2:31 AM, Claudio Fontana wrote:
+>>> From: Eduardo Habkost <ehabkost@redhat.com>
 >>>
->>> Let's introduce a new interface which should replace the current one,
->>> which will in better relations with the code. Specifying bottom node
->>> instead of base, and requiring it to be non-filter gives us the
->>> following benefits:
->>>
->>>   - drop difference between above_base and base_overlay, which will be
->>>     renamed to just bottom, when old interface dropped
->>>
->>>   - clean way to work with parallel streams/commits on the same backing
->>>     chain, which otherwise become a problem when we introduce a filter
->>>     for stream job
->>>
->>>   - cleaner interface. Nobody will surprised the fact that base node may
->>>     disappear during block-stream, when there is no word about "base" in
->>>     the interface.
->>>
->>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>>> [claudio: wrapped in CONFIG_TCG]
+>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 >>> ---
->>>   qapi/block-core.json           |  8 +++--
->>>   include/block/block_int.h      |  1 +
->>>   block/monitor/block-hmp-cmds.c |  3 +-
->>>   block/stream.c                 | 50 +++++++++++++++++++---------
->>>   blockdev.c                     | 61 ++++++++++++++++++++++++++++------
->>>   5 files changed, 94 insertions(+), 29 deletions(-)
+>>>  include/hw/core/cpu.h         |  8 --------
+>>>  include/hw/core/tcg-cpu-ops.h | 12 ++++++++++++
+>>>  accel/tcg/cpu-exec.c          |  4 ++--
+>>>  target/arm/cpu.c              |  4 +++-
+>>>  target/avr/cpu.c              |  2 +-
+>>>  target/hppa/cpu.c             |  2 +-
+>>>  target/i386/tcg/tcg-cpu.c     |  2 +-
+>>>  target/microblaze/cpu.c       |  2 +-
+>>>  target/mips/cpu.c             |  4 +++-
+>>>  target/riscv/cpu.c            |  2 +-
+>>>  target/rx/cpu.c               |  2 +-
+>>>  target/sh4/cpu.c              |  2 +-
+>>>  target/sparc/cpu.c            |  2 +-
+>>>  target/tricore/cpu.c          |  2 +-
+>>>  14 files changed, 29 insertions(+), 21 deletions(-)
 >>>
->>> diff --git a/qapi/block-core.json b/qapi/block-core.json
->>> index 04055ef50c..5d6681a35d 100644
->>> --- a/qapi/block-core.json
->>> +++ b/qapi/block-core.json
->>> @@ -2522,6 +2522,10 @@
->>>   # @base-node: the node name of the backing file.
->>>   #             It cannot be set if @base is also set. (Since 2.8)
->>>   #
->>> +# @bottom: the last node in the chain that should be streamed into
->>> +#          top. It cannot be set any of @base, @base-node or 
->>> @backing-file
+>>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+>>> index ea648d52ad..83007d262c 100644
+>>> --- a/include/hw/core/cpu.h
+>>> +++ b/include/hw/core/cpu.h
+>>> @@ -110,13 +110,6 @@ struct TranslationBlock;
+>>>   *       If the target behaviour here is anything other than "set
+>>>   *       the PC register to the value passed in" then the target must
+>>>   *       also implement the synchronize_from_tb hook.
+>>> - * @synchronize_from_tb: Callback for synchronizing state from a TCG
+>>> - *       #TranslationBlock. This is called when we abandon execution
+>>> - *       of a TB before starting it, and must set all parts of the CPU
+>>> - *       state which the previous TB in the chain may not have updated.
+>>> - *       This always includes at least the program counter; some targets
+>>> - *       will need to do more. If this hook is not implemented then the
+>>> - *       default is to call @set_pc(tb->pc).
+>>>   * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
+>>>   *       address fault.  For system mode, if the access is valid, call
+>>>   *       tlb_set_page and return true; if the access is invalid, and
+>>> @@ -193,7 +186,6 @@ struct CPUClass {
+>>>      void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
+>>>                                 Error **errp);
+>>>      void (*set_pc)(CPUState *cpu, vaddr value);
+>>> -    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
+>>>      bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+>>>                       MMUAccessType access_type, int mmu_idx,
+>>>                       bool probe, uintptr_t retaddr);
+>>> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+>>> index 4475ef0996..e1d50b3c8b 100644
+>>> --- a/include/hw/core/tcg-cpu-ops.h
+>>> +++ b/include/hw/core/tcg-cpu-ops.h
+>>> @@ -10,6 +10,8 @@
+>>>  #ifndef TCG_CPU_OPS_H
+>>>  #define TCG_CPU_OPS_H
+>>>  
+>>> +#include "hw/core/cpu.h"
 >>
->> s/set any/set if any/
->>
->> But what’s the problem with backing-file?  The fact that specifying 
->> backing-file means that stream will look for that filename in the 
->> backing chain when the job is done (so if you use @bottom, we 
->> generally don’t want to rely on the presence of any nodes below it)?
+>> This include is circular.
 > 
-> I just wanted to deprecate 'backing-file' together with base and 
-> base-node as a next step. If user wants to set backing file unrelated to 
-> current backing-chain, is it correct at all? It's a direct violation of 
-> what's going on, and I doubt that other parts of Qemu working with 
-> backing-file are prepared for such situation. User can do it by hand 
-> later.. Anyway, we'll have three releases deprecation period for people 
-> to come and cry that this is a really needed option, so we can support 
-> it later on demand.
+> Yes, it's protected though, it was asked that way.
+
+Well, in my strong opinion, someone asked incorrectly.  It's "harmless" because
+of the protection ifdefs, but it's Wrong because it has the potential to hide bugs.
+
+What is it that you thought you needed from core/cpu.h anyway?
+
+>> Are you sure that splitting out hw/core/tcg-cpu-ops.h from hw/core/cpu.h in
+>> patch 15 is even useful?
 > 
->>
->> (If so, I would have thought that we actually want the user to specify 
->> backing-file so we don’t have to look down below @bottom to look for a 
->> filename.  Perhaps a @backing-fmt parameter would help.)
-> 
-> If we decide that 'backing-file' is really needed, than yes we should 
-> require backing-fmt to be specified together with backing-file when 
-> using new "bottom" interface.
-Before I can agree on removing backing-file (or deprecating it), I need 
-to know what it’s actually used for.  I actually don’t, though.  The 
-only reason I could imagine was because the user wanted to write some 
-string into there that is different from base.filename.
+> it avoids a huge #ifdef CONFIG_TCG
 
-(The original commit 13d8cc515df does mention cases like FD passing, 
-where qemu has no idea what an appropriate filename would be (it can 
-only see /dev/fd/*).  From that, it does appear to me that it’ll be 
-needed even with @bottom.)
+So?  The question should be: is it useful on its own, and I think the answer to
+that is clearly not.  Thus it should not pretend to be a standalone header file.
 
-Max
 
+r~
 
