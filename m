@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F1E62D6D9E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 02:38:16 +0100 (CET)
-Received: from localhost ([::1]:53568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D4222D6DC3
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 02:54:19 +0100 (CET)
+Received: from localhost ([::1]:60180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knXNv-0007Le-3I
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 20:38:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53800)
+	id 1knXdR-0002cW-Qm
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 20:54:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knXMc-0006uj-FA
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 20:36:54 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:38612)
+ (Exim 4.90_1) (envelope-from
+ <3yNDSXwgKCrkvtgZnsrgfnnfkd.bnlpdlt-cdudkmnmfmt.nqf@flex--wuhaotsh.bounces.google.com>)
+ id 1knXbR-0001LI-9z
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 20:52:13 -0500
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:46707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knXMY-0001oD-3t
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 20:36:54 -0500
-Received: by mail-ot1-x344.google.com with SMTP id j20so2385609otq.5
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 17:36:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=to0a5X2SEI1jMqJvPztqxtJWZ8sso8MEegiFoGYAdZY=;
- b=E+/Ge3x3amQ67xkUDkbVkXH1JK09BSHWrRsgswrNAmIg2/n2ZIQgRLRtNkbfCllGEG
- aj84Qax67dD3vRVnWy8hXfO7bXfrxSfmFOzxbrJ41dOx6HXOqLYXttX2xKwlEjJ2cVsX
- 1alcLGgQOAyXJjCXN2pKTf5kuWECSbL/+Ux9t0sE7MKU8zbWbtOWSltiikzhKSDeWzYo
- 6miSRU8tsOy4tySDcm79QI9k3iYe3MM1M73FHZ65cgG0yvhNp8sPovO6nQEokkTKl24+
- se5Cv70KEwSJWSaSLFtfpkuY95gebeIM2lPObIbYT05kGw29bC6oMQQBF/0uSAwk8llm
- e6VQ==
+ (Exim 4.90_1) (envelope-from
+ <3yNDSXwgKCrkvtgZnsrgfnnfkd.bnlpdlt-cdudkmnmfmt.nqf@flex--wuhaotsh.bounces.google.com>)
+ id 1knXbO-00075o-Kd
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 20:52:13 -0500
+Received: by mail-yb1-xb4a.google.com with SMTP id k7so9145655ybm.13
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 17:52:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=miPXtkgbpQeWBxviBgCSwuVR4yhJikku+T4Gtrjg3Hs=;
+ b=WPAuAdmWSbV1XA3W0r+bQa9A82YfOcO+nR8kmO6rb58Q8VnrQ/pGPlE3jtEJYS4G/h
+ 6iiasxrTalMKW8TFl5yxQV8EU/3CdZEcPogQ9CSSBjD5vOmNcTMo2EcvGofjAIyyCDTa
+ XPwJI8eZrHKtbS7CCyRJiVh9SXZc6IJwitWwm6aaTfEM5+u2sETvwKwbVWBnTZxm6Uql
+ vkY5QE/aon7dcs6dstl0iATvdNUMFVVT7kE3H1u4ShmxVADxbKSzwz/msnyId4sKj0x9
+ QcrxUYNgjtDQcI/LIp4e1b6k5KGCGKdCFAqB/NbvmGZDHFaSX3ywnMCnXW9GXFscPkYr
+ XqMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=to0a5X2SEI1jMqJvPztqxtJWZ8sso8MEegiFoGYAdZY=;
- b=p9C+nyObS/h/ruYTtQVzJ76yZQGK1o5Wdh/L5UQvVMoyizp9oS2jy86HsRmvp99ePy
- xGUsa+XHGyVsb/ECw5Lgup+Sx5VPyU9y400JK05oAOoDytw91a7FEulgZ2OHn6mek3o4
- ExaX1jZ8TiAvWjDuGx3qYNox8rptxn5qoBqbFQ1oPE9jrbIZwgKzC0jeff7eJCJZfyxL
- hTTUfG24lJqSIpSkUo+qZsjxRljDzbImDNr0XMOgjBthMwibFLePuMqYmh40N86B56e5
- NytR2AzM57TfOPe10WnDc8IQBh7WFR+NYpeSvAFgziECy6dt16+82fldueS3d0pmyBmB
- V2yw==
-X-Gm-Message-State: AOAM533eOHt3LtHh+TU8++/YnLrquCXjxbvs1CvJGwsQiy7qiKU9mBCr
- dlfJQwqEiZmkriplPkf1KYhYlg==
-X-Google-Smtp-Source: ABdhPJxw/p8IzM6LaDHko5lSPwS+gtQwQtSfoI3pDFkFTXgxM2oPQyCchDdHtUUW0b4ydWXyftZ2Vw==
-X-Received: by 2002:a9d:7407:: with SMTP id n7mr7979473otk.189.1607650607592; 
- Thu, 10 Dec 2020 17:36:47 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id z14sm1423772oot.5.2020.12.10.17.36.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Dec 2020 17:36:46 -0800 (PST)
-Subject: Re: [PATCH 1/4] clock: Introduce clock_ticks_to_ns()
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20201208181554.435-1-peter.maydell@linaro.org>
- <20201208181554.435-2-peter.maydell@linaro.org>
- <fc447673-dada-5f00-8c52-29d90e6db641@linaro.org>
- <CAFEAcA_keq-NV+YNwAyVWbkHxGYFR+Ud3hnh5b1KujpQXh68hw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4fe28a52-40a2-47d5-9c3d-44e5ad9f95c3@linaro.org>
-Date: Thu, 10 Dec 2020 19:36:44 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_keq-NV+YNwAyVWbkHxGYFR+Ud3hnh5b1KujpQXh68hw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=miPXtkgbpQeWBxviBgCSwuVR4yhJikku+T4Gtrjg3Hs=;
+ b=YVv/4UWuoqMXGWG4epMiafZcXSuVrnQLoY3adi7ePpRDAnycU22kbdrbEkvqJOLeTg
+ p9SpbhWGGpDcw5tQ4/jsMGDVQFevI09ZZsVTTvnIQLUwXZp6ZmhywJXZdTMcIXxOXPtE
+ Safn/XtBt+pA4AKV1VRf5/Np/LKf0dNt/0GLhs390PYC0fc+Dc/+9p8G6z8eRAuwXEem
+ x1eh98VoXmsXd1J6Vl7PgwEj+iPBPBgVSM8bY9UerVkYhYhMGn7lLsgxC7kADRTsCp/o
+ hqyVkvqzDSMtce9ppUAT7fxdX1A5YsuJppbEjIRVANCDlYo5GO9QvWHsq/uRNpATWz3I
+ QeMQ==
+X-Gm-Message-State: AOAM533a+6mSxUUlvBScv335MDOOm8JSYnAkehmSY7H2D+MXh8u8biWG
+ FywlOZ43uVscMyGJKXIG3KQtKMUp8rAskA==
+X-Google-Smtp-Source: ABdhPJygsT7WLxlvHnTUYEVLlU55rMBXAm3llJctQG9NH1stmkB4HLCk7yONbXYcBU7pi1yAjWeA/VtNW3pZ3w==
+X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:10:7f:e700:c0a8:4e])
+ (user=wuhaotsh job=sendgmr) by 2002:a25:9204:: with SMTP id
+ b4mr15375502ybo.98.1607651528672; Thu, 10 Dec 2020 17:52:08 -0800 (PST)
+Date: Thu, 10 Dec 2020 17:51:49 -0800
+Message-Id: <20201211015156.2053372-1-wuhaotsh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.684.gfbc64c5ab5-goog
+Subject: [PATCH 0/7] Additional NPCM7xx devices and IPMI BMC emulation support
+To: peter.maydell@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3yNDSXwgKCrkvtgZnsrgfnnfkd.bnlpdlt-cdudkmnmfmt.nqf@flex--wuhaotsh.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,32 +78,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Luc Michel <luc.michel@greensocs.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: minyard@acm.org, venture@google.com, qemu-devel@nongnu.org,
+ hskinnemoen@google.com, wuhaotsh@google.com, kfting@nuvoton.com,
+ qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Hao Wu <wuhaotsh@google.com>
+From: Hao Wu via <qemu-devel@nongnu.org>
 
-On 12/10/20 2:47 PM, Peter Maydell wrote:
->> With the shift, you're discarding the high 32 bits of the result.  You'll lose
->> those same bits if you shift one of the inputs left by 32, and use only the
->> high part of the result, e.g.
->>
->>     mulu(&discard, &ret, clk->period, ticks << 32);
->>     return ret;
->>
->> Which on some hosts, e.g. aarch64, only requires umulh and not two multiply
->> instructions.
-> 
-> We can't do this if we want to allow a full 64-bit 'ticks' input, right?
+This patch series include a few more NPCM7XX devices including
 
-Correct.
+- Analog Digital Converter (ADC)
+- Pulse Width Modulation (PWM)
+- Keyboard Style Controller (KSC)
 
-> So I think my plan for v2 of this series is just to add in the
-> saturation-to-INT64_MAX logic.
+To utilize these modules we also add two extra functionalities:
 
-Sounds good.
+1. We modified the CLK module to generate clock values using qdev_clock.
+   These clocks are used to determine various clocks in NPCM7XX devices.
+2. We added support for emulating IPMI responder devices in BMC machines,
+   similar to the existing IPMI device support for CPU emulation. This allows
+   a qemu instance running BMC firmware to serve as an external BMC for a qemu
+   instance running server software. It utilizes the KCS module we implemented.
 
-r~
+Hao Wu (7):
+  hw/misc: Add clock converter in NPCM7XX CLK module
+  hw/timer: Refactor NPCM7XX Timer to use CLK clock
+  hw/adc: Add an ADC module for NPCM7XX
+  hw/misc: Add a PWM module for NPCM7XX
+  hw/ipmi: Add an IPMI host interface
+  hw/ipmi: Add a KCS Module for NPCM7XX
+  hw/ipmi: Add an IPMI external host device
+
+ default-configs/devices/arm-softmmu.mak |   2 +
+ docs/system/arm/nuvoton.rst             |   6 +-
+ hw/adc/meson.build                      |   1 +
+ hw/adc/npcm7xx_adc.c                    | 318 ++++++++++
+ hw/arm/npcm7xx.c                        |  65 +-
+ hw/ipmi/Kconfig                         |   5 +
+ hw/ipmi/ipmi_host.c                     |  40 ++
+ hw/ipmi/ipmi_host_extern.c              | 435 +++++++++++++
+ hw/ipmi/meson.build                     |   3 +
+ hw/ipmi/npcm7xx_kcs.c                   | 570 +++++++++++++++++
+ hw/misc/meson.build                     |   1 +
+ hw/misc/npcm7xx_clk.c                   | 795 +++++++++++++++++++++++-
+ hw/misc/npcm7xx_pwm.c                   | 535 ++++++++++++++++
+ hw/timer/npcm7xx_timer.c                |  25 +-
+ include/hw/adc/npcm7xx_adc.h            |  72 +++
+ include/hw/arm/npcm7xx.h                |   6 +
+ include/hw/ipmi/ipmi_host.h             |  56 ++
+ include/hw/ipmi/ipmi_responder.h        |  66 ++
+ include/hw/ipmi/npcm7xx_kcs.h           | 105 ++++
+ include/hw/misc/npcm7xx_clk.h           | 146 ++++-
+ include/hw/misc/npcm7xx_pwm.h           | 106 ++++
+ include/hw/timer/npcm7xx_timer.h        |   1 +
+ tests/qtest/meson.build                 |   4 +-
+ tests/qtest/npcm7xx_adc-test.c          | 400 ++++++++++++
+ tests/qtest/npcm7xx_pwm-test.c          | 490 +++++++++++++++
+ 25 files changed, 4221 insertions(+), 32 deletions(-)
+ create mode 100644 hw/adc/npcm7xx_adc.c
+ create mode 100644 hw/ipmi/ipmi_host.c
+ create mode 100644 hw/ipmi/ipmi_host_extern.c
+ create mode 100644 hw/ipmi/npcm7xx_kcs.c
+ create mode 100644 hw/misc/npcm7xx_pwm.c
+ create mode 100644 include/hw/adc/npcm7xx_adc.h
+ create mode 100644 include/hw/ipmi/ipmi_host.h
+ create mode 100644 include/hw/ipmi/ipmi_responder.h
+ create mode 100644 include/hw/ipmi/npcm7xx_kcs.h
+ create mode 100644 include/hw/misc/npcm7xx_pwm.h
+ create mode 100644 tests/qtest/npcm7xx_adc-test.c
+ create mode 100644 tests/qtest/npcm7xx_pwm-test.c
+
+-- 
+2.29.2.684.gfbc64c5ab5-goog
+
 
