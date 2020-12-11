@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ABBA2D778E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 15:15:27 +0100 (CET)
-Received: from localhost ([::1]:33208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 399A92D77A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 15:18:39 +0100 (CET)
+Received: from localhost ([::1]:36872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knjCg-0001aC-H9
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 09:15:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36590)
+	id 1knjFm-0003Ha-8r
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 09:18:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knjA5-0008RH-AN
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:12:45 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:38608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knjA0-0004ll-QA
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:12:45 -0500
-Received: by mail-ej1-x641.google.com with SMTP id a16so12524773ejj.5
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 06:12:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=hin4F6m6Q3d9vhybERx7Xp/BFQbKpRH6aW97uNF+4XE=;
- b=EuUWW19GPHr4gvS5Sliirlz2xyOF6UA5gQNoq1yNQYSx97ANRjdO2/EF/OfxNZo6YR
- put+oGenuNV30pL3SZzfcTiJGjk/t7YlvAhIA70YPFK3ulVW6vIz2rH9jO8SE3amiPnG
- kfxfYD5W4JosDkwVxf2yKsdgAnu6+Rj3P0O8lw60rp0qbu4VIqvd2NemSXbxF+h0mpNU
- +iRRHNgjVpTtge8d5DnCKuvXmlZHAZ02s2oJj0aR3+m92QE5zQ3OtY+QWmtMKm/W1uaF
- J3BDbsEchIYsaIPMCnxsQ/9oe4vcL39nqjsI3XnqVmEDaMWIsgFKbf+J9CThD43cJOi1
- DwuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hin4F6m6Q3d9vhybERx7Xp/BFQbKpRH6aW97uNF+4XE=;
- b=p+K7pY+UBWhF+yXc6VHex1CjcX/JPwH/Je4fduAo1DC2SJPtMNREA6XVb7qq3eux1G
- EXX1LYqeLSrVgG5gklnPk9STiOZBGc0v737jLrf5AgQ/hjjj/5ILt3MgrJSBIo15fG9P
- 7q0nVO0nb9mbDah61wtWKbGjb4tU6CS2mi3DYOEkKRc7D3tqDHE0JGv0W3P8Meybe7Np
- 1NrL39TngurDw6fV4gpUQNR30VDUkVnoMcNlI4AbCkOFSiFqzL6D5vLfqYq+hQhbGK20
- 1B34HygpqT4+vEkbraHB6a+aMCP8i1RQNYVFqM93ep41q7TfGJO3V39Pzj7Ud0pT7VZv
- IXQA==
-X-Gm-Message-State: AOAM531Vb7tUdbDEbhcLHW/JUj5oLLAaMTGA/B4dDCcYzjMK5sCURjVV
- yZmCfjt4KcLPUyeXYbWD+3P6SRZi8HN7RXvVof7hVQ==
-X-Google-Smtp-Source: ABdhPJw3TLkPKCScCZkLlsCAJqMiZGmhMXVGEGeSCdoSi0/JZRRLXcOGvkjQ+5+oZ4e1wfRBeJiGzI62NTpDBk3MJF0=
-X-Received: by 2002:a17:907:971c:: with SMTP id
- jg28mr11113058ejc.85.1607695959263; 
- Fri, 11 Dec 2020 06:12:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1knjE0-0002dG-Pn
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:16:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1knjDy-0006IR-Vg
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:16:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607696205;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Iaszy/MFmkKOUZPW1Cg501ah47JYbBS3hDfTzHKMrk=;
+ b=cXA+CKRYk8W4kozxsN0lkpA7M3A7ZoEhsS45gB1oNL99fwj1ZURsnJguDXEBqnGGa5Nh08
+ ff6YF52MsxTkpL5/wPTnan9BsO2tLhogsqwi/W7YLKIKxiX9x8XSorkyNKKl6sBIJZyQwv
+ fEoMwWLvl1C5gKmQxpJFfI2XzEf0R4k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-31-9agLqth4Pd22V7bJ3Gk53g-1; Fri, 11 Dec 2020 09:16:43 -0500
+X-MC-Unique: 9agLqth4Pd22V7bJ3Gk53g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAE69107ACFB;
+ Fri, 11 Dec 2020 14:16:42 +0000 (UTC)
+Received: from kaapi (unknown [10.33.36.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D344C60BF1;
+ Fri, 11 Dec 2020 14:16:39 +0000 (UTC)
+Date: Fri, 11 Dec 2020 19:46:35 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] ide:atapi: check io_buffer_index in
+ ide_atapi_cmd_reply_end
+In-Reply-To: <2c1b5a52-cce0-560e-269b-9d61348cfa92@redhat.com>
+Message-ID: <53s4p836-4rp7-9p5-19r9-37n1qr70o02s@erqung.pbz>
+References: <20201118142745.112579-1-ppandit@redhat.com>
+ <204751s9-11np-413q-q3pr-3o6os86078@erqung.pbz>
+ <492170b8-8056-bd65-5150-62c6e89cb3f0@redhat.com>
+ <933np1s-8p4p-o74p-rp94-517r98nop2o6@erqung.pbz>
+ <a964ffea-ece6-3f33-3dd1-ee9c2b729b75@redhat.com>
+ <87sg8o65ys.fsf@dusky.pond.sub.org>
+ <212n55r-9n3q-8r4r-85p7-14n495r53s6n@erqung.pbz>
+ <CAKZf9JDg=5y=2v=O6ZQjcLCYXXEn2szM_c3rrQgtTHvLsSicww@mail.gmail.com>
+ <2c1b5a52-cce0-560e-269b-9d61348cfa92@redhat.com>
 MIME-Version: 1.0
-References: <20201121210342.10089-1-peter.maydell@linaro.org>
- <87im9wnqbf.fsf@linaro.org>
-In-Reply-To: <87im9wnqbf.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 11 Dec 2020 14:12:27 +0000
-Message-ID: <CAFEAcA-yqaXOkw8dXJdR8dthXfVqKVR4yGR9VVQ3BP5U_Gyg9w@mail.gmail.com>
-Subject: Re: [PATCH] gdbstub: Correct misparsing of vCont C/S requests
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,54 +85,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Wenxiang Qian <leonwxqian@gmail.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Nov 2020 at 13:41, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > In the vCont packet, two of the command actions (C and S) take an
-> > argument specifying the signal to be sent to the process/thread, which =
-is
-> > sent as an ASCII string of two hex digits which immediately follow the
-> > 'C' or 'S' character.
-> >
-> > Our code for parsing this packet accidentally skipped the first of the
-> > two bytes of the signal value, because it started parsing the hex strin=
-g
-> > at 'p + 1' when the preceding code had already moved past the 'C' or
-> > 'S' with "cur_action =3D *p++".
-> >
-> > This meant that we would only do the right thing for signals below
-> > 10, and would misinterpret the rest.  For instance, when the debugger
-> > wants to send the process a SIGPROF (27 on x86-64) we mangle this into
-> > a SIGSEGV (11).
-> >
-> > Remove the accidental double increment.
-> >
-> > Fixes: https://bugs.launchpad.net/qemu/+bug/1773743
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->
-> LGTM
->
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> > ---
-> > Haven't really given this enough testing to want to put it into 5.2,
-> > I think (though it does fix the repro in the bug report).
-> > The bug has been present since commit 544177ad1cfd78 from 2017.
->
-> I'd be happy including it. I don't have any gdbstub patches queued at
-> the moment but I could put together one if you want or you could just
-> include it directly if you are now happy to.
++-- On Fri, 11 Dec 2020, Paolo Bonzini wrote --+
+| This is not the root cause.  These are the last steps before bad things 
+| happen; the root cause is what _led_ to those last steps.  In this case, the 
+| root cause is that a read request with s->lba == -1 is mistaken for a 
+| non-read.  Read requests are able to reset s->io_buffer_index and start with 
+| the index pointing just after the end of the sector buffer; non-read 
+| requests instead visit the buffer just once and start with 
+| s->io_buffer_index == 0.
+| 
+| In turn, the fix is to validate:
+| 
+| 1) that s->lba is in range when issuing a read request
+| 
+| 2) that the size of the device is sane (e.g. the number of blocks is a
+| positive 32-bit integer).
 
-Now that 6.0 has opened up, I'll put this in via target-arm.next
-unless you'd prefer to take it.
+  Yes, working on a revised patch...
 
--- PMM
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+
 
