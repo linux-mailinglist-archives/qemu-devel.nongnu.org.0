@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C2352D7D82
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:00:05 +0100 (CET)
-Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 264AF2D7D2B
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:42:53 +0100 (CET)
+Received: from localhost ([::1]:33772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knmi4-0006NY-47
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:00:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51766)
+	id 1knmRQ-00031C-1b
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:42:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knlxr-0007WO-4v
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:12:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56756)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knm2i-00041s-V4
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:17:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knlxc-0003Rt-5D
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:12:18 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knm2d-0005Oo-Bn
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:17:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607706722;
+ s=mimecast20190719; t=1607707034;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bOd2BTdZKzom8xe4nLg5kfdBkg6td/B1P4feiu8Cwcc=;
- b=WhGi/Ix3cGyCruYUhWVp3uIvGtnLyjB5tKTaa3gJL/TP33cge26ukHeGR4t9p2PFxRxnml
- ++3WL+Pl0PxU61cV3x7qztv1kbmGlHz+S/JsDKgewrsv4y7HVQlLfTcVPyFToNRWJ98EWR
- kVw+z4h6+Kmdy0EoYhToZJ8M6FdrDHE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-wPf1WQvcPoaJ8cV0quwS_A-1; Fri, 11 Dec 2020 12:11:58 -0500
-X-MC-Unique: wPf1WQvcPoaJ8cV0quwS_A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 850FB1052BAF;
- Fri, 11 Dec 2020 17:11:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 553BE5D9DD;
- Fri, 11 Dec 2020 17:11:57 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DDCB8112E5DC; Fri, 11 Dec 2020 18:11:52 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 17/20] json: Use GString instead of QString to accumulate
- strings
-Date: Fri, 11 Dec 2020 18:11:49 +0100
-Message-Id: <20201211171152.146877-18-armbru@redhat.com>
-In-Reply-To: <20201211171152.146877-1-armbru@redhat.com>
-References: <20201211171152.146877-1-armbru@redhat.com>
+ bh=Y9js6tWuavZqGk0V0v9buhtJVS4jKDh4XdWkJL3pBnw=;
+ b=JoGkUFg5qceoaeLUam9FPwTqCLnbaR1V7cOvOQ3xrJqDm9q5hNLDgcTVEQS7xnNeKfeAYt
+ kDXzLLfl3t6I3EvBpqpUf98zzFyJiF+99j9XfnG0I3MzIA8sFrF2S/HqjD01hBaxUjbR4d
+ 9NBmBBBcWdj+TvZnQKQIoN5lGHpFOkI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-sK-lINlGMVe6ugSyPIKUIA-1; Fri, 11 Dec 2020 12:17:12 -0500
+X-MC-Unique: sK-lINlGMVe6ugSyPIKUIA-1
+Received: by mail-ed1-f71.google.com with SMTP id bo22so4206418edb.15
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 09:17:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Y9js6tWuavZqGk0V0v9buhtJVS4jKDh4XdWkJL3pBnw=;
+ b=HNxDoxsNqJLAHloLeNk4mEq5dFPz/qsFhk/FbYUIhTCfvuxm68gzYalRswM4UW0r/Z
+ zoCEbO41KKRtMzy4+bFD1wgeXw/IALZzpgpG/6c/jluZ88Bxst9AOyCvJ1gzgzWfWdUz
+ LFvDI6rrK8k2ppl0JmwIymO0o9wG+mLGafmKHWIQc2poviU0fyobqBiYmVm6WtgChFjg
+ +AKKR/1kU7MsvNWSqQxHX62KZ6sdLX4c3oZGlrOq/F3u/fr60oByHkNwCFsMBMQuxyKy
+ I+mdB5UKZ8tQJaIaFGLB7cRd1b2FhLpQjHWzr/vgVgXgKV2GhKuD64cK3VnkZIDZxnd6
+ x7ag==
+X-Gm-Message-State: AOAM530cpWtNaveEjD2kqI2v4DxNqiQUS3L08++3UOkDlp7h9Rkvp3J8
+ k8zMEGiJmVXRJhTm9y9NH35JYJ7cxJa9iUXYfcVWfZw1AzREq8icPPRBau5xMpRhx2E2JmyopFj
+ 4T1L/yrQS6K5n0iNY9zNcRg38jXFZLXB44d7Ynwy2RUdAhOhQf7BZpwFlI8KxhfsR
+X-Received: by 2002:a17:906:8594:: with SMTP id
+ v20mr11645649ejx.470.1607707031244; 
+ Fri, 11 Dec 2020 09:17:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzcvMxoOsCzK+JxjtE6LFfkvxzmjLqz2/y1qpUGQOgqR9wCIaVW2SZ7aE1Id9dPGTk5ilWqfQ==
+X-Received: by 2002:a17:906:8594:: with SMTP id
+ v20mr11645622ejx.470.1607707030982; 
+ Fri, 11 Dec 2020 09:17:10 -0800 (PST)
+Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id 2sm7263733ejw.65.2020.12.11.09.17.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Dec 2020 09:17:10 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>
+Subject: [RFC PATCH 1/2] gitlab-ci: Step in to maintain the fedora-i386-cross
+ runner
+Date: Fri, 11 Dec 2020 18:17:02 +0100
+Message-Id: <20201211171703.537546-2-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201211171703.537546-1-philmd@redhat.com>
+References: <20201211171703.537546-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,112 +97,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ virt-ci-maint-team@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QString supports modifying its string, but it's quite limited: you can
-only append.  The remaining callers use it for building an initial
-string, never for modifying it later.
+As I am interested in using the runner based on the fedora-i386-cross
+docker image, add a smoke test job to be sure this image is usable,
+and set the JOB_MAINTAINER_NAME/JOB_MAINTAINER_EMAIL variables so
+other developers can contact me in case there is a problem with the
+public runner based on this image.
 
-Change parse_string() to do build the initial string with GString.
-This is another step towards making QString immutable.
+We will eventually send a patch to make script/checkpatch.pl parse
+the Gitlab YAML jobs to understand the JOB_MAINTAINER_NAME and
+JOB_MAINTAINER_EMAIL variables.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- qobject/json-parser.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ .gitlab-ci.d/crossbuilds.yml | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/qobject/json-parser.c b/qobject/json-parser.c
-index c0f521b56b..d351039b10 100644
---- a/qobject/json-parser.c
-+++ b/qobject/json-parser.c
-@@ -130,7 +130,7 @@ static int cvt4hex(const char *s)
- static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
- {
-     const char *ptr = token->str;
--    QString *str;
-+    GString *str;
-     char quote;
-     const char *beg;
-     int cp, trailing;
-@@ -140,7 +140,7 @@ static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index bd6473a75a7..864cad7cec5 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -39,6 +39,13 @@
+       ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-system
+     - make -j$(expr $(nproc) + 1) all check-build
  
-     assert(*ptr == '"' || *ptr == '\'');
-     quote = *ptr++;
--    str = qstring_new();
-+    str = g_string_new(NULL);
++.cross_sanity_check_job:
++  stage: build
++  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++  timeout: 3m
++  script:
++    - /bin/true
++
+ cross-armel-system:
+   extends: .cross_system_build_job
+   variables:
+@@ -69,6 +76,14 @@ cross-arm64-user:
+   variables:
+     IMAGE: debian-arm64-cross
  
-     while (*ptr != quote) {
-         assert(*ptr);
-@@ -149,31 +149,31 @@ static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
-             beg = ptr++;
-             switch (*ptr++) {
-             case '"':
--                qstring_append_chr(str, '"');
-+                g_string_append_c(str, '"');
-                 break;
-             case '\'':
--                qstring_append_chr(str, '\'');
-+                g_string_append_c(str, '\'');
-                 break;
-             case '\\':
--                qstring_append_chr(str, '\\');
-+                g_string_append_c(str, '\\');
-                 break;
-             case '/':
--                qstring_append_chr(str, '/');
-+                g_string_append_c(str, '/');
-                 break;
-             case 'b':
--                qstring_append_chr(str, '\b');
-+                g_string_append_c(str, '\b');
-                 break;
-             case 'f':
--                qstring_append_chr(str, '\f');
-+                g_string_append_c(str, '\f');
-                 break;
-             case 'n':
--                qstring_append_chr(str, '\n');
-+                g_string_append_c(str, '\n');
-                 break;
-             case 'r':
--                qstring_append_chr(str, '\r');
-+                g_string_append_c(str, '\r');
-                 break;
-             case 't':
--                qstring_append_chr(str, '\t');
-+                g_string_append_c(str, '\t');
-                 break;
-             case 'u':
-                 cp = cvt4hex(ptr);
-@@ -200,7 +200,7 @@ static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
-                                 (int)(ptr - beg), beg);
-                     goto out;
-                 }
--                qstring_append(str, utf8_buf);
-+                g_string_append(str, utf8_buf);
-                 break;
-             default:
-                 parse_error(ctxt, token, "invalid escape sequence in string");
-@@ -225,14 +225,14 @@ static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
-             ptr = end;
-             len = mod_utf8_encode(utf8_buf, sizeof(utf8_buf), cp);
-             assert(len >= 0);
--            qstring_append(str, utf8_buf);
-+            g_string_append(str, utf8_buf);
-         }
-     }
- 
--    return str;
-+    return qstring_from_gstring(str);
- 
- out:
--    qobject_unref(str);
-+    g_string_free(str, true);
-     return NULL;
- }
- 
++cross-i386-sanity-check:
++  extends: .cross_sanity_check_job
++  variables:
++    JOB_MAINTAINER_NAME: "Philippe Mathieu-Daudé"
++    JOB_MAINTAINER_EMAIL: philmd@redhat.com
++    GIT_SUBMODULE_STRATEGY: none
++    IMAGE: fedora-i386-cross
++
+ cross-mips-system:
+   extends: .cross_system_build_job
+   variables:
 -- 
 2.26.2
 
