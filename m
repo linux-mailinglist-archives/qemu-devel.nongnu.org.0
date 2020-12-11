@@ -2,78 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D78D2D7725
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 14:57:21 +0100 (CET)
-Received: from localhost ([::1]:58152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A23D52D7693
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 14:31:19 +0100 (CET)
+Received: from localhost ([::1]:59738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knivA-0004fS-6j
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 08:57:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42794)
+	id 1kniVx-0000dG-S6
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 08:31:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leonwxqian@gmail.com>)
- id 1kndrT-0001bl-Cl
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 03:33:11 -0500
-Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d]:43091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leonwxqian@gmail.com>)
- id 1kndrO-0002am-Pp
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 03:33:10 -0500
-Received: by mail-lj1-x22d.google.com with SMTP id e7so9919267ljg.10
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 00:33:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Qpkb6IxmwJxPSLsK1LI1GSSKB24NhtN5FsaBq6swSCw=;
- b=FlzDOzPZIX7YKHoqGfGIChxUkmJI+BB8nH/uWRMNITf4Kcog3F4GMp4DlKmMrSfeJu
- TZFoFrrM+idBCnoOHFXfUBAfLE/FVYBufD2TqxTx8MooBEREqyqcQhHp3mYNLmue1Ies
- I6LWQZwKy1dp77jJ2l7ncMZMTp1ElLPCk70F7+pufM+WnKjCLF4v1NlC8mcafBxvFvf5
- F5AY181xp1e6I89vDQi8fOAVQBg2J411/Ti5lvwyF3aHYros1CUTKGwnOE+h4RbQXYp1
- e4oZk8Ytt2lnsSt6LmVNYKwdPn0v0BGeAyBVm0TR8KbrRsEPnxXY2ma5z/laZIUcck1d
- dAlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Qpkb6IxmwJxPSLsK1LI1GSSKB24NhtN5FsaBq6swSCw=;
- b=QRGoRZExjFjDrSnRxF0W/Xc80RD5PwJl3DwCzDvEDfZoyTPGLLESnq+6wY6vyNzpLX
- xICf04h5lig93B5DW+4TD7TkywItmSTCIb9BTDdDLhYWcLy8QbCgmdATwCSkrJAZRxi+
- w7EJATE2Ve5XH2GwNpyMsNcXqQlNTQ5cbNvlwSct7AAZ8YYIssMFSF05rBe6/atRQuS3
- 5M6wY92Ejq407evIE0Ft++qL5rWSLV5ighQ8fyoA1AyQ9gejjlx3D7/7yh3g9zjE8YO7
- ybeKltLXxhrSsDzcdCBcyhm64uvBGTnuAd6yRNq+tDnsQqod70GhI8hILdSQKHXpnMkH
- SCAw==
-X-Gm-Message-State: AOAM5325xmNk4+YmrheRvZEfQV14lbbC2tu3zohTsgnk2bE+dvSqjtlB
- 9MZQGDt4SnrIxLRNdmxuBgGc9Zv1HcuRMViPtpM=
-X-Google-Smtp-Source: ABdhPJzyJyos2YckguG8afAZyfqq64QACVjYDv2gsPa5SyM8jTh/dmTfN76La7TkdBcNSvQEyWnKfOR9N95LB7HBXWc=
-X-Received: by 2002:a2e:a484:: with SMTP id h4mr5101512lji.276.1607675584816; 
- Fri, 11 Dec 2020 00:33:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kniT6-0008Db-3g
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 08:28:20 -0500
+Received: from mail-db8eur05on2110.outbound.protection.outlook.com
+ ([40.107.20.110]:64000 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kniT1-0005qP-TD
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 08:28:19 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bTYLHxiing38t5vFHjm5EluOLYH8OhPkuD4McicBfra2ZqTx1oP4BhkyXALZZOuCdbzK3iX8Xwya0G4EHJYQ/nYuGlNtA+IN1/0Lkt0JS5ECmeIimvWGHe6sTvL6o50dj8DXPlaLwAhPqEJtQ8dm+TETuhe/+9r0yB8FSFIx3LBB5ceQzy94xCm8NFn32foXT0ruT2HlBj0Mz0CO3TXYVfTOmqOeBweH7vQKuqV62uTr8+PE815L4AEoRB6ENQlOvNA4kuaUcmiK0lf1AsBALxQvSELPv+Eo2M/jizd/Fccz05t5h9ouar9/ezCnWaYpoqiq9rw7DqYU/ob2/rIgHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F2O4psY9HPyxVBoDMMODInq8dWSl3Fu32QwXKZqT+zI=;
+ b=hZ3Uz0V2rQ78RwMr9re+79RgxIxtzW71e9ZMGNiddJfUD57nJTp4/3bouXDmdDJ3Hn4fr7aWYPjSPorwiScrRe9+RxKSjveKu08X0yxefc6Ljp3upYml3lqFJ2Gb+w/GHKyIqsBZfBu3rNzg6C6PO9XbivEU9Wko5//fMInHT6m3S2xzKYvVkVaN7llfCWGV3Ko0Z81lM+aq7KFYzRdGuZtT5Foo4BM6Tu+frd5n5/uXe+no2zkrtGDrP3xHLHwSHwVPHMnmJxy9RFNTmXwipqXV0lfmlzvYLS55oR4RRIDD0wQThPrAV6R7VV1PZ20rzGMKo53hpwz8wr55VCt0UA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F2O4psY9HPyxVBoDMMODInq8dWSl3Fu32QwXKZqT+zI=;
+ b=BQW1sJBfV5yGDep0984s1YbTn1ARxaDeiTknCTuNL/hPDve1+sf2K+wJBIjI8RSeXc8nIULDbfgryuB4pYqPkg2t29Omdz3XKc/mba7v8TrdGChqFQFT3kme88cVqJai+eBCYCYHq4pY0OXRUpzKQ4w528ghFZsGmplwY1/FflA=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
+ (2603:10a6:800:ad::14) by VI1PR0802MB2607.eurprd08.prod.outlook.com
+ (2603:10a6:800:b9::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Fri, 11 Dec
+ 2020 13:13:05 +0000
+Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
+ ([fe80::ac70:da6f:e05d:1cc9]) by VI1PR0802MB2510.eurprd08.prod.outlook.com
+ ([fe80::ac70:da6f:e05d:1cc9%12]) with mapi id 15.20.3632.026; Fri, 11 Dec
+ 2020 13:13:05 +0000
+Subject: Re: [PATCH v6 0/4] migration: UFFD write-tracking migration/snapshots
+To: qemu-devel@nongnu.org
+References: <20201209100811.190316-1-andrey.gruzdev@virtuozzo.com>
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Message-ID: <3f19b8d2-0b4b-95e3-8a1f-a1cfe791a4e1@virtuozzo.com>
+Date: Fri, 11 Dec 2020 16:13:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201209100811.190316-1-andrey.gruzdev@virtuozzo.com>
+Content-Type: multipart/alternative;
+ boundary="------------CAE1678FB7B7AC0E90103B3B"
+Content-Language: en-US
+X-Originating-IP: [95.165.26.68]
+X-ClientProxiedBy: AM9P192CA0025.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21d::30) To VI1PR0802MB2510.eurprd08.prod.outlook.com
+ (2603:10a6:800:ad::14)
 MIME-Version: 1.0
-References: <20201118142745.112579-1-ppandit@redhat.com>
- <204751s9-11np-413q-q3pr-3o6os86078@erqung.pbz>
- <492170b8-8056-bd65-5150-62c6e89cb3f0@redhat.com>
- <933np1s-8p4p-o74p-rp94-517r98nop2o6@erqung.pbz>
- <a964ffea-ece6-3f33-3dd1-ee9c2b729b75@redhat.com>
- <87sg8o65ys.fsf@dusky.pond.sub.org>
- <212n55r-9n3q-8r4r-85p7-14n495r53s6n@erqung.pbz>
- <CAKZf9JDg=5y=2v=O6ZQjcLCYXXEn2szM_c3rrQgtTHvLsSicww@mail.gmail.com>
-In-Reply-To: <CAKZf9JDg=5y=2v=O6ZQjcLCYXXEn2szM_c3rrQgtTHvLsSicww@mail.gmail.com>
-From: Wenxiang Qian <leonwxqian@gmail.com>
-Date: Fri, 11 Dec 2020 16:32:53 +0800
-Message-ID: <CAKZf9JCJ6A1XjKVWigXTTT-2Jbcshyct3b9pL+PdOtLHizCFvw@mail.gmail.com>
-Subject: Re: [PATCH] ide:atapi: check io_buffer_index in
- ide_atapi_cmd_reply_end
-To: P J P <ppandit@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000025aa1f05b62c246b"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22d;
- envelope-from=leonwxqian@gmail.com; helo=mail-lj1-x22d.google.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.64] (95.165.26.68) by
+ AM9P192CA0025.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:21d::30) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3654.12 via Frontend Transport; Fri, 11 Dec 2020 13:13:04 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 07126300-3384-4e86-6dc8-08d89dd67f53
+X-MS-TrafficTypeDiagnostic: VI1PR0802MB2607:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR0802MB2607C4162DF5B0044D53A0219FCA0@VI1PR0802MB2607.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QUfHz4IRU1TrEpifkxQL6x3Ft+JAg+J8HYVhkBEwVDuaSqztBY4g8O++J9C+3EbgR1cKsr7iWY7VKzd1v/LWf8ousBkSV8RUSTiZXiStB2vZ8e0fdnlMeyGinuB4TRXTRqmWf2Uvqj4jykKKrBJsI+29zbHk4HVpxhZpUau6hrrGhgrMa4FHR0qaNyjJs+WBp0WPECSqsHuRZp9SHXG14PfNMGvMHWMnezmrMHDCrTfzy0FB5Bp2yRtiHIfpvXTcq7+ApKq5RG1USMOcjwaxo8r0vi4VQ4UFOfvA/yvM3KPrwd80RfQ6yOiNpv7JBkKvikz6G5cXulB1fUHRJpjdWRxwFkUaWpLo+alQTJk5AQBwm55/fVcUiWEqU2S1WMuLGl7NsoFVD0ckqMnSbAJgxQb7OCzJS3YAgRejO7Fp+ZRS56in4udrV+J0xY197UBU
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0802MB2510.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(376002)(136003)(396003)(346002)(366004)(52116002)(16576012)(54906003)(6486002)(53546011)(66946007)(2906002)(86362001)(66556008)(4326008)(33964004)(66476007)(31696002)(186003)(316002)(26005)(16526019)(31686004)(44832011)(8676002)(5660300002)(2616005)(956004)(83380400001)(478600001)(6916009)(36756003)(30864003)(8936002)(21314003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?eGs5OHpZcWF3dzYvMVZEMHMwb1I1V3Q0WFVEOXplcGhKTTlYNVJrenBIT1ZJ?=
+ =?utf-8?B?SDU0dmp0aEhKeXJZNW8rYU53azZjZVZuamJLbm50d0JWbWxJVUJzTDFGeHcv?=
+ =?utf-8?B?MFM1T3g3ejE2b2p3dEVFNkcvTkx0ZnlDdlRXWWpxeVNzazZtUWFWbTd1Z0NI?=
+ =?utf-8?B?NmhYbzVpVlp6WXNQMW94d3ZuRU9OUzdIZE85cko2ZWJvQ09PcGIrU2xyTEti?=
+ =?utf-8?B?a0N0d0laeG50Y0FoZmhKRzJ1RGtWb2RNY3lxRjFSSm9idlhwYzBabGtJZE94?=
+ =?utf-8?B?cEVzanFmMTNrUE8vVUpCQWZ1TUlnd0NvZnVJYmNNdGhCZlppa0xtc1I5b3Uy?=
+ =?utf-8?B?TVl3TUZSa2dvU09BQ1lhL3NEMTFlTnF4L0tOcFdPUXFrbVNxQzNRVkFwOGNJ?=
+ =?utf-8?B?Si81QVlpYzJaVlpGWGRBNHkvVzNJbUdtZWhEQjVBKzlsc1lvaGZ1TGUrUUJh?=
+ =?utf-8?B?Y2lqL1hWU0hGNEdqbTZXeXR1TlhwL2tpdmcrblBTaGtuTitIMThROVE5cFV3?=
+ =?utf-8?B?RjdUajliSjVPcFc2S2pzNUNQT3Rib2RMbGZIdDdhenFBbHVTT3BSVUU3NU5w?=
+ =?utf-8?B?dGNpaXdnYk1TZkk0SDFBQ3VCcS9ENzZKZU4zc0ZlcnJnZURKdWsrWlFHN0py?=
+ =?utf-8?B?QTFqd04xMCtuL0V4d3Bka0t4VW8vcUcwUjZZRWhoT0lSQis3STlHeERHMEps?=
+ =?utf-8?B?dnIxR1dVUCtDYnNHQy82ekUvVkVCSFVUVjhtV2VqckFQOTgyMUQxK1JNRmVq?=
+ =?utf-8?B?M3ZBdlpSdTUvRUl2WWI1dURkMW52czZaejd5OFdwWDM2Q1JzNEtwMjFtTzcv?=
+ =?utf-8?B?cytLcnZ5Z1dvekRrZktEWXRCQU9VTzlMaU9mWll5NS9Nb3FkQWoxUVJSa0o5?=
+ =?utf-8?B?TFZkZXNybks5VzU0RXNqUmt0NnpJV2pDb1VvN3N0dHFJQm04ejlKQm03VWFF?=
+ =?utf-8?B?UkhwRXk0NE5zcG1OV01ZSGRBRGpycDArbUtEN05jUUdhc2ZYQmNHczBVS1J3?=
+ =?utf-8?B?MXBXRHBRcGFIcXFvRDhOUzRCdlNNa05leGZ2cG1tcmE1M04wT0htdVJxYU9N?=
+ =?utf-8?B?dnFLYVJzN1ZIVXlJS29hQUc2eEFBdGsvV3RtL25Ld2QrbmtnWktrTmhxbkxE?=
+ =?utf-8?B?WW9ndWFPWG9SdzIvUTMxaXJxdklIbjNqTU4zRitmMU9ZZy9QVnF2Q2hNZ2Ra?=
+ =?utf-8?B?THEzdmJLcGx1cS81Tzh6MStMU0tDdUl2aHpWZktLOFVGVjhvUlJ0UlVpYTUy?=
+ =?utf-8?B?c0ZsS0FuKzBaS0lSM09WMUc3VDZjbThRZmNFQWx1eGpaSGVvNy9sakw4eUdP?=
+ =?utf-8?Q?9lSTYtRfRFUVOeFPUJltFSI5Oqz6iJ6qti?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0802MB2510.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2020 13:13:05.6112 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07126300-3384-4e86-6dc8-08d89dd67f53
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oUq3G4ML/lOgDuZWP/qBOksr4x+xwWree0KYwsFzTClB3xUpzSi8hxWFbiIFKZDjBxMWIvl8udf3LLLK2Eg8lD1MQQZwa5CgWaKIGYbKLcI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0802MB2607
+Received-SPF: pass client-ip=40.107.20.110;
+ envelope-from=andrey.gruzdev@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 11 Dec 2020 08:55:43 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,582 +137,258 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000025aa1f05b62c246b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--------------CAE1678FB7B7AC0E90103B3B
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-+ The lba is set to -1 to avoid some code paths, to make PoC simpler.
+On 09.12.2020 13:08, Andrey Gruzdev wrote:
+> This patch series is a kind of 'rethinking' of Denis Plotnikov's ideas he's
+> implemented in his series '[PATCH v0 0/4] migration: add background snapshot'.
+>
+> Currently the only way to make (external) live VM snapshot is using existing
+> dirty page logging migration mechanism. The main problem is that it tends to
+> produce a lot of page duplicates while running VM goes on updating already
+> saved pages. That leads to the fact that vmstate image size is commonly several
+> times bigger then non-zero part of virtual machine's RSS. Time required to
+> converge RAM migration and the size of snapshot image severely depend on the
+> guest memory write rate, sometimes resulting in unacceptably long snapshot
+> creation time and huge image size.
+>
+> This series propose a way to solve the aforementioned problems. This is done
+> by using different RAM migration mechanism based on UFFD write protection
+> management introduced in v5.7 kernel. The migration strategy is to 'freeze'
+> guest RAM content using write-protection and iteratively release protection
+> for memory ranges that have already been saved to the migration stream.
+> At the same time we read in pending UFFD write fault events and save those
+> pages out-of-order with higher priority.
+>
+> How to use:
+> 1. Enable write-tracking migration capability
+>     virsh qemu-monitor-command <domain> --hmp migrate_set_capability.
+> track-writes-ram on
+>
+> 2. Start the external migration to a file
+>     virsh qemu-monitor-command <domain> --hmp migrate exec:'cat > ./vm_state'
+>
+> 3. Wait for the migration finish and check that the migration has completed.
+> state.
+>
+> Changes v4->v5:
+>
+> * 1. Refactored util/userfaultfd.c code to support features required by postcopy.
+> * 2. Introduced checks for host kernel and guest memory backend compatibility
+> *    to 'background-snapshot' branch in migrate_caps_check().
+> * 3. Switched to using trace_xxx instead of info_report()/error_report() for
+> *    cases when error message must be hidden (probing UFFD-IO) or info may be
+> *    really littering output if goes to stderr.
+> * 4  Added RCU_READ_LOCK_GUARDs to the code dealing with RAM block list.
+> * 5. Added memory_region_ref() for each RAM block being wr-protected.
+> * 6. Reused qemu_ram_block_from_host() instead of custom RAM block lookup routine.
+> * 7. Refused from using specific hwaddr/ram_addr_t in favour of void */uint64_t.
+> * 8. Currently dropped 'linear-scan-rate-limiting' patch. The reason is that
+> *    that choosen criteria for high-latency fault detection (i.e. timestamp of
+> *    UFFD event fetch) is not representative enough for this task.
+> *    At the moment it looks somehow like premature optimization effort.
+> * 8. Dropped some unnecessary/unused code.
+>
+> Changes v5->v6:
+>
+> * 1. Consider possible hot pluggin/unpluggin of memory device - don't use static
+> *    for write-tracking support level in migrate_query_write_tracking(), check
+> *    each time when one tries to enable 'background-snapshot' capability.
+>
+> Andrey Gruzdev (4):
+>    migration: introduce 'background-snapshot' migration capability
+>    migration: introduce UFFD-WP low-level interface helpers
+>    migration: support UFFD write fault processing in ram_save_iterate()
+>    migration: implementation of background snapshot thread
+>
+>   include/exec/memory.h      |   8 +
+>   include/qemu/userfaultfd.h |  35 ++++
+>   migration/migration.c      | 357 ++++++++++++++++++++++++++++++++++++-
+>   migration/migration.h      |   4 +
+>   migration/ram.c            | 270 ++++++++++++++++++++++++++++
+>   migration/ram.h            |   6 +
+>   migration/savevm.c         |   1 -
+>   migration/savevm.h         |   2 +
+>   migration/trace-events     |   2 +
+>   qapi/migration.json        |   7 +-
+>   util/meson.build           |   1 +
+>   util/trace-events          |   9 +
+>   util/userfaultfd.c         | 345 +++++++++++++++++++++++++++++++++++
+>   13 files changed, 1043 insertions(+), 4 deletions(-)
+>   create mode 100644 include/qemu/userfaultfd.h
+>   create mode 100644 util/userfaultfd.c
+>
+I've also made wr-fault resolution latency measurements, for the case when migration
+stream is dumped to a file in cached mode.. Should approximately match saving to the
+file fd directly though I used 'migrate exec:<>' using a hand-written tool.
 
-void ide_atapi_cmd_reply_end(IDEState *s)
-{
-    int byte_count_limit, size, ret;
-    while (s->packet_transfer_size > 0) {
-.....
-        if (s->lba !=3D -1 && s->io_buffer_index >=3D s->cd_sector_size) {
-<----- set lba to -1 to avoid this part
- .....
-        }
-        if (s->elementary_transfer_size > 0) {
-......
-        } else {
-.......
-            if (s->lba !=3D -1) {   <-----
-                if (size > (s->cd_sector_size - s->io_buffer_index))
-                    size =3D (s->cd_sector_size - s->io_buffer_index);  <--=
----
-            }
-        }
+VM config is 6 vCPUs + 16GB RAM, qcow2 image on Seagate 7200.11 series 1.5TB HDD,
+snapshot goes to the same disk. Guest is Windows 10.
 
-Wenxiang Qian <leonwxqian@gmail.com> =E4=BA=8E2020=E5=B9=B412=E6=9C=8811=E6=
-=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=884:23=E5=86=99=E9=81=93=EF=BC=9A
+The test scenario is playing full-HD youtube video in Firefox while saving snapshot.
 
-> Hello,
->
-> I may not have made the detail clear in my previous email. The details of
-> the AHCI device, after running the reproducer I attached in my report are
-> as follows. If there is any information I can provide, please let me know=
-.
-> Thank you.
->
-> ###root cause###
-> (1) The s->packet_transfer_size is bigger than the actual data.
-> (2) packet_transfer_size is passed into  ide_atapi_cmd_reply_end, as the
-> total number of iterations. Each iterate round, s->io_buffer_index is
-> increased by 2048, but without boundary check.
-> (3) The call to ide_transfer_start_norecurse use s->io_buffer +
-> s->io_buffer_index - size as the index, cause an OOB access.
->
-> ###details###
-> 1. The reproducer sends a command of [WIN_PACKETCMD] + [CMD_READ] and
-> value of IDE device's registers from guest to qemu.
->
-> Callback ahci_port_write is called, then check_cmd is called.
->
-> 2. The packet will set all the registers of the device via: handle_cmd --=
->
-> handle_reg_h2d_fis.
->
-> Registers will be set here:
->
-> handle_reg_h2d_fis(..){
-> ...
->     ide_state->feature =3D cmd_fis[3];   //######[1]###### , cmd_fis is t=
-he
-> data sent by the reproducer.
->     ide_state->sector =3D cmd_fis[4];      /* LBA 7:0 */
->     ide_state->lcyl =3D cmd_fis[5];        /* LBA 15:8  */
->     ide_state->hcyl =3D cmd_fis[6];        /* LBA 23:16 */
->     ide_state->select =3D cmd_fis[7];      /* LBA 27:24 (LBA28) */
->     ide_state->hob_sector =3D cmd_fis[8];  /* LBA 31:24 */
->     ide_state->hob_lcyl =3D cmd_fis[9];    /* LBA 39:32 */
->     ide_state->hob_hcyl =3D cmd_fis[10];   /* LBA 47:40 */
->     ide_state->hob_feature =3D cmd_fis[11];
->     ide_state->nsector =3D (int64_t)((cmd_fis[13] << 8) | cmd_fis[12]);
->
->  and ide_exec_cmd will be called to process [WIN_PACKETCMD] command.
->      ide_exec_cmd(&s->dev[port].port, cmd_fis[2]);
->
-> 3. ide_exec_cmd (core.c) handles the command,
->
->     [WIN_PACKETCMD]               =3D { cmd_packet, CD_OK },
->
-> and make a call to cmd_packet,
->
-> cmd_packet(...) {
->     ...
->
-> s->atapi_dma =3D s->feature & 1;  //######[2]######
->     if (s->atapi_dma) {
->         s->dma_cmd =3D IDE_DMA_ATAPI;
->     }
->     s->nsector =3D 1;
->     ide_transfer_start(s, s->io_buffer, ATAPI_PACKET_SIZE,
->                        ide_atapi_cmd);
->     ...
-> }
->
-> and set the device to use PIO mode according to s->feature (set in Step
-> 2->##[1]##).
->
-> Then, ide_transfer_start is called.
-> It will pass the [CMD_READ] part after [WIN_PACKETCMD] to ide_atapi_cmd.
->
-> 4. ide_atapi_cmd parses [CMD_READ], and then calls the corresponding
-> handler: cmd_read.
->
->     [ 0x28 ] =3D { cmd_read, /* (10) */               CHECK_READY },
->
-> In cmd_read, the values of nb_sectors and lba are determined according to
-> the packets passed by the reproducer.
->
-> In my PoC I set lba to -1 (0xfffffff) and nb_sectors to a large value,
-> such as 0x800.
->
->
-> static void cmd_read(IDEState *s, uint8_t* buf)
-> {
->     int nb_sectors, lba;
->
->     if (buf[0] =3D=3D GPCMD_READ_10) {
->         nb_sectors =3D lduw_be_p(buf + 7);
->     } else {
->         nb_sectors =3D ldl_be_p(buf + 6);   //#####3#####
->     }
->
->     lba =3D ldl_be_p(buf + 2);   //######4######
->
-> ....
->
->     ide_atapi_cmd_read(s, lba, nb_sectors, 2048);
-> }
->
-> 5. The code enters the ide_atapi_cmd_read -> ide_atapi_cmd_read_pio.
->
-> static void ide_atapi_cmd_read(.....)
-> {...
->     if (s->atapi_dma) {
->         ide_atapi_cmd_read_dma(s, lba, nb_sectors, sector_size);
->     } else {
->         ide_atapi_cmd_read_pio(s, lba, nb_sectors, sector_size);
->  //######5#######
->     }
-> }
->
-> It will set the attributes according to the value passed in the previous
-> steps.
-> The number of s->packet_transfer_size, which is the packet to read or
-> write, nb_sectors * 2048 can be larger than the buffer pre-allocated by
-> qemu (about 256KB).
->
->
-> static void ide_atapi_cmd_read_pio(IDEState *s, int lba, int nb_sectors,
->                                    int sector_size)
-> {
->     s->lba =3D lba;
->     s->packet_transfer_size =3D nb_sectors * sector_size;
->  //########6#########
->     s->elementary_transfer_size =3D 0;
->     s->io_buffer_index =3D sector_size;
->     s->cd_sector_size =3D sector_size;
->
->     ide_atapi_cmd_reply_end(s);
-> }
->
->
-> 6. In ide_atapi_cmd_reply_end, the data is processed according to
-> packet_transfer_size.
->
-> void ide_atapi_cmd_reply_end(IDEState *s)
-> {
-> ...
->     while (s->packet_transfer_size > 0) {  //########7#######
-> ....
->         s->packet_transfer_size -=3D size;
->         s->elementary_transfer_size -=3D size;
->         s->io_buffer_index +=3D size;  //#######8#######
->
->         if (!ide_transfer_start_norecurse(s,
->                                           s->io_buffer +
-> s->io_buffer_index - size,
->                                           size, ide_atapi_cmd_reply_end))=
- {
->             return;
->         }
->
->
-> The "size" is usually 2048, which means the io_buffer_index increases by
-> 2048 per round.
->
-> Qemu does not test if the result of this operation exceeds the length of
-> the io_buffer itself, resulting in out-of-bounds access.
->
-> In ide_transfer_start_norecurse,
->
-> bool ide_transfer_start_norecurse(IDEState *s, uint8_t *buf, int size,
->                                   EndTransferFunc *end_transfer_func)
-> {
->     s->data_ptr =3D buf;         //s->io_buffer + s->io_buffer_index - si=
-ze
->     s->data_end =3D buf + size;  //data_ptr + 2048
-> ....
->     s->bus->dma->ops->pio_transfer(s->bus->dma);  //#######9########
->     return true;
-> }
->
-> //####9####:
-> static const IDEDMAOps ahci_dma_ops =3D {
-> ...
->     .pio_transfer =3D ahci_pio_transfer,
-> ...
-> };
->
-> In the final processing function ahci_pio_transfer:
->
-> static void ahci_pio_transfer(const IDEDMA *dma)
-> {
-> ....
->
->     uint32_t size =3D (uint32_t)(s->data_end - s->data_ptr);  // 2048,
-> usually
->
-> uint16_t opts =3D le16_to_cpu(ad->cur_cmd->opts);  //####user controlled
-> value#####
->     int is_write =3D opts & AHCI_CMD_WRITE;            // read or write i=
-s
-> decided by user.
->
-> .....
->
->
->     if (has_sglist && size) {
->         if (is_write) {
->             dma_buf_write(s->data_ptr, size, &s->sg);   //##10##### both
-> can be reached ####
->         } else {
->             dma_buf_read(s->data_ptr, size, &s->sg);    //##11##### both
-> can be reached ####
->         }
->     }
-> }
->
->
-> s->data_ptr can be a value out of range, so base on ad->cur_cmd->opts,
->  ##10## ##11## can be OOB read or OOB write.
->
-> OOB read: obtain the leaked information, which can be used to bypass ASLR
-> or obtain information about the host.
-> OOB write: which may overwrite some structs of the virtual device after
-> it, overwrite the function pointers in the struct.
->
-> Best regards,
-> Wenxiang Qian
->
-> P J P <ppandit@redhat.com> =E4=BA=8E2020=E5=B9=B412=E6=9C=882=E6=97=A5=E5=
-=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=889:17=E5=86=99=E9=81=93=EF=BC=9A
->
->>   Hi,
->>
->> [doing a combined reply]
->>
->> +-- On Tue, 1 Dec 2020, Philippe Mathieu-Daud=C3=83=C2=A9 wrote --+
->> | Is it possible to release the reproducer to the community, so we can
->> work on
->> | a fix and test it?
->>
->> * No, we can not release/share reproducers on a public list.
->>
->> * We can request reporters to do so by their volition.
->>
->>
->> | What happens to reproducers when a CVE is assigned, but the bug is
->> marked as
->> | "out of the QEMU security boundary"?
->> |
->> +-- On Tue, 1 Dec 2020, Peter Maydell wrote --+
->> | Also, why are we assigning CVEs for bugs we don't consider security
->> bugs?
->>
->> * We need to mark these componets 'out of security scope' at the source
->> level,
->>   rather than on each bug.
->>
->> * Easiest could be to just have a list of such components in the git tex=
-t
->>   file. At least till the time we device --security build and run time
->> option
->>   discussed earlier.
->>   ->
->> https://lists.nongnu.org/archive/html/qemu-devel/2020-07/msg04680.html
->>
->> +-- On Tue, 1 Dec 2020, Paolo Bonzini wrote --+
->> | qtests are not just helpful.  Adding regression tests for bugs is a
->> *basic*
->> | software engineering principle.  If you don't have time to write tests=
-,
->> you
->> | (or your organization) should find it.
->>
->> * I've been doing the patch work out of my own interest.
->>
->> * We generally rely on upstream/engineering for fix patches, because of
->> our
->>   narrower understanding of the code base.
->>
->> +-- On Wed, 2 Dec 2020, Markus Armbruster wrote --+
->> | Paolo Bonzini <pbonzini@redhat.com> writes:
->> | > you need at least to enclose the reproducer, otherwise you're postin=
-g
->> a
->> | > puzzle not a patch. :)
->> |
->> | Indeed. Posting puzzles is a negative-sum game.]
->>
->> * Agreed. I think the upcoming 'qemu-security' list may help in this
->> regard.
->>   As issue reports+reproducer details shall go there.
->>
->> * Even then, we'll need to ask reporter's permission before sharing thei=
-r
->>   reproducers on a public list OR with non-members.
->>
->> * Best is if reporters share/release reproducers themselves. Maybe we ca=
-n
->> have
->>   a public git repository and they can send a PR to include their
->> reproducers
->>   in the repository.
->>
->> * That way multiple reproducers for the same issue can be held together.
->>
->>
->> Thank you.
->> --
->> Prasad J Pandit / Red Hat Product Security Team
->> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
->
->
+Latency measurement begin/end points are fs/userfaultfd.c:handle_userfault() and
+mm/userfaultfd.c:mwriteprotect_range(), respectively. For any faulting page, the
+oldest wr-fault timestamp is accounted.
 
---00000000000025aa1f05b62c246b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The whole time to take snapshot was ~30secs, file size is around 3GB.
+So far seems to be not a very bad picture.. However 16-255msecs range is worrying
+me a bit, seems it causes audio backend buffer underflows sometimes.
 
-<div dir=3D"ltr">+ The lba is set to -1 to avoid some code=20
 
-paths, to make PoC simpler.<div><br><div>void ide_atapi_cmd_reply_end(IDESt=
-ate *s)<br>{<br>=C2=A0 =C2=A0 int byte_count_limit, size, ret;<br>=C2=A0 =
-=C2=A0 while (s-&gt;packet_transfer_size &gt; 0) {</div><div>.....<br>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;lba !=3D -1 &amp;&amp; s-&gt;io_buffer_i=
-ndex &gt;=3D s-&gt;cd_sector_size) {=C2=A0=C2=A0
+      msecs               : count     distribution
+          0 -> 1          : 111755   |****************************************|
+          2 -> 3          : 52       |                                        |
+          4 -> 7          : 105      |                                        |
+          8 -> 15         : 428      |                                        |
+         16 -> 31         : 335      |                                        |
+         32 -> 63         : 4        |                                        |
+         64 -> 127        : 8        |                                        |
+        128 -> 255        : 5        |                                        |
 
-&lt;----- set lba to -1 to avoid this part<br>=C2=A0.....<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;elementary_transfe=
-r_size &gt; 0) {</div><div>......<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<b=
-r>.......<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;lba !=3D -=
-1) {=C2=A0=C2=A0
+-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                 virtuzzo.com
 
-&lt;-----
 
-<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (size &gt; (=
-s-&gt;cd_sector_size - s-&gt;io_buffer_index))<br>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size =3D (s-&gt;cd_sector_siz=
-e - s-&gt;io_buffer_index);=C2=A0 &lt;-----<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br></div></div></div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Wenxiang Qi=
-an &lt;<a href=3D"mailto:leonwxqian@gmail.com">leonwxqian@gmail.com</a>&gt;=
- =E4=BA=8E2020=E5=B9=B412=E6=9C=8811=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=
-=E5=8D=884:23=E5=86=99=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex"><div dir=3D"ltr">Hello,<div><br></div><div>I may n=
-ot have made the detail clear in my previous email. The details of the AHCI=
- device, after running the reproducer I attached in my report are as follow=
-s. If there is any information I can provide, please let me know. Thank you=
-.</div><div><br></div><div>###root cause###</div><div>(1) The s-&gt;packet_=
-transfer_size is bigger than the actual data.<br></div><div>(2) packet_tran=
-sfer_size is passed into=C2=A0 ide_atapi_cmd_reply_end, as the total number=
- of iterations. Each iterate round,=C2=A0s-&gt;io_buffer_index is increased=
- by 2048, but without boundary check.</div><div>(3) The call to ide_transfe=
-r_start_norecurse use s-&gt;io_buffer + s-&gt;io_buffer_index - size as the=
- index, cause an OOB access.</div><div><br></div><div>###details###</div><d=
-iv>1. The reproducer sends a command of [WIN_PACKETCMD] + [CMD_READ] and va=
-lue of IDE device&#39;s registers from guest to qemu.=C2=A0</div><div><br><=
-/div><div>Callback ahci_port_write is called, then check_cmd is called.</di=
-v><div><br>2. The packet will set all the registers of the device via: hand=
-le_cmd --&gt; handle_reg_h2d_fis.<br><br>Registers will be set here:<br><br=
->handle_reg_h2d_fis(..){<br>...<br>=C2=A0 =C2=A0 ide_state-&gt;feature =3D =
-cmd_fis[3]; =C2=A0 //######[1]###### , cmd_fis is the data sent by the repr=
-oducer.<br>=C2=A0 =C2=A0 ide_state-&gt;sector =3D cmd_fis[4]; =C2=A0 =C2=A0=
- =C2=A0/* LBA 7:0 */<br>=C2=A0 =C2=A0 ide_state-&gt;lcyl =3D cmd_fis[5]; =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0/* LBA 15:8 =C2=A0*/<br>=C2=A0 =C2=A0 ide_state-=
-&gt;hcyl =3D cmd_fis[6]; =C2=A0 =C2=A0 =C2=A0 =C2=A0/* LBA 23:16 */<br>=C2=
-=A0 =C2=A0 ide_state-&gt;select =3D cmd_fis[7]; =C2=A0 =C2=A0 =C2=A0/* LBA =
-27:24 (LBA28) */<br>=C2=A0 =C2=A0 ide_state-&gt;hob_sector =3D cmd_fis[8]; =
-=C2=A0/* LBA 31:24 */<br>=C2=A0 =C2=A0 ide_state-&gt;hob_lcyl =3D cmd_fis[9=
-]; =C2=A0 =C2=A0/* LBA 39:32 */<br>=C2=A0 =C2=A0 ide_state-&gt;hob_hcyl =3D=
- cmd_fis[10]; =C2=A0 /* LBA 47:40 */<br>=C2=A0 =C2=A0 ide_state-&gt;hob_fea=
-ture =3D cmd_fis[11];<br>=C2=A0 =C2=A0 ide_state-&gt;nsector =3D (int64_t)(=
-(cmd_fis[13] &lt;&lt; 8) | cmd_fis[12]);<br><br>=C2=A0and ide_exec_cmd will=
- be called to process [WIN_PACKETCMD] command. <br>=C2=A0 =C2=A0 =C2=A0ide_=
-exec_cmd(&amp;s-&gt;dev[port].port, cmd_fis[2]);<br>	 <br>3. ide_exec_cmd (=
-core.c) handles the command, <br><br>=C2=A0 =C2=A0 [WIN_PACKETCMD] =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D { cmd_packet, CD_OK },<br>	<b=
-r>and make a call to cmd_packet, <br><br>cmd_packet(...) {<br>=C2=A0 =C2=A0=
- ...<br>	<br>	s-&gt;atapi_dma =3D s-&gt;feature &amp; 1; =C2=A0//######[2]#=
-#####<br>=C2=A0 =C2=A0 if (s-&gt;atapi_dma) {<br>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 s-&gt;dma_cmd =3D IDE_DMA_ATAPI;<br>=C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 s-=
-&gt;nsector =3D 1;<br>=C2=A0 =C2=A0 ide_transfer_start(s, s-&gt;io_buffer, =
-ATAPI_PACKET_SIZE,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ide_atapi_cmd);<br>=C2=A0 =C2=A0 ...<br>}<br=
-><br>and set the device to use PIO mode according to s-&gt;feature (set in =
-Step 2-&gt;##[1]##). <br><br>Then, ide_transfer_start is called. <br>It wil=
-l pass the [CMD_READ] part after [WIN_PACKETCMD] to ide_atapi_cmd. <br>	<br=
->4. ide_atapi_cmd parses [CMD_READ], and then calls the corresponding handl=
-er: cmd_read. <br><br>=C2=A0 =C2=A0 [ 0x28 ] =3D { cmd_read, /* (10) */ =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CHECK_READY },<br>	<br>In cmd=
-_read, the values of nb_sectors and lba are determined according to the pac=
-kets passed by the reproducer. <br><br>In my PoC I set lba to -1 (0xfffffff=
-) and nb_sectors to a large value, such as 0x800. <br><br><br>static void c=
-md_read(IDEState *s, uint8_t* buf)<br>{<br>=C2=A0 =C2=A0 int nb_sectors, lb=
-a;<br><br>=C2=A0 =C2=A0 if (buf[0] =3D=3D GPCMD_READ_10) {<br>=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 nb_sectors =3D lduw_be_p(buf + 7);<br>=C2=A0 =C2=A0 } else {=
-<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 nb_sectors =3D ldl_be_p(buf + 6); =C2=A0 //=
-#####3#####<br>=C2=A0 =C2=A0 }<br><br>=C2=A0 =C2=A0 lba =3D ldl_be_p(buf + =
-2); =C2=A0 //######4######<br><br>	....<br>	<br>=C2=A0 =C2=A0 ide_atapi_cmd=
-_read(s, lba, nb_sectors, 2048);<br>}<br><br>5. The code enters the ide_ata=
-pi_cmd_read -&gt; ide_atapi_cmd_read_pio.<br><br>static void ide_atapi_cmd_=
-read(.....)<br>{...<br>=C2=A0 =C2=A0 if (s-&gt;atapi_dma) {<br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 ide_atapi_cmd_read_dma(s, lba, nb_sectors, sector_size);<=
-br>=C2=A0 =C2=A0 } else {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 ide_atapi_cmd_read=
-_pio(s, lba, nb_sectors, sector_size); =C2=A0//######5#######<br>=C2=A0 =C2=
-=A0 }<br>}<br><br>It will set the attributes according to the value passed =
-in the previous steps. <br>The number of s-&gt;packet_transfer_size, which =
-is the packet to read or write, nb_sectors * 2048 can be larger than the bu=
-ffer pre-allocated by qemu (about 256KB). <br><br><br>static void ide_atapi=
-_cmd_read_pio(IDEState *s, int lba, int nb_sectors,<br>=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int sector_size)<br>{<br>=C2=A0 =C2=A0 s-&gt=
-;lba =3D lba;<br>=C2=A0 =C2=A0 s-&gt;packet_transfer_size =3D nb_sectors * =
-sector_size; =C2=A0//########6#########<br>=C2=A0 =C2=A0 s-&gt;elementary_t=
-ransfer_size =3D 0;<br>=C2=A0 =C2=A0 s-&gt;io_buffer_index =3D sector_size;=
-<br>=C2=A0 =C2=A0 s-&gt;cd_sector_size =3D sector_size;<br><br>=C2=A0 =C2=
-=A0 ide_atapi_cmd_reply_end(s);<br>}<br><br><br>6. In ide_atapi_cmd_reply_e=
-nd, the data is processed according to packet_transfer_size. <br><br>void i=
-de_atapi_cmd_reply_end(IDEState *s)<br>{<br>...<br>=C2=A0 =C2=A0 while (s-&=
-gt;packet_transfer_size &gt; 0) { =C2=A0//########7#######<br>....<br>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;packet_transfer_size -=3D size;<br>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 s-&gt;elementary_transfer_size -=3D size;<br>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 s-&gt;io_buffer_index +=3D size; =C2=A0//#######8#####=
-##<br><br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!ide_transfer_start_norecurse(s,<=
-br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 s-&gt;io_buffer + s-&gt;io_buffer_index - size, =C2=A0<br>=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size, ide_atapi=
-_cmd_reply_end)) {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br><br><br>The &quot;size&quot; is usually 20=
-48, which means the io_buffer_index increases by 2048 per round.<br><br>Qem=
-u does not test if the result of this operation exceeds the length of the i=
-o_buffer itself, resulting in out-of-bounds access. <br><br>In ide_transfer=
-_start_norecurse,<br><br>bool ide_transfer_start_norecurse(IDEState *s, uin=
-t8_t *buf, int size,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 EndTr=
-ansferFunc *end_transfer_func)<br>{<br>=C2=A0 =C2=A0 s-&gt;data_ptr =3D buf=
-; =C2=A0 =C2=A0 =C2=A0 =C2=A0 //s-&gt;io_buffer + s-&gt;io_buffer_index - s=
-ize <br>=C2=A0 =C2=A0 s-&gt;data_end =3D buf + size; =C2=A0//data_ptr + 204=
-8<br>....<br>=C2=A0 =C2=A0 s-&gt;bus-&gt;dma-&gt;ops-&gt;pio_transfer(s-&gt=
-;bus-&gt;dma); =C2=A0//#######9########<br>=C2=A0 =C2=A0 return true;<br>}<=
-br><br>//####9####:<br>static const IDEDMAOps ahci_dma_ops =3D {<br>...<br>=
-=C2=A0 =C2=A0 .pio_transfer =3D ahci_pio_transfer,<br>...<br>};<br><br>In t=
-he final processing function ahci_pio_transfer:<br><br>static void ahci_pio=
-_transfer(const IDEDMA *dma)<br>{<br>....<br><br>=C2=A0 =C2=A0 uint32_t siz=
-e =3D (uint32_t)(s-&gt;data_end - s-&gt;data_ptr); =C2=A0// 2048, usually<b=
-r>	<br>	uint16_t opts =3D le16_to_cpu(ad-&gt;cur_cmd-&gt;opts); =C2=A0//###=
-#user controlled value#####<br>=C2=A0 =C2=A0 int is_write =3D opts &amp; AH=
-CI_CMD_WRITE; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// read or write is =
-decided by user.<br>	<br>.....<br><br><br>=C2=A0 =C2=A0 if (has_sglist &amp=
-;&amp; size) {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (is_write) {<br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_buf_write(s-&gt;data_ptr, size, &amp;s-=
-&gt;sg); =C2=A0 //##10##### both can be reached ####<br>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 } else {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dma_buf_re=
-ad(s-&gt;data_ptr, size, &amp;s-&gt;sg); =C2=A0 =C2=A0//##11##### both can =
-be reached ####<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 }<br>}<br=
-><br><br>s-&gt;data_ptr can be a value out of range, so base on ad-&gt;cur_=
-cmd-&gt;opts, =C2=A0##10## ##11## can be OOB read or OOB write.<br><br>OOB =
-read: obtain the leaked information, which can be used to bypass ASLR or ob=
-tain information about the host.<br>OOB write: which may overwrite some str=
-ucts of the virtual device after it, overwrite the function pointers in the=
- struct.<br></div><div><br></div><div>Best regards,</div><div>Wenxiang Qian=
-</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
-attr">P J P &lt;<a href=3D"mailto:ppandit@redhat.com" target=3D"_blank">ppa=
-ndit@redhat.com</a>&gt; =E4=BA=8E2020=E5=B9=B412=E6=9C=882=E6=97=A5=E5=91=
-=A8=E4=B8=89 =E4=B8=8B=E5=8D=889:17=E5=86=99=E9=81=93=EF=BC=9A<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0 Hi,<br>
-<br>
-[doing a combined reply]<br>
-<br>
-+-- On Tue, 1 Dec 2020, Philippe Mathieu-Daud=C3=83=C2=A9 wrote --+ <br>
-| Is it possible to release the reproducer to the community, so we can work=
- on <br>
-| a fix and test it?<br>
-<br>
-* No, we can not release/share reproducers on a public list.<br>
-<br>
-* We can request reporters to do so by their volition.<br>
-<br>
-<br>
-| What happens to reproducers when a CVE is assigned, but the bug is marked=
- as <br>
-| &quot;out of the QEMU security boundary&quot;?<br>
-|<br>
-+-- On Tue, 1 Dec 2020, Peter Maydell wrote --+<br>
-| Also, why are we assigning CVEs for bugs we don&#39;t consider security b=
-ugs?<br>
-<br>
-* We need to mark these componets &#39;out of security scope&#39; at the so=
-urce level, <br>
-=C2=A0 rather than on each bug.<br>
-<br>
-* Easiest could be to just have a list of such components in the git text <=
-br>
-=C2=A0 file. At least till the time we device --security build and run time=
- option <br>
-=C2=A0 discussed earlier.<br>
-=C2=A0 -&gt; <a href=3D"https://lists.nongnu.org/archive/html/qemu-devel/20=
-20-07/msg04680.html" rel=3D"noreferrer" target=3D"_blank">https://lists.non=
-gnu.org/archive/html/qemu-devel/2020-07/msg04680.html</a><br>
-<br>
-+-- On Tue, 1 Dec 2020, Paolo Bonzini wrote --+<br>
-| qtests are not just helpful.=C2=A0 Adding regression tests for bugs is a =
-*basic* <br>
-| software engineering principle.=C2=A0 If you don&#39;t have time to write=
- tests, you <br>
-| (or your organization) should find it.<br>
-<br>
-* I&#39;ve been doing the patch work out of my own interest.<br>
-<br>
-* We generally rely on upstream/engineering for fix patches, because of our=
- <br>
-=C2=A0 narrower understanding of the code base.<br>
-<br>
-+-- On Wed, 2 Dec 2020, Markus Armbruster wrote --+<br>
-| Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank=
-">pbonzini@redhat.com</a>&gt; writes:<br>
-| &gt; you need at least to enclose the reproducer, otherwise you&#39;re po=
-sting a <br>
-| &gt; puzzle not a patch. :)<br>
-| <br>
-| Indeed. Posting puzzles is a negative-sum game.]<br>
-<br>
-* Agreed. I think the upcoming &#39;qemu-security&#39; list may help in thi=
-s regard.=C2=A0 <br>
-=C2=A0 As issue reports+reproducer details shall go there.<br>
-<br>
-* Even then, we&#39;ll need to ask reporter&#39;s permission before sharing=
- their <br>
-=C2=A0 reproducers on a public list OR with non-members.<br>
-<br>
-* Best is if reporters share/release reproducers themselves. Maybe we can h=
-ave <br>
-=C2=A0 a public git repository and they can send a PR to include their repr=
-oducers <br>
-=C2=A0 in the repository.<br>
-<br>
-* That way multiple reproducers for the same issue can be held together.<br=
->
-<br>
-<br>
-Thank you.<br>
---<br>
-Prasad J Pandit / Red Hat Product Security Team<br>
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D</blockquote></div>
-</blockquote></div>
+--------------CAE1678FB7B7AC0E90103B3B
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---00000000000025aa1f05b62c246b--
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 09.12.2020 13:08, Andrey Gruzdev
+      wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20201209100811.190316-1-andrey.gruzdev@virtuozzo.com">
+      <pre class="moz-quote-pre" wrap="">This patch series is a kind of 'rethinking' of Denis Plotnikov's ideas he's
+implemented in his series '[PATCH v0 0/4] migration: add background snapshot'.
+
+Currently the only way to make (external) live VM snapshot is using existing
+dirty page logging migration mechanism. The main problem is that it tends to
+produce a lot of page duplicates while running VM goes on updating already
+saved pages. That leads to the fact that vmstate image size is commonly several
+times bigger then non-zero part of virtual machine's RSS. Time required to
+converge RAM migration and the size of snapshot image severely depend on the
+guest memory write rate, sometimes resulting in unacceptably long snapshot
+creation time and huge image size.
+
+This series propose a way to solve the aforementioned problems. This is done
+by using different RAM migration mechanism based on UFFD write protection
+management introduced in v5.7 kernel. The migration strategy is to 'freeze'
+guest RAM content using write-protection and iteratively release protection
+for memory ranges that have already been saved to the migration stream.
+At the same time we read in pending UFFD write fault events and save those
+pages out-of-order with higher priority.
+
+How to use:
+1. Enable write-tracking migration capability
+   virsh qemu-monitor-command &lt;domain&gt; --hmp migrate_set_capability.
+track-writes-ram on
+
+2. Start the external migration to a file
+   virsh qemu-monitor-command &lt;domain&gt; --hmp migrate exec:'cat &gt; ./vm_state'
+
+3. Wait for the migration finish and check that the migration has completed.
+state.
+
+Changes v4-&gt;v5:
+
+* 1. Refactored util/userfaultfd.c code to support features required by postcopy.
+* 2. Introduced checks for host kernel and guest memory backend compatibility
+*    to 'background-snapshot' branch in migrate_caps_check().
+* 3. Switched to using trace_xxx instead of info_report()/error_report() for
+*    cases when error message must be hidden (probing UFFD-IO) or info may be
+*    really littering output if goes to stderr.
+* 4  Added RCU_READ_LOCK_GUARDs to the code dealing with RAM block list.
+* 5. Added memory_region_ref() for each RAM block being wr-protected.
+* 6. Reused qemu_ram_block_from_host() instead of custom RAM block lookup routine.
+* 7. Refused from using specific hwaddr/ram_addr_t in favour of void */uint64_t.
+* 8. Currently dropped 'linear-scan-rate-limiting' patch. The reason is that
+*    that choosen criteria for high-latency fault detection (i.e. timestamp of
+*    UFFD event fetch) is not representative enough for this task.
+*    At the moment it looks somehow like premature optimization effort.
+* 8. Dropped some unnecessary/unused code.
+
+Changes v5-&gt;v6:
+
+* 1. Consider possible hot pluggin/unpluggin of memory device - don't use static
+*    for write-tracking support level in migrate_query_write_tracking(), check
+*    each time when one tries to enable 'background-snapshot' capability.
+
+Andrey Gruzdev (4):
+  migration: introduce 'background-snapshot' migration capability
+  migration: introduce UFFD-WP low-level interface helpers
+  migration: support UFFD write fault processing in ram_save_iterate()
+  migration: implementation of background snapshot thread
+
+ include/exec/memory.h      |   8 +
+ include/qemu/userfaultfd.h |  35 ++++
+ migration/migration.c      | 357 ++++++++++++++++++++++++++++++++++++-
+ migration/migration.h      |   4 +
+ migration/ram.c            | 270 ++++++++++++++++++++++++++++
+ migration/ram.h            |   6 +
+ migration/savevm.c         |   1 -
+ migration/savevm.h         |   2 +
+ migration/trace-events     |   2 +
+ qapi/migration.json        |   7 +-
+ util/meson.build           |   1 +
+ util/trace-events          |   9 +
+ util/userfaultfd.c         | 345 +++++++++++++++++++++++++++++++++++
+ 13 files changed, 1043 insertions(+), 4 deletions(-)
+ create mode 100644 include/qemu/userfaultfd.h
+ create mode 100644 util/userfaultfd.c
+
+</pre>
+    </blockquote>
+    <pre>I've also made wr-fault resolution latency measurements, for the case when migration
+stream is dumped to a file in cached mode.. Should approximately match saving to the
+file fd directly though I used 'migrate exec:&lt;&gt;' using a hand-written tool.
+
+VM config is 6 vCPUs + 16GB RAM, qcow2 image on Seagate 7200.11 series 1.5TB HDD,
+snapshot goes to the same disk. Guest is Windows 10.
+
+The test scenario is playing full-HD youtube video in Firefox while saving snapshot.
+
+Latency measurement begin/end points are fs/userfaultfd.c:handle_userfault() and
+mm/userfaultfd.c:mwriteprotect_range(), respectively. For any faulting page, the 
+oldest wr-fault timestamp is accounted.
+
+The whole time to take snapshot was ~30secs, file size is around 3GB.
+So far seems to be not a very bad picture.. However 16-255msecs range is worrying 
+me a bit, seems it causes audio backend buffer underflows sometimes.
+
+
+     msecs               : count     distribution
+         0 -&gt; 1          : 111755   |****************************************|
+         2 -&gt; 3          : 52       |                                        |
+         4 -&gt; 7          : 105      |                                        |
+         8 -&gt; 15         : 428      |                                        |
+        16 -&gt; 31         : 335      |                                        |
+        32 -&gt; 63         : 4        |                                        |
+        64 -&gt; 127        : 8        |                                        |
+       128 -&gt; 255        : 5        |                                        |
+
+</pre>
+    <pre class="moz-signature" cols="72">
+-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                virtuzzo.com</pre>
+  </body>
+</html>
+
+--------------CAE1678FB7B7AC0E90103B3B--
 
