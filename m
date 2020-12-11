@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B7E82D6F1B
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:24:54 +0100 (CET)
-Received: from localhost ([::1]:42418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792972D6F1D
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:25:28 +0100 (CET)
+Received: from localhost ([::1]:44414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knZzA-0006e0-V1
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:24:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33986)
+	id 1knZzh-0007cq-Mu
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:25:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq9-0005dQ-7w; Thu, 10 Dec 2020 23:15:33 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:49135)
+ id 1knZq9-0005d8-3z; Thu, 10 Dec 2020 23:15:33 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:35153 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq6-0000k6-Ov; Thu, 10 Dec 2020 23:15:32 -0500
+ id 1knZq6-0000jw-LK; Thu, 10 Dec 2020 23:15:32 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cscrb34p1z9sWp; Fri, 11 Dec 2020 15:15:11 +1100 (AEDT)
+ id 4Cscrb3szPz9sWm; Fri, 11 Dec 2020 15:15:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607660111;
- bh=ZKoVALWI63OBSDQ9zFowxkeqhZA/IacSRGnHPYTa1UE=;
+ bh=YJ4Jigd9pqVM/AMHgPpnrIhzspdOwtzbr2NR178Pci8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GxSd5cP3b97UOeG7tssNpk9Ak3Dcu6oB0CffL+qNel82kFfRJx7GolQqVfYGMIQPJ
- o3CP0VG5xYJf+OCEsAg4wG9O26HxfYoIs3NhDCHImXnaqLJoHYhx3s0B86+kJ5fkj1
- kz9rFz8c/ud4ABkS0Iq5IkrRDpX1a4gZbtboNYsk=
+ b=W9rGj2p6Si0IW5H3xpPSDtGnMuWPq/0MxaTwXW2Yytou6ZSRM0Xhh9H9kugPzR+0j
+ 3tt6hLAUVamNTetGjKhJAHRDmu3A0obxuqI9ubaU59i68uxFgaMSdM/IRoAKG7H9CH
+ A/GFEz4KXWbHMgTg2rD18/ulA2DI8bZeVZ9EBIRI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/30] ppc: Add a missing break for PPC6xx_INPUT_TBEN
-Date: Fri, 11 Dec 2020 15:14:46 +1100
-Message-Id: <20201211041507.425378-10-david@gibson.dropbear.id.au>
+Subject: [PULL 10/30] ppc/translate: Fix unordered f64/f128 comparisons
+Date: Fri, 11 Dec 2020 15:14:47 +1100
+Message-Id: <20201211041507.425378-11-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,47 +56,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, Euler Robot <euler.robot@huawei.com>,
- Chen Qun <kuhn.chenqun@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: LemonBoy <thatlemon@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+From: LemonBoy <thatlemon@gmail.com>
 
-When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-hw/ppc/ppc.c: In function ‘ppc6xx_set_irq’:
-hw/ppc/ppc.c:118:16: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  118 |             if (level) {
-      |                ^
-hw/ppc/ppc.c:123:9: note: here
-  123 |         case PPC6xx_INPUT_INT:
-      |         ^~~~
+According to the PowerISA v3.1 reference, Table 68 "Actions for xscmpudp
+- Part 1: Compare Unordered", whenever one of the two operands is a NaN
+the SO bit is set while the other three bits are cleared.
 
-According to the discussion, a break statement needs to be added here.
+Apply the same change to xscmpuqp.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20201116024810.2415819-7-kuhn.chenqun@huawei.com>
+The respective ordered counterparts are unaffected.
+
+Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+Message-Id: <20201112230130.65262-2-thatlemon@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/ppc.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/ppc/fpu_helper.c | 32 ++++++++++++++++++++++----------
+ 1 file changed, 22 insertions(+), 10 deletions(-)
 
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index 4a11fb1640..1b98272076 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -120,6 +120,7 @@ static void ppc6xx_set_irq(void *opaque, int pin, int level)
-             } else {
-                 cpu_ppc_tb_stop(env);
-             }
-+            break;
-         case PPC6xx_INPUT_INT:
-             /* Level sensitive - active high */
-             LOG_IRQ("%s: set the external IRQ state to %d\n",
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 32a9a8a0f8..6d3648f5b1 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -2479,13 +2479,11 @@ void helper_##op(CPUPPCState *env, uint32_t opcode,                      \
+     if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||        \
+         float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {        \
+         vxsnan_flag = true;                                              \
+-        cc = CRF_SO;                                                     \
+         if (fpscr_ve == 0 && ordered) {                                  \
+             vxvc_flag = true;                                            \
+         }                                                                \
+     } else if (float64_is_quiet_nan(xa->VsrD(0), &env->fp_status) ||     \
+                float64_is_quiet_nan(xb->VsrD(0), &env->fp_status)) {     \
+-        cc = CRF_SO;                                                     \
+         if (ordered) {                                                   \
+             vxvc_flag = true;                                            \
+         }                                                                \
+@@ -2497,12 +2495,19 @@ void helper_##op(CPUPPCState *env, uint32_t opcode,                      \
+         float_invalid_op_vxvc(env, 0, GETPC());                          \
+     }                                                                    \
+                                                                          \
+-    if (float64_lt(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) {         \
++    switch (float64_compare(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) {\
++    case float_relation_less:                                            \
+         cc |= CRF_LT;                                                    \
+-    } else if (!float64_le(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) { \
+-        cc |= CRF_GT;                                                    \
+-    } else {                                                             \
++        break;                                                           \
++    case float_relation_equal:                                           \
+         cc |= CRF_EQ;                                                    \
++        break;                                                           \
++    case float_relation_greater:                                         \
++        cc |= CRF_GT;                                                    \
++        break;                                                           \
++    case float_relation_unordered:                                       \
++        cc |= CRF_SO;                                                    \
++        break;                                                           \
+     }                                                                    \
+                                                                          \
+     env->fpscr &= ~FP_FPCC;                                              \
+@@ -2545,12 +2550,19 @@ void helper_##op(CPUPPCState *env, uint32_t opcode,                     \
+         float_invalid_op_vxvc(env, 0, GETPC());                         \
+     }                                                                   \
+                                                                         \
+-    if (float128_lt(xa->f128, xb->f128, &env->fp_status)) {             \
++    switch (float128_compare(xa->f128, xb->f128, &env->fp_status)) {    \
++    case float_relation_less:                                           \
+         cc |= CRF_LT;                                                   \
+-    } else if (!float128_le(xa->f128, xb->f128, &env->fp_status)) {     \
+-        cc |= CRF_GT;                                                   \
+-    } else {                                                            \
++        break;                                                          \
++    case float_relation_equal:                                          \
+         cc |= CRF_EQ;                                                   \
++        break;                                                          \
++    case float_relation_greater:                                        \
++        cc |= CRF_GT;                                                   \
++        break;                                                          \
++    case float_relation_unordered:                                      \
++        cc |= CRF_SO;                                                   \
++        break;                                                          \
+     }                                                                   \
+                                                                         \
+     env->fpscr &= ~FP_FPCC;                                             \
 -- 
 2.29.2
 
