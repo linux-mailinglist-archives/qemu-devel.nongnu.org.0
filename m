@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5631A2D826D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 23:56:46 +0100 (CET)
-Received: from localhost ([::1]:32980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 203FE2D8267
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 23:53:55 +0100 (CET)
+Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knrLB-0004a0-D0
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 17:56:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60886)
+	id 1knrIP-00020F-QM
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 17:53:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1knqaG-0003IV-DY
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 17:08:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24090)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1knqZv-0006sa-6k
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 17:08:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607724474;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aKfie8HDs4Bj5KUMmmQqgBylUh0kwLqLFFOC3bbKRvM=;
- b=PRgcoQoD6wsVXqM44d6LXXcAjdoKRGN/AFZ0XpiUY8/zd7aMXG1llu0kst0IIvxthPWELi
- AajpRTCIK1RiByeHGfliLt15ALO4qu47P7QKqSfyX1Y/AcNIa0CXoeY/ZHJtE2mX7DfBWh
- yP50F6AkRqCgiXbChW4VQrm12hNq/fg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-iKOqZwxBMPmdpSl-0f-5Iw-1; Fri, 11 Dec 2020 17:07:52 -0500
-X-MC-Unique: iKOqZwxBMPmdpSl-0f-5Iw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E556A107ACE3;
- Fri, 11 Dec 2020 22:07:51 +0000 (UTC)
-Received: from localhost (ovpn-116-160.rdu2.redhat.com [10.10.116.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 08E3C5D9E2;
- Fri, 11 Dec 2020 22:07:47 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 31/32] qdev: Avoid unnecessary DeviceState* variable at
- set_prop_arraylen()
-Date: Fri, 11 Dec 2020 17:05:28 -0500
-Message-Id: <20201211220529.2290218-32-ehabkost@redhat.com>
-In-Reply-To: <20201211220529.2290218-1-ehabkost@redhat.com>
-References: <20201211220529.2290218-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1knqe0-0006NC-Ph
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 17:12:08 -0500
+Received: from mail-ua1-x930.google.com ([2607:f8b0:4864:20::930]:42229)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1knqdv-0008Jl-Hd
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 17:12:06 -0500
+Received: by mail-ua1-x930.google.com with SMTP id n18so3357602ual.9
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 14:12:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=9+uHv4Wm+iKl9lLbvgWgdhvc6TGd5i1tZxe9mRrn3bY=;
+ b=pJxJKP4+0lg46afX28JDwTvcQn/SZLAuRjkUgv6+BYifGpHVZdj9UnbEsjwYhwRfzE
+ Q/W6a8kvPZIoBiHRalBRPRQXL8HOpHYmzzV26WZKDpzjrON0B9BDzRKIKzCa5Ug/xhYK
+ HX7BrTgEmqXQ4CculxDdS2z58pwJvDMyC3Sx2yr2rWyZYYtwBma60DPWoMSmkwekmYag
+ eDQb+5+PMHVyx+Hfc8uMyAxpswUrA6VsMXsy5hBw56aRIc3O4xqRZjPb6oAcFMCNQ4HN
+ EiuXiuYKOYk8WmO+U/Eum6o9ucSOgmW4EEnsrtLlUQ05rh1nLDtT3yOv+N+yM23GhrIk
+ teoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=9+uHv4Wm+iKl9lLbvgWgdhvc6TGd5i1tZxe9mRrn3bY=;
+ b=QPIXVrNL9UmqA53jY5rNV6hpQZ9cLVm6UlZqBJyGA9t1mIqzaNfNPf5I9DF8EfD4iM
+ oz7wmyRrkedvLJN0K9eq36z1us4MZ0jDljqK3A/p+XltPKXAcytSOjT2Y5+sZFt1XMTn
+ 3xGYX1KnpxLKtkPZ4219ts9jwjOUm/SlAOi47Q3W2k6F1bgPgBkEluUzrD7GIX8Z59i6
+ DXZkDP1EEkua7kPXetJrqAIiqlahq6iFXpVEPI7Kd4Z9h0Z+JsBj4eN0ZqWzDHqASeXa
+ ZsdwpvNcNMM2fRC1GbAiJ8JesV8sC4QpDdOV/NHdsBGmGDvkxwd8y9U3g74GQHmZPxu3
+ QRUA==
+X-Gm-Message-State: AOAM531ddjeVzPeY9WClOWmmz/1p3uv+H67A4lwDVj/Wv43PYHmtSYKo
+ o6QH0NOaOQ3X9tiRCy7i7ijZGzuZA4lsk1eWtzl9y7xqMYE/9Q==
+X-Google-Smtp-Source: ABdhPJz++UEbeLIh7PgNyEjvZZaZ8V2qXysZc3PhKhv2VDrtx68mgdJH/6GrpUqL1bLpV3nTuUPMAQAvkGh0kj9TZbs=
+X-Received: by 2002:ab0:5909:: with SMTP id n9mr14651551uad.3.1607724721609;
+ Fri, 11 Dec 2020 14:12:01 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+From: Doug Evans <dje@google.com>
+Date: Fri, 11 Dec 2020 14:11:25 -0800
+Message-ID: <CADPb22TD93fvQMsSxukRyNgXAoR+Cqh2gW4HZY2okT4tTztXCw@mail.gmail.com>
+Subject: checkpatch.pl block comment detection fail
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000ee0e5905b637943c"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
+ envelope-from=dje@google.com; helo=mail-ua1-x930.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,56 +72,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're just doing pointer math with the device pointer, we can
-simply use obj instead.
+--000000000000ee0e5905b637943c
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: qemu-devel@nongnu.org
----
- hw/core/qdev-properties.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Hi.
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 3d648b088d..9d25b49fc1 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -559,10 +559,9 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
-      * array-length field in the device struct, we have to create the
-      * array itself and dynamically add the corresponding properties.
-      */
--    DeviceState *dev = DEVICE(obj);
-     Property *prop = opaque;
-     uint32_t *alenptr = object_field_prop_ptr(obj, prop);
--    void **arrayptr = (void *)dev + prop->arrayoffset;
-+    void **arrayptr = (void *)obj + prop->arrayoffset;
-     void *eltptr;
-     const char *arrayname;
-     int i;
-@@ -602,7 +601,7 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
-          * they get the right answer despite the array element not actually
-          * being inside the device struct.
-          */
--        arrayprop->prop.offset = eltptr - (void *)dev;
-+        arrayprop->prop.offset = eltptr - (void *)obj;
-         assert(object_field_prop_ptr(obj, &arrayprop->prop) == eltptr);
-         object_property_add(obj, propname,
-                             arrayprop->prop.info->name,
--- 
-2.28.0
+The coding style docs don't specify this as being bad:
 
+foo(/*bar=*/true);
+
+which improves readability at the call site.
+It's not a style to be used liberally, but sometimes it's helpful.
+
+Alas checkpatch.pl claims this is a block comment.
+
+Would it be ok if I try to fix checkpatch.pl to treat this as ok?
+
+--000000000000ee0e5905b637943c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Hi.=
+<br></div><div class=3D"gmail_default" style=3D"font-size:small"><br></div>=
+<div class=3D"gmail_default" style=3D"font-size:small">The coding style doc=
+s don&#39;t specify this as being bad:</div><div class=3D"gmail_default" st=
+yle=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"fon=
+t-size:small">foo(/*bar=3D*/true);</div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">which improves readability at the call site.</div><div class=3D"=
+gmail_default" style=3D"font-size:small">It&#39;s not a style to be used li=
+berally, but sometimes it&#39;s helpful.</div><div class=3D"gmail_default" =
+style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"f=
+ont-size:small">Alas <a href=3D"http://checkpatch.pl">checkpatch.pl</a> cla=
+ims this is a block comment.</div><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:sma=
+ll">Would it be ok if I try to fix <a href=3D"http://checkpatch.pl">checkpa=
+tch.pl</a> to treat this as ok?</div><div class=3D"gmail_default" style=3D"=
+font-size:small"><br></div></div>
+
+--000000000000ee0e5905b637943c--
 
