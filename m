@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419892D7CD6
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:28:17 +0100 (CET)
-Received: from localhost ([::1]:50538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2952D7CB5
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:22:59 +0100 (CET)
+Received: from localhost ([::1]:60560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knmDI-00022b-6Z
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:28:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49960)
+	id 1knm8A-0001ze-Ha
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:22:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluR-0003hZ-Sv
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24770)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluO-0003eH-5B
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluC-00025n-QU
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:47 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluD-00026J-7K
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1607706511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M5pi+lqtSy6x09huXwtETuWlRVAFp3UAGT9VF9Rjo9g=;
- b=Ns9vbfNiS+q+2K83FhBWkp1+1KUdk0lZDiPI488j7imKJlYgBgApNICL7tJQzaVwoFpXdt
- nWd5+LKmrE8Sreepi20dyBoZrSUp6ScFRr8O/IvORANG7RnMds6htscNcobPM5nWOa0gfA
- QXBCbPSSj/5ETg5AvGkcXwRohnv5C9o=
+ bh=0NAnf8ONMI16zDQq9Ngg351OMk8hdJE4xuxXJA0C5X0=;
+ b=TcRE92tgItNxm355TSZnTLq7XpIIRQnX+05XNUzVudQJ48BdcPN9435zYCpwfQ8zb7hK5T
+ Lar0FnFV1lyysSS5erOo7QoPnRrPFw7rXfJNKumwP3QgDycGk+9FMOx3yXS4RIovuTlSCD
+ +8sBGHN7s1SwCvKCINMTfzkrVwS7Y8I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-7kHaR_xhPsKfmrjrHqm9Lw-1; Fri, 11 Dec 2020 12:08:28 -0500
-X-MC-Unique: 7kHaR_xhPsKfmrjrHqm9Lw-1
+ us-mta-301-Dl6XdjUSNOaDySuzR3DTvQ-1; Fri, 11 Dec 2020 12:08:29 -0500
+X-MC-Unique: Dl6XdjUSNOaDySuzR3DTvQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEC62B8108;
- Fri, 11 Dec 2020 17:08:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1954459;
+ Fri, 11 Dec 2020 17:08:28 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-231.ams2.redhat.com [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A7E525D734;
- Fri, 11 Dec 2020 17:08:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 174425D6A8;
+ Fri, 11 Dec 2020 17:08:26 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/34] fuse: Allow exporting BDSs via FUSE
-Date: Fri, 11 Dec 2020 18:07:44 +0100
-Message-Id: <20201211170812.228643-7-kwolf@redhat.com>
+Subject: [PULL 07/34] fuse: Implement standard FUSE operations
+Date: Fri, 11 Dec 2020 18:07:45 +0100
+Message-Id: <20201211170812.228643-8-kwolf@redhat.com>
 In-Reply-To: <20201211170812.228643-1-kwolf@redhat.com>
 References: <20201211170812.228643-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -57,13 +57,13 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,489 +82,271 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-block-export-add type=fuse allows mounting block graph nodes via FUSE on
-some existing regular file.  That file should then appears like a raw
-disk image, and accesses to it result in accesses to the exported BDS.
-
-Right now, we only implement the necessary block export functions to set
-it up and shut it down.  We do not implement any access functions, so
-accessing the mount point only results in errors.  This will be
-addressed by a followup patch.
-
-We keep a hash table of exported mount points, because we want to be
-able to detect when users try to use a mount point twice.  This is
-because we invoke stat() to check whether the given mount point is a
-regular file, but if that file is served by ourselves (because it is
-already used as a mount point), then this stat() would have to be served
-by ourselves, too, which is impossible to do while we (as the caller)
-are waiting for it to settle.  Therefore, keep track of mount point
-paths to at least catch the most obvious instances of that problem.
+This makes the export actually useful instead of only producing errors
+whenever it is accessed.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20201027190600.192171-3-mreitz@redhat.com>
+Message-Id: <20201027190600.192171-4-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/block-export.json   |  23 ++-
- include/block/fuse.h     |  30 ++++
- block.c                  |   1 +
- block/export/export.c    |   4 +
- block/export/fuse.c      | 295 +++++++++++++++++++++++++++++++++++++++
- MAINTAINERS              |   6 +
- block/export/meson.build |   2 +
- 7 files changed, 359 insertions(+), 2 deletions(-)
- create mode 100644 include/block/fuse.h
- create mode 100644 block/export/fuse.c
+ block/export/fuse.c | 242 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 242 insertions(+)
 
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index 4eeac7842d..430bc69f35 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -120,6 +120,21 @@
- 	    '*logical-block-size': 'size',
-             '*num-queues': 'uint16'} }
- 
-+##
-+# @BlockExportOptionsFuse:
-+#
-+# Options for exporting a block graph node on some (file) mountpoint
-+# as a raw image.
-+#
-+# @mountpoint: Path on which to export the block device via FUSE.
-+#              This must point to an existing regular file.
-+#
-+# Since: 6.0
-+##
-+{ 'struct': 'BlockExportOptionsFuse',
-+  'data': { 'mountpoint': 'str' },
-+  'if': 'defined(CONFIG_FUSE)' }
-+
- ##
- # @NbdServerAddOptions:
- #
-@@ -222,11 +237,13 @@
- #
- # @nbd: NBD export
- # @vhost-user-blk: vhost-user-blk export (since 5.2)
-+# @fuse: FUSE export (since: 6.0)
- #
- # Since: 4.2
- ##
- { 'enum': 'BlockExportType',
--  'data': [ 'nbd', 'vhost-user-blk' ] }
-+  'data': [ 'nbd', 'vhost-user-blk',
-+            { 'name': 'fuse', 'if': 'defined(CONFIG_FUSE)' } ] }
- 
- ##
- # @BlockExportOptions:
-@@ -267,7 +284,9 @@
-   'discriminator': 'type',
-   'data': {
-       'nbd': 'BlockExportOptionsNbd',
--      'vhost-user-blk': 'BlockExportOptionsVhostUserBlk'
-+      'vhost-user-blk': 'BlockExportOptionsVhostUserBlk',
-+      'fuse': { 'type': 'BlockExportOptionsFuse',
-+                'if': 'defined(CONFIG_FUSE)' }
-    } }
- 
- ##
-diff --git a/include/block/fuse.h b/include/block/fuse.h
-new file mode 100644
-index 0000000000..ffa91fe364
---- /dev/null
-+++ b/include/block/fuse.h
-@@ -0,0 +1,30 @@
-+/*
-+ * Present a block device as a raw image through FUSE
-+ *
-+ * Copyright (c) 2020 Max Reitz <mreitz@redhat.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; under version 2 or later of the License.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef BLOCK_FUSE_H
-+#define BLOCK_FUSE_H
-+
-+#ifdef CONFIG_FUSE
-+
-+#include "block/export.h"
-+
-+extern const BlockExportDriver blk_exp_fuse;
-+
-+#endif /* CONFIG_FUSE */
-+
-+#endif
-diff --git a/block.c b/block.c
-index f1cedac362..eb16fb48c6 100644
---- a/block.c
-+++ b/block.c
-@@ -26,6 +26,7 @@
- #include "block/trace.h"
- #include "block/block_int.h"
- #include "block/blockjob.h"
-+#include "block/fuse.h"
- #include "block/nbd.h"
- #include "block/qdict.h"
- #include "qemu/error-report.h"
-diff --git a/block/export/export.c b/block/export/export.c
-index bad6f21b1c..b716c1522c 100644
---- a/block/export/export.c
-+++ b/block/export/export.c
-@@ -17,6 +17,7 @@
- #include "sysemu/block-backend.h"
- #include "sysemu/iothread.h"
- #include "block/export.h"
-+#include "block/fuse.h"
- #include "block/nbd.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-block-export.h"
-@@ -31,6 +32,9 @@ static const BlockExportDriver *blk_exp_drivers[] = {
- #ifdef CONFIG_VHOST_USER_BLK_SERVER
-     &blk_exp_vhost_user_blk,
- #endif
-+#ifdef CONFIG_FUSE
-+    &blk_exp_fuse,
-+#endif
- };
- 
- /* Only accessed from the main thread */
 diff --git a/block/export/fuse.c b/block/export/fuse.c
-new file mode 100644
-index 0000000000..0553bcd630
---- /dev/null
+index 0553bcd630..d995829ab7 100644
+--- a/block/export/fuse.c
 +++ b/block/export/fuse.c
-@@ -0,0 +1,295 @@
-+/*
-+ * Present a block device as a raw image through FUSE
-+ *
-+ * Copyright (c) 2020 Max Reitz <mreitz@redhat.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; under version 2 or later of the License.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, see <http://www.gnu.org/licenses/>.
+@@ -282,8 +282,250 @@ static void fuse_init(void *userdata, struct fuse_conn_info *conn)
+     conn->max_write = MIN_NON_ZERO(BDRV_REQUEST_MAX_BYTES, conn->max_write);
+ }
+ 
++/**
++ * Let clients look up files.  Always return ENOENT because we only
++ * care about the mountpoint itself.
 + */
-+
-+#define FUSE_USE_VERSION 31
-+
-+#include "qemu/osdep.h"
-+#include "block/aio.h"
-+#include "block/block.h"
-+#include "block/export.h"
-+#include "block/fuse.h"
-+#include "block/qapi.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-block.h"
-+#include "sysemu/block-backend.h"
-+
-+#include <fuse.h>
-+#include <fuse_lowlevel.h>
-+
-+
-+/* Prevent overly long bounce buffer allocations */
-+#define FUSE_MAX_BOUNCE_BYTES (MIN(BDRV_REQUEST_MAX_BYTES, 64 * 1024 * 1024))
-+
-+
-+typedef struct FuseExport {
-+    BlockExport common;
-+
-+    struct fuse_session *fuse_session;
-+    struct fuse_buf fuse_buf;
-+    bool mounted, fd_handler_set_up;
-+
-+    char *mountpoint;
-+    bool writable;
-+} FuseExport;
-+
-+static GHashTable *exports;
-+static const struct fuse_lowlevel_ops fuse_ops;
-+
-+static void fuse_export_shutdown(BlockExport *exp);
-+static void fuse_export_delete(BlockExport *exp);
-+
-+static void init_exports_table(void);
-+
-+static int setup_fuse_export(FuseExport *exp, const char *mountpoint,
-+                             Error **errp);
-+static void read_from_fuse_export(void *opaque);
-+
-+static bool is_regular_file(const char *path, Error **errp);
-+
-+
-+static int fuse_export_create(BlockExport *blk_exp,
-+                              BlockExportOptions *blk_exp_args,
-+                              Error **errp)
++static void fuse_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
 +{
-+    FuseExport *exp = container_of(blk_exp, FuseExport, common);
-+    BlockExportOptionsFuse *args = &blk_exp_args->u.fuse;
-+    int ret;
-+
-+    assert(blk_exp_args->type == BLOCK_EXPORT_TYPE_FUSE);
-+
-+    init_exports_table();
-+
-+    /*
-+     * It is important to do this check before calling is_regular_file() --
-+     * that function will do a stat(), which we would have to handle if we
-+     * already exported something on @mountpoint.  But we cannot, because
-+     * we are currently caught up here.
-+     * (Note that ideally we would want to resolve relative paths here,
-+     * but bdrv_make_absolute_filename() might do the wrong thing for
-+     * paths that contain colons, and realpath() would resolve symlinks,
-+     * which we do not want: The mount point is not going to be the
-+     * symlink's destination, but the link itself.)
-+     * So this will not catch all potential clashes, but hopefully at
-+     * least the most common one of specifying exactly the same path
-+     * string twice.
-+     */
-+    if (g_hash_table_contains(exports, args->mountpoint)) {
-+        error_setg(errp, "There already is a FUSE export on '%s'",
-+                   args->mountpoint);
-+        ret = -EEXIST;
-+        goto fail;
-+    }
-+
-+    if (!is_regular_file(args->mountpoint, errp)) {
-+        ret = -EINVAL;
-+        goto fail;
-+    }
-+
-+    exp->mountpoint = g_strdup(args->mountpoint);
-+    exp->writable = blk_exp_args->writable;
-+
-+    ret = setup_fuse_export(exp, args->mountpoint, errp);
-+    if (ret < 0) {
-+        goto fail;
-+    }
-+
-+    return 0;
-+
-+fail:
-+    fuse_export_delete(blk_exp);
-+    return ret;
++    fuse_reply_err(req, ENOENT);
 +}
 +
 +/**
-+ * Allocates the global @exports hash table.
++ * Let clients get file attributes (i.e., stat() the file).
 + */
-+static void init_exports_table(void)
++static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
++                         struct fuse_file_info *fi)
 +{
-+    if (exports) {
++    struct stat statbuf;
++    int64_t length, allocated_blocks;
++    time_t now = time(NULL);
++    FuseExport *exp = fuse_req_userdata(req);
++    mode_t mode;
++
++    length = blk_getlength(exp->common.blk);
++    if (length < 0) {
++        fuse_reply_err(req, -length);
 +        return;
 +    }
 +
-+    exports = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
++    allocated_blocks = bdrv_get_allocated_file_size(blk_bs(exp->common.blk));
++    if (allocated_blocks <= 0) {
++        allocated_blocks = DIV_ROUND_UP(length, 512);
++    } else {
++        allocated_blocks = DIV_ROUND_UP(allocated_blocks, 512);
++    }
++
++    mode = S_IFREG | S_IRUSR;
++    if (exp->writable) {
++        mode |= S_IWUSR;
++    }
++
++    statbuf = (struct stat) {
++        .st_ino     = inode,
++        .st_mode    = mode,
++        .st_nlink   = 1,
++        .st_uid     = getuid(),
++        .st_gid     = getgid(),
++        .st_size    = length,
++        .st_blksize = blk_bs(exp->common.blk)->bl.request_alignment,
++        .st_blocks  = allocated_blocks,
++        .st_atime   = now,
++        .st_mtime   = now,
++        .st_ctime   = now,
++    };
++
++    fuse_reply_attr(req, &statbuf, 1.);
 +}
 +
-+/**
-+ * Create exp->fuse_session and mount it.
-+ */
-+static int setup_fuse_export(FuseExport *exp, const char *mountpoint,
-+                             Error **errp)
++static int fuse_do_truncate(const FuseExport *exp, int64_t size,
++                            bool req_zero_write, PreallocMode prealloc)
 +{
-+    const char *fuse_argv[4];
-+    char *mount_opts;
-+    struct fuse_args fuse_args;
++    uint64_t blk_perm, blk_shared_perm;
++    BdrvRequestFlags truncate_flags = 0;
 +    int ret;
 +
-+    /* Needs to match what fuse_init() sets.  Only max_read must be supplied. */
-+    mount_opts = g_strdup_printf("max_read=%zu", FUSE_MAX_BOUNCE_BYTES);
-+
-+    fuse_argv[0] = ""; /* Dummy program name */
-+    fuse_argv[1] = "-o";
-+    fuse_argv[2] = mount_opts;
-+    fuse_argv[3] = NULL;
-+    fuse_args = (struct fuse_args)FUSE_ARGS_INIT(3, (char **)fuse_argv);
-+
-+    exp->fuse_session = fuse_session_new(&fuse_args, &fuse_ops,
-+                                         sizeof(fuse_ops), exp);
-+    g_free(mount_opts);
-+    if (!exp->fuse_session) {
-+        error_setg(errp, "Failed to set up FUSE session");
-+        ret = -EIO;
-+        goto fail;
++    if (req_zero_write) {
++        truncate_flags |= BDRV_REQ_ZERO_WRITE;
 +    }
 +
-+    ret = fuse_session_mount(exp->fuse_session, mountpoint);
++    blk_get_perm(exp->common.blk, &blk_perm, &blk_shared_perm);
++
++    ret = blk_set_perm(exp->common.blk, blk_perm | BLK_PERM_RESIZE,
++                       blk_shared_perm, NULL);
 +    if (ret < 0) {
-+        error_setg(errp, "Failed to mount FUSE session to export");
-+        ret = -EIO;
-+        goto fail;
++        return ret;
 +    }
-+    exp->mounted = true;
 +
-+    g_hash_table_insert(exports, g_strdup(mountpoint), NULL);
++    ret = blk_truncate(exp->common.blk, size, true, prealloc,
++                       truncate_flags, NULL);
 +
-+    aio_set_fd_handler(exp->common.ctx,
-+                       fuse_session_fd(exp->fuse_session), true,
-+                       read_from_fuse_export, NULL, NULL, exp);
-+    exp->fd_handler_set_up = true;
++    /* Must succeed, because we are only giving up the RESIZE permission */
++    blk_set_perm(exp->common.blk, blk_perm, blk_shared_perm, &error_abort);
 +
-+    return 0;
-+
-+fail:
-+    fuse_export_shutdown(&exp->common);
 +    return ret;
 +}
 +
 +/**
-+ * Callback to be invoked when the FUSE session FD can be read from.
-+ * (This is basically the FUSE event loop.)
++ * Let clients set file attributes.  Only resizing is supported.
 + */
-+static void read_from_fuse_export(void *opaque)
++static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
++                         int to_set, struct fuse_file_info *fi)
 +{
-+    FuseExport *exp = opaque;
++    FuseExport *exp = fuse_req_userdata(req);
 +    int ret;
 +
-+    blk_exp_ref(&exp->common);
++    if (!exp->writable) {
++        fuse_reply_err(req, EACCES);
++        return;
++    }
 +
-+    do {
-+        ret = fuse_session_receive_buf(exp->fuse_session, &exp->fuse_buf);
-+    } while (ret == -EINTR);
++    if (to_set & ~FUSE_SET_ATTR_SIZE) {
++        fuse_reply_err(req, ENOTSUP);
++        return;
++    }
++
++    ret = fuse_do_truncate(exp, statbuf->st_size, true, PREALLOC_MODE_OFF);
 +    if (ret < 0) {
-+        goto out;
++        fuse_reply_err(req, -ret);
++        return;
 +    }
 +
-+    fuse_session_process_buf(exp->fuse_session, &exp->fuse_buf);
-+
-+out:
-+    blk_exp_unref(&exp->common);
-+}
-+
-+static void fuse_export_shutdown(BlockExport *blk_exp)
-+{
-+    FuseExport *exp = container_of(blk_exp, FuseExport, common);
-+
-+    if (exp->fuse_session) {
-+        fuse_session_exit(exp->fuse_session);
-+
-+        if (exp->fd_handler_set_up) {
-+            aio_set_fd_handler(exp->common.ctx,
-+                               fuse_session_fd(exp->fuse_session), true,
-+                               NULL, NULL, NULL, NULL);
-+            exp->fd_handler_set_up = false;
-+        }
-+    }
-+
-+    if (exp->mountpoint) {
-+        /*
-+         * Safe to drop now, because we will not handle any requests
-+         * for this export anymore anyway.
-+         */
-+        g_hash_table_remove(exports, exp->mountpoint);
-+    }
-+}
-+
-+static void fuse_export_delete(BlockExport *blk_exp)
-+{
-+    FuseExport *exp = container_of(blk_exp, FuseExport, common);
-+
-+    if (exp->fuse_session) {
-+        if (exp->mounted) {
-+            fuse_session_unmount(exp->fuse_session);
-+        }
-+
-+        fuse_session_destroy(exp->fuse_session);
-+    }
-+
-+    free(exp->fuse_buf.mem);
-+    g_free(exp->mountpoint);
++    fuse_getattr(req, inode, fi);
 +}
 +
 +/**
-+ * Check whether @path points to a regular file.  If not, put an
-+ * appropriate message into *errp.
++ * Let clients open a file (i.e., the exported image).
 + */
-+static bool is_regular_file(const char *path, Error **errp)
++static void fuse_open(fuse_req_t req, fuse_ino_t inode,
++                      struct fuse_file_info *fi)
 +{
-+    struct stat statbuf;
-+    int ret;
-+
-+    ret = stat(path, &statbuf);
-+    if (ret < 0) {
-+        error_setg_errno(errp, errno, "Failed to stat '%s'", path);
-+        return false;
-+    }
-+
-+    if (!S_ISREG(statbuf.st_mode)) {
-+        error_setg(errp, "'%s' is not a regular file", path);
-+        return false;
-+    }
-+
-+    return true;
++    fuse_reply_open(req, fi);
 +}
 +
 +/**
-+ * A chance to set change some parameters supplied to FUSE_INIT.
++ * Handle client reads from the exported image.
 + */
-+static void fuse_init(void *userdata, struct fuse_conn_info *conn)
++static void fuse_read(fuse_req_t req, fuse_ino_t inode,
++                      size_t size, off_t offset, struct fuse_file_info *fi)
 +{
-+    /*
-+     * MIN_NON_ZERO() would not be wrong here, but what we set here
-+     * must equal what has been passed to fuse_session_new().
-+     * Therefore, as long as max_read must be passed as a mount option
-+     * (which libfuse claims will be changed at some point), we have
-+     * to set max_read to a fixed value here.
++    FuseExport *exp = fuse_req_userdata(req);
++    int64_t length;
++    void *buf;
++    int ret;
++
++    /* Limited by max_read, should not happen */
++    if (size > FUSE_MAX_BOUNCE_BYTES) {
++        fuse_reply_err(req, EINVAL);
++        return;
++    }
++
++    /**
++     * Clients will expect short reads at EOF, so we have to limit
++     * offset+size to the image length.
 +     */
-+    conn->max_read = FUSE_MAX_BOUNCE_BYTES;
++    length = blk_getlength(exp->common.blk);
++    if (length < 0) {
++        fuse_reply_err(req, -length);
++        return;
++    }
 +
-+    conn->max_write = MIN_NON_ZERO(BDRV_REQUEST_MAX_BYTES, conn->max_write);
++    if (offset + size > length) {
++        size = length - offset;
++    }
++
++    buf = qemu_try_blockalign(blk_bs(exp->common.blk), size);
++    if (!buf) {
++        fuse_reply_err(req, ENOMEM);
++        return;
++    }
++
++    ret = blk_pread(exp->common.blk, offset, buf, size);
++    if (ret >= 0) {
++        fuse_reply_buf(req, buf, size);
++    } else {
++        fuse_reply_err(req, -ret);
++    }
++
++    qemu_vfree(buf);
 +}
 +
-+static const struct fuse_lowlevel_ops fuse_ops = {
-+    .init       = fuse_init,
-+};
++/**
++ * Handle client writes to the exported image.
++ */
++static void fuse_write(fuse_req_t req, fuse_ino_t inode, const char *buf,
++                       size_t size, off_t offset, struct fuse_file_info *fi)
++{
++    FuseExport *exp = fuse_req_userdata(req);
++    int64_t length;
++    int ret;
 +
-+const BlockExportDriver blk_exp_fuse = {
-+    .type               = BLOCK_EXPORT_TYPE_FUSE,
-+    .instance_size      = sizeof(FuseExport),
-+    .create             = fuse_export_create,
-+    .delete             = fuse_export_delete,
-+    .request_shutdown   = fuse_export_shutdown,
-+};
-diff --git a/MAINTAINERS b/MAINTAINERS
-index aa39490a24..1950592d04 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3114,6 +3114,12 @@ F: include/qemu/vhost-user-server.h
- F: tests/qtest/libqos/vhost-user-blk.c
- F: util/vhost-user-server.c
++    /* Limited by max_write, should not happen */
++    if (size > BDRV_REQUEST_MAX_BYTES) {
++        fuse_reply_err(req, EINVAL);
++        return;
++    }
++
++    if (!exp->writable) {
++        fuse_reply_err(req, EACCES);
++        return;
++    }
++
++    /**
++     * Clients will expect short writes at EOF, so we have to limit
++     * offset+size to the image length.
++     */
++    length = blk_getlength(exp->common.blk);
++    if (length < 0) {
++        fuse_reply_err(req, -length);
++        return;
++    }
++
++    if (offset + size > length) {
++        size = length - offset;
++    }
++
++    ret = blk_pwrite(exp->common.blk, offset, buf, size, 0);
++    if (ret >= 0) {
++        fuse_reply_write(req, size);
++    } else {
++        fuse_reply_err(req, -ret);
++    }
++}
++
++/**
++ * Let clients fsync the exported image.
++ */
++static void fuse_fsync(fuse_req_t req, fuse_ino_t inode, int datasync,
++                       struct fuse_file_info *fi)
++{
++    FuseExport *exp = fuse_req_userdata(req);
++    int ret;
++
++    ret = blk_flush(exp->common.blk);
++    fuse_reply_err(req, ret < 0 ? -ret : 0);
++}
++
++/**
++ * Called before an FD to the exported image is closed.  (libfuse
++ * notes this to be a way to return last-minute errors.)
++ */
++static void fuse_flush(fuse_req_t req, fuse_ino_t inode,
++                        struct fuse_file_info *fi)
++{
++    fuse_fsync(req, inode, 1, fi);
++}
++
+ static const struct fuse_lowlevel_ops fuse_ops = {
+     .init       = fuse_init,
++    .lookup     = fuse_lookup,
++    .getattr    = fuse_getattr,
++    .setattr    = fuse_setattr,
++    .open       = fuse_open,
++    .read       = fuse_read,
++    .write      = fuse_write,
++    .flush      = fuse_flush,
++    .fsync      = fuse_fsync,
+ };
  
-+FUSE block device exports
-+M: Max Reitz <mreitz@redhat.com>
-+L: qemu-block@nongnu.org
-+S: Supported
-+F: block/export/fuse.c
-+
- Replication
- M: Wen Congyang <wencongyang2@huawei.com>
- M: Xie Changlong <xiechanglong.d@gmail.com>
-diff --git a/block/export/meson.build b/block/export/meson.build
-index 135b356775..0a08e384c7 100644
---- a/block/export/meson.build
-+++ b/block/export/meson.build
-@@ -3,3 +3,5 @@ blockdev_ss.add(files('export.c'))
- if have_vhost_user_blk_server
-     blockdev_ss.add(files('vhost-user-blk-server.c'))
- endif
-+
-+blockdev_ss.add(when: fuse, if_true: files('fuse.c'))
+ const BlockExportDriver blk_exp_fuse = {
 -- 
 2.29.2
 
