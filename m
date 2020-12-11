@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A4B2D72EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 10:37:06 +0100 (CET)
-Received: from localhost ([::1]:48372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F642D72F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 10:38:14 +0100 (CET)
+Received: from localhost ([::1]:50492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knerJ-00041V-DH
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 04:37:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56814)
+	id 1knesP-0004tM-PP
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 04:38:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kneph-000359-3Z
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 04:35:25 -0500
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:36096)
+ id 1knepj-00036L-PP
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 04:35:27 -0500
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:38685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1knepf-00073w-CZ
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 04:35:24 -0500
-Received: by mail-il1-x143.google.com with SMTP id u12so8143011ilv.3
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 01:35:23 -0800 (PST)
+ id 1knepi-00077a-59
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 04:35:27 -0500
+Received: by mail-il1-x142.google.com with SMTP id v3so8210230ilo.5
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 01:35:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=tnIxINGCJnzOTcqgyovptQF3WZR1zXr6uWcE6iX+KJQ=;
- b=GSHA/K9AXDZRcwkqhPJyAAsEu56isrO+rFNhT2ZEd4qD7iXPteAMNDqiCok8HvfIO0
- WcvOgHKWSKLcv3Xp67l9iaywSWt3Y5y2jsbbkX39hYuGcbkxxvHiGC6YuvsbLiopAIlV
- Tm6uRSTma3rA4yGkK/C1i5xQeS5nuYKb/NRoTmgY8Uzl0rpdkOU2ieFTmlG4UREyNflw
- YNQF9UhOdYqzUO6ilK6k0raoZ3jraFPuve7CCfx2gF94nREuG3R+EMh8O+fmHxtpl/fp
- rbNTPLgV07bobdomSAgNdLXx+W4VSee3Ygr2N352WaDfKxyGelfu4UI18py4aai69gy6
- hPvw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=5Fm5DWWfR+EKTZiagvwEBbxnaS08HRfns0Shk/F/B+U=;
+ b=V46WrMa9LyGlv8m4XEEvwob/9W7VhZ+skrO2XGDVQrMKU1ixWdorwXnWr/szYVxANN
+ Oqr44GcZzj8wIZpuGf5LcGhSvcl45EPuBA9EK4mQiQhf0HomnIP8FTcZnQn6MHfitu4P
+ 33k3+EY4sUnwDB19yedAPnLLiFhohzn76q7ACDSYiVG7garIuCJMi+eWeJuY17huTxFr
+ PzaeztSY18+MJbAHFM+2uJiRjFY1Md345+et3BrZ3MnsPF7qs4lJdsPsPMeTRtm/0Yqo
+ 0izXj5/tv2u7x1GgKFFeIFbQSnMu52ubmqPFGmNTti6lAqNjG90AGStGJrGBxQ0H2Cv0
+ JQyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=tnIxINGCJnzOTcqgyovptQF3WZR1zXr6uWcE6iX+KJQ=;
- b=RSKyu+Fz3SfoKQO9OLzWy6u+Ucfy6ArLgB1LT2YIRNt2+yZBtM4LYQA1UwWVYf1png
- Ki8KojL4LLBJklAUEUVlK4ANhAmuQ5Yijv1mFEoO7xcjkktsD3n+FeA15RkLW/dYQJaA
- hEzAvfHUmG6v6RrW5bR+4Q1yxqqs/J/MtV0uRG/Gs48nQmM+VTPROO4RelmqlDuPocH2
- y1brp0Kku0v+1qFHnj5zgN4sm1YgQ3NDbK3zXkEoToMPOnfz0fCM9UJ2BYpyHu/R/4TG
- QAGSwoTYnuqGpsmers8zHOKiJiT7NySaTYtiB2DJhYwojZ/QIedRXoaLW1PueukektqN
- G7KQ==
-X-Gm-Message-State: AOAM530/YDpfnF2jYhus3x7Vpl0LHq02bJRb/kcuan9iX5m9rVphdKw/
- LaepUB7EnkUraEytK/jHpPfY2W8luUs=
-X-Google-Smtp-Source: ABdhPJyUjVIeQfdR9lRX7QN2D284b6oBtFJ/sNqlKAqd8qVr9eZgG+d9nmZKb+cMZQNeHP2lShrFxA==
-X-Received: by 2002:a92:9a42:: with SMTP id t63mr14885835ili.176.1607679322053; 
- Fri, 11 Dec 2020 01:35:22 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=5Fm5DWWfR+EKTZiagvwEBbxnaS08HRfns0Shk/F/B+U=;
+ b=gr6YRSP9SSVwjXyc1dQ1y8NYFTZ/0VMM+7tdGQnWwJa7drCEh1OOVzKxpGCr5I9mVw
+ OMW4+yr4NqEz5CIWJDr4y6FegdqLof9dBymqhz1zpGS1WAuhR9oii7l8SQ2nV0tdnuZ2
+ gGmOJI6S04HXJ7o6BjlJZzuTbqOoy7hphJ2XQysrKeEVJDO0HfOFWUTTG1KwGjxl+Pc1
+ dNhvdD/k18hKN/2oI8d4YIxEsi+ROrEx++VsLHUMqUrV8897LEOLcx1Y038QSirSsJog
+ nsTYJt0ue+acICDoRauqS6rK5lAJ2naU9Xbzvd+kv8W3DnCrVvuH1v/10ccS/qRLkuVD
+ D8iw==
+X-Gm-Message-State: AOAM533R/yDVt4Prb/onEvAP/ZJXRo21tv2cGHG6P6dlIw7+zTqsQfoF
+ twkz4i94i9dBWHbcoy1T6FaiCCPAg7I=
+X-Google-Smtp-Source: ABdhPJxYRSg94JovljgKMdy5n0685HG38+Jnc5Ft6ZHvGt+WUBtQHt+DIfwCjpWO1GbAqXQJ+LDlPA==
+X-Received: by 2002:a92:9816:: with SMTP id l22mr15444083ili.243.1607679325091; 
+ Fri, 11 Dec 2020 01:35:25 -0800 (PST)
 Received: from pek-vx-bsp2.wrs.com (unknown-124-94.windriver.com.
  [147.11.124.94])
- by smtp.gmail.com with ESMTPSA id g1sm4065362ioh.39.2020.12.11.01.35.19
+ by smtp.gmail.com with ESMTPSA id g1sm4065362ioh.39.2020.12.11.01.35.22
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 11 Dec 2020 01:35:21 -0800 (PST)
+ Fri, 11 Dec 2020 01:35:24 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] net: checksum: Skip fragmented IP packets
-Date: Fri, 11 Dec 2020 17:35:10 +0800
-Message-Id: <1607679312-51325-1-git-send-email-bmeng.cn@gmail.com>
+Subject: [PATCH v2 2/3] net: checksum: Add IP header checksum calculation
+Date: Fri, 11 Dec 2020 17:35:11 +0800
+Message-Id: <1607679312-51325-2-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=bmeng.cn@gmail.com; helo=mail-il1-x143.google.com
+In-Reply-To: <1607679312-51325-1-git-send-email-bmeng.cn@gmail.com>
+References: <1607679312-51325-1-git-send-email-bmeng.cn@gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-il1-x142.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,44 +80,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Markus Carlstedt <markus.carlstedt@windriver.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Yabing Liu <yabing.liu@windriver.com>,
+ Jason Wang <jasowang@redhat.com>, Guishan Qin <guishan.qin@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Carlstedt <markus.carlstedt@windriver.com>
+From: Guishan Qin <guishan.qin@windriver.com>
 
-To calculate the TCP/UDP checksum we need the whole datagram. Unless
-the hardware has some logic to collect all fragments before sending
-the whole datagram first, it can only be done by the network stack,
-which is normally the case for the NICs we have seen so far.
+At present net_checksum_calculate() only calculates TCP/UDP checksum
+in an IP packet, but assumes the IP header checksum to be provided
+by the software, e.g.: Linux kernel always calculates the IP header
+checksum. However this might not always be the case, e.g.: for an IP
+checksum offload enabled stack like VxWorks, the IP header checksum
+can be zero.
 
-Skip these fragmented IP packets to avoid checksum corruption.
+This adds the checksum calculation of the IP header.
 
-Signed-off-by: Markus Carlstedt <markus.carlstedt@windriver.com>
+Signed-off-by: Guishan Qin <guishan.qin@windriver.com>
+Signed-off-by: Yabing Liu <yabing.liu@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
 (no changes since v1)
 
- net/checksum.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ net/checksum.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/net/checksum.c b/net/checksum.c
-index aaa4000..5cb8b2c 100644
+index 5cb8b2c..dabd290 100644
 --- a/net/checksum.c
 +++ b/net/checksum.c
-@@ -106,6 +106,10 @@ void net_checksum_calculate(uint8_t *data, int length)
+@@ -61,6 +61,7 @@ void net_checksum_calculate(uint8_t *data, int length)
+ {
+     int mac_hdr_len, ip_len;
+     struct ip_header *ip;
++    uint16_t csum;
+ 
+     /*
+      * Note: We cannot assume "data" is aligned, so the all code uses
+@@ -106,6 +107,11 @@ void net_checksum_calculate(uint8_t *data, int length)
          return; /* not IPv4 */
      }
  
-+    if (IP4_IS_FRAGMENT(ip)) {
-+        return; /* a fragmented IP packet */
-+    }
++    /* Calculate IP checksum */
++    stw_he_p(&ip->ip_sum, 0);
++    csum = net_raw_checksum((uint8_t *)ip, IP_HDR_GET_LEN(ip));
++    stw_be_p(&ip->ip_sum, csum);
 +
-     ip_len = lduw_be_p(&ip->ip_len);
+     if (IP4_IS_FRAGMENT(ip)) {
+         return; /* a fragmented IP packet */
+     }
+@@ -122,7 +128,6 @@ void net_checksum_calculate(uint8_t *data, int length)
+     switch (ip->ip_p) {
+     case IP_PROTO_TCP:
+     {
+-        uint16_t csum;
+         tcp_header *tcp = (tcp_header *)(ip + 1);
  
-     /* Last, check that we have enough data for the all IP frame */
+         if (ip_len < sizeof(tcp_header)) {
+@@ -143,7 +148,6 @@ void net_checksum_calculate(uint8_t *data, int length)
+     }
+     case IP_PROTO_UDP:
+     {
+-        uint16_t csum;
+         udp_header *udp = (udp_header *)(ip + 1);
+ 
+         if (ip_len < sizeof(udp_header)) {
 -- 
 2.7.4
 
