@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A62C62D72F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 10:39:33 +0100 (CET)
-Received: from localhost ([::1]:52684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB3092D7302
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 10:45:38 +0100 (CET)
+Received: from localhost ([::1]:55282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knetg-0005oI-Mm
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 04:39:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56852)
+	id 1knezZ-00078Z-Nb
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 04:45:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1knepu-0003Gr-Mk; Fri, 11 Dec 2020 04:35:38 -0500
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:38686)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1knepr-0007EX-GT; Fri, 11 Dec 2020 04:35:38 -0500
-Received: by mail-il1-x143.google.com with SMTP id v3so8210520ilo.5;
- Fri, 11 Dec 2020 01:35:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=A/cB+UmI9E0j+nJVr2oYBsjH7YKCVvR2Pxv7tFSl0zw=;
- b=STLAf7gl4jww/Y/EmM3KDbzh19tbx+o3mypDCyNXNlXCidHBThhWZcmNdusW7ktDOi
- vbjZvfoaGg62/JV5pqfI6H7Fn1RpvdkNxEAJHks2pEpV6jQQlL8HA/RdRLfrwSl3+vQM
- SVMxI2HuzJNy1pa8JNIztJLaV2+ePJSF8dexpVwYg/EExa6GYu5z5KRNTxyTN3Hg0C4S
- QeQloeUwxKXkvDNwhNRt3O3S6kRtb5ZSJGedvtp6n768WWjQPx3bQRtcnR8RMSfLIcmX
- Kmz01NksaYJWZIJ2DEM/9P7Pel2XLFnajZTWEVheM1V7fM2Gi/6+5lrBA3vjq7dj3fQx
- ZSRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=A/cB+UmI9E0j+nJVr2oYBsjH7YKCVvR2Pxv7tFSl0zw=;
- b=T1HLEZIxQTQzXNk5G1yyhIf9zPnZfv7tkVFEkQzDULwrN1quCW4IbocNczgJvy7GMe
- /vx3sWuwFQkFA26952RBqEoFfqJEuOgF+iwKngedfrjsCd33Ns3l9Iqi4YDooi2qEZKJ
- JCfMqcmKTygcSjuQl+6zp/aS2BwqMB1Xq3e3MsTLFWllK95aVsy3OcMKH/aHduVjk1Lq
- tP9CoPE8lBsRkKPAp+uVkDkiZKNoWip3VypUEe+D2nJB+rjCIEkLG4zxpjog3dY+o3aI
- 2ydsw88xo1t4yYPrE8+8g/BNxYr220sRRXBxN7dKbOcxMJ3xL6ZZhEe26dp4eTgzk8n9
- uTZg==
-X-Gm-Message-State: AOAM531nVXoV1rEgmJew+zNNprsqspA6j6evA/Aw8u3nbvKw6+QAYHM/
- 6KnKPYPrtc8xTTeAmhSGhh4TPDARKzc=
-X-Google-Smtp-Source: ABdhPJwVfhlAvs/EzRx/jVUtjRoK8Ceqg5JPndS+7DZoIvG8b2oUCVojGSmtF0TvrgKOfufEBw0vpA==
-X-Received: by 2002:a92:dccb:: with SMTP id b11mr14709054ilr.36.1607679332523; 
- Fri, 11 Dec 2020 01:35:32 -0800 (PST)
-Received: from pek-vx-bsp2.wrs.com (unknown-124-94.windriver.com.
- [147.11.124.94])
- by smtp.gmail.com with ESMTPSA id g1sm4065362ioh.39.2020.12.11.01.35.25
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 11 Dec 2020 01:35:32 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] net: checksum: Introduce fine control over checksum
- type
-Date: Fri, 11 Dec 2020 17:35:12 +0800
-Message-Id: <1607679312-51325-3-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1607679312-51325-1-git-send-email-bmeng.cn@gmail.com>
-References: <1607679312-51325-1-git-send-email-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1kneyU-0006he-OC
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 04:44:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39805)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1kneyN-0002hJ-NS
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 04:44:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607679861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BadPyGQDD+eF9tuq+3iOfgsp5QDV/AJ+W6Iy78LESoM=;
+ b=V4yA+UhGCsfRkzncoym7z7YjJ/VE1Bk/HGKuiXbGw02M8dJHl6TUfi+UTgq5iYq7nxkU+1
+ 3a+1k0J2xcNNVpzpZ9COND8GIEZyKcR/8Zp9a4Xa6FkURNDl05AnioAGXClBzm9PE3Ysi0
+ F8W6aAkPxgXy1kpnn8gXzO8tBCcjf9s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-46-52OCbnXkO9uO0B0aSSkuHA-1; Fri, 11 Dec 2020 04:44:19 -0500
+X-MC-Unique: 52OCbnXkO9uO0B0aSSkuHA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 075B1107ACE4;
+ Fri, 11 Dec 2020 09:44:18 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 323DF5D705;
+ Fri, 11 Dec 2020 09:44:07 +0000 (UTC)
+Date: Fri, 11 Dec 2020 10:44:04 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: RFC: don't store backing filename in qcow2 image
+Message-ID: <20201211094404.GI2986915@angien.pipo.sk>
+References: <20581556-6550-e0f7-aca9-6b4034821f6c@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=bmeng.cn@gmail.com; helo=mail-il1-x143.google.com
+In-Reply-To: <20581556-6550-e0f7-aca9-6b4034821f6c@virtuozzo.com>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pkrempa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,314 +80,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, Paul Durrant <paul@xen.org>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Jason Wang <jasowang@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Joel Stanley <joel@jms.id.au>,
- Beniamino Galvani <b.galvani@gmail.com>, Zhang Chen <chen.zhang@intel.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ qemu block <qemu-block@nongnu.org>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On Thu, Dec 10, 2020 at 17:26:52 +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
 
-At present net_checksum_calculate() blindly calculates all types of
-checksums (IP, TCP, UDP). Some NICs may have a per type setting in
-their BDs to control what checksum should be offloaded. To support
-such hardware behavior, introduce a 'csum_flag' parameter to the
-net_checksum_calculate() API to allow fine control over what type
-checksum is calculated.
+Hi,
 
-Existing users of this API are updated accordingly.
+> 
+> I have an idea, that not storing backing filename in qcow2 image at all may be a good thing. I'll give some reasons and want to know what do you think about it.
+> 
+> 1. Libvirt has to manage and keep in mind backing chains anyway.
+> 
+> This means, that storing this information in qcow2 header is a source of bugs when we update it in one place but failed/forget to update in another. Of course, Libvirt is not the only user of qemu.. But we are moving to "blockdev" anyway, when management tool should control all node-names at least. It would be strange to not control the relations between images in the same time.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
+At the same time many users depend on this. If you move in images from
+another host, you'd have to remember the dependencies/order.
 
----
+> 2. backing file name specified in qcow2 metadata doesn't relate to any other thing, and nothing rely on it.
+> 
+> 3. calculating and updating backing file name in Qemu is a headache:
+>    - with some options specified or with filters we risk to write json filenames into qcow2 metadata, which is almost never what user wants. Also, json may exceed the qcow2 limitation of backing_file_size to be <= 1023
 
-Changes in v2:
-- update ftgmac100.c per Cédric Le Goater's suggestion
-- simplify fsl_etsec and imx_fec checksum logic
+As long as it works (libvirt and qemu have parsers for json:) I don't
+think the user cares.
 
- include/net/checksum.h        |  7 ++++++-
- hw/net/allwinner-sun8i-emac.c |  2 +-
- hw/net/cadence_gem.c          |  2 +-
- hw/net/fsl_etsec/rings.c      | 18 +++++++++---------
- hw/net/ftgmac100.c            | 13 ++++++++++++-
- hw/net/imx_fec.c              | 20 ++++++++------------
- hw/net/virtio-net.c           |  2 +-
- hw/net/xen_nic.c              |  2 +-
- net/checksum.c                | 18 ++++++++++++++----
- net/filter-rewriter.c         |  4 ++--
- 10 files changed, 55 insertions(+), 33 deletions(-)
+>    - updating it in transactional way for read-only image during reopen, when another transactional permission update is ongoing is difficult (who know, how to do it?) (remember recent d669ed6ab02849 "block: make bdrv_drop_intermediate() less wrong")
+> 
+> 4. Moving qcow2 files to another directory is a problem: you should care to update backing file names in all dependent qcow2 images.
 
-diff --git a/include/net/checksum.h b/include/net/checksum.h
-index 05a0d27..7dec37e 100644
---- a/include/net/checksum.h
-+++ b/include/net/checksum.h
-@@ -21,11 +21,16 @@
- #include "qemu/bswap.h"
- struct iovec;
- 
-+#define CSUM_IP     0x01
-+#define CSUM_TCP    0x02
-+#define CSUM_UDP    0x04
-+#define CSUM_ALL    (CSUM_IP | CSUM_TCP | CSUM_UDP)
-+
- uint32_t net_checksum_add_cont(int len, uint8_t *buf, int seq);
- uint16_t net_checksum_finish(uint32_t sum);
- uint16_t net_checksum_tcpudp(uint16_t length, uint16_t proto,
-                              uint8_t *addrs, uint8_t *buf);
--void net_checksum_calculate(uint8_t *data, int length);
-+void net_checksum_calculate(uint8_t *data, int length, int csum_flag);
- 
- static inline uint32_t
- net_checksum_add(int len, uint8_t *buf)
-diff --git a/hw/net/allwinner-sun8i-emac.c b/hw/net/allwinner-sun8i-emac.c
-index 38d3285..0427689 100644
---- a/hw/net/allwinner-sun8i-emac.c
-+++ b/hw/net/allwinner-sun8i-emac.c
-@@ -514,7 +514,7 @@ static void allwinner_sun8i_emac_transmit(AwSun8iEmacState *s)
-         /* After the last descriptor, send the packet */
-         if (desc.status2 & TX_DESC_STATUS2_LAST_DESC) {
-             if (desc.status2 & TX_DESC_STATUS2_CHECKSUM_MASK) {
--                net_checksum_calculate(packet_buf, packet_bytes);
-+                net_checksum_calculate(packet_buf, packet_bytes, CSUM_ALL);
-             }
- 
-             qemu_send_packet(nc, packet_buf, packet_bytes);
-diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-index 7a53469..9a4474a 100644
---- a/hw/net/cadence_gem.c
-+++ b/hw/net/cadence_gem.c
-@@ -1266,7 +1266,7 @@ static void gem_transmit(CadenceGEMState *s)
- 
-                 /* Is checksum offload enabled? */
-                 if (s->regs[GEM_DMACFG] & GEM_DMACFG_TXCSUM_OFFL) {
--                    net_checksum_calculate(s->tx_packet, total_bytes);
-+                    net_checksum_calculate(s->tx_packet, total_bytes, CSUM_ALL);
-                 }
- 
-                 /* Update MAC statistics */
-diff --git a/hw/net/fsl_etsec/rings.c b/hw/net/fsl_etsec/rings.c
-index 628648a..121415a 100644
---- a/hw/net/fsl_etsec/rings.c
-+++ b/hw/net/fsl_etsec/rings.c
-@@ -183,13 +183,11 @@ static void process_tx_fcb(eTSEC *etsec)
-     uint8_t *l3_header = etsec->tx_buffer + 8 + l3_header_offset;
-     /* L4 header */
-     uint8_t *l4_header = l3_header + l4_header_offset;
-+    int csum = 0;
- 
-     /* if packet is IP4 and IP checksum is requested */
-     if (flags & FCB_TX_IP && flags & FCB_TX_CIP) {
--        /* do IP4 checksum (TODO This function does TCP/UDP checksum
--         * but not sure if it also does IP4 checksum.) */
--        net_checksum_calculate(etsec->tx_buffer + 8,
--                etsec->tx_buffer_len - 8);
-+        csum |= CSUM_IP;
-     }
-     /* TODO Check the correct usage of the PHCS field of the FCB in case the NPH
-      * flag is on */
-@@ -201,9 +199,7 @@ static void process_tx_fcb(eTSEC *etsec)
-             /* if checksum is requested */
-             if (flags & FCB_TX_CTU) {
-                 /* do UDP checksum */
--
--                net_checksum_calculate(etsec->tx_buffer + 8,
--                        etsec->tx_buffer_len - 8);
-+                csum |= CSUM_UDP;
-             } else {
-                 /* set checksum field to 0 */
-                 l4_header[6] = 0;
-@@ -211,10 +207,14 @@ static void process_tx_fcb(eTSEC *etsec)
-             }
-         } else if (flags & FCB_TX_CTU) { /* if TCP and checksum is requested */
-             /* do TCP checksum */
--            net_checksum_calculate(etsec->tx_buffer + 8,
--                                   etsec->tx_buffer_len - 8);
-+            csum |= CSUM_TCP;
-         }
-     }
-+
-+    if (csum) {
-+        net_checksum_calculate(etsec->tx_buffer + 8,
-+                               etsec->tx_buffer_len - 8, csum);
-+    }
- }
- 
- static void process_tx_bd(eTSEC         *etsec,
-diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
-index 782ff19..25685ba 100644
---- a/hw/net/ftgmac100.c
-+++ b/hw/net/ftgmac100.c
-@@ -564,6 +564,7 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
-         ptr += len;
-         frame_size += len;
-         if (bd.des0 & FTGMAC100_TXDES0_LTS) {
-+            int csum = 0;
- 
-             /* Check for VLAN */
-             if (flags & FTGMAC100_TXDES1_INS_VLANTAG &&
-@@ -573,8 +574,18 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
-             }
- 
-             if (flags & FTGMAC100_TXDES1_IP_CHKSUM) {
--                net_checksum_calculate(s->frame, frame_size);
-+                csum |= CSUM_IP;
-             }
-+            if (flags & FTGMAC100_TXDES1_TCP_CHKSUM) {
-+                csum |= CSUM_TCP;
-+            }
-+            if (flags & FTGMAC100_TXDES1_UDP_CHKSUM) {
-+                csum |= CSUM_UDP;
-+            }
-+            if (csum) {
-+                net_checksum_calculate(s->frame, frame_size, csum);
-+            }
-+
-             /* Last buffer in frame.  */
-             qemu_send_packet(qemu_get_queue(s->nic), s->frame, frame_size);
-             ptr = s->frame;
-diff --git a/hw/net/imx_fec.c b/hw/net/imx_fec.c
-index 2c14804..f03450c 100644
---- a/hw/net/imx_fec.c
-+++ b/hw/net/imx_fec.c
-@@ -561,22 +561,18 @@ static void imx_enet_do_tx(IMXFECState *s, uint32_t index)
-         ptr += len;
-         frame_size += len;
-         if (bd.flags & ENET_BD_L) {
-+            int csum = 0;
-+
-             if (bd.option & ENET_BD_PINS) {
--                struct ip_header *ip_hd = PKT_GET_IP_HDR(s->frame);
--                if (IP_HEADER_VERSION(ip_hd) == 4) {
--                    net_checksum_calculate(s->frame, frame_size);
--                }
-+                csum |= (CSUM_TCP | CSUM_UDP);
-             }
-             if (bd.option & ENET_BD_IINS) {
--                struct ip_header *ip_hd = PKT_GET_IP_HDR(s->frame);
--                /* We compute checksum only for IPv4 frames */
--                if (IP_HEADER_VERSION(ip_hd) == 4) {
--                    uint16_t csum;
--                    ip_hd->ip_sum = 0;
--                    csum = net_raw_checksum((uint8_t *)ip_hd, sizeof(*ip_hd));
--                    ip_hd->ip_sum = cpu_to_be16(csum);
--                }
-+                csum |= CSUM_IP;
-+            }
-+            if (csum) {
-+                net_checksum_calculate(s->frame, frame_size, csum);
-             }
-+
-             /* Last buffer in frame.  */
- 
-             qemu_send_packet(qemu_get_queue(s->nic), s->frame, frame_size);
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 044ac95..4082be3 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -1471,7 +1471,7 @@ static void work_around_broken_dhclient(struct virtio_net_hdr *hdr,
-         (buf[12] == 0x08 && buf[13] == 0x00) && /* ethertype == IPv4 */
-         (buf[23] == 17) && /* ip.protocol == UDP */
-         (buf[34] == 0 && buf[35] == 67)) { /* udp.srcport == bootps */
--        net_checksum_calculate(buf, size);
-+        net_checksum_calculate(buf, size, CSUM_UDP);
-         hdr->flags &= ~VIRTIO_NET_HDR_F_NEEDS_CSUM;
-     }
- }
-diff --git a/hw/net/xen_nic.c b/hw/net/xen_nic.c
-index 00a7fdf..5c815b4 100644
---- a/hw/net/xen_nic.c
-+++ b/hw/net/xen_nic.c
-@@ -174,7 +174,7 @@ static void net_tx_packets(struct XenNetDev *netdev)
-                     tmpbuf = g_malloc(XC_PAGE_SIZE);
-                 }
-                 memcpy(tmpbuf, page + txreq.offset, txreq.size);
--                net_checksum_calculate(tmpbuf, txreq.size);
-+                net_checksum_calculate(tmpbuf, txreq.size, CSUM_ALL);
-                 qemu_send_packet(qemu_get_queue(netdev->nic), tmpbuf,
-                                  txreq.size);
-             } else {
-diff --git a/net/checksum.c b/net/checksum.c
-index dabd290..70f4eae 100644
---- a/net/checksum.c
-+++ b/net/checksum.c
-@@ -57,7 +57,7 @@ uint16_t net_checksum_tcpudp(uint16_t length, uint16_t proto,
-     return net_checksum_finish(sum);
- }
- 
--void net_checksum_calculate(uint8_t *data, int length)
-+void net_checksum_calculate(uint8_t *data, int length, int csum_flag)
- {
-     int mac_hdr_len, ip_len;
-     struct ip_header *ip;
-@@ -108,9 +108,11 @@ void net_checksum_calculate(uint8_t *data, int length)
-     }
- 
-     /* Calculate IP checksum */
--    stw_he_p(&ip->ip_sum, 0);
--    csum = net_raw_checksum((uint8_t *)ip, IP_HDR_GET_LEN(ip));
--    stw_be_p(&ip->ip_sum, csum);
-+    if (csum_flag & CSUM_IP) {
-+        stw_he_p(&ip->ip_sum, 0);
-+        csum = net_raw_checksum((uint8_t *)ip, IP_HDR_GET_LEN(ip));
-+        stw_be_p(&ip->ip_sum, csum);
-+    }
- 
-     if (IP4_IS_FRAGMENT(ip)) {
-         return; /* a fragmented IP packet */
-@@ -128,6 +130,10 @@ void net_checksum_calculate(uint8_t *data, int length)
-     switch (ip->ip_p) {
-     case IP_PROTO_TCP:
-     {
-+        if (!(csum_flag & CSUM_TCP)) {
-+            return;
-+        }
-+
-         tcp_header *tcp = (tcp_header *)(ip + 1);
- 
-         if (ip_len < sizeof(tcp_header)) {
-@@ -148,6 +154,10 @@ void net_checksum_calculate(uint8_t *data, int length)
-     }
-     case IP_PROTO_UDP:
-     {
-+        if (!(csum_flag & CSUM_UDP)) {
-+            return;
-+        }
-+
-         udp_header *udp = (udp_header *)(ip + 1);
- 
-         if (ip_len < sizeof(udp_header)) {
-diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
-index e063a81..80caac5 100644
---- a/net/filter-rewriter.c
-+++ b/net/filter-rewriter.c
-@@ -114,7 +114,7 @@ static int handle_primary_tcp_pkt(RewriterState *rf,
-             tcp_pkt->th_ack = htonl(ntohl(tcp_pkt->th_ack) + conn->offset);
- 
-             net_checksum_calculate((uint8_t *)pkt->data + pkt->vnet_hdr_len,
--                                   pkt->size - pkt->vnet_hdr_len);
-+                                   pkt->size - pkt->vnet_hdr_len, CSUM_TCP);
-         }
- 
-         /*
-@@ -216,7 +216,7 @@ static int handle_secondary_tcp_pkt(RewriterState *rf,
-             tcp_pkt->th_seq = htonl(ntohl(tcp_pkt->th_seq) - conn->offset);
- 
-             net_checksum_calculate((uint8_t *)pkt->data + pkt->vnet_hdr_len,
--                                   pkt->size - pkt->vnet_hdr_len);
-+                                   pkt->size - pkt->vnet_hdr_len, CSUM_TCP);
-         }
-     }
- 
--- 
-2.7.4
+Or alternatively use relative names.
+
+> So, what about moving libvirt (at least) to not rely on backing file name stored in qcow2 image? Backing chain then should be in xml? Is it hard or not? Finally, will it make the code simpler, or more difficult?
+> 
+> 
+> Then, if the idea is good in general, what to do on Qemu part? If we want to finally get rid of problem code (see [3.]) we should deprecate something.. Just deprecate support for qcow2 images with backing file specified, requiring user always specify backing chain by hand? I don't see anything that should be changed in qcow2 format itself: no reason to add some kind of restricted bits, etc..
+
+I think this will create headaches for many users. Libvirt does support
+specification of the chain manually, but doesn't mandate it.
+
+It's also a fairly recent addition to libvirt so I doubt that any other
+project which uses libvirt only for a part of the functionality (such as
+oVirt or openstack) picked up the full specification of chain in the
+XML. The problem here is that libvirt isn't used for the whole knowledge
+state here. Rather projects like oVirt feed us a new XML every single
+time. This means that they'd need to start keeping the chain info
+internally too.
+
+Rather they currently rely on our detection code and the proper setting
+of paths in the image, and thus removing it would be a rather serious
+regression in behaviour, which would be visible beyond libvirt without
+any way for us to make it opaque to higher levels.
 
 
