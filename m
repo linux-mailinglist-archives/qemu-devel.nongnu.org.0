@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334422D76F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 14:52:24 +0100 (CET)
-Received: from localhost ([::1]:52534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D332D7731
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 14:58:31 +0100 (CET)
+Received: from localhost ([::1]:33598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kniqN-0001zw-7z
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 08:52:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59948)
+	id 1kniwI-0006D9-Pe
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 08:58:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kniox-00018S-Jp
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 08:50:55 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:39357)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1knivD-0005Mi-1W
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 08:57:23 -0500
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kniow-0005cI-1S
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 08:50:55 -0500
-Received: by mail-ed1-x541.google.com with SMTP id c7so9412137edv.6
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 05:50:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=n23/qEWjYZ9m8+7Gk684qb9sVlpmJhAeujubtbI3s84=;
- b=bR3ZCT6GFQyhXIAncFB7wco8QG99k/bY1zkMSXDuJ6BvgSJcoUM8Bij82Emh2Qoh/I
- X8kCZLDxBzH0E7qcC6e8Y5YUmAI3sGIqKZLpq65EYSCeM4utHuLcLpKi/G9KQuGVPne/
- dMEPcMaOgex5lvJbyf/ndUFMiMbtIhJLKbAIVExnaHphrBvB0Kbq1vl7mn7fJ3tLybmh
- 4SiXWDdaknocrZi7klUtFhb8pPkS0AFhrUmA3l25HpDrvHZBVu+ZBFQZYGhX1Ycm6Jc/
- W1OKjjRfjlMF1WVwgf53Zjx4NPgLDDVOLsKjaWay8R1aPRNhBzDd3ut0wqciZ65efwk8
- X6BQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1knivB-0007uz-4g
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 08:57:22 -0500
+Received: by mail-ej1-x642.google.com with SMTP id lt17so12467523ejb.3
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 05:57:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=erxHkoXgdmItC8gUliN46G+5Vd7viBWnNfJtTmKeqFI=;
+ b=MhI2M+CdC82H47HSWSC7PZAetoQY0vmbNiXsJoUibTP0Ir639vp0+wX5VQrXLgpAgo
+ TXi7fJB35NKKgjpX2Gr1O24g0eUD+a84bLSo8dPjsv5wEaJ4Tm7oxCdPY5xipQI1WJ6y
+ hF8ftF6kjMFh1zbEJispdkzGJKYNp+HyOKO/sJSFkqnUxBUSJiJuuoS7IGICt7HoAJd3
+ v9e5rfOjqp4miiDyYsPvxosED1zL+VaPespSmZbo7stDf0AW5wJwD9sqHCwFPgE6faO3
+ luhvXjdhIEGN2b8YdOh8SND8Dt2z4wFEm0Rz/Ja09w4kDStf5K4rhLjti8xpgm1WVvZi
+ 5+9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=n23/qEWjYZ9m8+7Gk684qb9sVlpmJhAeujubtbI3s84=;
- b=PmbJO2z4nnk/MDJlYqdcLA+sHG+R7GTdtCTFR7f7dl0DjS78lL+B8sbXbwffMPWnIg
- r0JaOk9nvLMpb5gsJy09jXiWkiOM4JHJxmiuNkX1whEDn7YuvL186s9iveNWe6KUNp0Q
- 8C/sidjSG5RkvzqqKwF6+xeADUfGkqy5qUO2HMqL0m6nYqKSWaq3JYxZlCMe1detX2At
- y4dtVFH+fNkEiqYxXMv06LShclE5yerbW6vtWQDQ//LXWEPTpYMBU7B4BXSnY82wPRP5
- dYlLHMl8zU2pn15Px1qrY/qkh2mBcZboj1qCiOmnDwWIz/qCvzXNETtVl5jG+tcDpMC7
- 1mLw==
-X-Gm-Message-State: AOAM532baRtjxaJ3hBw0srQK55VwPXonZRxpQuoZDq9jxXpNhpw4ToF0
- 5LXNC/9g53xXKgw/9x5MdBA=
-X-Google-Smtp-Source: ABdhPJymiB96OgzK8qrE65AQJh7O/o9WbBdPTxpX4XG0tscxa5zMoTORbjsOBpzQ7QOJgfbUFY1H9g==
-X-Received: by 2002:a50:e60a:: with SMTP id y10mr11455030edm.157.1607694652770; 
- Fri, 11 Dec 2020 05:50:52 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id k18sm7681445edx.18.2020.12.11.05.50.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 05:50:52 -0800 (PST)
-Subject: Re: [PATCH 0/4] clock: Get rid of clock_get_ns()
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201208181554.435-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a958bd8d-81fc-a134-18c4-f54b49f38fa6@amsat.org>
-Date: Fri, 11 Dec 2020 14:50:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=erxHkoXgdmItC8gUliN46G+5Vd7viBWnNfJtTmKeqFI=;
+ b=rhhCjswq7mQp/8Bf0DN0C4Hooe7Kje92lG/IyBoFOpkAfmXwUlWygh3K0ge0qPTIx7
+ W6DQ+D7IFL/fJU8UGThciljA1Li1lUMuul1hO8GRYNvI3mTg1YqPvPp+b9WBm0vE3hiS
+ 2MAN0A3wUzSNIOTJZltu7hGReFfRTKYJCd8l1ma82xwmdmEyzvqFyCpauzFmEdn7J/Yu
+ cIvzDzX8FdAhjbbCTNh1bVYa6gNzHFjeCSPsELvE6/HbXgnQ01K377bwSwyFVGpM6G4R
+ CNUnzwSDYlEXyjLxywXu82m/8pJIGrtzSHn0qS0Rba/r7+X5XOfX2scxbUrFXG8vz6oG
+ V1Eg==
+X-Gm-Message-State: AOAM533hEXBMCuKcBiRwFEJwLSa0oKEst+polwa8n/MlSxCCLcHNN06r
+ BVwDQsDPFjTXifgJwdJrq5UtJKUZuAEVnJKzzI6ZEEHaWkQ=
+X-Google-Smtp-Source: ABdhPJwu55PNOkIdjaymzh78t3PyvgipsaMZaWQh1lcuqoVItWL9+cjj6Dz78N4qKrYlFFGw2pFinTuW64Ep5syJgjc=
+X-Received: by 2002:a17:906:1151:: with SMTP id
+ i17mr11316369eja.250.1607695039229; 
+ Fri, 11 Dec 2020 05:57:19 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201208181554.435-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x541.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+References: <20201127225127.14770-1-peter.maydell@linaro.org>
+In-Reply-To: <20201127225127.14770-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 11 Dec 2020 13:57:06 +0000
+Message-ID: <CAFEAcA_aMpSR39tyLOt04ZfwRyWc3PQnvXgZQqd+yLEkynAkOw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] target/openrisc: Move pic_cpu code into CPU object
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,47 +77,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: Stafford Horne <shorne@gmail.com>, Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/8/20 7:15 PM, Peter Maydell wrote:
-> This patchseries makes some changes to the clock API:
->  * Remove clock_get_ns()
->  * Add clock_ticks_to_ns() to return number of nanoseconds
->    it will take the clock to tick N times
->  * clock_display_freq() to return prettily-formatted string
->    for showing humans the approximate clock frequency
-> 
-> This is based on discussions we had about these APIs a little while
-> back.  The core driver here is that the clock objects internally
-> store the period in units of 2^-32 ns, so both clock_get_ns() and
-> clock_get_hz() are inherently returning a rounded-off result, which
-> can be badly inaccurate for fast clocks or if you want to multiply it
-> by a large tick count.
-> 
-> Ideally I'd like to get rid of clock_get_hz() as well, but
-> that looks trickier than handling clock_get_ns().
-> 
-> Patch 4 borrows a lot of the concept from one of Philippe's that he
-> sent out previously.
+On Fri, 27 Nov 2020 at 22:51, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> The openrisc code uses an old style of interrupt handling, where a
+> separate standalone set of qemu_irqs invoke a function
+> openrisc_pic_cpu_handler() which signals the interrupt to the CPU
+> proper by directly calling cpu_interrupt() and cpu_reset_interrupt().
+> Because CPU objects now inherit (indirectly) from TYPE_DEVICE, they
+> can have GPIO input lines themselves, and the neater modern way to
+> implement this is to simply have the CPU object itself provide the
+> input IRQ lines.
+>
+> The main aim of this patch series is to make that refactoring,
+> which fixes a trivial memory leak reported by Coverity of the IRQs
+> allocated in cpu_openrisc_pic_init(), and removes one callsite of
+> the qemu_allocate_irqs() function.
+>
+> Patch 1 is a minor bugfix noticed along the way; patch 2 is
+> there to make the change in patch 3 simpler and clearer to review.
+>
+> Tested with 'make check' and 'make check-acceptance'.
 
-Thanks for tackling the clock_get_ns() part. I had some work in
-progress I was procrastinating for after the release, but your
-patches are much better documented :)
+Now the tree is open for 6.0 development, I'll take this
+via target-arm.next, since Stafford doesn't have any other
+openrisc patches in a queue currently.
 
-(I also started to get rid of clock_get_hz() but, as you figured,
-this is not a trivial task).
-
-> NB: tested with 'make check' and 'make check-acceptance' only.
-
-I hit this issue while testing Huacai's MIPS Loongson3 virt machine
-which sets the core freq at 1GHz IIRC. I still have the branch
-so I'll test your series (or v2) during the week-end.
-
-Regards,
-
-Phil.
+thanks
+-- PMM
 
