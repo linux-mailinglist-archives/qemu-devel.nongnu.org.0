@@ -2,67 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E3962D82C1
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 00:33:29 +0100 (CET)
-Received: from localhost ([::1]:52720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6221D2D82DE
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 00:47:57 +0100 (CET)
+Received: from localhost ([::1]:56636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knruh-0001Qb-Ga
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 18:33:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53888)
+	id 1kns8h-0004FG-Sd
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 18:47:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knrsy-0000yo-BS
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 18:31:41 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:44432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knrst-0008NF-93
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 18:31:38 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id p22so11095323edu.11
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 15:31:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HEy9wMH9PzwAixTDEgk7XDxkz6jE9WZCsu8CxWkjz1I=;
- b=KD7G563N9TkCcAAX2V5VbNjjOlYDlsGnfo51mrMRBcSQWB27W4UIU76a5Qsor/Dm2s
- 6ERZLfwZr5E7N/kyL9tvNTpLr1Z1mwPuVeO+lzaeGcmRLtA6IYfd1gUF+kkAIPIP2SRm
- gw6HkA1pe3pvF/yI+RtSEEIo6M8OoXMcD7SrVvPG6aRbWAa2+LVwo4GZ0y64bBdvdXiW
- GP4p+G0gloq3mXRdGbiW+uvFkRwaLkiuXveOgAsIR/0qE7QutFyVJ5E2jrRJkKPwuMuT
- Y4fuZa0/YnhqeockbWx5sr0IfxcL0tTsrCLhm0isYci6EQfpbQaXWttebd27fvELZ5Yg
- SPrQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kns4V-0003dj-7Q
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 18:43:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kns4N-0003c1-HI
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 18:43:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607730205;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7WFpxRDK71uNiSZW1kLjriFM96vjRy+KL78AcMwRReA=;
+ b=DVCbWPVx70cEYTDCHE9Lu6KCvHHNowMlEJDIdvn2hpZs5gMobHUEf7o9AircpLwu5i7kPM
+ XrEVY1BgH1nYMexLMnaWLWurJcs4aHnu2r1P0rEVlnFr6S3cYvfjqYeG7rrvB61QV4c4ZY
+ /8K7hBFVgmuKKdIGcqbxaLkUx/osNUA=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-D9NIkS5JNrCxP2pFYTPS3g-1; Fri, 11 Dec 2020 18:43:24 -0500
+X-MC-Unique: D9NIkS5JNrCxP2pFYTPS3g-1
+Received: by mail-ej1-f69.google.com with SMTP id m4so3312416ejc.14
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 15:43:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HEy9wMH9PzwAixTDEgk7XDxkz6jE9WZCsu8CxWkjz1I=;
- b=UKJtaftljYkbDt1Lab+/t5dHleGBUYbWl6KEH+MRhvpBM/poRWbxMQIvv0hNHf2S5u
- v0yKJhbSCDyZ6BCsVxygxPwWtXxziYt3aDuxqfWdDomppGsh1kUdiChFu/02RF3zSphJ
- Xuewnb5jNirdQJQ/w8xHwkI5LGk7aHlLlmHUmiJwTf7U8gqEQZ1kvjNI+lVIi8vLMFq7
- s7CbHU34PKA1EoC9rlvsBQiIdJZKnK4OSUCl5r7zr44AEuvmVwU41a/blbgSLV3MzatN
- +Q9FDDEnU+mdNXQb1Y0Sl+fDepo/Y0p8M7tZSnfzQ0h4iOrWE8kHCH/7AQAayhcNUX32
- SYCA==
-X-Gm-Message-State: AOAM531kLlwtt9/4PJfkZ0ZNFuX7ObN4ZtnOTS48FpxfcX3YMd+Q/bTI
- kM5n/jRBBr9qMMB5H4TEOg/Q8JlCkYQMuBm+N49zWQ==
-X-Google-Smtp-Source: ABdhPJyRroRbU/Qfd7VMVY99Jt5xQrfaMnhu/a3k14f8Z/aqwEgKmQ+nlBg6cqzO6xjFe+T5Ok+o+eYsO4Y8ylX+NHs=
-X-Received: by 2002:aa7:cdc3:: with SMTP id h3mr14136255edw.52.1607729493639; 
- Fri, 11 Dec 2020 15:31:33 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7WFpxRDK71uNiSZW1kLjriFM96vjRy+KL78AcMwRReA=;
+ b=nqxjRXUsWUFF5Uu9BgNoepfNMqrZ1AzPZG81xCNRNsPfUlPAbSNm61qns21x6ETN5o
+ cQlUo+k7ETGB36HW/aV5Cszw4wg/7wPl8GwXSS1jYAfmbHyc/6n4EFL/pLaK1fNVd2O2
+ SVAr5uD58mVAFVVrm/lc25hY+xpFiGUw64xZuX/W4GeV5AYoMI8ms4seRTYdjoPh2M+G
+ KgvZGtmPUki/mfx/rmzImJ9NDt5mD7OcREmZHZxe8KXa+QUCK9qAFI21BrpcLyTowEwC
+ HQC8uwCKmuDBJSwG+Dt77Kgd03V2u5XzmB9WnckreVVKAR0o7o1WEimkj88EoFLTdJW/
+ ycCw==
+X-Gm-Message-State: AOAM533YcEzIeZPr6aPRVe6GuXbsWvRGJyXNtJUDxGxQmySNbiEb2eUD
+ LrpPGuAWueYh57tVuftxcl8knIK38BpBcqvnAhnS8FG9IJyUZuQzXnVgGJo30VoOmHhCveP581v
+ 5l9kSdMUl4REU8xw=
+X-Received: by 2002:a50:e68a:: with SMTP id z10mr14090846edm.28.1607730202887; 
+ Fri, 11 Dec 2020 15:43:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyWX5kN2Xb/TqJ96GK6WfHrL8lUox7lTFnuOLN/f6C1xZLxFkHupwYqo8O1xa4Y9+tFWtsAUA==
+X-Received: by 2002:a50:e68a:: with SMTP id z10mr14090839edm.28.1607730202740; 
+ Fri, 11 Dec 2020 15:43:22 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id lz17sm7794301ejb.19.2020.12.11.15.43.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Dec 2020 15:43:21 -0800 (PST)
+Subject: Re: [PATCH v2] hw/core: Restrict 'fw-path-provider.c' to system mode
+ emulation
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201207220709.4017938-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <9814e56e-d370-9eb0-0298-1ec904c39e5c@redhat.com>
+Date: Sat, 12 Dec 2020 00:43:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <CADPb22TD93fvQMsSxukRyNgXAoR+Cqh2gW4HZY2okT4tTztXCw@mail.gmail.com>
-In-Reply-To: <CADPb22TD93fvQMsSxukRyNgXAoR+Cqh2gW4HZY2okT4tTztXCw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 11 Dec 2020 23:31:22 +0000
-Message-ID: <CAFEAcA-DfART76570Q85EiQU5Av6dcE4LQ53_W=BxBYLZaV=Ew@mail.gmail.com>
-Subject: Re: checkpatch.pl block comment detection fail
-To: Doug Evans <dje@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+In-Reply-To: <20201207220709.4017938-1-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,29 +101,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 11 Dec 2020 at 22:54, Doug Evans <dje@google.com> wrote:
->
-> Hi.
->
-> The coding style docs don't specify this as being bad:
->
-> foo(/*bar=*/true);
->
-> which improves readability at the call site.
-> It's not a style to be used liberally, but sometimes it's helpful.
->
-> Alas checkpatch.pl claims this is a block comment.
->
-> Would it be ok if I try to fix checkpatch.pl to treat this as ok?
+On 07/12/20 23:07, Philippe Mathieu-Daudé wrote:
+> fw-path-provider.c is only consumed by qdev-fw.c, which itself
+> is in softmmu_ss[], so we can restrict fw-path-provider.c to
+> softmmu too.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> v2: Fix author email.
+> ---
+>   hw/core/meson.build | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/core/meson.build b/hw/core/meson.build
+> index 4a744f3b5e7..032576f5717 100644
+> --- a/hw/core/meson.build
+> +++ b/hw/core/meson.build
+> @@ -1,7 +1,6 @@
+>   # core qdev-related obj files, also used by *-user and unit tests
+>   hwcore_files = files(
+>     'bus.c',
+> -  'fw-path-provider.c',
+>     'hotplug.c',
+>     'qdev-properties.c',
+>     'qdev.c',
+> @@ -25,6 +24,7 @@
+>   common_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('stream.c'))
+>   
+>   softmmu_ss.add(files(
+> +  'fw-path-provider.c',
+>     'loader.c',
+>     'machine-hmp-cmds.c',
+>     'machine.c',
+> 
 
-Well, whether it's good or bad style it's certainly not a block
-comment, so it's a bug for checkpatch to call it one. If you want
-to dive into that morass of perl feel free :-)
+Queued, thanks.
 
-thanks
--- PMM
+paolo
+
 
