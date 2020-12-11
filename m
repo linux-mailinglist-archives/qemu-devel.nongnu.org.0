@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8112D2D6F15
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:21:58 +0100 (CET)
-Received: from localhost ([::1]:35522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C14392D6F14
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:21:56 +0100 (CET)
+Received: from localhost ([::1]:35538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knZwL-0003ae-FM
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:21:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33940)
+	id 1knZwJ-0003ay-Pu
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:21:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq7-0005bj-Qn; Thu, 10 Dec 2020 23:15:32 -0500
-Received: from ozlabs.org ([203.11.71.1]:37189)
+ id 1knZq9-0005db-Rl; Thu, 10 Dec 2020 23:15:33 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:45309 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq5-0000iz-U3; Thu, 10 Dec 2020 23:15:31 -0500
+ id 1knZq6-0000j0-Qu; Thu, 10 Dec 2020 23:15:33 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cscrb1X3Qz9sWd; Fri, 11 Dec 2020 15:15:11 +1100 (AEDT)
+ id 4Cscrb2JBGz9sWk; Fri, 11 Dec 2020 15:15:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607660111;
- bh=dfSUJWYE8sTfFwFiC7FMYXVMBsIlriqEh85KB+TT7Xc=;
+ bh=VCi/RL9feCBuXYp0mnHX3j7nsht0uB1kvqEeq6F3O7A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Emc9jhJsQfYg9tOiRkl3opE9cqAwvtMjNM3JFkCCinu/NM7PBAkCXTjd9pnJ5xos/
- frPdi2MpUwj1VwsZD49lOEUFFHdrRPrk6MKd8FVoeBIkGbYIcNNza9phWHpqufRMcY
- tqDhaPXqzL3h9AcuBNEbtdQfzo7/puMYP09RS1b0=
+ b=Hag8G2gjb8e4tLhgMQ0uDaIDWXqZ+Ou4vS8JBu8wO597OV+T+tS70r907mWYBSdqE
+ KkpbZy5KJc+m9B6hopusbjVgSE8aLcu9DI+L6m9/BSaTbLKzx/JjNr9/3YXqg3IHHA
+ NlQs1yVMYCDldZK5aKp1ltpFZgGCwSoWor0JtzdE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 07/30] spapr: Do TPM proxy hotplug sanity checks at pre-plug
-Date: Fri, 11 Dec 2020 15:14:44 +1100
-Message-Id: <20201211041507.425378-8-david@gibson.dropbear.id.au>
+Subject: [PULL 08/30] target/ppc: replaced the TODO with LOG_UNIMP and add
+ break for silence warnings
+Date: Fri, 11 Dec 2020 15:14:45 +1100
+Message-Id: <20201211041507.425378-9-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -56,81 +58,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Chen Qun <kuhn.chenqun@huawei.com>
 
-There can be only one TPM proxy at a time. This is currently
-checked at plug time. But this can be detected at pre-plug in
-order to error out earlier.
+When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
+target/ppc/mmu_helper.c: In function ‘dump_mmu’:
+target/ppc/mmu_helper.c:1351:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
+ 1351 |         if (ppc64_v3_radix(env_archcpu(env))) {
+      |            ^
+target/ppc/mmu_helper.c:1358:5: note: here
+ 1358 |     default:
+      |     ^~~~~~~
 
-This allows to get rid of error handling in the plug handler.
+Use "qemu_log_mask(LOG_UNIMP**)" instead of the TODO comment.
+And add the break statement to fix it.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201120234208.683521-9-groug@kaod.org>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <20201116024810.2415819-8-kuhn.chenqun@huawei.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ target/ppc/mmu_helper.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index b270172369..7e954bc84b 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3974,17 +3974,28 @@ static void spapr_phb_unplug_request(HotplugHandler *hotplug_dev,
-     }
- }
- 
--static void spapr_tpm_proxy_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
--                                 Error **errp)
-+static
-+bool spapr_tpm_proxy_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-+                              Error **errp)
- {
-     SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
--    SpaprTpmProxy *tpm_proxy = SPAPR_TPM_PROXY(dev);
- 
-     if (spapr->tpm_proxy != NULL) {
-         error_setg(errp, "Only one TPM proxy can be specified for this machine");
--        return;
-+        return false;
-     }
- 
-+    return true;
-+}
-+
-+static void spapr_tpm_proxy_plug(HotplugHandler *hotplug_dev, DeviceState *dev)
-+{
-+    SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
-+    SpaprTpmProxy *tpm_proxy = SPAPR_TPM_PROXY(dev);
-+
-+    /* Already checked in spapr_tpm_proxy_pre_plug() */
-+    g_assert(spapr->tpm_proxy == NULL);
-+
-     spapr->tpm_proxy = tpm_proxy;
- }
- 
-@@ -4007,7 +4018,7 @@ static void spapr_machine_device_plug(HotplugHandler *hotplug_dev,
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
-         spapr_phb_plug(hotplug_dev, dev);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
--        spapr_tpm_proxy_plug(hotplug_dev, dev, errp);
-+        spapr_tpm_proxy_plug(hotplug_dev, dev);
-     }
- }
- 
-@@ -4070,6 +4081,8 @@ static void spapr_machine_device_pre_plug(HotplugHandler *hotplug_dev,
-         spapr_core_pre_plug(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
-         spapr_phb_pre_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
-+        spapr_tpm_proxy_pre_plug(hotplug_dev, dev, errp);
-     }
- }
- 
+diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+index 064d2e8d13..9f22b66ea9 100644
+--- a/target/ppc/mmu_helper.c
++++ b/target/ppc/mmu_helper.c
+@@ -1349,11 +1349,12 @@ void dump_mmu(CPUPPCState *env)
+         break;
+     case POWERPC_MMU_3_00:
+         if (ppc64_v3_radix(env_archcpu(env))) {
+-            /* TODO - Unsupported */
++            qemu_log_mask(LOG_UNIMP, "%s: the PPC64 MMU is unsupported\n",
++                          __func__);
+         } else {
+             dump_slb(env_archcpu(env));
+-            break;
+         }
++        break;
+ #endif
+     default:
+         qemu_log_mask(LOG_UNIMP, "%s: unimplemented\n", __func__);
 -- 
 2.29.2
 
