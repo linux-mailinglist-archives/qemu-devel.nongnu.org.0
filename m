@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10342D7A98
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:13:25 +0100 (CET)
-Received: from localhost ([::1]:44504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C3B2D7A86
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:11:26 +0100 (CET)
+Received: from localhost ([::1]:38888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knl2q-0004f6-Qc
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:13:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36534)
+	id 1knl0v-00023U-9c
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:11:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1knkyF-0000zG-76
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:08:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44743)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1knkyB-0005Oc-WA
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:08:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607702914;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=smGZ4uoTxcDPT9XrWX6LfVfOjoTcKzZnOgpZ3j32N64=;
- b=M46VzMHlGiLU6fkPEXodo7hGQomcg+IZoLJisGQ2YE8qq26pds5nU6Pkg0FHFqBH6YDanV
- 4pAbcXmpg46ApmMFAtFNR08i7srwd3G2elpJeoPVw4JO1y+8i/wVCRUfqR3Mcx6AvMl6Ym
- wPI2IXVQNodBLm5GVfGj7UPx6QW/UBU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-SHj6I2p6Np2LLsdh0miftw-1; Fri, 11 Dec 2020 11:08:32 -0500
-X-MC-Unique: SHj6I2p6Np2LLsdh0miftw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BD1AA0C04
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 16:08:31 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-112-134.ams2.redhat.com
- [10.36.112.134])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDD986F7E5;
- Fri, 11 Dec 2020 16:08:26 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] ui: add support for remote power control to VNC server
-Date: Fri, 11 Dec 2020 16:08:25 +0000
-Message-Id: <20201211160825.102679-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1knkya-00014D-PU
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:09:02 -0500
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:36684)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1knkyP-0005Re-V5
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:09:00 -0500
+Received: by mail-oi1-x232.google.com with SMTP id 9so3216525oiq.3
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 08:08:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sTBaiesWmShQLOiqogNisGXEJBLm2mWXp90YuRQCmkY=;
+ b=YiCtYn1y9a1TbiAnMCPqr9T9dmO1/07a/eA4I7ztI9zRB73G5Yxv65ugHasbhsf9Tc
+ s/nDKLldjSPUNFVht7DCBuhkVj7BVtFMwieh7tpMIsnmBjlM5dtPJT5/9HTxn188qwln
+ WmeOMu807ySx+B+GbVpKVJXyCHkePMfqOo8a09FxbzeZm2yZtsvxGVdEaCYcBiEuwHnF
+ /ZWhTHZSZsVXx8BdsIsfX9YWoDjWDJLuetvwW56pgBjdE80mLEqpNOtK2hDnfNCj2Ddk
+ GSDqmNQwybMyuE9Tp34mqe6QxNegmQLa561m4zuQmH0kq8DGWMRx9cSlFms71+1/nz4p
+ Vi9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sTBaiesWmShQLOiqogNisGXEJBLm2mWXp90YuRQCmkY=;
+ b=TqRFEY+smbOFY2OW0vTAZKZtOUlku8dCIr2nCLtzj2tql2vtH24IjqMqcHPCPOcEAC
+ uHy9yftvcCboXsdkcCUHEb9x1zAI/WwNnH1hlGGTFLUrhHkPG5yJmBNCdk78Jhrt26r9
+ RvcJBWHijck1O7oQbtkwti7ZEIQzLQ36Ayaz9x8j2oAuro0vVszbyFny9kBc2HCvojN7
+ Cq4NvZQyaByrO6UvAXO4PK7TgRaQEIMNfD7nJBaVfakkbE8JrofX8fGneSy6GbF/WO8u
+ LXmiAjWaNAXIOzjmCAO7osoQlaslKcfz+AIawPViqcKIbxyAHjA4cacSByLzrEax2wqy
+ kONg==
+X-Gm-Message-State: AOAM5325FRwOCLlS0I6CaBdHdKWlV1MIwqgZ7vppVFNFD9i0NI7kZoS1
+ BPgQdJp98Hjgnfq5oi2NUwL1aQ==
+X-Google-Smtp-Source: ABdhPJyBNGi5Q0OuZuBTYWiv+V/KmLb2uigzUUe68K761778MToEuuIUry10VV6ZBHhm63g5hsH74A==
+X-Received: by 2002:aca:59c2:: with SMTP id n185mr9710609oib.96.1607702928686; 
+ Fri, 11 Dec 2020 08:08:48 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id i16sm1914276otc.61.2020.12.11.08.08.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Dec 2020 08:08:47 -0800 (PST)
+Subject: Re: [PATCH v11 04/25] i386: move kvm accel files into kvm/
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20201211083143.14350-1-cfontana@suse.de>
+ <20201211083143.14350-5-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <042299f1-e69d-aac1-514a-e1f90c1755ee@linaro.org>
+Date: Fri, 11 Dec 2020 10:08:44 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20201211083143.14350-5-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x232.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,208 +92,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
+ haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
+ Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "XVP" (Xen VNC Proxy) extension defines a mechanism for a VNC client
-to issue power control requests to trigger graceful shutdown, reboot, or
-hard reset.
+On 12/11/20 2:31 AM, Claudio Fontana wrote:
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  meson.build                          | 1 +
+>  target/i386/cpu.h                    | 2 +-
+>  target/i386/{ => kvm}/hyperv-proto.h | 0
+>  target/i386/{ => kvm}/hyperv.h       | 0
+>  target/i386/{ => kvm}/kvm_i386.h     | 0
+>  target/i386/kvm/trace.h              | 1 +
+>  hw/i386/fw_cfg.c                     | 2 +-
+>  hw/i386/intel_iommu.c                | 2 +-
+>  hw/i386/kvm/apic.c                   | 2 +-
+>  hw/i386/kvm/clock.c                  | 2 +-
+>  hw/i386/microvm.c                    | 2 +-
+>  hw/i386/pc.c                         | 2 +-
+>  hw/i386/x86.c                        | 2 +-
+>  target/i386/cpu.c                    | 2 +-
+>  target/i386/helper.c                 | 2 +-
+>  target/i386/{ => kvm}/hyperv-stub.c  | 0
+>  target/i386/{ => kvm}/hyperv.c       | 0
+>  target/i386/{ => kvm}/kvm-stub.c     | 0
+>  target/i386/{ => kvm}/kvm.c          | 0
+>  target/i386/machine.c                | 4 ++--
+>  MAINTAINERS                          | 2 +-
+>  target/i386/kvm/meson.build          | 3 +++
+>  target/i386/kvm/trace-events         | 7 +++++++
+>  target/i386/meson.build              | 4 +---
+>  target/i386/trace-events             | 6 ------
+>  25 files changed, 26 insertions(+), 22 deletions(-)
+>  rename target/i386/{ => kvm}/hyperv-proto.h (100%)
+>  rename target/i386/{ => kvm}/hyperv.h (100%)
+>  rename target/i386/{ => kvm}/kvm_i386.h (100%)
+>  create mode 100644 target/i386/kvm/trace.h
+>  rename target/i386/{ => kvm}/hyperv-stub.c (100%)
+>  rename target/i386/{ => kvm}/hyperv.c (100%)
+>  rename target/i386/{ => kvm}/kvm-stub.c (100%)
+>  rename target/i386/{ => kvm}/kvm.c (100%)
+>  create mode 100644 target/i386/kvm/meson.build
+>  create mode 100644 target/i386/kvm/trace-events
 
-This option is not enabled by default, since we cannot assume that users
-with VNC access implicitly have administrator access to the guest OS.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Thus is it enabled with a boolean "power-control" option e.g.
-
-   -vnc :1,power-control=on
-
-While, QEMU can easily support shutdown and reset, there's no easy way
-to wire up reboot support at this time. In theory it could be done by
-issuing a shutdown, followed by a reset, but there's no convenient
-wiring for such a pairing in QEMU. It also isn't possible to have the
-VNC server directly talk to QEMU guest agent, since the agent chardev is
-typically owned by an external mgmt app.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- qemu-options.hx |  4 ++++
- ui/vnc.c        | 58 +++++++++++++++++++++++++++++++++++++++++++++++++
- ui/vnc.h        | 13 +++++++++++
- 3 files changed, 75 insertions(+)
-
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 104632ea34..c009c4466e 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2215,6 +2215,10 @@ SRST
-         transmission. When not using an -audiodev argument, this option
-         must be omitted, otherwise is must be present and specify a
-         valid audiodev.
-+
-+    ``power-control``
-+        Permit the remote client to issue shutdown, reboot or reset power
-+        control requests.
- ERST
- 
- ARCHHEADING(, QEMU_ARCH_I386)
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 49235056f7..7a1003b3ff 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -30,6 +30,7 @@
- #include "trace.h"
- #include "hw/qdev-core.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/runstate.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
-@@ -2039,6 +2040,17 @@ static void send_ext_audio_ack(VncState *vs)
-     vnc_flush(vs);
- }
- 
-+static void send_xvp_message(VncState *vs, int code)
-+{
-+    vnc_lock_output(vs);
-+    vnc_write_u8(vs, VNC_MSG_SERVER_XVP);
-+    vnc_write_u8(vs, 0); /* pad */
-+    vnc_write_u8(vs, 1); /* version */
-+    vnc_write_u8(vs, code);
-+    vnc_unlock_output(vs);
-+    vnc_flush(vs);
-+}
-+
- static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
- {
-     int i;
-@@ -2121,6 +2133,12 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
-         case VNC_ENCODING_LED_STATE:
-             vs->features |= VNC_FEATURE_LED_STATE_MASK;
-             break;
-+        case VNC_ENCODING_XVP:
-+            if (vs->vd->power_control) {
-+                vs->features |= VNC_FEATURE_XVP;
-+                send_xvp_message(vs, VNC_XVP_CODE_INIT);
-+            }
-+            break;
-         case VNC_ENCODING_COMPRESSLEVEL0 ... VNC_ENCODING_COMPRESSLEVEL0 + 9:
-             vs->tight->compression = (enc & 0x0F);
-             break;
-@@ -2348,6 +2366,41 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
- 
-         client_cut_text(vs, read_u32(data, 4), data + 8);
-         break;
-+    case VNC_MSG_CLIENT_XVP:
-+        if (!(vs->features & VNC_FEATURE_XVP)) {
-+            error_report("vnc: xvp client message while disabled");
-+            vnc_client_error(vs);
-+            break;
-+        }
-+        if (len == 1) {
-+            return 4;
-+        }
-+        if (len == 4) {
-+            uint8_t version = read_u8(data, 2);
-+            uint8_t action = read_u8(data, 3);
-+
-+            if (version != 1) {
-+                error_report("vnc: xvp client message version %d != 1",
-+                             version);
-+                vnc_client_error(vs);
-+                break;
-+            }
-+
-+            switch (action) {
-+            case VNC_XVP_ACTION_SHUTDOWN:
-+                qemu_system_powerdown_request();
-+                break;
-+            case VNC_XVP_ACTION_REBOOT:
-+                send_xvp_message(vs, VNC_XVP_CODE_FAIL);
-+                break;
-+            case VNC_XVP_ACTION_RESET:
-+                qemu_system_reset_request(SHUTDOWN_CAUSE_HOST_QMP_SYSTEM_RESET);
-+                break;
-+            default:
-+                send_xvp_message(vs, VNC_XVP_CODE_FAIL);
-+                break;
-+            }
-+        }
-     case VNC_MSG_CLIENT_QEMU:
-         if (len == 1)
-             return 2;
-@@ -3374,6 +3427,9 @@ static QemuOptsList qemu_vnc_opts = {
-         },{
-             .name = "audiodev",
-             .type = QEMU_OPT_STRING,
-+        },{
-+            .name = "power-control",
-+            .type = QEMU_OPT_BOOL,
-         },
-         { /* end of list */ }
-     },
-@@ -3937,6 +3993,8 @@ void vnc_display_open(const char *id, Error **errp)
-         vd->non_adaptive = true;
-     }
- 
-+    vd->power_control = qemu_opt_get_bool(opts, "power-control", false);
-+
-     if (tlsauthz) {
-         vd->tlsauthzid = g_strdup(tlsauthz);
-     } else if (acl) {
-diff --git a/ui/vnc.h b/ui/vnc.h
-index 4e2637ce6c..177380cb5e 100644
---- a/ui/vnc.h
-+++ b/ui/vnc.h
-@@ -176,6 +176,7 @@ struct VncDisplay
-     int ws_subauth; /* Used by websockets */
-     bool lossy;
-     bool non_adaptive;
-+    bool power_control;
-     QCryptoTLSCreds *tlscreds;
-     QAuthZ *tlsauthz;
-     char *tlsauthzid;
-@@ -411,6 +412,7 @@ enum {
- #define VNC_ENCODING_AUDIO                0XFFFFFEFD /* -259 */
- #define VNC_ENCODING_TIGHT_PNG            0xFFFFFEFC /* -260 */
- #define VNC_ENCODING_LED_STATE            0XFFFFFEFB /* -261 */
-+#define VNC_ENCODING_XVP                  0XFFFFFECB /* -309 */
- #define VNC_ENCODING_WMVi                 0x574D5669
- 
- /*****************************************************************************
-@@ -450,6 +452,7 @@ enum {
- #define VNC_FEATURE_ZRLE                     9
- #define VNC_FEATURE_ZYWRLE                  10
- #define VNC_FEATURE_LED_STATE               11
-+#define VNC_FEATURE_XVP                     12
- 
- #define VNC_FEATURE_RESIZE_MASK              (1 << VNC_FEATURE_RESIZE)
- #define VNC_FEATURE_HEXTILE_MASK             (1 << VNC_FEATURE_HEXTILE)
-@@ -463,6 +466,7 @@ enum {
- #define VNC_FEATURE_ZRLE_MASK                (1 << VNC_FEATURE_ZRLE)
- #define VNC_FEATURE_ZYWRLE_MASK              (1 << VNC_FEATURE_ZYWRLE)
- #define VNC_FEATURE_LED_STATE_MASK           (1 << VNC_FEATURE_LED_STATE)
-+#define VNC_FEATURE_XVP_MASK                 (1 << VNC_FEATURE_XVP)
- 
- 
- /* Client -> Server message IDs */
-@@ -515,6 +519,15 @@ enum {
- #define VNC_MSG_SERVER_QEMU_AUDIO_BEGIN           1
- #define VNC_MSG_SERVER_QEMU_AUDIO_DATA            2
- 
-+/* XVP server -> client status code */
-+#define VNC_XVP_CODE_FAIL 0
-+#define VNC_XVP_CODE_INIT 1
-+
-+/* XVP client -> server action request  */
-+#define VNC_XVP_ACTION_SHUTDOWN 2
-+#define VNC_XVP_ACTION_REBOOT 3
-+#define VNC_XVP_ACTION_RESET 4
-+
- 
- /*****************************************************************************
-  *
--- 
-2.29.2
-
+r~
 
