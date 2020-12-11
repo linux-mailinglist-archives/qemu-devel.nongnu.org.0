@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E8E2D7784
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 15:13:43 +0100 (CET)
-Received: from localhost ([::1]:57504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ABBA2D778E
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 15:15:27 +0100 (CET)
+Received: from localhost ([::1]:33208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knjAz-0008Nh-EJ
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 09:13:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36302)
+	id 1knjCg-0001aC-H9
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 09:15:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knj8o-0006zx-N3
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:11:26 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:41598)
+ id 1knjA5-0008RH-AN
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:12:45 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:38608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knj8m-0004LY-UA
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:11:26 -0500
-Received: by mail-ej1-x642.google.com with SMTP id ce23so12508408ejb.8
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 06:11:24 -0800 (PST)
+ id 1knjA0-0004ll-QA
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:12:45 -0500
+Received: by mail-ej1-x641.google.com with SMTP id a16so12524773ejj.5
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 06:12:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zrOIYUDGKg9yWGtAGdW6NetyK3rkXZfZe1mj/vQicY8=;
- b=zlcnOL09smIQcOpRmKMn77tCCYaBVsL1IDrOXu0XoNTM6GvlEyz5rl8d2w+6n3vQXE
- xzJ8dpl775EIg7wS3pmcJj2/4+obwn4CkGj7XzGMtGDyKH+ZnHckJv69LmKyoaewp9x7
- HLExE+RyTEloIW11ucoGPcXd6dvvx7a6Jxs8Zgp4Bos+n4DW5Y9+lgExLO7nEpQ5CKUZ
- 1/2zAhdWn/zM2jP6orjODirEHHE350MPd2QEhksfGx1Zr1/zuJdX3cBaodzKzx9c7kRW
- 63wlxk0VPN5rgptN6vrhO+DfLsg94c5Rtj1rV1PzEZ3mzpNxDW7jSa7j8X2S8h+9MKYx
- 20KA==
+ :cc:content-transfer-encoding;
+ bh=hin4F6m6Q3d9vhybERx7Xp/BFQbKpRH6aW97uNF+4XE=;
+ b=EuUWW19GPHr4gvS5Sliirlz2xyOF6UA5gQNoq1yNQYSx97ANRjdO2/EF/OfxNZo6YR
+ put+oGenuNV30pL3SZzfcTiJGjk/t7YlvAhIA70YPFK3ulVW6vIz2rH9jO8SE3amiPnG
+ kfxfYD5W4JosDkwVxf2yKsdgAnu6+Rj3P0O8lw60rp0qbu4VIqvd2NemSXbxF+h0mpNU
+ +iRRHNgjVpTtge8d5DnCKuvXmlZHAZ02s2oJj0aR3+m92QE5zQ3OtY+QWmtMKm/W1uaF
+ J3BDbsEchIYsaIPMCnxsQ/9oe4vcL39nqjsI3XnqVmEDaMWIsgFKbf+J9CThD43cJOi1
+ DwuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zrOIYUDGKg9yWGtAGdW6NetyK3rkXZfZe1mj/vQicY8=;
- b=n5zt8BI/9TgNJK22kOeO2J7vY3WHR6as0Hc0cujZOAG8eP0TYPBM/uDXLxkC/R0mos
- 57MSOpVOLjbhV4U1fud01TqFAVRFCfomMLYCrIjO9U613THiGXgg9ZWN9+CUjTwDhfHg
- T3LF0LgB3QqqwEtQ1vm/V82gKqpYdW89ZGDnOyduWt29OP5klknCwMUGd7vZ95aIHavT
- +Lf+q3wcCTlr3VzVBS4G4KlJ083w7Cmwq7VFkkUJQMB9iqiYaytldLPmXnh5x0uEZFlz
- 4JhopITThvug7NkKx6R/B6GE6jium+iaxC/hoH+i3Ii6l2TFRCPSWg5mZo+cWlS/DTZd
- iG+Q==
-X-Gm-Message-State: AOAM530/YT2Svw6SRKyhSD2dH3NcV+LmBznskkU8waWgig2hiHuLnhgN
- OZAMvsHap3Yc3LeU66W+p+vvn5/6vDZdP1DdYbTI7v/J91o=
-X-Google-Smtp-Source: ABdhPJz/Juzo25q8D2/R40M3Gn1rIRbelAFNU/jVWe/vnL3KoaMicd1FMMRNRMOuZoLVd7NBHWj2d1QZe4yEhxMN4VQ=
-X-Received: by 2002:a17:906:1151:: with SMTP id
- i17mr11377131eja.250.1607695882376; 
- Fri, 11 Dec 2020 06:11:22 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hin4F6m6Q3d9vhybERx7Xp/BFQbKpRH6aW97uNF+4XE=;
+ b=p+K7pY+UBWhF+yXc6VHex1CjcX/JPwH/Je4fduAo1DC2SJPtMNREA6XVb7qq3eux1G
+ EXX1LYqeLSrVgG5gklnPk9STiOZBGc0v737jLrf5AgQ/hjjj/5ILt3MgrJSBIo15fG9P
+ 7q0nVO0nb9mbDah61wtWKbGjb4tU6CS2mi3DYOEkKRc7D3tqDHE0JGv0W3P8Meybe7Np
+ 1NrL39TngurDw6fV4gpUQNR30VDUkVnoMcNlI4AbCkOFSiFqzL6D5vLfqYq+hQhbGK20
+ 1B34HygpqT4+vEkbraHB6a+aMCP8i1RQNYVFqM93ep41q7TfGJO3V39Pzj7Ud0pT7VZv
+ IXQA==
+X-Gm-Message-State: AOAM531Vb7tUdbDEbhcLHW/JUj5oLLAaMTGA/B4dDCcYzjMK5sCURjVV
+ yZmCfjt4KcLPUyeXYbWD+3P6SRZi8HN7RXvVof7hVQ==
+X-Google-Smtp-Source: ABdhPJw3TLkPKCScCZkLlsCAJqMiZGmhMXVGEGeSCdoSi0/JZRRLXcOGvkjQ+5+oZ4e1wfRBeJiGzI62NTpDBk3MJF0=
+X-Received: by 2002:a17:907:971c:: with SMTP id
+ jg28mr11113058ejc.85.1607695959263; 
+ Fri, 11 Dec 2020 06:12:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20201106235109.7066-1-peter.maydell@linaro.org>
-In-Reply-To: <20201106235109.7066-1-peter.maydell@linaro.org>
+References: <20201121210342.10089-1-peter.maydell@linaro.org>
+ <87im9wnqbf.fsf@linaro.org>
+In-Reply-To: <87im9wnqbf.fsf@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 11 Dec 2020 14:11:11 +0000
-Message-ID: <CAFEAcA8CaZshQtW_KGq5JQ5obzJGH2yB0DtRjgKJNgY9Ca=Gew@mail.gmail.com>
-Subject: Re: [PATCH 0/2] m68k/q800: make the GLUE chip a QOM device
-To: QEMU Developers <qemu-devel@nongnu.org>
+Date: Fri, 11 Dec 2020 14:12:27 +0000
+Message-ID: <CAFEAcA-yqaXOkw8dXJdR8dthXfVqKVR4yGR9VVQ3BP5U_Gyg9w@mail.gmail.com>
+Subject: Re: [PATCH] gdbstub: Correct misparsing of vCont C/S requests
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,45 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Nov 2020 at 23:51, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Mon, 23 Nov 2020 at 13:41, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> This series is 6.0 material really I think.  It's a bit of cleanup
-> prompted by a Coverity issue, CID 1421883.  There are another half
-> dozen or so similar issues, where Coverity is complaining that we
-> allocate an array of qemu_irqs with qemu_allocate_irqs() in a board
-> init function -- in this case the 'pic' array in q800_init() -- and
-> then we return from the board init function and the memory is leaked,
-> in the sense that nobody has a pointer to it any more.
 >
-> The leak isn't real, in that board init functions are called only
-> once, and the array of qemu_irqs really does need to stay around for
-> the life of the simulation, so these are pretty much insignificant
-> as Coverity issues go. But this coding style which uses a free-floating
-> set of qemu_irqs is not very "modern QEMU", so the issues act as
-> a nudge that we should clean the code up by encapsulating the
-> interrupt-line behaviour in a QOM device. In the q800 case there
-> actually is already a GLUEState struct, it just needs to be turned
-> into a QOM device with GPIO input lines. Patch 2 does that.
+> Peter Maydell <peter.maydell@linaro.org> writes:
 >
-> Patch 1 fixes a bug I noticed while doing this work -- it's
-> not valid to connect two qemu_irq lines directly to the same
-> input (here both ESCC irq lines go to pic[3]) because it produces
-> weird behaviour like "both lines are asserted but the device
-> consuming the interrupt sees the line deassert when one of the
-> two inputs goes low, rather than only when they both go low".
-> You need to put an explicit OR gate in, assuming that logical-OR
-> is the desired behaviour, which it usually is.
+> > In the vCont packet, two of the command actions (C and S) take an
+> > argument specifying the signal to be sent to the process/thread, which =
+is
+> > sent as an ASCII string of two hex digits which immediately follow the
+> > 'C' or 'S' character.
+> >
+> > Our code for parsing this packet accidentally skipped the first of the
+> > two bytes of the signal value, because it started parsing the hex strin=
+g
+> > at 'p + 1' when the preceding code had already moved past the 'C' or
+> > 'S' with "cur_action =3D *p++".
+> >
+> > This meant that we would only do the right thing for signals below
+> > 10, and would misinterpret the rest.  For instance, when the debugger
+> > wants to send the process a SIGPROF (27 on x86-64) we mangle this into
+> > a SIGSEGV (11).
+> >
+> > Remove the accidental double increment.
+> >
+> > Fixes: https://bugs.launchpad.net/qemu/+bug/1773743
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 >
-> Tested only with 'make check' and 'make check-acceptance',
-> but the latter does have a q800 bootup test.
+> LGTM
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+> > ---
+> > Haven't really given this enough testing to want to put it into 5.2,
+> > I think (though it does fix the repro in the bug report).
+> > The bug has been present since commit 544177ad1cfd78 from 2017.
+>
+> I'd be happy including it. I don't have any gdbstub patches queued at
+> the moment but I could put together one if you want or you could just
+> include it directly if you are now happy to.
 
-Laurent, did you want to take this series as an m68k patchset,
-or would you rather I just put it in via the target-arm queue?
+Now that 6.0 has opened up, I'll put this in via target-arm.next
+unless you'd prefer to take it.
 
-thanks
 -- PMM
 
