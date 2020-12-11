@@ -2,55 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47EF82D7D2E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:46:01 +0100 (CET)
-Received: from localhost ([::1]:42184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669C22D7D40
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:49:56 +0100 (CET)
+Received: from localhost ([::1]:51430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knmUS-0006Sx-6W
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:46:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53890)
+	id 1knmYF-00025q-AS
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:49:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knm6j-0000qF-3M
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:21:29 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37754)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knm6h-00070K-8v
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:21:28 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 67354B765;
- Fri, 11 Dec 2020 17:21:25 +0000 (UTC)
-Subject: Re: [PATCH v11 09/25] i386: move cpu dump out of helper.c into
- cpu-dump.c
-To: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20201211083143.14350-1-cfontana@suse.de>
- <20201211083143.14350-10-cfontana@suse.de>
- <3e759d43-8864-fe25-4168-8e11538b9bb2@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <b9468ac4-1358-5978-843b-39884eef13b6@suse.de>
-Date: Fri, 11 Dec 2020 18:21:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knmAQ-0007Sx-Ds
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:25:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knmAN-0008Cz-Nv
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:25:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607707514;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NVDN5gUsSQ9EKZ2dI+Xzgczl23uuzPpUZ8JYm4gzgvo=;
+ b=WUDU8oVy4eq1hg2qWdVLN41be/10kZj/9DP9oJX11okCKjiJLyqv0oGN9Vx7ZM5b4JhiHx
+ Nm1YNUSATjoCULkwQxvM9/6zmplKsQARgheMotiVvoQ1imP1Tir0Pov/6As5Y94AkiSeDg
+ /yJVMGR8NsHq/as9tsu47xQfatg2F10=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-534-HgTBRevUNSKA8sRPPTXJXg-1; Fri, 11 Dec 2020 12:25:10 -0500
+X-MC-Unique: HgTBRevUNSKA8sRPPTXJXg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94015858185;
+ Fri, 11 Dec 2020 17:25:08 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-98.ams2.redhat.com
+ [10.36.112.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C2C77271BB;
+ Fri, 11 Dec 2020 17:24:52 +0000 (UTC)
+Subject: Re: [PATCH v14 10/13] qapi: block-stream: add "bottom" argument
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
+ <20201204220758.2879-11-vsementsov@virtuozzo.com>
+ <79993af7-1993-5af1-d343-04f208b03d73@redhat.com>
+ <9e131589-84b5-761b-3e26-c4e8eb32ec09@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <ef0cc817-69c0-017c-bf94-cc19a66d9dc5@redhat.com>
+Date: Fri, 11 Dec 2020 18:24:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <3e759d43-8864-fe25-4168-8e11538b9bb2@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <9e131589-84b5-761b-3e26-c4e8eb32ec09@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,43 +85,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 5:13 PM, Richard Henderson wrote:
-> On 12/11/20 2:31 AM, Claudio Fontana wrote:
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->> ---
->>  target/i386/cpu.h       |   1 +
->>  target/i386/cpu-dump.c  | 537 ++++++++++++++++++++++++++++++++++++++++
->>  target/i386/helper.c    | 514 --------------------------------------
->>  target/i386/meson.build |   1 +
->>  4 files changed, 539 insertions(+), 514 deletions(-)
->>  create mode 100644 target/i386/cpu-dump.c
+On 11.12.20 17:50, Vladimir Sementsov-Ogievskiy wrote:
+> 11.12.2020 19:05, Max Reitz wrote:
+>> On 04.12.20 23:07, Vladimir Sementsov-Ogievskiy wrote:
+>>> The code already don't freeze base node and we try to make it prepared
+>>> for the situation when base node is changed during the operation. In
+>>> other words, block-stream doesn't own base node.
+>>>
+>>> Let's introduce a new interface which should replace the current one,
+>>> which will in better relations with the code. Specifying bottom node
+>>> instead of base, and requiring it to be non-filter gives us the
+>>> following benefits:
+>>>
+>>>   - drop difference between above_base and base_overlay, which will be
+>>>     renamed to just bottom, when old interface dropped
+>>>
+>>>   - clean way to work with parallel streams/commits on the same backing
+>>>     chain, which otherwise become a problem when we introduce a filter
+>>>     for stream job
+>>>
+>>>   - cleaner interface. Nobody will surprised the fact that base node may
+>>>     disappear during block-stream, when there is no word about "base" in
+>>>     the interface.
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> ---
+>>>   qapi/block-core.json           |  8 +++--
+>>>   include/block/block_int.h      |  1 +
+>>>   block/monitor/block-hmp-cmds.c |  3 +-
+>>>   block/stream.c                 | 50 +++++++++++++++++++---------
+>>>   blockdev.c                     | 61 ++++++++++++++++++++++++++++------
+>>>   5 files changed, 94 insertions(+), 29 deletions(-)
+>>>
+>>> diff --git a/qapi/block-core.json b/qapi/block-core.json
+>>> index 04055ef50c..5d6681a35d 100644
+>>> --- a/qapi/block-core.json
+>>> +++ b/qapi/block-core.json
+>>> @@ -2522,6 +2522,10 @@
+>>>   # @base-node: the node name of the backing file.
+>>>   #             It cannot be set if @base is also set. (Since 2.8)
+>>>   #
+>>> +# @bottom: the last node in the chain that should be streamed into
+>>> +#          top. It cannot be set any of @base, @base-node or 
+>>> @backing-file
+>>
+>> s/set any/set if any/
+>>
+>> But what’s the problem with backing-file?  The fact that specifying 
+>> backing-file means that stream will look for that filename in the 
+>> backing chain when the job is done (so if you use @bottom, we 
+>> generally don’t want to rely on the presence of any nodes below it)?
 > 
-> There are a fair few "static const char * array[]" that should be "static const
-> char * const array[]", but is an existing error and this patch is pure code
-> movement.
+> I just wanted to deprecate 'backing-file' together with base and 
+> base-node as a next step. If user wants to set backing file unrelated to 
+> current backing-chain, is it correct at all? It's a direct violation of 
+> what's going on, and I doubt that other parts of Qemu working with 
+> backing-file are prepared for such situation. User can do it by hand 
+> later.. Anyway, we'll have three releases deprecation period for people 
+> to come and cry that this is a really needed option, so we can support 
+> it later on demand.
 > 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>
+>> (If so, I would have thought that we actually want the user to specify 
+>> backing-file so we don’t have to look down below @bottom to look for a 
+>> filename.  Perhaps a @backing-fmt parameter would help.)
 > 
-> r~
-> 
+> If we decide that 'backing-file' is really needed, than yes we should 
+> require backing-fmt to be specified together with backing-file when 
+> using new "bottom" interface.
+Before I can agree on removing backing-file (or deprecating it), I need 
+to know what it’s actually used for.  I actually don’t, though.  The 
+only reason I could imagine was because the user wanted to write some 
+string into there that is different from base.filename.
 
-Yes, that code being moved is full of issues, checkpatch goes mad about it.
-Probably worth an extra cleanup patch later on.
+(The original commit 13d8cc515df does mention cases like FD passing, 
+where qemu has no idea what an appropriate filename would be (it can 
+only see /dev/fd/*).  From that, it does appear to me that it’ll be 
+needed even with @bottom.)
 
-Claudio
+Max
 
 
