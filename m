@@ -2,55 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB862D7DAC
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:10:20 +0100 (CET)
-Received: from localhost ([::1]:52454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 308DD2D7DBF
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 19:11:43 +0100 (CET)
+Received: from localhost ([::1]:54378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knmrz-0001ZX-3m
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:10:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53550)
+	id 1knmtK-0002O5-73
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 13:11:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knm55-0007Ha-Ew
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:19:47 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60112)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knm50-0006ME-TT
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:19:47 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 83EB3B7B6;
- Fri, 11 Dec 2020 17:19:40 +0000 (UTC)
-Subject: Re: [PATCH v11 16/25] target/riscv: remove CONFIG_TCG, as it is
- always TCG
-To: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20201211083143.14350-1-cfontana@suse.de>
- <20201211083143.14350-17-cfontana@suse.de>
- <479af498-6027-79bf-940f-207f0c3fca15@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <e1a3f236-0ce0-287a-a209-623af32dcd1c@suse.de>
-Date: Fri, 11 Dec 2020 18:19:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knm6j-0000rR-PU
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:21:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44039)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knm6h-00070o-Df
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:21:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607707286;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1a7jRgN6EDHHtr30+VpGBj0+vBVKrsLqKpbF+8gWhsA=;
+ b=S3yZ+3l/3xaDhW9D7g3wNoRniKUaVAYMuE7vKAchTcHo1H1U6HS1AGPUwfcxGrrO4U1ND4
+ e1kdsx7Lht2plB772OUH97TH3izUGNC5dyizxbSOTWPBdirTiBahjn4yxnKRQXsYIWwpoS
+ KCBNiwabny2tGTATvA+H9oUW0vMdosg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-414-1Anh4zB0Oey-Ssnt0t2ObA-1; Fri, 11 Dec 2020 12:21:24 -0500
+X-MC-Unique: 1Anh4zB0Oey-Ssnt0t2ObA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D2CD180A09C;
+ Fri, 11 Dec 2020 17:21:23 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-98.ams2.redhat.com
+ [10.36.112.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C00E65F9B7;
+ Fri, 11 Dec 2020 17:21:11 +0000 (UTC)
+Subject: Re: [PATCH v14 13/13] block: apply COR-filter to block-stream jobs
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
+ <20201204220758.2879-14-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <6aa8bbb7-6745-eed3-ade6-3ef47d5ee08d@redhat.com>
+Date: Fri, 11 Dec 2020 18:21:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <479af498-6027-79bf-940f-207f0c3fca15@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20201204220758.2879-14-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,42 +83,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 5:56 PM, Richard Henderson wrote:
-> On 12/11/20 2:31 AM, Claudio Fontana wrote:
->> for now only TCG is allowed as an accelerator for riscv,
->> so remove the CONFIG_TCG use.
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->> ---
->>  target/riscv/cpu.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
+On 04.12.20 23:07, Vladimir Sementsov-Ogievskiy wrote:
+> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 > 
-> Aren't there patches on the list to add kvm support for riscv?
+> This patch completes the series with the COR-filter applied to
+> block-stream operations.
 > 
+> Adding the filter makes it possible in future implement discarding
+> copied regions in backing files during the block-stream job, to reduce
+> the disk overuse (we need control on permissions).
 > 
-> r~
+> Also, the filter now is smart enough to do copy-on-read with specified
+> base, so we have benefit on guest reads even when doing block-stream of
+> the part of the backing chain.
 > 
+> Several iotests are slightly modified due to filter insertion.
+> 
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   block/stream.c             | 78 ++++++++++++++++++++++++++------------
+>   tests/qemu-iotests/030     |  8 ++--
+>   tests/qemu-iotests/141.out |  2 +-
+>   tests/qemu-iotests/245     | 20 ++++++----
+>   4 files changed, 72 insertions(+), 36 deletions(-)
+> 
+> diff --git a/block/stream.c b/block/stream.c
+> index a7fd8945ad..b92f7de55b 100644
+> --- a/block/stream.c
+> +++ b/block/stream.c
 
-Yes I saw something ongoing,
+[...]
 
-however for the current code, the CONFIG_TCG is not meaningful,
-and I think the actual right wrapping of what should and should not be CONFIG_TCG, and the eventual cleanup of that using the build system is going to need more that the CONFIG_TCG that is in there.
+> @@ -295,17 +287,49 @@ void stream_start(const char *job_id, BlockDriverState *bs,
 
-Ciao,
+[...]
 
-Claudio
+> +    opts = qdict_new();
+> +
+> +    qdict_put_str(opts, "driver", "copy-on-read");
+> +    qdict_put_str(opts, "file", bdrv_get_node_name(bs));
+> +    /* Pass the base_overlay node name as 'bottom' to COR driver */
+> +    qdict_put_str(opts, "bottom", base_overlay->node_name);
+
+Hm.  Should we set this option even if no base was specified?
+
+On one hand, omitting this option would cor_co_preadv_part() a bit quicker.
+
+On the other, what happens when you add a backing file below the bottom 
+node during streaming (yes, a largely theoretical case)...  Now, all 
+data from it is ignored.  That seemed a bit strange to me at first, but 
+on second thought, it makes more sense.  Doing anything else would 
+produce a garbage result basically, because stream_run() doesn’t take 
+such a change into account.
+
+So...  After all I think I agree with setting @bottom unconditionally.
+
+And that’s the only comment I had. :)
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
 
