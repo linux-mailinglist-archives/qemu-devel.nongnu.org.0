@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F18A2D7CD9
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:29:19 +0100 (CET)
-Received: from localhost ([::1]:55346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875F82D7CF2
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:34:23 +0100 (CET)
+Received: from localhost ([::1]:40256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knmEI-00049a-IT
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:29:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50842)
+	id 1knmJC-0001q4-5W
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:34:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knlvY-0004oX-Tj
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:09:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34929)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluZ-0003qX-8H
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knlum-0002M9-8g
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:09:56 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluI-00029E-3c
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607706547;
+ s=mimecast20190719; t=1607706516;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LdeSNRayXVfV6tXPpk5japdh1GU4T81tza0hXxnHGNE=;
- b=RNSrWtFmU8ag+7dfGW2924zOdBOghKuINOzKEWcAK8+AWZJzjdYZbucy3gtkGR2cZREE7A
- NnEHCTgnej+tF5TeHq89J0KDzN7dUozy2o35jPPuWsl9n5q4hCRAdq+8Hlrm+d13WvNrbL
- pU5HyTUP/iRc01AfPAc7UlQu+z7/5+A=
+ bh=NlNAGwbdtmYnWPDfJD2c+tjwRr6hd9k8Fdpcee5PByw=;
+ b=CaiRJBzD2R0iNfd9AFVKTr9/Dhum4HlUWQNFFg162+QFfgmWg0zz5zJBfoADcclH3A6lQw
+ 8K/PJ6q9Ddjk7630xynTBsOEOnd9u1CUt1lA/9qVNUADvo1Zk9Tudr43kVgRibgdyhfRHy
+ 4ahNPrRyeROHHgJkIZf0wrWDyG7c7r8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-AdF2lZiJNEmwNS9uq9JPOg-1; Fri, 11 Dec 2020 12:09:05 -0500
-X-MC-Unique: AdF2lZiJNEmwNS9uq9JPOg-1
+ us-mta-62-oFWaCkVvO3GcqnnKOCc10Q-1; Fri, 11 Dec 2020 12:08:34 -0500
+X-MC-Unique: oFWaCkVvO3GcqnnKOCc10Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B8AB801817;
- Fri, 11 Dec 2020 17:09:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A16E180E469;
+ Fri, 11 Dec 2020 17:08:33 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-231.ams2.redhat.com [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 177A85D6A8;
- Fri, 11 Dec 2020 17:09:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 552FB5D731;
+ Fri, 11 Dec 2020 17:08:32 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 34/34] block: Fix deadlock in bdrv_co_yield_to_drain()
-Date: Fri, 11 Dec 2020 18:08:12 +0100
-Message-Id: <20201211170812.228643-35-kwolf@redhat.com>
+Subject: [PULL 11/34] iotests: Do not needlessly filter _make_test_img
+Date: Fri, 11 Dec 2020 18:07:49 +0100
+Message-Id: <20201211170812.228643-12-kwolf@redhat.com>
 In-Reply-To: <20201211170812.228643-1-kwolf@redhat.com>
 References: <20201211170812.228643-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -63,8 +63,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,118 +80,100 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If bdrv_co_yield_to_drain() is called for draining a block node that
-runs in a different AioContext, it keeps that AioContext locked while it
-yields and schedules a BH in the AioContext to do the actual drain.
+From: Max Reitz <mreitz@redhat.com>
 
-As long as executing the BH is the very next thing that the event loop
-of the node's AioContext does, this actually happens to work, but when
-it tries to execute something else that wants to take the AioContext
-lock, it will deadlock. (In the bug report, this other thing is a
-virtio-scsi device running virtio_scsi_data_plane_handle_cmd().)
+In most cases, _make_test_img does not need a _filter_imgfmt on top.  It
+does that by itself.
 
-Instead, always drop the AioContext lock across the yield and reacquire
-it only when the coroutine is reentered. The BH needs to unconditionally
-take the lock for itself now.
+(The exception is when IMGFMT has been overwritten but TEST_IMG has not.
+In such cases, we do need a _filter_imgfmt on top to filter the test's
+original IMGFMT from TEST_IMG.)
 
-This fixes the 'block_resize' QMP command on a block node that runs in
-an iothread.
-
-Cc: qemu-stable@nongnu.org
-Fixes: eb94b81a94bce112e6b206df846c1551aaf6cab6
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1903511
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20201203172311.68232-4-kwolf@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20201027190600.192171-8-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/io.c | 41 ++++++++++++++++++++++++-----------------
- 1 file changed, 24 insertions(+), 17 deletions(-)
+ tests/qemu-iotests/161 | 12 ++++++------
+ tests/qemu-iotests/175 |  6 +++---
+ tests/qemu-iotests/249 |  6 +++---
+ 3 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index 6343d85476..24205f5168 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -312,17 +312,7 @@ static void bdrv_co_drain_bh_cb(void *opaque)
+diff --git a/tests/qemu-iotests/161 b/tests/qemu-iotests/161
+index e270976d87..bbf7dbbc5c 100755
+--- a/tests/qemu-iotests/161
++++ b/tests/qemu-iotests/161
+@@ -48,9 +48,9 @@ _supported_os Linux
+ IMG_SIZE=1M
  
-     if (bs) {
-         AioContext *ctx = bdrv_get_aio_context(bs);
--        AioContext *co_ctx = qemu_coroutine_get_aio_context(co);
--
--        /*
--         * When the coroutine yielded, the lock for its home context was
--         * released, so we need to re-acquire it here. If it explicitly
--         * acquired a different context, the lock is still held and we don't
--         * want to lock it a second time (or AIO_WAIT_WHILE() would hang).
--         */
--        if (ctx == co_ctx) {
--            aio_context_acquire(ctx);
--        }
-+        aio_context_acquire(ctx);
-         bdrv_dec_in_flight(bs);
-         if (data->begin) {
-             assert(!data->drained_end_counter);
-@@ -334,9 +324,7 @@ static void bdrv_co_drain_bh_cb(void *opaque)
-                                 data->ignore_bds_parents,
-                                 data->drained_end_counter);
-         }
--        if (ctx == co_ctx) {
--            aio_context_release(ctx);
--        }
-+        aio_context_release(ctx);
-     } else {
-         assert(data->begin);
-         bdrv_drain_all_begin();
-@@ -354,13 +342,16 @@ static void coroutine_fn bdrv_co_yield_to_drain(BlockDriverState *bs,
-                                                 int *drained_end_counter)
- {
-     BdrvCoDrainData data;
-+    Coroutine *self = qemu_coroutine_self();
-+    AioContext *ctx = bdrv_get_aio_context(bs);
-+    AioContext *co_ctx = qemu_coroutine_get_aio_context(self);
+ # Create the images
+-TEST_IMG="$TEST_IMG.base" _make_test_img $IMG_SIZE | _filter_imgfmt
+-TEST_IMG="$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" -F $IMGFMT | _filter_imgfmt
+-_make_test_img -b "$TEST_IMG.int" -F $IMGFMT -F $IMGFMT | _filter_imgfmt
++TEST_IMG="$TEST_IMG.base" _make_test_img $IMG_SIZE
++TEST_IMG="$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" -F $IMGFMT
++_make_test_img -b "$TEST_IMG.int" -F $IMGFMT -F $IMGFMT
  
-     /* Calling bdrv_drain() from a BH ensures the current coroutine yields and
-      * other coroutines run if they were queued by aio_co_enter(). */
+ # First test: reopen $TEST.IMG changing the detect-zeroes option on
+ # its backing file ($TEST_IMG.int).
+@@ -105,9 +105,9 @@ echo
+ echo "*** Commit and then change an option on the backing file"
+ echo
+ # Create the images again
+-TEST_IMG="$TEST_IMG.base" _make_test_img $IMG_SIZE | _filter_imgfmt
+-TEST_IMG="$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" -F $IMGFMT| _filter_imgfmt
+-_make_test_img -b "$TEST_IMG.int" -F $IMGFMT | _filter_imgfmt
++TEST_IMG="$TEST_IMG.base" _make_test_img $IMG_SIZE
++TEST_IMG="$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" -F $IMGFMT
++_make_test_img -b "$TEST_IMG.int" -F $IMGFMT
  
-     assert(qemu_in_coroutine());
-     data = (BdrvCoDrainData) {
--        .co = qemu_coroutine_self(),
-+        .co = self,
-         .bs = bs,
-         .done = false,
-         .begin = begin,
-@@ -374,13 +365,29 @@ static void coroutine_fn bdrv_co_yield_to_drain(BlockDriverState *bs,
-     if (bs) {
-         bdrv_inc_in_flight(bs);
-     }
--    replay_bh_schedule_oneshot_event(bdrv_get_aio_context(bs),
--                                     bdrv_co_drain_bh_cb, &data);
-+
-+    /*
-+     * Temporarily drop the lock across yield or we would get deadlocks.
-+     * bdrv_co_drain_bh_cb() reaquires the lock as needed.
-+     *
-+     * When we yield below, the lock for the current context will be
-+     * released, so if this is actually the lock that protects bs, don't drop
-+     * it a second time.
-+     */
-+    if (ctx != co_ctx) {
-+        aio_context_release(ctx);
-+    }
-+    replay_bh_schedule_oneshot_event(ctx, bdrv_co_drain_bh_cb, &data);
+ _launch_qemu -drive if=none,file="${TEST_IMG}"
+ _send_qemu_cmd $QEMU_HANDLE \
+diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
+index 00a626aa63..c3c2aed653 100755
+--- a/tests/qemu-iotests/175
++++ b/tests/qemu-iotests/175
+@@ -89,20 +89,20 @@ min_blocks=$(stat -c '%b' "$TEST_DIR/empty")
  
-     qemu_coroutine_yield();
-     /* If we are resumed from some other event (such as an aio completion or a
-      * timer callback), it is a bug in the caller that should be fixed. */
-     assert(data.done);
-+
-+    /* Reaquire the AioContext of bs if we dropped it */
-+    if (ctx != co_ctx) {
-+        aio_context_acquire(ctx);
-+    }
- }
+ echo
+ echo "== creating image with default preallocation =="
+-_make_test_img -o extent_size_hint=0 $size | _filter_imgfmt
++_make_test_img -o extent_size_hint=0 $size
+ stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks $min_blocks $size
  
- void bdrv_do_drained_begin_quiesce(BlockDriverState *bs,
+ for mode in off full falloc; do
+     echo
+     echo "== creating image with preallocation $mode =="
+-    _make_test_img -o preallocation=$mode,extent_size_hint=0 $size | _filter_imgfmt
++    _make_test_img -o preallocation=$mode,extent_size_hint=0 $size
+     stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks $min_blocks $size
+ done
+ 
+ for new_size in 4096 1048576; do
+     echo
+     echo "== resize empty image with block_resize =="
+-    _make_test_img -o extent_size_hint=0 0 | _filter_imgfmt
++    _make_test_img -o extent_size_hint=0 0
+     _block_resize $TEST_IMG $new_size >/dev/null
+     stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks $min_blocks $new_size
+ done
+diff --git a/tests/qemu-iotests/249 b/tests/qemu-iotests/249
+index 68f13ed328..a9aa9303eb 100755
+--- a/tests/qemu-iotests/249
++++ b/tests/qemu-iotests/249
+@@ -48,9 +48,9 @@ _supported_os Linux
+ IMG_SIZE=1M
+ 
+ # Create the images: base <- int <- active
+-TEST_IMG="$TEST_IMG.base" _make_test_img $IMG_SIZE | _filter_imgfmt
+-TEST_IMG="$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" -F $IMGFMT | _filter_imgfmt
+-_make_test_img -b "$TEST_IMG.int" -F $IMGFMT | _filter_imgfmt
++TEST_IMG="$TEST_IMG.base" _make_test_img $IMG_SIZE
++TEST_IMG="$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" -F $IMGFMT
++_make_test_img -b "$TEST_IMG.int" -F $IMGFMT
+ 
+ # Launch QEMU with these two drives:
+ # none0: base (read-only)
 -- 
 2.29.2
 
