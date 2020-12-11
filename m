@@ -2,120 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE2F2D7F36
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 20:12:47 +0100 (CET)
-Received: from localhost ([::1]:55720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89A62D7F54
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 20:28:05 +0100 (CET)
+Received: from localhost ([::1]:44708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knnqQ-0002iq-Nh
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 14:12:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43752)
+	id 1kno5E-0002Kx-Lu
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 14:28:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1knnL7-0006nE-Nh; Fri, 11 Dec 2020 13:40:25 -0500
-Received: from mail-db8eur05on2131.outbound.protection.outlook.com
- ([40.107.20.131]:25696 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1knnL2-0008Cr-M1; Fri, 11 Dec 2020 13:40:25 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oRxhvbImQze31puRz1hiEi762E3p3yyPWRijeQxZnC1JAjsUj0dMZtW3M3uy4nt3YmHNM21nub8J+gVGNwc9zTZO8CvYvIo5aSJPjiOyb8LgOcQ+9s8WzM5hWrkoOHbrabCUg1fLR2qpn/gwnnmuxynuIsqRtIGwdQhgMgPZXl62ubQgOh0MbZt1xtKmnpPCYcNmdxhxd06OAAy4byZXQXHkulQO+GQR/s+b6SBJOcXeDpjsgL3b4CPaqV+qIAxyC+Z406Sxx5KSva8LwsODlkIa/7sZQvTTVxKMw+EBFRxRuhMIKBNshydWf53JNZd3tHx2AJq5V5h2hTOeozmCog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hDrKxPkUyb2l6x5FmPWVFVz3b7HtlrBS0E2CuudV/vU=;
- b=G+pWdTAWTvFjEVwdeKDaEVBut62K8ox8mDt427MJldudvXS8dMgDkKAPwHg96PS2jfxhaYX6CyLWIFQwdzZDXaHZ9TEJ3vF7vDBK7U15Oey41OHwEybfFmCq/5C77kpqpqIHHGN2sPfm7Kal7p/fXyyMMOxw1aVPrRS5UeSSDfpp6uiEbSaA9l8faiB4bJGTO3cRrJS5Fq1h6oyUrMmzYvEdxLtYlzhKtLKuWBaUYJVS2gB1yP4jcDBR1a3GmuvF/xwJbYbMKknxRZsFqRaBfwIlgIv/QtGMjCFEw5CoJMXdPIHdIBl98ztBDutlHLt9JAMO5vMSvT7IUxLPGhxN8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hDrKxPkUyb2l6x5FmPWVFVz3b7HtlrBS0E2CuudV/vU=;
- b=L831Z3qJnRAL47V8jg3LGAqU/B/5gckWNETUkZfa6iagQbL9bJ9HINFTN5Xfyac6QCwztXDSVKBlhIA7v9nd/97xwpUQlZnb85H6hE9MoFYQcPjxpJ9PnMnM296CJJhjElSYRDAD42JnSHWKa3kQodNo4WbDpCEjE/z5gpWol7o=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1713.eurprd08.prod.outlook.com (2603:10a6:203:34::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.17; Fri, 11 Dec
- 2020 18:40:01 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3654.016; Fri, 11 Dec 2020
- 18:40:01 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v4 16/16] block/io: use int64_t bytes in copy_range
-Date: Fri, 11 Dec 2020 21:39:34 +0300
-Message-Id: <20201211183934.169161-17-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20201211183934.169161-1-vsementsov@virtuozzo.com>
-References: <20201211183934.169161-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.91]
-X-ClientProxiedBy: AM0PR04CA0050.eurprd04.prod.outlook.com
- (2603:10a6:208:1::27) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1knnRe-0003gA-JJ
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 13:47:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23030)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1knnRO-0001vU-4G
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 13:47:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607712413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6/5S6cZfs6Ry41D4beaM8qPjLAhe4enifAH5CpTnvRM=;
+ b=W77Sq+1aVJmDHeb6u3mV5I7p39m7kAbMH7vxdMUEsl3VZvGjqw/3V0yLEhWB0UMfrkxNpZ
+ i3J6WmXpiXY7EJQJRDpA3r7iwHT8ih1ophFfa1BsI9t2KxlW1s9QsEb5SI9woJt/DDGQuH
+ 6psVc/oDZj3yHtDNQp/bbMX3u6sNTec=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-425-Eko2SCedOV-jqYfJAZ5N4g-1; Fri, 11 Dec 2020 13:46:51 -0500
+X-MC-Unique: Eko2SCedOV-jqYfJAZ5N4g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E68B8030A0;
+ Fri, 11 Dec 2020 18:46:49 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-114-123.rdu2.redhat.com
+ [10.10.114.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0CCB85C8AA;
+ Fri, 11 Dec 2020 18:46:38 +0000 (UTC)
+Subject: Re: [PATCH v2 1/8] configure: include moxie-softmmu in
+ deprecated_targets_list
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20201210190417.31673-1-alex.bennee@linaro.org>
+ <20201210190417.31673-2-alex.bennee@linaro.org>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <cfd97659-f7b9-3979-1527-b9d3dc465432@redhat.com>
+Date: Fri, 11 Dec 2020 15:46:37 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.91) by
- AM0PR04CA0050.eurprd04.prod.outlook.com (2603:10a6:208:1::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12 via Frontend Transport; Fri, 11 Dec 2020 18:40:00 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dae95e73-e32e-401f-f5e8-08d89e042aea
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1713:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB17130568F3ABD06C4B06B015C1CA0@AM5PR0801MB1713.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1227;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EuEWYFTPdhXacSnikz+Gv+twd5ZFPXog+7xFwL3ZUFQYpXXu8MACWa2vmboVLNlZumholwg+67UnCO+VFWfCrqJ3RgPdwoNVTjEJW5UNg5CrRWrIGClEdSAck7EYO0CJL9WsaT7/XlnqTZpPwYUTKqDs6B7qRnNRIkPynznY8Fp0ReV7Vxtj60HZPXpqVCA/WBk0LRU/OKfIbgDQUU259RX+ZIngAmtrOpc/33lVyLeQ4p95z9CQSJ9vQ+MbBqg7ZM7d5xEbKBoTDuPjAR2BmHTFKyxfFa7NFLXDY0GCxNBASfE3TY+OAjRYJy80N6NKVVgjdoPlWreiqX84L8Solw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(136003)(376002)(396003)(346002)(366004)(2616005)(86362001)(956004)(107886003)(66946007)(6506007)(66476007)(6666004)(6512007)(66556008)(5660300002)(478600001)(8936002)(6486002)(52116002)(36756003)(8676002)(316002)(1076003)(6916009)(83380400001)(26005)(16526019)(2906002)(186003)(4326008);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?xkvAlA4+nZt1lfbwTz8u6nC1iXGv6FhGO22ASAvNJWtyq7GYgX267xmFRm98?=
- =?us-ascii?Q?+Wj52g/+Bx/uN9hGmB3EWdr0vrsBMxuflKqjluvromKkfLPOpyQGdhYS6g/L?=
- =?us-ascii?Q?DwJtOlqQkh7Hoh+2xi7jhpOUY/qsJ3adSeyYNv9j/wfQ4LViKDVWZdyA9gvV?=
- =?us-ascii?Q?ectB5rb0cMrM6i3xzWGZYafpSOPeqblOtZzo8RcQmyWI5OsRk0fi0lzyBJTd?=
- =?us-ascii?Q?NG/zFkZ4ETBh8FGhP0nxRIVusnUg3/Hcy89YKItKmpzISf6byg7S13UimYnn?=
- =?us-ascii?Q?nU5msUd6FnLV81H8FFXbWkLxwH8pKv6VssFOBPqtyA6kCv1ixhmbeN4LNXO+?=
- =?us-ascii?Q?ghlpIBDgVNR5Qe1uOuXjkDnQ+tJnKu00PnR3MnjALFIUzNbn3dQXaAJmgPTZ?=
- =?us-ascii?Q?jJSksTQ9rw8ZR8Iimm+Q7M4bIjFrUoKs5kwquNHL1PqK+z9GykIKVHOFfpOU?=
- =?us-ascii?Q?3EjvvRjTeBIdrCvp44+mm7wNZ6Rh38tq/ASqUBSSYBSbBMjrzENrV6V6jspK?=
- =?us-ascii?Q?D7BGYCYe20hYq3+l+vZtAgTN+hjO658cX100/+Onrzvc4oMoMyl9ILg49iRe?=
- =?us-ascii?Q?JzvIlwL/vTzSQbzy4R38s67dcb7IHqEKf/A6Wa+7uZCRg9dTcHoK2FZf9mpD?=
- =?us-ascii?Q?o5grXe/9LakfcbLjMAi1XU6QgV1G3ZmJTOJvg4DVIlz5hrGNPSh4aQtFx7dq?=
- =?us-ascii?Q?12kEplf1o4p1Ebf/8vB1Wh9gOG0wWVfen/tKPLDnNsZXeQJFikB6M+HmSeQX?=
- =?us-ascii?Q?ScMsER6ROYMuGkYzy2EwuIAGin180iD8w87C9F42eot1FZYxarhA+6IcraMB?=
- =?us-ascii?Q?YcvsTWwPQZmmcMt0GutwwI5m5vWSPTuMUSkNn9WkFEYoK38dd6WHinSGmkRw?=
- =?us-ascii?Q?kO+806CMqU55j2VV8qY5J9pkgNuE/YmyUXx48DEx1SqUDWJ2I112Z78KLjHD?=
- =?us-ascii?Q?HZ5P2K6XxHQtrqCjO1ubQ9QGiEJ64OkC1Vc/ZoAQgg2c7wJCgKSbpfmHaK3S?=
- =?us-ascii?Q?9mwV?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2020 18:40:00.8969 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: dae95e73-e32e-401f-f5e8-08d89e042aea
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yAdfo/QmNIGaKDOcHzuNYnswPixqCms0XcLlfIzW/qoXYZTNcwogL3b86i8FSiUTUBzBLwxHJmMhoOon8TzSYzGIMW7zz24RTOxbs5kQn5Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1713
-Received-SPF: pass client-ip=40.107.20.131;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201210190417.31673-2-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -128,149 +84,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
- berto@igalia.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, den@openvz.org
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ stefanb@linux.vnet.ibm.com, richard.henderson@linaro.org, f4bug@amsat.org,
+ cota@braap.org, stefanha@redhat.com, pbonzini@redhat.com,
+ marcandre.lureau@redhat.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are generally moving to int64_t for both offset and bytes parameters
-on all io paths.
 
-Main motivation is realization of 64-bit write_zeroes operation for
-fast zeroing large disk chunks, up to the whole disk.
+On 12/10/20 4:04 PM, Alex Bennée wrote:
+> We still build it but there is no point including it in the normal
+> builds as it is ushered out of the door.
+>
+> Fixes: 4258c8e221 ("docs/system/deprecated: Mark the 'moxie' CPU as deprecated")
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   configure      | 2 +-
+>   .gitlab-ci.yml | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 
-We chose signed type, to be consistent with off_t (which is signed) and
-with possibility for signed return type (where negative value means
-error).
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-So, convert now copy_range parameters which are already 64bit to signed
-type.
-
-It's safe as we don't work with requests overflowing BDRV_MAX_LENGTH
-(which is less than INT64_MAX), and do check the requests in
-bdrv_co_copy_range_internal() (by bdrv_check_request32(), which calls
-bdrv_check_request()).
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- include/block/block.h     |  6 +++---
- include/block/block_int.h | 12 ++++++------
- block/io.c                | 22 +++++++++++-----------
- block/trace-events        |  4 ++--
- 4 files changed, 22 insertions(+), 22 deletions(-)
-
-diff --git a/include/block/block.h b/include/block/block.h
-index 3549125f1d..88629eb3a6 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -843,8 +843,8 @@ void bdrv_unregister_buf(BlockDriverState *bs, void *host);
-  *
-  * Returns: 0 if succeeded; negative error code if failed.
-  **/
--int coroutine_fn bdrv_co_copy_range(BdrvChild *src, uint64_t src_offset,
--                                    BdrvChild *dst, uint64_t dst_offset,
--                                    uint64_t bytes, BdrvRequestFlags read_flags,
-+int coroutine_fn bdrv_co_copy_range(BdrvChild *src, int64_t src_offset,
-+                                    BdrvChild *dst, int64_t dst_offset,
-+                                    int64_t bytes, BdrvRequestFlags read_flags,
-                                     BdrvRequestFlags write_flags);
- #endif
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 5e482a8f08..cee5cb5f85 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1343,14 +1343,14 @@ void bdrv_dec_in_flight(BlockDriverState *bs);
- 
- void blockdev_close_all_bdrv_states(void);
- 
--int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, uint64_t src_offset,
--                                         BdrvChild *dst, uint64_t dst_offset,
--                                         uint64_t bytes,
-+int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, int64_t src_offset,
-+                                         BdrvChild *dst, int64_t dst_offset,
-+                                         int64_t bytes,
-                                          BdrvRequestFlags read_flags,
-                                          BdrvRequestFlags write_flags);
--int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, uint64_t src_offset,
--                                       BdrvChild *dst, uint64_t dst_offset,
--                                       uint64_t bytes,
-+int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, int64_t src_offset,
-+                                       BdrvChild *dst, int64_t dst_offset,
-+                                       int64_t bytes,
-                                        BdrvRequestFlags read_flags,
-                                        BdrvRequestFlags write_flags);
- 
-diff --git a/block/io.c b/block/io.c
-index 34dae81fa7..28680a1f64 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3173,8 +3173,8 @@ void bdrv_unregister_buf(BlockDriverState *bs, void *host)
- }
- 
- static int coroutine_fn bdrv_co_copy_range_internal(
--        BdrvChild *src, uint64_t src_offset, BdrvChild *dst,
--        uint64_t dst_offset, uint64_t bytes,
-+        BdrvChild *src, int64_t src_offset, BdrvChild *dst,
-+        int64_t dst_offset, int64_t bytes,
-         BdrvRequestFlags read_flags, BdrvRequestFlags write_flags,
-         bool recurse_src)
- {
-@@ -3252,9 +3252,9 @@ static int coroutine_fn bdrv_co_copy_range_internal(
-  *
-  * See the comment of bdrv_co_copy_range for the parameter and return value
-  * semantics. */
--int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, uint64_t src_offset,
--                                         BdrvChild *dst, uint64_t dst_offset,
--                                         uint64_t bytes,
-+int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, int64_t src_offset,
-+                                         BdrvChild *dst, int64_t dst_offset,
-+                                         int64_t bytes,
-                                          BdrvRequestFlags read_flags,
-                                          BdrvRequestFlags write_flags)
- {
-@@ -3268,9 +3268,9 @@ int coroutine_fn bdrv_co_copy_range_from(BdrvChild *src, uint64_t src_offset,
-  *
-  * See the comment of bdrv_co_copy_range for the parameter and return value
-  * semantics. */
--int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, uint64_t src_offset,
--                                       BdrvChild *dst, uint64_t dst_offset,
--                                       uint64_t bytes,
-+int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, int64_t src_offset,
-+                                       BdrvChild *dst, int64_t dst_offset,
-+                                       int64_t bytes,
-                                        BdrvRequestFlags read_flags,
-                                        BdrvRequestFlags write_flags)
- {
-@@ -3280,9 +3280,9 @@ int coroutine_fn bdrv_co_copy_range_to(BdrvChild *src, uint64_t src_offset,
-                                        bytes, read_flags, write_flags, false);
- }
- 
--int coroutine_fn bdrv_co_copy_range(BdrvChild *src, uint64_t src_offset,
--                                    BdrvChild *dst, uint64_t dst_offset,
--                                    uint64_t bytes, BdrvRequestFlags read_flags,
-+int coroutine_fn bdrv_co_copy_range(BdrvChild *src, int64_t src_offset,
-+                                    BdrvChild *dst, int64_t dst_offset,
-+                                    int64_t bytes, BdrvRequestFlags read_flags,
-                                     BdrvRequestFlags write_flags)
- {
-     return bdrv_co_copy_range_from(src, src_offset,
-diff --git a/block/trace-events b/block/trace-events
-index a95d711ade..948df081ba 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -15,8 +15,8 @@ bdrv_co_preadv_part(void *bs, int64_t offset, int64_t bytes, unsigned int flags)
- bdrv_co_pwritev_part(void *bs, int64_t offset, int64_t bytes, unsigned int flags) "bs %p offset %" PRId64 " bytes %" PRId64 " flags 0x%x"
- bdrv_co_pwrite_zeroes(void *bs, int64_t offset, int64_t bytes, int flags) "bs %p offset %" PRId64 " bytes %" PRId64 " flags 0x%x"
- bdrv_co_do_copy_on_readv(void *bs, int64_t offset, int64_t bytes, int64_t cluster_offset, int64_t cluster_bytes) "bs %p offset %" PRId64 " bytes %" PRId64 " cluster_offset %" PRId64 " cluster_bytes %" PRId64
--bdrv_co_copy_range_from(void *src, uint64_t src_offset, void *dst, uint64_t dst_offset, uint64_t bytes, int read_flags, int write_flags) "src %p offset %"PRIu64" dst %p offset %"PRIu64" bytes %"PRIu64" rw flags 0x%x 0x%x"
--bdrv_co_copy_range_to(void *src, uint64_t src_offset, void *dst, uint64_t dst_offset, uint64_t bytes, int read_flags, int write_flags) "src %p offset %"PRIu64" dst %p offset %"PRIu64" bytes %"PRIu64" rw flags 0x%x 0x%x"
-+bdrv_co_copy_range_from(void *src, int64_t src_offset, void *dst, int64_t dst_offset, int64_t bytes, int read_flags, int write_flags) "src %p offset %" PRId64 " dst %p offset %" PRId64 " bytes %" PRId64 " rw flags 0x%x 0x%x"
-+bdrv_co_copy_range_to(void *src, int64_t src_offset, void *dst, int64_t dst_offset, int64_t bytes, int read_flags, int write_flags) "src %p offset %" PRId64 " dst %p offset %" PRId64 " bytes %" PRId64 " rw flags 0x%x 0x%x"
- 
- # stream.c
- stream_one_iteration(void *s, int64_t offset, uint64_t bytes, int is_allocated) "s %p offset %" PRId64 " bytes %" PRIu64 " is_allocated %d"
--- 
-2.25.4
+>
+> diff --git a/configure b/configure
+> index 18c26e0389..8f2095a2db 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1610,7 +1610,7 @@ if [ "$ARCH" = "unknown" ]; then
+>   fi
+>   
+>   default_target_list=""
+> -deprecated_targets_list=ppc64abi32-linux-user,tilegx-linux-user,lm32-softmmu,unicore32-softmmu
+> +deprecated_targets_list=moxie-softmmu,ppc64abi32-linux-user,tilegx-linux-user,lm32-softmmu,unicore32-softmmu
+>   deprecated_features=""
+>   mak_wilds=""
+>   
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 98bff03b47..b3bcaacf7b 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -355,7 +355,7 @@ build-deprecated:
+>       IMAGE: debian-all-test-cross
+>       CONFIGURE_ARGS: --disable-docs --disable-tools
+>       MAKE_CHECK_ARGS: build-tcg
+> -    TARGETS: ppc64abi32-linux-user tilegx-linux-user lm32-softmmu
+> +    TARGETS: moxie-softmmu ppc64abi32-linux-user tilegx-linux-user lm32-softmmu
+>         unicore32-softmmu
+>     artifacts:
+>       expire_in: 2 days
 
 
