@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04C82D6F56
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:33:52 +0100 (CET)
-Received: from localhost ([::1]:36074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3572D6F5A
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:37:38 +0100 (CET)
+Received: from localhost ([::1]:44258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kna7r-00085e-JR
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:33:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34112)
+	id 1knaBV-0003J2-5G
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:37:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZqG-0005pZ-Nv; Thu, 10 Dec 2020 23:15:42 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:51253)
+ id 1knZqI-0005qW-Ll; Thu, 10 Dec 2020 23:15:44 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44207 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZqE-0000rA-SB; Thu, 10 Dec 2020 23:15:40 -0500
+ id 1knZqG-0000s2-64; Thu, 10 Dec 2020 23:15:41 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cscrd4VTpz9sXF; Fri, 11 Dec 2020 15:15:13 +1100 (AEDT)
+ id 4Cscrd5SX5z9sXN; Fri, 11 Dec 2020 15:15:13 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607660113;
- bh=HrvpZ1c3QUmnLSSVUYMtaks8Ufho2sdvGBWv6odl8B0=;
+ bh=am8+Q5EjqgTiZJyNMdcpi4NmDz7+8UAnqfg16vigV6Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eKmNUHfS7KVweXFo9l2JfdgCLGu0Vll2fbYo0TOLr0/69CXIX90AwWxVBT2Zxjc3S
- V1vpZpyu9yEFbLIvtery4FE7oGMEM977eTlnXXj6Cb3faTgmxk0CHvmieNacNtPf33
- hCiLvSfMlkwWSBZwTfrdHkGF5fO8JxZxvX0xJY74=
+ b=S9Mva/RPec2VPFxbQ1tKNEDmOL3nHCzbgjJhdds1ZNcQWRTCR98jwuyookOJh45rA
+ sdIS+EuxaDIUovvtgUaYyjoDoHS6Px0kOMcgsqmBvSHlW66p2DT3qE1QEz+OIaaNsl
+ tCcvdDRUhKf73g1zvA9RuLIvxdp3fosDAnNFjbFs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 22/30] hw/ppc: Do not re-read the clock on pre_save if doing
- savevm
-Date: Fri, 11 Dec 2020 15:14:59 +1100
-Message-Id: <20201211041507.425378-23-david@gibson.dropbear.id.au>
+Subject: [PULL 23/30] MAINTAINERS: Add Greg Kurz as co-maintainer for ppc
+Date: Fri, 11 Dec 2020 15:15:00 +1100
+Message-Id: <20201211041507.425378-24-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -62,48 +62,127 @@ Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+Greg has agreed to be co-maintainer of the ppc target and machines.
+This should avoid repeats of the problem we had in qemu-5.2 where a
+last minute fix was needed while I was on holiday.
 
-A guest with enough RAM, eg. 128G, is likely to detect savevm downtime
-and to complain about stalled CPUs. This happens because we re-read
-the timebase just before migrating it and we thus don't account for
-all the time between VM stop and pre-save.
-
-A very similar situation was already addressed for live migration of
-paused guests (commit d14f33976282). Extend the logic to do the same
-with savevm.
-
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1893787
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160693010619.1111945.632640981169395440.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Acked-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/ppc.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ MAINTAINERS | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index 1b98272076..5cbbff1f8d 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -1027,7 +1027,8 @@ static void timebase_save(PPCTimebase *tb)
-      */
-     tb->guest_timebase = ticks + first_ppc_cpu->env.tb_env->tb_offset;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a83416d54c..1cfc9dbab7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -272,6 +272,7 @@ F: tests/tcg/openrisc/
  
--    tb->runstate_paused = runstate_check(RUN_STATE_PAUSED);
-+    tb->runstate_paused =
-+        runstate_check(RUN_STATE_PAUSED) || runstate_check(RUN_STATE_SAVE_VM);
- }
+ PowerPC TCG CPUs
+ M: David Gibson <david@gibson.dropbear.id.au>
++M: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Maintained
+ F: target/ppc/
+@@ -394,6 +395,7 @@ F: target/mips/kvm.c
  
- static void timebase_load(PPCTimebase *tb)
-@@ -1088,7 +1089,7 @@ static int timebase_pre_save(void *opaque)
- {
-     PPCTimebase *tb = opaque;
+ PPC KVM CPUs
+ M: David Gibson <david@gibson.dropbear.id.au>
++M: Greg Kurz <groug@kaod.org>
+ S: Maintained
+ F: target/ppc/kvm.c
  
--    /* guest_timebase won't be overridden in case of paused guest */
-+    /* guest_timebase won't be overridden in case of paused guest or savevm */
-     if (!tb->runstate_paused) {
-         timebase_save(tb);
-     }
+@@ -1183,18 +1185,21 @@ PowerPC Machines
+ ----------------
+ 405
+ M: David Gibson <david@gibson.dropbear.id.au>
++M: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Odd Fixes
+ F: hw/ppc/ppc405_boards.c
+ 
+ Bamboo
+ M: David Gibson <david@gibson.dropbear.id.au>
++M: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Odd Fixes
+ F: hw/ppc/ppc440_bamboo.c
+ 
+ e500
+ M: David Gibson <david@gibson.dropbear.id.au>
++M: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Odd Fixes
+ F: hw/ppc/e500*
+@@ -1208,6 +1213,7 @@ F: pc-bios/u-boot.e500
+ 
+ mpc8544ds
+ M: David Gibson <david@gibson.dropbear.id.au>
++M: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Odd Fixes
+ F: hw/ppc/mpc8544ds.c
+@@ -1216,6 +1222,7 @@ F: hw/ppc/mpc8544_guts.c
+ New World (mac99)
+ M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+ R: David Gibson <david@gibson.dropbear.id.au>
++R: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Odd Fixes
+ F: hw/ppc/mac_newworld.c
+@@ -1235,6 +1242,7 @@ F: pc-bios/qemu_vga.ndrv
+ Old World (g3beige)
+ M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+ R: David Gibson <david@gibson.dropbear.id.au>
++R: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Odd Fixes
+ F: hw/ppc/mac_oldworld.c
+@@ -1248,6 +1256,8 @@ F: pc-bios/qemu_vga.ndrv
+ 
+ PReP
+ M: Hervé Poussineau <hpoussin@reactos.org>
++R: David Gibson <david@gibson.dropbear.id.au>
++R: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Maintained
+ F: hw/ppc/prep.c
+@@ -1264,6 +1274,7 @@ F: tests/acceptance/ppc_prep_40p.py
+ 
+ sPAPR
+ M: David Gibson <david@gibson.dropbear.id.au>
++M: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Supported
+ F: hw/*/spapr*
+@@ -1281,6 +1292,7 @@ F: tests/qtest/libqos/rtas*
+ PowerNV (Non-Virtualized)
+ M: Cédric Le Goater <clg@kaod.org>
+ M: David Gibson <david@gibson.dropbear.id.au>
++M: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Maintained
+ F: hw/ppc/pnv*
+@@ -1300,6 +1312,8 @@ F: hw/ppc/virtex_ml507.c
+ 
+ sam460ex
+ M: BALATON Zoltan <balaton@eik.bme.hu>
++R: David Gibson <david@gibson.dropbear.id.au>
++R: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Maintained
+ F: hw/ppc/sam460ex.c
+@@ -2086,8 +2100,9 @@ F: tests/qtest/fw_cfg-test.c
+ T: git https://github.com/philmd/qemu.git fw_cfg-next
+ 
+ XIVE
+-M: David Gibson <david@gibson.dropbear.id.au>
+ M: Cédric Le Goater <clg@kaod.org>
++R: David Gibson <david@gibson.dropbear.id.au>
++R: Greg Kurz <groug@kaod.org>
+ L: qemu-ppc@nongnu.org
+ S: Supported
+ F: hw/*/*xive*
 -- 
 2.29.2
 
