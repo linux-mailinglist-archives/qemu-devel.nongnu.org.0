@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565462D79D5
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:50:09 +0100 (CET)
-Received: from localhost ([::1]:45132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80FC32D79D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 16:50:47 +0100 (CET)
+Received: from localhost ([::1]:48130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knkgK-0004pu-C7
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:50:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58830)
+	id 1knkgw-00067j-FD
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 10:50:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knkc2-0001Dt-6u
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:45:42 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44677)
+ id 1knkcR-0001XG-Ex
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:46:07 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38920)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knkbz-0004be-1d
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:45:41 -0500
-Received: by mail-ot1-x343.google.com with SMTP id f16so8555912otl.11
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 07:45:38 -0800 (PST)
+ id 1knkcP-0004p6-8o
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 10:46:06 -0500
+Received: by mail-oi1-x241.google.com with SMTP id w124so7146368oia.6
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 07:46:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Q9wD72eSFKjZSiS33UhIZ8+G867ZGk6kYMlL/As49q4=;
- b=Yd5KmsTA2RLHTrTucdPdwcizOVIPuP2laoQ+zYb9YNwugtw+DsWXcR1FkJoC2usLqJ
- DhfW3YMFm1H7pZ/x5K0xTd6DqfX4cnJxPGLlEA90h/3DSqmQ3F6A+AXn+TL9Ros5XT1A
- JGQgWwsqdIGsUIi81lt+w0VI0nFF80TEMC7U7pi6Uir1q9oVmxPEw3Ks1TIMckWK6W+v
- YBBnK/cFNxj6DjJM6cNMGE33gBJaBi//yL3BymUoolXtMNbp+L0nA8UAVkVo6Amx0OSr
- c3tEWDY/vKOP4rvBh17fQlmcoxeUc2AXMOK8pvbeAL7AXK55b3eO71Ke+CWaNK+ST4r7
- bLCA==
+ bh=YFYu2A9yVyHxFRXn5RmN6/PNpSGPi8MQoUIoNYOHJ0Y=;
+ b=WHwkSAX4kWYDcfyqUnjsWgLdPS+LFgk7EuDWYgZpgOhbHidP9V25JKbcVguCT6PnX2
+ MZbSkN3yn6NEMB6ySXHBwC2U0f7iooh83IuRJ2wJTSAFZFWSpAe3Gvki0jnukaBbiRxE
+ HChSYQU+8pBljNjx+iT4q1fljw93Ambu8ilOjJWwpagbSSkcu9K3ulXj7E9sUNgmnaRB
+ xhLxJXDyi0CIWXip7n8l0MZJNqb4QtGBj+iHZ0FA76uerdciSU2v0KaI5pw99Odsyou8
+ STr3vI1fdbZ4bEz+Bk8YaUl2EgzW7i1Vwq4a3ot10hzXXpH1jY/58BJJjwtttOkA/RxF
+ +ofg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Q9wD72eSFKjZSiS33UhIZ8+G867ZGk6kYMlL/As49q4=;
- b=V+QXCHZr9z0Y0SGmLbl+ui8ZWuF82Lr/+JT++cnVghdwZfMJASgGJ7vwY1NL9Tz85n
- wWpxllVstNlQ3d4L5fmJfFdr9fDrCt6ia8vcqaKDwyXnVNLUo3lr6kyfUBklHntOp9T0
- j4E8OS5mQZlWt4kNGDnUi7GFllZ6TWrZ+bHjJI/gEU7gofJW0AP/nVEXNbCCCz4dN6fh
- vR0fi6bEOFdJM6OBku43aSpw2xIhqX6uqpY35jr7506rvHNNHF/qTC8MytS3VOi9Tqvg
- TzIJnswxZT3ERd8qF0KPv/LuE1Eb/8cR/1iiEco2kbENMpim9wWyQ/NovaYMNHLbfPhB
- LZZA==
-X-Gm-Message-State: AOAM530LuJwtpFPOgBP3tO6CbYUR9ZdrfbbCRtRL3bYW5Cwz2oNtZxmV
- e5ECNR1MGlLAlMsnDb4gzpXQaw==
-X-Google-Smtp-Source: ABdhPJyM/ZmEPrRqA89MjibyHPNKOuAP3E3T7XAjq3NEZIXa1eXS2oYp4rbmS9pdtqcP6t7+l0gCVQ==
-X-Received: by 2002:a9d:d8a:: with SMTP id 10mr10111890ots.11.1607701537767;
- Fri, 11 Dec 2020 07:45:37 -0800 (PST)
+ bh=YFYu2A9yVyHxFRXn5RmN6/PNpSGPi8MQoUIoNYOHJ0Y=;
+ b=W5Lpz768cTFSM8emshj6og1muw3i19pO97fMavuXHQXRoqXP1hYgCWTR3h06d5Ubvm
+ aOWD/BzN0Pr7ADwHnnRubpYwTe2DsWu576A7dyTatJNdmHDi8HNfG0CSh8GtDlJe/TQj
+ 5tdn2zQYLPdUWffStF+f6aMLQ5uBiBo2149BezXGTmPt2fmJgdiMPydpJ92KDFZciDQp
+ fT69XHXyk+Awnppmgvj6+H+jPOzyvdXoTdnnk6Mpx5mJF/+7eYfsHz9Ur4dM8Vb/wxBq
+ GZOsdg3ivDC4da8GkSHWa8mqozrWQ8tYhdAPSr3qZlxjK5ytwTtrKlTZOwfWpFpX6+St
+ swIA==
+X-Gm-Message-State: AOAM530YiMqNUOOpj6R3dpiqmK+obsj7KrYoql2cbMvORFD3Z2QjbRQc
+ 5JIaOe+sITgCPgznpQRPn+vLcA==
+X-Google-Smtp-Source: ABdhPJxM6BUfp4fCMeqFfLRMMJ0uxSCCU4a5KV8PGykCPP/QmC7N357eKTz0jbLEgN0vaBS8rNy8mw==
+X-Received: by 2002:aca:fc96:: with SMTP id a144mr9771480oii.146.1607701563867; 
+ Fri, 11 Dec 2020 07:46:03 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id h93sm1893496otb.29.2020.12.11.07.45.36
+ by smtp.gmail.com with ESMTPSA id x130sm214247oif.3.2020.12.11.07.46.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 07:45:37 -0800 (PST)
-Subject: Re: [PATCH 10/12] tcg/optimize: Add fallthrough annotations
+ Fri, 11 Dec 2020 07:46:03 -0800 (PST)
+Subject: Re: [PATCH 11/12] tests/fp: Do not emit implicit-fallthrough warnings
+ in the softfloat tests
 To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
  qemu-devel@nongnu.org
 References: <20201211152426.350966-1-thuth@redhat.com>
- <20201211152426.350966-11-thuth@redhat.com>
+ <20201211152426.350966-12-thuth@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3e1c121d-b61d-3ebe-2555-5c886458cb36@linaro.org>
-Date: Fri, 11 Dec 2020 09:45:33 -0600
+Message-ID: <dcfe2676-6ca6-6862-7a43-05aa8b84b468@linaro.org>
+Date: Fri, 11 Dec 2020 09:46:00 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201211152426.350966-11-thuth@redhat.com>
+In-Reply-To: <20201211152426.350966-12-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x343.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x241.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,20 +95,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/11/20 9:24 AM, Thomas Huth wrote:
-> To be able to compile this file with -Werror=implicit-fallthrough,
-> we need to add some fallthrough annotations to the case statements
-> that might fall through. Unfortunately, the typical "/* fallthrough */"
-> comments do not work here as expected since some case labels are
-> wrapped in macros and the compiler fails to match the comments in
-> this case. But using __attribute__((fallthrough)) seems to work fine,
-> so let's use that instead (by introducing a new QEMU_FALLTHROUGH
-> macro in our compiler.h header file).
+> The softfloat tests are external repositories, so we do not care
+> about implicit fallthrough warnings in this code.
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  include/qemu/compiler.h | 11 +++++++++++
->  tcg/optimize.c          |  4 ++++
->  2 files changed, 15 insertions(+)
+>  tests/fp/meson.build | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
