@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5802D6F1E
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:25:59 +0100 (CET)
-Received: from localhost ([::1]:45288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8112D2D6F15
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 05:21:58 +0100 (CET)
+Received: from localhost ([::1]:35522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kna0E-0007zs-30
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:25:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34002)
+	id 1knZwL-0003ae-FM
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 23:21:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZqA-0005ef-FJ; Thu, 10 Dec 2020 23:15:34 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:45783 helo=ozlabs.org)
+ id 1knZq7-0005bj-Qn; Thu, 10 Dec 2020 23:15:32 -0500
+Received: from ozlabs.org ([203.11.71.1]:37189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knZq6-0000j1-R8; Thu, 10 Dec 2020 23:15:34 -0500
+ id 1knZq5-0000iz-U3; Thu, 10 Dec 2020 23:15:31 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cscrb0xFwz9sWg; Fri, 11 Dec 2020 15:15:11 +1100 (AEDT)
+ id 4Cscrb1X3Qz9sWd; Fri, 11 Dec 2020 15:15:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607660111;
- bh=OQC8DXtu1Qm/Hn1u4TG7T1Oemxye5jQb1DbAfIzZWW8=;
+ bh=dfSUJWYE8sTfFwFiC7FMYXVMBsIlriqEh85KB+TT7Xc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hcICFaHUTJjzIeWfQV3QRIm3QOiLEkAlK+M09+r4BuhByrRtgTWN1ljkoeYtnEr7D
- szjClYncuxW91Qg5WEe+7cUgHfdjE1+Ma8EYGQRM/QcqeD0wO02g76LsFWKj/rt7nz
- Nfg372b1oIOCnupOAIXzs7aUOhoTqmaAhE39mOyI=
+ b=Emc9jhJsQfYg9tOiRkl3opE9cqAwvtMjNM3JFkCCinu/NM7PBAkCXTjd9pnJ5xos/
+ frPdi2MpUwj1VwsZD49lOEUFFHdrRPrk6MKd8FVoeBIkGbYIcNNza9phWHpqufRMcY
+ tqDhaPXqzL3h9AcuBNEbtdQfzo7/puMYP09RS1b0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/30] spapr: Do PHB hoplug sanity check at pre-plug
-Date: Fri, 11 Dec 2020 15:14:43 +1100
-Message-Id: <20201211041507.425378-7-david@gibson.dropbear.id.au>
+Subject: [PULL 07/30] spapr: Do TPM proxy hotplug sanity checks at pre-plug
+Date: Fri, 11 Dec 2020 15:14:44 +1100
+Message-Id: <20201211041507.425378-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211041507.425378-1-david@gibson.dropbear.id.au>
 References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
@@ -63,75 +63,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-We currently detect that a PHB index is already in use at plug time.
-But this can be decteted at pre-plug in order to error out earlier.
+There can be only one TPM proxy at a time. This is currently
+checked at plug time. But this can be detected at pre-plug in
+order to error out earlier.
 
-This allows to pass &error_abort to spapr_drc_attach() and to end
-up with a plug handler that doesn't need to report errors anymore.
+This allows to get rid of error handling in the plug handler.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201120234208.683521-8-groug@kaod.org>
+Message-Id: <20201120234208.683521-9-groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
+ hw/ppc/spapr.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 90db845cbb..b270172369 100644
+index b270172369..7e954bc84b 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -3889,6 +3889,7 @@ static bool spapr_phb_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-     SpaprPhbState *sphb = SPAPR_PCI_HOST_BRIDGE(dev);
-     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-     const unsigned windows_supported = spapr_phb_windows_supported(sphb);
-+    SpaprDrc *drc;
- 
-     if (dev->hotplugged && !smc->dr_phb_enabled) {
-         error_setg(errp, "PHB hotplug not supported for this machine");
-@@ -3900,6 +3901,12 @@ static bool spapr_phb_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-         return false;
+@@ -3974,17 +3974,28 @@ static void spapr_phb_unplug_request(HotplugHandler *hotplug_dev,
      }
- 
-+    drc = spapr_drc_by_id(TYPE_SPAPR_DRC_PHB, sphb->index);
-+    if (drc && drc->dev) {
-+        error_setg(errp, "PHB %d already attached", sphb->index);
-+        return false;
-+    }
-+
-     /*
-      * This will check that sphb->index doesn't exceed the maximum number of
-      * PHBs for the current machine type.
-@@ -3913,8 +3920,7 @@ static bool spapr_phb_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-                            errp);
  }
  
--static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
--                           Error **errp)
-+static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev)
+-static void spapr_tpm_proxy_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+-                                 Error **errp)
++static
++bool spapr_tpm_proxy_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
++                              Error **errp)
  {
      SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
-     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-@@ -3930,9 +3936,8 @@ static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-     /* hotplug hooks should check it's enabled before getting this far */
-     assert(drc);
+-    SpaprTpmProxy *tpm_proxy = SPAPR_TPM_PROXY(dev);
  
--    if (!spapr_drc_attach(drc, dev, errp)) {
+     if (spapr->tpm_proxy != NULL) {
+         error_setg(errp, "Only one TPM proxy can be specified for this machine");
 -        return;
--    }
-+    /* spapr_phb_pre_plug() already checked the DRC is attachable */
-+    spapr_drc_attach(drc, dev, &error_abort);
- 
-     if (hotplugged) {
-         spapr_hotplug_req_add_by_index(drc);
-@@ -4000,7 +4005,7 @@ static void spapr_machine_device_plug(HotplugHandler *hotplug_dev,
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)) {
-         spapr_core_plug(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
--        spapr_phb_plug(hotplug_dev, dev, errp);
-+        spapr_phb_plug(hotplug_dev, dev);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
-         spapr_tpm_proxy_plug(hotplug_dev, dev, errp);
++        return false;
      }
+ 
++    return true;
++}
++
++static void spapr_tpm_proxy_plug(HotplugHandler *hotplug_dev, DeviceState *dev)
++{
++    SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
++    SpaprTpmProxy *tpm_proxy = SPAPR_TPM_PROXY(dev);
++
++    /* Already checked in spapr_tpm_proxy_pre_plug() */
++    g_assert(spapr->tpm_proxy == NULL);
++
+     spapr->tpm_proxy = tpm_proxy;
+ }
+ 
+@@ -4007,7 +4018,7 @@ static void spapr_machine_device_plug(HotplugHandler *hotplug_dev,
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
+         spapr_phb_plug(hotplug_dev, dev);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
+-        spapr_tpm_proxy_plug(hotplug_dev, dev, errp);
++        spapr_tpm_proxy_plug(hotplug_dev, dev);
+     }
+ }
+ 
+@@ -4070,6 +4081,8 @@ static void spapr_machine_device_pre_plug(HotplugHandler *hotplug_dev,
+         spapr_core_pre_plug(hotplug_dev, dev, errp);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
+         spapr_phb_pre_plug(hotplug_dev, dev, errp);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
++        spapr_tpm_proxy_pre_plug(hotplug_dev, dev, errp);
+     }
+ }
+ 
 -- 
 2.29.2
 
