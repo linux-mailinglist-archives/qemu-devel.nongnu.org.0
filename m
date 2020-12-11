@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7A72D7CC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:25:25 +0100 (CET)
-Received: from localhost ([::1]:41620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B33D2D7CAD
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 18:20:09 +0100 (CET)
+Received: from localhost ([::1]:52104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knmAW-0006Lp-AJ
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:25:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49816)
+	id 1knm5Q-0006kO-1R
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 12:20:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluJ-0003ZX-JI
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluJ-0003Zw-8O
  for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34693)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knlu9-00025D-AM
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:38 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1knluA-00025H-HN
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 12:08:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1607706508;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1GM0EIEy4CkX7YJmc8u/hwt0dMlsfVX2LCZh1LZVuEw=;
- b=PBpsI2KAADAaRFOIXr4YeHUd4EkZpfiixriej0QMxDAiLxlcvWqwPxZqf7l4JyPt3KgQwa
- 3AVo2j9TuRf4VfaaS/9ZgBIZdkoSxuL/J3miLXIAEUeea7dP4qF0li1UkOfvOFBFaZIiKo
- gEhr4clOb2UpvVk9XKjRYj+1D/Myg5A=
+ bh=FQrHeWDNrFrtuZfxFSDLYFBPwtjd1f76AM7/tNRZpeY=;
+ b=LE/5zKXHL9SG/H+/mI9dWIGwmE2/BTEOy5q7wHRD660yc2EaoWnLmHRJ4i7cogSESCUZSV
+ OvYF9kES1NTjrQOYLh+ddvdaQplIQQvpFlBeaxVH8W2U8AvNH3t84es7GkJD5guywQX8B1
+ jhwBf9432s+7iDmq+5EykeP9dXGeu/s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-_6fgInrCPzGFeAhrTOXiZA-1; Fri, 11 Dec 2020 12:08:25 -0500
-X-MC-Unique: _6fgInrCPzGFeAhrTOXiZA-1
+ us-mta-29-KwcjSYvUMnWCtythbLtJvQ-1; Fri, 11 Dec 2020 12:08:26 -0500
+X-MC-Unique: KwcjSYvUMnWCtythbLtJvQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EDF2858182;
- Fri, 11 Dec 2020 17:08:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AF75100C661;
+ Fri, 11 Dec 2020 17:08:25 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-231.ams2.redhat.com [10.36.114.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CC515D731;
- Fri, 11 Dec 2020 17:08:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A2705D734;
+ Fri, 11 Dec 2020 17:08:24 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 04/34] block/iscsi: Use lock guard macros
-Date: Fri, 11 Dec 2020 18:07:42 +0100
-Message-Id: <20201211170812.228643-5-kwolf@redhat.com>
+Subject: [PULL 05/34] meson: Detect libfuse
+Date: Fri, 11 Dec 2020 18:07:43 +0100
+Message-Id: <20201211170812.228643-6-kwolf@redhat.com>
 In-Reply-To: <20201211170812.228643-1-kwolf@redhat.com>
 References: <20201211170812.228643-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -80,95 +80,100 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gan Qixin <ganqixin@huawei.com>
+From: Max Reitz <mreitz@redhat.com>
 
-Replace manual lock()/unlock() calls with lock guard macros
-(QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/iscsi.
-
-Signed-off-by: Gan Qixin <ganqixin@huawei.com>
-Message-Id: <20201203075055.127773-5-ganqixin@huawei.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20201027190600.192171-2-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/iscsi.c | 50 ++++++++++++++++++++++++--------------------------
- 1 file changed, 24 insertions(+), 26 deletions(-)
+ meson_options.txt | 2 ++
+ configure         | 7 +++++++
+ meson.build       | 6 ++++++
+ 3 files changed, 15 insertions(+)
 
-diff --git a/block/iscsi.c b/block/iscsi.c
-index e30a7e3606..7d4b3b56d5 100644
---- a/block/iscsi.c
-+++ b/block/iscsi.c
-@@ -322,25 +322,23 @@ iscsi_aio_cancel(BlockAIOCB *blockacb)
-     IscsiAIOCB *acb = (IscsiAIOCB *)blockacb;
-     IscsiLun *iscsilun = acb->iscsilun;
+diff --git a/meson_options.txt b/meson_options.txt
+index f6f64785fe..8f9f2e3df6 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -66,6 +66,8 @@ option('virtiofsd', type: 'feature', value: 'auto',
+        description: 'build virtiofs daemon (virtiofsd)')
+ option('vhost_user_blk_server', type: 'feature', value: 'auto',
+        description: 'build vhost-user-blk server')
++option('fuse', type: 'feature', value: 'auto',
++       description: 'FUSE block device export')
  
--    qemu_mutex_lock(&iscsilun->mutex);
-+    WITH_QEMU_LOCK_GUARD(&iscsilun->mutex) {
+ option('capstone', type: 'combo', value: 'auto',
+        choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
+diff --git a/configure b/configure
+index 18c26e0389..b2f96c0da2 100755
+--- a/configure
++++ b/configure
+@@ -449,6 +449,7 @@ meson=""
+ ninja=""
+ skip_meson=no
+ gettext=""
++fuse="auto"
  
--    /* If it was cancelled or completed already, our work is done here */
--    if (acb->cancelled || acb->status != -EINPROGRESS) {
--        qemu_mutex_unlock(&iscsilun->mutex);
--        return;
--    }
-+        /* If it was cancelled or completed already, our work is done here */
-+        if (acb->cancelled || acb->status != -EINPROGRESS) {
-+            return;
-+        }
+ bogus_os="no"
+ malloc_trim="auto"
+@@ -1525,6 +1526,10 @@ for opt do
+   ;;
+   --disable-libdaxctl) libdaxctl=no
+   ;;
++  --enable-fuse) fuse="enabled"
++  ;;
++  --disable-fuse) fuse="disabled"
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -1850,6 +1855,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   xkbcommon       xkbcommon support
+   rng-none        dummy RNG, avoid using /dev/(u)random and getrandom()
+   libdaxctl       libdaxctl support
++  fuse            FUSE block device export
  
--    acb->cancelled = true;
-+        acb->cancelled = true;
+ NOTE: The object files are built at the place where configure is launched
+ EOF
+@@ -7014,6 +7020,7 @@ NINJA=$ninja $meson setup \
+         -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+         -Dvhost_user_blk_server=$vhost_user_blk_server \
++        -Dfuse=$fuse \
+         $cross_arg \
+         "$PWD" "$source_path"
  
--    qemu_aio_ref(acb); /* released in iscsi_abort_task_cb() */
-+        qemu_aio_ref(acb); /* released in iscsi_abort_task_cb() */
+diff --git a/meson.build b/meson.build
+index 9ea05ab49f..6e8ef151d8 100644
+--- a/meson.build
++++ b/meson.build
+@@ -773,6 +773,10 @@ elif get_option('vhost_user_blk_server').disabled() or not have_system
+     have_vhost_user_blk_server = false
+ endif
  
--    /* send a task mgmt call to the target to cancel the task on the target */
--    if (iscsi_task_mgmt_abort_task_async(iscsilun->iscsi, acb->task,
--                                         iscsi_abort_task_cb, acb) < 0) {
--        qemu_aio_unref(acb); /* since iscsi_abort_task_cb() won't be called */
-+        /* send a task mgmt call to the target to cancel the task on the target */
-+        if (iscsi_task_mgmt_abort_task_async(iscsilun->iscsi, acb->task,
-+                                             iscsi_abort_task_cb, acb) < 0) {
-+            qemu_aio_unref(acb); /* since iscsi_abort_task_cb() won't be called */
-+        }
-     }
--
--    qemu_mutex_unlock(&iscsilun->mutex);
- }
++fuse = dependency('fuse3', required: get_option('fuse'),
++                  version: '>=3.1', method: 'pkg-config',
++                  static: enable_static)
++
+ #################
+ # config-host.h #
+ #################
+@@ -807,6 +811,7 @@ config_host_data.set('CONFIG_KEYUTILS', keyutils.found())
+ config_host_data.set('CONFIG_GETTID', has_gettid)
+ config_host_data.set('CONFIG_MALLOC_TRIM', has_malloc_trim)
+ config_host_data.set('CONFIG_STATX', has_statx)
++config_host_data.set('CONFIG_FUSE', fuse.found())
+ config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
+ config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
+ config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
+@@ -2208,6 +2213,7 @@ endif
+ summary_info += {'thread sanitizer':  config_host.has_key('CONFIG_TSAN')}
+ summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
+ summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
++summary_info += {'FUSE exports':      fuse.found()}
+ summary(summary_info, bool_yn: true)
  
- static const AIOCBInfo iscsi_aiocb_info = {
-@@ -375,22 +373,22 @@ static void iscsi_timed_check_events(void *opaque)
- {
-     IscsiLun *iscsilun = opaque;
- 
--    qemu_mutex_lock(&iscsilun->mutex);
-+    WITH_QEMU_LOCK_GUARD(&iscsilun->mutex) {
-+        /* check for timed out requests */
-+        iscsi_service(iscsilun->iscsi, 0);
- 
--    /* check for timed out requests */
--    iscsi_service(iscsilun->iscsi, 0);
-+        if (iscsilun->request_timed_out) {
-+            iscsilun->request_timed_out = false;
-+            iscsi_reconnect(iscsilun->iscsi);
-+        }
- 
--    if (iscsilun->request_timed_out) {
--        iscsilun->request_timed_out = false;
--        iscsi_reconnect(iscsilun->iscsi);
-+        /*
-+         * newer versions of libiscsi may return zero events. Ensure we are
-+         * able to return to service once this situation changes.
-+         */
-+        iscsi_set_events(iscsilun);
-     }
- 
--    /* newer versions of libiscsi may return zero events. Ensure we are able
--     * to return to service once this situation changes. */
--    iscsi_set_events(iscsilun);
--
--    qemu_mutex_unlock(&iscsilun->mutex);
--
-     timer_mod(iscsilun->event_timer,
-               qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + EVENT_INTERVAL);
- }
+ if not supported_cpus.contains(cpu)
 -- 
 2.29.2
 
