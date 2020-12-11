@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1246E2D7B4D
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:48:50 +0100 (CET)
-Received: from localhost ([::1]:50546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B0A2D7B69
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:53:26 +0100 (CET)
+Received: from localhost ([::1]:57072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knlb7-0004Yj-2e
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:48:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44204)
+	id 1knlfZ-0007d6-8B
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:53:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knlY1-0003EZ-5D
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:45:37 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38237)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1knlZo-0004nS-JJ
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:47:28 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:44466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knlXv-0001P6-9p
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:45:36 -0500
-Received: by mail-ot1-x342.google.com with SMTP id j20so4283920otq.5
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 08:45:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1knlZn-0002BY-1B
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:47:28 -0500
+Received: by mail-ej1-x643.google.com with SMTP id w1so8567843ejf.11
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 08:47:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ysikXxN075lEXoFXHRuamoANeEWSx7QZzrDiDktgCDk=;
- b=dP/HjMQUkVxMUsvyd9Qmy0w0FVtSm88NNxUuEMiooxhh31+8r0KyWARBqYPG1sXHSL
- JZuwnpQ+KPzDdqFTl6bToVtGnyKG9LlxdoJuL1UaF7xp3lb6xlJWR7WpFvCjreRcP5Zm
- G/Y7eaFzw73JmXQ1LSguzXdSMp5qUt6946IgmvTEkmgiGTeeDcyrMBrmgehG9iySzbAP
- mcinyRDUPiLxBbYo4DpYqXG430dlH/DaxAVLEj0Kf8rxGZdRUMVFTivvMz8SD1J7NI8X
- 37h8jWAytIxJhe7bgstEZa3GRXfEt96+G1YnSPa002JTTDLfxsIE7oemfznZe709R0gL
- gFTw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FtFahMWUkxRH3ltuNlCugR+DBs5lwmd7BUQy5DiOZ9c=;
+ b=oEhS7gSVpRHn5YciAEauWSPvNlb6NMI3u3nz+nSmMFdkU48Q0XTJQ5f46/YSJXRvhG
+ DEHe8GGWNQTANnSttuCDUmIHvbkr8wP/U00AzbObK7VCTjzBQOLiiycmDAxMOZ11SoCW
+ Zq8qH3MPEs4IEda/6YMxjQ8ZxRSXBDdjobDEc9YVSwY5AlRN4cY/CAPE2Xh3GQCYmeNV
+ VOGfwDmIz1D2muoT/0Vz4cfLJ3cw6skyJ80ktaEd5XpIB+3D8qqNqVYXv99eVpc40MTe
+ 8c7YOZIWWXQnclZjAOOIvFpWyvSF9qIHe+hrsPDCf/yv8AH6xjR3V/4NuK3lDCuw72Fm
+ DXAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ysikXxN075lEXoFXHRuamoANeEWSx7QZzrDiDktgCDk=;
- b=D0hGRZynoRKrQ+Tbp/KAHaz0In8VsXFd0bJBUTi+/glRGWEUwg2I3hoyW7SulL+fTt
- 7/0c4Jz2aIdbyDP/wAdBoL+2axJck6byuv9WYqSCtglQI3eLxzx/UND5heo9S1+rg7Ux
- U63P4QzI73IC6bZcAV2l5rGxa2tQlc+c/wz0m/PhJQXANmO/K7SednsUEM7aZtwYsbJY
- WeMu9tTzvVIcVzbNg9HGyT/hPRkCgg50oH6+hE+1t9/48Qpe3PFElbkUtuMYlusV3Pnw
- dN9qbtXIUdhaIXP3QxrBsijvhDPHc251hjFsKf9WGIpk4VF2RvA2qiiGtDS+Zqx26tqE
- obpQ==
-X-Gm-Message-State: AOAM531CWoMHT81i565meTUne32GRw45oN3uS8dEgvYftEA7xmwpA+Dh
- JQOU/SWtcauJDOd7Bexiy/6BQA==
-X-Google-Smtp-Source: ABdhPJxMIJ+BfYEBmx/hD76TbHV41WQPN/LchG9/H7qqbZEvxJZdnTLT30GGymheKwTjD8iN22P2rw==
-X-Received: by 2002:a9d:170d:: with SMTP id i13mr10520474ota.106.1607705129993; 
- Fri, 11 Dec 2020 08:45:29 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id m18sm1889428ooa.24.2020.12.11.08.45.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 08:45:29 -0800 (PST)
-Subject: Re: [PATCH v11 11/25] tcg: cpu_exec_{enter,exit} helpers
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20201211083143.14350-1-cfontana@suse.de>
- <20201211083143.14350-12-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a9096147-e918-5536-aede-aa993c425318@linaro.org>
-Date: Fri, 11 Dec 2020 10:45:26 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FtFahMWUkxRH3ltuNlCugR+DBs5lwmd7BUQy5DiOZ9c=;
+ b=ghcPbG1+CegZv4OJXpufZDp7k1DcT3vUUY/bBEiCxQy6glaEUwOu0jDWIFy2KZuZuH
+ lkxW8y72qBNAlbHHOwScsDnBJVGciNZAbQVjXYJnnkBSbXaXPQZtGmj+Y+kL8+7lp5/T
+ 7LyBe/JUmcoFX3FTkuT6PrpD9DjqNFMa0l18TZhQ/yDMh7jkseq1t9jcbJtVVr35R4ED
+ J/sfbD09FHOzaC0RmsuirfqYL2kRkRCzm1idr8eQFmtgG2LYILwmunp3UOc8jXxnZkgR
+ MNMDUOl1KpjOP9hm+U0OV7AJ7fWzJbm4dR3d7WEdfHDM8V53eiKGbGRxIxu7Ypib665a
+ Q6DA==
+X-Gm-Message-State: AOAM533WDFs4uDtdFNNso9i4ZuXb6mz+73IvrtXmHxpWrs5EgLTP5PKG
+ ife9rG910HBD9jhFHkO0Dof/vi36L9wCd1EELod7Yg==
+X-Google-Smtp-Source: ABdhPJz88uoPi41E2TBxcqWQRxIgqb7FwpTwaRb1iY72DSopew71QLLahlPGtFi31sThRRdG8jSKaW5Ckob4lyUR1lQ=
+X-Received: by 2002:a17:906:6b88:: with SMTP id
+ l8mr11831626ejr.482.1607705245328; 
+ Fri, 11 Dec 2020 08:47:25 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201211083143.14350-12-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
+References: <20201208122306.8933-1-leif@nuviainc.com>
+ <20201208122306.8933-4-leif@nuviainc.com>
+ <CAFEAcA-vT4eAxn7K=ULu7wGomfW7akEG=eSVGp4j7CSKtksuHg@mail.gmail.com>
+ <20201211161236.GT1664@vanye>
+In-Reply-To: <20201211161236.GT1664@vanye>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 11 Dec 2020 16:47:13 +0000
+Message-ID: <CAFEAcA-aqTt4zsd0Eq8dpyJJ7hArZHKx_ge8=Us8DVMpHeXBSA@mail.gmail.com>
+Subject: Re: [PATCH 3/5] target/arm: add descriptions of CLIDR_EL1,
+ CCSIDR_EL1, CTR_EL0 to cpu.h
+To: Leif Lindholm <leif@nuviainc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,34 +81,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
+Cc: Rebecca Cran <rebecca@nuviainc.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 2:31 AM, Claudio Fontana wrote:
-> From: Eduardo Habkost <ehabkost@redhat.com>
-> 
-> Move invocation of CPUClass.cpu_exec_*() to separate helpers,
-> to make it easier to refactor that code later.
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  accel/tcg/cpu-exec.c | 23 ++++++++++++++++++-----
->  1 file changed, 18 insertions(+), 5 deletions(-)
+On Fri, 11 Dec 2020 at 16:12, Leif Lindholm <leif@nuviainc.com> wrote:
+>
+> On Fri, Dec 11, 2020 at 14:45:55 +0000, Peter Maydell wrote:
+> > On Tue, 8 Dec 2020 at 12:23, Leif Lindholm <leif@nuviainc.com> wrote:
+> > >
+> > > Signed-off-by: Leif Lindholm <leif@nuviainc.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > > +FIELD(CCSIDR_EL1, ASSOCIATIVITY, 3, 20)
+> >
+> > The ASSOCIATIVITY field is bits [23:3], so it's
+> > 21 bits long, not 20, right ?
+>
+> Err, indeed.
+>
+> > > +FIELD(CCSIDR_EL1, NUMSETS, 32, 23)
+> >
+> > Similarly, NUMSETS is [55:32] so 24 bits long.
+>
+> Sorry, brain must have taken holiday.
+>
+> Would you like a v2 of this patch, fixing those?
 
-r~
+Yes please.
 
+> > > +
+> > > +FIELD(CTR_EL0,  IMINLINE, 0, 4)
+> > > +FIELD(CTR_EL0,  L1IP, 14, 2)
+> > > +FIELD(CTR_EL0,  DMINLINE, 16, 4)
+> > > +FIELD(CTR_EL0,  ERG, 20, 4)
+> > > +FIELD(CTR_EL0,  CWG, 24, 4)
+> > > +FIELD(CTR_EL0,  IDC, 28, 1)
+> > > +FIELD(CTR_EL0,  DIC, 29, 1)
+> > > +
+> > >  FIELD(MIDR_EL1, REVISION, 0, 4)
+> > >  FIELD(MIDR_EL1, PARTNUM, 4, 12)
+> > >  FIELD(MIDR_EL1, ARCHITECTURE, 16, 4)
+> >
+> > Any reason not to define the other fields here?
+> > FIELD(MIDR_EL1, VARIANT, 20, 4)
+> > FIELD(MIDR_EL1, IMPLEMENTER, 24, 8)
+>
+> Those are just context, not added by this patch.
+> (Glad to see I'm not the only one making that mistake...)
+
+Doh!
+
+thanks
+-- PMM
 
