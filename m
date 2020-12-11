@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFCB12D7A7C
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:05:31 +0100 (CET)
-Received: from localhost ([::1]:54082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76222D7A82
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 17:09:36 +0100 (CET)
+Received: from localhost ([::1]:36492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knkvC-0004Ip-Oj
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:05:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35084)
+	id 1knkz9-0000zk-Qk
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 11:09:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knksc-0002ol-CS
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:02:52 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:39553)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knksZ-0002hs-AL
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:02:50 -0500
-Received: by mail-ed1-x534.google.com with SMTP id c7so9874180edv.6
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 08:02:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YLVx3TkBhrNCns84cwA9GQwdi175gnvJGLP4C2nf8Uo=;
- b=sBBmJH+ahVDvToPjf4XgBDKGBv11A5sL4sk1KA4iZ+2JIfrFSxLe9+BeKJXo5ij4OW
- O1njwx1EBqZcw4TGZkrfoCUSCBsQ+acpDWxQYvWgUpQF8/vZHfJ7Twu+1iyNQ5wsCCWL
- XNl1MicjSXTFzjriKRP/4QJx4eq838VPyiFbD3jeaxfLUH2BNGu9Ymeqa8CREMKkEZKP
- DnOqizqLXJ33bRukgBR5FSt21dQ/ofmSpl4dxktkFZAK5PIjR4lr2I/N48zOcrjPg3aZ
- RdKe70k4CrvOXo2QqiUm/4VB0TjA5+w80xtrUH4HFLkRxfRi984K3Z9LWb2R63ppj8ua
- fCNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YLVx3TkBhrNCns84cwA9GQwdi175gnvJGLP4C2nf8Uo=;
- b=mxxaBWIu0gFJTxBMV44Ok8K9HmrH5XoCxVTimRO1zqlPhu/JXOeam9s2K8Mm60lpti
- W7yYB6DWlPdoygzcSr029ttuBy2JD7q24/g+G8yTlRRAWyTRtj7Nz55NNi/5tJI6hz7T
- o8/RpB0ybeDSGLxiBaBRHPjSmiVI6DKieDvowhZEE+C6hBNpmwlMpkzK0qdqt08xpqAD
- X8NXKiLczGQVi8sB3F2TD/H/VBz1sSCKJ2h9CL4rScn2J2nFU8UH9z1x2F6AVMdywOVa
- HkHp9AcRWhpM9TEtz2SQ+kWUUIMHDvJvBP5yMtrfucZ9ZqPXRJ6WHuNeSxPsH5+5DKot
- vR8A==
-X-Gm-Message-State: AOAM533PlX6OKYN5rNYNMSWCts3CrYAtPKuKEabSIQ0vxgoFxqndcme4
- QIWRtIAmMzQYQLPnZZ5clixa43kbD+MoL36vhZCI5g==
-X-Google-Smtp-Source: ABdhPJyeZc244On0jPbil3yFraqvuu7vopDrmRqTuDKfX5Yq94oaWaL8GGDduRra3pp0cFCPdNGKCuYmZjE8xkXHx4c=
-X-Received: by 2002:aa7:c388:: with SMTP id k8mr12350724edq.36.1607702565516; 
- Fri, 11 Dec 2020 08:02:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knkvM-0005Zr-5f
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:05:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52021)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knkvI-0003pZ-Kx
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 11:05:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607702734;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ce0XtyYkNCrwjkyRDrPUslTPGVxloaE5LpvpJKju7J0=;
+ b=Ds3aBRXZKrDsJGsym92rGsOlZaF66siHalD1+Xy+j4hVWikDZemn6fjl8j5iYNmiQMouNF
+ dKxCJYQfo7vcnB7XSTBM4/05qp6TszrjeMszXhcW0usrtDSIAdDX4Kenr3ha5tOy5YzLwA
+ pQVVor9U+6ZdgR8nqwmRl5RmDmJR30Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-560-8MTjgAmEMiqf99iJHa7SmQ-1; Fri, 11 Dec 2020 11:05:29 -0500
+X-MC-Unique: 8MTjgAmEMiqf99iJHa7SmQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B0011823DD4;
+ Fri, 11 Dec 2020 16:05:16 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-98.ams2.redhat.com
+ [10.36.112.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 076E160BE5;
+ Fri, 11 Dec 2020 16:05:10 +0000 (UTC)
+Subject: Re: [PATCH v14 10/13] qapi: block-stream: add "bottom" argument
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
+ <20201204220758.2879-11-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <79993af7-1993-5af1-d343-04f208b03d73@redhat.com>
+Date: Fri, 11 Dec 2020 17:05:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <20201210203549.379-1-peter.maydell@linaro.org>
- <fd4a1215-5337-4984-d469-369a26d6a5c2@redhat.com>
-In-Reply-To: <fd4a1215-5337-4984-d469-369a26d6a5c2@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 11 Dec 2020 16:02:34 +0000
-Message-ID: <CAFEAcA9xAtcMPqP_3yfAZM4BevkeZaQobwdD9mTS_Ctsmr2EiA@mail.gmail.com>
-Subject: Re: [PATCH] docs: Build and install all the docs in a single manual
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+In-Reply-To: <20201204220758.2879-11-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,92 +83,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 11 Dec 2020 at 15:48, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 10/12/20 21:35, Peter Maydell wrote:
-> > When we first converted our documentation to Sphinx, we split it into
-> > multiple manuals (system, interop, tools, etc), which are all built
-> > separately.  The primary driver for this was wanting to be able to
-> > avoid shipping the 'devel' manual to end-users.  However, this is
-> > working against the grain of the way Sphinx wants to be used and
-> > causes some annoyances:
-> >   * Cross-references between documents become much harder or
-> >     possibly impossible
-> >   * There is no single index to the whole documentation
-> >   * Within one manual there's no links or table-of-contents info
-> >     that lets you easily navigate to the others
-> >   * The devel manual doesn't get published on the QEMU website
-> >     (it would be nice to able to refer to it there)
-> >
-> > Merely hiding our developer documentation from end users seems like
-> > it's not enough benefit for these costs.  Combine all the
-> > documentation into a single manual (the same way that the readthedocs
-> > site builds it) and install the whole thing.  The previous manual
-> > divisions remain as the new top level sections in the manual.
-> >
-> >   * The per-manual conf.py files are no longer needed
-> >   * The man_pages[] specifications previously in each per-manual
-> >     conf.py move to the top level conf.py
-> >   * docs/meson.build logic is simplified as we now only need to run
-> >     Sphinx once for the HTML and then once for the manpages5B
-> >   * The old index.html.in that produced the top-level page with
-> >     links to each manual is no longer needed
-> >
-> > Unfortunately this means that we now have to build the HTML
-> > documentation into docs/manual in the build tree rather than directly
-> > into docs/; otherwise it is too awkward to ensure we install only the
-> > built manual and not also the dependency info, stamp file, etc.  The
-> > manual still ends up in the same place in the final installed
-> > directory, but anybody who was consulting documentation from within
-> > the build tree will have to adjust where they're looking.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->
-> Sounds good!
->
-> I thought I had sent my reviewed-by in November.  If I didn't...
+On 04.12.20 23:07, Vladimir Sementsov-Ogievskiy wrote:
+> The code already don't freeze base node and we try to make it prepared
+> for the situation when base node is changed during the operation. In
+> other words, block-stream doesn't own base node.
+> 
+> Let's introduce a new interface which should replace the current one,
+> which will in better relations with the code. Specifying bottom node
+> instead of base, and requiring it to be non-filter gives us the
+> following benefits:
+> 
+>   - drop difference between above_base and base_overlay, which will be
+>     renamed to just bottom, when old interface dropped
+> 
+>   - clean way to work with parallel streams/commits on the same backing
+>     chain, which otherwise become a problem when we introduce a filter
+>     for stream job
+> 
+>   - cleaner interface. Nobody will surprised the fact that base node may
+>     disappear during block-stream, when there is no word about "base" in
+>     the interface.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   qapi/block-core.json           |  8 +++--
+>   include/block/block_int.h      |  1 +
+>   block/monitor/block-hmp-cmds.c |  3 +-
+>   block/stream.c                 | 50 +++++++++++++++++++---------
+>   blockdev.c                     | 61 ++++++++++++++++++++++++++++------
+>   5 files changed, 94 insertions(+), 29 deletions(-)
+> 
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 04055ef50c..5d6681a35d 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2522,6 +2522,10 @@
+>   # @base-node: the node name of the backing file.
+>   #             It cannot be set if @base is also set. (Since 2.8)
+>   #
+> +# @bottom: the last node in the chain that should be streamed into
+> +#          top. It cannot be set any of @base, @base-node or @backing-file
 
-I think you just said it was a good idea and that the meson
-stuff didn't have any obvious errors :-)
+s/set any/set if any/
 
->
->
-> >     man_pages = {
-> > -    'interop' : {
-> >           'qemu-ga.8': (have_tools ? 'man8' : ''),
-> >           'qemu-ga-ref.7': 'man7',
-> >           'qemu-qmp-ref.7': 'man7',
-> > -    },
-> > -    'tools': {
-> >           'qemu-img.1': (have_tools ? 'man1' : ''),
-> >           'qemu-nbd.8': (have_tools ? 'man8' : ''),
-> >           'qemu-pr-helper.8': (have_tools ? 'man8' : ''),
-> >           'qemu-trace-stap.1': (config_host.has_key('CONFIG_TRACE_SYSTEMTAP') ? 'man1' : ''),
-> >           'virtfs-proxy-helper.1': (have_virtfs_proxy_helper ? 'man1' : ''),
-> >           'virtiofsd.1': (have_virtiofsd ? 'man1' : ''),
-> > -    },
-> > -    'system': {
-> >           'qemu.1': 'man1',
-> >           'qemu-block-drivers.7': 'man7',
-> >           'qemu-cpu-models.7': 'man7'
-> > -    },
-> >     }
->
-> ... perhaps my only suggestion is to sort these by section and
-> secondarily by name.  But no need to repost---or even to do it, in fact.
+But what’s the problem with backing-file?  The fact that specifying 
+backing-file means that stream will look for that filename in the 
+backing chain when the job is done (so if you use @bottom, we generally 
+don’t want to rely on the presence of any nodes below it)?
 
-I guess we could as a followup. For this patch I think it's helpful
-for review that it's clear that nothing changes except the removal
-of the intermediate level of data structure.
+(If so, I would have thought that we actually want the user to specify 
+backing-file so we don’t have to look down below @bottom to look for a 
+filename.  Perhaps a @backing-fmt parameter would help.)
 
-> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+[...]
 
-Thanks!
+> diff --git a/blockdev.c b/blockdev.c
+> index 70900f4f77..e0e19db88b 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
 
--- PMM
+[...]
+
+> @@ -2551,8 +2567,33 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+>           bdrv_refresh_filename(base_bs);
+>       }
+>   
+> -    /* Check for op blockers in the whole chain between bs and base */
+> -    for (iter = bs; iter && iter != base_bs;
+> +    if (has_bottom) {
+> +        bottom_bs = bdrv_lookup_bs(NULL, bottom, errp);
+> +        if (!bottom_bs) {
+> +            goto out;
+> +        }
+> +        if (!bottom_bs->drv) {
+> +            error_setg(errp, "Node '%s' is not open", bottom);
+> +            goto out;
+> +        }
+> +        if (bottom_bs->drv->is_filter) {
+> +            error_setg(errp, "Node '%s' is filter, use non-filter node"
+> +                       "as 'bottom'", bottom);
+
+Missing a space between “node” and “as”.  (Also, probably two articles, 
+i.e. “Node '%s' is a filter, use a non-filter node...”.)
+
+The rest looks good to me, but I’m withholding my R-b because I haven’t 
+understood why using @bottom precludes giving @backing-file.
+
+Max
+
 
