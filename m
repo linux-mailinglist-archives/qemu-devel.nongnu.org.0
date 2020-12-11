@@ -2,76 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F7F62D77DA
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 15:31:47 +0100 (CET)
-Received: from localhost ([::1]:54152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F732D7838
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 15:51:55 +0100 (CET)
+Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knjST-0002fp-V7
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 09:31:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40364)
+	id 1knjly-00087J-2x
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 09:51:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knjQb-00020h-Lw
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:29:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knjQY-0002bc-RM
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:29:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607696985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EiJM1ck5YYSDW0JbnD3J/uN1mMG3zvUcUszQJuglB1s=;
- b=Np1dlvm9qpbTz5GDK3XzXU0djKhJzbFEuUGmHMcFMQ1hWpbelPVod/3MuAJTNUqVgaYCnN
- J3nUqSULbFJrA4YNwIURuT3ezvTX3486MC9uITXXtIntqfDx+4PN5vglsrFQ8Scb95jYkS
- BUyPUR66o9s0jehtfFDjtnYjHe2i2NM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-3tQdXxGlNDSyc5kFdNeFmg-1; Fri, 11 Dec 2020 09:29:42 -0500
-X-MC-Unique: 3tQdXxGlNDSyc5kFdNeFmg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B61D1195D57C;
- Fri, 11 Dec 2020 14:29:35 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-98.ams2.redhat.com
- [10.36.112.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7419919C78;
- Fri, 11 Dec 2020 14:29:33 +0000 (UTC)
-Subject: Re: [PATCH v14 08/13] copy-on-read: skip non-guest reads if no copy
- needed
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
- <20201204220758.2879-9-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <c242fda4-23c5-a907-0599-6e611318509c@redhat.com>
-Date: Fri, 11 Dec 2020 15:29:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
-MIME-Version: 1.0
-In-Reply-To: <20201204220758.2879-9-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <liqiuhao727@outlook.com>)
+ id 1knjit-0005fJ-Rf
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:48:43 -0500
+Received: from mail-bn7nam10olkn2030.outbound.protection.outlook.com
+ ([40.92.40.30]:22253 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <liqiuhao727@outlook.com>)
+ id 1knjip-0001Of-0Y
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 09:48:43 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EZvzil29GmEgjKT/zTCPYxyNlFTb8pOfD0OBbr7ksI3E4mZ4cG5nppyBYl+6+VXof7P9NO2uUsl83hGEfirNsq2W9UNgTy2vVB+FqTgloZRISJBwqgI38TVsw5U8qFBNk+wWJegN4eP4aNndLGdQojBhH0VUrW0J195sKLiTldQf5Vttf6dW5cp+5UkZ3QzrnpnIJ6YEk0R/grW5DE397oUaZ+a51USNUz8IS7VZjOZb5D+dCNyU0Ms5QAcFZs8+wvq6SSzvc5xvMkdUhS8S4NKVvL8UayBW/4X0O/vd+cRArptMdfZkKPQIWKNDD9LZD3qmLVKgJZHhAeIB2mXuBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kud8lvMatIKe9UPdaQUZUVh22ENTtJwrpc1BVDaCuS4=;
+ b=GXlFfedleD8Ou1gkPxn/OGWZlahO0RTEo4VswqGPHeBp6mTSyA67pFj9YKNctSyNjy50Iht9SgscCeHF0uGH96MN8bJND5ZnDiTYbN+ydN49Lf3GOTDrX68BBAKczJdZDsV8GGVzADoCYnZ463urOkRt1XIfelyjn60QM4/rKb/+6XoKcDz4MKMRLLKsEprzRVJxQwvqTjq8NVYwFHyVSWKiNRHl1VCXa80KTryp7ofvwJ+JZ8dXmo/pJvYMr+8NWu5gkgWx652/+6MrjoHvDdjnsJxmTWPBua/j3Rq7oXwGOp2o/12K1PzCKvzlyENd3z4aSHatOdbumS3e7syKVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kud8lvMatIKe9UPdaQUZUVh22ENTtJwrpc1BVDaCuS4=;
+ b=d6r6C+mUYuDLYKE8m/0S50L2JFd87n/2pFJ8PGnhjp3l4fSJi55/Qu92XgDBMDADvY5juCyQY1uyOd8vZTTP4PW1CLH0/Yd0ep6aZKNsTGbmEkwiAgSN+eHB07dFihTwu54SU9jPWPrKLQGbhXj73Th/7fKJlC+lHSxylfekK8WBjgGU5UNOXcM6+C9/luSdnQQsEOHrgYNJujR07HEZWYvVqeyONxmsNX5ivzHzrKWmlGWE4U0/gjwHWPiUTrJpAi+kVJ9q4NLNISAqJ8IpydZDe0JDrxsDNROHMEi4tUKxJm3fYA+W+gn9jI7uJN306Mo+KVIeTbSkC+CQRZQwqQ==
+Received: from BN7NAM10FT048.eop-nam10.prod.protection.outlook.com
+ (2a01:111:e400:7e8f::4e) by
+ BN7NAM10HT132.eop-nam10.prod.protection.outlook.com (2a01:111:e400:7e8f::268)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Fri, 11 Dec
+ 2020 14:33:34 +0000
+Received: from MN2PR02MB6237.namprd02.prod.outlook.com
+ (2a01:111:e400:7e8f::4e) by BN7NAM10FT048.mail.protection.outlook.com
+ (2a01:111:e400:7e8f::199) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend
+ Transport; Fri, 11 Dec 2020 14:33:34 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:A0F3FC6F07FE0A320391EF8C4B496A0B878FC0BE53B9902C851E6DB1EB08F7F6;
+ UpperCasedChecksum:5950F1433F757C366C3D18B749BC91F521CA2DE43CD81EAF71679C78E87742B2;
+ SizeAsReceived:8426; Count:44
+Received: from MN2PR02MB6237.namprd02.prod.outlook.com
+ ([fe80::493:c839:2a3f:3b50]) by MN2PR02MB6237.namprd02.prod.outlook.com
+ ([fe80::493:c839:2a3f:3b50%6]) with mapi id 15.20.3632.024; Fri, 11 Dec 2020
+ 14:33:34 +0000
+Message-ID: <MN2PR02MB6237191C5DDBC42ECB06E87AE0CA0@MN2PR02MB6237.namprd02.prod.outlook.com>
+Subject: [Question] How we make fields of a structure fit in a cache line?
+From: liqiuhao <liqiuhao727@outlook.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 11 Dec 2020 22:33:18 +0800
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-0ubuntu1 
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-TMN: [HVarGiDdxpRw+me3TbyiITO5K8hakeavPYUpWHBzv4A=]
+X-ClientProxiedBy: PH0PR07CA0048.namprd07.prod.outlook.com
+ (2603:10b6:510:e::23) To MN2PR02MB6237.namprd02.prod.outlook.com
+ (2603:10b6:208:181::29)
+X-Microsoft-Original-Message-ID: <a0c979b662f98ec445cadf43da0fd32ae358449b.camel@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (199.193.127.145) by
+ PH0PR07CA0048.namprd07.prod.outlook.com (2603:10b6:510:e::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3654.12 via Frontend Transport; Fri, 11 Dec 2020 14:33:31 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 44
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 7d8d4324-35b3-4635-605a-08d89de1bd9c
+X-MS-TrafficTypeDiagnostic: BN7NAM10HT132:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6yGggM+ZEPde/VMz1kzcGTDv+ga6gmIFsWFwOIjO3QYY3avRMaKJX04XQj4rCchh2Nym3yvNr+j1RWEBVVYWIdYBBQQmUsf9ivN0MmPIJRHx3tbknopeTxxOMSokO2aBLSZwdco1DgSeq3grIUHZcb2MposcCYG5e+jr9P5YaCuezHo+/zT5HP7NoPAsO+vhHWyrrmW15BzGjztfRflC5Q==
+X-MS-Exchange-AntiSpam-MessageData: 4bMw01s7pHXwOy7P+9WQWJog6oBgSQ/xHyktwKQLzGU8cY3DEjrF4u8GrubeA7xNVvQhlo2Hme3iGFp5AEShVk18M2RDphtP6HvVoShwE1/+sJS7vyvdTsLbg6xPeJ41XYKBy8PioSPg212Acq5QJQ==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2020 14:33:34.6530 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d8d4324-35b3-4635-605a-08d89de1bd9c
+X-MS-Exchange-CrossTenant-AuthSource: BN7NAM10FT048.eop-nam10.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7NAM10HT132
+Received-SPF: pass client-ip=40.92.40.30; envelope-from=liqiuhao727@outlook.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,34 +112,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
- jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04.12.20 23:07, Vladimir Sementsov-Ogievskiy wrote:
-> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> 
-> If the flag BDRV_REQ_PREFETCH was set, skip idling read/write
-> operations in COR-driver. It can be taken into account for the
-> COR-algorithms optimization. That check is being made during the
-> block stream job by the moment.
-> 
-> Add the BDRV_REQ_PREFETCH flag to the supported_read_flags of the
-> COR-filter.
-> 
-> block: Modify the comment for the flag BDRV_REQ_PREFETCH as we are
-> going to use it alone and pass it to the COR-filter driver for further
-> processing.
-> 
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   include/block/block.h |  8 +++++---
->   block/copy-on-read.c  | 14 ++++++++++----
->   2 files changed, 15 insertions(+), 7 deletions(-)
+Hi,
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+While learning QEMU, I notice that some fields of structures are
+comment with "should fit in a cache line." For instance, the
+MemoryRegion is defined as:
+
+struct MemoryRegion {
+    Object parent_obj;
+
+    /* private: */
+
+    /* The following fields should fit in a cache line */
+    bool romd_mode;
+    bool ram;
+    /* ... */
+
+I know we can get better memory performance if their size can fit in a
+cache line, but doesn't it would do so only if they aligned adequately
+on an address that's a multiple of 64? Do we make sure most uses of
+those structures are aligned, or I misunderstood something?
+
+Thanks.
+
 
 
