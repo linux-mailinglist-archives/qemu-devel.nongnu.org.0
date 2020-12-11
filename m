@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926782D75B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 13:37:42 +0100 (CET)
-Received: from localhost ([::1]:45334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BBB2D75BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 13:38:22 +0100 (CET)
+Received: from localhost ([::1]:47576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knhg5-0005YZ-Jp
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 07:37:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44554)
+	id 1knhgj-0006WO-S2
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 07:38:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knhe6-0004MZ-A4
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 07:35:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60523)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knhe2-0003vV-BI
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 07:35:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607690133;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ibCwdhKXuZljXdCm+jK5+hnYc44cRm151f2l+hjKuAA=;
- b=QpWLbowpza79JL6LBHG8evotnToAzoZ8iPNY17WMui4njx0kEtldMDNwVlWsW10/UcBjOp
- sdb8DLvUa5uZCQNS8yTutOzRPl1M2OH8orzzyLMKUW90OswaDWCoC1Il3OPfCAo33gMEFl
- MPqNUB7+UTObu/KAdkENITNAKgkxSRI=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-wZzM3xR0PfqUzL7W8QZAfQ-1; Fri, 11 Dec 2020 07:35:29 -0500
-X-MC-Unique: wZzM3xR0PfqUzL7W8QZAfQ-1
-Received: by mail-ed1-f71.google.com with SMTP id ca7so3888166edb.12
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 04:35:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1knheg-0005GR-9E
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 07:36:15 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:42401)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1knhed-0004Cz-Tx
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 07:36:14 -0500
+Received: by mail-pf1-x444.google.com with SMTP id 131so6915975pfb.9
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 04:36:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eiFzWhiuHptlwqsI6z9p7UC7SSiJTSwAvHZbrDwBeUk=;
+ b=REKCH8tKZjnrKHAbEum+VRqGVdNCv1OF5deX1e3SEVfnvNUy3ngFKOY4u5XZiWw5IS
+ H6zODsTNW/lXjNmWnTr/9L4ukwhtCgMgp1tjP6HBPTfRMY/CU3A5b8hwux86OrepwxFV
+ aIpQLB4DfmRfqgQqwZ5jZfBM6HdC0PA1iHArySV7NFpzt7bWAH3RrNs2PD98VXIC34Ik
+ HwbZ6jsXESrIynsTPkiZpCdU+2ta5gnoyZhsyBATsRcvu7lHGYk+gHZ4mZkUdLzsm4uC
+ tuyHDzJMiLtkNN9dEhoP/9m6ghkmmecuqfUnFD+5IEI1waCHFes79B/hKXSDGVy69vLV
+ Cakg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ibCwdhKXuZljXdCm+jK5+hnYc44cRm151f2l+hjKuAA=;
- b=V3mrx5EnnqvSPVcUA/O2fy3MvZkh3vdKrwffzn8I2MFQ2TK6rgvga4ZP2/hVNy49j3
- wyEh46LBzbDLHLTCp+Kbh1O5Tp94cnBJe2PHrQSU/eXJFph6qRRouzUe65XDMY0M/DG5
- KZproDFgWYKtjY5K3CGuhzQBT0GCEX7vNFSgSJvIvCAs62cYKzmlMl3kHIIL1GTZseDc
- g5GjfJdebymO0HsWZhvqRoTt9ogK9H2l5UigKQJk2K96L/cwgBhppABOzRgqmqauSTCq
- CJ7RM0167wY2DrZeDkVM1f+7JvhTNPSkxDRsFPF9kzvbTjioAdN9UC9azLtQFYm6/iAk
- zOgg==
-X-Gm-Message-State: AOAM531GtuKb/kDZ8raBWw4jCqT4NiTwSD79yqPpe7q3Fewl5AZnTsqA
- dRiO9Mv+oSU3ESYYFbD1ziSAJ9Zr6TQlZj8iFXbvrw6bTthpfnBRbNbuaJwYLO2HD8xfcmi09ae
- isQ9IM6yb5jKq2v0=
-X-Received: by 2002:a17:906:5841:: with SMTP id
- h1mr10607757ejs.77.1607690128307; 
- Fri, 11 Dec 2020 04:35:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwFB5B0nkfKYxWDUNXscB8Os2Ji9wKRa9LRVghZSKizlCnwGzbRjIqg9NqsCiyHQDKS2M+c/w==
-X-Received: by 2002:a17:906:5841:: with SMTP id
- h1mr10607726ejs.77.1607690127954; 
- Fri, 11 Dec 2020 04:35:27 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id ng1sm6729250ejb.112.2020.12.11.04.35.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 04:35:27 -0800 (PST)
-Subject: Re: [PULL 00/30] ppc-for-6.0 queue 20201211
-To: David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org,
- Giuseppe Musacchio <thatlemon@gmail.com>
-References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <442b503f-1bd5-4fef-254d-d57c5d7b57be@redhat.com>
-Date: Fri, 11 Dec 2020 13:35:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eiFzWhiuHptlwqsI6z9p7UC7SSiJTSwAvHZbrDwBeUk=;
+ b=EUajbbSiGYNQOnSvJtA4Ql7HuU583u+BlazPgxOkEw0NR/tuJcqbeeDl0HKh/gQLoU
+ Mk5p1rWca0AkJ/FPULraufyIH1azHB9Pd9WMxpkDqdzOvkCH1e9VpzaAA1A3AYHMB+cR
+ TodQHtH4Ww8TZ3gpEJauTzK2j3oSrBwK0Wazil8wT3R5dyfhmRGquzmH6orPIhsC3v3c
+ Er/VrHuz/lvKCUE66Y6j450Q//8Hl/6E/SjMd5+eU3vRdfMBSbw7Xt0XM8Z6wLm0sv93
+ BmeMJX/KSTAv9YzRPp0JKGLggUs9yqjo7akgCTNVRdSQ4y5WqiMdUcgZxDprp4b9w5mG
+ sOBg==
+X-Gm-Message-State: AOAM530q9X5ZyB8g0QlpnECzaOVBC74bB/p+qmOzgWqUzp/4/mAN+5lq
+ dhtGbp3pQFA3q301AnpdPCiTYdcQaO5ajQsUgGk=
+X-Google-Smtp-Source: ABdhPJxlvT8I7Z80co5FDLt16k8FL2fsYCP7HTD/GgeLKyhUBT4mLggZZSmGH1lN5jNWcIIJyo8NsmlkximSPGeRqao=
+X-Received: by 2002:a65:48cb:: with SMTP id o11mr11270914pgs.121.1607690169177; 
+ Fri, 11 Dec 2020 04:36:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201211041507.425378-1-david@gibson.dropbear.id.au>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20201108232425.1705-1-j@getutm.app>
+ <20201108232425.1705-7-j@getutm.app>
+ <6fb788c8-ac2b-83b6-8977-24652a05f7c5@csgraf.de>
+ <CA+E+eSAznXzHD1u+a+X4kenbOzfEifzznXx0Qq6425ahjK7K_Q@mail.gmail.com>
+ <781d6412-ff8a-ae33-3b00-d27e9fc9cd0a@csgraf.de>
+ <CA+E+eSBf957VZ56HAOmK8dYJRrySjEJkNVCrzHZxUF81M4Gycg@mail.gmail.com>
+ <37faedcb-5431-5f4c-b8b5-5dbe94510ae2@csgraf.de>
+In-Reply-To: <37faedcb-5431-5f4c-b8b5-5dbe94510ae2@csgraf.de>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Fri, 11 Dec 2020 12:35:58 +0000
+Message-ID: <CAJSP0QVz4bA4uN0m0Qsv_x4vJdDeTQgmtVJSAPsV8Laqg2tEqQ@mail.gmail.com>
+Subject: Re: [PATCH v5 6/7] tcg: implement JIT for iOS and Apple Silicon
+To: Alexander Graf <agraf@csgraf.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=stefanha@gmail.com; helo=mail-pf1-x444.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,51 +82,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Joelle van Dyne <j@getutm.app>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 5:14 AM, David Gibson wrote:
-> The following changes since commit 2ecfc0657afa5d29a373271b342f704a1a3c6737:
-> 
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-misc-2020-12-10' into staging (2020-12-10 17:01:05 +0000)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.0-20201211
-> 
-> for you to fetch changes up to 7728c7ef126468a3e982b03b427196b1cccfa2c8:
-> 
->   spapr.c: set a 'kvm-type' default value instead of relying on NULL (2020-12-11 12:02:10 +1100)
-> 
-> ----------------------------------------------------------------
-> ppc patch queue 2020-12-11
-> 
-> Here's my first pull request for qemu-6.0, with a bunch of things
-> queued over the freeze.  Highlights are:
->  * A bunch of cleanups to hotplug error paths from Greg Kurz
->  * A number of TCG fixes from new contributor LemonBoy
->  * Added Greg Kurz as co-maintainer
->  * Assorted other bugfixes and cleanups
-> 
-> ----------------------------------------------------------------
-...
-> 
-> LemonBoy (5):
->       ppc/translate: Fix unordered f64/f128 comparisons
->       ppc/translate: Turn the helper macros into functions
->       ppc/translate: Delay NaN checking after comparison
->       ppc/translate: Raise exceptions after setting the cc
->       ppc/translate: Rewrite gen_lxvdsx to use gvec primitives
+On Fri, Dec 11, 2020 at 10:54 AM Alexander Graf <agraf@csgraf.de> wrote:
+> On 25.11.20 03:08, Joelle van Dyne wrote:
+> > A lot of users of UTM are on iOS 13 (a large number of devices only
+> > have jailbreak for iOS 13 and below), but if the QEMU community thinks
+> > it's better that way, we are willing to compromise.
+>
+>
+> I think it would make merging much more straight forward if we could
+> keep RWX toggling to the publicly released API. So yes, please adapt it.
+> In UTM, you can still carry a tiny downstream patch that implements the
+> API through your reverse engineered code for iOS 13, no?
 
-I was surprised by that author and went to check the wiki
-https://wiki.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include_a_Signed-off-by:_line
+Alex, you're awesome! Thanks for finding a way to avoid the
+reverse-engineered code. With that change we don't need to go through
+a legal review and it makes merging this much simpler.
 
-  Please use your real name to sign a patch (not an alias or acronym).
-  If you wrote the patch, make sure your "From:" and "Signed-off-by:"
-  lines use the same spelling.
-
-The patches are signed with Giuseppe real name, so this is OK.
-Author can be fixed up later in .mailmap.
-
+Stefan
 
