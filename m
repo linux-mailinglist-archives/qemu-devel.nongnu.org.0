@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C9E2D8140
-	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 22:45:31 +0100 (CET)
-Received: from localhost ([::1]:54976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1642D8163
+	for <lists+qemu-devel@lfdr.de>; Fri, 11 Dec 2020 22:58:49 +0100 (CET)
+Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knqED-0003kX-Pl
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 16:45:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52402)
+	id 1knqR5-0007zK-MP
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 16:58:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knqAk-0002IA-8x
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 16:41:54 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:45713)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1knqOe-000749-Qx
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 16:56:16 -0500
+Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:38297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1knqAd-0006sO-JV
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 16:41:53 -0500
-Received: by mail-ot1-x343.google.com with SMTP id h18so9598151otq.12
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 13:41:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1wZQo08W4y18MFXQvXuGaqmeyVDr030sK43u1+GHIEU=;
- b=VrZBKe67V0jCJxp4AP7ZhaFnaFo0RRX+tnb7H/J9nJlwIMhWldCaiPKLjIZQi5EJFf
- wRNhbFdRwWjNqPLcZQcMPa6R7eDE7krC08IOVzdbNN2/s7SrpCg+iuhiJJu53+piMvqM
- 928nd5aR73JvktpvwNdCbJjMgLlpjTPP5TbPEglY1ovi41r8ZB+Ew2fh2CLXunzcK9vS
- noQ7Czl39ugu1CFvsAV9QD3HYNqqfnVWGpc0FkTFwM3Ie8JDiLB1CmmbIF4QrvBdC1qJ
- LCjZKlvC7vgPIoADkpVanLeDFf5xAPoNp1fQyDcFdy7VAhKEx6aZ5OShVXAbwJ7koNCB
- vZGw==
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1knqOc-00035r-E3
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 16:56:16 -0500
+Received: by mail-ua1-x942.google.com with SMTP id y26so3353106uan.5
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 13:56:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=coyXN2x4BlNVsfzvsFcVwdCBVk9lEyEa87g+7NNNuO8=;
+ b=jZfnrgAwBgQf2VdVNzh45isjfnI9CjHXpvSDZDNbBYo47mtk+kpmhCaNyOxsZByV7e
+ R+7Pab36SFzq2iPSSyRRw/U+FJQegzepd7Lm2urakOragmiKbpW+SI8BqcUFos+WCQjz
+ Mk1er1f3SqJqI11XcwPZYviJuuFneTr4nUhA7RmXB7h1Pc/sqB4hcasqIXw2N0yxP849
+ 3gsR8IapLm0XdprZj3KjBpZRrebfFBulqWau5GvQMJMyqO0ySAqceWPN6+sDZB/Y8IBz
+ 5j4R96yGRc/uANeYYJRpJFvuJeSBkT6gFrO2p+8HwtfB04lehtSB57A7wzcfFn0oVgq9
+ 1GDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1wZQo08W4y18MFXQvXuGaqmeyVDr030sK43u1+GHIEU=;
- b=ofHJn5JM4YFv8g4/S2SJyvv2+Q+rEWHGIE2HImgwUPLy6qpWPAeUsUK/sN84MOc8WW
- FCWzWCy5s2YrvpZwkpAZvrwyYGc769WIsCYaiHpaOkP+hbWdgFsVXbHqKw+I7gV4TMyb
- 3+XyimiIp+cOAQV4NTfBSbFL4jqTuzChRA0iDWbi/J2yIo9672QxAbtynPF6Ccq4ynOD
- 2DUWYfhwyuWhzOCEXwgx09GmcQzD1gmON1EbqnWa+Bz3FNVMiiA4awJ22aQKDLkgjA9O
- sl01l8k5VglqD88KIS25rSoiajCZo8W8c1A4WzxZYlDFC9zCLQEEGFGuDxh8IukVYrcP
- jsfw==
-X-Gm-Message-State: AOAM533tPjqgZ6ccf3+X+2689IbwKizh7rGJ0YSNwVbXZw05ERVOHAEm
- ke1qybpX50sapatO/HbpR3q8lQ==
-X-Google-Smtp-Source: ABdhPJwcgNyQHPKy/uQRLag+cvdjUdPWmJnPP9xVXHOFL9uwJnM+9xZxK3Z+PiZdWk9mR9KhbJMMLA==
-X-Received: by 2002:a9d:506:: with SMTP id 6mr10796575otw.95.1607722901208;
- Fri, 11 Dec 2020 13:41:41 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id y204sm2116898oiy.38.2020.12.11.13.41.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 13:41:40 -0800 (PST)
-Subject: Re: [PATCH] icount: improve exec nocache usage
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <160741865825.348476.7169239332367828943.stgit@pasha-ThinkPad-X280>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bce56bb4-dd59-d408-ca17-1df944ef6259@linaro.org>
-Date: Fri, 11 Dec 2020 15:41:38 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=coyXN2x4BlNVsfzvsFcVwdCBVk9lEyEa87g+7NNNuO8=;
+ b=I3Vw8LTRzJ5aGDc4euW04prduj9xIz7p41AhaBNn6eQMTD3LIT4oD1WaWh0o1TBWgB
+ Zi2JFhiFfVk/9KJn5WSGjLe6CA33k+HdOHSL7Im4mQ57E1WoKOr7QQaMDmtyxoCB5cvy
+ Hp3UIKOsmfB6wqPKUh8mKHnT0Ba3oAKaWe36mE7HOQLVYCjvSWq2xxHIbq9VoKyS3Fz3
+ 9HHeaNMIgA310v9/cDHymsY8O+HM2kpgSPuF2xQquey7Mqp0/J1DaftI862OU8tEe8VN
+ djkHTkEV7rwZ+P9vyF7TaVhYzI8Reo2HdAJ/XoxZ4jUkex6gyAgMUJMkaQ3DTOyZu/yT
+ FTTA==
+X-Gm-Message-State: AOAM531BhoTrweutbrRycvVCx1qP97adP/JHUNdRvN2gUD7Lkhbncii7
+ JL0rLNzjHiFhem1WFytsF4lmKAII1tjGf60F3CPcwA==
+X-Google-Smtp-Source: ABdhPJwnI2WoloB+2i9HQS75rt44gPDQFIg1lya0+9VRh/3HxZRROu5Gi82xreChxOmktjwXoW0EcOMw+6VsUhQk/cg=
+X-Received: by 2002:a9f:2e0d:: with SMTP id t13mr14988685uaj.41.1607723767682; 
+ Fri, 11 Dec 2020 13:56:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <160741865825.348476.7169239332367828943.stgit@pasha-ThinkPad-X280>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x343.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201125215245.3514695-1-dje@google.com>
+ <20201210112540.GE416119@stefanha-x1.localdomain>
+In-Reply-To: <20201210112540.GE416119@stefanha-x1.localdomain>
+From: Doug Evans <dje@google.com>
+Date: Fri, 11 Dec 2020 13:55:31 -0800
+Message-ID: <CADPb22SACmhu1h=aNC=C5Dmi738DhV_BVPq-LOVRnS0GjKKaSA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] trace: Send "-d trace:help" output to stdout
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000001235f505b6375c04"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::942;
+ envelope-from=dje@google.com; helo=mail-ua1-x942.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,43 +76,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/8/20 3:10 AM, Pavel Dovgalyuk wrote:
-> cpu-exec tries to execute TB without caching when current
-> icount budget is over. But sometimes refilled budget is big
-> enough to try executing cached blocks.
-> This patch checks that instruction budget is big enough
-> for next block execution instead of just running cpu_exec_nocache.
-> It halves the number of calls of cpu_exec_nocache function
-> during tested OS boot scenario.
-> 
-> Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-> ---
->  accel/tcg/cpu-exec.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index 58aea605d8..251b340fb9 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -685,7 +685,7 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
->      insns_left = MIN(0xffff, cpu->icount_budget);
->      cpu_neg(cpu)->icount_decr.u16.low = insns_left;
->      cpu->icount_extra = cpu->icount_budget - insns_left;
-> -    if (!cpu->icount_extra) {
-> +    if (!cpu->icount_extra && insns_left < tb->icount) {
+--0000000000001235f505b6375c04
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Thanks.
+I gather this is a first step in getting the patch into master?
+If so, OOC, how many separate "staging" trees are there for the master
+branch? (is there a list?)
 
-I also wonder if we should really be not caching these.  Ever since MTTCG, we
-have not actually been reusing the memory.  We're simply removing the TB from
-the hash table.  I think we should be remembering these just in case we can in
-fact reuse them.
+On Thu, Dec 10, 2020 at 3:25 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
+> On Wed, Nov 25, 2020 at 01:52:45PM -0800, Doug Evans wrote:
+> > ... for consistency with "-d help".
+> >
+> > Signed-off-by: Doug Evans <dje@google.com>
+> > ---
+> >  trace/control.c | 12 ++++++------
+> >  trace/control.h |  3 ++-
+> >  2 files changed, 8 insertions(+), 7 deletions(-)
+>
+> Thanks, applied to my tracing tree:
+> https://gitlab.com/stefanha/qemu/commits/tracing
+>
+> Stefan
+>
 
-r~
+--0000000000001235f505b6375c04
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Tha=
+nks.</div><div class=3D"gmail_default" style=3D"font-size:small">I gather t=
+his is a first step in getting the patch into master?</div><div class=3D"gm=
+ail_default" style=3D"font-size:small">If so, OOC, how many separate &quot;=
+staging&quot; trees are there for the master branch? (is there a list?)</di=
+v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Thu, Dec 10, 2020 at 3:25 AM Stefan Hajnoczi &lt;<a href=3D"mailto:ste=
+fanha@redhat.com">stefanha@redhat.com</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">On Wed, Nov 25, 2020 at 01:52:45PM -08=
+00, Doug Evans wrote:<br>
+&gt; ... for consistency with &quot;-d help&quot;.<br>
+&gt; <br>
+&gt; Signed-off-by: Doug Evans &lt;<a href=3D"mailto:dje@google.com" target=
+=3D"_blank">dje@google.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 trace/control.c | 12 ++++++------<br>
+&gt;=C2=A0 trace/control.h |=C2=A0 3 ++-<br>
+&gt;=C2=A0 2 files changed, 8 insertions(+), 7 deletions(-)<br>
+<br>
+Thanks, applied to my tracing tree:<br>
+<a href=3D"https://gitlab.com/stefanha/qemu/commits/tracing" rel=3D"norefer=
+rer" target=3D"_blank">https://gitlab.com/stefanha/qemu/commits/tracing</a>=
+<br>
+<br>
+Stefan<br>
+</blockquote></div>
+
+--0000000000001235f505b6375c04--
 
