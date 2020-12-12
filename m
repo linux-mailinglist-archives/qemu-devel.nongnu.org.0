@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09152D8361
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 01:26:38 +0100 (CET)
-Received: from localhost ([::1]:54816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE1412D8360
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 01:25:44 +0100 (CET)
+Received: from localhost ([::1]:53616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knsk8-00012V-UR
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 19:26:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36630)
+	id 1knsjH-0000Vb-9m
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 19:25:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knsZr-0002cY-CM
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 19:16:04 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33698)
+ id 1knsa1-0002mh-6L
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 19:16:09 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knsZe-0005eK-RG
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 19:15:59 -0500
-Received: by mail-wm1-x342.google.com with SMTP id w206so5588881wma.0
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 16:15:46 -0800 (PST)
+ id 1knsZl-0005fN-3q
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 19:16:08 -0500
+Received: by mail-wm1-x344.google.com with SMTP id 3so10099954wmg.4
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 16:15:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Pq8tAYkftQKbp7EDg1kA3sFd2xF8+eQ9f55vXuE8Qj8=;
- b=j9SU9nQKD/to5jCWhh7GmN1LxNnHmc5pp+4dGzuCJBU4UjSE1v/zneMsgPA5IbcZhb
- WTcZdjS/lNYKdl3szU14FDfZ5pAiqbsfxTQoC/2wTKJNiTYDJLifwNfWBL4Dh5hIwbnv
- mrAIkdkQMaOQPW1r2GNIgjLxMhRLw3Tlw8J79TdWPtBzMVuGRe+OFrI8XvQxzyVmxlnq
- V5YDpJvQbCKNo1G0yrnGp1DlxLvnCtoWEHH40iR1xb5PqcogjS3TWJfEUIYZIZiQQSvC
- HZ5oqstV4uXDeNhO68Ni+C2Guis0G3X4amCsTNvq3kT2yRsMru8+UZBULtaXMSgsmGIV
- rMww==
+ bh=Sy8GTMLrANGCKa2I6q8N2rwI9l+Phoy4vAofP+Z/xdw=;
+ b=kY8PiCaBCZ7SYQrD+bbDXotTqXm44ANQzTX29FZO7CoTBEFNczH8xxb9W/OYP4FH/b
+ z4vV7rTMBW/eLsr/fOGMCuLBFZzCaijjGGntP0WX0HuTq5a3cmEtTmTBnGR8MU18sl3h
+ S8K1749g39pnd7pHqH5KpK1bhzhkMacKlrV4bFawkPdVi+xunFNkIYkyl2iapmOBKaaY
+ JRKOYy9pnCxdg/+LwzRot6nK9E5cLcZqlzOcWlw6qmm0Q4G/2fxzV//ANTXokY5UL7w4
+ ngS8K4+kw3L66bWNZgjdQSZL0HbaXb64603EL3p4L03O58ARltMyOC3BMUY9u/3OJNDB
+ eNyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Pq8tAYkftQKbp7EDg1kA3sFd2xF8+eQ9f55vXuE8Qj8=;
- b=Tq1/dqlocY5OZ1+2ehGt+I6G4Ywe9FV1xlfMQRVULHVWgtDn+16ACryuVxz9QC2lSe
- zQyC6tmWTAV/SiZ9nWbE71NhmnllP8oFZyTeohdr32c/hH7tEkCLS2CJuNLfvm/PVHIG
- bR5v9il55m9cHq/s09TO5ppZBmBrp7CPJsNgJEk0LWogRDI1kqqsiEKr0dRUUjQ7Uo+L
- 10VMEOrRcsKhvOSgXGuC5PJXiTrprRC6wqbGUWBvauzAJd8s9qES/jEU3lwmLGO0Y2rV
- ouiy5cxKx8CG2ixyOhLKfG+bGmn/3nKx7Clz6eUbrsMJAzF36KWPp/47Ro+45nxO0U19
- FDuA==
-X-Gm-Message-State: AOAM530ndKVUm55FuuNjttvyoKdhoRERT955wndlp1AHPpHHaM1SbCH9
- QwmpeJc5k+68HKSz+8aUBrOoRDEh3o0NlA==
-X-Google-Smtp-Source: ABdhPJxk5/BDHPlRm5tEwpYNwyN8vYF4NY7lZiEvLnH+xGNXFORBHyFdtlSOzDrpD85YKVQzxMXl8Q==
-X-Received: by 2002:a1c:4e0a:: with SMTP id g10mr16072029wmh.51.1607732145134; 
- Fri, 11 Dec 2020 16:15:45 -0800 (PST)
+ bh=Sy8GTMLrANGCKa2I6q8N2rwI9l+Phoy4vAofP+Z/xdw=;
+ b=mtM+bJ6DReJqQ7QaH3xJDvtcHhXVoIQfXOsbJpEZyG/3e9ufCLj6EGhmJolYxZZyC9
+ a6H86afyf3Ulj2iZPb0kWUCaC1cDSnEJOK0KlPKj0frKocvBIObZVn+3Lnbx0Ah0Yw3M
+ WJC9yAl+THNLTrYkcOEXvQuGMCUGP0K/+5jjAgcbz1y+MjSVK/yBiJ3z4ENnVP5d8HdC
+ +CsS3Z4wwH9k68Cbfrr0/Wfuko2WpCUQnkcBqnvX6lcWWzQ2kLbJKAazoZbTwLaw4xgQ
+ jN47DpfInt1D9kzGCtMtVZZhIemrIA+1MqU8/O0sWYCb4xn5t7nZxi3wdO+xSpav4n3d
+ eGIQ==
+X-Gm-Message-State: AOAM531/lz6ifurKH0wtzT45MiiWXoX5IWozXwrs4dkXgkoNQKrW5AQy
+ /5R3UpbOfwIUezm8lUizqcJ+mXTSqUyFCA==
+X-Google-Smtp-Source: ABdhPJw+x/So/m6h/Hju5oW3s0dYhkssu3EW2X0rWXivgldeb5r1pQBI7cnkZMqwo8TivntByQFSyg==
+X-Received: by 2002:a1c:55ca:: with SMTP id j193mr16201950wmb.87.1607732146315; 
+ Fri, 11 Dec 2020 16:15:46 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d8sm16306001wmb.11.2020.12.11.16.15.44
+ by smtp.gmail.com with ESMTPSA id d8sm16306001wmb.11.2020.12.11.16.15.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Dec 2020 16:15:44 -0800 (PST)
+ Fri, 11 Dec 2020 16:15:45 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/8] hw/ppc/ppc440_bamboo: Drop use of ppcuic_init()
-Date: Sat, 12 Dec 2020 00:15:33 +0000
-Message-Id: <20201212001537.24520-5-peter.maydell@linaro.org>
+Subject: [PATCH 5/8] hw/ppc/sam460ex: Drop use of ppcuic_init()
+Date: Sat, 12 Dec 2020 00:15:34 +0000
+Message-Id: <20201212001537.24520-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201212001537.24520-1-peter.maydell@linaro.org>
 References: <20201212001537.24520-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,102 +87,164 @@ Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the bamboo board to directly creating and configuring the UIC,
-rather than doing it via the old ppcuic_init() helper function.
+Switch the sam460ex board to directly creating and configuring the
+UIC, rather than doing it via the old ppcuic_init() helper function.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/ppc/ppc440_bamboo.c | 38 +++++++++++++++++++++++++++-----------
- 1 file changed, 27 insertions(+), 11 deletions(-)
+ hw/ppc/sam460ex.c | 70 ++++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 54 insertions(+), 16 deletions(-)
 
-diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index 665bc1784e1..b156bcb9990 100644
---- a/hw/ppc/ppc440_bamboo.c
-+++ b/hw/ppc/ppc440_bamboo.c
-@@ -33,6 +33,9 @@
- #include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "hw/sysbus.h"
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index 14e6583eb0d..9cf7aad3833 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -39,6 +39,7 @@
+ #include "hw/usb/hcd-ehci.h"
+ #include "hw/ppc/fdt.h"
+ #include "hw/qdev-properties.h"
 +#include "hw/intc/ppc-uic.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
  
- #define BINARY_DEVICE_TREE_FILE "bamboo.dtb"
+ #include <libfdt.h>
  
-@@ -168,13 +171,13 @@ static void bamboo_init(MachineState *machine)
-     MemoryRegion *ram_memories = g_new(MemoryRegion, PPC440EP_SDRAM_NR_BANKS);
-     hwaddr ram_bases[PPC440EP_SDRAM_NR_BANKS];
-     hwaddr ram_sizes[PPC440EP_SDRAM_NR_BANKS];
--    qemu_irq *pic;
--    qemu_irq *irqs;
-     PCIBus *pcibus;
+@@ -281,7 +282,6 @@ static void sam460ex_init(MachineState *machine)
+     hwaddr ram_bases[SDRAM_NR_BANKS] = {0};
+     hwaddr ram_sizes[SDRAM_NR_BANKS] = {0};
+     MemoryRegion *l2cache_ram = g_new(MemoryRegion, 1);
+-    qemu_irq *irqs, *uic[4];
+     PCIBus *pci_bus;
      PowerPCCPU *cpu;
      CPUPPCState *env;
-     target_long initrd_size = 0;
-     DeviceState *dev;
-+    DeviceState *uicdev;
-+    SysBusDevice *uicsbd;
+@@ -293,6 +293,9 @@ static void sam460ex_init(MachineState *machine)
+     struct boot_info *boot_info;
+     uint8_t *spd_data;
      int success;
-     int i;
++    qemu_irq mal_irqs[4];
++    DeviceState *uic[4];
++    int i;
  
-@@ -192,10 +195,17 @@ static void bamboo_init(MachineState *machine)
-     ppc_dcr_init(env, NULL, NULL);
+     cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
+     env = &cpu->env;
+@@ -312,13 +315,35 @@ static void sam460ex_init(MachineState *machine)
+     ppc4xx_plb_init(env);
  
-     /* interrupt controller */
+     /* interrupt controllers */
 -    irqs = g_new0(qemu_irq, PPCUIC_OUTPUT_NB);
 -    irqs[PPCUIC_OUTPUT_INT] = ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_INT];
 -    irqs[PPCUIC_OUTPUT_CINT] = ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_CINT];
--    pic = ppcuic_init(env, irqs, 0x0C0, 0, 1);
-+    uicdev = qdev_new(TYPE_PPC_UIC);
-+    uicsbd = SYS_BUS_DEVICE(uicdev);
+-    uic[0] = ppcuic_init(env, irqs, 0xc0, 0, 1);
+-    uic[1] = ppcuic_init(env, &uic[0][30], 0xd0, 0, 1);
+-    uic[2] = ppcuic_init(env, &uic[0][10], 0xe0, 0, 1);
+-    uic[3] = ppcuic_init(env, &uic[0][16], 0xf0, 0, 1);
++    for (i = 0; i < ARRAY_SIZE(uic); i++) {
++        SysBusDevice *sbd;
++        /*
++         * Number of the first of the two consecutive IRQ inputs on UIC 0
++         * to connect the INT and CINT outputs of UIC n to. The entry
++         * for UIC 0 is ignored, because it connects to the CPU.
++         */
++        const int input_ints[] = { -1, 30, 10, 16 };
 +
-+    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
-+                             &error_fatal);
-+    sysbus_realize_and_unref(uicsbd, &error_fatal);
++        uic[i] = qdev_new(TYPE_PPC_UIC);
++        sbd = SYS_BUS_DEVICE(uic[i]);
 +
-+    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
-+                       ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_INT]);
-+    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
-+                       ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_CINT]);
++        qdev_prop_set_uint32(uic[i], "dcr-base", 0xc0 + i * 0x10);
++        object_property_set_link(OBJECT(uic[i]), "cpu", OBJECT(cpu),
++                                 &error_fatal);
++        sysbus_realize_and_unref(sbd, &error_fatal);
++
++        if (i == 0) {
++            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
++                               ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_INT]);
++            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_CINT,
++                               ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_CINT]);
++        } else {
++            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
++                               qdev_get_gpio_in(uic[0], input_ints[i]));
++            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
++                               qdev_get_gpio_in(uic[0], input_ints[i] + 1));
++        }
++    }
  
      /* SDRAM controller */
-     memset(ram_bases, 0, sizeof(ram_bases));
-@@ -203,14 +213,18 @@ static void bamboo_init(MachineState *machine)
-     ppc4xx_sdram_banks(machine->ram, PPC440EP_SDRAM_NR_BANKS, ram_memories,
-                        ram_bases, ram_sizes, ppc440ep_sdram_bank_sizes);
-     /* XXX 440EP's ECC interrupts are on UIC1, but we've only created UIC0. */
--    ppc4xx_sdram_init(env, pic[14], PPC440EP_SDRAM_NR_BANKS, ram_memories,
-+    ppc4xx_sdram_init(env,
-+                      qdev_get_gpio_in(uicdev, 14),
-+                      PPC440EP_SDRAM_NR_BANKS, ram_memories,
+     /* put all RAM on first bank because board has one slot
+@@ -331,7 +356,8 @@ static void sam460ex_init(MachineState *machine)
                        ram_bases, ram_sizes, 1);
  
-     /* PCI */
-     dev = sysbus_create_varargs(TYPE_PPC4xx_PCI_HOST_BRIDGE,
-                                 PPC440EP_PCI_CONFIG,
--                                pic[pci_irq_nrs[0]], pic[pci_irq_nrs[1]],
--                                pic[pci_irq_nrs[2]], pic[pci_irq_nrs[3]],
-+                                qdev_get_gpio_in(uicdev, pci_irq_nrs[0]),
-+                                qdev_get_gpio_in(uicdev, pci_irq_nrs[1]),
-+                                qdev_get_gpio_in(uicdev, pci_irq_nrs[2]),
-+                                qdev_get_gpio_in(uicdev, pci_irq_nrs[3]),
-                                 NULL);
-     pcibus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
-     if (!pcibus) {
-@@ -223,12 +237,14 @@ static void bamboo_init(MachineState *machine)
-     memory_region_add_subregion(get_system_memory(), PPC440EP_PCI_IO, isa);
+     /* IIC controllers and devices */
+-    dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600700, uic[0][2]);
++    dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600700,
++                               qdev_get_gpio_in(uic[0], 2));
+     i2c = PPC4xx_I2C(dev)->bus;
+     /* SPD EEPROM on RAM module */
+     spd_data = spd_data_generate(ram_sizes[0] < 128 * MiB ? DDR : DDR2,
+@@ -341,7 +367,8 @@ static void sam460ex_init(MachineState *machine)
+     /* RTC */
+     i2c_slave_create_simple(i2c, "m41t80", 0x68);
  
+-    dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600800, uic[0][3]);
++    dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600800,
++                               qdev_get_gpio_in(uic[0], 3));
+ 
+     /* External bus controller */
+     ppc405_ebc_init(env);
+@@ -356,7 +383,14 @@ static void sam460ex_init(MachineState *machine)
+     ppc4xx_sdr_init(env);
+ 
+     /* MAL */
+-    ppc4xx_mal_init(env, 4, 16, &uic[2][3]);
++    /*
++     * TODO if the MAL were a proper QOM device we would not need to
++     * copy its qemu_irqs into an array for ppc4xx_mal_init()'s benefit.
++     */
++    for (i = 0; i < ARRAY_SIZE(mal_irqs); i++) {
++        mal_irqs[0] = qdev_get_gpio_in(uic[2], 3 + i);
++    }
++    ppc4xx_mal_init(env, 4, 16, mal_irqs);
+ 
+     /* DMA */
+     ppc4xx_dma_init(env, 0x200);
+@@ -369,21 +403,23 @@ static void sam460ex_init(MachineState *machine)
+     memory_region_add_subregion(address_space_mem, 0x400000000LL, l2cache_ram);
+ 
+     /* USB */
+-    sysbus_create_simple(TYPE_PPC4xx_EHCI, 0x4bffd0400, uic[2][29]);
++    sysbus_create_simple(TYPE_PPC4xx_EHCI, 0x4bffd0400,
++                         qdev_get_gpio_in(uic[2], 29));
+     dev = qdev_new("sysbus-ohci");
+     qdev_prop_set_string(dev, "masterbus", "usb-bus.0");
+     qdev_prop_set_uint32(dev, "num-ports", 6);
+     sbdev = SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(sbdev, &error_fatal);
+     sysbus_mmio_map(sbdev, 0, 0x4bffd0000);
+-    sysbus_connect_irq(sbdev, 0, uic[2][30]);
++    sysbus_connect_irq(sbdev, 0, qdev_get_gpio_in(uic[2], 30));
+     usb_create_simple(usb_bus_find(-1), "usb-kbd");
+     usb_create_simple(usb_bus_find(-1), "usb-mouse");
+ 
+     /* PCI bus */
+     ppc460ex_pcie_init(env);
+     /* All PCI irqs are connected to the same UIC pin (cf. UBoot source) */
+-    dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000, uic[1][0]);
++    dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000,
++                               qdev_get_gpio_in(uic[1], 0));
+     pci_bus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
+     if (!pci_bus) {
+         error_report("couldn't create PCI controller!");
+@@ -405,12 +441,14 @@ static void sam460ex_init(MachineState *machine)
+     /* SoC has 4 UARTs
+      * but board has only one wired and two are present in fdt */
      if (serial_hd(0) != NULL) {
--        serial_mm_init(address_space_mem, 0xef600300, 0, pic[0],
-+        serial_mm_init(address_space_mem, 0xef600300, 0,
-+                       qdev_get_gpio_in(uicdev, 0),
+-        serial_mm_init(address_space_mem, 0x4ef600300, 0, uic[1][1],
++        serial_mm_init(address_space_mem, 0x4ef600300, 0,
++                       qdev_get_gpio_in(uic[1], 1),
                         PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
                         DEVICE_BIG_ENDIAN);
      }
      if (serial_hd(1) != NULL) {
--        serial_mm_init(address_space_mem, 0xef600400, 0, pic[1],
-+        serial_mm_init(address_space_mem, 0xef600400, 0,
-+                       qdev_get_gpio_in(uicdev, 1),
+-        serial_mm_init(address_space_mem, 0x4ef600400, 0, uic[0][1],
++        serial_mm_init(address_space_mem, 0x4ef600400, 0,
++                       qdev_get_gpio_in(uic[0], 1),
                         PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
                         DEVICE_BIG_ENDIAN);
      }
