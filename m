@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3947F2D8A23
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 22:23:21 +0100 (CET)
-Received: from localhost ([::1]:49448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DB72D8A9C
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 00:17:19 +0100 (CET)
+Received: from localhost ([::1]:35598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koCMK-0006jq-9X
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 16:23:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41948)
+	id 1koE8c-0001So-68
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 18:17:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1koAyB-000309-9E
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 14:54:19 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:40501)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1koE76-0000dC-CB
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 18:15:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:52162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1koAy4-0003B3-0m
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 14:54:17 -0500
-Received: by mail-ej1-x632.google.com with SMTP id x16so17090904ejj.7
- for <qemu-devel@nongnu.org>; Sat, 12 Dec 2020 11:54:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kwNI62FTc1DkrXK5YsZeDpNrBc2GFMXgMT9O276d2Ls=;
- b=DXbmeYcBq5g+iv/0GdTELmp7szk2aS7aRvEXrNtvG94qu+dMRB4Bcn8UZSh9S3UNCb
- v1H4xnQge0xPbTyqaIxBNUX6Celms7fB/QSJtbHgc34ewSZpUmPzetY9B4QTzHkG6O1I
- vFGgRysC5neBadRVNbDMCE0LUau8wKVMK03zBYHlUsWnK95vKCjb6PcmhhjBh5nXROVx
- bJBUfth6Zokuven26URiE3Fqo6hk1C7Z1MW7n5RsQwE0Q3ze6bf05XPXvBLBUPqTJPB2
- poHtchz3DvQ9Vm4gtYmFLDy57/rNo2RdEPShcvzjjHTraxPZo8Otus93JVBQqvEGtQBO
- NUvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kwNI62FTc1DkrXK5YsZeDpNrBc2GFMXgMT9O276d2Ls=;
- b=quBcHhRFSvQDRFSilHvnob5HF3TQ+gUcb3J8DjLz6YpTWlGE3aj3+9G3lbK66sTJBi
- TMOjJL47ikLnhNsPXy96MU5ThLbcuEBQEJdfQyb/ZzpWCqwPhZWd7daSP2YV+TIj19t+
- 0/LRbUzITJqpGYsO1jMfqKkPa9zHhQk7fTNYS62oH1oesPZhv72g4wXZc0eiLyMITX6M
- ZyEMibvhOY5PES5Wd3/ydIAnDt+sWG92M8IKK6rPF/SGhQLPoSzNClsCD96QqrPokdjw
- Idzevz7xKlj3knzp1qtBcolm79qAKlNHplVTNpxKVpQY/YB8JIWuPOYjyxPzmws+O50G
- Ozww==
-X-Gm-Message-State: AOAM532Qltj2fvNxLDc27GdqI4r/+geRFx9pOWtOi0lOVIbuQuyXt3e9
- UZwYSuolY2EUgHV8TfOYo2elQTx7YlQ/KEDWyXtKpA==
-X-Google-Smtp-Source: ABdhPJydfw0hbAXBEZU4FLrFt4n4KWrDtt7Zchb4zFJOECE5f3wnosWAqKyH04jY8PssWIGFFke8+oeZHzRhO0ZAW2A=
-X-Received: by 2002:a17:906:e94c:: with SMTP id
- jw12mr16456227ejb.56.1607802850427; 
- Sat, 12 Dec 2020 11:54:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1koE74-0001h0-6j
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 18:15:44 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1koE71-00010G-I5
+ for <qemu-devel@nongnu.org>; Sat, 12 Dec 2020 23:15:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 83BF82E8089
+ for <qemu-devel@nongnu.org>; Sat, 12 Dec 2020 23:15:39 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201212175458.259960-1-laurent@vivier.eu>
-In-Reply-To: <20201212175458.259960-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 12 Dec 2020 19:53:59 +0000
-Message-ID: <CAFEAcA9h4tsHeJkvEG9DCmt5pOLhBfMQ8UBsKYerMyseGbjV3g@mail.gmail.com>
-Subject: Re: [PULL 0/5] M68k for 6.0 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 12 Dec 2020 23:09:39 -0000
+From: Anatol Pomozov <1907926@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anatol
+X-Launchpad-Bug-Reporter: Anatol Pomozov (anatol)
+X-Launchpad-Bug-Modifier: Anatol Pomozov (anatol)
+Message-Id: <160781457931.10726.5957154717089218073.malonedeb@wampee.canonical.com>
+Subject: [Bug 1907926] [NEW] Implement TPM2 configuration for emulators that
+ provide TCP interface
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: c0d8b09cd4a04e05bed2ca30c8d6ded9a7ca536a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,37 +69,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1907926 <1907926@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 12 Dec 2020 at 18:32, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit ad717e6da3852b5729217d7938eecdb81c546114:
->
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging=
->  (2020-12-12 00:20:46 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu-m68k.git tags/m68k-for-6.0-pull-request
->
-> for you to fetch changes up to ce00ff729ee8461dc94a1593d25ceda65d973d3c:
->
->   m68k: fix some comment spelling errors (2020-12-12 18:12:43 +0100)
->
-> ----------------------------------------------------------------
-> m68k pull request 20201212
->
-> Fix for Coverity CID 1421883
-> Fix some comment spelling errors
-> Add m68k vmstate
+Public bug reported:
 
+swtpm provides several interfaces for its emulated device: unix socket
+(can be used by qemu), chardev. swtpm also provides TCP interface for
+the device which is very convenient for testing as it does not require
+root permissions.
 
-Applied, thanks.
+It would be very useful to have QEMU to work with TPM devices emulated
+via TCP.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
--- PMM
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1907926
+
+Title:
+  Implement TPM2 configuration for emulators that provide TCP interface
+
+Status in QEMU:
+  New
+
+Bug description:
+  swtpm provides several interfaces for its emulated device: unix socket
+  (can be used by qemu), chardev. swtpm also provides TCP interface for
+  the device which is very convenient for testing as it does not require
+  root permissions.
+
+  It would be very useful to have QEMU to work with TPM devices emulated
+  via TCP.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1907926/+subscriptions
 
