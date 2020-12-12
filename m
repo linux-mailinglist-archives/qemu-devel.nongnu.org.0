@@ -2,68 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D162D89A8
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 20:20:44 +0100 (CET)
-Received: from localhost ([::1]:50360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FEA42D89B1
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 20:24:58 +0100 (CET)
+Received: from localhost ([::1]:55350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koARe-0006vR-UW
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 14:20:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49942)
+	id 1koAVk-0000jc-Ts
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 14:24:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1koA5s-0003FD-SW; Sat, 12 Dec 2020 13:58:12 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:38635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1koA5n-0000Dy-NA; Sat, 12 Dec 2020 13:58:09 -0500
-Received: by mail-ej1-x643.google.com with SMTP id 6so2362998ejz.5;
- Sat, 12 Dec 2020 10:58:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aqJp4gKfamwnwqe8EMieEJaV+n0fzH9AmnYkNTme3fQ=;
- b=TC+B4GNRTpn/r+SvL+bvNGYRqF3e8Vj1nDNqdPPO4ItwyM9NESVl6FUy+NYJbvv6op
- hOB08xCYyw0iQP0A8lF2jmnF9pqVq+GqWhzpAJoYg9ISZu1z9cxQCw5zD7hSBPmXvfpi
- tEg3reKaZg4RwHzdNRXuZebgzfDbWmpxhQxXqFPRsjd8yi4+drOgBBry/98/eAWGaKJw
- 8zmHMVfoiMIEURI/0g8m9ib9djl4YfB93MOBvy2NN9o0d9TWELP0HbyX4GyUhh3vDcDA
- J+Z6Wdh8eynJ5jj4PW8EXBfNdMTqNoD/wg1EpmTfGv5zaEgohAt8iGwbx8oG8sfGZe/6
- WI+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aqJp4gKfamwnwqe8EMieEJaV+n0fzH9AmnYkNTme3fQ=;
- b=GpU1RWRBn0MdkdsQgXamnynxPacoUp+axVb7VZBxYw2OgNofPw+zCpegNu6JcWKTyI
- OmRkOPhknr3o73QLu/xz9GebzOOOWHSWbyrPOcOGyqbFl1bDqbWQreMLJCFp9QsgBgFm
- wcg/usF6SlHmPEMDKLHsKmWvITy87rdCvqYDuZM6fvUw/xfQgZs2N68gbQ6VJIk9xc6l
- xDJasnDPTHXuRnyL6ejIVyCmKL4ArRvqHiOgKcLQz1sIDq+lkwJez2C5lGZ8FjkZdqIT
- gZzU6lTmgLh+5OsJRQDgfiYUqA+A6VtIfgN9yA6A6IqePaR3QREps6Xn8cqxMlOLk/7V
- rfTg==
-X-Gm-Message-State: AOAM532OfrDtsKKc2+/2zeUeEMhgYmiw20NGdx7FXC3nvOxqRY3VaMKl
- 1x+ng7EH+JOu2lWUsP6d677IKgprD8+GSGaR9GA73y4r2a0=
-X-Google-Smtp-Source: ABdhPJwRYgIUgihzry5rDxdOpf6xvg2ddglMC+Ji3KvWM3mWc1/FcIcg0uP8pe4SFDAao5orqB2pkFnuroGhvbtV1rg=
-X-Received: by 2002:a05:6402:1155:: with SMTP id
- g21mr17219102edw.53.1607781202707; 
- Sat, 12 Dec 2020 05:53:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <noring@nocrew.org>) id 1ko9YB-0006MN-Rz
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:23:25 -0500
+Received: from ste-pvt-msa1.bahnhof.se ([213.80.101.70]:60775)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <noring@nocrew.org>) id 1ko9YA-0003bh-4D
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:23:23 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id DD92140CA2;
+ Sat, 12 Dec 2020 18:03:51 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Score: -1.901
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id f9khAWnkFLcs; Sat, 12 Dec 2020 18:03:51 +0100 (CET)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 06E4D3FA44;
+ Sat, 12 Dec 2020 18:03:49 +0100 (CET)
+Date: Sat, 12 Dec 2020 18:03:49 +0100
+From: Fredrik Noring <noring@nocrew.org>
+To: "Maciej W. Rozycki" <macro@linux-mips.org>
+Subject: Re: [PATCH 3/4] default-configs: Support o32 ABI with 64-bit MIPS CPUs
+Message-ID: <X9T39YSpcVb4kuWa@sx9>
+References: <20201119161710.1985083-1-f4bug@amsat.org>
+ <20201119161710.1985083-4-f4bug@amsat.org>
+ <alpine.LFD.2.21.2011191634540.656242@eddie.linux-mips.org>
 MIME-Version: 1.0
-References: <20201210134752.780923-1-marcandre.lureau@redhat.com>
- <20201210134752.780923-12-marcandre.lureau@redhat.com>
-In-Reply-To: <20201210134752.780923-12-marcandre.lureau@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Sat, 12 Dec 2020 17:53:10 +0400
-Message-ID: <CAJ+F1CL=m4bLdCaKHYuVNTzBdGZnK-_q5pGNoV8N37-H51u+Dw@mail.gmail.com>
-Subject: Re: [PATCH v3 11/13] compiler: remove GNUC check
-To: QEMU <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000076cb0505b644bb52"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <alpine.LFD.2.21.2011191634540.656242@eddie.linux-mips.org>
+Received-SPF: softfail client-ip=213.80.101.70; envelope-from=noring@nocrew.org;
+ helo=ste-pvt-msa1.bahnhof.se
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,151 +59,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "open list:ARM" <qemu-arm@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, xen-devel@lists.xenproject.org,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Mathieu Malaterre <malat@debian.org>, YunQiang Su <wzssyqa@gmail.com>,
+ James Cowgill <james410@cowgill.org.uk>, David Daney <ddaney.cavm@gmail.com>,
+ =?utf-8?Q?J=C3=BCrgen?= Urban <JuergenUrban@gmx.de>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000076cb0505b644bb52
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Nov 19, 2020 at 04:45:29PM +0000, Maciej W. Rozycki wrote:
+> On Thu, 19 Nov 2020, Philippe Mathieu-Daudé wrote:
+> 
+> > MIPS o32 ABI on 64-bit CPUs looks like a ILP32-on-64bit data
+> > model, allowing 64-bit arithmetic and data movement instructions.
+> > 
+> > This is the default ABI used by the "Sony Linux Toolkit for
+> > Playstation 2".
+> 
+>  Please don't, not at least with a generic configuration (i.e. make it 
+> unambiguous that this is R5900-specific).  This only works with R5900 
+> because it does not implement the MIPS ISA correctly (e.g. see what $ra is 
+> set to with JAL/JALR/etc. in the kernel mode), and it is not supported by 
+> the standard Linux ABI.  Use n32 instead, which has the same functionality 
+> and is standard (and is also a better ABI in terms of performance).
+> 
+>  You'd probably need to implement all the R5900 addressing quirks for your 
+> proposed hack to match hardware, or otherwise you'll end up with emulation 
+> that creates its own reality.
 
-On Thu, Dec 10, 2020 at 6:14 PM <marcandre.lureau@redhat.com> wrote:
+I agree. Modern Linux kernel and GCC are important too. It seems both o32
+and n32, with quirks, are generally accepted, but R5900 MMIs and other
+special features are less clear:
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> QEMU requires Clang or GCC, that define and support __GNUC__ extensions.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  include/qemu/compiler.h | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-> index 6212295e52..5e6cf2c8e8 100644
-> --- a/include/qemu/compiler.h
-> +++ b/include/qemu/compiler.h
-> @@ -64,14 +64,10 @@
->      (offsetof(container, field) + sizeof_field(container, field))
->
->  /* Convert from a base type to a parent type, with compile time
-> checking.  */
-> -#ifdef __GNUC__
->  #define DO_UPCAST(type, field, dev) ( __extension__ ( { \
->      char __attribute__((unused)) offset_must_be_zero[ \
->          -offsetof(type, field)]; \
->      container_of(dev, type, field);}))
-> -#else
-> -#define DO_UPCAST(type, field, dev) container_of(dev, type, field)
-> -#endif
->
->  #define typeof_field(type, field) typeof(((type *)0)->field)
->  #define type_check(t1,t2) ((t1*)0 - (t2*)0)
-> @@ -102,7 +98,7 @@
->  #if defined(__clang__)
->  /* clang doesn't support gnu_printf, so use printf. */
->  # define GCC_FMT_ATTR(n, m) __attribute__((format(printf, n, m)))
-> -#elif defined(__GNUC__)
-> +#else
->  /* Use gnu_printf (qemu uses standard format strings). */
->  # define GCC_FMT_ATTR(n, m) __attribute__((format(gnu_printf, n, m)))
->  # if defined(_WIN32)
-> @@ -112,8 +108,6 @@
->   */
->  #  define __printf__ __gnu_printf__
->  # endif
-> -#else
-> -#define GCC_FMT_ATTR(n, m)
->  #endif
->
->  #ifndef __has_warning
-> --
-> 2.29.0
->
->
->
-Peter, Paolo, anyone to give a review?
-thanks
+For example, given the fact that the 128-bit MMIs are unconditionally
+executable on R5900 hardware, a user may be forgiven to believe that they
+always work. But unless the Linux kernel restores 128-bit registers in its
+operating mode switches, which could be o32, there will be silent data
+corruption (and ensuing frustration).
 
+(For this reason I favour full register restores in all operating modes.)
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000076cb0505b644bb52
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 10, 2020 at 6:14 PM &lt;<=
-a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fr=
-om: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.co=
-m" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-<br>
-QEMU requires Clang or GCC, that define and support __GNUC__ extensions.<br=
->
-<br>
-Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
----<br>
-=C2=A0include/qemu/compiler.h | 8 +-------<br>
-=C2=A01 file changed, 1 insertion(+), 7 deletions(-)<br>
-<br>
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h<br>
-index 6212295e52..5e6cf2c8e8 100644<br>
---- a/include/qemu/compiler.h<br>
-+++ b/include/qemu/compiler.h<br>
-@@ -64,14 +64,10 @@<br>
-=C2=A0 =C2=A0 =C2=A0(offsetof(container, field) + sizeof_field(container, f=
-ield))<br>
-<br>
-=C2=A0/* Convert from a base type to a parent type, with compile time check=
-ing.=C2=A0 */<br>
--#ifdef __GNUC__<br>
-=C2=A0#define DO_UPCAST(type, field, dev) ( __extension__ ( { \<br>
-=C2=A0 =C2=A0 =C2=A0char __attribute__((unused)) offset_must_be_zero[ \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-offsetof(type, field)]; \<br>
-=C2=A0 =C2=A0 =C2=A0container_of(dev, type, field);}))<br>
--#else<br>
--#define DO_UPCAST(type, field, dev) container_of(dev, type, field)<br>
--#endif<br>
-<br>
-=C2=A0#define typeof_field(type, field) typeof(((type *)0)-&gt;field)<br>
-=C2=A0#define type_check(t1,t2) ((t1*)0 - (t2*)0)<br>
-@@ -102,7 +98,7 @@<br>
-=C2=A0#if defined(__clang__)<br>
-=C2=A0/* clang doesn&#39;t support gnu_printf, so use printf. */<br>
-=C2=A0# define GCC_FMT_ATTR(n, m) __attribute__((format(printf, n, m)))<br>
--#elif defined(__GNUC__)<br>
-+#else<br>
-=C2=A0/* Use gnu_printf (qemu uses standard format strings). */<br>
-=C2=A0# define GCC_FMT_ATTR(n, m) __attribute__((format(gnu_printf, n, m)))=
-<br>
-=C2=A0# if defined(_WIN32)<br>
-@@ -112,8 +108,6 @@<br>
-=C2=A0 */<br>
-=C2=A0#=C2=A0 define __printf__ __gnu_printf__<br>
-=C2=A0# endif<br>
--#else<br>
--#define GCC_FMT_ATTR(n, m)<br>
-=C2=A0#endif<br>
-<br>
-=C2=A0#ifndef __has_warning<br>
--- <br>
-2.29.0<br>
-<br>
-<br></blockquote><div><br></div><div>Peter, Paolo, anyone to give a review?=
-</div><div>thanks<br></div></div><br clear=3D"all"><br>-- <br><div dir=3D"l=
-tr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000076cb0505b644bb52--
+Fredrik
 
