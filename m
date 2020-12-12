@@ -2,54 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8352D895C
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 19:50:09 +0100 (CET)
-Received: from localhost ([::1]:60340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C64A2D8969
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 19:52:17 +0100 (CET)
+Received: from localhost ([::1]:37284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ko9y4-0002W6-EU
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 13:50:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57838)
+	id 1koA08-0004m3-Iw
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 13:52:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ko9Ui-0001al-Uj
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:19:48 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:51695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ko9Uh-0002ON-4P
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:19:48 -0500
-Received: from localhost.localdomain ([82.252.152.214]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MyvFC-1jtihO2VIA-00vyty; Sat, 12 Dec 2020 18:55:04 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] m68k: fix some comment spelling errors
-Date: Sat, 12 Dec 2020 18:54:58 +0100
-Message-Id: <20201212175458.259960-6-laurent@vivier.eu>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201212175458.259960-1-laurent@vivier.eu>
-References: <20201212175458.259960-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ko9hx-00035B-Km
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:33:29 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:42640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1ko9hu-0007JM-P1
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:33:29 -0500
+Received: by mail-ej1-x641.google.com with SMTP id d17so16920803ejy.9
+ for <qemu-devel@nongnu.org>; Sat, 12 Dec 2020 10:33:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ncTnv9PKyQ98tmmUfBf7adXzWtcZCPZoVk2JuSNNPTE=;
+ b=fa6RR51j27JycsTfOfmDtsvvbUWHTSsrH+gLz8+J3FNbo4LowN8Ci5jOsra7a2meoU
+ YfrSFDMPdzzzJg47huYKBsoV4txdBBYT/Pds4wV1XfHKjz+9FV2tjHCrpqYbBpNETAfC
+ upwFkMZipYsLEaeHKkRk0t4fu8XF5IFeKw1qPTQ9FMuvhfBxU+lilaWEWkGeGPYFJW+A
+ hNhOYDaqd8j9eh4vlVC3Ol7duA08SJYIuy6uhmgJP+dOuI/VaPw3AVjFomwGtbUbWb0D
+ 25GGu056iC3ICNoprcIafcLpmSg37nkPMJLCjtXYxkGncngGowfHwdh4yPxc1z3YcPqt
+ ihbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ncTnv9PKyQ98tmmUfBf7adXzWtcZCPZoVk2JuSNNPTE=;
+ b=pYyS96UB+KGwTcdq92cESSWGbEbnM9LSX8pR10zJRkpjTMb//22OdLeUmoCZjyNIJ4
+ 3FZKFaekVsNznXZucSywOYOfQ2vi5eBPvIs+Z2sZgwT/b0rSh2Fu4UwPVCXCS37soMfy
+ o5NkbGJKmvLlpcFBo6crVvjp2kjly/E85X3vj0G3dLgNWKxKd5l0TiBlsMujRSZNKyt4
+ Yn9984surb5Ymx/h63rLd//oXsB+jSvkPVY5XVM2Bj8KA/Wm7y0jEYsNrPx7VMXnl1Yi
+ tx+g4Zbx/bvkog37lqOL+lWVN9LNVSysxGi/dN3mgpj0zF8ub0NVBjaOPGZZmRbExEJk
+ ckXw==
+X-Gm-Message-State: AOAM5337+eMoVYPy1HL8xOpvRxAHoeA8QeWkPuGRs0w4OlxBbXEUDnzP
+ I1P1nQuRGUwlgXe3dQENNHxfohnlrl4tIxUtjvoGmg==
+X-Google-Smtp-Source: ABdhPJweXuKbo6OYvtj6/WA2fVtE7pHsumy40ciiZQ4TMNtT+TqPLWT4nlurhPo1gRE5sAx+89z9cFtbItt1ZJDxj+8=
+X-Received: by 2002:a17:906:1151:: with SMTP id
+ i17mr16455592eja.250.1607798005315; 
+ Sat, 12 Dec 2020 10:33:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:4xEk/o2/hRoQtBLpurBSFxNwfghpahVgGT9cl+V8HMTjNjB6fik
- ERwGSnrzK65sUwK92FmEEjaMyPDVGcf6dLcUFzK5KUKiw8J0IGIkuwZ2EpFcpg/0eCZ3pC3
- mO6LQxMuPXsk+a76b31Lbd6W69Q4DmQA65lZ3Z6puAdx2L6hRbA/aOg3WnfDis+Mq/W/ndt
- 3MaNQ1drgdgwKLfTiL06g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nhZpg6qpyUQ=:5syejOJOuzseCVSFuUgrNC
- lWdgGeLTmsqcWET0jpM9ICPMV0h85GF5U5s+oejxgb3xLL6b6ATU4E+ub3/FlX0UFKbjauF2D
- ZfEwQecxFkIIz4yCK1Mznth9TFlvKpYXuj6SrRNAEK0bDUYMcWo/NynUlUM6Q1+8fmcBam1LR
- BQGh0hvKpmZ7XRMMX+C6Pdj3TONdhD5FUxR91no9iZTCSUWFrvHCmvS+DnwAZ2s6fzFanxHrf
- zZsHjtZ7yK3pVhLws/phsfVvzIb2gkLzPtQQE6qLlx/u1el4i+MYaldwflfLtyq2DnSdLcBq1
- trJTkha2gXCZ6FQRrN0Lwr7gFIgabYRX66O7mCBtMPJb8AsGgVCnoOhpq4l47rXAWOBcLBnCw
- 9XhAeu3gjHJAqjl9krpBQgH+6fnbfUHSE9g+mm0pypXSjYsdXBFVVXyzHE4cqOa8IcN2xl3GI
- pFlVD/Zc5A==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201212001537.24520-1-peter.maydell@linaro.org>
+ <20201212001537.24520-3-peter.maydell@linaro.org>
+ <b4550f1-bedb-dc65-70a0-f11083c5da4c@eik.bme.hu>
+In-Reply-To: <b4550f1-bedb-dc65-70a0-f11083c5da4c@eik.bme.hu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 12 Dec 2020 18:33:14 +0000
+Message-ID: <CAFEAcA85GS=UHtGR=OoL0LZsLBcoV3W-wah=FbHTSG8Sy0gjsw@mail.gmail.com>
+Subject: Re: [PATCH 2/8] ppc: Convert PPC UIC to a QOM device
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,104 +79,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Edmondson <david.edmondson@oracle.com>,
- zhaolichang <zhaolichang@huawei.com>, Laurent Vivier <laurent@vivier.eu>,
- Philippe Mathieu-Daude <f4bug@amsat.org>
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: zhaolichang <zhaolichang@huawei.com>
+On Sat, 12 Dec 2020 at 18:27, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>
+> On Sat, 12 Dec 2020, Peter Maydell wrote:
+> > Currently the PPC UIC ("Universal Interrupt Controller") is implemented
+> > as a non-QOM device in ppc4xx_devs.c. Convert it to a proper QOM device
+> > in hw/intc.
+> >
+> > The ppcuic_init() function is retained for the moment with its current
+> > interface; in subsequent commits this will be tidied up to avoid the
+> > allocation of an irq array.
+> >
+> > This conversion adds VMState support.
+> >
+> > It leaves the LOG_UIC() macro as-is to maximise the extent to which
+> > this is simply code-movement rather than a rewrite (in new code it
+> > would be better to use tracepoints).
+> >
+> > The default property values for dcr-base and use-vectors are set to
+> > match those use by most of our boards with a UIC.
+>
+> Would this be easier to review if it's split into two patches, first doing
+> the conversion in place, then another just doing code moving? Maybe we
+> could spot some problem that way easier?
 
-I found that there are many spelling errors in the comments of qemu/target/m68k.
-I used spellcheck to check the spelling errors and found some errors in the folder.
+That didn't really feel very feasible to me. You can see that
+mostly it's code motion using the git diff --color-moved option
+if you look at the commit.
 
-Signed-off-by: zhaolichang <zhaolichang@huawei.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
-Reviewed-by: Philippe Mathieu-Daude<f4bug@amsat.org>
-Reviewed-by: Laurent Vivier<laurent@vivier.eu>
-Message-Id: <20201009064449.2336-9-zhaolichang@huawei.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- target/m68k/translate.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 3fc67aa45261..133a4049191e 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -438,7 +438,7 @@ static TCGv gen_addr_index(DisasContext *s, uint16_t ext, TCGv tmp)
- }
- 
- /*
-- * Handle a base + index + displacement effective addresss.
-+ * Handle a base + index + displacement effective address.
-  * A NULL_QREG base means pc-relative.
-  */
- static TCGv gen_lea_indexed(CPUM68KState *env, DisasContext *s, TCGv base)
-@@ -1696,7 +1696,7 @@ static void bcd_add(TCGv dest, TCGv src)
- 
-     /*
-      * t1 = (src + 0x066) + dest + X
--     *    = result with some possible exceding 0x6
-+     *    = result with some possible exceeding 0x6
-      */
- 
-     t0 = tcg_const_i32(0x066);
-@@ -1706,7 +1706,7 @@ static void bcd_add(TCGv dest, TCGv src)
-     tcg_gen_add_i32(t1, t0, dest);
-     tcg_gen_add_i32(t1, t1, QREG_CC_X);
- 
--    /* we will remove exceding 0x6 where there is no carry */
-+    /* we will remove exceeding 0x6 where there is no carry */
- 
-     /*
-      * t0 = (src + 0x0066) ^ dest
-@@ -1736,7 +1736,7 @@ static void bcd_add(TCGv dest, TCGv src)
-     tcg_temp_free(t0);
- 
-     /*
--     * remove the exceding 0x6
-+     * remove the exceeding 0x6
-      * for digits that have not generated a carry
-      */
- 
-@@ -2638,7 +2638,7 @@ DISAS_INSN(negx)
-     gen_flush_flags(s); /* compute old Z */
- 
-     /*
--     * Perform substract with borrow.
-+     * Perform subtract with borrow.
-      * (X, N) =  -(src + X);
-      */
- 
-@@ -2653,7 +2653,7 @@ DISAS_INSN(negx)
-     /*
-      * Compute signed-overflow for negation.  The normal formula for
-      * subtraction is (res ^ src) & (src ^ dest), but with dest==0
--     * this simplies to res & src.
-+     * this simplifies to res & src.
-      */
- 
-     tcg_gen_and_i32(QREG_CC_V, QREG_CC_N, src);
-@@ -3159,7 +3159,7 @@ static inline void gen_subx(DisasContext *s, TCGv src, TCGv dest, int opsize)
-     gen_flush_flags(s); /* compute old Z */
- 
-     /*
--     * Perform substract with borrow.
-+     * Perform subtract with borrow.
-      * (X, N) = dest - (src + X);
-      */
- 
-@@ -3169,7 +3169,7 @@ static inline void gen_subx(DisasContext *s, TCGv src, TCGv dest, int opsize)
-     gen_ext(QREG_CC_N, QREG_CC_N, opsize, 1);
-     tcg_gen_andi_i32(QREG_CC_X, QREG_CC_X, 1);
- 
--    /* Compute signed-overflow for substract.  */
-+    /* Compute signed-overflow for subtract.  */
- 
-     tcg_gen_xor_i32(QREG_CC_V, QREG_CC_N, dest);
-     tcg_gen_xor_i32(tmp, dest, src);
--- 
-2.29.2
-
+thanks
+-- PMM
 
