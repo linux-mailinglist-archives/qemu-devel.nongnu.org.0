@@ -2,56 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423022D858A
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 11:01:53 +0100 (CET)
-Received: from localhost ([::1]:41684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A682D85A3
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 11:05:18 +0100 (CET)
+Received: from localhost ([::1]:44414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ko1ip-0008Pc-Ni
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 05:01:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46748)
+	id 1ko1m9-0001FJ-Hb
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 05:05:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ko1hB-0007uv-BW
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 05:00:09 -0500
-Received: from mx2.suse.de ([195.135.220.15]:49394)
+ (Exim 4.90_1) (envelope-from <noring@nocrew.org>) id 1ko1lJ-0000pz-3X
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 05:04:25 -0500
+Received: from ste-pvt-msa2.bahnhof.se ([213.80.101.71]:51115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ko1h8-0008S7-Nu
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 05:00:09 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 17379AD5A;
- Sat, 12 Dec 2020 10:00:05 +0000 (UTC)
-Subject: Re: [PATCH v11 18/25] cpu: Move synchronize_from_tb() to tcg_ops
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201211083143.14350-1-cfontana@suse.de>
- <20201211083143.14350-19-cfontana@suse.de>
- <78a7119d-1b4b-47dc-8f16-510708c9fcd4@linaro.org>
- <cca08e8d-9235-46da-3610-8acafbc2de14@suse.de>
- <15b884b7-94e4-1476-f883-e84379b2661e@linaro.org>
- <5d9457df-c7c6-dd61-bbd7-1563d29102f8@suse.de>
- <946cb717-d1f3-5b30-5622-0126437420d7@suse.de>
- <b7db8e36-f623-a090-a19a-644b02c3cd76@linaro.org>
- <6c117162-7b6d-14bc-9d6e-f5169d7d1e31@redhat.com>
- <2d76e092-14bf-f9dc-4703-811f7768f1a7@suse.de>
- <20201211200221.GE1289986@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <8b6e3c41-f778-414d-e62c-8733ecb19dc7@suse.de>
-Date: Sat, 12 Dec 2020 11:00:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <noring@nocrew.org>) id 1ko1lH-0001N2-5a
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 05:04:24 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 0B9013F712;
+ Sat, 12 Dec 2020 11:03:57 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Score: -1.9
+Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
+ by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id PFhLXEewppCX; Sat, 12 Dec 2020 11:03:55 +0100 (CET)
+Received: by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id D228E3F5A7;
+ Sat, 12 Dec 2020 11:03:54 +0100 (CET)
+Date: Sat, 12 Dec 2020 11:04:18 +0100
+From: Fredrik Noring <noring@nocrew.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [Qemu-devel] [PULL 8/8] target/mips: Preparing for adding MMI
+ instructions
+Message-ID: <X9SVovtcemt9CClm@sx9>
+References: <1551276045-19143-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1551276045-19143-9-git-send-email-aleksandar.markovic@rt-rk.com>
+ <8c3ac05a-91d4-6830-4ede-6574aca8af94@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20201211200221.GE1289986@habkost.net>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <8c3ac05a-91d4-6830-4ede-6574aca8af94@amsat.org>
+Received-SPF: softfail client-ip=213.80.101.71; envelope-from=noring@nocrew.org;
+ helo=ste-pvt-msa2.bahnhof.se
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,126 +60,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ peter.maydell@linaro.org, "Maciej W. Rozycki" <macro@linux-mips.org>,
+ qemu-devel@nongnu.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 9:02 PM, Eduardo Habkost wrote:
-> On Fri, Dec 11, 2020 at 07:51:54PM +0100, Claudio Fontana wrote:
->> On 12/11/20 7:26 PM, Philippe Mathieu-Daudé wrote:
->>> On 12/11/20 7:22 PM, Richard Henderson wrote:
->>>> On 12/11/20 12:15 PM, Claudio Fontana wrote:
->>>>> Should I return this file to the original state (without the extra #includes that pretend it to be a standalone header file,
->>>>> and call it
->>>>>
->>>>> tcg-cpu-ops.h.inc
->>>>>
->>>>> ?
->>>>
->>>> If this header can work with qemu/typedefs.h, then no, because the circularity
->>>> has been resolved.  Otherwise, yes.
->>>
->>> My editor got confused with TranslationBlock, which is why I asked
->>> to include its declaration.
->>>
->>> Easier to forward-declare TranslationBlock in qemu/typedefs.h?
->>>
->>> Regards,
->>>
->>> Phil.
->>>
->>
->> Hello Philippe,
->>
->> ok you propose to move the existing fwd declaration of TranslationBlock from cpu.h to qemu/typedefs.h .
+On Fri, Nov 13, 2020 at 10:39:42AM +0100, Philippe Mathieu-Daudé wrote:
+> On 2/27/19 3:00 PM, Aleksandar Markovic wrote:
+> > From: Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com>
+> > 
+> > Set up MMI code to be compiled only for TARGET_MIPS64. This is
+> > needed so that GPRs are 64 bit, and combined with MMI registers,
+> > they will form full 128 bit registers.
+> > 
+> > Signed-off-by: Mateja Marjanovic <mateja.marjanovic@rt-rk.com>
+> > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> > Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
+> > Message-Id: <1551183797-13570-2-git-send-email-mateja.marjanovic@rt-rk.com>
+> > ---
+> >  target/mips/translate.c | 43 +++++++++++++++++++++++++++++++++++++++++--
+> >  1 file changed, 41 insertions(+), 2 deletions(-)
+> ...
 > 
-> It seems simpler to just add a
+> >  static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
+> >  {
+> >      int rs, rt, rd, sa;
+> > @@ -28796,10 +28828,11 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
+> >          decode_opc_special(env, ctx);
+> >          break;
+> >      case OPC_SPECIAL2:
+> > +#if defined(TARGET_MIPS64)
+> >          if ((ctx->insn_flags & INSN_R5900) && (ctx->insn_flags & ASE_MMI)) {
+> >              decode_mmi(env, ctx);
 > 
->     typedef struct TranslationBlock TranslationBlock;
-> 
-> line to tcg-cpu-ops.h.
-> 
-> Or, an even simpler solution: just use `struct TranslationBlock`
-> instead of `TranslationBlock` in the declarations being moved to
-> tcg-cpu-ops.h.
-> 
-> We don't need to move declarations to typedefs.h anymore, because
-> now the compilers we support don't warn about typedef
-> redefinitions:
-> https://lore.kernel.org/qemu-devel/20200914134636.GZ1618070@habkost.net/
-> 
-> 
->>
->> And what about #include "exec/memattrs.h"?
->>
->> I assume you propose to put struct MemTxAttrs there as a fwd declaration too,
-> 
-> This can't be done, because MemTxAttrs can't be an incomplete
-> type in the code you are moving (the methods get a MemTxAttrs
-> value, not a pointer).
+> This change is incorrect, you removed support for the
+> MADD[U] and MULT[U] instructions on TXx9 32-bit targets
+> (TX79 still works).
 
+The 128-bit MMIs and R5900 specific registers are always valid on R5900
+hardware regardless of 32- and 64-bit operation modes[1]. CP0.Status.UX
+isn't implemented[2]. In other MIPS ISA implementations, attempting to
+execute 64-bit operations in 32-bit user or supervisor mode may cause a
+reserved instruction exception.
 
+It would be wise to limit any R5900 specific psABIs, while permitting
+useful features such as the MMIs. GCC emits MULT[U] for R5900 o32.
 
-I'm confused now on what we are trying to do: if we want the file to be a "proper header" or just a TCG-ops-only convenience split of cpu.h.
+Fredrik
 
-I thought that we were only solving a highlighting issue in some editor (Philippe),
-and I wonder if these changes in qemu/typedef.h help with that?
+References:
 
-I tried adding both to qemu/typedef.h, and since cpu.h is the only user of the file, and it already includes memattrs.h, everything is fine.
+[1] "EE Core User's Manual", version 6.0, Sony Computer Entertainment Inc.,
+    p. 107.
 
-But here maybe you are proposing to make it a regular header, and include this instead of just hw/core/cpu.h in the targets?
-
-I am thinking whether it is the case to scrap this whole mess, make TCGCPUOps a pointer in CPUClass, and in the targets say for example:
-
-#include "tcg-cpu-ops.h"
-
-...
-
-+static struct TCGCPUOps cris_tcg_ops = {
-+    .initialize = cris_initialize_tcg,
-+};
-+
- static void cris_cpu_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-@@ -284,7 +292,7 @@ static void cris_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_stop_before_watchpoint = true;
- 
-     cc->disas_set_info = cris_disas_set_info;
--    cc->tcg_ops.initialize = cris_initialize_tcg;
-+    cc->tcg_ops = &cris_tcg_ops;
- }
-
-
-What do you all think of this?
-
-Thanks,
-
-Claudio
-
-
-> 
->>
->> and this concludes our experiment here?
->>
->> Thanks,
->>
->> Claudio
->>
-> 
-
+[2] "TX System RISC TX79 Core Architecture" manual, revision 2.0,
+    Toshiba Corporation, p. 4-16, https://wiki.qemu.org/File:C790.pdf
 
