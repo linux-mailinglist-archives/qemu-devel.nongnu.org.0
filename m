@@ -2,67 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE972D8A0C
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 21:55:46 +0100 (CET)
-Received: from localhost ([::1]:54940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A332D89FD
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 21:38:40 +0100 (CET)
+Received: from localhost ([::1]:39042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koBvd-00034r-7C
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 15:55:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53384)
+	id 1koBf4-0003Y0-7K
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 15:38:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1koBgV-0004JV-2n
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 15:40:07 -0500
-Received: from indium.canonical.com ([91.189.90.7]:42192)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1koBgT-0001Yp-6D
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 15:40:06 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1koB4O-0004TQ-HK
- for <qemu-devel@nongnu.org>; Sat, 12 Dec 2020 20:00:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4D4A52E802D
- for <qemu-devel@nongnu.org>; Sat, 12 Dec 2020 20:00:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1koAxE-0002fJ-W5; Sat, 12 Dec 2020 14:53:21 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:13806)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1koAx4-0002s0-7n; Sat, 12 Dec 2020 14:53:17 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 28D357470DD;
+ Sat, 12 Dec 2020 20:53:03 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id D2AD574645F; Sat, 12 Dec 2020 20:53:02 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id D19AC746383;
+ Sat, 12 Dec 2020 20:53:02 +0100 (CET)
+Date: Sat, 12 Dec 2020 20:53:02 +0100 (CET)
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 5/8] hw/ppc/sam460ex: Drop use of ppcuic_init()
+In-Reply-To: <20201212001537.24520-6-peter.maydell@linaro.org>
+Message-ID: <c092a552-abbc-1eb9-685-d389fcd0176c@eik.bme.hu>
+References: <20201212001537.24520-1-peter.maydell@linaro.org>
+ <20201212001537.24520-6-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 12 Dec 2020 19:51:49 -0000
-From: johannes <1906948@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: gtk gui opengl virtio
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fghgfh832 th-huth
-X-Launchpad-Bug-Reporter: johannes (fghgfh832)
-X-Launchpad-Bug-Modifier: johannes (fghgfh832)
-References: <160719376548.16747.104851865616000042.malonedeb@wampee.canonical.com>
-Message-Id: <160780270937.30645.732633297118756272.malone@soybean.canonical.com>
-Subject: [Bug 1906948] Re: Enabling OpenGL for GUI doesn't work on old laptop
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 222259bc73e4e3629a1d55e6411c3d077e0f7d39
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,82 +54,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906948 <1906948@bugs.launchpad.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-I installed Qemu 5.0.0 from Debian Buster backports and I still get this
-error.
+On Sat, 12 Dec 2020, Peter Maydell wrote:
+> Switch the sam460ex board to directly creating and configuring the
+> UIC, rather than doing it via the old ppcuic_init() helper function.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> hw/ppc/sam460ex.c | 70 ++++++++++++++++++++++++++++++++++++-----------
+> 1 file changed, 54 insertions(+), 16 deletions(-)
+>
+> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+> index 14e6583eb0d..9cf7aad3833 100644
+> --- a/hw/ppc/sam460ex.c
+> +++ b/hw/ppc/sam460ex.c
+> @@ -39,6 +39,7 @@
+> #include "hw/usb/hcd-ehci.h"
+> #include "hw/ppc/fdt.h"
+> #include "hw/qdev-properties.h"
+> +#include "hw/intc/ppc-uic.h"
+>
+> #include <libfdt.h>
+>
+> @@ -281,7 +282,6 @@ static void sam460ex_init(MachineState *machine)
+>     hwaddr ram_bases[SDRAM_NR_BANKS] = {0};
+>     hwaddr ram_sizes[SDRAM_NR_BANKS] = {0};
+>     MemoryRegion *l2cache_ram = g_new(MemoryRegion, 1);
+> -    qemu_irq *irqs, *uic[4];
+>     PCIBus *pci_bus;
+>     PowerPCCPU *cpu;
+>     CPUPPCState *env;
+> @@ -293,6 +293,9 @@ static void sam460ex_init(MachineState *machine)
+>     struct boot_info *boot_info;
+>     uint8_t *spd_data;
+>     int success;
+> +    qemu_irq mal_irqs[4];
+> +    DeviceState *uic[4];
+> +    int i;
+>
+>     cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
+>     env = &cpu->env;
+> @@ -312,13 +315,35 @@ static void sam460ex_init(MachineState *machine)
+>     ppc4xx_plb_init(env);
+>
+>     /* interrupt controllers */
+> -    irqs = g_new0(qemu_irq, PPCUIC_OUTPUT_NB);
+> -    irqs[PPCUIC_OUTPUT_INT] = ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_INT];
+> -    irqs[PPCUIC_OUTPUT_CINT] = ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_CINT];
+> -    uic[0] = ppcuic_init(env, irqs, 0xc0, 0, 1);
+> -    uic[1] = ppcuic_init(env, &uic[0][30], 0xd0, 0, 1);
+> -    uic[2] = ppcuic_init(env, &uic[0][10], 0xe0, 0, 1);
+> -    uic[3] = ppcuic_init(env, &uic[0][16], 0xf0, 0, 1);
+> +    for (i = 0; i < ARRAY_SIZE(uic); i++) {
+> +        SysBusDevice *sbd;
+> +        /*
+> +         * Number of the first of the two consecutive IRQ inputs on UIC 0
+> +         * to connect the INT and CINT outputs of UIC n to. The entry
+> +         * for UIC 0 is ignored, because it connects to the CPU.
+> +         */
+> +        const int input_ints[] = { -1, 30, 10, 16 };
+> +
+> +        uic[i] = qdev_new(TYPE_PPC_UIC);
+> +        sbd = SYS_BUS_DEVICE(uic[i]);
+> +
+> +        qdev_prop_set_uint32(uic[i], "dcr-base", 0xc0 + i * 0x10);
+> +        object_property_set_link(OBJECT(uic[i]), "cpu", OBJECT(cpu),
+> +                                 &error_fatal);
+> +        sysbus_realize_and_unref(sbd, &error_fatal);
+> +
+> +        if (i == 0) {
+> +            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
+> +                               ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_INT]);
+> +            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_CINT,
+> +                               ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_CINT]);
+> +        } else {
+> +            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
+> +                               qdev_get_gpio_in(uic[0], input_ints[i]));
+> +            sysbus_connect_irq(sbd, PPCUIC_OUTPUT_INT,
 
+OK got it, there's a typo here, this one should be CINT, with that it 
+seems to work better.
 
-qemu_gl_create_compile_shader: compile vertex error
-0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.10=
-, 1.20, and 1.00 ES
+Regards,
+BALATON Zoltan
 
-qemu_gl_create_compile_shader: compile fragment error
-0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.10=
-, 1.20, and 1.00 ES
-
-qemu_gl_create_compile_shader: compile vertex error
-0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.10=
-, 1.20, and 1.00 ES
-
-qemu_gl_create_compile_shader: compile fragment error
-0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.10=
-, 1.20, and 1.00 ES
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906948
-
-Title:
-  Enabling OpenGL for GUI doesn't work on old laptop
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  QEMU start command is:
-
-  qemu-system-x86_64 -enable-kvm -m 2G -cpu host -smp 2 -cdrom
-  ./linuxmint-20-mate-64bit.iso -boot d -vga virtio -soundhw hda
-  -display gtk,gl=3Don
-
-  =
-
-  and QEMU crashes immediately on startup and gives these error messages:
-
-  =
-
-  qemu_gl_create_compile_shader: compile vertex error
-  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
-10, 1.20, and 1.00 ES
-
-  qemu_gl_create_compile_shader: compile fragment error
-  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
-10, 1.20, and 1.00 ES
-
-  qemu_gl_create_compile_shader: compile vertex error
-  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
-10, 1.20, and 1.00 ES
-
-  qemu_gl_create_compile_shader: compile fragment error
-  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
-10, 1.20, and 1.00 ES
-
-  =
-
-  If I remove "gl=3Don" it will boot. Does this just mean that this hardwar=
-e is too old to run QEMU with OpenGL enabled in GUI, or is this a bug? =
-
-
-  Host OS is Debian 10, computer is a Lenovo laptop with Core i5-520M
-  CPU and its integrated Intel HD graphics GPU.
-
-  QEMU version is 3.1.0 from Debian repositories.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906948/+subscriptions
+> +                               qdev_get_gpio_in(uic[0], input_ints[i] + 1));
+> +        }
+> +    }
+>
+>     /* SDRAM controller */
+>     /* put all RAM on first bank because board has one slot
+> @@ -331,7 +356,8 @@ static void sam460ex_init(MachineState *machine)
+>                       ram_bases, ram_sizes, 1);
+>
+>     /* IIC controllers and devices */
+> -    dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600700, uic[0][2]);
+> +    dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600700,
+> +                               qdev_get_gpio_in(uic[0], 2));
+>     i2c = PPC4xx_I2C(dev)->bus;
+>     /* SPD EEPROM on RAM module */
+>     spd_data = spd_data_generate(ram_sizes[0] < 128 * MiB ? DDR : DDR2,
+> @@ -341,7 +367,8 @@ static void sam460ex_init(MachineState *machine)
+>     /* RTC */
+>     i2c_slave_create_simple(i2c, "m41t80", 0x68);
+>
+> -    dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600800, uic[0][3]);
+> +    dev = sysbus_create_simple(TYPE_PPC4xx_I2C, 0x4ef600800,
+> +                               qdev_get_gpio_in(uic[0], 3));
+>
+>     /* External bus controller */
+>     ppc405_ebc_init(env);
+> @@ -356,7 +383,14 @@ static void sam460ex_init(MachineState *machine)
+>     ppc4xx_sdr_init(env);
+>
+>     /* MAL */
+> -    ppc4xx_mal_init(env, 4, 16, &uic[2][3]);
+> +    /*
+> +     * TODO if the MAL were a proper QOM device we would not need to
+> +     * copy its qemu_irqs into an array for ppc4xx_mal_init()'s benefit.
+> +     */
+> +    for (i = 0; i < ARRAY_SIZE(mal_irqs); i++) {
+> +        mal_irqs[0] = qdev_get_gpio_in(uic[2], 3 + i);
+> +    }
+> +    ppc4xx_mal_init(env, 4, 16, mal_irqs);
+>
+>     /* DMA */
+>     ppc4xx_dma_init(env, 0x200);
+> @@ -369,21 +403,23 @@ static void sam460ex_init(MachineState *machine)
+>     memory_region_add_subregion(address_space_mem, 0x400000000LL, l2cache_ram);
+>
+>     /* USB */
+> -    sysbus_create_simple(TYPE_PPC4xx_EHCI, 0x4bffd0400, uic[2][29]);
+> +    sysbus_create_simple(TYPE_PPC4xx_EHCI, 0x4bffd0400,
+> +                         qdev_get_gpio_in(uic[2], 29));
+>     dev = qdev_new("sysbus-ohci");
+>     qdev_prop_set_string(dev, "masterbus", "usb-bus.0");
+>     qdev_prop_set_uint32(dev, "num-ports", 6);
+>     sbdev = SYS_BUS_DEVICE(dev);
+>     sysbus_realize_and_unref(sbdev, &error_fatal);
+>     sysbus_mmio_map(sbdev, 0, 0x4bffd0000);
+> -    sysbus_connect_irq(sbdev, 0, uic[2][30]);
+> +    sysbus_connect_irq(sbdev, 0, qdev_get_gpio_in(uic[2], 30));
+>     usb_create_simple(usb_bus_find(-1), "usb-kbd");
+>     usb_create_simple(usb_bus_find(-1), "usb-mouse");
+>
+>     /* PCI bus */
+>     ppc460ex_pcie_init(env);
+>     /* All PCI irqs are connected to the same UIC pin (cf. UBoot source) */
+> -    dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000, uic[1][0]);
+> +    dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000,
+> +                               qdev_get_gpio_in(uic[1], 0));
+>     pci_bus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
+>     if (!pci_bus) {
+>         error_report("couldn't create PCI controller!");
+> @@ -405,12 +441,14 @@ static void sam460ex_init(MachineState *machine)
+>     /* SoC has 4 UARTs
+>      * but board has only one wired and two are present in fdt */
+>     if (serial_hd(0) != NULL) {
+> -        serial_mm_init(address_space_mem, 0x4ef600300, 0, uic[1][1],
+> +        serial_mm_init(address_space_mem, 0x4ef600300, 0,
+> +                       qdev_get_gpio_in(uic[1], 1),
+>                        PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
+>                        DEVICE_BIG_ENDIAN);
+>     }
+>     if (serial_hd(1) != NULL) {
+> -        serial_mm_init(address_space_mem, 0x4ef600400, 0, uic[0][1],
+> +        serial_mm_init(address_space_mem, 0x4ef600400, 0,
+> +                       qdev_get_gpio_in(uic[0], 1),
+>                        PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
+>                        DEVICE_BIG_ENDIAN);
+>     }
+>
 
