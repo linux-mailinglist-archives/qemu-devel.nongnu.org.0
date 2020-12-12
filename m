@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F622D8356
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 01:20:01 +0100 (CET)
-Received: from localhost ([::1]:43678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C722D835C
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 01:21:45 +0100 (CET)
+Received: from localhost ([::1]:45966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knsdj-0004aa-Qk
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 19:19:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36416)
+	id 1knsfQ-0005aG-9O
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 19:21:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knsZc-0002YD-Uq
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 19:15:44 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40582)
+ id 1knsZe-0002ZN-Bl
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 19:15:46 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knsZa-0005cc-4w
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 19:15:43 -0500
-Received: by mail-wm1-x343.google.com with SMTP id a3so10102671wmb.5
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 16:15:41 -0800 (PST)
+ id 1knsZb-0005cl-IA
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 19:15:46 -0500
+Received: by mail-wr1-x441.google.com with SMTP id t16so10686683wra.3
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 16:15:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rlaiofm38bEaLMEO28iARVzpWKGjlOwxJ+z1qE/Eq4o=;
- b=xSnIG/9PAJpkvGzhtJEwB43XqDT6whKkE3MOekhnUx7cKpnKu7/Io2vJR+rjpSaFyl
- 6/LWHZQULSUGpDc2wAoNEnbN98T0yviI76vIWj7JCctJjLm/RLsgoVoAfZw3hWMbVy/h
- OxX3oZSumhZfZX7mCzDTLH/IC7DaLU/7oefLMUeMzAA9mrpoHU2r2cNHhrBzfAgRGAc9
- VPLgSwduGqTf2i+PFK0NyYrlpejaWGK/LEdVifBuCwz+XeL61Cfe/AgRRPF9KHpI8JOW
- R85bDnhmeJ3zaA81GMKmVy2H4LYfo6kilh4l2FBzjVD1waeqcyS9B33jA57AnDW9n7GW
- AcvQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=otGyI9nN7HYyHPl1jamkl/dEV8++zNkKNYJN5ml5WUc=;
+ b=gtfpk4xp3kE049J6nTjEo2fKokcEwjkVZyQJsXocYL+xbHpU59nmru0HePMcS/+jLv
+ Z8yrzQ6zvr8ytBQ9LI45PP/twfO8U8BN36zmVelGWjcQLX4KzkNtP83JBMkR7HIK1sMi
+ WZHlflH5p78mb2zDC9BSTG5dso3YgjNuKXTJpYyRgeV579I2T4rRroHf5RIfQ2QU8i2M
+ zFemYkMg0L4rmnGXyA29pXJFb8xLILBpu/oFMdl8BEihItWL+nfyQkpXJwatmh3+Gwd5
+ KKkWNa2MUXV6s6nFzExbQyCAf0yNgDAdJiDZu8uR7mnUa/DnD9cp/TSUPadNcuyiIY27
+ dE6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rlaiofm38bEaLMEO28iARVzpWKGjlOwxJ+z1qE/Eq4o=;
- b=kymqRaj0NRpXbxfAvL+FZATDCYTFOZu2B+iCHgfNdoiIx5LDHRTZ776mFXC8BZI4X7
- 1UKhxMaJxwQl2OR7VftSCXAJLrx7dvWawMDLKA59OtsbvnbVPxLp7dPNhw8B9xPNWIKy
- QWzBqnibRW+ygtRd23tqxHlcwtDKKgRtv8n2rq0VNAO5wF2YAGYE7cUd0jTqiO0o/48+
- LKXdpQbWVMaVAllE97h26s/YgytM3lXyRbrAHDvgxzI306OA2rlW/XUmOIACOcUHy9CE
- 1i5I7meopQo8ZPJ0wOpMMsUYLpvvocIfD/DQYDtSig8zkRHMLna6t9Lr4phFmiCtmh86
- IElg==
-X-Gm-Message-State: AOAM532zDEdkvj7Mcg0P+DLjzzWeMxIuuZXMpGWLfKweX04+wtobiI2/
- b+Ys52rXkexJ+8iuH7aOfcxSBlrw5CjoAw==
-X-Google-Smtp-Source: ABdhPJxHBTu+CxT13qSakjH2boo69Nf6zQsODWIcHeHFbG484NpQkPyNLMLyB5UcW0peA5P80XcUKw==
-X-Received: by 2002:a1c:f00a:: with SMTP id a10mr16003873wmb.83.1607732140181; 
- Fri, 11 Dec 2020 16:15:40 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=otGyI9nN7HYyHPl1jamkl/dEV8++zNkKNYJN5ml5WUc=;
+ b=BLSCUi9mNTO7EKAhZl54klskZAWzyxzwt1Jp+BnLG3DcxXvSuaQq6k743JM8/MaFUq
+ yNp1njsXmzJwPpdKiK706pVaxse3JGQk0p+Z6MJWrpev2IfD3Te0tm87LFjJ9PVOb5q+
+ KUaXNaMa4zU0XKJBNwwTl4bVjL7Tc8Jcg7WmGSUwZlelZ+nnSJPmxevUlXLRaswWESdU
+ Yo00HsccQ4VN+y6YXHOH1b7tOnMlqb/01tPgC92tUrSBQMM21lK1W0I6sjoYKOTQ9aYS
+ qG+jS/co6k0wvmmJNjxY7JIELbamKcnrMkVyMh0mc1rIyaS3MWxcgFmz0VxffJt7RjTv
+ NqMg==
+X-Gm-Message-State: AOAM533Bwr22TIH4Q8BkYK7/qgZhcQk83dLEO4bY9HstkxhYuwCSEl1t
+ o6LSyf9mA+0+D9XnWkkJ6P2dktkQI8ithQ==
+X-Google-Smtp-Source: ABdhPJzFN/r2eYROOAEVr30/k1Pru23Cb6PYpxwq4FL8YPjtCxUdFKP0DtGPRbTFu+Po4yxS0Fz5SQ==
+X-Received: by 2002:adf:cd8f:: with SMTP id q15mr16028694wrj.79.1607732141592; 
+ Fri, 11 Dec 2020 16:15:41 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d8sm16306001wmb.11.2020.12.11.16.15.38
+ by smtp.gmail.com with ESMTPSA id d8sm16306001wmb.11.2020.12.11.16.15.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Dec 2020 16:15:39 -0800 (PST)
+ Fri, 11 Dec 2020 16:15:40 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/8] hw/ppc: Convert UIC device to QOM
-Date: Sat, 12 Dec 2020 00:15:29 +0000
-Message-Id: <20201212001537.24520-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/8] hw/ppc/ppc4xx_devs: Make code style fixes to UIC code
+Date: Sat, 12 Dec 2020 00:15:30 +0000
+Message-Id: <20201212001537.24520-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201212001537.24520-1-peter.maydell@linaro.org>
+References: <20201212001537.24520-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,78 +87,103 @@ Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchseries converts the PPC UIC "Universal Interrupt
-Controller" to a QOM device.  My main reason for doing it is that
-this fixes a couple of long-standing trivial Coverity issues -- the
-current ppcuic_init() function allocates an array of qemu_irqs which
-the callers then leak.  (The leak is trivial because it happens once
-when QEMU starts.)
+In a following commit we will move the PPC UIC implementation to
+its own file in hw/intc. To prevent checkpatch complaining about that
+code-motion, fix up the minor style issues first.
 
-The patchseries converts the UIC to a QOM device but initially leaves
-the old ppcuic_init() creation function with its old API intact.  It
-then goes through converting the various boards that were using
-ppcuic_init() to instead directly create the UIC using the usual qdev
-APIs, so that it can delete the ppcuic_init() function entirely.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/ppc/ppc4xx_devs.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-The patchset includes one patch which deletes 350 lines of dead code
--- the ppc405cr_init() function seems to have never been used since
-it was added in 2007, so rather than converting this user of
-ppcuic_init() it seemed more sensible to delete it.
-
-I have tested with 'make check' and 'make check-acceptance' but I
-don't think the latter really exercises the affected boards, which
-are:
-
- bamboo
- ref405ep
- sam460ex
- taihu
- virtex-ml507
-
-I found instructions on how to boot an AROS image on sam460ex, so I
-have tested that: it works as well after this series as it did before
-(gets to "Libs/workbench.library" and stops); it does seem to
-successfully do things like scanning the USB bus and responding to
-keyboard input at the boot menu, which suggests that IRQs must be
-working.
-
-Side note: the 'irq_inputs' hacks in the PPC CPU I think would really
-benefit from conversion to being qdev gpio inputs now that CPUs are
-real devices. There are also a lot of non-QOM devices in this
-ppc4xx code if anybody is interested in working on more QOM
-conversions for these boards.
-
-thanks
--- PMM
-
-Peter Maydell (8):
-  hw/ppc/ppc4xx_devs: Make code style fixes to UIC code
-  ppc: Convert PPC UIC to a QOM device
-  hw/ppc/virtex_ml507: Drop use of ppcuic_init()
-  hw/ppc/ppc440_bamboo: Drop use of ppcuic_init()
-  hw/ppc/sam460ex: Drop use of ppcuic_init()
-  hw/ppc: Delete unused ppc405cr_init() code
-  hw/ppc/ppc405_uc: Drop use of ppcuic_init()
-  hw/ppc: Remove unused ppcuic_init()
-
- hw/ppc/ppc405.h           |   8 +-
- include/hw/intc/ppc-uic.h |  80 ++++++++
- include/hw/ppc/ppc4xx.h   |   9 -
- hw/intc/ppc-uic.c         | 321 +++++++++++++++++++++++++++++
- hw/ppc/ppc405_boards.c    |   8 +-
- hw/ppc/ppc405_uc.c        | 415 ++++----------------------------------
- hw/ppc/ppc440_bamboo.c    |  38 +++-
- hw/ppc/ppc4xx_devs.c      | 246 +---------------------
- hw/ppc/sam460ex.c         |  70 +++++--
- hw/ppc/virtex_ml507.c     |  21 +-
- MAINTAINERS               |   2 +
- hw/intc/Kconfig           |   3 +
- hw/intc/meson.build       |   1 +
- hw/ppc/Kconfig            |   1 +
- 14 files changed, 555 insertions(+), 668 deletions(-)
- create mode 100644 include/hw/intc/ppc-uic.h
- create mode 100644 hw/intc/ppc-uic.c
-
+diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+index f1651e04d9a..f2f9ca4ffec 100644
+--- a/hw/ppc/ppc4xx_devs.c
++++ b/hw/ppc/ppc4xx_devs.c
+@@ -105,7 +105,7 @@ struct ppcuic_t {
+     qemu_irq *irqs;
+ };
+ 
+-static void ppcuic_trigger_irq (ppcuic_t *uic)
++static void ppcuic_trigger_irq(ppcuic_t *uic)
+ {
+     uint32_t ir, cr;
+     int start, end, inc, i;
+@@ -156,26 +156,28 @@ static void ppcuic_trigger_irq (ppcuic_t *uic)
+     }
+ }
+ 
+-static void ppcuic_set_irq (void *opaque, int irq_num, int level)
++static void ppcuic_set_irq(void *opaque, int irq_num, int level)
+ {
+     ppcuic_t *uic;
+     uint32_t mask, sr;
+ 
+     uic = opaque;
+-    mask = 1U << (31-irq_num);
++    mask = 1U << (31 - irq_num);
+     LOG_UIC("%s: irq %d level %d uicsr %08" PRIx32
+                 " mask %08" PRIx32 " => %08" PRIx32 " %08" PRIx32 "\n",
+                 __func__, irq_num, level,
+                 uic->uicsr, mask, uic->uicsr & mask, level << irq_num);
+-    if (irq_num < 0 || irq_num > 31)
++    if (irq_num < 0 || irq_num > 31) {
+         return;
++    }
+     sr = uic->uicsr;
+ 
+     /* Update status register */
+     if (uic->uictr & mask) {
+         /* Edge sensitive interrupt */
+-        if (level == 1)
++        if (level == 1) {
+             uic->uicsr |= mask;
++        }
+     } else {
+         /* Level sensitive interrupt */
+         if (level == 1) {
+@@ -188,11 +190,12 @@ static void ppcuic_set_irq (void *opaque, int irq_num, int level)
+     }
+     LOG_UIC("%s: irq %d level %d sr %" PRIx32 " => "
+                 "%08" PRIx32 "\n", __func__, irq_num, level, uic->uicsr, sr);
+-    if (sr != uic->uicsr)
++    if (sr != uic->uicsr) {
+         ppcuic_trigger_irq(uic);
++    }
+ }
+ 
+-static uint32_t dcr_read_uic (void *opaque, int dcrn)
++static uint32_t dcr_read_uic(void *opaque, int dcrn)
+ {
+     ppcuic_t *uic;
+     uint32_t ret;
+@@ -220,13 +223,15 @@ static uint32_t dcr_read_uic (void *opaque, int dcrn)
+         ret = uic->uicsr & uic->uicer;
+         break;
+     case DCR_UICVR:
+-        if (!uic->use_vectors)
++        if (!uic->use_vectors) {
+             goto no_read;
++        }
+         ret = uic->uicvr;
+         break;
+     case DCR_UICVCR:
+-        if (!uic->use_vectors)
++        if (!uic->use_vectors) {
+             goto no_read;
++        }
+         ret = uic->uicvcr;
+         break;
+     default:
+@@ -238,7 +243,7 @@ static uint32_t dcr_read_uic (void *opaque, int dcrn)
+     return ret;
+ }
+ 
+-static void dcr_write_uic (void *opaque, int dcrn, uint32_t val)
++static void dcr_write_uic(void *opaque, int dcrn, uint32_t val)
+ {
+     ppcuic_t *uic;
+ 
 -- 
 2.20.1
 
