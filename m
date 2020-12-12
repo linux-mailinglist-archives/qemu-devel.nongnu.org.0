@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A682D85A3
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 11:05:18 +0100 (CET)
-Received: from localhost ([::1]:44414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02AC72D85D2
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 11:20:20 +0100 (CET)
+Received: from localhost ([::1]:49688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ko1m9-0001FJ-Hb
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 05:05:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47478)
+	id 1ko20f-0004VF-NJ
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 05:20:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noring@nocrew.org>) id 1ko1lJ-0000pz-3X
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 05:04:25 -0500
-Received: from ste-pvt-msa2.bahnhof.se ([213.80.101.71]:51115)
+ (Exim 4.90_1) (envelope-from <noring@nocrew.org>) id 1ko1zh-00045X-RG
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 05:19:17 -0500
+Received: from ste-pvt-msa1.bahnhof.se ([213.80.101.70]:52952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noring@nocrew.org>) id 1ko1lH-0001N2-5a
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 05:04:24 -0500
+ (Exim 4.90_1) (envelope-from <noring@nocrew.org>) id 1ko1zf-0006lP-Va
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 05:19:17 -0500
 Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 0B9013F712;
- Sat, 12 Dec 2020 11:03:57 +0100 (CET)
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 5CB9B3F557;
+ Sat, 12 Dec 2020 11:19:13 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at bahnhof.se
 X-Spam-Score: -1.9
-Received: from ste-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (ste-ftg-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PFhLXEewppCX; Sat, 12 Dec 2020 11:03:55 +0100 (CET)
-Received: by ste-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id D228E3F5A7;
- Sat, 12 Dec 2020 11:03:54 +0100 (CET)
-Date: Sat, 12 Dec 2020 11:04:18 +0100
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id z5-k5_-PYOcQ; Sat, 12 Dec 2020 11:19:12 +0100 (CET)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id E04A73F27D;
+ Sat, 12 Dec 2020 11:19:11 +0100 (CET)
+Date: Sat, 12 Dec 2020 11:19:11 +0100
 From: Fredrik Noring <noring@nocrew.org>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [Qemu-devel] [PULL 8/8] target/mips: Preparing for adding MMI
- instructions
-Message-ID: <X9SVovtcemt9CClm@sx9>
-References: <1551276045-19143-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1551276045-19143-9-git-send-email-aleksandar.markovic@rt-rk.com>
- <8c3ac05a-91d4-6830-4ede-6574aca8af94@amsat.org>
+Subject: Re: [Qemu-devel] [PULL v2 12/12] target/mips: Introduce 32 R5900
+ multimedia registers
+Message-ID: <X9SZH9gbjjiucaB0@sx9>
+References: <1547830785-7079-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1547830785-7079-13-git-send-email-aleksandar.markovic@rt-rk.com>
+ <CAAdtpL7TtuFBRcB0no8EQLcyuRd+YLR12Mv-q2wb0MBPkEdw0g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8c3ac05a-91d4-6830-4ede-6574aca8af94@amsat.org>
-Received-SPF: softfail client-ip=213.80.101.71; envelope-from=noring@nocrew.org;
- helo=ste-pvt-msa2.bahnhof.se
+In-Reply-To: <CAAdtpL7TtuFBRcB0no8EQLcyuRd+YLR12Mv-q2wb0MBPkEdw0g@mail.gmail.com>
+Received-SPF: softfail client-ip=213.80.101.70; envelope-from=noring@nocrew.org;
+ helo=ste-pvt-msa1.bahnhof.se
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -61,59 +61,49 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- peter.maydell@linaro.org, "Maciej W. Rozycki" <macro@linux-mips.org>,
- qemu-devel@nongnu.org, amarkovic@wavecomp.com
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Maciej W. Rozycki" <macro@linux-mips.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 13, 2020 at 10:39:42AM +0100, Philippe Mathieu-Daudé wrote:
-> On 2/27/19 3:00 PM, Aleksandar Markovic wrote:
-> > From: Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com>
-> > 
-> > Set up MMI code to be compiled only for TARGET_MIPS64. This is
-> > needed so that GPRs are 64 bit, and combined with MMI registers,
-> > they will form full 128 bit registers.
-> > 
-> > Signed-off-by: Mateja Marjanovic <mateja.marjanovic@rt-rk.com>
+On Sat, Nov 14, 2020 at 07:23:10PM +0100, Philippe Mathieu-Daudé wrote:
+> Hi Fredrik and Aleksandar,
+> 
+> On Fri, Jan 18, 2019 at 6:10 PM Aleksandar Markovic
+> <aleksandar.markovic@rt-rk.com> wrote:
+> >
+> > From: Fredrik Noring <noring@nocrew.org>
+> >
+> > The 32 R5900 128-bit registers are split into two 64-bit halves:
+> > the lower halves are the GPRs and the upper halves are accessible
+> > by the R5900-specific multimedia instructions.
+> >
+> > Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> > Signed-off-by: Fredrik Noring <noring@nocrew.org>
 > > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> > Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
-> > Message-Id: <1551183797-13570-2-git-send-email-mateja.marjanovic@rt-rk.com>
 > > ---
-> >  target/mips/translate.c | 43 +++++++++++++++++++++++++++++++++++++++++--
-> >  1 file changed, 41 insertions(+), 2 deletions(-)
-> ...
+> >  target/mips/cpu.h       |  3 +++
+> >  target/mips/translate.c | 16 ++++++++++++++++
+> >  2 files changed, 19 insertions(+)
+> >
+> > diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+> > index 21daf50..c4da7df 100644
+> > --- a/target/mips/cpu.h
+> > +++ b/target/mips/cpu.h
+> > @@ -429,6 +429,9 @@ struct TCState {
+> >
+> >      float_status msa_fp_status;
+> >
+> > +    /* Upper 64-bit MMRs (multimedia registers); the lower 64-bit are GPRs */
+> > +    uint64_t mmr[32];
 > 
-> >  static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
-> >  {
-> >      int rs, rt, rd, sa;
-> > @@ -28796,10 +28828,11 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-> >          decode_opc_special(env, ctx);
-> >          break;
-> >      case OPC_SPECIAL2:
-> > +#if defined(TARGET_MIPS64)
-> >          if ((ctx->insn_flags & INSN_R5900) && (ctx->insn_flags & ASE_MMI)) {
-> >              decode_mmi(env, ctx);
-> 
-> This change is incorrect, you removed support for the
-> MADD[U] and MULT[U] instructions on TXx9 32-bit targets
-> (TX79 still works).
+> FYI using MMI then migrating fails because these registers are not migrated.
 
-The 128-bit MMIs and R5900 specific registers are always valid on R5900
-hardware regardless of 32- and 64-bit operation modes[1]. CP0.Status.UX
-isn't implemented[2]. In other MIPS ISA implementations, attempting to
-execute 64-bit operations in 32-bit user or supervisor mode may cause a
-reserved instruction exception.
-
-It would be wise to limit any R5900 specific psABIs, while permitting
-useful features such as the MMIs. GCC emits MULT[U] for R5900 o32.
+We can postpone the R5900 MMIs, in my opinion, because they are not (yet)
+supported by modern 5.x R5900 Linux kernels anyway. The details of R5900
+psABIs having them need to be sorted out too.
 
 Fredrik
-
-References:
-
-[1] "EE Core User's Manual", version 6.0, Sony Computer Entertainment Inc.,
-    p. 107.
-
-[2] "TX System RISC TX79 Core Architecture" manual, revision 2.0,
-    Toshiba Corporation, p. 4-16, https://wiki.qemu.org/File:C790.pdf
 
