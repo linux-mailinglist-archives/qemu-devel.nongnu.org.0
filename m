@@ -2,47 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D2B2D8A22
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 22:21:51 +0100 (CET)
-Received: from localhost ([::1]:46550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3947F2D8A23
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 22:23:21 +0100 (CET)
+Received: from localhost ([::1]:49448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koCKr-00056o-Uy
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 16:21:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41852)
+	id 1koCMK-0006jq-9X
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 16:23:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1koAxo-0002ot-4U; Sat, 12 Dec 2020 14:53:56 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:13811)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1koAxf-00034F-Lx; Sat, 12 Dec 2020 14:53:53 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 53FC57470E8;
- Sat, 12 Dec 2020 20:53:44 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 268407470E2; Sat, 12 Dec 2020 20:53:44 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 2529274645F;
- Sat, 12 Dec 2020 20:53:44 +0100 (CET)
-Date: Sat, 12 Dec 2020 20:53:44 +0100 (CET)
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 2/8] ppc: Convert PPC UIC to a QOM device
-In-Reply-To: <CAFEAcA85GS=UHtGR=OoL0LZsLBcoV3W-wah=FbHTSG8Sy0gjsw@mail.gmail.com>
-Message-ID: <3644c4ed-9284-8037-d62b-f4f4e45cf9b7@eik.bme.hu>
-References: <20201212001537.24520-1-peter.maydell@linaro.org>
- <20201212001537.24520-3-peter.maydell@linaro.org>
- <b4550f1-bedb-dc65-70a0-f11083c5da4c@eik.bme.hu>
- <CAFEAcA85GS=UHtGR=OoL0LZsLBcoV3W-wah=FbHTSG8Sy0gjsw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1koAyB-000309-9E
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 14:54:19 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:40501)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1koAy4-0003B3-0m
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 14:54:17 -0500
+Received: by mail-ej1-x632.google.com with SMTP id x16so17090904ejj.7
+ for <qemu-devel@nongnu.org>; Sat, 12 Dec 2020 11:54:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kwNI62FTc1DkrXK5YsZeDpNrBc2GFMXgMT9O276d2Ls=;
+ b=DXbmeYcBq5g+iv/0GdTELmp7szk2aS7aRvEXrNtvG94qu+dMRB4Bcn8UZSh9S3UNCb
+ v1H4xnQge0xPbTyqaIxBNUX6Celms7fB/QSJtbHgc34ewSZpUmPzetY9B4QTzHkG6O1I
+ vFGgRysC5neBadRVNbDMCE0LUau8wKVMK03zBYHlUsWnK95vKCjb6PcmhhjBh5nXROVx
+ bJBUfth6Zokuven26URiE3Fqo6hk1C7Z1MW7n5RsQwE0Q3ze6bf05XPXvBLBUPqTJPB2
+ poHtchz3DvQ9Vm4gtYmFLDy57/rNo2RdEPShcvzjjHTraxPZo8Otus93JVBQqvEGtQBO
+ NUvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kwNI62FTc1DkrXK5YsZeDpNrBc2GFMXgMT9O276d2Ls=;
+ b=quBcHhRFSvQDRFSilHvnob5HF3TQ+gUcb3J8DjLz6YpTWlGE3aj3+9G3lbK66sTJBi
+ TMOjJL47ikLnhNsPXy96MU5ThLbcuEBQEJdfQyb/ZzpWCqwPhZWd7daSP2YV+TIj19t+
+ 0/LRbUzITJqpGYsO1jMfqKkPa9zHhQk7fTNYS62oH1oesPZhv72g4wXZc0eiLyMITX6M
+ ZyEMibvhOY5PES5Wd3/ydIAnDt+sWG92M8IKK6rPF/SGhQLPoSzNClsCD96QqrPokdjw
+ Idzevz7xKlj3knzp1qtBcolm79qAKlNHplVTNpxKVpQY/YB8JIWuPOYjyxPzmws+O50G
+ Ozww==
+X-Gm-Message-State: AOAM532Qltj2fvNxLDc27GdqI4r/+geRFx9pOWtOi0lOVIbuQuyXt3e9
+ UZwYSuolY2EUgHV8TfOYo2elQTx7YlQ/KEDWyXtKpA==
+X-Google-Smtp-Source: ABdhPJydfw0hbAXBEZU4FLrFt4n4KWrDtt7Zchb4zFJOECE5f3wnosWAqKyH04jY8PssWIGFFke8+oeZHzRhO0ZAW2A=
+X-Received: by 2002:a17:906:e94c:: with SMTP id
+ jw12mr16456227ejb.56.1607802850427; 
+ Sat, 12 Dec 2020 11:54:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20201212175458.259960-1-laurent@vivier.eu>
+In-Reply-To: <20201212175458.259960-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 12 Dec 2020 19:53:59 +0000
+Message-ID: <CAFEAcA9h4tsHeJkvEG9DCmt5pOLhBfMQ8UBsKYerMyseGbjV3g@mail.gmail.com>
+Subject: Re: [PULL 0/5] M68k for 6.0 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,44 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On Sat, 12 Dec 2020, Peter Maydell wrote:
-> On Sat, 12 Dec 2020 at 18:27, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>
->> On Sat, 12 Dec 2020, Peter Maydell wrote:
->>> Currently the PPC UIC ("Universal Interrupt Controller") is implemented
->>> as a non-QOM device in ppc4xx_devs.c. Convert it to a proper QOM device
->>> in hw/intc.
->>>
->>> The ppcuic_init() function is retained for the moment with its current
->>> interface; in subsequent commits this will be tidied up to avoid the
->>> allocation of an irq array.
->>>
->>> This conversion adds VMState support.
->>>
->>> It leaves the LOG_UIC() macro as-is to maximise the extent to which
->>> this is simply code-movement rather than a rewrite (in new code it
->>> would be better to use tracepoints).
->>>
->>> The default property values for dcr-base and use-vectors are set to
->>> match those use by most of our boards with a UIC.
->>
->> Would this be easier to review if it's split into two patches, first doing
->> the conversion in place, then another just doing code moving? Maybe we
->> could spot some problem that way easier?
+On Sat, 12 Dec 2020 at 18:32, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> That didn't really feel very feasible to me. You can see that
-> mostly it's code motion using the git diff --color-moved option
-> if you look at the commit.
+> The following changes since commit ad717e6da3852b5729217d7938eecdb81c546114:
+>
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging=
+>  (2020-12-12 00:20:46 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu-m68k.git tags/m68k-for-6.0-pull-request
+>
+> for you to fetch changes up to ce00ff729ee8461dc94a1593d25ceda65d973d3c:
+>
+>   m68k: fix some comment spelling errors (2020-12-12 18:12:43 +0100)
+>
+> ----------------------------------------------------------------
+> m68k pull request 20201212
+>
+> Fix for Coverity CID 1421883
+> Fix some comment spelling errors
+> Add m68k vmstate
 
-Thanks this helped a bit, at least to confirm the bug is not in here.
 
-Regards,
-BALATON Zoltan
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
