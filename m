@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D328D2D8981
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 19:58:03 +0100 (CET)
-Received: from localhost ([::1]:49414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7074F2D8959
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 19:47:11 +0100 (CET)
+Received: from localhost ([::1]:51170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koA5h-0001pT-QI
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 13:58:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57316)
+	id 1ko9vC-00077z-GF
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 13:47:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ko9U1-0000eu-1H
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:19:05 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:40507)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ko9Tr-0000Vd-DQ
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:18:55 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:39277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ko9Tw-000264-EK
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:19:04 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1ko9To-00023Z-M2
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:18:55 -0500
 Received: from localhost.localdomain ([82.252.152.214]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MdNwm-1kF5L41evQ-00ZLRU; Sat, 12 Dec 2020 18:55:02 +0100
+ id 1My6xz-1juYZs1ANj-00zYCp; Sat, 12 Dec 2020 18:55:03 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] hw/m68k/q800.c: Make the GLUE chip an actual QOM device
-Date: Sat, 12 Dec 2020 18:54:55 +0100
-Message-Id: <20201212175458.259960-3-laurent@vivier.eu>
+Subject: [PULL 4/5] target/m68k: Add vmstate definition for M68kCPU
+Date: Sat, 12 Dec 2020 18:54:57 +0100
+Message-Id: <20201212175458.259960-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201212175458.259960-1-laurent@vivier.eu>
 References: <20201212175458.259960-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5WvelqhmKeJZ1UJ33TMHa3b2gEKW8F8ymjEsQvDHOSYdYUL8jJF
- TknZWh5MFlDzEUd6FVUShawIL4Jxh3UHzmto+TTJ3eJoGMniJ2VUrGtRjjbK9luOdsK6IkE
- cLshecz51JrZ+a4yrilvT8n4nWyGoXesYSgAUL2sCUyX2QhTkjuR87Dt2+y5Yf7GfPH+8V8
- 1Q6XHtn9fcGBeffI4Hgog==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UwXOuLaZehw=:fhIiWcI41MGUNjEw+vEVkK
- kqlsTm0Za/J3sQmsEFFwlKAW0Ob+chGowbbBh/H9eqtv6LnOrvbeCo2Sc6kbZsmctXg1uy4yg
- qyQxrnEGmxNFlWLtA2B2zhYAhOWqCqHDWvZRVcS8Vujn613GeFGzabXPTaXB1jn+PG5cy1Tmp
- 85ZU9w0CyqykNh7/RPut7umVc1I02SVGJRnKCIvZfeIQVpTiq+TpTqvRzilq4dNVDLgqQdsJk
- 8MT6IvZcuVfA2otMB3Xb63DDHWqsbO6BrxxEAKSIagdrp9p69N4b/H/WAba1HjRwZngSsgt4m
- 8PtJlerqm0/5z8tOwa2qGFjZ0D0+7ex3xHdYeRwL1B9LTb6cOdvZzo8awS/sUShW8qqbdcQhG
- U5Gbz3mjdYrqXgrszsm8VpBK5Cj+zUHGGLOiBy5M8Oo2zJ0rElVoJHR82zrOHXARi9zm7uybd
- rEIXylpqYg==
+X-Provags-ID: V03:K1:HrF8PlKqVXGueK0dRslluoWCRueBzoDGCfOpRcDodPajowpyMTX
+ Zujg3zubD4hcLiiSCo75HbIlbRGsPL6YOdufgcwNgTwUs8Sl9BP8xewnzxxAzHUn2gcWwSx
+ bu8wscr/Zwe7y7hS2gpy6XV2d+ithqOo3bQgy0S06xHkzFGAlTCmZYb0NHwUNTDVKA1oszy
+ Q/WMnw5FVjgXDJUliGTSQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:sB71npsFM8g=:DaBp3/71rlA/rCL5uaEGDe
+ yMy59W268cMfvcd61cAFfYZ1SuO5QakS/e1AQcW4GQ8xXb0dhPMRkS7fnLuTxl7OjuxosDWRQ
+ 5b7bxWy8IJSvBs/WibTY4Q6gHlNdLkaqYuQWRHtIocx+MrTyTlmUIOy7xSlHA7SLJ2Z/78VPs
+ OrMv7iATzjzeulE27TogC+2peReRJyGwYWXJguz5CurD8X/LFj6qYWcr6pW2w5c8WWGMJMrTL
+ 7PLn4yay6ANUUy0RQiM5rdg0NAJpjeVBsEGaiChm5cwG7p9FF4yAkT7CkE8VM1Zf2vR7bwGZY
+ 54PBgc6422frr+vnGeGSRK8lKtCb/3w12ZlsOkO0EGGPpquxlNERRm2qU+rufX9vzTGl6lEF8
+ S3aitcB/llNG0maQYc5KLLziAPHLe+iBUSufshRRqKMXiZufpTYSqWJ2JqNayg3QD8t5xZqYS
+ VBwWL/pIVw==
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -63,184 +62,278 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
-
-The handling of the GLUE (General Logic Unit) device is
-currently open-coded. Make this into a proper QOM device.
-
-This minor piece of modernisation gets rid of the free
-floating qemu_irq array 'pic', which Coverity points out
-is technically leaked when we exit the machine init function.
-(The replacement glue device is not leaked because it gets
-added to the sysbus, so it's accessible via that.)
-
-Fixes: Coverity CID 1421883
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Laurent vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201106235109.7066-3-peter.maydell@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20201022203000.1922749-3-laurent@vivier.eu>
 ---
- hw/m68k/q800.c | 82 ++++++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 70 insertions(+), 12 deletions(-)
+ target/m68k/cpu.h        |   1 +
+ target/m68k/cpu.c        | 193 ++++++++++++++++++++++++++++++++++++++-
+ target/m68k/fpu_helper.c |  10 +-
+ 3 files changed, 198 insertions(+), 6 deletions(-)
 
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index f9a2be776eb0..2af0e2532eb2 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -48,6 +48,7 @@
- #include "sysemu/qtest.h"
- #include "sysemu/runstate.h"
- #include "sysemu/reset.h"
-+#include "migration/vmstate.h"
+diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+index 9a6f0400fcfe..de5b9875fea3 100644
+--- a/target/m68k/cpu.h
++++ b/target/m68k/cpu.h
+@@ -179,6 +179,7 @@ int cpu_m68k_signal_handler(int host_signum, void *pinfo,
+ uint32_t cpu_m68k_get_ccr(CPUM68KState *env);
+ void cpu_m68k_set_ccr(CPUM68KState *env, uint32_t);
+ void cpu_m68k_set_sr(CPUM68KState *env, uint32_t);
++void cpu_m68k_restore_fp_status(CPUM68KState *env);
+ void cpu_m68k_set_fpcr(CPUM68KState *env, uint32_t val);
  
- #define MACROM_ADDR     0x40800000
- #define MACROM_SIZE     0x00100000
-@@ -95,10 +96,14 @@
-  * CPU.
-  */
  
--typedef struct {
-+#define TYPE_GLUE "q800-glue"
-+OBJECT_DECLARE_SIMPLE_TYPE(GLUEState, GLUE)
-+
-+struct GLUEState {
-+    SysBusDevice parent_obj;
-     M68kCPU *cpu;
-     uint8_t ipr;
--} GLUEState;
-+};
- 
- static void GLUE_set_irq(void *opaque, int irq, int level)
- {
-@@ -120,6 +125,58 @@ static void GLUE_set_irq(void *opaque, int irq, int level)
-     m68k_set_irq_level(s->cpu, 0, 0);
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index 72c545149e9b..b811a0bdde2d 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -260,10 +260,198 @@ static void m68k_cpu_initfn(Object *obj)
+     cpu_set_cpustate_pointers(cpu);
  }
  
-+static void glue_reset(DeviceState *dev)
++#if defined(CONFIG_SOFTMMU)
++static bool fpu_needed(void *opaque)
 +{
-+    GLUEState *s = GLUE(dev);
++    M68kCPU *s = opaque;
 +
-+    s->ipr = 0;
++    return m68k_feature(&s->env, M68K_FEATURE_CF_FPU) ||
++           m68k_feature(&s->env, M68K_FEATURE_FPU);
 +}
 +
-+static const VMStateDescription vmstate_glue = {
-+    .name = "q800-glue",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
++typedef struct m68k_FPReg_tmp {
++    FPReg *parent;
++    uint64_t tmp_mant;
++    uint16_t tmp_exp;
++} m68k_FPReg_tmp;
++
++static void cpu_get_fp80(uint64_t *pmant, uint16_t *pexp, floatx80 f)
++{
++    CPU_LDoubleU temp;
++
++    temp.d = f;
++    *pmant = temp.l.lower;
++    *pexp = temp.l.upper;
++}
++
++static floatx80 cpu_set_fp80(uint64_t mant, uint16_t upper)
++{
++    CPU_LDoubleU temp;
++
++    temp.l.upper = upper;
++    temp.l.lower = mant;
++    return temp.d;
++}
++
++static int freg_pre_save(void *opaque)
++{
++    m68k_FPReg_tmp *tmp = opaque;
++
++    cpu_get_fp80(&tmp->tmp_mant, &tmp->tmp_exp, tmp->parent->d);
++
++    return 0;
++}
++
++static int freg_post_load(void *opaque, int version)
++{
++    m68k_FPReg_tmp *tmp = opaque;
++
++    tmp->parent->d = cpu_set_fp80(tmp->tmp_mant, tmp->tmp_exp);
++
++    return 0;
++}
++
++static const VMStateDescription vmstate_freg_tmp = {
++    .name = "freg_tmp",
++    .post_load = freg_post_load,
++    .pre_save  = freg_pre_save,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINT8(ipr, GLUEState),
-+        VMSTATE_END_OF_LIST(),
++        VMSTATE_UINT64(tmp_mant, m68k_FPReg_tmp),
++        VMSTATE_UINT16(tmp_exp, m68k_FPReg_tmp),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const VMStateDescription vmstate_freg = {
++    .name = "freg",
++    .fields = (VMStateField[]) {
++        VMSTATE_WITH_TMP(FPReg, m68k_FPReg_tmp, vmstate_freg_tmp),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static int fpu_post_load(void *opaque, int version)
++{
++    M68kCPU *s = opaque;
++
++    cpu_m68k_restore_fp_status(&s->env);
++
++    return 0;
++}
++
++const VMStateDescription vmmstate_fpu = {
++    .name = "cpu/fpu",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = fpu_needed,
++    .post_load = fpu_post_load,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(env.fpcr, M68kCPU),
++        VMSTATE_UINT32(env.fpsr, M68kCPU),
++        VMSTATE_STRUCT_ARRAY(env.fregs, M68kCPU, 8, 0, vmstate_freg, FPReg),
++        VMSTATE_STRUCT(env.fp_result, M68kCPU, 0, vmstate_freg, FPReg),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool cf_spregs_needed(void *opaque)
++{
++    M68kCPU *s = opaque;
++
++    return m68k_feature(&s->env, M68K_FEATURE_CF_ISA_A);
++}
++
++const VMStateDescription vmstate_cf_spregs = {
++    .name = "cpu/cf_spregs",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = cf_spregs_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT64_ARRAY(env.macc, M68kCPU, 4),
++        VMSTATE_UINT32(env.macsr, M68kCPU),
++        VMSTATE_UINT32(env.mac_mask, M68kCPU),
++        VMSTATE_UINT32(env.rambar0, M68kCPU),
++        VMSTATE_UINT32(env.mbar, M68kCPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool cpu_68040_mmu_needed(void *opaque)
++{
++    M68kCPU *s = opaque;
++
++    return m68k_feature(&s->env, M68K_FEATURE_M68040);
++}
++
++const VMStateDescription vmstate_68040_mmu = {
++    .name = "cpu/68040_mmu",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = cpu_68040_mmu_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(env.mmu.ar, M68kCPU),
++        VMSTATE_UINT32(env.mmu.ssw, M68kCPU),
++        VMSTATE_UINT16(env.mmu.tcr, M68kCPU),
++        VMSTATE_UINT32(env.mmu.urp, M68kCPU),
++        VMSTATE_UINT32(env.mmu.srp, M68kCPU),
++        VMSTATE_BOOL(env.mmu.fault, M68kCPU),
++        VMSTATE_UINT32_ARRAY(env.mmu.ttr, M68kCPU, 4),
++        VMSTATE_UINT32(env.mmu.mmusr, M68kCPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static bool cpu_68040_spregs_needed(void *opaque)
++{
++    M68kCPU *s = opaque;
++
++    return m68k_feature(&s->env, M68K_FEATURE_M68040);
++}
++
++const VMStateDescription vmstate_68040_spregs = {
++    .name = "cpu/68040_spregs",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .needed = cpu_68040_spregs_needed,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(env.vbr, M68kCPU),
++        VMSTATE_UINT32(env.cacr, M68kCPU),
++        VMSTATE_UINT32(env.sfc, M68kCPU),
++        VMSTATE_UINT32(env.dfc, M68kCPU),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
+ static const VMStateDescription vmstate_m68k_cpu = {
+     .name = "cpu",
+-    .unmigratable = 1,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields      = (VMStateField[]) {
++        VMSTATE_UINT32_ARRAY(env.dregs, M68kCPU, 8),
++        VMSTATE_UINT32_ARRAY(env.aregs, M68kCPU, 8),
++        VMSTATE_UINT32(env.pc, M68kCPU),
++        VMSTATE_UINT32(env.sr, M68kCPU),
++        VMSTATE_INT32(env.current_sp, M68kCPU),
++        VMSTATE_UINT32_ARRAY(env.sp, M68kCPU, 3),
++        VMSTATE_UINT32(env.cc_op, M68kCPU),
++        VMSTATE_UINT32(env.cc_x, M68kCPU),
++        VMSTATE_UINT32(env.cc_n, M68kCPU),
++        VMSTATE_UINT32(env.cc_v, M68kCPU),
++        VMSTATE_UINT32(env.cc_c, M68kCPU),
++        VMSTATE_UINT32(env.cc_z, M68kCPU),
++        VMSTATE_INT32(env.pending_vector, M68kCPU),
++        VMSTATE_INT32(env.pending_level, M68kCPU),
++        VMSTATE_END_OF_LIST()
 +    },
-+};
-+
-+/*
-+ * If the m68k CPU implemented its inbound irq lines as GPIO lines
-+ * rather than via the m68k_set_irq_level() function we would not need
-+ * this cpu link property and could instead provide outbound IRQ lines
-+ * that the board could wire up to the CPU.
-+ */
-+static Property glue_properties[] = {
-+    DEFINE_PROP_LINK("cpu", GLUEState, cpu, TYPE_M68K_CPU, M68kCPU *),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void glue_init(Object *obj)
-+{
-+    DeviceState *dev = DEVICE(obj);
-+
-+    qdev_init_gpio_in(dev, GLUE_set_irq, 8);
-+}
-+
-+static void glue_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->vmsd = &vmstate_glue;
-+    dc->reset = glue_reset;
-+    device_class_set_props(dc, glue_properties);
-+}
-+
-+static const TypeInfo glue_info = {
-+    .name = TYPE_GLUE,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(GLUEState),
-+    .instance_init = glue_init,
-+    .class_init = glue_class_init,
-+};
-+
- static void main_cpu_reset(void *opaque)
++    .subsections = (const VMStateDescription * []) {
++        &vmmstate_fpu,
++        &vmstate_cf_spregs,
++        &vmstate_68040_mmu,
++        &vmstate_68040_spregs,
++        NULL
++    },
+ };
++#endif
+ 
+ static void m68k_cpu_class_init(ObjectClass *c, void *data)
  {
-     M68kCPU *cpu = opaque;
-@@ -180,8 +237,7 @@ static void q800_init(MachineState *machine)
-     SysBusDevice *sysbus;
-     BusState *adb_bus;
-     NubusBus *nubus;
--    GLUEState *irq;
--    qemu_irq *pic;
-+    DeviceState *glue;
-     DriveInfo *dinfo;
+@@ -287,13 +475,12 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
+ #if defined(CONFIG_SOFTMMU)
+     cc->do_transaction_failed = m68k_cpu_transaction_failed;
+     cc->get_phys_page_debug = m68k_cpu_get_phys_page_debug;
++    dc->vmsd = &vmstate_m68k_cpu;
+ #endif
+     cc->disas_set_info = m68k_cpu_disas_set_info;
+     cc->tcg_initialize = m68k_tcg_init;
  
-     linux_boot = (kernel_filename != NULL);
-@@ -215,10 +271,9 @@ static void q800_init(MachineState *machine)
-     }
- 
-     /* IRQ Glue */
+     cc->gdb_num_core_regs = 18;
 -
--    irq = g_new0(GLUEState, 1);
--    irq->cpu = cpu;
--    pic = qemu_allocate_irqs(GLUE_set_irq, irq, 8);
-+    glue = qdev_new(TYPE_GLUE);
-+    object_property_set_link(OBJECT(glue), "cpu", OBJECT(cpu), &error_abort);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(glue), &error_fatal);
- 
-     /* VIA */
- 
-@@ -230,8 +285,10 @@ static void q800_init(MachineState *machine)
-     sysbus = SYS_BUS_DEVICE(via_dev);
-     sysbus_realize_and_unref(sysbus, &error_fatal);
-     sysbus_mmio_map(sysbus, 0, VIA_BASE);
--    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 0, pic[0]);
--    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 1, pic[1]);
-+    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 0,
-+                                qdev_get_gpio_in(glue, 0));
-+    qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 1,
-+                                qdev_get_gpio_in(glue, 1));
- 
- 
-     adb_bus = qdev_get_child_bus(via_dev, "adb.0");
-@@ -272,7 +329,7 @@ static void q800_init(MachineState *machine)
-     sysbus_realize_and_unref(sysbus, &error_fatal);
-     sysbus_mmio_map(sysbus, 0, SONIC_BASE);
-     sysbus_mmio_map(sysbus, 1, SONIC_PROM_BASE);
--    sysbus_connect_irq(sysbus, 0, pic[2]);
-+    sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(glue, 2));
- 
-     /* SCC */
- 
-@@ -294,7 +351,7 @@ static void q800_init(MachineState *machine)
-     qdev_realize_and_unref(escc_orgate, NULL, &error_fatal);
-     sysbus_connect_irq(sysbus, 0, qdev_get_gpio_in(escc_orgate, 0));
-     sysbus_connect_irq(sysbus, 1, qdev_get_gpio_in(escc_orgate, 1));
--    qdev_connect_gpio_out(DEVICE(escc_orgate), 0, pic[3]);
-+    qdev_connect_gpio_out(DEVICE(escc_orgate), 0, qdev_get_gpio_in(glue, 3));
-     sysbus_mmio_map(sysbus, 0, SCC_BASE);
- 
-     /* SCSI */
-@@ -456,6 +513,7 @@ static const TypeInfo q800_machine_typeinfo = {
- static void q800_machine_register_types(void)
- {
-     type_register_static(&q800_machine_typeinfo);
-+    type_register_static(&glue_info);
+-    dc->vmsd = &vmstate_m68k_cpu;
  }
  
- type_init(q800_machine_register_types)
+ static void m68k_cpu_class_init_cf_core(ObjectClass *c, void *data)
+diff --git a/target/m68k/fpu_helper.c b/target/m68k/fpu_helper.c
+index 9acf60dfd443..797000e7482c 100644
+--- a/target/m68k/fpu_helper.c
++++ b/target/m68k/fpu_helper.c
+@@ -135,10 +135,8 @@ static void restore_rounding_mode(CPUM68KState *env)
+     }
+ }
+ 
+-void cpu_m68k_set_fpcr(CPUM68KState *env, uint32_t val)
++void cpu_m68k_restore_fp_status(CPUM68KState *env)
+ {
+-    env->fpcr = val & 0xffff;
+-
+     if (m68k_feature(env, M68K_FEATURE_CF_FPU)) {
+         cf_restore_precision_mode(env);
+     } else {
+@@ -147,6 +145,12 @@ void cpu_m68k_set_fpcr(CPUM68KState *env, uint32_t val)
+     restore_rounding_mode(env);
+ }
+ 
++void cpu_m68k_set_fpcr(CPUM68KState *env, uint32_t val)
++{
++    env->fpcr = val & 0xffff;
++    cpu_m68k_restore_fp_status(env);
++}
++
+ void HELPER(fitrunc)(CPUM68KState *env, FPReg *res, FPReg *val)
+ {
+     FloatRoundMode rounding_mode = get_float_rounding_mode(&env->fp_status);
 -- 
 2.29.2
 
