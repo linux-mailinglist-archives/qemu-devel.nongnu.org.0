@@ -2,50 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF6F2D895A
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 19:49:19 +0100 (CET)
-Received: from localhost ([::1]:57010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0E42D894E
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 19:35:05 +0100 (CET)
+Received: from localhost ([::1]:54284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ko9xG-000197-Uh
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 13:49:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36460)
+	id 1ko9jU-0003Ug-FM
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 13:35:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noring@nocrew.org>) id 1ko9hU-0002LR-Ho
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:33:00 -0500
-Received: from pio-pvt-msa2.bahnhof.se ([79.136.2.41]:53974)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noring@nocrew.org>) id 1ko9hS-00079V-JU
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:33:00 -0500
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTP id 0C5A43F4C0;
- Sat, 12 Dec 2020 17:04:05 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Score: -1.9
-Received: from pio-pvt-msa2.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa2.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Tgr0y8Ln5aoY; Sat, 12 Dec 2020 17:04:04 +0100 (CET)
-Received: by pio-pvt-msa2.bahnhof.se (Postfix) with ESMTPA id 982AA3F40E;
- Sat, 12 Dec 2020 17:04:02 +0100 (CET)
-Date: Sat, 12 Dec 2020 17:04:01 +0100
-From: Fredrik Noring <noring@nocrew.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 26/26] MAINTAINERS: Add entry for MIPS Toshiba TCG
-Message-ID: <X9Tp8VFjqaayVkSy@sx9>
-References: <20201120210844.2625602-1-f4bug@amsat.org>
- <20201120210844.2625602-27-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <diego.viola@gmail.com>)
+ id 1ko9XI-0005XN-Vn
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:22:30 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:45148)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <diego.viola@gmail.com>)
+ id 1ko9XG-0003MV-BV
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:22:28 -0500
+Received: by mail-pf1-x430.google.com with SMTP id q22so9268177pfk.12
+ for <qemu-devel@nongnu.org>; Sat, 12 Dec 2020 10:22:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=kz9fnsqZtLE+VFM4mnJkB/CYEIt0FJhtcc3PTn/Jskw=;
+ b=dTjHvxxXGHYn23cZ9N60xED5vWuP4ccGFoq7rPKQ+JYv7iL7pR24KOxV12r+RfoCfL
+ FNAu7ICRBD2LwoPVzt0x0nJij4R7hk3PQjukWCFcE3YVXExKcKiZCA6iR0kRRPIbre34
+ qokzslN6xlxJjt54rK2o2EIyh3h5ks27pxxfPHxiMKT9rMzN0RrpebTvgER49bdU4l+R
+ Q0CWE3tjBSQreJfngRo4vJI2MIkW2gDxAVSLshHPj7zA486dMLN3OnRZbKRZuPddG5i8
+ gmUKE8KO3Z+ydKHzX3pLD4dVhpmxQ6NWV5Nzdgc0UfeSfy+wGV7wZQGmCJ9cn2q13zoj
+ r8lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=kz9fnsqZtLE+VFM4mnJkB/CYEIt0FJhtcc3PTn/Jskw=;
+ b=petTP+MbOLjaP3JBUQOxXyFBA+4/19xA0A1niX3DjmEv+S47kRKM5DDE4GV9ZLY/sY
+ JwK3C14f74U5HhA5HvBFUv7uFDoJcfjVXJEhFdK3sJyp/CdDEx598NWeGx5vOmzIkIit
+ A484HukxyuwJPjYAWDiFDpLf4D8MZJjBs61B0v8TGACAmUcuI+ysLFD32UerKwFifGcq
+ HX3Zr2rh2agtxvgnAesdz+25mgQZYNmk8w3vwU7B+UkRMVX0tKTYvFUwuPPVLLSoKtDq
+ VU6d88iyh8mE1CGvOsVDnYQL4rIMQRepfCrGblU8/Bw/3qzZcKN/rcZAf6QFGL18qOoR
+ tTVw==
+X-Gm-Message-State: AOAM530oQDWL2ZThBkHUpPgFUZD53v+TT5r5EK/Mtc8prW13a40SLEue
+ IJg4QwqJP5UQ1VRIVQaktLdHM6zYl3C4HLl2Ot5mURfrMx8=
+X-Google-Smtp-Source: ABdhPJzYhg5LwsYJPCftTXzuVbcJIPOcxOJD93pyvvGHw6hyn+elnAX7yDoMY50KKFywU4ELzmqajhIwYbj/oocSwig=
+X-Received: by 2002:a92:5b9d:: with SMTP id c29mr24091734ilg.91.1607790529924; 
+ Sat, 12 Dec 2020 08:28:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201120210844.2625602-27-f4bug@amsat.org>
-Received-SPF: softfail client-ip=79.136.2.41; envelope-from=noring@nocrew.org;
- helo=pio-pvt-msa2.bahnhof.se
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+From: Diego Viola <diego.viola@gmail.com>
+Date: Sat, 12 Dec 2020 13:28:39 -0300
+Message-ID: <CA+ToGPHan_XHjy+=3vzefnJ9+EBHkL+BBR2FgM_v-XWcqVkgQw@mail.gmail.com>
+Subject: Slow video output from webcam with qemu-xhci but smooth with usb-ehci
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=diego.viola@gmail.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,68 +73,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Craig Janeczek <jancraig@amazon.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- qemu-devel@nongnu.org, "Maciej W. Rozycki" <macro@linux-mips.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 20, 2020 at 10:08:44PM +0100, Philippe Mathieu-Daudé wrote:
-> Add an entry for the TCG core related to Toshiba TXx9.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> Adding Fredrik Noring in case he wants to be notified of changes,
-> patch conditional to his approval.
+Hi,
 
-I may be able to help on the TX79 that is an R5900, but unless commit
-823f2897bdd7 ("target/mips: Disable R5900 support") is reverted, it
-remains shut off in QEMU. To obtain n32, in addition to o32, one may
-want to apply something similar to this:
+I'm experiencing a lot of choppiness in the video output when I pass
+through my USB webcam to the guest using qemu-xhci as follows:
 
-diff --git a/linux-user/mips64/target_elf.h b/linux-user/mips64/target_elf.h
-index ec55d8542a..5f2f2df29f 100644
---- a/linux-user/mips64/target_elf.h
-+++ b/linux-user/mips64/target_elf.h
-@@ -12,6 +12,9 @@ static inline const char *cpu_get_model(uint32_t eflags)
-     if ((eflags & EF_MIPS_ARCH) == EF_MIPS_ARCH_64R6) {
-         return "I6400";
-     }
-+    if ((eflags & EF_MIPS_MACH) == EF_MIPS_MACH_5900) {
-+        return "R5900";
-+    }
-     return "5KEf";
- }
- #endif
+qemu-system-x86_64 -enable-kvm -hda arch-zoom.qcow2 -m 4G -vga virtio
+-device qemu-xhci,id=xhci -device
+usb-host,bus=xhci.0,hostdevice=/dev/bus/usb/002/004
 
-> ---
->  MAINTAINERS | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b6d98b95c47..d97f0f1d66e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -253,6 +253,12 @@ R: Craig Janeczek <jancraig@amazon.com>
->  S: Odd Fixes
->  F: target/mips/vendor-xburst*
->  
-> +MIPS TCG CPUs (Toshiba TX)
-> +M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> +R: Fredrik Noring <noring@nocrew.org>
-> +S: Odd Fixes
-> +F: target/mips/vendor-tx*
-> +
->  MIPS TCG CPUs (nanoMIPS ISA)
->  S: Orphan
->  F: disas/nanomips.*
-> -- 
-> 2.26.2
-> 
+My webcam is:
 
-Fredrik
+Bus 002 Device 004: ID 04f2:b449 Chicony Electronics Co., Ltd Integrated Camera
+
+I am using mpv /dev/video0 from the guest.
+
+It works fine if I use usb-ehci instead, e.g.:
+
+qemu-system-x86_64 -enable-kvm -hda arch-zoom.qcow2 -m 4G -vga virtio
+-device usb-ehci,id=ehci -device
+usb-host,bus=ehci.0,hostdevice=/dev/bus/usb/002/004
+
+In this case, the video output from mpv /dev/video0 is not choppy.
+
+My QEMU version is 5.2.0 -- I am running Arch Linux on the host and guest.
+
+Any ideas please?
+
+Thanks,
+Diego
 
