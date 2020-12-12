@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE05A2D8A01
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 21:44:01 +0100 (CET)
-Received: from localhost ([::1]:43138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE972D8A0C
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 21:55:46 +0100 (CET)
+Received: from localhost ([::1]:54940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koBkF-0005TD-Pv
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 15:43:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53370)
+	id 1koBvd-00034r-7C
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 15:55:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1koBgS-0004IW-Iq
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 15:40:05 -0500
+ id 1koBgV-0004JV-2n
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 15:40:07 -0500
 Received: from indium.canonical.com ([91.189.90.7]:42192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1koBgN-0001Yp-KV
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 15:40:04 -0500
+ id 1koBgT-0001Yp-6D
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 15:40:06 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ko6vi-0002qD-VQ
- for <qemu-devel@nongnu.org>; Sat, 12 Dec 2020 15:35:30 +0000
+ id 1koB4O-0004TQ-HK
+ for <qemu-devel@nongnu.org>; Sat, 12 Dec 2020 20:00:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EA7C02E8084
- for <qemu-devel@nongnu.org>; Sat, 12 Dec 2020 15:35:30 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4D4A52E802D
+ for <qemu-devel@nongnu.org>; Sat, 12 Dec 2020 20:00:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 12 Dec 2020 15:29:22 -0000
-From: "Cheol-Woo,Myung" <1907909@bugs.launchpad.net>
+Date: Sat, 12 Dec 2020 19:51:49 -0000
+From: johannes <1906948@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: gtk gui opengl virtio
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cwmyung
-X-Launchpad-Bug-Reporter: Cheol-Woo,Myung (cwmyung)
-X-Launchpad-Bug-Modifier: Cheol-Woo,Myung (cwmyung)
-Message-Id: <160778696243.15318.2318965348341715879.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1907909] [NEW] assertion failure in am53c974
+X-Launchpad-Bug-Commenters: fghgfh832 th-huth
+X-Launchpad-Bug-Reporter: johannes (fghgfh832)
+X-Launchpad-Bug-Modifier: johannes (fghgfh832)
+References: <160719376548.16747.104851865616000042.malonedeb@wampee.canonical.com>
+Message-Id: <160780270937.30645.732633297118756272.malone@soybean.canonical.com>
+Subject: [Bug 1906948] Re: Enabling OpenGL for GUI doesn't work on old laptop
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 79a4b2cda7f45faf35b615a0d159dd1d0c255e9a
+X-Launchpad-Hash: 222259bc73e4e3629a1d55e6411c3d077e0f7d39
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -56,7 +59,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
  HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,221 +71,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907909 <1907909@bugs.launchpad.net>
+Reply-To: Bug 1906948 <1906948@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-Hello,
-
-Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-am53c974 emulator.
-
-A malicious guest user/process could use this flaw to abort the QEMU
-process on the host, resulting in a denial of service.
-
-This was found in version 5.2.0 (master)
+I installed Qemu 5.0.0 from Debian Buster backports and I still get this
+error.
 
 
-qemu-system-i386: ../hw/scsi/esp.c:402: void esp_do_dma(ESPState *): Assert=
-ion `s->cmdlen <=3D sizeof(s->cmdbuf) && len <=3D sizeof(s->cmdbuf) - s->cm=
-dlen' failed.
+qemu_gl_create_compile_shader: compile vertex error
+0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.10=
+, 1.20, and 1.00 ES
 
-#0  __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdeps/unix/sysv/linux/raise.=
-c:51
-51      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
-[Current thread is 1 (Thread 0x7fdd25dc4700 (LWP 28983))]
-gdb-peda$ bt
-#0  0x00007fdd3f8b5f47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdeps/=
-unix/sysv/linux/raise.c:51
-#1  0x00007fdd3f8b78b1 in __GI_abort () at abort.c:79
-#2  0x00007fdd3f8a742a in __assert_fail_base (fmt=3D0x7fdd3fa2ea38 "%s%s%s:=
-%u: %s%sAssertion `%s' failed.\\n%n", assertion=3Dassertion@entry=3D0x55b3e=
-11a51c6 "s->cmdlen <=3D sizeof(s->cmdbuf) && len <=3D sizeof(s->cmdbuf) - s=
-->cmdlen", file=3Dfile@entry=3D0x55b3e11a4f73 "../hw/scsi/esp.c", line=3Dli=
-ne@entry=3D0x192, function=3Dfunction@entry=3D0x55b3e11a520d "void esp_do_d=
-ma(ESPState *)") at assert.c:92
-#3  0x00007fdd3f8a74a2 in __GI___assert_fail (assertion=3D0x55b3e11a51c6 "s=
-->cmdlen <=3D sizeof(s->cmdbuf) && len <=3D sizeof(s->cmdbuf) - s->cmdlen",=
- file=3D0x55b3e11a4f73 "../hw/scsi/esp.c", line=3D0x192, function=3D0x55b3e=
-11a520d "void esp_do_dma(ESPState *)") at assert.c:101
-#4  0x000055b3e0941441 in esp_do_dma (s=3D0x55b3e49d1c88) at ../hw/scsi/esp=
-.c:401
-#5  0x000055b3e0944261 in handle_ti (s=3D0x55b3e49d1c88) at ../hw/scsi/esp.=
-c:549
-#6  0x000055b3e093fdf9 in esp_dma_enable (s=3D0x55b3e49d1c88, irq=3D<optimi=
-zed out>, level=3D<optimized out>)
-    at ../hw/scsi/esp.c:79
-#7  0x000055b3e0897930 in esp_pci_dma_write (pci=3D<optimized out>, saddr=
-=3D<optimized out>, val=3D<optimized
-out>) at ../hw/scsi/esp-pci.c:83
-#8  0x000055b3e0897930 in esp_pci_io_write (opaque=3D<optimized out>, addr=
-=3D<optimized out>, val=3D0xcf, size=3D0x4) at ../hw/scsi/esp-pci.c:209
-#9  0x000055b3e0e8f798 in memory_region_write_accessor (mr=3D<optimized out=
->, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out>,=
- shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...)
-    at ../softmmu/memory.c:491
-#10 0x000055b3e0e8f58e in access_with_adjusted_size (addr=3D<optimized out>=
-, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<optim=
-ized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>, =
-mr=3D<optimized out>, attrs=3D...) at ../softmmu/memory.c:552
-#11 0x000055b3e0e8f58e in memory_region_dispatch_write (mr=3D0x55b3e49d1b70=
-, addr=3D<optimized out>, data=3D<optimized out>, op=3D<optimized out>, att=
-rs=3D...) at ../softmmu/memory.c:1501
-#12 0x000055b3e0e21541 in address_space_stb (as=3D<optimized out>, addr=3D<=
-optimized out>, val=3D0xffffffcf, attrs=3D..., result=3D0x0) at ../memory_l=
-dst.c.inc:382
-#13 0x00007fdcd84a4a7f in code_gen_buffer ()
-#14 0x000055b3e0e57da0 in cpu_tb_exec (cpu=3D0x55b3e3c33650, itb=3D<optimiz=
-ed out>)
-    at ../accel/tcg/cpu-exec.c:178
-#15 0x000055b3e0e589eb in cpu_loop_exec_tb (tb=3D<optimized out>, cpu=3D<op=
-timized out>, last_tb=3D<optimized
-out>, tb_exit=3D<optimized out>) at ../accel/tcg/cpu-exec.c:658
-#16 0x000055b3e0e589eb in cpu_exec (cpu=3D0x55b3e3c33650) at ../accel/tcg/c=
-pu-exec.c:771
-#17 0x000055b3e0e87b9f in tcg_cpu_exec (cpu=3D<optimized out>) at ../accel/=
-tcg/tcg-cpus.c:243
-#18 0x000055b3e0e87b9f in tcg_cpu_thread_fn (arg=3D0x55b3e3c33650) at ../ac=
-cel/tcg/tcg-cpus.c:427
-#19 0x000055b3e115f775 in qemu_thread_start (args=3D<optimized out>) at ../=
-util/qemu-thread-posix.c:521
-#20 0x00007fdd3fc6f6db in start_thread (arg=3D0x7fdd25dc4700) at pthread_cr=
-eate.c:463
-#21 0x00007fdd3f998a3f in clone () at ../sysdeps/unix/sysv/linux/x86_64/clo=
-ne.S:95
+qemu_gl_create_compile_shader: compile fragment error
+0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.10=
+, 1.20, and 1.00 ES
 
-To reproduce the assertion failure, please run the QEMU with the
-following command line.
+qemu_gl_create_compile_shader: compile vertex error
+0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.10=
+, 1.20, and 1.00 ES
 
-
-$ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3Ddi=
-sk,format=3Draw -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk =
--drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
-
-Please let me know if I can provide any further info.
-
-Thank you.
-
-- Cheolwoo, Myung (Seoul National University)
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "attachment.zip"
-   https://bugs.launchpad.net/bugs/1907909/+attachment/5443000/+files/attac=
-hment.zip
+qemu_gl_create_compile_shader: compile fragment error
+0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.10=
+, 1.20, and 1.00 ES
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907909
+https://bugs.launchpad.net/bugs/1906948
 
 Title:
-  assertion failure in am53c974
+  Enabling OpenGL for GUI doesn't work on old laptop
 
 Status in QEMU:
-  New
+  Incomplete
 
 Bug description:
-  Hello,
+  QEMU start command is:
 
-  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-  am53c974 emulator.
-
-  A malicious guest user/process could use this flaw to abort the QEMU
-  process on the host, resulting in a denial of service.
-
-  This was found in version 5.2.0 (master)
+  qemu-system-x86_64 -enable-kvm -m 2G -cpu host -smp 2 -cdrom
+  ./linuxmint-20-mate-64bit.iso -boot d -vga virtio -soundhw hda
+  -display gtk,gl=3Don
 
   =
 
-  qemu-system-i386: ../hw/scsi/esp.c:402: void esp_do_dma(ESPState *): Asse=
-rtion `s->cmdlen <=3D sizeof(s->cmdbuf) && len <=3D sizeof(s->cmdbuf) - s->=
-cmdlen' failed.
-
-  #0  __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdeps/unix/sysv/linux/rais=
-e.c:51
-  51      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
-  [Current thread is 1 (Thread 0x7fdd25dc4700 (LWP 28983))]
-  gdb-peda$ bt
-  #0  0x00007fdd3f8b5f47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
-s/unix/sysv/linux/raise.c:51
-  #1  0x00007fdd3f8b78b1 in __GI_abort () at abort.c:79
-  #2  0x00007fdd3f8a742a in __assert_fail_base (fmt=3D0x7fdd3fa2ea38 "%s%s%=
-s:%u: %s%sAssertion `%s' failed.\\n%n", assertion=3Dassertion@entry=3D0x55b=
-3e11a51c6 "s->cmdlen <=3D sizeof(s->cmdbuf) && len <=3D sizeof(s->cmdbuf) -=
- s->cmdlen", file=3Dfile@entry=3D0x55b3e11a4f73 "../hw/scsi/esp.c", line=3D=
-line@entry=3D0x192, function=3Dfunction@entry=3D0x55b3e11a520d "void esp_do=
-_dma(ESPState *)") at assert.c:92
-  #3  0x00007fdd3f8a74a2 in __GI___assert_fail (assertion=3D0x55b3e11a51c6 =
-"s->cmdlen <=3D sizeof(s->cmdbuf) && len <=3D sizeof(s->cmdbuf) - s->cmdlen=
-", file=3D0x55b3e11a4f73 "../hw/scsi/esp.c", line=3D0x192, function=3D0x55b=
-3e11a520d "void esp_do_dma(ESPState *)") at assert.c:101
-  #4  0x000055b3e0941441 in esp_do_dma (s=3D0x55b3e49d1c88) at ../hw/scsi/e=
-sp.c:401
-  #5  0x000055b3e0944261 in handle_ti (s=3D0x55b3e49d1c88) at ../hw/scsi/es=
-p.c:549
-  #6  0x000055b3e093fdf9 in esp_dma_enable (s=3D0x55b3e49d1c88, irq=3D<opti=
-mized out>, level=3D<optimized out>)
-      at ../hw/scsi/esp.c:79
-  #7  0x000055b3e0897930 in esp_pci_dma_write (pci=3D<optimized out>, saddr=
-=3D<optimized out>, val=3D<optimized
-  out>) at ../hw/scsi/esp-pci.c:83
-  #8  0x000055b3e0897930 in esp_pci_io_write (opaque=3D<optimized out>, add=
-r=3D<optimized out>, val=3D0xcf, size=3D0x4) at ../hw/scsi/esp-pci.c:209
-  #9  0x000055b3e0e8f798 in memory_region_write_accessor (mr=3D<optimized o=
-ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
->, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...)
-      at ../softmmu/memory.c:491
-  #10 0x000055b3e0e8f58e in access_with_adjusted_size (addr=3D<optimized ou=
-t>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opt=
-imized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>=
-, mr=3D<optimized out>, attrs=3D...) at ../softmmu/memory.c:552
-  #11 0x000055b3e0e8f58e in memory_region_dispatch_write (mr=3D0x55b3e49d1b=
-70, addr=3D<optimized out>, data=3D<optimized out>, op=3D<optimized out>, a=
-ttrs=3D...) at ../softmmu/memory.c:1501
-  #12 0x000055b3e0e21541 in address_space_stb (as=3D<optimized out>, addr=
-=3D<optimized out>, val=3D0xffffffcf, attrs=3D..., result=3D0x0) at ../memo=
-ry_ldst.c.inc:382
-  #13 0x00007fdcd84a4a7f in code_gen_buffer ()
-  #14 0x000055b3e0e57da0 in cpu_tb_exec (cpu=3D0x55b3e3c33650, itb=3D<optim=
-ized out>)
-      at ../accel/tcg/cpu-exec.c:178
-  #15 0x000055b3e0e589eb in cpu_loop_exec_tb (tb=3D<optimized out>, cpu=3D<=
-optimized out>, last_tb=3D<optimized
-  out>, tb_exit=3D<optimized out>) at ../accel/tcg/cpu-exec.c:658
-  #16 0x000055b3e0e589eb in cpu_exec (cpu=3D0x55b3e3c33650) at ../accel/tcg=
-/cpu-exec.c:771
-  #17 0x000055b3e0e87b9f in tcg_cpu_exec (cpu=3D<optimized out>) at ../acce=
-l/tcg/tcg-cpus.c:243
-  #18 0x000055b3e0e87b9f in tcg_cpu_thread_fn (arg=3D0x55b3e3c33650) at ../=
-accel/tcg/tcg-cpus.c:427
-  #19 0x000055b3e115f775 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #20 0x00007fdd3fc6f6db in start_thread (arg=3D0x7fdd25dc4700) at pthread_=
-create.c:463
-  #21 0x00007fdd3f998a3f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  To reproduce the assertion failure, please run the QEMU with the
-  following command line.
+  and QEMU crashes immediately on startup and gives these error messages:
 
   =
 
-  $ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3D=
-disk,format=3Draw -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDis=
-k -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
+  qemu_gl_create_compile_shader: compile vertex error
+  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
+10, 1.20, and 1.00 ES
 
-  Please let me know if I can provide any further info.
+  qemu_gl_create_compile_shader: compile fragment error
+  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
+10, 1.20, and 1.00 ES
 
-  Thank you.
+  qemu_gl_create_compile_shader: compile vertex error
+  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
+10, 1.20, and 1.00 ES
 
-  - Cheolwoo, Myung (Seoul National University)
+  qemu_gl_create_compile_shader: compile fragment error
+  0:2(10): error: GLSL ES 3.00 is not supported. Supported versions are: 1.=
+10, 1.20, and 1.00 ES
+
+  =
+
+  If I remove "gl=3Don" it will boot. Does this just mean that this hardwar=
+e is too old to run QEMU with OpenGL enabled in GUI, or is this a bug? =
+
+
+  Host OS is Debian 10, computer is a Lenovo laptop with Core i5-520M
+  CPU and its integrated Intel HD graphics GPU.
+
+  QEMU version is 3.1.0 from Debian repositories.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907909/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1906948/+subscriptions
 
