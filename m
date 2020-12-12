@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC91D2D854D
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 10:10:08 +0100 (CET)
-Received: from localhost ([::1]:54454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1594D2D8552
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 10:21:35 +0100 (CET)
+Received: from localhost ([::1]:57512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ko0uk-0006mT-Df
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 04:10:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37374)
+	id 1ko15p-0000Gz-KZ
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 04:21:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ko0tb-0006Lx-DE
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 04:08:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25847)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1ko0tX-0007Tp-4U
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 04:08:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607764128;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4xLvyo1LNSxc3hkw5+WtidlvkTPunE/z2DRaYAqteXs=;
- b=CH6h82tRLsLrOzToaerc4Ac1jMb38loXc6qb2dlZqaWoIY3e3CwiBs0gZvpf+6sHJ7viH2
- 6C2OKwgNUpmacILjF8wwB9IEWZKyKI9y9r6au95uXmAaG8zowOGNWFqMj4FklMcNrzh7Bg
- AolW2o/7q8mZunKDKVmiRkcUaSTq4qI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-1Hw3ZBsXPRO6dRVJ_1Vlsw-1; Sat, 12 Dec 2020 04:08:46 -0500
-X-MC-Unique: 1Hw3ZBsXPRO6dRVJ_1Vlsw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAFAD10054FF;
- Sat, 12 Dec 2020 09:08:44 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3397C60BE5;
- Sat, 12 Dec 2020 09:08:37 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] libvhost-user: add a link-static option
-Date: Sat, 12 Dec 2020 13:08:34 +0400
-Message-Id: <20201212090834.1126274-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1ko14H-0008BJ-BY
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 04:19:57 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2494)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1ko14E-00038g-Le
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 04:19:57 -0500
+Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4CtMXQ3pqHzVn1c;
+ Sat, 12 Dec 2020 17:18:46 +0800 (CST)
+Received: from DGGEMM424-HUB.china.huawei.com (10.1.198.41) by
+ DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Sat, 12 Dec 2020 17:19:44 +0800
+Received: from DGGEMM511-MBX.china.huawei.com ([169.254.1.248]) by
+ dggemm424-hub.china.huawei.com ([10.1.198.41]) with mapi id 14.03.0487.000;
+ Sat, 12 Dec 2020 17:19:39 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [PATCH 12/12] configure: Compile with -Wimplicit-fallthrough=2
+Thread-Topic: [PATCH 12/12] configure: Compile with -Wimplicit-fallthrough=2
+Thread-Index: AQHWz9HU3LiHOQmd306wlFcU5/4yeKnzLxAQ
+Date: Sat, 12 Dec 2020 09:19:38 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83BAF8D22@dggemm511-mbx.china.huawei.com>
+References: <20201211152426.350966-1-thuth@redhat.com>
+ <20201211152426.350966-13-thuth@redhat.com>
+In-Reply-To: <20201211152426.350966-13-thuth@redhat.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.185.149]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=kuhn.chenqun@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,64 +68,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pbonzini@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- mst@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> -----Original Message-----
+> From: Thomas Huth [mailto:thuth@redhat.com]
+> Sent: Friday, December 11, 2020 11:24 PM
+> To: Peter Maydell <peter.maydell@linaro.org>; qemu-devel@nongnu.org
+> Cc: Chenqun (kuhn) <kuhn.chenqun@huawei.com>; Richard Henderson
+> <richard.henderson@linaro.org>; Paolo Bonzini <pbonzini@redhat.com>
+> Subject: [PATCH 12/12] configure: Compile with -Wimplicit-fallthrough=3D2
+>=20
+> Coverity always complains about switch-case statements that fall through =
+the
+> next one when there is no comment in between - which could indicate a
+> forgotten "break" statement. Instead of handling these issues after they =
+have
+> been committed, it would be better to avoid them in the build process alr=
+eady.
+> Thus let's enable the -Wimplicit-fallthrough warning now.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Fix linking vhost-user binaries with with ./configure -static.
+Reviewed-by: Chen Qun <kuhn.chenqun@huawei.com>
 
-Fixes: 0df750e9d3a5fea5e1 ("libvhost-user: make it a meson subproject")
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- configure                                   | 1 +
- subprojects/libvhost-user/meson.build       | 3 ++-
- subprojects/libvhost-user/meson_options.txt | 5 +++++
- 3 files changed, 8 insertions(+), 1 deletion(-)
- create mode 100644 subprojects/libvhost-user/meson_options.txt
+Good job, we'll never see such warnings again.
 
-diff --git a/configure b/configure
-index 18c26e0389..465f7bb150 100755
---- a/configure
-+++ b/configure
-@@ -7014,6 +7014,7 @@ NINJA=$ninja $meson setup \
-         -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
-         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
-         -Dvhost_user_blk_server=$vhost_user_blk_server \
-+        -Dlibvhost-user:link-static=$(if test "$static" = yes; then echo true; else echo false; fi) \
-         $cross_arg \
-         "$PWD" "$source_path"
- 
-diff --git a/subprojects/libvhost-user/meson.build b/subprojects/libvhost-user/meson.build
-index c5d85c11d7..5a9cc8675e 100644
---- a/subprojects/libvhost-user/meson.build
-+++ b/subprojects/libvhost-user/meson.build
-@@ -2,7 +2,8 @@ project('libvhost-user', 'c',
-         license: 'GPL-2.0-or-later',
-         default_options: ['c_std=gnu99'])
- 
--glib = dependency('glib-2.0')
-+link_static = get_option('link-static')
-+glib = dependency('glib-2.0', static: link_static)
- inc = include_directories('../../include', '../../linux-headers')
- 
- vhost_user = static_library('vhost-user',
-diff --git a/subprojects/libvhost-user/meson_options.txt b/subprojects/libvhost-user/meson_options.txt
-new file mode 100644
-index 0000000000..03fe088e36
---- /dev/null
-+++ b/subprojects/libvhost-user/meson_options.txt
-@@ -0,0 +1,5 @@
-+option('link-static',
-+  type: 'boolean',
-+  value: false,
-+)
-+
--- 
-2.29.0
+Thanks,
+Chen Qun
+> ---
+>  configure | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/configure b/configure
+> index 18c26e0389..dc2bc3c2f0 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2007,6 +2007,7 @@ add_to warn_flags -Wempty-body  add_to
+> warn_flags -Wnested-externs  add_to warn_flags -Wendif-labels  add_to
+> warn_flags -Wexpansion-to-defined
+> +add_to warn_flags -Wimplicit-fallthrough=3D2
+>=20
+>  nowarn_flags=3D
+>  add_to nowarn_flags -Wno-initializer-overrides
+> --
+> 2.27.0
 
 
