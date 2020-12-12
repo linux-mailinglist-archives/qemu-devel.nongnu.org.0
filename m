@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D952D8948
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 19:32:10 +0100 (CET)
-Received: from localhost ([::1]:44878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8D82D894D
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 19:34:53 +0100 (CET)
+Received: from localhost ([::1]:53522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ko9gf-0007wX-Mb
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 13:32:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53604)
+	id 1ko9jI-0003Ah-G0
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 13:34:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ko9Oz-0004P6-Vm
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:13:57 -0500
-Received: from mx2.suse.de ([195.135.220.15]:36568)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ko9P6-0004Tk-Sw
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:14:00 -0500
+Received: from mx2.suse.de ([195.135.220.15]:36580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ko9Or-0000Fu-U5
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:13:53 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1ko9P4-0000Hg-1e
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 13:14:00 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9E28EB04C;
- Sat, 12 Dec 2020 15:55:50 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id EF775B168;
+ Sat, 12 Dec 2020 15:55:53 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,21 +29,22 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v12 16/23] cpu: Move synchronize_from_tb() to tcg_ops
-Date: Sat, 12 Dec 2020 16:55:23 +0100
-Message-Id: <20201212155530.23098-17-cfontana@suse.de>
+Subject: [PATCH v12 19/23] cpu: Move debug_excp_handler to tcg_ops
+Date: Sat, 12 Dec 2020 16:55:26 +0100
+Message-Id: <20201212155530.23098-20-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201212155530.23098-1-cfontana@suse.de>
 References: <20201212155530.23098-1-cfontana@suse.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,6 +61,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
  qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
  Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
@@ -72,299 +74,130 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eduardo Habkost <ehabkost@redhat.com>
 
-since tcg_cpu_ops.h is only included in cpu.h,
-and as a standalone header it is not really useful,
-as tcg_cpu_ops.h starts requiring cpu.h defines,
-enums, etc, as well as (later on in the series),
-additional definitions coming from memattr.h.
-
-Therefore rename it to tcg_cpu_ops.h.inc, to warn
-any potential user that this file is not a standalone
-header, but rather a partition of cpu.h that is
-included conditionally if CONFIG_TCG is true.
-
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-
-[claudio: wrapped in CONFIG_TCG, renamed .h to .inc]
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h                                | 10 +---------
- accel/tcg/cpu-exec.c                                 |  4 ++--
- target/arm/cpu.c                                     |  4 +++-
- target/avr/cpu.c                                     |  2 +-
- target/hppa/cpu.c                                    |  2 +-
- target/i386/tcg/tcg-cpu.c                            |  2 +-
- target/microblaze/cpu.c                              |  2 +-
- target/mips/cpu.c                                    |  4 +++-
- target/riscv/cpu.c                                   |  2 +-
- target/rx/cpu.c                                      |  2 +-
- target/sh4/cpu.c                                     |  2 +-
- target/sparc/cpu.c                                   |  2 +-
- target/tricore/cpu.c                                 |  2 +-
- include/hw/core/{tcg-cpu-ops.h => tcg-cpu-ops.h.inc} | 10 ++++++++++
- 14 files changed, 28 insertions(+), 22 deletions(-)
- rename include/hw/core/{tcg-cpu-ops.h => tcg-cpu-ops.h.inc} (55%)
+ include/hw/core/cpu.h             | 2 --
+ accel/tcg/cpu-exec.c              | 4 ++--
+ target/arm/cpu.c                  | 2 +-
+ target/i386/tcg/tcg-cpu.c         | 2 +-
+ target/lm32/cpu.c                 | 2 +-
+ target/s390x/cpu.c                | 2 +-
+ target/xtensa/cpu.c               | 2 +-
+ include/hw/core/tcg-cpu-ops.h.inc | 2 ++
+ 8 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index ea648d52ad..1c0f523b5b 100644
+index 2f33b6b8f0..b5a0615d06 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -77,7 +77,7 @@ typedef struct CPUWatchpoint CPUWatchpoint;
- struct TranslationBlock;
+@@ -121,7 +121,6 @@ struct TranslationBlock;
+  * @gdb_write_register: Callback for letting GDB write a register.
+  * @debug_check_watchpoint: Callback: return true if the architectural
+  *       watchpoint whose address has matched should really fire.
+- * @debug_excp_handler: Callback for handling debug exceptions.
+  * @write_elf64_note: Callback for writing a CPU-specific ELF note to a
+  * 64-bit VM coredump.
+  * @write_elf32_qemunote: Callback for writing a CPU- and QEMU-specific ELF
+@@ -184,7 +183,6 @@ struct CPUClass {
+     int (*gdb_read_register)(CPUState *cpu, GByteArray *buf, int reg);
+     int (*gdb_write_register)(CPUState *cpu, uint8_t *buf, int reg);
+     bool (*debug_check_watchpoint)(CPUState *cpu, CPUWatchpoint *wp);
+-    void (*debug_excp_handler)(CPUState *cpu);
  
+     int (*write_elf64_note)(WriteCoreDumpFunction f, CPUState *cpu,
+                             int cpuid, void *opaque);
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 502f6a53ae..17dc86af50 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -482,8 +482,8 @@ static inline void cpu_handle_debug_exception(CPUState *cpu)
+         }
+     }
+ 
+-    if (cc->debug_excp_handler) {
+-        cc->debug_excp_handler(cpu);
++    if (cc->tcg_ops.debug_excp_handler) {
++        cc->tcg_ops.debug_excp_handler(cpu);
+     }
+ }
+ 
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index f99a523393..10eb465581 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2268,7 +2268,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+     cc->tcg_ops.cpu_exec_interrupt = arm_cpu_exec_interrupt;
+     cc->tcg_ops.synchronize_from_tb = arm_cpu_synchronize_from_tb;
+     cc->tcg_ops.tlb_fill = arm_cpu_tlb_fill;
+-    cc->debug_excp_handler = arm_debug_excp_handler;
++    cc->tcg_ops.debug_excp_handler = arm_debug_excp_handler;
+     cc->debug_check_watchpoint = arm_debug_check_watchpoint;
+     cc->do_unaligned_access = arm_cpu_do_unaligned_access;
+ #if !defined(CONFIG_USER_ONLY)
+diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
+index 8606dd6a3e..38ed8bf6d3 100644
+--- a/target/i386/tcg/tcg-cpu.c
++++ b/target/i386/tcg/tcg-cpu.c
+@@ -66,6 +66,6 @@ void tcg_cpu_common_class_init(CPUClass *cc)
+     cc->tcg_ops.initialize = tcg_x86_init;
+     cc->tcg_ops.tlb_fill = x86_cpu_tlb_fill;
+ #ifndef CONFIG_USER_ONLY
+-    cc->debug_excp_handler = breakpoint_handler;
++    cc->tcg_ops.debug_excp_handler = breakpoint_handler;
+ #endif
+ }
+diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
+index 76dc728858..bbe1405e32 100644
+--- a/target/lm32/cpu.c
++++ b/target/lm32/cpu.c
+@@ -235,7 +235,7 @@ static void lm32_cpu_class_init(ObjectClass *oc, void *data)
+ #endif
+     cc->gdb_num_core_regs = 32 + 7;
+     cc->gdb_stop_before_watchpoint = true;
+-    cc->debug_excp_handler = lm32_debug_excp_handler;
++    cc->tcg_ops.debug_excp_handler = lm32_debug_excp_handler;
+     cc->disas_set_info = lm32_cpu_disas_set_info;
+     cc->tcg_ops.initialize = lm32_translate_init;
+ }
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 6cd2b30192..04856076b3 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -506,7 +506,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
+     cc->write_elf64_note = s390_cpu_write_elf64_note;
  #ifdef CONFIG_TCG
--#include "tcg-cpu-ops.h"
-+#include "tcg-cpu-ops.h.inc"
- #endif /* CONFIG_TCG */
- 
- /**
-@@ -110,13 +110,6 @@ struct TranslationBlock;
-  *       If the target behaviour here is anything other than "set
-  *       the PC register to the value passed in" then the target must
-  *       also implement the synchronize_from_tb hook.
-- * @synchronize_from_tb: Callback for synchronizing state from a TCG
-- *       #TranslationBlock. This is called when we abandon execution
-- *       of a TB before starting it, and must set all parts of the CPU
-- *       state which the previous TB in the chain may not have updated.
-- *       This always includes at least the program counter; some targets
-- *       will need to do more. If this hook is not implemented then the
-- *       default is to call @set_pc(tb->pc).
-  * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
-  *       address fault.  For system mode, if the access is valid, call
-  *       tlb_set_page and return true; if the access is invalid, and
-@@ -193,7 +186,6 @@ struct CPUClass {
-     void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
-                                Error **errp);
-     void (*set_pc)(CPUState *cpu, vaddr value);
--    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
+     cc->tcg_ops.cpu_exec_interrupt = s390_cpu_exec_interrupt;
+-    cc->debug_excp_handler = s390x_cpu_debug_excp_handler;
++    cc->tcg_ops.debug_excp_handler = s390x_cpu_debug_excp_handler;
+     cc->do_unaligned_access = s390x_cpu_do_unaligned_access;
+ #endif
+ #endif
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index e764dbeb73..b6f13ceb32 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -207,7 +207,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
+     cc->get_phys_page_debug = xtensa_cpu_get_phys_page_debug;
+     cc->do_transaction_failed = xtensa_cpu_do_transaction_failed;
+ #endif
+-    cc->debug_excp_handler = xtensa_breakpoint_handler;
++    cc->tcg_ops.debug_excp_handler = xtensa_breakpoint_handler;
+     cc->disas_set_info = xtensa_cpu_disas_set_info;
+     cc->tcg_ops.initialize = xtensa_translate_init;
+     dc->vmsd = &vmstate_xtensa_cpu;
+diff --git a/include/hw/core/tcg-cpu-ops.h.inc b/include/hw/core/tcg-cpu-ops.h.inc
+index 615d449cd8..4903998e79 100644
+--- a/include/hw/core/tcg-cpu-ops.h.inc
++++ b/include/hw/core/tcg-cpu-ops.h.inc
+@@ -48,6 +48,8 @@ typedef struct TcgCpuOperations {
      bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
                       MMUAccessType access_type, int mmu_idx,
                       bool probe, uintptr_t retaddr);
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 50eb92d217..05dba7f2cc 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -192,8 +192,8 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
-                                TARGET_FMT_lx "] %s\n",
-                                last_tb->tc.ptr, last_tb->pc,
-                                lookup_symbol(last_tb->pc));
--        if (cc->synchronize_from_tb) {
--            cc->synchronize_from_tb(cpu, last_tb);
-+        if (cc->tcg_ops.synchronize_from_tb) {
-+            cc->tcg_ops.synchronize_from_tb(cpu, last_tb);
-         } else {
-             assert(cc->set_pc);
-             cc->set_pc(cpu, last_tb->pc);
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 61237d9885..3c1a44a5b3 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -54,6 +54,7 @@ static void arm_cpu_set_pc(CPUState *cs, vaddr value)
-     }
- }
- 
-+#ifdef CONFIG_TCG
- static void arm_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-@@ -69,6 +70,7 @@ static void arm_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-         env->regs[15] = tb->pc;
-     }
- }
-+#endif /* CONFIG_TCG */
- 
- static bool arm_cpu_has_work(CPUState *cs)
- {
-@@ -2245,7 +2247,6 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->cpu_exec_interrupt = arm_cpu_exec_interrupt;
-     cc->dump_state = arm_cpu_dump_state;
-     cc->set_pc = arm_cpu_set_pc;
--    cc->synchronize_from_tb = arm_cpu_synchronize_from_tb;
-     cc->gdb_read_register = arm_cpu_gdb_read_register;
-     cc->gdb_write_register = arm_cpu_gdb_write_register;
- #ifndef CONFIG_USER_ONLY
-@@ -2265,6 +2266,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->disas_set_info = arm_disas_set_info;
- #ifdef CONFIG_TCG
-     cc->tcg_ops.initialize = arm_translate_init;
-+    cc->tcg_ops.synchronize_from_tb = arm_cpu_synchronize_from_tb;
-     cc->tlb_fill = arm_cpu_tlb_fill;
-     cc->debug_excp_handler = arm_debug_excp_handler;
-     cc->debug_check_watchpoint = arm_debug_check_watchpoint;
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 94306a2aa0..f753c15768 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -207,7 +207,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->vmsd = &vms_avr_cpu;
-     cc->disas_set_info = avr_cpu_disas_set_info;
-     cc->tcg_ops.initialize = avr_cpu_tcg_init;
--    cc->synchronize_from_tb = avr_cpu_synchronize_from_tb;
-+    cc->tcg_ops.synchronize_from_tb = avr_cpu_synchronize_from_tb;
-     cc->gdb_read_register = avr_cpu_gdb_read_register;
-     cc->gdb_write_register = avr_cpu_gdb_write_register;
-     cc->gdb_num_core_regs = 35;
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index 4c778966c2..12a09e93ae 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -143,7 +143,7 @@ static void hppa_cpu_class_init(ObjectClass *oc, void *data)
-     cc->cpu_exec_interrupt = hppa_cpu_exec_interrupt;
-     cc->dump_state = hppa_cpu_dump_state;
-     cc->set_pc = hppa_cpu_set_pc;
--    cc->synchronize_from_tb = hppa_cpu_synchronize_from_tb;
-+    cc->tcg_ops.synchronize_from_tb = hppa_cpu_synchronize_from_tb;
-     cc->gdb_read_register = hppa_cpu_gdb_read_register;
-     cc->gdb_write_register = hppa_cpu_gdb_write_register;
-     cc->tlb_fill = hppa_cpu_tlb_fill;
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 1f2a3e881a..d1414e2970 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -60,7 +60,7 @@ void tcg_cpu_common_class_init(CPUClass *cc)
- {
-     cc->do_interrupt = x86_cpu_do_interrupt;
-     cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
--    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
-+    cc->tcg_ops.synchronize_from_tb = x86_cpu_synchronize_from_tb;
-     cc->cpu_exec_enter = x86_cpu_exec_enter;
-     cc->cpu_exec_exit = x86_cpu_exec_exit;
-     cc->tcg_ops.initialize = tcg_x86_init;
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index bc10518fa3..97d94d9c27 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -322,7 +322,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
-     cc->cpu_exec_interrupt = mb_cpu_exec_interrupt;
-     cc->dump_state = mb_cpu_dump_state;
-     cc->set_pc = mb_cpu_set_pc;
--    cc->synchronize_from_tb = mb_cpu_synchronize_from_tb;
-+    cc->tcg_ops.synchronize_from_tb = mb_cpu_synchronize_from_tb;
-     cc->gdb_read_register = mb_cpu_gdb_read_register;
-     cc->gdb_write_register = mb_cpu_gdb_write_register;
-     cc->tlb_fill = mb_cpu_tlb_fill;
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index bc48573763..4a539349a9 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -44,6 +44,7 @@ static void mips_cpu_set_pc(CPUState *cs, vaddr value)
-     }
- }
- 
-+#ifdef CONFIG_TCG
- static void mips_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
- {
-     MIPSCPU *cpu = MIPS_CPU(cs);
-@@ -53,6 +54,7 @@ static void mips_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-     env->hflags &= ~MIPS_HFLAG_BMASK;
-     env->hflags |= tb->flags & MIPS_HFLAG_BMASK;
- }
-+#endif /* CONFIG_TCG */
- 
- static bool mips_cpu_has_work(CPUState *cs)
- {
-@@ -238,7 +240,6 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     cc->cpu_exec_interrupt = mips_cpu_exec_interrupt;
-     cc->dump_state = mips_cpu_dump_state;
-     cc->set_pc = mips_cpu_set_pc;
--    cc->synchronize_from_tb = mips_cpu_synchronize_from_tb;
-     cc->gdb_read_register = mips_cpu_gdb_read_register;
-     cc->gdb_write_register = mips_cpu_gdb_write_register;
- #ifndef CONFIG_USER_ONLY
-@@ -250,6 +251,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     cc->disas_set_info = mips_cpu_disas_set_info;
- #ifdef CONFIG_TCG
-     cc->tcg_ops.initialize = mips_tcg_init;
-+    cc->tcg_ops.synchronize_from_tb = mips_cpu_synchronize_from_tb;
-     cc->tlb_fill = mips_cpu_tlb_fill;
- #endif
- 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 27dd1645c9..a9c30879d3 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -543,7 +543,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     cc->cpu_exec_interrupt = riscv_cpu_exec_interrupt;
-     cc->dump_state = riscv_cpu_dump_state;
-     cc->set_pc = riscv_cpu_set_pc;
--    cc->synchronize_from_tb = riscv_cpu_synchronize_from_tb;
-+    cc->tcg_ops.synchronize_from_tb = riscv_cpu_synchronize_from_tb;
-     cc->gdb_read_register = riscv_cpu_gdb_read_register;
-     cc->gdb_write_register = riscv_cpu_gdb_write_register;
-     cc->gdb_num_core_regs = 33;
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index a701a09b11..d03c4e0b05 100644
---- a/target/rx/cpu.c
-+++ b/target/rx/cpu.c
-@@ -189,7 +189,7 @@ static void rx_cpu_class_init(ObjectClass *klass, void *data)
-     cc->cpu_exec_interrupt = rx_cpu_exec_interrupt;
-     cc->dump_state = rx_cpu_dump_state;
-     cc->set_pc = rx_cpu_set_pc;
--    cc->synchronize_from_tb = rx_cpu_synchronize_from_tb;
-+    cc->tcg_ops.synchronize_from_tb = rx_cpu_synchronize_from_tb;
-     cc->gdb_read_register = rx_cpu_gdb_read_register;
-     cc->gdb_write_register = rx_cpu_gdb_write_register;
-     cc->get_phys_page_debug = rx_cpu_get_phys_page_debug;
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index bdc5c9d90b..a33025b5c8 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -222,7 +222,7 @@ static void superh_cpu_class_init(ObjectClass *oc, void *data)
-     cc->cpu_exec_interrupt = superh_cpu_exec_interrupt;
-     cc->dump_state = superh_cpu_dump_state;
-     cc->set_pc = superh_cpu_set_pc;
--    cc->synchronize_from_tb = superh_cpu_synchronize_from_tb;
-+    cc->tcg_ops.synchronize_from_tb = superh_cpu_synchronize_from_tb;
-     cc->gdb_read_register = superh_cpu_gdb_read_register;
-     cc->gdb_write_register = superh_cpu_gdb_write_register;
-     cc->tlb_fill = superh_cpu_tlb_fill;
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 07e48b86d1..baf6c5b587 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -868,7 +868,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
-     cc->memory_rw_debug = sparc_cpu_memory_rw_debug;
- #endif
-     cc->set_pc = sparc_cpu_set_pc;
--    cc->synchronize_from_tb = sparc_cpu_synchronize_from_tb;
-+    cc->tcg_ops.synchronize_from_tb = sparc_cpu_synchronize_from_tb;
-     cc->gdb_read_register = sparc_cpu_gdb_read_register;
-     cc->gdb_write_register = sparc_cpu_gdb_write_register;
-     cc->tlb_fill = sparc_cpu_tlb_fill;
-diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-index 78b2925955..5edf96c600 100644
---- a/target/tricore/cpu.c
-+++ b/target/tricore/cpu.c
-@@ -162,7 +162,7 @@ static void tricore_cpu_class_init(ObjectClass *c, void *data)
- 
-     cc->dump_state = tricore_cpu_dump_state;
-     cc->set_pc = tricore_cpu_set_pc;
--    cc->synchronize_from_tb = tricore_cpu_synchronize_from_tb;
-+    cc->tcg_ops.synchronize_from_tb = tricore_cpu_synchronize_from_tb;
-     cc->get_phys_page_debug = tricore_cpu_get_phys_page_debug;
-     cc->tcg_ops.initialize = tricore_tcg_init;
-     cc->tlb_fill = tricore_cpu_tlb_fill;
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h.inc
-similarity index 55%
-rename from include/hw/core/tcg-cpu-ops.h
-rename to include/hw/core/tcg-cpu-ops.h.inc
-index 4475ef0996..6c7cdf7e5e 100644
---- a/include/hw/core/tcg-cpu-ops.h
-+++ b/include/hw/core/tcg-cpu-ops.h.inc
-@@ -20,6 +20,16 @@ typedef struct TcgCpuOperations {
-      * Called when the first CPU is realized.
-      */
-     void (*initialize)(void);
-+    /**
-+     * @synchronize_from_tb: Synchronize state from a TCG #TranslationBlock
-+     *
-+     * This is called when we abandon execution of a TB before
-+     * starting it, and must set all parts of the CPU state which
-+     * the previous TB in the chain may not have updated. This
-+     * will need to do more. If this hook is not implemented then
-+     * the default is to call @set_pc(tb->pc).
-+     */
-+    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
++    /** @debug_excp_handler: Callback for handling debug exceptions */
++    void (*debug_excp_handler)(CPUState *cpu);
  } TcgCpuOperations;
  
  #endif /* TCG_CPU_OPS_H */
