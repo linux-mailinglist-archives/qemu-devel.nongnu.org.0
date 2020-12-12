@@ -2,52 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2632D8545
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 09:30:55 +0100 (CET)
-Received: from localhost ([::1]:44024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC91D2D854D
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 10:10:08 +0100 (CET)
+Received: from localhost ([::1]:54454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ko0Io-0008GG-Bc
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 03:30:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59442)
+	id 1ko0uk-0006mT-Df
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 04:10:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noring@nocrew.org>) id 1ko0Hb-0007pp-0m
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 03:29:39 -0500
-Received: from pio-pvt-msa1.bahnhof.se ([79.136.2.40]:41648)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noring@nocrew.org>) id 1ko0HY-0002iY-Qu
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 03:29:38 -0500
-Received: from localhost (localhost [127.0.0.1])
- by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 8A0093F85C;
- Sat, 12 Dec 2020 09:29:33 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Score: -1.901
-Received: from pio-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (pio-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8xv1lJCzStJv; Sat, 12 Dec 2020 09:29:32 +0100 (CET)
-Received: by pio-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 042EF3F683;
- Sat, 12 Dec 2020 09:29:30 +0100 (CET)
-Date: Sat, 12 Dec 2020 09:29:30 +0100
-From: Fredrik Noring <noring@nocrew.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 3/4] default-configs: Support o32 ABI with 64-bit MIPS CPUs
-Message-ID: <X9R/auP3JwP8kI6Z@sx9>
-References: <20201119161710.1985083-1-f4bug@amsat.org>
- <20201119161710.1985083-4-f4bug@amsat.org>
- <alpine.LFD.2.21.2011191634540.656242@eddie.linux-mips.org>
- <85288d49-70a1-a213-0390-d9cfd428f0be@amsat.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ko0tb-0006Lx-DE
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 04:08:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25847)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1ko0tX-0007Tp-4U
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 04:08:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607764128;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4xLvyo1LNSxc3hkw5+WtidlvkTPunE/z2DRaYAqteXs=;
+ b=CH6h82tRLsLrOzToaerc4Ac1jMb38loXc6qb2dlZqaWoIY3e3CwiBs0gZvpf+6sHJ7viH2
+ 6C2OKwgNUpmacILjF8wwB9IEWZKyKI9y9r6au95uXmAaG8zowOGNWFqMj4FklMcNrzh7Bg
+ AolW2o/7q8mZunKDKVmiRkcUaSTq4qI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-1Hw3ZBsXPRO6dRVJ_1Vlsw-1; Sat, 12 Dec 2020 04:08:46 -0500
+X-MC-Unique: 1Hw3ZBsXPRO6dRVJ_1Vlsw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAFAD10054FF;
+ Sat, 12 Dec 2020 09:08:44 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3397C60BE5;
+ Sat, 12 Dec 2020 09:08:37 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] libvhost-user: add a link-static option
+Date: Sat, 12 Dec 2020 13:08:34 +0400
+Message-Id: <20201212090834.1126274-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <85288d49-70a1-a213-0390-d9cfd428f0be@amsat.org>
-Received-SPF: softfail client-ip=79.136.2.40; envelope-from=noring@nocrew.org;
- helo=pio-pvt-msa1.bahnhof.se
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,88 +76,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Daney <ddaney.cavm@gmail.com>, Mathieu Malaterre <malat@debian.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, YunQiang Su <wzssyqa@gmail.com>,
- James Cowgill <james410@cowgill.org.uk>,
- "Maciej W. Rozycki" <macro@linux-mips.org>,
- =?utf-8?Q?J=C3=BCrgen?= Urban <JuergenUrban@gmx.de>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, pbonzini@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-[ My apologies for the late reply, somehow this thread was treated as spam. ]
+Fix linking vhost-user binaries with with ./configure -static.
 
-On Thu, Nov 19, 2020 at 06:13:20PM +0100, Philippe Mathieu-Daudé wrote:
-> Hi Maciej,
-> 
-> On 11/19/20 5:45 PM, Maciej W. Rozycki wrote:
-> > On Thu, 19 Nov 2020, Philippe Mathieu-Daudé wrote:
-> > 
-> >> MIPS o32 ABI on 64-bit CPUs looks like a ILP32-on-64bit data
-> >> model, allowing 64-bit arithmetic and data movement instructions.
-> >>
-> >> This is the default ABI used by the "Sony Linux Toolkit for
-> >> Playstation 2".
-> > 
-> >  Please don't, not at least with a generic configuration (i.e. make it 
-> > unambiguous that this is R5900-specific).  This only works with R5900 
-> > because it does not implement the MIPS ISA correctly (e.g. see what $ra is 
-> > set to with JAL/JALR/etc. in the kernel mode), and it is not supported by 
-> > the standard Linux ABI.  Use n32 instead, which has the same functionality 
-> > and is standard (and is also a better ABI in terms of performance).
-> 
-> I think there are 2 different interests with the R5900. Fredrik sent a
-> series to run recent userland/kernel on a PS2. For QEMU, it would be
-> easier if these uses the n32 ABI indeed.
+Fixes: 0df750e9d3a5fea5e1 ("libvhost-user: make it a meson subproject")
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ configure                                   | 1 +
+ subprojects/libvhost-user/meson.build       | 3 ++-
+ subprojects/libvhost-user/meson_options.txt | 5 +++++
+ 3 files changed, 8 insertions(+), 1 deletion(-)
+ create mode 100644 subprojects/libvhost-user/meson_options.txt
 
-Modern (4.x and 5.x) R5900 Linux kernels only support o32, due to R5900
-complications with n32. The plan is to reintroduce n32 once o32 is usable.
-The R5900 MMI set is another complication for both ABIs (not mentioning
-its vector coprocessors).
+diff --git a/configure b/configure
+index 18c26e0389..465f7bb150 100755
+--- a/configure
++++ b/configure
+@@ -7014,6 +7014,7 @@ NINJA=$ninja $meson setup \
+         -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+         -Dvhost_user_blk_server=$vhost_user_blk_server \
++        -Dlibvhost-user:link-static=$(if test "$static" = yes; then echo true; else echo false; fi) \
+         $cross_arg \
+         "$PWD" "$source_path"
+ 
+diff --git a/subprojects/libvhost-user/meson.build b/subprojects/libvhost-user/meson.build
+index c5d85c11d7..5a9cc8675e 100644
+--- a/subprojects/libvhost-user/meson.build
++++ b/subprojects/libvhost-user/meson.build
+@@ -2,7 +2,8 @@ project('libvhost-user', 'c',
+         license: 'GPL-2.0-or-later',
+         default_options: ['c_std=gnu99'])
+ 
+-glib = dependency('glib-2.0')
++link_static = get_option('link-static')
++glib = dependency('glib-2.0', static: link_static)
+ inc = include_directories('../../include', '../../linux-headers')
+ 
+ vhost_user = static_library('vhost-user',
+diff --git a/subprojects/libvhost-user/meson_options.txt b/subprojects/libvhost-user/meson_options.txt
+new file mode 100644
+index 0000000000..03fe088e36
+--- /dev/null
++++ b/subprojects/libvhost-user/meson_options.txt
+@@ -0,0 +1,5 @@
++option('link-static',
++  type: 'boolean',
++  value: false,
++)
++
+-- 
+2.29.0
 
-> This series allows me to run unmodified binaries from the PS2 (built
-> maybe 20 years ago, apparently for a kernel 2.2).
-
-Programs in the Debian Black Rhino distribution? I have the impression that
-there are at least some R5900 specific instructions in some of them, no?
-
-The 2.x R5900 Linux kernel does (to some degree) support both o32 and n32,
-but the implementation had to be reworked (almost entirely) to update it
-through Linux 3.x, 4.x and 5.x, and n32 was provisionally dropped to
-simplify this. The GNU C library will have to be updated for n32 too.
-
-I'm presently implementing device drivers, that involve the companion
-MIPS 3000A I/O processor.
-
-> >  You'd probably need to implement all the R5900 addressing quirks for your 
-> > proposed hack to match hardware, or otherwise you'll end up with emulation 
-> > that creates its own reality.
-> 
-> QEMU doesn't model well non-MIPS32 ISA, so the R5900 needs work indeed.
-> 
-> Laurent, maybe instead of 'mips64o32el-linux-user' we can call this
-> target 'r5900o32-linux-user', 'ps2-linux-user' or even 'r5900-ps2-user'
-> as Maciej said "it is not supported by the standard Linux ABI."
-
-Would "ps2" in the name imply emulating all PlayStation 2 hardware, as
-opposed to "r5900" that is only its main processor? There are also two
-interesting vector coprocessors (VPU0 and VPU1) to go with it. :)
-
-> Also I'll see to mark it deprecated so it isn't built by default.
-
-Presently o32 is the main use case for modern 5.x R5900 Linux, and so
-regardless of deprecation I have a copy of QEMU supporting it here:
-
-https://github.com/frno7/qemu
-
-We are building modern Gentoo Linux for the R5900, as described in
-
-https://github.com/frno7/linux/issues/33
-
-where R5900 QEMU having o32 is a requirement.
-
-Fredrik
 
