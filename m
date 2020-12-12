@@ -2,92 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6221D2D82DE
-	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 00:47:57 +0100 (CET)
-Received: from localhost ([::1]:56636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F622D8356
+	for <lists+qemu-devel@lfdr.de>; Sat, 12 Dec 2020 01:20:01 +0100 (CET)
+Received: from localhost ([::1]:43678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kns8h-0004FG-Sd
-	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 18:47:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56706)
+	id 1knsdj-0004aa-Qk
+	for lists+qemu-devel@lfdr.de; Fri, 11 Dec 2020 19:19:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kns4V-0003dj-7Q
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 18:43:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kns4N-0003c1-HI
- for qemu-devel@nongnu.org; Fri, 11 Dec 2020 18:43:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607730205;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7WFpxRDK71uNiSZW1kLjriFM96vjRy+KL78AcMwRReA=;
- b=DVCbWPVx70cEYTDCHE9Lu6KCvHHNowMlEJDIdvn2hpZs5gMobHUEf7o9AircpLwu5i7kPM
- XrEVY1BgH1nYMexLMnaWLWurJcs4aHnu2r1P0rEVlnFr6S3cYvfjqYeG7rrvB61QV4c4ZY
- /8K7hBFVgmuKKdIGcqbxaLkUx/osNUA=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-D9NIkS5JNrCxP2pFYTPS3g-1; Fri, 11 Dec 2020 18:43:24 -0500
-X-MC-Unique: D9NIkS5JNrCxP2pFYTPS3g-1
-Received: by mail-ej1-f69.google.com with SMTP id m4so3312416ejc.14
- for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 15:43:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1knsZc-0002YD-Uq
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 19:15:44 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1knsZa-0005cc-4w
+ for qemu-devel@nongnu.org; Fri, 11 Dec 2020 19:15:43 -0500
+Received: by mail-wm1-x343.google.com with SMTP id a3so10102671wmb.5
+ for <qemu-devel@nongnu.org>; Fri, 11 Dec 2020 16:15:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rlaiofm38bEaLMEO28iARVzpWKGjlOwxJ+z1qE/Eq4o=;
+ b=xSnIG/9PAJpkvGzhtJEwB43XqDT6whKkE3MOekhnUx7cKpnKu7/Io2vJR+rjpSaFyl
+ 6/LWHZQULSUGpDc2wAoNEnbN98T0yviI76vIWj7JCctJjLm/RLsgoVoAfZw3hWMbVy/h
+ OxX3oZSumhZfZX7mCzDTLH/IC7DaLU/7oefLMUeMzAA9mrpoHU2r2cNHhrBzfAgRGAc9
+ VPLgSwduGqTf2i+PFK0NyYrlpejaWGK/LEdVifBuCwz+XeL61Cfe/AgRRPF9KHpI8JOW
+ R85bDnhmeJ3zaA81GMKmVy2H4LYfo6kilh4l2FBzjVD1waeqcyS9B33jA57AnDW9n7GW
+ AcvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=7WFpxRDK71uNiSZW1kLjriFM96vjRy+KL78AcMwRReA=;
- b=nqxjRXUsWUFF5Uu9BgNoepfNMqrZ1AzPZG81xCNRNsPfUlPAbSNm61qns21x6ETN5o
- cQlUo+k7ETGB36HW/aV5Cszw4wg/7wPl8GwXSS1jYAfmbHyc/6n4EFL/pLaK1fNVd2O2
- SVAr5uD58mVAFVVrm/lc25hY+xpFiGUw64xZuX/W4GeV5AYoMI8ms4seRTYdjoPh2M+G
- KgvZGtmPUki/mfx/rmzImJ9NDt5mD7OcREmZHZxe8KXa+QUCK9qAFI21BrpcLyTowEwC
- HQC8uwCKmuDBJSwG+Dt77Kgd03V2u5XzmB9WnckreVVKAR0o7o1WEimkj88EoFLTdJW/
- ycCw==
-X-Gm-Message-State: AOAM533YcEzIeZPr6aPRVe6GuXbsWvRGJyXNtJUDxGxQmySNbiEb2eUD
- LrpPGuAWueYh57tVuftxcl8knIK38BpBcqvnAhnS8FG9IJyUZuQzXnVgGJo30VoOmHhCveP581v
- 5l9kSdMUl4REU8xw=
-X-Received: by 2002:a50:e68a:: with SMTP id z10mr14090846edm.28.1607730202887; 
- Fri, 11 Dec 2020 15:43:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyWX5kN2Xb/TqJ96GK6WfHrL8lUox7lTFnuOLN/f6C1xZLxFkHupwYqo8O1xa4Y9+tFWtsAUA==
-X-Received: by 2002:a50:e68a:: with SMTP id z10mr14090839edm.28.1607730202740; 
- Fri, 11 Dec 2020 15:43:22 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id lz17sm7794301ejb.19.2020.12.11.15.43.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Dec 2020 15:43:21 -0800 (PST)
-Subject: Re: [PATCH v2] hw/core: Restrict 'fw-path-provider.c' to system mode
- emulation
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201207220709.4017938-1-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9814e56e-d370-9eb0-0298-1ec904c39e5c@redhat.com>
-Date: Sat, 12 Dec 2020 00:43:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=rlaiofm38bEaLMEO28iARVzpWKGjlOwxJ+z1qE/Eq4o=;
+ b=kymqRaj0NRpXbxfAvL+FZATDCYTFOZu2B+iCHgfNdoiIx5LDHRTZ776mFXC8BZI4X7
+ 1UKhxMaJxwQl2OR7VftSCXAJLrx7dvWawMDLKA59OtsbvnbVPxLp7dPNhw8B9xPNWIKy
+ QWzBqnibRW+ygtRd23tqxHlcwtDKKgRtv8n2rq0VNAO5wF2YAGYE7cUd0jTqiO0o/48+
+ LKXdpQbWVMaVAllE97h26s/YgytM3lXyRbrAHDvgxzI306OA2rlW/XUmOIACOcUHy9CE
+ 1i5I7meopQo8ZPJ0wOpMMsUYLpvvocIfD/DQYDtSig8zkRHMLna6t9Lr4phFmiCtmh86
+ IElg==
+X-Gm-Message-State: AOAM532zDEdkvj7Mcg0P+DLjzzWeMxIuuZXMpGWLfKweX04+wtobiI2/
+ b+Ys52rXkexJ+8iuH7aOfcxSBlrw5CjoAw==
+X-Google-Smtp-Source: ABdhPJxHBTu+CxT13qSakjH2boo69Nf6zQsODWIcHeHFbG484NpQkPyNLMLyB5UcW0peA5P80XcUKw==
+X-Received: by 2002:a1c:f00a:: with SMTP id a10mr16003873wmb.83.1607732140181; 
+ Fri, 11 Dec 2020 16:15:40 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id d8sm16306001wmb.11.2020.12.11.16.15.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Dec 2020 16:15:39 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/8] hw/ppc: Convert UIC device to QOM
+Date: Sat, 12 Dec 2020 00:15:29 +0000
+Message-Id: <20201212001537.24520-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201207220709.4017938-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,46 +80,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/12/20 23:07, Philippe Mathieu-Daudé wrote:
-> fw-path-provider.c is only consumed by qdev-fw.c, which itself
-> is in softmmu_ss[], so we can restrict fw-path-provider.c to
-> softmmu too.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> v2: Fix author email.
-> ---
->   hw/core/meson.build | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/core/meson.build b/hw/core/meson.build
-> index 4a744f3b5e7..032576f5717 100644
-> --- a/hw/core/meson.build
-> +++ b/hw/core/meson.build
-> @@ -1,7 +1,6 @@
->   # core qdev-related obj files, also used by *-user and unit tests
->   hwcore_files = files(
->     'bus.c',
-> -  'fw-path-provider.c',
->     'hotplug.c',
->     'qdev-properties.c',
->     'qdev.c',
-> @@ -25,6 +24,7 @@
->   common_ss.add(when: 'CONFIG_XILINX_AXI', if_true: files('stream.c'))
->   
->   softmmu_ss.add(files(
-> +  'fw-path-provider.c',
->     'loader.c',
->     'machine-hmp-cmds.c',
->     'machine.c',
-> 
+This patchseries converts the PPC UIC "Universal Interrupt
+Controller" to a QOM device.  My main reason for doing it is that
+this fixes a couple of long-standing trivial Coverity issues -- the
+current ppcuic_init() function allocates an array of qemu_irqs which
+the callers then leak.  (The leak is trivial because it happens once
+when QEMU starts.)
 
-Queued, thanks.
+The patchseries converts the UIC to a QOM device but initially leaves
+the old ppcuic_init() creation function with its old API intact.  It
+then goes through converting the various boards that were using
+ppcuic_init() to instead directly create the UIC using the usual qdev
+APIs, so that it can delete the ppcuic_init() function entirely.
 
-paolo
+The patchset includes one patch which deletes 350 lines of dead code
+-- the ppc405cr_init() function seems to have never been used since
+it was added in 2007, so rather than converting this user of
+ppcuic_init() it seemed more sensible to delete it.
+
+I have tested with 'make check' and 'make check-acceptance' but I
+don't think the latter really exercises the affected boards, which
+are:
+
+ bamboo
+ ref405ep
+ sam460ex
+ taihu
+ virtex-ml507
+
+I found instructions on how to boot an AROS image on sam460ex, so I
+have tested that: it works as well after this series as it did before
+(gets to "Libs/workbench.library" and stops); it does seem to
+successfully do things like scanning the USB bus and responding to
+keyboard input at the boot menu, which suggests that IRQs must be
+working.
+
+Side note: the 'irq_inputs' hacks in the PPC CPU I think would really
+benefit from conversion to being qdev gpio inputs now that CPUs are
+real devices. There are also a lot of non-QOM devices in this
+ppc4xx code if anybody is interested in working on more QOM
+conversions for these boards.
+
+thanks
+-- PMM
+
+Peter Maydell (8):
+  hw/ppc/ppc4xx_devs: Make code style fixes to UIC code
+  ppc: Convert PPC UIC to a QOM device
+  hw/ppc/virtex_ml507: Drop use of ppcuic_init()
+  hw/ppc/ppc440_bamboo: Drop use of ppcuic_init()
+  hw/ppc/sam460ex: Drop use of ppcuic_init()
+  hw/ppc: Delete unused ppc405cr_init() code
+  hw/ppc/ppc405_uc: Drop use of ppcuic_init()
+  hw/ppc: Remove unused ppcuic_init()
+
+ hw/ppc/ppc405.h           |   8 +-
+ include/hw/intc/ppc-uic.h |  80 ++++++++
+ include/hw/ppc/ppc4xx.h   |   9 -
+ hw/intc/ppc-uic.c         | 321 +++++++++++++++++++++++++++++
+ hw/ppc/ppc405_boards.c    |   8 +-
+ hw/ppc/ppc405_uc.c        | 415 ++++----------------------------------
+ hw/ppc/ppc440_bamboo.c    |  38 +++-
+ hw/ppc/ppc4xx_devs.c      | 246 +---------------------
+ hw/ppc/sam460ex.c         |  70 +++++--
+ hw/ppc/virtex_ml507.c     |  21 +-
+ MAINTAINERS               |   2 +
+ hw/intc/Kconfig           |   3 +
+ hw/intc/meson.build       |   1 +
+ hw/ppc/Kconfig            |   1 +
+ 14 files changed, 555 insertions(+), 668 deletions(-)
+ create mode 100644 include/hw/intc/ppc-uic.h
+ create mode 100644 hw/intc/ppc-uic.c
+
+-- 
+2.20.1
 
 
