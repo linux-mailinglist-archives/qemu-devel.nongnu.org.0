@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2A92D8F28
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 18:47:44 +0100 (CET)
-Received: from localhost ([::1]:59922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A48D2D8F29
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 18:50:01 +0100 (CET)
+Received: from localhost ([::1]:36452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koVTC-0006Bs-Ry
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 12:47:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57246)
+	id 1koVVQ-0008G4-AG
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 12:50:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koVPx-0003HU-4a; Sun, 13 Dec 2020 12:44:21 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:57201)
+ id 1koVQm-00042t-Aa; Sun, 13 Dec 2020 12:45:12 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:60945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koVPv-0003wx-BN; Sun, 13 Dec 2020 12:44:20 -0500
+ id 1koVQk-00041X-8G; Sun, 13 Dec 2020 12:45:12 -0500
 Received: from [192.168.100.1] ([82.252.135.218]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mvbr4-1jw84g0SYQ-00sfOl; Sun, 13 Dec 2020 18:44:04 +0100
-Subject: Re: [PATCH RESEND v2 3/7] elf2dmp/qemu_elf: Plug memleak in
- QEMU_Elf_init
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MqsGv-1kK8Yh3WgT-00msST; Sun, 13 Dec 2020 18:44:55 +0100
+Subject: Re: [PATCH RESEND v2 4/7] elf2dmp/pdb: Plug memleak in
+ pdb_init_from_file
 To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
  qemu-trivial@nongnu.org
 References: <20201023061218.2080844-1-kuhn.chenqun@huawei.com>
- <20201023061218.2080844-4-kuhn.chenqun@huawei.com>
+ <20201023061218.2080844-5-kuhn.chenqun@huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <1973545a-9f9b-94d0-fadd-ec7c24fd33b8@vivier.eu>
-Date: Sun, 13 Dec 2020 18:44:01 +0100
+Message-ID: <a6fef728-139b-c7a7-0717-e1bd7661665e@vivier.eu>
+Date: Sun, 13 Dec 2020 18:44:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201023061218.2080844-4-kuhn.chenqun@huawei.com>
+In-Reply-To: <20201023061218.2080844-5-kuhn.chenqun@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:p58boa6Au0Zq074pzjtd+QSW+aY5esRBlEpW4DZjNWtBh4NNflb
- ynODHtZQrSayjV4t9t4svDgTKsyDRtL+iw8QqMhVuaCneAvwWaCZ/v4WJCl8nbZiXLQA/tW
- +bjrmSyPhoKUz9edf7ztb0sAaMpVlQ6RqHoL8+rW67WQhHGM9WYwNKxcKx/ILqX4bm3s7gl
- wR9G5sfZmyPVyMIKKHOqg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VWyE5Q6prgo=:FyvWkXUhBjycM9pKpLPrhO
- HWHAVTvtIXbKDTWADpwqp54xg9TU7GO6TznJf7nECWmH5CcF3QfeRjtbkSaxmrzjIySx+kCvw
- g+vjXa8tzT6UsUmvgYoRIOd7bK7coGuMaSi7I1KaFGrOCvCfvFSc9hbkJZxXprzMl29QhdLR6
- 3RW7yCe46cBKnl4zcUxtDtrL25OzNNosBGq38hBtDBQRl/KxmCGlyVVkw0PiJo+rNssjUP+Rv
- /P8xTkgfrVfoLyWzjqjg3L6XuyVJM2wpuhlHpz21NIlhqqDkpWtYSN2rBFABi1XTDcQqqVP11
- IEYqNKZQ0LTUV3Q5cRMObh0dfO1H7XNoqiUfrG5nJ/85lnaxhglLXbcGkbcg9GFCVk36+P4+3
- zhLhmkyO7UJTCDrtVfAa59CUmIA42KzuY+v4FgU6EfVKin3AScDzVEjTWnMS23hWPV2P3kjFS
- RuRccABCDw==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:MDK2GPRf5C/u2kd++9fWXvMKYrKZDXZR9X5ZnEL3B0wc78qIDb4
+ UbTdUYYa6hdnA5mHlRi1RmSIUiQFMyB9AS0Yp8Vr6p6NIdTcLX0QXngufmMieLx4ly9VWPF
+ Pj/F9QTRP7i61DdiHfHzhcqFNs7ro7l8+rFRNPfb9GmRzfphPfsA/Y8xTNrKm4MdVs4wDQB
+ qhsehrJn2GFChFK9tax6A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:avSQKv66Vhc=:Pnniahf9Z1nM6Izflrh5se
+ JJssaQuXC5ltJ1RzgB7aay9XCqQmxJ0u5lydC+hZ0wbFUjJn7yd4ifwMEN5NHmPaj87UE80Sa
+ bRQmD5TE7LjzC/ZSk6OBfe7I2jmkk2BLTs9RmLDmQoAWYGxiIp15qABD6oRxeqf9HVhNSMzUm
+ HLTEUjj6QeVPbTMuMMzV7Jk8G0IpaZZiJ+Y4vzclX51JVNQ0reai6O2Dq1Rf7zll6HhGFdep7
+ KPI5hzxGR954cB6gTeBD7+xQ3+0bdxgCRHsJl2j2wb6IRduzps6WlpSTrC/SUmGb7OEmyRtsy
+ BNfInCA5aPmGM0nMKPhWMPlr7wK9pt2t+Ma2MNUsyOkXuhSbeyY0ZjLVyB14Y9RX0B4uFcx1L
+ Ejru47fwJNBQZuvc3seQvB+gq3ndJGlKOvE9cC4b2DAA12zKW4nCUu5xnljiZkhcD/4a+ioal
+ HvaKTaNrlQ==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -78,7 +78,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Le 23/10/2020 à 08:12, Chen Qun a écrit :
 > From: Pan Nengyuan <pannengyuan@huawei.com>
 > 
-> Missing g_error_free in QEMU_Elf_init() error path. Fix that.
+> Missing g_error_free in pdb_init_from_file() error path. Fix that.
 > 
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
@@ -86,17 +86,17 @@ Le 23/10/2020 à 08:12, Chen Qun a écrit :
 > Reviewed-by: Li Qiang <liq3ea@gmail.com>
 > Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 > ---
->  contrib/elf2dmp/qemu_elf.c | 1 +
+>  contrib/elf2dmp/pdb.c | 1 +
 >  1 file changed, 1 insertion(+)
 > 
-> diff --git a/contrib/elf2dmp/qemu_elf.c b/contrib/elf2dmp/qemu_elf.c
-> index 0db7816586..b601b6d7ba 100644
-> --- a/contrib/elf2dmp/qemu_elf.c
-> +++ b/contrib/elf2dmp/qemu_elf.c
-> @@ -126,6 +126,7 @@ int QEMU_Elf_init(QEMU_Elf *qe, const char *filename)
->      qe->gmf = g_mapped_file_new(filename, TRUE, &gerr);
+> diff --git a/contrib/elf2dmp/pdb.c b/contrib/elf2dmp/pdb.c
+> index a5bd40c99d..b3a6547068 100644
+> --- a/contrib/elf2dmp/pdb.c
+> +++ b/contrib/elf2dmp/pdb.c
+> @@ -285,6 +285,7 @@ int pdb_init_from_file(const char *name, struct pdb_reader *reader)
+>      reader->gmf = g_mapped_file_new(name, TRUE, &gerr);
 >      if (gerr) {
->          eprintf("Failed to map ELF dump file \'%s\'\n", filename);
+>          eprintf("Failed to map PDB file \'%s\'\n", name);
 > +        g_error_free(gerr);
 >          return 1;
 >      }
@@ -107,4 +107,5 @@ Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
+
 
