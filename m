@@ -2,72 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84ED62D90CC
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 22:45:45 +0100 (CET)
-Received: from localhost ([::1]:49124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E31E2D90CD
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 22:49:43 +0100 (CET)
+Received: from localhost ([::1]:33608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koZBY-0005Mw-4x
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 16:45:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54616)
+	id 1koZFO-0002SA-Bq
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 16:49:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
- id 1koYx3-0008O5-Tf
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 16:30:48 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
- id 1koYwz-0001xM-Ih
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 16:30:45 -0500
-Received: by mail-wm1-x341.google.com with SMTP id q75so13521743wme.2
- for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 13:30:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=B/CBT9zkyNu84+Mc7HpXUh1k3ATqwRVvBJXNtEPW0VQ=;
- b=VOJbUyiA3kdRHxU80MKVLlqd07S4SSXoJW2//DTx3mYOx95zAO+BSSKnKc+cYsZaEI
- tEUNzv+SDTThRtmgKaRAS2jrf4SzQIqW5aV19SGlIO2fH2VijTwlX8jgVQ82FvEIR1ks
- BHCj692/Fay2QNq7FpG2Mc533CtVuUvFBnCcK3sboGbyFg7ubJep9/jlopTD+7aFhiKj
- CqB6AoNM69Idi/VLvkiDD4IfTx75W6bZ4/E48trulsdQndvVWh4+Kon5tEtq2kLb6Cpk
- nbWMLoUvgnkbKZmj9pObCxwrs79zsHuhkao1LB6pbe1rKoBCMGS1z4zD/Q2kl8hO6RdO
- 9NBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=B/CBT9zkyNu84+Mc7HpXUh1k3ATqwRVvBJXNtEPW0VQ=;
- b=sT5bdKAQWC+kXjrWzcsXNsjQQbeWHHbuhVSeCpKAfkPg2bY1O1z4R3vFCJqJEVpPst
- jL5myA+DOw6i8JLrt7eLtjVkVU7IUhwFhzS+q2MBxFhxtcBa+/gksyDa6crMtKdKTAfG
- 5w62uUFSX2ZvTMVJTC6o37065ho82MzonSFkQg/D+K2PxL2D5jnEhx+daQxrsRgqJfdM
- mOHcPU2r+G1sD1vTuQFwHsfAOBDkK/5XE6FhWkZRTb5ZR+NQHDuZfSXQbSAYnVnZ7NXN
- lDCpMKC1zQFKoWUmd7lkSrRBev/TbjzIeymuWmX86sSkNgIJ02jD9GivoogJ8IKSb2DF
- JK2A==
-X-Gm-Message-State: AOAM532iv+uF9q6c0JV7ugfcHgt0/wzmcvsdcVt1EzxlCtXcKXapwDmb
- PWn2wBWQSUFiTsp1z7NBGPJHsM0nxzj9gQ==
-X-Google-Smtp-Source: ABdhPJy6PV/AFvHF875Y5wjCKkZ95YTo9hDA41LNBGbFXmgPvfFLSAgOqgevAAV3tbO7jNXKEX/PDg==
-X-Received: by 2002:a7b:c04c:: with SMTP id u12mr25495756wmc.185.1607895037037; 
- Sun, 13 Dec 2020 13:30:37 -0800 (PST)
-Received: from kali.home (2a01cb0881b76d00c2afd0dfa851d2b9.ipv6.abo.wanadoo.fr.
- [2a01:cb08:81b7:6d00:c2af:d0df:a851:d2b9])
- by smtp.gmail.com with ESMTPSA id z13sm30801454wmz.3.2020.12.13.13.30.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Dec 2020 13:30:36 -0800 (PST)
-From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] hw/usb/host-libusb.c: fix build with kernel < 5.0
-Date: Sun, 13 Dec 2020 22:30:16 +0100
-Message-Id: <20201213213016.457350-1-fontaine.fabrice@gmail.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1koZEb-0001iF-Vb
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 16:48:53 -0500
+Resent-Date: Sun, 13 Dec 2020 16:48:53 -0500
+Resent-Message-Id: <E1koZEb-0001iF-Vb@lists.gnu.org>
+Received: from sender4-of-o52.zoho.com ([136.143.188.52]:21273)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1koZEY-0007kW-Id
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 16:48:53 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1607896122; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=K0nZ6Pv42NOHHe85dySu6/4Y6Sn1KSjl0sz4dYsUMX3Df+IPH/hSsW14DauqHj9jjf42sh1x84dTnXWgk/Ij/EKPt2NzCEnOeZAD7eDr+ev57f6bTpMo2Md4LIFLsDqqk9VjrJxKmPwAlRCVZTzSA+0fpzJa9KSDHTMHY599LE0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1607896122;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=fVD/W/rTu8MfvDhbnC1L5oI2FlyENapAAwYqHQ9XRg0=; 
+ b=UeXYM3BtGyPveoR1+gS5mD/o133dzimSkkr+Il2WAHbCNdR2yfohF/KXeS68Jb/ltQLzz06YRVsvsX6E7ysnqyR655tDLgKUL9HjGejwtYE5WzifATuR+2XRby1roS+6oGel4fgpztPiNre2zkkHP6DnVe3LzopXMqzThWeb18Y=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1607896120379322.70296006745207;
+ Sun, 13 Dec 2020 13:48:40 -0800 (PST)
+In-Reply-To: <20201213213016.457350-1-fontaine.fabrice@gmail.com>
+Subject: Re: [PATCH v2] hw/usb/host-libusb.c: fix build with kernel < 5.0
+Message-ID: <160789611928.28045.4851957679755627513@600e7e483b3a>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=fontaine.fabrice@gmail.com; helo=mail-wm1-x341.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: fontaine.fabrice@gmail.com
+Date: Sun, 13 Dec 2020 13:48:40 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.52; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o52.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,50 +67,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- Fabrice Fontaine <fontaine.fabrice@gmail.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: fontaine.fabrice@gmail.com, qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-USBDEVFS_GET_SPEED is used since version 5.2.0 and
-https://gitlab.com/qemu-project/qemu/-/commit/202d69a715a4b1824dcd7ec1683d027ed2bae6d3
-resulting in the following build failure with kernel < 5.0:
-
-../hw/usb/host-libusb.c: In function 'usb_host_open':
-../hw/usb/host-libusb.c:953:32: error: 'USBDEVFS_GET_SPEED' undeclared (first use in this function); did you mean 'USBDEVFS_GETDRIVER'?
-         int rc = ioctl(hostfd, USBDEVFS_GET_SPEED, NULL);
-                                ^~~~~~~~~~~~~~~~~~
-                                USBDEVFS_GETDRIVER
-
-A tentative was made to fix this build failure with
-https://gitlab.com/qemu-project/qemu/-/commit/4969e697c15ac536d5c0700381d5d026ef7f0588
-
-However, the assumption that distros with old kernels also have old
-libusb is just wrong so also add a check for defined(USBDEVFS_GET_SPEED)
-
-Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
----
-Changes v1 -> v2:
- - Fix error about line being over 90 characters
-
- hw/usb/host-libusb.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index b950501d10..07ccceb16d 100644
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -941,7 +941,8 @@ static int usb_host_open(USBHostDevice *s, libusb_device *dev, int hostfd)
-     usb_host_ep_update(s);
- 
-     libusb_speed = libusb_get_device_speed(dev);
--#if LIBUSB_API_VERSION >= 0x01000107 && defined(CONFIG_LINUX)
-+#if LIBUSB_API_VERSION >= 0x01000107 && defined(CONFIG_LINUX) && \
-+	defined(USBDEVFS_GET_SPEED)
-     if (hostfd && libusb_speed == 0) {
-         /*
-          * Workaround libusb bug: libusb_get_device_speed() does not
--- 
-2.29.2
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIxMzIxMzAxNi40NTcz
+NTAtMS1mb250YWluZS5mYWJyaWNlQGdtYWlsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
+cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
+cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAxMjEzMjEz
+MDE2LjQ1NzM1MC0xLWZvbnRhaW5lLmZhYnJpY2VAZ21haWwuY29tClN1YmplY3Q6IFtQQVRDSCB2
+Ml0gaHcvdXNiL2hvc3QtbGlidXNiLmM6IGZpeCBidWlsZCB3aXRoIGtlcm5lbCA8IDUuMAoKPT09
+IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAv
+ZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFj
+ayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4
+NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hl
+dy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMTIxMzIxMzAx
+Ni40NTczNTAtMS1mb250YWluZS5mYWJyaWNlQGdtYWlsLmNvbSAtPiBwYXRjaGV3LzIwMjAxMjEz
+MjEzMDE2LjQ1NzM1MC0xLWZvbnRhaW5lLmZhYnJpY2VAZ21haWwuY29tClN3aXRjaGVkIHRvIGEg
+bmV3IGJyYW5jaCAndGVzdCcKODVhOWFiNCBody91c2IvaG9zdC1saWJ1c2IuYzogZml4IGJ1aWxk
+IHdpdGgga2VybmVsIDwgNS4wCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogY29kZSBpbmRl
+bnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMzNjogRklMRTogaHcvdXNiL2hvc3QtbGlidXNiLmM6
+OTQ1OgorXklkZWZpbmVkKFVTQkRFVkZTX0dFVF9TUEVFRCkkCgp0b3RhbDogMSBlcnJvcnMsIDAg
+d2FybmluZ3MsIDkgbGluZXMgY2hlY2tlZAoKQ29tbWl0IDg1YTlhYjQyMzU4MCAoaHcvdXNiL2hv
+c3QtbGlidXNiLmM6IGZpeCBidWlsZCB3aXRoIGtlcm5lbCA8IDUuMCkgaGFzIHN0eWxlIHByb2Js
+ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
+aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
+QUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGgg
+Y29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3Jn
+L2xvZ3MvMjAyMDEyMTMyMTMwMTYuNDU3MzUwLTEtZm9udGFpbmUuZmFicmljZUBnbWFpbC5jb20v
+dGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0
+b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5k
+IHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
