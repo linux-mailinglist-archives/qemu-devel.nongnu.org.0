@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A112D8FB1
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 20:05:38 +0100 (CET)
-Received: from localhost ([::1]:34824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46AFB2D8FF0
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 20:20:33 +0100 (CET)
+Received: from localhost ([::1]:41322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koWgb-0006QI-No
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 14:05:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53352)
+	id 1koWv1-0001qN-Fx
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 14:20:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1koWfL-0005qp-Ik
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 14:04:19 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:44828)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1koWtp-0001Ou-3E
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 14:19:17 -0500
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:44745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1koWfI-0006sV-So
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 14:04:19 -0500
-Received: by mail-ej1-x641.google.com with SMTP id w1so14895549ejf.11
- for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 11:04:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=j0NYrno7+/a+lc7xZFPAcM7hD6rNZwF5bjkMU0YChUI=;
- b=xzGVv2/UfyemM4rvmBrUB4SlBpCmKvZaZ3QJYbis9Z2eIOaGAL6lDZ/7E4/C0A0XVn
- 2cVXCnaCTy0mWXA5apjOgy1TsyFXq6NLJ4NPhOuz0/J2i4lli37AnXjgHJpuxRAOlolC
- Fj3JJhpQkoZfV2VRZ/AVZqeMoGSUuaqifPgg8YuT/ARoyinqTgseQF15eq4+38M7U8wC
- +Tng4/GRgjuL5arjpMe1K55lIAq8BOpEFPrd/eZwy/J56OspFjN7cY1LkNTU+Ay7YhXY
- BK1AKNqGzkF5jzEs/XX5HETLjHX5amsBJkbu48q7OHWsiEHmJMVLPL2yoDAnyqwTIaip
- kGKw==
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1koWtm-0000Gi-VN
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 14:19:16 -0500
+Received: by mail-lf1-x141.google.com with SMTP id m25so24732499lfc.11
+ for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 11:19:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=FUES5u6OgACZUkQAD6/eR1hGHQ8Qr4LW1ZSDTyozc8A=;
+ b=MVazmmrJYeHhQw5y5wX9qZ6Pm1urEyhPIdnuGOdmHgJahl/Uq4d98u0POWkRPhxyqT
+ t9ga3YR1Zmgdt5x3/vHe6xhNuKs4VzbVcoDNLSJgpM5vtMRRiDbN8D/bhxdjhvnpXDdS
+ TrNL/7GpUheiJkH9vAd/nodDQHzLkB6iDPiTS/ImJEi1v7zicSCcl5EqEr/mo3wgzRiX
+ Qu3E6v607wxN8Od9J4lhgb3wwFGQTlqDIlpq0ZHKN+1OgNrdA3DUFC+xe4WnXVhxXsC4
+ VmeKca+H2mdwJ4o8oXIebeeyzdvreY06Q9elHlqVJmS7IztTXtiffzsJuwoYQdYYuNTo
+ YO3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=j0NYrno7+/a+lc7xZFPAcM7hD6rNZwF5bjkMU0YChUI=;
- b=fICVPiqiEJ3rlnuvJXqT1e80jiy3S9L7V4WtOufwoPFhEp1C//R3NlS1aLi98mPtuj
- NIjJOZ2jLDEPQ7bgFMszNJBbEuM/tym3M5xkwGBKsGBCQTqOm9KZPaH/QkDjMt82khln
- zjkCaUftld4PLFCMhJPotApLsU84Ul8Qbo9PGScHmTWJmjA60YBQ7HPGIhG3q0Ia6jfs
- onJ1GDxfG26sUOKWJ2NJyeXxlqWqQvHkz/NbHULWLb5FrMqZxFyuQbRtRGMVytxFGPKz
- T+jDdiIcmcpXMUezG3IhJ/p+Iap+EoxHPbn3yLWP9/+xccamEdR9X5CSQW4Xag7xL6FY
- 5tyA==
-X-Gm-Message-State: AOAM531D7VXJ7rzFWiXCF7ycAIsCOVVitNXvMdhKxKAPjwAS7cz9rq0/
- DLVtjZUeb0V1UUapyCbPhtg5/pNV0hjWX0jiZTE0Fg==
-X-Google-Smtp-Source: ABdhPJzCn2l075u5AR+/mFubKk+5wXEnbzlQnPd7iPuKY5fl27FyQkWwkq0UQSiyA2mQZWOmhufYtR2q6MyTfsc9I/c=
-X-Received: by 2002:a17:906:e94c:: with SMTP id
- jw12mr19909712ejb.56.1607886255504; 
- Sun, 13 Dec 2020 11:04:15 -0800 (PST)
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=FUES5u6OgACZUkQAD6/eR1hGHQ8Qr4LW1ZSDTyozc8A=;
+ b=Rr3o9NHGJb1UjTpvjdiZ1sS5cHmcgemUh9zua2RUiSY+aFmk7QO1CRIpV92lJnuPIT
+ T5BXxevuRWnwTKItvjyMNf/ebAoSs5a68gXysekie/rXEPyCIFBQfSZ0nlpa4M0TzOrd
+ PQSle4BO9f/lUnKAPmR1K/VmaCMf5hN96fuaYbKG5vw4+uFaq9sORGtqxSVX2jah5GJA
+ SDFkgxj7whY9vNKXNMGNzPzkWLIajsP6Hwf8jlGMjjTq/3dmE/+XksdZtSrLlEQ/Of8J
+ yS78vqW3Lyz4RQcxtYLhmywbKdXZ31fbxbr7w0QyFrUYZEhfMB5SXyBp1kfW4nLVJ/FM
+ ws+w==
+X-Gm-Message-State: AOAM530zdtQs3WfJEtycguXVblns2hmoJSm9P1m71DNBU2Mu8XMJXt/8
+ yIQ3I1diHY4qhduewCxB6T50z2ePS5MrV3VLI7U=
+X-Google-Smtp-Source: ABdhPJzTXDI/4YbGnqu9OtHZ1rIADeMhBXd1uFHsGAy8AIex+ZzFp9H+P5BF6eS87PcHlkxTuI7xToB+kKdq30mDFG4=
+X-Received: by 2002:a2e:9214:: with SMTP id k20mr6999449ljg.45.1607887151400; 
+ Sun, 13 Dec 2020 11:19:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20200825202755.50626-1-r.bolshakov@yadro.com>
- <20200825202755.50626-3-r.bolshakov@yadro.com>
- <1ff85cc3-40dc-98da-fb18-a1b3d134d7dc@redhat.com>
- <bc560d06-2b8d-3ef0-b9e6-ddaeb58daa13@vivier.eu>
-In-Reply-To: <bc560d06-2b8d-3ef0-b9e6-ddaeb58daa13@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 13 Dec 2020 19:04:04 +0000
-Message-ID: <CAFEAcA_XA1FcQos+m0vv6DVkbaybYwX5ytsM5gMaLAtL0jGGgA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] Makefile: Require GNU make 3.82+
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+References: <20201118140739.18377-1-alex.bennee@linaro.org>
+ <44c6c5c4-2152-b31f-9610-1a8e7f72037e@redhat.com>
+ <CAAdtpL6E1wbT_qrzARjR8M2b1s=jpVuT0y5iTA5wxh+559DQQA@mail.gmail.com>
+In-Reply-To: <CAAdtpL6E1wbT_qrzARjR8M2b1s=jpVuT0y5iTA5wxh+559DQQA@mail.gmail.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Mon, 14 Dec 2020 03:18:58 +0800
+Message-ID: <CAE2XoE938Ut+5NAB+4qgWMK4O4rGz8ORwWMsUC90J9NwF0Fs2A@mail.gmail.com>
+Subject: Re: [RFC PATCH] .cirrus.yml: bump timeout period for MacOS builds
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="0000000000007f8be005b65d66ce"
+Received-SPF: pass client-ip=2a00:1450:4864:20::141;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x141.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,44 +79,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: luoyonggang@gmail.com
+Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 13 Dec 2020 at 17:22, Laurent Vivier <laurent@vivier.eu> wrote:
+--0000000000007f8be005b65d66ce
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Dec 14, 2020 at 2:36 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g>
+wrote:
 >
-> Le 12/10/2020 =C3=A0 11:47, Thomas Huth a =C3=A9crit :
-> > On 25/08/2020 22.27, Roman Bolshakov wrote:
-> >> QEMU build fails with cryptic messages if make is too old:
-> >>
-> >>   Makefile.ninja:2655: *** multiple target patterns.  Stop.
-> >>
-> >> To avoid the confusion it's worth to fail the build right away and pri=
-nt
-> >> a friendly error message.
-> >>
-> >> +ifeq ($(filter undefine,$(value .FEATURES)),)
-> >> +$(error Unsupported Make version: $(MAKE_VERSION). \
-> >> +        Please use GNU Make 3.82 or above)
-> >> +endif
-> >> +
-> >>  # Always point to the root of the build tree (needs GNU make).
-> >>  BUILD_DIR=3D$(CURDIR)
+> On Wed, Nov 18, 2020 at 4:11 PM Thomas Huth <thuth@redhat.com> wrote:
+> > On 18/11/2020 15.07, Alex Benn=C3=A9e wrote:
+> > > These seem to trigger timeouts with some regularity.
+> > >
+> > > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > > ---
+> > >  .cirrus.yml | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/.cirrus.yml b/.cirrus.yml
+> > > index f0209b7a3e..08db7c419f 100644
+> > > --- a/.cirrus.yml
+> > > +++ b/.cirrus.yml
+> > > @@ -18,6 +18,7 @@ freebsd_12_task:
+> > >      - gmake -j$(sysctl -n hw.ncpu) check V=3D1
+> > >
+> > >  macos_task:
+> > > +  timeout_in: 90m
+> > >    osx_instance:
+> > >      image: catalina-base
+> > >    install_script:
+> > > @@ -32,6 +33,7 @@ macos_task:
+> > >      - gmake check V=3D1
+> > >
+> > >  macos_xcode_task:
+> > > +  timeout_in: 90m
+> > >    osx_instance:
+> > >      # this is an alias for the latest Xcode
+> > >      image: catalina-xcode
+> > >
 > >
 > > Reviewed-by: Thomas Huth <thuth@redhat.com>
 > >
-> >
+> > ... we could maybe also split the --target-list between the two jobs if
+they
+> > take too long...
 >
-> Applied to my trivial-patches branch.
+> Maybe it's time, 90min reached:
+> https://cirrus-ci.com/task/5774549872541696
+>
+Even two hour doesn't working, don't know why
 
-Commit 09e93326e448ab4 says that the switch to ninja from
-ninjatool removed the requirement for Make 3.82. Is this
-change still required?
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-thanks
--- PMM
+--0000000000007f8be005b65d66ce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Mon, Dec 14, 2020 at 2:36 AM Philippe Mathieu-D=
+aud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; wr=
+ote:<br>&gt;<br>&gt; On Wed, Nov 18, 2020 at 4:11 PM Thomas Huth &lt;<a hre=
+f=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrote:<br>&gt; &gt; =
+On 18/11/2020 15.07, Alex Benn=C3=A9e wrote:<br>&gt; &gt; &gt; These seem t=
+o trigger timeouts with some regularity.<br>&gt; &gt; &gt;<br>&gt; &gt; &gt=
+; Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.=
+org">alex.bennee@linaro.org</a>&gt;<br>&gt; &gt; &gt; ---<br>&gt; &gt; &gt;=
+ =C2=A0.cirrus.yml | 2 ++<br>&gt; &gt; &gt; =C2=A01 file changed, 2 inserti=
+ons(+)<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; diff --git a/.cirrus.yml b/.cirr=
+us.yml<br>&gt; &gt; &gt; index f0209b7a3e..08db7c419f 100644<br>&gt; &gt; &=
+gt; --- a/.cirrus.yml<br>&gt; &gt; &gt; +++ b/.cirrus.yml<br>&gt; &gt; &gt;=
+ @@ -18,6 +18,7 @@ freebsd_12_task:<br>&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0-=
+ gmake -j$(sysctl -n hw.ncpu) check V=3D1<br>&gt; &gt; &gt;<br>&gt; &gt; &g=
+t; =C2=A0macos_task:<br>&gt; &gt; &gt; + =C2=A0timeout_in: 90m<br>&gt; &gt;=
+ &gt; =C2=A0 =C2=A0osx_instance:<br>&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0imag=
+e: catalina-base<br>&gt; &gt; &gt; =C2=A0 =C2=A0install_script:<br>&gt; &gt=
+; &gt; @@ -32,6 +33,7 @@ macos_task:<br>&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0=
+- gmake check V=3D1<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; =C2=A0macos_xcode_t=
+ask:<br>&gt; &gt; &gt; + =C2=A0timeout_in: 90m<br>&gt; &gt; &gt; =C2=A0 =C2=
+=A0osx_instance:<br>&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0# this is an alias f=
+or the latest Xcode<br>&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0image: catalina-x=
+code<br>&gt; &gt; &gt;<br>&gt; &gt;<br>&gt; &gt; Reviewed-by: Thomas Huth &=
+lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt;<br>&gt; &gt=
+;<br>&gt; &gt; ... we could maybe also split the --target-list between the =
+two jobs if they<br>&gt; &gt; take too long...<br>&gt;<br>&gt; Maybe it&#39=
+;s time, 90min reached:<br>&gt; <a href=3D"https://cirrus-ci.com/task/57745=
+49872541696">https://cirrus-ci.com/task/5774549872541696</a><br>&gt;<br>Eve=
+n two hour doesn&#39;t working, don&#39;t know why<br><br>--<br>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=
+=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div>
+
+--0000000000007f8be005b65d66ce--
 
