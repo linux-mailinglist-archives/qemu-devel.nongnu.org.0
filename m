@@ -2,55 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0182D8EE9
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 17:59:04 +0100 (CET)
-Received: from localhost ([::1]:53904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E202D8F09
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 18:21:16 +0100 (CET)
+Received: from localhost ([::1]:48154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koUi7-0007TS-Sw
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 11:59:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50004)
+	id 1koV3a-000207-PG
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 12:21:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1koUgl-0005fx-Fo
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 11:57:39 -0500
-Received: from mailout09.t-online.de ([194.25.134.84]:33800)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1koV2P-0001NJ-QX; Sun, 13 Dec 2020 12:20:01 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:37599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1koUgd-0003TA-GY
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 11:57:39 -0500
-Received: from fwd07.aul.t-online.de (fwd07.aul.t-online.de [172.20.27.150])
- by mailout09.t-online.de (Postfix) with SMTP id D0D69423C5AA;
- Sun, 13 Dec 2020 17:57:29 +0100 (CET)
-Received: from linpower.localnet
- (GcvRMUZcZhKrTBzUsBJVk-jgmmWhKrpXd-SM-FuBBTClfTb3J2y5pqnKLVCzw9qwfl@[79.208.17.59])
- by fwd07.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1koUgb-1XzRVA0; Sun, 13 Dec 2020 17:57:29 +0100
-Received: by linpower.localnet (Postfix, from userid 1000)
- id 13134200617; Sun, 13 Dec 2020 17:57:24 +0100 (CET)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 3/3] ui/gtk: limit virtual console max update interval
-Date: Sun, 13 Dec 2020 17:57:24 +0100
-Message-Id: <20201213165724.13418-3-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <d5f2e3c5-b6d0-db4e-70c2-9de47fd8fefd@t-online.de>
-References: <d5f2e3c5-b6d0-db4e-70c2-9de47fd8fefd@t-online.de>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1koV2L-0000Yh-DL; Sun, 13 Dec 2020 12:20:01 -0500
+Received: from [192.168.100.1] ([82.252.135.218]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MjBNV-1kAE890yAv-00f8hQ; Sun, 13 Dec 2020 18:19:48 +0100
+Subject: Re: [PATCH v2] hw/block/nand: Decommission the NAND museum
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20200915171639.1355800-1-f4bug@amsat.org>
+ <619d329d-f6b3-1e73-e151-a58e366db15d@amsat.org>
+ <3647a01c-0932-3446-9bc7-e138ced496dd@amsat.org>
+ <f89e9e7d-5ab3-769a-f3d8-22fc05d80af6@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <8af60250-2c96-28bd-f05c-ee38e390df1a@vivier.eu>
+Date: Sun, 13 Dec 2020 18:19:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <f89e9e7d-5ab3-769a-f3d8-22fc05d80af6@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-ID: GcvRMUZcZhKrTBzUsBJVk-jgmmWhKrpXd-SM-FuBBTClfTb3J2y5pqnKLVCzw9qwfl
-X-TOI-EXPURGATEID: 150726::1607878649-0000DD00-C02B820D/0/0 CLEAN NORMAL
-X-TOI-MSGID: e908385c-a7db-4a49-aa7a-57971574208f
-Received-SPF: none client-ip=194.25.134.84;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout09.t-online.de
+X-Provags-ID: V03:K1:QMqrewO6/XeOLeJFg7ty+tibEBnL2lJpPpmPpz3PDceqN835Nd7
+ ShuFQTXDlCkBCq8D+jJpFR2VvdyEG92/+LmJ6KBln4C0aNLR/2Gd/LURplXAhhaWQl9XvFY
+ 23pD8SCxS+0Di5p9Qmp5IZe9SM7i2qeRGlMk7QbCMDKzJcRfNp8YOdVdtt4JCL4SymMra2I
+ 5FZe+98WJdd3MDpHNoZ8A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:emx6fJ1w3hs=:H9DzrAqRdeXSpBYR9v40VT
+ gHp/N2UApC9tkY8ZzJ2uZ3NRlvFAhuCxUUkdiAgUs+zwgAQ93hOkEjLciGgo/U8EuMaaUU2td
+ Xk/kUyqttiFS67XzRTGSSGKtsUJ9cG8NScKy6AsP30Z0oHpdADIYdN0B0/Toj8wCQcAfWEdga
+ 4RwncGFeQT4NTyhZtQKRvF859FY30kzu8kvzgbeozgVeZsiOPAN/Mi8iJNBMyYwumNFbmMGv2
+ TAIkT1U0F34dUGp/kwJioNjM6bewSk3p5nqIBbRKl05yByd1Aw29GuxUIfmRhrXHCWZnEtA4X
+ leThzKRkOTGghdm6iNNm9yrBYm1qwzgoQQGfw08CvVazeT0WCXk23EjMZ51XBDL3QUUtyFQTv
+ zGd2R9hbcPldoSxfjbkj8oDXI78sFrH+/DBMcqj4Tuk4TDpG1Pe1Q/Z8ALiju5AyC15Tedpfd
+ Wi5bifAWsw==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,94 +69,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Nikola Pavlica <pavlica.nikola@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Limit the virtual console maximum update interval to
-GUI_REFRESH_INTERVAL_DEFAULT. This papers over a integer
-overflow bug in gtk3 on Windows where the reported monitor
-refresh frequency can be much smaller than the real refresh
-frequency.
+Le 16/10/2020 à 18:52, Philippe Mathieu-Daudé a écrit :
+> Cc'ing qemu-trivial@ since this patch is reviewed.
+> 
+> On 10/15/20 8:12 PM, Philippe Mathieu-Daudé wrote:
+>> ping^2...
+>>
+>> On 10/1/20 7:31 PM, Philippe Mathieu-Daudé wrote:
+>>> ping qemu-block or qemu-arm?
+>>>
+>>> On 9/15/20 7:16 PM, Philippe Mathieu-Daudé wrote:
+>>>> This is the QEMU equivalent of this Linux commit (but 7 years later):
+>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f7025a43a9da2
+>>>>
+>>>>      The MTD subsystem has its own small museum of ancient NANDs
+>>>>      in a form of the CONFIG_MTD_NAND_MUSEUM_IDS configuration option.
+>>>>      The museum contains stone age NANDs with 256 bytes pages, as well
+>>>>      as iron age NANDs with 512 bytes per page and up to 8MiB page size.
+>>>>
+>>>>      It is with great sorrow that I inform you that the museum is being
+>>>>      decommissioned. The MTD subsystem is out of budget for Kconfig
+>>>>      options and already has too many of them, and there is a general
+>>>>      kernel trend to simplify the configuration menu.
+>>>>
+>>>>      We remove the stone age exhibits along with closing the museum,
+>>>>      but some of the iron age ones are transferred to the regular NAND
+>>>>      depot. Namely, only those which have unique device IDs are
+>>>>      transferred, and the ones which have conflicting device IDs are
+>>>>      removed.
+>>>>
+>>>> The machine using this device are:
+>>>> - axis-dev88
+>>>> - tosa (via tc6393xb_init)
+>>>> - spitz based (akita, borzoi, terrier)
+>>>>
+>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>> ---
+>>>> Peter, as 4 of the 5 machines are ARM-based, can this go via your tree?
+>>>> ---
+>>>>   hw/block/nand.c | 13 ++++++-------
+>>>>   1 file changed, 6 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/hw/block/nand.c b/hw/block/nand.c
+>>>> index 5c8112ed5a4..5f01ba2bc44 100644
+>>>> --- a/hw/block/nand.c
+>>>> +++ b/hw/block/nand.c
+>>>> @@ -138,7 +138,7 @@ static void mem_and(uint8_t *dest, const uint8_t *src, size_t n)
+>>>>   # define ADDR_SHIFT        16
+>>>>   # include "nand.c"
+>>>> -/* Information based on Linux drivers/mtd/nand/nand_ids.c */
+>>>> +/* Information based on Linux drivers/mtd/nand/raw/nand_ids.c */
+>>>>   static const struct {
+>>>>       int size;
+>>>>       int width;
+>>>> @@ -154,15 +154,14 @@ static const struct {
+>>>>       [0xe8] = { 1,    8,    8, 4, 0 },
+>>>>       [0xec] = { 1,    8,    8, 4, 0 },
+>>>>       [0xea] = { 2,    8,    8, 4, 0 },
+>>>> -    [0xd5] = { 4,    8,    9, 4, 0 },
+>>>>       [0xe3] = { 4,    8,    9, 4, 0 },
+>>>>       [0xe5] = { 4,    8,    9, 4, 0 },
+>>>> -    [0xd6] = { 8,    8,    9, 4, 0 },
+>>>> -    [0x39] = { 8,    8,    9, 4, 0 },
+>>>> -    [0xe6] = { 8,    8,    9, 4, 0 },
+>>>> -    [0x49] = { 8,    16,    9, 4, NAND_BUSWIDTH_16 },
+>>>> -    [0x59] = { 8,    16,    9, 4, NAND_BUSWIDTH_16 },
+>>>> +    [0x6b] = { 4,        8,        9, 4, 0 },
+>>>> +    [0xe3] = { 4,        8,        9, 4, 0 },
+>>>> +    [0xe5] = { 4,        8,        9, 4, 0 },
+>>>> +    [0xd6] = { 8,        8,        9, 4, 0 },
+>>>> +    [0xe6] = { 8,        8,        9, 4, 0 },
+>>>>       [0x33] = { 16,    8,    9, 5, 0 },
+>>>>       [0x73] = { 16,    8,    9, 5, 0 },
+>>>>
+>>>
+>>
+> 
 
-The gtk bug report can be found here:
-https://gitlab.gnome.org/GNOME/gtk/-/issues/3394
+Applied to my trivial-patches branch.
 
-On my Windows 10 system gtk reports a monitor refresh rate of
-1.511Hz instead of 60.031Hz and slows down the screen update
-rate in qemu to a crawl. Provided you are affected by the gtk
-bug on Windows, these are the steps to reproduce the issue:
-
-Start qemu with -display gtk and activate all qemu virtual
-consoles and notice the reduced qemu refresh rate. Activating
-all virtual consoles is necessary, because gui_update() in
-ui/console.c uses the minimum of all display change listeners
-update interval and not yet activated virtual consoles report
-the default update interval (30ms).
-
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- ui/gtk.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 7ff9327b9d..78da5902f4 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -749,10 +749,10 @@ static void gd_resize_event(GtkGLArea *area,
- #endif
- 
- /*
-- * If available, return the refresh rate of the display in milli-Hertz,
-- * else return 0.
-+ * If available, return the update interval of the monitor in ms,
-+ * else return 0 (the default update interval).
-  */
--static int gd_refresh_rate_millihz(GtkWidget *widget)
-+static int gd_monitor_update_interval(GtkWidget *widget)
- {
- #ifdef GDK_VERSION_3_22
-     GdkWindow *win = gtk_widget_get_window(widget);
-@@ -760,8 +760,13 @@ static int gd_refresh_rate_millihz(GtkWidget *widget)
-     if (win) {
-         GdkDisplay *dpy = gtk_widget_get_display(widget);
-         GdkMonitor *monitor = gdk_display_get_monitor_at_window(dpy, win);
-+        int refresh_rate = gdk_monitor_get_refresh_rate(monitor); /* [mHz] */
- 
--        return gdk_monitor_get_refresh_rate(monitor);
-+        if (refresh_rate) {
-+            /* T = 1 / f = 1 [s*Hz] / f = 1000*1000 [ms*mHz] / f */
-+            return MIN(1000 * 1000 / refresh_rate,
-+                       GUI_REFRESH_INTERVAL_DEFAULT);
-+        }
-     }
- #endif
-     return 0;
-@@ -774,7 +779,6 @@ static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
-     int mx, my;
-     int ww, wh;
-     int fbw, fbh;
--    int refresh_rate_millihz;
- 
- #if defined(CONFIG_OPENGL)
-     if (vc->gfx.gls) {
-@@ -795,12 +799,8 @@ static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
-         return FALSE;
-     }
- 
--    refresh_rate_millihz = gd_refresh_rate_millihz(vc->window ?
--                                                   vc->window : s->window);
--    if (refresh_rate_millihz) {
--        /* T = 1 / f = 1 [s*Hz] / f = 1000*1000 [ms*mHz] / f */
--        vc->gfx.dcl.update_interval = 1000 * 1000 / refresh_rate_millihz;
--    }
-+    vc->gfx.dcl.update_interval =
-+        gd_monitor_update_interval(vc->window ? vc->window : s->window);
- 
-     fbw = surface_width(vc->gfx.ds);
-     fbh = surface_height(vc->gfx.ds);
--- 
-2.26.2
+Thanks,
+Laurent
 
 
