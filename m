@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52DB2D90CB
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 22:43:25 +0100 (CET)
-Received: from localhost ([::1]:39902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84ED62D90CC
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 22:45:45 +0100 (CET)
+Received: from localhost ([::1]:49124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koZ9I-0008PQ-9D
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 16:43:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52098)
+	id 1koZBY-0005Mw-4x
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 16:45:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1koYj0-0005xD-Jg
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 16:16:15 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53646)
+ (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
+ id 1koYx3-0008O5-Tf
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 16:30:48 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1koYit-0007CL-DO
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 16:16:12 -0500
-Received: by mail-wm1-x341.google.com with SMTP id k10so12032766wmi.3
- for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 13:16:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
+ id 1koYwz-0001xM-Ih
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 16:30:45 -0500
+Received: by mail-wm1-x341.google.com with SMTP id q75so13521743wme.2
+ for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 13:30:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=gLHr+Zz3WuQUpNekwEjIGq/hWn3iElhHMhpUYcOLiR4=;
- b=H6h3QfMBAVRKBuH/x1rU6EOjsZXCcKCQSHU3aVATvzx1Ca7N9DavCrur+O7UCFqwwp
- q5U7xQShv0hA92XPeb40TuTZc16KoLyx7yEtvOFtcHReD9ccm+YC6358wGcit6x6JVQ/
- NOFouSKxLtlSMalGG8VGHcGwLylFNsAjGO6J8dbg8xA1Qtrc3AoKyZ/e9Qfwd1SUFqQX
- rXZiBftfEXpJy5N4YZm0Jf8HOeuMloBT6Q7X8f7yCImVddUB5I7ywjq1eoohF5q1iKcS
- 82JLUI70J02JW6uimZMl2o0Ydka+x+vgnaidfUtb6CbUudVGuXsAcl6fpmlbQBu/QiSw
- jJbg==
+ bh=B/CBT9zkyNu84+Mc7HpXUh1k3ATqwRVvBJXNtEPW0VQ=;
+ b=VOJbUyiA3kdRHxU80MKVLlqd07S4SSXoJW2//DTx3mYOx95zAO+BSSKnKc+cYsZaEI
+ tEUNzv+SDTThRtmgKaRAS2jrf4SzQIqW5aV19SGlIO2fH2VijTwlX8jgVQ82FvEIR1ks
+ BHCj692/Fay2QNq7FpG2Mc533CtVuUvFBnCcK3sboGbyFg7ubJep9/jlopTD+7aFhiKj
+ CqB6AoNM69Idi/VLvkiDD4IfTx75W6bZ4/E48trulsdQndvVWh4+Kon5tEtq2kLb6Cpk
+ nbWMLoUvgnkbKZmj9pObCxwrs79zsHuhkao1LB6pbe1rKoBCMGS1z4zD/Q2kl8hO6RdO
+ 9NBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=gLHr+Zz3WuQUpNekwEjIGq/hWn3iElhHMhpUYcOLiR4=;
- b=PFxdw2QLnuijwi1/QR920YVor88y+WOElu+K+HeTLkXMZdQONWmZrXUl8Cv7F2P4Kp
- xAphS8jv4MI3Myw8t8jtkOvwP67L837N/Uy9gJy7yoTcir3L3wwJ0ButwaeIIqRNbeiz
- vWBiqZ3W+jVhFi1a6Uac/8patn7HD+JEEf+G+Tot+eyBTl6K2ez6JZsMgx95EeYdh8d/
- U/m706CO9t/w+fxKXXfNRa0JkAWAbE/xeVD+vL/ufzU3KIteTQEI/fdBGLbn+t5PgJkf
- VCgd4RKPhj1w6aatJoBzQ86h6fzccx+RjjdtnW0usts43LmAhR2LoohdCOJkjeVoYG6d
- /vBw==
-X-Gm-Message-State: AOAM533v8p64kIieHFbsCrdIB8x2az25vpeS7n/vSlQ0HO9mQzMH8wrm
- 1eU4nJOIFXjYBEhbK1KFKMmYHTxt+Ps=
-X-Google-Smtp-Source: ABdhPJxN4zjqYlRs89GalPZcVnpWDJPBBnu/VT3uZMKOjtJyYxQG0ajXH7KkZrrVlWNopjbKgzaJeA==
-X-Received: by 2002:a1c:5f54:: with SMTP id t81mr24256960wmb.77.1607894163983; 
- Sun, 13 Dec 2020 13:16:03 -0800 (PST)
-Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id z64sm26557029wme.10.2020.12.13.13.16.02
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=B/CBT9zkyNu84+Mc7HpXUh1k3ATqwRVvBJXNtEPW0VQ=;
+ b=sT5bdKAQWC+kXjrWzcsXNsjQQbeWHHbuhVSeCpKAfkPg2bY1O1z4R3vFCJqJEVpPst
+ jL5myA+DOw6i8JLrt7eLtjVkVU7IUhwFhzS+q2MBxFhxtcBa+/gksyDa6crMtKdKTAfG
+ 5w62uUFSX2ZvTMVJTC6o37065ho82MzonSFkQg/D+K2PxL2D5jnEhx+daQxrsRgqJfdM
+ mOHcPU2r+G1sD1vTuQFwHsfAOBDkK/5XE6FhWkZRTb5ZR+NQHDuZfSXQbSAYnVnZ7NXN
+ lDCpMKC1zQFKoWUmd7lkSrRBev/TbjzIeymuWmX86sSkNgIJ02jD9GivoogJ8IKSb2DF
+ JK2A==
+X-Gm-Message-State: AOAM532iv+uF9q6c0JV7ugfcHgt0/wzmcvsdcVt1EzxlCtXcKXapwDmb
+ PWn2wBWQSUFiTsp1z7NBGPJHsM0nxzj9gQ==
+X-Google-Smtp-Source: ABdhPJy6PV/AFvHF875Y5wjCKkZ95YTo9hDA41LNBGbFXmgPvfFLSAgOqgevAAV3tbO7jNXKEX/PDg==
+X-Received: by 2002:a7b:c04c:: with SMTP id u12mr25495756wmc.185.1607895037037; 
+ Sun, 13 Dec 2020 13:30:37 -0800 (PST)
+Received: from kali.home (2a01cb0881b76d00c2afd0dfa851d2b9.ipv6.abo.wanadoo.fr.
+ [2a01:cb08:81b7:6d00:c2af:d0df:a851:d2b9])
+ by smtp.gmail.com with ESMTPSA id z13sm30801454wmz.3.2020.12.13.13.30.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Dec 2020 13:16:03 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Sun, 13 Dec 2020 13:30:36 -0800 (PST)
+From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/docker: Include 'ccache' in Debian base image
-Date: Sun, 13 Dec 2020 22:16:01 +0100
-Message-Id: <20201213211601.253530-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+Subject: [PATCH v2] hw/usb/host-libusb.c: fix build with kernel < 5.0
+Date: Sun, 13 Dec 2020 22:30:16 +0100
+Message-Id: <20201213213016.457350-1-fontaine.fabrice@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ envelope-from=fontaine.fabrice@gmail.com; helo=mail-wm1-x341.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,33 +81,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ Fabrice Fontaine <fontaine.fabrice@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Include the 'ccache' package to speed up compilation.
+USBDEVFS_GET_SPEED is used since version 5.2.0 and
+https://gitlab.com/qemu-project/qemu/-/commit/202d69a715a4b1824dcd7ec1683d027ed2bae6d3
+resulting in the following build failure with kernel < 5.0:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+../hw/usb/host-libusb.c: In function 'usb_host_open':
+../hw/usb/host-libusb.c:953:32: error: 'USBDEVFS_GET_SPEED' undeclared (first use in this function); did you mean 'USBDEVFS_GETDRIVER'?
+         int rc = ioctl(hostfd, USBDEVFS_GET_SPEED, NULL);
+                                ^~~~~~~~~~~~~~~~~~
+                                USBDEVFS_GETDRIVER
+
+A tentative was made to fix this build failure with
+https://gitlab.com/qemu-project/qemu/-/commit/4969e697c15ac536d5c0700381d5d026ef7f0588
+
+However, the assumption that distros with old kernels also have old
+libusb is just wrong so also add a check for defined(USBDEVFS_GET_SPEED)
+
+Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
 ---
- tests/docker/dockerfiles/debian10.docker | 1 +
- 1 file changed, 1 insertion(+)
+Changes v1 -> v2:
+ - Fix error about line being over 90 characters
 
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index 73a3caac9cd..9d42b5a4b81 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -20,6 +20,7 @@ RUN apt update && \
-         bc \
-         build-essential \
-         ca-certificates \
-+        ccache \
-         clang \
-         dbus \
-         gdb-multiarch \
+ hw/usb/host-libusb.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
+index b950501d10..07ccceb16d 100644
+--- a/hw/usb/host-libusb.c
++++ b/hw/usb/host-libusb.c
+@@ -941,7 +941,8 @@ static int usb_host_open(USBHostDevice *s, libusb_device *dev, int hostfd)
+     usb_host_ep_update(s);
+ 
+     libusb_speed = libusb_get_device_speed(dev);
+-#if LIBUSB_API_VERSION >= 0x01000107 && defined(CONFIG_LINUX)
++#if LIBUSB_API_VERSION >= 0x01000107 && defined(CONFIG_LINUX) && \
++	defined(USBDEVFS_GET_SPEED)
+     if (hostfd && libusb_speed == 0) {
+         /*
+          * Workaround libusb bug: libusb_get_device_speed() does not
 -- 
-2.26.2
+2.29.2
 
 
