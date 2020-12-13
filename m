@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244432D8CFE
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 13:07:57 +0100 (CET)
-Received: from localhost ([::1]:51828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A812D8D07
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 13:10:26 +0100 (CET)
+Received: from localhost ([::1]:55784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koQAO-0001Kv-80
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 07:07:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34694)
+	id 1koQCn-00031C-UJ
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 07:10:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1koQ7z-0000L9-JY
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 07:05:27 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:56132)
+ id 1koQAu-0002EX-QG
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 07:08:29 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1koQ7x-0007YX-Hq
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 07:05:27 -0500
-Received: by mail-wm1-x343.google.com with SMTP id x22so11296662wmc.5
- for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 04:05:21 -0800 (PST)
+ id 1koQAo-0008Uj-Fg
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 07:08:26 -0500
+Received: by mail-wm1-x343.google.com with SMTP id 190so1077533wmz.0
+ for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 04:08:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LyMTOr1WvsGdRs7E5DV/F6LxWXyxRH5lrSk99+NsyEc=;
- b=geRofvK/qfQgyAcD6XdC66mNwclzzK2K6vOoDhf2KHQfbD4lozFD65oHRdQH/X3h/l
- CBz4yjMLo6C/GB97J0LmEmSfWtuHyHhIX63qAIkerInjNxrcQgRZHiWr4s5/+ZADZgwO
- 26iE+f5sbM7jH2uIswIzJ7lVXMEZWtVirRPvEfR/3+sobpb7GogfF/kqqDuuRnaM/jlq
- JpvQSrbPbvx9wWL0awRZRgtQv4XKJWK9HUB1Rp0gszUdg6bcZ0tdXsIEFeAqYMpZesj/
- RiQg2Qz7pYRU/tT3LXkkLS67/dsCsZMB6bL4Cv7MpyijXi26KPXxg4ZZiYxjodsFdWwM
- D/AQ==
+ bh=6dB5Pfi4qMTn0pQeUWpoUkm3K94bwjP/ZJmCFRyjllk=;
+ b=s4c7slOdMMZQeyHdmOErrXJkmX0FdDW5rrdDclJzDm3MMyvYJ4wXowPHcypf8U9huS
+ p2phFyGKjLee4R9oWKm8Xv8PXxgLL3j0V4dcDkG5Ubh5grVwzp25HxigZ1GdXNqelbcM
+ tBNilKrp3o2lzp7Hlo9MB7F9BTpULTFmp3LWvYAVPE8+Ky9GwIhAdWAlq9sLhS3t8MKs
+ NM4t7XbpU7YjTZ0jC6qTLCYyZrDoUK+9eTfSorU1uYLX8eS/o3N27eae3IY0q7Zgzrz5
+ zAqSs9ZUYQHPnFpc7zMX9HnbXpMSypRSQ6bthVVp/a5PtHvjv7JZwjuLcWBHKCoV2M3d
+ qdEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LyMTOr1WvsGdRs7E5DV/F6LxWXyxRH5lrSk99+NsyEc=;
- b=F0hvWx/rUkv8g3urLtr8EZbDyIcd8GzrT6MkBAxfGNWmlMlGilysUADQEdMOzllAJ9
- cdisl2DY6SE646mMx1IKiC7byzem93FBCN/n9NWSDgZQAsd3szsX/cXaTgrgfjk9H24R
- p6koxl+ZJwFD3AIbkkBktEHfky5/XAiMvUXw1x7rJf9brS6+ccJAwqQo3uuw9IPaqxaJ
- x5v7X6ElO5n2eXW7oOHoi088teMk2U6yS/3pxDA7lA+rT7+GSGzghp2LVk19qq8BRmor
- kN+sKJHEbbRxREdpZizwC4EtZgCOljeGb3kL8lzos6T7vC7P5Tv4KPWqXVwfYuFMOD6r
- 9leQ==
-X-Gm-Message-State: AOAM533gRSAUOjxtE6sXqoLm/CtqxH8G/bS3RhBB9owLmF0QjqXyFAzE
- KRigXxURR0Zvv8R1OFEBlsg=
-X-Google-Smtp-Source: ABdhPJzU4GIyEtw7ZTylwTWt6pwH7Y6cGEWS2g7jXY6S0lvSXbycdIVunWVYBhKUGTCr85cF3ZyP3w==
-X-Received: by 2002:a1c:6283:: with SMTP id
- w125mr22541966wmb.155.1607861121032; 
- Sun, 13 Dec 2020 04:05:21 -0800 (PST)
+ bh=6dB5Pfi4qMTn0pQeUWpoUkm3K94bwjP/ZJmCFRyjllk=;
+ b=GnxKtk7RN12UmiWUllAxMubqTRRqiLs6Izn6HMxwLFfnHoDWKRBGtRtXEmRZk/VMzg
+ pRXUwqXRfJ2//ZpUPCReCgAe8DD1J+PWbcXfk6mrKYuVd5xaBOS1OKOlqEt3dsRUCZmP
+ NsO/mF/gRT2hKTUjHodvEPLg7Gu6/QbKT9v8cgCMS6V6+EYBBkGxCVjN8/1hiEdOKIoO
+ kdYMWqr6xNrkxF+JrNjaRvDLRJfwYzyPG6jMY6DZLO/6qJblXuebf943tCoJDcnStYlC
+ PWRyQmHlyvHRT6lGZoGOQpTztwb7IAmcz+0ATZ34cM9y+BOs+mJTTR0Twz6A7Tues1e6
+ qfNg==
+X-Gm-Message-State: AOAM530S/Vr9w04CdK9bfQrGOwBPFrtPe2rEf5dWFB7X1lfrI9db7mqR
+ FrvmuopIIK47r+CeDr6hCzY=
+X-Google-Smtp-Source: ABdhPJz1zfrfdbIWkIbX9QJT1k9L0cVpFQX0VEtlUJaHVADabcUOP21HRdXjtuAHTd/+v8nznOejew==
+X-Received: by 2002:a1c:5605:: with SMTP id k5mr22827952wmb.99.1607861297346; 
+ Sun, 13 Dec 2020 04:08:17 -0800 (PST)
 Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id p9sm19792246wmm.17.2020.12.13.04.05.19
+ by smtp.gmail.com with ESMTPSA id q17sm25373532wrr.53.2020.12.13.04.08.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 13 Dec 2020 04:05:20 -0800 (PST)
-Subject: Re: [PATCH 2/2] include/hw/sparc/grlib.h: Remove unused set_pil_in_fn
- typedef
+ Sun, 13 Dec 2020 04:08:16 -0800 (PST)
+Subject: Re: [PATCH 1/2] hw/sparc: Make grlib-irqmp device handle its own
+ inbound IRQ lines
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20201212144134.29594-1-peter.maydell@linaro.org>
- <20201212144134.29594-3-peter.maydell@linaro.org>
+ <20201212144134.29594-2-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <87dbe5c7-3c0e-ff67-ddde-796fc2f36614@amsat.org>
-Date: Sun, 13 Dec 2020 13:05:19 +0100
+Message-ID: <2ec39316-642e-6bce-b884-d4280e2fe933@amsat.org>
+Date: Sun, 13 Dec 2020 13:08:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201212144134.29594-3-peter.maydell@linaro.org>
+In-Reply-To: <20201212144134.29594-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -98,13 +97,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/12/20 3:41 PM, Peter Maydell wrote:
-> The grlib.h header defines a set_pil_in_fn typedef which is never
-> used; remove it.
+> Currently the GRLIB_IRQMP device is used in one place (the leon3 board),
+> but instead of the device providing inbound gpio lines for the board
+> to wire up, the board code itself calls qemu_allocate_irqs() with
+> the handler function being a set_irq function defined in the code
+> for the device.
 > 
+> Refactor this into the standard setup of a device having input
+> gpio lines.
+> 
+> This fixes a trivial Coverity memory leak report (the leon3
+> board code leaks the IRQ array returned from qemu_allocate_irqs()).
+> 
+> Fixes: Coverity CID 1421922
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  include/hw/sparc/grlib.h | 2 --
->  1 file changed, 2 deletions(-)
+>  include/hw/sparc/grlib.h |  2 --
+>  hw/intc/grlib_irqmp.c    |  5 ++++-
+>  hw/sparc/leon3.c         | 21 +++++++++------------
+>  3 files changed, 13 insertions(+), 15 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
