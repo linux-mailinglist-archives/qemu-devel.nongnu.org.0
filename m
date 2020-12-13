@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9AA2D8B47
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 05:36:32 +0100 (CET)
-Received: from localhost ([::1]:47638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 050D62D8CC0
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 12:30:59 +0100 (CET)
+Received: from localhost ([::1]:45504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koJ7X-0002j4-EZ
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 23:36:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39736)
+	id 1koPab-0001j1-GY
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 06:30:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1koJ6d-0001Ze-LO
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 23:35:35 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39684)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1koPYg-00018Q-Vb; Sun, 13 Dec 2020 06:28:59 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1koJ6b-0006bv-8F
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 23:35:35 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1koJ6Z-00037K-5i
- for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 04:35:31 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2691A2E8087
- for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 04:35:31 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1koPYf-0004Lw-BZ; Sun, 13 Dec 2020 06:28:58 -0500
+Received: by mail-wr1-x441.google.com with SMTP id a12so13535227wrv.8;
+ Sun, 13 Dec 2020 03:28:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Lybk7XaClP2JemyhFrS8HW8CbAKsRUfWFVVDPHrbpgc=;
+ b=ilObLoG1DJlOENJ4sPbCesDN56eOG/yd411cnKcti9Q2YgKMmPA5YNaq+a6lKzpvph
+ nxHpKyTdqdcYHROmRhUonfC+sdtX48V1Vx9fnXXaa5uD+VdthdxY63QxHcotJotOeqLY
+ OrYmRJd5+RC1TwrajxQr43I/tdXspw75Sy8goMmD9Jen+pkaSUP8BW+q7tKsrZUdhqqC
+ tkFtXNghe7w306Z1N0G8hsfK4IAtJ3Bqy2Lw5PJs73yrMdaFZPRD3IDW6aIXnLPAZMF7
+ kYssbZc8qkuM6md0NF3QIo18TUloBcsr1+/9n54bULj9cs2ySgtcqubKSuGBVggSwMfr
+ 5PWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Lybk7XaClP2JemyhFrS8HW8CbAKsRUfWFVVDPHrbpgc=;
+ b=fMSvYUN+jdMSP3xqLZw47yI68ZFbS1ueOI9bxVl1DK6PvNUd85ETqbHeR9xUfW5faX
+ AJRzHhvV4Bsts3ovMssj3H4d/zV+IWyweR91R9nq6c30O31LlkDbrJn7r7ymair95xb6
+ u65gbn59W0idpp9wARr7BaE8oWaLIudRnKXGBE8yHk3aSPTgMoCFb5wzpsx8ZTTFZvLv
+ zJTPv7fvuUPCz6oHJ2vuOhNoJc+qkccQcBqbw83nj6EAdXTBsK4DPyR7kqxUUppUgCDd
+ ibTL+ce+ktl+VnrG0Cqj+EnBUutnFwEff7PGGPEplO+/5b8d5TtxoX6CXbs9SZRRbCth
+ Nddw==
+X-Gm-Message-State: AOAM531yx3mHtYwoi1+3Nep974Tno4+u4IuYOGovKLDcWt7fPrBRZ045
+ cOnrMivgAqJRXAs+utdveHY=
+X-Google-Smtp-Source: ABdhPJyup1xZMVOet0+27eEXGRs97bOy6K/MKRRosvWJh+8Sq/7LJPWMo93dXP4SEfI+WTbqsuYthQ==
+X-Received: by 2002:adf:97ce:: with SMTP id t14mr23817522wrb.368.1607858935427; 
+ Sun, 13 Dec 2020 03:28:55 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id o83sm25128218wme.21.2020.12.13.03.28.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 13 Dec 2020 03:28:54 -0800 (PST)
+Subject: Re: [PATCH v2 2/4] hw/timer: Refactor NPCM7XX Timer to use CLK clock
+To: Hao Wu <wuhaotsh@google.com>, peter.maydell@linaro.org
+References: <20201211222223.2252172-1-wuhaotsh@google.com>
+ <20201211222223.2252172-3-wuhaotsh@google.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b089845f-636e-2cef-ff31-9367a99ff80a@amsat.org>
+Date: Sun, 13 Dec 2020 12:28:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 13 Dec 2020 04:28:44 -0000
-From: Alexander Bulekov <1907938@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <20201213042844.x2uprphwahlpon5c@mozz.bu.edu>
-Subject: [Bug 1907938] [NEW] [OSS-Fuzz] Issue 28524 virtio-blk: ASSERT:
- !s->dataplane_started
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: fd8f0d3bf060f094743956acdcce335d9fcf0dd4
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201211222223.2252172-3-wuhaotsh@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,173 +87,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907938 <1907938@bugs.launchpad.net>
+Cc: minyard@acm.org, venture@google.com, qemu-devel@nongnu.org,
+ hskinnemoen@google.com, kfting@nuvoton.com, qemu-arm@nongnu.org,
+ Avi.Fishman@nuvoton.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Hi Wu,
 
- affects qemu
+[The list is mangling your From: ...]
 
-=3D=3D=3D Reproducer =3D=3D=3D
+On 12/11/20 11:22 PM, Hao Wu via wrote:
+> This patch makes NPCM7XX Timer to use a the timer clock generated by the
+> CLK module instead of the magic nubmer TIMER_REF_HZ.
 
-cat << EOF |./qemu-system-i386 -display none -m 512M -machine q35 \
--device virtio-blk,drive=3Ddisk0 \
--drive file=3Dnull-co://,id=3Ddisk0,if=3Dnone,format=3Draw -qtest stdio
-outl 0xcf8 0x8000181f
-outl 0xcfc 0xa044d79
-outl 0xcf8 0x80001802
-outl 0xcf8 0x80001804
-outl 0xcfc 0xb9045dff
-outl 0xcf8 0x8000180e
-outl 0xcfc 0xfb9465a
-outl 0xf85 0x9e1ea5c2
-write 0x9f002 0x1 0x04
-write 0x9f004 0x1 0x04
-write 0x9e040 0x1 0x04
-write 0x9e043 0x1 0x01
-write 0x9e048 0x1 0x10
-write 0x9e04c 0x1 0x01
-write 0x9e04e 0x1 0x6e
-write 0x1000004 0x1 0x01
-write 0x9e6e3 0x1 0x01
-write 0x9e6eb 0x1 0x04
-write 0x9e6ec 0x1 0x6e
-write 0x9f006 0x1 0x04
-write 0x9f008 0x1 0x04
-write 0x9f00a 0x1 0x04
-outl 0xf8f 0xc
-EOF
+Typo "number".
 
-=3D=3D=3D Stack Trace =3D=3D=3D
+> 
+> Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
+> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> ---
+>  hw/arm/npcm7xx.c                 |  5 +++++
+>  hw/timer/npcm7xx_timer.c         | 25 +++++++++++++++----------
+>  include/hw/misc/npcm7xx_clk.h    |  6 ------
+>  include/hw/timer/npcm7xx_timer.h |  1 +
+>  4 files changed, 21 insertions(+), 16 deletions(-)
+> 
+> diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
+> index 47e2b6fc40..fabfb1697b 100644
+> --- a/hw/arm/npcm7xx.c
+> +++ b/hw/arm/npcm7xx.c
+> @@ -22,6 +22,7 @@
+>  #include "hw/char/serial.h"
+>  #include "hw/loader.h"
+>  #include "hw/misc/unimp.h"
+> +#include "hw/qdev-clock.h"
+>  #include "hw/qdev-properties.h"
+>  #include "qapi/error.h"
+>  #include "qemu/units.h"
+> @@ -420,6 +421,10 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
+>          int first_irq;
+>          int j;
+>  
+> +        /* Connect the timer clock. */
+> +        qdev_connect_clock_in(DEVICE(&s->tim[i]), "clock", qdev_get_clock_out(
+> +                    DEVICE(&s->clk), "timer-clock"));
+> +
+>          sysbus_realize(sbd, &error_abort);
+>          sysbus_mmio_map(sbd, 0, npcm7xx_tim_addr[i]);
+>  
+> diff --git a/hw/timer/npcm7xx_timer.c b/hw/timer/npcm7xx_timer.c
+> index d24445bd6e..9469c959e2 100644
+> --- a/hw/timer/npcm7xx_timer.c
+> +++ b/hw/timer/npcm7xx_timer.c
+> @@ -17,8 +17,8 @@
+>  #include "qemu/osdep.h"
+>  
+>  #include "hw/irq.h"
+> +#include "hw/qdev-clock.h"
+>  #include "hw/qdev-properties.h"
+> -#include "hw/misc/npcm7xx_clk.h"
+>  #include "hw/timer/npcm7xx_timer.h"
+>  #include "migration/vmstate.h"
+>  #include "qemu/bitops.h"
+> @@ -130,7 +130,7 @@ static int64_t npcm7xx_timer_count_to_ns(NPCM7xxTimer *t, uint32_t count)
+>  {
+>      int64_t ns = count;
+>  
+> -    ns *= NANOSECONDS_PER_SECOND / NPCM7XX_TIMER_REF_HZ;
+> +    ns *= NANOSECONDS_PER_SECOND / clock_get_hz(t->ctrl->clock);
 
-qemu-fuzz-i386: ../hw/block/virtio-blk.c:917: void virtio_blk_reset(VirtIOD=
-evice *): Assertion `!s->dataplane_started' failed.
-=3D=3D702068=3D=3D ERROR: libFuzzer: deadly signal
-#0 0x55bd6fc9f311 in __sanitizer_print_stack_trace (fuzz-i386+0x2b16311)
-#1 0x55bd6fbe83d8 in fuzzer::PrintStackTrace() (fuzz-i386+0x2a5f3d8)
-#2 0x55bd6fbce413 in fuzzer::Fuzzer::CrashCallback() (fuzz-i386+0x2a45413)
-#3 0x7ff5241b813f  (/lib/x86_64-linux-gnu/libpthread.so.0+0x1413f)
-#4 0x7ff523feddb0 in __libc_signal_restore_set signal/../sysdeps/unix/sysv/=
-linux/internal-signals.h:86:3
-#5 0x7ff523feddb0 in raise signal/../sysdeps/unix/sysv/linux/raise.c:48:3
-#6 0x7ff523fd7536 in abort stdlib/abort.c:79:7
-#7 0x7ff523fd740e in __assert_fail_base assert/assert.c:92:3
-#8 0x7ff523fe65b1 in __assert_fail assert/assert.c:101:3
-#9 0x55bd7116c435 in virtio_blk_reset hw/block/virtio-blk.c:917:5
-#10 0x55bd710c94a2 in virtio_reset hw/virtio/virtio.c:2001:9
-#11 0x55bd6ff0e0a5 in virtio_pci_reset hw/virtio/virtio-pci.c:1886:5
-#12 0x55bd6ff10686 in virtio_ioport_write hw/virtio/virtio-pci.c:339:13
-#13 0x55bd6ff10686 in virtio_pci_config_write hw/virtio/virtio-pci.c:456:9
-#14 0x55bd713fd025 in memory_region_write_accessor softmmu/memory.c:491:5
-#15 0x55bd713fca93 in access_with_adjusted_size softmmu/memory.c:552:18
-#16 0x55bd713fc2f0 in memory_region_dispatch_write softmmu/memory.c
-#17 0x55bd70e4bf36 in flatview_write_continue softmmu/physmem.c:2759:23
-#18 0x55bd70e41bbb in flatview_write softmmu/physmem.c:2799:14
-#19 0x55bd70e41bbb in address_space_write softmmu/physmem.c:2891:18
-#20 0x55bd71153462 in cpu_outl softmmu/ioport.c:80:5
-#21 0x55bd712d586e in qtest_process_command softmmu/qtest.c:483:13
-#22 0x55bd712d35bf in qtest_process_inbuf softmmu/qtest.c:797:9
-#23 0x55bd712d3315 in qtest_server_inproc_recv softmmu/qtest.c:904:9
-#24 0x55bd71910df8 in qtest_sendf tests/qtest/libqtest.c:438:5
-#25 0x55bd71911fae in qtest_out tests/qtest/libqtest.c:952:5
-#26 0x55bd71911fae in qtest_outl tests/qtest/libqtest.c:968:5
-#27 0x55bd6fcd1aa2 in op_out tests/qtest/fuzz/generic_fuzz.c:395:13
-#28 0x55bd6fcd04e9 in generic_fuzz tests/qtest/fuzz/generic_fuzz.c:680:17
-#29 0x55bd6fcc9723 in LLVMFuzzerTestOneInput tests/qtest/fuzz/fuzz.c:151:5
-
-OSS-Fuzz Report:
-https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D28524
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907938
-
-Title:
-  [OSS-Fuzz] Issue 28524 virtio-blk: ASSERT: !s->dataplane_started
-
-Status in QEMU:
-  New
-
-Bug description:
-   affects qemu
-
-  =3D=3D=3D Reproducer =3D=3D=3D
-
-  cat << EOF |./qemu-system-i386 -display none -m 512M -machine q35 \
-  -device virtio-blk,drive=3Ddisk0 \
-  -drive file=3Dnull-co://,id=3Ddisk0,if=3Dnone,format=3Draw -qtest stdio
-  outl 0xcf8 0x8000181f
-  outl 0xcfc 0xa044d79
-  outl 0xcf8 0x80001802
-  outl 0xcf8 0x80001804
-  outl 0xcfc 0xb9045dff
-  outl 0xcf8 0x8000180e
-  outl 0xcfc 0xfb9465a
-  outl 0xf85 0x9e1ea5c2
-  write 0x9f002 0x1 0x04
-  write 0x9f004 0x1 0x04
-  write 0x9e040 0x1 0x04
-  write 0x9e043 0x1 0x01
-  write 0x9e048 0x1 0x10
-  write 0x9e04c 0x1 0x01
-  write 0x9e04e 0x1 0x6e
-  write 0x1000004 0x1 0x01
-  write 0x9e6e3 0x1 0x01
-  write 0x9e6eb 0x1 0x04
-  write 0x9e6ec 0x1 0x6e
-  write 0x9f006 0x1 0x04
-  write 0x9f008 0x1 0x04
-  write 0x9f00a 0x1 0x04
-  outl 0xf8f 0xc
-  EOF
-
-  =3D=3D=3D Stack Trace =3D=3D=3D
-
-  qemu-fuzz-i386: ../hw/block/virtio-blk.c:917: void virtio_blk_reset(VirtI=
-ODevice *): Assertion `!s->dataplane_started' failed.
-  =3D=3D702068=3D=3D ERROR: libFuzzer: deadly signal
-  #0 0x55bd6fc9f311 in __sanitizer_print_stack_trace (fuzz-i386+0x2b16311)
-  #1 0x55bd6fbe83d8 in fuzzer::PrintStackTrace() (fuzz-i386+0x2a5f3d8)
-  #2 0x55bd6fbce413 in fuzzer::Fuzzer::CrashCallback() (fuzz-i386+0x2a45413)
-  #3 0x7ff5241b813f  (/lib/x86_64-linux-gnu/libpthread.so.0+0x1413f)
-  #4 0x7ff523feddb0 in __libc_signal_restore_set signal/../sysdeps/unix/sys=
-v/linux/internal-signals.h:86:3
-  #5 0x7ff523feddb0 in raise signal/../sysdeps/unix/sysv/linux/raise.c:48:3
-  #6 0x7ff523fd7536 in abort stdlib/abort.c:79:7
-  #7 0x7ff523fd740e in __assert_fail_base assert/assert.c:92:3
-  #8 0x7ff523fe65b1 in __assert_fail assert/assert.c:101:3
-  #9 0x55bd7116c435 in virtio_blk_reset hw/block/virtio-blk.c:917:5
-  #10 0x55bd710c94a2 in virtio_reset hw/virtio/virtio.c:2001:9
-  #11 0x55bd6ff0e0a5 in virtio_pci_reset hw/virtio/virtio-pci.c:1886:5
-  #12 0x55bd6ff10686 in virtio_ioport_write hw/virtio/virtio-pci.c:339:13
-  #13 0x55bd6ff10686 in virtio_pci_config_write hw/virtio/virtio-pci.c:456:9
-  #14 0x55bd713fd025 in memory_region_write_accessor softmmu/memory.c:491:5
-  #15 0x55bd713fca93 in access_with_adjusted_size softmmu/memory.c:552:18
-  #16 0x55bd713fc2f0 in memory_region_dispatch_write softmmu/memory.c
-  #17 0x55bd70e4bf36 in flatview_write_continue softmmu/physmem.c:2759:23
-  #18 0x55bd70e41bbb in flatview_write softmmu/physmem.c:2799:14
-  #19 0x55bd70e41bbb in address_space_write softmmu/physmem.c:2891:18
-  #20 0x55bd71153462 in cpu_outl softmmu/ioport.c:80:5
-  #21 0x55bd712d586e in qtest_process_command softmmu/qtest.c:483:13
-  #22 0x55bd712d35bf in qtest_process_inbuf softmmu/qtest.c:797:9
-  #23 0x55bd712d3315 in qtest_server_inproc_recv softmmu/qtest.c:904:9
-  #24 0x55bd71910df8 in qtest_sendf tests/qtest/libqtest.c:438:5
-  #25 0x55bd71911fae in qtest_out tests/qtest/libqtest.c:952:5
-  #26 0x55bd71911fae in qtest_outl tests/qtest/libqtest.c:968:5
-  #27 0x55bd6fcd1aa2 in op_out tests/qtest/fuzz/generic_fuzz.c:395:13
-  #28 0x55bd6fcd04e9 in generic_fuzz tests/qtest/fuzz/generic_fuzz.c:680:17
-  #29 0x55bd6fcc9723 in LLVMFuzzerTestOneInput tests/qtest/fuzz/fuzz.c:151:5
-
-  OSS-Fuzz Report:
-  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D28524
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907938/+subscriptions
+Why not use clock_get_ns()?
 
