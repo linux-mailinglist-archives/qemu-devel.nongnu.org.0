@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6342D8EE3
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 17:53:07 +0100 (CET)
-Received: from localhost ([::1]:44170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA5A62D8EE5
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 17:57:14 +0100 (CET)
+Received: from localhost ([::1]:46724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koUcH-00030K-NO
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 11:53:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49174)
+	id 1koUgL-0004Qr-BY
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 11:57:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koUbJ-0002Tf-L1; Sun, 13 Dec 2020 11:52:01 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:38241)
+ id 1koUeg-0003j4-Tm; Sun, 13 Dec 2020 11:55:30 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:42457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koUbE-0001VF-Ft; Sun, 13 Dec 2020 11:52:01 -0500
+ id 1koUee-0002eD-AF; Sun, 13 Dec 2020 11:55:30 -0500
 Received: from [192.168.100.1] ([82.252.135.218]) by mrelayeu.kundenserver.de
  (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N4hex-1k5DZ113rD-011gDG; Sun, 13 Dec 2020 17:51:44 +0100
-Subject: Re: [PATCH] CODING_STYLE.rst: Be less strict about 80 character limit
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201106112940.31300-1-peter.maydell@linaro.org>
+ 1MXXdn-1kc6QQ1tB1-00Yw9L; Sun, 13 Dec 2020 17:55:13 +0100
+Subject: Re: [PATCH] ads7846: moves from the hw/display folder to the hw/input
+ folder.
+To: Gan Qixin <ganqixin@huawei.com>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <20201115123503.1110665-1-ganqixin@huawei.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <cd68f42b-6693-9a39-b29f-4f624dda9c17@vivier.eu>
-Date: Sun, 13 Dec 2020 17:51:41 +0100
+Message-ID: <bd2cc606-14a3-3f07-92e6-e7b95f4fbfdf@vivier.eu>
+Date: Sun, 13 Dec 2020 17:55:11 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201106112940.31300-1-peter.maydell@linaro.org>
+In-Reply-To: <20201115123503.1110665-1-ganqixin@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TUhXXGGI7BigwydDqDpk5QR/JUWMA8wDsBY00mSXb4h/t/dVfcM
- 0DSGnHgBoz143KZWiSB1bNzh5YuqT8pC9z7kU/a0dvPm//9YTurGXakiuzevTTgXNP+wk5I
- HSB5gWXpVFrbXCj5aw6ZhR9xoAXH8jQVYerBzOBGQLQwNlxzij6dPFQCt5a1V1bQBmOg6IP
- PSpX5Kv//yOY1bH8p72xA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hYjCGjinfu8=:KDoGVCC71nTBMTcxDNSFCl
- NR58RkwMYvWe+0W6rtv76R8cLpJnY2/R3aGuN9uqdpZvIIQagybfYMBPg5TUTfwJc9D4jRgW/
- disKUp3MIPKsHeSE0RiK1gM68QHWDEdFQlRLhgJApbPHk4ckrk0V7adv2bXzYMcKROBfrU8ug
- kDJT2PT9R+gQj/3vZMN6j4PWfunvGZtODBe81jPh0fuYupqvoggEknKfKGmxxerx56Pq9cInf
- PhVroEsX8WOr6hyoDA0DgezcTPFaYoGi+y4oX6vQdfbGF3ocfXOlTCRvq+pgqSKQXHPEE2uMF
- 7jHmTAgrYdQQ0T5ZJAKloyKjmglw9pYzpjDGe+E6DgYw3b7RwLvEvf7TCLY3qW6gMF65u5XMW
- 07zsv0jJwEAZ3uQr1Jav8kZ55+Qdhupj63qN677DnFeAsSmzPYF44DZtV2iHB9gwyLSqeSMM6
- b8uSeGgeZw==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ku1sO2b4kLfxHeNUYOTLr1CpkFE0selCiDSa603ScqNu8d6udEF
+ 1CMuJOZHtoIzwDKwRimkB4Ez41/K+AXxMpsabp4fcYOnuilqJBKYqfaT89eV7w+wNTkcybv
+ b+pIRO/NmoAIdD5bR4/fl1xyNtP30ScJQGvdeaKdFlW6Do2p/rUW9nyD6y2skEUpRMP90mm
+ 14Ics/nTrPIuWeDPNbquA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Wk8pD2D8kBA=:A07q/ZUOQTIFgSuZOpMFCm
+ tMKUxzyJ7a3hQrzQNIz1YDjRtt0kg5mzI2RLIPSv2SLpHv55cH3cXxgAe/oiJORqP94BL5C2W
+ C5wWeyb54/Uh8wDQQZIfF3C0MFmTK3Iw96EIRZwRdjWABDrwokCMKJx9x2jMPlF4jJANB4HTv
+ KaebUoL56hpgSG7WkIxsM7nvMSoRqoUAPQ+tOxovpNdkzrGTpL/WbLWl14D9nU9mdncMsUWpQ
+ uyMKTfZf6B63FarTpMsiMo5aQj2c0HuzpeQNWUB3XB7XRqCGfFCfUW/FDRM6Hx5y5XrqZF85H
+ bHMzFtLKDBaMlpM08Hw+S+Me3spnRyurk+svQManD02Z52q0iN//9rwAHf9YE6lr8jaxcCrfX
+ eV943cm2fdOxm30eIz7mnDoB6Bu9gC1wO/3IxnQvEFO8Am6Q1QgrTnhr+Auyu0X5iH7VoZAIQ
+ NsURw6xeIg==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -65,47 +67,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Gan Qixin <ganqixin@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, berrange@redhat.com,
+ ehabkost@redhat.com, quintela@redhat.com, kuhn.chenqun@huawei.com,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/11/2020 à 12:29, Peter Maydell a écrit :
-> Relax the wording about line lengths a little bit; this goes with the
-> checkpatch changes to warn at 100 characters rather than 80.
+Le 15/11/2020 à 13:35, Gan Qixin a écrit :
+> ads7846 is a touch-screen controller that is an input device rather
+> than a display device, so move it to the hw/input folder.
 > 
-> (Compare the Linux kernel commit bdc48fa11e46f8; our coding style is
-> not theirs, but the rationale is good and applies to us too.)
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 > ---
->  CODING_STYLE.rst | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+>  hw/arm/Kconfig                  | 2 +-
+>  hw/display/Kconfig              | 3 ---
+>  hw/display/meson.build          | 1 -
+>  hw/input/Kconfig                | 3 +++
+>  hw/{display => input}/ads7846.c | 0
+>  hw/input/meson.build            | 1 +
+>  6 files changed, 5 insertions(+), 5 deletions(-)
+>  rename hw/{display => input}/ads7846.c (100%)
 > 
-> diff --git a/CODING_STYLE.rst b/CODING_STYLE.rst
-> index 8b13ef0669e..7bf4e39d487 100644
-> --- a/CODING_STYLE.rst
-> +++ b/CODING_STYLE.rst
-> @@ -85,8 +85,13 @@ Line width
->  Lines should be 80 characters; try not to make them longer.
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index fdf4464b94..75a771bc2d 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -155,7 +155,7 @@ config TOSA
 >  
->  Sometimes it is hard to do, especially when dealing with QEMU subsystems
-> -that use long function or symbol names.  Even in that case, do not make
-> -lines much longer than 80 characters.
-> +that use long function or symbol names. If wrapping the line at 80 columns
-> +is obviously less readable and more awkward, prefer not to wrap it; better
-> +to have an 85 character line than one which is awkwardly wrapped.
+>  config SPITZ
+>      bool
+> -    select ADS7846 # display
+> +    select ADS7846 # touch-screen controller
+>      select MAX111X # A/D converter
+>      select WM8750  # audio codec
+>      select MAX7310 # GPIO expander
+> diff --git a/hw/display/Kconfig b/hw/display/Kconfig
+> index 15d59e10dc..ca46b5830e 100644
+> --- a/hw/display/Kconfig
+> +++ b/hw/display/Kconfig
+> @@ -9,9 +9,6 @@ config EDID
+>  config FW_CFG_DMA
+>      bool
+>  
+> -config ADS7846
+> -    bool
+> -
+>  config VGA_CIRRUS
+>      bool
+>      default y if PCI_DEVICES
+> diff --git a/hw/display/meson.build b/hw/display/meson.build
+> index dad3bd2b41..9d79e3951d 100644
+> --- a/hw/display/meson.build
+> +++ b/hw/display/meson.build
+> @@ -6,7 +6,6 @@ softmmu_ss.add(when: 'CONFIG_EDID', if_true: files('edid-generate.c', 'edid-regi
+>  softmmu_ss.add(when: 'CONFIG_FW_CFG_DMA', if_true: files('ramfb.c'))
+>  softmmu_ss.add(when: 'CONFIG_FW_CFG_DMA', if_true: files('ramfb-standalone.c'))
+>  
+> -softmmu_ss.add(when: 'CONFIG_ADS7846', if_true: files('ads7846.c'))
+>  softmmu_ss.add(when: 'CONFIG_VGA_CIRRUS', if_true: files('cirrus_vga.c'))
+>  softmmu_ss.add(when: ['CONFIG_VGA_CIRRUS', 'CONFIG_VGA_ISA'], if_true: files('cirrus_vga_isa.c'))
+>  softmmu_ss.add(when: 'CONFIG_G364FB', if_true: files('g364fb.c'))
+> diff --git a/hw/input/Kconfig b/hw/input/Kconfig
+> index 64f14daabf..55865bb386 100644
+> --- a/hw/input/Kconfig
+> +++ b/hw/input/Kconfig
+> @@ -1,6 +1,9 @@
+>  config ADB
+>      bool
+>  
+> +config ADS7846
+> +    bool
 > +
-> +Even in that case, try not to make lines much longer than 80 characters.
-> +(The checkpatch script will warn at 100 characters, but this is intended
-> +as a guard against obviously-overlength lines, not a target.)
->  
->  Rationale:
->  
+>  config LM832X
+>      bool
+>      depends on I2C
+> diff --git a/hw/display/ads7846.c b/hw/input/ads7846.c
+> similarity index 100%
+> rename from hw/display/ads7846.c
+> rename to hw/input/ads7846.c
+> diff --git a/hw/input/meson.build b/hw/input/meson.build
+> index e7285b15ae..0042c3f0dc 100644
+> --- a/hw/input/meson.build
+> +++ b/hw/input/meson.build
+> @@ -1,5 +1,6 @@
+>  softmmu_ss.add(files('hid.c'))
+>  softmmu_ss.add(when: 'CONFIG_ADB', if_true: files('adb.c', 'adb-mouse.c', 'adb-kbd.c'))
+> +softmmu_ss.add(when: 'CONFIG_ADS7846', if_true: files('ads7846.c'))
+>  softmmu_ss.add(when: 'CONFIG_LM832X', if_true: files('lm832x.c'))
+>  softmmu_ss.add(when: 'CONFIG_PCKBD', if_true: files('pckbd.c'))
+>  softmmu_ss.add(when: 'CONFIG_PL050', if_true: files('pl050.c'))
 > 
 
 Applied to my trivial-patches branch.
