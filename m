@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E202D8F09
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 18:21:16 +0100 (CET)
-Received: from localhost ([::1]:48154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA602D8F0D
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 18:22:42 +0100 (CET)
+Received: from localhost ([::1]:50592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koV3a-000207-PG
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 12:21:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53512)
+	id 1koV4z-00036O-JT
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 12:22:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koV2P-0001NJ-QX; Sun, 13 Dec 2020 12:20:01 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:37599)
+ id 1koV4F-0002aY-1g; Sun, 13 Dec 2020 12:21:55 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:54489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koV2L-0000Yh-DL; Sun, 13 Dec 2020 12:20:01 -0500
+ id 1koV4D-0000qF-G8; Sun, 13 Dec 2020 12:21:54 -0500
 Received: from [192.168.100.1] ([82.252.135.218]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MjBNV-1kAE890yAv-00f8hQ; Sun, 13 Dec 2020 18:19:48 +0100
-Subject: Re: [PATCH v2] hw/block/nand: Decommission the NAND museum
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20200915171639.1355800-1-f4bug@amsat.org>
- <619d329d-f6b3-1e73-e151-a58e366db15d@amsat.org>
- <3647a01c-0932-3446-9bc7-e138ced496dd@amsat.org>
- <f89e9e7d-5ab3-769a-f3d8-22fc05d80af6@amsat.org>
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M8hph-1kkOKr1UuH-004jFZ; Sun, 13 Dec 2020 18:21:48 +0100
+Subject: Re: [PATCH v2 2/4] Makefile: Require GNU make 3.82+
+To: Thomas Huth <thuth@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-devel@nongnu.org
+References: <20200825202755.50626-1-r.bolshakov@yadro.com>
+ <20200825202755.50626-3-r.bolshakov@yadro.com>
+ <1ff85cc3-40dc-98da-fb18-a1b3d134d7dc@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <8af60250-2c96-28bd-f05c-ee38e390df1a@vivier.eu>
-Date: Sun, 13 Dec 2020 18:19:45 +0100
+Message-ID: <bc560d06-2b8d-3ef0-b9e6-ddaeb58daa13@vivier.eu>
+Date: Sun, 13 Dec 2020 18:21:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <f89e9e7d-5ab3-769a-f3d8-22fc05d80af6@amsat.org>
+In-Reply-To: <1ff85cc3-40dc-98da-fb18-a1b3d134d7dc@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:QMqrewO6/XeOLeJFg7ty+tibEBnL2lJpPpmPpz3PDceqN835Nd7
- ShuFQTXDlCkBCq8D+jJpFR2VvdyEG92/+LmJ6KBln4C0aNLR/2Gd/LURplXAhhaWQl9XvFY
- 23pD8SCxS+0Di5p9Qmp5IZe9SM7i2qeRGlMk7QbCMDKzJcRfNp8YOdVdtt4JCL4SymMra2I
- 5FZe+98WJdd3MDpHNoZ8A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:emx6fJ1w3hs=:H9DzrAqRdeXSpBYR9v40VT
- gHp/N2UApC9tkY8ZzJ2uZ3NRlvFAhuCxUUkdiAgUs+zwgAQ93hOkEjLciGgo/U8EuMaaUU2td
- Xk/kUyqttiFS67XzRTGSSGKtsUJ9cG8NScKy6AsP30Z0oHpdADIYdN0B0/Toj8wCQcAfWEdga
- 4RwncGFeQT4NTyhZtQKRvF859FY30kzu8kvzgbeozgVeZsiOPAN/Mi8iJNBMyYwumNFbmMGv2
- TAIkT1U0F34dUGp/kwJioNjM6bewSk3p5nqIBbRKl05yByd1Aw29GuxUIfmRhrXHCWZnEtA4X
- leThzKRkOTGghdm6iNNm9yrBYm1qwzgoQQGfw08CvVazeT0WCXk23EjMZ51XBDL3QUUtyFQTv
- zGd2R9hbcPldoSxfjbkj8oDXI78sFrH+/DBMcqj4Tuk4TDpG1Pe1Q/Z8ALiju5AyC15Tedpfd
- Wi5bifAWsw==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:QS37zHxTNMO++5oL9LjdLkW0UdA9FtIm3XcG0la0lkuTW5MSt44
+ 3aEPsDwok/JLSVwAJm3rXj9ZqrW0M0QcYAkG0YpRcxY/ex+t1EssA5ZthMUBQKJINwyLeoe
+ nMOog7QQ3Kpwit0PUY6R6hCHEd52x+/pGxD+FZfOLjA9SX0xfIL4RWF18vynva74fVHI+X3
+ ZvOWtbB68pnBD50Jn6jUg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qMU6U0D3Ius=:WAqJTUbozzBz2+alpYVj9C
+ 2oBQvDuDlLjigIDt5yGAmRxVUGyq54miQdNMwHxzBszBGjiJ/R9YfIdYBG37iL4iEVRJ9Mpcg
+ 6oazttPEkf6EW+/AgFRl9ei4zb4foE9V7/DxyuEYrSYNrnEUcRnakuMlnVWZr8T6txEG6+iuk
+ nowFDBmPLP5IxxG3jR6hiHIsgYitSMypFXtyKiJlHRj+HQBq8W7tQC4GsfbOnAKbF6WovrjUf
+ /OBjEOQNQk+RvLiinkF5bhvWnP06XtRvmHCvzO7Di8ihHUCxL2LVEoJYByU+xKo5ai+DfYVCT
+ CKfJpb3J7wBZYl568mTJ8Mtx56lSi8scly8bGz7dHE9Am+gxlzQpzKRbR8kk6yN3r3giUGSur
+ 2VGj5WScZxb9WNA0JmEEcZWsDUC8/Zu5/jFh1sEqqUD94pzl96TkTOxZRwlPORig1dVMA5Fy3
+ D2iC/C7iyg==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -69,89 +68,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 16/10/2020 à 18:52, Philippe Mathieu-Daudé a écrit :
-> Cc'ing qemu-trivial@ since this patch is reviewed.
+Le 12/10/2020 à 11:47, Thomas Huth a écrit :
+> On 25/08/2020 22.27, Roman Bolshakov wrote:
+>> QEMU build fails with cryptic messages if make is too old:
+>>
+>>   Makefile.ninja:2655: *** multiple target patterns.  Stop.
+>>
+>> To avoid the confusion it's worth to fail the build right away and print
+>> a friendly error message.
+>>
+>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+>> ---
+>>  Makefile | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>>
+>> diff --git a/Makefile b/Makefile
+>> index 81794d5c34..b4ebf3e30f 100644
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -4,6 +4,11 @@ ifneq ($(words $(subst :, ,$(CURDIR))), 1)
+>>    $(error main directory cannot contain spaces nor colons)
+>>  endif
+>>  
+>> +ifeq ($(filter undefine,$(value .FEATURES)),)
+>> +$(error Unsupported Make version: $(MAKE_VERSION). \
+>> +        Please use GNU Make 3.82 or above)
+>> +endif
+>> +
+>>  # Always point to the root of the build tree (needs GNU make).
+>>  BUILD_DIR=$(CURDIR)
 > 
-> On 10/15/20 8:12 PM, Philippe Mathieu-Daudé wrote:
->> ping^2...
->>
->> On 10/1/20 7:31 PM, Philippe Mathieu-Daudé wrote:
->>> ping qemu-block or qemu-arm?
->>>
->>> On 9/15/20 7:16 PM, Philippe Mathieu-Daudé wrote:
->>>> This is the QEMU equivalent of this Linux commit (but 7 years later):
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f7025a43a9da2
->>>>
->>>>      The MTD subsystem has its own small museum of ancient NANDs
->>>>      in a form of the CONFIG_MTD_NAND_MUSEUM_IDS configuration option.
->>>>      The museum contains stone age NANDs with 256 bytes pages, as well
->>>>      as iron age NANDs with 512 bytes per page and up to 8MiB page size.
->>>>
->>>>      It is with great sorrow that I inform you that the museum is being
->>>>      decommissioned. The MTD subsystem is out of budget for Kconfig
->>>>      options and already has too many of them, and there is a general
->>>>      kernel trend to simplify the configuration menu.
->>>>
->>>>      We remove the stone age exhibits along with closing the museum,
->>>>      but some of the iron age ones are transferred to the regular NAND
->>>>      depot. Namely, only those which have unique device IDs are
->>>>      transferred, and the ones which have conflicting device IDs are
->>>>      removed.
->>>>
->>>> The machine using this device are:
->>>> - axis-dev88
->>>> - tosa (via tc6393xb_init)
->>>> - spitz based (akita, borzoi, terrier)
->>>>
->>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>> ---
->>>> Peter, as 4 of the 5 machines are ARM-based, can this go via your tree?
->>>> ---
->>>>   hw/block/nand.c | 13 ++++++-------
->>>>   1 file changed, 6 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/hw/block/nand.c b/hw/block/nand.c
->>>> index 5c8112ed5a4..5f01ba2bc44 100644
->>>> --- a/hw/block/nand.c
->>>> +++ b/hw/block/nand.c
->>>> @@ -138,7 +138,7 @@ static void mem_and(uint8_t *dest, const uint8_t *src, size_t n)
->>>>   # define ADDR_SHIFT        16
->>>>   # include "nand.c"
->>>> -/* Information based on Linux drivers/mtd/nand/nand_ids.c */
->>>> +/* Information based on Linux drivers/mtd/nand/raw/nand_ids.c */
->>>>   static const struct {
->>>>       int size;
->>>>       int width;
->>>> @@ -154,15 +154,14 @@ static const struct {
->>>>       [0xe8] = { 1,    8,    8, 4, 0 },
->>>>       [0xec] = { 1,    8,    8, 4, 0 },
->>>>       [0xea] = { 2,    8,    8, 4, 0 },
->>>> -    [0xd5] = { 4,    8,    9, 4, 0 },
->>>>       [0xe3] = { 4,    8,    9, 4, 0 },
->>>>       [0xe5] = { 4,    8,    9, 4, 0 },
->>>> -    [0xd6] = { 8,    8,    9, 4, 0 },
->>>> -    [0x39] = { 8,    8,    9, 4, 0 },
->>>> -    [0xe6] = { 8,    8,    9, 4, 0 },
->>>> -    [0x49] = { 8,    16,    9, 4, NAND_BUSWIDTH_16 },
->>>> -    [0x59] = { 8,    16,    9, 4, NAND_BUSWIDTH_16 },
->>>> +    [0x6b] = { 4,        8,        9, 4, 0 },
->>>> +    [0xe3] = { 4,        8,        9, 4, 0 },
->>>> +    [0xe5] = { 4,        8,        9, 4, 0 },
->>>> +    [0xd6] = { 8,        8,        9, 4, 0 },
->>>> +    [0xe6] = { 8,        8,        9, 4, 0 },
->>>>       [0x33] = { 16,    8,    9, 5, 0 },
->>>>       [0x73] = { 16,    8,    9, 5, 0 },
->>>>
->>>
->>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
 > 
 
 Applied to my trivial-patches branch.
