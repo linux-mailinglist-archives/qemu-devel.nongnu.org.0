@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7820D2D8E82
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 17:08:42 +0100 (CET)
-Received: from localhost ([::1]:48222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 111B12D8EC0
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 17:32:32 +0100 (CET)
+Received: from localhost ([::1]:34192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koTvN-0006fG-ID
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 11:08:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42842)
+	id 1koUIQ-0005zO-My
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 11:32:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koTuS-00069O-Ls; Sun, 13 Dec 2020 11:07:44 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:48055)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koTuQ-0001dv-P7; Sun, 13 Dec 2020 11:07:44 -0500
-Received: from [192.168.100.1] ([82.252.152.214]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M5fdC-1klhxL434s-007GMr; Sun, 13 Dec 2020 17:07:38 +0100
-Subject: Re: [PATCH] hw/pci-host/pam: Replace magic number by
- PAM_REGIONS_COUNT definition
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201202132038.1276404-1-philmd@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <3cd6cc12-a8f4-6e95-5b51-2ae903ec3084@vivier.eu>
-Date: Sun, 13 Dec 2020 17:07:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1koUGm-00054q-09
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 11:30:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1koUGj-0002Rm-J6
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 11:30:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1koUGh-0005YT-L1
+ for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 16:30:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 750C82E8143
+ for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 16:30:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201202132038.1276404-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6b6Xe5xqFDcF7UrLFRVaiFRWNTUMKGt/1JsH2kxu+MUsbYXNMcg
- TbmHh5gtCV36OcTixFmtnM0ETYGoV83hQHknutW1NtH2f5oGC5qKohb3B+X4M6mFmQoA63T
- W+UmVShT3IqRbLjZ1EAIDx5bKuxt4FyYpaQ6dNcisiT0hCDDtEvnG0u6SrS6NN6/5X6ONU9
- YO9LDCpwqMU2FBKhacWdQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rOgZZJDrzD4=:uB1GqEU/FN10DNtcaxqNhD
- 1CP41juZtJL3/Kbc2KmQJbD/onS4zSsBJEKx4/qSXAhqHUahYrH3Husn++Zc2EOOgkqg2qBU4
- hrAVioDRp12+4lyWp+1Fx66sRKbYG5B/7mu7//0agqaB8SPmcNgYSpeBjD6lPQSr3fTJ0Zevd
- KFCCD4FJ8twShPQJ2gX0q06ZKk5SMfLY5ojHWcn1YHpERkXTJNRmYCzBRcY7JSL42aCzP2EKf
- hXpOqKj8D6FkZ3hpCNALHCFZvpdwh60qiXElHGl4Vx4CRQPwIwoiFCB9bO/UEn2kfG3Ax7KDQ
- xqae8Hf4XZM0DwFru5x62ciX7bkf+BSIjOmNE4kHW5v1UB2Shx9byfsfETiQQaUozVlcOR5SW
- FbNr4/ANGmO7lWmoVCSyAwvusHBzg5FO6pNQ4Ufj8KzV96xS7a4G4WHdMP3Q8m26QkIe7isG1
- dP9m8FwxfA==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 13 Dec 2020 16:23:09 -0000
+From: The Lemon Man <1907969@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lemonboy
+X-Launchpad-Bug-Reporter: The Lemon Man (lemonboy)
+X-Launchpad-Bug-Modifier: The Lemon Man (lemonboy)
+Message-Id: <160787658999.4842.1029995879259485885.malonedeb@gac.canonical.com>
+Subject: [Bug 1907969] [NEW] linux-user/i386: Segfault when mixing threads and
+ signals
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: 060eeafffb81a3c1035f754125224f14e4a67f6b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,96 +69,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1907969 <1907969@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/12/2020 à 14:20, Philippe Mathieu-Daudé a écrit :
-> While this change helps triskaidekaphobic developers, it
-> is a good practice to avoid magic values and using constant
-> definitions instead.
-> 
-> Introduce the PAM_REGIONS_COUNT and use it. No logical change.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  include/hw/pci-host/i440fx.h | 2 +-
->  include/hw/pci-host/pam.h    | 2 ++
->  include/hw/pci-host/q35.h    | 2 +-
->  hw/pci-host/pam.c            | 2 +-
->  hw/pci-host/q35.c            | 2 +-
->  5 files changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
-> index 6c16eaf876d..24fd53942ca 100644
-> --- a/include/hw/pci-host/i440fx.h
-> +++ b/include/hw/pci-host/i440fx.h
-> @@ -29,7 +29,7 @@ struct PCII440FXState {
->      MemoryRegion *system_memory;
->      MemoryRegion *pci_address_space;
->      MemoryRegion *ram_memory;
-> -    PAMMemoryRegion pam_regions[13];
-> +    PAMMemoryRegion pam_regions[PAM_REGIONS_COUNT];
->      MemoryRegion smram_region;
->      MemoryRegion smram, low_smram;
->  };
-> diff --git a/include/hw/pci-host/pam.h b/include/hw/pci-host/pam.h
-> index fec5cd35d60..c1fd06ba2ae 100644
-> --- a/include/hw/pci-host/pam.h
-> +++ b/include/hw/pci-host/pam.h
-> @@ -80,6 +80,8 @@
->  #define SMRAM_C_BASE_SEG_MASK  ((uint8_t)0x7)
->  #define SMRAM_C_BASE_SEG       ((uint8_t)0x2)  /* hardwired to b010 */
->  
-> +#define PAM_REGIONS_COUNT       13
-> +
->  typedef struct PAMMemoryRegion {
->      MemoryRegion alias[4];  /* index = PAM value */
->      unsigned current;
-> diff --git a/include/hw/pci-host/q35.h b/include/hw/pci-host/q35.h
-> index bbb95817656..ab989698ef8 100644
-> --- a/include/hw/pci-host/q35.h
-> +++ b/include/hw/pci-host/q35.h
-> @@ -44,7 +44,7 @@ struct MCHPCIState {
->      MemoryRegion *pci_address_space;
->      MemoryRegion *system_memory;
->      MemoryRegion *address_space_io;
-> -    PAMMemoryRegion pam_regions[13];
-> +    PAMMemoryRegion pam_regions[PAM_REGIONS_COUNT];
->      MemoryRegion smram_region, open_high_smram;
->      MemoryRegion smram, low_smram, high_smram;
->      MemoryRegion tseg_blackhole, tseg_window;
-> diff --git a/hw/pci-host/pam.c b/hw/pci-host/pam.c
-> index a4962057833..454dd120db9 100644
-> --- a/hw/pci-host/pam.c
-> +++ b/hw/pci-host/pam.c
-> @@ -62,7 +62,7 @@ void init_pam(DeviceState *dev, MemoryRegion *ram_memory,
->  
->  void pam_update(PAMMemoryRegion *pam, int idx, uint8_t val)
->  {
-> -    assert(0 <= idx && idx <= 12);
-> +    assert(0 <= idx && idx < PAM_REGIONS_COUNT);
->  
->      memory_region_set_enabled(&pam->alias[pam->current], false);
->      pam->current = (val >> ((!(idx & 1)) * 4)) & PAM_ATTR_MASK;
-> diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-> index b67cb9c29f8..2eb729dff58 100644
-> --- a/hw/pci-host/q35.c
-> +++ b/hw/pci-host/q35.c
-> @@ -641,7 +641,7 @@ static void mch_realize(PCIDevice *d, Error **errp)
->      init_pam(DEVICE(mch), mch->ram_memory, mch->system_memory,
->               mch->pci_address_space, &mch->pam_regions[0],
->               PAM_BIOS_BASE, PAM_BIOS_SIZE);
-> -    for (i = 0; i < 12; ++i) {
-> +    for (i = 0; i < ARRAY_SIZE(mch->pam_regions) - 1; ++i) {
->          init_pam(DEVICE(mch), mch->ram_memory, mch->system_memory,
->                   mch->pci_address_space, &mch->pam_regions[i+1],
->                   PAM_EXPAN_BASE + i * PAM_EXPAN_SIZE, PAM_EXPAN_SIZE);
-> 
+Public bug reported:
 
-Applied to my trivial-patches branch.
+Given the following C program, qemu-i386 will surely and certainly segfault=
+ when executing it.
+The problem is only noticeable if the program is statically linked to musl'=
+s libc and, as written
+in the title, it only manifests when targeting i386.
 
-Thanks,
-Laurent
+Removing the pthread calls or the second raise() makes it not segfault.
 
+The crash is in some part of the TCG-generated code, right when it tries to=
+ perform a
+%gs-relative access.
+
+If you want a quick way of cross-compiling this binary:
+
+* Download a copy of the Zig compiler from https://ziglang.org/download/
+* Compile it with
+  `zig cc -target i386-linux-musl <C-FILE> -o <OUT>`
+
+```
+#include <pthread.h>
+#include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <asm/prctl.h>
+#include <sys/syscall.h>
+
+void sig_func(int sig)
+{
+    write(1, "hi!\n", strlen("hi!\n"));
+}
+
+void func(void *p) { }
+
+typedef void *(*F)(void *);
+
+int main()
+{
+    pthread_t tid;
+
+    struct sigaction action;
+    action.sa_flags =3D 0;
+    action.sa_handler =3D sig_func;
+
+    if (sigaction(SIGUSR1, &action, NULL) =3D=3D -1) {
+        return 1;
+    }
+
+    // This works.
+    raise(SIGUSR1);
+
+    pthread_create(&tid, NULL, (F)func, NULL);
+    pthread_join(tid, NULL);
+
+    // This makes qemu segfault.
+    raise(SIGUSR1);
+}
+```
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "Compiled static binary"
+   https://bugs.launchpad.net/bugs/1907969/+attachment/5443145/+files/muslt
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1907969
+
+Title:
+  linux-user/i386: Segfault when mixing threads and signals
+
+Status in QEMU:
+  New
+
+Bug description:
+  Given the following C program, qemu-i386 will surely and certainly segfau=
+lt when executing it.
+  The problem is only noticeable if the program is statically linked to mus=
+l's libc and, as written
+  in the title, it only manifests when targeting i386.
+
+  Removing the pthread calls or the second raise() makes it not
+  segfault.
+
+  The crash is in some part of the TCG-generated code, right when it tries =
+to perform a
+  %gs-relative access.
+
+  If you want a quick way of cross-compiling this binary:
+
+  * Download a copy of the Zig compiler from https://ziglang.org/download/
+  * Compile it with
+    `zig cc -target i386-linux-musl <C-FILE> -o <OUT>`
+
+  ```
+  #include <pthread.h>
+  #include <signal.h>
+  #include <stdio.h>
+  #include <string.h>
+  #include <sys/types.h>
+  #include <unistd.h>
+  #include <asm/prctl.h>
+  #include <sys/syscall.h>
+
+  void sig_func(int sig)
+  {
+      write(1, "hi!\n", strlen("hi!\n"));
+  }
+
+  void func(void *p) { }
+
+  typedef void *(*F)(void *);
+
+  int main()
+  {
+      pthread_t tid;
+
+      struct sigaction action;
+      action.sa_flags =3D 0;
+      action.sa_handler =3D sig_func;
+
+      if (sigaction(SIGUSR1, &action, NULL) =3D=3D -1) {
+          return 1;
+      }
+
+      // This works.
+      raise(SIGUSR1);
+
+      pthread_create(&tid, NULL, (F)func, NULL);
+      pthread_join(tid, NULL);
+
+      // This makes qemu segfault.
+      raise(SIGUSR1);
+  }
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1907969/+subscriptions
 
