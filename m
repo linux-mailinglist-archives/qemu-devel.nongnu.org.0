@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33C12D8E46
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 16:29:38 +0100 (CET)
-Received: from localhost ([::1]:36394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 776FF2D8E73
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 16:57:48 +0100 (CET)
+Received: from localhost ([::1]:55692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koTJZ-0003bu-M3
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 10:29:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36466)
+	id 1koTko-0005Fc-Vv
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 10:57:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koTHx-0002fo-5f; Sun, 13 Dec 2020 10:27:58 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:40541)
+ id 1koThw-0003DM-RG; Sun, 13 Dec 2020 10:54:48 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:44421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koTHv-0004DF-8r; Sun, 13 Dec 2020 10:27:56 -0500
+ id 1koThu-0004i9-Kd; Sun, 13 Dec 2020 10:54:48 -0500
 Received: from [192.168.100.1] ([82.252.152.214]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mdf3x-1kFgdA2hrF-00ZcdW; Sun, 13 Dec 2020 16:27:41 +0100
-Subject: Re: [PATCH] target/i386: tracing: format length values as hex
-To: Dov Murik <dovmurik@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <20201103100745.160409-1-dovmurik@linux.vnet.ibm.com>
- <15956748-ce3b-1ff8-ba68-66d441b7b981@linux.vnet.ibm.com>
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MQvH5-1kRA4D2ZFv-00Nyjm; Sun, 13 Dec 2020 16:54:42 +0100
+Subject: Re: [PATCH] qemu-options.hx: Fix minor issues in icount documentation
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <20201121213506.15599-1-peter.maydell@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <db4631ee-8748-e7fd-8c19-7d2654fe00e3@vivier.eu>
-Date: Sun, 13 Dec 2020 16:27:39 +0100
+Message-ID: <3e67df2b-6abc-1289-f8f1-704361c9e294@vivier.eu>
+Date: Sun, 13 Dec 2020 16:54:41 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <15956748-ce3b-1ff8-ba68-66d441b7b981@linux.vnet.ibm.com>
+In-Reply-To: <20201121213506.15599-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6JWgvJjOKHJWCD1+T+ew4t9mVk1uFYcyTrOxJPL5DJpuXT3SF1X
- R6TPFb5UomcsxdceG3W8MB3FVHNl9tcvEEmbfvjdxT/ZxPwo7gUNPc7SRBCSbJZ2Ia9iAkU
- CNtkMzyGBO8PJFrKdwJoN+DZkNouy0jETrY0WngsUBJwwBPE2SiWK69r+UZEoC8e69qYeXT
- przP1vEGA74uyu06uwm6g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:TqnMl3ORGsU=:tClY+4SkoKTRT9jBSpGtsj
- P2eNyCmw4sddKXcuSbmmYWfaZhkaZ2mFo91+8dL/G/zGic3KVNA/tkS0nqpbZBH/C0Ht7T+v3
- DFhMfuupd2cpdReBedBtlOO5v8rXlXxN1FStDyYtGKSNhs9HASqJNve5FU3aK4m7SNbEoghkS
- 2t+fRved10VH+Uz4wFbfsEr+LAL2eqoD4Le4QdA/FuOyjFY+r4+CYPUzQPOwfbxPvocX/NPvX
- Osunv1SFW/RZeH+LSGngvsXpoCNYgCxy859EPrkDkGYCWrQ55c/OQbEWGeeeui/3CVBympNuA
- RPXsSjqQNlPjWNT7mP8NM2ac6iIKMy0RdoljwQiGzLlm1flcIszWa7TKtc+fweMFuj/t5R36c
- mRF/6dekWLZlRe2qdpwdMLXF88qTlNdunePxLmGICncwx+ig/Ve4+wjF3hM5JXT/ToGeEmlb0
- QNj2cJ/pGQ==
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:MQsogxncCEf1QN7WMIwgHhqZujG3zDC5ZvQV/JDNtsl/SdLRRk7
+ VDRKHxV1SwyohEMykDba5j5L5YK59D5dfzyaZ1xyF+h4gITC9dwW7OFFxvKVLIoP+vaP44h
+ owU18SXN+vZSbKyumygZDYo4NN2AhljI6LX88VAH/BrArJ2Vt8oNpBmHapx80w0qKUueXWQ
+ 6/8Kd87oSpOymYmQbvWsA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:W6W0bRHNXqU=:gA8OqVqF/tifEpRUW+Y+IL
+ winBi5aWoSmSGhydMYh7Ea115qmUr53YApU5Da8UKpq4cahnv1VmHiDJ4E4MoMi4YR1ciVuMz
+ c4CjOHCKVMK8Q1HF47RRLHkaQrStDPruwKjHifGWDVq88Me02r+XnCmZUcS94tv0PgUQHjbKu
+ 8JXUS36/gkvZng8LQvcWWS2EG186zCMx9bnboCRucFp890Rja14eiqQ6cjgN0jEIWcGw9ikB5
+ QdiaLz4tXKDElVkqliLTRnUmjS/K9Q0ISjEjbOZqRkRXhMfVzYmdFXN5TsCZ72ZgXYylNjaYA
+ REMWhzPF2W/nEShUKVai/eU4oNOasmBBEHbu88JaOXdqvC7c7bdXNOYRVV7NXJWG9shHco0Yp
+ cubm9R6mkVmztgpWGZXWrid7MLARF5eZZmWS9uUhPUWyhxoIbQsvmo0+5Um1C18szXkywZrWm
+ zcf+NJ3X+w==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,52 +66,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/12/2020 à 18:58, Dov Murik a écrit :
-> ping
+Le 21/11/2020 à 22:35, Peter Maydell a écrit :
+> The documentation for the icount documentation has some minor issues:
+>  * in a couple of places it says "sleep=on|off" when in the context of the
+>    sentence it means specifically "sleep=on"
+>  * the synopsis line for the documentation has drifted out of sync
+>    with the synopsis line in the DEF() macro (used for "-help" output)
+>  * the synopsis line in the DEF() macro is missing a "][" between
+>    the sleep= part and the rr= part
+>  * the synopsis line doesn't indicate that rrsnapshot is an optional
+>    part of the rr=mode,rrfile=filename subgrouping
+>  * we don't document that sleep=on can't be used with shift=auto
+>    or align=on
+>  * the rr option description had some minor grammar and formatting
+>    errors and was a bit terse
+>  * in commit f1f4b57e88ff in 2015 the documentation of the sleep=
+>    suboption got added between the two paragraphs defining general
+>    behaviour of the icount option. This meant that the second
+>    paragraph talking about the behaviour of "this option" reads as
+>    if it's talking about sleep=on, when it's really describing -icount
+>    as a whole. The paragraph is better moved back up to above the
+>    sleep= section.
+>  * the summary text displayed in "-help" output didn't mention
+>    the record-and-replay part
 > 
-> Adding CC qemu-trivial.
+> Fix these errors.
 > 
-> This already got one R-b:
-> https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg00525.html
+> Fixes: https://bugs.launchpad.net/qemu/+bug/1774412
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  qemu-options.hx | 42 ++++++++++++++++++++++++------------------
+>  1 file changed, 24 insertions(+), 18 deletions(-)
 > 
-> -Dov
-> 
-> 
-> On 03/11/2020 12:07, Dov Murik wrote:
->> Three trace events had a literal "0x" prefix but the 'len' values were
->> formatted in decimal base.  Keep the prefix and format the numbers as
->> hex, as is usually the case for length of memory regions.
->>
->> Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
->> ---
->>   target/i386/trace-events | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/target/i386/trace-events b/target/i386/trace-events
->> index 789c700d4a..65c9b0fdda 100644
->> --- a/target/i386/trace-events
->> +++ b/target/i386/trace-events
->> @@ -8,10 +8,10 @@ kvm_x86_update_msi_routes(int num) "Updated %d MSI routes"
->>
->>   # sev.c
->>   kvm_sev_init(void) ""
->> -kvm_memcrypt_register_region(void *addr, size_t len) "addr %p len 0x%zu"
->> -kvm_memcrypt_unregister_region(void *addr, size_t len) "addr %p len 0x%zu"
->> +kvm_memcrypt_register_region(void *addr, size_t len) "addr %p len 0x%zx"
->> +kvm_memcrypt_unregister_region(void *addr, size_t len) "addr %p len 0x%zx"
->>   kvm_sev_change_state(const char *old, const char *new) "%s -> %s"
->>   kvm_sev_launch_start(int policy, void *session, void *pdh) "policy 0x%x session %p pdh %p"
->> -kvm_sev_launch_update_data(void *addr, uint64_t len) "addr %p len 0x%" PRIu64
->> +kvm_sev_launch_update_data(void *addr, uint64_t len) "addr %p len 0x%" PRIx64
->>   kvm_sev_launch_measurement(const char *value) "data %s"
->>   kvm_sev_launch_finish(void) ""
->>
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 2c83390504d..41cb42e7a5d 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -3956,30 +3956,34 @@ SRST
+>  ERST
+>  
+>  DEF("icount", HAS_ARG, QEMU_OPTION_icount, \
+> -    "-icount [shift=N|auto][,align=on|off][,sleep=on|off,rr=record|replay,rrfile=<filename>,rrsnapshot=<snapshot>]\n" \
+> +    "-icount [shift=N|auto][,align=on|off][,sleep=on|off][,rr=record|replay,rrfile=<filename>[,rrsnapshot=<snapshot>]]\n" \
+>      "                enable virtual instruction counter with 2^N clock ticks per\n" \
+>      "                instruction, enable aligning the host and virtual clocks\n" \
+> -    "                or disable real time cpu sleeping\n", QEMU_ARCH_ALL)
+> +    "                or disable real time cpu sleeping, and optionally enable\n" \
+> +    "                record-and-replay mode\n", QEMU_ARCH_ALL)
+>  SRST
+> -``-icount [shift=N|auto][,rr=record|replay,rrfile=filename,rrsnapshot=snapshot]``
+> +``-icount [shift=N|auto][,align=on|off][,sleep=on|off][,rr=record|replay,rrfile=filename[,rrsnapshot=snapshot]]``
+>      Enable virtual instruction counter. The virtual cpu will execute one
+>      instruction every 2^N ns of virtual time. If ``auto`` is specified
+>      then the virtual cpu speed will be automatically adjusted to keep
+>      virtual time within a few seconds of real time.
+>  
+> -    When the virtual cpu is sleeping, the virtual time will advance at
+> -    default speed unless ``sleep=on|off`` is specified. With
+> -    ``sleep=on|off``, the virtual time will jump to the next timer
+> -    deadline instantly whenever the virtual cpu goes to sleep mode and
+> -    will not advance if no timer is enabled. This behavior give
+> -    deterministic execution times from the guest point of view.
+> -
+>      Note that while this option can give deterministic behavior, it does
+>      not provide cycle accurate emulation. Modern CPUs contain
+>      superscalar out of order cores with complex cache hierarchies. The
+>      number of instructions executed often has little or no correlation
+>      with actual performance.
+>  
+> +    When the virtual cpu is sleeping, the virtual time will advance at
+> +    default speed unless ``sleep=on`` is specified. With
+> +    ``sleep=on``, the virtual time will jump to the next timer
+> +    deadline instantly whenever the virtual cpu goes to sleep mode and
+> +    will not advance if no timer is enabled. This behavior gives
+> +    deterministic execution times from the guest point of view.
+> +    The default if icount is enabled is ``sleep=off``.
+> +    ``sleep=on`` cannot be used together with either ``shift=auto``
+> +    or ``align=on``.
+> +
+>      ``align=on`` will activate the delay algorithm which will try to
+>      synchronise the host clock and the virtual clock. The goal is to
+>      have a guest running at the real frequency imposed by the shift
+> @@ -3989,15 +3993,17 @@ SRST
+>      ``shift`` is ``auto``. Note: The sync algorithm will work for those
+>      shift values for which the guest clock runs ahead of the host clock.
+>      Typically this happens when the shift value is high (how high
+> -    depends on the host machine).
+> +    depends on the host machine). The default if icount is enabled
+> +    is ``align=off``.
+>  
+> -    When ``rr`` option is specified deterministic record/replay is
+> -    enabled. Replay log is written into filename file in record mode and
+> -    read from this file in replay mode.
+> -
+> -    Option rrsnapshot is used to create new vm snapshot named snapshot
+> -    at the start of execution recording. In replay mode this option is
+> -    used to load the initial VM state.
+> +    When the ``rr`` option is specified deterministic record/replay is
+> +    enabled. The ``rrfile=`` option must also be provided to
+> +    specify the path to the replay log. In record mode data is written
+> +    to this file, and in replay mode it is read back.
+> +    If the ``rrsnapshot`` option is given then it specifies a VM snapshot
+> +    name. In record mode, a new VM snapshot with the given name is created
+> +    at the start of execution recording. In replay mode this option
+> +    specifies the snapshot name used to load the initial VM state.
+>  ERST
+>  
+>  DEF("watchdog", HAS_ARG, QEMU_OPTION_watchdog, \
 > 
 
 Applied to my linux-user-for-6.0 branch.
