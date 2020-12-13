@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F4B2D8D29
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 14:08:37 +0100 (CET)
-Received: from localhost ([::1]:52224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C692D8D2C
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 14:12:06 +0100 (CET)
+Received: from localhost ([::1]:56420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koR76-0007fl-Ew
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 08:08:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42700)
+	id 1koRAT-0001BL-A6
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 08:12:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1koR4J-0006bq-7g
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 08:05:43 -0500
-Received: from mailout02.t-online.de ([194.25.134.17]:60556)
+ id 1koR4K-0006ct-6W
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 08:05:44 -0500
+Received: from mailout11.t-online.de ([194.25.134.85]:58914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1koR4E-0000jw-SG
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 08:05:42 -0500
-Received: from fwd00.aul.t-online.de (fwd00.aul.t-online.de [172.20.26.147])
- by mailout02.t-online.de (Postfix) with SMTP id 3E17B41ACBBC;
+ id 1koR4F-0000jx-5P
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 08:05:43 -0500
+Received: from fwd23.aul.t-online.de (fwd23.aul.t-online.de [172.20.26.128])
+ by mailout11.t-online.de (Postfix) with SMTP id 76EAA42229D8;
  Sun, 13 Dec 2020 14:05:37 +0100 (CET)
 Received: from linpower.localnet
- (EqMuuyZfghrtOWu3ZDfGA0-nDjpg+7knaACgtqJ7Zl387cYtbBuX-t2TUo4OXxTQuS@[79.208.17.59])
- by fwd00.t-online.de
+ (XKnOyeZSYh+WU4gWoIYlY58ntX8OdE8NCAiTLe0-uKiSxJNvrtxFAGJh+MdYWDlgkS@[79.208.17.59])
+ by fwd23.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1koR49-0tR0IC0; Sun, 13 Dec 2020 14:05:33 +0100
+ esmtp id 1koR4C-0NfIy80; Sun, 13 Dec 2020 14:05:36 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 1FFCD200621; Sun, 13 Dec 2020 14:05:28 +0100 (CET)
+ id 2253E200625; Sun, 13 Dec 2020 14:05:28 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 3/4] coreaudio: always stop audio playback on shut down
-Date: Sun, 13 Dec 2020 14:05:27 +0100
-Message-Id: <20201213130528.5863-3-vr_qemu@t-online.de>
+Subject: [PATCH 4/4] audio: remove unused function audio_is_cleaning_up()
+Date: Sun, 13 Dec 2020 14:05:28 +0100
+Message-Id: <20201213130528.5863-4-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <1a970310-4cff-f2f7-985e-05b2f4cd446b@t-online.de>
 References: <1a970310-4cff-f2f7-985e-05b2f4cd446b@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: EqMuuyZfghrtOWu3ZDfGA0-nDjpg+7knaACgtqJ7Zl387cYtbBuX-t2TUo4OXxTQuS
-X-TOI-EXPURGATEID: 150726::1607864733-00010A86-B33264B6/0/0 CLEAN NORMAL
-X-TOI-MSGID: d9ecac1a-d898-4006-bc84-a637a36737aa
-Received-SPF: none client-ip=194.25.134.17;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout02.t-online.de
+X-ID: XKnOyeZSYh+WU4gWoIYlY58ntX8OdE8NCAiTLe0-uKiSxJNvrtxFAGJh+MdYWDlgkS
+X-TOI-EXPURGATEID: 150726::1607864736-00017F06-4C10CF18/0/0 CLEAN NORMAL
+X-TOI-MSGID: 5afa17a4-9fc0-4b39-bad4-2b54fee62e50
+Received-SPF: none client-ip=194.25.134.85;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout11.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,87 +67,54 @@ Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Always stop audio playback and remove the playback callback when
-QEMU exits.
-
-On shut down the function coreaudio_fini_out() destroys the
-coreaudio mutex but fails to stop audio playback and to remove the
-audio playback callback, because function audio_is_cleaning_up()
-always returns true when called from coreaudio_fini_out(). Now
-there is a time window from pthread_mutex_destroy() to program
-exit where Core Audio may call the audio playback callback which
-tries to lock the destroyed coreaudio mutex. This leads to the
-following error.
-
-coreaudio: Could not lock voice for audioDeviceIOProc
-Reason: Invalid argument
-
-This bug was reported on the qemu-discuss mailing list.
-https://lists.nongnu.org/archive/html/qemu-discuss/2020-10/msg00018.html
+The previous commit removed the last call site of
+audio_is_cleaning_up(). Remove the now unused function.
 
 Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/coreaudio.c | 36 ++++++++++++++++--------------------
- 1 file changed, 16 insertions(+), 20 deletions(-)
+ audio/audio.c | 8 --------
+ audio/audio.h | 1 -
+ 2 files changed, 9 deletions(-)
 
-diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-index a5df950514..79a9d40bf8 100644
---- a/audio/coreaudio.c
-+++ b/audio/coreaudio.c
-@@ -593,22 +593,20 @@ static void coreaudio_fini_out (HWVoiceOut *hw)
-     int err;
-     coreaudioVoiceOut *core = (coreaudioVoiceOut *) hw;
+diff --git a/audio/audio.c b/audio/audio.c
+index 46578e4a58..a213409270 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1588,13 +1588,6 @@ static void audio_vm_change_state_handler (void *opaque, int running,
+     audio_reset_timer (s);
+ }
  
--    if (!audio_is_cleaning_up()) {
--        /* stop playback */
--        if (isPlaying(core->outputDeviceID)) {
--            status = AudioDeviceStop(core->outputDeviceID, core->ioprocid);
--            if (status != kAudioHardwareNoError) {
--                coreaudio_logerr (status, "Could not stop playback\n");
--            }
--        }
+-static bool is_cleaning_up;
 -
--        /* remove callback */
--        status = AudioDeviceDestroyIOProcID(core->outputDeviceID,
--                                            core->ioprocid);
-+    /* stop playback */
-+    if (isPlaying(core->outputDeviceID)) {
-+        status = AudioDeviceStop(core->outputDeviceID, core->ioprocid);
-         if (status != kAudioHardwareNoError) {
--            coreaudio_logerr (status, "Could not remove IOProc\n");
-+            coreaudio_logerr(status, "Could not stop playback\n");
-         }
-     }
-+
-+    /* remove callback */
-+    status = AudioDeviceDestroyIOProcID(core->outputDeviceID,
-+                                        core->ioprocid);
-+    if (status != kAudioHardwareNoError) {
-+        coreaudio_logerr(status, "Could not remove IOProc\n");
-+    }
-     core->outputDeviceID = kAudioDeviceUnknown;
+-bool audio_is_cleaning_up(void)
+-{
+-    return is_cleaning_up;
+-}
+-
+ static void free_audio_state(AudioState *s)
+ {
+     HWVoiceOut *hwo, *hwon;
+@@ -1647,7 +1640,6 @@ static void free_audio_state(AudioState *s)
  
-     /* destroy mutex */
-@@ -633,13 +631,11 @@ static void coreaudio_enable_out(HWVoiceOut *hw, bool enable)
-         }
-     } else {
-         /* stop playback */
--        if (!audio_is_cleaning_up()) {
--            if (isPlaying(core->outputDeviceID)) {
--                status = AudioDeviceStop(core->outputDeviceID,
--                                         core->ioprocid);
--                if (status != kAudioHardwareNoError) {
--                    coreaudio_logerr (status, "Could not pause playback\n");
--                }
-+        if (isPlaying(core->outputDeviceID)) {
-+            status = AudioDeviceStop(core->outputDeviceID,
-+                                     core->ioprocid);
-+            if (status != kAudioHardwareNoError) {
-+                coreaudio_logerr(status, "Could not pause playback\n");
-             }
-         }
-     }
+ void audio_cleanup(void)
+ {
+-    is_cleaning_up = true;
+     while (!QTAILQ_EMPTY(&audio_states)) {
+         AudioState *s = QTAILQ_FIRST(&audio_states);
+         QTAILQ_REMOVE(&audio_states, s, list);
+diff --git a/audio/audio.h b/audio/audio.h
+index b883ebfb1f..41b3ef04ea 100644
+--- a/audio/audio.h
++++ b/audio/audio.h
+@@ -160,7 +160,6 @@ static inline void *advance (void *p, int incr)
+ int wav_start_capture(AudioState *state, CaptureState *s, const char *path,
+                       int freq, int bits, int nchannels);
+ 
+-bool audio_is_cleaning_up(void);
+ void audio_cleanup(void);
+ 
+ void audio_sample_to_uint64(const void *samples, int pos,
 -- 
 2.26.2
 
