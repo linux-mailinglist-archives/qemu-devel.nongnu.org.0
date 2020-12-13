@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636982D908D
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 21:32:41 +0100 (CET)
-Received: from localhost ([::1]:32946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 860C92D909A
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 21:36:27 +0100 (CET)
+Received: from localhost ([::1]:47828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koY2q-0003az-Eh
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 15:32:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
+	id 1koY6U-0001PH-Kw
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 15:36:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1koXsS-0003i9-K4
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 15:21:56 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54121)
+ id 1koXsT-0003j3-0h
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 15:21:57 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1koXsP-0005jw-9L
+ id 1koXsR-0005kq-7r
  for qemu-devel@nongnu.org; Sun, 13 Dec 2020 15:21:56 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id k10so11958239wmi.3
- for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 12:21:49 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id 91so14379133wrj.7
+ for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 12:21:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LJkeleUBcGHGZISXoGddym+wEofBms0JlYm/28m4/UY=;
- b=reyXPlTsnGycXX/TRzVcaYnbIZrraBL/+1KXKqsJN518qKtofjV3OtHNLtKCd+Wqo2
- Hy6a4QWpLfWJpOdeaPucv4VDG+ZmA50p+k1bIYMXwunOMS5ZFWEMNjjQJo2hBDPNmJQn
- qBSUzBgNtwDk8Y3LilDtvW4faxdvEb+ePpYpJNlxO+HqPNAXcCPTvWJ9yuV8NCEjpvzj
- Yny9byxkkJcZMhMxoHX2lWxrHq0veg6FzSj+5XFNqN1g/xsiVUt2OD9tx+agwiNVqwfs
- qJ6Fxu0vDt+IHbYZkniWL2ODYcrE9P/QLEnKosFIHTbMnA7esKmJeKQHVLNUNKfuY8w5
- w08g==
+ bh=ZtIz6icb9vG8sSEUm2p8Ck/LCv5K/GRxl6Ah3VWmmJs=;
+ b=tzFWhUoChRKrYS25J+TqKbNe96+AgWzdYxtHl5ARz/GIED5fF95WrWR9oNZhmgVepK
+ 69DEKpPLqkWHrighpo5wbEDimB9+v3nKviX1rCmjqEW0WZJ4Hk5RUyRZPD4ZAdHTSGRE
+ OJnyXS1H6XTL4vTgEn4BfWmGu9xNdhNDecJNAzG5JMR69rByBZVswORo+IBLq1RyYyNG
+ 4+zxsR0TUROEobAq8LyhvUlmk+mMgZDJzo5Mcsaiem95XfijzBr9ww4RJglPnJbyjIwU
+ GgjEjQ7dazfh9Bjb2LJ3T8+HvJCeqEMWw+C8t5arZ0uVQMFkWgtd+NTFwP+Rq51cp8Rq
+ JN1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LJkeleUBcGHGZISXoGddym+wEofBms0JlYm/28m4/UY=;
- b=TOgSkN1aV1cuniv4ORsQy029CjxfMex/aiN0vbWWOnA+eovCjMkfiHpRDPn8BUEuT9
- rXiPEVAGWUlY4e8KNuwoTM8T22jr1L5HiHx94qizC3a9n6rp2Xzt6Jlvb3dTCbrYMppr
- w1GnmvaYy+RIlaokjUpLW0ZB7wPQ2BSVvdtkb74KD3j3fyXg8iiR514XxZRUzLcAlfy9
- dfnnl5sTxCbj26+UgsERjN62EkwdHqEbXn33h290L5O2kkOTrN4Lk1i0buWaU8QCfwLS
- SrIkeBCOBgYVW8MVElqCaYHDkTldGpx6bpfwkz1Y9Fv6ZGbACWVmi3puQlMS9DFXlOag
- 3Gxw==
-X-Gm-Message-State: AOAM530BeBfGBxIZjV6Ec42hKQA21D9mGiR7HUlWW5wUKN+qY++EYyWR
- jnPBxSjJoYNXwNLo1uNSCYkHOIPQaLs=
-X-Google-Smtp-Source: ABdhPJzMp3L7Q56kV+1c+M42iFI4YcY1kR8SEFv4g7CMPo7HH5NN8auAyFYmAwgHAOZbOuQSJxuF6w==
-X-Received: by 2002:a1c:4d05:: with SMTP id o5mr25058616wmh.85.1607890908729; 
- Sun, 13 Dec 2020 12:21:48 -0800 (PST)
+ bh=ZtIz6icb9vG8sSEUm2p8Ck/LCv5K/GRxl6Ah3VWmmJs=;
+ b=Eyrm+aJKwOMwkV9eQ2XZTLmWkjsjA6mawYkXCul6CNlGv3QQ+KwjgiHzEcBQxprjMe
+ 1GKqofEnKetr5Cktpf8i4O6j4ajFsQuMv/Z0U1bgsND1SAuBlJINrv84POa49sqJu3Lr
+ zZfT9fC4c4+RcNdd1WenYr66Cr83G93vEZMrACuhRXNe3LiNUxquVXt7ERNwiUbSx4kW
+ Z+MfHSGpRDXJ+lx0Xkzmyrzf/5Ag+8lSyf7ymCUztLgcvT/1N1gYS4Ls/t5rEyfjsr0j
+ Z3h7ZL5YpxkuCOTYmCN6IlURS2eR1aUDsZgZQ3OIP5UgUbzD9iegEa2ikzrY8S29hVVf
+ wY1A==
+X-Gm-Message-State: AOAM532Ub+FnAJZeAaV9HioKaLIr03UGCZ8xJLda0qJFXLhWS4plcZCN
+ lEv66wUkBkACs6BReOaKs0Os0lZRGMo=
+X-Google-Smtp-Source: ABdhPJyDTHKNg3NgFUG7Kyp5sodkdQheiE4rdVXY7dx+4Y/b1e5AQbj1cd4FxUJbKXqxtuEHuH+OHA==
+X-Received: by 2002:a5d:6503:: with SMTP id x3mr25221744wru.151.1607890913580; 
+ Sun, 13 Dec 2020 12:21:53 -0800 (PST)
 Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id e16sm31304940wra.94.2020.12.13.12.21.47
+ by smtp.gmail.com with ESMTPSA id a14sm19603645wrn.3.2020.12.13.12.21.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Dec 2020 12:21:48 -0800 (PST)
+ Sun, 13 Dec 2020 12:21:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/26] target/mips: Inline cpu_mips_realize_env() in
- mips_cpu_realizefn()
-Date: Sun, 13 Dec 2020 21:19:44 +0100
-Message-Id: <20201213201946.236123-25-f4bug@amsat.org>
+Subject: [PULL 25/26] target/mips: Remove unused headers from fpu_helper.c
+Date: Sun, 13 Dec 2020 21:19:45 +0100
+Message-Id: <20201213201946.236123-26-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201213201946.236123-1-f4bug@amsat.org>
 References: <20201213201946.236123-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,56 +97,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201206233949.3783184-17-f4bug@amsat.org>
+Message-Id: <20201206233949.3783184-4-f4bug@amsat.org>
 ---
- target/mips/cpu.c | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+ target/mips/fpu_helper.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index f2c4de7d070..aadc6f8e74d 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -104,17 +104,6 @@ static bool mips_cpu_has_work(CPUState *cs)
+diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
+index 020b768e87b..956e3417d0f 100644
+--- a/target/mips/fpu_helper.c
++++ b/target/mips/fpu_helper.c
+@@ -21,15 +21,11 @@
+  */
  
- #include "translate_init.c.inc"
+ #include "qemu/osdep.h"
+-#include "qemu/main-loop.h"
+ #include "cpu.h"
+ #include "internal.h"
+-#include "qemu/host-utils.h"
+ #include "exec/helper-proto.h"
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+-#include "exec/memop.h"
+-#include "sysemu/kvm.h"
+ #include "fpu/softfloat.h"
  
--static void cpu_mips_realize_env(CPUMIPSState *env)
--{
--    env->exception_base = (int32_t)0xBFC00000;
--
--#ifndef CONFIG_USER_ONLY
--    mmu_init(env, env->cpu_model);
--#endif
--    fpu_init(env, env->cpu_model);
--    mvp_init(env);
--}
--
- /* TODO QOM'ify CPU reset and remove */
- static void cpu_state_reset(CPUMIPSState *env)
- {
-@@ -400,6 +389,7 @@ static void mips_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-     MIPSCPU *cpu = MIPS_CPU(dev);
-+    CPUMIPSState *env = &cpu->env;
-     MIPSCPUClass *mcc = MIPS_CPU_GET_CLASS(dev);
-     Error *local_err = NULL;
  
-@@ -423,7 +413,13 @@ static void mips_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    cpu_mips_realize_env(&cpu->env);
-+    env->exception_base = (int32_t)0xBFC00000;
-+
-+#ifndef CONFIG_USER_ONLY
-+    mmu_init(env, env->cpu_model);
-+#endif
-+    fpu_init(env, env->cpu_model);
-+    mvp_init(env);
- 
-     cpu_reset(cs);
-     qemu_init_vcpu(cs);
 -- 
 2.26.2
 
