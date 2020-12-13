@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9143F2D9058
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 21:19:44 +0100 (CET)
-Received: from localhost ([::1]:40684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 100042D9067
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 21:21:48 +0100 (CET)
+Received: from localhost ([::1]:45004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koXqJ-0000Jy-47
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 15:19:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39578)
+	id 1koXsJ-0002EA-1M
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 15:21:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dann.frazier@canonical.com>)
- id 1koXpb-0008L8-1x
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 15:18:59 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:42147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
- (Exim 4.90_1) (envelope-from <dann.frazier@canonical.com>)
- id 1koXpY-0004gO-UX
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 15:18:58 -0500
-Received: from mail-wr1-f70.google.com ([209.85.221.70])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <dann.frazier@canonical.com>) id 1koXpV-0004iY-PK
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 20:18:53 +0000
-Received: by mail-wr1-f70.google.com with SMTP id d2so5692787wrr.5
- for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 12:18:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1koXqT-0000nj-3M
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 15:19:53 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1koXqR-0004zG-9b
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 15:19:52 -0500
+Received: by mail-wr1-x436.google.com with SMTP id w5so10654345wrm.11
+ for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 12:19:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6aT0hnxN9Lk7mHwwTD8w8mjwYa5KaIbUi6jXCtHBCQM=;
+ b=RXb4/2mjYb9G+dykIme3OPCkocGwJCGkzuu8clS4GEEKO6f7cta1u/r1bQAFbtjYbs
+ /zKjnseBBJh+zQECv52jnZTPvPGT/ymFWc7pDbD90QNaj5dz37UZWRkhTBk7FY+rgDjt
+ F+QlCoK1mzZabzzXwrCUAfOZqQSLPqqCRA2giCqCJqAcuQBzWZOp2daV1r3sVprGWe0b
+ BjnWngxp7PVwrZb9yFA/RrSFnGcOtriXO9yUNmuBORsTQamxRLCuxwarWFm0qFSwCMdM
+ 7rzqFzD//+hkRkbjZmQcS9njY7E3xJBd6R450w3pqn4/J07XCNd3E/rmy7hUSHhV0Vp2
+ 3IfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JquOMMwWNUzDXJCk58eCf3eMc7v8Eman7ehHSxJ++9U=;
- b=ETbXEBdRtjv2UxR8/PpKLqMin2EU8uWENR3qDjm4wqaAISdEshFXdXsx/93RxaiRfe
- 9T/kyWrXiz9rGHIZJiKTf9GNgXzdvkvQuG0MENDwQ3LJn5Taum/trM6X3E44PL/g8WIq
- cHb4m+vHDvJrvxjL9+OMFKDmFxt+HAxOWG/Eow4aBie1vgXf9bOVzs2x6ecxZ5VihxB2
- zWeDJ6EA2ygniiaYv0+moQJa7MOpj8OWXhrQpmXDkq59oLDK4M2eyVuuK5tIvXzuVp+u
- d7GWSz9lX2IXAqeGY/jCq//AEzbd2dn1mnQFQSjWZ+eNbwFhkNoVG5Itq8De1qqYGnKV
- QoFg==
-X-Gm-Message-State: AOAM532z7EO39oEeoLgOQkqaGjU0fn/liktSaKfkHCy+UdCYTkGVqj73
- WkYA8CQIDbDR7BUUQtavzriH8SIZHmwng9n4m7MAotirDkvo0ZR41rAiFw27TVSYaf8Hw2oQeio
- 5Ms2qUcLo2tSoNai7frcO2G1FCyMi8ctYdmJNPW5CoAYGfgl+
-X-Received: by 2002:adf:a388:: with SMTP id l8mr25353428wrb.354.1607890733412; 
- Sun, 13 Dec 2020 12:18:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzYTlKDLVPIWUB1FdBgd98+5AjO4W8wHfgZqcRRxPxoUUKV9J7dkPBSWPGOh/g/NWFfC7g213vY1dPljA1eqOE=
-X-Received: by 2002:adf:a388:: with SMTP id l8mr25353415wrb.354.1607890733157; 
- Sun, 13 Dec 2020 12:18:53 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=6aT0hnxN9Lk7mHwwTD8w8mjwYa5KaIbUi6jXCtHBCQM=;
+ b=BY4XTdmcQRGXMSVRMkKzSzRWFYfsleHUzCmKtxuvkOtkpKNE2Q0XXbGnW54HKjFJH6
+ pxBHaXXakYVdvNSB4PwbUB8up0ygjOjoybLTMShZ8wdgTcfXcpGyu59j20MvCeMV2lwI
+ fEaS2tFAX7+gBWTEuXENnmvpqobrp11iVfGCAd2RkNhfTuHctrwG9dYj6csTYdEGpZZM
+ 2eiLZ7HzFgMu+iewVxEisskLyMZJhKFyfiO3iUCXMsMkldWdUEGXKkssuDuk+2ZaEcN0
+ DHPV286WiqJ0WjLMTC9gm0qI2VoD82qi2gMUezTuumXmtAgAQGHISGWFITLcrsxks6/b
+ kLZg==
+X-Gm-Message-State: AOAM530TPL7o234o1lGPDUfUIbCP4pXCPNVNzMzmdKvlGJRDwDf3kBuZ
+ sfGlG3uu0koiAXq/YcCVRvCDqIpbdsA=
+X-Google-Smtp-Source: ABdhPJzLu1l79ty9fZ484FlDoec/3Llbbu/ND5f33k0x8Pjnud30Pvq+O1w+UgnL5w5ESi994IyXZA==
+X-Received: by 2002:adf:c454:: with SMTP id a20mr25225088wrg.314.1607890789069; 
+ Sun, 13 Dec 2020 12:19:49 -0800 (PST)
+Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id i9sm31558614wrs.70.2020.12.13.12.19.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Dec 2020 12:19:48 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/26] MIPS patches for 2020-12-13
+Date: Sun, 13 Dec 2020 21:19:20 +0100
+Message-Id: <20201213201946.236123-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200916084117.21828-1-kraxel@redhat.com>
- <20200916084117.21828-2-kraxel@redhat.com>
-In-Reply-To: <20200916084117.21828-2-kraxel@redhat.com>
-From: dann frazier <dann.frazier@canonical.com>
-Date: Sun, 13 Dec 2020 13:18:42 -0700
-Message-ID: <CALdTtnsBpZ1fyB=dJMdO7Oq=swHw5AsmZxVru_tf6iZZouC=5g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] audio: remove qemu_spice_audio_init()
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=91.189.89.112;
- envelope-from=dann.frazier@canonical.com; helo=youngberry.canonical.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,107 +83,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paul Burton <paulburton@kernel.org>, kvm@vger.kernel.org,
+ Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 16, 2020 at 2:42 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> Handle the spice special case in audio_init instead.
->
-> With the qemu_spice_audio_init() symbol dependency being
-> gone we can build spiceaudio as module.
->
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  include/ui/qemu-spice.h |  1 -
->  audio/audio.c           | 16 ++++++++++++++++
->  audio/spiceaudio.c      |  5 -----
->  ui/spice-core.c         |  1 -
->  4 files changed, 16 insertions(+), 7 deletions(-)
->
-> diff --git a/include/ui/qemu-spice.h b/include/ui/qemu-spice.h
-> index 8c23dfe71797..12474d88f40e 100644
-> --- a/include/ui/qemu-spice.h
-> +++ b/include/ui/qemu-spice.h
-> @@ -29,7 +29,6 @@ extern int using_spice;
->
->  void qemu_spice_init(void);
->  void qemu_spice_input_init(void);
-> -void qemu_spice_audio_init(void);
->  void qemu_spice_display_init(void);
->  int qemu_spice_display_add_client(int csock, int skipauth, int tls);
->  int qemu_spice_add_interface(SpiceBaseInstance *sin);
-> diff --git a/audio/audio.c b/audio/audio.c
-> index ce8c6dec5f47..76cdba0943d1 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -34,6 +34,7 @@
->  #include "qemu/module.h"
->  #include "sysemu/replay.h"
->  #include "sysemu/runstate.h"
-> +#include "ui/qemu-spice.h"
->  #include "trace.h"
->
->  #define AUDIO_CAP "audio"
-> @@ -1658,6 +1659,21 @@ static AudioState *audio_init(Audiodev *dev, const char *name)
->      /* silence gcc warning about uninitialized variable */
->      AudiodevListHead head = QSIMPLEQ_HEAD_INITIALIZER(head);
->
-> +    if (using_spice) {
-> +        /*
-> +         * When using spice allow the spice audio driver being picked
-> +         * as default.
-> +         *
-> +         * Temporary hack.  Using audio devices without explicit
-> +         * audiodev= property is already deprecated.  Same goes for
-> +         * the -soundhw switch.  Once this support gets finally
-> +         * removed we can also drop the concept of a default audio
-> +         * backend and this can go away.
-> +         */
-> +        driver = audio_driver_lookup("spice");
-> +        driver->can_be_default = 1;
-
-fyi, one of my libvirt/QEMU guests now segfaults here.
-See: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=977301
-
-  -dann
-
-> +    }
-> +
->      if (dev) {
->          /* -audiodev option */
->          legacy_config = false;
-> diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
-> index b6b5da4812f2..aae420cff997 100644
-> --- a/audio/spiceaudio.c
-> +++ b/audio/spiceaudio.c
-> @@ -310,11 +310,6 @@ static struct audio_driver spice_audio_driver = {
->      .voice_size_in  = sizeof (SpiceVoiceIn),
->  };
->
-> -void qemu_spice_audio_init (void)
-> -{
-> -    spice_audio_driver.can_be_default = 1;
-> -}
-> -
->  static void register_audio_spice(void)
->  {
->      audio_driver_register(&spice_audio_driver);
-> diff --git a/ui/spice-core.c b/ui/spice-core.c
-> index ecc2ec2c55c2..10aa309f78f7 100644
-> --- a/ui/spice-core.c
-> +++ b/ui/spice-core.c
-> @@ -804,7 +804,6 @@ void qemu_spice_init(void)
->      qemu_spice_add_interface(&spice_migrate.base);
->
->      qemu_spice_input_init();
-> -    qemu_spice_audio_init();
->
->      qemu_add_vm_change_state_handler(vm_change_state_handler, NULL);
->      qemu_spice_display_stop();
-> --
-> 2.27.0
->
->
+The following changes since commit ad717e6da3852b5729217d7938eecdb81c546114=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into stagi=
+ng (2020-12-12 00:20:46 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/philmd/qemu.git tags/mips-20201213=0D
+=0D
+for you to fetch changes up to 3533ee301c46620fd5699cb97f2d4bd194fe0c24:=0D
+=0D
+  target/mips: Use FloatRoundMode enum for FCR31 modes conversion (2020-12-=
+13 20:27:11 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+MIPS patches queue=0D
+=0D
+. Allow executing MSA instructions on Loongson-3A4000=0D
+. Update Huacai Chen email address=0D
+. Various cleanups:=0D
+  - unused headers removal=0D
+  - use definitions instead of magic values=0D
+  - remove dead code=0D
+  - avoid calling unused code=0D
+. Various code movements=0D
+=0D
+CI jobs results:=0D
+  https://gitlab.com/philmd/qemu/-/pipelines/229120169=0D
+  https://cirrus-ci.com/build/4857731557359616=0D
+----------------------------------------------------------------=0D
+=0D
+Huacai Chen (1):=0D
+  MAINTAINERS: chenhc@lemote.com -> chenhuacai@kernel.org=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (25):=0D
+  target/mips/kvm: Assert unreachable code is not used=0D
+  target/mips/kvm: Remove unused headers=0D
+  target/mips: Include "exec/memattrs.h" in 'internal.h'=0D
+  target/mips: Replace magic values by CP0PM_MASK or=0D
+    TARGET_PAGE_BITS_MIN=0D
+  target/mips: Do not include CP0 helpers in user-mode emulation=0D
+  target/mips: Remove unused headers from cp0_helper.c=0D
+  target/mips: Also display exception names in user-mode=0D
+  target/mips: Allow executing MSA instructions on Loongson-3A4000=0D
+  target/mips: Explicit Release 6 MMU types=0D
+  target/mips: Rename cpu_supports_FEAT() as cpu_type_supports_FEAT()=0D
+  target/mips: Introduce cpu_supports_isa() taking CPUMIPSState argument=0D
+  hw/mips: Move address translation helpers to target/mips/=0D
+  target/mips: Remove unused headers from translate.c=0D
+  target/mips: Remove unused headers from op_helper.c=0D
+  target/mips: Remove mips_def_t unused argument from mvp_init()=0D
+  target/mips: Introduce ase_mt_available() helper=0D
+  target/mips: Do not initialize MT registers if MT ASE absent=0D
+  hw/mips/malta: Do not initialize MT registers if MT ASE absent=0D
+  hw/mips/malta: Rewrite CP0_MVPConf0 access using deposit()=0D
+  target/mips: Extract cpu_supports*/cpu_set* translate.c=0D
+  target/mips: Move mips_cpu_add_definition() from helper.c to cpu.c=0D
+  target/mips: Move cpu definitions, reset() and realize() to cpu.c=0D
+  target/mips: Inline cpu_mips_realize_env() in mips_cpu_realizefn()=0D
+  target/mips: Remove unused headers from fpu_helper.c=0D
+  target/mips: Use FloatRoundMode enum for FCR31 modes conversion=0D
+=0D
+ include/hw/mips/cpudevs.h        |   7 -=0D
+ target/mips/cpu.h                |  20 ++-=0D
+ target/mips/internal.h           |  17 +-=0D
+ hw/mips/boston.c                 |   5 +-=0D
+ hw/mips/cps.c                    |   3 +-=0D
+ hw/mips/malta.c                  |  14 +-=0D
+ {hw =3D> target}/mips/addr.c       |   2 +-=0D
+ target/mips/cp0_helper.c         |  15 +-=0D
+ target/mips/cpu.c                | 299 ++++++++++++++++++++++++++++++-=0D
+ target/mips/fpu_helper.c         |   6 +-=0D
+ target/mips/helper.c             |  64 ++-----=0D
+ target/mips/kvm.c                |  11 +-=0D
+ target/mips/op_helper.c          |   4 -=0D
+ target/mips/translate.c          | 262 ---------------------------=0D
+ target/mips/translate_init.c.inc |  10 +-=0D
+ .mailmap                         |   2 +=0D
+ MAINTAINERS                      |   8 +-=0D
+ hw/mips/meson.build              |   2 +-=0D
+ target/mips/meson.build          |   3 +-=0D
+ 19 files changed, 378 insertions(+), 376 deletions(-)=0D
+ rename {hw =3D> target}/mips/addr.c (98%)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
