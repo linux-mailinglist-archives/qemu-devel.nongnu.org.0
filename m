@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564AF2D8E01
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 15:37:41 +0100 (CET)
-Received: from localhost ([::1]:33034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9C22D8E20
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 16:07:34 +0100 (CET)
+Received: from localhost ([::1]:44838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koSVE-00047b-Bx
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 09:37:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56754)
+	id 1koSyD-0002QZ-8K
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 10:07:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1koSSz-0002nt-Gw; Sun, 13 Dec 2020 09:35:18 -0500
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:45970)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1koSwH-0001LC-0l
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 10:05:33 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1koSSx-0003a1-Or; Sun, 13 Dec 2020 09:35:17 -0500
-Received: by mail-lf1-x142.google.com with SMTP id x20so4091949lfe.12;
- Sun, 13 Dec 2020 06:35:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1koSwE-00050G-7s
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 10:05:32 -0500
+Received: by mail-wr1-x441.google.com with SMTP id w5so10138373wrm.11
+ for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 07:05:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=/PF/lE0iCgpUNgi98UKCAfkSOYCBApzqR+MVd4ylcm4=;
- b=YtTeU+esJ1mCmLn2fQhxdvZX5Ap9+4ShhULuhb8N7YV3GAItyLa1tguutLJCVQPInX
- 40O6EpJ3o9EbJyGWVQ3LBHLS4DjlZKBtIPGJrFWbA0pFnYI+9z8Andz5ntBQ0B+vMv09
- 3sN8EnUfrkGDaqrFmKYTvXDGFspRi1zNkw/QodJNwKzJ39JP3de/VXjDnMk2RxS/QjU6
- mBD8a3rZ7k7bbrS71lpa/G6O/bJdbp+vvjSuOcwwsiwh3VUJnhZKgcecmeMIixL/bkFs
- F2ZR7qUbkBLl6Y7B01Cf657osC+2aGYM4ltGAoHWvCl135A26iTspXSlcet0PPqd9NLs
- d/Qw==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=n1hpv7apuzlGt2dfFEifwvZwbTxtQ+ndnmTuXA0JC78=;
+ b=EXNQ5cs67LCnSSFCAg4XOgXlBL5T6zGdZuW9zt4JCt9X3gKd600aL1NaWXCGcy9x6t
+ 3tbAJAxgQ2gsWgttdNPMkB4WsKFZQMY3KuHVAvX57suStP++uOMT6fn+GRf9p0ZUFg71
+ B9sDa8Wpyuwg6uQRevsZqekfmMaMmjv859kugpe8Dacv0rvHSkQhJm8YHiRB5IOI8E5i
+ f8+5hB4pOX+bDr98YuujCbrCy8OmywYHohPPw10mR/ICFevuoAiI1f+lg4kJg3NN+f63
+ 903MDC1XNzy3fL46rCdQ+d84Qx+N0aZ0NdEFd91tNGmosWt9LSiAN2+lrL5eXVRHbHXQ
+ /42Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/PF/lE0iCgpUNgi98UKCAfkSOYCBApzqR+MVd4ylcm4=;
- b=Dr3Of3la+uDmhPCG7ITYyS/WtnJi+CVwXXFKVDaXSk1sBGp3wOmFMYF4tP8zWN5GrZ
- KZTTRQ4huAdhczclqSMH/r5ll+lHctU/V7MNxS90S6COsmF0HF+mwm756BJDEKPGPaqy
- gaiqKOQWb0mCXSbAiLPbf5s7NSObuqTAE6UOgTfg8XO/aXUXkHTHlDggCdg7CX1CAluB
- Xpnyelb+1L6nfQNQzFK5wCAD+RgrvxmFt3YaeAUNsru9jIno03qYZ1pc8Axk4b6HcGzd
- XjWuBdrPeEP0CL63tTFFgDGDjuzZHRbOgHlKx9hgDL5mqL9J8UhLumzHejoro9fx2ACw
- VN1A==
-X-Gm-Message-State: AOAM530Kznki9wU8gJJglNfT264PjSI+FVjk0DHoNLcaIzu1r+kZUQM2
- To832wKXgfbQ3sOqJzL/zAM=
-X-Google-Smtp-Source: ABdhPJzAQaBBlA+wzE0uitzfi5kDZsq//KGxcou2hW346nkkfrrc2yZCEZeJuxyR1X0lc6jpnyX0Yg==
-X-Received: by 2002:a05:6512:1090:: with SMTP id
- j16mr7688536lfg.543.1607870113601; 
- Sun, 13 Dec 2020 06:35:13 -0800 (PST)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id c16sm1718996lfb.236.2020.12.13.06.35.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Dec 2020 06:35:12 -0800 (PST)
-Date: Sun, 13 Dec 2020 15:35:12 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 8/8] hw/ppc: Remove unused ppcuic_init()
-Message-ID: <20201213143512.GD477672@toto>
-References: <20201212001537.24520-1-peter.maydell@linaro.org>
- <20201212001537.24520-9-peter.maydell@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=n1hpv7apuzlGt2dfFEifwvZwbTxtQ+ndnmTuXA0JC78=;
+ b=T8hSAP3X3g1TdKvDX6A61YZV2lgLH72D9uJ9sC1mII+bt66uqjmN588jBrUNv6rk2X
+ bYjFmhR1u2aM49nGwqSugg7BoRHXQeQqt8HL0xzaHk33pFMOHZkxnW92UOYkQdY8r/bU
+ kSeQ89o0N+6N02eS7ylPm5N9/pC6nPzIxr9lH+6A3N7ooWXEv2kfH6epA+LZMT6wMriu
+ AMUWqO5tHcooo4aYBa7lINNmJSiUTI6NMwHqvGwabSxwgmJtSFEYGM5aZecDTuFjLCEU
+ sZT9M2HTGnVD1IIEtvHZP7YhPtBxrLdRCcYkmPdf6pgHyx4Y9Jdu0bbr9Xtx9PVL4eSB
+ RE2Q==
+X-Gm-Message-State: AOAM5308WhxwuLkpjKTV5BWdwfzdfU5He/DXwSCMeCkaHWgXzYzntoXq
+ UuSyt4B3i59KosERpQvJoII=
+X-Google-Smtp-Source: ABdhPJxHLQyht6sjRaqQ3FmBoD7DYEYXvPSS8RLJBhHtWOguIO4E44aL05uM/HHmFIG5CARV2Cx0Uw==
+X-Received: by 2002:a05:6000:101:: with SMTP id
+ o1mr24190080wrx.211.1607871928696; 
+ Sun, 13 Dec 2020 07:05:28 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id z15sm28195341wrv.67.2020.12.13.07.05.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 13 Dec 2020 07:05:27 -0800 (PST)
+Subject: Re: [PATCH 0/2] target/mips: Let cpu_supports_isa() take CPUMIPSState
+ argument
+To: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20201207215257.4004222-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a444475c-b898-2670-4e95-2a47e267249b@amsat.org>
+Date: Sun, 13 Dec 2020 16:05:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201212001537.24520-9-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x142.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+In-Reply-To: <20201207215257.4004222-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,117 +90,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Dec 12, 2020 at 12:15:37AM +0000, Peter Maydell wrote:
-> Now we've converted all the callsites to directly create the QOM UIC
-> device themselves, the ppcuic_init() function is unused and can be
-> removed. The enum defining PPCUIC symbolic constants can be moved
-> to the ppc-uic.h header where it more naturally belongs.
-
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-
-
+On 12/7/20 10:52 PM, Philippe Mathieu-Daudé wrote:
+> Hi Jiaxun,
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  include/hw/intc/ppc-uic.h |  7 +++++++
->  include/hw/ppc/ppc4xx.h   |  9 ---------
->  hw/ppc/ppc4xx_devs.c      | 38 --------------------------------------
->  3 files changed, 7 insertions(+), 47 deletions(-)
+> Here goes the cpu_supports_isa() helper for your bootloader API:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg764582.html
 > 
-> diff --git a/include/hw/intc/ppc-uic.h b/include/hw/intc/ppc-uic.h
-> index e614e2ffd80..22dd5e5ac2c 100644
-> --- a/include/hw/intc/ppc-uic.h
-> +++ b/include/hw/intc/ppc-uic.h
-> @@ -47,6 +47,13 @@ OBJECT_DECLARE_SIMPLE_TYPE(PPCUIC, PPC_UIC)
->  
->  #define UIC_MAX_IRQ 32
->  
-> +/* Symbolic constants for the sysbus IRQ outputs */
-> +enum {
-> +    PPCUIC_OUTPUT_INT = 0,
-> +    PPCUIC_OUTPUT_CINT = 1,
-> +    PPCUIC_OUTPUT_NB,
-> +};
-> +
->  struct PPCUIC {
->      /*< private >*/
->      SysBusDevice parent_obj;
-> diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
-> index cc19c8da5be..980f964b5a9 100644
-> --- a/include/hw/ppc/ppc4xx.h
-> +++ b/include/hw/ppc/ppc4xx.h
-> @@ -33,15 +33,6 @@ PowerPCCPU *ppc4xx_init(const char *cpu_model,
->                          clk_setup_t *cpu_clk, clk_setup_t *tb_clk,
->                          uint32_t sysclk);
->  
-> -/* PowerPC 4xx universal interrupt controller */
-> -enum {
-> -    PPCUIC_OUTPUT_INT = 0,
-> -    PPCUIC_OUTPUT_CINT = 1,
-> -    PPCUIC_OUTPUT_NB,
-> -};
-> -qemu_irq *ppcuic_init (CPUPPCState *env, qemu_irq *irqs,
-> -                       uint32_t dcr_base, int has_ssr, int has_vr);
-> -
->  void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
->                          MemoryRegion ram_memories[],
->                          hwaddr ram_bases[], hwaddr ram_sizes[],
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index ffe4cf43e88..fe9d4f7155e 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -77,44 +77,6 @@ PowerPCCPU *ppc4xx_init(const char *cpu_type,
->      return cpu;
->  }
->  
-> -/*****************************************************************************/
-> -/* "Universal" Interrupt controller */
-> -
-> -qemu_irq *ppcuic_init (CPUPPCState *env, qemu_irq *irqs,
-> -                       uint32_t dcr_base, int has_ssr, int has_vr)
-> -{
-> -    DeviceState *uicdev = qdev_new(TYPE_PPC_UIC);
-> -    SysBusDevice *uicsbd = SYS_BUS_DEVICE(uicdev);
-> -    qemu_irq *uic_irqs;
-> -    int i;
-> -
-> -    qdev_prop_set_uint32(uicdev, "dcr-base", dcr_base);
-> -    qdev_prop_set_bit(uicdev, "use-vectors", has_vr);
-> -    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(env_cpu(env)),
-> -                             &error_fatal);
-> -    sysbus_realize_and_unref(uicsbd, &error_fatal);
-> -
-> -    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT, irqs[PPCUIC_OUTPUT_INT]);
-> -    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT, irqs[PPCUIC_OUTPUT_CINT]);
-> -
-> -    /*
-> -     * Return an allocated array of the UIC's input IRQ lines.
-> -     * This is an ugly temporary API to retain compatibility with
-> -     * the ppcuic_init() interface from the pre-QOM-conversion UIC.
-> -     * None of the callers free this array, so it is leaked -- but
-> -     * so was the array allocated by qemu_allocate_irqs() in the
-> -     * old code.
-> -     *
-> -     * The callers should just instantiate the UIC and wire it up
-> -     * themselves rather than passing qemu_irq* in and out of this function.
-> -     */
-> -    uic_irqs = g_new0(qemu_irq, UIC_MAX_IRQ);
-> -    for (i = 0; i < UIC_MAX_IRQ; i++) {
-> -        uic_irqs[i] = qdev_get_gpio_in(uicdev, i);
-> -    }
-> -    return uic_irqs;
-> -}
-> -
->  /*****************************************************************************/
->  /* SDRAM controller */
->  typedef struct ppc4xx_sdram_t ppc4xx_sdram_t;
-> -- 
-> 2.20.1
+> Regards,
 > 
+> Phil.
+> 
+> Philippe Mathieu-Daudé (2):
+>   target/mips: Rename cpu_supports_FEAT() as cpu_type_supports_FEAT()
+>   target/mips: Introduce cpu_supports_isa() taking CPUMIPSState argument
+> 
+>  target/mips/cpu.h       | 5 +++--
+>  hw/mips/boston.c        | 4 ++--
+>  hw/mips/malta.c         | 4 ++--
+>  target/mips/cpu.c       | 5 +++++
+>  target/mips/translate.c | 4 ++--
+>  5 files changed, 14 insertions(+), 8 deletions(-)
+
+Thanks, series applied to mips-next tree.
 
