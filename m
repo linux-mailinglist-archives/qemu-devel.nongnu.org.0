@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F3E92D9089
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 21:30:08 +0100 (CET)
-Received: from localhost ([::1]:53394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CACA2D908B
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 21:31:49 +0100 (CET)
+Received: from localhost ([::1]:58704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koY0H-0000Du-SR
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 15:30:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40438)
+	id 1koY20-0002SZ-8q
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 15:31:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1koXsX-0003sn-Lp
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 15:22:01 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:33661)
+ id 1koXrU-00024n-Sr
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 15:20:56 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:33663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1koXsW-0005nG-5K
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 15:22:01 -0500
-Received: by mail-wm1-x329.google.com with SMTP id w206so7882451wma.0
- for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 12:21:59 -0800 (PST)
+ id 1koXrT-0005Sy-CD
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 15:20:56 -0500
+Received: by mail-wm1-x330.google.com with SMTP id w206so7881212wma.0
+ for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 12:20:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fVAITAmVV88TOoHja8gyTESqhv1q8JBRT/l8262AHZk=;
- b=NHiRLFi7tQsiEdJAPcfC0zbPhb6JmiwS/yPCkgmKA9XgHdOL9CAVSFJ33hrEG9NHuk
- VxTcak9a3ybUtHDn9Qb0ouA4nIAia2K4rA/4l6Ig1P4lPMTng48qsVzi4B7S0hIxSLTm
- ddoXqoZDDnR5r+msyxywj9pFkwuO8SQ8WQfGjlOowyZPmRVMzEfVyfRIU9bvBg4/pbRJ
- I/sjyV5KIyMcdT8b1EL3CLmKYB7LO8uRj3yt7Sx46ML2k/59VEmyABz/jy8/TJGc/6kV
- RAXzO4La7/sbECmoZWL4AGWSXTuA96vW92ne1NtkbXnFaXBBorVRToQyofsAZOz5723t
- adRw==
+ bh=uJl+/EeXqBxB7hfG+/ZfbRL30Nmwpy+BSYnXX9dfemM=;
+ b=u0ko4PweyxhLkeeWo3yjo1wYFhxgNEC5xrZTR5djqgHZbI8mv4MheQT0hAFOCezq1y
+ +t+3hg7NcxRhx5zGvUWyOQD/p4xngcgSYKQMqZfOpdvwVne724d8k7enBYPR8EEBO+Ox
+ WQJBbfGqH/t/swYfHhLzKf58Gnqqduou53TdAER3Rs4MeTNB483JcdU4MHLKZRSr7Mz9
+ 05sglCyISn7H2VfrielSp9BMFJIzKeB03RoLFBZEbTEZ/pdDM11S49XzFQe9uadwbl88
+ nZkR0X5hG4lVOf0s6Up0ZgAaMPZ7phLTFTweLuF9xF706SfIDnJYl1HfY6PkSueSwrCx
+ 7JAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fVAITAmVV88TOoHja8gyTESqhv1q8JBRT/l8262AHZk=;
- b=O7tZe+naDR3JF7mklXcbHvH6ygh31hmhH5Ea2pE5/ZcQd/2f0gOulctgzJkj0osMpg
- 6GtTx/2khQME3sNksbVbwaE59kj9X8D24ZEg/ITAO93XWpJcjLIL7tHEBO96Ecn1ZtJu
- Zf+GL1QugtI5rwo0LUzbhigUZ0sAAaFdKKk1jGDN/Bqs3NllsxMWKP/FRrg27xwFWruu
- atrOPhc7U5v9u9yKDfKF21umrF82fwWtAStz+BCBthP5cMOkOVgOlzLmLycn+kjf/JB6
- SlIRrHVVs+P7/iCNuagaqJ4oBzLcIblPipOqxusGQvYtWgqntWa0gPpgFBdoJB6gtKq6
- 3ApQ==
-X-Gm-Message-State: AOAM533++MtCohRzCjevGynagUPWs9nyM43yE9l74gWLopt+nsGRnX4G
- X7LabCcZil4UJcDk044rEzAnqbYD/0o=
-X-Google-Smtp-Source: ABdhPJz0CPv/da6KphdHRQ8txpNwxGAeqv36g/49a8+2n8jK31ow8jEvleGDUtARLN/jfRXupU+u2w==
-X-Received: by 2002:a1c:cc19:: with SMTP id h25mr24645226wmb.124.1607890918580; 
- Sun, 13 Dec 2020 12:21:58 -0800 (PST)
+ bh=uJl+/EeXqBxB7hfG+/ZfbRL30Nmwpy+BSYnXX9dfemM=;
+ b=TbKrw2FeGPWTXMlYNCnVuuDuAgoJ1Csj8VwKmIhsViOURM0E6SM59YYF4SFOedrv5W
+ NiPfTyQoelVgpX4+8jzNp9ZA7evua0pQXsvhr2mEP8YxPu1FHSCLZlnc9Y/GJjtrCiEs
+ vH5/3Dala7g8qCaeCDZwIFIpirzDzzWZhcvh44rolY4xqNqD+veDL7Vi7y/+dGKkQhy8
+ 8Itkf/jhmrin3KVAAkA03HjaYw7i/D7CUE6NwJQGEKkF2Zre63OsEor82atfpnR4S0Nf
+ 4xC7O6uWXYYfPjuYq4kFwJ5EWm7DEBL86WVDQ85cntg5XIIuof3UruOkH404AnVOP6FF
+ p5EA==
+X-Gm-Message-State: AOAM530uL1rOjpVXAsM4j4ROHcQeDncIf8HOrQZHwO+Ypl9aVsabE6YO
+ iRTtBlUBXO7EHn9PxI67kEtebOoKhmg=
+X-Google-Smtp-Source: ABdhPJwyr3Bcz0npqHp1+rzM78Aj/bFoHAUN+iHfi/EMO7r5KVcn6S69kfPOW50IF7acg/ABH6c7cA==
+X-Received: by 2002:a1c:b78a:: with SMTP id
+ h132mr24042122wmf.141.1607890853818; 
+ Sun, 13 Dec 2020 12:20:53 -0800 (PST)
 Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id f16sm27335349wmh.7.2020.12.13.12.21.57
+ by smtp.gmail.com with ESMTPSA id s1sm31441773wrv.97.2020.12.13.12.20.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Dec 2020 12:21:58 -0800 (PST)
+ Sun, 13 Dec 2020 12:20:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/26] target/mips: Use FloatRoundMode enum for FCR31 modes
- conversion
-Date: Sun, 13 Dec 2020 21:19:46 +0100
-Message-Id: <20201213201946.236123-27-f4bug@amsat.org>
+Subject: [PULL 13/26] hw/mips: Move address translation helpers to target/mips/
+Date: Sun, 13 Dec 2020 21:19:33 +0100
+Message-Id: <20201213201946.236123-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201213201946.236123-1-f4bug@amsat.org>
 References: <20201213201946.236123-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,45 +96,128 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the FloatRoundMode enum type introduced in commit 3dede407cc6
-("softfloat: Name rounding mode enum") instead of 'unsigned int'.
+Address translation is an architectural thing (not hardware
+related). Move the helpers from hw/ to target/.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+As physical address and KVM are specific to system mode
+emulation, restrict this file to softmmu, so it doesn't
+get compiled for user-mode emulation.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201123204448.3260804-2-f4bug@amsat.org>
+Message-Id: <20201206233949.3783184-2-f4bug@amsat.org>
 ---
- target/mips/internal.h   | 3 ++-
- target/mips/fpu_helper.c | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ include/hw/mips/cpudevs.h  | 7 -------
+ target/mips/cpu.h          | 8 ++++++++
+ hw/mips/boston.c           | 1 -
+ {hw => target}/mips/addr.c | 2 +-
+ target/mips/translate.c    | 2 --
+ hw/mips/meson.build        | 2 +-
+ target/mips/meson.build    | 1 +
+ 7 files changed, 11 insertions(+), 12 deletions(-)
+ rename {hw => target}/mips/addr.c (98%)
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 0515966469b..e4d2d9f44f9 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -223,7 +223,8 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
- uint32_t float_class_s(uint32_t arg, float_status *fst);
- uint64_t float_class_d(uint64_t arg, float_status *fst);
+diff --git a/include/hw/mips/cpudevs.h b/include/hw/mips/cpudevs.h
+index 291f59281a0..f7c9728fa9f 100644
+--- a/include/hw/mips/cpudevs.h
++++ b/include/hw/mips/cpudevs.h
+@@ -5,13 +5,6 @@
  
--extern unsigned int ieee_rm[];
-+extern const FloatRoundMode ieee_rm[4];
+ /* Definitions for MIPS CPU internal devices.  */
+ 
+-/* addr.c */
+-uint64_t cpu_mips_kseg0_to_phys(void *opaque, uint64_t addr);
+-uint64_t cpu_mips_phys_to_kseg0(void *opaque, uint64_t addr);
+-uint64_t cpu_mips_kvm_um_phys_to_kseg0(void *opaque, uint64_t addr);
+-bool mips_um_ksegs_enabled(void);
+-void mips_um_ksegs_enable(void);
+-
+ /* mips_int.c */
+ void cpu_mips_irq_init_cpu(MIPSCPU *cpu);
+ 
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index e8bca75f237..5d3b2a01c01 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -1291,6 +1291,14 @@ bool cpu_supports_isa(const CPUMIPSState *env, uint64_t isa_mask);
+ bool cpu_type_supports_isa(const char *cpu_type, uint64_t isa);
+ void cpu_set_exception_base(int vp_index, target_ulong address);
+ 
++/* addr.c */
++uint64_t cpu_mips_kseg0_to_phys(void *opaque, uint64_t addr);
++uint64_t cpu_mips_phys_to_kseg0(void *opaque, uint64_t addr);
 +
- void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
++uint64_t cpu_mips_kvm_um_phys_to_kseg0(void *opaque, uint64_t addr);
++bool mips_um_ksegs_enabled(void);
++void mips_um_ksegs_enable(void);
++
+ /* mips_int.c */
+ void cpu_mips_soft_irq(CPUMIPSState *env, int irq, int level);
  
- static inline void restore_rounding_mode(CPUMIPSState *env)
-diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-index 956e3417d0f..bdb65065ee7 100644
---- a/target/mips/fpu_helper.c
-+++ b/target/mips/fpu_helper.c
-@@ -38,7 +38,7 @@
- #define FP_TO_INT64_OVERFLOW 0x7fffffffffffffffULL
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index 16467ea4752..c3b94c68e1b 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -28,7 +28,6 @@
+ #include "hw/loader.h"
+ #include "hw/loader-fit.h"
+ #include "hw/mips/cps.h"
+-#include "hw/mips/cpudevs.h"
+ #include "hw/pci-host/xilinx-pcie.h"
+ #include "hw/qdev-clock.h"
+ #include "hw/qdev-properties.h"
+diff --git a/hw/mips/addr.c b/target/mips/addr.c
+similarity index 98%
+rename from hw/mips/addr.c
+rename to target/mips/addr.c
+index 2f138fe1ea8..27a6036c451 100644
+--- a/hw/mips/addr.c
++++ b/target/mips/addr.c
+@@ -21,7 +21,7 @@
+  */
  
- /* convert MIPS rounding mode in FCR31 to IEEE library */
--unsigned int ieee_rm[] = {
-+const FloatRoundMode ieee_rm[4] = {
-     float_round_nearest_even,
-     float_round_to_zero,
-     float_round_up,
+ #include "qemu/osdep.h"
+-#include "hw/mips/cpudevs.h"
++#include "cpu.h"
+ 
+ static int mips_um_ksegs;
+ 
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index b8ed16bb779..4a1ae73f9d0 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -28,8 +28,6 @@
+ #include "exec/exec-all.h"
+ #include "tcg/tcg-op.h"
+ #include "exec/cpu_ldst.h"
+-#include "hw/mips/cpudevs.h"
+-
+ #include "exec/helper-proto.h"
+ #include "exec/helper-gen.h"
+ #include "hw/semihosting/semihost.h"
+diff --git a/hw/mips/meson.build b/hw/mips/meson.build
+index bcdf96be69f..77b4d8f365e 100644
+--- a/hw/mips/meson.build
++++ b/hw/mips/meson.build
+@@ -1,5 +1,5 @@
+ mips_ss = ss.source_set()
+-mips_ss.add(files('addr.c', 'mips_int.c'))
++mips_ss.add(files('mips_int.c'))
+ mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
+ mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('jazz.c'))
+ mips_ss.add(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci.c', 'malta.c'))
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+index 681a5524c0e..4179395a8ea 100644
+--- a/target/mips/meson.build
++++ b/target/mips/meson.build
+@@ -14,6 +14,7 @@
+ 
+ mips_softmmu_ss = ss.source_set()
+ mips_softmmu_ss.add(files(
++  'addr.c',
+   'cp0_helper.c',
+   'cp0_timer.c',
+   'machine.c',
 -- 
 2.26.2
 
