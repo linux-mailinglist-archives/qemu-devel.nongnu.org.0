@@ -2,55 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C692D8D2C
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 14:12:06 +0100 (CET)
-Received: from localhost ([::1]:56420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013642D8DFD
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 15:34:31 +0100 (CET)
+Received: from localhost ([::1]:54708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koRAT-0001BL-A6
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 08:12:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42722)
+	id 1koSSD-0001F8-9z
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 09:34:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1koR4K-0006ct-6W
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 08:05:44 -0500
-Received: from mailout11.t-online.de ([194.25.134.85]:58914)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1koR4F-0000jx-5P
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 08:05:43 -0500
-Received: from fwd23.aul.t-online.de (fwd23.aul.t-online.de [172.20.26.128])
- by mailout11.t-online.de (Postfix) with SMTP id 76EAA42229D8;
- Sun, 13 Dec 2020 14:05:37 +0100 (CET)
-Received: from linpower.localnet
- (XKnOyeZSYh+WU4gWoIYlY58ntX8OdE8NCAiTLe0-uKiSxJNvrtxFAGJh+MdYWDlgkS@[79.208.17.59])
- by fwd23.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1koR4C-0NfIy80; Sun, 13 Dec 2020 14:05:36 +0100
-Received: by linpower.localnet (Postfix, from userid 1000)
- id 2253E200625; Sun, 13 Dec 2020 14:05:28 +0100 (CET)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 4/4] audio: remove unused function audio_is_cleaning_up()
-Date: Sun, 13 Dec 2020 14:05:28 +0100
-Message-Id: <20201213130528.5863-4-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <1a970310-4cff-f2f7-985e-05b2f4cd446b@t-online.de>
-References: <1a970310-4cff-f2f7-985e-05b2f4cd446b@t-online.de>
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1koSQd-0000h9-Nb; Sun, 13 Dec 2020 09:32:55 -0500
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:41996)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
+ id 1koSQc-0002sO-5N; Sun, 13 Dec 2020 09:32:51 -0500
+Received: by mail-lf1-x143.google.com with SMTP id u18so23611018lfd.9;
+ Sun, 13 Dec 2020 06:32:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=2MAQxAjtEKjjxuKwXg7rbNGhZHCMEy5JQlXXl2MX4UE=;
+ b=WeGkyzSux7PNYoyAU+4D8FneVmsMDOKC7kUbW4OJi8A2UuI4HkWul8qoAEBgGc6EiJ
+ KRiEeHsQ5gc1kgYxDePFwHx1DbwrngGfBziMlPDZ8dJroOSrPVCb4hJHWVhXLcEaHEZx
+ meJ/IEmzp2obWnXzCzZzcUs02zVOxNC70dJZ6DtcCg9g3VrCCsQm41wpcDvPwL/5xyK4
+ vdNj5eSd2Rnhwm0KEKZ3W9jpZ2B8qzmpO7ejyPanXaKGdbMk/m8BMJEtY6ai0oQnRbhN
+ X7bSyeKyMUSDjgeMdadGlGkJO2Yc+5AxVfWPuk8R6Xg2LkkBPx35DL0W246RkzvuZ49G
+ ToUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=2MAQxAjtEKjjxuKwXg7rbNGhZHCMEy5JQlXXl2MX4UE=;
+ b=VYICpFaLpMD4ZuLA7MCUHq6EXCPcLCzipJACWqzCbf5Wu1VhlzgCLHjCy64aZRDsCL
+ 9wa+F1p5Xqnx7gXHa6GwH0miMhE9y8Ghj46gqZ6uQN+8rBkhGA2tToPIhYUB1i1t5Jqu
+ 5w1EJP7N98ow+CtNeRoJNHatOllCiRB9cv5OBP321m76cTzvZ3gk6tnu+njM1uR+UTuK
+ 93JI6P1Oz0hSFIywcKzYgB9pJqVFDkT05soeFmiCpTe9piQTZcKkfWzc5Y2K+p8ocQnF
+ KR2rdWTBGno3d+lRnTDQz28YUL73XMu40FHUEAZLG7gutIRfoHz6qjzV8SI/WB7GIs0P
+ 1lvA==
+X-Gm-Message-State: AOAM531JMMK8djk3sauyev+0FAhOop6H9RRuc2uy3B1EGp4kCIP6K1YL
+ ZZZxVRpo4R6mTZ3yFGlb/9Q=
+X-Google-Smtp-Source: ABdhPJyzefoftPiE840rDZ+EVBWzMK3j+y1+mBenum9v3ItWpDo+LYPqg2dFykf6bORkbYtAplD1qw==
+X-Received: by 2002:a2e:918f:: with SMTP id f15mr966247ljg.82.1607869967791;
+ Sun, 13 Dec 2020 06:32:47 -0800 (PST)
+Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
+ by smtp.gmail.com with ESMTPSA id d6sm1432865lfl.175.2020.12.13.06.32.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Dec 2020 06:32:46 -0800 (PST)
+Date: Sun, 13 Dec 2020 15:32:46 +0100
+From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 3/8] hw/ppc/virtex_ml507: Drop use of ppcuic_init()
+Message-ID: <20201213143246.GA477672@toto>
+References: <20201212001537.24520-1-peter.maydell@linaro.org>
+ <20201212001537.24520-4-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ID: XKnOyeZSYh+WU4gWoIYlY58ntX8OdE8NCAiTLe0-uKiSxJNvrtxFAGJh+MdYWDlgkS
-X-TOI-EXPURGATEID: 150726::1607864736-00017F06-4C10CF18/0/0 CLEAN NORMAL
-X-TOI-MSGID: 5afa17a4-9fc0-4b39-bad4-2b54fee62e50
-Received-SPF: none client-ip=194.25.134.85;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout11.t-online.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201212001537.24520-4-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::143;
+ envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x143.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,59 +81,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous commit removed the last call site of
-audio_is_cleaning_up(). Remove the now unused function.
+On Sat, Dec 12, 2020 at 12:15:32AM +0000, Peter Maydell wrote:
+> Switch the virtex_ml507 board to directly creating and
+> configuring the UIC, rather than doing it via the old
+> ppcuic_init() helper function.
+> 
+> This fixes a trivial Coverity-detected memory leak where
+> we were leaking the array of IRQs returned by ppcuic_init().
+> 
+> Fixes: Coverity CID 1421992
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- audio/audio.c | 8 --------
- audio/audio.h | 1 -
- 2 files changed, 9 deletions(-)
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 46578e4a58..a213409270 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -1588,13 +1588,6 @@ static void audio_vm_change_state_handler (void *opaque, int running,
-     audio_reset_timer (s);
- }
- 
--static bool is_cleaning_up;
--
--bool audio_is_cleaning_up(void)
--{
--    return is_cleaning_up;
--}
--
- static void free_audio_state(AudioState *s)
- {
-     HWVoiceOut *hwo, *hwon;
-@@ -1647,7 +1640,6 @@ static void free_audio_state(AudioState *s)
- 
- void audio_cleanup(void)
- {
--    is_cleaning_up = true;
-     while (!QTAILQ_EMPTY(&audio_states)) {
-         AudioState *s = QTAILQ_FIRST(&audio_states);
-         QTAILQ_REMOVE(&audio_states, s, list);
-diff --git a/audio/audio.h b/audio/audio.h
-index b883ebfb1f..41b3ef04ea 100644
---- a/audio/audio.h
-+++ b/audio/audio.h
-@@ -160,7 +160,6 @@ static inline void *advance (void *p, int incr)
- int wav_start_capture(AudioState *state, CaptureState *s, const char *path,
-                       int freq, int bits, int nchannels);
- 
--bool audio_is_cleaning_up(void);
- void audio_cleanup(void);
- 
- void audio_sample_to_uint64(const void *samples, int pos,
--- 
-2.26.2
 
+
+> ---
+>  hw/ppc/virtex_ml507.c | 21 ++++++++++++++++-----
+>  1 file changed, 16 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+> index 7f1bca928c1..34767b11cad 100644
+> --- a/hw/ppc/virtex_ml507.c
+> +++ b/hw/ppc/virtex_ml507.c
+> @@ -43,6 +43,7 @@
+>  #include "qemu/option.h"
+>  #include "exec/address-spaces.h"
+>  
+> +#include "hw/intc/ppc-uic.h"
+>  #include "hw/ppc/ppc.h"
+>  #include "hw/ppc/ppc4xx.h"
+>  #include "hw/qdev-properties.h"
+> @@ -95,7 +96,8 @@ static PowerPCCPU *ppc440_init_xilinx(const char *cpu_type, uint32_t sysclk)
+>  {
+>      PowerPCCPU *cpu;
+>      CPUPPCState *env;
+> -    qemu_irq *irqs;
+> +    DeviceState *uicdev;
+> +    SysBusDevice *uicsbd;
+>  
+>      cpu = POWERPC_CPU(cpu_create(cpu_type));
+>      env = &cpu->env;
+> @@ -105,10 +107,19 @@ static PowerPCCPU *ppc440_init_xilinx(const char *cpu_type, uint32_t sysclk)
+>      ppc_dcr_init(env, NULL, NULL);
+>  
+>      /* interrupt controller */
+> -    irqs = g_new0(qemu_irq, PPCUIC_OUTPUT_NB);
+> -    irqs[PPCUIC_OUTPUT_INT] = ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_INT];
+> -    irqs[PPCUIC_OUTPUT_CINT] = ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_CINT];
+> -    ppcuic_init(env, irqs, 0x0C0, 0, 1);
+> +    uicdev = qdev_new(TYPE_PPC_UIC);
+> +    uicsbd = SYS_BUS_DEVICE(uicdev);
+> +
+> +    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
+> +                             &error_fatal);
+> +    sysbus_realize_and_unref(uicsbd, &error_fatal);
+> +
+> +    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
+> +                       ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_INT]);
+> +    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
+> +                       ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_CINT]);
+> +
+> +    /* This board doesn't wire anything up to the inputs of the UIC. */
+>      return cpu;
+>  }
+>  
+> -- 
+> 2.20.1
+> 
 
