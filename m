@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77D12D8B10
-	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 04:06:43 +0100 (CET)
-Received: from localhost ([::1]:39660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F29C22D8B43
+	for <lists+qemu-devel@lfdr.de>; Sun, 13 Dec 2020 05:21:54 +0100 (CET)
+Received: from localhost ([::1]:37274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koHic-0006uG-BU
-	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 22:06:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59702)
+	id 1koItM-0005zM-Ox
+	for lists+qemu-devel@lfdr.de; Sat, 12 Dec 2020 23:21:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1koHhB-0006BM-Op
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 22:05:13 -0500
-Received: from relay68.bu.edu ([128.197.228.73]:56647)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1koHh8-00027s-VO
- for qemu-devel@nongnu.org; Sat, 12 Dec 2020 22:05:12 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 0BD348If027902
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Sat, 12 Dec 2020 22:04:13 -0500
-Date: Sat, 12 Dec 2020 22:04:08 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Subject: Re: [PATCH v4 5/5] docs: Add CFI Documentation
-Message-ID: <20201213030408.dqt3xt6iloq5qvj7@mozz.bu.edu>
-References: <20201204230615.2392-1-dbuono@linux.vnet.ibm.com>
- <20201204230615.2392-6-dbuono@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1koIsG-0005Ws-7y
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 23:20:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1koIsD-00088u-H0
+ for qemu-devel@nongnu.org; Sat, 12 Dec 2020 23:20:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1koIsB-0001cb-Ek
+ for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 04:20:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6CF0B2E8085
+ for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 04:20:39 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201204230615.2392-6-dbuono@linux.vnet.ibm.com>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.342, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 13 Dec 2020 04:13:53 -0000
+From: Alexander Bulekov <1883733@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr bugs-syssec
+X-Launchpad-Bug-Reporter: Bugs SysSec (bugs-syssec)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+References: <159232171991.30439.2660871523041553790.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160783283364.31915.2223064628789737269.malone@soybean.canonical.com>
+Subject: [Bug 1883733] Re: FIXME xhci_alloc_device_streams:972 guest streams
+ config not identical for all eps
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: 14cbe1d0ea9c9d19a94715a85ab1c753070d20a3
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,169 +70,372 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1883733 <1883733@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 201204 1806, Daniele Buono wrote:
-> Document how to compile with CFI and how to maintain CFI-safe code
-> 
-> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+OSS-Fuzz reported this:
 
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+=3D=3D=3D Reproducer =3D=3D=3D
+cat << EOF | ./qemu-system-i386 -display none \
+-machine accel=3Dqtest, -m 512M -machine q35 -nodefaults \
+-device qemu-xhci,id=3Dxhci -device usb-tablet,bus=3Dxhci.0 \
+-device usb-tablet -device usb-wacom-tablet -device usb-audio \
+-qtest stdio
+outl 0xcf8 0x80000803
+outl 0xcfc 0x18ffffff
+outl 0xcf8 0x80000813
+outb 0xcfc 0x5e
+write 0x5e000074 0x4 0x5a636c6f
+writel 0x5e000040 0x5adeb005
+write 0xd 0x1 0x24
+write 0x1d 0x1 0x2e
+write 0x2d 0x1 0xff
+write 0x3d 0x1 0x24
+write 0x4d 0x1 0x2e
+write 0x5d 0x1 0xff
+write 0x6d 0x1 0x24
+write 0x7d 0x1 0x2e
+write 0x8d 0x1 0xff
+write 0x9d 0x1 0x24
+write 0xad 0x1 0x2e
+write 0xbd 0x1 0xff
+write 0xcd 0x1 0x24
+write 0xdd 0x1 0x2e
+write 0x6d04 0x1 0x03
+write 0x6d26 0x1 0x04
+write 0xed 0x1 0xff
+write 0xfd 0x1 0x24
+write 0x10d 0x1 0x2e
+write 0x11d 0x1 0xff
+write 0x12d 0x1 0x24
+write 0x13d 0x1 0x2e
+write 0x14d 0x1 0xff
+write 0x15d 0x1 0x24
+write 0x16d 0x1 0x2e
+write 0x17d 0x1 0xff
+write 0x18d 0x1 0x24
+write 0x19d 0x1 0x2e
+write 0x1ad 0x1 0xff
+write 0x1bd 0x1 0x24
+write 0x1cd 0x1 0x2e
+write 0x1dd 0x1 0xff
+write 0x1ed 0x1 0x24
+write 0x1fd 0x1 0x2e
+write 0x20d 0x1 0xff
+write 0x21d 0x1 0x24
+write 0x22d 0x1 0x2e
+write 0x23d 0x1 0xff
+write 0x24d 0x1 0x24
+write 0x25d 0x1 0x2e
+write 0x26d 0x1 0xff
+write 0x27d 0x1 0x24
+write 0x28d 0x1 0x2e
+write 0x29d 0x1 0xff
+write 0x2ad 0x1 0x24
+write 0x2bd 0x1 0x2e
+write 0x2cd 0x1 0xff
+write 0x2dd 0x1 0x24
+write 0x2ed 0x1 0x2e
+write 0x2fd 0x1 0xff
+write 0x30d 0x1 0x24
+write 0x31d 0x1 0x2e
+write 0x32d 0x1 0xff
+write 0x33d 0x1 0x24
+write 0x34d 0x1 0x2e
+write 0x35d 0x1 0xff
+write 0x36d 0x1 0x24
+write 0x37d 0x1 0x2e
+write 0x38d 0x1 0xff
+write 0x39d 0x1 0x24
+write 0x3ad 0x1 0x2e
+write 0x3bd 0x1 0xff
+write 0x3cd 0x1 0x24
+write 0x3dd 0x1 0x2e
+write 0x3ed 0x1 0xff
+write 0x3fd 0x1 0x24
+write 0x40d 0x1 0x2e
+write 0x41d 0x1 0xff
+write 0x42d 0x1 0x24
+write 0x43d 0x1 0x2e
+write 0x44d 0x1 0xff
+write 0x45d 0x1 0x24
+write 0x46d 0x1 0x2e
+write 0x47d 0x1 0xff
+write 0x48d 0x1 0x24
+write 0x49d 0x1 0x2e
+write 0x4ad 0x1 0xff
+write 0x4bd 0x1 0x24
+write 0x4cd 0x1 0x2e
+write 0x4dd 0x1 0xff
+write 0x4ed 0x1 0x24
+write 0x4fd 0x1 0x2e
+write 0x50d 0x1 0xff
+write 0x51d 0x1 0x24
+write 0x52d 0x1 0x2e
+write 0x53d 0x1 0xff
+write 0x54d 0x1 0x24
+write 0x55d 0x1 0x2e
+write 0x56d 0x1 0xff
+write 0x57d 0x1 0x24
+write 0x58d 0x1 0x2e
+write 0x59d 0x1 0xff
+write 0x5ad 0x1 0x24
+write 0x5bd 0x1 0x2e
+write 0x5cd 0x1 0xff
+write 0x5dd 0x1 0x24
+write 0x5ed 0x1 0x2e
+write 0x5fd 0x1 0xff
+write 0x60d 0x1 0x24
+write 0x61d 0x1 0x2e
+write 0x62d 0x1 0xff
+write 0x63d 0x1 0x24
+write 0x64d 0x1 0x2e
+write 0x65d 0x1 0xff
+write 0x66d 0x1 0x24
+write 0x67d 0x1 0x2e
+write 0x68d 0x1 0xff
+write 0x69d 0x1 0x24
+write 0x6ad 0x1 0x2e
+write 0x6bd 0x1 0xff
+write 0x6cd 0x1 0x24
+write 0x6dd 0x1 0x2e
+write 0x6ed 0x1 0xff
+write 0x6fd 0x1 0x24
+write 0x70d 0x1 0x2e
+write 0x71d 0x1 0xff
+write 0x72d 0x1 0x24
+write 0x73d 0x1 0x2e
+write 0x74d 0x1 0xff
+write 0x75d 0x1 0x24
+write 0x76d 0x1 0x2e
+write 0x77d 0x1 0xff
+write 0x78d 0x1 0x24
+write 0x79d 0x1 0x2e
+write 0x7ad 0x1 0xff
+write 0x7bd 0x1 0x24
+write 0x7cd 0x1 0x2e
+write 0x7dd 0x1 0xff
+write 0x7ed 0x1 0x24
+write 0x7fd 0x1 0x2e
+write 0x80d 0x1 0xff
+write 0x81d 0x1 0x24
+write 0x82d 0x1 0x2e
+write 0x83d 0x1 0xff
+write 0x84d 0x1 0x24
+write 0x85d 0x1 0x2e
+write 0x86d 0x1 0xff
+write 0x87d 0x1 0x24
+write 0x88d 0x1 0x2e
+write 0x89d 0x1 0xff
+write 0x8ad 0x1 0x24
+write 0x8bd 0x1 0x2e
+write 0x8cd 0x1 0xff
+write 0x8dd 0x1 0x24
+write 0x8ed 0x1 0x2e
+write 0x8fd 0x1 0xff
+write 0x90d 0x1 0x24
+write 0x91d 0x1 0x2e
+write 0x92d 0x1 0xff
+write 0x93d 0x1 0x24
+write 0x94d 0x1 0x2e
+write 0x95d 0x1 0xff
+write 0x96d 0x1 0x24
+write 0x97d 0x1 0x2e
+write 0x98d 0x1 0xff
+write 0x99d 0x1 0x24
+write 0x9ad 0x1 0x2e
+write 0x9bd 0x1 0xff
+write 0x9cd 0x1 0x24
+write 0x9dd 0x1 0x2e
+write 0x9ed 0x1 0xff
+write 0x9fd 0x1 0x24
+write 0xa0d 0x1 0x2e
+write 0xa1d 0x1 0xff
+write 0xa2d 0x1 0x24
+write 0xa3d 0x1 0x2e
+write 0xa4d 0x1 0xff
+write 0xa5d 0x1 0x24
+write 0xa6d 0x1 0x2e
+write 0xa7d 0x1 0xff
+write 0xa8d 0x1 0x24
+write 0xa9d 0x1 0x2e
+write 0xaad 0x1 0xff
+write 0xabd 0x1 0x24
+write 0xacd 0x1 0x2e
+write 0xadd 0x1 0xff
+write 0xaed 0x1 0x24
+write 0xafd 0x1 0x2e
+write 0xb0d 0x1 0xff
+write 0xb1d 0x1 0x24
+write 0xb2d 0x1 0x2e
+write 0xb3d 0x1 0xff
+write 0xb4d 0x1 0x24
+write 0xb5d 0x1 0x2e
+write 0xb6d 0x1 0xff
+write 0xb7d 0x1 0x24
+write 0xb8d 0x1 0x2e
+write 0xb9d 0x1 0xff
+write 0xbad 0x1 0x24
+write 0xbbd 0x1 0x2e
+write 0xbcd 0x1 0xff
+write 0xbdd 0x1 0x24
+write 0xbed 0x1 0x2e
+write 0xbfd 0x1 0xff
+write 0xc0d 0x1 0x24
+write 0xc1d 0x1 0x2e
+write 0xc2d 0x1 0xff
+write 0xc3d 0x1 0x24
+write 0xc4d 0x1 0x2e
+write 0xc5d 0x1 0xff
+write 0xc6d 0x1 0x24
+write 0xc7d 0x1 0x2e
+write 0xc8d 0x1 0xff
+write 0xc9d 0x1 0x24
+write 0xcad 0x1 0x2e
+write 0xcbd 0x1 0xff
+write 0xccd 0x1 0x24
+write 0xcdd 0x1 0x2e
+write 0xced 0x1 0xff
+write 0xcfd 0x1 0x24
+write 0xd0d 0x1 0x2e
+write 0xd1d 0x1 0xff
+write 0xd2d 0x1 0x24
+write 0xd3d 0x1 0x2e
+write 0xd4d 0x1 0xff
+write 0xd5d 0x1 0x24
+write 0xd6d 0x1 0x2e
+write 0xd7d 0x1 0xff
+write 0xd8d 0x1 0x24
+write 0xd9d 0x1 0x2e
+write 0xdad 0x1 0xff
+write 0xdbd 0x1 0x24
+write 0xdcd 0x1 0x2e
+write 0xddd 0x1 0xff
+write 0xded 0x1 0x24
+write 0xdfd 0x1 0x2e
+write 0xe0d 0x1 0xff
+write 0xe1d 0x1 0x24
+write 0xe2d 0x1 0x2e
+write 0xe3d 0x1 0xff
+write 0xe4d 0x1 0x24
+write 0xe5d 0x1 0x2e
+write 0xe6d 0x1 0xff
+write 0xe7d 0x1 0x24
+write 0xe8d 0x1 0x2e
+write 0xe9d 0x1 0xff
+write 0xead 0x1 0x24
+write 0xebd 0x1 0x2e
+write 0xecd 0x1 0xff
+write 0xedd 0x1 0x24
+write 0xeed 0x1 0x2e
+write 0xefd 0x1 0xff
+write 0xf0d 0x1 0x24
+write 0xf1d 0x1 0x2e
+write 0xf2d 0x1 0xff
+write 0xf3d 0x1 0x24
+write 0xf4d 0x1 0x2e
+write 0xf5d 0x1 0xff
+write 0xf6d 0x1 0x24
+write 0xf7d 0x1 0x2e
+write 0xf8d 0x1 0xff
+write 0xf9d 0x1 0x24
+write 0xfad 0x1 0x2e
+write 0xfbd 0x1 0xff
+write 0xfcd 0x1 0x24
+write 0xfdd 0x1 0x2e
+write 0xfed 0x1 0xff
+write 0xffd 0x1 0x24
+write 0x1001 0x1 0x6d
+write 0x100d 0x1 0x2e
+write 0x100f 0x1 0x05
+writel 0x5e002000 0x0
+write 0x102d 0x1 0x24
+write 0x103d 0x1 0x2e
+write 0x1040 0x1 0xfe
+write 0x1041 0x1 0xff
+write 0x1042 0x1 0xff
+write 0x1043 0x1 0xff
+write 0x1044 0x1 0xff
+write 0x1045 0x1 0xff
+write 0x1046 0x1 0xff
+write 0x1047 0x1 0xff
+write 0x104d 0x1 0x31
+write 0x104f 0x1 0x05
+write 0x2 0x1 0x11
+write 0x3 0x1 0x07
+write 0xf 0x1 0x73
+write 0x9f 0x1 0x65
+write 0x13f 0x1 0x6d
+writel 0x5e002000 0x0
+EOF
 
-Thanks
+=3D=3D=3D Stack Trace =3D=3D=3D
+FIXME xhci_alloc_device_streams:921 guest streams config not identical for =
+all eps
+=3D=3D683875=3D=3D ERROR: libFuzzer: deadly signal
+0x56009f09d311 in __sanitizer_print_stack_trace (fuzz-i386+0x2b16311)
+0x56009efe63d8 in fuzzer::PrintStackTrace() (fuzz-i386+0x2a5f3d8)
+0x56009efcc413 in fuzzer::Fuzzer::CrashCallback() (fuzz-i386+0x2a45413)
+0x7f0aed93e13f  (/lib/x86_64-linux-gnu/libpthread.so.0+0x1413f)
+0x7f0aed773db0 in __libc_signal_restore_set signal/../sysdeps/unix/sysv/lin=
+ux/internal-signals.h:86:3
+0x7f0aed773db0 in raise signal/../sysdeps/unix/sysv/linux/raise.c:48:3
+0x7f0aed75d536 in abort stdlib/abort.c:79:7
+0x56009f4ecde7 in xhci_alloc_device_streams hw/usb/hcd-xhci.c:921:13
+0x56009f4ecde7 in xhci_configure_slot hw/usb/hcd-xhci.c:2223:11
+0x56009f4ecde7 in xhci_process_commands hw/usb/hcd-xhci.c:2466:31
+0x56009f4e36fb in xhci_doorbell_write hw/usb/hcd-xhci.c:3100:13
+0x5600a07fb025 in memory_region_write_accessor softmmu/memory.c:491:5
+0x5600a07faa93 in access_with_adjusted_size softmmu/memory.c:552:18
+0x5600a07fa2f0 in memory_region_dispatch_write softmmu/memory.c
+0x5600a0249f36 in flatview_write_continue softmmu/physmem.c:2759:23
+0x5600a023fbbb in flatview_write softmmu/physmem.c:2799:14
+0x5600a023fbbb in address_space_write softmmu/physmem.c:2891:18
+0x5600a06d4362 in qtest_process_command softmmu/qtest.c:534:13
+0x5600a06d15bf in qtest_process_inbuf softmmu/qtest.c:797:9
+0x5600a06d1315 in qtest_server_inproc_recv softmmu/qtest.c:904:9
+0x5600a0d0edf8 in qtest_sendf tests/qtest/libqtest.c:438:5
+0x5600a0d1038e in qtest_write tests/qtest/libqtest.c:1004:5
+0x5600a0d1038e in qtest_writel tests/qtest/libqtest.c:1020:5
+0x56009f0d7eaa in __wrap_qtest_writel tests/qtest/fuzz/qtest_wrappers.c:180=
+:9
+0x56009f0d0299 in op_write tests/qtest/fuzz/generic_fuzz.c:473:13
+0x56009f0ce4e9 in generic_fuzz tests/qtest/fuzz/generic_fuzz.c:680:17
+0x56009f0c7723 in LLVMFuzzerTestOneInput tests/qtest/fuzz/fuzz.c:151:5
 
-> ---
->  docs/devel/control-flow-integrity.rst | 137 ++++++++++++++++++++++++++
->  1 file changed, 137 insertions(+)
->  create mode 100644 docs/devel/control-flow-integrity.rst
-> 
-> diff --git a/docs/devel/control-flow-integrity.rst b/docs/devel/control-flow-integrity.rst
-> new file mode 100644
-> index 0000000000..ec54d16a42
-> --- /dev/null
-> +++ b/docs/devel/control-flow-integrity.rst
-> @@ -0,0 +1,137 @@
-> +============================
-> +Control-Flow Integrity (CFI)
-> +============================
-> +
-> +This document describes the current control-flow integrity (CFI) mechanism in
-> +QEMU. How it can be enabled, its benefits and deficiencies, and how it affects
-> +new and existing code in QEMU
-> +
-> +Basics
-> +------
-> +
-> +CFI is a hardening technique that focusing on guaranteeing that indirect
-> +function calls have not been altered by an attacker.
-> +The type used in QEMU is a forward-edge control-flow integrity that ensures
-> +function calls performed through function pointers, always call a "compatible"
-> +function. A compatible function is a function with the same signature of the
-> +function pointer declared in the source code.
-> +
-> +This type of CFI is entirely compiler-based and relies on the compiler knowing
-> +the signature of every function and every function pointer used in the code.
-> +As of now, the only compiler that provides support for CFI is Clang.
-> +
-> +CFI is best used on production binaries, to protect against unknown attack
-> +vectors.
-> +
-> +In case of a CFI violation (i.e. call to a non-compatible function) QEMU will
-> +terminate abruptly, to stop the possible attack.
-> +
-> +Building with CFI
-> +-----------------
-> +
-> +NOTE: CFI requires the use of link-time optimization. Therefore, when CFI is
-> +selected, LTO will be automatically enabled.
-> +
-> +To build with CFI, the minimum requirement is Clang 6+. If you
-> +are planning to also enable fuzzing, then Clang 11+ is needed (more on this
-> +later).
-> +
-> +Given the use of LTO, a version of AR that supports LLVM IR is required.
-> +The easies way of doing this is by selecting the AR provided by LLVM::
-> +
-> + AR=llvm-ar-9 CC=clang-9 CXX=lang++-9 /path/to/configure --enable-cfi
-> +
-> +CFI is enabled on every binary produced.
-> +
-> +If desired, an additional flag to increase the verbosity of the output in case
-> +of a CFI violation is offered (``--enable-debug-cfi``).
-> +
-> +Using QEMU built with CFI
-> +-------------------------
-> +
-> +A binary with CFI will work exactly like a standard binary. In case of a CFI
-> +violation, the binary will terminate with an illegal instruction signal.
-> +
-> +Incompatible code with CFI
-> +--------------------------
-> +
-> +As mentioned above, CFI is entirely compiler-based and therefore relies on
-> +compile-time knowledge of the code. This means that, while generally supported
-> +for most code, some specific use pattern can break CFI compatibility, and
-> +create false-positives. The two main patterns that can cause issues are:
-> +
-> +* Just-in-time compiled code: since such code is created at runtime, the jump
-> +  to the buffer containing JIT code will fail.
-> +
-> +* Libraries loaded dynamically, e.g. with dlopen/dlsym, since the library was
-> +  not known at compile time.
-> +
-> +Current areas of QEMU that are not entirely compatible with CFI are:
-> +
-> +1. TCG, since the idea of TCG is to pre-compile groups of instructions at
-> +   runtime to speed-up interpretation, quite similarly to a JIT compiler
-> +
-> +2. TCI, where the interpreter has to interpret the generic *call* operation
-> +
-> +3. Plugins, since a plugin is implemented as an external library
-> +
-> +4. Modules, since they are implemented as an external library
-> +
-> +5. Directly calling signal handlers from the QEMU source code, since the
-> +   signal handler may have been provided by an external library or even plugged
-> +   at runtime.
-> +
-> +Disabling CFI for a specific function
-> +-------------------------------------
-> +
-> +If you are working on function that is performing a call using an
-> +incompatible way, as described before, you can selectively disable CFI checks
-> +for such function by using the decorator ``QEMU_DISABLE_CFI`` at function
-> +definition, and add an explanation on why the function is not compatible
-> +with CFI. An example of the use of ``QEMU_DISABLE_CFI`` is provided here::
-> +
-> +	/*
-> +	 * Disable CFI checks.
-> +	 * TCG creates binary blobs at runtime, with the transformed code.
-> +	 * A TB is a blob of binary code, created at runtime and called with an
-> +	 * indirect function call. Since such function did not exist at compile time,
-> +	 * the CFI runtime has no way to verify its signature and would fail.
-> +	 * TCG is not considered a security-sensitive part of QEMU so this does not
-> +	 * affect the impact of CFI in environment with high security requirements
-> +	 */
-> +	QEMU_DISABLE_CFI
-> +	static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
-> +
-> +NOTE: CFI needs to be disabled at the **caller** function, (i.e. a compatible
-> +cfi function that calls a non-compatible one), since the check is performed
-> +when the function call is performed.
-> +
-> +CFI and fuzzing
-> +---------------
-> +
-> +There is generally no advantage of using CFI and fuzzing together, because
-> +they target different environments (production for CFI, debug for fuzzing).
-> +
-> +CFI could be used in conjunction with fuzzing to identify a broader set of
-> +bugs that may not end immediately in a segmentation fault or triggering
-> +an assertion. However, other sanitizers such as address and ub sanitizers
-> +can identify such bugs in a more precise way than CFI.
-> +
-> +There is, however, an interesting use case in using CFI in conjunction with
-> +fuzzing, that is to make sure that CFI is not triggering any false positive
-> +in remote-but-possible parts of the code.
-> +
-> +CFI can be enabled with fuzzing, but with some caveats:
-> +1. Fuzzing relies on the linker performing function wrapping at link-time.
-> +The standard BFD linker does not support function wrapping when LTO is
-> +also enabled. The workaround is to use LLVM's lld linker.
-> +2. Fuzzing also relies on a custom linker script, which is only supported by
-> +lld with version 11+.
-> +
-> +In other words, to compile with fuzzing and CFI, clang 11+ is required, and
-> +lld needs to be used as a linker::
-> +
-> + AR=llvm-ar-11 CC=clang-11 CXX=lang++-11 /path/to/configure --enable-cfi \
-> +                           -enable-fuzzing --extra-ldflags="-fuse-ld=lld"
-> +
-> +and then, compile the fuzzers as usual.
-> -- 
-> 2.17.1
-> 
-> 
+OSS-Fuzz Report: https://bugs.chromium.org/p/oss-
+fuzz/issues/detail?id=3D28602
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1883733
+
+Title:
+  FIXME xhci_alloc_device_streams:972 guest streams config not identical
+  for all eps
+
+Status in QEMU:
+  New
+
+Bug description:
+  To reproduce run the QEMU with the following command line:
+  ```
+  qemu-system-x86_64 -cdrom hypertrash_os_bios_crash.iso -nographic -m 100 =
+-enable-kvm -device virtio-gpu-pci -device nec-usb-xhci -device usb-audio
+  ```
+
+  QEMU Version:
+  ```
+  # qemu-5.0.0
+  $ ./configure --target-list=3Dx86_64-softmmu --enable-sanitizers; make
+  $ x86_64-softmmu/qemu-system-x86_64 --version
+  QEMU emulator version 5.0.0
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1883733/+subscriptions
 
