@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B202D99FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 15:30:19 +0100 (CET)
-Received: from localhost ([::1]:35302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7102D9A04
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 15:32:31 +0100 (CET)
+Received: from localhost ([::1]:40236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koori-000052-Mi
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 09:30:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38942)
+	id 1kooto-0002AO-Mm
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 09:32:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1koocM-0005sc-Lu
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:14:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36563)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1koocI-00057i-CQ
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:14:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607955260;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bBeCFQu4TSVq4u19lw/v8H+C3+vwAsfe2/K+PIRPe9c=;
- b=I0R2/D5dVEICMIPaRJVHEztLg38COLSyfsKWtsZ9ppitWEYCSuMjPPCZrfLMKejLYQFqfs
- SEv3scaFVDjdLn/nq1YaLRzKHDeyayuFzEeCycE8GyfDF9yia6ENNOZPbitY1usToT5vON
- 9HXCCGlWfaGM0I6sB0Mw4xPKyzfE93E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-gZqNngX8PHKGXZ0h3ueBGw-1; Mon, 14 Dec 2020 09:14:16 -0500
-X-MC-Unique: gZqNngX8PHKGXZ0h3ueBGw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D440FBBEE0;
- Mon, 14 Dec 2020 14:14:14 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-221.ams2.redhat.com
- [10.36.113.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1874717CFE;
- Mon, 14 Dec 2020 14:14:11 +0000 (UTC)
-Subject: Re: [PATCH 3/3] sev: update sev-inject-launch-secret to make gpa
- optional
-To: Tom Lendacky <thomas.lendacky@amd.com>, jejb@linux.ibm.com,
- qemu-devel@nongnu.org
-References: <20201209172334.14100-1-jejb@linux.ibm.com>
- <20201209172334.14100-4-jejb@linux.ibm.com>
- <afe66ae1-a1d9-c017-b05d-12247350338b@amd.com>
- <aa8ebbb5b14821bcaf1d599511f75060d9dcc460.camel@linux.ibm.com>
- <0ef7d374-e284-4b11-3b10-301609f3495e@amd.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <678ac9e8-10b7-9b6c-088f-e334bb2be204@redhat.com>
-Date: Mon, 14 Dec 2020 15:14:11 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kooSE-0001yI-Cm
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:03:58 -0500
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:46011)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kooSB-0003yG-Sn
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:03:58 -0500
+Received: by mail-ot1-x32b.google.com with SMTP id h18so15762807otq.12
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 06:03:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=YKIoLTi5ySgzCVvhycZMdw7nP6Jv58IFUwkqltF23wU=;
+ b=NWB61TiIZFqsBWSTFRTlWr8p0DDqLOVuvdA0LBRrcL12HTHdURYadXRUDBCbYcPmYd
+ MMGxNLPDpgDAAicWJXM0/G5IE+7sEhcWivp0xZxVm7rjm2pasD2nUt0x5aCASMK5Ifa4
+ cLMwk/rNeyymqOJjwcyW1KyTBaddD/9BG8b9fKM0yL6X2a1QRexgXzXex6DlZBs+u2yA
+ /Cv1qFXRGAdtaWMbKOzu8arXMvW5Q68LwjoC9oaB4QwcfdP8a0Mkc52ZQqhWGGQMBL4V
+ VzLdBGw2pdCmexnDKSeSVkOaKoo8wsk32bt2BoClNgp8IWABn/JsyEIPYxCZqd2nu6Jd
+ /98g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=YKIoLTi5ySgzCVvhycZMdw7nP6Jv58IFUwkqltF23wU=;
+ b=SSU68Ujfi2ktZwntvvTlxfsxMF2mJMDqZkntv26aAPNKOmMDYM9kthAE2W6ICIpgD1
+ u8FCnB5P+eZmphhr8J/eQ9bGfBH3nIhdFmNPEJad0OO5ItQoJvBXxuXj3Q1Xvg38977F
+ x90lPeGyPxUU7Ezo/OF1RR0qV/xIMknUh4N9lPRzZWEnRR+StC+XHctBJCw1n/As422p
+ Odu8g08UJrHhXxpUgGYRP8UP6anyNi1CY5KcLM53TBX2tzOMG68QpItEtFT1CSwv6x/A
+ IppKzLvgsIEiCg6yI7kNMNJKvQtjMHOayn07mb+tLyWY+SHoWa6ZUfTXmsr6unDYGp6x
+ er2Q==
+X-Gm-Message-State: AOAM532ucEQyC2LsAeTm2kgerohcSlAI5rQQU4CLujRaB0XKLFr2Tu1R
+ nMzjCtEeUxsheZUOr15leMcmcZjiCxlzdWZ1
+X-Google-Smtp-Source: ABdhPJxLU6Ww1hWfsg9WyxiRFzvKFyys8iVoZFMTMfE5OCcENzeJ65qXXXEAIGX5xDYOrCUVtPrfpA==
+X-Received: by 2002:a9d:32b6:: with SMTP id u51mr18875591otb.119.1607954634157; 
+ Mon, 14 Dec 2020 06:03:54 -0800 (PST)
+Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id t24sm3940146oou.4.2020.12.14.06.03.52
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Dec 2020 06:03:53 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 22/43] tcg/aarch64: Use B not BL for tcg_out_goto_long
+Date: Mon, 14 Dec 2020 08:02:53 -0600
+Message-Id: <20201214140314.18544-23-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201214140314.18544-1-richard.henderson@linaro.org>
+References: <20201214140314.18544-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <0ef7d374-e284-4b11-3b10-301609f3495e@amd.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,29 +84,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ashish.kalra@amd.com, brijesh.singh@amd.com, david.kaplan@amd.com,
- jon.grimm@amd.com, tobin@ibm.com, frankeh@us.ibm.com,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, dovmurik@linux.vnet.ibm.com,
- Dov.Murik1@il.ibm.com, pbonzini@redhat.com, berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 23:54, Tom Lendacky wrote:
-> On 12/11/20 4:45 PM, James Bottomley wrote:
->> On Fri, 2020-12-11 at 16:00 -0600, Tom Lendacky wrote:
->>> On 12/9/20 11:23 AM, James Bottomley wrote:
->>
->> So for this one I'm not checking the length, which argues it wouldn't
->> be subject to the added length new data rule and I'd have to use a new
->> guid for new information.  However, I could also see situations where
->> you would check the length and thus would have the ability to add
->> fields (either at the beginning or the end).
-> 
-> I think this paragraph explains it nicely and a slightly expanded
-> comment with this information would be enough.
+A typo generated a branch-and-link insn instead of plain branch.
 
-Sounds good to me as well, thank you.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/aarch64/tcg-target.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Laszlo
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index fea784cf75..bd888bc66d 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -1317,7 +1317,7 @@ static inline void tcg_out_goto_long(TCGContext *s, tcg_insn_unit *target)
+ {
+     ptrdiff_t offset = target - s->code_ptr;
+     if (offset == sextract64(offset, 0, 26)) {
+-        tcg_out_insn(s, 3206, BL, offset);
++        tcg_out_insn(s, 3206, B, offset);
+     } else {
+         tcg_out_movi(s, TCG_TYPE_I64, TCG_REG_TMP, (intptr_t)target);
+         tcg_out_insn(s, 3207, BR, TCG_REG_TMP);
+-- 
+2.25.1
 
 
