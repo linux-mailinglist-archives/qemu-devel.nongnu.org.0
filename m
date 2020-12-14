@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024052D9783
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 12:41:07 +0100 (CET)
-Received: from localhost ([::1]:52718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B597A2D97B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 12:54:52 +0100 (CET)
+Received: from localhost ([::1]:60530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1komDy-0000EC-2D
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 06:41:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59706)
+	id 1komRH-0004A5-9p
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 06:54:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1komCT-0007ku-Rk
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 06:39:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35784)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1komPu-0003aR-0H
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 06:53:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1komCS-0002pQ-5s
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 06:39:33 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1komPo-0004Z5-OI
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 06:53:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607945971;
+ s=mimecast20190719; t=1607946798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VJKzp+2JWOw19f34jvf7g+JAEQzh1nD2E5Q+i+rghOw=;
- b=HHThO0hkMpbhqlasK3F4Nsnt6tkOspdbN519gCV9MpjDt+0Hih/mhFKUf5fXMF2JBAp8fu
- FUdIypJjqAyj2DCAtOJMDJR+iFz8/Kk+MSttwn/Yf3ldFjwegPKmqsLu1iJ2fwTHI/f+t6
- KdwM8mtk09WUTyqT5+MCs0UY5wUQT54=
+ bh=du9WPFZV3tQd6L758nhlyCx3hhFt0LRyPAVuZ/pHNvo=;
+ b=GcczlfR2fqh0FN3t3xLG0sIiM7I51FGF+dWP7HYfijGI7eqrvx/xAk2Nx4B2lTd6BBCSJC
+ r/NwCRP8kscILYa/3Ed0hiFujRn0Hhh6rmDxUrobv9Au9+9ZsO0pswU2BqDlFHbOP3dNiz
+ 8SSnW9sf40HXx17VK0B+2oZ+x2Umdig=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-mnrGrib_OQWaubK1op3EqA-1; Mon, 14 Dec 2020 06:39:29 -0500
-X-MC-Unique: mnrGrib_OQWaubK1op3EqA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-314-EzHUuaSOPZqkCeS2jPYZnw-1; Mon, 14 Dec 2020 06:53:17 -0500
+X-MC-Unique: EzHUuaSOPZqkCeS2jPYZnw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 546AE8030A8;
- Mon, 14 Dec 2020 11:39:28 +0000 (UTC)
-Received: from gondolin (ovpn-113-171.ams2.redhat.com [10.36.113.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6053C1C930;
- Mon, 14 Dec 2020 11:39:23 +0000 (UTC)
-Date: Mon, 14 Dec 2020 12:39:20 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 0/3] tests/acceptance: Test virtio-rng and -balloon on
- s390x
-Message-ID: <20201214123920.1aae5cb7.cohuck@redhat.com>
-In-Reply-To: <ee0257d8-3b38-5baf-5552-8c0f3f09ce37@redhat.com>
-References: <20201211173134.376078-1-thuth@redhat.com>
- <15276695-1718-e3a9-907e-c6e145294a87@redhat.com>
- <ee0257d8-3b38-5baf-5552-8c0f3f09ce37@redhat.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 049C4800D55
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 11:53:16 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 135875D9DC;
+ Mon, 14 Dec 2020 11:53:14 +0000 (UTC)
+Date: Mon, 14 Dec 2020 12:53:13 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 14/15] null-machine: do not create a default memdev
+Message-ID: <20201214125313.0e067fdf@redhat.com>
+In-Reply-To: <4e36d013-d379-05e3-7803-eb4df9fbb0d3@redhat.com>
+References: <20201202081854.4126071-1-pbonzini@redhat.com>
+ <20201202081854.4126071-15-pbonzini@redhat.com>
+ <20201207174359.03b099ce@redhat.com>
+ <4e36d013-d379-05e3-7803-eb4df9fbb0d3@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,59 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-s390x@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 12 Dec 2020 08:15:13 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+On Sat, 12 Dec 2020 00:24:25 +0100
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> On 11/12/2020 21.10, Willian Rampazzo wrote:
-> > On 12/11/20 2:31 PM, Thomas Huth wrote: =20
-> >> Add two more simple tests to check that virtio-rng and virtio-balloon
-> >> are at least (very) basically working on s390x.
-> >>
-> >> Based-on: 20201204121450.120730-1-cohuck@redhat.com
-> >>
-> >> Thomas Huth (3):
-> >> =C2=A0=C2=A0 tests/acceptance: Extract the code to clear dmesg and wai=
-t for CRW
-> >> =C2=A0=C2=A0=C2=A0=C2=A0 reports
-> >> =C2=A0=C2=A0 tests/acceptance/machine_s390_ccw_virtio: Test virtio-rng=
- via
-> >> =C2=A0=C2=A0=C2=A0=C2=A0 /dev/hwrng
-> >> =C2=A0=C2=A0 tests/acceptance/machine_s390_ccw_virtio: Test the virtio=
--balloon
-> >> =C2=A0=C2=A0=C2=A0=C2=A0 device
-> >>
-> >> =C2=A0 tests/acceptance/machine_s390_ccw_virtio.py | 59 ++++++++++++++=
-+------
-> >> =C2=A0 1 file changed, 43 insertions(+), 16 deletions(-)
-> >> =20
-> >=20
-> > One observation, test_s390x_devices tends to get longer and difficult t=
-o
-> > debug in case of problems. If a test covers one specific device type, I=
-t
-> > will improve readability, flexibility, and debugging. In case you don't=
- want
-> > to spend time breaking this into multiple tests, I'll be glad to do tha=
-t
-> > after the whole series is merged. =20
->=20
-> Theoretically yes, but practically we also want to run the tests as fast =
-as
-> possible. Quite a bit of time is used to boot the kernel, so if we add a =
-new
-> test for each and every device, that would increase the test time quite a
-> bit. Thus I'd rather prefer to keep everything in one single test instead
-> for now.
+> On 07/12/20 17:43, Igor Mammedov wrote:
+> >>       mc->default_ram_size = 0;
+> >> -    mc->default_ram_id = "ram";
+> >> +    mc->default_ram_id = NULL;  
+> > probably that will break:
+> > 
+> >   QEMU -m X -M none  
+> 
+> No, it works.  "-m" is simply ignored, because the default memdev is 
+> created here:
+you mean it doesn't explode.
+By default with current code memdev should not be created, 
+but it is created if users asks for it with -m.
+This patch breaks the later.
 
-I agree.
+I'm not sure that any RAM on null machine is of any use at all
+but the if we decide to get rid of it completely, then we need
+to clean up
+    /* RAM at address zero */                                                    
+    if (mch->ram) {                                                              
+        memory_region_add_subregion(get_system_memory(), 0, mch->ram);           
+    }   
+and commit title/message should match what patch does and why.
 
-Is there any other way to make this more debuggable?
+
+>      if (machine_class->default_ram_id && current_machine->ram_size &&
+>          numa_uses_legacy_mem() && !current_machine->ram_memdev_id) {
+>          create_default_memdev(current_machine, mem_path);
+>      }
+> 
+> and is thus skipped for -M none.
+> 
+> Paolo
+> 
+> > 
+> > maybe there is  a bug over there but
+> >      "mc->default_ram_size = 0"
+> > above, should result in
+> >      current_machine->ram_size == 0
+> > in case user hasn't provided "-m"
+> > and hence memdev shouldn't be created
+> >   
+> 
 
 
