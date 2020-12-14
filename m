@@ -2,44 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 327502D9A98
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 16:11:01 +0100 (CET)
-Received: from localhost ([::1]:40758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9EB22D9A99
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 16:13:11 +0100 (CET)
+Received: from localhost ([::1]:45874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kopV5-0004zc-NY
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 10:10:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51332)
+	id 1kopXC-000797-Ps
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 10:13:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1kopTx-0003yZ-Ds
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 10:09:49 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:40898)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
- (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
- id 1kopTv-0003VL-I9
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 10:09:49 -0500
-Received: from 2.general.paelzer.uk.vpn ([10.172.196.173]
- helo=Keschdeichel.fritz.box) by youngberry.canonical.com with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <christian.ehrhardt@canonical.com>)
- id 1kopTs-0006WB-D8; Mon, 14 Dec 2020 15:09:44 +0000
-From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH] build: -no-pie is no functional linker flag
-Date: Mon, 14 Dec 2020 16:09:38 +0100
-Message-Id: <20201214150938.1297512-1-christian.ehrhardt@canonical.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kopVt-0006dx-EB
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 10:11:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kopVr-0003tr-BE
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 10:11:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607958706;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yj+c0lOJF7ENNVlankWOtZ65z9BAD7KLXpFpV86d+HI=;
+ b=D2FrcYUC2FSxhlIc1FM8v4pYeG8h4/MxOT8U10Mv7K23IOBTLBnYlQ5+JU6DyudRnDxOV9
+ zkXu0pNGoxlVMspn4tDzac1ErWWf5rGBYjwc16g97e6fJSffHUA94D4IYpcSDYnWkR0P3k
+ 84YOw8xOuiyl7xsHyEMLM10V4tRMRb8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-ymPZ8hUJOyaneB2H7ypsFg-1; Mon, 14 Dec 2020 10:11:44 -0500
+X-MC-Unique: ymPZ8hUJOyaneB2H7ypsFg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C90031E7C4;
+ Mon, 14 Dec 2020 15:11:43 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC79B10023AD;
+ Mon, 14 Dec 2020 15:11:37 +0000 (UTC)
+Date: Mon, 14 Dec 2020 16:11:36 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v4 31/32] qdev: Avoid unnecessary DeviceState* variable
+ at set_prop_arraylen()
+Message-ID: <20201214161136.06baeb56@redhat.com>
+In-Reply-To: <20201211220529.2290218-32-ehabkost@redhat.com>
+References: <20201211220529.2290218-1-ehabkost@redhat.com>
+ <20201211220529.2290218-32-ehabkost@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=91.189.89.112;
- envelope-from=christian.ehrhardt@canonical.com; helo=youngberry.canonical.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,76 +80,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent binutils changes dropping unsupported options [1] caused a build
-issue in regard to the optionroms.
+On Fri, 11 Dec 2020 17:05:28 -0500
+Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-  ld -m elf_i386 -T /<<PKGBUILDDIR>>/pc-bios/optionrom//flat.lds -no-pie \
-    -s -o multiboot.img multiboot.o
-  ld.bfd: Error: unable to disambiguate: -no-pie (did you mean --no-pie ?)
+> We're just doing pointer math with the device pointer, we can
+> simply use obj instead.
+>=20
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
-This isn't really a regression in ld.bfd, filing the bug upstream
-revealed that this never worked as a ld flag [2] - in fact it seems we
-were by accident setting --nmagic).
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-Since it never had the wanted effect this usage of LDFLAGS_NOPIE, should be
-droppable without any effect. This also is the only use-case of LDFLAGS_NOPIE
-in .mak, therefore we can also remove it from being added there.
-
-[1]: https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=983d925d
-[2]: https://sourceware.org/bugzilla/show_bug.cgi?id=27050#c5
-
-Signed-off-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
----
- configure                  | 3 ---
- pc-bios/optionrom/Makefile | 1 -
- 2 files changed, 4 deletions(-)
-
-diff --git a/configure b/configure
-index 3f823ed163..61c17c2dde 100755
---- a/configure
-+++ b/configure
-@@ -2133,7 +2133,6 @@ EOF
- # Check we support --no-pie first; we will need this for building ROMs.
- if compile_prog "-Werror -fno-pie" "-no-pie"; then
-   CFLAGS_NOPIE="-fno-pie"
--  LDFLAGS_NOPIE="-no-pie"
- fi
- 
- if test "$static" = "yes"; then
-@@ -2149,7 +2148,6 @@ if test "$static" = "yes"; then
-   fi
- elif test "$pie" = "no"; then
-   CONFIGURE_CFLAGS="$CFLAGS_NOPIE $CONFIGURE_CFLAGS"
--  CONFIGURE_LDFLAGS="$LDFLAGS_NOPIE $CONFIGURE_LDFLAGS"
- elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
-   CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
-   CONFIGURE_LDFLAGS="-pie $CONFIGURE_LDFLAGS"
-@@ -6768,7 +6766,6 @@ echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
- echo "GLIB_CFLAGS=$glib_cflags" >> $config_host_mak
- echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
- echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
--echo "LDFLAGS_NOPIE=$LDFLAGS_NOPIE" >> $config_host_mak
- echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_host_mak
- echo "EXESUF=$EXESUF" >> $config_host_mak
- echo "HOST_DSOSUF=$HOST_DSOSUF" >> $config_host_mak
-diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-index 084fc10f05..30771f8d17 100644
---- a/pc-bios/optionrom/Makefile
-+++ b/pc-bios/optionrom/Makefile
-@@ -41,7 +41,6 @@ override CFLAGS += $(call cc-option, $(Wa)-32)
- 
- LD_I386_EMULATION ?= elf_i386
- override LDFLAGS = -m $(LD_I386_EMULATION) -T $(SRC_DIR)/flat.lds
--override LDFLAGS += $(LDFLAGS_NOPIE)
- 
- all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
- 
--- 
-2.29.2
+> ---
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Daniel P. Berrang=C3=A9" <berrange@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+>  hw/core/qdev-properties.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+> index 3d648b088d..9d25b49fc1 100644
+> --- a/hw/core/qdev-properties.c
+> +++ b/hw/core/qdev-properties.c
+> @@ -559,10 +559,9 @@ static void set_prop_arraylen(Object *obj, Visitor *=
+v, const char *name,
+>       * array-length field in the device struct, we have to create the
+>       * array itself and dynamically add the corresponding properties.
+>       */
+> -    DeviceState *dev =3D DEVICE(obj);
+>      Property *prop =3D opaque;
+>      uint32_t *alenptr =3D object_field_prop_ptr(obj, prop);
+> -    void **arrayptr =3D (void *)dev + prop->arrayoffset;
+> +    void **arrayptr =3D (void *)obj + prop->arrayoffset;
+>      void *eltptr;
+>      const char *arrayname;
+>      int i;
+> @@ -602,7 +601,7 @@ static void set_prop_arraylen(Object *obj, Visitor *v=
+, const char *name,
+>           * they get the right answer despite the array element not actua=
+lly
+>           * being inside the device struct.
+>           */
+> -        arrayprop->prop.offset =3D eltptr - (void *)dev;
+> +        arrayprop->prop.offset =3D eltptr - (void *)obj;
+>          assert(object_field_prop_ptr(obj, &arrayprop->prop) =3D=3D eltpt=
+r);
+>          object_property_add(obj, propname,
+>                              arrayprop->prop.info->name,
 
 
