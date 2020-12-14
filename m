@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05B82DA201
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 21:53:48 +0100 (CET)
-Received: from localhost ([::1]:53358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC392DA200
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 21:53:32 +0100 (CET)
+Received: from localhost ([::1]:51846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kouqq-0001ZI-1G
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 15:53:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50496)
+	id 1kouqZ-0000o9-Hk
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 15:53:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1koumN-00051W-5a
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 15:49:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42065)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kount-0006GD-1d
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 15:50:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1koumH-0001Rx-Dn
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 15:49:10 -0500
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kounq-0001er-Or
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 15:50:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607978942;
+ s=mimecast20190719; t=1607979039;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fnAwXXsru3ShE/0H01SgjmoGHdaa1SQ1M7ZoQ9W51L4=;
- b=OWenLMkdgsdMJfOAp/gZbXzxvzxDu0k32mhdEqUHqZS+FSkRZv43LTbSCNIw1YtRqdUNb+
- pcqJ3BrkR6QGDLHJ2wo/WxC34dqET3feGRQk3zJaHZw0/DFyYU5iJ590NnZeBHdDYxB6ou
- 0PogUQcHD7NyCwfMvOCoquC4+HavmQM=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-Gy8t8FDiPWWZXk0DhJHYpw-1; Mon, 14 Dec 2020 15:49:01 -0500
-X-MC-Unique: Gy8t8FDiPWWZXk0DhJHYpw-1
-Received: by mail-vk1-f197.google.com with SMTP id f139so7669442vke.23
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 12:49:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fnAwXXsru3ShE/0H01SgjmoGHdaa1SQ1M7ZoQ9W51L4=;
- b=rbGMms3Z6C+bgYF3ISeQEMjMfhFFj4Jt/4e7KTTI75VKknWSyeFjBD+Zv4jN3wyBLF
- LLKhzu6yHS/ipmj4+wdm3e4hxwwnHw+UoDVB54O0EXxhQLXWtbirwxT8YoZoiG85cotB
- 6FfgiknDy1ti/1+sDlhzE00bebyufoDU5elYNjpMdHWYdn11Yw/+yK0BT4Bd4jUwz1q2
- teycG9LyDiLkujxTnlrcxvpkVjfJcsMNn/UXdN029dm5d6GR1GzbYoyt8wJ6N/ioQkCF
- X//6zyxm/apGulQ8ojYl2T/gCzlxapoZsn2HJDzQuBaAPaHE006TE/AEKUHSezpekXWl
- KhVQ==
-X-Gm-Message-State: AOAM53056WTyqPXy0HHpPFK+hxAWh9Tn3cov3Qy6p88wUSFYxZx7PJR7
- xNHOln7M9e5YAnzWJSrQeSPpnWQcIa59OVfFb3JTWRiLS7q9zt5MKXVIV/YGraTdnYdSTJ0KI21
- PWE0jDiKD5XVlrvOIH8wGbj9lQ5HJQ18=
-X-Received: by 2002:a1f:3216:: with SMTP id y22mr27141926vky.1.1607978940010; 
- Mon, 14 Dec 2020 12:49:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzqUIQCBxuUmTF2s8xBsWj6ZvMw3W6tSmZcCWT9w8ji3elRfmKwYvKzQ0ERRFIY9TM1vILzh9UsH6qFfQwtKGo=
-X-Received: by 2002:a1f:3216:: with SMTP id y22mr27141917vky.1.1607978939819; 
- Mon, 14 Dec 2020 12:48:59 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=e8s0qM6SVULiVakZ+lFdI424N9CKza+D/1TsLuhzs68=;
+ b=HRZqDRFQMCsDcBV/VeRolcLVyrIzoo31566u6gobvRniLSZpSa2EF88FQfVP5CtXA61sUz
+ 3oPaaLcTEcA821DwhdrvAMiZxJHhs8Tm96TJjmjKixiI9XlI8i66lNB2OJDKpmGdh3d4AJ
+ aOUe9bgVkeDavsmRnvpe6xqSwKZ6kBI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-497-_zrDCkvEOv65EhIZL6k0Fw-1; Mon, 14 Dec 2020 15:50:36 -0500
+X-MC-Unique: _zrDCkvEOv65EhIZL6k0Fw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7506190A7A0;
+ Mon, 14 Dec 2020 20:50:34 +0000 (UTC)
+Received: from localhost (ovpn-116-160.rdu2.redhat.com [10.10.116.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E58760BE2;
+ Mon, 14 Dec 2020 20:50:31 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] pc: Support configuration of SMBIOS entry point type
+Date: Mon, 14 Dec 2020 15:50:26 -0500
+Message-Id: <20201214205029.2991222-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-References: <20201211183827.915232-1-wainersm@redhat.com>
- <20201211183827.915232-2-wainersm@redhat.com>
-In-Reply-To: <20201211183827.915232-2-wainersm@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 14 Dec 2020 17:48:49 -0300
-Message-ID: <CAKJDGDYqsKDyiEXe48N=P+vuqhB6fB3S6ToCo2mxuk214Poq6g@mail.gmail.com>
-Subject: Re: [PATCH 1/3] tests/acceptance: Bump avocado requirements to 83.0
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,25 +75,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Philippe Mathieu Daude <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Willian Rampazzo <willianr@redhat.com>,
- Cleber Rosa Junior <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 11, 2020 at 3:38 PM Wainer dos Santos Moschetta
-<wainersm@redhat.com> wrote:
->
-> To use Avocado's testlogs plug-in on CI it is required to use
-> its 83.0 or greater version.
->
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> ---
->  tests/requirements.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+This includes code previously submitted[1] by Daniel P. Berrang=C3=A9=0D
+to add a "smbios-ep" machine property on PC.=0D
+=0D
+SMBIOS 3.0 is necessary to support more than ~720 VCPUs, as a=0D
+large number of VCPUs can easily hit the table size limit of=0D
+SMBIOS 2.1 entry points.=0D
+=0D
+[1] https://lore.kernel.org/qemu-devel/20200908165438.1008942-5-berrange@re=
+dhat.com=0D
+    https://lore.kernel.org/qemu-devel/20200908165438.1008942-6-berrange@re=
+dhat.com=0D
+=0D
+Daniel P. Berrang=C3=A9 (1):=0D
+  hw/i386: expose a "smbios-ep" PC machine property=0D
+=0D
+Eduardo Habkost (2):=0D
+  smbios: Rename SMBIOS_ENTRY_POINT_* enums=0D
+  hw/smbios: Use qapi for SmbiosEntryPointType=0D
+=0D
+ qapi/qapi-schema.json        |  1 +=0D
+ qapi/smbios.json             | 11 +++++++++++=0D
+ include/hw/firmware/smbios.h | 10 ++--------=0D
+ include/hw/i386/pc.h         |  3 +++=0D
+ hw/arm/virt.c                |  2 +-=0D
+ hw/i386/pc.c                 | 26 ++++++++++++++++++++++++++=0D
+ hw/i386/pc_piix.c            |  2 +-=0D
+ hw/i386/pc_q35.c             |  2 +-=0D
+ hw/smbios/smbios.c           |  8 ++++----=0D
+ qapi/meson.build             |  1 +=0D
+ 10 files changed, 51 insertions(+), 15 deletions(-)=0D
+ create mode 100644 qapi/smbios.json=0D
+=0D
+--=20=0D
+2.28.0=0D
+=0D
 
 
