@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9060D2D92CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:27:11 +0100 (CET)
-Received: from localhost ([::1]:48780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 478842D928C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:20:33 +0100 (CET)
+Received: from localhost ([::1]:53054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kogO6-00031h-MD
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:27:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42418)
+	id 1kogHg-0001T6-8q
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:20:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kogEk-0006zS-P0
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 00:17:31 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:36450)
+ id 1kogCr-0004rn-NZ
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 00:15:33 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:46266)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kogEg-0007K3-5F
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 00:17:29 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BE5E3N2135577;
- Mon, 14 Dec 2020 05:17:18 GMT
+ id 1kogCp-0007Bf-7a
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 00:15:33 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BE5DpV6087981;
+ Mon, 14 Dec 2020 05:15:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
- references : mime-version : content-type : content-transfer-encoding;
- s=corp-2020-01-29; bh=ze+Ja8H9czLNjpG887Mc1nZ9wXWGyv2WDW/acLxmKuk=;
- b=XeAF31jEGO12yVoXH2Ki3yL90ZE+WQXbIdWUeuPffHqHmtfIv172zcsv+BrmvBxnn9rQ
- XybooVKQOIZFZvzGwIhJ6zzXE8s7qaLqLuba+eUQJRrHwqmPgfZoKOXcpH9DKVgf0Dvm
- OFFbEnvNn2Id8M10G26BHgMQbc0y3hjcvtyPB4mj4JXfq4yNS5rljXaIdBEF6HXNt43c
- JZJPXMFRCXSTN5aBDqKkaPS/ATfml8VaKx3aMUPCxeQEJiDuIIZ9BkxUJV0UW4FaVdqV
- HwluNPrheqe2ehxFf8V9rmx/2NbtIQ9oPuBsd3hflv1pojJbojrYAmMyEskLQVTC69FQ Vg== 
+ references; s=corp-2020-01-29;
+ bh=+fwk46T9QZ+3By75r4vme/SQQZRot7+Ss7Qs4tZeF+o=;
+ b=BhdKMXlV3/+fce0V9IMZgSYxg4Luf1cjBcKk7CXK0O5xCE9OYRZDr2ogjDHFM+W1p6Q2
+ CzOTXi893f2QABWIjpfc154IChlPnz4dTIKJjYItH8e/PEVBl/viqp3eqY7aoVjI1CeI
+ m91U/mR1GQ5/eWi/LlYE0+XIRlaoC1hR1Zhiz/LbPXWClmyj1y/TCnGi5pdGJNi4dbkX
+ 0qYOtOUuwv/8CC5wATImKQT76Gpdixv/Q1VACPaqkRCTKUwEmfYOR2c4xkBdnRkzzMDc
+ 3Xmf2HC1CG2xuT5ho6sZvx/JBz4347A3Tc2Bid9rZHeRO6ijE26hE65bQgstbKzBW8IY 7Q== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 35cntkubdg-1
+ by aserp2130.oracle.com with ESMTP id 35ckcb3gw5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 14 Dec 2020 05:17:18 +0000
+ Mon, 14 Dec 2020 05:15:23 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BE5Anfl184320;
- Mon, 14 Dec 2020 05:15:18 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 35d7rw1ngc-1
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BE5Aoj7184533;
+ Mon, 14 Dec 2020 05:15:22 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 35d7rw1nkp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Dec 2020 05:15:18 +0000
+ Mon, 14 Dec 2020 05:15:22 +0000
 Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BE5FHZ8006441;
- Mon, 14 Dec 2020 05:15:17 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BE5FKVg030608;
+ Mon, 14 Dec 2020 05:15:20 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sun, 13 Dec 2020 21:15:17 -0800
+ with ESMTP ; Sun, 13 Dec 2020 21:15:20 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v13 05/19] multi-process: setup PCI host bridge for remote
- device
-Date: Mon, 14 Dec 2020 00:14:45 -0500
-Message-Id: <c31c7ed910837f3d9374a9778424e2a5c3190b64.1607922214.git.jag.raman@oracle.com>
+Subject: [PATCH v13 07/19] multi-process: add qio channel function to transmit
+ data and fds
+Date: Mon, 14 Dec 2020 00:14:47 -0500
+Message-Id: <a366c7f80a862b4f32445f8334e2f36767b102a3.1607922214.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1607922214.git.jag.raman@oracle.com>
 References: <cover.1607922214.git.jag.raman@oracle.com>
 In-Reply-To: <cover.1607922214.git.jag.raman@oracle.com>
 References: <cover.1607922214.git.jag.raman@oracle.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9834
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
@@ -73,13 +70,13 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9834
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- phishscore=0 mlxscore=0
- lowpriorityscore=0 spamscore=0 adultscore=0 malwarescore=0 suspectscore=0
- mlxlogscore=999 impostorscore=0 priorityscore=1501 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012140040
-Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
- helo=aserp2120.oracle.com
+ mlxlogscore=999
+ priorityscore=1501 mlxscore=0 suspectscore=0 adultscore=0 phishscore=0
+ malwarescore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012140040
+Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
+ helo=aserp2130.oracle.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -110,189 +107,175 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PCI host bridge is setup for the remote device process. It is
-implemented using remote-pcihost object. It is an extension of the PCI
-host bridge setup by QEMU.
-Remote-pcihost configures a PCI bus which could be used by the remote
-PCI device to latch on to.
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Adds QIO channel functions that transmit and receive iovs along with fds.
+
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/hw/pci-host/remote.h | 30 ++++++++++++++++++
- hw/pci-host/remote.c         | 75 ++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                  |  2 ++
- hw/pci-host/Kconfig          |  3 ++
- hw/pci-host/meson.build      |  1 +
- hw/remote/Kconfig            |  1 +
- 6 files changed, 112 insertions(+)
- create mode 100644 include/hw/pci-host/remote.h
- create mode 100644 hw/pci-host/remote.c
+ include/io/channel.h | 50 +++++++++++++++++++++++++++++++++++++++++
+ io/channel.c         | 63 +++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 112 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/pci-host/remote.h b/include/hw/pci-host/remote.h
-new file mode 100644
-index 0000000..2017422
---- /dev/null
-+++ b/include/hw/pci-host/remote.h
-@@ -0,0 +1,30 @@
-+/*
-+ * PCI Host for remote device
+diff --git a/include/io/channel.h b/include/io/channel.h
+index 4d6fe45..c2d9836 100644
+--- a/include/io/channel.h
++++ b/include/io/channel.h
+@@ -774,4 +774,54 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
+                                     IOHandler *io_write,
+                                     void *opaque);
+ 
++/**
++ * qio_channel_readv_full_all:
++ * @ioc: the channel object
++ * @iov: the array of memory regions to read data to
++ * @niov: the length of the @iov array
++ * @fds: an array of file handles to read
++ * @nfds: number of file handles in @fds
++ * @errp: pointer to a NULL-initialized error object
 + *
-+ * Copyright © 2018, 2020 Oracle and/or its affiliates.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * Behaves like qio_channel_readvv_full but will attempt
++ * to read all data specified (file handles and memory regions).
++ * The function will wait for all requested data
++ * to be read, yielding from the current coroutine
++ * if required.
 + *
++ * Returns: 0 if all bytes were read, or -1 on error
 + */
 +
-+#ifndef REMOTE_PCIHOST_H
-+#define REMOTE_PCIHOST_H
++int qio_channel_readv_full_all(QIOChannel *ioc,
++                                const struct iovec *iov,
++                                size_t niov,
++                                int **fds, size_t *nfds,
++                                Error **errp);
 +
-+#include "exec/memory.h"
-+#include "hw/pci/pcie_host.h"
-+
-+#define TYPE_REMOTE_PCIHOST "remote-pcihost"
-+#define REMOTE_PCIHOST(obj) \
-+    OBJECT_CHECK(RemotePCIHost, (obj), TYPE_REMOTE_PCIHOST)
-+
-+typedef struct RemotePCIHost {
-+    /*< private >*/
-+    PCIExpressHost parent_obj;
-+    /*< public >*/
-+
-+    MemoryRegion *mr_pci_mem;
-+    MemoryRegion *mr_sys_io;
-+} RemotePCIHost;
-+
-+#endif
-diff --git a/hw/pci-host/remote.c b/hw/pci-host/remote.c
-new file mode 100644
-index 0000000..14462e4
---- /dev/null
-+++ b/hw/pci-host/remote.c
-@@ -0,0 +1,75 @@
-+/*
-+ * Remote PCI host device
++/**
++ * qio_channel_writev_full_all:
++ * @ioc: the channel object
++ * @iov: the array of memory regions to write data from
++ * @niov: the length of the @iov array
++ * @fds: an array of file handles to send
++ * @nfds: number of file handles in @fds
++ * @errp: pointer to a NULL-initialized error object
 + *
-+ * Unlike PCI host devices that model physical hardware, the purpose
-+ * of this PCI host is to host multi-process QEMU devices.
 + *
-+ * Multi-process QEMU extends the PCI host of a QEMU machine into a
-+ * remote process. Any PCI device attached to the remote process is
-+ * visible in the QEMU guest. This allows existing QEMU device models
-+ * to be reused in the remote process.
++ * Behaves like qio_channel_writev_full but will attempt
++ * to send all data passed (file handles and memory regions).
++ * The function will wait for all requested data
++ * to be written, yielding from the current coroutine
++ * if required.
 + *
-+ * This PCI host is purely a container for PCI devices. It's fake in the
-+ * sense that the guest never sees this PCI host and has no way of
-+ * accessing it. Its job is just to provide the environment that QEMU
-+ * PCI device models need when running in a remote process.
-+ *
-+ * Copyright © 2018, 2020 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
++ * Returns: 0 if all bytes were written, or -1 on error
 + */
 +
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
++int qio_channel_writev_full_all(QIOChannel *ioc,
++                           const struct iovec *iov,
++                           size_t niov,
++                           int *fds, size_t nfds,
++                           Error **errp);
 +
-+#include "hw/pci/pci.h"
-+#include "hw/pci/pci_host.h"
-+#include "hw/pci/pcie_host.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/pci-host/remote.h"
-+#include "exec/memory.h"
-+
-+static const char *remote_pcihost_root_bus_path(PCIHostState *host_bridge,
-+                                                PCIBus *rootbus)
-+{
-+    return "0000:00";
-+}
-+
-+static void remote_pcihost_realize(DeviceState *dev, Error **errp)
-+{
-+    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
-+    RemotePCIHost *s = REMOTE_PCIHOST(dev);
-+
-+    pci->bus = pci_root_bus_new(DEVICE(s), "remote-pci",
-+                                s->mr_pci_mem, s->mr_sys_io,
-+                                0, TYPE_PCIE_BUS);
-+}
-+
-+static void remote_pcihost_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(klass);
-+
-+    hc->root_bus_path = remote_pcihost_root_bus_path;
-+    dc->realize = remote_pcihost_realize;
-+
-+    dc->user_creatable = false;
-+    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+    dc->fw_name = "pci";
-+}
-+
-+static const TypeInfo remote_pcihost_info = {
-+    .name = TYPE_REMOTE_PCIHOST,
-+    .parent = TYPE_PCIE_HOST_BRIDGE,
-+    .instance_size = sizeof(RemotePCIHost),
-+    .class_init = remote_pcihost_class_init,
-+};
-+
-+static void remote_pcihost_register(void)
-+{
-+    type_register_static(&remote_pcihost_info);
-+}
-+
-+type_init(remote_pcihost_register)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c979658..2d6ee6c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3153,6 +3153,8 @@ M: John G Johnson <john.g.johnson@oracle.com>
- S: Maintained
- F: docs/devel/multi-process.rst
- F: docs/multi-process.rst
-+F: hw/pci-host/remote.c
-+F: include/hw/pci-host/remote.h
+ #endif /* QIO_CHANNEL_H */
+diff --git a/io/channel.c b/io/channel.c
+index 93d449d..13b0e7a 100644
+--- a/io/channel.c
++++ b/io/channel.c
+@@ -152,15 +152,72 @@ int qio_channel_readv_all(QIOChannel *ioc,
+     return ret;
+ }
  
- Build and test automation
- -------------------------
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index 036a618..26054c8 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -60,3 +60,6 @@ config PCI_BONITO
-     select PCI
-     select UNIMP
-     bool
++int qio_channel_readv_full_all(QIOChannel *ioc,
++                                const struct iovec *iov,
++                                size_t niov,
++                                int **fds, size_t *nfds,
++                                Error **errp)
++{
++    int ret = -1;
++    struct iovec *local_iov = g_new(struct iovec, niov);
++    struct iovec *local_iov_head = local_iov;
++    unsigned int nlocal_iov = niov;
++    int **local_fds = fds;
++    size_t *local_nfds = nfds;
 +
-+config REMOTE_PCIHOST
-+    bool
-diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
-index e6d1b89..b76e844 100644
---- a/hw/pci-host/meson.build
-+++ b/hw/pci-host/meson.build
-@@ -9,6 +9,7 @@ pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true: files('xilinx-pcie.c'))
- pci_ss.add(when: 'CONFIG_PCI_I440FX', if_true: files('i440fx.c'))
- pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
- pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true: files('xen_igd_pt.c'))
-+pci_ss.add(when: 'CONFIG_REMOTE_PCIHOST', if_true: files('remote.c'))
++    nlocal_iov = iov_copy(local_iov, nlocal_iov,
++                          iov, niov,
++                          0, iov_size(iov, niov));
++
++    while (nlocal_iov > 0) {
++        ssize_t len;
++        len = qio_channel_readv_full(ioc, local_iov, nlocal_iov, local_fds,
++                                     local_nfds, errp);
++        if (len == QIO_CHANNEL_ERR_BLOCK) {
++            if (qemu_in_coroutine()) {
++                qio_channel_yield(ioc, G_IO_OUT);
++            } else {
++                qio_channel_wait(ioc, G_IO_OUT);
++            }
++            continue;
++        }
++        if (len <= 0) {
++            ret = len;
++            goto cleanup;
++        }
++
++        iov_discard_front(&local_iov, &nlocal_iov, len);
++
++        local_fds = NULL;
++        local_nfds = 0;
++    }
++
++    ret = 1;
++ cleanup:
++    g_free(local_iov_head);
++    return ret;
++}
++
+ int qio_channel_writev_all(QIOChannel *ioc,
+                            const struct iovec *iov,
+                            size_t niov,
+                            Error **errp)
+ {
++    return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, errp);
++}
++
++int qio_channel_writev_full_all(QIOChannel *ioc,
++                                const struct iovec *iov,
++                                size_t niov,
++                                int *fds, size_t nfds,
++                                Error **errp)
++{
+     int ret = -1;
+     struct iovec *local_iov = g_new(struct iovec, niov);
+     struct iovec *local_iov_head = local_iov;
+     unsigned int nlocal_iov = niov;
++    int *local_fds = fds;
++    size_t local_nfds = nfds;
  
- # PPC devices
- pci_ss.add(when: 'CONFIG_PREP_PCI', if_true: files('prep.c'))
-diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
-index 5484446..504fd6a 100644
---- a/hw/remote/Kconfig
-+++ b/hw/remote/Kconfig
-@@ -1,3 +1,4 @@
- config MULTIPROCESS
-     bool
-     depends on PCI && KVM
-+    select REMOTE_PCIHOST
+     nlocal_iov = iov_copy(local_iov, nlocal_iov,
+                           iov, niov,
+@@ -168,7 +225,8 @@ int qio_channel_writev_all(QIOChannel *ioc,
+ 
+     while (nlocal_iov > 0) {
+         ssize_t len;
+-        len = qio_channel_writev(ioc, local_iov, nlocal_iov, errp);
++        len = qio_channel_writev_full(ioc, local_iov, nlocal_iov, local_fds,
++                                      local_nfds, errp);
+         if (len == QIO_CHANNEL_ERR_BLOCK) {
+             if (qemu_in_coroutine()) {
+                 qio_channel_yield(ioc, G_IO_OUT);
+@@ -182,6 +240,9 @@ int qio_channel_writev_all(QIOChannel *ioc,
+         }
+ 
+         iov_discard_front(&local_iov, &nlocal_iov, len);
++
++        local_fds = NULL;
++        local_nfds = 0;
+     }
+ 
+     ret = 0;
 -- 
 1.8.3.1
 
