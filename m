@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9499D2D9973
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 15:09:33 +0100 (CET)
-Received: from localhost ([::1]:54346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727C02D9969
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 15:06:54 +0100 (CET)
+Received: from localhost ([::1]:45914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kooXc-0006v0-JX
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 09:09:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36078)
+	id 1kooV3-0003U2-FZ
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 09:06:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kooRk-0001XG-Ti
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:03:28 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36344)
+ id 1kooRm-0001Ys-O2
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:03:30 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kooRh-0003uM-SW
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:03:28 -0500
-Received: by mail-oi1-x244.google.com with SMTP id 9so12096191oiq.3
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 06:03:25 -0800 (PST)
+ id 1kooRk-0003up-Po
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:03:30 -0500
+Received: by mail-ot1-x344.google.com with SMTP id q25so15756126otn.10
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 06:03:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OCpAIDmNxfXuUcIom3vUf6VIYVS6wp4D0QytQgRfHqY=;
- b=kbYbAaJTyoXLm02/V3NWvhS70MF5OGX2yo6AKpzAWLSLZm/5tXOJdQcT8AQ8Y+nKw8
- vh7CxCRD8BKZKsjuyPiS3OIIJ7Vmo6tFlRgDg1W5XLtxX8wq9MZF8KfkZkvI9ZpWA+56
- DoGFb/eEc1jzZWtJTk5c9aFHrET/QXFTUyb9EDPDii0vt6f6JUufbikz86nGsFWYoKD7
- ciRcJ0vsK2YZr/33umYb/KNXh1QHlkRlvbs16XjBShR4sRdaAjtW+ZFQ6xthchPwI8hY
- b/AhO0khAt7YcGasX33stOCyeak8DElEK61PCBMvo952fKzgXl7d+7OWmzuYxZ0lyPJS
- NkWg==
+ bh=e4GkJv76UBMIB3dzCCmxjxbYnphaAHyABGBMlwHa+9g=;
+ b=e6qb9pB8XU1J4St5tNl5X1Gk+/RxoTiVP3x8CX1fmEAvdXfOgUXxKjisvLENMopFag
+ qJ1ZZybz+fuohhrOCYQAY5owdUp6b9QXvSSHYotKo7YcK8YU8zZUjROu0sLsSh6Hf54B
+ h3SKTJF27hzSgf3YdGqP5yGBy+P7V1jwIBm6ATuP9ATc+tTpZYrTHKcaPLseG+zbH/zw
+ OWOm+k4+A62gZcAI3Lwtrbirg7phgSIZ9dzetvXW70CcMDCzmOEqQHGm1/+wKdQlXi/A
+ US/h9UlzKOvMc86vshcHtyU3PdjDxiOzVuah66sudjjO7puD7NoOIhd4gqKKojVK50vC
+ imLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OCpAIDmNxfXuUcIom3vUf6VIYVS6wp4D0QytQgRfHqY=;
- b=VCE1i+/9mrDJBUfqtfY0C25vsTrwJUROuVNZS5QU0Nk2f2oxEXoTYdH382zt6V/WbS
- aiyZfbEqSVbWb8YQvK+CHzFRjI8I/vO17S2aGqypuy1eUkwbFjgWks3kIgyrzUdrekro
- D4t9ggzKvJu3DTPDOze6VdV4Xqm/ytKh+lrw7A3t4yexvYJ5I8nV3c6lgxWDVNFLMs0r
- Gnq82dgwv32OhbmXMlmCMvvfGknQQHfaKSZmZwh1/A6KqFr1x1cdtB6290gFKn3xufrG
- 7e9xi8IVFGXRABN9zsS+0l5K1lxeDMfh3Z29tsF0wBlB/4jYWzHf4jgYuhTtTZllE+4c
- J1rg==
-X-Gm-Message-State: AOAM533EFFqFWZQddhJNRqxxcPQL2HVYwqHczhAW5lUxMu9ZSDzo7srG
- FIzUd3o1luxtMvF45hoo1m9mO+tB+Z9CioBt
-X-Google-Smtp-Source: ABdhPJwcAyNgVKxOSBpOqAQ40aT6CXjhpw76b0VcoqtNGrzzcLFmNqKq5u+mMpY94dYGJWVaUlbi1A==
-X-Received: by 2002:aca:afd0:: with SMTP id y199mr18221481oie.7.1607954604180; 
- Mon, 14 Dec 2020 06:03:24 -0800 (PST)
+ bh=e4GkJv76UBMIB3dzCCmxjxbYnphaAHyABGBMlwHa+9g=;
+ b=uMEq3yexGnJxIHaCtrCi93JyAo35shocb6QyH7vcZZLEWYB/TFq0ljgzuZ5Mu3IqiE
+ Ot2T+JcLZqHiNw2VKw3ShsW3FPcN81HfZUBzEQMvNgdhlSfsmN4/kQpC7tuCxbJbc879
+ ZO9jIrmgZRDJP5GJzCZ+fjDGun/LjpHbunHobLyrsse8qEmMOKWfRgwZqWXOwL5fVBZD
+ bApURtZ0meKq7R6jPoHoAnRFZodrqd3L9jMtFHyTfqpnBHDyzmVaUk4jyradvTYTZl/d
+ VF90clmq7lbnG6iIJ8nFdDW8SAxTRysjcS2d4RiHxtycrNLGWnQp79HLR9TOOqF5gAhj
+ YUxg==
+X-Gm-Message-State: AOAM5308QJeHLO4qmrx4l2VHCZgmcofNdmDMOkjVvZqxFv9uSrfW+nNw
+ g65ouJSc9wmMLZPcaYZG1TSAvSQkcaFAlnkC
+X-Google-Smtp-Source: ABdhPJwkUvNX9m9kmTrnj4A2IDm/ErG7NPCxeTVYu9ZeI/gR2kORHGpCc42WcR80uptpEb5SKdUwhw==
+X-Received: by 2002:a05:6830:1e7a:: with SMTP id
+ m26mr10520089otr.78.1607954605458; 
+ Mon, 14 Dec 2020 06:03:25 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id t24sm3940146oou.4.2020.12.14.06.03.22
+ by smtp.gmail.com with ESMTPSA id t24sm3940146oou.4.2020.12.14.06.03.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Dec 2020 06:03:23 -0800 (PST)
+ Mon, 14 Dec 2020 06:03:24 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 04/43] util: Specialize flush_idcache_range for aarch64
-Date: Mon, 14 Dec 2020 08:02:35 -0600
-Message-Id: <20201214140314.18544-5-richard.henderson@linaro.org>
+Subject: [PATCH v4 05/43] tcg: Move tcg prologue pointer out of TCGContext
+Date: Mon, 14 Dec 2020 08:02:36 -0600
+Message-Id: <20201214140314.18544-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201214140314.18544-1-richard.henderson@linaro.org>
 References: <20201214140314.18544-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,110 +85,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joelle van Dyne <j@getutm.app>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For darwin, the CTR_EL0 register is not accessible, but there
-are system routines that we can use.
+This value is constant across all thread-local copies of TCGContext,
+so we might as well move it out of thread-local storage.
 
-For other hosts, copy the single pointer implementation from
-libgcc and modify it to support the double pointer interface
-we require.  This halves the number of cache operations required
-when split-rwx is enabled.
+Use the correct function pointer type, and name the variable
+tcg_qemu_tb_exec, which means that we are able to remove the
+macro that does the casting.
 
-Cc: Joelle van Dyne <j@getutm.app>
+Replace HAVE_TCG_QEMU_TB_EXEC with CONFIG_TCG_INTERPRETER,
+as this is somewhat clearer in intent.
+
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- util/cacheflush.c | 69 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 69 insertions(+)
+ include/tcg/tcg.h | 9 ++++-----
+ tcg/tcg.c         | 9 ++++++++-
+ tcg/tci.c         | 3 ++-
+ 3 files changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/util/cacheflush.c b/util/cacheflush.c
-index 92805efe49..6a20723902 100644
---- a/util/cacheflush.c
-+++ b/util/cacheflush.c
-@@ -7,12 +7,81 @@
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 8ff9dad4ef..9cc412f90c 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -621,7 +621,6 @@ struct TCGContext {
+        here, because there's too much arithmetic throughout that relies
+        on addition and subtraction working on bytes.  Rely on the GCC
+        extension that allows arithmetic on void*.  */
+-    void *code_gen_prologue;
+     void *code_gen_epilogue;
+     void *code_gen_buffer;
+     size_t code_gen_buffer_size;
+@@ -1222,11 +1221,11 @@ static inline unsigned get_mmuidx(TCGMemOpIdx oi)
+ #define TB_EXIT_IDXMAX    1
+ #define TB_EXIT_REQUESTED 3
  
- #include "qemu/osdep.h"
- #include "qemu/cacheflush.h"
-+#include "qemu/bitops.h"
+-#ifdef HAVE_TCG_QEMU_TB_EXEC
+-uintptr_t tcg_qemu_tb_exec(CPUArchState *env, uint8_t *tb_ptr);
++#ifdef CONFIG_TCG_INTERPRETER
++uintptr_t tcg_qemu_tb_exec(CPUArchState *env, void *tb_ptr);
+ #else
+-# define tcg_qemu_tb_exec(env, tb_ptr) \
+-    ((uintptr_t (*)(void *, void *))tcg_ctx->code_gen_prologue)(env, tb_ptr)
++typedef uintptr_t tcg_prologue_fn(CPUArchState *env, void *tb_ptr);
++extern tcg_prologue_fn *tcg_qemu_tb_exec;
+ #endif
  
+ void tcg_register_jit(void *buf, size_t buf_size);
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 675334e844..67065c2ede 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -162,6 +162,10 @@ static TCGContext **tcg_ctxs;
+ static unsigned int n_tcg_ctxs;
+ TCGv_env cpu_env = 0;
  
- #if defined(__i386__) || defined(__x86_64__) || defined(__s390__)
++#ifndef CONFIG_TCG_INTERPRETER
++tcg_prologue_fn *tcg_qemu_tb_exec;
++#endif
++
+ struct tcg_region_tree {
+     QemuMutex lock;
+     GTree *tree;
+@@ -1055,7 +1059,10 @@ void tcg_prologue_init(TCGContext *s)
+     s->code_ptr = buf0;
+     s->code_buf = buf0;
+     s->data_gen_ptr = NULL;
+-    s->code_gen_prologue = buf0;
++
++#ifndef CONFIG_TCG_INTERPRETER
++    tcg_qemu_tb_exec = (tcg_prologue_fn *)buf0;
++#endif
  
- /* Caches are coherent and do not require flushing; symbol inline. */
+     /* Compute a high-water mark, at which we voluntarily flush the buffer
+        and start over.  The size here is arbitrary, significantly larger
+diff --git a/tcg/tci.c b/tcg/tci.c
+index 82039fd163..d996eb7cf8 100644
+--- a/tcg/tci.c
++++ b/tcg/tci.c
+@@ -475,8 +475,9 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, TCGCond condition)
+ #endif
  
-+#elif defined(__aarch64__)
-+
-+#ifdef CONFIG_DARWIN
-+/* Apple does not expose CTR_EL0, so we must use system interfaces. */
-+extern void sys_icache_invalidate(void *start, size_t len);
-+extern void sys_dcache_flush(void *start, size_t len);
-+void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
-+{
-+    sys_dcache_flush((void *)rw, len);
-+    sys_icache_invalidate((void *)rx, len);
-+}
-+#else
-+
-+/*
-+ * TODO: unify this with cacheinfo.c.
-+ * We want to save the whole contents of CTR_EL0, so that we
-+ * have more than the linesize, but also IDC and DIC.
-+ */
-+static unsigned int save_ctr_el0;
-+static void __attribute__((constructor)) init_ctr_el0(void)
-+{
-+    asm volatile("mrs\t%0, ctr_el0" : "=r"(save_ctr_el0));
-+}
-+
-+/*
-+ * This is a copy of gcc's __aarch64_sync_cache_range, modified
-+ * to fit this three-operand interface.
-+ */
-+void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
-+{
-+    const unsigned CTR_IDC = 1u << 28;
-+    const unsigned CTR_DIC = 1u << 29;
-+    const unsigned int ctr_el0 = save_ctr_el0;
-+    const uintptr_t icache_lsize = 4 << extract32(ctr_el0, 0, 4);
-+    const uintptr_t dcache_lsize = 4 << extract32(ctr_el0, 16, 4);
-+    uintptr_t p;
-+
-+    /*
-+     * If CTR_EL0.IDC is enabled, Data cache clean to the Point of Unification
-+     * is not required for instruction to data coherence.
-+     */
-+    if (!(ctr_el0 & CTR_IDC)) {
-+        /*
-+         * Loop over the address range, clearing one cache line at once.
-+         * Data cache must be flushed to unification first to make sure
-+         * the instruction cache fetches the updated data.
-+         */
-+        for (p = rw & -dcache_lsize; p < rw + len; p += dcache_lsize) {
-+            asm volatile("dc\tcvau, %0" : : "r" (p) : "memory");
-+        }
-+        asm volatile("dsb\tish" : : : "memory");
-+    }
-+
-+    /*
-+     * If CTR_EL0.DIC is enabled, Instruction cache cleaning to the Point
-+     * of Unification is not required for instruction to data coherence.
-+     */
-+    if (!(ctr_el0 & CTR_DIC)) {
-+        for (p = rx & -icache_lsize; p < rx + len; p += icache_lsize) {
-+            asm volatile("ic\tivau, %0" : : "r"(p) : "memory");
-+        }
-+        asm volatile ("dsb\tish" : : : "memory");
-+    }
-+
-+    asm volatile("isb" : : : "memory");
-+}
-+#endif /* CONFIG_DARWIN */
-+
- #elif defined(__mips__)
- 
- #ifdef __OpenBSD__
+ /* Interpret pseudo code in tb. */
+-uintptr_t tcg_qemu_tb_exec(CPUArchState *env, uint8_t *tb_ptr)
++uintptr_t tcg_qemu_tb_exec(CPUArchState *env, void *v_tb_ptr)
+ {
++    uint8_t *tb_ptr = v_tb_ptr;
+     tcg_target_ulong regs[TCG_TARGET_NB_REGS];
+     long tcg_temps[CPU_TEMP_BUF_NLONGS];
+     uintptr_t sp_value = (uintptr_t)(tcg_temps + CPU_TEMP_BUF_NLONGS);
 -- 
 2.25.1
 
