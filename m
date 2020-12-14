@@ -2,55 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D2D2D91A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 03:06:19 +0100 (CET)
-Received: from localhost ([::1]:49616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D52F42D91AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 03:16:10 +0100 (CET)
+Received: from localhost ([::1]:52624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kodFi-0005pa-5I
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 21:06:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47274)
+	id 1kodPF-0007Ra-Td
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 21:16:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kodER-0005IU-KT; Sun, 13 Dec 2020 21:04:59 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2244)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1kodNh-0006hN-CU
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 21:14:33 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kodEO-0000OI-Q7; Sun, 13 Dec 2020 21:04:59 -0500
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.54])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4CvPnQ619yz13TXF;
- Mon, 14 Dec 2020 10:03:38 +0800 (CST)
-Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.125]) by
- DGGEMM401-HUB.china.huawei.com ([10.3.20.209]) with mapi id 14.03.0509.000;
- Mon, 14 Dec 2020 10:04:28 +0800
-From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-trivial@nongnu.org"
- <qemu-trivial@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
-Subject: RE: [PATCH RESEND v2 2/7] qga/channel-posix: Plug memory leak in
- ga_channel_write_all()
-Thread-Topic: [PATCH RESEND v2 2/7] qga/channel-posix: Plug memory leak in
- ga_channel_write_all()
-Thread-Index: AQHWqQODDn5EOG2xVkK8bT0+Bd9UP6n2JZew
-Date: Mon, 14 Dec 2020 02:04:28 +0000
-Message-ID: <7412CDE03601674DA8197E2EBD8937E83BB04DE9@dggemm531-mbx.china.huawei.com>
-References: <20201023061218.2080844-1-kuhn.chenqun@huawei.com>
- <20201023061218.2080844-3-kuhn.chenqun@huawei.com>
-In-Reply-To: <20201023061218.2080844-3-kuhn.chenqun@huawei.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.185.149]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1kodNf-0003qq-5g
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 21:14:33 -0500
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CvQ123Mphz7FG2;
+ Mon, 14 Dec 2020 10:13:42 +0800 (CST)
+Received: from [10.174.187.37] (10.174.187.37) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 14 Dec 2020 10:14:11 +0800
+Subject: Re: [PATCH] kvm: Take into account the unaligned section size when
+ preparing bitmap
+To: Peter Xu <peterx@redhat.com>
+References: <20201208114013.875-1-yuzenghui@huawei.com>
+ <20201208151654.GA6432@xz-x1>
+ <bb4bcc8b-1d36-9529-d7cd-4d93162d092f@huawei.com>
+ <6dc82702-9246-4684-4f28-e104abc0c11d@huawei.com>
+ <20201210020843.GB3211@xz-x1>
+ <7d46e5ca-24ab-7c44-201c-77e8fc6a2ace@huawei.com>
+ <20201210145006.GD3211@xz-x1>
+ <2607b4cd-524c-2360-6261-224736861fc4@huawei.com>
+ <20201211152518.GD6520@xz-x1>
+From: zhukeqian <zhukeqian1@huawei.com>
+Message-ID: <41d9ac96-83af-e8c3-6e54-c702f5527f5e@huawei.com>
+Date: Mon, 14 Dec 2020 10:14:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
+In-Reply-To: <20201211152518.GD6520@xz-x1>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.187.37]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=kuhn.chenqun@huawei.com; helo=szxga08-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhukeqian1@huawei.com;
+ helo=szxga07-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,76 +68,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Pannengyuan <pannengyuan@huawei.com>, Li
- Qiang <liq3ea@gmail.com>, ganqixin <ganqixin@huawei.com>,
- Euler Robot <euler.robot@huawei.com>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kindly ping!
 
-Hi Michael,
-  It's a bug, though it's trivial.=20
-Could you review it and add your queues or add trivial queues?
+
+On 2020/12/11 23:25, Peter Xu wrote:
+> On Fri, Dec 11, 2020 at 09:13:10AM +0800, zhukeqian wrote:
+>>
+>> On 2020/12/10 22:50, Peter Xu wrote:
+>>> On Thu, Dec 10, 2020 at 10:53:23AM +0800, zhukeqian wrote:
+>>>>
+>>>>
+>>>> On 2020/12/10 10:08, Peter Xu wrote:
+>>>>> Keqian,
+>>>>>
+>>>>> On Thu, Dec 10, 2020 at 09:46:06AM +0800, zhukeqian wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> I see that if start or size is not PAGE aligned, it also clears areas
+>>>>>> which beyond caller's expectation, so do we also need to consider this?
+>>>>>
+>>>>> Could you elaborate?
+>>>>>
+>>>>> If start_delta != 0, kvm_log_clear_one_slot() should already go the slow path.
+>>>>>
+>>>>> Thanks,
+>>>>>
+>>>>
+>>>> Hi Peter,
+>>>>
+>>>> start_delta /= psize;
+>>>>
+>>>> If start is not PAGE aligned, then start_delta is not PAGE aligned.
+>>>> so I think the above code will implicitly extend our start to be PAGE aligned.
+>>>>
+>>>> I suggest that we should shrink the start and (start + size) to be PAGE aligned
+>>>> at beginning of this function.
+>>>
+>>> Callers should be with TARGET_PAGE_SIZE aligned on the size, so at least x86_64
+>>> should be pretty safe since host/guest page sizes match.
+>>>
+>>> Though indeed I must confess I don't know how it worked in general when host
+>>> page size != target page size, at least for migration.  For example, I believe
+>>> kvm dirty logging is host page size based, though migration should be migrating
+>>> pages in guest page size granule when it spots a dirty bit set.
+>>>
+>> Hi,
+>>
+>> Indeed, we handle target_page_size aligned @start and @size in general. Maybe we'd better
+>> add explicit function comments about alignment requirement, and explicit alignment assert
+>> on @start and @size?
+> 
+
+Hi Peter,
+
+> Yes we can, but I think it's not strongly necessary.  As Zenghui pointed out,
+> the callers of memory_region_clear_dirty_bitmap() should always be aware of the
+> fact that dirty bitmap is always page size based.
+Agree.
+
+> 
+> OTOH I'm more worried on the other question on how we handle guest psize !=
+> host psize case for migration now...
+I think it does not matter when guest_psize != host_psize, as we only need to interact with
+stage2 page tables during migration. Stage2 is enough to tracking guest dirty memory, and even
+if guest close stage1, we also can do a successful migration.
+
+Please point out if I misunderstood what you meant.
 
 Thanks,
-Chen Qun
+Keqian
 
-> -----Original Message-----
-> From: Chenqun (kuhn)
-> Sent: Friday, October 23, 2020 2:12 PM
-> To: qemu-devel@nongnu.org; qemu-trivial@nongnu.org
-> Cc: Pannengyuan <pannengyuan@huawei.com>; lvivier@redhat.com;
-> Zhanghailiang <zhang.zhanghailiang@huawei.com>; ganqixin
-> <ganqixin@huawei.com>; Euler Robot <euler.robot@huawei.com>; Li Qiang
-> <liq3ea@gmail.com>; Chenqun (kuhn) <kuhn.chenqun@huawei.com>; Michael
-> Roth <mdroth@linux.vnet.ibm.com>
-> Subject: [PATCH RESEND v2 2/7] qga/channel-posix: Plug memory leak in
-> ga_channel_write_all()
->=20
-> From: Pan Nengyuan <pannengyuan@huawei.com>
->=20
-> Missing g_error_free on error path in ga_channel_write_all(). Fix that.
->=20
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-> Reviewed-by: Li Qiang <liq3ea@gmail.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> ---
-> Cc: Michael Roth <mdroth@linux.vnet.ibm.com>
-> ---
->  qga/channel-posix.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->=20
-> diff --git a/qga/channel-posix.c b/qga/channel-posix.c index
-> 0373975360..8f3821af6d 100644
-> --- a/qga/channel-posix.c
-> +++ b/qga/channel-posix.c
-> @@ -249,7 +249,7 @@ GIOStatus ga_channel_write_all(GAChannel *c, const
-> gchar *buf, gsize size)
->              buf +=3D written;
->          } else if (status !=3D G_IO_STATUS_AGAIN) {
->              g_warning("error writing to channel: %s", err->message);
-> -            return status;
-> +            goto out;
->          }
->      }
->=20
-> @@ -261,6 +261,10 @@ GIOStatus ga_channel_write_all(GAChannel *c,
-> const gchar *buf, gsize size)
->          g_warning("error flushing channel: %s", err->message);
->      }
->=20
-> +out:
-> +    if (err) {
-> +        g_error_free(err);
-> +    }
->      return status;
->  }
->=20
-> --
-> 2.23.0
+> 
+> Thanks,
+> 
 
 
