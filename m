@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107672DA2EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 23:03:31 +0100 (CET)
-Received: from localhost ([::1]:58410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979652DA301
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 23:10:42 +0100 (CET)
+Received: from localhost ([::1]:33004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kovwI-0005UL-4p
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 17:03:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45222)
+	id 1kow3F-0006we-Ff
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 17:10:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kovuu-00052j-Tk
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:02:06 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51354)
+ id 1kow2K-0006WK-4X
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:09:44 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kovus-00038r-QN
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:02:04 -0500
-Received: by mail-wm1-x343.google.com with SMTP id v14so15133259wml.1
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 14:02:02 -0800 (PST)
+ id 1kow2I-0003tf-K4
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:09:43 -0500
+Received: by mail-wr1-x442.google.com with SMTP id c5so14300573wrp.6
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 14:09:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MihGWL01vR2v23gUio/O9ymo/xnFGYsxuyxOtxrrSNI=;
- b=m6XUVdyRMIpGCCu3DUtH+pQlf5RzmxAz9z8vUbpZI0LRfMrZbvPAec6Fz9rUquHKW7
- FZdCA5YaqMfARwzOdrB++gwrBhV4MgC1gsU5z87nruGNamq5a05P0aTYSpDKuG+YD1wq
- UXPQEf+/51AZNdSZwNMf5Y1XMuRN9ZGXiB+Kyj4E1OacGRqcArrCugLpgiHfDEVNYrYe
- 8aLbbn3vt/YIzoZQ9B98zjec6r7O8z7ZpV8nTqawSyKo1ktOLeoPcVHQqRw3FhgCpnRY
- rbQisorHSynlkPDW6G+B9sb+4hRnv7CMVBRHD6rmhmPXBUPqbv1AfEbzyTmdoRx+Agqx
- utiQ==
+ bh=mUR1G6d80YSPipWF1EFeWboGIZN+XDZ64qyVu+dL3tw=;
+ b=sUM17p75IKfvXf10ZtDbGDOLvfDFSVSUY0Dl/5HkjSsphg9xvSLFDimxwx5YpOHeLr
+ 8s2GWCzZlXnypKKKe3gcWNPgHkEARtdXs5Y/Z5d+5NvAmgr6akLU2XymsedpTtge3fbl
+ NBi7RIC5ngOjszsIT6zvk+wdMaf4Z3tW2ORuyC9HqEfDGugMOm+UABkGXYxuNehNLeo9
+ Jht6cmmBJ9IC2SXUJkCMS3TmZklBb5wLOQxuS57yA6qj0cfnUTqknQht+B9CnbEs4Vzo
+ Nze1zOHqDWUFcymLRLva/VYmkJkV+oWjZVsOy4YoezT63US8D1f07PvsfGhj4pGg/yFa
+ PQtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MihGWL01vR2v23gUio/O9ymo/xnFGYsxuyxOtxrrSNI=;
- b=E73b9Qq1fkUYxpS4sdfVnNlHh3XQnWCfar0ucT4lELaysn5oCObSnaJNCam2QTllBc
- r8m2QgARTzzfZCo9llyTZyEjwMskPIkytdaI129lF97DefYWeYP8CzuB4Bk7lPY0eBYb
- Pzt4BBGnVC7y+m0/ad2YgVB3YmkQ2FeFHjtkfMZsq+Iy4vgLTwakxNoXZ1bImOba90mi
- QD2vKVSDWPSa+vXQYSDbLPk/E8/zPAUghUSetSabZ9Teg4SGT7U20El0T14EUROTxsKH
- mAieeSYxB2vssyAIFhwg7C9qMHXGrv9yaIfDuci62xWuCoa2SkZKY3R4S/8sDUmpwOWi
- H3JQ==
-X-Gm-Message-State: AOAM5307imLZNfyZ7XUxCUC5mqMd3xxaNcxj0LB/K4jkk4UnREfRCsgZ
- 5h9j1UgxBI4wvR70xgeQG3E=
-X-Google-Smtp-Source: ABdhPJzxK23feOZWuwYUkVffpj7923v4fTkoP5dMg+CaK8nw18fnaUhkHIY1Gito399hJDVm/sjz7g==
-X-Received: by 2002:a05:600c:274d:: with SMTP id
- 13mr30073725wmw.77.1607983321323; 
- Mon, 14 Dec 2020 14:02:01 -0800 (PST)
+ bh=mUR1G6d80YSPipWF1EFeWboGIZN+XDZ64qyVu+dL3tw=;
+ b=AnTjEZiUb05WyKrr7Z1eHmWSJmsJZrsKsa+0BNGNAgn8K4y0llpWp6swJm5UnSfyLa
+ XhvaSV/718moSOA1bhnMNyxXgdSLwAMHp0xW0L/5H+qiRxtwR6hHF/2eEVVg17qg0n+g
+ mUAwGFwU/sZW6sZxHdG300znddY/TJbXFgeJpxwPbrUtbqbgk8210zvDKZRGHRedQrjo
+ MRoawu1tLjHaesxX/6BXxsxrUK0wP+i/Z8Wln3W2uRSvd6xuBaKd7D1Oi8DFR6389k9r
+ slg54rdV9Kp5GUQs3LlO2FBxtu4R4VdNwJVoYQ4LW0OoWfLKE1cnAdpe4b+2wS39VoLx
+ QFHg==
+X-Gm-Message-State: AOAM532bw896cU/t0U+GEU4gulvwooeHJbleKcZMKMUmmS2N+JatxePV
+ NF/Wt223WshI4DGoM6SO/jtFwoAjs80=
+X-Google-Smtp-Source: ABdhPJzeaHwqtPb+WRNztvuIa59dJGhg8DWTSvY20JB1us2e7fB5JKDAdwjPb3R3s+xf0yXMh9i09g==
+X-Received: by 2002:a5d:4a10:: with SMTP id m16mr31605136wrq.18.1607983780901; 
+ Mon, 14 Dec 2020 14:09:40 -0800 (PST)
 Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id 34sm34117395wrh.78.2020.12.14.14.02.00
+ by smtp.gmail.com with ESMTPSA id j59sm5096279wrj.13.2020.12.14.14.09.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Dec 2020 14:02:00 -0800 (PST)
-Subject: Re: [PATCH v4 05/43] tcg: Move tcg prologue pointer out of TCGContext
+ Mon, 14 Dec 2020 14:09:39 -0800 (PST)
+Subject: Re: [PATCH v4 07/43] tcg: Add in_code_gen_buffer
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20201214140314.18544-1-richard.henderson@linaro.org>
- <20201214140314.18544-6-richard.henderson@linaro.org>
+ <20201214140314.18544-8-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e1271ac4-5feb-5392-6a64-8243b9875cec@amsat.org>
-Date: Mon, 14 Dec 2020 23:01:59 +0100
+Message-ID: <0ca448f1-bbd1-36b3-67c7-d430005db00d@amsat.org>
+Date: Mon, 14 Dec 2020 23:09:38 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201214140314.18544-6-richard.henderson@linaro.org>
+In-Reply-To: <20201214140314.18544-8-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,103 +89,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/14/20 3:02 PM, Richard Henderson wrote:
-> This value is constant across all thread-local copies of TCGContext,
-> so we might as well move it out of thread-local storage.
+> Create a function to determine if a pointer is within the buffer.
 > 
-> Use the correct function pointer type, and name the variable
-> tcg_qemu_tb_exec, which means that we are able to remove the
-> macro that does the casting.
-> 
-> Replace HAVE_TCG_QEMU_TB_EXEC with CONFIG_TCG_INTERPRETER,
-> as this is somewhat clearer in intent.
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/tcg/tcg.h | 9 ++++-----
->  tcg/tcg.c         | 9 ++++++++-
->  tcg/tci.c         | 3 ++-
->  3 files changed, 14 insertions(+), 7 deletions(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
+>  include/tcg/tcg.h         |  6 ++++++
+>  accel/tcg/translate-all.c | 26 ++++++++------------------
+>  2 files changed, 14 insertions(+), 18 deletions(-)
 > 
 > diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-> index 8ff9dad4ef..9cc412f90c 100644
+> index bb1e97b13b..e4d0ace44b 100644
 > --- a/include/tcg/tcg.h
 > +++ b/include/tcg/tcg.h
-> @@ -621,7 +621,6 @@ struct TCGContext {
->         here, because there's too much arithmetic throughout that relies
->         on addition and subtraction working on bytes.  Rely on the GCC
->         extension that allows arithmetic on void*.  */
-> -    void *code_gen_prologue;
->      void *code_gen_epilogue;
->      void *code_gen_buffer;
->      size_t code_gen_buffer_size;
-> @@ -1222,11 +1221,11 @@ static inline unsigned get_mmuidx(TCGMemOpIdx oi)
->  #define TB_EXIT_IDXMAX    1
->  #define TB_EXIT_REQUESTED 3
+> @@ -680,6 +680,12 @@ extern __thread TCGContext *tcg_ctx;
+>  extern void *tcg_code_gen_epilogue;
+>  extern TCGv_env cpu_env;
 >  
-> -#ifdef HAVE_TCG_QEMU_TB_EXEC
-> -uintptr_t tcg_qemu_tb_exec(CPUArchState *env, uint8_t *tb_ptr);
-> +#ifdef CONFIG_TCG_INTERPRETER
-> +uintptr_t tcg_qemu_tb_exec(CPUArchState *env, void *tb_ptr);
->  #else
-> -# define tcg_qemu_tb_exec(env, tb_ptr) \
-> -    ((uintptr_t (*)(void *, void *))tcg_ctx->code_gen_prologue)(env, tb_ptr)
-> +typedef uintptr_t tcg_prologue_fn(CPUArchState *env, void *tb_ptr);
-> +extern tcg_prologue_fn *tcg_qemu_tb_exec;
->  #endif
->  
->  void tcg_register_jit(void *buf, size_t buf_size);
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index 675334e844..67065c2ede 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -162,6 +162,10 @@ static TCGContext **tcg_ctxs;
->  static unsigned int n_tcg_ctxs;
->  TCGv_env cpu_env = 0;
->  
-> +#ifndef CONFIG_TCG_INTERPRETER
-> +tcg_prologue_fn *tcg_qemu_tb_exec;
-> +#endif
+> +static inline bool in_code_gen_buffer(const void *p)
+> +{
+> +    const TCGContext *s = &tcg_init_ctx;
+> +    return (size_t)(p - s->code_gen_buffer) <= s->code_gen_buffer_size;
+
+If 'p == s->code_gen_buffer + s->code_gen_buffer_size',
+is it really "in" the buffer?
+
+> +}
 > +
->  struct tcg_region_tree {
->      QemuMutex lock;
->      GTree *tree;
-> @@ -1055,7 +1059,10 @@ void tcg_prologue_init(TCGContext *s)
->      s->code_ptr = buf0;
->      s->code_buf = buf0;
->      s->data_gen_ptr = NULL;
-> -    s->code_gen_prologue = buf0;
-> +
-> +#ifndef CONFIG_TCG_INTERPRETER
-> +    tcg_qemu_tb_exec = (tcg_prologue_fn *)buf0;
-> +#endif
->  
->      /* Compute a high-water mark, at which we voluntarily flush the buffer
->         and start over.  The size here is arbitrary, significantly larger
-> diff --git a/tcg/tci.c b/tcg/tci.c
-> index 82039fd163..d996eb7cf8 100644
-> --- a/tcg/tci.c
-> +++ b/tcg/tci.c
-> @@ -475,8 +475,9 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, TCGCond condition)
->  #endif
->  
->  /* Interpret pseudo code in tb. */
-> -uintptr_t tcg_qemu_tb_exec(CPUArchState *env, uint8_t *tb_ptr)
-> +uintptr_t tcg_qemu_tb_exec(CPUArchState *env, void *v_tb_ptr)
+>  static inline size_t temp_idx(TCGTemp *ts)
 >  {
-> +    uint8_t *tb_ptr = v_tb_ptr;
->      tcg_target_ulong regs[TCG_TARGET_NB_REGS];
->      long tcg_temps[CPU_TEMP_BUF_NLONGS];
->      uintptr_t sp_value = (uintptr_t)(tcg_temps + CPU_TEMP_BUF_NLONGS);
+>      ptrdiff_t n = ts - tcg_ctx->temps;
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index 4572b4901f..744f97a717 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -392,27 +392,18 @@ void tb_destroy(TranslationBlock *tb)
+>  
+>  bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
+>  {
+> -    TranslationBlock *tb;
+> -    bool r = false;
+> -    uintptr_t check_offset;
+> -
+> -    /* The host_pc has to be in the region of current code buffer. If
+> -     * it is not we will not be able to resolve it here. The two cases
+> -     * where host_pc will not be correct are:
+> +    /*
+> +     * The host_pc has to be in the region of the code buffer.
+> +     * If it is not we will not be able to resolve it here.
+> +     * The two cases where host_pc will not be correct are:
+>       *
+>       *  - fault during translation (instruction fetch)
+>       *  - fault from helper (not using GETPC() macro)
+>       *
+>       * Either way we need return early as we can't resolve it here.
+> -     *
+> -     * We are using unsigned arithmetic so if host_pc <
+> -     * tcg_init_ctx.code_gen_buffer check_offset will wrap to way
+> -     * above the code_gen_buffer_size
+>       */
+> -    check_offset = host_pc - (uintptr_t) tcg_init_ctx.code_gen_buffer;
+> -
+> -    if (check_offset < tcg_init_ctx.code_gen_buffer_size) {
+> -        tb = tcg_tb_lookup(host_pc);
+> +    if (in_code_gen_buffer((const void *)host_pc)) {
+> +        TranslationBlock *tb = tcg_tb_lookup(host_pc);
+>          if (tb) {
+>              cpu_restore_state_from_tb(cpu, tb, host_pc, will_exit);
+>              if (tb_cflags(tb) & CF_NOCACHE) {
+> @@ -421,11 +412,10 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t host_pc, bool will_exit)
+>                  tcg_tb_remove(tb);
+>                  tb_destroy(tb);
+>              }
+> -            r = true;
+> +            return true;
+>          }
+>      }
+> -
+> -    return r;
+> +    return false;
+>  }
+>  
+>  static void page_init(void)
 > 
 
 
