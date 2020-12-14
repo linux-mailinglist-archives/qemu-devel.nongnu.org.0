@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88DAC2D9CB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:29:53 +0100 (CET)
-Received: from localhost ([::1]:60238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B892D9CBF
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:32:18 +0100 (CET)
+Received: from localhost ([::1]:34378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koqjP-00017N-NS
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:29:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42360)
+	id 1koqlm-0002MV-1F
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:32:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1koqi6-0000Ny-Mh
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:28:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37232)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1koqi4-0006pr-6F
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:28:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607963306;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hdcDuuLuuChlHmYq6mMZOYHxWlqWMYyu9pJHmS77Tq0=;
- b=SFQn81iOtPwZbRSi+ELwU58uDbtHvLrEOcaEfz4kynArw5f0s2KV8gaG8xcLWxVw+mHpkJ
- H5211Kizp6eTWpLgX5qkPzNgJcepytjl61d6J3XU7W0Mx9p0uri0lBFavYPL7/wqZMJ/YN
- zHxDmYvNCZ3FfgSPK3Sfb/yRGs0QLEI=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-CiBhImdTOPiUTCZF3v5wJA-1; Mon, 14 Dec 2020 11:28:23 -0500
-X-MC-Unique: CiBhImdTOPiUTCZF3v5wJA-1
-Received: by mail-ed1-f71.google.com with SMTP id g25so8517548edu.4
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 08:28:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1koqkA-0001fw-T3
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:30:38 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:33232)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1koqk8-0007BE-V7
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:30:38 -0500
+Received: by mail-ej1-x644.google.com with SMTP id b9so23379470ejy.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 08:30:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8B7+zYUweweONGryM1QRTDVe0/pNEBzLt2IUf+Cg9WI=;
+ b=ZmsypVWEm4GXhF/Ep+66XIU4YmP/zr+4lJDQ6zQshC1yoKrpB7bkBOyDHDvCYF1Z21
+ jKh6u5DHKRq1HgelI68KBtKy4il8FhP5adZFUxd1Mye/u2og+5M7hMjGX0LIym8kYW76
+ u3bLdPGFe33VURIImYAsEf/SLCmrCAgvR6MuN+ITYGuFCeXLwxdUEl6B/4juBcqb1ceE
+ JUddYrWleibdm3l59vEsBBgJ5RAMxSsUoTE7XUV91B4ngQuURhIDlJwpEUPkuTKsKUgd
+ QslUJVnkRfSy2UEVYufRH4u10djxQQVDo5XvLXfVfPOH8Qhad0j91Q67fSYxv+AM8S9M
+ uQ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hdcDuuLuuChlHmYq6mMZOYHxWlqWMYyu9pJHmS77Tq0=;
- b=XrrWlZk7r/VqdgFzTgUBD8NyOyuY0BE+PLTmuegrey+F00B5Bk40bn5TGi/MmxOd1e
- +UIhAqTHJGu8NszHOrKGQtTskfRb1WM2Bvi+Q7MVrl2m1ZY8XMyDPjesnwooi0hd7f/h
- K1ID8WgXItpcwczXiqcq7JMbf5fESQOPJfzLLAbpJ0eK2Y94Li30JqKg/kgfThkRF27Y
- x0bhR4XNj57EBS/5gauFDd2xOgHZHjHbjaoaka5Kxkdvj05NQVs++ZQfR5a+2dF2XxOB
- Obp9YqwcLxSCng0UgSB4G5WUagPk1nQ6kXHM/+0yM8sRezdQyf8hedSS2DgoztnTx9/w
- hlVg==
-X-Gm-Message-State: AOAM53041KrjSNUrTUekd4z7/GdXCevIhR+yLRzlU06YW2ABYrIIZ/fp
- qoMaFLia3IazZZSx88oXtaKKR9Idcsy8aNqZGu2Y6vzRB0t2M8WhlbDaZCll8YRwQ2KNVfmQJ10
- NL4JCBQ54vxi/kOEWnHRfm2NNl3MIsToephZvsbAlOSd0dN1/oXeGvgv36iIZyxdi8O4=
-X-Received: by 2002:a50:d88c:: with SMTP id p12mr8099739edj.370.1607963301726; 
- Mon, 14 Dec 2020 08:28:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwTaKmxIuuF5dcafN7PALiaQY9rKNEADWKUmsDFhKF3mnTGjpKTCu/bOUMZBztrgojcvDYLrQ==
-X-Received: by 2002:a50:d88c:: with SMTP id p12mr8099715edj.370.1607963301459; 
- Mon, 14 Dec 2020 08:28:21 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id lr24sm13995473ejb.41.2020.12.14.08.28.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Dec 2020 08:28:20 -0800 (PST)
-Subject: Re: [PATCH] build: -no-pie is no functional linker flag
-To: Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- qemu-devel <qemu-devel@nongnu.org>
-References: <20201214150938.1297512-1-christian.ehrhardt@canonical.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <aaddf07e-fab6-d268-7d1d-ecdd446a6c12@redhat.com>
-Date: Mon, 14 Dec 2020 17:28:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8B7+zYUweweONGryM1QRTDVe0/pNEBzLt2IUf+Cg9WI=;
+ b=kWcBR5BBizYpqNgC5+aMEY6GD1tIy9/NPJmqg3Ltjc5ydWH5+k1ZxF5u+LkvIbM3rw
+ rShsjQwMLDE2/ka4CfB9rAkvn46TZnqFr9bksXWvtZLRgexaT6j7DjP9dJrpqWBYBjel
+ X4n3U5HBeTDYKtsvg4CjsVFWUQazMcpaRT9u5JodPX+xO74Y6dPRJ8C4qGSVn9l8edxe
+ yGUKO/X3UbwjiOWZGRnCydEEr7PI5VbwcOSsOAuRFpmHPqDPLjOUnn71WIW4UIVaE5XC
+ rHI02GSDG1hYwS53uJA1KFS7lifNjSPSXXPUQWgNV2DvDmu30mjNP8HK16oKF25U0K1/
+ F+wQ==
+X-Gm-Message-State: AOAM5319xSMmJm8zgN+hdt+FREc3izVsIXOCqh46AoFJ4Ccy3Wd1bANF
+ vmiDbzjxWLX8eh6x8lZnFfh2zHl8lbbrpvmKG2TUlbE9c44=
+X-Google-Smtp-Source: ABdhPJzil14mjfEaZWUFW+0q9dMnOcFfbqvkre1sPSeGuy5t7wOOcMo5LM4ya8roTY1LkP2oOlnYI5leVZDEtC4Ho3I=
+X-Received: by 2002:a17:906:195a:: with SMTP id
+ b26mr11103257eje.4.1607963434989; 
+ Mon, 14 Dec 2020 08:30:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201214150938.1297512-1-christian.ehrhardt@canonical.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20201214133702.24088-1-peter.maydell@linaro.org>
+In-Reply-To: <20201214133702.24088-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Dec 2020 16:30:23 +0000
+Message-ID: <CAFEAcA_fmLscCun27+1zKQ0WQUAuj1m8jakEPG1sjN61XY+c=A@mail.gmail.com>
+Subject: Re: [PATCH] tests/tcg/multiarch/Makefile.target: Disable
+ run-gdbstub-sha1 test
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,81 +78,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/12/20 16:09, Christian Ehrhardt wrote:
-> Recent binutils changes dropping unsupported options [1] caused a build
-> issue in regard to the optionroms.
-> 
->    ld -m elf_i386 -T /<<PKGBUILDDIR>>/pc-bios/optionrom//flat.lds -no-pie \
->      -s -o multiboot.img multiboot.o
->    ld.bfd: Error: unable to disambiguate: -no-pie (did you mean --no-pie ?)
-> 
-> This isn't really a regression in ld.bfd, filing the bug upstream
-> revealed that this never worked as a ld flag [2] - in fact it seems we
-> were by accident setting --nmagic).
-> 
-> Since it never had the wanted effect this usage of LDFLAGS_NOPIE, should be
-> droppable without any effect. This also is the only use-case of LDFLAGS_NOPIE
-> in .mak, therefore we can also remove it from being added there.
-> 
-> [1]: https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=983d925d
-> [2]: https://sourceware.org/bugzilla/show_bug.cgi?id=27050#c5
-> 
-> Signed-off-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+On Mon, 14 Dec 2020 at 13:37, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Disable the run-gdbstub-sha1 test: it provokes an internal error
+> assertion failure in Ubuntu gdb 8.1.1-0ubuntu1 (Ubuntu gdb
+> 8.1-0ubuntu3.2 was fine) :
+>
+> timeout 60  /home/petmay01/linaro/qemu-for-merges/tests/guest-debug/run-test.py --gdb /usr/bin/gdb-multiar
+> /build/gdb-veKdC1/gdb-8.1.1/gdb/regcache.c:122: internal-error: void* init_regcache_descr(gdbarch*): Asser
+> A problem internal to GDB has been detected,
+> further debugging may prove unreliable.
+>
+> This is a bug, please report it.  For instructions, see:
+> <http://www.gnu.org/software/gdb/bugs/>.
+>
+> Aborted (core dumped)
+> /home/petmay01/linaro/qemu-for-merges/tests/tcg/multiarch/Makefile.target:51: recipe for target 'run-gdbst
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
--no-pie (not -fno-pie!) _can_ be passed to gcc when it is used to drive 
-the linker.  But indeed since the only use is in an "ld" invocation, the 
-patch is okay.  Thanks!
+Applied to master to unblock pullreq processing. We can
+revert it later when we have a more sensible fix.
 
-Paolo
-
-> ---
->   configure                  | 3 ---
->   pc-bios/optionrom/Makefile | 1 -
->   2 files changed, 4 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 3f823ed163..61c17c2dde 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2133,7 +2133,6 @@ EOF
->   # Check we support --no-pie first; we will need this for building ROMs.
->   if compile_prog "-Werror -fno-pie" "-no-pie"; then
->     CFLAGS_NOPIE="-fno-pie"
-> -  LDFLAGS_NOPIE="-no-pie"
->   fi
->   
->   if test "$static" = "yes"; then
-> @@ -2149,7 +2148,6 @@ if test "$static" = "yes"; then
->     fi
->   elif test "$pie" = "no"; then
->     CONFIGURE_CFLAGS="$CFLAGS_NOPIE $CONFIGURE_CFLAGS"
-> -  CONFIGURE_LDFLAGS="$LDFLAGS_NOPIE $CONFIGURE_LDFLAGS"
->   elif compile_prog "-Werror -fPIE -DPIE" "-pie"; then
->     CONFIGURE_CFLAGS="-fPIE -DPIE $CONFIGURE_CFLAGS"
->     CONFIGURE_LDFLAGS="-pie $CONFIGURE_LDFLAGS"
-> @@ -6768,7 +6766,6 @@ echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
->   echo "GLIB_CFLAGS=$glib_cflags" >> $config_host_mak
->   echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
->   echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
-> -echo "LDFLAGS_NOPIE=$LDFLAGS_NOPIE" >> $config_host_mak
->   echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_host_mak
->   echo "EXESUF=$EXESUF" >> $config_host_mak
->   echo "HOST_DSOSUF=$HOST_DSOSUF" >> $config_host_mak
-> diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-> index 084fc10f05..30771f8d17 100644
-> --- a/pc-bios/optionrom/Makefile
-> +++ b/pc-bios/optionrom/Makefile
-> @@ -41,7 +41,6 @@ override CFLAGS += $(call cc-option, $(Wa)-32)
->   
->   LD_I386_EMULATION ?= elf_i386
->   override LDFLAGS = -m $(LD_I386_EMULATION) -T $(SRC_DIR)/flat.lds
-> -override LDFLAGS += $(LDFLAGS_NOPIE)
->   
->   all: multiboot.bin linuxboot.bin linuxboot_dma.bin kvmvapic.bin pvh.bin
->   
-> 
-
+thanks
+-- PMM
 
