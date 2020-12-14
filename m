@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D190A2D9270
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:09:09 +0100 (CET)
-Received: from localhost ([::1]:40094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3875A2D927B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:12:39 +0100 (CET)
+Received: from localhost ([::1]:52892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kog6e-0001SE-Tt
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:09:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39396)
+	id 1kogA2-0006dr-81
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:12:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwV-0005H3-TV; Sun, 13 Dec 2020 23:58:40 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:50009)
+ id 1kofwV-0005H2-SL; Sun, 13 Dec 2020 23:58:40 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:55889 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwT-0004sC-R0; Sun, 13 Dec 2020 23:58:39 -0500
+ id 1kofwT-0004sJ-Sn; Sun, 13 Dec 2020 23:58:39 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CvTfs1vcfz9sWX; Mon, 14 Dec 2020 15:58:13 +1100 (AEDT)
+ id 4CvTfs2WrZz9sWM; Mon, 14 Dec 2020 15:58:13 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607921893;
- bh=chEF8D4+gY4i8ttVlD0cjDG3WMAwgoRw30EJwDdJF4I=;
+ bh=KS/JXUTQMYv2eW9+XbsI27Y7qLlKDYVxNmlVB49PmV4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d22h08e/lYnTAQ1FvZS2NsrLZLl1mR9K6jzACMvFbNe4Z+iWsjKCu/l/u9i96XYbY
- zUTeam3CtecycxPo1dDLNv/nT7N4AL8q1mTJMC/6cJHMonRx6w6glGzm1JixHQ3F+9
- vNWAj1AO+pLGGnKRbtEEbPsY6lj2PeJh5MDwM7YY=
+ b=jwD6w8yRXQwY/Ye/F+G/zmufKWUXpXnWUj1JYannnaJYM/xr+L7FYa8+L7dJBJQ/Z
+ i/mcOMlMHqVY5bfAW8gmYuAqTs4BC+DYzg882ISJ2xecKw/U+pjEFAYUuQhtLQYBrv
+ N/WajCYPwWqzG6gVkU7mwu31OZ1Q8PTyHOTsSPqE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 18/30] spapr: Abort if ppc_set_compat() fails for hot-plugged
- CPUs
-Date: Mon, 14 Dec 2020 15:57:55 +1100
-Message-Id: <20201214045807.41003-19-david@gibson.dropbear.id.au>
+Subject: [PULL 19/30] spapr: Simplify error path of spapr_core_plug()
+Date: Mon, 14 Dec 2020 15:57:56 +1100
+Message-Id: <20201214045807.41003-20-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 References: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,59 +63,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-When a CPU is hot-plugged, we set its compat mode to match the boot
-CPU, which was either set by machine reset or by CAS. This is currently
-handled in the plug handler after the core got realized. Potential errors
-of ppc_set_compat() are propagated to the hot-plug logic.
+spapr_core_pre_plug() already guarantees that the slot for the given core
+ID is available. It is thus safe to assume that spapr_find_cpu_slot()
+returns a slot during plug. Turn the error path into an assertion.
+It is also safe to assume that no device is attached to the corresponding
+DRC and that spapr_drc_attach() shouldn't fail.
 
-Handling errors this late in the hot-plug sequence is generally frown
-upon. Ideally, we should do sanity checks in a pre-plug handler and pass
-&error_abort to ppc_set_compat() in the plug handler.
-
-We can filter out some error cases of ppc_set_compat() by calling
-ppc_check_compat() at pre-plug. But ppc_set_compat() also sets the
-compat register in KVM, and KVM doesn't provide any API that would
-allow to check valid compat mode settings beforehand.
-
-However, at this point we know that the compat mode was already
-successfully set for the boot CPU. Since this all boils down to
-setting a register with the very same value that was valid
-for the boot CPU, it should definitely not fail for hot-plugged
-CPUS.
-
-Pass &error_abort to ppc_set_compat().
+Pass &error_abort to spapr_drc_attach() and simplify error handling.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201201113728.885700-3-groug@kaod.org>
+Message-Id: <20201201113728.885700-4-groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ hw/ppc/spapr.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 5fbae8adda..99139a692c 100644
+index 99139a692c..1f8bd53cb8 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -3784,15 +3784,13 @@ static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+@@ -3738,8 +3738,7 @@ int spapr_core_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+     return 0;
+ }
  
-     /*
-      * Set compatibility mode to match the boot CPU, which was either set
--     * by the machine reset code or by CAS.
-+     * by the machine reset code or by CAS. This really shouldn't fail at
-+     * this point.
-      */
-     if (hotplugged) {
-         for (i = 0; i < cc->nr_threads; i++) {
--            if (ppc_set_compat(core->threads[i],
--                               POWERPC_CPU(first_cpu)->compat_pvr,
--                               errp) < 0) {
--                return;
--            }
-+            ppc_set_compat(core->threads[i], POWERPC_CPU(first_cpu)->compat_pvr,
-+                           &error_abort);
-         }
-     }
+-static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+-                            Error **errp)
++static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState *dev)
+ {
+     SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
+     MachineClass *mc = MACHINE_GET_CLASS(spapr);
+@@ -3754,20 +3753,20 @@ static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+     int i;
  
+     core_slot = spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id, &index);
+-    if (!core_slot) {
+-        error_setg(errp, "Unable to find CPU core with core-id: %d",
+-                   cc->core_id);
+-        return;
+-    }
++    g_assert(core_slot); /* Already checked in spapr_core_pre_plug() */
++
+     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_CPU,
+                           spapr_vcpu_id(spapr, cc->core_id));
+ 
+     g_assert(drc || !mc->has_hotpluggable_cpus);
+ 
+     if (drc) {
+-        if (!spapr_drc_attach(drc, dev, errp)) {
+-            return;
+-        }
++        /*
++         * spapr_core_pre_plug() already buys us this is a brand new
++         * core being plugged into a free slot. Nothing should already
++         * be attached to the corresponding DRC.
++         */
++        spapr_drc_attach(drc, dev, &error_abort);
+ 
+         if (hotplugged) {
+             /*
+@@ -4009,7 +4008,7 @@ static void spapr_machine_device_plug(HotplugHandler *hotplug_dev,
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+         spapr_memory_plug(hotplug_dev, dev);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)) {
+-        spapr_core_plug(hotplug_dev, dev, errp);
++        spapr_core_plug(hotplug_dev, dev);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
+         spapr_phb_plug(hotplug_dev, dev);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
 -- 
 2.29.2
 
