@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CFC2D925A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:00:50 +0100 (CET)
-Received: from localhost ([::1]:42768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10B3E2D9260
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:03:52 +0100 (CET)
+Received: from localhost ([::1]:51532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kofyb-0007hN-Ku
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:00:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39306)
+	id 1kog1X-0002vx-41
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:03:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwR-0005Cb-3v; Sun, 13 Dec 2020 23:58:35 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:41115 helo=ozlabs.org)
+ id 1kofwM-00058f-Nb; Sun, 13 Dec 2020 23:58:31 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:43849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwP-0004qn-6h; Sun, 13 Dec 2020 23:58:34 -0500
+ id 1kofwI-0004pF-Pr; Sun, 13 Dec 2020 23:58:30 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CvTfr4Kq5z9sVx; Mon, 14 Dec 2020 15:58:12 +1100 (AEDT)
+ id 4CvTfp5qHVz9sSf; Mon, 14 Dec 2020 15:58:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607921892;
- bh=DKCYJcfwqcpDrB5bFBgyrgn/tL2ij0jVnE7WbNZkSUo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Kzu8UI13qBFK/NtXJt/KMnI4BA2wKg3fLcvaA1PtxS5CcwEoHmpLdt1SBFbKbKfjr
- DrEO0twZSUuCOc09tOOj3scbd0UoLqU+djX3YmWqKuqjp/M8WPe6egEMp526Mb1LE0
- Nsp0jCuA/IfnLg6eWcFc89pXD/xpeg7l8tNG1eF0=
+ d=gibson.dropbear.id.au; s=201602; t=1607921890;
+ bh=nNGkvPq4LAx8HFkinhIc1prhD0cgyzTVGRIgaRU3wSM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=AGWDgILE+cqCZaOMGVeTr2avSm0CmXgTPmTa/ueLipKJ748+YNDlgNaLn00J3J+SM
+ EK0yaVlIgTNH7BJXU/vDiG5uDi2Nh69caFlZCr+v27PKO2xsdT8oFAtPjQCK+wXqSf
+ QiTtnTmUJtv3gd/HgRKfwohLhKl0KRpFr15lELZw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/30] ppc/translate: Delay NaN checking after comparison
-Date: Mon, 14 Dec 2020 15:57:49 +1100
-Message-Id: <20201214045807.41003-13-david@gibson.dropbear.id.au>
+Subject: [PULL 00/30] ppc-for-6.0 queue 20201214
+Date: Mon, 14 Dec 2020 15:57:37 +1100
+Message-Id: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201214045807.41003-1-david@gibson.dropbear.id.au>
-References: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -56,140 +55,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Giuseppe Musacchio <thatlemon@gmail.com>
+The following changes since commit 17584289af1aaa72c932e7e47c25d583b329dc45:
 
-Since we always perform a comparison between the two operands avoid
-checking for NaN unless the result states they're unordered.
+  Merge remote-tracking branch 'remotes/vivier/tags/m68k-for-6.0-pull-request' into staging (2020-12-12 18:33:46 +0000)
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201112230130.65262-4-thatlemon@gmail.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- target/ppc/fpu_helper.c | 80 +++++++++++++++++++++--------------------
- 1 file changed, 42 insertions(+), 38 deletions(-)
+are available in the Git repository at:
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 34f5bc1f3c..f5a4be595a 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -2475,25 +2475,6 @@ static inline void do_scalar_cmp(CPUPPCState *env, ppc_vsr_t *xa, ppc_vsr_t *xb,
- 
-     helper_reset_fpstatus(env);
- 
--    if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||
--        float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {
--        vxsnan_flag = true;
--        if (fpscr_ve == 0 && ordered) {
--            vxvc_flag = true;
--        }
--    } else if (float64_is_quiet_nan(xa->VsrD(0), &env->fp_status) ||
--               float64_is_quiet_nan(xb->VsrD(0), &env->fp_status)) {
--        if (ordered) {
--            vxvc_flag = true;
--        }
--    }
--    if (vxsnan_flag) {
--        float_invalid_op_vxsnan(env, GETPC());
--    }
--    if (vxvc_flag) {
--        float_invalid_op_vxvc(env, 0, GETPC());
--    }
--
-     switch (float64_compare(xa->VsrD(0), xb->VsrD(0), &env->fp_status)) {
-     case float_relation_less:
-         cc = CRF_LT;
-@@ -2506,6 +2487,27 @@ static inline void do_scalar_cmp(CPUPPCState *env, ppc_vsr_t *xa, ppc_vsr_t *xb,
-         break;
-     case float_relation_unordered:
-         cc = CRF_SO;
-+
-+        if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||
-+            float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {
-+            vxsnan_flag = true;
-+            if (fpscr_ve == 0 && ordered) {
-+                vxvc_flag = true;
-+            }
-+        } else if (float64_is_quiet_nan(xa->VsrD(0), &env->fp_status) ||
-+                   float64_is_quiet_nan(xb->VsrD(0), &env->fp_status)) {
-+            if (ordered) {
-+                vxvc_flag = true;
-+            }
-+        }
-+
-+        if (vxsnan_flag) {
-+            float_invalid_op_vxsnan(env, GETPC());
-+        }
-+        if (vxvc_flag) {
-+            float_invalid_op_vxvc(env, 0, GETPC());
-+        }
-+
-         break;
-     default:
-         g_assert_not_reached();
-@@ -2538,25 +2540,6 @@ static inline void do_scalar_cmpq(CPUPPCState *env, ppc_vsr_t *xa,
- 
-     helper_reset_fpstatus(env);
- 
--    if (float128_is_signaling_nan(xa->f128, &env->fp_status) ||
--        float128_is_signaling_nan(xb->f128, &env->fp_status)) {
--        vxsnan_flag = true;
--        if (fpscr_ve == 0 && ordered) {
--            vxvc_flag = true;
--        }
--    } else if (float128_is_quiet_nan(xa->f128, &env->fp_status) ||
--               float128_is_quiet_nan(xb->f128, &env->fp_status)) {
--        if (ordered) {
--            vxvc_flag = true;
--        }
--    }
--    if (vxsnan_flag) {
--        float_invalid_op_vxsnan(env, GETPC());
--    }
--    if (vxvc_flag) {
--        float_invalid_op_vxvc(env, 0, GETPC());
--    }
--
-     switch (float128_compare(xa->f128, xb->f128, &env->fp_status)) {
-     case float_relation_less:
-         cc = CRF_LT;
-@@ -2569,6 +2552,27 @@ static inline void do_scalar_cmpq(CPUPPCState *env, ppc_vsr_t *xa,
-         break;
-     case float_relation_unordered:
-         cc = CRF_SO;
-+
-+        if (float128_is_signaling_nan(xa->f128, &env->fp_status) ||
-+            float128_is_signaling_nan(xb->f128, &env->fp_status)) {
-+            vxsnan_flag = true;
-+            if (fpscr_ve == 0 && ordered) {
-+                vxvc_flag = true;
-+            }
-+        } else if (float128_is_quiet_nan(xa->f128, &env->fp_status) ||
-+                   float128_is_quiet_nan(xb->f128, &env->fp_status)) {
-+            if (ordered) {
-+                vxvc_flag = true;
-+            }
-+        }
-+
-+        if (vxsnan_flag) {
-+            float_invalid_op_vxsnan(env, GETPC());
-+        }
-+        if (vxvc_flag) {
-+            float_invalid_op_vxvc(env, 0, GETPC());
-+        }
-+
-         break;
-     default:
-         g_assert_not_reached();
--- 
-2.29.2
+  https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.0-20201214
 
+for you to fetch changes up to 07b10bc42cc83a49acaa783383a69fb59d7ff71a:
+
+  spapr.c: set a 'kvm-type' default value instead of relying on NULL (2020-12-14 15:54:12 +1100)
+
+----------------------------------------------------------------
+ppc patch queue 2020-12-14
+
+Here's my first pull request for qemu-6.0, with a bunch of things
+queued over the freeze.  Highlights are:
+ * A bunch of cleanups to hotplug error paths from Greg Kurz
+ * A number of TCG fixes from new contributor Giuseppe Musacchio
+ * Added Greg Kurz as co-maintainer
+ * Assorted other bugfixes and cleanups
+
+This supersedes ppc-for-6.0-20201211, the only change are some patch
+authors to better match qemu conventions.
+
+----------------------------------------------------------------
+Chen Qun (2):
+      target/ppc: replaced the TODO with LOG_UNIMP and add break for silence warnings
+      ppc: Add a missing break for PPC6xx_INPUT_TBEN
+
+Cédric Le Goater (1):
+      xive: Add trace events
+
+Daniel Henrique Barboza (1):
+      spapr.c: set a 'kvm-type' default value instead of relying on NULL
+
+David Gibson (1):
+      MAINTAINERS: Add Greg Kurz as co-maintainer for ppc
+
+Gan Qixin (1):
+      ppc/e500: Free irqs array to avoid memleak
+
+Giuseppe Musacchio (5):
+      ppc/translate: Fix unordered f64/f128 comparisons
+      ppc/translate: Turn the helper macros into functions
+      ppc/translate: Delay NaN checking after comparison
+      ppc/translate: Raise exceptions after setting the cc
+      ppc/translate: Rewrite gen_lxvdsx to use gvec primitives
+
+Greg Kurz (17):
+      spapr/xive: Turn some sanity checks into assertions
+      spapr/xics: Drop unused argument to xics_kvm_has_broken_disconnect()
+      spapr: Do PCI device hotplug sanity checks at pre-plug only
+      spapr: Do NVDIMM/PC-DIMM device hotplug sanity checks at pre-plug only
+      spapr: Make PHB placement functions and spapr_pre_plug_phb() return status
+      spapr: Do PHB hoplug sanity check at pre-plug
+      spapr: Do TPM proxy hotplug sanity checks at pre-plug
+      spapr: Fix pre-2.10 dummy ICP hack
+      spapr: Abort if ppc_set_compat() fails for hot-plugged CPUs
+      spapr: Simplify error path of spapr_core_plug()
+      spapr: spapr_drc_attach() cannot fail
+      target/ppc: Remove "compat" property of server class POWER CPUs
+      hw/ppc: Do not re-read the clock on pre_save if doing savevm
+      target/ppc: Introduce an mmu_is_64bit() helper
+      spapr: Pass sPAPR machine state down to spapr_pci_switch_vga()
+      spapr: Don't use qdev_get_machine() in spapr_msi_write()
+      spapr: Pass sPAPR machine state to some RTAS events handling functions
+
+Philippe Mathieu-Daudé (1):
+      hw/ppc/spapr_tpm_proxy: Fix hexadecimal format string specifier
+
+Stephane Duverger (1):
+      ppc/translate: Use POWERPC_MMU_64 to detect 64-bit MMU models
+
+ MAINTAINERS                         |  17 ++-
+ docs/system/deprecated.rst          |   7 --
+ hw/intc/spapr_xive.c                |  47 ++++++--
+ hw/intc/spapr_xive_kvm.c            |   5 +
+ hw/intc/trace-events                |  33 ++++++
+ hw/intc/xics_kvm.c                  |   2 +-
+ hw/intc/xive.c                      |  40 ++++++-
+ hw/ppc/e500.c                       |   1 +
+ hw/ppc/ppc.c                        |   6 +-
+ hw/ppc/spapr.c                      | 186 ++++++++++++++++--------------
+ hw/ppc/spapr_drc.c                  |   8 +-
+ hw/ppc/spapr_events.c               |  21 ++--
+ hw/ppc/spapr_hcall.c                |   7 +-
+ hw/ppc/spapr_irq.c                  |   2 +-
+ hw/ppc/spapr_nvdimm.c               |  11 +-
+ hw/ppc/spapr_pci.c                  |  48 +++++---
+ hw/ppc/trace-events                 |   2 +-
+ include/hw/ppc/spapr.h              |   4 +-
+ include/hw/ppc/spapr_drc.h          |   8 +-
+ include/hw/ppc/spapr_nvdimm.h       |   2 +-
+ include/hw/ppc/xics_spapr.h         |   2 +-
+ target/ppc/cpu-qom.h                |   5 +
+ target/ppc/excp_helper.c            |   4 +-
+ target/ppc/fpu_helper.c             | 220 +++++++++++++++++++++---------------
+ target/ppc/machine.c                |   4 +-
+ target/ppc/mmu-hash64.c             |   2 +-
+ target/ppc/mmu_helper.c             |  15 +--
+ target/ppc/translate.c              |   4 +-
+ target/ppc/translate/vsx-impl.c.inc |  46 ++++----
+ target/ppc/translate_init.c.inc     |  61 +---------
+ 30 files changed, 478 insertions(+), 342 deletions(-)
 
