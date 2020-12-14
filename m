@@ -2,67 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D824F2D9346
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 07:32:14 +0100 (CET)
-Received: from localhost ([::1]:33648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A17412D9349
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 07:36:21 +0100 (CET)
+Received: from localhost ([::1]:42146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kohP3-0000lf-Gx
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 01:32:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51708)
+	id 1kohT2-0004JD-Fw
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 01:36:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kohNj-00006w-2i
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 01:30:51 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41870)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kohNb-0006yf-NV
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 01:30:48 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kohNZ-0000r5-Sb
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 06:30:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CC2BE2E8137
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 06:30:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kohQp-0002VW-Pg
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 01:34:03 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:49772)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kohQn-0007Ab-J8
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 01:34:03 -0500
+Received: from [192.168.0.92] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 526A940A3659;
+ Mon, 14 Dec 2020 06:33:52 +0000 (UTC)
+Subject: Re: [PATCH] icount: improve exec nocache usage
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <160741865825.348476.7169239332367828943.stgit@pasha-ThinkPad-X280>
+ <bce56bb4-dd59-d408-ca17-1df944ef6259@linaro.org>
+ <766d28d8-9c54-9740-5f10-4c0852c5b8f6@ispras.ru>
+ <c50c27a0-7e94-b120-bef9-60ddfcd28e3c@linaro.org>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <486b6222-e2d0-5b0c-f972-247d6b4d021f@ispras.ru>
+Date: Mon, 14 Dec 2020 09:33:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 14 Dec 2020 06:23:02 -0000
-From: Thomas Huth <1907953@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bboydanyel27 th-huth
-X-Launchpad-Bug-Reporter: Daniel Almeida Moreira (bboydanyel27)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160786137737.10666.4821083762716127429.malonedeb@wampee.canonical.com>
-Message-Id: <160792698248.31672.10731732987521367081.malone@soybean.canonical.com>
-Subject: =?utf-8?q?=5BBug_1907953=5D_Re=3A_pkg_install_qemu-system-x86=5F64?=
- =?utf-8?q?__n=C3=A3o_funciona_qemu_5=2E2=2E0?=
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: e277e7d5b1531926c72f85cb6593318c87d48aa5
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <c50c27a0-7e94-b120-bef9-60ddfcd28e3c@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,32 +57,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907953 <1907953@bugs.launchpad.net>
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry, please write bug reports in proper English.
+On 12.12.2020 17:31, Richard Henderson wrote:
+> On 12/12/20 12:22 AM, Pavel Dovgalyuk wrote:
+>> However, we can't cache them directly, because hash table can include only one
+>> block with the specific pc.
+> 
+> That's not true at all.
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+Thanks, I missed, that icount is used for TB comparison in hash container.
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907953
-
-Title:
-  pkg install qemu-system-x86_64  n=C3=A3o funciona qemu 5.2.0
-
-Status in QEMU:
-  Invalid
-
-Bug description:
-  A qemu funcionava mais quando atualizei para 5.2.0 n=C3=A3o iniciar o
-  Windows s=C3=B3 fica tela preta quero voltar para anterior mais n=C3=A3o =
-consigo
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907953/+subscriptions
+Pavel Dovgalyuk
 
