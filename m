@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B86292D925E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:03:31 +0100 (CET)
-Received: from localhost ([::1]:49552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 479592D926E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:09:08 +0100 (CET)
+Received: from localhost ([::1]:39968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kog1C-00029q-Ms
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:03:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39202)
+	id 1kog6d-0001Oz-C8
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:09:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwM-00058e-NH; Sun, 13 Dec 2020 23:58:30 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:36239 helo=ozlabs.org)
+ id 1kofwQ-0005Bo-MY; Sun, 13 Dec 2020 23:58:35 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:51717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwJ-0004pH-AM; Sun, 13 Dec 2020 23:58:30 -0500
+ id 1kofwO-0004qS-K9; Sun, 13 Dec 2020 23:58:34 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CvTfq0qT7z9sTK; Mon, 14 Dec 2020 15:58:11 +1100 (AEDT)
+ id 4CvTfq54kHz9sVS; Mon, 14 Dec 2020 15:58:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607921891;
- bh=30IN9E+iDeGmA9l4nt+SQ3Bx4uYn26iJRk5Uk+ZSwk4=;
+ bh=uECiSoEwfcA940gyW7QObXgfmo6vlCN3kSYBi0xr7eo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m+qUnT2SNDUj2aVZCCeLawkPOz38FpQ8l36JOfDkYd08KuXjOH+PqYE8mX52RyTmi
- JB/ZmGAduZBd9igMqg+DRK4kdKsuoJySr2r0J/uo1USpiz1+vce7WswHeB+L0Lw4QM
- qeh3N3T+li9nXQGlqGIAsOXZo/kWftgLHQ8aJ28Y=
+ b=WdEMzKYFJRlvjLVEjlzPSfro+ZQxDXq+ywJAtbFfjv8/arTxlCHw5DYJGj6L7W/DH
+ xQWwE4vtpq2XncBiiG6KBMM9IiUmMWVdwEiufDQLr/MY4PUARwiB29paRc5oXxjo2A
+ 5Uz36TRjwFqCxh2PH7dhdjhLtmHbVVMs1oXAHRpE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 02/30] spapr/xics: Drop unused argument to
- xics_kvm_has_broken_disconnect()
-Date: Mon, 14 Dec 2020 15:57:39 +1100
-Message-Id: <20201214045807.41003-3-david@gibson.dropbear.id.au>
+Subject: [PULL 04/30] spapr: Do NVDIMM/PC-DIMM device hotplug sanity checks at
+ pre-plug only
+Date: Mon, 14 Dec 2020 15:57:41 +1100
+Message-Id: <20201214045807.41003-5-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 References: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,64 +57,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Never used from the start.
+Pre-plug of a memory device, be it an NVDIMM or a PC-DIMM, ensures
+that the memory slot is available and that addresses don't overlap
+with existing memory regions. The corresponding DRCs in the LMB
+and PMEM namespaces are thus necessarily attachable at plug time.
+
+Pass &error_abort to spapr_drc_attach() in spapr_add_lmbs() and
+spapr_add_nvdimm(). This allows to greatly simplify error handling
+on the plug path.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201120174646.619395-6-groug@kaod.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20201120234208.683521-3-groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xics_kvm.c          | 2 +-
- hw/ppc/spapr_irq.c          | 2 +-
- include/hw/ppc/xics_spapr.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ hw/ppc/spapr.c                | 40 ++++++++++++-----------------------
+ hw/ppc/spapr_nvdimm.c         | 11 +++++-----
+ include/hw/ppc/spapr_nvdimm.h |  2 +-
+ 3 files changed, 20 insertions(+), 33 deletions(-)
 
-diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-index 68bb1914b9..570d635bcc 100644
---- a/hw/intc/xics_kvm.c
-+++ b/hw/intc/xics_kvm.c
-@@ -484,7 +484,7 @@ void xics_kvm_disconnect(SpaprInterruptController *intc)
-  * support destruction of a KVM XICS device while the VM is running.
-  * Required to start a spapr machine with ic-mode=dual,kernel-irqchip=on.
-  */
--bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr)
-+bool xics_kvm_has_broken_disconnect(void)
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 6abb45d0ed..9489c57213 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3379,8 +3379,8 @@ int spapr_lmb_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+     return 0;
+ }
+ 
+-static bool spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
+-                           bool dedicated_hp_event_source, Error **errp)
++static void spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
++                           bool dedicated_hp_event_source)
  {
-     int rc;
+     SpaprDrc *drc;
+     uint32_t nr_lmbs = size/SPAPR_MEMORY_BLOCK_SIZE;
+@@ -3393,15 +3393,12 @@ static bool spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
+                               addr / SPAPR_MEMORY_BLOCK_SIZE);
+         g_assert(drc);
  
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index f59960339e..a0d1e1298e 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -186,7 +186,7 @@ static int spapr_irq_check(SpaprMachineState *spapr, Error **errp)
-     if (kvm_enabled() &&
-         spapr->irq == &spapr_irq_dual &&
-         kvm_kernel_irqchip_required() &&
--        xics_kvm_has_broken_disconnect(spapr)) {
-+        xics_kvm_has_broken_disconnect()) {
-         error_setg(errp,
-             "KVM is incompatible with ic-mode=dual,kernel-irqchip=on");
-         error_append_hint(errp,
-diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-index 0b8182e40b..de752c0d2c 100644
---- a/include/hw/ppc/xics_spapr.h
-+++ b/include/hw/ppc/xics_spapr.h
-@@ -38,6 +38,6 @@ DECLARE_INSTANCE_CHECKER(ICSState, ICS_SPAPR,
- int xics_kvm_connect(SpaprInterruptController *intc, uint32_t nr_servers,
-                      Error **errp);
- void xics_kvm_disconnect(SpaprInterruptController *intc);
--bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
-+bool xics_kvm_has_broken_disconnect(void);
+-        if (!spapr_drc_attach(drc, dev, errp)) {
+-            while (addr > addr_start) {
+-                addr -= SPAPR_MEMORY_BLOCK_SIZE;
+-                drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
+-                                      addr / SPAPR_MEMORY_BLOCK_SIZE);
+-                spapr_drc_detach(drc);
+-            }
+-            return false;
+-        }
++        /*
++         * memory_device_get_free_addr() provided a range of free addresses
++         * that doesn't overlap with any existing mapping at pre-plug. The
++         * corresponding LMB DRCs are thus assumed to be all attachable.
++         */
++        spapr_drc_attach(drc, dev, &error_abort);
+         if (!hotplugged) {
+             spapr_drc_reset(drc);
+         }
+@@ -3422,11 +3419,9 @@ static bool spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
+                                            nr_lmbs);
+         }
+     }
+-    return true;
+ }
  
- #endif /* XICS_SPAPR_H */
+-static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+-                              Error **errp)
++static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev)
+ {
+     SpaprMachineState *ms = SPAPR_MACHINE(hotplug_dev);
+     PCDIMMDevice *dimm = PC_DIMM(dev);
+@@ -3441,24 +3436,15 @@ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+     if (!is_nvdimm) {
+         addr = object_property_get_uint(OBJECT(dimm),
+                                         PC_DIMM_ADDR_PROP, &error_abort);
+-        if (!spapr_add_lmbs(dev, addr, size,
+-                            spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT), errp)) {
+-            goto out_unplug;
+-        }
++        spapr_add_lmbs(dev, addr, size,
++                       spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT));
+     } else {
+         slot = object_property_get_int(OBJECT(dimm),
+                                        PC_DIMM_SLOT_PROP, &error_abort);
+         /* We should have valid slot number at this point */
+         g_assert(slot >= 0);
+-        if (!spapr_add_nvdimm(dev, slot, errp)) {
+-            goto out_unplug;
+-        }
++        spapr_add_nvdimm(dev, slot);
+     }
+-
+-    return;
+-
+-out_unplug:
+-    pc_dimm_unplug(dimm, MACHINE(ms));
+ }
+ 
+ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+@@ -4006,7 +3992,7 @@ static void spapr_machine_device_plug(HotplugHandler *hotplug_dev,
+                                       DeviceState *dev, Error **errp)
+ {
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+-        spapr_memory_plug(hotplug_dev, dev, errp);
++        spapr_memory_plug(hotplug_dev, dev);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)) {
+         spapr_core_plug(hotplug_dev, dev, errp);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index a833a63b5e..2f1c196e1b 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -89,7 +89,7 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+ }
+ 
+ 
+-bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp)
++void spapr_add_nvdimm(DeviceState *dev, uint64_t slot)
+ {
+     SpaprDrc *drc;
+     bool hotplugged = spapr_drc_hotplugged(dev);
+@@ -97,14 +97,15 @@ bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp)
+     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_PMEM, slot);
+     g_assert(drc);
+ 
+-    if (!spapr_drc_attach(drc, dev, errp)) {
+-        return false;
+-    }
++    /*
++     * pc_dimm_get_free_slot() provided a free slot at pre-plug. The
++     * corresponding DRC is thus assumed to be attachable.
++     */
++    spapr_drc_attach(drc, dev, &error_abort);
+ 
+     if (hotplugged) {
+         spapr_hotplug_req_add_by_index(drc);
+     }
+-    return true;
+ }
+ 
+ static int spapr_dt_nvdimm(SpaprMachineState *spapr, void *fdt,
+diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
+index 344582d2f5..73be250e2a 100644
+--- a/include/hw/ppc/spapr_nvdimm.h
++++ b/include/hw/ppc/spapr_nvdimm.h
+@@ -30,6 +30,6 @@ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+ void spapr_dt_persistent_memory(SpaprMachineState *spapr, void *fdt);
+ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+                            uint64_t size, Error **errp);
+-bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
++void spapr_add_nvdimm(DeviceState *dev, uint64_t slot);
+ 
+ #endif
 -- 
 2.29.2
 
