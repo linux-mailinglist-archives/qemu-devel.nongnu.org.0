@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29C92D9DA6
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 18:28:43 +0100 (CET)
-Received: from localhost ([::1]:57412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA6B2D9D98
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 18:27:03 +0100 (CET)
+Received: from localhost ([::1]:53272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koreM-0002OT-Ru
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 12:28:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58674)
+	id 1korcj-0000Zs-QM
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 12:27:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1korZ0-0004k3-SU
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:23:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24589)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1koraP-00074s-6S
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:24:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1korYx-000144-PU
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:23:09 -0500
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1koraN-0001d1-MI
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:24:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607966582;
+ s=mimecast20190719; t=1607966674;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZIQmqdC7+zH2YkfI8yaUxzLNmpQ3Ic1mn8OsF5AYibw=;
- b=MIZstzWqRPN44G1b6LE1xvh8AO0gjp8inNokUK45B9OZRqm26SlZxqmQJQ9pkFCHRRhQYA
- RH+fjRHRC9WlYXVoRzNS9Vj2y85pDzrSyzCwa13a9TPF7kBuH50CM4IdvqDJjzPqGu9LKa
- dZPxACwf7m4Mf9j42Yb8AjPrmIJUNX0=
+ bh=tVrw542DX2KLO2TPzENouPrv7sTLbHUO9KuI1dV/ApQ=;
+ b=bDXjI4abxFtwdC/tsW2nrfoKnVKVaD8YQsk5TWUNxcatxLh8Zx/c1pZ3TyFBXKwIygRQGL
+ BqULqAv/Rzgjg8ZK+QKwQX+MRzxBzCzK1woMQy0UqjK+WXR6VdMHaM2GWaz17nkHh2CoNO
+ LMdt3ocZ8QryqDiy5hmNtOhsVjihzwU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-Zn_ZHwp8MJWyj9502nlsyQ-1; Mon, 14 Dec 2020 12:22:58 -0500
-X-MC-Unique: Zn_ZHwp8MJWyj9502nlsyQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-583-5mqhwgx1OAqCYa9M4ykgwA-1; Mon, 14 Dec 2020 12:24:31 -0500
+X-MC-Unique: 5mqhwgx1OAqCYa9M4ykgwA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF54B80ED8B;
- Mon, 14 Dec 2020 17:22:56 +0000 (UTC)
-Received: from gondolin (ovpn-113-171.ams2.redhat.com [10.36.113.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB62A5D6AB;
- Mon, 14 Dec 2020 17:22:43 +0000 (UTC)
-Date: Mon, 14 Dec 2020 18:22:40 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-Message-ID: <20201214182240.2abd85eb.cohuck@redhat.com>
-In-Reply-To: <20201204054415.579042-12-david@gibson.dropbear.id.au>
-References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <20201204054415.579042-12-david@gibson.dropbear.id.au>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E043E107ACF5;
+ Mon, 14 Dec 2020 17:24:28 +0000 (UTC)
+Received: from localhost (ovpn-116-160.rdu2.redhat.com [10.10.116.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BE2410021AA;
+ Mon, 14 Dec 2020 17:24:19 +0000 (UTC)
+Date: Mon, 14 Dec 2020 12:24:18 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v4 23/32] qdev: Move dev->realized check to
+ qdev_property_set()
+Message-ID: <20201214172418.GK1289986@habkost.net>
+References: <20201211220529.2290218-1-ehabkost@redhat.com>
+ <20201211220529.2290218-24-ehabkost@redhat.com>
+ <20201214155530.55f80cd6@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+In-Reply-To: <20201214155530.55f80cd6@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,76 +80,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, david@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, berrange@redhat.com,
- thuth@redhat.com, pbonzini@redhat.com, rth@twiddle.net,
- mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-block@nongnu.org,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, xen-devel@lists.xenproject.org,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  4 Dec 2020 16:44:13 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
-
-> We haven't yet implemented the fairly involved handshaking that will be
-> needed to migrate PEF protected guests.  For now, just use a migration
-> blocker so we get a meaningful error if someone attempts this (this is the
-> same approach used by AMD SEV).
+On Mon, Dec 14, 2020 at 03:55:30PM +0100, Igor Mammedov wrote:
+> On Fri, 11 Dec 2020 17:05:20 -0500
+> Eduardo Habkost <ehabkost@redhat.com> wrote:
 > 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  hw/ppc/pef.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> > Every single qdev property setter function manually checks
+> > dev->realized.  We can just check dev->realized inside
+> > qdev_property_set() instead.
+> > 
+> > The check is being added as a separate function
+> > (qdev_prop_allow_set()) because it will become a callback later.
 > 
-> diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
-> index 3ae3059cfe..edc3e744ba 100644
-> --- a/hw/ppc/pef.c
-> +++ b/hw/ppc/pef.c
-> @@ -38,7 +38,11 @@ struct PefGuestState {
->  };
->  
->  #ifdef CONFIG_KVM
-> +static Error *pef_mig_blocker;
-> +
->  static int kvmppc_svm_init(Error **errp)
+> is callback added within this series?
+> and I'd add here what's the purpose of it.
 
-This looks weird?
+It will be added in part 2 of the series.  See v3:
+https://lore.kernel.org/qemu-devel/20201112214350.872250-35-ehabkost@redhat.com/
 
-> +
-> +int kvmppc_svm_init(SecurableGuestMemory *sgm, Error **errp)
->  {
->      if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURABLE_GUEST)) {
->          error_setg(errp,
-> @@ -54,6 +58,11 @@ static int kvmppc_svm_init(Error **errp)
->          }
->      }
->  
-> +    /* add migration blocker */
-> +    error_setg(&pef_mig_blocker, "PEF: Migration is not implemented");
-> +    /* NB: This can fail if --only-migratable is used */
-> +    migrate_add_blocker(pef_mig_blocker, &error_fatal);
+I don't know what else I could say about its purpose, in addition
+to what I wrote above, and the comment below[1].
 
-Just so that I understand: is PEF something that is enabled by the host
-(and the guest is either secured or doesn't start), or is it using a
-model like s390x PV where the guest initiates the transition into
-secured mode?
+If you are just curious about the callback and confused because
+it is not anywhere in this series, I can just remove the
+paragraph above from the commit message.  Would that be enough?
 
-Asking because s390x adds the migration blocker only when the
-transition is actually happening (i.e. guests that do not transition
-into secure mode remain migratable.) This has the side effect that you
-might be able to start a machine with --only-migratable that
-transitions into a non-migratable machine via a guest action, if I'm
-not mistaken. Without the new object, I don't see a way to block with
---only-migratable; with it, we should be able to do that. Not sure what
-the desirable behaviour is here.
+> 
+[...]
+> > +/* returns: true if property is allowed to be set, false otherwise */
 
-> +
->      return 0;
->  }
->  
+[1] ^^^
+
+> > +static bool qdev_prop_allow_set(Object *obj, const char *name,
+> > +                                Error **errp)
+> > +{
+> > +    DeviceState *dev = DEVICE(obj);
+> > +
+> > +    if (dev->realized) {
+> > +        qdev_prop_set_after_realize(dev, name, errp);
+> > +        return false;
+> > +    }
+> > +    return true;
+> > +}
+> > +
+
+-- 
+Eduardo
 
 
