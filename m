@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E702D980F
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 13:37:23 +0100 (CET)
-Received: from localhost ([::1]:46650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7982D9810
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 13:37:28 +0100 (CET)
+Received: from localhost ([::1]:46988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kon6Q-00075a-4o
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 07:37:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44714)
+	id 1kon6V-0007Do-Dd
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 07:37:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kon4r-0006CG-0c
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 07:35:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57154)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kon4o-0001My-Nh
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 07:35:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607949341;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NW2RBYv2N1AY8BXcmhrd57hNyd+c2yGXliPbJ6rcPbM=;
- b=XMoAOeEw5flWe7W400tVjnyZ2d/0+crgdp0a1KH2ZxkgL/ab3TPlG+g5+HqJl2k70z24Qb
- MKI5LUzkotnYv5usr4vB4KAaAwYZNgn7ZDwFfX99nlny/8o2Y6aK35hOGkphTRZ/Obz6p1
- RyREi0zQfb/NccL9Fe+ZUaZEeJE3XWQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347--0OULiIbOaWXqiVWKiDM1g-1; Mon, 14 Dec 2020 07:35:39 -0500
-X-MC-Unique: -0OULiIbOaWXqiVWKiDM1g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3385C1015C80;
- Mon, 14 Dec 2020 12:35:38 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-49.ams2.redhat.com [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A7191001B2C;
- Mon, 14 Dec 2020 12:35:30 +0000 (UTC)
-Subject: Re: [RFC PATCH 1/2] gitlab-ci: Step in to maintain the
- fedora-i386-cross runner
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>
-References: <20201211171703.537546-1-philmd@redhat.com>
- <20201211171703.537546-2-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <fe1213a5-a706-adaf-25a7-8323f42239da@redhat.com>
-Date: Mon, 14 Dec 2020 13:35:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kon58-0006FV-Nx
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 07:36:05 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kon54-0001Sm-8r
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 07:35:59 -0500
+Received: by mail-wr1-x434.google.com with SMTP id y17so16170682wrr.10
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 04:35:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=o5/21Y1Nv+z8LzfT3vNP3hN3hvuHLRR15ZdgGixszlo=;
+ b=moBUB6E3CaqFzoz1I5lukNpPvKC+xdXfAab+epa/EH88j4Orjr3C4Rjy9GkkpWbLD7
+ /217cxX7bQJ0SND3MpY7Cxh+X9aQufavqI5jJQwsjbk5T7PxRqm9ON9d960NnyDKJnKs
+ DWkuwX+3fuT8iaEz/aQJGhzx9zx17ySw23GY7NZcHeYqH0KOJacbx9S/DP5N2zxapDTv
+ CP24kcbSL/h4jkTbzHiL22R93uCLtuRzLd6GWgPUebOdF6UMGRfTvr7IzkrF9xA16zuT
+ /6Fc3Y1VFXdlXqIgxdsbDPm7zDBSJ+7yl70xaXUg3IJd1N5YSxJ3M1n0AHxhiiEnMabE
+ nBpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=o5/21Y1Nv+z8LzfT3vNP3hN3hvuHLRR15ZdgGixszlo=;
+ b=X+KSjEvrUCyNNPCGqoxJjKwMEJtpnk/UfmON+twaSTGxg6sxdrSX56lM8tPbBMlxZ5
+ WgFpwQJuurzcmtDWSn7EMOJ9ipLf1NXAyqfaDa9kLfztGcC88HcHiEwC2iLnXl5yCR7W
+ MNUy5FGCbTuVcaKAmBZ/tKUD2iGVpeOHeXawyNkw/s8qqjYSz6HocRVYXLhRwDL+AayO
+ x0Dp7prkbPavA7SyQcwELgpP2pzrm4PnXqBdJ2X1tlB0iTaPRGbynONS2xgvHPsNEll5
+ bl3ZuC3rNJyAmMAE2VleKpIgxy2mgsI5Qis/038bdNXjp4zATGKNzXwaid67llFEOpBX
+ DCbg==
+X-Gm-Message-State: AOAM531m5IM31dY9kPgDh/4iwNgHYyG5n+cOg77I6eXp2adr/cf6lMaS
+ +SEBXLFlAvDfvFPD8Fiqyjcn1w==
+X-Google-Smtp-Source: ABdhPJyQ2etZpTGvpg1Is3SUHkjxpNOJfKL3KFnfjhnYAbtS4ZsoY2724g7Rg1650s/BqmIh6cewDA==
+X-Received: by 2002:a5d:558a:: with SMTP id i10mr29435561wrv.363.1607949355969; 
+ Mon, 14 Dec 2020 04:35:55 -0800 (PST)
+Received: from leonardo.hemma.eciton.net
+ (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net. [82.27.183.148])
+ by smtp.gmail.com with ESMTPSA id d15sm31075531wrx.93.2020.12.14.04.35.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Dec 2020 04:35:55 -0800 (PST)
+From: Leif Lindholm <leif@nuviainc.com>
+To: qemu-arm@nongnu.org
+Subject: [PATCH v2 3/5] target/arm: add descriptions of CLIDR_EL1, CCSIDR_EL1,
+ CTR_EL0 to cpu.h
+Date: Mon, 14 Dec 2020 12:35:53 +0000
+Message-Id: <20201214123553.2515-1-leif@nuviainc.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201211171703.537546-2-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=leif@nuviainc.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,50 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- virt-ci-maint-team@redhat.com,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/12/2020 18.17, Philippe Mathieu-Daudé wrote:
-> As I am interested in using the runner based on the fedora-i386-cross
-> docker image, add a smoke test job to be sure this image is usable,
-> and set the JOB_MAINTAINER_NAME/JOB_MAINTAINER_EMAIL variables so
-> other developers can contact me in case there is a problem with the
-> public runner based on this image.
-> 
-> We will eventually send a patch to make script/checkpatch.pl parse
-> the Gitlab YAML jobs to understand the JOB_MAINTAINER_NAME and
-> JOB_MAINTAINER_EMAIL variables.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  .gitlab-ci.d/crossbuilds.yml | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-> index bd6473a75a7..864cad7cec5 100644
-> --- a/.gitlab-ci.d/crossbuilds.yml
-> +++ b/.gitlab-ci.d/crossbuilds.yml
-> @@ -39,6 +39,13 @@
->        ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-system
->      - make -j$(expr $(nproc) + 1) all check-build
->  
-> +.cross_sanity_check_job:
-> +  stage: build
-> +  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-> +  timeout: 3m
-> +  script:
-> +    - /bin/true
+Signed-off-by: Leif Lindholm <leif@nuviainc.com>
+---
+v1->v2:
+- Correct CCSIDR_EL1 field sizes.
 
-I guess it makes more sense if I respin my patch here instead:
+ target/arm/cpu.h | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg762919.html
-
-?
-
- Thomas
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index fadd1a47df..90ba707b64 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1736,6 +1736,30 @@ FIELD(V7M_FPCCR, ASPEN, 31, 1)
+ /*
+  * System register ID fields.
+  */
++FIELD(CLIDR_EL1, CTYPE1, 0, 3)
++FIELD(CLIDR_EL1, CTYPE2, 3, 3)
++FIELD(CLIDR_EL1, CTYPE3, 6, 3)
++FIELD(CLIDR_EL1, CTYPE4, 9, 3)
++FIELD(CLIDR_EL1, CTYPE5, 12, 3)
++FIELD(CLIDR_EL1, CTYPE6, 15, 3)
++FIELD(CLIDR_EL1, CTYPE7, 18, 3)
++FIELD(CLIDR_EL1, LOUIS, 21, 3)
++FIELD(CLIDR_EL1, LOC, 24, 3)
++FIELD(CLIDR_EL1, LOUU, 27, 3)
++FIELD(CLIDR_EL1, ICB, 30, 3)
++
++FIELD(CCSIDR_EL1, LINESIZE, 0, 3)
++FIELD(CCSIDR_EL1, ASSOCIATIVITY, 3, 21)
++FIELD(CCSIDR_EL1, NUMSETS, 32, 24)
++
++FIELD(CTR_EL0,  IMINLINE, 0, 4)
++FIELD(CTR_EL0,  L1IP, 14, 2)
++FIELD(CTR_EL0,  DMINLINE, 16, 4)
++FIELD(CTR_EL0,  ERG, 20, 4)
++FIELD(CTR_EL0,  CWG, 24, 4)
++FIELD(CTR_EL0,  IDC, 28, 1)
++FIELD(CTR_EL0,  DIC, 29, 1)
++
+ FIELD(MIDR_EL1, REVISION, 0, 4)
+ FIELD(MIDR_EL1, PARTNUM, 4, 12)
+ FIELD(MIDR_EL1, ARCHITECTURE, 16, 4)
+-- 
+2.20.1
 
 
