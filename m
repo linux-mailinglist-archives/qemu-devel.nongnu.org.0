@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD5C2D96AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 11:56:23 +0100 (CET)
-Received: from localhost ([::1]:60234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5142D96B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 11:59:01 +0100 (CET)
+Received: from localhost ([::1]:34482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kolWd-0002XD-Qp
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 05:56:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48934)
+	id 1kolZE-0003iY-Il
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 05:59:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kolUy-00024J-RS
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:54:36 -0500
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:37876)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kolUw-0005DD-P7
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:54:36 -0500
-Received: by mail-ed1-x544.google.com with SMTP id cm17so16709888edb.4
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 02:54:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=037v2Wa+6wX4mKS59G6C8yrvIDFGEse9zXXwPvcKVW0=;
- b=rr4Yj7+LcC8aQNUIvU4Cb5vvxZaHwY21+UlrSnQIw/uBFXIxt0WPEkCPGbN7LYvfCr
- YnUyEWh3hTu8nUCx8Rxvn40I5CLCaGDiAv9d9dcUh83V6RD5ABkzw1UpLAyiUzqv7YbF
- Jt/RRTobVNa1P8hy9NX/R7ZMg4t8ZhXVpFtWv2ln5efURTwmKfUX6aAqOcNBNcZhpaWG
- 79GuAPuBI49togdxkYG9N2G86aJCEdBN/OB9q/lAojq9obxpwR/Iz9JGepvfsn2Fn++2
- ByBM6l4UU67ur6tBd5LG1tcKDw0z/8bb29nGRIqHNvhgMy38VMupxKR6VDG+lFWZsx87
- aucA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=037v2Wa+6wX4mKS59G6C8yrvIDFGEse9zXXwPvcKVW0=;
- b=F4q2MbEaDBHOCVQzNkonblu7/sNoga8PQFTlIyaQwpa+WhaNbgZ6jpa12ixuPAgrK1
- 0StQGys9YW2XiZENGBDfwEBBcXTRkALs0dupXLQS3IHlOQ+VJfO/pah6MbmV+q6R+21Q
- XHpr5x6oAT/0DdRWULKooo/8l+cbwCyZcCWKQmfxk2FY+ROg/ObtEBlA3TmgLSQGoLwK
- VIKeycQsZQ3pMn05iCZJAxaRc1RnlQgxfWYkoUB6NS3eTJmYeYLxkvtuET4f96+hfdWt
- pkl4fxsSIjzCD35J7os5+VJKdPdYGJQzAwN45YpVGd5SawFTJTXKTzXVRRqT8S0kcHGP
- s6GA==
-X-Gm-Message-State: AOAM532JPppibpGv9cGPFAthJI/P2shMQJBPi416LmXeHsNXTaYa/BjW
- /FkJVs4oY+UWp2hsA0/WqNcv412dkQaMFDKSacB0Xg==
-X-Google-Smtp-Source: ABdhPJybcetTdFj8wX10oA1y4J8LQn0YQ2peVlnFe5i7NpV8DFv2bIAvplLhRrvcZQwj7ggGx3fU38+9P8dDEDGXfyA=
-X-Received: by 2002:aa7:cdc3:: with SMTP id h3mr23954810edw.52.1607943273060; 
- Mon, 14 Dec 2020 02:54:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kolXX-00038k-AJ
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:57:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27311)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kolXS-0005Zu-Nd
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:57:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607943429;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ihKJQubl2WVLBfE3VRV687ZDrqvVtE5WofmHPnkT1gY=;
+ b=btSuYfTF4wTpftgYXh/YNlCyco5d5MX283/MGnPIT9aj1ZEFX9ILEKAqi9+Oto9qCpJ09a
+ WGFlTyicsYEYCRu8WnZ3XfqwUlRWHo/UnPjkMAohoxYbEkRZdZHphCNgt4RAlROns8naK1
+ 7ohlZMqnxZKquzD2pVLxTFPf0rMKUNU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-0FiotJxVMLufwGePF1JPOQ-1; Mon, 14 Dec 2020 05:57:07 -0500
+X-MC-Unique: 0FiotJxVMLufwGePF1JPOQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57EC818C89C4;
+ Mon, 14 Dec 2020 10:57:05 +0000 (UTC)
+Received: from gondolin (ovpn-113-171.ams2.redhat.com [10.36.113.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71D1671C94;
+ Mon, 14 Dec 2020 10:56:49 +0000 (UTC)
+Date: Mon, 14 Dec 2020 11:56:46 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v4 30/32] qdev: Rename qdev_get_prop_ptr() to
+ object_field_prop_ptr()
+Message-ID: <20201214115646.42998a6e.cohuck@redhat.com>
+In-Reply-To: <20201211220529.2290218-31-ehabkost@redhat.com>
+References: <20201211220529.2290218-1-ehabkost@redhat.com>
+ <20201211220529.2290218-31-ehabkost@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
- <1603891979-11961-2-git-send-email-mihai.carabas@oracle.com>
- <CAFEAcA9P8VD1qg_8taP5SbmmpgKYwDOmAZQNoK6uGr56Pz_Dww@mail.gmail.com>
-In-Reply-To: <CAFEAcA9P8VD1qg_8taP5SbmmpgKYwDOmAZQNoK6uGr56Pz_Dww@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Dec 2020 10:54:21 +0000
-Message-ID: <CAFEAcA9=5F-5_Csy=ZXd6V5JCb1pqFV6n8MafLTJmcPTeY7ZfA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] hw/misc/pvpanic: Build the pvpanic device for any
- machine
-To: Mihai Carabas <mihai.carabas@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,75 +79,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peng Hao <peng.hao2@zte.com.cn>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
+ qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>,
+ xen-devel@lists.xenproject.org, qemu-block@nongnu.org,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVk?= =?UTF-8?B?w6k=?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>, "Daniel
+ P. Berrange" <berrange@redhat.com>, qemu-s390x@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Dec 2020 at 10:47, Peter Maydell <peter.maydell@linaro.org> wrot=
-e:
->
-> On Wed, 28 Oct 2020 at 14:20, Mihai Carabas <mihai.carabas@oracle.com> wr=
-ote:
-> >
-> > From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> >
-> > The 'pvpanic' ISA device can be use by any machine with an ISA bus.
-> >
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
-> > Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
-> > ---
-> >  hw/misc/meson.build | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-> > index 793d45b..cb250dd 100644
-> > --- a/hw/misc/meson.build
-> > +++ b/hw/misc/meson.build
-> > @@ -11,6 +11,7 @@ softmmu_ss.add(when: 'CONFIG_TMP105', if_true: files(=
-'tmp105.c'))
-> >  softmmu_ss.add(when: 'CONFIG_TMP421', if_true: files('tmp421.c'))
-> >  softmmu_ss.add(when: 'CONFIG_UNIMP', if_true: files('unimp.c'))
-> >  softmmu_ss.add(when: 'CONFIG_EMPTY_SLOT', if_true: files('empty_slot.c=
-'))
-> > +softmmu_ss.add(when: 'CONFIG_PVPANIC', if_true: files('pvpanic.c'))
-> >
-> >  # ARM devices
-> >  softmmu_ss.add(when: 'CONFIG_PL310', if_true: files('arm_l2x0.c'))
-> > @@ -90,7 +91,6 @@ softmmu_ss.add(when: 'CONFIG_IOTKIT_SYSINFO', if_true=
-: files('iotkit-sysinfo.c')
-> >  softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: files('armsse-cpu=
-id.c'))
-> >  softmmu_ss.add(when: 'CONFIG_ARMSSE_MHU', if_true: files('armsse-mhu.c=
-'))
-> >
-> > -softmmu_ss.add(when: 'CONFIG_PVPANIC', if_true: files('pvpanic.c'))
-> >  softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
-> >  softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_scu.c=
-', 'aspeed_sdmc.c', 'aspeed_xdma.c'))
-> >  softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
->
-> This patch doesn't seem to actually change anything -- it's just
-> moving a line of code around in the file ?
+On Fri, 11 Dec 2020 17:05:27 -0500
+Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-Also, this is not the patch which Philippe wrote and I reviewed,
-which was this one:
-https://patchew.org/QEMU/1544095560-70807-1-git-send-email-peng.hao2@zte.co=
-m.cn/1544095560-70807-2-git-send-email-peng.hao2@zte.com.cn/
+> The function will be moved to common QOM code, as it is not
+> specific to TYPE_DEVICE anymore.
+>=20
+> Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Changes v1 -> v2:
+> * Rename to object_field_prop_ptr() instead of object_static_prop_ptr()
+> ---
+> Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: Anthony Perard <anthony.perard@citrix.com>
+> Cc: Paul Durrant <paul@xen.org>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Max Reitz <mreitz@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Daniel P. Berrang=C3=A9" <berrange@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: Halil Pasic <pasic@linux.ibm.com>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Matthew Rosato <mjrosato@linux.ibm.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> Cc: xen-devel@lists.xenproject.org
+> Cc: qemu-block@nongnu.org
+> Cc: qemu-s390x@nongnu.org
+> ---
+>  include/hw/qdev-properties.h     |  2 +-
+>  backends/tpm/tpm_util.c          |  6 ++--
+>  hw/block/xen-block.c             |  4 +--
+>  hw/core/qdev-properties-system.c | 50 +++++++++++++-------------
+>  hw/core/qdev-properties.c        | 60 ++++++++++++++++----------------
+>  hw/s390x/css.c                   |  4 +--
+>  hw/s390x/s390-pci-bus.c          |  4 +--
+>  hw/vfio/pci-quirks.c             |  4 +--
+>  8 files changed, 67 insertions(+), 67 deletions(-)
 
-That patch (for the old build system) does what the commit message
-says it does; this one (for the new build system) doesn't. Please
-don't retain authorship and reviewed-by tags if the patch is changed
-significantly like this.
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-Have a look at, for example, how the ne2000 ISA and PCI devices
-in hw/net are structured and built (source file setup, meson.build,
-Kconfig stanzas) to see how to do this kind of "common core, multiple
-buses" setup.
-
-thanks
--- PMM
 
