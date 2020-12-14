@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560F12D9280
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:14:24 +0100 (CET)
-Received: from localhost ([::1]:32876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0F42D9276
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:11:25 +0100 (CET)
+Received: from localhost ([::1]:50372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kogBj-0001W9-Dj
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:14:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39450)
+	id 1kog8q-0005Xj-Qk
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:11:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwa-0005Qc-Bk; Sun, 13 Dec 2020 23:58:44 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:33115)
+ id 1kofww-0005uz-6r; Sun, 13 Dec 2020 23:59:06 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:35793 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwY-0004tU-AC; Sun, 13 Dec 2020 23:58:44 -0500
+ id 1kofws-0004tY-M3; Sun, 13 Dec 2020 23:59:05 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CvTfs6WJ7z9sWc; Mon, 14 Dec 2020 15:58:13 +1100 (AEDT)
+ id 4CvTft3LzFz9sWn; Mon, 14 Dec 2020 15:58:14 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607921893;
- bh=MhMWjltdTFWaFvd7Ij8N125v2qm04KbtJWvbQQxX79s=;
+ d=gibson.dropbear.id.au; s=201602; t=1607921894;
+ bh=0L+U7Z6HClD4XMOBOZAZ1ZGfCt5+Vu/ERqYHn+wwDlw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bPXNGos7ROmxuBcUnvpAytj0yUPeFkoHYgTmSOzXJyqpD9notar9WRgtHEpZVCsm0
- pSC85TWzc12UJxkSA5bhAlSYii92QZfwvRVW4ua2lnzUP95APfE+KQ5tvth+os88f5
- Wfm1i7rV0mHVD5KJWb4z0IQrOh7G2EbuMLYLfujU=
+ b=TAgpjIkjJAaQPF/Gpm63abD7OgyQYfO0gCOfbkwTGarpSWUFBtu8nMAIMBKnLIydk
+ hShkYOegycA0Hs2Z7kHuoWWVirDZQ5cHkoWMAdmLmDnQG5Sp7Rs6zsRTXiUNIB11wf
+ XXcTLM1EpfZyf4jnv1rTP0esGKxfjlkRQOH06kH0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 23/30] MAINTAINERS: Add Greg Kurz as co-maintainer for ppc
-Date: Mon, 14 Dec 2020 15:58:00 +1100
-Message-Id: <20201214045807.41003-24-david@gibson.dropbear.id.au>
+Subject: [PULL 24/30] ppc/e500: Free irqs array to avoid memleak
+Date: Mon, 14 Dec 2020 15:58:01 +1100
+Message-Id: <20201214045807.41003-25-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 References: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,132 +56,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org
+Cc: qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ Gan Qixin <ganqixin@huawei.com>, Euler Robot <euler.robot@huawei.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Greg has agreed to be co-maintainer of the ppc target and machines.
-This should avoid repeats of the problem we had in qemu-5.2 where a
-last minute fix was needed while I was on holiday.
+From: Gan Qixin <ganqixin@huawei.com>
 
+When running qom-test, a memory leak occurred in the ppce500_init function,
+this patch free irqs array to fix it.
+
+ASAN shows memory leak stack:
+
+Direct leak of 40 byte(s) in 1 object(s) allocated from:
+    #0 0xfffc5ceee1f0 in __interceptor_calloc (/lib64/libasan.so.5+0xee1f0)
+    #1 0xfffc5c806800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
+    #2 0xaaacf9999244 in ppce500_init qemu/hw/ppc/e500.c:859
+    #3 0xaaacf97434e8 in machine_run_board_init qemu/hw/core/machine.c:1134
+    #4 0xaaacf9c9475c in qemu_init qemu/softmmu/vl.c:4369
+    #5 0xaaacf94785a0 in main qemu/softmmu/main.c:49
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+Message-Id: <20201204075822.359832-1-ganqixin@huawei.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Acked-by: Greg Kurz <groug@kaod.org>
 ---
- MAINTAINERS | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ hw/ppc/e500.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d48a4e8a8b..4663c143c3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -272,6 +272,7 @@ F: tests/tcg/openrisc/
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 6a64eb31ab..072e558c2d 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -926,6 +926,7 @@ void ppce500_init(MachineState *machine)
+                                 ccsr_addr_space);
  
- PowerPC TCG CPUs
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: target/ppc/
-@@ -394,6 +395,7 @@ F: target/mips/kvm.c
+     mpicdev = ppce500_init_mpic(pms, ccsr_addr_space, irqs);
++    g_free(irqs);
  
- PPC KVM CPUs
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- S: Maintained
- F: target/ppc/kvm.c
- 
-@@ -1184,18 +1186,21 @@ PowerPC Machines
- ----------------
- 405
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/ppc405_boards.c
- 
- Bamboo
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/ppc440_bamboo.c
- 
- e500
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/e500*
-@@ -1209,6 +1214,7 @@ F: pc-bios/u-boot.e500
- 
- mpc8544ds
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/mpc8544ds.c
-@@ -1217,6 +1223,7 @@ F: hw/ppc/mpc8544_guts.c
- New World (mac99)
- M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
- R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/mac_newworld.c
-@@ -1236,6 +1243,7 @@ F: pc-bios/qemu_vga.ndrv
- Old World (g3beige)
- M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
- R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/mac_oldworld.c
-@@ -1249,6 +1257,8 @@ F: pc-bios/qemu_vga.ndrv
- 
- PReP
- M: Hervé Poussineau <hpoussin@reactos.org>
-+R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: hw/ppc/prep.c
-@@ -1265,6 +1275,7 @@ F: tests/acceptance/ppc_prep_40p.py
- 
- sPAPR
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Supported
- F: hw/*/spapr*
-@@ -1282,6 +1293,7 @@ F: tests/qtest/libqos/rtas*
- PowerNV (Non-Virtualized)
- M: Cédric Le Goater <clg@kaod.org>
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: hw/ppc/pnv*
-@@ -1301,6 +1313,8 @@ F: hw/ppc/virtex_ml507.c
- 
- sam460ex
- M: BALATON Zoltan <balaton@eik.bme.hu>
-+R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: hw/ppc/sam460ex.c
-@@ -2088,8 +2102,9 @@ F: tests/qtest/fw_cfg-test.c
- T: git https://github.com/philmd/qemu.git fw_cfg-next
- 
- XIVE
--M: David Gibson <david@gibson.dropbear.id.au>
- M: Cédric Le Goater <clg@kaod.org>
-+R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Supported
- F: hw/*/*xive*
+     /* Serial */
+     if (serial_hd(0)) {
 -- 
 2.29.2
 
