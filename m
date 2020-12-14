@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBEA02D9BAF
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:04:33 +0100 (CET)
-Received: from localhost ([::1]:52770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D122D9BD1
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:08:24 +0100 (CET)
+Received: from localhost ([::1]:37400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koqKv-0005uV-2N
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:04:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34278)
+	id 1koqOe-0003YU-0L
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:08:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koqEc-0007vg-Bh; Mon, 14 Dec 2020 10:58:02 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:43647)
+ id 1koqEd-0007vs-D7; Mon, 14 Dec 2020 10:58:03 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:60839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koqEV-0001RE-68; Mon, 14 Dec 2020 10:58:02 -0500
+ id 1koqEV-0001RJ-5E; Mon, 14 Dec 2020 10:58:03 -0500
 Received: from localhost.localdomain ([82.252.135.218]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MkHIV-1kQFuO2XXt-00kgdi; Mon, 14 Dec 2020 16:57:49 +0100
+ id 1MTiLj-1kgxqV14Yf-00Tz8M; Mon, 14 Dec 2020 16:57:50 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/19] configure / meson: Move check for pty.h to meson.build
-Date: Mon, 14 Dec 2020 16:57:29 +0100
-Message-Id: <20201214155733.207430-16-laurent@vivier.eu>
+Subject: [PULL 16/19] configure / meson: Move check for drm.h to meson.build
+Date: Mon, 14 Dec 2020 16:57:30 +0100
+Message-Id: <20201214155733.207430-17-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214155733.207430-1-laurent@vivier.eu>
 References: <20201214155733.207430-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:z7y1afgEAePsEXgHdGk4OgPZ/fUlYM1E1J6zgKXB7HE0RpjQb6z
- UdGMV2EHLvbuN4DZjpYbF62K7XDRucJMewH0AkKuno4DmfaaWbQa7H9JO6DyukxsjX8mO9d
- +EGCTanChivGOM+XLBGJWf95g7OzQ+SZGopXxykffxKCt1lWxEnmhK7WF51+GX7pMhdyqKd
- KCuUYXs426JHLBJCtld5w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gKf0OaDty2A=:mwFre4kswu0Dkl7ZS1wL+g
- WtWTlnIb4SHusORQfISvl9COCLicd7iY3fu2NuHw9y3CQHEaUgzbuOMplsaEl+cQlpfoyyUNC
- qiHQBFWKmvbDcsf3HbmAccNuWxYA77rZSgO9eNjjr9Epyqfljp7wZbm0qQhtfVQ40TgrG7G+Y
- KhBN4xHTecUR5RicniS6QPiNrURjXZ/gSRLgIb/SxDiznnRzvbCdZfZMO8aE6uvOAPTEUgZNI
- kEwD9aw1Brw9zw3Jv62r0skjTQlo69DNYq7Sh+aeAfu97Xn4wPxw9rcX+HjaSh3oIo3KNWnB5
- 2m/QFI+AYtntJDenXgSC40+JgGXEWLKBpV4Y9VZ8LNMcPsXAiApctGil16uqyV1NShxSHdkC3
- n/eL8n6dvbv+84ao6ANiPJGniuX+0jxHnv/BNdqrw4+DbP2uOG87ZbTPnCBegB3L+c/rgudbT
- l4lPJ8yhVA==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:UvWVOTuKr20VfvZJVASlkISSmLvGBtnXcwPv3Dlyxw9oWILiQxZ
+ rCDz1ICJgU2IyJzQATYqcynDP3wD2Bk9nBd7K7lh5wZ6VpAFhYwKCiQDxkXI58q22qgz0Xj
+ MbzWj8xWE6s4Mf3zKxgelsVSQF4ZL/y6rZ1HFsfvMdcQVR00XwsxJ15pa3ae5muw+putUSV
+ xMTg9uTXZ6Hqh4nMX7A9A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wPZGeL3OaBc=:u/US9yroeaHwdgIarmQ9Gy
+ u/WuDnnHNSDBQjYuJz4N7Vaxmdlo/KM6IS8wOCJbCykSg/kJWFuvlIWsCxt/Tu4p+2teiLkfR
+ obBeWrJwcZ6K60PfAnI/8yaUy7AepJc8X6ndSvSpxbadZUCjVUzMQ/ONLrS/KyGUEtSu8uBOm
+ 1epEGibAM6DDK4tY9QS/nH/+resIDrYelgnQu4D4pYP4zms6Tt69l9kGx/w7e7s08mR5rbbNq
+ GsMeAv77/aq2rEN7Ne9gjxH3i1bcbu2nFt1twsMImYZuQC7mKZ5SN9OXHxC2sBS4Yb65Y/C1F
+ 91cP+sMPBm97UmMKUdp6h9IukoS3yD0DvcQIETyrLI6Ux3VhOtwXtwTB+Qm0ffoNBOO8UHhF7
+ MQL9phDBtrqae/KbmZbb3tcR2050zvtUTR+SYzNPKlyh+glkn3/+yoSBF6tZIFvizwK4/baJk
+ 5TipyMw30g==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -78,52 +78,53 @@ This check can be done in a much shorter way in meson.build
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201118171052.308191-3-thuth@redhat.com>
+Message-Id: <20201118171052.308191-4-thuth@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- configure   | 9 ---------
- meson.build | 1 +
- 2 files changed, 1 insertion(+), 9 deletions(-)
+ configure   | 10 ----------
+ meson.build |  1 +
+ 2 files changed, 1 insertion(+), 10 deletions(-)
 
 diff --git a/configure b/configure
-index 1df5c848110e..39e61b275806 100755
+index 39e61b275806..ec2fae9e09c0 100755
 --- a/configure
 +++ b/configure
-@@ -2332,12 +2332,6 @@ else
-   l2tpv3=no
+@@ -3101,13 +3101,6 @@ EOF
+     fi
  fi
  
--if check_include "pty.h" ; then
--  pty_h=yes
--else
--  pty_h=no
+-#########################################
+-# libdrm check
+-have_drm_h=no
+-if check_include "libdrm/drm.h" ; then
+-    have_drm_h=yes
 -fi
 -
- cat > $TMPC <<EOF
- #include <sys/mman.h>
- int main(int argc, char *argv[]) {
-@@ -6687,9 +6681,6 @@ if test "$sheepdog" = "yes" ; then
-   add_to deprecated_features "sheepdog"
-   echo "CONFIG_SHEEPDOG=y" >> $config_host_mak
+ #########################################
+ # sys/signal.h check
+ have_sys_signal_h=no
+@@ -6205,9 +6198,6 @@ fi
+ if test "$auth_pam" = "yes" ; then
+     echo "CONFIG_AUTH_PAM=y" >> $config_host_mak
  fi
--if test "$pty_h" = "yes" ; then
--  echo "HAVE_PTY_H=y" >> $config_host_mak
+-if test "$have_drm_h" = "yes" ; then
+-  echo "HAVE_DRM_H=y" >> $config_host_mak
 -fi
- if test "$have_mlockall" = "yes" ; then
-   echo "HAVE_MLOCKALL=y" >> $config_host_mak
+ if test "$have_broken_size_max" = "yes" ; then
+     echo "HAVE_BROKEN_SIZE_MAX=y" >> $config_host_mak
  fi
 diff --git a/meson.build b/meson.build
-index f344b25955f9..ef053c98376d 100644
+index ef053c98376d..fc7ae6f86826 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -836,6 +836,7 @@ config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0]
  config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
  config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2])
  
-+config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
++config_host_data.set('HAVE_DRM_H', cc.has_header('libdrm/drm.h'))
+ config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
  config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
  
- ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
 -- 
 2.29.2
 
