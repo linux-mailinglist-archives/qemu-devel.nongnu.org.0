@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875732D9C4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:17:31 +0100 (CET)
-Received: from localhost ([::1]:35192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B302D9C4E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:19:24 +0100 (CET)
+Received: from localhost ([::1]:41864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koqXS-0006TW-Im
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:17:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34366)
+	id 1koqZH-00018L-Oa
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:19:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koqEi-00085N-TH; Mon, 14 Dec 2020 10:58:08 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:49479)
+ id 1koqEj-00086M-DT; Mon, 14 Dec 2020 10:58:09 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:54421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koqEb-0001TX-D9; Mon, 14 Dec 2020 10:58:08 -0500
+ id 1koqEd-0001Tk-85; Mon, 14 Dec 2020 10:58:09 -0500
 Received: from localhost.localdomain ([82.252.135.218]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MIdaF-1krv9b190P-00EfCk; Mon, 14 Dec 2020 16:57:46 +0100
+ id 1N4i7l-1k4t0W0EB5-011fGC; Mon, 14 Dec 2020 16:57:47 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/19] elf2dmp/pdb: Plug memleak in pdb_init_from_file
-Date: Mon, 14 Dec 2020 16:57:25 +0100
-Message-Id: <20201214155733.207430-12-laurent@vivier.eu>
+Subject: [PULL 12/19] block/file-posix: fix a possible undefined behavior
+Date: Mon, 14 Dec 2020 16:57:26 +0100
+Message-Id: <20201214155733.207430-13-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214155733.207430-1-laurent@vivier.eu>
 References: <20201214155733.207430-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:spLQwwA7LagXLll9BNNWryX/92vE+OvP2KVXM5sehnSTSkoBBCG
- vtzrz4mXtqstfQVkSlBSmh7jVl4lMAJ/CjTjG3LJ1HKORxPfc9U+zT+Hl3cv2Xl0FboNQ/O
- S8kMOgvSLolOfBzFznya/YWBm/vveOjV2qkjy2O57nC8CkgqVVi34b9jvrfPT3YQhczmoVd
- ErLi/0HxP2bZ4jEkgPJYA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:aHhxv+F5UdU=:YP/iHiyI3wo1xBc1ny4SXd
- 5Op4samjG8xWWZAgAzxOa+qGVP06QFz751nKFxCGMzwbpwuL1db1L3x1NiKa64DwIKjDwdaqS
- DnCClFuBpYfmtKmUq4ibA8DRXycl3mscjG3JZ7kV0YQLdZ2JxE7e3WnFbsmuNsMVEjeQxszM1
- wBssFfCzQLSxqdcYLB8qGMpwHZfx9JxtF2b3Ot0gB5kChOPE8jno5poJGlk1alchT1vuA9Za8
- CF5mSxjNfXjopgfUQal3cFeFBmwr3jq0L4FcisPeQOhhlY5re0f/tiFMZaut4DHAjj/lMGVHt
- 8OqQHIl4Eshqo8y5aheyJMOczMaWX8DOIE+w00tM+gj881kefX1W77DHsfvGmDkK1y9227Nhj
- Ik2vpWie5qCumqK4WvJ0dUOIJqUcUArVmhbBsIbGYOpa+0tnZBgrt790971kbamlIERhzsQIJ
- CxVQOlSuGQ==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:qLDPQrEQtWG2Dg8c4z8b4jPx7wioZRQYyfh02lniGNRyZgW6mcH
+ yhMzXtwahF9OUjwU9OMfdyrh4hmSD2pnjckaIx0kDeS8plhW4OPaQJJmXCCBJ9p2c625S6j
+ hb7CAJq8hMjzsthFFp78RH7aKlmfwCy0BWXtM1pWc0OSuhiBqxK5HkUX0OemwtvmD63H1fL
+ HCGKR3AnaIwPCkUPRbHFw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3mjSvXPmnhs=:NPP9GK/c2W8/WX3hkIKezS
+ cDOIlq2Ng7CrvMIsf4AQtoLGzRzJ0edp5v0rhpiEWWrTmELQ/2O7IBnJWuBik8QPNKucnHsvT
+ gixjUh6YRgFMhFVwETcuDkLXJv2Upp9PTxxTCVCxUQ9XbGV3HoaNWjCevKOyxRgo6V4Gtkwe7
+ n710NQgNL7FxranOuJK8o5K9h+Bst5aBys6Ly9tPcTXanSIX7BmZwkd6lU49ucggCY9LOrrSG
+ cQBFWsQlkcEts2TjGEJTBgu9wCYne+NTI0reoss4/fnAg0Za7y+tekXHNCp+en2gNnnkDoqRI
+ +ssJFxsUKFtKdQsDgRllRf+eRYn/yWgyNrHaKHvfXW9ZIIPIB2e8/PBSAPObYOdWbCoLOn6oY
+ do4DarAO0QerLAGWDBSNtgfkIkg3xbmuMiEN7/D80X3qPcAC6C5A67sPDNL4cTIRI8EPeQ93p
+ Ywz04Wcu7Q==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -62,42 +62,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Li Qiang <liq3ea@gmail.com>,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Pan Nengyuan <pannengyuan@huawei.com>,
- Laurent Vivier <laurent@vivier.eu>, Euler Robot <euler.robot@huawei.com>,
- Chen Qun <kuhn.chenqun@huawei.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Li Qiang <liq3ea@gmail.com>,
+ qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Pan Nengyuan <pannengyuan@huawei.com>, Laurent Vivier <laurent@vivier.eu>,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pan Nengyuan <pannengyuan@huawei.com>
 
-Missing g_error_free in pdb_init_from_file() error path. Fix that.
+local_err is not initialized to NULL, it will cause a assert error as below:
+qemu/util/error.c:59: error_setv: Assertion `*errp == NULL' failed.
 
+Fixes: c6447510690
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201023061218.2080844-5-kuhn.chenqun@huawei.com>
+Message-Id: <20201023061218.2080844-8-kuhn.chenqun@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- contrib/elf2dmp/pdb.c | 1 +
- 1 file changed, 1 insertion(+)
+ block/file-posix.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/contrib/elf2dmp/pdb.c b/contrib/elf2dmp/pdb.c
-index a5bd40c99dca..b3a65470680d 100644
---- a/contrib/elf2dmp/pdb.c
-+++ b/contrib/elf2dmp/pdb.c
-@@ -285,6 +285,7 @@ int pdb_init_from_file(const char *name, struct pdb_reader *reader)
-     reader->gmf = g_mapped_file_new(name, TRUE, &gerr);
-     if (gerr) {
-         eprintf("Failed to map PDB file \'%s\'\n", name);
-+        g_error_free(gerr);
-         return 1;
-     }
- 
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 83e2cc55306c..9804681d5c44 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2111,7 +2111,7 @@ static void raw_aio_attach_aio_context(BlockDriverState *bs,
+ #endif
+ #ifdef CONFIG_LINUX_IO_URING
+     if (s->use_linux_io_uring) {
+-        Error *local_err;
++        Error *local_err = NULL;
+         if (!aio_setup_linux_io_uring(new_context, &local_err)) {
+             error_reportf_err(local_err, "Unable to use linux io_uring, "
+                                          "falling back to thread pool: ");
 -- 
 2.29.2
 
