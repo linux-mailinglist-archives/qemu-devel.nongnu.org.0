@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72552D948A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 10:04:20 +0100 (CET)
-Received: from localhost ([::1]:47478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE432D948E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 10:06:35 +0100 (CET)
+Received: from localhost ([::1]:54100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kojmG-0003x1-0U
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 04:04:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50186)
+	id 1kojoQ-0006pd-8g
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 04:06:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kojjB-0002Ee-0N; Mon, 14 Dec 2020 04:01:12 -0500
-Received: from ozlabs.org ([203.11.71.1]:43543)
+ id 1kojjA-0002EY-HG; Mon, 14 Dec 2020 04:01:08 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:58467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kojj6-0006tm-Mj; Mon, 14 Dec 2020 04:01:08 -0500
+ id 1kojj6-0006tp-U2; Mon, 14 Dec 2020 04:01:08 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cvb2z5F8nz9sTK; Mon, 14 Dec 2020 20:00:59 +1100 (AEDT)
+ id 4Cvb2z6NJgz9sTv; Mon, 14 Dec 2020 20:00:59 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607936459;
- bh=Pq9EMB2ezGYOXhX4VlBLlJJsn9o1RIyKxHooX6Iw8OY=;
+ bh=KdqUSzG8Cs4IGKFpgQU46O68PPATtS1gj7a7BqPd3bU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=faB2TJo//YLHeOpObnHlqrgLqQ/iyVEX8hjyYcWwzj+nx4aG6kgFNSTIZssw4ea5+
- c5Nl2Llpuz8eth6Jt+wkKaHLaifcgnv14LUETCjj9d1wiT4NhlG4Ke6N5f16oIJ7ZE
- KxxtwuBVOCz/KzTjEce4UynVvs83PkvXsiWA2/IE=
-Date: Mon, 14 Dec 2020 16:55:25 +1100
+ b=oglxtCZ1A0CJ4strIxFtGsUquVF76Fc39A/DxvwElPAyBE93Z4XLDfKT4GTHbARrW
+ cWlmJbh1W8qz4ZxL4K10cgVM3+NttO9Fz3N7rMh4Fj2a6DmRSG7P2ykBhAUnkDUOvP
+ Xh2dFd6zB1xkzkbRroLR60mA4vopQN61v3QUsNEk=
+Date: Mon, 14 Dec 2020 16:56:49 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 3/8] hw/ppc/virtex_ml507: Drop use of ppcuic_init()
-Message-ID: <20201214055525.GD4717@yekko.fritz.box>
+Subject: Re: [PATCH 4/8] hw/ppc/ppc440_bamboo: Drop use of ppcuic_init()
+Message-ID: <20201214055649.GE4717@yekko.fritz.box>
 References: <20201212001537.24520-1-peter.maydell@linaro.org>
- <20201212001537.24520-4-peter.maydell@linaro.org>
+ <20201212001537.24520-5-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="n/aVsWSeQ4JHkrmm"
+ protocol="application/pgp-signature"; boundary="WK3l2KTTmXPVedZ6"
 Content-Disposition: inline
-In-Reply-To: <20201212001537.24520-4-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20201212001537.24520-5-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -1
 X-Spam_score: -0.2
@@ -65,53 +65,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---n/aVsWSeQ4JHkrmm
+--WK3l2KTTmXPVedZ6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 12, 2020 at 12:15:32AM +0000, Peter Maydell wrote:
-> Switch the virtex_ml507 board to directly creating and
-> configuring the UIC, rather than doing it via the old
-> ppcuic_init() helper function.
+On Sat, Dec 12, 2020 at 12:15:33AM +0000, Peter Maydell wrote:
+> Switch the bamboo board to directly creating and configuring the UIC,
+> rather than doing it via the old ppcuic_init() helper function.
 >=20
-> This fixes a trivial Coverity-detected memory leak where
-> we were leaking the array of IRQs returned by ppcuic_init().
->=20
-> Fixes: Coverity CID 1421992
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 Applied to ppc-for-6.0.
 
 > ---
->  hw/ppc/virtex_ml507.c | 21 ++++++++++++++++-----
->  1 file changed, 16 insertions(+), 5 deletions(-)
+>  hw/ppc/ppc440_bamboo.c | 38 +++++++++++++++++++++++++++-----------
+>  1 file changed, 27 insertions(+), 11 deletions(-)
 >=20
-> diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
-> index 7f1bca928c1..34767b11cad 100644
-> --- a/hw/ppc/virtex_ml507.c
-> +++ b/hw/ppc/virtex_ml507.c
-> @@ -43,6 +43,7 @@
->  #include "qemu/option.h"
->  #include "exec/address-spaces.h"
-> =20
+> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+> index 665bc1784e1..b156bcb9990 100644
+> --- a/hw/ppc/ppc440_bamboo.c
+> +++ b/hw/ppc/ppc440_bamboo.c
+> @@ -33,6 +33,9 @@
+>  #include "sysemu/qtest.h"
+>  #include "sysemu/reset.h"
+>  #include "hw/sysbus.h"
 > +#include "hw/intc/ppc-uic.h"
->  #include "hw/ppc/ppc.h"
->  #include "hw/ppc/ppc4xx.h"
->  #include "hw/qdev-properties.h"
-> @@ -95,7 +96,8 @@ static PowerPCCPU *ppc440_init_xilinx(const char *cpu_t=
-ype, uint32_t sysclk)
->  {
+> +#include "hw/qdev-properties.h"
+> +#include "qapi/error.h"
+> =20
+>  #define BINARY_DEVICE_TREE_FILE "bamboo.dtb"
+> =20
+> @@ -168,13 +171,13 @@ static void bamboo_init(MachineState *machine)
+>      MemoryRegion *ram_memories =3D g_new(MemoryRegion, PPC440EP_SDRAM_NR=
+_BANKS);
+>      hwaddr ram_bases[PPC440EP_SDRAM_NR_BANKS];
+>      hwaddr ram_sizes[PPC440EP_SDRAM_NR_BANKS];
+> -    qemu_irq *pic;
+> -    qemu_irq *irqs;
+>      PCIBus *pcibus;
 >      PowerPCCPU *cpu;
 >      CPUPPCState *env;
-> -    qemu_irq *irqs;
+>      target_long initrd_size =3D 0;
+>      DeviceState *dev;
 > +    DeviceState *uicdev;
 > +    SysBusDevice *uicsbd;
+>      int success;
+>      int i;
 > =20
->      cpu =3D POWERPC_CPU(cpu_create(cpu_type));
->      env =3D &cpu->env;
-> @@ -105,10 +107,19 @@ static PowerPCCPU *ppc440_init_xilinx(const char *c=
-pu_type, uint32_t sysclk)
+> @@ -192,10 +195,17 @@ static void bamboo_init(MachineState *machine)
 >      ppc_dcr_init(env, NULL, NULL);
 > =20
 >      /* interrupt controller */
@@ -120,7 +122,7 @@ pu_type, uint32_t sysclk)
 UT_INT];
 > -    irqs[PPCUIC_OUTPUT_CINT] =3D ((qemu_irq *)env->irq_inputs)[PPC40x_IN=
 PUT_CINT];
-> -    ppcuic_init(env, irqs, 0x0C0, 0, 1);
+> -    pic =3D ppcuic_init(env, irqs, 0x0C0, 0, 1);
 > +    uicdev =3D qdev_new(TYPE_PPC_UIC);
 > +    uicsbd =3D SYS_BUS_DEVICE(uicdev);
 > +
@@ -132,11 +134,52 @@ PUT_CINT];
 > +                       ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_INT]);
 > +    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
 > +                       ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_CINT]);
-> +
-> +    /* This board doesn't wire anything up to the inputs of the UIC. */
->      return cpu;
->  }
 > =20
+>      /* SDRAM controller */
+>      memset(ram_bases, 0, sizeof(ram_bases));
+> @@ -203,14 +213,18 @@ static void bamboo_init(MachineState *machine)
+>      ppc4xx_sdram_banks(machine->ram, PPC440EP_SDRAM_NR_BANKS, ram_memori=
+es,
+>                         ram_bases, ram_sizes, ppc440ep_sdram_bank_sizes);
+>      /* XXX 440EP's ECC interrupts are on UIC1, but we've only created UI=
+C0. */
+> -    ppc4xx_sdram_init(env, pic[14], PPC440EP_SDRAM_NR_BANKS, ram_memorie=
+s,
+> +    ppc4xx_sdram_init(env,
+> +                      qdev_get_gpio_in(uicdev, 14),
+> +                      PPC440EP_SDRAM_NR_BANKS, ram_memories,
+>                        ram_bases, ram_sizes, 1);
+> =20
+>      /* PCI */
+>      dev =3D sysbus_create_varargs(TYPE_PPC4xx_PCI_HOST_BRIDGE,
+>                                  PPC440EP_PCI_CONFIG,
+> -                                pic[pci_irq_nrs[0]], pic[pci_irq_nrs[1]],
+> -                                pic[pci_irq_nrs[2]], pic[pci_irq_nrs[3]],
+> +                                qdev_get_gpio_in(uicdev, pci_irq_nrs[0]),
+> +                                qdev_get_gpio_in(uicdev, pci_irq_nrs[1]),
+> +                                qdev_get_gpio_in(uicdev, pci_irq_nrs[2]),
+> +                                qdev_get_gpio_in(uicdev, pci_irq_nrs[3]),
+>                                  NULL);
+>      pcibus =3D (PCIBus *)qdev_get_child_bus(dev, "pci.0");
+>      if (!pcibus) {
+> @@ -223,12 +237,14 @@ static void bamboo_init(MachineState *machine)
+>      memory_region_add_subregion(get_system_memory(), PPC440EP_PCI_IO, is=
+a);
+> =20
+>      if (serial_hd(0) !=3D NULL) {
+> -        serial_mm_init(address_space_mem, 0xef600300, 0, pic[0],
+> +        serial_mm_init(address_space_mem, 0xef600300, 0,
+> +                       qdev_get_gpio_in(uicdev, 0),
+>                         PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
+>                         DEVICE_BIG_ENDIAN);
+>      }
+>      if (serial_hd(1) !=3D NULL) {
+> -        serial_mm_init(address_space_mem, 0xef600400, 0, pic[1],
+> +        serial_mm_init(address_space_mem, 0xef600400, 0,
+> +                       qdev_get_gpio_in(uicdev, 1),
+>                         PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
+>                         DEVICE_BIG_ENDIAN);
+>      }
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -144,25 +187,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---n/aVsWSeQ4JHkrmm
+--WK3l2KTTmXPVedZ6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/W/kwACgkQbDjKyiDZ
-s5I7IRAAxtw5G4zp43Dh+Li3sXNhbf/87Mf7AYVolmReMq+lgalYtFZ93+9RD1rL
-Wp32sYDhP6ddMmjjEdE2R72vz54ezJ2OMh1fM1WBqUSGKeANytl+iXDaNNDPo4D4
-W5ImSAt9EkRe6on9OBTfRdsFFLMSmOxKVygJMHbGhmI9e+iP4GrizhUBnV5uvVYq
-glKgjpFK12PI2ZbbwCV4JYuHeoJB/JhOWvFfkeHrLfsXmEK054hZOc65i8H3s7Dh
-CCbozk/3j+HEv4jSBJqw78RnLOs3UIwX+kNaez2JoU4RyJ1kdJEiDv/Ar1evWd1+
-oasyATUNOzPRi3yCp3EjRb3KgfJQuQxrBz2bzxtC4/A8ap19lPWkdjB/Db2eWJ3U
-MejeeoEC+OUe0eACDQAronawDVuMm/jvKOrWBnnsetQKrHgTK1n311PDLnclhAfC
-UYn64zcBhhQAGD4S0DEJE/8GsZsQLtyyc5d5bpkfz85AvOLoTnd8+qBqjQ2adlFS
-V41NI460Tu5eJy+PXnGNBnipV88H7sO+FeV5gZmwqFqS/YNpmkYi2tooYrhTIYDR
-c2wr1FkcK8iNZpTHwT7lSAhof/ZwM/VjvIuVXghYzBYS9ezsNN+tbcSAnyKrCdQC
-FaCgoy4I888t24Gfky7PGYL5fADZocml7COM8cFXYHNNG4toR7c=
-=axhd
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/W/qEACgkQbDjKyiDZ
+s5JiDw//TEL2Cw949mr+1fZ7ph7aMKu2EXU57dsroyWR4UBcIxDzSWVz0RtbW3v/
+QnJF6cTRjiNWFFIG7JPsJZAz0jhvk41URQQgv9A/FPVzqmha/YPa8NvuHgrbnUJG
+6kehi+kAgcx53tq+X3FOCKV4uGCNVAx4MaD7Bj1wDU9TGxIblQQT/+gVGBHGK56T
+2nVrUzvl9Dg+RmdWi+O8iIKGsfPd9ms5acrMIm0lVhdMXqbNnr2Bhqc8HV4EFM/4
+2JnsUeG5pC++owIiop5HrfGqP5vQCOX1+ZLEibMt5b3Q2x6+zYUZ0iabBT55q9vs
+ryNDw26ksAmY9HV7X6IB8WVZa0jIacN1t3CGwnB8/o3jZCLCYZzYCYttkuLDoUDk
+MfMF/BW5sBoRKT0InPeZ/5k08KLsT8+5UjajwNw/G4GUBXTCb7o/4fdpmhUwbMm1
+vbwd8tFN+cSC7dY7RTQSSk6unJGC0DaltL16xgr8U9Bmmg48jXSJLz1JPbp4gD18
+q/aGzUsigThtSadT5ErKlBObtXJ4ByhQZmiqUdNzHGxTHxYMUiQoD/gxFHpbZlnA
+e1MsmlKTzltqAM47YVZx3wFSHvZIea+Y9YYZRWgjyR4i+PXS109i5M9PIlKOxVRL
+czlk704fBJPx9idBG73jTAb3LUwge5Cedzp6XxsIBovsLIKblVw=
+=qKLV
 -----END PGP SIGNATURE-----
 
---n/aVsWSeQ4JHkrmm--
+--WK3l2KTTmXPVedZ6--
 
