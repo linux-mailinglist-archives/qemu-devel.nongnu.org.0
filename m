@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8852D9D7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 18:22:15 +0100 (CET)
-Received: from localhost ([::1]:39498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C29C92D9DA6
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 18:28:43 +0100 (CET)
+Received: from localhost ([::1]:57412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1korY5-0002aG-Rq
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 12:22:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55578)
+	id 1koreM-0002OT-Ru
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 12:28:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1korRE-0004oY-MD
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:15:08 -0500
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:39218)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1korR8-0006uq-EB
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:15:07 -0500
-Received: by mail-ed1-x542.google.com with SMTP id c7so17941843edv.6
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 09:15:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kHK+8JW3o/66OeJGgGkKLUVvpyGprz6TQSevzUa59LI=;
- b=uKRRfl80/3FDMoezWOp/Xy+zEcU2ZhlRZtpZrf9gNMsta2WZxJl0MlfiPz5enMK0/1
- eZkQE+bcP+rmCamH7DIF5n0HpPWZ10dHdPOqb3zVqapGuU19biBa3YkLi3aoYnq00W+P
- i2DPuKX58mZOzJKMdYX9srDIheiUdFrBYM1sXcVaQdJE/F2tDCylvGxcdrST0gXP26sE
- sIUiICkg/QGFf/Pg163aG0pxkrIxxYaWsLixvKI9jiogwHz4RF8hhxHV8CsWI2kqmc2U
- fMKDAiK5noZaGsvTYtIC6ms0jGW5NzwrqHkn59sVeEugSRZbBd0rKEpdezWtF98getNn
- zJnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kHK+8JW3o/66OeJGgGkKLUVvpyGprz6TQSevzUa59LI=;
- b=oTNt8oCxcUjq5F2jUZ0FJrOB2sxdEXp4QoHBnulnFELvql/l9DyBXtPCmbQQvWtLWI
- 3kugxr+JDljy3Mbr8cSFyIhrFpq0VeoWum96x/2lmWnsnN9IsoC2Cvb4LTamPFqzQLo/
- rHNyn9c7WZuMeh5D0sG81/s953/ZbcCbnGDue9pi8IOzvwzWXyi7lDQaI8RkTGjJPPnc
- PlRVZpktBSxB2IBxUCTHDypc51oMPlJ+4vVtJjo4g2CMEnOhHRUTeXGEhpVQ8G7PsOhi
- RWXqRSWpWtLgAW9d/sAToiUIcmR+IiNVSnrVhcCkjYdtM6ijYlu5Ue3SLTzSBEeiWz45
- NfSQ==
-X-Gm-Message-State: AOAM533OJ6kmazK7+UfXHk5jRQZHIE9ogOO2euyEF6ved5zEMzLsASO1
- 8A0qZ/Ax+899FYyxpbYCZ2uPXkMWxEBA6k0t+jYKeA==
-X-Google-Smtp-Source: ABdhPJwA+iAf0CU0l3y/eRzIwYnReOwQKV5xtinLPPSnr0QAnfhxLfd956fm/ANDfg1OA0aTTPwZDHSn2uJU9YywNNM=
-X-Received: by 2002:a50:fd18:: with SMTP id i24mr26093522eds.146.1607966099384; 
- Mon, 14 Dec 2020 09:14:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1korZ0-0004k3-SU
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:23:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24589)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1korYx-000144-PU
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:23:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607966582;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZIQmqdC7+zH2YkfI8yaUxzLNmpQ3Ic1mn8OsF5AYibw=;
+ b=MIZstzWqRPN44G1b6LE1xvh8AO0gjp8inNokUK45B9OZRqm26SlZxqmQJQ9pkFCHRRhQYA
+ RH+fjRHRC9WlYXVoRzNS9Vj2y85pDzrSyzCwa13a9TPF7kBuH50CM4IdvqDJjzPqGu9LKa
+ dZPxACwf7m4Mf9j42Yb8AjPrmIJUNX0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-Zn_ZHwp8MJWyj9502nlsyQ-1; Mon, 14 Dec 2020 12:22:58 -0500
+X-MC-Unique: Zn_ZHwp8MJWyj9502nlsyQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF54B80ED8B;
+ Mon, 14 Dec 2020 17:22:56 +0000 (UTC)
+Received: from gondolin (ovpn-113-171.ams2.redhat.com [10.36.113.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB62A5D6AB;
+ Mon, 14 Dec 2020 17:22:43 +0000 (UTC)
+Date: Mon, 14 Dec 2020 18:22:40 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
+Message-ID: <20201214182240.2abd85eb.cohuck@redhat.com>
+In-Reply-To: <20201204054415.579042-12-david@gibson.dropbear.id.au>
+References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ <20201204054415.579042-12-david@gibson.dropbear.id.au>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20201214153012.12723-1-alex.bennee@linaro.org>
- <20201214153012.12723-3-alex.bennee@linaro.org>
- <CAFEAcA_2N=bMikxfHQWoX=rOOockSAAjpbBf8upm=w-LWp4KqQ@mail.gmail.com>
- <87r1nstiwj.fsf@linaro.org>
-In-Reply-To: <87r1nstiwj.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Dec 2020 17:14:48 +0000
-Message-ID: <CAFEAcA9iTxBuUbi1fD=icgLLAY8m2Zsa54JBDDvGxk=-0iPWqA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/6] configure: gate our use of GDB to 8.3.1 or above
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,50 +74,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, david@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, berrange@redhat.com,
+ thuth@redhat.com, pbonzini@redhat.com, rth@twiddle.net,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Dec 2020 at 17:08, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
->
-> Peter Maydell <peter.maydell@linaro.org> writes:
->
-> > On Mon, 14 Dec 2020 at 15:36, Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
-> >>
-> >> Certain earlier versions of GDB have (possibly distro) derived issues
-> >> when running against multiarch guests. Also given the problem of
-> >> clashing ports it is preferable to use socket comms rather than TCP
-> >> ports for testing.
-> >
-> > What's a "multiarch guest" ?
->
-> I guess non-native guest would be another way of saying it. There is
-> some hoop jumping to deal with the fact that some arches package up a
-> fully featured multiarch aware gdb and some package up the multiarch one
-> as a separate gdb-multiarch package.
->
-> > Incidentally I think the problem I have been running into
-> > with the Ubuntu gdb 8.1 is that it doesn't support registers
-> > larger than 64 bytes, and if AArch64 QEMU is emulating SVE
-> > then it tries to expose registers bigger than that to the
-> > gdbstub.
->
-> So this is a missing patch from Ubuntu's gdb?
+On Fri,  4 Dec 2020 16:44:13 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-No, upstream 8.1 doesn't handle this either and crashes too.
-I'm a bit surprised we haven't had user complaints, since
-gdb+QEMU would have previously worked and then started to
-crash gdb when we put in the SVE registers.
+> We haven't yet implemented the fairly involved handshaking that will be
+> needed to migrate PEF protected guests.  For now, just use a migration
+> blocker so we get a meaningful error if someone attempts this (this is the
+> same approach used by AMD SEV).
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/ppc/pef.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
+> index 3ae3059cfe..edc3e744ba 100644
+> --- a/hw/ppc/pef.c
+> +++ b/hw/ppc/pef.c
+> @@ -38,7 +38,11 @@ struct PefGuestState {
+>  };
+>  
+>  #ifdef CONFIG_KVM
+> +static Error *pef_mig_blocker;
+> +
+>  static int kvmppc_svm_init(Error **errp)
 
-> We could just peg the sha1 test to cortex-a57 - your are likely not
-> getting the SVE tests running unless you have the compilers to build
-> them (or using docker).
+This looks weird?
 
-Yeah, forcing a non-SVE CPU should allow the test to work with this gdb.
+> +
+> +int kvmppc_svm_init(SecurableGuestMemory *sgm, Error **errp)
+>  {
+>      if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURABLE_GUEST)) {
+>          error_setg(errp,
+> @@ -54,6 +58,11 @@ static int kvmppc_svm_init(Error **errp)
+>          }
+>      }
+>  
+> +    /* add migration blocker */
+> +    error_setg(&pef_mig_blocker, "PEF: Migration is not implemented");
+> +    /* NB: This can fail if --only-migratable is used */
+> +    migrate_add_blocker(pef_mig_blocker, &error_fatal);
 
-thanks
--- PMM
+Just so that I understand: is PEF something that is enabled by the host
+(and the guest is either secured or doesn't start), or is it using a
+model like s390x PV where the guest initiates the transition into
+secured mode?
+
+Asking because s390x adds the migration blocker only when the
+transition is actually happening (i.e. guests that do not transition
+into secure mode remain migratable.) This has the side effect that you
+might be able to start a machine with --only-migratable that
+transitions into a non-migratable machine via a guest action, if I'm
+not mistaken. Without the new object, I don't see a way to block with
+--only-migratable; with it, we should be able to do that. Not sure what
+the desirable behaviour is here.
+
+> +
+>      return 0;
+>  }
+>  
+
 
