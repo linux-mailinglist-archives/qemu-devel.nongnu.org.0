@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79C72D9BCF
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:07:44 +0100 (CET)
-Received: from localhost ([::1]:34126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88502D9BD5
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:09:56 +0100 (CET)
+Received: from localhost ([::1]:43366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koqNz-0002Bm-SA
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:07:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
+	id 1koqQ7-00066K-Ov
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:09:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koqEb-0007tl-D5; Mon, 14 Dec 2020 10:58:01 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:42397)
+ id 1koqEv-0008JI-VV; Mon, 14 Dec 2020 10:58:21 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:34463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koqES-0001Qb-A5; Mon, 14 Dec 2020 10:58:01 -0500
+ id 1koqEZ-0001Rt-MH; Mon, 14 Dec 2020 10:58:19 -0500
 Received: from localhost.localdomain ([82.252.135.218]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MO9vD-1kUqMu1rVB-00OX5i; Mon, 14 Dec 2020 16:57:41 +0100
+ id 1MtOOm-1jyWIC2Xp0-00upm5; Mon, 14 Dec 2020 16:57:42 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/19] hw/xen: Don't use '#' flag of printf format
-Date: Mon, 14 Dec 2020 16:57:18 +0100
-Message-Id: <20201214155733.207430-5-laurent@vivier.eu>
+Subject: [PULL 06/19] fsdev: open brace '{' following struct go on the same
+ line
+Date: Mon, 14 Dec 2020 16:57:20 +0100
+Message-Id: <20201214155733.207430-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214155733.207430-1-laurent@vivier.eu>
 References: <20201214155733.207430-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:K7cpzHQZZg51CN2ZIO3GEdHZF9cJ7vcOp+Mqj4y6ZqXmAGW7bUv
- frwy4AS3f2xY8hDlm26cgfEJeEvY6WXZvLMzqwY2X6Ymhqnce9adl9kbARdNrNtn3DXl9NU
- oTOqG5anG2PIuYTiz7jMy39ItAUagTj1C/5qXJeSLrTxsfbzCZdJsZmfeFrtdIoY6hJTPi2
- lEG1oBu91E1gW23bF/xYw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yMcKUzW4YFg=:JRAb1j37TLsOBghDKm5QJv
- w3Y5wiuHYn3IQhaBTafyiY2uz8aSQfgj2mfSFW9JNx73TiJ3niM4WnTIdeTvNArvC6POoKwu/
- +AXInaBXxY7osEQGzTLM2ed1lBvsigc45mAIzgf08VoHIUBurVeSr8HCgaJCW1Sko8tTLi+ly
- L2esM/pr/60XBonhbt9tdIUGPll50EREYV41OCmMuIjmGgGibXtPdTrACv9IgQGRzga4UtIXI
- OSQzKBypGDLaIb6nPZG2em46A6f+Bi+4Kvqd7/6vPiQxa1/YIqiLJUV7tyCpoJrovVM350chn
- b5mADOGFwa1KrvG+ur8OlUfhhrdyq75Q+uOtZ3BQCXYd5aSkh/G6wtvh9QQhJYzLTQmDLRC6G
- V/2luO31wgtPZkOOThxLLxTeOuPZGTbnk07Jc/B8O+4PA2moVfnUMFlx1rwWjr7RgQK/3BDyv
- UfuDWnFyow==
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:pQqctQitfJUvkSvVY3kMl2Wy0lD3cIpkOHQB4FDBXqoyQrFQwNI
+ NI8xPRko5RxqK4esqf6dO4EJ0axzX0MztpV+1grnl1HdNJ9MSrhVbwyK987T1DEikkor8nR
+ y9xFGFz6DeJ7unH8mRn9UqnrgYpbdksZ2fse+OxkcUwzYNhUXzImn0dnd9ZRuKG86gQdk0P
+ ge8n4QW/yf0yt2q/A1qpQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yV9ilGWCju0=:F+6hXJ/tZJyHGd1R2N46jR
+ AAHar87MsySpfdVoVO25jbjbG4JwGdFnHf+YUpvDTkCEchxoiJ9barOgJ3hRk+45glhCPPi92
+ +IwSTlttVzFmZ7cXLR8ZgSjJPGTzb0ZPxTTWZqZ1ZEFuhjHhs0NtTm9gX5D8QlVHT+yFmeLvC
+ NZe7+52KfbLieF/Z4Wd+zNF6RPUHR/+3/7gYClszkLWrbicgnDnNgjf5MZpSADF5ZjPfED8VX
+ lN3SdQUfsA3kzTG9vy+0lRjZlRZHJ6z7w72NpbsmEq6j6DZBWhiCrBsGt7q8/2naXigesc8cr
+ Z7C/OCDfGDwdmKMjpiGgSGwGbG0RwQoGjkWpfwi7v0/vHon6sEFcv9wgC8Azlqpbw9sH4yWwQ
+ eEDkOjUI6MsnqpUSXcn1O2aiA8GlxCLgCqhMsS7gSGQ8TzBJBshpGG/YzjLsD5hSdM7H7hZOF
+ D8mj1kzsWA==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_NONE=0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,161 +63,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Kai Deng <dengkai1@huawei.com>,
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Xinhao Zhang <zhangxinhao1@huawei.com>
+ zhouyang <zhouyang789@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xinhao Zhang <zhangxinhao1@huawei.com>
+From: zhouyang <zhouyang789@huawei.com>
 
-Fix code style. Don't use '#' flag of printf format ('%#') in
-format strings, use '0x' prefix instead
+I found some style problems while check the code using checkpatch.pl.
+This commit fixs the issue below:
+ERROR: open brace '{' following struct go on the same line
 
-Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
-Signed-off-by: Kai Deng <dengkai1@huawei.com>
-Message-Id: <20201104133709.3326630-1-zhangxinhao1@huawei.com>
+Signed-off-by: zhouyang <zhouyang789@huawei.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20201209060735.2760943-1-zhouyang789@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/xen/xen_pt.c             | 10 +++++-----
- hw/xen/xen_pt_config_init.c |  6 +++---
- hw/xen/xen_pt_msi.c         | 16 ++++++++--------
- 3 files changed, 16 insertions(+), 16 deletions(-)
+ fsdev/9p-marshal.h | 12 ++++--------
+ fsdev/file-op-9p.h |  3 +--
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
-index 6d359ee486f5..a5f3dd590c13 100644
---- a/hw/xen/xen_pt.c
-+++ b/hw/xen/xen_pt.c
-@@ -489,7 +489,7 @@ static int xen_pt_register_regions(XenPCIPassthroughState *s, uint16_t *cmd)
-         pci_register_bar(&s->dev, i, type, &s->bar[i]);
+diff --git a/fsdev/9p-marshal.h b/fsdev/9p-marshal.h
+index 8f3babb60a05..ceaf2f521ec4 100644
+--- a/fsdev/9p-marshal.h
++++ b/fsdev/9p-marshal.h
+@@ -1,21 +1,18 @@
+ #ifndef QEMU_9P_MARSHAL_H
+ #define QEMU_9P_MARSHAL_H
  
-         XEN_PT_LOG(&s->dev, "IO region %i registered (size=0x%08"PRIx64
--                   " base_addr=0x%08"PRIx64" type: %#x)\n",
-+                   " base_addr=0x%08"PRIx64" type: 0x%x)\n",
-                    i, r->size, r->base_addr, type);
-     }
+-typedef struct V9fsString
+-{
++typedef struct V9fsString {
+     uint16_t size;
+     char *data;
+ } V9fsString;
  
-@@ -578,7 +578,7 @@ static void xen_pt_check_bar_overlap(PCIBus *bus, PCIDevice *d, void *opaque)
-         if (ranges_overlap(arg->addr, arg->size, r->addr, r->size)) {
-             XEN_PT_WARN(&s->dev,
-                         "Overlapped to device [%02x:%02x.%d] Region: %i"
--                        " (addr: %#"FMT_PCIBUS", len: %#"FMT_PCIBUS")\n",
-+                        " (addr: 0x%"FMT_PCIBUS", len: 0x%"FMT_PCIBUS")\n",
-                         pci_bus_num(bus), PCI_SLOT(d->devfn),
-                         PCI_FUNC(d->devfn), i, r->addr, r->size);
-             arg->rc = true;
-@@ -618,8 +618,8 @@ static void xen_pt_region_update(XenPCIPassthroughState *s,
-     pci_for_each_device(pci_get_bus(d), pci_dev_bus_num(d),
-                         xen_pt_check_bar_overlap, &args);
-     if (args.rc) {
--        XEN_PT_WARN(d, "Region: %d (addr: %#"FMT_PCIBUS
--                    ", len: %#"FMT_PCIBUS") is overlapped.\n",
-+        XEN_PT_WARN(d, "Region: %d (addr: 0x%"FMT_PCIBUS
-+                    ", len: 0x%"FMT_PCIBUS") is overlapped.\n",
-                     bar, sec->offset_within_address_space,
-                     int128_get64(sec->size));
-     }
-@@ -786,7 +786,7 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
+-typedef struct V9fsQID
+-{
++typedef struct V9fsQID {
+     uint8_t type;
+     uint32_t version;
+     uint64_t path;
+ } V9fsQID;
  
-     /* register real device */
-     XEN_PT_LOG(d, "Assigning real physical device %02x:%02x.%d"
--               " to devfn %#x\n",
-+               " to devfn 0x%x\n",
-                s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
-                s->dev.devfn);
+-typedef struct V9fsStat
+-{
++typedef struct V9fsStat {
+     int16_t size;
+     int16_t type;
+     int32_t dev;
+@@ -35,8 +32,7 @@ typedef struct V9fsStat
+     int32_t n_muid;
+ } V9fsStat;
  
-diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
-index c8724cc7c855..c5c4e943a845 100644
---- a/hw/xen/xen_pt_config_init.c
-+++ b/hw/xen/xen_pt_config_init.c
-@@ -1622,7 +1622,7 @@ static int xen_pt_pcie_size_init(XenPCIPassthroughState *s,
-         case PCI_EXP_TYPE_PCIE_BRIDGE:
-         case PCI_EXP_TYPE_RC_EC:
-         default:
--            XEN_PT_ERR(d, "Unsupported device/port type %#x.\n", type);
-+            XEN_PT_ERR(d, "Unsupported device/port type 0x%x.\n", type);
-             return -1;
-         }
-     }
-@@ -1645,11 +1645,11 @@ static int xen_pt_pcie_size_init(XenPCIPassthroughState *s,
-         case PCI_EXP_TYPE_PCIE_BRIDGE:
-         case PCI_EXP_TYPE_RC_EC:
-         default:
--            XEN_PT_ERR(d, "Unsupported device/port type %#x.\n", type);
-+            XEN_PT_ERR(d, "Unsupported device/port type 0x%x.\n", type);
-             return -1;
-         }
-     } else {
--        XEN_PT_ERR(d, "Unsupported capability version %#x.\n", version);
-+        XEN_PT_ERR(d, "Unsupported capability version 0x%x.\n", version);
-         return -1;
-     }
+-typedef struct V9fsIattr
+-{
++typedef struct V9fsIattr {
+     int32_t valid;
+     int32_t mode;
+     int32_t uid;
+diff --git a/fsdev/file-op-9p.h b/fsdev/file-op-9p.h
+index d51cec2f3be0..42f677cf38c2 100644
+--- a/fsdev/file-op-9p.h
++++ b/fsdev/file-op-9p.h
+@@ -110,8 +110,7 @@ typedef union V9fsFidOpenState V9fsFidOpenState;
  
-diff --git a/hw/xen/xen_pt_msi.c b/hw/xen/xen_pt_msi.c
-index fb4b887b92b1..b71563f98a8b 100644
---- a/hw/xen/xen_pt_msi.c
-+++ b/hw/xen/xen_pt_msi.c
-@@ -123,7 +123,7 @@ static int msi_msix_setup(XenPCIPassthroughState *s,
-             *ppirq = XEN_PT_UNASSIGNED_PIRQ;
-         } else {
-             XEN_PT_LOG(&s->dev, "requested pirq %d for MSI%s"
--                       " (vec: %#x, entry: %#x)\n",
-+                       " (vec: 0x%x, entry: 0x%x)\n",
-                        *ppirq, is_msix ? "-X" : "", gvec, msix_entry);
-         }
-     }
-@@ -142,7 +142,7 @@ static int msi_msix_setup(XenPCIPassthroughState *s,
-                                      msix_entry, table_base);
-         if (rc) {
-             XEN_PT_ERR(&s->dev,
--                       "Mapping of MSI%s (err: %i, vec: %#x, entry %#x)\n",
-+                       "Mapping of MSI%s (err: %i, vec: 0x%x, entry 0x%x)\n",
-                        is_msix ? "-X" : "", errno, gvec, msix_entry);
-             return rc;
-         }
-@@ -165,8 +165,8 @@ static int msi_msix_update(XenPCIPassthroughState *s,
-     int rc = 0;
-     uint64_t table_addr = 0;
+ void cred_init(FsCred *);
  
--    XEN_PT_LOG(d, "Updating MSI%s with pirq %d gvec %#x gflags %#x"
--               " (entry: %#x)\n",
-+    XEN_PT_LOG(d, "Updating MSI%s with pirq %d gvec 0x%x gflags 0x%x"
-+               " (entry: 0x%x)\n",
-                is_msix ? "-X" : "", pirq, gvec, gflags, msix_entry);
- 
-     if (is_msix) {
-@@ -208,11 +208,11 @@ static int msi_msix_disable(XenPCIPassthroughState *s,
-     }
- 
-     if (is_binded) {
--        XEN_PT_LOG(d, "Unbind MSI%s with pirq %d, gvec %#x\n",
-+        XEN_PT_LOG(d, "Unbind MSI%s with pirq %d, gvec 0x%x\n",
-                    is_msix ? "-X" : "", pirq, gvec);
-         rc = xc_domain_unbind_msi_irq(xen_xc, xen_domid, gvec, pirq, gflags);
-         if (rc) {
--            XEN_PT_ERR(d, "Unbinding of MSI%s failed. (err: %d, pirq: %d, gvec: %#x)\n",
-+            XEN_PT_ERR(d, "Unbinding of MSI%s failed. (err: %d, pirq: %d, gvec: 0x%x)\n",
-                        is_msix ? "-X" : "", errno, pirq, gvec);
-             return rc;
-         }
-@@ -539,7 +539,7 @@ int xen_pt_msix_init(XenPCIPassthroughState *s, uint32_t base)
-     }
- 
-     if (id != PCI_CAP_ID_MSIX) {
--        XEN_PT_ERR(d, "Invalid id %#x base %#x\n", id, base);
-+        XEN_PT_ERR(d, "Invalid id 0x%x base 0x%x\n", id, base);
-         return -1;
-     }
- 
-@@ -582,7 +582,7 @@ int xen_pt_msix_init(XenPCIPassthroughState *s, uint32_t base)
-         XEN_PT_ERR(d, "Can't open /dev/mem: %s\n", strerror(errno));
-         goto error_out;
-     }
--    XEN_PT_LOG(d, "table_off = %#x, total_entries = %d\n",
-+    XEN_PT_LOG(d, "table_off = 0x%x, total_entries = %d\n",
-                table_off, total_entries);
-     msix->table_offset_adjust = table_off & 0x0fff;
-     msix->phys_iomem_base =
+-struct FileOperations
+-{
++struct FileOperations {
+     int (*parse_opts)(QemuOpts *, FsDriverEntry *, Error **errp);
+     int (*init)(FsContext *, Error **errp);
+     void (*cleanup)(FsContext *);
 -- 
 2.29.2
 
