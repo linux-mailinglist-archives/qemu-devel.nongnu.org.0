@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697182D964E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 11:33:11 +0100 (CET)
-Received: from localhost ([::1]:49198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 378212D964F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 11:33:15 +0100 (CET)
+Received: from localhost ([::1]:49404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kolAE-00029O-Cw
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 05:33:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
+	id 1kolAI-0002Ec-A4
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 05:33:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kol7Y-00016y-W1; Mon, 14 Dec 2020 05:30:25 -0500
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:45475)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kol7l-0001K8-3L
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:30:37 -0500
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:34783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kol7X-0001s1-9O; Mon, 14 Dec 2020 05:30:24 -0500
-Received: by mail-yb1-xb44.google.com with SMTP id k78so15051885ybf.12;
- Mon, 14 Dec 2020 02:30:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kol7f-0001ww-Oy
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:30:36 -0500
+Received: by mail-ej1-x642.google.com with SMTP id g20so21872297ejb.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 02:30:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=W1nOVW6vpV4RMIvnGQchOOBYWcL+YJha58w53tValYQ=;
- b=N9N+ewHKNzgW2VXmZT0ljvzFSyWW/DLMbi6xNgBEY2xKxn0wh2jc6YD8PE+YuSdZqB
- /1smFUN0WoRr0yKTwlnp1VXWhkJrqUtd5ta4TXD78EiFNjrWROVl8GYwSaFQdbuDLR/P
- bWXmv4mIEVnMgf8KFVgZwRDRdjnZBPUD1GxdKfPWWvBDxcUFd/8Yg8nwf3U391JIwwTh
- kYzrDnVPC9/Zmmkyjlymhteipv/XkYYC/pgOLewNDBWOU3M148YRydcDRmsOHaDnsW4m
- GM9rTjkwcGbUtOud2FiW5iNEHaoo7EeerB83VwOLf1lfgx/sKo4v5uXGZCmJLbNhINkd
- vzgw==
+ :cc; bh=j635r0UkwSYwxlFcjApHjQqQdaRZ5LaIZNtJODTTfjI=;
+ b=D92scb6GApqLry48ecyHyCf3TLOUCHUn3i2e4l4hWWNa+46nPRl9tB43ZYLUpIQ79h
+ S83rTtBuEIOIlCYr7pkkKk4j+IF5hPGEFbrn6RxVGLUvxd2lSbi/0oVAPla9KfW0OfgA
+ DnuG5GUTErKvduq58J43h9/O0w49xAuZuM6WSyrRcC0035rCvCCVUHgTCDOz0D/mNYl2
+ x7a/bFJZQvO1WB1DD7cDWzctnctiS2RJbf6YV5KyjOzWeyeN/QStLHvjiypIak1qaHR2
+ xSt4KG2Y+ztl3U2kXau1JcDzqag4tOhYKCAOzVJliSs/XNkZw4Nj+xGMfYnIHRrwJv2v
+ MYvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=W1nOVW6vpV4RMIvnGQchOOBYWcL+YJha58w53tValYQ=;
- b=r3uYHtr97tIxbEGWjfcvMCaMW/t/88dc9QBoeTYl6Byl9ky+Bl/QHeOeI96WRJKTyp
- tGAn8Qlu+B8EHNW50o47o7VP6MM7JiClnCgd9a+ImFT1AN8IHD1e3pNsClVK5cKWqG2o
- Jgnr+Fo3cAwAoVWVnzFifD3FWQBT7aJrxjRTBsvGLvlBfYf/omDkmBGjCvCEsFheKaR6
- SlweidvfrABZiX+iTLM5zLwK+p9FZk02civ9T9XiVd7SJ9mO1o2a/yaLjtBpjqUY4qN5
- 13u7yfxhCpjU02Lp/GO1jiwH9uStNxko0iK2hGQH0IAa1ACGLMepZFtEBtJsOSBlPapi
- N3BQ==
-X-Gm-Message-State: AOAM530HS/gsminIq3JbzkQLRCBLJpDCkp7hPTsTETBDId12LSOrZw9B
- SWG8Ga3l3yON7EhBz4TcHZxznECBYQzdUMAbHO4=
-X-Google-Smtp-Source: ABdhPJyod4/KKGKBrSLTlINW1Nrn+IAQNfO9QDuwrDb7N3hKHY+kx+UkfNDqmMOsG623YQ7vnvboshmWOm68gy2lsfE=
-X-Received: by 2002:a25:aaee:: with SMTP id
- t101mr33601669ybi.517.1607941821774; 
- Mon, 14 Dec 2020 02:30:21 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=j635r0UkwSYwxlFcjApHjQqQdaRZ5LaIZNtJODTTfjI=;
+ b=U1RfOeiToqUBWnZ4OhGFBPwfyoC4noHzZPPE2hBAmDyZNBk42OMTLyrONIxlstf6+p
+ E3T04a2xKYBEnPERB/8uE/VAA6pPRyYkC34P+WQbGAwAuXRg+6jItOAwth1zw4nY4tBo
+ +IXtxQHDV32QmqtINhoIPPhcJTiDvh3kfSLmSn3+QP3A8/qk/Rzn8niI9U3N0TNN3a9v
+ a84yb8q0q0tqQTsPNZJRsH5V5pCb465N6DP1lC9/TCqdIX04d5DXc6p+wTlp00v8zaz4
+ Ymo57Fd466J5HygYPaKHMGlWFp5D71Fq3xqTEDBToIVIcQocyke3WLWghiQqTTItKExJ
+ M2Rg==
+X-Gm-Message-State: AOAM530+8oYR8GPCsbeCjPQ2T4L6PliDURy1r+FeFRZ+lQ4ZF6kgI+QE
+ wFh/gLoUyu+hjSxa1c/jNWhBB09pUZFFpp1oSZzPuA==
+X-Google-Smtp-Source: ABdhPJxUZCYas6uMXmAKivyMRSCQajRq8Wq0EJlSnDgt+Dc6NfQaAAgtnMmP8FHRJpARNk7jI40H5Q4b5WGmLwINkik=
+X-Received: by 2002:a17:906:31d2:: with SMTP id
+ f18mr21813190ejf.407.1607941829146; 
+ Mon, 14 Dec 2020 02:30:29 -0800 (PST)
 MIME-Version: 1.0
-References: <1607937538-69471-1-git-send-email-bmeng.cn@gmail.com>
- <87eejsvg5k.fsf@linaro.org>
-In-Reply-To: <87eejsvg5k.fsf@linaro.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 14 Dec 2020 18:30:10 +0800
-Message-ID: <CAEUhbmXk379CmfdGB8Ua9-=Gv1cPfih3bu8Z=r_8w+J461tZRQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] hw/arm: sabrelite: Improve emulation fidelity to
- allow booting upstream U-Boot
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+References: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
+ <1603891979-11961-6-git-send-email-mihai.carabas@oracle.com>
+In-Reply-To: <1603891979-11961-6-git-send-email-mihai.carabas@oracle.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Dec 2020 10:30:18 +0000
+Message-ID: <CAFEAcA8EE6Vz_VikBg5dyFru-fKomSd4rcUopkM7tF=Heh01Vw@mail.gmail.com>
+Subject: Re: [PATCH 5/6] pvpanic : update pvpanic document
+To: Mihai Carabas <mihai.carabas@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b44;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb44.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,35 +78,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Peng Hao <peng.hao2@zte.com.cn>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 14, 2020 at 6:24 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
+On Wed, 28 Oct 2020 at 14:26, Mihai Carabas <mihai.carabas@oracle.com> wrote:
 >
+> From: Peng Hao <peng.hao2@zte.com.cn>
 >
-> Bin Meng <bmeng.cn@gmail.com> writes:
+> Add mmio mode as a pci device support info in docs/specs/pvpanic.txt.
 >
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > At present the upstream U-Boot (as of today, v2021.01-rc3) does not
-> > boot on QEMU sabrelite machine.
+> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+> Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
+> ---
+>  docs/specs/pvpanic.txt | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
 >
-> Are there any public build artefacts for u-boot on saberlite that could
-> be used for an acceptance test?
+> diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
+> index a90fbca..4258922 100644
+> --- a/docs/specs/pvpanic.txt
+> +++ b/docs/specs/pvpanic.txt
+> @@ -1,7 +1,7 @@
+>  PVPANIC DEVICE
+>  ==============
+>
+> -pvpanic device is a simulated ISA device, through which a guest panic
+> +pvpanic device is a simulated device, through which a guest panic
+>  event is sent to qemu, and a QMP event is generated. This allows
+>  management apps (e.g. libvirt) to be notified and respond to the event.
+>
+> @@ -9,6 +9,9 @@ The management app has the option of waiting for GUEST_PANICKED events,
+>  and/or polling for guest-panicked RunState, to learn when the pvpanic
+>  device has fired a panic event.
+>
+> +The pvpanic device can be implemented as an ISA device (using IOPORT),
+> +or, since qemu 4.0, as a PCI device.
 
-I am not aware of one. Upstream U-Boot has build pipelines but it does
-not publish artifacts.
+Version number is outdated here. I would simply say "or as a PCI device".
 
+> +
+>  ISA Interface
+>  -------------
 >
-> > This fixes several issues to improve emulation fidelity of the i.MX6
-> > sabrelite board. With this series, upstream U-Boot can boot to U-Boot
-> > command shell.
-> >
+> @@ -24,6 +27,13 @@ bit 1: a guest panic has happened and will be handled by the guest;
+>         the host should record it or report it, but should not affect
+>         the execution of the guest.
+>
+> +PCI Interface
+> +-------------
+> +
+> +The PCI interface is similar to the ISA interface except that it uses an MMIO
+> +address space provided by its BAR0.
 
-Regards,
-Bin
+You should be specific about the access width(s) permitted here --
+is the access to the register 8-bit only, 32-bit-only, or what ?
+
+> For example, the arm virt machine may
+> +enable a pvpanic device by adding '-device pvpanic-pci' to the command line.
+
+No need to be specific to Arm virt here.
+"Any machine with a PCI device can enable a pvpanic device by adding
+'-device pvpanic-pci' to the command line."
+
+
+> +
+>  ACPI Interface
+>  --------------
+
+thanks
+-- PMM
 
