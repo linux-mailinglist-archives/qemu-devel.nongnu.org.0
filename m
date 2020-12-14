@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A352D928E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:22:05 +0100 (CET)
-Received: from localhost ([::1]:59640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C57F2D9294
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:24:33 +0100 (CET)
+Received: from localhost ([::1]:40348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kogJA-0004Fe-Kj
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:22:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39584)
+	id 1kogLY-0007wO-7K
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:24:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwz-00060i-KT; Sun, 13 Dec 2020 23:59:09 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:38689)
+ id 1kofx0-000656-SL; Sun, 13 Dec 2020 23:59:10 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:59227)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofww-0004uP-Vi; Sun, 13 Dec 2020 23:59:09 -0500
+ id 1kofwy-0004wW-VD; Sun, 13 Dec 2020 23:59:10 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CvTfw12wYz9sWy; Mon, 14 Dec 2020 15:58:15 +1100 (AEDT)
+ id 4CvTg66b0Bz9sWw; Mon, 14 Dec 2020 15:58:26 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607921896;
- bh=rBtI7QtDbKBKhAKdfxPEGMs7Fzmi01R0i3YdnlS7DhQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=K49jv2tJoQF2diS7wCER/ror1HLF212jduj/2W7ztinGvZ+xcXgu48CW42OhVH6b4
- rQM+5kkVpr1ODe4GUJtk2iG6FacFIVYP0bhAxnCUHjoKts/+wJSxEIfmHxDVPnuH0g
- 8NSEzaOftNDiTzN7KvPoo7013O+KusxKIecT2p48=
+ d=gibson.dropbear.id.au; s=201602; t=1607921906;
+ bh=hWoqKq0OnrmSRq6Pp+C0Kizpc+2N6IE0FLu7tzlzA1A=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kM3OdhiaYYwes/CoLQYt9gqnUNRiRiwngawuVuURjqfGbrQEhloajG6cciEJvDfqr
+ XDHvBr70QVSJSZC4Cdz4BFbHZsJhaiuc18KdJuiokxr14dMrwk7WN0SD3xpy3ZXQj2
+ bl3AILDsLrDTMUD+ixnf2ypsMs6QTcTSUSPhUkm0=
+Date: Mon, 14 Dec 2020 15:58:19 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Subject: [PULL 30/30] spapr.c: set a 'kvm-type' default value instead of
- relying on NULL
-Date: Mon, 14 Dec 2020 15:58:07 +1100
-Message-Id: <20201214045807.41003-31-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201214045807.41003-1-david@gibson.dropbear.id.au>
-References: <20201214045807.41003-1-david@gibson.dropbear.id.au>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/30] ppc-for-6.0 queue 20201211
+Message-ID: <20201214045819.GA4717@yekko.fritz.box>
+References: <20201211041507.425378-1-david@gibson.dropbear.id.au>
+ <442b503f-1bd5-4fef-254d-d57c5d7b57be@redhat.com>
+ <CAFEAcA80wPxky=SdOzc1yAKa+JNbceO8zvmWWWqcwyuSE=qNKA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA80wPxky=SdOzc1yAKa+JNbceO8zvmWWWqcwyuSE=qNKA@mail.gmail.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -57,95 +59,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- groug@kaod.org
+Cc: Giuseppe Musacchio <thatlemon@gmail.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-spapr_kvm_type() is considering 'vm_type=NULL' as a valid input, where
-the function returns 0. This is relying on the current QEMU machine
-options handling logic, where the absence of the 'kvm-type' option
-will be reflected as 'vm_type=NULL' in this function.
+--6c2NcOVqGQ03X4Wi
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is not robust, and will break if QEMU options code decides to propagate
-something else in the case mentioned above (e.g. an empty string instead
-of NULL).
+On Fri, Dec 11, 2020 at 12:48:05PM +0000, Peter Maydell wrote:
+> On Fri, 11 Dec 2020 at 12:35, Philippe Mathieu-Daud=E9 <philmd@redhat.com=
+> wrote:
+> >
+> > On 12/11/20 5:14 AM, David Gibson wrote:
+> > > LemonBoy (5):
+> > >       ppc/translate: Fix unordered f64/f128 comparisons
+> > >       ppc/translate: Turn the helper macros into functions
+> > >       ppc/translate: Delay NaN checking after comparison
+> > >       ppc/translate: Raise exceptions after setting the cc
+> > >       ppc/translate: Rewrite gen_lxvdsx to use gvec primitives
+> >
+> > I was surprised by that author and went to check the wiki
+> > https://wiki.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include=
+_a_Signed-off-by:_line
+> >
+> >   Please use your real name to sign a patch (not an alias or acronym).
+> >   If you wrote the patch, make sure your "From:" and "Signed-off-by:"
+> >   lines use the same spelling.
+> >
+> > The patches are signed with Giuseppe real name, so this is OK.
+> > Author can be fixed up later in .mailmap.
+>=20
+> Well, it could be, but since we've caught this before the pullreq
+> has been merged into master we might as well fix up the From
+> lines in the commits directly. David, would you mind doing that
+> and resending?
 
-Let's avoid this entirely by setting a non-NULL default value in case of
-no user input for 'kvm-type'. spapr_kvm_type() was changed to handle 3 fixed
-values of kvm-type: "auto", "hv", and "pr", with "auto" being the default
-if no kvm-type was set by the user. This allows us to always be predictable
-regardless of any enhancements/changes made in QEMU options mechanics.
+Done.
 
-While we're at it, let's also document in 'kvm-type' description the
-already existing default mode, now named 'auto'. The information provided
-about it is based on how the pseries kernel handles the KVM_CREATE_VM
-ioctl(), where the default value '0' makes the kernel choose an available
-KVM module to use, giving precedence to kvm_hv. This logic is described in
-the kernel source file arch/powerpc/kvm/powerpc.c, function kvm_arch_init_vm().
+>=20
+> Thanks for the catch, Philippe.
+>=20
+> thanks
+> -- PMM
+>=20
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20201210145517.1532269-2-danielhb413@gmail.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Greg Kurz <groug@kaod.org>
----
- hw/ppc/spapr.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index dfedded9a8..dee48a0043 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3021,17 +3021,25 @@ static void spapr_machine_init(MachineState *machine)
-     qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
- }
- 
-+#define DEFAULT_KVM_TYPE "auto"
- static int spapr_kvm_type(MachineState *machine, const char *vm_type)
- {
--    if (!vm_type) {
-+    /*
-+     * The use of g_ascii_strcasecmp() for 'hv' and 'pr' is to
-+     * accomodate the 'HV' and 'PV' formats that exists in the
-+     * wild. The 'auto' mode is being introduced already as
-+     * lower-case, thus we don't need to bother checking for
-+     * "AUTO".
-+     */
-+    if (!vm_type || !strcmp(vm_type, DEFAULT_KVM_TYPE)) {
-         return 0;
-     }
- 
--    if (!strcmp(vm_type, "HV")) {
-+    if (!g_ascii_strcasecmp(vm_type, "hv")) {
-         return 1;
-     }
- 
--    if (!strcmp(vm_type, "PR")) {
-+    if (!g_ascii_strcasecmp(vm_type, "pr")) {
-         return 2;
-     }
- 
-@@ -3270,10 +3278,15 @@ static void spapr_instance_init(Object *obj)
- 
-     spapr->htab_fd = -1;
-     spapr->use_hotplug_event_source = true;
-+    spapr->kvm_type = g_strdup(DEFAULT_KVM_TYPE);
-     object_property_add_str(obj, "kvm-type",
-                             spapr_get_kvm_type, spapr_set_kvm_type);
-     object_property_set_description(obj, "kvm-type",
--                                    "Specifies the KVM virtualization mode (HV, PR)");
-+                                    "Specifies the KVM virtualization mode (auto,"
-+                                    " hv, pr). Defaults to 'auto'. This mode will use"
-+                                    " any available KVM module loaded in the host,"
-+                                    " where kvm_hv takes precedence if both kvm_hv and"
-+                                    " kvm_pr are loaded.");
-     object_property_add_bool(obj, "modern-hotplug-events",
-                             spapr_get_modern_hotplug_events,
-                             spapr_set_modern_hotplug_events);
--- 
-2.29.2
+--6c2NcOVqGQ03X4Wi
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/W8OoACgkQbDjKyiDZ
+s5J3MBAAoqGswpDaj6wPgbbzNk3CjPb6H+rQEfVLe2vPh6n8QDHPG90yrHPdxun4
+yNxdNj/X0uWeOMankzlSYLJaALfp2cRG98Ws2ae58+fGSI3qoR1yXcemotqXW5eC
+jyheoyyBT2oOuD4KsxvcrgB5gA7nnLF/+vzwQrnu7V/Bp/NRlmKelXnk1NE8Gj2V
+dFC0I2YY9YjHOKh+qimVRG3B7YE0d9Pjv3Bx8+QIQNPimBc6SE+9NFjw4GRXi274
+uV10bPpxhU5KObiTyqj94R/xw7k3VpXeM0G23HawRmb8NewgGUVccaoqvajykHpM
+lBHoOcwuujkR1L363qqz/ee+fvdMRo+usmHB+EnGzsrhEouy0otScCUwOs5gxVp1
+m1g8P3ToYSsRiz9FFmqf02vOu8VbjqK9fDn776QjlhbeCB+NfoNmwgrPxzKQs2a0
+X6OVL9SaEhTkdOC7szPbcQG7xW2oWkB49pDFGNjfBD7oTAZnTd3RQKyeaSoDCLTn
+aeGa8kFB7MD/wxK8hHU2WUlY05LChx97ivqz/75VCJcRiv7FAbVhweKsKGDUNpf5
+SUCndjN8lYHnch/Zc36wqpTeUv11riQ+bDdhz7bSjVrEVIL8PvSCPzYbjNyJCaEB
+Nvr7c7z1N33WMHhulhRVu0sM9CHEp/xrd4KvKtnk/GtfCW9F3tc=
+=ghtY
+-----END PGP SIGNATURE-----
+
+--6c2NcOVqGQ03X4Wi--
 
