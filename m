@@ -2,67 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799D82D9729
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 12:14:31 +0100 (CET)
-Received: from localhost ([::1]:52624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4B42D973A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 12:17:10 +0100 (CET)
+Received: from localhost ([::1]:54944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koloE-0003e6-If
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 06:14:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53680)
+	id 1kolqn-0004lT-Lc
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 06:17:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1koln5-000362-6L
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 06:13:19 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:39341)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1koln3-0007oN-3t
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 06:13:18 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id n26so21992008eju.6
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 03:13:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=86KnbXZ8GbsrTSNfgvl0ZfgYFVd6YkoYdyxORItjv1E=;
- b=huEr/QZ6jcIwaEY+12xjt83FeBNy0cmUhszCWW2OQ1Du0qxfolA9VbIN9C4VbnrbiG
- ZjR8l5L64qpNTYyQaSGWFaguC0oblBwTJHt8fj3SK16M/KlRCe3ALdd9zYpdNqlfCEl0
- oP2v/vcUu4mVDcVVshoJz/Lu1uh9iwPSPAXDem/hjHLoxgs/ws6v0Ww7F+cDQaN6sxg5
- yHUV493lfHfrcljJPwoHEang3cTur4pq+0ncJTjWsDcVVhlm4JWEys3p16y+rAqXcrGB
- uX/XljJovU1h0XJqInGjctDbBKD3NiSrADUebn3VgiEHh6FM1CeuCEIsrzQ5Xhczdm+L
- QP3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=86KnbXZ8GbsrTSNfgvl0ZfgYFVd6YkoYdyxORItjv1E=;
- b=pEr9ZOw/VGMv2eViZsQv0hhQdtjd18kI/V6JUA5hy85UrTgOz+8F+BdC52BmFHp73H
- qDXzL32nRqtAgN7eG20x4kAnPmEZN05K8p9qXhxc2VjX0IyMK/dhBOQkJjxzwWsxx2fO
- grK1PSImWmPlkYDW6VM8TrUQx5n7w2dTIYg3URbPXWOoIMiLgQZcpnHEo34jauqJOHkI
- QQMazvASPOEdokQRQAAogextrMC/F3TRHXBB2fTQOtaZV8pl/of+dUJ86gsh0MClrJcH
- 6c4QEze7ni6Gji8oEu4ozXKOOXBE3xZ8NhLAIVEorhwPpT1DHHfI3QmEpm+ijCsuE9E3
- 1Lsg==
-X-Gm-Message-State: AOAM533nQoxr7W1mmfgM9hoc/6fyC5kp3GTmrYuH5arlK1fp/I4/mU5o
- Hn/Sx1aL9wbhCVZx9NvvxV985upe6V6PQCmFD4R8/Ei0ob1khg==
-X-Google-Smtp-Source: ABdhPJyK1LN154wIgF2vLlAOCHPsbsT6no/NjqZtCVV4nDJ8xIQGk/eVlZS8ai+9MKUI5y0A8a39nejw0pG5Joj/DmI=
-X-Received: by 2002:a17:906:1151:: with SMTP id
- i17mr22590887eja.250.1607944394160; 
- Mon, 14 Dec 2020 03:13:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
+ id 1kolpE-0004HA-Vw
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 06:15:33 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:48974)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
+ id 1kolpB-0008CD-7b
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 06:15:31 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BEBDnji186239;
+ Mon, 14 Dec 2020 11:15:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=a4ZfLBNrCAXAR0mj3pjI7v7biXs2wzXkONLxove+nBg=;
+ b=ndXt0HR5Cbu624Oi1ClkppX4CCyxuc7gkDf/PGZ0UhiPE66rJCePAIwCW0CN9lkAJeGC
+ ALmn1vPtbnba4BmFJg1DK9w8VyhMgMT59PNjUf1iXKW8alokzgbunqhUA8iJvEefEQFz
+ fcRFZNxFhkP88iuYXmP6d7V9uq090ZTP4Ff7gLwRoJTU7caAGBjNAg18SxzXJ/w2fNGv
+ 3ePdGDwVeoAv23ADwtNQeiqSkcsPwLnP7Cl3P9PIZlqPY/oLgR1ISRMfSA8eJG2HYDl3
+ kN0izpQsKDmC/h+rg+pxXFSFSeM2Kpg7amul9lMV6NE06MF6i5cJvqNuHn30SHzLshex TA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2130.oracle.com with ESMTP id 35ckcb4spp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 14 Dec 2020 11:15:24 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BEBBH7N082216;
+ Mon, 14 Dec 2020 11:15:23 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 35e6jp8xqr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 14 Dec 2020 11:15:23 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BEBFM2m011631;
+ Mon, 14 Dec 2020 11:15:22 GMT
+Received: from [10.175.19.81] (/10.175.19.81)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 14 Dec 2020 03:15:22 -0800
+Subject: Re: [PATCH] Add support for pvpanic pci device
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
+ <CAFEAcA8dNrYt8vw5y6V08kqOmGj4=XvgGexU3VPh01sUHZLDrQ@mail.gmail.com>
+From: Mihai Carabas <mihai.carabas@oracle.com>
+Message-ID: <d0423102-432d-8a74-182d-2b81db33d416@oracle.com>
+Date: Mon, 14 Dec 2020 13:15:20 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Dec 2020 11:13:02 +0000
-Message-ID: <CAFEAcA-kKuG_2XxuGrRHXMf8pVR+6NdhM_6xthxLYcr_HxW=Xg@mail.gmail.com>
-Subject: gdb internal-error in 'check-tcg' with gdb 8.1.1-0ubuntu1
-To: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA8dNrYt8vw5y6V08kqOmGj4=XvgGexU3VPh01sUHZLDrQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: ro
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9834
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxscore=0 bulkscore=0
+ malwarescore=0 adultscore=0 mlxlogscore=999 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012140079
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9834
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxlogscore=999
+ priorityscore=1501 mlxscore=0 suspectscore=0 adultscore=0 phishscore=0
+ malwarescore=0 impostorscore=0 lowpriorityscore=0 clxscore=1011
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012140079
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=mihai.carabas@oracle.com; helo=aserp2130.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,46 +99,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-My machine has suddenly started consistently failing 'make check-tcg'
-like this, following an Ubuntu update of the gdb package from
-"8.1-0ubuntu3.2" to "8.1.1-0ubuntu1":
+La 14.12.2020 13:03, Peter Maydell a scris:
+> On Wed, 28 Oct 2020 at 14:17, Mihai Carabas <mihai.carabas@oracle.com> wrote:
+>>
+>> This patchset adds support for pvpanic pci device. The patchset was assembled
+>> from chuncks from some old patches [1] from 2018 which were left unmerged and
+>> some additions from me.
+>>
+>> How to test this:
+>> /usr/bin/qemu-system-aarch64 \
+>>          -machine virt,gic-version=3 -device pvpanic-pci
+>>
+>> After that you need to run a Linux kernel as guest, but you have to also apply
+>> the patches I will send for adding pci support for the pvpanic driver.
+> 
+> Hi; I've reviewed most of the patches. I'm in principle in favour
+> of this, but the structuring of how the ISA and PCI versions of
+> the device are configured and built needs a little work. You
+> also need to sort out allocation of a PCI ID for it.
 
-make[2]: Entering directory
-'/home/petmay01/linaro/qemu-for-merges/build/all-linux-static/tests/tcg/aarch64-linux-user'
-timeout 60  /home/petmay01/linaro/qemu-for-merges/tests/guest-debug/run-test.py
---gdb /usr/bin/gdb-multiarch --qemu
-/home/petmay01/linaro/qemu-for-merges/build/all-linux-static/qemu-aarch64
---qargs "" --bin sha1 --test
-/home/petmay01/linaro/qemu-for-merges/tests/tcg/multiarch/gdbstub/sha1.py
->  run-gdbstub-sha1.out
-/build/gdb-veKdC1/gdb-8.1.1/gdb/regcache.c:122: internal-error: void*
-init_regcache_descr(gdbarch*): Assertion `MAX_REGISTER_SIZE >=
-descr->sizeof_register[i]' failed.
-A problem internal to GDB has been detected,
-further debugging may prove unreliable.
+Thank you for your feedback. I will apply it in the next days and send a 
+new revision.
 
-This is a bug, please report it.  For instructions, see:
-<http://www.gnu.org/software/gdb/bugs/>.
+Thank you,
+Mihai
 
-Aborted (core dumped)
-/home/petmay01/linaro/qemu-for-merges/tests/tcg/multiarch/Makefile.target:51:
-recipe for target 'run-gdbstub-sha1' failed
-make[2]: *** [run-gdbstub-sha1] Error 134
-make[2]: Leaving directory
-'/home/petmay01/linaro/qemu-for-merges/build/all-linux-static/tests/tcg/aarch64-linux-user'
-/home/petmay01/linaro/qemu-for-merges/tests/tcg/Makefile.qemu:85:
-recipe for target 'run-guest-tests' failed
-make[1]: *** [run-guest-tests] Error 2
-/home/petmay01/linaro/qemu-for-merges/tests/Makefile.include:61:
-recipe for target 'run-tcg-tests-aarch64-linux-user' failed
-make: *** [run-tcg-tests-aarch64-linux-user] Error 2
+> 
+> thanks
+> -- PMM
+> 
 
-
-Any ideas ?
-
-thanks
--- PMM
 
