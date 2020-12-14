@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6E82DA155
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 21:19:16 +0100 (CET)
-Received: from localhost ([::1]:46422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B65D92DA168
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 21:24:43 +0100 (CET)
+Received: from localhost ([::1]:58202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kouJP-0004gj-IO
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 15:19:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40696)
+	id 1kouOg-0001IC-80
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 15:24:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1kou82-0001CK-Lj; Mon, 14 Dec 2020 15:07:30 -0500
-Received: from home.keithp.com ([63.227.221.253]:51874 helo=elaine.keithp.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1kou81-0004HM-0e; Mon, 14 Dec 2020 15:07:30 -0500
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id 6431D3F2E37A;
- Mon, 14 Dec 2020 12:07:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1607976441; bh=K/dnGbL6KdXY+xkFW0YSD6lvsulh4HeeZNJpZPFGyjc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=O5fR9FhSTh75lAnE7QU9tYA63Dzwv+F3cwwN7PgWOcI0/QnK6zRigzDxh7APTvLd3
- wLOJ7MLQTgflE14es14yIWv+YauzDltrV4XpBIGBkmCL+bW23TU0jagEnoTOWV4x5d
- c7Zib3glDj5OiSrN/KHM1+7AvxHl+Xg9FHsGYz6MYpNZaITw8VK0s3ITNtT8moVczy
- wq3sVMQuhG/lf1G64T80k1LjfPxZLEgmr/Ri61whcvXoVRIySEBOnKRFH8pnTfx+2E
- aDuVXV8RVOiIKKLUMTNscQS3B0Nkb5kFFmBbSP25xx4icmnsro4KcxlfWXmr4oT3UC
- DTs0PpiYiq7Tw==
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id v4noaiu2j1Z2; Mon, 14 Dec 2020 12:07:21 -0800 (PST)
-Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id CC9E73F2E392;
- Mon, 14 Dec 2020 12:07:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1607976438; bh=K/dnGbL6KdXY+xkFW0YSD6lvsulh4HeeZNJpZPFGyjc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=po7cFpmr3IvSqjD4oZPRT8cmajDRLewCAXzsGkSPr38FV9sb4alAq+46GSnltdr62
- N7iDS41HkbIfKxejRNEXJO4bUVuBEPKJdwBd9IR1KwGrGqb4gzr1RD0T3mVyaL8X1u
- bUse0ryvcbbCv01mYSZaJy/0AxE8E3sQjlgXumlYlqhb3ENJPmzpsVJpGudwMADNAD
- 9VpjqeUSbHdPiHYgmNdrksFml3zlcG17u4GZ7JHZLjY5OD+wRK1JuytygnTxhS1ZUS
- FlVKle7s/91a23fQ3lO9g4IAvfFZd5v5PRf9hhK9A8ScdBQ8B85IAeF2QtUi9T1XkT
- xr/lJXI2n9EYw==
-Received: by keithp.com (Postfix, from userid 1000)
- id 620B4158229C; Mon, 14 Dec 2020 12:07:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1kouNk-0000Tv-M5
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 15:23:44 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:52097)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1kouNi-0006dZ-3n
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 15:23:44 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id z12so7002759pjn.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 12:23:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S0WuH8TqiJA40G8DCzmQLw+nViHVVO8sxjmSX+Vtmrc=;
+ b=N2yxVIdkuEAZcJCtd7c3I1Rhux/UjFq0foQrVsp8NLD4jacmFZpqwMfhTWvQtIX5uP
+ jcUoQQRuFciU3+gWF2sle66M3EX6SkpTGcBPV7+EawVfGmWurAIP246qOgXlFiiiBQpD
+ aYc9C9Wqt5JEgo8a7vomGn26cjZYLcBe16V/xeOuL+z+A/+YLS5wLfxtyiLHk10j6gbt
+ l7niGScr3D+Mp9quLMgY4pBGtsFZhI6mXqY8WYSpRHMQGrdnowehBqPqHv6oSJ8r9np7
+ 26XAKU6QZOmxGqQXjzB7vU6bLhB+/VBCOCsOLWNJKtu5EoBkibuECXJQ30tjd0jfPc/j
+ N7rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S0WuH8TqiJA40G8DCzmQLw+nViHVVO8sxjmSX+Vtmrc=;
+ b=tHhBrgBOC1v+52mMr+9Agp79f9JuCG2FQJVizxyYF9rR/sfXUAz08jeYHdZg4iTf0g
+ jWNd5OunYxPrBLXtdwbixH3IhmpoKqjmb+8dKTGqFdnOy32sDsEmR4KdJZlH5D3YQj8o
+ g0o9c96a5P6mh3ngm32EV3mEivGXfE21JXzp0JFFv6hM807D39QMKGYHfiKrrlM4JUaO
+ ZYhpWhJWJcU63pAqooyaaROhfvL3EsM43KxkytjEPgLf35Y85BXKEa+jUQdtg/GDNneO
+ jydXlOuwOYwvT+cwKEz2eMi+KgNVqDj1mEkuqEINoZRpBNo5yf15h3aTLcpdqIcDLnGr
+ LRcA==
+X-Gm-Message-State: AOAM530aNwBKA7vF7LzLClq/1dVTKwVu1xVQyitQM0RaNAq5fSZAJePm
+ WN2x+P9WqWIYLe41O12rFoS/S9V/h9NLwBZWjQKnXpVXu5gJlF+SN9u3aIz3FSpdhU8mW3mbTe3
+ /kEzhbcP5IUrM+ekThfp+aHuFZDp/KbtAi4UumoMg4+nYmzX3jhXTt2dpv+k5V5bNKh6h3EjsQw
+ ==
+X-Google-Smtp-Source: ABdhPJyz1aZhPRwzvcrYh84euEN+K2t1JQ2xkiQmKRL8qIIJnSSZG41d1qAJ1T/xij1KwCCgYkIB2Q==
+X-Received: by 2002:a17:90a:4892:: with SMTP id
+ b18mr16265104pjh.64.1607977420445; 
+ Mon, 14 Dec 2020 12:23:40 -0800 (PST)
+Received: from cube.nuviainc.com (c-174-52-16-57.hsd1.ut.comcast.net.
+ [174.52.16.57])
+ by smtp.gmail.com with ESMTPSA id a141sm20927524pfa.189.2020.12.14.12.23.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Dec 2020 12:23:39 -0800 (PST)
+From: Rebecca Cran <rebecca@nuviainc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 9/9] semihosting: Implement SYS_ISERROR
-Date: Mon, 14 Dec 2020 12:07:13 -0800
-Message-Id: <20201214200713.3886611-10-keithp@keithp.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201214200713.3886611-1-keithp@keithp.com>
-References: <87wnxktost.fsf@linaro.org>
- <20201214200713.3886611-1-keithp@keithp.com>
+Subject: [PATCH 0/3] target/arm: add FEAT_TLBIOS and FEAT_TLBIRANGE support
+Date: Mon, 14 Dec 2020 13:23:26 -0700
+Message-Id: <20201214202329.26765-1-rebecca@nuviainc.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
- helo=elaine.keithp.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=rebecca@nuviainc.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,48 +84,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Keith Packard <keithp@keithp.com>,
- qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Rebecca Cran <rebecca@nuviainc.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Keith Packard <keithp@keithp.com>
-From: Keith Packard via <qemu-devel@nongnu.org>
 
-Part of Semihosting for AArch32 and AArch64 Release 2.0
+This series adds support for FEAT_TLBIOS and FEAT_TLBIRANGE, both of
+which are mandatory in ARMv8.4.
 
-Signed-off-by: Keith Packard <keithp@keithp.com>
----
- hw/semihosting/common-semi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Rebecca Cran (3):
+  target/arm: add FEAT_TLBIOS support
+  target/arm: add FEAT_TLBIRANGE support
+  target/arm: set ID_AA64ISAR0.TLB to 2 for max AARCH64 CPU type
 
-diff --git a/hw/semihosting/common-semi.c b/hw/semihosting/common-semi.c
-index b0648c3812..abc15bf219 100644
---- a/hw/semihosting/common-semi.c
-+++ b/hw/semihosting/common-semi.c
-@@ -59,6 +59,7 @@
- #define TARGET_SYS_WRITE       0x05
- #define TARGET_SYS_READ        0x06
- #define TARGET_SYS_READC       0x07
-+#define TARGET_SYS_ISERROR     0x08
- #define TARGET_SYS_ISTTY       0x09
- #define TARGET_SYS_SEEK        0x0a
- #define TARGET_SYS_FLEN        0x0c
-@@ -967,6 +968,9 @@ target_ulong do_common_semihosting(CPUState *cs)
-         return guestfd_fns[gf->type].readfn(cs, gf, arg1, len);
-     case TARGET_SYS_READC:
-         return qemu_semihosting_console_inc(cs->env_ptr);
-+    case TARGET_SYS_ISERROR:
-+        GET_ARG(0);
-+        return (target_long) arg0 < 0 ? 1 : 0;
-     case TARGET_SYS_ISTTY:
-         GET_ARG(0);
- 
+ accel/tcg/cputlb.c      |  24 ++
+ include/exec/exec-all.h |  39 +++
+ target/arm/cpu64.c      |   1 +
+ target/arm/helper.c     | 303 ++++++++++++++++++++
+ 4 files changed, 367 insertions(+)
+
 -- 
-2.29.2
+2.26.2
 
 
