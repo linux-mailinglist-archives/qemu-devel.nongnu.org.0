@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7695A2DA47F
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 01:02:27 +0100 (CET)
-Received: from localhost ([::1]:53574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7A42DA47A
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 01:00:55 +0100 (CET)
+Received: from localhost ([::1]:47862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koxnO-0005ZN-Iw
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 19:02:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43778)
+	id 1koxlu-000393-L9
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 19:00:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1koxfH-0003bM-DY
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 18:54:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28882)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1koxf7-0003T3-Mr
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 18:53:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1koxfE-0000vA-1D
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 18:54:03 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1koxf5-0000uB-KW
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 18:53:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607990039;
+ s=mimecast20190719; t=1607990030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aJzM+YFsGGiICyChAdCIr9PaT9MkF50o/yeU+bFKzDk=;
- b=flNaMewpq+qyCGLkQ0uxpBgiAhIkxDlm7tRbGpzpA7bkivncoF3Ay7053rdbh2ayJpR2I3
- VH6arpQEzDXXgL4FMuKrYppLgKoC1PY7RH8OAlZufROMxmyNCi7h32FLauXRJiLLrKNGF9
- sKxc5n08rtxp9rs8mXcFt4xlEYM2WrM=
+ bh=Z/i3u4Jqw+ltJl/CYpUVaD3HcCU59abT8EbOdb4TprE=;
+ b=JVTeWI3N3Tul9/dXqJYlDnt5yehleegQI0Uky+ja9M1JzDyawe35gavpQ0ZvJRAoKwvPrA
+ 4diPQUDfh3CTJLsrBNq6Udm7aZzoLvFaQF+z2b/a1mNZEQQ+MU/mP9nInE/jxP6f4FzOGt
+ Pn1PmLR+3YYHN1wBj6OwYiXNfzUHfx8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-yjNlUBl7PyaChM9dDOzYqA-1; Mon, 14 Dec 2020 18:53:47 -0500
-X-MC-Unique: yjNlUBl7PyaChM9dDOzYqA-1
+ us-mta-327-KO6a4wWePi2ztc_RSF24rA-1; Mon, 14 Dec 2020 18:53:49 -0500
+X-MC-Unique: KO6a4wWePi2ztc_RSF24rA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D44BC59
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 23:53:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E53F9CDA0
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 23:53:48 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-117.rdu2.redhat.com [10.10.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0FBA270484;
- Mon, 14 Dec 2020 23:53:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 09E0E70484;
+ Mon, 14 Dec 2020 23:53:46 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/12] qapi/schema: make QAPISourceInfo mandatory
-Date: Mon, 14 Dec 2020 18:53:23 -0500
-Message-Id: <20201214235327.1007124-9-jsnow@redhat.com>
+Subject: [PATCH 09/12] qapi/gen: move write method to QAPIGenC,
+ make fname a str
+Date: Mon, 14 Dec 2020 18:53:24 -0500
+Message-Id: <20201214235327.1007124-10-jsnow@redhat.com>
 In-Reply-To: <20201214235327.1007124-1-jsnow@redhat.com>
 References: <20201214235327.1007124-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,14 +56,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,179 +83,122 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---
+QAPIGenC and QAPIGenH in particular depend on fname being defined, but
+we have a usage of QAPIGenCCode that isn't intended to be associated
+with a particular file.
 
-events.py had an info to route, was it by choice that it wasn't before?
+No problem, move the write method down to the class that actually needs
+it, and keep QAPIGenCCode more abstract.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/events.py |  2 +-
- scripts/qapi/schema.py | 23 +++++++++++++----------
- scripts/qapi/types.py  |  9 +++++----
- scripts/qapi/visit.py  |  6 +++---
- 4 files changed, 22 insertions(+), 18 deletions(-)
+ scripts/qapi/commands.py |  2 +-
+ scripts/qapi/gen.py      | 54 ++++++++++++++++++++--------------------
+ 2 files changed, 28 insertions(+), 28 deletions(-)
 
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 9851653b9d11..9ba4f109028d 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -225,7 +225,7 @@ def visit_event(self,
-                                           self._event_emit_name))
-         # Note: we generate the enum member regardless of @ifcond, to
-         # keep the enumeration usable in target-independent code.
--        self._event_enum_members.append(QAPISchemaEnumMember(name, None))
-+        self._event_enum_members.append(QAPISchemaEnumMember(name, info))
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 71744f48a353..b346676d15a0 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -258,7 +258,7 @@ def __init__(self, prefix: str):
+         super().__init__(
+             prefix, 'qapi-commands',
+             ' * Schema-defined QAPI/QMP commands', None, __doc__)
+-        self._regy = QAPIGenCCode(None)
++        self._regy = QAPIGenCCode()
+         self._visited_ret_types: Dict[QAPIGenC, Set[QAPISchemaType]] = {}
+ 
+     def _begin_user_module(self, name: str) -> None:
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index 17ae9f4af703..b2c89213d838 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -36,8 +36,7 @@
  
  
- def gen_events(schema: QAPISchema,
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 720449feee4d..d5f19732b516 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -23,6 +23,7 @@
- from .error import QAPIError, QAPISemError
- from .expr import check_exprs
- from .parser import QAPISchemaParser
-+from .source import QAPISourceInfo
+ class QAPIGen:
+-    def __init__(self, fname: Optional[str]):
+-        self.fname = fname
++    def __init__(self) -> None:
+         self._preamble = ''
+         self._body = ''
+ 
+@@ -58,28 +57,6 @@ def _bottom(self) -> str:
+         # pylint: disable=no-self-use
+         return ''
+ 
+-    def write(self, output_dir: str) -> None:
+-        # Include paths starting with ../ are used to reuse modules of the main
+-        # schema in specialised schemas. Don't overwrite the files that are
+-        # already generated for the main schema.
+-        if self.fname.startswith('../'):
+-            return
+-        pathname = os.path.join(output_dir, self.fname)
+-        odir = os.path.dirname(pathname)
+-
+-        if odir:
+-            os.makedirs(odir, exist_ok=True)
+-
+-        # use os.open for O_CREAT to create and read a non-existant file
+-        fd = os.open(pathname, os.O_RDWR | os.O_CREAT, 0o666)
+-        with os.fdopen(fd, 'r+', encoding='utf-8') as fp:
+-            text = self.get_content()
+-            oldtext = fp.read(len(text) + 1)
+-            if text != oldtext:
+-                fp.seek(0)
+-                fp.truncate(0)
+-                fp.write(text)
+-
+ 
+ def _wrap_ifcond(ifcond: List[str], before: str, after: str) -> str:
+     if before == after:
+@@ -121,8 +98,8 @@ def build_params(arg_type: Optional[QAPISchemaObjectType],
  
  
- class QAPISchemaEntity:
-@@ -36,10 +37,10 @@ def __init__(self, name, info, doc, ifcond=None, features=None):
-         self.name = name
-         self._module = None
-         # For explicitly defined entities, info points to the (explicit)
--        # definition.  For builtins (and their arrays), info is None.
--        # For implicitly defined entities, info points to a place that
--        # triggered the implicit definition (there may be more than one
--        # such place).
-+        # definition.  For builtins (and their arrays), info is a null-object
-+        # sentinel that evaluates to False. For implicitly defined entities,
-+        # info points to a place that triggered the implicit definition
-+        # (there may be more than one such place).
-         self.info = info
-         self.doc = doc
-         self._ifcond = ifcond or []
-@@ -209,7 +210,7 @@ class QAPISchemaBuiltinType(QAPISchemaType):
-     meta = 'built-in'
+ class QAPIGenCCode(QAPIGen):
+-    def __init__(self, fname: Optional[str]):
+-        super().__init__(fname)
++    def __init__(self) -> None:
++        super().__init__()
+         self._start_if: Optional[Tuple[List[str], str, str]] = None
  
-     def __init__(self, name, json_type, c_type):
--        super().__init__(name, None, None)
-+        super().__init__(name, QAPISourceInfo.builtin(), None)
-         assert not c_type or isinstance(c_type, str)
-         assert json_type in ('string', 'number', 'int', 'boolean', 'null',
-                              'value')
-@@ -871,7 +872,7 @@ def resolve_type(self, name, info, what):
-         return typ
+     def start_if(self, ifcond: List[str]) -> None:
+@@ -147,11 +124,34 @@ def get_content(self) -> str:
  
-     def _module_name(self, fname):
--        if fname is None:
-+        if not fname:
-             return None
-         return os.path.relpath(fname, self._schema_dir)
+ class QAPIGenC(QAPIGenCCode):
+     def __init__(self, fname: str, blurb: str, pydoc: str):
+-        super().__init__(fname)
++        super().__init__()
++        self.fname = fname
+         self._blurb = blurb
+         self._copyright = '\n * '.join(re.findall(r'^Copyright .*', pydoc,
+                                                   re.MULTILINE))
  
-@@ -897,9 +898,11 @@ def _def_builtin_type(self, name, json_type, c_type):
-         # be nice, but we can't as long as their generated code
-         # (qapi-builtin-types.[ch]) may be shared by some other
-         # schema.
--        self._make_array_type(name, None)
-+        self._make_array_type(name, QAPISourceInfo.builtin())
- 
-     def _def_predefineds(self):
-+        info = QAPISourceInfo.builtin()
++    def write(self, output_dir: str) -> None:
++        # Include paths starting with ../ are used to reuse modules of the main
++        # schema in specialised schemas. Don't overwrite the files that are
++        # already generated for the main schema.
++        if self.fname.startswith('../'):
++            return
++        pathname = os.path.join(output_dir, self.fname)
++        odir = os.path.dirname(pathname)
 +
-         for t in [('str',    'string',  'char' + POINTER_SUFFIX),
-                   ('number', 'number',  'double'),
-                   ('int',    'int',     'int64_t'),
-@@ -917,15 +920,15 @@ def _def_predefineds(self):
-                   ('null',   'null',    'QNull' + POINTER_SUFFIX)]:
-             self._def_builtin_type(*t)
-         self.the_empty_object_type = QAPISchemaObjectType(
--            'q_empty', None, None, None, None, None, [], None)
-+            'q_empty', info, None, None, None, None, [], None)
-         self._def_entity(self.the_empty_object_type)
- 
-         qtypes = ['none', 'qnull', 'qnum', 'qstring', 'qdict', 'qlist',
-                   'qbool']
-         qtype_values = self._make_enum_members(
--            [{'name': n} for n in qtypes], None)
-+            [{'name': n} for n in qtypes], info)
- 
--        self._def_entity(QAPISchemaEnumType('QType', None, None, None, None,
-+        self._def_entity(QAPISchemaEnumType('QType', info, None, None, None,
-                                             qtype_values, 'QTYPE'))
- 
-     def _make_features(self, features, info):
-diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
-index 2b4916cdaa1b..a3a16284006b 100644
---- a/scripts/qapi/types.py
-+++ b/scripts/qapi/types.py
-@@ -71,7 +71,8 @@ def gen_enum(name: str,
-              members: List[QAPISchemaEnumMember],
-              prefix: Optional[str] = None) -> str:
-     # append automatically generated _MAX value
--    enum_members = members + [QAPISchemaEnumMember('_MAX', None)]
-+    enum_members = members + [
-+        QAPISchemaEnumMember('_MAX', QAPISourceInfo.builtin())]
- 
-     ret = mcgen('''
- 
-@@ -306,7 +307,7 @@ def _gen_type_cleanup(self, name: str) -> None:
- 
-     def visit_enum_type(self,
-                         name: str,
--                        info: Optional[QAPISourceInfo],
-+                        info: QAPISourceInfo,
-                         ifcond: List[str],
-                         features: List[QAPISchemaFeature],
-                         members: List[QAPISchemaEnumMember],
-@@ -317,7 +318,7 @@ def visit_enum_type(self,
- 
-     def visit_array_type(self,
-                          name: str,
--                         info: Optional[QAPISourceInfo],
-+                         info: QAPISourceInfo,
-                          ifcond: List[str],
-                          element_type: QAPISchemaType) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-@@ -327,7 +328,7 @@ def visit_array_type(self,
- 
-     def visit_object_type(self,
-                           name: str,
--                          info: Optional[QAPISourceInfo],
-+                          info: QAPISourceInfo,
-                           ifcond: List[str],
-                           features: List[QAPISchemaFeature],
-                           base: Optional[QAPISchemaObjectType],
-diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
-index 339f1521524c..3f49c307c566 100644
---- a/scripts/qapi/visit.py
-+++ b/scripts/qapi/visit.py
-@@ -336,7 +336,7 @@ def _begin_user_module(self, name: str) -> None:
- 
-     def visit_enum_type(self,
-                         name: str,
--                        info: QAPISourceInfo,
-+                        info: Optional[QAPISourceInfo],
-                         ifcond: List[str],
-                         features: List[QAPISchemaFeature],
-                         members: List[QAPISchemaEnumMember],
-@@ -347,7 +347,7 @@ def visit_enum_type(self,
- 
-     def visit_array_type(self,
-                          name: str,
--                         info: Optional[QAPISourceInfo],
-+                         info: QAPISourceInfo,
-                          ifcond: List[str],
-                          element_type: QAPISchemaType) -> None:
-         with ifcontext(ifcond, self._genh, self._genc):
-@@ -356,7 +356,7 @@ def visit_array_type(self,
- 
-     def visit_object_type(self,
-                           name: str,
--                          info: Optional[QAPISourceInfo],
-+                          info: QAPISourceInfo,
-                           ifcond: List[str],
-                           features: List[QAPISchemaFeature],
-                           base: Optional[QAPISchemaObjectType],
++        if odir:
++            os.makedirs(odir, exist_ok=True)
++
++        # use os.open for O_CREAT to create and read a non-existant file
++        fd = os.open(pathname, os.O_RDWR | os.O_CREAT, 0o666)
++        with os.fdopen(fd, 'r+', encoding='utf-8') as fp:
++            text = self.get_content()
++            oldtext = fp.read(len(text) + 1)
++            if text != oldtext:
++                fp.seek(0)
++                fp.truncate(0)
++                fp.write(text)
++
+     def _top(self) -> str:
+         return mcgen('''
+ /* AUTOMATICALLY GENERATED, DO NOT MODIFY */
 -- 
 2.26.2
 
