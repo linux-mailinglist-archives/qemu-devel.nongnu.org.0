@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D122D9BD1
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:08:24 +0100 (CET)
-Received: from localhost ([::1]:37400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 599942D9BD0
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:08:15 +0100 (CET)
+Received: from localhost ([::1]:36980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koqOe-0003YU-0L
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:08:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34290)
+	id 1koqOU-0003Lq-50
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:08:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koqEd-0007vs-D7; Mon, 14 Dec 2020 10:58:03 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:60839)
+ id 1koqEh-00080x-8z; Mon, 14 Dec 2020 10:58:07 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:50781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koqEV-0001RJ-5E; Mon, 14 Dec 2020 10:58:03 -0500
+ id 1koqEX-0001Rp-4q; Mon, 14 Dec 2020 10:58:07 -0500
 Received: from localhost.localdomain ([82.252.135.218]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MTiLj-1kgxqV14Yf-00Tz8M; Mon, 14 Dec 2020 16:57:50 +0100
+ id 1MjSDU-1kPynE3hs2-00kxt7; Mon, 14 Dec 2020 16:57:51 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/19] configure / meson: Move check for drm.h to meson.build
-Date: Mon, 14 Dec 2020 16:57:30 +0100
-Message-Id: <20201214155733.207430-17-laurent@vivier.eu>
+Subject: [PULL 17/19] configure / meson: Move check for sys/signal.h to
+ meson.build
+Date: Mon, 14 Dec 2020 16:57:31 +0100
+Message-Id: <20201214155733.207430-18-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214155733.207430-1-laurent@vivier.eu>
 References: <20201214155733.207430-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:UvWVOTuKr20VfvZJVASlkISSmLvGBtnXcwPv3Dlyxw9oWILiQxZ
- rCDz1ICJgU2IyJzQATYqcynDP3wD2Bk9nBd7K7lh5wZ6VpAFhYwKCiQDxkXI58q22qgz0Xj
- MbzWj8xWE6s4Mf3zKxgelsVSQF4ZL/y6rZ1HFsfvMdcQVR00XwsxJ15pa3ae5muw+putUSV
- xMTg9uTXZ6Hqh4nMX7A9A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wPZGeL3OaBc=:u/US9yroeaHwdgIarmQ9Gy
- u/WuDnnHNSDBQjYuJz4N7Vaxmdlo/KM6IS8wOCJbCykSg/kJWFuvlIWsCxt/Tu4p+2teiLkfR
- obBeWrJwcZ6K60PfAnI/8yaUy7AepJc8X6ndSvSpxbadZUCjVUzMQ/ONLrS/KyGUEtSu8uBOm
- 1epEGibAM6DDK4tY9QS/nH/+resIDrYelgnQu4D4pYP4zms6Tt69l9kGx/w7e7s08mR5rbbNq
- GsMeAv77/aq2rEN7Ne9gjxH3i1bcbu2nFt1twsMImYZuQC7mKZ5SN9OXHxC2sBS4Yb65Y/C1F
- 91cP+sMPBm97UmMKUdp6h9IukoS3yD0DvcQIETyrLI6Ux3VhOtwXtwTB+Qm0ffoNBOO8UHhF7
- MQL9phDBtrqae/KbmZbb3tcR2050zvtUTR+SYzNPKlyh+glkn3/+yoSBF6tZIFvizwK4/baJk
- 5TipyMw30g==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:U+sLFcYb/yAKwqzvYeU0betj4us0/md4m36iyOZmM02GhP7r+oR
+ pkFf+88GHVvpRsYLOBes7/LFwr7LntVE4WIHxhNtt3vZJb5zOWDSYDRs0NbOabunNxY+aDc
+ SLmfj47hh18E/x5T2/a2fQe9nIBWHO+yrSA+v+I3oH3rfI01U1vR0REZLii5gFgY4emWH8b
+ aYkAH1tB7JwvrlXMl3Ytg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gVEz/gI4gcg=:Z5iptEpOJN1HMNMi25bLz6
+ GtjUr7iPSsZeWGrGeG9JqTICuz7QlQCmSnjMSf8gZrcou3+59h4aPZLmqFfO6BjDw9cbqDM3Y
+ F0apfGrAZAf+SwCQ+ojFIwYKhmtgjVYEeyxt9FZPIMsi4nHzmXjVVKGGFFHuNn/dX1gqulxsh
+ GPbSjmlOX0NZMXU3vGfmnOYiOKuDivPjvY0S0wS55mzUKfexRvz20aG8O6NhLfyyqoRLt+enz
+ 3p45kmTOrLIyl08Qw9nsCSz8cnCdxX8LVW/CsIZoUwLgmdLKl18WZsOpCefL7WcZyZGvLHAb+
+ 5fue/hRU6qILWOMsOrP5jLLYjfMizMItgk64kKRs0lcz8sv6mE1AVPyQMP1k38XAbGF36YF6C
+ CZed3sI8knPV+/j1BfVXLGI/gXI8mlbJvKxfdTyGUMTA1wkSHEp7b2rjHCWcLWc0oTY8/cgDb
+ 8tPApq4isw==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -78,7 +79,7 @@ This check can be done in a much shorter way in meson.build
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201118171052.308191-4-thuth@redhat.com>
+Message-Id: <20201118171052.308191-5-thuth@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
  configure   | 10 ----------
@@ -86,7 +87,7 @@ Signed-off-by: Laurent Vivier <laurent@vivier.eu>
  2 files changed, 1 insertion(+), 10 deletions(-)
 
 diff --git a/configure b/configure
-index 39e61b275806..ec2fae9e09c0 100755
+index ec2fae9e09c0..4f0f9c99d3d2 100755
 --- a/configure
 +++ b/configure
 @@ -3101,13 +3101,6 @@ EOF
@@ -94,37 +95,37 @@ index 39e61b275806..ec2fae9e09c0 100755
  fi
  
 -#########################################
--# libdrm check
--have_drm_h=no
--if check_include "libdrm/drm.h" ; then
--    have_drm_h=yes
+-# sys/signal.h check
+-have_sys_signal_h=no
+-if check_include "sys/signal.h" ; then
+-  have_sys_signal_h=yes
 -fi
 -
- #########################################
- # sys/signal.h check
- have_sys_signal_h=no
-@@ -6205,9 +6198,6 @@ fi
- if test "$auth_pam" = "yes" ; then
-     echo "CONFIG_AUTH_PAM=y" >> $config_host_mak
+ ##########################################
+ # VTE probe
+ 
+@@ -6204,9 +6197,6 @@ fi
+ if test "$have_openpty" = "yes" ; then
+     echo "HAVE_OPENPTY=y" >> $config_host_mak
  fi
--if test "$have_drm_h" = "yes" ; then
--  echo "HAVE_DRM_H=y" >> $config_host_mak
+-if test "$have_sys_signal_h" = "yes" ; then
+-    echo "HAVE_SYS_SIGNAL_H=y" >> $config_host_mak
 -fi
- if test "$have_broken_size_max" = "yes" ; then
-     echo "HAVE_BROKEN_SIZE_MAX=y" >> $config_host_mak
- fi
+ 
+ # Work around a system header bug with some kernel/XFS header
+ # versions where they both try to define 'struct fsxattr':
 diff --git a/meson.build b/meson.build
-index ef053c98376d..fc7ae6f86826 100644
+index fc7ae6f86826..a790cc527cf9 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -836,6 +836,7 @@ config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0]
- config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
- config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2])
- 
-+config_host_data.set('HAVE_DRM_H', cc.has_header('libdrm/drm.h'))
+@@ -839,6 +839,7 @@ config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2]
+ config_host_data.set('HAVE_DRM_H', cc.has_header('libdrm/drm.h'))
  config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
  config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
++config_host_data.set('HAVE_SYS_SIGNAL_H', cc.has_header('sys/signal.h'))
  
+ ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
+ arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
 -- 
 2.29.2
 
