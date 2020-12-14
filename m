@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFBEC2D9CF5
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:53:08 +0100 (CET)
-Received: from localhost ([::1]:33018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 085A02D9CFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:53:47 +0100 (CET)
+Received: from localhost ([::1]:34556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kor5v-0007KU-In
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:53:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48278)
+	id 1kor6Y-0007zr-32
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:53:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kor4R-0006K2-PW
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:51:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23920)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kor4P-0002UA-QA
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:51:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607964692;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A72Th0EBzdWevELpcsCRVHitaUekrAGMryjv4g4EB18=;
- b=brAoAQIJdcX5mHkw8U8xJ2kmKdYY+S+E6QjDua8xfyUfpOo4EWV1d3cx/ozXop4kBTRvJO
- 0irzPZjTzidDtCBOK/dohGGRzii2uP24p3zQhi2aepBSLwyNEq4svrX29DehDMnRYwVwgh
- 8LUKSdPGeD03xeGEhrCmB9rE7NHDHvU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-DRMjPBgGN2aSoxjlAeiN1A-1; Mon, 14 Dec 2020 11:51:29 -0500
-X-MC-Unique: DRMjPBgGN2aSoxjlAeiN1A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7515719611B7;
- Mon, 14 Dec 2020 16:51:19 +0000 (UTC)
-Received: from gondolin (ovpn-113-171.ams2.redhat.com [10.36.113.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3659560BE2;
- Mon, 14 Dec 2020 16:50:24 +0000 (UTC)
-Date: Mon, 14 Dec 2020 17:50:22 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [for-6.0 v5 07/13] sev: Add Error ** to sev_kvm_init()
-Message-ID: <20201214175022.04098f42.cohuck@redhat.com>
-In-Reply-To: <20201204054415.579042-8-david@gibson.dropbear.id.au>
-References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <20201204054415.579042-8-david@gibson.dropbear.id.au>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <tom.ty89@gmail.com>)
+ id 1kor4F-0006B4-BR
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:51:23 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:34085)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tom.ty89@gmail.com>)
+ id 1kor4D-0002Rz-Jl
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:51:23 -0500
+Received: by mail-pg1-x541.google.com with SMTP id g18so12846320pgk.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 08:51:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZN2QWRJBVVOnGYI5o5DsHSj5B6A++45RfDhC+dNBiww=;
+ b=vdfPgMWri1KGUb68JzaLTTmzHIBG1Ij6JMaWZ6ws+IrsWKBRnrw1WXUUTQjwTqMv1Z
+ dJ9gpXQkMTbLiSIG15F2K3qiFtySOeiPXpXq4kDJC+SObK/8DLxzO9Wt6o1YEk0SRY8a
+ ztHD/SYZkhzgZqx2hRLXEQ+gTq6AwvX7p5WTnUpk7H6qbE0VWj1Zn1b3FwxzCMqqKraW
+ VhNIZ4oCD5obwpWWGJkXnOgHpQHaPq3x3J8vYqRmHAiKnzZDT6Xputd6uBLAUqYeQEeV
+ DfL4OGCU/2ARTRQ73NEmIg9NIcbw8JLKzJxc+leZ2jdyPjNCunQD8klX7a42Izj7BD+f
+ 58AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZN2QWRJBVVOnGYI5o5DsHSj5B6A++45RfDhC+dNBiww=;
+ b=T2ZeZgW6xb5YhiQ8Dq9B5k9BBezfW5jSk/qt6niJKJKBET9YB5KoSlz02CEfisp13x
+ gpx1pJcJALhE8uXUlF3YEBE3jU3o60P3nreM5p14PL1dvHkLzzXrd7G+9LUo80eiRvPt
+ HIG6QWjeApV7qLr4/Yj7LOf3hQqmSOuD4LUq0YCGK6JJOjfiOyuzup8exWPzmoaeKGS5
+ jnCy1sQ5Vx+0UXoDb6c9ScGny18rQwoXvNpkQeyFrfvMF4g366mFuNeWMrzFqyzcd6yi
+ Gvt9pYky/6YrFv44YI+uV6fNnKE8FXovdvaLjmV8ZjszS6BZXMDikDFtXhQIW3n+oHs9
+ QrQw==
+X-Gm-Message-State: AOAM53156cn5lRDiMq3IUVDFMm185bZlkXqohf1WLxWwhgLqQRE7682X
+ W+qNiU4bdxg9NDkGANbMPyb6W3SKZK4=
+X-Google-Smtp-Source: ABdhPJy3yWoN8bTKfPW/s/TmqRmp8O81BZJkQYCKlZOY0xsaEma/O0uTOF3zTioTDSo2BV7ilayomQ==
+X-Received: by 2002:a63:171b:: with SMTP id x27mr25299049pgl.70.1607964679413; 
+ Mon, 14 Dec 2020 08:51:19 -0800 (PST)
+Received: from archlinux.. ([161.81.68.216])
+ by smtp.gmail.com with ESMTPSA id y24sm19858311pfe.42.2020.12.14.08.51.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Dec 2020 08:51:18 -0800 (PST)
+From: Tom Yan <tom.ty89@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] virtio-blk: change default config-wce to false
+Date: Tue, 15 Dec 2020 00:51:11 +0800
+Message-Id: <20201214165111.5653-1-tom.ty89@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=tom.ty89@gmail.com; helo=mail-pg1-x541.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,34 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- frankja@linux.ibm.com, david@redhat.com, mdroth@linux.vnet.ibm.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
- qemu-s390x@nongnu.org, rth@twiddle.net, berrange@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- pbonzini@redhat.com
+Cc: Tom Yan <tom.ty89@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  4 Dec 2020 16:44:09 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+This would allow `cache=` to be respected when `if=virtio` is used
+(instead of `-device virtio-blk-pci`). Since `cache=writeback` is
+the default, this does not cause a change in the default behavior.
 
-> This allows failures to be reported richly and idiomatically.
->=20
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  accel/kvm/kvm-all.c  |  4 +++-
->  accel/kvm/sev-stub.c |  5 +++--
->  include/sysemu/sev.h |  2 +-
->  target/i386/sev.c    | 31 +++++++++++++++----------------
->  4 files changed, 22 insertions(+), 20 deletions(-)
+Also, when `config-wce` is true, `cache.writeback` is still overriden.
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Tom Yan <tom.ty89@gmail.com>
+---
+ hw/block/virtio-blk.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index bac2d6fa2b..0c2ecd22bc 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -1284,7 +1284,7 @@ static Property virtio_blk_properties[] = {
+     DEFINE_BLOCK_CHS_PROPERTIES(VirtIOBlock, conf.conf),
+     DEFINE_PROP_STRING("serial", VirtIOBlock, conf.serial),
+     DEFINE_PROP_BIT64("config-wce", VirtIOBlock, host_features,
+-                      VIRTIO_BLK_F_CONFIG_WCE, true),
++                      VIRTIO_BLK_F_CONFIG_WCE, false),
+ #ifdef __linux__
+     DEFINE_PROP_BIT64("scsi", VirtIOBlock, host_features,
+                       VIRTIO_BLK_F_SCSI, false),
+-- 
+2.29.2
 
 
