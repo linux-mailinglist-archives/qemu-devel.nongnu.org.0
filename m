@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46F52DA0C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 20:44:48 +0100 (CET)
-Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8622DA117
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 21:09:19 +0100 (CET)
+Received: from localhost ([::1]:49090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kotm3-0000WG-Eu
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 14:44:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60830)
+	id 1kou9l-0002MR-Bf
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 15:09:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kotkD-0007Jo-8q
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 14:42:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25238)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kotkA-00014N-Vs
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 14:42:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607974969;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iwfKQMP6+l/89gcfuyKAB5Z5Qqd8mCTMSdvnSirfnak=;
- b=H/QsRpv3OR3cuI7mp9MdPQiOgInlfYDKiydKnYIOKJUUj+hYryT7Jxqbaxso+b5u84lcP5
- hDa95infxy5Mv9rAftQq3cMVG9FqpXee8NLa97ybKB+AZXQWVfWfvPxv6CTfvG1B+385Nf
- 3GYzEqHLLuu7w566ae1WBmw6OpenmX0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-dlCY86NiP7mp6PvZHj3qqg-1; Mon, 14 Dec 2020 14:42:45 -0500
-X-MC-Unique: dlCY86NiP7mp6PvZHj3qqg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E76D5EC1A0;
- Mon, 14 Dec 2020 19:42:43 +0000 (UTC)
-Received: from localhost (ovpn-116-160.rdu2.redhat.com [10.10.116.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1060213470;
- Mon, 14 Dec 2020 19:42:39 +0000 (UTC)
-Date: Mon, 14 Dec 2020 14:42:38 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 00/32] qdev property code cleanup
-Message-ID: <20201214194238.GP1289986@habkost.net>
-References: <20201211220529.2290218-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
+ id 1kou7Y-0000mE-I3; Mon, 14 Dec 2020 15:07:00 -0500
+Received: from home.keithp.com ([63.227.221.253]:51690 helo=elaine.keithp.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
+ id 1kou7V-0004CX-Si; Mon, 14 Dec 2020 15:07:00 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by elaine.keithp.com (Postfix) with ESMTP id E8C733F2D6F1;
+ Mon, 14 Dec 2020 12:06:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1607976411; bh=5V1bigVxEuJjLuQkNQxMsgsuiXxEmEsEJ6n2ArsDgqY=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=jk4jsl8V3FqSP0VOUIKVDyaVRQOGUI0OYEbX40mZvsrTl5vmcIpJiYjypfNp2hyFC
+ jvioZ/GVrrUY2CwT5QmhBeMKnYqC2b05o08WchRqPn83FOngcedSQoB7Md/dHkKAnY
+ iVHWxghoaF+MPRp7y8lTeX8zkA9buHinf+hLciBeVzYJoP4vspRRcfWDe4N+vVbhnE
+ xmStgMpIGIa5kBIe6bD1xqTncTRhEeorLI9FzO8jQh6hmYTQG/pBg8ZH+a1WcaYMqE
+ aFsVTY4W0cT/Sw0w84N+vxYhcm3fZmIGlw2N/jKmSiGBLRoY/NI+fRjHecGP0IBZmx
+ CGM40OtehjQxg==
+X-Virus-Scanned: Debian amavisd-new at keithp.com
+Received: from elaine.keithp.com ([127.0.0.1])
+ by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id Z0Yuyjx_olgg; Mon, 14 Dec 2020 12:06:51 -0800 (PST)
+Received: from keithp.com (koto.keithp.com [10.0.0.2])
+ by elaine.keithp.com (Postfix) with ESMTPSA id 874F53F2D6D3;
+ Mon, 14 Dec 2020 12:06:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1607976411; bh=5V1bigVxEuJjLuQkNQxMsgsuiXxEmEsEJ6n2ArsDgqY=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=jk4jsl8V3FqSP0VOUIKVDyaVRQOGUI0OYEbX40mZvsrTl5vmcIpJiYjypfNp2hyFC
+ jvioZ/GVrrUY2CwT5QmhBeMKnYqC2b05o08WchRqPn83FOngcedSQoB7Md/dHkKAnY
+ iVHWxghoaF+MPRp7y8lTeX8zkA9buHinf+hLciBeVzYJoP4vspRRcfWDe4N+vVbhnE
+ xmStgMpIGIa5kBIe6bD1xqTncTRhEeorLI9FzO8jQh6hmYTQG/pBg8ZH+a1WcaYMqE
+ aFsVTY4W0cT/Sw0w84N+vxYhcm3fZmIGlw2N/jKmSiGBLRoY/NI+fRjHecGP0IBZmx
+ CGM40OtehjQxg==
+Received: by keithp.com (Postfix, from userid 1000)
+ id 67DC315820DB; Mon, 14 Dec 2020 12:06:51 -0800 (PST)
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH 0/8] Add RISC-V semihosting 0.2. Finish ARM semihosting 2.0
+In-Reply-To: <87wnxktost.fsf@linaro.org>
+References: <20201125213617.2496935-1-keithp@keithp.com>
+ <873608vde9.fsf@linaro.org> <87wnxktost.fsf@linaro.org>
+Date: Mon, 14 Dec 2020 12:06:50 -0800
+Message-ID: <87sg88kv8l.fsf@keithp.com>
 MIME-Version: 1.0
-In-Reply-To: <20201211220529.2290218-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
+ helo=elaine.keithp.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,64 +77,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Keith Packard <keithp@keithp.com>
+From: Keith Packard via <qemu-devel@nongnu.org>
 
-On Fri, Dec 11, 2020 at 05:04:57PM -0500, Eduardo Habkost wrote:
-> This code contains the first 32 patches from the series:
-> 
->   Subject: [PATCH v3 00/53] Make qdev static property API usable by any QOM type
->   https://lore.kernel.org/qemu-devel/20201112214350.872250-1-ehabkost@redhat.com
-> 
-> I'm submitting this separately so we can merge the qdev-specific
-> cleanup while we discuss our long term plans for QOM properties.
-> 
-> Eduardo Habkost (32):
->   cs4231: Get rid of empty property array
->   cpu: Move cpu_common_props to hw/core/cpu.c
->   qdev: Move property code to qdev-properties.[ch]
->   qdev: Check dev->realized at set_size()
->   sparc: Check dev->realized at sparc_set_nwindows()
->   qdev: Don't use dev->id on set_size32() error message
->   qdev: Make PropertyInfo.print method get Object* argument
->   qdev: Make bit_prop_set() get Object* argument
->   qdev: Make qdev_get_prop_ptr() get Object* arg
->   qdev: Make qdev_find_global_prop() get Object* argument
->   qdev: Make check_prop_still_unset() get Object* argument
->   qdev: Make error_set_from_qdev_prop_error() get Object* argument
->   qdev: Make qdev_propinfo_get_uint16() static
->   qdev: Move UUID property to qdev-properties-system.c
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-I'm queueing patches 1-14 (above) on machine-next.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
->   qdev: Move softmmu properties to qdev-properties-system.h
->   qdev: Reuse DEFINE_PROP in all DEFINE_PROP_* macros
->   sparc: Use DEFINE_PROP for nwindows property
->   qdev: Get just property name at error_set_from_qdev_prop_error()
->   qdev: Avoid using prop->name unnecessarily
->   qdev: Add name parameter to qdev_class_add_property()
->   qdev: Add name argument to PropertyInfo.create method
->   qdev: Wrap getters and setters in separate helpers
->   qdev: Move dev->realized check to qdev_property_set()
->   qdev: Make PropertyInfo.create return ObjectProperty*
->   qdev: Make qdev_class_add_property() more flexible
->   qdev: Separate generic and device-specific property registration
->   qdev: Rename qdev_propinfo_* to field_prop_*
->   qdev: Move qdev_prop_tpm declaration to tpm_prop.h
->   qdev: Rename qdev_prop_* to prop_info_*
->   qdev: Rename qdev_get_prop_ptr() to object_field_prop_ptr()
->   qdev: Avoid unnecessary DeviceState* variable at set_prop_arraylen()
->   tests: Add unit test for qdev array properties
-> 
+> Hmm scratch that... it fails in a number of linux-user only builds with:
+>
+>   /usr/bin/ld: libqemu-aarch64_be-linux-user.fa.p/linux-user_aarch64_cpu_=
+loop.c.o: in function `cpu_loop':
+>   /builds/stsquad/qemu/build/../linux-user/aarch64/cpu_loop.c:133: undefi=
+ned reference to `do_common_semihosting'
+>   collect2: error: ld returned 1 exit status
+>   [651/2871] Compiling C object libqemu-alpha-linux-user.fa.p/target_alph=
+a_translate.c.o
+>   ninja: build stopped: subcommand failed.
 
--- 
-Eduardo
+I missed changing default-configs/targets/aarch64_be-linux-user.mak.
 
+>   https://gitlab.com/stsquad/qemu/-/pipelines/229443833/failures
+
+Some of these were caused by a missing explicit cast to Int128, which is
+needed on hosts without compiler support for 128-bit ints. The rest
+app to have been the same problem with aarch64_be-linux-user.
+
+> On the next re-spin could you include Kito Cheng's patch for linux-user
+> support and also drop the version numbering from the commit titles so I
+> don't have to file them off again.
+
+Yup, all done. Thanks much for the review and for getting these tests
+run. I've rebased on current master and fixed the problems identified
+above.
+
+=2D-=20
+=2Dkeith
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl/XxdsACgkQ2yIaaQAA
+ABGi0xAAoCmjzGuCvpEWqx3i6M0Nsozlz/xkU1y3XzHlRyXa/xwTXGD+yHofWIlb
+wRwkhTTJXymAKhUJJe9NR3uQvdqNMnyIGD7+5+RRA6KyCr3wqRh5opU6IYCSPNa6
+Ndfp16Z0EJLf5DBT+yHywR9HAeTNrwWi0pWx/9obSrbTT4KjDx0B2x2mO7mAGTZ9
+cm8s1Un4X+KsiI2AHRA/AF9irp4oOxGg+QRY7uBeZtY/fZUp4PayN1xzWoh6aNl/
+mDtARbwxiDiRDrUyKg5c4rAfzMrPmN85Ixp5JIsrYuI6c/HyLW6F7U3GrBQrKIXu
+9cX+eVPQ/PtCd9RZszSCUmcz+F7Rf0HyOCTPXlpzIvBctOGoVAOne27/NgmFrIYM
+prbuJVRI97UdAaoZReSRyORaiKQMrm/lLp5qwiwz2y9nVMwSMECH8yvJO+ZncjrU
+4taIhXUsvwEjaY/zlFAKol9q+yeHfRIC3BFUB23+7jpwDvuYmRyIdCXEWSObklDa
+FD8mIe2dg9qlRYh2oY5wbsE+MJmW+UuojUqDcVfAhb3SXUbJUdrXIzRwCHIrLo+B
+HRT/9bhN3JmOEmVq7U07Ib0vgc7Ka9h6r3b9hasrM6iLdp05Mhe532VVSHp7r5Le
+becy3SLndwQ8V+ojUzS8nOzmnbOuh076n3X1ZO8KPf8SOlyJhHQ=
+=9MMN
+-----END PGP SIGNATURE-----
+--=-=-=--
 
