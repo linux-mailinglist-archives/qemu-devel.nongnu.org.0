@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FEA72DA33B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 23:20:57 +0100 (CET)
-Received: from localhost ([::1]:52870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B84712DA31B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 23:16:26 +0100 (CET)
+Received: from localhost ([::1]:41254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kowDA-0006yx-5N
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 17:20:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48644)
+	id 1kow8n-0002BX-RD
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 17:16:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kow6Z-0000BX-EQ
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:14:07 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:33686)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kow79-0000r7-11
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:14:43 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kow6W-0004b5-Rq
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:14:07 -0500
-Received: by mail-ot1-x343.google.com with SMTP id b18so17407265ots.0
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 14:14:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pXWJfPIZobw28rXcpmksqEkRI3kkMq+o5FnlNZTZN2Y=;
- b=Fp78xmxGmwMdWrSvANHW9Zj1MtcqyDdTH2kfsbR0T5TxnjUm7YonOdO9w0Ek6xaIMx
- p0hJtRC5WwekKe5sfFM6Bf7wAbN7WkJAci2SPxoDhw7gD/++/mj9cI2gP5GU0X4yADGI
- etiw3imWlflO/Nh9pxhvS6AHuQAyrALSk9ZAmS8m25RSCGQzXTsWzqGXPpDJyM44BXpF
- kYZTsZImnpIX5uA4xOoDY+uj/q7u9CtNHG4ihBfvR00bKXKURvv0mjyTDHuoQJNuiXEw
- cxgCNeC12msazMPuRciPNr+YazY/XPm6raldtEDQGQf30yINjv46qIuZHV3WNZBCnv7X
- nKHg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kow77-0004f3-LM
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:14:42 -0500
+Received: by mail-wr1-x442.google.com with SMTP id 91so17942106wrj.7
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 14:14:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=A33abQqsZSXeu3kMyQ3y9+ZG3ZynRZmZhz6QM1pBbU4=;
+ b=aBW4jb1R2hlT1f47uYM8g6ztIVo9nfwDPDZH5WpK6FrQpZnmcR4fE7lJJ7p8muF4hC
+ K2rGpR+AjWtlWdPDHND6FNjpC3CrJyoD4FwKiuFGg70lp5NcH4SPcKm6Pmj4XN3ntKpQ
+ vqpMTJJBKq2zqRShZUGoxIJSGfDvHXEmTc9tR8ofeasu8dypUPKHEECtBWoZvklm5ZQN
+ Vusw8KrFwozCV//SuPfEViqjBklfTtYAPb0YQmoCAeLVgRQLmdHw9Xe2xYgyw0XoW71S
+ 20UVhwIVdT/B5fCOlVtJHpFoM0W/aV+rRUciEc9BbMJghbSJwWNUrIu9jkOtb1G3jIIA
+ +VCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pXWJfPIZobw28rXcpmksqEkRI3kkMq+o5FnlNZTZN2Y=;
- b=rgw5QL8jPc5aFoqHkxw9OwxOKqkdxJj9X92kFMkCA1T6Ta0K1+kzC44+J1UjJ4Mczo
- iwegw/eMSZE1BVlWg4guDdXrPK3R9SoxXoqUqynESzMDsJlH1Cv7SfK0dMTDTwSmyPdd
- MgidmHBmJG9ddizQ6IXKdS2rXGOqxilrlw6qG0LhjGl7+B1H+2gor1ffddSKEkqAP9rL
- zZ5or/7EHEC+uKGsPGNvmjmC/2u7f9DDxZW2v1bYjjim2pjW/Hzq9fxz/pZtN+RzEbLl
- kDISH93SoiOd3UnAT7t8VgkSp/CNV60WbDqu8lwdbrPTCcfiswQGgCqVwIpLvOe4SrIi
- DgCQ==
-X-Gm-Message-State: AOAM532FbpGkc/fbTJ2Vx+hE6elDO197GJsDDBf+IEb2cbFEYDoM1QMm
- 9pdN3RzRPijrqUQ7LMIoBwG/28+yMCxwCTEW
-X-Google-Smtp-Source: ABdhPJxnQ96lVpymglRwp/Y9vghTEfTvfxUTDUToTm35Frf5mcA/ZP6vqhlWoS1w5ptNkkHRMi5e8Q==
-X-Received: by 2002:a9d:7746:: with SMTP id t6mr21683131otl.349.1607984043094; 
- Mon, 14 Dec 2020 14:14:03 -0800 (PST)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id b71sm2193033oii.5.2020.12.14.14.14.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Dec 2020 14:14:02 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/4] target/s390x: Improve SUB LOGICAL WITH BORROW
-Date: Mon, 14 Dec 2020 16:13:56 -0600
-Message-Id: <20201214221356.68039-5-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201214221356.68039-1-richard.henderson@linaro.org>
-References: <20201214221356.68039-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=A33abQqsZSXeu3kMyQ3y9+ZG3ZynRZmZhz6QM1pBbU4=;
+ b=H79I69bEozZGOHXzpoKR7VNQfa7Qsiwb0tEplJgxb0htcu9XTjyQeij4oP8+jczJcZ
+ 0fEPJolv0t+I2b68fnjRXcQ6p0BKc6bFdNkOElfq7BKRvaOE5GfccVniJBo01sHacs8L
+ NH4FAsH/11tKpEfYpr4OMF5j1hElxO5TkFzjMRDh6u2WKLSVOPds5HF26GaYnRUWlQX0
+ BVOkDFJfYNTpBj8+uUlBdeiPH2eVPTqmgJavWdENepEybpNcbp9njTn4wokAre1Wn0gt
+ 38H9Ac52MdtOeRAGI9pyk9PN5MC7chaces4Zt+FOtcYC+dHJq2R8XtIIY0twUNhjnBlh
+ Qykg==
+X-Gm-Message-State: AOAM533tJXI/UfWCs99wdl6rgn6Bnzl4Ut0g54vIHyUcCtFD2URYUfk7
+ ATKfJ2o5eCDjyr/LSPgJMAJmgKg5JQo=
+X-Google-Smtp-Source: ABdhPJwB+6YyiPwCVOHJlrZQDIdshDMEUq2xR+GgscoOh4bXEZYfA1a8l8WdukrD2VtZVtPsP1wQ9w==
+X-Received: by 2002:adf:dd09:: with SMTP id a9mr30885795wrm.90.1607984080029; 
+ Mon, 14 Dec 2020 14:14:40 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id j9sm29114107wrm.14.2020.12.14.14.14.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Dec 2020 14:14:39 -0800 (PST)
+Subject: Re: [PATCH v4 14/43] tcg: Make DisasContextBase.tb const
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20201214140314.18544-1-richard.henderson@linaro.org>
+ <20201214140314.18544-15-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <5278ce65-7dd4-64c1-9e15-969374637c2f@amsat.org>
+Date: Mon, 14 Dec 2020 23:14:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <20201214140314.18544-15-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x343.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,259 +89,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that SUB LOGICAL outputs borrow, we can use that as input directly.
-It also means we can re-use CC_OP_SUBU and produce an output borrow
-directly from SUB LOGICAL WITH BORROW.
+On 12/14/20 3:02 PM, Richard Henderson wrote:
+> There is nothing within the translators that ought to be
+> changing the TranslationBlock data, so make it const.
+> 
+> This does not actually use the read-only copy of the
+> data structure that exists within the rx region.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/exec/gen-icount.h  | 4 ++--
+>  include/exec/translator.h  | 2 +-
+>  include/tcg/tcg-op.h       | 2 +-
+>  accel/tcg/translator.c     | 4 ++--
+>  target/arm/translate-a64.c | 2 +-
+>  tcg/tcg-op.c               | 2 +-
+>  6 files changed, 8 insertions(+), 8 deletions(-)
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/s390x/internal.h    |  2 -
- target/s390x/cc_helper.c   | 32 ----------------
- target/s390x/helper.c      |  2 -
- target/s390x/translate.c   | 76 +++++++++++++++++++++-----------------
- target/s390x/insn-data.def |  8 ++--
- 5 files changed, 46 insertions(+), 74 deletions(-)
-
-diff --git a/target/s390x/internal.h b/target/s390x/internal.h
-index 4077047494..11515bb617 100644
---- a/target/s390x/internal.h
-+++ b/target/s390x/internal.h
-@@ -172,14 +172,12 @@ enum cc_op {
- 
-     CC_OP_ADD_64,               /* overflow on add (64bit) */
-     CC_OP_SUB_64,               /* overflow on subtraction (64bit) */
--    CC_OP_SUBB_64,              /* overflow on unsigned sub-borrow (64bit) */
-     CC_OP_ABS_64,               /* sign eval on abs (64bit) */
-     CC_OP_NABS_64,              /* sign eval on nabs (64bit) */
-     CC_OP_MULS_64,              /* overflow on signed multiply (64bit) */
- 
-     CC_OP_ADD_32,               /* overflow on add (32bit) */
-     CC_OP_SUB_32,               /* overflow on subtraction (32bit) */
--    CC_OP_SUBB_32,              /* overflow on unsigned sub-borrow (32bit) */
-     CC_OP_ABS_32,               /* sign eval on abs (64bit) */
-     CC_OP_NABS_32,              /* sign eval on nabs (64bit) */
-     CC_OP_MULS_32,              /* overflow on signed multiply (32bit) */
-diff --git a/target/s390x/cc_helper.c b/target/s390x/cc_helper.c
-index c7728d1225..e7039d0d18 100644
---- a/target/s390x/cc_helper.c
-+++ b/target/s390x/cc_helper.c
-@@ -164,19 +164,6 @@ static uint32_t cc_calc_sub_64(int64_t a1, int64_t a2, int64_t ar)
-     }
- }
- 
--static uint32_t cc_calc_subb_64(uint64_t a1, uint64_t a2, uint64_t ar)
--{
--    int borrow_out;
--
--    if (ar != a1 - a2) {	/* difference means borrow-in */
--        borrow_out = (a2 >= a1);
--    } else {
--        borrow_out = (a2 > a1);
--    }
--
--    return (ar != 0) + 2 * !borrow_out;
--}
--
- static uint32_t cc_calc_abs_64(int64_t dst)
- {
-     if ((uint64_t)dst == 0x8000000000000000ULL) {
-@@ -237,19 +224,6 @@ static uint32_t cc_calc_sub_32(int32_t a1, int32_t a2, int32_t ar)
-     }
- }
- 
--static uint32_t cc_calc_subb_32(uint32_t a1, uint32_t a2, uint32_t ar)
--{
--    int borrow_out;
--
--    if (ar != a1 - a2) {	/* difference means borrow-in */
--        borrow_out = (a2 >= a1);
--    } else {
--        borrow_out = (a2 > a1);
--    }
--
--    return (ar != 0) + 2 * !borrow_out;
--}
--
- static uint32_t cc_calc_abs_32(int32_t dst)
- {
-     if ((uint32_t)dst == 0x80000000UL) {
-@@ -450,9 +424,6 @@ static uint32_t do_calc_cc(CPUS390XState *env, uint32_t cc_op,
-     case CC_OP_SUB_64:
-         r =  cc_calc_sub_64(src, dst, vr);
-         break;
--    case CC_OP_SUBB_64:
--        r =  cc_calc_subb_64(src, dst, vr);
--        break;
-     case CC_OP_ABS_64:
-         r =  cc_calc_abs_64(dst);
-         break;
-@@ -472,9 +443,6 @@ static uint32_t do_calc_cc(CPUS390XState *env, uint32_t cc_op,
-     case CC_OP_SUB_32:
-         r =  cc_calc_sub_32(src, dst, vr);
-         break;
--    case CC_OP_SUBB_32:
--        r =  cc_calc_subb_32(src, dst, vr);
--        break;
-     case CC_OP_ABS_32:
-         r =  cc_calc_abs_32(dst);
-         break;
-diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-index fa3aa500e5..7678994feb 100644
---- a/target/s390x/helper.c
-+++ b/target/s390x/helper.c
-@@ -405,12 +405,10 @@ const char *cc_name(enum cc_op cc_op)
-         [CC_OP_LTGT0_64]  = "CC_OP_LTGT0_64",
-         [CC_OP_ADD_64]    = "CC_OP_ADD_64",
-         [CC_OP_SUB_64]    = "CC_OP_SUB_64",
--        [CC_OP_SUBB_64]   = "CC_OP_SUBB_64",
-         [CC_OP_ABS_64]    = "CC_OP_ABS_64",
-         [CC_OP_NABS_64]   = "CC_OP_NABS_64",
-         [CC_OP_ADD_32]    = "CC_OP_ADD_32",
-         [CC_OP_SUB_32]    = "CC_OP_SUB_32",
--        [CC_OP_SUBB_32]   = "CC_OP_SUBB_32",
-         [CC_OP_ABS_32]    = "CC_OP_ABS_32",
-         [CC_OP_NABS_32]   = "CC_OP_NABS_32",
-         [CC_OP_COMP_32]   = "CC_OP_COMP_32",
-diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index 40add1df1f..3d5c0d6106 100644
---- a/target/s390x/translate.c
-+++ b/target/s390x/translate.c
-@@ -601,10 +601,8 @@ static void gen_op_calc_cc(DisasContext *s)
-         /* FALLTHRU */
-     case CC_OP_ADD_64:
-     case CC_OP_SUB_64:
--    case CC_OP_SUBB_64:
-     case CC_OP_ADD_32:
-     case CC_OP_SUB_32:
--    case CC_OP_SUBB_32:
-         local_cc_op = tcg_const_i32(s->cc_op);
-         break;
-     case CC_OP_CONST0:
-@@ -663,10 +661,8 @@ static void gen_op_calc_cc(DisasContext *s)
-         break;
-     case CC_OP_ADD_64:
-     case CC_OP_SUB_64:
--    case CC_OP_SUBB_64:
-     case CC_OP_ADD_32:
-     case CC_OP_SUB_32:
--    case CC_OP_SUBB_32:
-         /* 3 arguments */
-         gen_helper_calc_cc(cc_op, cpu_env, local_cc_op, cc_src, cc_dst, cc_vr);
-         break;
-@@ -4746,29 +4742,51 @@ static DisasJumpType op_subu64(DisasContext *s, DisasOps *o)
-     return DISAS_NEXT;
- }
- 
--static DisasJumpType op_subb(DisasContext *s, DisasOps *o)
-+/* Compute borrow (0, -1) into cc_src. */
-+static void compute_borrow(DisasContext *s)
- {
--    DisasCompare cmp;
--    TCGv_i64 borrow;
--
--    tcg_gen_sub_i64(o->out, o->in1, o->in2);
--
--    /* The !borrow flag is the msb of CC.  Since we want the inverse of
--       that, we ask for a comparison of CC=0 | CC=1 -> mask of 8 | 4.  */
--    disas_jcc(s, &cmp, 8 | 4);
--    borrow = tcg_temp_new_i64();
--    if (cmp.is_64) {
--        tcg_gen_setcond_i64(cmp.cond, borrow, cmp.u.s64.a, cmp.u.s64.b);
--    } else {
--        TCGv_i32 t = tcg_temp_new_i32();
--        tcg_gen_setcond_i32(cmp.cond, t, cmp.u.s32.a, cmp.u.s32.b);
--        tcg_gen_extu_i32_i64(borrow, t);
--        tcg_temp_free_i32(t);
-+    switch (s->cc_op) {
-+    case CC_OP_SUBU:
-+        /* The borrow value is already in cc_src (0,-1). */
-+        break;
-+    default:
-+        gen_op_calc_cc(s);
-+        /* fall through */
-+    case CC_OP_STATIC:
-+        /* The carry flag is the msb of CC; compute into cc_src. */
-+        tcg_gen_extu_i32_i64(cc_src, cc_op);
-+        tcg_gen_shri_i64(cc_src, cc_src, 1);
-+        /* fall through */
-+    case CC_OP_ADDU:
-+        /* Convert carry (1,0) to borrow (0,-1). */
-+        tcg_gen_subi_i64(cc_src, cc_src, 1);
-+        break;
-     }
--    free_compare(&cmp);
-+}
-+
-+static DisasJumpType op_subb32(DisasContext *s, DisasOps *o)
-+{
-+    compute_borrow(s);
-+
-+    /* Borrow is {0, -1}, so add to subtract. */
-+    tcg_gen_add_i64(o->out, o->in1, cc_src);
-+    tcg_gen_sub_i64(o->out, o->out, o->in2);
-+    return DISAS_NEXT;
-+}
-+
-+static DisasJumpType op_subb64(DisasContext *s, DisasOps *o)
-+{
-+    compute_borrow(s);
-+
-+    /*
-+     * Borrow is {0, -1}, so add to subtract; replicate the
-+     * borrow input to produce 128-bit -1 for the addition.
-+     */
-+    TCGv_i64 zero = tcg_const_i64(0);
-+    tcg_gen_add2_i64(o->out, cc_src, o->in1, zero, cc_src, cc_src);
-+    tcg_gen_sub2_i64(o->out, cc_src, o->out, cc_src, o->in2, zero);
-+    tcg_temp_free_i64(zero);
- 
--    tcg_gen_sub_i64(o->out, o->out, borrow);
--    tcg_temp_free_i64(borrow);
-     return DISAS_NEXT;
- }
- 
-@@ -5307,16 +5325,6 @@ static void cout_subu64(DisasContext *s, DisasOps *o)
-     gen_op_update2_cc_i64(s, CC_OP_SUBU, cc_src, o->out);
- }
- 
--static void cout_subb32(DisasContext *s, DisasOps *o)
--{
--    gen_op_update3_cc_i64(s, CC_OP_SUBB_32, o->in1, o->in2, o->out);
--}
--
--static void cout_subb64(DisasContext *s, DisasOps *o)
--{
--    gen_op_update3_cc_i64(s, CC_OP_SUBB_64, o->in1, o->in2, o->out);
--}
--
- static void cout_tm32(DisasContext *s, DisasOps *o)
- {
-     gen_op_update2_cc_i64(s, CC_OP_TM_32, o->in1, o->in2);
-diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index 7ff3e7e517..26badb663a 100644
---- a/target/s390x/insn-data.def
-+++ b/target/s390x/insn-data.def
-@@ -916,10 +916,10 @@
-     C(0xc205, SLFI,    RIL_a, EI,  r1_32u, i2_32u, new, r1_32, sub, subu32)
-     C(0xc204, SLGFI,   RIL_a, EI,  r1, i2_32u, r1, 0, subu64, subu64)
- /* SUBTRACT LOGICAL WITH BORROW */
--    C(0xb999, SLBR,    RRE,   Z,   r1, r2, new, r1_32, subb, subb32)
--    C(0xb989, SLBGR,   RRE,   Z,   r1, r2, r1, 0, subb, subb64)
--    C(0xe399, SLB,     RXY_a, Z,   r1, m2_32u, new, r1_32, subb, subb32)
--    C(0xe389, SLBG,    RXY_a, Z,   r1, m2_64, r1, 0, subb, subb64)
-+    C(0xb999, SLBR,    RRE,   Z,   r1_32u, r2_32u, new, r1_32, subb32, subu32)
-+    C(0xb989, SLBGR,   RRE,   Z,   r1, r2, r1, 0, subb64, subu64)
-+    C(0xe399, SLB,     RXY_a, Z,   r1_32u, m2_32u, new, r1_32, subb32, subu32)
-+    C(0xe389, SLBG,    RXY_a, Z,   r1, m2_64, r1, 0, subb64, subu64)
- 
- /* SUPERVISOR CALL */
-     C(0x0a00, SVC,     I,     Z,   0, 0, 0, 0, svc, 0)
--- 
-2.25.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
