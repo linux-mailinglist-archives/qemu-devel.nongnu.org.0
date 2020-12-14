@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19D52D9C0D
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:12:36 +0100 (CET)
-Received: from localhost ([::1]:50918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F01142D9C20
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:14:35 +0100 (CET)
+Received: from localhost ([::1]:56956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koqSh-000118-RE
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:12:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34340)
+	id 1koqUc-0003el-57
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:14:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koqEh-00081e-Mk; Mon, 14 Dec 2020 10:58:07 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:55563)
+ id 1koqEi-00082x-1D; Mon, 14 Dec 2020 10:58:08 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:50349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koqEW-0001Rb-PM; Mon, 14 Dec 2020 10:58:06 -0500
+ id 1koqEW-0001Rn-V4; Mon, 14 Dec 2020 10:58:07 -0500
 Received: from localhost.localdomain ([82.252.135.218]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mf0FY-1kClNt242U-00gcJ3; Mon, 14 Dec 2020 16:57:51 +0100
+ id 1M593i-1knkIu0Pm0-001Cx9; Mon, 14 Dec 2020 16:57:52 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/19] configure / meson: Move check for sys/kcov.h to
+Subject: [PULL 19/19] configure / meson: Move check for linux/btrfs.h to
  meson.build
-Date: Mon, 14 Dec 2020 16:57:32 +0100
-Message-Id: <20201214155733.207430-19-laurent@vivier.eu>
+Date: Mon, 14 Dec 2020 16:57:33 +0100
+Message-Id: <20201214155733.207430-20-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214155733.207430-1-laurent@vivier.eu>
 References: <20201214155733.207430-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:rbZW9XEaQF337JySb+YlzD5UFIau91D1uHkkIDObCdul3PdZt6t
- zyJaJ1gzo/TqRtCxrfsz9BvoZx770kD938mNsoW0dpXaUIVul84Q93qRekbu+9fee94iJNP
- zL3mSykFOhrOlHicvdsRD3zVM7aKmTkZ1c+SpAXZyyh+C4/1QNT2E/RA8Zn5lIlXySdSADA
- Q13itQEQAMUBM1wuL8V5Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2OvbeYpJ04Y=:E3g03z0xBf3bEd6zaVaZkb
- hcWcjenxCOKK7y2gOqrwLkUz90bGcBRyRl9iHhKJE3yuoyEDbqkZ2L01M/ZZEJCg5yx3jNdLQ
- nX2xtx0VWkPvbG2BKaNsXJz3XdNBSKdosJWOmH3bmDTB30fu62cFj5wOmssSHlCtCgTC6Ojq8
- O53mqD3IeFDm4Gm2OONxd1ga5rVhgG8PFfJwnEhZungGu1fLQhOZwU8cmhkp5vmgkfNw+zPgF
- AJIkVoJ2PFiX4yWNnxNHDQV3/FJjxTXfltvT5DFokq0nZPdV+I6vLe3RURb99jCBM1UoNxOtK
- AHtGCIWcBfT+L05VN/BWYdAF5JbuDOW0kX8xB3AWlkCC7VZgEv07rVCPTNJmBs11jQtsVY8gh
- 1EqxyoudbHu9W8Klo/tuxQkyjMEjWgj+rG//WIpedf9Yu1T9CQJOmTWQxEwKgCjnauFKowTLj
- lv566iCrow==
+X-Provags-ID: V03:K1:iEQmCI2+fISc9GXEd0HEBd89pHFZqS7MeKajSfTqu9fnjfJpm8k
+ oaE1SaXUSrFNLa8RHOPGEchUEPATFtCU0ioytqo8dFtIvMjmK+eYN1sEt5i6vkuaXPb4Syl
+ JuSAsaNfihrbqohGdsY7U2J6Gp63AN5YJzj33URHurfp9j6YoyAGiNFaOjMOAFgOFXWaqv/
+ Z8pjy6qXr3qLos219z3Og==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JpqlyPvt3z0=:azeyHQ+Lk5DqgyKh8UOlja
+ IV0jOepBjj5efbMm3TxlP2G5hqr1hHdLhfnOviqLjxZnT/fJ6hmCvMXg3XaeHZn0iCG711HYq
+ oVvFUVqJS8ftgDYH3Y3CQIx4RbvBLpiO55cmRxWtreIkrMcPYDFnL2PRFFnWgSbirpE0JvNcO
+ c38FEUMQWyJAkWuRoieZh2Dx58oezb84IdUsqs2yyS/pF2GXlz1SzCz0uuMCdHZ6Aj1B6tvL3
+ 74IcO/8lqPj9KfGfCbE9jyPfyTZqd6E4rM3ZEO2BxmWhlAkJkYvcy71pQo2LzLo9zY5wF1W8G
+ 0MgUxlnrwviJ9Y6Lgzr7W/8A7+VgUz5T50Z0c38F2FhUegyn2jT6IotEfNlRReSiAimGz0eRV
+ 0KmchArxSABbqCT5cHg/JY9fl1f2FOv6iA3LCwSDrY4+uci4yrsEDV1kta+7ECz8UzvfL9Bad
+ hwm9ULpbwg==
 Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -75,87 +75,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Thomas Huth <thuth@redhat.com>
 
 This check can be done in a much shorter way in meson.build. And while
-we're at it, rename the #define to HAVE_SYS_KCOV_H to match the other
+we're at it, rename the #define to HAVE_BTRFS_H to match the other
 HAVE_someheader_H symbols that we already have.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201118171052.308191-6-thuth@redhat.com>
-[lv: s/signal/kcov/]
+Message-Id: <20201118171052.308191-7-thuth@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- configure            | 9 ---------
- linux-user/ioctls.h  | 2 +-
- linux-user/syscall.c | 2 +-
- meson.build          | 1 +
+ configure                 | 9 ---------
+ linux-user/syscall.c      | 2 +-
+ linux-user/syscall_defs.h | 2 +-
+ meson.build               | 1 +
  4 files changed, 3 insertions(+), 11 deletions(-)
 
 diff --git a/configure b/configure
-index 4f0f9c99d3d2..6c13964b247a 100755
+index 6c13964b247a..cb21108d34c3 100755
 --- a/configure
 +++ b/configure
 @@ -4402,12 +4402,6 @@ if compile_prog "" "" ; then
    syncfs=yes
  fi
  
--# check for kcov support (kernel must be 4.4+, compiled with certain options)
--kcov=no
--if check_include sys/kcov.h ; then
--    kcov=yes
+-# check for btrfs filesystem support (kernel must be 3.9+)
+-btrfs=no
+-if check_include linux/btrfs.h ; then
+-    btrfs=yes
 -fi
 -
- # check for btrfs filesystem support (kernel must be 3.9+)
- btrfs=no
- if check_include linux/btrfs.h ; then
-@@ -6112,9 +6106,6 @@ fi
+ # Search for bswap_32 function
+ byteswap_h=no
+ cat > $TMPC << EOF
+@@ -6106,9 +6100,6 @@ fi
  if test "$syncfs" = "yes" ; then
    echo "CONFIG_SYNCFS=y" >> $config_host_mak
  fi
--if test "$kcov" = "yes" ; then
--  echo "CONFIG_KCOV=y" >> $config_host_mak
+-if test "$btrfs" = "yes" ; then
+-  echo "CONFIG_BTRFS=y" >> $config_host_mak
 -fi
- if test "$btrfs" = "yes" ; then
-   echo "CONFIG_BTRFS=y" >> $config_host_mak
+ if test "$inotify" = "yes" ; then
+   echo "CONFIG_INOTIFY=y" >> $config_host_mak
  fi
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 585874f090ff..8efb4d38c014 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -715,7 +715,7 @@
-   IOCTL_IGNORE(TIOCSTOP)
- #endif
- 
--#ifdef CONFIG_KCOV
-+#ifdef HAVE_SYS_KCOV_H
-   IOCTL(KCOV_ENABLE, 0, TYPE_NULL)
-   IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
-   IOCTL(KCOV_INIT_TRACE, IOC_R, TYPE_ULONG)
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 27adee908ebc..063130be048c 100644
+index 063130be048c..7bf99beb1814 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -73,7 +73,7 @@
- #ifdef CONFIG_SENDFILE
- #include <sys/sendfile.h>
+@@ -112,7 +112,7 @@
+ #include <linux/if_alg.h>
+ #include <linux/rtc.h>
+ #include <sound/asound.h>
+-#ifdef CONFIG_BTRFS
++#ifdef HAVE_BTRFS_H
+ #include <linux/btrfs.h>
  #endif
--#ifdef CONFIG_KCOV
-+#ifdef HAVE_SYS_KCOV_H
- #include <sys/kcov.h>
- #endif
+ #ifdef HAVE_DRM_H
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index cabbfb762dd9..b934d0b60676 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -1006,7 +1006,7 @@ struct target_rtc_pll_info {
+ #define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
  
+ /* btrfs ioctls */
+-#ifdef CONFIG_BTRFS
++#ifdef HAVE_BTRFS_H
+ #define TARGET_BTRFS_IOC_SNAP_CREATE            TARGET_IOWU(BTRFS_IOCTL_MAGIC, 1)
+ #define TARGET_BTRFS_IOC_SCAN_DEV               TARGET_IOWU(BTRFS_IOCTL_MAGIC, 4)
+ #define TARGET_BTRFS_IOC_FORGET_DEV             TARGET_IOWU(BTRFS_IOCTL_MAGIC, 5)
 diff --git a/meson.build b/meson.build
-index a790cc527cf9..04cdea75dd50 100644
+index 04cdea75dd50..fba6413056a3 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -839,6 +839,7 @@ config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2]
+@@ -836,6 +836,7 @@ config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0]
+ config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
+ config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2])
+ 
++config_host_data.set('HAVE_BTRFS_H', cc.has_header('linux/btrfs.h'))
  config_host_data.set('HAVE_DRM_H', cc.has_header('libdrm/drm.h'))
  config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
  config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
-+config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
- config_host_data.set('HAVE_SYS_SIGNAL_H', cc.has_header('sys/signal.h'))
- 
- ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
 -- 
 2.29.2
 
