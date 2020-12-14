@@ -2,93 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EABF2D973C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 12:18:25 +0100 (CET)
-Received: from localhost ([::1]:57400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 774C42D9745
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 12:20:41 +0100 (CET)
+Received: from localhost ([::1]:59824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kols0-0005sK-JP
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 06:18:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54582)
+	id 1koluC-00070x-H8
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 06:20:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kolpz-0004pW-Jx
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 06:16:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22367)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kolsw-0006QJ-J3
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 06:19:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kolpx-0008Kh-K2
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 06:16:19 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kolsu-00007e-U1
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 06:19:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607944575;
+ s=mimecast20190719; t=1607944760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OQdMLotxjpaz51sWXsbU/PEXVDKAqbWm1m7IWUWH82I=;
- b=g2SrX/i6KJUe9n3A0UF480MXjrPM91ixIp9yn7FjiE4vocYkmEC/vQcHByvQugfhjn/gzw
- R24XCAX6GBzarc6GHdiGQVdg89dEVvl4Zjh+ZQV7PDJaGa/7P08XKFWSDJm3G/aBQkidUb
- n8pKawKxJForp+qRrCmbSrhTKJuCYjo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-DMxd1jE5NkK1LUMQmPep2g-1; Mon, 14 Dec 2020 06:16:14 -0500
-X-MC-Unique: DMxd1jE5NkK1LUMQmPep2g-1
-Received: by mail-wr1-f69.google.com with SMTP id b5so6437790wrp.3
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 03:16:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OQdMLotxjpaz51sWXsbU/PEXVDKAqbWm1m7IWUWH82I=;
- b=eqostIIKavjNuJdrZBIy3CFUm1cGPGA95/sIGJVz7yWHrjPKgEVxRov31Cge6Cb3RM
- qPJwxoLtjDz34a7toL39sRDcZsparf8WVO8jtt87VS/U7NBlUdqci7jZyu2HuWf5VEzj
- x4HEexbx7jZqmGIY0wLizX2xfyD+XiNqG0JIXXu05JPUp8YliNvDxE0AZhJXmHXE+4kd
- w+SqpA6Of6+YFsHTuQY8pzgNxk6BUexsjQcTTqshBeiig1B1Hq8pH7FVI7kaEgVHXl4+
- ouMyuM/Zsf6ooifn0dyo6TVnyo93xUmIHs2Emsh3qnaBRAy91XOzqMt0aa8yjtx4V2cN
- yViw==
-X-Gm-Message-State: AOAM533cLMw4uDyNB9nasizPnlXOjQWywvF13bxgr4scqQZccKKzd9sg
- ZL4hEdvlsnVnRk3Z02NdnxQlh/CYJhSHvp40r1QYD3/qMaG82wdR1nMBphT8yhR78u1pjuFvJSu
- 8Ct/ZSTlcHBnjSvs=
-X-Received: by 2002:adf:fb03:: with SMTP id c3mr23545228wrr.248.1607944571472; 
- Mon, 14 Dec 2020 03:16:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwGgm+3dMjUKaeWCmtokAP0NXT0VSRSsKwFEfFGy9VU4sNgmwWcbwNSh8ircozFPUjZT+/51w==
-X-Received: by 2002:adf:fb03:: with SMTP id c3mr23545193wrr.248.1607944571261; 
- Mon, 14 Dec 2020 03:16:11 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id m17sm33867416wrn.0.2020.12.14.03.16.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Dec 2020 03:16:10 -0800 (PST)
-Subject: Re: [PATCH] scripts/git.orderfile: Keep files with .inc extension
- sorted
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org
-References: <20201213205132.243628-1-f4bug@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c777aead-4080-09e7-7db4-30d56de83d76@redhat.com>
-Date: Mon, 14 Dec 2020 12:16:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=WEgFakCCg1V2Vl+pkwUDOx6xcrAvPU/1oM1IgQbjhTk=;
+ b=QsAt+q9sfmHXMnuyh93L1TuwlHABSbuJm9a2B+Y/UsB0pcgbDiF46Uru19mtEOPf+ANErq
+ Qj7VoMRolPgTy9mivwtCZ8w1N25aJ+JqFFIp2JevacvEFnZKGZn3p7kfoNBvCfEGQZ8MTK
+ dVSguw7RxIQea3pDTc+PPWhHA3f3GBM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585-AMvsz9NQMTWLuIEIJOqyxw-1; Mon, 14 Dec 2020 06:19:19 -0500
+X-MC-Unique: AMvsz9NQMTWLuIEIJOqyxw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2CF4803620;
+ Mon, 14 Dec 2020 11:19:17 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E8B410013C1;
+ Mon, 14 Dec 2020 11:19:07 +0000 (UTC)
+Date: Mon, 14 Dec 2020 12:19:05 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2 3/3] nvdimm: honor -object memory-backend-file,
+ readonly=on option
+Message-ID: <20201214121905.45bf4d13@redhat.com>
+In-Reply-To: <20200916095150.755714-4-stefanha@redhat.com>
+References: <20200916095150.755714-1-stefanha@redhat.com>
+ <20200916095150.755714-4-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201213205132.243628-1-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,46 +80,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Julio Montes <julio.montes@intel.com>,
+ qemu-devel@nongnu.org, eric.g.ernst@gmail.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/12/20 21:51, Philippe Mathieu-Daudé wrote:
-> Sort .inc files along with the extension including them.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Wed, 16 Sep 2020 10:51:50 +0100
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
+
+> Make it possible to present read-only files to the guest as "unarmed"
+> NVDIMMs. The Linux NVDIMM device (/dev/pmemX) is read-only.
+>=20
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   scripts/git.orderfile | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/scripts/git.orderfile b/scripts/git.orderfile
-> index 3736c1d6aff..b32203b7106 100644
-> --- a/scripts/git.orderfile
-> +++ b/scripts/git.orderfile
-> @@ -12,6 +12,7 @@
->   # Documentation
->   docs/*
->   *.rst
-> +*.rst.inc
->   
->   # build system
->   configure
-> @@ -28,9 +29,11 @@ qga/*.json
->   
->   # headers
->   *.h
-> +*.h.inc
->   
->   # decoding tree specification
->   *.decode
->   
->   # code
->   *.c
-> +*.c.inc
-> 
+>  docs/nvdimm.txt | 8 +++++++-
+>  hw/mem/nvdimm.c | 4 ++++
+>  2 files changed, 11 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
+> index c2c6e441b3..06c2008107 100644
+> --- a/docs/nvdimm.txt
+> +++ b/docs/nvdimm.txt
+> @@ -17,7 +17,7 @@ following command line options:
+> =20
+>   -machine pc,nvdimm
+>   -m $RAM_SIZE,slots=3D$N,maxmem=3D$MAX_SIZE
+> - -object memory-backend-file,id=3Dmem1,share=3Don,mem-path=3D$PATH,size=
+=3D$NVDIMM_SIZE
+> + -object memory-backend-file,id=3Dmem1,share=3Don,mem-path=3D$PATH,size=
+=3D$NVDIMM_SIZE,readonly=3Doff
+>   -device nvdimm,id=3Dnvdimm1,memdev=3Dmem1
+> =20
+>  Where,
+> @@ -42,6 +42,12 @@ Where,
+>     "share=3Doff", then guest writes won't be applied to the backend
+>     file and thus will be invisible to other guests.
+> =20
+> +   "readonly=3Don/off" controls whether the file $PATH is opened read-on=
+ly or
+> +   read/write (default). "readonly=3Don" sets the ACPI NFIT NVDIMM Regio=
+n Mapping
+> +   Structure "NVDIMM State Flags" Bit 3 indicating that the device is "u=
+narmed"
+> +   and cannot accept persistent writes. Linux guest drivers set the devi=
+ce to
+> +   read-only when this bit is present.
+> +
+>   - "device nvdimm,id=3Dnvdimm1,memdev=3Dmem1" creates a virtual NVDIMM
+>     device whose storage is provided by above memory backend device.
+> =20
+> diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+> index e1574bc07c..848cd65917 100644
+> --- a/hw/mem/nvdimm.c
+> +++ b/hw/mem/nvdimm.c
+> @@ -146,6 +146,10 @@ static void nvdimm_prepare_memory_region(NVDIMMDevic=
+e *nvdimm, Error **errp)
+>          return;
+>      }
+> =20
+> +    if (memory_region_is_rom(mr)) {
+> +        nvdimm->unarmed =3D true; /* this device is read-only */
+> +    }
+we probably should error out in case 'backend,readonly=3Dtrue + nvdimm,unar=
+med=3Dfalse'
+instead of silently ignoring user's input
 
-Queued, thanks.
-
-Paolo
+>      nvdimm->nvdimm_mr =3D g_new(MemoryRegion, 1);
+>      memory_region_init_alias(nvdimm->nvdimm_mr, OBJECT(dimm),
+>                               "nvdimm-memory", mr, 0, pmem_size);
 
 
