@@ -2,93 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8B52D9E3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 18:55:36 +0100 (CET)
-Received: from localhost ([::1]:39744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11DBC2D9E64
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 19:01:51 +0100 (CET)
+Received: from localhost ([::1]:47906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kos4N-0003lj-KU
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 12:55:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38480)
+	id 1kosAN-0007Iu-Sl
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 13:01:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kos1X-0001MM-Qn
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:52:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59609)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kos7W-0006G6-TX
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:58:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kos1V-0006fg-1f
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:52:39 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kos7R-0007aM-Rc
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:58:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607968356;
+ s=mimecast20190719; t=1607968723;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4NpX/O7gVX9es2aYfhbVmDRCjD+h8p7wJ0xL7ydk2+0=;
- b=L2smLK0LnsfIJuK8sZGzc5RcaOIYkLeNMklUi70VYoMVbiZhCuX04y5GmG/APdCFGc+9TA
- 4A6zcR6nt9I7iqohC0Tau+G1pMDhoq3GYT8i4eqAtpEawyXTNX9VmG5mhHOCru22gv1jzi
- vJio0aGgEoqlHoJkNm9vVLxzjM5GhMY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-syuNTjNmMImQ1bC4yYTOEQ-1; Mon, 14 Dec 2020 12:52:34 -0500
-X-MC-Unique: syuNTjNmMImQ1bC4yYTOEQ-1
-Received: by mail-wr1-f69.google.com with SMTP id i4so6941383wrm.21
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 09:52:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4NpX/O7gVX9es2aYfhbVmDRCjD+h8p7wJ0xL7ydk2+0=;
- b=h0cncT3n/BAnp0wx/ovyB3cWIy75SuRzE+MTrUwTJDxLH2JINUDXG+x6BfnlUHAlzs
- gx3BOKtiVi5UVWWaKLdcMIkCd4AAyX/hvkNETiHuPmDYZoVZlIm3VEQQyxyaD4OlyI6B
- CHS0EqT+odcRwOxu+HXX+nHhA42oGuJtj1Mvw7pnG8afL/7NPljrEKlzPkaVYYrf2oUG
- nR4KjNP6tbE2rz2C2wqEnwGVrFBcYB/X3peIIcV+G0wnqXTrZvqh9uXfCd48pVsEnp+X
- ebavtMMguE5VdlTwHLKbOcc83XpPzXYRKyZW/KrLU3lHEKoNT0haNqz9lniSbTfoq7KL
- frng==
-X-Gm-Message-State: AOAM533G+jtlqKlwz0Z50Sa1l+1JS3wFcMnrS01N6+W1mXEbGYdedazh
- lnq04IE4aXIApchlfjLKCi3xNZsCmsQenKor7yK4MCb5JVx8fLxATl+VfNfn7GXBKZgOi7xTkoS
- Yen1xQ1mv7GZWfcA=
-X-Received: by 2002:a1c:630b:: with SMTP id x11mr28927032wmb.138.1607968353135; 
- Mon, 14 Dec 2020 09:52:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwFzFHvoQBV1LvdQEQC6d6dZQXm0fowt972jUN8DCdH72m9EGFOufO4irnmq1XaSYc2kDmjng==
-X-Received: by 2002:a1c:630b:: with SMTP id x11mr28927009wmb.138.1607968352875; 
- Mon, 14 Dec 2020 09:52:32 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id i9sm36509303wrs.70.2020.12.14.09.52.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Dec 2020 09:52:32 -0800 (PST)
-Subject: Re: [RFC PATCH 1/2] gitlab-ci: Step in to maintain the
- fedora-i386-cross runner
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>
-References: <20201211171703.537546-1-philmd@redhat.com>
- <20201211171703.537546-2-philmd@redhat.com>
- <fe1213a5-a706-adaf-25a7-8323f42239da@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bc8b270a-ef99-8eeb-d1fd-61ab7507b78d@redhat.com>
-Date: Mon, 14 Dec 2020 18:52:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uiD3yY6JN1IGIgxKmxs33v905JkBvDoKqOg2ARGf/4Y=;
+ b=VVB240UT8Uxs3tj1jEy0SrHlxI7MfJukekUhxI5AkKhyB4dSxvwLN+E4g/0FEwDP5Fdq7k
+ /bBxOBUdFkRvuyeUipz6NKIyh2NL2Y/KXIUD+//TSTSIGmTH4RkDqYr0JjcFXBiLL8h5KF
+ jDnKWco7LeZFZ0+N2iCyHPxDDnseMnI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-110-hzTCqPjjN9i4KuWEMpcLBw-1; Mon, 14 Dec 2020 12:58:40 -0500
+X-MC-Unique: hzTCqPjjN9i4KuWEMpcLBw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA45D801817;
+ Mon, 14 Dec 2020 17:58:39 +0000 (UTC)
+Received: from localhost (ovpn-113-43.ams2.redhat.com [10.36.113.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A3C8960BE2;
+ Mon, 14 Dec 2020 17:58:38 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] iotests: Quote $cmd in _send_qemu_cmd
+Date: Mon, 14 Dec 2020 18:58:37 +0100
+Message-Id: <20201214175837.301658-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <fe1213a5-a706-adaf-25a7-8323f42239da@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,57 +73,1845 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- virt-ci-maint-team@redhat.com,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/14/20 1:35 PM, Thomas Huth wrote:
-> On 11/12/2020 18.17, Philippe Mathieu-Daudé wrote:
->> As I am interested in using the runner based on the fedora-i386-cross
->> docker image, add a smoke test job to be sure this image is usable,
->> and set the JOB_MAINTAINER_NAME/JOB_MAINTAINER_EMAIL variables so
->> other developers can contact me in case there is a problem with the
->> public runner based on this image.
->>
->> We will eventually send a patch to make script/checkpatch.pl parse
->> the Gitlab YAML jobs to understand the JOB_MAINTAINER_NAME and
->> JOB_MAINTAINER_EMAIL variables.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  .gitlab-ci.d/crossbuilds.yml | 15 +++++++++++++++
->>  1 file changed, 15 insertions(+)
->>
->> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
->> index bd6473a75a7..864cad7cec5 100644
->> --- a/.gitlab-ci.d/crossbuilds.yml
->> +++ b/.gitlab-ci.d/crossbuilds.yml
->> @@ -39,6 +39,13 @@
->>        ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-system
->>      - make -j$(expr $(nproc) + 1) all check-build
->>  
->> +.cross_sanity_check_job:
->> +  stage: build
->> +  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->> +  timeout: 3m
->> +  script:
->> +    - /bin/true
-> 
-> I guess it makes more sense if I respin my patch here instead:
-> 
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg762919.html
-> 
-> ?
+With bash 5.1, the output of the following script (which creates an
+array with a single element, then takes a single-element slice from that
+array, and echos the result) changes:
 
-I think these are different. The idea of testing /bin/true is to be
-able to make the distinction between a broken runner and a broken
-test.
+  a=("double  space")
+  a=${a[@]:0:1}
+  echo "$a"
 
-> 
->  Thomas
-> 
+from "double space" to "double  space", i.e. all white space is
+preserved as-is.  This is probably what we actually want here (judging
+from the "...to accommodate pathnames with spaces" comment), but before
+5.1, we have to quote the ${} slice to get the same behavior.
+
+In any case, without quoting, the reference output of many iotests is
+different between bash 5.1 and pre-5.1, which is not very good.  We
+should fix it by quoting here, and then adjusting all the reference
+output of all iotests using _send_qemu_cmd accordingly.  (The only
+ones we do not need to change are those that do not have multiple
+consecutive whitespaces in their _send_qemu_cmd parameters.)
+
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+Alternatively, we could explicitly collapse all whitespace sequences
+into single spaces, but I believe that would defeat the purpose of
+"accomodat[ing] pathnames with spaces".
+
+I used this script to verify that the git-diff only changes whitespace
+(except for the hunk in common.qemu):
+
+  https://gist.github.com/XanClic/41cfcc2ac4619421883e8a97790f5c9e
+---
+ tests/qemu-iotests/085.out     | 167 ++++++++++++++++++++++++++++-----
+ tests/qemu-iotests/094.out     |  10 +-
+ tests/qemu-iotests/095.out     |   4 +-
+ tests/qemu-iotests/109.out     |  88 ++++++++++++-----
+ tests/qemu-iotests/117.out     |  13 ++-
+ tests/qemu-iotests/127.out     |  12 ++-
+ tests/qemu-iotests/140.out     |  10 +-
+ tests/qemu-iotests/141.out     | 128 +++++++++++++++++++------
+ tests/qemu-iotests/143.out     |   4 +-
+ tests/qemu-iotests/144.out     |  28 +++++-
+ tests/qemu-iotests/153.out     |  18 ++--
+ tests/qemu-iotests/156.out     |  39 ++++++--
+ tests/qemu-iotests/161.out     |  18 +++-
+ tests/qemu-iotests/173.out     |  25 ++++-
+ tests/qemu-iotests/182.out     |  42 +++++++--
+ tests/qemu-iotests/183.out     |  19 +++-
+ tests/qemu-iotests/185.out     |  45 +++++++--
+ tests/qemu-iotests/191.out     |  12 ++-
+ tests/qemu-iotests/223.out     |  92 ++++++++++++------
+ tests/qemu-iotests/229.out     |  13 ++-
+ tests/qemu-iotests/249.out     |  16 +++-
+ tests/qemu-iotests/308.out     | 103 +++++++++++++++++---
+ tests/qemu-iotests/312.out     |  10 +-
+ tests/qemu-iotests/common.qemu |   4 +-
+ 24 files changed, 727 insertions(+), 193 deletions(-)
+
+diff --git a/tests/qemu-iotests/085.out b/tests/qemu-iotests/085.out
+index 7fc44b1c61..32a193f2c2 100644
+--- a/tests/qemu-iotests/085.out
++++ b/tests/qemu-iotests/085.out
+@@ -12,56 +12,135 @@ Formatting 'TEST_DIR/t.IMGFMT.2', fmt=IMGFMT size=134217728
+ 
+ === Create a single snapshot on virtio0 ===
+ 
+-{ 'execute': 'blockdev-snapshot-sync', 'arguments': { 'device': 'virtio0', 'snapshot-file':'TEST_DIR/1-snapshot-v0.IMGFMT', 'format': 'IMGFMT' } }
++{ 'execute': 'blockdev-snapshot-sync',
++                      'arguments': { 'device': 'virtio0',
++                                     'snapshot-file':'TEST_DIR/1-snapshot-v0.IMGFMT',
++                                     'format': 'IMGFMT' } }
+ Formatting 'TEST_DIR/1-snapshot-v0.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/t.qcow2.1 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+ 
+ === Invalid command - missing device and nodename ===
+ 
+-{ 'execute': 'blockdev-snapshot-sync', 'arguments': { 'snapshot-file':'TEST_DIR/1-snapshot-v0.IMGFMT', 'format': 'IMGFMT' } }
++{ 'execute': 'blockdev-snapshot-sync',
++                         'arguments': { 'snapshot-file':'TEST_DIR/1-snapshot-v0.IMGFMT',
++                                     'format': 'IMGFMT' } }
+ {"error": {"class": "GenericError", "desc": "Cannot find device= nor node_name="}}
+ 
+ === Invalid command - missing snapshot-file ===
+ 
+-{ 'execute': 'blockdev-snapshot-sync', 'arguments': { 'device': 'virtio0', 'format': 'IMGFMT' } }
++{ 'execute': 'blockdev-snapshot-sync',
++                         'arguments': { 'device': 'virtio0',
++                                     'format': 'IMGFMT' } }
+ {"error": {"class": "GenericError", "desc": "Parameter 'snapshot-file' is missing"}}
+ 
+ 
+ === Create several transactional group snapshots ===
+ 
+-{ 'execute': 'transaction', 'arguments': {'actions': [ { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio0', 'snapshot-file': 'TEST_DIR/2-snapshot-v0.IMGFMT' } }, { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio1', 'snapshot-file': 'TEST_DIR/2-snapshot-v1.IMGFMT' } } ] } }
++{ 'execute': 'transaction', 'arguments':
++           {'actions': [
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio0',
++                      'snapshot-file': 'TEST_DIR/2-snapshot-v0.IMGFMT' } },
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio1',
++                       'snapshot-file': 'TEST_DIR/2-snapshot-v1.IMGFMT' } } ]
++             } }
+ Formatting 'TEST_DIR/2-snapshot-v0.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/1-snapshot-v0.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ Formatting 'TEST_DIR/2-snapshot-v1.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/t.qcow2.2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+-{ 'execute': 'transaction', 'arguments': {'actions': [ { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio0', 'snapshot-file': 'TEST_DIR/3-snapshot-v0.IMGFMT' } }, { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio1', 'snapshot-file': 'TEST_DIR/3-snapshot-v1.IMGFMT' } } ] } }
++{ 'execute': 'transaction', 'arguments':
++           {'actions': [
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio0',
++                      'snapshot-file': 'TEST_DIR/3-snapshot-v0.IMGFMT' } },
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio1',
++                       'snapshot-file': 'TEST_DIR/3-snapshot-v1.IMGFMT' } } ]
++             } }
+ Formatting 'TEST_DIR/3-snapshot-v0.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/2-snapshot-v0.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ Formatting 'TEST_DIR/3-snapshot-v1.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/2-snapshot-v1.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+-{ 'execute': 'transaction', 'arguments': {'actions': [ { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio0', 'snapshot-file': 'TEST_DIR/4-snapshot-v0.IMGFMT' } }, { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio1', 'snapshot-file': 'TEST_DIR/4-snapshot-v1.IMGFMT' } } ] } }
++{ 'execute': 'transaction', 'arguments':
++           {'actions': [
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio0',
++                      'snapshot-file': 'TEST_DIR/4-snapshot-v0.IMGFMT' } },
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio1',
++                       'snapshot-file': 'TEST_DIR/4-snapshot-v1.IMGFMT' } } ]
++             } }
+ Formatting 'TEST_DIR/4-snapshot-v0.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/3-snapshot-v0.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ Formatting 'TEST_DIR/4-snapshot-v1.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/3-snapshot-v1.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+-{ 'execute': 'transaction', 'arguments': {'actions': [ { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio0', 'snapshot-file': 'TEST_DIR/5-snapshot-v0.IMGFMT' } }, { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio1', 'snapshot-file': 'TEST_DIR/5-snapshot-v1.IMGFMT' } } ] } }
++{ 'execute': 'transaction', 'arguments':
++           {'actions': [
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio0',
++                      'snapshot-file': 'TEST_DIR/5-snapshot-v0.IMGFMT' } },
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio1',
++                       'snapshot-file': 'TEST_DIR/5-snapshot-v1.IMGFMT' } } ]
++             } }
+ Formatting 'TEST_DIR/5-snapshot-v0.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/4-snapshot-v0.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ Formatting 'TEST_DIR/5-snapshot-v1.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/4-snapshot-v1.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+-{ 'execute': 'transaction', 'arguments': {'actions': [ { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio0', 'snapshot-file': 'TEST_DIR/6-snapshot-v0.IMGFMT' } }, { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio1', 'snapshot-file': 'TEST_DIR/6-snapshot-v1.IMGFMT' } } ] } }
++{ 'execute': 'transaction', 'arguments':
++           {'actions': [
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio0',
++                      'snapshot-file': 'TEST_DIR/6-snapshot-v0.IMGFMT' } },
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio1',
++                       'snapshot-file': 'TEST_DIR/6-snapshot-v1.IMGFMT' } } ]
++             } }
+ Formatting 'TEST_DIR/6-snapshot-v0.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/5-snapshot-v0.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ Formatting 'TEST_DIR/6-snapshot-v1.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/5-snapshot-v1.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+-{ 'execute': 'transaction', 'arguments': {'actions': [ { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio0', 'snapshot-file': 'TEST_DIR/7-snapshot-v0.IMGFMT' } }, { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio1', 'snapshot-file': 'TEST_DIR/7-snapshot-v1.IMGFMT' } } ] } }
++{ 'execute': 'transaction', 'arguments':
++           {'actions': [
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio0',
++                      'snapshot-file': 'TEST_DIR/7-snapshot-v0.IMGFMT' } },
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio1',
++                       'snapshot-file': 'TEST_DIR/7-snapshot-v1.IMGFMT' } } ]
++             } }
+ Formatting 'TEST_DIR/7-snapshot-v0.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/6-snapshot-v0.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ Formatting 'TEST_DIR/7-snapshot-v1.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/6-snapshot-v1.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+-{ 'execute': 'transaction', 'arguments': {'actions': [ { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio0', 'snapshot-file': 'TEST_DIR/8-snapshot-v0.IMGFMT' } }, { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio1', 'snapshot-file': 'TEST_DIR/8-snapshot-v1.IMGFMT' } } ] } }
++{ 'execute': 'transaction', 'arguments':
++           {'actions': [
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio0',
++                      'snapshot-file': 'TEST_DIR/8-snapshot-v0.IMGFMT' } },
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio1',
++                       'snapshot-file': 'TEST_DIR/8-snapshot-v1.IMGFMT' } } ]
++             } }
+ Formatting 'TEST_DIR/8-snapshot-v0.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/7-snapshot-v0.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ Formatting 'TEST_DIR/8-snapshot-v1.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/7-snapshot-v1.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+-{ 'execute': 'transaction', 'arguments': {'actions': [ { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio0', 'snapshot-file': 'TEST_DIR/9-snapshot-v0.IMGFMT' } }, { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio1', 'snapshot-file': 'TEST_DIR/9-snapshot-v1.IMGFMT' } } ] } }
++{ 'execute': 'transaction', 'arguments':
++           {'actions': [
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio0',
++                      'snapshot-file': 'TEST_DIR/9-snapshot-v0.IMGFMT' } },
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio1',
++                       'snapshot-file': 'TEST_DIR/9-snapshot-v1.IMGFMT' } } ]
++             } }
+ Formatting 'TEST_DIR/9-snapshot-v0.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/8-snapshot-v0.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ Formatting 'TEST_DIR/9-snapshot-v1.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/8-snapshot-v1.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+-{ 'execute': 'transaction', 'arguments': {'actions': [ { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio0', 'snapshot-file': 'TEST_DIR/10-snapshot-v0.IMGFMT' } }, { 'type': 'blockdev-snapshot-sync', 'data' : { 'device': 'virtio1', 'snapshot-file': 'TEST_DIR/10-snapshot-v1.IMGFMT' } } ] } }
++{ 'execute': 'transaction', 'arguments':
++           {'actions': [
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio0',
++                      'snapshot-file': 'TEST_DIR/10-snapshot-v0.IMGFMT' } },
++               { 'type': 'blockdev-snapshot-sync', 'data' :
++                   { 'device': 'virtio1',
++                       'snapshot-file': 'TEST_DIR/10-snapshot-v1.IMGFMT' } } ]
++             } }
+ Formatting 'TEST_DIR/10-snapshot-v0.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/9-snapshot-v0.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ Formatting 'TEST_DIR/10-snapshot-v1.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=134217728 backing_file=TEST_DIR/9-snapshot-v1.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+@@ -69,48 +148,84 @@ Formatting 'TEST_DIR/10-snapshot-v1.qcow2', fmt=qcow2 cluster_size=65536 extende
+ === Create a couple of snapshots using blockdev-snapshot ===
+ 
+ Formatting 'TEST_DIR/11-snapshot-v0.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/10-snapshot-v0.IMGFMT backing_fmt=IMGFMT
+-{ 'execute': 'blockdev-add', 'arguments': { 'driver': 'IMGFMT', 'node-name': 'snap_11', 'backing': null, 'file': { 'driver': 'file', 'filename': 'TEST_DIR/11-snapshot-v0.IMGFMT', 'node-name': 'file_11' } } }
++{ 'execute': 'blockdev-add', 'arguments':
++           { 'driver': 'IMGFMT', 'node-name': 'snap_11', 'backing': null,
++             'file':
++             { 'driver': 'file', 'filename': 'TEST_DIR/11-snapshot-v0.IMGFMT',
++               'node-name': 'file_11' } } }
+ {"return": {}}
+-{ 'execute': 'blockdev-snapshot', 'arguments': { 'node': 'virtio0', 'overlay':'snap_11' } }
++{ 'execute': 'blockdev-snapshot',
++                      'arguments': { 'node': 'virtio0',
++                                     'overlay':'snap_11' } }
+ {"return": {}}
+ Formatting 'TEST_DIR/12-snapshot-v0.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/11-snapshot-v0.IMGFMT backing_fmt=IMGFMT
+-{ 'execute': 'blockdev-add', 'arguments': { 'driver': 'IMGFMT', 'node-name': 'snap_12', 'backing': null, 'file': { 'driver': 'file', 'filename': 'TEST_DIR/12-snapshot-v0.IMGFMT', 'node-name': 'file_12' } } }
++{ 'execute': 'blockdev-add', 'arguments':
++           { 'driver': 'IMGFMT', 'node-name': 'snap_12', 'backing': null,
++             'file':
++             { 'driver': 'file', 'filename': 'TEST_DIR/12-snapshot-v0.IMGFMT',
++               'node-name': 'file_12' } } }
+ {"return": {}}
+-{ 'execute': 'blockdev-snapshot', 'arguments': { 'node': 'virtio0', 'overlay':'snap_12' } }
++{ 'execute': 'blockdev-snapshot',
++                      'arguments': { 'node': 'virtio0',
++                                     'overlay':'snap_12' } }
+ {"return": {}}
+ 
+ === Invalid command - cannot create a snapshot using a file BDS ===
+ 
+-{ 'execute': 'blockdev-snapshot', 'arguments': { 'node':'virtio0', 'overlay':'file_12' } }
++{ 'execute': 'blockdev-snapshot',
++                     'arguments': { 'node':'virtio0',
++                                    'overlay':'file_12' }
++                   }
+ {"error": {"class": "GenericError", "desc": "The overlay is already in use"}}
+ 
+ === Invalid command - snapshot node used as active layer ===
+ 
+-{ 'execute': 'blockdev-snapshot', 'arguments': { 'node': 'virtio0', 'overlay':'snap_12' } }
++{ 'execute': 'blockdev-snapshot',
++                      'arguments': { 'node': 'virtio0',
++                                     'overlay':'snap_12' } }
+ {"error": {"class": "GenericError", "desc": "The overlay is already in use"}}
+-{ 'execute': 'blockdev-snapshot', 'arguments': { 'node':'virtio0', 'overlay':'virtio0' } }
++{ 'execute': 'blockdev-snapshot',
++                     'arguments': { 'node':'virtio0',
++                                    'overlay':'virtio0' }
++                   }
+ {"error": {"class": "GenericError", "desc": "The overlay is already in use"}}
+-{ 'execute': 'blockdev-snapshot', 'arguments': { 'node':'virtio0', 'overlay':'virtio1' } }
++{ 'execute': 'blockdev-snapshot',
++                     'arguments': { 'node':'virtio0',
++                                    'overlay':'virtio1' }
++                   }
+ {"error": {"class": "GenericError", "desc": "The overlay is already in use"}}
+ 
+ === Invalid command - snapshot node used as backing hd ===
+ 
+-{ 'execute': 'blockdev-snapshot', 'arguments': { 'node': 'virtio0', 'overlay':'snap_11' } }
++{ 'execute': 'blockdev-snapshot',
++                      'arguments': { 'node': 'virtio0',
++                                     'overlay':'snap_11' } }
+ {"error": {"class": "GenericError", "desc": "The overlay is already in use"}}
+ 
+ === Invalid command - snapshot node has a backing image ===
+ 
+ Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=134217728
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
+-{ 'execute': 'blockdev-add', 'arguments': { 'driver': 'IMGFMT', 'node-name': 'snap_13', 'file': { 'driver': 'file', 'filename': 'TEST_DIR/t.IMGFMT', 'node-name': 'file_13' } } }
+-{"return": {}}
+-{ 'execute': 'blockdev-snapshot', 'arguments': { 'node': 'virtio0', 'overlay':'snap_13' } }
++{ 'execute': 'blockdev-add', 'arguments':
++           { 'driver': 'IMGFMT', 'node-name': 'snap_13',
++             'file':
++             { 'driver': 'file', 'filename': 'TEST_DIR/t.IMGFMT',
++               'node-name': 'file_13' } } }
++{"return": {}}
++{ 'execute': 'blockdev-snapshot',
++                      'arguments': { 'node': 'virtio0',
++                                     'overlay':'snap_13' } }
+ {"error": {"class": "GenericError", "desc": "The overlay already has a backing image"}}
+ 
+ === Invalid command - The node does not exist ===
+ 
+-{ 'execute': 'blockdev-snapshot', 'arguments': { 'node': 'virtio0', 'overlay':'snap_14' } }
++{ 'execute': 'blockdev-snapshot',
++                      'arguments': { 'node': 'virtio0',
++                                     'overlay':'snap_14' } }
+ {"error": {"class": "GenericError", "desc": "Cannot find device=snap_14 nor node_name=snap_14"}}
+-{ 'execute': 'blockdev-snapshot', 'arguments': { 'node':'nodevice', 'overlay':'snap_13' } }
++{ 'execute': 'blockdev-snapshot',
++                     'arguments': { 'node':'nodevice',
++                                    'overlay':'snap_13' }
++                   }
+ {"error": {"class": "GenericError", "desc": "Cannot find device=nodevice nor node_name=nodevice"}}
+ *** done
+diff --git a/tests/qemu-iotests/094.out b/tests/qemu-iotests/094.out
+index 9b6c57b3e2..97f894cf8f 100644
+--- a/tests/qemu-iotests/094.out
++++ b/tests/qemu-iotests/094.out
+@@ -3,13 +3,19 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/source.IMGFMT', fmt=IMGFMT size=67108864
+ {'execute': 'qmp_capabilities'}
+ {"return": {}}
+-{'execute': 'drive-mirror', 'arguments': {'device': 'src', 'target': 'nbd+unix:///?socket=SOCK_DIR/nbd', 'format': 'nbd', 'sync':'full', 'mode':'existing'}}
++{'execute': 'drive-mirror',
++      'arguments': {'device': 'src',
++                    'target': 'nbd+unix:///?socket=SOCK_DIR/nbd',
++                    'format': 'nbd',
++                    'sync':'full',
++                    'mode':'existing'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "src"}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "src", "len": 67108864, "offset": 67108864, "speed": 0, "type": "mirror"}}
+-{'execute': 'block-job-complete', 'arguments': {'device': 'src'}}
++{'execute': 'block-job-complete',
++      'arguments': {'device': 'src'}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "src"}}
+diff --git a/tests/qemu-iotests/095.out b/tests/qemu-iotests/095.out
+index e66ced58f8..8257c5e1e6 100644
+--- a/tests/qemu-iotests/095.out
++++ b/tests/qemu-iotests/095.out
+@@ -12,7 +12,9 @@ virtual size: 5 MiB (5242880 bytes)
+ 
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'block-commit', 'arguments': { 'device': 'test', 'top': 'TEST_DIR/t.IMGFMT.snp1' } }
++{ 'execute': 'block-commit',
++                                 'arguments': { 'device': 'test',
++                                 'top': 'TEST_DIR/t.IMGFMT.snp1' } }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "test"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "test"}}
+ {"return": {}}
+diff --git a/tests/qemu-iotests/109.out b/tests/qemu-iotests/109.out
+index ad739df46c..6e73406cdb 100644
+--- a/tests/qemu-iotests/109.out
++++ b/tests/qemu-iotests/109.out
+@@ -6,7 +6,9 @@ Formatting 'TEST_DIR/t.raw.src', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed raw.
+          Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+          Specify the 'raw' format explicitly to remove the restrictions.
+@@ -27,7 +29,9 @@ read 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "src"}}
+ {"return": {}}
+@@ -51,7 +55,9 @@ Formatting 'TEST_DIR/t.raw.src', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed raw.
+          Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+          Specify the 'raw' format explicitly to remove the restrictions.
+@@ -72,7 +78,9 @@ read 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "src"}}
+ {"return": {}}
+@@ -96,7 +104,9 @@ Formatting 'TEST_DIR/t.raw.src', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed raw.
+          Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+          Specify the 'raw' format explicitly to remove the restrictions.
+@@ -117,7 +127,9 @@ read 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "src"}}
+ {"return": {}}
+@@ -141,7 +153,9 @@ Formatting 'TEST_DIR/t.raw.src', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed raw.
+          Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+          Specify the 'raw' format explicitly to remove the restrictions.
+@@ -162,7 +176,9 @@ read 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "src"}}
+ {"return": {}}
+@@ -186,7 +202,9 @@ Formatting 'TEST_DIR/t.raw.src', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed raw.
+          Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+          Specify the 'raw' format explicitly to remove the restrictions.
+@@ -207,7 +225,9 @@ read 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "src"}}
+ {"return": {}}
+@@ -231,7 +251,9 @@ Formatting 'TEST_DIR/t.raw.src', fmt=IMGFMT size=67108864
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed raw.
+          Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+          Specify the 'raw' format explicitly to remove the restrictions.
+@@ -252,7 +274,9 @@ read 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "src"}}
+ {"return": {}}
+@@ -275,7 +299,9 @@ Images are identical.
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed raw.
+          Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+          Specify the 'raw' format explicitly to remove the restrictions.
+@@ -296,7 +322,9 @@ read 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "src"}}
+ {"return": {}}
+@@ -319,7 +347,9 @@ Images are identical.
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed raw.
+          Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+          Specify the 'raw' format explicitly to remove the restrictions.
+@@ -340,7 +370,9 @@ read 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "src"}}
+ {"return": {}}
+@@ -363,7 +395,9 @@ Images are identical.
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed raw.
+          Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+          Specify the 'raw' format explicitly to remove the restrictions.
+@@ -384,7 +418,9 @@ read 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "src"}}
+ {"return": {}}
+@@ -407,7 +443,9 @@ Images are identical.
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed raw.
+          Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+          Specify the 'raw' format explicitly to remove the restrictions.
+@@ -428,7 +466,9 @@ read 512/512 bytes at offset 0
+ 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "src"}}
+ {"return": {}}
+@@ -451,7 +491,9 @@ Images are identical.
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=SIZE
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed raw.
+          Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+          Specify the 'raw' format explicitly to remove the restrictions.
+@@ -473,7 +515,9 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
+ Images are identical.
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute':'drive-mirror', 'arguments':{ 'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'existing', 'sync': 'full'}}
++{'execute':'drive-mirror', 'arguments':{
++            'device': 'src', 'target': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT',
++            'mode': 'existing', 'sync': 'full'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "src"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "src"}}
+ {"return": {}}
+diff --git a/tests/qemu-iotests/117.out b/tests/qemu-iotests/117.out
+index bb623dcc0a..735ffd25c6 100644
+--- a/tests/qemu-iotests/117.out
++++ b/tests/qemu-iotests/117.out
+@@ -2,11 +2,18 @@ QA output created by 117
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=65536
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'blockdev-add', 'arguments': { 'node-name': 'protocol', 'driver': 'file', 'filename': 'TEST_DIR/t.IMGFMT' } }
++{ 'execute': 'blockdev-add',
++       'arguments': { 'node-name': 'protocol',
++                      'driver': 'file',
++                      'filename': 'TEST_DIR/t.IMGFMT' } }
+ {"return": {}}
+-{ 'execute': 'blockdev-add', 'arguments': { 'node-name': 'format', 'driver': 'IMGFMT', 'file': 'protocol' } }
++{ 'execute': 'blockdev-add',
++       'arguments': { 'node-name': 'format',
++                      'driver': 'IMGFMT',
++                      'file': 'protocol' } }
+ {"return": {}}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io format "write -P 42 0 64k"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line': 'qemu-io format "write -P 42 0 64k"' } }
+ wrote 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": ""}
+diff --git a/tests/qemu-iotests/127.out b/tests/qemu-iotests/127.out
+index efd6cb327f..1685c4850a 100644
+--- a/tests/qemu-iotests/127.out
++++ b/tests/qemu-iotests/127.out
+@@ -6,13 +6,21 @@ wrote 42/42 bytes at offset 0
+ 42 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'drive-mirror', 'arguments': { 'job-id': 'mirror', 'device': 'source', 'target': 'TEST_DIR/t.IMGFMT.overlay1', 'mode': 'existing', 'sync': 'top' } }
++{ 'execute': 'drive-mirror',
++       'arguments': {
++           'job-id': 'mirror',
++           'device': 'source',
++           'target': 'TEST_DIR/t.IMGFMT.overlay1',
++           'mode':   'existing',
++           'sync':   'top'
++       } }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "mirror"}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "mirror", "len": 65536, "offset": 65536, "speed": 0, "type": "mirror"}}
+-{ 'execute': 'block-job-complete', 'arguments': { 'device': 'mirror' } }
++{ 'execute': 'block-job-complete',
++       'arguments': { 'device': 'mirror' } }
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "mirror"}}
+diff --git a/tests/qemu-iotests/140.out b/tests/qemu-iotests/140.out
+index 62d9c3ab3c..312f76d5da 100644
+--- a/tests/qemu-iotests/140.out
++++ b/tests/qemu-iotests/140.out
+@@ -4,13 +4,17 @@ wrote 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'nbd-server-start', 'arguments': { 'addr': { 'type': 'unix', 'data': { 'path': 'SOCK_DIR/nbd' }}}}
++{ 'execute': 'nbd-server-start',
++       'arguments': { 'addr': { 'type': 'unix',
++                                'data': { 'path': 'SOCK_DIR/nbd' }}}}
+ {"return": {}}
+-{ 'execute': 'nbd-server-add', 'arguments': { 'device': 'drv' }}
++{ 'execute': 'nbd-server-add',
++       'arguments': { 'device': 'drv' }}
+ {"return": {}}
+ read 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-{ 'execute': 'eject', 'arguments': { 'device': 'drv' }}
++{ 'execute': 'eject',
++       'arguments': { 'device': 'drv' }}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "drv"}}
+ qemu-io: can't open device nbd+unix:///drv?socket=SOCK_DIR/nbd: Requested export not available
+ server reported: export 'drv' not present
+diff --git a/tests/qemu-iotests/141.out b/tests/qemu-iotests/141.out
+index 08e0aecd65..6d8652e22b 100644
+--- a/tests/qemu-iotests/141.out
++++ b/tests/qemu-iotests/141.out
+@@ -7,105 +7,173 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/m.
+ 
+ === Testing drive-backup ===
+ 
+-{'execute': 'blockdev-add', 'arguments': { 'node-name': 'drv0', 'driver': 'IMGFMT', 'file': { 'driver': 'file', 'filename': 'TEST_DIR/t.IMGFMT' }}}
+-{"return": {}}
+-{'execute': 'drive-backup', 'arguments': {'job-id': 'job0', 'device': 'drv0', 'target': 'TEST_DIR/o.IMGFMT', 'format': 'IMGFMT', 'sync': 'none'}}
++{'execute': 'blockdev-add',
++          'arguments': {
++              'node-name': 'drv0',
++              'driver': 'IMGFMT',
++              'file': {
++                  'driver': 'file',
++                  'filename': 'TEST_DIR/t.IMGFMT'
++              }}}
++{"return": {}}
++{'execute': 'drive-backup',
++'arguments': {'job-id': 'job0',
++'device': 'drv0',
++'target': 'TEST_DIR/o.IMGFMT',
++'format': 'IMGFMT',
++'sync': 'none'}}
+ Formatting 'TEST_DIR/o.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT backing_fmt=IMGFMT
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "paused", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+-{'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
++{'execute': 'blockdev-del',
++          'arguments': {'node-name': 'drv0'}}
+ {"error": {"class": "GenericError", "desc": "Node 'drv0' is busy: node is used as backing hd of 'NODE_NAME'"}}
+-{'execute': 'block-job-cancel', 'arguments': {'device': 'job0'}}
++{'execute': 'block-job-cancel',
++          'arguments': {'device': 'job0'}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_CANCELLED", "data": {"device": "job0", "len": 1048576, "offset": 0, "speed": 0, "type": "backup"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "job0"}}
+-{'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
++{'execute': 'blockdev-del',
++          'arguments': {'node-name': 'drv0'}}
+ {"return": {}}
+ 
+ === Testing drive-mirror ===
+ 
+-{'execute': 'blockdev-add', 'arguments': { 'node-name': 'drv0', 'driver': 'IMGFMT', 'file': { 'driver': 'file', 'filename': 'TEST_DIR/t.IMGFMT' }}}
+-{"return": {}}
+-{'execute': 'drive-mirror', 'arguments': {'job-id': 'job0', 'device': 'drv0', 'target': 'TEST_DIR/o.IMGFMT', 'format': 'IMGFMT', 'sync': 'none'}}
++{'execute': 'blockdev-add',
++          'arguments': {
++              'node-name': 'drv0',
++              'driver': 'IMGFMT',
++              'file': {
++                  'driver': 'file',
++                  'filename': 'TEST_DIR/t.IMGFMT'
++              }}}
++{"return": {}}
++{'execute': 'drive-mirror',
++'arguments': {'job-id': 'job0',
++'device': 'drv0',
++'target': 'TEST_DIR/o.IMGFMT',
++'format': 'IMGFMT',
++'sync': 'none'}}
+ Formatting 'TEST_DIR/o.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT backing_fmt=IMGFMT
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "job0", "len": 0, "offset": 0, "speed": 0, "type": "mirror"}}
+-{'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
++{'execute': 'blockdev-del',
++          'arguments': {'node-name': 'drv0'}}
+ {"error": {"class": "GenericError", "desc": "Node 'drv0' is busy: block device is in use by block job: mirror"}}
+-{'execute': 'block-job-cancel', 'arguments': {'device': 'job0'}}
++{'execute': 'block-job-cancel',
++          'arguments': {'device': 'job0'}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "job0", "len": 0, "offset": 0, "speed": 0, "type": "mirror"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "job0"}}
+-{'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
++{'execute': 'blockdev-del',
++          'arguments': {'node-name': 'drv0'}}
+ {"return": {}}
+ 
+ === Testing active block-commit ===
+ 
+-{'execute': 'blockdev-add', 'arguments': { 'node-name': 'drv0', 'driver': 'IMGFMT', 'file': { 'driver': 'file', 'filename': 'TEST_DIR/t.IMGFMT' }}}
+-{"return": {}}
+-{'execute': 'block-commit', 'arguments': {'job-id': 'job0', 'device': 'drv0'}}
++{'execute': 'blockdev-add',
++          'arguments': {
++              'node-name': 'drv0',
++              'driver': 'IMGFMT',
++              'file': {
++                  'driver': 'file',
++                  'filename': 'TEST_DIR/t.IMGFMT'
++              }}}
++{"return": {}}
++{'execute': 'block-commit',
++'arguments': {'job-id': 'job0', 'device': 'drv0'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "job0", "len": 0, "offset": 0, "speed": 0, "type": "commit"}}
+-{'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
++{'execute': 'blockdev-del',
++          'arguments': {'node-name': 'drv0'}}
+ {"error": {"class": "GenericError", "desc": "Node 'drv0' is busy: block device is in use by block job: commit"}}
+-{'execute': 'block-job-cancel', 'arguments': {'device': 'job0'}}
++{'execute': 'block-job-cancel',
++          'arguments': {'device': 'job0'}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "job0", "len": 0, "offset": 0, "speed": 0, "type": "commit"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "job0"}}
+-{'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
++{'execute': 'blockdev-del',
++          'arguments': {'node-name': 'drv0'}}
+ {"return": {}}
+ 
+ === Testing non-active block-commit ===
+ 
+ wrote 1048576/1048576 bytes at offset 0
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-{'execute': 'blockdev-add', 'arguments': { 'node-name': 'drv0', 'driver': 'IMGFMT', 'file': { 'driver': 'file', 'filename': 'TEST_DIR/t.IMGFMT' }}}
+-{"return": {}}
+-{'execute': 'block-commit', 'arguments': {'job-id': 'job0', 'device': 'drv0', 'top': 'TEST_DIR/m.IMGFMT', 'speed': 1}}
++{'execute': 'blockdev-add',
++          'arguments': {
++              'node-name': 'drv0',
++              'driver': 'IMGFMT',
++              'file': {
++                  'driver': 'file',
++                  'filename': 'TEST_DIR/t.IMGFMT'
++              }}}
++{"return": {}}
++{'execute': 'block-commit',
++'arguments': {'job-id': 'job0',
++'device': 'drv0',
++'top':    'TEST_DIR/m.IMGFMT',
++'speed':  1}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+-{'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
++{'execute': 'blockdev-del',
++          'arguments': {'node-name': 'drv0'}}
+ {"error": {"class": "GenericError", "desc": "Node drv0 is in use"}}
+-{'execute': 'block-job-cancel', 'arguments': {'device': 'job0'}}
++{'execute': 'block-job-cancel',
++          'arguments': {'device': 'job0'}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_CANCELLED", "data": {"device": "job0", "len": 1048576, "offset": 524288, "speed": 1, "type": "commit"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "job0"}}
+-{'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
++{'execute': 'blockdev-del',
++          'arguments': {'node-name': 'drv0'}}
+ {"return": {}}
+ 
+ === Testing block-stream ===
+ 
+ wrote 1048576/1048576 bytes at offset 0
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-{'execute': 'blockdev-add', 'arguments': { 'node-name': 'drv0', 'driver': 'IMGFMT', 'file': { 'driver': 'file', 'filename': 'TEST_DIR/t.IMGFMT' }}}
+-{"return": {}}
+-{'execute': 'block-stream', 'arguments': {'job-id': 'job0', 'device': 'drv0', 'speed': 1}}
++{'execute': 'blockdev-add',
++          'arguments': {
++              'node-name': 'drv0',
++              'driver': 'IMGFMT',
++              'file': {
++                  'driver': 'file',
++                  'filename': 'TEST_DIR/t.IMGFMT'
++              }}}
++{"return": {}}
++{'execute': 'block-stream',
++'arguments': {'job-id': 'job0',
++'device': 'drv0',
++'speed': 1}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+-{'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
++{'execute': 'blockdev-del',
++          'arguments': {'node-name': 'drv0'}}
+ {"error": {"class": "GenericError", "desc": "Node drv0 is in use"}}
+-{'execute': 'block-job-cancel', 'arguments': {'device': 'job0'}}
++{'execute': 'block-job-cancel',
++          'arguments': {'device': 'job0'}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_CANCELLED", "data": {"device": "job0", "len": 1048576, "offset": 524288, "speed": 1, "type": "stream"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "job0"}}
+-{'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
++{'execute': 'blockdev-del',
++          'arguments': {'node-name': 'drv0'}}
+ {"return": {}}
+ *** done
+diff --git a/tests/qemu-iotests/143.out b/tests/qemu-iotests/143.out
+index fc9c0a761f..9ec5888e0e 100644
+--- a/tests/qemu-iotests/143.out
++++ b/tests/qemu-iotests/143.out
+@@ -1,7 +1,9 @@
+ QA output created by 143
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'nbd-server-start', 'arguments': { 'addr': { 'type': 'unix', 'data': { 'path': 'SOCK_DIR/nbd' }}}}
++{ 'execute': 'nbd-server-start',
++       'arguments': { 'addr': { 'type': 'unix',
++                                'data': { 'path': 'SOCK_DIR/nbd' }}}}
+ {"return": {}}
+ qemu-io: can't open device nbd+unix:///no_such_export?socket=SOCK_DIR/nbd: Requested export not available
+ server reported: export 'no_such_export' not present
+diff --git a/tests/qemu-iotests/144.out b/tests/qemu-iotests/144.out
+index 13e0c4f5a7..b3b4812015 100644
+--- a/tests/qemu-iotests/144.out
++++ b/tests/qemu-iotests/144.out
+@@ -8,19 +8,33 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=536870912
+ 
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'blockdev-snapshot-sync', 'arguments': { 'device': 'virtio0', 'snapshot-file':'TEST_DIR/tmp.IMGFMT', 'format': 'IMGFMT' } }
++{ 'execute': 'blockdev-snapshot-sync',
++                                'arguments': {
++                                             'device': 'virtio0',
++                                             'snapshot-file':'TEST_DIR/tmp.IMGFMT',
++                                             'format': 'IMGFMT'
++                                             }
++                    }
+ Formatting 'TEST_DIR/tmp.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=536870912 backing_file=TEST_DIR/t.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+ 
+ === Performing block-commit on active layer ===
+ 
+-{ 'execute': 'block-commit', 'arguments': { 'device': 'virtio0' } }
++{ 'execute': 'block-commit',
++                                'arguments': {
++                                                 'device': 'virtio0'
++                                              }
++                    }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "virtio0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "virtio0"}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "virtio0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "virtio0", "len": 0, "offset": 0, "speed": 0, "type": "commit"}}
+-{ 'execute': 'block-job-complete', 'arguments': { 'device': 'virtio0' } }
++{ 'execute': 'block-job-complete',
++                                'arguments': {
++                                                'device': 'virtio0'
++                                              }
++                   }
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "virtio0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "virtio0"}}
+@@ -30,7 +44,13 @@ Formatting 'TEST_DIR/tmp.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off co
+ 
+ === Performing Live Snapshot 2 ===
+ 
+-{ 'execute': 'blockdev-snapshot-sync', 'arguments': { 'device': 'virtio0', 'snapshot-file':'TEST_DIR/tmp2.IMGFMT', 'format': 'IMGFMT' } }
++{ 'execute': 'blockdev-snapshot-sync',
++                                'arguments': {
++                                                'device': 'virtio0',
++                                                'snapshot-file':'TEST_DIR/tmp2.IMGFMT',
++                                                'format': 'IMGFMT'
++                                              }
++                   }
+ Formatting 'TEST_DIR/tmp2.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=536870912 backing_file=TEST_DIR/t.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+ *** done
+diff --git a/tests/qemu-iotests/153.out b/tests/qemu-iotests/153.out
+index fcaa71aeee..ff8e55864a 100644
+--- a/tests/qemu-iotests/153.out
++++ b/tests/qemu-iotests/153.out
+@@ -425,7 +425,8 @@ _qemu_img_wrapper commit -b TEST_DIR/t.qcow2.b TEST_DIR/t.qcow2.c
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ Adding drive
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'drive_add 0 if=none,id=d0,file=TEST_DIR/t.IMGFMT' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line': 'drive_add 0 if=none,id=d0,file=TEST_DIR/t.IMGFMT' } }
+ {"return": "OKrn"}
+ 
+ _qemu_io_wrapper TEST_DIR/t.qcow2 -c write 0 512
+@@ -435,25 +436,30 @@ Creating overlay with qemu-img when the guest is running should be allowed
+ 
+ _qemu_img_wrapper create -f qcow2 -b TEST_DIR/t.qcow2 -F qcow2 TEST_DIR/t.qcow2.overlay
+ == Closing an image should unlock it ==
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'drive_del d0' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line': 'drive_del d0' } }
+ {"return": ""}
+ 
+ _qemu_io_wrapper TEST_DIR/t.qcow2 -c write 0 512
+ Adding two and closing one
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'drive_add 0 if=none,id=d0,file=TEST_DIR/t.IMGFMT,readonly=on' } }
++{ 'execute': 'human-monitor-command',
++           'arguments': { 'command-line': 'drive_add 0 if=none,id=d0,file=TEST_DIR/t.IMGFMT,readonly=on' } }
+ {"return": "OKrn"}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'drive_add 0 if=none,id=d1,file=TEST_DIR/t.IMGFMT,readonly=on' } }
++{ 'execute': 'human-monitor-command',
++           'arguments': { 'command-line': 'drive_add 0 if=none,id=d1,file=TEST_DIR/t.IMGFMT,readonly=on' } }
+ {"return": "OKrn"}
+ 
+ _qemu_img_wrapper info TEST_DIR/t.qcow2
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'drive_del d0' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line': 'drive_del d0' } }
+ {"return": ""}
+ 
+ _qemu_io_wrapper TEST_DIR/t.qcow2 -c write 0 512
+ qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock
+ Is another process using the image [TEST_DIR/t.qcow2]?
+ Closing the other
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'drive_del d1' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line': 'drive_del d1' } }
+ {"return": ""}
+ 
+ _qemu_io_wrapper TEST_DIR/t.qcow2 -c write 0 512
+diff --git a/tests/qemu-iotests/156.out b/tests/qemu-iotests/156.out
+index cce167b63f..4a22f0c41a 100644
+--- a/tests/qemu-iotests/156.out
++++ b/tests/qemu-iotests/156.out
+@@ -8,24 +8,37 @@ wrote 196608/196608 bytes at offset 65536
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+ Formatting 'TEST_DIR/t.IMGFMT.overlay', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT backing_fmt=IMGFMT
+-{ 'execute': 'blockdev-snapshot-sync', 'arguments': { 'device': 'source', 'snapshot-file': 'TEST_DIR/t.IMGFMT.overlay', 'format': 'IMGFMT', 'mode': 'existing' } }
++{ 'execute': 'blockdev-snapshot-sync',
++       'arguments': { 'device': 'source',
++                      'snapshot-file': 'TEST_DIR/t.IMGFMT.overlay',
++                      'format': 'IMGFMT',
++                      'mode': 'existing' } }
+ {"return": {}}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io source "write -P 3 128k 128k"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io source "write -P 3 128k 128k"' } }
+ wrote 131072/131072 bytes at offset 131072
+ 128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": ""}
+ Formatting 'TEST_DIR/t.IMGFMT.target.overlay', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT.target backing_fmt=IMGFMT
+-{ 'execute': 'drive-mirror', 'arguments': { 'device': 'source', 'target': 'TEST_DIR/t.IMGFMT.target.overlay', 'mode': 'existing', 'sync': 'top' } }
++{ 'execute': 'drive-mirror',
++       'arguments': { 'device': 'source',
++                      'target': 'TEST_DIR/t.IMGFMT.target.overlay',
++                      'mode': 'existing',
++                      'sync': 'top' } }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "source"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "source"}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "source"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "source", "len": 131072, "offset": 131072, "speed": 0, "type": "mirror"}}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io source "write -P 4 192k 64k"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io source "write -P 4 192k 64k"' } }
+ wrote 65536/65536 bytes at offset 196608
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": ""}
+-{ 'execute': 'block-job-complete', 'arguments': { 'device': 'source' } }
++{ 'execute': 'block-job-complete',
++       'arguments': { 'device': 'source' } }
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "source"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "source"}}
+@@ -33,19 +46,27 @@ wrote 65536/65536 bytes at offset 196608
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "source"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "source"}}
+ 
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io source "read -P 1 0k 64k"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io source "read -P 1 0k 64k"' } }
+ read 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": ""}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io source "read -P 2 64k 64k"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io source "read -P 2 64k 64k"' } }
+ read 65536/65536 bytes at offset 65536
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": ""}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io source "read -P 3 128k 64k"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io source "read -P 3 128k 64k"' } }
+ read 65536/65536 bytes at offset 131072
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": ""}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io source "read -P 4 192k 64k"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io source "read -P 4 192k 64k"' } }
+ read 65536/65536 bytes at offset 196608
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": ""}
+diff --git a/tests/qemu-iotests/161.out b/tests/qemu-iotests/161.out
+index 3d8d89a9da..6cc285afcf 100644
+--- a/tests/qemu-iotests/161.out
++++ b/tests/qemu-iotests/161.out
+@@ -7,18 +7,23 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.
+ 
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io none0 "reopen -o backing.detect-zeroes=on"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io none0 "reopen -o backing.detect-zeroes=on"' } }
+ {"return": ""}
+ 
+ *** Stream and then change an option on the backing file
+ 
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'block-stream', 'arguments': { 'device': 'none0', 'base': 'TEST_DIR/t.IMGFMT.base' } }
++{ 'execute': 'block-stream',        'arguments': { 'device': 'none0',
++                      'base': 'TEST_DIR/t.IMGFMT.base' } }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "none0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "none0"}}
+ {"return": {}}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io none0 "reopen -o backing.detect-zeroes=on"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io none0 "reopen -o backing.detect-zeroes=on"' } }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "none0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "none0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "none0", "len": 1048576, "offset": 1048576, "speed": 0, "type": "stream"}}
+@@ -33,11 +38,14 @@ Formatting 'TEST_DIR/t.IMGFMT.int', fmt=IMGFMT size=1048576 backing_file=TEST_DI
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.IMGFMT.int backing_fmt=IMGFMT
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'block-commit', 'arguments': { 'device': 'none0', 'top': 'TEST_DIR/t.IMGFMT.int' } }
++{ 'execute': 'block-commit',        'arguments': { 'device': 'none0',
++                      'top': 'TEST_DIR/t.IMGFMT.int' } }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "none0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "none0"}}
+ {"return": {}}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io none0 "reopen -o backing.detect-zeroes=on"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io none0 "reopen -o backing.detect-zeroes=on"' } }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "none0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "none0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_COMPLETED", "data": {"device": "none0", "len": 1048576, "offset": 1048576, "speed": 0, "type": "commit"}}
+diff --git a/tests/qemu-iotests/173.out b/tests/qemu-iotests/173.out
+index b5114b5c79..2d6490d680 100644
+--- a/tests/qemu-iotests/173.out
++++ b/tests/qemu-iotests/173.out
+@@ -6,11 +6,30 @@ Formatting 'TEST_DIR/image.snp1', fmt=IMGFMT size=104857600
+ 
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'arguments': { 'device': 'disk2', 'format': 'IMGFMT', 'mode': 'existing', 'snapshot-file': 'TEST_DIR/image.snp1', 'snapshot-node-name': 'snp1' }, 'execute': 'blockdev-snapshot-sync' }
++{ 'arguments': {
++                        'device': 'disk2',
++                        'format': 'IMGFMT',
++                        'mode': 'existing',
++                        'snapshot-file': 'TEST_DIR/image.snp1',
++                        'snapshot-node-name': 'snp1'
++                     },
++                     'execute': 'blockdev-snapshot-sync'
++                   }
+ {"return": {}}
+-{ 'arguments': { 'backing-file': 'image.base', 'device': 'disk2', 'image-node-name': 'snp1' }, 'execute': 'change-backing-file' }
++{ 'arguments': {
++                        'backing-file': 'image.base',
++                        'device': 'disk2',
++                        'image-node-name': 'snp1'
++                     },
++                     'execute': 'change-backing-file'
++                   }
+ {"return": {}}
+-{ 'arguments': { 'base': 'TEST_DIR/image.base', 'device': 'disk2' }, 'execute': 'block-stream' }
++{ 'arguments': {
++                        'base': 'TEST_DIR/image.base',
++                        'device': 'disk2'
++                      },
++                      'execute': 'block-stream'
++                   }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "disk2"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "disk2"}}
+ {"return": {}}
+diff --git a/tests/qemu-iotests/182.out b/tests/qemu-iotests/182.out
+index ce23340670..57f7265458 100644
+--- a/tests/qemu-iotests/182.out
++++ b/tests/qemu-iotests/182.out
+@@ -10,16 +10,42 @@ Is another process using the image [TEST_DIR/t.qcow2]?
+ 
+ {'execute': 'qmp_capabilities'}
+ {"return": {}}
+-{'execute': 'blockdev-add', 'arguments': { 'node-name': 'node0', 'driver': 'file', 'filename': 'TEST_DIR/t.IMGFMT', 'locking': 'on' } }
+-{"return": {}}
+-{'execute': 'blockdev-snapshot-sync', 'arguments': { 'node-name': 'node0', 'snapshot-file': 'TEST_DIR/t.IMGFMT.overlay', 'snapshot-node-name': 'node1' } }
++{'execute': 'blockdev-add',
++      'arguments': {
++          'node-name': 'node0',
++          'driver': 'file',
++          'filename': 'TEST_DIR/t.IMGFMT',
++          'locking': 'on'
++          } }
++{"return": {}}
++{'execute': 'blockdev-snapshot-sync',
++      'arguments': {
++          'node-name': 'node0',
++          'snapshot-file': 'TEST_DIR/t.IMGFMT.overlay',
++          'snapshot-node-name': 'node1'
++      } }
+ Formatting 'TEST_DIR/t.qcow2.overlay', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=197120 backing_file=TEST_DIR/t.qcow2 backing_fmt=file lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+-{'execute': 'blockdev-add', 'arguments': { 'node-name': 'node1', 'driver': 'file', 'filename': 'TEST_DIR/t.IMGFMT', 'locking': 'on' } }
+-{"return": {}}
+-{'execute': 'nbd-server-start', 'arguments': { 'addr': { 'type': 'unix', 'data': { 'path': 'SOCK_DIR/nbd.socket' } } } }
+-{"return": {}}
+-{'execute': 'nbd-server-add', 'arguments': { 'device': 'node1' } }
++{'execute': 'blockdev-add',
++      'arguments': {
++          'node-name': 'node1',
++          'driver': 'file',
++          'filename': 'TEST_DIR/t.IMGFMT',
++          'locking': 'on'
++          } }
++{"return": {}}
++{'execute': 'nbd-server-start',
++      'arguments': {
++          'addr': {
++              'type': 'unix',
++              'data': {
++                  'path': 'SOCK_DIR/nbd.socket'
++              } } } }
++{"return": {}}
++{'execute': 'nbd-server-add',
++      'arguments': {
++          'device': 'node1'
++      } }
+ {"return": {}}
+ 
+ === Testing failure to loosen restrictions ===
+diff --git a/tests/qemu-iotests/183.out b/tests/qemu-iotests/183.out
+index d4be2cb2de..fd9c2e52a5 100644
+--- a/tests/qemu-iotests/183.out
++++ b/tests/qemu-iotests/183.out
+@@ -11,18 +11,23 @@ Formatting 'TEST_DIR/t.IMGFMT.dest', fmt=IMGFMT size=67108864
+ 
+ === Write something on the source ===
+ 
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io disk "write -P 0x55 0 64k"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io disk "write -P 0x55 0 64k"' } }
+ wrote 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": ""}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io disk "read -P 0x55 0 64k"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io disk "read -P 0x55 0 64k"' } }
+ read 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": ""}
+ 
+ === Do block migration to destination ===
+ 
+-{ 'execute': 'migrate', 'arguments': { 'uri': 'unix:SOCK_DIR/migrate', 'blk': true } }
++{ 'execute': 'migrate',
++       'arguments': { 'uri': 'unix:SOCK_DIR/migrate', 'blk': true } }
+ {"return": {}}
+ { 'execute': 'query-status' }
+ {"return": {"status": "postmigrate", "singlestep": false, "running": false}}
+@@ -32,11 +37,15 @@ read 65536/65536 bytes at offset 0
+ { 'execute': 'query-status' }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "RESUME"}
+ {"return": {"status": "running", "singlestep": false, "running": true}}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io disk "read -P 0x55 0 64k"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io disk "read -P 0x55 0 64k"' } }
+ read 65536/65536 bytes at offset 0
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": ""}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io disk "write -P 0x66 1M 64k"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io disk "write -P 0x66 1M 64k"' } }
+ wrote 65536/65536 bytes at offset 1048576
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": ""}
+diff --git a/tests/qemu-iotests/185.out b/tests/qemu-iotests/185.out
+index 339438ac68..eab55d22bf 100644
+--- a/tests/qemu-iotests/185.out
++++ b/tests/qemu-iotests/185.out
+@@ -8,20 +8,34 @@ Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
+ 
+ === Creating backing chain ===
+ 
+-{ 'execute': 'blockdev-snapshot-sync', 'arguments': { 'device': 'disk', 'snapshot-file': 'TEST_DIR/t.IMGFMT.mid', 'format': 'IMGFMT', 'mode': 'absolute-paths' } }
++{ 'execute': 'blockdev-snapshot-sync',
++       'arguments': { 'device': 'disk',
++                      'snapshot-file': 'TEST_DIR/t.IMGFMT.mid',
++                      'format': 'IMGFMT',
++                      'mode': 'absolute-paths' } }
+ Formatting 'TEST_DIR/t.qcow2.mid', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=67108864 backing_file=TEST_DIR/t.qcow2.base backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+-{ 'execute': 'human-monitor-command', 'arguments': { 'command-line': 'qemu-io disk "write 0 4M"' } }
++{ 'execute': 'human-monitor-command',
++       'arguments': { 'command-line':
++                      'qemu-io disk "write 0 4M"' } }
+ wrote 4194304/4194304 bytes at offset 0
+ 4 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {"return": ""}
+-{ 'execute': 'blockdev-snapshot-sync', 'arguments': { 'device': 'disk', 'snapshot-file': 'TEST_DIR/t.IMGFMT', 'format': 'IMGFMT', 'mode': 'absolute-paths' } }
++{ 'execute': 'blockdev-snapshot-sync',
++       'arguments': { 'device': 'disk',
++                      'snapshot-file': 'TEST_DIR/t.IMGFMT',
++                      'format': 'IMGFMT',
++                      'mode': 'absolute-paths' } }
+ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=67108864 backing_file=TEST_DIR/t.qcow2.mid backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+ {"return": {}}
+ 
+ === Start commit job and exit qemu ===
+ 
+-{ 'execute': 'block-commit', 'arguments': { 'device': 'disk', 'base':'TEST_DIR/t.IMGFMT.base', 'top': 'TEST_DIR/t.IMGFMT.mid', 'speed': 65536 } }
++{ 'execute': 'block-commit',
++       'arguments': { 'device': 'disk',
++                      'base':'TEST_DIR/t.IMGFMT.base',
++                      'top': 'TEST_DIR/t.IMGFMT.mid',
++                      'speed': 65536 } }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "disk"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "disk"}}
+ {"return": {}}
+@@ -34,7 +48,10 @@ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off comp
+ 
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'block-commit', 'arguments': { 'device': 'disk', 'base':'TEST_DIR/t.IMGFMT.base', 'speed': 65536 } }
++{ 'execute': 'block-commit',
++       'arguments': { 'device': 'disk',
++                      'base':'TEST_DIR/t.IMGFMT.base',
++                      'speed': 65536 } }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "disk"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "disk"}}
+ {"return": {}}
+@@ -47,7 +64,12 @@ Formatting 'TEST_DIR/t.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off comp
+ 
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'drive-mirror', 'arguments': { 'device': 'disk', 'target': 'TEST_DIR/t.IMGFMT.copy', 'format': 'IMGFMT', 'sync': 'full', 'speed': 65536 } }
++{ 'execute': 'drive-mirror',
++       'arguments': { 'device': 'disk',
++                      'target': 'TEST_DIR/t.IMGFMT.copy',
++                      'format': 'IMGFMT',
++                      'sync': 'full',
++                      'speed': 65536 } }
+ Formatting 'TEST_DIR/t.qcow2.copy', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=67108864 lazy_refcounts=off refcount_bits=16
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "disk"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "disk"}}
+@@ -61,7 +83,12 @@ Formatting 'TEST_DIR/t.qcow2.copy', fmt=qcow2 cluster_size=65536 extended_l2=off
+ 
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'drive-backup', 'arguments': { 'device': 'disk', 'target': 'TEST_DIR/t.IMGFMT.copy', 'format': 'IMGFMT', 'sync': 'full', 'speed': 65536 } }
++{ 'execute': 'drive-backup',
++       'arguments': { 'device': 'disk',
++                      'target': 'TEST_DIR/t.IMGFMT.copy',
++                      'format': 'IMGFMT',
++                      'sync': 'full',
++                      'speed': 65536 } }
+ Formatting 'TEST_DIR/t.qcow2.copy', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=67108864 lazy_refcounts=off refcount_bits=16
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "disk"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "disk"}}
+@@ -77,7 +104,9 @@ Formatting 'TEST_DIR/t.qcow2.copy', fmt=qcow2 cluster_size=65536 extended_l2=off
+ 
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{ 'execute': 'block-stream', 'arguments': { 'device': 'disk', 'speed': 65536 } }
++{ 'execute': 'block-stream',
++       'arguments': { 'device': 'disk',
++                      'speed': 65536 } }
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "disk"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "disk"}}
+ {"return": {}}
+diff --git a/tests/qemu-iotests/191.out b/tests/qemu-iotests/191.out
+index 11aaf3b691..022021efab 100644
+--- a/tests/qemu-iotests/191.out
++++ b/tests/qemu-iotests/191.out
+@@ -16,7 +16,11 @@ wrote 65536/65536 bytes at offset 1048576
+ 
+ === Perform commit job ===
+ 
+-{ 'execute': 'block-commit', 'arguments': { 'job-id': 'commit0', 'device': 'top', 'base':'TEST_DIR/t.IMGFMT.base', 'top': 'TEST_DIR/t.IMGFMT.mid' } }
++{ 'execute': 'block-commit',
++       'arguments': { 'job-id': 'commit0',
++                      'device': 'top',
++                      'base':'TEST_DIR/t.IMGFMT.base',
++                      'top': 'TEST_DIR/t.IMGFMT.mid' } }
+ {
+     "timestamp": {
+         "seconds":  TIMESTAMP,
+@@ -427,7 +431,11 @@ wrote 65536/65536 bytes at offset 1048576
+ 
+ === Perform commit job ===
+ 
+-{ 'execute': 'block-commit', 'arguments': { 'job-id': 'commit0', 'device': 'top', 'base':'TEST_DIR/t.IMGFMT.base', 'top': 'TEST_DIR/t.IMGFMT.mid' } }
++{ 'execute': 'block-commit',
++       'arguments': { 'job-id': 'commit0',
++                      'device': 'top',
++                      'base':'TEST_DIR/t.IMGFMT.base',
++                      'top': 'TEST_DIR/t.IMGFMT.mid' } }
+ {
+     "timestamp": {
+         "seconds":  TIMESTAMP,
+diff --git a/tests/qemu-iotests/223.out b/tests/qemu-iotests/223.out
+index f6eac23f04..bbc85289e3 100644
+--- a/tests/qemu-iotests/223.out
++++ b/tests/qemu-iotests/223.out
+@@ -26,31 +26,48 @@ wrote 2097152/2097152 bytes at offset 2097152
+ 
+ {"execute":"qmp_capabilities"}
+ {"return": {}}
+-{"execute":"blockdev-add", "arguments":{"driver":"IMGFMT", "node-name":"n", "file":{"driver":"file", "filename":"TEST_DIR/t.IMGFMT"}}}
++{"execute":"blockdev-add",
++  "arguments":{"driver":"IMGFMT", "node-name":"n",
++    "file":{"driver":"file", "filename":"TEST_DIR/t.IMGFMT"}}}
+ {"return": {}}
+-{"execute":"block-dirty-bitmap-disable", "arguments":{"node":"n", "name":"b"}}
++{"execute":"block-dirty-bitmap-disable",
++  "arguments":{"node":"n", "name":"b"}}
+ {"return": {}}
+ 
+ === Set up NBD with normal access ===
+ 
+-{"execute":"nbd-server-add", "arguments":{"device":"n"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"n"}}
+ {"error": {"class": "GenericError", "desc": "NBD server not running"}}
+-{"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data":{"path":"SOCK_DIR/nbd"}}}}
++{"execute":"nbd-server-start",
++  "arguments":{"addr":{"type":"unix",
++    "data":{"path":"SOCK_DIR/nbd"}}}}
+ {"return": {}}
+-{"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data":{"path":"SOCK_DIR/nbd1"}}}}
++{"execute":"nbd-server-start",
++  "arguments":{"addr":{"type":"unix",
++    "data":{"path":"SOCK_DIR/nbd1"}}}}
+ {"error": {"class": "GenericError", "desc": "NBD server already running"}}
+ exports available: 0
+-{"execute":"nbd-server-add", "arguments":{"device":"n", "bitmap":"b"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"n", "bitmap":"b"}}
+ {"return": {}}
+-{"execute":"nbd-server-add", "arguments":{"device":"nosuch"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"nosuch"}}
+ {"error": {"class": "GenericError", "desc": "Cannot find device=nosuch nor node_name=nosuch"}}
+-{"execute":"nbd-server-add", "arguments":{"device":"n"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"n"}}
+ {"error": {"class": "GenericError", "desc": "Block export id 'n' is already in use"}}
+-{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bitmap":"b2"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"n", "name":"n2",
++  "bitmap":"b2"}}
+ {"error": {"class": "GenericError", "desc": "Enabled bitmap 'b2' incompatible with readonly export"}}
+-{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bitmap":"b3"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"n", "name":"n2",
++  "bitmap":"b3"}}
+ {"error": {"class": "GenericError", "desc": "Bitmap 'b3' is not found"}}
+-{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "writable":true, "description":"some text", "bitmap":"b2"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"n", "name":"n2", "writable":true,
++  "description":"some text", "bitmap":"b2"}}
+ {"return": {}}
+ exports available: 2
+  export: 'n'
+@@ -99,12 +116,15 @@ read 2097152/2097152 bytes at offset 2097152
+ 
+ === End qemu NBD server ===
+ 
+-{"execute":"nbd-server-remove", "arguments":{"name":"n"}}
++{"execute":"nbd-server-remove",
++  "arguments":{"name":"n"}}
+ {"return": {}}
+-{"execute":"nbd-server-remove", "arguments":{"name":"n2"}}
++{"execute":"nbd-server-remove",
++  "arguments":{"name":"n2"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "n"}}
+ {"return": {}}
+-{"execute":"nbd-server-remove", "arguments":{"name":"n2"}}
++{"execute":"nbd-server-remove",
++  "arguments":{"name":"n2"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "n2"}}
+ {"error": {"class": "GenericError", "desc": "Export 'n2' is not found"}}
+ {"execute":"nbd-server-stop"}
+@@ -114,26 +134,41 @@ read 2097152/2097152 bytes at offset 2097152
+ 
+ === Set up NBD with iothread access ===
+ 
+-{"execute":"x-blockdev-set-iothread", "arguments":{"node-name":"n", "iothread":"io0"}}
++{"execute":"x-blockdev-set-iothread",
++  "arguments":{"node-name":"n", "iothread":"io0"}}
+ {"return": {}}
+-{"execute":"nbd-server-add", "arguments":{"device":"n"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"n"}}
+ {"error": {"class": "GenericError", "desc": "NBD server not running"}}
+-{"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data":{"path":"SOCK_DIR/nbd"}}}}
++{"execute":"nbd-server-start",
++  "arguments":{"addr":{"type":"unix",
++    "data":{"path":"SOCK_DIR/nbd"}}}}
+ {"return": {}}
+-{"execute":"nbd-server-start", "arguments":{"addr":{"type":"unix", "data":{"path":"SOCK_DIR/nbd1"}}}}
++{"execute":"nbd-server-start",
++  "arguments":{"addr":{"type":"unix",
++    "data":{"path":"SOCK_DIR/nbd1"}}}}
+ {"error": {"class": "GenericError", "desc": "NBD server already running"}}
+ exports available: 0
+-{"execute":"nbd-server-add", "arguments":{"device":"n", "bitmap":"b"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"n", "bitmap":"b"}}
+ {"return": {}}
+-{"execute":"nbd-server-add", "arguments":{"device":"nosuch"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"nosuch"}}
+ {"error": {"class": "GenericError", "desc": "Cannot find device=nosuch nor node_name=nosuch"}}
+-{"execute":"nbd-server-add", "arguments":{"device":"n"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"n"}}
+ {"error": {"class": "GenericError", "desc": "Block export id 'n' is already in use"}}
+-{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bitmap":"b2"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"n", "name":"n2",
++  "bitmap":"b2"}}
+ {"error": {"class": "GenericError", "desc": "Enabled bitmap 'b2' incompatible with readonly export"}}
+-{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "bitmap":"b3"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"n", "name":"n2",
++  "bitmap":"b3"}}
+ {"error": {"class": "GenericError", "desc": "Bitmap 'b3' is not found"}}
+-{"execute":"nbd-server-add", "arguments":{"device":"n", "name":"n2", "writable":true, "description":"some text", "bitmap":"b2"}}
++{"execute":"nbd-server-add",
++  "arguments":{"device":"n", "name":"n2", "writable":true,
++  "description":"some text", "bitmap":"b2"}}
+ {"return": {}}
+ exports available: 2
+  export: 'n'
+@@ -182,12 +217,15 @@ read 2097152/2097152 bytes at offset 2097152
+ 
+ === End qemu NBD server ===
+ 
+-{"execute":"nbd-server-remove", "arguments":{"name":"n"}}
++{"execute":"nbd-server-remove",
++  "arguments":{"name":"n"}}
+ {"return": {}}
+-{"execute":"nbd-server-remove", "arguments":{"name":"n2"}}
++{"execute":"nbd-server-remove",
++  "arguments":{"name":"n2"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "n"}}
+ {"return": {}}
+-{"execute":"nbd-server-remove", "arguments":{"name":"n2"}}
++{"execute":"nbd-server-remove",
++  "arguments":{"name":"n2"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "n2"}}
+ {"error": {"class": "GenericError", "desc": "Export 'n2' is not found"}}
+ {"execute":"nbd-server-stop"}
+diff --git a/tests/qemu-iotests/229.out b/tests/qemu-iotests/229.out
+index 7eed393013..7d2bfbfbe6 100644
+--- a/tests/qemu-iotests/229.out
++++ b/tests/qemu-iotests/229.out
+@@ -8,7 +8,14 @@ wrote 2097152/2097152 bytes at offset 0
+ 
+ === Starting drive-mirror, causing error & stop  ===
+ 
+-{'execute': 'drive-mirror', 'arguments': {'device': 'testdisk', 'format': 'IMGFMT', 'target': 'blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT.dest', 'sync': 'full', 'mode': 'existing', 'on-source-error': 'stop', 'on-target-error': 'stop' }}
++{'execute': 'drive-mirror',
++                 'arguments': {'device': 'testdisk',
++                               'format': 'IMGFMT',
++                               'target': 'blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT.dest',
++                               'sync':   'full',
++                               'mode':   'existing',
++                               'on-source-error': 'stop',
++                               'on-target-error': 'stop' }}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "testdisk"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "testdisk"}}
+ {"return": {}}
+@@ -17,7 +24,9 @@ wrote 2097152/2097152 bytes at offset 0
+ 
+ === Force cancel job paused in error state  ===
+ 
+-{'execute': 'block-job-cancel', 'arguments': { 'device': 'testdisk', 'force': true}}
++{'execute': 'block-job-cancel',
++                 'arguments': { 'device': 'testdisk',
++                                'force': true}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "testdisk"}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "testdisk"}}
+diff --git a/tests/qemu-iotests/249.out b/tests/qemu-iotests/249.out
+index 85acda4635..92ec81db03 100644
+--- a/tests/qemu-iotests/249.out
++++ b/tests/qemu-iotests/249.out
+@@ -7,24 +7,29 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.
+ 
+ === Send a write command to a drive opened in read-only mode (1)
+ 
+-{ 'execute': 'human-monitor-command', 'arguments': {'command-line': 'qemu-io none0 "aio_write 0 2k"'}}
++{ 'execute': 'human-monitor-command',
++       'arguments': {'command-line': 'qemu-io none0 "aio_write 0 2k"'}}
+ {"return": "Block node is read-onlyrn"}
+ 
+ === Run block-commit on base using an invalid filter node name
+ 
+-{ 'execute': 'block-commit', 'arguments': {'job-id': 'job0', 'device': 'none1', 'top-node': 'int', 'filter-node-name': '1234'}}
++{ 'execute': 'block-commit',
++       'arguments': {'job-id': 'job0', 'device': 'none1', 'top-node': 'int',
++                     'filter-node-name': '1234'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "job0"}}
+ {"error": {"class": "GenericError", "desc": "Invalid node name"}}
+ 
+ === Send a write command to a drive opened in read-only mode (2)
+ 
+-{ 'execute': 'human-monitor-command', 'arguments': {'command-line': 'qemu-io none0 "aio_write 0 2k"'}}
++{ 'execute': 'human-monitor-command',
++       'arguments': {'command-line': 'qemu-io none0 "aio_write 0 2k"'}}
+ {"return": "Block node is read-onlyrn"}
+ 
+ === Run block-commit on base using the default filter node name
+ 
+-{ 'execute': 'block-commit', 'arguments': {'job-id': 'job0', 'device': 'none1', 'top-node': 'int'}}
++{ 'execute': 'block-commit',
++       'arguments': {'job-id': 'job0', 'device': 'none1', 'top-node': 'int'}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+ {"return": {}}
+@@ -36,6 +41,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 backing_file=TEST_DIR/t.
+ 
+ === Send a write command to a drive opened in read-only mode (3)
+ 
+-{ 'execute': 'human-monitor-command', 'arguments': {'command-line': 'qemu-io none0 "aio_write 0 2k"'}}
++{ 'execute': 'human-monitor-command',
++       'arguments': {'command-line': 'qemu-io none0 "aio_write 0 2k"'}}
+ {"return": "Block node is read-onlyrn"}
+ *** done
+diff --git a/tests/qemu-iotests/308.out b/tests/qemu-iotests/308.out
+index b93aceed2e..466e7e0267 100644
+--- a/tests/qemu-iotests/308.out
++++ b/tests/qemu-iotests/308.out
+@@ -5,42 +5,91 @@ wrote 67108864/67108864 bytes at offset 0
+ 64 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ {'execute': 'qmp_capabilities'}
+ {"return": {}}
+-{'execute': 'blockdev-add', 'arguments': { 'driver': 'file', 'node-name': 'node-protocol', 'filename': 'TEST_DIR/t.IMGFMT' } }
++{'execute': 'blockdev-add',
++      'arguments': {
++          'driver': 'file',
++          'node-name': 'node-protocol',
++          'filename': 'TEST_DIR/t.IMGFMT'
++      } }
+ {"return": {}}
+-{'execute': 'blockdev-add', 'arguments': { 'driver': 'IMGFMT', 'node-name': 'node-format', 'file': 'node-protocol' } }
++{'execute': 'blockdev-add',
++      'arguments': {
++          'driver': 'IMGFMT',
++          'node-name': 'node-format',
++          'file': 'node-protocol'
++      } }
+ {"return": {}}
+ 
+ === Mountpoint not present ===
+-{'execute': 'block-export-add', 'arguments': { 'type': 'fuse', 'id': 'export-err', 'node-name': 'node-format', 'mountpoint': 'TEST_DIR/t.IMGFMT.fuse' } }
++{'execute': 'block-export-add',
++          'arguments': {
++              'type': 'fuse',
++              'id': 'export-err',
++              'node-name': 'node-format',
++              'mountpoint': 'TEST_DIR/t.IMGFMT.fuse'
++          } }
+ {"error": {"class": "GenericError", "desc": "Failed to stat 'TEST_DIR/t.IMGFMT.fuse': No such file or directory"}}
+ 
+ === Mountpoint is a directory ===
+-{'execute': 'block-export-add', 'arguments': { 'type': 'fuse', 'id': 'export-err', 'node-name': 'node-format', 'mountpoint': 'TEST_DIR/t.IMGFMT.fuse' } }
++{'execute': 'block-export-add',
++          'arguments': {
++              'type': 'fuse',
++              'id': 'export-err',
++              'node-name': 'node-format',
++              'mountpoint': 'TEST_DIR/t.IMGFMT.fuse'
++          } }
+ {"error": {"class": "GenericError", "desc": "'TEST_DIR/t.IMGFMT.fuse' is not a regular file"}}
+ 
+ === Mountpoint is a regular file ===
+-{'execute': 'block-export-add', 'arguments': { 'type': 'fuse', 'id': 'export-mp', 'node-name': 'node-format', 'mountpoint': 'TEST_DIR/t.IMGFMT.fuse' } }
++{'execute': 'block-export-add',
++          'arguments': {
++              'type': 'fuse',
++              'id': 'export-mp',
++              'node-name': 'node-format',
++              'mountpoint': 'TEST_DIR/t.IMGFMT.fuse'
++          } }
+ {"return": {}}
+ Images are identical.
+ 
+ === Mount over existing file ===
+-{'execute': 'block-export-add', 'arguments': { 'type': 'fuse', 'id': 'export-img', 'node-name': 'node-format', 'mountpoint': 'TEST_DIR/t.IMGFMT' } }
++{'execute': 'block-export-add',
++          'arguments': {
++              'type': 'fuse',
++              'id': 'export-img',
++              'node-name': 'node-format',
++              'mountpoint': 'TEST_DIR/t.IMGFMT'
++          } }
+ {"return": {}}
+ Images are identical.
+ 
+ === Double export ===
+-{'execute': 'block-export-add', 'arguments': { 'type': 'fuse', 'id': 'export-err', 'node-name': 'node-format', 'mountpoint': 'TEST_DIR/t.IMGFMT.fuse' } }
++{'execute': 'block-export-add',
++          'arguments': {
++              'type': 'fuse',
++              'id': 'export-err',
++              'node-name': 'node-format',
++              'mountpoint': 'TEST_DIR/t.IMGFMT.fuse'
++          } }
+ {"error": {"class": "GenericError", "desc": "There already is a FUSE export on 'TEST_DIR/t.IMGFMT.fuse'"}}
+ 
+ === Remove export ===
+ virtual size: 64 MiB (67108864 bytes)
+-{'execute': 'block-export-del', 'arguments': { 'id': 'export-mp' } }
++{'execute': 'block-export-del',
++          'arguments': {
++              'id': 'export-mp'
++          } }
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "export-mp"}}
+ virtual size: 0 B (0 bytes)
+ 
+ === Writable export ===
+-{'execute': 'block-export-add', 'arguments': { 'type': 'fuse', 'id': 'export-mp', 'node-name': 'node-format', 'mountpoint': 'TEST_DIR/t.IMGFMT.fuse', 'writable': true } }
++{'execute': 'block-export-add',
++          'arguments': {
++              'type': 'fuse',
++              'id': 'export-mp',
++              'node-name': 'node-format',
++              'mountpoint': 'TEST_DIR/t.IMGFMT.fuse', 'writable': true
++          } }
+ {"return": {}}
+ write failed: Permission denied
+ wrote 65536/65536 bytes at offset 1048576
+@@ -49,15 +98,30 @@ wrote 65536/65536 bytes at offset 1048576
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ 
+ === Resizing exports ===
+-{'execute': 'block-export-del', 'arguments': { 'id': 'export-mp' } }
++{'execute': 'block-export-del',
++          'arguments': {
++              'id': 'export-mp'
++          } }
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "export-mp"}}
+-{'execute': 'block-export-del', 'arguments': { 'id': 'export-img' } }
++{'execute': 'block-export-del',
++          'arguments': {
++              'id': 'export-img'
++          } }
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "export-img"}}
+-{'execute': 'blockdev-del', 'arguments': { 'node-name': 'node-format' } }
++{'execute': 'blockdev-del',
++      'arguments': {
++          'node-name': 'node-format'
++      } }
+ {"return": {}}
+-{'execute': 'block-export-add', 'arguments': { 'type': 'fuse', 'id': 'export-mp', 'node-name': 'node-protocol', 'mountpoint': 'TEST_DIR/t.IMGFMT.fuse', 'writable': true } }
++{'execute': 'block-export-add',
++          'arguments': {
++              'type': 'fuse',
++              'id': 'export-mp',
++              'node-name': 'node-protocol',
++              'mountpoint': 'TEST_DIR/t.IMGFMT.fuse', 'writable': true
++          } }
+ {"return": {}}
+ 
+ --- Try growing non-growable export ---
+@@ -72,10 +136,19 @@ OK: Post-truncate image size is as expected
+ OK: Disk usage grew with fallocate
+ 
+ --- Try growing growable export ---
+-{'execute': 'block-export-del', 'arguments': { 'id': 'export-mp' } }
++{'execute': 'block-export-del',
++          'arguments': {
++              'id': 'export-mp'
++          } }
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_EXPORT_DELETED", "data": {"id": "export-mp"}}
+-{'execute': 'block-export-add', 'arguments': { 'type': 'fuse', 'id': 'export-mp', 'node-name': 'node-protocol', 'mountpoint': 'TEST_DIR/t.IMGFMT.fuse', 'writable': true, 'growable': true } }
++{'execute': 'block-export-add',
++          'arguments': {
++              'type': 'fuse',
++              'id': 'export-mp',
++              'node-name': 'node-protocol',
++              'mountpoint': 'TEST_DIR/t.IMGFMT.fuse', 'writable': true, 'growable': true
++          } }
+ {"return": {}}
+ 65536+0 records in
+ 65536+0 records out
+diff --git a/tests/qemu-iotests/312.out b/tests/qemu-iotests/312.out
+index cdd5c40e08..5615146b5c 100644
+--- a/tests/qemu-iotests/312.out
++++ b/tests/qemu-iotests/312.out
+@@ -52,13 +52,19 @@ read 65536/65536 bytes at offset 2424832
+ 
+ { 'execute': 'qmp_capabilities' }
+ {"return": {}}
+-{'execute': 'drive-mirror', 'arguments': {'device': 'virtio0', 'format': 'IMGFMT', 'target': 'TEST_DIR/t.IMGFMT.3', 'sync': 'full', 'mode': 'existing' }}
++{'execute': 'drive-mirror',
++                 'arguments': {'device': 'virtio0',
++                               'format': 'IMGFMT',
++                               'target': 'TEST_DIR/t.IMGFMT.3',
++                               'sync':   'full',
++                               'mode':   'existing' }}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "virtio0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "virtio0"}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "virtio0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "virtio0", "len": 10485760, "offset": 10485760, "speed": 0, "type": "mirror"}}
+-{ 'execute': 'block-job-complete', 'arguments': { 'device': 'virtio0' } }
++{ 'execute': 'block-job-complete',
++       'arguments': { 'device': 'virtio0' } }
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "waiting", "id": "virtio0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "pending", "id": "virtio0"}}
+diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
+index de680cf1c7..5a92684502 100644
+--- a/tests/qemu-iotests/common.qemu
++++ b/tests/qemu-iotests/common.qemu
+@@ -148,10 +148,10 @@ _send_qemu_cmd()
+     fi
+     # This array element extraction is done to accommodate pathnames with spaces
+     if [ -z "${success_or_failure}" ]; then
+-        cmd=${@: 1:${#@}-1}
++        cmd="${@: 1:${#@}-1}"
+         shift $(($# - 1))
+     else
+-        cmd=${@: 1:${#@}-2}
++        cmd="${@: 1:${#@}-2}"
+         shift $(($# - 2))
+     fi
+ 
+-- 
+2.29.2
 
 
