@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31442DA30E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 23:14:03 +0100 (CET)
-Received: from localhost ([::1]:35506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB422DA319
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 23:15:48 +0100 (CET)
+Received: from localhost ([::1]:38624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kow6U-0008B1-Na
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 17:14:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48348)
+	id 1kow8C-00011o-1s
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 17:15:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kow5k-0007kR-Lx
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:13:16 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38792)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kow6T-0008SU-Fs
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:14:01 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46130)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kow5j-0004X8-AA
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:13:16 -0500
-Received: by mail-wr1-x443.google.com with SMTP id r7so17947728wrc.5
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 14:13:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LdJ7PB4Olm1N0Nwof5g4FFaosxc4Eh6eKNGNXE0AwWQ=;
- b=l9kH4/XqbNkwz0wXFcaTrmFsfc2tf9PiE1+XgsIJNs9nboDngfcsCJoXDccMVxHdl/
- 5bGVhoVHOcNfzrkzlH0TV4P8s3X2yxpjzKzyevh5geCrkX2nh3yhCsYFasUe9tgwLNbb
- 6RULeYpMQnJhYfWwgTedJ2L7Z7WvRueKcEPw5DyJAP9LuuJb7wBpi5qwiVvfdKBs8JT9
- 2zwk9FhqZdSP8qrNBgOFGQuLz4neLbfMvuoquWPxwbiSXYWa/YVhmG00TuNRqrKg4Egb
- L808w05UjnuVJwGUx6Uh+B4KjNuRd1zxHdsM0+jQtJ3SLuaKBl0bI7SKoEFcxlf2CuJ8
- d+qA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kow6R-0004aK-L9
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:14:00 -0500
+Received: by mail-ot1-x344.google.com with SMTP id w3so17376046otp.13
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 14:13:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Mo3jZv6+qLcS9/RPyw+XlvoWGWRTMmEVplexje7I4pc=;
+ b=gQD1rWvEzDP8Z8kFmDQhNFgHQ5Nm4KLv3mnKPKfmkMyxiXCj1h4qpwUR1813dIoprg
+ 6jdI65wwFq6wCTbJLSETbnD3XhjLqfzgrzjXcAtRQIUkWgyjqut67tBzzg93iOrr5V4Y
+ pysxFsfs1EB9drCDwtf1bY/u7WRW3bx6SrcO6UvR6ZplKffV/k3daxb2yc4i6obNkfBb
+ UJG/Sozy47dGMdw8y5dSEh6C4DKIvWVpDI9D18oVlnTbShYE16ABaU94uRi2W0D4xhrN
+ 52Q8NG4tiGVy6+1D2yIEmFdQsqJEdRARWphvQqGkK8qiXqXW3wL5+NHpm6qzzwQy0hCA
+ tJ8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=LdJ7PB4Olm1N0Nwof5g4FFaosxc4Eh6eKNGNXE0AwWQ=;
- b=oNeUcORv+GuhjpercyqwsBYUpin4y0wbOnzxQj51JWPiSwZL81qrzwaeEKm+1tug04
- qqYNbq+NI6HuKa8I5AKyvliRLJYf1otvpHzT2QOZr3h9GedlNWtq5GLN8gAgmn4agEjf
- DqFblhimy9B+FSS1aCwXW6roZa+XrmW1IIuQMPq8WD6sGcOIhgPDOJ9Rip8reR6Xu3/a
- jhIqn4RbPDvakBc46ljJnUEEgaSw8+iDq4wPnji8HqA3VivfaN3yM0tmek38ypvtDH5E
- qQGgm2smwpDaOhRZ1TOYtjgPtGpdBwAEg3G4lqxqRNslpg6fm9/4EipRxSJWk1dP0YJp
- 7hLw==
-X-Gm-Message-State: AOAM530EN0u1NtAuduAUfYEOOGobq6hv4KFvE0uROem7bNTUq3VkNMF2
- 16EBf3x3y4iPfj7Q6/d+iQocdxEQ3zo=
-X-Google-Smtp-Source: ABdhPJzoHpS/DieNwwUt62950NZjAvlRGu0qr9UfWpzFi2ndvadMhYga33NQcNhhRELcWncce8sJdg==
-X-Received: by 2002:a5d:6884:: with SMTP id h4mr31171528wru.174.1607983993204; 
- Mon, 14 Dec 2020 14:13:13 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id a65sm31746766wmc.35.2020.12.14.14.13.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Dec 2020 14:13:12 -0800 (PST)
-Subject: Re: [PATCH v4 24/43] disas: Push const down through host disasassembly
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20201214140314.18544-1-richard.henderson@linaro.org>
- <20201214140314.18544-25-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d25334c5-1c2e-2c7f-1f97-7487ed1215f7@amsat.org>
-Date: Mon, 14 Dec 2020 23:13:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ bh=Mo3jZv6+qLcS9/RPyw+XlvoWGWRTMmEVplexje7I4pc=;
+ b=mfBhYELZLQgwm8v6YMZ0HCEPDG+d9KxKaoNLqqt68RPnjBdJE/mTW7JzqATNLsJe+C
+ C3YqzsjLD7EVcrm5LLzJiESlwasl0bEF3D5NtxORHBgOFHA/0Y60OOmEpUrGQ37CF5cD
+ UnWxQdsDGO4hwZIQ0rc4IYgme2bQMfSIjMmAXKt3I9LIx5VaGfgYx7jz3CoywYOs622f
+ ina5lsXK8fiKI6Ee4tnxDHNKwHSg3qPrV/erVnYFOYVTg8mTvAYnrw29hLZf3Yf/dzru
+ P2wqjLMJ39ONw2rjPoFEIDKHlQGzoQxY43jzXHyvBxo0bBMKjl2w7fxchvSVOY5Fnf5A
+ EKpw==
+X-Gm-Message-State: AOAM5302Lq43L5GSv9VohzW8flwORt1q+Lb0yWrL/G+2VzeMA4oKa/ga
+ QkUhG+8Jg/vtx3gy8mwOkBkMT2TFaMaEbegp
+X-Google-Smtp-Source: ABdhPJxxxNAxhbMz4DiG7vNsPKovZGK8fcffLqwozegl9qd8bjN5A9LurI/Cdy/U97i1qWT730bb6Q==
+X-Received: by 2002:a9d:1cae:: with SMTP id l46mr5439723ota.249.1607984038200; 
+ Mon, 14 Dec 2020 14:13:58 -0800 (PST)
+Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id b71sm2193033oii.5.2020.12.14.14.13.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Dec 2020 14:13:57 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/4] target/s390x: Improve carry computation
+Date: Mon, 14 Dec 2020 16:13:52 -0600
+Message-Id: <20201214221356.68039-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20201214140314.18544-25-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,18 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Typo "disassembly" in subject?
+While testing the float128_muladd changes for s390x host,
+emulating under x86_64 of course, I noticed that the code
+we generate for strings of ALCGR and SLBGR is pretty awful.
 
-On 12/14/20 3:02 PM, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/disas/dis-asm.h | 4 ++--
->  disas.c                 | 4 +---
->  disas/capstone.c        | 2 +-
->  3 files changed, 4 insertions(+), 6 deletions(-)
+I realized that we were missing a trick: the output cc is
+based only on the output (result and carry) and so we don't
+need to save the inputs.  And once we do that, we can use
+the output carry as a direct input to the next insn.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Changes for v3:
+  * Rebased.
+Changes for v2:
+  * Add a few more comments, and enhance the patch descriptions.
+
+
+r~
+
+Richard Henderson (4):
+  target/s390x: Improve cc computation for ADD LOGICAL
+  target/s390x: Improve ADD LOGICAL WITH CARRY
+  target/s390x: Improve cc computation for SUBTRACT LOGICAL
+  target/s390x: Improve SUB LOGICAL WITH BORROW
+
+ target/s390x/internal.h    |  11 +-
+ target/s390x/cc_helper.c   | 123 +++-------------
+ target/s390x/helper.c      |  10 +-
+ target/s390x/translate.c   | 289 ++++++++++++++++++++-----------------
+ target/s390x/insn-data.def |  76 +++++-----
+ 5 files changed, 216 insertions(+), 293 deletions(-)
+
+-- 
+2.25.1
+
 
