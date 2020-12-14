@@ -2,59 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52F42D91AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 03:16:10 +0100 (CET)
-Received: from localhost ([::1]:52624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CED2C2D91C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 03:28:09 +0100 (CET)
+Received: from localhost ([::1]:57692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kodPF-0007Ra-Td
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 21:16:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48506)
+	id 1kodaq-0001fK-Bk
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 21:28:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1kodNh-0006hN-CU
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 21:14:33 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2169)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kodZs-00018j-Kk; Sun, 13 Dec 2020 21:27:08 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1kodNf-0003qq-5g
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 21:14:33 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CvQ123Mphz7FG2;
- Mon, 14 Dec 2020 10:13:42 +0800 (CST)
-Received: from [10.174.187.37] (10.174.187.37) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 14 Dec 2020 10:14:11 +0800
-Subject: Re: [PATCH] kvm: Take into account the unaligned section size when
- preparing bitmap
-To: Peter Xu <peterx@redhat.com>
-References: <20201208114013.875-1-yuzenghui@huawei.com>
- <20201208151654.GA6432@xz-x1>
- <bb4bcc8b-1d36-9529-d7cd-4d93162d092f@huawei.com>
- <6dc82702-9246-4684-4f28-e104abc0c11d@huawei.com>
- <20201210020843.GB3211@xz-x1>
- <7d46e5ca-24ab-7c44-201c-77e8fc6a2ace@huawei.com>
- <20201210145006.GD3211@xz-x1>
- <2607b4cd-524c-2360-6261-224736861fc4@huawei.com>
- <20201211152518.GD6520@xz-x1>
-From: zhukeqian <zhukeqian1@huawei.com>
-Message-ID: <41d9ac96-83af-e8c3-6e54-c702f5527f5e@huawei.com>
-Date: Mon, 14 Dec 2020 10:14:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
-MIME-Version: 1.0
-In-Reply-To: <20201211152518.GD6520@xz-x1>
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kodZp-0008KQ-CC; Sun, 13 Dec 2020 21:27:08 -0500
+Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4CvQHl0dxnzQrjS;
+ Mon, 14 Dec 2020 10:26:27 +0800 (CST)
+Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.125]) by
+ DGGEMM402-HUB.china.huawei.com ([10.3.20.210]) with mapi id 14.03.0509.000;
+ Mon, 14 Dec 2020 10:26:49 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: Laurent Vivier <laurent@vivier.eu>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+Subject: RE: [PATCH RESEND v2 3/7] elf2dmp/qemu_elf: Plug memleak in
+ QEMU_Elf_init
+Thread-Topic: [PATCH RESEND v2 3/7] elf2dmp/qemu_elf: Plug memleak in
+ QEMU_Elf_init
+Thread-Index: AQHWqQODYbMTtOrl1U2RnapEYWpht6n1FvGAgAESLWA=
+Date: Mon, 14 Dec 2020 02:26:48 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83BB05E2C@dggemm531-mbx.china.huawei.com>
+References: <20201023061218.2080844-1-kuhn.chenqun@huawei.com>
+ <20201023061218.2080844-4-kuhn.chenqun@huawei.com>
+ <1973545a-9f9b-94d0-fadd-ec7c24fd33b8@vivier.eu>
+In-Reply-To: <1973545a-9f9b-94d0-fadd-ec7c24fd33b8@vivier.eu>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.185.149]
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.37]
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhukeqian1@huawei.com;
- helo=szxga07-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=kuhn.chenqun@huawei.com; helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,82 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, pbonzini@redhat.com,
- qemu-devel@nongnu.org, wanghaibin.wang@huawei.com
+Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>, Li Qiang <liq3ea@gmail.com>,
+ Pannengyuan <pannengyuan@huawei.com>, ganqixin <ganqixin@huawei.com>,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 2020/12/11 23:25, Peter Xu wrote:
-> On Fri, Dec 11, 2020 at 09:13:10AM +0800, zhukeqian wrote:
->>
->> On 2020/12/10 22:50, Peter Xu wrote:
->>> On Thu, Dec 10, 2020 at 10:53:23AM +0800, zhukeqian wrote:
->>>>
->>>>
->>>> On 2020/12/10 10:08, Peter Xu wrote:
->>>>> Keqian,
->>>>>
->>>>> On Thu, Dec 10, 2020 at 09:46:06AM +0800, zhukeqian wrote:
->>>>>> Hi,
->>>>>>
->>>>>> I see that if start or size is not PAGE aligned, it also clears areas
->>>>>> which beyond caller's expectation, so do we also need to consider this?
->>>>>
->>>>> Could you elaborate?
->>>>>
->>>>> If start_delta != 0, kvm_log_clear_one_slot() should already go the slow path.
->>>>>
->>>>> Thanks,
->>>>>
->>>>
->>>> Hi Peter,
->>>>
->>>> start_delta /= psize;
->>>>
->>>> If start is not PAGE aligned, then start_delta is not PAGE aligned.
->>>> so I think the above code will implicitly extend our start to be PAGE aligned.
->>>>
->>>> I suggest that we should shrink the start and (start + size) to be PAGE aligned
->>>> at beginning of this function.
->>>
->>> Callers should be with TARGET_PAGE_SIZE aligned on the size, so at least x86_64
->>> should be pretty safe since host/guest page sizes match.
->>>
->>> Though indeed I must confess I don't know how it worked in general when host
->>> page size != target page size, at least for migration.  For example, I believe
->>> kvm dirty logging is host page size based, though migration should be migrating
->>> pages in guest page size granule when it spots a dirty bit set.
->>>
->> Hi,
->>
->> Indeed, we handle target_page_size aligned @start and @size in general. Maybe we'd better
->> add explicit function comments about alignment requirement, and explicit alignment assert
->> on @start and @size?
-> 
-
-Hi Peter,
-
-> Yes we can, but I think it's not strongly necessary.  As Zenghui pointed out,
-> the callers of memory_region_clear_dirty_bitmap() should always be aware of the
-> fact that dirty bitmap is always page size based.
-Agree.
-
-> 
-> OTOH I'm more worried on the other question on how we handle guest psize !=
-> host psize case for migration now...
-I think it does not matter when guest_psize != host_psize, as we only need to interact with
-stage2 page tables during migration. Stage2 is enough to tracking guest dirty memory, and even
-if guest close stage1, we also can do a successful migration.
-
-Please point out if I misunderstood what you meant.
-
-Thanks,
-Keqian
-
-> 
-> Thanks,
-> 
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBMYXVyZW50IFZpdmllciBbbWFp
+bHRvOmxhdXJlbnRAdml2aWVyLmV1XQ0KPiBTZW50OiBNb25kYXksIERlY2VtYmVyIDE0LCAyMDIw
+IDE6NDQgQU0NCj4gVG86IENoZW5xdW4gKGt1aG4pIDxrdWhuLmNoZW5xdW5AaHVhd2VpLmNvbT47
+IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsNCj4gcWVtdS10cml2aWFsQG5vbmdudS5vcmcNCj4gQ2M6
+IGx2aXZpZXJAcmVkaGF0LmNvbTsgWmhhbmdoYWlsaWFuZyA8emhhbmcuemhhbmdoYWlsaWFuZ0Bo
+dWF3ZWkuY29tPjsNCj4gVmlrdG9yIFBydXR5YW5vdiA8dmlrdG9yLnBydXR5YW5vdkBwaHlzdGVj
+aC5lZHU+OyBMaSBRaWFuZw0KPiA8bGlxM2VhQGdtYWlsLmNvbT47IFBhbm5lbmd5dWFuIDxwYW5u
+ZW5neXVhbkBodWF3ZWkuY29tPjsgZ2FucWl4aW4NCj4gPGdhbnFpeGluQGh1YXdlaS5jb20+OyBF
+dWxlciBSb2JvdCA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRD
+SCBSRVNFTkQgdjIgMy83XSBlbGYyZG1wL3FlbXVfZWxmOiBQbHVnIG1lbWxlYWsgaW4NCj4gUUVN
+VV9FbGZfaW5pdA0KPiANCj4gTGUgMjMvMTAvMjAyMCDDoCAwODoxMiwgQ2hlbiBRdW4gYSDDqWNy
+aXTCoDoNCj4gPiBGcm9tOiBQYW4gTmVuZ3l1YW4gPHBhbm5lbmd5dWFuQGh1YXdlaS5jb20+DQo+
+ID4NCj4gPiBNaXNzaW5nIGdfZXJyb3JfZnJlZSBpbiBRRU1VX0VsZl9pbml0KCkgZXJyb3IgcGF0
+aC4gRml4IHRoYXQuDQo+ID4NCj4gPiBSZXBvcnRlZC1ieTogRXVsZXIgUm9ib3QgPGV1bGVyLnJv
+Ym90QGh1YXdlaS5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogUGFuIE5lbmd5dWFuIDxwYW5uZW5n
+eXVhbkBodWF3ZWkuY29tPg0KPiA+IFJldmlld2VkLWJ5OiBWaWt0b3IgUHJ1dHlhbm92IDx2aWt0
+b3IucHJ1dHlhbm92QHBoeXN0ZWNoLmVkdT4NCj4gPiBSZXZpZXdlZC1ieTogTGkgUWlhbmcgPGxp
+cTNlYUBnbWFpbC5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogQ2hlbiBRdW4gPGt1aG4uY2hlbnF1
+bkBodWF3ZWkuY29tPg0KPiA+IC0tLQ0KPiA+ICBjb250cmliL2VsZjJkbXAvcWVtdV9lbGYuYyB8
+IDEgKw0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykNCj4gPg0KPiA+IGRpZmYg
+LS1naXQgYS9jb250cmliL2VsZjJkbXAvcWVtdV9lbGYuYyBiL2NvbnRyaWIvZWxmMmRtcC9xZW11
+X2VsZi5jDQo+ID4gaW5kZXggMGRiNzgxNjU4Ni4uYjYwMWI2ZDdiYSAxMDA2NDQNCj4gPiAtLS0g
+YS9jb250cmliL2VsZjJkbXAvcWVtdV9lbGYuYw0KPiA+ICsrKyBiL2NvbnRyaWIvZWxmMmRtcC9x
+ZW11X2VsZi5jDQo+ID4gQEAgLTEyNiw2ICsxMjYsNyBAQCBpbnQgUUVNVV9FbGZfaW5pdChRRU1V
+X0VsZiAqcWUsIGNvbnN0IGNoYXINCj4gKmZpbGVuYW1lKQ0KPiA+ICAgICAgcWUtPmdtZiA9IGdf
+bWFwcGVkX2ZpbGVfbmV3KGZpbGVuYW1lLCBUUlVFLCAmZ2Vycik7DQo+ID4gICAgICBpZiAoZ2Vy
+cikgew0KPiA+ICAgICAgICAgIGVwcmludGYoIkZhaWxlZCB0byBtYXAgRUxGIGR1bXAgZmlsZSBc
+JyVzXCdcbiIsIGZpbGVuYW1lKTsNCj4gPiArICAgICAgICBnX2Vycm9yX2ZyZWUoZ2Vycik7DQo+
+ID4gICAgICAgICAgcmV0dXJuIDE7DQo+ID4gICAgICB9DQo+ID4NCj4gPg0KPiANCj4gQXBwbGll
+ZCB0byBteSB0cml2aWFsLXBhdGNoZXMgYnJhbmNoLg0KPiANCkhpIExhdXJlbnQsDQogIFRoYW5r
+IHlvdSBmb3IgcGlja2VkIHRoZW0gdXAhDQpCdXQsIHRoZXJlIGFyZSB0d28gcGF0Y2hlcyB0aGF0
+IGhhdmUgbm90IGJlZW4gcGlja2VkIHVwLg0KTWF5YmUgSSBzaG91bGQgcGluZyB0aGUgY29ycmVz
+cG9uZGluZyBNYWludGFpbmVyIGZpcnN0Lg0KDQpUaGUgbWlzc2luZyBwYXRjaGVzIGFyZe+8mg0K
+W1BBVENIIFJFU0VORCB2MiAyLzddIHFnYS9jaGFubmVsLXBvc2l4OiBQbHVnIG1lbW9yeSBsZWFr
+IGluIGdhX2NoYW5uZWxfd3JpdGVfYWxsKCkNCltQQVRDSCBSRVNFTkQgdjIgNS83XSBtaWdyYXRp
+b24vY29sbzogUGx1ZyBtZW1sZWFrcyBpbiBjb2xvX3Byb2Nlc3NfaW5jb21pbmdfdGhyZWFkDQoN
+ClRoYW5rcywNCkNoZW4gUXVuDQo=
 
