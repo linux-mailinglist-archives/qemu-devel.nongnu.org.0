@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7792B2D9B0F
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 16:33:22 +0100 (CET)
-Received: from localhost ([::1]:41436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F83A2D9B30
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 16:38:17 +0100 (CET)
+Received: from localhost ([::1]:56114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kopqj-00013I-Ge
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 10:33:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55936)
+	id 1kopvU-00076G-41
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 10:38:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kopnr-0007kb-MF
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 10:30:23 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35013)
+ id 1kopnt-0007ml-1d
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 10:30:25 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kopno-00066e-UP
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 10:30:23 -0500
-Received: by mail-wr1-x433.google.com with SMTP id r3so16865450wrt.2
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 07:30:20 -0800 (PST)
+ id 1kopnr-000684-3c
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 10:30:24 -0500
+Received: by mail-wm1-x344.google.com with SMTP id q75so15640892wme.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 07:30:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bXB03b69IRRD0RMhlaFUm5Vdm4BgZtmItrqWS1AnHsY=;
- b=dVi7PbbkiKDb1HjXH6UjjVarCGWe4nKSZyGrcWMJe/VTXfJtjQB/V6TrPj2j2hSGnu
- 4YfhnwOur0SSDNsMgIOlBSP0RKhz1XQm+ZtWN/lmKuSjBu3qJOaTjuIN5FtDqXCvWKtv
- B0rtlp8kgP3e6C7F0u9sUEqtD1i8umnCEcuViRhaYlEWKojRU/c+mvsIw2dsmvD/b/tC
- 5Dc1VMIY3yr+/rPpmZVZZnfkSCo+xQUx11IFw/sW9Ale5egYV3sJlYUrQCRvA369DpNw
- IIt2soRTYU+BqsO4no/dsPDkz9W4fy7BrhH30UeoK9EcmyLVjn5M/Ryv1ZEHSlXKAM9x
- 1Mgw==
+ bh=dATvnSiNbzH3IwDni97PXBq4aN519xmIXNmYmOWL0lM=;
+ b=JzYtmShzwL9A2ZTyH1kSjm5gGQN7L8LcRZt46y1GQnuOZACxjN28FtToulywsIbnXm
+ dvsh/t1tR1VA0squD/FqRbjKpoe2Gf0Zti8WBNmE9zYUeqAOnXjMNKgvLQFZO/d3CvhA
+ hDaofg0/rZqhioWsROOmx+CeeEQl9BXGQkKamjvzlP0Vuvu9v/xQ+lcui1le5yU2E6li
+ rYTB8ffpET0lI7jjSUrMtZriNgoobsyY94y72/ijMDD9xZP2e8kA9gw3oJkL3RjTiIox
+ j4MFwd/Ir0WJmI4/pjTKJxDjvabl3s1j9uEEthr5XvRXxr4E1if1lgPGfVBzCHzWacHz
+ i6Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bXB03b69IRRD0RMhlaFUm5Vdm4BgZtmItrqWS1AnHsY=;
- b=GYP5lkaRowa9ZzNCqmQ1u6RvQqt4bQDRLbo6nLjOeyQwGtav5tutI4A/ylITMV4IS2
- 9PLedMdxeclB9NdHN0lbhNOasOwAzHD4ajLQ5J8dnPy0e8EdWZfk7nP2klWrJeFaKvh4
- OvSO2hejngnnEAJOhFnarsarazXYHDrrtkJdh8QzFuHTk7gy1kJQabBpwwT2p/CLdyIQ
- ACrK3aFecaxTHT/oqEtMYJIkCMYrqYM7BCqAK1yPjCue5PhTh1/2Yq81iTx0rOSCsSM3
- DAG+tvWMFyNu03M6Gq0VJlNfAV75DF9y7IkMUpkvEySrirLMSzDYximl/haPG6/sFBoe
- oYwg==
-X-Gm-Message-State: AOAM531C74OoUNz3W4KJAPzHCs7gfISxzyPHuAzBiOlpB6GyGAmp7BT6
- RPyvQD6ZwvpgO7cRf8pRi550lXaZghkQUg==
-X-Google-Smtp-Source: ABdhPJxdIpHLalPs1uM2w/z8LK20MklZ6BE4jdaAm6nzYFqWooN46gFUTNF5n5464IbTudVCVEoWrQ==
-X-Received: by 2002:adf:aa4a:: with SMTP id q10mr28768816wrd.276.1607959819442; 
- Mon, 14 Dec 2020 07:30:19 -0800 (PST)
+ bh=dATvnSiNbzH3IwDni97PXBq4aN519xmIXNmYmOWL0lM=;
+ b=B+NmgVT+3DlZP1v20lpwFmDpnz/jHV7ELoCHFB+9bWGzzG4oSYUCeTIpNfPBXiAnEG
+ 9KPBWqxpyo0bdIMe7fvQeOLnHSYziHcK/c+NuzcqEsz0naVt4KVEAC3+WIdxqPfFKyp7
+ TjR/QtH7jer9Z6qqCDM3D2y9Dw06IjkJmo6PFeMPm3twKv9X/uX5OMfWwN8LjIBxpJp3
+ 6MBaN8BB6a514f6fT3VN2zv+frxQiHF87mD6CoGhl5PTVx9ttLIDqp+i/STSWCRLMsG/
+ ximFtazqyu4bbMxww/by5crDoJdVvwLP/FeMDDoJ+Vb+HQWFZA/JM+deqZZK+stsouim
+ mU1Q==
+X-Gm-Message-State: AOAM5320eTGYywohfIBAGkmt+Fxb7JFDDdMT5G2tB0y7/InNhST3K2sj
+ +zD0yk+8QFYnDibV/nnqG+rS/mbyDPbMOw==
+X-Google-Smtp-Source: ABdhPJwiuC6LSFF2lkY1be7Xfs4N0LTBAVB0PrzO2H07I7WiRrfV5uxzmu+2Q/jgEh2avFVjx1eIAQ==
+X-Received: by 2002:a1c:2c4:: with SMTP id 187mr28998203wmc.187.1607959821625; 
+ Mon, 14 Dec 2020 07:30:21 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h98sm35454468wrh.69.2020.12.14.07.30.13
+ by smtp.gmail.com with ESMTPSA id e15sm27711843wrx.86.2020.12.14.07.30.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 14 Dec 2020 07:30:18 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EE9141FF8F;
- Mon, 14 Dec 2020 15:30:12 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 1B1131FF90;
+ Mon, 14 Dec 2020 15:30:13 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 3/6] gdbstub: add support to Xfer:auxv:read: packet
-Date: Mon, 14 Dec 2020 15:30:09 +0000
-Message-Id: <20201214153012.12723-4-alex.bennee@linaro.org>
+Subject: [PATCH  v1 4/6] gdbstub: drop CPUEnv from gdb_exit()
+Date: Mon, 14 Dec 2020 15:30:10 +0000
+Message-Id: <20201214153012.12723-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201214153012.12723-1-alex.bennee@linaro.org>
 References: <20201214153012.12723-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,204 +86,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Lirong Yuan <yuanzi@google.com>
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lirong Yuan <yuanzi@google.com>
+gdb_exit() has never needed anything from env and I doubt we are going
+to start now.
 
-This allows gdb to access the target’s auxiliary vector,
-which can be helpful for telling system libraries important details
-about the hardware, operating system, and process.
-
-Signed-off-by: Lirong Yuan <yuanzi@google.com>
-[AJB: minor tweaks to test case, update MAINTAINERS]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20200730193932.3654677-1-yuanzi@google.com>
 ---
- gdbstub.c                                     | 54 ++++++++++++++++++
- MAINTAINERS                                   |  1 +
- tests/tcg/multiarch/Makefile.target           |  9 ++-
- .../multiarch/gdbstub/test-qxfer-auxv-read.py | 57 +++++++++++++++++++
- 4 files changed, 120 insertions(+), 1 deletion(-)
- create mode 100644 tests/tcg/multiarch/gdbstub/test-qxfer-auxv-read.py
+ include/exec/gdbstub.h    | 2 +-
+ bsd-user/syscall.c        | 6 +++---
+ gdbstub.c                 | 2 +-
+ linux-user/exit.c         | 2 +-
+ target/arm/arm-semi.c     | 2 +-
+ target/m68k/m68k-semi.c   | 2 +-
+ target/nios2/nios2-semi.c | 2 +-
+ 7 files changed, 9 insertions(+), 9 deletions(-)
 
+diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+index 94d8f83e92..492db0f512 100644
+--- a/include/exec/gdbstub.h
++++ b/include/exec/gdbstub.h
+@@ -46,7 +46,7 @@ void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...);
+ void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va);
+ int use_gdb_syscalls(void);
+ void gdb_set_stop_cpu(CPUState *cpu);
+-void gdb_exit(CPUArchState *, int);
++void gdb_exit(int);
+ #ifdef CONFIG_USER_ONLY
+ /**
+  * gdb_handlesig: yield control to gdb
+diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
+index d38ec7a162..adc3d21b54 100644
+--- a/bsd-user/syscall.c
++++ b/bsd-user/syscall.c
+@@ -333,7 +333,7 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+ #ifdef CONFIG_GPROF
+         _mcleanup();
+ #endif
+-        gdb_exit(cpu_env, arg1);
++        gdb_exit(arg1);
+         qemu_plugin_atexit_cb();
+         /* XXX: should free thread stack and CPU env */
+         _exit(arg1);
+@@ -435,7 +435,7 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
+ #ifdef CONFIG_GPROF
+         _mcleanup();
+ #endif
+-        gdb_exit(cpu_env, arg1);
++        gdb_exit(arg1);
+         qemu_plugin_atexit_cb();
+         /* XXX: should free thread stack and CPU env */
+         _exit(arg1);
+@@ -514,7 +514,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
+ #ifdef CONFIG_GPROF
+         _mcleanup();
+ #endif
+-        gdb_exit(cpu_env, arg1);
++        gdb_exit(arg1);
+         qemu_plugin_atexit_cb();
+         /* XXX: should free thread stack and CPU env */
+         _exit(arg1);
 diff --git a/gdbstub.c b/gdbstub.c
-index f19f98ab1a..ec8daa002b 100644
+index ec8daa002b..f6566c7b82 100644
 --- a/gdbstub.c
 +++ b/gdbstub.c
-@@ -2172,6 +2172,12 @@ static void handle_query_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
-             ";ReverseStep+;ReverseContinue+");
-     }
- 
-+#ifdef CONFIG_USER_ONLY
-+    if (gdbserver_state.c_cpu->opaque) {
-+        g_string_append(gdbserver_state.str_buf, ";qXfer:auxv:read+");
-+    }
-+#endif
-+
-     if (gdb_ctx->num_params &&
-         strstr(gdb_ctx->params[0].data, "multiprocess+")) {
-         gdbserver_state.multiprocess = true;
-@@ -2233,6 +2239,46 @@ static void handle_query_xfer_features(GdbCmdContext *gdb_ctx, void *user_ctx)
-                       gdbserver_state.str_buf->len, true);
+@@ -3068,7 +3068,7 @@ static void gdb_read_byte(uint8_t ch)
  }
  
-+#ifdef CONFIG_USER_ONLY
-+static void handle_query_xfer_auxv(GdbCmdContext *gdb_ctx, void *user_ctx)
-+{
-+    TaskState *ts;
-+    unsigned long offset, len, saved_auxv, auxv_len;
-+    const char *mem;
-+
-+    if (gdb_ctx->num_params < 2) {
-+        put_packet("E22");
-+        return;
-+    }
-+
-+    offset = gdb_ctx->params[0].val_ul;
-+    len = gdb_ctx->params[1].val_ul;
-+    ts = gdbserver_state.c_cpu->opaque;
-+    saved_auxv = ts->info->saved_auxv;
-+    auxv_len = ts->info->auxv_len;
-+    mem = (const char *)(saved_auxv + offset);
-+    if (offset > auxv_len) {
-+        put_packet("E00");
-+        return;
-+    }
-+
-+    if (len > (MAX_PACKET_LENGTH - 5) / 2) {
-+        len = (MAX_PACKET_LENGTH - 5) / 2;
-+    }
-+
-+    if (len < auxv_len - offset) {
-+        g_string_assign(gdbserver_state.str_buf, "m");
-+        memtox(gdbserver_state.str_buf, mem, len);
-+    } else {
-+        g_string_assign(gdbserver_state.str_buf, "l");
-+        memtox(gdbserver_state.str_buf, mem, auxv_len - offset);
-+    }
-+
-+    put_packet_binary(gdbserver_state.str_buf->str,
-+                      gdbserver_state.str_buf->len, true);
-+}
-+#endif
-+
- static void handle_query_attached(GdbCmdContext *gdb_ctx, void *user_ctx)
+ /* Tell the remote gdb that the process has exited.  */
+-void gdb_exit(CPUArchState *env, int code)
++void gdb_exit(int code)
  {
-     put_packet(GDB_ATTACHED);
-@@ -2338,6 +2384,14 @@ static GdbCmdParseEntry gdb_gen_query_table[] = {
-         .cmd_startswith = 1,
-         .schema = "s:l,l0"
-     },
-+#ifdef CONFIG_USER_ONLY
-+    {
-+        .handler = handle_query_xfer_auxv,
-+        .cmd = "Xfer:auxv:read::",
-+        .cmd_startswith = 1,
-+        .schema = "l,l0"
-+    },
-+#endif
-     {
-         .handler = handle_query_attached,
-         .cmd = "Attached:",
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a83416d54c..9dedc37be4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2295,6 +2295,7 @@ R: Philippe Mathieu-Daudé <philmd@redhat.com>
- S: Maintained
- F: gdbstub*
- F: gdb-xml/
-+F: tests/tcg/multiarch/gdbstub/
+   char buf[4];
  
- Memory API
- M: Paolo Bonzini <pbonzini@redhat.com>
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index cb49cc9ccb..c8cdb1e04d 100644
---- a/tests/tcg/multiarch/Makefile.target
-+++ b/tests/tcg/multiarch/Makefile.target
-@@ -54,7 +54,14 @@ run-gdbstub-sha1: sha1
- 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/sha1.py, \
- 	"basic gdbstub support")
- 
--EXTRA_RUNS += run-gdbstub-sha1
-+run-gdbstub-qxfer-auxv-read: sha1
-+	$(call run-test, $@, $(GDB_SCRIPT) \
-+		--gdb $(HAVE_GDB_BIN) \
-+		--qemu $(QEMU) --qargs "$(QEMU_OPTS)" \
-+		--bin $< --test $(MULTIARCH_SRC)/gdbstub/test-qxfer-auxv-read.py, \
-+	"basic gdbstub qXfer:auxv:read support")
-+
-+EXTRA_RUNS += run-gdbstub-sha1 run-gdbstub-qxfer-auxv-read
- endif
- 
- 
-diff --git a/tests/tcg/multiarch/gdbstub/test-qxfer-auxv-read.py b/tests/tcg/multiarch/gdbstub/test-qxfer-auxv-read.py
-new file mode 100644
-index 0000000000..d91e8fdf19
---- /dev/null
-+++ b/tests/tcg/multiarch/gdbstub/test-qxfer-auxv-read.py
-@@ -0,0 +1,57 @@
-+from __future__ import print_function
-+#
-+# Test auxiliary vector is loaded via gdbstub
-+#
-+# This is launched via tests/guest-debug/run-test.py
-+#
-+
-+import gdb
-+import sys
-+
-+failcount = 0
-+
-+def report(cond, msg):
-+    "Report success/fail of test"
-+    if cond:
-+        print ("PASS: %s" % (msg))
-+    else:
-+        print ("FAIL: %s" % (msg))
-+        global failcount
-+        failcount += 1
-+
-+def run_test():
-+    "Run through the tests one by one"
-+
-+    auxv = gdb.execute("info auxv", False, True)
-+    report(isinstance(auxv, str), "Fetched auxv from inferior")
-+    report(auxv.find("sha1"), "Found test binary name in auxv")
-+
-+#
-+# This runs as the script it sourced (via -x, via run-test.py)
-+#
-+try:
-+    inferior = gdb.selected_inferior()
-+    arch = inferior.architecture()
-+    print("ATTACHED: %s" % arch.name())
-+except (gdb.error, AttributeError):
-+    print("SKIPPING (not connected)", file=sys.stderr)
-+    exit(0)
-+
-+if gdb.parse_and_eval('$pc') == 0:
-+    print("SKIP: PC not set")
-+    exit(0)
-+
-+try:
-+    # These are not very useful in scripts
-+    gdb.execute("set pagination off")
-+    gdb.execute("set confirm off")
-+
-+    # Run the actual tests
-+    run_test()
-+except (gdb.error):
-+    print ("GDB Exception: %s" % (sys.exc_info()[0]))
-+    failcount += 1
-+    pass
-+
-+print("All tests complete: %d failures" % failcount)
-+exit(failcount)
+diff --git a/linux-user/exit.c b/linux-user/exit.c
+index 1594015444..70b344048c 100644
+--- a/linux-user/exit.c
++++ b/linux-user/exit.c
+@@ -34,6 +34,6 @@ void preexit_cleanup(CPUArchState *env, int code)
+ #ifdef CONFIG_GCOV
+         __gcov_dump();
+ #endif
+-        gdb_exit(env, code);
++        gdb_exit(code);
+         qemu_plugin_atexit_cb();
+ }
+diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+index c892e0e674..5d5654bec0 100644
+--- a/target/arm/arm-semi.c
++++ b/target/arm/arm-semi.c
+@@ -1100,7 +1100,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+              */
+             ret = (args == ADP_Stopped_ApplicationExit) ? 0 : 1;
+         }
+-        gdb_exit(env, ret);
++        gdb_exit(ret);
+         exit(ret);
+     case TARGET_SYS_SYNCCACHE:
+         /*
+diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+index 8e5fbfc8fa..6230a789b6 100644
+--- a/target/m68k/m68k-semi.c
++++ b/target/m68k/m68k-semi.c
+@@ -194,7 +194,7 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
+     args = env->dregs[1];
+     switch (nr) {
+     case HOSTED_EXIT:
+-        gdb_exit(env, env->dregs[0]);
++        gdb_exit(env->dregs[0]);
+         exit(env->dregs[0]);
+     case HOSTED_OPEN:
+         GET_ARG(0);
+diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
+index d7a80dd303..e508b2fafc 100644
+--- a/target/nios2/nios2-semi.c
++++ b/target/nios2/nios2-semi.c
+@@ -215,7 +215,7 @@ void do_nios2_semihosting(CPUNios2State *env)
+     args = env->regs[R_ARG1];
+     switch (nr) {
+     case HOSTED_EXIT:
+-        gdb_exit(env, env->regs[R_ARG0]);
++        gdb_exit(env->regs[R_ARG0]);
+         exit(env->regs[R_ARG0]);
+     case HOSTED_OPEN:
+         GET_ARG(0);
 -- 
 2.20.1
 
