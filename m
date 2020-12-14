@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B03B2D93C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 09:06:44 +0100 (CET)
-Received: from localhost ([::1]:56314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273EB2D945C
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 09:54:34 +0100 (CET)
+Received: from localhost ([::1]:41350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koisU-0001Co-SE
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 03:06:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39156)
+	id 1kojcm-0000jK-Np
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 03:54:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1koirE-0000aX-U2; Mon, 14 Dec 2020 03:05:24 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:40170)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1koirC-0000SO-B7; Mon, 14 Dec 2020 03:05:24 -0500
-Received: by mail-ej1-x644.google.com with SMTP id x16so21243528ejj.7;
- Mon, 14 Dec 2020 00:05:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TiB2F/QWVAlfD2IsKZXhLFiZ75QHq0FFdQ/Lizli0g0=;
- b=F315ig/6/Gu7lB+D3/eCEGRGZzsyMTap3fAtk2tQ6P6Vkm6DEJK15FNnVvp+jcjujD
- liTiZGjVI7uNM6WbG2ZYdCjObA9P6KKY9/b0f59rKrPIkStxpyIh/NncDp242+VgBmvd
- /KJlqgHxBNhrr4y/RVZyDMBjYn2aU3JMZa0J7xmyhVvBe9crJTCIjg39wsbnTFBgl89J
- nWn7w83o/TFQhoXB313BkvWEgzVRDFgSWDBGg83JL/JbTKtsOexswDFm/K2wTqOyRCCv
- MqIzh6tZuacUZEokI5s1Wwx9/4kNP8vr4/csavrGM9gm61kIO19ZHdpjQXH9ueNQNxXN
- /lgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TiB2F/QWVAlfD2IsKZXhLFiZ75QHq0FFdQ/Lizli0g0=;
- b=F6Ku3WZAGrg2kb/M7JlB48iq93TIHZodfv5hkCeVXK5TnHh0Vcs5yS/PQPRmdLqQFx
- LpDuV1DIOPRfUiyz9pLQqNzvDc6b21bUc33pgDUo1HQL2AzM8ZPJjBPxNrFbNZ+mX9O6
- h3H1Q2UBBtcnPCGpQ39LCN38n76IKM244ZOHEa0B7i0T9fTWGePiYmq+NTn1MRHOMsZA
- y5mHE2xl2VE7dQF1g+9yfu6/0lNCnhmnQTUdwOunDTYOXSTt3jQrJNhF/UxWNfxQseGq
- iWBmLBCVOVMwx+PnkkBXcLMdOnGPIriVUO95jRv9YSOUUE7zANsuGarjLnQdY2OwJxYr
- 9+ag==
-X-Gm-Message-State: AOAM530VaI203zv6FbjXmKhRPfDupQTieUhi9SocaJOCOJ9tBOw2xLwd
- jaWpPFDzGYt6BZx9lKmBkcEVcpTRf0/dg3rmFf05KbxJVwM=
-X-Google-Smtp-Source: ABdhPJznfNt7s53g5IQ7FIyvHkE8ul5p+FofIGYKbfcP6yJUlWHy0cPXR1+relJpFBG9qlDzAUw/X9v5sYr7YLru7eo=
-X-Received: by 2002:a17:906:9452:: with SMTP id
- z18mr12709453ejx.389.1607933118217; 
- Mon, 14 Dec 2020 00:05:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kojbo-0000Fs-D9
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 03:53:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29479)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kojbm-0005y9-FV
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 03:53:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607936009;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2JkHBt/Qn8Mh98kUGXvjEiTASZ6F6UdGDDt+hvjGVTo=;
+ b=Ha+OeYbTXmX9LqcxO7etrKgyejFfhWUuz/c3R29ynRsPzK7Ikx+/amX70JFcakaYAuH2mZ
+ q2U8PvqvQ0AjfhjBQqULddOtiP1JaFrJer1nT93UIoxdYe/MLarwY4wIAWLW7Ezi8hMivp
+ XSpbXYkokDvz/xljIpRwSROf9lj2G3Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585-ZOhbUYKfORitMDRBafdgtA-1; Mon, 14 Dec 2020 03:53:25 -0500
+X-MC-Unique: ZOhbUYKfORitMDRBafdgtA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B1DF195D560;
+ Mon, 14 Dec 2020 08:53:24 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-49.ams2.redhat.com [10.36.112.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AFB695C1BB;
+ Mon, 14 Dec 2020 08:53:22 +0000 (UTC)
+Subject: Re: [PATCH for-6.0] qga/commands-posix: Send CCW address on s390x
+ with the fsinfo data
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>
+References: <20201125105417.380317-1-thuth@redhat.com>
+Message-ID: <19721a4f-d566-44d5-6eb6-ff892e5cb502@redhat.com>
+Date: Mon, 14 Dec 2020 09:53:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201210134752.780923-1-marcandre.lureau@redhat.com>
- <20201210134752.780923-14-marcandre.lureau@redhat.com>
-In-Reply-To: <20201210134752.780923-14-marcandre.lureau@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 14 Dec 2020 12:05:05 +0400
-Message-ID: <CAJ+F1C+_CE5uaQ7QMkaca498WFcRWSb+zez2zwi_BqUMCTK2zA@mail.gmail.com>
-Subject: Re: [PATCH v3 13/13] compiler.h: remove QEMU_GNUC_PREREQ
-To: QEMU <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000005583ba05b6681a42"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x644.google.com
+In-Reply-To: <20201125105417.380317-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,146 +81,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "open list:ARM" <qemu-arm@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, xen-devel@lists.xenproject.org,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005583ba05b6681a42
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Thu, Dec 10, 2020 at 6:07 PM <marcandre.lureau@redhat.com> wrote:
-
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> When needed, the G_GNUC_CHECK_VERSION() glib macro can be used instead.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On 25/11/2020 11.54, Thomas Huth wrote:
+> We need the CCW address on the libvirt side to correctly identify
+> the disk, so add this information to the GuestDiskAddress on s390x.
+> 
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1755075
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  include/qemu/compiler.h    | 11 -----------
->  scripts/cocci-macro-file.h |  1 -
->  2 files changed, 12 deletions(-)
->
-> diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-> index 5e6cf2c8e8..1b9e58e82b 100644
-> --- a/include/qemu/compiler.h
-> +++ b/include/qemu/compiler.h
-> @@ -11,17 +11,6 @@
->  #define QEMU_STATIC_ANALYSIS 1
->  #endif
->
->
-> -/*----------------------------------------------------------------------=
-------
-> -| The macro QEMU_GNUC_PREREQ tests for minimum version of the GNU C
-> compiler.
-> -| The code is a copy of SOFTFLOAT_GNUC_PREREQ, see softfloat-macros.h.
->
-> -*-----------------------------------------------------------------------=
------*/
-> -#if defined(__GNUC__) && defined(__GNUC_MINOR__)
-> -# define QEMU_GNUC_PREREQ(maj, min) \
-> -         ((__GNUC__ << 16) + __GNUC_MINOR__ >=3D ((maj) << 16) + (min))
-> -#else
-> -# define QEMU_GNUC_PREREQ(maj, min) 0
-> -#endif
-> -
->  #define QEMU_NORETURN __attribute__ ((__noreturn__))
->
->  #define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
-> diff --git a/scripts/cocci-macro-file.h b/scripts/cocci-macro-file.h
-> index c6bbc05ba3..20eea6b708 100644
-> --- a/scripts/cocci-macro-file.h
-> +++ b/scripts/cocci-macro-file.h
-> @@ -19,7 +19,6 @@
->   */
->
->  /* From qemu/compiler.h */
-> -#define QEMU_GNUC_PREREQ(maj, min) 1
->  #define QEMU_NORETURN __attribute__ ((__noreturn__))
->  #define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
->  #define QEMU_SENTINEL __attribute__((sentinel))
->
+>  qga/commands-posix.c | 34 ++++++++++++++++++++++++++++++++++
+>  qga/qapi-schema.json | 19 ++++++++++++++++++-
+>  2 files changed, 52 insertions(+), 1 deletion(-)
+> 
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index c089e38120..5aa5eff84f 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -1029,6 +1029,38 @@ static bool build_guest_fsinfo_for_nonpci_virtio(char const *syspath,
+>      return true;
+>  }
+>  
+> +/*
+> + * Store disk device info for CCW devices (s390x channel I/O devices).
+> + * Returns true if information has been stored, or false for failure.
+> + */
+> +static bool build_guest_fsinfo_for_ccw_dev(char const *syspath,
+> +                                           GuestDiskAddress *disk,
+> +                                           Error **errp)
+> +{
+> +    unsigned int cssid, ssid, subchno, devno;
+> +    char *p;
+> +
+> +    p = strstr(syspath, "/devices/css");
+> +    if (!p || sscanf(p + 12, "%*x/%x.%x.%x/%*x.%*x.%x/",
+> +                     &cssid, &ssid, &subchno, &devno) < 4) {
+> +        g_debug("could not parse ccw device sysfs path: %s", syspath);
+> +        return false;
+> +    }
+> +
+> +    disk->has_ccw_address = true;
+> +    disk->ccw_address = g_new0(GuestCCWAddress, 1);
+> +    disk->ccw_address->cssid = cssid;
+> +    disk->ccw_address->ssid = ssid;
+> +    disk->ccw_address->subchno = subchno;
+> +    disk->ccw_address->devno = devno;
+> +
+> +    if (strstr(p, "/virtio")) {
+> +        build_guest_fsinfo_for_nonpci_virtio(syspath, disk, errp);
+> +    }
+> +
+> +    return true;
+> +}
+> +
+>  /* Store disk device info specified by @sysfs into @fs */
+>  static void build_guest_fsinfo_for_real_device(char const *syspath,
+>                                                 GuestFilesystemInfo *fs,
+> @@ -1081,6 +1113,8 @@ static void build_guest_fsinfo_for_real_device(char const *syspath,
+>  
+>      if (strstr(syspath, "/devices/pci")) {
+>          has_hwinf = build_guest_fsinfo_for_pci_dev(syspath, disk, errp);
+> +    } else if (strstr(syspath, "/devices/css")) {
+> +        has_hwinf = build_guest_fsinfo_for_ccw_dev(syspath, disk, errp);
+>      } else if (strstr(syspath, "/virtio")) {
+>          has_hwinf = build_guest_fsinfo_for_nonpci_virtio(syspath, disk, errp);
+>      } else {
+> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+> index 3b3d1d0bd9..8be84b56e9 100644
+> --- a/qga/qapi-schema.json
+> +++ b/qga/qapi-schema.json
+> @@ -846,6 +846,21 @@
+>    'data': {'domain': 'int', 'bus': 'int',
+>             'slot': 'int', 'function': 'int'} }
+>  
+> +##
+> +# @GuestCCWAddress:
+> +#
+> +# @cssid: channel subsystem image id
+> +# @ssid: subchannel set id
+> +# @devno:  device number
+> +#
+> +# Since: 6.0
+> +##
+> +{ 'struct': 'GuestCCWAddress',
+> +  'data': {'cssid': 'int',
+> +           'ssid': 'int',
+> +           'subchno': 'int',
+> +           'devno': 'int'} }
+> +
+>  ##
+>  # @GuestDiskAddress:
+>  #
+> @@ -856,6 +871,7 @@
+>  # @unit: unit id
+>  # @serial: serial number (since: 3.1)
+>  # @dev: device node (POSIX) or device UNC (Windows) (since: 3.1)
+> +# @ccw-address: CCW address on s390x (since: 6.0)
+>  #
+>  # Since: 2.2
+>  ##
+> @@ -863,7 +879,8 @@
+>    'data': {'pci-controller': 'GuestPCIAddress',
+>             'bus-type': 'GuestDiskBusType',
+>             'bus': 'int', 'target': 'int', 'unit': 'int',
+> -           '*serial': 'str', '*dev': 'str'} }
+> +           '*serial': 'str', '*dev': 'str',
+> +           '*ccw-address': 'GuestCCWAddress'} }
+>  
+>  ##
+>  # @GuestDiskInfo:
+> 
 
-ping, thanks
+Ping!
 
---=20
-Marc-Andr=C3=A9 Lureau
+Michael, any comments on this, or do you think that it ready to go?
 
---0000000000005583ba05b6681a42
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Thanks,
+  Thomas
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 10, 2020 at 6:07 PM &lt=
-;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.=
-com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-<br>
-When needed, the G_GNUC_CHECK_VERSION() glib macro can be used instead.<br>
-<br>
-Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
----<br>
-=C2=A0include/qemu/compiler.h=C2=A0 =C2=A0 | 11 -----------<br>
-=C2=A0scripts/cocci-macro-file.h |=C2=A0 1 -<br>
-=C2=A02 files changed, 12 deletions(-)<br>
-<br>
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h<br>
-index 5e6cf2c8e8..1b9e58e82b 100644<br>
---- a/include/qemu/compiler.h<br>
-+++ b/include/qemu/compiler.h<br>
-@@ -11,17 +11,6 @@<br>
-=C2=A0#define QEMU_STATIC_ANALYSIS 1<br>
-=C2=A0#endif<br>
-<br>
--/*------------------------------------------------------------------------=
-----<br>
--| The macro QEMU_GNUC_PREREQ tests for minimum version of the GNU C compil=
-er.<br>
--| The code is a copy of SOFTFLOAT_GNUC_PREREQ, see softfloat-macros.h.<br>
--*-------------------------------------------------------------------------=
----*/<br>
--#if defined(__GNUC__) &amp;&amp; defined(__GNUC_MINOR__)<br>
--# define QEMU_GNUC_PREREQ(maj, min) \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0((__GNUC__ &lt;&lt; 16) + __GNUC_MINOR__=
- &gt;=3D ((maj) &lt;&lt; 16) + (min))<br>
--#else<br>
--# define QEMU_GNUC_PREREQ(maj, min) 0<br>
--#endif<br>
--<br>
-=C2=A0#define QEMU_NORETURN __attribute__ ((__noreturn__))<br>
-<br>
-=C2=A0#define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))<b=
-r>
-diff --git a/scripts/cocci-macro-file.h b/scripts/cocci-macro-file.h<br>
-index c6bbc05ba3..20eea6b708 100644<br>
---- a/scripts/cocci-macro-file.h<br>
-+++ b/scripts/cocci-macro-file.h<br>
-@@ -19,7 +19,6 @@<br>
-=C2=A0 */<br>
-<br>
-=C2=A0/* From qemu/compiler.h */<br>
--#define QEMU_GNUC_PREREQ(maj, min) 1<br>
-=C2=A0#define QEMU_NORETURN __attribute__ ((__noreturn__))<br>
-=C2=A0#define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))<b=
-r>
-=C2=A0#define QEMU_SENTINEL __attribute__((sentinel))<br></blockquote><div>=
-<br></div><div>ping, thanks <br></div></div><br>-- <br><div dir=3D"ltr" cla=
-ss=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000005583ba05b6681a42--
 
