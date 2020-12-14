@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918652D9F67
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 19:43:39 +0100 (CET)
-Received: from localhost ([::1]:51932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A05D2D9FB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 19:57:51 +0100 (CET)
+Received: from localhost ([::1]:58180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kosos-0002Fo-Ki
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 13:43:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34716)
+	id 1kot2c-0000jv-Iy
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 13:57:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1koskY-0000MO-KZ
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 13:39:12 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45659)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kosts-0008Uz-VZ
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 13:48:57 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:35726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1koskU-0007VW-5v
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 13:39:07 -0500
-Received: by mail-wr1-x432.google.com with SMTP id d26so4231783wrb.12
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 10:39:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=3jTmKcmmqBWLYbQ1cWD989jXI7AUr/FtqoKPQ00ZpaA=;
- b=DmvDAgVDk3rT6vilBmhNkckxULBIzzOM7iPzs+1pqtzygklCVwU2Nf/bxGPV3xiUth
- 716+qran5MG77Z410nif++Lkg66Vu6HV4Xq4NSFh7RIJHdIPP2KN2AqGn8x373KuVU60
- IJu7NyQ7ckS3ymP9XbkN4e8aLmRUY9BJsX8J4PgRvbgvyu2B4olGlZjUeJOzhyndGU6c
- DgUeUkq1XIPAsOSlTvBNoTfr6yOlYBV2dVHq4+3SlwRwM6waQWSKpiX6/gk9EewantFS
- jSuVyYsL0wEy2640e0xlUkGzQ5tVXWR8Gi2/+WLarpBdiW5+zpahNBBf/kp2uPwLmarH
- cdrQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kostS-0000kA-71
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 13:48:48 -0500
+Received: by mail-ej1-x643.google.com with SMTP id q22so6239294eja.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 10:48:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SKewVq2z6cYEdM5vsq2vw8MjBg+S+NLgK8tAXlrRO6M=;
+ b=A/em8j4XwleA0HjWaMGrQG2rQ4c2f00rygbi64Qezs23MJUP9VHxwrtGpPCfQh4NaJ
+ ivy2Q0cvmmj1l45ZT+73aDetJrFrugcRMEqF5HMVVIQAFwlh2qpslsJ18mSC1f+r29Fe
+ iXWNDwW1o6bfUMSDO/GOTQUWlzUlLnBNjAbNJFnK46WKyjPH0iDDAgl+hT2T0gSA1Moy
+ F2C+Mh4sm44Rat2ik3HO7KW0Gk/z4mrDHFcANWc7uTxw2X1EjDcbySB8o9VvGJ6R0V5y
+ WrhD0HQtZOcyhNo0TLvVysQvKWEmjb71jZyF+TFUpiRPYKpGmnYiwIDWb9mAc/hFvqJY
+ HzYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3jTmKcmmqBWLYbQ1cWD989jXI7AUr/FtqoKPQ00ZpaA=;
- b=CmMyh9IFV6kUegfiS5PsCr6eW9OI/vj14e4ojtrQ43aJl/ys3I79z18RBzqEycIMOI
- 7ZCHx0lqUNeCFZhBc6t+nspH/ucQfygRzMKd5Csr60g+4uNNoJxw7+qPL969tPOQ47ft
- 5pQad9tHxM8EP4RzaBT0sezS5fllsVhgQxjtyZT/836uyDJuI4FVHCCn3sePwWnMcEZg
- SOTOHb6o6gmM2uYaqZBi/nXOfYSDqBoC7u9C0jzKhh0vozgsOdQynLoYZ4gMZ4c5T4T/
- o06sRMYX6RWK0oKmj+lZ8NHqUlpFmwGNWyqM5EIgBrBw5ecy7HYIBZPQYS59ckpDx9z0
- 1dWw==
-X-Gm-Message-State: AOAM531mg89YfJ9WZctSQsnq4iRiWZOHzWMCMLW9pKCkwpltf8IjicMW
- ki2uEfLBAN05rUSHkpvqfv1Umu2E+GE=
-X-Google-Smtp-Source: ABdhPJylZEZ27Ecah1UpEhdOM3kNCewD+xZzhYtp7CCr76vb0A0zPGaLnGaH25igd87RXx73ckqSKw==
-X-Received: by 2002:adf:dc8d:: with SMTP id r13mr30567261wrj.325.1607971143337; 
- Mon, 14 Dec 2020 10:39:03 -0800 (PST)
-Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id 94sm33793630wrq.22.2020.12.14.10.39.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Dec 2020 10:39:02 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/16] target/mips: Only build TCG code when CONFIG_TCG is
- set
-Date: Mon, 14 Dec 2020 19:37:39 +0100
-Message-Id: <20201214183739.500368-17-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201214183739.500368-1-f4bug@amsat.org>
-References: <20201214183739.500368-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SKewVq2z6cYEdM5vsq2vw8MjBg+S+NLgK8tAXlrRO6M=;
+ b=izyoI8EyfGDwjQLllacJbcTmn71/L2x9+rklM52NJW7R32BAxxQ2PWBdUd8k2pfG/u
+ AccOlNgBNh1eSE+Lo/7s7ByNt66G6r/KFqrgsl/y9DxIkACe/HmGxNtpzhjuSZe7W0xT
+ oPHg3jFs6BqNXtEucqtM0fHfXdUEqR6u1ynVHZJZMY70eBbWq+sUblGQOoL+Gapwn7lZ
+ l1JPt75r8v5VGfByUnNxX7ZkFBO0XBOqhlmDX141881OIYVNeCTUsi7GEHvYJXJGrDk0
+ QrgQSzxcRwjr8RYbCTySbsAi+Fm3R9qVnVoi6MhO3WZaF1wm1ou30i5pWhZqmisgG7YW
+ Onww==
+X-Gm-Message-State: AOAM530zzkefWxhHxOsrK8iPhbgYGw59s7kudwq+t5BQQ/PLbtK05u4h
+ tIa6tLXD9DJb8a/fwUvEPLT0IIb93Sk8iQAIW9sdUg==
+X-Google-Smtp-Source: ABdhPJyno3h5Vj+qY19jujal6nYlM6krOePP8Ti0zgNIhNZbCJCzRTjjMqVnyo3fx9ylvBl2ABzGI9aIuMFAtvQrKxc=
+X-Received: by 2002:a17:906:31d2:: with SMTP id
+ f18mr23624480ejf.407.1607971699565; 
+ Mon, 14 Dec 2020 10:48:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+References: <20201211051359.3231-1-rebecca@nuviainc.com>
+ <20201211051359.3231-2-rebecca@nuviainc.com>
+ <6dd32a22-e3a6-db57-fc5b-9a3da4e1a709@linaro.org>
+ <284b9f4e-55b7-81a3-f1c5-7f7b6d0c9784@nuviainc.com>
+ <46d7b991-d305-bd2f-91f9-cdc2ee1e73ce@linaro.org>
+ <CAFEAcA9NOez16SaKsegpURPtMJDByYQ2MaeUKjQAiKhm=O-7LA@mail.gmail.com>
+ <8aacc648-c550-c5a9-eed1-5031cb95a5fd@nuviainc.com>
+In-Reply-To: <8aacc648-c550-c5a9-eed1-5031cb95a5fd@nuviainc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Dec 2020 18:48:08 +0000
+Message-ID: <CAFEAcA8=Y=JsFLop6FJ2yhExrXMk_TQ+_a8wiH9jUD=HiHW6xA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] target/arm: add support for FEAT_DIT, Data
+ Independent Timing
+To: Rebecca Cran <rebecca@nuviainc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,55 +84,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
- Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201206233949.3783184-20-f4bug@amsat.org>
----
- target/mips/meson.build | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+On Mon, 14 Dec 2020 at 18:11, Rebecca Cran <rebecca@nuviainc.com> wrote:
+>
+> On 12/11/20 2:37 PM, Peter Maydell wrote:
+> > On Fri, 11 Dec 2020 at 19:51, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >> I'll let Peter weigh in, but I think it makes sense to move the SS bit
+> >> somewhere else (e.g. env->pstate) and merge it into SPSR_ELx upon interrupt.
+> >> While what we're doing here is convenient, it's not architectural, and it would
+> >> be better to follow GetPSRFromPSTATE pseudocode.
+> >
+> > Yes, I think that's the best thing to do. We've been skating
+> > by on CPSR and SPSR being the same thing and it's just
+> > stopped working.
+>
+> Would you like me to work on this, or is it something the arm
+> maintainers would fix?
 
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index 5a49951c6d7..596eb1aeeb3 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -1,9 +1,11 @@
- mips_ss = ss.source_set()
- mips_ss.add(files(
-   'cpu.c',
-+  'gdbstub.c',
-+))
-+mips_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'dsp_helper.c',
-   'fpu_helper.c',
--  'gdbstub.c',
-   'lmmi_helper.c',
-   'msa_helper.c',
-   'op_helper.c',
-@@ -15,11 +17,13 @@
- mips_softmmu_ss = ss.source_set()
- mips_softmmu_ss.add(files(
-   'addr.c',
--  'cp0_helper.c',
-   'cp0_timer.c',
-   'machine.c',
-   'mips-semi.c',
- ))
-+mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-+  'cp0_helper.c',
-+))
- 
- target_arch += {'mips': mips_ss}
- target_softmmu_arch += {'mips': mips_softmmu_ss}
--- 
-2.26.2
+You're the person that wants to add the change that
+requires this refactoring, so if you could, I think the
+best thing would be for you to do this bit of work
+and send it as part of this patchseries.
 
+thanks
+-- PMM
 
