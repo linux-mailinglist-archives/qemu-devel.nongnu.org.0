@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535662D9168
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 01:34:44 +0100 (CET)
-Received: from localhost ([::1]:57152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA4D2D916B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 01:36:47 +0100 (CET)
+Received: from localhost ([::1]:38192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kobp5-0006I1-B1
-	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 19:34:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32932)
+	id 1kobr4-0001le-1M
+	for lists+qemu-devel@lfdr.de; Sun, 13 Dec 2020 19:36:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kobmY-0004gT-Gh
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 19:32:06 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:43058)
+ id 1kobmm-0004tP-Sq
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 19:32:21 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39227)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kobmX-0003BI-19
- for qemu-devel@nongnu.org; Sun, 13 Dec 2020 19:32:06 -0500
-Received: by mail-ot1-f65.google.com with SMTP id q25so14139962otn.10
- for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 16:32:04 -0800 (PST)
+ id 1kobml-0003Fc-CY
+ for qemu-devel@nongnu.org; Sun, 13 Dec 2020 19:32:20 -0500
+Received: by mail-wr1-x443.google.com with SMTP id c5so11104338wrp.6
+ for <qemu-devel@nongnu.org>; Sun, 13 Dec 2020 16:32:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=eQRch1XqgY6YjfjSvLdcSTDqbNcyV3L4vUo+tEuCq5U=;
+ b=llvfwan1askoBlQMHQgS2ygviyO/lOVnOvQnfSsbBJj7vSrriDmF3GuW7AIvyTrfsL
+ N7+rMzxyNqFXa58CivV13ITf797qx041nT2I/E7RmLvUc9rgIR76DCAbjv9T/JlFYSI/
+ UzWPDZTiAw9SDioqHRjNqpHKErW+2EWef41VsOStKQSZnMVlBQUcub+w1vU25HOH0mto
+ u0JlnSVGA5cUsUnTKAAFeuum2X9Jz4zDPOBTziMbMpjEetuI+65sgjvd2Ferw77KRo/Z
+ 4QBHZbUTLQ8N8lYu8AuGrCl94Lcn9HVPyaNGnSGvS3DRfrogP21FYyzP4XA8vLv46W78
+ laIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OTE06U7lgDfHNHnX8rwP6vj+K1rfLI05xjfC+tXLYT0=;
- b=pz1SmO4KnmHlcXUEfCokLJxxFQljnrgVHg7nON/x0v8a2Ko+WvCDRRpfmFhfETJS9e
- GXM75VroWAdyMdilmpGVOyHYdvCLa5lzqiW416vAvsv8eTveYlU/+PVtUtRK8K4mBN0H
- PmzJDzyHxUJGxSqhr+ApRt26xZESRuUuyMyJbxQx224hudZn2wVjDN7lervNQE57sYbu
- yp7jU73wXS+FQePA/YufP/xNUW3IKwKDYU7eDOz4yo5KZoPTWl70VnXhe8tnnOGapZnU
- InllE75f4fPtzS9I87sPCTlWRvnPfFWYcMEenMT0IaI0KcBoLpPRV67QmwtPGQxcd1G2
- PYsw==
-X-Gm-Message-State: AOAM533LsGfWEjfOVsxKGodieVK2J5jzd4jDo/4e9SnHK7dFdv+SwKAa
- mQ+gEGmcYKipHvKHK6s09HS2q+LjtjwO150BZFtOl/CQ
-X-Google-Smtp-Source: ABdhPJyY9lroYCR62F2SpRCj2FxiQzr/BJgjzDz0D0MCD+VTL4M6dPHFOGpF61ZdyxfdC6rIYQHvl43KlyguEWlF2pI=
-X-Received: by 2002:a9d:63cd:: with SMTP id e13mr18074535otl.37.1607905923585; 
- Sun, 13 Dec 2020 16:32:03 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=eQRch1XqgY6YjfjSvLdcSTDqbNcyV3L4vUo+tEuCq5U=;
+ b=EYxKxo+vIbFAXRiG30L3sU0qXah8+kpvg646d7ndWWcQ+JgLosX00z1M2Gyzp+/g8C
+ BLYrxScHcsbLnZpv086e1M6FAlRlVQL9xCeJna0LUHX/L4HFDQmSI8SUDLe+iGh8hp0W
+ pR/lMPUiH62bnAl8WK/7RkwSYtVvHdQOOUJcERhpYv1WVA0miqdGqza/kq0NpX/yZzQR
+ SwTHMW3RqPjtYPxzAOqReDC+gW3tT2NzZIRfmPf7oNG01RPW9vQuYiXAY27DhQ85S+1H
+ fF7/GHfZDHx5RKfjN1nJh47dHNhmRWSWKpg23vQ4rv2KYuZ+PzpWtTQuO2LIld5PduH0
+ 1qVg==
+X-Gm-Message-State: AOAM530ie5oqUoO8Y3d5Tg04R6IjCqQmRF/cXh2Jru1Mp3k4nBSTvlPb
+ aWZ9AC80FoZnNg5S0RH/gB8yvK0XW14=
+X-Google-Smtp-Source: ABdhPJzGYERoI5XKVye+1MULGDSQnDx/sCQf6lAECJhPHnz5LvcNnLixtmjbvoUB9uZHjXSxmXlEUA==
+X-Received: by 2002:a5d:488d:: with SMTP id g13mr25857855wrq.274.1607905937916; 
+ Sun, 13 Dec 2020 16:32:17 -0800 (PST)
+Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id h14sm29945860wrx.37.2020.12.13.16.32.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Dec 2020 16:32:17 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/6] linux-user: Rework get_elf_hwcap() and support MIPS
+ Loongson 2F/3A
+Date: Mon, 14 Dec 2020 01:32:09 +0100
+Message-Id: <20201214003215.344522-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20201214002928.343686-1-f4bug@amsat.org>
- <20201214002928.343686-2-f4bug@amsat.org>
-In-Reply-To: <20201214002928.343686-2-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Mon, 14 Dec 2020 01:31:52 +0100
-Message-ID: <CAAdtpL6DE4+T4p0pwkTn0Z5RuwFdAoSsRgEGVBQPGp_f10kWDg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/7] MAINTAINERS: chenhc@lemote.com ->
- chenhuacai@kernel.org
-To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.210.65;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f65.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,28 +84,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <zltjiangshi@gmail.com>, Huacai Chen <chenhuacai@kernel.org>,
- Laurent Vivier <laurent@vivier.eu>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 14, 2020 at 1:29 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> From: Huacai Chen <zltjiangshi@gmail.com>
->
-> Use @kernel.org address as the main communications end point. Update the
-> corresponding M-entries and .mailmap (for git shortlog translation).
->
-> Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Message-Id: <1607160121-9977-1-git-send-email-chenhuacai@kernel.org>
-> ---
->  .mailmap    | 2 ++
->  MAINTAINERS | 8 ++++----
->  2 files changed, 6 insertions(+), 4 deletions(-)
-
-Wrong series... Already sent pull request for this one, sorry for the noise=
-.
+Series now fully reviewed.=0D
+=0D
+Since v5:=0D
+- Dropped MAINTAINERS patch =3D)=0D
+=0D
+Since v4:=0D
+- Fixed yet another typo...=0D
+=0D
+Since v3:=0D
+- Add CP0C0_AR_LENGTH definition (Richard)=0D
+- Fixed 3E -> 3A, Longsoon -> Loongson typos (Huacai)=0D
+=0D
+Since v2:=0D
+- Use extract32() in GET_FEATURE_REG_EQU (rth)=0D
+=0D
+Introduce the GET_FEATURE_REG_SET() and GET_FEATURE_REG_EQU()=0D
+macros to check if an instruction set is supported by a CPU=0D
+using CP0 read-only bits (instead of QEMU insn_flags which=0D
+is not always coherent - we might remove it soon).=0D
+=0D
+Use these macros to test for MSA ASE and Release 6.=0D
+=0D
+Update the ELF HWCAP bits and set the Loongson instructions=0D
+so we can run 2F/3A userland binaries.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  linux-user/elfload: Move GET_FEATURE macro out of get_elf_hwcap() body=0D
+  linux-user/elfload: Rename MIPS GET_FEATURE() as GET_FEATURE_INSN()=0D
+  linux-user/elfload: Introduce MIPS GET_FEATURE_REG_SET() macro=0D
+  linux-user/elfload: Introduce MIPS GET_FEATURE_REG_EQU() macro=0D
+  linux-user/elfload: Update HWCAP bits from linux 5.7=0D
+  linux-user: Add support for MIPS Loongson 2F/3A=0D
+=0D
+ target/mips/cpu.h    |  1 +=0D
+ linux-user/elfload.c | 43 ++++++++++++++++++++++++++++++++++++-------=0D
+ 2 files changed, 37 insertions(+), 7 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
