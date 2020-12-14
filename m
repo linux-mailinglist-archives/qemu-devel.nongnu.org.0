@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479592D926E
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:09:08 +0100 (CET)
-Received: from localhost ([::1]:39968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 995942D926D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:07:39 +0100 (CET)
+Received: from localhost ([::1]:33608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kog6d-0001Oz-C8
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:09:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39290)
+	id 1kog5C-0007IA-MF
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:07:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwQ-0005Bo-MY; Sun, 13 Dec 2020 23:58:35 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:51717)
+ id 1kofwP-0005Am-Ne; Sun, 13 Dec 2020 23:58:33 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:59759 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwO-0004qS-K9; Sun, 13 Dec 2020 23:58:34 -0500
+ id 1kofwN-0004qQ-W5; Sun, 13 Dec 2020 23:58:33 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CvTfq54kHz9sVS; Mon, 14 Dec 2020 15:58:11 +1100 (AEDT)
+ id 4CvTfq61vQz9sVY; Mon, 14 Dec 2020 15:58:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607921891;
- bh=uECiSoEwfcA940gyW7QObXgfmo6vlCN3kSYBi0xr7eo=;
+ bh=yEOgWNQIKYMwIVFpybJiMTX1nV9ThkAF1DQCANxBVZI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WdEMzKYFJRlvjLVEjlzPSfro+ZQxDXq+ywJAtbFfjv8/arTxlCHw5DYJGj6L7W/DH
- xQWwE4vtpq2XncBiiG6KBMM9IiUmMWVdwEiufDQLr/MY4PUARwiB29paRc5oXxjo2A
- 5Uz36TRjwFqCxh2PH7dhdjhLtmHbVVMs1oXAHRpE=
+ b=jbQ/MQGS4L30/vN4TIk3+uR3tk1TWEAlwkcZCID4Sagrtr8HQZLo8pg6C043SGYdK
+ maLBmzpFFq0hXlpVteqW+RKDKBCZMXF1awZvbQLfDZjgZjKft2mrUW4HrLT2E4S7AG
+ Oi0nMxhkZ80rmpTcuVLg5t6M26Jtfv6Q5JtDgr6w=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 04/30] spapr: Do NVDIMM/PC-DIMM device hotplug sanity checks at
- pre-plug only
-Date: Mon, 14 Dec 2020 15:57:41 +1100
-Message-Id: <20201214045807.41003-5-david@gibson.dropbear.id.au>
+Subject: [PULL 06/30] spapr: Do PHB hoplug sanity check at pre-plug
+Date: Mon, 14 Dec 2020 15:57:43 +1100
+Message-Id: <20201214045807.41003-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 References: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,156 +63,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Pre-plug of a memory device, be it an NVDIMM or a PC-DIMM, ensures
-that the memory slot is available and that addresses don't overlap
-with existing memory regions. The corresponding DRCs in the LMB
-and PMEM namespaces are thus necessarily attachable at plug time.
+We currently detect that a PHB index is already in use at plug time.
+But this can be decteted at pre-plug in order to error out earlier.
 
-Pass &error_abort to spapr_drc_attach() in spapr_add_lmbs() and
-spapr_add_nvdimm(). This allows to greatly simplify error handling
-on the plug path.
+This allows to pass &error_abort to spapr_drc_attach() and to end
+up with a plug handler that doesn't need to report errors anymore.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201120234208.683521-3-groug@kaod.org>
+Message-Id: <20201120234208.683521-8-groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c                | 40 ++++++++++++-----------------------
- hw/ppc/spapr_nvdimm.c         | 11 +++++-----
- include/hw/ppc/spapr_nvdimm.h |  2 +-
- 3 files changed, 20 insertions(+), 33 deletions(-)
+ hw/ppc/spapr.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 6abb45d0ed..9489c57213 100644
+index 28d266f7a7..ac115b0987 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -3379,8 +3379,8 @@ int spapr_lmb_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
-     return 0;
- }
+@@ -3886,6 +3886,7 @@ static bool spapr_phb_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+     SpaprPhbState *sphb = SPAPR_PCI_HOST_BRIDGE(dev);
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
+     const unsigned windows_supported = spapr_phb_windows_supported(sphb);
++    SpaprDrc *drc;
  
--static bool spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
--                           bool dedicated_hp_event_source, Error **errp)
-+static void spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
-+                           bool dedicated_hp_event_source)
- {
-     SpaprDrc *drc;
-     uint32_t nr_lmbs = size/SPAPR_MEMORY_BLOCK_SIZE;
-@@ -3393,15 +3393,12 @@ static bool spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
-                               addr / SPAPR_MEMORY_BLOCK_SIZE);
-         g_assert(drc);
- 
--        if (!spapr_drc_attach(drc, dev, errp)) {
--            while (addr > addr_start) {
--                addr -= SPAPR_MEMORY_BLOCK_SIZE;
--                drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
--                                      addr / SPAPR_MEMORY_BLOCK_SIZE);
--                spapr_drc_detach(drc);
--            }
--            return false;
--        }
-+        /*
-+         * memory_device_get_free_addr() provided a range of free addresses
-+         * that doesn't overlap with any existing mapping at pre-plug. The
-+         * corresponding LMB DRCs are thus assumed to be all attachable.
-+         */
-+        spapr_drc_attach(drc, dev, &error_abort);
-         if (!hotplugged) {
-             spapr_drc_reset(drc);
-         }
-@@ -3422,11 +3419,9 @@ static bool spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
-                                            nr_lmbs);
-         }
+     if (dev->hotplugged && !smc->dr_phb_enabled) {
+         error_setg(errp, "PHB hotplug not supported for this machine");
+@@ -3897,6 +3898,12 @@ static bool spapr_phb_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+         return false;
      }
--    return true;
+ 
++    drc = spapr_drc_by_id(TYPE_SPAPR_DRC_PHB, sphb->index);
++    if (drc && drc->dev) {
++        error_setg(errp, "PHB %d already attached", sphb->index);
++        return false;
++    }
++
+     /*
+      * This will check that sphb->index doesn't exceed the maximum number of
+      * PHBs for the current machine type.
+@@ -3910,8 +3917,7 @@ static bool spapr_phb_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+                            errp);
  }
  
--static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
--                              Error **errp)
-+static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev)
+-static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+-                           Error **errp)
++static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev)
  {
-     SpaprMachineState *ms = SPAPR_MACHINE(hotplug_dev);
-     PCDIMMDevice *dimm = PC_DIMM(dev);
-@@ -3441,24 +3436,15 @@ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-     if (!is_nvdimm) {
-         addr = object_property_get_uint(OBJECT(dimm),
-                                         PC_DIMM_ADDR_PROP, &error_abort);
--        if (!spapr_add_lmbs(dev, addr, size,
--                            spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT), errp)) {
--            goto out_unplug;
--        }
-+        spapr_add_lmbs(dev, addr, size,
-+                       spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT));
-     } else {
-         slot = object_property_get_int(OBJECT(dimm),
-                                        PC_DIMM_SLOT_PROP, &error_abort);
-         /* We should have valid slot number at this point */
-         g_assert(slot >= 0);
--        if (!spapr_add_nvdimm(dev, slot, errp)) {
--            goto out_unplug;
--        }
-+        spapr_add_nvdimm(dev, slot);
-     }
--
--    return;
--
--out_unplug:
--    pc_dimm_unplug(dimm, MACHINE(ms));
- }
- 
- static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-@@ -4006,7 +3992,7 @@ static void spapr_machine_device_plug(HotplugHandler *hotplug_dev,
-                                       DeviceState *dev, Error **errp)
- {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
--        spapr_memory_plug(hotplug_dev, dev, errp);
-+        spapr_memory_plug(hotplug_dev, dev);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)) {
-         spapr_core_plug(hotplug_dev, dev, errp);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index a833a63b5e..2f1c196e1b 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -89,7 +89,7 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
- }
- 
- 
--bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp)
-+void spapr_add_nvdimm(DeviceState *dev, uint64_t slot)
- {
-     SpaprDrc *drc;
-     bool hotplugged = spapr_drc_hotplugged(dev);
-@@ -97,14 +97,15 @@ bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp)
-     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_PMEM, slot);
-     g_assert(drc);
+     SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
+@@ -3927,9 +3933,8 @@ static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+     /* hotplug hooks should check it's enabled before getting this far */
+     assert(drc);
  
 -    if (!spapr_drc_attach(drc, dev, errp)) {
--        return false;
+-        return;
 -    }
-+    /*
-+     * pc_dimm_get_free_slot() provided a free slot at pre-plug. The
-+     * corresponding DRC is thus assumed to be attachable.
-+     */
++    /* spapr_phb_pre_plug() already checked the DRC is attachable */
 +    spapr_drc_attach(drc, dev, &error_abort);
  
      if (hotplugged) {
          spapr_hotplug_req_add_by_index(drc);
+@@ -3997,7 +4002,7 @@ static void spapr_machine_device_plug(HotplugHandler *hotplug_dev,
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)) {
+         spapr_core_plug(hotplug_dev, dev, errp);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRIDGE)) {
+-        spapr_phb_plug(hotplug_dev, dev, errp);
++        spapr_phb_plug(hotplug_dev, dev);
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
+         spapr_tpm_proxy_plug(hotplug_dev, dev, errp);
      }
--    return true;
- }
- 
- static int spapr_dt_nvdimm(SpaprMachineState *spapr, void *fdt,
-diff --git a/include/hw/ppc/spapr_nvdimm.h b/include/hw/ppc/spapr_nvdimm.h
-index 344582d2f5..73be250e2a 100644
---- a/include/hw/ppc/spapr_nvdimm.h
-+++ b/include/hw/ppc/spapr_nvdimm.h
-@@ -30,6 +30,6 @@ int spapr_pmem_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
- void spapr_dt_persistent_memory(SpaprMachineState *spapr, void *fdt);
- bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-                            uint64_t size, Error **errp);
--bool spapr_add_nvdimm(DeviceState *dev, uint64_t slot, Error **errp);
-+void spapr_add_nvdimm(DeviceState *dev, uint64_t slot);
- 
- #endif
 -- 
 2.29.2
 
