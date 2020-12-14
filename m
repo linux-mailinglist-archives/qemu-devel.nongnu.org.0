@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E915E2D9972
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 15:09:31 +0100 (CET)
-Received: from localhost ([::1]:54104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9499D2D9973
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 15:09:33 +0100 (CET)
+Received: from localhost ([::1]:54346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kooXa-0006pD-V7
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 09:09:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36062)
+	id 1kooXc-0006v0-JX
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 09:09:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kooRj-0001WU-1h
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:03:27 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:37229)
+ id 1kooRk-0001XG-Ti
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:03:28 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kooRg-0003u2-5h
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:03:26 -0500
-Received: by mail-oi1-x242.google.com with SMTP id l207so19265484oib.4
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 06:03:23 -0800 (PST)
+ id 1kooRh-0003uM-SW
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:03:28 -0500
+Received: by mail-oi1-x244.google.com with SMTP id 9so12096191oiq.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 06:03:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VBf9QskYdrzmXlYiy5KttGIoXCdMUZjZXJOehNVqkno=;
- b=lcqXOG6k+74/YmSo+a7htLjauAERA2Ae/NZ61odZo+wPSnM/NSHt8/i81TXKzvXTpo
- lg47+6A5DiPEsPvSfEfAA7/tXNLrPmFdYB5PdbpsN6wJ7msuTtWC5YcaqRDtf5UtrKK1
- byWrN4nQT569JVe6SWVt73o4x4208an1htXuCjI0b2ltYIUSlLND4H3MdWnUCRd8RHYH
- a56yAu0Ey2CS7MWRc+4EZj3O1qmOax1T+tEIw0YduByyZCwgoFsys7cpPhFHe2PtgHj1
- NdELjIPoarm8pZ27GdCSH/+ptC0u/jyGFnUS9DJ1z4aM6O45UnTYIn5LfPGwbXXXXufl
- NCtQ==
+ bh=OCpAIDmNxfXuUcIom3vUf6VIYVS6wp4D0QytQgRfHqY=;
+ b=kbYbAaJTyoXLm02/V3NWvhS70MF5OGX2yo6AKpzAWLSLZm/5tXOJdQcT8AQ8Y+nKw8
+ vh7CxCRD8BKZKsjuyPiS3OIIJ7Vmo6tFlRgDg1W5XLtxX8wq9MZF8KfkZkvI9ZpWA+56
+ DoGFb/eEc1jzZWtJTk5c9aFHrET/QXFTUyb9EDPDii0vt6f6JUufbikz86nGsFWYoKD7
+ ciRcJ0vsK2YZr/33umYb/KNXh1QHlkRlvbs16XjBShR4sRdaAjtW+ZFQ6xthchPwI8hY
+ b/AhO0khAt7YcGasX33stOCyeak8DElEK61PCBMvo952fKzgXl7d+7OWmzuYxZ0lyPJS
+ NkWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VBf9QskYdrzmXlYiy5KttGIoXCdMUZjZXJOehNVqkno=;
- b=VHVEPWh0n6w/wZ46uXkIseoHbYaPxZrV23fV4niOKcNlYvvN9zQsKmzlGJlWLRZXFN
- WurjKQT/NSDXgJ0lACPgdtjbQvFSOBcladj9Vuyh2t9xxctZY+J82Jo4a+g0/yzpCc2d
- o842NtIS2u7u2bgdEGW3DybroQdzhroQ8/Aq9+tfzxxdkW0wK3wSjuCKbgmi71/bfHQc
- WUjKSxuFlwGLgvUR3oDjDeV4OH7nM64E621qowm6svsfgnfq/JQ+3pc0BzbbPhpngvxp
- l3UUAes4jP/+8Yh7c4rGT9lHUr8Eqs5jguBcjm3uR+3V+azMJ3g2SHkWS4RT+MFaXLv+
- szYA==
-X-Gm-Message-State: AOAM532yEDp4G+IUM/5LaOr5pd50LCnp+UzsEAvtUBnd/kag9QYD7aki
- mEeuJr5DGWtJxM1KYSAv9vn67WoYXmJuazER
-X-Google-Smtp-Source: ABdhPJw3R1SwWcw/E1dzNReb8T4HGhIdjgoiG6dlZzc9fy4fFMFrW6t66lJfnESRFoqhOUe/k4QtCw==
-X-Received: by 2002:aca:3885:: with SMTP id
- f127mr12001938oia.104.1607954602158; 
- Mon, 14 Dec 2020 06:03:22 -0800 (PST)
+ bh=OCpAIDmNxfXuUcIom3vUf6VIYVS6wp4D0QytQgRfHqY=;
+ b=VCE1i+/9mrDJBUfqtfY0C25vsTrwJUROuVNZS5QU0Nk2f2oxEXoTYdH382zt6V/WbS
+ aiyZfbEqSVbWb8YQvK+CHzFRjI8I/vO17S2aGqypuy1eUkwbFjgWks3kIgyrzUdrekro
+ D4t9ggzKvJu3DTPDOze6VdV4Xqm/ytKh+lrw7A3t4yexvYJ5I8nV3c6lgxWDVNFLMs0r
+ Gnq82dgwv32OhbmXMlmCMvvfGknQQHfaKSZmZwh1/A6KqFr1x1cdtB6290gFKn3xufrG
+ 7e9xi8IVFGXRABN9zsS+0l5K1lxeDMfh3Z29tsF0wBlB/4jYWzHf4jgYuhTtTZllE+4c
+ J1rg==
+X-Gm-Message-State: AOAM533EFFqFWZQddhJNRqxxcPQL2HVYwqHczhAW5lUxMu9ZSDzo7srG
+ FIzUd3o1luxtMvF45hoo1m9mO+tB+Z9CioBt
+X-Google-Smtp-Source: ABdhPJwcAyNgVKxOSBpOqAQ40aT6CXjhpw76b0VcoqtNGrzzcLFmNqKq5u+mMpY94dYGJWVaUlbi1A==
+X-Received: by 2002:aca:afd0:: with SMTP id y199mr18221481oie.7.1607954604180; 
+ Mon, 14 Dec 2020 06:03:24 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id t24sm3940146oou.4.2020.12.14.06.03.20
+ by smtp.gmail.com with ESMTPSA id t24sm3940146oou.4.2020.12.14.06.03.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Dec 2020 06:03:21 -0800 (PST)
+ Mon, 14 Dec 2020 06:03:23 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/43] util: Enhance flush_icache_range with separate data
- pointer
-Date: Mon, 14 Dec 2020 08:02:34 -0600
-Message-Id: <20201214140314.18544-4-richard.henderson@linaro.org>
+Subject: [PATCH v4 04/43] util: Specialize flush_idcache_range for aarch64
+Date: Mon, 14 Dec 2020 08:02:35 -0600
+Message-Id: <20201214140314.18544-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201214140314.18544-1-richard.henderson@linaro.org>
 References: <20201214140314.18544-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x242.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,263 +83,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are shortly going to have a split rw/rx jit buffer.  Depending
-on the host, we need to flush the dcache at the rw data pointer and
-flush the icache at the rx code pointer.
+For darwin, the CTR_EL0 register is not accessible, but there
+are system routines that we can use.
 
-For now, the two passed pointers are identical, so there is no
-effective change in behaviour.
+For other hosts, copy the single pointer implementation from
+libgcc and modify it to support the double pointer interface
+we require.  This halves the number of cache operations required
+when split-rwx is enabled.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Joelle van Dyne <j@getutm.app>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/cacheflush.h    | 15 ++++++++++++--
- softmmu/physmem.c            |  2 +-
- tcg/tcg.c                    |  6 ++++--
- util/cacheflush.c            | 38 +++++++++++++++++++++---------------
- util/cacheinfo.c             |  8 +++++---
- tcg/aarch64/tcg-target.c.inc |  2 +-
- tcg/mips/tcg-target.c.inc    |  2 +-
- tcg/ppc/tcg-target.c.inc     |  4 ++--
- tcg/sparc/tcg-target.c.inc   |  4 ++--
- 9 files changed, 51 insertions(+), 30 deletions(-)
+ util/cacheflush.c | 69 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
 
-diff --git a/include/qemu/cacheflush.h b/include/qemu/cacheflush.h
-index 58ae488491..ae20bcda73 100644
---- a/include/qemu/cacheflush.h
-+++ b/include/qemu/cacheflush.h
-@@ -8,16 +8,27 @@
- #ifndef QEMU_CACHEFLUSH_H
- #define QEMU_CACHEFLUSH_H
- 
-+/**
-+ * flush_idcache_range:
-+ * @rx: instruction address
-+ * @rw: data address
-+ * @len: length to flush
-+ *
-+ * Flush @len bytes of the data cache at @rw and the icache at @rx
-+ * to bring them in sync.  The two addresses may be different virtual
-+ * mappings of the same physical page(s).
-+ */
-+
- #if defined(__i386__) || defined(__x86_64__) || defined(__s390__)
- 
--static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
-+static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
-     /* icache is coherent and does not require flushing. */
- }
- 
- #else
- 
--void flush_icache_range(uintptr_t start, uintptr_t stop);
-+void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len);
- 
- #endif
- 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 36854f0cd0..7aa706b1e3 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2947,7 +2947,7 @@ static inline MemTxResult address_space_write_rom_internal(AddressSpace *as,
-                 invalidate_and_set_dirty(mr, addr1, l);
-                 break;
-             case FLUSH_CACHE:
--                flush_icache_range((uintptr_t)ram_ptr, (uintptr_t)ram_ptr + l);
-+                flush_idcache_range((uintptr_t)ram_ptr, (uintptr_t)ram_ptr, l);
-                 break;
-             }
-         }
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 4b4cafe952..675334e844 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1079,7 +1079,8 @@ void tcg_prologue_init(TCGContext *s)
- 
-     buf1 = s->code_ptr;
- #ifndef CONFIG_TCG_INTERPRETER
--    flush_icache_range((uintptr_t)buf0, (uintptr_t)buf1);
-+    flush_idcache_range((uintptr_t)buf0, (uintptr_t)buf0,
-+                        tcg_ptr_byte_diff(buf1, buf0));
- #endif
- 
-     /* Deduct the prologue from the buffer.  */
-@@ -4324,7 +4325,8 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
- 
- #ifndef CONFIG_TCG_INTERPRETER
-     /* flush instruction cache */
--    flush_icache_range((uintptr_t)s->code_buf, (uintptr_t)s->code_ptr);
-+    flush_idcache_range((uintptr_t)s->code_buf, (uintptr_t)s->code_buf,
-+                        tcg_ptr_byte_diff(s->code_ptr, s->code_buf));
- #endif
- 
-     return tcg_current_code_size(s);
 diff --git a/util/cacheflush.c b/util/cacheflush.c
-index 2881832a38..92805efe49 100644
+index 92805efe49..6a20723902 100644
 --- a/util/cacheflush.c
 +++ b/util/cacheflush.c
-@@ -21,29 +21,32 @@
- #include <sys/cachectl.h>
- #endif
+@@ -7,12 +7,81 @@
  
--void flush_icache_range(uintptr_t start, uintptr_t stop)
+ #include "qemu/osdep.h"
+ #include "qemu/cacheflush.h"
++#include "qemu/bitops.h"
+ 
+ 
+ #if defined(__i386__) || defined(__x86_64__) || defined(__s390__)
+ 
+ /* Caches are coherent and do not require flushing; symbol inline. */
+ 
++#elif defined(__aarch64__)
++
++#ifdef CONFIG_DARWIN
++/* Apple does not expose CTR_EL0, so we must use system interfaces. */
++extern void sys_icache_invalidate(void *start, size_t len);
++extern void sys_dcache_flush(void *start, size_t len);
 +void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
--    cacheflush((void *)start, stop - start, ICACHE);
-+    if (rx != rw) {
-+        cacheflush((void *)rw, len, DCACHE);
-+    }
-+    cacheflush((void *)rx, len, ICACHE);
- }
- 
- #elif defined(__powerpc__)
- 
--void flush_icache_range(uintptr_t start, uintptr_t stop)
++{
++    sys_dcache_flush((void *)rw, len);
++    sys_icache_invalidate((void *)rx, len);
++}
++#else
++
++/*
++ * TODO: unify this with cacheinfo.c.
++ * We want to save the whole contents of CTR_EL0, so that we
++ * have more than the linesize, but also IDC and DIC.
++ */
++static unsigned int save_ctr_el0;
++static void __attribute__((constructor)) init_ctr_el0(void)
++{
++    asm volatile("mrs\t%0, ctr_el0" : "=r"(save_ctr_el0));
++}
++
++/*
++ * This is a copy of gcc's __aarch64_sync_cache_range, modified
++ * to fit this three-operand interface.
++ */
 +void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
--    uintptr_t p, start1, stop1;
-+    uintptr_t p, b, e;
-     size_t dsize = qemu_dcache_linesize;
-     size_t isize = qemu_icache_linesize;
- 
--    start1 = start & ~(dsize - 1);
--    stop1 = (stop + dsize - 1) & ~(dsize - 1);
--    for (p = start1; p < stop1; p += dsize) {
-+    b = rw & ~(dsize - 1);
-+    e = (rw + len + dsize - 1) & ~(dsize - 1);
-+    for (p = b; p < e; p += dsize) {
-         asm volatile ("dcbst 0,%0" : : "r"(p) : "memory");
-     }
-     asm volatile ("sync" : : : "memory");
- 
--    start &= start & ~(isize - 1);
--    stop1 = (stop + isize - 1) & ~(isize - 1);
--    for (p = start1; p < stop1; p += isize) {
-+    b = rx & ~(isize - 1);
-+    e = (rx + len + isize - 1) & ~(isize - 1);
-+    for (p = b; p < e; p += isize) {
-         asm volatile ("icbi 0,%0" : : "r"(p) : "memory");
-     }
-     asm volatile ("sync" : : : "memory");
-@@ -52,20 +55,23 @@ void flush_icache_range(uintptr_t start, uintptr_t stop)
- 
- #elif defined(__sparc__)
- 
--void flush_icache_range(uintptr_t start, uintptr_t stop)
-+void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
--    uintptr_t p;
--
--    for (p = start & -8; p < ((stop + 7) & -8); p += 8) {
-+    /* No additional data flush to the RW virtual address required. */
-+    uintptr_t p, end = (rx + len + 7) & -8;
-+    for (p = rx & -8; p < end; p += 8) {
-         __asm__ __volatile__("flush\t%0" : : "r" (p));
-     }
- }
- 
- #else
- 
--void flush_icache_range(uintptr_t start, uintptr_t stop)
-+void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
--    __builtin___clear_cache((char *)start, (char *)stop);
-+    if (rw != rx) {
-+        __builtin___clear_cache((char *)rw, (char *)rw + len);
-+    }
-+    __builtin___clear_cache((char *)rx, (char *)rx + len);
- }
- 
- #endif
-diff --git a/util/cacheinfo.c b/util/cacheinfo.c
-index 7804c186b6..b182f0b693 100644
---- a/util/cacheinfo.c
-+++ b/util/cacheinfo.c
-@@ -166,9 +166,11 @@ static void fallback_cache_info(int *isize, int *dsize)
-         *isize = *dsize;
-     } else {
- #if defined(_ARCH_PPC)
--        /* For PPC, we're going to use the icache size computed for
--           flush_icache_range.  Which means that we must use the
--           architecture minimum.  */
++{
++    const unsigned CTR_IDC = 1u << 28;
++    const unsigned CTR_DIC = 1u << 29;
++    const unsigned int ctr_el0 = save_ctr_el0;
++    const uintptr_t icache_lsize = 4 << extract32(ctr_el0, 0, 4);
++    const uintptr_t dcache_lsize = 4 << extract32(ctr_el0, 16, 4);
++    uintptr_t p;
++
++    /*
++     * If CTR_EL0.IDC is enabled, Data cache clean to the Point of Unification
++     * is not required for instruction to data coherence.
++     */
++    if (!(ctr_el0 & CTR_IDC)) {
 +        /*
-+         * For PPC, we're going to use the cache sizes computed for
-+         * flush_idcache_range.  Which means that we must use the
-+         * architecture minimum.
++         * Loop over the address range, clearing one cache line at once.
++         * Data cache must be flushed to unification first to make sure
++         * the instruction cache fetches the updated data.
 +         */
-         *isize = *dsize = 16;
- #else
-         /* Otherwise, 64 bytes is not uncommon.  */
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 26f71cb599..83af3108a4 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -1363,7 +1363,7 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
-     }
-     pair = (uint64_t)i2 << 32 | i1;
-     qatomic_set((uint64_t *)jmp_addr, pair);
--    flush_icache_range(jmp_addr, jmp_addr + 8);
-+    flush_idcache_range(jmp_addr, jmp_addr, 8);
- }
++        for (p = rw & -dcache_lsize; p < rw + len; p += dcache_lsize) {
++            asm volatile("dc\tcvau, %0" : : "r" (p) : "memory");
++        }
++        asm volatile("dsb\tish" : : : "memory");
++    }
++
++    /*
++     * If CTR_EL0.DIC is enabled, Instruction cache cleaning to the Point
++     * of Unification is not required for instruction to data coherence.
++     */
++    if (!(ctr_el0 & CTR_DIC)) {
++        for (p = rx & -icache_lsize; p < rx + len; p += icache_lsize) {
++            asm volatile("ic\tivau, %0" : : "r"(p) : "memory");
++        }
++        asm volatile ("dsb\tish" : : : "memory");
++    }
++
++    asm volatile("isb" : : : "memory");
++}
++#endif /* CONFIG_DARWIN */
++
+ #elif defined(__mips__)
  
- static inline void tcg_out_goto_label(TCGContext *s, TCGLabel *l)
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index 41be574e89..c255ecb444 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -2660,7 +2660,7 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
-                               uintptr_t addr)
- {
-     qatomic_set((uint32_t *)jmp_addr, deposit32(OPC_J, 0, 26, addr >> 2));
--    flush_icache_range(jmp_addr, jmp_addr + 4);
-+    flush_idcache_range(jmp_addr, jmp_addr, 4);
- }
- 
- typedef struct {
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 0d068ec8ab..b756281042 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -1753,12 +1753,12 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
-         /* As per the enclosing if, this is ppc64.  Avoid the _Static_assert
-            within qatomic_set that would fail to build a ppc32 host.  */
-         qatomic_set__nocheck((uint64_t *)jmp_addr, pair);
--        flush_icache_range(jmp_addr, jmp_addr + 8);
-+        flush_idcache_range(jmp_addr, jmp_addr, 8);
-     } else {
-         intptr_t diff = addr - jmp_addr;
-         tcg_debug_assert(in_range_b(diff));
-         qatomic_set((uint32_t *)jmp_addr, B | (diff & 0x3fffffc));
--        flush_icache_range(jmp_addr, jmp_addr + 4);
-+        flush_idcache_range(jmp_addr, jmp_addr, 4);
-     }
- }
- 
-diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-index 6775bd30fc..6e2d755f6a 100644
---- a/tcg/sparc/tcg-target.c.inc
-+++ b/tcg/sparc/tcg-target.c.inc
-@@ -1836,7 +1836,7 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
-     if (!USE_REG_TB) {
-         qatomic_set((uint32_t *)jmp_addr,
- 		    deposit32(CALL, 0, 30, br_disp >> 2));
--        flush_icache_range(jmp_addr, jmp_addr + 4);
-+        flush_idcache_range(jmp_addr, jmp_addr, 4);
-         return;
-     }
- 
-@@ -1860,5 +1860,5 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
-     }
- 
-     qatomic_set((uint64_t *)jmp_addr, deposit64(i2, 32, 32, i1));
--    flush_icache_range(jmp_addr, jmp_addr + 8);
-+    flush_idcache_range(jmp_addr, jmp_addr, 8);
- }
+ #ifdef __OpenBSD__
 -- 
 2.25.1
 
