@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7062D9B79
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 16:52:21 +0100 (CET)
-Received: from localhost ([::1]:57042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4332D9B9D
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:00:38 +0100 (CET)
+Received: from localhost ([::1]:43004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koq96-0003G4-70
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 10:52:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60240)
+	id 1koqH5-0001Is-Sm
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:00:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1koq79-0001tL-40; Mon, 14 Dec 2020 10:50:20 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:41365)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1koq72-0000H4-Vo; Mon, 14 Dec 2020 10:50:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=NEqchjnxA3GvJx6Q8bWZb3rYsCm3xflGVF5Kuf8aA8I=; 
- b=WF0cVq2vYUCzkGSp7mK0U7A6cQJz0Jlg5OXhhULoiDBz/oRFzYHLcZEyKReDTAgOLBn/pzw6IYNIetx5Rl2g9uliZHxO5NYQqRuq6KpN/Y4l5K/IaC0TvcXWDhuJeUyVf5BgylE1+6TUQzZkR2XK8VmAGoYZCSiu8vYoHzI6nvB5eyAu9jqZHVNwOOlcwiV4H8TEYtXL9pvkOZanqWhhR+hBnIhM9xrGO16uUtbHdwWgfvFT0ghEJW2i8DcJ4Ra2+4OVnK0ZvdVc/YNoYAQcdmucMKX7Lewg/Ivt+P1MtwZGVX3b9L42zPb+oIkxN9K+2oZ9t28vZSpf9iOjAT8f1g==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1koq6f-0006h2-CM; Mon, 14 Dec 2020 16:49:49 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1koq6f-0003s9-30; Mon, 14 Dec 2020 16:49:49 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Subject: Re: [PATCH v2 04/36] block: bdrv_append(): return status
-In-Reply-To: <20201127144522.29991-5-vsementsov@virtuozzo.com>
-References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-5-vsementsov@virtuozzo.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Mon, 14 Dec 2020 16:49:49 +0100
-Message-ID: <w51eejspeua.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1koqEQ-0007rG-Bp; Mon, 14 Dec 2020 10:57:50 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:42109)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1koqEN-0001Pl-4u; Mon, 14 Dec 2020 10:57:50 -0500
+Received: from localhost.localdomain ([82.252.135.218]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MZCX1-1kbUCA2oNd-00V5aw; Mon, 14 Dec 2020 16:57:39 +0100
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Subject: [PULL 01/19] target/i386: tracing: format length values as hex
+Date: Mon, 14 Dec 2020 16:57:15 +0100
+Message-Id: <20201214155733.207430-2-laurent@vivier.eu>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201214155733.207430-1-laurent@vivier.eu>
+References: <20201214155733.207430-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:UNWULujz9hEHUSm9+OQnipBIRC7mLNsQ8JttQDjL2lt7nCRPxS3
+ wOhTe8HSlI3RarAjbenOqiYHnqV1PcQO45ldFPjuMYGaiouoHi9i0FURKZ552E40Ij1V/LZ
+ M7HRM3fWlGK7HHSTemtxyaZntYHRrUvNi1Z7C0bUJ+dXHg8wLrl+kxW4cQFfutN+1CrrdSF
+ sOTR1MSkZKQIfCqsNX1TQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Pd/eAyQIvbs=:6Qk9M3/W95GY+xuLdF5rp5
+ FGj8FgImkVA1fzJyzW2rFghTwjajhoIX++XymZQPNU2VGr05/mp8yqqaMbQ93SL5sNCYokNxp
+ fet2umgdkmEhyFYZm9zfi4brlozSTxztA0mhimjCQF/3i+9+eNauB4JlFDPqSEpepxWydwgEm
+ q8KN0k+NBIeT2M7CZ1k5XK9RQ+FxlMuTJR5tu5L/o5KjGxCx6TTLRmE8yJRI5wBYLADNZXpMQ
+ 7Cb2RL4BM6E4d0hnv1LUbEuL3LgmBhRMLDOLm+semeSJoL5TH+FrsBcbiJGvAIWXaib/Gcos4
+ B5hFSLLl8JEMBiPNq4gWWg8tSx0+7/kfQnWRUBbys3Rlbn46+zF/8nUXJTSdmoIe9e67esYQ2
+ hRgn2nXcTF5kbneGrX2xJ6ABP0VPhjbrMcMcRWQc8qMpXU6yELIdZN4bGWEHPF96D9/5BwoGa
+ sDu9FIQasw==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,17 +63,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Dov Murik <dovmurik@linux.vnet.ibm.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri 27 Nov 2020 03:44:50 PM CET, Vladimir Sementsov-Ogievskiy wrote:
-> Return int status to avoid extra error propagation schemes.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Dov Murik <dovmurik@linux.vnet.ibm.com>
 
-Reviewed-by: Alberto Garcia <berto@igalia.com>
+Three trace events had a literal "0x" prefix but the 'len' values were
+formatted in decimal base.  Keep the prefix and format the numbers as
+hex, as is usually the case for length of memory regions.
 
-Berto
+Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20201103100745.160409-1-dovmurik@linux.vnet.ibm.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ target/i386/trace-events | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/target/i386/trace-events b/target/i386/trace-events
+index 9f299e94a2b7..246158ae1f00 100644
+--- a/target/i386/trace-events
++++ b/target/i386/trace-events
+@@ -8,11 +8,11 @@ kvm_x86_update_msi_routes(int num) "Updated %d MSI routes"
+ 
+ # sev.c
+ kvm_sev_init(void) ""
+-kvm_memcrypt_register_region(void *addr, size_t len) "addr %p len 0x%zu"
+-kvm_memcrypt_unregister_region(void *addr, size_t len) "addr %p len 0x%zu"
++kvm_memcrypt_register_region(void *addr, size_t len) "addr %p len 0x%zx"
++kvm_memcrypt_unregister_region(void *addr, size_t len) "addr %p len 0x%zx"
+ kvm_sev_change_state(const char *old, const char *new) "%s -> %s"
+ kvm_sev_launch_start(int policy, void *session, void *pdh) "policy 0x%x session %p pdh %p"
+-kvm_sev_launch_update_data(void *addr, uint64_t len) "addr %p len 0x%" PRIu64
++kvm_sev_launch_update_data(void *addr, uint64_t len) "addr %p len 0x%" PRIx64
+ kvm_sev_launch_measurement(const char *value) "data %s"
+ kvm_sev_launch_finish(void) ""
+ kvm_sev_launch_secret(uint64_t hpa, uint64_t hva, uint64_t secret, int len) "hpa 0x%" PRIx64 " hva 0x%" PRIx64 " data 0x%" PRIx64 " len %d"
+-- 
+2.29.2
+
 
