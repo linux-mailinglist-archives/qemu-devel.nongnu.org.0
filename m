@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A93C2D928F
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:22:13 +0100 (CET)
-Received: from localhost ([::1]:60444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BACDD2D92DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:36:24 +0100 (CET)
+Received: from localhost ([::1]:46036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kogJI-0004Zu-8d
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:22:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42200)
+	id 1kogX1-0005H5-QG
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:36:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kogDC-0005P0-El
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 00:15:54 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:46490)
+ id 1kogEr-00075X-KN
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 00:17:37 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:40074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kogD9-0007DN-If
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 00:15:54 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BE5DoKP087956;
- Mon, 14 Dec 2020 05:15:41 GMT
+ id 1kogEl-0007Kf-Iq
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 00:17:37 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BE5F5ot007591;
+ Mon, 14 Dec 2020 05:17:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references : in-reply-to :
- references; s=corp-2020-01-29;
- bh=/piWd05atFLnC33nBKc9U0DXsgBeFwt/wdY/djdcPU0=;
- b=FykTO+D72EnyRsKUiSPuksVgYTlH4vttJ1CNBFaZj8q8Y9Ds6vw74jWEUW30G86B5Tlf
- ZsHBPUM3K4mTbYl/K66Ww97k4TfHYNqAVkgdsUmhm38KzjrFXyADVngi6h7PRodaGq4+
- 7J26/do3uSV0ky/AwIBkMM83nv+4JJBWQhUKoMmR33aX/LnzgF5Le1Mg77GCx1sqxwtV
- EMIBCXfSLNTfmNwJWK9ocTIzC52GDXraeSJ5fHzqwxxIT1FRQLD4ef5ggpCEx8xu9/Hv
- /sLxWnhn+/h8ZjLh1kCQP0mwkim+FLLzi9YT/zEQ5x54o1cLTuycPchxwLJv6lw9Zrww iw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2130.oracle.com with ESMTP id 35ckcb3gwg-1
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=O1nKq+WAESIQb2Nym3juJNfP4J2entZlZFyargJMXD8=;
+ b=DJpQQ61k6/E1/6BIPAm1//EZjF67LbUBh13Z3sY0g2J2FpZLxGyTqsS0H78xYH7sRS9/
+ FqmJtdWpB2FXPxG2nxQDDE/iFIJTzdMF0JdMsc+hMjawfl2rV7Hscpzqel69gq+PS3wK
+ Sya7BA0fIxYeRSIDpN3N/a7W0R7kkZxAiUfopzRGgRT6alAV8iAGjSohrOWTQuaQCwlp
+ aRe5VNGgvr8FGUzlI8PBPrkseMsGaUpJFX6iFxKHt7SPkdbwvnC30N5GMOqOWuna1bwn
+ O1y/LX1E1V4jd2eUjfDrHEsEKGHRoNZUEdNAieLcxS1jB+xROp/J9BMhfhMuNxKDyXT7 6A== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 35cn9r3chn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 14 Dec 2020 05:15:41 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BE5A46W095275;
- Mon, 14 Dec 2020 05:15:41 GMT
+ Mon, 14 Dec 2020 05:17:12 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BE5Avfn162319;
+ Mon, 14 Dec 2020 05:15:12 GMT
 Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 35d7su0ba5-1
+ by userp3020.oracle.com with ESMTP id 35d7mpff4x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 14 Dec 2020 05:15:41 +0000
+ Mon, 14 Dec 2020 05:15:12 +0000
 Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BE5Fdbx019153;
- Mon, 14 Dec 2020 05:15:39 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BE5F9QY018965;
+ Mon, 14 Dec 2020 05:15:10 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sun, 13 Dec 2020 21:15:38 -0800
+ with ESMTP ; Sun, 13 Dec 2020 21:15:09 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v13 18/19] multi-process: Retrieve PCI info from remote process
-Date: Mon, 14 Dec 2020 00:14:58 -0500
-Message-Id: <246b20e905bb50554edd279e10a52007d138591c.1607922214.git.jag.raman@oracle.com>
+Subject: [PATCH v13 00/19] Initial support for multi-process Qemu
+Date: Mon, 14 Dec 2020 00:14:40 -0500
+Message-Id: <cover.1607922214.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1607922214.git.jag.raman@oracle.com>
-References: <cover.1607922214.git.jag.raman@oracle.com>
-In-Reply-To: <cover.1607922214.git.jag.raman@oracle.com>
-References: <cover.1607922214.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9834
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0
- mlxlogscore=999 spamscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012140040
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ phishscore=0 suspectscore=0
+ mlxlogscore=999 malwarescore=0 adultscore=0 bulkscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012140040
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9834
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
  mlxlogscore=999
- priorityscore=1501 mlxscore=0 suspectscore=0 adultscore=0 phishscore=0
- malwarescore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
+ malwarescore=0 priorityscore=1501 phishscore=0 mlxscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2012140040
-Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
- helo=aserp2130.oracle.com
+Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
+ helo=userp2130.oracle.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -106,133 +101,148 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Retrieve PCI configuration info about the remote device and
-configure the Proxy PCI object based on the returned information
+Hello,
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- hw/remote/proxy.c | 84 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 84 insertions(+)
+This is the v13 of the patchset. Thank you very much for reviewing v12 and
+sharing your feedback.
 
-diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-index 8926a05..7db9794 100644
---- a/hw/remote/proxy.c
-+++ b/hw/remote/proxy.c
-@@ -24,6 +24,8 @@
- #include "sysemu/kvm.h"
- #include "util/event_notifier-posix.c"
- 
-+static void probe_pci_info(PCIDevice *dev, Error **errp);
-+
- static void proxy_intx_update(PCIDevice *pci_dev)
- {
-     PCIProxyDev *dev = PCI_PROXY_DEV(pci_dev);
-@@ -76,6 +78,7 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
- {
-     ERRP_GUARD();
-     PCIProxyDev *dev = PCI_PROXY_DEV(device);
-+    uint8_t *pci_conf = device->config;
-     int fd;
- 
-     if (!dev->fd) {
-@@ -98,9 +101,14 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
-     qemu_mutex_init(&dev->io_mutex);
-     qio_channel_set_blocking(dev->ioc, true, NULL);
- 
-+    pci_conf[PCI_LATENCY_TIMER] = 0xff;
-+    pci_conf[PCI_INTERRUPT_PIN] = 0x01;
-+
-     proxy_memory_listener_configure(&dev->proxy_listener, dev->ioc);
- 
-     setup_irqfd(dev);
-+
-+    probe_pci_info(PCI_DEVICE(dev), errp);
- }
- 
- static void pci_proxy_dev_exit(PCIDevice *pdev)
-@@ -266,3 +274,79 @@ const MemoryRegionOps proxy_mr_ops = {
-         .max_access_size = 8,
-     },
- };
-+
-+static void probe_pci_info(PCIDevice *dev, Error **errp)
-+{
-+    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
-+    uint32_t orig_val, new_val, base_class, val;
-+    PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
-+    DeviceClass *dc = DEVICE_CLASS(pc);
-+    uint8_t type;
-+    int i, size;
-+
-+    config_op_send(pdev, PCI_VENDOR_ID, &val, 2, MPQEMU_CMD_PCI_CFGREAD);
-+    pc->vendor_id = (uint16_t)val;
-+
-+    config_op_send(pdev, PCI_DEVICE_ID, &val, 2, MPQEMU_CMD_PCI_CFGREAD);
-+    pc->device_id = (uint16_t)val;
-+
-+    config_op_send(pdev, PCI_CLASS_DEVICE, &val, 2, MPQEMU_CMD_PCI_CFGREAD);
-+    pc->class_id = (uint16_t)val;
-+
-+    config_op_send(pdev, PCI_SUBSYSTEM_ID, &val, 2, MPQEMU_CMD_PCI_CFGREAD);
-+    pc->subsystem_id = (uint16_t)val;
-+
-+    base_class = pc->class_id >> 4;
-+    switch (base_class) {
-+    case PCI_BASE_CLASS_BRIDGE:
-+        set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_STORAGE:
-+        set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_NETWORK:
-+        set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_INPUT:
-+        set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_DISPLAY:
-+        set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_PROCESSOR:
-+        set_bit(DEVICE_CATEGORY_CPU, dc->categories);
-+        break;
-+    default:
-+        set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+        break;
-+    }
-+
-+    for (i = 0; i < PCI_NUM_REGIONS; i++) {
-+        config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &orig_val, 4,
-+                       MPQEMU_CMD_PCI_CFGREAD);
-+        new_val = 0xffffffff;
-+        config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &new_val, 4,
-+                       MPQEMU_CMD_PCI_CFGWRITE);
-+        config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &new_val, 4,
-+                       MPQEMU_CMD_PCI_CFGREAD);
-+        size = (~(new_val & 0xFFFFFFF0)) + 1;
-+        config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &orig_val, 4,
-+                       MPQEMU_CMD_PCI_CFGWRITE);
-+        type = (new_val & 0x1) ?
-+                   PCI_BASE_ADDRESS_SPACE_IO : PCI_BASE_ADDRESS_SPACE_MEMORY;
-+
-+        if (size) {
-+            g_autofree char *name;
-+            pdev->region[i].dev = pdev;
-+            pdev->region[i].present = true;
-+            if (type == PCI_BASE_ADDRESS_SPACE_MEMORY) {
-+                pdev->region[i].memory = true;
-+            }
-+            name = g_strdup_printf("bar-region-%d", i);
-+            memory_region_init_io(&pdev->region[i].mr, OBJECT(pdev),
-+                                  &proxy_mr_ops, &pdev->region[i],
-+                                  name, size);
-+            pci_register_bar(dev, i, type, &pdev->region[i].mr);
-+        }
-+    }
-+}
+We have addressed all the comments from the v12 review except for the
+following two items, which we will be addressing in subsequent patches:
+- Prefix log messages with PID in the logging subsystem.
+- Refactor vfio-user and multi-process code to avoid logic duplication.
+
+To touch upon the history of this project, we posted the Proof Of Concept
+patches before the BoF session in 2018. Subsequently, we have posted 12
+versions on the qemu-devel mailing list. You can find them by following the
+links below ([1] - [12]). Following people contributed to the design and
+implementation of this project:
+Jagannathan Raman <jag.raman@oracle.com>
+Elena Ufimtseva <elena.ufimtseva@oracle.com>
+John G Johnson <john.g.johnson@oracle.com>
+Stefan Hajnoczi <stefanha@redhat.com>
+Konrad Wilk <konrad.wilk@oracle.com>
+Kanth Ghatraju <kanth.ghatraju@oracle.com>
+
+We would like to thank the QEMU community for your feedback in the
+design and implementation of this project. Qemu wiki page:
+https://wiki.qemu.org/Features/MultiProcessQEMU
+
+For the full concept writeup about QEMU multi-process, please
+refer to docs/devel/qemu-multiprocess.rst. Also, see
+docs/qemu-multiprocess.txt for usage information.
+
+We have retained Stefan's "Reviewed-by" in the commit messages. Thank you
+very much for your time in reviewing these patches!
+
+[POC]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.html
+[1]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg602285.html
+[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg624877.html
+[3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.html
+[4]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg655118.html
+[5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg682429.html
+[6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg697484.html
+[7]: https://patchew.org/QEMU/cover.1593273671.git.elena.ufimtseva@oracle.com/
+[8]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg727007.html
+[9]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg734275.html
+[10]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg747638.html
+[11]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg750972.html
+[12]: https://patchew.org/QEMU/cover.1606853298.git.jag.raman@oracle.com/
+
+Elena Ufimtseva (7):
+  multi-process: add configure and usage information
+  multi-process: add qio channel function to transmit data and fds
+  multi-process: define MPQemuMsg format and transmission functions
+  multi-process: introduce proxy object
+  multi-process: add proxy communication functions
+  multi-process: Forward PCI config space acceses to the remote process
+  multi-process: perform device reset in the remote process
+
+Jagannathan Raman (11):
+  memory: alloc RAM from file at offset
+  multi-process: Add config option for multi-process QEMU
+  multi-process: setup PCI host bridge for remote device
+  multi-process: setup a machine object for remote device process
+  multi-process: Initialize message handler in remote device
+  multi-process: Associate fd of a PCIDevice with its object
+  multi-process: setup memory manager for remote device
+  multi-process: PCI BAR read/write handling for proxy & remote
+    endpoints
+  multi-process: Synchronize remote memory
+  multi-process: create IOHUB object to handle irq
+  multi-process: Retrieve PCI info from remote process
+
+John G Johnson (1):
+  multi-process: add the concept description to
+    docs/devel/qemu-multiprocess
+
+ docs/devel/index.rst                      |   1 +
+ docs/devel/multi-process.rst              | 966 ++++++++++++++++++++++++++++++
+ docs/multi-process.rst                    |  64 ++
+ meson.build                               |   1 +
+ hw/remote/trace.h                         |   1 +
+ include/exec/memory.h                     |   2 +
+ include/exec/ram_addr.h                   |   2 +-
+ include/hw/pci-host/remote.h              |  31 +
+ include/hw/pci/pci_ids.h                  |   3 +
+ include/hw/remote/iohub.h                 |  42 ++
+ include/hw/remote/machine.h               |  40 ++
+ include/hw/remote/memory.h                |  19 +
+ include/hw/remote/mpqemu-link.h           |  99 +++
+ include/hw/remote/proxy-memory-listener.h |  28 +
+ include/hw/remote/proxy.h                 |  52 ++
+ include/io/channel.h                      |  50 ++
+ include/qemu/mmap-alloc.h                 |   4 +-
+ include/sysemu/iothread.h                 |   6 +
+ backends/hostmem-memfd.c                  |   2 +-
+ hw/misc/ivshmem.c                         |   3 +-
+ hw/pci-host/remote.c                      |  75 +++
+ hw/remote/iohub.c                         | 119 ++++
+ hw/remote/machine.c                       |  80 +++
+ hw/remote/memory.c                        |  65 ++
+ hw/remote/message.c                       | 230 +++++++
+ hw/remote/mpqemu-link.c                   | 267 +++++++++
+ hw/remote/proxy-memory-listener.c         | 227 +++++++
+ hw/remote/proxy.c                         | 371 ++++++++++++
+ hw/remote/remote-obj.c                    | 206 +++++++
+ io/channel.c                              |  63 +-
+ iothread.c                                |   6 +
+ softmmu/memory.c                          |   3 +-
+ softmmu/physmem.c                         |  11 +-
+ util/mmap-alloc.c                         |   7 +-
+ util/oslib-posix.c                        |   2 +-
+ MAINTAINERS                               |  24 +
+ accel/Kconfig                             |   1 +
+ hw/Kconfig                                |   1 +
+ hw/meson.build                            |   1 +
+ hw/pci-host/Kconfig                       |   3 +
+ hw/pci-host/meson.build                   |   1 +
+ hw/remote/Kconfig                         |   4 +
+ hw/remote/meson.build                     |  13 +
+ hw/remote/trace-events                    |   4 +
+ 44 files changed, 3186 insertions(+), 14 deletions(-)
+ create mode 100644 docs/devel/multi-process.rst
+ create mode 100644 docs/multi-process.rst
+ create mode 100644 hw/remote/trace.h
+ create mode 100644 include/hw/pci-host/remote.h
+ create mode 100644 include/hw/remote/iohub.h
+ create mode 100644 include/hw/remote/machine.h
+ create mode 100644 include/hw/remote/memory.h
+ create mode 100644 include/hw/remote/mpqemu-link.h
+ create mode 100644 include/hw/remote/proxy-memory-listener.h
+ create mode 100644 include/hw/remote/proxy.h
+ create mode 100644 hw/pci-host/remote.c
+ create mode 100644 hw/remote/iohub.c
+ create mode 100644 hw/remote/machine.c
+ create mode 100644 hw/remote/memory.c
+ create mode 100644 hw/remote/message.c
+ create mode 100644 hw/remote/mpqemu-link.c
+ create mode 100644 hw/remote/proxy-memory-listener.c
+ create mode 100644 hw/remote/proxy.c
+ create mode 100644 hw/remote/remote-obj.c
+ create mode 100644 hw/remote/Kconfig
+ create mode 100644 hw/remote/meson.build
+ create mode 100644 hw/remote/trace-events
+
 -- 
 1.8.3.1
 
