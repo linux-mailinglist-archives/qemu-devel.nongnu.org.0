@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2A42D9CC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:33:56 +0100 (CET)
-Received: from localhost ([::1]:36522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D855E2D9CCB
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:37:35 +0100 (CET)
+Received: from localhost ([::1]:40282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koqnL-0003Jd-Sk
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:33:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43126)
+	id 1koqqs-0005Pr-Sa
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:37:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
- id 1koqlP-0002NQ-Py
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:31:57 -0500
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:34584)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
- id 1koqlM-0007Mr-Ro
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:31:55 -0500
-Received: by mail-io1-xd41.google.com with SMTP id i18so17458172ioa.1
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 08:31:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Nv58MUdpB9ubSeR3Rp7F7zFWbdJGuJYvWF+YDGXL1aA=;
- b=Jnjq5tGvJ138exAW59qwAkY8we1//GkuYWh7NqpLzYrXaeVNvhJCNe2VqpuR4qU0fg
- 541aI+5TQFd0HUZmaxsCg7oqCT3/ULqTYDRkd+39KWCvp3VKU7lp0NuhDBA6Ohyo+Ezg
- g7UAWYW4nP5izg71JuaXDyawJPpZKh3rAqoJLu4ixS/LRFQgkkM/5VXUa+vVwk5ZFdw1
- FC7XrqRin3o9hVfautAeqikgZGgJlnc4ZJ6KCIvOiEGBhQuCY/I2st2vG9hQADILK9k1
- 0QbwmuTiyopEq4h2rAfJxkhzVNm8Q4iRJCv7AmxNwCvwlFmOiyqPhcBKp3VB5u2mO0w5
- KVkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Nv58MUdpB9ubSeR3Rp7F7zFWbdJGuJYvWF+YDGXL1aA=;
- b=lo0qcdwX1B4+nbpP9ZndAHQwSRSavKVEjNoRLibjq2wm4ZQ2BWrVZeCDmBKQJndNAD
- EAiJkolUTqIcd0bma2+kogIDQCquyl0fPlKtzicopSB4SnIwS0iIfHKDIX/7DImpgfjd
- OXS8RR1z4cb1UKC7YCJriNlyfDK4jRXUL57gpJCtE/CwYq5FJVX8ztO/7S5X+1/gwi2K
- DLRZrjABpUcuJtelmCfc/DXnDX6YIyK9KfT9UB8GtWGM3mWJfWZqOciGswfOJ8FT1f9O
- ByMZtUsp8SEm/graBKpjVPwZJPiDqBhZ9TtuT6ZCeUTf95uR+K2UPq56WS+mGtGy3gYN
- /RpQ==
-X-Gm-Message-State: AOAM531mx0u92YoZqW5wOF+KAs5kiALtu9YauhMr2vQvnoL2jXcj3ras
- FQkb6B4jUkwBp30ClZrpEvFNOYcSWzUUKM0ELtM=
-X-Google-Smtp-Source: ABdhPJwfmzK8WCTYha4UWKB9Uku2esxfwx+5arc8g2JQSduSOpdw5bJ6849YO0DK3prH04tPLo/GVeh6jkEjZnmqVGo=
-X-Received: by 2002:a05:6602:152:: with SMTP id
- v18mr33036091iot.187.1607963511213; 
- Mon, 14 Dec 2020 08:31:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1koqmr-0003W7-M9
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:33:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40894)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1koqmq-0007Wp-5O
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:33:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607963603;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=n0dA+fIBgLlYPBa+JxxPoXRRrX356xrMmeS7KTzYuaM=;
+ b=P7RWWX0xSejYe/CWvr1BbkKOBV14c/09IS9K5Sdw6KiHk0484Lze+LkhrbGfisnCKOrdTL
+ TDtYjbGWxZL5zkLQyobkP81tNdE95hRvtDQjIEP7SKtjkztW7LLD1D3rxJEq6k15EOS965
+ J2r9N0VmXgDDx6wyEbh/qhvZujwyNnM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-487-ikY8T35yNZ-PjgkxeMa3Lw-1; Mon, 14 Dec 2020 11:33:19 -0500
+X-MC-Unique: ikY8T35yNZ-PjgkxeMa3Lw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83732180A089;
+ Mon, 14 Dec 2020 16:33:17 +0000 (UTC)
+Received: from localhost (ovpn-113-200.ams2.redhat.com [10.36.113.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 24DD910023AD;
+ Mon, 14 Dec 2020 16:33:16 +0000 (UTC)
+Date: Mon, 14 Dec 2020 16:33:16 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Glauber Costa <glauber.costa@datadoghq.com>
+Subject: Re: [PATCH v1 0/2] Add timeout mechanism to qmp actions
+Message-ID: <20201214163316.GD620320@stefanha-x1.localdomain>
+References: <20200918140628.GA2509473@dev>
+ <1ba06b0d-3fcf-3676-f9e0-52875851ff19@huawei.com>
+ <20200921111435.GA2524022@dev>
+ <20201013100033.GB164611@stefanha-x1.localdomain>
+ <f70dc6ce-385b-a4f9-04a0-244018f3ddbb@huawei.com>
+ <6fd02e2b-50fa-b667-efc6-47d1765bdd8c@redhat.com>
+ <4eb92c5e-fa2f-50a5-a0f7-5cabe6e15bb4@huawei.com>
+ <ab245c4580cd5aecc8c5d338fd0e2802cac029d5.camel@euphon.net>
+ <20201208131057.GB272246@stefanha-x1.localdomain>
+ <CAMdqtNWGYu-U5pECzffNvu8Dv_hMfwJ9w5RPoLjF-_NX4cfjdw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201203133236.222207-1-andrew@daynix.com>
- <CAKgT0UeoKDcDeMMG7KGMSKXP26txrwNuc73HKFPa57y=Vuo-kg@mail.gmail.com>
- <CABcq3pG78o4ttn8R_a-4hHVaqnx9MXg4CyA0ozS2W9trK4qJPg@mail.gmail.com>
-In-Reply-To: <CABcq3pG78o4ttn8R_a-4hHVaqnx9MXg4CyA0ozS2W9trK4qJPg@mail.gmail.com>
-From: Alexander Duyck <alexander.duyck@gmail.com>
-Date: Mon, 14 Dec 2020 08:31:35 -0800
-Message-ID: <CAKgT0Uc9Z93M_7QtbJMRzJ6k6Pr=bi8MsoteDhV_GVA2Eceb=A@mail.gmail.com>
-Subject: Re: [PATCH v2] e1000e: Added ICR clearing by corresponding IMS bit.
-To: Andrew Melnichenko <andrew@daynix.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=alexander.duyck@gmail.com; helo=mail-io1-xd41.google.com
+In-Reply-To: <CAMdqtNWGYu-U5pECzffNvu8Dv_hMfwJ9w5RPoLjF-_NX4cfjdw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="P+33d92oIH25kiaB"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,92 +87,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: intel-wired-lan <intel-wired-lan@lists.osuosl.org>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>, qemu-block@nongnu.org,
+ Zhenyu Ye <yezhenyu2@huawei.com>, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, armbru@redhat.com,
+ Glauber Costa <glauber@datadoghq.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Okay. That sounds reasonable. You should repost this with your more
-thorough explanation of the problem and how this solves it in the
-patch description.
+--P+33d92oIH25kiaB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks.
+On Tue, Dec 08, 2020 at 08:47:42AM -0500, Glauber Costa wrote:
+> The work we did at the time was in fixing those things in the kernel
+> as much as we could.
+> But the API is just like that...
 
-- Alex
+Thanks!
 
-On Mon, Dec 14, 2020 at 3:09 AM Andrew Melnichenko <andrew@daynix.com> wrote:
->
-> Hi,
-> The issue is in LSC clearing. So, after "link up"(during initialization), the next LSC event is masked and can't be processed.
-> Technically, the event should be 'cleared' during ICR read.
-> On Windows guest, everything works well, mostly because of different interrupt routines(ICR clears during register write).
-> So, I've added ICR clearing during read, according to the note by
-> section 13.3.27 of the 8257X developers manual.
->
-> On Thu, Dec 3, 2020 at 7:57 PM Alexander Duyck <alexander.duyck@gmail.com> wrote:
->>
->> On Thu, Dec 3, 2020 at 5:00 AM Andrew Melnychenko <andrew@daynix.com> wrote:
->> >
->> > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1707441
->>
->> So the bugzilla seems to be reporting that the NIC operstate is being
->> misreported when qemu has configured the link down. Based on the
->> description it isn't clear to me how this patch addresses that. Some
->> documentation on how you reproduced the issue, and what was seen
->> before and after this patch would be useful.
->>
->> > Added ICR clearing if there is IMS bit - according to the note by
->>
->> Should probably be "Add" instead of "Added". Same for the title of the patch.
->>
->> > section 13.3.27 of the 8257X developers manual.
->> >
->> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
->> > ---
->> >  hw/net/e1000e_core.c | 10 ++++++++++
->> >  hw/net/trace-events  |  1 +
->> >  2 files changed, 11 insertions(+)
->> >
->> > diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
->> > index 095c01ebc6..9705f5c52e 100644
->> > --- a/hw/net/e1000e_core.c
->> > +++ b/hw/net/e1000e_core.c
->> > @@ -2624,6 +2624,16 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
->> >          e1000e_clear_ims_bits(core, core->mac[IAM]);
->> >      }
->> >
->> > +    /*
->> > +     * PCIe* GbE Controllers Open Source Software Developer's Manual
->> > +     * 13.3.27 Interrupt Cause Read Register
->> > +     */
->> > +    if ((core->mac[ICR] & E1000_ICR_ASSERTED) &&
->> > +        (core->mac[ICR] & core->mac[IMS])) {
->> > +        trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR], core->mac[IMS]);
->> > +        core->mac[ICR] = 0;
->> > +    }
->> > +
->> >      trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
->> >      e1000e_update_interrupt_state(core);
->> >      return ret;
->>
->> Changes like this have historically been problematic. I am curious
->> what testing had been done on this and with what drivers? Keep in mind
->> that we have to support several flavors of BSD, Windows, and Linux
->> with this.
->>
->> > diff --git a/hw/net/trace-events b/hw/net/trace-events
->> > index 5db45456d9..2c3521a19c 100644
->> > --- a/hw/net/trace-events
->> > +++ b/hw/net/trace-events
->> > @@ -237,6 +237,7 @@ e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR: 0x%x"
->> >  e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
->> >  e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
->> >  e1000e_irq_icr_clear_iame(void) "Clearing ICR on read due to IAME"
->> > +e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims) "Clearing ICR on read due corresponding IMS bit: 0x%x & 0x%x"
->> >  e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) "Clearing IMS due to EIAME, IAM: 0x%X, cause: 0x%X"
->> >  e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac) "Clearing ICR bits due to EIAC, ICR: 0x%X, EIAC: 0x%X"
->> >  e1000e_irq_ims_clear_set_imc(uint32_t val) "Clearing IMS bits due to IMC write 0x%x"
->> > --
->> > 2.29.2
->> >
+Stefan
+
+--P+33d92oIH25kiaB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/Xk8sACgkQnKSrs4Gr
+c8gBsAgAp7PnH3lNQ3mMxbk7fZwBgzYEz0xknUaOIgvOh52OgMRS1CMydmGPJzXh
+sKa+dD/t7JNPHHteHuQuL55o9af4hbBzOqq5958bt6bF+CUxI4t954niXyuZDW2T
+IEGwzpj3gtlAt9VuFHURMiLMSeUQ2c3o+YfYXUwbWIh7g1ahhsRz7Hg+qtg3AMhp
+f8WvryGrCmUbiHHIiioFfixYBngrsLrnOh4mL98yFWTiIv3FjFVV1KqPRUBkPgre
+gxpnie2PkZN9+tefC10vSQvrQOe9GNxqdOcdwScTesfpb4MRUPdnLrXsr0ob6t3W
+Hg5oI29jb7Wf+WA7XuMhRc//WaelPg==
+=fIZS
+-----END PGP SIGNATURE-----
+
+--P+33d92oIH25kiaB--
+
 
