@@ -2,91 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DF72D963A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 11:21:49 +0100 (CET)
-Received: from localhost ([::1]:37422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B05D52D963B
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 11:23:39 +0100 (CET)
+Received: from localhost ([::1]:39538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kokzE-000575-A1
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 05:21:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41036)
+	id 1kol10-00065k-NK
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 05:23:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kokxz-0004Ea-6w
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:20:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60203)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kokxx-0000gl-2y
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:20:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607941228;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VKJuWEjZ7HEqn+md8jv6dUOfhVZW6quQNiqaNPkOsHc=;
- b=T5PxpI14sCZ1XsiI3RPPOiiU3L9q5vn69dpEIkHiuS0X/jHDrNKwJnbpyCWbN+Au/8LesD
- pTBGQZj9fQ3acRrH4cDXrXOOQB0LWEHqf70y18LsyorLShTawKywkFK7FUAQZ/uO7Fnh3v
- 87XUbPaakiZyITQZ0vkKMuvC8yta5E0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-sd5-bfFQMLaFMfC4EsPo-Q-1; Mon, 14 Dec 2020 05:20:26 -0500
-X-MC-Unique: sd5-bfFQMLaFMfC4EsPo-Q-1
-Received: by mail-wm1-f70.google.com with SMTP id r5so6553304wma.2
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 02:20:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kokyW-0004ur-W8
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:21:05 -0500
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:41492)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kokyU-0000pj-NF
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:21:04 -0500
+Received: by mail-ed1-x543.google.com with SMTP id i24so16555800edj.8
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 02:21:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Cp3tmOSbRuiBendh34xpsw19ImbzF5jcH8bDzsPXLhE=;
+ b=zZ5BRNQLYZfMqheNPN5Gf0zsUFiuqrXvkON4+OjgadQ3NofATNCjj1wf1TNec8vjYa
+ fh8VS5l4rBis2Qk1ZxGGt8mB04h8YaOWEgJ0e4K3Eqc672Xz8B+xyj+I4ePHtjSFho6E
+ 5F7zgxQvcXJ0nUG9VN0NDD+fmysXjPYdTlRZo9VpdNfh24puUK0R/DnZZNac1QB/lv3l
+ n2Fkit86aarcReRcOUtYzObvtsVSqSNjjdwjzXoOBn6I1rQ4evl+H4XWc8dDCPFrIhBb
+ Ty8JzZ//0jn0i3t02j8RIcOV4ylhGOlXGlckWgiTYYbQy8qEF9UcdNY3A2GRgQ5haRti
+ ZVKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VKJuWEjZ7HEqn+md8jv6dUOfhVZW6quQNiqaNPkOsHc=;
- b=PWz7ErgfRvHfDf+vcefRfL/nGtvpxFma5Ilf6bpJ+GYJzvVj3A9RBXRs9B1O/lyR5E
- B3fQsXaozYDfMltGuGYa0mSOu9TotYV2wJ2B16SS6fl241nREnRyb0oxkS97tOnKQ85s
- fKYQ2MFzJo91eWV22QzfqYNQW2anxaVtnvqx9/IAW7aLYt3p6UHjgouatq1m1lXMWyIn
- SP+r3T0nXIjHCTQru4EoB2TFoDwTjhYF18E7p9pBiGqRUwXEDTudn0VG1NncK0NXHIsD
- DEy1DE8MtS4mBHkz0CSLoGhPNByIZJbN241xZnk85MchIl/YMGWctZYn3S8WSjbedC1v
- lcLw==
-X-Gm-Message-State: AOAM531dUVNXUHwY6hK0jHgz7LN0ebMCP2A5RLZN2d7yc7Z8D2qmcC+o
- N14wd9vHnMXXGW/fKQGR3+Sw3CXvWmw5ofaXHli0LwERB+W5ZC2zT/V3Be0YHvFVqhpL/LLr8xv
- z8HNrHMir6SqMcWs=
-X-Received: by 2002:a1c:f017:: with SMTP id a23mr26187767wmb.56.1607941225279; 
- Mon, 14 Dec 2020 02:20:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzf3/oGm0fU19mZH+puOGsoNRp7IG0cdANi1T7twa2ceqU7+cBZmSBiH5yH7AKXpx6CW0C0kg==
-X-Received: by 2002:a1c:f017:: with SMTP id a23mr26187738wmb.56.1607941225059; 
- Mon, 14 Dec 2020 02:20:25 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id r2sm31320917wrn.83.2020.12.14.02.20.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Dec 2020 02:20:24 -0800 (PST)
-Subject: Re: [PATCH v3 00/13] Remove GCC < 4.8 checks
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20201210134752.780923-1-marcandre.lureau@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9df914a2-cf0a-6cf5-76ee-502a75873825@redhat.com>
-Date: Mon, 14 Dec 2020 11:20:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Cp3tmOSbRuiBendh34xpsw19ImbzF5jcH8bDzsPXLhE=;
+ b=F9SvW9Li8mzr69zw7TH+dLJyWT4frIIa/ADeyFAYYU2nPM1+LU8RBMxFIeZc939h3f
+ JJLwVG3tj9R4KxrL4WfNduRmoY8AT5mYYV2p60fQXnkWsuQWWw9OiuVfXVyfzYIefXIq
+ F90W8tnEcNVcQ3kx9r1WsOXZsPrmLYrCxU/+1nzJgP1xf0I/piVBl8WbzI+iG+vEEAXw
+ k84b7ks+GDPzufn6GSySz5G4mtKdm5Tt2n2qmNfbjQXKJcgbe7DUArY5/w4ObFg2zSCO
+ I8Xr9ERNr1CQMJ8O2d0uiHa5Qo2Gi3ntR4DGtO71RRAN1GsIxeBPaWVQEzUrUE0sA9KX
+ XELw==
+X-Gm-Message-State: AOAM532D5HI3pksnJx1o/gGpk9T8IJhkemp7YUR/VR94mgAXNcQRYITP
+ HFT0XX999VaN7A8hVl09XsDKAdXlIbm1UsZEKPrpIEdtCRI=
+X-Google-Smtp-Source: ABdhPJytxFiLl3ZynUPM9D7gnQKpBAnbjIWhur9LL/VIarNZ7lCfNYdsnlQR2czo9k2wlEH1fVWH2wGQicURXmOOF4E=
+X-Received: by 2002:aa7:c388:: with SMTP id k8mr23867091edq.36.1607941260079; 
+ Mon, 14 Dec 2020 02:21:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201210134752.780923-1-marcandre.lureau@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
+ <1603891979-11961-3-git-send-email-mihai.carabas@oracle.com>
+In-Reply-To: <1603891979-11961-3-git-send-email-mihai.carabas@oracle.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Dec 2020 10:20:48 +0000
+Message-ID: <CAFEAcA9bWME82s7j=xjuPXhKvr8cs=vYDZ1RSWmgwokLbzC5FA@mail.gmail.com>
+Subject: Re: [PATCH 2/6] hw/misc/pvpanic: Cosmetic renaming
+To: Mihai Carabas <mihai.carabas@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,73 +79,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- philmd@redhat.com
+Cc: Peng Hao <peng.hao2@zte.com.cn>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/20 14:47, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Hi,
-> 
-> Since commit efc6c07 ("configure: Add a test for the minimum compiler version"),
-> QEMU explicitely depends on GCC >= 4.8.
-> 
-> v3:
->   - drop first patch replacing QEMU_GNUC_PREREQ with G_GNUC_CHECK_VERSION
->   - add last patch to remove QEMU_GNUC_PREREQ
->   - tweak commit messages to replace clang 3.8 with clang 3.4
->   - fix some extra coding style
->   - collect r-b/a-b tags
-> 
-> v2:
->   - include reviewed Philippe earlier series
->   - drop problematic patch to replace GCC_FMT_ATTR, but tweak the check to be clang
->   - replace QEMU_GNUC_PREREQ with G_GNUC_CHECK_VERSION
->   - split changes
->   - add patches to drop __GNUC__ checks (clang advertizes itself as 4.2.1, unless
->     -fgnuc-version=0)
-> 
-> Marc-André Lureau (11):
->    compiler.h: remove GCC < 3 __builtin_expect fallback
->    qemu-plugin.h: remove GCC < 4
->    tests: remove GCC < 4 fallbacks
->    virtiofsd: replace _Static_assert with QEMU_BUILD_BUG_ON
->    compiler.h: explicit case for Clang printf attribute
->    audio: remove GNUC & MSVC check
->    poison: remove GNUC check
->    xen: remove GNUC check
->    compiler: remove GNUC check
->    linux-user: remove GNUC check
->    compiler.h: remove QEMU_GNUC_PREREQ
-> 
-> Philippe Mathieu-Daudé (2):
->    qemu/atomic: Drop special case for unsupported compiler
->    accel/tcg: Remove special case for GCC < 4.6
-> 
->   include/exec/poison.h              |  2 --
->   include/hw/xen/interface/io/ring.h |  9 ------
->   include/qemu/atomic.h              | 17 -----------
->   include/qemu/compiler.h            | 45 ++++++++----------------------
->   include/qemu/qemu-plugin.h         |  9 ++----
->   scripts/cocci-macro-file.h         |  1 -
->   tools/virtiofsd/fuse_common.h      | 11 +-------
->   accel/tcg/cpu-exec.c               |  2 +-
->   audio/audio.c                      |  8 +-----
->   linux-user/strace.c                |  4 ---
->   tests/tcg/arm/fcvt.c               |  8 ++----
->   11 files changed, 20 insertions(+), 96 deletions(-)
-> 
+On Wed, 28 Oct 2020 at 14:20, Mihai Carabas <mihai.carabas@oracle.com> wrot=
+e:
+>
+> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>
+> To ease the MMIO device addition in the next patch, rename:
 
-Queued, thanks.
+I guess this should say "PCI device" now...
 
-Paolo
+> - ISA_PVPANIC_DEVICE -> PVPANIC_ISA_DEVICE.
+> - PVPanicState -> PVPanicISAState.
+> - TYPE_PVPANIC -> TYPE_PVPANIC_ISA.
+> - MemoryRegion io -> mr.
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+> Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
 
+thanks
+-- PMM
 
