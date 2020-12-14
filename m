@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CBD92D94E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 10:21:37 +0100 (CET)
-Received: from localhost ([::1]:42878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7D732D9519
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 10:23:26 +0100 (CET)
+Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kok2x-00066h-ND
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 04:21:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53712)
+	id 1kok4i-0008MT-8X
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 04:23:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kok0k-00042O-GI; Mon, 14 Dec 2020 04:19:18 -0500
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:46842)
+ id 1kok0k-00042z-Sq; Mon, 14 Dec 2020 04:19:20 -0500
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:43543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kok0g-0000hZ-Ov; Mon, 14 Dec 2020 04:19:18 -0500
-Received: by mail-il1-x141.google.com with SMTP id 75so3135772ilv.13;
- Mon, 14 Dec 2020 01:19:13 -0800 (PST)
+ id 1kok0i-0000hw-ME; Mon, 14 Dec 2020 04:19:18 -0500
+Received: by mail-il1-x143.google.com with SMTP id c18so15149579iln.10;
+ Mon, 14 Dec 2020 01:19:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=DV0c3pyoNGT5sIeSz5IuliOodrMyib3z4vKyf0X1S5U=;
- b=C+F9wp0Wd2OjK71FYNyxtcAfNhNXiSKiAc3nRpPBBwvpOOe0/1n/5cFXKb+xEI2RXQ
- r28iWHGQ4qMmTZQC379KdkhlGXm1KFNavY4RilJz/6hlP4ApGOpFMf/RXy5czJ7iJJ+h
- of240g16Vo9hUerxhEnMxBMSuAivtUxYEXHpCTuP1NyAugp3baCENE8smcRoTs2uyJtO
- kA3b9R/pYKP5h8or0aJuppZNKRpuLjkdgzIcZRJmRLxkoVTqbitI+uvdS+02T1tQjhIY
- x2aoJv64ox5unSvTgRG9QNRYMkoAh9R/TfWuHx0FUZo9Z6BaESy2Mn1f4gZqDyzaDvkP
- jMIA==
+ bh=qmCemYoZi4aGhNWuryybG7gyT1vNo0cxkXFgXArH9/w=;
+ b=nOFgwIhi8MEtvAVK0L+nH7lkopjUGeu4AV5HCmx9EW9I5mM4E7hDP2QiVA5y7K0x9R
+ QI+/AA5T3JvDSubyxw4aFi/2bf3tiRJVoBRJgWboSdeefO8pYIyE7MrpNd8OH4NYMQ6U
+ WH8HYO+mFSGOUSAZ+Sqewmgt/4v9OwQ2Vj2IizfMsU01fIrP7rf7ZMDdJjGXUvA4dUnV
+ v2x0DBx/rlefMoZgop+dMUiRiC6oO/GlGfrqV6kn/uAxndiacmUo2VL4Uwr303slphNv
+ h0/xIhpFih2wFQUplk8Hwq1sDcYXTKKM4oKltEX9SivDjnFuC+ZgUGYYoD7IYWyiiFir
+ PkGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=DV0c3pyoNGT5sIeSz5IuliOodrMyib3z4vKyf0X1S5U=;
- b=bhsIr5ubpwF3FwOTxBy5d0DyluN3apfxkmKHwmoEuQf7xuxi0ctouSjd8jEKyg6twa
- Wy2Bf9+R4splPJlfqbzwbpzkeduwSPjeQ9tfoaYduiNDAgnXL1AD8WgLiCY0TrURjZcA
- fETymiD05gvIGwYuOV5M/nBbxcufkDwXTrk5+vMId6sqG2EORv/zWc3enONmXe457Ok3
- uMbGlQfX07T8hsnNTebmmumpu0wugiChN6Tm6d3HffxQGai+uez4Q2ZcBzTB7Dlrjvy0
- XDpm4z4iuVzON2nlePsB+AtRm8HfcBAyZxJWRexemMBRZL86Jnwb7uhzMd0Tz9FLmLsa
- g2vQ==
-X-Gm-Message-State: AOAM531E5AVt63uZhlQa51PC+yYWzGiHGWm8Gw5ht63KaUDKfv5gInzq
- PhVkR0+x7XgFcH0YQrYZFCGHk5PoZWI=
-X-Google-Smtp-Source: ABdhPJxziMzohrBHtnB506bcLswYX4DZov3dbaLzYXNK2gHxRmUnWxV4kIveVq5aXasK4iB+ObUvGQ==
-X-Received: by 2002:a92:ba96:: with SMTP id t22mr33969321ill.262.1607937552610; 
- Mon, 14 Dec 2020 01:19:12 -0800 (PST)
+ bh=qmCemYoZi4aGhNWuryybG7gyT1vNo0cxkXFgXArH9/w=;
+ b=HOFqrbqiIdKrfjGENQgfMOwG9mYnar/bp6+JnD/bh0248RJhvhDoY0wxCK0V/zdMsv
+ 0TPhO5SJA1YApDWW8yDUs6oamah3zRiaCjeRFwyifC1G2f1mSTBfaVuJhd3XxEll56WO
+ 4ZiZ+bfS6IrnSOVg3kl5iFkciukmyjenWv1zC0SuTBDuheaY2hZjwpHZ6SUd8oXacILX
+ QJ1ym4bnhcyUFXkpEgLKEkFX1U0TA0Zijh/wMPUbKAwj7KJO4Il+XR+Nkped8F8eJLb5
+ nMYJewNT9fDtH6iQFrJw6E66Shhoi/LueAjWAUzzOEZWcK1Xy8XmGbFHlQV8exgWeaOp
+ lltg==
+X-Gm-Message-State: AOAM532EsbWpl0j5SlB/dZ6z0OqvsWRir3xAsQgM8cCFqP9ePklEaOt4
+ yOk0JIo8/BbXzP9DbWEltaswmDYUnCA=
+X-Google-Smtp-Source: ABdhPJzUV3G7Wqf7unaNVPvndNo4DND5OIaN7EuCYzTDy6JKwf5mSb8mbhDqGD6dRsw4vRpyYF+yoQ==
+X-Received: by 2002:a05:6e02:1ba3:: with SMTP id
+ n3mr4504006ili.10.1607937555490; 
+ Mon, 14 Dec 2020 01:19:15 -0800 (PST)
 Received: from pek-vx-bsp2.wrs.com (unknown-124-94.windriver.com.
  [147.11.124.94])
- by smtp.gmail.com with ESMTPSA id o10sm11618094ili.82.2020.12.14.01.19.10
+ by smtp.gmail.com with ESMTPSA id o10sm11618094ili.82.2020.12.14.01.19.12
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 14 Dec 2020 01:19:12 -0800 (PST)
+ Mon, 14 Dec 2020 01:19:15 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Jean-Christophe Dubois <jcd@tribudubois.net>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/msic: imx6_ccm: Correct register value for silicon type
-Date: Mon, 14 Dec 2020 17:18:57 +0800
-Message-Id: <1607937538-69471-3-git-send-email-bmeng.cn@gmail.com>
+Subject: [PATCH 3/3] hw/arm: sabrelite: Connect the Ethernet PHY at address 6
+Date: Mon, 14 Dec 2020 17:18:58 +0800
+Message-Id: <1607937538-69471-4-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1607937538-69471-1-git-send-email-bmeng.cn@gmail.com>
 References: <1607937538-69471-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=bmeng.cn@gmail.com; helo=mail-il1-x141.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-il1-x143.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,36 +87,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Currently when U-Boot boots, it prints "??" for i.MX processor:
+At present, when booting U-Boot on QEMU sabrelite, we see:
 
-  CPU:   Freescale i.MX?? rev1.0 at 792 MHz
+  Net:   Board Net Initialization Failed
+  No ethernet found.
 
-The register that was used to determine the silicon type is
-undocumented in the latest IMX6DQRM (Rev. 6, 05/2020), but we
-can refer to get_cpu_rev() in arch/arm/mach-imx/mx6/soc.c in
-the U-Boot source codes that USB_ANALOG_DIGPROG is used.
+U-Boot scans PHY at address 4/5/6/7 (see board_eth_init() in the
+U-Boot source: board/boundary/nitrogen6x/nitrogen6x.c). On the real
+board, the Ethernet PHY is at address 6. Adjust this by updating the
+"fec-phy-num" property of the fsl_imx6 SoC object.
 
-Update its reset value to indicate i.MX6Q.
+With this change, U-Boot sees the PHY but complains MAC address:
+
+  Net:   using phy at 6
+  FEC [PRIME]
+  Error: FEC address not set.
+
+This is due to U-Boot tries to read the MAC address from the fuse,
+which QEMU does not have any valid content filled in. However this
+does not prevent the Ethernet from working in QEMU. We just need to
+set up the MAC address later in the U-Boot command shell, by:
+
+  => setenv ethaddr 00:11:22:33:44:55
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+
 ---
 
- hw/misc/imx6_ccm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/sabrelite.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/misc/imx6_ccm.c b/hw/misc/imx6_ccm.c
-index 7e031b6..4c830fd 100644
---- a/hw/misc/imx6_ccm.c
-+++ b/hw/misc/imx6_ccm.c
-@@ -462,7 +462,7 @@ static void imx6_ccm_reset(DeviceState *dev)
-     s->analog[USB_ANALOG_USB2_VBUS_DETECT] = 0x00000004;
-     s->analog[USB_ANALOG_USB2_CHRG_DETECT] = 0x00000000;
-     s->analog[USB_ANALOG_USB2_MISC] = 0x00000002;
--    s->analog[USB_ANALOG_DIGPROG] = 0x00000000;
-+    s->analog[USB_ANALOG_DIGPROG] = 0x00630000;
+diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
+index 91d8c43..a3dbf85 100644
+--- a/hw/arm/sabrelite.c
++++ b/hw/arm/sabrelite.c
+@@ -51,6 +51,10 @@ static void sabrelite_init(MachineState *machine)
  
-     /* all PLLs need to be locked */
-     s->analog[CCM_ANALOG_PLL_ARM]   |= CCM_ANALOG_PLL_LOCK;
+     s = FSL_IMX6(object_new(TYPE_FSL_IMX6));
+     object_property_add_child(OBJECT(machine), "soc", OBJECT(s));
++
++    /* Ethernet PHY address is 6 */
++    object_property_set_int(OBJECT(s), "fec-phy-num", 6, &error_fatal);
++
+     qdev_realize(DEVICE(s), NULL, &error_fatal);
+ 
+     memory_region_add_subregion(get_system_memory(), FSL_IMX6_MMDC_ADDR,
 -- 
 2.7.4
 
