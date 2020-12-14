@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A66F2D928A
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:19:55 +0100 (CET)
-Received: from localhost ([::1]:50500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A352D928E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:22:05 +0100 (CET)
+Received: from localhost ([::1]:59640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kogH4-0000PZ-59
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:19:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39562)
+	id 1kogJA-0004Fe-Kj
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:22:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwy-0005wM-6z; Sun, 13 Dec 2020 23:59:08 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:47743)
+ id 1kofwz-00060i-KT; Sun, 13 Dec 2020 23:59:09 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:38689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwu-0004u0-9Z; Sun, 13 Dec 2020 23:59:06 -0500
+ id 1kofww-0004uP-Vi; Sun, 13 Dec 2020 23:59:09 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CvTfv42FZz9sWq; Mon, 14 Dec 2020 15:58:15 +1100 (AEDT)
+ id 4CvTfw12wYz9sWy; Mon, 14 Dec 2020 15:58:15 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607921895;
- bh=DrMnRyJ9M8U0u6yno73lo3uVCJa/SpyEJKsDuEcTiA4=;
+ d=gibson.dropbear.id.au; s=201602; t=1607921896;
+ bh=rBtI7QtDbKBKhAKdfxPEGMs7Fzmi01R0i3YdnlS7DhQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WkC2KzHAozKIK1mjLyg7oHNlD6dHuWuoHPqRulv6iupr2YcIHyNftpyr5ps/jp2x8
- WA/33ZVGEV9zl4/3DxNWZT6AtjkNY46uiquC21rRMugu31ILjxfoV0G/xz3Upnppf7
- XUnjW6imWRkCtyRDDzrdWQl2N9PeA3wIZg0ZTO3w=
+ b=K49jv2tJoQF2diS7wCER/ror1HLF212jduj/2W7ztinGvZ+xcXgu48CW42OhVH6b4
+ rQM+5kkVpr1ODe4GUJtk2iG6FacFIVYP0bhAxnCUHjoKts/+wJSxEIfmHxDVPnuH0g
+ 8NSEzaOftNDiTzN7KvPoo7013O+KusxKIecT2p48=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 29/30] spapr: Pass sPAPR machine state to some RTAS events
- handling functions
-Date: Mon, 14 Dec 2020 15:58:06 +1100
-Message-Id: <20201214045807.41003-30-david@gibson.dropbear.id.au>
+Subject: [PULL 30/30] spapr.c: set a 'kvm-type' default value instead of
+ relying on NULL
+Date: Mon, 14 Dec 2020 15:58:07 +1100
+Message-Id: <20201214045807.41003-31-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 References: <20201214045807.41003-1-david@gibson.dropbear.id.au>
@@ -57,109 +57,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Some functions in hw/ppc/spapr_events.c get a pointer to the machine
-state using qdev_get_machine(). Convert them to get it from their
-caller when possible.
+spapr_kvm_type() is considering 'vm_type=NULL' as a valid input, where
+the function returns 0. This is relying on the current QEMU machine
+options handling logic, where the absence of the 'kvm-type' option
+will be reflected as 'vm_type=NULL' in this function.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201209170052.1431440-6-groug@kaod.org>
+This is not robust, and will break if QEMU options code decides to propagate
+something else in the case mentioned above (e.g. an empty string instead
+of NULL).
+
+Let's avoid this entirely by setting a non-NULL default value in case of
+no user input for 'kvm-type'. spapr_kvm_type() was changed to handle 3 fixed
+values of kvm-type: "auto", "hv", and "pr", with "auto" being the default
+if no kvm-type was set by the user. This allows us to always be predictable
+regardless of any enhancements/changes made in QEMU options mechanics.
+
+While we're at it, let's also document in 'kvm-type' description the
+already existing default mode, now named 'auto'. The information provided
+about it is based on how the pseries kernel handles the KVM_CREATE_VM
+ioctl(), where the default value '0' makes the kernel choose an available
+KVM module to use, giving precedence to kvm_hv. This logic is described in
+the kernel source file arch/powerpc/kvm/powerpc.c, function kvm_arch_init_vm().
+
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20201210145517.1532269-2-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/ppc/spapr_events.c | 21 ++++++++++-----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ hw/ppc/spapr.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index 1add53547e..3f37b49fd8 100644
---- a/hw/ppc/spapr_events.c
-+++ b/hw/ppc/spapr_events.c
-@@ -480,9 +480,8 @@ static SpaprEventLogEntry *rtas_event_log_dequeue(SpaprMachineState *spapr,
-     return entry;
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index dfedded9a8..dee48a0043 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3021,17 +3021,25 @@ static void spapr_machine_init(MachineState *machine)
+     qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
  }
  
--static bool rtas_event_log_contains(uint32_t event_mask)
-+static bool rtas_event_log_contains(SpaprMachineState *spapr, uint32_t event_mask)
++#define DEFAULT_KVM_TYPE "auto"
+ static int spapr_kvm_type(MachineState *machine, const char *vm_type)
  {
--    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
-     SpaprEventLogEntry *entry = NULL;
- 
-     QTAILQ_FOREACH(entry, &spapr->pending_events, next) {
-@@ -509,10 +508,10 @@ static void spapr_init_v6hdr(struct rtas_event_log_v6 *v6hdr)
-     v6hdr->company = cpu_to_be32(RTAS_LOG_V6_COMPANY_IBM);
- }
- 
--static void spapr_init_maina(struct rtas_event_log_v6_maina *maina,
-+static void spapr_init_maina(SpaprMachineState *spapr,
-+                             struct rtas_event_log_v6_maina *maina,
-                              int section_count)
- {
--    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
-     struct tm tm;
-     int year;
- 
-@@ -560,7 +559,7 @@ static void spapr_powerdown_req(Notifier *n, void *opaque)
-     entry->extended_length = sizeof(*new_epow);
- 
-     spapr_init_v6hdr(v6hdr);
--    spapr_init_maina(maina, 3 /* Main-A, Main-B and EPOW */);
-+    spapr_init_maina(spapr, maina, 3 /* Main-A, Main-B and EPOW */);
- 
-     mainb->hdr.section_id = cpu_to_be16(RTAS_LOG_V6_SECTION_ID_MAINB);
-     mainb->hdr.section_length = cpu_to_be16(sizeof(*mainb));
-@@ -613,7 +612,7 @@ static void spapr_hotplug_req_event(uint8_t hp_id, uint8_t hp_action,
-     entry->extended_length = sizeof(*new_hp);
- 
-     spapr_init_v6hdr(v6hdr);
--    spapr_init_maina(maina, 3 /* Main-A, Main-B, HP */);
-+    spapr_init_maina(spapr, maina, 3 /* Main-A, Main-B, HP */);
- 
-     mainb->hdr.section_id = cpu_to_be16(RTAS_LOG_V6_SECTION_ID_MAINB);
-     mainb->hdr.section_length = cpu_to_be16(sizeof(*mainb));
-@@ -808,9 +807,9 @@ static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
-     return summary;
- }
- 
--static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
-+static void spapr_mce_dispatch_elog(SpaprMachineState *spapr, PowerPCCPU *cpu,
-+                                    bool recovered)
- {
--    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-     uint64_t rtas_addr;
-@@ -927,7 +926,7 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
-         warn_report("Received a fwnmi while migration was in progress");
+-    if (!vm_type) {
++    /*
++     * The use of g_ascii_strcasecmp() for 'hv' and 'pr' is to
++     * accomodate the 'HV' and 'PV' formats that exists in the
++     * wild. The 'auto' mode is being introduced already as
++     * lower-case, thus we don't need to bother checking for
++     * "AUTO".
++     */
++    if (!vm_type || !strcmp(vm_type, DEFAULT_KVM_TYPE)) {
+         return 0;
      }
  
--    spapr_mce_dispatch_elog(cpu, recovered);
-+    spapr_mce_dispatch_elog(spapr, cpu, recovered);
- }
- 
- static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
-@@ -980,7 +979,7 @@ static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
-      * interrupts.
-      */
-     for (i = 0; i < EVENT_CLASS_MAX; i++) {
--        if (rtas_event_log_contains(EVENT_CLASS_MASK(i))) {
-+        if (rtas_event_log_contains(spapr, EVENT_CLASS_MASK(i))) {
-             const SpaprEventSource *source =
-                 spapr_event_sources_get_source(spapr->event_sources, i);
- 
-@@ -1007,7 +1006,7 @@ static void event_scan(PowerPCCPU *cpu, SpaprMachineState *spapr,
+-    if (!strcmp(vm_type, "HV")) {
++    if (!g_ascii_strcasecmp(vm_type, "hv")) {
+         return 1;
      }
  
-     for (i = 0; i < EVENT_CLASS_MAX; i++) {
--        if (rtas_event_log_contains(EVENT_CLASS_MASK(i))) {
-+        if (rtas_event_log_contains(spapr, EVENT_CLASS_MASK(i))) {
-             const SpaprEventSource *source =
-                 spapr_event_sources_get_source(spapr->event_sources, i);
+-    if (!strcmp(vm_type, "PR")) {
++    if (!g_ascii_strcasecmp(vm_type, "pr")) {
+         return 2;
+     }
  
+@@ -3270,10 +3278,15 @@ static void spapr_instance_init(Object *obj)
+ 
+     spapr->htab_fd = -1;
+     spapr->use_hotplug_event_source = true;
++    spapr->kvm_type = g_strdup(DEFAULT_KVM_TYPE);
+     object_property_add_str(obj, "kvm-type",
+                             spapr_get_kvm_type, spapr_set_kvm_type);
+     object_property_set_description(obj, "kvm-type",
+-                                    "Specifies the KVM virtualization mode (HV, PR)");
++                                    "Specifies the KVM virtualization mode (auto,"
++                                    " hv, pr). Defaults to 'auto'. This mode will use"
++                                    " any available KVM module loaded in the host,"
++                                    " where kvm_hv takes precedence if both kvm_hv and"
++                                    " kvm_pr are loaded.");
+     object_property_add_bool(obj, "modern-hotplug-events",
+                             spapr_get_modern_hotplug_events,
+                             spapr_set_modern_hotplug_events);
 -- 
 2.29.2
 
