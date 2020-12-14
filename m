@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37F482DA46B
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 00:55:31 +0100 (CET)
-Received: from localhost ([::1]:59640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6D92DA46E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 00:57:32 +0100 (CET)
+Received: from localhost ([::1]:38856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koxgf-0004pf-TE
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 18:55:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43660)
+	id 1koxid-0007vc-7Q
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 18:57:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1koxf1-0003A4-6S
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1koxf1-0003B4-Ju
  for qemu-devel@nongnu.org; Mon, 14 Dec 2020 18:53:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45435)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55201)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1koxez-0000tK-OK
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 18:53:46 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1koxf0-0000tO-2G
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 18:53:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1607990025;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jVZwYme5l6iEWkwayovcx/tWuBg7uP8L2Dd8B4g03us=;
- b=NPfW9+U0tQpS//n8R6X05O8DneyytY+zsxagItEeqgArlzURzeKNzPC8roDUX1pUzBfw+t
- iQQknTMrcpBlzNxG7UFg7EXN34OVZm2K0PVZdUc6alU11Z5j2bgax41UKifde2xW4S9EmA
- MgQoCjSDUXHIMgGu7sNpZmw6G5A6jRE=
+ bh=BzwysPB6rJBtPSdp674bMPM34g2T/AXsb1hxa0ijq5w=;
+ b=bLzMdcB5TOdzX1x6nZKxkTu7bErT/PgZssOMLdWWUjAzdC4CDg9ThRmmPgZlFKpklr1xKQ
+ R8t1Bjx2JPz9F4Rn5hssKr3SFO05bJILE9UFyO1E2/viLeInr+IuDc3CZYvF0X1mS17pzL
+ oRV8M11+6pBQjaIBN/yIDFMPREl5/xo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-C-HmTC8gMUiJCvR10hghcA-1; Mon, 14 Dec 2020 18:53:43 -0500
-X-MC-Unique: C-HmTC8gMUiJCvR10hghcA-1
+ us-mta-584-IyEPKtL9OfGdReyOH18n6w-1; Mon, 14 Dec 2020 18:53:43 -0500
+X-MC-Unique: IyEPKtL9OfGdReyOH18n6w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35CAD1015C80
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 23:53:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C82359
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 23:53:43 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-116-117.rdu2.redhat.com [10.10.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7073370484;
- Mon, 14 Dec 2020 23:53:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D56813470;
+ Mon, 14 Dec 2020 23:53:42 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/12] qapi/main: handle theoretical None-return from
- re.match()
-Date: Mon, 14 Dec 2020 18:53:18 -0500
-Message-Id: <20201214235327.1007124-4-jsnow@redhat.com>
+Subject: [PATCH 04/12] qapi/gen: assert that _start_if is not None in
+ _wrap_ifcond
+Date: Mon, 14 Dec 2020 18:53:19 -0500
+Message-Id: <20201214235327.1007124-5-jsnow@redhat.com>
 In-Reply-To: <20201214235327.1007124-1-jsnow@redhat.com>
 References: <20201214235327.1007124-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,28 +83,32 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mypy cannot understand that this match can never be None, so help it
-along.
+We already assert this in end_if, but that's opaque to mypy. Do it in
+_wrap_ifcond instead. Same effect at runtime, but mypy can now infer
+the type in _wrap_ifcond's body.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/main.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/qapi/gen.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-index 42517210b805..271d9e84da94 100644
---- a/scripts/qapi/main.py
-+++ b/scripts/qapi/main.py
-@@ -23,7 +23,8 @@
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index b40f18eee3cd..a6dc991b1d03 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -130,11 +130,11 @@ def start_if(self, ifcond: List[str]) -> None:
+         self._start_if = (ifcond, self._body, self._preamble)
  
- def invalid_prefix_char(prefix: str) -> Optional[str]:
-     match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
--    if match.end() != len(prefix):
-+    # match cannot be None, but mypy cannot infer that.
-+    if match and match.end() != len(prefix):
-         return prefix[match.end()]
-     return None
+     def end_if(self) -> None:
+-        assert self._start_if
+         self._wrap_ifcond()
+         self._start_if = None
  
+     def _wrap_ifcond(self) -> None:
++        assert self._start_if
+         self._body = _wrap_ifcond(self._start_if[0],
+                                   self._start_if[1], self._body)
+         self._preamble = _wrap_ifcond(self._start_if[0],
 -- 
 2.26.2
 
