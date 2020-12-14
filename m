@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7982D9810
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 13:37:28 +0100 (CET)
-Received: from localhost ([::1]:46988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604DD2D987A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 14:03:05 +0100 (CET)
+Received: from localhost ([::1]:37560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kon6V-0007Do-Dd
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 07:37:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44754)
+	id 1konVH-0007Gr-TU
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 08:03:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kon58-0006FV-Nx
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 07:36:05 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43732)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kon54-0001Sm-8r
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 07:35:59 -0500
-Received: by mail-wr1-x434.google.com with SMTP id y17so16170682wrr.10
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 04:35:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o5/21Y1Nv+z8LzfT3vNP3hN3hvuHLRR15ZdgGixszlo=;
- b=moBUB6E3CaqFzoz1I5lukNpPvKC+xdXfAab+epa/EH88j4Orjr3C4Rjy9GkkpWbLD7
- /217cxX7bQJ0SND3MpY7Cxh+X9aQufavqI5jJQwsjbk5T7PxRqm9ON9d960NnyDKJnKs
- DWkuwX+3fuT8iaEz/aQJGhzx9zx17ySw23GY7NZcHeYqH0KOJacbx9S/DP5N2zxapDTv
- CP24kcbSL/h4jkTbzHiL22R93uCLtuRzLd6GWgPUebOdF6UMGRfTvr7IzkrF9xA16zuT
- /6Fc3Y1VFXdlXqIgxdsbDPm7zDBSJ+7yl70xaXUg3IJd1N5YSxJ3M1n0AHxhiiEnMabE
- nBpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o5/21Y1Nv+z8LzfT3vNP3hN3hvuHLRR15ZdgGixszlo=;
- b=X+KSjEvrUCyNNPCGqoxJjKwMEJtpnk/UfmON+twaSTGxg6sxdrSX56lM8tPbBMlxZ5
- WgFpwQJuurzcmtDWSn7EMOJ9ipLf1NXAyqfaDa9kLfztGcC88HcHiEwC2iLnXl5yCR7W
- MNUy5FGCbTuVcaKAmBZ/tKUD2iGVpeOHeXawyNkw/s8qqjYSz6HocRVYXLhRwDL+AayO
- x0Dp7prkbPavA7SyQcwELgpP2pzrm4PnXqBdJ2X1tlB0iTaPRGbynONS2xgvHPsNEll5
- bl3ZuC3rNJyAmMAE2VleKpIgxy2mgsI5Qis/038bdNXjp4zATGKNzXwaid67llFEOpBX
- DCbg==
-X-Gm-Message-State: AOAM531m5IM31dY9kPgDh/4iwNgHYyG5n+cOg77I6eXp2adr/cf6lMaS
- +SEBXLFlAvDfvFPD8Fiqyjcn1w==
-X-Google-Smtp-Source: ABdhPJyQ2etZpTGvpg1Is3SUHkjxpNOJfKL3KFnfjhnYAbtS4ZsoY2724g7Rg1650s/BqmIh6cewDA==
-X-Received: by 2002:a5d:558a:: with SMTP id i10mr29435561wrv.363.1607949355969; 
- Mon, 14 Dec 2020 04:35:55 -0800 (PST)
-Received: from leonardo.hemma.eciton.net
- (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net. [82.27.183.148])
- by smtp.gmail.com with ESMTPSA id d15sm31075531wrx.93.2020.12.14.04.35.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Dec 2020 04:35:55 -0800 (PST)
-From: Leif Lindholm <leif@nuviainc.com>
-To: qemu-arm@nongnu.org
-Subject: [PATCH v2 3/5] target/arm: add descriptions of CLIDR_EL1, CCSIDR_EL1,
- CTR_EL0 to cpu.h
-Date: Mon, 14 Dec 2020 12:35:53 +0000
-Message-Id: <20201214123553.2515-1-leif@nuviainc.com>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1konT9-0006Cs-Un
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 08:00:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1konT7-0004PD-30
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 08:00:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607950848;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JE3XtjPQc71jkTomxWQg0XPMjsJswmEM6goMhwlyAoA=;
+ b=TTBaX8b+nxIJ2btcFzc0aMFVkwvFOgs/3BsMqqrDx51RIK4Trzj8usvjMLoQnNJK+yRUn8
+ vyphk2eLfb48COJOty4rRmku59iWXfchZvn7xn7gW1xDzcwJtDms/e5DFfEGP3zz5aMkZH
+ okxAdXOhseiJJTMSQxgh3vmspXWeiE0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-114--mQ7HziBPKyHch-Hffpe2w-1; Mon, 14 Dec 2020 08:00:46 -0500
+X-MC-Unique: -mQ7HziBPKyHch-Hffpe2w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 264891DDE0;
+ Mon, 14 Dec 2020 13:00:45 +0000 (UTC)
+Received: from gondolin (ovpn-113-171.ams2.redhat.com [10.36.113.171])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73E7117264;
+ Mon, 14 Dec 2020 13:00:25 +0000 (UTC)
+Date: Mon, 14 Dec 2020 14:00:22 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 2/3] tests/acceptance/machine_s390_ccw_virtio: Test
+ virtio-rng via /dev/hwrng
+Message-ID: <20201214140022.42656393.cohuck@redhat.com>
+In-Reply-To: <5764fbf7-6c78-fc4f-47ce-74ddd1c64110@redhat.com>
+References: <20201211173134.376078-1-thuth@redhat.com>
+ <20201211173134.376078-3-thuth@redhat.com>
+ <7f2adbee-49e0-94f7-fcd7-7e012cc36bfa@redhat.com>
+ <5764fbf7-6c78-fc4f-47ce-74ddd1c64110@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=leif@nuviainc.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,54 +81,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Leif Lindholm <leif@nuviainc.com>
----
-v1->v2:
-- Correct CCSIDR_EL1 field sizes.
+On Sat, 12 Dec 2020 08:10:01 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
- target/arm/cpu.h | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+Minor nit: I think that the subject is a bit unwieldy. What about
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index fadd1a47df..90ba707b64 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1736,6 +1736,30 @@ FIELD(V7M_FPCCR, ASPEN, 31, 1)
- /*
-  * System register ID fields.
-  */
-+FIELD(CLIDR_EL1, CTYPE1, 0, 3)
-+FIELD(CLIDR_EL1, CTYPE2, 3, 3)
-+FIELD(CLIDR_EL1, CTYPE3, 6, 3)
-+FIELD(CLIDR_EL1, CTYPE4, 9, 3)
-+FIELD(CLIDR_EL1, CTYPE5, 12, 3)
-+FIELD(CLIDR_EL1, CTYPE6, 15, 3)
-+FIELD(CLIDR_EL1, CTYPE7, 18, 3)
-+FIELD(CLIDR_EL1, LOUIS, 21, 3)
-+FIELD(CLIDR_EL1, LOC, 24, 3)
-+FIELD(CLIDR_EL1, LOUU, 27, 3)
-+FIELD(CLIDR_EL1, ICB, 30, 3)
-+
-+FIELD(CCSIDR_EL1, LINESIZE, 0, 3)
-+FIELD(CCSIDR_EL1, ASSOCIATIVITY, 3, 21)
-+FIELD(CCSIDR_EL1, NUMSETS, 32, 24)
-+
-+FIELD(CTR_EL0,  IMINLINE, 0, 4)
-+FIELD(CTR_EL0,  L1IP, 14, 2)
-+FIELD(CTR_EL0,  DMINLINE, 16, 4)
-+FIELD(CTR_EL0,  ERG, 20, 4)
-+FIELD(CTR_EL0,  CWG, 24, 4)
-+FIELD(CTR_EL0,  IDC, 28, 1)
-+FIELD(CTR_EL0,  DIC, 29, 1)
-+
- FIELD(MIDR_EL1, REVISION, 0, 4)
- FIELD(MIDR_EL1, PARTNUM, 4, 12)
- FIELD(MIDR_EL1, ARCHITECTURE, 16, 4)
--- 
-2.20.1
+"tests/acceptance: Test virtio-rng on s390 via /dev/hwrng"
+
+?
+
+> On 11/12/2020 21.30, Wainer dos Santos Moschetta wrote:
+> > Hi,
+> >=20
+> > On 12/11/20 2:31 PM, Thomas Huth wrote: =20
+> >> /dev/hwrng is only functional if virtio-rng is working right, so let's
+> >> add a sanity check for this device node. =20
+> >=20
+> > Good idea.
+> >  =20
+> >>
+> >> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> >> ---
+> >> =C2=A0 tests/acceptance/machine_s390_ccw_virtio.py | 17 ++++++++++++++=
++--
+> >> =C2=A0 1 file changed, 15 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py
+> >> b/tests/acceptance/machine_s390_ccw_virtio.py
+> >> index 733a7ca24a..7d0a78139b 100644
+> >> --- a/tests/acceptance/machine_s390_ccw_virtio.py
+> >> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
+> >> @@ -64,9 +64,9 @@ class S390CCWVirtioMachine(Test):
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 '-append', kernel_command_line,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 '-device', 'virtio-net-ccw,devno=3Dfe.1.1111',
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 '-device',
+> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ 'virtio-rng-ccw,devno=3Dfe.2.0000,max_revision=3D0',
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> >> 'virtio-rng-ccw,devno=3Dfe.2.0000,max_revision=3D0,id=3Drn1',
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 '-device',
+> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ 'virtio-rng-ccw,devno=3Dfe.3.1234,max_revision=3D2',
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> >> 'virtio-rng-ccw,devno=3Dfe.3.1234,max_revision=3D2,id=3Drn2',
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 '-device', 'zpci,uid=3D5,target=3Dzzz',
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 '-device', 'virtio-net-pci,id=3Dzzz',
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 '-device', 'zpci,uid=3D0xa,fid=3D12,target=3Dserial',
+> >> @@ -96,6 +96,19 @@ class S390CCWVirtioMachine(Test):
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exec_command_an=
+d_wait_for_pattern(self,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 'cat
+> >> /sys/bus/ccw/devices/0.3.1234/virtio?/features',
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 virtio_rng_features)
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # check that /dev/hwrng wo=
+rks - and that it's gone after ejecting
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exec_command_and_wait_for_=
+pattern(self,
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'dd i=
+f=3D/dev/hwrng of=3D/tmp/out.dat bs=3D1k count=3D10',
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '10+0=
+ records out')
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.clear_guests_dmesg()
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.vm.command('device_de=
+l', id=3D'rn1')
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.wait_for_crw_reports(=
+)
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.clear_guests_dmesg()
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.vm.command('device_de=
+l', id=3D'rn2')
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.wait_for_crw_reports(=
+)
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exec_command_and_wait_for_=
+pattern(self,
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'dd i=
+f=3D/dev/hwrng of=3D/tmp/out.dat bs=3D1k count=3D10',
+
+Does this work if you direct the output to /dev/null?
+
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'dd: =
+/dev/hwrng: No such device') =20
+> >=20
+> > Maybe the expected pattern is too fragile. On my Fedora 33 system, 'dd'=
+ will
+> > print a different message. =20
+>=20
+> We are running this test with a well-defined kernel + initrd, so I don't
+> think we have to care of other versions of dd here.
+>=20
+> > What if it checks for the presence of the device file, e.g:
+> >=20
+> > ... self, 'test -c /dev/hwrng; echo $?', '1') =20
+>=20
+> That doesn't work, the /dev/hwrng is still there (so test -c succeeds),
+> since this initrd uses static device nodes for this in /dev. /dev/hwrng j=
+ust
+> can not be opened anymore after the device has been removed.
+
+I had been thinking about a different approach to check that, but dd
+really looks like the easiest way.
 
 
