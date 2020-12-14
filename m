@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574A92D9DFC
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 18:43:54 +0100 (CET)
-Received: from localhost ([::1]:50036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEDD82D9E2A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 18:50:46 +0100 (CET)
+Received: from localhost ([::1]:57230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kort2-0003e1-R6
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 12:43:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35152)
+	id 1korzh-00073X-D6
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 12:50:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1korqC-0002D3-SR
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:40:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49342)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1korqA-0004tt-SG
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:40:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607967653;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/FiIws7prMebdjWEPduqnz1tix7R3frT153k4cWT7O4=;
- b=IMJj4gHKTdH/LglPnrRIXnDJUJNRWBg1dd0YVHffkNTU7oYov3CF/Zbv35r7q/YunE9yxE
- lA+9qu6xKqHaP1UGuCVMaaxolHDRU7QBEOSPfpivzlxkS/E9TT2wqPqJehhrXbTBqTRPx9
- EPyaFu1FapCq+UWGbIqNkzb6WCkTH5o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-ftIp1-oaPk68QHZreITIGQ-1; Mon, 14 Dec 2020 12:40:51 -0500
-X-MC-Unique: ftIp1-oaPk68QHZreITIGQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3043100558A;
- Mon, 14 Dec 2020 17:40:50 +0000 (UTC)
-Received: from localhost (ovpn-116-160.rdu2.redhat.com [10.10.116.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0CEA5C23D;
- Mon, 14 Dec 2020 17:40:46 +0000 (UTC)
-Date: Mon, 14 Dec 2020 12:40:41 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v4 15/32] qdev: Move softmmu properties to
- qdev-properties-system.h
-Message-ID: <20201214174041.GM1289986@habkost.net>
-References: <20201211220529.2290218-1-ehabkost@redhat.com>
- <20201211220529.2290218-16-ehabkost@redhat.com>
- <20201214152541.1a7d4b36@redhat.com>
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1koryE-0006Rz-1O
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:49:14 -0500
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:35117)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1koryC-0006AG-06
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:49:13 -0500
+Received: by mail-lf1-x144.google.com with SMTP id a9so32322243lfh.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 09:49:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+EQrl+gkKCuJ/kCP8jGocGj5VkI/HZ5P7oyiFCzLReo=;
+ b=UvswvQMjComVRsNhR3Jcg+jRLzQXgN9mynSoGoMUe85kOEGv0UqI/ge/Wi/N/ga0Dg
+ ny4qZ+WEovqiaVO+1sCt6rifeIrjlO9Rnp+0JaV5BhttFGR8NwAv0HmrDtH2HlhsDMwp
+ HvXVa5REyiCb+wB+SDy9CveiZ0giwYjhkIR1nBuqUtblpZZWqReiJYG/Or5i+jamGxDf
+ CU4uz3VP2/FNCMxtlhzywqdMhEmtC1M7h5tdjtxLNc0P30e8OfxJFGIGMWZ4ZnwAkfPz
+ lq8s21ZBSNYk8RE0qp2Ju9bNO+4psUf2pJO/4S0JLE5YOemDUK9ATZTMKqaLzm6ravZJ
+ Wjbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+EQrl+gkKCuJ/kCP8jGocGj5VkI/HZ5P7oyiFCzLReo=;
+ b=caO/ukNUtFg2SCiS9US0VP1ltL7+OxJHYjcALrmpnuK5BvIq2ZcL28yK/DutlOG+d1
+ qgPTzZMACMY/OD+v8cDKWEQ3wdw+5AXtkHeCPZwPNQt+V9kLPjLbUoodOKiutpSFxDuH
+ 5oX8uRbCavRtVzleNLO+XNR3IXYmQ/hZA0jIDNUUMqOmuNfe2DY5gx7RdxTAavnNFF4m
+ Z/ZzkBBjxozQWkcODE3A3vLxWurjeoQDJloMi4Dsk3nPW8dadl2Yzi9qd1QvT3E0aa2D
+ G9uJRhdyW5zQGVUJZueJP+6n4BipH0AcLm3lWDwzj2KmPdJVYANH4GQrS93BegKr4xVy
+ ukCg==
+X-Gm-Message-State: AOAM532e0ZQAtn+vSzrhAFG/YROWORM+kbvXctOyH/q9qXI/aHIMHc1c
+ izpM6oLz1LbOmmj5zS8Q3Wyudag9xmaaemK+7GwwIw==
+X-Google-Smtp-Source: ABdhPJyqMBKWis0ZCPtq0NAs9FgoLS8PmLOLG1pphUOMzZYQjMXjJxsObD7qWiwKjPti8OiDfbLpARWLyNTUyWwMSPI=
+X-Received: by 2002:a2e:8745:: with SMTP id q5mr10583543ljj.77.1607968148040; 
+ Mon, 14 Dec 2020 09:49:08 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201214152541.1a7d4b36@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20201211222223.2252172-1-wuhaotsh@google.com>
+ <20201211222223.2252172-4-wuhaotsh@google.com>
+ <2d6eca6e-1690-8411-51c2-c0e7f8e8d677@amsat.org>
+In-Reply-To: <2d6eca6e-1690-8411-51c2-c0e7f8e8d677@amsat.org>
+Date: Mon, 14 Dec 2020 09:48:56 -0800
+Message-ID: <CAGcCb11CdDmLrndTTij6wMBNC1p7Y0VCowL+Y11oyg6+YS29Bg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] hw/adc: Add an ADC module for NPCM7XX
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="000000000000469f1305b67042ca"
+Received-SPF: pass client-ip=2a00:1450:4864:20::144;
+ envelope-from=wuhaotsh@google.com; helo=mail-lf1-x144.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,70 +78,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, minyard@acm.org,
+ Patrick Venture <venture@google.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>, CS20 KFTing <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Hao Wu <wuhaotsh@google.com>
+From: Hao Wu via <qemu-devel@nongnu.org>
 
-On Mon, Dec 14, 2020 at 03:25:41PM +0100, Igor Mammedov wrote:
-> On Fri, 11 Dec 2020 17:05:12 -0500
-> Eduardo Habkost <ehabkost@redhat.com> wrote:
-> 
-> > Move the property types and property macros implemented in
-> > qdev-properties-system.c to a new qdev-properties-system.h
-> > header.
-> > 
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+--000000000000469f1305b67042ca
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Thanks for your comment! We'll incorporate them into our next patch version=
+.
+
+We plan to let the user use QOM get/set QMP commands to control ADC/PWM
+values, similar to hw/misc/tmp105.c. The user can set a voltage value as
+input using QOM-set, and the QEMU guest can read the converted value
+through this module. Similar for PWM, the user can read the duty-cycle and
+frequency using QOM-get. The user can also run a third-party simulator and
+alter these values during execution. Our test code also shows how to deal
+with these values.
+
+If you have a better suggestion, please let us know.
+
+On Sun, Dec 13, 2020 at 3:47 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g>
+wrote:
+
+> On 12/11/20 11:22 PM, Hao Wu via wrote:
+> > The ADC is part of NPCM7XX Module. Its behavior is controled by the
+> > ADC_CON register. It converts one of the eight analog inputs into a
+> > digital input and stores it in the ADC_DATA register when enabled.
+> >
+> > Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
+> > Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
+> > Signed-off-by: Hao Wu <wuhaotsh@google.com>
 > > ---
-> > Changes v1 -> v2:
-> > * Move UUID property type too, as it was moved to
-> >   qdev-properties-system.c in the previous patch
-> > ---
-[...]
-> > diff --git a/audio/audio.h b/audio/audio.h
-> > index b883ebfb1f..21fe3226ae 100644
-> > --- a/audio/audio.h
-> > +++ b/audio/audio.h
-> > @@ -28,6 +28,7 @@
-> >  #include "qemu/queue.h"
-> >  #include "qapi/qapi-types-audio.h"
-> >  #include "hw/qdev-properties.h"
-> it's already included into new header
-> so maybe s/old/new/ here and in other such places?
+> >  docs/system/arm/nuvoton.rst    |   2 +-
+> >  hw/adc/meson.build             |   1 +
+> >  hw/adc/npcm7xx_adc.c           | 318 ++++++++++++++++++++++++++
+> >  hw/arm/npcm7xx.c               |  24 +-
+> >  include/hw/adc/npcm7xx_adc.h   |  72 ++++++
+> >  include/hw/arm/npcm7xx.h       |   2 +
+> >  tests/qtest/meson.build        |   3 +-
+> >  tests/qtest/npcm7xx_adc-test.c | 400 +++++++++++++++++++++++++++++++++
+> >  8 files changed, 819 insertions(+), 3 deletions(-)
+> >  create mode 100644 hw/adc/npcm7xx_adc.c
+> >  create mode 100644 include/hw/adc/npcm7xx_adc.h
+> >  create mode 100644 tests/qtest/npcm7xx_adc-test.c
+> ...
+>
+> > +static void npcm7xx_adc_init(Object *obj)
+> > +{
+> > +    NPCM7xxADCState *s =3D NPCM7XX_ADC(obj);
+> > +    SysBusDevice *sbd =3D &s->parent;
+> > +    int i;
+> > +
+> > +    sysbus_init_irq(sbd, &s->irq);
+> > +
+> > +    timer_init_ns(&s->conv_timer, QEMU_CLOCK_VIRTUAL,
+> > +            npcm7xx_adc_convert_done, s);
+> > +    timer_init_ns(&s->reset_timer, QEMU_CLOCK_VIRTUAL,
+> > +            npcm7xx_adc_reset_done, s);
+> > +    memory_region_init_io(&s->iomem, obj, &npcm7xx_adc_ops, s,
+> > +                          TYPE_NPCM7XX_ADC, 4 * KiB);
+> > +    sysbus_init_mmio(sbd, &s->iomem);
+> > +    s->clock =3D qdev_init_clock_in(DEVICE(s), "clock", NULL, NULL);
+> > +
+> > +    for (i =3D 0; i < NPCM7XX_ADC_NUM_INPUTS; ++i) {
+> > +        object_property_add_uint32_ptr(obj, "adci[*]",
+> > +                &s->adci[i], OBJ_PROP_FLAG_WRITE);
+>
+> How do you use this, any example?
+>
+> FWIW I'm experimenting with other ADC to use the "audio/audio.h"
+> API (which is not voice/audio specific, but generic DSP), then
+> I can pass any QEMU source and consume it using AUD_read() to fill
+> the ADC buffer (device sram or in main ram).
+>
+> But I'm doing that alone during my free time, so don't expect it
+> any time soon :(
+>
+> > +    }
+> > +    object_property_add_uint32_ptr(obj, "vref",
+> > +            &s->vref, OBJ_PROP_FLAG_WRITE);
+> > +    npcm7xx_adc_calibrate(s);
+> > +}
+>
 
-There's no guarantee that qdev-system-properties.h will always
-depend on qdev-properties.h.  If a file depends on definitions
-from qdev-properties.h, it should include qdev-properties.h
-explicitly.
+--000000000000469f1305b67042ca
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> > +#include "hw/qdev-properties-system.h"
-> >  
-> >  typedef void (*audio_callback_fn) (void *opaque, int avail);
-> >  
-> > diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-> > index 1e8b6253dd..c172cbe65f 100644
-> > --- a/include/hw/block/block.h
-> > +++ b/include/hw/block/block.h
-> > @@ -13,6 +13,7 @@
-> >  
-> >  #include "exec/hwaddr.h"
-> >  #include "qapi/qapi-types-block-core.h"
-> > +#include "hw/qdev-properties-system.h"
-> 
-> what for it is included here?
+<div dir=3D"ltr">Thanks for your comment! We&#39;ll incorporate them into o=
+ur next patch version.<div><br></div><div>We plan to let the user use QOM g=
+et/set QMP commands to control ADC/PWM values, similar to hw/misc/tmp105.c.=
+ The user can set a voltage value as input using QOM-set, and the QEMU gues=
+t can read the converted value through this module. Similar for PWM, the us=
+er can read the duty-cycle and frequency using QOM-get. The user can also r=
+un a third-party simulator and alter these values during execution. Our tes=
+t code also shows how to deal with these values.</div><div><br></div><div>I=
+f you have a better suggestion, please let us know.</div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Dec 13, 20=
+20 at 3:47 AM Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat=
+.org" target=3D"_blank">f4bug@amsat.org</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">On 12/11/20 11:22 PM, Hao Wu via wro=
+te:<br>
+&gt; The ADC is part of NPCM7XX Module. Its behavior is controled by the<br=
+>
+&gt; ADC_CON register. It converts one of the eight analog inputs into a<br=
+>
+&gt; digital input and stores it in the ADC_DATA register when enabled.<br>
+&gt; <br>
+&gt; Reviewed-by: Havard Skinnemoen &lt;<a href=3D"mailto:hskinnemoen@googl=
+e.com" target=3D"_blank">hskinnemoen@google.com</a>&gt;<br>
+&gt; Reviewed-by: Tyrone Ting &lt;<a href=3D"mailto:kfting@nuvoton.com" tar=
+get=3D"_blank">kfting@nuvoton.com</a>&gt;<br>
+&gt; Signed-off-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" targe=
+t=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 docs/system/arm/nuvoton.rst=C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+&gt;=C2=A0 hw/adc/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A01 +<br>
+&gt;=C2=A0 hw/adc/npcm7xx_adc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 3=
+18 ++++++++++++++++++++++++++<br>
+&gt;=C2=A0 hw/arm/npcm7xx.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 24 +-<br>
+&gt;=C2=A0 include/hw/adc/npcm7xx_adc.h=C2=A0 =C2=A0|=C2=A0 72 ++++++<br>
+&gt;=C2=A0 include/hw/arm/npcm7xx.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A02 +<br>
+&gt;=C2=A0 tests/qtest/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A03 +-<br>
+&gt;=C2=A0 tests/qtest/npcm7xx_adc-test.c | 400 +++++++++++++++++++++++++++=
+++++++<br>
+&gt;=C2=A0 8 files changed, 819 insertions(+), 3 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 hw/adc/npcm7xx_adc.c<br>
+&gt;=C2=A0 create mode 100644 include/hw/adc/npcm7xx_adc.h<br>
+&gt;=C2=A0 create mode 100644 tests/qtest/npcm7xx_adc-test.c<br>
+...<br>
+<br>
+&gt; +static void npcm7xx_adc_init(Object *obj)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 NPCM7xxADCState *s =3D NPCM7XX_ADC(obj);<br>
+&gt; +=C2=A0 =C2=A0 SysBusDevice *sbd =3D &amp;s-&gt;parent;<br>
+&gt; +=C2=A0 =C2=A0 int i;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 sysbus_init_irq(sbd, &amp;s-&gt;irq);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 timer_init_ns(&amp;s-&gt;conv_timer, QEMU_CLOCK_VIRTUAL=
+,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_adc_convert_done, s=
+);<br>
+&gt; +=C2=A0 =C2=A0 timer_init_ns(&amp;s-&gt;reset_timer, QEMU_CLOCK_VIRTUA=
+L,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_adc_reset_done, s);=
+<br>
+&gt; +=C2=A0 =C2=A0 memory_region_init_io(&amp;s-&gt;iomem, obj, &amp;npcm7=
+xx_adc_ops, s,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 TYPE_NPCM7XX_ADC, 4 * KiB);<br>
+&gt; +=C2=A0 =C2=A0 sysbus_init_mmio(sbd, &amp;s-&gt;iomem);<br>
+&gt; +=C2=A0 =C2=A0 s-&gt;clock =3D qdev_init_clock_in(DEVICE(s), &quot;clo=
+ck&quot;, NULL, NULL);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_ADC_NUM_INPUTS; ++i) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_property_add_uint32_ptr(obj, &quot=
+;adci[*]&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;s-&gt;ad=
+ci[i], OBJ_PROP_FLAG_WRITE);<br>
+<br>
+How do you use this, any example?<br>
+<br>
+FWIW I&#39;m experimenting with other ADC to use the &quot;audio/audio.h&qu=
+ot;<br>
+API (which is not voice/audio specific, but generic DSP), then<br>
+I can pass any QEMU source and consume it using AUD_read() to fill<br>
+the ADC buffer (device sram or in main ram).<br>
+<br>
+But I&#39;m doing that alone during my free time, so don&#39;t expect it<br=
+>
+any time soon :(<br>
+<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 object_property_add_uint32_ptr(obj, &quot;vref&quot;,<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;s-&gt;vref, OBJ_PROP_F=
+LAG_WRITE);<br>
+&gt; +=C2=A0 =C2=A0 npcm7xx_adc_calibrate(s);<br>
+&gt; +}<br>
+</blockquote></div>
 
-hw/block/block.h has references to DEFINE_PROP_BLOCKSIZE,
-DEFINE_PROP_DRIVE, and others.
-
-> 
-[...]
-
--- 
-Eduardo
-
+--000000000000469f1305b67042ca--
 
