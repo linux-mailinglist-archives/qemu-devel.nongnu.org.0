@@ -2,62 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E9E2D9D3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 18:08:17 +0100 (CET)
-Received: from localhost ([::1]:60150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63FF92D9D4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 18:11:50 +0100 (CET)
+Received: from localhost ([::1]:42660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1korKZ-0003oM-RI
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 12:08:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51550)
+	id 1korO1-0000Ar-CT
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 12:11:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1korDW-0005WX-8w
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:01:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20885)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1korI6-0001U7-B1
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:05:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1korDQ-0004Hi-W2
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:00:55 -0500
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1korI3-0005UE-Qx
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 12:05:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607965252;
+ s=mimecast20190719; t=1607965539;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=UcjPedgFAePbit+LAmaCdyO9dRJ4HW/XwUf+TQtTjTo=;
- b=EaTcXeHKyyeQ3QoqGFpyZ3R2yM+6Mbth8qnC7idAFq5x7vGDNPqUKLAfRl76kFzTjxwz2v
- yziw6HPaKZgkGXeQT8ZGHBGFQxkO/1XNw4KhlgEDFEH/VeASX7qF5aEc2qF+oI8qY2+D/J
- 4D3wwnmwGnwdI1dDiw4qEKNSpzsMdZs=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ofxiw979EA5hQ5retJsvejrszYOaT4OA8K7Ptz7ohEw=;
+ b=EM+I3GCCGzu2Jh5GVGP+ES/Px4uajrYiH2e9bSfM7auj49BzuxhzzWCS3IKMkrca4qTmQk
+ pG+LNCgJrul0q1TQlGd3J3aFA/w1pcf+re9vL4YK5HYw33M7h201QnbRRaDuKZg4p+6K6U
+ MPn095yyND9NAwic6TghobVpESBhXUY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-zWbrVVt0PCWa1TMqbhszCQ-1; Mon, 14 Dec 2020 12:00:48 -0500
-X-MC-Unique: zWbrVVt0PCWa1TMqbhszCQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-490-gNP_Li97NzyoS-gY09zc6A-1; Mon, 14 Dec 2020 12:05:35 -0500
+X-MC-Unique: gNP_Li97NzyoS-gY09zc6A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1ECDC1009B67;
- Mon, 14 Dec 2020 17:00:47 +0000 (UTC)
-Received: from localhost (ovpn-113-200.ams2.redhat.com [10.36.113.200])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA3755D9DC;
- Mon, 14 Dec 2020 17:00:46 +0000 (UTC)
-Date: Mon, 14 Dec 2020 17:00:45 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Alex Chen <alex.chen@huawei.com>
-Subject: Re: [PATCH] virtiofsd: Remove useless code about send_notify_iov
-Message-ID: <20201214170045.GI620320@stefanha-x1.localdomain>
-References: <20201214121615.29967-1-alex.chen@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0CE11074640;
+ Mon, 14 Dec 2020 17:05:33 +0000 (UTC)
+Received: from toolbox.redhat.com (ovpn-112-231.rdu2.redhat.com
+ [10.10.112.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 02D775D6AB;
+ Mon, 14 Dec 2020 17:05:20 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] nbd/server: Quiesce coroutines on context switch
+Date: Mon, 14 Dec 2020 18:05:15 +0100
+Message-Id: <20201214170519.223781-1-slp@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201214121615.29967-1-alex.chen@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OfrWf2Fun5Ae4m0Y"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,45 +74,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, zhang.zhanghailiang@huawei.com,
- dgilbert@redhat.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Stefano Stabellini <sstabellini@kernel.org>, Sergio Lopez <slp@redhat.com>,
+ qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---OfrWf2Fun5Ae4m0Y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Dec 14, 2020 at 12:16:15PM +0000, Alex Chen wrote:
-> The 'ch' will be NULL in the following stack:
-> send_notify_iov()->fuse_send_msg()->virtio_send_msg(), and
-> this may lead to NULL pointer dereferenced in virtio_send_msg().
-> But send_notify_iov() was never called, so remove the useless code
-> about send_notify_iov() to fix this problem.
->=20
-> Signed-off-by: Alex Chen <alex.chen@huawei.com>
-> ---
->  tools/virtiofsd/fuse_lowlevel.c | 98 ---------------------------------
->  1 file changed, 98 deletions(-)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---OfrWf2Fun5Ae4m0Y
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/Xmj0ACgkQnKSrs4Gr
-c8gzbwf/bCUBkfZYOsB6f308r6UMHNN+JKwB5bST///FIRAExhgsjVDEKUDlSSvD
-qN8d+2CbJYBqqE3f6M6RRghfKJnT3ZBWyLJH0qhYvAhsFai1AsvRJ1DtZGOeOJVP
-YujxXbR9plJibl3gwTaVFcJwD5htuRitFssJvcWfWKPCbMAFw6JPjui6ZEDtbLPr
-oZBu9V1eMwcA4muwRwDzKWjUYqntU9qoHnLzwwxjPECaiNmTQtvQOdUk5hLy09jR
-nREhDZfQf/o4rwNj+dGc7OAMIPC87f2y9/Utt80bDgApHjmfLiuBKdZWljOhP5s/
-8C1jM9l4GZWHjLj2JEsKLFXTL5R2Tw==
-=t9Am
------END PGP SIGNATURE-----
-
---OfrWf2Fun5Ae4m0Y--
+This series allows the NBD server to properly switch between AIO contexts,=
+=0D
+having quiesced recv_coroutine and send_coroutine before doing the transiti=
+on.=0D
+=0D
+We need this because we send back devices running in IO Thread owned contex=
+ts=0D
+to the main context when stopping the data plane, something that can happen=
+=0D
+multiple times during the lifetime of a VM (usually during the boot sequenc=
+e or=0D
+on a reboot), and we drag the NBD server of the correspoing export with it.=
+=0D
+=0D
+While there, fix also a problem caused by a cross-dependency between=0D
+closing the export's client connections and draining the block=0D
+layer. The visible effect of this problem was QEMU getting hung when=0D
+the guest request a power off while there's an active NBD client.=0D
+=0D
+v2:=0D
+ - Replace "virtio-blk: Acquire context while switching them on=0D
+ dataplane start" with "block: Honor blk_set_aio_context() context=0D
+ requirements" (Kevin Wolf)=0D
+ - Add "block: Avoid processing BDS twice in=0D
+ bdrv_set_aio_context_ignore()"=0D
+ - Add "block: Close block exports in two steps"=0D
+ - Rename nbd_read_eof() to nbd_server_read_eof() (Eric Blake)=0D
+ - Fix double space and typo in comment. (Eric Blake)=0D
+=0D
+Sergio Lopez (4):=0D
+  block: Honor blk_set_aio_context() context requirements=0D
+  block: Avoid processing BDS twice in bdrv_set_aio_context_ignore()=0D
+  nbd/server: Quiesce coroutines on context switch=0D
+  block: Close block exports in two steps=0D
+=0D
+ block.c                         |  27 ++++++-=0D
+ block/export/export.c           |  10 +--=0D
+ blockdev-nbd.c                  |   2 +-=0D
+ hw/block/dataplane/virtio-blk.c |   4 ++=0D
+ hw/block/dataplane/xen-block.c  |   7 +-=0D
+ hw/scsi/virtio-scsi.c           |   6 +-=0D
+ include/block/export.h          |   4 +-=0D
+ nbd/server.c                    | 120 ++++++++++++++++++++++++++++----=0D
+ qemu-nbd.c                      |   2 +-=0D
+ stubs/blk-exp-close-all.c       |   2 +-=0D
+ 10 files changed, 156 insertions(+), 28 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
