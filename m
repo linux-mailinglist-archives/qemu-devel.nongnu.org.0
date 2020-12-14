@@ -2,56 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01142D9C20
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:14:35 +0100 (CET)
-Received: from localhost ([::1]:56956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A9A2D9C34
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 17:15:28 +0100 (CET)
+Received: from localhost ([::1]:59082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koqUc-0003el-57
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:14:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34350)
+	id 1koqVT-0004WQ-75
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 11:15:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koqEi-00082x-1D; Mon, 14 Dec 2020 10:58:08 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:50349)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1koqEW-0001Rn-V4; Mon, 14 Dec 2020 10:58:07 -0500
-Received: from localhost.localdomain ([82.252.135.218]) by
- mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M593i-1knkIu0Pm0-001Cx9; Mon, 14 Dec 2020 16:57:52 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 19/19] configure / meson: Move check for linux/btrfs.h to
- meson.build
-Date: Mon, 14 Dec 2020 16:57:33 +0100
-Message-Id: <20201214155733.207430-20-laurent@vivier.eu>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201214155733.207430-1-laurent@vivier.eu>
-References: <20201214155733.207430-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1koqJN-0005EE-6p
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:02:57 -0500
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:34370)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1koqJK-0002JH-Mi
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 11:02:56 -0500
+Received: by mail-ed1-x541.google.com with SMTP id dk8so17708402edb.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 08:02:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RjvsDWKLsTOK2DMGg6RPKw77YCzxM9XLINQ3KJPs+wM=;
+ b=oZ2SVfsKIZZKaj8B8Rc7WbC8jhCLxK7CUYfDbLrXf1HVf0y4+jaqGjM9gpkMHpmKBj
+ SSea9kX12EUzNskTSL66mdui3gvw7YwJBNdWooqS3HS2RCH1pvTmmq7OLD6CX+l2A3Ou
+ kcpsyLnsSOb8OuTvJwe/jC2RsPS5II9xvah3n9eWYtXq9zEH3kjMsjT1kqfB73J596SA
+ uMLAtyNJJfR455tHpPeRtooWGmPGJrX9Vskkua05iJPImCMtRN9FuzvzZvHV/uY5tyca
+ KMbqAX89kPLprJSLLGG2GtAjQqmceaXoUU4qV04vtDMPAtqYYCHXnQF1fJxFt9AdaY1q
+ h2Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RjvsDWKLsTOK2DMGg6RPKw77YCzxM9XLINQ3KJPs+wM=;
+ b=ARguDIHovWVfVWBc1CbjAVERIjJdHdWYgLwMnTH1VsIlA/zWayPNA4+jhOWcnXXx6W
+ Em0ZzCleMnL2UcH8Ua4lvVSMCbDa4g/mkZtDWKUHWv3V81YHYiczG7rDwjb6d6cFdiKn
+ xKXJjingZaEEU2ZYhpPiKMemSZpdXr3wh9WEkuUHf+An7KrFGIDD85l6LrN66OGqFO+l
+ MNKPvBU6uJ+THqmo9bZTiyDP+Nhi5bHfnrRCF+CoefMGiphQvVOW+mFtnFL9EBm4q85J
+ 1OMV6Fm21LW4Cv7xb6rRCrDy4Mglxb71rl/2P39X1GUqijcr5d43xYDyd6GlER//ex7y
+ Bigw==
+X-Gm-Message-State: AOAM533tp3qSt327eB86BNtwGv3FNzpeoJ2UKtAXbFBSLQTHalgQBvXI
+ rTCRx4w8MCKH80Z6XNDNqmLkb5eJyBbGqu+80Mr85g==
+X-Google-Smtp-Source: ABdhPJwkANG5V3Hqef/98gdlSV3BkpVUeg1wCR732QBL8dK1sn8zUmpOOiKISI/Io7QU98UMYOcVhzvIy4mtYOPeS7I=
+X-Received: by 2002:aa7:c353:: with SMTP id j19mr25312675edr.204.1607961772649; 
+ Mon, 14 Dec 2020 08:02:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:iEQmCI2+fISc9GXEd0HEBd89pHFZqS7MeKajSfTqu9fnjfJpm8k
- oaE1SaXUSrFNLa8RHOPGEchUEPATFtCU0ioytqo8dFtIvMjmK+eYN1sEt5i6vkuaXPb4Syl
- JuSAsaNfihrbqohGdsY7U2J6Gp63AN5YJzj33URHurfp9j6YoyAGiNFaOjMOAFgOFXWaqv/
- Z8pjy6qXr3qLos219z3Og==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JpqlyPvt3z0=:azeyHQ+Lk5DqgyKh8UOlja
- IV0jOepBjj5efbMm3TxlP2G5hqr1hHdLhfnOviqLjxZnT/fJ6hmCvMXg3XaeHZn0iCG711HYq
- oVvFUVqJS8ftgDYH3Y3CQIx4RbvBLpiO55cmRxWtreIkrMcPYDFnL2PRFFnWgSbirpE0JvNcO
- c38FEUMQWyJAkWuRoieZh2Dx58oezb84IdUsqs2yyS/pF2GXlz1SzCz0uuMCdHZ6Aj1B6tvL3
- 74IcO/8lqPj9KfGfCbE9jyPfyTZqd6E4rM3ZEO2BxmWhlAkJkYvcy71pQo2LzLo9zY5wF1W8G
- 0MgUxlnrwviJ9Y6Lgzr7W/8A7+VgUz5T50Z0c38F2FhUegyn2jT6IotEfNlRReSiAimGz0eRV
- 0KmchArxSABbqCT5cHg/JY9fl1f2FOv6iA3LCwSDrY4+uci4yrsEDV1kta+7ECz8UzvfL9Bad
- hwm9ULpbwg==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201127071803.2479462-1-ganqixin@huawei.com>
+ <20201127071803.2479462-2-ganqixin@huawei.com>
+In-Reply-To: <20201127071803.2479462-2-ganqixin@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 14 Dec 2020 16:02:41 +0000
+Message-ID: <CAFEAcA-UKFOeMhYpq7d+4igF_R584vKgvfuzGU0mT-vcEASFig@mail.gmail.com>
+Subject: Re: [PATCH 1/7] allwinner-a10-pit: Use ptimer_free() in the finalize
+ function to avoid memleaks
+To: Gan Qixin <ganqixin@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,98 +78,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Euler Robot <euler.robot@huawei.com>,
+ "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+On Fri, 27 Nov 2020 at 07:19, Gan Qixin <ganqixin@huawei.com> wrote:
+>
+> When running device-introspect-test, a memory leak occurred in the a10_pit_init
+> function, so use ptimer_free() in the finalize function to avoid it.
+>
+> ASAN shows memory leak stack:
+>
+> Indirect leak of 288 byte(s) in 6 object(s) allocated from:
+>     #0 0xffffab97e1f0 in __interceptor_calloc (/lib64/libasan.so.5+0xee1f0)
+>     #1 0xffffab256800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
+>     #2 0xaaabf555db84 in timer_new_full /qemu/include/qemu/timer.h:523
+>     #3 0xaaabf555db84 in timer_new /qemu/include/qemu/timer.h:544
+>     #4 0xaaabf555db84 in timer_new_ns /qemu/include/qemu/timer.h:562
+>     #5 0xaaabf555db84 in ptimer_init /qemu/hw/core/ptimer.c:433
+>     #6 0xaaabf57415e8 in a10_pit_init /qemu/hw/timer/allwinner-a10-pit.c:278
+>     #7 0xaaabf6339f6c in object_initialize_with_type /qemu/qom/object.c:515
+>     #8 0xaaabf633ca04 in object_initialize_child_with_propsv /qemu/qom/object.c:564
+>     #9 0xaaabf633cc08 in object_initialize_child_with_props /qemu/qom/object.c:547
+>     #10 0xaaabf5b94680 in aw_a10_init /qemu/hw/arm/allwinner-a10.c:49
+>     #11 0xaaabf6339f6c in object_initialize_with_type /qemu/qom/object.c:515
+>     #12 0xaaabf633a1e0 in object_new_with_type /qemu/qom/object.c:729
+>
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+> ---
+> Cc: Beniamino Galvani <b.galvani@gmail.com>
+> ---
+>  hw/timer/allwinner-a10-pit.c | 21 ++++++++++++++++-----
+>  1 file changed, 16 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/timer/allwinner-a10-pit.c b/hw/timer/allwinner-a10-pit.c
+> index f84fc0ea25..be211983b0 100644
+> --- a/hw/timer/allwinner-a10-pit.c
+> +++ b/hw/timer/allwinner-a10-pit.c
+> @@ -279,6 +279,16 @@ static void a10_pit_init(Object *obj)
+>      }
+>  }
+>
+> +static void a10_pit_finalize(Object *obj)
+> +{
+> +    AwA10PITState *s = AW_A10_PIT(obj);
+> +    int i;
+> +
+> +    for (i = 0; i < AW_A10_PIT_TIMER_NR; i++) {
+> +        ptimer_free(s->timer[i]);
+> +    }
+> +}
+> +
+>  static void a10_pit_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -290,11 +300,12 @@ static void a10_pit_class_init(ObjectClass *klass, void *data)
+>  }
+>
+>  static const TypeInfo a10_pit_info = {
+> -    .name = TYPE_AW_A10_PIT,
+> -    .parent = TYPE_SYS_BUS_DEVICE,
+> -    .instance_size = sizeof(AwA10PITState),
+> -    .instance_init = a10_pit_init,
+> -    .class_init = a10_pit_class_init,
+> +    .name              = TYPE_AW_A10_PIT,
+> +    .parent            = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size     = sizeof(AwA10PITState),
+> +    .instance_init     = a10_pit_init,
+> +    .instance_finalize = a10_pit_finalize,
+> +    .class_init        = a10_pit_class_init,
+>  };
 
-This check can be done in a much shorter way in meson.build. And while
-we're at it, rename the #define to HAVE_BTRFS_H to match the other
-HAVE_someheader_H symbols that we already have.
+Please don't make unrelated whitespace changes like this in a patch.
+We don't line up the assignments in this sort of struct -- this is
+deliberate, so that if a new line is added whose field name happens
+to be longer than those used already, the patch does not have to
+touch all the lines in the struct to maintain the formatting.
+Instead you get a readable diff where only the new line changes,
+not all the others.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201118171052.308191-7-thuth@redhat.com>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- configure                 | 9 ---------
- linux-user/syscall.c      | 2 +-
- linux-user/syscall_defs.h | 2 +-
- meson.build               | 1 +
- 4 files changed, 3 insertions(+), 11 deletions(-)
-
-diff --git a/configure b/configure
-index 6c13964b247a..cb21108d34c3 100755
---- a/configure
-+++ b/configure
-@@ -4402,12 +4402,6 @@ if compile_prog "" "" ; then
-   syncfs=yes
- fi
- 
--# check for btrfs filesystem support (kernel must be 3.9+)
--btrfs=no
--if check_include linux/btrfs.h ; then
--    btrfs=yes
--fi
--
- # Search for bswap_32 function
- byteswap_h=no
- cat > $TMPC << EOF
-@@ -6106,9 +6100,6 @@ fi
- if test "$syncfs" = "yes" ; then
-   echo "CONFIG_SYNCFS=y" >> $config_host_mak
- fi
--if test "$btrfs" = "yes" ; then
--  echo "CONFIG_BTRFS=y" >> $config_host_mak
--fi
- if test "$inotify" = "yes" ; then
-   echo "CONFIG_INOTIFY=y" >> $config_host_mak
- fi
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 063130be048c..7bf99beb1814 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -112,7 +112,7 @@
- #include <linux/if_alg.h>
- #include <linux/rtc.h>
- #include <sound/asound.h>
--#ifdef CONFIG_BTRFS
-+#ifdef HAVE_BTRFS_H
- #include <linux/btrfs.h>
- #endif
- #ifdef HAVE_DRM_H
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index cabbfb762dd9..b934d0b60676 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -1006,7 +1006,7 @@ struct target_rtc_pll_info {
- #define TARGET_FS_IOC32_SETVERSION TARGET_IOW('v', 2, int)
- 
- /* btrfs ioctls */
--#ifdef CONFIG_BTRFS
-+#ifdef HAVE_BTRFS_H
- #define TARGET_BTRFS_IOC_SNAP_CREATE            TARGET_IOWU(BTRFS_IOCTL_MAGIC, 1)
- #define TARGET_BTRFS_IOC_SCAN_DEV               TARGET_IOWU(BTRFS_IOCTL_MAGIC, 4)
- #define TARGET_BTRFS_IOC_FORGET_DEV             TARGET_IOWU(BTRFS_IOCTL_MAGIC, 5)
-diff --git a/meson.build b/meson.build
-index 04cdea75dd50..fba6413056a3 100644
---- a/meson.build
-+++ b/meson.build
-@@ -836,6 +836,7 @@ config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0]
- config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
- config_host_data.set('QEMU_VERSION_MICRO', meson.project_version().split('.')[2])
- 
-+config_host_data.set('HAVE_BTRFS_H', cc.has_header('linux/btrfs.h'))
- config_host_data.set('HAVE_DRM_H', cc.has_header('libdrm/drm.h'))
- config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
- config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
--- 
-2.29.2
-
+thanks
+-- PMM
 
