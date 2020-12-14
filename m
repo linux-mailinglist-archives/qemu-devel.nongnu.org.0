@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0822D95CD
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 11:08:36 +0100 (CET)
-Received: from localhost ([::1]:49266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E342D95D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 11:09:40 +0100 (CET)
+Received: from localhost ([::1]:52974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kokmQ-0005yr-Tv
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 05:08:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36216)
+	id 1koknT-0007YM-TX
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 05:09:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kokir-0003ME-IO
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:04:53 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:36053)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kokip-0006el-Ar
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:04:53 -0500
-Received: by mail-ed1-x543.google.com with SMTP id b2so16559518edm.3
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 02:04:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7Li2HSN66hSyu4Doe/Q1O1TOpSAtzuZ3XL/pXsxFrco=;
- b=ajFHqMnQd9XNYf9zUE9+u9GBF+K27DtypV9hE45bMjwd63I4voNydnNT7OMGcKOoX0
- p7V/P5b+Nj9EeCNgQ3ojbFb7E2KN3ILBV8Koir5pTg+vQY+vz9heX888hkjiYnSELY+V
- e37e/B1aZ34UaagQt8M/1u5nlkzO9mLNfjyMaxkrkVvrlF9kTXyB8X9NITuYKI0aUCE+
- DZIpoT+8YVe7AwMGBoM6FPJ+GVSDJjdjaUC/3OTz84YeVMfFMJyUDjMahxaboOEB96sn
- BDwLcWNWTBfiO9O+OXQAZfTVtUaH2ql67j0TRQ970OyUAtedHHjasbArzsswSILqj8gF
- /ztg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7Li2HSN66hSyu4Doe/Q1O1TOpSAtzuZ3XL/pXsxFrco=;
- b=NsuXcA0tew5Zn9H5onc/g2aJqktiFhWZsRPVxkFjbM/acPd9KUQq0G9MEjBYxTYAmg
- xCsc4JfZRF9UzG98TSH2agn4lFMP55Uk6GHQx0tCcwetIv1mHUBwfY09D9nmTpjL/3vy
- cKi0ppoGDIyfu15XgBXOnhunaxKE8fKIum7axFoJg64apqkrH8rVz/M3L5UPPfP07/bP
- AW0NDYG+tp+tPdTMpso+SLkhe127E3xHrps7HK/ykBXUo27TrJWZtsmgAb5zVlSwnFCY
- JuihLajmkm/jezM3n2iYL1Mj4ZcYEW7Ck5KBY5ZhR9EgSg7/j+xN1uwd5tHWOYJX4vhV
- FJwA==
-X-Gm-Message-State: AOAM530/uhwWgNaNgUrUxVtXJJZStuztZXDj7G9qDVPI+yoVgfRkSGSo
- pMzOZw3PO6P4iNbMCGhjrOtZvHWJ7JYnjM5hQqQFIg==
-X-Google-Smtp-Source: ABdhPJwdlM76+hYdxARQPoB/yckg4bXD8OmWCF60HUnP4xi6zuVfdJvPAc5w3sbPc41ZAYwV4lt25mbqsbm5CKxhs0A=
-X-Received: by 2002:a05:6402:366:: with SMTP id
- s6mr23701258edw.44.1607940288062; 
- Mon, 14 Dec 2020 02:04:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kokk7-0004Qo-Pd
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:06:11 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:22887)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kokk3-0006vE-I3
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:06:11 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-jOogFDbZNR-yYZPVccP1cw-1; Mon, 14 Dec 2020 05:05:54 -0500
+X-MC-Unique: jOogFDbZNR-yYZPVccP1cw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB303800D55;
+ Mon, 14 Dec 2020 10:05:52 +0000 (UTC)
+Received: from bahia.lan (ovpn-114-254.ams2.redhat.com [10.36.114.254])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EE8971CB4;
+ Mon, 14 Dec 2020 10:05:51 +0000 (UTC)
+Subject: [PATCH REPOST] spapr: Allow memory unplug to always succeed
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Date: Mon, 14 Dec 2020 11:05:50 +0100
+Message-ID: <160794035064.23292.17560963281911312439.stgit@bahia.lan>
+User-Agent: StGit/0.21
 MIME-Version: 1.0
-References: <20201212001537.24520-1-peter.maydell@linaro.org>
- <20201214060026.GF4717@yekko.fritz.box>
-In-Reply-To: <20201214060026.GF4717@yekko.fritz.box>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Dec 2020 10:04:37 +0000
-Message-ID: <CAFEAcA9armCefNxDn_nCw0k-wsXVtvRmYgZhFQxgcVVXu5-7UQ@mail.gmail.com>
-Subject: Re: [PATCH 0/8] hw/ppc: Convert UIC device to QOM
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,26 +61,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Dec 2020 at 09:01, David Gibson <david@gibson.dropbear.id.au> wrote:
->
-> On Sat, Dec 12, 2020 at 12:15:29AM +0000, Peter Maydell wrote:
-> > This patchseries converts the PPC UIC "Universal Interrupt
-> > Controller" to a QOM device.  My main reason for doing it is that
-> > this fixes a couple of long-standing trivial Coverity issues -- the
-> > current ppcuic_init() function allocates an array of qemu_irqs which
-> > the callers then leak.  (The leak is trivial because it happens once
-> > when QEMU starts.)
-> 1..4 applied to my tree.  Looks like there are some comments needing
-> review on 5, so I'll leave the rest for another spin.
+It is currently impossible to hot-unplug a memory device between
+machine reset and CAS.
 
-Thanks. You could take 6 as well if you like (it's the "delete dead
-code" one). I'll try to get a respin out this week, but otherwise
-it can wait for January.
+(qemu) device_del dimm1
+Error: Memory hot unplug not supported for this guest
 
--- PMM
+This limitation was introduced in order to provide an explicit
+error path for older guests that didn't support hot-plug event
+sources (and thus memory hot-unplug).
+
+The linux kernel has been supporting these since 4.11. All recent
+enough guests are thus capable of handling the removal of a memory
+device at all time, including during early boot.
+
+Lift the limitation for the latest machine type. This means that
+trying to unplug memory from a guest that doesn't support it will
+likely just do nothing and the memory will only get removed at
+next reboot. Such older guests can still get the existing behavior
+by using an older machine type.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+This patch was initially posted before the compat machine types
+for 6.0 got merged upstream. During the same period, David was
+also transitioning from github to gitlab, and the patch didn't
+applied cleanly. Now it does. Just reposting it unchanged for
+convenience.
+---
+ hw/ppc/spapr.c         |    6 +++++-
+ hw/ppc/spapr_events.c  |    3 ++-
+ include/hw/ppc/spapr.h |    1 +
+ 3 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index dee48a0043bb..481c800a5a33 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4051,7 +4051,8 @@ static void spapr_machine_device_unplug_request(Hotpl=
+ugHandler *hotplug_dev,
+     SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
+=20
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+-        if (spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
++        if (!smc->pre_6_0_memory_unplug ||
++            spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
+             spapr_memory_unplug_request(hotplug_dev, dev, errp);
+         } else {
+             /* NOTE: this means there is a window after guest reset, prior=
+ to
+@@ -4537,8 +4538,11 @@ DEFINE_SPAPR_MACHINE(6_0, "6.0", true);
+  */
+ static void spapr_machine_5_2_class_options(MachineClass *mc)
+ {
++    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
++
+     spapr_machine_6_0_class_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
++    smc->pre_6_0_memory_unplug =3D true;
+ }
+=20
+ DEFINE_SPAPR_MACHINE(5_2, "5.2", false);
+diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+index 3f37b49fd8ad..6aedd988b3d0 100644
+--- a/hw/ppc/spapr_events.c
++++ b/hw/ppc/spapr_events.c
+@@ -658,7 +658,8 @@ static void spapr_hotplug_req_event(uint8_t hp_id, uint=
+8_t hp_action,
+         /* we should not be using count_indexed value unless the guest
+          * supports dedicated hotplug event source
+          */
+-        g_assert(spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
++        g_assert(!SPAPR_MACHINE_GET_CLASS(spapr)->pre_6_0_memory_unplug ||
++                 spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
+         hp->drc_id.count_indexed.count =3D
+             cpu_to_be32(drc_id->count_indexed.count);
+         hp->drc_id.count_indexed.index =3D
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index e0f10f252c08..06a5b4259f20 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -139,6 +139,7 @@ struct SpaprMachineClass {
+     hwaddr rma_limit;          /* clamp the RMA to this size */
+     bool pre_5_1_assoc_refpoints;
+     bool pre_5_2_numa_associativity;
++    bool pre_6_0_memory_unplug;
+=20
+     bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+                           uint64_t *buid, hwaddr *pio,=20
+
+
 
