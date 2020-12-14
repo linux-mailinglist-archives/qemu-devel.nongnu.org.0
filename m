@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65ACE2D94CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 10:17:26 +0100 (CET)
-Received: from localhost ([::1]:36080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B642D94E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 10:20:51 +0100 (CET)
+Received: from localhost ([::1]:41028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kojyv-00038q-Gx
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 04:17:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52990)
+	id 1kok2E-0005Gu-MK
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 04:20:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kojwx-00025H-8d
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 04:15:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29262)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kojws-000090-S6
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 04:15:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607937318;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BmkPOYhqlIxr6DI1U8XJxNjYd63zRJ1SOyNLDH+GN1A=;
- b=CbsBR1uw51GIR4B99xjPqKkCbLImoU9M1u0zrTzr/e2EQBKNfvzQU0srVRXOPdrzOJnLU5
- lDUS57CsgFQu5dtgmKPD7A2QlW7KkcZW/c9sDcTArziANzyBY3wuFVhS+mc6zrkJZE7HgU
- dlqJM1MseZ3nVTY+WOS9mzKaXXrc6uA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-d2XMrWaEO7SJpmmB2FG_wA-1; Mon, 14 Dec 2020 04:15:16 -0500
-X-MC-Unique: d2XMrWaEO7SJpmmB2FG_wA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D44B91E7C3;
- Mon, 14 Dec 2020 09:15:14 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-49.ams2.redhat.com [10.36.112.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8729C709AD;
- Mon, 14 Dec 2020 09:15:13 +0000 (UTC)
-Subject: Re: [PATCH 1/8] hw/ppc/ppc4xx_devs: Make code style fixes to UIC code
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201212001537.24520-1-peter.maydell@linaro.org>
- <20201212001537.24520-2-peter.maydell@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <fd35fd07-5fb1-1bc0-b33e-649e13b53c38@redhat.com>
-Date: Mon, 14 Dec 2020 10:15:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <20201212001537.24520-2-peter.maydell@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kok0c-0003zm-I7; Mon, 14 Dec 2020 04:19:10 -0500
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:42180)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kok0b-0000gl-3n; Mon, 14 Dec 2020 04:19:10 -0500
+Received: by mail-il1-x141.google.com with SMTP id 2so15173699ilg.9;
+ Mon, 14 Dec 2020 01:19:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=LXmmfyNeF5iOU8Zl50wZ4tkbBmEmDUouL0wX2ax/b58=;
+ b=YKxl8lUFrrCnYlX/avZaCXgDR5v/2OI1A4UvEoon3uJ18akTOhtpDFlwgkYw39V8fN
+ op69ykk+A1dBegg6tPaKNTw4ShtQXi7y2GiPYC3P6h+QaZfj98Ib7gE6kc9u8UeZM/Gr
+ bBHF5tsuhwURzHr3wVCHLmkazObFe4zIzPXystCUEKSXxzmzmFFblr2u7LJiVyPdLF1a
+ bcxf9KcL9sEqXAa8YywQRmk3Q+eKEGNf8Z7OJ6YI4hbOT0rL1gT4aEYvm7v7fPrunxxf
+ ZUdNb3zCNgRQ+FhFkzoYfuaKe4ldosnxguLdUZ+624RWfaTfUTs1ncUMzZwmQEvAk3gi
+ TyBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=LXmmfyNeF5iOU8Zl50wZ4tkbBmEmDUouL0wX2ax/b58=;
+ b=tIsULTMSPacMaeV4YdDpGW6eAPf5I8jzFr8zpeKfQWI1vxR4hTb2oexm24BPkvqsC5
+ /uCbzpGi0P/dFtt2R4b7mti1rPh5RisUSMGuOr/zFcB6U0MKuLSKqeAEjnuBrdB/0CmL
+ aCEbadzrDhjp+XKDivOGl3uih2rRBolMrWDzqVOPFvcKnTCdV/FPOw1z3Ho/4LTFtXQ8
+ Ahb9bwOHUtxRpIsaNeFns0ocgePlBsUgWq46Dy26or9aQT2ROAtp1LMw0K9dt3aj19W9
+ xZWYWPZzbHcA6zKfexoVzHtjXAaToT42uBtUopXLl99Qmx9fZ2yrLQOHJg5KAzxqUtMt
+ SIAA==
+X-Gm-Message-State: AOAM532WP4/HtPiVbY/b241kqRgyFgpGcCAjwprU/1f97rM5ztUZoL8N
+ +iqbdab0E41SyerdUbYiGYM=
+X-Google-Smtp-Source: ABdhPJy+UjzqDIw/sPXxFOHQJyqh+IZUPcI8rb8OmccN2g3DQTGlTk3R9/1zbAShEJNiMUORrFZf4w==
+X-Received: by 2002:a92:d151:: with SMTP id t17mr34828287ilg.108.1607937547111; 
+ Mon, 14 Dec 2020 01:19:07 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com (unknown-124-94.windriver.com.
+ [147.11.124.94])
+ by smtp.gmail.com with ESMTPSA id o10sm11618094ili.82.2020.12.14.01.19.04
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 14 Dec 2020 01:19:06 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH 0/3] hw/arm: sabrelite: Improve emulation fidelity to allow
+ booting upstream U-Boot
+Date: Mon, 14 Dec 2020 17:18:55 +0800
+Message-Id: <1607937538-69471-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-il1-x141.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,21 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/12/2020 01.15, Peter Maydell wrote:
-> In a following commit we will move the PPC UIC implementation to
-> its own file in hw/intc. To prevent checkpatch complaining about that
-> code-motion, fix up the minor style issues first.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/ppc/ppc4xx_devs.c | 25 +++++++++++++++----------
->  1 file changed, 15 insertions(+), 10 deletions(-)
+From: Bin Meng <bin.meng@windriver.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+At present the upstream U-Boot (as of today, v2021.01-rc3) does not
+boot on QEMU sabrelite machine.
+
+This fixes several issues to improve emulation fidelity of the i.MX6
+sabrelite board. With this series, upstream U-Boot can boot to U-Boot
+command shell.
+
+
+Bin Meng (3):
+  hw/misc: imx6_ccm: Update PMU_MISC0 reset value
+  hw/msic: imx6_ccm: Correct register value for silicon type
+  hw/arm: sabrelite: Connect the Ethernet PHY at address 6
+
+ hw/arm/sabrelite.c | 4 ++++
+ hw/misc/imx6_ccm.c | 4 ++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+-- 
+2.7.4
 
 
