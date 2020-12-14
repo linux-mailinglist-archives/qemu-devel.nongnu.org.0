@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05D52D963B
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 11:23:39 +0100 (CET)
-Received: from localhost ([::1]:39538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19DE92D9647
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 11:26:46 +0100 (CET)
+Received: from localhost ([::1]:44228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kol10-00065k-NK
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 05:23:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41148)
+	id 1kol41-0008Cc-6e
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 05:26:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kokyW-0004ur-W8
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:21:05 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:41492)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kol2L-0006m6-8i
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:25:01 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:38077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kokyU-0000pj-NF
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:21:04 -0500
-Received: by mail-ed1-x543.google.com with SMTP id i24so16555800edj.8
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 02:21:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kol2J-00016n-9s
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 05:25:01 -0500
+Received: by mail-wm1-x343.google.com with SMTP id g185so14778293wmf.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 02:24:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Cp3tmOSbRuiBendh34xpsw19ImbzF5jcH8bDzsPXLhE=;
- b=zZ5BRNQLYZfMqheNPN5Gf0zsUFiuqrXvkON4+OjgadQ3NofATNCjj1wf1TNec8vjYa
- fh8VS5l4rBis2Qk1ZxGGt8mB04h8YaOWEgJ0e4K3Eqc672Xz8B+xyj+I4ePHtjSFho6E
- 5F7zgxQvcXJ0nUG9VN0NDD+fmysXjPYdTlRZo9VpdNfh24puUK0R/DnZZNac1QB/lv3l
- n2Fkit86aarcReRcOUtYzObvtsVSqSNjjdwjzXoOBn6I1rQ4evl+H4XWc8dDCPFrIhBb
- Ty8JzZ//0jn0i3t02j8RIcOV4ylhGOlXGlckWgiTYYbQy8qEF9UcdNY3A2GRgQ5haRti
- ZVKg==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=8wEBO+mN6+K30SOyAyMzzX3KO6gOsRFLDKI9Px8tqrA=;
+ b=uA4/EQ/AVBpgVJ+P2lkXhyDfBQyw9o/dAliVqVEqObGVAv7zf/pqAFUr9C9q1Qiq56
+ 1YlK0TI0T9P46R4zrZGkeggIG3j10ISyaUo8TxgEIauxH6A113jj97jE092H6Jksgs68
+ /KgK7PD7MBIDELrAiFtJRAM0xWD3haEG1dXoaO/zlJn2+fRCDJfJfm2eSt8dT1uzPAq2
+ 5gIB1cip63zGfJlvRjWcA4qaYtbSHi/8dmd/kEBhIC/XDArCdG2BYBy/g+cTW7uwv91j
+ zKwUJWqV5uBHap4IFeyfprKoiwCk2EQdh6/4yoTzu24qSh/c1ky351qeasG0m0JJ1etL
+ po3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Cp3tmOSbRuiBendh34xpsw19ImbzF5jcH8bDzsPXLhE=;
- b=F9SvW9Li8mzr69zw7TH+dLJyWT4frIIa/ADeyFAYYU2nPM1+LU8RBMxFIeZc939h3f
- JJLwVG3tj9R4KxrL4WfNduRmoY8AT5mYYV2p60fQXnkWsuQWWw9OiuVfXVyfzYIefXIq
- F90W8tnEcNVcQ3kx9r1WsOXZsPrmLYrCxU/+1nzJgP1xf0I/piVBl8WbzI+iG+vEEAXw
- k84b7ks+GDPzufn6GSySz5G4mtKdm5Tt2n2qmNfbjQXKJcgbe7DUArY5/w4ObFg2zSCO
- I8Xr9ERNr1CQMJ8O2d0uiHa5Qo2Gi3ntR4DGtO71RRAN1GsIxeBPaWVQEzUrUE0sA9KX
- XELw==
-X-Gm-Message-State: AOAM532D5HI3pksnJx1o/gGpk9T8IJhkemp7YUR/VR94mgAXNcQRYITP
- HFT0XX999VaN7A8hVl09XsDKAdXlIbm1UsZEKPrpIEdtCRI=
-X-Google-Smtp-Source: ABdhPJytxFiLl3ZynUPM9D7gnQKpBAnbjIWhur9LL/VIarNZ7lCfNYdsnlQR2czo9k2wlEH1fVWH2wGQicURXmOOF4E=
-X-Received: by 2002:aa7:c388:: with SMTP id k8mr23867091edq.36.1607941260079; 
- Mon, 14 Dec 2020 02:21:00 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=8wEBO+mN6+K30SOyAyMzzX3KO6gOsRFLDKI9Px8tqrA=;
+ b=LK0KehoOEi0JuP+ohmBy+UBemeWH9wF52E6j6KTxKtyIlDBQhvKuVbxeytVRfb/luB
+ tPpsyXAFynKQC7KNtNNhekfS1VoUWNMbnGJttR95UiVEKfzoOgpyoPX9qpMFbW6M7gch
+ +5TGhchYRLRn6/n/NXlFd4I4gAv8rYTyFM2z4tHN9tk273ydw5wt1QYln3Fm3Q5bTdmu
+ xKC1ex8//WnFgWyUvJEO4PEjpXiQo8hH7HfEXKqTdOqwQPnu4R6b/MDEPVz4Gw56WsyF
+ xegZkI+ay5I/XKLdNpusSt6fAux5iqfZEzhEGule5pI767Q0y+acRMpvEDQMyHxxViBR
+ IJEg==
+X-Gm-Message-State: AOAM531g6j81CLKYKgKzauy8IRnXbL8DXh+whFcgT/ccvq+vsu725QCs
+ dVFl2stRTAfCwFSJxfRpwNcoXQ==
+X-Google-Smtp-Source: ABdhPJxm72UMZEc7RNYchDMUr1c4HecSFrPvgJbrpftSgO9033ZNyX0UNRxlbTIY2VSOs+kRagFKHQ==
+X-Received: by 2002:a1c:2785:: with SMTP id n127mr3090226wmn.148.1607941497825; 
+ Mon, 14 Dec 2020 02:24:57 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p15sm22151900wrt.15.2020.12.14.02.24.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Dec 2020 02:24:56 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0358E1FF7E;
+ Mon, 14 Dec 2020 10:24:56 +0000 (GMT)
+References: <1607937538-69471-1-git-send-email-bmeng.cn@gmail.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH 0/3] hw/arm: sabrelite: Improve emulation fidelity to
+ allow booting upstream U-Boot
+Date: Mon, 14 Dec 2020 10:23:54 +0000
+In-reply-to: <1607937538-69471-1-git-send-email-bmeng.cn@gmail.com>
+Message-ID: <87eejsvg5k.fsf@linaro.org>
 MIME-Version: 1.0
-References: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
- <1603891979-11961-3-git-send-email-mihai.carabas@oracle.com>
-In-Reply-To: <1603891979-11961-3-git-send-email-mihai.carabas@oracle.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 14 Dec 2020 10:20:48 +0000
-Message-ID: <CAFEAcA9bWME82s7j=xjuPXhKvr8cs=vYDZ1RSWmgwokLbzC5FA@mail.gmail.com>
-Subject: Re: [PATCH 2/6] hw/misc/pvpanic: Cosmetic renaming
-To: Mihai Carabas <mihai.carabas@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,31 +87,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peng Hao <peng.hao2@zte.com.cn>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 28 Oct 2020 at 14:20, Mihai Carabas <mihai.carabas@oracle.com> wrot=
-e:
->
-> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
-> To ease the MMIO device addition in the next patch, rename:
 
-I guess this should say "PCI device" now...
+Bin Meng <bmeng.cn@gmail.com> writes:
 
-> - ISA_PVPANIC_DEVICE -> PVPANIC_ISA_DEVICE.
-> - PVPanicState -> PVPanicISAState.
-> - TYPE_PVPANIC -> TYPE_PVPANIC_ISA.
-> - MemoryRegion io -> mr.
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
-> Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
+> At present the upstream U-Boot (as of today, v2021.01-rc3) does not
+> boot on QEMU sabrelite machine.
 
-thanks
--- PMM
+Are there any public build artefacts for u-boot on saberlite that could
+be used for an acceptance test?
+
+> This fixes several issues to improve emulation fidelity of the i.MX6
+> sabrelite board. With this series, upstream U-Boot can boot to U-Boot
+> command shell.
+>
+>
+> Bin Meng (3):
+>   hw/misc: imx6_ccm: Update PMU_MISC0 reset value
+>   hw/msic: imx6_ccm: Correct register value for silicon type
+>   hw/arm: sabrelite: Connect the Ethernet PHY at address 6
+>
+>  hw/arm/sabrelite.c | 4 ++++
+>  hw/misc/imx6_ccm.c | 4 ++--
+>  2 files changed, 6 insertions(+), 2 deletions(-)
+
+
+--=20
+Alex Benn=C3=A9e
 
