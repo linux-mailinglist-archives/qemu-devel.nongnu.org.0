@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB422DA319
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 23:15:48 +0100 (CET)
-Received: from localhost ([::1]:38624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9A12DA32E
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 23:17:22 +0100 (CET)
+Received: from localhost ([::1]:44052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kow8C-00011o-1s
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 17:15:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48554)
+	id 1kow9h-0003K5-3Y
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 17:17:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kow6T-0008SU-Fs
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:14:01 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46130)
+ id 1kow6V-0008Ve-HS
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:14:03 -0500
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:35386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kow6R-0004aK-L9
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:14:00 -0500
-Received: by mail-ot1-x344.google.com with SMTP id w3so17376046otp.13
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 14:13:59 -0800 (PST)
+ id 1kow6T-0004aX-4a
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 17:14:03 -0500
+Received: by mail-ot1-x332.google.com with SMTP id i6so17408731otr.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 14:14:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Mo3jZv6+qLcS9/RPyw+XlvoWGWRTMmEVplexje7I4pc=;
- b=gQD1rWvEzDP8Z8kFmDQhNFgHQ5Nm4KLv3mnKPKfmkMyxiXCj1h4qpwUR1813dIoprg
- 6jdI65wwFq6wCTbJLSETbnD3XhjLqfzgrzjXcAtRQIUkWgyjqut67tBzzg93iOrr5V4Y
- pysxFsfs1EB9drCDwtf1bY/u7WRW3bx6SrcO6UvR6ZplKffV/k3daxb2yc4i6obNkfBb
- UJG/Sozy47dGMdw8y5dSEh6C4DKIvWVpDI9D18oVlnTbShYE16ABaU94uRi2W0D4xhrN
- 52Q8NG4tiGVy6+1D2yIEmFdQsqJEdRARWphvQqGkK8qiXqXW3wL5+NHpm6qzzwQy0hCA
- tJ8Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NFSXYsZ6wJ6D+hIm4zULuabqSYFj3mqX+hLo+adztBw=;
+ b=E5K/fAwmR+8PY6ggWzapzwrqig3PuTIa3RlSnN5fkyn5rVfBrXwLREgd2J88v9/CJk
+ LKU9tM4UbOG/7p1Y9T6GhYWuXbV0vc6G4+huhimgNoTKmoEYJP8ZgkEzpx1vW+XbrNZD
+ OqUSKCSBjflLITEP61LZv6UiDxgLZ0KKWI7uljpl/J+qwbg9AWcFphgDJkIrX4pmMTkQ
+ nfA7bwomg5bW0LHr8opBehdBJPsviEgA7KkOygSuKV0w/eGZVuEprvrAzz/7oxE6ZL8F
+ XffZ1TNnlIjFvDA6vfeDYFWFS6LwXhOcZn+0LYNuloFbswYgnj3JfP/ijA3UZxV0uykO
+ wNZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Mo3jZv6+qLcS9/RPyw+XlvoWGWRTMmEVplexje7I4pc=;
- b=mfBhYELZLQgwm8v6YMZ0HCEPDG+d9KxKaoNLqqt68RPnjBdJE/mTW7JzqATNLsJe+C
- C3YqzsjLD7EVcrm5LLzJiESlwasl0bEF3D5NtxORHBgOFHA/0Y60OOmEpUrGQ37CF5cD
- UnWxQdsDGO4hwZIQ0rc4IYgme2bQMfSIjMmAXKt3I9LIx5VaGfgYx7jz3CoywYOs622f
- ina5lsXK8fiKI6Ee4tnxDHNKwHSg3qPrV/erVnYFOYVTg8mTvAYnrw29hLZf3Yf/dzru
- P2wqjLMJ39ONw2rjPoFEIDKHlQGzoQxY43jzXHyvBxo0bBMKjl2w7fxchvSVOY5Fnf5A
- EKpw==
-X-Gm-Message-State: AOAM5302Lq43L5GSv9VohzW8flwORt1q+Lb0yWrL/G+2VzeMA4oKa/ga
- QkUhG+8Jg/vtx3gy8mwOkBkMT2TFaMaEbegp
-X-Google-Smtp-Source: ABdhPJxxxNAxhbMz4DiG7vNsPKovZGK8fcffLqwozegl9qd8bjN5A9LurI/Cdy/U97i1qWT730bb6Q==
-X-Received: by 2002:a9d:1cae:: with SMTP id l46mr5439723ota.249.1607984038200; 
- Mon, 14 Dec 2020 14:13:58 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NFSXYsZ6wJ6D+hIm4zULuabqSYFj3mqX+hLo+adztBw=;
+ b=sokVbs+21eGfffysTYs5PabDDPa8XImzLorgf1nPybmrHvWO3bq6MjZpzmIHkUH2/l
+ WBRb9spPV8jSKyGT1DagT24gahAifqJOoMkftwQbSBKuJdg18xyl9f43n2qc8BjJDUQf
+ Kk4mIHYnE89aDNRSHwE03Pn52T7Eem8/+24esId0Ji6SCXRCjfippie6W/Y/a8G9hcQy
+ mlZLW+42w6iC3v8WDc//IdkCEfLHE5FktrETVkhRLUDVQcD2HndhfT1Dybm3XnAIam7T
+ nbE2X/Xex8TeU0zH8ZZEeVLpTaHskTSJqxBFOXdpkd5a9AofjwioY13CGCngcRj5BpgL
+ LM4g==
+X-Gm-Message-State: AOAM533LmB/Eymh2hAbjXNPVHOv9qHPcl3McBpvHIhWjM6XkGoPGA01f
+ AHMNQDu4OGuTDFq5UyyE0JDqlX9vWXfCTXbL
+X-Google-Smtp-Source: ABdhPJzldYvRHYl5UBWVTZDIzMdb0ANNu7RYDtzEFh9ZMGNdMZwbDSEL+Fqy2vaiIalyT42oMQdN/g==
+X-Received: by 2002:a9d:5613:: with SMTP id e19mr21107841oti.153.1607984039511; 
+ Mon, 14 Dec 2020 14:13:59 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id b71sm2193033oii.5.2020.12.14.14.13.57
+ by smtp.gmail.com with ESMTPSA id b71sm2193033oii.5.2020.12.14.14.13.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Dec 2020 14:13:57 -0800 (PST)
+ Mon, 14 Dec 2020 14:13:58 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/4] target/s390x: Improve carry computation
-Date: Mon, 14 Dec 2020 16:13:52 -0600
-Message-Id: <20201214221356.68039-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 1/4] target/s390x: Improve cc computation for ADD LOGICAL
+Date: Mon, 14 Dec 2020 16:13:53 -0600
+Message-Id: <20201214221356.68039-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201214221356.68039-1-richard.henderson@linaro.org>
+References: <20201214221356.68039-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,36 +87,398 @@ Cc: david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While testing the float128_muladd changes for s390x host,
-emulating under x86_64 of course, I noticed that the code
-we generate for strings of ALCGR and SLBGR is pretty awful.
+The resulting cc is only dependent on the result and the
+carry-out.  So save those things rather than the inputs.
 
-I realized that we were missing a trick: the output cc is
-based only on the output (result and carry) and so we don't
-need to save the inputs.  And once we do that, we can use
-the output carry as a direct input to the next insn.
+Carry-out for 64-bit inputs is had via tcg_gen_add2_i64 directly
+into cc_src.  Carry-out for 32-bit inputs is had via extraction
+from a normal 64-bit add (with zero-extended inputs).
 
-Changes for v3:
-  * Rebased.
-Changes for v2:
-  * Add a few more comments, and enhance the patch descriptions.
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/s390x/internal.h    |   4 +-
+ target/s390x/cc_helper.c   |  25 ++++-----
+ target/s390x/helper.c      |   3 +-
+ target/s390x/translate.c   | 103 ++++++++++++++++++++++++-------------
+ target/s390x/insn-data.def |  36 ++++++-------
+ 5 files changed, 97 insertions(+), 74 deletions(-)
 
-
-r~
-
-Richard Henderson (4):
-  target/s390x: Improve cc computation for ADD LOGICAL
-  target/s390x: Improve ADD LOGICAL WITH CARRY
-  target/s390x: Improve cc computation for SUBTRACT LOGICAL
-  target/s390x: Improve SUB LOGICAL WITH BORROW
-
- target/s390x/internal.h    |  11 +-
- target/s390x/cc_helper.c   | 123 +++-------------
- target/s390x/helper.c      |  10 +-
- target/s390x/translate.c   | 289 ++++++++++++++++++++-----------------
- target/s390x/insn-data.def |  76 +++++-----
- 5 files changed, 216 insertions(+), 293 deletions(-)
-
+diff --git a/target/s390x/internal.h b/target/s390x/internal.h
+index 64602660ae..55c5442102 100644
+--- a/target/s390x/internal.h
++++ b/target/s390x/internal.h
+@@ -160,6 +160,8 @@ enum cc_op {
+     CC_OP_STATIC,               /* CC value is env->cc_op */
+ 
+     CC_OP_NZ,                   /* env->cc_dst != 0 */
++    CC_OP_ADDU,                 /* dst != 0, src = carry out (0,1) */
++
+     CC_OP_LTGT_32,              /* signed less/greater than (32bit) */
+     CC_OP_LTGT_64,              /* signed less/greater than (64bit) */
+     CC_OP_LTUGTU_32,            /* unsigned less/greater than (32bit) */
+@@ -168,7 +170,6 @@ enum cc_op {
+     CC_OP_LTGT0_64,             /* signed less/greater than 0 (64bit) */
+ 
+     CC_OP_ADD_64,               /* overflow on add (64bit) */
+-    CC_OP_ADDU_64,              /* overflow on unsigned add (64bit) */
+     CC_OP_ADDC_64,              /* overflow on unsigned add-carry (64bit) */
+     CC_OP_SUB_64,               /* overflow on subtraction (64bit) */
+     CC_OP_SUBU_64,              /* overflow on unsigned subtraction (64bit) */
+@@ -178,7 +179,6 @@ enum cc_op {
+     CC_OP_MULS_64,              /* overflow on signed multiply (64bit) */
+ 
+     CC_OP_ADD_32,               /* overflow on add (32bit) */
+-    CC_OP_ADDU_32,              /* overflow on unsigned add (32bit) */
+     CC_OP_ADDC_32,              /* overflow on unsigned add-carry (32bit) */
+     CC_OP_SUB_32,               /* overflow on subtraction (32bit) */
+     CC_OP_SUBU_32,              /* overflow on unsigned subtraction (32bit) */
+diff --git a/target/s390x/cc_helper.c b/target/s390x/cc_helper.c
+index 5432aeeed4..59da4d1cc2 100644
+--- a/target/s390x/cc_helper.c
++++ b/target/s390x/cc_helper.c
+@@ -123,6 +123,12 @@ static uint32_t cc_calc_nz(uint64_t dst)
+     return !!dst;
+ }
+ 
++static uint32_t cc_calc_addu(uint64_t carry_out, uint64_t result)
++{
++    g_assert(carry_out <= 1);
++    return (result != 0) + 2 * carry_out;
++}
++
+ static uint32_t cc_calc_add_64(int64_t a1, int64_t a2, int64_t ar)
+ {
+     if ((a1 > 0 && a2 > 0 && ar < 0) || (a1 < 0 && a2 < 0 && ar > 0)) {
+@@ -138,11 +144,6 @@ static uint32_t cc_calc_add_64(int64_t a1, int64_t a2, int64_t ar)
+     }
+ }
+ 
+-static uint32_t cc_calc_addu_64(uint64_t a1, uint64_t a2, uint64_t ar)
+-{
+-    return (ar != 0) + 2 * (ar < a1);
+-}
+-
+ static uint32_t cc_calc_addc_64(uint64_t a1, uint64_t a2, uint64_t ar)
+ {
+     /* Recover a2 + carry_in.  */
+@@ -239,11 +240,6 @@ static uint32_t cc_calc_add_32(int32_t a1, int32_t a2, int32_t ar)
+     }
+ }
+ 
+-static uint32_t cc_calc_addu_32(uint32_t a1, uint32_t a2, uint32_t ar)
+-{
+-    return (ar != 0) + 2 * (ar < a1);
+-}
+-
+ static uint32_t cc_calc_addc_32(uint32_t a1, uint32_t a2, uint32_t ar)
+ {
+     /* Recover a2 + carry_in.  */
+@@ -483,12 +479,12 @@ static uint32_t do_calc_cc(CPUS390XState *env, uint32_t cc_op,
+     case CC_OP_NZ:
+         r =  cc_calc_nz(dst);
+         break;
++    case CC_OP_ADDU:
++        r = cc_calc_addu(src, dst);
++        break;
+     case CC_OP_ADD_64:
+         r =  cc_calc_add_64(src, dst, vr);
+         break;
+-    case CC_OP_ADDU_64:
+-        r =  cc_calc_addu_64(src, dst, vr);
+-        break;
+     case CC_OP_ADDC_64:
+         r =  cc_calc_addc_64(src, dst, vr);
+         break;
+@@ -517,9 +513,6 @@ static uint32_t do_calc_cc(CPUS390XState *env, uint32_t cc_op,
+     case CC_OP_ADD_32:
+         r =  cc_calc_add_32(src, dst, vr);
+         break;
+-    case CC_OP_ADDU_32:
+-        r =  cc_calc_addu_32(src, dst, vr);
+-        break;
+     case CC_OP_ADDC_32:
+         r =  cc_calc_addc_32(src, dst, vr);
+         break;
+diff --git a/target/s390x/helper.c b/target/s390x/helper.c
+index b877690845..db87a62a57 100644
+--- a/target/s390x/helper.c
++++ b/target/s390x/helper.c
+@@ -395,6 +395,7 @@ const char *cc_name(enum cc_op cc_op)
+         [CC_OP_DYNAMIC]   = "CC_OP_DYNAMIC",
+         [CC_OP_STATIC]    = "CC_OP_STATIC",
+         [CC_OP_NZ]        = "CC_OP_NZ",
++        [CC_OP_ADDU]      = "CC_OP_ADDU",
+         [CC_OP_LTGT_32]   = "CC_OP_LTGT_32",
+         [CC_OP_LTGT_64]   = "CC_OP_LTGT_64",
+         [CC_OP_LTUGTU_32] = "CC_OP_LTUGTU_32",
+@@ -402,7 +403,6 @@ const char *cc_name(enum cc_op cc_op)
+         [CC_OP_LTGT0_32]  = "CC_OP_LTGT0_32",
+         [CC_OP_LTGT0_64]  = "CC_OP_LTGT0_64",
+         [CC_OP_ADD_64]    = "CC_OP_ADD_64",
+-        [CC_OP_ADDU_64]   = "CC_OP_ADDU_64",
+         [CC_OP_ADDC_64]   = "CC_OP_ADDC_64",
+         [CC_OP_SUB_64]    = "CC_OP_SUB_64",
+         [CC_OP_SUBU_64]   = "CC_OP_SUBU_64",
+@@ -410,7 +410,6 @@ const char *cc_name(enum cc_op cc_op)
+         [CC_OP_ABS_64]    = "CC_OP_ABS_64",
+         [CC_OP_NABS_64]   = "CC_OP_NABS_64",
+         [CC_OP_ADD_32]    = "CC_OP_ADD_32",
+-        [CC_OP_ADDU_32]   = "CC_OP_ADDU_32",
+         [CC_OP_ADDC_32]   = "CC_OP_ADDC_32",
+         [CC_OP_SUB_32]    = "CC_OP_SUB_32",
+         [CC_OP_SUBU_32]   = "CC_OP_SUBU_32",
+diff --git a/target/s390x/translate.c b/target/s390x/translate.c
+index be32938f6d..b473233edf 100644
+--- a/target/s390x/translate.c
++++ b/target/s390x/translate.c
+@@ -600,13 +600,11 @@ static void gen_op_calc_cc(DisasContext *s)
+         dummy = tcg_const_i64(0);
+         /* FALLTHRU */
+     case CC_OP_ADD_64:
+-    case CC_OP_ADDU_64:
+     case CC_OP_ADDC_64:
+     case CC_OP_SUB_64:
+     case CC_OP_SUBU_64:
+     case CC_OP_SUBB_64:
+     case CC_OP_ADD_32:
+-    case CC_OP_ADDU_32:
+     case CC_OP_ADDC_32:
+     case CC_OP_SUB_32:
+     case CC_OP_SUBU_32:
+@@ -650,6 +648,7 @@ static void gen_op_calc_cc(DisasContext *s)
+         /* 1 argument */
+         gen_helper_calc_cc(cc_op, cpu_env, local_cc_op, dummy, cc_dst, dummy);
+         break;
++    case CC_OP_ADDU:
+     case CC_OP_ICM:
+     case CC_OP_LTGT_32:
+     case CC_OP_LTGT_64:
+@@ -666,13 +665,11 @@ static void gen_op_calc_cc(DisasContext *s)
+         gen_helper_calc_cc(cc_op, cpu_env, local_cc_op, cc_src, cc_dst, dummy);
+         break;
+     case CC_OP_ADD_64:
+-    case CC_OP_ADDU_64:
+     case CC_OP_ADDC_64:
+     case CC_OP_SUB_64:
+     case CC_OP_SUBU_64:
+     case CC_OP_SUBB_64:
+     case CC_OP_ADD_32:
+-    case CC_OP_ADDU_32:
+     case CC_OP_ADDC_32:
+     case CC_OP_SUB_32:
+     case CC_OP_SUBU_32:
+@@ -849,20 +846,19 @@ static void disas_jcc(DisasContext *s, DisasCompare *c, uint32_t mask)
+         account_inline_branch(s, old_cc_op);
+         break;
+ 
+-    case CC_OP_ADDU_32:
+-    case CC_OP_ADDU_64:
++    case CC_OP_ADDU:
+         switch (mask) {
+-        case 8 | 2: /* vr == 0 */
++        case 8 | 2: /* result == 0 */
+             cond = TCG_COND_EQ;
+             break;
+-        case 4 | 1: /* vr != 0 */
++        case 4 | 1: /* result != 0 */
+             cond = TCG_COND_NE;
+             break;
+-        case 8 | 4: /* no carry -> vr >= src */
+-            cond = TCG_COND_GEU;
++        case 8 | 4: /* no carry */
++            cond = TCG_COND_EQ;
+             break;
+-        case 2 | 1: /* carry -> vr < src */
+-            cond = TCG_COND_LTU;
++        case 2 | 1: /* carry */
++            cond = TCG_COND_NE;
+             break;
+         default:
+             goto do_dynamic;
+@@ -950,26 +946,21 @@ static void disas_jcc(DisasContext *s, DisasCompare *c, uint32_t mask)
+         tcg_gen_and_i64(c->u.s64.a, cc_src, cc_dst);
+         break;
+ 
+-    case CC_OP_ADDU_32:
+-        c->is_64 = false;
+-        c->u.s32.a = tcg_temp_new_i32();
+-        c->u.s32.b = tcg_temp_new_i32();
+-        tcg_gen_extrl_i64_i32(c->u.s32.a, cc_vr);
+-        if (cond == TCG_COND_EQ || cond == TCG_COND_NE) {
+-            tcg_gen_movi_i32(c->u.s32.b, 0);
+-        } else {
+-            tcg_gen_extrl_i64_i32(c->u.s32.b, cc_src);
+-        }
+-        break;
+-
+-    case CC_OP_ADDU_64:
+-        c->u.s64.a = cc_vr;
++    case CC_OP_ADDU:
++        c->is_64 = true;
++        c->u.s64.b = tcg_const_i64(0);
+         c->g1 = true;
+-        if (cond == TCG_COND_EQ || cond == TCG_COND_NE) {
+-            c->u.s64.b = tcg_const_i64(0);
+-        } else {
+-            c->u.s64.b = cc_src;
+-            c->g2 = true;
++        switch (mask) {
++        case 8 | 2:
++        case 4 | 1: /* result */
++            c->u.s64.a = cc_dst;
++            break;
++        case 8 | 4:
++        case 2 | 1: /* carry */
++            c->u.s64.a = cc_src;
++            break;
++        default:
++            g_assert_not_reached();
+         }
+         break;
+ 
+@@ -1445,6 +1436,13 @@ static DisasJumpType op_add(DisasContext *s, DisasOps *o)
+     return DISAS_NEXT;
+ }
+ 
++static DisasJumpType op_addu64(DisasContext *s, DisasOps *o)
++{
++    tcg_gen_movi_i64(cc_src, 0);
++    tcg_gen_add2_i64(o->out, cc_src, o->in1, cc_src, o->in2, cc_src);
++    return DISAS_NEXT;
++}
++
+ static DisasJumpType op_addc(DisasContext *s, DisasOps *o)
+ {
+     DisasCompare cmp;
+@@ -1474,9 +1472,10 @@ static DisasJumpType op_addc(DisasContext *s, DisasOps *o)
+ 
+ static DisasJumpType op_asi(DisasContext *s, DisasOps *o)
+ {
+-    o->in1 = tcg_temp_new_i64();
++    bool non_atomic = !s390_has_feat(S390_FEAT_STFLE_45);
+ 
+-    if (!s390_has_feat(S390_FEAT_STFLE_45)) {
++    o->in1 = tcg_temp_new_i64();
++    if (non_atomic) {
+         tcg_gen_qemu_ld_tl(o->in1, o->addr1, get_mem_index(s), s->insn->data);
+     } else {
+         /* Perform the atomic addition in memory. */
+@@ -1487,7 +1486,30 @@ static DisasJumpType op_asi(DisasContext *s, DisasOps *o)
+     /* Recompute also for atomic case: needed for setting CC. */
+     tcg_gen_add_i64(o->out, o->in1, o->in2);
+ 
+-    if (!s390_has_feat(S390_FEAT_STFLE_45)) {
++    if (non_atomic) {
++        tcg_gen_qemu_st_tl(o->out, o->addr1, get_mem_index(s), s->insn->data);
++    }
++    return DISAS_NEXT;
++}
++
++static DisasJumpType op_asiu64(DisasContext *s, DisasOps *o)
++{
++    bool non_atomic = !s390_has_feat(S390_FEAT_STFLE_45);
++
++    o->in1 = tcg_temp_new_i64();
++    if (non_atomic) {
++        tcg_gen_qemu_ld_tl(o->in1, o->addr1, get_mem_index(s), s->insn->data);
++    } else {
++        /* Perform the atomic addition in memory. */
++        tcg_gen_atomic_fetch_add_i64(o->in1, o->addr1, o->in2, get_mem_index(s),
++                                     s->insn->data);
++    }
++
++    /* Recompute also for atomic case: needed for setting CC. */
++    tcg_gen_movi_i64(cc_src, 0);
++    tcg_gen_add2_i64(o->out, cc_src, o->in1, cc_src, o->in2, cc_src);
++
++    if (non_atomic) {
+         tcg_gen_qemu_st_tl(o->out, o->addr1, get_mem_index(s), s->insn->data);
+     }
+     return DISAS_NEXT;
+@@ -5185,12 +5207,14 @@ static void cout_adds64(DisasContext *s, DisasOps *o)
+ 
+ static void cout_addu32(DisasContext *s, DisasOps *o)
+ {
+-    gen_op_update3_cc_i64(s, CC_OP_ADDU_32, o->in1, o->in2, o->out);
++    tcg_gen_shri_i64(cc_src, o->out, 32);
++    tcg_gen_ext32u_i64(cc_dst, o->out);
++    gen_op_update2_cc_i64(s, CC_OP_ADDU, cc_src, cc_dst);
+ }
+ 
+ static void cout_addu64(DisasContext *s, DisasOps *o)
+ {
+-    gen_op_update3_cc_i64(s, CC_OP_ADDU_64, o->in1, o->in2, o->out);
++    gen_op_update2_cc_i64(s, CC_OP_ADDU, cc_src, o->out);
+ }
+ 
+ static void cout_addc32(DisasContext *s, DisasOps *o)
+@@ -5637,6 +5661,13 @@ static void in1_r2_sr32(DisasContext *s, DisasOps *o)
+ }
+ #define SPEC_in1_r2_sr32 0
+ 
++static void in1_r2_32u(DisasContext *s, DisasOps *o)
++{
++    o->in1 = tcg_temp_new_i64();
++    tcg_gen_ext32u_i64(o->in1, regs[get_field(s, r2)]);
++}
++#define SPEC_in1_r2_32u 0
++
+ static void in1_r3(DisasContext *s, DisasOps *o)
+ {
+     o->in1 = load_reg(get_field(s, r3));
+diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
+index b95bc98d35..5461e6aa3b 100644
+--- a/target/s390x/insn-data.def
++++ b/target/s390x/insn-data.def
+@@ -58,29 +58,29 @@
+     C(0xa70b, AGHI,    RI_a,  Z,   r1, i2, r1, 0, add, adds64)
+ 
+ /* ADD LOGICAL */
+-    C(0x1e00, ALR,     RR_a,  Z,   r1, r2, new, r1_32, add, addu32)
+-    C(0xb9fa, ALRK,    RRF_a, DO,  r2, r3, new, r1_32, add, addu32)
+-    C(0x5e00, AL,      RX_a,  Z,   r1, m2_32u, new, r1_32, add, addu32)
+-    C(0xe35e, ALY,     RXY_a, LD,  r1, m2_32u, new, r1_32, add, addu32)
+-    C(0xb90a, ALGR,    RRE,   Z,   r1, r2, r1, 0, add, addu64)
+-    C(0xb91a, ALGFR,   RRE,   Z,   r1, r2_32u, r1, 0, add, addu64)
+-    C(0xb9ea, ALGRK,   RRF_a, DO,  r2, r3, r1, 0, add, addu64)
+-    C(0xe30a, ALG,     RXY_a, Z,   r1, m2_64, r1, 0, add, addu64)
+-    C(0xe31a, ALGF,    RXY_a, Z,   r1, m2_32u, r1, 0, add, addu64)
++    C(0x1e00, ALR,     RR_a,  Z,   r1_32u, r2_32u, new, r1_32, add, addu32)
++    C(0xb9fa, ALRK,    RRF_a, DO,  r2_32u, r3_32u, new, r1_32, add, addu32)
++    C(0x5e00, AL,      RX_a,  Z,   r1_32u, m2_32u, new, r1_32, add, addu32)
++    C(0xe35e, ALY,     RXY_a, LD,  r1_32u, m2_32u, new, r1_32, add, addu32)
++    C(0xb90a, ALGR,    RRE,   Z,   r1, r2, r1, 0, addu64, addu64)
++    C(0xb91a, ALGFR,   RRE,   Z,   r1, r2_32u, r1, 0, addu64, addu64)
++    C(0xb9ea, ALGRK,   RRF_a, DO,  r2, r3, r1, 0, addu64, addu64)
++    C(0xe30a, ALG,     RXY_a, Z,   r1, m2_64, r1, 0, addu64, addu64)
++    C(0xe31a, ALGF,    RXY_a, Z,   r1, m2_32u, r1, 0, addu64, addu64)
+ /* ADD LOGICAL HIGH */
+     C(0xb9ca, ALHHHR,  RRF_a, HW,  r2_sr32, r3_sr32, new, r1_32h, add, addu32)
+-    C(0xb9da, ALHHLR,  RRF_a, HW,  r2_sr32, r3, new, r1_32h, add, addu32)
++    C(0xb9da, ALHHLR,  RRF_a, HW,  r2_sr32, r3_32u, new, r1_32h, add, addu32)
+ /* ADD LOGICAL IMMEDIATE */
+-    C(0xc20b, ALFI,    RIL_a, EI,  r1, i2_32u, new, r1_32, add, addu32)
+-    C(0xc20a, ALGFI,   RIL_a, EI,  r1, i2_32u, r1, 0, add, addu64)
++    C(0xc20b, ALFI,    RIL_a, EI,  r1_32u, i2_32u, new, r1_32, add, addu32)
++    C(0xc20a, ALGFI,   RIL_a, EI,  r1, i2_32u, r1, 0, addu64, addu64)
+ /* ADD LOGICAL WITH SIGNED IMMEDIATE */
+-    D(0xeb6e, ALSI,    SIY,   GIE, la1, i2, new, 0, asi, addu32, MO_TEUL)
+-    C(0xecda, ALHSIK,  RIE_d, DO,  r3, i2, new, r1_32, add, addu32)
+-    D(0xeb7e, ALGSI,   SIY,   GIE, la1, i2, new, 0, asi, addu64, MO_TEQ)
+-    C(0xecdb, ALGHSIK, RIE_d, DO,  r3, i2, r1, 0, add, addu64)
++    D(0xeb6e, ALSI,    SIY,   GIE, la1, i2_32u, new, 0, asi, addu32, MO_TEUL)
++    C(0xecda, ALHSIK,  RIE_d, DO,  r3_32u, i2_32u, new, r1_32, add, addu32)
++    C(0xeb7e, ALGSI,   SIY,   GIE, la1, i2, r1, 0, asiu64, addu64)
++    C(0xecdb, ALGHSIK, RIE_d, DO,  r3, i2, r1, 0, addu64, addu64)
+ /* ADD LOGICAL WITH SIGNED IMMEDIATE HIGH */
+-    C(0xcc0a, ALSIH,   RIL_a, HW,  r1_sr32, i2, new, r1_32h, add, addu32)
+-    C(0xcc0b, ALSIHN,  RIL_a, HW,  r1_sr32, i2, new, r1_32h, add, 0)
++    C(0xcc0a, ALSIH,   RIL_a, HW,  r1_sr32, i2_32u, new, r1_32h, add, addu32)
++    C(0xcc0b, ALSIHN,  RIL_a, HW,  r1_sr32, i2_32u, new, r1_32h, add, 0)
+ /* ADD LOGICAL WITH CARRY */
+     C(0xb998, ALCR,    RRE,   Z,   r1, r2, new, r1_32, addc, addc32)
+     C(0xb988, ALCGR,   RRE,   Z,   r1, r2, r1, 0, addc, addc64)
 -- 
 2.25.1
 
