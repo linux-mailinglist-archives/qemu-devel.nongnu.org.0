@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A2C2D9A07
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 15:34:04 +0100 (CET)
-Received: from localhost ([::1]:43870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD9A2D9A27
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 15:41:54 +0100 (CET)
+Received: from localhost ([::1]:34100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koovL-0003g3-Q2
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 09:34:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36646)
+	id 1kop2v-00035i-Iz
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 09:41:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kooSY-0002GA-6J
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:04:18 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46731)
+ id 1kooSd-0002MG-KS
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:04:27 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kooSW-00041t-AS
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:04:17 -0500
-Received: by mail-ot1-x341.google.com with SMTP id w3so15757739otp.13
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 06:04:15 -0800 (PST)
+ id 1kooSb-00042E-RA
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 09:04:23 -0500
+Received: by mail-ot1-x344.google.com with SMTP id w3so15757999otp.13
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 06:04:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=LiVRLDdLRLwNh3EAfOwsqGZsrXFOtm3LiOx00UdIraE=;
- b=Yp539SXcv2vVYvEqOD/L8Yr9KE2L4Jm69B9GJKrh46zdLmup4HJoKxVfdE3Plhty2F
- mBaxZ3T2MDEL4U82om742B7cz6Efc9DVDscPrRLdPO9eGtmpVFmiqlKIX/luT7SYQynR
- vXq/fIpYm6knq4uG0Bl7mZVPIKcmFReRRJp2LxQ9yu1d+4qxLzrEuQepW9Bd7eh/vf9T
- JT2z7+xGiQxFnNP9OYhpmdlJVtYrOLKPQxozO0ZuEzEy3Wr5EBG2HBwKctAtTOZ5oNKI
- Qc4S/Rr3nm8HOXJY0C4pNmd7PtfHXLtRVT8br/LSzm/fnjpcUE687RCnybQfimHsGXch
- 8WRg==
+ bh=vrSqwZKXMyaSyRVRtm4Hh+vS+LTe1orOUMFlnbJhADM=;
+ b=ZTrJ9csEkHzMvHpyiiud4BUrYZ8IFUysHkcvYdfcPv6AEQ6OApcrNueWmkVau6kIZY
+ xes6h0iIoU4cNLvZ00ZD4O+IRsufw1SdxdJbJjg7E6yFbPj4HD2Igcff9D8iDNEUkdo3
+ wnycvVfQkWGilSlgSobzcRjy0obqGGu6z/kr1yMqZQd7p1MYgjoZcnzEg8dHDjnklOHz
+ C03thYH/sGhTXgPDT5oSdwfMunP+ukjTT0xTnUgWVn9zGJuIS30YKqETOwHlGmjOMp9k
+ zRtnbHPlZg2tzcg9WVF8/fnHpdxYd13xGNJVbRPPMOX+GSH+67ybadW6XyCFQQ6Aa6ti
+ gm9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LiVRLDdLRLwNh3EAfOwsqGZsrXFOtm3LiOx00UdIraE=;
- b=fbPBMbZZaKg2IiJl/QeQPfJlMIomgSAmFLNTJMBN9wEJ8RhioOxe7qu2pHxrNnWmkx
- cm8oEE7fOlIk+SAewiAhsOT2qzbskXCk0+FL/RQnHcWrP/ojEXF1mxc8knX4EdvRwiBV
- 4xTsvwGv60024kKojPzWpcFlFFKvokzPtJcpt7w5K+J4slKVdOcBgbBsfITTMzxTCZE9
- /8VxhAg4QN9fxbjwRIJbJ/jEY3dPkZ7EZ20y2GKsNdBzT/xaCA+3L2nNu+mm2rDWJ6h9
- cOUdaENJDqnjbgrThUwyspYegDNdim7vZwpmP9QK9zKcJDO+Eue3NsazJg9c6ohIW7O0
- qYUA==
-X-Gm-Message-State: AOAM531ki6mmSN+vQoJJQIz0W/5iJoFmX3zuq9oXTyhc4e3eDTYY8d8s
- QRzjEnPrxH4K58LPoF6v8phoJ5FdDbmZiGMH
-X-Google-Smtp-Source: ABdhPJxdGTN8exexdmu/vaVbNUxQDCmGy89jVn8j8d4Ned7ZXkfN1k8BzQ4boWtLtrtEYdjUF+6SrA==
-X-Received: by 2002:a9d:4b81:: with SMTP id k1mr19980131otf.371.1607954654859; 
- Mon, 14 Dec 2020 06:04:14 -0800 (PST)
+ bh=vrSqwZKXMyaSyRVRtm4Hh+vS+LTe1orOUMFlnbJhADM=;
+ b=O9+nbakkG82a56CdabecWoF4Qxa9VBw82jg7F1gV2MW7AwFV/Vo+7439zOg2VUQ0lS
+ hEx0znfQ/4AjnCteF5FEkSvlN/FyVLGWnv34wcw4Oyg5OYwf/vvlHaepuzE6lTVINill
+ uvVfSkLiUd+uD0welFwbW81Qh7D4i6yo9VjfuvMsgT2Cqx2XDqZx7aQMwp1mQ13XdVlo
+ i+vsf+Z0ikapW8DPl30nFONWSMGFPpcHhZDKJtUuEfxPJcgXnOHO63fgrWNQBpNUABZQ
+ GYTv3O9fFh36LZUP1YvY9iwE3J2cNfV8euB1UL/q6A5qLFYlydyyqd5KtGuDhPwYHfJT
+ 7mtg==
+X-Gm-Message-State: AOAM5323PNXEXcVBC024EIZAdGUReAtlmivKnJc+TLFCbPCRSdTk4+t6
+ jB2TOTmXYgnwp0HXoqkS7hK8dhMQ+fk9vAGJ
+X-Google-Smtp-Source: ABdhPJxAzA6SZTTeebkG7Gc7VkjdZ5b0/65qge62qL0BNmo+GR3mhiDS20U8g88MXvj3fhosppwaGg==
+X-Received: by 2002:a9d:508:: with SMTP id 8mr19943863otw.338.1607954660242;
+ Mon, 14 Dec 2020 06:04:20 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id t24sm3940146oou.4.2020.12.14.06.04.13
+ by smtp.gmail.com with ESMTPSA id t24sm3940146oou.4.2020.12.14.06.04.17
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Dec 2020 06:04:14 -0800 (PST)
+ Mon, 14 Dec 2020 06:04:18 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 35/43] tcg/riscv: Remove branch-over-branch fallback
-Date: Mon, 14 Dec 2020 08:03:06 -0600
-Message-Id: <20201214140314.18544-36-richard.henderson@linaro.org>
+Subject: [PATCH v4 37/43] accel/tcg: Add mips support to
+ alloc_code_gen_buffer_splitwx_memfd
+Date: Mon, 14 Dec 2020 08:03:08 -0600
+Message-Id: <20201214140314.18544-38-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201214140314.18544-1-richard.henderson@linaro.org>
 References: <20201214140314.18544-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,117 +88,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since 7ecd02a06f8, we are prepared to re-start code generation
-with a smaller TB if a relocation is out of range.  We no longer
-need to leave a nop in the stream Just In Case.
+Re-use the 256MiB region handling from alloc_code_gen_buffer_anon,
+and replace that with the shared file mapping.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/riscv/tcg-target.c.inc | 56 ++++----------------------------------
- 1 file changed, 6 insertions(+), 50 deletions(-)
+ accel/tcg/translate-all.c | 46 ++++++++++++++++++++++++++++++++-------
+ 1 file changed, 38 insertions(+), 8 deletions(-)
 
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 195c3eff03..02beb86977 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -469,43 +469,16 @@ static bool reloc_call(tcg_insn_unit *code_ptr, const tcg_insn_unit *target)
- static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
-                         intptr_t value, intptr_t addend)
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 17df6c94fa..b49aaf1026 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1137,24 +1137,40 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
+ 
+ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
  {
--    uint32_t insn = *code_ptr;
--    intptr_t diff;
--    bool short_jmp;
--
-     tcg_debug_assert(addend == 0);
--
-     switch (type) {
-     case R_RISCV_BRANCH:
--        diff = value - (uintptr_t)code_ptr;
--        short_jmp = diff == sextreg(diff, 0, 12);
--        if (short_jmp) {
--            return reloc_sbimm12(code_ptr, (tcg_insn_unit *)value);
--        } else {
--            /* Invert the condition */
--            insn = insn ^ (1 << 12);
--            /* Clear the offset */
--            insn &= 0x01fff07f;
--            /* Set the offset to the PC + 8 */
--            insn |= encode_sbimm12(8);
--
--            /* Move forward */
--            code_ptr[0] = insn;
--
--            /* Overwrite the NOP with jal x0,value */
--            diff = value - (uintptr_t)(code_ptr + 1);
--            insn = encode_uj(OPC_JAL, TCG_REG_ZERO, diff);
--            code_ptr[1] = insn;
--
--            return true;
--        }
--        break;
-+        return reloc_sbimm12(code_ptr, (tcg_insn_unit *)value);
-     case R_RISCV_JAL:
-         return reloc_jimm20(code_ptr, (tcg_insn_unit *)value);
-     case R_RISCV_CALL:
-         return reloc_call(code_ptr, (tcg_insn_unit *)value);
-     default:
--        tcg_abort();
-+        g_assert_not_reached();
+-    void *buf_rw, *buf_rx;
++    void *buf_rw = NULL, *buf_rx = MAP_FAILED;
+     int fd = -1;
+ 
++#ifdef __mips__
++    /* Find space for the RX mapping, vs the 256MiB regions. */
++    if (!alloc_code_gen_buffer_anon(size, PROT_NONE,
++                                    MAP_PRIVATE | MAP_ANONYMOUS |
++                                    MAP_NORESERVE, errp)) {
++        return false;
++    }
++    /* The size of the mapping may have been adjusted. */
++    size = tcg_ctx->code_gen_buffer_size;
++    buf_rx = tcg_ctx->code_gen_buffer;
++#endif
++
+     buf_rw = qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
+     if (buf_rw == NULL) {
+-        return false;
++        goto fail;
      }
+ 
++#ifdef __mips__
++    void *tmp = mmap(buf_rx, size, PROT_READ | PROT_EXEC,
++                     MAP_SHARED | MAP_FIXED, fd, 0);
++    if (tmp != buf_rx) {
++        goto fail_rx;
++    }
++#else
+     buf_rx = mmap(NULL, size, PROT_READ | PROT_EXEC, MAP_SHARED, fd, 0);
+     if (buf_rx == MAP_FAILED) {
+-        error_setg_errno(errp, errno,
+-                         "failed to map shared memory for execute");
+-        munmap(buf_rw, size);
+-        close(fd);
+-        return false;
++        goto fail_rx;
+     }
+-    close(fd);
++#endif
+ 
++    close(fd);
+     tcg_ctx->code_gen_buffer = buf_rw;
+     tcg_ctx->code_gen_buffer_size = size;
+     tcg_splitwx_diff = buf_rx - buf_rw;
+@@ -1163,6 +1179,20 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+     qemu_madvise(buf_rw, size, QEMU_MADV_HUGEPAGE);
+     qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
+     return true;
++
++ fail_rx:
++    error_setg_errno(errp, errno, "failed to map shared memory for execute");
++ fail:
++    if (buf_rx != MAP_FAILED) {
++        munmap(buf_rx, size);
++    }
++    if (buf_rw) {
++        munmap(buf_rw, size);
++    }
++    if (fd >= 0) {
++        close(fd);
++    }
++    return false;
  }
- 
-@@ -779,21 +752,8 @@ static void tcg_out_brcond(TCGContext *s, TCGCond cond, TCGReg arg1,
-         arg2 = t;
-     }
- 
--    if (l->has_value) {
--        intptr_t diff = tcg_pcrel_diff(s, l->u.value_ptr);
--        if (diff == sextreg(diff, 0, 12)) {
--            tcg_out_opc_branch(s, op, arg1, arg2, diff);
--        } else {
--            /* Invert the conditional branch.  */
--            tcg_out_opc_branch(s, op ^ (1 << 12), arg1, arg2, 8);
--            tcg_out_opc_jump(s, OPC_JAL, TCG_REG_ZERO, diff - 4);
--        }
--    } else {
--        tcg_out_reloc(s, s->code_ptr, R_RISCV_BRANCH, l, 0);
--        tcg_out_opc_branch(s, op, arg1, arg2, 0);
--        /* NOP to allow patching later */
--        tcg_out_opc_imm(s, OPC_ADDI, TCG_REG_ZERO, TCG_REG_ZERO, 0);
--    }
-+    tcg_out_reloc(s, s->code_ptr, R_RISCV_BRANCH, l, 0);
-+    tcg_out_opc_branch(s, op, arg1, arg2, 0);
- }
- 
- static void tcg_out_setcond(TCGContext *s, TCGCond cond, TCGReg ret,
-@@ -1009,8 +969,6 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
-     /* Compare masked address with the TLB entry. */
-     label_ptr[0] = s->code_ptr;
-     tcg_out_opc_branch(s, OPC_BNE, TCG_REG_TMP0, TCG_REG_TMP1, 0);
--    /* NOP to allow patching later */
--    tcg_out_opc_imm(s, OPC_ADDI, TCG_REG_ZERO, TCG_REG_ZERO, 0);
- 
-     /* TLB Hit - translate address using addend.  */
-     if (TCG_TARGET_REG_BITS > TARGET_LONG_BITS) {
-@@ -1054,8 +1012,7 @@ static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
-     }
- 
-     /* resolve label address */
--    if (!patch_reloc(l->label_ptr[0], R_RISCV_BRANCH,
--                     (intptr_t) s->code_ptr, 0)) {
-+    if (!reloc_sbimm12(l->label_ptr[0], s->code_ptr)) {
-         return false;
-     }
- 
-@@ -1089,8 +1046,7 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
-     }
- 
-     /* resolve label address */
--    if (!patch_reloc(l->label_ptr[0], R_RISCV_BRANCH,
--                     (intptr_t) s->code_ptr, 0)) {
-+    if (!reloc_sbimm12(l->label_ptr[0], s->code_ptr)) {
-         return false;
-     }
+ #endif /* CONFIG_POSIX */
  
 -- 
 2.25.1
