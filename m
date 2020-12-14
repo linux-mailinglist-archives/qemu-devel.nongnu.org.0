@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7D732D9519
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 10:23:26 +0100 (CET)
-Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4CFE2D9530
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 10:27:14 +0100 (CET)
+Received: from localhost ([::1]:52304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kok4i-0008MT-8X
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 04:23:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53714)
+	id 1kok8P-0001jE-TA
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 04:27:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kok0k-00042z-Sq; Mon, 14 Dec 2020 04:19:20 -0500
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:43543)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kok7P-0001HI-ER
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 04:26:11 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kok0i-0000hw-ME; Mon, 14 Dec 2020 04:19:18 -0500
-Received: by mail-il1-x143.google.com with SMTP id c18so15149579iln.10;
- Mon, 14 Dec 2020 01:19:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=qmCemYoZi4aGhNWuryybG7gyT1vNo0cxkXFgXArH9/w=;
- b=nOFgwIhi8MEtvAVK0L+nH7lkopjUGeu4AV5HCmx9EW9I5mM4E7hDP2QiVA5y7K0x9R
- QI+/AA5T3JvDSubyxw4aFi/2bf3tiRJVoBRJgWboSdeefO8pYIyE7MrpNd8OH4NYMQ6U
- WH8HYO+mFSGOUSAZ+Sqewmgt/4v9OwQ2Vj2IizfMsU01fIrP7rf7ZMDdJjGXUvA4dUnV
- v2x0DBx/rlefMoZgop+dMUiRiC6oO/GlGfrqV6kn/uAxndiacmUo2VL4Uwr303slphNv
- h0/xIhpFih2wFQUplk8Hwq1sDcYXTKKM4oKltEX9SivDjnFuC+ZgUGYYoD7IYWyiiFir
- PkGQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kok7M-0001kD-Iz
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 04:26:11 -0500
+Received: by mail-wm1-x341.google.com with SMTP id e25so14592492wme.0
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 01:26:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=cq8/Ax06jqXTrUap5n5ga3UgjpQMP4Gdw3lu3iBDWF4=;
+ b=KiZNZwuRtdi3GZGyuLK3xxYE2Z+hxbUG0kXd5CoM2GEGfw+ytNblpZFBXW27jk8r1j
+ P6ESYHCeoieesH63pTagAweAc0FlOlQLnc4wM+8eMgyoFoQl5RW0LDjGpu30nLRAOW9q
+ T44XQojIX9Yrb32nYzlok0Qes74zFL2k3RzOQuGTUsS4SPrguwTsiMaR+r3CwQRO8CcU
+ Ys5t70P5pTyxp5sQevL9hLtMJxOPogAsZh6bo120wC1G0N6rWehJ/PD2jOWVhfiHIFNt
+ zl1VfjN2Cmx9LWW85p8uPbh/wyyM5/YunamCdaqv9Y/kO6HUvZpJIotITQ2r/Xm+8dZS
+ TCXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=qmCemYoZi4aGhNWuryybG7gyT1vNo0cxkXFgXArH9/w=;
- b=HOFqrbqiIdKrfjGENQgfMOwG9mYnar/bp6+JnD/bh0248RJhvhDoY0wxCK0V/zdMsv
- 0TPhO5SJA1YApDWW8yDUs6oamah3zRiaCjeRFwyifC1G2f1mSTBfaVuJhd3XxEll56WO
- 4ZiZ+bfS6IrnSOVg3kl5iFkciukmyjenWv1zC0SuTBDuheaY2hZjwpHZ6SUd8oXacILX
- QJ1ym4bnhcyUFXkpEgLKEkFX1U0TA0Zijh/wMPUbKAwj7KJO4Il+XR+Nkped8F8eJLb5
- nMYJewNT9fDtH6iQFrJw6E66Shhoi/LueAjWAUzzOEZWcK1Xy8XmGbFHlQV8exgWeaOp
- lltg==
-X-Gm-Message-State: AOAM532EsbWpl0j5SlB/dZ6z0OqvsWRir3xAsQgM8cCFqP9ePklEaOt4
- yOk0JIo8/BbXzP9DbWEltaswmDYUnCA=
-X-Google-Smtp-Source: ABdhPJzUV3G7Wqf7unaNVPvndNo4DND5OIaN7EuCYzTDy6JKwf5mSb8mbhDqGD6dRsw4vRpyYF+yoQ==
-X-Received: by 2002:a05:6e02:1ba3:: with SMTP id
- n3mr4504006ili.10.1607937555490; 
- Mon, 14 Dec 2020 01:19:15 -0800 (PST)
-Received: from pek-vx-bsp2.wrs.com (unknown-124-94.windriver.com.
- [147.11.124.94])
- by smtp.gmail.com with ESMTPSA id o10sm11618094ili.82.2020.12.14.01.19.12
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 14 Dec 2020 01:19:15 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Jean-Christophe Dubois <jcd@tribudubois.net>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw/arm: sabrelite: Connect the Ethernet PHY at address 6
-Date: Mon, 14 Dec 2020 17:18:58 +0800
-Message-Id: <1607937538-69471-4-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1607937538-69471-1-git-send-email-bmeng.cn@gmail.com>
-References: <1607937538-69471-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=bmeng.cn@gmail.com; helo=mail-il1-x143.google.com
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=cq8/Ax06jqXTrUap5n5ga3UgjpQMP4Gdw3lu3iBDWF4=;
+ b=ZI96yS0aNIrPyBbrRWINmoy2j004jGyNHZfhmeSEvYTUVgRaFyITOVWKuG+kLEaDPY
+ sbfIrIlw8dFRNQvX9bu5hEZxxD2A7iiLEzFcVURUJMRDjRzEOgMHP1otdjy5hcmmwC9C
+ sQuDYHaBe0e29GKRzEYtiMeRogI9vN3R+m58fz1zToegt9YxJyAD5BPAEgenGUgn4tbW
+ pdweXey9j0e1lLEesKtrCo35IDdUaJ5IsuJ+BiqEvSNXt1UEe0qXsvJytYZzj5eA1sPu
+ 0uRsX5JXoAUvrTdpoaGjiGC+MjLRB/ng13OQu/0aXFdQjGTDHjnV/fhoCZcIuGpRFUSy
+ BufQ==
+X-Gm-Message-State: AOAM530FnhQRyTt23lmD1WmoTLIPJsjEvsEvFpHjTd4rf3nM/b9E0B9F
+ eSCMd+vxi1FmyfL8wxpp4vRuow==
+X-Google-Smtp-Source: ABdhPJwpJ2XKWCusoDz358GTXqEUTsFyBpCeijtmLNzBgo5ylTKMOWxvO6R6NfF0nKinXlSYCRpIUw==
+X-Received: by 2002:a1c:2003:: with SMTP id g3mr27253301wmg.136.1607937965812; 
+ Mon, 14 Dec 2020 01:26:05 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j2sm30683936wrt.35.2020.12.14.01.26.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Dec 2020 01:26:04 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BDEAA1FF7E;
+ Mon, 14 Dec 2020 09:26:03 +0000 (GMT)
+References: <20201118140739.18377-1-alex.bennee@linaro.org>
+ <44c6c5c4-2152-b31f-9610-1a8e7f72037e@redhat.com>
+ <CAAdtpL6E1wbT_qrzARjR8M2b1s=jpVuT0y5iTA5wxh+559DQQA@mail.gmail.com>
+ <CAE2XoE938Ut+5NAB+4qgWMK4O4rGz8ORwWMsUC90J9NwF0Fs2A@mail.gmail.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: luoyonggang@gmail.com
+Subject: Re: [RFC PATCH] .cirrus.yml: bump timeout period for MacOS builds
+Date: Mon, 14 Dec 2020 09:24:47 +0000
+In-reply-to: <CAE2XoE938Ut+5NAB+4qgWMK4O4rGz8ORwWMsUC90J9NwF0Fs2A@mail.gmail.com>
+Message-ID: <87h7oovivo.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,58 +89,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
 
-At present, when booting U-Boot on QEMU sabrelite, we see:
+=E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <luoyonggang@gmail.com> writes:
 
-  Net:   Board Net Initialization Failed
-  No ethernet found.
+> On Mon, Dec 14, 2020 at 2:36 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
+org>
+> wrote:
+>>
+>> On Wed, Nov 18, 2020 at 4:11 PM Thomas Huth <thuth@redhat.com> wrote:
+>> > On 18/11/2020 15.07, Alex Benn=C3=A9e wrote:
+>> > > These seem to trigger timeouts with some regularity.
+>> > >
+>> > > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> > > ---
+>> > >  .cirrus.yml | 2 ++
+>> > >  1 file changed, 2 insertions(+)
+>> > >
+>> > > diff --git a/.cirrus.yml b/.cirrus.yml
+>> > > index f0209b7a3e..08db7c419f 100644
+>> > > --- a/.cirrus.yml
+>> > > +++ b/.cirrus.yml
+>> > > @@ -18,6 +18,7 @@ freebsd_12_task:
+>> > >      - gmake -j$(sysctl -n hw.ncpu) check V=3D1
+>> > >
+>> > >  macos_task:
+>> > > +  timeout_in: 90m
+>> > >    osx_instance:
+>> > >      image: catalina-base
+>> > >    install_script:
+>> > > @@ -32,6 +33,7 @@ macos_task:
+>> > >      - gmake check V=3D1
+>> > >
+>> > >  macos_xcode_task:
+>> > > +  timeout_in: 90m
+>> > >    osx_instance:
+>> > >      # this is an alias for the latest Xcode
+>> > >      image: catalina-xcode
+>> > >
+>> >
+>> > Reviewed-by: Thomas Huth <thuth@redhat.com>
+>> >
+>> > ... we could maybe also split the --target-list between the two jobs if
+> they
+>> > take too long...
+>>
+>> Maybe it's time, 90min reached:
+>> https://cirrus-ci.com/task/5774549872541696
+>>
+> Even two hour doesn't working, don't know why
 
-U-Boot scans PHY at address 4/5/6/7 (see board_eth_init() in the
-U-Boot source: board/boundary/nitrogen6x/nitrogen6x.c). On the real
-board, the Ethernet PHY is at address 6. Adjust this by updating the
-"fec-phy-num" property of the fsl_imx6 SoC object.
+It seems to have jumped up quite considerably over a short period which
+makes me think the underlying cause is something is getting stuck on
+MacOS. Unfortunately it's hard to debug with just the logs because
+whatever is taking the time might not be the last thing in the logs.
 
-With this change, U-Boot sees the PHY but complains MAC address:
+Having a time-per-test metric would be useful here.
 
-  Net:   using phy at 6
-  FEC [PRIME]
-  Error: FEC address not set.
-
-This is due to U-Boot tries to read the MAC address from the fuse,
-which QEMU does not have any valid content filled in. However this
-does not prevent the Ethernet from working in QEMU. We just need to
-set up the MAC address later in the U-Boot command shell, by:
-
-  => setenv ethaddr 00:11:22:33:44:55
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-
----
-
- hw/arm/sabrelite.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
-index 91d8c43..a3dbf85 100644
---- a/hw/arm/sabrelite.c
-+++ b/hw/arm/sabrelite.c
-@@ -51,6 +51,10 @@ static void sabrelite_init(MachineState *machine)
- 
-     s = FSL_IMX6(object_new(TYPE_FSL_IMX6));
-     object_property_add_child(OBJECT(machine), "soc", OBJECT(s));
-+
-+    /* Ethernet PHY address is 6 */
-+    object_property_set_int(OBJECT(s), "fec-phy-num", 6, &error_fatal);
-+
-     qdev_realize(DEVICE(s), NULL, &error_fatal);
- 
-     memory_region_add_subregion(get_system_memory(), FSL_IMX6_MMDC_ADDR,
--- 
-2.7.4
-
+--=20
+Alex Benn=C3=A9e
 
