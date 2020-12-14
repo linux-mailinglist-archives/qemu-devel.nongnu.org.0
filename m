@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A732D9263
-	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:06:19 +0100 (CET)
-Received: from localhost ([::1]:58012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4352D925F
+	for <lists+qemu-devel@lfdr.de>; Mon, 14 Dec 2020 06:03:50 +0100 (CET)
+Received: from localhost ([::1]:51228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kog3u-0005g1-Pt
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:06:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39274)
+	id 1kog1V-0002od-1h
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 00:03:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwQ-0005Ax-85; Sun, 13 Dec 2020 23:58:34 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:37303 helo=ozlabs.org)
+ id 1kofwR-0005Cc-E1; Sun, 13 Dec 2020 23:58:35 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:53463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kofwO-0004qV-JM; Sun, 13 Dec 2020 23:58:34 -0500
+ id 1kofwP-0004qq-Cr; Sun, 13 Dec 2020 23:58:35 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CvTfq6sMfz9sVH; Mon, 14 Dec 2020 15:58:11 +1100 (AEDT)
+ id 4CvTfr1qq2z9sVt; Mon, 14 Dec 2020 15:58:12 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607921891;
- bh=VCi/RL9feCBuXYp0mnHX3j7nsht0uB1kvqEeq6F3O7A=;
+ d=gibson.dropbear.id.au; s=201602; t=1607921892;
+ bh=ZKoVALWI63OBSDQ9zFowxkeqhZA/IacSRGnHPYTa1UE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RzRp3jd/UKgHymeZflgNU3kT0w7zy8cONM4ekdiYNFqNlaxXbYNBejCP21y/NmQNO
- YMShZVBZkWvvtOw5MBlUW4Bfqh3NWstyDRTxpxTouYIjCWOXoyNI0bfUmcnRmfcI9I
- gjQ33tRQtR8rFqYce/BNYvrAaifIcXmDiaptgH/k=
+ b=hYhnmVy8B7iNoiqkRbmXtH6ywAv+Fn8s/pgnP8kj4p7jcSmNllSvUYb2/BfFHRqPQ
+ pCxDiOqDNElZtcqf7TzZKiaphrbz+kYVG2rcIKP+wWoYDu2tnUb/g7vNkA+f06EdL3
+ kp6neTXDTyO7exmda/E+oCVIzUQD9W9goNWux3oY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 08/30] target/ppc: replaced the TODO with LOG_UNIMP and add
- break for silence warnings
-Date: Mon, 14 Dec 2020 15:57:45 +1100
-Message-Id: <20201214045807.41003-9-david@gibson.dropbear.id.au>
+Subject: [PULL 09/30] ppc: Add a missing break for PPC6xx_INPUT_TBEN
+Date: Mon, 14 Dec 2020 15:57:46 +1100
+Message-Id: <20201214045807.41003-10-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 References: <20201214045807.41003-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,58 +57,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, groug@kaod.org,
+ qemu-ppc@nongnu.org, Euler Robot <euler.robot@huawei.com>,
+ Chen Qun <kuhn.chenqun@huawei.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
 When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-target/ppc/mmu_helper.c: In function ‘dump_mmu’:
-target/ppc/mmu_helper.c:1351:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
- 1351 |         if (ppc64_v3_radix(env_archcpu(env))) {
-      |            ^
-target/ppc/mmu_helper.c:1358:5: note: here
- 1358 |     default:
-      |     ^~~~~~~
+hw/ppc/ppc.c: In function ‘ppc6xx_set_irq’:
+hw/ppc/ppc.c:118:16: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  118 |             if (level) {
+      |                ^
+hw/ppc/ppc.c:123:9: note: here
+  123 |         case PPC6xx_INPUT_INT:
+      |         ^~~~
 
-Use "qemu_log_mask(LOG_UNIMP**)" instead of the TODO comment.
-And add the break statement to fix it.
+According to the discussion, a break statement needs to be added here.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20201116024810.2415819-8-kuhn.chenqun@huawei.com>
+Message-Id: <20201116024810.2415819-7-kuhn.chenqun@huawei.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/mmu_helper.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/ppc/ppc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 064d2e8d13..9f22b66ea9 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -1349,11 +1349,12 @@ void dump_mmu(CPUPPCState *env)
-         break;
-     case POWERPC_MMU_3_00:
-         if (ppc64_v3_radix(env_archcpu(env))) {
--            /* TODO - Unsupported */
-+            qemu_log_mask(LOG_UNIMP, "%s: the PPC64 MMU is unsupported\n",
-+                          __func__);
-         } else {
-             dump_slb(env_archcpu(env));
--            break;
-         }
-+        break;
- #endif
-     default:
-         qemu_log_mask(LOG_UNIMP, "%s: unimplemented\n", __func__);
+diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+index 4a11fb1640..1b98272076 100644
+--- a/hw/ppc/ppc.c
++++ b/hw/ppc/ppc.c
+@@ -120,6 +120,7 @@ static void ppc6xx_set_irq(void *opaque, int pin, int level)
+             } else {
+                 cpu_ppc_tb_stop(env);
+             }
++            break;
+         case PPC6xx_INPUT_INT:
+             /* Level sensitive - active high */
+             LOG_IRQ("%s: set the external IRQ state to %d\n",
 -- 
 2.29.2
 
