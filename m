@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926D12DA714
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 05:18:28 +0100 (CET)
-Received: from localhost ([::1]:54138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22EF02DA7B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 06:35:51 +0100 (CET)
+Received: from localhost ([::1]:44954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp1n9-0003YW-3M
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 23:18:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56456)
+	id 1kp301-0008C1-N2
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 00:35:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kp1m1-00037E-RY
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 23:17:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kp1ly-000455-SZ
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 23:17:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608005832;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oWe5PBFgf5iw9zbPvWsaXySZFlb0O9zpSwp9RIkXcC0=;
- b=HsD1g8Dm5M1W84PIGveLL8FPHkV/ak7/6650ftZwuBYH/sV/YMDzJYVG4DVM61qxw0buZ1
- QAIMRJSb5WTfPkljRrBTJQyC0rmoPJzugu4TNoak9qFSEOqMnMAzDb7A1NOh7H5zqtnr+W
- Ug5O5FaPUSifBwhZcPKdvRhzhHBusfU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-84-LTDqoeu4PA6lsSM5ysHRow-1; Mon, 14 Dec 2020 23:17:08 -0500
-X-MC-Unique: LTDqoeu4PA6lsSM5ysHRow-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D5BA107ACE4;
- Tue, 15 Dec 2020 04:17:06 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CA5860C15;
- Tue, 15 Dec 2020 04:17:05 +0000 (UTC)
-Received: from zmail21.collab.prod.int.phx2.redhat.com
- (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id B10E918095C7;
- Tue, 15 Dec 2020 04:17:03 +0000 (UTC)
-Date: Mon, 14 Dec 2020 23:16:44 -0500 (EST)
-From: Jason Wang <jasowang@redhat.com>
-To: Alexey Kirillov <lekiravi@yandex-team.ru>
-Message-ID: <283553782.35654895.1608005804570.JavaMail.zimbra@redhat.com>
-In-Reply-To: <159211607963975@mail.yandex-team.ru>
-References: <20201108235952.107961-1-lekiravi@yandex-team.ru>
- <20201108235952.107961-4-lekiravi@yandex-team.ru>
- <3e019e9d-2649-5df8-8f9c-8d76eb2615a5@redhat.com>
- <159211607963975@mail.yandex-team.ru>
-Subject: Re: [PATCH v5 3/4] hmp: Use QMP query-netdev in hmp_info_network
+ (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
+ id 1kp2yu-0007lf-G0
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 00:34:40 -0500
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:42156)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
+ id 1kp2ys-0005H5-5K
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 00:34:40 -0500
+Received: by mail-io1-xd41.google.com with SMTP id q137so19282311iod.9
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 21:34:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dGDqe6/zYRQJyKHh7Ay6aF83I8KrzivBX6bXByejm/Y=;
+ b=kvNXB7JXtJzhsopj20Zu8Sika9h0u1NR0rPeOSCX6gYH9ieSZJSvGAZjZG/GMaLU4w
+ QJnV0fyD3j3rSy9joxx5rNoluCMu0005ndZGkSgDun2TtHFGd+vmj9HnPNSG0sM9v3lk
+ 6rUNFVi5aGscCwGI7RJtmv6COLfYRTS1EALkOqQ5L7Bm8H1B/NtiTDbMUT2QpEwh7X7a
+ tZ90GYcXB7XBwDoJjvcOPwvYOG8AFTDkx/qzKHxjuG/MHwXaMit5e7CXAiIr9dwRPx2i
+ U63DRqUXMmn49gmoICFhSrW7+XKtGWkvIjXo7VYgroxCnvbOPbPZZsxROcftjhO9UERR
+ IDxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dGDqe6/zYRQJyKHh7Ay6aF83I8KrzivBX6bXByejm/Y=;
+ b=Uo5tQ1/uBLtnUjuGGkSB50J+OA/4A58F3OdoLqqTYsJpEgtb7OCabMK/knmud3+tT+
+ T+1weFL+NYlDAkmOAxuzNHhHm20lvasoSVmtIqmaxDCFzGS/4RI6xOxwFlu8wM5JbGGj
+ nE/Ula/gX/xt8CZ+c2wt+P8BxjlKjDL9u8j3BVyGz7O0h3TlB6dtb1f80/720VJy612E
+ SE/gASQEsbcd8wq92+BuplbjTuw2F5DDQbxcEmTeV1xnHNuJ0Ijl3XwLH9ZUdusF6ard
+ zRDfZ5xQhRzNtRoYBh7iRj9h+9BZrVQebaidPJPAZXgbpeLG+ufFwr8mW9HcbwIjp522
+ pj2g==
+X-Gm-Message-State: AOAM5305A3oUnvKleRaM0djJ3UlBL45uJILg6+uuZKBB/HVXSQ9Pyrvh
+ q1rRSmXdtOl90pLty4ErLWEbUdiOP1FtsCPtOXI=
+X-Google-Smtp-Source: ABdhPJzQa6qzSGhL51nayNtV6ytLhrf7WwtD7jZWln515Hv7EXB23zxvR5+Wh//+CXToc2pSpkG/ElPiEym1mkeDdF8=
+X-Received: by 2002:a5e:db4b:: with SMTP id r11mr36043354iop.148.1608010476460; 
+ Mon, 14 Dec 2020 21:34:36 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.68.5.20, 10.4.195.30]
-Thread-Topic: Use QMP query-netdev in hmp_info_network
-Thread-Index: wJzvmE1H0GGYZHeZVf5Ed4MBLJQ9XA==
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+References: <1604636510-8347-1-git-send-email-chenhc@lemote.com>
+ <1604636510-8347-5-git-send-email-chenhc@lemote.com>
+ <e85cc640-e5f4-bec1-2e3a-b5a57abe21c7@amsat.org>
+ <CAAhV-H7ALVV=3Gj4iq4TVqL+czm3kK+F_uKvxGTJB-wonpGRHw@mail.gmail.com>
+ <215f01d5-3fad-1dc6-bb1b-e8face969e23@amsat.org>
+ <CAAhV-H6d1gDGKha=D+TNg-vwTL_5+9ON+x9GCE0QsrQktby01A@mail.gmail.com>
+ <1e7b7abd-cd4a-8f2a-2957-acd90884e0fd@amsat.org>
+ <c1110933-4c84-5bf9-32c3-0348ac7a911d@amsat.org>
+ <6965e11e-b967-c8fa-7ac0-4f1e88481d4e@amsat.org>
+ <CAAhV-H47Boz1Eq+UvxBNuK0Xm5=Y4xVkmS4ewyoy8ns0s8Dwvg@mail.gmail.com>
+ <0a679b8f-65a8-82d4-f713-44195277018f@amsat.org>
+In-Reply-To: <0a679b8f-65a8-82d4-f713-44195277018f@amsat.org>
+From: Huacai Chen <chenhuacai@gmail.com>
+Date: Tue, 15 Dec 2020 13:34:24 +0800
+Message-ID: <CAAhV-H7B3+nGOmxiibUDf7-v1eU=aqrK5YBM6wVac=nDz+U4PQ@mail.gmail.com>
+Subject: Re: [PATCH V17 4/6] hw/mips: Add Loongson-3 boot parameter helpers
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=chenhuacai@gmail.com; helo=mail-io1-xd41.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,193 +88,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Markus Armbruster <armbru@redhat.com>,
- Vincenzo Maffione <v.maffione@gmail.com>, qemu-devel@nongnu.org,
- Luigi Rizzo <rizzo@iet.unipi.it>, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Huacai Chen <zltjiangshi@gmail.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi, Philippe,
 
-
------ Original Message -----
-> Hi!
->=20
-> 07.12.2020, 08:52, "Jason Wang" <jasowang@redhat.com>:
-> > On 2020/11/9 =E4=B8=8A=E5=8D=887:59, Alexey Kirillov wrote:
-> >> =C2=A0+#ifdef CONFIG_SLIRP
-> >> =C2=A0+ case NET_BACKEND_USER: {
-> >> =C2=A0+ size_t len =3D strchr(ni->u.user.net, '/') - ni->u.user.net;
-> >> =C2=A0+ char *net =3D g_strndup(ni->u.user.net, len);
-> >> =C2=A0+
-> >> =C2=A0+ info_str =3D g_strdup_printf("net=3D%s,restrict=3D%s",
-> >> =C2=A0+ net,
-> >> =C2=A0+ ni->u.user.q_restrict ? "on" : "off");
-> >> =C2=A0+ g_free(net);
-> >> =C2=A0+ break;
-> >> =C2=A0+ }
-> >> =C2=A0+#endif /* CONFIG_SLIRP */
-> >> =C2=A0+ case NET_BACKEND_TAP: {
-> >> =C2=A0+#ifndef _WIN32
-> >> =C2=A0+ if (ni->u.tap.has_fds) {
-> >> =C2=A0+ char **fds =3D g_strsplit(ni->u.tap.fds, ":", -1);
-> >> =C2=A0+
-> >> =C2=A0+ info_str =3D g_strdup_printf("fd=3D%s", fds[nc->queue_index]);
-> >> =C2=A0+ g_strfreev(fds);
-> >> =C2=A0+ } else if (ni->u.tap.has_helper) {
-> >> =C2=A0+ info_str =3D g_strdup_printf("helper=3D%s", ni->u.tap.helper);
-> >> =C2=A0+ } else {
-> >> =C2=A0+ info_str =3D g_strdup_printf("ifname=3D%s,script=3D%s,downscri=
-pt=3D%s",
-> >> =C2=A0+ ni->u.tap.ifname,
-> >> =C2=A0+ nc->queue_index =3D=3D 0 ? ni->u.tap.script : "no",
-> >> =C2=A0+ nc->queue_index =3D=3D 0 ? ni->u.tap.downscript : "no");
-> >> =C2=A0+ }
-> >> =C2=A0+#else
-> >> =C2=A0+ info_str =3D g_strdup_printf("tap: ifname=3D%s", ni->u.tap.ifn=
-ame);
-> >> =C2=A0+#endif /* _WIN32 */
-> >> =C2=A0+ break;
-> >> =C2=A0+ }
-> >> =C2=A0+#ifdef CONFIG_L2TPV3
-> >> =C2=A0+ case NET_BACKEND_L2TPV3: {
-> >> =C2=A0+ info_str =3D g_strdup_printf("l2tpv3: connected");
-> >> =C2=A0+ break;
-> >> =C2=A0+ }
-> >> =C2=A0+#endif /* CONFIG_L2TPV3 */
-> >> =C2=A0+ case NET_BACKEND_SOCKET: {
-> >> =C2=A0+ if (ni->u.socket.has_listen) {
-> >> =C2=A0+ if (ni->u.socket.has_fd) {
-> >> =C2=A0+ info_str =3D g_strdup_printf("socket: connection from %s",
-> >> =C2=A0+ ni->u.socket.listen);
-> >> =C2=A0+ } else {
-> >> =C2=A0+ info_str =3D g_strdup_printf("socket: wait from %s",
-> >> =C2=A0+ ni->u.socket.listen);
-> >> =C2=A0+ }
-> >> =C2=A0+ } else if (ni->u.socket.has_connect && ni->u.socket.has_fd) {
-> >> =C2=A0+ info_str =3D g_strdup_printf("socket: connect to %s",
-> >> =C2=A0+ ni->u.socket.connect);
-> >> =C2=A0+ } else if (ni->u.socket.has_mcast && ni->u.socket.has_fd) {
-> >> =C2=A0+ info_str =3D g_strdup_printf("socket: mcast=3D%s",
-> >> =C2=A0+ ni->u.socket.mcast);
-> >> =C2=A0+ } else if (ni->u.socket.has_udp && ni->u.socket.has_fd) {
-> >> =C2=A0+ info_str =3D g_strdup_printf("socket: udp=3D%s", ni->u.socket.=
-udp);
-> >> =C2=A0+ } else {
-> >> =C2=A0+ g_assert(ni->u.socket.has_fd);
-> >> =C2=A0+ int so_type =3D -1;
-> >> =C2=A0+ int optlen =3D sizeof(so_type);
-> >> =C2=A0+ int fd =3D atoi(ni->u.socket.fd);
-> >> =C2=A0+
-> >> =C2=A0+ getsockopt(fd, SOL_SOCKET, SO_TYPE, (char *)&so_type,
-> >> =C2=A0+ (socklen_t *)&optlen);
-> >> =C2=A0+ if (so_type =3D=3D SOCK_STREAM) {
-> >> =C2=A0+ info_str =3D g_strdup_printf("socket: fd=3D%s",
-> >> =C2=A0+ ni->u.socket.fd);
-> >> =C2=A0+ } else {
-> >> =C2=A0+ if (ni->u.socket.has_mcast) {
-> >> =C2=A0+ /*
-> >> =C2=A0+ * This branch is unreachable, according to how it is in
-> >> =C2=A0+ * net/socket.c at this moment
-> >> =C2=A0+ */
-> >> =C2=A0+ info_str =3D g_strdup_printf("socket: fd=3D%s "
-> >> =C2=A0+ "(cloned mcast=3D%s)",
-> >> =C2=A0+ ni->u.socket.fd,
-> >> =C2=A0+ ni->u.socket.mcast);
-> >> =C2=A0+ } else {
-> >> =C2=A0+ SocketAddress *sa =3D socket_local_address(fd, NULL);
-> >> =C2=A0+
-> >> =C2=A0+ info_str =3D g_strdup_printf("socket: fd=3D%s %s",
-> >> =C2=A0+ ni->u.socket.fd,
-> >> =C2=A0+ SocketAddressType_str(sa->type));
-> >> =C2=A0+ qapi_free_SocketAddress(sa);
-> >> =C2=A0+ }
-> >> =C2=A0+ }
-> >> =C2=A0+ }
-> >> =C2=A0+ break;
-> >> =C2=A0+ }
-> >> =C2=A0+#ifdef CONFIG_VDE
-> >> =C2=A0+ case NET_BACKEND_VDE: {
-> >> =C2=A0+ info_str =3D g_strdup_printf("sock=3D%s,fd=3D%d",
-> >> =C2=A0+ ni->u.vde.sock,
-> >> =C2=A0+ net_vde_get_fd(nc));
-> >> =C2=A0+ break;
-> >> =C2=A0+ }
-> >> =C2=A0+#endif /* CONFIG_VDE */
-> >> =C2=A0+#ifdef CONFIG_NET_BRIDGE
-> >> =C2=A0+ case NET_BACKEND_BRIDGE: {
-> >> =C2=A0+ info_str =3D g_strdup_printf("helper=3D%s,br=3D%s",
-> >> =C2=A0+ ni->u.bridge.helper,
-> >> =C2=A0+ ni->u.bridge.br);
-> >> =C2=A0+ break;
-> >> =C2=A0+ }
-> >> =C2=A0+#endif /* CONFIG_NET_BRIDGE */
-> >> =C2=A0+#ifdef CONFIG_NETMAP
-> >> =C2=A0+ case NET_BACKEND_NETMAP: {
-> >> =C2=A0+ info_str =3D g_strdup_printf("netmap: ifname=3D%s",
-> >> =C2=A0+ ni->u.netmap.ifname);
-> >> =C2=A0+ break;
-> >> =C2=A0+ }
-> >> =C2=A0+#endif /* CONFIG_NETMAP */
-> >> =C2=A0+#ifdef CONFIG_VHOST_NET_USER
-> >> =C2=A0+ case NET_BACKEND_VHOST_USER: {
-> >> =C2=A0+ info_str =3D g_strdup_printf("vhost-user%d to %s",
-> >> =C2=A0+ nc->queue_index,
-> >> =C2=A0+ ni->u.vhost_user.chardev);
-> >> =C2=A0+ break;
-> >> =C2=A0+ }
-> >> =C2=A0+#endif /* CONFIG_VHOST_NET_USER */
-> >> =C2=A0+#ifdef CONFIG_VHOST_NET_VDPA
-> >> =C2=A0+ case NET_BACKEND_VHOST_VDPA: {
-> >> =C2=A0+ info_str =3D g_strdup("vhost-vdpa");
-> >> =C2=A0+ break;
-> >> =C2=A0+ }
-> >> =C2=A0+#endif /* CONFIG_VHOST_NET_VDPA */
+On Mon, Dec 14, 2020 at 9:49 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> On 12/14/20 3:37 AM, Huacai Chen wrote:
+> > Hi, Philippe,
 > >
-> > This will introduce burdens for new netdevs or new attributes since
-> > people can easily forget to add the routine here.
+> > On Mon, Dec 14, 2020 at 7:09 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
+t.org> wrote:
+> >>
+> >> On 12/13/20 11:17 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> >>> On 12/11/20 12:32 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> >>>> On 12/11/20 3:46 AM, Huacai Chen wrote:
+> >>>>> Hi, Rechard and Peter,
+> >>>>>
+> >>>>> On Wed, Dec 2, 2020 at 5:32 PM Philippe Mathieu-Daud=C3=A9 <f4bug@a=
+msat.org> wrote:
+> >>>>>>
+> >>>>>> On 12/2/20 2:14 AM, Huacai Chen wrote:
+> >>>>>>> Hi, Phillippe,
+> >>>>>>>
+> >>>>>>> On Tue, Nov 24, 2020 at 6:25 AM Philippe Mathieu-Daud=C3=A9 <f4bu=
+g@amsat.org> wrote:
+> >>>>>>>>
+> >>>>>>>> On 11/6/20 5:21 AM, Huacai Chen wrote:
+> >>>>>>>>> Preparing to add Loongson-3 machine support, add Loongson-3's L=
+EFI (a
+> >>>>>>>>> UEFI-like interface for BIOS-Kernel boot parameters) helpers fi=
+rst.
+> >>>>>>>>>
+> >>>>>>>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> >>>>>>>>> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> >>>>>>>>> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> >>>>>>>>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> >>>>>>>>> ---
+> >>>>>>>>>  hw/mips/loongson3_bootp.c | 165 ++++++++++++++++++++++++++++++=
++
+> >>>>>>>>>  hw/mips/loongson3_bootp.h | 241 ++++++++++++++++++++++++++++++=
+++++++++++++++++
+> >>>>>>>>>  hw/mips/meson.build       |   1 +
+> >>>>>>>>>  3 files changed, 407 insertions(+)
+> >>>>>>>>>  create mode 100644 hw/mips/loongson3_bootp.c
+> >>>>>>>>>  create mode 100644 hw/mips/loongson3_bootp.h
+> >>>>>>>>>
+> >>>>>>>>> diff --git a/hw/mips/loongson3_bootp.c b/hw/mips/loongson3_boot=
+p.c
+> >>>>>>>>> new file mode 100644
+> >>>>>>>>> index 0000000..3a16081
+> >>>>>>>>> --- /dev/null
+> >>>>>>>>> +++ b/hw/mips/loongson3_bootp.c
+> >>>>>>>>> @@ -0,0 +1,165 @@
+> >>>>>>>>> +/*
+> >>>>>>>>> + * LEFI (a UEFI-like interface for BIOS-Kernel boot parameters=
+) helpers
+> >>>>>>>>> + *
+> >>>>>>>>> + * Copyright (c) 2018-2020 Huacai Chen (chenhc@lemote.com)
+> >>>>>>>>> + * Copyright (c) 2018-2020 Jiaxun Yang <jiaxun.yang@flygoat.co=
+m>
+> >>>>>>>>> + *
+> >>>>>>>>> + * This program is free software: you can redistribute it and/=
+or modify
+> >>>>>>>>> + * it under the terms of the GNU General Public License as pub=
+lished by
+> >>>>>>>>> + * the Free Software Foundation, either version 2 of the Licen=
+se, or
+> >>>>>>>>> + * (at your option) any later version.
+> >>>>>>>>> + *
+> >>>>>>>>> + * This program is distributed in the hope that it will be use=
+ful,
+> >>>>>>>>> + * but WITHOUT ANY WARRANTY; without even the implied warranty=
+ of
+> >>>>>>>>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See th=
+e
+> >>>>>>>>> + * GNU General Public License for more details.
+> >>>>>>>>> + *
+> >>>>>>>>> + * You should have received a copy of the GNU General Public L=
+icense
+> >>>>>>>>> + * along with this program. If not, see <https://www.gnu.org/l=
+icenses/>.
+> >>>>>>>>> + */
+> >>>>>>>>> +
+> >>>>>>>>> +#include "qemu/osdep.h"
+> >>>>>>>>> +#include "qemu/units.h"
+> >>>>>>>>> +#include "qemu/cutils.h"
+> >>>>>>>>> +#include "cpu.h"
+> >>>>>>>>> +#include "hw/boards.h"
+> >>>>>>>>> +#include "hw/mips/loongson3_bootp.h"
+> >>>>>>>>> +
+> >>>>>>>>> +#define LOONGSON3_CORE_PER_NODE 4
+> >>>>>>>>> +
+> >>>>>>>>> +static struct efi_cpuinfo_loongson *init_cpu_info(void *g_cpui=
+nfo, uint64_t cpu_freq)
+> >>>>>>>>> +{
+> >>>>>>>>> +    struct efi_cpuinfo_loongson *c =3D g_cpuinfo;
+> >>>>>>>>> +
+> >>>>>>>>> +    stl_le_p(&c->cputype, Loongson_3A);
+> >>>>>>>>> +    stl_le_p(&c->processor_id, MIPS_CPU(first_cpu)->env.CP0_PR=
+id);
+> >>>>>>>>
+> >>>>>>>> Build failing with Clang:
+> >>>>>>>>
+> >>>>>>>> FAILED: libqemu-mips64el-softmmu.fa.p/hw_mips_loongson3_bootp.c.=
+o
+> >>>>>>>> hw/mips/loongson3_bootp.c:35:15: error: taking address of packed=
+ member
+> >>>>>>>> 'processor_id' of class or structure 'efi_cpuinfo_loongson' may =
+result
+> >>>>>>>> in an unaligned pointer value [-Werror,-Waddress-of-packed-membe=
+r]
+> >>>>>>>>     stl_le_p(&c->processor_id, MIPS_CPU(first_cpu)->env.CP0_PRid=
+);
+> >>>>>>>>               ^~~~~~~~~~~~~~~
+> >>>>>>>> 1 error generated.
+> >>>>>>> We cannot reproduce it on X86/MIPS with clang...
+> >>>>>>
+> >>>>>> You can reproduce running the Clang job on Gitlab-CI:
+> >>>>>>
+> >>>>>> https://wiki.qemu.org/Testing/CI/GitLabCI
+> >>>>>>
+> >>>>>>> And I found that
+> >>>>>>> stl_le_p() will be __builtin_memcpy(), I don't think memcpy() wil=
+l
+> >>>>>>> cause unaligned access. So, any suggestions?
+> >>>>
+> >>>> My understanding is the compiler is complaining for the argument
+> >>>> passed to the caller, with no knowledge of the callee implementation=
+.
+> >>>>
+> >>>> Which makes me wonder if these functions are really inlined...
+> >>>>
+> >>>> Do we need to use QEMU_ALWAYS_INLINE for these LDST helpers?
+> >>>
+> >>> No, this doesn't work neither.
+> >>
+> >> Well, this works:
+> >>
+> >> -- >8 --
+> >> @@ -32,7 +32,7 @@ static struct efi_cpuinfo_loongson *init_cpu_info(vo=
+id
+> >> *g_cpuinfo, uint64_t cpu_
+> >>      struct efi_cpuinfo_loongson *c =3D g_cpuinfo;
+> >>
+> >>      stl_le_p(&c->cputype, Loongson_3A);
+> >> -    stl_le_p(&c->processor_id, MIPS_CPU(first_cpu)->env.CP0_PRid);
+> >> +    c->processor_id =3D cpu_to_le32(MIPS_CPU(first_cpu)->env.CP0_PRid=
+);
+> >>      if (cpu_freq > UINT_MAX) {
+> >>          stl_le_p(&c->cpu_clock_freq, UINT_MAX);
+> >>      } else {
 > >
-> > I think at least we need introduce callbacks for this.
->=20
-> Thanks for pointing. I can't remember why exactly I chose to not do it.
-> So it's definitely better to split this chunk to several callbacks.
-> I'll do it in the next version of series.
->=20
-> > One more stupid question, instead of generating the string via hard
-> > codes, is there any method (dict?) to iterate all the key/values
-> > automatically?
+> > This seems not allowed. In include/qemu/bswap.h it says:
+> >  * Do an in-place conversion of the value pointed to by @v from the
+> >  * native endianness of the host CPU to the specified format.
+> >  *
+> >  * Both X_to_cpu() and cpu_to_X() perform the same operation; you
+> >  * should use whichever one is better documenting of the function your
+> >  * code is performing.
+> >  *
+> >  * Do not use these functions for conversion of values which are in gue=
+st
+> >  * memory, since the data may not be sufficiently aligned for the host =
+CPU's
+> >  * load and store instructions. Instead you should use the ld*_p() and
+> >  * st*_p() functions, which perform loads and stores of data of any
+> >  * required size and endianness and handle possible misalignment.
 > >
-> > Thanks
->=20
-> Oh yes, that the point.
-> Now there are no common format for info_str.
-> This patch is aimed to keep old HMP command mostly untouched.
-> But if we can drop old format, all this mess can be generalized as JSON
-> lines replacing old info_str stuff.
->=20
-> What do you think about that?
+> > And there is a very strange problem, nearly all 32bit members are
+> > after a 16bit vers member, why only processor_id is special? Compiler
+> > bug?
+>
+> This is what I wonder since some time but I don't have the knowledge
+> to confirm.
+>
+> Indeed I commented the "stl_le_p(&c->processor_id, ...);" line,
+> and there is no error for the following 32-bit values, which are
+> similarly unlikely 32-bit aligned.
+>
+> FWIW I am using Fedora release 32 (Thirty Two), and 'cc -v':
+>
+>  clang version 10.0.1 (Fedora 10.0.1-3.fc32)
+>  Target: x86_64-unknown-linux-gnu
+>  clang -cc1 version 10.0.1 based upon LLVM 10.0.1 default target
+> x86_64-unknown-linux-gnu
+>
+Since cpu_to_le32() "solve" the problem here, I want to use
+cpu_to_lexx() for all members, do you agree?
 
-I think it works and there's no need for sticking to the old HMP
-format since it's not an ABI. And it would be better if you can
-generate more human readable format from JSON.
+Huacai
 
-Thanks
-
-
->=20
-> Originally I wanted to completely drop old info_str and use
-> QAPI to store and provide information about netdevs (and NICs too).
->=20
-> Thanks!
->=20
-> --
-> Alexey Kirillov
-> Yandex.Cloud
->=20
->=20
-
+> >
+> > Huacai
+> >> ---
+> >>
+> >>>
+> >>>>
+> >>>> I see Richard used it in commit 80d9d1c6785 ("cputlb: Split out
+> >>>> load/store_memop").
+> >>>>
+> >>>>>>
+> >>>>>> I'll defer this question to Richard/Peter who have deeper understa=
+nding.
+> >>>>> Any sugguestions? Other patches are updated, except this one.
+> >>>>
+> >>>> Searching on the list, I see Marc-Andr=C3=A9 resolved that by
+> >>>> using a copy on the stack:
+> >>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg614482.html
 
