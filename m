@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5E2B2DB6D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 00:01:46 +0100 (CET)
-Received: from localhost ([::1]:47338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5855A2DB6DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 00:05:12 +0100 (CET)
+Received: from localhost ([::1]:55752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpJKC-0005X4-72
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 18:01:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43602)
+	id 1kpJNX-0002kN-Dg
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 18:05:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpJGf-0002ej-3H
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:58:05 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:42359)
+ id 1kpJGj-0002ht-8K
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:58:09 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:38523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpJGb-0003Vp-Tv
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:58:04 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id d17so30055641ejy.9
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 14:58:01 -0800 (PST)
+ id 1kpJGh-0003Xr-Pm
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:58:09 -0500
+Received: by mail-ej1-x641.google.com with SMTP id 6so15405972ejz.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 14:58:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=XTmTU+I/QeMhja7w9GBCfSdZSiPSigvZOhS987dRJBo=;
- b=oLimqBnxuZ+ao84nN51By9sR65R1eDdf2BZhI5VRg1r+POA1uoJ4yBdwG1eJAvQFZy
- FFr5DVpTqFA0XzgvL2eMlOiyF/VKAZNEHVsK3EYX7AyjtPCDvlL9qeAsSZXVv8aT1RPt
- 75HXpCGE1FFe4NRbNP64DXn8giZvtzdbmSJEy5BZNxIpJzJQWUjBA14GanuHOx0SsjAs
- tYu0auLQhExF1bItOUkAFFBv2uYsP60I//0Dc6jeIFr5ms02vzHi32TvIMbhTMLW4OLC
- rkSo8PheSiJs7KHdCw7+vdTnfg9yTZMK1uzI6885ZRZjZD+C7eyjIYm7hvdx61mKGVB0
- uylw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=eBR/KP1XMbhrcgssotJd4G/2avIMrBZMV7G4WmoiWo8=;
+ b=YrR0Z5DqkFBEJMEr1NVzef+bcwtTkoahx68HU/I9evKCqeSbblFgtzi4VwkRteuGlB
+ alrA8YVrKnFX+Qmh04SBwbi4UktTCu8JTa5GIZoLuSqedrTqamgZjvge9k/ZMuj6RZv9
+ 0RmgIsSUZFdr60RFQPWxo20uMyRah+OAv4Hg0lBOEJrNCJXPTkVex4JsV7Td9l1UrgH8
+ 18sLjhIGG44a2+kwmIh29I3kxxH6eUDWLFp+NT3KAxoazrkdaDiEpHpw4+vvcikbRRB9
+ Hpab1AIgsyW6ZGURc5Qrd31/2aT5JgQyU4ESaIVP0R1q+at+GxzUWO0g1NhFgG7SS0xd
+ o/Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=XTmTU+I/QeMhja7w9GBCfSdZSiPSigvZOhS987dRJBo=;
- b=Nd8QDhuWzz1LmsSoxU7eEi2PcKoITq3XaylqxeTZvB6wCJFFC9paJh7lx3SNjmEETh
- MCUWSHeJzw6akhsVoJndRqlVTG0/dMmSc3w7patFv8jI9e7aBQjN36xPEU5D0ypqdJTe
- UOCPQ4BtKCJ7VX24RISd57vtROdWZS2g3L10TDvCP99uYCMvcaOraH8qV2k+1qjI4BuT
- KdXvCTWGM3AtDa4Jl5bM1N4tTs1Q8N1hluzawImKBd6+8bBrHpdJTczEHXdFZ3sfyzEn
- w/+osg/e7eEULx86JaepP+dYoBSHx7z3UZC6wTV/LcC7Vt0rCk33BXSAbIB4Bt++otFT
- kRRQ==
-X-Gm-Message-State: AOAM530MYEA03Esm7dRbDnElRlO7wU6aJj1iMszAOWEI0acWduu0Dglo
- SPKtNSTjfF3w+oCDBkBGwos=
-X-Google-Smtp-Source: ABdhPJwyuY0SMLuZ8mv7Kg7MS1wODirFHVtTRpqubaTxWcwvu6I18YNN2a8WCyVz7eRcENkMSDW5Xw==
-X-Received: by 2002:a17:906:e8b:: with SMTP id
- p11mr18861695ejf.92.1608073080221; 
- Tue, 15 Dec 2020 14:58:00 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=eBR/KP1XMbhrcgssotJd4G/2avIMrBZMV7G4WmoiWo8=;
+ b=XwddoDqWW2SWelDaFR3Ou/t2XHltKf/JY1dXwWILc6dlwOXuF0YZ+obNOquE0rcB+/
+ /dyZn/yUddiz8TKAGovJOwSnYptVkTRICsQBSlCQvCpNxfs/jgdcYpEK+uxTOl/stdXl
+ 0dlYFQqXISh+0t5QZoGqfySolWbhJEY/MP5W7w4oeD1978fLxW+AIJSbo9b2JFOclWMI
+ g6LrQnxz8D+LgwHC0GOEgZNYn5ntLTZF6R2w7QzT1tgWhWaOXhJECzILUqZIyuQI3DXk
+ pZqcfvy5pg1Z/2pkVmlgqKZAfzmfZmKAJoOU1FOIFo65lB5ovjUfaj96anzzLTGEocb2
+ uGTA==
+X-Gm-Message-State: AOAM533099TkIoNJ9HQnls2dwJL4xnQPhYhQW1M4tpTEfSzPoCqPc+pa
+ Bxvrg7jOzTZurIYIfex+Vwc=
+X-Google-Smtp-Source: ABdhPJw8ylReeQsh/8yN74nzFbXTfd16F9/1BaCqotQgh4xKhIEOL+x+fifCJ+4D13ea5/hOaaDSYg==
+X-Received: by 2002:a17:906:4a4f:: with SMTP id
+ a15mr29198657ejv.541.1608073085939; 
+ Tue, 15 Dec 2020 14:58:05 -0800 (PST)
 Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id o13sm19168231edr.94.2020.12.15.14.57.58
+ by smtp.gmail.com with ESMTPSA id o33sm19828818edd.50.2020.12.15.14.58.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 14:57:59 -0800 (PST)
+ Tue, 15 Dec 2020 14:58:05 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Richard Henderson <richard.henderson@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 00/24] target/mips: Convert MSA ASE to decodetree
-Date: Tue, 15 Dec 2020 23:57:33 +0100
-Message-Id: <20201215225757.764263-1-f4bug@amsat.org>
+Subject: [PATCH v2 01/24] target/mips/translate: Extract decode_opc_legacy()
+ from decode_opc()
+Date: Tue, 15 Dec 2020 23:57:34 +0100
+Message-Id: <20201215225757.764263-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201215225757.764263-1-f4bug@amsat.org>
+References: <20201215225757.764263-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,86 +96,87 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Missing review: 1-3 14 17 19-24=0D
-=0D
-Since v1:=0D
-- rebased=0D
-- addressed Richard review comments=0D
-- reworded some commit descriptions=0D
-- avoid 64-bit ifdef'ry=0D
-=0D
-Finally, we use decodetree with the MIPS target.=0D
-=0D
-Starting easy with the MSA ASE. 2700+ lines extracted=0D
-from helper.h and translate.c, now built as an new=0D
-object: mod-msa_translate.o.=0D
-=0D
-Phil.=0D
-=0D
-Available:=0D
-  https://gitlab.com/philmd/qemu/-/commits/mips_msa_decodetree_v2=0D
-=0D
-Based-on: <20201214183739.500368-1-f4bug@amsat.org>=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (24):=0D
-  target/mips/translate: Extract decode_opc_legacy() from decode_opc()=0D
-  target/mips/translate: Expose check_mips_64() to 32-bit mode=0D
-  target/mips/cpu: Introduce isa_rel6_available() helper=0D
-  target/mips: Introduce ase_msa_available() helper=0D
-  target/mips: Simplify msa_reset()=0D
-  target/mips: Use CP0_Config3 to set MIPS_HFLAG_MSA=0D
-  target/mips: Simplify MSA TCG logic=0D
-  target/mips: Remove now unused ASE_MSA definition=0D
-  target/mips: Alias MSA vector registers on FPU scalar registers=0D
-  target/mips: Extract msa_translate_init() from mips_tcg_init()=0D
-  target/mips: Remove CPUMIPSState* argument from gen_msa*() methods=0D
-  target/mips: Explode gen_msa_branch() as gen_msa_BxZ_V/BxZ()=0D
-  target/mips: Rename msa_helper.c as mod-msa_helper.c=0D
-  target/mips: Move msa_reset() to mod-msa_helper.c=0D
-  target/mips: Extract MSA helpers from op_helper.c=0D
-  target/mips: Extract MSA helper definitions=0D
-  target/mips: Declare gen_msa/_branch() in 'translate.h'=0D
-  target/mips: Extract MSA translation routines=0D
-  target/mips: Introduce decode tree bindings for MSA opcodes=0D
-  target/mips: Use decode_ase_msa() generated from decodetree=0D
-  target/mips: Extract LSA/DLSA translation generators=0D
-  target/mips: Introduce decodetree helpers for MSA LSA/DLSA opcodes=0D
-  target/mips: Introduce decodetree helpers for Release6 LSA/DLSA=0D
-    opcodes=0D
-  target/mips/mod-msa: Pass TCGCond argument to gen_check_zero_element()=0D
-=0D
- target/mips/cpu.h                             |    7 +=0D
- target/mips/helper.h                          |  436 +--=0D
- target/mips/internal.h                        |    4 +-=0D
- target/mips/mips-defs.h                       |    1 -=0D
- target/mips/translate.h                       |   25 +-=0D
- target/mips/isa-mips32r6.decode               |   17 +=0D
- target/mips/isa-mips64r6.decode               |   17 +=0D
- target/mips/mod-msa32.decode                  |   28 +=0D
- target/mips/mod-msa64.decode                  |   17 +=0D
- target/mips/cpu.c                             |   14 +-=0D
- target/mips/isa-mips_rel6_translate.c         |   37 +=0D
- target/mips/kvm.c                             |   12 +-=0D
- .../mips/{msa_helper.c =3D> mod-msa_helper.c}   |  429 +++=0D
- target/mips/mod-msa_translate.c               | 2286 ++++++++++++++++=0D
- target/mips/op_helper.c                       |  394 ---=0D
- target/mips/translate.c                       | 2352 +----------------=0D
- target/mips/translate_addr_const.c            |   52 +=0D
- target/mips/cpu-defs.c.inc                    |   40 +-=0D
- target/mips/meson.build                       |   14 +-=0D
- target/mips/mod-msa_helper.h.inc              |  443 ++++=0D
- 20 files changed, 3437 insertions(+), 3188 deletions(-)=0D
- create mode 100644 target/mips/isa-mips32r6.decode=0D
- create mode 100644 target/mips/isa-mips64r6.decode=0D
- create mode 100644 target/mips/mod-msa32.decode=0D
- create mode 100644 target/mips/mod-msa64.decode=0D
- create mode 100644 target/mips/isa-mips_rel6_translate.c=0D
- rename target/mips/{msa_helper.c =3D> mod-msa_helper.c} (93%)=0D
- create mode 100644 target/mips/mod-msa_translate.c=0D
- create mode 100644 target/mips/translate_addr_const.c=0D
- create mode 100644 target/mips/mod-msa_helper.h.inc=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+As we will slowly move to decodetree generated decoders,
+extract the legacy decoding from decode_opc(), so new
+decoders are added in decode_opc() while old code is
+removed from decode_opc_legacy().
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/translate.c | 45 ++++++++++++++++++++++++-----------------
+ 1 file changed, 26 insertions(+), 19 deletions(-)
+
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index cc876019bf7..5c62b32c6ae 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -30518,30 +30518,13 @@ static void gen_msa(CPUMIPSState *env, DisasContext *ctx)
+ 
+ }
+ 
+-static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
++static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
+ {
+     int32_t offset;
+     int rs, rt, rd, sa;
+     uint32_t op, op1;
+     int16_t imm;
+ 
+-    /* make sure instructions are on a word boundary */
+-    if (ctx->base.pc_next & 0x3) {
+-        env->CP0_BadVAddr = ctx->base.pc_next;
+-        generate_exception_err(ctx, EXCP_AdEL, EXCP_INST_NOTAVAIL);
+-        return;
+-    }
+-
+-    /* Handle blikely not taken case */
+-    if ((ctx->hflags & MIPS_HFLAG_BMASK_BASE) == MIPS_HFLAG_BL) {
+-        TCGLabel *l1 = gen_new_label();
+-
+-        tcg_gen_brcondi_tl(TCG_COND_NE, bcond, 0, l1);
+-        tcg_gen_movi_i32(hflags, ctx->hflags & ~MIPS_HFLAG_BMASK);
+-        gen_goto_tb(ctx, 1, ctx->base.pc_next + 4);
+-        gen_set_label(l1);
+-    }
+-
+     op = MASK_OP_MAJOR(ctx->opcode);
+     rs = (ctx->opcode >> 21) & 0x1f;
+     rt = (ctx->opcode >> 16) & 0x1f;
+@@ -31269,8 +31252,32 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
+         break;
+     default:            /* Invalid */
+         MIPS_INVAL("major opcode");
++        return false;
++    }
++    return true;
++}
++
++static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
++{
++    /* make sure instructions are on a word boundary */
++    if (ctx->base.pc_next & 0x3) {
++        env->CP0_BadVAddr = ctx->base.pc_next;
++        generate_exception_err(ctx, EXCP_AdEL, EXCP_INST_NOTAVAIL);
++        return;
++    }
++
++    /* Handle blikely not taken case */
++    if ((ctx->hflags & MIPS_HFLAG_BMASK_BASE) == MIPS_HFLAG_BL) {
++        TCGLabel *l1 = gen_new_label();
++
++        tcg_gen_brcondi_tl(TCG_COND_NE, bcond, 0, l1);
++        tcg_gen_movi_i32(hflags, ctx->hflags & ~MIPS_HFLAG_BMASK);
++        gen_goto_tb(ctx, 1, ctx->base.pc_next + 4);
++        gen_set_label(l1);
++    }
++
++    if (!decode_opc_legacy(env, ctx)) {
+         gen_reserved_instruction(ctx);
+-        break;
+     }
+ }
+ 
+-- 
+2.26.2
+
 
