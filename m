@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DB2D2DB302
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 18:50:45 +0100 (CET)
-Received: from localhost ([::1]:39208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1C82DB319
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 18:58:30 +0100 (CET)
+Received: from localhost ([::1]:52254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpETE-0000q0-6d
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 12:50:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60604)
+	id 1kpEaj-00072Q-AU
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 12:58:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpER5-0007to-Gt
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:48:32 -0500
-Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:44868)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpER2-0000jj-Ef
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:48:31 -0500
-Received: by mail-ot1-x336.google.com with SMTP id f16so20190914otl.11
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 09:48:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=q/mRkHuCWI2jcgn+9ywRVxDn11F/WiYpDpR300/jUp8=;
- b=gEobVdRE/FQA+uf1sz7JtYj7tzEYCdvLkP3IkmSpG3r+2JcUVS6Eeaw+iBK2OpCNY5
- m7kEQaVPjGUSa/z8hlTFlcnOMkLkzkHFZv97ddNKHsefJ2ffMas9kOGpHZFG11ptol97
- 1cIWqAkiPiMXCW/51t20H5mdn/8LH40ym+2p9nZPAvcvDbm7LYVAGyl+s5RdQ8YyirhX
- Rm4P7mk5ru9abLEguQuK4Xx/jp2YjLaJArogKL0K06vlpw9h7TCi3PSOi/iPsW7eN2Av
- N5sVnc6LCDj/XcTMA05eg/cSfoKZ+MH59KvweF1pcIsyjO7EiZD7OQRoWhXoCBJP1HUw
- gCsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=q/mRkHuCWI2jcgn+9ywRVxDn11F/WiYpDpR300/jUp8=;
- b=d4ai52lf+XNnBAV9424rz1Fp1X7WYd2JqbfKplJwLrvDPBECOu9eVc+ME8/BMVGd7L
- B7+6XRfEExPfWi6/2k05ZTQUTtG8oremNQXHsjxymdjMhxhvCug5CkiCVpUrVfH4vvz2
- xQXb1RVvs0tM5EAoAhs82jUOWqMXVAQv08aAC9zfkSwMPxrKeUr/U16LArvZAVeXfJyM
- 9ESOcpko4AQVc6XLJR86brV6xDKxpvBZ9Ml8uY75vUBxKLTZsp5QhlsbtMT+Yd19eS9Y
- wvwy+V/O5W6sSPvp1BVQPewlcQpeSgIYr7vZrCwOv7hM8lqchIAriJi7iUMIEpM2hOlZ
- Nl5Q==
-X-Gm-Message-State: AOAM533VVRnlcOxdFJJJ6Xf4sIjY0GfdUMct9Zr0J4HBUdGfuDzkDIfd
- bgDuoQOvwuiD32g8MNzcnElFTCR6KNs4dd8T
-X-Google-Smtp-Source: ABdhPJysJafHHfWyhjkX0ebhViENzwYzX3RE3VuIJezrABISznjSJNai4Xr6BoFlctHtIeD6Bl1WDA==
-X-Received: by 2002:a9d:2941:: with SMTP id d59mr16349199otb.232.1608054506548; 
- Tue, 15 Dec 2020 09:48:26 -0800 (PST)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id s23sm570392otr.59.2020.12.15.09.48.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 09:48:25 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kpEXG-0002u3-1C
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:54:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kpEXC-0001Rl-Gi
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:54:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608054889;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hybkaUYAraoAaFklDY/Eokoq2GG00bcFRb9eVUTPGuQ=;
+ b=W2muYtWzI5yoFGLpcfkQugmtYDHr0sOKZhhw7dFs64rzmPrJ9QAwD7Z/okn63hAV9L0lBo
+ /qAOQQ3SY46Nx462VaTm7KtvC/RT2sQp5r551FBzjDpkxY9aY2/4whf+Q0/KW/ZUXsjkm1
+ tS1nJNUXlAeactS9qVaKcWxmmAOV/VU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-550-bk0RZlK3NQaRzTU4qEFYvw-1; Tue, 15 Dec 2020 12:54:47 -0500
+X-MC-Unique: bk0RZlK3NQaRzTU4qEFYvw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C9028015D4
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 17:54:46 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE57560C15
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 17:54:45 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg: Use memset for large vector byte replication
-Date: Tue, 15 Dec 2020 11:48:24 -0600
-Message-Id: <20201215174824.76017-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+Subject: [PULL 00/45] Misc patches for 2020-12-15
+Date: Tue, 15 Dec 2020 12:54:00 -0500
+Message-Id: <20201215175445.1272776-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x336.google.com
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,123 +76,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In f47db80cc07, we handled odd-sized tail clearing for
-the case of hosts that have vector operations, but did
-not handle the case of hosts that do not have vector ops.
+The following changes since commit 69e92bd558d71fdbd0c1989391b20edcc700daa9:
 
-This was ok until e2e7168a214b, which changed the encoding
-of simd_desc such that the odd sizes are impossible.
+  Merge remote-tracking branch 'remotes/ehabkost/tags/machine-next-pull-request' into staging (2020-12-15 15:35:47 +0000)
 
-Add memset as a tcg helper, and use that for all out-of-line
-byte stores to vectors.  This includes, but is not limited to,
-the tail clearing operation in question.
+are available in the Git repository at:
 
-Cc: qemu-stable@nongnu.org
-Buglink: https://bugs.launchpad.net/bugs/1907817
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/tcg-runtime.h     | 11 +++++++++++
- include/exec/helper-proto.h |  4 ++++
- tcg/tcg-op-gvec.c           | 32 ++++++++++++++++++++++++++++++++
- 3 files changed, 47 insertions(+)
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-diff --git a/accel/tcg/tcg-runtime.h b/accel/tcg/tcg-runtime.h
-index 4eda24e63a..2e36d6eb0c 100644
---- a/accel/tcg/tcg-runtime.h
-+++ b/accel/tcg/tcg-runtime.h
-@@ -28,6 +28,17 @@ DEF_HELPER_FLAGS_1(lookup_tb_ptr, TCG_CALL_NO_WG_SE, ptr, env)
- 
- DEF_HELPER_FLAGS_1(exit_atomic, TCG_CALL_NO_WG, noreturn, env)
- 
-+#ifndef IN_HELPER_PROTO
-+/*
-+ * Pass calls to memset directly to libc, without a thunk in qemu.
-+ * Do not re-declare memset, especially since we fudge the type here;
-+ * we assume sizeof(void *) == sizeof(size_t), which is true for
-+ * all supported hosts.
-+ */
-+#define helper_memset memset
-+DEF_HELPER_FLAGS_3(memset, TCG_CALL_NO_RWG, ptr, ptr, int, ptr)
-+#endif /* IN_HELPER_PROTO */
-+
- #ifdef CONFIG_SOFTMMU
- 
- DEF_HELPER_FLAGS_5(atomic_cmpxchgb, TCG_CALL_NO_WG,
-diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
-index a0a8d9aa46..659f9298e8 100644
---- a/include/exec/helper-proto.h
-+++ b/include/exec/helper-proto.h
-@@ -35,11 +35,15 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
-                             dh_ctype(t4), dh_ctype(t5), dh_ctype(t6), \
-                             dh_ctype(t7));
- 
-+#define IN_HELPER_PROTO
-+
- #include "helper.h"
- #include "trace/generated-helpers.h"
- #include "tcg-runtime.h"
- #include "plugin-helpers.h"
- 
-+#undef IN_HELPER_PROTO
-+
- #undef DEF_HELPER_FLAGS_0
- #undef DEF_HELPER_FLAGS_1
- #undef DEF_HELPER_FLAGS_2
-diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
-index ddbe06b71a..6c42d76f3a 100644
---- a/tcg/tcg-op-gvec.c
-+++ b/tcg/tcg-op-gvec.c
-@@ -547,6 +547,9 @@ static void do_dup(unsigned vece, uint32_t dofs, uint32_t oprsz,
-         in_c = dup_const(vece, in_c);
-         if (in_c == 0) {
-             oprsz = maxsz;
-+            vece = MO_8;
-+        } else if (in_c == dup_const(MO_8, in_c)) {
-+            vece = MO_8;
-         }
-     }
- 
-@@ -628,6 +631,35 @@ static void do_dup(unsigned vece, uint32_t dofs, uint32_t oprsz,
-     /* Otherwise implement out of line.  */
-     t_ptr = tcg_temp_new_ptr();
-     tcg_gen_addi_ptr(t_ptr, cpu_env, dofs);
-+
-+    /*
-+     * This may be expand_clr for the tail of an operation, e.g.
-+     * oprsz == 8 && maxsz == 64.  The size of the clear is misaligned
-+     * wrt simd_desc and will assert.  Simply pass all replicated byte
-+     * stores through to memset.
-+     */
-+    if (oprsz == maxsz && vece == MO_8) {
-+        TCGv_ptr t_size = tcg_const_ptr(oprsz);
-+        TCGv_i32 t_val;
-+
-+        if (in_32) {
-+            t_val = in_32;
-+        } else if (in_64) {
-+            t_val = tcg_temp_new_i32();
-+            tcg_gen_extrl_i64_i32(t_val, in_64);
-+        } else {
-+            t_val = tcg_const_i32(in_c);
-+        }
-+        gen_helper_memset(t_ptr, t_ptr, t_val, t_size);
-+
-+        tcg_temp_free_ptr(t_ptr);
-+        tcg_temp_free_ptr(t_size);
-+        if (!in_32) {
-+            tcg_temp_free_i32(t_val);
-+        }
-+        return;
-+    }
-+
-     t_desc = tcg_const_i32(simd_desc(oprsz, maxsz, 0));
- 
-     if (vece == MO_64) {
+for you to fetch changes up to bbd2d5a8120771ec59b86a80a1f51884e0a26e53:
+
+  build: -no-pie is no functional linker flag (2020-12-15 12:53:16 -0500)
+
+----------------------------------------------------------------
+* New -action option and set-action QMP command (Alejandro)
+* More vl.c cleanup (myself with help from Daniel and Igor)
+* Remove deprecated options (Philippe, Thomas)
+* Dirty bitmap fix (Zenghui)
+* icount caching speedup (Pavel)
+* SCSI race fix (Maxim)
+* Remove pre-GCC 4.8 code (Marc-André)
+
+----------------------------------------------------------------
+Alejandro Jimenez (4):
+      qmp: generalize watchdog-set-action to -no-reboot/-no-shutdown
+      vl: Add an -action option specifying response to guest events
+      vl: Add option to avoid stopping VM upon guest panic
+      qtest/pvpanic: Test panic option that allows VM to continue
+
+Christian Ehrhardt (1):
+      build: -no-pie is no functional linker flag
+
+Igor Mammedov (1):
+      ppc/spapr: cleanup -machine pseries,nvdimm=X handling
+
+Marc-André Lureau (11):
+      docs: set CONFDIR when running sphinx
+      compiler.h: remove GCC < 3 __builtin_expect fallback
+      qemu-plugin.h: remove GCC < 4
+      tests: remove GCC < 4 fallbacks
+      virtiofsd: replace _Static_assert with QEMU_BUILD_BUG_ON
+      compiler.h: explicit case for Clang printf attribute
+      poison: remove GNUC check
+      xen: remove GNUC check
+      compiler: remove GNUC check
+      linux-user: remove GNUC check
+      compiler.h: remove QEMU_GNUC_PREREQ
+
+Maxim Levitsky (1):
+      scsi: fix device removal race vs IO restart callback on resume
+
+Paolo Bonzini (17):
+      remove preconfig state
+      vl: remove separate preconfig main_loop
+      vl: allow -incoming defer with -preconfig
+      vl: extract softmmu/runstate.c
+      vl: extract softmmu/globals.c
+      vl: move all generic initialization out of vl.c
+      chardev: do not use machine_init_done
+      machine: introduce MachineInitPhase
+      vl: make qemu_get_machine_opts static
+      plugin: propagate errors
+      memory: allow creating MemoryRegions before accelerators
+      monitor: allow quitting while in preconfig state
+      msix: assert that accesses are within bounds
+      memory: clamp cached translation in case it points to an MMIO region
+      qemu-option: simplify search for end of key
+      qemu-option: pass QemuOptsList to opts_accepts_any
+      vl: rename local variable in configure_accelerators
+
+Pavel Dovgalyuk (1):
+      icount: improve exec nocache usage
+
+Philippe Mathieu-Daudé (5):
+      accel/tcg: Remove deprecated '-tb-size' option
+      hw/core: Restrict 'fw-path-provider.c' to system mode emulation
+      qemu/atomic: Drop special case for unsupported compiler
+      accel/tcg: Remove special case for GCC < 4.6
+      scripts/git.orderfile: Keep files with .inc extension sorted
+
+Thomas Huth (3):
+      docs/system: Move the list of removed features to a separate file
+      Remove the deprecated -realtime option
+      Remove the deprecated -show-cursor option
+
+Zenghui Yu (1):
+      kvm: Take into account the unaligned section size when preparing bitmap
+
+ MAINTAINERS                         |    2 +
+ accel/kvm/kvm-all.c                 |   18 +-
+ accel/tcg/cpu-exec.c                |    4 +-
+ accel/tcg/translate-all.c           |    2 +-
+ chardev/char-mux.c                  |   38 +-
+ chardev/chardev-sysemu.c            |   69 ---
+ chardev/meson.build                 |    2 +-
+ configure                           |    3 -
+ docs/meson.build                    |    2 +-
+ docs/system/deprecated.rst          |  246 --------
+ docs/system/index.rst               |    1 +
+ docs/system/removed-features.rst    |  243 ++++++++
+ hmp-commands.hx                     |    1 +
+ hw/arm/boot.c                       |    2 +-
+ hw/core/machine-qmp-cmds.c          |    7 +-
+ hw/core/machine.c                   |   55 +-
+ hw/core/meson.build                 |    2 +-
+ hw/core/qdev.c                      |   28 +-
+ hw/microblaze/boot.c                |    9 +-
+ hw/nios2/boot.c                     |    9 +-
+ hw/pci/msix.c                       |    3 +
+ hw/pci/pci.c                        |    2 +-
+ hw/ppc/e500.c                       |    5 +-
+ hw/ppc/spapr.c                      |   13 +
+ hw/ppc/spapr_nvdimm.c               |   14 +-
+ hw/ppc/virtex_ml507.c               |    2 +-
+ hw/riscv/sifive_u.c                 |    6 +-
+ hw/riscv/virt.c                     |    6 +-
+ hw/scsi/scsi-bus.c                  |    4 +
+ hw/usb/core.c                       |    2 +-
+ hw/virtio/virtio-iommu.c            |    2 +-
+ hw/xtensa/xtfpga.c                  |    9 +-
+ include/chardev/char.h              |    6 +-
+ include/exec/cpu-common.h           |    3 +
+ include/exec/exec-all.h             |    3 -
+ include/exec/poison.h               |    2 -
+ include/hw/qdev-core.h              |   33 +-
+ include/hw/xen/interface/io/ring.h  |    9 -
+ include/qapi/qmp/dispatch.h         |    1 +
+ include/qemu/atomic.h               |   17 -
+ include/qemu/compiler.h             |   45 +-
+ include/qemu/plugin.h               |    4 +-
+ include/qemu/qemu-plugin.h          |    9 +-
+ include/sysemu/runstate-action.h    |   19 +
+ include/sysemu/runstate.h           |    1 -
+ include/sysemu/sysemu.h             |    7 +-
+ linux-user/main.c                   |    4 +-
+ linux-user/strace.c                 |    4 -
+ monitor/hmp.c                       |    7 +-
+ monitor/qmp-cmds.c                  |   13 +-
+ pc-bios/optionrom/Makefile          |    1 -
+ plugins/loader.c                    |   34 +-
+ qapi/control.json                   |    3 +-
+ qapi/qmp-dispatch.c                 |    5 +-
+ qapi/run-state.json                 |   79 ++-
+ qemu-options.hx                     |   54 +-
+ scripts/cocci-macro-file.h          |    1 -
+ scripts/git.orderfile               |    3 +
+ softmmu/device_tree.c               |    2 +-
+ softmmu/globals.c                   |   72 +++
+ softmmu/memory.c                    |   12 +-
+ softmmu/meson.build                 |    3 +
+ softmmu/physmem.c                   |   10 +
+ softmmu/qdev-monitor.c              |   34 +-
+ softmmu/runstate-action.c           |   46 ++
+ softmmu/runstate.c                  |  812 ++++++++++++++++++++++++++
+ softmmu/vl.c                        | 1078 ++++-------------------------------
+ stubs/machine-init-done.c           |    8 -
+ stubs/meson.build                   |    2 +-
+ stubs/qmp-command-available.c       |    7 +
+ tests/migration/guestperf/engine.py |    2 +-
+ tests/qtest/fuzz-test.c             |   51 ++
+ tests/qtest/pvpanic-test.c          |   26 +-
+ tests/qtest/qmp-test.c              |    2 +-
+ tests/tcg/arm/fcvt.c                |    8 +-
+ tools/virtiofsd/fuse_common.h       |   11 +-
+ ui/console.c                        |    2 +-
+ ui/sdl2.c                           |    5 +-
+ util/qemu-option.c                  |   58 +-
+ 79 files changed, 1833 insertions(+), 1596 deletions(-)
+ delete mode 100644 chardev/chardev-sysemu.c
+ create mode 100644 docs/system/removed-features.rst
+ create mode 100644 include/sysemu/runstate-action.h
+ create mode 100644 softmmu/globals.c
+ create mode 100644 softmmu/runstate-action.c
+ create mode 100644 softmmu/runstate.c
+ delete mode 100644 stubs/machine-init-done.c
+ create mode 100644 stubs/qmp-command-available.c
 -- 
-2.25.1
+2.26.2
 
 
