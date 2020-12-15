@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D505C2DA866
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 08:11:36 +0100 (CET)
-Received: from localhost ([::1]:57794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FBA02DA875
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 08:23:30 +0100 (CET)
+Received: from localhost ([::1]:34720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp4Uh-0008LK-Fw
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 02:11:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54914)
+	id 1kp4gD-0002ka-40
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 02:23:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1kp4SV-0007ik-1a
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 02:09:19 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:36982)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1kp4SS-0004qS-1o
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 02:09:18 -0500
-Received: by mail-pg1-x541.google.com with SMTP id c12so14140769pgm.4
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 23:09:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=smartx-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=Y3YpWoxnSryB8CjXGBpQCGG0yPrRQcYr04aKhX2Gn60=;
- b=Ttm3lkq8u18+qmFVtH7TYT8KrkiOgGUxvYrpNr+Hvi0/f6KFDJLx9e/I9SI5UYi7QO
- RQtVJZqsXF4Vj380iwW6WU8oShsTIxiqHErJyqJN6SO2iO3fcOSbw/15IZIG9oMSzf/D
- s8IjjGeWxI3uAVXptXSjEYwckp9ROrdB4Vy7XxovtSw71H/jW3EUmC6VP+bYAFWEGqNK
- 9rFTfZdrTwEQTDrVrkUf9iDfz21zl6xTJW9Yyj783l0wHI0J/oEpn9EWK4JGAOLRSRL5
- ePuY5iFr0/ByBQpZ1ElR1T3L4nlbHnnKissICs8PHaUccAnpQVoNR1hb2m1VI+hZ1vTI
- /0Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=Y3YpWoxnSryB8CjXGBpQCGG0yPrRQcYr04aKhX2Gn60=;
- b=r0sq0livXJE1SA33pT6A8t5azY1gOOMvRfbMvTVDTJXj9wZYcAXbinxyzHKzDTDIBE
- 46IVqnkUcBAd+tJPp4/EjbOMOnJ4/65LoXINCaRlw/LXK7p6yryWH2sAwUg7D92MIAnf
- l771zUcXKhft45b08obNywTJPAtaUX+nAavTO2ZVZVl01t+ITKO5j9EdWkHkNrQysBUj
- ml0EU9+AcX4kMB8OJ/QkK4Id3kVa+DemDCtI6/z4tpQ7hDRdzPzHAU8tLfZn6zbarMfw
- zt4Mo58g1wulakK69SVS3T+FsLHj21dAiVO0vj1w4dJnqWNX2kAgC9tn8qXXCZuKd76K
- asOQ==
-X-Gm-Message-State: AOAM5308cB7bhHxSoIIPHpvSC1Uf9+Osc6ms0gFI0588c0YNCIcO4Ztx
- Y04UsqK9gO/eCEty4v9TYutCDw==
-X-Google-Smtp-Source: ABdhPJxz8pu0BZcFvyiurnr7QHlzo2fiO4Y4Byv/dUypCRAexm4cRD6LF9JNp9IZDABB3pAzryLn2w==
-X-Received: by 2002:a63:e246:: with SMTP id y6mr17213592pgj.412.1608016153679; 
- Mon, 14 Dec 2020 23:09:13 -0800 (PST)
-Received: from 64-217.abest.vip ([129.227.156.197])
- by smtp.gmail.com with ESMTPSA id r68sm22628105pfr.113.2020.12.14.23.09.11
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 14 Dec 2020 23:09:13 -0800 (PST)
-From: Li Feng <fengli@smartx.com>
-To: berrange@redhat.com, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org (open list:raw),
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH v4] file-posix: detect the lock using the real file
-Date: Tue, 15 Dec 2020 15:09:28 +0800
-Message-Id: <1608016169-5639-1-git-send-email-fengli@smartx.com>
-X-Mailer: git-send-email 1.8.3.1
-Received-SPF: none client-ip=2607:f8b0:4864:20::541;
- envelope-from=fengli@smartx.com; helo=mail-pg1-x541.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1kp4cx-0001K9-Ds; Tue, 15 Dec 2020 02:20:07 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2186)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1kp4ct-0008MQ-1Z; Tue, 15 Dec 2020 02:20:06 -0500
+Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Cw8kq0KFcz556N;
+ Tue, 15 Dec 2020 15:18:59 +0800 (CST)
+Received: from dggemm753-chm.china.huawei.com (10.1.198.59) by
+ DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Tue, 15 Dec 2020 15:19:45 +0800
+Received: from dggpemm000001.china.huawei.com (7.185.36.245) by
+ dggemm753-chm.china.huawei.com (10.1.198.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Tue, 15 Dec 2020 15:19:45 +0800
+Received: from dggpemm000001.china.huawei.com ([7.185.36.245]) by
+ dggpemm000001.china.huawei.com ([7.185.36.245]) with mapi id 15.01.1913.007;
+ Tue, 15 Dec 2020 15:19:45 +0800
+From: Jiangyifei <jiangyifei@huawei.com>
+To: Alistair Francis <alistair23@gmail.com>
+Subject: RE: [PATCH RFC v4 06/15] target/riscv: Support start kernel directly
+ by KVM
+Thread-Topic: [PATCH RFC v4 06/15] target/riscv: Support start kernel directly
+ by KVM
+Thread-Index: AQHWyXJ3Fi228NdDdEWN5Odmu//VYantR0QAgAqIptA=
+Date: Tue, 15 Dec 2020 07:19:45 +0000
+Message-ID: <5ff41bb0d16247c1bf15cdbb148561d9@huawei.com>
+References: <20201203124703.168-1-jiangyifei@huawei.com>
+ <20201203124703.168-7-jiangyifei@huawei.com>
+ <CAKmqyKO4vsY90DnVVp6wgAvSquoW0auFRr3LLfSHrCqXV6vWcg@mail.gmail.com>
+In-Reply-To: <CAKmqyKO4vsY90DnVVp6wgAvSquoW0auFRr3LLfSHrCqXV6vWcg@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.186.236]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=jiangyifei@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,182 +71,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lifeng1519@gmail.com, Li Feng <fengli@smartx.com>, kyle@smartx.com
+Cc: "kvm-riscv@lists.infradead.org" <kvm-riscv@lists.infradead.org>,
+ Anup Patel <anup.patel@wdc.com>, "open
+ list:RISC-V" <qemu-riscv@nongnu.org>, "open list:Overall" <kvm@vger.kernel.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "Zhangxiaofeng \(F\)" <victor.zhangxiaofeng@huawei.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, yinyipeng <yinyipeng1@huawei.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, "Wubin
+ \(H\)" <wu.wubin@huawei.com>, "dengkai \(A\)" <dengkai1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch addresses this issue:
-When accessing a volume on an NFS filesystem without supporting the file lock,
-tools, like qemu-img, will complain "Failed to lock byte 100".
-
-In the original code, the qemu_has_ofd_lock will test the lock on the
-"/dev/null" pseudo-file. Actually, the file.locking is per-drive property,
-which depends on the underlay filesystem.
-
-In this patch, add a new 'qemu_has_file_lock' to detect whether the
-file supports the file lock. And disable the lock when the underlay file
-system doesn't support locks.
-
-Signed-off-by: Li Feng <fengli@smartx.com>
----
-v4: use the fd as the qemu_has_file_lock argument.
-v3: don't call the qemu_has_ofd_lock, use a new function instead.
-v2: remove the refactoring.
----
- block/file-posix.c   | 66 +++++++++++++++++++++++++-------------------
- include/qemu/osdep.h |  1 +
- util/osdep.c         | 19 +++++++++++++
- 3 files changed, 58 insertions(+), 28 deletions(-)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 806764f7e3..9708212f01 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -584,6 +584,21 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-     s->use_linux_io_uring = (aio == BLOCKDEV_AIO_OPTIONS_IO_URING);
- #endif
- 
-+    s->open_flags = open_flags;
-+    raw_parse_flags(bdrv_flags, &s->open_flags, false);
-+
-+    s->fd = -1;
-+    fd = qemu_open(filename, s->open_flags, errp);
-+    ret = fd < 0 ? -errno : 0;
-+
-+    if (ret < 0) {
-+        if (ret == -EROFS) {
-+            ret = -EACCES;
-+        }
-+        goto fail;
-+    }
-+    s->fd = fd;
-+
-     locking = qapi_enum_parse(&OnOffAuto_lookup,
-                               qemu_opt_get(opts, "locking"),
-                               ON_OFF_AUTO_AUTO, &local_err);
-@@ -607,6 +622,13 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-         break;
-     case ON_OFF_AUTO_AUTO:
-         s->use_lock = qemu_has_ofd_lock();
-+        if (s->use_lock && !qemu_has_file_lock(s->fd)) {
-+            /*
-+             * When the os supports the OFD lock, but the filesystem doesn't
-+             * support, just disable the file lock.
-+             */
-+            s->use_lock = false;
-+        }
-         break;
-     default:
-         abort();
-@@ -625,22 +647,6 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-     s->drop_cache = qemu_opt_get_bool(opts, "drop-cache", true);
-     s->check_cache_dropped = qemu_opt_get_bool(opts, "x-check-cache-dropped",
-                                                false);
--
--    s->open_flags = open_flags;
--    raw_parse_flags(bdrv_flags, &s->open_flags, false);
--
--    s->fd = -1;
--    fd = qemu_open(filename, s->open_flags, errp);
--    ret = fd < 0 ? -errno : 0;
--
--    if (ret < 0) {
--        if (ret == -EROFS) {
--            ret = -EACCES;
--        }
--        goto fail;
--    }
--    s->fd = fd;
--
-     /* Check s->open_flags rather than bdrv_flags due to auto-read-only */
-     if (s->open_flags & O_RDWR) {
-         ret = check_hdev_writable(s->fd);
-@@ -2388,6 +2394,7 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
-     int fd;
-     uint64_t perm, shared;
-     int result = 0;
-+    bool use_lock;
- 
-     /* Validate options and set default values */
-     assert(options->driver == BLOCKDEV_DRIVER_FILE);
-@@ -2428,19 +2435,22 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
-     perm = BLK_PERM_WRITE | BLK_PERM_RESIZE;
-     shared = BLK_PERM_ALL & ~BLK_PERM_RESIZE;
- 
--    /* Step one: Take locks */
--    result = raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, errp);
--    if (result < 0) {
--        goto out_close;
--    }
-+    use_lock = qemu_has_file_lock(fd);
-+    if (use_lock) {
-+        /* Step one: Take locks */
-+        result = raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, errp);
-+        if (result < 0) {
-+            goto out_close;
-+        }
- 
--    /* Step two: Check that nobody else has taken conflicting locks */
--    result = raw_check_lock_bytes(fd, perm, shared, errp);
--    if (result < 0) {
--        error_append_hint(errp,
--                          "Is another process using the image [%s]?\n",
--                          file_opts->filename);
--        goto out_unlock;
-+        /* Step two: Check that nobody else has taken conflicting locks */
-+        result = raw_check_lock_bytes(fd, perm, shared, errp);
-+        if (result < 0) {
-+            error_append_hint(errp,
-+                              "Is another process using the image [%s]?\n",
-+                              file_opts->filename);
-+            goto out_unlock;
-+        }
-     }
- 
-     /* Clear the file by truncating it to 0 */
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index f9ec8c84e9..c7587be99d 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -513,6 +513,7 @@ int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
- int qemu_unlock_fd(int fd, int64_t start, int64_t len);
- int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
- bool qemu_has_ofd_lock(void);
-+bool qemu_has_file_lock(int fd);
- #endif
- 
- #if defined(__HAIKU__) && defined(__i386__)
-diff --git a/util/osdep.c b/util/osdep.c
-index 66d01b9160..07de97e2c5 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -225,6 +225,25 @@ static void qemu_probe_lock_ops(void)
-     }
- }
- 
-+bool qemu_has_file_lock(int fd)
-+{
-+#ifdef F_OFD_SETLK
-+    int cmd = F_OFD_GETLK;
-+#else
-+    int cmd = F_GETLK;
-+#endif
-+    int ret;
-+    struct flock fl = {
-+        .l_whence = SEEK_SET,
-+        .l_start  = 0,
-+        .l_len    = 0,
-+        .l_type   = F_WRLCK,
-+    };
-+
-+    ret = fcntl(fd, cmd, &fl);
-+    return ret == 0;
-+}
-+
- bool qemu_has_ofd_lock(void)
- {
-     qemu_probe_lock_ops();
--- 
-2.24.3
-
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEFsaXN0YWlyIEZyYW5jaXMg
+W21haWx0bzphbGlzdGFpcjIzQGdtYWlsLmNvbV0NCj4gU2VudDogV2VkbmVzZGF5LCBEZWNlbWJl
+ciA5LCAyMDIwIDY6MTkgQU0NCj4gVG86IEppYW5neWlmZWkgPGppYW5neWlmZWlAaHVhd2VpLmNv
+bT4NCj4gQ2M6IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZyBEZXZlbG9wZXJzIDxxZW11LWRldmVsQG5v
+bmdudS5vcmc+OyBvcGVuDQo+IGxpc3Q6UklTQy1WIDxxZW11LXJpc2N2QG5vbmdudS5vcmc+OyBa
+aGFuZ3hpYW9mZW5nIChGKQ0KPiA8dmljdG9yLnpoYW5neGlhb2ZlbmdAaHVhd2VpLmNvbT47IFNh
+Z2FyIEthcmFuZGlrYXINCj4gPHNhZ2Fya0BlZWNzLmJlcmtlbGV5LmVkdT47IG9wZW4gbGlzdDpP
+dmVyYWxsIDxrdm1Admdlci5rZXJuZWwub3JnPjsNCj4gbGlidmlyLWxpc3RAcmVkaGF0LmNvbTsg
+QmFzdGlhbiBLb3BwZWxtYW5uDQo+IDxrYmFzdGlhbkBtYWlsLnVuaS1wYWRlcmJvcm4uZGU+OyBB
+bnVwIFBhdGVsIDxhbnVwLnBhdGVsQHdkYy5jb20+Ow0KPiB5aW55aXBlbmcgPHlpbnlpcGVuZzFA
+aHVhd2VpLmNvbT47IEFsaXN0YWlyIEZyYW5jaXMNCj4gPEFsaXN0YWlyLkZyYW5jaXNAd2RjLmNv
+bT47IGt2bS1yaXNjdkBsaXN0cy5pbmZyYWRlYWQub3JnOyBQYWxtZXIgRGFiYmVsdA0KPiA8cGFs
+bWVyQGRhYmJlbHQuY29tPjsgZGVuZ2thaSAoQSkgPGRlbmdrYWkxQGh1YXdlaS5jb20+OyBXdWJp
+biAoSCkNCj4gPHd1Lnd1YmluQGh1YXdlaS5jb20+OyBaaGFuZ2hhaWxpYW5nIDx6aGFuZy56aGFu
+Z2hhaWxpYW5nQGh1YXdlaS5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggUkZDIHY0IDA2LzE1
+XSB0YXJnZXQvcmlzY3Y6IFN1cHBvcnQgc3RhcnQga2VybmVsIGRpcmVjdGx5IGJ5DQo+IEtWTQ0K
+PiANCj4gT24gVGh1LCBEZWMgMywgMjAyMCBhdCA0OjU4IEFNIFlpZmVpIEppYW5nIDxqaWFuZ3lp
+ZmVpQGh1YXdlaS5jb20+IHdyb3RlOg0KPiA+DQo+ID4gR2V0IGtlcm5lbCBhbmQgZmR0IHN0YXJ0
+IGFkZHJlc3MgaW4gdmlydC5jLCBhbmQgcGFzcyB0aGVtIHRvIEtWTSB3aGVuDQo+ID4gY3B1IHJl
+c2V0LiBJbiBhZGRpdGlvbiwgYWRkIGt2bV9yaXNjdi5oIHRvIHBsYWNlIHJpc2N2IHNwZWNpZmlj
+DQo+ID4gaW50ZXJmYWNlLg0KPiANCj4gVGhpcyBkb2Vzbid0IHNlZW0gcmlnaHQuIFdoeSBkbyB3
+ZSBuZWVkIHRvIGRvIHRoaXM/IE90aGVyIGFyY2hpdGVjdHVyZXMgZG9uJ3QNCj4gc2VlbSB0byBk
+byB0aGlzLg0KPiANCj4gV3JpdGluZyB0byB0aGUgQ1BVIGZyb20gdGhlIGJvYXJkIGxpa2UgdGhp
+cyBsb29rcyBmaXNoeSBhbmQgcHJvYmFibHkgYnJlYWtzDQo+IHNvbWUgUU9NIHJ1bGVzLg0KPiAN
+Cj4gQWxpc3RhaXINCj4gDQoNClNvcnJ5IGZvciB0aGUgZGVsYXllZCByZXBseS4NCg0KV2UgbmVl
+ZCB0byBzZXQgdGhlIHN0YXJ0aW5nIGFkZHJlc3Mgb2YgdGhlIGtlcm5lbCBhbmQgZmR0IHRvIHZj
+cHUsIHdoaWNoIGlzIGltcGxlbWVudGVkDQpieSBmaXJtd2FyZSBib290bG9hZGVyIHVuZGVyIG90
+aGVyIGFyY2hpdGVjdHVyZXMgYW5kIFJJU0MtViBlbXVsYXRvcnMuIEhvd2V2ZXIsIHRoZQ0KUklT
+Qy1WIHZpcnR1YWwgbWFjaGluZSBkb2VzIG5vdCBoYXZlIGJvb3Rsb2FkZXIsIHNvIHdlIGJvb3Qg
+dGhlIGtlcm5lbCBkaXJlY3RseS4NCkluIHRoZSBmdXR1cmUsIHdlIHdpbGwgc3VwcG9ydCBmaXJt
+d2FyZSBsb2FkaW5nLg0KDQpCZWZvcmUgc3VwcG9ydGluZyB0aGUgZmlybXdhcmUgYm9vdGxvYWRl
+ciwgd2UgY2FuIGFkZCBhIHB1YmxpYyBpbnRlcmZhY2UgaW5zdGVhZCBvZg0KbW9kaWZ5aW5nIHRo
+ZSBDUFUgaW5zdGFuY2UgZGlyZWN0bHkgdG8gY29tcGx5IHdpdGggdGhlIFFPTSBydWxlcy4NCg0K
+WWlmZWkNCg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogWWlmZWkgSmlhbmcgPGppYW5neWlmZWlA
+aHVhd2VpLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBZaXBlbmcgWWluIDx5aW55aXBlbmcxQGh1
+YXdlaS5jb20+DQo+ID4gLS0tDQo+ID4gIGh3L3Jpc2N2L3ZpcnQuYyAgICAgICAgICB8ICA4ICsr
+KysrKysrDQo+ID4gIHRhcmdldC9yaXNjdi9jcHUuYyAgICAgICB8ICA0ICsrKysNCj4gPiAgdGFy
+Z2V0L3Jpc2N2L2NwdS5oICAgICAgIHwgIDMgKysrDQo+ID4gIHRhcmdldC9yaXNjdi9rdm0uYyAg
+ICAgICB8IDE1ICsrKysrKysrKysrKysrKw0KPiA+ICB0YXJnZXQvcmlzY3Yva3ZtX3Jpc2N2Lmgg
+fCAyNCArKysrKysrKysrKysrKysrKysrKysrKysNCj4gPiAgNSBmaWxlcyBjaGFuZ2VkLCA1NCBp
+bnNlcnRpb25zKCspDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCB0YXJnZXQvcmlzY3Yva3ZtX3Jp
+c2N2LmgNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9ody9yaXNjdi92aXJ0LmMgYi9ody9yaXNjdi92
+aXJ0LmMgaW5kZXgNCj4gPiAyNWNlYTdhYTY3Li40N2I3MDE4MTkzIDEwMDY0NA0KPiA+IC0tLSBh
+L2h3L3Jpc2N2L3ZpcnQuYw0KPiA+ICsrKyBiL2h3L3Jpc2N2L3ZpcnQuYw0KPiA+IEBAIC00Miw2
+ICs0Miw3IEBADQo+ID4gICNpbmNsdWRlICJzeXNlbXUvc3lzZW11LmgiDQo+ID4gICNpbmNsdWRl
+ICJody9wY2kvcGNpLmgiDQo+ID4gICNpbmNsdWRlICJody9wY2ktaG9zdC9ncGV4LmgiDQo+ID4g
+KyNpbmNsdWRlICJzeXNlbXUva3ZtLmgiDQo+ID4NCj4gPiAgI2lmIGRlZmluZWQoVEFSR0VUX1JJ
+U0NWMzIpDQo+ID4gICMgZGVmaW5lIEJJT1NfRklMRU5BTUUgIm9wZW5zYmktcmlzY3YzMi1nZW5l
+cmljLWZ3X2R5bmFtaWMuYmluIg0KPiA+IEBAIC01MTEsNiArNTEyLDcgQEAgc3RhdGljIHZvaWQg
+dmlydF9tYWNoaW5lX2luaXQoTWFjaGluZVN0YXRlDQo+ICptYWNoaW5lKQ0KPiA+ICAgICAgdWlu
+dDY0X3Qga2VybmVsX2VudHJ5Ow0KPiA+ICAgICAgRGV2aWNlU3RhdGUgKm1taW9fcGxpYywgKnZp
+cnRpb19wbGljLCAqcGNpZV9wbGljOw0KPiA+ICAgICAgaW50IGksIGosIGJhc2VfaGFydGlkLCBo
+YXJ0X2NvdW50Ow0KPiA+ICsgICAgQ1BVU3RhdGUgKmNzOw0KPiA+DQo+ID4gICAgICAvKiBDaGVj
+ayBzb2NrZXQgY291bnQgbGltaXQgKi8NCj4gPiAgICAgIGlmIChWSVJUX1NPQ0tFVFNfTUFYIDwg
+cmlzY3Zfc29ja2V0X2NvdW50KG1hY2hpbmUpKSB7IEBAIC02NjAsNg0KPiA+ICs2NjIsMTIgQEAg
+c3RhdGljIHZvaWQgdmlydF9tYWNoaW5lX2luaXQoTWFjaGluZVN0YXRlICptYWNoaW5lKQ0KPiA+
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2aXJ0X21lbW1hcFtWSVJUX01ST01dLnNp
+emUsDQo+IGtlcm5lbF9lbnRyeSwNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ZmR0X2xvYWRfYWRkciwgcy0+ZmR0KTsNCj4gPg0KPiA+ICsgICAgZm9yIChjcyA9IGZpcnN0X2Nw
+dTsgY3M7IGNzID0gQ1BVX05FWFQoY3MpKSB7DQo+ID4gKyAgICAgICAgUklTQ1ZDUFUgKnJpc2N2
+X2NwdSA9IFJJU0NWX0NQVShjcyk7DQo+ID4gKyAgICAgICAgcmlzY3ZfY3B1LT5lbnYua2VybmVs
+X2FkZHIgPSBrZXJuZWxfZW50cnk7DQo+ID4gKyAgICAgICAgcmlzY3ZfY3B1LT5lbnYuZmR0X2Fk
+ZHIgPSBmZHRfbG9hZF9hZGRyOw0KPiA+ICsgICAgfQ0KPiA+ICsNCj4gPiAgICAgIC8qIFNpRml2
+ZSBUZXN0IE1NSU8gZGV2aWNlICovDQo+ID4gICAgICBzaWZpdmVfdGVzdF9jcmVhdGUobWVtbWFw
+W1ZJUlRfVEVTVF0uYmFzZSk7DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvdGFyZ2V0L3Jpc2N2L2Nw
+dS5jIGIvdGFyZ2V0L3Jpc2N2L2NwdS5jIGluZGV4DQo+ID4gNmEwMjY0ZmM2Yi4uZmFlZTk4YTU4
+YyAxMDA2NDQNCj4gPiAtLS0gYS90YXJnZXQvcmlzY3YvY3B1LmMNCj4gPiArKysgYi90YXJnZXQv
+cmlzY3YvY3B1LmMNCj4gPiBAQCAtMjksNiArMjksNyBAQA0KPiA+ICAjaW5jbHVkZSAiaHcvcWRl
+di1wcm9wZXJ0aWVzLmgiDQo+ID4gICNpbmNsdWRlICJtaWdyYXRpb24vdm1zdGF0ZS5oIg0KPiA+
+ICAjaW5jbHVkZSAiZnB1L3NvZnRmbG9hdC1oZWxwZXJzLmgiDQo+ID4gKyNpbmNsdWRlICJrdm1f
+cmlzY3YuaCINCj4gPg0KPiA+ICAvKiBSSVNDLVYgQ1BVIGRlZmluaXRpb25zICovDQo+ID4NCj4g
+PiBAQCAtMzMwLDYgKzMzMSw5IEBAIHN0YXRpYyB2b2lkIHJpc2N2X2NwdV9yZXNldChEZXZpY2VT
+dGF0ZSAqZGV2KQ0KPiA+ICAgICAgY3MtPmV4Y2VwdGlvbl9pbmRleCA9IEVYQ1BfTk9ORTsNCj4g
+PiAgICAgIGVudi0+bG9hZF9yZXMgPSAtMTsNCj4gPiAgICAgIHNldF9kZWZhdWx0X25hbl9tb2Rl
+KDEsICZlbnYtPmZwX3N0YXR1cyk7DQo+ID4gKyNpZmRlZiBDT05GSUdfS1ZNDQo+ID4gKyAgICBr
+dm1fcmlzY3ZfcmVzZXRfdmNwdShjcHUpOw0KPiA+ICsjZW5kaWYNCj4gPiAgfQ0KPiA+DQo+ID4g
+IHN0YXRpYyB2b2lkIHJpc2N2X2NwdV9kaXNhc19zZXRfaW5mbyhDUFVTdGF0ZSAqcywgZGlzYXNz
+ZW1ibGVfaW5mbw0KPiA+ICppbmZvKSBkaWZmIC0tZ2l0IGEvdGFyZ2V0L3Jpc2N2L2NwdS5oIGIv
+dGFyZ2V0L3Jpc2N2L2NwdS5oIGluZGV4DQo+ID4gYzBhMzI2Yzg0My4uYWQxYzkwZjc5OCAxMDA2
+NDQNCj4gPiAtLS0gYS90YXJnZXQvcmlzY3YvY3B1LmgNCj4gPiArKysgYi90YXJnZXQvcmlzY3Yv
+Y3B1LmgNCj4gPiBAQCAtMjMzLDYgKzIzMyw5IEBAIHN0cnVjdCBDUFVSSVNDVlN0YXRlIHsNCj4g
+Pg0KPiA+ICAgICAgLyogRmllbGRzIGZyb20gaGVyZSBvbiBhcmUgcHJlc2VydmVkIGFjcm9zcyBD
+UFUgcmVzZXQuICovDQo+ID4gICAgICBRRU1VVGltZXIgKnRpbWVyOyAvKiBJbnRlcm5hbCB0aW1l
+ciAqLw0KPiA+ICsNCj4gPiArICAgIGh3YWRkciBrZXJuZWxfYWRkcjsNCj4gPiArICAgIGh3YWRk
+ciBmZHRfYWRkcjsNCj4gPiAgfTsNCj4gPg0KPiA+ICBPQkpFQ1RfREVDTEFSRV9UWVBFKFJJU0NW
+Q1BVLCBSSVNDVkNQVUNsYXNzLCBkaWZmIC0tZ2l0DQo+ID4gYS90YXJnZXQvcmlzY3Yva3ZtLmMg
+Yi90YXJnZXQvcmlzY3Yva3ZtLmMgaW5kZXggOGIyMDZjZTk5Yy4uNjI1MGNhMGM3ZA0KPiA+IDEw
+MDY0NA0KPiA+IC0tLSBhL3RhcmdldC9yaXNjdi9rdm0uYw0KPiA+ICsrKyBiL3RhcmdldC9yaXNj
+di9rdm0uYw0KPiA+IEBAIC0zNyw2ICszNyw3IEBADQo+ID4gICNpbmNsdWRlICJody9pcnEuaCIN
+Cj4gPiAgI2luY2x1ZGUgInFlbXUvbG9nLmgiDQo+ID4gICNpbmNsdWRlICJody9sb2FkZXIuaCIN
+Cj4gPiArI2luY2x1ZGUgImt2bV9yaXNjdi5oIg0KPiA+DQo+ID4gIHN0YXRpYyBfX3U2NCBrdm1f
+cmlzY3ZfcmVnX2lkKF9fdTY0IHR5cGUsIF9fdTY0IGlkeCkgIHsgQEAgLTQzOSwzDQo+ID4gKzQ0
+MCwxNyBAQCBpbnQga3ZtX2FyY2hfaGFuZGxlX2V4aXQoQ1BVU3RhdGUgKmNzLCBzdHJ1Y3Qga3Zt
+X3J1biAqcnVuKQ0KPiA+IHsNCj4gPiAgICAgIHJldHVybiAwOw0KPiA+ICB9DQo+ID4gKw0KPiA+
+ICt2b2lkIGt2bV9yaXNjdl9yZXNldF92Y3B1KFJJU0NWQ1BVICpjcHUpIHsNCj4gPiArICAgIENQ
+VVJJU0NWU3RhdGUgKmVudiA9ICZjcHUtPmVudjsNCj4gPiArDQo+ID4gKyAgICBpZiAoIWt2bV9l
+bmFibGVkKCkpIHsNCj4gPiArICAgICAgICByZXR1cm47DQo+ID4gKyAgICB9DQo+ID4gKyAgICBl
+bnYtPnBjID0gY3B1LT5lbnYua2VybmVsX2FkZHI7DQo+ID4gKyAgICBlbnYtPmdwclsxMF0gPSBr
+dm1fYXJjaF92Y3B1X2lkKENQVShjcHUpKTsgLyogYTAgKi8NCj4gPiArICAgIGVudi0+Z3ByWzEx
+XSA9IGNwdS0+ZW52LmZkdF9hZGRyOyAgICAgICAgICAvKiBhMSAqLw0KPiA+ICsgICAgZW52LT5z
+YXRwID0gMDsNCj4gPiArfQ0KPiA+ICsNCj4gPiBkaWZmIC0tZ2l0IGEvdGFyZ2V0L3Jpc2N2L2t2
+bV9yaXNjdi5oIGIvdGFyZ2V0L3Jpc2N2L2t2bV9yaXNjdi5oIG5ldw0KPiA+IGZpbGUgbW9kZSAx
+MDA2NDQgaW5kZXggMDAwMDAwMDAwMC4uZjM4YzgyYmY1OQ0KPiA+IC0tLSAvZGV2L251bGwNCj4g
+PiArKysgYi90YXJnZXQvcmlzY3Yva3ZtX3Jpc2N2LmgNCj4gPiBAQCAtMCwwICsxLDI0IEBADQo+
+ID4gKy8qDQo+ID4gKyAqIFFFTVUgS1ZNIHN1cHBvcnQgLS0gUklTQy1WIHNwZWNpZmljIGZ1bmN0
+aW9ucy4NCj4gPiArICoNCj4gPiArICogQ29weXJpZ2h0IChjKSAyMDIwIEh1YXdlaSBUZWNobm9s
+b2dpZXMgQ28uLCBMdGQNCj4gPiArICoNCj4gPiArICogVGhpcyBwcm9ncmFtIGlzIGZyZWUgc29m
+dHdhcmU7IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vcg0KPiA+ICttb2RpZnkgaXQNCj4g
+PiArICogdW5kZXIgdGhlIHRlcm1zIGFuZCBjb25kaXRpb25zIG9mIHRoZSBHTlUgR2VuZXJhbCBQ
+dWJsaWMgTGljZW5zZSwNCj4gPiArICogdmVyc2lvbiAyIG9yIGxhdGVyLCBhcyBwdWJsaXNoZWQg
+YnkgdGhlIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbi4NCj4gPiArICoNCj4gPiArICogVGhpcyBw
+cm9ncmFtIGlzIGRpc3RyaWJ1dGVkIGluIHRoZSBob3BlIGl0IHdpbGwgYmUgdXNlZnVsLCBidXQN
+Cj4gPiArV0lUSE9VVA0KPiA+ICsgKiBBTlkgV0FSUkFOVFk7IHdpdGhvdXQgZXZlbiB0aGUgaW1w
+bGllZCB3YXJyYW50eSBvZg0KPiBNRVJDSEFOVEFCSUxJVFkNCj4gPiArb3INCj4gPiArICogRklU
+TkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UuICBTZWUgdGhlIEdOVSBHZW5lcmFsIFB1Ymxp
+Yw0KPiA+ICtMaWNlbnNlIGZvcg0KPiA+ICsgKiBtb3JlIGRldGFpbHMuDQo+ID4gKyAqDQo+ID4g
+KyAqIFlvdSBzaG91bGQgaGF2ZSByZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdOVSBHZW5lcmFsIFB1
+YmxpYyBMaWNlbnNlDQo+ID4gK2Fsb25nIHdpdGgNCj4gPiArICogdGhpcyBwcm9ncmFtLiAgSWYg
+bm90LCBzZWUgPGh0dHA6Ly93d3cuZ251Lm9yZy9saWNlbnNlcy8+Lg0KPiA+ICsgKi8NCj4gPiAr
+DQo+ID4gKyNpZm5kZWYgUUVNVV9LVk1fUklTQ1ZfSA0KPiA+ICsjZGVmaW5lIFFFTVVfS1ZNX1JJ
+U0NWX0gNCj4gPiArDQo+ID4gK3ZvaWQga3ZtX3Jpc2N2X3Jlc2V0X3ZjcHUoUklTQ1ZDUFUgKmNw
+dSk7DQo+ID4gKw0KPiA+ICsjZW5kaWYNCj4gPiAtLQ0KPiA+IDIuMTkuMQ0KPiA+DQo+ID4NCg==
 
