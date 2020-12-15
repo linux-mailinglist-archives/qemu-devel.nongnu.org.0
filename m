@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36172DA82E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 07:45:12 +0100 (CET)
-Received: from localhost ([::1]:58988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640CB2DA831
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 07:48:17 +0100 (CET)
+Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp459-0004PI-QR
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 01:45:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49236)
+	id 1kp488-0007hO-ER
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 01:48:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kp42a-0002dc-EN
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 01:42:32 -0500
-Received: from relay3.mymailcheap.com ([217.182.119.157]:51909)
+ id 1kp45R-0005ud-3H
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 01:45:29 -0500
+Received: from relay1.mymailcheap.com ([144.217.248.102]:60562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kp42Y-00041t-0K
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 01:42:32 -0500
-Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
- [91.134.140.82])
- by relay3.mymailcheap.com (Postfix) with ESMTPS id 66DE63F1CC;
- Tue, 15 Dec 2020 07:42:28 +0100 (CET)
+ id 1kp45N-0004vZ-Tz
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 01:45:27 -0500
+Received: from filter1.mymailcheap.com (filter1.mymailcheap.com
+ [149.56.130.247])
+ by relay1.mymailcheap.com (Postfix) with ESMTPS id D17853F1C5;
+ Tue, 15 Dec 2020 06:45:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by filter2.mymailcheap.com (Postfix) with ESMTP id 45BB02A510;
- Tue, 15 Dec 2020 07:42:28 +0100 (CET)
+ by filter1.mymailcheap.com (Postfix) with ESMTP id AC0B62A370;
+ Tue, 15 Dec 2020 01:45:24 -0500 (EST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
- s=default; t=1608014548;
- bh=y6ctQgUVU5gcTG+wXv4vT3vKt925fZLwcV3fkk1kHxg=;
+ s=default; t=1608014724;
+ bh=eGnooaniH90/48CtMlnOSMVavirfnaDqTaKTCdxxx9w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JRVwf+PI9DdjysesS7wqh8CGwEgsPC8bGIYhrL0aZe8vVZYgXKQBAHJIeDaU5le/j
- DF1taDdxAP9N+bw8rl1L5TKRYt0rIjCLG4cfs8al/w2by7noznNojvg2UMBZwpOQ3l
- s6L/9lJvdqotZs/10lHPEI0VBaOAyfyAIUQPd2As=
-X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
-Received: from filter2.mymailcheap.com ([127.0.0.1])
- by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OrAcvZSG7O0O; Tue, 15 Dec 2020 07:42:27 +0100 (CET)
+ b=qBY1OW09XMG1qsbAvqgUv5pq2XL9aqkjP3s8bsjOCOac3ot8LdCzPoPLFVci30pXx
+ 0MiMO/HiDTTSxiJV+uohGcINlYVKBIVtQs3hm/FMylsGouVmhJlI8RFQshnVcVrCYR
+ syp+pFMbTIX2r4DskjGeHSGVxXKVC8Klh14XSC24=
+X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
+Received: from filter1.mymailcheap.com ([127.0.0.1])
+ by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ORFrgsL5FSaH; Tue, 15 Dec 2020 01:45:23 -0500 (EST)
 Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
  (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by filter2.mymailcheap.com (Postfix) with ESMTPS;
- Tue, 15 Dec 2020 07:42:27 +0100 (CET)
-Received: from [213.133.102.83] (ml.mymailcheap.com [213.133.102.83])
- by mail20.mymailcheap.com (Postfix) with ESMTP id C6B3840026;
- Tue, 15 Dec 2020 06:42:26 +0000 (UTC)
+ by filter1.mymailcheap.com (Postfix) with ESMTPS;
+ Tue, 15 Dec 2020 01:45:23 -0500 (EST)
+Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
+ by mail20.mymailcheap.com (Postfix) with ESMTP id 8349D41001;
+ Tue, 15 Dec 2020 06:45:22 +0000 (UTC)
 Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
- unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="AfFEY/j7"; 
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="GnaJyb6d"; 
  dkim-atps=neutral
 AI-Spam-Status: Not processed
 Received: from strike.U-LINK.com (unknown [116.228.84.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 1FF0540026;
- Tue, 15 Dec 2020 06:42:14 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id 59506403B9;
+ Tue, 15 Dec 2020 06:45:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
- s=default; t=1608014537;
- bh=y6ctQgUVU5gcTG+wXv4vT3vKt925fZLwcV3fkk1kHxg=;
+ s=default; t=1608014717;
+ bh=eGnooaniH90/48CtMlnOSMVavirfnaDqTaKTCdxxx9w=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AfFEY/j7dwMMfgFulrF801N7zac6hRwL55pczu32muUzoLey0Xgi1evzo46uKSFk2
- 53Dlu/kgRwYUezmYeeEijJJb/rQLMXjEXZEvIjQVcDIQAEIIzYQNemVjrq9F4Odh/S
- SAh2exTeoVoVuxK9DTN40HmLvtXoLREzEdxbsySY=
+ b=GnaJyb6dI3FWaRBY7MGusQ2FI2sGekLCVt1VAy7ZV3edRZMvAL/QRDa2wn41XdLcb
+ xUWfJd2I0bsUoSVO0MgAScEaOcYnrvoweZQ7lT9Sr9/JP29D/RImrdM2or1YEsThCU
+ 8pg+1ASqz1aaLXaP1waS/ZW1fwYI3LQjyJqNbzGs=
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/8] hw/mips: Use address translation helper to handle
- ENVP_ADDR
-Date: Tue, 15 Dec 2020 14:41:55 +0800
-Message-Id: <20201215064200.28751-4-jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 4/8] hw/mips: Add a bootloader helper
+Date: Tue, 15 Dec 2020 14:45:04 +0800
+Message-Id: <20201215064507.30148-1-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
 References: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
@@ -80,20 +79,20 @@ X-Spamd-Result: default: False [4.90 / 10.00]; ARC_NA(0.00)[];
  TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
  TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
  BROKEN_CONTENT_TYPE(1.50)[]; R_SPF_SOFTFAIL(0.00)[~all:c];
- RCPT_COUNT_FIVE(0.00)[5]; ML_SERVERS(-3.10)[213.133.102.83];
+ RCPT_COUNT_FIVE(0.00)[5]; ML_SERVERS(-3.10)[148.251.23.173];
  DKIM_TRACE(0.00)[flygoat.com:+];
  DMARC_POLICY_ALLOW(0.00)[flygoat.com,none];
  MID_CONTAINS_FROM(1.00)[];
  DMARC_POLICY_ALLOW_WITH_FAILURES(0.00)[];
  RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
  MIME_TRACE(0.00)[0:+];
- ASN(0.00)[asn:24940, ipnet:213.133.96.0/19, country:DE];
+ ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
  RCVD_COUNT_TWO(0.00)[2];
- HFILTER_HELO_BAREIP(3.00)[213.133.102.83,1]
-X-Rspamd-Queue-Id: C6B3840026
+ HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1]
+X-Rspamd-Queue-Id: 8349D41001
 X-Spam: Yes
-Received-SPF: pass client-ip=217.182.119.157;
- envelope-from=jiaxun.yang@flygoat.com; helo=relay3.mymailcheap.com
+Received-SPF: pass client-ip=144.217.248.102;
+ envelope-from=jiaxun.yang@flygoat.com; helo=relay1.mymailcheap.com
 X-Spam_score_int: -5
 X-Spam_score: -0.6
 X-Spam_bar: /
@@ -117,179 +116,247 @@ Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, chenhuacai@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It will signed extend vaddr properly.
+Add a bootloader helper to generate simple bootloaders for kernel.
+It can help us reduce inline hex hack and also keep MIPS release 6
+compatibility easier.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- hw/mips/fuloong2e.c | 24 +++++++++---------
- hw/mips/malta.c     | 62 ++++++++++++++++++++++-----------------------
- 2 files changed, 43 insertions(+), 43 deletions(-)
+ hw/mips/bootloader.c         | 157 +++++++++++++++++++++++++++++++++++
+ hw/mips/meson.build          |   2 +-
+ include/hw/mips/bootloader.h |  48 +++++++++++
+ 3 files changed, 206 insertions(+), 1 deletion(-)
+ create mode 100644 hw/mips/bootloader.c
+ create mode 100644 include/hw/mips/bootloader.h
 
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index fc4d7f21ed..64cd4b98ca 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -49,7 +49,8 @@
- 
- #define DEBUG_FULOONG2E_INIT
- 
--#define ENVP_ADDR               0x80002000l
-+#define ENVP_PADDR              0x2000
-+#define ENVP_VADDR              cpu_mips_phys_to_kseg0(NULL, ENVP_PADDR)
- #define ENVP_NB_ENTRIES         16
- #define ENVP_ENTRY_SIZE         256
- 
-@@ -100,7 +101,7 @@ static void GCC_FMT_ATTR(3, 4) prom_set(uint32_t *prom_buf, int index,
-     }
- 
-     table_addr = sizeof(int32_t) * ENVP_NB_ENTRIES + index * ENVP_ENTRY_SIZE;
--    prom_buf[index] = tswap32(ENVP_ADDR + table_addr);
-+    prom_buf[index] = tswap32(ENVP_VADDR + table_addr);
- 
-     va_start(ap, string);
-     vsnprintf((char *)prom_buf + table_addr, ENVP_ENTRY_SIZE, string, ap);
-@@ -172,8 +173,7 @@ static uint64_t load_kernel(CPUMIPSState *env)
-     prom_set(prom_buf, index++, "modetty0=38400n8r");
-     prom_set(prom_buf, index++, NULL);
- 
--    rom_add_blob_fixed("prom", prom_buf, prom_size,
--                       cpu_mips_kseg0_to_phys(NULL, ENVP_ADDR));
-+    rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
- 
-     g_free(prom_buf);
-     return kernel_entry;
-@@ -199,14 +199,14 @@ static void write_bootloader(CPUMIPSState *env, uint8_t *base,
-     stl_p(p++, 0x3c040000);
-     /* ori a0, a0, 2 */
-     stl_p(p++, 0x34840002);
--    /* lui a1, high(ENVP_ADDR) */
--    stl_p(p++, 0x3c050000 | ((ENVP_ADDR >> 16) & 0xffff));
--    /* ori a1, a0, low(ENVP_ADDR) */
--    stl_p(p++, 0x34a50000 | (ENVP_ADDR & 0xffff));
--    /* lui a2, high(ENVP_ADDR + 8) */
--    stl_p(p++, 0x3c060000 | (((ENVP_ADDR + 8) >> 16) & 0xffff));
--    /* ori a2, a2, low(ENVP_ADDR + 8) */
--    stl_p(p++, 0x34c60000 | ((ENVP_ADDR + 8) & 0xffff));
-+    /* lui a1, high(ENVP_VADDR) */
-+    stl_p(p++, 0x3c050000 | ((ENVP_VADDR >> 16) & 0xffff));
-+    /* ori a1, a0, low(ENVP_VADDR) */
-+    stl_p(p++, 0x34a50000 | (ENVP_VADDR & 0xffff));
-+    /* lui a2, high(ENVP_VADDR + 8) */
-+    stl_p(p++, 0x3c060000 | (((ENVP_VADDR + 8) >> 16) & 0xffff));
-+    /* ori a2, a2, low(ENVP_VADDR + 8) */
-+    stl_p(p++, 0x34c60000 | ((ENVP_VADDR + 8) & 0xffff));
-     /* lui a3, high(env->ram_size) */
-     stl_p(p++, 0x3c070000 | (loaderparams.ram_size >> 16));
-     /* ori a3, a3, low(env->ram_size) */
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 1fbb8a3220..9afc0b427b 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -62,7 +62,8 @@
- #include "hw/mips/cps.h"
- #include "hw/qdev-clock.h"
- 
--#define ENVP_ADDR           0x80002000l
-+#define ENVP_PADDR          0x2000
-+#define ENVP_VADDR          cpu_mips_phys_to_kseg0(NULL, ENVP_PADDR)
- #define ENVP_NB_ENTRIES     16
- #define ENVP_ENTRY_SIZE     256
- 
-@@ -656,29 +657,29 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
-                                 /* li a0,2                      */
-     }
- 
--    stw_p(p++, 0xe3a0 | NM_HI1(ENVP_ADDR - 64));
-+    stw_p(p++, 0xe3a0 | NM_HI1(ENVP_VADDR - 64));
- 
--    stw_p(p++, NM_HI2(ENVP_ADDR - 64));
--                                /* lui sp,%hi(ENVP_ADDR - 64)   */
-+    stw_p(p++, NM_HI2(ENVP_VADDR - 64));
-+                                /* lui sp,%hi(ENVP_VADDR - 64)   */
- 
--    stw_p(p++, 0x83bd); stw_p(p++, NM_LO(ENVP_ADDR - 64));
--                                /* ori sp,sp,%lo(ENVP_ADDR - 64) */
-+    stw_p(p++, 0x83bd); stw_p(p++, NM_LO(ENVP_VADDR - 64));
-+                                /* ori sp,sp,%lo(ENVP_VADDR - 64) */
- 
--    stw_p(p++, 0xe0a0 | NM_HI1(ENVP_ADDR));
-+    stw_p(p++, 0xe0a0 | NM_HI1(ENVP_VADDR));
- 
--    stw_p(p++, NM_HI2(ENVP_ADDR));
--                                /* lui a1,%hi(ENVP_ADDR)        */
-+    stw_p(p++, NM_HI2(ENVP_VADDR));
-+                                /* lui a1,%hi(ENVP_VADDR)        */
- 
--    stw_p(p++, 0x80a5); stw_p(p++, NM_LO(ENVP_ADDR));
--                                /* ori a1,a1,%lo(ENVP_ADDR)     */
-+    stw_p(p++, 0x80a5); stw_p(p++, NM_LO(ENVP_VADDR));
-+                                /* ori a1,a1,%lo(ENVP_VADDR)     */
- 
--    stw_p(p++, 0xe0c0 | NM_HI1(ENVP_ADDR + 8));
-+    stw_p(p++, 0xe0c0 | NM_HI1(ENVP_VADDR + 8));
- 
--    stw_p(p++, NM_HI2(ENVP_ADDR + 8));
--                                /* lui a2,%hi(ENVP_ADDR + 8)    */
-+    stw_p(p++, NM_HI2(ENVP_VADDR + 8));
-+                                /* lui a2,%hi(ENVP_VADDR + 8)    */
- 
--    stw_p(p++, 0x80c6); stw_p(p++, NM_LO(ENVP_ADDR + 8));
--                                /* ori a2,a2,%lo(ENVP_ADDR + 8) */
-+    stw_p(p++, 0x80c6); stw_p(p++, NM_LO(ENVP_VADDR + 8));
-+                                /* ori a2,a2,%lo(ENVP_VADDR + 8) */
- 
-     stw_p(p++, 0xe0e0 | NM_HI1(loaderparams.ram_low_size));
- 
-@@ -878,18 +879,18 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
-         stl_p(p++, 0x24040002);              /* addiu a0, zero, 2 */
-     }
- 
--    /* lui sp, high(ENVP_ADDR) */
--    stl_p(p++, 0x3c1d0000 | (((ENVP_ADDR - 64) >> 16) & 0xffff));
--    /* ori sp, sp, low(ENVP_ADDR) */
--    stl_p(p++, 0x37bd0000 | ((ENVP_ADDR - 64) & 0xffff));
--    /* lui a1, high(ENVP_ADDR) */
--    stl_p(p++, 0x3c050000 | ((ENVP_ADDR >> 16) & 0xffff));
--    /* ori a1, a1, low(ENVP_ADDR) */
--    stl_p(p++, 0x34a50000 | (ENVP_ADDR & 0xffff));
--    /* lui a2, high(ENVP_ADDR + 8) */
--    stl_p(p++, 0x3c060000 | (((ENVP_ADDR + 8) >> 16) & 0xffff));
--    /* ori a2, a2, low(ENVP_ADDR + 8) */
--    stl_p(p++, 0x34c60000 | ((ENVP_ADDR + 8) & 0xffff));
-+    /* lui sp, high(ENVP_VADDR) */
-+    stl_p(p++, 0x3c1d0000 | (((ENVP_VADDR - 64) >> 16) & 0xffff));
-+    /* ori sp, sp, low(ENVP_VADDR) */
-+    stl_p(p++, 0x37bd0000 | ((ENVP_VADDR - 64) & 0xffff));
-+    /* lui a1, high(ENVP_VADDR) */
-+    stl_p(p++, 0x3c050000 | ((ENVP_VADDR >> 16) & 0xffff));
-+    /* ori a1, a1, low(ENVP_VADDR) */
-+    stl_p(p++, 0x34a50000 | (ENVP_VADDR & 0xffff));
-+    /* lui a2, high(ENVP_VADDR + 8) */
-+    stl_p(p++, 0x3c060000 | (((ENVP_VADDR + 8) >> 16) & 0xffff));
-+    /* ori a2, a2, low(ENVP_VADDR + 8) */
-+    stl_p(p++, 0x34c60000 | ((ENVP_VADDR + 8) & 0xffff));
-     /* lui a3, high(ram_low_size) */
-     stl_p(p++, 0x3c070000 | (loaderparams.ram_low_size >> 16));
-     /* ori a3, a3, low(ram_low_size) */
-@@ -1015,7 +1016,7 @@ static void GCC_FMT_ATTR(3, 4) prom_set(uint32_t *prom_buf, int index,
-     }
- 
-     table_addr = sizeof(uint32_t) * ENVP_NB_ENTRIES + index * ENVP_ENTRY_SIZE;
--    prom_buf[index] = tswap32(ENVP_ADDR + table_addr);
-+    prom_buf[index] = tswap32(ENVP_VADDR + table_addr);
- 
-     va_start(ap, string);
-     vsnprintf((char *)prom_buf + table_addr, ENVP_ENTRY_SIZE, string, ap);
-@@ -1122,8 +1123,7 @@ static uint64_t load_kernel(void)
-     prom_set(prom_buf, prom_index++, "38400n8r");
-     prom_set(prom_buf, prom_index++, NULL);
- 
--    rom_add_blob_fixed("prom", prom_buf, prom_size,
--                       cpu_mips_kseg0_to_phys(NULL, ENVP_ADDR));
-+    rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
- 
-     g_free(prom_buf);
-     return kernel_entry;
+diff --git a/hw/mips/bootloader.c b/hw/mips/bootloader.c
+new file mode 100644
+index 0000000000..97916ffd24
+--- /dev/null
++++ b/hw/mips/bootloader.c
+@@ -0,0 +1,157 @@
++/*
++ * Utility for QEMU MIPS to generate it's simple bootloader
++ *
++ * Instructions used here are carefully selected to keep compatibility with
++ * MIPS Release 6.
++ *
++ * Copyright (C) 2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "cpu.h"
++#include "hw/mips/bootloader.h"
++
++/* Base types */
++static void bl_gen_nop(uint32_t **p)
++{
++    stl_p(*p, 0);
++    *p = *p + 1;
++}
++
++static void bl_gen_r_type(uint32_t **p, uint8_t opcode, bl_reg rs, bl_reg rt,
++                            bl_reg rd, uint8_t shift, uint8_t funct)
++{
++    uint32_t insn = 0;
++
++    insn = deposit32(insn, 26, 6, opcode);
++    insn = deposit32(insn, 21, 5, rs);
++    insn = deposit32(insn, 16, 5, rt);
++    insn = deposit32(insn, 11, 5, rd);
++    insn = deposit32(insn, 6, 5, shift);
++    insn = deposit32(insn, 0, 6, funct);
++
++    stl_p(*p, insn);
++    *p = *p + 1;
++}
++
++static void bl_gen_i_type(uint32_t **p, uint8_t opcode, bl_reg rs, bl_reg rt,
++                            uint16_t imm)
++{
++    uint32_t insn = 0;
++
++    insn = deposit32(insn, 26, 6, opcode);
++    insn = deposit32(insn, 21, 5, rs);
++    insn = deposit32(insn, 16, 5, rt);
++    insn = deposit32(insn, 0, 16, imm);
++
++    stl_p(*p, insn);
++    *p = *p + 1;
++}
++
++static bool bootcpu_supports_isa(uint64_t isa_mask)
++{
++    return cpu_supports_isa(&MIPS_CPU(first_cpu)->env, isa_mask);
++}
++
++/* Single instructions */
++static void bl_gen_dsll(uint32_t **p, bl_reg rd, bl_reg rt, uint8_t sa)
++{
++    if (bootcpu_supports_isa(ISA_MIPS3)) {
++        bl_gen_r_type(p, 0, 0, rt, rd, sa, 0x38);
++    } else {
++        g_assert_not_reached(); /* unsupported */
++    }
++}
++
++static void bl_gen_jalr(uint32_t **p, bl_reg rs)
++{
++    bl_gen_r_type(p, 0, rs, 0, BL_REG_RA, 0, 0x9);
++}
++
++static void bl_gen_lui(uint32_t **p, bl_reg rt, uint16_t imm)
++{
++    /* R6: It's a alias of AUI with RS = 0 */
++    bl_gen_i_type(p, 0xf, 0, rt, imm);
++}
++
++static void bl_gen_ori(uint32_t **p, bl_reg rt, bl_reg rs, uint16_t imm)
++{
++    bl_gen_i_type(p, 0xd, rs, rt, imm);
++}
++
++static void bl_gen_sw(uint32_t **p, bl_reg rt, uint8_t base, uint16_t offset)
++{
++    bl_gen_i_type(p, 0x2b, base, rt, offset);
++}
++
++static void bl_gen_sd(uint32_t **p, bl_reg rt, uint8_t base, uint16_t offset)
++{
++    if (bootcpu_supports_isa(ISA_MIPS3)) {
++        bl_gen_i_type(p, 0x3f, base, rt, offset);
++    } else {
++        g_assert_not_reached(); /* unsupported */
++    }
++}
++
++/* Pseudo instructions */
++static void bl_gen_li(uint32_t **p, bl_reg rt, uint32_t imm)
++{
++    bl_gen_lui(p, rt, extract32(imm, 16, 16));
++    bl_gen_ori(p, rt, rt, extract32(imm, 0, 16));
++}
++
++static void bl_gen_dli(uint32_t **p, bl_reg rt, uint64_t imm)
++{
++    bl_gen_li(p, rt, extract64(imm, 32, 32));
++    bl_gen_dsll(p, rt, rt, 16);
++    bl_gen_ori(p, rt, rt, extract64(imm, 16, 16));
++    bl_gen_dsll(p, rt, rt, 16);
++    bl_gen_ori(p, rt, rt, extract64(imm, 0, 16));
++}
++
++static void bl_gen_load_ulong(uint32_t **p, bl_reg rt, target_ulong imm)
++{
++    if (bootcpu_supports_isa(ISA_MIPS3)) {
++        bl_gen_dli(p, rt, imm); /* 64bit */
++    } else {
++        bl_gen_li(p, rt, imm); /* 32bit */
++    }
++}
++
++/* Helpers */
++void bl_gen_jump_to(uint32_t **p, target_ulong jump_addr)
++{
++    bl_gen_load_ulong(p, BL_REG_T9, jump_addr);
++    bl_gen_jalr(p, BL_REG_T9);
++    bl_gen_nop(p); /* delay slot */
++}
++
++void bl_gen_jump_kernel(uint32_t **p, target_ulong sp, target_ulong a0,
++                        target_ulong a1, target_ulong a2, target_ulong a3,
++                        target_ulong kernel_addr)
++{
++    bl_gen_load_ulong(p, BL_REG_SP, sp);
++    bl_gen_load_ulong(p, BL_REG_A0, a0);
++    bl_gen_load_ulong(p, BL_REG_A1, a1);
++    bl_gen_load_ulong(p, BL_REG_A2, a2);
++    bl_gen_load_ulong(p, BL_REG_A3, a3);
++
++    bl_gen_jump_to(p, kernel_addr);
++}
++
++void bl_gen_write_u32(uint32_t **p, uint32_t val, target_ulong addr)
++{
++    bl_gen_li(p, BL_REG_K0, val);
++    bl_gen_load_ulong(p, BL_REG_K1, addr);
++    bl_gen_sw(p, BL_REG_K0, BL_REG_K1, 0x0);
++}
++
++void bl_gen_write_u64(uint32_t **p, uint64_t val, target_ulong addr)
++{
++    bl_gen_dli(p, BL_REG_K0, val);
++    bl_gen_load_ulong(p, BL_REG_K1, addr);
++    bl_gen_sd(p, BL_REG_K0, BL_REG_K1, 0x0);
++}
+diff --git a/hw/mips/meson.build b/hw/mips/meson.build
+index 77b4d8f365..fdb783ff55 100644
+--- a/hw/mips/meson.build
++++ b/hw/mips/meson.build
+@@ -1,5 +1,5 @@
+ mips_ss = ss.source_set()
+-mips_ss.add(files('mips_int.c'))
++mips_ss.add(files('bootloader.c', 'mips_int.c'))
+ mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
+ mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('jazz.c'))
+ mips_ss.add(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci.c', 'malta.c'))
+diff --git a/include/hw/mips/bootloader.h b/include/hw/mips/bootloader.h
+new file mode 100644
+index 0000000000..96c7333b9e
+--- /dev/null
++++ b/include/hw/mips/bootloader.h
+@@ -0,0 +1,48 @@
++#ifndef HW_MIPS_BOOTLOADER_H
++#define HW_MIPS_BOOTLOADER_H
++
++#include "exec/cpu-defs.h"
++
++void bl_gen_jump_to(uint32_t **p, target_ulong jump_addr);
++void bl_gen_jump_kernel(uint32_t **p, target_ulong sp, target_ulong a0,
++                        target_ulong a1, target_ulong a2, target_ulong a3,
++                        target_ulong kernel_addr);
++void bl_gen_write_u32(uint32_t **p, uint32_t val, target_ulong addr);
++void bl_gen_write_u64(uint32_t **p, uint64_t val, target_ulong addr);
++
++typedef enum bl_reg {
++    BL_REG_ZERO = 0,
++    BL_REG_AT = 1,
++    BL_REG_V0 = 2,
++    BL_REG_V1 = 3,
++    BL_REG_A0 = 4,
++    BL_REG_A1 = 5,
++    BL_REG_A2 = 6,
++    BL_REG_A3 = 7,
++    BL_REG_T0 = 8,
++    BL_REG_T1 = 9,
++    BL_REG_T2 = 10,
++    BL_REG_T3 = 11,
++    BL_REG_T4 = 12,
++    BL_REG_T5 = 13,
++    BL_REG_T6 = 14,
++    BL_REG_T7 = 15,
++    BL_REG_S0 = 16,
++    BL_REG_S1 = 17,
++    BL_REG_S2 = 18,
++    BL_REG_S3 = 19,
++    BL_REG_S4 = 20,
++    BL_REG_S5 = 21,
++    BL_REG_S6 = 22,
++    BL_REG_S7 = 23,
++    BL_REG_T8 = 24,
++    BL_REG_T9 = 25,
++    BL_REG_K0 = 26,
++    BL_REG_K1 = 27,
++    BL_REG_GP = 28,
++    BL_REG_SP = 29,
++    BL_REG_FP = 30,
++    BL_REG_RA = 31,
++} bl_reg;
++
++#endif
 -- 
 2.29.2
 
