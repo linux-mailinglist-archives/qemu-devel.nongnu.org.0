@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62652DB6A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 23:48:25 +0100 (CET)
-Received: from localhost ([::1]:35338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 416692DB6AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 23:53:02 +0100 (CET)
+Received: from localhost ([::1]:38490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpJ7I-0004Vt-Us
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 17:48:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35750)
+	id 1kpJBl-00077C-0Z
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 17:53:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpJ2O-0000Aj-2W
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:43:21 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38449)
+ id 1kpJ9T-0006NC-DU
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:50:39 -0500
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:44328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpJ2L-0007YP-1a
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:43:19 -0500
-Received: by mail-oi1-x242.google.com with SMTP id x13so16166783oic.5
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 14:43:16 -0800 (PST)
+ id 1kpJ9R-00017w-Py
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:50:38 -0500
+Received: by mail-oi1-x22f.google.com with SMTP id d189so25197490oig.11
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 14:50:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=Tac8R0/4/dnpUcxt6Aj8QnSKzTmEC8dVmvD5YDU6yl4=;
- b=ogNklUOdINw15uqD1JRGpwL9IF1VNZbbWTCMaXfR5zxYB8pwMsR+zqlgF5nZJnhk5u
- SPrEmippAr3LM29ORDYiACY+3hSb2KEINSENdQZm+KNprYYbcyYvv1YyT8pnB58nmbTn
- OWpbIwTyyMnOaMXFpRvRfhDUyxussOwGtLqQaKJNlzE34lA/6R+zr1XeBQicnX3m32d9
- dB6p8etRFtPw87geHrbX7Ay+NUEijDk36qqafLZ9R9mXvRCM9rSlIntorx8rGjkb3rym
- 5l0qqVTGfH578s5R1LdVm2/PPvgDuNYqtwzVH4WeLGsmeKNAGPqcqu7mSGAHhR0I48ra
- BC8g==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XGgO9tR3CDeSlatzhvyUgrRh4Ded+QEKSHAJcNXlOdQ=;
+ b=bcP4lWo56O8wHCShyakPx9veZCJCzz+JUSeAUFq5N5ZnBpCIkVfAp4VrLi4mpoJCdW
+ VeZtO3TDd95d8Retgi12RI8E2lTU881HTZE9kVPo0gFryFBn7nzk39nvWJK7HfWrbI9N
+ kO+N2BaAOlykk0tR74lt4Ini4gJislBQowei1T+GMBLalpAYVqLjxIw6/M73kijuU1m/
+ 2to3wQPL25eEdzqnetxLy27wezVtHFA7U0MegAwT1OBvxzapk1jIezZoWzVeB0GO7tDy
+ kEvNKUQvmR4Ua1b+ORWaD8+wT9PGtRtpGsmtc0EHitaTSioyJmkVdZqZRQK2ctNedTbb
+ f5Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Tac8R0/4/dnpUcxt6Aj8QnSKzTmEC8dVmvD5YDU6yl4=;
- b=cokc/naoR/TKFyKnBgy8Kq4QpOXO+hSiLBkn8kKm+wVQFjrn6b+ScRE19KCuF+84vz
- q6IGP6+gsEY6fhVL1m3uCk7gGdsjvdWjiTPxofDU8uF541/tDkEiwHte/EaBq2WUnK1r
- UqDXfPmEgRR0tfauuyhL78RGS+IoXy93tlEqciB1fUhXI674Lr7dQt7ROCDDh5nFp8vo
- Ak+XvSHrdnfD1WgueGkSmag1X/W4WDSw6xlHslikGZSErKOpbCWQqctv34+wLyXitMrS
- 5oRHHf25+Kz4xNe4zyZMbAXbJjHiOEvoqoJLD0JrqATty5NirAYWr4bX4jtZVaXY2mG5
- 98QQ==
-X-Gm-Message-State: AOAM533yb1nZivUrJg2kDK1bD0EyAUUFQPZqelfTKdk9mQ/DiW7UHl/v
- b3Eg5VdBwD5wM3oWg2oUtsWEBcPdv7O8+qfI
-X-Google-Smtp-Source: ABdhPJyAbwAaGD5lnDegWLK088FSpmP1W6RA/CEtkmQXIgZsgfQiDGrsbTkoYcCAQCUSzeo+X7t47g==
-X-Received: by 2002:aca:b587:: with SMTP id e129mr587060oif.90.1608072195427; 
- Tue, 15 Dec 2020 14:43:15 -0800 (PST)
+ bh=XGgO9tR3CDeSlatzhvyUgrRh4Ded+QEKSHAJcNXlOdQ=;
+ b=UpA2OaHHxkwjdYbhewToSGehddCn5/qUQ8xPG63SYQkdA4EDhKe+GeaWRyWBhYCT2K
+ AybtDQUlXSrVwpFc8O0ncZixg7ymy+Q5CTe2Wm4EzKzAFsK1vf9Kpt8siudZ7bImxZpB
+ LgyROROMF+nAV91a+MQIKD7cLuRgjBAz1i1jT3B2z9GQ40WNvfWM2dKoy+AhX2TpQ9HB
+ QMNc2g5RoETlMfXVKgSk0V8WoeqwUqit6bTDRC8SUkNNuTkXhm3Eoe0zQCK6C+Xf7hWI
+ VkrdJLTUQCRYSwdSJ/hrqr3jqViWEv+ziwNYQaCJFQN4iDrNpdxu8Zjpl5UUrM0yg9ZZ
+ sNBA==
+X-Gm-Message-State: AOAM531xrIfUfGlcgx5z4M1I2o0fIZYxJ+1F4vKtn6E7gRZmxEkpSeQx
+ dN9gujMdNa6KLSruEUD7NjS2b21rrwMEHE9J
+X-Google-Smtp-Source: ABdhPJxKynPrmrlTzOlsaTfmzyjWgPbWQUzx5kqJNqXx6U9/Yx71Op1sfaG/WkR+nIQEfCoAvgFKbA==
+X-Received: by 2002:aca:4257:: with SMTP id p84mr589484oia.176.1608072636470; 
+ Tue, 15 Dec 2020 14:50:36 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id q21sm10030oog.30.2020.12.15.14.43.14
+ by smtp.gmail.com with ESMTPSA id m29sm36362oof.20.2020.12.15.14.50.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Dec 2020 14:43:14 -0800 (PST)
-Subject: Re: [PATCH v4 07/43] tcg: Add in_code_gen_buffer
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+ Tue, 15 Dec 2020 14:50:35 -0800 (PST)
+Subject: Re: [PATCH v4 17/43] tcg: Add --accel tcg,split-wx property
+To: Joelle van Dyne <j@getutm.app>
 References: <20201214140314.18544-1-richard.henderson@linaro.org>
- <20201214140314.18544-8-richard.henderson@linaro.org>
- <0ca448f1-bbd1-36b3-67c7-d430005db00d@amsat.org>
+ <20201214140314.18544-18-richard.henderson@linaro.org>
+ <CA+E+eSDE=_zwJaQm05R2E1y2k0up2sNRgX86iOaLzLiw82_eQA@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a79b5c1f-80c3-d0cf-770e-838cafa3373d@linaro.org>
-Date: Tue, 15 Dec 2020 16:43:12 -0600
+Message-ID: <0bd5517d-29d5-d5fd-3049-98aa91d3f5c8@linaro.org>
+Date: Tue, 15 Dec 2020 16:50:33 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <0ca448f1-bbd1-36b3-67c7-d430005db00d@amsat.org>
+In-Reply-To: <CA+E+eSDE=_zwJaQm05R2E1y2k0up2sNRgX86iOaLzLiw82_eQA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x242.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,42 +89,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/14/20 4:09 PM, Philippe Mathieu-Daudé wrote:
-> On 12/14/20 3:02 PM, Richard Henderson wrote:
->> Create a function to determine if a pointer is within the buffer.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  include/tcg/tcg.h         |  6 ++++++
->>  accel/tcg/translate-all.c | 26 ++++++++------------------
->>  2 files changed, 14 insertions(+), 18 deletions(-)
->>
->> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
->> index bb1e97b13b..e4d0ace44b 100644
->> --- a/include/tcg/tcg.h
->> +++ b/include/tcg/tcg.h
->> @@ -680,6 +680,12 @@ extern __thread TCGContext *tcg_ctx;
->>  extern void *tcg_code_gen_epilogue;
->>  extern TCGv_env cpu_env;
->>  
->> +static inline bool in_code_gen_buffer(const void *p)
->> +{
->> +    const TCGContext *s = &tcg_init_ctx;
->> +    return (size_t)(p - s->code_gen_buffer) <= s->code_gen_buffer_size;
-> 
-> If 'p == s->code_gen_buffer + s->code_gen_buffer_size',
-> is it really "in" the buffer?
+On 12/14/20 8:05 PM, Joelle van Dyne wrote:
+> Should qemu-options.hx be updated?
 
-Well, sort of.
-
-Compare the fact that in C, a pointer to the end of an array is valid as a
-pointer even though it can't be dereferenced.  This is a pointer to the end of
-the buffer.
-
-Extra commentary required?
+Yep, good catch.
 
 
 r~
