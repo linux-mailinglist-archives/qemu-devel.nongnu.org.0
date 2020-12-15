@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5656B2DAED2
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 15:22:55 +0100 (CET)
-Received: from localhost ([::1]:41080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25AED2DAED3
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 15:23:40 +0100 (CET)
+Received: from localhost ([::1]:44790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpBE6-0004zf-D2
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 09:22:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33986)
+	id 1kpBEp-0006U6-40
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 09:23:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpB4Q-0001Sb-PX
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:12:58 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53570)
+ id 1kpB4X-0001YS-Mu
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:13:03 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpB4M-00078M-76
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:12:54 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id k10so17010715wmi.3
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 06:12:49 -0800 (PST)
+ id 1kpB4M-00079G-U7
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:13:01 -0500
+Received: by mail-wm1-x332.google.com with SMTP id k10so17010761wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 06:12:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=cV37AyuORR0cd6TAg8TEpeOVqKh0IrbO2oTQtbw3vqA=;
- b=NlmkWISd/OHV5re3yEMDxBJ9ZKTCPHrV3FuUw1zArhT3wX9E52/+P/Ep9TIH1lb0lv
- 7x7v1V64Bb1XKZAIpe6MBMfNESlgRJsZ/IT/5Q5wp2asH3Pcs+5bZo+PpKBGHCVYjs8P
- OJTZSHG3Z201sTUoJgGTLidEOXIjLyOHb4uZaPuQB0QwGSrXVZGSJlc0NVK19j+PWxJl
- U98PBE83m7Ly6Gsp/XQy4tMq5KtYypTBtcrPTWdam/U887Z5yOLwxAk+AKUYBoE6Ut9A
- H3uP1IfEfcIImQ666MkrqjOLU2EMQjeCJATfSyJFTxFsKnZm8582XrShqGRmITMc4WqN
- a+eQ==
+ bh=MHT0mJa3dVWHtx0F9Sj68FS/nEuDFGtpOb6OtVQv3Mg=;
+ b=fs/a2RbcQS1ecuMocKAv4fzSPQkGmjuzhyaWmMNHR2h7Gv+gWLNDjZ4JfPJRMYHaSb
+ PcdH47wijdoF4yB6Y7VCSYZ4a+bG3xw1fFMH9AZopdbwAIUfEuBVqwOffaDOdj+zg03k
+ ht5yQEbijnxXAZtmkHVxEy19YvikDeJ2f2d4c/+MZb4Ch4qco1T6XorZ5B05JR0aIIgP
+ VkCqM1aBetZ4SjAeZnejymlPW/tFvpvznH/yo/T4QA0golUlpctLkn59UXVpee/ISP5g
+ +F/wPkzBd/XXBFvlxBgjsnvAF7kvBLxodUOCN4bvP6+Q7xBBQvYSbAeM/Wc5OTHRWrbu
+ HVkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cV37AyuORR0cd6TAg8TEpeOVqKh0IrbO2oTQtbw3vqA=;
- b=QjsUsn506ykStNCDgqMeIa+BlcPINIIjipOpEjd1qXP8EdU1ybSUuIJs+ZluxUOsBC
- yJsGSUniz0y9rbLGsmrJQggrsdsyDvlSVL6Hlv1U8ra5ZUXOIWyj7QYDOGdEncaJpNP/
- VscGVre9BFz6ptE7wEBHJfHRe0GJ0c9Tz4Pvc8PXHstvxd9kEBrGr0GQ7Zpk0G30AJFE
- XzihmmgqxzHK4alGKr5EAG/T15Yx3nm2if5qcNUHrcgnUHKPv6fEmpUI3e30D8Jqj90K
- 40mz5ilWVMvL9z7Lbg+mf8HuzJR15Q++8cJvTDLqKWnufGBJVstusxlrVJS1LuXhEQ8S
- crig==
-X-Gm-Message-State: AOAM532KDCPruIowShk1/NC/SASNKyQ8IBJZPvj1OaHI2nHVYn6NLSRl
- HmshUgiDDpEc3VgdFWcbWsmGFYzLMFod+Q==
-X-Google-Smtp-Source: ABdhPJzs3Lmh4WriffN4IYM9lgzUHQJbofkElMGJL55TdiTNmey+yUAuwBrO87jvfsGMKeZrVwD3Lw==
-X-Received: by 2002:a7b:cc0f:: with SMTP id f15mr33362122wmh.29.1608041568203; 
- Tue, 15 Dec 2020 06:12:48 -0800 (PST)
+ bh=MHT0mJa3dVWHtx0F9Sj68FS/nEuDFGtpOb6OtVQv3Mg=;
+ b=h8C7EmJ/+O0ml3wl0usTFhEgUAGtKZZR74VLTmrC7rdvysqEIzqhkBNtryq4bku9RY
+ tRSo86btOj0RLO9McUjATCOzaLDk5aqtIRE2eTGdT8UMqNOfRij+smSjr0Oe0qzg1NyG
+ DCKhOsbnZlF85bnw2USu+kIsCRIscee75pqI9iCUWXOUnq/x/EX5f9FWefhkhKnIYj56
+ CsUO/Wurpx15RhSy/eAX6iMrQOAwaI09m6se2WvNelMfk6UIEiapUmGm5tQnwYX5/bQH
+ R1WfaeAwH5W6vmrCC7FCvdsX8Ghfqzna5gPIbwYy+MqgB7fqumkA3LL42nulsgq6As6X
+ vSjA==
+X-Gm-Message-State: AOAM532MfuQlcioZkjdLlNrur+qWqvs7g7SnA+rmpSqHVjVN1bwggf8M
+ mvP/OKApZ4mS8uE3nJMRiJOhOQBmAKBWWg==
+X-Google-Smtp-Source: ABdhPJzROBP5Sb0iIg2OlKYJaHbzflwBrR34ndh2ytOxCpafrrHrAE3cDgeqPb+nyQngZ2aTmZ7jkw==
+X-Received: by 2002:a1c:3987:: with SMTP id g129mr32408437wma.86.1608041569224; 
+ Tue, 15 Dec 2020 06:12:49 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w21sm19667319wmi.45.2020.12.15.06.12.47
+ by smtp.gmail.com with ESMTPSA id w21sm19667319wmi.45.2020.12.15.06.12.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 06:12:47 -0800 (PST)
+ Tue, 15 Dec 2020 06:12:48 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/20] target/nios2: Use deposit32() to update ipending register
-Date: Tue, 15 Dec 2020 14:12:24 +0000
-Message-Id: <20201215141237.17868-8-peter.maydell@linaro.org>
+Subject: [PULL 08/20] hw/core/loader.c: Track last-seen ROM in
+ rom_check_and_register_reset()
+Date: Tue, 15 Dec 2020 14:12:25 +0000
+Message-Id: <20201215141237.17868-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201215141237.17868-1-peter.maydell@linaro.org>
 References: <20201215141237.17868-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,30 +87,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In nios2_cpu_set_irq(), use deposit32() rather than raw shift-and-mask
-operations to set the appropriate bit in the ipending register.
+In rom_check_and_register_reset() we detect overlaps by looking at
+whether the ROM blob we're currently examining is in the same address
+space and starts before the previous ROM blob ends.  (This works
+because the ROM list is kept sorted in order by AddressSpace and then
+by address.)
+
+Instead of keeping the AddressSpace and last address of the previous ROM
+blob in local variables, just keep a pointer to it.
+
+This will allow us to print more useful information when we do detect
+an overlap.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201129174022.26530-4-peter.maydell@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20201129203923.10622-2-peter.maydell@linaro.org
 ---
- target/nios2/cpu.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/core/loader.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 52ebda89ca7..58688e1623a 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -71,8 +71,7 @@ static void nios2_cpu_set_irq(void *opaque, int irq, int level)
-     CPUNios2State *env = &cpu->env;
-     CPUState *cs = CPU(cpu);
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index fea22d265c7..45aaba6158b 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -1166,28 +1166,35 @@ static void rom_reset(void *unused)
+     }
+ }
  
--    env->regs[CR_IPENDING] &= ~(1 << irq);
--    env->regs[CR_IPENDING] |= !!level << irq;
-+    env->regs[CR_IPENDING] = deposit32(env->regs[CR_IPENDING], irq, 1, !!level);
++/* Return true if two consecutive ROMs in the ROM list overlap */
++static bool roms_overlap(Rom *last_rom, Rom *this_rom)
++{
++    if (!last_rom) {
++        return false;
++    }
++    return last_rom->as == this_rom->as &&
++        last_rom->addr + last_rom->romsize > this_rom->addr;
++}
++
+ int rom_check_and_register_reset(void)
+ {
+-    hwaddr addr = 0;
+     MemoryRegionSection section;
+-    Rom *rom;
+-    AddressSpace *as = NULL;
++    Rom *rom, *last_rom = NULL;
  
-     env->irq_pending = env->regs[CR_IPENDING] & env->regs[CR_IENABLE];
- 
+     QTAILQ_FOREACH(rom, &roms, next) {
+         if (rom->fw_file) {
+             continue;
+         }
+         if (!rom->mr) {
+-            if ((addr > rom->addr) && (as == rom->as)) {
++            if (roms_overlap(last_rom, rom)) {
+                 fprintf(stderr, "rom: requested regions overlap "
+                         "(rom %s. free=0x" TARGET_FMT_plx
+                         ", addr=0x" TARGET_FMT_plx ")\n",
+-                        rom->name, addr, rom->addr);
++                        rom->name, last_rom->addr + last_rom->romsize,
++                        rom->addr);
+                 return -1;
+             }
+-            addr  = rom->addr;
+-            addr += rom->romsize;
+-            as = rom->as;
++            last_rom = rom;
+         }
+         section = memory_region_find(rom->mr ? rom->mr : get_system_memory(),
+                                      rom->addr, 1);
 -- 
 2.20.1
 
