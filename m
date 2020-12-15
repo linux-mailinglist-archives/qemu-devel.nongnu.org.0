@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88FF2DA4E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 01:30:01 +0100 (CET)
-Received: from localhost ([::1]:40616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514F02DA4B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 01:27:50 +0100 (CET)
+Received: from localhost ([::1]:35594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koyE4-0007NK-Q4
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 19:30:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48222)
+	id 1koyBx-0005JH-Cf
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 19:27:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1koy7C-00020q-Qy
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 19:22:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25401)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1koy7A-00042e-2D
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 19:22:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607991770;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7IEp7gDJFoskpSc4s7a+geeYV74brcXlT8peC4bTzBc=;
- b=DHjR5Fqb6YVW8MdTJ7vMU2CsZ9NIf5SjdyXv0Hu2GEM6YhnSU1KfDkWXMVVZ8687OM2cjF
- 9zZyK0mpN6hhQqbRI9aKDRXW7RZNjdy3kgbUSi7EZ/AhPmo/EeROWqbPP15lArz0tyk72e
- 9JA/cYzx47aFcikFZ6DDZ8e+6JJRZho=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-5DAucmU3MdSvbA2BIinTiw-1; Mon, 14 Dec 2020 19:22:48 -0500
-X-MC-Unique: 5DAucmU3MdSvbA2BIinTiw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C02081005504
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 00:22:47 +0000 (UTC)
-Received: from [10.10.116.117] (ovpn-116-117.rdu2.redhat.com [10.10.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 49B5D5D9DE;
- Tue, 15 Dec 2020 00:22:47 +0000 (UTC)
-Subject: Re: [PATCH v2 07/11] qapi/introspect.py: Unify return type of
- _make_tree()
-To: Cleber Rosa <crosa@redhat.com>
-References: <20201026194251.11075-1-jsnow@redhat.com>
- <20201026194251.11075-8-jsnow@redhat.com>
- <20201107050816.GC2208@localhost.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <ca6dc4b5-6d43-0280-c3b2-9b0ddc34ad3c@redhat.com>
-Date: Mon, 14 Dec 2020 19:22:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
-In-Reply-To: <20201107050816.GC2208@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1koyAN-0004To-HX
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 19:26:11 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:34342)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1koyAI-0004LN-Rd
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 19:26:11 -0500
+Received: by mail-pf1-x441.google.com with SMTP id w6so13389592pfu.1
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 16:26:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HYUhfX1zytIqrkUcOpkaMcJQQLgNGL6yx6VjqU6UAoA=;
+ b=YdPjys8NB+Xy5LfKDIJ6nf9rkIw4e2043qlyFFNPh9rnpccCgtTxDW6RbbnKUbU9D+
+ vjCHJGFXTB7J7WiQhdqFAgfQmXShSv+el8NG+zcvT16uND0JIbw7PPBPqCy1Wn7UQynj
+ fOpGf/LFXXulu1gFRhwXm4oFMKvttnM6juaLC2yj6evFmpp8xF+Ady4NQYM5iLBoiOte
+ ztfegKA7dIVwK92zQlvD9ZbCHfXXHvNAJXmYuDWnFS/+z/dRdVLEXviiP0Nl4DuvZg3/
+ 3ZzjibjY8r2iY2jh8VTcOvpmekKZC1bFgSF5JkmLUM4044jRPWuwSjPGpKcLtBOXLm0m
+ /RxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=HYUhfX1zytIqrkUcOpkaMcJQQLgNGL6yx6VjqU6UAoA=;
+ b=EEpBnhvD79kXPgUa4ExVgHC3lJskhzT25C9Ab92+ZP1lL9E7TI1RlPl699uBj9aFWX
+ GWUmNQjSKejTqakhvsIwZ49DI5wsnDR0qaLZDVogaChUjXVHgMYIjG4qOGN5UGObxaTW
+ VgWKkesDhZulJnA1grgngGU2Hnxy1lOJ3/pxeYcsJHvi5t0ma+Q+S95AbjGrbtKdw2LA
+ AtQWe7Ub4jq0KU75CsH0aR2WKN8K9rIHwidHtF0iirSJyTtgv/09Lg8rOfbMDqWxfQ6j
+ eBT7A3n3CU3S00a01zCSa+bArnLN4V9roTPmIgiGRWbXemzdrLi8dmPHkBxM6dmUV9zO
+ A2+w==
+X-Gm-Message-State: AOAM53019ygH79MXC0cwp9wrWxvQlxQSygJnHyUawkIs4h2hVMuwP7bI
+ oA+5YB5M1LvwdveSHj018ts+0PyiAs2gyCUy
+X-Google-Smtp-Source: ABdhPJzS9wcJzL9357awFtpiGNgMSirLqpXirlGlB4M7E1sbXyaZAF10dhmWWKmIBBsCVIqUM/v6ew==
+X-Received: by 2002:a63:f154:: with SMTP id o20mr26315148pgk.127.1607991964361; 
+ Mon, 14 Dec 2020 16:26:04 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id y22sm21101347pgi.35.2020.12.14.16.26.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Dec 2020 16:26:03 -0800 (PST)
+Date: Mon, 14 Dec 2020 16:26:03 -0800 (PST)
+X-Google-Original-Date: Mon, 14 Dec 2020 16:26:01 PST (-0800)
+Subject: Re: [PATCH v2 00/15]  RISC-V: Start to remove xlen preprocess
+In-Reply-To: <cover.1607467819.git.alistair.francis@wdc.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>
+Message-ID: <mhng-711fa828-e3ae-408f-a908-76b1aacb67a5@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=palmer@dabbelt.com; helo=mail-pf1-x441.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,16 +83,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>, bmeng.cn@gmail.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/7/20 12:08 AM, Cleber Rosa wrote:
-> And this seems like another change.
-> 
-> - Cleber.
+On Tue, 08 Dec 2020 14:56:08 PST (-0800), Alistair Francis wrote:
+> The RISC-V QEMU port currently has lot of preprocessor directives that
+> check if we are targetting a 32-bit or 64-bit CPU. This means that the
+> 64-bit RISC-V target can not run 32-bit CPUs. This is different to most
+> other QEMU architectures and doesn't allow us to mix xlens (such as when
+> running Hypervisors with different xlen guests).
+> This series is a step toward removing some of those to allow us to use
+> 32-bit CPUs on 64-bit RISC-V targets.
+> v2:
+>  - Rebase on the latest RISC-V tree
+>
+> Alistair Francis (15):
+>   hw/riscv: Expand the is 32-bit check to support more CPUs
+>   target/riscv: Add a TYPE_RISCV_CPU_BASE CPU
+>   riscv: spike: Remove target macro conditionals
+>   riscv: virt: Remove target macro conditionals
+>   hw/riscv: boot: Remove compile time XLEN checks
+>   hw/riscv: virt: Remove compile time XLEN checks
+>   hw/riscv: spike: Remove compile time XLEN checks
+>   hw/riscv: sifive_u: Remove compile time XLEN checks
+>   target/riscv: fpu_helper: Match function defs in HELPER macros
+>   target/riscv: Add a riscv_cpu_is_32bit() helper function
+>   target/riscv: Specify the XLEN for CPUs
+>   target/riscv: cpu: Remove compile time XLEN checks
+>   target/riscv: cpu_helper: Remove compile time XLEN checks
+>   target/riscv: csr: Remove compile time XLEN checks
+>   target/riscv: cpu: Set XLEN independently from target
+>
+>  include/hw/riscv/boot.h   |   8 +-
+>  include/hw/riscv/spike.h  |   6 --
+>  include/hw/riscv/virt.h   |   6 --
+>  target/riscv/cpu.h        |   8 ++
+>  target/riscv/cpu_bits.h   |   4 +-
+>  hw/riscv/boot.c           |  69 +++++++++------
+>  hw/riscv/sifive_u.c       |  57 ++++++------
+>  hw/riscv/spike.c          |  50 ++++++-----
+>  hw/riscv/virt.c           |  36 ++++----
+>  target/riscv/cpu.c        |  84 ++++++++++++------
+>  target/riscv/cpu_helper.c |  12 +--
+>  target/riscv/csr.c        | 182 ++++++++++++++++++++------------------
+>  target/riscv/fpu_helper.c |  16 ++--
+>  13 files changed, 302 insertions(+), 236 deletions(-)
 
-Fair enough.
+Thanks, this is awesome!  That's always been one of the headaches floating
+around the port that I was hoping to have some time to sort out :).  I just
+gave it a quick look, but
 
+Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
+
+as it certainly seems better than before.
 
