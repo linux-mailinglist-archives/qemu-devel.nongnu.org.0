@@ -2,59 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681682DA909
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 09:13:10 +0100 (CET)
-Received: from localhost ([::1]:51380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57FB22DA90D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 09:17:48 +0100 (CET)
+Received: from localhost ([::1]:53608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp5SH-0006cm-Fh
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 03:13:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41660)
+	id 1kp5Wk-0007lK-VV
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 03:17:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kp5RI-0006Dq-Kf
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 03:12:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22038)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kp5VP-0007KM-RY
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 03:16:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kp5RG-0001df-Dd
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 03:12:08 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kp5VO-0003DS-9R
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 03:16:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608019921;
+ s=mimecast20190719; t=1608020181;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FO1pFTDJZZUM7IN4j5Gc9n9+4n9xWN86FKVZ6kDk6Yw=;
- b=Cdu0aC8GHdlH85KNLAskTnzR6AL6hp93Fjtuf6nKRJ1qvdWtq9fhEAG8qhzzXQH+2GWVud
- K15WsmuTfvLzhC3bKynPyVWiw3J1vU7jEJZZU0yZmj77wGQyAxA8pKFmvu9tAziIjQExea
- UGsMX5i7Cwfee0GIR94kKRTa5hl5eXA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=At9/LYjCbk5PBpZ2A4rBLUMdT2GRes5G45k5/i2hZLo=;
+ b=cIJC3AkPxbyC8QybA6CNknkT1YdNk3de/fXrDcWom9qp4Bp63fu0guy3iakDoIhxImHbYP
+ 3oYCfwIKuz8SwLGbIqouwKeR2z7NKE+moOzU8uYupNdpnkBzyjfQyah9jxRTxAofLzKEKL
+ WChJHNJjA3CXQ5cu03D7QrblcVFt920=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-sz-vQfmxOvCs-E2OkU8BAA-1; Tue, 15 Dec 2020 03:11:57 -0500
-X-MC-Unique: sz-vQfmxOvCs-E2OkU8BAA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-186-N5xV50wIPx2qZgW3UqTjGg-1; Tue, 15 Dec 2020 03:16:19 -0500
+X-MC-Unique: N5xV50wIPx2qZgW3UqTjGg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA5A2801817;
- Tue, 15 Dec 2020 08:11:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 615FE107ACE4;
+ Tue, 15 Dec 2020 08:16:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
  [10.36.112.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94894E70A;
- Tue, 15 Dec 2020 08:11:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0411B5D9DE;
+ Tue, 15 Dec 2020 08:16:18 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B18A111AB8; Tue, 15 Dec 2020 09:11:51 +0100 (CET)
+ id 43B4117532; Tue, 15 Dec 2020 09:16:17 +0100 (CET)
+Date: Tue, 15 Dec 2020 09:16:17 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] audio: add sanity check
-Date: Tue, 15 Dec 2020 09:11:51 +0100
-Message-Id: <20201215081151.20095-1-kraxel@redhat.com>
+To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH 1/4] coreaudio: rename misnamed variable fake_as
+Message-ID: <20201215081617.dlcwkg4crc7tnn44@sirius.home.kraxel.org>
+References: <1a970310-4cff-f2f7-985e-05b2f4cd446b@t-online.de>
+ <20201213130528.5863-1-vr_qemu@t-online.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20201213130528.5863-1-vr_qemu@t-online.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -76,38 +81,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dann frazier <dann.frazier@canonical.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Check whenever we actually found the spiceaudio driver
-before flipping the can_be_default field.
+On Sun, Dec 13, 2020 at 02:05:25PM +0100, Volker Rümelin wrote:
+> While the variable once was used to fake audio settings, since
+> commit ed2a4a7941 "audio: proper support for float samples in
+> mixeng" this is no longer true. Rename the variable to obt_as.
+> This is the same naming scheme as in audio/sdlaudio.c
+> 
+> Tested-by: Howard Spoelstra <hsp.cat7@gmail.com>
+> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 
-Fixes: f0c4555edfdd ("audio: remove qemu_spice_audio_init()")
-Buglink: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=977301
-Reported-by: dann frazier <dann.frazier@canonical.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- audio/audio.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Added all to audio queue.
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 46578e4a583b..973804620d7b 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -1709,7 +1709,9 @@ static AudioState *audio_init(Audiodev *dev, const char *name)
-          * backend and this can go away.
-          */
-         driver = audio_driver_lookup("spice");
--        driver->can_be_default = 1;
-+        if (driver) {
-+            driver->can_be_default = 1;
-+        }
-     }
- 
-     if (dev) {
--- 
-2.27.0
+thanks,
+  Gerd
 
 
