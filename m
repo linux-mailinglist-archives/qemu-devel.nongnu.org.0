@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DEF2DB391
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 19:23:18 +0100 (CET)
-Received: from localhost ([::1]:46026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 191812DB35F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 19:13:13 +0100 (CET)
+Received: from localhost ([::1]:44988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpEyi-0006Ur-Sp
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 13:23:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34490)
+	id 1kpEoy-0002ZZ-4x
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 13:13:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpEXe-0003Ik-N7
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35521)
+ id 1kpEXZ-0003IW-1M
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpEXV-0001Y4-Si
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:18 -0500
+ id 1kpEXU-0001XW-Cy
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608054909;
+ s=mimecast20190719; t=1608054907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AAqh/JUS8h5bYLu8ntXWEfqqxmikVEJupVuEAhoIFh8=;
- b=Zow+ubc1VqVEnGIY1jjb4YV8QsnLxjErRfg2yQUDLCgH1B/S6hG6fjjqhn4hzJPrUAu1N/
- v0UIKxmuvvQfax92CEtPDNReLcs5+frPF6Nc5PsPt0T9rNJXySZebeYMgXiumoJ73jKNno
- j45JFKtSOJ6pN8X33RPIvWiCIk0WWzA=
+ bh=BEwYFEY64E6YH4Stkyxs1VZXpWDmbEeNFUVtLlxD51I=;
+ b=CdHxHtfYj208NVEBSSiqHC4+HzG9xKaWOHYB0t8yi2My51El/FYbNN5EXChMwoI/NVzczr
+ t1QWRE6fYWSj+6vMqaDhkC2aXNFPTYpFLbkETv0QRLjZwDXBNkX6y9a46B+VGNggzsjCEz
+ lbkwA4rSkEeSSFOC+z5MTwGF8M7CP78=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-ZQ9To5JTNFqzh_I4J8w3kQ-1; Tue, 15 Dec 2020 12:55:04 -0500
-X-MC-Unique: ZQ9To5JTNFqzh_I4J8w3kQ-1
+ us-mta-45-Z8slA_hpOAeYITiBV8OcEQ-1; Tue, 15 Dec 2020 12:55:04 -0500
+X-MC-Unique: Z8slA_hpOAeYITiBV8OcEQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 576438015D4
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 17:55:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D63871005504;
+ Tue, 15 Dec 2020 17:55:03 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 056285D6BA;
- Tue, 15 Dec 2020 17:55:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71E735D6BA;
+ Tue, 15 Dec 2020 17:55:03 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/45] qemu/atomic: Drop special case for unsupported compiler
-Date: Tue, 15 Dec 2020 12:54:32 -0500
-Message-Id: <20201215175445.1272776-33-pbonzini@redhat.com>
+Subject: [PULL 33/45] accel/tcg: Remove special case for GCC < 4.6
+Date: Tue, 15 Dec 2020 12:54:33 -0500
+Message-Id: <20201215175445.1272776-34-pbonzini@redhat.com>
 In-Reply-To: <20201215175445.1272776-1-pbonzini@redhat.com>
 References: <20201215175445.1272776-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -79,8 +79,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -88,50 +89,35 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Since commit efc6c070aca ("configure: Add a test for the
 minimum compiler version") the minimum compiler version
-required for GCC is 4.8, which has the GCC BZ#36793 bug fixed.
+required for GCC is 4.8.
 
-We can safely remove the special case introduced in commit
-a281ebc11a6 ("virtio: add missing mb() on notification").
-
-With clang 3.4, __ATOMIC_RELAXED is defined, so the chunk to
-remove (which is x86-specific), isn't reached either.
+We can safely remove the special case for GCC 4.6 introduced
+in commit 0448f5f8b81 ("cpu-exec: Fix compiler warning
+(-Werror=clobbered)").
+No change for Clang as we don't know.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20201210134752.780923-2-marcandre.lureau@redhat.com>
+Message-Id: <20201210134752.780923-3-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/atomic.h | 17 -----------------
- 1 file changed, 17 deletions(-)
+ accel/tcg/cpu-exec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/atomic.h b/include/qemu/atomic.h
-index c1d211a351..8f4b3a80fb 100644
---- a/include/qemu/atomic.h
-+++ b/include/qemu/atomic.h
-@@ -241,23 +241,6 @@
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 251b340fb9..c2c26489c7 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -724,7 +724,7 @@ int cpu_exec(CPUState *cpu)
  
- #else /* __ATOMIC_RELAXED */
- 
--/*
-- * We use GCC builtin if it's available, as that can use mfence on
-- * 32-bit as well, e.g. if built with -march=pentium-m. However, on
-- * i386 the spec is buggy, and the implementation followed it until
-- * 4.3 (http://gcc.gnu.org/bugzilla/show_bug.cgi?id=36793).
-- */
--#if defined(__i386__) || defined(__x86_64__)
--#if !QEMU_GNUC_PREREQ(4, 4)
--#if defined __x86_64__
--#define smp_mb()    ({ asm volatile("mfence" ::: "memory"); (void)0; })
--#else
--#define smp_mb()    ({ asm volatile("lock; addl $0,0(%%esp) " ::: "memory"); (void)0; })
--#endif
--#endif
--#endif
--
--
- #ifdef __alpha__
- #define smp_read_barrier_depends()   asm volatile("mb":::"memory")
- #endif
+     /* prepare setjmp context for exception handling */
+     if (sigsetjmp(cpu->jmp_env, 0) != 0) {
+-#if defined(__clang__) || !QEMU_GNUC_PREREQ(4, 6)
++#if defined(__clang__)
+         /* Some compilers wrongly smash all local variables after
+          * siglongjmp. There were bug reports for gcc 4.5.0 and clang.
+          * Reload essential local variables here for those compilers.
 -- 
 2.26.2
 
