@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC5712DB01A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:32:24 +0100 (CET)
-Received: from localhost ([::1]:37892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 408FC2DB022
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:34:30 +0100 (CET)
+Received: from localhost ([::1]:46584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpCJL-0006rj-N8
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:32:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51434)
+	id 1kpCLM-0001vk-00
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:34:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kpC93-0008T2-DW
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:21:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40116)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kpC8z-0002S6-8Y
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:21:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608045698;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zblTDPD6j9yQIXarY+q5fARVngRj8I3IqoqBwU5PYJo=;
- b=b2II7R4MBnpNW6m3M6b9MAAdoRe+3cX9nyKYPFfHog0+aEpKWWMW2AgZ7nP78lEMZp3l/m
- hE21uQHzxxJy7pwLsZtlgYCafPxWI8Pa5VCsGsc3EPNc6U8KFCfz6ZmgfbL7p+m5kc9gXM
- edmfdX1lAP2nIiX/YQ//qcf+atg5mQs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-Jzk8hWOVOfaeJHX9pAwR2Q-1; Tue, 15 Dec 2020 10:21:34 -0500
-X-MC-Unique: Jzk8hWOVOfaeJHX9pAwR2Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D2748030D8;
- Tue, 15 Dec 2020 15:20:49 +0000 (UTC)
-Received: from localhost (ovpn-115-226.rdu2.redhat.com [10.10.115.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 233D85D9D7;
- Tue, 15 Dec 2020 15:20:48 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 25/25] MAINTAINERS: Update my git repository URLs
-Date: Tue, 15 Dec 2020 10:19:42 -0500
-Message-Id: <20201215151942.3125089-26-ehabkost@redhat.com>
-In-Reply-To: <20201215151942.3125089-1-ehabkost@redhat.com>
-References: <20201215151942.3125089-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpC91-0008Nl-7Z
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:21:43 -0500
+Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:38011)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpC8p-0002QK-IU
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:21:42 -0500
+Received: by mail-oo1-xc43.google.com with SMTP id i18so4908640ooh.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 07:21:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0xcK1IuujEA5K5lA0Cirzk0N7PvQDsnCaphLTkmgOQk=;
+ b=Lw3aZWWkp/sbsTODzl+46DR2QKQkB81nwmf6UX7FbLu/X9qowkHDhozjqospnp7cD2
+ aPfpU7RpRSQQWuKWyMw9V2WmFM9eErgCw6uxNOuEiCPmdHJEwDAFO4C36q3L83ymzvQu
+ 5q3juSF1ThJwKXUiT484NvbX243CCtKtZSxBSBz8DGzbnJAZfgOtykWTUEOMSXk3SlNK
+ EldAeNj4t1NYXc97d21scaAij9BhvydIJPaOaaRJhxrZv38HgDhM6RNiHG0MXnPp10kM
+ O6qvP20Kp6m/fuJ9xVQYBIK/XFhfrzlmAi65qkbnuqMB8YTsc8jNPmW5nFWZN7SsTwXy
+ 5wAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0xcK1IuujEA5K5lA0Cirzk0N7PvQDsnCaphLTkmgOQk=;
+ b=jh1SGsPwjLwo7igUErVtZ28Lp2k6GqGD5RL2Dc3PPSutxS3DCnF8Tv9ZB5v5OebrsT
+ DZ3g1T8PtIQd79DSbBUWmgGmEaU8wdo2cjxxU1eXKwTLRnK5+yWvoGrlOtRcEYJqj05o
+ +RlHlSxe9KtpRZcPYPUjDkO7GveV3ldB1ro5Ps7YUhj9TjrhjhT7JHJdXoxhCy1c6Dm5
+ G+mqbtW8hdFPBP0WV0TTqzEqZPVvWC/UD7Mk63D5Pp1q9h4STEe9cwyv9YxPASWQfIxk
+ KHU0cxUbKCVHzsj3F7t6ZKPtW7uaUA1t4svwFLhXbc0dF2/5vLdtoV8YX80ebMeYMk0Z
+ QCYA==
+X-Gm-Message-State: AOAM531l844gnMZjTouBMXECT2+VvJ7SicfvGyH2ljfg70QvSL20Jdsx
+ iVTSLpizBmw2zw27XSv6ZvsxsQ==
+X-Google-Smtp-Source: ABdhPJyfV0VIizHdvcsu09DRckK9liSvgakzw7i50/YU9tPwtY9TGjIPUCRbDVLExtHwpjo5Dqxw/g==
+X-Received: by 2002:a4a:9722:: with SMTP id u31mr8864ooi.28.1608045690040;
+ Tue, 15 Dec 2020 07:21:30 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id k3sm4466839oof.31.2020.12.15.07.21.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Dec 2020 07:21:29 -0800 (PST)
+Subject: Re: [PATCH v2 1/4] clock: Introduce clock_ticks_to_ns()
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20201215150929.30311-1-peter.maydell@linaro.org>
+ <20201215150929.30311-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3256465f-76d6-9d05-6ee9-eb912561602a@linaro.org>
+Date: Tue, 15 Dec 2020 09:21:26 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+In-Reply-To: <20201215150929.30311-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc43.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,52 +88,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Luc Michel <luc.michel@greensocs.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm moving my git repositories to gitlab.com, update MAINTAINERS
-to point to the correct URL.
+On 12/15/20 9:09 AM, Peter Maydell wrote:
+> The clock_get_ns() API claims to return the period of a clock in
+> nanoseconds. Unfortunately since it returns an integer and a
+> clock's period is represented in units of 2^-32 nanoseconds,
+> the result is often an approximation, and calculating a clock
+> expiry deadline by multiplying clock_get_ns() by a number-of-ticks
+> is unacceptably inaccurate.
+> 
+> Introduce a new API clock_ticks_to_ns() which returns the number
+> of nanoseconds it takes the clock to make a given number of ticks.
+> This function can do the complete calculation internally and
+> will thus give a more accurate result.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> The 64x64->128 multiply is a bit painful for 32-bit and I
+> guess in theory since we know we only want bits [95:32]
+> of the result we could special-case it, but TBH I don't
+> think 32-bit hosts merit much optimization effort these days.
+> 
+> Changes in v2: saturate the result to INT64_MAX.
+> ---
+>  docs/devel/clocks.rst | 29 +++++++++++++++++++++++++++++
+>  include/hw/clock.h    | 41 +++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 70 insertions(+)
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20201214212032.2999853-1-ehabkost@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- MAINTAINERS | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4663c143c3..6714257cf7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -344,7 +344,7 @@ F: tests/tcg/x86_64/
- F: hw/i386/
- F: disas/i386.c
- F: docs/system/cpu-models-x86.rst.inc
--T: git https://github.com/ehabkost/qemu.git x86-next
-+T: git https://gitlab.com/ehabkost/qemu.git x86-next
- 
- Xtensa TCG CPUs
- M: Max Filippov <jcmvbkbc@gmail.com>
-@@ -1557,7 +1557,7 @@ F: include/hw/boards.h
- F: include/hw/core/cpu.h
- F: include/hw/cpu/cluster.h
- F: include/sysemu/numa.h
--T: git https://github.com/ehabkost/qemu.git machine-next
-+T: git https://gitlab.com/ehabkost/qemu.git machine-next
- 
- Xtensa Machines
- ---------------
-@@ -2412,7 +2412,7 @@ M: Igor Mammedov <imammedo@redhat.com>
- S: Maintained
- F: backends/hostmem*.c
- F: include/sysemu/hostmem.h
--T: git https://github.com/ehabkost/qemu.git machine-next
-+T: git https://gitlab.com/ehabkost/qemu.git machine-next
- 
- Cryptodev Backends
- M: Gonglei <arei.gonglei@huawei.com>
--- 
-2.28.0
+r~
 
 
