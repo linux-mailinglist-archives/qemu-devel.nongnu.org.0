@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CEB42DA4B5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 01:27:37 +0100 (CET)
-Received: from localhost ([::1]:34632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604702DA49B
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 01:19:22 +0100 (CET)
+Received: from localhost ([::1]:47062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koyBk-0004uu-5w
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 19:27:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47370)
+	id 1koy3k-0006aR-6x
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 19:19:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1koy1L-0004Vz-Sr
+ id 1koy1L-0004Vx-Rr
  for qemu-devel@nongnu.org; Mon, 14 Dec 2020 19:16:52 -0500
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:44960)
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:35462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1koy13-0003Vr-MO
+ id 1koy1E-0003WE-6p
  for qemu-devel@nongnu.org; Mon, 14 Dec 2020 19:16:51 -0500
-Received: by mail-lf1-x141.google.com with SMTP id m25so34787607lfc.11
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 16:16:33 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id a9so34842294lfh.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 16:16:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=I8RA2w7VK7L3ydGDbBHoQUtul8tVf9B5HC4/pSj5XVI=;
- b=gebmepNIicj288owDh2tWZfnHAZmopeXuPicO6/n0EMmsu6kCQdxXJ8Gq3yVn0nOox
- BT6NEzMrgE6QMP3Sa+HNa8oKE0WROd6FIlQUT/lDrQaX8tny4E+r0RBJOsEHAGUMyfBK
- jzuxxQaqx9MEoUADw4IO/Icyw+aQN/nerTmQge9yQReqkGTGdm+ZJB/kuE6hkfyj4eNZ
- 1XwiybiGqvpViWT0LnWcHEP0G2KNhxdiW497OKw1OtwvcEj+NhlGuu1Zx6DHSdU50Ufq
- LSQ6Xt8PUAcFrfZCra74qtGd+TQcOasz2CVCsWH9jIaETax3f2POkw9lJDA7LBtAtmG/
- qXZw==
+ :cc; bh=+zBXr3/8yAs5hDSc6OAE7yfGBvM5aGuO8/5BaViWbv8=;
+ b=PGVk2cQuILPBIhBNC6wyOEynk+PNi+V3S+5hPDcPf6JPuuMq57ewMs5OE3fTWsmg8I
+ st6M/PtOMqdTMTheSidFdmCag+MiBbh1bvKxelHmF1vLaDRkd+VFML1YhU4b0av0oBCx
+ ZOK6hiYvitR44bks5Qe7AOF1LoJyfpsBNpuzAchrbmENG0eS4Uzw7xuEyjl3wWCNNSf2
+ c70eiTU4s65H2gCB6z2BJKvaK/wBlKR9aYotZP8reiVESVjC3AtvxOp9YfQaOhUqhjgY
+ VPdgSVwkR7r4zX0cXfIEchBp/wJthLkUjE/qU87j8qXLioK6wQRFMGxEt2VC9xW6CMIm
+ r9nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=I8RA2w7VK7L3ydGDbBHoQUtul8tVf9B5HC4/pSj5XVI=;
- b=suihTscAIcu//7/KwRwQVj2HYNqM0Ca5oU7UjoZpjerr5XxUNTbWzYyBd7o0KEkmPg
- H7oFN5tfLauKNi02F/up6/W8pBt95AepyEw8h0GhFA1w7RZ9IOAl4OOVa7tEwSL15eqQ
- c3UgR6mMqnbrzb1aXoTR93k2ui3TZDSW3BtT2RUmWf6G6Stx2KOJzXNks3yyhPAo7N3H
- lzJJz7NEw+AA9MGKp+xL1d2sS40h0No1KDh4TcRDyIwxdBBQvE4XJDIzmWR3dKld3wQZ
- LPipPybZGWkX0fhTMtgO1NoZ49mwVqJSBODN9hctWIdqlTgRvIOVjt2i31htWCdyuu33
- d4Zg==
-X-Gm-Message-State: AOAM530Sfp+sFuxG6TP5tPhN+g/tL36DQuX0L0HMEC11I02A6y8iVa5F
- Pn+vBBk7OSWkFCUdHqwbiUvVyAXf2Y8nxwBY8eHkVw==
-X-Google-Smtp-Source: ABdhPJwyTXmHblgkFV7hzl8lGekzF+roRGrzXYqZ305xS5XiSlePCaTVLiuz9WYCdhgm6TaTyk8pj+blhPogKtb1sis=
-X-Received: by 2002:ac2:5689:: with SMTP id 9mr11095043lfr.175.1607991390936; 
- Mon, 14 Dec 2020 16:16:30 -0800 (PST)
+ bh=+zBXr3/8yAs5hDSc6OAE7yfGBvM5aGuO8/5BaViWbv8=;
+ b=JIwZlOshZ6Ix8BPZjt1j7bg035aZVyPT/YDj+aFs2NnY2uGMrdATi+NEUe8V302YOZ
+ IRma1x8R4DKIPUVCNOgnYaBJwY6sHnad7XW9yRxWOJUNy8mhj4wuWEOhrdudjimYbYJG
+ p3Gi4tDlWyMX9vtgMccsqFllo4+kwPubZDxCNAzVfbv/n8jF2LarKbOTqzqrFtUrozp5
+ ssXP1g7VmQQorpLjeVFWKNVchvXj8PmjqLLw95ESjAYcZhAg3Q8Lko2Vj6mdy09eMLxy
+ fXRcvCHP0jSteNX/el5EICH6ik9cAFWBeLeH02XMg44sCbvZysK7qCMKoR0RFYc4NgtM
+ 5YEA==
+X-Gm-Message-State: AOAM530EdGRltp0ca38U0rg78mQWSP4iX9aZE0ypy/SVytiHTyLJJyC3
+ o2Rz1o5d/ZfO3ZS7wBNxSfeBmwOHKE+x1DCnzcmsnQ==
+X-Google-Smtp-Source: ABdhPJz+Ay9bijnyUdKPn0YYrDR6EG0e+Krum7KmcAq3MNh6ECWwztpX8OgHiA31GNAxRw0D5/7wtZrNmz0gQg7GzXc=
+X-Received: by 2002:ac2:4d14:: with SMTP id r20mr11009468lfi.410.1607991402358; 
+ Mon, 14 Dec 2020 16:16:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20201215001312.3120777-1-wuhaotsh@google.com>
- <20201215001312.3120777-4-wuhaotsh@google.com>
-In-Reply-To: <20201215001312.3120777-4-wuhaotsh@google.com>
-Date: Mon, 14 Dec 2020 16:16:18 -0800
-Message-ID: <CAGcCb11YAj8iQHRPmAGxwtzXqmhg34vjmfx5-kihEy1mYvQ2Vg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] hw/adc: Add an ADC module for NPCM7XX
+ <20201215001312.3120777-2-wuhaotsh@google.com>
+In-Reply-To: <20201215001312.3120777-2-wuhaotsh@google.com>
+Date: Mon, 14 Dec 2020 16:16:28 -0800
+Message-ID: <CAGcCb122HVkNYyjcWKM3xCY17L_NbHSF8ZM8+=9KkmSp+SxeiQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] hw/misc: Add clock converter in NPCM7XX CLK module
 To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000a8fc1a05b675abef"
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=wuhaotsh@google.com; helo=mail-lf1-x141.google.com
+Content-Type: multipart/alternative; boundary="0000000000005740c705b675ac42"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=wuhaotsh@google.com; helo=mail-lf1-x12f.google.com
 X-Spam_score_int: -175
 X-Spam_score: -17.6
 X-Spam_bar: -----------------
 X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
  USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,1055 +87,1117 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Hao Wu <wuhaotsh@google.com>
 From: Hao Wu via <qemu-devel@nongnu.org>
 
---000000000000a8fc1a05b675abef
+--0000000000005740c705b675ac42
 Content-Type: text/plain; charset="UTF-8"
 
 On Mon, Dec 14, 2020 at 4:13 PM Hao Wu <wuhaotsh@google.com> wrote:
 
-> The ADC is part of NPCM7XX Module. Its behavior is controled by the
-> ADC_CON register. It converts one of the eight analog inputs into a
-> digital input and stores it in the ADC_DATA register when enabled.
+> This patch allows NPCM7XX CLK module to compute clocks that are used by
+> other NPCM7XX modules.
 >
-> Users can alter input value by using qom-set QMP command.
+> Add a new struct NPCM7xxClockConverterState which represents a
+> single converter.  Each clock converter in CLK module represents one
+> converter in NPCM7XX CLK Module(PLL, SEL or Divider). Each converter
+> takes one or more input clocks and converts them into one output clock.
+> They form a clock hierarchy in the CLK module and are responsible for
+> outputing clocks for various other modules in an NPCM7XX SoC.
+>
+> Each converter has a function pointer called "convert" which represents
+> the unique logic for that converter.
+>
+> The clock contains two initialization information: ConverterInitInfo and
+> ConverterConnectionInfo. They represent the vertices and edges in the
+> clock diagram respectively.
 >
 > Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
 > Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
 > Signed-off-by: Hao Wu <wuhaotsh@google.com>
 > ---
->  docs/system/arm/nuvoton.rst    |   2 +-
->  hw/adc/meson.build             |   1 +
->  hw/adc/npcm7xx_adc.c           | 321 ++++++++++++++++++++++++++
->  hw/adc/trace-events            |   5 +
->  hw/arm/npcm7xx.c               |  24 +-
->  include/hw/adc/npcm7xx_adc.h   |  72 ++++++
->  include/hw/arm/npcm7xx.h       |   2 +
->  meson.build                    |   1 +
->  tests/qtest/meson.build        |   3 +-
->  tests/qtest/npcm7xx_adc-test.c | 400 +++++++++++++++++++++++++++++++++
->  10 files changed, 828 insertions(+), 3 deletions(-)
->  create mode 100644 hw/adc/npcm7xx_adc.c
->  create mode 100644 hw/adc/trace-events
->  create mode 100644 include/hw/adc/npcm7xx_adc.h
->  create mode 100644 tests/qtest/npcm7xx_adc-test.c
+>  hw/misc/npcm7xx_clk.c         | 795 +++++++++++++++++++++++++++++++++-
+>  include/hw/misc/npcm7xx_clk.h | 140 +++++-
+>  2 files changed, 927 insertions(+), 8 deletions(-)
 >
-> diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
-> index b00d405d52..35829f8d0b 100644
-> --- a/docs/system/arm/nuvoton.rst
-> +++ b/docs/system/arm/nuvoton.rst
-> @@ -41,6 +41,7 @@ Supported devices
->   * Random Number Generator (RNG)
->   * USB host (USBH)
->   * GPIO controller
-> + * Analog to Digital Converter (ADC)
+> diff --git a/hw/misc/npcm7xx_clk.c b/hw/misc/npcm7xx_clk.c
+> index 6732437fe2..48bc9bdda5 100644
+> --- a/hw/misc/npcm7xx_clk.c
+> +++ b/hw/misc/npcm7xx_clk.c
+> @@ -18,6 +18,7 @@
 >
->  Missing devices
->  ---------------
-> @@ -58,7 +59,6 @@ Missing devices
->   * USB device (USBD)
->   * SMBus controller (SMBF)
->   * Peripheral SPI controller (PSPI)
-> - * Analog to Digital Converter (ADC)
->   * SD/MMC host
->   * PECI interface
->   * Pulse Width Modulation (PWM)
-> diff --git a/hw/adc/meson.build b/hw/adc/meson.build
-> index 0d62ae96ae..6ddee23813 100644
-> --- a/hw/adc/meson.build
-> +++ b/hw/adc/meson.build
-> @@ -1 +1,2 @@
->  softmmu_ss.add(when: 'CONFIG_STM32F2XX_ADC', if_true:
-> files('stm32f2xx_adc.c'))
-> +softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_adc.c'))
-> diff --git a/hw/adc/npcm7xx_adc.c b/hw/adc/npcm7xx_adc.c
-> new file mode 100644
-> index 0000000000..c2c4819d3f
-> --- /dev/null
-> +++ b/hw/adc/npcm7xx_adc.c
-> @@ -0,0 +1,321 @@
-> +/*
-> + * Nuvoton NPCM7xx ADC Module
-> + *
-> + * Copyright 2020 Google LLC
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms of the GNU General Public License as published by the
-> + * Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful, but
-> WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-> + * for more details.
-> + */
-> +
-> +#include "hw/adc/npcm7xx_adc.h"
+>  #include "hw/misc/npcm7xx_clk.h"
+>  #include "hw/timer/npcm7xx_timer.h"
 > +#include "hw/qdev-clock.h"
-> +#include "hw/qdev-properties.h"
-> +#include "migration/vmstate.h"
-> +#include "qemu/log.h"
-> +#include "qemu/module.h"
-> +#include "qemu/timer.h"
-> +#include "qemu/units.h"
-> +#include "trace.h"
+>  #include "migration/vmstate.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/log.h"
+> @@ -27,9 +28,22 @@
+>  #include "trace.h"
+>  #include "sysemu/watchdog.h"
+>
+> +/*
+> + * The reference clock hz, and the SECCNT and CNTR25M registers in this
+> module,
+> + * is always 25 MHz.
+> + */
+> +#define NPCM7XX_CLOCK_REF_HZ            (25000000)
 > +
-> +/* 32-bit register indices. */
-> +enum NPCM7xxADCRegisters {
-> +    NPCM7XX_ADC_CON,
-> +    NPCM7XX_ADC_DATA,
-> +    NPCM7XX_ADC_REGS_END,
-> +};
+> +/* Register Field Definitions */
+> +#define NPCM7XX_CLK_WDRCR_CA9C  BIT(0) /* Cortex A9 Cores */
 > +
-> +/* Register field definitions. */
-> +#define NPCM7XX_ADC_CON_MUX(rv) extract32(rv, 24, 4)
-> +#define NPCM7XX_ADC_CON_INT_EN  BIT(21)
-> +#define NPCM7XX_ADC_CON_REFSEL  BIT(19)
-> +#define NPCM7XX_ADC_CON_INT     BIT(18)
-> +#define NPCM7XX_ADC_CON_EN      BIT(17)
-> +#define NPCM7XX_ADC_CON_RST     BIT(16)
-> +#define NPCM7XX_ADC_CON_CONV    BIT(14)
-> +#define NPCM7XX_ADC_CON_DIV(rv) extract32(rv, 1, 8)
+>  #define PLLCON_LOKI     BIT(31)
+>  #define PLLCON_LOKS     BIT(30)
+>  #define PLLCON_PWDEN    BIT(12)
+> +#define PLLCON_FBDV(con) extract32((con), 16, 12)
+> +#define PLLCON_OTDV2(con) extract32((con), 13, 3)
+> +#define PLLCON_OTDV1(con) extract32((con), 8, 3)
+> +#define PLLCON_INDV(con) extract32((con), 0, 6)
+>
+>  enum NPCM7xxCLKRegisters {
+>      NPCM7XX_CLK_CLKEN1,
+> @@ -89,12 +103,609 @@ static const uint32_t
+> cold_reset_values[NPCM7XX_CLK_NR_REGS] = {
+>      [NPCM7XX_CLK_AHBCKFI]       = 0x000000c8,
+>  };
+>
+> -/* Register Field Definitions */
+> -#define NPCM7XX_CLK_WDRCR_CA9C  BIT(0) /* Cortex A9 Cores */
+> -
+>  /* The number of watchdogs that can trigger a reset. */
+>  #define NPCM7XX_NR_WATCHDOGS    (3)
+>
+> +/* Clock converter functions */
 > +
-> +#define NPCM7XX_ADC_MAX_RESULT      1023
-> +#define NPCM7XX_ADC_DEFAULT_IREF    2000000
-> +#define NPCM7XX_ADC_CONV_CYCLES     20
-> +#define NPCM7XX_ADC_RESET_CYCLES    10
-> +#define NPCM7XX_ADC_R0_INPUT        500000
-> +#define NPCM7XX_ADC_R1_INPUT        1500000
+> +#define TYPE_NPCM7XX_CLOCK_PLL "npcm7xx-clock-pll"
+> +#define NPCM7XX_CLOCK_PLL(obj) OBJECT_CHECK(NPCM7xxClockPLLState, \
+> +        (obj), TYPE_NPCM7XX_CLOCK_PLL)
+> +#define TYPE_NPCM7XX_CLOCK_SEL "npcm7xx-clock-sel"
+> +#define NPCM7XX_CLOCK_SEL(obj) OBJECT_CHECK(NPCM7xxClockSELState, \
+> +        (obj), TYPE_NPCM7XX_CLOCK_SEL)
+> +#define TYPE_NPCM7XX_CLOCK_DIVIDER "npcm7xx-clock-divider"
+> +#define NPCM7XX_CLOCK_DIVIDER(obj) OBJECT_CHECK(NPCM7xxClockDividerState,
+> \
+> +        (obj), TYPE_NPCM7XX_CLOCK_DIVIDER)
 > +
-> +static void npcm7xx_adc_reset(NPCM7xxADCState *s)
+> +static void npcm7xx_clk_update_pll(void *opaque)
 > +{
-> +    timer_del(&s->conv_timer);
-> +    timer_del(&s->reset_timer);
-> +    s->con = 0x000c0001;
-> +    s->data = 0x00000000;
-> +}
+> +    NPCM7xxClockPLLState *s = opaque;
+> +    uint32_t con = s->clk->regs[s->reg];
+> +    uint64_t freq;
 > +
-> +static uint32_t npcm7xx_adc_convert(uint32_t input, uint32_t ref)
-> +{
-> +    uint32_t result;
-> +
-> +    result = input * (NPCM7XX_ADC_MAX_RESULT + 1) / ref;
-> +    if (result > NPCM7XX_ADC_MAX_RESULT) {
-> +        result = NPCM7XX_ADC_MAX_RESULT;
-> +    }
-> +
-> +    return result;
-> +}
-> +
-> +static uint32_t npcm7xx_adc_prescaler(NPCM7xxADCState *s)
-> +{
-> +    return 2 * (NPCM7XX_ADC_CON_DIV(s->con) + 1);
-> +}
-> +
-> +static void npcm7xx_adc_start_timer(Clock *clk, QEMUTimer *timer,
-> +        uint32_t cycles, uint32_t prescaler)
-> +{
-> +    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> +    int64_t freq = clock_get_hz(clk);
-> +    int64_t ns;
-> +
-> +    ns = (NANOSECONDS_PER_SECOND * cycles * prescaler / freq);
-> +    ns += now;
-> +    timer_mod(timer, ns);
-> +}
-> +
-> +static void npcm7xx_adc_start_reset(NPCM7xxADCState *s)
-> +{
-> +    uint32_t prescaler = npcm7xx_adc_prescaler(s);
-> +
-> +    npcm7xx_adc_start_timer(s->clock, &s->reset_timer,
-> NPCM7XX_ADC_RESET_CYCLES,
-> +            prescaler);
-> +}
-> +
-> +static void npcm7xx_adc_start_convert(NPCM7xxADCState *s)
-> +{
-> +    uint32_t prescaler = npcm7xx_adc_prescaler(s);
-> +
-> +    npcm7xx_adc_start_timer(s->clock, &s->conv_timer,
-> NPCM7XX_ADC_CONV_CYCLES,
-> +            prescaler);
-> +}
-> +
-> +static void npcm7xx_adc_reset_done(void *opaque)
-> +{
-> +    NPCM7xxADCState *s = opaque;
-> +
-> +    npcm7xx_adc_reset(s);
-> +}
-> +
-> +static void npcm7xx_adc_convert_done(void *opaque)
-> +{
-> +    NPCM7xxADCState *s = opaque;
-> +    uint32_t input = NPCM7XX_ADC_CON_MUX(s->con);
-> +    uint32_t ref = (s->con & NPCM7XX_ADC_CON_REFSEL)
-> +        ? s->iref : s->vref;
-> +
-> +    g_assert(input < NPCM7XX_ADC_NUM_INPUTS);
-> +    s->data = npcm7xx_adc_convert(s->adci[input], ref);
-> +    if (s->con & NPCM7XX_ADC_CON_INT_EN) {
-> +        s->con |= NPCM7XX_ADC_CON_INT;
-> +        qemu_irq_raise(s->irq);
-> +    }
-> +    s->con &= ~NPCM7XX_ADC_CON_CONV;
-> +}
-> +
-> +static void npcm7xx_adc_calibrate(NPCM7xxADCState *adc)
-> +{
-> +    adc->calibration_r_values[0] =
-> npcm7xx_adc_convert(NPCM7XX_ADC_R0_INPUT,
-> +            adc->iref);
-> +    adc->calibration_r_values[1] =
-> npcm7xx_adc_convert(NPCM7XX_ADC_R1_INPUT,
-> +            adc->iref);
-> +}
-> +
-> +static void npcm7xx_adc_write_con(NPCM7xxADCState *s, uint32_t new_con)
-> +{
-> +    uint32_t old_con = s->con;
-> +
-> +    /* Write ADC_INT to 1 to clear it */
-> +    if (new_con & NPCM7XX_ADC_CON_INT) {
-> +        new_con &= ~NPCM7XX_ADC_CON_INT;
-> +    } else if (old_con & NPCM7XX_ADC_CON_INT) {
-> +        new_con |= NPCM7XX_ADC_CON_INT;
-> +    }
-> +
-> +    s->con = new_con;
-> +
-> +    if (s->con & NPCM7XX_ADC_CON_RST) {
-> +        if (!(old_con & NPCM7XX_ADC_CON_RST)) {
-> +            npcm7xx_adc_start_reset(s);
-> +        }
+> +    /* The PLL is grounded if it is not locked yet. */
+> +    if (con & PLLCON_LOKI) {
+> +        freq = clock_get_hz(s->clock_in);
+> +        freq *= PLLCON_FBDV(con);
+> +        freq /= PLLCON_INDV(con) * PLLCON_OTDV1(con) * PLLCON_OTDV2(con);
 > +    } else {
-> +        timer_del(&s->reset_timer);
+> +        freq = 0;
 > +    }
 > +
-> +    if ((s->con & NPCM7XX_ADC_CON_EN)) {
-> +        if (s->con & NPCM7XX_ADC_CON_CONV) {
-> +            if (!(old_con & NPCM7XX_ADC_CON_CONV)) {
-> +                npcm7xx_adc_start_convert(s);
-> +            }
-> +        } else {
-> +            timer_del(&s->conv_timer);
-> +        }
-> +    }
+> +    clock_update_hz(s->clock_out, freq);
 > +}
 > +
-> +static uint64_t npcm7xx_adc_read(void *opaque, hwaddr offset, unsigned
-> size)
+> +static void npcm7xx_clk_update_sel(void *opaque)
 > +{
-> +    uint64_t value = 0;
-> +    NPCM7xxADCState *s = opaque;
-> +    hwaddr reg = offset / sizeof(uint32_t);
+> +    NPCM7xxClockSELState *s = opaque;
+> +    uint32_t index = extract32(s->clk->regs[NPCM7XX_CLK_CLKSEL],
+> s->offset,
+> +            s->len);
 > +
-> +    switch (reg) {
-> +    case NPCM7XX_ADC_CON:
-> +        value = s->con;
-> +        break;
-> +
-> +    case NPCM7XX_ADC_DATA:
-> +        value = s->data;
-> +        break;
-> +
-> +    default:
+> +    if (index >= s->input_size) {
 > +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: invalid offset 0x%04" HWADDR_PRIx "\n",
-> +                      __func__, offset);
-> +        break;
+> +                      "%s: SEL index: %u out of range\n",
+> +                      __func__, index);
+> +        index = 0;
 > +    }
-> +
-> +    trace_npcm7xx_adc_read(DEVICE(s)->canonical_path, offset, value);
-> +    return value;
+> +    clock_update_hz(s->clock_out, clock_get_hz(s->clock_in[index]));
 > +}
 > +
-> +static void npcm7xx_adc_write(void *opaque, hwaddr offset, uint64_t v,
-> +        unsigned size)
+> +static void npcm7xx_clk_update_divider(void *opaque)
 > +{
-> +    NPCM7xxADCState *s = opaque;
-> +    hwaddr reg = offset / sizeof(uint32_t);
+> +    NPCM7xxClockDividerState *s = opaque;
+> +    uint32_t freq;
 > +
-> +    trace_npcm7xx_adc_write(DEVICE(s)->canonical_path, offset, v);
-> +    switch (reg) {
-> +    case NPCM7XX_ADC_CON:
-> +        npcm7xx_adc_write_con(s, v);
-> +        break;
-> +
-> +    case NPCM7XX_ADC_DATA:
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: register @ 0x%04" HWADDR_PRIx " is
-> read-only\n",
-> +                      __func__, offset);
-> +        break;
-> +
-> +    default:
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: invalid offset 0x%04" HWADDR_PRIx "\n",
-> +                      __func__, offset);
-> +        break;
-> +    }
-> +
+> +    freq = s->divide(s);
+> +    clock_update_hz(s->clock_out, freq);
 > +}
 > +
-> +static const struct MemoryRegionOps npcm7xx_adc_ops = {
-> +    .read       = npcm7xx_adc_read,
-> +    .write      = npcm7xx_adc_write,
-> +    .endianness = DEVICE_LITTLE_ENDIAN,
-> +    .valid      = {
-> +        .min_access_size        = 4,
-> +        .max_access_size        = 4,
-> +        .unaligned              = false,
+> +static uint32_t divide_by_constant(NPCM7xxClockDividerState *s)
+> +{
+> +    return clock_get_hz(s->clock_in) / s->divisor;
+> +}
+> +
+> +static uint32_t divide_by_reg_divisor(NPCM7xxClockDividerState *s)
+> +{
+> +    return clock_get_hz(s->clock_in) /
+> +            (extract32(s->clk->regs[s->reg], s->offset, s->len) + 1);
+> +}
+> +
+> +static uint32_t divide_by_reg_divisor_times_2(NPCM7xxClockDividerState *s)
+> +{
+> +    return divide_by_reg_divisor(s) / 2;
+> +}
+> +
+> +static uint32_t shift_by_reg_divisor(NPCM7xxClockDividerState *s)
+> +{
+> +    return clock_get_hz(s->clock_in) >>
+> +        extract32(s->clk->regs[s->reg], s->offset, s->len);
+> +}
+> +
+> +static NPCM7xxClockPLL find_pll_by_reg(enum NPCM7xxCLKRegisters reg)
+> +{
+> +    switch (reg) {
+> +    case NPCM7XX_CLK_PLLCON0:
+> +        return NPCM7XX_CLOCK_PLL0;
+> +    case NPCM7XX_CLK_PLLCON1:
+> +        return NPCM7XX_CLOCK_PLL1;
+> +    case NPCM7XX_CLK_PLLCON2:
+> +        return NPCM7XX_CLOCK_PLL2;
+> +    case NPCM7XX_CLK_PLLCONG:
+> +        return NPCM7XX_CLOCK_PLLG;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +}
+> +
+> +static void npcm7xx_clk_update_all_plls(NPCM7xxCLKState *clk)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < NPCM7XX_CLOCK_NR_PLLS; ++i) {
+> +        npcm7xx_clk_update_pll(&clk->plls[i]);
+> +    }
+> +}
+> +
+> +static void npcm7xx_clk_update_all_sels(NPCM7xxCLKState *clk)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < NPCM7XX_CLOCK_NR_SELS; ++i) {
+> +        npcm7xx_clk_update_sel(&clk->sels[i]);
+> +    }
+> +}
+> +
+> +static void npcm7xx_clk_update_all_dividers(NPCM7xxCLKState *clk)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < NPCM7XX_CLOCK_NR_DIVIDERS; ++i) {
+> +        npcm7xx_clk_update_divider(&clk->dividers[i]);
+> +    }
+> +}
+> +
+> +static void npcm7xx_clk_update_all_clocks(NPCM7xxCLKState *clk)
+> +{
+> +    clock_update_hz(clk->clkref, NPCM7XX_CLOCK_REF_HZ);
+> +    npcm7xx_clk_update_all_plls(clk);
+> +    npcm7xx_clk_update_all_sels(clk);
+> +    npcm7xx_clk_update_all_dividers(clk);
+> +}
+> +
+> +/* Types of clock sources. */
+> +typedef enum ClockSrcType {
+> +    CLKSRC_REF,
+> +    CLKSRC_PLL,
+> +    CLKSRC_SEL,
+> +    CLKSRC_DIV,
+> +} ClockSrcType;
+> +
+> +typedef struct PLLInitInfo {
+> +    const char *name;
+> +    ClockSrcType src_type;
+> +    int src_index;
+> +    int reg;
+> +    const char *public_name;
+> +} PLLInitInfo;
+> +
+> +typedef struct SELInitInfo {
+> +    const char *name;
+> +    uint8_t input_size;
+> +    ClockSrcType src_type[NPCM7XX_CLK_SEL_MAX_INPUT];
+> +    int src_index[NPCM7XX_CLK_SEL_MAX_INPUT];
+> +    int offset;
+> +    int len;
+> +    const char *public_name;
+> +} SELInitInfo;
+> +
+> +typedef struct DividerInitInfo {
+> +    const char *name;
+> +    ClockSrcType src_type;
+> +    int src_index;
+> +    uint32_t (*divide)(NPCM7xxClockDividerState *s);
+> +    int reg; /* not used when type == CONSTANT */
+> +    int offset; /* not used when type == CONSTANT */
+> +    int len; /* not used when type == CONSTANT */
+> +    int divisor; /* used only when type == CONSTANT */
+> +    const char *public_name;
+> +} DividerInitInfo;
+> +
+> +static const PLLInitInfo pll_init_info_list[] = {
+> +    [NPCM7XX_CLOCK_PLL0] = {
+> +        .name = "pll0",
+> +        .src_type = CLKSRC_REF,
+> +        .reg = NPCM7XX_CLK_PLLCON0,
+> +    },
+> +    [NPCM7XX_CLOCK_PLL1] = {
+> +        .name = "pll1",
+> +        .src_type = CLKSRC_REF,
+> +        .reg = NPCM7XX_CLK_PLLCON1,
+> +    },
+> +    [NPCM7XX_CLOCK_PLL2] = {
+> +        .name = "pll2",
+> +        .src_type = CLKSRC_REF,
+> +        .reg = NPCM7XX_CLK_PLLCON2,
+> +    },
+> +    [NPCM7XX_CLOCK_PLLG] = {
+> +        .name = "pllg",
+> +        .src_type = CLKSRC_REF,
+> +        .reg = NPCM7XX_CLK_PLLCONG,
 > +    },
 > +};
 > +
-> +static void npcm7xx_adc_enter_reset(Object *obj, ResetType type)
-> +{
-> +    NPCM7xxADCState *s = NPCM7XX_ADC(obj);
+> +static const SELInitInfo sel_init_info_list[] = {
+> +    [NPCM7XX_CLOCK_PIXCKSEL] = {
+> +        .name = "pixcksel",
+> +        .input_size = 2,
+> +        .src_type = {CLKSRC_PLL, CLKSRC_REF},
+> +        .src_index = {NPCM7XX_CLOCK_PLLG, 0},
+> +        .offset = 5,
+> +        .len = 1,
+> +        .public_name = "pixel-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_MCCKSEL] = {
+> +        .name = "mccksel",
+> +        .input_size = 4,
+> +        .src_type = {CLKSRC_DIV, CLKSRC_REF, CLKSRC_REF,
+> +            /*MCBPCK, shouldn't be used in normal operation*/
+> +            CLKSRC_REF},
+> +        .src_index = {NPCM7XX_CLOCK_PLL1D2, 0, 0, 0},
+> +        .offset = 12,
+> +        .len = 2,
+> +        .public_name = "mc-phy-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_CPUCKSEL] = {
+> +        .name = "cpucksel",
+> +        .input_size = 4,
+> +        .src_type = {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_REF,
+> +            /*SYSBPCK, shouldn't be used in normal operation*/
+> +            CLKSRC_REF},
+> +        .src_index = {NPCM7XX_CLOCK_PLL0, NPCM7XX_CLOCK_PLL1D2, 0, 0},
+> +        .offset = 0,
+> +        .len = 2,
+> +        .public_name = "system-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_CLKOUTSEL] = {
+> +        .name = "clkoutsel",
+> +        .input_size = 5,
+> +        .src_type = {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_REF,
+> +            CLKSRC_PLL, CLKSRC_DIV},
+> +        .src_index = {NPCM7XX_CLOCK_PLL0, NPCM7XX_CLOCK_PLL1D2, 0,
+> +            NPCM7XX_CLOCK_PLLG, NPCM7XX_CLOCK_PLL2D2},
+> +        .offset = 18,
+> +        .len = 3,
+> +        .public_name = "tock",
+> +    },
+> +    [NPCM7XX_CLOCK_UARTCKSEL] = {
+> +        .name = "uartcksel",
+> +        .input_size = 4,
+> +        .src_type = {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_REF, CLKSRC_DIV},
+> +        .src_index = {NPCM7XX_CLOCK_PLL0, NPCM7XX_CLOCK_PLL1D2, 0,
+> +            NPCM7XX_CLOCK_PLL2D2},
+> +        .offset = 8,
+> +        .len = 2,
+> +    },
+> +    [NPCM7XX_CLOCK_TIMCKSEL] = {
+> +        .name = "timcksel",
+> +        .input_size = 4,
+> +        .src_type = {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_REF, CLKSRC_DIV},
+> +        .src_index = {NPCM7XX_CLOCK_PLL0, NPCM7XX_CLOCK_PLL1D2, 0,
+> +            NPCM7XX_CLOCK_PLL2D2},
+> +        .offset = 14,
+> +        .len = 2,
+> +    },
+> +    [NPCM7XX_CLOCK_SDCKSEL] = {
+> +        .name = "sdcksel",
+> +        .input_size = 4,
+> +        .src_type = {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_REF, CLKSRC_DIV},
+> +        .src_index = {NPCM7XX_CLOCK_PLL0, NPCM7XX_CLOCK_PLL1D2, 0,
+> +            NPCM7XX_CLOCK_PLL2D2},
+> +        .offset = 6,
+> +        .len = 2,
+> +    },
+> +    [NPCM7XX_CLOCK_GFXMSEL] = {
+> +        .name = "gfxmksel",
+> +        .input_size = 2,
+> +        .src_type = {CLKSRC_REF, CLKSRC_PLL},
+> +        .src_index = {0, NPCM7XX_CLOCK_PLL2},
+> +        .offset = 21,
+> +        .len = 1,
+> +    },
+> +    [NPCM7XX_CLOCK_SUCKSEL] = {
+> +        .name = "sucksel",
+> +        .input_size = 4,
+> +        .src_type = {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_REF, CLKSRC_DIV},
+> +        .src_index = {NPCM7XX_CLOCK_PLL0, NPCM7XX_CLOCK_PLL1D2, 0,
+> +            NPCM7XX_CLOCK_PLL2D2},
+> +        .offset = 10,
+> +        .len = 2,
+> +    },
+> +};
 > +
-> +    npcm7xx_adc_reset(s);
+> +static const DividerInitInfo divider_init_info_list[] = {
+> +    [NPCM7XX_CLOCK_PLL1D2] = {
+> +        .name = "pll1d2",
+> +        .src_type = CLKSRC_PLL,
+> +        .src_index = NPCM7XX_CLOCK_PLL1,
+> +        .divide = divide_by_constant,
+> +        .divisor = 2,
+> +    },
+> +    [NPCM7XX_CLOCK_PLL2D2] = {
+> +        .name = "pll2d2",
+> +        .src_type = CLKSRC_PLL,
+> +        .src_index = NPCM7XX_CLOCK_PLL2,
+> +        .divide = divide_by_constant,
+> +        .divisor = 2,
+> +    },
+> +    [NPCM7XX_CLOCK_MC_DIVIDER] = {
+> +        .name = "mc-divider",
+> +        .src_type = CLKSRC_SEL,
+> +        .src_index = NPCM7XX_CLOCK_MCCKSEL,
+> +        .divide = divide_by_constant,
+> +        .divisor = 2,
+> +        .public_name = "mc-clock"
+> +    },
+> +    [NPCM7XX_CLOCK_AXI_DIVIDER] = {
+> +        .name = "axi-divider",
+> +        .src_type = CLKSRC_SEL,
+> +        .src_index = NPCM7XX_CLOCK_CPUCKSEL,
+> +        .divide = shift_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV1,
+> +        .offset = 0,
+> +        .len = 1,
+> +        .public_name = "clk2"
+> +    },
+> +    [NPCM7XX_CLOCK_AHB_DIVIDER] = {
+> +        .name = "ahb-divider",
+> +        .src_type = CLKSRC_DIV,
+> +        .src_index = NPCM7XX_CLOCK_AXI_DIVIDER,
+> +        .divide = divide_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV1,
+> +        .offset = 26,
+> +        .len = 2,
+> +        .public_name = "clk4"
+> +    },
+> +    [NPCM7XX_CLOCK_AHB3_DIVIDER] = {
+> +        .name = "ahb3-divider",
+> +        .src_type = CLKSRC_DIV,
+> +        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
+> +        .divide = divide_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV1,
+> +        .offset = 6,
+> +        .len = 5,
+> +        .public_name = "ahb3-spi3-clock"
+> +    },
+> +    [NPCM7XX_CLOCK_SPI0_DIVIDER] = {
+> +        .name = "spi0-divider",
+> +        .src_type = CLKSRC_DIV,
+> +        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
+> +        .divide = divide_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV3,
+> +        .offset = 6,
+> +        .len = 5,
+> +        .public_name = "spi0-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_SPIX_DIVIDER] = {
+> +        .name = "spix-divider",
+> +        .src_type = CLKSRC_DIV,
+> +        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
+> +        .divide = divide_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV3,
+> +        .offset = 1,
+> +        .len = 5,
+> +        .public_name = "spix-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_APB1_DIVIDER] = {
+> +        .name = "apb1-divider",
+> +        .src_type = CLKSRC_DIV,
+> +        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
+> +        .divide = shift_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV2,
+> +        .offset = 24,
+> +        .len = 2,
+> +        .public_name = "apb1-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_APB2_DIVIDER] = {
+> +        .name = "apb2-divider",
+> +        .src_type = CLKSRC_DIV,
+> +        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
+> +        .divide = shift_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV2,
+> +        .offset = 26,
+> +        .len = 2,
+> +        .public_name = "apb2-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_APB3_DIVIDER] = {
+> +        .name = "apb3-divider",
+> +        .src_type = CLKSRC_DIV,
+> +        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
+> +        .divide = shift_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV2,
+> +        .offset = 28,
+> +        .len = 2,
+> +        .public_name = "apb3-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_APB4_DIVIDER] = {
+> +        .name = "apb4-divider",
+> +        .src_type = CLKSRC_DIV,
+> +        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
+> +        .divide = shift_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV2,
+> +        .offset = 30,
+> +        .len = 2,
+> +        .public_name = "apb4-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_APB5_DIVIDER] = {
+> +        .name = "apb5-divider",
+> +        .src_type = CLKSRC_DIV,
+> +        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
+> +        .divide = shift_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV2,
+> +        .offset = 22,
+> +        .len = 2,
+> +        .public_name = "apb5-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_CLKOUT_DIVIDER] = {
+> +        .name = "clkout-divider",
+> +        .src_type = CLKSRC_SEL,
+> +        .src_index = NPCM7XX_CLOCK_CLKOUTSEL,
+> +        .divide = divide_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV2,
+> +        .offset = 16,
+> +        .len = 5,
+> +        .public_name = "clkout",
+> +    },
+> +    [NPCM7XX_CLOCK_UART_DIVIDER] = {
+> +        .name = "uart-divider",
+> +        .src_type = CLKSRC_SEL,
+> +        .src_index = NPCM7XX_CLOCK_UARTCKSEL,
+> +        .divide = divide_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV1,
+> +        .offset = 16,
+> +        .len = 5,
+> +        .public_name = "uart-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_TIMER_DIVIDER] = {
+> +        .name = "timer-divider",
+> +        .src_type = CLKSRC_SEL,
+> +        .src_index = NPCM7XX_CLOCK_TIMCKSEL,
+> +        .divide = divide_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV1,
+> +        .offset = 21,
+> +        .len = 5,
+> +        .public_name = "timer-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_ADC_DIVIDER] = {
+> +        .name = "adc-divider",
+> +        .src_type = CLKSRC_DIV,
+> +        .src_index = NPCM7XX_CLOCK_TIMER_DIVIDER,
+> +        .divide = shift_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV1,
+> +        .offset = 28,
+> +        .len = 3,
+> +        .public_name = "adc-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_MMC_DIVIDER] = {
+> +        .name = "mmc-divider",
+> +        .src_type = CLKSRC_SEL,
+> +        .src_index = NPCM7XX_CLOCK_SDCKSEL,
+> +        .divide = divide_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV1,
+> +        .offset = 11,
+> +        .len = 5,
+> +        .public_name = "mmc-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_SDHC_DIVIDER] = {
+> +        .name = "sdhc-divider",
+> +        .src_type = CLKSRC_SEL,
+> +        .src_index = NPCM7XX_CLOCK_SDCKSEL,
+> +        .divide = divide_by_reg_divisor_times_2,
+> +        .reg = NPCM7XX_CLK_CLKDIV2,
+> +        .offset = 0,
+> +        .len = 4,
+> +        .public_name = "sdhc-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_GFXM_DIVIDER] = {
+> +        .name = "gfxm-divider",
+> +        .src_type = CLKSRC_SEL,
+> +        .src_index = NPCM7XX_CLOCK_GFXMSEL,
+> +        .divide = divide_by_constant,
+> +        .divisor = 3,
+> +        .public_name = "gfxm-clock",
+> +    },
+> +    [NPCM7XX_CLOCK_UTMI_DIVIDER] = {
+> +        .name = "utmi-divider",
+> +        .src_type = CLKSRC_SEL,
+> +        .src_index = NPCM7XX_CLOCK_SUCKSEL,
+> +        .divide = divide_by_reg_divisor,
+> +        .reg = NPCM7XX_CLK_CLKDIV2,
+> +        .offset = 8,
+> +        .len = 5,
+> +        .public_name = "utmi-clock",
+> +    },
+> +};
+> +
+> +static void npcm7xx_clk_pll_init(Object *obj)
+> +{
+> +    NPCM7xxClockPLLState *pll = NPCM7XX_CLOCK_PLL(obj);
+> +
+> +    pll->clock_in = qdev_init_clock_in(DEVICE(pll), "clock-in",
+> +            npcm7xx_clk_update_pll, pll);
+> +    pll->clock_out = qdev_init_clock_out(DEVICE(pll), "clock-out");
 > +}
 > +
-> +static void npcm7xx_adc_hold_reset(Object *obj)
+> +static void npcm7xx_clk_sel_init(Object *obj)
 > +{
-> +    NPCM7xxADCState *s = NPCM7XX_ADC(obj);
+> +    int i;
+> +    NPCM7xxClockSELState *sel = NPCM7XX_CLOCK_SEL(obj);
 > +
-> +    qemu_irq_lower(s->irq);
+> +    for (i = 0; i < NPCM7XX_CLK_SEL_MAX_INPUT; ++i) {
+> +        sel->clock_in[i] = qdev_init_clock_in(DEVICE(sel),
+> +                g_strdup_printf("clock-in[%d]", i),
+> +                npcm7xx_clk_update_sel, sel);
+> +    }
+> +    sel->clock_out = qdev_init_clock_out(DEVICE(sel), "clock-out");
+> +}
+> +static void npcm7xx_clk_divider_init(Object *obj)
+> +{
+> +    NPCM7xxClockDividerState *div = NPCM7XX_CLOCK_DIVIDER(obj);
+> +
+> +    div->clock_in = qdev_init_clock_in(DEVICE(div), "clock-in",
+> +            npcm7xx_clk_update_divider, div);
+> +    div->clock_out = qdev_init_clock_out(DEVICE(div), "clock-out");
 > +}
 > +
-> +static void npcm7xx_adc_init(Object *obj)
+> +static void npcm7xx_init_clock_pll(NPCM7xxClockPLLState *pll,
+> +        NPCM7xxCLKState *clk, const PLLInitInfo *init_info)
 > +{
-> +    NPCM7xxADCState *s = NPCM7XX_ADC(obj);
-> +    SysBusDevice *sbd = &s->parent;
+> +    pll->name = init_info->name;
+> +    pll->clk = clk;
+> +    pll->reg = init_info->reg;
+> +    if (init_info->public_name != NULL) {
+> +        qdev_alias_clock(DEVICE(pll), "clock-out", DEVICE(clk),
+> +                init_info->public_name);
+> +    }
+> +}
+> +
+> +static void npcm7xx_init_clock_sel(NPCM7xxClockSELState *sel,
+> +        NPCM7xxCLKState *clk, const SELInitInfo *init_info)
+> +{
+> +    int input_size = init_info->input_size;
+> +
+> +    sel->name = init_info->name;
+> +    sel->clk = clk;
+> +    sel->input_size = init_info->input_size;
+> +    g_assert(input_size <= NPCM7XX_CLK_SEL_MAX_INPUT);
+> +    sel->offset = init_info->offset;
+> +    sel->len = init_info->len;
+> +    if (init_info->public_name != NULL) {
+> +        qdev_alias_clock(DEVICE(sel), "clock-out", DEVICE(clk),
+> +                init_info->public_name);
+> +    }
+> +}
+> +
+> +static void npcm7xx_init_clock_divider(NPCM7xxClockDividerState *div,
+> +        NPCM7xxCLKState *clk, const DividerInitInfo *init_info)
+> +{
+> +    div->name = init_info->name;
+> +    div->clk = clk;
+> +
+> +    div->divide = init_info->divide;
+> +    if (div->divide == divide_by_constant) {
+> +        div->divisor = init_info->divisor;
+> +    } else {
+> +        div->reg = init_info->reg;
+> +        div->offset = init_info->offset;
+> +        div->len = init_info->len;
+> +    }
+> +    if (init_info->public_name != NULL) {
+> +        qdev_alias_clock(DEVICE(div), "clock-out", DEVICE(clk),
+> +                init_info->public_name);
+> +    }
+> +}
+> +
+> +static Clock *npcm7xx_get_clock(NPCM7xxCLKState *clk, ClockSrcType type,
+> +        int index)
+> +{
+> +    switch (type) {
+> +    case CLKSRC_REF:
+> +        return clk->clkref;
+> +    case CLKSRC_PLL:
+> +        return clk->plls[index].clock_out;
+> +    case CLKSRC_SEL:
+> +        return clk->sels[index].clock_out;
+> +    case CLKSRC_DIV:
+> +        return clk->dividers[index].clock_out;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +}
+> +
+> +static void npcm7xx_connect_clocks(NPCM7xxCLKState *clk)
+> +{
+> +    int i, j;
+> +    Clock *src;
+> +
+> +    for (i = 0; i < NPCM7XX_CLOCK_NR_PLLS; ++i) {
+> +        src = npcm7xx_get_clock(clk, pll_init_info_list[i].src_type,
+> +                pll_init_info_list[i].src_index);
+> +        clock_set_source(clk->plls[i].clock_in, src);
+> +    }
+> +    for (i = 0; i < NPCM7XX_CLOCK_NR_SELS; ++i) {
+> +        for (j = 0; j < sel_init_info_list[i].input_size; ++j) {
+> +            src = npcm7xx_get_clock(clk,
+> sel_init_info_list[i].src_type[j],
+> +                    sel_init_info_list[i].src_index[j]);
+> +            clock_set_source(clk->sels[i].clock_in[j], src);
+> +        }
+> +    }
+> +    for (i = 0; i < NPCM7XX_CLOCK_NR_DIVIDERS; ++i) {
+> +        src = npcm7xx_get_clock(clk, divider_init_info_list[i].src_type,
+> +                divider_init_info_list[i].src_index);
+> +        clock_set_source(clk->dividers[i].clock_in, src);
+> +    }
+> +}
+> +
+>  static uint64_t npcm7xx_clk_read(void *opaque, hwaddr offset, unsigned
+> size)
+>  {
+>      uint32_t reg = offset / sizeof(uint32_t);
+> @@ -129,7 +740,7 @@ static uint64_t npcm7xx_clk_read(void *opaque, hwaddr
+> offset, unsigned size)
+>           *
+>           * The 4 LSBs are always zero: (1e9 / 640) << 4 = 25000000.
+>           */
+> -        value = (((now_ns - s->ref_ns) / 640) << 4) %
+> NPCM7XX_TIMER_REF_HZ;
+> +        value = (((now_ns - s->ref_ns) / 640) << 4) %
+> NPCM7XX_CLOCK_REF_HZ;
+>          break;
+>
+>      default:
+> @@ -183,6 +794,20 @@ static void npcm7xx_clk_write(void *opaque, hwaddr
+> offset,
+>                  value |= (value & PLLCON_LOKS);
+>              }
+>          }
+> +        /* Only update PLL when it is locked. */
+> +        if (value & PLLCON_LOKI) {
+> +            npcm7xx_clk_update_pll(&s->plls[find_pll_by_reg(reg)]);
+> +        }
+> +        break;
+> +
+> +    case NPCM7XX_CLK_CLKSEL:
+> +        npcm7xx_clk_update_all_sels(s);
+> +        break;
+> +
+> +    case NPCM7XX_CLK_CLKDIV1:
+> +    case NPCM7XX_CLK_CLKDIV2:
+> +    case NPCM7XX_CLK_CLKDIV3:
+> +        npcm7xx_clk_update_all_dividers(s);
+>          break;
+>
+>      case NPCM7XX_CLK_CNTR25M:
+> @@ -234,6 +859,7 @@ static void npcm7xx_clk_enter_reset(Object *obj,
+> ResetType type)
+>      case RESET_TYPE_COLD:
+>          memcpy(s->regs, cold_reset_values, sizeof(cold_reset_values));
+>          s->ref_ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> +        npcm7xx_clk_update_all_clocks(s);
+>          return;
+>      }
+>
+> @@ -245,6 +871,42 @@ static void npcm7xx_clk_enter_reset(Object *obj,
+> ResetType type)
+>                    __func__, type);
+>  }
+>
+> +static void npcm7xx_clk_init_clock_hierarchy(NPCM7xxCLKState *s)
+> +{
 > +    int i;
 > +
-> +    sysbus_init_irq(sbd, &s->irq);
+> +    s->clkref = qdev_init_clock_in(DEVICE(s), "clkref", NULL, NULL);
 > +
-> +    timer_init_ns(&s->conv_timer, QEMU_CLOCK_VIRTUAL,
-> +            npcm7xx_adc_convert_done, s);
-> +    timer_init_ns(&s->reset_timer, QEMU_CLOCK_VIRTUAL,
-> +            npcm7xx_adc_reset_done, s);
-> +    memory_region_init_io(&s->iomem, obj, &npcm7xx_adc_ops, s,
-> +                          TYPE_NPCM7XX_ADC, 4 * KiB);
-> +    sysbus_init_mmio(sbd, &s->iomem);
-> +    s->clock = qdev_init_clock_in(DEVICE(s), "clock", NULL, NULL);
-> +
-> +    for (i = 0; i < NPCM7XX_ADC_NUM_INPUTS; ++i) {
-> +        object_property_add_uint32_ptr(obj, "adci[*]",
-> +                &s->adci[i], OBJ_PROP_FLAG_WRITE);
+> +    /* First pass: init all converter modules */
+> +    QEMU_BUILD_BUG_ON(ARRAY_SIZE(pll_init_info_list) !=
+> NPCM7XX_CLOCK_NR_PLLS);
+> +    QEMU_BUILD_BUG_ON(ARRAY_SIZE(sel_init_info_list) !=
+> NPCM7XX_CLOCK_NR_SELS);
+> +    QEMU_BUILD_BUG_ON(ARRAY_SIZE(divider_init_info_list)
+> +            != NPCM7XX_CLOCK_NR_DIVIDERS);
+> +    for (i = 0; i < NPCM7XX_CLOCK_NR_PLLS; ++i) {
+> +        object_initialize_child(OBJECT(s), pll_init_info_list[i].name,
+> +                &s->plls[i], TYPE_NPCM7XX_CLOCK_PLL);
+> +        npcm7xx_init_clock_pll(&s->plls[i], s,
+> +                &pll_init_info_list[i]);
 > +    }
-> +    object_property_add_uint32_ptr(obj, "vref",
-> +            &s->vref, OBJ_PROP_FLAG_WRITE);
-> +    npcm7xx_adc_calibrate(s);
+> +    for (i = 0; i < NPCM7XX_CLOCK_NR_SELS; ++i) {
+> +        object_initialize_child(OBJECT(s), sel_init_info_list[i].name,
+> +                &s->sels[i], TYPE_NPCM7XX_CLOCK_SEL);
+> +        npcm7xx_init_clock_sel(&s->sels[i], s,
+> +                &sel_init_info_list[i]);
+> +    }
+> +    for (i = 0; i < NPCM7XX_CLOCK_NR_DIVIDERS; ++i) {
+> +        object_initialize_child(OBJECT(s), divider_init_info_list[i].name,
+> +                &s->dividers[i], TYPE_NPCM7XX_CLOCK_DIVIDER);
+> +        npcm7xx_init_clock_divider(&s->dividers[i], s,
+> +                &divider_init_info_list[i]);
+> +    }
+> +
+> +    /* Second pass: connect converter modules */
+> +    npcm7xx_connect_clocks(s);
+> +
+> +    clock_update_hz(s->clkref, NPCM7XX_CLOCK_REF_HZ);
 > +}
 > +
-> +static const VMStateDescription vmstate_npcm7xx_adc = {
-> +    .name = "npcm7xx-adc",
+>  static void npcm7xx_clk_init(Object *obj)
+>  {
+>      NPCM7xxCLKState *s = NPCM7XX_CLK(obj);
+> @@ -252,21 +914,114 @@ static void npcm7xx_clk_init(Object *obj)
+>      memory_region_init_io(&s->iomem, obj, &npcm7xx_clk_ops, s,
+>                            TYPE_NPCM7XX_CLK, 4 * KiB);
+>      sysbus_init_mmio(&s->parent, &s->iomem);
+> +}
+> +
+> +static int npcm7xx_clk_post_load(void *opaque, int version_id)
+> +{
+> +    if (version_id >= 1) {
+> +        NPCM7xxCLKState *clk = opaque;
+> +
+> +        npcm7xx_clk_update_all_clocks(clk);
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static void npcm7xx_clk_realize(DeviceState *dev, Error **errp)
+> +{
+> +    int i;
+> +    NPCM7xxCLKState *s = NPCM7XX_CLK(dev);
+> +
+>      qdev_init_gpio_in_named(DEVICE(s), npcm7xx_clk_perform_watchdog_reset,
+>              NPCM7XX_WATCHDOG_RESET_GPIO_IN, NPCM7XX_NR_WATCHDOGS);
+> +    npcm7xx_clk_init_clock_hierarchy(s);
+> +
+> +    /* Realize child devices */
+> +    for (i = 0; i < NPCM7XX_CLOCK_NR_PLLS; ++i) {
+> +        if (!qdev_realize(DEVICE(&s->plls[i]), NULL, errp)) {
+> +            return;
+> +        }
+> +    }
+> +    for (i = 0; i < NPCM7XX_CLOCK_NR_SELS; ++i) {
+> +        if (!qdev_realize(DEVICE(&s->sels[i]), NULL, errp)) {
+> +            return;
+> +        }
+> +    }
+> +    for (i = 0; i < NPCM7XX_CLOCK_NR_DIVIDERS; ++i) {
+> +        if (!qdev_realize(DEVICE(&s->dividers[i]), NULL, errp)) {
+> +            return;
+> +        }
+> +    }
+>  }
+>
+> -static const VMStateDescription vmstate_npcm7xx_clk = {
+> -    .name = "npcm7xx-clk",
+> +static const VMStateDescription vmstate_npcm7xx_clk_pll = {
+> +    .name = "npcm7xx-clock-pll",
 > +    .version_id = 0,
 > +    .minimum_version_id = 0,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_TIMER(conv_timer, NPCM7xxADCState),
-> +        VMSTATE_TIMER(reset_timer, NPCM7xxADCState),
-> +        VMSTATE_UINT32(con, NPCM7xxADCState),
-> +        VMSTATE_UINT32(data, NPCM7xxADCState),
-> +        VMSTATE_CLOCK(clock, NPCM7xxADCState),
-> +        VMSTATE_UINT32_ARRAY(adci, NPCM7xxADCState,
-> NPCM7XX_ADC_NUM_INPUTS),
-> +        VMSTATE_UINT32(vref, NPCM7xxADCState),
-> +        VMSTATE_UINT32(iref, NPCM7xxADCState),
-> +        VMSTATE_UINT16_ARRAY(calibration_r_values, NPCM7xxADCState,
-> +                NPCM7XX_ADC_NUM_CALIB),
+> +    .fields =  (VMStateField[]) {
+> +        VMSTATE_CLOCK(clock_in, NPCM7xxClockPLLState),
 > +        VMSTATE_END_OF_LIST(),
 > +    },
 > +};
 > +
-> +static Property npcm7xx_timer_properties[] = {
-> +    DEFINE_PROP_UINT32("iref", NPCM7xxADCState, iref,
-> NPCM7XX_ADC_DEFAULT_IREF),
-> +    DEFINE_PROP_END_OF_LIST(),
+> +static const VMStateDescription vmstate_npcm7xx_clk_sel = {
+> +    .name = "npcm7xx-clock-sel",
+> +    .version_id = 0,
+> +    .minimum_version_id = 0,
+> +    .fields =  (VMStateField[]) {
+> +        VMSTATE_ARRAY_OF_POINTER_TO_STRUCT(clock_in, NPCM7xxClockSELState,
+> +                NPCM7XX_CLK_SEL_MAX_INPUT, 0, vmstate_clock, Clock),
+> +        VMSTATE_END_OF_LIST(),
+> +    },
 > +};
 > +
-> +static void npcm7xx_adc_class_init(ObjectClass *klass, void *data)
+> +static const VMStateDescription vmstate_npcm7xx_clk_divider = {
+> +    .name = "npcm7xx-clock-divider",
+>      .version_id = 0,
+>      .minimum_version_id = 0,
+> +    .fields =  (VMStateField[]) {
+> +        VMSTATE_CLOCK(clock_in, NPCM7xxClockDividerState),
+> +        VMSTATE_END_OF_LIST(),
+> +    },
+> +};
+> +
+> +static const VMStateDescription vmstate_npcm7xx_clk = {
+> +    .name = "npcm7xx-clk",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .post_load = npcm7xx_clk_post_load,
+>      .fields = (VMStateField[]) {
+>          VMSTATE_UINT32_ARRAY(regs, NPCM7xxCLKState, NPCM7XX_CLK_NR_REGS),
+>          VMSTATE_INT64(ref_ns, NPCM7xxCLKState),
+> +        VMSTATE_CLOCK(clkref, NPCM7xxCLKState),
+>          VMSTATE_END_OF_LIST(),
+>      },
+>  };
+>
+> +static void npcm7xx_clk_pll_class_init(ObjectClass *klass, void *data)
 > +{
-> +    ResettableClass *rc = RESETTABLE_CLASS(klass);
 > +    DeviceClass *dc = DEVICE_CLASS(klass);
 > +
-> +    dc->desc = "NPCM7xx ADC Module";
-> +    dc->vmsd = &vmstate_npcm7xx_adc;
-> +    rc->phases.enter = npcm7xx_adc_enter_reset;
-> +    rc->phases.hold = npcm7xx_adc_hold_reset;
-> +
-> +    device_class_set_props(dc, npcm7xx_timer_properties);
+> +    dc->desc = "NPCM7xx Clock PLL Module";
+> +    dc->vmsd = &vmstate_npcm7xx_clk_pll;
 > +}
 > +
-> +static const TypeInfo npcm7xx_adc_info = {
-> +    .name               = TYPE_NPCM7XX_ADC,
-> +    .parent             = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size      = sizeof(NPCM7xxADCState),
-> +    .class_init         = npcm7xx_adc_class_init,
-> +    .instance_init      = npcm7xx_adc_init,
-> +};
-> +
-> +static void npcm7xx_adc_register_types(void)
+> +static void npcm7xx_clk_sel_class_init(ObjectClass *klass, void *data)
 > +{
-> +    type_register_static(&npcm7xx_adc_info);
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->desc = "NPCM7xx Clock SEL Module";
+> +    dc->vmsd = &vmstate_npcm7xx_clk_sel;
 > +}
 > +
-> +type_init(npcm7xx_adc_register_types);
-> diff --git a/hw/adc/trace-events b/hw/adc/trace-events
-> new file mode 100644
-> index 0000000000..4c3279ece2
-> --- /dev/null
-> +++ b/hw/adc/trace-events
-> @@ -0,0 +1,5 @@
-> +# See docs/devel/tracing.txt for syntax documentation.
+> +static void npcm7xx_clk_divider_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
 > +
-> +# npcm7xx_adc.c
-> +npcm7xx_adc_read(const char *id, uint64_t offset, uint32_t value) " %s
-> offset: 0x%04" PRIx64 " value 0x%04" PRIx32
-> +npcm7xx_adc_write(const char *id, uint64_t offset, uint32_t value) "%s
-> offset: 0x%04" PRIx64 " value 0x%04" PRIx32
-> diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
-> index fabfb1697b..b22a8c966d 100644
-> --- a/hw/arm/npcm7xx.c
-> +++ b/hw/arm/npcm7xx.c
-> @@ -51,6 +51,9 @@
->  #define NPCM7XX_EHCI_BA         (0xf0806000)
->  #define NPCM7XX_OHCI_BA         (0xf0807000)
->
-> +/* ADC Module */
-> +#define NPCM7XX_ADC_BA          (0xf000c000)
+> +    dc->desc = "NPCM7xx Clock Divider Module";
+> +    dc->vmsd = &vmstate_npcm7xx_clk_divider;
+> +}
 > +
->  /* Internal AHB SRAM */
->  #define NPCM7XX_RAM3_BA         (0xc0008000)
->  #define NPCM7XX_RAM3_SZ         (4 * KiB)
-> @@ -61,6 +64,7 @@
->  #define NPCM7XX_ROM_BA          (0xffff0000)
->  #define NPCM7XX_ROM_SZ          (64 * KiB)
+>  static void npcm7xx_clk_class_init(ObjectClass *klass, void *data)
+>  {
+>      ResettableClass *rc = RESETTABLE_CLASS(klass);
+> @@ -276,9 +1031,34 @@ static void npcm7xx_clk_class_init(ObjectClass
+> *klass, void *data)
 >
-> +
->  /* Clock configuration values to be fixed up when bypassing bootloader */
->
->  /* Run PLL1 at 1600 MHz */
-> @@ -73,6 +77,7 @@
->   * interrupts.
->   */
->  enum NPCM7xxInterrupt {
-> +    NPCM7XX_ADC_IRQ             = 0,
->      NPCM7XX_UART0_IRQ           = 2,
->      NPCM7XX_UART1_IRQ,
->      NPCM7XX_UART2_IRQ,
-> @@ -296,6 +301,14 @@ static void npcm7xx_init_fuses(NPCM7xxState *s)
->                              sizeof(value));
+>      dc->desc = "NPCM7xx Clock Control Registers";
+>      dc->vmsd = &vmstate_npcm7xx_clk;
+> +    dc->realize = npcm7xx_clk_realize;
+>      rc->phases.enter = npcm7xx_clk_enter_reset;
 >  }
 >
-> +static void npcm7xx_write_adc_calibration(NPCM7xxState *s)
-> +{
-> +    /* Both ADC and the fuse array must have realized. */
-> +    QEMU_BUILD_BUG_ON(sizeof(s->adc.calibration_r_values) != 4);
-> +    npcm7xx_otp_array_write(&s->fuse_array, s->adc.calibration_r_values,
-> +            NPCM7XX_FUSE_ADC_CALIB, sizeof(s->adc.calibration_r_values));
-> +}
+> +static const TypeInfo npcm7xx_clk_pll_info = {
+> +    .name               = TYPE_NPCM7XX_CLOCK_PLL,
+> +    .parent             = TYPE_DEVICE,
+> +    .instance_size      = sizeof(NPCM7xxClockPLLState),
+> +    .instance_init      = npcm7xx_clk_pll_init,
+> +    .class_init         = npcm7xx_clk_pll_class_init,
+> +};
 > +
->  static qemu_irq npcm7xx_irq(NPCM7xxState *s, int n)
+> +static const TypeInfo npcm7xx_clk_sel_info = {
+> +    .name               = TYPE_NPCM7XX_CLOCK_SEL,
+> +    .parent             = TYPE_DEVICE,
+> +    .instance_size      = sizeof(NPCM7xxClockSELState),
+> +    .instance_init      = npcm7xx_clk_sel_init,
+> +    .class_init         = npcm7xx_clk_sel_class_init,
+> +};
+> +
+> +static const TypeInfo npcm7xx_clk_divider_info = {
+> +    .name               = TYPE_NPCM7XX_CLOCK_DIVIDER,
+> +    .parent             = TYPE_DEVICE,
+> +    .instance_size      = sizeof(NPCM7xxClockDividerState),
+> +    .instance_init      = npcm7xx_clk_divider_init,
+> +    .class_init         = npcm7xx_clk_divider_class_init,
+> +};
+> +
+>  static const TypeInfo npcm7xx_clk_info = {
+>      .name               = TYPE_NPCM7XX_CLK,
+>      .parent             = TYPE_SYS_BUS_DEVICE,
+> @@ -289,6 +1069,9 @@ static const TypeInfo npcm7xx_clk_info = {
+>
+>  static void npcm7xx_clk_register_type(void)
 >  {
->      return qdev_get_gpio_in(DEVICE(&s->a9mpcore), n);
-> @@ -322,6 +335,7 @@ static void npcm7xx_init(Object *obj)
->                              TYPE_NPCM7XX_FUSE_ARRAY);
->      object_initialize_child(obj, "mc", &s->mc, TYPE_NPCM7XX_MC);
->      object_initialize_child(obj, "rng", &s->rng, TYPE_NPCM7XX_RNG);
-> +    object_initialize_child(obj, "adc", &s->adc, TYPE_NPCM7XX_ADC);
->
->      for (i = 0; i < ARRAY_SIZE(s->tim); i++) {
->          object_initialize_child(obj, "tim[*]", &s->tim[i],
-> TYPE_NPCM7XX_TIMER);
-> @@ -414,6 +428,15 @@ static void npcm7xx_realize(DeviceState *dev, Error
-> **errp)
->      sysbus_realize(SYS_BUS_DEVICE(&s->mc), &error_abort);
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->mc), 0, NPCM7XX_MC_BA);
->
-> +    /* ADC Modules. Cannot fail. */
-> +    qdev_connect_clock_in(DEVICE(&s->adc), "clock", qdev_get_clock_out(
-> +                          DEVICE(&s->clk), "adc-clock"));
-> +    sysbus_realize(SYS_BUS_DEVICE(&s->adc), &error_abort);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->adc), 0, NPCM7XX_ADC_BA);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->adc), 0,
-> +            npcm7xx_irq(s, NPCM7XX_ADC_IRQ));
-> +    npcm7xx_write_adc_calibration(s);
-> +
->      /* Timer Modules (TIM). Cannot fail. */
->      QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_tim_addr) != ARRAY_SIZE(s->tim));
->      for (i = 0; i < ARRAY_SIZE(s->tim); i++) {
-> @@ -528,7 +551,6 @@ static void npcm7xx_realize(DeviceState *dev, Error
-> **errp)
->      create_unimplemented_device("npcm7xx.vdmx",         0xe0800000,   4 *
-> KiB);
->      create_unimplemented_device("npcm7xx.pcierc",       0xe1000000,  64 *
-> KiB);
->      create_unimplemented_device("npcm7xx.kcs",          0xf0007000,   4 *
-> KiB);
-> -    create_unimplemented_device("npcm7xx.adc",          0xf000c000,   4 *
-> KiB);
->      create_unimplemented_device("npcm7xx.gfxi",         0xf000e000,   4 *
-> KiB);
->      create_unimplemented_device("npcm7xx.gpio[0]",      0xf0010000,   4 *
-> KiB);
->      create_unimplemented_device("npcm7xx.gpio[1]",      0xf0011000,   4 *
-> KiB);
-> diff --git a/include/hw/adc/npcm7xx_adc.h b/include/hw/adc/npcm7xx_adc.h
-> new file mode 100644
-> index 0000000000..7f9acbeaa1
-> --- /dev/null
-> +++ b/include/hw/adc/npcm7xx_adc.h
-> @@ -0,0 +1,72 @@
-> +/*
-> + * Nuvoton NPCM7xx ADC Module
-> + *
-> + * Copyright 2020 Google LLC
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms of the GNU General Public License as published by the
-> + * Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful, but
-> WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-> + * for more details.
-> + */
-> +#ifndef NPCM7XX_ADC_H
-> +#define NPCM7XX_ADC_H
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/clock.h"
-> +#include "hw/irq.h"
-> +#include "hw/sysbus.h"
-> +#include "qemu/timer.h"
-> +
-> +#define NPCM7XX_ADC_NUM_INPUTS      8
-> +/**
-> + * This value should not be changed unless write_adc_calibration function
-> in
-> + * hw/arm/npcm7xx.c is also changed.
-> + */
-> +#define NPCM7XX_ADC_NUM_CALIB       2
-> +
-> +/**
-> + * struct NPCM7xxADCState - Analog to Digital Converter Module device
-> state.
-> + * @parent: System bus device.
-> + * @iomem: Memory region through which registers are accessed.
-> + * @conv_timer: The timer counts down remaining cycles for the conversion.
-> + * @reset_timer: The timer counts down remaining cycles for reset.
-> + * @irq: GIC interrupt line to fire on expiration (if enabled).
-> + * @con: The Control Register.
-> + * @data: The Data Buffer.
-> + * @clock: The ADC Clock.
-> + * @adci: The input voltage in units of uV. 1uv = 1e-6V.
-> + * @vref: The external reference voltage.
-> + * @iref: The internal reference voltage, initialized at launch time.
-> + * @rv: The calibrated output values of 0.5V and 1.5V for the ADC.
-> + */
-> +typedef struct {
-> +    SysBusDevice parent;
-> +
-> +    MemoryRegion iomem;
-> +
-> +    QEMUTimer    conv_timer;
-> +    QEMUTimer    reset_timer;
-> +
-> +    qemu_irq     irq;
-> +    uint32_t     con;
-> +    uint32_t     data;
-> +    Clock       *clock;
-> +
-> +    /* Voltages are in unit of uV. 1V = 1000000uV. */
-> +    uint32_t     adci[NPCM7XX_ADC_NUM_INPUTS];
-> +    uint32_t     vref;
-> +    uint32_t     iref;
-> +
-> +    uint16_t     calibration_r_values[NPCM7XX_ADC_NUM_CALIB];
-> +} NPCM7xxADCState;
-> +
-> +#define TYPE_NPCM7XX_ADC "npcm7xx-adc"
-> +#define NPCM7XX_ADC(obj) \
-> +    OBJECT_CHECK(NPCM7xxADCState, (obj), TYPE_NPCM7XX_ADC)
-> +
-> +#endif /* NPCM7XX_ADC_H */
-> diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
-> index 5469247e38..51e1c7620d 100644
-> --- a/include/hw/arm/npcm7xx.h
-> +++ b/include/hw/arm/npcm7xx.h
+> +    type_register_static(&npcm7xx_clk_pll_info);
+> +    type_register_static(&npcm7xx_clk_sel_info);
+> +    type_register_static(&npcm7xx_clk_divider_info);
+>      type_register_static(&npcm7xx_clk_info);
+>  }
+>  type_init(npcm7xx_clk_register_type);
+> diff --git a/include/hw/misc/npcm7xx_clk.h b/include/hw/misc/npcm7xx_clk.h
+> index 2338fbbdb5..f641f95f3e 100644
+> --- a/include/hw/misc/npcm7xx_clk.h
+> +++ b/include/hw/misc/npcm7xx_clk.h
 > @@ -17,6 +17,7 @@
->  #define NPCM7XX_H
+>  #define NPCM7XX_CLK_H
 >
->  #include "hw/boards.h"
-> +#include "hw/adc/npcm7xx_adc.h"
->  #include "hw/cpu/a9mpcore.h"
->  #include "hw/gpio/npcm7xx_gpio.h"
->  #include "hw/mem/npcm7xx_mc.h"
-> @@ -76,6 +77,7 @@ typedef struct NPCM7xxState {
->      NPCM7xxGCRState     gcr;
->      NPCM7xxCLKState     clk;
->      NPCM7xxTimerCtrlState tim[3];
-> +    NPCM7xxADCState     adc;
->      NPCM7xxOTPState     key_storage;
->      NPCM7xxOTPState     fuse_array;
->      NPCM7xxMCState      mc;
-> diff --git a/meson.build b/meson.build
-> index f344b25955..fb03cdbdcc 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1435,6 +1435,7 @@ if have_system
->      'chardev',
->      'hw/9pfs',
->      'hw/acpi',
-> +    'hw/adc',
->      'hw/alpha',
->      'hw/arm',
->      'hw/audio',
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 6a67c538be..955710d1c5 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -134,7 +134,8 @@ qtests_sparc64 = \
->    ['prom-env-test', 'boot-serial-test']
+>  #include "exec/memory.h"
+> +#include "hw/clock.h"
+>  #include "hw/sysbus.h"
 >
->  qtests_npcm7xx = \
-> -  ['npcm7xx_gpio-test',
-> +  ['npcm7xx_adc-test',
-> +   'npcm7xx_gpio-test',
->     'npcm7xx_rng-test',
->     'npcm7xx_timer-test',
->     'npcm7xx_watchdog_timer-test']
-> diff --git a/tests/qtest/npcm7xx_adc-test.c
-> b/tests/qtest/npcm7xx_adc-test.c
-> new file mode 100644
-> index 0000000000..e63c544e51
-> --- /dev/null
-> +++ b/tests/qtest/npcm7xx_adc-test.c
-> @@ -0,0 +1,400 @@
-> +/*
-> + * QTests for Nuvoton NPCM7xx ADCModules.
-> + *
-> + * Copyright 2020 Google LLC
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms of the GNU General Public License as published by the
-> + * Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful, but
-> WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-> + * for more details.
+>  /*
+> @@ -33,16 +34,151 @@
+>
+>  #define NPCM7XX_WATCHDOG_RESET_GPIO_IN
+> "npcm7xx-clk-watchdog-reset-gpio-in"
+>
+> -typedef struct NPCM7xxCLKState {
+> +/* Maximum amount of clock inputs in a SEL module. */
+> +#define NPCM7XX_CLK_SEL_MAX_INPUT 5
+> +
+> +/* PLLs in CLK module. */
+> +typedef enum NPCM7xxClockPLL {
+> +    NPCM7XX_CLOCK_PLL0,
+> +    NPCM7XX_CLOCK_PLL1,
+> +    NPCM7XX_CLOCK_PLL2,
+> +    NPCM7XX_CLOCK_PLLG,
+> +    NPCM7XX_CLOCK_NR_PLLS,
+> +} NPCM7xxClockPLL;
+> +
+> +/* SEL/MUX in CLK module. */
+> +typedef enum NPCM7xxClockSEL {
+> +    NPCM7XX_CLOCK_PIXCKSEL,
+> +    NPCM7XX_CLOCK_MCCKSEL,
+> +    NPCM7XX_CLOCK_CPUCKSEL,
+> +    NPCM7XX_CLOCK_CLKOUTSEL,
+> +    NPCM7XX_CLOCK_UARTCKSEL,
+> +    NPCM7XX_CLOCK_TIMCKSEL,
+> +    NPCM7XX_CLOCK_SDCKSEL,
+> +    NPCM7XX_CLOCK_GFXMSEL,
+> +    NPCM7XX_CLOCK_SUCKSEL,
+> +    NPCM7XX_CLOCK_NR_SELS,
+> +} NPCM7xxClockSEL;
+> +
+> +/* Dividers in CLK module. */
+> +typedef enum NPCM7xxClockDivider {
+> +    NPCM7XX_CLOCK_PLL1D2, /* PLL1/2 */
+> +    NPCM7XX_CLOCK_PLL2D2, /* PLL2/2 */
+> +    NPCM7XX_CLOCK_MC_DIVIDER,
+> +    NPCM7XX_CLOCK_AXI_DIVIDER,
+> +    NPCM7XX_CLOCK_AHB_DIVIDER,
+> +    NPCM7XX_CLOCK_AHB3_DIVIDER,
+> +    NPCM7XX_CLOCK_SPI0_DIVIDER,
+> +    NPCM7XX_CLOCK_SPIX_DIVIDER,
+> +    NPCM7XX_CLOCK_APB1_DIVIDER,
+> +    NPCM7XX_CLOCK_APB2_DIVIDER,
+> +    NPCM7XX_CLOCK_APB3_DIVIDER,
+> +    NPCM7XX_CLOCK_APB4_DIVIDER,
+> +    NPCM7XX_CLOCK_APB5_DIVIDER,
+> +    NPCM7XX_CLOCK_CLKOUT_DIVIDER,
+> +    NPCM7XX_CLOCK_UART_DIVIDER,
+> +    NPCM7XX_CLOCK_TIMER_DIVIDER,
+> +    NPCM7XX_CLOCK_ADC_DIVIDER,
+> +    NPCM7XX_CLOCK_MMC_DIVIDER,
+> +    NPCM7XX_CLOCK_SDHC_DIVIDER,
+> +    NPCM7XX_CLOCK_GFXM_DIVIDER, /* divide by 3 */
+> +    NPCM7XX_CLOCK_UTMI_DIVIDER,
+> +    NPCM7XX_CLOCK_NR_DIVIDERS,
+> +} NPCM7xxClockConverter;
+> +
+> +typedef struct NPCM7xxCLKState NPCM7xxCLKState;
+> +
+> +/**
+> + * struct NPCM7xxClockPLLState - A PLL module in CLK module.
+> + * @name: The name of the module.
+> + * @clk: The CLK module that owns this module.
+> + * @clock_in: The input clock of this module.
+> + * @clock_out: The output clock of this module.
+> + * @reg: The control registers for this PLL module.
 > + */
+> +typedef struct NPCM7xxClockPLLState {
+> +    DeviceState parent;
 > +
-> +#include "qemu/osdep.h"
-> +#include "qemu/bitops.h"
-> +#include "qemu/timer.h"
-> +#include "libqos/libqtest.h"
-> +#include "qapi/qmp/qdict.h"
+> +    const char *name;
+> +    NPCM7xxCLKState *clk;
+> +    Clock *clock_in;
+> +    Clock *clock_out;
 > +
-> +#define REF_HZ          (25000000)
+> +    int reg;
+> +} NPCM7xxClockPLLState;
 > +
-> +#define CON_OFFSET      0x0
-> +#define DATA_OFFSET     0x4
+> +/**
+> + * struct NPCM7xxClockSELState - A SEL module in CLK module.
+> + * @name: The name of the module.
+> + * @clk: The CLK module that owns this module.
+> + * @input_size: The size of inputs of this module.
+> + * @clock_in: The input clocks of this module.
+> + * @clock_out: The output clocks of this module.
+> + * @offset: The offset of this module in the control register.
+> + * @len: The length of this module in the control register.
+> + */
+> +typedef struct NPCM7xxClockSELState {
+> +    DeviceState parent;
 > +
-> +#define NUM_INPUTS      8
-> +#define DEFAULT_IREF    2000000
-> +#define CONV_CYCLES     20
-> +#define RESET_CYCLES    10
-> +#define R0_INPUT        500000
-> +#define R1_INPUT        1500000
-> +#define MAX_RESULT      1023
+> +    const char *name;
+> +    NPCM7xxCLKState *clk;
+> +    uint8_t input_size;
+> +    Clock *clock_in[NPCM7XX_CLK_SEL_MAX_INPUT];
+> +    Clock *clock_out;
 > +
-> +#define DEFAULT_CLKDIV  5
+> +    int offset;
+> +    int len;
+> +} NPCM7xxClockSELState;
 > +
-> +#define FUSE_ARRAY_BA   0xf018a000
-> +#define FCTL_OFFSET     0x14
-> +#define FST_OFFSET      0x0
-> +#define FADDR_OFFSET    0x4
-> +#define FDATA_OFFSET    0x8
-> +#define ADC_CALIB_ADDR  24
-> +#define FUSE_READ       0x2
+> +/**
+> + * struct NPCM7xxClockDividerState - A Divider module in CLK module.
+> + * @name: The name of the module.
+> + * @clk: The CLK module that owns this module.
+> + * @clock_in: The input clock of this module.
+> + * @clock_out: The output clock of this module.
+> + * @divide: The function the divider uses to divide the input.
+> + * @reg: The index of the control register that contains the divisor.
+> + * @offset: The offset of the divisor in the control register.
+> + * @len: The length of the divisor in the control register.
+> + * @divisor: The divisor for a constant divisor
+> + */
+> +typedef struct NPCM7xxClockDividerState {
+> +    DeviceState parent;
 > +
-> +/* Register field definitions. */
-> +#define CON_MUX(rv) ((rv) << 24)
-> +#define CON_INT_EN  BIT(21)
-> +#define CON_REFSEL  BIT(19)
-> +#define CON_INT     BIT(18)
-> +#define CON_EN      BIT(17)
-> +#define CON_RST     BIT(16)
-> +#define CON_CONV    BIT(14)
-> +#define CON_DIV(rv) extract32(rv, 1, 8)
+> +    const char *name;
+> +    NPCM7xxCLKState *clk;
+> +    Clock *clock_in;
+> +    Clock *clock_out;
 > +
-> +#define FST_RDST    BIT(1)
-> +#define FDATA_MASK  0xff
-> +
-> +#define MAX_ERROR   10000
-> +#define MIN_CALIB_INPUT 100000
-> +#define MAX_CALIB_INPUT 1800000
-> +
-> +static const uint32_t input_list[] = {
-> +    100000,
-> +    500000,
-> +    1000000,
-> +    1500000,
-> +    1800000,
-> +    2000000,
-> +};
-> +
-> +static const uint32_t vref_list[] = {
-> +    2000000,
-> +    2200000,
-> +    2500000,
-> +};
-> +
-> +static const uint32_t iref_list[] = {
-> +    1800000,
-> +    1900000,
-> +    2000000,
-> +    2100000,
-> +    2200000,
-> +};
-> +
-> +static const uint32_t div_list[] = {0, 1, 3, 7, 15};
-> +
-> +typedef struct ADC {
-> +    int irq;
-> +    uint64_t base_addr;
-> +} ADC;
-> +
-> +ADC adc = {
-> +    .irq        = 0,
-> +    .base_addr  = 0xf000c000
-> +};
-> +
-> +static uint32_t adc_read_con(QTestState *qts, const ADC *adc)
-> +{
-> +    return qtest_readl(qts, adc->base_addr + CON_OFFSET);
-> +}
-> +
-> +static void adc_write_con(QTestState *qts, const ADC *adc, uint32_t value)
-> +{
-> +    qtest_writel(qts, adc->base_addr + CON_OFFSET, value);
-> +}
-> +
-> +static uint32_t adc_read_data(QTestState *qts, const ADC *adc)
-> +{
-> +    return qtest_readl(qts, adc->base_addr + DATA_OFFSET);
-> +}
-> +
-> +static uint32_t adc_calibrate(uint32_t measured, uint32_t *rv)
-> +{
-> +    return R0_INPUT + (R1_INPUT - R0_INPUT) * (int32_t)(measured - rv[0])
-> +        / (int32_t)(rv[1] - rv[0]);
-> +}
-> +
-> +static void adc_qom_set(QTestState *qts, const ADC *adc,
-> +        const char *name, uint32_t value)
-> +{
-> +    QDict *response;
-> +    const char *path = "/machine/soc/adc";
-> +
-> +    g_test_message("Setting properties %s of %s with value %u",
-> +            name, path, value);
-> +    response = qtest_qmp(qts, "{ 'execute': 'qom-set',"
-> +            " 'arguments': { 'path': %s, 'property': %s, 'value': %u}}",
-> +            path, name, value);
-> +    /* The qom set message returns successfully. */
-> +    g_assert_true(qdict_haskey(response, "return"));
-> +}
-> +
-> +static void adc_write_input(QTestState *qts, const ADC *adc,
-> +        uint32_t index, uint32_t value)
-> +{
-> +    char name[100];
-> +
-> +    sprintf(name, "adci[%u]", index);
-> +    adc_qom_set(qts, adc, name, value);
-> +}
-> +
-> +static void adc_write_vref(QTestState *qts, const ADC *adc, uint32_t
-> value)
-> +{
-> +    adc_qom_set(qts, adc, "vref", value);
-> +}
-> +
-> +static uint32_t adc_calculate_output(uint32_t input, uint32_t ref)
-> +{
-> +    uint32_t output;
-> +
-> +    g_assert_cmpuint(input, <=, ref);
-> +    output = (input * (MAX_RESULT + 1)) / ref;
-> +    if (output > MAX_RESULT) {
-> +        output = MAX_RESULT;
-> +    }
-> +
-> +    return output;
-> +}
-> +
-> +static uint32_t adc_prescaler(QTestState *qts, const ADC *adc)
-> +{
-> +    uint32_t div = extract32(adc_read_con(qts, adc), 1, 8);
-> +
-> +    return 2 * (div + 1);
-> +}
-> +
-> +static int64_t adc_calculate_steps(uint32_t cycles, uint32_t prescale,
-> +        uint32_t clkdiv)
-> +{
-> +    return (NANOSECONDS_PER_SECOND / (REF_HZ >> clkdiv)) * cycles *
-> prescale;
-> +}
-> +
-> +static void adc_wait_conv_finished(QTestState *qts, const ADC *adc,
-> +        uint32_t clkdiv)
-> +{
-> +    uint32_t prescaler = adc_prescaler(qts, adc);
-> +
-> +    /*
-> +     * ADC should takes roughly 20 cycles to convert one sample. So we
-> assert it
-> +     * should take 10~30 cycles here.
-> +     */
-> +    qtest_clock_step(qts, adc_calculate_steps(CONV_CYCLES / 2, prescaler,
-> +                clkdiv));
-> +    /* ADC is still converting. */
-> +    g_assert_true(adc_read_con(qts, adc) & CON_CONV);
-> +    qtest_clock_step(qts, adc_calculate_steps(CONV_CYCLES, prescaler,
-> clkdiv));
-> +    /* ADC has finished conversion. */
-> +    g_assert_false(adc_read_con(qts, adc) & CON_CONV);
-> +}
-> +
-> +/* Check ADC can be reset to default value. */
-> +static void test_init(gconstpointer adc_p)
-> +{
-> +    const ADC *adc = adc_p;
-> +
-> +    QTestState *qts = qtest_init("-machine quanta-gsj");
-> +    adc_write_con(qts, adc, CON_REFSEL | CON_INT);
-> +    g_assert_cmphex(adc_read_con(qts, adc), ==, CON_REFSEL);
-> +    qtest_quit(qts);
-> +}
-> +
-> +/* Check ADC can convert from an internal reference. */
-> +static void test_convert_internal(gconstpointer adc_p)
-> +{
-> +    const ADC *adc = adc_p;
-> +    uint32_t index, input, output, expected_output;
-> +    QTestState *qts = qtest_init("-machine quanta-gsj");
-> +    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-> +
-> +    for (index = 0; index < NUM_INPUTS; ++index) {
-> +        for (size_t i = 0; i < ARRAY_SIZE(input_list); ++i) {
-> +            input = input_list[i];
-> +            expected_output = adc_calculate_output(input, DEFAULT_IREF);
-> +
-> +            adc_write_input(qts, adc, index, input);
-> +            adc_write_con(qts, adc, CON_MUX(index) | CON_REFSEL | CON_INT
-> |
-> +                    CON_EN | CON_CONV);
-> +            adc_wait_conv_finished(qts, adc, DEFAULT_CLKDIV);
-> +            g_assert_cmphex(adc_read_con(qts, adc), ==, CON_MUX(index) |
-> +                    CON_REFSEL | CON_EN);
-> +            g_assert_false(qtest_get_irq(qts, adc->irq));
-> +            output = adc_read_data(qts, adc);
-> +            g_assert_cmpuint(output, ==, expected_output);
-> +        }
-> +    }
-> +
-> +    qtest_quit(qts);
-> +}
-> +
-> +/* Check ADC can convert from an external reference. */
-> +static void test_convert_external(gconstpointer adc_p)
-> +{
-> +    const ADC *adc = adc_p;
-> +    uint32_t index, input, vref, output, expected_output;
-> +    QTestState *qts = qtest_init("-machine quanta-gsj");
-> +    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-> +
-> +    for (index = 0; index < NUM_INPUTS; ++index) {
-> +        for (size_t i = 0; i < ARRAY_SIZE(input_list); ++i) {
-> +            for (size_t j = 0; j < ARRAY_SIZE(vref_list); ++j) {
-> +                input = input_list[i];
-> +                vref = vref_list[j];
-> +                expected_output = adc_calculate_output(input, vref);
-> +
-> +                adc_write_input(qts, adc, index, input);
-> +                adc_write_vref(qts, adc, vref);
-> +                adc_write_con(qts, adc, CON_MUX(index) | CON_INT | CON_EN
-> |
-> +                        CON_CONV);
-> +                adc_wait_conv_finished(qts, adc, DEFAULT_CLKDIV);
-> +                g_assert_cmphex(adc_read_con(qts, adc), ==,
-> +                        CON_MUX(index) | CON_EN);
-> +                g_assert_false(qtest_get_irq(qts, adc->irq));
-> +                output = adc_read_data(qts, adc);
-> +                g_assert_cmpuint(output, ==, expected_output);
-> +            }
-> +        }
-> +    }
-> +
-> +    qtest_quit(qts);
-> +}
-> +
-> +/* Check ADC interrupt files if and only if CON_INT_EN is set. */
-> +static void test_interrupt(gconstpointer adc_p)
-> +{
-> +    const ADC *adc = adc_p;
-> +    uint32_t index, input, output, expected_output;
-> +    QTestState *qts = qtest_init("-machine quanta-gsj");
-> +
-> +    index = 1;
-> +    input = input_list[1];
-> +    expected_output = adc_calculate_output(input, DEFAULT_IREF);
-> +
-> +    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-> +    adc_write_input(qts, adc, index, input);
-> +    g_assert_false(qtest_get_irq(qts, adc->irq));
-> +    adc_write_con(qts, adc, CON_MUX(index) | CON_INT_EN | CON_REFSEL |
-> CON_INT
-> +            | CON_EN | CON_CONV);
-> +    adc_wait_conv_finished(qts, adc, DEFAULT_CLKDIV);
-> +    g_assert_cmphex(adc_read_con(qts, adc), ==, CON_MUX(index) |
-> CON_INT_EN
-> +            | CON_REFSEL | CON_INT | CON_EN);
-> +    g_assert_true(qtest_get_irq(qts, adc->irq));
-> +    output = adc_read_data(qts, adc);
-> +    g_assert_cmpuint(output, ==, expected_output);
-> +
-> +    qtest_quit(qts);
-> +}
-> +
-> +/* Check ADC is reset after setting ADC_RST for 10 ADC cycles. */
-> +static void test_reset(gconstpointer adc_p)
-> +{
-> +    const ADC *adc = adc_p;
-> +    QTestState *qts = qtest_init("-machine quanta-gsj");
-> +
-> +    for (size_t i = 0; i < ARRAY_SIZE(div_list); ++i) {
-> +        uint32_t div = div_list[i];
-> +
-> +        adc_write_con(qts, adc, CON_INT | CON_EN | CON_RST |
-> CON_DIV(div));
-> +        qtest_clock_step(qts, adc_calculate_steps(RESET_CYCLES,
-> +                    adc_prescaler(qts, adc), DEFAULT_CLKDIV) - 1);
-> +        g_assert_true(adc_read_con(qts, adc) & CON_EN);
-> +        qtest_clock_step(qts, 1);
-> +        g_assert_false(adc_read_con(qts, adc) & CON_EN);
-> +    }
-> +    qtest_quit(qts);
-> +}
-> +
-> +/* Check ADC is not reset if we set ADC_RST for <10 ADC cycles. */
-> +static void test_premature_reset(gconstpointer adc_p)
-> +{
-> +    const ADC *adc = adc_p;
-> +    QTestState *qts = qtest_init("-machine quanta-gsj");
-> +
-> +    for (size_t i = 0; i < ARRAY_SIZE(div_list); ++i) {
-> +        uint32_t div = div_list[i];
-> +
-> +        adc_write_con(qts, adc, CON_INT | CON_EN | CON_RST |
-> CON_DIV(div));
-> +        qtest_clock_step(qts, adc_calculate_steps(RESET_CYCLES,
-> +                    adc_prescaler(qts, adc), DEFAULT_CLKDIV) - 1);
-> +        g_assert_true(adc_read_con(qts, adc) & CON_EN);
-> +        adc_write_con(qts, adc, CON_INT | CON_EN | CON_DIV(div));
-> +        qtest_clock_step(qts, 1000);
-> +        g_assert_true(adc_read_con(qts, adc) & CON_EN);
-> +    }
-> +    qtest_quit(qts);
-> +}
-> +
-> +/* Check ADC Calibration works as desired. */
-> +static void test_calibrate(gconstpointer adc_p)
-> +{
-> +    int i, j;
-> +    const ADC *adc = adc_p;
-> +
-> +    for (j = 0; j < ARRAY_SIZE(iref_list); ++j) {
-> +        uint32_t iref = iref_list[j];
-> +        uint32_t expected_rv[] = {
-> +            adc_calculate_output(R0_INPUT, iref),
-> +            adc_calculate_output(R1_INPUT, iref),
+> +    uint32_t (*divide)(struct NPCM7xxClockDividerState *s);
+> +    union {
+> +        struct {
+> +            int reg;
+> +            int offset;
+> +            int len;
 > +        };
-> +        char buf[100];
-> +        QTestState *qts;
+> +        int divisor;
+> +    };
+> +} NPCM7xxClockDividerState;
 > +
-> +        sprintf(buf, "-machine quanta-gsj -global npcm7xx-adc.iref=%u",
-> iref);
-> +        qts = qtest_init(buf);
+> +struct NPCM7xxCLKState {
+>      SysBusDevice parent;
+>
+>      MemoryRegion iomem;
+>
+> +    /* Clock converters */
+> +    NPCM7xxClockPLLState plls[NPCM7XX_CLOCK_NR_PLLS];
+> +    NPCM7xxClockSELState sels[NPCM7XX_CLOCK_NR_SELS];
+> +    NPCM7xxClockDividerState dividers[NPCM7XX_CLOCK_NR_DIVIDERS];
 > +
-> +        /* Check the converted value is correct using the calibration
-> value. */
-> +        for (i = 0; i < ARRAY_SIZE(input_list); ++i) {
-> +            uint32_t input;
-> +            uint32_t output;
-> +            uint32_t expected_output;
-> +            uint32_t calibrated_voltage;
-> +            uint32_t index = 0;
+>      uint32_t regs[NPCM7XX_CLK_NR_REGS];
+>
+>      /* Time reference for SECCNT and CNTR25M, initialized by power on
+> reset */
+>      int64_t ref_ns;
+> -} NPCM7xxCLKState;
 > +
-> +            input = input_list[i];
-> +            /* Calibration only works for input range 0.1V ~ 1.8V. */
-> +            if (input < MIN_CALIB_INPUT || input > MAX_CALIB_INPUT) {
-> +                continue;
-> +            }
-> +            expected_output = adc_calculate_output(input, iref);
-> +
-> +            adc_write_input(qts, adc, index, input);
-> +            adc_write_con(qts, adc, CON_MUX(index) | CON_REFSEL | CON_INT
-> |
-> +                    CON_EN | CON_CONV);
-> +            adc_wait_conv_finished(qts, adc, DEFAULT_CLKDIV);
-> +            g_assert_cmphex(adc_read_con(qts, adc), ==,
-> +                    CON_REFSEL | CON_MUX(index) | CON_EN);
-> +            output = adc_read_data(qts, adc);
-> +            g_assert_cmpuint(output, ==, expected_output);
-> +
-> +            calibrated_voltage = adc_calibrate(output, expected_rv);
-> +            g_assert_cmpuint(calibrated_voltage, >, input - MAX_ERROR);
-> +            g_assert_cmpuint(calibrated_voltage, <, input + MAX_ERROR);
-> +        }
-> +
-> +        qtest_quit(qts);
-> +    }
-> +}
-> +
-> +static void adc_add_test(const char *name, const ADC* wd,
-> +        GTestDataFunc fn)
-> +{
-> +    g_autofree char *full_name = g_strdup_printf("npcm7xx_adc/%s",  name);
-> +    qtest_add_data_func(full_name, wd, fn);
-> +}
-> +#define add_test(name, td) adc_add_test(#name, td, test_##name)
-> +
-> +int main(int argc, char **argv)
-> +{
-> +    g_test_init(&argc, &argv, NULL);
-> +
-> +    add_test(init, &adc);
-> +    add_test(convert_internal, &adc);
-> +    add_test(convert_external, &adc);
-> +    add_test(interrupt, &adc);
-> +    add_test(reset, &adc);
-> +    add_test(premature_reset, &adc);
-> +    add_test(calibrate, &adc);
-> +
-> +    return g_test_run();
-> +}
+> +    /* The incoming reference clock. */
+> +    Clock *clkref;
+> +};
+>
+>  #define TYPE_NPCM7XX_CLK "npcm7xx-clk"
+>  #define NPCM7XX_CLK(obj) OBJECT_CHECK(NPCM7xxCLKState, (obj),
+> TYPE_NPCM7XX_CLK)
 > --
 > 2.29.2.684.gfbc64c5ab5-goog
 >
 >
 
---000000000000a8fc1a05b675abef
+--0000000000005740c705b675ac42
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -1143,12 +1205,26 @@ Content-Transfer-Encoding: quoted-printable
 class=3D"gmail_attr">On Mon, Dec 14, 2020 at 4:13 PM Hao Wu &lt;<a href=3D"=
 mailto:wuhaotsh@google.com">wuhaotsh@google.com</a>&gt; wrote:<br></div><bl=
 ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">The ADC is part of NPCM7XX M=
-odule. Its behavior is controled by the<br>
-ADC_CON register. It converts one of the eight analog inputs into a<br>
-digital input and stores it in the ADC_DATA register when enabled.<br>
+t:1px solid rgb(204,204,204);padding-left:1ex">This patch allows NPCM7XX CL=
+K module to compute clocks that are used by<br>
+other NPCM7XX modules.<br>
 <br>
-Users can alter input value by using qom-set QMP command.<br>
+Add a new struct NPCM7xxClockConverterState which represents a<br>
+single converter.=C2=A0 Each clock converter in CLK module represents one<b=
+r>
+converter in NPCM7XX CLK Module(PLL, SEL or Divider). Each converter<br>
+takes one or more input clocks and converts them into one output clock.<br>
+They form a clock hierarchy in the CLK module and are responsible for<br>
+outputing clocks for various other modules in an NPCM7XX SoC.<br>
+<br>
+Each converter has a function pointer called &quot;convert&quot; which repr=
+esents<br>
+the unique logic for that converter.<br>
+<br>
+The clock contains two initialization information: ConverterInitInfo and<br=
+>
+ConverterConnectionInfo. They represent the vertices and edges in the<br>
+clock diagram respectively.<br>
 <br>
 Reviewed-by: Havard Skinnemoen &lt;<a href=3D"mailto:hskinnemoen@google.com=
 " target=3D"_blank">hskinnemoen@google.com</a>&gt;<br>
@@ -1157,1197 +1233,1208 @@ Reviewed-by: Tyrone Ting &lt;<a href=3D"mailto:kfting@nuvoton.com" target=
 Signed-off-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" target=3D"=
 _blank">wuhaotsh@google.com</a>&gt;<br>
 ---<br>
-=C2=A0docs/system/arm/nuvoton.rst=C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
-=C2=A0hw/adc/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A01 +<br>
-=C2=A0hw/adc/npcm7xx_adc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 321 ++=
-++++++++++++++++++++++++<br>
-=C2=A0hw/adc/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-=C2=A05 +<br>
-=C2=A0hw/arm/npcm7xx.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 24 +-<br>
-=C2=A0include/hw/adc/npcm7xx_adc.h=C2=A0 =C2=A0|=C2=A0 72 ++++++<br>
-=C2=A0include/hw/arm/npcm7xx.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +<=
-br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-=C2=A0tests/qtest/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A03 +-=
+=C2=A0hw/misc/npcm7xx_clk.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 795 ++++++++=
++++++++++++++++++++++++++-<br>
+=C2=A0include/hw/misc/npcm7xx_clk.h | 140 +++++-<br>
+=C2=A02 files changed, 927 insertions(+), 8 deletions(-)<br>
 <br>
-=C2=A0tests/qtest/npcm7xx_adc-test.c | 400 ++++++++++++++++++++++++++++++++=
-+<br>
-=C2=A010 files changed, 828 insertions(+), 3 deletions(-)<br>
-=C2=A0create mode 100644 hw/adc/npcm7xx_adc.c<br>
-=C2=A0create mode 100644 hw/adc/trace-events<br>
-=C2=A0create mode 100644 include/hw/adc/npcm7xx_adc.h<br>
-=C2=A0create mode 100644 tests/qtest/npcm7xx_adc-test.c<br>
+diff --git a/hw/misc/npcm7xx_clk.c b/hw/misc/npcm7xx_clk.c<br>
+index 6732437fe2..48bc9bdda5 100644<br>
+--- a/hw/misc/npcm7xx_clk.c<br>
++++ b/hw/misc/npcm7xx_clk.c<br>
+@@ -18,6 +18,7 @@<br>
 <br>
-diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst<br>
-index b00d405d52..35829f8d0b 100644<br>
---- a/docs/system/arm/nuvoton.rst<br>
-+++ b/docs/system/arm/nuvoton.rst<br>
-@@ -41,6 +41,7 @@ Supported devices<br>
-=C2=A0 * Random Number Generator (RNG)<br>
-=C2=A0 * USB host (USBH)<br>
-=C2=A0 * GPIO controller<br>
-+ * Analog to Digital Converter (ADC)<br>
-<br>
-=C2=A0Missing devices<br>
-=C2=A0---------------<br>
-@@ -58,7 +59,6 @@ Missing devices<br>
-=C2=A0 * USB device (USBD)<br>
-=C2=A0 * SMBus controller (SMBF)<br>
-=C2=A0 * Peripheral SPI controller (PSPI)<br>
-- * Analog to Digital Converter (ADC)<br>
-=C2=A0 * SD/MMC host<br>
-=C2=A0 * PECI interface<br>
-=C2=A0 * Pulse Width Modulation (PWM)<br>
-diff --git a/hw/adc/meson.build b/hw/adc/meson.build<br>
-index 0d62ae96ae..6ddee23813 100644<br>
---- a/hw/adc/meson.build<br>
-+++ b/hw/adc/meson.build<br>
-@@ -1 +1,2 @@<br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_STM32F2XX_ADC&#39;, if_true: files(&=
-#39;stm32f2xx_adc.c&#39;))<br>
-+softmmu_ss.add(when: &#39;CONFIG_NPCM7XX&#39;, if_true: files(&#39;npcm7xx=
-_adc.c&#39;))<br>
-diff --git a/hw/adc/npcm7xx_adc.c b/hw/adc/npcm7xx_adc.c<br>
-new file mode 100644<br>
-index 0000000000..c2c4819d3f<br>
---- /dev/null<br>
-+++ b/hw/adc/npcm7xx_adc.c<br>
-@@ -0,0 +1,321 @@<br>
-+/*<br>
-+ * Nuvoton NPCM7xx ADC Module<br>
-+ *<br>
-+ * Copyright 2020 Google LLC<br>
-+ *<br>
-+ * This program is free software; you can redistribute it and/or modify it=
-<br>
-+ * under the terms of the GNU General Public License as published by the<b=
-r>
-+ * Free Software Foundation; either version 2 of the License, or<br>
-+ * (at your option) any later version.<br>
-+ *<br>
-+ * This program is distributed in the hope that it will be useful, but WIT=
-HOUT<br>
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or<b=
-r>
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License<br=
->
-+ * for more details.<br>
-+ */<br>
-+<br>
-+#include &quot;hw/adc/npcm7xx_adc.h&quot;<br>
+=C2=A0#include &quot;hw/misc/npcm7xx_clk.h&quot;<br>
+=C2=A0#include &quot;hw/timer/npcm7xx_timer.h&quot;<br>
 +#include &quot;hw/qdev-clock.h&quot;<br>
-+#include &quot;hw/qdev-properties.h&quot;<br>
-+#include &quot;migration/vmstate.h&quot;<br>
-+#include &quot;qemu/log.h&quot;<br>
-+#include &quot;qemu/module.h&quot;<br>
-+#include &quot;qemu/timer.h&quot;<br>
-+#include &quot;qemu/units.h&quot;<br>
-+#include &quot;trace.h&quot;<br>
-+<br>
-+/* 32-bit register indices. */<br>
-+enum NPCM7xxADCRegisters {<br>
-+=C2=A0 =C2=A0 NPCM7XX_ADC_CON,<br>
-+=C2=A0 =C2=A0 NPCM7XX_ADC_DATA,<br>
-+=C2=A0 =C2=A0 NPCM7XX_ADC_REGS_END,<br>
-+};<br>
-+<br>
-+/* Register field definitions. */<br>
-+#define NPCM7XX_ADC_CON_MUX(rv) extract32(rv, 24, 4)<br>
-+#define NPCM7XX_ADC_CON_INT_EN=C2=A0 BIT(21)<br>
-+#define NPCM7XX_ADC_CON_REFSEL=C2=A0 BIT(19)<br>
-+#define NPCM7XX_ADC_CON_INT=C2=A0 =C2=A0 =C2=A0BIT(18)<br>
-+#define NPCM7XX_ADC_CON_EN=C2=A0 =C2=A0 =C2=A0 BIT(17)<br>
-+#define NPCM7XX_ADC_CON_RST=C2=A0 =C2=A0 =C2=A0BIT(16)<br>
-+#define NPCM7XX_ADC_CON_CONV=C2=A0 =C2=A0 BIT(14)<br>
-+#define NPCM7XX_ADC_CON_DIV(rv) extract32(rv, 1, 8)<br>
-+<br>
-+#define NPCM7XX_ADC_MAX_RESULT=C2=A0 =C2=A0 =C2=A0 1023<br>
-+#define NPCM7XX_ADC_DEFAULT_IREF=C2=A0 =C2=A0 2000000<br>
-+#define NPCM7XX_ADC_CONV_CYCLES=C2=A0 =C2=A0 =C2=A020<br>
-+#define NPCM7XX_ADC_RESET_CYCLES=C2=A0 =C2=A0 10<br>
-+#define NPCM7XX_ADC_R0_INPUT=C2=A0 =C2=A0 =C2=A0 =C2=A0 500000<br>
-+#define NPCM7XX_ADC_R1_INPUT=C2=A0 =C2=A0 =C2=A0 =C2=A0 1500000<br>
-+<br>
-+static void npcm7xx_adc_reset(NPCM7xxADCState *s)<br>
-+{<br>
-+=C2=A0 =C2=A0 timer_del(&amp;s-&gt;conv_timer);<br>
-+=C2=A0 =C2=A0 timer_del(&amp;s-&gt;reset_timer);<br>
-+=C2=A0 =C2=A0 s-&gt;con =3D 0x000c0001;<br>
-+=C2=A0 =C2=A0 s-&gt;data =3D 0x00000000;<br>
-+}<br>
-+<br>
-+static uint32_t npcm7xx_adc_convert(uint32_t input, uint32_t ref)<br>
-+{<br>
-+=C2=A0 =C2=A0 uint32_t result;<br>
-+<br>
-+=C2=A0 =C2=A0 result =3D input * (NPCM7XX_ADC_MAX_RESULT + 1) / ref;<br>
-+=C2=A0 =C2=A0 if (result &gt; NPCM7XX_ADC_MAX_RESULT) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 result =3D NPCM7XX_ADC_MAX_RESULT;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 return result;<br>
-+}<br>
-+<br>
-+static uint32_t npcm7xx_adc_prescaler(NPCM7xxADCState *s)<br>
-+{<br>
-+=C2=A0 =C2=A0 return 2 * (NPCM7XX_ADC_CON_DIV(s-&gt;con) + 1);<br>
-+}<br>
-+<br>
-+static void npcm7xx_adc_start_timer(Clock *clk, QEMUTimer *timer,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t cycles, uint32_t prescaler)<br>
-+{<br>
-+=C2=A0 =C2=A0 int64_t now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);<br>
-+=C2=A0 =C2=A0 int64_t freq =3D clock_get_hz(clk);<br>
-+=C2=A0 =C2=A0 int64_t ns;<br>
-+<br>
-+=C2=A0 =C2=A0 ns =3D (NANOSECONDS_PER_SECOND * cycles * prescaler / freq);=
+=C2=A0#include &quot;migration/vmstate.h&quot;<br>
+=C2=A0#include &quot;qemu/error-report.h&quot;<br>
+=C2=A0#include &quot;qemu/log.h&quot;<br>
+@@ -27,9 +28,22 @@<br>
+=C2=A0#include &quot;trace.h&quot;<br>
+=C2=A0#include &quot;sysemu/watchdog.h&quot;<br>
 <br>
-+=C2=A0 =C2=A0 ns +=3D now;<br>
-+=C2=A0 =C2=A0 timer_mod(timer, ns);<br>
-+}<br>
++/*<br>
++ * The reference clock hz, and the SECCNT and CNTR25M registers in this mo=
+dule,<br>
++ * is always 25 MHz.<br>
++ */<br>
++#define NPCM7XX_CLOCK_REF_HZ=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (250=
+00000)<br>
 +<br>
-+static void npcm7xx_adc_start_reset(NPCM7xxADCState *s)<br>
++/* Register Field Definitions */<br>
++#define NPCM7XX_CLK_WDRCR_CA9C=C2=A0 BIT(0) /* Cortex A9 Cores */<br>
++<br>
+=C2=A0#define PLLCON_LOKI=C2=A0 =C2=A0 =C2=A0BIT(31)<br>
+=C2=A0#define PLLCON_LOKS=C2=A0 =C2=A0 =C2=A0BIT(30)<br>
+=C2=A0#define PLLCON_PWDEN=C2=A0 =C2=A0 BIT(12)<br>
++#define PLLCON_FBDV(con) extract32((con), 16, 12)<br>
++#define PLLCON_OTDV2(con) extract32((con), 13, 3)<br>
++#define PLLCON_OTDV1(con) extract32((con), 8, 3)<br>
++#define PLLCON_INDV(con) extract32((con), 0, 6)<br>
+<br>
+=C2=A0enum NPCM7xxCLKRegisters {<br>
+=C2=A0 =C2=A0 =C2=A0NPCM7XX_CLK_CLKEN1,<br>
+@@ -89,12 +103,609 @@ static const uint32_t cold_reset_values[NPCM7XX_CLK_N=
+R_REGS] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0[NPCM7XX_CLK_AHBCKFI]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D 0x0=
+00000c8,<br>
+=C2=A0};<br>
+<br>
+-/* Register Field Definitions */<br>
+-#define NPCM7XX_CLK_WDRCR_CA9C=C2=A0 BIT(0) /* Cortex A9 Cores */<br>
+-<br>
+=C2=A0/* The number of watchdogs that can trigger a reset. */<br>
+=C2=A0#define NPCM7XX_NR_WATCHDOGS=C2=A0 =C2=A0 (3)<br>
+<br>
++/* Clock converter functions */<br>
++<br>
++#define TYPE_NPCM7XX_CLOCK_PLL &quot;npcm7xx-clock-pll&quot;<br>
++#define NPCM7XX_CLOCK_PLL(obj) OBJECT_CHECK(NPCM7xxClockPLLState, \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (obj), TYPE_NPCM7XX_CLOCK_PLL)<br>
++#define TYPE_NPCM7XX_CLOCK_SEL &quot;npcm7xx-clock-sel&quot;<br>
++#define NPCM7XX_CLOCK_SEL(obj) OBJECT_CHECK(NPCM7xxClockSELState, \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (obj), TYPE_NPCM7XX_CLOCK_SEL)<br>
++#define TYPE_NPCM7XX_CLOCK_DIVIDER &quot;npcm7xx-clock-divider&quot;<br>
++#define NPCM7XX_CLOCK_DIVIDER(obj) OBJECT_CHECK(NPCM7xxClockDividerState, =
+\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (obj), TYPE_NPCM7XX_CLOCK_DIVIDER)<br>
++<br>
++static void npcm7xx_clk_update_pll(void *opaque)<br>
 +{<br>
-+=C2=A0 =C2=A0 uint32_t prescaler =3D npcm7xx_adc_prescaler(s);<br>
++=C2=A0 =C2=A0 NPCM7xxClockPLLState *s =3D opaque;<br>
++=C2=A0 =C2=A0 uint32_t con =3D s-&gt;clk-&gt;regs[s-&gt;reg];<br>
++=C2=A0 =C2=A0 uint64_t freq;<br>
 +<br>
-+=C2=A0 =C2=A0 npcm7xx_adc_start_timer(s-&gt;clock, &amp;s-&gt;reset_timer,=
- NPCM7XX_ADC_RESET_CYCLES,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prescaler);<br>
-+}<br>
-+<br>
-+static void npcm7xx_adc_start_convert(NPCM7xxADCState *s)<br>
-+{<br>
-+=C2=A0 =C2=A0 uint32_t prescaler =3D npcm7xx_adc_prescaler(s);<br>
-+<br>
-+=C2=A0 =C2=A0 npcm7xx_adc_start_timer(s-&gt;clock, &amp;s-&gt;conv_timer, =
-NPCM7XX_ADC_CONV_CYCLES,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prescaler);<br>
-+}<br>
-+<br>
-+static void npcm7xx_adc_reset_done(void *opaque)<br>
-+{<br>
-+=C2=A0 =C2=A0 NPCM7xxADCState *s =3D opaque;<br>
-+<br>
-+=C2=A0 =C2=A0 npcm7xx_adc_reset(s);<br>
-+}<br>
-+<br>
-+static void npcm7xx_adc_convert_done(void *opaque)<br>
-+{<br>
-+=C2=A0 =C2=A0 NPCM7xxADCState *s =3D opaque;<br>
-+=C2=A0 =C2=A0 uint32_t input =3D NPCM7XX_ADC_CON_MUX(s-&gt;con);<br>
-+=C2=A0 =C2=A0 uint32_t ref =3D (s-&gt;con &amp; NPCM7XX_ADC_CON_REFSEL)<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ? s-&gt;iref : s-&gt;vref;<br>
-+<br>
-+=C2=A0 =C2=A0 g_assert(input &lt; NPCM7XX_ADC_NUM_INPUTS);<br>
-+=C2=A0 =C2=A0 s-&gt;data =3D npcm7xx_adc_convert(s-&gt;adci[input], ref);<=
-br>
-+=C2=A0 =C2=A0 if (s-&gt;con &amp; NPCM7XX_ADC_CON_INT_EN) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;con |=3D NPCM7XX_ADC_CON_INT;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_irq_raise(s-&gt;irq);<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 s-&gt;con &amp;=3D ~NPCM7XX_ADC_CON_CONV;<br>
-+}<br>
-+<br>
-+static void npcm7xx_adc_calibrate(NPCM7xxADCState *adc)<br>
-+{<br>
-+=C2=A0 =C2=A0 adc-&gt;calibration_r_values[0] =3D npcm7xx_adc_convert(NPCM=
-7XX_ADC_R0_INPUT,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc-&gt;iref);<br>
-+=C2=A0 =C2=A0 adc-&gt;calibration_r_values[1] =3D npcm7xx_adc_convert(NPCM=
-7XX_ADC_R1_INPUT,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc-&gt;iref);<br>
-+}<br>
-+<br>
-+static void npcm7xx_adc_write_con(NPCM7xxADCState *s, uint32_t new_con)<br=
->
-+{<br>
-+=C2=A0 =C2=A0 uint32_t old_con =3D s-&gt;con;<br>
-+<br>
-+=C2=A0 =C2=A0 /* Write ADC_INT to 1 to clear it */<br>
-+=C2=A0 =C2=A0 if (new_con &amp; NPCM7XX_ADC_CON_INT) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 new_con &amp;=3D ~NPCM7XX_ADC_CON_INT;<br>
-+=C2=A0 =C2=A0 } else if (old_con &amp; NPCM7XX_ADC_CON_INT) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 new_con |=3D NPCM7XX_ADC_CON_INT;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 s-&gt;con =3D new_con;<br>
-+<br>
-+=C2=A0 =C2=A0 if (s-&gt;con &amp; NPCM7XX_ADC_CON_RST) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!(old_con &amp; NPCM7XX_ADC_CON_RST)) {<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_adc_start_reset(s);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 /* The PLL is grounded if it is not locked yet. */<br>
++=C2=A0 =C2=A0 if (con &amp; PLLCON_LOKI) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 freq =3D clock_get_hz(s-&gt;clock_in);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 freq *=3D PLLCON_FBDV(con);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 freq /=3D PLLCON_INDV(con) * PLLCON_OTDV1(con)=
+ * PLLCON_OTDV2(con);<br>
 +=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 timer_del(&amp;s-&gt;reset_timer);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 freq =3D 0;<br>
 +=C2=A0 =C2=A0 }<br>
 +<br>
-+=C2=A0 =C2=A0 if ((s-&gt;con &amp; NPCM7XX_ADC_CON_EN)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;con &amp; NPCM7XX_ADC_CON_CONV) {<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!(old_con &amp; NPCM7XX_ADC_=
-CON_CONV)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_adc_start_=
-convert(s);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 timer_del(&amp;s-&gt;conv_timer)=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 clock_update_hz(s-&gt;clock_out, freq);<br>
 +}<br>
 +<br>
-+static uint64_t npcm7xx_adc_read(void *opaque, hwaddr offset, unsigned siz=
-e)<br>
++static void npcm7xx_clk_update_sel(void *opaque)<br>
 +{<br>
-+=C2=A0 =C2=A0 uint64_t value =3D 0;<br>
-+=C2=A0 =C2=A0 NPCM7xxADCState *s =3D opaque;<br>
-+=C2=A0 =C2=A0 hwaddr reg =3D offset / sizeof(uint32_t);<br>
++=C2=A0 =C2=A0 NPCM7xxClockSELState *s =3D opaque;<br>
++=C2=A0 =C2=A0 uint32_t index =3D extract32(s-&gt;clk-&gt;regs[NPCM7XX_CLK_=
+CLKSEL], s-&gt;offset,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;len);<br>
 +<br>
-+=C2=A0 =C2=A0 switch (reg) {<br>
-+=C2=A0 =C2=A0 case NPCM7XX_ADC_CON:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D s-&gt;con;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+<br>
-+=C2=A0 =C2=A0 case NPCM7XX_ADC_DATA:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D s-&gt;data;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+<br>
-+=C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 if (index &gt;=3D s-&gt;input_size) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;%s: invalid offset 0x%04&quot; HWADDR_PRIx &quot;\n&quot;,<br>
+=A0 &quot;%s: SEL index: %u out of range\n&quot;,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__, offset);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+=A0 __func__, index);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 index =3D 0;<br>
 +=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 trace_npcm7xx_adc_read(DEVICE(s)-&gt;canonical_path, offset,=
- value);<br>
-+=C2=A0 =C2=A0 return value;<br>
++=C2=A0 =C2=A0 clock_update_hz(s-&gt;clock_out, clock_get_hz(s-&gt;clock_in=
+[index]));<br>
 +}<br>
 +<br>
-+static void npcm7xx_adc_write(void *opaque, hwaddr offset, uint64_t v,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned size)<br>
++static void npcm7xx_clk_update_divider(void *opaque)<br>
 +{<br>
-+=C2=A0 =C2=A0 NPCM7xxADCState *s =3D opaque;<br>
-+=C2=A0 =C2=A0 hwaddr reg =3D offset / sizeof(uint32_t);<br>
++=C2=A0 =C2=A0 NPCM7xxClockDividerState *s =3D opaque;<br>
++=C2=A0 =C2=A0 uint32_t freq;<br>
 +<br>
-+=C2=A0 =C2=A0 trace_npcm7xx_adc_write(DEVICE(s)-&gt;canonical_path, offset=
-, v);<br>
-+=C2=A0 =C2=A0 switch (reg) {<br>
-+=C2=A0 =C2=A0 case NPCM7XX_ADC_CON:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_adc_write_con(s, v);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+<br>
-+=C2=A0 =C2=A0 case NPCM7XX_ADC_DATA:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;%s: register @ 0x%04&quot; HWADDR_PRIx &quot; is read-only\n&quot=
-;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__, offset);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+<br>
-+=C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_GUEST_ERROR,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;%s: invalid offset 0x%04&quot; HWADDR_PRIx &quot;\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 __func__, offset);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
++=C2=A0 =C2=A0 freq =3D s-&gt;divide(s);<br>
++=C2=A0 =C2=A0 clock_update_hz(s-&gt;clock_out, freq);<br>
 +}<br>
 +<br>
-+static const struct MemoryRegionOps npcm7xx_adc_ops =3D {<br>
-+=C2=A0 =C2=A0 .read=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D npcm7xx_adc_read,<br>
-+=C2=A0 =C2=A0 .write=C2=A0 =C2=A0 =C2=A0 =3D npcm7xx_adc_write,<br>
-+=C2=A0 =C2=A0 .endianness =3D DEVICE_LITTLE_ENDIAN,<br>
-+=C2=A0 =C2=A0 .valid=C2=A0 =C2=A0 =C2=A0 =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .min_access_size=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=3D 4,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .max_access_size=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=3D 4,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 .unaligned=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =3D false,<br>
++static uint32_t divide_by_constant(NPCM7xxClockDividerState *s)<br>
++{<br>
++=C2=A0 =C2=A0 return clock_get_hz(s-&gt;clock_in) / s-&gt;divisor;<br>
++}<br>
++<br>
++static uint32_t divide_by_reg_divisor(NPCM7xxClockDividerState *s)<br>
++{<br>
++=C2=A0 =C2=A0 return clock_get_hz(s-&gt;clock_in) /<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (extract32(s-&gt;clk-&gt;regs[s-=
+&gt;reg], s-&gt;offset, s-&gt;len) + 1);<br>
++}<br>
++<br>
++static uint32_t divide_by_reg_divisor_times_2(NPCM7xxClockDividerState *s)=
+<br>
++{<br>
++=C2=A0 =C2=A0 return divide_by_reg_divisor(s) / 2;<br>
++}<br>
++<br>
++static uint32_t shift_by_reg_divisor(NPCM7xxClockDividerState *s)<br>
++{<br>
++=C2=A0 =C2=A0 return clock_get_hz(s-&gt;clock_in) &gt;&gt;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 extract32(s-&gt;clk-&gt;regs[s-&gt;reg], s-&gt=
+;offset, s-&gt;len);<br>
++}<br>
++<br>
++static NPCM7xxClockPLL find_pll_by_reg(enum NPCM7xxCLKRegisters reg)<br>
++{<br>
++=C2=A0 =C2=A0 switch (reg) {<br>
++=C2=A0 =C2=A0 case NPCM7XX_CLK_PLLCON0:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NPCM7XX_CLOCK_PLL0;<br>
++=C2=A0 =C2=A0 case NPCM7XX_CLK_PLLCON1:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NPCM7XX_CLOCK_PLL1;<br>
++=C2=A0 =C2=A0 case NPCM7XX_CLK_PLLCON2:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NPCM7XX_CLOCK_PLL2;<br>
++=C2=A0 =C2=A0 case NPCM7XX_CLK_PLLCONG:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NPCM7XX_CLOCK_PLLG;<br>
++=C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_not_reached();<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void npcm7xx_clk_update_all_plls(NPCM7xxCLKState *clk)<br>
++{<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLOCK_NR_PLLS; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_clk_update_pll(&amp;clk-&gt;plls[i]);<=
+br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void npcm7xx_clk_update_all_sels(NPCM7xxCLKState *clk)<br>
++{<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLOCK_NR_SELS; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_clk_update_sel(&amp;clk-&gt;sels[i]);<=
+br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void npcm7xx_clk_update_all_dividers(NPCM7xxCLKState *clk)<br>
++{<br>
++=C2=A0 =C2=A0 int i;<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLOCK_NR_DIVIDERS; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_clk_update_divider(&amp;clk-&gt;divide=
+rs[i]);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void npcm7xx_clk_update_all_clocks(NPCM7xxCLKState *clk)<br>
++{<br>
++=C2=A0 =C2=A0 clock_update_hz(clk-&gt;clkref, NPCM7XX_CLOCK_REF_HZ);<br>
++=C2=A0 =C2=A0 npcm7xx_clk_update_all_plls(clk);<br>
++=C2=A0 =C2=A0 npcm7xx_clk_update_all_sels(clk);<br>
++=C2=A0 =C2=A0 npcm7xx_clk_update_all_dividers(clk);<br>
++}<br>
++<br>
++/* Types of clock sources. */<br>
++typedef enum ClockSrcType {<br>
++=C2=A0 =C2=A0 CLKSRC_REF,<br>
++=C2=A0 =C2=A0 CLKSRC_PLL,<br>
++=C2=A0 =C2=A0 CLKSRC_SEL,<br>
++=C2=A0 =C2=A0 CLKSRC_DIV,<br>
++} ClockSrcType;<br>
++<br>
++typedef struct PLLInitInfo {<br>
++=C2=A0 =C2=A0 const char *name;<br>
++=C2=A0 =C2=A0 ClockSrcType src_type;<br>
++=C2=A0 =C2=A0 int src_index;<br>
++=C2=A0 =C2=A0 int reg;<br>
++=C2=A0 =C2=A0 const char *public_name;<br>
++} PLLInitInfo;<br>
++<br>
++typedef struct SELInitInfo {<br>
++=C2=A0 =C2=A0 const char *name;<br>
++=C2=A0 =C2=A0 uint8_t input_size;<br>
++=C2=A0 =C2=A0 ClockSrcType src_type[NPCM7XX_CLK_SEL_MAX_INPUT];<br>
++=C2=A0 =C2=A0 int src_index[NPCM7XX_CLK_SEL_MAX_INPUT];<br>
++=C2=A0 =C2=A0 int offset;<br>
++=C2=A0 =C2=A0 int len;<br>
++=C2=A0 =C2=A0 const char *public_name;<br>
++} SELInitInfo;<br>
++<br>
++typedef struct DividerInitInfo {<br>
++=C2=A0 =C2=A0 const char *name;<br>
++=C2=A0 =C2=A0 ClockSrcType src_type;<br>
++=C2=A0 =C2=A0 int src_index;<br>
++=C2=A0 =C2=A0 uint32_t (*divide)(NPCM7xxClockDividerState *s);<br>
++=C2=A0 =C2=A0 int reg; /* not used when type =3D=3D CONSTANT */<br>
++=C2=A0 =C2=A0 int offset; /* not used when type =3D=3D CONSTANT */<br>
++=C2=A0 =C2=A0 int len; /* not used when type =3D=3D CONSTANT */<br>
++=C2=A0 =C2=A0 int divisor; /* used only when type =3D=3D CONSTANT */<br>
++=C2=A0 =C2=A0 const char *public_name;<br>
++} DividerInitInfo;<br>
++<br>
++static const PLLInitInfo pll_init_info_list[] =3D {<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_PLL0] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;pll0&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_REF,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_PLLCON0,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_PLL1] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;pll1&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_REF,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_PLLCON1,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_PLL2] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;pll2&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_REF,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_PLLCON2,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_PLLG] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;pllg&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_REF,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_PLLCONG,<br>
 +=C2=A0 =C2=A0 },<br>
 +};<br>
 +<br>
-+static void npcm7xx_adc_enter_reset(Object *obj, ResetType type)<br>
-+{<br>
-+=C2=A0 =C2=A0 NPCM7xxADCState *s =3D NPCM7XX_ADC(obj);<br>
++static const SELInitInfo sel_init_info_list[] =3D {<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_PIXCKSEL] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;pixcksel&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .input_size =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D {CLKSRC_PLL, CLKSRC_REF},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D {NPCM7XX_CLOCK_PLLG, 0},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 5,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;pixel-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_MCCKSEL] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;mccksel&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .input_size =3D 4,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D {CLKSRC_DIV, CLKSRC_REF, CLKSRC_=
+REF,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*MCBPCK, shouldn&#39;t be used =
+in normal operation*/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CLKSRC_REF},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D {NPCM7XX_CLOCK_PLL1D2, 0, 0, 0}=
+,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 12,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;mc-phy-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_CPUCKSEL] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;cpucksel&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .input_size =3D 4,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_=
+REF,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*SYSBPCK, shouldn&#39;t be used=
+ in normal operation*/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CLKSRC_REF},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D {NPCM7XX_CLOCK_PLL0, NPCM7XX_CL=
+OCK_PLL1D2, 0, 0},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;system-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_CLKOUTSEL] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;clkoutsel&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .input_size =3D 5,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_=
+REF,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CLKSRC_PLL, CLKSRC_DIV},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D {NPCM7XX_CLOCK_PLL0, NPCM7XX_CL=
+OCK_PLL1D2, 0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NPCM7XX_CLOCK_PLLG, NPCM7XX_CLOC=
+K_PLL2D2},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 18,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 3,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;tock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_UARTCKSEL] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;uartcksel&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .input_size =3D 4,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_=
+REF, CLKSRC_DIV},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D {NPCM7XX_CLOCK_PLL0, NPCM7XX_CL=
+OCK_PLL1D2, 0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NPCM7XX_CLOCK_PLL2D2},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 8,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 2,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_TIMCKSEL] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;timcksel&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .input_size =3D 4,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_=
+REF, CLKSRC_DIV},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D {NPCM7XX_CLOCK_PLL0, NPCM7XX_CL=
+OCK_PLL1D2, 0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NPCM7XX_CLOCK_PLL2D2},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 14,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 2,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_SDCKSEL] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;sdcksel&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .input_size =3D 4,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_=
+REF, CLKSRC_DIV},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D {NPCM7XX_CLOCK_PLL0, NPCM7XX_CL=
+OCK_PLL1D2, 0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NPCM7XX_CLOCK_PLL2D2},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 6,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 2,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_GFXMSEL] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;gfxmksel&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .input_size =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D {CLKSRC_REF, CLKSRC_PLL},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D {0, NPCM7XX_CLOCK_PLL2},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 21,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 1,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_SUCKSEL] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;sucksel&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .input_size =3D 4,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_=
+REF, CLKSRC_DIV},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D {NPCM7XX_CLOCK_PLL0, NPCM7XX_CL=
+OCK_PLL1D2, 0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NPCM7XX_CLOCK_PLL2D2},<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 10,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 2,<br>
++=C2=A0 =C2=A0 },<br>
++};<br>
 +<br>
-+=C2=A0 =C2=A0 npcm7xx_adc_reset(s);<br>
++static const DividerInitInfo divider_init_info_list[] =3D {<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_PLL1D2] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;pll1d2&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_PLL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_PLL1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_constant,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divisor =3D 2,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_PLL2D2] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;pll2d2&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_PLL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_PLL2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_constant,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divisor =3D 2,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_MC_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;mc-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_SEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_MCCKSEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_constant,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divisor =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;mc-clock&quot;<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_AXI_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;axi-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_SEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_CPUCKSEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D shift_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;clk2&quot;<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_AHB_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;ahb-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_DIV,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_AXI_DIVIDER,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 26,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;clk4&quot;<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_AHB3_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;ahb3-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_DIV,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_AHB_DIVIDER,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 6,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 5,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;ahb3-spi3-clock&quot;<b=
+r>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_SPI0_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;spi0-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_DIV,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_AHB_DIVIDER,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV3,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 6,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 5,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;spi0-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_SPIX_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;spix-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_DIV,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_AHB_DIVIDER,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV3,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 5,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;spix-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_APB1_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;apb1-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_DIV,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_AHB_DIVIDER,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D shift_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 24,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;apb1-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_APB2_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;apb2-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_DIV,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_AHB_DIVIDER,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D shift_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 26,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;apb2-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_APB3_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;apb3-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_DIV,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_AHB_DIVIDER,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D shift_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 28,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;apb3-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_APB4_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;apb4-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_DIV,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_AHB_DIVIDER,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D shift_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 30,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;apb4-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_APB5_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;apb5-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_DIV,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_AHB_DIVIDER,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D shift_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 22,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;apb5-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_CLKOUT_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;clkout-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_SEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_CLKOUTSEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 16,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 5,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;clkout&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_UART_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;uart-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_SEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_UARTCKSEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 16,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 5,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;uart-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_TIMER_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;timer-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_SEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_TIMCKSEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 21,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 5,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;timer-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_ADC_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;adc-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_DIV,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_TIMER_DIVIDER,<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D shift_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 28,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 3,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;adc-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_MMC_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;mmc-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_SEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_SDCKSEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 11,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 5,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;mmc-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_SDHC_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;sdhc-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_SEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_SDCKSEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_reg_divisor_times_2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 0,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 4,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;sdhc-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_GFXM_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;gfxm-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_SEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_GFXMSEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_constant,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divisor =3D 3,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;gfxm-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 [NPCM7XX_CLOCK_UTMI_DIVIDER] =3D {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .name =3D &quot;utmi-divider&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_type =3D CLKSRC_SEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .src_index =3D NPCM7XX_CLOCK_SUCKSEL,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .divide =3D divide_by_reg_divisor,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .reg =3D NPCM7XX_CLK_CLKDIV2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .offset =3D 8,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .len =3D 5,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 .public_name =3D &quot;utmi-clock&quot;,<br>
++=C2=A0 =C2=A0 },<br>
++};<br>
++<br>
++static void npcm7xx_clk_pll_init(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 NPCM7xxClockPLLState *pll =3D NPCM7XX_CLOCK_PLL(obj);<br>
++<br>
++=C2=A0 =C2=A0 pll-&gt;clock_in =3D qdev_init_clock_in(DEVICE(pll), &quot;c=
+lock-in&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_clk_update_pll, pll);<br=
+>
++=C2=A0 =C2=A0 pll-&gt;clock_out =3D qdev_init_clock_out(DEVICE(pll), &quot=
+;clock-out&quot;);<br>
 +}<br>
 +<br>
-+static void npcm7xx_adc_hold_reset(Object *obj)<br>
++static void npcm7xx_clk_sel_init(Object *obj)<br>
 +{<br>
-+=C2=A0 =C2=A0 NPCM7xxADCState *s =3D NPCM7XX_ADC(obj);<br>
++=C2=A0 =C2=A0 int i;<br>
++=C2=A0 =C2=A0 NPCM7xxClockSELState *sel =3D NPCM7XX_CLOCK_SEL(obj);<br>
 +<br>
-+=C2=A0 =C2=A0 qemu_irq_lower(s-&gt;irq);<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLK_SEL_MAX_INPUT; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 sel-&gt;clock_in[i] =3D qdev_init_clock_in(DEV=
+ICE(sel),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_strdup_printf(&q=
+uot;clock-in[%d]&quot;, i),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_clk_update=
+_sel, sel);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 sel-&gt;clock_out =3D qdev_init_clock_out(DEVICE(sel), &quot=
+;clock-out&quot;);<br>
++}<br>
++static void npcm7xx_clk_divider_init(Object *obj)<br>
++{<br>
++=C2=A0 =C2=A0 NPCM7xxClockDividerState *div =3D NPCM7XX_CLOCK_DIVIDER(obj)=
+;<br>
++<br>
++=C2=A0 =C2=A0 div-&gt;clock_in =3D qdev_init_clock_in(DEVICE(div), &quot;c=
+lock-in&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_clk_update_divider, div)=
+;<br>
++=C2=A0 =C2=A0 div-&gt;clock_out =3D qdev_init_clock_out(DEVICE(div), &quot=
+;clock-out&quot;);<br>
 +}<br>
 +<br>
-+static void npcm7xx_adc_init(Object *obj)<br>
++static void npcm7xx_init_clock_pll(NPCM7xxClockPLLState *pll,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 NPCM7xxCLKState *clk, const PLLInitInfo *init_=
+info)<br>
 +{<br>
-+=C2=A0 =C2=A0 NPCM7xxADCState *s =3D NPCM7XX_ADC(obj);<br>
-+=C2=A0 =C2=A0 SysBusDevice *sbd =3D &amp;s-&gt;parent;<br>
++=C2=A0 =C2=A0 pll-&gt;name =3D init_info-&gt;name;<br>
++=C2=A0 =C2=A0 pll-&gt;clk =3D clk;<br>
++=C2=A0 =C2=A0 pll-&gt;reg =3D init_info-&gt;reg;<br>
++=C2=A0 =C2=A0 if (init_info-&gt;public_name !=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_alias_clock(DEVICE(pll), &quot;clock-out&=
+quot;, DEVICE(clk),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 init_info-&gt;publ=
+ic_name);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void npcm7xx_init_clock_sel(NPCM7xxClockSELState *sel,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 NPCM7xxCLKState *clk, const SELInitInfo *init_=
+info)<br>
++{<br>
++=C2=A0 =C2=A0 int input_size =3D init_info-&gt;input_size;<br>
++<br>
++=C2=A0 =C2=A0 sel-&gt;name =3D init_info-&gt;name;<br>
++=C2=A0 =C2=A0 sel-&gt;clk =3D clk;<br>
++=C2=A0 =C2=A0 sel-&gt;input_size =3D init_info-&gt;input_size;<br>
++=C2=A0 =C2=A0 g_assert(input_size &lt;=3D NPCM7XX_CLK_SEL_MAX_INPUT);<br>
++=C2=A0 =C2=A0 sel-&gt;offset =3D init_info-&gt;offset;<br>
++=C2=A0 =C2=A0 sel-&gt;len =3D init_info-&gt;len;<br>
++=C2=A0 =C2=A0 if (init_info-&gt;public_name !=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_alias_clock(DEVICE(sel), &quot;clock-out&=
+quot;, DEVICE(clk),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 init_info-&gt;publ=
+ic_name);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void npcm7xx_init_clock_divider(NPCM7xxClockDividerState *div,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 NPCM7xxCLKState *clk, const DividerInitInfo *i=
+nit_info)<br>
++{<br>
++=C2=A0 =C2=A0 div-&gt;name =3D init_info-&gt;name;<br>
++=C2=A0 =C2=A0 div-&gt;clk =3D clk;<br>
++<br>
++=C2=A0 =C2=A0 div-&gt;divide =3D init_info-&gt;divide;<br>
++=C2=A0 =C2=A0 if (div-&gt;divide =3D=3D divide_by_constant) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 div-&gt;divisor =3D init_info-&gt;divisor;<br>
++=C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 div-&gt;reg =3D init_info-&gt;reg;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 div-&gt;offset =3D init_info-&gt;offset;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 div-&gt;len =3D init_info-&gt;len;<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 if (init_info-&gt;public_name !=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_alias_clock(DEVICE(div), &quot;clock-out&=
+quot;, DEVICE(clk),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 init_info-&gt;publ=
+ic_name);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static Clock *npcm7xx_get_clock(NPCM7xxCLKState *clk, ClockSrcType type,<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 int index)<br>
++{<br>
++=C2=A0 =C2=A0 switch (type) {<br>
++=C2=A0 =C2=A0 case CLKSRC_REF:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return clk-&gt;clkref;<br>
++=C2=A0 =C2=A0 case CLKSRC_PLL:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return clk-&gt;plls[index].clock_out;<br>
++=C2=A0 =C2=A0 case CLKSRC_SEL:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return clk-&gt;sels[index].clock_out;<br>
++=C2=A0 =C2=A0 case CLKSRC_DIV:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return clk-&gt;dividers[index].clock_out;<br>
++=C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_not_reached();<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void npcm7xx_connect_clocks(NPCM7xxCLKState *clk)<br>
++{<br>
++=C2=A0 =C2=A0 int i, j;<br>
++=C2=A0 =C2=A0 Clock *src;<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLOCK_NR_PLLS; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 src =3D npcm7xx_get_clock(clk, pll_init_info_l=
+ist[i].src_type,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pll_init_info_list=
+[i].src_index);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 clock_set_source(clk-&gt;plls[i].clock_in, src=
+);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLOCK_NR_SELS; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (j =3D 0; j &lt; sel_init_info_list[i].inp=
+ut_size; ++j) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 src =3D npcm7xx_get_clock(clk, s=
+el_init_info_list[i].src_type[j],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sel_=
+init_info_list[i].src_index[j]);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clock_set_source(clk-&gt;sels[i]=
+.clock_in[j], src);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLOCK_NR_DIVIDERS; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 src =3D npcm7xx_get_clock(clk, divider_init_in=
+fo_list[i].src_type,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 divider_init_info_=
+list[i].src_index);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 clock_set_source(clk-&gt;dividers[i].clock_in,=
+ src);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
+=C2=A0static uint64_t npcm7xx_clk_read(void *opaque, hwaddr offset, unsigne=
+d size)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t reg =3D offset / sizeof(uint32_t);<br>
+@@ -129,7 +740,7 @@ static uint64_t npcm7xx_clk_read(void *opaque, hwaddr o=
+ffset, unsigned size)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * The 4 LSBs are always zero: (1e9 / 640=
+) &lt;&lt; 4 =3D 25000000.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D (((now_ns - s-&gt;ref_ns) / 640) &lt=
+;&lt; 4) % NPCM7XX_TIMER_REF_HZ;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D (((now_ns - s-&gt;ref_ns) / 640) &lt=
+;&lt; 4) % NPCM7XX_CLOCK_REF_HZ;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0default:<br>
+@@ -183,6 +794,20 @@ static void npcm7xx_clk_write(void *opaque, hwaddr off=
+set,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0value |=3D (v=
+alue &amp; PLLCON_LOKS);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Only update PLL when it is locked. */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (value &amp; PLLCON_LOKI) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_clk_update_pll(&amp;s-&g=
+t;plls[find_pll_by_reg(reg)]);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++<br>
++=C2=A0 =C2=A0 case NPCM7XX_CLK_CLKSEL:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_clk_update_all_sels(s);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++<br>
++=C2=A0 =C2=A0 case NPCM7XX_CLK_CLKDIV1:<br>
++=C2=A0 =C2=A0 case NPCM7XX_CLK_CLKDIV2:<br>
++=C2=A0 =C2=A0 case NPCM7XX_CLK_CLKDIV3:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_clk_update_all_dividers(s);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0case NPCM7XX_CLK_CNTR25M:<br>
+@@ -234,6 +859,7 @@ static void npcm7xx_clk_enter_reset(Object *obj, ResetT=
+ype type)<br>
+=C2=A0 =C2=A0 =C2=A0case RESET_TYPE_COLD:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memcpy(s-&gt;regs, cold_reset_values, siz=
+eof(cold_reset_values));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;ref_ns =3D qemu_clock_get_ns(QEMU_C=
+LOCK_VIRTUAL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_clk_update_all_clocks(s);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+@@ -245,6 +871,42 @@ static void npcm7xx_clk_enter_reset(Object *obj, Reset=
+Type type)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__func=
+__, type);<br>
+=C2=A0}<br>
+<br>
++static void npcm7xx_clk_init_clock_hierarchy(NPCM7xxCLKState *s)<br>
++{<br>
 +=C2=A0 =C2=A0 int i;<br>
 +<br>
-+=C2=A0 =C2=A0 sysbus_init_irq(sbd, &amp;s-&gt;irq);<br>
++=C2=A0 =C2=A0 s-&gt;clkref =3D qdev_init_clock_in(DEVICE(s), &quot;clkref&=
+quot;, NULL, NULL);<br>
 +<br>
-+=C2=A0 =C2=A0 timer_init_ns(&amp;s-&gt;conv_timer, QEMU_CLOCK_VIRTUAL,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_adc_convert_done, s);<br=
->
-+=C2=A0 =C2=A0 timer_init_ns(&amp;s-&gt;reset_timer, QEMU_CLOCK_VIRTUAL,<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_adc_reset_done, s);<br>
-+=C2=A0 =C2=A0 memory_region_init_io(&amp;s-&gt;iomem, obj, &amp;npcm7xx_ad=
-c_ops, s,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 TYPE_NPCM7XX_ADC, 4 * KiB);<br>
-+=C2=A0 =C2=A0 sysbus_init_mmio(sbd, &amp;s-&gt;iomem);<br>
-+=C2=A0 =C2=A0 s-&gt;clock =3D qdev_init_clock_in(DEVICE(s), &quot;clock&qu=
-ot;, NULL, NULL);<br>
-+<br>
-+=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_ADC_NUM_INPUTS; ++i) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_property_add_uint32_ptr(obj, &quot;adci=
-[*]&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;s-&gt;adci[i]=
-, OBJ_PROP_FLAG_WRITE);<br>
++=C2=A0 =C2=A0 /* First pass: init all converter modules */<br>
++=C2=A0 =C2=A0 QEMU_BUILD_BUG_ON(ARRAY_SIZE(pll_init_info_list) !=3D NPCM7X=
+X_CLOCK_NR_PLLS);<br>
++=C2=A0 =C2=A0 QEMU_BUILD_BUG_ON(ARRAY_SIZE(sel_init_info_list) !=3D NPCM7X=
+X_CLOCK_NR_SELS);<br>
++=C2=A0 =C2=A0 QEMU_BUILD_BUG_ON(ARRAY_SIZE(divider_init_info_list)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 !=3D NPCM7XX_CLOCK_NR_DIVIDERS);=
+<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLOCK_NR_PLLS; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_initialize_child(OBJECT(s), pll_init_in=
+fo_list[i].name,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;s-&gt;plls[i]=
+, TYPE_NPCM7XX_CLOCK_PLL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_init_clock_pll(&amp;s-&gt;plls[i], s,<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;pll_init_info=
+_list[i]);<br>
 +=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 object_property_add_uint32_ptr(obj, &quot;vref&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;s-&gt;vref, OBJ_PROP_FLAG_W=
-RITE);<br>
-+=C2=A0 =C2=A0 npcm7xx_adc_calibrate(s);<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLOCK_NR_SELS; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_initialize_child(OBJECT(s), sel_init_in=
+fo_list[i].name,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;s-&gt;sels[i]=
+, TYPE_NPCM7XX_CLOCK_SEL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_init_clock_sel(&amp;s-&gt;sels[i], s,<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;sel_init_info=
+_list[i]);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLOCK_NR_DIVIDERS; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_initialize_child(OBJECT(s), divider_ini=
+t_info_list[i].name,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;s-&gt;divider=
+s[i], TYPE_NPCM7XX_CLOCK_DIVIDER);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_init_clock_divider(&amp;s-&gt;dividers=
+[i], s,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;divider_init_=
+info_list[i]);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /* Second pass: connect converter modules */<br>
++=C2=A0 =C2=A0 npcm7xx_connect_clocks(s);<br>
++<br>
++=C2=A0 =C2=A0 clock_update_hz(s-&gt;clkref, NPCM7XX_CLOCK_REF_HZ);<br>
 +}<br>
 +<br>
-+static const VMStateDescription vmstate_npcm7xx_adc =3D {<br>
-+=C2=A0 =C2=A0 .name =3D &quot;npcm7xx-adc&quot;,<br>
+=C2=A0static void npcm7xx_clk_init(Object *obj)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0NPCM7xxCLKState *s =3D NPCM7XX_CLK(obj);<br>
+@@ -252,21 +914,114 @@ static void npcm7xx_clk_init(Object *obj)<br>
+=C2=A0 =C2=A0 =C2=A0memory_region_init_io(&amp;s-&gt;iomem, obj, &amp;npcm7=
+xx_clk_ops, s,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0TYPE_NPCM7XX_CLK, 4 * KiB);<br>
+=C2=A0 =C2=A0 =C2=A0sysbus_init_mmio(&amp;s-&gt;parent, &amp;s-&gt;iomem);<=
+br>
++}<br>
++<br>
++static int npcm7xx_clk_post_load(void *opaque, int version_id)<br>
++{<br>
++=C2=A0 =C2=A0 if (version_id &gt;=3D 1) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 NPCM7xxCLKState *clk =3D opaque;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_clk_update_all_clocks(clk);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return 0;<br>
++}<br>
++<br>
++static void npcm7xx_clk_realize(DeviceState *dev, Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 int i;<br>
++=C2=A0 =C2=A0 NPCM7xxCLKState *s =3D NPCM7XX_CLK(dev);<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0qdev_init_gpio_in_named(DEVICE(s), npcm7xx_clk_perform_=
+watchdog_reset,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NPCM7XX_WATCHDOG_RESET_GPIO=
+_IN, NPCM7XX_NR_WATCHDOGS);<br>
++=C2=A0 =C2=A0 npcm7xx_clk_init_clock_hierarchy(s);<br>
++<br>
++=C2=A0 =C2=A0 /* Realize child devices */<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLOCK_NR_PLLS; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!qdev_realize(DEVICE(&amp;s-&gt;plls[i]), =
+NULL, errp)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLOCK_NR_SELS; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!qdev_realize(DEVICE(&amp;s-&gt;sels[i]), =
+NULL, errp)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; NPCM7XX_CLOCK_NR_DIVIDERS; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!qdev_realize(DEVICE(&amp;s-&gt;dividers[i=
+]), NULL, errp)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
+=C2=A0}<br>
+<br>
+-static const VMStateDescription vmstate_npcm7xx_clk =3D {<br>
+-=C2=A0 =C2=A0 .name =3D &quot;npcm7xx-clk&quot;,<br>
++static const VMStateDescription vmstate_npcm7xx_clk_pll =3D {<br>
++=C2=A0 =C2=A0 .name =3D &quot;npcm7xx-clock-pll&quot;,<br>
 +=C2=A0 =C2=A0 .version_id =3D 0,<br>
 +=C2=A0 =C2=A0 .minimum_version_id =3D 0,<br>
-+=C2=A0 =C2=A0 .fields =3D (VMStateField[]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_TIMER(conv_timer, NPCM7xxADCState),<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_TIMER(reset_timer, NPCM7xxADCState),<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(con, NPCM7xxADCState),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(data, NPCM7xxADCState),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_CLOCK(clock, NPCM7xxADCState),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32_ARRAY(adci, NPCM7xxADCState, NP=
-CM7XX_ADC_NUM_INPUTS),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(vref, NPCM7xxADCState),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT32(iref, NPCM7xxADCState),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT16_ARRAY(calibration_r_values, NPC=
-M7xxADCState,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NPCM7XX_ADC_NUM_CA=
-LIB),<br>
++=C2=A0 =C2=A0 .fields =3D=C2=A0 (VMStateField[]) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_CLOCK(clock_in, NPCM7xxClockPLLState),=
+<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_END_OF_LIST(),<br>
 +=C2=A0 =C2=A0 },<br>
 +};<br>
 +<br>
-+static Property npcm7xx_timer_properties[] =3D {<br>
-+=C2=A0 =C2=A0 DEFINE_PROP_UINT32(&quot;iref&quot;, NPCM7xxADCState, iref, =
-NPCM7XX_ADC_DEFAULT_IREF),<br>
-+=C2=A0 =C2=A0 DEFINE_PROP_END_OF_LIST(),<br>
++static const VMStateDescription vmstate_npcm7xx_clk_sel =3D {<br>
++=C2=A0 =C2=A0 .name =3D &quot;npcm7xx-clock-sel&quot;,<br>
++=C2=A0 =C2=A0 .version_id =3D 0,<br>
++=C2=A0 =C2=A0 .minimum_version_id =3D 0,<br>
++=C2=A0 =C2=A0 .fields =3D=C2=A0 (VMStateField[]) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_ARRAY_OF_POINTER_TO_STRUCT(clock_in, N=
+PCM7xxClockSELState,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NPCM7XX_CLK_SEL_MA=
+X_INPUT, 0, vmstate_clock, Clock),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_END_OF_LIST(),<br>
++=C2=A0 =C2=A0 },<br>
 +};<br>
 +<br>
-+static void npcm7xx_adc_class_init(ObjectClass *klass, void *data)<br>
++static const VMStateDescription vmstate_npcm7xx_clk_divider =3D {<br>
++=C2=A0 =C2=A0 .name =3D &quot;npcm7xx-clock-divider&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0.version_id =3D 0,<br>
+=C2=A0 =C2=A0 =C2=A0.minimum_version_id =3D 0,<br>
++=C2=A0 =C2=A0 .fields =3D=C2=A0 (VMStateField[]) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_CLOCK(clock_in, NPCM7xxClockDividerSta=
+te),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_END_OF_LIST(),<br>
++=C2=A0 =C2=A0 },<br>
++};<br>
++<br>
++static const VMStateDescription vmstate_npcm7xx_clk =3D {<br>
++=C2=A0 =C2=A0 .name =3D &quot;npcm7xx-clk&quot;,<br>
++=C2=A0 =C2=A0 .version_id =3D 1,<br>
++=C2=A0 =C2=A0 .minimum_version_id =3D 1,<br>
++=C2=A0 =C2=A0 .post_load =3D npcm7xx_clk_post_load,<br>
+=C2=A0 =C2=A0 =C2=A0.fields =3D (VMStateField[]) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINT32_ARRAY(regs, NPCM7xxCLKStat=
+e, NPCM7XX_CLK_NR_REGS),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_INT64(ref_ns, NPCM7xxCLKState),<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_CLOCK(clkref, NPCM7xxCLKState),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_END_OF_LIST(),<br>
+=C2=A0 =C2=A0 =C2=A0},<br>
+=C2=A0};<br>
+<br>
++static void npcm7xx_clk_pll_class_init(ObjectClass *klass, void *data)<br>
 +{<br>
-+=C2=A0 =C2=A0 ResettableClass *rc =3D RESETTABLE_CLASS(klass);<br>
 +=C2=A0 =C2=A0 DeviceClass *dc =3D DEVICE_CLASS(klass);<br>
 +<br>
-+=C2=A0 =C2=A0 dc-&gt;desc =3D &quot;NPCM7xx ADC Module&quot;;<br>
-+=C2=A0 =C2=A0 dc-&gt;vmsd =3D &amp;vmstate_npcm7xx_adc;<br>
-+=C2=A0 =C2=A0 rc-&gt;phases.enter =3D npcm7xx_adc_enter_reset;<br>
-+=C2=A0 =C2=A0 rc-&gt;phases.hold =3D npcm7xx_adc_hold_reset;<br>
-+<br>
-+=C2=A0 =C2=A0 device_class_set_props(dc, npcm7xx_timer_properties);<br>
++=C2=A0 =C2=A0 dc-&gt;desc =3D &quot;NPCM7xx Clock PLL Module&quot;;<br>
++=C2=A0 =C2=A0 dc-&gt;vmsd =3D &amp;vmstate_npcm7xx_clk_pll;<br>
 +}<br>
 +<br>
-+static const TypeInfo npcm7xx_adc_info =3D {<br>
-+=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D TYPE_NPCM7XX_ADC,<br>
-+=C2=A0 =C2=A0 .parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D T=
-YPE_SYS_BUS_DEVICE,<br>
-+=C2=A0 =C2=A0 .instance_size=C2=A0 =C2=A0 =C2=A0 =3D sizeof(NPCM7xxADCStat=
-e),<br>
-+=C2=A0 =C2=A0 .class_init=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D npcm7xx_adc=
-_class_init,<br>
-+=C2=A0 =C2=A0 .instance_init=C2=A0 =C2=A0 =C2=A0 =3D npcm7xx_adc_init,<br>
-+};<br>
-+<br>
-+static void npcm7xx_adc_register_types(void)<br>
++static void npcm7xx_clk_sel_class_init(ObjectClass *klass, void *data)<br>
 +{<br>
-+=C2=A0 =C2=A0 type_register_static(&amp;npcm7xx_adc_info);<br>
++=C2=A0 =C2=A0 DeviceClass *dc =3D DEVICE_CLASS(klass);<br>
++<br>
++=C2=A0 =C2=A0 dc-&gt;desc =3D &quot;NPCM7xx Clock SEL Module&quot;;<br>
++=C2=A0 =C2=A0 dc-&gt;vmsd =3D &amp;vmstate_npcm7xx_clk_sel;<br>
 +}<br>
 +<br>
-+type_init(npcm7xx_adc_register_types);<br>
-diff --git a/hw/adc/trace-events b/hw/adc/trace-events<br>
-new file mode 100644<br>
-index 0000000000..4c3279ece2<br>
---- /dev/null<br>
-+++ b/hw/adc/trace-events<br>
-@@ -0,0 +1,5 @@<br>
-+# See docs/devel/tracing.txt for syntax documentation.<br>
++static void npcm7xx_clk_divider_class_init(ObjectClass *klass, void *data)=
+<br>
++{<br>
++=C2=A0 =C2=A0 DeviceClass *dc =3D DEVICE_CLASS(klass);<br>
 +<br>
-+# npcm7xx_adc.c<br>
-+npcm7xx_adc_read(const char *id, uint64_t offset, uint32_t value) &quot; %=
-s offset: 0x%04&quot; PRIx64 &quot; value 0x%04&quot; PRIx32<br>
-+npcm7xx_adc_write(const char *id, uint64_t offset, uint32_t value) &quot;%=
-s offset: 0x%04&quot; PRIx64 &quot; value 0x%04&quot; PRIx32<br>
-diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c<br>
-index fabfb1697b..b22a8c966d 100644<br>
---- a/hw/arm/npcm7xx.c<br>
-+++ b/hw/arm/npcm7xx.c<br>
-@@ -51,6 +51,9 @@<br>
-=C2=A0#define NPCM7XX_EHCI_BA=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(0xf0806000)=
-<br>
-=C2=A0#define NPCM7XX_OHCI_BA=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(0xf0807000)=
-<br>
-<br>
-+/* ADC Module */<br>
-+#define NPCM7XX_ADC_BA=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (0xf000c000)<br>
-+<br>
-=C2=A0/* Internal AHB SRAM */<br>
-=C2=A0#define NPCM7XX_RAM3_BA=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(0xc0008000)=
-<br>
-=C2=A0#define NPCM7XX_RAM3_SZ=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(4 * KiB)<br=
++=C2=A0 =C2=A0 dc-&gt;desc =3D &quot;NPCM7xx Clock Divider Module&quot;;<br=
 >
-@@ -61,6 +64,7 @@<br>
-=C2=A0#define NPCM7XX_ROM_BA=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (0xffff0000)=
-<br>
-=C2=A0#define NPCM7XX_ROM_SZ=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (64 * KiB)<b=
-r>
-<br>
++=C2=A0 =C2=A0 dc-&gt;vmsd =3D &amp;vmstate_npcm7xx_clk_divider;<br>
++}<br>
 +<br>
-=C2=A0/* Clock configuration values to be fixed up when bypassing bootloade=
-r */<br>
+=C2=A0static void npcm7xx_clk_class_init(ObjectClass *klass, void *data)<br=
+>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0ResettableClass *rc =3D RESETTABLE_CLASS(klass);<br>
+@@ -276,9 +1031,34 @@ static void npcm7xx_clk_class_init(ObjectClass *klass=
+, void *data)<br>
 <br>
-=C2=A0/* Run PLL1 at 1600 MHz */<br>
-@@ -73,6 +77,7 @@<br>
-=C2=A0 * interrupts.<br>
-=C2=A0 */<br>
-=C2=A0enum NPCM7xxInterrupt {<br>
-+=C2=A0 =C2=A0 NPCM7XX_ADC_IRQ=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0=3D 0,<br>
-=C2=A0 =C2=A0 =C2=A0NPCM7XX_UART0_IRQ=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0=3D 2,<br>
-=C2=A0 =C2=A0 =C2=A0NPCM7XX_UART1_IRQ,<br>
-=C2=A0 =C2=A0 =C2=A0NPCM7XX_UART2_IRQ,<br>
-@@ -296,6 +301,14 @@ static void npcm7xx_init_fuses(NPCM7xxState *s)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sizeof(value));<br>
+=C2=A0 =C2=A0 =C2=A0dc-&gt;desc =3D &quot;NPCM7xx Clock Control Registers&q=
+uot;;<br>
+=C2=A0 =C2=A0 =C2=A0dc-&gt;vmsd =3D &amp;vmstate_npcm7xx_clk;<br>
++=C2=A0 =C2=A0 dc-&gt;realize =3D npcm7xx_clk_realize;<br>
+=C2=A0 =C2=A0 =C2=A0rc-&gt;phases.enter =3D npcm7xx_clk_enter_reset;<br>
 =C2=A0}<br>
 <br>
-+static void npcm7xx_write_adc_calibration(NPCM7xxState *s)<br>
-+{<br>
-+=C2=A0 =C2=A0 /* Both ADC and the fuse array must have realized. */<br>
-+=C2=A0 =C2=A0 QEMU_BUILD_BUG_ON(sizeof(s-&gt;adc.calibration_r_values) !=
-=3D 4);<br>
-+=C2=A0 =C2=A0 npcm7xx_otp_array_write(&amp;s-&gt;fuse_array, s-&gt;adc.cal=
-ibration_r_values,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NPCM7XX_FUSE_ADC_CALIB, sizeof(s=
--&gt;adc.calibration_r_values));<br>
-+}<br>
++static const TypeInfo npcm7xx_clk_pll_info =3D {<br>
++=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=3D TYPE_NPCM7XX_CLOCK_PLL,<br>
++=C2=A0 =C2=A0 .parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D T=
+YPE_DEVICE,<br>
++=C2=A0 =C2=A0 .instance_size=C2=A0 =C2=A0 =C2=A0 =3D sizeof(NPCM7xxClockPL=
+LState),<br>
++=C2=A0 =C2=A0 .instance_init=C2=A0 =C2=A0 =C2=A0 =3D npcm7xx_clk_pll_init,=
+<br>
++=C2=A0 =C2=A0 .class_init=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D npcm7xx_clk=
+_pll_class_init,<br>
++};<br>
 +<br>
-=C2=A0static qemu_irq npcm7xx_irq(NPCM7xxState *s, int n)<br>
++static const TypeInfo npcm7xx_clk_sel_info =3D {<br>
++=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=3D TYPE_NPCM7XX_CLOCK_SEL,<br>
++=C2=A0 =C2=A0 .parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D T=
+YPE_DEVICE,<br>
++=C2=A0 =C2=A0 .instance_size=C2=A0 =C2=A0 =C2=A0 =3D sizeof(NPCM7xxClockSE=
+LState),<br>
++=C2=A0 =C2=A0 .instance_init=C2=A0 =C2=A0 =C2=A0 =3D npcm7xx_clk_sel_init,=
+<br>
++=C2=A0 =C2=A0 .class_init=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D npcm7xx_clk=
+_sel_class_init,<br>
++};<br>
++<br>
++static const TypeInfo npcm7xx_clk_divider_info =3D {<br>
++=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=3D TYPE_NPCM7XX_CLOCK_DIVIDER,<br>
++=C2=A0 =C2=A0 .parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D T=
+YPE_DEVICE,<br>
++=C2=A0 =C2=A0 .instance_size=C2=A0 =C2=A0 =C2=A0 =3D sizeof(NPCM7xxClockDi=
+viderState),<br>
++=C2=A0 =C2=A0 .instance_init=C2=A0 =C2=A0 =C2=A0 =3D npcm7xx_clk_divider_i=
+nit,<br>
++=C2=A0 =C2=A0 .class_init=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D npcm7xx_clk=
+_divider_class_init,<br>
++};<br>
++<br>
+=C2=A0static const TypeInfo npcm7xx_clk_info =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0=3D TYPE_NPCM7XX_CLK,<br>
+=C2=A0 =C2=A0 =C2=A0.parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+=3D TYPE_SYS_BUS_DEVICE,<br>
+@@ -289,6 +1069,9 @@ static const TypeInfo npcm7xx_clk_info =3D {<br>
+<br>
+=C2=A0static void npcm7xx_clk_register_type(void)<br>
 =C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0return qdev_get_gpio_in(DEVICE(&amp;s-&gt;a9mpcore), n)=
-;<br>
-@@ -322,6 +335,7 @@ static void npcm7xx_init(Object *obj)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TYPE_NPCM7XX_FUSE_ARRAY);<br>
-=C2=A0 =C2=A0 =C2=A0object_initialize_child(obj, &quot;mc&quot;, &amp;s-&gt=
-;mc, TYPE_NPCM7XX_MC);<br>
-=C2=A0 =C2=A0 =C2=A0object_initialize_child(obj, &quot;rng&quot;, &amp;s-&g=
-t;rng, TYPE_NPCM7XX_RNG);<br>
-+=C2=A0 =C2=A0 object_initialize_child(obj, &quot;adc&quot;, &amp;s-&gt;adc=
-, TYPE_NPCM7XX_ADC);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; ARRAY_SIZE(s-&gt;tim); i++) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0object_initialize_child(obj, &quot;tim[*]=
-&quot;, &amp;s-&gt;tim[i], TYPE_NPCM7XX_TIMER);<br>
-@@ -414,6 +428,15 @@ static void npcm7xx_realize(DeviceState *dev, Error **=
-errp)<br>
-=C2=A0 =C2=A0 =C2=A0sysbus_realize(SYS_BUS_DEVICE(&amp;s-&gt;mc), &amp;erro=
-r_abort);<br>
-=C2=A0 =C2=A0 =C2=A0sysbus_mmio_map(SYS_BUS_DEVICE(&amp;s-&gt;mc), 0, NPCM7=
-XX_MC_BA);<br>
-<br>
-+=C2=A0 =C2=A0 /* ADC Modules. Cannot fail. */<br>
-+=C2=A0 =C2=A0 qdev_connect_clock_in(DEVICE(&amp;s-&gt;adc), &quot;clock&qu=
-ot;, qdev_get_clock_out(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 DEVICE(&amp;s-&gt;clk), &quot;adc-clock&quot;));<br>
-+=C2=A0 =C2=A0 sysbus_realize(SYS_BUS_DEVICE(&amp;s-&gt;adc), &amp;error_ab=
-ort);<br>
-+=C2=A0 =C2=A0 sysbus_mmio_map(SYS_BUS_DEVICE(&amp;s-&gt;adc), 0, NPCM7XX_A=
-DC_BA);<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(SYS_BUS_DEVICE(&amp;s-&gt;adc), 0,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 npcm7xx_irq(s, NPCM7XX_ADC_IRQ))=
-;<br>
-+=C2=A0 =C2=A0 npcm7xx_write_adc_calibration(s);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0/* Timer Modules (TIM). Cannot fail. */<br>
-=C2=A0 =C2=A0 =C2=A0QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_tim_addr) !=3D ARR=
-AY_SIZE(s-&gt;tim));<br>
-=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; ARRAY_SIZE(s-&gt;tim); i++) {<br>
-@@ -528,7 +551,6 @@ static void npcm7xx_realize(DeviceState *dev, Error **e=
-rrp)<br>
-=C2=A0 =C2=A0 =C2=A0create_unimplemented_device(&quot;npcm7xx.vdmx&quot;,=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00xe0800000,=C2=A0 =C2=A04 * KiB);<br>
-=C2=A0 =C2=A0 =C2=A0create_unimplemented_device(&quot;npcm7xx.pcierc&quot;,=
-=C2=A0 =C2=A0 =C2=A0 =C2=A00xe1000000,=C2=A0 64 * KiB);<br>
-=C2=A0 =C2=A0 =C2=A0create_unimplemented_device(&quot;npcm7xx.kcs&quot;,=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0xf0007000,=C2=A0 =C2=A04 * KiB);<br>
--=C2=A0 =C2=A0 create_unimplemented_device(&quot;npcm7xx.adc&quot;,=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 0xf000c000,=C2=A0 =C2=A04 * KiB);<br>
-=C2=A0 =C2=A0 =C2=A0create_unimplemented_device(&quot;npcm7xx.gfxi&quot;,=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00xf000e000,=C2=A0 =C2=A04 * KiB);<br>
-=C2=A0 =C2=A0 =C2=A0create_unimplemented_device(&quot;npcm7xx.gpio[0]&quot;=
-,=C2=A0 =C2=A0 =C2=A0 0xf0010000,=C2=A0 =C2=A04 * KiB);<br>
-=C2=A0 =C2=A0 =C2=A0create_unimplemented_device(&quot;npcm7xx.gpio[1]&quot;=
-,=C2=A0 =C2=A0 =C2=A0 0xf0011000,=C2=A0 =C2=A04 * KiB);<br>
-diff --git a/include/hw/adc/npcm7xx_adc.h b/include/hw/adc/npcm7xx_adc.h<br=
->
-new file mode 100644<br>
-index 0000000000..7f9acbeaa1<br>
---- /dev/null<br>
-+++ b/include/hw/adc/npcm7xx_adc.h<br>
-@@ -0,0 +1,72 @@<br>
-+/*<br>
-+ * Nuvoton NPCM7xx ADC Module<br>
-+ *<br>
-+ * Copyright 2020 Google LLC<br>
-+ *<br>
-+ * This program is free software; you can redistribute it and/or modify it=
-<br>
-+ * under the terms of the GNU General Public License as published by the<b=
-r>
-+ * Free Software Foundation; either version 2 of the License, or<br>
-+ * (at your option) any later version.<br>
-+ *<br>
-+ * This program is distributed in the hope that it will be useful, but WIT=
-HOUT<br>
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or<b=
-r>
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License<br=
->
-+ * for more details.<br>
-+ */<br>
-+#ifndef NPCM7XX_ADC_H<br>
-+#define NPCM7XX_ADC_H<br>
-+<br>
-+#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;hw/clock.h&quot;<br>
-+#include &quot;hw/irq.h&quot;<br>
-+#include &quot;hw/sysbus.h&quot;<br>
-+#include &quot;qemu/timer.h&quot;<br>
-+<br>
-+#define NPCM7XX_ADC_NUM_INPUTS=C2=A0 =C2=A0 =C2=A0 8<br>
-+/**<br>
-+ * This value should not be changed unless write_adc_calibration function =
-in<br>
-+ * hw/arm/npcm7xx.c is also changed.<br>
-+ */<br>
-+#define NPCM7XX_ADC_NUM_CALIB=C2=A0 =C2=A0 =C2=A0 =C2=A02<br>
-+<br>
-+/**<br>
-+ * struct NPCM7xxADCState - Analog to Digital Converter Module device stat=
-e.<br>
-+ * @parent: System bus device.<br>
-+ * @iomem: Memory region through which registers are accessed.<br>
-+ * @conv_timer: The timer counts down remaining cycles for the conversion.=
-<br>
-+ * @reset_timer: The timer counts down remaining cycles for reset.<br>
-+ * @irq: GIC interrupt line to fire on expiration (if enabled).<br>
-+ * @con: The Control Register.<br>
-+ * @data: The Data Buffer.<br>
-+ * @clock: The ADC Clock.<br>
-+ * @adci: The input voltage in units of uV. 1uv =3D 1e-6V.<br>
-+ * @vref: The external reference voltage.<br>
-+ * @iref: The internal reference voltage, initialized at launch time.<br>
-+ * @rv: The calibrated output values of 0.5V and 1.5V for the ADC.<br>
-+ */<br>
-+typedef struct {<br>
-+=C2=A0 =C2=A0 SysBusDevice parent;<br>
-+<br>
-+=C2=A0 =C2=A0 MemoryRegion iomem;<br>
-+<br>
-+=C2=A0 =C2=A0 QEMUTimer=C2=A0 =C2=A0 conv_timer;<br>
-+=C2=A0 =C2=A0 QEMUTimer=C2=A0 =C2=A0 reset_timer;<br>
-+<br>
-+=C2=A0 =C2=A0 qemu_irq=C2=A0 =C2=A0 =C2=A0irq;<br>
-+=C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 =C2=A0con;<br>
-+=C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 =C2=A0data;<br>
-+=C2=A0 =C2=A0 Clock=C2=A0 =C2=A0 =C2=A0 =C2=A0*clock;<br>
-+<br>
-+=C2=A0 =C2=A0 /* Voltages are in unit of uV. 1V =3D 1000000uV. */<br>
-+=C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 =C2=A0adci[NPCM7XX_ADC_NUM_INPUTS];<br=
->
-+=C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 =C2=A0vref;<br>
-+=C2=A0 =C2=A0 uint32_t=C2=A0 =C2=A0 =C2=A0iref;<br>
-+<br>
-+=C2=A0 =C2=A0 uint16_t=C2=A0 =C2=A0 =C2=A0calibration_r_values[NPCM7XX_ADC=
-_NUM_CALIB];<br>
-+} NPCM7xxADCState;<br>
-+<br>
-+#define TYPE_NPCM7XX_ADC &quot;npcm7xx-adc&quot;<br>
-+#define NPCM7XX_ADC(obj) \<br>
-+=C2=A0 =C2=A0 OBJECT_CHECK(NPCM7xxADCState, (obj), TYPE_NPCM7XX_ADC)<br>
-+<br>
-+#endif /* NPCM7XX_ADC_H */<br>
-diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h<br>
-index 5469247e38..51e1c7620d 100644<br>
---- a/include/hw/arm/npcm7xx.h<br>
-+++ b/include/hw/arm/npcm7xx.h<br>
++=C2=A0 =C2=A0 type_register_static(&amp;npcm7xx_clk_pll_info);<br>
++=C2=A0 =C2=A0 type_register_static(&amp;npcm7xx_clk_sel_info);<br>
++=C2=A0 =C2=A0 type_register_static(&amp;npcm7xx_clk_divider_info);<br>
+=C2=A0 =C2=A0 =C2=A0type_register_static(&amp;npcm7xx_clk_info);<br>
+=C2=A0}<br>
+=C2=A0type_init(npcm7xx_clk_register_type);<br>
+diff --git a/include/hw/misc/npcm7xx_clk.h b/include/hw/misc/npcm7xx_clk.h<=
+br>
+index 2338fbbdb5..f641f95f3e 100644<br>
+--- a/include/hw/misc/npcm7xx_clk.h<br>
++++ b/include/hw/misc/npcm7xx_clk.h<br>
 @@ -17,6 +17,7 @@<br>
-=C2=A0#define NPCM7XX_H<br>
+=C2=A0#define NPCM7XX_CLK_H<br>
 <br>
-=C2=A0#include &quot;hw/boards.h&quot;<br>
-+#include &quot;hw/adc/npcm7xx_adc.h&quot;<br>
-=C2=A0#include &quot;hw/cpu/a9mpcore.h&quot;<br>
-=C2=A0#include &quot;hw/gpio/npcm7xx_gpio.h&quot;<br>
-=C2=A0#include &quot;hw/mem/npcm7xx_mc.h&quot;<br>
-@@ -76,6 +77,7 @@ typedef struct NPCM7xxState {<br>
-=C2=A0 =C2=A0 =C2=A0NPCM7xxGCRState=C2=A0 =C2=A0 =C2=A0gcr;<br>
-=C2=A0 =C2=A0 =C2=A0NPCM7xxCLKState=C2=A0 =C2=A0 =C2=A0clk;<br>
-=C2=A0 =C2=A0 =C2=A0NPCM7xxTimerCtrlState tim[3];<br>
-+=C2=A0 =C2=A0 NPCM7xxADCState=C2=A0 =C2=A0 =C2=A0adc;<br>
-=C2=A0 =C2=A0 =C2=A0NPCM7xxOTPState=C2=A0 =C2=A0 =C2=A0key_storage;<br>
-=C2=A0 =C2=A0 =C2=A0NPCM7xxOTPState=C2=A0 =C2=A0 =C2=A0fuse_array;<br>
-=C2=A0 =C2=A0 =C2=A0NPCM7xxMCState=C2=A0 =C2=A0 =C2=A0 mc;<br>
-diff --git a/meson.build b/meson.build<br>
-index f344b25955..fb03cdbdcc 100644<br>
---- a/meson.build<br>
-+++ b/meson.build<br>
-@@ -1435,6 +1435,7 @@ if have_system<br>
-=C2=A0 =C2=A0 =C2=A0&#39;chardev&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0&#39;hw/9pfs&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0&#39;hw/acpi&#39;,<br>
-+=C2=A0 =C2=A0 &#39;hw/adc&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0&#39;hw/alpha&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0&#39;hw/arm&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0&#39;hw/audio&#39;,<br>
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build<br>
-index 6a67c538be..955710d1c5 100644<br>
---- a/tests/qtest/meson.build<br>
-+++ b/tests/qtest/meson.build<br>
-@@ -134,7 +134,8 @@ qtests_sparc64 =3D \<br>
-=C2=A0 =C2=A0[&#39;prom-env-test&#39;, &#39;boot-serial-test&#39;]<br>
+=C2=A0#include &quot;exec/memory.h&quot;<br>
++#include &quot;hw/clock.h&quot;<br>
+=C2=A0#include &quot;hw/sysbus.h&quot;<br>
 <br>
-=C2=A0qtests_npcm7xx =3D \<br>
--=C2=A0 [&#39;npcm7xx_gpio-test&#39;,<br>
-+=C2=A0 [&#39;npcm7xx_adc-test&#39;,<br>
-+=C2=A0 =C2=A0&#39;npcm7xx_gpio-test&#39;,<br>
-=C2=A0 =C2=A0 &#39;npcm7xx_rng-test&#39;,<br>
-=C2=A0 =C2=A0 &#39;npcm7xx_timer-test&#39;,<br>
-=C2=A0 =C2=A0 &#39;npcm7xx_watchdog_timer-test&#39;]<br>
-diff --git a/tests/qtest/npcm7xx_adc-test.c b/tests/qtest/npcm7xx_adc-test.=
-c<br>
-new file mode 100644<br>
-index 0000000000..e63c544e51<br>
---- /dev/null<br>
-+++ b/tests/qtest/npcm7xx_adc-test.c<br>
-@@ -0,0 +1,400 @@<br>
-+/*<br>
-+ * QTests for Nuvoton NPCM7xx ADCModules.<br>
-+ *<br>
-+ * Copyright 2020 Google LLC<br>
-+ *<br>
-+ * This program is free software; you can redistribute it and/or modify it=
+=C2=A0/*<br>
+@@ -33,16 +34,151 @@<br>
 <br>
-+ * under the terms of the GNU General Public License as published by the<b=
-r>
-+ * Free Software Foundation; either version 2 of the License, or<br>
-+ * (at your option) any later version.<br>
-+ *<br>
-+ * This program is distributed in the hope that it will be useful, but WIT=
-HOUT<br>
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or<b=
-r>
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License<br=
->
-+ * for more details.<br>
+=C2=A0#define NPCM7XX_WATCHDOG_RESET_GPIO_IN &quot;npcm7xx-clk-watchdog-res=
+et-gpio-in&quot;<br>
+<br>
+-typedef struct NPCM7xxCLKState {<br>
++/* Maximum amount of clock inputs in a SEL module. */<br>
++#define NPCM7XX_CLK_SEL_MAX_INPUT 5<br>
++<br>
++/* PLLs in CLK module. */<br>
++typedef enum NPCM7xxClockPLL {<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_PLL0,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_PLL1,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_PLL2,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_PLLG,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_NR_PLLS,<br>
++} NPCM7xxClockPLL;<br>
++<br>
++/* SEL/MUX in CLK module. */<br>
++typedef enum NPCM7xxClockSEL {<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_PIXCKSEL,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_MCCKSEL,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_CPUCKSEL,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_CLKOUTSEL,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_UARTCKSEL,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_TIMCKSEL,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_SDCKSEL,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_GFXMSEL,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_SUCKSEL,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_NR_SELS,<br>
++} NPCM7xxClockSEL;<br>
++<br>
++/* Dividers in CLK module. */<br>
++typedef enum NPCM7xxClockDivider {<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_PLL1D2, /* PLL1/2 */<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_PLL2D2, /* PLL2/2 */<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_MC_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_AXI_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_AHB_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_AHB3_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_SPI0_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_SPIX_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_APB1_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_APB2_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_APB3_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_APB4_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_APB5_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_CLKOUT_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_UART_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_TIMER_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_ADC_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_MMC_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_SDHC_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_GFXM_DIVIDER, /* divide by 3 */<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_UTMI_DIVIDER,<br>
++=C2=A0 =C2=A0 NPCM7XX_CLOCK_NR_DIVIDERS,<br>
++} NPCM7xxClockConverter;<br>
++<br>
++typedef struct NPCM7xxCLKState NPCM7xxCLKState;<br>
++<br>
++/**<br>
++ * struct NPCM7xxClockPLLState - A PLL module in CLK module.<br>
++ * @name: The name of the module.<br>
++ * @clk: The CLK module that owns this module.<br>
++ * @clock_in: The input clock of this module.<br>
++ * @clock_out: The output clock of this module.<br>
++ * @reg: The control registers for this PLL module.<br>
 + */<br>
++typedef struct NPCM7xxClockPLLState {<br>
++=C2=A0 =C2=A0 DeviceState parent;<br>
 +<br>
-+#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;qemu/bitops.h&quot;<br>
-+#include &quot;qemu/timer.h&quot;<br>
-+#include &quot;libqos/libqtest.h&quot;<br>
-+#include &quot;qapi/qmp/qdict.h&quot;<br>
++=C2=A0 =C2=A0 const char *name;<br>
++=C2=A0 =C2=A0 NPCM7xxCLKState *clk;<br>
++=C2=A0 =C2=A0 Clock *clock_in;<br>
++=C2=A0 =C2=A0 Clock *clock_out;<br>
 +<br>
-+#define REF_HZ=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (25000000)<br>
++=C2=A0 =C2=A0 int reg;<br>
++} NPCM7xxClockPLLState;<br>
 +<br>
-+#define CON_OFFSET=C2=A0 =C2=A0 =C2=A0 0x0<br>
-+#define DATA_OFFSET=C2=A0 =C2=A0 =C2=A00x4<br>
++/**<br>
++ * struct NPCM7xxClockSELState - A SEL module in CLK module.<br>
++ * @name: The name of the module.<br>
++ * @clk: The CLK module that owns this module.<br>
++ * @input_size: The size of inputs of this module.<br>
++ * @clock_in: The input clocks of this module.<br>
++ * @clock_out: The output clocks of this module.<br>
++ * @offset: The offset of this module in the control register.<br>
++ * @len: The length of this module in the control register.<br>
++ */<br>
++typedef struct NPCM7xxClockSELState {<br>
++=C2=A0 =C2=A0 DeviceState parent;<br>
 +<br>
-+#define NUM_INPUTS=C2=A0 =C2=A0 =C2=A0 8<br>
-+#define DEFAULT_IREF=C2=A0 =C2=A0 2000000<br>
-+#define CONV_CYCLES=C2=A0 =C2=A0 =C2=A020<br>
-+#define RESET_CYCLES=C2=A0 =C2=A0 10<br>
-+#define R0_INPUT=C2=A0 =C2=A0 =C2=A0 =C2=A0 500000<br>
-+#define R1_INPUT=C2=A0 =C2=A0 =C2=A0 =C2=A0 1500000<br>
-+#define MAX_RESULT=C2=A0 =C2=A0 =C2=A0 1023<br>
++=C2=A0 =C2=A0 const char *name;<br>
++=C2=A0 =C2=A0 NPCM7xxCLKState *clk;<br>
++=C2=A0 =C2=A0 uint8_t input_size;<br>
++=C2=A0 =C2=A0 Clock *clock_in[NPCM7XX_CLK_SEL_MAX_INPUT];<br>
++=C2=A0 =C2=A0 Clock *clock_out;<br>
 +<br>
-+#define DEFAULT_CLKDIV=C2=A0 5<br>
++=C2=A0 =C2=A0 int offset;<br>
++=C2=A0 =C2=A0 int len;<br>
++} NPCM7xxClockSELState;<br>
 +<br>
-+#define FUSE_ARRAY_BA=C2=A0 =C2=A00xf018a000<br>
-+#define FCTL_OFFSET=C2=A0 =C2=A0 =C2=A00x14<br>
-+#define FST_OFFSET=C2=A0 =C2=A0 =C2=A0 0x0<br>
-+#define FADDR_OFFSET=C2=A0 =C2=A0 0x4<br>
-+#define FDATA_OFFSET=C2=A0 =C2=A0 0x8<br>
-+#define ADC_CALIB_ADDR=C2=A0 24<br>
-+#define FUSE_READ=C2=A0 =C2=A0 =C2=A0 =C2=A00x2<br>
++/**<br>
++ * struct NPCM7xxClockDividerState - A Divider module in CLK module.<br>
++ * @name: The name of the module.<br>
++ * @clk: The CLK module that owns this module.<br>
++ * @clock_in: The input clock of this module.<br>
++ * @clock_out: The output clock of this module.<br>
++ * @divide: The function the divider uses to divide the input.<br>
++ * @reg: The index of the control register that contains the divisor.<br>
++ * @offset: The offset of the divisor in the control register.<br>
++ * @len: The length of the divisor in the control register.<br>
++ * @divisor: The divisor for a constant divisor<br>
++ */<br>
++typedef struct NPCM7xxClockDividerState {<br>
++=C2=A0 =C2=A0 DeviceState parent;<br>
 +<br>
-+/* Register field definitions. */<br>
-+#define CON_MUX(rv) ((rv) &lt;&lt; 24)<br>
-+#define CON_INT_EN=C2=A0 BIT(21)<br>
-+#define CON_REFSEL=C2=A0 BIT(19)<br>
-+#define CON_INT=C2=A0 =C2=A0 =C2=A0BIT(18)<br>
-+#define CON_EN=C2=A0 =C2=A0 =C2=A0 BIT(17)<br>
-+#define CON_RST=C2=A0 =C2=A0 =C2=A0BIT(16)<br>
-+#define CON_CONV=C2=A0 =C2=A0 BIT(14)<br>
-+#define CON_DIV(rv) extract32(rv, 1, 8)<br>
++=C2=A0 =C2=A0 const char *name;<br>
++=C2=A0 =C2=A0 NPCM7xxCLKState *clk;<br>
++=C2=A0 =C2=A0 Clock *clock_in;<br>
++=C2=A0 =C2=A0 Clock *clock_out;<br>
 +<br>
-+#define FST_RDST=C2=A0 =C2=A0 BIT(1)<br>
-+#define FDATA_MASK=C2=A0 0xff<br>
-+<br>
-+#define MAX_ERROR=C2=A0 =C2=A010000<br>
-+#define MIN_CALIB_INPUT 100000<br>
-+#define MAX_CALIB_INPUT 1800000<br>
-+<br>
-+static const uint32_t input_list[] =3D {<br>
-+=C2=A0 =C2=A0 100000,<br>
-+=C2=A0 =C2=A0 500000,<br>
-+=C2=A0 =C2=A0 1000000,<br>
-+=C2=A0 =C2=A0 1500000,<br>
-+=C2=A0 =C2=A0 1800000,<br>
-+=C2=A0 =C2=A0 2000000,<br>
-+};<br>
-+<br>
-+static const uint32_t vref_list[] =3D {<br>
-+=C2=A0 =C2=A0 2000000,<br>
-+=C2=A0 =C2=A0 2200000,<br>
-+=C2=A0 =C2=A0 2500000,<br>
-+};<br>
-+<br>
-+static const uint32_t iref_list[] =3D {<br>
-+=C2=A0 =C2=A0 1800000,<br>
-+=C2=A0 =C2=A0 1900000,<br>
-+=C2=A0 =C2=A0 2000000,<br>
-+=C2=A0 =C2=A0 2100000,<br>
-+=C2=A0 =C2=A0 2200000,<br>
-+};<br>
-+<br>
-+static const uint32_t div_list[] =3D {0, 1, 3, 7, 15};<br>
-+<br>
-+typedef struct ADC {<br>
-+=C2=A0 =C2=A0 int irq;<br>
-+=C2=A0 =C2=A0 uint64_t base_addr;<br>
-+} ADC;<br>
-+<br>
-+ADC adc =3D {<br>
-+=C2=A0 =C2=A0 .irq=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D 0,<br>
-+=C2=A0 =C2=A0 .base_addr=C2=A0 =3D 0xf000c000<br>
-+};<br>
-+<br>
-+static uint32_t adc_read_con(QTestState *qts, const ADC *adc)<br>
-+{<br>
-+=C2=A0 =C2=A0 return qtest_readl(qts, adc-&gt;base_addr + CON_OFFSET);<br>
-+}<br>
-+<br>
-+static void adc_write_con(QTestState *qts, const ADC *adc, uint32_t value)=
-<br>
-+{<br>
-+=C2=A0 =C2=A0 qtest_writel(qts, adc-&gt;base_addr + CON_OFFSET, value);<br=
->
-+}<br>
-+<br>
-+static uint32_t adc_read_data(QTestState *qts, const ADC *adc)<br>
-+{<br>
-+=C2=A0 =C2=A0 return qtest_readl(qts, adc-&gt;base_addr + DATA_OFFSET);<br=
->
-+}<br>
-+<br>
-+static uint32_t adc_calibrate(uint32_t measured, uint32_t *rv)<br>
-+{<br>
-+=C2=A0 =C2=A0 return R0_INPUT + (R1_INPUT - R0_INPUT) * (int32_t)(measured=
- - rv[0])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 / (int32_t)(rv[1] - rv[0]);<br>
-+}<br>
-+<br>
-+static void adc_qom_set(QTestState *qts, const ADC *adc,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 const char *name, uint32_t value)<br>
-+{<br>
-+=C2=A0 =C2=A0 QDict *response;<br>
-+=C2=A0 =C2=A0 const char *path =3D &quot;/machine/soc/adc&quot;;<br>
-+<br>
-+=C2=A0 =C2=A0 g_test_message(&quot;Setting properties %s of %s with value =
-%u&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name, path, value);<br>
-+=C2=A0 =C2=A0 response =3D qtest_qmp(qts, &quot;{ &#39;execute&#39;: &#39;=
-qom-set&#39;,&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot; &#39;arguments&#39;: { &#=
-39;path&#39;: %s, &#39;property&#39;: %s, &#39;value&#39;: %u}}&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 path, name, value);<br>
-+=C2=A0 =C2=A0 /* The qom set message returns successfully. */<br>
-+=C2=A0 =C2=A0 g_assert_true(qdict_haskey(response, &quot;return&quot;));<b=
-r>
-+}<br>
-+<br>
-+static void adc_write_input(QTestState *qts, const ADC *adc,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t index, uint32_t value)<br>
-+{<br>
-+=C2=A0 =C2=A0 char name[100];<br>
-+<br>
-+=C2=A0 =C2=A0 sprintf(name, &quot;adci[%u]&quot;, index);<br>
-+=C2=A0 =C2=A0 adc_qom_set(qts, adc, name, value);<br>
-+}<br>
-+<br>
-+static void adc_write_vref(QTestState *qts, const ADC *adc, uint32_t value=
-)<br>
-+{<br>
-+=C2=A0 =C2=A0 adc_qom_set(qts, adc, &quot;vref&quot;, value);<br>
-+}<br>
-+<br>
-+static uint32_t adc_calculate_output(uint32_t input, uint32_t ref)<br>
-+{<br>
-+=C2=A0 =C2=A0 uint32_t output;<br>
-+<br>
-+=C2=A0 =C2=A0 g_assert_cmpuint(input, &lt;=3D, ref);<br>
-+=C2=A0 =C2=A0 output =3D (input * (MAX_RESULT + 1)) / ref;<br>
-+=C2=A0 =C2=A0 if (output &gt; MAX_RESULT) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 output =3D MAX_RESULT;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 return output;<br>
-+}<br>
-+<br>
-+static uint32_t adc_prescaler(QTestState *qts, const ADC *adc)<br>
-+{<br>
-+=C2=A0 =C2=A0 uint32_t div =3D extract32(adc_read_con(qts, adc), 1, 8);<br=
->
-+<br>
-+=C2=A0 =C2=A0 return 2 * (div + 1);<br>
-+}<br>
-+<br>
-+static int64_t adc_calculate_steps(uint32_t cycles, uint32_t prescale,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t clkdiv)<br>
-+{<br>
-+=C2=A0 =C2=A0 return (NANOSECONDS_PER_SECOND / (REF_HZ &gt;&gt; clkdiv)) *=
- cycles * prescale;<br>
-+}<br>
-+<br>
-+static void adc_wait_conv_finished(QTestState *qts, const ADC *adc,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t clkdiv)<br>
-+{<br>
-+=C2=A0 =C2=A0 uint32_t prescaler =3D adc_prescaler(qts, adc);<br>
-+<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* ADC should takes roughly 20 cycles to convert one sa=
-mple. So we assert it<br>
-+=C2=A0 =C2=A0 =C2=A0* should take 10~30 cycles here.<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 qtest_clock_step(qts, adc_calculate_steps(CONV_CYCLES / 2, p=
-rescaler,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 clkdiv));<br>
-+=C2=A0 =C2=A0 /* ADC is still converting. */<br>
-+=C2=A0 =C2=A0 g_assert_true(adc_read_con(qts, adc) &amp; CON_CONV);<br>
-+=C2=A0 =C2=A0 qtest_clock_step(qts, adc_calculate_steps(CONV_CYCLES, presc=
-aler, clkdiv));<br>
-+=C2=A0 =C2=A0 /* ADC has finished conversion. */<br>
-+=C2=A0 =C2=A0 g_assert_false(adc_read_con(qts, adc) &amp; CON_CONV);<br>
-+}<br>
-+<br>
-+/* Check ADC can be reset to default value. */<br>
-+static void test_init(gconstpointer adc_p)<br>
-+{<br>
-+=C2=A0 =C2=A0 const ADC *adc =3D adc_p;<br>
-+<br>
-+=C2=A0 =C2=A0 QTestState *qts =3D qtest_init(&quot;-machine quanta-gsj&quo=
-t;);<br>
-+=C2=A0 =C2=A0 adc_write_con(qts, adc, CON_REFSEL | CON_INT);<br>
-+=C2=A0 =C2=A0 g_assert_cmphex(adc_read_con(qts, adc), =3D=3D, CON_REFSEL);=
-<br>
-+=C2=A0 =C2=A0 qtest_quit(qts);<br>
-+}<br>
-+<br>
-+/* Check ADC can convert from an internal reference. */<br>
-+static void test_convert_internal(gconstpointer adc_p)<br>
-+{<br>
-+=C2=A0 =C2=A0 const ADC *adc =3D adc_p;<br>
-+=C2=A0 =C2=A0 uint32_t index, input, output, expected_output;<br>
-+=C2=A0 =C2=A0 QTestState *qts =3D qtest_init(&quot;-machine quanta-gsj&quo=
-t;);<br>
-+=C2=A0 =C2=A0 qtest_irq_intercept_in(qts, &quot;/machine/soc/a9mpcore/gic&=
-quot;);<br>
-+<br>
-+=C2=A0 =C2=A0 for (index =3D 0; index &lt; NUM_INPUTS; ++index) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (size_t i =3D 0; i &lt; ARRAY_SIZE(input_l=
-ist); ++i) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 input =3D input_list[i];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_output =3D adc_calculat=
-e_output(input, DEFAULT_IREF);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_write_input(qts, adc, index,=
- input);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_write_con(qts, adc, CON_MUX(=
-index) | CON_REFSEL | CON_INT |<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CON_=
-EN | CON_CONV);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_wait_conv_finished(qts, adc,=
- DEFAULT_CLKDIV);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_cmphex(adc_read_con(qts=
-, adc), =3D=3D, CON_MUX(index) |<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CON_=
-REFSEL | CON_EN);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_false(qtest_get_irq(qts=
-, adc-&gt;irq));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 output =3D adc_read_data(qts, ad=
-c);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_cmpuint(output, =3D=3D,=
- expected_output);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 qtest_quit(qts);<br>
-+}<br>
-+<br>
-+/* Check ADC can convert from an external reference. */<br>
-+static void test_convert_external(gconstpointer adc_p)<br>
-+{<br>
-+=C2=A0 =C2=A0 const ADC *adc =3D adc_p;<br>
-+=C2=A0 =C2=A0 uint32_t index, input, vref, output, expected_output;<br>
-+=C2=A0 =C2=A0 QTestState *qts =3D qtest_init(&quot;-machine quanta-gsj&quo=
-t;);<br>
-+=C2=A0 =C2=A0 qtest_irq_intercept_in(qts, &quot;/machine/soc/a9mpcore/gic&=
-quot;);<br>
-+<br>
-+=C2=A0 =C2=A0 for (index =3D 0; index &lt; NUM_INPUTS; ++index) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (size_t i =3D 0; i &lt; ARRAY_SIZE(input_l=
-ist); ++i) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (size_t j =3D 0; j &lt; ARRA=
-Y_SIZE(vref_list); ++j) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 input =3D input_li=
-st[i];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vref =3D vref_list=
-[j];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_output =
-=3D adc_calculate_output(input, vref);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_write_input(qt=
-s, adc, index, input);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_write_vref(qts=
-, adc, vref);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_write_con(qts,=
- adc, CON_MUX(index) | CON_INT | CON_EN |<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 CON_CONV);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_wait_conv_fini=
-shed(qts, adc, DEFAULT_CLKDIV);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_cmphex(ad=
-c_read_con(qts, adc), =3D=3D,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 CON_MUX(index) | CON_EN);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_false(qte=
-st_get_irq(qts, adc-&gt;irq));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 output =3D adc_rea=
-d_data(qts, adc);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_cmpuint(o=
-utput, =3D=3D, expected_output);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 qtest_quit(qts);<br>
-+}<br>
-+<br>
-+/* Check ADC interrupt files if and only if CON_INT_EN is set. */<br>
-+static void test_interrupt(gconstpointer adc_p)<br>
-+{<br>
-+=C2=A0 =C2=A0 const ADC *adc =3D adc_p;<br>
-+=C2=A0 =C2=A0 uint32_t index, input, output, expected_output;<br>
-+=C2=A0 =C2=A0 QTestState *qts =3D qtest_init(&quot;-machine quanta-gsj&quo=
-t;);<br>
-+<br>
-+=C2=A0 =C2=A0 index =3D 1;<br>
-+=C2=A0 =C2=A0 input =3D input_list[1];<br>
-+=C2=A0 =C2=A0 expected_output =3D adc_calculate_output(input, DEFAULT_IREF=
-);<br>
-+<br>
-+=C2=A0 =C2=A0 qtest_irq_intercept_in(qts, &quot;/machine/soc/a9mpcore/gic&=
-quot;);<br>
-+=C2=A0 =C2=A0 adc_write_input(qts, adc, index, input);<br>
-+=C2=A0 =C2=A0 g_assert_false(qtest_get_irq(qts, adc-&gt;irq));<br>
-+=C2=A0 =C2=A0 adc_write_con(qts, adc, CON_MUX(index) | CON_INT_EN | CON_RE=
-FSEL | CON_INT<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | CON_EN | CON_CONV);<br>
-+=C2=A0 =C2=A0 adc_wait_conv_finished(qts, adc, DEFAULT_CLKDIV);<br>
-+=C2=A0 =C2=A0 g_assert_cmphex(adc_read_con(qts, adc), =3D=3D, CON_MUX(inde=
-x) | CON_INT_EN<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | CON_REFSEL | CON_INT | CON_EN)=
-;<br>
-+=C2=A0 =C2=A0 g_assert_true(qtest_get_irq(qts, adc-&gt;irq));<br>
-+=C2=A0 =C2=A0 output =3D adc_read_data(qts, adc);<br>
-+=C2=A0 =C2=A0 g_assert_cmpuint(output, =3D=3D, expected_output);<br>
-+<br>
-+=C2=A0 =C2=A0 qtest_quit(qts);<br>
-+}<br>
-+<br>
-+/* Check ADC is reset after setting ADC_RST for 10 ADC cycles. */<br>
-+static void test_reset(gconstpointer adc_p)<br>
-+{<br>
-+=C2=A0 =C2=A0 const ADC *adc =3D adc_p;<br>
-+=C2=A0 =C2=A0 QTestState *qts =3D qtest_init(&quot;-machine quanta-gsj&quo=
-t;);<br>
-+<br>
-+=C2=A0 =C2=A0 for (size_t i =3D 0; i &lt; ARRAY_SIZE(div_list); ++i) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t div =3D div_list[i];<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_write_con(qts, adc, CON_INT | CON_EN | CON=
-_RST | CON_DIV(div));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qtest_clock_step(qts, adc_calculate_steps(RESE=
-T_CYCLES,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_=
-prescaler(qts, adc), DEFAULT_CLKDIV) - 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_true(adc_read_con(qts, adc) &amp; CON=
-_EN);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qtest_clock_step(qts, 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_false(adc_read_con(qts, adc) &amp; CO=
-N_EN);<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 qtest_quit(qts);<br>
-+}<br>
-+<br>
-+/* Check ADC is not reset if we set ADC_RST for &lt;10 ADC cycles. */<br>
-+static void test_premature_reset(gconstpointer adc_p)<br>
-+{<br>
-+=C2=A0 =C2=A0 const ADC *adc =3D adc_p;<br>
-+=C2=A0 =C2=A0 QTestState *qts =3D qtest_init(&quot;-machine quanta-gsj&quo=
-t;);<br>
-+<br>
-+=C2=A0 =C2=A0 for (size_t i =3D 0; i &lt; ARRAY_SIZE(div_list); ++i) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t div =3D div_list[i];<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_write_con(qts, adc, CON_INT | CON_EN | CON=
-_RST | CON_DIV(div));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qtest_clock_step(qts, adc_calculate_steps(RESE=
-T_CYCLES,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_=
-prescaler(qts, adc), DEFAULT_CLKDIV) - 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_true(adc_read_con(qts, adc) &amp; CON=
-_EN);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_write_con(qts, adc, CON_INT | CON_EN | CON=
-_DIV(div));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qtest_clock_step(qts, 1000);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_true(adc_read_con(qts, adc) &amp; CON=
-_EN);<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 qtest_quit(qts);<br>
-+}<br>
-+<br>
-+/* Check ADC Calibration works as desired. */<br>
-+static void test_calibrate(gconstpointer adc_p)<br>
-+{<br>
-+=C2=A0 =C2=A0 int i, j;<br>
-+=C2=A0 =C2=A0 const ADC *adc =3D adc_p;<br>
-+<br>
-+=C2=A0 =C2=A0 for (j =3D 0; j &lt; ARRAY_SIZE(iref_list); ++j) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t iref =3D iref_list[j];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t expected_rv[] =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_calculate_output(R0_INPUT, i=
-ref),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_calculate_output(R1_INPUT, i=
-ref),<br>
++=C2=A0 =C2=A0 uint32_t (*divide)(struct NPCM7xxClockDividerState *s);<br>
++=C2=A0 =C2=A0 union {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int reg;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int offset;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int len;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 char buf[100];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 QTestState *qts;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 int divisor;<br>
++=C2=A0 =C2=A0 };<br>
++} NPCM7xxClockDividerState;<br>
 +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sprintf(buf, &quot;-machine quanta-gsj -global=
- npcm7xx-adc.iref=3D%u&quot;, iref);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qts =3D qtest_init(buf);<br>
++struct NPCM7xxCLKState {<br>
+=C2=A0 =C2=A0 =C2=A0SysBusDevice parent;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0MemoryRegion iomem;<br>
+<br>
++=C2=A0 =C2=A0 /* Clock converters */<br>
++=C2=A0 =C2=A0 NPCM7xxClockPLLState plls[NPCM7XX_CLOCK_NR_PLLS];<br>
++=C2=A0 =C2=A0 NPCM7xxClockSELState sels[NPCM7XX_CLOCK_NR_SELS];<br>
++=C2=A0 =C2=A0 NPCM7xxClockDividerState dividers[NPCM7XX_CLOCK_NR_DIVIDERS]=
+;<br>
 +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Check the converted value is correct using =
-the calibration value. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(input_list); +=
-+i) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t input;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t output;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t expected_output;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t calibrated_voltage;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t index =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t regs[NPCM7XX_CLK_NR_REGS];<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* Time reference for SECCNT and CNTR25M, initialized b=
+y power on reset */<br>
+=C2=A0 =C2=A0 =C2=A0int64_t ref_ns;<br>
+-} NPCM7xxCLKState;<br>
 +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 input =3D input_list[i];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Calibration only works for in=
-put range 0.1V ~ 1.8V. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (input &lt; MIN_CALIB_INPUT |=
-| input &gt; MAX_CALIB_INPUT) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_output =3D adc_calculat=
-e_output(input, iref);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_write_input(qts, adc, index,=
- input);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_write_con(qts, adc, CON_MUX(=
-index) | CON_REFSEL | CON_INT |<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CON_=
-EN | CON_CONV);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 adc_wait_conv_finished(qts, adc,=
- DEFAULT_CLKDIV);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_cmphex(adc_read_con(qts=
-, adc), =3D=3D,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CON_=
-REFSEL | CON_MUX(index) | CON_EN);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 output =3D adc_read_data(qts, ad=
-c);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_cmpuint(output, =3D=3D,=
- expected_output);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 calibrated_voltage =3D adc_calib=
-rate(output, expected_rv);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_cmpuint(calibrated_volt=
-age, &gt;, input - MAX_ERROR);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_assert_cmpuint(calibrated_volt=
-age, &lt;, input + MAX_ERROR);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qtest_quit(qts);<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static void adc_add_test(const char *name, const ADC* wd,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 GTestDataFunc fn)<br>
-+{<br>
-+=C2=A0 =C2=A0 g_autofree char *full_name =3D g_strdup_printf(&quot;npcm7xx=
-_adc/%s&quot;,=C2=A0 name);<br>
-+=C2=A0 =C2=A0 qtest_add_data_func(full_name, wd, fn);<br>
-+}<br>
-+#define add_test(name, td) adc_add_test(#name, td, test_##name)<br>
-+<br>
-+int main(int argc, char **argv)<br>
-+{<br>
-+=C2=A0 =C2=A0 g_test_init(&amp;argc, &amp;argv, NULL);<br>
-+<br>
-+=C2=A0 =C2=A0 add_test(init, &amp;adc);<br>
-+=C2=A0 =C2=A0 add_test(convert_internal, &amp;adc);<br>
-+=C2=A0 =C2=A0 add_test(convert_external, &amp;adc);<br>
-+=C2=A0 =C2=A0 add_test(interrupt, &amp;adc);<br>
-+=C2=A0 =C2=A0 add_test(reset, &amp;adc);<br>
-+=C2=A0 =C2=A0 add_test(premature_reset, &amp;adc);<br>
-+=C2=A0 =C2=A0 add_test(calibrate, &amp;adc);<br>
-+<br>
-+=C2=A0 =C2=A0 return g_test_run();<br>
-+}<br>
++=C2=A0 =C2=A0 /* The incoming reference clock. */<br>
++=C2=A0 =C2=A0 Clock *clkref;<br>
++};<br>
+<br>
+=C2=A0#define TYPE_NPCM7XX_CLK &quot;npcm7xx-clk&quot;<br>
+=C2=A0#define NPCM7XX_CLK(obj) OBJECT_CHECK(NPCM7xxCLKState, (obj), TYPE_NP=
+CM7XX_CLK)<br>
 -- <br>
 2.29.2.684.gfbc64c5ab5-goog<br>
 <br>
 </blockquote></div>
 
---000000000000a8fc1a05b675abef--
+--0000000000005740c705b675ac42--
 
