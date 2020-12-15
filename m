@@ -2,72 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABD62DA5CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 02:50:13 +0100 (CET)
-Received: from localhost ([::1]:54818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A14DD2DA5B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 02:41:05 +0100 (CET)
+Received: from localhost ([::1]:48242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kozTg-000159-Ng
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 20:50:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34246)
+	id 1kozKq-0006Z0-89
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 20:41:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kozPq-00009Q-TE
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 20:46:16 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:40353)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kozPp-0004uF-05
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 20:46:14 -0500
-Received: by mail-io1-f66.google.com with SMTP id r9so18919333ioo.7
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 17:46:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lbMph9H9udVvUiO6QGKD84i0SqcE29hZ+hhb8t/nLF4=;
- b=ML9n8QP8C8kmgngKlo9tG+q690Gmywj1K/ZhQgFTsyIHT/T5dgeVn7Sow+o/QrtBvO
- i8BPgUsE6UEUtRM1jNiLbo8DlmXK+mvdU71/k2NHz9KJFCn7/ZzASS6XE3SUYqwKUPS4
- hA0jXLCx9oi4CYZxEWgX5KFH+HPEydrA7jjFxJOesXBVvDdwMRqq1CmA+2uQx3+0u5DX
- qL/x3flhzOXGXGPO8iEqw3wNOruWkSGidMap2LMGi3sUhZfPBSxSkyDx/V9nuN4cl7av
- M5G5k9bDMz9Dg3Vib5hqSymuEhwoNFUPlHreBnsllne7ovEkJkn4EhjZ41K/1mPONtvT
- 5Lfg==
-X-Gm-Message-State: AOAM530VBCh6rNR9h7Xs7A8ngttnjp8xJ3Re2ukI1dFKAzgAbIlZiiL9
- W3gC+o4eUrZhBKRXNKZoOu28QCMNWRk=
-X-Google-Smtp-Source: ABdhPJwWk1IqUM/7xRAVmf6oCOnPydTgH8TNICUZUdFC37+Mhi2O1xvBbgW/RfOyvZ2S1iGBzzMNNQ==
-X-Received: by 2002:a02:2444:: with SMTP id q4mr23074046jae.43.1607996772042; 
- Mon, 14 Dec 2020 17:46:12 -0800 (PST)
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com.
- [209.85.166.51])
- by smtp.gmail.com with ESMTPSA id y21sm10051229iot.12.2020.12.14.17.46.11
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Dec 2020 17:46:11 -0800 (PST)
-Received: by mail-io1-f51.google.com with SMTP id m23so4110563ioy.2
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 17:46:11 -0800 (PST)
-X-Received: by 2002:a05:6602:142:: with SMTP id v2mr809042iot.32.1607996771601; 
- Mon, 14 Dec 2020 17:46:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1kozJ6-0005qz-LX
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 20:39:16 -0500
+Received: from mga03.intel.com ([134.134.136.65]:27915)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1kozJ3-0003zN-Rc
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 20:39:15 -0500
+IronPort-SDR: Zs0C8IGpIy09e+MmFIhVXibuXysRsGiDHNUPGw4ITl5JeWIKbox0q0gWZgmW3xZM62qt8zmG/i
+ CtZCwPVkTwOA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9835"; a="174920669"
+X-IronPort-AV: E=Sophos;i="5.78,420,1599548400"; d="scan'208";a="174920669"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2020 17:39:05 -0800
+IronPort-SDR: xgR/qEL0c6D29CX9nUFPs0VioUUL8C7mVrLlYFidKq4I4V6sSH8wl9jnH2wT3YuUZuvha6OLQC
+ kYYYpZWZprVg==
+X-IronPort-AV: E=Sophos;i="5.78,420,1599548400"; d="scan'208";a="335752305"
+Received: from unknown (HELO [10.239.13.2]) ([10.239.13.2])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 14 Dec 2020 17:39:03 -0800
+Message-ID: <5FD8157B.7030202@intel.com>
+Date: Tue, 15 Dec 2020 09:46:35 +0800
+From: Wei Wang <wei.w.wang@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+ rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-References: <20201214140314.18544-1-richard.henderson@linaro.org>
- <20201214140314.18544-5-richard.henderson@linaro.org>
-In-Reply-To: <20201214140314.18544-5-richard.henderson@linaro.org>
-From: Joelle van Dyne <j@getutm.app>
-Date: Mon, 14 Dec 2020 17:46:01 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSC6=GkY=yESXebV=8GYN7p=OQ9E3DFtBdcGs_1MjJxK8g@mail.gmail.com>
-Message-ID: <CA+E+eSC6=GkY=yESXebV=8GYN7p=OQ9E3DFtBdcGs_1MjJxK8g@mail.gmail.com>
-Subject: Re: [PATCH v4 04/43] util: Specialize flush_idcache_range for aarch64
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.66; envelope-from=osy86dev@gmail.com;
- helo=mail-io1-f66.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+To: Quentin Grolleau <quentin.grolleau@ovhcloud.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, samuel.ortiz@intel.com
+Subject: Re: [raw] Guest stuck during live live-migration
+References: <e6f25c7e67ce4cfea5e01e4e46f0a3d8@ovhcloud.com>
+In-Reply-To: <e6f25c7e67ce4cfea5e01e4e46f0a3d8@ovhcloud.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.65; envelope-from=wei.w.wang@intel.com;
+ helo=mga03.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,23 +65,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 14, 2020 at 6:03 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On 11/23/2020 05:36 PM, Quentin Grolleau wrote:
+> Hello,
 >
-> For darwin, the CTR_EL0 register is not accessible, but there
-> are system routines that we can use.
+> In our company, we are hosting a large number of Vm, hosted behind 
+> Openstack (so libvirt/qemu).
+> A large majority of our Vms are runnign with local data only, stored 
+> on NVME, and most of them are RAW disks.
 >
-> For other hosts, copy the single pointer implementation from
-> libgcc and modify it to support the double pointer interface
-> we require.  This halves the number of cache operations required
-> when split-rwx is enabled.
+> With Qemu 4.0(can be even with older version)we see strange 
+> live-migrationcomportement:
+>     - some Vms live migrate at very high speed without issue (> 6 Gbps)
+>     - some Vms are running correctly, but migrating at a strange low 
+> speed (3Gbps)
+>     - some Vms are migrating at a very low speed (1Gbps, sometime 
+> less) and during the migration the guest is completely I/O stuck
+> When this issue happen the VM is completly block, iostat in the Vm 
+> show us a latency of 30 secs
 >
-> Cc: Joelle van Dyne <j@getutm.app>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> First we thought it was related to an hardware issuewe check it, we 
+> comparing different hardware, but no issue where found there
+>
+> So one of my colleague had the idea to limit with "tc" the bandwidth 
+> on the interface the migration was done, and it worked the VM didn't 
+> lose any ping nor being  I/O stuck
+> Important point : Once the Vm have been migrate (with the limitation ) 
+> one time, if we migrate it again right after, the migration will be 
+> done at full speed (8-9Gb/s) without freezing the Vm
+>
+> It only happen on existing VM, we tried to replicate with a fresh 
+> instance with exactly the same spec and nothing was happening
+>
+> We tried to replicate the workload inside the VM but there was no way 
+> to replicate the case. So it was not related to the workload nor to 
+> the server that hosts the Vm
+>
+> So we thought about the disk of the instance : the raw file.
+>
+> We also tried to strace -c the process during the live-migration and 
+> it was doing a lot of "lseek"
+>
+> and we found this :
+> https://lists.gnu.org/archive/html/qemu-devel/2017-02/msg00462.html
+>
+>
+> So i rebuilt Qemu with this patch and the live-migration went well, at 
+> high speedand with no VM freeze
+> ( https://github.com/qemu/qemu/blob/master/block/file-posix.c#L2601)
+>
+> Do you have a way to avoid the "lseek" mechanism as it consumes more 
+> resources to find the holes in the disk and don't let any for the VM ?
+>
+>
+> Server hosting the VM :
+> - Bi-Xeon hosts With NVME storage and 10 Go Network card
+> - Qemu 4.0 And Libvirt 5.4
+> - Kernel 4.18.0.25
+>
+> Guest having the issue :
+> - raw image with Debian 8
+>
+> Here the qemu img on the disk :
+> > qemu-img info disk
+> image: disk
+> file format: raw
+> virtual size: 400G (429496729600 bytes)
+> disk size: 400G
+>
 
-Reviewed-by: Joelle van Dyne <j@getutm.app>
+Could you share the migration options that you use and "info migrate" 
+for both stuck and non-stuck cases?
+
+Best,
+Wei
+
+
 
