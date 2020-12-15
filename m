@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF9B2DA8D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 09:00:34 +0100 (CET)
-Received: from localhost ([::1]:36412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4A22DA8FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 09:08:15 +0100 (CET)
+Received: from localhost ([::1]:44932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp5G4-0008RN-4x
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 03:00:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39192)
+	id 1kp5NW-0003pl-BU
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 03:08:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kp5EJ-0007ma-Up
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 02:58:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49587)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1kp5JA-0001sF-9l
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 03:03:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kp5EH-0005eS-9d
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 02:58:43 -0500
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1kp5J7-0007OG-VV
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 03:03:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608019119;
+ s=mimecast20190719; t=1608019417;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=s5e9TJMDX3fNasf/XqjJeEauiYve7PEyVTJdkwliUsE=;
- b=Pwhkb8rhAUpZ3bQHapy41VSzh1uGu0FH7DV9gxfe1+3duPlMjxMtgxb3f1hPM1gpgYwB03
- fe8OTvKjfzVgxh6q2JNAU206qgH4CMI2g77i1Np3o5aVtpZDRGfmUgjQv+bF5GrLo2bfnb
- zqGzUqb+LnrvEbHVFtmlT1xAy2jOJt4=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bXX6vaja934bK8I4IjmAARmz1+WHpXJIeXNdoQZOK5o=;
+ b=OcDjP+Rs7ZNm4lq16UeRWHH8U+MS/oVJu55+D89SclzqIk3F6UbLFGSGIHxKLBTnjeirSh
+ RHYDTDeqP4x47oBlbGpTjrBjHFU7rwMQ8snrr9UX3pCwr6iNMcJ8MJyWF02gPXKDNRW5LB
+ RpMI92AErrsILI3ZVRCbciQsOeeil7k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-L-EcN2kCO36icQZ4tf7GxQ-1; Tue, 15 Dec 2020 02:58:36 -0500
-X-MC-Unique: L-EcN2kCO36icQZ4tf7GxQ-1
+ us-mta-370-L9irSmSgMiegK-BAM_rHuw-1; Tue, 15 Dec 2020 03:03:32 -0500
+X-MC-Unique: L9irSmSgMiegK-BAM_rHuw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09F97801817;
- Tue, 15 Dec 2020 07:58:35 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
- [10.36.112.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B33FCE70A;
- Tue, 15 Dec 2020 07:58:34 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D99A017532; Tue, 15 Dec 2020 08:58:33 +0100 (CET)
-Date: Tue, 15 Dec 2020 08:58:33 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-Subject: Re: [PATCH v2] hw/usb/host-libusb.c: fix build with kernel < 5.0
-Message-ID: <20201215075833.ibutxmev7iavo4v2@sirius.home.kraxel.org>
-References: <20201213213016.457350-1-fontaine.fabrice@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 941BF107AD26;
+ Tue, 15 Dec 2020 08:03:31 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C6BB82BCF8;
+ Tue, 15 Dec 2020 08:03:22 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] build-sys: fix -static linking of libvhost-user
+Date: Tue, 15 Dec 2020 12:03:19 +0400
+Message-Id: <20201215080319.136228-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201213213016.457350-1-fontaine.fabrice@gmail.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,32 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, pbonzini@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Dec 13, 2020 at 10:30:16PM +0100, Fabrice Fontaine wrote:
-> USBDEVFS_GET_SPEED is used since version 5.2.0 and
-> https://gitlab.com/qemu-project/qemu/-/commit/202d69a715a4b1824dcd7ec1683d027ed2bae6d3
-> resulting in the following build failure with kernel < 5.0:
-> 
-> ../hw/usb/host-libusb.c: In function 'usb_host_open':
-> ../hw/usb/host-libusb.c:953:32: error: 'USBDEVFS_GET_SPEED' undeclared (first use in this function); did you mean 'USBDEVFS_GETDRIVER'?
->          int rc = ioctl(hostfd, USBDEVFS_GET_SPEED, NULL);
->                                 ^~~~~~~~~~~~~~~~~~
->                                 USBDEVFS_GETDRIVER
-> 
-> A tentative was made to fix this build failure with
-> https://gitlab.com/qemu-project/qemu/-/commit/4969e697c15ac536d5c0700381d5d026ef7f0588
-> 
-> However, the assumption that distros with old kernels also have old
-> libusb is just wrong so also add a check for defined(USBDEVFS_GET_SPEED)
-> 
-> Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Added to usb queue.
+Fix linking vhost-user binaries with with ./configure -static, by
+overriding glib-2.0 dependency with configure results.
 
-thanks,
-  Gerd
+Fixes: 0df750e9d3a5fea5e1 ("libvhost-user: make it a meson subproject")
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ meson.build | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index 9ea05ab49f..7ecd307952 100644
+--- a/meson.build
++++ b/meson.build
+@@ -268,7 +268,11 @@ endif
+ # grandfathered in from the QEMU Makefiles.
+ add_project_arguments(config_host['GLIB_CFLAGS'].split(),
+                       native: false, language: ['c', 'cpp', 'objc'])
+-glib = declare_dependency(link_args: config_host['GLIB_LIBS'].split())
++glib = declare_dependency(compile_args: config_host['GLIB_CFLAGS'].split(),
++                          link_args: config_host['GLIB_LIBS'].split())
++# override glib dep with the configure results (for subprojects)
++meson.override_dependency('glib-2.0', glib)
++
+ gio = not_found
+ if 'CONFIG_GIO' in config_host
+   gio = declare_dependency(compile_args: config_host['GIO_CFLAGS'].split(),
+-- 
+2.29.0
 
 
