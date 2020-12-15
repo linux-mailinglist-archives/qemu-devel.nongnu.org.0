@@ -2,95 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C7A2DB558
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 21:44:35 +0100 (CET)
-Received: from localhost ([::1]:56916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CF52DB57F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 21:57:40 +0100 (CET)
+Received: from localhost ([::1]:35544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpHBR-000347-7A
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 15:44:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45358)
+	id 1kpHO7-0008Ne-V5
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 15:57:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kpHAH-00027D-Kv
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 15:43:21 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:38778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kpHAE-0006e0-SN
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 15:43:20 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BFKYGAT164423;
- Tue, 15 Dec 2020 20:42:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
- bh=el3xUsWLfmsfaU8YHjs9MBCbeVcjQXsyJ/oQaiznMjg=;
- b=zUqA/NJl13ECaf0C4IWTg7cMXcXUt4vZ1Rop5MeVEKH5IXRHRZgq8443Sjpx3gRGvgHg
- /4TM9zX4b2JaVspXkh9DK90ANofXNdxPtkLjNiPRMsQHE6lJKWFkw3sR5bZbjOrbPEjQ
- Ajk1eanlTVMtO2qiZQnkHCMfr8dVh5TrSgxYFwIYAxwFemj5w1mtDj+bdd9ZW9/OqLrd
- HPyrDUqwobp+d/jVOYrQi99zkT5MI72JUiUmXvtweAO9Ek3u6jS3qv/PWtmKgn379NGd
- Lv9I3vSJsVoHMfxlAg/GoH+eyBrmLCZT8UBfWs3xSnbnedilC7Ay3mng9uG6rc5XMc/2 +g== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 35cn9rcqx7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 15 Dec 2020 20:42:55 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BFKZCk5135339;
- Tue, 15 Dec 2020 20:42:54 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 35d7enjc8r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 15 Dec 2020 20:42:54 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BFKgp6I016779;
- Tue, 15 Dec 2020 20:42:52 GMT
-Received: from heatpipe (/67.180.143.163)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 15 Dec 2020 12:42:45 -0800
-Date: Tue, 15 Dec 2020 12:42:41 -0800
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH v13 07/19] multi-process: add qio channel function to
- transmit data and fds
-Message-ID: <20201215204241.GA17643@heatpipe>
-References: <cover.1607922214.git.jag.raman@oracle.com>
- <a366c7f80a862b4f32445f8334e2f36767b102a3.1607922214.git.jag.raman@oracle.com>
- <CAJ+F1CJLKJR5UirK106zKn5bM8rr1cDZyQwZ66QdMJLS-k_zBA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kpHMQ-0006TK-8S
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 15:55:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39512)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kpHMN-00085w-Pi
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 15:55:53 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kpHMM-0000fW-4H
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 20:55:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EE3492E813B
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 20:55:49 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ+F1CJLKJR5UirK106zKn5bM8rr1cDZyQwZ66QdMJLS-k_zBA@mail.gmail.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9836
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- spamscore=0 bulkscore=0
- suspectscore=0 adultscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012150138
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9836
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxlogscore=999
- impostorscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
- malwarescore=0 priorityscore=1501 phishscore=0 mlxscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012150138
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=elena.ufimtseva@oracle.com; helo=userp2130.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 15 Dec 2020 20:50:35 -0000
+From: Richard Henderson <1907817@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Tags: assertion tcg v5.2.0
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: qwart279 rth
+X-Launchpad-Bug-Reporter: Matus K (qwart279)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <160769469739.30645.13581268559432751632.malonedeb@soybean.canonical.com>
+Message-Id: <160806543571.16706.11819137313231476221.malone@chaenomeles.canonical.com>
+Subject: [Bug 1907817] Re: qemu-aarch64 tcg assertion v5.2.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: 6aa3a381135b3000b9c4a33c05364f84a7acb8ab
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -99,220 +71,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, John G Johnson <john.g.johnson@oracle.com>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Jagannathan Raman <jag.raman@oracle.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Ross Lagerwall <ross.lagerwall@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1907817 <1907817@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 15, 2020 at 02:49:22PM +0400, Marc-André Lureau wrote:
-> Hi
-> 
-> On Mon, Dec 14, 2020 at 9:15 AM Jagannathan Raman <jag.raman@oracle.com>
-> wrote:
-> 
-> > From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> >
-> > Adds QIO channel functions that transmit and receive iovs along with fds.
-> >
-> > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  include/io/channel.h | 50 +++++++++++++++++++++++++++++++++++++++++
-> >  io/channel.c         | 63
-> > +++++++++++++++++++++++++++++++++++++++++++++++++++-
-> >  2 files changed, 112 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/include/io/channel.h b/include/io/channel.h
-> > index 4d6fe45..c2d9836 100644
-> > --- a/include/io/channel.h
-> > +++ b/include/io/channel.h
-> > @@ -774,4 +774,54 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
-> >                                      IOHandler *io_write,
-> >                                      void *opaque);
-> >
-> > +/**
-> > + * qio_channel_readv_full_all:
-> > + * @ioc: the channel object
-> > + * @iov: the array of memory regions to read data to
-> > + * @niov: the length of the @iov array
-> > + * @fds: an array of file handles to read
-> > + * @nfds: number of file handles in @fds
-> > + * @errp: pointer to a NULL-initialized error object
-> > + *
-> > + *
-> > + * Behaves like qio_channel_readvv_full but will attempt
-> > + * to read all data specified (file handles and memory regions).
-> > + * The function will wait for all requested data
-> > + * to be read, yielding from the current coroutine
-> > + * if required.
-> > + *
-> > + * Returns: 0 if all bytes were read, or -1 on error
-> > + */
-> > +
-> > +int qio_channel_readv_full_all(QIOChannel *ioc,
-> > +                                const struct iovec *iov,
-> > +                                size_t niov,
-> > +                                int **fds, size_t *nfds,
-> > +                                Error **errp);
-> > +
-> > +/**
-> > + * qio_channel_writev_full_all:
-> > + * @ioc: the channel object
-> > + * @iov: the array of memory regions to write data from
-> > + * @niov: the length of the @iov array
-> > + * @fds: an array of file handles to send
-> > + * @nfds: number of file handles in @fds
-> > + * @errp: pointer to a NULL-initialized error object
-> > + *
-> > + *
-> > + * Behaves like qio_channel_writev_full but will attempt
-> > + * to send all data passed (file handles and memory regions).
-> > + * The function will wait for all requested data
-> > + * to be written, yielding from the current coroutine
-> > + * if required.
-> > + *
-> > + * Returns: 0 if all bytes were written, or -1 on error
-> > + */
-> > +
-> > +int qio_channel_writev_full_all(QIOChannel *ioc,
-> > +                           const struct iovec *iov,
-> > +                           size_t niov,
-> > +                           int *fds, size_t nfds,
-> > +                           Error **errp);
-> > +
-> >  #endif /* QIO_CHANNEL_H */
-> > diff --git a/io/channel.c b/io/channel.c
-> > index 93d449d..13b0e7a 100644
-> > --- a/io/channel.c
-> > +++ b/io/channel.c
-> > @@ -152,15 +152,72 @@ int qio_channel_readv_all(QIOChannel *ioc,
-> >      return ret;
-> >  }
-> >
-> > +int qio_channel_readv_full_all(QIOChannel *ioc,
-> > +                                const struct iovec *iov,
-> > +                                size_t niov,
-> > +                                int **fds, size_t *nfds,
-> > +                                Error **errp)
-> > +{
-> > +    int ret = -1;
-> > +    struct iovec *local_iov = g_new(struct iovec, niov);
-> > +    struct iovec *local_iov_head = local_iov;
-> > +    unsigned int nlocal_iov = niov;
-> > +    int **local_fds = fds;
-> > +    size_t *local_nfds = nfds;
-> > +
-> > +    nlocal_iov = iov_copy(local_iov, nlocal_iov,
-> > +                          iov, niov,
-> > +                          0, iov_size(iov, niov));
-> > +
-> > +    while (nlocal_iov > 0) {
-> > +        ssize_t len;
-> > +        len = qio_channel_readv_full(ioc, local_iov, nlocal_iov,
-> > local_fds,
-> > +                                     local_nfds, errp);
-> > +        if (len == QIO_CHANNEL_ERR_BLOCK) {
-> > +            if (qemu_in_coroutine()) {
-> > +                qio_channel_yield(ioc, G_IO_OUT);
-> > +            } else {
-> > +                qio_channel_wait(ioc, G_IO_OUT);
-> > +            }
-> > +            continue;
-> > +        }
-> > +        if (len <= 0) {
-> > +            ret = len;
-> > +            goto cleanup;
-> > +        }
-> > +
-> > +        iov_discard_front(&local_iov, &nlocal_iov, len);
-> > +
-> > +        local_fds = NULL;
-> > +        local_nfds = 0;
-> > +    }
-> > +
-> > +    ret = 1;
-> > + cleanup:
-> > +    g_free(local_iov_head);
-> > +    return ret;
-> > +}
-> > +
-> >
-> 
-> I suggest to adapt the code so qio_channel_readv_all_eof() calls
-> qio_channel_readv_full_all().
-> 
-> You may want to split this patch in 2 parts: the read and write parts.
-> 
->
+Proposed patch:
+https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg04150.html
 
-Thank you Marc-Andre, will do.
+-- =
 
-Elena
-> >  int qio_channel_writev_all(QIOChannel *ioc,
-> >                             const struct iovec *iov,
-> >                             size_t niov,
-> >                             Error **errp)
-> >  {
-> > +    return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, errp);
-> > +}
-> > +
-> > +int qio_channel_writev_full_all(QIOChannel *ioc,
-> > +                                const struct iovec *iov,
-> > +                                size_t niov,
-> > +                                int *fds, size_t nfds,
-> > +                                Error **errp)
-> > +{
-> >      int ret = -1;
-> >      struct iovec *local_iov = g_new(struct iovec, niov);
-> >      struct iovec *local_iov_head = local_iov;
-> >      unsigned int nlocal_iov = niov;
-> > +    int *local_fds = fds;
-> > +    size_t local_nfds = nfds;
-> >
-> >      nlocal_iov = iov_copy(local_iov, nlocal_iov,
-> >                            iov, niov,
-> > @@ -168,7 +225,8 @@ int qio_channel_writev_all(QIOChannel *ioc,
-> >
-> >      while (nlocal_iov > 0) {
-> >          ssize_t len;
-> > -        len = qio_channel_writev(ioc, local_iov, nlocal_iov, errp);
-> > +        len = qio_channel_writev_full(ioc, local_iov, nlocal_iov,
-> > local_fds,
-> > +                                      local_nfds, errp);
-> >          if (len == QIO_CHANNEL_ERR_BLOCK) {
-> >              if (qemu_in_coroutine()) {
-> >                  qio_channel_yield(ioc, G_IO_OUT);
-> > @@ -182,6 +240,9 @@ int qio_channel_writev_all(QIOChannel *ioc,
-> >          }
-> >
-> >          iov_discard_front(&local_iov, &nlocal_iov, len);
-> > +
-> > +        local_fds = NULL;
-> > +        local_nfds = 0;
-> >      }
-> >
-> >      ret = 0;
-> > --
-> > 1.8.3.1
-> >
-> >
-> 
-> -- 
-> Marc-André Lureau
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1907817
+
+Title:
+  qemu-aarch64 tcg assertion v5.2.0
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  After updating to 5.2 I am getting following assertion error:
+  qemu-aarch64: ../tcg/tcg-op-gvec.c:54: check_size_align: Assertion `(maxs=
+z & max_align) =3D=3D 0' failed.
+
+  I think it was introduced by commit:
+  e2e7168a214b0ed98dc357bba96816486a289762
+
+  Becasue before this change, in function simd_desc only maxsz % 8 =3D=3D 0=
+ was checked, but after this change qemu check for following:
+   =
+
+  max_align =3D maxsz >=3D 16 ? 15 : 7;
+  tcg_debug_assert((maxsz & max_align) =3D=3D 0);  <--- here assertion happ=
+ens
+
+  in my case maxsz=3D56.
+
+  =
+
+  Whole backtrace:
+  #4  0x0000004000314770 in check_size_align (oprsz=3D56, maxsz=3D56, ofs=
+=3D0) at ../tcg/tcg-op-gvec.c:54
+  #5  0x0000004000314950 in simd_desc (oprsz=3D56, maxsz=3D56, data=3D0) at=
+ ../tcg/tcg-op-gvec.c:89
+  #6  0x0000004000316270 in do_dup (vece=3D0, dofs=3D3144, oprsz=3D56, maxs=
+z=3D56, in_32=3D0x0, in_64=3D0x0, in_c=3D0) at ../tcg/tcg-op-gvec.c:630
+  #7  0x00000040003164d0 in expand_clr (dofs=3D3144, maxsz=3D56) at ../tcg/=
+tcg-op-gvec.c:679
+  #8  0x0000004000319bb0 in tcg_gen_gvec_mov (vece=3D3, dofs=3D3136, aofs=
+=3D3136, oprsz=3D8, maxsz=3D64) at ../tcg/tcg-op-gvec.c:1538
+  #9  0x0000004000200dc0 in clear_vec_high (s=3D0x40021a8180, is_q=3Dfalse,=
+ rd=3D0) at ../target/arm/translate-a64.c:592
+  #10 0x0000004000200e40 in write_fp_dreg (s=3D0x40021a8180, reg=3D0, v=3D0=
+x1108) at ../target/arm/translate-a64.c:600
+  --Type <RET> for more, q to quit, c to continue without paging--
+  #11 0x0000004000200e90 in write_fp_sreg (s=3D0x40021a8180, reg=3D0, v=3D0=
+x1060) at ../target/arm/translate-a64.c:608
+  #12 0x0000004000214210 in handle_fpfpcvt (s=3D0x40021a8180, rd=3D0, rn=3D=
+0, opcode=3D2, itof=3Dtrue, rmode=3D0, scale=3D64, sf=3D0, type=3D0)
+      at ../target/arm/translate-a64.c:6988
+  #13 0x0000004000214f90 in disas_fp_int_conv (s=3D0x40021a8180, insn=3D505=
+544704) at ../target/arm/translate-a64.c:7299
+  #14 0x0000004000215350 in disas_data_proc_fp (s=3D0x40021a8180, insn=3D50=
+5544704) at ../target/arm/translate-a64.c:7389
+  #15 0x000000400022aa70 in disas_data_proc_simd_fp (s=3D0x40021a8180, insn=
+=3D505544704) at ../target/arm/translate-a64.c:14494
+  #16 0x000000400022af90 in disas_a64_insn (env=3D0x7fac59b6b490, s=3D0x400=
+21a8180) at ../target/arm/translate-a64.c:14663
+  #17 0x000000400022b750 in aarch64_tr_translate_insn (dcbase=3D0x40021a818=
+0, cpu=3D0x7fac59b63150) at ../target/arm/translate-a64.c:14823
+  #18 0x00000040002e8630 in translator_loop (ops=3D0x4000902e00 <aarch64_tr=
+anslator_ops>, db=3D0x40021a8180, cpu=3D0x7fac59b63150, =
+
+      tb=3D0x7fac3419c5c0, max_insns=3D512) at ../accel/tcg/translator.c:103
+  #19 0x00000040002e3a60 in gen_intermediate_code (cpu=3D0x7fac59b63150, tb=
+=3D0x7fac3419c5c0, max_insns=3D512)
+      at ../target/arm/translate.c:9283
+  #20 0x00000040002fed30 in tb_gen_code (cpu=3D0x7fac59b63150, pc=3D4458820=
+, cs_base=3D0, flags=3D2148544819, cflags=3D-16777216)
+      at ../accel/tcg/translate-all.c:1744
+  #21 0x000000400036a6e0 in tb_find (cpu=3D0x7fac59b63150, last_tb=3D0x7fac=
+3419c400, tb_exit=3D0, cf_mask=3D0) at ../accel/tcg/cpu-exec.c:414
+  --Type <RET> for more, q to quit, c to continue without paging--
+  #22 0x000000400036b040 in cpu_exec (cpu=3D0x7fac59b63150) at ../accel/tcg=
+/cpu-exec.c:770
+  #23 0x0000004000113a90 in cpu_loop (env=3D0x7fac59b6b490) at ../linux-use=
+r/aarch64/cpu_loop.c:84
+  #24 0x00000040002fb8c0 in main (argc=3D2, argv=3D0x40021a8e68, envp=3D0x4=
+0021a8e80) at ../linux-user/main.c:864
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1907817/+subscriptions
 
