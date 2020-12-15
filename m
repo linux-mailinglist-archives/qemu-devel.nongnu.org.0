@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B64A2DB301
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 18:50:41 +0100 (CET)
-Received: from localhost ([::1]:39028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB2D2DB302
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 18:50:45 +0100 (CET)
+Received: from localhost ([::1]:39208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpETA-0000kR-3c
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 12:50:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60572)
+	id 1kpETE-0000q0-6d
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 12:50:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kpER3-0007tH-RA
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:48:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22994)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kpER0-0000jM-6m
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:48:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608054504;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=sT7McfMnj3aA9Tkx3FqU+o+8cYD3dAIbywRJYxT0XdA=;
- b=dsFARaweT1ajBmZUoUB+/U1HpdaNqFWDaxPWrnMNnemUz66kqYbCBReipR2ScMzAiJ7sHu
- lAeiDrpI7DhJprzzG0aIb5Wjt9PLALH2E77utFwnI9qXsUXz0QcEhjv3r5Zd1ZXfvwrYD0
- 5jZlQpwpSvRrtXdQXdm/Iee5vkGSdCg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-k2Fij3x0OUikQCCCHRJFMQ-1; Tue, 15 Dec 2020 12:48:19 -0500
-X-MC-Unique: k2Fij3x0OUikQCCCHRJFMQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CA3810054FF;
- Tue, 15 Dec 2020 17:48:18 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (ovpn-113-73.ams2.redhat.com
- [10.36.113.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D03BE10023B7;
- Tue, 15 Dec 2020 17:48:16 +0000 (UTC)
-From: Andrew Jones <drjones@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org
-Subject: [PATCH] hw/arm/virt: Remove virt machine state 'smp_cpus'
-Date: Tue, 15 Dec 2020 18:48:15 +0100
-Message-Id: <20201215174815.51520-1-drjones@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpER5-0007to-Gt
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:48:32 -0500
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:44868)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpER2-0000jj-Ef
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:48:31 -0500
+Received: by mail-ot1-x336.google.com with SMTP id f16so20190914otl.11
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 09:48:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=q/mRkHuCWI2jcgn+9ywRVxDn11F/WiYpDpR300/jUp8=;
+ b=gEobVdRE/FQA+uf1sz7JtYj7tzEYCdvLkP3IkmSpG3r+2JcUVS6Eeaw+iBK2OpCNY5
+ m7kEQaVPjGUSa/z8hlTFlcnOMkLkzkHFZv97ddNKHsefJ2ffMas9kOGpHZFG11ptol97
+ 1cIWqAkiPiMXCW/51t20H5mdn/8LH40ym+2p9nZPAvcvDbm7LYVAGyl+s5RdQ8YyirhX
+ Rm4P7mk5ru9abLEguQuK4Xx/jp2YjLaJArogKL0K06vlpw9h7TCi3PSOi/iPsW7eN2Av
+ N5sVnc6LCDj/XcTMA05eg/cSfoKZ+MH59KvweF1pcIsyjO7EiZD7OQRoWhXoCBJP1HUw
+ gCsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=q/mRkHuCWI2jcgn+9ywRVxDn11F/WiYpDpR300/jUp8=;
+ b=d4ai52lf+XNnBAV9424rz1Fp1X7WYd2JqbfKplJwLrvDPBECOu9eVc+ME8/BMVGd7L
+ B7+6XRfEExPfWi6/2k05ZTQUTtG8oremNQXHsjxymdjMhxhvCug5CkiCVpUrVfH4vvz2
+ xQXb1RVvs0tM5EAoAhs82jUOWqMXVAQv08aAC9zfkSwMPxrKeUr/U16LArvZAVeXfJyM
+ 9ESOcpko4AQVc6XLJR86brV6xDKxpvBZ9Ml8uY75vUBxKLTZsp5QhlsbtMT+Yd19eS9Y
+ wvwy+V/O5W6sSPvp1BVQPewlcQpeSgIYr7vZrCwOv7hM8lqchIAriJi7iUMIEpM2hOlZ
+ Nl5Q==
+X-Gm-Message-State: AOAM533VVRnlcOxdFJJJ6Xf4sIjY0GfdUMct9Zr0J4HBUdGfuDzkDIfd
+ bgDuoQOvwuiD32g8MNzcnElFTCR6KNs4dd8T
+X-Google-Smtp-Source: ABdhPJysJafHHfWyhjkX0ebhViENzwYzX3RE3VuIJezrABISznjSJNai4Xr6BoFlctHtIeD6Bl1WDA==
+X-Received: by 2002:a9d:2941:: with SMTP id d59mr16349199otb.232.1608054506548; 
+ Tue, 15 Dec 2020 09:48:26 -0800 (PST)
+Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id s23sm570392otr.59.2020.12.15.09.48.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Dec 2020 09:48:25 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tcg: Use memset for large vector byte replication
+Date: Tue, 15 Dec 2020 11:48:24 -0600
+Message-Id: <20201215174824.76017-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,185 +81,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fangying1@huawei.com, peter.maydell@linaro.org, salil.mehta@huawei.com
+Cc: qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-virt machine's 'smp_cpus' and machine->smp.cpus must always have the
-same value. And, anywhere we have virt machine state we have machine
-state. So let's remove the redundancy. Also, to make it easier to see
-that machine->smp is the true source for "smp_cpus" and "max_cpus",
-avoid passing them in function parameters, preferring instead to get
-them from the state.
+In f47db80cc07, we handled odd-sized tail clearing for
+the case of hosts that have vector operations, but did
+not handle the case of hosts that do not have vector ops.
 
-No functional change intended.
+This was ok until e2e7168a214b, which changed the encoding
+of simd_desc such that the odd sizes are impossible.
 
-Signed-off-by: Andrew Jones <drjones@redhat.com>
+Add memset as a tcg helper, and use that for all out-of-line
+byte stores to vectors.  This includes, but is not limited to,
+the tail clearing operation in question.
+
+Cc: qemu-stable@nongnu.org
+Buglink: https://bugs.launchpad.net/bugs/1907817
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/arm/virt-acpi-build.c |  9 +++++----
- hw/arm/virt.c            | 24 +++++++++++-------------
- include/hw/arm/virt.h    |  3 +--
- 3 files changed, 17 insertions(+), 19 deletions(-)
+ accel/tcg/tcg-runtime.h     | 11 +++++++++++
+ include/exec/helper-proto.h |  4 ++++
+ tcg/tcg-op-gvec.c           | 32 ++++++++++++++++++++++++++++++++
+ 3 files changed, 47 insertions(+)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 711cf2069fe8..9d9ee2405345 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -59,11 +59,12 @@
+diff --git a/accel/tcg/tcg-runtime.h b/accel/tcg/tcg-runtime.h
+index 4eda24e63a..2e36d6eb0c 100644
+--- a/accel/tcg/tcg-runtime.h
++++ b/accel/tcg/tcg-runtime.h
+@@ -28,6 +28,17 @@ DEF_HELPER_FLAGS_1(lookup_tb_ptr, TCG_CALL_NO_WG_SE, ptr, env)
  
- #define ACPI_BUILD_TABLE_SIZE             0x20000
+ DEF_HELPER_FLAGS_1(exit_atomic, TCG_CALL_NO_WG, noreturn, env)
  
--static void acpi_dsdt_add_cpus(Aml *scope, int smp_cpus)
-+static void acpi_dsdt_add_cpus(Aml *scope, VirtMachineState *vms)
- {
-+    MachineState *ms = MACHINE(vms);
-     uint16_t i;
++#ifndef IN_HELPER_PROTO
++/*
++ * Pass calls to memset directly to libc, without a thunk in qemu.
++ * Do not re-declare memset, especially since we fudge the type here;
++ * we assume sizeof(void *) == sizeof(size_t), which is true for
++ * all supported hosts.
++ */
++#define helper_memset memset
++DEF_HELPER_FLAGS_3(memset, TCG_CALL_NO_RWG, ptr, ptr, int, ptr)
++#endif /* IN_HELPER_PROTO */
++
+ #ifdef CONFIG_SOFTMMU
  
--    for (i = 0; i < smp_cpus; i++) {
-+    for (i = 0; i < ms->smp.cpus; i++) {
-         Aml *dev = aml_device("C%.03X", i);
-         aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0007")));
-         aml_append(dev, aml_name_decl("_UID", aml_int(i)));
-@@ -484,7 +485,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     gicd->base_address = cpu_to_le64(memmap[VIRT_GIC_DIST].base);
-     gicd->version = vms->gic_version;
+ DEF_HELPER_FLAGS_5(atomic_cmpxchgb, TCG_CALL_NO_WG,
+diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
+index a0a8d9aa46..659f9298e8 100644
+--- a/include/exec/helper-proto.h
++++ b/include/exec/helper-proto.h
+@@ -35,11 +35,15 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
+                             dh_ctype(t4), dh_ctype(t5), dh_ctype(t6), \
+                             dh_ctype(t7));
  
--    for (i = 0; i < vms->smp_cpus; i++) {
-+    for (i = 0; i < MACHINE(vms)->smp.cpus; i++) {
-         AcpiMadtGenericCpuInterface *gicc = acpi_data_push(table_data,
-                                                            sizeof(*gicc));
-         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(i));
-@@ -603,7 +604,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-      * the RTC ACPI device at all when using UEFI.
-      */
-     scope = aml_scope("\\_SB");
--    acpi_dsdt_add_cpus(scope, vms->smp_cpus);
-+    acpi_dsdt_add_cpus(scope, vms);
-     acpi_dsdt_add_uart(scope, &memmap[VIRT_UART],
-                        (irqmap[VIRT_UART] + ARM_SPI_BASE));
-     if (vmc->acpi_expose_flash) {
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 556592012ee0..534d306f3104 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -323,7 +323,7 @@ static void fdt_add_timer_nodes(const VirtMachineState *vms)
-     if (vms->gic_version == VIRT_GIC_VERSION_2) {
-         irqflags = deposit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
-                              GIC_FDT_IRQ_PPI_CPU_WIDTH,
--                             (1 << vms->smp_cpus) - 1);
-+                             (1 << MACHINE(vms)->smp.cpus) - 1);
-     }
++#define IN_HELPER_PROTO
++
+ #include "helper.h"
+ #include "trace/generated-helpers.h"
+ #include "tcg-runtime.h"
+ #include "plugin-helpers.h"
  
-     qemu_fdt_add_subnode(vms->fdt, "/timer");
-@@ -347,9 +347,9 @@ static void fdt_add_timer_nodes(const VirtMachineState *vms)
- 
- static void fdt_add_cpu_nodes(const VirtMachineState *vms)
- {
--    int cpu;
--    int addr_cells = 1;
-     const MachineState *ms = MACHINE(vms);
-+    int smp_cpus = ms->smp.cpus, cpu;
-+    int addr_cells = 1;
- 
-     /*
-      * From Documentation/devicetree/bindings/arm/cpus.txt
-@@ -364,7 +364,7 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-      *  The simplest way to go is to examine affinity IDs of all our CPUs. If
-      *  at least one of them has Aff3 populated, we set #address-cells to 2.
-      */
--    for (cpu = 0; cpu < vms->smp_cpus; cpu++) {
-+    for (cpu = 0; cpu < smp_cpus; cpu++) {
-         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(cpu));
- 
-         if (armcpu->mp_affinity & ARM_AFF3_MASK) {
-@@ -377,7 +377,7 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-     qemu_fdt_setprop_cell(vms->fdt, "/cpus", "#address-cells", addr_cells);
-     qemu_fdt_setprop_cell(vms->fdt, "/cpus", "#size-cells", 0x0);
- 
--    for (cpu = vms->smp_cpus - 1; cpu >= 0; cpu--) {
-+    for (cpu = smp_cpus - 1; cpu >= 0; cpu--) {
-         char *nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
-         ARMCPU *armcpu = ARM_CPU(qemu_get_cpu(cpu));
-         CPUState *cs = CPU(armcpu);
-@@ -387,8 +387,7 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-         qemu_fdt_setprop_string(vms->fdt, nodename, "compatible",
-                                     armcpu->dtb_compatible);
- 
--        if (vms->psci_conduit != QEMU_PSCI_CONDUIT_DISABLED
--            && vms->smp_cpus > 1) {
-+        if (vms->psci_conduit != QEMU_PSCI_CONDUIT_DISABLED && smp_cpus > 1) {
-             qemu_fdt_setprop_string(vms->fdt, nodename,
-                                         "enable-method", "psci");
++#undef IN_HELPER_PROTO
++
+ #undef DEF_HELPER_FLAGS_0
+ #undef DEF_HELPER_FLAGS_1
+ #undef DEF_HELPER_FLAGS_2
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index ddbe06b71a..6c42d76f3a 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -547,6 +547,9 @@ static void do_dup(unsigned vece, uint32_t dofs, uint32_t oprsz,
+         in_c = dup_const(vece, in_c);
+         if (in_c == 0) {
+             oprsz = maxsz;
++            vece = MO_8;
++        } else if (in_c == dup_const(MO_8, in_c)) {
++            vece = MO_8;
          }
-@@ -534,7 +533,7 @@ static void fdt_add_pmu_nodes(const VirtMachineState *vms)
-     if (vms->gic_version == VIRT_GIC_VERSION_2) {
-         irqflags = deposit32(irqflags, GIC_FDT_IRQ_PPI_CPU_START,
-                              GIC_FDT_IRQ_PPI_CPU_WIDTH,
--                             (1 << vms->smp_cpus) - 1);
-+                             (1 << MACHINE(vms)->smp.cpus) - 1);
      }
  
-     qemu_fdt_add_subnode(vms->fdt, "/pmu");
-@@ -1673,9 +1672,9 @@ static void finalize_gic_version(VirtMachineState *vms)
-  * virt_cpu_post_init() must be called after the CPUs have
-  * been realized and the GIC has been created.
-  */
--static void virt_cpu_post_init(VirtMachineState *vms, int max_cpus,
--                               MemoryRegion *sysmem)
-+static void virt_cpu_post_init(VirtMachineState *vms, MemoryRegion *sysmem)
- {
-+    int max_cpus = MACHINE(vms)->smp.max_cpus;
-     bool aarch64, pmu, steal_time;
-     CPUState *cpu;
+@@ -628,6 +631,35 @@ static void do_dup(unsigned vece, uint32_t dofs, uint32_t oprsz,
+     /* Otherwise implement out of line.  */
+     t_ptr = tcg_temp_new_ptr();
+     tcg_gen_addi_ptr(t_ptr, cpu_env, dofs);
++
++    /*
++     * This may be expand_clr for the tail of an operation, e.g.
++     * oprsz == 8 && maxsz == 64.  The size of the clear is misaligned
++     * wrt simd_desc and will assert.  Simply pass all replicated byte
++     * stores through to memset.
++     */
++    if (oprsz == maxsz && vece == MO_8) {
++        TCGv_ptr t_size = tcg_const_ptr(oprsz);
++        TCGv_i32 t_val;
++
++        if (in_32) {
++            t_val = in_32;
++        } else if (in_64) {
++            t_val = tcg_temp_new_i32();
++            tcg_gen_extrl_i64_i32(t_val, in_64);
++        } else {
++            t_val = tcg_const_i32(in_c);
++        }
++        gen_helper_memset(t_ptr, t_ptr, t_val, t_size);
++
++        tcg_temp_free_ptr(t_ptr);
++        tcg_temp_free_ptr(t_size);
++        if (!in_32) {
++            tcg_temp_free_i32(t_val);
++        }
++        return;
++    }
++
+     t_desc = tcg_const_i32(simd_desc(oprsz, maxsz, 0));
  
-@@ -1828,8 +1827,6 @@ static void machvirt_init(MachineState *machine)
-         exit(1);
-     }
- 
--    vms->smp_cpus = smp_cpus;
--
-     if (vms->virt && kvm_enabled()) {
-         error_report("mach-virt: KVM does not support providing "
-                      "Virtualization extensions to the guest CPU");
-@@ -1845,6 +1842,7 @@ static void machvirt_init(MachineState *machine)
-     create_fdt(vms);
- 
-     possible_cpus = mc->possible_cpu_arch_ids(machine);
-+    assert(possible_cpus->len == max_cpus);
-     for (n = 0; n < possible_cpus->len; n++) {
-         Object *cpuobj;
-         CPUState *cs;
-@@ -1965,7 +1963,7 @@ static void machvirt_init(MachineState *machine)
- 
-     create_gic(vms);
- 
--    virt_cpu_post_init(vms, possible_cpus->len, sysmem);
-+    virt_cpu_post_init(vms, sysmem);
- 
-     fdt_add_pmu_nodes(vms);
- 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index abf54fab4981..e4a2d216420f 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -151,7 +151,6 @@ struct VirtMachineState {
-     MemMapEntry *memmap;
-     char *pciehb_nodename;
-     const int *irqmap;
--    int smp_cpus;
-     void *fdt;
-     int fdt_size;
-     uint32_t clock_phandle;
-@@ -182,7 +181,7 @@ static inline int virt_gicv3_redist_region_count(VirtMachineState *vms)
- 
-     assert(vms->gic_version == VIRT_GIC_VERSION_3);
- 
--    return vms->smp_cpus > redist0_capacity ? 2 : 1;
-+    return MACHINE(vms)->smp.cpus > redist0_capacity ? 2 : 1;
- }
- 
- #endif /* QEMU_ARM_VIRT_H */
+     if (vece == MO_64) {
 -- 
-2.26.2
+2.25.1
 
 
