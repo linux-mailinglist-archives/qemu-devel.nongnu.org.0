@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441A22DAD7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 13:51:53 +0100 (CET)
-Received: from localhost ([::1]:55782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB052DADA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 14:02:27 +0100 (CET)
+Received: from localhost ([::1]:59954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp9o0-0002ci-3T
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 07:51:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44558)
+	id 1kp9yD-0004wN-SZ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 08:02:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kp9mt-0002BO-Q3
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 07:50:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54050)
+ id 1kp9ws-0004PD-G4
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 08:01:02 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kp9mr-0004kO-HY
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 07:50:43 -0500
+ id 1kp9wq-0008R2-BJ
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 08:01:02 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kp9mo-0001vp-6P
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 12:50:38 +0000
+ id 1kp9wm-0003cL-Pz
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 13:00:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F14902E8143
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 12:50:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B39562E813B
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 13:00:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 15 Dec 2020 12:39:35 -0000
+Date: Tue, 15 Dec 2020 12:46:28 -0000
 From: Tom Yan <1908266@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -40,14 +40,15 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: tom-ty89
 X-Launchpad-Bug-Reporter: Tom Yan (tom-ty89)
 X-Launchpad-Bug-Modifier: Tom Yan (tom-ty89)
-Message-Id: <160803597538.5351.1615822414009397747.malonedeb@gac.canonical.com>
-Subject: [Bug 1908266] [NEW] spice unnecessary forces nographic
+References: <160803597538.5351.1615822414009397747.malonedeb@gac.canonical.com>
+Message-Id: <160803638869.31582.6155578455561447998.malone@soybean.canonical.com>
+Subject: [Bug 1908266] Re: spice unnecessary forces nographic
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: f922896149099f78192d66da90d911b2724f1666
+X-Launchpad-Hash: 76d0b2e5a1e562082135732d17a9cc9026b04758
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,14 +73,8 @@ Reply-To: Bug 1908266 <1908266@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-When spice is enabled, qemu does not give the graphical window. It
-should not imply -nographic but only -display none.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+More precisely, there should be a way to prevent -vga qxl from being
+wired to the graphical window.
 
 -- =
 
