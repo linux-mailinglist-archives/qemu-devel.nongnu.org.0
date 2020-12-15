@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2ED2DB377
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 19:17:11 +0100 (CET)
-Received: from localhost ([::1]:57806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2A72DB34E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 19:10:23 +0100 (CET)
+Received: from localhost ([::1]:36658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpEso-000813-PZ
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 13:17:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34352)
+	id 1kpEmD-0007T2-FJ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 13:10:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpEXW-0003Fp-7J
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47443)
+ id 1kpEXX-0003I2-21
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpEXN-0001W4-5S
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:09 -0500
+ id 1kpEXN-0001WG-Pp
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608054900;
+ s=mimecast20190719; t=1608054901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IoIooY5kTNto+GVUebzq1nsJ9dybl104U1SgaGltCvs=;
- b=DQvuK9rjH+8a3Qgnkbp0651MEeGh3v7e3nzPsFKNnp8gbrtFvNvb2pstyNFjURJ8buzWKl
- 9S4z4ki4gsYGhSLNlTPHAh9y1Fr2XgbbEPvQLv1TscA6KsLp+FjOPNckjrawHGJQXLgr+I
- tiH2wTsZ6YQtey4hTN/H0CWyXVRihWc=
+ bh=uGwQL6mnSIoot0h7+uDzWrDZcfWiHQRtUbTu98yN/Ks=;
+ b=Uz58RtOzxvZsoysjTEIcqWqy8ZCin+Qvn6vVBVMUHT0YT5arCkjcxOdZYlUy5q97Rn6J4z
+ W5xC8FCsBlqIB97IzPMEMJDZpExclJLv1vUjNKTKi+B/BfrFilg8iLj5GgNO/LiiONk/Tb
+ H5g1BhUV1I4lo1dd3FORyisXxNPeWk0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-HAMrdilJNPynCZ-jEJw2FQ-1; Tue, 15 Dec 2020 12:54:58 -0500
-X-MC-Unique: HAMrdilJNPynCZ-jEJw2FQ-1
+ us-mta-244-vsjlM_-8NCCRfNCr5qpQWg-1; Tue, 15 Dec 2020 12:54:59 -0500
+X-MC-Unique: vsjlM_-8NCCRfNCr5qpQWg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9F7910054FF
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 17:54:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40FE3800D55
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 17:54:58 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A82145C1C4;
- Tue, 15 Dec 2020 17:54:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0EF125C1C4
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 17:54:57 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/45] qemu-option: pass QemuOptsList to opts_accepts_any
-Date: Tue, 15 Dec 2020 12:54:28 -0500
-Message-Id: <20201215175445.1272776-29-pbonzini@redhat.com>
+Subject: [PULL 29/45] vl: rename local variable in configure_accelerators
+Date: Tue, 15 Dec 2020 12:54:29 -0500
+Message-Id: <20201215175445.1272776-30-pbonzini@redhat.com>
 In-Reply-To: <20201215175445.1272776-1-pbonzini@redhat.com>
 References: <20201215175445.1272776-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -79,98 +79,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A QemuOptsList can be of one of two kinds: either it is pre-validated, or
-it accepts any key and validation happens somewhere else (typically in
-a Visitor or against a list of QOM properties).  opts_accepts_any
-returns true if a QemuOpts instance was created from a QemuOptsList of
-the latter kind, but there is no function to do the check on a QemuOptsList.
+Silly patch extracted from the next one, which is already big enough.
 
-Since this property comes from the QemuOptsList and almost all callers of
-opts_accepts_any use opts->list anyway, modify the function to accept
-QemuOptsList.
+Because there are already local variables named "accel", we will name
+the global vl.c variable for "-M accel" accelerators instead.  Rename
+it already in configure_accelerators to be ready.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/qemu-option.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ softmmu/vl.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 6bd654a473..c88e159f18 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -460,16 +460,16 @@ static bool qemu_opt_parse(QemuOpt *opt, Error **errp)
-     }
- }
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index c56e6dc0b3..0ed5c5ba93 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2159,17 +2159,17 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
  
--static bool opts_accepts_any(const QemuOpts *opts)
-+static bool opts_accepts_any(const QemuOptsList *list)
+ static void configure_accelerators(const char *progname)
  {
--    return opts->list->desc[0].name == NULL;
-+    return list->desc[0].name == NULL;
- }
+-    const char *accel;
++    const char *accelerators;
+     bool init_failed = false;
  
- int qemu_opt_unset(QemuOpts *opts, const char *name)
- {
-     QemuOpt *opt = qemu_opt_find(opts, name);
+     qemu_opts_foreach(qemu_find_opts("icount"),
+                       do_configure_icount, NULL, &error_fatal);
  
--    assert(opts_accepts_any(opts));
-+    assert(opts_accepts_any(opts->list));
+-    accel = qemu_opt_get(qemu_get_machine_opts(), "accel");
++    accelerators = qemu_opt_get(qemu_get_machine_opts(), "accel");
+     if (QTAILQ_EMPTY(&qemu_accel_opts.head)) {
+         char **accel_list, **tmp;
  
-     if (opt == NULL) {
-         return -1;
-@@ -500,9 +500,10 @@ static bool opt_validate(QemuOpt *opt, bool *help_wanted,
-                          Error **errp)
- {
-     const QemuOptDesc *desc;
-+    const QemuOptsList *list = opt->opts->list;
+-        if (accel == NULL) {
++        if (accelerators == NULL) {
+             /* Select the default accelerator */
+             bool have_tcg = accel_find("tcg");
+             bool have_kvm = accel_find("kvm");
+@@ -2177,21 +2177,21 @@ static void configure_accelerators(const char *progname)
+             if (have_tcg && have_kvm) {
+                 if (g_str_has_suffix(progname, "kvm")) {
+                     /* If the program name ends with "kvm", we prefer KVM */
+-                    accel = "kvm:tcg";
++                    accelerators = "kvm:tcg";
+                 } else {
+-                    accel = "tcg:kvm";
++                    accelerators = "tcg:kvm";
+                 }
+             } else if (have_kvm) {
+-                accel = "kvm";
++                accelerators = "kvm";
+             } else if (have_tcg) {
+-                accel = "tcg";
++                accelerators = "tcg";
+             } else {
+                 error_report("No accelerator selected and"
+                              " no default accelerator available");
+                 exit(1);
+             }
+         }
+-        accel_list = g_strsplit(accel, ":", 0);
++        accel_list = g_strsplit(accelerators, ":", 0);
  
--    desc = find_desc_by_name(opt->opts->list->desc, opt->name);
--    if (!desc && !opts_accepts_any(opt->opts)) {
-+    desc = find_desc_by_name(list->desc, opt->name);
-+    if (!desc && !opts_accepts_any(list)) {
-         error_setg(errp, QERR_INVALID_PARAMETER, opt->name);
-         if (help_wanted && is_help_option(opt->name)) {
-             *help_wanted = true;
-@@ -535,9 +536,10 @@ bool qemu_opt_set_bool(QemuOpts *opts, const char *name, bool val,
- {
-     QemuOpt *opt;
-     const QemuOptDesc *desc;
-+    const QemuOptsList *list = opts->list;
- 
--    desc = find_desc_by_name(opts->list->desc, name);
--    if (!desc && !opts_accepts_any(opts)) {
-+    desc = find_desc_by_name(list->desc, name);
-+    if (!desc && !opts_accepts_any(list)) {
-         error_setg(errp, QERR_INVALID_PARAMETER, name);
-         return false;
-     }
-@@ -557,9 +559,10 @@ bool qemu_opt_set_number(QemuOpts *opts, const char *name, int64_t val,
- {
-     QemuOpt *opt;
-     const QemuOptDesc *desc;
-+    const QemuOptsList *list = opts->list;
- 
--    desc = find_desc_by_name(opts->list->desc, name);
--    if (!desc && !opts_accepts_any(opts)) {
-+    desc = find_desc_by_name(list->desc, name);
-+    if (!desc && !opts_accepts_any(list)) {
-         error_setg(errp, QERR_INVALID_PARAMETER, name);
-         return false;
-     }
-@@ -1107,7 +1110,7 @@ bool qemu_opts_validate(QemuOpts *opts, const QemuOptDesc *desc, Error **errp)
- {
-     QemuOpt *opt;
- 
--    assert(opts_accepts_any(opts));
-+    assert(opts_accepts_any(opts->list));
- 
-     QTAILQ_FOREACH(opt, &opts->head, next) {
-         opt->desc = find_desc_by_name(desc, opt->name);
+         for (tmp = accel_list; *tmp; tmp++) {
+             /*
+@@ -2207,7 +2207,7 @@ static void configure_accelerators(const char *progname)
+         }
+         g_strfreev(accel_list);
+     } else {
+-        if (accel != NULL) {
++        if (accelerators != NULL) {
+             error_report("The -accel and \"-machine accel=\" options are incompatible");
+             exit(1);
+         }
 -- 
 2.26.2
 
