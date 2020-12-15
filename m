@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935E42DB69E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 23:45:04 +0100 (CET)
-Received: from localhost ([::1]:58998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E62652DB6A4
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 23:48:25 +0100 (CET)
+Received: from localhost ([::1]:35338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpJ43-00014L-Fa
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 17:45:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35188)
+	id 1kpJ7I-0004Vt-Us
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 17:48:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kpJ1E-0007Qy-8Y
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:42:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kpJ0x-00073B-Gk
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:42:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608072110;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WRK3ASZJ9AJJN/7E7ETacVX5syK9T+YiSHqFgmKQQ2w=;
- b=K5pOD7zIlPinFihl/M2e42DLGJHHL3NxSwsyb6aTQqOU60pNmOjuNigkXhz9wk8LlLtIwz
- IJY6j8C+ARkGzBSa+8yUD51YX9dksmsAyHeh5vPSLtElygvp1TsETt+qpqxUU2bp6ZbVWc
- ffGVEdHZ2a+UM2y1X//MYeDG82raugk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-Hh5a_etnNAiknweNXFwPBg-1; Tue, 15 Dec 2020 17:41:49 -0500
-X-MC-Unique: Hh5a_etnNAiknweNXFwPBg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C5EA107ACF5;
- Tue, 15 Dec 2020 22:41:48 +0000 (UTC)
-Received: from localhost (ovpn-115-226.rdu2.redhat.com [10.10.115.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD68C704DA;
- Tue, 15 Dec 2020 22:41:44 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpJ2O-0000Aj-2W
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:43:21 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38449)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpJ2L-0007YP-1a
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:43:19 -0500
+Received: by mail-oi1-x242.google.com with SMTP id x13so16166783oic.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 14:43:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=Tac8R0/4/dnpUcxt6Aj8QnSKzTmEC8dVmvD5YDU6yl4=;
+ b=ogNklUOdINw15uqD1JRGpwL9IF1VNZbbWTCMaXfR5zxYB8pwMsR+zqlgF5nZJnhk5u
+ SPrEmippAr3LM29ORDYiACY+3hSb2KEINSENdQZm+KNprYYbcyYvv1YyT8pnB58nmbTn
+ OWpbIwTyyMnOaMXFpRvRfhDUyxussOwGtLqQaKJNlzE34lA/6R+zr1XeBQicnX3m32d9
+ dB6p8etRFtPw87geHrbX7Ay+NUEijDk36qqafLZ9R9mXvRCM9rSlIntorx8rGjkb3rym
+ 5l0qqVTGfH578s5R1LdVm2/PPvgDuNYqtwzVH4WeLGsmeKNAGPqcqu7mSGAHhR0I48ra
+ BC8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Tac8R0/4/dnpUcxt6Aj8QnSKzTmEC8dVmvD5YDU6yl4=;
+ b=cokc/naoR/TKFyKnBgy8Kq4QpOXO+hSiLBkn8kKm+wVQFjrn6b+ScRE19KCuF+84vz
+ q6IGP6+gsEY6fhVL1m3uCk7gGdsjvdWjiTPxofDU8uF541/tDkEiwHte/EaBq2WUnK1r
+ UqDXfPmEgRR0tfauuyhL78RGS+IoXy93tlEqciB1fUhXI674Lr7dQt7ROCDDh5nFp8vo
+ Ak+XvSHrdnfD1WgueGkSmag1X/W4WDSw6xlHslikGZSErKOpbCWQqctv34+wLyXitMrS
+ 5oRHHf25+Kz4xNe4zyZMbAXbJjHiOEvoqoJLD0JrqATty5NirAYWr4bX4jtZVaXY2mG5
+ 98QQ==
+X-Gm-Message-State: AOAM533yb1nZivUrJg2kDK1bD0EyAUUFQPZqelfTKdk9mQ/DiW7UHl/v
+ b3Eg5VdBwD5wM3oWg2oUtsWEBcPdv7O8+qfI
+X-Google-Smtp-Source: ABdhPJyAbwAaGD5lnDegWLK088FSpmP1W6RA/CEtkmQXIgZsgfQiDGrsbTkoYcCAQCUSzeo+X7t47g==
+X-Received: by 2002:aca:b587:: with SMTP id e129mr587060oif.90.1608072195427; 
+ Tue, 15 Dec 2020 14:43:15 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id q21sm10030oog.30.2020.12.15.14.43.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Dec 2020 14:43:14 -0800 (PST)
+Subject: Re: [PATCH v4 07/43] tcg: Add in_code_gen_buffer
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH 2/2] qom: Assert that objects being destroyed have no parent
-Date: Tue, 15 Dec 2020 17:41:33 -0500
-Message-Id: <20201215224133.3545901-3-ehabkost@redhat.com>
-In-Reply-To: <20201215224133.3545901-1-ehabkost@redhat.com>
-References: <20201215224133.3545901-1-ehabkost@redhat.com>
+References: <20201214140314.18544-1-richard.henderson@linaro.org>
+ <20201214140314.18544-8-richard.henderson@linaro.org>
+ <0ca448f1-bbd1-36b3-67c7-d430005db00d@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a79b5c1f-80c3-d0cf-770e-838cafa3373d@linaro.org>
+Date: Tue, 15 Dec 2020 16:43:12 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <0ca448f1-bbd1-36b3-67c7-d430005db00d@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x242.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,37 +90,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QOM reference counting bugs are often hard to detect, but there's
-one kind of bug that's easier: if we are freeing an object but is
-still attached to a parent, it means the reference count is wrong
-(because the parent always hold a reference to their children).
+On 12/14/20 4:09 PM, Philippe Mathieu-Daudé wrote:
+> On 12/14/20 3:02 PM, Richard Henderson wrote:
+>> Create a function to determine if a pointer is within the buffer.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  include/tcg/tcg.h         |  6 ++++++
+>>  accel/tcg/translate-all.c | 26 ++++++++------------------
+>>  2 files changed, 14 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+>> index bb1e97b13b..e4d0ace44b 100644
+>> --- a/include/tcg/tcg.h
+>> +++ b/include/tcg/tcg.h
+>> @@ -680,6 +680,12 @@ extern __thread TCGContext *tcg_ctx;
+>>  extern void *tcg_code_gen_epilogue;
+>>  extern TCGv_env cpu_env;
+>>  
+>> +static inline bool in_code_gen_buffer(const void *p)
+>> +{
+>> +    const TCGContext *s = &tcg_init_ctx;
+>> +    return (size_t)(p - s->code_gen_buffer) <= s->code_gen_buffer_size;
+> 
+> If 'p == s->code_gen_buffer + s->code_gen_buffer_size',
+> is it really "in" the buffer?
 
-Add an assertion to make sure we detect those cases.
+Well, sort of.
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- qom/object.c | 1 +
- 1 file changed, 1 insertion(+)
+Compare the fact that in C, a pointer to the end of an array is valid as a
+pointer even though it can't be dereferenced.  This is a pointer to the end of
+the buffer.
 
-diff --git a/qom/object.c b/qom/object.c
-index f2ae6e6b2a..5cfed6d7c6 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -685,6 +685,7 @@ static void object_finalize(void *data)
-     object_deinit(obj, ti);
- 
-     g_assert(obj->ref == 0);
-+    g_assert(obj->parent == NULL);
-     if (obj->free) {
-         obj->free(obj);
-     }
--- 
-2.28.0
+Extra commentary required?
 
+
+r~
 
