@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CBFF2DAD49
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 13:34:01 +0100 (CET)
-Received: from localhost ([::1]:33740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AA52DAD60
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 13:40:07 +0100 (CET)
+Received: from localhost ([::1]:52884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp9Wc-00015B-3A
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 07:34:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40682)
+	id 1kp9cc-0000j6-Em
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 07:40:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kp9Tc-0007kU-V2; Tue, 15 Dec 2020 07:30:48 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2559)
+ id 1kp9Tl-0007uE-8T; Tue, 15 Dec 2020 07:30:57 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2831)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kp9TX-0006ru-UG; Tue, 15 Dec 2020 07:30:48 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CwHdj3SY1zhs6y;
- Tue, 15 Dec 2020 20:30:01 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.498.0; Tue, 15 Dec 2020
- 20:30:24 +0800
+ id 1kp9Tc-0006ud-Pz; Tue, 15 Dec 2020 07:30:57 -0500
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CwHdN6Ql9zkqXY;
+ Tue, 15 Dec 2020 20:29:44 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS407-HUB.china.huawei.com
+ (10.3.19.207) with Microsoft SMTP Server id 14.3.498.0; Tue, 15 Dec 2020
+ 20:30:25 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v4 1/7] qapi/block-core: Add retry option for error action
-Date: Tue, 15 Dec 2020 20:30:05 +0800
-Message-ID: <20201215123011.4048-2-cenjiahui@huawei.com>
+Subject: [PATCH v4 2/7] block-backend: Introduce retry timer
+Date: Tue, 15 Dec 2020 20:30:06 +0800
+Message-ID: <20201215123011.4048-3-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201215123011.4048-1-cenjiahui@huawei.com>
 References: <20201215123011.4048-1-cenjiahui@huawei.com>
@@ -36,8 +36,8 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.184.155]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=cenjiahui@huawei.com;
- helo=szxga06-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=cenjiahui@huawei.com;
+ helo=szxga04-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -64,50 +64,67 @@ Cc: Kevin Wolf <kwolf@redhat.com>, cenjiahui@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new error action 'retry' to support retry on errors.
+Add a timer to regularly trigger retry on errors.
 
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- blockdev.c           | 2 ++
- qapi/block-core.json | 4 ++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ block/block-backend.c | 21 ++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/blockdev.c b/blockdev.c
-index 412354b4b6..47c0e6db52 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -342,6 +342,8 @@ static int parse_block_error_action(const char *buf, bool is_read, Error **errp)
-         return BLOCKDEV_ON_ERROR_STOP;
-     } else if (!strcmp(buf, "report")) {
-         return BLOCKDEV_ON_ERROR_REPORT;
-+    } else if (!strcmp(buf, "retry")) {
-+        return BLOCKDEV_ON_ERROR_RETRY;
-     } else {
-         error_setg(errp, "'%s' invalid %s error action",
-                    buf, is_read ? "read" : "write");
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 04c5196e59..ef5492bcdf 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1146,7 +1146,7 @@
- # Since: 1.3
- ##
- { 'enum': 'BlockdevOnError',
--  'data': ['report', 'ignore', 'enospc', 'stop', 'auto'] }
-+  'data': ['report', 'ignore', 'enospc', 'stop', 'auto', 'retry'] }
+diff --git a/block/block-backend.c b/block/block-backend.c
+index ce78d30794..fe775ea298 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -35,6 +35,9 @@
  
- ##
- # @MirrorSyncMode:
-@@ -4770,7 +4770,7 @@
- # Since: 2.1
- ##
- { 'enum': 'BlockErrorAction',
--  'data': [ 'ignore', 'report', 'stop' ] }
-+  'data': [ 'ignore', 'report', 'stop', 'retry' ] }
+ static AioContext *blk_aiocb_get_aio_context(BlockAIOCB *acb);
  
++/* block backend default retry interval */
++#define BLOCK_BACKEND_DEFAULT_RETRY_INTERVAL   1000
++
+ typedef struct BlockBackendAioNotifier {
+     void (*attached_aio_context)(AioContext *new_context, void *opaque);
+     void (*detach_aio_context)(void *opaque);
+@@ -95,6 +98,15 @@ struct BlockBackend {
+      * Accessed with atomic ops.
+      */
+     unsigned int in_flight;
++
++    /* Timer for retry on errors. */
++    QEMUTimer *retry_timer;
++    /* Interval in ms to trigger next retry. */
++    int64_t retry_interval;
++    /* Start time of the first error. Used to check timeout. */
++    int64_t retry_start_time;
++    /* Retry timeout. 0 represents infinite retry. */
++    int64_t retry_timeout;
+ };
  
- ##
+ typedef struct BlockBackendAIOCB {
+@@ -345,6 +357,11 @@ BlockBackend *blk_new(AioContext *ctx, uint64_t perm, uint64_t shared_perm)
+     blk->on_read_error = BLOCKDEV_ON_ERROR_REPORT;
+     blk->on_write_error = BLOCKDEV_ON_ERROR_ENOSPC;
+ 
++    blk->retry_timer = NULL;
++    blk->retry_interval = BLOCK_BACKEND_DEFAULT_RETRY_INTERVAL;
++    blk->retry_start_time = 0;
++    blk->retry_timeout = 0;
++
+     block_acct_init(&blk->stats);
+ 
+     qemu_co_queue_init(&blk->queued_requests);
+@@ -456,6 +473,10 @@ static void blk_delete(BlockBackend *blk)
+     QTAILQ_REMOVE(&block_backends, blk, link);
+     drive_info_del(blk->legacy_dinfo);
+     block_acct_cleanup(&blk->stats);
++    if (blk->retry_timer) {
++        timer_del(blk->retry_timer);
++        timer_free(blk->retry_timer);
++    }
+     g_free(blk);
+ }
+ 
 -- 
 2.28.0
 
