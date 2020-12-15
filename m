@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1E92DB256
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 18:17:11 +0100 (CET)
-Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF732DB271
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 18:25:35 +0100 (CET)
+Received: from localhost ([::1]:52546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpDwj-0003y5-Vx
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 12:17:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52472)
+	id 1kpE4r-0006qh-Ti
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 12:25:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kpDvT-0003H6-H5; Tue, 15 Dec 2020 12:15:51 -0500
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:46520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kpDvQ-00044j-OR; Tue, 15 Dec 2020 12:15:51 -0500
-Received: by mail-il1-x141.google.com with SMTP id 75so7883806ilv.13;
- Tue, 15 Dec 2020 09:15:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MaMh6FeKWEDY+vcYgvizLN31RsfQSmVod5BOjrBrmW8=;
- b=Mm+kQI1ktlBACv71FGcsY1MPA9lYcZiEUUiG+kn9BKDMpp38SEDn6dLzvIGsvD9w3Q
- aikixXh/GovjEtwypBcuzOoPPh+HoY7iTzhcuWs9xl25eNF2A3iXEZ40pdlYQ/kWD2J5
- N428MpV5pFbExOKoX6pvfzKrxpimYdQ3YCnhlJs9SnHr3OSrXHbYWnppu8GkasrK95/Q
- CA8vYsRzGLTGUmYBHuAcs4dVWnpf6Z9GVYuPVRT6GB/jo9jlsX1s0HKAh9+5an3yXcKK
- jeTiqhFEOq/VxyURXJYaXWlkJeTArODG4aiKk1O/hkxdOsJ0XZy45FCyubnpc4VYdRp3
- qQQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MaMh6FeKWEDY+vcYgvizLN31RsfQSmVod5BOjrBrmW8=;
- b=dYoV+hs+GF7ccF+7OIpEoMuSD7RMEZkOs9WqzdIp0xg8yBZN4bz8g7lGBqKHtZ98SF
- h0TGrJY/DvN2LXYduodLdh8msjMKaYIfqobwR/w7+cQTQp1dyslzVMEJc4VPp0dMkxbY
- lfzSJL26ZMclJCNwS+0NxesLjpdJuHeUH+bDgT8UoNr0sg6z47ldm113yR6v1GxjsKi0
- h0aZRFssQqzwAeVsaSfZmYaHUFqSdVnMz+JuCQeM1Yuzz6PVDEDav0gSXMLkCLNua9qt
- OuHjkipFzrWUvMArVPXHO0cGW6lUrXaQkNFpDGPOSCbNef5bRjub95wXAb7EZZOhqD9h
- e/9Q==
-X-Gm-Message-State: AOAM531iwcxGVQ+AaL0Oz9JwzOC0pUC+aMtenntSoMytpMJCFaNO2HCd
- OL1U+JBT8AprvIF0awXYI/4B4dezZHtDYwE8JIA=
-X-Google-Smtp-Source: ABdhPJypJC7VhYjU98GibTk5iOiLPnWcmIGjfLNRnQlWoQNHH3zMCDnVJEbFe5TdRde4ViO8hKU1jqcAZX+3H7cUIcU=
-X-Received: by 2002:a92:dc0f:: with SMTP id t15mr42238258iln.267.1608052547481; 
- Tue, 15 Dec 2020 09:15:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1kpE3T-0006Fh-Iy
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:24:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45919)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1kpE3O-0005Ak-2A
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:24:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608053039;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rUdEUiX0emWRYmCkDrP17XYuL2iUgaq+xIQzZwTCHCQ=;
+ b=UsVGToaQD6wMJrXaeRuuUisJ5jYbCF9lqAkq9cMWp1m9XIBUd64IIOIKjhW41v4uTY9uqU
+ 4Hvm7g08iHhJ0PED6vMmmS//5m5hhXenD/oX7nJ4awAvJIuV4pLQQes6CpfKIrzJRHXz2Y
+ R6I8PSCL64nGW5bwJ0qz1CvVoUFIwQw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-243-hCy7xXOIO3OqX7U5VVhdwg-1; Tue, 15 Dec 2020 12:23:53 -0500
+X-MC-Unique: hCy7xXOIO3OqX7U5VVhdwg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28CE119251A6;
+ Tue, 15 Dec 2020 17:23:51 +0000 (UTC)
+Received: from localhost (ovpn-114-253.rdu2.redhat.com [10.10.114.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB8B260C0F;
+ Tue, 15 Dec 2020 17:23:38 +0000 (UTC)
+Date: Tue, 15 Dec 2020 18:23:37 +0100
+From: Sergio Lopez <slp@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 2/4] block: Avoid processing BDS twice in
+ bdrv_set_aio_context_ignore()
+Message-ID: <20201215172337.w7vcn2woze2ejgco@mhamilton>
+References: <20201214170519.223781-1-slp@redhat.com>
+ <20201214170519.223781-3-slp@redhat.com>
+ <20201215121233.GD8185@merkur.fritz.box>
+ <20201215131527.evpidxevevtfy54n@mhamilton>
+ <20201215150119.GE8185@merkur.fritz.box>
 MIME-Version: 1.0
-References: <cover.1607967113.git.alistair.francis@wdc.com>
- <2cffe9cb8055c9451872b3a08192e19fec12fb1a.1607967113.git.alistair.francis@wdc.com>
- <CAEUhbmUhKuhEPU=RyRN3CVYDh=oGoQF1e-tSX=jODw4c2Ub1kA@mail.gmail.com>
- <97fe497a-06c0-43e4-3144-eee0c439686a@linaro.org>
-In-Reply-To: <97fe497a-06c0-43e4-3144-eee0c439686a@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 15 Dec 2020 09:15:20 -0800
-Message-ID: <CAKmqyKNKA5jmAcHiJAvBXBFnnk+R9GLxOOLQTxam2KB4hSXmgA@mail.gmail.com>
-Subject: Re: [PATCH v3 09/15] target/riscv: fpu_helper: Match function defs in
- HELPER macros
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201215150119.GE8185@merkur.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="smfgrrjgqasjiwvo"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=slp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,36 +81,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 15, 2020 at 7:13 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 12/15/20 3:38 AM, Bin Meng wrote:
-> >>  #if defined(TARGET_RISCV64)
-> >> -uint64_t helper_fcvt_l_s(CPURISCVState *env, uint64_t rs1)
-> >> +target_ulong helper_fcvt_l_s(CPURISCVState *env, uint64_t rs1)
-> >>  {
-> >>      float32 frs1 = check_nanbox_s(rs1);
-> >>      return float32_to_int64(frs1, &env->fp_status);
-> >
-> > float32_to_int64() returns int64_t, so there is a truncation if
-> > changing it to target_ulong for 32-bit.
->
-> There's not, because this function isn't defined for 32-bit (see first quoted
-> line).  But this point of confusion is exactly what I pointed out vs the
-> previous revision.
+--smfgrrjgqasjiwvo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ok, I have swapped this to changing helper.h now.
+On Tue, Dec 15, 2020 at 04:01:19PM +0100, Kevin Wolf wrote:
+> Am 15.12.2020 um 14:15 hat Sergio Lopez geschrieben:
+> > On Tue, Dec 15, 2020 at 01:12:33PM +0100, Kevin Wolf wrote:
+> > > Am 14.12.2020 um 18:05 hat Sergio Lopez geschrieben:
+> > > > While processing the parents of a BDS, one of the parents may proce=
+ss
+> > > > the child that's doing the tail recursion, which leads to a BDS bei=
+ng
+> > > > processed twice. This is especially problematic for the aio_notifie=
+rs,
+> > > > as they might attempt to work on both the old and the new AIO
+> > > > contexts.
+> > > >=20
+> > > > To avoid this, add the BDS pointer to the ignore list, and check th=
+e
+> > > > child BDS pointer while iterating over the children.
+> > > >=20
+> > > > Signed-off-by: Sergio Lopez <slp@redhat.com>
+> > >=20
+> > > Ugh, so we get a mixed list of BdrvChild and BlockDriverState? :-/
+> >=20
+> > I know, it's effective but quite ugly...
+> >=20
+> > > What is the specific scenario where you saw this breaking? Did you ha=
+ve
+> > > multiple BdrvChild connections between two nodes so that we would go =
+to
+> > > the parent node through one and then come back to the child node thro=
+ugh
+> > > the other?
+> >=20
+> > I don't think this is a corner case. If the graph is walked top->down,
+> > there's no problem since children are added to the ignore list before
+> > getting processed, and siblings don't process each other. But, if the
+> > graph is walked bottom->up, a BDS will start processing its parents
+> > without adding itself to the ignore list, so there's nothing
+> > preventing them from processing it again.
+>=20
+> I don't understand. child is added to ignore before calling the parent
+> callback on it, so how can we come back through the same BdrvChild?
+>=20
+>     QLIST_FOREACH(child, &bs->parents, next_parent) {
+>         if (g_slist_find(*ignore, child)) {
+>             continue;
+>         }
+>         assert(child->klass->set_aio_ctx);
+>         *ignore =3D g_slist_prepend(*ignore, child);
+>         child->klass->set_aio_ctx(child, new_context, ignore);
+>     }
 
-Alistair
+Perhaps I'm missing something, but the way I understand it, that loop
+is adding the BdrvChild pointer of each of its parents, but not the
+BdrvChild pointer of the BDS that was passed as an argument to
+b_s_a_c_i.
 
->
->
-> r~
+> You didn't dump the BdrvChild here. I think that would add some
+> information on why we re-entered 0x555ee2fbf660. Maybe you can also add
+> bs->drv->format_name for each node to make the scenario less abstract?
+
+I've generated another trace with more data:
+
+bs=3D0x565505e48030 (backup-top) enter
+bs=3D0x565505e48030 (backup-top) processing children
+bs=3D0x565505e48030 (backup-top) calling bsaci child=3D0x565505e42090 (chil=
+d->bs=3D0x565505e5d420)
+bs=3D0x565505e5d420 (qcow2) enter
+bs=3D0x565505e5d420 (qcow2) processing children
+bs=3D0x565505e5d420 (qcow2) calling bsaci child=3D0x565505e41ea0 (child->bs=
+=3D0x565505e52060)
+bs=3D0x565505e52060 (file) enter
+bs=3D0x565505e52060 (file) processing children
+bs=3D0x565505e52060 (file) processing parents
+bs=3D0x565505e52060 (file) processing itself
+bs=3D0x565505e5d420 (qcow2) processing parents
+bs=3D0x565505e5d420 (qcow2) calling set_aio_ctx child=3D0x5655066a34d0
+bs=3D0x565505fbf660 (qcow2) enter
+bs=3D0x565505fbf660 (qcow2) processing children
+bs=3D0x565505fbf660 (qcow2) calling bsaci child=3D0x565505e41d20 (child->bs=
+=3D0x565506bc0c00)
+bs=3D0x565506bc0c00 (file) enter
+bs=3D0x565506bc0c00 (file) processing children
+bs=3D0x565506bc0c00 (file) processing parents
+bs=3D0x565506bc0c00 (file) processing itself
+bs=3D0x565505fbf660 (qcow2) processing parents
+bs=3D0x565505fbf660 (qcow2) calling set_aio_ctx child=3D0x565505fc7aa0
+bs=3D0x565505fbf660 (qcow2) calling set_aio_ctx child=3D0x5655068b8510
+bs=3D0x565505e48030 (backup-top) enter
+bs=3D0x565505e48030 (backup-top) processing children
+bs=3D0x565505e48030 (backup-top) calling bsaci child=3D0x565505e3c450 (chil=
+d->bs=3D0x565505fbf660)
+bs=3D0x565505fbf660 (qcow2) enter
+bs=3D0x565505fbf660 (qcow2) processing children
+bs=3D0x565505fbf660 (qcow2) processing parents
+bs=3D0x565505fbf660 (qcow2) processing itself
+bs=3D0x565505e48030 (backup-top) processing parents
+bs=3D0x565505e48030 (backup-top) calling set_aio_ctx child=3D0x565505e402d0
+bs=3D0x565505e48030 (backup-top) processing itself
+bs=3D0x565505fbf660 (qcow2) processing itself
+
+
+So it seems this is happening:
+
+backup-top (5e48030) <---------| (5)
+   |    |                      |
+   |    | (6) ------------> qcow2 (5fbf660)
+   |                           ^    |
+   |                       (3) |    | (4)
+   |-> (1) qcow2 (5e5d420) -----    |-> file (6bc0c00)
+   |
+   |-> (2) file (5e52060)
+
+backup-top (5e48030), the BDS that was passed as argument in the first
+bdrv_set_aio_context_ignore() call, is re-entered when qcow2 (5fbf660)
+is processing its parents, and the latter is also re-entered when the
+first one starts processing its children again.
+
+Sergio.
+
+--smfgrrjgqasjiwvo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl/Y8RgACgkQ9GknjS8M
+AjV8gA/6AzvhEg8xeUBjecxy67BEBGuQYW5n0uFMZ3eWYWc3rtBB2CEWtYIWwtc+
+4D74Ez21djBsCAoS3AjQeeMQ6eGSRT7IP3A1g5FONqVqzgouny7jJMUfUgXe12lg
+goBFlYA8eoYWB4lVHxLn1vbAImEyOkBg3c1DkMj+auBLkRS7cVGusvWGv8XYqQc5
+Nnfu/6MYS2eT0K8noWtRMoccu8nPvAUJP6ijAhA7ktXonsS7B/+IdX0Ongfc0IdU
+531DOnmQwm8P67V+EKj7pe5g/W/UKwfeeRbVvIMptUD0wktJfjQUuE9nqeG8iEm/
+LH5KcLIZlM9S6EbQp2pXhYWBJR/g4jblbf8dyRYLi/Hv36LI5vQdSg+DghkyhvVp
+3RSROZypQxVxBCb3W/5n4OIbpKEm87WnES2Lr5lyzy4QEKSjr6owi6EXP8WTfmU7
+0+7HtStBZ51C84ZkvkneV7W9dGwCzzIrQyJ6aRnirwN6fVtrv65GUXkhi/ysln4x
+N/j95DF1xZU8yawCKkrP7GY7clHOyYhhpeLvcEmn9mi9r2ypIAlRN7d2tfR5BKjH
+cjkF6M5uq9gxrcLFjmLgAGo1f/D5S7T6qo3Pkt6gcuUX0R2SlP0PspN15y1aEjPF
+8kiVA9FS+I/zXvLZ3R8Rt/sbZslb5/SNUP4Y1NnwYivDOmVOszI=
+=8V3n
+-----END PGP SIGNATURE-----
+
+--smfgrrjgqasjiwvo--
+
 
