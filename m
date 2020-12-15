@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601162DA493
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 01:15:34 +0100 (CET)
-Received: from localhost ([::1]:37494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 538BD2DA49F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 01:24:14 +0100 (CET)
+Received: from localhost ([::1]:57224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1koy05-0002Xj-Eh
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 19:15:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46918)
+	id 1koy8O-0002Sf-Ko
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 19:24:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3rP_XXwgKChEDByr5A9yx55x2v.t537v3B-uvCv2454x4B.58x@flex--wuhaotsh.bounces.google.com>)
- id 1koxyD-0000j3-Jt
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 19:13:37 -0500
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:40329)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1koy0b-0003sl-3k
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 19:16:05 -0500
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:36468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3rP_XXwgKChEDByr5A9yx55x2v.t537v3B-uvCv2454x4B.58x@flex--wuhaotsh.bounces.google.com>)
- id 1koxyA-000386-IX
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 19:13:37 -0500
-Received: by mail-yb1-xb4a.google.com with SMTP id e68so13652399yba.7
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 16:13:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1koy0X-0003Ng-Od
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 19:16:04 -0500
+Received: by mail-lf1-x141.google.com with SMTP id o13so11651741lfr.3
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 16:16:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:in-reply-to:message-id:mime-version:references:subject
- :from:to:cc; bh=Qef3yXv0TsG1n2HUHCghNfpm4BorHRn0imS/CoXX65E=;
- b=EwEDbATAl8a2AIwl5PfGmb9ADbXUXWme/8qGzgblbaxHrZukZZ58EPXL/mj0rIzJpm
- vr6UENCPhKqplqXIeT0gfYEE9p0PtTjfU2DejEsNN6Ngz8ukBcOTXCDFI2K1N1zJKp+p
- 3u7aAFWjVwOHSXIvyP0t1wA80U5T1Tvwl7aR5Q5xS4lzUOcnR4ki0dwgKyDZo5jYUoWd
- MUgzYBJntMIGCHqrNdEkJvSjihX7el2yZFtNuKBqrQy340mhz3JGkkm86unnwYQBscPy
- bXS6Xa6vatdZg5y8C0tH6Uv5tIUqtHOYgd/ixKDdEkPY+KHSC+TSse3KH1vbfAb4HGDE
- OjTA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3g1iJDAIyFEiVT/bq3Ap4xE8y4oUGUzuZ5yr37NL4ys=;
+ b=h9ePbcFR6AQixb1ocTPjefKkNGR7Z+RcmTSYrLcHDVWUhIyNT9Fwx+A3RFmRe9PlbZ
+ rgsaRK36m6hQEOYoIFYzJzH98q5yzspAVwOxzrBvwZdm3xtQFr1Oj0Xq9cZh+70Ycffq
+ t1oC0ZKFZ02fApNhi6od+SzGQNwJRcQhWpgYLyWrtPjbB3kpXkdKtrn2ICDT+dzUC+2i
+ BG/K0wijIHDuSvKWLWMxYhXmWzKVfJPjM5SZDBYVAgXf/RuLClNXoEPJ560RgYc/TUtB
+ stQydI2uX8f4f46rrRpCr+2E1SjSDL/Vkwq6sLqHT7yd+xJVphIgBujxKu5iio/hZK2m
+ fXeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=Qef3yXv0TsG1n2HUHCghNfpm4BorHRn0imS/CoXX65E=;
- b=eArCpaMt8lf4irZ+7Tu0Bnk85oMQSP0nwHs04MYJLa399kJcC2DvS8KfE+DhulmO+6
- QaykSNNGBRf3T1y7EKMiOy9eK4FtyUeR7EMXdzo4HHJK3NVDcm9LyKa8UMzAWg0h5com
- oDhj5qWtlLVF8EUbziiaypSsMRqw5QbAv+R+p6jANDn9/YZlDwViY2f3nEbMqyNO7NT+
- QaZ8bGiopNcLLkp4VAOjjH/4Ql82FdBR1BNaaL9kBD086e6B2z3y1e7NlUecQaIMI+GJ
- DvrNWPsQR6aNPEiwXpgMrK32WwWngu1X9UG1Ii+FSstSeiDQ8ovhv0WvaISYGRzXb40R
- Yrug==
-X-Gm-Message-State: AOAM533U6uZVnITDqiMBGKGu7CMzXV+TngFUWcgE0rYWijhyDHsMvNy+
- Mlmr+VviDVcf1AgBlfjNOhCtur8dAyZPZQ==
-X-Google-Smtp-Source: ABdhPJxGG+oHcjr6rfTLGngXUPgx+QQ3FO/KuTSstltQX8V8IkcY/4vi/jpTdH6zi1iqzBnIYmd3JquirTNkZA==
-X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:10:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a25:244:: with SMTP id
- 65mr10026423ybc.350.1607991212649; Mon, 14 Dec 2020 16:13:32 -0800 (PST)
-Date: Mon, 14 Dec 2020 16:13:12 -0800
-In-Reply-To: <20201215001312.3120777-1-wuhaotsh@google.com>
-Message-Id: <20201215001312.3120777-6-wuhaotsh@google.com>
-Mime-Version: 1.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3g1iJDAIyFEiVT/bq3Ap4xE8y4oUGUzuZ5yr37NL4ys=;
+ b=XbQCpyVcvO3NCtxK6HFw94gqcgsAMFCSL/pzbR83/p+1nlI1BPWBqAQAe5CQMMNMGd
+ sVOBZoKxcQZVKqkXk9jYDV0Y7rLMPyAaOuujnyYqvTQR20OvsJA8ioT6bojXdPgMqfbw
+ jOLLp7KmNgTGuPSF4ejbBJWE2ATCPo1nvVeedhWfuvCCOqfrreI816yCETQ263pKM9Ah
+ yPvs88YODckcjbARetqBYhdNHjmwkIJsT7R0dZBH/hXVIR/JjXL7NDLnV5VMUpgtZEY5
+ mMqME6ekmV8CAWtd2o550hhZMbpklo7bzKk2jo2rOa0dG8s/6xR6u6NYvI1acWRskZYt
+ pBZA==
+X-Gm-Message-State: AOAM533TH4z13uKSuhVu9dLlMUIoz5JtkjGec2A3p+EREE5Ko7BTg3qK
+ n17FQDm3BjMByz9AcKR4j2kUsvIjZ+YqRFmu1thUQw==
+X-Google-Smtp-Source: ABdhPJxlcnkKOmZm8vXZiFpqWAvzNqgg/ty1o+boYkSglXzZioaW1KKHGZwtHB+OIpc6oTZGmI9ahQnSS2RDW38NEtA=
+X-Received: by 2002:a2e:9b4f:: with SMTP id o15mr9417652ljj.393.1607991359509; 
+ Mon, 14 Dec 2020 16:15:59 -0800 (PST)
+MIME-Version: 1.0
 References: <20201215001312.3120777-1-wuhaotsh@google.com>
-X-Mailer: git-send-email 2.29.2.684.gfbc64c5ab5-goog
-Subject: [PATCH v3 5/5] hw/misc: Add QTest for NPCM7XX PWM Module
-To: peter.maydell@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3rP_XXwgKChEDByr5A9yx55x2v.t537v3B-uvCv2454x4B.58x@flex--wuhaotsh.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+In-Reply-To: <20201215001312.3120777-1-wuhaotsh@google.com>
+Date: Mon, 14 Dec 2020 16:15:47 -0800
+Message-ID: <CAGcCb11VRTUj+uMiikuDCgM2Y6op_mje+J+kazQSM9E9FF7zJA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] Additional NPCM7xx devices
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000c97ae905b675a95c"
+Received-SPF: pass client-ip=2a00:1450:4864:20::141;
+ envelope-from=wuhaotsh@google.com; helo=mail-lf1-x141.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,535 +76,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: minyard@acm.org, venture@google.com, qemu-devel@nongnu.org,
- hskinnemoen@google.com, wuhaotsh@google.com, kfting@nuvoton.com,
- f4bug@armsat.org, qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com
+Cc: minyard@acm.org, Patrick Venture <venture@google.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Hao Wu <wuhaotsh@google.com>
 From: Hao Wu via <qemu-devel@nongnu.org>
 
-We add a qtest for the PWM in the previous patch. It proves it works as
-expected.
+--000000000000c97ae905b675a95c
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
-Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
-Signed-off-by: Hao Wu <wuhaotsh@google.com>
----
- tests/qtest/meson.build        |   1 +
- tests/qtest/npcm7xx_pwm-test.c | 490 +++++++++++++++++++++++++++++++++
- 2 files changed, 491 insertions(+)
- create mode 100644 tests/qtest/npcm7xx_pwm-test.c
+On Mon, Dec 14, 2020 at 4:13 PM Hao Wu <wuhaotsh@google.com> wrote:
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 955710d1c5..0b5467f084 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -136,6 +136,7 @@ qtests_sparc64 = \
- qtests_npcm7xx = \
-   ['npcm7xx_adc-test',
-    'npcm7xx_gpio-test',
-+   'npcm7xx_pwm-test',
-    'npcm7xx_rng-test',
-    'npcm7xx_timer-test',
-    'npcm7xx_watchdog_timer-test']
-diff --git a/tests/qtest/npcm7xx_pwm-test.c b/tests/qtest/npcm7xx_pwm-test.c
-new file mode 100644
-index 0000000000..33fbdf5f54
---- /dev/null
-+++ b/tests/qtest/npcm7xx_pwm-test.c
-@@ -0,0 +1,490 @@
-+/*
-+ * QTests for Nuvoton NPCM7xx PWM Modules.
-+ *
-+ * Copyright 2020 Google LLC
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ * for more details.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/bitops.h"
-+#include "libqos/libqtest.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qnum.h"
-+
-+#define REF_HZ          25000000
-+
-+/* Register field definitions. */
-+#define CH_EN           BIT(0)
-+#define CH_INV          BIT(2)
-+#define CH_MOD          BIT(3)
-+
-+/* Registers shared between all PWMs in a module */
-+#define PPR             0x00
-+#define CSR             0x04
-+#define PCR             0x08
-+#define PIER            0x3c
-+#define PIIR            0x40
-+
-+/* CLK module related */
-+#define CLK_BA          0xf0801000
-+#define CLKSEL          0x04
-+#define CLKDIV1         0x08
-+#define CLKDIV2         0x2c
-+#define PLLCON0         0x0c
-+#define PLLCON1         0x10
-+#define PLL_INDV(rv)    extract32((rv), 0, 6)
-+#define PLL_FBDV(rv)    extract32((rv), 16, 12)
-+#define PLL_OTDV1(rv)   extract32((rv), 8, 3)
-+#define PLL_OTDV2(rv)   extract32((rv), 13, 3)
-+#define APB3CKDIV(rv)   extract32((rv), 28, 2)
-+#define CLK2CKDIV(rv)   extract32((rv), 0, 1)
-+#define CLK4CKDIV(rv)   extract32((rv), 26, 2)
-+#define CPUCKSEL(rv)    extract32((rv), 0, 2)
-+
-+#define MAX_DUTY        1000000
-+
-+typedef struct PWMModule {
-+    int irq;
-+    uint64_t base_addr;
-+} PWMModule;
-+
-+typedef struct PWM {
-+    uint32_t cnr_offset;
-+    uint32_t cmr_offset;
-+    uint32_t pdr_offset;
-+    uint32_t pwdr_offset;
-+} PWM;
-+
-+typedef struct TestData {
-+    const PWMModule *module;
-+    const PWM *pwm;
-+} TestData;
-+
-+static const PWMModule pwm_module_list[] = {
-+    {
-+        .irq        = 93,
-+        .base_addr  = 0xf0103000
-+    },
-+    {
-+        .irq        = 94,
-+        .base_addr  = 0xf0104000
-+    }
-+};
-+
-+static const PWM pwm_list[] = {
-+    {
-+        .cnr_offset     = 0x0c,
-+        .cmr_offset     = 0x10,
-+        .pdr_offset     = 0x14,
-+        .pwdr_offset    = 0x44,
-+    },
-+    {
-+        .cnr_offset     = 0x18,
-+        .cmr_offset     = 0x1c,
-+        .pdr_offset     = 0x20,
-+        .pwdr_offset    = 0x48,
-+    },
-+    {
-+        .cnr_offset     = 0x24,
-+        .cmr_offset     = 0x28,
-+        .pdr_offset     = 0x2c,
-+        .pwdr_offset    = 0x4c,
-+    },
-+    {
-+        .cnr_offset     = 0x30,
-+        .cmr_offset     = 0x34,
-+        .pdr_offset     = 0x38,
-+        .pwdr_offset    = 0x50,
-+    },
-+};
-+
-+static const int ppr_base[] = { 0, 0, 8, 8 };
-+static const int csr_base[] = { 0, 4, 8, 12 };
-+static const int pcr_base[] = { 0, 8, 12, 16 };
-+
-+static const uint32_t ppr_list[] = {
-+    0,
-+    1,
-+    10,
-+    100,
-+    255, /* Max possible value. */
-+};
-+
-+static const uint32_t csr_list[] = {
-+    0,
-+    1,
-+    2,
-+    3,
-+    4, /* Max possible value. */
-+};
-+
-+static const uint32_t cnr_list[] = {
-+    0,
-+    1,
-+    50,
-+    100,
-+    150,
-+    200,
-+    1000,
-+    10000,
-+    65535, /* Max possible value. */
-+};
-+
-+static const uint32_t cmr_list[] = {
-+    0,
-+    1,
-+    10,
-+    50,
-+    100,
-+    150,
-+    200,
-+    1000,
-+    10000,
-+    65535, /* Max possible value. */
-+};
-+
-+/* Returns the index of the PWM module. */
-+static int pwm_module_index(const PWMModule *module)
-+{
-+    ptrdiff_t diff = module - pwm_module_list;
-+
-+    g_assert_true(diff >= 0 && diff < ARRAY_SIZE(pwm_module_list));
-+
-+    return diff;
-+}
-+
-+/* Returns the index of the PWM entry. */
-+static int pwm_index(const PWM *pwm)
-+{
-+    ptrdiff_t diff = pwm - pwm_list;
-+
-+    g_assert_true(diff >= 0 && diff < ARRAY_SIZE(pwm_list));
-+
-+    return diff;
-+}
-+
-+static uint64_t pwm_qom_get(QTestState *qts, const char *path, const char *name)
-+{
-+    QDict *response;
-+
-+    g_test_message("Getting properties %s from %s", name, path);
-+    response = qtest_qmp(qts, "{ 'execute': 'qom-get',"
-+            " 'arguments': { 'path': %s, 'property': %s}}",
-+            path, name);
-+    /* The qom set message returns successfully. */
-+    g_assert_true(qdict_haskey(response, "return"));
-+    return qnum_get_uint(qobject_to(QNum, qdict_get(response, "return")));
-+}
-+
-+static uint64_t pwm_get_freq(QTestState *qts, int module_index, int pwm_index)
-+{
-+    char path[100];
-+    char name[100];
-+
-+    sprintf(path, "/machine/soc/pwm[%d]", module_index);
-+    sprintf(name, "freq[%d]", pwm_index);
-+
-+    return pwm_qom_get(qts, path, name);
-+}
-+
-+static uint64_t pwm_get_duty(QTestState *qts, int module_index, int pwm_index)
-+{
-+    char path[100];
-+    char name[100];
-+
-+    sprintf(path, "/machine/soc/pwm[%d]", module_index);
-+    sprintf(name, "duty[%d]", pwm_index);
-+
-+    return pwm_qom_get(qts, path, name);
-+}
-+
-+static uint32_t get_pll(uint32_t con)
-+{
-+    return REF_HZ * PLL_FBDV(con) / (PLL_INDV(con) * PLL_OTDV1(con)
-+            * PLL_OTDV2(con));
-+}
-+
-+static uint64_t read_pclk(QTestState *qts)
-+{
-+    uint64_t freq = REF_HZ;
-+    uint32_t clksel = qtest_readl(qts, CLK_BA + CLKSEL);
-+    uint32_t pllcon;
-+    uint32_t clkdiv1 = qtest_readl(qts, CLK_BA + CLKDIV1);
-+    uint32_t clkdiv2 = qtest_readl(qts, CLK_BA + CLKDIV2);
-+
-+    switch (CPUCKSEL(clksel)) {
-+    case 0:
-+        pllcon = qtest_readl(qts, CLK_BA + PLLCON0);
-+        freq = get_pll(pllcon);
-+        break;
-+    case 1:
-+        pllcon = qtest_readl(qts, CLK_BA + PLLCON1);
-+        freq = get_pll(pllcon);
-+        break;
-+    case 2:
-+        break;
-+    case 3:
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    freq >>= (CLK2CKDIV(clkdiv1) + CLK4CKDIV(clkdiv1) + APB3CKDIV(clkdiv2));
-+
-+    return freq;
-+}
-+
-+static uint32_t pwm_selector(uint32_t csr)
-+{
-+    switch (csr) {
-+    case 0:
-+        return 2;
-+    case 1:
-+        return 4;
-+    case 2:
-+        return 8;
-+    case 3:
-+        return 16;
-+    case 4:
-+        return 1;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
-+static uint64_t pwm_compute_freq(QTestState *qts, uint32_t ppr, uint32_t csr,
-+        uint32_t cnr)
-+{
-+    return read_pclk(qts) / ((ppr + 1) * pwm_selector(csr) * (cnr + 1));
-+}
-+
-+static uint64_t pwm_compute_duty(uint32_t cnr, uint32_t cmr, bool inverted)
-+{
-+    uint64_t duty;
-+
-+    if (cnr == 0) {
-+        /* PWM is stopped. */
-+        duty = 0;
-+    } else if (cmr >= cnr) {
-+        duty = MAX_DUTY;
-+    } else {
-+        duty = MAX_DUTY * (cmr + 1) / (cnr + 1);
-+    }
-+
-+    if (inverted) {
-+        duty = MAX_DUTY - duty;
-+    }
-+
-+    return duty;
-+}
-+
-+static uint32_t pwm_read(QTestState *qts, const TestData *td, unsigned offset)
-+{
-+    return qtest_readl(qts, td->module->base_addr + offset);
-+}
-+
-+static void pwm_write(QTestState *qts, const TestData *td, unsigned offset,
-+        uint32_t value)
-+{
-+    qtest_writel(qts, td->module->base_addr + offset, value);
-+}
-+
-+static uint32_t pwm_read_ppr(QTestState *qts, const TestData *td)
-+{
-+    return extract32(pwm_read(qts, td, PPR), ppr_base[pwm_index(td->pwm)], 8);
-+}
-+
-+static void pwm_write_ppr(QTestState *qts, const TestData *td, uint32_t value)
-+{
-+    pwm_write(qts, td, PPR, value << ppr_base[pwm_index(td->pwm)]);
-+}
-+
-+static uint32_t pwm_read_csr(QTestState *qts, const TestData *td)
-+{
-+    return extract32(pwm_read(qts, td, CSR), csr_base[pwm_index(td->pwm)], 3);
-+}
-+
-+static void pwm_write_csr(QTestState *qts, const TestData *td, uint32_t value)
-+{
-+    pwm_write(qts, td, CSR, value << csr_base[pwm_index(td->pwm)]);
-+}
-+
-+static uint32_t pwm_read_pcr(QTestState *qts, const TestData *td)
-+{
-+    return extract32(pwm_read(qts, td, PCR), pcr_base[pwm_index(td->pwm)], 4);
-+}
-+
-+static void pwm_write_pcr(QTestState *qts, const TestData *td, uint32_t value)
-+{
-+    pwm_write(qts, td, PCR, value << pcr_base[pwm_index(td->pwm)]);
-+}
-+
-+static uint32_t pwm_read_cnr(QTestState *qts, const TestData *td)
-+{
-+    return pwm_read(qts, td, td->pwm->cnr_offset);
-+}
-+
-+static void pwm_write_cnr(QTestState *qts, const TestData *td, uint32_t value)
-+{
-+    pwm_write(qts, td, td->pwm->cnr_offset, value);
-+}
-+
-+static uint32_t pwm_read_cmr(QTestState *qts, const TestData *td)
-+{
-+    return pwm_read(qts, td, td->pwm->cmr_offset);
-+}
-+
-+static void pwm_write_cmr(QTestState *qts, const TestData *td, uint32_t value)
-+{
-+    pwm_write(qts, td, td->pwm->cmr_offset, value);
-+}
-+
-+/* Check pwm registers can be reset to default value */
-+static void test_init(gconstpointer test_data)
-+{
-+    const TestData *td = test_data;
-+    QTestState *qts = qtest_init("-machine quanta-gsj");
-+    int module = pwm_module_index(td->module);
-+    int pwm = pwm_index(td->pwm);
-+
-+    g_assert_cmpuint(pwm_get_freq(qts, module, pwm), ==, 0);
-+    g_assert_cmpuint(pwm_get_duty(qts, module, pwm), ==, 0);
-+
-+    qtest_quit(qts);
-+}
-+
-+/* One-shot mode should not change frequency and duty cycle. */
-+static void test_oneshot(gconstpointer test_data)
-+{
-+    const TestData *td = test_data;
-+    QTestState *qts = qtest_init("-machine quanta-gsj");
-+    int module = pwm_module_index(td->module);
-+    int pwm = pwm_index(td->pwm);
-+    uint32_t ppr, csr, pcr;
-+    int i, j;
-+
-+    pcr = CH_EN;
-+    for (i = 0; i < ARRAY_SIZE(ppr_list); ++i) {
-+        ppr = ppr_list[i];
-+        pwm_write_ppr(qts, td, ppr);
-+
-+        for (j = 0; j < ARRAY_SIZE(csr_list); ++j) {
-+            csr = csr_list[j];
-+            pwm_write_csr(qts, td, csr);
-+            pwm_write_pcr(qts, td, pcr);
-+
-+            g_assert_cmpuint(pwm_read_ppr(qts, td), ==, ppr);
-+            g_assert_cmpuint(pwm_read_csr(qts, td), ==, csr);
-+            g_assert_cmpuint(pwm_read_pcr(qts, td), ==, pcr);
-+            g_assert_cmpuint(pwm_get_freq(qts, module, pwm), ==, 0);
-+            g_assert_cmpuint(pwm_get_duty(qts, module, pwm), ==, 0);
-+        }
-+    }
-+
-+    qtest_quit(qts);
-+}
-+
-+/* In toggle mode, the PWM generates correct outputs. */
-+static void test_toggle(gconstpointer test_data)
-+{
-+    const TestData *td = test_data;
-+    QTestState *qts = qtest_init("-machine quanta-gsj");
-+    int module = pwm_module_index(td->module);
-+    int pwm = pwm_index(td->pwm);
-+    uint32_t ppr, csr, pcr, cnr, cmr;
-+    int i, j, k, l;
-+    uint64_t expected_freq, expected_duty;
-+
-+    pcr = CH_EN | CH_MOD;
-+    for (i = 0; i < ARRAY_SIZE(ppr_list); ++i) {
-+        ppr = ppr_list[i];
-+        pwm_write_ppr(qts, td, ppr);
-+
-+        for (j = 0; j < ARRAY_SIZE(csr_list); ++j) {
-+            csr = csr_list[j];
-+            pwm_write_csr(qts, td, csr);
-+
-+            for (k = 0; k < ARRAY_SIZE(cnr_list); ++k) {
-+                cnr = cnr_list[k];
-+                pwm_write_cnr(qts, td, cnr);
-+
-+                for (l = 0; l < ARRAY_SIZE(cmr_list); ++l) {
-+                    cmr = cmr_list[l];
-+                    pwm_write_cmr(qts, td, cmr);
-+                    expected_freq = pwm_compute_freq(qts, ppr, csr, cnr);
-+                    expected_duty = pwm_compute_duty(cnr, cmr, false);
-+
-+                    pwm_write_pcr(qts, td, pcr);
-+                    g_assert_cmpuint(pwm_read_ppr(qts, td), ==, ppr);
-+                    g_assert_cmpuint(pwm_read_csr(qts, td), ==, csr);
-+                    g_assert_cmpuint(pwm_read_pcr(qts, td), ==, pcr);
-+                    g_assert_cmpuint(pwm_read_cnr(qts, td), ==, cnr);
-+                    g_assert_cmpuint(pwm_read_cmr(qts, td), ==, cmr);
-+                    g_assert_cmpuint(pwm_get_duty(qts, module, pwm),
-+                            ==, expected_duty);
-+                    if (expected_duty != 0 && expected_duty != 100) {
-+                        /* Duty cycle with 0 or 100 doesn't need frequency. */
-+                        g_assert_cmpuint(pwm_get_freq(qts, module, pwm),
-+                                ==, expected_freq);
-+                    }
-+
-+                    /* Test inverted mode */
-+                    expected_duty = pwm_compute_duty(cnr, cmr, true);
-+                    pwm_write_pcr(qts, td, pcr | CH_INV);
-+                    g_assert_cmpuint(pwm_read_pcr(qts, td), ==, pcr | CH_INV);
-+                    g_assert_cmpuint(pwm_get_duty(qts, module, pwm),
-+                            ==, expected_duty);
-+                    if (expected_duty != 0 && expected_duty != 100) {
-+                        /* Duty cycle with 0 or 100 doesn't need frequency. */
-+                        g_assert_cmpuint(pwm_get_freq(qts, module, pwm),
-+                                ==, expected_freq);
-+                    }
-+
-+                }
-+            }
-+        }
-+    }
-+
-+    qtest_quit(qts);
-+}
-+
-+static void pwm_add_test(const char *name, const TestData* td,
-+        GTestDataFunc fn)
-+{
-+    g_autofree char *full_name = g_strdup_printf(
-+            "npcm7xx_pwm/module[%d]/pwm[%d]/%s", pwm_module_index(td->module),
-+            pwm_index(td->pwm), name);
-+    qtest_add_data_func(full_name, td, fn);
-+}
-+#define add_test(name, td) pwm_add_test(#name, td, test_##name)
-+
-+int main(int argc, char **argv)
-+{
-+    TestData test_data_list[ARRAY_SIZE(pwm_module_list) * ARRAY_SIZE(pwm_list)];
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    for (int i = 0; i < ARRAY_SIZE(pwm_module_list); ++i) {
-+        for (int j = 0; j < ARRAY_SIZE(pwm_list); ++j) {
-+            TestData *td = &test_data_list[i * ARRAY_SIZE(pwm_list) + j];
-+
-+            td->module = &pwm_module_list[i];
-+            td->pwm = &pwm_list[j];
-+
-+            add_test(init, td);
-+            add_test(oneshot, td);
-+            add_test(toggle, td);
-+        }
-+    }
-+
-+    return g_test_run();
-+}
--- 
-2.29.2.684.gfbc64c5ab5-goog
+> This patch series include a few more NPCM7XX devices including
+>
+> - Analog Digital Converter (ADC)
+> - Pulse Width Modulation (PWM)
+>
+> We also modified the CLK module to generate clock values using qdev_clock.
+> These clocks are used to determine various clocks in NPCM7XX devices.
+>
+> Thank you for your review.
+>
+> Changes since v2:
+> - Split PWM test into a separate patch in the patch set
+> - Add trace events for PWM's update_freq/update_duty
+> - Add trace events for ioread/iowrite in ADC and PWM
+> - Use timer_get_ns in hw/timer/npcm7xx_timer.c
+> - Update commit message in ADC/PWM to mention qom-get/set method for usage
+> - Fix typos
+>
+> Changes since v1:
+> - We removed the IPMI and KCS related code from this patch set.
+>
+> Hao Wu (5):
+>   hw/misc: Add clock converter in NPCM7XX CLK module
+>   hw/timer: Refactor NPCM7XX Timer to use CLK clock
+>   hw/adc: Add an ADC module for NPCM7XX
+>   hw/misc: Add a PWM module for NPCM7XX
+>   hw/misc: Add QTest for NPCM7XX PWM Module
+>
+>  docs/system/arm/nuvoton.rst      |   4 +-
+>  hw/adc/meson.build               |   1 +
+>  hw/adc/npcm7xx_adc.c             | 321 +++++++++++++
+>  hw/adc/trace-events              |   5 +
+>  hw/arm/npcm7xx.c                 |  55 ++-
+>  hw/misc/meson.build              |   1 +
+>  hw/misc/npcm7xx_clk.c            | 795 ++++++++++++++++++++++++++++++-
+>  hw/misc/npcm7xx_pwm.c            | 559 ++++++++++++++++++++++
+>  hw/misc/trace-events             |   6 +
+>  hw/timer/npcm7xx_timer.c         |  23 +-
+>  include/hw/adc/npcm7xx_adc.h     |  72 +++
+>  include/hw/arm/npcm7xx.h         |   4 +
+>  include/hw/misc/npcm7xx_clk.h    | 146 +++++-
+>  include/hw/misc/npcm7xx_pwm.h    | 106 +++++
+>  include/hw/timer/npcm7xx_timer.h |   1 +
+>  meson.build                      |   1 +
+>  tests/qtest/meson.build          |   4 +-
+>  tests/qtest/npcm7xx_adc-test.c   | 400 ++++++++++++++++
+>  tests/qtest/npcm7xx_pwm-test.c   | 490 +++++++++++++++++++
+>  19 files changed, 2964 insertions(+), 30 deletions(-)
+>  create mode 100644 hw/adc/npcm7xx_adc.c
+>  create mode 100644 hw/adc/trace-events
+>  create mode 100644 hw/misc/npcm7xx_pwm.c
+>  create mode 100644 include/hw/adc/npcm7xx_adc.h
+>  create mode 100644 include/hw/misc/npcm7xx_pwm.h
+>  create mode 100644 tests/qtest/npcm7xx_adc-test.c
+>  create mode 100644 tests/qtest/npcm7xx_pwm-test.c
+>
+> --
+> 2.29.2.684.gfbc64c5ab5-goog
+>
+>
 
+--000000000000c97ae905b675a95c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 14, 2020 at 4:13 PM Hao Wu &l=
+t;<a href=3D"mailto:wuhaotsh@google.com">wuhaotsh@google.com</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This patch seri=
+es include a few more NPCM7XX devices including<br>
+<br>
+- Analog Digital Converter (ADC)<br>
+- Pulse Width Modulation (PWM)<br>
+<br>
+We also modified the CLK module to generate clock values using qdev_clock.<=
+br>
+These clocks are used to determine various clocks in NPCM7XX devices.<br>
+<br>
+Thank you for your review.<br>
+<br>
+Changes since v2:<br>
+- Split PWM test into a separate patch in the patch set<br>
+- Add trace events for PWM&#39;s update_freq/update_duty<br>
+- Add trace events for ioread/iowrite in ADC and PWM<br>
+- Use timer_get_ns in hw/timer/npcm7xx_timer.c<br>
+- Update commit message in ADC/PWM to mention qom-get/set method for usage<=
+br>
+- Fix typos<br>
+<br>
+Changes since v1:<br>
+- We removed the IPMI and KCS related code from this patch set.<br>
+<br>
+Hao Wu (5):<br>
+=C2=A0 hw/misc: Add clock converter in NPCM7XX CLK module<br>
+=C2=A0 hw/timer: Refactor NPCM7XX Timer to use CLK clock<br>
+=C2=A0 hw/adc: Add an ADC module for NPCM7XX<br>
+=C2=A0 hw/misc: Add a PWM module for NPCM7XX<br>
+=C2=A0 hw/misc: Add QTest for NPCM7XX PWM Module<br>
+<br>
+=C2=A0docs/system/arm/nuvoton.rst=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br=
+>
+=C2=A0hw/adc/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 =C2=A01 +<br>
+=C2=A0hw/adc/npcm7xx_adc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+ 321 +++++++++++++<br>
+=C2=A0hw/adc/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A05 +<br>
+=C2=A0hw/arm/npcm7xx.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 55 ++-<br>
+=C2=A0hw/misc/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A01 +<br>
+=C2=A0hw/misc/npcm7xx_clk.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 795 =
+++++++++++++++++++++++++++++++-<br>
+=C2=A0hw/misc/npcm7xx_pwm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 559 =
+++++++++++++++++++++++<br>
+=C2=A0hw/misc/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A06 +<br>
+=C2=A0hw/timer/npcm7xx_timer.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 23 =
++-<br>
+=C2=A0include/hw/adc/npcm7xx_adc.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 72 +++<br>
+=C2=A0include/hw/arm/npcm7xx.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A04 +<br>
+=C2=A0include/hw/misc/npcm7xx_clk.h=C2=A0 =C2=A0 | 146 +++++-<br>
+=C2=A0include/hw/misc/npcm7xx_pwm.h=C2=A0 =C2=A0 | 106 +++++<br>
+=C2=A0include/hw/timer/npcm7xx_timer.h |=C2=A0 =C2=A01 +<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+=C2=A0tests/qtest/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A04 +-<br>
+=C2=A0tests/qtest/npcm7xx_adc-test.c=C2=A0 =C2=A0| 400 ++++++++++++++++<br>
+=C2=A0tests/qtest/npcm7xx_pwm-test.c=C2=A0 =C2=A0| 490 +++++++++++++++++++<=
+br>
+=C2=A019 files changed, 2964 insertions(+), 30 deletions(-)<br>
+=C2=A0create mode 100644 hw/adc/npcm7xx_adc.c<br>
+=C2=A0create mode 100644 hw/adc/trace-events<br>
+=C2=A0create mode 100644 hw/misc/npcm7xx_pwm.c<br>
+=C2=A0create mode 100644 include/hw/adc/npcm7xx_adc.h<br>
+=C2=A0create mode 100644 include/hw/misc/npcm7xx_pwm.h<br>
+=C2=A0create mode 100644 tests/qtest/npcm7xx_adc-test.c<br>
+=C2=A0create mode 100644 tests/qtest/npcm7xx_pwm-test.c<br>
+<br>
+-- <br>
+2.29.2.684.gfbc64c5ab5-goog<br>
+<br>
+</blockquote></div></div>
+
+--000000000000c97ae905b675a95c--
 
