@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809402DAB64
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 11:50:58 +0100 (CET)
-Received: from localhost ([::1]:40106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6408E2DAB6D
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 11:53:35 +0100 (CET)
+Received: from localhost ([::1]:43230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp7uz-0003Go-Jh
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 05:50:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48204)
+	id 1kp7xW-0004dt-Ff
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 05:53:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kp7tk-0002SN-Ht
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 05:49:40 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:43350)
+ (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1kp7w5-0003w8-Gm
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 05:52:05 -0500
+Received: from mail-vs1-xe44.google.com ([2607:f8b0:4864:20::e44]:42375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kp7tg-0006Gi-OT
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 05:49:40 -0500
-Received: by mail-ej1-x643.google.com with SMTP id jx16so26971253ejb.10
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 02:49:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1kp7w2-0007Af-Mi
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 05:52:05 -0500
+Received: by mail-vs1-xe44.google.com with SMTP id b23so10701580vsp.9
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 02:52:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=smartx-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6rUpQrdaO1GQ//F95CZQQvaB/Aij8x7r6y7lpVWSODc=;
- b=GIn3uD00dwQY9D6aPfGzNBS7/LCzYrSuz41uePKPWLSlXlyQsckVGo5H8SlW7Q+JGb
- 6xJJI3aKmXtPoboV6+XpfgLcn0BNhpU+1diAIHGA4KUpJqJrSits/39IYcQY029d4FkA
- eOnDa+rmA5IyUXgMUHtcuKqwzgmsrgXQLDJLpzkP+nqIDvnAY0Z2Y5Bq2WVmbNNDyk2P
- Q+fyK3XZteHffsC84IJcqEUXxpnZY6DJze5qmiaJqYt0ilQnFdNb3FjWpxQn0K8nx683
- WIkPiTy/dTYcwhkJTdtDsLOb9Ris8woRU6ckUdmclDf492BChvNWtHCCK78587PL7BP9
- tFOw==
+ :cc:content-transfer-encoding;
+ bh=YgNXq0TmeiwXykaHAsHUrt8oIwT4A523ZaG4MxpRXho=;
+ b=do38suFu6CremSvwV1SxgbiPTlJ2CnbEtoCJyF/Sx5rYYvBU4Qwh8EDIklv/q6QzaF
+ aaKHahLi1Ne7ZJCQ2U4qCsDc9wNivPUzYOLJlgXlouRygAv0nVOwbd80hQdH/F3gdb+l
+ haEVDIr74vkwtr/+CptgiHnG3Z7PWzLvJ5t9qoIZNc8PhCGGmoZRzax7/clOZM7EobsD
+ eeEtGvbGHvrQKgkAeGMMPTSzZjJbySqrLFBdAUKgbGg9ANA+EHEEAbEdlstBXE/Axu1G
+ USfXsS7xm9Es9Um6yS1ZD0VGzrMpcCiV+g3UJ7pqwj6m4Plthc5kXJmwHFlZ/bA5SK4a
+ wWNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6rUpQrdaO1GQ//F95CZQQvaB/Aij8x7r6y7lpVWSODc=;
- b=JRDj1t4cvnh714cOmq97BIEIEyLKJrRdTB+Rd0b4QuG6v0M0RT8v6Jl/mEnma31h17
- RA3EmU49/m5osxOj+pccFuBXsxBs8XqRLSYIhZXzoTo72HqTpmnm5SV9ZSfbrhoUQdth
- KiGm7AL579peJ60A/LUehN+UDQ8CCrX0ztfCp0r28eHgolQJyEKlEGnvfoF3pZAxzywR
- ROvWrPWEtbNTAciMgc+RAlBa1YmbEhA8l+RvPvklGMz4jwzccfnD5k9V8+pyfMKX4u1A
- 0HNuTVP8gkp2QtyIbvs3dpnhr984/4Ip4fKfyqV2+kyyYO7g2mcH37z1EN//oWdc3d6o
- tNdw==
-X-Gm-Message-State: AOAM531r1TccW+uxfpW7oa6WhK1pQNFxuVbrAtbn4awP2/l6WRB8DZTg
- id7Ql5XYjhoUpZWlBQrCko+Ap6sEKhRQOzJIL/o=
-X-Google-Smtp-Source: ABdhPJzUEXKLmvnG8LfeL7CPiqT0UhcrqcToXLP6Rhxw9LMNQvTg5f5lFDFMYPrgyc6ft62rjOEdqU8/mPzHZryutQM=
-X-Received: by 2002:a17:906:f85:: with SMTP id
- q5mr17672155ejj.105.1608029374466; 
- Tue, 15 Dec 2020 02:49:34 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YgNXq0TmeiwXykaHAsHUrt8oIwT4A523ZaG4MxpRXho=;
+ b=WjGaMJRRIpf+GgwR1TdFXlzJMXbduIwmzGbxb7wLp2jhaGsX3kN6EHBGE2QPMZ5pXD
+ rP5YXDZ7uJf7fmW5tvwdd3zgRanzUaH7Wcxr3YxQSJ+BhNeoEsnSZBllFspg+Aar7r8/
+ VOz7FP8KXVB16DSgrwmPUUYahkkwnCG//KpB8dQEsru5jpe70HbYWxQ4IUYVMDirdfjd
+ uia45B9x9FX/VB3aurw+1fqB2blAsdCT0MIcUWrM3ziXkiRtfw6/s1Y9Km0XOD65oREB
+ G1VYoBRPTqNY7dpIU5vF1UXEYL4XbH+VMpChhzSJq6qFNbBlvHZPxedZReGz3tUc9Uht
+ TzHA==
+X-Gm-Message-State: AOAM533HBm6F9iyhjcuEZ8Y3wHff120bGjVd+zqMakyAvYOrrXn1exc3
+ ZZfsGzyTHYosp9XPRU2scFg1tA1nGmZdcPTS3EzyHQ==
+X-Google-Smtp-Source: ABdhPJzGA2tO5PAVLNc2Fvx2PhCXZS+Kgiv8iZyLBt8EyGCvBuQqAJpqx14uVn//VonlrVOQF20qsJjuJBtJl+FIfHo=
+X-Received: by 2002:a05:6102:40a:: with SMTP id
+ d10mr10867428vsq.29.1608029521180; 
+ Tue, 15 Dec 2020 02:52:01 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1607922214.git.jag.raman@oracle.com>
- <a366c7f80a862b4f32445f8334e2f36767b102a3.1607922214.git.jag.raman@oracle.com>
-In-Reply-To: <a366c7f80a862b4f32445f8334e2f36767b102a3.1607922214.git.jag.raman@oracle.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 15 Dec 2020 14:49:22 +0400
-Message-ID: <CAJ+F1CJLKJR5UirK106zKn5bM8rr1cDZyQwZ66QdMJLS-k_zBA@mail.gmail.com>
-Subject: Re: [PATCH v13 07/19] multi-process: add qio channel function to
- transmit data and fds
-To: Jagannathan Raman <jag.raman@oracle.com>
-Content-Type: multipart/alternative; boundary="000000000000a74fd505b67e8345"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1608016169-5639-1-git-send-email-fengli@smartx.com>
+ <20201215100830.GG121272@redhat.com>
+In-Reply-To: <20201215100830.GG121272@redhat.com>
+From: Li Feng <fengli@smartx.com>
+Date: Tue, 15 Dec 2020 18:51:49 +0800
+Message-ID: <CAHckoCzXfq=Ox-=7vQ4d7soJsftRd62kSLfe-STG7PQbY03UBQ@mail.gmail.com>
+Subject: Re: [PATCH v4] file-posix: detect the lock using the real file
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::e44;
+ envelope-from=fengli@smartx.com; helo=mail-vs1-xe44.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,461 +78,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, QEMU <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Ross Lagerwall <ross.lagerwall@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Feng Li <lifeng1519@gmail.com>,
+ "open list:raw" <qemu-block@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Kyle Zhang <kyle@smartx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a74fd505b67e8345
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> =E4=BA=8E2020=E5=B9=B412=E6=
+=9C=8815=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=886:08=E5=86=99=E9=81=
+=93=EF=BC=9A
+>
+> On Tue, Dec 15, 2020 at 03:09:28PM +0800, Li Feng wrote:
+> > This patch addresses this issue:
+> > When accessing a volume on an NFS filesystem without supporting the fil=
+e lock,
+> > tools, like qemu-img, will complain "Failed to lock byte 100".
+> >
+> > In the original code, the qemu_has_ofd_lock will test the lock on the
+> > "/dev/null" pseudo-file. Actually, the file.locking is per-drive proper=
+ty,
+> > which depends on the underlay filesystem.
+> >
+> > In this patch, add a new 'qemu_has_file_lock' to detect whether the
+> > file supports the file lock. And disable the lock when the underlay fil=
+e
+> > system doesn't support locks.
+> >
+> > Signed-off-by: Li Feng <fengli@smartx.com>
+> > ---
+> > v4: use the fd as the qemu_has_file_lock argument.
+> > v3: don't call the qemu_has_ofd_lock, use a new function instead.
+> > v2: remove the refactoring.
+> > ---
+> >  block/file-posix.c   | 66 +++++++++++++++++++++++++-------------------
+> >  include/qemu/osdep.h |  1 +
+> >  util/osdep.c         | 19 +++++++++++++
+> >  3 files changed, 58 insertions(+), 28 deletions(-)
+> >
+> > diff --git a/block/file-posix.c b/block/file-posix.c
+> > index 806764f7e3..9708212f01 100644
+> > --- a/block/file-posix.c
+> > +++ b/block/file-posix.c
+> > @@ -584,6 +584,21 @@ static int raw_open_common(BlockDriverState *bs, Q=
+Dict *options,
+> >      s->use_linux_io_uring =3D (aio =3D=3D BLOCKDEV_AIO_OPTIONS_IO_URIN=
+G);
+> >  #endif
+> >
+> > +    s->open_flags =3D open_flags;
+> > +    raw_parse_flags(bdrv_flags, &s->open_flags, false);
+> > +
+> > +    s->fd =3D -1;
+> > +    fd =3D qemu_open(filename, s->open_flags, errp);
+> > +    ret =3D fd < 0 ? -errno : 0;
+> > +
+> > +    if (ret < 0) {
+> > +        if (ret =3D=3D -EROFS) {
+> > +            ret =3D -EACCES;
+> > +        }
+> > +        goto fail;
+> > +    }
+> > +    s->fd =3D fd;
+> > +
+> >      locking =3D qapi_enum_parse(&OnOffAuto_lookup,
+> >                                qemu_opt_get(opts, "locking"),
+> >                                ON_OFF_AUTO_AUTO, &local_err);
+> > @@ -607,6 +622,13 @@ static int raw_open_common(BlockDriverState *bs, Q=
+Dict *options,
+> >          break;
+> >      case ON_OFF_AUTO_AUTO:
+> >          s->use_lock =3D qemu_has_ofd_lock();
+> > +        if (s->use_lock && !qemu_has_file_lock(s->fd)) {
+> > +            /*
+> > +             * When the os supports the OFD lock, but the filesystem d=
+oesn't
+> > +             * support, just disable the file lock.
+> > +             */
+> > +            s->use_lock =3D false;
+> > +        }
+>
+> This should just be
+>
+>   s->use_lock =3D qemu_has_file_lock(s->fd) && qemu_has_ofd_lock();
+>
+Acked.
 
-Hi
+>
+>
+> > diff --git a/util/osdep.c b/util/osdep.c
+> > index 66d01b9160..07de97e2c5 100644
+> > --- a/util/osdep.c
+> > +++ b/util/osdep.c
+> > @@ -225,6 +225,25 @@ static void qemu_probe_lock_ops(void)
+> >      }
+> >  }
+> >
+> > +bool qemu_has_file_lock(int fd)
+> > +{
+> > +#ifdef F_OFD_SETLK
+> > +    int cmd =3D F_OFD_GETLK;
+> > +#else
+> > +    int cmd =3D F_GETLK;
+> > +#endif
+>
+> This should unconditionally use  F_GETLK.
+Acked.
 
-On Mon, Dec 14, 2020 at 9:15 AM Jagannathan Raman <jag.raman@oracle.com>
-wrote:
-
-> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 >
-> Adds QIO channel functions that transmit and receive iovs along with fds.
+> > +    int ret;
+> > +    struct flock fl =3D {
+> > +        .l_whence =3D SEEK_SET,
+> > +        .l_start  =3D 0,
+> > +        .l_len    =3D 0,
+> > +        .l_type   =3D F_WRLCK,
+> > +    };
+> > +
+> > +    ret =3D fcntl(fd, cmd, &fl);
+> > +    return ret =3D=3D 0;
+> > +}
 >
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  include/io/channel.h | 50 +++++++++++++++++++++++++++++++++++++++++
->  io/channel.c         | 63
-> +++++++++++++++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 112 insertions(+), 1 deletion(-)
->
-> diff --git a/include/io/channel.h b/include/io/channel.h
-> index 4d6fe45..c2d9836 100644
-> --- a/include/io/channel.h
-> +++ b/include/io/channel.h
-> @@ -774,4 +774,54 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
->                                      IOHandler *io_write,
->                                      void *opaque);
->
-> +/**
-> + * qio_channel_readv_full_all:
-> + * @ioc: the channel object
-> + * @iov: the array of memory regions to read data to
-> + * @niov: the length of the @iov array
-> + * @fds: an array of file handles to read
-> + * @nfds: number of file handles in @fds
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + *
-> + * Behaves like qio_channel_readvv_full but will attempt
-> + * to read all data specified (file handles and memory regions).
-> + * The function will wait for all requested data
-> + * to be read, yielding from the current coroutine
-> + * if required.
-> + *
-> + * Returns: 0 if all bytes were read, or -1 on error
-> + */
-> +
-> +int qio_channel_readv_full_all(QIOChannel *ioc,
-> +                                const struct iovec *iov,
-> +                                size_t niov,
-> +                                int **fds, size_t *nfds,
-> +                                Error **errp);
-> +
-> +/**
-> + * qio_channel_writev_full_all:
-> + * @ioc: the channel object
-> + * @iov: the array of memory regions to write data from
-> + * @niov: the length of the @iov array
-> + * @fds: an array of file handles to send
-> + * @nfds: number of file handles in @fds
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + *
-> + * Behaves like qio_channel_writev_full but will attempt
-> + * to send all data passed (file handles and memory regions).
-> + * The function will wait for all requested data
-> + * to be written, yielding from the current coroutine
-> + * if required.
-> + *
-> + * Returns: 0 if all bytes were written, or -1 on error
-> + */
-> +
-> +int qio_channel_writev_full_all(QIOChannel *ioc,
-> +                           const struct iovec *iov,
-> +                           size_t niov,
-> +                           int *fds, size_t nfds,
-> +                           Error **errp);
-> +
->  #endif /* QIO_CHANNEL_H */
-> diff --git a/io/channel.c b/io/channel.c
-> index 93d449d..13b0e7a 100644
-> --- a/io/channel.c
-> +++ b/io/channel.c
-> @@ -152,15 +152,72 @@ int qio_channel_readv_all(QIOChannel *ioc,
->      return ret;
->  }
->
-> +int qio_channel_readv_full_all(QIOChannel *ioc,
-> +                                const struct iovec *iov,
-> +                                size_t niov,
-> +                                int **fds, size_t *nfds,
-> +                                Error **errp)
-> +{
-> +    int ret =3D -1;
-> +    struct iovec *local_iov =3D g_new(struct iovec, niov);
-> +    struct iovec *local_iov_head =3D local_iov;
-> +    unsigned int nlocal_iov =3D niov;
-> +    int **local_fds =3D fds;
-> +    size_t *local_nfds =3D nfds;
-> +
-> +    nlocal_iov =3D iov_copy(local_iov, nlocal_iov,
-> +                          iov, niov,
-> +                          0, iov_size(iov, niov));
-> +
-> +    while (nlocal_iov > 0) {
-> +        ssize_t len;
-> +        len =3D qio_channel_readv_full(ioc, local_iov, nlocal_iov,
-> local_fds,
-> +                                     local_nfds, errp);
-> +        if (len =3D=3D QIO_CHANNEL_ERR_BLOCK) {
-> +            if (qemu_in_coroutine()) {
-> +                qio_channel_yield(ioc, G_IO_OUT);
-> +            } else {
-> +                qio_channel_wait(ioc, G_IO_OUT);
-> +            }
-> +            continue;
-> +        }
-> +        if (len <=3D 0) {
-> +            ret =3D len;
-> +            goto cleanup;
-> +        }
-> +
-> +        iov_discard_front(&local_iov, &nlocal_iov, len);
-> +
-> +        local_fds =3D NULL;
-> +        local_nfds =3D 0;
-> +    }
-> +
-> +    ret =3D 1;
-> + cleanup:
-> +    g_free(local_iov_head);
-> +    return ret;
-> +}
-> +
->
-
-I suggest to adapt the code so qio_channel_readv_all_eof() calls
-qio_channel_readv_full_all().
-
-You may want to split this patch in 2 parts: the read and write parts.
-
-
->  int qio_channel_writev_all(QIOChannel *ioc,
->                             const struct iovec *iov,
->                             size_t niov,
->                             Error **errp)
->  {
-> +    return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, errp);
-> +}
-> +
-> +int qio_channel_writev_full_all(QIOChannel *ioc,
-> +                                const struct iovec *iov,
-> +                                size_t niov,
-> +                                int *fds, size_t nfds,
-> +                                Error **errp)
-> +{
->      int ret =3D -1;
->      struct iovec *local_iov =3D g_new(struct iovec, niov);
->      struct iovec *local_iov_head =3D local_iov;
->      unsigned int nlocal_iov =3D niov;
-> +    int *local_fds =3D fds;
-> +    size_t local_nfds =3D nfds;
->
->      nlocal_iov =3D iov_copy(local_iov, nlocal_iov,
->                            iov, niov,
-> @@ -168,7 +225,8 @@ int qio_channel_writev_all(QIOChannel *ioc,
->
->      while (nlocal_iov > 0) {
->          ssize_t len;
-> -        len =3D qio_channel_writev(ioc, local_iov, nlocal_iov, errp);
-> +        len =3D qio_channel_writev_full(ioc, local_iov, nlocal_iov,
-> local_fds,
-> +                                      local_nfds, errp);
->          if (len =3D=3D QIO_CHANNEL_ERR_BLOCK) {
->              if (qemu_in_coroutine()) {
->                  qio_channel_yield(ioc, G_IO_OUT);
-> @@ -182,6 +240,9 @@ int qio_channel_writev_all(QIOChannel *ioc,
->          }
->
->          iov_discard_front(&local_iov, &nlocal_iov, len);
-> +
-> +        local_fds =3D NULL;
-> +        local_nfds =3D 0;
->      }
->
->      ret =3D 0;
+> Regards,
+> Daniel
 > --
-> 1.8.3.1
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 >
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000a74fd505b67e8345
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Mon, Dec 14, 2020 at 9:15 AM Jagannathan R=
-aman &lt;<a href=3D"mailto:jag.raman@oracle.com">jag.raman@oracle.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: =
-Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufimtseva@oracle.com" target=3D=
-"_blank">elena.ufimtseva@oracle.com</a>&gt;<br>
-<br>
-Adds QIO channel functions that transmit and receive iovs along with fds.<b=
-r>
-<br>
-Signed-off-by: Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufimtseva@oracle=
-.com" target=3D"_blank">elena.ufimtseva@oracle.com</a>&gt;<br>
-Signed-off-by: John G Johnson &lt;<a href=3D"mailto:john.g.johnson@oracle.c=
-om" target=3D"_blank">john.g.johnson@oracle.com</a>&gt;<br>
-Signed-off-by: Jagannathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com=
-" target=3D"_blank">jag.raman@oracle.com</a>&gt;<br>
-Reviewed-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" tar=
-get=3D"_blank">stefanha@redhat.com</a>&gt;<br>
----<br>
-=C2=A0include/io/channel.h | 50 +++++++++++++++++++++++++++++++++++++++++<b=
-r>
-=C2=A0io/channel.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 63 ++++++++++++++++++=
-+++++++++++++++++++++++++++++++++-<br>
-=C2=A02 files changed, 112 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/include/io/channel.h b/include/io/channel.h<br>
-index 4d6fe45..c2d9836 100644<br>
---- a/include/io/channel.h<br>
-+++ b/include/io/channel.h<br>
-@@ -774,4 +774,54 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0IOHandler *io_wr=
-ite,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *opaque);<b=
-r>
-<br>
-+/**<br>
-+ * qio_channel_readv_full_all:<br>
-+ * @ioc: the channel object<br>
-+ * @iov: the array of memory regions to read data to<br>
-+ * @niov: the length of the @iov array<br>
-+ * @fds: an array of file handles to read<br>
-+ * @nfds: number of file handles in @fds<br>
-+ * @errp: pointer to a NULL-initialized error object<br>
-+ *<br>
-+ *<br>
-+ * Behaves like qio_channel_readvv_full but will attempt<br>
-+ * to read all data specified (file handles and memory regions).<br>
-+ * The function will wait for all requested data<br>
-+ * to be read, yielding from the current coroutine<br>
-+ * if required.<br>
-+ *<br>
-+ * Returns: 0 if all bytes were read, or -1 on error<br>
-+ */<br>
-+<br>
-+int qio_channel_readv_full_all(QIOChannel *ioc,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const struct iovec *iov,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size_t niov,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int **fds, size_t *nfds,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error **errp);<br>
-+<br>
-+/**<br>
-+ * qio_channel_writev_full_all:<br>
-+ * @ioc: the channel object<br>
-+ * @iov: the array of memory regions to write data from<br>
-+ * @niov: the length of the @iov array<br>
-+ * @fds: an array of file handles to send<br>
-+ * @nfds: number of file handles in @fds<br>
-+ * @errp: pointer to a NULL-initialized error object<br>
-+ *<br>
-+ *<br>
-+ * Behaves like qio_channel_writev_full but will attempt<br>
-+ * to send all data passed (file handles and memory regions).<br>
-+ * The function will wait for all requested data<br>
-+ * to be written, yielding from the current coroutine<br>
-+ * if required.<br>
-+ *<br>
-+ * Returns: 0 if all bytes were written, or -1 on error<br>
-+ */<br>
-+<br>
-+int qio_channel_writev_full_all(QIOChannel *ioc,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0const struct iovec *iov,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0size_t niov,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0int *fds, size_t nfds,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0Error **errp);<br>
-+<br>
-=C2=A0#endif /* QIO_CHANNEL_H */<br>
-diff --git a/io/channel.c b/io/channel.c<br>
-index 93d449d..13b0e7a 100644<br>
---- a/io/channel.c<br>
-+++ b/io/channel.c<br>
-@@ -152,15 +152,72 @@ int qio_channel_readv_all(QIOChannel *ioc,<br>
-=C2=A0 =C2=A0 =C2=A0return ret;<br>
-=C2=A0}<br>
-<br>
-+int qio_channel_readv_full_all(QIOChannel *ioc,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const struct iovec *iov,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size_t niov,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int **fds, size_t *nfds,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 int ret =3D -1;<br>
-+=C2=A0 =C2=A0 struct iovec *local_iov =3D g_new(struct iovec, niov);<br>
-+=C2=A0 =C2=A0 struct iovec *local_iov_head =3D local_iov;<br>
-+=C2=A0 =C2=A0 unsigned int nlocal_iov =3D niov;<br>
-+=C2=A0 =C2=A0 int **local_fds =3D fds;<br>
-+=C2=A0 =C2=A0 size_t *local_nfds =3D nfds;<br>
-+<br>
-+=C2=A0 =C2=A0 nlocal_iov =3D iov_copy(local_iov, nlocal_iov,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 iov, niov,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 0, iov_size(iov, niov));<br>
-+<br>
-+=C2=A0 =C2=A0 while (nlocal_iov &gt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ssize_t len;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D qio_channel_readv_full(ioc, local_iov,=
- nlocal_iov, local_fds,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0local_nfds, errp=
-);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len =3D=3D QIO_CHANNEL_ERR_BLOCK) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qemu_in_coroutine()) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_yield(=
-ioc, G_IO_OUT);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_wait(i=
-oc, G_IO_OUT);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len &lt;=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D len;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto cleanup;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 iov_discard_front(&amp;local_iov, &amp;nlocal_=
-iov, len);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 local_fds =3D NULL;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 local_nfds =3D 0;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 ret =3D 1;<br>
-+ cleanup:<br>
-+=C2=A0 =C2=A0 g_free(local_iov_head);<br>
-+=C2=A0 =C2=A0 return ret;<br>
-+}<br>
-+<br></blockquote><div><br></div><div>I suggest to adapt the code so qio_ch=
-annel_readv_all_eof() calls qio_channel_readv_full_all(). <br></div><div><b=
-r></div><div>You may want to split this patch in 2 parts: the read and writ=
-e parts.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-=C2=A0int qio_channel_writev_all(QIOChannel *ioc,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 const struct iovec *iov,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 size_t niov,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 Error **errp)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, =
-errp);<br>
-+}<br>
-+<br>
-+int qio_channel_writev_full_all(QIOChannel *ioc,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const struct iovec *iov,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size_t niov,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int *fds, size_t nfds,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error **errp)<br>
-+{<br>
-=C2=A0 =C2=A0 =C2=A0int ret =3D -1;<br>
-=C2=A0 =C2=A0 =C2=A0struct iovec *local_iov =3D g_new(struct iovec, niov);<=
-br>
-=C2=A0 =C2=A0 =C2=A0struct iovec *local_iov_head =3D local_iov;<br>
-=C2=A0 =C2=A0 =C2=A0unsigned int nlocal_iov =3D niov;<br>
-+=C2=A0 =C2=A0 int *local_fds =3D fds;<br>
-+=C2=A0 =C2=A0 size_t local_nfds =3D nfds;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0nlocal_iov =3D iov_copy(local_iov, nlocal_iov,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0iov, niov,<br>
-@@ -168,7 +225,8 @@ int qio_channel_writev_all(QIOChannel *ioc,<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0while (nlocal_iov &gt; 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ssize_t len;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D qio_channel_writev(ioc, local_iov, nlo=
-cal_iov, errp);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D qio_channel_writev_full(ioc, local_iov=
-, nlocal_iov, local_fds,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 local_nfds, err=
-p);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (len =3D=3D QIO_CHANNEL_ERR_BLOCK) {<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (qemu_in_coroutine()) {<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qio_channel_y=
-ield(ioc, G_IO_OUT);<br>
-@@ -182,6 +240,9 @@ int qio_channel_writev_all(QIOChannel *ioc,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iov_discard_front(&amp;local_iov, &amp;nl=
-ocal_iov, len);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 local_fds =3D NULL;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 local_nfds =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0ret =3D 0;<br>
--- <br>
-1.8.3.1<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000a74fd505b67e8345--
 
