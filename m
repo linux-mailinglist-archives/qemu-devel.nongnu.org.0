@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E03C2DB338
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 19:05:53 +0100 (CET)
-Received: from localhost ([::1]:48126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A32C2DB389
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 19:19:33 +0100 (CET)
+Received: from localhost ([::1]:37754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpEhs-0000Dt-Iv
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 13:05:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34322)
+	id 1kpEv6-0002xg-D5
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 13:19:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpEXV-0003Fk-DQ
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50242)
+ id 1kpEXX-0003IO-7d
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpEXN-0001W2-0C
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:09 -0500
+ id 1kpEXQ-0001WI-4O
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608054900;
+ s=mimecast20190719; t=1608054901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SYDd6zYKz9pi+upwu6ID1TqfBHFMyVj6C3gpkiA5RLQ=;
- b=WTRsUE4thYPiMTqh9Zxn8YILH3EFxe0+TaExWO5V/std+mY2lKTDF7dpvQUVc5+YgncOzr
- DOyAn05a7npQ6jfilIH+UnaEwzCOKdh14gYXCpG3WxQwENMqNJ+ROFy0zdVeRkdLp4rjMZ
- A5Tugs6xL1LTsYn5TNy8z+8rx02/FqQ=
+ bh=Qxw/RZnZykeapm+MKpgJxCcnEqziup2f0T5FbW4opcY=;
+ b=Z8aSYA43iXPZht1tVD/EIsnDU9TFwuMvQM4NF3VBtVFWcBDh0BJnysgsepCw81LnLfmxAl
+ qKH/aEoLWH9j4w/PvGuctX9HwON36olGYIptJmuYoUvPGb0+rBPTHlN+sCgZf7fdM7GPL5
+ M/KAivYSMGLLCdjLun+xBWIzSIUhXfs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-SPG4SXA0OiWHhmQ2LAeqpw-1; Tue, 15 Dec 2020 12:54:58 -0500
-X-MC-Unique: SPG4SXA0OiWHhmQ2LAeqpw-1
+ us-mta-504-Wjm4zh3FOHu2aETXOqWZ9A-1; Tue, 15 Dec 2020 12:54:58 -0500
+X-MC-Unique: Wjm4zh3FOHu2aETXOqWZ9A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32FC718B37E0;
- Tue, 15 Dec 2020 17:54:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D5B4107ACE8
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 17:54:57 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5F2B5C1C4;
- Tue, 15 Dec 2020 17:54:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D65D5C1C4;
+ Tue, 15 Dec 2020 17:54:57 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/45] kvm: Take into account the unaligned section size when
- preparing bitmap
-Date: Tue, 15 Dec 2020 12:54:26 -0500
-Message-Id: <20201215175445.1272776-27-pbonzini@redhat.com>
+Subject: [PULL 27/45] qemu-option: simplify search for end of key
+Date: Tue, 15 Dec 2020 12:54:27 -0500
+Message-Id: <20201215175445.1272776-28-pbonzini@redhat.com>
 In-Reply-To: <20201215175445.1272776-1-pbonzini@redhat.com>
 References: <20201215175445.1272776-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -80,60 +79,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>
+Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zenghui Yu <yuzenghui@huawei.com>
+Use strcspn to find an equal or comma value, and pass the result directly
+to get_opt_name to avoid another strchr.
 
-The kernel KVM_CLEAR_DIRTY_LOG interface has align requirement on both the
-start and the size of the given range of pages. We have been careful to
-handle the unaligned cases when performing CLEAR on one slot. But it seems
-that we forget to take the unaligned *size* case into account when
-preparing bitmap for the interface, and we may end up clearing dirty status
-for pages outside of [start, start + size).
-
-If the size is unaligned, let's go through the slow path to manipulate a
-temp bitmap for the interface so that we won't bother with those unaligned
-bits at the end of bitmap.
-
-I don't think this can happen in practice since the upper layer would
-provide us with the alignment guarantee. I'm not sure if kvm-all could rely
-on it. And this patch is mainly intended to address correctness of the
-specific algorithm used inside kvm_log_clear_one_slot().
-
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-Message-Id: <20201208114013.875-1-yuzenghui@huawei.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/kvm/kvm-all.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ util/qemu-option.c | 35 +++++++++++++----------------------
+ 1 file changed, 13 insertions(+), 22 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 666b9ab96c..389eaace72 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -745,7 +745,7 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
-     assert(bmap_start % BITS_PER_LONG == 0);
-     /* We should never do log_clear before log_sync */
-     assert(mem->dirty_bmap);
--    if (start_delta) {
-+    if (start_delta || bmap_npages - size / psize) {
-         /* Slow path - we need to manipulate a temp bitmap */
-         bmap_clear = bitmap_new(bmap_npages);
-         bitmap_copy_with_src_offset(bmap_clear, mem->dirty_bmap,
-@@ -758,7 +758,10 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
-         bitmap_clear(bmap_clear, 0, start_delta);
-         d.dirty_bitmap = bmap_clear;
-     } else {
--        /* Fast path - start address aligns well with BITS_PER_LONG */
-+        /*
-+         * Fast path - both start and size align well with BITS_PER_LONG
-+         * (or the end of memory slot)
-+         */
-         d.dirty_bitmap = mem->dirty_bmap + BIT_WORD(bmap_start);
-     }
+diff --git a/util/qemu-option.c b/util/qemu-option.c
+index 25792159ba..6bd654a473 100644
+--- a/util/qemu-option.c
++++ b/util/qemu-option.c
+@@ -38,27 +38,19 @@
+ #include "qemu/help_option.h"
  
+ /*
+- * Extracts the name of an option from the parameter string (p points at the
++ * Extracts the name of an option from the parameter string (@p points at the
+  * first byte of the option name)
+  *
+- * The option name is delimited by delim (usually , or =) or the string end
+- * and is copied into option. The caller is responsible for free'ing option
+- * when no longer required.
++ * The option name is @len characters long and is copied into @option. The
++ * caller is responsible for free'ing @option when no longer required.
+  *
+  * The return value is the position of the delimiter/zero byte after the option
+- * name in p.
++ * name in @p.
+  */
+-static const char *get_opt_name(const char *p, char **option, char delim)
++static const char *get_opt_name(const char *p, char **option, size_t len)
+ {
+-    char *offset = strchr(p, delim);
+-
+-    if (offset) {
+-        *option = g_strndup(p, offset - p);
+-        return offset;
+-    } else {
+-        *option = g_strdup(p);
+-        return p + strlen(p);
+-    }
++    *option = g_strndup(p, len);
++    return p + len;
+ }
+ 
+ /*
+@@ -766,12 +758,11 @@ static const char *get_opt_name_value(const char *params,
+                                       const char *firstname,
+                                       char **name, char **value)
+ {
+-    const char *p, *pe, *pc;
+-
+-    pe = strchr(params, '=');
+-    pc = strchr(params, ',');
++    const char *p;
++    size_t len;
+ 
+-    if (!pe || (pc && pc < pe)) {
++    len = strcspn(params, "=,");
++    if (params[len] != '=') {
+         /* found "foo,more" */
+         if (firstname) {
+             /* implicitly named first option */
+@@ -779,7 +770,7 @@ static const char *get_opt_name_value(const char *params,
+             p = get_opt_value(params, value);
+         } else {
+             /* option without value, must be a flag */
+-            p = get_opt_name(params, name, ',');
++            p = get_opt_name(params, name, len);
+             if (strncmp(*name, "no", 2) == 0) {
+                 memmove(*name, *name + 2, strlen(*name + 2) + 1);
+                 *value = g_strdup("off");
+@@ -789,7 +780,7 @@ static const char *get_opt_name_value(const char *params,
+         }
+     } else {
+         /* found "foo=bar,more" */
+-        p = get_opt_name(params, name, '=');
++        p = get_opt_name(params, name, len);
+         assert(*p == '=');
+         p++;
+         p = get_opt_value(p, value);
 -- 
 2.26.2
 
