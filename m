@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 742FD2DAC58
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 12:49:57 +0100 (CET)
-Received: from localhost ([::1]:58200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9369E2DAC5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 12:52:31 +0100 (CET)
+Received: from localhost ([::1]:37974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp8q4-0008HH-Ef
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 06:49:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59148)
+	id 1kp8sY-0003C2-Lu
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 06:52:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kp8m7-0004pI-Bq
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 06:45:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42190)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kp8m5-0000BR-FO
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 06:45:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608032748;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ldS1J7wGI5856oRlyFwiQvFcG4BV7UZaA4YAKir6cWo=;
- b=fhjLoBq9DQTXhecOH+BAY6+rObD0sAiI+rgTYcz9R/sEkisNMPjR2BqMxKgidoEQJ1WnMo
- pk9aPI119N38w5MXXL6Ke456QeGtSbsIfDqXDzKzuFannkVVwYGLEBjdri0qO95cLNJQX0
- vEIMcP0/U3yp3WJ63B7jZ4XXoVo6tSY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-r2-c6gfyPh-q2Lyxb7nHrw-1; Tue, 15 Dec 2020 06:45:44 -0500
-X-MC-Unique: r2-c6gfyPh-q2Lyxb7nHrw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 781A510054FF;
- Tue, 15 Dec 2020 11:45:42 +0000 (UTC)
-Received: from gondolin (ovpn-114-220.ams2.redhat.com [10.36.114.220])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCC9D5D9CA;
- Tue, 15 Dec 2020 11:45:29 +0000 (UTC)
-Date: Tue, 15 Dec 2020 12:45:26 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [for-6.0 v5 13/13] s390: Recognize securable-guest-memory option
-Message-ID: <20201215124526.7c33dc8d.cohuck@redhat.com>
-In-Reply-To: <20201204054415.579042-14-david@gibson.dropbear.id.au>
-References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <20201204054415.579042-14-david@gibson.dropbear.id.au>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kp8or-00076d-Rp
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 06:48:43 -0500
+Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:40173)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kp8on-00013c-BV
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 06:48:41 -0500
+Received: by mail-pj1-x1044.google.com with SMTP id m5so8756701pjv.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 03:48:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mrjluUaox9O/GuGcT66MzvHqCruw4iiBn+9QuZijTSY=;
+ b=GPZblvh9i1SL6COgx2p1gw9Ef+OQXIYyVTeunJwySArRuRlcLn4r8psh7Z3Mp9bIP4
+ AmEA2dbSlMleslqJGjCKAnmze0i8RX2Bkm4r20vekefussArHPLSZ0RaELXh5HI7kAVx
+ YOy8J/QALYOsQVLn9MZ2/pwqNOhDb6J48uXthp8oGR1bXbl8j1lMht3IweMW7VjJVudR
+ /y3y6ZDa64lUomcEfHdEkp+z3aJh0ucPF4I5spnsv/fJVGAf66AHcOGuzYzWnp/qGp/C
+ rTsbITvvkODoEMqnhqCyHg+3S0AdKsHQ+b/PG7WheTeYDwt1kWe/w0fWE0N3dZdO2iqp
+ Mvyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mrjluUaox9O/GuGcT66MzvHqCruw4iiBn+9QuZijTSY=;
+ b=hznsatPWaULbDbdju41AuTFLWECQ+gK3ZaCQm7tEr0iDs3xFJdx7Fqh2jY6X5EH6pz
+ Iani+ZCokYra7O6GvJqMejCMgEuGjrulf9pw0X9qpvBUfo6IBMFtQPyWZ2QWsjp+OEXx
+ 7x3nsOPm+S5uYu6QL26dMIVbCkUPNi+1jtBN0Ud6swjlhQnyK9IdmaLl5A2RMu/xAYoy
+ TZ3aPy6Pc/huqSuml/PfI8J7tEwvTroPw+XWFTmUVpkXg/etPqvWHNEuxJEv0SO5Vexa
+ G/Iw8bD42zZiQo4PDZaqqraB826EWdMLxn92/W+jF0hgfx8sw80qkVXj8F7ZMJUGieFI
+ gSHw==
+X-Gm-Message-State: AOAM531WST5RBUAj1JazU+H/DkHMdLFgHj/8niDpj2TOp8+NTCNh/mN8
+ Xrf+1OWZyoD/vac0I7/dU4OOLw==
+X-Google-Smtp-Source: ABdhPJw0x8rf1TtLO84GYilRcOv+Gx+bo1Ddo1HuZWuyK1YRCdSo66R+WwsS6G7EyTFtXSOqp2+J/Q==
+X-Received: by 2002:a17:90b:16cd:: with SMTP id
+ iy13mr29350787pjb.182.1608032914880; 
+ Tue, 15 Dec 2020 03:48:34 -0800 (PST)
+Received: from leonardo.ba.nuviainc.com
+ (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net. [82.27.183.148])
+ by smtp.gmail.com with ESMTPSA id z23sm23340001pfn.202.2020.12.15.03.48.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Dec 2020 03:48:34 -0800 (PST)
+From: Leif Lindholm <leif@nuviainc.com>
+To: qemu-arm@nongnu.org
+Subject: [PATCH v2 0/5] target/arm: various changes to cpu.h
+Date: Tue, 15 Dec 2020 11:48:23 +0000
+Message-Id: <20201215114828.18076-1-leif@nuviainc.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+ envelope-from=leif@nuviainc.com; helo=mail-pj1-x1044.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,66 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, david@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, berrange@redhat.com,
- thuth@redhat.com, pbonzini@redhat.com, rth@twiddle.net,
- mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri,  4 Dec 2020 16:44:15 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+First, fix a typo in ID_AA64PFR1 (SBSS -> SSBS).
 
-> At least some s390 cpu models support "Protected Virtualization" (PV),
-> a mechanism to protect guests from eavesdropping by a compromised
-> hypervisor.
-> 
-> This is similar in function to other mechanisms like AMD's SEV and
-> POWER's PEF, which are controlled bythe "securable-guest-memory" machine
+Second, turn clidr in the ARMCPU struct 64-bit, to support all fields defined
+by the ARM ARM.
 
-s/bythe/by the/
+Third, add field definitions for CLIDR (excepting the Ttype<n> fields, since
+I was unsure of prefererred naming - Ttype7-Ttype1?).
 
-> option.  s390 is a slightly special case, because we already supported
-> PV, simply by using a CPU model with the required feature
-> (S390_FEAT_UNPACK).
-> 
-> To integrate this with the option used by other platforms, we
-> implement the following compromise:
-> 
->  - When the securable-guest-memory option is set, s390 will recognize it,
->    verify that the CPU can support PV (failing if not) and set virtio
->    default options necessary for encrypted or protected guests, as on
->    other platforms.  i.e. if securable-guest-memory is set, we will
->    either create a guest capable of entering PV mode, or fail outright
+Fourth add all ID_AA64 registers/fields present in ARM DDI 0487F.c,
 
-s/outright/outright./
+Lastly, add all ID_ (aarch32) registers/fields.
 
-> 
->  - If securable-guest-memory is not set, guest's might still be able to
+Some of the ID_AA64 fields will be used by some patches Rebecca Cran will be
+submitting shortly, and some of those features also exist for aarch32.
 
-s/guest's/guests/
+v1->v2:
+- Correct CCSIDR_EL1 field sizes in 3/5.
+- Rebase to current master.
 
->    enter PV mode, if the CPU has the right model.  This may be a
->    little surprising, but shouldn't actually be harmful.
-> 
-> To start a guest supporting Protected Virtualization using the new
-> option use the command line arguments:
->     -object s390-pv-guest,id=pv0 -machine securable-guest-memory=pv0
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  hw/s390x/pv.c         | 58 +++++++++++++++++++++++++++++++++++++++++++
->  include/hw/s390x/pv.h |  1 +
->  target/s390x/kvm.c    |  3 +++
->  3 files changed, 62 insertions(+)
-> 
+Leif Lindholm (5):
+  target/arm: fix typo in cpu.h ID_AA64PFR1 field name
+  target/arm: make ARMCPU.clidr 64-bit
+  target/arm: add descriptions of CLIDR_EL1, CCSIDR_EL1, CTR_EL0 to
+    cpu.h
+  target/arm: add aarch64 ID register fields to cpu.h
+  target/arm: add aarch32 ID register fields to cpu.h
 
-Modulo any naming changes etc., I think this should work for s390. I
-don't have the hardware to test this, however, and would appreciate
-someone with a PV setup giving this a go.
+ target/arm/cpu.h | 71 ++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 69 insertions(+), 2 deletions(-)
 
+-- 
+2.20.1
 
