@@ -2,69 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A9072DAC57
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 12:49:27 +0100 (CET)
-Received: from localhost ([::1]:55564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340A22DAC46
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 12:48:12 +0100 (CET)
+Received: from localhost ([::1]:52556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp8pa-0007Cx-0q
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 06:49:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58932)
+	id 1kp8oN-0005wd-6r
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 06:48:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kp8lD-00043y-9G
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 06:44:55 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:45374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kp8lB-0008E5-Ho
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 06:44:54 -0500
-Received: by mail-ed1-x543.google.com with SMTP id r5so20637088eda.12
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 03:44:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9YP6/1HwTRQ2ZPcyFAApPBPTifgi3dqT9fzJQcwRfck=;
- b=HhKoqBWYvLhFDjTU12gTKYa/vKf9cEiudwKYuu8YpFI5RYCh2Dmn1MKjQqD5nH9pik
- k0OKR5J7VJAYppyhEAis+zWz8eodhA6448CUnoSyI7CON3DT5sx1o6jdEnnHDSeMElnW
- WPsu0AlreuM6sXoF01EdTQMB3HWVbiVRPkSTLJ89q1qp7PRgtBUDbGG40Lah4bShz6zU
- 8WiGroun9OBd2X+rQu+FJEeiXbuhUmNxlTViR4cTaoAe8v5fslwSexpxD5FxKZFgXzAI
- IKjAPHEaaXMtkl8FboDVRdfLVqE4fDtorKU+Hs2s1fqTJqRjU/iH7MVfj4DPLt7FrjIK
- gd3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9YP6/1HwTRQ2ZPcyFAApPBPTifgi3dqT9fzJQcwRfck=;
- b=fO0vazpIMHjdS9S7dN8abPJIlXc7JWXaAw5c7DBux1yHpv2ECi4PXb8WX3JuBbxLHe
- 5Y/2H8KmAHpLvNkmQeE+umo4vGJvgqd3uZXTxxjZGZXIRk6FIG62hz2+e5KWZ3Fukp3n
- PJZYt6GiULOi/OU9NIN8e2QBtaTBTWnrGiGZlgyLbLOfctZWv2XHIQijjw0ct2qJxM4L
- 6TkQwVxP4faZ9opzubL+go89fYp6KUdJZ4U1WuZnpaYoryf0aKrrFek5UuppIYYmfzud
- 9VSss6jd6c91qIa2CWGinv9w3cwEfhsr9YsqmWubeHePQHPJ9v71QGjyZU9//oweWEVh
- 3QKQ==
-X-Gm-Message-State: AOAM532EmePkZcyPWkI370HmC/98RkFdclBEet4HMsWKzms7QTHdkxL1
- V21G9HwRG/+b7qxFBXFiU5d91qHaMv0dA+cOLabd3WG3AcM=
-X-Google-Smtp-Source: ABdhPJxkSAVroMN045rxaqg5ZEIx6Gvmeqsqqs+YlyLTFBZ+C/mZTG9IyU/aEGLpJMMRZiSTlXRJC+BVCypx/uYqq9g=
-X-Received: by 2002:aa7:c388:: with SMTP id k8mr2035354edq.36.1608032690433;
- Tue, 15 Dec 2020 03:44:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kp8lm-0004dq-De
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 06:45:30 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55890
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kp8lj-0008Qp-8d
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 06:45:29 -0500
+Received: from host86-191-183-22.range86-191.btcentralplus.com
+ ([86.191.183.22] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kp8lf-00047X-PZ; Tue, 15 Dec 2020 11:45:28 +0000
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20201211220529.2290218-1-ehabkost@redhat.com>
+ <20201211220529.2290218-6-ehabkost@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <378a20fe-2a9f-7b23-2ea2-5de232c0f51d@ilande.co.uk>
+Date: Tue, 15 Dec 2020 11:45:16 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-References: <20201214203050.6993-1-peter.maydell@linaro.org>
- <20201214203050.6993-2-peter.maydell@linaro.org>
-In-Reply-To: <20201214203050.6993-2-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Dec 2020 11:44:39 +0000
-Message-ID: <CAFEAcA-U_S62AwsLjwOTOpJm+dxJ-k6CB2HN7nMa+npRcHMzLA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] util/qemu-timer: Make timer_free() imply timer_del()
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201211220529.2290218-6-ehabkost@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.191.183.22
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v4 05/32] sparc: Check dev->realized at
+ sparc_set_nwindows()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,57 +65,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Dec 2020 at 20:30, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Currently timer_free() is a simple wrapper for g_free().  This means
-> that the timer being freed must not be currently active, as otherwise
-> QEMU might crash later when the active list is processed and still
-> has a pointer to freed memory on it.  As a result almost all calls to
-> timer_free() are preceded by a timer_del() call, as can be seen in
-> the output of
->   git grep -B1 '\<timer_free\>'
->
-> This is unfortunate API design as it makes it easy to accidentally
-> misuse (by forgetting the timer_del()), and the correct use is
-> annoyingly verbose.
->
-> Make timer_free() imply a timer_del().  We use the same check as
-> timer_deinit() ("ts->expire_time == -1") to determine whether the
-> timer is already deleted (although this is only saving the effort of
-> re-iterating through the active list, as timer_del() on an
-> already-deactivated timer is safe).
+On 11/12/2020 22:05, Eduardo Habkost wrote:
 
-
-> +static inline void timer_free(QEMUTimer *ts)
-> +{
-> +
-> +    if (ts->expire_time != -1) {
-> +        timer_del(ts);
+> sparc_set_nwindows() is one of the very few property setters that
+> don't check dev->realized, and there's no reason for it to be
+> special.  Check dev->realized like the other setters.
+> 
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+>   target/sparc/cpu.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
+> diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+> index 701e794eac..6a3299041f 100644
+> --- a/target/sparc/cpu.c
+> +++ b/target/sparc/cpu.c
+> @@ -798,11 +798,17 @@ static void sparc_get_nwindows(Object *obj, Visitor *v, const char *name,
+>   static void sparc_set_nwindows(Object *obj, Visitor *v, const char *name,
+>                                  void *opaque, Error **errp)
+>   {
+> +    DeviceState *dev = DEVICE(obj);
+>       const int64_t min = MIN_NWINDOWS;
+>       const int64_t max = MAX_NWINDOWS;
+>       SPARCCPU *cpu = SPARC_CPU(obj);
+>       int64_t value;
+>   
+> +    if (dev->realized) {
+> +        qdev_prop_set_after_realize(dev, name, errp);
+> +        return;
 > +    }
-> +    g_free(ts);
-> +}
+> +
+>       if (!visit_type_int(v, name, &value, errp)) {
+>           return;
+>       }
 
-I was thinking about this again this morning, and I'm not sure
-this is thread-safe. timer_del() itself is, and the timer code
-only updates ts->expire_time with the timer's timer_list's
-active_timers_lock held, but here we're reading expire_time
-with no lock. So I think the right thing would be just to
-drop the attempt at optimisation, and just
-  timer_del(ts);
-  g_free(ts);
+Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-I find it hard to imagine that timer_free() is going to be
-in a code path where the slight overhead of checking the
-active timer list is going to matter. (If it *did* matter,
-the right place to put this "is the expire time -1?" check
-would be in timer_del() itself, because that gets called in
-a lot more places and it already takes the appropriate lock.)
 
-thanks
--- PMM
+ATB,
+
+Mark.
 
