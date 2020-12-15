@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430672DB390
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 19:22:05 +0100 (CET)
-Received: from localhost ([::1]:42460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254252DB36E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 19:16:04 +0100 (CET)
+Received: from localhost ([::1]:53226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpExX-0004vN-Vx
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 13:22:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34444)
+	id 1kpErj-00061O-2q
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 13:16:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpEXZ-0003IY-H3
+ id 1kpEXc-0003If-Hv
  for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54193)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpEXU-0001Xf-Q7
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:12 -0500
+ id 1kpEXV-0001Xj-4H
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1608054908;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AVUu/SzC1Gp6lgNP61uF9AhQu5kwuT9xPYllXpAAz3c=;
- b=KvzyKAiVxu+Qr8y4i5lZGLgxC3X69YgCQU3ac3QlB+QR9P0iMwyCRzfQAoDHVtv5K+s8Ic
- ULyPcNEIEMDU1YZZCjwsIKXCLHElT/CgPumMTvm33hv2SjgdGeVIUzHrzxKqMt6XvOLEiU
- Robo4f5WqXO9LjxTLzfC+QQ601P0FOM=
+ bh=RjbHWjuLOSAB8fJndzJDosfE+qMMC8L4su95Cyvq/IE=;
+ b=KltLN0/GRey4jsVWQH0kIom09F3p+8mXx3yeCySyU2m5q1dBS116QRrsr2rULHBF4csXQQ
+ fijwWf1llNAIcFdqeHjMhyppMUM4BSkMIw8ry5NAM6uAccnrBco6vGwP+Iu1OIRdZ/xEll
+ VHdC8LgAJlGDkrelpMJH/7+iToGKiLM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-wdhon8ayN2aRxowlUaZFIQ-1; Tue, 15 Dec 2020 12:55:06 -0500
-X-MC-Unique: wdhon8ayN2aRxowlUaZFIQ-1
+ us-mta-390-LJIGycGLPwu-3oChDsC76A-1; Tue, 15 Dec 2020 12:55:06 -0500
+X-MC-Unique: LJIGycGLPwu-3oChDsC76A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33B6B107ACE8;
- Tue, 15 Dec 2020 17:55:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2F3651080
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 17:55:05 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C73F419443;
- Tue, 15 Dec 2020 17:55:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4FF9B5D6BA;
+ Tue, 15 Dec 2020 17:55:05 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/45] tests: remove GCC < 4 fallbacks
-Date: Tue, 15 Dec 2020 12:54:36 -0500
-Message-Id: <20201215175445.1272776-37-pbonzini@redhat.com>
+Subject: [PULL 37/45] virtiofsd: replace _Static_assert with QEMU_BUILD_BUG_ON
+Date: Tue, 15 Dec 2020 12:54:37 -0500
+Message-Id: <20201215175445.1272776-38-pbonzini@redhat.com>
 In-Reply-To: <20201215175445.1272776-1-pbonzini@redhat.com>
 References: <20201215175445.1272776-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -80,46 +80,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Since commit efc6c07 ("configure: Add a test for the minimum compiler
-version"), QEMU explicitely depends on GCC >= 4.8.
-
-(clang >= 3.4 advertizes itself as GCC >= 4.2 compatible)
+This allows to get rid of a check for older GCC version (which was a bit
+bogus too since it was falling back on c++ version..)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Acked-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20201210134752.780923-6-marcandre.lureau@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20201210134752.780923-7-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/tcg/arm/fcvt.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ tools/virtiofsd/fuse_common.h | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/tests/tcg/arm/fcvt.c b/tests/tcg/arm/fcvt.c
-index 617626bc63..7ac47b564e 100644
---- a/tests/tcg/arm/fcvt.c
-+++ b/tests/tcg/arm/fcvt.c
-@@ -73,11 +73,9 @@ static void print_int64(int i, int64_t num)
+diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+index 30b18b4966..a090040bb2 100644
+--- a/tools/virtiofsd/fuse_common.h
++++ b/tools/virtiofsd/fuse_common.h
+@@ -807,15 +807,6 @@ void fuse_remove_signal_handlers(struct fuse_session *se);
+  *
+  * On 32bit systems please add -D_FILE_OFFSET_BITS=64 to your compile flags!
+  */
+-
+-#if defined(__GNUC__) &&                                      \
+-    (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ >= 6) && \
+-    !defined __cplusplus
+-_Static_assert(sizeof(off_t) == 8, "fuse: off_t must be 64bit");
+-#else
+-struct _fuse_off_t_must_be_64bit_dummy_struct {
+-    unsigned _fuse_off_t_must_be_64bit:((sizeof(off_t) == 8) ? 1 : -1);
+-};
+-#endif
++QEMU_BUILD_BUG_ON(sizeof(off_t) != 8);
  
- #ifndef SNANF
- /* Signaling NaN macros, if supported.  */
--# if __GNUC_PREREQ(3, 3)
--#  define SNANF (__builtin_nansf (""))
--#  define SNAN (__builtin_nans (""))
--#  define SNANL (__builtin_nansl (""))
--# endif
-+# define SNANF (__builtin_nansf (""))
-+# define SNAN (__builtin_nans (""))
-+# define SNANL (__builtin_nansl (""))
- #endif
- 
- float single_numbers[] = { -SNANF,
+ #endif /* FUSE_COMMON_H_ */
 -- 
 2.26.2
 
