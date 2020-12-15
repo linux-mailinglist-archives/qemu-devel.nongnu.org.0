@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CBC32DB200
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 17:59:07 +0100 (CET)
-Received: from localhost ([::1]:47298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5142DB201
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 17:59:38 +0100 (CET)
+Received: from localhost ([::1]:48710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpDfB-00078s-AA
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 11:59:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47150)
+	id 1kpDfl-00080o-HP
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 11:59:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpDd6-0005Vu-Df
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:56:52 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:37432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpDd3-0008Ki-AS
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:56:51 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id ga15so28690219ejb.4
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 08:56:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7kpKqCEpbuSvclKQbN3Lpw0eEBfI9diNxlmViowhAVs=;
- b=tYwJbx0gQ/bSfD/X1alES2YsixrxpTPpzFI56BFKdjqE0+cBl4MToPmMEi9i57MAar
- x8KMTcgunRsSaGIvCjx+2qs/q02qwPPTMvlVrM1lOtjQze98sc16HwLj7I0C2oBu11Aa
- ZzeJIggOzPsQjv2k9wql5NMFBj5uPh/Hey93k9k8rtXAQheT7wfGfhrpYj+gfUgx8wFf
- m+MYtHIVsqEa1gciHFymve3DXyxOC1ni39Xp060PRGONn1R3vx3ZA5slQiuzCSq4ae5X
- a5kF5l84ae8IvRonKgCZqpSMmck6M3GH19L9g/TRaAveXLJse5SXkZLNgoq/EQsmFe9N
- iRqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7kpKqCEpbuSvclKQbN3Lpw0eEBfI9diNxlmViowhAVs=;
- b=AfXTv1VddwPWVF5zZh2PUc83n9qYjfvohWATya+RGzXU5bSrh930X26Mn20DX3mrJD
- AvubgqYeadkFNoV/Bv6miTQye8YMG5BVYuGhxHO1j6M88eEomtwyQhpfNweKkhM1w2tr
- s0/cYCRCEzq9kgn+pt4XjtpK9C4NPswQjWlok1R1NcUZqhDioj3M2CzBf5tPC6g/uW1Y
- Bgh7uaU7zpFp9xBnHGChqOmCcmzDeLOiJrg5OooOlDYDzQ20k62Xx9shVW1RQ9wQUvcp
- m6inXzrh4wpPlDmq/wMqRaLVp+EyLbBHUjUvR8mRiHJXSNeAEwOVyePIhvu3eDmI6R6t
- kg6g==
-X-Gm-Message-State: AOAM530/6/LkE+dMT48Ee6s74D+MEN6ExXvKTM3GBQDhHadvms7oYhDR
- BMOnT0/NPu5GBeB9b4SOvabVWo4+z9aUYQ6LLGv4jr/01To=
-X-Google-Smtp-Source: ABdhPJzXwFEdIq+5sYzkHFl0cDiuohaMQs57I7yQqZn3s6nY09CIzsVTgJ4xooAwFqTee0R5Lt54n0lD+4yEjODGV7U=
-X-Received: by 2002:a17:906:1542:: with SMTP id
- c2mr27074821ejd.382.1608051407494; 
- Tue, 15 Dec 2020 08:56:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kpDeN-0006d1-FU
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:58:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21987)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kpDeJ-0008Va-Lq
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:58:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608051486;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=J6jt9OOMo8mWDG8h6xLs0b1qnNR+y0T+fcTG20gea7M=;
+ b=DhxI8/yulepHVhpQ825DJX6WsSHwR4Bx8Vcyyt6LtjOnVBifBzSymqK5WWe1wHmWFbPvVM
+ ZbPhWdUO+E9Q0/e2NRoSqVMz6hs06nzKKhltie47yyEJcTshNDh0wmgcafLaJ1mCqQ1b7m
+ cVVaVDk19jw5Np3f87MeZdzi86tJrwo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-255-2jwpKCEDPW-IvQOkQMz5GA-1; Tue, 15 Dec 2020 11:58:04 -0500
+X-MC-Unique: 2jwpKCEDPW-IvQOkQMz5GA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64ED815720;
+ Tue, 15 Dec 2020 16:58:03 +0000 (UTC)
+Received: from localhost (ovpn-115-226.rdu2.redhat.com [10.10.115.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE12C10023B2;
+ Tue, 15 Dec 2020 16:57:59 +0000 (UTC)
+Date: Tue, 15 Dec 2020 11:57:59 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 00/32] qdev property code cleanup
+Message-ID: <20201215165759.GA3140057@habkost.net>
+References: <20201211220529.2290218-1-ehabkost@redhat.com>
+ <20201214194238.GP1289986@habkost.net>
+ <20201215154015.GW1289986@habkost.net>
 MIME-Version: 1.0
-References: <20201214045807.41003-1-david@gibson.dropbear.id.au>
- <20201214045807.41003-7-david@gibson.dropbear.id.au>
-In-Reply-To: <20201214045807.41003-7-david@gibson.dropbear.id.au>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Dec 2020 16:56:36 +0000
-Message-ID: <CAFEAcA8sOMxFJN=t69y=oSruh4a+LMUNWHX60wOEZZ8Cr=64OQ@mail.gmail.com>
-Subject: Re: [PULL 06/30] spapr: Do PHB hoplug sanity check at pre-plug
-To: David Gibson <david@gibson.dropbear.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+In-Reply-To: <20201215154015.GW1289986@habkost.net>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,37 +79,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Dec 2020 at 04:58, David Gibson <david@gibson.dropbear.id.au> wrote:
->
-> From: Greg Kurz <groug@kaod.org>
->
-> We currently detect that a PHB index is already in use at plug time.
-> But this can be decteted at pre-plug in order to error out earlier.
->
-> This allows to pass &error_abort to spapr_drc_attach() and to end
-> up with a plug handler that doesn't need to report errors anymore.
->
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> Message-Id: <20201120234208.683521-8-groug@kaod.org>
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+On Tue, Dec 15, 2020 at 10:40:20AM -0500, Eduardo Habkost wrote:
+> On Mon, Dec 14, 2020 at 02:42:44PM -0500, Eduardo Habkost wrote:
+> > On Fri, Dec 11, 2020 at 05:04:57PM -0500, Eduardo Habkost wrote:
+> > > This code contains the first 32 patches from the series:
+> > > 
+> > >   Subject: [PATCH v3 00/53] Make qdev static property API usable by any QOM type
+> > >   https://lore.kernel.org/qemu-devel/20201112214350.872250-1-ehabkost@redhat.com
+> > > 
+> > > I'm submitting this separately so we can merge the qdev-specific
+> > > cleanup while we discuss our long term plans for QOM properties.
+> > > 
+> > > Eduardo Habkost (32):
+> > >   cs4231: Get rid of empty property array
+> > >   cpu: Move cpu_common_props to hw/core/cpu.c
+> > >   qdev: Move property code to qdev-properties.[ch]
+> > >   qdev: Check dev->realized at set_size()
+> > >   sparc: Check dev->realized at sparc_set_nwindows()
+> > >   qdev: Don't use dev->id on set_size32() error message
+> > >   qdev: Make PropertyInfo.print method get Object* argument
+> > >   qdev: Make bit_prop_set() get Object* argument
+> > >   qdev: Make qdev_get_prop_ptr() get Object* arg
+> > >   qdev: Make qdev_find_global_prop() get Object* argument
+> > >   qdev: Make check_prop_still_unset() get Object* argument
+> > >   qdev: Make error_set_from_qdev_prop_error() get Object* argument
+> > >   qdev: Make qdev_propinfo_get_uint16() static
+> > >   qdev: Move UUID property to qdev-properties-system.c
+> > 
+> > I'm queueing patches 1-14 (above) on machine-next.
+> > 
+> > >   qdev: Move softmmu properties to qdev-properties-system.h
+> > >   qdev: Reuse DEFINE_PROP in all DEFINE_PROP_* macros
+> > >   sparc: Use DEFINE_PROP for nwindows property
+> > >   qdev: Get just property name at error_set_from_qdev_prop_error()
+> > >   qdev: Avoid using prop->name unnecessarily
+> > >   qdev: Add name parameter to qdev_class_add_property()
+> > >   qdev: Add name argument to PropertyInfo.create method
+> > >   qdev: Wrap getters and setters in separate helpers
+> > >   qdev: Move dev->realized check to qdev_property_set()
+> > >   qdev: Make PropertyInfo.create return ObjectProperty*
+> > >   qdev: Make qdev_class_add_property() more flexible
+> 
+> I'm queueing patches 15-25 (above) on machine-next.
+> 
 
-Hi; this change seems to have nudged one of Coverity's
-heuristics into deciding that spapr_drc_by_id() can return
-NULL (because its return value is checked here, I suspect),
-so it reports CID 1437757, 1437758, where spapr_add_lmbs()
-and spapr_memory_unplug_request() both take the return value
-of spapr_drc_by_id() and pass it directly to spapr_drc_index(),
-which will crash if it is passed a NULL pointer.
+I'm also queueing the following:
 
-Is it impossible for spapr_drc_by_id() to return NULL in
-those functions (ie Coverity false positive) or is there
-a missing error check ?
+> > >   qdev: Move qdev_prop_tpm declaration to tpm_prop.h
+> > >   qdev: Rename qdev_get_prop_ptr() to object_field_prop_ptr()
+> > >   qdev: Avoid unnecessary DeviceState* variable at set_prop_arraylen()
 
-thanks
--- PMM
+-- 
+Eduardo
+
 
