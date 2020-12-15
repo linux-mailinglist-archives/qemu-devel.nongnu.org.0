@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90ED2DAEB8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 15:18:01 +0100 (CET)
-Received: from localhost ([::1]:52688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B864D2DAED9
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 15:24:53 +0100 (CET)
+Received: from localhost ([::1]:49484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpB9M-0006Zv-QP
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 09:18:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33948)
+	id 1kpBG0-0008M4-Nu
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 09:24:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpB4O-0001Q9-BG
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:12:52 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:56242)
+ id 1kpB4W-0001Vr-JL
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:13:00 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpB4D-00075k-Sm
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:12:52 -0500
-Received: by mail-wm1-x335.google.com with SMTP id x22so17001751wmc.5
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 06:12:41 -0800 (PST)
+ id 1kpB4I-00076N-2v
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:12:56 -0500
+Received: by mail-wm1-x336.google.com with SMTP id y23so18654455wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 06:12:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=kCMFG4sWmiPqMWWW6ZFqqdXinU3eUO+oOn3Zwz4nHqA=;
- b=zfk5/YbYl0jjSvJQhHh6J/M8isyGgiFRpFOOqpPwredpcF5ZoR4lGkWvD2GjNoUad/
- rPR33UKJwZy/+FEB4P+j431Ivs0tTlJIxKYSs5UHskcAEEqrOSF6RZGFke+ekxoYDaQ4
- 5ealTdI4KlcomNHDIMMIRJdBkQPxr38Jb+nNWLv1NSM1btz+rsqLfiGkv1FZpeWpCDO8
- 5cohgFn6rcG05rBJdbxMgMGTpCtWOhoYjUeRUwEWKcXETI/KUm7q5rtG9GtxhncjglE+
- 2KAwPgetGE0uAgGctOeH2rxd4iO+AHE2Vngb+Pocb5jBxxzh+i4MDFOumFWyWtE06Ias
- 8r2A==
+ bh=lv9BxTsnVMI28ncB29ZUXQqJSkKOizde5SVuW6MLg8M=;
+ b=CQnacXQtLN6dcn0iTm11ShOWW4AOpLpv8mQdqnf4vMtH7cOx59IlTVvg+lpnlgf1aO
+ utMUn/8tWlHn2d/AmIoDBtPSVjGzhy+nKzWdvgj5SJhwMHIFcP71rme9JiM5CqKYbhOv
+ Y4v/25X6WA88Hsjx0NaNihRsmPAOn6v+0ZBWQ6KpS5rSHpBVisMFLdmaKdu5pglEyKuw
+ Y79mJBc144VDvDr83o/dRgR+ZcG4groNkVYE0OU5Mck/wibDUT7/+fGLV8w1iGMCmSrU
+ Qo51Csdq7GYeiOLeKhGb7OHxGiQ130DtDpL+y73XllvVRQ+R9yB7c0O1QyvEs4TQ+ZP2
+ LT+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kCMFG4sWmiPqMWWW6ZFqqdXinU3eUO+oOn3Zwz4nHqA=;
- b=DVV8AILE7GgaK739bcOTll/y2JsnpwdsiLmmkOV2nJwdR5NzDexsPEh5z3+wajRkkH
- bICr+S2fbRqE62maHFK4Pymx0bC+0aVu6rUHRYqintxSzb65Ig3fj07C3wCZ8SRH9JAU
- JE3s+MMRgmVl4cu9wKIGF2+yt4Ue152qX0O6igsF0s1kYQ4SNIOvMEnJuWzBsMO4YSGi
- YkPVH7Yp6D2J40xU0/wV45kaGv/O6oPN5LgoZI3yTmhAy5cGyb5MyizOGQyL6MQT6uES
- XIyd8NHiq+ThlPjSuM6k3O+Rn54hyOg2c3q/tCdYBNSGE152BIc0pxF1dgA6CWgQJyyU
- Frgw==
-X-Gm-Message-State: AOAM531qhU/3IGb3bhP0tYazHViAgsrXGuJ5ptkM0cEvD0YtzF9k3wTg
- S6bsOoEg0M8ioS9j5k8XiL+1wLrTW3ZaTw==
-X-Google-Smtp-Source: ABdhPJwHfyLVMPTV4O2qAmtuP3Qf7NXMIhaCXC7NIia2c1u1yPhPRFLEBrurTelYtiC7cC7R+nxW9w==
-X-Received: by 2002:a1c:f604:: with SMTP id w4mr8630000wmc.39.1608041559777;
- Tue, 15 Dec 2020 06:12:39 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=lv9BxTsnVMI28ncB29ZUXQqJSkKOizde5SVuW6MLg8M=;
+ b=l8ydmX9IsrhuASbQyxGSa0roybpNVNLcJOhaptVv6f9U7h+liGaYnDZIWh8Yp8W7GZ
+ s2++Q1qhZQHEw1zUsjrPfsCVpKTqszV54ZlEGt0MZWluU9y7Yx3EN9xOv3PtVVrHafkh
+ b2bLfEJJXo8H7ylHsusYPe6fZQen9wYI4KdycIyr6/uf0TLxck0U5DjYNRrGkwfTMGnM
+ /5Z92UpqWb7pdCSjwAdPtcT58UIvRrfoSoqqSeWEvjrC0uWwImpSESeE61QCdety0kk5
+ aqTPHPSEq+yu2i/q8MDEu8jK0BPvE6zrhcZ9UvAcBypqcVoSoNc/a4LGuojAgsPWxVYR
+ nWXQ==
+X-Gm-Message-State: AOAM5306E5FBa+dz/5bA6+P5ntoYEsy9R5cqgqJkC5W52MEHTDjzzj04
+ arLRfkFmxYZ9xeLp8HMGVTPMXpKN8zpxig==
+X-Google-Smtp-Source: ABdhPJxeDcU/223Xj4nN+PFLHYQB8Tx662qNvJoYN1UoI1EjRopRvhR+WzH4dzqrPoI/3uHouxArxA==
+X-Received: by 2002:a7b:c19a:: with SMTP id y26mr32064064wmi.20.1608041561181; 
+ Tue, 15 Dec 2020 06:12:41 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w21sm19667319wmi.45.2020.12.15.06.12.38
+ by smtp.gmail.com with ESMTPSA id w21sm19667319wmi.45.2020.12.15.06.12.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 06:12:39 -0800 (PST)
+ Tue, 15 Dec 2020 06:12:40 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/20] target-arm queue
-Date: Tue, 15 Dec 2020 14:12:17 +0000
-Message-Id: <20201215141237.17868-1-peter.maydell@linaro.org>
+Subject: [PULL 01/20] gdbstub: Correct misparsing of vCont C/S requests
+Date: Tue, 15 Dec 2020 14:12:18 +0000
+Message-Id: <20201215141237.17868-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201215141237.17868-1-peter.maydell@linaro.org>
+References: <20201215141237.17868-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,104 +87,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A grab-bag of minor stuff for the end of the year. My to-review
-queue is not empty, but it it at least in single figures...
+In the vCont packet, two of the command actions (C and S) take an
+argument specifying the signal to be sent to the process/thread, which is
+sent as an ASCII string of two hex digits which immediately follow the
+'C' or 'S' character.
 
--- PMM
+Our code for parsing this packet accidentally skipped the first of the
+two bytes of the signal value, because it started parsing the hex string
+at 'p + 1' when the preceding code had already moved past the 'C' or
+'S' with "cur_action = *p++".
 
-The following changes since commit 5bfbd8170ce7acb98a1834ff49ed7340b0837144:
+This meant that we would only do the right thing for signals below
+10, and would misinterpret the rest.  For instance, when the debugger
+wants to send the process a SIGPROF (27 on x86-64) we mangle this into
+a SIGSEGV (11).
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-6.0-pull-request' into staging (2020-12-14 20:32:38 +0000)
+Remove the accidental double increment.
 
-are available in the Git repository at:
+Fixes: https://bugs.launchpad.net/qemu/+bug/1773743
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-id: 20201121210342.10089-1-peter.maydell@linaro.org
+---
+ gdbstub.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20201215
+diff --git a/gdbstub.c b/gdbstub.c
+index f19f98ab1ab..d99bc0bf2ea 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -1243,7 +1243,7 @@ static int gdb_handle_vcont(const char *p)
+         cur_action = *p++;
+         if (cur_action == 'C' || cur_action == 'S') {
+             cur_action = qemu_tolower(cur_action);
+-            res = qemu_strtoul(p + 1, &p, 16, &tmp);
++            res = qemu_strtoul(p, &p, 16, &tmp);
+             if (res) {
+                 goto out;
+             }
+-- 
+2.20.1
 
-for you to fetch changes up to 23af268566069183285bebbdf95b1b37cb7c0942:
-
-  hw/block/m25p80: Fix Numonyx fast read dummy cycle count (2020-12-15 13:39:30 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * gdbstub: Correct misparsing of vCont C/S requests
- * openrisc: Move pic_cpu code into CPU object proper
- * nios2: Move IIC code into CPU object proper
- * Improve reporting of ROM overlap errors
- * xlnx-versal: Add USB support
- * hw/misc/zynq_slcr: Avoid #DIV/0! error
- * Numonyx: Fix dummy cycles and check for SPI mode on cmds
-
-----------------------------------------------------------------
-Joe Komlodi (4):
-      hw/block/m25p80: Make Numonyx config field names more accurate
-      hw/block/m25p80: Fix when VCFG XIP bit is set for Numonyx
-      hw/block/m25p80: Check SPI mode before running some Numonyx commands
-      hw/block/m25p80: Fix Numonyx fast read dummy cycle count
-
-Peter Maydell (11):
-      gdbstub: Correct misparsing of vCont C/S requests
-      hw/openrisc/openrisc_sim: Use IRQ splitter when connecting IRQ to multiple CPUs
-      hw/openrisc/openrisc_sim: Abstract out "get IRQ x of CPU y"
-      target/openrisc: Move pic_cpu code into CPU object proper
-      target/nios2: Move IIC code into CPU object proper
-      target/nios2: Move nios2_check_interrupts() into target/nios2
-      target/nios2: Use deposit32() to update ipending register
-      hw/core/loader.c: Track last-seen ROM in rom_check_and_register_reset()
-      hw/core/loader.c: Improve reporting of ROM overlap errors
-      elf_ops.h: Don't truncate name of the ROM blobs we create
-      elf_ops.h: Be more verbose with ROM blob names
-
-Philippe Mathieu-Daudé (1):
-      hw/misc/zynq_slcr: Avoid #DIV/0! error
-
-Sai Pavan Boddu (2):
-      usb: Add versal-usb2-ctrl-regs module
-      usb: xlnx-usb-subsystem: Add xilinx usb subsystem
-
-Vikram Garhwal (2):
-      usb: Add DWC3 model
-      arm: xlnx-versal: Connect usb to virt-versal
-
- include/hw/arm/xlnx-versal.h                |   9 +
- include/hw/elf_ops.h                        |   5 +-
- include/hw/usb/hcd-dwc3.h                   |  55 +++
- include/hw/usb/xlnx-usb-subsystem.h         |  45 ++
- include/hw/usb/xlnx-versal-usb2-ctrl-regs.h |  45 ++
- target/nios2/cpu.h                          |   3 -
- target/openrisc/cpu.h                       |   1 -
- gdbstub.c                                   |   2 +-
- hw/arm/xlnx-versal-virt.c                   |  55 +++
- hw/arm/xlnx-versal.c                        |  26 ++
- hw/block/m25p80.c                           | 158 +++++--
- hw/core/loader.c                            |  67 ++-
- hw/intc/nios2_iic.c                         |  95 ----
- hw/misc/zynq_slcr.c                         |   5 +
- hw/nios2/10m50_devboard.c                   |  13 +-
- hw/nios2/cpu_pic.c                          |  67 ---
- hw/openrisc/openrisc_sim.c                  |  46 +-
- hw/openrisc/pic_cpu.c                       |  61 ---
- hw/usb/hcd-dwc3.c                           | 689 ++++++++++++++++++++++++++++
- hw/usb/xlnx-usb-subsystem.c                 |  94 ++++
- hw/usb/xlnx-versal-usb2-ctrl-regs.c         | 229 +++++++++
- softmmu/vl.c                                |   1 -
- target/nios2/cpu.c                          |  29 ++
- target/nios2/op_helper.c                    |   9 +
- target/openrisc/cpu.c                       |  32 ++
- MAINTAINERS                                 |   1 -
- hw/intc/meson.build                         |   1 -
- hw/nios2/meson.build                        |   2 +-
- hw/openrisc/Kconfig                         |   1 +
- hw/openrisc/meson.build                     |   2 +-
- hw/usb/Kconfig                              |  10 +
- hw/usb/meson.build                          |   3 +
- 32 files changed, 1557 insertions(+), 304 deletions(-)
- create mode 100644 include/hw/usb/hcd-dwc3.h
- create mode 100644 include/hw/usb/xlnx-usb-subsystem.h
- create mode 100644 include/hw/usb/xlnx-versal-usb2-ctrl-regs.h
- delete mode 100644 hw/intc/nios2_iic.c
- delete mode 100644 hw/nios2/cpu_pic.c
- delete mode 100644 hw/openrisc/pic_cpu.c
- create mode 100644 hw/usb/hcd-dwc3.c
- create mode 100644 hw/usb/xlnx-usb-subsystem.c
- create mode 100644 hw/usb/xlnx-versal-usb2-ctrl-regs.c
 
