@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63E02DB71D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 00:28:45 +0100 (CET)
-Received: from localhost ([::1]:50626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2DC2DB724
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 00:31:48 +0100 (CET)
+Received: from localhost ([::1]:58188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpJkK-0003xd-RI
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 18:28:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48240)
+	id 1kpJnG-0007ez-W2
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 18:31:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpJRG-0002E9-6l
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 18:09:02 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:35009)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpJSF-0003mX-Oi
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 18:10:05 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:45324)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpJRE-0005fT-FJ
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 18:09:01 -0500
-Received: by mail-ed1-x543.google.com with SMTP id u19so22865173edx.2
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 15:08:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpJSD-0005p3-RY
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 18:10:03 -0500
+Received: by mail-oi1-x244.google.com with SMTP id f132so25250373oib.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 15:09:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Cv9DoQEhyDpw67o621oVCxfw9rJMRuWLE9+HNRwhtuM=;
- b=sb7a/3Nyh1mmhvAhVN2xykQbK/+zeLu2bfIMTMozkI0EjzjR2oCYKOOwTN/vaqZIIR
- 6Txy2gZXQz5XbdslqM75iJ88Ja9VY4dtNqZEvnTNAS33sVCo76b0oEnNd+P6YKwpq1m0
- 4SMoTq5grlYhUSTr3pIak4ERUIstILNS9FpghboT6awIeOeZwqxQfCtZd9d6a2AWl1D9
- Wj0oAMk+2Tvi7t6mOhk8Suz9vNjAuUy0U6pyxtIPrpoao39sV7fZgeEDnvaB8o+V8UkZ
- 58uAO7u88j6yIlPso1EOXcE+zbLOCX7CrbPUxsk2R2NHwAk7iD5JTCE4UPkm5n9jVxz+
- wWWQ==
+ bh=KxqGV+AGNTcfF3zrazYtJ7eYwmIBbvEZbcQH4yg1ucc=;
+ b=OMzErqkr+MJ0j1m6BUExYhdT+cWjx8CFEW1l83SZR8FPpCQR91xbKiCwmX+bq6c0a6
+ fW18eMVXgMpNdc+EpNnvMQ9OM4Lpc1/FP+b4r5wgvhnQZAL8H4jpDtF5ACe0g7pCsVnY
+ KGDkzhugFbOjJSi4c6fRPldO3EUccoxb5pWNkdysZH/WU62MoHUYJq5s2+iSODUqrVDS
+ L3UOW2O3bjGRUZjWrlx4+Elit63ZuA1leAIp9IgOAF40A/86aJkbq4DZuCykHxdN3e8O
+ w2UjgIG2smmLQH+mnVCU+BtlXgIxSMXEwtCfp02LQoDbQMRHkzHrXJyRiR6WVlra+CQj
+ ttig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Cv9DoQEhyDpw67o621oVCxfw9rJMRuWLE9+HNRwhtuM=;
- b=hntBuscUvUR0NCFPE6CzPBCYKbguxHxjTal9ntyL7xGl2qk0gSZicV872ZYSke7cAg
- 3B5KFvi7zxef2l0JMRAs4bOEAsbZJxMX48D6oVBBzQJle8acVVL2o89Et7YhQ88KCx6F
- 7T73x8pkqofesE/DbWFJQojn7CEfMXxC/2f/PNUoxkoI1TOgu4+2octK9KgNb7BZ1YRC
- 6nzdjehDGT6CUoi0inlTBLf42mahXlpEg8uTzGTQNPTNZ7JxJ4mU9EcVF+Q7bLQL3z8x
- mBLwYk8076T9c3OK13rTypzDV7aVvkUcM6r/lymgn1DMQSXj3GG/G5M0NgB2U+SsPQUN
- ODkA==
-X-Gm-Message-State: AOAM530GENVOUt+btdYU2BK02s3/AVPQvpNiUM5zpriZdGy7lQ7DJue7
- 7qhkGhfXNAL6bwyXzaHp7+A=
-X-Google-Smtp-Source: ABdhPJyG8DSQYE32O+nOPN/yvOJU9Wzt56fSP1q+pz4Ik44TASwxnGN7BoR6BtYlCy1fIiCM2ttkRA==
-X-Received: by 2002:a50:b282:: with SMTP id p2mr10358857edd.210.1608073737020; 
- Tue, 15 Dec 2020 15:08:57 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id e19sm20258088edr.61.2020.12.15.15.08.55
+ bh=KxqGV+AGNTcfF3zrazYtJ7eYwmIBbvEZbcQH4yg1ucc=;
+ b=LOcV8Y7LdCdBz9mgLQFMO4qUjn9msNlWs165MntIyflYOUaOlgdLcvCec2GRVhfVJM
+ /YOzW1HPnbvSdMgJOSAnSVRXcQwjnvJdHYYYiNoXOI3HnT5QX0+tj0gb73Ox+DJb7rXQ
+ 6ETliuBX1kdkFE6o/8hSBe0vEbdbytD4OfCdULgPbd0KBIgbI4hTyHzo2msS5HffJmoJ
+ b7LtDObXRGGc0s+hUgr4U7eWCucrXQuXf7X8hHZ9kodHLxm5iBmuTQQcc3GIv0MVEWqm
+ 7+j1cxzzKL7dN1H3Ca2gDPbL3zDOTHiroAkEsLi9kbGOp6pO3g4qqKALLZjoZMEANBK/
+ Z2AA==
+X-Gm-Message-State: AOAM531tjy6c2rUwtFuT0mC0rgl/X0cHi3HpFfT0AFVS2Xuy7y4w/yZJ
+ VWKmB2YoJRfk21M8/TUxVt4Fkg==
+X-Google-Smtp-Source: ABdhPJznkgL2tgml828BQ50Mi4XLxbwQr1VhGmLLDhS7LgYcUyRlVfJH5Dzer5/2+xH/Aq8fDUH4Jw==
+X-Received: by 2002:a54:4413:: with SMTP id k19mr635066oiw.110.1608073798890; 
+ Tue, 15 Dec 2020 15:09:58 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id y84sm66894oig.36.2020.12.15.15.09.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Dec 2020 15:08:55 -0800 (PST)
-Subject: Re: [PATCH v2 0/4] clock: Get rid of clock_get_ns()
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Huacai Chen <chenhuacai@kernel.org>
-References: <20201215150929.30311-1-peter.maydell@linaro.org>
- <bad8872c-4e8a-e4f5-12d3-b70c206e5abf@amsat.org>
-Message-ID: <900f2cc4-d231-e850-0414-14e3b5b9d731@amsat.org>
-Date: Wed, 16 Dec 2020 00:08:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Tue, 15 Dec 2020 15:09:58 -0800 (PST)
+Subject: Re: [PATCH v2 14/24] target/mips: Move msa_reset() to mod-msa_helper.c
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201215225757.764263-1-f4bug@amsat.org>
+ <20201215225757.764263-15-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7b374223-9275-cfcf-6edf-c0c99ae0e971@linaro.org>
+Date: Tue, 15 Dec 2020 17:09:55 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <bad8872c-4e8a-e4f5-12d3-b70c206e5abf@amsat.org>
+In-Reply-To: <20201215225757.764263-15-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,42 +89,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Luc Michel <luc.michel@greensocs.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
+ Huacai Chen <chenhuacai@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/15/20 4:29 PM, Philippe Mathieu-Daudé wrote:
-> On 12/15/20 4:09 PM, Peter Maydell wrote:
->> This patchseries makes some changes to the clock API:
->>  * Remove clock_get_ns()
->>  * Add clock_ticks_to_ns() to return number of nanoseconds
->>    it will take the clock to tick N times
->>  * clock_display_freq() to return prettily-formatted string
->>    for showing humans the approximate clock frequency
->>
-...
+On 12/15/20 4:57 PM, Philippe Mathieu-Daudé wrote:
+> translate_init.c.inc mostly contains CPU definitions.
+> msa_reset() doesn't belong here, move it with the MSA
+> helpers.
 > 
-> Tested using loongson3-virt @2GHz
-> https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg04036.html
+> One comment style is updated to avoid checkpatch.pl warning.
 > 
-> Without your series:
-> qemu-system-mips64el: target/mips/cpu.c:385: mips_cp0_period_set:
-> Assertion `env->cp0_count_ns' failed.
-> Aborted (core dumped)
-> 
-> With: OK (cpu are not displayed in 'info qtree').
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  target/mips/internal.h       |  2 ++
+>  target/mips/cpu.c            |  1 +
+>  target/mips/mod-msa_helper.c | 36 ++++++++++++++++++++++++++++++++++++
+>  target/mips/cpu-defs.c.inc   | 36 ------------------------------------
+>  4 files changed, 39 insertions(+), 36 deletions(-)
 
-I meant:
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-But now I reviewed, so confirming:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Thanks!
-
-Phil.
+r~
 
