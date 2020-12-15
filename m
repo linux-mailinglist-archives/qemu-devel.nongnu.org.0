@@ -2,55 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87CA2DA886
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 08:30:50 +0100 (CET)
-Received: from localhost ([::1]:50434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6172DA88E
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 08:33:10 +0100 (CET)
+Received: from localhost ([::1]:53166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp4nJ-000144-R9
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 02:30:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59258)
+	id 1kp4pZ-0002Lu-PH
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 02:33:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kp4lD-0008Lp-Kg
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 02:28:39 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2557)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1kp4nv-0001nT-8n; Tue, 15 Dec 2020 02:31:28 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2127)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kp4l5-0002rd-1x
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 02:28:39 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Cw8wv4jzLzhsVV;
- Tue, 15 Dec 2020 15:27:43 +0800 (CST)
-Received: from [10.174.186.51] (10.174.186.51) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 15 Dec 2020 15:28:05 +0800
-Subject: Re: [PATCH v3 00/18] Support Multifd for RDMA migration
-From: Zheng Chuan <zhengchuan@huawei.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <1602908748-43335-1-git-send-email-zhengchuan@huawei.com>
- <2ea09ca2cc8c494390b506877f6e5e2c@huawei.com>
- <d9a87b5a-f524-fd79-6e11-f95430a4c29f@huawei.com>
- <20201023190214.GR3038@work-vm>
- <64f2dcf4-8ccd-e8d3-f279-7170b1fadf92@huawei.com>
-Message-ID: <9e8ba8e6-b027-7291-3305-b993cac881f9@huawei.com>
-Date: Tue, 15 Dec 2020 15:28:05 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <64f2dcf4-8ccd-e8d3-f279-7170b1fadf92@huawei.com>
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1kp4np-0004Dy-NA; Tue, 15 Dec 2020 02:31:26 -0500
+Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Cw90F4xpgz53KR;
+ Tue, 15 Dec 2020 15:30:37 +0800 (CST)
+Received: from dggpemm000001.china.huawei.com (7.185.36.245) by
+ DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Tue, 15 Dec 2020 15:31:14 +0800
+Received: from dggpemm000001.china.huawei.com (7.185.36.245) by
+ dggpemm000001.china.huawei.com (7.185.36.245) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Tue, 15 Dec 2020 15:31:14 +0800
+Received: from dggpemm000001.china.huawei.com ([7.185.36.245]) by
+ dggpemm000001.china.huawei.com ([7.185.36.245]) with mapi id 15.01.1913.007;
+ Tue, 15 Dec 2020 15:31:14 +0800
+From: Jiangyifei <jiangyifei@huawei.com>
+To: Alistair Francis <alistair23@gmail.com>
+Subject: RE: [PATCH RFC v4 13/15] target/riscv: Introduce dynamic time
+ frequency for virt machine
+Thread-Topic: [PATCH RFC v4 13/15] target/riscv: Introduce dynamic time
+ frequency for virt machine
+Thread-Index: AQHWyXKAhiV5rxuLIUyD5oP8XPQYjantSR6AgAqKB2A=
+Date: Tue, 15 Dec 2020 07:31:14 +0000
+Message-ID: <1889871dcdf74ac3b495d75e6fd2aeaf@huawei.com>
+References: <20201203124703.168-1-jiangyifei@huawei.com>
+ <20201203124703.168-14-jiangyifei@huawei.com>
+ <CAKmqyKM5m3_w6=Jd+EdTatY9G0YBm1mFjh+5FodnVmFfKydyZw@mail.gmail.com>
+In-Reply-To: <CAKmqyKM5m3_w6=Jd+EdTatY9G0YBm1mFjh+5FodnVmFfKydyZw@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.186.236]
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.51]
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhengchuan@huawei.com;
- helo=szxga06-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=jiangyifei@huawei.com; helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,151 +71,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong <yubihong@huawei.com>,
+Cc: "kvm-riscv@lists.infradead.org" <kvm-riscv@lists.infradead.org>,
+ Anup Patel <anup.patel@wdc.com>, "open
+ list:RISC-V" <qemu-riscv@nongnu.org>, "open list:Overall" <kvm@vger.kernel.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "Zhangxiaofeng \(F\)" <victor.zhangxiaofeng@huawei.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Xiexiangyou <xiexiangyou@huawei.com>,
- "Chenzhendong \(alex\)" <alex.chen@huawei.com>,
- "wanghao \(O\)" <wanghao232@huawei.com>
+ Alistair Francis <Alistair.Francis@wdc.com>, yinyipeng <yinyipeng1@huawei.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, "Wubin
+ \(H\)" <wu.wubin@huawei.com>, "dengkai \(A\)" <dengkai1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Dave.
-
-Since qemu 6.0 is open and some patches of this series have been reviewed, might you have time to continue reviewing rest of them ?
-
-On 2020/10/25 10:29, Zheng Chuan wrote:
-> 
-> 
-> On 2020/10/24 3:02, Dr. David Alan Gilbert wrote:
->> * Zheng Chuan (zhengchuan@huawei.com) wrote:
->>>
->>>
->>> On 2020/10/21 17:25, Zhanghailiang wrote:
->>>> Hi zhengchuan,
->>>>
->>>>> -----Original Message-----
->>>>> From: zhengchuan
->>>>> Sent: Saturday, October 17, 2020 12:26 PM
->>>>> To: quintela@redhat.com; dgilbert@redhat.com
->>>>> Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>; Chenzhendong (alex)
->>>>> <alex.chen@huawei.com>; Xiexiangyou <xiexiangyou@huawei.com>; wanghao
->>>>> (O) <wanghao232@huawei.com>; yubihong <yubihong@huawei.com>;
->>>>> fengzhimin1@huawei.com; qemu-devel@nongnu.org
->>>>> Subject: [PATCH v3 00/18] Support Multifd for RDMA migration
->>>>>
->>>>> Now I continue to support multifd for RDMA migration based on my colleague
->>>>> zhiming's work:)
->>>>>
->>>>> The previous RFC patches is listed below:
->>>>> v1:
->>>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg669455.html
->>>>> v2:
->>>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg679188.html
->>>>>
->>>>> As descried in previous RFC, the RDMA bandwidth is not fully utilized for over
->>>>> 25Gigabit NIC because of single channel for RDMA migration.
->>>>> This patch series is going to support multifd for RDMA migration based on multifd
->>>>> framework.
->>>>>
->>>>> Comparsion is between origion and multifd RDMA migration is re-tested for v3.
->>>>> The VM specifications for migration are as follows:
->>>>> - VM use 4k page;
->>>>> - the number of VCPU is 4;
->>>>> - the total memory is 16Gigabit;
->>>>> - use 'mempress' tool to pressurize VM(mempress 8000 500);
->>>>> - use 25Gigabit network card to migrate;
->>>>>
->>>>> For origin RDMA and MultiRDMA migration, the total migration times of VM are
->>>>> as follows:
->>>>> +++++++++++++++++++++++++++++++++++++++++++++++++
->>>>> |             | NOT rdma-pin-all | rdma-pin-all |
->>>>> +++++++++++++++++++++++++++++++++++++++++++++++++
->>>>> | origin RDMA |       26 s       |     29 s     |
->>>>> -------------------------------------------------
->>>>> |  MultiRDMA  |       16 s       |     17 s     |
->>>>> +++++++++++++++++++++++++++++++++++++++++++++++++
->>>>>
->>>>> Test the multifd RDMA migration like this:
->>>>> virsh migrate --live --multiFd --migrateuri
->>>>
->>>> There is no option '--multiFd' for virsh commands, It seems that, we added this private option for internal usage.
->>>> It's better to provide testing method by using qemu commands.
->>>>
->>>>
->>> Hi, Hailiang
->>> Yes, it should be, will update in V4.
->>>
->>> Also, Ping.
->>>
->>> Dave, Juan.
->>>
->>> Any suggestion and comment about this series? Hope this feature could catch up with qemu 5.2.
->>
->> It's a bit close; I'm not sure if I'll have time to review it on Monday
->> before the pull.
->>
->> Dave
->>
-> Yes, it is.
-> Then we may wait for next merge window after fully review:)
-> 
->>>> Thanks.
->>>>
->>>>> rdma://192.168.1.100 [VM] --listen-address 0.0.0.0
->>>>> qemu+tcp://192.168.1.100/system --verbose
->>>>>
->>>>> v2 -> v3:
->>>>>     create multifd ops for both tcp and rdma
->>>>>     do not export rdma to avoid multifd code in mess
->>>>>     fix build issue for non-rdma
->>>>>     fix some codestyle and buggy code
->>>>>
->>>>> Chuan Zheng (18):
->>>>>   migration/rdma: add the 'migrate_use_rdma_pin_all' function
->>>>>   migration/rdma: judge whether or not the RDMA is used for migration
->>>>>   migration/rdma: create multifd_setup_ops for Tx/Rx thread
->>>>>   migration/rdma: add multifd_setup_ops for rdma
->>>>>   migration/rdma: do not need sync main for rdma
->>>>>   migration/rdma: export MultiFDSendParams/MultiFDRecvParams
->>>>>   migration/rdma: add rdma field into multifd send/recv param
->>>>>   migration/rdma: export getQIOChannel to get QIOchannel in rdma
->>>>>   migration/rdma: add multifd_rdma_load_setup() to setup multifd rdma
->>>>>   migration/rdma: Create the multifd recv channels for RDMA
->>>>>   migration/rdma: record host_port for multifd RDMA
->>>>>   migration/rdma: Create the multifd send channels for RDMA
->>>>>   migration/rdma: Add the function for dynamic page registration
->>>>>   migration/rdma: register memory for multifd RDMA channels
->>>>>   migration/rdma: only register the memory for multifd channels
->>>>>   migration/rdma: add rdma_channel into Migrationstate field
->>>>>   migration/rdma: send data for both rdma-pin-all and NOT rdma-pin-all
->>>>>     mode
->>>>>   migration/rdma: RDMA cleanup for multifd migration
->>>>>
->>>>>  migration/migration.c |  24 +++
->>>>>  migration/migration.h |  11 ++
->>>>>  migration/multifd.c   |  97 +++++++++-
->>>>>  migration/multifd.h   |  24 +++
->>>>>  migration/qemu-file.c |   5 +
->>>>>  migration/qemu-file.h |   1 +
->>>>>  migration/rdma.c      | 503
->>>>> +++++++++++++++++++++++++++++++++++++++++++++++++-
->>>>>  7 files changed, 653 insertions(+), 12 deletions(-)
->>>>>
->>>>> --
->>>>> 1.8.3.1
->>>>
->>>> .
->>>>
->>>
->>> -- 
->>> Regards.
->>> Chuan
->>>
-> 
-
--- 
-Regards.
-Chuan
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEFsaXN0YWlyIEZyYW5jaXMg
+W21haWx0bzphbGlzdGFpcjIzQGdtYWlsLmNvbV0NCj4gU2VudDogV2VkbmVzZGF5LCBEZWNlbWJl
+ciA5LCAyMDIwIDY6MjYgQU0NCj4gVG86IEppYW5neWlmZWkgPGppYW5neWlmZWlAaHVhd2VpLmNv
+bT4NCj4gQ2M6IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZyBEZXZlbG9wZXJzIDxxZW11LWRldmVsQG5v
+bmdudS5vcmc+OyBvcGVuDQo+IGxpc3Q6UklTQy1WIDxxZW11LXJpc2N2QG5vbmdudS5vcmc+OyBa
+aGFuZ3hpYW9mZW5nIChGKQ0KPiA8dmljdG9yLnpoYW5neGlhb2ZlbmdAaHVhd2VpLmNvbT47IFNh
+Z2FyIEthcmFuZGlrYXINCj4gPHNhZ2Fya0BlZWNzLmJlcmtlbGV5LmVkdT47IG9wZW4gbGlzdDpP
+dmVyYWxsIDxrdm1Admdlci5rZXJuZWwub3JnPjsNCj4gbGlidmlyLWxpc3RAcmVkaGF0LmNvbTsg
+QmFzdGlhbiBLb3BwZWxtYW5uDQo+IDxrYmFzdGlhbkBtYWlsLnVuaS1wYWRlcmJvcm4uZGU+OyBB
+bnVwIFBhdGVsIDxhbnVwLnBhdGVsQHdkYy5jb20+Ow0KPiB5aW55aXBlbmcgPHlpbnlpcGVuZzFA
+aHVhd2VpLmNvbT47IEFsaXN0YWlyIEZyYW5jaXMNCj4gPEFsaXN0YWlyLkZyYW5jaXNAd2RjLmNv
+bT47IGt2bS1yaXNjdkBsaXN0cy5pbmZyYWRlYWQub3JnOyBQYWxtZXIgRGFiYmVsdA0KPiA8cGFs
+bWVyQGRhYmJlbHQuY29tPjsgZGVuZ2thaSAoQSkgPGRlbmdrYWkxQGh1YXdlaS5jb20+OyBXdWJp
+biAoSCkNCj4gPHd1Lnd1YmluQGh1YXdlaS5jb20+OyBaaGFuZ2hhaWxpYW5nIDx6aGFuZy56aGFu
+Z2hhaWxpYW5nQGh1YXdlaS5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggUkZDIHY0IDEzLzE1
+XSB0YXJnZXQvcmlzY3Y6IEludHJvZHVjZSBkeW5hbWljIHRpbWUNCj4gZnJlcXVlbmN5IGZvciB2
+aXJ0IG1hY2hpbmUNCj4gDQo+IE9uIFRodSwgRGVjIDMsIDIwMjAgYXQgNDo1NyBBTSBZaWZlaSBK
+aWFuZyA8amlhbmd5aWZlaUBodWF3ZWkuY29tPiB3cm90ZToNCj4gPg0KPiA+IEN1cnJlbnRseSwg
+dGltZSBiYXNlIGZyZXF1ZW5jeSB3YXMgZml4ZWQgYXMgU0lGSVZFX0NMSU5UX1RJTUVCQVNFX0ZS
+RVEuDQo+ID4gSGVyZSBpbnRyb2R1Y2UgInRpbWUtZnJlcXVlbmN5IiBwcm9wZXJ0eSB0byBzZXQg
+dGltZSBiYXNlIGZyZXF1ZW5jeQ0KPiA+IGR5bmFtaWNhbGx5IG9mIHdoaWNoIGRlZmF1bHQgdmFs
+dWUgaXMgc3RpbGwNCj4gPiBTSUZJVkVfQ0xJTlRfVElNRUJBU0VfRlJFUS4gVGhlIHZpcnQgbWFj
+aGluZSB1c2VzIGZyZXF1ZW5jeSBvZiB0aGUgZmlyc3QNCj4gY3B1IHRvIGNyZWF0ZSBjbGludCBh
+bmQgZmR0Lg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogWWlmZWkgSmlhbmcgPGppYW5neWlmZWlA
+aHVhd2VpLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBZaXBlbmcgWWluIDx5aW55aXBlbmcxQGh1
+YXdlaS5jb20+DQo+ID4gLS0tDQo+ID4gIGh3L3Jpc2N2L3ZpcnQuYyAgICB8IDE4ICsrKysrKysr
+KysrKysrLS0tLQ0KPiA+ICB0YXJnZXQvcmlzY3YvY3B1LmMgfCAgMyArKysNCj4gPiAgdGFyZ2V0
+L3Jpc2N2L2NwdS5oIHwgIDIgKysNCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCAxOSBpbnNlcnRpb25z
+KCspLCA0IGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2h3L3Jpc2N2L3ZpcnQu
+YyBiL2h3L3Jpc2N2L3ZpcnQuYyBpbmRleA0KPiA+IDQ3YjcwMTgxOTMuLjc4OGE3MjM3YjYgMTAw
+NjQ0DQo+ID4gLS0tIGEvaHcvcmlzY3YvdmlydC5jDQo+ID4gKysrIGIvaHcvcmlzY3YvdmlydC5j
+DQo+ID4gQEAgLTE3OCw3ICsxNzgsNyBAQCBzdGF0aWMgdm9pZCBjcmVhdGVfcGNpZV9pcnFfbWFw
+KHZvaWQgKmZkdCwgY2hhcg0KPiA+ICpub2RlbmFtZSwgIH0NCj4gPg0KPiA+ICBzdGF0aWMgdm9p
+ZCBjcmVhdGVfZmR0KFJJU0NWVmlydFN0YXRlICpzLCBjb25zdCBzdHJ1Y3QgTWVtbWFwRW50cnkN
+Cj4gKm1lbW1hcCwNCj4gPiAtICAgIHVpbnQ2NF90IG1lbV9zaXplLCBjb25zdCBjaGFyICpjbWRs
+aW5lKQ0KPiA+ICsgICAgdWludDY0X3QgbWVtX3NpemUsIGNvbnN0IGNoYXIgKmNtZGxpbmUsIHVp
+bnQ2NF90DQo+ID4gKyB0aW1lYmFzZV9mcmVxdWVuY3kpDQo+ID4gIHsNCj4gPiAgICAgIHZvaWQg
+KmZkdDsNCj4gPiAgICAgIGludCBpLCBjcHUsIHNvY2tldDsNCj4gPiBAQCAtMjI1LDcgKzIyNSw3
+IEBAIHN0YXRpYyB2b2lkIGNyZWF0ZV9mZHQoUklTQ1ZWaXJ0U3RhdGUgKnMsIGNvbnN0DQo+ID4g
+c3RydWN0IE1lbW1hcEVudHJ5ICptZW1tYXAsDQo+ID4NCj4gPiAgICAgIHFlbXVfZmR0X2FkZF9z
+dWJub2RlKGZkdCwgIi9jcHVzIik7DQo+ID4gICAgICBxZW11X2ZkdF9zZXRwcm9wX2NlbGwoZmR0
+LCAiL2NwdXMiLCAidGltZWJhc2UtZnJlcXVlbmN5IiwNCj4gPiAtICAgICAgICAgICAgICAgICAg
+ICAgICAgICBTSUZJVkVfQ0xJTlRfVElNRUJBU0VfRlJFUSk7DQo+ID4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgdGltZWJhc2VfZnJlcXVlbmN5KTsNCj4gPiAgICAgIHFlbXVfZmR0X3NldHBy
+b3BfY2VsbChmZHQsICIvY3B1cyIsICIjc2l6ZS1jZWxscyIsIDB4MCk7DQo+ID4gICAgICBxZW11
+X2ZkdF9zZXRwcm9wX2NlbGwoZmR0LCAiL2NwdXMiLCAiI2FkZHJlc3MtY2VsbHMiLCAweDEpOw0K
+PiA+ICAgICAgcWVtdV9mZHRfYWRkX3N1Ym5vZGUoZmR0LCAiL2NwdXMvY3B1LW1hcCIpOyBAQCAt
+NTEwLDYgKzUxMCw3DQo+IEBADQo+ID4gc3RhdGljIHZvaWQgdmlydF9tYWNoaW5lX2luaXQoTWFj
+aGluZVN0YXRlICptYWNoaW5lKQ0KPiA+ICAgICAgdGFyZ2V0X3Vsb25nIGZpcm13YXJlX2VuZF9h
+ZGRyLCBrZXJuZWxfc3RhcnRfYWRkcjsNCj4gPiAgICAgIHVpbnQzMl90IGZkdF9sb2FkX2FkZHI7
+DQo+ID4gICAgICB1aW50NjRfdCBrZXJuZWxfZW50cnk7DQo+ID4gKyAgICB1aW50NjRfdCB0aW1l
+YmFzZV9mcmVxdWVuY3kgPSAwOw0KPiA+ICAgICAgRGV2aWNlU3RhdGUgKm1taW9fcGxpYywgKnZp
+cnRpb19wbGljLCAqcGNpZV9wbGljOw0KPiA+ICAgICAgaW50IGksIGosIGJhc2VfaGFydGlkLCBo
+YXJ0X2NvdW50Ow0KPiA+ICAgICAgQ1BVU3RhdGUgKmNzOw0KPiA+IEBAIC01NTMsMTIgKzU1NCwy
+MCBAQCBzdGF0aWMgdm9pZCB2aXJ0X21hY2hpbmVfaW5pdChNYWNoaW5lU3RhdGUNCj4gKm1hY2hp
+bmUpDQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaGFydF9jb3VudCwgJmVy
+cm9yX2Fib3J0KTsNCj4gPiAgICAgICAgICBzeXNidXNfcmVhbGl6ZShTWVNfQlVTX0RFVklDRSgm
+cy0+c29jW2ldKSwgJmVycm9yX2Fib3J0KTsNCj4gPg0KPiA+ICsgICAgICAgIGlmICghdGltZWJh
+c2VfZnJlcXVlbmN5KSB7DQo+ID4gKyAgICAgICAgICAgIHRpbWViYXNlX2ZyZXF1ZW5jeSA9IFJJ
+U0NWX0NQVShmaXJzdF9jcHUpLT5lbnYuZnJlcXVlbmN5Ow0KPiA+ICsgICAgICAgIH0NCj4gPiAr
+ICAgICAgICAvKiBJZiB2Y3B1J3MgdGltZSBmcmVxdWVuY3kgaXMgbm90IHNwZWNpZmllZCwgd2Ug
+dXNlIGRlZmF1bHQNCj4gZnJlcXVlbmN5ICovDQo+ID4gKyAgICAgICAgaWYgKCF0aW1lYmFzZV9m
+cmVxdWVuY3kpIHsNCj4gPiArICAgICAgICAgICAgdGltZWJhc2VfZnJlcXVlbmN5ID0gU0lGSVZF
+X0NMSU5UX1RJTUVCQVNFX0ZSRVE7DQo+ID4gKyAgICAgICAgfQ0KPiA+ICsNCj4gPiAgICAgICAg
+ICAvKiBQZXItc29ja2V0IENMSU5UICovDQo+ID4gICAgICAgICAgc2lmaXZlX2NsaW50X2NyZWF0
+ZSgNCj4gPiAgICAgICAgICAgICAgbWVtbWFwW1ZJUlRfQ0xJTlRdLmJhc2UgKyBpICoNCj4gbWVt
+bWFwW1ZJUlRfQ0xJTlRdLnNpemUsDQo+ID4gICAgICAgICAgICAgIG1lbW1hcFtWSVJUX0NMSU5U
+XS5zaXplLCBiYXNlX2hhcnRpZCwgaGFydF9jb3VudCwNCj4gPiAgICAgICAgICAgICAgU0lGSVZF
+X1NJUF9CQVNFLCBTSUZJVkVfVElNRUNNUF9CQVNFLA0KPiBTSUZJVkVfVElNRV9CQVNFLA0KPiA+
+IC0gICAgICAgICAgICBTSUZJVkVfQ0xJTlRfVElNRUJBU0VfRlJFUSwgdHJ1ZSk7DQo+ID4gKyAg
+ICAgICAgICAgIHRpbWViYXNlX2ZyZXF1ZW5jeSwgdHJ1ZSk7DQo+ID4NCj4gPiAgICAgICAgICAv
+KiBQZXItc29ja2V0IFBMSUMgaGFydCB0b3BvbG9neSBjb25maWd1cmF0aW9uIHN0cmluZyAqLw0K
+PiA+ICAgICAgICAgIHBsaWNfaGFydF9jb25maWdfbGVuID0NCj4gPiBAQCAtNjEwLDcgKzYxOSw4
+IEBAIHN0YXRpYyB2b2lkIHZpcnRfbWFjaGluZV9pbml0KE1hY2hpbmVTdGF0ZQ0KPiAqbWFjaGlu
+ZSkNCj4gPiAgICAgICAgICBtYWluX21lbSk7DQo+ID4NCj4gPiAgICAgIC8qIGNyZWF0ZSBkZXZp
+Y2UgdHJlZSAqLw0KPiA+IC0gICAgY3JlYXRlX2ZkdChzLCBtZW1tYXAsIG1hY2hpbmUtPnJhbV9z
+aXplLA0KPiBtYWNoaW5lLT5rZXJuZWxfY21kbGluZSk7DQo+ID4gKyAgICBjcmVhdGVfZmR0KHMs
+IG1lbW1hcCwgbWFjaGluZS0+cmFtX3NpemUsDQo+IG1hY2hpbmUtPmtlcm5lbF9jbWRsaW5lLA0K
+PiA+ICsgICAgICAgICAgICAgICB0aW1lYmFzZV9mcmVxdWVuY3kpOw0KPiA+DQo+ID4gICAgICAv
+KiBib290IHJvbSAqLw0KPiA+ICAgICAgbWVtb3J5X3JlZ2lvbl9pbml0X3JvbShtYXNrX3JvbSwg
+TlVMTCwgInJpc2N2X3ZpcnRfYm9hcmQubXJvbSIsDQo+ID4gZGlmZiAtLWdpdCBhL3RhcmdldC9y
+aXNjdi9jcHUuYyBiL3RhcmdldC9yaXNjdi9jcHUuYyBpbmRleA0KPiA+IDQzOWRjODllZTcuLjY2
+ZjM1YmNiYmYgMTAwNjQ0DQo+ID4gLS0tIGEvdGFyZ2V0L3Jpc2N2L2NwdS5jDQo+ID4gKysrIGIv
+dGFyZ2V0L3Jpc2N2L2NwdS5jDQo+ID4gQEAgLTQ5NCw2ICs0OTQsOCBAQCBzdGF0aWMgdm9pZCBy
+aXNjdl9jcHVfcmVhbGl6ZShEZXZpY2VTdGF0ZSAqZGV2LA0KPiA+IEVycm9yICoqZXJycCkNCj4g
+Pg0KPiA+ICAgICAgcmlzY3ZfY3B1X3JlZ2lzdGVyX2dkYl9yZWdzX2Zvcl9mZWF0dXJlcyhjcyk7
+DQo+ID4NCj4gPiArICAgIGVudi0+dXNlcl9mcmVxdWVuY3kgPSBlbnYtPmZyZXF1ZW5jeTsNCj4g
+PiArDQo+ID4gICAgICBxZW11X2luaXRfdmNwdShjcyk7DQo+ID4gICAgICBjcHVfcmVzZXQoY3Mp
+Ow0KPiA+DQo+ID4gQEAgLTUzMSw2ICs1MzMsNyBAQCBzdGF0aWMgUHJvcGVydHkgcmlzY3ZfY3B1
+X3Byb3BlcnRpZXNbXSA9IHsNCj4gPiAgICAgIERFRklORV9QUk9QX0JPT0woIm1tdSIsIFJJU0NW
+Q1BVLCBjZmcubW11LCB0cnVlKSwNCj4gPiAgICAgIERFRklORV9QUk9QX0JPT0woInBtcCIsIFJJ
+U0NWQ1BVLCBjZmcucG1wLCB0cnVlKSwNCj4gPiAgICAgIERFRklORV9QUk9QX1VJTlQ2NCgicmVz
+ZXR2ZWMiLCBSSVNDVkNQVSwgY2ZnLnJlc2V0dmVjLA0KPiA+IERFRkFVTFRfUlNUVkVDKSwNCj4g
+PiArICAgIERFRklORV9QUk9QX1VJTlQ2NCgidGltZS1mcmVxdWVuY3kiLCBSSVNDVkNQVSwgZW52
+LmZyZXF1ZW5jeSwgMCksDQo+IA0KPiBXaHkgbm90IHNldCB0aGUgZGVmYXVsdCB0byBTSUZJVkVf
+Q0xJTlRfVElNRUJBU0VfRlJFUT8NCj4gDQoNCldoZW4gdGhlIHRpbWUgZnJlcXVlbmN5IGlzIG5v
+dCBzcGVjaWZpZWQsIGl0IHdpbGwgZm9sbG93IHRoZSBob3N0IG9yIHRoZSBtaWdyYXRpb24NCnNv
+dXJjZS4gQW5kIHdlIGRlZmluZSAwIGFzIGVxdWl2YWxlbnQgdG8gbm90IHNwZWNpZmllZCB0aW1l
+IGZyZXF1ZW5jeS4NCg0KPiBBbHNvLCBRRU1VIG5vdyBoYXMgYSBjbG9jayBBUEksIGlzIHVzaW5n
+IHRoYXQgaW5zdGVhZCBhIGJldHRlciBvcHRpb24/DQo+IA0KDQpTb3JyeSwgSSBkaWRuJ3QgZmlu
+ZCB0aGUgY2xvY2sgQVBJLiBDb3VsZCB5b3UgdGVsbCBtZSB3aGF0IHRoZSBBUEkgaXMuDQpJIHRo
+aW5rIHRoYXQgdGhlIHRpbWUgZnJlcXVlbmN5IGlzIG9wdGlvbiBvZiBLVk0gVkNQVS4gU28gaXQg
+aXMgYXBwcm9wcmlhdGUgdG8gcHV0IHRoaXMNCm9wdGlvbiBpbiB0aGUgQ1BVLg0KDQpZaWZlaQ0K
+DQo+IEFsaXN0YWlyDQo+IA0KPiA+ICAgICAgREVGSU5FX1BST1BfRU5EX09GX0xJU1QoKSwNCj4g
+PiAgfTsNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS90YXJnZXQvcmlzY3YvY3B1LmggYi90YXJnZXQv
+cmlzY3YvY3B1LmggaW5kZXgNCj4gPiAxNmQ2MDUwZWFkLi5mNWI2YzM0MTc2IDEwMDY0NA0KPiA+
+IC0tLSBhL3RhcmdldC9yaXNjdi9jcHUuaA0KPiA+ICsrKyBiL3RhcmdldC9yaXNjdi9jcHUuaA0K
+PiA+IEBAIC0yNDMsNiArMjQzLDggQEAgc3RydWN0IENQVVJJU0NWU3RhdGUgew0KPiA+ICAgICAg
+dWludDY0X3Qga3ZtX3RpbWVyX3RpbWU7DQo+ID4gICAgICB1aW50NjRfdCBrdm1fdGltZXJfY29t
+cGFyZTsNCj4gPiAgICAgIHVpbnQ2NF90IGt2bV90aW1lcl9zdGF0ZTsNCj4gPiArICAgIHVpbnQ2
+NF90IHVzZXJfZnJlcXVlbmN5Ow0KPiA+ICsgICAgdWludDY0X3QgZnJlcXVlbmN5Ow0KPiA+ICB9
+Ow0KPiA+DQo+ID4gIE9CSkVDVF9ERUNMQVJFX1RZUEUoUklTQ1ZDUFUsIFJJU0NWQ1BVQ2xhc3Ms
+DQo+ID4gLS0NCj4gPiAyLjE5LjENCj4gPg0KPiA+DQo=
 
