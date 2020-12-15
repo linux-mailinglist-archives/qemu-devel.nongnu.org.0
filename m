@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EF02DA7B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 06:35:51 +0100 (CET)
-Received: from localhost ([::1]:44954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0FA62DA7F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 07:06:27 +0100 (CET)
+Received: from localhost ([::1]:37806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp301-0008C1-N2
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 00:35:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38074)
+	id 1kp3Te-0001nz-G6
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 01:06:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1kp2yu-0007lf-G0
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 00:34:40 -0500
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:42156)
+ (Exim 4.90_1) (envelope-from <lifeng1519@gmail.com>)
+ id 1kp3Sh-0001FW-HR; Tue, 15 Dec 2020 01:05:27 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:39515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chenhuacai@gmail.com>)
- id 1kp2ys-0005H5-5K
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 00:34:40 -0500
-Received: by mail-io1-xd41.google.com with SMTP id q137so19282311iod.9
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 21:34:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lifeng1519@gmail.com>)
+ id 1kp3Sf-0008LE-Hj; Tue, 15 Dec 2020 01:05:27 -0500
+Received: by mail-pg1-x543.google.com with SMTP id f17so14514510pge.6;
+ Mon, 14 Dec 2020 22:05:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=dGDqe6/zYRQJyKHh7Ay6aF83I8KrzivBX6bXByejm/Y=;
- b=kvNXB7JXtJzhsopj20Zu8Sika9h0u1NR0rPeOSCX6gYH9ieSZJSvGAZjZG/GMaLU4w
- QJnV0fyD3j3rSy9joxx5rNoluCMu0005ndZGkSgDun2TtHFGd+vmj9HnPNSG0sM9v3lk
- 6rUNFVi5aGscCwGI7RJtmv6COLfYRTS1EALkOqQ5L7Bm8H1B/NtiTDbMUT2QpEwh7X7a
- tZ90GYcXB7XBwDoJjvcOPwvYOG8AFTDkx/qzKHxjuG/MHwXaMit5e7CXAiIr9dwRPx2i
- U63DRqUXMmn49gmoICFhSrW7+XKtGWkvIjXo7VYgroxCnvbOPbPZZsxROcftjhO9UERR
- IDxA==
+ bh=XJzQYaegVng89Z7xJ1MFeH0cZr4UKq5izXINuoVYCp0=;
+ b=h1GC4RhvegqTc6tYKJERS6n35HQVxhEzYfYdEHmI+pthvDxoFmNGYr1QCAjhhh5vra
+ cC6WHFqWkyybKZEILaElWr+u4NYORE/Wvw2872XxBB0h1gEv7gE2YXEbcz0+Wl/FoFCd
+ oQdHGsixV4pAJvFFEWwZeHQ4/aKnjndCq6se81rF/MXURwzkLza3aKuWDiqsbFk+YHac
+ phEBM/KkF9EhuMDe9nbJinhNuokoI5qEKVPyGTxVqaa+yeRKzuC7/LeW3VcPvSrGo2tR
+ 1jby4/ma23eoETcyBmzKJHvys5VsMzoz2cPVy4EAz+lMuoNtDikxH1MeXNQmVb2OuKCy
+ d5JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=dGDqe6/zYRQJyKHh7Ay6aF83I8KrzivBX6bXByejm/Y=;
- b=Uo5tQ1/uBLtnUjuGGkSB50J+OA/4A58F3OdoLqqTYsJpEgtb7OCabMK/knmud3+tT+
- T+1weFL+NYlDAkmOAxuzNHhHm20lvasoSVmtIqmaxDCFzGS/4RI6xOxwFlu8wM5JbGGj
- nE/Ula/gX/xt8CZ+c2wt+P8BxjlKjDL9u8j3BVyGz7O0h3TlB6dtb1f80/720VJy612E
- SE/gASQEsbcd8wq92+BuplbjTuw2F5DDQbxcEmTeV1xnHNuJ0Ijl3XwLH9ZUdusF6ard
- zRDfZ5xQhRzNtRoYBh7iRj9h+9BZrVQebaidPJPAZXgbpeLG+ufFwr8mW9HcbwIjp522
- pj2g==
-X-Gm-Message-State: AOAM5305A3oUnvKleRaM0djJ3UlBL45uJILg6+uuZKBB/HVXSQ9Pyrvh
- q1rRSmXdtOl90pLty4ErLWEbUdiOP1FtsCPtOXI=
-X-Google-Smtp-Source: ABdhPJzQa6qzSGhL51nayNtV6ytLhrf7WwtD7jZWln515Hv7EXB23zxvR5+Wh//+CXToc2pSpkG/ElPiEym1mkeDdF8=
-X-Received: by 2002:a5e:db4b:: with SMTP id r11mr36043354iop.148.1608010476460; 
- Mon, 14 Dec 2020 21:34:36 -0800 (PST)
+ bh=XJzQYaegVng89Z7xJ1MFeH0cZr4UKq5izXINuoVYCp0=;
+ b=P0CF4K1sTNsIEZdx4wKW8L1ymcnHAXGnVAsqW92l4cviTCtsnXPT/Uks26OG7uWJpe
+ /abLJewSymLQe0h0QN4JTIVDhZUnwDpkVIKsgS+LTu2KWGgwxyJWQHfkQ7m77OBo72oE
+ XqkpzgiPjWuGcJSmEQ5zmzTcGE4EEnW5nKAkHD/SJq5WG+SR0mjtQnZRmrMprWeqNQvV
+ eqdW+ggYP7XbFLjtOkP/tQ59vJpfuS4+7aVBNJrANJhj9YBskg3QL7e/pjLQSb4ZBie3
+ iTwIXUhfmmV3f41YIH+jw2dmO1XI5YYyrOzxQPEP8PY90eWpRRxVNKK/bPJtJavL5lG9
+ CANQ==
+X-Gm-Message-State: AOAM530OWkRbX1ZcIibUpMhzXMzJSpIrxgJRP9Iv4j0s8dl529IfqhTM
+ pjiI1sxGXilN5C3JRQ8K61tOPish1/7u8+85WeU=
+X-Google-Smtp-Source: ABdhPJyxhYyFsq4/oyUDk6E7cs+5YUNwMTEympWfnwPgkCvgI3Kg+G6vlT8BikWKm4+fAqI+DhJeIGygdYWIKflvV9M=
+X-Received: by 2002:a62:1c88:0:b029:197:f6e4:bc2b with SMTP id
+ c130-20020a621c880000b0290197f6e4bc2bmr26863192pfc.6.1608012323184; Mon, 14
+ Dec 2020 22:05:23 -0800 (PST)
 MIME-Version: 1.0
-References: <1604636510-8347-1-git-send-email-chenhc@lemote.com>
- <1604636510-8347-5-git-send-email-chenhc@lemote.com>
- <e85cc640-e5f4-bec1-2e3a-b5a57abe21c7@amsat.org>
- <CAAhV-H7ALVV=3Gj4iq4TVqL+czm3kK+F_uKvxGTJB-wonpGRHw@mail.gmail.com>
- <215f01d5-3fad-1dc6-bb1b-e8face969e23@amsat.org>
- <CAAhV-H6d1gDGKha=D+TNg-vwTL_5+9ON+x9GCE0QsrQktby01A@mail.gmail.com>
- <1e7b7abd-cd4a-8f2a-2957-acd90884e0fd@amsat.org>
- <c1110933-4c84-5bf9-32c3-0348ac7a911d@amsat.org>
- <6965e11e-b967-c8fa-7ac0-4f1e88481d4e@amsat.org>
- <CAAhV-H47Boz1Eq+UvxBNuK0Xm5=Y4xVkmS4ewyoy8ns0s8Dwvg@mail.gmail.com>
- <0a679b8f-65a8-82d4-f713-44195277018f@amsat.org>
-In-Reply-To: <0a679b8f-65a8-82d4-f713-44195277018f@amsat.org>
-From: Huacai Chen <chenhuacai@gmail.com>
-Date: Tue, 15 Dec 2020 13:34:24 +0800
-Message-ID: <CAAhV-H7B3+nGOmxiibUDf7-v1eU=aqrK5YBM6wVac=nDz+U4PQ@mail.gmail.com>
-Subject: Re: [PATCH V17 4/6] hw/mips: Add Loongson-3 boot parameter helpers
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+References: <1607618299-55092-1-git-send-email-fengli@smartx.com>
+ <20201210165459.GO24855@redhat.com>
+In-Reply-To: <20201210165459.GO24855@redhat.com>
+From: Feng Li <lifeng1519@gmail.com>
+Date: Tue, 15 Dec 2020 14:04:56 +0800
+Message-ID: <CAEK8JBACbGymmgak+TDiNNjgwfMN4ELvcb-UYgFn-nh33cWK3A@mail.gmail.com>
+Subject: Re: [PATCH v3] file-posix: detect the lock using the real file
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=chenhuacai@gmail.com; helo=mail-io1-xd41.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=lifeng1519@gmail.com; helo=mail-pg1-x543.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,224 +79,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Huacai Chen <zltjiangshi@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:raw" <qemu-block@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, "kyle@smartx.com" <kyle@smartx.com>,
+ Li Feng <fengli@smartx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Philippe,
+Hi, Daniel
+Thanks for your reply.
+I have just ended my trip, sorry for my late response.
+I will send out the v4.
 
-On Mon, Dec 14, 2020 at 9:49 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> =E4=BA=8E2020=E5=B9=B412=E6=
+=9C=8811=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=8812:55=E5=86=99=E9=81=
+=93=EF=BC=9A
 >
-> On 12/14/20 3:37 AM, Huacai Chen wrote:
-> > Hi, Philippe,
+> On Fri, Dec 11, 2020 at 12:38:19AM +0800, Li Feng wrote:
+> > This patch addresses this issue:
+> > When accessing a volume on an NFS filesystem without supporting the fil=
+e lock,
+> > tools, like qemu-img, will complain "Failed to lock byte 100".
 > >
-> > On Mon, Dec 14, 2020 at 7:09 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
-t.org> wrote:
-> >>
-> >> On 12/13/20 11:17 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> >>> On 12/11/20 12:32 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> >>>> On 12/11/20 3:46 AM, Huacai Chen wrote:
-> >>>>> Hi, Rechard and Peter,
-> >>>>>
-> >>>>> On Wed, Dec 2, 2020 at 5:32 PM Philippe Mathieu-Daud=C3=A9 <f4bug@a=
-msat.org> wrote:
-> >>>>>>
-> >>>>>> On 12/2/20 2:14 AM, Huacai Chen wrote:
-> >>>>>>> Hi, Phillippe,
-> >>>>>>>
-> >>>>>>> On Tue, Nov 24, 2020 at 6:25 AM Philippe Mathieu-Daud=C3=A9 <f4bu=
-g@amsat.org> wrote:
-> >>>>>>>>
-> >>>>>>>> On 11/6/20 5:21 AM, Huacai Chen wrote:
-> >>>>>>>>> Preparing to add Loongson-3 machine support, add Loongson-3's L=
-EFI (a
-> >>>>>>>>> UEFI-like interface for BIOS-Kernel boot parameters) helpers fi=
-rst.
-> >>>>>>>>>
-> >>>>>>>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >>>>>>>>> Signed-off-by: Huacai Chen <chenhc@lemote.com>
-> >>>>>>>>> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> >>>>>>>>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> >>>>>>>>> ---
-> >>>>>>>>>  hw/mips/loongson3_bootp.c | 165 ++++++++++++++++++++++++++++++=
-+
-> >>>>>>>>>  hw/mips/loongson3_bootp.h | 241 ++++++++++++++++++++++++++++++=
-++++++++++++++++
-> >>>>>>>>>  hw/mips/meson.build       |   1 +
-> >>>>>>>>>  3 files changed, 407 insertions(+)
-> >>>>>>>>>  create mode 100644 hw/mips/loongson3_bootp.c
-> >>>>>>>>>  create mode 100644 hw/mips/loongson3_bootp.h
-> >>>>>>>>>
-> >>>>>>>>> diff --git a/hw/mips/loongson3_bootp.c b/hw/mips/loongson3_boot=
-p.c
-> >>>>>>>>> new file mode 100644
-> >>>>>>>>> index 0000000..3a16081
-> >>>>>>>>> --- /dev/null
-> >>>>>>>>> +++ b/hw/mips/loongson3_bootp.c
-> >>>>>>>>> @@ -0,0 +1,165 @@
-> >>>>>>>>> +/*
-> >>>>>>>>> + * LEFI (a UEFI-like interface for BIOS-Kernel boot parameters=
-) helpers
-> >>>>>>>>> + *
-> >>>>>>>>> + * Copyright (c) 2018-2020 Huacai Chen (chenhc@lemote.com)
-> >>>>>>>>> + * Copyright (c) 2018-2020 Jiaxun Yang <jiaxun.yang@flygoat.co=
-m>
-> >>>>>>>>> + *
-> >>>>>>>>> + * This program is free software: you can redistribute it and/=
-or modify
-> >>>>>>>>> + * it under the terms of the GNU General Public License as pub=
-lished by
-> >>>>>>>>> + * the Free Software Foundation, either version 2 of the Licen=
-se, or
-> >>>>>>>>> + * (at your option) any later version.
-> >>>>>>>>> + *
-> >>>>>>>>> + * This program is distributed in the hope that it will be use=
-ful,
-> >>>>>>>>> + * but WITHOUT ANY WARRANTY; without even the implied warranty=
- of
-> >>>>>>>>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See th=
-e
-> >>>>>>>>> + * GNU General Public License for more details.
-> >>>>>>>>> + *
-> >>>>>>>>> + * You should have received a copy of the GNU General Public L=
-icense
-> >>>>>>>>> + * along with this program. If not, see <https://www.gnu.org/l=
-icenses/>.
-> >>>>>>>>> + */
-> >>>>>>>>> +
-> >>>>>>>>> +#include "qemu/osdep.h"
-> >>>>>>>>> +#include "qemu/units.h"
-> >>>>>>>>> +#include "qemu/cutils.h"
-> >>>>>>>>> +#include "cpu.h"
-> >>>>>>>>> +#include "hw/boards.h"
-> >>>>>>>>> +#include "hw/mips/loongson3_bootp.h"
-> >>>>>>>>> +
-> >>>>>>>>> +#define LOONGSON3_CORE_PER_NODE 4
-> >>>>>>>>> +
-> >>>>>>>>> +static struct efi_cpuinfo_loongson *init_cpu_info(void *g_cpui=
-nfo, uint64_t cpu_freq)
-> >>>>>>>>> +{
-> >>>>>>>>> +    struct efi_cpuinfo_loongson *c =3D g_cpuinfo;
-> >>>>>>>>> +
-> >>>>>>>>> +    stl_le_p(&c->cputype, Loongson_3A);
-> >>>>>>>>> +    stl_le_p(&c->processor_id, MIPS_CPU(first_cpu)->env.CP0_PR=
-id);
-> >>>>>>>>
-> >>>>>>>> Build failing with Clang:
-> >>>>>>>>
-> >>>>>>>> FAILED: libqemu-mips64el-softmmu.fa.p/hw_mips_loongson3_bootp.c.=
-o
-> >>>>>>>> hw/mips/loongson3_bootp.c:35:15: error: taking address of packed=
- member
-> >>>>>>>> 'processor_id' of class or structure 'efi_cpuinfo_loongson' may =
-result
-> >>>>>>>> in an unaligned pointer value [-Werror,-Waddress-of-packed-membe=
-r]
-> >>>>>>>>     stl_le_p(&c->processor_id, MIPS_CPU(first_cpu)->env.CP0_PRid=
-);
-> >>>>>>>>               ^~~~~~~~~~~~~~~
-> >>>>>>>> 1 error generated.
-> >>>>>>> We cannot reproduce it on X86/MIPS with clang...
-> >>>>>>
-> >>>>>> You can reproduce running the Clang job on Gitlab-CI:
-> >>>>>>
-> >>>>>> https://wiki.qemu.org/Testing/CI/GitLabCI
-> >>>>>>
-> >>>>>>> And I found that
-> >>>>>>> stl_le_p() will be __builtin_memcpy(), I don't think memcpy() wil=
-l
-> >>>>>>> cause unaligned access. So, any suggestions?
-> >>>>
-> >>>> My understanding is the compiler is complaining for the argument
-> >>>> passed to the caller, with no knowledge of the callee implementation=
-.
-> >>>>
-> >>>> Which makes me wonder if these functions are really inlined...
-> >>>>
-> >>>> Do we need to use QEMU_ALWAYS_INLINE for these LDST helpers?
-> >>>
-> >>> No, this doesn't work neither.
-> >>
-> >> Well, this works:
-> >>
-> >> -- >8 --
-> >> @@ -32,7 +32,7 @@ static struct efi_cpuinfo_loongson *init_cpu_info(vo=
-id
-> >> *g_cpuinfo, uint64_t cpu_
-> >>      struct efi_cpuinfo_loongson *c =3D g_cpuinfo;
-> >>
-> >>      stl_le_p(&c->cputype, Loongson_3A);
-> >> -    stl_le_p(&c->processor_id, MIPS_CPU(first_cpu)->env.CP0_PRid);
-> >> +    c->processor_id =3D cpu_to_le32(MIPS_CPU(first_cpu)->env.CP0_PRid=
-);
-> >>      if (cpu_freq > UINT_MAX) {
-> >>          stl_le_p(&c->cpu_clock_freq, UINT_MAX);
-> >>      } else {
+> > Add a new function 'qemu_has_file_lock' to detect if the filesystem sup=
+ports locks
+> > or not.
+> > And when the drive is auto mode, use the 'qemu_has_file_lock' to set th=
+e toggle.
 > >
-> > This seems not allowed. In include/qemu/bswap.h it says:
-> >  * Do an in-place conversion of the value pointed to by @v from the
-> >  * native endianness of the host CPU to the specified format.
-> >  *
-> >  * Both X_to_cpu() and cpu_to_X() perform the same operation; you
-> >  * should use whichever one is better documenting of the function your
-> >  * code is performing.
-> >  *
-> >  * Do not use these functions for conversion of values which are in gue=
-st
-> >  * memory, since the data may not be sufficiently aligned for the host =
-CPU's
-> >  * load and store instructions. Instead you should use the ld*_p() and
-> >  * st*_p() functions, which perform loads and stores of data of any
-> >  * required size and endianness and handle possible misalignment.
+> > Signed-off-by: Li Feng <fengli@smartx.com>
+> > ---
+> > v3: don't call the qemu_has_ofd_lock, use a new function instead.
+> > v2: remove the refactoring.
+> > ---
+> >  block/file-posix.c   | 30 +++++++++++++++++-------------
+> >  include/qemu/osdep.h |  1 +
+> >  util/osdep.c         | 29 +++++++++++++++++++++++++++++
+> >  3 files changed, 47 insertions(+), 13 deletions(-)
 > >
-> > And there is a very strange problem, nearly all 32bit members are
-> > after a 16bit vers member, why only processor_id is special? Compiler
-> > bug?
+> > diff --git a/block/file-posix.c b/block/file-posix.c
+> > index 806764f7e3..48f9a32de2 100644
+> > --- a/block/file-posix.c
+> > +++ b/block/file-posix.c
+> > @@ -606,7 +606,7 @@ static int raw_open_common(BlockDriverState *bs, QD=
+ict *options,
+> >          s->use_lock =3D false;
+> >          break;
+> >      case ON_OFF_AUTO_AUTO:
+> > -        s->use_lock =3D qemu_has_ofd_lock();
+> > +        s->use_lock =3D qemu_has_file_lock(filename);
 >
-> This is what I wonder since some time but I don't have the knowledge
-> to confirm.
->
-> Indeed I commented the "stl_le_p(&c->processor_id, ...);" line,
-> and there is no error for the following 32-bit values, which are
-> similarly unlikely 32-bit aligned.
->
-> FWIW I am using Fedora release 32 (Thirty Two), and 'cc -v':
->
->  clang version 10.0.1 (Fedora 10.0.1-3.fc32)
->  Target: x86_64-unknown-linux-gnu
->  clang -cc1 version 10.0.1 based upon LLVM 10.0.1 default target
-> x86_64-unknown-linux-gnu
->
-Since cpu_to_le32() "solve" the problem here, I want to use
-cpu_to_lexx() for all members, do you agree?
+> This is not good - it causes us to always use locks by default, where
+> as previously we only used them if OFD was available. It neds to test
+> both here, except opening + closing filename to test for fnctl support
+> risks releasing any locks QEMU already holds on filename if OFD is not
+> supported.
+Yes, check the qemu_has_ofd_lock and qemu_has_file_lock both, and
+set the use_lock to false when the os supports the OFD lock, but the
+filesystem doesn't support.
 
-Huacai
-
+>
+> >          break;
+> >      default:
+> >          abort();
+> > @@ -2388,6 +2388,7 @@ raw_co_create(BlockdevCreateOptions *options, Err=
+or **errp)
+> >      int fd;
+> >      uint64_t perm, shared;
+> >      int result =3D 0;
+> > +    bool use_lock;
 > >
-> > Huacai
-> >> ---
-> >>
-> >>>
-> >>>>
-> >>>> I see Richard used it in commit 80d9d1c6785 ("cputlb: Split out
-> >>>> load/store_memop").
-> >>>>
-> >>>>>>
-> >>>>>> I'll defer this question to Richard/Peter who have deeper understa=
-nding.
-> >>>>> Any sugguestions? Other patches are updated, except this one.
-> >>>>
-> >>>> Searching on the list, I see Marc-Andr=C3=A9 resolved that by
-> >>>> using a copy on the stack:
-> >>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg614482.html
+> >      /* Validate options and set default values */
+> >      assert(options->driver =3D=3D BLOCKDEV_DRIVER_FILE);
+> > @@ -2428,19 +2429,22 @@ raw_co_create(BlockdevCreateOptions *options, E=
+rror **errp)
+> >      perm =3D BLK_PERM_WRITE | BLK_PERM_RESIZE;
+> >      shared =3D BLK_PERM_ALL & ~BLK_PERM_RESIZE;
+> >
+> > -    /* Step one: Take locks */
+> > -    result =3D raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, er=
+rp);
+> > -    if (result < 0) {
+> > -        goto out_close;
+> > -    }
+> > +    use_lock =3D qemu_has_file_lock(file_opts->filename);
+>
+> This cause QEMU to open and close filename. If another thread
+> already had filename open, and OFD is not support, we've just
+> lock the locks we held. We need to use 'fd' which is already
+> open.
+Acked.
+
+>
+> > +    if (use_lock) {
+> > +        /* Step one: Take locks */
+> > +        result =3D raw_apply_lock_bytes(NULL, fd, perm, ~shared, false=
+, errp);
+> > +        if (result < 0) {
+> > +            goto out_close;
+> > +        }
+> >
+> > -    /* Step two: Check that nobody else has taken conflicting locks */
+> > -    result =3D raw_check_lock_bytes(fd, perm, shared, errp);
+> > -    if (result < 0) {
+> > -        error_append_hint(errp,
+> > -                          "Is another process using the image [%s]?\n"=
+,
+> > -                          file_opts->filename);
+> > -        goto out_unlock;
+> > +        /* Step two: Check that nobody else has taken conflicting lock=
+s */
+> > +        result =3D raw_check_lock_bytes(fd, perm, shared, errp);
+> > +        if (result < 0) {
+> > +            error_append_hint(errp,
+> > +                              "Is another process using the image [%s]=
+?\n",
+> > +                              file_opts->filename);
+> > +            goto out_unlock;
+> > +        }
+> >      }
+> >
+> >      /* Clear the file by truncating it to 0 */
+>
+>
+> > +bool qemu_has_file_lock(const char *filename)
+>
+> IMO thisshould just accept a pre-opened 'int fd'
+Acked.
+
+>
+> > +{
+> > +#ifdef F_OFD_SETLK
+> > +    int cmd =3D F_OFD_GETLK;
+> > +#else
+> > +    int cmd =3D F_GETLK;
+> > +#endif
+> > +        int fd;
+> > +        int ret;
+> > +        struct flock fl =3D {
+> > +            .l_whence =3D SEEK_SET,
+> > +            .l_start  =3D 0,
+> > +            .l_len    =3D 0,
+> > +            .l_type   =3D F_WRLCK,
+> > +        };
+> > +
+> > +        fd =3D open(filename, O_RDWR);
+> > +        if (fd < 0) {
+> > +            fprintf(stderr,
+> > +                    "Failed to open %s for OFD lock probing: %s\n",
+> > +                    filename,
+> > +                    strerror(errno));
+> > +            return false;
+> > +        }
+> > +        ret =3D fcntl(fd, cmd, &fl);
+> > +        close(fd);
+> > +        return ret =3D=3D 0;
+> > +}
+> > +
+> >  bool qemu_has_ofd_lock(void)
+> >  {
+> >      qemu_probe_lock_ops();
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
