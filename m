@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566662DB717
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 00:25:04 +0100 (CET)
-Received: from localhost ([::1]:42112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5976E2DB728
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 00:37:23 +0100 (CET)
+Received: from localhost ([::1]:44552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpJgl-0007YD-9h
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 18:25:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51118)
+	id 1kpJsg-0006JT-DZ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 18:37:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpJZj-0007IZ-3s
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 18:17:47 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34896)
+ id 1kpJbW-0001Nc-Hm
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 18:19:40 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpJZh-0007S0-1J
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 18:17:46 -0500
-Received: by mail-oi1-x241.google.com with SMTP id s2so25296555oij.2
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 15:17:44 -0800 (PST)
+ id 1kpJbS-0007k4-Ro
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 18:19:38 -0500
+Received: by mail-ot1-x344.google.com with SMTP id h18so21129045otq.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 15:19:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=is4tGvn1o1bqaWL/+p/iBKnhVDzDVqnbsJgyI3YJwcQ=;
- b=OMK4zMew/2i5KWpyEpvC3t7WhLib1buia6/v7Y17bcM4OCdCjXxGQGrL5iJzZQ1Bbt
- rwmcYlIklPZF4wyB70kn4uI2br6SIp6ZgcyED24xtUXXl9BF0Hf/XkSUbir3V13y4X7I
- qvbWg9Y1pFaNNUijj+DLtldb4U0yed9ct3cZgNGxki4qLBS7L4h4Z1mi5lIr59nDBGJQ
- x2Ruso9djdx7Svc6M/0+Q6CMzAH4XS+L4xWByc74a+mGfvpvl9qPKUshJn9gRRNFplj7
- xbtV781mmhv7WB2S1VBXHWspGVCfKro+j8pMppvrRx2wtsp9qbMjBwe+zFRiKtNBTFP9
- F/aQ==
+ bh=4jKKLYnW6eM47hkIEoFIJgwOeY9tD0FuXauIYvNdRQM=;
+ b=QT+aFmhuTvTXmlOS6vXlQJ0Inh41nvmR8cY6LPDr4QNwHkOz/dIgnRSVx17pZza8GO
+ aPKkiS45tazm1rZfYAH0kp15EJF9t5cxgOmqQBwti5N38MJNwpGobw6etIBsNMR+oZsl
+ /vVCXeFaVEINdSkQAZF8JNaqzNn5fDmnZuj2F32fmJZxYJFozqlXsSi5elNy+kgN0X6a
+ qWFLEmPCwxI/jdH+jx87WRUeV8xMjYbl6RWKf+zPf6y9zOpI90nWf7uiDGoisuw779q/
+ MxYVXrZGiGr29tuC67+ZASHO11FCSOnke/G9knSzRWpWjrg1iNDm5gFyJ9QALy7EUJgs
+ jnCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=is4tGvn1o1bqaWL/+p/iBKnhVDzDVqnbsJgyI3YJwcQ=;
- b=dBiqYRv1w1t32CDKgtsNJttdy1N10ctkrvmXD+jQjuv0aPGgWlXG3pw6Wrh/03y/Ti
- fBD0vydazBQS255mIM8Por8uQpUvA9Uf4+DV3ogSZ9D85RGGSMOD1RVsBv9wOdXEzvRT
- +0iGI7H+uYElAJutoifIkNjqrMdZ5AhO+QU09DQ4reDglM0Ja8r7i375ret2grgDJMVP
- jhSo+tQlmhPqb/GaLz/aCpkiougOgvz+w/5N03eYVa2JA7nGPDcfxruL0n0d2NxyT6ji
- 3y5P6gfd5jfHvcqVMbwOZs1udEo5XaGYMCtgzrZAvDxI75SxeGtkHq+tggfb0gNNPPxw
- NCIg==
-X-Gm-Message-State: AOAM531/wqOeDNEPk5OhI/pHluQTiPkJYEa4h8tu23r1lojLzHN6YCg4
- YQG/zyw5l9wsNjgf+NpYzf5aIw==
-X-Google-Smtp-Source: ABdhPJxgqmo7wq5zNRH1N61gyNPhcLl6an2GjcTTK4VuEfX+uNL3sThu2gPEa5F+hCgB9YelZyg73A==
-X-Received: by 2002:aca:cd8d:: with SMTP id d135mr619707oig.143.1608074263991; 
- Tue, 15 Dec 2020 15:17:43 -0800 (PST)
+ bh=4jKKLYnW6eM47hkIEoFIJgwOeY9tD0FuXauIYvNdRQM=;
+ b=Ae/rPFTA9bwbAdmGcgcpFRMKlYyFpqCwCXZg0mSKllHjJSvAVdcKtmwle2/n1sMsOY
+ 7H5AaQ/P4b4BHHlT49bUbJtZ7fFV3pex5nrAlWCdTGJ/cwTI9S91VP082p1ZIAfEV5tS
+ l1NdnVCzyFAj3vlpBzM19BgRKEMJ8EGnEtWEnfILL7zhOrqJYXXUFHyl69FL4AmTSDWI
+ eGqaMV6ItnuBtqoRNz7cVaEACWHhU6ItyKklmFMjxoIuPK8cUchjZvKKTX5xh3Ve648c
+ EbR9P13DKUuGLyLvOxVZzV6ueuvnhf7auHBdjFG1kFrukk6mLF7XldyEV5JP75CzqWMV
+ cX+g==
+X-Gm-Message-State: AOAM53095eCSBiGesOIERqDkP9Z8FPRc40FwsaU/BRNjYp7MjnZdErel
+ BNYR+amjS8QhkRafBQATk2cBOQ==
+X-Google-Smtp-Source: ABdhPJzAMX9IYWAzIVmdR6ws3mXW/eii9EP8/sfhz6rcQHemp3E1iJJnjeLSbsRr8Q++COTbwkTeaw==
+X-Received: by 2002:a05:6830:572:: with SMTP id
+ f18mr2976078otc.109.1608074373585; 
+ Tue, 15 Dec 2020 15:19:33 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id o21sm2140otj.1.2020.12.15.15.17.42
+ by smtp.gmail.com with ESMTPSA id v17sm48306oou.41.2020.12.15.15.19.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Dec 2020 15:17:43 -0800 (PST)
-Subject: Re: [PATCH v2 21/24] target/mips: Extract LSA/DLSA translation
- generators
+ Tue, 15 Dec 2020 15:19:33 -0800 (PST)
+Subject: Re: [PATCH v2 22/24] target/mips: Introduce decodetree helpers for
+ MSA LSA/DLSA opcodes
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20201215225757.764263-1-f4bug@amsat.org>
- <20201215225757.764263-22-f4bug@amsat.org>
+ <20201215225757.764263-23-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f66367ac-e06f-8caa-6d57-ac20c327f0ec@linaro.org>
-Date: Tue, 15 Dec 2020 17:17:28 -0600
+Message-ID: <937ba112-7706-73e7-7ae1-6a07f6ef64f8@linaro.org>
+Date: Tue, 15 Dec 2020 17:19:27 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201215225757.764263-22-f4bug@amsat.org>
+In-Reply-To: <20201215225757.764263-23-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x241.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,17 +98,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/15/20 4:57 PM, Philippe Mathieu-Daudé wrote:
-> Extract gen_lsa() from translate.c and explode it as
-> gen_LSA() and gen_DLSA().
+> Add the LSA opcode to the MSA32 decodetree config, add DLSA
+> to a new config for the MSA64 ASE, and call decode_msa64()
+> in the main decode_opc() loop.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/translate.h            |  6 ++++
->  target/mips/translate.c            | 35 +++-----------------
->  target/mips/translate_addr_const.c | 52 ++++++++++++++++++++++++++++++
->  target/mips/meson.build            |  1 +
->  4 files changed, 63 insertions(+), 31 deletions(-)
->  create mode 100644 target/mips/translate_addr_const.c
+>  target/mips/mod-msa32.decode    |  4 ++++
+>  target/mips/mod-msa64.decode    | 17 +++++++++++++++++
+>  target/mips/mod-msa_translate.c | 14 ++++++++++++++
+>  target/mips/meson.build         |  2 ++
+>  4 files changed, 37 insertions(+)
+>  create mode 100644 target/mips/mod-msa64.decode
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
