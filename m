@@ -2,73 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9BA2DA5FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 03:09:00 +0100 (CET)
-Received: from localhost ([::1]:37636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AADBD2DA655
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 03:40:21 +0100 (CET)
+Received: from localhost ([::1]:43024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kozlq-0006a1-WD
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 21:08:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37760)
+	id 1kp0G8-0001zz-Is
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 21:40:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kozio-000644-At
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 21:05:50 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:40297)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kozii-00070H-Vr
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 21:05:50 -0500
-Received: by mail-io1-f66.google.com with SMTP id r9so18955851ioo.7
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 18:05:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=l66mgr382ZEcCMSRE9oK/BB1IwCzwUyYEhGd5hOBlzE=;
- b=KYCadnVd9P4z2zhw8Ekk6LTDRAAGGFSxHoz/tGqp7WMvf+CC69q0T+5CB5aZUTKnOH
- celE3Xe1/bcSCiSuNd/FQmtVWfh5P85+WHd2oC5fH8WHgaI+uxoIHtp8rIYC+rd5bGSM
- UJPmPj7VXwwTywINtZGs+C21dA9dyaSN4kHI6IEb7J5AkSIECJ/WR9F6VQcOxc4Nk6FX
- pf1QigFWV/XR9v9pZF+hP+LfV4QwCmWrssb7Sr6wpYk8p9X4zMNc+iTkYZVPMkcf1npV
- P7wPR90ySzyaN10OJiAVFJYBIuoF6JeR0jDk1JEiiDkTKcDBRKt4mfXT1mFOv12064Gn
- e06A==
-X-Gm-Message-State: AOAM5304CF+lzUViaEI0KWnf+AXhimSy8LTgQ3gaZV1EmmyixnTYAnvx
- Myn4A/S0JvHVBpFn8NkSI1+Ckzxqb5g=
-X-Google-Smtp-Source: ABdhPJxWGayh/dTuQe63r3SQhs5W8ltYol1mFMipu5XL+bHJuwP9+NvZQt3442zr/YecPm4pDbpmHw==
-X-Received: by 2002:a5d:8ace:: with SMTP id e14mr36430968iot.7.1607997942136; 
- Mon, 14 Dec 2020 18:05:42 -0800 (PST)
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com.
- [209.85.166.174])
- by smtp.gmail.com with ESMTPSA id o7sm10205986iov.1.2020.12.14.18.05.42
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Dec 2020 18:05:42 -0800 (PST)
-Received: by mail-il1-f174.google.com with SMTP id x15so17797391ilq.1
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 18:05:42 -0800 (PST)
-X-Received: by 2002:a05:6e02:154c:: with SMTP id
- j12mr29695639ilu.33.1607997941666; 
- Mon, 14 Dec 2020 18:05:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1kp0Eh-0001SE-MI; Mon, 14 Dec 2020 21:38:47 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2245)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1kp0Eb-00025Z-2G; Mon, 14 Dec 2020 21:38:47 -0500
+Received: from dggemi401-hub.china.huawei.com (unknown [172.30.72.56])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Cw2Tt1Tsxz13TWC;
+ Tue, 15 Dec 2020 10:37:22 +0800 (CST)
+Received: from DGGEMI525-MBS.china.huawei.com ([169.254.6.165]) by
+ dggemi401-hub.china.huawei.com ([10.3.17.134]) with mapi id 14.03.0487.000;
+ Tue, 15 Dec 2020 10:38:13 +0800
+From: ganqixin <ganqixin@huawei.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: RE: [PATCH 1/7] allwinner-a10-pit: Use ptimer_free() in the
+ finalize function to avoid memleaks
+Thread-Topic: [PATCH 1/7] allwinner-a10-pit: Use ptimer_free() in the
+ finalize function to avoid memleaks
+Thread-Index: AQHWxI2HjKgbhI9ZF0iY+1sxKZ3D/an2VeKAgAAE7ACAAS/pAA==
+Date: Tue, 15 Dec 2020 02:38:13 +0000
+Message-ID: <A5B86EC83C48EF4CB2BC58BEF3A2F496065F5F11@DGGEMI525-MBS.china.huawei.com>
+References: <20201127071803.2479462-1-ganqixin@huawei.com>
+ <20201127071803.2479462-2-ganqixin@huawei.com>
+ <CAFEAcA-UKFOeMhYpq7d+4igF_R584vKgvfuzGU0mT-vcEASFig@mail.gmail.com>
+ <CAFEAcA8pc+vCBj9fk+8jwXV6H0H3xOe2Q0HY2=irfkTRfwOVTg@mail.gmail.com>
+In-Reply-To: <CAFEAcA8pc+vCBj9fk+8jwXV6H0H3xOe2Q0HY2=irfkTRfwOVTg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.185.159]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20201214140314.18544-1-richard.henderson@linaro.org>
- <20201214140314.18544-18-richard.henderson@linaro.org>
-In-Reply-To: <20201214140314.18544-18-richard.henderson@linaro.org>
-From: Joelle van Dyne <j@getutm.app>
-Date: Mon, 14 Dec 2020 18:05:31 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSDE=_zwJaQm05R2E1y2k0up2sNRgX86iOaLzLiw82_eQA@mail.gmail.com>
-Message-ID: <CA+E+eSDE=_zwJaQm05R2E1y2k0up2sNRgX86iOaLzLiw82_eQA@mail.gmail.com>
-Subject: Re: [PATCH v4 17/43] tcg: Add --accel tcg,split-wx property
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.66; envelope-from=osy86dev@gmail.com;
- helo=mail-io1-f66.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255; envelope-from=ganqixin@huawei.com;
+ helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,330 +65,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Euler Robot <euler.robot@huawei.com>,
+ "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Should qemu-options.hx be updated?
-
--j
-
-On Mon, Dec 14, 2020 at 6:02 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Plumb the value through to alloc_code_gen_buffer.  This is not
-> supported by any os or tcg backend, so for now enabling it will
-> result in an error.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/sysemu/tcg.h      |  3 ++-
->  tcg/aarch64/tcg-target.h  |  1 +
->  tcg/arm/tcg-target.h      |  1 +
->  tcg/i386/tcg-target.h     |  1 +
->  tcg/mips/tcg-target.h     |  1 +
->  tcg/ppc/tcg-target.h      |  1 +
->  tcg/riscv/tcg-target.h    |  1 +
->  tcg/s390/tcg-target.h     |  1 +
->  tcg/sparc/tcg-target.h    |  1 +
->  tcg/tci/tcg-target.h      |  1 +
->  accel/tcg/tcg-all.c       | 26 +++++++++++++++++++++++++-
->  accel/tcg/translate-all.c | 35 +++++++++++++++++++++++++++--------
->  bsd-user/main.c           |  2 +-
->  linux-user/main.c         |  2 +-
->  14 files changed, 65 insertions(+), 12 deletions(-)
->
-> diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
-> index d9d3ca8559..00349fb18a 100644
-> --- a/include/sysemu/tcg.h
-> +++ b/include/sysemu/tcg.h
-> @@ -8,7 +8,8 @@
->  #ifndef SYSEMU_TCG_H
->  #define SYSEMU_TCG_H
->
-> -void tcg_exec_init(unsigned long tb_size);
-> +void tcg_exec_init(unsigned long tb_size, int splitwx);
-> +
->  #ifdef CONFIG_TCG
->  extern bool tcg_allowed;
->  #define tcg_enabled() (tcg_allowed)
-> diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-> index 6ba248f447..92aefc32d3 100644
-> --- a/tcg/aarch64/tcg-target.h
-> +++ b/tcg/aarch64/tcg-target.h
-> @@ -154,5 +154,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
->  #define TCG_TARGET_NEED_LDST_LABELS
->  #endif
->  #define TCG_TARGET_NEED_POOL_LABELS
-> +#define TCG_TARGET_SUPPORT_MIRROR       0
->
->  #endif /* AARCH64_TCG_TARGET_H */
-> diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-> index 6ca4537ca6..7e04755428 100644
-> --- a/tcg/arm/tcg-target.h
-> +++ b/tcg/arm/tcg-target.h
-> @@ -141,5 +141,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
->  #define TCG_TARGET_NEED_LDST_LABELS
->  #endif
->  #define TCG_TARGET_NEED_POOL_LABELS
-> +#define TCG_TARGET_SUPPORT_MIRROR       0
->
->  #endif
-> diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-> index 0dcaed7fe6..04eefbfb90 100644
-> --- a/tcg/i386/tcg-target.h
-> +++ b/tcg/i386/tcg-target.h
-> @@ -231,5 +231,6 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
->  #define TCG_TARGET_NEED_LDST_LABELS
->  #endif
->  #define TCG_TARGET_NEED_POOL_LABELS
-> +#define TCG_TARGET_SUPPORT_MIRROR       0
->
->  #endif
-> diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-> index d23baf7cda..d6dff897bf 100644
-> --- a/tcg/mips/tcg-target.h
-> +++ b/tcg/mips/tcg-target.h
-> @@ -200,6 +200,7 @@ extern bool use_mips32r2_instructions;
->
->  #define TCG_TARGET_DEFAULT_MO (0)
->  #define TCG_TARGET_HAS_MEMORY_BSWAP     1
-> +#define TCG_TARGET_SUPPORT_MIRROR       0
->
->  void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
->
-> diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-> index c41d10142b..8fc2672bf0 100644
-> --- a/tcg/ppc/tcg-target.h
-> +++ b/tcg/ppc/tcg-target.h
-> @@ -184,5 +184,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
->  #define TCG_TARGET_NEED_LDST_LABELS
->  #endif
->  #define TCG_TARGET_NEED_POOL_LABELS
-> +#define TCG_TARGET_SUPPORT_MIRROR       0
->
->  #endif
-> diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-> index 3d0745c70c..785fe37f9b 100644
-> --- a/tcg/riscv/tcg-target.h
-> +++ b/tcg/riscv/tcg-target.h
-> @@ -170,5 +170,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
->  #define TCG_TARGET_NEED_POOL_LABELS
->
->  #define TCG_TARGET_HAS_MEMORY_BSWAP 0
-> +#define TCG_TARGET_SUPPORT_MIRROR   0
->
->  #endif
-> diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
-> index 3750952598..fed3329e51 100644
-> --- a/tcg/s390/tcg-target.h
-> +++ b/tcg/s390/tcg-target.h
-> @@ -158,5 +158,6 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
->  #define TCG_TARGET_NEED_LDST_LABELS
->  #endif
->  #define TCG_TARGET_NEED_POOL_LABELS
-> +#define TCG_TARGET_SUPPORT_MIRROR       0
->
->  #endif
-> diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
-> index 9c15c91d39..21e7e2f56f 100644
-> --- a/tcg/sparc/tcg-target.h
-> +++ b/tcg/sparc/tcg-target.h
-> @@ -171,5 +171,6 @@ extern bool use_vis3_instructions;
->  void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
->
->  #define TCG_TARGET_NEED_POOL_LABELS
-> +#define TCG_TARGET_SUPPORT_MIRROR       0
->
->  #endif
-> diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-> index fcec2e70db..768153fd02 100644
-> --- a/tcg/tci/tcg-target.h
-> +++ b/tcg/tci/tcg-target.h
-> @@ -197,6 +197,7 @@ void tci_disas(uint8_t opc);
->  #define TCG_TARGET_DEFAULT_MO  (0)
->
->  #define TCG_TARGET_HAS_MEMORY_BSWAP     1
-> +#define TCG_TARGET_SUPPORT_MIRROR       0
->
->  static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
->                                              uintptr_t jmp_rw, uintptr_t addr)
-> diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-> index 1ac0b76515..2eea8c32ee 100644
-> --- a/accel/tcg/tcg-all.c
-> +++ b/accel/tcg/tcg-all.c
-> @@ -38,6 +38,7 @@ struct TCGState {
->      AccelState parent_obj;
->
->      bool mttcg_enabled;
-> +    int splitwx_enabled;
->      unsigned long tb_size;
->  };
->  typedef struct TCGState TCGState;
-> @@ -94,6 +95,13 @@ static void tcg_accel_instance_init(Object *obj)
->      TCGState *s = TCG_STATE(obj);
->
->      s->mttcg_enabled = default_mttcg_enabled();
-> +
-> +    /* If debugging enabled, default "auto on", otherwise off. */
-> +#ifdef CONFIG_DEBUG_TCG
-> +    s->splitwx_enabled = -1;
-> +#else
-> +    s->splitwx_enabled = 0;
-> +#endif
->  }
->
->  bool mttcg_enabled;
-> @@ -102,7 +110,7 @@ static int tcg_init(MachineState *ms)
->  {
->      TCGState *s = TCG_STATE(current_accel());
->
-> -    tcg_exec_init(s->tb_size * 1024 * 1024);
-> +    tcg_exec_init(s->tb_size * 1024 * 1024, s->splitwx_enabled);
->      mttcg_enabled = s->mttcg_enabled;
->
->      /*
-> @@ -179,6 +187,18 @@ static void tcg_set_tb_size(Object *obj, Visitor *v,
->      s->tb_size = value;
->  }
->
-> +static bool tcg_get_splitwx(Object *obj, Error **errp)
-> +{
-> +    TCGState *s = TCG_STATE(obj);
-> +    return s->splitwx_enabled;
-> +}
-> +
-> +static void tcg_set_splitwx(Object *obj, bool value, Error **errp)
-> +{
-> +    TCGState *s = TCG_STATE(obj);
-> +    s->splitwx_enabled = value;
-> +}
-> +
->  static void tcg_accel_class_init(ObjectClass *oc, void *data)
->  {
->      AccelClass *ac = ACCEL_CLASS(oc);
-> @@ -196,6 +216,10 @@ static void tcg_accel_class_init(ObjectClass *oc, void *data)
->      object_class_property_set_description(oc, "tb-size",
->          "TCG translation block cache size");
->
-> +    object_class_property_add_bool(oc, "split-wx",
-> +        tcg_get_splitwx, tcg_set_splitwx);
-> +    object_class_property_set_description(oc, "split-wx",
-> +        "Map jit pages into separate RW and RX regions");
->  }
->
->  static const TypeInfo tcg_accel_type = {
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index 2824b3e387..a29cb4a42e 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -1015,13 +1015,19 @@ static inline void *split_cross_256mb(void *buf1, size_t size1)
->  static uint8_t static_code_gen_buffer[DEFAULT_CODE_GEN_BUFFER_SIZE]
->      __attribute__((aligned(CODE_GEN_ALIGN)));
->
-> -static bool alloc_code_gen_buffer(size_t tb_size, Error **errp)
-> +static bool alloc_code_gen_buffer(size_t tb_size, int splitwx, Error **errp)
->  {
-> -    void *buf = static_code_gen_buffer;
-> -    void *end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
-> +    void *buf, *end;
->      size_t size;
->
-> +    if (splitwx > 0) {
-> +        error_setg(errp, "jit split-wx not supported");
-> +        return false;
-> +    }
-> +
->      /* page-align the beginning and end of the buffer */
-> +    buf = static_code_gen_buffer;
-> +    end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
->      buf = QEMU_ALIGN_PTR_UP(buf, qemu_real_host_page_size);
->      end = QEMU_ALIGN_PTR_DOWN(end, qemu_real_host_page_size);
->
-> @@ -1050,9 +1056,16 @@ static bool alloc_code_gen_buffer(size_t tb_size, Error **errp)
->      return true;
->  }
->  #elif defined(_WIN32)
-> -static bool alloc_code_gen_buffer(size_t size, Error **errp)
-> +static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
->  {
-> -    void *buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
-> +    void *buf;
-> +
-> +    if (splitwx > 0) {
-> +        error_setg(errp, "jit split-wx not supported");
-> +        return false;
-> +    }
-> +
-> +    buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
->                               PAGE_EXECUTE_READWRITE);
->      if (buf == NULL) {
->          error_setg_win32(errp, GetLastError(),
-> @@ -1065,12 +1078,17 @@ static bool alloc_code_gen_buffer(size_t size, Error **errp)
->      return true;
->  }
->  #else
-> -static bool alloc_code_gen_buffer(size_t size, Error **errp)
-> +static bool alloc_code_gen_buffer(size_t size, int splitwx, Error **errp)
->  {
->      int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
->      int flags = MAP_PRIVATE | MAP_ANONYMOUS;
->      void *buf;
->
-> +    if (splitwx > 0) {
-> +        error_setg(errp, "jit split-wx not supported");
-> +        return false;
-> +    }
-> +
->      buf = mmap(NULL, size, prot, flags, -1, 0);
->      if (buf == MAP_FAILED) {
->          error_setg_errno(errp, errno,
-> @@ -1145,7 +1163,7 @@ static void tb_htable_init(void)
->  /* Must be called before using the QEMU cpus. 'tb_size' is the size
->     (in bytes) allocated to the translation buffer. Zero means default
->     size. */
-> -void tcg_exec_init(unsigned long tb_size)
-> +void tcg_exec_init(unsigned long tb_size, int splitwx)
->  {
->      bool ok;
->
-> @@ -1154,7 +1172,8 @@ void tcg_exec_init(unsigned long tb_size)
->      page_init();
->      tb_htable_init();
->
-> -    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size), &error_fatal);
-> +    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size),
-> +                               splitwx, &error_fatal);
->      assert(ok);
->
->  #if defined(CONFIG_SOFTMMU)
-> diff --git a/bsd-user/main.c b/bsd-user/main.c
-> index 0a918e8f74..086351fc6f 100644
-> --- a/bsd-user/main.c
-> +++ b/bsd-user/main.c
-> @@ -908,7 +908,7 @@ int main(int argc, char **argv)
->      }
->
->      /* init tcg before creating CPUs and to get qemu_host_page_size */
-> -    tcg_exec_init(0);
-> +    tcg_exec_init(0, false);
->
->      cpu_type = parse_cpu_option(cpu_model);
->      cpu = cpu_create(cpu_type);
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index 24d1eb73ad..5ff8100770 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -703,7 +703,7 @@ int main(int argc, char **argv, char **envp)
->      cpu_type = parse_cpu_option(cpu_model);
->
->      /* init tcg before creating CPUs and to get qemu_host_page_size */
-> -    tcg_exec_init(0);
-> +    tcg_exec_init(0, false);
->
->      cpu = cpu_create(cpu_type);
->      env = cpu->env_ptr;
-> --
-> 2.25.1
->
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQZXRlciBNYXlkZWxsIFttYWls
+dG86cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnXQ0KPiBTZW50OiBUdWVzZGF5LCBEZWNlbWJlciAx
+NSwgMjAyMCAxMjoyMCBBTQ0KPiBUbzogZ2FucWl4aW4gPGdhbnFpeGluQGh1YXdlaS5jb20+DQo+
+IENjOiBxZW11LWFybSA8cWVtdS1hcm1Abm9uZ251Lm9yZz47IFFFTVUgRGV2ZWxvcGVycw0KPiA8
+cWVtdS1kZXZlbEBub25nbnUub3JnPjsgQ2hlbnF1biAoa3VobikNCj4gPGt1aG4uY2hlbnF1bkBo
+dWF3ZWkuY29tPjsgWmhhbmdoYWlsaWFuZw0KPiA8emhhbmcuemhhbmdoYWlsaWFuZ0BodWF3ZWku
+Y29tPjsgRXVsZXIgUm9ib3QNCj4gPGV1bGVyLnJvYm90QGh1YXdlaS5jb20+OyBCZW5pYW1pbm8g
+R2FsdmFuaSA8Yi5nYWx2YW5pQGdtYWlsLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCAxLzdd
+IGFsbHdpbm5lci1hMTAtcGl0OiBVc2UgcHRpbWVyX2ZyZWUoKSBpbiB0aGUNCj4gZmluYWxpemUg
+ZnVuY3Rpb24gdG8gYXZvaWQgbWVtbGVha3MNCj4gDQo+IE9uIE1vbiwgMTQgRGVjIDIwMjAgYXQg
+MTY6MDIsIFBldGVyIE1heWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz4NCj4gd3JvdGU6
+DQo+ID4NCj4gPiBPbiBGcmksIDI3IE5vdiAyMDIwIGF0IDA3OjE5LCBHYW4gUWl4aW4gPGdhbnFp
+eGluQGh1YXdlaS5jb20+IHdyb3RlOg0KPiA+ID4NCj4gPiA+IFdoZW4gcnVubmluZyBkZXZpY2Ut
+aW50cm9zcGVjdC10ZXN0LCBhIG1lbW9yeSBsZWFrIG9jY3VycmVkIGluIHRoZQ0KPiA+ID4gYTEw
+X3BpdF9pbml0IGZ1bmN0aW9uLCBzbyB1c2UgcHRpbWVyX2ZyZWUoKSBpbiB0aGUgZmluYWxpemUg
+ZnVuY3Rpb24gdG8NCj4gYXZvaWQgaXQuDQo+ID4gPg0KPiA+ID4gQVNBTiBzaG93cyBtZW1vcnkg
+bGVhayBzdGFjazoNCj4gPiA+DQo+ID4gPiBJbmRpcmVjdCBsZWFrIG9mIDI4OCBieXRlKHMpIGlu
+IDYgb2JqZWN0KHMpIGFsbG9jYXRlZCBmcm9tOg0KPiA+ID4gICAgICMwIDB4ZmZmZmFiOTdlMWYw
+IGluIF9faW50ZXJjZXB0b3JfY2FsbG9jDQo+ICgvbGliNjQvbGliYXNhbi5zby41KzB4ZWUxZjAp
+DQo+ID4gPiAgICAgIzEgMHhmZmZmYWIyNTY4MDAgaW4gZ19tYWxsb2MwICgvbGliNjQvbGliZ2xp
+Yi0yLjAuc28uMCsweDU2ODAwKQ0KPiA+ID4gICAgICMyIDB4YWFhYmY1NTVkYjg0IGluIHRpbWVy
+X25ld19mdWxsDQo+IC9xZW11L2luY2x1ZGUvcWVtdS90aW1lci5oOjUyMw0KPiA+ID4gICAgICMz
+IDB4YWFhYmY1NTVkYjg0IGluIHRpbWVyX25ldw0KPiAvcWVtdS9pbmNsdWRlL3FlbXUvdGltZXIu
+aDo1NDQNCj4gPiA+ICAgICAjNCAweGFhYWJmNTU1ZGI4NCBpbiB0aW1lcl9uZXdfbnMNCj4gL3Fl
+bXUvaW5jbHVkZS9xZW11L3RpbWVyLmg6NTYyDQo+ID4gPiAgICAgIzUgMHhhYWFiZjU1NWRiODQg
+aW4gcHRpbWVyX2luaXQgL3FlbXUvaHcvY29yZS9wdGltZXIuYzo0MzMNCj4gPiA+ICAgICAjNiAw
+eGFhYWJmNTc0MTVlOCBpbiBhMTBfcGl0X2luaXQNCj4gL3FlbXUvaHcvdGltZXIvYWxsd2lubmVy
+LWExMC1waXQuYzoyNzgNCj4gPiA+ICAgICAjNyAweGFhYWJmNjMzOWY2YyBpbiBvYmplY3RfaW5p
+dGlhbGl6ZV93aXRoX3R5cGUNCj4gL3FlbXUvcW9tL29iamVjdC5jOjUxNQ0KPiA+ID4gICAgICM4
+IDB4YWFhYmY2MzNjYTA0IGluIG9iamVjdF9pbml0aWFsaXplX2NoaWxkX3dpdGhfcHJvcHN2DQo+
+IC9xZW11L3FvbS9vYmplY3QuYzo1NjQNCj4gPiA+ICAgICAjOSAweGFhYWJmNjMzY2MwOCBpbiBv
+YmplY3RfaW5pdGlhbGl6ZV9jaGlsZF93aXRoX3Byb3BzDQo+IC9xZW11L3FvbS9vYmplY3QuYzo1
+NDcNCj4gPiA+ICAgICAjMTAgMHhhYWFiZjViOTQ2ODAgaW4gYXdfYTEwX2luaXQNCj4gL3FlbXUv
+aHcvYXJtL2FsbHdpbm5lci1hMTAuYzo0OQ0KPiA+ID4gICAgICMxMSAweGFhYWJmNjMzOWY2YyBp
+biBvYmplY3RfaW5pdGlhbGl6ZV93aXRoX3R5cGUNCj4gL3FlbXUvcW9tL29iamVjdC5jOjUxNQ0K
+PiA+ID4gICAgICMxMiAweGFhYWJmNjMzYTFlMCBpbiBvYmplY3RfbmV3X3dpdGhfdHlwZQ0KPiA+
+ID4gL3FlbXUvcW9tL29iamVjdC5jOjcyOQ0KPiA+ID4NCj4gPiA+IFJlcG9ydGVkLWJ5OiBFdWxl
+ciBSb2JvdCA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT4NCj4gPiA+IFNpZ25lZC1vZmYtYnk6IEdh
+biBRaXhpbiA8Z2FucWl4aW5AaHVhd2VpLmNvbT4NCj4gPiA+IC0tLQ0KPiA+ID4gQ2M6IEJlbmlh
+bWlubyBHYWx2YW5pIDxiLmdhbHZhbmlAZ21haWwuY29tPg0KPiA+ID4gLS0tDQo+ID4gPiAgaHcv
+dGltZXIvYWxsd2lubmVyLWExMC1waXQuYyB8IDIxICsrKysrKysrKysrKysrKystLS0tLQ0KPiA+
+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0KPiA+
+ID4NCj4gPiA+IGRpZmYgLS1naXQgYS9ody90aW1lci9hbGx3aW5uZXItYTEwLXBpdC5jDQo+ID4g
+PiBiL2h3L3RpbWVyL2FsbHdpbm5lci1hMTAtcGl0LmMgaW5kZXggZjg0ZmMwZWEyNS4uYmUyMTE5
+ODNiMA0KPiAxMDA2NDQNCj4gPiA+IC0tLSBhL2h3L3RpbWVyL2FsbHdpbm5lci1hMTAtcGl0LmMN
+Cj4gPiA+ICsrKyBiL2h3L3RpbWVyL2FsbHdpbm5lci1hMTAtcGl0LmMNCj4gPiA+IEBAIC0yNzks
+NiArMjc5LDE2IEBAIHN0YXRpYyB2b2lkIGExMF9waXRfaW5pdChPYmplY3QgKm9iaikNCj4gPiA+
+ICAgICAgfQ0KPiA+ID4gIH0NCj4gPiA+DQo+ID4gPiArc3RhdGljIHZvaWQgYTEwX3BpdF9maW5h
+bGl6ZShPYmplY3QgKm9iaikgew0KPiA+ID4gKyAgICBBd0ExMFBJVFN0YXRlICpzID0gQVdfQTEw
+X1BJVChvYmopOw0KPiA+ID4gKyAgICBpbnQgaTsNCj4gPiA+ICsNCj4gPiA+ICsgICAgZm9yIChp
+ID0gMDsgaSA8IEFXX0ExMF9QSVRfVElNRVJfTlI7IGkrKykgew0KPiA+ID4gKyAgICAgICAgcHRp
+bWVyX2ZyZWUocy0+dGltZXJbaV0pOw0KPiA+ID4gKyAgICB9DQo+ID4gPiArfQ0KPiA+ID4gKw0K
+PiA+ID4gIHN0YXRpYyB2b2lkIGExMF9waXRfY2xhc3NfaW5pdChPYmplY3RDbGFzcyAqa2xhc3Ms
+IHZvaWQgKmRhdGEpICB7DQo+ID4gPiAgICAgIERldmljZUNsYXNzICpkYyA9IERFVklDRV9DTEFT
+UyhrbGFzcyk7IEBAIC0yOTAsMTEgKzMwMCwxMg0KPiBAQA0KPiA+ID4gc3RhdGljIHZvaWQgYTEw
+X3BpdF9jbGFzc19pbml0KE9iamVjdENsYXNzICprbGFzcywgdm9pZCAqZGF0YSkgIH0NCj4gPiA+
+DQo+ID4gPiAgc3RhdGljIGNvbnN0IFR5cGVJbmZvIGExMF9waXRfaW5mbyA9IHsNCj4gPiA+IC0g
+ICAgLm5hbWUgPSBUWVBFX0FXX0ExMF9QSVQsDQo+ID4gPiAtICAgIC5wYXJlbnQgPSBUWVBFX1NZ
+U19CVVNfREVWSUNFLA0KPiA+ID4gLSAgICAuaW5zdGFuY2Vfc2l6ZSA9IHNpemVvZihBd0ExMFBJ
+VFN0YXRlKSwNCj4gPiA+IC0gICAgLmluc3RhbmNlX2luaXQgPSBhMTBfcGl0X2luaXQsDQo+ID4g
+PiAtICAgIC5jbGFzc19pbml0ID0gYTEwX3BpdF9jbGFzc19pbml0LA0KPiA+ID4gKyAgICAubmFt
+ZSAgICAgICAgICAgICAgPSBUWVBFX0FXX0ExMF9QSVQsDQo+ID4gPiArICAgIC5wYXJlbnQgICAg
+ICAgICAgICA9IFRZUEVfU1lTX0JVU19ERVZJQ0UsDQo+ID4gPiArICAgIC5pbnN0YW5jZV9zaXpl
+ICAgICA9IHNpemVvZihBd0ExMFBJVFN0YXRlKSwNCj4gPiA+ICsgICAgLmluc3RhbmNlX2luaXQg
+ICAgID0gYTEwX3BpdF9pbml0LA0KPiA+ID4gKyAgICAuaW5zdGFuY2VfZmluYWxpemUgPSBhMTBf
+cGl0X2ZpbmFsaXplLA0KPiA+ID4gKyAgICAuY2xhc3NfaW5pdCAgICAgICAgPSBhMTBfcGl0X2Ns
+YXNzX2luaXQsDQo+ID4gPiAgfTsNCj4gPg0KPiA+IFBsZWFzZSBkb24ndCBtYWtlIHVucmVsYXRl
+ZCB3aGl0ZXNwYWNlIGNoYW5nZXMgbGlrZSB0aGlzIGluIGEgcGF0Y2guDQo+ID4gV2UgZG9uJ3Qg
+bGluZSB1cCB0aGUgYXNzaWdubWVudHMgaW4gdGhpcyBzb3J0IG9mIHN0cnVjdCAtLSB0aGlzIGlz
+DQo+ID4gZGVsaWJlcmF0ZSwgc28gdGhhdCBpZiBhIG5ldyBsaW5lIGlzIGFkZGVkIHdob3NlIGZp
+ZWxkIG5hbWUgaGFwcGVucyB0bw0KPiA+IGJlIGxvbmdlciB0aGFuIHRob3NlIHVzZWQgYWxyZWFk
+eSwgdGhlIHBhdGNoIGRvZXMgbm90IGhhdmUgdG8gdG91Y2gNCj4gPiBhbGwgdGhlIGxpbmVzIGlu
+IHRoZSBzdHJ1Y3QgdG8gbWFpbnRhaW4gdGhlIGZvcm1hdHRpbmcuDQo+ID4gSW5zdGVhZCB5b3Ug
+Z2V0IGEgcmVhZGFibGUgZGlmZiB3aGVyZSBvbmx5IHRoZSBuZXcgbGluZSBjaGFuZ2VzLCBub3QN
+Cj4gPiBhbGwgdGhlIG90aGVycy4NCj4gDQo+IEhtbS4gSGF2aW5nIHNhaWQgdGhhdCBJIHNlZSB0
+aGF0IHRoZSBvdGhlciA2IGRldmljZXMgdG91Y2hlZCBieSB0aGlzIHNlcmllcw0KPiBkaWQgdXNl
+IHRoZSBsaW5lLXVwLXRoZS1hc3NpZ25tZW50cyBzdHlsZS4NCj4gQW55d2F5LCB0aGUgc3R5bGUg
+dGhpcyBkZXZpY2Ugd2FzIHVzaW5nIGlzIHRoZSByaWdodCBvbmUuDQoNClRoYW5rcyBmb3IgeW91
+ciByZXBseSwgSSB3aWxsIHJlc2VuZCB0aGlzIHBhdGNoLiBCeSB0aGUgd2F5LCBkbyB3ZSBuZWVk
+IHRvIGtlZXANCnRoZSBvdGhlciA2IGRldmljZXMgaW4gdGhlIHNhbWUgc3R5bGUgYXMgdGhpcyBk
+ZXZpY2U/DQoNCkdhbiBRaXhpbg0K
 
