@@ -2,56 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AADBD2DA655
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 03:40:21 +0100 (CET)
-Received: from localhost ([::1]:43024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926D12DA714
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 05:18:28 +0100 (CET)
+Received: from localhost ([::1]:54138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp0G8-0001zz-Is
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 21:40:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
+	id 1kp1n9-0003YW-3M
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 23:18:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kp0Eh-0001SE-MI; Mon, 14 Dec 2020 21:38:47 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2245)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kp0Eb-00025Z-2G; Mon, 14 Dec 2020 21:38:47 -0500
-Received: from dggemi401-hub.china.huawei.com (unknown [172.30.72.56])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Cw2Tt1Tsxz13TWC;
- Tue, 15 Dec 2020 10:37:22 +0800 (CST)
-Received: from DGGEMI525-MBS.china.huawei.com ([169.254.6.165]) by
- dggemi401-hub.china.huawei.com ([10.3.17.134]) with mapi id 14.03.0487.000;
- Tue, 15 Dec 2020 10:38:13 +0800
-From: ganqixin <ganqixin@huawei.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: RE: [PATCH 1/7] allwinner-a10-pit: Use ptimer_free() in the
- finalize function to avoid memleaks
-Thread-Topic: [PATCH 1/7] allwinner-a10-pit: Use ptimer_free() in the
- finalize function to avoid memleaks
-Thread-Index: AQHWxI2HjKgbhI9ZF0iY+1sxKZ3D/an2VeKAgAAE7ACAAS/pAA==
-Date: Tue, 15 Dec 2020 02:38:13 +0000
-Message-ID: <A5B86EC83C48EF4CB2BC58BEF3A2F496065F5F11@DGGEMI525-MBS.china.huawei.com>
-References: <20201127071803.2479462-1-ganqixin@huawei.com>
- <20201127071803.2479462-2-ganqixin@huawei.com>
- <CAFEAcA-UKFOeMhYpq7d+4igF_R584vKgvfuzGU0mT-vcEASFig@mail.gmail.com>
- <CAFEAcA8pc+vCBj9fk+8jwXV6H0H3xOe2Q0HY2=irfkTRfwOVTg@mail.gmail.com>
-In-Reply-To: <CAFEAcA8pc+vCBj9fk+8jwXV6H0H3xOe2Q0HY2=irfkTRfwOVTg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.185.159]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kp1m1-00037E-RY
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 23:17:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kp1ly-000455-SZ
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 23:17:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608005832;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oWe5PBFgf5iw9zbPvWsaXySZFlb0O9zpSwp9RIkXcC0=;
+ b=HsD1g8Dm5M1W84PIGveLL8FPHkV/ak7/6650ftZwuBYH/sV/YMDzJYVG4DVM61qxw0buZ1
+ QAIMRJSb5WTfPkljRrBTJQyC0rmoPJzugu4TNoak9qFSEOqMnMAzDb7A1NOh7H5zqtnr+W
+ Ug5O5FaPUSifBwhZcPKdvRhzhHBusfU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-84-LTDqoeu4PA6lsSM5ysHRow-1; Mon, 14 Dec 2020 23:17:08 -0500
+X-MC-Unique: LTDqoeu4PA6lsSM5ysHRow-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D5BA107ACE4;
+ Tue, 15 Dec 2020 04:17:06 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4CA5860C15;
+ Tue, 15 Dec 2020 04:17:05 +0000 (UTC)
+Received: from zmail21.collab.prod.int.phx2.redhat.com
+ (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id B10E918095C7;
+ Tue, 15 Dec 2020 04:17:03 +0000 (UTC)
+Date: Mon, 14 Dec 2020 23:16:44 -0500 (EST)
+From: Jason Wang <jasowang@redhat.com>
+To: Alexey Kirillov <lekiravi@yandex-team.ru>
+Message-ID: <283553782.35654895.1608005804570.JavaMail.zimbra@redhat.com>
+In-Reply-To: <159211607963975@mail.yandex-team.ru>
+References: <20201108235952.107961-1-lekiravi@yandex-team.ru>
+ <20201108235952.107961-4-lekiravi@yandex-team.ru>
+ <3e019e9d-2649-5df8-8f9c-8d76eb2615a5@redhat.com>
+ <159211607963975@mail.yandex-team.ru>
+Subject: Re: [PATCH v5 3/4] hmp: Use QMP query-netdev in hmp_info_network
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255; envelope-from=ganqixin@huawei.com;
- helo=szxga08-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Originating-IP: [10.68.5.20, 10.4.195.30]
+Thread-Topic: Use QMP query-netdev in hmp_info_network
+Thread-Index: wJzvmE1H0GGYZHeZVf5Ed4MBLJQ9XA==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,93 +89,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Euler Robot <euler.robot@huawei.com>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Markus Armbruster <armbru@redhat.com>,
+ Vincenzo Maffione <v.maffione@gmail.com>, qemu-devel@nongnu.org,
+ Luigi Rizzo <rizzo@iet.unipi.it>, yc-core@yandex-team.ru,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Giuseppe Lettieri <g.lettieri@iet.unipi.it>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQZXRlciBNYXlkZWxsIFttYWls
-dG86cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnXQ0KPiBTZW50OiBUdWVzZGF5LCBEZWNlbWJlciAx
-NSwgMjAyMCAxMjoyMCBBTQ0KPiBUbzogZ2FucWl4aW4gPGdhbnFpeGluQGh1YXdlaS5jb20+DQo+
-IENjOiBxZW11LWFybSA8cWVtdS1hcm1Abm9uZ251Lm9yZz47IFFFTVUgRGV2ZWxvcGVycw0KPiA8
-cWVtdS1kZXZlbEBub25nbnUub3JnPjsgQ2hlbnF1biAoa3VobikNCj4gPGt1aG4uY2hlbnF1bkBo
-dWF3ZWkuY29tPjsgWmhhbmdoYWlsaWFuZw0KPiA8emhhbmcuemhhbmdoYWlsaWFuZ0BodWF3ZWku
-Y29tPjsgRXVsZXIgUm9ib3QNCj4gPGV1bGVyLnJvYm90QGh1YXdlaS5jb20+OyBCZW5pYW1pbm8g
-R2FsdmFuaSA8Yi5nYWx2YW5pQGdtYWlsLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCAxLzdd
-IGFsbHdpbm5lci1hMTAtcGl0OiBVc2UgcHRpbWVyX2ZyZWUoKSBpbiB0aGUNCj4gZmluYWxpemUg
-ZnVuY3Rpb24gdG8gYXZvaWQgbWVtbGVha3MNCj4gDQo+IE9uIE1vbiwgMTQgRGVjIDIwMjAgYXQg
-MTY6MDIsIFBldGVyIE1heWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz4NCj4gd3JvdGU6
-DQo+ID4NCj4gPiBPbiBGcmksIDI3IE5vdiAyMDIwIGF0IDA3OjE5LCBHYW4gUWl4aW4gPGdhbnFp
-eGluQGh1YXdlaS5jb20+IHdyb3RlOg0KPiA+ID4NCj4gPiA+IFdoZW4gcnVubmluZyBkZXZpY2Ut
-aW50cm9zcGVjdC10ZXN0LCBhIG1lbW9yeSBsZWFrIG9jY3VycmVkIGluIHRoZQ0KPiA+ID4gYTEw
-X3BpdF9pbml0IGZ1bmN0aW9uLCBzbyB1c2UgcHRpbWVyX2ZyZWUoKSBpbiB0aGUgZmluYWxpemUg
-ZnVuY3Rpb24gdG8NCj4gYXZvaWQgaXQuDQo+ID4gPg0KPiA+ID4gQVNBTiBzaG93cyBtZW1vcnkg
-bGVhayBzdGFjazoNCj4gPiA+DQo+ID4gPiBJbmRpcmVjdCBsZWFrIG9mIDI4OCBieXRlKHMpIGlu
-IDYgb2JqZWN0KHMpIGFsbG9jYXRlZCBmcm9tOg0KPiA+ID4gICAgICMwIDB4ZmZmZmFiOTdlMWYw
-IGluIF9faW50ZXJjZXB0b3JfY2FsbG9jDQo+ICgvbGliNjQvbGliYXNhbi5zby41KzB4ZWUxZjAp
-DQo+ID4gPiAgICAgIzEgMHhmZmZmYWIyNTY4MDAgaW4gZ19tYWxsb2MwICgvbGliNjQvbGliZ2xp
-Yi0yLjAuc28uMCsweDU2ODAwKQ0KPiA+ID4gICAgICMyIDB4YWFhYmY1NTVkYjg0IGluIHRpbWVy
-X25ld19mdWxsDQo+IC9xZW11L2luY2x1ZGUvcWVtdS90aW1lci5oOjUyMw0KPiA+ID4gICAgICMz
-IDB4YWFhYmY1NTVkYjg0IGluIHRpbWVyX25ldw0KPiAvcWVtdS9pbmNsdWRlL3FlbXUvdGltZXIu
-aDo1NDQNCj4gPiA+ICAgICAjNCAweGFhYWJmNTU1ZGI4NCBpbiB0aW1lcl9uZXdfbnMNCj4gL3Fl
-bXUvaW5jbHVkZS9xZW11L3RpbWVyLmg6NTYyDQo+ID4gPiAgICAgIzUgMHhhYWFiZjU1NWRiODQg
-aW4gcHRpbWVyX2luaXQgL3FlbXUvaHcvY29yZS9wdGltZXIuYzo0MzMNCj4gPiA+ICAgICAjNiAw
-eGFhYWJmNTc0MTVlOCBpbiBhMTBfcGl0X2luaXQNCj4gL3FlbXUvaHcvdGltZXIvYWxsd2lubmVy
-LWExMC1waXQuYzoyNzgNCj4gPiA+ICAgICAjNyAweGFhYWJmNjMzOWY2YyBpbiBvYmplY3RfaW5p
-dGlhbGl6ZV93aXRoX3R5cGUNCj4gL3FlbXUvcW9tL29iamVjdC5jOjUxNQ0KPiA+ID4gICAgICM4
-IDB4YWFhYmY2MzNjYTA0IGluIG9iamVjdF9pbml0aWFsaXplX2NoaWxkX3dpdGhfcHJvcHN2DQo+
-IC9xZW11L3FvbS9vYmplY3QuYzo1NjQNCj4gPiA+ICAgICAjOSAweGFhYWJmNjMzY2MwOCBpbiBv
-YmplY3RfaW5pdGlhbGl6ZV9jaGlsZF93aXRoX3Byb3BzDQo+IC9xZW11L3FvbS9vYmplY3QuYzo1
-NDcNCj4gPiA+ICAgICAjMTAgMHhhYWFiZjViOTQ2ODAgaW4gYXdfYTEwX2luaXQNCj4gL3FlbXUv
-aHcvYXJtL2FsbHdpbm5lci1hMTAuYzo0OQ0KPiA+ID4gICAgICMxMSAweGFhYWJmNjMzOWY2YyBp
-biBvYmplY3RfaW5pdGlhbGl6ZV93aXRoX3R5cGUNCj4gL3FlbXUvcW9tL29iamVjdC5jOjUxNQ0K
-PiA+ID4gICAgICMxMiAweGFhYWJmNjMzYTFlMCBpbiBvYmplY3RfbmV3X3dpdGhfdHlwZQ0KPiA+
-ID4gL3FlbXUvcW9tL29iamVjdC5jOjcyOQ0KPiA+ID4NCj4gPiA+IFJlcG9ydGVkLWJ5OiBFdWxl
-ciBSb2JvdCA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT4NCj4gPiA+IFNpZ25lZC1vZmYtYnk6IEdh
-biBRaXhpbiA8Z2FucWl4aW5AaHVhd2VpLmNvbT4NCj4gPiA+IC0tLQ0KPiA+ID4gQ2M6IEJlbmlh
-bWlubyBHYWx2YW5pIDxiLmdhbHZhbmlAZ21haWwuY29tPg0KPiA+ID4gLS0tDQo+ID4gPiAgaHcv
-dGltZXIvYWxsd2lubmVyLWExMC1waXQuYyB8IDIxICsrKysrKysrKysrKysrKystLS0tLQ0KPiA+
-ID4gIDEgZmlsZSBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0KPiA+
-ID4NCj4gPiA+IGRpZmYgLS1naXQgYS9ody90aW1lci9hbGx3aW5uZXItYTEwLXBpdC5jDQo+ID4g
-PiBiL2h3L3RpbWVyL2FsbHdpbm5lci1hMTAtcGl0LmMgaW5kZXggZjg0ZmMwZWEyNS4uYmUyMTE5
-ODNiMA0KPiAxMDA2NDQNCj4gPiA+IC0tLSBhL2h3L3RpbWVyL2FsbHdpbm5lci1hMTAtcGl0LmMN
-Cj4gPiA+ICsrKyBiL2h3L3RpbWVyL2FsbHdpbm5lci1hMTAtcGl0LmMNCj4gPiA+IEBAIC0yNzks
-NiArMjc5LDE2IEBAIHN0YXRpYyB2b2lkIGExMF9waXRfaW5pdChPYmplY3QgKm9iaikNCj4gPiA+
-ICAgICAgfQ0KPiA+ID4gIH0NCj4gPiA+DQo+ID4gPiArc3RhdGljIHZvaWQgYTEwX3BpdF9maW5h
-bGl6ZShPYmplY3QgKm9iaikgew0KPiA+ID4gKyAgICBBd0ExMFBJVFN0YXRlICpzID0gQVdfQTEw
-X1BJVChvYmopOw0KPiA+ID4gKyAgICBpbnQgaTsNCj4gPiA+ICsNCj4gPiA+ICsgICAgZm9yIChp
-ID0gMDsgaSA8IEFXX0ExMF9QSVRfVElNRVJfTlI7IGkrKykgew0KPiA+ID4gKyAgICAgICAgcHRp
-bWVyX2ZyZWUocy0+dGltZXJbaV0pOw0KPiA+ID4gKyAgICB9DQo+ID4gPiArfQ0KPiA+ID4gKw0K
-PiA+ID4gIHN0YXRpYyB2b2lkIGExMF9waXRfY2xhc3NfaW5pdChPYmplY3RDbGFzcyAqa2xhc3Ms
-IHZvaWQgKmRhdGEpICB7DQo+ID4gPiAgICAgIERldmljZUNsYXNzICpkYyA9IERFVklDRV9DTEFT
-UyhrbGFzcyk7IEBAIC0yOTAsMTEgKzMwMCwxMg0KPiBAQA0KPiA+ID4gc3RhdGljIHZvaWQgYTEw
-X3BpdF9jbGFzc19pbml0KE9iamVjdENsYXNzICprbGFzcywgdm9pZCAqZGF0YSkgIH0NCj4gPiA+
-DQo+ID4gPiAgc3RhdGljIGNvbnN0IFR5cGVJbmZvIGExMF9waXRfaW5mbyA9IHsNCj4gPiA+IC0g
-ICAgLm5hbWUgPSBUWVBFX0FXX0ExMF9QSVQsDQo+ID4gPiAtICAgIC5wYXJlbnQgPSBUWVBFX1NZ
-U19CVVNfREVWSUNFLA0KPiA+ID4gLSAgICAuaW5zdGFuY2Vfc2l6ZSA9IHNpemVvZihBd0ExMFBJ
-VFN0YXRlKSwNCj4gPiA+IC0gICAgLmluc3RhbmNlX2luaXQgPSBhMTBfcGl0X2luaXQsDQo+ID4g
-PiAtICAgIC5jbGFzc19pbml0ID0gYTEwX3BpdF9jbGFzc19pbml0LA0KPiA+ID4gKyAgICAubmFt
-ZSAgICAgICAgICAgICAgPSBUWVBFX0FXX0ExMF9QSVQsDQo+ID4gPiArICAgIC5wYXJlbnQgICAg
-ICAgICAgICA9IFRZUEVfU1lTX0JVU19ERVZJQ0UsDQo+ID4gPiArICAgIC5pbnN0YW5jZV9zaXpl
-ICAgICA9IHNpemVvZihBd0ExMFBJVFN0YXRlKSwNCj4gPiA+ICsgICAgLmluc3RhbmNlX2luaXQg
-ICAgID0gYTEwX3BpdF9pbml0LA0KPiA+ID4gKyAgICAuaW5zdGFuY2VfZmluYWxpemUgPSBhMTBf
-cGl0X2ZpbmFsaXplLA0KPiA+ID4gKyAgICAuY2xhc3NfaW5pdCAgICAgICAgPSBhMTBfcGl0X2Ns
-YXNzX2luaXQsDQo+ID4gPiAgfTsNCj4gPg0KPiA+IFBsZWFzZSBkb24ndCBtYWtlIHVucmVsYXRl
-ZCB3aGl0ZXNwYWNlIGNoYW5nZXMgbGlrZSB0aGlzIGluIGEgcGF0Y2guDQo+ID4gV2UgZG9uJ3Qg
-bGluZSB1cCB0aGUgYXNzaWdubWVudHMgaW4gdGhpcyBzb3J0IG9mIHN0cnVjdCAtLSB0aGlzIGlz
-DQo+ID4gZGVsaWJlcmF0ZSwgc28gdGhhdCBpZiBhIG5ldyBsaW5lIGlzIGFkZGVkIHdob3NlIGZp
-ZWxkIG5hbWUgaGFwcGVucyB0bw0KPiA+IGJlIGxvbmdlciB0aGFuIHRob3NlIHVzZWQgYWxyZWFk
-eSwgdGhlIHBhdGNoIGRvZXMgbm90IGhhdmUgdG8gdG91Y2gNCj4gPiBhbGwgdGhlIGxpbmVzIGlu
-IHRoZSBzdHJ1Y3QgdG8gbWFpbnRhaW4gdGhlIGZvcm1hdHRpbmcuDQo+ID4gSW5zdGVhZCB5b3Ug
-Z2V0IGEgcmVhZGFibGUgZGlmZiB3aGVyZSBvbmx5IHRoZSBuZXcgbGluZSBjaGFuZ2VzLCBub3QN
-Cj4gPiBhbGwgdGhlIG90aGVycy4NCj4gDQo+IEhtbS4gSGF2aW5nIHNhaWQgdGhhdCBJIHNlZSB0
-aGF0IHRoZSBvdGhlciA2IGRldmljZXMgdG91Y2hlZCBieSB0aGlzIHNlcmllcw0KPiBkaWQgdXNl
-IHRoZSBsaW5lLXVwLXRoZS1hc3NpZ25tZW50cyBzdHlsZS4NCj4gQW55d2F5LCB0aGUgc3R5bGUg
-dGhpcyBkZXZpY2Ugd2FzIHVzaW5nIGlzIHRoZSByaWdodCBvbmUuDQoNClRoYW5rcyBmb3IgeW91
-ciByZXBseSwgSSB3aWxsIHJlc2VuZCB0aGlzIHBhdGNoLiBCeSB0aGUgd2F5LCBkbyB3ZSBuZWVk
-IHRvIGtlZXANCnRoZSBvdGhlciA2IGRldmljZXMgaW4gdGhlIHNhbWUgc3R5bGUgYXMgdGhpcyBk
-ZXZpY2U/DQoNCkdhbiBRaXhpbg0K
+
+
+----- Original Message -----
+> Hi!
+>=20
+> 07.12.2020, 08:52, "Jason Wang" <jasowang@redhat.com>:
+> > On 2020/11/9 =E4=B8=8A=E5=8D=887:59, Alexey Kirillov wrote:
+> >> =C2=A0+#ifdef CONFIG_SLIRP
+> >> =C2=A0+ case NET_BACKEND_USER: {
+> >> =C2=A0+ size_t len =3D strchr(ni->u.user.net, '/') - ni->u.user.net;
+> >> =C2=A0+ char *net =3D g_strndup(ni->u.user.net, len);
+> >> =C2=A0+
+> >> =C2=A0+ info_str =3D g_strdup_printf("net=3D%s,restrict=3D%s",
+> >> =C2=A0+ net,
+> >> =C2=A0+ ni->u.user.q_restrict ? "on" : "off");
+> >> =C2=A0+ g_free(net);
+> >> =C2=A0+ break;
+> >> =C2=A0+ }
+> >> =C2=A0+#endif /* CONFIG_SLIRP */
+> >> =C2=A0+ case NET_BACKEND_TAP: {
+> >> =C2=A0+#ifndef _WIN32
+> >> =C2=A0+ if (ni->u.tap.has_fds) {
+> >> =C2=A0+ char **fds =3D g_strsplit(ni->u.tap.fds, ":", -1);
+> >> =C2=A0+
+> >> =C2=A0+ info_str =3D g_strdup_printf("fd=3D%s", fds[nc->queue_index]);
+> >> =C2=A0+ g_strfreev(fds);
+> >> =C2=A0+ } else if (ni->u.tap.has_helper) {
+> >> =C2=A0+ info_str =3D g_strdup_printf("helper=3D%s", ni->u.tap.helper);
+> >> =C2=A0+ } else {
+> >> =C2=A0+ info_str =3D g_strdup_printf("ifname=3D%s,script=3D%s,downscri=
+pt=3D%s",
+> >> =C2=A0+ ni->u.tap.ifname,
+> >> =C2=A0+ nc->queue_index =3D=3D 0 ? ni->u.tap.script : "no",
+> >> =C2=A0+ nc->queue_index =3D=3D 0 ? ni->u.tap.downscript : "no");
+> >> =C2=A0+ }
+> >> =C2=A0+#else
+> >> =C2=A0+ info_str =3D g_strdup_printf("tap: ifname=3D%s", ni->u.tap.ifn=
+ame);
+> >> =C2=A0+#endif /* _WIN32 */
+> >> =C2=A0+ break;
+> >> =C2=A0+ }
+> >> =C2=A0+#ifdef CONFIG_L2TPV3
+> >> =C2=A0+ case NET_BACKEND_L2TPV3: {
+> >> =C2=A0+ info_str =3D g_strdup_printf("l2tpv3: connected");
+> >> =C2=A0+ break;
+> >> =C2=A0+ }
+> >> =C2=A0+#endif /* CONFIG_L2TPV3 */
+> >> =C2=A0+ case NET_BACKEND_SOCKET: {
+> >> =C2=A0+ if (ni->u.socket.has_listen) {
+> >> =C2=A0+ if (ni->u.socket.has_fd) {
+> >> =C2=A0+ info_str =3D g_strdup_printf("socket: connection from %s",
+> >> =C2=A0+ ni->u.socket.listen);
+> >> =C2=A0+ } else {
+> >> =C2=A0+ info_str =3D g_strdup_printf("socket: wait from %s",
+> >> =C2=A0+ ni->u.socket.listen);
+> >> =C2=A0+ }
+> >> =C2=A0+ } else if (ni->u.socket.has_connect && ni->u.socket.has_fd) {
+> >> =C2=A0+ info_str =3D g_strdup_printf("socket: connect to %s",
+> >> =C2=A0+ ni->u.socket.connect);
+> >> =C2=A0+ } else if (ni->u.socket.has_mcast && ni->u.socket.has_fd) {
+> >> =C2=A0+ info_str =3D g_strdup_printf("socket: mcast=3D%s",
+> >> =C2=A0+ ni->u.socket.mcast);
+> >> =C2=A0+ } else if (ni->u.socket.has_udp && ni->u.socket.has_fd) {
+> >> =C2=A0+ info_str =3D g_strdup_printf("socket: udp=3D%s", ni->u.socket.=
+udp);
+> >> =C2=A0+ } else {
+> >> =C2=A0+ g_assert(ni->u.socket.has_fd);
+> >> =C2=A0+ int so_type =3D -1;
+> >> =C2=A0+ int optlen =3D sizeof(so_type);
+> >> =C2=A0+ int fd =3D atoi(ni->u.socket.fd);
+> >> =C2=A0+
+> >> =C2=A0+ getsockopt(fd, SOL_SOCKET, SO_TYPE, (char *)&so_type,
+> >> =C2=A0+ (socklen_t *)&optlen);
+> >> =C2=A0+ if (so_type =3D=3D SOCK_STREAM) {
+> >> =C2=A0+ info_str =3D g_strdup_printf("socket: fd=3D%s",
+> >> =C2=A0+ ni->u.socket.fd);
+> >> =C2=A0+ } else {
+> >> =C2=A0+ if (ni->u.socket.has_mcast) {
+> >> =C2=A0+ /*
+> >> =C2=A0+ * This branch is unreachable, according to how it is in
+> >> =C2=A0+ * net/socket.c at this moment
+> >> =C2=A0+ */
+> >> =C2=A0+ info_str =3D g_strdup_printf("socket: fd=3D%s "
+> >> =C2=A0+ "(cloned mcast=3D%s)",
+> >> =C2=A0+ ni->u.socket.fd,
+> >> =C2=A0+ ni->u.socket.mcast);
+> >> =C2=A0+ } else {
+> >> =C2=A0+ SocketAddress *sa =3D socket_local_address(fd, NULL);
+> >> =C2=A0+
+> >> =C2=A0+ info_str =3D g_strdup_printf("socket: fd=3D%s %s",
+> >> =C2=A0+ ni->u.socket.fd,
+> >> =C2=A0+ SocketAddressType_str(sa->type));
+> >> =C2=A0+ qapi_free_SocketAddress(sa);
+> >> =C2=A0+ }
+> >> =C2=A0+ }
+> >> =C2=A0+ }
+> >> =C2=A0+ break;
+> >> =C2=A0+ }
+> >> =C2=A0+#ifdef CONFIG_VDE
+> >> =C2=A0+ case NET_BACKEND_VDE: {
+> >> =C2=A0+ info_str =3D g_strdup_printf("sock=3D%s,fd=3D%d",
+> >> =C2=A0+ ni->u.vde.sock,
+> >> =C2=A0+ net_vde_get_fd(nc));
+> >> =C2=A0+ break;
+> >> =C2=A0+ }
+> >> =C2=A0+#endif /* CONFIG_VDE */
+> >> =C2=A0+#ifdef CONFIG_NET_BRIDGE
+> >> =C2=A0+ case NET_BACKEND_BRIDGE: {
+> >> =C2=A0+ info_str =3D g_strdup_printf("helper=3D%s,br=3D%s",
+> >> =C2=A0+ ni->u.bridge.helper,
+> >> =C2=A0+ ni->u.bridge.br);
+> >> =C2=A0+ break;
+> >> =C2=A0+ }
+> >> =C2=A0+#endif /* CONFIG_NET_BRIDGE */
+> >> =C2=A0+#ifdef CONFIG_NETMAP
+> >> =C2=A0+ case NET_BACKEND_NETMAP: {
+> >> =C2=A0+ info_str =3D g_strdup_printf("netmap: ifname=3D%s",
+> >> =C2=A0+ ni->u.netmap.ifname);
+> >> =C2=A0+ break;
+> >> =C2=A0+ }
+> >> =C2=A0+#endif /* CONFIG_NETMAP */
+> >> =C2=A0+#ifdef CONFIG_VHOST_NET_USER
+> >> =C2=A0+ case NET_BACKEND_VHOST_USER: {
+> >> =C2=A0+ info_str =3D g_strdup_printf("vhost-user%d to %s",
+> >> =C2=A0+ nc->queue_index,
+> >> =C2=A0+ ni->u.vhost_user.chardev);
+> >> =C2=A0+ break;
+> >> =C2=A0+ }
+> >> =C2=A0+#endif /* CONFIG_VHOST_NET_USER */
+> >> =C2=A0+#ifdef CONFIG_VHOST_NET_VDPA
+> >> =C2=A0+ case NET_BACKEND_VHOST_VDPA: {
+> >> =C2=A0+ info_str =3D g_strdup("vhost-vdpa");
+> >> =C2=A0+ break;
+> >> =C2=A0+ }
+> >> =C2=A0+#endif /* CONFIG_VHOST_NET_VDPA */
+> >
+> > This will introduce burdens for new netdevs or new attributes since
+> > people can easily forget to add the routine here.
+> >
+> > I think at least we need introduce callbacks for this.
+>=20
+> Thanks for pointing. I can't remember why exactly I chose to not do it.
+> So it's definitely better to split this chunk to several callbacks.
+> I'll do it in the next version of series.
+>=20
+> > One more stupid question, instead of generating the string via hard
+> > codes, is there any method (dict?) to iterate all the key/values
+> > automatically?
+> >
+> > Thanks
+>=20
+> Oh yes, that the point.
+> Now there are no common format for info_str.
+> This patch is aimed to keep old HMP command mostly untouched.
+> But if we can drop old format, all this mess can be generalized as JSON
+> lines replacing old info_str stuff.
+>=20
+> What do you think about that?
+
+I think it works and there's no need for sticking to the old HMP
+format since it's not an ABI. And it would be better if you can
+generate more human readable format from JSON.
+
+Thanks
+
+
+>=20
+> Originally I wanted to completely drop old info_str and use
+> QAPI to store and provide information about netdevs (and NICs too).
+>=20
+> Thanks!
+>=20
+> --
+> Alexey Kirillov
+> Yandex.Cloud
+>=20
+>=20
+
 
