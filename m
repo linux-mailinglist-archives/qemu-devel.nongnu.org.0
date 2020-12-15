@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACE22DA5DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 02:58:04 +0100 (CET)
-Received: from localhost ([::1]:32904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93D672DA5E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 02:59:59 +0100 (CET)
+Received: from localhost ([::1]:35136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kozbH-00044V-Mo
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 20:58:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35632)
+	id 1kozd8-00053B-Lu
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 20:59:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kozY5-0003Va-2P
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 20:54:45 -0500
-Received: from mail-il1-f196.google.com ([209.85.166.196]:39699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kozY3-0005cx-GT
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 20:54:44 -0500
-Received: by mail-il1-f196.google.com with SMTP id q1so17773003ilt.6
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 17:54:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TfYmIM1uzBB/G8KOhdeU9RhkTvdK7y6e2jl55b7uF5g=;
- b=G3B9MJwdVefzrRT4TxI2kOA/1gqGd0Xt2evXDEU6WcYvJFupxzQA3FGzEwHHoY4Cws
- Mw3cr/ccLafsLGWtgRblALe7wtF664A0L1sncOnwmhLIuS9QZVV51L8xA4pysbTRuntI
- fmp20PJGtmRbaxqwhljb//fBcBBt/tT8nbuQjUHrdJLGnOMai1grUmmhVXzYzHaH+9m2
- Yehk6LFe8Q83rRi+4wrHt6V75VLi1G16N0ujFCOG246aeRLQcJSDucVDFueFlEJgPM/d
- SK9cKujBQdx1pCIB++Hq31IUDl9pgfSVBn3uGEcjTB5dO6CiHDaj/QdUBIb5aGDI4BS4
- cu8Q==
-X-Gm-Message-State: AOAM532tbLqAOdY5Sdn/SqdxPRHbXU3ts6PIFObaxyO3+G/sCzMQMWcs
- AJEiOlnPnmbJS5FFIzO2QPQf/LZQBaE=
-X-Google-Smtp-Source: ABdhPJzR3oHez53PQ5WIJ4Af66qZfT39d3Xod/OQdL5t3uK59y4er6O4pMfwXrcnsa1ZKqQmgxckFQ==
-X-Received: by 2002:a92:410b:: with SMTP id o11mr25980718ila.306.1607997282489; 
- Mon, 14 Dec 2020 17:54:42 -0800 (PST)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com.
- [209.85.166.48])
- by smtp.gmail.com with ESMTPSA id c6sm10561794iof.29.2020.12.14.17.54.42
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Dec 2020 17:54:42 -0800 (PST)
-Received: by mail-io1-f48.google.com with SMTP id z136so18937313iof.3
- for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 17:54:42 -0800 (PST)
-X-Received: by 2002:a5d:939a:: with SMTP id c26mr36735350iol.63.1607997282121; 
- Mon, 14 Dec 2020 17:54:42 -0800 (PST)
+ (Exim 4.90_1)
+ (envelope-from <prvs=6115b8be4=alistair.francis@wdc.com>)
+ id 1kozaJ-00049O-5u; Mon, 14 Dec 2020 20:57:03 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:10598)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=6115b8be4=alistair.francis@wdc.com>)
+ id 1kozaF-0005vT-Qa; Mon, 14 Dec 2020 20:57:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1607997420; x=1639533420;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=7hVDMJSX7+4fen5lhkGmd06U0vQq2GxBblUjvWQ54wY=;
+ b=ds/blPdMS4N/7fsOhvXBd08vST0tjOXXJyRHdWKkeHWIBvUSHV/O2e+z
+ SLorPZZuRwomZ6tA47ucO1pDNo7EdIDJAagbJh2kX2u7/IjSmqfcgh7RR
+ 0tls0J/gmFMOXBZbtB1jrRokIzvE6IWM9tCm8GfYFN5NNrCSxNt+C1TQX
+ hijokKWdp3MFa07cunG0+h8C+gPPLBpEoy2ZkAPVznPH1e1QfFDa0COk4
+ kWE9npDCCodD1Yv+n39q52rLdk8P7AvG0Bg5LEyTGm1da/D4ZEn8pZnho
+ UG/nom5l6owzyUhOOtPq2iMfomL/onoeNghfIDt/rBYC7AJGYA7Za7kLW w==;
+IronPort-SDR: M3XevsEdYS7vW4CZJh+ZjHDvsSkX3rea1zCQ0vmp4j915jLVceVlbOVUdK91Oo0ebgM+mvGj5x
+ VU4umUNNc5tp3GaJW4Gf3k4jtkP9bGX7psEZVuroxcICGEOCv1InzUYza8RsKBSyPHUjqforo2
+ WCZ4sJQZiR2cUmucAJ69F7z3cK4LkY6J1HS+u1FpNA13RmU8QGheG1P8c72XRTaXXp6A6gWim9
+ oOGYtQQ2uQSfz1OhE1YTz/DqWr49L5Hks0RxSZTmjAZtfOyvFpGYaRbXJMpn+++GipKwBcPx2h
+ LIk=
+X-IronPort-AV: E=Sophos;i="5.78,420,1599494400"; d="scan'208";a="156356085"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 15 Dec 2020 09:56:56 +0800
+IronPort-SDR: P01PXNj7A2bh9+Ab8BukTxY/vLvG6CzaS02lWM1b52Qr4rDqaOcMeIcOkkJdv6cAMR8Z69iHiv
+ aUjEU8XAoYCVZPv4LXRfSNsUNBQgkV3oZlDEA1ZnhtWFYnHEq3qTyy3bGGZ7jFmqUcHLVOni2b
+ NORmVvhjW0QrHosJGu5znUIBZFGbm1/A1KkFDw13V/Ibh54rncYvng1rC0dLnpW0uHT/cZwyhq
+ OkkU3QEJSA+awBhQTHSXZIexwIChBNkx0ZlDmTEOuAAlElnflk6IPnDMUuXvO3MKo3BMw9bj0Z
+ U3Lg6hfJKSn8LOR3mS8Wmm8Y
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2020 17:42:14 -0800
+IronPort-SDR: JzXxxNfw2ualsP7UVAb/BUHfMXlmqOsO4CxGGb5kbmAQ7xwnl+Vabk2Gfn0npWTBf+2BK6DcJQ
+ aFDCqEp3MsXvIkH0hekW/NwiqEsav8qscXWKw18pawvo9dhRgUt0Z2qYXqLO2ydGYhoQejWOX6
+ 9kWaId/Lq4Vd54X8COpCr4vrOCVK4qPGx7H0h2WAQQ5EbO17X7ll6e/qlNBAbv5wNZ+FuyRPQm
+ fLq4flg4fdPRPMIShP5SDibD9y6hps0epta0ScwciXxT1K5JOpOSkfCX2z7xHc1pdvSFaXC5++
+ bKM=
+WDCIronportException: Internal
+Received: from usa001914.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.62.33])
+ by uls-op-cesaip01.wdc.com with ESMTP; 14 Dec 2020 17:56:54 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 1/1] riscv/opentitan: Update the OpenTitan memory layout
+Date: Mon, 14 Dec 2020 17:56:54 -0800
+Message-Id: <8eb65314830a75d0fea3fccf77bc45b8ddd01c42.1607982831.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20201214140314.18544-1-richard.henderson@linaro.org>
- <20201214140314.18544-7-richard.henderson@linaro.org>
-In-Reply-To: <20201214140314.18544-7-richard.henderson@linaro.org>
-From: Joelle van Dyne <j@getutm.app>
-Date: Mon, 14 Dec 2020 17:54:31 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSAu9qY1G8YWwn33-=0sK8o5uaeX+xMmxGErwC_YWENbgQ@mail.gmail.com>
-Message-ID: <CA+E+eSAu9qY1G8YWwn33-=0sK8o5uaeX+xMmxGErwC_YWENbgQ@mail.gmail.com>
-Subject: Re: [PATCH v4 06/43] tcg: Move tcg epilogue pointer out of TCGContext
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.196; envelope-from=osy86dev@gmail.com;
- helo=mail-il1-f196.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=6115b8be4=alistair.francis@wdc.com;
+ helo=esa6.hgst.iphmx.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,30 +88,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 14, 2020 at 6:02 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This value is constant across all thread-local copies of TCGContext,
-> so we might as well move it out of thread-local storage.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/tcg/tcg.h            | 2 +-
->  accel/tcg/tcg-runtime.c      | 2 +-
->  tcg/tcg.c                    | 3 ++-
->  tcg/aarch64/tcg-target.c.inc | 4 ++--
->  tcg/arm/tcg-target.c.inc     | 2 +-
->  tcg/i386/tcg-target.c.inc    | 4 ++--
->  tcg/mips/tcg-target.c.inc    | 2 +-
->  tcg/ppc/tcg-target.c.inc     | 2 +-
->  tcg/riscv/tcg-target.c.inc   | 4 ++--
->  tcg/s390/tcg-target.c.inc    | 4 ++--
->  tcg/sparc/tcg-target.c.inc   | 2 +-
->  11 files changed, 16 insertions(+), 15 deletions(-)
+OpenTitan is currently only avalible on an FPGA platform and the memory
+addresses have changed. Update to use the new memory addresses.
 
-Reviewed-by: Joelle van Dyne <j@getutm.app>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ include/hw/riscv/opentitan.h | 23 +++++++---
+ hw/riscv/opentitan.c         | 81 +++++++++++++++++++++++++-----------
+ 2 files changed, 74 insertions(+), 30 deletions(-)
+
+diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+index 5ff0c0f85e..a5ea3a5e4e 100644
+--- a/include/hw/riscv/opentitan.h
++++ b/include/hw/riscv/opentitan.h
+@@ -55,19 +55,30 @@ enum {
+     IBEX_DEV_UART,
+     IBEX_DEV_GPIO,
+     IBEX_DEV_SPI,
+-    IBEX_DEV_FLASH_CTRL,
++    IBEX_DEV_I2C,
++    IBEX_DEV_PATTGEN,
+     IBEX_DEV_RV_TIMER,
+-    IBEX_DEV_AES,
+-    IBEX_DEV_HMAC,
+-    IBEX_DEV_PLIC,
++    IBEX_DEV_SENSOR_CTRL,
++    IBEX_DEV_OTP_CTRL,
+     IBEX_DEV_PWRMGR,
+     IBEX_DEV_RSTMGR,
+     IBEX_DEV_CLKMGR,
+     IBEX_DEV_PINMUX,
++    IBEX_DEV_PADCTRL,
++    IBEX_DEV_USBDEV,
++    IBEX_DEV_FLASH_CTRL,
++    IBEX_DEV_PLIC,
++    IBEX_DEV_AES,
++    IBEX_DEV_HMAC,
++    IBEX_DEV_KMAC,
++    IBEX_DEV_KEYMGR,
++    IBEX_DEV_CSRNG,
++    IBEX_DEV_ENTROPY,
++    IBEX_DEV_EDNO,
++    IBEX_DEV_EDN1,
+     IBEX_DEV_ALERT_HANDLER,
+     IBEX_DEV_NMI_GEN,
+-    IBEX_DEV_USBDEV,
+-    IBEX_DEV_PADCTRL,
++    IBEX_DEV_OTBN,
+ };
+ 
+ enum {
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index cc758b78b8..af3456932f 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -35,22 +35,33 @@ static const struct MemmapEntry {
+     [IBEX_DEV_ROM] =            {  0x00008000, 16 * KiB },
+     [IBEX_DEV_RAM] =            {  0x10000000,  0x10000 },
+     [IBEX_DEV_FLASH] =          {  0x20000000,  0x80000 },
+-    [IBEX_DEV_UART] =           {  0x40000000,  0x10000 },
+-    [IBEX_DEV_GPIO] =           {  0x40010000,  0x10000 },
+-    [IBEX_DEV_SPI] =            {  0x40020000,  0x10000 },
+-    [IBEX_DEV_FLASH_CTRL] =     {  0x40030000,  0x10000 },
+-    [IBEX_DEV_PINMUX] =         {  0x40070000,  0x10000 },
+-    [IBEX_DEV_RV_TIMER] =       {  0x40080000,  0x10000 },
+-    [IBEX_DEV_PLIC] =           {  0x40090000,  0x10000 },
+-    [IBEX_DEV_PWRMGR] =         {  0x400A0000,  0x10000 },
+-    [IBEX_DEV_RSTMGR] =         {  0x400B0000,  0x10000 },
+-    [IBEX_DEV_CLKMGR] =         {  0x400C0000,  0x10000 },
+-    [IBEX_DEV_AES] =            {  0x40110000,  0x10000 },
+-    [IBEX_DEV_HMAC] =           {  0x40120000,  0x10000 },
+-    [IBEX_DEV_ALERT_HANDLER] =  {  0x40130000,  0x10000 },
+-    [IBEX_DEV_NMI_GEN] =        {  0x40140000,  0x10000 },
+-    [IBEX_DEV_USBDEV] =         {  0x40150000,  0x10000 },
+-    [IBEX_DEV_PADCTRL] =        {  0x40160000,  0x10000 }
++    [IBEX_DEV_UART] =           {  0x40000000,  0x1000  },
++    [IBEX_DEV_GPIO] =           {  0x40040000,  0x1000  },
++    [IBEX_DEV_SPI] =            {  0x40050000,  0x1000  },
++    [IBEX_DEV_I2C] =            {  0x40080000,  0x1000  },
++    [IBEX_DEV_PATTGEN] =        {  0x400e0000,  0x1000  },
++    [IBEX_DEV_RV_TIMER] =       {  0x40100000,  0x1000  },
++    [IBEX_DEV_SENSOR_CTRL] =    {  0x40110000,  0x1000  },
++    [IBEX_DEV_OTP_CTRL] =       {  0x40130000,  0x4000  },
++    [IBEX_DEV_PWRMGR] =         {  0x40400000,  0x1000  },
++    [IBEX_DEV_RSTMGR] =         {  0x40410000,  0x1000  },
++    [IBEX_DEV_CLKMGR] =         {  0x40420000,  0x1000  },
++    [IBEX_DEV_PINMUX] =         {  0x40460000,  0x1000  },
++    [IBEX_DEV_PADCTRL] =        {  0x40470000,  0x1000  },
++    [IBEX_DEV_USBDEV] =         {  0x40500000,  0x1000  },
++    [IBEX_DEV_FLASH_CTRL] =     {  0x41000000,  0x1000  },
++    [IBEX_DEV_PLIC] =           {  0x41010000,  0x1000  },
++    [IBEX_DEV_AES] =            {  0x41100000,  0x1000  },
++    [IBEX_DEV_HMAC] =           {  0x41110000,  0x1000  },
++    [IBEX_DEV_KMAC] =           {  0x41120000,  0x1000  },
++    [IBEX_DEV_KEYMGR] =         {  0x41130000,  0x1000  },
++    [IBEX_DEV_CSRNG] =          {  0x41150000,  0x1000  },
++    [IBEX_DEV_ENTROPY] =        {  0x41160000,  0x1000  },
++    [IBEX_DEV_EDNO] =           {  0x41170000,  0x1000  },
++    [IBEX_DEV_EDN1] =           {  0x41180000,  0x1000  },
++    [IBEX_DEV_ALERT_HANDLER] =  {  0x411b0000,  0x1000  },
++    [IBEX_DEV_NMI_GEN] =        {  0x411c0000,  0x1000  },
++    [IBEX_DEV_OTBN] =           {  0x411d0000,  0x10000 },
+ };
+ 
+ static void opentitan_board_init(MachineState *machine)
+@@ -156,30 +167,52 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+         memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.spi",
+         memmap[IBEX_DEV_SPI].base, memmap[IBEX_DEV_SPI].size);
+-    create_unimplemented_device("riscv.lowrisc.ibex.flash_ctrl",
+-        memmap[IBEX_DEV_FLASH_CTRL].base, memmap[IBEX_DEV_FLASH_CTRL].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.i2c",
++        memmap[IBEX_DEV_I2C].base, memmap[IBEX_DEV_I2C].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.pattgen",
++        memmap[IBEX_DEV_PATTGEN].base, memmap[IBEX_DEV_PATTGEN].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.rv_timer",
+         memmap[IBEX_DEV_RV_TIMER].base, memmap[IBEX_DEV_RV_TIMER].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.sensor_ctrl",
++        memmap[IBEX_DEV_SENSOR_CTRL].base, memmap[IBEX_DEV_SENSOR_CTRL].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.otp_ctrl",
++        memmap[IBEX_DEV_OTP_CTRL].base, memmap[IBEX_DEV_OTP_CTRL].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.pwrmgr",
+         memmap[IBEX_DEV_PWRMGR].base, memmap[IBEX_DEV_PWRMGR].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.rstmgr",
+         memmap[IBEX_DEV_RSTMGR].base, memmap[IBEX_DEV_RSTMGR].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.clkmgr",
+         memmap[IBEX_DEV_CLKMGR].base, memmap[IBEX_DEV_CLKMGR].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.pinmux",
++        memmap[IBEX_DEV_PINMUX].base, memmap[IBEX_DEV_PINMUX].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.padctrl",
++        memmap[IBEX_DEV_PADCTRL].base, memmap[IBEX_DEV_PADCTRL].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.usbdev",
++        memmap[IBEX_DEV_USBDEV].base, memmap[IBEX_DEV_USBDEV].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.flash_ctrl",
++        memmap[IBEX_DEV_FLASH_CTRL].base, memmap[IBEX_DEV_FLASH_CTRL].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.aes",
+         memmap[IBEX_DEV_AES].base, memmap[IBEX_DEV_AES].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.hmac",
+         memmap[IBEX_DEV_HMAC].base, memmap[IBEX_DEV_HMAC].size);
+-    create_unimplemented_device("riscv.lowrisc.ibex.pinmux",
+-        memmap[IBEX_DEV_PINMUX].base, memmap[IBEX_DEV_PINMUX].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.kmac",
++        memmap[IBEX_DEV_KMAC].base, memmap[IBEX_DEV_KMAC].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.keymgr",
++        memmap[IBEX_DEV_KEYMGR].base, memmap[IBEX_DEV_KEYMGR].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.csrng",
++        memmap[IBEX_DEV_CSRNG].base, memmap[IBEX_DEV_CSRNG].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.entropy",
++        memmap[IBEX_DEV_ENTROPY].base, memmap[IBEX_DEV_ENTROPY].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.edn0",
++        memmap[IBEX_DEV_EDNO].base, memmap[IBEX_DEV_EDNO].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.edn1",
++        memmap[IBEX_DEV_EDN1].base, memmap[IBEX_DEV_EDN1].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.alert_handler",
+         memmap[IBEX_DEV_ALERT_HANDLER].base, memmap[IBEX_DEV_ALERT_HANDLER].size);
+     create_unimplemented_device("riscv.lowrisc.ibex.nmi_gen",
+         memmap[IBEX_DEV_NMI_GEN].base, memmap[IBEX_DEV_NMI_GEN].size);
+-    create_unimplemented_device("riscv.lowrisc.ibex.usbdev",
+-        memmap[IBEX_DEV_USBDEV].base, memmap[IBEX_DEV_USBDEV].size);
+-    create_unimplemented_device("riscv.lowrisc.ibex.padctrl",
+-        memmap[IBEX_DEV_PADCTRL].base, memmap[IBEX_DEV_PADCTRL].size);
++    create_unimplemented_device("riscv.lowrisc.ibex.otbn",
++        memmap[IBEX_DEV_OTBN].base, memmap[IBEX_DEV_OTBN].size);
+ }
+ 
+ static void lowrisc_ibex_soc_class_init(ObjectClass *oc, void *data)
+-- 
+2.29.2
+
 
