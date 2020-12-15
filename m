@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC962DB1F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 17:57:48 +0100 (CET)
-Received: from localhost ([::1]:43906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CBC32DB200
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 17:59:07 +0100 (CET)
+Received: from localhost ([::1]:47298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpDdy-0005MR-My
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 11:57:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46738)
+	id 1kpDfB-00078s-AA
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 11:59:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpDbh-0004nB-TY
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:55:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59360)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpDbb-00082I-4V
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:55:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608051317;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1ZEQrqlDMAQXD6icep9k0VIxWBtR93DfoBq4lyDyi9E=;
- b=DFXFdf5fsjgCopcJBPRe2IpsDUu2jdcSiXFWPY8NBNPOgj8tjK79wMI13MGu/DMTlHAOzT
- devllFw8QpMfKo1E9uYZdsOQQRFWeTNvd0+6n+M/FbZh7zNmGPffjrQdwonPThFtzdilFr
- X3Q9jn1spwnQVlYcNdB4CpNgMvPI+tk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-24r3BK1tPwyfVnjWdZ8pOA-1; Tue, 15 Dec 2020 11:55:13 -0500
-X-MC-Unique: 24r3BK1tPwyfVnjWdZ8pOA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D72610054FF
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 16:55:12 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C59D1E5;
- Tue, 15 Dec 2020 16:55:12 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D75CB11329A5; Tue, 15 Dec 2020 17:55:10 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 06/11] qapi/introspect.py: add _gen_features helper
-References: <20201026194251.11075-1-jsnow@redhat.com>
- <20201026194251.11075-7-jsnow@redhat.com>
- <87k0ul1ydu.fsf@dusky.pond.sub.org>
- <3b1186c1-c927-9d02-126b-c15d372ae97c@redhat.com>
-Date: Tue, 15 Dec 2020 17:55:10 +0100
-In-Reply-To: <3b1186c1-c927-9d02-126b-c15d372ae97c@redhat.com> (John Snow's
- message of "Mon, 7 Dec 2020 18:57:13 -0500")
-Message-ID: <87h7onypox.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kpDd6-0005Vu-Df
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:56:52 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:37432)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kpDd3-0008Ki-AS
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:56:51 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id ga15so28690219ejb.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 08:56:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7kpKqCEpbuSvclKQbN3Lpw0eEBfI9diNxlmViowhAVs=;
+ b=tYwJbx0gQ/bSfD/X1alES2YsixrxpTPpzFI56BFKdjqE0+cBl4MToPmMEi9i57MAar
+ x8KMTcgunRsSaGIvCjx+2qs/q02qwPPTMvlVrM1lOtjQze98sc16HwLj7I0C2oBu11Aa
+ ZzeJIggOzPsQjv2k9wql5NMFBj5uPh/Hey93k9k8rtXAQheT7wfGfhrpYj+gfUgx8wFf
+ m+MYtHIVsqEa1gciHFymve3DXyxOC1ni39Xp060PRGONn1R3vx3ZA5slQiuzCSq4ae5X
+ a5kF5l84ae8IvRonKgCZqpSMmck6M3GH19L9g/TRaAveXLJse5SXkZLNgoq/EQsmFe9N
+ iRqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7kpKqCEpbuSvclKQbN3Lpw0eEBfI9diNxlmViowhAVs=;
+ b=AfXTv1VddwPWVF5zZh2PUc83n9qYjfvohWATya+RGzXU5bSrh930X26Mn20DX3mrJD
+ AvubgqYeadkFNoV/Bv6miTQye8YMG5BVYuGhxHO1j6M88eEomtwyQhpfNweKkhM1w2tr
+ s0/cYCRCEzq9kgn+pt4XjtpK9C4NPswQjWlok1R1NcUZqhDioj3M2CzBf5tPC6g/uW1Y
+ Bgh7uaU7zpFp9xBnHGChqOmCcmzDeLOiJrg5OooOlDYDzQ20k62Xx9shVW1RQ9wQUvcp
+ m6inXzrh4wpPlDmq/wMqRaLVp+EyLbBHUjUvR8mRiHJXSNeAEwOVyePIhvu3eDmI6R6t
+ kg6g==
+X-Gm-Message-State: AOAM530/6/LkE+dMT48Ee6s74D+MEN6ExXvKTM3GBQDhHadvms7oYhDR
+ BMOnT0/NPu5GBeB9b4SOvabVWo4+z9aUYQ6LLGv4jr/01To=
+X-Google-Smtp-Source: ABdhPJzXwFEdIq+5sYzkHFl0cDiuohaMQs57I7yQqZn3s6nY09CIzsVTgJ4xooAwFqTee0R5Lt54n0lD+4yEjODGV7U=
+X-Received: by 2002:a17:906:1542:: with SMTP id
+ c2mr27074821ejd.382.1608051407494; 
+ Tue, 15 Dec 2020 08:56:47 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20201214045807.41003-1-david@gibson.dropbear.id.au>
+ <20201214045807.41003-7-david@gibson.dropbear.id.au>
+In-Reply-To: <20201214045807.41003-7-david@gibson.dropbear.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 15 Dec 2020 16:56:36 +0000
+Message-ID: <CAFEAcA8sOMxFJN=t69y=oSruh4a+LMUNWHX60wOEZZ8Cr=64OQ@mail.gmail.com>
+Subject: Re: [PULL 06/30] spapr: Do PHB hoplug sanity check at pre-plug
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,94 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
-
-> On 11/16/20 3:47 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> _make_tree might receive a dict or some other type.
->> 
->> Are you talking about @obj?
->> 
+On Mon, 14 Dec 2020 at 04:58, David Gibson <david@gibson.dropbear.id.au> wrote:
 >
-> Yes.
-
-Recommend to be explict: _make_tree()'s first argument can be ...
-
->      It *usually* takes a dict. sometimes it doesn't.
-
-Yes.  It takes an abstract syntax tree: dict for JSON object, list for
-JSON array, str for JSON string, bool for JSON true and false, NoneType
-for JSON none.  JSON int isn't implemented, because it doesn't occur in
-SchemaInfo.
-
->>>                                                      Adding features
->>> information should arguably be performed by the caller at such a time
->>> when we know the type of the object and don't have to re-interrogate it.
->> 
->> Fair enough.  There are just two such callers anyway.
->> 
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->>> ---
->>>   scripts/qapi/introspect.py | 19 ++++++++++++-------
->>>   1 file changed, 12 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
->>> index 803288a64e7..16282f2634b 100644
->>> --- a/scripts/qapi/introspect.py
->>> +++ b/scripts/qapi/introspect.py
->>> @@ -76,16 +76,12 @@
->>>   
->>>   
->>>   def _make_tree(obj: Union[_DObject, str], ifcond: List[str],
->>> -               features: List[QAPISchemaFeature],
->>>                  extra: Optional[Annotations] = None
->>>                  ) -> TreeValue:
->>>       if extra is None:
->>>           extra = {}
->>>       if ifcond:
->>>           extra['if'] = ifcond
->>> -    if features:
->>> -        assert isinstance(obj, dict)
->>> -        obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
->>>       if extra:
->>>           return (obj, extra)
->>>       return obj
->>> @@ -221,6 +217,11 @@ def _use_type(self, typ: QAPISchemaType) -> str:
->>>               return '[' + self._use_type(typ.element_type) + ']'
->>>           return self._name(typ.name)
->>>   
->>> +    @classmethod
->>> +    def _gen_features(cls,
->>> +                      features: List[QAPISchemaFeature]) -> List[TreeValue]:
->>> +        return [_make_tree(f.name, f.ifcond) for f in features]
->>> +
->> 
->> Ignorant question: when to use @classmethod, and when to use
->> @staticmethod?
+> From: Greg Kurz <groug@kaod.org>
 >
-> Matter of taste. My preference is to just always use @classmethod, 
-> because they can be extended or referenced by subclasses.
-
-Non-issue here, sub-classes are vanishingly unlikely.
-
-> @staticmethod does not take a class argument, @classmethod does. Static 
-> methods therefore cannot address any other classmethods, but a 
-> classmethod can.
+> We currently detect that a PHB index is already in use at plug time.
+> But this can be decteted at pre-plug in order to error out earlier.
 >
-> I just always reach for classmethod by default.
+> This allows to pass &error_abort to spapr_drc_attach() and to end
+> up with a plug handler that doesn't need to report errors anymore.
+>
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Message-Id: <20201120234208.683521-8-groug@kaod.org>
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 
-Unused cls parameters are slightly annoying, though.
+Hi; this change seems to have nudged one of Coverity's
+heuristics into deciding that spapr_drc_by_id() can return
+NULL (because its return value is checked here, I suspect),
+so it reports CID 1437757, 1437758, where spapr_add_lmbs()
+and spapr_memory_unplug_request() both take the return value
+of spapr_drc_by_id() and pass it directly to spapr_drc_index(),
+which will crash if it is passed a NULL pointer.
 
-I've been using @staticmethod whenever it suffices.  Makes "this is a
-function, i.e. it can't mess with the class or instances" immediately
-obvious.
+Is it impossible for spapr_drc_by_id() to return NULL in
+those functions (ie Coverity false positive) or is there
+a missing error check ?
 
-[...]
-
+thanks
+-- PMM
 
