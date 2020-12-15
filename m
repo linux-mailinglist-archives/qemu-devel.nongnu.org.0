@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C562E2DB050
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:44:10 +0100 (CET)
-Received: from localhost ([::1]:49216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B0392DB06B
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:48:17 +0100 (CET)
+Received: from localhost ([::1]:58822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpCUj-0006ME-S3
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:44:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55978)
+	id 1kpCYi-00022h-8x
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:48:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpCRt-0003Mt-RQ
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:41:13 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37939)
+ id 1kpCRu-0003NO-J2
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:41:14 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpCRr-0004tp-Tn
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:41:13 -0500
-Received: by mail-wr1-x434.google.com with SMTP id r7so20309917wrc.5
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 07:41:11 -0800 (PST)
+ id 1kpCRs-0004ty-WC
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:41:14 -0500
+Received: by mail-wr1-x444.google.com with SMTP id i9so20317311wrc.4
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 07:41:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=26NGPHSQLV8LcV/Z4zDtw3XpXCDw0Dj1JsugWufRvVE=;
- b=kLK1XfyDoqHG8+8AKA2HJdiFFv3J044FJaYTftiL2G0mWAnemfhsW7WN7d/8LKkH1b
- vYHpLymUrvCxsII6d1fDgRVjGE8w+4NZ8DF9AWbpRioIJZgKLyPEHmQRN6QeFiBbpRke
- EbF4XJgpPoD6q8db9vguhbRA5dFjzCIAxI6+giwPOVr2XA4WwmxuXyRaDk/ioAvifCZb
- 2jea9MqTeic7o7OQvishGf8OuTgOZfUX02/lCWZ9GjxUR6BNyIGWf4lagGuC/RA8tiVd
- RWkppJwPHwzD+PNBlrMoDekbFDmHwXcwfEjdiPGPrVwE8SjpPVYF50udIYy8J/rhQbd8
- mn+w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NkI1JPV6T76myH92t9WLjDACCV+iWxQLh0fjZqVGsx0=;
+ b=FDfzgfAElQm3Ralfyk4cDrZz/22Jb2tASbI+eMOhIyqSICyROMcrWbSlJxxxsL9Jrv
+ w0/svmaL9jMAfRz0Hytk1GeEoGBrQESZPpSjy440GC5m/5B2IU/N39je5HFhK3b0wYyK
+ x42hCns2HHXXsoOJhCPhLchAuId6wGdexc6LFkYl7vcld+Tkqui14RJbNx0Asz2Mu7YK
+ q7xCSYd7E+0mvPwoHAHX63WCl7lLLjsAe8L3VesgiFTtRJH8/eYzYoCTvEasaCojsYwn
+ 3JZgEy3MKobf+4b2oVsHYJnvkq1Ttn7SY6OU3fZkmEac4ERs3Sh6NRhFUdx6FfExSidt
+ 9vrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=26NGPHSQLV8LcV/Z4zDtw3XpXCDw0Dj1JsugWufRvVE=;
- b=Q2Zqj55d6RP6d4em+tBrxybklAUZs9MfYTrDSJtKDe4vNy1bAyUpd28EI2qrX4oFsW
- eFBbdZm3l/mnzwc8Gxg3joOO2Nhn44gg/i6dP4g3bG/M4uY3roZs222b7oAf5UZC81Q2
- SVXG/bIIpAmBAjxa3AI1T9xI2T6SY86e1VqIN8sDW2Q8Y25LyTdqd4XFazyiqsK9Xizm
- cyL7yhUv1VMvUw/4CglO01we+cpqsMDRpzSGoOn/3/owFf6Yue2XNwTRxivrpWZbX2Mv
- kXSTsAvgeMNCMzS5FodoPTUPmSjkziet3L3rnzkN67vJlP3y2HTp+8er6s6jeBTFk2Cl
- 8tzg==
-X-Gm-Message-State: AOAM531xvmCrpVfjQWob4CqprB5aRWDhAdX/Tga+qU0yWwTEuRO2dBRD
- z+ZhhX8BeZTXK/IQ+XyMXCispxDAK+JQog==
-X-Google-Smtp-Source: ABdhPJyIqj2o9eH1kMuTyaYGqBonTxBKKtQExfhroqn3DLSOqxU9WemDLdvYg4Uj2rPSogOuDye6pA==
-X-Received: by 2002:a5d:4c45:: with SMTP id n5mr27157948wrt.396.1608046869954; 
- Tue, 15 Dec 2020 07:41:09 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NkI1JPV6T76myH92t9WLjDACCV+iWxQLh0fjZqVGsx0=;
+ b=K6gJ3DbXIb6XHnQDJO41EGogWWu9yuHavgeGmT3uObcVQznBD+xGkGmc3OzqqeuQk8
+ loR+zeedZpW+8EtSy7SEWZtj9SOi9Pmn2gMn+PNztcOUBPNkgcbIL3vbsaSBaV4FDcsz
+ jIF/ZujZPSyaEYdzp7AUwvs8PvLDV1HBGlXOiIyihPtfq98v44kIWo+vk3z4PUu3hoG3
+ a6qSwbwnEMuFr20SLm+Z4l+d6yXjfuxweV9OpjkiSVjv4GMDDfJ1nEOkgVZFEJ3UqZfQ
+ wvdwoqnIpax5JarcCX4V7dvLFJfdl6qouuhEwFBWt1CfJKy+AwqveY0x34zJZ0d8GckL
+ I8Ug==
+X-Gm-Message-State: AOAM531hQkFsRVbVVwbL6jfGg2U4/EwyHb6RHOcn48PUslSz9WVWgYkq
+ yrYo7UU1cUoTZB36F+VQVg/oALRLrbJXPw==
+X-Google-Smtp-Source: ABdhPJydtmdP4JKUA5Qr5bKFXcvYiBVrZK0ttV9wKD929tCySRTjITsdtmlARFe0DIk2xVygfzDxQQ==
+X-Received: by 2002:adf:80ae:: with SMTP id 43mr3386140wrl.50.1608046871362;
+ Tue, 15 Dec 2020 07:41:11 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 34sm38259978wrh.78.2020.12.15.07.41.08
+ by smtp.gmail.com with ESMTPSA id 34sm38259978wrh.78.2020.12.15.07.41.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 07:41:09 -0800 (PST)
+ Tue, 15 Dec 2020 07:41:10 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/4] qemu-timer: Make timer_free() imply timer_del()
-Date: Tue, 15 Dec 2020 15:41:03 +0000
-Message-Id: <20201215154107.3255-1-peter.maydell@linaro.org>
+Subject: [PATCH v2 1/4] util/qemu-timer: Make timer_free() imply timer_del()
+Date: Tue, 15 Dec 2020 15:41:04 +0000
+Message-Id: <20201215154107.3255-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201215154107.3255-1-peter.maydell@linaro.org>
+References: <20201215154107.3255-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,81 +99,56 @@ This is unfortunate API design as it makes it easy to accidentally
 misuse (by forgetting the timer_del()), and the correct use is
 annoyingly verbose.
 
-Patch 1 makes timer_free() call timer_del() if the timer is active.
-Patch 2 is a Coccinelle script to remove any timer_del() calls
-that are immediately before the timer_free().
-Patch 3 is the result of running the Coccinelle script on the
-whole tree.
-Patch 4 makes a by-hand cleanup of a bit of the Arm CPU code
-not caught by Coccinelle because it included a pointless
-timer_deinit() between timer_del() and timer_free().
+Make timer_free() imply a timer_del().
 
-I could split up patch 3, but for 58 deleted lines over 42 files
-created entirely automatedly, it seemed to me to be simpler as one
-patch.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/qemu/timer.h | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-Changes v1->v2:
- * patch 1: unconditionally call timer_del() rather than trying
-   to be clever
- * patch 4: new patch
-
-thanks
--- PMM
-
-Peter Maydell (4):
-  util/qemu-timer: Make timer_free() imply timer_del()
-  scripts/coccinelle: New script to remove unnecessary timer_del() calls
-  Remove superfluous timer_del() calls
-  target/arm: Remove timer_del()/timer_deinit() before timer_free()
-
- scripts/coccinelle/timer-del-timer-free.cocci | 18 +++++++++++++
- include/qemu/timer.h                          | 25 +++++++++++--------
- block/iscsi.c                                 |  2 --
- block/nbd.c                                   |  1 -
- block/qcow2.c                                 |  1 -
- hw/block/nvme.c                               |  2 --
- hw/char/serial.c                              |  2 --
- hw/char/virtio-serial-bus.c                   |  2 --
- hw/ide/core.c                                 |  1 -
- hw/input/hid.c                                |  1 -
- hw/intc/apic.c                                |  1 -
- hw/intc/ioapic.c                              |  1 -
- hw/ipmi/ipmi_bmc_extern.c                     |  1 -
- hw/net/e1000.c                                |  3 ---
- hw/net/e1000e_core.c                          |  8 ------
- hw/net/pcnet-pci.c                            |  1 -
- hw/net/rtl8139.c                              |  1 -
- hw/net/spapr_llan.c                           |  1 -
- hw/net/virtio-net.c                           |  2 --
- hw/s390x/s390-pci-inst.c                      |  1 -
- hw/sd/sd.c                                    |  1 -
- hw/sd/sdhci.c                                 |  2 --
- hw/usb/dev-hub.c                              |  1 -
- hw/usb/hcd-ehci.c                             |  1 -
- hw/usb/hcd-ohci-pci.c                         |  1 -
- hw/usb/hcd-uhci.c                             |  1 -
- hw/usb/hcd-xhci.c                             |  1 -
- hw/usb/redirect.c                             |  1 -
- hw/vfio/display.c                             |  1 -
- hw/virtio/vhost-vsock-common.c                |  1 -
- hw/virtio/virtio-balloon.c                    |  1 -
- hw/virtio/virtio-rng.c                        |  1 -
- hw/watchdog/wdt_diag288.c                     |  1 -
- hw/watchdog/wdt_i6300esb.c                    |  1 -
- migration/colo.c                              |  1 -
- monitor/hmp-cmds.c                            |  1 -
- net/announce.c                                |  1 -
- net/colo-compare.c                            |  1 -
- net/slirp.c                                   |  1 -
- replay/replay-debugging.c                     |  1 -
- target/arm/cpu.c                              |  2 --
- target/s390x/cpu.c                            |  2 --
- ui/console.c                                  |  1 -
- ui/spice-core.c                               |  1 -
- util/throttle.c                               |  1 -
- 45 files changed, 32 insertions(+), 71 deletions(-)
- create mode 100644 scripts/coccinelle/timer-del-timer-free.cocci
-
+diff --git a/include/qemu/timer.h b/include/qemu/timer.h
+index bdecc5b41fe..ed84ad8f3aa 100644
+--- a/include/qemu/timer.h
++++ b/include/qemu/timer.h
+@@ -609,17 +609,6 @@ static inline QEMUTimer *timer_new_ms(QEMUClockType type, QEMUTimerCB *cb,
+  */
+ void timer_deinit(QEMUTimer *ts);
+ 
+-/**
+- * timer_free:
+- * @ts: the timer
+- *
+- * Free a timer (it must not be on the active list)
+- */
+-static inline void timer_free(QEMUTimer *ts)
+-{
+-    g_free(ts);
+-}
+-
+ /**
+  * timer_del:
+  * @ts: the timer
+@@ -631,6 +620,20 @@ static inline void timer_free(QEMUTimer *ts)
+  */
+ void timer_del(QEMUTimer *ts);
+ 
++/**
++ * timer_free:
++ * @ts: the timer
++ *
++ * Free a timer. This will call timer_del() for you to remove
++ * the timer from the active list if it was still active.
++ */
++static inline void timer_free(QEMUTimer *ts)
++{
++
++    timer_del(ts);
++    g_free(ts);
++}
++
+ /**
+  * timer_mod_ns:
+  * @ts: the timer
 -- 
 2.20.1
 
