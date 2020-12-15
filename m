@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E6B22DB13E
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 17:23:41 +0100 (CET)
-Received: from localhost ([::1]:51506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880DF2DB14C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 17:25:45 +0100 (CET)
+Received: from localhost ([::1]:59576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpD6y-0008He-KU
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 11:23:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39062)
+	id 1kpD8y-0003Cl-JE
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 11:25:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
- id 1kpD58-0006k0-3b
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:21:46 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:53577)
+ id 1kpD5B-0006mM-Ra
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:21:49 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:51636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zhangjiachen.jaycee@bytedance.com>)
- id 1kpD55-00037I-Op
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:21:45 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id iq13so1493156pjb.3
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 08:21:43 -0800 (PST)
+ id 1kpD59-00037W-4O
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:21:49 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id z12so1498529pjn.1
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 08:21:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Lt7I1LwZl6Zuc9JO4eKlmm2JT6wwWS/9n7gImdcBKJg=;
- b=D3HJ9lkKP+XQ5V4scQ5VeM6JxVcvkMAvCLl3Gg4/1nYYWYJfcDGR8NdVPqXYHXjxMO
- ABE2y///QMGAGrqrFjzfiREns39LLBMgYGrUneKyWJEHszBfS4KVQjRQfewAHE2VE3AZ
- HHm5Zt66wi9ZfNWqGY629/4ROD7iNS9Ecm6xv1SnmpiGnDoSA0QPrMT+H6104QYtw87i
- PDsgMmBQ0ge/pUCp613LlDYWHiJRUI4Jb/kDdsAC5GSMUQrBDqhKtLZMjSMzzFrAPzKA
- uwVr+jOi7XwJFwDk7J5PRTPXZBIAFrHBaZkmR8HvOAFmsVMG4LeQFEAMd81tPnSX9DxZ
- Zjjg==
+ bh=SbwLdnYFbldU/6OiAnqS9qxT8bWYDXg0lrx9mudL7VA=;
+ b=YITaapSk8bmSOwULFrSW0pKa23yGgrrZlcyiDyZfQjwWP4HRfmXSMHnmoN04iWV4Wj
+ xwvEP/pznzlMwxiHnedxTRaYMI0OC8/H67bfwAPC3NUxbjLblr4siIqipqmxiLINlcIe
+ 1Arq62MKCy1OQd3zf+9kW2/mde01fJBcOxwi9X/6h1JJsFur5YDZtcMLRBef6nBx5Pv0
+ kmbRrSlZnvI8+2UGBYNCvD1N3JCG9fJ73ub6icY0FcL4nESagwd7Cy/o/FIlhu4s4yqA
+ bdNIZE3xuEddhb6PLIbHYFV728l8Ktv5QUWeXXcJV/VUABCQx4g12dWZLu377uisGob/
+ wVcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Lt7I1LwZl6Zuc9JO4eKlmm2JT6wwWS/9n7gImdcBKJg=;
- b=msZwdjxViTOr7ectX1qpDGdR+86JbcF9lxXDyntPsUKhqTm7JHRMBvp5PN2S5FbIQd
- EjVlxJ2E8cMYQNoq8O/q1tmUo7Qh6xa1oQD+S4suITnrGCqfL5mKCAKrHyj6grZmaref
- +Efwvr65Ry5dJQoNLY8aqTuNXGoN8TIVzU14kaejVWt3UMyQ10I4ZVcOM91UUGqUaIpM
- 2f3d7tLuAlGbZ3+LsIWXSh2KlbmrRtTOnpb7fc1quj5NBHsAcls1hzXR6lc+m3gXQTdp
- jVClaccgK7L+rKieYYpvm0q/iZxHDI2VIU0iyEFdwPyicdsHaVHxoK1gGESlGhNtMGmS
- OABw==
-X-Gm-Message-State: AOAM530CXFAHZlMZ+M0IA9qjPO0SYbBxAQU7e5BUKV7Ek3OYWEgGYlKU
- x8cz4eBUN+oSghL+IM6ZA5spfA==
-X-Google-Smtp-Source: ABdhPJwX+EgdMZH3GyNQujIIMTQ4p5ENv4rmig56fZf81EUybiEZctMdGt1bgFVlJb9VU8DQW5YfNg==
-X-Received: by 2002:a17:90a:6708:: with SMTP id
- n8mr19542674pjj.35.1608049302513; 
- Tue, 15 Dec 2020 08:21:42 -0800 (PST)
+ bh=SbwLdnYFbldU/6OiAnqS9qxT8bWYDXg0lrx9mudL7VA=;
+ b=miKL+T5Q3CbNysgjuSo8C2kLR+HePmokbyNfkf6Z0QrWr2oOeRzWqd9RXj1+cSGlG9
+ CQSbv2MYAhoWGu2NEQI7tSdkanq6y+jJJ7Pnxxe5Fw/NhCUeLYcPV83Zm2cAQZKd7RWD
+ 5lOjvCGWsfJs24o/wKeVYTvhHxhoLUfUvNXMnWKTFCoaChMgJZSjbJybcl5GEhGUsA64
+ QQKn64YPlNv5wuOYQwcQ+V9lq5alhP+f/sCy+7jehkYXYC6LbsoP5PrOSgT1aggCm3m2
+ ayz4ehWbAaVYXYOiDrPsXkIIHMF2EYPxCM8uR1TmdPchJq2mHo3eV4JHBhPBPr27czNS
+ P5WA==
+X-Gm-Message-State: AOAM532DNS1ul+VWrRVwz8RtsyczTQmayDL23tw9dQjnx78dVbtJf9s4
+ QoKwGYDR36l8mw1XB9RG5Snxig==
+X-Google-Smtp-Source: ABdhPJxFMEWv9c1tRChB5qPUeJA16dgp/bvAnMUmZYVOz+ApP7azWI9qg4rOAkm3GAVHdCExQjmdKA==
+X-Received: by 2002:a17:90a:4e47:: with SMTP id
+ t7mr31479145pjl.13.1608049305885; 
+ Tue, 15 Dec 2020 08:21:45 -0800 (PST)
 Received: from localhost.localdomain ([139.177.225.246])
- by smtp.gmail.com with ESMTPSA id c10sm24273508pfo.159.2020.12.15.08.21.39
+ by smtp.gmail.com with ESMTPSA id c10sm24273508pfo.159.2020.12.15.08.21.42
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 15 Dec 2020 08:21:42 -0800 (PST)
+ Tue, 15 Dec 2020 08:21:45 -0800 (PST)
 From: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
 To: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Xie Yongji <xieyongji@bytedance.com>
-Subject: [RFC PATCH 1/9] vhost-user-fs: Add support for reconnection of
- vhost-user-fs backend
-Date: Wed, 16 Dec 2020 00:21:11 +0800
-Message-Id: <20201215162119.27360-2-zhangjiachen.jaycee@bytedance.com>
+Subject: [RFC PATCH 2/9] vhost: Add vhost-user message types for sending
+ shared memory and file fds
+Date: Wed, 16 Dec 2020 00:21:12 +0800
+Message-Id: <20201215162119.27360-3-zhangjiachen.jaycee@bytedance.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
 References: <20201215162119.27360-1-zhangjiachen.jaycee@bytedance.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
  envelope-from=zhangjiachen.jaycee@bytedance.com;
- helo=mail-pj1-x1044.google.com
+ helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,385 +93,443 @@ Cc: virtio-fs@redhat.com, Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based on vhost-user's inflight I/O tracking infrastructure, we now add
-support for the vhost-user-fs backend (or virtiofs daemon) reconnection.
+This commit adds 4 new vhost-user message types,
+    VHOST_USER_SET_SHM (41),
+    VHOST_USER_SET_FD (42),
+    VHOST_USER_SLAVE_SHM (slave type, 6),
+    VHOST_USER_SLAVE_FD (slave type, 7),
+and a vhost-user protocol feature,
+    VHOST_USER_PROTOCOL_F_MAP_SHMFD (17).
 
-Note that, till this patch, since the state information of virtiofsd is
-not saved, virtiofsd will lose its information after reconnected to
-QEMU. Following patches of this patchset will focus on state persistence
-and restoring, with the help of some new vhost-user message types.
+They can be used by vhost-user devices or backend daemon to persist/restore
+shared memory regions and opened file descriptors to/from QEMU.
 
-Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+This commit first implements 2 handlers for the 2 new slave message types
+(vhost_user_slave_handle_shm and vhost_user_slave_handle_fd), then
+implements some common interfaces for devices to use VHOST_USER_SET_SHM and
+VHOST_USER_SET_FD (vhost_dev_set_shm and vhost_dev_set_fd).
+
+This commit also defines some callback interfaces, which can be registered by
+arbitrary vhost devices. (VhostDevShmOps is for VHOST_USER_SET_SHM and
+VHOST_USER_SLAVE_SHM, and VhostDevFdOps is for VHOST_USER_SET_FD and
+VHOST_USER_SLAVE_FD.)
+
+The following commits will use the 4 new message types  to implement virtiofsd
+crash reconnection.
+
+Signed-off-by: Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
 Signed-off-by: Xie Yongji <xieyongji@bytedance.com>
 ---
- hw/virtio/vhost-user-fs.c         | 218 +++++++++++++++++++++++++++---
- include/hw/virtio/vhost-user-fs.h |   2 +
- 2 files changed, 200 insertions(+), 20 deletions(-)
+ docs/interop/vhost-user.rst       |  41 ++++++++++
+ hw/virtio/vhost-user.c            | 123 ++++++++++++++++++++++++++++++
+ hw/virtio/vhost.c                 |  42 ++++++++++
+ include/hw/virtio/vhost-backend.h |   6 ++
+ include/hw/virtio/vhost.h         |  42 ++++++++++
+ 5 files changed, 254 insertions(+)
 
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index 1bc5d03a00..ce343101d4 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -21,6 +21,7 @@
- #include "qemu/error-report.h"
- #include "hw/virtio/vhost-user-fs.h"
- #include "monitor/monitor.h"
-+#include "sysemu/runstate.h"
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index 988f154144..515c879bd3 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -817,6 +817,7 @@ Protocol features
+   #define VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS 14
+   #define VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS  15
+   #define VHOST_USER_PROTOCOL_F_STATUS               16
++  #define VHOST_USER_PROTOCOL_F_MAP_SHMFD            17
  
- static void vuf_get_config(VirtIODevice *vdev, uint8_t *config)
- {
-@@ -35,7 +36,7 @@ static void vuf_get_config(VirtIODevice *vdev, uint8_t *config)
-     memcpy(config, &fscfg, sizeof(fscfg));
+ Master message types
+ --------------------
+@@ -1330,6 +1331,26 @@ Master message types
+   query the backend for its device status as defined in the Virtio
+   specification.
+ 
++``VHOST_USER_SET_SHM``
++  :id: 41
++  :equivalent ioctl: N/A
++  :master payload: shared memory destription
++  :slave payload: N/A
++
++  When slave has ``VHOST_USER_PROTOCOL_F_MAP_SHMFD`` protocol feature, a
++  memfd is provided in the ancillary data of ``VHOST_USER_SET_SHM`` message,
++  the shared memory destription (ID, size and offset) is also provided in
++  the message.
++
++``VHOST_USER_SET_FD``
++  :id: 42
++  :equivalent ioctl: N/A
++  :master payload: fd destription
++  :slave payload: N/A
++
++  A fd is provided in the ancillary data of ``VHOST_USER_SET_FD`` message,
++  the fd destription (a unique key and an operation flag) is also provided
++  in the message.
+ 
+ Slave message types
+ -------------------
+@@ -1415,6 +1436,26 @@ Slave message types
+ 
+   The state.num field is currently reserved and must be set to 0.
+ 
++``VHOST_USER_SLAVE_SHM``
++  :id: 6
++  :equivalent ioctl: N/A
++  :master payload: shared memory destription
++  :master payload: N/A
++
++  A memfd is provided in the ancillary data of ``VHOST_USER_SLAVE_SHM``
++  message, the shared memory destription (ID, size and offset) is also
++  provided in the message.
++
++``VHOST_USER_SLAVE_FD``
++  :id: 7
++  :equivalent ioctl: N/A
++  :master payload: fd destription
++  :slave payload: N/A
++
++  A fd is provided in the ancillary data of ``VHOST_USER_SLAVE_FD`` message,
++  the fd destription (a unique key and an operation flag) is also provided
++  in the message.
++
+ .. _reply_ack:
+ 
+ VHOST_USER_PROTOCOL_F_REPLY_ACK
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 9c5b4f7fbc..2b5170e921 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -79,6 +79,7 @@ enum VhostUserProtocolFeature {
+     VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
+     /* Feature 14 reserved for VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS. */
+     VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
++    VHOST_USER_PROTOCOL_F_MAP_SHMFD = 17,
+     VHOST_USER_PROTOCOL_F_MAX
+ };
+ 
+@@ -124,6 +125,8 @@ typedef enum VhostUserRequest {
+     VHOST_USER_GET_MAX_MEM_SLOTS = 36,
+     VHOST_USER_ADD_MEM_REG = 37,
+     VHOST_USER_REM_MEM_REG = 38,
++    VHOST_USER_SET_SHM = 41,
++    VHOST_USER_SET_FD = 42,
+     VHOST_USER_MAX
+ } VhostUserRequest;
+ 
+@@ -132,6 +135,10 @@ typedef enum VhostUserSlaveRequest {
+     VHOST_USER_SLAVE_IOTLB_MSG = 1,
+     VHOST_USER_SLAVE_CONFIG_CHANGE_MSG = 2,
+     VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG = 3,
++    VHOST_USER_SLAVE_VRING_CALL = 4,
++    VHOST_USER_SLAVE_VRING_ERR = 5,
++    VHOST_USER_SLAVE_SHM = 6,
++    VHOST_USER_SLAVE_FD = 7,
+     VHOST_USER_SLAVE_MAX
+ }  VhostUserSlaveRequest;
+ 
+@@ -218,6 +225,8 @@ typedef union {
+         VhostUserCryptoSession session;
+         VhostUserVringArea area;
+         VhostUserInflight inflight;
++        VhostUserShm shm;
++        VhostUserFd fdinfo;
+ } VhostUserPayload;
+ 
+ typedef struct VhostUserMsg {
+@@ -1393,6 +1402,36 @@ static int vhost_user_slave_handle_vring_host_notifier(struct vhost_dev *dev,
+     return 0;
  }
  
--static void vuf_start(VirtIODevice *vdev)
-+static int vuf_start(VirtIODevice *vdev)
- {
-     VHostUserFS *fs = VHOST_USER_FS(vdev);
-     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
-@@ -45,13 +46,13 @@ static void vuf_start(VirtIODevice *vdev)
- 
-     if (!k->set_guest_notifiers) {
-         error_report("binding does not support guest notifiers");
--        return;
-+        return -ENOSYS;
-     }
- 
-     ret = vhost_dev_enable_notifiers(&fs->vhost_dev, vdev);
-     if (ret < 0) {
-         error_report("Error enabling host notifiers: %d", -ret);
--        return;
-+        return ret;
-     }
- 
-     ret = k->set_guest_notifiers(qbus->parent, fs->vhost_dev.nvqs, true);
-@@ -61,6 +62,22 @@ static void vuf_start(VirtIODevice *vdev)
-     }
- 
-     fs->vhost_dev.acked_features = vdev->guest_features;
-+
-+    if (!fs->inflight->addr) {
-+        ret = vhost_dev_get_inflight(&fs->vhost_dev, fs->conf.queue_size,
-+                                     fs->inflight);
-+        if (ret < 0) {
-+            error_report("Error get inflight: %d", -ret);
-+            goto err_guest_notifiers;
-+        }
-+    }
-+
-+    ret = vhost_dev_set_inflight(&fs->vhost_dev, fs->inflight);
-+    if (ret < 0) {
-+        error_report("Error set inflight: %d", -ret);
-+        goto err_guest_notifiers;
-+    }
-+
-     ret = vhost_dev_start(&fs->vhost_dev, vdev);
-     if (ret < 0) {
-         error_report("Error starting vhost: %d", -ret);
-@@ -76,12 +93,14 @@ static void vuf_start(VirtIODevice *vdev)
-         vhost_virtqueue_mask(&fs->vhost_dev, vdev, i, false);
-     }
- 
--    return;
-+    return ret;
- 
- err_guest_notifiers:
-     k->set_guest_notifiers(qbus->parent, fs->vhost_dev.nvqs, false);
- err_host_notifiers:
-     vhost_dev_disable_notifiers(&fs->vhost_dev, vdev);
-+
-+    return ret;
- }
- 
- static void vuf_stop(VirtIODevice *vdev)
-@@ -110,17 +129,27 @@ static void vuf_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostUserFS *fs = VHOST_USER_FS(vdev);
-     bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
-+    int ret;
- 
-     if (!vdev->vm_running) {
-         should_start = false;
-     }
- 
-+    if (!fs->connected) {
-+        return;
-+    }
-+
-     if (fs->vhost_dev.started == should_start) {
-         return;
-     }
- 
-     if (should_start) {
--        vuf_start(vdev);
-+        ret = vuf_start(vdev);
-+        if (ret < 0) {
-+            error_report("vhost-user-fs: vhost start failed: %s",
-+                         strerror(-ret));
-+            qemu_chr_fe_disconnect(&fs->conf.chardev);
-+        }
-     } else {
-         vuf_stop(vdev);
-     }
-@@ -140,30 +169,161 @@ static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-      * Not normally called; it's the daemon that handles the queue;
-      * however virtio's cleanup path can call this.
-      */
-+    VHostUserFS *fs = VHOST_USER_FS(vdev);
-+    int i, ret;
-+
-+    if (!vdev->start_on_kick) {
-+        return;
-+    }
-+
-+    if (!fs->connected) {
-+        return;
-+    }
-+
-+    if (fs->vhost_dev.started) {
-+        return;
-+    }
-+
-+    /*
-+     * Some guests kick before setting VIRTIO_CONFIG_S_DRIVER_OK so start
-+     * vhost here instead of waiting for .set_status().
-+     */
-+    ret = vuf_start(vdev);
-+    if (ret < 0) {
-+        error_report("vhost-user-fs: vhost start failed: %s",
-+                     strerror(-ret));
-+        qemu_chr_fe_disconnect(&fs->conf.chardev);
-+        return;
-+    }
-+
-+    /* Kick right away to begin processing requests already in vring */
-+    for (i = 0; i < fs->vhost_dev.nvqs; i++) {
-+        VirtQueue *kick_vq = virtio_get_queue(vdev, i);
-+
-+        if (!virtio_queue_get_desc_addr(vdev, i)) {
-+            continue;
-+        }
-+        event_notifier_set(virtio_queue_get_host_notifier(kick_vq));
-+    }
- }
- 
--static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx,
--                                            bool mask)
-+static bool vuf_guest_notifier_pending(VirtIODevice *vdev, int idx)
- {
-     VHostUserFS *fs = VHOST_USER_FS(vdev);
- 
--    vhost_virtqueue_mask(&fs->vhost_dev, vdev, idx, mask);
-+    return vhost_virtqueue_pending(&fs->vhost_dev, idx);
- }
- 
--static bool vuf_guest_notifier_pending(VirtIODevice *vdev, int idx)
-+static void vuf_reset(VirtIODevice *vdev)
- {
-     VHostUserFS *fs = VHOST_USER_FS(vdev);
-+    vhost_dev_free_inflight(fs->inflight);
-+}
- 
--    return vhost_virtqueue_pending(&fs->vhost_dev, idx);
-+static int vuf_connect(DeviceState *dev)
++static int vhost_user_slave_handle_shm(struct vhost_dev *dev,
++                                       VhostUserShm *shm, int fd)
 +{
-+    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-+    VHostUserFS *fs = VHOST_USER_FS(vdev);
-+    int ret = 0;
++    int ret;
 +
-+    if (fs->connected) {
++    if (!dev->shm_ops) {
++        return -1;
++    }
++
++    if (dev->shm_ops->vhost_dev_slave_shm) {
++        ret = dev->shm_ops->vhost_dev_slave_shm(dev, shm, fd);
++    }
++    return ret;
++}
++
++static int vhost_user_slave_handle_fd(struct vhost_dev *dev,
++                                      VhostUserFd *fdinfo, int fd)
++{
++    int ret;
++    if (!dev->fd_ops) {
++        return -1;
++    }
++
++    if (dev->fd_ops->vhost_dev_slave_fd) {
++        ret = dev->fd_ops->vhost_dev_slave_fd(dev, fdinfo, fd);
++    }
++
++    return ret;
++}
++
+ static void slave_read(void *opaque)
+ {
+     struct vhost_dev *dev = opaque;
+@@ -1471,6 +1510,12 @@ static void slave_read(void *opaque)
+         ret = vhost_user_slave_handle_vring_host_notifier(dev, &payload.area,
+                                                           fd[0]);
+         break;
++    case VHOST_USER_SLAVE_SHM:
++        ret = vhost_user_slave_handle_shm(dev, &payload.shm, fd[0]);
++        break;
++    case VHOST_USER_SLAVE_FD:
++        ret = vhost_user_slave_handle_fd(dev, &payload.fdinfo, fd[0]);
++        break;
+     default:
+         error_report("Received unexpected msg type: %d.", hdr.request);
+         ret = -EINVAL;
+@@ -2325,6 +2370,82 @@ static int vhost_user_set_inflight_fd(struct vhost_dev *dev,
+     return 0;
+ }
+ 
++
++/* The maximum shm number of a vhost-user deviceis MAX_SHM_NUM */
++#define MAX_SHM_NUM 128
++
++static int vhost_user_set_shm(struct vhost_dev *dev)
++{
++    int i;
++    int ret;
++    int memfd;
++    if (!dev->fd_ops) {
++        return -1;
++    }
++
++    if (!virtio_has_feature(dev->protocol_features,
++                            VHOST_USER_PROTOCOL_F_MAP_SHMFD)) {
 +        return 0;
 +    }
-+    fs->connected = true;
 +
-+    /* 1 high prio queue, plus the number configured */
-+    fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
-+    fs->vhost_dev.vqs = g_new0(struct vhost_virtqueue, fs->vhost_dev.nvqs);
-+    ret = vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
-+                         VHOST_BACKEND_TYPE_USER, 0);
-+    if (ret < 0) {
-+        error_report("vhost-user-fs: vhost initialization failed: %s",
-+                     strerror(-ret));
-+        return ret;
-+    }
-+
-+    /* restore vhost state */
-+    if (vdev->started) {
-+        ret = vuf_start(vdev);
-+        if (ret < 0) {
-+            error_report("vhost-user-fs: vhost start failed: %s",
-+                         strerror(-ret));
-+            return ret;
++    if (dev->shm_ops->vhost_dev_shm_info) {
++        for (i = 0; i < MAX_SHM_NUM; i++) {
++            VhostUserMsg msg = {
++                .hdr.request = VHOST_USER_SET_SHM,
++                .hdr.flags = VHOST_USER_VERSION,
++                .hdr.size = sizeof(msg.payload.shm),
++                .payload.shm.id = i,
++            };
++            ret = dev->shm_ops->vhost_dev_shm_info(dev, i,
++                                                   &msg.payload.shm.size,
++                                                   &msg.payload.shm.offset,
++                                                   &memfd);
++            if (ret == -1) {
++                continue;
++            }
++            if (vhost_user_write(dev, &msg, &memfd, 1) < 0) {
++                return -1;
++            }
 +        }
 +    }
 +
 +    return 0;
 +}
 +
-+static void vuf_disconnect(DeviceState *dev)
++static void send_each_fd(gpointer key, gpointer value, gpointer opaque)
 +{
-+    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-+    VHostUserFS *fs = VHOST_USER_FS(vdev);
-+
-+    if (!fs->connected) {
-+        return;
-+    }
-+    fs->connected = false;
-+
-+    if (fs->vhost_dev.started) {
-+        vuf_stop(vdev);
-+    }
-+
-+    vhost_dev_cleanup(&fs->vhost_dev);
++    int fd_key = GPOINTER_TO_INT(key);
++    int fd = GPOINTER_TO_INT(value);
++    struct vhost_dev *dev = opaque;
++    VhostUserMsg msg = {
++        .hdr.request = VHOST_USER_SET_FD,
++        .hdr.flags = VHOST_USER_VERSION,
++        .hdr.size = sizeof(msg.payload.fdinfo),
++    };
++    msg.payload.fdinfo.key = fd_key;
++    vhost_user_write(dev, &msg, &fd, 1);
 +}
 +
-+static void vuf_event(void *opaque, QEMUChrEvent event);
-+
-+static void vuf_chr_closed_bh(void *opaque)
++static int vhost_user_set_fd(struct vhost_dev *dev)
 +{
-+    DeviceState *dev = opaque;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-+    VHostUserFS *fs = VHOST_USER_FS(vdev);
++    int ret;
++    GHashTable *fd_ht = NULL;
 +
-+    vuf_disconnect(dev);
-+    qemu_chr_fe_set_handlers(&fs->conf.chardev, NULL, NULL, vuf_event,
-+            NULL, opaque, NULL, true);
++    if (!dev->fd_ops || !dev->fd_ops->vhost_dev_fd_info) {
++        return -1;
++    }
++
++    ret = dev->fd_ops->vhost_dev_fd_info(dev, &fd_ht);
++    if (ret) {
++        return 0;
++    }
++
++    if (fd_ht != NULL) {
++        g_hash_table_foreach(fd_ht, send_each_fd, dev);
++    }
++    return 0;
 +}
 +
-+static void vuf_event(void *opaque, QEMUChrEvent event)
-+{
-+    DeviceState *dev = opaque;
-+    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-+    VHostUserFS *fs = VHOST_USER_FS(vdev);
-+
-+    switch (event) {
-+    case CHR_EVENT_OPENED:
-+        if (vuf_connect(dev) < 0) {
-+            qemu_chr_fe_disconnect(&fs->conf.chardev);
-+            return;
-+        }
-+        break;
-+    case CHR_EVENT_CLOSED:
-+        /* delay disconnectting according to commit 4bcad76f4c390f */
-+        if (runstate_is_running()) {
-+            AioContext *ctx = qemu_get_current_aio_context();
-+
-+            qemu_chr_fe_set_handlers(&fs->conf.chardev, NULL, NULL, NULL, NULL,
-+                    NULL, NULL, false);
-+            aio_bh_schedule_oneshot(ctx, vuf_chr_closed_bh, opaque);
-+        }
-+        break;
-+    case CHR_EVENT_BREAK:
-+    case CHR_EVENT_MUX_IN:
-+    case CHR_EVENT_MUX_OUT:
-+         /* Ignore */
-+            break;
-+    }
- }
- 
-+
- static void vuf_device_realize(DeviceState *dev, Error **errp)
+ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp)
  {
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VHostUserFS *fs = VHOST_USER_FS(dev);
-     unsigned int i;
-     size_t len;
--    int ret;
-+    Error *err = NULL;
+     if (user->chr) {
+@@ -2387,4 +2508,6 @@ const VhostOps user_ops = {
+         .vhost_backend_mem_section_filter = vhost_user_mem_section_filter,
+         .vhost_get_inflight_fd = vhost_user_get_inflight_fd,
+         .vhost_set_inflight_fd = vhost_user_set_inflight_fd,
++        .vhost_set_shm = vhost_user_set_shm,
++        .vhost_set_fd = vhost_user_set_fd,
+ };
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 614ccc2bcb..9acda4d69f 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1581,6 +1581,18 @@ void vhost_dev_set_config_notifier(struct vhost_dev *hdev,
+     hdev->config_ops = ops;
+ }
  
-     if (!fs->conf.chardev.chr) {
-         error_setg(errp, "missing chardev");
-@@ -217,16 +377,24 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
-         fs->req_vqs[i] = virtio_add_queue(vdev, fs->conf.queue_size, vuf_handle_output);
-     }
- 
--    /* 1 high prio queue, plus the number configured */
--    fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
--    fs->vhost_dev.vqs = g_new0(struct vhost_virtqueue, fs->vhost_dev.nvqs);
--    ret = vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
--                         VHOST_BACKEND_TYPE_USER, 0);
--    if (ret < 0) {
--        error_setg_errno(errp, -ret, "vhost_dev_init failed");
-+    /* init reconnection related variables */
-+    fs->inflight = g_new0(struct vhost_inflight, 1);
-+    fs->connected = false;
++void vhost_dev_set_shm_ops(struct vhost_dev *hdev,
++                           const VhostDevShmOps *ops)
++{
++    hdev->shm_ops = ops;
++}
 +
-+    qemu_chr_fe_set_handlers(&fs->conf.chardev,  NULL, NULL, vuf_event,
-+                                 NULL, (void *)dev, NULL, true);
++void vhost_dev_set_fd_ops(struct vhost_dev *hdev,
++                          const VhostDevFdOps *ops)
++{
++    hdev->fd_ops = ops;
++}
 +
-+reconnect:
-+    if (qemu_chr_fe_wait_connected(&fs->conf.chardev, &err) < 0) {
-+        error_report_err(err);
-         goto err_virtio;
+ void vhost_dev_free_inflight(struct vhost_inflight *inflight)
+ {
+     if (inflight && inflight->addr) {
+@@ -1590,6 +1602,36 @@ void vhost_dev_free_inflight(struct vhost_inflight *inflight)
      }
+ }
  
-+    /* check whether vuf_connect() failed or not */
-+    if (!fs->connected) {
-+        goto reconnect;
++int vhost_dev_set_shm(struct vhost_dev *dev)
++{
++    int r;
++
++    if (dev->vhost_ops->vhost_set_shm) {
++        r = dev->vhost_ops->vhost_set_shm(dev);
++        if (r) {
++            VHOST_OPS_DEBUG("vhost_dev_set_shm failed");
++            return -errno;
++        }
 +    }
 +
-     return;
- 
- err_virtio:
-@@ -236,6 +404,9 @@ err_virtio:
-         virtio_delete_queue(fs->req_vqs[i]);
-     }
-     g_free(fs->req_vqs);
-+    fs->req_vqs = NULL;
-+    g_free(fs->inflight);
-+    fs->inflight = NULL;
-     virtio_cleanup(vdev);
-     g_free(fs->vhost_dev.vqs);
-     return;
-@@ -248,7 +419,7 @@ static void vuf_device_unrealize(DeviceState *dev)
-     int i;
- 
-     /* This will stop vhost backend if appropriate. */
--    vuf_set_status(vdev, 0);
-+    virtio_set_status(vdev, 0);
- 
-     vhost_dev_cleanup(&fs->vhost_dev);
- 
-@@ -259,9 +430,16 @@ static void vuf_device_unrealize(DeviceState *dev)
-         virtio_delete_queue(fs->req_vqs[i]);
-     }
-     g_free(fs->req_vqs);
-+    fs->req_vqs = NULL;
-+    qemu_chr_fe_set_handlers(&fs->conf.chardev,  NULL, NULL, NULL,
-+                             NULL, NULL, NULL, false);
++    return 0;
++}
 +
-     virtio_cleanup(vdev);
-+    vhost_dev_free_inflight(fs->inflight);
-     g_free(fs->vhost_dev.vqs);
-     fs->vhost_dev.vqs = NULL;
-+    g_free(fs->inflight);
-+    fs->inflight = NULL;
- }
++int vhost_dev_set_fd(struct vhost_dev *dev)
++{
++    int r;
++
++    if (dev->vhost_ops->vhost_set_fd) {
++        r = dev->vhost_ops->vhost_set_fd(dev);
++        if (r) {
++            VHOST_OPS_DEBUG("vhost_dev_set_fd failed");
++            return -errno;
++        }
++    }
++
++    return 0;
++}
++
+ static int vhost_dev_resize_inflight(struct vhost_inflight *inflight,
+                                      uint64_t new_size)
+ {
+diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+index 8a6f8e2a7a..af55b62133 100644
+--- a/include/hw/virtio/vhost-backend.h
++++ b/include/hw/virtio/vhost-backend.h
+@@ -125,6 +125,10 @@ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
  
- static const VMStateDescription vuf_vmstate = {
-@@ -291,8 +469,8 @@ static void vuf_class_init(ObjectClass *klass, void *data)
-     vdc->get_features = vuf_get_features;
-     vdc->get_config = vuf_get_config;
-     vdc->set_status = vuf_set_status;
--    vdc->guest_notifier_mask = vuf_guest_notifier_mask;
-     vdc->guest_notifier_pending = vuf_guest_notifier_pending;
-+    vdc->reset = vuf_reset;
- }
+ typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
  
- static const TypeInfo vuf_info = {
-diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
-index 6985752771..9ef47568e7 100644
---- a/include/hw/virtio/vhost-user-fs.h
-+++ b/include/hw/virtio/vhost-user-fs.h
-@@ -39,6 +39,8 @@ struct VHostUserFS {
-     VhostUserState vhost_user;
-     VirtQueue **req_vqs;
-     VirtQueue *hiprio_vq;
-+    struct vhost_inflight *inflight;
-+    bool connected;
++typedef int (*vhost_set_shm_op)(struct vhost_dev *dev);
++
++typedef int (*vhost_set_fd_op)(struct vhost_dev *dev);
++
+ typedef struct VhostOps {
+     VhostBackendType backend_type;
+     vhost_backend_init vhost_backend_init;
+@@ -170,6 +174,8 @@ typedef struct VhostOps {
+     vhost_vq_get_addr_op  vhost_vq_get_addr;
+     vhost_get_device_id_op vhost_get_device_id;
+     vhost_force_iommu_op vhost_force_iommu;
++    vhost_set_shm_op vhost_set_shm;
++    vhost_set_fd_op vhost_set_fd;
+ } VhostOps;
  
-     /*< public >*/
+ extern const VhostOps user_ops;
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 4a8bc75415..c1e6f32d13 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -60,6 +60,42 @@ typedef struct VhostDevConfigOps {
+     int (*vhost_dev_config_notifier)(struct vhost_dev *dev);
+ } VhostDevConfigOps;
+ 
++#ifndef VU_PERSIST_STRUCTS
++#define VU_PERSIST_STRUCTS
++
++typedef struct VhostUserShm {
++    int id;
++    uint64_t size;
++    uint64_t offset;
++} VhostUserShm;
++
++typedef enum VhostUserFdFlag {
++    VU_FD_FLAG_ADD = 0,
++    VU_FD_FLAG_DEL = 1,
++    VU_FD_FLAG_RESTORE = 2,
++    VU_FD_FLAG_MAX
++} VhostUserFdFlag;
++
++typedef struct VhostUserFd {
++    int key;
++    VhostUserFdFlag flag;
++} VhostUserFd;
++
++#endif
++
++typedef struct VhostDevShmOps {
++    int (*vhost_dev_slave_shm)(struct vhost_dev *dev,
++                               struct VhostUserShm *shm, int fd);
++    int (*vhost_dev_shm_info)(struct vhost_dev *dev, int shm_type,
++                              uint64_t *size, uint64_t *offset, int *memfd);
++} VhostDevShmOps;
++
++typedef struct VhostDevFdOps {
++    int (*vhost_dev_slave_fd)(struct vhost_dev *dev,
++                              struct VhostUserFd *fdinfo, int fd);
++    int (*vhost_dev_fd_info)(struct vhost_dev *dev, GHashTable **fd_ht_p);
++} VhostDevFdOps;
++
+ struct vhost_memory;
+ struct vhost_dev {
+     VirtIODevice *vdev;
+@@ -91,6 +127,8 @@ struct vhost_dev {
+     QLIST_HEAD(, vhost_iommu) iommu_list;
+     IOMMUNotifier n;
+     const VhostDevConfigOps *config_ops;
++    const VhostDevShmOps *shm_ops;
++    const VhostDevFdOps *fd_ops;
  };
+ 
+ struct vhost_net {
+@@ -136,6 +174,8 @@ int vhost_dev_set_config(struct vhost_dev *dev, const uint8_t *data,
+  */
+ void vhost_dev_set_config_notifier(struct vhost_dev *dev,
+                                    const VhostDevConfigOps *ops);
++void vhost_dev_set_shm_ops(struct vhost_dev *dev, const VhostDevShmOps *ops);
++void vhost_dev_set_fd_ops(struct vhost_dev *dev, const VhostDevFdOps *ops);
+ 
+ void vhost_dev_reset_inflight(struct vhost_inflight *inflight);
+ void vhost_dev_free_inflight(struct vhost_inflight *inflight);
+@@ -146,4 +186,6 @@ int vhost_dev_set_inflight(struct vhost_dev *dev,
+                            struct vhost_inflight *inflight);
+ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+                            struct vhost_inflight *inflight);
++int vhost_dev_set_shm(struct vhost_dev *dev);
++int vhost_dev_set_fd(struct vhost_dev *dev);
+ #endif
 -- 
 2.20.1
 
