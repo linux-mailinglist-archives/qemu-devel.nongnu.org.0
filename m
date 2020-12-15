@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB0E2DAE4D
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 14:52:54 +0100 (CET)
-Received: from localhost ([::1]:34876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF33A2DAE58
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 14:56:18 +0100 (CET)
+Received: from localhost ([::1]:45336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpAl3-0003kI-GO
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 08:52:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56560)
+	id 1kpAoL-00089j-RG
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 08:56:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kpAgx-0008IB-Pf
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 08:48:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60386)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kpAh1-0008QN-47
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 08:48:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kpAgv-0007HR-8E
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 08:48:39 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kpAgz-0007Il-Ga
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 08:48:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608040116;
+ s=mimecast20190719; t=1608040120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tnFp4mvBEfl1hzYle8wjhfM0GH2mdsC38C/9Z5PtH0I=;
- b=AQEgkSWfzR9LfQMmt21eoQpCzgYKZ5og6Ednl10Uy/fVvsS3IgZ4tlm7rEAr+H33La7Y/O
- /fdMF4V0+wRXC4jGS4FotmoYXip9O0qPQVkHOQV2UVdEHTKM7n5APDPnBpiu+EgHnvCcx/
- pFZ1sQ+msT8PzfRyVekKaklZwvPEG/Y=
+ bh=OGkz30TH9slFy1KJ3peEryg0Ol9LvAKDwVMRM/P3o0k=;
+ b=MCCbDs978xVtX1BQ1JuFiB4CcXkP6XhPFU3FgrUTX7ztBihVsmTkeu2sOjVbAj2ACML6k1
+ IK9WhOhLyxqtFGzT5kLrJiY4sbKjL7p6RxO7SrpHYZ/1mB4F0fEjzIte7JrazEmzIf+jR3
+ rjXNqXJpmbapqYNNGGzODQl9qI104sc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-ZUbPn5jvMsGPafvqV49UsA-1; Tue, 15 Dec 2020 08:48:34 -0500
-X-MC-Unique: ZUbPn5jvMsGPafvqV49UsA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-31-5Jf_s5oqMvqZwzHwoMViQA-1; Tue, 15 Dec 2020 08:48:36 -0500
+X-MC-Unique: 5Jf_s5oqMvqZwzHwoMViQA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0AFC18C8C01
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 13:48:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 904ED107ACE4;
+ Tue, 15 Dec 2020 13:48:35 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
  [10.36.112.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8E29D6267A;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B425B19C44;
  Tue, 15 Dec 2020 13:48:28 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B01629D9B; Tue, 15 Dec 2020 14:48:26 +0100 (CET)
+ id B908B9D9C; Tue, 15 Dec 2020 14:48:26 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] cs4231: Get rid of empty property array
-Date: Tue, 15 Dec 2020 14:48:24 +0100
-Message-Id: <20201215134826.5504-6-kraxel@redhat.com>
+Subject: [PULL 6/7] audio: Simplify audio_bug() removing old code
+Date: Tue, 15 Dec 2020 14:48:25 +0100
+Message-Id: <20201215134826.5504-7-kraxel@redhat.com>
 In-Reply-To: <20201215134826.5504-1-kraxel@redhat.com>
 References: <20201215134826.5504-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,45 +80,67 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Gerd Hoffmann <gerd@kraxel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eduardo Habkost <ehabkost@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-An empty props array is unnecessary, we can just not call
-device_class_set_props().
+This code (introduced in commit 1d14ffa97ea, Oct 2005)
+is likely unused since years. Time to remove it.  If
+the condition is true, simply call abort().
 
+Suggested-by: Gerd Hoffmann <gerd@kraxel.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-id: 20201211220529.2290218-2-ehabkost@redhat.com
+Message-id: 20201210223506.263709-1-philmd@redhat.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/audio/cs4231.c | 5 -----
- 1 file changed, 5 deletions(-)
+ audio/audio.c | 19 +------------------
+ 1 file changed, 1 insertion(+), 18 deletions(-)
 
-diff --git a/hw/audio/cs4231.c b/hw/audio/cs4231.c
-index 8e9554ce9bcd..209c05a0a0d5 100644
---- a/hw/audio/cs4231.c
-+++ b/hw/audio/cs4231.c
-@@ -160,17 +160,12 @@ static void cs4231_init(Object *obj)
-     sysbus_init_irq(dev, &s->irq);
- }
+diff --git a/audio/audio.c b/audio/audio.c
+index a21340927033..0fdb808d6a57 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -104,9 +104,6 @@ const struct mixeng_volume nominal_volume = {
  
--static Property cs4231_properties[] = {
--    {.name = NULL},
--};
--
- static void cs4231_class_init(ObjectClass *klass, void *data)
+ static bool legacy_config = true;
+ 
+-#ifdef AUDIO_IS_FLAWLESS_AND_NO_CHECKS_ARE_REQURIED
+-#error No its not
+-#else
+ int audio_bug (const char *funcname, int cond)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
+     if (cond) {
+@@ -119,25 +116,11 @@ int audio_bug (const char *funcname, int cond)
+             AUD_log (NULL, "I am sorry\n");
+         }
+         AUD_log (NULL, "Context:\n");
+-
+-#if defined AUDIO_BREAKPOINT_ON_BUG
+-#  if defined HOST_I386
+-#    if defined __GNUC__
+-        __asm__ ("int3");
+-#    elif defined _MSC_VER
+-        _asm _emit 0xcc;
+-#    else
+-        abort ();
+-#    endif
+-#  else
+-        abort ();
+-#  endif
+-#endif
++        abort();
+     }
  
-     dc->reset = cs_reset;
-     dc->vmsd = &vmstate_cs4231;
--    device_class_set_props(dc, cs4231_properties);
+     return cond;
  }
+-#endif
  
- static const TypeInfo cs4231_info = {
+ static inline int audio_bits_to_index (int bits)
+ {
 -- 
 2.27.0
 
