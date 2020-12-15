@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52B532DB64C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 23:07:22 +0100 (CET)
-Received: from localhost ([::1]:60516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DB72DB668
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 23:17:45 +0100 (CET)
+Received: from localhost ([::1]:42446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpITY-0003O6-SK
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 17:07:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47716)
+	id 1kpIdc-00030q-BL
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 17:17:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kpISU-0002gk-Qc
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:06:14 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33602)
+ id 1kpIcE-0002L6-RI
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:16:18 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kpISS-0006QK-SL
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:06:14 -0500
+ id 1kpIcD-0000go-26
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:16:18 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kpISQ-00048E-UU
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 22:06:10 +0000
+ id 1kpIcA-0006Az-Mx
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 22:16:14 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E58C82E8138
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 22:06:10 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A44DF2E813C
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 22:16:14 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 15 Dec 2020 21:58:45 -0000
-From: Ryutaroh Matsumoto <1907952@bugs.launchpad.net>
+Date: Tue, 15 Dec 2020 22:06:31 -0000
+From: =?utf-8?q?Andreas_K=2E_H=C3=BCttel?= <1906193@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
- status=Unknown; importance=Unknown; assignee=None; 
-X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: emojifreak
-X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
-X-Launchpad-Bug-Modifier: Ryutaroh Matsumoto (emojifreak)
-References: <160786029328.5567.5976635715445692881.malonedeb@gac.canonical.com>
-Message-Id: <160806952507.15491.10427364702602349989.malone@chaenomeles.canonical.com>
-Subject: [Bug 1907952] Re: qemu-system-aarch64: with "-display gtk" arrow keys
- are received as just ^[ on ttyAMA0
+X-Launchpad-Bug-Commenters: dilfridge
+X-Launchpad-Bug-Reporter: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
+ =?utf-8?q?=29?=
+References: <160669515259.21126.12178770886175022752.malonedeb@gac.canonical.com>
+Message-Id: <160806999180.15679.10246032395769282734.malone@chaenomeles.canonical.com>
+Subject: [Bug 1906193] Re: riscv32 user mode emulation: fork return values
+ broken
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 907671c0092af57f29879c7e146386e1b03c2d8a
+X-Launchpad-Hash: a31d9b02ac1d1aaf9234363167884b9e7989f1b5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,92 +72,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907952 <1907952@bugs.launchpad.net>
+Reply-To: Bug 1906193 <1906193@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An easier way to reproduce the symptom was provided by Alper Nebi Yasak at
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D976808#88
+I can confirm that the same binary works fine with qemu system
+emulation:
 
-qemu-system-aarch64 \
-    -display gtk -enable-kvm -machine virt -cpu host -m 1G -smp 2 \
-    -kernel /boot/vmlinuz -initrd /boot/initrd.img \
-    -append "break console=3DttyAMA0"
+(riscv-ilp32 qemu) (none) /tmp # ./wait-test-short =
 
-Then, run cat on the initramfs shell and see arrow keys result in ^[ .
-For x86_64, it's console=3DttyS0 and ^[[A etc.
+(riscv-ilp32 qemu) (none) /tmp #
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907952
+https://bugs.launchpad.net/bugs/1906193
 
 Title:
-  qemu-system-aarch64: with "-display gtk" arrow keys are received as
-  just ^[ on ttyAMA0
+  riscv32 user mode emulation: fork return values broken
 
 Status in QEMU:
   New
-Status in qemu package in Debian:
-  Unknown
 
 Bug description:
-  I originally observed this on Debian packaged qemu 5.2 at
-  https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D976808
+  When running in a chroot with riscv32 (on x86_64; qemu git master as
+  of today):
 
-  Today I checked out the latest git source at
-  Sun, 13 Dec 2020 19:21:09 +0900
-  and configured the source as follows:
+  The following short program forks; the child immediately returns with
+  exit(42). The parent checks for the return value - and obtains 40!
 
-  ./configure --prefix=3D/usr --sysconfdir=3D/etc --libexecdir=3D/usr/lib/q=
-emu \
-   --localstatedir=3D/var --disable-blobs --disable-strip --localstatedir=
-=3D/var \
-   --libdir=3D/usr/lib/aarch64-linux-gnu \ =
+  gcc-10.2
 
-   --firmwarepath=3D/usr/share/qemu:/usr/share/seabios:/usr/lib/ipxe/qemu \ =
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  #include <stdlib.h>
+  #include <unistd.h>
+  #include <stdio.h>
+  #include <sys/wait.h>
 
-   --target-list=3Daarch64-softmmu,arm-softmmu --disable-werror \ =
+  main(c, v)
+       int c;
+       char **v;
+  {
+    pid_t pid, p;
+    int s, i, n;
 
-   --disable-user  --enable-gtk --enable-vnc
-  then executed "make" on an ARM64 (not an x86_64) host,
-  running the latest Debian testing.
+    s =3D 0;
+    pid =3D fork();
+    if (pid =3D=3D 0)
+      exit(42);
 
-  I did the following commands on an arm64 host with the Debian Installer A=
-lpha 3 at
-  https://cdimage.debian.org/cdimage/bullseye_di_alpha3/arm64/iso-cd/debian=
--bullseye-DI-alpha3-arm64-netinst.iso
+    /* wait for the process */
+    p =3D wait(&s);
+    if (p !=3D pid)
+      exit (255);
 
-  #!/bin/sh
+    if (WIFEXITED(s))
+    {
+       int r=3DWEXITSTATUS(s);
+       if (r!=3D42) {
+        printf("child wants to return %i (0x%X), parent received %i (0x%X),=
+ difference %i\n",42,42,r,r,r-42);
+       }
+    }
+  }
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-  ARCH=3Darm64
-  IMAGE=3D`pwd`/qemu-disk-${ARCH}.qcow2
-  CDROM=3D`pwd`/debian-bullseye-DI-alpha3-${ARCH}-netinst.iso
-  rm -f $IMAGE
-  qemu-img create -f qcow2 -o compat=3D1.1 -o lazy_refcounts=3Don -o preall=
-ocation=3Doff $IMAGE 20G
-  cd /var/tmp
-  cp /usr/share/AAVMF/AAVMF_VARS.fd .
-  $HOME/qemu-git/qemu/build/qemu-system-aarch64 \
-      -display gtk -enable-kvm -machine virt -cpu host -m 3072 -smp 2\
-      -net nic,model=3Dvirtio -net user -object rng-random,filename=3D/dev/=
-urandom,id=3Drng0 \
-      -device virtio-rng-pci,rng=3Drng0,id=3Drng-device0 \
-      -drive if=3Dvirtio,file=3D${IMAGE},index=3D0,format=3Dqcow2,discard=
-=3Dunmap,detect-zeroes=3Dunmap,media=3Ddisk \
-      -drive if=3Dvirtio,file=3D${CDROM},index=3D1,format=3Draw,readonly=3D=
-on,media=3Dcdrom \
-      -drive if=3Dpflash,format=3Draw,unit=3D0,file=3D/usr/share/AAVMF/AAVM=
-F_CODE.fd,readonly=3Don \
-      -drive if=3Dpflash,format=3Draw,unit=3D1,file=3D`pwd`/AAVMF_VARS.fd
+  (riscv-ilp32 chroot) farino /tmp # ./wait-test-short =
 
-  Then 4 arrow keys on the physical keyboard are received as just "^[".
+  child wants to return 42 (0x2A), parent received 40 (0x28), difference -2
 
-  This symptom was not observed on qemu-system-x86_64.
-  This symptom was not observed with virt-manager on my arm64 host, neither.
-  This seems unique to -display gtk of qemu-system-aarch64.
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  (riscv-ilp32 chroot) farino /tmp # gcc --version
+  gcc (Gentoo 10.2.0-r1 p2) 10.2.0
+  Copyright (C) 2020 Free Software Foundation, Inc.
+  Dies ist freie Software; die Kopierbedingungen stehen in den Quellen. Es
+  gibt KEINE Garantie; auch nicht f=C3=BCr MARKTG=C3=84NGIGKEIT oder F=C3=
+=9CR SPEZIELLE ZWECKE.
+
+  (riscv-ilp32 chroot) farino /tmp # ld --version
+  GNU ld (Gentoo 2.34 p6) 2.34.0
+  Copyright (C) 2020 Free Software Foundation, Inc.
+  This program is free software; you may redistribute it under the terms of
+  the GNU General Public License version 3 or (at your option) a later vers=
+ion.
+  This program has absolutely no warranty.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907952/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1906193/+subscriptions
 
