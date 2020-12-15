@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474FF2DB6D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 00:02:55 +0100 (CET)
-Received: from localhost ([::1]:50474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457A02DB6D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 00:02:13 +0100 (CET)
+Received: from localhost ([::1]:48678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpJLK-0007ju-9q
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 18:02:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43754)
+	id 1kpJKe-0006UP-As
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 18:02:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpJGp-0002mR-0e
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:58:15 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:43463)
+ id 1kpJGu-0002qt-DF
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:58:20 -0500
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:43328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpJGm-0003Zn-V9
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:58:14 -0500
-Received: by mail-ej1-x631.google.com with SMTP id jx16so30020445ejb.10
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 14:58:12 -0800 (PST)
+ id 1kpJGs-0003c2-Q4
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:58:20 -0500
+Received: by mail-ed1-x543.google.com with SMTP id q16so22793563edv.10
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 14:58:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nIvvusNJm60WWqveYR8Cj3EE3xSaf0EEqwOHmNBN40o=;
- b=rE1wg4s+BQFCEk8G4qW/EZvLlvRn6pVxQO3rKh4VPhBKrCVG/5yqEwoiblwqOAVg+s
- 1jKsfSERkOnk3qfv8sVj922EN1A+gxv1DwbsZUIgZHOBv+BNMQu+6ohBNFP3RnovvOj9
- zdyVuynSE1umCq28i/rSVXS5jcEkECpHS2kohBMsXcdYTT8lV+AEga+bmJkpBPnSyWEl
- y3VaMmRFsjzHzim7xhbqmXib/rnEdeYVp7dPdzpjnLSgh7ViyON5jFRke9Pf8B1deDuj
- z0dFvMtjfL3QZy1GJxE5hhfYq/jO+10+I6BjV0/xVVDbTYHvVBr90l4FPpqIMxnY9PBn
- 5atQ==
+ bh=gfAK/5l8oepBv1m9fLlqhZZJOh/VztlrVhqk0ziS8jY=;
+ b=FdLu6d7skwAkLOlWHhnw6CiK9nTmqSFMQ2+f3bQKkxDBeFfIIsep4RJ4VxOZ3Yy17p
+ SGAek2pKHRsx1RZHfY/x/wHRH8f30dESCnX3vmr3QoIk/GXgq/tytDYV8D8tZQHHpEHP
+ 6sl0NKCEuQJoTlEzGwITjQQI3hnDr8e7FSckAnVzfged+2Dv0dtlSlYKPgLd5FLt2fWf
+ icL46mdmQhgYhLDRRRg7AFhiPKLdBTdLWsfb0nEPikLlNnRLt8ANtxLEPeS6IFORnamV
+ Bdd+ZmX04Wlh5Fbu/j7W2Cfhz/g6WuGHhj4JYiT4yzvSx92fmBLqgGw3a5ChUkktz1gP
+ OXXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nIvvusNJm60WWqveYR8Cj3EE3xSaf0EEqwOHmNBN40o=;
- b=XQ3ti8faERC7cxCF4lx/KBaS5OFu5rnvciOOD2YK0rlIOryScdVEYuHUPEfOOeDmYQ
- poJp6JB33uF3Dhd8mD1o70v0/YIOe1JYIAeZ/RTHd9ioPCI8QDetfWGcPQouLmM4/Iqg
- Fyf0bZns/uOLMkhfKj4TornCA8ukWJ4RN/qV3ZZ5hkTTu3K6wIhIEySyGp/hIMjmIEEA
- fXEdpxByaCiUc8MKX8HsJoBhZ2pXpT7t7jwzhDYoFne82Eezu0owQHVXTOpvKmzk9pe1
- qfOowU8KXDy+I1HldufA0BuDaK6sLMs48X1mysPCVjnzwss45WVYslolOr6fVXcJDSF1
- 4/fg==
-X-Gm-Message-State: AOAM530PvitvAq/ClN3vLNV8J5qrKe6vD6afvQtk0bRF+ZMqE2m9rAQ9
- fKeDtLnxR25QhEMpyXLlQgQ=
-X-Google-Smtp-Source: ABdhPJyJfKCLWMingZozHIiLHLT59KgzZqGQr2a+zB0lXaXEIGcuoBun5nXBUlkaB1EB0fOznCztLA==
-X-Received: by 2002:a17:906:2c54:: with SMTP id
- f20mr4559736ejh.318.1608073091601; 
- Tue, 15 Dec 2020 14:58:11 -0800 (PST)
+ bh=gfAK/5l8oepBv1m9fLlqhZZJOh/VztlrVhqk0ziS8jY=;
+ b=T+RQYOA2uKlyD8Bo+lOr1Sm3TOwZ6SmPnyoSbr/C9sBuP/xQoZqGpJSexPC+PKb4m5
+ 0uqeWjCyYHL2+y3BGi9nyF+3iQUAcJD9E4idXyNwxoczgQiF1omhuYsEq5qQOsWGq2da
+ YxHGjTBlRJrD8+iKRk+n7JIW6GHuA4UJv23iQSzVvv+1vWKd/8HWv4vHSPYsYvZhitPX
+ 8vqHqgW+uQBRelX/tuVbSED5tNIn8FF3BILs8Rg/HjyGsjcSDY+TW3ILIGOU+n7hbQac
+ uM115AcvzUJdNmFLa11L6dgHnZBhupxhQBVbNO6zT4kxoOYemD41VlbBcOGoo2kvTUFP
+ 7b/A==
+X-Gm-Message-State: AOAM533iXRYXd8OknYNgljA1dQleVgqWQnbhZT/VSil9zJPClGcuUOO/
+ w8mz0ItsmPHrmQc4nWDr7Qs=
+X-Google-Smtp-Source: ABdhPJzMV5ebQ8WKtlqOKKPT4HVLHg+DJtP96dH2LzWIIc/qEDJS0DRMCBuv96y66yLjeOVyXmrpnQ==
+X-Received: by 2002:a05:6402:30ac:: with SMTP id
+ df12mr32562213edb.175.1608073097456; 
+ Tue, 15 Dec 2020 14:58:17 -0800 (PST)
 Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id f20sm8514210edx.92.2020.12.15.14.58.10
+ by smtp.gmail.com with ESMTPSA id g18sm19135013edt.2.2020.12.15.14.58.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 14:58:10 -0800 (PST)
+ Tue, 15 Dec 2020 14:58:16 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Richard Henderson <richard.henderson@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 02/24] target/mips/translate: Expose check_mips_64() to
- 32-bit mode
-Date: Tue, 15 Dec 2020 23:57:35 +0100
-Message-Id: <20201215225757.764263-3-f4bug@amsat.org>
+Subject: [PATCH v2 03/24] target/mips/cpu: Introduce isa_rel6_available()
+ helper
+Date: Tue, 15 Dec 2020 23:57:36 +0100
+Message-Id: <20201215225757.764263-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201215225757.764263-1-f4bug@amsat.org>
 References: <20201215225757.764263-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,58 +96,46 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To allow compiling 64-bit specific translation code more
-generically (and removing #ifdef'ry), allow compiling
-check_mips_64() on 32-bit targets.
-If ever called on 32-bit, we obviously emit a reserved
-instruction exception.
+Introduce the isa_rel6_available() helper to check if the
+CPU supports the Release 6 ISA.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/translate.h | 2 --
- target/mips/translate.c | 8 +++-----
- 2 files changed, 3 insertions(+), 7 deletions(-)
+ target/mips/cpu.h | 1 +
+ target/mips/cpu.c | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/target/mips/translate.h b/target/mips/translate.h
-index a9eab69249f..942d803476c 100644
---- a/target/mips/translate.h
-+++ b/target/mips/translate.h
-@@ -127,9 +127,7 @@ void generate_exception_err(DisasContext *ctx, int excp, int err);
- void generate_exception_end(DisasContext *ctx, int excp);
- void gen_reserved_instruction(DisasContext *ctx);
- void check_insn(DisasContext *ctx, uint64_t flags);
--#ifdef TARGET_MIPS64
- void check_mips_64(DisasContext *ctx);
--#endif
- void check_cp1_enabled(DisasContext *ctx);
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 3ac21d0e9c0..c6a556efad5 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -1289,6 +1289,7 @@ int cpu_mips_signal_handler(int host_signum, void *pinfo, void *puc);
+ bool cpu_type_supports_cps_smp(const char *cpu_type);
+ bool cpu_supports_isa(const CPUMIPSState *env, uint64_t isa_mask);
+ bool cpu_type_supports_isa(const char *cpu_type, uint64_t isa);
++bool isa_rel6_available(const CPUMIPSState *env);
  
- void gen_base_offset_addr(DisasContext *ctx, TCGv addr, int base, int offset);
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 5c62b32c6ae..af543d1f375 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -2972,18 +2972,16 @@ static inline void check_ps(DisasContext *ctx)
-     check_cp1_64bitmode(ctx);
+ /* Check presence of multi-threading ASE implementation */
+ static inline bool ase_mt_available(CPUMIPSState *env)
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 4191c0741f4..9f082518076 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -789,6 +789,14 @@ bool cpu_supports_isa(const CPUMIPSState *env, uint64_t isa_mask)
+     return (env->cpu_model->insn_flags & isa_mask) != 0;
  }
  
--#ifdef TARGET_MIPS64
- /*
-- * This code generates a "reserved instruction" exception if 64-bit
-- * instructions are not enabled.
-+ * This code generates a "reserved instruction" exception if cpu is not
-+ * 64-bit or 64-bit instructions are not enabled.
-  */
- void check_mips_64(DisasContext *ctx)
++bool isa_rel6_available(const CPUMIPSState *env)
++{
++    if (TARGET_LONG_BITS == 64) {
++        return cpu_supports_isa(env, ISA_MIPS64R6);
++    }
++    return cpu_supports_isa(env, ISA_MIPS32R6);
++}
++
+ bool cpu_type_supports_isa(const char *cpu_type, uint64_t isa)
  {
--    if (unlikely(!(ctx->hflags & MIPS_HFLAG_64))) {
-+    if (unlikely((TARGET_LONG_BITS != 64) || !(ctx->hflags & MIPS_HFLAG_64))) {
-         gen_reserved_instruction(ctx);
-     }
- }
--#endif
- 
- #ifndef CONFIG_USER_ONLY
- static inline void check_mvh(DisasContext *ctx)
+     const MIPSCPUClass *mcc = MIPS_CPU_CLASS(object_class_by_name(cpu_type));
 -- 
 2.26.2
 
