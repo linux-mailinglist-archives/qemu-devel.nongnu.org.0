@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78822DAB78
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 11:54:58 +0100 (CET)
-Received: from localhost ([::1]:46322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6EF92DAB82
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 11:56:32 +0100 (CET)
+Received: from localhost ([::1]:48654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp7ys-0005uz-1E
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 05:54:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49040)
+	id 1kp80N-0006yK-VF
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 05:56:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1kp7xk-00058P-7z
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 05:53:48 -0500
-Received: from mail-pj1-x1042.google.com ([2607:f8b0:4864:20::1042]:36930)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1kp7xg-0007gN-NV
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 05:53:48 -0500
-Received: by mail-pj1-x1042.google.com with SMTP id b5so7180160pjk.2
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 02:53:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=smartx-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=6c/4ZulLKq+u38VLp1ymzM4cIJt61r6DTsd1rX/zQ/0=;
- b=F2msXA6cWFcegC3k1QareVmAE7Q4J6aLAyH9PMcZQBhyxluyhxDfJk3IN/csDWO2oe
- TtaTN9vMv9swRYpCOZLI6Wc4Pbn68uAmeTWAPTGlrz6y2OnjjqtMY8wdooeowfqE+fE4
- 2nGc5NBuXYHuXpj7HdSNmrg+JKixyKaLvUPveVz6nVdU9AQ/oNdV3gTlIFXGC3kTRkRv
- /QprwRMK2CaF0kCpheKQcq/lmKpF0JNYvB0pHPB71lIP6TPFIw2Gc3cgpAO7Qd3yKglP
- m/dCoxCT283iVCfZQvxq9j0y3mDGFz+wB+PjBYBRZXPLoC6TtI+6KI+VKKuLNiQqbDFP
- zTRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=6c/4ZulLKq+u38VLp1ymzM4cIJt61r6DTsd1rX/zQ/0=;
- b=GwsvA00sCsbDZBMFUltaoNKAmzBYPRdK3hpBNjnMe1MWIbgqrvFEpmcTO8f3WltZZe
- 5Uj7q2zV6f/iHxX2lseADU75EBs89w+P985W1+PASAPhH26aCGwutrsvLAF1aiI2FCU8
- XOR7BTcw8eyuUJAS6rkf89KnatTYqW7EJhtZA6nP93wNNC25p5FUwAhajcZRI+NBaZlA
- DXjqA6bGba+2tbReFNxUv4lmgqxH3+S2ucRoCpqW5ZXmjHqORDFsUhTMrfLshldykF6x
- lZLh/Em8u5GDssbN+grganX5XA3Mh4AvuUBLtalHwg5vsKJNiqJMhR6mbTH0R3T7HntQ
- KU1w==
-X-Gm-Message-State: AOAM530VFHRWu3tNlvy1jc0GgCl5sh619R0qJ1JfBiZMEH6hqYsCOAOE
- qaNl6yyGPpr/DrZ6xphPW/FDMw==
-X-Google-Smtp-Source: ABdhPJzgaAPIPEdCrxfOL0G3pn2tx8zz6eCxIXVUZluAukSC+ddsdanzA0zn+D2cxhkHIL+XVQC31g==
-X-Received: by 2002:a17:90b:78d:: with SMTP id
- l13mr29698100pjz.51.1608029623035; 
- Tue, 15 Dec 2020 02:53:43 -0800 (PST)
-Received: from 64-217.abest.vip ([129.227.156.197])
- by smtp.gmail.com with ESMTPSA id a11sm24371484pfr.198.2020.12.15.02.53.39
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 15 Dec 2020 02:53:42 -0800 (PST)
-From: Li Feng <fengli@smartx.com>
-To: berrange@redhat.com, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org (open list:raw),
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH v5] file-posix: detect the lock using the real file
-Date: Tue, 15 Dec 2020 18:53:56 +0800
-Message-Id: <1608029636-31442-1-git-send-email-fengli@smartx.com>
-X-Mailer: git-send-email 1.8.3.1
-Received-SPF: none client-ip=2607:f8b0:4864:20::1042;
- envelope-from=fengli@smartx.com; helo=mail-pj1-x1042.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kp7zT-0006Pc-Jd
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 05:55:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39505)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kp7zR-0008FY-UU
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 05:55:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608029733;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JkPKR0FcyTV+5F3Gcpf/gGYDOdvuo/odOCZbzJgKLTo=;
+ b=biiCAwLCghjym/MNZqzCcL3cdXOZ+K88I1T05nsFw2ljU2VeFmVR+fj3iE2+hrfbachHMZ
+ idivpV0uE34291hzPFVcGSMVQqxoNcR5TpbJiD7vWv1tjDLUH+TwKzgvHo4W1I6H36WzU0
+ OABVnvKZ/eVn7Ri77Tx/MJ4U0YcheQs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-RIld1dvKPWmPHHdn3PFIiA-1; Tue, 15 Dec 2020 05:55:22 -0500
+X-MC-Unique: RIld1dvKPWmPHHdn3PFIiA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96BD9801ABA;
+ Tue, 15 Dec 2020 10:55:21 +0000 (UTC)
+Received: from redhat.com (ovpn-113-23.ams2.redhat.com [10.36.113.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6772F5D9D3;
+ Tue, 15 Dec 2020 10:55:19 +0000 (UTC)
+Date: Tue, 15 Dec 2020 10:55:16 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Li Feng <fengli@smartx.com>
+Subject: Re: [PATCH v5] file-posix: detect the lock using the real file
+Message-ID: <20201215105516.GI121272@redhat.com>
+References: <1608029636-31442-1-git-send-email-fengli@smartx.com>
+MIME-Version: 1.0
+In-Reply-To: <1608029636-31442-1-git-send-email-fengli@smartx.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,173 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lifeng1519@gmail.com, Li Feng <fengli@smartx.com>, kyle@smartx.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, lifeng1519@gmail.com,
+ "open list:raw" <qemu-block@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, kyle@smartx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch addresses this issue:
-When accessing a volume on an NFS filesystem without supporting the file lock,
-tools, like qemu-img, will complain "Failed to lock byte 100".
+On Tue, Dec 15, 2020 at 06:53:56PM +0800, Li Feng wrote:
+> This patch addresses this issue:
+> When accessing a volume on an NFS filesystem without supporting the file lock,
+> tools, like qemu-img, will complain "Failed to lock byte 100".
+> 
+> In the original code, the qemu_has_ofd_lock will test the lock on the
+> "/dev/null" pseudo-file. Actually, the file.locking is per-drive property,
+> which depends on the underlay filesystem.
+> 
+> In this patch, add a new 'qemu_has_file_lock' to detect whether the
+> file supports the file lock. And disable the lock when the underlay file
+> system doesn't support locks.
+> 
+> Signed-off-by: Li Feng <fengli@smartx.com>
+> ---
+> v5: simplify the code.
+> v4: use the fd as the qemu_has_file_lock argument.
+> v3: don't call the qemu_has_ofd_lock, use a new function instead.
+> v2: remove the refactoring.
+> ---
+>  block/file-posix.c   | 61 +++++++++++++++++++++++---------------------
+>  include/qemu/osdep.h |  1 +
+>  util/osdep.c         | 14 ++++++++++
+>  3 files changed, 47 insertions(+), 29 deletions(-)
 
-In the original code, the qemu_has_ofd_lock will test the lock on the
-"/dev/null" pseudo-file. Actually, the file.locking is per-drive property,
-which depends on the underlay filesystem.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-In this patch, add a new 'qemu_has_file_lock' to detect whether the
-file supports the file lock. And disable the lock when the underlay file
-system doesn't support locks.
 
-Signed-off-by: Li Feng <fengli@smartx.com>
----
-v5: simplify the code.
-v4: use the fd as the qemu_has_file_lock argument.
-v3: don't call the qemu_has_ofd_lock, use a new function instead.
-v2: remove the refactoring.
----
- block/file-posix.c   | 61 +++++++++++++++++++++++---------------------
- include/qemu/osdep.h |  1 +
- util/osdep.c         | 14 ++++++++++
- 3 files changed, 47 insertions(+), 29 deletions(-)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 806764f7e3..4e00111031 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -584,6 +584,21 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-     s->use_linux_io_uring = (aio == BLOCKDEV_AIO_OPTIONS_IO_URING);
- #endif
- 
-+    s->open_flags = open_flags;
-+    raw_parse_flags(bdrv_flags, &s->open_flags, false);
-+
-+    s->fd = -1;
-+    fd = qemu_open(filename, s->open_flags, errp);
-+    ret = fd < 0 ? -errno : 0;
-+
-+    if (ret < 0) {
-+        if (ret == -EROFS) {
-+            ret = -EACCES;
-+        }
-+        goto fail;
-+    }
-+    s->fd = fd;
-+
-     locking = qapi_enum_parse(&OnOffAuto_lookup,
-                               qemu_opt_get(opts, "locking"),
-                               ON_OFF_AUTO_AUTO, &local_err);
-@@ -606,7 +621,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-         s->use_lock = false;
-         break;
-     case ON_OFF_AUTO_AUTO:
--        s->use_lock = qemu_has_ofd_lock();
-+        s->use_lock = qemu_has_file_lock(s->fd) && qemu_has_ofd_lock();
-         break;
-     default:
-         abort();
-@@ -625,22 +640,6 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-     s->drop_cache = qemu_opt_get_bool(opts, "drop-cache", true);
-     s->check_cache_dropped = qemu_opt_get_bool(opts, "x-check-cache-dropped",
-                                                false);
--
--    s->open_flags = open_flags;
--    raw_parse_flags(bdrv_flags, &s->open_flags, false);
--
--    s->fd = -1;
--    fd = qemu_open(filename, s->open_flags, errp);
--    ret = fd < 0 ? -errno : 0;
--
--    if (ret < 0) {
--        if (ret == -EROFS) {
--            ret = -EACCES;
--        }
--        goto fail;
--    }
--    s->fd = fd;
--
-     /* Check s->open_flags rather than bdrv_flags due to auto-read-only */
-     if (s->open_flags & O_RDWR) {
-         ret = check_hdev_writable(s->fd);
-@@ -2388,6 +2387,7 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
-     int fd;
-     uint64_t perm, shared;
-     int result = 0;
-+    bool use_lock;
- 
-     /* Validate options and set default values */
-     assert(options->driver == BLOCKDEV_DRIVER_FILE);
-@@ -2428,19 +2428,22 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
-     perm = BLK_PERM_WRITE | BLK_PERM_RESIZE;
-     shared = BLK_PERM_ALL & ~BLK_PERM_RESIZE;
- 
--    /* Step one: Take locks */
--    result = raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, errp);
--    if (result < 0) {
--        goto out_close;
--    }
-+    use_lock = qemu_has_file_lock(fd);
-+    if (use_lock) {
-+        /* Step one: Take locks */
-+        result = raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, errp);
-+        if (result < 0) {
-+            goto out_close;
-+        }
- 
--    /* Step two: Check that nobody else has taken conflicting locks */
--    result = raw_check_lock_bytes(fd, perm, shared, errp);
--    if (result < 0) {
--        error_append_hint(errp,
--                          "Is another process using the image [%s]?\n",
--                          file_opts->filename);
--        goto out_unlock;
-+        /* Step two: Check that nobody else has taken conflicting locks */
-+        result = raw_check_lock_bytes(fd, perm, shared, errp);
-+        if (result < 0) {
-+            error_append_hint(errp,
-+                              "Is another process using the image [%s]?\n",
-+                              file_opts->filename);
-+            goto out_unlock;
-+        }
-     }
- 
-     /* Clear the file by truncating it to 0 */
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index f9ec8c84e9..c7587be99d 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -513,6 +513,7 @@ int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
- int qemu_unlock_fd(int fd, int64_t start, int64_t len);
- int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
- bool qemu_has_ofd_lock(void);
-+bool qemu_has_file_lock(int fd);
- #endif
- 
- #if defined(__HAIKU__) && defined(__i386__)
-diff --git a/util/osdep.c b/util/osdep.c
-index 66d01b9160..dee1f076da 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -225,6 +225,20 @@ static void qemu_probe_lock_ops(void)
-     }
- }
- 
-+bool qemu_has_file_lock(int fd)
-+{
-+    int ret;
-+    struct flock fl = {
-+        .l_whence = SEEK_SET,
-+        .l_start  = 0,
-+        .l_len    = 0,
-+        .l_type   = F_WRLCK,
-+    };
-+
-+    ret = fcntl(fd, F_GETLK, &fl);
-+    return ret == 0;
-+}
-+
- bool qemu_has_ofd_lock(void)
- {
-     qemu_probe_lock_ops();
+Regards,
+Daniel
 -- 
-2.24.3
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
