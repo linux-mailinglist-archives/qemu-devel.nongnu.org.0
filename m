@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A112DAFD8
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:12:53 +0100 (CET)
-Received: from localhost ([::1]:37918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4A82DAFB1
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:07:38 +0100 (CET)
+Received: from localhost ([::1]:56700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpC0S-0000D7-3M
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:12:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48360)
+	id 1kpBvN-0004hH-K6
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:07:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kpByu-0007Qs-7f
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:11:16 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35412)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kpBuJ-0004Gd-8b
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:06:31 -0500
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:36073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kpByr-000143-B4
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:11:15 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kpByp-0005JX-5Y
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 15:11:11 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 066C42E813C
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 15:11:11 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kpBuH-0000TH-1A
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:06:30 -0500
+Received: by mail-yb1-xb2a.google.com with SMTP id s186so7807939ybf.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 07:06:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fzXlKFqsgxKrcTm2koET2uOecWzaVt/PUhu1Rqse7tM=;
+ b=F0huA0Oh9UwFSzmjrL5EndHqxtAPzFf9Ayv+zV0XwCjObkaO1bSxKW605bFv65hxJI
+ ci9QG/6ZQF1XWb8zNW/5Hr/dCi3YyrgeF2Y21gNdjPhqtC2X6UxcIVlbXWMwA1l4qfHW
+ Bp58IK9h6V2bw2iXNthVyHtaCRnvc0ob4aIZ3R9PxJUlC0kbl4yndNTQzKY/SEG3hkNr
+ DdE601fNYmDRU8hFY86F4AE46Xc1cM3KhcZGhHLnteBThi5Q6+nRsCCiP5/61Jb4DFLz
+ QUrwGGrD66MK8u2YUPW2xsef0uSViQLKlsL5tAiskpclejgl6GJBQtqpM02ytE4pEd+R
+ tGAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fzXlKFqsgxKrcTm2koET2uOecWzaVt/PUhu1Rqse7tM=;
+ b=L0vMJ/vv6UTyw7NKXBH8W78dUFgpUZcEFnbkxSPPLZ2PH5t7viQZE84lOAk7hX4Nbh
+ U+osoh/t29Rh8UzXut2NbdygLoq8JlYWio6b3jYLh1bZnFe/ys/C3gegQLGIQ/pnZ7Fp
+ PkUq4B/DylxWBcHmNeROWj0KLNHVQemqU+oAaaJJma+4GCHkDPBT0ky6WIyGLVcgPHUU
+ iBaqnOPUKprEWpH9Bl26F052inHK8S0V1MHVplQoQ51d24HaOG3TCAPTSC+St9qoB/yb
+ DlLjonZ2TZCwXcE1wVKMv/+r3tTZbKVi6VoNvb1YB8AI/T0CmdDHWat9kS/iVJkB6Tst
+ Ctmw==
+X-Gm-Message-State: AOAM531P0+bQ/qjRRpB1PPaQ23MF51hR13CoCDDSHVgqzoIkvfL72C9s
+ Ux+c8tYT3up5cwpwLTPTWa3xncgA58toqR5BzRo=
+X-Google-Smtp-Source: ABdhPJxRuEAFO6PBMGV4VEpnKRbNzgA1emdAH5Q1vmbQWq/QI4vTePWyuWVv3til4kjI+UXdDT+ResKa7I+iYB5jpV8=
+X-Received: by 2002:a25:aaee:: with SMTP id
+ t101mr42064748ybi.517.1608044788079; 
+ Tue, 15 Dec 2020 07:06:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 15 Dec 2020 15:04:07 -0000
-From: Qiuhao Li <1890333@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr qiuhao th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Qiuhao Li (qiuhao)
-References: <159656782458.2385.15174533675764579105.malonedeb@gac.canonical.com>
-Message-Id: <160804464720.5024.15432764554270974217.malone@gac.canonical.com>
-Subject: [Bug 1890333] Re: [OSS-Fuzz] Issue 26797:
- qemu:qemu-fuzz-i386-target-generic-fuzz-virtio-blk: ASSERT: addr < cache->len
- && 2 <= cache->len - addr
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: aa9cbe57bd126b79ab316465f3526cf6fb8381b6
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201215141237.17868-1-peter.maydell@linaro.org>
+ <20201215141237.17868-21-peter.maydell@linaro.org>
+In-Reply-To: <20201215141237.17868-21-peter.maydell@linaro.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 15 Dec 2020 23:06:16 +0800
+Message-ID: <CAEUhbmUgROy8OTSkz6hv7YexMXT_U-iAF2O5Y_9RdZJcco_WGw@mail.gmail.com>
+Subject: Re: [PULL 20/20] hw/block/m25p80: Fix Numonyx fast read dummy cycle
+ count
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Joe Komlodi <joe.komlodi@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,54 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890333 <1890333@bugs.launchpad.net>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a new bug that fails the same assertion, and maybe its minimized p=
-roducer will help:
-  https://bugs.launchpad.net/qemu/+bug/1908062
+Hi Joe,
 
--- =
+On Tue, Dec 15, 2020 at 10:35 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> From: Joe Komlodi <joe.komlodi@xilinx.com>
+>
+> Numonyx chips determine the number of cycles to wait based on bits 7:4
+> in the volatile configuration register.
+>
+> However, if these bits are 0x0 or 0xF, the number of dummy cycles to
+> wait is 10 for QIOR and QIOR4 commands or when in QIO mode, and otherwise 8 for
+> the currently supported fast read commands. [1]
+>
+> [1]
+> https://www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-b/mt25q_qlkt_u_02g_cbb_0.pdf?rev=9b167fbf2b3645efba6385949a72e453
+>
+> Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
+> Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+> Message-id: 1605568264-26376-5-git-send-email-komlodi@xilinx.com
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/block/m25p80.c | 30 +++++++++++++++++++++++++++---
+>  1 file changed, 27 insertions(+), 3 deletions(-)
+>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890333
+Sorry for jumping in, but I just noticed this patch.
 
-Title:
-  [OSS-Fuzz]  Issue 26797: qemu:qemu-fuzz-i386-target-generic-fuzz-
-  virtio-blk: ASSERT: addr < cache->len && 2 <=3D cache->len - addr
+I believe you tested this with Xilinx SPIPS but not some other controllers.
+Francisco and I had a discussion about dummy cycles implementation
+with different SPI controllers @
+http://patchwork.ozlabs.org/project/qemu-devel/patch/1606704602-59435-1-git-send-email-bmeng.cn@gmail.com/
+I would like to hear your thoughts. I think we should figure out a
+solution that fits all types of controllers.
 
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  Hello,
-  Reproducer:
-  cat << EOF | ./i386-softmmu/qemu-system-i386 \
-  -drive id=3Dmydrive,file=3Dnull-co://,size=3D2M,format=3Draw,if=3Dnone \
-  -device virtio-blk,drive=3Dmydrive \
-  -nodefaults -qtest stdio -nographic
-  outl 0xcf8 0x80001001
-  outl 0xcfc 0x6574c1ff
-  outl 0xcf8 0x8000100e
-  outl 0xcfc 0xefe5e1e
-  outl 0xe86 0x3aff9090
-  outl 0xe84 0x3aff9090
-  outl 0xe8e 0xe
-  EOF
-
-  qemu-system-i386: /home/alxndr/Development/qemu/general-fuzz/include/exec=
-/memory_ldst_cached.inc.h:88: void address_space_stw_le_cached(MemoryRegion=
-Cache *, hwaddr, uint32_t, MemTxAttrs, MemTxResult *): Assertion `addr < ca=
-che->len && 2 <=3D cache->len - addr' failed.
-  Aborted
-
-  I can trigger similar assertions with other VIRTIO devices, as-well.
-  I reported this at some point in Message-ID: <20200511033001.dzvtbdhl3oz5=
-pgiy@mozz.bu.edu> but never created a Launchpad issue...
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890333/+subscriptions
+Regards,
+Bin
 
