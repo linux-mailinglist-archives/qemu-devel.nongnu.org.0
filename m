@@ -2,47 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B2CF2DB468
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 20:22:14 +0100 (CET)
-Received: from localhost ([::1]:58246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3729F2DB47F
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 20:32:25 +0100 (CET)
+Received: from localhost ([::1]:39214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpFtk-0007lj-It
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 14:22:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52962)
+	id 1kpG3c-0003mr-AQ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 14:32:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kpFqf-0006kf-61
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 14:19:01 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:49484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kpFqU-00045R-OJ
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 14:19:00 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 0BFJIPIY010299
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Tue, 15 Dec 2020 14:18:28 -0500
-Date: Tue, 15 Dec 2020 14:18:24 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] fuzz: Add more i386 configurations for fuzzing
-Message-ID: <20201215191824.p6vafdvhvzlxnsgw@mozz.bu.edu>
-References: <20201123184352.242907-1-alxndr@bu.edu>
- <20201202164002.sot3byy2jesllmlb@mozz.bu.edu>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kpG0v-0002t6-FO
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 14:29:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kpG0s-0005Q4-Mk
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 14:29:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608060570;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fgYtuHk9QxZyj8fi3ZR5NNNzyfxXcECD8CR1Sn7L64Y=;
+ b=WjrlSTRYcS/+ydzQgm/ILP9gLM26kXwk3157dBUzfBXzVY3WMu2lFitw+h4MMG+sYFx/v0
+ 04xVEnV5E4ou1HDsfSjR+ejXSgzFaXc9nGN0D5W12bzSe2h59EioDjUy0HugybjjojC7dw
+ ANoc9WDguGHJGWM03HouJuq5I/Iqigc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-566-K8yYZ16RMOW5OSQB444f_Q-1; Tue, 15 Dec 2020 14:29:28 -0500
+X-MC-Unique: K8yYZ16RMOW5OSQB444f_Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B1C510054FF;
+ Tue, 15 Dec 2020 19:29:27 +0000 (UTC)
+Received: from localhost (ovpn-115-226.rdu2.redhat.com [10.10.115.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51DEE10013C1;
+ Tue, 15 Dec 2020 19:29:23 +0000 (UTC)
+Date: Tue, 15 Dec 2020 14:29:22 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PULL 1/2] test-char: abort on serial test error
+Message-ID: <20201215192922.GB3140057@habkost.net>
+References: <20200728143108.2192896-1-marcandre.lureau@redhat.com>
+ <20200728143108.2192896-2-marcandre.lureau@redhat.com>
+ <cc2227d3-9e5c-96ba-03f9-54f12a356da8@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <cc2227d3-9e5c-96ba-03f9-54f12a356da8@amsat.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201202164002.sot3byy2jesllmlb@mozz.bu.edu>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: 11
-X-Spam_score: 1.1
-X-Spam_bar: +
-X-Spam_report: (1.1 / 5.0 requ) BAYES_00=-1.9, GOOG_STO_NOIMG_HTML=2.999,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,153 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Hannes Reinecke <hare@suse.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Jason Wang <jasowang@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Bandan Das <bsd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 201202 1140, Alexander Bulekov wrote:
-> On 201123 1343, Alexander Bulekov wrote:
-> > 
-> > Hello,
-> > If you are CC-ed on this email, this patch will likely enable continuous
-> > fuzzing for a device that you are listed under in MAINTAINERS. If this is
-> > accepted, these devices will be continuously fuzzed over their PCI, PIO,
-> > MMIO and DMA interfaces. The fuzzer will start qemu with the arguments
-> > specified by ".args" and we will use the globs specified under
-> > ".objects" to match the Object/MemoryRegion names that we should fuzz.
-> > The fuzzer will find and report issues such as memory-corruptions and
-> > aborts. For now, I am manually reproducing each issue and opening a
-> > bug-report with a qtest-based reproducer, so the process is still quite
-> > flexible.
-> > 
-> > The current code-coverage achieved by fuzzing using the
-> > existing-configurations is available here:
-> > https://storage.googleapis.com/oss-fuzz-coverage/qemu/reports/20201122/linux/src/qemu/hw/report.html
-> > I am slowly trying to fill in the blanks.
-> > 
-> > I have little context for how useful these configurations are for
-> > fuzzing. I appreciate if you can Ack/Nack them or provide feedback if
-> > the devices should be configured differently.  Of course, if you think
-> > we should be fuzzing some additional device configurations, you can also
-> > submit a patch adding the necessary lines to this generic_fuzz_configs.h
-> > file. 
-> > Thanks
-> > -Alex
-> > 
+On Sun, Dec 13, 2020 at 11:51:05PM +0100, Philippe Mathieu-Daudé wrote:
+> On 7/28/20 4:31 PM, Marc-André Lureau wrote:
+> > We are having issues debugging and bisecting this issue that happen
+> > mostly on patchew. Let's make it abort where it failed to gather some
+> > new informations.
 > 
-> Ping. We could just add all of these configurations and, later, remove
-> any that produce too many useless reports.
-> -Alex
+> "good" news, this started to fail on Gitlab (centos7):
+> 
+> Running test test-char
+> Unexpected error in object_property_try_add() at ../qom/object.c:1220:
+> attempt to add duplicate property 'serial-id' to object (type 'container')
+> ERROR test-char - too few tests run (expected 38, got 9)
+> make: *** [run-test-86] Error 1
+> 
+> https://gitlab.com/philmd/qemu/-/jobs/908114388
+> https://gitlab.com/philmd/qemu/-/jobs/908114389
+> https://gitlab.com/philmd/qemu/-/jobs/908114390
 
-Ping. On the fuzzing call, we discussed that this is ok for now (doesn't
-add any new features - just configs for existing code), and we can
-switch to a QOS-based solution, when we come up with a good integration.
--Alex
+Do we have any clue what could be causing this?  After looking at
+the code, it smells like memory corruption.
+
+At first, I thought it could be due to the multi-threaded test
+cases, but the test binary seems to be crashing before the
+multi-threaded test cases have an opportunity to run.
 
 > 
-> 
-> >  tests/qtest/fuzz/generic_fuzz_configs.h | 80 +++++++++++++++++++++++++
-> >  1 file changed, 80 insertions(+)
 > > 
-> > diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-> > index c4d925f9e6..0b1fe0f836 100644
-> > --- a/tests/qtest/fuzz/generic_fuzz_configs.h
-> > +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-> > @@ -115,6 +115,86 @@ const generic_fuzz_config predefined_configs[] = {
-> >          .name = "pc-q35",
-> >          .args = "-machine q35",
-> >          .objects = "*",
-> > +    },{
-> > +        .name = "vmxnet3",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device vmxnet3,netdev=net0 -netdev user,id=net0",
-> > +        .objects = "vmxnet3"
-> > +    },{
-> > +        .name = "ne2k_pci",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device ne2k_pci,netdev=net0 -netdev user,id=net0",
-> > +        .objects = "ne2k*"
-> > +    },{
-> > +        .name = "pcnet",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device pcnet,netdev=net0 -netdev user,id=net0",
-> > +        .objects = "pcnet"
-> > +    },{
-> > +        .name = "rtl8139",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device rtl8139,netdev=net0 -netdev user,id=net0",
-> > +        .objects = "rtl8139"
-> > +    },{
-> > +        .name = "i82550",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device i82550,netdev=net0 -netdev user,id=net0",
-> > +        .objects = "eepro*"
-> > +    },{
-> > +        .name = "sdhci-v3",
-> > +        .args = "-nodefaults -device sdhci-pci,sd-spec-version=3 "
-> > +        "-device sd-card,drive=mydrive "
-> > +        "-drive if=sd,index=0,file=null-co://,format=raw,id=mydrive -nographic",
-> > +        .objects = "sd*"
-> > +    },{
-> > +        .name = "ehci",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device ich9-usb-ehci1,bus=pcie.0,addr=1d.7,"
-> > +        "multifunction=on,id=ich9-ehci-1 "
-> > +        "-device ich9-usb-uhci1,bus=pcie.0,addr=1d.0,"
-> > +        "multifunction=on,masterbus=ich9-ehci-1.0,firstport=0 "
-> > +        "-device ich9-usb-uhci2,bus=pcie.0,addr=1d.1,"
-> > +        "multifunction=on,masterbus=ich9-ehci-1.0,firstport=2 "
-> > +        "-device ich9-usb-uhci3,bus=pcie.0,addr=1d.2,"
-> > +        "multifunction=on,masterbus=ich9-ehci-1.0,firstport=4 "
-> > +        "-drive if=none,id=usbcdrom,media=cdrom "
-> > +        "-device usb-tablet,bus=ich9-ehci-1.0,port=1,usb_version=1 "
-> > +        "-device usb-storage,bus=ich9-ehci-1.0,port=2,drive=usbcdrom",
-> > +        .objects = "*usb* *hci*",
-> > +    },{
-> > +        .name = "ohci",
-> > +        .args = "-machine q35 -nodefaults  -device pci-ohci -device usb-kbd",
-> > +        .objects = "*usb* *ohci*",
-> > +    },{
-> > +        .name = "megaraid",
-> > +        .args = "-machine q35 -nodefaults -device megasas -device scsi-cd,drive=null0 "
-> > +        "-blockdev driver=null-co,read-zeroes=on,node-name=null0",
-> > +        .objects = "megasas*",
-> > +    },{
-> > +        .name = "ac97",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device ac97,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
-> > +        .objects = "ac97*",
-> > +    },{
-> > +        .name = "cs4231a",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device cs4231a,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
-> > +        .objects = "cs4231a* i8257*",
-> > +    },{
-> > +        .name = "es1370",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device es1370,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
-> > +        .objects = "es1370*",
-> > +    },{
-> > +        .name = "sb16",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device sb16,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
-> > +        .objects = "sb16* i8257*",
-> > +    },{
-> > +        .name = "parallel",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-parallel file:/dev/null",
-> > +        .objects = "parallel*",
-> >      }
-> >  };
+> > Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  tests/test-char.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/tests/test-char.c b/tests/test-char.c
+> > index 614bdac2df..d35cc839bc 100644
+> > --- a/tests/test-char.c
+> > +++ b/tests/test-char.c
+> > @@ -1200,7 +1200,7 @@ static void char_serial_test(void)
 > >  
-> > -- 
-> > 2.28.0
+> >      /* test tty alias */
+> >      qemu_opt_set(opts, "backend", "tty", &error_abort);
+> > -    chr = qemu_chr_new_from_opts(opts, NULL, NULL);
+> > +    chr = qemu_chr_new_from_opts(opts, NULL, &error_abort);
+> >      g_assert_nonnull(chr);
+> >      object_unparent(OBJECT(chr));
+> >  
 > > 
+> 
+> 
+
+-- 
+Eduardo
+
 
