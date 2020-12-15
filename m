@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5F22DAC9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 13:05:27 +0100 (CET)
-Received: from localhost ([::1]:39482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779A02DACC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 13:13:33 +0100 (CET)
+Received: from localhost ([::1]:42052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp954-0007DX-Ef
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 07:05:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35192)
+	id 1kp9Cu-0000OJ-Ca
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 07:13:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kp93f-0006aN-4u
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 07:03:59 -0500
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:38361)
+ id 1kp9BR-0008GT-0x
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 07:12:01 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:35365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kp93d-00068U-5i
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 07:03:58 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id 6so12683915ejz.5
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 04:03:56 -0800 (PST)
+ id 1kp9BM-0000P8-8X
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 07:12:00 -0500
+Received: by mail-ej1-x644.google.com with SMTP id q22so9598549eja.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 04:11:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=01cXpZdWDwdTL+YKu3xh8zJlKwB9s64ctlCEMuj2Yqg=;
- b=hmambKAZVwxJ122hfqjuMadKI/odgK03SBV6pJIuf4KRl6Bx7WFPDWCQ8wvh7hywiH
- wp4i1mUh40/S9LYupYuzRBGjBQCiarqNn9pmXDGeYiT1gp0BZ/XjDgX1Lhf7Q+VXadww
- ZTIZ/TlryFQ8MAogNoUsxr8QuFt9afW/yrrLe08QcXDFOA19wlJwYqoJz0OD6xrGHMZ1
- /jhACKuk13igFMjkaqBDxuoO2h9cRqCuqRwVhwxyTiB9SRmA+bIuQK7DpB09J1GVhFRI
- qiEBbT7NDFclJZ+nBOrZIatIeE1k+2mXp2kUf9Kgg+GxJwMrLXdJEjCtLoxvHiBPRDvE
- OgJQ==
+ :cc; bh=T3wmvyqJWlarP3ZvbflhYdwwiPtd1k0f5gRDmYIDKwY=;
+ b=YcNsKqjz19f9PrRsRSliusEHNTP7cNS7J+LCxjuN4SS7We2h7gaXw9yqMIaLlOKajA
+ uYxXyOckPUf1leQBZrn+DMo4RoWgjjnsHsWggx1Qzi0ub9J7gkU7Il0FAS+v8tasWkxD
+ Auansd7B8PSZ3QOA5LWkIFJmC1Czi2JhWbgsZiBIbRTvTCe0x2RfbaGpXLsrWj7MYBU2
+ t31c6XkgyPu1RSS9j8jOnQzb9KpAlziDQXu4dO67OWW9N/s5qcxILv1I3bFUve9N+b4E
+ J4SLaz8QBpPtWZrj/xBUKfdmBEidoQPTVm8nWUJ3+1K6RH3hj4kAOrE+P0btDWcsNvXp
+ gq1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=01cXpZdWDwdTL+YKu3xh8zJlKwB9s64ctlCEMuj2Yqg=;
- b=o0zlaJyIEnNaatmZbd4E1v1lFDAp+426JJa/Oi5jgwR6eQ0xvtU2k+ezbRwcHrTWf+
- YPkjV9enBStSfOvNBWToDJO4Q3NdbUru1X7P9SWqks5Wg89c3H4+ZxzxdkErMeciPDPK
- r1ahtL6nioLMCy8j9TA7X9p10mPBTJB7cXYsqoDfH38v17loKSj5x8ADaDvpxRR/mRFK
- ZnpiTHhoUYsqWDlmuErkGCPT1byXnauqjdptlyb4jyYfVajcsPJXiWiWlH+CIqd32X/V
- whpMHElZnmBD5NpKtPAJPGs9bAaLvjKXBgcjT7iOHMw5Lanbn5rs/zWquk2k7ILMzgSX
- etIQ==
-X-Gm-Message-State: AOAM530ilxh/rDzqH6j3RCW36N6FthA+qNFKlI1x38lp0QE5PM7ceeCp
- aUhIE0S1QUE9BbFlD9A48HT4OsqhBRxQehGXH4DiYQ==
-X-Google-Smtp-Source: ABdhPJyt7v4lS7g3av+2ZZORZmUmepAvJbYia+ylQmxhTejzRkdBLUMsCD9nyu37G0vzrmtAPHUBk/3qILm+PxF1p28=
-X-Received: by 2002:a17:907:971c:: with SMTP id
- jg28mr26592761ejc.85.1608033835424; 
- Tue, 15 Dec 2020 04:03:55 -0800 (PST)
+ bh=T3wmvyqJWlarP3ZvbflhYdwwiPtd1k0f5gRDmYIDKwY=;
+ b=DbDBEqRbmKFZPDAZXd1vTr97A40qUwv4Q4v4pnL+A01ZjpHFjHkKYuyVh5Wjidh0yY
+ k6od0P+S8pOYi9nnRjlXV3CbMBaB92m3RyOlXYdsBBOgNW5SdaZ3QHxusmHIUyVXYLpP
+ jo/ELm1IPif9cpKsUCMsOKDBQzmAWgr0Iw56JpRIZtP5am48V/8+GN2ItrhSR/Aktvzc
+ vtZkLZXJQF6Zi2XaBxEvV0PAIuXCEBolnJnOZPSg20FpKBtyx6Hh8Kl26NveQKjouF5M
+ fn8E89bfloIBPmOQsGpz9r0vdrfGnqe+3aZcD+imsR68DgWI5NwBplwsbE7p6WCvlWcI
+ UPBw==
+X-Gm-Message-State: AOAM532gIBVsOrt1zCNHNkv+1ORAkOyYYUtuvaaJD5wS1nP3qwSgkTp/
+ iEjdpeLikQYt75+QxA8BmRuE0iRBaBln+kEg0ExPcg==
+X-Google-Smtp-Source: ABdhPJzRP7aGhGcew9jgaIl40y85MWgqZ7b6/JLpFudtAhyD9Gei08965GeRMUc3vzTtEeuKEPkk4WDDkGwQobYrQZI=
+X-Received: by 2002:a17:906:e94c:: with SMTP id
+ jw12mr26871369ejb.56.1608034314742; 
+ Tue, 15 Dec 2020 04:11:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20201214155733.207430-1-laurent@vivier.eu>
-In-Reply-To: <20201214155733.207430-1-laurent@vivier.eu>
+References: <20201215114828.18076-1-leif@nuviainc.com>
+In-Reply-To: <20201215114828.18076-1-leif@nuviainc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 15 Dec 2020 12:03:44 +0000
-Message-ID: <CAFEAcA9ji4Hn1nOOAOgomRK6YvJd3G87bbWsgkaV4ihBxy0PAA@mail.gmail.com>
-Subject: Re: [PULL 00/19] Trivial branch for 6.0 patches
-To: Laurent Vivier <laurent@vivier.eu>
+Date: Tue, 15 Dec 2020 12:11:43 +0000
+Message-ID: <CAFEAcA8i6vAaOFPFRPPYjQgj6gnvS_GutH1HBq=trvrz-Ud-2g@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] target/arm: various changes to cpu.h
+To: Leif Lindholm <leif@nuviainc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,37 +77,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Dec 2020 at 16:06, Laurent Vivier <laurent@vivier.eu> wrote:
+On Tue, 15 Dec 2020 at 11:48, Leif Lindholm <leif@nuviainc.com> wrote:
 >
-> The following changes since commit 17584289af1aaa72c932e7e47c25d583b329dc45:
+> First, fix a typo in ID_AA64PFR1 (SBSS -> SSBS).
 >
->   Merge remote-tracking branch 'remotes/vivier/tags/m68k-for-6.0-pull-request=
-> ' into staging (2020-12-12 18:33:46 +0000)
+> Second, turn clidr in the ARMCPU struct 64-bit, to support all fields defined
+> by the ARM ARM.
 >
-> are available in the Git repository at:
+> Third, add field definitions for CLIDR (excepting the Ttype<n> fields, since
+> I was unsure of prefererred naming - Ttype7-Ttype1?).
 >
->   git://github.com/vivier/qemu.git tags/trivial-branch-for-6.0-pull-request
+> Fourth add all ID_AA64 registers/fields present in ARM DDI 0487F.c,
 >
-> for you to fetch changes up to 48f670ecfcbe92f63475c516aefb6e217f469bbf:
+> Lastly, add all ID_ (aarch32) registers/fields.
 >
->   configure / meson: Move check for linux/btrfs.h to meson.build (2020-12-13 =
-> 23:56:16 +0100)
+> Some of the ID_AA64 fields will be used by some patches Rebecca Cran will be
+> submitting shortly, and some of those features also exist for aarch32.
 >
-> ----------------------------------------------------------------
-> Pull request trivial-patches 20201214
->
-> ----------------------------------------------------------------
+> v1->v2:
+> - Correct CCSIDR_EL1 field sizes in 3/5.
+> - Rebase to current master.
 
 
-Applied, thanks.
+What happened to the various Reviewed-by:s that people gave you for
+patches in the v1 series ?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
+thanks
 -- PMM
 
