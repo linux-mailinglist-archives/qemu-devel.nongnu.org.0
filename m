@@ -2,93 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023F62DAAA1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 11:12:16 +0100 (CET)
-Received: from localhost ([::1]:43112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C80C2DAAAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 11:16:16 +0100 (CET)
+Received: from localhost ([::1]:47188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp7JX-00087N-3V
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 05:12:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38558)
+	id 1kp7NP-0001Y1-IG
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 05:16:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kp7GF-0006bp-Hj
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 05:08:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54187)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kp7MY-00013q-Em
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 05:15:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kp7GB-0008I2-Ew
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 05:08:49 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kp7ML-0001xT-TB
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 05:15:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608026926;
+ s=mimecast20190719; t=1608027308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l6nxwOIy8U9rG3m7BWwxOAEGgtB8bDbUVfIZ7xKHMXA=;
- b=V+z+Ag8UNsxr/LeGA+LLnID4HeJuWdSOPUy8shLzDpL0GKRCg4+AItGuLKz4fwEzEC0F6c
- iJww/GheLbTi9WrEmeu95y57blmgGKlq1/7XyUFTunLAA7J1W7eycSqEohqwcHcruc+V0s
- GF5CdxPgUEm7EIei8ocKMNcxzuoQgbY=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-fKgDSZSJNcyw1fOndNR6OA-1; Tue, 15 Dec 2020 05:08:43 -0500
-X-MC-Unique: fKgDSZSJNcyw1fOndNR6OA-1
-Received: by mail-ej1-f69.google.com with SMTP id w6so2182966ejo.2
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 02:08:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=l6nxwOIy8U9rG3m7BWwxOAEGgtB8bDbUVfIZ7xKHMXA=;
- b=LyU9Z9i3pD/3AgN34UXtRnSJ0rLDbzHuyHO8QIzz9DivdESe9vAScpH+RCKG5sVD0p
- eRJ0fFn1a221G3D+AjjKg9rQorQUo5LV7LQglGeZHj6ZZMnuitPMfx3gzelDVlBjkyIX
- syh5VXA0pM092c3jl4+/fjDDDZdy72QFR+qWxS0XMi2RFPfaFYgjGPApqMZeBIOh14Dz
- juFQFpnlRt9zLRDxb7FY1iOQrlzOU35ChBusNUjyYAkUEMZFnsFg4vWzWfwBSlxFxCZj
- YvysTzRbnUN8fmQAKNcny2cxrQM6SpA7koOl6p7Su812gV6alF0Ca2vqqufeFfvWsGCj
- xaug==
-X-Gm-Message-State: AOAM530fIOrWEXvOE2VCHWvnD8xZBcNzUo5Ap5min6jyJ/yj8TiwPsLQ
- LJHE3x5pLB7Apahlhrr1f23mw6yMIHFbDkm2R/0XD+g1MCRLVltcBbgrJ8Psmm2fg3QFkulZoQx
- 8p0fC62q5mhq8k7c=
-X-Received: by 2002:a17:907:1047:: with SMTP id
- oy7mr3880787ejb.134.1608026922189; 
- Tue, 15 Dec 2020 02:08:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwwdm6PvZN61FMLazN80vwTFpG+u6QClwDWtzUkdKr9X8W7c1ixqFlER4dBhEEBoQdiheTYjA==
-X-Received: by 2002:a17:907:1047:: with SMTP id
- oy7mr3880779ejb.134.1608026922041; 
- Tue, 15 Dec 2020 02:08:42 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id d14sm17917924edu.63.2020.12.15.02.08.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Dec 2020 02:08:41 -0800 (PST)
-Subject: Re: [PATCH] build-sys: fix -static linking of libvhost-user
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20201215080319.136228-1-marcandre.lureau@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <63dfdf60-1c38-ed53-d555-2b1e0cd25a9a@redhat.com>
-Date: Tue, 15 Dec 2020 11:08:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=tog+14vq2KAqWrFQ9Q+1aks+F40R6ca3z210gR9fRHg=;
+ b=K949nVeBYw8UYXxxmEE/RIB+rCTiURdIG7SH4xbIp9gcs/HOZgqYaywWOuPmN2WLimyIaV
+ mNzlce+Si/57dVxdaTlDant+gBQa0z3eRZp6paSXYaSZIR42Wlhxy6wMGuUSzXOAsm588a
+ pP1KoqpGqGX2BvysIzMP9uuCrRzRnCE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-ixLimuyrMfS1kdcu7WabNA-1; Tue, 15 Dec 2020 05:15:06 -0500
+X-MC-Unique: ixLimuyrMfS1kdcu7WabNA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 350A010054FF
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 10:15:05 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
+ [10.36.112.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F0AC960C15;
+ Tue, 15 Dec 2020 10:15:04 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 46292A1E2; Tue, 15 Dec 2020 11:15:03 +0100 (CET)
+Date: Tue, 15 Dec 2020 11:15:03 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 8/9] vnc: add support for extended desktop resize
+Message-ID: <20201215101503.obaq7ycm2zdxcnq5@sirius.home.kraxel.org>
+References: <20201208115737.18581-1-kraxel@redhat.com>
+ <20201208115737.18581-9-kraxel@redhat.com>
+ <20201208181328.GW3136942@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201215080319.136228-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20201208181328.GW3136942@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,44 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, mst@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/12/20 09:03, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Tue, Dec 08, 2020 at 06:13:28PM +0000, Daniel P. Berrangé wrote:
+> On Tue, Dec 08, 2020 at 12:57:36PM +0100, Gerd Hoffmann wrote:
+> > The extended desktop resize encoding adds support for (a) clients
+> > sending resize requests to the server, and (b) multihead support.
+> > 
+> > This patch implements (a).  All resize requests are rejected by qemu.
+> > Qemu can't resize the framebuffer on its own, this is in the hands of
+> > the guest, so all qemu can do is forward the request to the guest.
+> > Should the guest actually resize the framebuffer we can notify the vnc
+> > client later with a separate message.
+> > 
+> > This requires support in the display device.  Works with virtio-gpu.
+> > 
+> > https://github.com/rfbproto/rfbproto/blob/master/rfbproto.rst#extendeddesktopsize-pseudo-encoding
 > 
-> Fix linking vhost-user binaries with with ./configure -static, by
-> overriding glib-2.0 dependency with configure results.
+> The spec says
 > 
-> Fixes: 0df750e9d3a5fea5e1 ("libvhost-user: make it a meson subproject")
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   meson.build | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+>    "The server must send an ExtendedDesktopSize rectangle in response 
+>     to a FramebufferUpdateRequest with incremental set to zero, assuming
+>     the client has requested the ExtendedDesktopSize pseudo-encoding 
+>     using the SetEncodings message. This requirement is needed so that
+>     the client has a reliable way of fetching the initial screen 
+>     configuration, and to determine if the server supports the 
+>     SetDesktopSize message.
 > 
-> diff --git a/meson.build b/meson.build
-> index 9ea05ab49f..7ecd307952 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -268,7 +268,11 @@ endif
->   # grandfathered in from the QEMU Makefiles.
->   add_project_arguments(config_host['GLIB_CFLAGS'].split(),
->                         native: false, language: ['c', 'cpp', 'objc'])
-> -glib = declare_dependency(link_args: config_host['GLIB_LIBS'].split())
-> +glib = declare_dependency(compile_args: config_host['GLIB_CFLAGS'].split(),
-> +                          link_args: config_host['GLIB_LIBS'].split())
-> +# override glib dep with the configure results (for subprojects)
-> +meson.override_dependency('glib-2.0', glib)
-> +
->   gio = not_found
->   if 'CONFIG_GIO' in config_host
->     gio = declare_dependency(compile_args: config_host['GIO_CFLAGS'].split(),
+>     A consequence of this is that a client must not respond to an
+>     ExtendedDesktopSize rectangle by sending a FramebufferUpdateRequest
+>     with incremental set to zero. Doing so would make the system go into
+>     an infinite loop."
 > 
+> Historically gtk-vnc always sets incremental=0 after a resize message,
+> so it should trigger an infinite loop. This doesn't happen with QEMU's
+> impl, so I think QEMU isn't correctly following the sec here. IIUC,
+> tt needs to force send an ExtendedDesktopSize message every time
+> incremental=0, not merely when a resize happens.
 
-Queued, thanks.
+There are three cases where qemu sends an ExtendedDesktopSize message:
 
-Paolo
+  (1) during the initial handshake (to cover the feature detection).
+  (2) as response to a SetDesktopSize request, and
+  (3) when an resize happens.
+
+So, yes, I skimmed the spec a bit to fast and didn't implement it
+correctly.  Which also explains why you can't trigger the infinite
+loop issue.
+
+> Having said that, I find this part of the spec rather crazy. I dont
+> see why clients need more than the first ExtendedDesktopSize message
+> in order to detect the feature, rather than after every single
+> incremental=0 update request.
+
+Yes, it doesn't make much sense.
+
+> None the less the spec says we should get an infinite loop and with
+> my intentional attempt to cause this, QEMU doesn't play ball.
+
+Not fully sure I should consider this a bug or a feature.
+This patch doesn't conform to the spec.
+But it clearly is more robust ...
+
+take care,
+  Gerd
 
 
