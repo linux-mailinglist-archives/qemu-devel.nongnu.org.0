@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B33402DB013
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:30:19 +0100 (CET)
-Received: from localhost ([::1]:57706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD012DB015
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:30:42 +0100 (CET)
+Received: from localhost ([::1]:58268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpCHK-0003Oi-Pd
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:30:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51392)
+	id 1kpCHh-0003cf-9N
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:30:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kpC92-0008Qg-Az
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:21:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53338)
+ id 1kpC91-0008PA-Qr
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:21:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kpC8x-0002RQ-7F
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:21:44 -0500
+ id 1kpC8s-0002Qx-M2
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:21:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608045694;
+ s=mimecast20190719; t=1608045693;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=idrWqyH1Q3xKOmnC0+XX0NF19MM1nadzG/zDXlCfeno=;
- b=SGZLFGjJaWS8rh0dZw84zTME0cNp6Sc3HaD3wVk128U+wXNWQAaryxY+olWPTfi4P6rsNZ
- Z6xZEok7GcZn9HM7sxWSa4RjltUmx5dV34D4OpBX2rk3QKBuNzGkooXz91+MmAPlholkq1
- y2m3CynwT7YH4aU8+sp+RoNf9Ck5B4A=
+ bh=jP08egMs1mGsfPql/oz71XTZaaj7XQL0Fwgofe8Yaac=;
+ b=XVY7D8j4skd3e+zSMdrk/2mlSSkQEnIRQH7yCzKXJSwQ+1hz1bLe1GnkPUbluvKQke8QQ4
+ zBr/XBAzK2td8NvyTtcSEOY5IJLy3byy6gquGSkxdzM9etUuVGeKM6IHg5ud+b0glAQmrS
+ B1H6K6npGSiMUVPZuAPlyKxDgI8xiKQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-1LibHVY3OIeLpk3ObYXiGA-1; Tue, 15 Dec 2020 10:21:30 -0500
-X-MC-Unique: 1LibHVY3OIeLpk3ObYXiGA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-256-mgXRrOkLOGK79QHMUjFtCw-1; Tue, 15 Dec 2020 10:21:31 -0500
+X-MC-Unique: mgXRrOkLOGK79QHMUjFtCw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB499190B2CD;
- Tue, 15 Dec 2020 15:20:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71BBE9CDB0;
+ Tue, 15 Dec 2020 15:20:12 +0000 (UTC)
 Received: from localhost (ovpn-115-226.rdu2.redhat.com [10.10.115.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 28CEE100239A;
- Tue, 15 Dec 2020 15:20:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B040E60918;
+ Tue, 15 Dec 2020 15:20:08 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/25] cpu: Move cpu_common_props to hw/core/cpu.c
-Date: Tue, 15 Dec 2020 10:19:29 -0500
-Message-Id: <20201215151942.3125089-13-ehabkost@redhat.com>
+Subject: [PULL 13/25] qdev: Move property code to qdev-properties.[ch]
+Date: Tue, 15 Dec 2020 10:19:30 -0500
+Message-Id: <20201215151942.3125089-14-ehabkost@redhat.com>
 In-Reply-To: <20201215151942.3125089-1-ehabkost@redhat.com>
 References: <20201215151942.3125089-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,84 +84,396 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's no reason to keep the property list separate from the CPU
-class code.  Move the variable to hw/core/cpu.c and make it
-static.
+Move everything related to Property and PropertyInfo to
+qdev-properties.[ch] to make it easier to refactor that code.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20201211220529.2290218-3-ehabkost@redhat.com>
+Message-Id: <20201211220529.2290218-4-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/core/cpu.c         | 15 +++++++++++++++
- include/hw/core/cpu.h |  1 -
- cpu.c                 | 15 ---------------
- 3 files changed, 15 insertions(+), 16 deletions(-)
+ hw/core/qdev-properties.c    | 120 +++++++++++++++++++++++++++++++++++
+ hw/core/qdev.c               | 120 -----------------------------------
+ include/hw/qdev-core.h       |  37 -----------
+ include/hw/qdev-properties.h |  38 +++++++++++
+ softmmu/qdev-monitor.c       |   1 +
+ 5 files changed, 159 insertions(+), 157 deletions(-)
 
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 576fa1d7ba..5c89c858aa 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -393,6 +393,21 @@ static vaddr cpu_adjust_watchpoint_address(CPUState *cpu, vaddr addr, int len)
-     return addr;
- }
- 
-+static Property cpu_common_props[] = {
-+#ifndef CONFIG_USER_ONLY
-+    /* Create a memory property for softmmu CPU object,
-+     * so users can wire up its memory. (This can't go in hw/core/cpu.c
-+     * because that file is compiled only once for both user-mode
-+     * and system builds.) The default if no link is set up is to use
-+     * the system address space.
-+     */
-+    DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
-+                     MemoryRegion *),
-+#endif
-+    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off, false),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 509cbf155d..12a053e732 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -929,3 +929,123 @@ const PropertyInfo qdev_prop_link = {
+     .name = "link",
+     .create = create_link_property,
+ };
 +
- static void cpu_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 3d92c967ff..8e7552910d 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -1111,7 +1111,6 @@ AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx);
- 
- void QEMU_NORETURN cpu_abort(CPUState *cpu, const char *fmt, ...)
-     GCC_FMT_ATTR(2, 3);
--extern Property cpu_common_props[];
- void cpu_exec_initfn(CPUState *cpu);
- void cpu_exec_realizefn(CPUState *cpu, Error **errp);
- void cpu_exec_unrealizefn(CPUState *cpu);
-diff --git a/cpu.c b/cpu.c
-index 0be5dcb6f3..0c485cdf2d 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -144,21 +144,6 @@ void cpu_exec_unrealizefn(CPUState *cpu)
- #endif
++void qdev_property_add_static(DeviceState *dev, Property *prop)
++{
++    Object *obj = OBJECT(dev);
++    ObjectProperty *op;
++
++    assert(!prop->info->create);
++
++    op = object_property_add(obj, prop->name, prop->info->name,
++                             prop->info->get, prop->info->set,
++                             prop->info->release,
++                             prop);
++
++    object_property_set_description(obj, prop->name,
++                                    prop->info->description);
++
++    if (prop->set_default) {
++        prop->info->set_default_value(op, prop);
++        if (op->init) {
++            op->init(obj, op);
++        }
++    }
++}
++
++static void qdev_class_add_property(DeviceClass *klass, Property *prop)
++{
++    ObjectClass *oc = OBJECT_CLASS(klass);
++
++    if (prop->info->create) {
++        prop->info->create(oc, prop);
++    } else {
++        ObjectProperty *op;
++
++        op = object_class_property_add(oc,
++                                       prop->name, prop->info->name,
++                                       prop->info->get, prop->info->set,
++                                       prop->info->release,
++                                       prop);
++        if (prop->set_default) {
++            prop->info->set_default_value(op, prop);
++        }
++    }
++    object_class_property_set_description(oc, prop->name,
++                                          prop->info->description);
++}
++
++/**
++ * Legacy property handling
++ */
++
++static void qdev_get_legacy_property(Object *obj, Visitor *v,
++                                     const char *name, void *opaque,
++                                     Error **errp)
++{
++    DeviceState *dev = DEVICE(obj);
++    Property *prop = opaque;
++
++    char buffer[1024];
++    char *ptr = buffer;
++
++    prop->info->print(dev, prop, buffer, sizeof(buffer));
++    visit_type_str(v, name, &ptr, errp);
++}
++
++/**
++ * qdev_class_add_legacy_property:
++ * @dev: Device to add the property to.
++ * @prop: The qdev property definition.
++ *
++ * Add a legacy QOM property to @dev for qdev property @prop.
++ *
++ * Legacy properties are string versions of QOM properties.  The format of
++ * the string depends on the property type.  Legacy properties are only
++ * needed for "info qtree".
++ *
++ * Do not use this in new code!  QOM Properties added through this interface
++ * will be given names in the "legacy" namespace.
++ */
++static void qdev_class_add_legacy_property(DeviceClass *dc, Property *prop)
++{
++    g_autofree char *name = NULL;
++
++    /* Register pointer properties as legacy properties */
++    if (!prop->info->print && prop->info->get) {
++        return;
++    }
++
++    name = g_strdup_printf("legacy-%s", prop->name);
++    object_class_property_add(OBJECT_CLASS(dc), name, "str",
++        prop->info->print ? qdev_get_legacy_property : prop->info->get,
++        NULL, NULL, prop);
++}
++
++void device_class_set_props(DeviceClass *dc, Property *props)
++{
++    Property *prop;
++
++    dc->props_ = props;
++    for (prop = props; prop && prop->name; prop++) {
++        qdev_class_add_legacy_property(dc, prop);
++        qdev_class_add_property(dc, prop);
++    }
++}
++
++void qdev_alias_all_properties(DeviceState *target, Object *source)
++{
++    ObjectClass *class;
++    Property *prop;
++
++    class = object_get_class(OBJECT(target));
++    do {
++        DeviceClass *dc = DEVICE_CLASS(class);
++
++        for (prop = dc->props_; prop && prop->name; prop++) {
++            object_property_add_alias(source, prop->name,
++                                      OBJECT(target), prop->name);
++        }
++        class = object_class_get_parent(class);
++    } while (class != object_class_by_name(TYPE_DEVICE));
++}
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index cbdff0b6c6..d3611e7c03 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -705,115 +705,6 @@ char *qdev_get_dev_path(DeviceState *dev)
+     return NULL;
  }
  
--Property cpu_common_props[] = {
--#ifndef CONFIG_USER_ONLY
--    /* Create a memory property for softmmu CPU object,
--     * so users can wire up its memory. (This can't go in hw/core/cpu.c
--     * because that file is compiled only once for both user-mode
--     * and system builds.) The default if no link is set up is to use
--     * the system address space.
--     */
--    DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
--                     MemoryRegion *),
--#endif
--    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off, false),
--    DEFINE_PROP_END_OF_LIST(),
+-/**
+- * Legacy property handling
+- */
+-
+-static void qdev_get_legacy_property(Object *obj, Visitor *v,
+-                                     const char *name, void *opaque,
+-                                     Error **errp)
+-{
+-    DeviceState *dev = DEVICE(obj);
+-    Property *prop = opaque;
+-
+-    char buffer[1024];
+-    char *ptr = buffer;
+-
+-    prop->info->print(dev, prop, buffer, sizeof(buffer));
+-    visit_type_str(v, name, &ptr, errp);
+-}
+-
+-/**
+- * qdev_class_add_legacy_property:
+- * @dev: Device to add the property to.
+- * @prop: The qdev property definition.
+- *
+- * Add a legacy QOM property to @dev for qdev property @prop.
+- *
+- * Legacy properties are string versions of QOM properties.  The format of
+- * the string depends on the property type.  Legacy properties are only
+- * needed for "info qtree".
+- *
+- * Do not use this in new code!  QOM Properties added through this interface
+- * will be given names in the "legacy" namespace.
+- */
+-static void qdev_class_add_legacy_property(DeviceClass *dc, Property *prop)
+-{
+-    g_autofree char *name = NULL;
+-
+-    /* Register pointer properties as legacy properties */
+-    if (!prop->info->print && prop->info->get) {
+-        return;
+-    }
+-
+-    name = g_strdup_printf("legacy-%s", prop->name);
+-    object_class_property_add(OBJECT_CLASS(dc), name, "str",
+-        prop->info->print ? qdev_get_legacy_property : prop->info->get,
+-        NULL, NULL, prop);
+-}
+-
+-void qdev_property_add_static(DeviceState *dev, Property *prop)
+-{
+-    Object *obj = OBJECT(dev);
+-    ObjectProperty *op;
+-
+-    assert(!prop->info->create);
+-
+-    op = object_property_add(obj, prop->name, prop->info->name,
+-                             prop->info->get, prop->info->set,
+-                             prop->info->release,
+-                             prop);
+-
+-    object_property_set_description(obj, prop->name,
+-                                    prop->info->description);
+-
+-    if (prop->set_default) {
+-        prop->info->set_default_value(op, prop);
+-        if (op->init) {
+-            op->init(obj, op);
+-        }
+-    }
+-}
+-
+-static void qdev_class_add_property(DeviceClass *klass, Property *prop)
+-{
+-    ObjectClass *oc = OBJECT_CLASS(klass);
+-
+-    if (prop->info->create) {
+-        prop->info->create(oc, prop);
+-    } else {
+-        ObjectProperty *op;
+-
+-        op = object_class_property_add(oc,
+-                                       prop->name, prop->info->name,
+-                                       prop->info->get, prop->info->set,
+-                                       prop->info->release,
+-                                       prop);
+-        if (prop->set_default) {
+-            prop->info->set_default_value(op, prop);
+-        }
+-    }
+-    object_class_property_set_description(oc, prop->name,
+-                                          prop->info->description);
+-}
+-
+-void qdev_alias_all_properties(DeviceState *target, Object *source)
+-{
+-    ObjectClass *class;
+-    Property *prop;
+-
+-    class = object_get_class(OBJECT(target));
+-    do {
+-        DeviceClass *dc = DEVICE_CLASS(class);
+-
+-        for (prop = dc->props_; prop && prop->name; prop++) {
+-            object_property_add_alias(source, prop->name,
+-                                      OBJECT(target), prop->name);
+-        }
+-        class = object_class_get_parent(class);
+-    } while (class != object_class_by_name(TYPE_DEVICE));
+-}
+-
+ static bool device_get_realized(Object *obj, Error **errp)
+ {
+     DeviceState *dev = DEVICE(obj);
+@@ -1208,17 +1099,6 @@ static void device_class_init(ObjectClass *class, void *data)
+                                    offsetof(DeviceState, parent_bus), NULL, 0);
+ }
+ 
+-void device_class_set_props(DeviceClass *dc, Property *props)
+-{
+-    Property *prop;
+-
+-    dc->props_ = props;
+-    for (prop = props; prop && prop->name; prop++) {
+-        qdev_class_add_legacy_property(dc, prop);
+-        qdev_class_add_property(dc, prop);
+-    }
+-}
+-
+ void device_class_set_parent_reset(DeviceClass *dc,
+                                    DeviceReset dev_reset,
+                                    DeviceReset *parent_reset)
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 9fbb22a48d..8f91faebc3 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -276,43 +276,6 @@ struct BusState {
+     ResettableState reset;
+ };
+ 
+-/**
+- * Property:
+- * @set_default: true if the default value should be set from @defval,
+- *    in which case @info->set_default_value must not be NULL
+- *    (if false then no default value is set by the property system
+- *     and the field retains whatever value it was given by instance_init).
+- * @defval: default value for the property. This is used only if @set_default
+- *     is true.
+- */
+-struct Property {
+-    const char   *name;
+-    const PropertyInfo *info;
+-    ptrdiff_t    offset;
+-    uint8_t      bitnr;
+-    bool         set_default;
+-    union {
+-        int64_t i;
+-        uint64_t u;
+-    } defval;
+-    int          arrayoffset;
+-    const PropertyInfo *arrayinfo;
+-    int          arrayfieldsize;
+-    const char   *link_type;
 -};
 -
- void cpu_exec_initfn(CPUState *cpu)
- {
-     cpu->as = NULL;
+-struct PropertyInfo {
+-    const char *name;
+-    const char *description;
+-    const QEnumLookup *enum_table;
+-    int (*print)(DeviceState *dev, Property *prop, char *dest, size_t len);
+-    void (*set_default_value)(ObjectProperty *op, const Property *prop);
+-    void (*create)(ObjectClass *oc, Property *prop);
+-    ObjectPropertyAccessor *get;
+-    ObjectPropertyAccessor *set;
+-    ObjectPropertyRelease *release;
+-};
+-
+ /**
+  * GlobalProperty:
+  * @used: Set to true if property was used when initializing a device.
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index 4437450065..db7ce51dd5 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -3,6 +3,44 @@
+ 
+ #include "hw/qdev-core.h"
+ 
++/**
++ * Property:
++ * @set_default: true if the default value should be set from @defval,
++ *    in which case @info->set_default_value must not be NULL
++ *    (if false then no default value is set by the property system
++ *     and the field retains whatever value it was given by instance_init).
++ * @defval: default value for the property. This is used only if @set_default
++ *     is true.
++ */
++struct Property {
++    const char   *name;
++    const PropertyInfo *info;
++    ptrdiff_t    offset;
++    uint8_t      bitnr;
++    bool         set_default;
++    union {
++        int64_t i;
++        uint64_t u;
++    } defval;
++    int          arrayoffset;
++    const PropertyInfo *arrayinfo;
++    int          arrayfieldsize;
++    const char   *link_type;
++};
++
++struct PropertyInfo {
++    const char *name;
++    const char *description;
++    const QEnumLookup *enum_table;
++    int (*print)(DeviceState *dev, Property *prop, char *dest, size_t len);
++    void (*set_default_value)(ObjectProperty *op, const Property *prop);
++    void (*create)(ObjectClass *oc, Property *prop);
++    ObjectPropertyAccessor *get;
++    ObjectPropertyAccessor *set;
++    ObjectPropertyRelease *release;
++};
++
++
+ /*** qdev-properties.c ***/
+ 
+ extern const PropertyInfo qdev_prop_bit;
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 832e254842..8c072e3efc 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -38,6 +38,7 @@
+ #include "migration/misc.h"
+ #include "migration/migration.h"
+ #include "qemu/cutils.h"
++#include "hw/qdev-properties.h"
+ #include "hw/clock.h"
+ 
+ /*
 -- 
 2.28.0
 
