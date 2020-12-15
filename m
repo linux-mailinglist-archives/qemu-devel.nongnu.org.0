@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644AF2DAE57
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 14:55:22 +0100 (CET)
-Received: from localhost ([::1]:42712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D30C82DAE46
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 14:50:30 +0100 (CET)
+Received: from localhost ([::1]:56734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpAnR-0006z7-GU
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 08:55:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57104)
+	id 1kpAij-00015S-Tm
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 08:50:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kpAjk-0003Tt-Gz
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 08:51:33 -0500
-Received: from indium.canonical.com ([91.189.90.7]:42716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kpAji-0008Fp-7C
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 08:51:32 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kpAje-0002Ob-Vl
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 13:51:27 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CB0162E813C
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 13:51:26 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kpAgu-0008FE-EY
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 08:48:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30902)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kpAgr-0007G8-Rb
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 08:48:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608040113;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vcxW2oxUfk1DUoHskKidk+QZeY8Ed9/HTIgjDKs9R/g=;
+ b=GKh4QmEr/PonJYOcAqyYAlyq1BSadPzVsnJJe6umQxMGnYNu84yMeh3uEPQtjNFYCxfQn0
+ 4sHyfZDtrYUHCzNDcRXwuXa2EDkit6qIMwM7CdDrM8muQ8gNZPCCkXm6qAJEV9Anb4E42G
+ DZ8b5Y4KZs8UiVkifCryGikVCwjz9fo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-X4iiUkHUNZaYM0_vFZVrWQ-1; Tue, 15 Dec 2020 08:48:31 -0500
+X-MC-Unique: X4iiUkHUNZaYM0_vFZVrWQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0135800C78
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 13:48:30 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
+ [10.36.112.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B2665D6A1;
+ Tue, 15 Dec 2020 13:48:27 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 81DA9A1E2; Tue, 15 Dec 2020 14:48:26 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/7] Audio 20201215 patches
+Date: Tue, 15 Dec 2020 14:48:19 +0100
+Message-Id: <20201215134826.5504-1-kraxel@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 15 Dec 2020 13:43:52 -0000
-From: Qiuhao Li <1890333@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr qiuhao th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Qiuhao Li (qiuhao)
-References: <159656782458.2385.15174533675764579105.malonedeb@gac.canonical.com>
-Message-Id: <160803983261.6033.15194685908875344875.malone@gac.canonical.com>
-Subject: [Bug 1890333] Re: [OSS-Fuzz] Issue 26797:
- qemu:qemu-fuzz-i386-target-generic-fuzz-virtio-blk: ASSERT: addr < cache->len
- && 2 <= cache->len - addr
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: a2de2e6b82c038d3ddc2b5624add5cc5ce517be2
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,65 +76,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890333 <1890333@bugs.launchpad.net>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The following changes since commit aa14de086675280206dbc1849da6f85b75f62f1b=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/mips-20201213' i=
+nt=3D=0D
+o staging (2020-12-14 18:53:30 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/audio-20201215-pull-request=0D
+=0D
+for you to fetch changes up to 06c8c375389a54d8e4457d967f4f0896caecefb2:=0D
+=0D
+  audio: add sanity check (2020-12-15 09:28:52 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+audio: coreaudio playback state fixes.=0D
+audio: misc cleanups.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Eduardo Habkost (1):=0D
+  cs4231: Get rid of empty property array=0D
+=0D
+Gerd Hoffmann (1):=0D
+  audio: add sanity check=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (1):=0D
+  audio: Simplify audio_bug() removing old code=0D
+=0D
+Volker R=3DC3=3DBCmelin (4):=0D
+  coreaudio: rename misnamed variable fake_as=0D
+  coreaudio: don't start playback in init routine=0D
+  coreaudio: always stop audio playback on shut down=0D
+  audio: remove unused function audio_is_cleaning_up()=0D
+=0D
+ audio/audio.h     |  1 -=0D
+ audio/audio.c     | 31 ++++-----------------------=0D
+ audio/coreaudio.c | 53 +++++++++++++++++------------------------------=0D
+ hw/audio/cs4231.c |  5 -----=0D
+ 4 files changed, 23 insertions(+), 67 deletions(-)=0D
+=0D
+--=3D20=0D
+2.27.0=0D
+=0D
 
-It seems while the minimized producer doesn't fail the assertion now,
-the original reproducer provided by OSS-Fuzz[1] can still crash the
-latest QEMU (1758428, Dec 12, built with --enable-sanitizers --enable-
-fuzzing). Could anyone check if they trigger different bugs?
-
-Tested on:
-  Ubuntu: 20.04.1 5.4.0-58-generic x86_64
-  clang: 10.0.0-4ubuntu1
-  glibc: 2.31-0ubuntu9.1
-  libglib2.0-dev: 2.64.3-1~ubuntu20.04.1
-
-[1] https://bugs.launchpad.net/qemu/+bug/1890333/comments/1
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890333
-
-Title:
-  [OSS-Fuzz]  Issue 26797: qemu:qemu-fuzz-i386-target-generic-fuzz-
-  virtio-blk: ASSERT: addr < cache->len && 2 <=3D cache->len - addr
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  Hello,
-  Reproducer:
-  cat << EOF | ./i386-softmmu/qemu-system-i386 \
-  -drive id=3Dmydrive,file=3Dnull-co://,size=3D2M,format=3Draw,if=3Dnone \
-  -device virtio-blk,drive=3Dmydrive \
-  -nodefaults -qtest stdio -nographic
-  outl 0xcf8 0x80001001
-  outl 0xcfc 0x6574c1ff
-  outl 0xcf8 0x8000100e
-  outl 0xcfc 0xefe5e1e
-  outl 0xe86 0x3aff9090
-  outl 0xe84 0x3aff9090
-  outl 0xe8e 0xe
-  EOF
-
-  qemu-system-i386: /home/alxndr/Development/qemu/general-fuzz/include/exec=
-/memory_ldst_cached.inc.h:88: void address_space_stw_le_cached(MemoryRegion=
-Cache *, hwaddr, uint32_t, MemTxAttrs, MemTxResult *): Assertion `addr < ca=
-che->len && 2 <=3D cache->len - addr' failed.
-  Aborted
-
-  I can trigger similar assertions with other VIRTIO devices, as-well.
-  I reported this at some point in Message-ID: <20200511033001.dzvtbdhl3oz5=
-pgiy@mozz.bu.edu> but never created a Launchpad issue...
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890333/+subscriptions
 
