@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3772DB1D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 17:50:50 +0100 (CET)
-Received: from localhost ([::1]:35588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC962DB1F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 17:57:48 +0100 (CET)
+Received: from localhost ([::1]:43906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpDXF-0001JW-EG
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 11:50:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44990)
+	id 1kpDdy-0005MR-My
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 11:57:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kpDVf-0000hj-3K
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:49:11 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50589)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kpDVc-00073G-TW
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:49:10 -0500
-Received: by mail-wm1-x344.google.com with SMTP id 190so7261342wmz.0
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 08:49:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=WNNqnZnfqs8OvXv038kS/0J0X5bejNls4QjbquwZHlA=;
- b=I7IWYCCYZfh+7FB6mMuFVur1b2+4bpEu2QGhHUhEYGivOIqc7O3SqMXJilBvpNWAXI
- Lh73IttAsWIkeDOQjp8k9A998IiCCOR+j67K0l/cn9rOkWqz0zngHd8bEXeXAHgD7PO0
- UBsdpoiTpx9jAFnexpHl86Lkf+eLeDPyAb4w8P5nmjtxnfdVhqkl/GM5Oxyx24TWeodh
- NuyfSRp/N3NqjCDyiToyCJL3AyGMqOs5XgQmp6CiZtLMN68xRgdHPg14MHognvZX01ez
- IPdl3YDKfDFm49Df7GBqdDVlLSFVZofOrDwPNAipiqhSGuZos5AHFrr5PlzIpp9bF/S+
- gn2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=WNNqnZnfqs8OvXv038kS/0J0X5bejNls4QjbquwZHlA=;
- b=ZylKvy99Nm5qixfyPmRMRoFvD7iWHc3cXhD6V8Wagk4R3tXabA+EU+ACrXc4bht4Q4
- mXvBDx5ssU1ryQreUV4QXIFKNy4g0P2bJTtPPFI81mVD7QdREi86EgpIvrdfLOierSCS
- w0O6JtAnSz/IkiurWloIBu+2liM/s+jmroKp1u4oGeXgoIz91HAgVFfaODEWadVHtEJ5
- xONB3hudWMitDy1pA6EAGcNLWHbWkAoAdDc3jg5/Wxi2XFQ240spIix7j74yY6fTDtJU
- CPmi3w50BoJTXjtW/IeIh972YJAy+i2AaXnf7uNdAU8+Z05NyuFwMyljz01Pf8EmvGHq
- qUwg==
-X-Gm-Message-State: AOAM531AnmS3lf6dCP7D95dEI5broJPtaHohpRqCi7zfLnvr95RMA1Da
- XnXoLfLX0L7gqFVIzJ8/FseHNQ==
-X-Google-Smtp-Source: ABdhPJzWmD61rA8l+STgslbvfu5OPH08K67J4qc5cWNotylKxUyJyPusAfj2BINMTGcZcwc0fBAkJQ==
-X-Received: by 2002:a1c:a9c8:: with SMTP id s191mr4883546wme.89.1608050947008; 
- Tue, 15 Dec 2020 08:49:07 -0800 (PST)
-Received: from vanye (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net.
- [82.27.183.148])
- by smtp.gmail.com with ESMTPSA id i8sm37133779wma.32.2020.12.15.08.49.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 08:49:06 -0800 (PST)
-Date: Tue, 15 Dec 2020 16:49:04 +0000
-From: Leif Lindholm <leif@nuviainc.com>
-To: Laurent Desnogues <laurent.desnogues@gmail.com>
-Subject: Re: [PATCH v2 3/5] target/arm: add descriptions of CLIDR_EL1,
- CCSIDR_EL1, CTR_EL0 to cpu.h
-Message-ID: <20201215164904.GY1664@vanye>
-References: <20201215114828.18076-1-leif@nuviainc.com>
- <20201215114828.18076-4-leif@nuviainc.com>
- <CABoDooPXUC585huW0-1Md1WTAO0AwhKvOe20FioU=SbOJ+FdkA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpDbh-0004nB-TY
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:55:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59360)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpDbb-00082I-4V
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 11:55:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608051317;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1ZEQrqlDMAQXD6icep9k0VIxWBtR93DfoBq4lyDyi9E=;
+ b=DFXFdf5fsjgCopcJBPRe2IpsDUu2jdcSiXFWPY8NBNPOgj8tjK79wMI13MGu/DMTlHAOzT
+ devllFw8QpMfKo1E9uYZdsOQQRFWeTNvd0+6n+M/FbZh7zNmGPffjrQdwonPThFtzdilFr
+ X3Q9jn1spwnQVlYcNdB4CpNgMvPI+tk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-528-24r3BK1tPwyfVnjWdZ8pOA-1; Tue, 15 Dec 2020 11:55:13 -0500
+X-MC-Unique: 24r3BK1tPwyfVnjWdZ8pOA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D72610054FF
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 16:55:12 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C59D1E5;
+ Tue, 15 Dec 2020 16:55:12 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D75CB11329A5; Tue, 15 Dec 2020 17:55:10 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 06/11] qapi/introspect.py: add _gen_features helper
+References: <20201026194251.11075-1-jsnow@redhat.com>
+ <20201026194251.11075-7-jsnow@redhat.com>
+ <87k0ul1ydu.fsf@dusky.pond.sub.org>
+ <3b1186c1-c927-9d02-126b-c15d372ae97c@redhat.com>
+Date: Tue, 15 Dec 2020 17:55:10 +0100
+In-Reply-To: <3b1186c1-c927-9d02-126b-c15d372ae97c@redhat.com> (John Snow's
+ message of "Mon, 7 Dec 2020 18:57:13 -0500")
+Message-ID: <87h7onypox.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABoDooPXUC585huW0-1Md1WTAO0AwhKvOe20FioU=SbOJ+FdkA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=leif@nuviainc.com; helo=mail-wm1-x344.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,99 +82,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 15, 2020 at 13:23:58 +0100, Laurent Desnogues wrote:
-> Hello,
-> 
-> On Tue, Dec 15, 2020 at 12:51 PM Leif Lindholm <leif@nuviainc.com> wrote:
-> >
-> > Signed-off-by: Leif Lindholm <leif@nuviainc.com>
-> > ---
-> >  target/arm/cpu.h | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> >
-> > diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> > index fadd1a47df..90ba707b64 100644
-> > --- a/target/arm/cpu.h
-> > +++ b/target/arm/cpu.h
-> > @@ -1736,6 +1736,30 @@ FIELD(V7M_FPCCR, ASPEN, 31, 1)
-> >  /*
-> >   * System register ID fields.
-> >   */
-> > +FIELD(CLIDR_EL1, CTYPE1, 0, 3)
-> > +FIELD(CLIDR_EL1, CTYPE2, 3, 3)
-> > +FIELD(CLIDR_EL1, CTYPE3, 6, 3)
-> > +FIELD(CLIDR_EL1, CTYPE4, 9, 3)
-> > +FIELD(CLIDR_EL1, CTYPE5, 12, 3)
-> > +FIELD(CLIDR_EL1, CTYPE6, 15, 3)
-> > +FIELD(CLIDR_EL1, CTYPE7, 18, 3)
-> > +FIELD(CLIDR_EL1, LOUIS, 21, 3)
-> > +FIELD(CLIDR_EL1, LOC, 24, 3)
-> > +FIELD(CLIDR_EL1, LOUU, 27, 3)
-> > +FIELD(CLIDR_EL1, ICB, 30, 3)
-> > +
-> > +FIELD(CCSIDR_EL1, LINESIZE, 0, 3)
-> > +FIELD(CCSIDR_EL1, ASSOCIATIVITY, 3, 21)
-> > +FIELD(CCSIDR_EL1, NUMSETS, 32, 24)
-> 
-> The positions and sizes of the ASSOCIATIVITY and NUMSETS CCSIDR fields
-> depend on whether the ARMv8.3-CCIDX extension is implemented or not.
-> If we really want to define the fields this way, we perhaps should
-> define two sets.  Or at the very least, add a comment stating this
-> definition is for ARMv8.3-CCIDX.
+John Snow <jsnow@redhat.com> writes:
 
-Urgh, sorry for this.
-I added the fields only to make the CPU definition more readable, so I
-think we don't need to worry about runtime handling of this?
-But I don't think it makes sense to add only the one form.
-Should I use CCIDX_CCSIDR_EL1 for these ones and add
+> On 11/16/20 3:47 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> _make_tree might receive a dict or some other type.
+>> 
+>> Are you talking about @obj?
+>> 
+>
+> Yes.
 
-/* When FEAT_CCIDX is not implemented */
-FIELD(CCSIDR_EL1, LINESIZE, 0, 3)
-FIELD(CCSIDR_EL1, ASSOCIATIVITY, 3, 10)
-FIELD(CCSIDR_EL1, NUMSETS, 13, 15)
+Recommend to be explict: _make_tree()'s first argument can be ...
 
-with a comment that
-/* When FEAT_CCIDX is implemented */
-for the former set
-?
+>      It *usually* takes a dict. sometimes it doesn't.
 
-> > +FIELD(CTR_EL0,  IMINLINE, 0, 4)
-> > +FIELD(CTR_EL0,  L1IP, 14, 2)
-> > +FIELD(CTR_EL0,  DMINLINE, 16, 4)
-> > +FIELD(CTR_EL0,  ERG, 20, 4)
-> > +FIELD(CTR_EL0,  CWG, 24, 4)
-> > +FIELD(CTR_EL0,  IDC, 28, 1)
-> > +FIELD(CTR_EL0,  DIC, 29, 1)
-> 
-> There's a missing field:  TminLine which starts at bit 32.
+Yes.  It takes an abstract syntax tree: dict for JSON object, list for
+JSON array, str for JSON string, bool for JSON true and false, NoneType
+for JSON none.  JSON int isn't implemented, because it doesn't occur in
+SchemaInfo.
 
-Ack, oops.
+>>>                                                      Adding features
+>>> information should arguably be performed by the caller at such a time
+>>> when we know the type of the object and don't have to re-interrogate it.
+>> 
+>> Fair enough.  There are just two such callers anyway.
+>> 
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>   scripts/qapi/introspect.py | 19 ++++++++++++-------
+>>>   1 file changed, 12 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+>>> index 803288a64e7..16282f2634b 100644
+>>> --- a/scripts/qapi/introspect.py
+>>> +++ b/scripts/qapi/introspect.py
+>>> @@ -76,16 +76,12 @@
+>>>   
+>>>   
+>>>   def _make_tree(obj: Union[_DObject, str], ifcond: List[str],
+>>> -               features: List[QAPISchemaFeature],
+>>>                  extra: Optional[Annotations] = None
+>>>                  ) -> TreeValue:
+>>>       if extra is None:
+>>>           extra = {}
+>>>       if ifcond:
+>>>           extra['if'] = ifcond
+>>> -    if features:
+>>> -        assert isinstance(obj, dict)
+>>> -        obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
+>>>       if extra:
+>>>           return (obj, extra)
+>>>       return obj
+>>> @@ -221,6 +217,11 @@ def _use_type(self, typ: QAPISchemaType) -> str:
+>>>               return '[' + self._use_type(typ.element_type) + ']'
+>>>           return self._name(typ.name)
+>>>   
+>>> +    @classmethod
+>>> +    def _gen_features(cls,
+>>> +                      features: List[QAPISchemaFeature]) -> List[TreeValue]:
+>>> +        return [_make_tree(f.name, f.ifcond) for f in features]
+>>> +
+>> 
+>> Ignorant question: when to use @classmethod, and when to use
+>> @staticmethod?
+>
+> Matter of taste. My preference is to just always use @classmethod, 
+> because they can be extended or referenced by subclasses.
 
-> If
-> implemented, that would require to make ctr a 64-bit integer.
+Non-issue here, sub-classes are vanishingly unlikely.
 
-As far as I can tell, this will be safe with existing code - should I
-fold in a patch extending the register?
+> @staticmethod does not take a class argument, @classmethod does. Static 
+> methods therefore cannot address any other classmethods, but a 
+> classmethod can.
+>
+> I just always reach for classmethod by default.
 
-Regards,
+Unused cls parameters are slightly annoying, though.
 
-Leif
+I've been using @staticmethod whenever it suffices.  Makes "this is a
+function, i.e. it can't mess with the class or instances" immediately
+obvious.
 
-> Thanks,
-> 
-> Laurent
-> 
-> > +
-> >  FIELD(MIDR_EL1, REVISION, 0, 4)
-> >  FIELD(MIDR_EL1, PARTNUM, 4, 12)
-> >  FIELD(MIDR_EL1, ARCHITECTURE, 16, 4)
-> > --
-> > 2.20.1
-> >
-> >
+[...]
+
 
