@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B864D2DAED9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 15:24:53 +0100 (CET)
-Received: from localhost ([::1]:49484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3AF2DAEC5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 15:20:39 +0100 (CET)
+Received: from localhost ([::1]:60978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpBG0-0008M4-Nu
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 09:24:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34036)
+	id 1kpBBs-0001Y3-RJ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 09:20:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpB4W-0001Vr-JL
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:13:00 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36194)
+ id 1kpB4Q-0001Rg-66
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:12:54 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpB4I-00076N-2v
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:12:56 -0500
-Received: by mail-wm1-x336.google.com with SMTP id y23so18654455wmi.1
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 06:12:42 -0800 (PST)
+ id 1kpB4J-00076m-73
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:12:53 -0500
+Received: by mail-wr1-x441.google.com with SMTP id y17so19971531wrr.10
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 06:12:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=lv9BxTsnVMI28ncB29ZUXQqJSkKOizde5SVuW6MLg8M=;
- b=CQnacXQtLN6dcn0iTm11ShOWW4AOpLpv8mQdqnf4vMtH7cOx59IlTVvg+lpnlgf1aO
- utMUn/8tWlHn2d/AmIoDBtPSVjGzhy+nKzWdvgj5SJhwMHIFcP71rme9JiM5CqKYbhOv
- Y4v/25X6WA88Hsjx0NaNihRsmPAOn6v+0ZBWQ6KpS5rSHpBVisMFLdmaKdu5pglEyKuw
- Y79mJBc144VDvDr83o/dRgR+ZcG4groNkVYE0OU5Mck/wibDUT7/+fGLV8w1iGMCmSrU
- Qo51Csdq7GYeiOLeKhGb7OHxGiQ130DtDpL+y73XllvVRQ+R9yB7c0O1QyvEs4TQ+ZP2
- LT+Q==
+ bh=NgipyMtEahMK7WxKAqWo98jTa4SOUfBt1SZmHI5R7Fw=;
+ b=XuSKzX/Hy3pB1XRsWdwppe3yH982icl+v/tGQ7nNoJ+Z4/DGAlL6V/rY2fRC/mpcAY
+ w5nZqaavfYcZym0n6D6dHE5xysBNVQLcxrpyADlHXFAupSsP3lBbirSpyMhoTweMDAQF
+ ptWR/mZKzsRwM86PYCoDvgrJ6jz40bmf7RWOSW2hFsslO2xzrtDyW+wp1Qjw8PRz+wnU
+ VExVbhWcIWA0uAbyNLw992USM3aWF3aCuQxPqzeWuJq2Iz2N4sYAPyPxHqWItVrMAOkr
+ meRTc8CYp68J2pDhAqphIGf+YAxUM2lgg+xg8N+F/GzImXaHUTU8Dpo2MFlknXYdpz1o
+ GdjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lv9BxTsnVMI28ncB29ZUXQqJSkKOizde5SVuW6MLg8M=;
- b=l8ydmX9IsrhuASbQyxGSa0roybpNVNLcJOhaptVv6f9U7h+liGaYnDZIWh8Yp8W7GZ
- s2++Q1qhZQHEw1zUsjrPfsCVpKTqszV54ZlEGt0MZWluU9y7Yx3EN9xOv3PtVVrHafkh
- b2bLfEJJXo8H7ylHsusYPe6fZQen9wYI4KdycIyr6/uf0TLxck0U5DjYNRrGkwfTMGnM
- /5Z92UpqWb7pdCSjwAdPtcT58UIvRrfoSoqqSeWEvjrC0uWwImpSESeE61QCdety0kk5
- aqTPHPSEq+yu2i/q8MDEu8jK0BPvE6zrhcZ9UvAcBypqcVoSoNc/a4LGuojAgsPWxVYR
- nWXQ==
-X-Gm-Message-State: AOAM5306E5FBa+dz/5bA6+P5ntoYEsy9R5cqgqJkC5W52MEHTDjzzj04
- arLRfkFmxYZ9xeLp8HMGVTPMXpKN8zpxig==
-X-Google-Smtp-Source: ABdhPJxeDcU/223Xj4nN+PFLHYQB8Tx662qNvJoYN1UoI1EjRopRvhR+WzH4dzqrPoI/3uHouxArxA==
-X-Received: by 2002:a7b:c19a:: with SMTP id y26mr32064064wmi.20.1608041561181; 
- Tue, 15 Dec 2020 06:12:41 -0800 (PST)
+ bh=NgipyMtEahMK7WxKAqWo98jTa4SOUfBt1SZmHI5R7Fw=;
+ b=caj6ZggTOPlD9U4U3/WRErmGDvroXVJVWux9TAXTaomcH7UFdg/CtoDW9CGmBuSwoj
+ bW81InXVUwelFr9dzc5i8Yvne4ans4+M0OTvq9vRl8+uOU+39dHtbWgGTRVB2nF5+aZr
+ 3RhSc33+KXu8eqzVzmPgkkbzT8pIPvPFDbnn7C+m69j28ms65Bd30SHBhZuEtZCikdLS
+ 3NkJ7bcgeoCETAXMHoIbUUQv5suEE+hCr1dqWpvVXxSeQpnlF8NMuolevSPdWwnD2qMh
+ BHPja8D9q2oMu1UxNjHdoJ77+d417GrDXI/vv1oOfy1FSwDE2TNtj6gQVva8QJ6o5V4S
+ g3bQ==
+X-Gm-Message-State: AOAM531glAnCU9NCZN8eAfwxneO3EOBaw1vhWV4vqpdiLGMI7yot3RD7
+ /r/F92my0t6Fm4kmCDlYs//Zzdx/kRFAZg==
+X-Google-Smtp-Source: ABdhPJzh/g0zgBUoNOj/0/PwVAtTiHB57PHGLeK+MaNLYYBZZJsAS/1XmtMOnL/lAwnAXeZn8Bqg+A==
+X-Received: by 2002:adf:fd05:: with SMTP id e5mr34704896wrr.225.1608041562286; 
+ Tue, 15 Dec 2020 06:12:42 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w21sm19667319wmi.45.2020.12.15.06.12.39
+ by smtp.gmail.com with ESMTPSA id w21sm19667319wmi.45.2020.12.15.06.12.41
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 06:12:40 -0800 (PST)
+ Tue, 15 Dec 2020 06:12:41 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/20] gdbstub: Correct misparsing of vCont C/S requests
-Date: Tue, 15 Dec 2020 14:12:18 +0000
-Message-Id: <20201215141237.17868-2-peter.maydell@linaro.org>
+Subject: [PULL 02/20] hw/openrisc/openrisc_sim: Use IRQ splitter when
+ connecting IRQ to multiple CPUs
+Date: Tue, 15 Dec 2020 14:12:19 +0000
+Message-Id: <20201215141237.17868-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201215141237.17868-1-peter.maydell@linaro.org>
 References: <20201215141237.17868-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,45 +87,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the vCont packet, two of the command actions (C and S) take an
-argument specifying the signal to be sent to the process/thread, which is
-sent as an ASCII string of two hex digits which immediately follow the
-'C' or 'S' character.
+openrisc_sim_net_init() attempts to connect the IRQ line from the
+ethernet device to both CPUs in an SMP configuration by simply caling
+sysbus_connect_irq() for it twice.  This doesn't work, because the
+second connection simply overrides the first.
 
-Our code for parsing this packet accidentally skipped the first of the
-two bytes of the signal value, because it started parsing the hex string
-at 'p + 1' when the preceding code had already moved past the 'C' or
-'S' with "cur_action = *p++".
+Fix this by creating a TYPE_SPLIT_IRQ to split the IRQ in the SMP
+case.
 
-This meant that we would only do the right thing for signals below
-10, and would misinterpret the rest.  For instance, when the debugger
-wants to send the process a SIGPROF (27 on x86-64) we mangle this into
-a SIGSEGV (11).
-
-Remove the accidental double increment.
-
-Fixes: https://bugs.launchpad.net/qemu/+bug/1773743
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20201121210342.10089-1-peter.maydell@linaro.org
+Reviewed-by: Stafford Horne <shorne@gmail.com>
+Message-id: 20201127225127.14770-2-peter.maydell@linaro.org
 ---
- gdbstub.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/openrisc/openrisc_sim.c | 13 +++++++++++--
+ hw/openrisc/Kconfig        |  1 +
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/gdbstub.c b/gdbstub.c
-index f19f98ab1ab..d99bc0bf2ea 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -1243,7 +1243,7 @@ static int gdb_handle_vcont(const char *p)
-         cur_action = *p++;
-         if (cur_action == 'C' || cur_action == 'S') {
-             cur_action = qemu_tolower(cur_action);
--            res = qemu_strtoul(p + 1, &p, 16, &tmp);
-+            res = qemu_strtoul(p, &p, 16, &tmp);
-             if (res) {
-                 goto out;
-             }
+diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+index d752282e675..a8adf6b70d7 100644
+--- a/hw/openrisc/openrisc_sim.c
++++ b/hw/openrisc/openrisc_sim.c
+@@ -34,6 +34,7 @@
+ #include "hw/sysbus.h"
+ #include "sysemu/qtest.h"
+ #include "sysemu/reset.h"
++#include "hw/core/split-irq.h"
+ 
+ #define KERNEL_LOAD_ADDR 0x100
+ 
+@@ -64,8 +65,16 @@ static void openrisc_sim_net_init(hwaddr base, hwaddr descriptors,
+ 
+     s = SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(s, &error_fatal);
+-    for (i = 0; i < num_cpus; i++) {
+-        sysbus_connect_irq(s, 0, cpu_irqs[i][irq_pin]);
++    if (num_cpus > 1) {
++        DeviceState *splitter = qdev_new(TYPE_SPLIT_IRQ);
++        qdev_prop_set_uint32(splitter, "num-lines", num_cpus);
++        qdev_realize_and_unref(splitter, NULL, &error_fatal);
++        for (i = 0; i < num_cpus; i++) {
++            qdev_connect_gpio_out(splitter, i, cpu_irqs[i][irq_pin]);
++        }
++        sysbus_connect_irq(s, 0, qdev_get_gpio_in(splitter, 0));
++    } else {
++        sysbus_connect_irq(s, 0, cpu_irqs[0][irq_pin]);
+     }
+     sysbus_mmio_map(s, 0, base);
+     sysbus_mmio_map(s, 1, descriptors);
+diff --git a/hw/openrisc/Kconfig b/hw/openrisc/Kconfig
+index 6c1e86884e2..8f284f3ba04 100644
+--- a/hw/openrisc/Kconfig
++++ b/hw/openrisc/Kconfig
+@@ -3,3 +3,4 @@ config OR1K_SIM
+     select SERIAL
+     select OPENCORES_ETH
+     select OMPIC
++    select SPLIT_IRQ
 -- 
 2.20.1
 
