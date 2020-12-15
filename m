@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059402DAEBA
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 15:18:11 +0100 (CET)
-Received: from localhost ([::1]:53032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B642DAEFD
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 15:31:32 +0100 (CET)
+Received: from localhost ([::1]:41850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpB9V-0006iP-Pj
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 09:18:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34162)
+	id 1kpBMR-0008K4-Am
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 09:31:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpB4j-0001d7-5H
+ id 1kpB4j-0001dF-69
  for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:13:14 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:56241)
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpB4W-0007BI-CC
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:13:11 -0500
-Received: by mail-wm1-x331.google.com with SMTP id x22so17002567wmc.5
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 06:12:59 -0800 (PST)
+ id 1kpB4W-0007BM-V5
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:13:12 -0500
+Received: by mail-wm1-x342.google.com with SMTP id e25so18631822wme.0
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 06:13:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=omEaEv7tsoVESKVfIPchee3NEbEA4EUcrD+MDCo3biM=;
- b=zurU6hqObufGMVUtwXwABxtEPbFnl0pO+rdSFdtPEmIw/h3JV49zfVAcl0+3FR+FAl
- 3ac7hHloXWrrVA9axp0GWIQtifQrw5OB7D8yxgiQ2jkU9cprRr3UScCYttvnjbqT/SUk
- MfIYk6/PEsuu4pK21SqB70sF+XJuqyYWNQXGeKubwZ0hFLpqRdGVrhwJx5wkt77JXv6H
- OW6xrkwTG9dsfUuoJ3JQ06AStrvY2OP77jTTCZuwfKDx5rw+IEWcPrv3PGNMwyvls8hr
- c9QeAcVCv5FsQqopIpfMceBwZNobvoLZ0frM3q/6WowbvgcinfYsfG8cAA9k54W5lDOn
- Oqmw==
+ bh=V7Ov92RUYFvG6DWeSAUrDBWYIPL7mYHIZYb3185Jc8w=;
+ b=u622psWw+Bfq1xhawMyyWg0KgGSktGjkhI6Hpqk5ebOoFXkJVtevuXgmBdWtOaRq49
+ ULao6Ey5IrLb6dMKcVKqpcp5CZK4S5bCNhf5xnHDyKvS+VrZJkuxhmVaHLFThsVOGGQG
+ 9whxAE6h9pmMXuCoGpawKhyh+d+qMQabUOVUgkBvxBoVQDO+uDSwYsiOxiE35/JeYpTP
+ w7FeLIUKxbbIRwmI+SfPseVedV/olR00I4aWtP0bpoRjQwvsBX/UJ6k0ZinySh6360gO
+ Bsa01Xu1/gb15+CLOZnlOoFVLD1hnJYeLBeZEJWvPLreZVNyV3oSMRyzxBysg9yi3CcN
+ knlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=omEaEv7tsoVESKVfIPchee3NEbEA4EUcrD+MDCo3biM=;
- b=CTqvCI3feYmcDgFzyH9uOt4+Lt6s54i4NIr1zcvoznzMWTNzcT+3Sl4t6H+lQ+9Wld
- qT76nVQiC9+ySNvmjTBDrPK+w77bIfH/bMhkwQyzaZLRj/g0YmGwatV9OrFGQfwCvgqJ
- e7VwSVLbvXNZGT88SNOcMHqULEoG1VLpUaT2fBt97i1/+z7C91iDY2uW/EfjpvcRXwGr
- yrMzZY9CTaRuhS4Y/3GXH//F3/9aQWC0cmMEVexUYLNfVAxNxJSPFR6myFRnrrZZhPr2
- /RGKR52vxT4lztsCIjpM7EbmeZbhHBIwHqrfeM5QMM4rJwZZePnJMJ9tDcbQynE7zVeG
- Wa8A==
-X-Gm-Message-State: AOAM530s7oIbhHUM9SzIM7J70ctkmvy1+qoq2ZSzlH9PzUP9HJjYwH9K
- Uihm1f//ResyMBcW01qRUgcO1RxbTX/1aw==
-X-Google-Smtp-Source: ABdhPJwagXwcr3ZqN7WvDP23txD7iQQlgRG0RIsm/QX8gNmPQH1aINTwtJgZumYc7xJ2S1f47OZP8g==
-X-Received: by 2002:a7b:cc0f:: with SMTP id f15mr33363123wmh.29.1608041578343; 
- Tue, 15 Dec 2020 06:12:58 -0800 (PST)
+ bh=V7Ov92RUYFvG6DWeSAUrDBWYIPL7mYHIZYb3185Jc8w=;
+ b=EL12aH2OFWi4IBS/u7MrEvOKgBET4yeF1PyMXjdmQlmzLdLki2qQBeDV024MY6dPoH
+ vEkeHhdsF2Bb8aS7DyynaLM646yK/zwdGU1r3wY+5ZvB5ZSboZGMWUGLcWE3H5sRh8BO
+ 6IpsVcTt5f80PZGGH9AKqPhvdbnNzYMv7BRNAS0mT8r/N4J7iot9xNyp4JNrgOWX/d5x
+ j72eg1upCAesopP0d15IUgK9RjyXct2J8GZqXsK1bWda/Eji4jNlwArFDW9gV4zMQPs4
+ HTLW+K+LuH8Gym3ENWxKvnejjV6ei9KWh573epDdHlK9oHlVx8ciGuxvA3SctDXS3pI+
+ ek6A==
+X-Gm-Message-State: AOAM53320e5x+Z/Rta6zwdFPdKQ/2ccjXBwOwVumMHUmyCiCf8KidWqm
+ 3V1RTa8W+P7r/7iRJRAjcMRlVCLNB4qTxQ==
+X-Google-Smtp-Source: ABdhPJynBDRRmw8Yuv6+BnmyiGFnrJJqpK64ExRGSrk/Asi6lZ3+u0N2F9DEBC4pPdfZmazoEIIioQ==
+X-Received: by 2002:a1c:6746:: with SMTP id b67mr32937632wmc.8.1608041579410; 
+ Tue, 15 Dec 2020 06:12:59 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w21sm19667319wmi.45.2020.12.15.06.12.57
+ by smtp.gmail.com with ESMTPSA id w21sm19667319wmi.45.2020.12.15.06.12.58
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 06:12:57 -0800 (PST)
+ Tue, 15 Dec 2020 06:12:58 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/20] hw/misc/zynq_slcr: Avoid #DIV/0! error
-Date: Tue, 15 Dec 2020 14:12:33 +0000
-Message-Id: <20201215141237.17868-17-peter.maydell@linaro.org>
+Subject: [PULL 17/20] hw/block/m25p80: Make Numonyx config field names more
+ accurate
+Date: Tue, 15 Dec 2020 14:12:34 +0000
+Message-Id: <20201215141237.17868-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201215141237.17868-1-peter.maydell@linaro.org>
 References: <20201215141237.17868-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,49 +87,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Joe Komlodi <joe.komlodi@xilinx.com>
 
-Malicious user can set the feedback divisor for the PLLs
-to zero, triggering a floating-point exception (SIGFPE).
+The previous naming of the configuration registers made it sound like that if
+the bits were set the settings would be enabled, while the opposite is true.
 
-As the datasheet [*] is not clear how hardware behaves
-when these bits are zeroes, use the maximum divisor
-possible (128) to avoid the software FPE.
-
-[*] Zynq-7000 TRM, UG585 (v1.12.2)
-    B.28 System Level Control Registers (slcr)
-    -> "Register (slcr) ARM_PLL_CTRL"
-    25.10.4 PLLs
-    -> "Software-Controlled PLL Update"
-
-Fixes: 38867cb7ec9 ("hw/misc/zynq_slcr: add clock generation for uarts")
-Reported-by: Gaoning Pan <pgn@zju.edu.cn>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-Message-id: 20201210141610.884600-1-f4bug@amsat.org
+Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
+Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
+Message-id: 1605568264-26376-2-git-send-email-komlodi@xilinx.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/misc/zynq_slcr.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/block/m25p80.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
-index a2b28019e3c..66504a9d3ab 100644
---- a/hw/misc/zynq_slcr.c
-+++ b/hw/misc/zynq_slcr.c
-@@ -217,6 +217,11 @@ static uint64_t zynq_slcr_compute_pll(uint64_t input, uint32_t ctrl_reg)
-         return 0;
-     }
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index d09a811767a..bad72538386 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -136,7 +136,7 @@ typedef struct FlashPartInfo {
+ #define VCFG_WRAP_SEQUENTIAL 0x2
+ #define NVCFG_XIP_MODE_DISABLED (7 << 9)
+ #define NVCFG_XIP_MODE_MASK (7 << 9)
+-#define VCFG_XIP_MODE_ENABLED (1 << 3)
++#define VCFG_XIP_MODE_DISABLED (1 << 3)
+ #define CFG_DUMMY_CLK_LEN 4
+ #define NVCFG_DUMMY_CLK_POS 12
+ #define VCFG_DUMMY_CLK_POS 4
+@@ -144,9 +144,9 @@ typedef struct FlashPartInfo {
+ #define EVCFG_VPP_ACCELERATOR (1 << 3)
+ #define EVCFG_RESET_HOLD_ENABLED (1 << 4)
+ #define NVCFG_DUAL_IO_MASK (1 << 2)
+-#define EVCFG_DUAL_IO_ENABLED (1 << 6)
++#define EVCFG_DUAL_IO_DISABLED (1 << 6)
+ #define NVCFG_QUAD_IO_MASK (1 << 3)
+-#define EVCFG_QUAD_IO_ENABLED (1 << 7)
++#define EVCFG_QUAD_IO_DISABLED (1 << 7)
+ #define NVCFG_4BYTE_ADDR_MASK (1 << 0)
+ #define NVCFG_LOWER_SEGMENT_MASK (1 << 1)
  
-+    /* Consider zero feedback as maximum divide ratio possible */
-+    if (!mult) {
-+        mult = 1 << R_xxx_PLL_CTRL_PLL_FPDIV_LENGTH;
-+    }
-+
-     /* frequency multiplier -> period division */
-     return input / mult;
- }
+@@ -769,7 +769,7 @@ static void reset_memory(Flash *s)
+         s->volatile_cfg |= VCFG_WRAP_SEQUENTIAL;
+         if ((s->nonvolatile_cfg & NVCFG_XIP_MODE_MASK)
+                                 != NVCFG_XIP_MODE_DISABLED) {
+-            s->volatile_cfg |= VCFG_XIP_MODE_ENABLED;
++            s->volatile_cfg |= VCFG_XIP_MODE_DISABLED;
+         }
+         s->volatile_cfg |= deposit32(s->volatile_cfg,
+                             VCFG_DUMMY_CLK_POS,
+@@ -784,10 +784,10 @@ static void reset_memory(Flash *s)
+         s->enh_volatile_cfg |= EVCFG_VPP_ACCELERATOR;
+         s->enh_volatile_cfg |= EVCFG_RESET_HOLD_ENABLED;
+         if (s->nonvolatile_cfg & NVCFG_DUAL_IO_MASK) {
+-            s->enh_volatile_cfg |= EVCFG_DUAL_IO_ENABLED;
++            s->enh_volatile_cfg |= EVCFG_DUAL_IO_DISABLED;
+         }
+         if (s->nonvolatile_cfg & NVCFG_QUAD_IO_MASK) {
+-            s->enh_volatile_cfg |= EVCFG_QUAD_IO_ENABLED;
++            s->enh_volatile_cfg |= EVCFG_QUAD_IO_DISABLED;
+         }
+         if (!(s->nonvolatile_cfg & NVCFG_4BYTE_ADDR_MASK)) {
+             s->four_bytes_address_mode = true;
 -- 
 2.20.1
 
