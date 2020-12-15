@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29BC12DA835
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 07:50:05 +0100 (CET)
-Received: from localhost ([::1]:45622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3EF2DA832
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 07:48:40 +0100 (CET)
+Received: from localhost ([::1]:39908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp49s-000296-6k
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 01:50:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49564)
+	id 1kp48V-0008Ez-Gw
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 01:48:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kp45W-00061W-SZ
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 01:45:34 -0500
-Received: from relay4.mymailcheap.com ([137.74.80.156]:56111)
+ id 1kp45Y-00066C-B0
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 01:45:36 -0500
+Received: from relay1.mymailcheap.com ([144.217.248.102]:52765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kp45T-0004xG-Tb
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 01:45:33 -0500
-Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
- [91.134.140.82])
- by relay4.mymailcheap.com (Postfix) with ESMTPS id A657D3F20A;
- Tue, 15 Dec 2020 07:45:30 +0100 (CET)
+ id 1kp45W-0004yQ-KD
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 01:45:36 -0500
+Received: from filter1.mymailcheap.com (filter1.mymailcheap.com
+ [149.56.130.247])
+ by relay1.mymailcheap.com (Postfix) with ESMTPS id 67EF43F1C5;
+ Tue, 15 Dec 2020 06:45:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by filter2.mymailcheap.com (Postfix) with ESMTP id 759D32A7C5;
- Tue, 15 Dec 2020 07:45:30 +0100 (CET)
+ by filter1.mymailcheap.com (Postfix) with ESMTP id 5103B2A370;
+ Tue, 15 Dec 2020 01:45:33 -0500 (EST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
- s=default; t=1608014730;
- bh=CNQZUp/uUP92ip3oJH4DOwjwgvT3AQbjqIxo+Z3m7Bs=;
+ s=default; t=1608014733;
+ bh=zJE5fp1EqMxX8dCgYttVAKHUtea9qIzC4ou0u94Fil8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RcoR6ZcJuswxn422Hn7rMDAB4ijqXpCAmBLw3sStJbPFMsIalUk3XsjKxNbQU8xj8
- N2nN+4At1nwVFPbjA++Uv38I60401MuxHPmaxYQ7B7t9mzcxhWIc8hWjRmPlMRR9P/
- Xur+eL4UOrnfod+3zO6zRp8KWJaPVMfdwv1nb2GE=
-X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
-Received: from filter2.mymailcheap.com ([127.0.0.1])
- by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qU9TWtW2L03c; Tue, 15 Dec 2020 07:45:29 +0100 (CET)
+ b=YIjaqRKbm8okAknTPn3QCYqd9CBvnVqSbUbQnScN6L27LotxPPRARZXJ7BKMVoM9p
+ 13mmxzF2HcJMfKEohode/T+1R+NSTwdDJEXDDHPCifl/7VRIllnkR+nhBxJkbJXjgs
+ c4LxcW0QJ73S8fvq2GyNOubeFg3hCfhmScDJA5Xk=
+X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
+Received: from filter1.mymailcheap.com ([127.0.0.1])
+ by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3EwHq_0GVmw4; Tue, 15 Dec 2020 01:45:32 -0500 (EST)
 Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
  (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by filter2.mymailcheap.com (Postfix) with ESMTPS;
- Tue, 15 Dec 2020 07:45:29 +0100 (CET)
-Received: from [213.133.102.83] (ml.mymailcheap.com [213.133.102.83])
- by mail20.mymailcheap.com (Postfix) with ESMTP id 1E77941001;
- Tue, 15 Dec 2020 06:45:29 +0000 (UTC)
+ by filter1.mymailcheap.com (Postfix) with ESMTPS;
+ Tue, 15 Dec 2020 01:45:32 -0500 (EST)
+Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
+ by mail20.mymailcheap.com (Postfix) with ESMTP id 7B9A8403B9;
+ Tue, 15 Dec 2020 06:45:31 +0000 (UTC)
 Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
- unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="Pga2ORzW"; 
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="ksaOM1kY"; 
  dkim-atps=neutral
 AI-Spam-Status: Not processed
 Received: from strike.U-LINK.com (unknown [116.228.84.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 1AC46403B9;
- Tue, 15 Dec 2020 06:45:20 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id B9915403B9;
+ Tue, 15 Dec 2020 06:45:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
- s=default; t=1608014723;
- bh=CNQZUp/uUP92ip3oJH4DOwjwgvT3AQbjqIxo+Z3m7Bs=;
+ s=default; t=1608014725;
+ bh=zJE5fp1EqMxX8dCgYttVAKHUtea9qIzC4ou0u94Fil8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Pga2ORzWyib1cQchDMCyRQvKI7j4KXoVOgdMer56+wTaN4W9dyGqSWAD4vZlpBBek
- w2y4Ctk0KZiyxaUNATE6gAGcXZvgPkFZi+IixTUL32oJvxzCWiVeP+mkpaMY8CoPyd
- J/eZXwwe2JA0bjJ3YIbNhgsWZGM0KM/fztg835s0=
+ b=ksaOM1kYC+I13E30ArOKNQA85/IDAJWP2yfsvL1F3cmd3ztzibThwl9YYp64rKGgG
+ SkOHSTg5qVD2caPQ2NCff/W+3ArPEl0B2xs9YIKTREzdPI8TxP47Bl0slUFLWmI7Zc
+ Haop3C2fj9Gjoghkim+zOrrCgspT+FKZkiPfju+o=
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/8] target/mips/addr: Add translation helpers for KSEG1
-Date: Tue, 15 Dec 2020 14:45:06 +0800
-Message-Id: <20201215064507.30148-3-jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 7/8] hw/mips/malta: Use bootloader helper to set BAR
+ resgiters
+Date: Tue, 15 Dec 2020 14:45:07 +0800
+Message-Id: <20201215064507.30148-4-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
 References: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
@@ -79,20 +80,20 @@ X-Spamd-Result: default: False [4.90 / 10.00]; ARC_NA(0.00)[];
  TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
  TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
  BROKEN_CONTENT_TYPE(1.50)[]; R_SPF_SOFTFAIL(0.00)[~all:c];
- RCPT_COUNT_FIVE(0.00)[5]; ML_SERVERS(-3.10)[213.133.102.83];
+ RCPT_COUNT_FIVE(0.00)[5]; ML_SERVERS(-3.10)[148.251.23.173];
  DKIM_TRACE(0.00)[flygoat.com:+];
  DMARC_POLICY_ALLOW(0.00)[flygoat.com,none];
  MID_CONTAINS_FROM(1.00)[];
  DMARC_POLICY_ALLOW_WITH_FAILURES(0.00)[];
  RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
  MIME_TRACE(0.00)[0:+];
- ASN(0.00)[asn:24940, ipnet:213.133.96.0/19, country:DE];
+ ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
  RCVD_COUNT_TWO(0.00)[2];
- HFILTER_HELO_BAREIP(3.00)[213.133.102.83,1]
-X-Rspamd-Queue-Id: 1E77941001
+ HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1]
+X-Rspamd-Queue-Id: 7B9A8403B9
 X-Spam: Yes
-Received-SPF: pass client-ip=137.74.80.156;
- envelope-from=jiaxun.yang@flygoat.com; helo=relay4.mymailcheap.com
+Received-SPF: pass client-ip=144.217.248.102;
+ envelope-from=jiaxun.yang@flygoat.com; helo=relay1.mymailcheap.com
 X-Spam_score_int: -5
 X-Spam_score: -0.6
 X-Spam_bar: /
@@ -116,48 +117,93 @@ Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, chenhuacai@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's useful for bootloader to do IO opreations.
+Translate embedded assembly into IO writes which is more
+readable.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- target/mips/addr.c | 10 ++++++++++
- target/mips/cpu.h  |  2 ++
- 2 files changed, 12 insertions(+)
+ hw/mips/malta.c | 68 ++++++++++++++-----------------------------------
+ 1 file changed, 19 insertions(+), 49 deletions(-)
 
-diff --git a/target/mips/addr.c b/target/mips/addr.c
-index 27a6036c45..86f1c129c9 100644
---- a/target/mips/addr.c
-+++ b/target/mips/addr.c
-@@ -40,6 +40,16 @@ uint64_t cpu_mips_kvm_um_phys_to_kseg0(void *opaque, uint64_t addr)
-     return addr | 0x40000000ll;
- }
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index ffd67b8293..2799bc36c7 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -875,55 +875,25 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
+     p = (uint32_t *) (base + 0x580);
  
-+uint64_t cpu_mips_kseg1_to_phys(void *opaque, uint64_t addr)
-+{
-+    return addr & 0x1fffffffll;
-+}
+     /* Load BAR registers as done by YAMON */
+-    stl_p(p++, 0x3c09b400);                  /* lui t1, 0xb400 */
+-
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    stl_p(p++, 0x3c08df00);                  /* lui t0, 0xdf00 */
+-#else
+-    stl_p(p++, 0x340800df);                  /* ori t0, r0, 0x00df */
+-#endif
+-    stl_p(p++, 0xad280068);                  /* sw t0, 0x0068(t1) */
+-
+-    stl_p(p++, 0x3c09bbe0);                  /* lui t1, 0xbbe0 */
+-
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    stl_p(p++, 0x3c08c000);                  /* lui t0, 0xc000 */
+-#else
+-    stl_p(p++, 0x340800c0);                  /* ori t0, r0, 0x00c0 */
+-#endif
+-    stl_p(p++, 0xad280048);                  /* sw t0, 0x0048(t1) */
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    stl_p(p++, 0x3c084000);                  /* lui t0, 0x4000 */
+-#else
+-    stl_p(p++, 0x34080040);                  /* ori t0, r0, 0x0040 */
+-#endif
+-    stl_p(p++, 0xad280050);                  /* sw t0, 0x0050(t1) */
+-
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    stl_p(p++, 0x3c088000);                  /* lui t0, 0x8000 */
+-#else
+-    stl_p(p++, 0x34080080);                  /* ori t0, r0, 0x0080 */
+-#endif
+-    stl_p(p++, 0xad280058);                  /* sw t0, 0x0058(t1) */
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    stl_p(p++, 0x3c083f00);                  /* lui t0, 0x3f00 */
+-#else
+-    stl_p(p++, 0x3408003f);                  /* ori t0, r0, 0x003f */
+-#endif
+-    stl_p(p++, 0xad280060);                  /* sw t0, 0x0060(t1) */
+-
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    stl_p(p++, 0x3c08c100);                  /* lui t0, 0xc100 */
+-#else
+-    stl_p(p++, 0x340800c1);                  /* ori t0, r0, 0x00c1 */
+-#endif
+-    stl_p(p++, 0xad280080);                  /* sw t0, 0x0080(t1) */
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    stl_p(p++, 0x3c085e00);                  /* lui t0, 0x5e00 */
+-#else
+-    stl_p(p++, 0x3408005e);                  /* ori t0, r0, 0x005e */
+-#endif
+-    stl_p(p++, 0xad280088);                  /* sw t0, 0x0088(t1) */
++    /* move GT64120 registers from 0x14000000 to 0x1be00000 */
++    bl_gen_write_u32(&p, cpu_to_be32(0xdf000000),
++                        cpu_mips_phys_to_kseg1(NULL, 0x14000068));
 +
-+uint64_t cpu_mips_phys_to_kseg1(void *opaque, uint64_t addr)
-+{
-+    return (addr & 0x1fffffffll) | 0xffffffffa0000000ll;
-+}
-+
- bool mips_um_ksegs_enabled(void)
- {
-     return mips_um_ksegs;
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 3ac21d0e9c..0bb1218a57 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -1303,6 +1303,8 @@ uint64_t cpu_mips_kseg0_to_phys(void *opaque, uint64_t addr);
- uint64_t cpu_mips_phys_to_kseg0(void *opaque, uint64_t addr);
++    /* setup MEM-to-PCI0 mapping */
++    /* setup PCI0 io window to 0x18000000-0x181fffff */
++    bl_gen_write_u32(&p, cpu_to_be32(0xc0000000),
++                        cpu_mips_phys_to_kseg1(NULL, 0x1be00048));
++    bl_gen_write_u32(&p, cpu_to_be32(0x40000000),
++                        cpu_mips_phys_to_kseg1(NULL, 0x1be00050));
++    /* setup PCI0 mem windows */
++    bl_gen_write_u32(&p, cpu_to_be32(0x80000000),
++                        cpu_mips_phys_to_kseg1(NULL, 0x1be00058));
++    bl_gen_write_u32(&p, cpu_to_be32(0x3f000000),
++                        cpu_mips_phys_to_kseg1(NULL, 0x1be00060));
++    bl_gen_write_u32(&p, cpu_to_be32(0xc1000000),
++                        cpu_mips_phys_to_kseg1(NULL, 0x1be00080));
++    bl_gen_write_u32(&p, cpu_to_be32(0x5e000000),
++                        cpu_mips_phys_to_kseg1(NULL, 0x1be00088));
  
- uint64_t cpu_mips_kvm_um_phys_to_kseg0(void *opaque, uint64_t addr);
-+uint64_t cpu_mips_kseg1_to_phys(void *opaque, uint64_t addr);
-+uint64_t cpu_mips_phys_to_kseg1(void *opaque, uint64_t addr);
- bool mips_um_ksegs_enabled(void);
- void mips_um_ksegs_enable(void);
- 
+     if (semihosting_get_argc()) {
+         a0 = 0;
 -- 
 2.29.2
 
