@@ -2,57 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14DD2DA5B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 02:41:05 +0100 (CET)
-Received: from localhost ([::1]:48242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC142DA5D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 02:53:34 +0100 (CET)
+Received: from localhost ([::1]:58716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kozKq-0006Z0-89
-	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 20:41:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33352)
+	id 1kozWt-0002px-6K
+	for lists+qemu-devel@lfdr.de; Mon, 14 Dec 2020 20:53:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1kozJ6-0005qz-LX
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 20:39:16 -0500
-Received: from mga03.intel.com ([134.134.136.65]:27915)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1kozJ3-0003zN-Rc
- for qemu-devel@nongnu.org; Mon, 14 Dec 2020 20:39:15 -0500
-IronPort-SDR: Zs0C8IGpIy09e+MmFIhVXibuXysRsGiDHNUPGw4ITl5JeWIKbox0q0gWZgmW3xZM62qt8zmG/i
- CtZCwPVkTwOA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9835"; a="174920669"
-X-IronPort-AV: E=Sophos;i="5.78,420,1599548400"; d="scan'208";a="174920669"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2020 17:39:05 -0800
-IronPort-SDR: xgR/qEL0c6D29CX9nUFPs0VioUUL8C7mVrLlYFidKq4I4V6sSH8wl9jnH2wT3YuUZuvha6OLQC
- kYYYpZWZprVg==
-X-IronPort-AV: E=Sophos;i="5.78,420,1599548400"; d="scan'208";a="335752305"
-Received: from unknown (HELO [10.239.13.2]) ([10.239.13.2])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 14 Dec 2020 17:39:03 -0800
-Message-ID: <5FD8157B.7030202@intel.com>
-Date: Tue, 15 Dec 2020 09:46:35 +0800
-From: Wei Wang <wei.w.wang@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
- rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kozSE-00013C-9p
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 20:48:42 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:35652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kozSC-00056S-S7
+ for qemu-devel@nongnu.org; Mon, 14 Dec 2020 20:48:42 -0500
+Received: by mail-il1-f194.google.com with SMTP id t9so17741465ilf.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 17:48:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7B/acPYByU+nuYEOBCmp5CSWKeQvXDGWgSHhnt4Hc4M=;
+ b=e82CNKMEMKJ6u4CCf1d9Dcttlzw3g/vDCgbBrxzRBcsuK0oSQswg+nM+DmOsfdV2VV
+ 4cMeXSkvQOiIhmFpE/ORwRUI2oKjyGj8IMCMx1YpauiBgm0UwLiTATsXEwOxEUJ2OUOx
+ a1SGAMmgS95BeUaEbmv5y16c7y0WKB/usG3lHyNoG/dJ0lLGLcYixC4+4hEu+G0+DTRE
+ mKQKFgvUGd2/zbSPQqFfDrZEonMKosJcVa06cSmpVP5dJrVVg+7SjRPS0V19iQObuhu4
+ tecg7M4B87meQn3OMhH+dXrGBbr0ZRNDlDZdf9GCGbkF3Rqjmc/LvOsDSjaNn0pzB3ER
+ l75Q==
+X-Gm-Message-State: AOAM532xHzKEgf574NNbw6yCz4Y8o7q+pSPNsMhHWMwhR73rlch4muVZ
+ UN1VqiuC4pifvYiy3SBz4MXaw3rQOUM=
+X-Google-Smtp-Source: ABdhPJztvz07Y3L+KeLG7w3C4zl+BJMWrUQ68kNmUlDLducOmVk8cwtkXD+DEUANJEaZeEpjUvrOVQ==
+X-Received: by 2002:a92:d151:: with SMTP id t17mr39761585ilg.108.1607996919794; 
+ Mon, 14 Dec 2020 17:48:39 -0800 (PST)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com.
+ [209.85.166.45])
+ by smtp.gmail.com with ESMTPSA id t14sm438613iof.23.2020.12.14.17.48.39
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 14 Dec 2020 17:48:39 -0800 (PST)
+Received: by mail-io1-f45.google.com with SMTP id m23so4114968ioy.2
+ for <qemu-devel@nongnu.org>; Mon, 14 Dec 2020 17:48:39 -0800 (PST)
+X-Received: by 2002:a6b:5d07:: with SMTP id r7mr36075439iob.84.1607996919493; 
+ Mon, 14 Dec 2020 17:48:39 -0800 (PST)
 MIME-Version: 1.0
-To: Quentin Grolleau <quentin.grolleau@ovhcloud.com>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, samuel.ortiz@intel.com
-Subject: Re: [raw] Guest stuck during live live-migration
-References: <e6f25c7e67ce4cfea5e01e4e46f0a3d8@ovhcloud.com>
-In-Reply-To: <e6f25c7e67ce4cfea5e01e4e46f0a3d8@ovhcloud.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=wei.w.wang@intel.com;
- helo=mga03.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201214140314.18544-1-richard.henderson@linaro.org>
+ <20201214140314.18544-6-richard.henderson@linaro.org>
+In-Reply-To: <20201214140314.18544-6-richard.henderson@linaro.org>
+From: Joelle van Dyne <j@getutm.app>
+Date: Mon, 14 Dec 2020 17:48:28 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSBzU4VEi==b3w72RwOOsPC_fAF2XTt7aVnsGknBxo6cdQ@mail.gmail.com>
+Message-ID: <CA+E+eSBzU4VEi==b3w72RwOOsPC_fAF2XTt7aVnsGknBxo6cdQ@mail.gmail.com>
+Subject: Re: [PATCH v4 05/43] tcg: Move tcg prologue pointer out of TCGContext
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.166.194; envelope-from=osy86dev@gmail.com;
+ helo=mail-il1-f194.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,82 +81,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/23/2020 05:36 PM, Quentin Grolleau wrote:
-> Hello,
+On Mon, Dec 14, 2020 at 6:02 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> In our company, we are hosting a large number of Vm, hosted behind 
-> Openstack (so libvirt/qemu).
-> A large majority of our Vms are runnign with local data only, stored 
-> on NVME, and most of them are RAW disks.
+> This value is constant across all thread-local copies of TCGContext,
+> so we might as well move it out of thread-local storage.
 >
-> With Qemu 4.0(can be even with older version)we see strange 
-> live-migrationcomportement:
->     - some Vms live migrate at very high speed without issue (> 6 Gbps)
->     - some Vms are running correctly, but migrating at a strange low 
-> speed (3Gbps)
->     - some Vms are migrating at a very low speed (1Gbps, sometime 
-> less) and during the migration the guest is completely I/O stuck
-> When this issue happen the VM is completly block, iostat in the Vm 
-> show us a latency of 30 secs
+> Use the correct function pointer type, and name the variable
+> tcg_qemu_tb_exec, which means that we are able to remove the
+> macro that does the casting.
 >
-> First we thought it was related to an hardware issuewe check it, we 
-> comparing different hardware, but no issue where found there
+> Replace HAVE_TCG_QEMU_TB_EXEC with CONFIG_TCG_INTERPRETER,
+> as this is somewhat clearer in intent.
 >
-> So one of my colleague had the idea to limit with "tc" the bandwidth 
-> on the interface the migration was done, and it worked the VM didn't 
-> lose any ping nor being  I/O stuck
-> Important point : Once the Vm have been migrate (with the limitation ) 
-> one time, if we migrate it again right after, the migration will be 
-> done at full speed (8-9Gb/s) without freezing the Vm
->
-> It only happen on existing VM, we tried to replicate with a fresh 
-> instance with exactly the same spec and nothing was happening
->
-> We tried to replicate the workload inside the VM but there was no way 
-> to replicate the case. So it was not related to the workload nor to 
-> the server that hosts the Vm
->
-> So we thought about the disk of the instance : the raw file.
->
-> We also tried to strace -c the process during the live-migration and 
-> it was doing a lot of "lseek"
->
-> and we found this :
-> https://lists.gnu.org/archive/html/qemu-devel/2017-02/msg00462.html
->
->
-> So i rebuilt Qemu with this patch and the live-migration went well, at 
-> high speedand with no VM freeze
-> ( https://github.com/qemu/qemu/blob/master/block/file-posix.c#L2601)
->
-> Do you have a way to avoid the "lseek" mechanism as it consumes more 
-> resources to find the holes in the disk and don't let any for the VM ?
->
->
-> Server hosting the VM :
-> - Bi-Xeon hosts With NVME storage and 10 Go Network card
-> - Qemu 4.0 And Libvirt 5.4
-> - Kernel 4.18.0.25
->
-> Guest having the issue :
-> - raw image with Debian 8
->
-> Here the qemu img on the disk :
-> > qemu-img info disk
-> image: disk
-> file format: raw
-> virtual size: 400G (429496729600 bytes)
-> disk size: 400G
->
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/tcg/tcg.h | 9 ++++-----
+>  tcg/tcg.c         | 9 ++++++++-
+>  tcg/tci.c         | 3 ++-
+>  3 files changed, 14 insertions(+), 7 deletions(-)
 
-Could you share the migration options that you use and "info migrate" 
-for both stuck and non-stuck cases?
-
-Best,
-Wei
-
-
+Reviewed-by: Joelle van Dyne <j@getutm.app>
 
