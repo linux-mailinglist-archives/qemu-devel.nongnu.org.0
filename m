@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC3D2DAFCE
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:10:52 +0100 (CET)
-Received: from localhost ([::1]:60072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AEC62DAFD4
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:12:33 +0100 (CET)
+Received: from localhost ([::1]:36724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpByV-00069B-Bc
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:10:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47996)
+	id 1kpC08-0008AL-MT
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:12:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpBxI-0005Ih-BZ
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:09:36 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38650)
+ id 1kpBxJ-0005Io-6S
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:09:37 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpBxF-0000kY-Hw
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:09:35 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id r7so20185459wrc.5
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 07:09:33 -0800 (PST)
+ id 1kpBxG-0000kf-QS
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:09:36 -0500
+Received: by mail-wm1-x333.google.com with SMTP id q75so18816990wme.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 07:09:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HxrmziQTc5fwRL5YXfV79HkuHWc8g30OuzR6nfoN+dw=;
- b=PBr8PF/qMacv7/H5x1O+BvobDDfj9vB8jeWgtXIKjqUAv/OzgYc3F+Yt0pMLGCh/zx
- PfKNBDoR8VZz5oLyidL6EX2eDwUzXZRDVoNDpNDlthMvJNdWFwq1XaGgbh/wxxhpz7Me
- oiJv5y8mpfV/NptAzmBF7pUhOWS+IWdLPALBDCoeTb2+RIyj6sIRd7WLNkbC175PG4G/
- vDstzjWWMX2gWw96AWv+0pJhCGHUx1ZBrvyzoB1IlgKWDJlbeKdk3/USvQahQhcawY36
- DVdfbDImU3luOlmN46WVIAusU/k1jQgdaiNMs8z5ECDdsbumvCc9gOMxFqYVOE64M92m
- Hvfw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=IGI78ySIqdwEDouakruXPezW0i6YbGzlKC8KIhhFa68=;
+ b=lmFEZTxa+CGVUHKWJ77errqhhZyO9Cum19x/XWXsKq/O/+7DHdKdHiw+MV3E92Dinp
+ 2Mv4QBztfX7xGVPkRsFyXT4uQlwLsGzWqg/TGtUv1pBfeVHIvZfo9jfj+wlM7ycSCHDf
+ C67Sa0YKM3ug0Cw7d2yM/G3YQ2iBqtICStUlMcrcuOkIoLp9Ih27I2uNdqFkrY6Amxq1
+ /smUskKyyLpCGIrGnRL8rlI4xiPRMsWZitn2zbZbzFysdteXwViH2ilUcqWK2SfLYsUG
+ 4g/Gw1zmDhNAcy5YMZaIJ27L+rYo4DIGmd+2QgEROLRAjXE7j5QF6UlmBebHIiW8jc54
+ iOqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HxrmziQTc5fwRL5YXfV79HkuHWc8g30OuzR6nfoN+dw=;
- b=a86ETiw83tyVT2fHEVJwyTmPvRm6fE5NSYG8rcWCi1BepZXFYxFTqeNh5GYmfiWweL
- qvO+oQw+ndRy8PHnsE5BQAnk4ev+f599jbKGYyoUonm5D17wdwj9nSdwmF8Nk6ucBHnu
- d4nbxhGcTwIhoxW/Swl4YPpl7fDEmpYNoAo6tsezgsPLL5BiDQbbSs5GAb4uwSN6c/9c
- SesTFwsLagdM9w8Go6dqlBzrFopsMTtI9FR3twyWAaSdRFj5b3hgmqzVSasID6Kq0G0+
- VrtBQDiTqmRi4tLzu8la0szQZ0a/BSb1sLcrH8oXmE5AoE27rZ2KpGSrjggdqEhl9Osr
- Ldew==
-X-Gm-Message-State: AOAM530qok/KplXD2jR0viEWDL8OOBNeqwJTv2Ptael89WNmYJ3uyfPA
- CrWeJFiGw4t6ukk5qlO1ffkkpsSojhX3pw==
-X-Google-Smtp-Source: ABdhPJwO9mI/8TVkfWI1ChH0UEB1odGC/ba44iLSr3EmlIwvsLctxkgdOX+SbhuQjTUMkVtrxWIC4g==
-X-Received: by 2002:adf:f989:: with SMTP id f9mr28745079wrr.299.1608044971644; 
- Tue, 15 Dec 2020 07:09:31 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=IGI78ySIqdwEDouakruXPezW0i6YbGzlKC8KIhhFa68=;
+ b=F3/T/qdwE1NlAMR9dwNkz7kPea5FlXkiilrL/deBI4E1VRLEYBQWLCLPOcNx1fFPq7
+ H96dJoBe1Tpx06JOjUc1Rja7b0pqqFeYQM5H+DAecdHzS+0coVt82Yyp8OsDSmuMsVNs
+ KreOOujq8xaBNbFTvlf0JprCLi9Cxf1FTpqzVuTvi/zqIUZHutaRrqynnk5gbNaG9FDC
+ zL7mINj+mykmaRvFQk46CnRZqTGySEdIoys2mGhpQDLFwtkAXyRVoWo6fOSDhs6RNQaP
+ xSaw3OjSlc/Bml0SdxIao/xGnjfbVDneA1sjqkPdf/B4paw/e0s7ITLtD9sSxdr0l+wa
+ Gy1Q==
+X-Gm-Message-State: AOAM5305FvkEHesRhFMwaxvhBILGi5Ho4mJl6/IxT2dQW0llAEI9eevN
+ zuYb6pHkzGkFvXYK4ldQ7fUSlYu+gfwKvg==
+X-Google-Smtp-Source: ABdhPJwHWQv2EXwQrLdTDml+6/zmvhQ85RDnf/hyd+ICynrrvq5KjyczTrFJMF3bornBLOZIe6YaIw==
+X-Received: by 2002:a05:600c:258:: with SMTP id
+ 24mr33996982wmj.16.1608044972839; 
+ Tue, 15 Dec 2020 07:09:32 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l1sm36930593wmi.15.2020.12.15.07.09.30
+ by smtp.gmail.com with ESMTPSA id l1sm36930593wmi.15.2020.12.15.07.09.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 07:09:30 -0800 (PST)
+ Tue, 15 Dec 2020 07:09:32 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/4] clock: Get rid of clock_get_ns()
-Date: Tue, 15 Dec 2020 15:09:25 +0000
-Message-Id: <20201215150929.30311-1-peter.maydell@linaro.org>
+Subject: [PATCH v2 1/4] clock: Introduce clock_ticks_to_ns()
+Date: Tue, 15 Dec 2020 15:09:26 +0000
+Message-Id: <20201215150929.30311-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201215150929.30311-1-peter.maydell@linaro.org>
+References: <20201215150929.30311-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,50 +90,130 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchseries makes some changes to the clock API:
- * Remove clock_get_ns()
- * Add clock_ticks_to_ns() to return number of nanoseconds
-   it will take the clock to tick N times
- * clock_display_freq() to return prettily-formatted string
-   for showing humans the approximate clock frequency
+The clock_get_ns() API claims to return the period of a clock in
+nanoseconds. Unfortunately since it returns an integer and a
+clock's period is represented in units of 2^-32 nanoseconds,
+the result is often an approximation, and calculating a clock
+expiry deadline by multiplying clock_get_ns() by a number-of-ticks
+is unacceptably inaccurate.
 
-This is based on discussions we had about these APIs a little while
-back.  The core driver here is that the clock objects internally
-store the period in units of 2^-32 ns, so both clock_get_ns() and
-clock_get_hz() are inherently returning a rounded-off result, which
-can be badly inaccurate for fast clocks or if you want to multiply it
-by a large tick count.
+Introduce a new API clock_ticks_to_ns() which returns the number
+of nanoseconds it takes the clock to make a given number of ticks.
+This function can do the complete calculation internally and
+will thus give a more accurate result.
 
-Ideally I'd like to get rid of clock_get_hz() as well, but
-that looks trickier than handling clock_get_ns().
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+The 64x64->128 multiply is a bit painful for 32-bit and I
+guess in theory since we know we only want bits [95:32]
+of the result we could special-case it, but TBH I don't
+think 32-bit hosts merit much optimization effort these days.
 
-Patch 4 borrows a lot of the concept from one of Philippe's that he
-sent out previously.
+Changes in v2: saturate the result to INT64_MAX.
+---
+ docs/devel/clocks.rst | 29 +++++++++++++++++++++++++++++
+ include/hw/clock.h    | 41 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 70 insertions(+)
 
-NB: tested with 'make check' and 'make check-acceptance' only.
-
-Changes v1->v2:
- * In patch 1, saturate return value to INT64_MAX (and update
-   docs to explain this and why)
-
-Patches 2-4 have been reviewed, only patch 1 needs review.
-
-thanks
--- PMM
-
-Peter Maydell (4):
-  clock: Introduce clock_ticks_to_ns()
-  target/mips: Don't use clock_get_ns() in clock period calculation
-  clock: Remove clock_get_ns()
-  clock: Define and use new clock_display_freq()
-
- docs/devel/clocks.rst  | 51 ++++++++++++++++++++++++++++++++++++----
- include/hw/clock.h     | 53 +++++++++++++++++++++++++++++++++++++++---
- hw/core/clock.c        |  6 +++++
- softmmu/qdev-monitor.c |  6 ++---
- target/mips/cpu.c      |  4 ++--
- 5 files changed, 108 insertions(+), 12 deletions(-)
-
+diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
+index e5da28e2111..c2e70e64db1 100644
+--- a/docs/devel/clocks.rst
++++ b/docs/devel/clocks.rst
+@@ -258,6 +258,35 @@ Here is an example:
+                         clock_get_ns(dev->my_clk_input));
+     }
+ 
++Calculating expiry deadlines
++----------------------------
++
++A commonly required operation for a clock is to calculate how long
++it will take for the clock to tick N times; this can then be used
++to set a timer expiry deadline. Use the function ``clock_ticks_to_ns()``,
++which takes an unsigned 64-bit count of ticks and returns the length
++of time in nanoseconds required for the clock to tick that many times.
++
++It is important not to try to calculate expiry deadlines using a
++shortcut like multiplying a "period of clock in nanoseconds" value
++by the tick count, because clocks can have periods which are not a
++whole number of nanoseconds, and the accumulated error in the
++multiplication can be significant.
++
++For a clock with a very long period and a large number of ticks,
++the result of this function could in theory be too large to fit in
++a 64-bit value. To avoid overflow in this case, ``clock_ticks_to_ns()``
++saturates the result to INT64_MAX (because this is the largest valid
++input to the QEMUTimer APIs). Since INT64_MAX nanoseconds is almost
++300 years, anything with an expiry later than that is in the "will
++never happen" category. Callers of ``clock_ticks_to_ns()`` should
++therefore generally not special-case the possibility of a saturated
++result but just allow the timer to be set to that far-future value.
++(If you are performing further calculations on the returned value
++rather than simply passing it to a QEMUTimer function like
++``timer_mod_ns()`` then you should be careful to avoid overflow
++in those calculations, of course.)
++
+ Changing a clock period
+ -----------------------
+ 
+diff --git a/include/hw/clock.h b/include/hw/clock.h
+index 81bcf3e505a..b5fff6ded83 100644
+--- a/include/hw/clock.h
++++ b/include/hw/clock.h
+@@ -16,6 +16,8 @@
+ 
+ #include "qom/object.h"
+ #include "qemu/queue.h"
++#include "qemu/host-utils.h"
++#include "qemu/bitops.h"
+ 
+ #define TYPE_CLOCK "clock"
+ OBJECT_DECLARE_SIMPLE_TYPE(Clock, CLOCK)
+@@ -218,6 +220,45 @@ static inline unsigned clock_get_ns(Clock *clk)
+     return CLOCK_PERIOD_TO_NS(clock_get(clk));
+ }
+ 
++/**
++ * clock_ticks_to_ns:
++ * @clk: the clock to query
++ * @ticks: number of ticks
++ *
++ * Returns the length of time in nanoseconds for this clock
++ * to tick @ticks times. Because a clock can have a period
++ * which is not a whole number of nanoseconds, it is important
++ * to use this function when calculating things like timer
++ * expiry deadlines, rather than attempting to obtain a "period
++ * in nanoseconds" value and then multiplying that by a number
++ * of ticks.
++ *
++ * The result could in theory be too large to fit in a 64-bit
++ * value if the number of ticks and the clock period are both
++ * large; to avoid overflow the result will be saturated to INT64_MAX
++ * (because this is the largest valid input to the QEMUTimer APIs).
++ * Since INT64_MAX nanoseconds is almost 300 years, anything with
++ * an expiry later than that is in the "will never happen" category
++ * and callers can reasonably not special-case the saturated result.
++ */
++static inline uint64_t clock_ticks_to_ns(const Clock *clk, uint64_t ticks)
++{
++    uint64_t ns_low, ns_high;
++
++    /*
++     * clk->period is the period in units of 2^-32 ns, so
++     * (clk->period * ticks) is the required length of time in those
++     * units, and we can convert to nanoseconds by multiplying by
++     * 2^32, which is the same as shifting the 128-bit multiplication
++     * result right by 32.
++     */
++    mulu64(&ns_low, &ns_high, clk->period, ticks);
++    if (ns_high & MAKE_64BIT_MASK(31, 33)) {
++        return INT64_MAX;
++    }
++    return ns_low >> 32 | ns_high << 32;
++}
++
+ /**
+  * clock_is_enabled:
+  * @clk: a clock
 -- 
 2.20.1
 
