@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3998C2DA82D
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 07:45:08 +0100 (CET)
-Received: from localhost ([::1]:58336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92DD72DA82B
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 07:45:06 +0100 (CET)
+Received: from localhost ([::1]:58608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp44z-000495-Bs
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 01:45:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49152)
+	id 1kp453-0004Fu-Hl
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 01:45:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kp42Q-0002X3-MP
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 01:42:22 -0500
-Received: from relay4.mymailcheap.com ([137.74.80.156]:37773)
+ id 1kp42S-0002Xr-3X
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 01:42:27 -0500
+Received: from relay1.mymailcheap.com ([144.217.248.102]:46356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kp42O-0003yW-17
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 01:42:21 -0500
-Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
- [91.134.140.82])
- by relay4.mymailcheap.com (Postfix) with ESMTPS id DC0943F162;
- Tue, 15 Dec 2020 07:42:16 +0100 (CET)
+ id 1kp42O-0003y9-1D
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 01:42:23 -0500
+Received: from filter1.mymailcheap.com (filter1.mymailcheap.com
+ [149.56.130.247])
+ by relay1.mymailcheap.com (Postfix) with ESMTPS id AE7E43F157;
+ Tue, 15 Dec 2020 06:42:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by filter2.mymailcheap.com (Postfix) with ESMTP id A556C2A510;
- Tue, 15 Dec 2020 07:42:16 +0100 (CET)
+ by filter1.mymailcheap.com (Postfix) with ESMTP id 953752A370;
+ Tue, 15 Dec 2020 01:42:16 -0500 (EST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
  s=default; t=1608014536;
- bh=cGmOSUpqmmDaRutuNIYSbq+9gyN9f/epd4xjCNcUhBA=;
- h=From:To:Cc:Subject:Date:From;
- b=rhP5fc4247BdQS91uxZlZsXgjWPJF7zcLZh7zRPuRzWf91FG9FQq+rG9LbH30TmoH
- GRmMRxHtkVP3qhk1HlO0CJswrBWUKf8zDbDm9777JsREwOH5uMI1N9VwMIWhut5rRJ
- nx2B3Z2DCFPHO3zcY2dpQZdiI8Ya4C4odaPhEf+Q=
-X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
-Received: from filter2.mymailcheap.com ([127.0.0.1])
- by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Cz4NK2_-hbEt; Tue, 15 Dec 2020 07:42:15 +0100 (CET)
+ bh=BywRbk7fBtvY251r/H3j4PpBjmNOhVX4sj3Z7oRtv3k=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=DzxiSjhNXhOeFCGOJjnODMgdvDiP0+o0yG6Pog37pjfmhkztJn9k9qw3J9F88jzbh
+ WUujy5HSxoAAxx5iomp0WYLKYF6bg/SaPyvyqya7JJa7XC+H9h9fDogD8Yb4Xq8Rje
+ zy7W+c550cjZaVwp6ENot1mFZLUAIMlW6RNYm148=
+X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
+Received: from filter1.mymailcheap.com ([127.0.0.1])
+ by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id IdZatChOJq2j; Tue, 15 Dec 2020 01:42:15 -0500 (EST)
 Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
  (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by filter2.mymailcheap.com (Postfix) with ESMTPS;
- Tue, 15 Dec 2020 07:42:15 +0100 (CET)
+ by filter1.mymailcheap.com (Postfix) with ESMTPS;
+ Tue, 15 Dec 2020 01:42:15 -0500 (EST)
 Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
- by mail20.mymailcheap.com (Postfix) with ESMTP id 305D041001;
+ by mail20.mymailcheap.com (Postfix) with ESMTP id AEC0542D0B;
  Tue, 15 Dec 2020 06:42:13 +0000 (UTC)
 Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
- unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="mwVePDwK"; 
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="BD8+hgjh"; 
  dkim-atps=neutral
 AI-Spam-Status: Not processed
 Received: from strike.U-LINK.com (unknown [116.228.84.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 0649140026;
- Tue, 15 Dec 2020 06:42:05 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id BF57F40026;
+ Tue, 15 Dec 2020 06:42:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
- s=default; t=1608014528;
- bh=cGmOSUpqmmDaRutuNIYSbq+9gyN9f/epd4xjCNcUhBA=;
- h=From:To:Cc:Subject:Date:From;
- b=mwVePDwKoUK0HT3jne5ZS3yNPLHYNGvyp4Em/p3TWERgPpzogRZWucz2U9Ho1Y5Gs
- yaX7dezz+i09qhnUAmvtDypRacufkrHssD6QD1Usvhm9++/ZfrDpx4WpwqtLJxR+ep
- BX1drreBkbiQbJN3Q8xW2OuZ83Xt70zOmtZBaxG8=
+ s=default; t=1608014531;
+ bh=BywRbk7fBtvY251r/H3j4PpBjmNOhVX4sj3Z7oRtv3k=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=BD8+hgjhnmIWEMRZbec6uy5iL5Lo6FSFuLaryEI/to80Yv2QvIgIJW0jWs/rl0sVn
+ zDLQ0a+W4unm39Dej39u69q+JSn8iT35vr1JNuGCz/fbnK8AMv+e9J7ceiOLt3oNWc
+ 0tI/HCGXgI4KstjYmbDnnbzcIPyunndwAGhl7smA=
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/8] MIPS Bootloader helper
-Date: Tue, 15 Dec 2020 14:41:52 +0800
-Message-Id: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 1/8] hw/mips: Make bootloader addresses unsgined
+Date: Tue, 15 Dec 2020 14:41:53 +0800
+Message-Id: <20201215064200.28751-2-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
+References: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: mail20.mymailcheap.com
@@ -87,10 +89,10 @@ X-Spamd-Result: default: False [4.90 / 10.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
  ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
  RCVD_COUNT_TWO(0.00)[2];
  HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1]
-X-Rspamd-Queue-Id: 305D041001
+X-Rspamd-Queue-Id: AEC0542D0B
 X-Spam: Yes
-Received-SPF: pass client-ip=137.74.80.156;
- envelope-from=jiaxun.yang@flygoat.com; helo=relay4.mymailcheap.com
+Received-SPF: pass client-ip=144.217.248.102;
+ envelope-from=jiaxun.yang@flygoat.com; helo=relay1.mymailcheap.com
 X-Spam_score_int: -5
 X-Spam_score: -0.6
 X-Spam_bar: /
@@ -114,33 +116,136 @@ Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, chenhuacai@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
-A big reconstruction. rewrite helpers with CPU feature and sepreate
-changesets.
+Address should be unsigned anyway, otherwise it may carry
+calculations wrongly.
 
-Jiaxun Yang (8):
-  hw/mips: Make bootloader addresses unsgined
-  hw/mips/malta: Use address translation helper to calculate
-    bootloader_run_addr
-  hw/mips: Use address translation helper to handle ENVP_ADDR
-  hw/mips: Add a bootloader helper
-  hw/mips: Use bl_gen_kernel_jump to generate bootloaders
-  target/mips/addr: Add translation helpers for KSEG1
-  hw/mips/malta: Use bootloader helper to set BAR resgiters
-  hw/mips/boston: Use bootloader helper to set GCRs
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ hw/mips/fuloong2e.c | 12 ++++++------
+ hw/mips/malta.c     | 22 +++++++++++-----------
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
- hw/mips/bootloader.c         | 157 ++++++++++++++++++++++++++++++++
- hw/mips/boston.c             |  62 +++----------
- hw/mips/fuloong2e.c          |  48 +++-------
- hw/mips/malta.c              | 171 ++++++++++++-----------------------
- hw/mips/meson.build          |   2 +-
- include/hw/mips/bootloader.h |  48 ++++++++++
- target/mips/addr.c           |  10 ++
- target/mips/cpu.h            |   2 +
- 8 files changed, 306 insertions(+), 194 deletions(-)
- create mode 100644 hw/mips/bootloader.c
- create mode 100644 include/hw/mips/bootloader.h
-
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 45c596f4fe..fc4d7f21ed 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -107,9 +107,9 @@ static void GCC_FMT_ATTR(3, 4) prom_set(uint32_t *prom_buf, int index,
+     va_end(ap);
+ }
+ 
+-static int64_t load_kernel(CPUMIPSState *env)
++static uint64_t load_kernel(CPUMIPSState *env)
+ {
+-    int64_t kernel_entry, kernel_high, initrd_size;
++    uint64_t kernel_entry, kernel_high, initrd_size;
+     int index = 0;
+     long kernel_size;
+     ram_addr_t initrd_offset;
+@@ -118,8 +118,8 @@ static int64_t load_kernel(CPUMIPSState *env)
+ 
+     kernel_size = load_elf(loaderparams.kernel_filename, NULL,
+                            cpu_mips_kseg0_to_phys, NULL,
+-                           (uint64_t *)&kernel_entry, NULL,
+-                           (uint64_t *)&kernel_high, NULL,
++                           &kernel_entry, NULL,
++                           &kernel_high, NULL,
+                            0, EM_MIPS, 1, 0);
+     if (kernel_size < 0) {
+         error_report("could not load kernel '%s': %s",
+@@ -180,7 +180,7 @@ static int64_t load_kernel(CPUMIPSState *env)
+ }
+ 
+ static void write_bootloader(CPUMIPSState *env, uint8_t *base,
+-                             int64_t kernel_addr)
++                             uint64_t kernel_addr)
+ {
+     uint32_t *p;
+ 
+@@ -294,7 +294,7 @@ static void mips_fuloong2e_init(MachineState *machine)
+     MemoryRegion *bios = g_new(MemoryRegion, 1);
+     long bios_size;
+     uint8_t *spd_data;
+-    int64_t kernel_entry;
++    uint64_t kernel_entry;
+     PCIDevice *pci_dev;
+     PCIBus *pci_bus;
+     ISABus *isa_bus;
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 366f4fdfcd..7db009a3e9 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -616,8 +616,8 @@ static void network_init(PCIBus *pci_bus)
+     }
+ }
+ 
+-static void write_bootloader_nanomips(uint8_t *base, int64_t run_addr,
+-                                      int64_t kernel_entry)
++static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
++                                      uint64_t kernel_entry)
+ {
+     uint16_t *p;
+ 
+@@ -840,8 +840,8 @@ static void write_bootloader_nanomips(uint8_t *base, int64_t run_addr,
+  *   a2 - 32-bit address of the environment variables table
+  *   a3 - RAM size in bytes
+  */
+-static void write_bootloader(uint8_t *base, int64_t run_addr,
+-                             int64_t kernel_entry)
++static void write_bootloader(uint8_t *base, uint64_t run_addr,
++                             uint64_t kernel_entry)
+ {
+     uint32_t *p;
+ 
+@@ -1003,7 +1003,7 @@ static void GCC_FMT_ATTR(3, 4) prom_set(uint32_t *prom_buf, int index,
+                                         const char *string, ...)
+ {
+     va_list ap;
+-    int32_t table_addr;
++    uint32_t table_addr;
+ 
+     if (index >= ENVP_NB_ENTRIES) {
+         return;
+@@ -1014,7 +1014,7 @@ static void GCC_FMT_ATTR(3, 4) prom_set(uint32_t *prom_buf, int index,
+         return;
+     }
+ 
+-    table_addr = sizeof(int32_t) * ENVP_NB_ENTRIES + index * ENVP_ENTRY_SIZE;
++    table_addr = sizeof(uint32_t) * ENVP_NB_ENTRIES + index * ENVP_ENTRY_SIZE;
+     prom_buf[index] = tswap32(ENVP_ADDR + table_addr);
+ 
+     va_start(ap, string);
+@@ -1023,9 +1023,9 @@ static void GCC_FMT_ATTR(3, 4) prom_set(uint32_t *prom_buf, int index,
+ }
+ 
+ /* Kernel */
+-static int64_t load_kernel(void)
++static uint64_t load_kernel(void)
+ {
+-    int64_t kernel_entry, kernel_high, initrd_size;
++    uint64_t kernel_entry, kernel_high, initrd_size;
+     long kernel_size;
+     ram_addr_t initrd_offset;
+     int big_endian;
+@@ -1042,8 +1042,8 @@ static int64_t load_kernel(void)
+ 
+     kernel_size = load_elf(loaderparams.kernel_filename, NULL,
+                            cpu_mips_kseg0_to_phys, NULL,
+-                           (uint64_t *)&kernel_entry, NULL,
+-                           (uint64_t *)&kernel_high, NULL, big_endian, EM_MIPS,
++                           &kernel_entry, NULL,
++                           &kernel_high, NULL, big_endian, EM_MIPS,
+                            1, 0);
+     if (kernel_size < 0) {
+         error_report("could not load kernel '%s': %s",
+@@ -1234,7 +1234,7 @@ void mips_malta_init(MachineState *machine)
+     MemoryRegion *bios, *bios_copy = g_new(MemoryRegion, 1);
+     const size_t smbus_eeprom_size = 8 * 256;
+     uint8_t *smbus_eeprom_buf = g_malloc0(smbus_eeprom_size);
+-    int64_t kernel_entry, bootloader_run_addr;
++    uint64_t kernel_entry, bootloader_run_addr;
+     PCIBus *pci_bus;
+     ISABus *isa_bus;
+     qemu_irq cbus_irq, i8259_irq;
 -- 
 2.29.2
 
