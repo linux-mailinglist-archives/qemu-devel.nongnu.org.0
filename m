@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF54E2DB0A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:57:48 +0100 (CET)
-Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3CB2DB0A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:58:43 +0100 (CET)
+Received: from localhost ([::1]:54474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpChv-0002Qg-V6
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:57:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60390)
+	id 1kpCio-0003nz-FZ
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:58:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpCfE-0000d2-KE
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:55:00 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42002)
+ id 1kpCfQ-0000nv-HY
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:55:14 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45252)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpCfC-0006kU-9U
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:55:00 -0500
-Received: by mail-ot1-x341.google.com with SMTP id 11so19805459oty.9
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 07:54:57 -0800 (PST)
+ id 1kpCfN-0006kv-1i
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:55:12 -0500
+Received: by mail-ot1-x344.google.com with SMTP id h18so19811205otq.12
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 07:55:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OccRTpKLN7B7VExNrgN3uZKux1sadY1FUfOza07lslY=;
- b=NaSpjy/sp1dTQqr36dh8LofN412BX3TMomUxOxZYSTGnyRmi2DyVhOje5tnCnHDnWn
- 0bEjOkh9d1jcVirEN82VpLJ4+bOPSIX6rGgsGyex8KriENJZDAxiqfScnmoQvAWAHCW3
- ZMwiybOUxqvg74SMO5FX503ghWQoLU1KWkF3KIbPRQBoMXZOG3WjXJjqdYM9kDkLQQx0
- cdOIPl0Tg0GGjayo7rK6Z1+OxIwi29lZIu3633LFReOz7ZN9uPQ8J9Ph1BQmd/Es1Usz
- IRErq3snecogkmsNMeXVmvhxrrhKH7CzV4fClbb2XysM3u80Ys5n/e0+/5NzDCLkTIcN
- wqag==
+ bh=fpKQRZA2i9FEg6oKrVRhVk07KdR65IjiARA1WbzPCN8=;
+ b=LNjrbn2f27h2XjqXzuqESol+E15jiJidlZNZ4JrIeBUBtoMGUYTL9vp828DvXiVdux
+ sHZOcOmX1g2RCv9g/zMtTqBP59kFZnuF9oH8KOEkFH/+26SL5IMVYo23PLpzaFqVjks0
+ te6CrKzs8rjuDp1oMsruQwdhGz0YXvuymYV9djb2MxLza5bigZfmX16jZCY70+lbZYpC
+ J5jTocvXIpa/Mf9bmOs1obkD9EYp33iqi4w9hueUPvLKGoJ6EACYX2OARL83lKPjeAS/
+ u6yIc8a96LBWM3NYEww4SRNGIpGXxOUakz9UeXUHabx/dSJyfldL2mafJd4DytDFOiLb
+ ZzkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=OccRTpKLN7B7VExNrgN3uZKux1sadY1FUfOza07lslY=;
- b=G1SZwr7qiaNW3L5OZ4yGH9YvhxTqIdzefFW+eI/Nk0HjWuwnmvyOJC872s9BG8ev2K
- VPtKSVgDEj2d69i7++FHRS3xfq3jNQrwdNXcq18ghl8d1Xu6bAJW33b1zN4b02cVwjFP
- Yr8q4u/QgPxpL2FOcQDa/tgoE1z5EzxYtOwQH5+CWrlv140cvQzxhU2pMu0bfUxgizcb
- G1/L+tpiMUGqt8IoQAFwPY4cTAOTgW8op31ef9wS1OCbRL8DYMt51Ly0RXK6Jp9hIi1P
- zINhfOYUXIETkpZ0Pvk/LUZMytkmlhKuTtxzWiYeTSu/O37LMCqdBjZ2oLkCDG4DWrvq
- fX7Q==
-X-Gm-Message-State: AOAM530WI7oOhwMCt1hbFmL2gvSLpHei4YRRfiM+N8+deSfIkD7CbTiS
- D5QTIjcwZVFjAXt9tV95D70QbU8JSTElh/Dz
-X-Google-Smtp-Source: ABdhPJzeJUB7tVIyu/4jH6IaskGivU6jYkugaTT4RnZwuvOGKD2PPPz268AhwUAMbH+Qx44b+KpENA==
-X-Received: by 2002:a9d:4e84:: with SMTP id v4mr24047756otk.45.1608047697207; 
- Tue, 15 Dec 2020 07:54:57 -0800 (PST)
+ bh=fpKQRZA2i9FEg6oKrVRhVk07KdR65IjiARA1WbzPCN8=;
+ b=cmRal+DvcIW85pypAlHx74snFuCfOR02K2a+W+vB+OHGhio5HpdJnicZv3PtfUMYE2
+ 7d/ClS+vEtppePsRezZ1dgliQ+MO0wlr6rQNIP28huW77ErrqS5taPcv7//eHJTLdqyN
+ 6oDevxTpyD9S+BSOAHmUVJjgcn7wjkgFZ1wUIfRx1anl9Elg4JuX3HSVAzY8hfqo0w8O
+ Hqe5V2MSCQG+gQcWP19VvXpjKO8xbFrr/pV+Fv4ZK90m8aQfoAKjezeRK1AWjpyzXb3H
+ O1qsmrNJpq1lY4veTu3s8XsvN9FLxxmHLNRdcTVThtkOcQQAC0k8ZI6ZIPOmwes/tmSO
+ oNOA==
+X-Gm-Message-State: AOAM531r88hH4wIwBOaQPa2vUDE0lItIO7L4Ocaf9Ebrac+UQoUMXbw2
+ yoemp4RTcIKbVJRNIX6AvB2eCQ==
+X-Google-Smtp-Source: ABdhPJxxf4iW1Uef1wmCyDpaqBnFi4zY2keIMpBMxARo6Vwz+s6mePFnrjLTTgCo1TFHO5OiwaVNEw==
+X-Received: by 2002:a9d:6f8f:: with SMTP id h15mr24032735otq.125.1608047706308; 
+ Tue, 15 Dec 2020 07:55:06 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id n3sm497214otj.46.2020.12.15.07.54.55
+ by smtp.gmail.com with ESMTPSA id q77sm4728975ooq.15.2020.12.15.07.55.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Dec 2020 07:54:56 -0800 (PST)
-Subject: Re: [PATCH v2 4/4] target/arm: Remove timer_del()/timer_deinit()
- before timer_free()
+ Tue, 15 Dec 2020 07:55:05 -0800 (PST)
+Subject: Re: [PATCH v2 2/4] scripts/coccinelle: New script to remove
+ unnecessary timer_del() calls
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20201215154107.3255-1-peter.maydell@linaro.org>
- <20201215154107.3255-5-peter.maydell@linaro.org>
+ <20201215154107.3255-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1f6ecb06-968e-e304-3fa0-929e0ff0bb21@linaro.org>
-Date: Tue, 15 Dec 2020 09:54:54 -0600
+Message-ID: <0e8935d5-d445-3e7a-3798-c69ace446110@linaro.org>
+Date: Tue, 15 Dec 2020 09:55:03 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201215154107.3255-5-peter.maydell@linaro.org>
+In-Reply-To: <20201215154107.3255-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,15 +94,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/15/20 9:41 AM, Peter Maydell wrote:
-> The Arm CPU finalize function uses a sequence of timer_del(), timer_deinit(),
-> timer_free() to free the timer. The timer_deinit() step in this was always
-> unnecessary, and now the timer_del() is implied by timer_free(), so we can
-> collapse this down to simply calling timer_free().
+> Now that timer_free() implicitly calls timer_del(), sequences
+>   timer_del(mytimer);
+>   timer_free(mytimer);
+> 
+> can be simplified to just
+>   timer_free(mytimer);
+> 
+> 
+> Add a Coccinelle script to do this transformation.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  target/arm/cpu.c | 2 --
->  1 file changed, 2 deletions(-)
+>  scripts/coccinelle/timer-del-timer-free.cocci | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+>  create mode 100644 scripts/coccinelle/timer-del-timer-free.cocci
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
