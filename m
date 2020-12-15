@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277A92DA8A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 08:41:17 +0100 (CET)
-Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF9B2DA8D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 09:00:34 +0100 (CET)
+Received: from localhost ([::1]:36412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kp4xQ-0004oi-8P
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 02:41:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35324)
+	id 1kp5G4-0008RN-4x
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 03:00:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1kp4wM-0004Kh-Ay
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 02:40:10 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2996)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1kp4wH-0007Ed-SH
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 02:40:10 -0500
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cw9BM5pw4zhsjt;
- Tue, 15 Dec 2020 15:39:23 +0800 (CST)
-Received: from [10.174.185.179] (10.174.185.179) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 15 Dec 2020 15:39:52 +0800
-Subject: Re: [PATCH] kvm: Take into account the unaligned section size when
- preparing bitmap
-To: zhukeqian <zhukeqian1@huawei.com>, Peter Xu <peterx@redhat.com>
-References: <20201208114013.875-1-yuzenghui@huawei.com>
- <20201208151654.GA6432@xz-x1>
- <bb4bcc8b-1d36-9529-d7cd-4d93162d092f@huawei.com>
- <6dc82702-9246-4684-4f28-e104abc0c11d@huawei.com>
- <20201210020843.GB3211@xz-x1>
- <7d46e5ca-24ab-7c44-201c-77e8fc6a2ace@huawei.com>
- <20201210145006.GD3211@xz-x1>
- <2607b4cd-524c-2360-6261-224736861fc4@huawei.com>
- <20201211152518.GD6520@xz-x1>
- <41d9ac96-83af-e8c3-6e54-c702f5527f5e@huawei.com>
- <20201214153625.GF6520@xz-x1>
- <fa46e21a-5b5e-749f-216b-17c7c99d98a2@huawei.com>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <a816d0d5-ac0b-d9d4-684d-f553bc601309@huawei.com>
-Date: Tue, 15 Dec 2020 15:39:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kp5EJ-0007ma-Up
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 02:58:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49587)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kp5EH-0005eS-9d
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 02:58:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608019119;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=s5e9TJMDX3fNasf/XqjJeEauiYve7PEyVTJdkwliUsE=;
+ b=Pwhkb8rhAUpZ3bQHapy41VSzh1uGu0FH7DV9gxfe1+3duPlMjxMtgxb3f1hPM1gpgYwB03
+ fe8OTvKjfzVgxh6q2JNAU206qgH4CMI2g77i1Np3o5aVtpZDRGfmUgjQv+bF5GrLo2bfnb
+ zqGzUqb+LnrvEbHVFtmlT1xAy2jOJt4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-L-EcN2kCO36icQZ4tf7GxQ-1; Tue, 15 Dec 2020 02:58:36 -0500
+X-MC-Unique: L-EcN2kCO36icQZ4tf7GxQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09F97801817;
+ Tue, 15 Dec 2020 07:58:35 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
+ [10.36.112.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B33FCE70A;
+ Tue, 15 Dec 2020 07:58:34 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D99A017532; Tue, 15 Dec 2020 08:58:33 +0100 (CET)
+Date: Tue, 15 Dec 2020 08:58:33 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+Subject: Re: [PATCH v2] hw/usb/host-libusb.c: fix build with kernel < 5.0
+Message-ID: <20201215075833.ibutxmev7iavo4v2@sirius.home.kraxel.org>
+References: <20201213213016.457350-1-fontaine.fabrice@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <fa46e21a-5b5e-749f-216b-17c7c99d98a2@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.179]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=yuzenghui@huawei.com;
- helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201213213016.457350-1-fontaine.fabrice@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,52 +78,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, wanghaibin.wang@huawei.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Keqian, Peter,
-
-On 2020/12/15 15:23, zhukeqian wrote:
+On Sun, Dec 13, 2020 at 10:30:16PM +0100, Fabrice Fontaine wrote:
+> USBDEVFS_GET_SPEED is used since version 5.2.0 and
+> https://gitlab.com/qemu-project/qemu/-/commit/202d69a715a4b1824dcd7ec1683d027ed2bae6d3
+> resulting in the following build failure with kernel < 5.0:
 > 
-> On 2020/12/14 23:36, Peter Xu wrote:
->> On Mon, Dec 14, 2020 at 10:14:11AM +0800, zhukeqian wrote:
->>
->> [...]
->>
->>>>>> Though indeed I must confess I don't know how it worked in general when host
->>>>>> page size != target page size, at least for migration.  For example, I believe
->>>>>> kvm dirty logging is host page size based, though migration should be migrating
->>>>>> pages in guest page size granule when it spots a dirty bit set.
->>
->> [1]
->>
->>> Hi Peter,
->>
->> Keqian,
->>
->>>> OTOH I'm more worried on the other question on how we handle guest psize !=
->>>> host psize case for migration now...
->>> I think it does not matter when guest_psize != host_psize, as we only need to interact with
->>> stage2 page tables during migration. Stage2 is enough to tracking guest dirty memory, and even
->>> if guest close stage1, we also can do a successful migration.
->>
->> I don't know why 2-stage matters here, since I believe KVM can track dirty
->> pages either using two dimentional paging or shadowing, however it's always
->> done in host small page size.  The question I'm confused is there seems to have
->> a size mismatch between qemu migration and what kvm does [1].  For example, how
->> migration works on ARM64 where host has psize==4K while guest has psize=64K.
->>
-> Hi Peter,
+> ../hw/usb/host-libusb.c: In function 'usb_host_open':
+> ../hw/usb/host-libusb.c:953:32: error: 'USBDEVFS_GET_SPEED' undeclared (first use in this function); did you mean 'USBDEVFS_GETDRIVER'?
+>          int rc = ioctl(hostfd, USBDEVFS_GET_SPEED, NULL);
+>                                 ^~~~~~~~~~~~~~~~~~
+>                                 USBDEVFS_GETDRIVER
 > 
-> OK, I got it ;-) Do you mean qemu_real_host_page_size != TARGET_PAGE_SIZE?
-> After my analysis, I see that when qemu_real_host_page_size != TARGET_PAGE_SIZE,
-> there are some problems indeed. I have send out some patches, please check whether they solve this
-> problem, thanks!
+> A tentative was made to fix this build failure with
+> https://gitlab.com/qemu-project/qemu/-/commit/4969e697c15ac536d5c0700381d5d026ef7f0588
+> 
+> However, the assumption that distros with old kernels also have old
+> libusb is just wrong so also add a check for defined(USBDEVFS_GET_SPEED)
+> 
+> Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
 
-Now I see what your concern is :) Thanks both for the explanation and
-the further fix!
+Added to usb queue.
 
+thanks,
+  Gerd
 
-Zenghui
 
