@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408FC2DB022
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:34:30 +0100 (CET)
-Received: from localhost ([::1]:46584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BFC52DB033
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:38:53 +0100 (CET)
+Received: from localhost ([::1]:32976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpCLM-0001vk-00
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:34:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51358)
+	id 1kpCPc-0007ug-Bd
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:38:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpC91-0008Nl-7Z
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:21:43 -0500
-Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:38011)
+ id 1kpCAt-00030N-Va
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:23:40 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpC8p-0002QK-IU
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:21:42 -0500
-Received: by mail-oo1-xc43.google.com with SMTP id i18so4908640ooh.5
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 07:21:30 -0800 (PST)
+ id 1kpCAq-0002gu-Ld
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:23:39 -0500
+Received: by mail-oi1-x242.google.com with SMTP id q205so10944890oig.13
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 07:23:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0xcK1IuujEA5K5lA0Cirzk0N7PvQDsnCaphLTkmgOQk=;
- b=Lw3aZWWkp/sbsTODzl+46DR2QKQkB81nwmf6UX7FbLu/X9qowkHDhozjqospnp7cD2
- aPfpU7RpRSQQWuKWyMw9V2WmFM9eErgCw6uxNOuEiCPmdHJEwDAFO4C36q3L83ymzvQu
- 5q3juSF1ThJwKXUiT484NvbX243CCtKtZSxBSBz8DGzbnJAZfgOtykWTUEOMSXk3SlNK
- EldAeNj4t1NYXc97d21scaAij9BhvydIJPaOaaRJhxrZv38HgDhM6RNiHG0MXnPp10kM
- O6qvP20Kp6m/fuJ9xVQYBIK/XFhfrzlmAi65qkbnuqMB8YTsc8jNPmW5nFWZN7SsTwXy
- 5wAA==
+ bh=Qxyg1YGy8MOdvkRLJMY7S/6YpqiFWz0vCsZe6cd6Oco=;
+ b=yI8OBzLBkM4j8OfqV3OO9c0BlCynZ6FdoISI0LMnQeL+DRVmM3NNW3933EKL+6Unef
+ z3NmhlGVJ1BM9Nmb0SrI6fitDJhZo9pz1L07lrCoVTeEV14gGS7sAcE6pKXyOYx8FINk
+ iLUKdwZGSKVwBP8q/3PsS+wai5fXODsaRiTRa9TFOPwxHBNxgVQp/qMdS+VJ9Fm01KUt
+ Gn5DhI0S1p7gNRrA/S3S/Hs74ocGw2ahWgco591xNURoGjl5TKbIxj9bIgXgWp5N0Dyy
+ rv3rjxF2HmrB67bajDUiRtPaJK1yrWQ9ES7dVzKVB2NcEzdFD7bJxVMlv18Q1O38A4Q2
+ vOtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0xcK1IuujEA5K5lA0Cirzk0N7PvQDsnCaphLTkmgOQk=;
- b=jh1SGsPwjLwo7igUErVtZ28Lp2k6GqGD5RL2Dc3PPSutxS3DCnF8Tv9ZB5v5OebrsT
- DZ3g1T8PtIQd79DSbBUWmgGmEaU8wdo2cjxxU1eXKwTLRnK5+yWvoGrlOtRcEYJqj05o
- +RlHlSxe9KtpRZcPYPUjDkO7GveV3ldB1ro5Ps7YUhj9TjrhjhT7JHJdXoxhCy1c6Dm5
- G+mqbtW8hdFPBP0WV0TTqzEqZPVvWC/UD7Mk63D5Pp1q9h4STEe9cwyv9YxPASWQfIxk
- KHU0cxUbKCVHzsj3F7t6ZKPtW7uaUA1t4svwFLhXbc0dF2/5vLdtoV8YX80ebMeYMk0Z
- QCYA==
-X-Gm-Message-State: AOAM531l844gnMZjTouBMXECT2+VvJ7SicfvGyH2ljfg70QvSL20Jdsx
- iVTSLpizBmw2zw27XSv6ZvsxsQ==
-X-Google-Smtp-Source: ABdhPJyfV0VIizHdvcsu09DRckK9liSvgakzw7i50/YU9tPwtY9TGjIPUCRbDVLExtHwpjo5Dqxw/g==
-X-Received: by 2002:a4a:9722:: with SMTP id u31mr8864ooi.28.1608045690040;
- Tue, 15 Dec 2020 07:21:30 -0800 (PST)
+ bh=Qxyg1YGy8MOdvkRLJMY7S/6YpqiFWz0vCsZe6cd6Oco=;
+ b=YM2tiV6jZHHpRFw7UPxDedDfEFjpQfXM2LgCPPf5LxTll/CX78SQPRKJtrjl7Izr8v
+ w0TD2r9AE/cU4AkBXRMpMWZoDkJwVoPLxYh2Dtna4HPRQfi+RNqrt+AICGeH2e4nMGDv
+ J6azsMOm7E0KiCLBqkz5FDJTOJbLCe3TnhXE65/rp6R30s/Vq6uRFGL/7znqIEa+4C/K
+ fEOWBHswPV3Jt+ROw/2K26xh7vbTy22itSyK1lTBxoa/pP3zKRsXkdPYAhA2vyEeUDsh
+ ichZUVfHTT+8oyEYnKyuVJcU5qWpMRMlBSguQAZnxFYN0U2IYAnbn6b+FVHI1+4vfWPl
+ lSEQ==
+X-Gm-Message-State: AOAM531wIxP02CI9e6jiWEsDVTLrH56yLGHXgtZifdAr9mU9V9VrRwBe
+ ilW3fv6w9VY/bh3kZ/gW9dsBvQ==
+X-Google-Smtp-Source: ABdhPJzPDulHscwXS0KZWQNz2Cyw59amwmse/LvEUzs/HyeW2HY9YrHcL7RYD5DNDndplb3s00p7TA==
+X-Received: by 2002:aca:f48b:: with SMTP id s133mr21709813oih.59.1608045815428; 
+ Tue, 15 Dec 2020 07:23:35 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id k3sm4466839oof.31.2020.12.15.07.21.28
+ by smtp.gmail.com with ESMTPSA id e10sm475298otl.38.2020.12.15.07.23.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Dec 2020 07:21:29 -0800 (PST)
-Subject: Re: [PATCH v2 1/4] clock: Introduce clock_ticks_to_ns()
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201215150929.30311-1-peter.maydell@linaro.org>
- <20201215150929.30311-2-peter.maydell@linaro.org>
+ Tue, 15 Dec 2020 07:23:34 -0800 (PST)
+Subject: Re: [PATCH] hw/arm/highbank: Drop dead KVM support code
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20201215144215.28482-1-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3256465f-76d6-9d05-6ee9-eb912561602a@linaro.org>
-Date: Tue, 15 Dec 2020 09:21:26 -0600
+Message-ID: <9d617172-a39c-dddc-639c-accdbe389891@linaro.org>
+Date: Tue, 15 Dec 2020 09:23:32 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201215150929.30311-2-peter.maydell@linaro.org>
+In-Reply-To: <20201215144215.28482-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc43.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x242.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,37 +88,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Luc Michel <luc.michel@greensocs.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Rob Herring <robh@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/15/20 9:09 AM, Peter Maydell wrote:
-> The clock_get_ns() API claims to return the period of a clock in
-> nanoseconds. Unfortunately since it returns an integer and a
-> clock's period is represented in units of 2^-32 nanoseconds,
-> the result is often an approximation, and calculating a clock
-> expiry deadline by multiplying clock_get_ns() by a number-of-ticks
-> is unacceptably inaccurate.
-> 
-> Introduce a new API clock_ticks_to_ns() which returns the number
-> of nanoseconds it takes the clock to make a given number of ticks.
-> This function can do the complete calculation internally and
-> will thus give a more accurate result.
+On 12/15/20 8:42 AM, Peter Maydell wrote:
+> Support for running KVM on 32-bit Arm hosts was removed in commit
+> 82bf7ae84ce739e.  You can still run a 32-bit guest on a 64-bit Arm
+> host CPU, but because Arm KVM requires the host and guest CPU types
+> to match, it is not possible to run a guest that requires a Cortex-A9
+> or Cortex-A15 CPU there.  That means that the code in the
+> highbank/midway board models to support KVM is no longer used, and we
+> can delete it.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-> The 64x64->128 multiply is a bit painful for 32-bit and I
-> guess in theory since we know we only want bits [95:32]
-> of the result we could special-case it, but TBH I don't
-> think 32-bit hosts merit much optimization effort these days.
-> 
-> Changes in v2: saturate the result to INT64_MAX.
-> ---
->  docs/devel/clocks.rst | 29 +++++++++++++++++++++++++++++
->  include/hw/clock.h    | 41 +++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 70 insertions(+)
+>  hw/arm/highbank.c | 14 ++++----------
+>  1 file changed, 4 insertions(+), 10 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
