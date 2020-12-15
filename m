@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923392DB61C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 22:54:48 +0100 (CET)
-Received: from localhost ([::1]:52528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B532DB64C
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 23:07:22 +0100 (CET)
+Received: from localhost ([::1]:60516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpIHP-0005Dq-9E
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 16:54:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41784)
+	id 1kpITY-0003O6-SK
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 17:07:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpIGA-0004DY-AW
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 16:53:30 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38103)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kpISU-0002gk-Qc
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:06:14 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpIG8-0003Dm-Hv
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 16:53:29 -0500
-Received: by mail-oi1-x241.google.com with SMTP id x13so16035863oic.5
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 13:53:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/yFxPiSM6GCFfzUAxqJN+y0mpvMWm6NgB9vP+R0K//4=;
- b=FBv/iKG0FmqsO/o8akgboY7dkQ2cT5qWreho/vI6ClruxKaDlN3N5pAgWThXbYktBo
- 4mc9vRCAxSqLoH9km3nsTnGXBYweSK2PXtgfyOtfThDQHK8COl7aEb2JJ2rUpnLgL5LN
- lWm1B34fEVpHkNSsoqLQilu+XuxazBlu9k/ulo4u1TlCj1pJigy4P7NqRlMitJBlcYcl
- GINCUs/43m09mKW2YjSofU2OD6i07KqGzEeCLSULmWCs+nNNpXKyl6QQ6OH2E5kSPXK4
- V6dM6gw6ooc3ee5FHunocRizdPQM8/pD3sxeFbvDNJ7sLw5y30exHUveXLh7+QDJ/QQJ
- PPPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/yFxPiSM6GCFfzUAxqJN+y0mpvMWm6NgB9vP+R0K//4=;
- b=DKgPUJ+xCLVMgbmXaJZLP8Wg1hz2Cwp/S/1hxslIqnUtxxhVhQcoDp7bNGTsmkEhn8
- lNDoNl7N50z6e6MDNr4Mib+xwJP9XrUvn4oMSTHBAh6zSDGgSu7ZnOQLKI8Ppil7XOit
- KIkEQB0O5BDfBJAVC4bUcSBIotomU4LkCF2q4NQj9nB2dxuR7GPDGPz0qJ6raJlFDgjt
- cU0OhbBZXhwe+09WeSjwlCn7qklqfPtJutfaESI94gk0hi2x0ppvbot+SVz6bWTu0hBi
- wd5ZYD5rsk7oB3VszEcLTfO9tUXlzKn4r0v2BEIxFudw71hu6AaZA+3sw4ovx3xSbc/F
- 06BQ==
-X-Gm-Message-State: AOAM5301B2RLa8sQ0rhLkkojK1orEuGCjsh7rNYdz15jUM6m6+c8HQd0
- vtyk/P6NUP7WzcQ9N4HA+yAWmA==
-X-Google-Smtp-Source: ABdhPJwQxdKn3QfQXn7BMLlZWzlS8Ll8fKhbTwDKW5Fip0kpwSfo06CYkSnIaqeFcDjxj6yLruq0uQ==
-X-Received: by 2002:aca:4c1:: with SMTP id 184mr541495oie.157.1608069207354;
- Tue, 15 Dec 2020 13:53:27 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id f10sm40861oti.11.2020.12.15.13.53.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Dec 2020 13:53:26 -0800 (PST)
-Subject: Re: [PATCH 3/3] target/arm: set ID_AA64ISAR0.TLB to 2 for max AARCH64
- CPU type
-To: Rebecca Cran <rebecca@nuviainc.com>, qemu-devel@nongnu.org
-References: <20201214202329.26765-1-rebecca@nuviainc.com>
- <20201214202329.26765-4-rebecca@nuviainc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8f35d417-753e-5949-aedb-bea3b68b66a9@linaro.org>
-Date: Tue, 15 Dec 2020 15:53:23 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kpISS-0006QK-SL
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 17:06:14 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kpISQ-00048E-UU
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 22:06:10 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E58C82E8138
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 22:06:10 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201214202329.26765-4-rebecca@nuviainc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x241.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 15 Dec 2020 21:58:45 -0000
+From: Ryutaroh Matsumoto <1907952@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=debian; sourcepackage=qemu; component=main;
+ status=Unknown; importance=Unknown; assignee=None; 
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: emojifreak
+X-Launchpad-Bug-Reporter: Ryutaroh Matsumoto (emojifreak)
+X-Launchpad-Bug-Modifier: Ryutaroh Matsumoto (emojifreak)
+References: <160786029328.5567.5976635715445692881.malonedeb@gac.canonical.com>
+Message-Id: <160806952507.15491.10427364702602349989.malone@chaenomeles.canonical.com>
+Subject: [Bug 1907952] Re: qemu-system-aarch64: with "-display gtk" arrow keys
+ are received as just ^[ on ttyAMA0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: 907671c0092af57f29879c7e146386e1b03c2d8a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,27 +73,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Reply-To: Bug 1907952 <1907952@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/14/20 2:23 PM, Rebecca Cran wrote:
-> +++ b/target/arm/cpu64.c
-> @@ -620,6 +620,7 @@ static void aarch64_max_initfn(Object *obj)
->          t = FIELD_DP64(t, ID_AA64ISAR0, DP, 1);
->          t = FIELD_DP64(t, ID_AA64ISAR0, FHM, 1);
->          t = FIELD_DP64(t, ID_AA64ISAR0, TS, 2); /* v8.5-CondM */
-> +        t = FIELD_DP64(t, ID_AA64ISAR0, TLB, 2);
->          t = FIELD_DP64(t, ID_AA64ISAR0, RNDR, 1);
+An easier way to reproduce the symptom was provided by Alper Nebi Yasak at
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D976808#88
 
-When the value is not 1, we have generally added a comment to clarify exactly
-which extensions this covers.  Though it's slightly annoying that F.c has
-renamed all of the extensions.
+qemu-system-aarch64 \
+    -display gtk -enable-kvm -machine virt -cpu host -m 1G -smp 2 \
+    -kernel /boot/vmlinuz -initrd /boot/initrd.img \
+    -append "break console=3DttyAMA0"
 
-With that added,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Then, run cat on the initramfs shell and see arrow keys result in ^[ .
+For x86_64, it's console=3DttyS0 and ^[[A etc.
 
+-- =
 
-r~
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1907952
+
+Title:
+  qemu-system-aarch64: with "-display gtk" arrow keys are received as
+  just ^[ on ttyAMA0
+
+Status in QEMU:
+  New
+Status in qemu package in Debian:
+  Unknown
+
+Bug description:
+  I originally observed this on Debian packaged qemu 5.2 at
+  https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D976808
+
+  Today I checked out the latest git source at
+  Sun, 13 Dec 2020 19:21:09 +0900
+  and configured the source as follows:
+
+  ./configure --prefix=3D/usr --sysconfdir=3D/etc --libexecdir=3D/usr/lib/q=
+emu \
+   --localstatedir=3D/var --disable-blobs --disable-strip --localstatedir=
+=3D/var \
+   --libdir=3D/usr/lib/aarch64-linux-gnu \ =
+
+   --firmwarepath=3D/usr/share/qemu:/usr/share/seabios:/usr/lib/ipxe/qemu \ =
+
+   --target-list=3Daarch64-softmmu,arm-softmmu --disable-werror \ =
+
+   --disable-user  --enable-gtk --enable-vnc
+  then executed "make" on an ARM64 (not an x86_64) host,
+  running the latest Debian testing.
+
+  I did the following commands on an arm64 host with the Debian Installer A=
+lpha 3 at
+  https://cdimage.debian.org/cdimage/bullseye_di_alpha3/arm64/iso-cd/debian=
+-bullseye-DI-alpha3-arm64-netinst.iso
+
+  #!/bin/sh
+
+  ARCH=3Darm64
+  IMAGE=3D`pwd`/qemu-disk-${ARCH}.qcow2
+  CDROM=3D`pwd`/debian-bullseye-DI-alpha3-${ARCH}-netinst.iso
+  rm -f $IMAGE
+  qemu-img create -f qcow2 -o compat=3D1.1 -o lazy_refcounts=3Don -o preall=
+ocation=3Doff $IMAGE 20G
+  cd /var/tmp
+  cp /usr/share/AAVMF/AAVMF_VARS.fd .
+  $HOME/qemu-git/qemu/build/qemu-system-aarch64 \
+      -display gtk -enable-kvm -machine virt -cpu host -m 3072 -smp 2\
+      -net nic,model=3Dvirtio -net user -object rng-random,filename=3D/dev/=
+urandom,id=3Drng0 \
+      -device virtio-rng-pci,rng=3Drng0,id=3Drng-device0 \
+      -drive if=3Dvirtio,file=3D${IMAGE},index=3D0,format=3Dqcow2,discard=
+=3Dunmap,detect-zeroes=3Dunmap,media=3Ddisk \
+      -drive if=3Dvirtio,file=3D${CDROM},index=3D1,format=3Draw,readonly=3D=
+on,media=3Dcdrom \
+      -drive if=3Dpflash,format=3Draw,unit=3D0,file=3D/usr/share/AAVMF/AAVM=
+F_CODE.fd,readonly=3Don \
+      -drive if=3Dpflash,format=3Draw,unit=3D1,file=3D`pwd`/AAVMF_VARS.fd
+
+  Then 4 arrow keys on the physical keyboard are received as just "^[".
+
+  This symptom was not observed on qemu-system-x86_64.
+  This symptom was not observed with virt-manager on my arm64 host, neither.
+  This seems unique to -display gtk of qemu-system-aarch64.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1907952/+subscriptions
 
