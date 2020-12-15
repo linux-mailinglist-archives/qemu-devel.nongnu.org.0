@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4FA2DB718
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 00:25:05 +0100 (CET)
-Received: from localhost ([::1]:42216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C63E02DB71D
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 00:28:45 +0100 (CET)
+Received: from localhost ([::1]:50626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpJgm-0007cu-Q5
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 18:25:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45154)
+	id 1kpJkK-0003xd-RI
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 18:28:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpJIp-0006RZ-NK
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 18:00:20 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:41192)
+ id 1kpJRG-0002E9-6l
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 18:09:02 -0500
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:35009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpJIm-0004CJ-Tm
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 18:00:18 -0500
-Received: by mail-ej1-x642.google.com with SMTP id ce23so30051199ejb.8
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 15:00:15 -0800 (PST)
+ id 1kpJRE-0005fT-FJ
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 18:09:01 -0500
+Received: by mail-ed1-x543.google.com with SMTP id u19so22865173edx.2
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 15:08:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=DTZIrFlHcNm9YcGLkUm/8b5t2eShtDyueJmi4bfarso=;
- b=o/Lg9AW6RsdSbatw9ZvZiaqGAphftza4xV+qx2aTN7AIRuAThHpFz8i03HC30uKif4
- k09ZCCY9ml9P9upy+m6AILYY/L92yYpHq6eo071QIX5MR2XFCcw1tpcKSFq0Beh5kBFZ
- eKuGpJf3YtIbB+EBHr94w4ud4pJuvCmbR5HK2mjoL1KsceIV2cYIwLjkL4P2WdxN7xH1
- 7df04zElquESuERW5RwQxmyaw6EG/LLy+y0CDF2GlnYq4Rkd2jxAIN8Ee/ajZh/6bxN2
- gRZNrILg4ZZK8S//9V52n0Ty1QvOpXo2VFq6XbSTeEgotNf9yw3JM8JO37yUKdAdf80o
- muow==
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Cv9DoQEhyDpw67o621oVCxfw9rJMRuWLE9+HNRwhtuM=;
+ b=sb7a/3Nyh1mmhvAhVN2xykQbK/+zeLu2bfIMTMozkI0EjzjR2oCYKOOwTN/vaqZIIR
+ 6Txy2gZXQz5XbdslqM75iJ88Ja9VY4dtNqZEvnTNAS33sVCo76b0oEnNd+P6YKwpq1m0
+ 4SMoTq5grlYhUSTr3pIak4ERUIstILNS9FpghboT6awIeOeZwqxQfCtZd9d6a2AWl1D9
+ Wj0oAMk+2Tvi7t6mOhk8Suz9vNjAuUy0U6pyxtIPrpoao39sV7fZgeEDnvaB8o+V8UkZ
+ 58uAO7u88j6yIlPso1EOXcE+zbLOCX7CrbPUxsk2R2NHwAk7iD5JTCE4UPkm5n9jVxz+
+ wWWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=DTZIrFlHcNm9YcGLkUm/8b5t2eShtDyueJmi4bfarso=;
- b=O77sCqdezcPD3uU4AEtde6d2kMWp1qR9Lz8YXFG8KNc80BDzycQdUyw8eHYSIL4Wi7
- jW78FdWj43uhCuZAJQUohX+Ylbh0U1Su4f1VVK74cOMOlK7X9D1Glv5d9sVP3882jL+J
- +VZvyWX7/RsWsrqGDgjyiZDO19EvhqySP4R/1Rr6lLkKKM0+imNpSNIdeQGEzkHAKqEP
- EBvikVLdl8vlMVM6y4JXnYW9dml9Nq14/onw3vRdevHSFGrbtEsvy8lQFEP8lA2PDgTt
- oRaoKIXXzHRGZW9b46B5hjx8J88CcC/yBIY0/aLkKY9qahDf4TYFkGc2yx3hwdCKxnuO
- yIUg==
-X-Gm-Message-State: AOAM530TwpWlofIi8tqdRiSbL+wVo3/xvRTiBDEWYq8e3nPQM8wuZrEM
- dJBcIvfJhOWI6G07cBbv3Go=
-X-Google-Smtp-Source: ABdhPJwwyM69vtNujuLHaxpzJ3Xo4kw4/9pTA0EnBDUB6BwcABn54DD4EgmC3yUoZ3BDWepNBGrQAw==
-X-Received: by 2002:a17:907:94c6:: with SMTP id
- dn6mr29085549ejc.13.1608073214898; 
- Tue, 15 Dec 2020 15:00:14 -0800 (PST)
-Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Cv9DoQEhyDpw67o621oVCxfw9rJMRuWLE9+HNRwhtuM=;
+ b=hntBuscUvUR0NCFPE6CzPBCYKbguxHxjTal9ntyL7xGl2qk0gSZicV872ZYSke7cAg
+ 3B5KFvi7zxef2l0JMRAs4bOEAsbZJxMX48D6oVBBzQJle8acVVL2o89Et7YhQ88KCx6F
+ 7T73x8pkqofesE/DbWFJQojn7CEfMXxC/2f/PNUoxkoI1TOgu4+2octK9KgNb7BZ1YRC
+ 6nzdjehDGT6CUoi0inlTBLf42mahXlpEg8uTzGTQNPTNZ7JxJ4mU9EcVF+Q7bLQL3z8x
+ mBLwYk8076T9c3OK13rTypzDV7aVvkUcM6r/lymgn1DMQSXj3GG/G5M0NgB2U+SsPQUN
+ ODkA==
+X-Gm-Message-State: AOAM530GENVOUt+btdYU2BK02s3/AVPQvpNiUM5zpriZdGy7lQ7DJue7
+ 7qhkGhfXNAL6bwyXzaHp7+A=
+X-Google-Smtp-Source: ABdhPJyG8DSQYE32O+nOPN/yvOJU9Wzt56fSP1q+pz4Ik44TASwxnGN7BoR6BtYlCy1fIiCM2ttkRA==
+X-Received: by 2002:a50:b282:: with SMTP id p2mr10358857edd.210.1608073737020; 
+ Tue, 15 Dec 2020 15:08:57 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id f11sm20320776edy.59.2020.12.15.15.00.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 15:00:14 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: Richard Henderson <richard.henderson@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 24/24] target/mips/mod-msa: Pass TCGCond argument to
- gen_check_zero_element()
-Date: Tue, 15 Dec 2020 23:57:57 +0100
-Message-Id: <20201215225757.764263-25-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201215225757.764263-1-f4bug@amsat.org>
-References: <20201215225757.764263-1-f4bug@amsat.org>
+ by smtp.gmail.com with ESMTPSA id e19sm20258088edr.61.2020.12.15.15.08.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Dec 2020 15:08:55 -0800 (PST)
+Subject: Re: [PATCH v2 0/4] clock: Get rid of clock_get_ns()
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Huacai Chen <chenhuacai@kernel.org>
+References: <20201215150929.30311-1-peter.maydell@linaro.org>
+ <bad8872c-4e8a-e4f5-12d3-b70c206e5abf@amsat.org>
+Message-ID: <900f2cc4-d231-e850-0414-14e3b5b9d731@amsat.org>
+Date: Wed, 16 Dec 2020 00:08:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <bad8872c-4e8a-e4f5-12d3-b70c206e5abf@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -88,61 +90,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
- Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Luc Michel <luc.michel@greensocs.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplify gen_check_zero_element() by passing the TCGCond
-argument along.
+On 12/15/20 4:29 PM, Philippe Mathieu-Daudé wrote:
+> On 12/15/20 4:09 PM, Peter Maydell wrote:
+>> This patchseries makes some changes to the clock API:
+>>  * Remove clock_get_ns()
+>>  * Add clock_ticks_to_ns() to return number of nanoseconds
+>>    it will take the clock to tick N times
+>>  * clock_display_freq() to return prettily-formatted string
+>>    for showing humans the approximate clock frequency
+>>
+...
+> 
+> Tested using loongson3-virt @2GHz
+> https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg04036.html
+> 
+> Without your series:
+> qemu-system-mips64el: target/mips/cpu.c:385: mips_cp0_period_set:
+> Assertion `env->cp0_count_ns' failed.
+> Aborted (core dumped)
+> 
+> With: OK (cpu are not displayed in 'info qtree').
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Maybe this can be named 'msa_translate.c' after all...
----
- target/mips/mod-msa_translate.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+I meant:
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-diff --git a/target/mips/mod-msa_translate.c b/target/mips/mod-msa_translate.c
-index f139ba784dc..7ad14b19b0c 100644
---- a/target/mips/mod-msa_translate.c
-+++ b/target/mips/mod-msa_translate.c
-@@ -309,7 +309,8 @@ static inline int check_msa_access(DisasContext *ctx)
-     return 1;
- }
- 
--static void gen_check_zero_element(TCGv tresult, uint8_t df, uint8_t wt)
-+static void gen_check_zero_element(TCGv tresult, uint8_t df, uint8_t wt,
-+                                   TCGCond cond)
- {
-     /* generates tcg ops to check if any element is 0 */
-     /* Note this function only works with MSA_WRLEN = 128 */
-@@ -344,7 +345,7 @@ static void gen_check_zero_element(TCGv tresult, uint8_t df, uint8_t wt)
-     tcg_gen_or_i64(t0, t0, t1);
-     /* if all bits are zero then all elements are not zero */
-     /* if some bit is non-zero then some element is zero */
--    tcg_gen_setcondi_i64(TCG_COND_NE, t0, t0, 0);
-+    tcg_gen_setcondi_i64(cond, t0, t0, 0);
-     tcg_gen_trunc_i64_tl(tresult, t0);
-     tcg_temp_free_i64(t0);
-     tcg_temp_free_i64(t1);
-@@ -393,10 +394,7 @@ static bool gen_msa_BxZ(DisasContext *ctx, int df, int wt, int s16, bool if_not)
-         return true;
-     }
- 
--    gen_check_zero_element(bcond, df, wt);
--    if (if_not) {
--        tcg_gen_setcondi_tl(TCG_COND_EQ, bcond, bcond, 0);
--    }
-+    gen_check_zero_element(bcond, df, wt, if_not ? TCG_COND_EQ : TCG_COND_NE);
- 
-     ctx->btarget = ctx->base.pc_next + (s16 << 2) + 4;
-     ctx->hflags |= MIPS_HFLAG_BC;
--- 
-2.26.2
+But now I reviewed, so confirming:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+Thanks!
+
+Phil.
 
