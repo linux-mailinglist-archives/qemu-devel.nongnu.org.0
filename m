@@ -2,116 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC9E2DB472
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 20:26:35 +0100 (CET)
-Received: from localhost ([::1]:36302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2CF2DB468
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 20:22:14 +0100 (CET)
+Received: from localhost ([::1]:58246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpFxy-000287-Dk
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 14:26:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54584)
+	id 1kpFtk-0007lj-It
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 14:22:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kpFwV-0001bc-KS
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 14:25:03 -0500
-Received: from mail-bn8nam12on2117.outbound.protection.outlook.com
- ([40.107.237.117]:27521 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kpFqf-0006kf-61
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 14:19:01 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:49484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kpFwT-0004pM-AV
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 14:25:03 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f3TYlF9pUQOdlKhsXMtuvSCiMurQXLbaI2m152qVsT2U5rWSuZFDvStXkgcoND95lSQ+9jVmCg6W0p7LNA635KfGb528yl3RbUfNpzt1UTGm1Kx4hs2IMujSp4UtOtWN6IQ/XNuf0ZnVz9knT/bTJ4vs7PyaDu6dfTMJvYJZGnKFdjj+vS2Z3ccedbOpQhomaPm5A2F2SVjKtoY0Sa+Yi5vxXSYutrox8iXgJHIZS1iftVagL/HjLdV3ayinP/QyzRdjSnO1/QzVyn7CUeGxO1fYu/6uT5mUYaCmX8R6gR6qEoSKKIWo9xBlQv/XHNCt5nNhYIBqilcyNI2d1IK/OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mK2eO/n0AqE5vHeKUZBaiYXlzmsexZgV8xrOtRflm8A=;
- b=n6tnxz4bD+zM2RRTNGTT25EP9pJJ2h0xBO8j8FKeQgoHHnfym1vOKFa5EhhIXdvPFnXtZF9WJsNnMPd4TXU+/HCXZEP4c5K91h1dtXj/2DmtbLvOshSPX9hyA4qlNJixBoCPkyXFdfeKwGfAn3bdNytg08UU7WaZeIQ7JmOLCNEt1n6tytlC4MD4ZI8ljL4DL1w3HIIkEDAvzJ3W47p/xLss/HG39sk/PAp8hIPgT4tvz75/TE0mRSPu4nCNhMhb/DhijJhe/RmIgQqaJ8Myl48ClGHPi4SpmjACPTbhFoLNlelFRq0Wgti986djKojG0I/TiGsets2rDofytT3Xjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mK2eO/n0AqE5vHeKUZBaiYXlzmsexZgV8xrOtRflm8A=;
- b=ntVxUYNg5xA1Lf6qiIDxQorNJm2k0oH8SGB3pAcDasLQEcUUShShOH7Y6N8s7CYk15Qw91LdtUR0d9yJvhJzgMtJrb7VFaLfJ1xWZ9Hzeg4iaaJdwOaoNV0a9xm+FEDh4aYCER18uC0z0mC2q7c6G8+ScwjZ2Hek0yaZe7fcQtM=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SA0PR03MB5625.namprd03.prod.outlook.com (2603:10b6:806:b7::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Tue, 15 Dec
- 2020 19:09:56 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::d520:4c19:8ce6:7db2]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::d520:4c19:8ce6:7db2%2]) with mapi id 15.20.3632.021; Tue, 15 Dec 2020
- 19:09:56 +0000
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kpFqU-00045R-OJ
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 14:19:00 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 0BFJIPIY010299
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 15 Dec 2020 14:18:28 -0500
+Date: Tue, 15 Dec 2020 14:18:24 -0500
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] fuzz: map all BARs and enable PCI devices
-Date: Tue, 15 Dec 2020 14:08:11 -0500
-Message-Id: <20201215190811.398331-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.29.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [72.93.72.163]
-X-ClientProxiedBy: BL1PR13CA0159.namprd13.prod.outlook.com
- (2603:10b6:208:2bd::14) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+Subject: Re: [PATCH] fuzz: Add more i386 configurations for fuzzing
+Message-ID: <20201215191824.p6vafdvhvzlxnsgw@mozz.bu.edu>
+References: <20201123184352.242907-1-alxndr@bu.edu>
+ <20201202164002.sot3byy2jesllmlb@mozz.bu.edu>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from fibula.vrmnet (72.93.72.163) by
- BL1PR13CA0159.namprd13.prod.outlook.com (2603:10b6:208:2bd::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.9 via Frontend
- Transport; Tue, 15 Dec 2020 19:09:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0b82b2d2-bf5c-4b38-792a-08d8a12d02bf
-X-MS-TrafficTypeDiagnostic: SA0PR03MB5625:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR03MB5625C24E614F6990E2994181BAC60@SA0PR03MB5625.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:390;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bh3weCXVeklxO3eEr3dBOD8No0wgJ0/WerygPKV53vEEcxXwBIJL9KuM9UNMIZDuwEEyyGNupA3PRUzcEx+KbsmqkzGB7mxeHJpDNiVn7WL5YaV/EHLh/4t2zrl3V/G7VCHZ52Ilh176aT1aUr0ChdPosMSPCHTGbs3MDsxu4EnqWe7YNHYaS4HOD54eBqpau2cXpoPW6CJc/iIr/NDtk219byXGIMiFJz7rziUhvA+E+xJTWP0mnQFm8bIh7AgwA0AN+G9BWg9/gnlbR3EIEhIehOgmHbicF2PyjhxhRSElLg8OtfhvPhycbU9NSZ5J
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39850400004)(396003)(346002)(366004)(376002)(136003)(8676002)(6506007)(6916009)(66476007)(478600001)(2616005)(66556008)(8936002)(6486002)(956004)(16526019)(6512007)(26005)(52116002)(5660300002)(316002)(6666004)(186003)(1076003)(786003)(75432002)(2906002)(66946007)(4326008)(54906003)(86362001)(36756003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?K5mfav/Wm0p8kq0PliV+qEEAbwe8VPZF6F2ZpTGVoQwu5UJkAyEyywFdwS4n?=
- =?us-ascii?Q?nf8/37t526D5f/P4C+SC6WCvoqwA5d4dnsGDvGB2TiTSyJhlJ/yOtsgHP638?=
- =?us-ascii?Q?YAWnOd/gudEd9xyfYtK0oOg+yOzIEOYZRv+axhzjg5Jyf+ic/T/h41ufWdEW?=
- =?us-ascii?Q?4ASC9PinK0mAQW8EjvgOW3/ZiMn2KmtIyZRxBDbN7Hw5xThvEZwumfW8gyuP?=
- =?us-ascii?Q?mcBudVFxvu7f1GGN2j1UJJVFvmGJPnwN2RyzvvqgAElXizdeGp4e4qXRoPFo?=
- =?us-ascii?Q?AzBiB2GopjWAaVTT03OIiyhLqbzoxNglwHHp/CafN2BIGroKOLYJ32q6fNvn?=
- =?us-ascii?Q?tiCheARxecF9HdBnB5Xxbw4nabYRw+cXEUTVde0FR4uyXfNrZL15fDudkSyf?=
- =?us-ascii?Q?XQdyOrnK/X3W8lnoRcDfpqUDcvIsoNTcDFL0uND19kKlvM/RN8Ow7DLbDfCP?=
- =?us-ascii?Q?YPvjzwWvsLlIndJAZmIODx33ope1mkl/5L8TBgGelJzNgwqwmUh4eWrjxbb8?=
- =?us-ascii?Q?eDAVKFm1BHIIVujf9a60q0GbJWyiLZkqNi1vQathBycGlGqxlTjPsaZWzwl3?=
- =?us-ascii?Q?37zN7y73VAVKbtHgXHUELGLJqQZSIW5oD2Y8kacB7aSVFr0+UFM7PFCG4ccN?=
- =?us-ascii?Q?24+GouZtzs8rggXecX3Q1OdMUoe9r3vKvDyvCg8PhBdH12gdmyxjYMEiw71T?=
- =?us-ascii?Q?zwdweoeUk8mK/FzcOwLPMdUiFQV+BYoeFwwpz9e3E4HMcd6LW7NIupPl1rVP?=
- =?us-ascii?Q?oBZFaFqKuIWopM1uRvkVKbinPwe6Epx3uDZk1Rcb+7THhChKGdWY2Dzc4a+h?=
- =?us-ascii?Q?dAWtMEqF82Lm0suIbRqoSpW68frcOLon11mHtKjkE24/7cDdYnOGa7K+pxoT?=
- =?us-ascii?Q?fuoDga75UU+IPwkbQF2mBOO/TS9kvV0kGStzoc+HsHW11GlANj9vYmVuZZZd?=
- =?us-ascii?Q?07ThCWM0kHhQgexqdGjoosQjv7NENQpfZ26rVP2LaC4=3D?=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2020 19:09:56.2449 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b82b2d2-bf5c-4b38-792a-08d8a12d02bf
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NVS994oWSxMAGHS3iERW9gmhZhwTLv7pVIyc2yNYSXVS9xFOD+yJ2q6lS/7qnw+2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR03MB5625
-Received-SPF: pass client-ip=40.107.237.117; envelope-from=alxndr@bu.edu;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201202164002.sot3byy2jesllmlb@mozz.bu.edu>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: 11
+X-Spam_score: 1.1
+X-Spam_bar: +
+X-Spam_report: (1.1 / 5.0 requ) BAYES_00=-1.9, GOOG_STO_NOIMG_HTML=2.999,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,82 +55,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, philmd@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Hannes Reinecke <hare@suse.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Jason Wang <jasowang@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Bandan Das <bsd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Prior to this patch, the fuzzer found inputs to map PCI device BARs and
-enable the device. While it is nice that the fuzzer can do this, it
-added significant overhead, since the fuzzer needs to map all the
-BARs (regenerating the memory topology), at the start of each input.
-With this patch, we do this once, before fuzzing, mitigating some of
-this overhead.
+On 201202 1140, Alexander Bulekov wrote:
+> On 201123 1343, Alexander Bulekov wrote:
+> > 
+> > Hello,
+> > If you are CC-ed on this email, this patch will likely enable continuous
+> > fuzzing for a device that you are listed under in MAINTAINERS. If this is
+> > accepted, these devices will be continuously fuzzed over their PCI, PIO,
+> > MMIO and DMA interfaces. The fuzzer will start qemu with the arguments
+> > specified by ".args" and we will use the globs specified under
+> > ".objects" to match the Object/MemoryRegion names that we should fuzz.
+> > The fuzzer will find and report issues such as memory-corruptions and
+> > aborts. For now, I am manually reproducing each issue and opening a
+> > bug-report with a qtest-based reproducer, so the process is still quite
+> > flexible.
+> > 
+> > The current code-coverage achieved by fuzzing using the
+> > existing-configurations is available here:
+> > https://storage.googleapis.com/oss-fuzz-coverage/qemu/reports/20201122/linux/src/qemu/hw/report.html
+> > I am slowly trying to fill in the blanks.
+> > 
+> > I have little context for how useful these configurations are for
+> > fuzzing. I appreciate if you can Ack/Nack them or provide feedback if
+> > the devices should be configured differently.  Of course, if you think
+> > we should be fuzzing some additional device configurations, you can also
+> > submit a patch adding the necessary lines to this generic_fuzz_configs.h
+> > file. 
+> > Thanks
+> > -Alex
+> > 
+> 
+> Ping. We could just add all of these configurations and, later, remove
+> any that produce too many useless reports.
+> -Alex
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
----
+Ping. On the fuzzing call, we discussed that this is ok for now (doesn't
+add any new features - just configs for existing code), and we can
+switch to a QOS-based solution, when we come up with a good integration.
+-Alex
 
-v2: do not mix statements and declarations
-
- tests/qtest/fuzz/generic_fuzz.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index 07ad690683..92b598dea8 100644
---- a/tests/qtest/fuzz/generic_fuzz.c
-+++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -16,6 +16,7 @@
- 
- #include "hw/core/cpu.h"
- #include "tests/qtest/libqos/libqtest.h"
-+#include "tests/qtest/libqos/pci-pc.h"
- #include "fuzz.h"
- #include "fork_fuzz.h"
- #include "exec/address-spaces.h"
-@@ -762,10 +763,28 @@ static int locate_fuzz_objects(Object *child, void *opaque)
-     return 0;
- }
- 
-+
-+static void pci_enum(gpointer pcidev, gpointer bus)
-+{
-+    PCIDevice *dev = pcidev;
-+    QPCIDevice *qdev;
-+    int i;
-+
-+    qdev = qpci_device_find(bus, dev->devfn);
-+    g_assert(qdev != NULL);
-+    for (i = 0; i < 6; i++) {
-+        if (dev->io_regions[i].size) {
-+            qpci_iomap(qdev, i, NULL);
-+        }
-+    }
-+    qpci_device_enable(qdev);
-+}
-+
- static void generic_pre_fuzz(QTestState *s)
- {
-     GHashTableIter iter;
-     MemoryRegion *mr;
-+    QPCIBus *pcibus;
-     char **result;
- 
-     if (!getenv("QEMU_FUZZ_OBJECTS")) {
-@@ -810,6 +829,10 @@ static void generic_pre_fuzz(QTestState *s)
-         exit(1);
-     }
- 
-+    pcibus = qpci_new_pc(s, NULL);
-+    g_ptr_array_foreach(fuzzable_pci_devices, pci_enum, pcibus);
-+    qpci_free_pc(pcibus);
-+
-     counter_shm_init();
- }
- 
--- 
-2.29.2
-
+> 
+> 
+> >  tests/qtest/fuzz/generic_fuzz_configs.h | 80 +++++++++++++++++++++++++
+> >  1 file changed, 80 insertions(+)
+> > 
+> > diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
+> > index c4d925f9e6..0b1fe0f836 100644
+> > --- a/tests/qtest/fuzz/generic_fuzz_configs.h
+> > +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
+> > @@ -115,6 +115,86 @@ const generic_fuzz_config predefined_configs[] = {
+> >          .name = "pc-q35",
+> >          .args = "-machine q35",
+> >          .objects = "*",
+> > +    },{
+> > +        .name = "vmxnet3",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-device vmxnet3,netdev=net0 -netdev user,id=net0",
+> > +        .objects = "vmxnet3"
+> > +    },{
+> > +        .name = "ne2k_pci",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-device ne2k_pci,netdev=net0 -netdev user,id=net0",
+> > +        .objects = "ne2k*"
+> > +    },{
+> > +        .name = "pcnet",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-device pcnet,netdev=net0 -netdev user,id=net0",
+> > +        .objects = "pcnet"
+> > +    },{
+> > +        .name = "rtl8139",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-device rtl8139,netdev=net0 -netdev user,id=net0",
+> > +        .objects = "rtl8139"
+> > +    },{
+> > +        .name = "i82550",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-device i82550,netdev=net0 -netdev user,id=net0",
+> > +        .objects = "eepro*"
+> > +    },{
+> > +        .name = "sdhci-v3",
+> > +        .args = "-nodefaults -device sdhci-pci,sd-spec-version=3 "
+> > +        "-device sd-card,drive=mydrive "
+> > +        "-drive if=sd,index=0,file=null-co://,format=raw,id=mydrive -nographic",
+> > +        .objects = "sd*"
+> > +    },{
+> > +        .name = "ehci",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-device ich9-usb-ehci1,bus=pcie.0,addr=1d.7,"
+> > +        "multifunction=on,id=ich9-ehci-1 "
+> > +        "-device ich9-usb-uhci1,bus=pcie.0,addr=1d.0,"
+> > +        "multifunction=on,masterbus=ich9-ehci-1.0,firstport=0 "
+> > +        "-device ich9-usb-uhci2,bus=pcie.0,addr=1d.1,"
+> > +        "multifunction=on,masterbus=ich9-ehci-1.0,firstport=2 "
+> > +        "-device ich9-usb-uhci3,bus=pcie.0,addr=1d.2,"
+> > +        "multifunction=on,masterbus=ich9-ehci-1.0,firstport=4 "
+> > +        "-drive if=none,id=usbcdrom,media=cdrom "
+> > +        "-device usb-tablet,bus=ich9-ehci-1.0,port=1,usb_version=1 "
+> > +        "-device usb-storage,bus=ich9-ehci-1.0,port=2,drive=usbcdrom",
+> > +        .objects = "*usb* *hci*",
+> > +    },{
+> > +        .name = "ohci",
+> > +        .args = "-machine q35 -nodefaults  -device pci-ohci -device usb-kbd",
+> > +        .objects = "*usb* *ohci*",
+> > +    },{
+> > +        .name = "megaraid",
+> > +        .args = "-machine q35 -nodefaults -device megasas -device scsi-cd,drive=null0 "
+> > +        "-blockdev driver=null-co,read-zeroes=on,node-name=null0",
+> > +        .objects = "megasas*",
+> > +    },{
+> > +        .name = "ac97",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-device ac97,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
+> > +        .objects = "ac97*",
+> > +    },{
+> > +        .name = "cs4231a",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-device cs4231a,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
+> > +        .objects = "cs4231a* i8257*",
+> > +    },{
+> > +        .name = "es1370",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-device es1370,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
+> > +        .objects = "es1370*",
+> > +    },{
+> > +        .name = "sb16",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-device sb16,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
+> > +        .objects = "sb16* i8257*",
+> > +    },{
+> > +        .name = "parallel",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-parallel file:/dev/null",
+> > +        .objects = "parallel*",
+> >      }
+> >  };
+> >  
+> > -- 
+> > 2.28.0
+> > 
 
