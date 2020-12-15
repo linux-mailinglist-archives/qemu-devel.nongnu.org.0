@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4A82DAFB1
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:07:38 +0100 (CET)
-Received: from localhost ([::1]:56700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC3D2DAFCE
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 16:10:52 +0100 (CET)
+Received: from localhost ([::1]:60072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpBvN-0004hH-K6
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:07:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47544)
+	id 1kpByV-00069B-Bc
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 10:10:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kpBuJ-0004Gd-8b
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:06:31 -0500
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:36073)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kpBxI-0005Ih-BZ
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:09:36 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kpBuH-0000TH-1A
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:06:30 -0500
-Received: by mail-yb1-xb2a.google.com with SMTP id s186so7807939ybf.3
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 07:06:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fzXlKFqsgxKrcTm2koET2uOecWzaVt/PUhu1Rqse7tM=;
- b=F0huA0Oh9UwFSzmjrL5EndHqxtAPzFf9Ayv+zV0XwCjObkaO1bSxKW605bFv65hxJI
- ci9QG/6ZQF1XWb8zNW/5Hr/dCi3YyrgeF2Y21gNdjPhqtC2X6UxcIVlbXWMwA1l4qfHW
- Bp58IK9h6V2bw2iXNthVyHtaCRnvc0ob4aIZ3R9PxJUlC0kbl4yndNTQzKY/SEG3hkNr
- DdE601fNYmDRU8hFY86F4AE46Xc1cM3KhcZGhHLnteBThi5Q6+nRsCCiP5/61Jb4DFLz
- QUrwGGrD66MK8u2YUPW2xsef0uSViQLKlsL5tAiskpclejgl6GJBQtqpM02ytE4pEd+R
- tGAw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kpBxF-0000kY-Hw
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 10:09:35 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id r7so20185459wrc.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 07:09:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HxrmziQTc5fwRL5YXfV79HkuHWc8g30OuzR6nfoN+dw=;
+ b=PBr8PF/qMacv7/H5x1O+BvobDDfj9vB8jeWgtXIKjqUAv/OzgYc3F+Yt0pMLGCh/zx
+ PfKNBDoR8VZz5oLyidL6EX2eDwUzXZRDVoNDpNDlthMvJNdWFwq1XaGgbh/wxxhpz7Me
+ oiJv5y8mpfV/NptAzmBF7pUhOWS+IWdLPALBDCoeTb2+RIyj6sIRd7WLNkbC175PG4G/
+ vDstzjWWMX2gWw96AWv+0pJhCGHUx1ZBrvyzoB1IlgKWDJlbeKdk3/USvQahQhcawY36
+ DVdfbDImU3luOlmN46WVIAusU/k1jQgdaiNMs8z5ECDdsbumvCc9gOMxFqYVOE64M92m
+ Hvfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fzXlKFqsgxKrcTm2koET2uOecWzaVt/PUhu1Rqse7tM=;
- b=L0vMJ/vv6UTyw7NKXBH8W78dUFgpUZcEFnbkxSPPLZ2PH5t7viQZE84lOAk7hX4Nbh
- U+osoh/t29Rh8UzXut2NbdygLoq8JlYWio6b3jYLh1bZnFe/ys/C3gegQLGIQ/pnZ7Fp
- PkUq4B/DylxWBcHmNeROWj0KLNHVQemqU+oAaaJJma+4GCHkDPBT0ky6WIyGLVcgPHUU
- iBaqnOPUKprEWpH9Bl26F052inHK8S0V1MHVplQoQ51d24HaOG3TCAPTSC+St9qoB/yb
- DlLjonZ2TZCwXcE1wVKMv/+r3tTZbKVi6VoNvb1YB8AI/T0CmdDHWat9kS/iVJkB6Tst
- Ctmw==
-X-Gm-Message-State: AOAM531P0+bQ/qjRRpB1PPaQ23MF51hR13CoCDDSHVgqzoIkvfL72C9s
- Ux+c8tYT3up5cwpwLTPTWa3xncgA58toqR5BzRo=
-X-Google-Smtp-Source: ABdhPJxRuEAFO6PBMGV4VEpnKRbNzgA1emdAH5Q1vmbQWq/QI4vTePWyuWVv3til4kjI+UXdDT+ResKa7I+iYB5jpV8=
-X-Received: by 2002:a25:aaee:: with SMTP id
- t101mr42064748ybi.517.1608044788079; 
- Tue, 15 Dec 2020 07:06:28 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HxrmziQTc5fwRL5YXfV79HkuHWc8g30OuzR6nfoN+dw=;
+ b=a86ETiw83tyVT2fHEVJwyTmPvRm6fE5NSYG8rcWCi1BepZXFYxFTqeNh5GYmfiWweL
+ qvO+oQw+ndRy8PHnsE5BQAnk4ev+f599jbKGYyoUonm5D17wdwj9nSdwmF8Nk6ucBHnu
+ d4nbxhGcTwIhoxW/Swl4YPpl7fDEmpYNoAo6tsezgsPLL5BiDQbbSs5GAb4uwSN6c/9c
+ SesTFwsLagdM9w8Go6dqlBzrFopsMTtI9FR3twyWAaSdRFj5b3hgmqzVSasID6Kq0G0+
+ VrtBQDiTqmRi4tLzu8la0szQZ0a/BSb1sLcrH8oXmE5AoE27rZ2KpGSrjggdqEhl9Osr
+ Ldew==
+X-Gm-Message-State: AOAM530qok/KplXD2jR0viEWDL8OOBNeqwJTv2Ptael89WNmYJ3uyfPA
+ CrWeJFiGw4t6ukk5qlO1ffkkpsSojhX3pw==
+X-Google-Smtp-Source: ABdhPJwO9mI/8TVkfWI1ChH0UEB1odGC/ba44iLSr3EmlIwvsLctxkgdOX+SbhuQjTUMkVtrxWIC4g==
+X-Received: by 2002:adf:f989:: with SMTP id f9mr28745079wrr.299.1608044971644; 
+ Tue, 15 Dec 2020 07:09:31 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id l1sm36930593wmi.15.2020.12.15.07.09.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Dec 2020 07:09:30 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] clock: Get rid of clock_get_ns()
+Date: Tue, 15 Dec 2020 15:09:25 +0000
+Message-Id: <20201215150929.30311-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20201215141237.17868-1-peter.maydell@linaro.org>
- <20201215141237.17868-21-peter.maydell@linaro.org>
-In-Reply-To: <20201215141237.17868-21-peter.maydell@linaro.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 15 Dec 2020 23:06:16 +0800
-Message-ID: <CAEUhbmUgROy8OTSkz6hv7YexMXT_U-iAF2O5Y_9RdZJcco_WGw@mail.gmail.com>
-Subject: Re: [PULL 20/20] hw/block/m25p80: Fix Numonyx fast read dummy cycle
- count
-To: Peter Maydell <peter.maydell@linaro.org>,
- Joe Komlodi <joe.komlodi@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,44 +80,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Luc Michel <luc.michel@greensocs.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Joe,
+This patchseries makes some changes to the clock API:
+ * Remove clock_get_ns()
+ * Add clock_ticks_to_ns() to return number of nanoseconds
+   it will take the clock to tick N times
+ * clock_display_freq() to return prettily-formatted string
+   for showing humans the approximate clock frequency
 
-On Tue, Dec 15, 2020 at 10:35 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> From: Joe Komlodi <joe.komlodi@xilinx.com>
->
-> Numonyx chips determine the number of cycles to wait based on bits 7:4
-> in the volatile configuration register.
->
-> However, if these bits are 0x0 or 0xF, the number of dummy cycles to
-> wait is 10 for QIOR and QIOR4 commands or when in QIO mode, and otherwise 8 for
-> the currently supported fast read commands. [1]
->
-> [1]
-> https://www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-b/mt25q_qlkt_u_02g_cbb_0.pdf?rev=9b167fbf2b3645efba6385949a72e453
->
-> Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
-> Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> Message-id: 1605568264-26376-5-git-send-email-komlodi@xilinx.com
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/block/m25p80.c | 30 +++++++++++++++++++++++++++---
->  1 file changed, 27 insertions(+), 3 deletions(-)
->
+This is based on discussions we had about these APIs a little while
+back.  The core driver here is that the clock objects internally
+store the period in units of 2^-32 ns, so both clock_get_ns() and
+clock_get_hz() are inherently returning a rounded-off result, which
+can be badly inaccurate for fast clocks or if you want to multiply it
+by a large tick count.
 
-Sorry for jumping in, but I just noticed this patch.
+Ideally I'd like to get rid of clock_get_hz() as well, but
+that looks trickier than handling clock_get_ns().
 
-I believe you tested this with Xilinx SPIPS but not some other controllers.
-Francisco and I had a discussion about dummy cycles implementation
-with different SPI controllers @
-http://patchwork.ozlabs.org/project/qemu-devel/patch/1606704602-59435-1-git-send-email-bmeng.cn@gmail.com/
-I would like to hear your thoughts. I think we should figure out a
-solution that fits all types of controllers.
+Patch 4 borrows a lot of the concept from one of Philippe's that he
+sent out previously.
 
-Regards,
-Bin
+NB: tested with 'make check' and 'make check-acceptance' only.
+
+Changes v1->v2:
+ * In patch 1, saturate return value to INT64_MAX (and update
+   docs to explain this and why)
+
+Patches 2-4 have been reviewed, only patch 1 needs review.
+
+thanks
+-- PMM
+
+Peter Maydell (4):
+  clock: Introduce clock_ticks_to_ns()
+  target/mips: Don't use clock_get_ns() in clock period calculation
+  clock: Remove clock_get_ns()
+  clock: Define and use new clock_display_freq()
+
+ docs/devel/clocks.rst  | 51 ++++++++++++++++++++++++++++++++++++----
+ include/hw/clock.h     | 53 +++++++++++++++++++++++++++++++++++++++---
+ hw/core/clock.c        |  6 +++++
+ softmmu/qdev-monitor.c |  6 ++---
+ target/mips/cpu.c      |  4 ++--
+ 5 files changed, 108 insertions(+), 12 deletions(-)
+
+-- 
+2.20.1
+
 
