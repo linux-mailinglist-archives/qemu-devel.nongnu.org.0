@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8910F2DAE96
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 15:12:19 +0100 (CET)
-Received: from localhost ([::1]:36818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8E22DAEA9
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 15:14:45 +0100 (CET)
+Received: from localhost ([::1]:43054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpB3q-0008PY-Lf
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 09:12:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33340)
+	id 1kpB6C-0002bp-R9
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 09:14:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpB1c-0006oE-8e
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:10:00 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:34486)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpB1a-0006Ao-G3
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:10:00 -0500
-Received: by mail-oi1-x242.google.com with SMTP id s75so23436423oih.1
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 06:09:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ecayntQDo1x+F25YKQ63YC5+lE3CV+QHl2rJeTtz5lw=;
- b=My2UM26pw7sgEoSCvu/ocU340lzzf/6arnVKIdQS8grRSw2Pm8uaiXRj3dvpzHex1Z
- sXwRZJBdgNdtBhG/9vi6t+X6PWg0CAct+eY6ws5B4dx0flJaFSZ/1bnzTQ3gSmME1r1G
- Ic5uf75mmUh9LvjsUWo54Tr/ZG3Qf7Ui/9OT5KX5+Jy+zFLlHLdaSK9Egg1L28WACbLc
- gdTbKz3qMbhxEwkMyJOPmTpj66mg+7vaITFpgoQrH0a5sVA3ep99cIt4uPEcf5SbqU8Z
- idHtqjK9W54UwiC7XQ4AoFhAYTSJubwnvN6rSpfUFOX/7InBBDb+xjVbKdhbiGVo947/
- sG9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ecayntQDo1x+F25YKQ63YC5+lE3CV+QHl2rJeTtz5lw=;
- b=Ix6ILBPHHf4KtjcltQ0XQWe3Hw97EK2ZlvXT8fuGs/su9OVD69y5lojpdlNIRhBMEk
- zLhSTxm6wysVnl3JHhv4/HZInlX9Mgchvix0lKggINeOo1u7IIsSE8sSlJPnCshK6627
- KM5bcNHKM24lEVvhdINA6y5UJ0WsDs/b86Zku1pWfQM5nkAOKrmFWAn4GxqbP89oOUh7
- +M8bwtdUYFd9bzAclmCaZepHmr7E2WJh3N6g5VwzkpDq7ilrMJdA/zSYLSUerfxbRw5S
- azp4D1qMU7NZaWPHAZwqgGnNTgcidVegyabM18XNbEPrLiWpVRMBhRXR1VSwjddWk1oe
- wxcQ==
-X-Gm-Message-State: AOAM530DE7p2JQZqhHfiLWSEUp4CAc7Sbijasi6iPCn+2lyB/r9oj6Gt
- z04F5fHQXs03nRrdGz3W2RkFxg==
-X-Google-Smtp-Source: ABdhPJyg4XreSkxXZJCpdyoXSX9GadX58IVReFW1lxN1UArO8sNj8lB81tYJL2K2fau9Ur5op87UDQ==
-X-Received: by 2002:aca:eb44:: with SMTP id j65mr21577458oih.19.1608041397269; 
- Tue, 15 Dec 2020 06:09:57 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id y35sm431688otb.5.2020.12.15.06.09.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 15 Dec 2020 06:09:56 -0800 (PST)
-Subject: Re: [PATCH v2 11/16] target/mips: Replace gen_exception_end(EXCP_RI)
- by gen_rsvd_instruction
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201214183739.500368-1-f4bug@amsat.org>
- <20201214183739.500368-12-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7c64072d-4999-1af6-bbe2-eeaea3553af4@linaro.org>
-Date: Tue, 15 Dec 2020 08:09:54 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpB2q-0008NO-0M
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:11:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33653)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpB2m-0006dK-GF
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:11:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608041470;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kxid7UxWSQ+0Imna6OFEV9O6ID9SkP8K6TmfmOxeLJk=;
+ b=apoTfofuasEhUvtBJkfuN61YMut3Z6cMo6kPV8pybZwCdXSaCetHeVadlKCO0xCHhveJcT
+ l8hqgFwtRWgsKTgtzROeOJnOUGf3aTAOTjQ+lz6ZpR0supSMt7m5808z8a5QdSziQXs+J4
+ LIpKCW/bsbL34AY8sD4JY+gybpp1kPs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177-O_BwJA_fMoW4EhydQNCmTg-1; Tue, 15 Dec 2020 09:11:09 -0500
+X-MC-Unique: O_BwJA_fMoW4EhydQNCmTg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DE941934103;
+ Tue, 15 Dec 2020 14:11:08 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 04A5760C17;
+ Tue, 15 Dec 2020 14:11:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6F26711329A5; Tue, 15 Dec 2020 15:11:06 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 04/12] i386: Register feature bit properties as class
+ properties
+References: <20201111183823.283752-1-ehabkost@redhat.com>
+ <20201111183823.283752-5-ehabkost@redhat.com>
+Date: Tue, 15 Dec 2020 15:11:06 +0100
+In-Reply-To: <20201111183823.283752-5-ehabkost@redhat.com> (Eduardo Habkost's
+ message of "Wed, 11 Nov 2020 13:38:15 -0500")
+Message-ID: <87pn3b2m85.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20201214183739.500368-12-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x242.google.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,24 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
- Huacai Chen <chenhuacai@kernel.org>, Laurent Vivier <laurent@vivier.eu>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/14/20 12:37 PM, Philippe Mathieu-Daudé wrote:
-> gen_reserved_instruction() is easier to read than
-> generate_exception_end(ctx, EXCP_RI), replace it.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  target/mips/translate.c | 724 ++++++++++++++++++++--------------------
->  1 file changed, 362 insertions(+), 362 deletions(-)
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Class properties make QOM introspection simpler and easier, as
+> they don't require an object to be instantiated.
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
-r~
+This is significantly more than just "simpler and easier".
+
+The other day, I played with the QMP core to reduce its appetite for
+malloc.  I came up with patches that should approximately halve it, and
+felt quite pleased with myself.  I looked for a simple test to
+demonstrate the effect.  Something with plenty of output.  Hmm, why not
+query-cpu-definitions, it produces about 32KiB.  Instrument, instrument,
+run, ... whaaaat?!?
+
+My patches save some 7000 allocations (670 KiB total), roughly matching
+my expectations.
+
+Turns out this is a drop in the bucket: query-cpu-definitions still
+takes some 180,000 allocations (almost 12 MiB total).  They're hiding
+behind this line in qmp_query_cpu_definitions():
+
+    g_slist_foreach(list, x86_cpu_definition_entry, &cpu_list);
+
+The line takes more than a quarter second for me.
+
+Hogging the main loop for a quarter second is not good.
+
+Eduardo's patch reduces run time to 0.02 seconds (40,000 allocations, 9
+MiB total).  It's a smaller pig now.
 
 
