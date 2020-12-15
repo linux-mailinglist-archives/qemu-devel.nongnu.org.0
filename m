@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B367E2DB344
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 19:08:47 +0100 (CET)
-Received: from localhost ([::1]:56806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDBEE2DB343
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 19:08:45 +0100 (CET)
+Received: from localhost ([::1]:56570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpEkg-0003vM-Qk
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 13:08:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34354)
+	id 1kpEke-0003nm-VK
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 13:08:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpEXW-0003G4-C0
+ id 1kpEXU-0003Fd-Mj
  for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44270)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpEXN-0001Vw-CU
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:10 -0500
+ id 1kpEXM-0001Vt-2u
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 12:55:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1608054899;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8OWKWoKNSjtp4XkWqOsivSIHY3pH+KPlMm3aWA8hHbU=;
- b=hG1imlp4FcCaP5RX5ErqDpq/uc6QXMD/eAjwhVz2BRBphpFW1iEY1pbyBaoUIim1DegJ33
- hfwQrmapbYpd3lh6LLgpwhkdtHJ3njs/3lK6tmg1cSCdgClyspCxlbD8F/PieVihcu8I/p
- lNAB4mp7L3GVHJ/3kWCww3SVEiDboO4=
+ bh=kxCbnPEEv38iUxN9AvU/eo0lyndngsqISZ836jAvFo0=;
+ b=WIVO+YpbLIWCUYg5Yd4SBVPLdbtpp2k3/Gad8zNCfpdEwG9997i9Irp/ZdI5RGvupYZljm
+ HtzWIfvuP+aJVdEhG/2HyK7ece6aHUHiESXDMrMsXgLp5dYDkTjIw+g4jLchXqcAVQYtCH
+ /DLZsYpkcZtzFYFquUlpUmDO/a5/GFo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-F0sDAnYPNhWMLDB0f6AL4A-1; Tue, 15 Dec 2020 12:54:57 -0500
-X-MC-Unique: F0sDAnYPNhWMLDB0f6AL4A-1
+ us-mta-347-g8wnMU1gMEK11jlmVJV95w-1; Tue, 15 Dec 2020 12:54:57 -0500
+X-MC-Unique: g8wnMU1gMEK11jlmVJV95w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70DE58015D4;
- Tue, 15 Dec 2020 17:54:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB51A51082
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 17:54:56 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A40A5C1C4;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B21D5C1C4;
  Tue, 15 Dec 2020 17:54:56 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/45] icount: improve exec nocache usage
-Date: Tue, 15 Dec 2020 12:54:24 -0500
-Message-Id: <20201215175445.1272776-25-pbonzini@redhat.com>
+Subject: [PULL 25/45] scsi: fix device removal race vs IO restart callback on
+ resume
+Date: Tue, 15 Dec 2020 12:54:25 -0500
+Message-Id: <20201215175445.1272776-26-pbonzini@redhat.com>
 In-Reply-To: <20201215175445.1272776-1-pbonzini@redhat.com>
 References: <20201215175445.1272776-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -79,42 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Cc: Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-cpu-exec tries to execute TB without caching when current
-icount budget is over. But sometimes refilled budget is big
-enough to try executing cached blocks.
-This patch checks that instruction budget is big enough
-for next block execution instead of just running cpu_exec_nocache.
-It halves the number of calls of cpu_exec_nocache function
-during tested OS boot scenario.
+There is (mostly theoretical) race between removal of a scsi device and
+scsi_dma_restart_bh.
 
-Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-Id: <160741865825.348476.7169239332367828943.stgit@pasha-ThinkPad-X280>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+It used to be easier to hit this race prior to my / Paulo's patch series
+that added rcu to scsi bus device handling code, but IMHO this race
+should still be possible to hit, at least in theory.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1854811
+
+Fix it anyway with a patch that was proposed by Paulo in the above bugzilla.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Message-Id: <20201210125929.1136390-2-mlevitsk@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/tcg/cpu-exec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/scsi/scsi-bus.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 58aea605d8..251b340fb9 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -685,7 +685,7 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
-     insns_left = MIN(0xffff, cpu->icount_budget);
-     cpu_neg(cpu)->icount_decr.u16.low = insns_left;
-     cpu->icount_extra = cpu->icount_budget - insns_left;
--    if (!cpu->icount_extra) {
-+    if (!cpu->icount_extra && insns_left < tb->icount) {
-         /* Execute any remaining instructions, then let the main loop
-          * handle the next event.
-          */
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index b901e701f0..edb5c3492a 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -170,6 +170,8 @@ static void scsi_dma_restart_bh(void *opaque)
+         scsi_req_unref(req);
+     }
+     aio_context_release(blk_get_aio_context(s->conf.blk));
++    /* Drop the reference that was acquired in scsi_dma_restart_cb */
++    object_unref(OBJECT(s));
+ }
+ 
+ void scsi_req_retry(SCSIRequest *req)
+@@ -188,6 +190,8 @@ static void scsi_dma_restart_cb(void *opaque, int running, RunState state)
+     }
+     if (!s->bh) {
+         AioContext *ctx = blk_get_aio_context(s->conf.blk);
++        /* The reference is dropped in scsi_dma_restart_bh.*/
++        object_ref(OBJECT(s));
+         s->bh = aio_bh_new(ctx, scsi_dma_restart_bh, s);
+         qemu_bh_schedule(s->bh);
+     }
 -- 
 2.26.2
 
