@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84B32DAF0C
-	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 15:37:21 +0100 (CET)
-Received: from localhost ([::1]:56614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 697C92DAF02
+	for <lists+qemu-devel@lfdr.de>; Tue, 15 Dec 2020 15:35:20 +0100 (CET)
+Received: from localhost ([::1]:50244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpBS4-00064c-QG
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 09:37:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34196)
+	id 1kpBQ7-0003Pe-F8
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 09:35:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpB4m-0001f0-H9
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:13:16 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44251)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpB4o-0001fC-BC
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:13:22 -0500
+Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:46198)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpB4a-0007Bv-Gq
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:13:16 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id w5so16252691wrm.11
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 06:13:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpB4h-0007D5-1T
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 09:13:18 -0500
+Received: by mail-oo1-xc44.google.com with SMTP id w9so4839201ooh.13
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 06:13:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=vfsjB+5EKQ5ZFSeZREuqmO7AlPzocEX4KU0OKohIt3c=;
- b=frfWHKaAe+fHHAfmdqqEsoftWpDK53HDkWRjg43IipnW2un6OE5RbDwnPy1wKS++05
- TrCwAnkpCin7VOHUtHN2aHJ2AusPq+1y8enWfrBoJkYIpWcoWUw1Sa+w+baplR4B7opf
- I7MioIk6snMhQZqAhPmxcyqeSMuVkIDMQvSYgFksAibBXsizPBkIsJmz62wagHpKjB/0
- HcI0GCqkVzSvOH0Is24meI/fo+bzbcHTDEBD7OepoaQ+hUqKPekEzpece+hWe8K1oDNi
- IH60xGl2CzI0IQEPMVG/gbFbkL4QHd3odkwBy8DhV4g3zw0Hm1Q0NiktfPgwM2USjJkc
- wnKQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=dVUkPoad/SeiPntSomVY//ORmqr7oRWlTnxdMN71LZw=;
+ b=Z6z5Ql2aH2A4spzZewnw2EUAs0dF6N0tUnsp2c4vKIx9dRGeGEGVgWalwk96pLa2D2
+ oxQyul7geTmfKgApp267oXYWFkbFrvo/YY4cr9u6zehnm0XPolYklanHpbX5I/qQtRtS
+ NHaeVIwqdh63kFYAfaZkbprJYW/fGIZfH6GObwCzp9iiIzxKqMi+Xez6hWb1qizBd5gZ
+ gMTEYh4vkGOjeTsycmzYv+6tPGcYk8y+8I2IpdhSRNCWN/H22vAfri+C8LOKHhJ2DCqx
+ q0xyJMLSOYSMUn/78toPmdLux2sdVWiZZtDngOqGc1RwqqqEAPxXW0JnQodjnBgauUaH
+ WDUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vfsjB+5EKQ5ZFSeZREuqmO7AlPzocEX4KU0OKohIt3c=;
- b=mE/fqvP/PnCzudwDFxvAVZVW3tsDsChlCLeeISQVSXX70I9nFtI/M9tQoGNjYc8iZz
- ebLf48HjL2pylgfr3O6Bl8EV98cU/zvNS42DQvNYNIF22/x5q0p7/qNHqVhO+VLJogd9
- LoNoutUcDb9AXEjsav8QfTUB9HT9VrF+GPYHgYXfjPmiWHe9M+gQr+elKBKY/2p4GNYJ
- bEth9FXK9qAdIKEdcvRIeN87mKfMJ5bO+enzZAxAdORkhxl+iRSkHTV42iS2nRLB+Nz+
- 81g/q6/L6WTgAYf7NBYspMgFmJvCKAa52KN5YWJJyZIcDJCP29lTUYG0rTU72e7tVCMr
- doEQ==
-X-Gm-Message-State: AOAM532srqOu5shCB+jjg94D0vgHU54Zve8stlyGenvtJ0CGmNsi38Ll
- KDcDr0oc/emYM7iZFR0X5ZQU/YEYbXo2DQ==
-X-Google-Smtp-Source: ABdhPJzb7+Cl1yUy4DQpghhp7trcG5do1e8NRDTzidwu81o8/O7XISFaoh3RY9ej8l/cL1ik91uQ/g==
-X-Received: by 2002:a5d:69c2:: with SMTP id s2mr2918340wrw.36.1608041582546;
- Tue, 15 Dec 2020 06:13:02 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w21sm19667319wmi.45.2020.12.15.06.13.01
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 06:13:01 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 20/20] hw/block/m25p80: Fix Numonyx fast read dummy cycle count
-Date: Tue, 15 Dec 2020 14:12:37 +0000
-Message-Id: <20201215141237.17868-21-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201215141237.17868-1-peter.maydell@linaro.org>
-References: <20201215141237.17868-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dVUkPoad/SeiPntSomVY//ORmqr7oRWlTnxdMN71LZw=;
+ b=CJ2DUj+1yVs1M/7iDH3mZEVbsAhpDFN3e6mAALJxQf+mN8TWcc3lLTnD1fP/11cF/7
+ v8f4LADqpk8kEldEuxYS2w/gurlJFP5nqIq5lzOGZ/gBx8niyZPMmbsHkNmqQQiLC32Q
+ uiykGeyC+rnmKBnlaL/m0efD6NXvePHi4uoW2DH9XBeMZB2XE5k4WkBTYLaQ6wWz5CCX
+ T1iZ+IMqokkk4p9fCylASO8bdo2XArTPhFrdtMh58JLjDn8hoLpDmacWzYgHswnehxUY
+ Kbh53NiNz5fY511w7QqmNDhre04wBohot+kFdIsytaCxAM+3iuPPtbeN0hrXPxDbUVEF
+ gttw==
+X-Gm-Message-State: AOAM533SWmFw4bUhaUrIEwFuzDMLYWlHqicdDEMVnASAZKeitzyuAreT
+ kK0eGUXOfWyXH/HihOI8j+sQ3Q==
+X-Google-Smtp-Source: ABdhPJx+b0rJsvQI91GxcXWQIypRaD2yivBz9fawA1lWHLh5IdX+3h1P5glRtLUnBAiJwiKMKfk6fQ==
+X-Received: by 2002:a05:6820:30e:: with SMTP id
+ l14mr4890962ooe.38.1608041587284; 
+ Tue, 15 Dec 2020 06:13:07 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id a24sm4665919oop.40.2020.12.15.06.13.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 15 Dec 2020 06:13:06 -0800 (PST)
+Subject: Re: [PATCH v2 14/16] target/mips: Declare generic FPU functions in
+ 'translate.h'
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201214183739.500368-1-f4bug@amsat.org>
+ <20201214183739.500368-15-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <51090a30-44da-4371-6d63-3f4e7ac71a6e@linaro.org>
+Date: Tue, 15 Dec 2020 08:13:04 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20201214183739.500368-15-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc44.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,92 +91,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
+ Huacai Chen <chenhuacai@kernel.org>, Laurent Vivier <laurent@vivier.eu>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joe Komlodi <joe.komlodi@xilinx.com>
+On 12/14/20 12:37 PM, Philippe Mathieu-Daudé wrote:
+> Some FPU translation functions / registers can be used by
+> ISA / ASE / extensions out of the big translate.c file.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  target/mips/translate.h |  7 +++++++
+>  target/mips/translate.c | 12 ++++++------
+>  2 files changed, 13 insertions(+), 6 deletions(-)
 
-Numonyx chips determine the number of cycles to wait based on bits 7:4
-in the volatile configuration register.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-However, if these bits are 0x0 or 0xF, the number of dummy cycles to
-wait is 10 for QIOR and QIOR4 commands or when in QIO mode, and otherwise 8 for
-the currently supported fast read commands. [1]
-
-[1]
-https://www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-b/mt25q_qlkt_u_02g_cbb_0.pdf?rev=9b167fbf2b3645efba6385949a72e453
-
-Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
-Reviewed-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Message-id: 1605568264-26376-5-git-send-email-komlodi@xilinx.com
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/block/m25p80.c | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
-
-diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index f1d7da65c85..c45afdd2cb3 100644
---- a/hw/block/m25p80.c
-+++ b/hw/block/m25p80.c
-@@ -837,6 +837,30 @@ static uint8_t numonyx_mode(Flash *s)
-     }
- }
- 
-+static uint8_t numonyx_extract_cfg_num_dummies(Flash *s)
-+{
-+    uint8_t num_dummies;
-+    uint8_t mode;
-+    assert(get_man(s) == MAN_NUMONYX);
-+
-+    mode = numonyx_mode(s);
-+    num_dummies = extract32(s->volatile_cfg, 4, 4);
-+
-+    if (num_dummies == 0x0 || num_dummies == 0xf) {
-+        switch (s->cmd_in_progress) {
-+        case QIOR:
-+        case QIOR4:
-+            num_dummies = 10;
-+            break;
-+        default:
-+            num_dummies = (mode == MODE_QIO) ? 10 : 8;
-+            break;
-+        }
-+    }
-+
-+    return num_dummies;
-+}
-+
- static void decode_fast_read_cmd(Flash *s)
- {
-     s->needed_bytes = get_addr_length(s);
-@@ -846,7 +870,7 @@ static void decode_fast_read_cmd(Flash *s)
-         s->needed_bytes += 8;
-         break;
-     case MAN_NUMONYX:
--        s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
-+        s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
-         break;
-     case MAN_MACRONIX:
-         if (extract32(s->volatile_cfg, 6, 2) == 1) {
-@@ -885,7 +909,7 @@ static void decode_dio_read_cmd(Flash *s)
-                                     );
-         break;
-     case MAN_NUMONYX:
--        s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
-+        s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
-         break;
-     case MAN_MACRONIX:
-         switch (extract32(s->volatile_cfg, 6, 2)) {
-@@ -925,7 +949,7 @@ static void decode_qio_read_cmd(Flash *s)
-                                     );
-         break;
-     case MAN_NUMONYX:
--        s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
-+        s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
-         break;
-     case MAN_MACRONIX:
-         switch (extract32(s->volatile_cfg, 6, 2)) {
--- 
-2.20.1
+r~
 
 
