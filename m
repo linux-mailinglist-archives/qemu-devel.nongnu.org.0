@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834EF2DC2B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 16:05:36 +0100 (CET)
-Received: from localhost ([::1]:43418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ECF22DC2BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 16:09:15 +0100 (CET)
+Received: from localhost ([::1]:53508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpYMx-0008KE-G2
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 10:05:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34134)
+	id 1kpYQU-00047g-Bz
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 10:09:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kpYJl-0004Qm-Mf
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:02:17 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:36211)
+ id 1kpYJm-0004Tv-QW
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:02:18 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kpYJk-0007Ul-07
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:02:17 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id lt17so33174260ejb.3
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 07:02:15 -0800 (PST)
+ id 1kpYJk-0007Uv-PX
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:02:18 -0500
+Received: by mail-ed1-x531.google.com with SMTP id dk8so25164340edb.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 07:02:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fVM1InpNhRI/g9ZYU2u7pE3PbR6QDiLKhPiZwnr0RDE=;
- b=OPVMmZPb7sReRfnxVwqlZdMXW9tKrPQKNxV7KVXIgg+e6IHhyCRNvgGp13Mht6G5SU
- fuzp7+AAuMNwkc3AcrmAGfK6Go7Npe5MjSb+Xpje5747//6XsYCbIkwKzCV+ZUTf5FjC
- /D3OBva87GJLYEKOAVOQIApVAlxEQJQpVim4ofXm1lKCeY8iTb5EOmSZ6q3B3AdNSD5f
- 83BXFi50dB3QbWtYUr+bviVManpmIwLka89RHBCNKpsQfQZAxCqYOUcbpeqs2BQUkDO/
- tkjFAJYIaqv2x43hUPk05pWPljPb7w3wicQAkrL+bNf2IBLTsWNjgbQVqa+77gab3+e6
- E7BA==
+ bh=u8na5XyV6Q3dO/cfg5nIyrTRUkt6ipTXcWtK/AtR680=;
+ b=XjdT140veIHbDnUh68U383NqDK8WbjrIsTFEzntPeDXUbZdPhCXEXaMyVKQGxEwa5g
+ 29VComgQ/PTlODR+cT6cH0Kr5cis4rLnezu3wvf1b8jq8HEjbtgpeec776oqfXb2zHLJ
+ ZGpIrFj572bsximEepVj8DfDgxXHS6JVAOAA6yRJb7MymM7Gp1SS+6iY7irS+KNZ0gPT
+ P3kTnS57uthHJmDcR2WG4iZO3NV5fiQaEHSWywVysxsrq72zvPtJ+X49imIyU5sqPlFX
+ 9RKEjhmwPBDelrIzKWf2VWDafp230PqRV8Dl5nM6qam1zqokaA+7M44b1n2nsBnuUj7r
+ AzUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fVM1InpNhRI/g9ZYU2u7pE3PbR6QDiLKhPiZwnr0RDE=;
- b=PjrsA25/UIBXbZnEZFiAy0isMVIo8136qOVPuri835yoK7hvtwInwa9Y/UKZTokEy6
- 7wBLTa8rlMbfwcu/phLPbWDDoRBX7Zff7aZNoLiz8pB1HN+gbNP5/KJLp7NJ3wAOgKZq
- DLOHHlqCi+RzNGDrPP1XPKMNj/fzCmSixxbunzUwEuKAz7tcNUoGYE/w0q7OWYtLlr27
- 8cm5cB439flBdNuewqEl4e28f58EAXwR3TPmNHA+ItRXhyDlhYpdanP3yg0TYnOnQSqe
- 9xfrXbyNJYDy6I/h9i8eaIAnQEpq4/Wr1VXlGk71RYEpheOjRNjgrw47yI0Rtw7YmLvp
- oirQ==
-X-Gm-Message-State: AOAM533Z1JALjxCEKuhEYJ+bW0v3hcYwcfy0iNqVaTIWxGMA2A9N/jPq
- vNSneX7r+/U8EVRE1K5LcJteLJMzYjk=
-X-Google-Smtp-Source: ABdhPJz/5xdqFMuc+TkH7zYgfcDwLPiwUXFzuHhx3yoT4bw/6j2GV8Cxik2AL2XPJSn+bIiSOtNfHA==
-X-Received: by 2002:a17:906:f0cc:: with SMTP id
- dk12mr13571450ejb.480.1608130934523; 
- Wed, 16 Dec 2020 07:02:14 -0800 (PST)
+ bh=u8na5XyV6Q3dO/cfg5nIyrTRUkt6ipTXcWtK/AtR680=;
+ b=elSN2pkHPmRSuQGo5mvNSJWf+LpniTVt9HauEac2EBucQ5lYLscjOOBcDrSmVFXlTH
+ dVhQYmlL2DE3DnPy6ezsub+uo28hVKba7h/Ml/HmBGrGNMWIEZqrKRUpYsnUrlC4JdLb
+ lxIYVTtulrQZGZh+ynQEcstQt6bdq4/yhUR49jgBcSNFEF4CQn1xN3FN6AtommpwIEQ+
+ Kn12qza+Y3kXGn9Gwu1oNADMe4xJjmWkN9193qv4mtZQLLQtd6ud62gL5whjbr5l0fBQ
+ ruhu2t5k0J1Eu7oEoS/kB55aTIjcEF66+J7pRupjBFe/c3P+AL2zs+1E8+xTWvwLRQ8e
+ tZ9w==
+X-Gm-Message-State: AOAM533y0uSIg3JASDJClBqlEL+HD0Ak3EPQgSCAQicuCmyUVGE6Vi4F
+ Rzmq0WBJMo9doYvqaYB5CsdhFamVqlw=
+X-Google-Smtp-Source: ABdhPJypoEZMpy+xv1/nYL5KXlf/qk7Z3ANhBlK2VAjTPkwwUCZsIegGqODQQURIdPE2d8QjaY9sGA==
+X-Received: by 2002:a05:6402:1692:: with SMTP id
+ a18mr33592189edv.321.1608130935367; 
+ Wed, 16 Dec 2020 07:02:15 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id v24sm21397059edw.23.2020.12.16.07.02.13
+ by smtp.gmail.com with ESMTPSA id v24sm21397059edw.23.2020.12.16.07.02.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 16 Dec 2020 07:02:14 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/7] meson: use dependency to gate block modules
-Date: Wed, 16 Dec 2020 16:02:06 +0100
-Message-Id: <20201216150207.431437-7-pbonzini@redhat.com>
+Subject: [PATCH 7/7] meson: cleanup Kconfig.host handling
+Date: Wed, 16 Dec 2020 16:02:07 +0100
+Message-Id: <20201216150207.431437-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201216150207.431437-1-pbonzini@redhat.com>
 References: <20201216150207.431437-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,57 +88,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will allow converting the dependencies to meson options one by one,
-because moving the tests to meson.build will get rid of the symbols
-in config-host.mak.
+Build the array of command line arguments coming from config_host
+once for all targets.  Add all accelerators to accel/Kconfig so
+that the command line arguments for accelerators can be computed
+easily in the existing "foreach sym: accelerators" loop.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- block/meson.build | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ accel/Kconfig          |  9 +++++++++
+ docs/devel/kconfig.rst | 19 +++++++++----------
+ meson.build            | 43 +++++++++++++++++-------------------------
+ 3 files changed, 35 insertions(+), 36 deletions(-)
 
-diff --git a/block/meson.build b/block/meson.build
-index 5dcc1e5cce..b02cb14aad 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -70,14 +70,14 @@ block_modules = {}
+diff --git a/accel/Kconfig b/accel/Kconfig
+index 2ad94a3839..461104c771 100644
+--- a/accel/Kconfig
++++ b/accel/Kconfig
+@@ -1,3 +1,12 @@
++config WHPX
++    bool
++
++config HAX
++    bool
++
++config HVF
++    bool
++
+ config TCG
+     bool
  
- modsrc = []
- foreach m : [
--  ['CONFIG_CURL', 'curl', [curl, glib], 'curl.c'],
--  ['CONFIG_GLUSTERFS', 'gluster', glusterfs, 'gluster.c'],
--  ['CONFIG_LIBISCSI', 'iscsi', libiscsi, 'iscsi.c'],
--  ['CONFIG_LIBNFS', 'nfs', libnfs, 'nfs.c'],
--  ['CONFIG_LIBSSH', 'ssh', libssh, 'ssh.c'],
--  ['CONFIG_RBD', 'rbd', rbd, 'rbd.c'],
-+  [curl, 'curl', [curl, glib], 'curl.c'],
-+  [glusterfs, 'gluster', glusterfs, 'gluster.c'],
-+  [libiscsi, 'iscsi', libiscsi, 'iscsi.c'],
-+  [libnfs, 'nfs', libnfs, 'nfs.c'],
-+  [libssh, 'ssh', libssh, 'ssh.c'],
-+  [rbd, 'rbd', rbd, 'rbd.c'],
- ]
--  if config_host.has_key(m[0])
-+  if m[0].found()
-     if enable_modules
-       modsrc += files(m[3])
+diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst
+index 336ba0e8e5..cb2d7ffac0 100644
+--- a/docs/devel/kconfig.rst
++++ b/docs/devel/kconfig.rst
+@@ -288,21 +288,20 @@ they will include all these symbols and some help text on what they do.
+ ----------------
+ 
+ In some special cases, a configurable element depends on host features
+-that are detected by QEMU's configure script; for example some devices
+-depend on the availability of KVM or on the presence of a library on
+-the host.
++that are detected by QEMU's configure or ``meson.build`` scripts; for
++example some devices depend on the availability of KVM or on the presence
++of a library on the host.
+ 
+ These symbols should be listed in ``Kconfig.host`` like this::
+ 
+-    config KVM
++    config TPM
+       bool
+ 
+-and also listed as follows in the top-level Makefile's ``MINIKCONF_ARGS``
++and also listed as follows in the top-level meson.build's host_kconfig
+ variable::
+ 
+-    MINIKCONF_ARGS = \
+-      $@ $*/config-devices.mak.d $< $(MINIKCONF_INPUTS) \
+-      CONFIG_KVM=$(CONFIG_KVM) \
+-      CONFIG_SPICE=$(CONFIG_SPICE) \
+-      CONFIG_TPM=$(CONFIG_TPM) \
++    host_kconfig = \
++      ('CONFIG_TPM' in config_host ? ['CONFIG_TPM=y'] : []) + \
++      ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
++      ('CONFIG_IVSHMEM' in config_host ? ['CONFIG_IVSHMEM=y'] : []) + \
+       ...
+diff --git a/meson.build b/meson.build
+index 0b36fb38f1..bb198f792a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -954,21 +954,19 @@ if link_language == 'cpp'
+   }
+ endif
+ 
+-kconfig_external_symbols = [
+-  'CONFIG_KVM',
+-  'CONFIG_XEN',
+-  'CONFIG_TPM',
+-  'CONFIG_SPICE',
+-  'CONFIG_IVSHMEM',
+-  'CONFIG_OPENGL',
+-  'CONFIG_X11',
+-  'CONFIG_VHOST_USER',
+-  'CONFIG_VHOST_VDPA',
+-  'CONFIG_VHOST_KERNEL',
+-  'CONFIG_VIRTFS',
+-  'CONFIG_LINUX',
+-  'CONFIG_PVRDMA',
+-]
++host_kconfig = \
++  ('CONFIG_TPM' in config_host ? ['CONFIG_TPM=y'] : []) + \
++  ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
++  ('CONFIG_IVSHMEM' in config_host ? ['CONFIG_IVSHMEM=y'] : []) + \
++  ('CONFIG_OPENGL' in config_host ? ['CONFIG_OPENGL=y'] : []) + \
++  ('CONFIG_X11' in config_host ? ['CONFIG_X11=y'] : []) + \
++  ('CONFIG_VHOST_USER' in config_host ? ['CONFIG_VHOST_USER=y'] : []) + \
++  ('CONFIG_VHOST_VDPA' in config_host ? ['CONFIG_VHOST_VDPA=y'] : []) + \
++  ('CONFIG_VHOST_KERNEL' in config_host ? ['CONFIG_VHOST_KERNEL=y'] : []) + \
++  ('CONFIG_VIRTFS' in config_host ? ['CONFIG_VIRTFS=y'] : []) + \
++  ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
++  ('CONFIG_PVRDMA' in config_host ? ['CONFIG_PVRDMA=y'] : [])
++
+ ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
+ 
+ default_targets = 'CONFIG_DEFAULT_TARGETS' in config_host
+@@ -1003,7 +1001,7 @@ foreach target : target_dirs
+     }
+   endif
+ 
+-  have_accel = false
++  accel_kconfig = []
+   foreach sym: accelerators
+     if sym == 'CONFIG_TCG' or target in accelerator_targets.get(sym, [])
+       config_target += { sym: 'y' }
+@@ -1011,10 +1009,10 @@ foreach target : target_dirs
+       if sym == 'CONFIG_XEN' and have_xen_pci_passthrough
+         config_target += { 'CONFIG_XEN_PCI_PASSTHROUGH': 'y' }
+       endif
+-      have_accel = true
++      accel_kconfig += [ sym + '=y' ]
      endif
-@@ -90,10 +90,10 @@ endforeach
- # those are not exactly regular block modules, so treat them apart
- if 'CONFIG_DMG' in config_host
-   foreach m : [
--    ['CONFIG_LZFSE', 'dmg-lzfse', liblzfse, 'dmg-lzfse.c'],
--    ['CONFIG_BZIP2', 'dmg-bz2', [glib, libbzip2], 'dmg-bz2.c']
-+    [liblzfse, 'dmg-lzfse', liblzfse, 'dmg-lzfse.c'],
-+    [libbzip2, 'dmg-bz2', [glib, libbzip2], 'dmg-bz2.c']
-   ]
--    if config_host.has_key(m[0])
-+    if m[0].found()
-       module_ss = ss.source_set()
-       module_ss.add(when: m[2], if_true: files(m[3]))
-       block_modules += {m[1] : module_ss}
+   endforeach
+-  if not have_accel
++  if accel_kconfig.length() == 0
+     if default_targets
+       continue
+     endif
+@@ -1068,13 +1066,6 @@ foreach target : target_dirs
+                                                configuration: config_target_data)}
+ 
+   if target.endswith('-softmmu')
+-    base_kconfig = []
+-    foreach sym : kconfig_external_symbols
+-      if sym in config_target or sym in config_host
+-        base_kconfig += '@0@=y'.format(sym)
+-      endif
+-    endforeach
+-
+     config_devices_mak = target + '-config-devices.mak'
+     config_devices_mak = configure_file(
+       input: ['default-configs/devices' / target + '.mak', 'Kconfig'],
+@@ -1083,7 +1074,7 @@ foreach target : target_dirs
+       capture: true,
+       command: [minikconf, config_host['CONFIG_MINIKCONF_MODE'],
+                 config_devices_mak, '@DEPFILE@', '@INPUT@',
+-                base_kconfig])
++                host_kconfig, accel_kconfig])
+ 
+     config_devices_data = configuration_data()
+     config_devices = keyval.load(config_devices_mak)
 -- 
 2.29.2
-
 
 
