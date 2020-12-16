@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F5F2DC511
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:10:17 +0100 (CET)
-Received: from localhost ([::1]:56650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D002DC52E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:19:03 +0100 (CET)
+Received: from localhost ([::1]:55814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpaJc-0000tg-S2
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:10:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39664)
+	id 1kpaS6-0004Tb-Te
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:19:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpa4y-0007iR-NB
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:55:08 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39781)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kpa6V-0001ks-Lp
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:56:43 -0500
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:40464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpa4x-00039i-9w
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:55:08 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id 3so3110371wmg.4
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:55:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kpa6U-0003Tl-1p
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:56:43 -0500
+Received: by mail-ed1-x534.google.com with SMTP id h16so25577680edt.7
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:56:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UrPtg+NXILWzoMKDFVWYjaARt50ngfJJUniPUuwE5No=;
- b=fkPhGGTl8OCPo8vRaTXBDVkhNnotUM7108lHTjdk9Qw/De1wbSugtmdvIvRUb7buc7
- FdhSXwMw9L7cBMIMbyAJ12nE1XInYIjUqvV9vikdfYv6aqckya6Dxr49bvndJX/9wk0n
- 0rUWM7n1ukGcf/eeNpiPL0vevEivj9kz34jyH7w0A7PePfhD4AADNH+dhWC7iS3wGaWk
- I9Gl0hKBvfP1fnN53Mlq+oZj2RCTtJ3MpijNeHthuECLtPi2vrTBu6H3y09CI6ZqGU/L
- LMhZA9Jiw6s3gQzZ7jLYdr+kvswC05y6x/YJkVtFE0KIELoGjjLSVJ3LnV6gJ2Ss61Jr
- hsCQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uCPnZCGtCXDHkFi3NAyUb041BTR1b6MLjnoro1X66LI=;
+ b=NQv2HnMqh5I4x1I/cy5yeZMHQYooDi9sObDPCpqlTF+eN+ydXo7IP8e1sZvPNdFBUi
+ 2laC+no98ijQ0qEVjhBR0Y1fUNhq6zyg6QV/IsaIDKVjFpSJobJ1F1FNxVwfz5ASlbvQ
+ 8Q5Q/XuWuquVlvmsioKQ4XqCn4654pDnAW7/QEtjJzhgPgER28efk6fm3LHyt61sU2yB
+ WrXNb7GwPTihuCHf6L3Iq58pZSXxhFFzrsnVuLBvJSc9MHxZcykzvNU3ogaGfMLyxBQ9
+ HOTvoOmRKQMTpg5BTbfYSzhebxriEUWeADm/lwdVR2X7VGQypC+dEYtq0mA9c1Yddzjd
+ YXoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UrPtg+NXILWzoMKDFVWYjaARt50ngfJJUniPUuwE5No=;
- b=JmdHaEQqVJ6Ui9tfcv5K8MnkVRKiACKDjVeV65udrEeiO7I/68nF2NMZM9BI/wqNn4
- vDbMEQ8sZsBHIigOkXCBYy2XHlCxm4D0F9j7wZVGlHTYT1kcf0SUovmmM4InDTE1q12E
- G7VHZaHVdYgf98npNVDcxX3ibMePYi6V6d6vkFZ0h5QsmdJudxwj0O9ClvhGuurQylSS
- pwXOhNDTuB930qm6nCl4xCf+FG6nyX1c5jYgcxcswA5JC0oqXlPQwvAda2rIk2jM3Vkb
- V0CVriQgSyydG+tBa3iiH7+zGbsMz49V6Dh++JIE8pd9iIHiTnh5RbrHd3i5fbruitNP
- sABA==
-X-Gm-Message-State: AOAM532Z3oFeKjTXOjfMW6z3EAaRWvwfuf8+LEYBYB4M+h2c6pjHJn7W
- JPSCJGkLkqP2uxuJA9jMnZhi/8kEVPQ=
-X-Google-Smtp-Source: ABdhPJzl5NUhO6xd5xXfarTKP4QOTCXJ3TGb+Pu6je1VHkBT+j04ZyYLHlwPQJsQnhqfRfZZd79b5A==
-X-Received: by 2002:a1c:1f94:: with SMTP id f142mr4184137wmf.124.1608137705784; 
- Wed, 16 Dec 2020 08:55:05 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id i7sm4086002wrv.12.2020.12.16.08.55.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Dec 2020 08:55:05 -0800 (PST)
-Subject: Re: [PATCH 6/7] hw/mips/fuloong2e: Correct cpuclock env
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20201216022513.89451-1-jiaxun.yang@flygoat.com>
- <20201216023123.92335-2-jiaxun.yang@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b0a451dd-2313-ad86-985e-271d5ca27a69@amsat.org>
-Date: Wed, 16 Dec 2020 17:55:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uCPnZCGtCXDHkFi3NAyUb041BTR1b6MLjnoro1X66LI=;
+ b=tGim1zJfBjM1D4PSxHo3c9a0gmFfCI6NkKIOy7wYn/v0ck90jwcHfq7YDUKaeiTCBA
+ FHQxqe1Jz9FE9OuPYXNOMsOxVVEroC5Uz0U2l0upBWky4vPvD+GQXTXjS0vwjL66C6gK
+ /bXvsGedxGozdS4t5d9Vqj2mhZOFsJ+wUwgneTw6XNBStT8kiQQTxewi0PYeY3lIpZE3
+ cP5lvd7dAaCtTC8UZpDNM8EgN2Gp/gQpvcIqriQKhJhKCbZmlUoEZZy8IEH8lRt9U74j
+ TchiFaUocgrU9g426H0fZmsfF5gxX3aCEUh/BAzLmJc9fUWRkAZtV1uWJDeBrjgBjZmF
+ cTnQ==
+X-Gm-Message-State: AOAM532NF34mkBcMKvVXCd9t6JhgJ3cHlJcCjP2yw8wdHq0yY5NcCoLW
+ QyIvyrDO7IArHl83is/qqAgpG5xwdDjvgYbxGqFfy9nt+Wc=
+X-Google-Smtp-Source: ABdhPJwSLEFcCYOT9Z+QzpNEQEWVFHcF3s+bJWyaiWipGppr/2ylsU9SbtN8iNjVvUByIYsWIw5/9ynp3jtuXBYtJjM=
+X-Received: by 2002:a50:a6de:: with SMTP id f30mr7726965edc.30.1608137800650; 
+ Wed, 16 Dec 2020 08:56:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201216023123.92335-2-jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20201216162006.433850-1-pbonzini@redhat.com>
+ <20201216162006.433850-6-pbonzini@redhat.com>
+In-Reply-To: <20201216162006.433850-6-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 16 Dec 2020 20:56:29 +0400
+Message-ID: <CAJ+F1CJTE3qCEN+S4Kn_Tec27Fjej2tSCXuDfL8ixE7XibLNxA@mail.gmail.com>
+Subject: Re: [PATCH 5/7] meson: use pkg-config method for libudev
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000005b93ee05b697c217"
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,38 +77,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenhuacai@kernel.org
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/20 3:31 AM, Jiaxun Yang wrote:
-> It should be 533080000.
-> See clock_set_hz.
+--0000000000005b93ee05b697c217
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Missed in 3ca7639ff00 ("hw/mips/fuloong2e: Set CPU frequency
-to 533 MHz").
+On Wed, Dec 16, 2020 at 8:28 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->  hw/mips/fuloong2e.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-> index 256c7867e4..af2d259dc4 100644
-> --- a/hw/mips/fuloong2e.c
-> +++ b/hw/mips/fuloong2e.c
-> @@ -159,7 +159,7 @@ static uint64_t load_kernel(CPUMIPSState *env)
->      }
->  
->      /* Setup minimum environment variables */
-> -    prom_set(prom_buf, index++, "cpuclock=100000000");
-> +    prom_set(prom_buf, index++, "cpuclock=533080000");
+> Do not bother asking CMake, this is a pkg-config dependency.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>
 
-Actually it should be "cpuclock=%u" of clock_get_hz(cpuclk).
+What was the problem with the default behaviour? Do we need to set
+pkg-config explicitly on all dependencies?
 
->      prom_set(prom_buf, index++, "memsize=%"PRIi64, loaderparams.ram_size / MiB);
->      prom_set(prom_buf, index++, NULL);
->  
-> 
+---
+>  meson.build | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meson.build b/meson.build
+> index ab622ae8bd..0b36fb38f1 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -399,6 +399,7 @@ endif
+>  libudev =3D not_found
+>  if targetos =3D=3D 'linux' and (have_system or have_tools)
+>    libudev =3D dependency('libudev',
+> +                       method: 'pkg-config',
+>                         required: get_option('libudev'),
+>                         static: enable_static)
+>  endif
+> --
+> 2.29.2
+>
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000005b93ee05b697c217
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 16, 2020 at 8:28 PM Paolo=
+ Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Do n=
+ot bother asking CMake, this is a pkg-config dependency.<br>
+<br>
+Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
+get=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><=
+div>What was the problem with the default behaviour? Do we need to set pkg-=
+config explicitly on all dependencies?<br></div><div> <br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0meson.build | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meson.build b/meson.build<br>
+index ab622ae8bd..0b36fb38f1 100644<br>
+--- a/meson.build<br>
++++ b/meson.build<br>
+@@ -399,6 +399,7 @@ endif<br>
+=C2=A0libudev =3D not_found<br>
+=C2=A0if targetos =3D=3D &#39;linux&#39; and (have_system or have_tools)<br=
+>
+=C2=A0 =C2=A0libudev =3D dependency(&#39;libudev&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0method: &#39;pkg-config&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 required: get_option(&#39;libudev&#39;),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 static: enable_static)<br>
+=C2=A0endif<br>
+-- <br>
+2.29.2<br>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000005b93ee05b697c217--
 
