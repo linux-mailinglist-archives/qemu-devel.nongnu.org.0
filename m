@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B7F72DC05C
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 13:37:22 +0100 (CET)
-Received: from localhost ([::1]:33254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F6832DC06C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 13:42:30 +0100 (CET)
+Received: from localhost ([::1]:39204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpW3V-0000Vn-7C
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 07:37:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48474)
+	id 1kpW8S-000372-7Z
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 07:42:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kpW1q-00087y-Sv
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 07:35:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45253)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kpW6v-0002Az-V8
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 07:40:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kpW1n-00079Q-Ph
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 07:35:37 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kpW6r-0000P4-3p
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 07:40:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608122134;
+ s=mimecast20190719; t=1608122448;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UtNZYdo9xoytjzGiKwk4LzakyNj0adxhgOtO55qRA30=;
- b=hP7Sgvfg/3paJ/4nXIJJiMkYve/McVngcPYsKcHqLIySp/vRTnJXQ8yQfDUhxN5U08McsQ
- ZldUz/MrY4SqM0QdYGdgw+RnyIiQ1d0J6uFnz0JI9EsYgJmDpFn0DlARBaySUmGof3pLVy
- ud4iFU5/amsD7+1SYOiuLKiawhItahg=
+ bh=WwaJIsXE6HK22iU9sMmhNcYYnH/WoPlOJUMwiXyqyR8=;
+ b=iQtO2PAQPuZT2QtGye/N2z6No8xe/2ApSvIn611wmgY+wKEWVFdH9b388EFIyio6DzKG2P
+ SeBjBUBEeRbPdu4q1hL1J5ZJtTtolhWJQzlF5gZB5Srg2iWKZOcEXtYMw8goTWeK6mbi51
+ B0BD8DS91BcrJ9fm3sUZXmsVx3ACJns=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-hCDAhdqZMsqRsPvKKMnrMQ-1; Wed, 16 Dec 2020 07:35:31 -0500
-X-MC-Unique: hCDAhdqZMsqRsPvKKMnrMQ-1
+ us-mta-27-ca1mD09JM_6k5EOO5csATw-1; Wed, 16 Dec 2020 07:40:44 -0500
+X-MC-Unique: ca1mD09JM_6k5EOO5csATw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CA8C100C600;
- Wed, 16 Dec 2020 12:35:29 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-50.ams2.redhat.com [10.36.115.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D8DD5D9C0;
- Wed, 16 Dec 2020 12:35:15 +0000 (UTC)
-Date: Wed, 16 Dec 2020 13:35:14 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Subject: Re: [PATCH v2 2/4] block: Avoid processing BDS twice in
- bdrv_set_aio_context_ignore()
-Message-ID: <20201216123514.GD7548@merkur.fritz.box>
-References: <20201214170519.223781-1-slp@redhat.com>
- <20201214170519.223781-3-slp@redhat.com>
- <20201215121233.GD8185@merkur.fritz.box>
- <20201215131527.evpidxevevtfy54n@mhamilton>
- <20201215150119.GE8185@merkur.fritz.box>
- <20201215172337.w7vcn2woze2ejgco@mhamilton>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 133F01015C80;
+ Wed, 16 Dec 2020 12:40:43 +0000 (UTC)
+Received: from gondolin (ovpn-113-163.ams2.redhat.com [10.36.113.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDDD85D9C0;
+ Wed, 16 Dec 2020 12:40:41 +0000 (UTC)
+Date: Wed, 16 Dec 2020 13:40:39 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH for-6.0] qga/commands-posix: Send CCW address on s390x
+ with the fsinfo data
+Message-ID: <20201216134039.41655931.cohuck@redhat.com>
+In-Reply-To: <19721a4f-d566-44d5-6eb6-ff892e5cb502@redhat.com>
+References: <20201125105417.380317-1-thuth@redhat.com>
+ <19721a4f-d566-44d5-6eb6-ff892e5cb502@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20201215172337.w7vcn2woze2ejgco@mhamilton>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="UugvWAfsgieZRqgk"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -69,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,204 +79,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+Cc: Michael Roth <michael.roth@amd.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---UugvWAfsgieZRqgk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 14 Dec 2020 09:53:21 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-Am 15.12.2020 um 18:23 hat Sergio Lopez geschrieben:
-> On Tue, Dec 15, 2020 at 04:01:19PM +0100, Kevin Wolf wrote:
-> > Am 15.12.2020 um 14:15 hat Sergio Lopez geschrieben:
-> > > On Tue, Dec 15, 2020 at 01:12:33PM +0100, Kevin Wolf wrote:
-> > > > Am 14.12.2020 um 18:05 hat Sergio Lopez geschrieben:
-> > > > > While processing the parents of a BDS, one of the parents may pro=
-cess
-> > > > > the child that's doing the tail recursion, which leads to a BDS b=
-eing
-> > > > > processed twice. This is especially problematic for the aio_notif=
-iers,
-> > > > > as they might attempt to work on both the old and the new AIO
-> > > > > contexts.
-> > > > >=20
-> > > > > To avoid this, add the BDS pointer to the ignore list, and check =
-the
-> > > > > child BDS pointer while iterating over the children.
-> > > > >=20
-> > > > > Signed-off-by: Sergio Lopez <slp@redhat.com>
-> > > >=20
-> > > > Ugh, so we get a mixed list of BdrvChild and BlockDriverState? :-/
-> > >=20
-> > > I know, it's effective but quite ugly...
-> > >=20
-> > > > What is the specific scenario where you saw this breaking? Did you =
-have
-> > > > multiple BdrvChild connections between two nodes so that we would g=
-o to
-> > > > the parent node through one and then come back to the child node th=
-rough
-> > > > the other?
-> > >=20
-> > > I don't think this is a corner case. If the graph is walked top->down=
-,
-> > > there's no problem since children are added to the ignore list before
-> > > getting processed, and siblings don't process each other. But, if the
-> > > graph is walked bottom->up, a BDS will start processing its parents
-> > > without adding itself to the ignore list, so there's nothing
-> > > preventing them from processing it again.
-> >=20
-> > I don't understand. child is added to ignore before calling the parent
-> > callback on it, so how can we come back through the same BdrvChild?
-> >=20
-> >     QLIST_FOREACH(child, &bs->parents, next_parent) {
-> >         if (g_slist_find(*ignore, child)) {
-> >             continue;
-> >         }
-> >         assert(child->klass->set_aio_ctx);
-> >         *ignore =3D g_slist_prepend(*ignore, child);
-> >         child->klass->set_aio_ctx(child, new_context, ignore);
-> >     }
->=20
-> Perhaps I'm missing something, but the way I understand it, that loop
-> is adding the BdrvChild pointer of each of its parents, but not the
-> BdrvChild pointer of the BDS that was passed as an argument to
-> b_s_a_c_i.
+> On 25/11/2020 11.54, Thomas Huth wrote:
+> > We need the CCW address on the libvirt side to correctly identify
+> > the disk, so add this information to the GuestDiskAddress on s390x.
+> > 
+> > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1755075
+> > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > ---
+> >  qga/commands-posix.c | 34 ++++++++++++++++++++++++++++++++++
+> >  qga/qapi-schema.json | 19 ++++++++++++++++++-
+> >  2 files changed, 52 insertions(+), 1 deletion(-)
 
-Generally, the caller has already done that.
+> Ping!
+> 
+> Michael, any comments on this, or do you think that it ready to go?
 
-In the theoretical case that it was the outermost call in the recursion
-and it hasn't (I couldn't find any such case), I think we should still
-call the callback for the passed BdrvChild like we currently do.
-
-> > You didn't dump the BdrvChild here. I think that would add some
-> > information on why we re-entered 0x555ee2fbf660. Maybe you can also add
-> > bs->drv->format_name for each node to make the scenario less abstract?
->=20
-> I've generated another trace with more data:
->=20
-> bs=3D0x565505e48030 (backup-top) enter
-> bs=3D0x565505e48030 (backup-top) processing children
-> bs=3D0x565505e48030 (backup-top) calling bsaci child=3D0x565505e42090 (ch=
-ild->bs=3D0x565505e5d420)
-> bs=3D0x565505e5d420 (qcow2) enter
-> bs=3D0x565505e5d420 (qcow2) processing children
-> bs=3D0x565505e5d420 (qcow2) calling bsaci child=3D0x565505e41ea0 (child->=
-bs=3D0x565505e52060)
-> bs=3D0x565505e52060 (file) enter
-> bs=3D0x565505e52060 (file) processing children
-> bs=3D0x565505e52060 (file) processing parents
-> bs=3D0x565505e52060 (file) processing itself
-> bs=3D0x565505e5d420 (qcow2) processing parents
-> bs=3D0x565505e5d420 (qcow2) calling set_aio_ctx child=3D0x5655066a34d0
-> bs=3D0x565505fbf660 (qcow2) enter
-> bs=3D0x565505fbf660 (qcow2) processing children
-> bs=3D0x565505fbf660 (qcow2) calling bsaci child=3D0x565505e41d20 (child->=
-bs=3D0x565506bc0c00)
-> bs=3D0x565506bc0c00 (file) enter
-> bs=3D0x565506bc0c00 (file) processing children
-> bs=3D0x565506bc0c00 (file) processing parents
-> bs=3D0x565506bc0c00 (file) processing itself
-> bs=3D0x565505fbf660 (qcow2) processing parents
-> bs=3D0x565505fbf660 (qcow2) calling set_aio_ctx child=3D0x565505fc7aa0
-> bs=3D0x565505fbf660 (qcow2) calling set_aio_ctx child=3D0x5655068b8510
-> bs=3D0x565505e48030 (backup-top) enter
-> bs=3D0x565505e48030 (backup-top) processing children
-> bs=3D0x565505e48030 (backup-top) calling bsaci child=3D0x565505e3c450 (ch=
-ild->bs=3D0x565505fbf660)
-> bs=3D0x565505fbf660 (qcow2) enter
-> bs=3D0x565505fbf660 (qcow2) processing children
-> bs=3D0x565505fbf660 (qcow2) processing parents
-> bs=3D0x565505fbf660 (qcow2) processing itself
-> bs=3D0x565505e48030 (backup-top) processing parents
-> bs=3D0x565505e48030 (backup-top) calling set_aio_ctx child=3D0x565505e402=
-d0
-> bs=3D0x565505e48030 (backup-top) processing itself
-> bs=3D0x565505fbf660 (qcow2) processing itself
-
-Hm, is this complete? Is see no "processing itself" for
-bs=3D0x565505e5d420. Or is this because it crashed before getting there?
-
-Anyway, trying to reconstruct the block graph with BdrvChild pointers
-annotated at the edges:
-
-BlockBackend
-      |
-      v
-  backup-top ------------------------+
-      |   |                          |
-      |   +-----------------------+  |
-      |            0x5655068b8510 |  | 0x565505e3c450
-      |                           |  |
-      | 0x565505e42090            |  |
-      v                           |  |
-    qcow2 ---------------------+  |  |
-      |                        |  |  |
-      | 0x565505e52060         |  |  | ??? [1]
-      |                        |  |  |  |
-      v         0x5655066a34d0 |  |  |  | 0x565505fc7aa0
-    file                       v  v  v  v
-                             qcow2 (backing)
-                                    |
-                                    | 0x565505e41d20
-                                    v
-                                  file
-
-[1] This seems to be a BdrvChild with a non-BDS parent. Probably a
-    BdrvChild directly owned by the backup job.
-
-> So it seems this is happening:
->=20
-> backup-top (5e48030) <---------| (5)
->    |    |                      |
->    |    | (6) ------------> qcow2 (5fbf660)
->    |                           ^    |
->    |                       (3) |    | (4)
->    |-> (1) qcow2 (5e5d420) -----    |-> file (6bc0c00)
->    |
->    |-> (2) file (5e52060)
->=20
-> backup-top (5e48030), the BDS that was passed as argument in the first
-> bdrv_set_aio_context_ignore() call, is re-entered when qcow2 (5fbf660)
-> is processing its parents, and the latter is also re-entered when the
-> first one starts processing its children again.
-
-Yes, but look at the BdrvChild pointers, it is through different edges
-that we come back to the same node. No BdrvChild is used twice.
-
-If backup-top had added all of its children to the ignore list before
-calling into the overlay qcow2, the backing qcow2 wouldn't eventually
-have called back into backup-top.
-
-Kevin
-
---UugvWAfsgieZRqgk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl/Z/wEACgkQfwmycsiP
-L9YaAhAAwCX3qwQuucObmD7XW3Qh3RFNxDtaTW8d1vXXPnMXZdogTbG2SiC5TQ4q
-JciH/JgUMisvgGZLLKeNDPjOKh5lLLCoqOjd7Vp6G6R/yDQLaUqgDEtk/fOifAp0
-9USYSM6Z20xIhkCGwWsgDcMiFtlkNq5UxJxJ8ObB5BzLeIBXX99hK2xntEhZ3RZk
-prxmsGMhWz8XDP2smTSANz99rpszTRDqNM1r8aFhlZ6BySBntJQ0fpjcjq04Xt2X
-B7B8WFkWgTP2tf6FS75f7p+uQoM7mllN03Unn9Tr7ZmnVeF3PvVo6p4G5kr1raIC
-Qrdo6btc7AhJJGTLE8CYHp3Zc22VDbniNeTqDhk8xfo4u21WZ+qZLg+jQE/jRq6R
-EiJVW7kS05P3+zGGV4F6JbqS1NItQFYtu41Tiop68R3YpdyFKviUkzGoXxj1DrxA
-h5oQq4jv4xp8eq6dBpBveoPph377pxi76nJE/OLu3+rH/xoyqk8XHfWYiQLuvM8I
-FtdYejAnuE/s2/wQpjLa/Jga8A3NSnIs6XRTOhcZ0kHkyeNMnxfYy0hd+uSy8CMw
-34Ljkssf/zNnytkDJuKlbckEJTstubpkkYy+t2FUfViqbzAC50diU6MQuO8enDv5
-TGcxnqhFGThQU3ZKMQEdVnWyulO2CycskOLBmTYN3jC3ZkuaK9A=
-=sPmL
------END PGP SIGNATURE-----
-
---UugvWAfsgieZRqgk--
+If nobody objects, I can also merge this (or rather the v2 of this
+patch) through the s390x tree.
 
 
