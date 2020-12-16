@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3D82DC3EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:21:49 +0100 (CET)
-Received: from localhost ([::1]:43586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CAB52DC3F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:22:10 +0100 (CET)
+Received: from localhost ([::1]:45008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpZYi-0003CX-G1
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:21:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58692)
+	id 1kpZZ3-0003oC-H9
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:22:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1kpZWX-0001du-Ca
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:19:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31826)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dinechin@redhat.com>)
- id 1kpZWV-0006Oj-My
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:19:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608135568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+G9w5pq1yH4Td0Lcyk91IR8fcWdrgzmHcAb1LdFxWoU=;
- b=JxeLSPRac5/hdc7g0wJVND6K0zBY9L6T8hJILQObN8TAcDQ4ZscMHy8AOqR4OzJd/bk+24
- RqehCFK+bZBXbXVM3QcEBoZofmwiWzNPz+fOruOo2COrRqEH38vVA7566NZ7OHk/dV+qSU
- RK6IPtYQE2eDde/TGeg92Qo1U7fY/Y0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-Qc2UNYBCNwm4Bj6qPYOfYg-1; Wed, 16 Dec 2020 11:19:25 -0500
-X-MC-Unique: Qc2UNYBCNwm4Bj6qPYOfYg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7460481CB03;
- Wed, 16 Dec 2020 16:19:21 +0000 (UTC)
-Received: from titinator (ovpn-112-61.ams2.redhat.com [10.36.112.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 758D31001901;
- Wed, 16 Dec 2020 16:19:15 +0000 (UTC)
-References: <20201216224002.32677-1-cathy.zhang@intel.com>
-User-agent: mu4e 1.5.2; emacs 27.1
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: Cathy Zhang <cathy.zhang@intel.com>
-Subject: Re: [PATCH] x86/cpu: Add AVX512_FP16 cpu feature
-In-reply-to: <20201216224002.32677-1-cathy.zhang@intel.com>
-Date: Wed, 16 Dec 2020 17:19:12 +0100
-Message-ID: <lyft45lo5b.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpZWu-0001xO-Hp
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:19:56 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpZWs-0006Sn-Mm
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:19:56 -0500
+Received: by mail-wr1-x431.google.com with SMTP id q18so16237102wrn.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:19:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=NZu5bw3IUBTSMTVQ9xxZ3UQaYvaV750g3pX6MW8abSY=;
+ b=dy28pI/mWHdtET6rvvM5iJK4NyJI+FlhTOqAxXyAwyJz98907w9IE3eBm8jT/uB3j8
+ VbRk0YfkJt8zioWz4kgyLgWR6gdoe0RqmT70YSwKizdmH3P+WY3kJim0m/PFl6Ypuf2x
+ ThiYqkbBbIOGLczDUh5NkiG1lKItydEXN0TQqjYl68znVWnVofIkk4XOOxry5OxBVR6K
+ JGYpD4aKyAh5lQ6rWq2ycDCf+FuNlbZJa9air5mp0Liqrz/U4UYQE8tzf+bao1DJ+/lm
+ kalaLWQALpJJ+U1607R5FR91HCCJuNJR7BBCGbBbY0ijn/TR1OPquv0fxuLTFENl4pur
+ l5Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=NZu5bw3IUBTSMTVQ9xxZ3UQaYvaV750g3pX6MW8abSY=;
+ b=pjorIxaxZ+JJbRqDuKDN8spxMswm9Faf3infK/uvRi59ELOwvlxjiuRyiqCwbBxVxz
+ gSFRAMRKytTqamKcrxV2+OVAvROYMGjSogNJstPkrz+tVjXZiTZcDHoos6OZHw/eb3ES
+ 8XqvAjpMIjkQMRG2BXFFnWyS4hRAVz+i4S1nTSC7Cl1/cJc3qUSK7KMk21KghLhfF0RZ
+ AkMEEk5OD5t0/reXyJScvTtwsfXESkVBKvgF9xlI/953Ag+lE5UEizD0fpWBWiav7vxh
+ xM1LGMU/xtK7xzwpizi5FkWvehkuZXvVZ+L+ECm230vUexFJecQt3K4Ee3XFqaRUqC2U
+ 0hgQ==
+X-Gm-Message-State: AOAM531bgkxjyUJiD+BELvdlWWg72Bf0jpjpBcJgeR53o31GnVKmW03h
+ 9J5dYGzCZv9bStxVQaCaNR86kw==
+X-Google-Smtp-Source: ABdhPJxU0+GQCoICGneJ0ozw77MV5J+UxSgEvoPWfqf0ytZ1AZWz7TGC5eG3NClsHC1z9xf5ullLjA==
+X-Received: by 2002:a5d:62c8:: with SMTP id o8mr39955710wrv.51.1608135593153; 
+ Wed, 16 Dec 2020 08:19:53 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z6sm3282212wmi.15.2020.12.16.08.19.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Dec 2020 08:19:52 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6C38A1FF7E;
+ Wed, 16 Dec 2020 16:19:51 +0000 (GMT)
+References: <20201216141653.213980-1-berrange@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH] tests: update for rename of CentOS8 PowerTools repo
+Date: Wed, 16 Dec 2020 16:19:39 +0000
+In-reply-to: <20201216141653.213980-1-berrange@redhat.com>
+Message-ID: <87r1npsoyg.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dinechin@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dinechin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,60 +86,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, ehabkost@redhat.com,
+Cc: Fam Zheng <fam@euphon.net>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020-12-16 at 23:40 CET, Cathy Zhang wrote...
-> AVX512 Half-precision floating point (FP16) has better performance
-> compared to FP32 if the presicion or magnitude requirements are met.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-spelling: precision
-
-> It's defined as CPUID.(EAX=7,ECX=0):EDX[bit 23].
+> This was intentionally renamed recently to be all lowercase:
 >
-> Refer to
-> https://software.intel.com/content/www/us/en/develop/download/\
-> intel-architecture-instruction-set-extensions-programming-reference.html
+> https://bugs.centos.org/view.php?id=3D17920
+> https://wiki.centos.org/Manuals/ReleaseNotes/CentOS8.2011#Yum_repo_file_a=
+nd_repoid_changes
 >
-> Signed-off-by: Cathy Zhang <cathy.zhang@intel.com>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  target/i386/cpu.c | 2 +-
->  target/i386/cpu.h | 2 ++
->  2 files changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index ca997a68cd..c4d623b8b9 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -979,7 +979,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
->              "avx512-vp2intersect", NULL, "md-clear", NULL,
->              NULL, NULL, "serialize", NULL,
->              "tsx-ldtrk", NULL, NULL /* pconfig */, NULL,
-> -            NULL, NULL, NULL, NULL,
-> +            NULL, NULL, NULL, "avx512-fp16",
->              NULL, NULL, "spec-ctrl", "stibp",
->              NULL, "arch-capabilities", "core-capability", "ssbd",
->          },
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index c4a49c06a8..6fd675c654 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -784,6 +784,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
->  #define CPUID_7_0_EDX_SERIALIZE         (1U << 14)
->  /* TSX Suspend Load Address Tracking instruction */
->  #define CPUID_7_0_EDX_TSX_LDTRK         (1U << 16)
-> +/* AVX512_FP16 instruction */
-> +#define CPUID_7_0_EDX_AVX512_FP16       (1U << 23)
->  /* Speculation Control */
->  #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
->  /* Single Thread Indirect Branch Predictors */
+> This needs to be merged asap, as CI will break for anyone whose branch
+> triggers a rebuild of the centos container image.
+
+Your in luck, Queued to pr/161220-testing-1, thanks.
+
+>
+> eg current broken git master:
+>
+>   https://gitlab.com/berrange/qemu/-/jobs/915852165
+>
+> vs with this fix
+>
+>   https://gitlab.com/berrange/qemu/-/jobs/915862731
+>
+>  tests/docker/dockerfiles/centos8.docker | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/docke=
+rfiles/centos8.docker
+> index 54bc6d54cd..06b67962fd 100644
+> --- a/tests/docker/dockerfiles/centos8.docker
+> +++ b/tests/docker/dockerfiles/centos8.docker
+> @@ -31,6 +31,6 @@ ENV PACKAGES \
+>      zlib-devel
+>=20=20
+>  RUN dnf install -y dnf-plugins-core && \
+> -  dnf config-manager --set-enabled PowerTools && \
+> +  dnf config-manager --set-enabled powertools && \
+>    dnf install -y $PACKAGES
+>  RUN rpm -q $PACKAGES | sort > /packages.txt
 
 
---
-Cheers,
-Christophe de Dinechin (IRC c3d)
-
+--=20
+Alex Benn=C3=A9e
 
