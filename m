@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6C12DBFA4
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 12:45:35 +0100 (CET)
-Received: from localhost ([::1]:39106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE252DBFF1
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 12:59:11 +0100 (CET)
+Received: from localhost ([::1]:49296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpVFO-0005Dz-3J
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 06:45:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36988)
+	id 1kpVSY-0001q5-Ae
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 06:59:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kpVC1-0002PW-DD
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 06:42:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27082)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kpVRM-0001AZ-Rs
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 06:57:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kpVBk-0006F2-RS
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 06:41:55 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kpVRJ-0003EP-Bc
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 06:57:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608118907;
+ s=mimecast20190719; t=1608119872;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KE8Jl8D5FojyVCZV39MgGBvIrMUAmJ4yOL7QlaSFrBI=;
- b=gc2D4OIpAx9AoW9gveiF7yVALCn4sho1FYulI9o2eKL314KIkEZxbH0MLXrd5XeWlHxE3J
- W6XB+abYkV4IZgwwMnsYqApCtH/rH5RtgMJV1Q6X7LECKjIM3kaTczr/RfcNuJ7hqP90Cn
- GIAaDGYdbBVohYbiv+mVLGOZu5VTzLc=
+ bh=ubqAnZsA6rvL3fOKSX1fYzqBXOnn4Ul0yTm2zrsA3bc=;
+ b=ZLssD8Vs+O7tiO5VqINrDKkb+ohmDjRsDJJjQQAg3vt20kxCrm3axi0EszkoAJaPm8wPt5
+ QEnwlkJzbiMYPJFshuPONgu4zodb1bQ+09g4aoMRb6AmNZdiVYdqlkIeQb1Mrc0dDY5KX7
+ 6t7OGNHdXTQR4ofPoxRljLewycIlcY4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-pmf5vxZ7MjuRPSOlyGYUTQ-1; Wed, 16 Dec 2020 06:41:46 -0500
-X-MC-Unique: pmf5vxZ7MjuRPSOlyGYUTQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-439-RIjE4ycBNbSOD_HhTECy8w-1; Wed, 16 Dec 2020 06:57:51 -0500
+X-MC-Unique: RIjE4ycBNbSOD_HhTECy8w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22194CC621;
- Wed, 16 Dec 2020 11:41:45 +0000 (UTC)
-Received: from gondolin (ovpn-113-163.ams2.redhat.com [10.36.113.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C817C5D9E3;
- Wed, 16 Dec 2020 11:41:37 +0000 (UTC)
-Date: Wed, 16 Dec 2020 12:41:35 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] tests/acceptance: Add a test with the Fedora 31 kernel
- and initrd
-Message-ID: <20201216124135.7a7d5ec9.cohuck@redhat.com>
-In-Reply-To: <6948dfc6-5ec4-6d7f-2c76-fe8449b8aa14@redhat.com>
-References: <20201216105711.14796-1-thuth@redhat.com>
- <6948dfc6-5ec4-6d7f-2c76-fe8449b8aa14@redhat.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B319801B16;
+ Wed, 16 Dec 2020 11:57:49 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-50.ams2.redhat.com [10.36.115.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 660821975F;
+ Wed, 16 Dec 2020 11:57:48 +0000 (UTC)
+Date: Wed, 16 Dec 2020 12:57:46 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: David Edmondson <dme@dme.org>
+Subject: Re: [PATCH] block: report errno when flock fcntl fails
+Message-ID: <20201216115746.GC7548@merkur.fritz.box>
+References: <20201215190127.1765595-1-david.edmondson@oracle.com>
+ <20201216112940.GB7548@merkur.fritz.box>
+ <cunwnxit1yn.fsf@zarquon.hh.sledj.net>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <cunwnxit1yn.fsf@zarquon.hh.sledj.net>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,64 +77,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Dec 2020 12:32:22 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+Am 16.12.2020 um 12:38 hat David Edmondson geschrieben:
+> On Wednesday, 2020-12-16 at 12:29:40 +01, Kevin Wolf wrote:
+> 
+> > Am 15.12.2020 um 20:01 hat David Edmondson geschrieben:
+> >> When a call to fcntl(2) for the purpose of manipulating file locks
+> >> fails, report the error returned by fcntl.
+> >> 
+> >> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+> >
+> > Is appending "Resource temporarily unavailable" in the common case (a
+> > file locked by another process) actually an improvement for the message
+> > or more confusing? It would be good to mention the motivation for the
+> > change in the commit message.
+> 
+> Distinguishing between the common case and others is at least a start
+> when trying to figure out why it failed. We have potentially useful
+> information to assist in diagnosis, why throw it away?
 
-> On 16/12/2020 11.57, Thomas Huth wrote:
+I agree in principle, just when I saw the result, it felt more confusing
+than helpful. Maybe the best option would be to include the errno only
+if it's different from EAGAIN? Then the qemu-iotests reference output
+would probably stay unchanged, too.
 
-> > +        # Disable blinking cursor, then write some stuff into the framebuffer
-> > +        # ("32-bit encoded", the screendump PPM will then only contain 24-bit)  
-> 
-> As just discussed offline with Cornelia, this maybe needs some more
-> explanation, so I'd suggest to add something like:
-> 
->  # Disable blinking cursor, then write some stuff into the
->  # framebuffer. QEMU's PPM screendumps contain uncompressed
->  # 24-bit values, while the framebuffer uses 32-bit, so we
->  # pad our text with some spaces when writing to the frame-
->  # buffer. Since the PPM is uncompressed, we then can simple
->  # read the written "magic bytes" back from the PPM file to
->  # check whether the framebuffer is working as expected.
-> 
-> Does that sound ok?
+> In the case I encountered the failure appears to have been caused by
+> SELinux misconfiguration.
 
-Sound good to me.
+Ah, so you got EPERM?
 
+It can useful information in the future, let's include it in the commit
+message.
+
+> > Either way, this breaks some qemu-iotests cases whose reference output
+> > needs to be updated.
 > 
->  Thomas
-> 
-> 
-> > +        exec_command_and_wait_for_pattern(self,
-> > +            'echo -e "\e[?25l" > /dev/tty0', ':/#')
-> > +        exec_command_and_wait_for_pattern(self, 'for ((i=0;i<500;i++)); do '
-> > +            'echo " The  qu ick  fo x j ump s o ver  a  laz y d og" >> fox.txt;'
-> > +            'done',
-> > +            ':/#')
-> > +        exec_command_and_wait_for_pattern(self,
-> > +            'dd if=fox.txt of=/dev/fb0 bs=1000 oflag=sync,nocache ; rm fox.txt',
-> > +            '24+0 records out')
-> > +        tmpfile = tempfile.NamedTemporaryFile(suffix='.ppm',
-> > +                                              prefix='qemu-scrdump-')
-> > +        self.vm.command('screendump', filename=tmpfile.name)
-> > +        ppmfile = open(tmpfile.name, "r")
-> > +        tmpfile.close
-> > +        line = ppmfile.readline()
-> > +        self.assertEqual(line, "P6\n")
-> > +        line = ppmfile.readline()
-> > +        self.assertEqual(line, "1024 768\n")
-> > +        line = ppmfile.readline()
-> > +        self.assertEqual(line, "255\n")
-> > +        line = ppmfile.readline()
-> > +        self.assertEqual(line, "The quick fox jumps over a lazy dog\n")
-> > +        ppmfile.close
-> >   
-> 
+> Will fix and send a v2.
+
+Thanks!
+
+Kevin
 
 
