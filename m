@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AAC2DBD73
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 10:23:49 +0100 (CET)
-Received: from localhost ([::1]:42358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A582DBDCB
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 10:42:34 +0100 (CET)
+Received: from localhost ([::1]:35626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpT2C-0007oO-NJ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 04:23:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59902)
+	id 1kpTKK-0000fP-UT
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 04:42:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpT1M-0007Dn-LP
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 04:22:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpT1J-0002gn-8M
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 04:22:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608110572;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gyEo9nx1poAdCg+5AVdLVbpDXxIOSkhInXcuEe2akOQ=;
- b=X9sewwe7H3S02M02ZdyMLuryGvUZ3iXBMZwSXpkAWPeyShqltznJ+RsbopFivDKv9tAtIb
- Qub/GiaoOCumYIK1bTqq8iYNtqGBxoXTpojW3/aDndilGxEse/fY4VkAqDbQEB0l/x7WjR
- nPp2zLB7G3m3KK2lQ+iXbnY5vUD2apQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-AWnYwY6IONqrbOcDhW47ow-1; Wed, 16 Dec 2020 04:22:50 -0500
-X-MC-Unique: AWnYwY6IONqrbOcDhW47ow-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25E41CC624
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 09:22:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D62F75D9D7;
- Wed, 16 Dec 2020 09:22:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 691A311329A5; Wed, 16 Dec 2020 10:22:44 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 06/12] qapi/source: Add builtin null-object sentinel
-References: <20201214235327.1007124-1-jsnow@redhat.com>
- <20201214235327.1007124-7-jsnow@redhat.com>
-Date: Wed, 16 Dec 2020 10:22:44 +0100
-In-Reply-To: <20201214235327.1007124-7-jsnow@redhat.com> (John Snow's message
- of "Mon, 14 Dec 2020 18:53:21 -0500")
-Message-ID: <87r1nqrtp7.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kpTJA-0000DV-PB
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 04:41:20 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36202)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kpTJ8-0000da-LF
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 04:41:20 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kpTJ6-00035n-Ee
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 09:41:16 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6A2F72E813B
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 09:41:16 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 16 Dec 2020 09:26:51 -0000
+From: Matus Kysel <1907817@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Tags: assertion tcg v5.2.0
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: qwart279 rth
+X-Launchpad-Bug-Reporter: Matus Kysel (qwart279)
+X-Launchpad-Bug-Modifier: Matus Kysel (qwart279)
+References: <160769469739.30645.13581268559432751632.malonedeb@soybean.canonical.com>
+Message-Id: <160811081132.31319.18122400992437527382.malone@soybean.canonical.com>
+Subject: [Bug 1907817] Re: qemu-aarch64 tcg assertion v5.2.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: 84cb00d9a1e28dc3d88b07fc738c16ecc6a10094
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,130 +71,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Reply-To: Bug 1907817 <1907817@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+I can confirm this patch fixes the issue
 
-> We use None to represent an object that has no source information
-> because it's a builtin. This complicates interface typing, since many
-> interfaces expect that there is an info object available to print errors
-> with.
->
-> Introduce a special QAPISourceInfo that represents these built-ins so
-> that if an error should so happen to occur relating to one of these
-> builtins that we will be able to print its information, and interface
-> typing becomes simpler: you will always have a source info object.
+-- =
 
-Two aspects mixed up:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1907817
 
-1. Represent "no source info" as special QAPISourceInfo instead of
-   None
+Title:
+  qemu-aarch64 tcg assertion v5.2.0
 
-   This is what de-complicates interface typing.
+Status in QEMU:
+  Confirmed
 
-2. On error with "no source info", don't crash.
+Bug description:
+  After updating to 5.2 I am getting following assertion error:
+  qemu-aarch64: ../tcg/tcg-op-gvec.c:54: check_size_align: Assertion `(maxs=
+z & max_align) =3D=3D 0' failed.
 
-   I have my doubts on this one.
+  I think it was introduced by commit:
+  e2e7168a214b0ed98dc357bba96816486a289762
 
-   Such an error means the QAPI code generator screwed up, at least in
-   theory.  Crashing is only proper.  It gets the screwup fixed.
+  Becasue before this change, in function simd_desc only maxsz % 8 =3D=3D 0=
+ was checked, but after this change qemu check for following:
+   =
 
-   In practice, errors due to interactions between built-in stuff and
-   user-defined stuff could conceivably escape testing.  I can't
-   remember such a case offhand.
+  max_align =3D maxsz >=3D 16 ? 15 : 7;
+  tcg_debug_assert((maxsz & max_align) =3D=3D 0);  <--- here assertion happ=
+ens
 
-   Will the "no source info" error be more useful than a crash?
-   Possibly.  Will it get the screwup fixed?  Maybe not.
+  in my case maxsz=3D56.
 
-Can we separate the two aspects?
+  =
 
->
-> This object will evaluate as False, so "if info" is a valid idiomatic
-> construct.
+  Whole backtrace:
+  #4  0x0000004000314770 in check_size_align (oprsz=3D56, maxsz=3D56, ofs=
+=3D0) at ../tcg/tcg-op-gvec.c:54
+  #5  0x0000004000314950 in simd_desc (oprsz=3D56, maxsz=3D56, data=3D0) at=
+ ../tcg/tcg-op-gvec.c:89
+  #6  0x0000004000316270 in do_dup (vece=3D0, dofs=3D3144, oprsz=3D56, maxs=
+z=3D56, in_32=3D0x0, in_64=3D0x0, in_c=3D0) at ../tcg/tcg-op-gvec.c:630
+  #7  0x00000040003164d0 in expand_clr (dofs=3D3144, maxsz=3D56) at ../tcg/=
+tcg-op-gvec.c:679
+  #8  0x0000004000319bb0 in tcg_gen_gvec_mov (vece=3D3, dofs=3D3136, aofs=
+=3D3136, oprsz=3D8, maxsz=3D64) at ../tcg/tcg-op-gvec.c:1538
+  #9  0x0000004000200dc0 in clear_vec_high (s=3D0x40021a8180, is_q=3Dfalse,=
+ rd=3D0) at ../target/arm/translate-a64.c:592
+  #10 0x0000004000200e40 in write_fp_dreg (s=3D0x40021a8180, reg=3D0, v=3D0=
+x1108) at ../target/arm/translate-a64.c:600
+  --Type <RET> for more, q to quit, c to continue without paging--
+  #11 0x0000004000200e90 in write_fp_sreg (s=3D0x40021a8180, reg=3D0, v=3D0=
+x1060) at ../target/arm/translate-a64.c:608
+  #12 0x0000004000214210 in handle_fpfpcvt (s=3D0x40021a8180, rd=3D0, rn=3D=
+0, opcode=3D2, itof=3Dtrue, rmode=3D0, scale=3D64, sf=3D0, type=3D0)
+      at ../target/arm/translate-a64.c:6988
+  #13 0x0000004000214f90 in disas_fp_int_conv (s=3D0x40021a8180, insn=3D505=
+544704) at ../target/arm/translate-a64.c:7299
+  #14 0x0000004000215350 in disas_data_proc_fp (s=3D0x40021a8180, insn=3D50=
+5544704) at ../target/arm/translate-a64.c:7389
+  #15 0x000000400022aa70 in disas_data_proc_simd_fp (s=3D0x40021a8180, insn=
+=3D505544704) at ../target/arm/translate-a64.c:14494
+  #16 0x000000400022af90 in disas_a64_insn (env=3D0x7fac59b6b490, s=3D0x400=
+21a8180) at ../target/arm/translate-a64.c:14663
+  #17 0x000000400022b750 in aarch64_tr_translate_insn (dcbase=3D0x40021a818=
+0, cpu=3D0x7fac59b63150) at ../target/arm/translate-a64.c:14823
+  #18 0x00000040002e8630 in translator_loop (ops=3D0x4000902e00 <aarch64_tr=
+anslator_ops>, db=3D0x40021a8180, cpu=3D0x7fac59b63150, =
 
-Suggest s/is a valid/remains a valid/.
+      tb=3D0x7fac3419c5c0, max_insns=3D512) at ../accel/tcg/translator.c:103
+  #19 0x00000040002e3a60 in gen_intermediate_code (cpu=3D0x7fac59b63150, tb=
+=3D0x7fac3419c5c0, max_insns=3D512)
+      at ../target/arm/translate.c:9283
+  #20 0x00000040002fed30 in tb_gen_code (cpu=3D0x7fac59b63150, pc=3D4458820=
+, cs_base=3D0, flags=3D2148544819, cflags=3D-16777216)
+      at ../accel/tcg/translate-all.c:1744
+  #21 0x000000400036a6e0 in tb_find (cpu=3D0x7fac59b63150, last_tb=3D0x7fac=
+3419c400, tb_exit=3D0, cf_mask=3D0) at ../accel/tcg/cpu-exec.c:414
+  --Type <RET> for more, q to quit, c to continue without paging--
+  #22 0x000000400036b040 in cpu_exec (cpu=3D0x7fac59b63150) at ../accel/tcg=
+/cpu-exec.c:770
+  #23 0x0000004000113a90 in cpu_loop (env=3D0x7fac59b6b490) at ../linux-use=
+r/aarch64/cpu_loop.c:84
+  #24 0x00000040002fb8c0 in main (argc=3D2, argv=3D0x40021a8e68, envp=3D0x4=
+0021a8e80) at ../linux-user/main.c:864
 
-Not 100% sure we'll want to keep this idiom, but now is not the time to
-worry about that.
-
->
-> NB: It was intentional to not allow empty constructors or similar to
-> create "empty" source info objects; callers must explicitly invoke
-> 'builtin()' to pro-actively opt into using the sentinel. This should
-> prevent use-by-accident.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/source.py | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/qapi/source.py b/scripts/qapi/source.py
-> index d7a79a9b8aee..64af7318cb67 100644
-> --- a/scripts/qapi/source.py
-> +++ b/scripts/qapi/source.py
-> @@ -11,7 +11,12 @@
->  
->  import copy
->  import sys
-> -from typing import List, Optional, TypeVar
-> +from typing import (
-> +    List,
-> +    Optional,
-> +    Type,
-> +    TypeVar,
-> +)
->  
->  
->  class QAPISchemaPragma:
-> @@ -41,6 +46,17 @@ def __init__(self, fname: str, line: int,
->          self.defn_meta: Optional[str] = None
->          self.defn_name: Optional[str] = None
->  
-> +    @classmethod
-> +    def builtin(cls: Type[T]) -> T:
-> +        """
-> +        Create a SourceInfo object corresponding to a builtin definition.
-
-Let's spell it built-in for consistency with existing comments.
-
-Could perhaps shorten "a SourceInfo object" to "an instance".
-
-> +        """
-> +        return cls('', -1, None)
-
-No users?  Peeking ahead... aha, they are in Patch 08.  Any particular
-reason for putting PATCH 07 between the two?  Could PATCH 08 be squashed
-into this one?
-
-> +
-> +    def __bool__(self) -> bool:
-> +        # "if info: ..." is false if info is the builtin sentinel.
-> +        return bool(self.fname)
-
-Nitpicking...  "The builtin sentinel" suggests there is just one.  PATCH
-08 creates several.  I don't mind, but let's say something like "if
-@info corresponds to a built-in definition".
-
-> +
->      def set_defn(self, meta: str, name: str) -> None:
->          self.defn_meta = meta
->          self.defn_name = name
-> @@ -73,4 +89,6 @@ def include_path(self) -> str:
->          return ret
->  
->      def __str__(self) -> str:
-> +        if not bool(self):
-> +            return '[builtin]'
->          return self.include_path() + self.in_defn() + self.loc()
-
-Looks like we can separate the two aspects easily:
-
-       def __str__(self) -> str:
-  +        assert not bool(self)
-           return self.include_path() + self.in_defn() + self.loc()
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1907817/+subscriptions
 
