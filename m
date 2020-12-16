@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C542DC194
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 14:50:13 +0100 (CET)
-Received: from localhost ([::1]:45846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1DD2DC19C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 14:52:20 +0100 (CET)
+Received: from localhost ([::1]:51312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpXC0-0006ex-4z
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 08:50:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38308)
+	id 1kpXE3-0000bf-Q7
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 08:52:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpX61-0000c8-SF
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 08:44:03 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37878)
+ id 1kpX65-0000cj-QY
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 08:44:05 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:56153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpX5x-0005RP-ML
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 08:44:01 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id i9so23252238wrc.4
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 05:43:57 -0800 (PST)
+ id 1kpX63-0005TL-De
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 08:44:04 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id x22so2387772wmc.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 05:44:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ygBBalz5UyiuOJifXXOKc1oAnXdEKjBaVDLqLiZUgIE=;
- b=C+QmQvZ1pgM1LQ41KpkchN3AidK5oN+fBo28fExrzvExSbgAx4Kv5iMgZilcFa9Nf8
- HGV3+8UApZ7nST4D2/T96SfHaNhjbmGp83kPX8EnDEAM3WEDUCDcVkzAu5wMCJF0UBmq
- PlzBHPh/HulLAksM9cXqABy5g2x8CTLUI3fGDG+n1V0R5E4/ybbIoVmSOH1VNxS0suHb
- RXCXBJ3CkjkFCbguUPELQ05JsTzJZ+OyJRrLJcLfHHc3XU/ovRTu6aPbxbcqoF9nBmgc
- YlW1lRKp4MPzK8A1gwIFWGe2ceHwAS3QOQlMb5AsqI5hZRlViyfxvBsCChOHl1ksxBxu
- Vjnw==
+ bh=FQTagxeMSRlTpSXXXsWsvusOqbZsJsc4nubvf9MNEgI=;
+ b=WuwhmH4a+OHsQ+NED0ibcxT3V5VATle50JDdk3eyDzpeSABX25TQ4o4Zq44GJOHqhi
+ zV5UlHHLOWrQbVDjOc5jG3Y7kbf6InA8zG+W81KCjvD74U1xU9vnc7ftJiI+aouSovZa
+ dpjWK1iKcVDpNGpxl36ZL/uEM1KqImgPQFjVUwG/vqU+Q3ECZBaSews0SvxC+0GcmJdB
+ 8VzuZnxkSp9pt1FMgkfG09uQwypbR4DD8kiGG6u4ciBADBXfIY8xAunP0c69FqOMEMtU
+ U/lxs1+UDaIUbw3UrEcok+8s2xdJypEddxA478cBKkLy/8wlehvTpTNpIfS1e9n4NVgQ
+ fRUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ygBBalz5UyiuOJifXXOKc1oAnXdEKjBaVDLqLiZUgIE=;
- b=i64A81Igbhu84DN38ccxB8uXQxPPH9+zj0ewU+h3aUd2Glfw+I1rhmtEyb7jCEpdce
- Qqp3j7weO1dc2KY43+hVmm+2ZYeneAd3yh12Bo7B42P5nJKD322asjSykkCAcIGMdJLV
- 0dkjRkmmYYz+K4pB5ffjna7ElfpqsA6qjSsxzKoMKh2G1VK+vV7sxZO/MvWcZc3LSlfS
- qcoaJ425TeW2XGrNCev/TnWJbs4S/9+z+ARQgWvZArv3NCXydsLUjYwMY1Bv0HOS4uJt
- Cm6KzW0J/6UdkeFKmenjIrH0yg2scoy7Bk8Vd7J72SXGmxe7OCibdf5MYzi52eeblKuC
- FbDA==
-X-Gm-Message-State: AOAM533YZ8OM8tq9LRw2wxnz+yKfOJ77jzcLtBtC8G2SjTlASnOHRVf0
- XCJax1PX8WUeg7OrtlyEvqj4Jp4fQ9E=
-X-Google-Smtp-Source: ABdhPJwgr5y9DPyWpYjHfAB5VZap1PbMcMSeCm/PYBwVhrafvovIo08YjvGWC1g27rYMqIoLXjCULQ==
-X-Received: by 2002:a5d:68c9:: with SMTP id p9mr38251711wrw.139.1608126235845; 
- Wed, 16 Dec 2020 05:43:55 -0800 (PST)
+ bh=FQTagxeMSRlTpSXXXsWsvusOqbZsJsc4nubvf9MNEgI=;
+ b=rnu3A6C0rPB8Gj5/kkeqmaS4cdxj+RWGPLGjIi+wfRbjHqNZMdoZFlJOqJfOIyVpjQ
+ cbXfj9tQTHDdg8gHacOKi3ENuPo9EndPSh7dyj5NwH/emeSTJh5zyxSADiURRdoTFiMd
+ DPnPplqq/D0HjfX9BcpyItAmfcwcIREAb8n8RIf6DEy/dEfv+C1vOwLzIOZDn1xhfk7F
+ ew3/pJ0TN+sKxlYhJd1YXfJl2saEa60oT+Nfjz4swJrULM4gXG+JNVmJsOfoNL4CIYE5
+ JSp+0bUV9w3btEhTqrOdCWZRW44pblJBb4e3C2IBQVCACJCBQ3slDFy97BDOZL+rKQ3G
+ M79g==
+X-Gm-Message-State: AOAM532q5I7ZBvOC5p/bOXu0nY0R2nac9BC10fT/K4Jp36tQF0g8eZa7
+ fnXMfxFS2VpXXdiCm+rLEgCgAUfLLq4=
+X-Google-Smtp-Source: ABdhPJwkhB1AY8o4bOcc8lCpWjwKd8grKudEri8lhwbb+yC/vTPFO+ZOiA1i6Zzr9+tbnExPPGe/3A==
+X-Received: by 2002:a1c:9a57:: with SMTP id c84mr3307790wme.183.1608126240746; 
+ Wed, 16 Dec 2020 05:44:00 -0800 (PST)
 Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id a13sm3089593wrt.96.2020.12.16.05.43.54
+ by smtp.gmail.com with ESMTPSA id j9sm3259274wrm.14.2020.12.16.05.43.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 05:43:55 -0800 (PST)
+ Wed, 16 Dec 2020 05:44:00 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/11] target/mips/mips-defs: Use ISA_MIPS32R5 definition to
- check Release 5
-Date: Wed, 16 Dec 2020 14:43:22 +0100
-Message-Id: <20201216134328.851840-6-f4bug@amsat.org>
+Subject: [PATCH 06/11] target/mips/mips-defs: Use ISA_MIPS32R6 definition to
+ check Release 6
+Date: Wed, 16 Dec 2020 14:43:23 +0100
+Message-Id: <20201216134328.851840-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201216134328.851840-1-f4bug@amsat.org>
 References: <20201216134328.851840-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,38 +95,127 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the single ISA_MIPS32R5 definition to check if the Release 5
+Use the single ISA_MIPS32R6 definition to check if the Release 6
 ISA is supported, whether the CPU support 32/64-bit.
 
 For now we keep '32' in the definition name, we will rename it
-as ISA_MIPS_R5 in few commits.
+as ISA_MIPS_R6 in few commits.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/mips-defs.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/mips/internal.h     | 2 +-
+ target/mips/mips-defs.h    | 3 +--
+ linux-user/elfload.c       | 2 +-
+ linux-user/mips/cpu_loop.c | 3 +--
+ target/mips/tlb_helper.c   | 6 +++---
+ target/mips/translate.c    | 2 +-
+ 6 files changed, 8 insertions(+), 10 deletions(-)
 
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index 76269cfc7bb..97899dbd3c8 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -308,7 +308,7 @@ static inline void compute_hflags(CPUMIPSState *env)
+     } else if (((env->hflags & MIPS_HFLAG_KSU) == MIPS_HFLAG_UM) &&
+                !(env->CP0_Status & (1 << CP0St_UX))) {
+         env->hflags |= MIPS_HFLAG_AWRAP;
+-    } else if (env->insn_flags & ISA_MIPS64R6) {
++    } else if (env->insn_flags & ISA_MIPS32R6) {
+         /* Address wrapping for Supervisor and Kernel is specified in R6 */
+         if ((((env->hflags & MIPS_HFLAG_KSU) == MIPS_HFLAG_SM) &&
+              !(env->CP0_Status & (1 << CP0St_SX))) ||
 diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
-index 0d906ca64b3..ea9dcc7c98e 100644
+index ea9dcc7c98e..df2ffae5718 100644
 --- a/target/mips/mips-defs.h
 +++ b/target/mips/mips-defs.h
-@@ -26,7 +26,6 @@
- #define ISA_MIPS32R2      0x0000000000000040ULL
+@@ -27,7 +27,6 @@
  #define ISA_MIPS32R3      0x0000000000000200ULL
  #define ISA_MIPS32R5      0x0000000000000800ULL
--#define ISA_MIPS64R5      0x0000000000001000ULL
  #define ISA_MIPS32R6      0x0000000000002000ULL
- #define ISA_MIPS64R6      0x0000000000004000ULL
+-#define ISA_MIPS64R6      0x0000000000004000ULL
  #define ISA_NANOMIPS32    0x0000000000008000ULL
-@@ -87,7 +86,7 @@
- 
- /* MIPS Technologies "Release 5" */
- #define CPU_MIPS32R5    (CPU_MIPS32R3 | ISA_MIPS32R5)
--#define CPU_MIPS64R5    (CPU_MIPS64R3 | CPU_MIPS32R5 | ISA_MIPS64R5)
-+#define CPU_MIPS64R5    (CPU_MIPS64R3 | CPU_MIPS32R5)
+ /*
+  *   bits 24-39: MIPS ASEs
+@@ -90,7 +89,7 @@
  
  /* MIPS Technologies "Release 6" */
  #define CPU_MIPS32R6    (CPU_MIPS32R5 | ISA_MIPS32R6)
+-#define CPU_MIPS64R6    (CPU_MIPS64R5 | CPU_MIPS32R6 | ISA_MIPS64R6)
++#define CPU_MIPS64R6    (CPU_MIPS64R5 | CPU_MIPS32R6)
+ 
+ /* Wave Computing: "nanoMIPS" */
+ #define CPU_NANOMIPS32  (CPU_MIPS32R6 | ISA_NANOMIPS32)
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 0b02a926025..e875a5387cc 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -997,7 +997,7 @@ static uint32_t get_elf_hwcap(void)
+ #define GET_FEATURE(flag, hwcap) \
+     do { if (cpu->env.insn_flags & (flag)) { hwcaps |= hwcap; } } while (0)
+ 
+-    GET_FEATURE(ISA_MIPS32R6 | ISA_MIPS64R6, HWCAP_MIPS_R6);
++    GET_FEATURE(ISA_MIPS32R6, HWCAP_MIPS_R6);
+     GET_FEATURE(ASE_MSA, HWCAP_MIPS_MSA);
+ 
+ #undef GET_FEATURE
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index a2aa8167210..1e4acf3d6e3 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -386,8 +386,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+     prog_req.fre &= interp_req.fre;
+ 
+     bool cpu_has_mips_r2_r6 = env->insn_flags & ISA_MIPS32R2 ||
+-                              env->insn_flags & ISA_MIPS32R6 ||
+-                              env->insn_flags & ISA_MIPS64R6;
++                              env->insn_flags & ISA_MIPS32R6;
+ 
+     if (prog_req.fre && !prog_req.frdefault && !prog_req.fr1) {
+         env->CP0_Config5 |= (1 << CP0C5_FRE);
+diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
+index 94a482e3dbe..68d766f90a3 100644
+--- a/target/mips/tlb_helper.c
++++ b/target/mips/tlb_helper.c
+@@ -1025,7 +1025,7 @@ void mips_cpu_do_interrupt(CPUState *cs)
+  enter_debug_mode:
+         if (env->insn_flags & ISA_MIPS3) {
+             env->hflags |= MIPS_HFLAG_64;
+-            if (!(env->insn_flags & ISA_MIPS64R6) ||
++            if (!(env->insn_flags & ISA_MIPS32R6) ||
+                 env->CP0_Status & (1 << CP0St_KX)) {
+                 env->hflags &= ~MIPS_HFLAG_AWRAP;
+             }
+@@ -1054,7 +1054,7 @@ void mips_cpu_do_interrupt(CPUState *cs)
+         env->CP0_Status |= (1 << CP0St_ERL) | (1 << CP0St_BEV);
+         if (env->insn_flags & ISA_MIPS3) {
+             env->hflags |= MIPS_HFLAG_64;
+-            if (!(env->insn_flags & ISA_MIPS64R6) ||
++            if (!(env->insn_flags & ISA_MIPS32R6) ||
+                 env->CP0_Status & (1 << CP0St_KX)) {
+                 env->hflags &= ~MIPS_HFLAG_AWRAP;
+             }
+@@ -1240,7 +1240,7 @@ void mips_cpu_do_interrupt(CPUState *cs)
+             env->CP0_Status |= (1 << CP0St_EXL);
+             if (env->insn_flags & ISA_MIPS3) {
+                 env->hflags |= MIPS_HFLAG_64;
+-                if (!(env->insn_flags & ISA_MIPS64R6) ||
++                if (!(env->insn_flags & ISA_MIPS32R6) ||
+                     env->CP0_Status & (1 << CP0St_KX)) {
+                     env->hflags &= ~MIPS_HFLAG_AWRAP;
+                 }
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 0923dfdf451..38fbc55ff1e 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -29078,7 +29078,7 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ #else
+         ctx->mem_idx = hflags_mmu_index(ctx->hflags);
+ #endif
+-    ctx->default_tcg_memop_mask = (ctx->insn_flags & (ISA_MIPS32R6 | ISA_MIPS64R6 |
++    ctx->default_tcg_memop_mask = (ctx->insn_flags & (ISA_MIPS32R6 |
+                                   INSN_LOONGSON3A)) ? MO_UNALN : MO_ALIGN;
+ 
+     LOG_DISAS("\ntb %p idx %d hflags %04x\n", ctx->base.tb, ctx->mem_idx,
 -- 
 2.26.2
 
