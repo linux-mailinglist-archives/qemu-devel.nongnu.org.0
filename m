@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E85842DC324
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 16:32:40 +0100 (CET)
-Received: from localhost ([::1]:59296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1BB2DC32B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 16:34:28 +0100 (CET)
+Received: from localhost ([::1]:33244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpYnA-0002Tg-0J
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 10:32:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36102)
+	id 1kpYor-0003SF-Gz
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 10:34:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpYRu-0006hB-HJ
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:10:45 -0500
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:34021)
+ id 1kpYUm-0008Lt-N9
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:13:40 -0500
+Received: from mail-oo1-xc33.google.com ([2607:f8b0:4864:20::c33]:41641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpYRq-0001mW-0a
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:10:42 -0500
-Received: by mail-ot1-x335.google.com with SMTP id a109so23190508otc.1
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 07:10:36 -0800 (PST)
+ id 1kpYUj-0002w5-VA
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:13:40 -0500
+Received: by mail-oo1-xc33.google.com with SMTP id q6so4996796ooo.8
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 07:13:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Y/obwHZpU3lXQejQpnEmtxY50QnTluMFjZboNRU7a1g=;
- b=IFY4CxXBXUrg0p6egNp4gUaxT8USY9WnjZuiABaEAwwOegcqREsqNp8BsaT78bXZf8
- q0uvMwq8VKX9/textBkzQ9BLXX0eZO0WwW1w/40yeQVu3fhYGa1K+v45zhfnb7TdXrYi
- JxNLkNi2rIQuySY3m7/qoXzwnBR+jl6fA1HeVXrTq/ewg8LpbNsYv6gL08TuL9jeEZ5m
- mURyQUrYlEHNlYxlluOPUFLH41OLKS/hQh/q2zFDsEOGqp6jgWF8jyXgj5eS5xu7gjMY
- WwoGqSY6ehCPhwM6BK5a89nezOKBwTPyjHiR53cSiFVEcSgwteo1mncFNUJwjWuBhlEh
- jRag==
+ bh=3e9O7LHJD0QCSoYeC6tCv3gYuQ08GRPrRc3S8govPDw=;
+ b=GGEcRM/pUA6wouVRqgk4Vfn2JZqyPpiOSHk6qSltfbmlH09WjzpSz1c7BmwK/Q3fyI
+ VMQToOHa2b5fQ1bjAuqgTn6upoglNuyrr6HXGfXw7GqEBZkqKs/d9SCQHxZAUOkvp1Tu
+ +U8/KRhS1iGX0vpQGvMipABiYtEKQB/Bsy+j35Ym0R9e4ZGYdiysG+Vgx3hoN7WiUOFO
+ 1IESOEqZ+w2Awo7H3b0lvEZYQlEs0AXEQxPe7KFzgDKsNRVLJM8dDb6afcRoWBU3u73Q
+ 22SSBAr6ezfDty0Wb8MM6onTldp6hb/e/KGB/hyX1aGA3BpJH4ypBT+8TBERNuCwxghz
+ jiaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Y/obwHZpU3lXQejQpnEmtxY50QnTluMFjZboNRU7a1g=;
- b=VRIYVhRD5vrRKBQRqhMvRmajYQtuuFdMBuoLBlnOdVCF7AJPb0RxDxqCLe8t3j6r88
- 4GcMYYLqKTHTHXmRgYnZYrfycfxyzg7/rOTqvCq2Juzjko72UNO9To4gwPm/bgIR3NlM
- 0yIiBumsIphAhHY/XjJErlveuZa4otgK7LxMNsDUzTooLbQ6ZltEsUTumMHq7fbb8vwO
- GhwWLP0xMk4sOCN7Tc2Pjwi0WGamZC6/VPp4Xv87v3qWscmVncjuaGBCgSEPczkPHTRw
- 8qKnYOLu1vZsFG9m/vbDaG0YegeLEOjg3exlj9XCiraexMdvD8n7+VOvtm4hs0TLgISZ
- rXdQ==
-X-Gm-Message-State: AOAM532sPoeK0hCscgigY+jPPUL0OAEdPw4KrptU9Sg+/e6QbIC7QPKR
- tmZzMa45CMJwXO6MpQGiJnpQzQ==
-X-Google-Smtp-Source: ABdhPJwEI8nIZUG0FaOGe1VkWvtiFVR9szlfIeaWtjz5arFM86/Ecm8+GZTqVldc2UwRZQsgPqkV+A==
-X-Received: by 2002:a9d:5c04:: with SMTP id o4mr25629452otk.372.1608131434543; 
- Wed, 16 Dec 2020 07:10:34 -0800 (PST)
+ bh=3e9O7LHJD0QCSoYeC6tCv3gYuQ08GRPrRc3S8govPDw=;
+ b=nzjroKjgNkAYTUdjQysuvUUfZRrab+u6Ev++xwLtLeVY2NEyNh7ujRuTzdXRgEcBMX
+ QhMHi3rGrziePjZRDCndGe12aaJEvzRUeRvqOV5EWVL1k69aiov64W4TpQKQtuLoHLFD
+ qzsXuDAdl1zhC7o/KDu8250kjy5W+7IrbMO2LTcTvWlMM7IQ9TZ6BiT9KEEt5tra4OG0
+ xRgnJmqe4vhSm7qJSpuqxPHIhkTQs8fcEs4mkM4Qq7vJy8pUO7z4VyyOFIZU4hs9/AkO
+ sJC+R4O7mZ4KMjFMzIYKmuBeyx8QJufh7gGHnB9MaKF0F7omkaDf5CcP1T6WiSJIFXua
+ Ve+w==
+X-Gm-Message-State: AOAM533YofAie4ofFjWQUc4HTBbbnVATP4bKHwz95m07R5MbZ7TwMFap
+ s62oDqU7GU6MTwXThDIHP7jIOQ==
+X-Google-Smtp-Source: ABdhPJx3iqfOw9Q8YPdt+GfNM4FR3tUm9fwihYSn/n6fkXsuGxeY/XEWZ7zYY1Jh/5+bj+1QBDGRPw==
+X-Received: by 2002:a4a:920b:: with SMTP id f11mr25920934ooh.46.1608131615732; 
+ Wed, 16 Dec 2020 07:13:35 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id t186sm452968oif.1.2020.12.16.07.10.33
+ by smtp.gmail.com with ESMTPSA id i24sm505358oot.42.2020.12.16.07.13.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Dec 2020 07:10:33 -0800 (PST)
-Subject: Re: [PATCH 1/3] remove TCG includes from common code
+ Wed, 16 Dec 2020 07:13:34 -0800 (PST)
+Subject: Re: [PATCH 3/3] trace: do not include TCG helper tracepoints in
+ no-TCG builds
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20201216135529.265165-1-pbonzini@redhat.com>
- <20201216135529.265165-2-pbonzini@redhat.com>
+ <20201216135529.265165-4-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b9136780-5c90-7e0b-8786-465736313169@linaro.org>
-Date: Wed, 16 Dec 2020 09:10:31 -0600
+Message-ID: <98e787e4-884b-61c5-bf52-b041f57747c3@linaro.org>
+Date: Wed, 16 Dec 2020 09:13:32 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201216135529.265165-2-pbonzini@redhat.com>
+In-Reply-To: <20201216135529.265165-4-pbonzini@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::335;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x335.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c33;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,25 +94,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/16/20 7:55 AM, Paolo Bonzini wrote:
-> Enable removing tcg/$tcg_arch from the include path when TCG is disabled.
-> Move translate-all.h to include/exec, since stubs exist for the functions
-> defined therein.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  accel/stubs/tcg-stub.c                      | 1 -
->  accel/tcg/cputlb.c                          | 2 +-
->  accel/tcg/translate-all.c                   | 2 +-
->  accel/tcg/user-exec.c                       | 2 +-
->  cpu.c                                       | 2 +-
->  hw/i386/kvmvapic.c                          | 1 -
->  {accel/tcg => include/exec}/translate-all.h | 0
->  monitor/misc.c                              | 1 -
->  softmmu/physmem.c                           | 3 +--
->  9 files changed, 5 insertions(+), 9 deletions(-)
->  rename {accel/tcg => include/exec}/translate-all.h (100%)
+> diff --git a/trace/meson.build b/trace/meson.build
+> index 3fa760f568..012d0dbceb 100644
+> --- a/trace/meson.build
+> +++ b/trace/meson.build
+> @@ -71,7 +71,7 @@ foreach d : [
+>                  input: meson.project_source_root() / 'trace-events',
+>                  command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@' ],
+>                  capture: true)
+> -  specific_ss.add(gen)
+> +  specific_ss.add(when: 'CONFIG_TCG', if_true: gen)
+>  endforeach
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Sure, unless it makes more sense to conditionalize the entire loop, so that
+those targets aren't even created?
+
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
