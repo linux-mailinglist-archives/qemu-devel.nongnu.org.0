@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73A32DC3C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:13:54 +0100 (CET)
-Received: from localhost ([::1]:51998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF73F2DC3EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:20:35 +0100 (CET)
+Received: from localhost ([::1]:40050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpZR3-0003AP-Q9
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:13:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55920)
+	id 1kpZXW-0001eA-79
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:20:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpZOU-0001NJ-Uk
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:11:14 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:40958)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpZTs-0006fX-RQ
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:16:49 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:51365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kpZOP-0004ra-Jg
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:11:14 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id h16so25403843edt.7
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:11:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpZTq-0005wd-Nh
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:16:48 -0500
+Received: by mail-wm1-x334.google.com with SMTP id v14so2904920wml.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:16:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=TZEhK2TTCNSxAcSqX+s5m6DWf7HzbQVPRxDZXVrqNy8=;
- b=eIaIRJFUAseY9rrJcIczaQq0gLlCMceCo0rxi/QfwkmuySUnsIBZ4eg1VYR6cArYU5
- SSou14dea0wKfzr0WQ5dX4Jw69GMP9Py/yGY5sddauAV1eVSXH7NnUWWn/zdmQMcUzaI
- PySRCTugi+OCBgclOs1eceyvkY+6/G5AfuPPmFagrzbsY5cjKSQ2vdak96uLG3AUQNp8
- 7hICTGC+T9hu6y+KH1SABFsr+v70Fpaf4LgNBBFRhXCf7laaeXIq4eu8DG0HhIHDBhCF
- fFaDXYxetzEAhYRAKPBmtWOiSXP6mOVhzEdU+KNa599230kFQNuXexr05SKSdsfQY6t/
- P4oQ==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=BlRVFzYg0YATRJwvOhY2MUKzZxUYJDYw1JyM/TsC86k=;
+ b=sNu+U7hmwzN2hb/0hmIvPHHSvZ85vNOj+GLVnxOHE2TxK5Xf5ie+rghcubUEMnLDav
+ HqyZ+zvKPo4nImO81MBMqxoV7CjPXlCviHooKCZeobJ+iJzVVhZ/ZDeejpFiZRUO31QL
+ uS2JJahAsrvRlowLpagaGkSSd1lw2kZ4tM9tBDWk7t9iKKzEXc7L/bDRHAmnvP/NBGv0
+ EBdg8k+4WnVUC0RpkiFoLUOUrEZvoO1286AgQrizZ9zDr5kgbBRSj7ygb6mpv15Zk09o
+ 5ru6AT923A/oKXVSHKEW3oXGxfu1/SIuG3xv2jEBezkn733CZSLXUs8KM2kUiKJSNE1X
+ admA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TZEhK2TTCNSxAcSqX+s5m6DWf7HzbQVPRxDZXVrqNy8=;
- b=t5JLLzhVUUBvvkOiE0Q0InHICStSpn7vKvDcZUHPZWscEdIw4EB0SZCUXocb6f0nsW
- 40pgF8RJrNygdOflv5roHQYfBQNjlUcnG2W0sdhcb8aVLqJCB6M9zqJ/AapYTqlEryAt
- zWa1/WQArqEdldjasGaKtaOgjHuXd9MZrLv7gUzqxvSpxY6ullKnmAtQi+AQbCllRpuN
- gCCb24w1oY9Kwk59fSyIBTbIpmWvLWp3SnWsod0nXAv6sfoSbyDUKakO5NVSFPSKwFT1
- GIlP5ShBqbK+xeEe/oYRdnNlN5mtrD8QDQfIKuGO/iKxBDRccwjuDK1Yg0q0tlLU+Wtk
- 5smw==
-X-Gm-Message-State: AOAM532BflqolJAsFOmWJ1fT9DP+NBcG0Q2Ah2FlkzJeV7e7mUt3dCSv
- MW3/PuRshoPICCCZ99V84gS2a4RH3Q+0YzR4lIlrKA==
-X-Google-Smtp-Source: ABdhPJyxdjo6FlfZ/ZKwex19o/jt5oCUOaj/6XJw9VH2YjMa7884Wz5Uj7alwnjlx7wHxy3AiZRQ7gMzIUP2H/mERbs=
-X-Received: by 2002:a05:6402:1383:: with SMTP id
- b3mr7265720edv.100.1608135068176; 
- Wed, 16 Dec 2020 08:11:08 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=BlRVFzYg0YATRJwvOhY2MUKzZxUYJDYw1JyM/TsC86k=;
+ b=tolTfBvz+ID3rjqqQT24lBtOHXRr8fCXi+tzUbC6nPba77Ox52Jvbsw5QgqIDa70T8
+ KLnUVUKhsXhUR8R1AWfCQGCuhexCq62M8+JBC14rfIL6OsntQXul1ivnJPKXh38Gjayh
+ FowSEigafvTfonm8GT50hYwL55huC8QQO2XOyNbsWFvDDMLBHqvPjyhdRs0OV+9x+glB
+ lvN7W9OjxfvtRzDCGlxpHSlvVKsgnRY3eL/yYVGCmYBzx49zDFwQhio5Z0ZNu2QTF/AJ
+ qiHsY2cMR3FMMVCG5Zqx/jfCVkaIBNgPA46TXKZhhlhVE1Zf/52Ys3LdKwiLmHDwLeEb
+ pgGw==
+X-Gm-Message-State: AOAM530kr5Ud1a2MEv4mpw1U9EtJ4I26t7bTAfaDAWQzCrxWnCf+lCVr
+ HofNB/0uiti+amBjQOF4sFwWPw==
+X-Google-Smtp-Source: ABdhPJyfPprBuFPfhiyjxLxivMiUY6LCOOykw8LD6vQ5/1a9ovE5ZfrGMEKzm/4iuoMKf6FFpAYnEQ==
+X-Received: by 2002:a1c:a185:: with SMTP id k127mr4316311wme.23.1608135403724; 
+ Wed, 16 Dec 2020 08:16:43 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id x17sm3850245wro.40.2020.12.16.08.16.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Dec 2020 08:16:42 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6F3271FF7E;
+ Wed, 16 Dec 2020 16:16:41 +0000 (GMT)
+References: <20201215224133.3545901-1-ehabkost@redhat.com>
+ <20201215224133.3545901-3-ehabkost@redhat.com>
+ <CAMxuvax3MkDLRGAQh5NDs3rwv3qV7dCw=ne-8PYrovboq-ZNCw@mail.gmail.com>
+ <62956652-6b89-1bc0-d816-e88f6282b9ee@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 2/2] qom: Assert that objects being destroyed have no
+ parent
+Date: Wed, 16 Dec 2020 16:15:57 +0000
+In-reply-to: <62956652-6b89-1bc0-d816-e88f6282b9ee@redhat.com>
+Message-ID: <87tuslsp3q.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20201216141653.213980-1-berrange@redhat.com>
-In-Reply-To: <20201216141653.213980-1-berrange@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 16 Dec 2020 16:10:56 +0000
-Message-ID: <CAFEAcA_QnRHEefC5sjDRc4V6GvxTn96wDf-b7gyg5wSRoJ7nmQ@mail.gmail.com>
-Subject: Re: [PATCH] tests: update for rename of CentOS8 PowerTools repo
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,62 +90,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Dec 2020 at 14:21, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
->
-> This was intentionally renamed recently to be all lowercase:
->
-> https://bugs.centos.org/view.php?id=3D17920
-> https://wiki.centos.org/Manuals/ReleaseNotes/CentOS8.2011#Yum_repo_file_a=
-nd_repoid_changes
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->
-> This needs to be merged asap, as CI will break for anyone whose branch
-> triggers a rebuild of the centos container image.
->
-> eg current broken git master:
->
->   https://gitlab.com/berrange/qemu/-/jobs/915852165
->
-> vs with this fix
->
->   https://gitlab.com/berrange/qemu/-/jobs/915862731
->
->  tests/docker/dockerfiles/centos8.docker | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/docke=
-rfiles/centos8.docker
-> index 54bc6d54cd..06b67962fd 100644
-> --- a/tests/docker/dockerfiles/centos8.docker
-> +++ b/tests/docker/dockerfiles/centos8.docker
-> @@ -31,6 +31,6 @@ ENV PACKAGES \
->      zlib-devel
->
->  RUN dnf install -y dnf-plugins-core && \
-> -  dnf config-manager --set-enabled PowerTools && \
-> +  dnf config-manager --set-enabled powertools && \
->    dnf install -y $PACKAGES
->  RUN rpm -q $PACKAGES | sort > /packages.txt
 
-I tried a test merge of this but it fails in Gitlab CI:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-https://gitlab.com/qemu-project/qemu/-/jobs/916041167
+> On 16/12/20 08:53, Marc-Andr=C3=A9 Lureau wrote:
+>>=20
+>> On the principle, I fully agree. But the risk is high to introduce=20
+>> regression if objects are manipulated in strange ways.
+>>=20
+>> I remember I wanted object_unref() to automatically remove itself from=20
+>> the parent when the last ref is dropped. I think there were similar=20
+>> concerns.
+>
+> unref and unparent are two very different operations; the former means=20
+> *I* am done with this object, the latter means *QEMU* is done with this=20
+> object (even though there may be a few reference held, e.g. on the call=20
+> stack or by RCU).  Since object_unparent operates on global state, you=20
+> can even call object_unparent if you don't own yourself a reference to=20
+> the object and just got the pointer from the caller.
+>
+> While unref is a "mechanical" operation of dropping a reference and=20
+> possibly freeing the object, unparent is an active operation that=20
+> includes for example dropping reference cycles or in general detaching=20
+> from other places that are known to hold references to this object.
 
-#6 7.706 Error: No matching repo to modify: powertools.
-#6 ERROR: executor failed running [/bin/sh -c dnf install -y
-dnf-plugins-core && dnf config-manager --set-enabled powertools && dnf
-install -y $PACKAGES]: exit code: 1
+This all sounds like good material for a QOM object lifetime section of
+docs/devel/qom.rst
 
-thanks
--- PMM
+>
+> This is not a concept that is specific to QEMU, I think I read somewhere=
+=20
+> that LibreOffice's UI library does something similar, calling it "dispose=
+".
+>
+> Paolo
+
+
+--=20
+Alex Benn=C3=A9e
 
