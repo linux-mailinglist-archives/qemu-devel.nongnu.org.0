@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FAEA2DC673
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 19:28:30 +0100 (CET)
-Received: from localhost ([::1]:46194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 157552DC66F
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 19:26:47 +0100 (CET)
+Received: from localhost ([::1]:40318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpbXJ-0004Er-97
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 13:28:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33562)
+	id 1kpbVe-0001iZ-5P
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 13:26:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=612374860=alistair.francis@wdc.com>)
- id 1kpbRc-0005Fx-0V; Wed, 16 Dec 2020 13:22:36 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:41995)
+ id 1kpbRZ-0005DQ-Ki; Wed, 16 Dec 2020 13:22:33 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:41986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=612374860=alistair.francis@wdc.com>)
- id 1kpbRU-0000K0-Jr; Wed, 16 Dec 2020 13:22:34 -0500
+ id 1kpbRX-0000Jv-7F; Wed, 16 Dec 2020 13:22:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1608143412; x=1639679412;
+ t=1608143416; x=1639679416;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=skbURR6ModVPJ+4rDadZSuPRHH6j2CX9z8T6S97zPzM=;
- b=Rm7sHd7UlRoCp1ndiL3oHftrTDXCJlPknLFe8hV2IkAyGhbVNC0a+n5K
- q/svhKtkuIaVyh86D83zo4u9rmcNRDb7hLeFO8o9xlg6MZDodIEBAiS7F
- YVRCsbwNY96nL43Xza8hQF8MRuaXkLOqaV5+NHqql9M6OmR/ArqsW8FLv
- jCKUn6JilV57nQsesMTteQLNKWPAF2yINg3UZd2g2ZAHGdJWaoKqrT5Cd
- CKlCaHn7h2aqXOw+KogIqk7FA39jRz4sK5N5MF6fsvkuge6FSEzc42jZg
- zPfg+mCDF+wQzaGup00rnyeBrEFUuttQPvjuwb8gZlcaO/Ji22OZo3gls g==;
-IronPort-SDR: zG0RENUKyK9/+zRUYQdNvWksUZU8t/pcaEy0bFPYQFFaRcd6eZWpIoE5UeP6HxHaZDPg/Dy3go
- wj8AAhMxm5SKp6top1cJAFEAhs1eb1RvGSGBhQrwdQ/BIhsWhdtwzIUP+UMz/ihlL57AniDQEA
- R0Elba8vgBOpTZgreQ+rgumhIbGbtsNqqU3ddn0eeUkVaPzZMEBsKvO4DDepxVBYpGvSXayx+q
- d46QoRYUYy67UxNyWz+9zz786Qy0XEsLIRBVfs2bn0NwJuSTeHwgFnNqTUf7q/2Ww/1W/F9v3v
- dyk=
-X-IronPort-AV: E=Sophos;i="5.78,425,1599494400"; d="scan'208";a="259080334"
+ bh=1FsVWvXDkzpGo7WOfcTOiZ9qIBSHe4jFzMmEKpGYgg0=;
+ b=Tk+V3d/hiEPp/5pkDwnaKoH6zTXMZ9A4sRIWo6LN3RZsMjVfyvdIYt9z
+ n2b5qJtEG+3jFR9Y+2sfYF9YAmspOpdku1T7h+TAB8CPLb+/D3u7bvWYL
+ AZFaSCzlbrxu961/a9irJKVg/TI2wu067x5UGzxHa3Y959LRbzvTax0Bl
+ diFeJVEwimYhdy0cpQ2x4S0SMUYfO4yI8GVck4fHICom444lPz0wkSimk
+ U4SV3cufif9JIma7maKKP/rTxfb1BIZhsxoseH8r4OqbypiTVpPWudmxT
+ Tto1qPHs7V4PfuTMhu7fAOht3AqPbGyWJ+pecwKYhZGiYFUpT/Ey/5yLB Q==;
+IronPort-SDR: izNZcq/MggtTNymqyJFiXXNEU8zEdFbMSHDz64byBDSZpLYQq3AqMQmdm4GzXnAOCstJZEdH7X
+ K2+CVu8Ae4TO1bGtLnqch1b6sq0JferyKA10XEo9H7vsuExm4RQA8krlqzPvuC5IO+obBhlney
+ 4pE8jm8KyszQlt8X47C1IYUd4wPJmOIUFiOKn+Ydppldcj6MB0DQnnurKEJp+ZZTOFTD/98UZN
+ 94rvWzuQtGkdgZu/q+p+aW9lsLoFG6fMCrgM0K4kzXK14LkPIESz2CQClikyByX/3GQ0FfKopT
+ Gp4=
+X-IronPort-AV: E=Sophos;i="5.78,425,1599494400"; d="scan'208";a="259080339"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 17 Dec 2020 02:30:09 +0800
-IronPort-SDR: 3yF9k052S7eb1hqRCilO6YHwIV5bdG+oO4juPXP3uo459Tx8mItX4R6tllXyFE45ocP+/ia5hn
- 55lk4PjaGxNgWg/mGjzdItckEkUdjepCb5WgqKe1PoBSmXhNq8D1wBkA0UZe12LHK+i1Rm5ATs
- XSRfUSumClMZeFWLMoPBRboJCAnPJvzrmixvlqozWeCIBTIARn9HjVZlERcRV+dg/LHrgsMA6Z
- YxsvJFFCV+J58n+dF+30oA7Pp4vNK7Pkaz0WSogB3+tXLiP5H6dy0Rz1HUtxmCSYLM8w6/6diJ
- cS9hLSpBPAKyCyDhiMgvzhU0
+ by ob1.hgst.iphmx.com with ESMTP; 17 Dec 2020 02:30:13 +0800
+IronPort-SDR: NupsxXf8+hNHxLDPXAlakMt5sRXapV1aBReTcccceqcsvOD5hITXJNFEyeUA+iOBidf0el5sUg
+ IEB+cTiI//Xka4OHb25iZRhNXUvPPBRDVNG8HlGVYzSDDKsl3S9dNUIzI9WY13KiP2x3G9Rk45
+ /1H0vdK/ciIdoxB/3mQ87EDhO5e2kCgkHASlQ49KP8skZBGY7TekRYbK0CtzV6C5c4uvQljd89
+ 3cmRnC+7PdgCL5sih9LtyGJnbaow6AsKlgEFBcGTZLTwkUX+4ifcbQcKBNx27i1WqY0qk4/mwe
+ HM6vfgiWUcjiOdNsvWZCWciv
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2020 10:06:02 -0800
-IronPort-SDR: CPfrFAtsPnx43CVmSfvq+eMY0G5lvHUMZ0TS4tVmKJbp6a+ytGxjRWKO+rynwAyGfGk5uWYwTy
- OS/uKvfEG70Bd3fAFoA64ZSeaKQM4nAdy+XRBi6vMcRtoyyT9uHvbRM8bKc4qsgcezfOxmOSh1
- fxQqmVQScbRhCUqiMzngD//9r9CacPyv3hIzYqqX7AaPCgONid/3FqAC0UTTdqLQhoXkjs5HPp
- L5vne4tDh98tGzPyWD8FCMeMSmIKrUAh06Lo2NYPWjtbBMsD/ERHenkX1/UeXHjFRsjSXSx7tQ
- wVo=
+ 16 Dec 2020 10:06:04 -0800
+IronPort-SDR: u3dl17np6lsRRmywRQuW4RFLRIKSOGCyRgXu6FCzmlS0doz1OpXqXsnVsVpSM+8mQRoa4jKQ+V
+ hO5kHFRxMj4YCEKAwLqXq+VLBZYUXhMGEjxqtE6F2rCoezX9WWTogc5faRgyj8DVyPyDGdJOBp
+ ENL+sL5M2DDwUctyGc+y3Bx8bGMonTVEuwA3lJITMBMLE2+j5h3Oq2IdZL+iaPpGLIElIkcQs6
+ y87JXZzhpsTCnmhZEEUS1GxMVyUBw2FqvTsu45Zzt9JhBaHzrJT0E6QiUSBVcEdOR82eKUfIMJ
+ FaQ=
 WDCIronportException: Internal
 Received: from 1996l72.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.62.67])
- by uls-op-cesaip01.wdc.com with ESMTP; 16 Dec 2020 10:22:27 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 16 Dec 2020 10:22:30 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v4 01/16] hw/riscv: Expand the is 32-bit check to support more
- CPUs
-Date: Wed, 16 Dec 2020 10:22:26 -0800
-Message-Id: <9a13764115ba78688ba61b56526c6de65fc3ef42.1608142916.git.alistair.francis@wdc.com>
+Subject: [PATCH v4 02/16] target/riscv: Add a TYPE_RISCV_CPU_BASE CPU
+Date: Wed, 16 Dec 2020 10:22:29 -0800
+Message-Id: <86e5ccd9eae2f5d8c2257679c6ccf6078a5d51af.1608142916.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1608142916.git.alistair.francis@wdc.com>
 References: <cover.1608142916.git.alistair.francis@wdc.com>
@@ -78,7 +77,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,40 +95,32 @@ Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the riscv_is_32_bit() function only supports the generic rv32
-CPUs. Extend the function to support the SiFive and LowRISC CPUs as
-well.
-
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
+Tested-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
 ---
- hw/riscv/boot.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ target/riscv/cpu.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index d62f3dc758..3c70ac75d7 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -41,7 +41,17 @@
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index c0a326c843..9c064f3094 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -44,6 +44,12 @@
+ #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
+ #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
  
- bool riscv_is_32_bit(MachineState *machine)
- {
--    if (!strncmp(machine->cpu_type, "rv32", 4)) {
-+    /*
-+     * To determine if the CPU is 32-bit we need to check a few different CPUs.
-+     *
-+     * If the CPU starts with rv32
-+     * If the CPU is a sifive 3 seriries CPU (E31, U34)
-+     * If it's the Ibex CPU
-+     */
-+    if (!strncmp(machine->cpu_type, "rv32", 4) ||
-+        (!strncmp(machine->cpu_type, "sifive", 6) &&
-+            machine->cpu_type[8] == '3') ||
-+        !strncmp(machine->cpu_type, "lowrisc-ibex", 12)) {
-         return true;
-     } else {
-         return false;
++#if defined(TARGET_RISCV32)
++# define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE32
++#elif defined(TARGET_RISCV64)
++# define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE64
++#endif
++
+ #define RV32 ((target_ulong)1 << (TARGET_LONG_BITS - 2))
+ #define RV64 ((target_ulong)2 << (TARGET_LONG_BITS - 2))
+ 
 -- 
 2.29.2
 
