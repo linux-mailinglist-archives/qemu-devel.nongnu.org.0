@@ -2,91 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7022DC536
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:21:38 +0100 (CET)
-Received: from localhost ([::1]:34036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F17322DC51A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:12:44 +0100 (CET)
+Received: from localhost ([::1]:35976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpaUb-0007AR-Bs
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:21:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42962)
+	id 1kpaLz-0004WB-Uz
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:12:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kpaG3-0006Uz-Mw
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:06:35 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:60374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kpaG1-0005h5-A1
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:06:35 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BGGobPO143378;
- Wed, 16 Dec 2020 17:06:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=ES35Wz/oAXpZMekYFaWc5Kg6avNtK0AlllXemui030E=;
- b=QdZOHsF6pk0GM+9Mj1H9j/fbePl/NxzAQSLxtF8y6BpQLJrz8dBq2tud4IT/n+ZcUe/d
- 5fFszmMnPTk0396/pG+FqafCB7+osEQ8XI3I4dlArhWDLZ9Msbu5mnNpCIW4U5MOyffR
- rR1k5GLeyJqydNjX3UCtktHZwdfd104xDPQU8+4dA+cxAkw04ab6jHUxkNDLbKEHXuJg
- vphXXlgyzzEKCOUJ4IofeUHPHBR8hga3yCzfz9Deoln+Sz7ANq8aUcBjbeJrcDWEu/99
- xijLjH37zNnhGnVzHRuP4KOG+8dFVV5H4SNcHMWRC02Jrrxpb2CT7vSCBMjigHAKblEI Rg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 35cn9rhejm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 16 Dec 2020 17:06:12 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BGGoSeo099850;
- Wed, 16 Dec 2020 17:06:11 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3030.oracle.com with ESMTP id 35d7sy2mn2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Dec 2020 17:06:11 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BGH69Cd003251;
- Wed, 16 Dec 2020 17:06:09 GMT
-Received: from [10.39.249.100] (/10.39.249.100)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 16 Dec 2020 09:06:08 -0800
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: [PATCH v13 10/19] multi-process: Associate fd of a PCIDevice with
- its object
-From: Jag Raman <jag.raman@oracle.com>
-In-Reply-To: <CAJ+F1CJ_oeM1ymjnph2221ghxHxphC1f=2cATU6yp-T19XBuaw@mail.gmail.com>
-Date: Wed, 16 Dec 2020 12:06:05 -0500
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <6003AE93-0B53-45D7-B0B8-2B372507B3ED@oracle.com>
-References: <cover.1607922214.git.jag.raman@oracle.com>
- <e174acc9bba334c8127574aa21d432a7b3a54330.1607922214.git.jag.raman@oracle.com>
- <CAJ+F1CJ_oeM1ymjnph2221ghxHxphC1f=2cATU6yp-T19XBuaw@mail.gmail.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@gmail.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9837
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0
- mlxlogscore=999 spamscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012160110
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9837
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxlogscore=999
- impostorscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
- malwarescore=0 priorityscore=1501 phishscore=0 mlxscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012160110
-Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
- helo=userp2130.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpaIT-0001WD-UJ
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:09:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25341)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpaIP-0006Di-Dw
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:09:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608138539;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aLiLkuW+NPlwLA+36Amv8JTrggnU+RUjkWsIM23hSok=;
+ b=cuvcvJj1SzGEkMtpTEPSjtK5MSABMIhNbCZHAcwjXzS4AyceFnLPZvegrNSkuFtSJQsQUZ
+ So+/HbGHYBvCeMEwxD6YUZXaQImZJJ1a3LyOxazVnwG4N2Kzl/JWWpM9jHHibISgpEq4VL
+ a1ImOoum4HK7hvjd8fogTAqx3DKdub4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-569-6B967EsRN4y3lJuKOqbq3w-1; Wed, 16 Dec 2020 12:08:57 -0500
+X-MC-Unique: 6B967EsRN4y3lJuKOqbq3w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 697A81005513;
+ Wed, 16 Dec 2020 17:08:56 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-7.ams2.redhat.com [10.36.113.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E51060BF3;
+ Wed, 16 Dec 2020 17:08:55 +0000 (UTC)
+Subject: Re: CXL support in QEMU
+To: Ben Widawsky <ben.widawsky@intel.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>
+References: <CALOWxgPkoiR9jHSP-S+hYkWZb89xi8kLVY4vsHqTMzpg6Sv=jQ@mail.gmail.com>
+ <07f753bd-45d8-d65d-6195-25f9dfb74795@redhat.com>
+ <20201216134251.000052d0@Huawei.com>
+ <20201216160314.m72v7ynqnv3opu6s@intel.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <9e4747fe-c166-e5aa-55b2-ac58be7f0268@redhat.com>
+Date: Wed, 16 Dec 2020 18:08:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20201216160314.m72v7ynqnv3opu6s@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,323 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, QEMU <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Ross Lagerwall <ross.lagerwall@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Prashant V Agarwal <agpr123@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 16/12/2020 17.03, Ben Widawsky wrote:
+> On 20-12-16 13:42:51, Jonathan Cameron wrote:
+>> On Wed, 16 Dec 2020 10:53:34 +0100
+>> Thomas Huth <thuth@redhat.com> wrote:
+>>
+>>> On 16/12/2020 06.05, Prashant V Agarwal wrote:
+>>>> Hi,
+>>>> Is there a way to know the support plans for CXL protocol in QEMU?
+>>>> I see that there is side branch development going on:
+>>>>
+>>>> https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v2
+>>>> <https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v2>
+>>>>
+>>>> But when does it get merged and gets released in QEMU formally?
+>>>> Is there a way to know a rough timeline?  
+>>>
+>>> You should rather the authors of that repository whether and when they plan
+>>> to contribute their changes to the QEMU project. It's certainly not going to
+>>> happen automatically that these patches get merged into the main repository.
+>>>
+>>>  Thomas
+>>>
+>> Worth noting that they have posted an RFC, so I would suggest replying to
+>> that thread to make sure you get all the right people.
+>>
+>> https://lore.kernel.org/qemu-devel/20201111054724.794888-1-ben.widawsky@intel.com/#r
+>>
+>> +CC Ben
+>>
+> 
+> I haven't posted v2 yet because I have a few more changes I wanted to make
+> before doing so, however v2 has all of Jonathan's feedback plus a few minor
+> things.
+> 
+> Thomas, it's been CC'd to a few folks outside of the list itself, but I couldn't
+> get much in the way of reviewers. Advice on that is welcome.
 
+Maybe add some more people on CC: who are familiar with x86? See the
+MAINTAINERS file and look for "86" in there...
 
-> On Dec 16, 2020, at 8:43 AM, Marc-Andr=C3=A9 Lureau =
-<marcandre.lureau@gmail.com> wrote:
->=20
->=20
->=20
-> On Mon, Dec 14, 2020 at 9:15 AM Jagannathan Raman =
-<jag.raman@oracle.com> wrote:
-> Associate the file descriptor for a PCIDevice in remote process with
-> DeviceState object.
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  hw/remote/remote-obj.c | 206 =
-+++++++++++++++++++++++++++++++++++++++++++++++++
->  MAINTAINERS            |   1 +
->  hw/remote/meson.build  |   1 +
->  3 files changed, 208 insertions(+)
->  create mode 100644 hw/remote/remote-obj.c
->=20
-> diff --git a/hw/remote/remote-obj.c b/hw/remote/remote-obj.c
-> new file mode 100644
-> index 0000000..b5573b7
-> --- /dev/null
-> +++ b/hw/remote/remote-obj.c
-> @@ -0,0 +1,206 @@
-> +/*
-> + * Copyright =C2=A9 2020 Oracle and/or its affiliates.
-> + *
-> + * This work is licensed under the terms of the GNU GPL-v2, version 2 =
-or later.
-> + *
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +
-> +#include "qemu/error-report.h"
-> +#include "qemu/notify.h"
-> +#include "qom/object_interfaces.h"
-> +#include "hw/qdev-core.h"
-> +#include "io/channel.h"
-> +#include "hw/qdev-core.h"
-> +#include "hw/remote/machine.h"
-> +#include "io/channel-util.h"
-> +#include "qapi/error.h"
-> +#include "sysemu/sysemu.h"
-> +#include "hw/pci/pci.h"
-> +#include "qemu/sockets.h"
-> +
-> +#define TYPE_REMOTE_OBJECT "x-remote-object"
-> +#define REMOTE_OBJECT(obj) \
-> +    OBJECT_CHECK(RemoteObject, (obj), TYPE_REMOTE_OBJECT)
-> +#define REMOTE_OBJECT_GET_CLASS(obj) \
-> +    OBJECT_GET_CLASS(RemoteObjectClass, (obj), TYPE_REMOTE_OBJECT)
-> +#define REMOTE_OBJECT_CLASS(klass) \
-> +    OBJECT_CLASS_CHECK(RemoteObjectClass, (klass), =
-TYPE_REMOTE_OBJECT)
-> +
-> +typedef struct {
-> +    ObjectClass parent_class;
-> +
-> +    unsigned int nr_devs;
-> +    unsigned int max_devs;
-> +} RemoteObjectClass;
-> +
-> +typedef struct {
-> +    /* private */
-> +    Object parent;
-> +
-> +    Notifier machine_done;
-> +
-> +    int32_t fd;
-> +    char *devid;
-> +
-> +    QIOChannel *ioc;
-> +
-> +    DeviceState *dev;
-> +    DeviceListener listener;
-> +} RemoteObject;
-> +
-> +static void remote_object_set_fd(Object *obj, Visitor *v, const char =
-*name,
-> +                                 void *opaque, Error **errp)
-> +{
-> +    RemoteObject *o =3D REMOTE_OBJECT(obj);
-> +    int32_t value;
-> +
-> +    if (!visit_type_int32(v, name, &value, errp)) {
-> +        return;
-> +    }
-> +
-> +    if (!fd_is_socket(value)) {
-> +        o->fd =3D -1;
-> +        error_setg(errp, "File descriptor %d is not a socket", =
-value);
-> +        return;
-> +    }
-> +
-> +    o->fd =3D value;
-> +}
-> +
-> +static void remote_object_set_devid(Object *obj, const char *str, =
-Error **errp)
-> +{
-> +    RemoteObject *o =3D REMOTE_OBJECT(obj);
-> +
-> +    g_free(o->devid);
-> +
-> +    o->devid =3D g_strdup(str);
-> +}
-> +
-> +static void remote_object_release(DeviceListener *listener, =
-DeviceState *dev)
-> +{
-> +    RemoteObject *o =3D container_of(listener, RemoteObject, =
-listener);
-> +
-> +    if (o->dev =3D=3D dev) {
-> +        object_unref(OBJECT(o));
-> +    }
-> +}
-> +
-> +static void remote_object_machine_done(Notifier *notifier, void =
-*data)
-> +{
-> +    RemoteObject *o =3D container_of(notifier, RemoteObject, =
-machine_done);
-> +    DeviceState *dev =3D NULL;
-> +    QIOChannel *ioc =3D NULL;
-> +    Coroutine *co =3D NULL;
-> +    RemoteCommDev *comdev =3D NULL;
-> +    Error *err =3D NULL;
-> +
-> +    dev =3D qdev_find_recursive(sysbus_get_default(), o->devid);
-> +    if (!dev || !object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-> +        error_report("%s is not a PCI device", o->devid);
-> +        return;
-> +    }
-> +
-> +    ioc =3D qio_channel_new_fd(o->fd, &err);
-> +    if (!ioc) {
-> +        error_report_err(err);
-> +        return;
-> +    }
-> +    qio_channel_set_blocking(ioc, false, NULL);
-> +
-> +    o->dev =3D dev;
-> +
-> +    o->listener.unrealize =3D remote_object_release;
-> +    device_listener_register(&o->listener);
-> +
-> +    /* co-routine should free this. */
-> +    comdev =3D g_new0(RemoteCommDev, 1);
-> +    *comdev =3D (RemoteCommDev) {
-> +        .ioc =3D ioc,
-> +        .dev =3D PCI_DEVICE(dev),
-> +    };
-> +
-> +    co =3D qemu_coroutine_create(mpqemu_remote_msg_loop_co, comdev);
-> +    qemu_coroutine_enter(co);
-> +}
-> +
-> +static void remote_object_init(Object *obj)
-> +{
-> +    RemoteObjectClass *k =3D REMOTE_OBJECT_GET_CLASS(obj);
-> +    RemoteObject *o =3D REMOTE_OBJECT(obj);
-> +
-> +    if (k->nr_devs >=3D k->max_devs) {
-> +        error_report("Reached maximum number of devices: %u", =
-k->max_devs);
-> +        return;
-> +    }
-> +
-> +    o->ioc =3D NULL;
-> +    o->fd =3D -1;
-> +    o->devid =3D NULL;
-> +
-> +    k->nr_devs++;
-> +
-> +    o->machine_done.notify =3D remote_object_machine_done;
-> +    qemu_add_machine_init_done_notifier(&o->machine_done);
-> +}
-> +
-> +static void remote_object_finalize(Object *obj)
-> +{
-> +    RemoteObjectClass *k =3D REMOTE_OBJECT_GET_CLASS(obj);
-> +    RemoteObject *o =3D REMOTE_OBJECT(obj);
-> +
-> +    device_listener_unregister(&o->listener);
-> +
-> +    if (o->ioc) {
-> +        qio_channel_shutdown(o->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, =
-NULL);
-> +        qio_channel_close(o->ioc, NULL);
-> +    }
-> +
-> +    object_unref(OBJECT(o->ioc));
-> +
-> +    k->nr_devs--;
-> +    g_free(o->devid);
-> +}
-> +
-> +static void remote_object_class_init(ObjectClass *klass, void *data)
-> +{
-> +    RemoteObjectClass *k =3D REMOTE_OBJECT_CLASS(klass);
-> +
-> +    /*
-> +     * Limit number of supported devices to 1. This is done to avoid =
-devices
-> +     * from one VM accessing the RAM of another VM. This is done =
-until we
-> +     * start using separate address spaces for individual devices.
-> +     */
-> +    k->max_devs =3D 1;
-> +    k->nr_devs =3D 0;
-> +
-> +    object_class_property_add(klass, "fd", "int32_t", NULL,
-> +                              remote_object_set_fd, NULL, NULL);
->=20
-> Let's be consistent with pci-proxy-dev, and make it a string property =
-that is parsed with monitor_fd_param()
-
-Thank you for the feedback, Marc-Andre!
-
-Would it be alright if we added this to util/qemu-sockets.c since this =
-logic is used more than once, or is it
-an overkill? I saw that socket_get_fd() in qemu-sockets.c is doing =
-something similar, but using
-monitor_get_fd() instead.
-
---
-Jag
-
->=20
-> +    object_class_property_add_str(klass, "devid", NULL,
-> +                                  remote_object_set_devid);
-> +}
-> +
-> +static const TypeInfo remote_object_info =3D {
-> +    .name =3D TYPE_REMOTE_OBJECT,
-> +    .parent =3D TYPE_OBJECT,
-> +    .instance_size =3D sizeof(RemoteObject),
-> +    .instance_init =3D remote_object_init,
-> +    .instance_finalize =3D remote_object_finalize,
-> +    .class_size =3D sizeof(RemoteObjectClass),
-> +    .class_init =3D remote_object_class_init,
-> +    .interfaces =3D (InterfaceInfo[]) {
-> +        { TYPE_USER_CREATABLE },
-> +        { }
-> +    }
-> +};
-> +
-> +static void register_types(void)
-> +{
-> +    type_register_static(&remote_object_info);
-> +}
-> +
-> +type_init(register_types);
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4f2cd91..f049059 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3160,6 +3160,7 @@ F: include/hw/remote/machine.h
->  F: hw/remote/mpqemu-link.c
->  F: include/hw/remote/mpqemu-link.h
->  F: hw/remote/message.c
-> +F: hw/remote/remote-obj.c
->=20
->  Build and test automation
->  -------------------------
-> diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-> index 9f5c57f..71d0a56 100644
-> --- a/hw/remote/meson.build
-> +++ b/hw/remote/meson.build
-> @@ -3,5 +3,6 @@ remote_ss =3D ss.source_set()
->  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: =
-files('machine.c'))
->  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: =
-files('mpqemu-link.c'))
->  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: =
-files('message.c'))
-> +remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: =
-files('remote-obj.c'))
->=20
->  softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
-> --=20
-> 1.8.3.1
->=20
->=20
->=20
-> --=20
-> Marc-Andr=C3=A9 Lureau
+ HTH,
+  Thomas
 
 
