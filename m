@@ -2,50 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B282DBB50
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 07:42:12 +0100 (CET)
-Received: from localhost ([::1]:41142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9072DC931
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 23:45:45 +0100 (CET)
+Received: from localhost ([::1]:50766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpQVm-0006wF-IJ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 01:42:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56932)
+	id 1kpfYF-00071p-M0
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 17:45:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cathy.zhang@intel.com>)
- id 1kpQRF-0004lH-9D
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 01:37:29 -0500
-Received: from mga09.intel.com ([134.134.136.24]:45702)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cathy.zhang@intel.com>)
- id 1kpQRB-0007fs-VB
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 01:37:27 -0500
-IronPort-SDR: 229uog/JwbOJAAaXF73evRsyA56N+m31X6/QU3YiC8KCO9mhtCmwd4Dv/UO53insVbVw7ajYkB
- or2XRCOnpeGg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9836"; a="175161457"
-X-IronPort-AV: E=Sophos;i="5.78,423,1599548400"; d="scan'208";a="175161457"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2020 22:37:21 -0800
-IronPort-SDR: wMpBvMkB/p2NbARgjhhVjsC92e6aZPcIeIqwaMHab/ZX77fAGzhg8DaxVqm/p43mkbg0ndzmcN
- 0NWbSJveRDKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,423,1599548400"; d="scan'208";a="338144970"
-Received: from cathy-vostro-3670.bj.intel.com ([10.238.156.128])
- by fmsmga008.fm.intel.com with ESMTP; 15 Dec 2020 22:37:19 -0800
-From: Cathy Zhang <cathy.zhang@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] x86/cpu: Add AVX512_FP16 cpu feature
-Date: Thu, 17 Dec 2020 06:40:02 +0800
-Message-Id: <20201216224002.32677-1-cathy.zhang@intel.com>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=134.134.136.24;
- envelope-from=cathy.zhang@intel.com; helo=mga09.intel.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kpfWK-0006RV-CW; Wed, 16 Dec 2020 17:43:44 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:37827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kpfWI-0001rB-OB; Wed, 16 Dec 2020 17:43:44 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id ga15so35094619ejb.4;
+ Wed, 16 Dec 2020 14:43:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=90Q6AZzTl7VUndI3rULQeoUt16Yk6Kpcn5eb1cDTO8w=;
+ b=CVH+Ten+Ke/3v3pw2CU9apaU1lj51iP0Y6nmBVpwf2VxARJDDmjWP0HQzAaQ0KT9CO
+ InZIbByUxTG/HQ/e1aCmSVIHzYO0bmGyi/apTj6aC5zkf62GaMa3DcNGenPDn+Pfcijr
+ oSSlsKhC/KTDG37REGnZPUcNLp5dsPXekBhclcuoaDq7Y7X/Vp+ergl1B4nVEZa5iMer
+ 1ZFeSEjfISZY5op017Jo0LOd9adSjnHcs72NiB60CqJzShdTWpyNYAtlXxzC6iQCtsjo
+ tTBgEboCt0zVK4tlmgMTosAnCRAG6vJVHC1Ly5paGl3v6P7Fhf2YFyG4zED9gn6MU/Fa
+ x99Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=90Q6AZzTl7VUndI3rULQeoUt16Yk6Kpcn5eb1cDTO8w=;
+ b=cnUQIlFD8voXcu6lQ2P5odh67PM8Tcu7C1FlP1qzVCWCsVZJcpLpns7OxixqUFo0u/
+ VAGbPUEf4Oa8rwvsZi7g8rY2cIJ2EN9AaPZegUzfpFVIV78+7UsMJr0Uiuhz/SMoyOw0
+ QuJKilu5QbF9qCGDfwB3bb15Z7pdxzzo2LlfU02dua9/MsQNw5LGSxdBGnkvXrgg2IpU
+ MGUlbM/+XzP/+/3tjOi5tKh6EWqkoBv8KlXY5w53ShiCnhqDYTVeQ1VQ5yvNxFzzHPzK
+ HlUc5HO15sHh/D8zGHZldlpwQIpccF89u/odQRLnEEhznhNDxpouxdY3bkuV7k0sW8Yi
+ sGRg==
+X-Gm-Message-State: AOAM530spiV7ZL7jE6jNpkAa+pKRh/AdpQBoCZLZ6bFYqEixEwQ421H3
+ EVTIvaOh9qNkYgDZxmHzMehcf7BZzFk=
+X-Google-Smtp-Source: ABdhPJyTqbcjAv0hjUPdcdodTWGYoJoYog/iuixCC4zKYTHF4aXjtc+aNe3KbcInJH2kaKln8MurGQ==
+X-Received: by 2002:a17:906:4e50:: with SMTP id
+ g16mr33971853ejw.191.1608158619959; 
+ Wed, 16 Dec 2020 14:43:39 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id b14sm16640555edu.3.2020.12.16.14.43.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Dec 2020 14:43:39 -0800 (PST)
+Subject: Re: [PATCH v4 3/3] target/arm: Use object_property_add_bool for "sve"
+ property
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20201216221247.522686-1-richard.henderson@linaro.org>
+ <20201216221247.522686-4-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a2b26de3-7181-38d5-053c-86128e20c22a@amsat.org>
+Date: Wed, 16 Dec 2020 23:43:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
+MIME-Version: 1.0
+In-Reply-To: <20201216221247.522686-4-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_12_24=3.199,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,52 +89,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, ehabkost@redhat.com,
- cathy.zhang@intel.com
+Cc: peter.maydell@linaro.org, Andrew Jones <drjones@redhat.com>,
+ qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AVX512 Half-precision floating point (FP16) has better performance
-compared to FP32 if the presicion or magnitude requirements are met.
-It's defined as CPUID.(EAX=7,ECX=0):EDX[bit 23].
+On 12/16/20 11:12 PM, Richard Henderson wrote:
+> The interface for object_property_add_bool is simpler,
+> making the code easier to understand.
+> 
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/cpu64.c | 24 ++++++++++--------------
+>  1 file changed, 10 insertions(+), 14 deletions(-)
 
-Refer to
-https://software.intel.com/content/www/us/en/develop/download/\
-intel-architecture-instruction-set-extensions-programming-reference.html
-
-Signed-off-by: Cathy Zhang <cathy.zhang@intel.com>
----
- target/i386/cpu.c | 2 +-
- target/i386/cpu.h | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index ca997a68cd..c4d623b8b9 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -979,7 +979,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             "avx512-vp2intersect", NULL, "md-clear", NULL,
-             NULL, NULL, "serialize", NULL,
-             "tsx-ldtrk", NULL, NULL /* pconfig */, NULL,
--            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, "avx512-fp16",
-             NULL, NULL, "spec-ctrl", "stibp",
-             NULL, "arch-capabilities", "core-capability", "ssbd",
-         },
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index c4a49c06a8..6fd675c654 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -784,6 +784,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_EDX_SERIALIZE         (1U << 14)
- /* TSX Suspend Load Address Tracking instruction */
- #define CPUID_7_0_EDX_TSX_LDTRK         (1U << 16)
-+/* AVX512_FP16 instruction */
-+#define CPUID_7_0_EDX_AVX512_FP16       (1U << 23)
- /* Speculation Control */
- #define CPUID_7_0_EDX_SPEC_CTRL         (1U << 26)
- /* Single Thread Indirect Branch Predictors */
--- 
-2.17.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
