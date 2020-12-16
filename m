@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA742DC4C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:55:32 +0100 (CET)
-Received: from localhost ([::1]:45786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365172DC50D
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:08:15 +0100 (CET)
+Received: from localhost ([::1]:52754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpa5L-0007En-GR
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:55:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38402)
+	id 1kpaHe-0007WI-6f
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:08:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpZzb-0000kR-DC
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:49:35 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38548)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpa0q-0002aC-53
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:50:52 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpZzZ-0002Uo-W7
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:49:35 -0500
-Received: by mail-wm1-x336.google.com with SMTP id g185so3095068wmf.3
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:49:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nSHWhj+ELcqRBYCW9V6Sfq91e9b106erlt0H+7rZY3U=;
- b=AWXW+rwald5ids+Btkcl+NF9i63zS48qQUpjZce/74Za0b7g6Ukf7gsNKjJTlSwuRo
- Z2Q6zr8FNj/qvoBHeGalFbC1YOAJU6S8nYnMC0M3vrNVoGJIWwvjbiKqgXctIXgvHRM1
- 6A+QcpoGPm/MqTlYWb/q6s0GF0SyM6gwmXsTyslLWzDghbeZYGawl0EUI3EXBBjH+w85
- KI/S/Jogbhy8hLEBc1lHKvskRyTXuQfjiULKPX0GZ01nz8TPsBPr41g/S42MAHODy6F1
- KPjeAbDiJbFft920dishwKITvvLNgxKr5n3oPltiRIywmUFY2s2PSh3k+0ghtL1SEUfW
- 2C1A==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpa0o-0002mX-8o
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:50:51 -0500
+Received: by mail-wm1-x332.google.com with SMTP id a3so3093612wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:50:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=jqVBo9wHFRKpQhPXb68Xt/ocbHSUWoZPL4MytMDcHhg=;
+ b=bCkNd7OebbwD6ryC5XRVfTV6Irzz0NlNweoN87qq9dFje0qLnimPjgvFqyUhbXqKI3
+ vCLkddvIGjhe29PnMXI/giSeJ9ARXQWy9voIeueuFLDbgyvnYjaGS1FCOM2WxtWqG5/l
+ dYCjlmBGIfBIoAYGvAZlITkpQEFnbPj092eTRxzZe9exA7t6R9V6/f5asgz/x7ddXe5E
+ 12A8inWgT9bkF+tubNbJQZJ/COn+3vBpihO/l7ee93PSlmbHiNLywxvzos5gTGoy0G21
+ 1zVrPpxGmtn/3obJ7agCRWvIs+6J+NMGb/5zVEZk6dvIHo/T98RosXs93o9iDRnVuseQ
+ AXXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nSHWhj+ELcqRBYCW9V6Sfq91e9b106erlt0H+7rZY3U=;
- b=HjBPOYul4f7NHiEJDliclMcMusmdyve30vo7zJ0XfC2ax97YfgILjqbfOgpafAuo4T
- GmfpC+Vw0uMPdv0khY2J4ZgOCyfhBDnx5CTMiJOLPIqZj7FEFsIdi+jCkKHWiIgmKYeu
- dUlgPFl1FgLzqRgJI0U0TZ92MvnECSz3Je55WZLWaO3iEAYpe1gGV1B6P8Nm9nNEdnuP
- Upt6SYa23kdb5IDf63nsKeuzwwqHegD/l33UiBD4CiumuYHdMHOd11ULJ621rjMkf2eJ
- ItyFJ5nxU2CgkGyXnMFINSoh2REzdjNIuGlxbENaXRcknPrkFninAa8jE5GqD0DT0R4K
- UNEg==
-X-Gm-Message-State: AOAM530R+O52CIgpW//byrOW3kerLqJZQwfKt1+Z+jkhOzYYwYcXBdYb
- 8NnDxE25NSKH5cSFpXA7wJikCt2mWmg=
-X-Google-Smtp-Source: ABdhPJxMvsRIdYJP822Jv6EMqFLb6Sjqvrd5axStyleX94xF+gnFnbcycB/a4t56l6qM69bR15rQVQ==
-X-Received: by 2002:a1c:4d12:: with SMTP id o18mr4282918wmh.114.1608137372053; 
- Wed, 16 Dec 2020 08:49:32 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id x18sm4522694wrg.55.2020.12.16.08.49.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Dec 2020 08:49:31 -0800 (PST)
-Subject: Re: [PATCH 1/7] hw/mips/fuloong2e: Remove define DEBUG_FULOONG2E_INIT
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20201216022513.89451-1-jiaxun.yang@flygoat.com>
- <20201216022513.89451-2-jiaxun.yang@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1b9f200d-bab1-9894-92a4-07608e6ac515@amsat.org>
-Date: Wed, 16 Dec 2020 17:49:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=jqVBo9wHFRKpQhPXb68Xt/ocbHSUWoZPL4MytMDcHhg=;
+ b=b9rZLwTNkvqc40ixmBA/ThT+AHQtAnqDpifKknXu6WafzPekcUIZBdACvb4G7QEpVm
+ WJ/SDQZKxAjD9L5cl9gmS8no6t7OG+vBYreZjSc6lUMOJyid75BDCzMuxUH4ytpYbeKW
+ h5iu+qQfvw9MaKUmipaRUaOPVaxnXy8935iHFrWXrbWoV9bbOmsxULQdRCjnjlumO5L9
+ UYJxslHHg2laScV3ozRj9dsTb4o9fLRHfpB4ciHBxiucXkAWy1Go10uuKInA9p6DO0vt
+ mf0t/c1b98p/BNRiM0uKP1nVNdSS3QrZ+bSUaS+YOoPkifXAYoLA+Uep3hGJo6cuBl8Q
+ VTEQ==
+X-Gm-Message-State: AOAM5305RE+/fRP1DiIwDwCUwRX+EYPptfVxgDw2VgVufp0deLal9CkH
+ iOl2AbogRgkTW88QrkgIrUe5xw==
+X-Google-Smtp-Source: ABdhPJwIIMRByfFDC9PEkqbmBmEq9WJaV1/eH41kjs4NzrfJHJET0n2wdRr8mzaIg072U6SNEL6Rnw==
+X-Received: by 2002:a1c:2394:: with SMTP id j142mr4316840wmj.42.1608137448646; 
+ Wed, 16 Dec 2020 08:50:48 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n12sm4016619wrg.76.2020.12.16.08.50.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Dec 2020 08:50:46 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B8DB11FF7E;
+ Wed, 16 Dec 2020 16:50:45 +0000 (GMT)
+References: <20201215224133.3545901-1-ehabkost@redhat.com>
+ <20201215224133.3545901-2-ehabkost@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH 1/2] test-char: Destroy chardev correctly at
+ char_file_test_internal()
+Date: Wed, 16 Dec 2020 16:50:08 +0000
+In-reply-to: <20201215224133.3545901-2-ehabkost@redhat.com>
+Message-ID: <87o8itsniy.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201216022513.89451-2-jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,35 +88,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenhuacai@kernel.org
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/20 3:25 AM, Jiaxun Yang wrote:
-> Seems useless....
 
-Indeed, introduced in 051c190bce5 ("MIPS: Initial support of
-fulong mini pc (machine construction)") but never used.
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> commit 1e419ee68fa5 ("chardev: generate an internal id when none
+> given") changed the reference ownership semantics of
+> qemu_chardev_new(NULL, ...): now all chardevs created using
+> qemu_chardev_new() are added to the /chardevs QOM container, and
+> the caller does not own a reference to the newly created object.
+>
+> However, the code at char_file_test_internal() had not been
+> updated and was calling object_unref() on a chardev object it
+> didn't own.  This makes the chardev be destroyed, but leaves a
+> dangling pointer in the /chardev container children list, and
+> seems to be the cause of the following char_serial_test() crash:
+>
+>   Unexpected error in object_property_try_add() at ../qom/object.c:1220: \
+>       attempt to add duplicate property 'serial-id' to object (type 'cont=
+ainer')
+>   ERROR test-char - too few tests run (expected 38, got 9)
+>
+> Update the code to use object_unparent() at the end of
+> char_file_test_internal(), to make sure the chardev will be
+> correctly removed from the QOM tree.
+>
+> Fixes: 1e419ee68fa5 ("chardev: generate an internal id when none given")
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+Previously I could get a failure within a 100 runs so I think the soak
+test is good ;-)
+
+  Results summary:
+  0: 1000 times (100.00%), avg time 2.256 (0.00 varience/0.00 deviation)
+  Ran command 1000 times, 1000 passes
+
+
 > ---
->  hw/mips/fuloong2e.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-> index 9b0eb8a314..055b99e378 100644
-> --- a/hw/mips/fuloong2e.c
-> +++ b/hw/mips/fuloong2e.c
-> @@ -48,8 +48,6 @@
->  #include "sysemu/reset.h"
->  #include "qemu/error-report.h"
->  
-> -#define DEBUG_FULOONG2E_INIT
-> -
->  #define ENVP_PADDR              0x2000
->  #define ENVP_VADDR              cpu_mips_phys_to_kseg0(NULL, ENVP_PADDR)
->  #define ENVP_NB_ENTRIES         16
-> 
+>  tests/test-char.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tests/test-char.c b/tests/test-char.c
+> index 953e0d1c1f..06102977b6 100644
+> --- a/tests/test-char.c
+> +++ b/tests/test-char.c
+> @@ -1298,7 +1298,7 @@ static void char_file_test_internal(Chardev *ext_ch=
+r, const char *filepath)
+>      g_assert(strncmp(contents, "hello!", 6) =3D=3D 0);
+>=20=20
+>      if (!ext_chr) {
+> -        object_unref(OBJECT(chr));
+> +        object_unparent(OBJECT(chr));
+>          g_unlink(out);
+>      }
+>      g_free(contents);
+
+
+--=20
+Alex Benn=C3=A9e
 
