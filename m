@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA8A2DBCAB
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 09:27:19 +0100 (CET)
-Received: from localhost ([::1]:50148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C98B32DBCAC
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 09:28:00 +0100 (CET)
+Received: from localhost ([::1]:53206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpS9W-00076Q-E5
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 03:27:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44982)
+	id 1kpSAB-0008Od-PN
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 03:27:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpS5l-00059D-M0
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 03:23:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51304)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpS8i-0007I9-Ty
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 03:26:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpS5i-0008KT-Of
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 03:23:25 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpS8e-0000qM-Li
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 03:26:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608107000;
+ s=mimecast20190719; t=1608107183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BqMwgUHSXERYaDzgk+yOsCG2CFP5QmRy4d6uKMdrIO4=;
- b=BvKM3TF5UtyfMDqslBjOHieYQ7zwGb9aMXGqGUv3CnsMVp6ZWlrZSAICJzqNgxprH3R1l0
- MUogf09wJ5BDGH/72W8pvDhoE578C4ga3dEg+t3oDX/j5wRHk5nO+LnDjRisp8JNf0RE5Z
- GHt9nZ3D9j2yy8aVooGZVaPQ3CL9aIs=
+ bh=F+3b44Hlneg7HDUNCM3QOvh7QF1AIzt4x9YSBCjtJuY=;
+ b=BhpjHCrt+jBAZeBH4UHGJMR3tFblZK1+i0VpK+EfS4zcvXVecCc5kpttnFaf/FhfO8wl1G
+ 7dJn2Vxk9H17JIH8BWD2Yw2t5+4bgQAARGK3sR646zVYzf/7G4QfqZzRDCy6OxjkZVXsF4
+ gJeTYVKy+Bja/ijtKgmKRhXPdLBkTi4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-QpqiWGL6NXi8pWZvsdWi2A-1; Wed, 16 Dec 2020 03:23:19 -0500
-X-MC-Unique: QpqiWGL6NXi8pWZvsdWi2A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-152-OiJGvkv3NBqJwAhChVjPeA-1; Wed, 16 Dec 2020 03:26:21 -0500
+X-MC-Unique: OiJGvkv3NBqJwAhChVjPeA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 789C8100C662
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:23:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFF0B107ACFA
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:26:20 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 08A5D60C15;
- Wed, 16 Dec 2020 08:23:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3511B10023B6;
+ Wed, 16 Dec 2020 08:26:17 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7D09211329A5; Wed, 16 Dec 2020 09:23:13 +0100 (CET)
+ id 9DA9F11329A5; Wed, 16 Dec 2020 09:26:15 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 03/12] qapi/main: handle theoretical None-return from
- re.match()
+Subject: Re: [PATCH 04/12] qapi/gen: assert that _start_if is not None in
+ _wrap_ifcond
 References: <20201214235327.1007124-1-jsnow@redhat.com>
- <20201214235327.1007124-4-jsnow@redhat.com>
-Date: Wed, 16 Dec 2020 09:23:13 +0100
-In-Reply-To: <20201214235327.1007124-4-jsnow@redhat.com> (John Snow's message
- of "Mon, 14 Dec 2020 18:53:18 -0500")
-Message-ID: <87eejqtb0u.fsf@dusky.pond.sub.org>
+ <20201214235327.1007124-5-jsnow@redhat.com>
+Date: Wed, 16 Dec 2020 09:26:15 +0100
+In-Reply-To: <20201214235327.1007124-5-jsnow@redhat.com> (John Snow's message
+ of "Mon, 14 Dec 2020 18:53:19 -0500")
+Message-ID: <87a6uetavs.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,60 +89,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 John Snow <jsnow@redhat.com> writes:
 
-> Mypy cannot understand that this match can never be None, so help it
-> along.
+> We already assert this in end_if, but that's opaque to mypy. Do it in
+> _wrap_ifcond instead. Same effect at runtime, but mypy can now infer
+> the type in _wrap_ifcond's body.
 >
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  scripts/qapi/main.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  scripts/qapi/gen.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-> index 42517210b805..271d9e84da94 100644
-> --- a/scripts/qapi/main.py
-> +++ b/scripts/qapi/main.py
-> @@ -23,7 +23,8 @@
+> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+> index b40f18eee3cd..a6dc991b1d03 100644
+> --- a/scripts/qapi/gen.py
+> +++ b/scripts/qapi/gen.py
+> @@ -130,11 +130,11 @@ def start_if(self, ifcond: List[str]) -> None:
+>          self._start_if = (ifcond, self._body, self._preamble)
 >  
->  def invalid_prefix_char(prefix: str) -> Optional[str]:
->      match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
+>      def end_if(self) -> None:
+> -        assert self._start_if
+>          self._wrap_ifcond()
+>          self._start_if = None
+>  
+>      def _wrap_ifcond(self) -> None:
+> +        assert self._start_if
+>          self._body = _wrap_ifcond(self._start_if[0],
+>                                    self._start_if[1], self._body)
+>          self._preamble = _wrap_ifcond(self._start_if[0],
 
-@match can't be None because the regexp always matches a prefix,
-possibly the empty prefix.
-
-> -    if match.end() != len(prefix):
-> +    # match cannot be None, but mypy cannot infer that.
-> +    if match and match.end() != len(prefix):
->          return prefix[match.end()]
->      return None
-
-High-level logic:
-
-       if there is an invalid prefix character:
-           return it
-       return None
-
-The actual code takes the return None when the match fails.  If this
-could happen, it would be wrong.  I can't, so it doesn't matter, but I
-dislike it anyway.
-
-Alternative 1: turn "match cannot be None" from comment to code
-
-       match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
-  +    assert match
-       if match.end() != len(prefix):
-           return prefix[match.end()]
-       return None
-
-Alternative 2: turn empty prefix into a special case
-
-  -    match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
-  +    match = re.match(r'[A-Za-z_.-][A-Za-z0-9_.-]*', prefix)
-  +    if not match:
-  +        return prefix[0]
-       if match.end() != len(prefix):
-           return prefix[match.end()]
-       return None
-
-I'd prefer alternative 1.
+Drawback: the public method's precondition is now more opaque.  Do we
+care?
 
 
