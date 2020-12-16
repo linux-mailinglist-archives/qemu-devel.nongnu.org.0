@@ -2,74 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1A92DC52D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:18:50 +0100 (CET)
-Received: from localhost ([::1]:54708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941732DC53C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:23:32 +0100 (CET)
+Received: from localhost ([::1]:41020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpaRt-00042K-7Z
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:18:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44676)
+	id 1kpaWR-0001hg-CL
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:23:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kpaN3-00079b-BK
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:13:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39269)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kpaN0-0006rj-G1
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:13:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608138825;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=U17Strg95D5goJPUI2TlPOsjx8Av2iVaE8U1on0OMus=;
- b=gY8qXMZKGeGQUcsR0l3jfo3bg4E8xS8CzZN2B2ziUOju/VYY2ys7AODIFcQN58hqQ2OUXE
- HKUDWfphiDynhwqwqDJQWP6eybxn3UnQ0ruKGH6EUolqMzr7xlrcK+i4/jxduecQwjQO+w
- Rlc89J4p0Lu0dbgjZikJWoZdR3fxnM4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-12vdUAkSM1eB0ulv5RYHCg-1; Wed, 16 Dec 2020 12:13:43 -0500
-X-MC-Unique: 12vdUAkSM1eB0ulv5RYHCg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8E9B1014E7D
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 17:13:42 +0000 (UTC)
-Received: from [10.10.116.117] (ovpn-116-117.rdu2.redhat.com [10.10.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 171591F4;
- Wed, 16 Dec 2020 17:13:39 +0000 (UTC)
-Subject: Re: [PATCH 04/12] qapi/gen: assert that _start_if is not None in
- _wrap_ifcond
-To: Markus Armbruster <armbru@redhat.com>
-References: <20201214235327.1007124-1-jsnow@redhat.com>
- <20201214235327.1007124-5-jsnow@redhat.com>
- <87a6uetavs.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <e5b561c5-8360-a54b-6720-c2822289d6b9@redhat.com>
-Date: Wed, 16 Dec 2020 12:13:38 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kpaPU-0001qT-49; Wed, 16 Dec 2020 12:16:20 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:55457)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kpaPR-0007LT-M4; Wed, 16 Dec 2020 12:16:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=7bSEUBH41T8dMh6P/n9HP/mPQFfzA2kEMPt38yU6vak=; 
+ b=nQs4fVTpy4HKvCD7PbiXIAo/L3QMVvpA/dwsz7Qw/nv8Sa0ne8GKUYy3VGJ/Vp3Y3uesPiqo4fFGz31TFrucFivtvSPzcS8fo/ncZRYsiEhQ9qG2GTWfIwSVRNobG16NcYQyGENJ3E2uB25aQ3xhK/Pwz22Rda1WbARfv6s6hxDIyTfc6NIKoxNHo9zj2r+ItND9kW5y/i9PD8Uji8djz1A0T3L7GkQ7A5QrbRrbcSmhaMNInatMnBeCfsx2g82Tvga943FoDoJ8VecXKRrs360ZGK57jJIY5WyGoaz19WiEaiuMnG+4gZ39PXdjsOOu7UU7+NmNOaE2rrAp0O3e1w==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kpaPM-0000VA-GU; Wed, 16 Dec 2020 18:16:12 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kpaPM-0002sI-66; Wed, 16 Dec 2020 18:16:12 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH v2 14/36] block: inline bdrv_child_*() permission
+ functions calls
+In-Reply-To: <20201127144522.29991-15-vsementsov@virtuozzo.com>
+References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
+ <20201127144522.29991-15-vsementsov@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Wed, 16 Dec 2020 18:16:12 +0100
+Message-ID: <w5136057jtv.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <87a6uetavs.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,50 +62,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/20 3:26 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> We already assert this in end_if, but that's opaque to mypy. Do it in
->> _wrap_ifcond instead. Same effect at runtime, but mypy can now infer
->> the type in _wrap_ifcond's body.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/gen.py | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
->> index b40f18eee3cd..a6dc991b1d03 100644
->> --- a/scripts/qapi/gen.py
->> +++ b/scripts/qapi/gen.py
->> @@ -130,11 +130,11 @@ def start_if(self, ifcond: List[str]) -> None:
->>           self._start_if = (ifcond, self._body, self._preamble)
->>   
->>       def end_if(self) -> None:
->> -        assert self._start_if
->>           self._wrap_ifcond()
->>           self._start_if = None
->>   
->>       def _wrap_ifcond(self) -> None:
->> +        assert self._start_if
->>           self._body = _wrap_ifcond(self._start_if[0],
->>                                     self._start_if[1], self._body)
->>           self._preamble = _wrap_ifcond(self._start_if[0],
-> 
-> Drawback: the public method's precondition is now more opaque.  Do we
-> care?
-> 
+On Fri 27 Nov 2020 03:45:00 PM CET, Vladimir Sementsov-Ogievskiy wrote:
+> Each of them has only one caller. Open-coding simplifies further
+> pemission-update system changes.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Ish. If you call end_if before start_if, what did you want to have happen?
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 
-Or more to the point: do you want the assertion in both places?
-
---js
-
+Berto
 
