@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9954A2DC2AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 16:03:48 +0100 (CET)
-Received: from localhost ([::1]:37954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F63D2DC2BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 16:09:28 +0100 (CET)
+Received: from localhost ([::1]:53848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpYLD-00065M-MO
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 10:03:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34108)
+	id 1kpYQh-0004Fv-6j
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 10:09:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kpYJk-0004O3-8P
+ id 1kpYJk-0004Of-Mz
  for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:02:16 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:36424)
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:44509)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kpYJi-0007UU-IA
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:02:15 -0500
-Received: by mail-ed1-x529.google.com with SMTP id b2so25163399edm.3
+ id 1kpYJj-0007Ue-1V
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:02:16 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id p22so25091661edu.11
  for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 07:02:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2rZGYORyv9W21igfeV17FlgKIscLvsjmR+GC11LOjM4=;
- b=Iv5EBKwBbn9Ab6UTbjSrEq0RikArbklrJMGuJHZIaZfHHxHgzybT2iyVOGv0XysOrY
- EMqubqO3fcYf2E23MZWxSK1Sz40R8VdW9JgQ2OUPFHbIro0aTIQeJIL8/RznPfoslJxA
- VtStDvt8Sm7wrVI78X75FW1edpQSnsJmVk8qRk0vfO40ManmR9u7ZFWE0krObf9dRAqN
- Z4CN4q5Iw9hDLp36OxaRt5ZQgFv5K7X3X5fyvv858+OqOPSO8T5y2GUuO/gmXafOVj5+
- wtyksSfM7RYQ2lYWH1lPka7DVNpbCFnhUZBQ88ynFIdbfPmH/suLkugQOToWB7fi+fNF
- MZqw==
+ bh=pMAHW/lOSnDs+tvYYnVBZJWjJu+36lZF4Eh2q1Iet6M=;
+ b=Mog/mIHNOpbWPB0rAcwbjXeBcZFINaeLUJmoGl4tS/JpqbbZzfSouMAjuIALAM2l8e
+ NtF0NLQMUB1YdVIa/HtxENlnD5noG0I3OVBVACJn16FsU0azWhpZPqLbAhWCyLfSNd7H
+ YYxNqIzcgcx3E5gaG90Eppu5ClRiDV8CcfAJDWkr6mZ3we+ZtR62cUAeApxy8EVpVOib
+ fgGhvRclenQEgTYx/RDZo4nzdesYZ/zf7auq9VH6ougWvuXKU1pUFFpUllwtg+R9RziN
+ tLo26+MaYvkv9eT2z10DfavP9tpBkAeSKmPBkxDPr8v5iFSVZer4Qs2v6AuqsT0Lke3Q
+ 3plQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2rZGYORyv9W21igfeV17FlgKIscLvsjmR+GC11LOjM4=;
- b=LgRMx+odHUj7UVNcCh1dll+tNhOPXDhCFESA/MEMu32AlMmbkQF8UOAs0EMILtONPI
- /+nbG8ZMeB49G0KrHitCafCZ5UrFeoOgZ+V3ZSnYmch+XL1DPhugM0vKoWZranPepL3d
- zUe6KRJ6ENl/S6AM+DKqqNqdYVGgrlOnvF+J24/lfkA/GFrZSUIbCG25r57rUMgC7/ZV
- Ut1tM1aSpAZuSyO40a1EwdEHkSMX9Q22DOcOj8158CFdEDlCpl+yKsmfY2S0VYtPGd8s
- 38ib3n5Lv8RYmauihwP6fB9TsMlXwgw4B0thJw6Xx1wkw9Gw15r+KaE2IGy03B1UUae5
- lAHQ==
-X-Gm-Message-State: AOAM533x2PYUl2I99IdZrr8qlBApdEYZ9XzXXpG8f8O2FebQhnP5S5k5
- u1oDOglZ0rjO3+pSWqyKJV+zZfmh344=
-X-Google-Smtp-Source: ABdhPJxOajUuKs1FzE1e3JzreJP1MYi5RxagzmRRxoscYpE45gQH66RIgVIESjx4jX5e0V1it8ExDw==
-X-Received: by 2002:a05:6402:318f:: with SMTP id
- di15mr34256357edb.237.1608130932892; 
- Wed, 16 Dec 2020 07:02:12 -0800 (PST)
+ bh=pMAHW/lOSnDs+tvYYnVBZJWjJu+36lZF4Eh2q1Iet6M=;
+ b=t4DtV5Zv369iBxEuRPa1U2fn78ymhjy4B/ZOXAw/yjQM3E06sxFdTVu6S1UaL3v0IW
+ xDMrLQyxqQ1jtdLufI2ILCegQqNBQnewGRH6QVzYkhAakWgMI8JbwnV0fjZx/TAXqLSm
+ 3XBvOxxqXkW4j3YrCwjsMfcgbrOWYwjadTtSCGt4jSegMQ65wISgG6u0upkZuIwi14PX
+ zCN2663LBUGh4/hEWkKRPf6ImRabNhoppcqlNzE77vrJFblPomuPEYJZ+RA6zhXiPjTm
+ 2aYYzd+Rs0NiUL3kdK5LwujveIrD0IbPYrORWvwYrO8vSL9R/BDBYfF/DDsSIx/uJ7ph
+ 5Mgg==
+X-Gm-Message-State: AOAM533zHZqidik4pv5w4AGIkOSsNEQ3oRFjvmmTocmi1OQ9UWq3/emc
+ Bd2oprfNzJ4PeFiCmPyfvYpqaAbE9uY=
+X-Google-Smtp-Source: ABdhPJwVoOBSeiig5gi5rBA/mtmRF/lpW6FugBaZGaaMSVvSA23ex/FE4vobefydKQuGs5YZWseb6Q==
+X-Received: by 2002:a05:6402:388:: with SMTP id
+ o8mr33867801edv.359.1608130933716; 
+ Wed, 16 Dec 2020 07:02:13 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id v24sm21397059edw.23.2020.12.16.07.02.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 07:02:12 -0800 (PST)
+ Wed, 16 Dec 2020 07:02:13 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/7] meson: fix detection of curses with pkgconfig
-Date: Wed, 16 Dec 2020 16:02:04 +0100
-Message-Id: <20201216150207.431437-5-pbonzini@redhat.com>
+Subject: [PATCH 5/7] meson: use pkg-config method for libudev
+Date: Wed, 16 Dec 2020 16:02:05 +0100
+Message-Id: <20201216150207.431437-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201216150207.431437-1-pbonzini@redhat.com>
 References: <20201216150207.431437-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,35 +88,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Do not bother asking CMake, this is a pkg-config dependency.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meson.build | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/meson.build b/meson.build
-index 39fc9b7143..ab622ae8bd 100644
+index ab622ae8bd..0b36fb38f1 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -500,16 +500,16 @@ if have_system and not get_option('curses').disabled()
-     endif
-   endforeach
-   msg = get_option('curses').enabled() ? 'curses library not found' : ''
-+  curses_compile_args = ['-DNCURSES_WIDECHAR']
-   if curses.found()
--    if cc.links(curses_test, dependencies: [curses])
--      curses = declare_dependency(compile_args: '-DNCURSES_WIDECHAR', dependencies: [curses])
-+    if cc.links(curses_test, args: curses_compile_args, dependencies: [curses])
-+      curses = declare_dependency(compile_args: curses_compile_args, dependencies: [curses])
-     else
-       msg = 'curses package not usable'
-       curses = not_found
-     endif
-   endif
-   if not curses.found()
--    curses_compile_args = ['-DNCURSES_WIDECHAR']
-     has_curses_h = cc.has_header('curses.h', args: curses_compile_args)
-     if targetos != 'windows' and not has_curses_h
-       message('Trying with /usr/include/ncursesw')
+@@ -399,6 +399,7 @@ endif
+ libudev = not_found
+ if targetos == 'linux' and (have_system or have_tools)
+   libudev = dependency('libudev',
++                       method: 'pkg-config',
+                        required: get_option('libudev'),
+                        static: enable_static)
+ endif
 -- 
 2.29.2
 
