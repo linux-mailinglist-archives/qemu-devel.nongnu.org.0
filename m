@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D122DC6C9
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 19:55:22 +0100 (CET)
-Received: from localhost ([::1]:47496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 714B02DC6CD
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 19:58:21 +0100 (CET)
+Received: from localhost ([::1]:50940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpbxJ-0003W6-95
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 13:55:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41756)
+	id 1kpc0C-0005Dv-H3
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 13:58:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kpbw1-0002rz-68
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 13:54:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35468)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kpbvy-0005Mt-QO
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 13:54:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608144836;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1YGO8Fztcd+iO8PdJh/8UQ6whHCwMUGGAahaRHA4rbM=;
- b=C5s1LFU2qeiVDHXIsvhIJ4a2EjpbXa1qx8JyOD5KzbsCtLSvbFGmPKURde8JrjeadCSBXL
- 7TujNUdWOFsR68LuWNMVdWqAwVKNa14ar0iYzjTKk/f6xxafM3Jjq8ewNv8iPgf0KyaLzI
- s+gaiRRPVYzm2U7dHjDBD8c3EsDpvN4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-8q1N2gk9PxCNNVh2Yb8l4Q-1; Wed, 16 Dec 2020 13:53:54 -0500
-X-MC-Unique: 8q1N2gk9PxCNNVh2Yb8l4Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA917107ACE6;
- Wed, 16 Dec 2020 18:53:53 +0000 (UTC)
-Received: from work-vm (ovpn-115-143.ams2.redhat.com [10.36.115.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F3F855D9CD;
- Wed, 16 Dec 2020 18:53:52 +0000 (UTC)
-Date: Wed, 16 Dec 2020 18:53:50 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 01/20] hmp: Simplify how qmp_human_monitor_command() gets
- output
-Message-ID: <20201216185350.GE3008@work-vm>
-References: <20201211171152.146877-1-armbru@redhat.com>
- <20201211171152.146877-2-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kpbzI-0004kO-FC
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 13:57:25 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:34339)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kpbzE-00062X-MX
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 13:57:24 -0500
+Received: by mail-ed1-x529.google.com with SMTP id dk8so26002905edb.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 10:57:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eF3aXop0uYVMrDEt1AO7eAefMb+zk6D8ufN+A7dufPs=;
+ b=PxljgIi/dBWLkDwKpZ29LedMuBXtvoTwAlE7QKxAzxsHBVi4zj+mJ47Xn1qFrPhcg4
+ LIYODJzE2QMVSrBAyE1/M6oT5dXFy9jOYCPGsVOWdWSfkaN42wnfwp2u3mHXHJ6iLwSD
+ mjZOUJMzvfNTAdUBpnxufS7Nw8ozcG8gr254i7I3Gb0atBK+TnFJZPjz7eWql/cgwNHJ
+ BPfBHN/2g1Ru9W0wpmRC4DFW9FIo8yA7sCeU3DkPejqMmDEIlYjzcC33MQO322pxmhOc
+ Tol+yzzUmdR0uB2VhWRQdFRrYpuIsgrefyZ0dTQrZe6X8KzoRSWaY3IbMvXPPlzm1v0d
+ 1gGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eF3aXop0uYVMrDEt1AO7eAefMb+zk6D8ufN+A7dufPs=;
+ b=tv7XXz70DA0GvI09tDn/OHjJfU4gIcNEKC9dPbg5bh5JpLkfM8MRVsYO/b8Sj1sJio
+ ekAlTrAJAtPRmuZ2b6xnSJRlxBt3Lbz/+dugMHizUVAzZlz7XM0TetJzDrugdydJRMM7
+ CIeDIwgTuTw4u+uYLCramn/yGwaGH7jq8OocLhd1UZJxQ2O5GxhXRAcGoiR2XZ5MBV5a
+ Nqwo1GZM1vMB2GxwdKU4xUYc2uD+Zc0RxLrnuUzc4bnbRdbhR2F5d2sYv5hQZ4sNCELI
+ s6o/JmcwXU8lOJ+BmQgrPQjlS1GQJb4x25IVn0iG6RISlGX4n06IpQOaTLveqYpvsm1i
+ 9+GQ==
+X-Gm-Message-State: AOAM533Q5zVj5rq4Un14tTx5AhEsmgrHgLYITbeeyhSXPDFbrJAH4eyt
+ snDkYHsm6AdhpEPPPohIdGRlf5CS8jppNLzYvAgQXQ==
+X-Google-Smtp-Source: ABdhPJy1msP8NBXfcFe6x1y8jamw9to4kgCKuZ4bUhDHI7rm7RXccSyThQu8IE18f72G4cZBmJvpca9SzUIv8D5445E=
+X-Received: by 2002:aa7:c388:: with SMTP id k8mr8068315edq.36.1608145037695;
+ Wed, 16 Dec 2020 10:57:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201211171152.146877-2-armbru@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20201216164827.24457-1-alex.bennee@linaro.org>
+ <87ft45sj61.fsf@linaro.org>
+In-Reply-To: <87ft45sj61.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 16 Dec 2020 18:57:06 +0000
+Message-ID: <CAFEAcA9iXp8z_L-t6Y_kVfRMJf9a6MGMJVsLNVwzq6VfO9-Xmg@mail.gmail.com>
+Subject: Re: [PULL 00/11] testing and configure updates
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,45 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> Commit 48c043d0d1 "hmp: human-monitor-command: stop using the Memory
-> chardev driver" left us "if string is non-empty, duplicate it, else
-> duplicate the empty string".  Meh.  Duplicate it unconditionally.
-> 
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On Wed, 16 Dec 2020 at 18:24, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+>
+> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>
+> > The following changes since commit af3f37319cb1e1ca0c42842ecdbd1bcfc64a=
+4b6f:
+> >
+> >   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstrea=
+m' into staging (2020-12-15 21:24:31 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://github.com/stsquad/qemu.git tags/pull-testing-161220-1
+> >
+> <snip>
+> >   - hotfix for centos8 powertools repo
+>
+> As you have noted this requires the cached copy to be deleted. I'm not
+> sure if it's worth handling that in code or if you just do that manually
+> before you merge?
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+I would prefer it if the gitlab CI infra Just Worked. I don't
+want to be manually messing around with it...
 
-> ---
->  monitor/misc.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index 398211a034..6c3e8506a9 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -136,11 +136,7 @@ char *qmp_human_monitor_command(const char *command_line, bool has_cpu_index,
->      handle_hmp_command(&hmp, command_line);
->  
->      WITH_QEMU_LOCK_GUARD(&hmp.common.mon_lock) {
-> -        if (qstring_get_length(hmp.common.outbuf) > 0) {
-> -            output = g_strdup(qstring_get_str(hmp.common.outbuf));
-> -        } else {
-> -            output = g_strdup("");
-> -        }
-> +        output = g_strdup(qstring_get_str(hmp.common.outbuf));
->      }
->  
->  out:
-> -- 
-> 2.26.2
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+-- PMM
 
