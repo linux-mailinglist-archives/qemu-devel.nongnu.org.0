@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAB52DC3F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:22:10 +0100 (CET)
-Received: from localhost ([::1]:45008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2D02DC3F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:22:15 +0100 (CET)
+Received: from localhost ([::1]:45362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpZZ3-0003oC-H9
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:22:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58794)
+	id 1kpZZ8-0003x1-HH
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:22:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpZWu-0001xO-Hp
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:19:56 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33924)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kpZX9-00028l-EP
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:20:11 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:33173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpZWs-0006Sn-Mm
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:19:56 -0500
-Received: by mail-wr1-x431.google.com with SMTP id q18so16237102wrn.1
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:19:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=NZu5bw3IUBTSMTVQ9xxZ3UQaYvaV750g3pX6MW8abSY=;
- b=dy28pI/mWHdtET6rvvM5iJK4NyJI+FlhTOqAxXyAwyJz98907w9IE3eBm8jT/uB3j8
- VbRk0YfkJt8zioWz4kgyLgWR6gdoe0RqmT70YSwKizdmH3P+WY3kJim0m/PFl6Ypuf2x
- ThiYqkbBbIOGLczDUh5NkiG1lKItydEXN0TQqjYl68znVWnVofIkk4XOOxry5OxBVR6K
- JGYpD4aKyAh5lQ6rWq2ycDCf+FuNlbZJa9air5mp0Liqrz/U4UYQE8tzf+bao1DJ+/lm
- kalaLWQALpJJ+U1607R5FR91HCCJuNJR7BBCGbBbY0ijn/TR1OPquv0fxuLTFENl4pur
- l5Xw==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kpZX7-0006UP-Mh
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:20:11 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id b9so8638585ejy.0
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:20:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wriHtt7qiXwOsKyET9M1f7QWc8pzHgf4bO+e20Nf8bY=;
+ b=D1E5zGm3SvpZuVWrff4jJ40NqoMC/mevLVPpRHYVtsmveh6jdrkGN2k7GsPaeYi56D
+ ysJjE36s8gIjeiq32T5ki/R5SLZqm2VCJLIt0PV/Z1FlpdACXm52eaewnEsaZ+A5UjLl
+ 1frIMaEhXs3iRF+DWAouSJVORW+lsDLm9basXPqLFs7Dp3SyNcukdPhLU2ScMwuPiWrb
+ UV12EadfaYvF+70YdMCrt0CPui713PPHE+kVM7hVwK3VfUm13+OqwCsc3AZ8MTlUw7NO
+ SWRM7kCuJisD8AEH4JVwN/yV6BKUbZ2lJzxFs8BWUGxArR98T/yoros4ZjtcJrYc0RL/
+ BW3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=NZu5bw3IUBTSMTVQ9xxZ3UQaYvaV750g3pX6MW8abSY=;
- b=pjorIxaxZ+JJbRqDuKDN8spxMswm9Faf3infK/uvRi59ELOwvlxjiuRyiqCwbBxVxz
- gSFRAMRKytTqamKcrxV2+OVAvROYMGjSogNJstPkrz+tVjXZiTZcDHoos6OZHw/eb3ES
- 8XqvAjpMIjkQMRG2BXFFnWyS4hRAVz+i4S1nTSC7Cl1/cJc3qUSK7KMk21KghLhfF0RZ
- AkMEEk5OD5t0/reXyJScvTtwsfXESkVBKvgF9xlI/953Ag+lE5UEizD0fpWBWiav7vxh
- xM1LGMU/xtK7xzwpizi5FkWvehkuZXvVZ+L+ECm230vUexFJecQt3K4Ee3XFqaRUqC2U
- 0hgQ==
-X-Gm-Message-State: AOAM531bgkxjyUJiD+BELvdlWWg72Bf0jpjpBcJgeR53o31GnVKmW03h
- 9J5dYGzCZv9bStxVQaCaNR86kw==
-X-Google-Smtp-Source: ABdhPJxU0+GQCoICGneJ0ozw77MV5J+UxSgEvoPWfqf0ytZ1AZWz7TGC5eG3NClsHC1z9xf5ullLjA==
-X-Received: by 2002:a5d:62c8:: with SMTP id o8mr39955710wrv.51.1608135593153; 
- Wed, 16 Dec 2020 08:19:53 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z6sm3282212wmi.15.2020.12.16.08.19.52
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=wriHtt7qiXwOsKyET9M1f7QWc8pzHgf4bO+e20Nf8bY=;
+ b=NW3Sde7ykbNeBifv1KJYu4u1rguGydRd6yK1toNZktrvxBtb7Aoa/QBot2Fbd1bnxw
+ fJ7lGQDCds1BIaP7/zqbKK8TH0BObAR+w/3vHpEKXggKy09L4M6EugtZQ4xZ496+cKln
+ QSqaGBt3sgnJNKLNP9j70gfC+DFQ1C2HlOReAqV3PLBpwa2RoLAEaISh7SUOCd21nR1v
+ 2IEKkbQibMA3Zh2v5rjvftmJlIUQfpKikH3eNOdcpErpiJnqpPgbB8/sc1vsn5ZCtpmS
+ CN4HV+0p59afQLeigrUJ5guxJrEGgU1a5wOm8N050yJGUFmsmzLGuJrdcthwxzjQCrlK
+ ovzQ==
+X-Gm-Message-State: AOAM5310kCBO3J/F/OLNqVJxufcDxrsHBJ6KwJnvXCDULC5u8urTpiy/
+ 8SjeOcUpBGubX/WJXf1x0DVsBpDqBxo=
+X-Google-Smtp-Source: ABdhPJzZQ8AyrpEnNkdvk3PRHfpcKjZkamSLipFDsUl7pQmpn1xzzvRnBW5pK+oujiahdjJHdRjTxw==
+X-Received: by 2002:a17:906:2898:: with SMTP id
+ o24mr14933844ejd.215.1608135608363; 
+ Wed, 16 Dec 2020 08:20:08 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id a13sm21264501edb.76.2020.12.16.08.20.07
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 08:19:52 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6C38A1FF7E;
- Wed, 16 Dec 2020 16:19:51 +0000 (GMT)
-References: <20201216141653.213980-1-berrange@redhat.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH] tests: update for rename of CentOS8 PowerTools repo
-Date: Wed, 16 Dec 2020 16:19:39 +0000
-In-reply-to: <20201216141653.213980-1-berrange@redhat.com>
-Message-ID: <87r1npsoyg.fsf@linaro.org>
+ Wed, 16 Dec 2020 08:20:07 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/7] First round of meson bugfixes and cleanups for 6.0
+Date: Wed, 16 Dec 2020 17:19:59 +0100
+Message-Id: <20201216162006.433850-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,56 +83,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Mostly switching to 0.56.0 in order to remove the b_staticpic
+version-dependent hack.
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Paolo Bonzini (7):
+  Makefile: add dummy target for build.ninja dependencies
+  meson: update submodule to 0.56.0
+  meson: switch minimum meson version to 0.56.0
+  meson: fix detection of curses with pkgconfig
+  meson: use pkg-config method for libudev
+  meson: use dependency to gate block modules
+  meson: cleanup Kconfig.host handling
 
-> This was intentionally renamed recently to be all lowercase:
->
-> https://bugs.centos.org/view.php?id=3D17920
-> https://wiki.centos.org/Manuals/ReleaseNotes/CentOS8.2011#Yum_repo_file_a=
-nd_repoid_changes
->
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->
-> This needs to be merged asap, as CI will break for anyone whose branch
-> triggers a rebuild of the centos container image.
+ Makefile                      |   1 +
+ accel/Kconfig                 |   9 +++
+ block/meson.build             |  20 +++----
+ configure                     |   7 +--
+ docs/devel/kconfig.rst        |  19 +++----
+ docs/meson.build              |  12 ++--
+ meson                         |   2 +-
+ meson.build                   | 104 +++++++++++++++-------------------
+ plugins/meson.build           |   4 +-
+ tests/meson.build             |   2 +-
+ tests/qapi-schema/meson.build |   4 +-
+ tests/qtest/meson.build       |   2 +-
+ trace/meson.build             |   4 +-
+ 13 files changed, 91 insertions(+), 99 deletions(-)
 
-Your in luck, Queued to pr/161220-testing-1, thanks.
+-- 
+2.29.2
 
->
-> eg current broken git master:
->
->   https://gitlab.com/berrange/qemu/-/jobs/915852165
->
-> vs with this fix
->
->   https://gitlab.com/berrange/qemu/-/jobs/915862731
->
->  tests/docker/dockerfiles/centos8.docker | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/docke=
-rfiles/centos8.docker
-> index 54bc6d54cd..06b67962fd 100644
-> --- a/tests/docker/dockerfiles/centos8.docker
-> +++ b/tests/docker/dockerfiles/centos8.docker
-> @@ -31,6 +31,6 @@ ENV PACKAGES \
->      zlib-devel
->=20=20
->  RUN dnf install -y dnf-plugins-core && \
-> -  dnf config-manager --set-enabled PowerTools && \
-> +  dnf config-manager --set-enabled powertools && \
->    dnf install -y $PACKAGES
->  RUN rpm -q $PACKAGES | sort > /packages.txt
-
-
---=20
-Alex Benn=C3=A9e
 
