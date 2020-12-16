@@ -2,57 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6E452DC3B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:05:18 +0100 (CET)
-Received: from localhost ([::1]:35010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B542DC3C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:09:32 +0100 (CET)
+Received: from localhost ([::1]:42536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpZIj-0003f3-HR
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:05:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53974)
+	id 1kpZMp-0007VY-NA
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:09:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kpZH6-0002h1-3v
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:03:36 -0500
-Received: from mga07.intel.com ([134.134.136.100]:35137)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kpZGy-0003Ej-9J
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:03:35 -0500
-IronPort-SDR: dYRXA+TTI9UIV7zOLzRdVvQT3UDjaONLt0PAJB/0++vmwMrc2EbjU4D1HAOP7BJhCvx/wOlyC2
- J19jGMl1j/2w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9837"; a="239180740"
-X-IronPort-AV: E=Sophos;i="5.78,424,1599548400"; d="scan'208";a="239180740"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2020 08:03:17 -0800
-IronPort-SDR: li7Zx/6+2YBRyzbc4bSbjF3X5M2RHtWqWCZVCF+ZgV6cUWFTwBmYqHPTtLKLLQOdkX5qyFT7EP
- iQMS0Cl3NnEg==
-X-IronPort-AV: E=Sophos;i="5.78,424,1599548400"; d="scan'208";a="352644786"
-Received: from gviswana-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.252.134.60])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2020 08:03:16 -0800
-Date: Wed, 16 Dec 2020 08:03:14 -0800
-From: Ben Widawsky <ben.widawsky@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: CXL support in QEMU
-Message-ID: <20201216160314.m72v7ynqnv3opu6s@intel.com>
-References: <CALOWxgPkoiR9jHSP-S+hYkWZb89xi8kLVY4vsHqTMzpg6Sv=jQ@mail.gmail.com>
- <07f753bd-45d8-d65d-6195-25f9dfb74795@redhat.com>
- <20201216134251.000052d0@Huawei.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kpZLh-000755-7F
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:08:21 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33811)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kpZLf-0004Xt-4V
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:08:20 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id q18so16199775wrn.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:08:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BfhSyFtyA3MFiwC8Arwd3ARykKukVO08yS5+MWrEIjs=;
+ b=I6iFCnhHhkjL/x+6hMglq2JZUlv5HCFo/w1imbo8iPH7Av742rrjtA15PPJkgPVMQU
+ TfYkvBEKJLSOAluUWRlEQcjDsABZ5FeNQDLuQHifTHvuiX+0q+O1qmLHUzXiq+u6X0lf
+ Oy4mbrxVBube7dwtR/TGT3NZxIdU1nfFrE3le9NMT6gMOmVFMSWrxN/3+Lr49NhntUn8
+ +YtU2YKzTYImuli5ESXv/qM+z0dXs3uZHz0If7khNXNYOnS7Qr46YW/P3rM27/td9nsI
+ UaZAyMokOxMz8A6eGT3TQLuFBKrwMWTGKvNHlHZQDEdIXGknt+JOVpDN0//BhSnVoVzk
+ Qdlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BfhSyFtyA3MFiwC8Arwd3ARykKukVO08yS5+MWrEIjs=;
+ b=flPAGKeQJilxysj8MUmJLmiFvdcN20FneWp/RL6/QIXtr8KkxjjMYpdoa3RZskR9na
+ L5RXB0l0EHlH1TzLZJmN9vjZRc1tsAjUhKzb4e3TeQMHGND/MFbbWVhdwsxgo47DB5CP
+ HcQisfFek8ybgQbW+HLTFwFtmMzV4zuEtJGF5n6GfN1uk3XY4EFBF140ctOMUmjR+JOi
+ lnyBUBHd97pPbFGS81iFylYXXPRsSLDuO74cO9we3cfIUz7uh4MzgKlzd9JowG9u2pfA
+ KqphAZ4t/nCpQslBV+xke/lfwGhXxs+/TSegR3CoXU1kdrnsOwMF8JIgVbc/2PInPHFR
+ CpyQ==
+X-Gm-Message-State: AOAM532BNKXOB604LjeKmaPALDru+LQYYcUfTWLaRPDK2YLmoAVvROJr
+ CEM7qzdFds3NMQiprYZ4YIs=
+X-Google-Smtp-Source: ABdhPJz6lScoOAamvD3Oq3LRaOaf2G/2K5Y/0UGiP55iZPfBRHsW+/641YReaNkqMhnsrUqKLa5n+g==
+X-Received: by 2002:a5d:63c8:: with SMTP id c8mr22966905wrw.5.1608134897149;
+ Wed, 16 Dec 2020 08:08:17 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id z64sm3368036wme.10.2020.12.16.08.08.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Dec 2020 08:08:16 -0800 (PST)
+Subject: Re: [PATCH 02/11] target/mips/mips-defs: Use ISA_MIPS3 for ISA_MIPS64
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20201216134328.851840-1-f4bug@amsat.org>
+ <20201216134328.851840-3-f4bug@amsat.org>
+ <ccdc8892-c97b-593f-8d53-28ac97100438@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8bec609c-102b-f9f6-bc08-404537dca56a@amsat.org>
+Date: Wed, 16 Dec 2020 17:08:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201216134251.000052d0@Huawei.com>
-Received-SPF: pass client-ip=134.134.136.100;
- envelope-from=ben.widawsky@intel.com; helo=mga07.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <ccdc8892-c97b-593f-8d53-28ac97100438@flygoat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,46 +90,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prashant V Agarwal <agpr123@gmail.com>, Thomas Huth <thuth@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20-12-16 13:42:51, Jonathan Cameron wrote:
-> On Wed, 16 Dec 2020 10:53:34 +0100
-> Thomas Huth <thuth@redhat.com> wrote:
+On 12/16/20 4:06 PM, Jiaxun Yang wrote:
+> 在 2020/12/16 21:43, Philippe Mathieu-Daudé 写道:
+>> MIPS 64-bit ISA is introduced with MIPS3.
+>> No need for another bit/definition to check for 64-bit.
+>>
+>> Simplify CPU_MIPS64 definition as CPU_MIPS5 contains
+>> CPU_MIPS4 which contains CPU_MIPS3 which contains ISA_MIPS3.
 > 
-> > On 16/12/2020 06.05, Prashant V Agarwal wrote:
-> > > Hi,
-> > > Is there a way to know the support plans for CXL protocol in QEMU?
-> > > I see that there is side branch development going on:
-> > > 
-> > > https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v2
-> > > <https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v2>
-> > > 
-> > > But when does it get merged and gets released in QEMU formally?
-> > > Is there a way to know a rough timeline?  
-> > 
-> > You should rather the authors of that repository whether and when they plan
-> > to contribute their changes to the QEMU project. It's certainly not going to
-> > happen automatically that these patches get merged into the main repository.
-> > 
-> >  Thomas
-> > 
-> Worth noting that they have posted an RFC, so I would suggest replying to
-> that thread to make sure you get all the right people.
+> Oops, I shall amend my reviewed by tag, just found a issue.
 > 
-> https://lore.kernel.org/qemu-devel/20201111054724.794888-1-ben.widawsky@intel.com/#r
+>>
+>> Suggested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   target/mips/mips-defs.h |  5 ++---
+>>   hw/mips/boston.c        |  2 +-
+>>   target/mips/translate.c | 10 +++++-----
+>>   3 files changed, 8 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
+>> index f4d76e562d1..2756e72a9d6 100644
+>> --- a/target/mips/mips-defs.h
+>> +++ b/target/mips/mips-defs.h
+>> @@ -19,12 +19,11 @@
+>>    */
+>>   #define ISA_MIPS1         0x0000000000000001ULL
+>>   #define ISA_MIPS2         0x0000000000000002ULL
+>> -#define ISA_MIPS3         0x0000000000000004ULL
+>> +#define ISA_MIPS3         0x0000000000000004ULL /* 64-bit */
+>>   #define ISA_MIPS4         0x0000000000000008ULL
+>>   #define ISA_MIPS5         0x0000000000000010ULL
+>>   #define ISA_MIPS32        0x0000000000000020ULL
+>>   #define ISA_MIPS32R2      0x0000000000000040ULL
+>> -#define ISA_MIPS64        0x0000000000000080ULL
+>>   #define ISA_MIPS64R2      0x0000000000000100ULL
+>>   #define ISA_MIPS32R3      0x0000000000000200ULL
+>>   #define ISA_MIPS64R3      0x0000000000000400ULL
+>> @@ -78,7 +77,7 @@
+>>     /* MIPS Technologies "Release 1" */
+>>   #define CPU_MIPS32      (CPU_MIPS2 | ISA_MIPS32)
+>> -#define CPU_MIPS64      (CPU_MIPS5 | CPU_MIPS32 | ISA_MIPS64)
+>> +#define CPU_MIPS64      (CPU_MIPS5 | CPU_MIPS32)
+>>     /* MIPS Technologies "Release 2" */
+>>   #define CPU_MIPS32R2    (CPU_MIPS32 | ISA_MIPS32R2)
+>> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+>> index c3b94c68e1b..f44f681fab5 100644
+>> --- a/hw/mips/boston.c
+>> +++ b/hw/mips/boston.c
+>> @@ -463,7 +463,7 @@ static void boston_mach_init(MachineState *machine)
+>>           exit(1);
+>>       }
+>>   -    is_64b = cpu_type_supports_isa(machine->cpu_type, ISA_MIPS64);
+>> +    is_64b = cpu_type_supports_isa(machine->cpu_type, ISA_MIPS3);
+>>         object_initialize_child(OBJECT(machine), "cps", &s->cps,
+>> TYPE_MIPS_CPS);
+>>       object_property_set_str(OBJECT(&s->cps), "cpu-type",
+>> machine->cpu_type,
+>> diff --git a/target/mips/translate.c b/target/mips/translate.c
+>> index 15265485f76..8c0ecfa17e1 100644
+>> --- a/target/mips/translate.c
+>> +++ b/target/mips/translate.c
+>> @@ -8538,7 +8538,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv
+>> arg, int reg, int sel)
+>>       const char *register_name = "invalid";
+>>         if (sel != 0) {
+>> -        check_insn(ctx, ISA_MIPS64);
+>> +        check_insn(ctx, ISA_MIPS3);
+>>       }
 > 
-> +CC Ben
-> 
+> I think these ISA_MIPS64 should mean ISA_MIPS_R1?
 
-I haven't posted v2 yet because I have a few more changes I wanted to make
-before doing so, however v2 has all of Jonathan's feedback plus a few minor
-things.
-
-Thomas, it's been CC'd to a few folks outside of the list itself, but I couldn't
-get much in the way of reviewers. Advice on that is welcome.
-
-Ben
+Good catch, thanks.
 
