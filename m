@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E732DBE64
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 11:12:50 +0100 (CET)
-Received: from localhost ([::1]:36224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6823A2DBE7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 11:20:31 +0100 (CET)
+Received: from localhost ([::1]:41466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpTnd-0005bY-CH
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 05:12:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42956)
+	id 1kpTv4-00084B-2g
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 05:20:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kpTmH-00054P-EP; Wed, 16 Dec 2020 05:11:25 -0500
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:43384)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kpTmF-0001s9-9d; Wed, 16 Dec 2020 05:11:25 -0500
-Received: by mail-yb1-xb2d.google.com with SMTP id y128so2203369ybf.10;
- Wed, 16 Dec 2020 02:11:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V9sjYrSs+RoLX+9YkeKZRUdOLj0H9yq0vm1vyMQxbrs=;
- b=Ljh1Kx+XKskMEGhpkHoOCznJyQBYY6EhzwjFbcxM5ZKOEfq5Q/lZn3RmSiwhFCF0N6
- YwCGM1WtNkkngYBJP4WDVRYud80D/VE7naMZUc4KXP/RuTHGXdBF6CBlRxCVf7/ntRix
- w/QIGshZfDprgqdhrjFmCGR3WHsti1OylHt5T25+wB7Xk5eB7uoFCWxLnD1SdhXlXsxu
- PjOQNzzXVtQx3qHbJnOKL8wHn9Nv/BsTbEvzKcZp2+lAsRoVWd1TrP9/Gz8Z0tmqnevK
- xcLQrExJ0jdfuTeei6/jcV4Q2XAwCGIpfWs8nMrnqLxQjncRQGuXOpXAJ9OCX3FiQ1Ro
- J+iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=V9sjYrSs+RoLX+9YkeKZRUdOLj0H9yq0vm1vyMQxbrs=;
- b=PREmt9tRL7KBKT9lnR7e5LpWIpAWkl63GMWrjyEcP46cgjGqb6rFvQKyj5+vR4Jhbm
- MKN/9TdByvbjmJVaxJO4YzhSS+mv+zDSl61/k1cn8Jy9dA3qqfcZ5h3b+JAR/rktl8Gs
- Hq2ZhX2o5sLTzKTN0nNfLUSj9kMpWfb/drzDRLZsEy1fTwL5oBe60tHQfIY+HrGToF6V
- 1GZNSLqqiGuAfdQISzzWlXpWzX1m7rTdSV8UNuFa7do5hTwjV55lp/doXw++5vATUCle
- kbHYEaW6dRrtBlH/pPKIiqdD0ysW1xwYzmYEU787qCErGEHn2yk9hKWT+GFcJ1KboDa6
- qTzA==
-X-Gm-Message-State: AOAM533X8bdaWY4fvjyzJwlOAF6SPqLca6KIqFQC/gVBw/ftXyiHqDmZ
- jn3gGvJX9kQ1p4YthXjBtVkxx/A1aE8NkHEgf/0=
-X-Google-Smtp-Source: ABdhPJwv39wavtFvN4859EPtZcbn9Wsk5RWzxHr5leS3ob1UnC6FN0mdpxpROUuNOHxjlrFBNwMGbNZcLP0NNPAuwWY=
-X-Received: by 2002:a25:4744:: with SMTP id u65mr52957888yba.239.1608113480989; 
- Wed, 16 Dec 2020 02:11:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpTto-0007H1-7C
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 05:19:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54427)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpTtl-0004La-Kb
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 05:19:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608113948;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=NyoYEzXAfUmOucNAioVFmscjTTZCXeBNzcLiQri/xDg=;
+ b=Qs9o6CONVvsts17PUEzQhnv4ycZrB8E8nYf63TxaPZyYKiLoJszay1FXc+epo3C2fSlBEB
+ Fz2N7hwriuX7t8Sdtvw3KJDTXEm2nbnneqzB7lHkIFTiLm9ViXAXMx89noh02ynUcYjPwR
+ YzMpYvf9vrqK1Ormf/bnW91ucLejlJg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-1gkBhUqiMcyV5RdDSEp8SA-1; Wed, 16 Dec 2020 05:19:05 -0500
+X-MC-Unique: 1gkBhUqiMcyV5RdDSEp8SA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 662641927805
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 10:19:04 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BD775D719;
+ Wed, 16 Dec 2020 10:19:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B11B611329A5; Wed, 16 Dec 2020 11:18:58 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH 08/12] qapi/schema: make QAPISourceInfo mandatory
+References: <20201214235327.1007124-1-jsnow@redhat.com>
+ <20201214235327.1007124-9-jsnow@redhat.com>
+Date: Wed, 16 Dec 2020 11:18:58 +0100
+In-Reply-To: <20201214235327.1007124-9-jsnow@redhat.com> (John Snow's message
+ of "Mon, 14 Dec 2020 18:53:23 -0500")
+Message-ID: <875z52rr3h.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20201204104652.GA16865@fralle-dell>
- <CAEUhbmWAFf2sJLfb4i5JxhQgT88cVf54AzREuGrn+0C17ShxoQ@mail.gmail.com>
- <20201204112847.GA16964@fralle-dell>
- <CAEUhbmVo268ks+t1tLBcNLFYs4DAM6hexhYzXx=2B+YU31kR3w@mail.gmail.com>
- <20201211151641.GA12361@fralle-msi>
- <CAEUhbmXMfETY2LOkDn3x8a9ia74+hQgkEh4jbC8yKamP+qBFJw@mail.gmail.com>
- <20201211161146.GB12361@fralle-msi>
- <CAEUhbmXsZtGnMrw5gNJM=Gvqg3GQFejsfsggbTOpY+6eYLiBAg@mail.gmail.com>
- <20201212092406.GA32260@fralle-msi>
- <CAEUhbmUNZ5gctB+MEVfbrfmiZBOzm8unCEn+DZJjsMjcY_YGxg@mail.gmail.com>
- <20201215164051.GA9899@fralle-msi>
-In-Reply-To: <20201215164051.GA9899@fralle-msi>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 16 Dec 2020 18:11:08 +0800
-Message-ID: <CAEUhbmWNHBvH5Dsgc3H3uL7832-DqVSn_Y20LnHgFMfcEVK0sA@mail.gmail.com>
-Subject: Re: [PATCH] hw/block: m25p80: Fix fast read for SST flashes
-To: Francisco Iglesias <frasse.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2d.google.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,203 +80,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair23@gmail.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Francisco,
+John Snow <jsnow@redhat.com> writes:
 
-On Wed, Dec 16, 2020 at 12:40 AM Francisco Iglesias
-<frasse.iglesias@gmail.com> wrote:
+> --
 >
-> Hello Bin,
+> events.py had an info to route, was it by choice that it wasn't before?
+
+See below.
+
+I figure this is intentionally below the -- line, but ...
+
+> Signed-off-by: John Snow <jsnow@redhat.com>
+
+... this should be above it.
+
+> ---
+>  scripts/qapi/events.py |  2 +-
+>  scripts/qapi/schema.py | 23 +++++++++++++----------
+>  scripts/qapi/types.py  |  9 +++++----
+>  scripts/qapi/visit.py  |  6 +++---
+>  4 files changed, 22 insertions(+), 18 deletions(-)
 >
-> On [2020 Dec 12] Sat 17:44:27, Bin Meng wrote:
-> > Hi Francisco,
-> >
-> > On Sat, Dec 12, 2020 at 5:24 PM Francisco Iglesias
-> > <frasse.iglesias@gmail.com> wrote:
-> > >
-> > > Hi bin,
-> > >
-> > > On [2020 Dec 12] Sat 16:16:59, Bin Meng wrote:
-> > > > Hi Francisco,
-> > > >
-> > > > On Sat, Dec 12, 2020 at 12:11 AM Francisco Iglesias
-> > > > <frasse.iglesias@gmail.com> wrote:
-> > > > >
-> > > > > Hello Bin,
-> > > > >
-> > > > > On [2020 Dec 11] Fri 23:29:16, Bin Meng wrote:
-> > > > > > Hi Francisco,
-> > > > > >
-> > > > > > On Fri, Dec 11, 2020 at 11:16 PM Francisco Iglesias
-> > > > > > <frasse.iglesias@gmail.com> wrote:
-> > > > > > >
-> > > > > > > Hello Bin,
-> > > > > > >
-> > > > > > > On [2020 Dec 11] Fri 14:07:21, Bin Meng wrote:
-> > > > > > > > Hi Francisco,
-> > > > > > > >
-> > > > > > > > On Fri, Dec 4, 2020 at 7:28 PM Francisco Iglesias
-> > > > > > > > <frasse.iglesias@gmail.com> wrote:
-> > > > > > > > >
-> > > > > > > > > Hello Bin,
-> > > > > > > > >
-> > > > > > > > > On [2020 Dec 04] Fri 18:52:50, Bin Meng wrote:
-> > > > > > > > > > Hi Francisco,
-> > > > > > > > > >
-> > > > > > > > > > On Fri, Dec 4, 2020 at 6:46 PM Francisco Iglesias
-> > > > > > > > > > <frasse.iglesias@gmail.com> wrote:
-> > > > > > > > > > >
-> > > > > > > > > > > Hello Bin,
-> > > > > > > > > > >
-> > > > > > > > > > > On [2020 Dec 04] Fri 15:52:12, Bin Meng wrote:
-> > > > > > > > > > > > Hi Francisco,
-> > > > > > > > > > > >
-> > > > > > > > > > > > On Thu, Dec 3, 2020 at 4:38 PM Francisco Iglesias
-> > > > > > > > > > > > <frasse.iglesias@gmail.com> wrote:
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Hi Bin and Alistair,
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > On [2020 Dec 02] Wed 11:40:11, Alistair Francis wrote:
-> > > > > > > > > > > > > > On Sun, Nov 29, 2020 at 6:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > From: Bin Meng <bin.meng@windriver.com>
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > SST flashes require a dummy byte after the address bits.
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > I couldn't find a datasheet that says this... But the actual code
-> > > > > > > > > > > > > > change looks fine, so:
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > Acked-by: Alistair Francis <alistair.francis@wdc.com>
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > Alistair
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > ---
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > >  hw/block/m25p80.c | 3 +++
-> > > > > > > > > > > > > > >  1 file changed, 3 insertions(+)
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> > > > > > > > > > > > > > > index 483925f..9b36762 100644
-> > > > > > > > > > > > > > > --- a/hw/block/m25p80.c
-> > > > > > > > > > > > > > > +++ b/hw/block/m25p80.c
-> > > > > > > > > > > > > > > @@ -825,6 +825,9 @@ static void decode_fast_read_cmd(Flash *s)
-> > > > > > > > > > > > > > >      s->needed_bytes = get_addr_length(s);
-> > > > > > > > > > > > > > >      switch (get_man(s)) {
-> > > > > > > > > > > > > > >      /* Dummy cycles - modeled with bytes writes instead of bits */
-> > > > > > > > > > > > > > > +    case MAN_SST:
-> > > > > > > > > > > > > > > +        s->needed_bytes += 1;
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > 1 dummy clk cycle is modelled as 1 byte write (see the comment above), so 1
-> > > > > > > > > > > > > dummy byte (8 dummy clk cycles) will need +8 above.
-> > > > > > > > > > > >
-> > > > > > > > > > > > I think you were confused by the WINBOND codes. The comments are
-> > > > > > > > > > > > correct. It is modeled with bytes instead of bits, so we should +=1.
-> > > > > > > > > > >
-> > > > > > > > > > > What the comment says is (perhaps not superclear) that 1 dummy clock cycle
-> > > > > > > > > > > is modeled as one 1 byte write into the flash (meaining that 8 byte writes
-> > > > > > > > > > > are needed for 1 dummy byte). Perhaps it is easier to understand
-> > > > > > > > > > > looking into how the controllers issue the command towards the flash model
-> > > > > > > > > > > (for example the xilinx_spips), the start of the FAST_READ cmd is issued
-> > > > > > > > > > > as writing the following into the flash: 1 byte (cmd), 3 bytes (address),
-> > > > > > > > > > > 8 bytes (8 dummy cycles -> 1 dummy byte).
-> > > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > My interpretation of the comments are opposite: one cycle is a bit,
-> > > > > > > > > > but we are not using bits, instead we are using bytes.
-> > > > > > > > >
-> > > > > > > > > Yes, the mentioning of 'bits' in the comment makes it not very clear at first read.
-> > > > > > > > > Maybe just bellow would have been better:
-> > > > > > > > >
-> > > > > > > > > /* Dummy clock cycles - modeled with bytes writes */
-> > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > Testing shows that +=1 is the correct way with the imx_spi controller,
-> > > > > > > > > > and with my SiFive SPI model in my local tree (not upstreamed yet)
-> > > > > > > > >
-> > > > > > > > > Perhaps an option could be to look into how the aspeed_smc, xilinx_spips or the
-> > > > > > > > > npcm7xx_fiu generate dummy clock cycles and see if a similar solution to one of
-> > > > > > > > > those could work aswell for the imx_spi?
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > Thanks for pointing this out. So there is some inconsistency among
-> > > > > > > > different SPI controller modeling.
-> > > > > > >
-> > > > > > > I'm not sure I understand you correctly but the controllers supporting
-> > > > > > > commands with dummy clock cycles can only do it following the modeled
-> > > > > > > approach, so I would rather say it is pretty consistent across the
-> > > > > > > controllers (not all controllers support these commands though).
-> > > > > >
-> > > > > > I mean there are 2 approaches to emulate the dummy cycles for
-> > > > >
-> > > > > There is currently only 1 way of modeling dummy clock cycles. All commands that
-> > > > > require / support them in m25p80 goes with that approach. An the controllers
-> > > > > that support dummy clock cycles uses that approach.
-> > > >
-> > > > No, there are 2 ways. One way is how aspeed_smc, xilinx_spips and
-> > > > npcm7xx do for dummy cycles. For these controllers, there are hardware
-> > > > registers for dummy cycles, and software does not need to write
-> > > > anything into the tx fifo. These models emulate one dummy cycle by
-> > > > transferring one byte one the SPI line so we see there are actually a
-> > > > number of (bit * 8) bytes needed in decode_fast_read_cmd(). The other
-> > > > way is how imx_spi, mss-spi, pl022, stm32f2xx_spi and xilinx_spi. For
-> > > > these controllers, they just transfer whatever is written by guest
-> > > > software to tx fifo without any special awareness of dummy cycles.
-> > >
-> > >
-> > > The xilinx_spips supports above way of transferring a command so you can look
-> > > into that one for an example of how to handle a command pushed into a txfifo
-> > > with regards to the dummy clock cycles. Not all controllers support generating
-> > > dummy clock cycles, meaning that not all do the dummy byte -> dummy clock cycle
-> > > conversion. The controllers that do not do this currently does not support
-> > > issuing commands requiring them towards m25p80 (as FAST_READ, DOR, QOR etc..).
-> >
-> > No, I don't think inspecting tx fifo to decode the SPI command, and to
-> > insert dummy cycles when seeing FAST_READ is the correct way for these
-> > SPI controllers like imx_spi. The real hardware does not do this and
-> > we should not make them behave like xilinx_spips.
->
-> Above is not correct, the xilinx_spips does not insert dummy clock cycles, it
-> converts the dummy bytes in the txfifo into the correct amount of dummy clock
-> cycles needed to be generated for the dummy byte based on the command and state
+> diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+> index 9851653b9d11..9ba4f109028d 100644
+> --- a/scripts/qapi/events.py
+> +++ b/scripts/qapi/events.py
+> @@ -225,7 +225,7 @@ def visit_event(self,
+>                                            self._event_emit_name))
+>          # Note: we generate the enum member regardless of @ifcond, to
+>          # keep the enumeration usable in target-independent code.
+> -        self._event_enum_members.append(QAPISchemaEnumMember(name, None))
+> +        self._event_enum_members.append(QAPISchemaEnumMember(name, info))
 
-I was referring to aspeed_smc codes. It multiplies the dummy cycles by
-8 and calls ssi_transfer(). This to me is wrong. However I am not
-familiar with xilinx-spips and I surely could be wrong, like you said.
+We pass None because errors should never happen, and None makes that
+quite clear.
 
-> of the controller. For example if the command (as DOR) uses 2 lines when
-> transmitting the dummy byte it will issue 4 dummy clock cycles, if the command
-> uses 4 lines (example QIOR) it converts the dummy bytes into 2 dummy clock
-> cycles each.
+We don't actually have a built-in QAPISchemaEnumType for the event enum.
+We merely generate a C enum QAPIEvent along with macro QAPIEvent_str(),
+by passing self._event_emit_name, self._event_enum_members straight to
+gen_enum() and gen_enum_lookup().
 
-I will take some time to check the xilinx-spips spec. This might need some time.
+If we did build a QAPISchemaEnumType, and used it to diagnose clashes,
+then clashes would be reported like
 
->
-> How the hardware really works and how QEMU models it is not necessarly the
-> same, for the FAST_READ command the hardware will generate 8 dummy cycles of
+    mumble.json: In event 'A-B':
+    mumble.json: 2: value 'A-B' collides with value 'A_B'
 
-Agree, they should not be necessarily the same but for this case I was
-saying that type of hardware has no way to inspect the content being
-transferred hence for QEMU it's impossible to do that either.
+leaving you guessing what "value" means, and where 'A_B' may be.
 
-> the dummy byte (probably by shifting out the byte), currently the only way to
-> model this in QEMU is by making the controller convert the dummy
-> byte into 8 byte writes into m25p80 (there's no command in m25p80 modeling
-> this differently). If you would like to change this I think it is better if you
-> post a patch series demonstrating a solution that is better and also solves all
-> problems currently solved by the current one. Example problems (but not all)
-> are the ones mentioned above.
->
+Bug: we don't diagnose certain event name clashes.  I'll fix it.
 
-Anyway I will take a look at the xilinx_spips and propose something later.
+>  
+>  
+>  def gen_events(schema: QAPISchema,
+> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> index 720449feee4d..d5f19732b516 100644
+> --- a/scripts/qapi/schema.py
+> +++ b/scripts/qapi/schema.py
+> @@ -23,6 +23,7 @@
+>  from .error import QAPIError, QAPISemError
+>  from .expr import check_exprs
+>  from .parser import QAPISchemaParser
+> +from .source import QAPISourceInfo
+>  
+>  
+>  class QAPISchemaEntity:
+> @@ -36,10 +37,10 @@ def __init__(self, name, info, doc, ifcond=None, features=None):
+>          self.name = name
+>          self._module = None
+>          # For explicitly defined entities, info points to the (explicit)
+> -        # definition.  For builtins (and their arrays), info is None.
+> -        # For implicitly defined entities, info points to a place that
+> -        # triggered the implicit definition (there may be more than one
+> -        # such place).
+> +        # definition.  For builtins (and their arrays), info is a null-object
+> +        # sentinel that evaluates to False. For implicitly defined entities,
+> +        # info points to a place that triggered the implicit definition
+> +        # (there may be more than one such place).
 
-Regards,
-Bin
+s/builtins/built-in types/
+
+The meaning of "a null object sentinel" is less than clear.  Perhaps "a
+special object".
+
+>          self.info = info
+>          self.doc = doc
+>          self._ifcond = ifcond or []
+> @@ -209,7 +210,7 @@ class QAPISchemaBuiltinType(QAPISchemaType):
+>      meta = 'built-in'
+>  
+>      def __init__(self, name, json_type, c_type):
+> -        super().__init__(name, None, None)
+> +        super().__init__(name, QAPISourceInfo.builtin(), None)
+>          assert not c_type or isinstance(c_type, str)
+>          assert json_type in ('string', 'number', 'int', 'boolean', 'null',
+>                               'value')
+> @@ -871,7 +872,7 @@ def resolve_type(self, name, info, what):
+>          return typ
+>  
+>      def _module_name(self, fname):
+> -        if fname is None:
+> +        if not fname:
+>              return None
+>          return os.path.relpath(fname, self._schema_dir)
+>  
+
+Sure this hunk belongs to this patch?
+
+> @@ -897,9 +898,11 @@ def _def_builtin_type(self, name, json_type, c_type):
+>          # be nice, but we can't as long as their generated code
+>          # (qapi-builtin-types.[ch]) may be shared by some other
+>          # schema.
+> -        self._make_array_type(name, None)
+> +        self._make_array_type(name, QAPISourceInfo.builtin())
+>  
+>      def _def_predefineds(self):
+> +        info = QAPISourceInfo.builtin()
+> +
+
+Everything else gets its very own copy of the "no source info" object,
+except for the stuff defined here, which gets to share one.  Isn't that
+odd?
+
+>          for t in [('str',    'string',  'char' + POINTER_SUFFIX),
+>                    ('number', 'number',  'double'),
+>                    ('int',    'int',     'int64_t'),
+> @@ -917,15 +920,15 @@ def _def_predefineds(self):
+>                    ('null',   'null',    'QNull' + POINTER_SUFFIX)]:
+>              self._def_builtin_type(*t)
+>          self.the_empty_object_type = QAPISchemaObjectType(
+> -            'q_empty', None, None, None, None, None, [], None)
+> +            'q_empty', info, None, None, None, None, [], None)
+>          self._def_entity(self.the_empty_object_type)
+>  
+>          qtypes = ['none', 'qnull', 'qnum', 'qstring', 'qdict', 'qlist',
+>                    'qbool']
+>          qtype_values = self._make_enum_members(
+> -            [{'name': n} for n in qtypes], None)
+> +            [{'name': n} for n in qtypes], info)
+>  
+> -        self._def_entity(QAPISchemaEnumType('QType', None, None, None, None,
+> +        self._def_entity(QAPISchemaEnumType('QType', info, None, None, None,
+>                                              qtype_values, 'QTYPE'))
+>  
+>      def _make_features(self, features, info):
+> diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+> index 2b4916cdaa1b..a3a16284006b 100644
+> --- a/scripts/qapi/types.py
+> +++ b/scripts/qapi/types.py
+> @@ -71,7 +71,8 @@ def gen_enum(name: str,
+>               members: List[QAPISchemaEnumMember],
+>               prefix: Optional[str] = None) -> str:
+>      # append automatically generated _MAX value
+> -    enum_members = members + [QAPISchemaEnumMember('_MAX', None)]
+> +    enum_members = members + [
+> +        QAPISchemaEnumMember('_MAX', QAPISourceInfo.builtin())]
+>  
+>      ret = mcgen('''
+>  
+> @@ -306,7 +307,7 @@ def _gen_type_cleanup(self, name: str) -> None:
+>  
+>      def visit_enum_type(self,
+>                          name: str,
+> -                        info: Optional[QAPISourceInfo],
+> +                        info: QAPISourceInfo,
+>                          ifcond: List[str],
+>                          features: List[QAPISchemaFeature],
+>                          members: List[QAPISchemaEnumMember],
+> @@ -317,7 +318,7 @@ def visit_enum_type(self,
+>  
+>      def visit_array_type(self,
+>                           name: str,
+> -                         info: Optional[QAPISourceInfo],
+> +                         info: QAPISourceInfo,
+>                           ifcond: List[str],
+>                           element_type: QAPISchemaType) -> None:
+>          with ifcontext(ifcond, self._genh, self._genc):
+> @@ -327,7 +328,7 @@ def visit_array_type(self,
+>  
+>      def visit_object_type(self,
+>                            name: str,
+> -                          info: Optional[QAPISourceInfo],
+> +                          info: QAPISourceInfo,
+>                            ifcond: List[str],
+>                            features: List[QAPISchemaFeature],
+>                            base: Optional[QAPISchemaObjectType],
+> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+> index 339f1521524c..3f49c307c566 100644
+> --- a/scripts/qapi/visit.py
+> +++ b/scripts/qapi/visit.py
+> @@ -336,7 +336,7 @@ def _begin_user_module(self, name: str) -> None:
+>  
+>      def visit_enum_type(self,
+>                          name: str,
+> -                        info: QAPISourceInfo,
+> +                        info: Optional[QAPISourceInfo],
+>                          ifcond: List[str],
+>                          features: List[QAPISchemaFeature],
+>                          members: List[QAPISchemaEnumMember],
+> @@ -347,7 +347,7 @@ def visit_enum_type(self,
+>  
+>      def visit_array_type(self,
+>                           name: str,
+> -                         info: Optional[QAPISourceInfo],
+> +                         info: QAPISourceInfo,
+>                           ifcond: List[str],
+>                           element_type: QAPISchemaType) -> None:
+>          with ifcontext(ifcond, self._genh, self._genc):
+> @@ -356,7 +356,7 @@ def visit_array_type(self,
+>  
+>      def visit_object_type(self,
+>                            name: str,
+> -                          info: Optional[QAPISourceInfo],
+> +                          info: QAPISourceInfo,
+>                            ifcond: List[str],
+>                            features: List[QAPISchemaFeature],
+>                            base: Optional[QAPISchemaObjectType],
+
 
