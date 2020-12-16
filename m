@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8403D2DC470
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:40:36 +0100 (CET)
-Received: from localhost ([::1]:37094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB722DC464
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:38:03 +0100 (CET)
+Received: from localhost ([::1]:59046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpZqt-0007vG-GI
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:40:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32950)
+	id 1kpZoQ-000582-RJ
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:38:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpZen-0004Ub-QE
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:28:05 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:50785)
+ id 1kpZes-0004fI-N3
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:28:10 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:55481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpZem-0007i8-7t
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:28:05 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id 190so2948320wmz.0
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:28:03 -0800 (PST)
+ id 1kpZer-0007jF-5b
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:28:10 -0500
+Received: by mail-wm1-x336.google.com with SMTP id x22so2930986wmc.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:28:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=L+8pzijn52zFNvnTsp0BOKURgiDqajyPik6Q5epzma8=;
- b=IUowv9fquZB8meq7j2d0fnFjKCx3YZ6dki/fzvSGYdeBvMCjYIObPkc2mkRFItLrZK
- D2yWdWQY2mqWzjqcJpk0qF8rBFPnimRysYFdFeqh5QKcmF/tO/Kdeo22dh/qQ7hmlPma
- p0woDnO3S3SKV8vysfetQN5P+R671X4yT4v767fDrwslp3u6de3jnYE3erk5TKSkKJ/K
- xapcLYWbmT7VXePsXMNJ8uKjFsvRHEMAYBPFETXkzMHMA/qbbTH+u7MSnLE/QUxmsHy8
- HBvejJi5XKHbfSnuwO9DXOGnOeHCWY5XVEvDA5M63tqUEnNmd1GaC6B4pxzevoXHQTWr
- KS+g==
+ bh=56BrI+3ByfNWDrlnZrGuWZgk38BOwa5mF2TsZj5KPRY=;
+ b=A9W7gsxa6xahDxGpG9/CAC1cEYH9alNoLLDSRYjLes8LW2VircTK2d5fHL/Dtucis3
+ vqkOD8AlPJBvfZmwXoMmWg3Tua7TjT0eV7vOnCC2Per260Njf3L4cAU8sR8VnK4anZ5P
+ w/d2OxhQ+yBcmm54C0aK33S11Kr5pkZPICQV3Bk/HcSTJ/bDuAPkff90j5RnRhtVLSg1
+ ptOCnAWzkQI/TMlhG1xzhBja4mJiEukhGfr+5fahs8nflUNlilqw7Sg6R4dB3hdW+A37
+ o+FAYGTTHtCmsGeHHTO4CRqmooXbXaVltabygedDMtMmGz43DfqkpIAZPA8sqG5p5VgR
+ Tb+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=L+8pzijn52zFNvnTsp0BOKURgiDqajyPik6Q5epzma8=;
- b=UncPbs/Iw54IyKQIa4X72ugKbENL5NOaQBTZr+uyugMym+NQYzPnY7F66bai7CNb7S
- ldp8ue4HPpDKEXLNlN4seSWcYyuy9PMtp/n9y5iTnBp9EMYZdox9UTREjjWPZCO3yaJM
- 0L2gwzlthe5uMsiGTto9HUqevfQTNToQFJNbn5MKYQEvc3BcgRo3CFFOFQHxwb/PI6Or
- qnqJpOqJqQDhrCbcYr2/c5XlrWUASqcAg5Oqh6Cx8/oOc0jw41mGgb3ZF4BYniIwx0xA
- vId/3W8COqB7VT7PS3W8zA6eI0Xn+qba8B/9gCUBqltpXruONC7IX4x0hPdQEjF/eEbL
- 39aQ==
-X-Gm-Message-State: AOAM530dClVztiTVV56tDq1/lEXvApFNEdKHaXcTrbYNvpLd/pVx0T5P
- FX4DrNhWN12ijzjDfqfLDRaOgnHrnyM=
-X-Google-Smtp-Source: ABdhPJyV1NcWKH2yZzIX19z9Lx05aHxbOTWqSHDL17DZJLBQEBX0PS8z3Tp3CXtLrgCr28S69rcYGQ==
-X-Received: by 2002:a1c:3b02:: with SMTP id i2mr3750460wma.141.1608136082253; 
- Wed, 16 Dec 2020 08:28:02 -0800 (PST)
+ bh=56BrI+3ByfNWDrlnZrGuWZgk38BOwa5mF2TsZj5KPRY=;
+ b=huGx/y/Ppl7t4RERCGmk7Z/HsfyV3Yo2HFkty15GmNKLdDBeoIq4mH3g/u2C9/erXy
+ JVgyauYPUWLjDag2cWxsKs+sxBjgQhx8c+JRIUMy3l8WQweWwAIjql8Xv9XDUW4k1c8D
+ AzqtT0UT9IeVebraHnuVZ+qUmSXRh1KOJ9X4UM+E7oMyPCNT//5hFEn5wfjgOEPj+Hoj
+ mYbsuiR2LuAZ+Y0+mfMMl7Y9CmqeGCXjmE2PoQP9yxnqslL6dFpalAJnBsY3I+2r35tL
+ RjvKcaNyBq2nFnlQWhVlaUtSttSdSqCEBwg9FZCkg2dNNhozlJW67HIP1pi6JJDbPC7F
+ dnMA==
+X-Gm-Message-State: AOAM532Yg4mHNn3u+lQ6C49Z84gEDXuI1+myUQuWvgu1umIXwygGaal3
+ UlhHtjucioXpTfZavuuq7xIWbia2Oxc=
+X-Google-Smtp-Source: ABdhPJzlq9MoEhzlFo90C6XaJNQcKKBcyV4eKOelJwjBURGZPHIYAymv9NmLnK9gAvX6pmAUSmzaDA==
+X-Received: by 2002:a1c:2783:: with SMTP id n125mr4152605wmn.74.1608136087227; 
+ Wed, 16 Dec 2020 08:28:07 -0800 (PST)
 Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id c81sm3756241wmd.6.2020.12.16.08.28.00
+ by smtp.gmail.com with ESMTPSA id 189sm3625351wma.22.2020.12.16.08.28.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 08:28:01 -0800 (PST)
+ Wed, 16 Dec 2020 08:28:06 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/12] target/mips/mips-defs: Use ISA_MIPS32 definition to
- check Release 1
-Date: Wed, 16 Dec 2020 17:27:35 +0100
-Message-Id: <20201216162744.895920-4-f4bug@amsat.org>
+Subject: [PATCH v2 04/12] target/mips/mips-defs: Use ISA_MIPS32R2 definition
+ to check Release 2
+Date: Wed, 16 Dec 2020 17:27:36 +0100
+Message-Id: <20201216162744.895920-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201216162744.895920-1-f4bug@amsat.org>
 References: <20201216162744.895920-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,85 +95,74 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the single ISA_MIPS32 definition to check if the Release 1
+Use the single ISA_MIPS32R2 definition to check if the Release 2
 ISA is supported, whether the CPU support 32/64-bit.
 
 For now we keep '32' in the definition name, we will rename it
-as ISA_MIPS_R1 in few commits.
+as ISA_MIPS_R2 in few commits.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/mips-defs.h |  3 +--
- target/mips/translate.c | 10 +++++-----
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ target/mips/mips-defs.h    | 3 +--
+ linux-user/mips/cpu_loop.c | 1 -
+ target/mips/translate.c    | 4 ++--
+ 3 files changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
-index ab621a750d5..2756e72a9d6 100644
+index 2756e72a9d6..9cfa4c346bf 100644
 --- a/target/mips/mips-defs.h
 +++ b/target/mips/mips-defs.h
 @@ -24,7 +24,6 @@
  #define ISA_MIPS5         0x0000000000000010ULL
  #define ISA_MIPS32        0x0000000000000020ULL
  #define ISA_MIPS32R2      0x0000000000000040ULL
--#define ISA_MIPS64        0x0000000000000080ULL
- #define ISA_MIPS64R2      0x0000000000000100ULL
+-#define ISA_MIPS64R2      0x0000000000000100ULL
  #define ISA_MIPS32R3      0x0000000000000200ULL
  #define ISA_MIPS64R3      0x0000000000000400ULL
-@@ -78,7 +77,7 @@
- 
- /* MIPS Technologies "Release 1" */
- #define CPU_MIPS32      (CPU_MIPS2 | ISA_MIPS32)
--#define CPU_MIPS64      (CPU_MIPS5 | CPU_MIPS32 | ISA_MIPS64)
-+#define CPU_MIPS64      (CPU_MIPS5 | CPU_MIPS32)
+ #define ISA_MIPS32R5      0x0000000000000800ULL
+@@ -81,7 +80,7 @@
  
  /* MIPS Technologies "Release 2" */
  #define CPU_MIPS32R2    (CPU_MIPS32 | ISA_MIPS32R2)
+-#define CPU_MIPS64R2    (CPU_MIPS64 | CPU_MIPS32R2 | ISA_MIPS64R2)
++#define CPU_MIPS64R2    (CPU_MIPS64 | ISA_MIPS32R2)
+ 
+ /* MIPS Technologies "Release 3" */
+ #define CPU_MIPS32R3    (CPU_MIPS32R2 | ISA_MIPS32R3)
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index b58dbeb83d1..a2aa8167210 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -386,7 +386,6 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
+     prog_req.fre &= interp_req.fre;
+ 
+     bool cpu_has_mips_r2_r6 = env->insn_flags & ISA_MIPS32R2 ||
+-                              env->insn_flags & ISA_MIPS64R2 ||
+                               env->insn_flags & ISA_MIPS32R6 ||
+                               env->insn_flags & ISA_MIPS64R6;
+ 
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 15265485f76..12b01d4c35d 100644
+index 12b01d4c35d..de3a6b5ed65 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -8538,7 +8538,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-     const char *register_name = "invalid";
- 
-     if (sel != 0) {
--        check_insn(ctx, ISA_MIPS64);
-+        check_insn(ctx, ISA_MIPS32);
-     }
- 
-     switch (reg) {
-@@ -9264,7 +9264,7 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-     const char *register_name = "invalid";
- 
-     if (sel != 0) {
--        check_insn(ctx, ISA_MIPS64);
-+        check_insn(ctx, ISA_MIPS32);
-     }
- 
-     if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-@@ -14502,12 +14502,12 @@ static int decode_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
-                 break;
- #if defined(TARGET_MIPS64)
-             case RR_RY_CNVT_ZEW:
--                check_insn(ctx, ISA_MIPS64);
-+                check_insn(ctx, ISA_MIPS32);
-                 check_mips_64(ctx);
-                 tcg_gen_ext32u_tl(cpu_gpr[rx], cpu_gpr[rx]);
-                 break;
-             case RR_RY_CNVT_SEW:
--                check_insn(ctx, ISA_MIPS64);
-+                check_insn(ctx, ISA_MIPS32);
-                 check_mips_64(ctx);
-                 tcg_gen_ext32s_tl(cpu_gpr[rx], cpu_gpr[rx]);
-                 break;
-@@ -27203,7 +27203,7 @@ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
- #if defined(TARGET_MIPS64)
-     case OPC_DCLO:
-     case OPC_DCLZ:
--        check_insn(ctx, ISA_MIPS64);
-+        check_insn(ctx, ISA_MIPS32);
+@@ -28212,7 +28212,7 @@ static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
+     case OPC_DINSM:
+     case OPC_DINSU:
+     case OPC_DINS:
+-        check_insn(ctx, ISA_MIPS64R2);
++        check_insn(ctx, ISA_MIPS32R2);
          check_mips_64(ctx);
-         gen_cl(ctx, op1, rd, rs);
+         gen_bitops(ctx, op1, rt, rs, sa, rd);
          break;
+@@ -28232,7 +28232,7 @@ static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
+             decode_opc_special3_r6(env, ctx);
+             break;
+         default:
+-            check_insn(ctx, ISA_MIPS64R2);
++            check_insn(ctx, ISA_MIPS32R2);
+             check_mips_64(ctx);
+             op2 = MASK_DBSHFL(ctx->opcode);
+             gen_bshfl(ctx, op2, rt, rd);
 -- 
 2.26.2
 
