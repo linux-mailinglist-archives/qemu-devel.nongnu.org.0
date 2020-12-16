@@ -2,96 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A45662DC30A
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 16:25:39 +0100 (CET)
-Received: from localhost ([::1]:46732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4113A2DC340
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 16:39:09 +0100 (CET)
+Received: from localhost ([::1]:43530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpYgL-0005Ap-FI
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 10:25:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40214)
+	id 1kpYtO-0007uL-TH
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 10:39:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpYeI-0003sv-F4
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:23:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22649)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1kpYeB-0003mc-KL
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:23:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26304)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpYeG-0006AM-Jt
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:23:30 -0500
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1kpYe4-00065R-U7
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:23:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608132207;
+ s=mimecast20190719; t=1608132195;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v9G6J/v1zHg+Vq+Ag6ihYebHFjkABINqn63k9VUU768=;
- b=ZhQt2p2mHfFIgj6DQBpUoLJTZB8+VU1hWBCz0Eg6yI1+Viyu5tnpkllAiMuaR3BNO5nROT
- prhRabd3oXjgjWINeOukbIUaBffkFiNN6+c7eWRcr8FS7hi02Qz4QpviqeatrpeIV/v5JQ
- 5lL+SefSKqWN1T9GNsfBgOKC+9FENG0=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536--9wh6jHWNZ25hitACVqvkw-1; Wed, 16 Dec 2020 10:22:12 -0500
-X-MC-Unique: -9wh6jHWNZ25hitACVqvkw-1
-Received: by mail-ed1-f70.google.com with SMTP id h5so11929367edq.3
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 07:22:10 -0800 (PST)
+ bh=IAaAxJMCBDlyzGSD7LG5FfL1luH2HzwoKic3yjl/vZU=;
+ b=OgMmQEU7l3pTxvvmUnENd5bhWkB0M3qUJ6jJXeTmsaXiCqvN42cNxZZ/GOWEi+T1HlCRIA
+ KCnbKYkBMSjweVh2JEdLi6e4VhPoj5oVwiJWIHduFZgsCdyEn/CLdMa3tob1/AV/iAlXNi
+ 3TBn2fCuCWk3Hpqrq8NAS7YJeeN2oqs=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-sif2Yzg_OGuAEvIQ6wQ9kA-1; Wed, 16 Dec 2020 10:23:12 -0500
+X-MC-Unique: sif2Yzg_OGuAEvIQ6wQ9kA-1
+Received: by mail-vk1-f200.google.com with SMTP id l69so10456188vkl.4
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 07:23:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=v9G6J/v1zHg+Vq+Ag6ihYebHFjkABINqn63k9VUU768=;
- b=go9ijyX9Db3DDhpkQwB2K2n3tzveIyGp68dLHQkd1y00+df0Y6fLVJE0rSW2j5SiXS
- hllhFJ9aqS5e+tUcPu775UnT1KE61//81q+tUuqf/YiVNToSWMlVNytarvfbcY6gR+p8
- SSz7AAe9YyA90Nh2sX8SWgjkG7Lg2wigJu8q0sMtpqbiEEzcKREcWlMnbbkXtSoX2wZR
- DMx5sGbX1Ubr9jg0ZbxR88U7phX6kGw17kJPGq5Ih+1v25RtZ5CFdCb9GyeExEaFhodU
- vYnyp8dt2qjrnPmq66Q9OgYkzsbgxyDm/QddEyXA9f3x9GrY9z3RjPvlm7U9nzBogdGh
- 1fQQ==
-X-Gm-Message-State: AOAM531GSSCjJ7ejE/GJJcsBqHQtXlTZ8VpLYtpRSvEkU6V4orhFklCy
- 4lL0FwUWxHVt6LMZtpaJQWQvZsqooKQXY7Pb7HfGsk96X7Zv3Vp1B3xIBmbWaEQS2hxVTOOoWc7
- NnScLFMabZN3H8DQ=
-X-Received: by 2002:a17:907:444f:: with SMTP id
- on23mr31811168ejb.300.1608132129403; 
- Wed, 16 Dec 2020 07:22:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyVJ+ffrFpTToRRsPkkaPPMjg30mXRAwzy+M7JeDh27S2L4j9TykXN+CzY7bIB8/ncJhkZlHA==
-X-Received: by 2002:a17:907:444f:: with SMTP id
- on23mr31811147ejb.300.1608132129196; 
- Wed, 16 Dec 2020 07:22:09 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n9sm20689721edy.83.2020.12.16.07.22.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Dec 2020 07:22:08 -0800 (PST)
-Subject: Re: [PATCH 3/3] trace: do not include TCG helper tracepoints in
- no-TCG builds
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20201216135529.265165-1-pbonzini@redhat.com>
- <20201216135529.265165-4-pbonzini@redhat.com>
- <98e787e4-884b-61c5-bf52-b041f57747c3@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a4974b10-ba71-8bd7-e5a9-6eef7543cee4@redhat.com>
-Date: Wed, 16 Dec 2020 16:22:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=IAaAxJMCBDlyzGSD7LG5FfL1luH2HzwoKic3yjl/vZU=;
+ b=ravywFKszDfR9PNPNeh71sYUOOm4E5pICUbCnBSPyCQpmm4aesyQARUsMAnATqO2mx
+ AhE2MgMC4+IFBsR17DVppPOMKKACIzS63ERvmi2Lbj9+747apAynn3oP/x+nO5RhakHL
+ 8bhs1mXlSrYRevY2rSjuseea3stn8V12e+YM5IAknVZo25cUVI3RNSXzJJCWSqTDA5y7
+ f4DpdDJd/gyNF2R66q6SIYDFEhlUvV/l6smhVbRv0u1jmsSJnGpRuZpl7tyGqvoQdILd
+ EjY+fzrwQh33x552PApsNBzi7L4U+Vq241aa4x9Zg+6ubrLhiC2Q7HK0fnWSq8jaAk40
+ oJjw==
+X-Gm-Message-State: AOAM533eNd3NrrCdQ8GCAih0Tp/7tz0Gju7QXbiEWmnZ6IidJVmviyxt
+ Fn4A8aMlsMp7ogG3+O/ZNcwdj5Dk7UKPi9OXK1UdOs/U+jFf7yuCC1jEunGmPxkeUFjIyvDYHGC
+ SXd4sw8ulvUrfEUPtztpD5Yjevo85g+s=
+X-Received: by 2002:a1f:2c01:: with SMTP id s1mr34159679vks.11.1608132191945; 
+ Wed, 16 Dec 2020 07:23:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwhiewGHXhgT0aWPzP1sRAQZjAiCrHqC+p3CKZA2Q9fBDszOZcvBau9zvi8IMpHpNy34/RuwH7/dBcghXSaD+A=
+X-Received: by 2002:a1f:2c01:: with SMTP id s1mr34159649vks.11.1608132191763; 
+ Wed, 16 Dec 2020 07:23:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <98e787e4-884b-61c5-bf52-b041f57747c3@linaro.org>
+References: <20201216141653.213980-1-berrange@redhat.com>
+In-Reply-To: <20201216141653.213980-1-berrange@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Wed, 16 Dec 2020 12:23:00 -0300
+Message-ID: <CAKJDGDZeVwQVWDTQ=MTLc7giEk5ENVHXqPurwfOW0X6NVWrhkQ@mail.gmail.com>
+Subject: Re: [PATCH] tests: update for rename of CentOS8 PowerTools repo
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,25 +89,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/12/20 16:13, Richard Henderson wrote:
->> @@ -71,7 +71,7 @@ foreach d : [
->>                   input: meson.project_source_root() / 'trace-events',
->>                   command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@' ],
->>                   capture: true)
->> -  specific_ss.add(gen)
->> +  specific_ss.add(when: 'CONFIG_TCG', if_true: gen)
->>   endforeach
+On Wed, Dec 16, 2020 at 11:21 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om> wrote:
 >
-> Sure, unless it makes more sense to conditionalize the entire loop, so that
-> those targets aren't even created?
+> This was intentionally renamed recently to be all lowercase:
+>
+> https://bugs.centos.org/view.php?id=3D17920
+> https://wiki.centos.org/Manuals/ReleaseNotes/CentOS8.2011#Yum_repo_file_a=
+nd_repoid_changes
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>
+> This needs to be merged asap, as CI will break for anyone whose branch
+> triggers a rebuild of the centos container image.
+>
+> eg current broken git master:
+>
+>   https://gitlab.com/berrange/qemu/-/jobs/915852165
+>
+> vs with this fix
+>
+>   https://gitlab.com/berrange/qemu/-/jobs/915862731
+>
+>  tests/docker/dockerfiles/centos8.docker | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
 
-The targets exist but the files won't be created (the rules will be in 
-build.ninja but they'll be orphan).
-
-Paolo
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
