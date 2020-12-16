@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809562DC49E
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:50:52 +0100 (CET)
-Received: from localhost ([::1]:59632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7582DC4A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:53:14 +0100 (CET)
+Received: from localhost ([::1]:39916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpa0p-0001AL-6c
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:50:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38158)
+	id 1kpa37-0004la-TU
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:53:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpZyf-0007sx-3S
+ id 1kpZyf-0007t4-51
  for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:48:37 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36014)
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:40064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpZyb-0002Nt-Nb
+ id 1kpZyc-0002O2-BD
  for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:48:36 -0500
-Received: by mail-wm1-x335.google.com with SMTP id y23so3101315wmi.1
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:48:32 -0800 (PST)
+Received: by mail-wm1-x32a.google.com with SMTP id a3so3086659wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:48:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=plN9xdsMieELC+ppKQXA+6DYaAZxpMpmyXL+0FGH/I0=;
- b=fnrC6LdiB6gCJL56dnw/VwUeh68HewPxyIu8wCXAn7Q4uWs4pckcyrTJSHfC1hya5L
- rgvERiq7qxS/aPaYzvUUd1jYEt2zUA0P5cHl7K1kvzSO+TuQEfYPAD3Dddyu8hsTtlTm
- 00iYhUsdZfjwfShYtOhuNG0529TZ2KMi3d+RnnHmfVAZWnvXpUcAnSf3YZj0mjrASWMe
- wnFovgDeJsRHzMfOApUEnfhsIVjkHzypi7EaF70SmjKzs8bNy2IijZOn21CsiGSiMlD5
- QYlnvKvHOdK4tx4v/SqZgJtoBr8qkCccjcDY4DhDK8bEjh+bcQpX3BgufJHU+P1KIB3D
- CZAg==
+ bh=Xvd5cwUEsReYgSHxH/1uQMQYxXOkYhe+6MJd4PByyeM=;
+ b=Xa7p3vhJy5ecJPcHZofB+SH1OSGhZ793TPx+oKntzIJXk5PZtEOifU++gkej/b5Xp3
+ e0inNg8hBIYkhGXDB4pTpWPYk34HNLIgGCbk3dtQReFqC1cbj9a9Sf6XJ/Ea9Llk9dBl
+ nPfFDYhU8uYObl/qTR+K9CiqC+5xSz+e1CuorhuOKY5Jln4MgTsBlFAifL4tIY2PqHA9
+ yau/kTezDzD01Ir76M+1zmZwM2ODgxGomG3Q/yP5hej8eqnlt++hdKSAZjpnFsoESHfo
+ aJb+wpT3jXboaBfpjBn9W8+NYo57bXolGnrwrAQZhPXfInKYhMKuXttPqSH4/8JBqfEO
+ SzMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=plN9xdsMieELC+ppKQXA+6DYaAZxpMpmyXL+0FGH/I0=;
- b=Ix/SyFwc8rJFTqyU8EXFFiWTGxINYzrMEL7hhXnVlHSAB69Zqs14P+AP5FLQ6fxHYg
- rRgYAyd3WcJsWoI2W488743+p7ATVyES+dQERIWAEpwPjgZ0uH2bmSB8HaejOBi+UeuO
- LGwTeSwz3Ak38ZeR9OnDGua2HWH/fM6+nvt56jpVzLgb6Byt9F9+Ll1z5RCjDG+RWimz
- QTRrS8nNrhSsimnFcdc5ThkzpHT6Y5T5voXrBspAhBWwjrf2sdh9ab2LENLI+pp2nupm
- ZhXrITPzLfROM83moTl9h/jUrDwxvP3QtqrZ4oIlaKHeJDkcOZIRCQlKVxyMX8B8nxdg
- 3Dgg==
-X-Gm-Message-State: AOAM532vaxS3gnKjkloIYDJUbt1YibLa6FZX2C1Y4Wd7jBOM7mFBNGn+
- /AFdrq36ppFNLcG3kDgXaWIaow==
-X-Google-Smtp-Source: ABdhPJyvQaW7Ww5KuTrG+SCJ/XSs8WQ9vLkdOU/FfyE9e5vOxL4EB1BTe1glf2ZyJRFhe+7Bg4EImA==
-X-Received: by 2002:a1c:a501:: with SMTP id o1mr4278785wme.44.1608137311202;
- Wed, 16 Dec 2020 08:48:31 -0800 (PST)
+ bh=Xvd5cwUEsReYgSHxH/1uQMQYxXOkYhe+6MJd4PByyeM=;
+ b=FY2ZpM42QQGnm5yjhdWh/+kwHgdjuDNMmwZaDNlWwZov5E9y2MnjVYKZAfGah9ICmo
+ z1OowbGlPRYVp5KCWwsQGIHcaSg8D402df8U53PnzBK08ZH5Po5utn95tqhtvwVkRvx4
+ dTimmZi/kHAkyCVbehrEjfzlJQBJGkNW7Qf4yDRxNy/t0tLsShIVB7lztfo9w3VxjF2O
+ x1hYGo6dg8cuDEBudyYFcJTyodPfPqZDHx5Fh6N3Uv3eTKEluITCuhTHq5ylBBODOmtf
+ wd0wV6K92PU39d0pf1tnrQv8tzycfqwbbiNhQVz2kkTt8pJ+tEdd+97MAaQzlQYW8o2H
+ bnOg==
+X-Gm-Message-State: AOAM532IktjoxMQqjOC4PGtngkgM2lEJ9Fjc0/0g6DHpLhQiGqHiQm4J
+ VqxZ8zYbtUFVVF8AUzPDVoDD+g==
+X-Google-Smtp-Source: ABdhPJyQCqmvSfqHiVzd/xIOURaRRvTMCtKlN/Skj+URkenBXZ5sJYW9Fp/e25pf+5ZYVTV6M9szZA==
+X-Received: by 2002:a7b:c4d5:: with SMTP id g21mr4236349wmk.92.1608137312532; 
+ Wed, 16 Dec 2020 08:48:32 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n17sm3423569wmc.33.2020.12.16.08.48.28
+ by smtp.gmail.com with ESMTPSA id j10sm3948429wmj.7.2020.12.16.08.48.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 16 Dec 2020 08:48:28 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F093F1FF87;
- Wed, 16 Dec 2020 16:48:27 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 134871FF8C;
+ Wed, 16 Dec 2020 16:48:28 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/11] configure: include moxie-softmmu in
- deprecated_targets_list
-Date: Wed, 16 Dec 2020 16:48:17 +0000
-Message-Id: <20201216164827.24457-2-alex.bennee@linaro.org>
+Subject: [PULL 02/11] gitlab: include aarch64-softmmu and ppc64-softmmu
+ cross-system-build
+Date: Wed, 16 Dec 2020 16:48:18 +0000
+Message-Id: <20201216164827.24457-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201216164827.24457-1-alex.bennee@linaro.org>
 References: <20201216164827.24457-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,41 +94,33 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We still build it but there is no point including it in the normal
-builds as it is ushered out of the door.
+Otherwise we miss coverage of KVM support in the cross build. To
+balance it out add arm-softmmu (no kvm, subset of aarch64),
+cris-softmmu and ppc-softmmu to the exclude list which do get coverage
+elsewhere.
 
-Fixes: 4258c8e221 ("docs/system/deprecated: Mark the 'moxie' CPU as deprecated")
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20201210190417.31673-2-alex.bennee@linaro.org>
+Message-Id: <20201210190417.31673-3-alex.bennee@linaro.org>
 
-diff --git a/configure b/configure
-index c228f7c21e..d37ec98aa9 100755
---- a/configure
-+++ b/configure
-@@ -1620,7 +1620,7 @@ if [ "$ARCH" = "unknown" ]; then
- fi
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index bd6473a75a..fcc1b95290 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -7,9 +7,9 @@
+     - cd build
+     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
+       ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-user
+-        --target-list-exclude="aarch64-softmmu i386-softmmu microblaze-softmmu
+-          mips-softmmu mipsel-softmmu mips64-softmmu ppc64-softmmu sh4-softmmu
+-          xtensa-softmmu"
++        --target-list-exclude="arm-softmmu cris-softmmu i386-softmmu
++          microblaze-softmmu mips-softmmu mipsel-softmmu mips64-softmmu
++          ppc-softmmu sh4-softmmu xtensa-softmmu"
+     - make -j$(expr $(nproc) + 1) all check-build
  
- default_target_list=""
--deprecated_targets_list=ppc64abi32-linux-user,tilegx-linux-user,lm32-softmmu,unicore32-softmmu
-+deprecated_targets_list=moxie-softmmu,ppc64abi32-linux-user,tilegx-linux-user,lm32-softmmu,unicore32-softmmu
- deprecated_features=""
- mak_wilds=""
- 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 98bff03b47..b3bcaacf7b 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -355,7 +355,7 @@ build-deprecated:
-     IMAGE: debian-all-test-cross
-     CONFIGURE_ARGS: --disable-docs --disable-tools
-     MAKE_CHECK_ARGS: build-tcg
--    TARGETS: ppc64abi32-linux-user tilegx-linux-user lm32-softmmu
-+    TARGETS: moxie-softmmu ppc64abi32-linux-user tilegx-linux-user lm32-softmmu
-       unicore32-softmmu
-   artifacts:
-     expire_in: 2 days
+ # Job to cross-build specific accelerators.
 -- 
 2.20.1
 
