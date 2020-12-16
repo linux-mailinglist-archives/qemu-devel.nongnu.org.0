@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A37E12DC578
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:40:20 +0100 (CET)
-Received: from localhost ([::1]:49922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B5B2DC580
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:42:31 +0100 (CET)
+Received: from localhost ([::1]:58014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpamh-00010J-NE
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:40:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48998)
+	id 1kpaoo-0004VY-JU
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:42:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpad8-00009u-Q3
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:30:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27816)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpadH-0000K0-49
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:30:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpacw-00015e-J0
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:30:26 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpadF-000192-Gl
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:30:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608139812;
+ s=mimecast20190719; t=1608139832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nUDFlgcpQ5tFyhOH/LQ0XFhk0T8uOd/wbZkgpzLNLp4=;
- b=CT50UQ/setwd22ptlDN0et067uY54+TfQUe/h61b2Prd/W7jy0R9UKV6FA7bv+1Ch5m9X6
- mY15U+VuiDTKEpYWf5UmWNv80+dswGZSGMuTsd3bcy0x1xvEsgHNqE10pqD7V+V8sJb5YQ
- hnGpxwi/MGVoMeFRB2wHLB5QmnIvujw=
+ bh=0CIH7+enPyw1ZYJZrF4HIltd7PcnsRieLkaa7z7IeIU=;
+ b=DDgYQ7DG2th4lv/JtnPXY7V9yUwDacY+5txBlJ2ZW+3xZ5IoqqEfFc1yPFsocvBqZJGYOB
+ YA1hwDYTOonBk2IZHfarO3fUql1Ak30fqPNOAeWJ9U+wRkBDH8303+VOUGnwmNaJu7kujz
+ j4I5X5GK6+q//qiICbTWh7wgYh1aoNs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-SFBjUEDOPY6phrezKEl2-w-1; Wed, 16 Dec 2020 12:30:10 -0500
-X-MC-Unique: SFBjUEDOPY6phrezKEl2-w-1
+ us-mta-359-owJq2X8FO-W28iFGbPPbJw-1; Wed, 16 Dec 2020 12:30:13 -0500
+X-MC-Unique: owJq2X8FO-W28iFGbPPbJw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74F8410054FF;
- Wed, 16 Dec 2020 17:30:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 829B3C73A0;
+ Wed, 16 Dec 2020 17:30:11 +0000 (UTC)
 Received: from thuth.com (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E0DC610016F5;
- Wed, 16 Dec 2020 17:30:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB23410016F4;
+ Wed, 16 Dec 2020 17:30:09 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 07/12] accel/tcg/user-exec: silence the compiler warnings
-Date: Wed, 16 Dec 2020 18:29:44 +0100
-Message-Id: <20201216172949.57380-8-thuth@redhat.com>
+Subject: [PULL 08/12] target/sparc/translate: silence the compiler warnings
+Date: Wed, 16 Dec 2020 18:29:45 +0100
+Message-Id: <20201216172949.57380-9-thuth@redhat.com>
 In-Reply-To: <20201216172949.57380-1-thuth@redhat.com>
 References: <20201216172949.57380-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -85,42 +85,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Chen Qun <kuhn.chenqun@huawei.com>
 
 When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-../accel/tcg/user-exec.c: In function ‘handle_cpu_signal’:
-../accel/tcg/user-exec.c:169:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  169 |             cpu_exit_tb_from_sighandler(cpu, old_set);
-      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../accel/tcg/user-exec.c:172:9: note: here
-  172 |         default:
+target/sparc/translate.c: In function ‘gen_st_asi’:
+target/sparc/translate.c:2320:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
+ 2320 |         if (!(dc->def->features & CPU_FEATURE_HYPV)) {
+      |            ^
+target/sparc/translate.c:2329:5: note: here
+ 2329 |     case GET_ASI_DIRECT:
+      |     ^~~~
 
-Mark the cpu_exit_tb_from_sighandler() function with QEMU_NORETURN to fix it.
+The "fall through" statement place is not correctly identified by the compiler.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20201211152426.350966-8-thuth@redhat.com>
+Message-Id: <20201211152426.350966-9-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- accel/tcg/user-exec.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ target/sparc/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 4ebe25461a..293ee86ea4 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -49,7 +49,8 @@ __thread uintptr_t helper_retaddr;
- /* exit the current TB from a signal handler. The host registers are
-    restored in a state compatible with the CPU emulator
-  */
--static void cpu_exit_tb_from_sighandler(CPUState *cpu, sigset_t *old_set)
-+static void QEMU_NORETURN cpu_exit_tb_from_sighandler(CPUState *cpu,
-+                                                      sigset_t *old_set)
- {
-     /* XXX: use siglongjmp ? */
-     sigprocmask(SIG_SETMASK, old_set, NULL);
+diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+index 30c73f8d2e..4bfa3179f8 100644
+--- a/target/sparc/translate.c
++++ b/target/sparc/translate.c
+@@ -2324,8 +2324,8 @@ static void gen_st_asi(DisasContext *dc, TCGv src, TCGv addr,
+         }
+         /* in OpenSPARC T1+ CPUs TWINX ASIs in store instructions
+          * are ST_BLKINIT_ ASIs */
+-        /* fall through */
+ #endif
++        /* fall through */
+     case GET_ASI_DIRECT:
+         gen_address_mask(dc, addr);
+         tcg_gen_qemu_st_tl(src, addr, da.mem_idx, da.memop);
 -- 
 2.27.0
 
