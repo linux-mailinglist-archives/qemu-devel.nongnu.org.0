@@ -2,91 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B74A2DB87A
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 02:39:13 +0100 (CET)
-Received: from localhost ([::1]:52210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F182DB8B8
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 03:04:24 +0100 (CET)
+Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpLmZ-0002IH-VT
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 20:39:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49024)
+	id 1kpMAw-0007XN-U6
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 21:04:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gromero@linux.ibm.com>)
- id 1kpLkq-0001aW-23; Tue, 15 Dec 2020 20:37:24 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26176)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gromero@linux.ibm.com>)
- id 1kpLkn-0006Sd-Qh; Tue, 15 Dec 2020 20:37:23 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BG1WBeo045017; Tue, 15 Dec 2020 20:37:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject : date : message-id; s=pp1;
- bh=Ju8x660/pKrGPXJZVq2CIK5klTp/EslBZp0m8fL3YJE=;
- b=LD1XF8y5xQLb+29QPk+5NFCzfV9MU/ZRV9wSgHVbH1YOpGOiANgyl6qmtOxNdr5rHYD1
- JH21tEhwbwDoBBttDaseiJvxDLwNFrRRvX3H+GpKzRTTqBK70Pm5ihgbxJdvSO380vRH
- Uwz/oe0tBce3fXtZDdZQnEa/KvT/MIi8OBlioGIK8hWVsuJW+b/tJtuccrEa7hCGMwXx
- R1B7TevtCfJ2+QyEA/4DvvVxD7UWQxrIXWULplMOSlk2mMYPNfm97RREU8+LY5sz5/Kp
- X1jzKglsZN6rG/tDm6u7pRyxKeNv7b4BTYizNtugI7iM3kDClm8IxFkz56tBv4xnc5H9 1Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35f547wa81-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Dec 2020 20:37:14 -0500
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BG1WUmt045856;
- Tue, 15 Dec 2020 20:37:14 -0500
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35f547wa7k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 15 Dec 2020 20:37:13 -0500
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BG1S1x2006806;
- Wed, 16 Dec 2020 01:37:12 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma03wdc.us.ibm.com with ESMTP id 35cng9c1x5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 16 Dec 2020 01:37:12 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BG1bChF28180880
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 16 Dec 2020 01:37:12 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 51208AE062;
- Wed, 16 Dec 2020 01:37:12 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A1031AE05C;
- Wed, 16 Dec 2020 01:37:08 +0000 (GMT)
-Received: from pub.ltc.br.ibm.com (unknown [9.85.201.212])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed, 16 Dec 2020 01:37:08 +0000 (GMT)
-From: Gustavo Romero <gromero@linux.ibm.com>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: [PATCH] configure: Fail when specified cross compiler cannot be found
-Date: Tue, 15 Dec 2020 22:36:46 -0300
-Message-Id: <20201216013646.40799-1-gromero@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1kpM8f-00061d-W3
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 21:02:02 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:44037)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1kpM8b-0000qP-L5
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 21:02:01 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id r4so12053427pls.11
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 18:01:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=rLNQq/+xqdwYJKLRlDvJGIwRXl36/MH0X9u0Rmyy1wk=;
+ b=bR93heYJA35zKR4JS78Me/Wv4U3LXGpPkTbInBF2io/KB4grrWFx88tTbA6ezLJhNy
+ wO8TtCI8udNuQy94pMlB157NVswyEjGMDZdoFET3nxe1tyA7EQtcNUIq6jei5IhrFrCL
+ YCv8ktLxmwEjF2BsUp67i2dZud4BCDIZaW4OfdQN70DNhwq/cA1GCPBEo6X/EMurWYHq
+ VO/y/mTVC5iHO2vGs2MaG897bhneFm7kXZoPmfLhOloee2t2+VLFP1VFL+qOVwEozgbx
+ osDkoM3Nm7IUFthfx15g72t14Htdym9Uk8fpflsCsFb2eITp6XrJoYHdsqX4DcR6/k1+
+ M8Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=rLNQq/+xqdwYJKLRlDvJGIwRXl36/MH0X9u0Rmyy1wk=;
+ b=cA4UzbKckkJsdkKwKHZ5GpiXCSM6Esf/GCm+QRLYT5fE7suWCAXL9fLyexRGMJuJ96
+ T8lpP2wPLsdceU5xWv/m371g84aPkkHFz5XnT4bL5yy4hXl5DW7VS1e1tDNDMUMpj+PN
+ c5hCCx+CwQ63aGjIlup9GYsk20j70yKrX2sVY6UhjNBRh/OGdwQLJzhqZK5GApkUyo0l
+ B/ba10EKzvhpVzy+dXJXTiDyQQDBq0wK34mOpmNS38/3ANq3aFfb+ypNaEL/Ba0Acx7z
+ UduPAtXlFleeIwDiYX0uqUj4JMPNHD0K2xqm27SeSwmklmEGNbM8dfoE7A1dKIuR06HH
+ 0NMg==
+X-Gm-Message-State: AOAM530+DYk+CdG8r70b0hNA2BL6UOvQOxt0VWszJt3fyHQzHYQxdOjH
+ 6Zrs1bWPi5/l64Mp/iDVqiai43os7k+zaGM7YNQ=
+X-Google-Smtp-Source: ABdhPJzKKJBxAFKDqTywyd/0spLObBOWgiSw9xazt0Cr0eVZv4eOmvRxQjAym4vcda+OWmvRMRIpAw==
+X-Received: by 2002:a17:90b:943:: with SMTP id
+ dw3mr1159959pjb.97.1608084115638; 
+ Tue, 15 Dec 2020 18:01:55 -0800 (PST)
+Received: from frankchang-ThinkPad-T490.internal.sifive.com
+ (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
+ by smtp.gmail.com with ESMTPSA id a13sm289150pfr.59.2020.12.15.18.01.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Dec 2020 18:01:54 -0800 (PST)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [RFC v2 00/15] support subsets of bitmanip extension
+Date: Wed, 16 Dec 2020 10:01:25 +0800
+Message-Id: <20201216020150.3157-1-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-15_13:2020-12-15,
- 2020-12-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- mlxlogscore=999 spamscore=0 clxscore=1011 suspectscore=0 adultscore=0
- bulkscore=0 impostorscore=0 phishscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012160002
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=gromero@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,57 +79,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@protonmail.com, gromero@linux.ibm.com,
- alex.bennee@linaro.org, david@gibson.dropbear.id.au
+Cc: Frank Chang <frank.chang@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently if the cross compiler passed to 'configure' (--cross-cc-<arch>) does
-not exist no error happens and only later when the TCG tests are run they fail
-because the cross compiler is not set correctly.
+From: Frank Chang <frank.chang@sifive.com>
 
-This commit changes that behavior and make 'configure' fail if the specified
-cross compiler cannot be found, displaying an error similar to the following:
+This patchset implements RISC-V B-extension draft version Zbb, Zbs and
+Zba subset instructions. Some Zbp instructions are also implemented as
+they have similar behavior with their Zbb-, Zbs- and Zba-family
+instructions or for Zbb pseudo instructions (e.g. rev8, orc.b).
 
-$ ../configure --target-list=ppc64-softmmu --cross-cc-ppc64=nonexisting_gcc
-Specified cross-compiler 'nonexisting_gcc' not found!
+Specification:
+https://github.com/riscv/riscv-bitmanip
 
-Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
----
- configure              | 2 +-
- tests/tcg/configure.sh | 4 +++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+Summary of current proposals for Zb{abcs}:
+https://lists.riscv.org/g/tech-bitmanip/topic/summary_of_current_proposals/77924315
 
-diff --git a/configure b/configure
-index cb21108d34..c0389f5839 100755
---- a/configure
-+++ b/configure
-@@ -6854,7 +6854,7 @@ done
-   export $i
- done
- export target_list source_path use_containers
--$source_path/tests/tcg/configure.sh)
-+$source_path/tests/tcg/configure.sh) || exit 1
- 
- # temporary config to build submodules
- for rom in seabios; do
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index e1b70e25f2..6c89d75c38 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -212,8 +212,10 @@ for target in $target_list; do
- 
-     eval "target_compiler=\${cross_cc_$i}"
-     if ! has $target_compiler; then
--      continue
-+      echo "Specified cross-compiler '$target_compiler' not found!"
-+      exit 1
-     fi
-+
-     write_c_skeleton
-     if ! do_compiler "$target_compiler" $target_compiler_cflags -o $TMPE $TMPC -static ; then
-       # For host systems we might get away with building without -static
--- 
+The port is available here:
+https://github.com/sifive/qemu/tree/rvb-upstream-v2
+
+To test rvb implementation, specify cpu argument with 'x-b=true' to
+enable B-extension support.
+
+Changelog:
+
+v2:
+ * Add gen_shifti(), gen_shiftw(), gen_shiftiw() helper functions.
+ * Remove addwu, subwu and addiwu instructions as they are not longer
+   exist in latest draft.
+ * Optimize implementation with cleaner tcg ops.
+
+Frank Chang (3):
+  target/riscv: rvb: count bits set
+  target/riscv: rvb: generalized reverse
+  target/riscv: rvb: generalized or-combine
+
+Kito Cheng (12):
+  target/riscv: reformat @sh format encoding for B-extension
+  target/riscv: rvb: count leading/trailing zeros
+  target/riscv: rvb: logic-with-negate
+  target/riscv: rvb: pack two words into one register
+  target/riscv: rvb: min/max instructions
+  target/riscv: rvb: sign-extend instructions
+  target/riscv: rvb: single-bit instructions
+  target/riscv: rvb: shift ones
+  target/riscv: rvb: rotate (left/right)
+  target/riscv: rvb: address calculation
+  target/riscv: rvb: add/sub with postfix zero-extend
+  target/riscv: rvb: support and turn on B-extension from command line
+
+ target/riscv/bitmanip_helper.c          | 103 ++++++
+ target/riscv/cpu.c                      |   4 +
+ target/riscv/cpu.h                      |   2 +
+ target/riscv/helper.h                   |   9 +
+ target/riscv/insn32-64.decode           |  33 ++
+ target/riscv/insn32.decode              |  54 ++-
+ target/riscv/insn_trans/trans_rvb.c.inc | 466 ++++++++++++++++++++++++
+ target/riscv/meson.build                |   1 +
+ target/riscv/translate.c                | 337 +++++++++++++++++
+ 9 files changed, 1003 insertions(+), 6 deletions(-)
+ create mode 100644 target/riscv/bitmanip_helper.c
+ create mode 100644 target/riscv/insn_trans/trans_rvb.c.inc
+
+--
 2.17.1
 
 
