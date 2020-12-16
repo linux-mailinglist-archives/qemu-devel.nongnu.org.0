@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD1E2DC356
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 16:43:14 +0100 (CET)
-Received: from localhost ([::1]:54764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FDF2DC322
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 16:30:17 +0100 (CET)
+Received: from localhost ([::1]:55430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpYxN-0004E6-Fu
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 10:43:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40870)
+	id 1kpYkq-0000f1-OC
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 10:30:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpYfz-0005p9-IP
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:25:16 -0500
-Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:37801)
+ id 1kpYgo-0006kz-35
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:26:06 -0500
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:35205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpYfu-0006gt-A5
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:25:15 -0500
-Received: by mail-oi1-x235.google.com with SMTP id l207so27906663oib.4
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 07:25:08 -0800 (PST)
+ id 1kpYgj-00077P-Kp
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:26:05 -0500
+Received: by mail-oi1-x22d.google.com with SMTP id s2so27881613oij.2
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 07:26:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Kzs6N7vPIGjHsPFBWcJpGYTind6XbEBvmk85TtJ8few=;
- b=mPvhtLnilo+vP9OfVkyypVXuaf8iTm1OCCVZQjASJQIco0CVDdFqnldeOUGlcTclrV
- OMis2bAWhQc++Ojufwjylp3YKdgXP2NogaBb8HR/D+Ru2CjLIRS9MozWMeqWycYxfwXH
- JtWSE3aeZbzpI2HvNLzk4wd0nGJGFRkyZvEQt9058BpvVQtL9jfj5ZMguyMkaDAltHHC
- k8kDtiYVMrIjaueOPnV0Prh+Jtd7vOg5Zp6fnJ7xhxCQXeYaICYujJqteP/vBeCqd84P
- FMpbchaJ7ybgne/REZW9tH194kjuDwbvPJoXNYFdIDY269bHQL5trzSdxqSj9t2zQRW0
- 5aPA==
+ bh=EBiJLFbCoGaT5KSrVznC/DIBoyJXIdpSOQsDldGdams=;
+ b=ifATdx7nqBMKPo2KSvxlghEjymbVFPmMgdYzAp8m/wEoPf9L3Vq+E+4OsaO6SQo0Qq
+ I9E05FUk/pZnm7LsYaYhHU/GiMcDCTLyaYLGJN/jS9UHIfTM1phDoWeli/561C554qNM
+ +r4NvgNF+w6KLxHNEALi0vevV/P4RnlAGCVJmxG7KxOrex5RNHX20F5dZrjrOPkQxHC9
+ vMNZP2b5Q4Wu1pJAcSNdYWjG643njSeXmcOem5Ld7aOLq9ImwmiKFOWinsQtV2mkU97z
+ fpEUuFIO68U05C0q5pGrH69TcTee7vdxiA8jzwL5LQ4o9OYvuoc4tvqO2lT4P7NYWHJp
+ UVsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Kzs6N7vPIGjHsPFBWcJpGYTind6XbEBvmk85TtJ8few=;
- b=m8UmR0ZtKCwwBd+DIPIynzcndw9Gc8JVYR3BSrDU8MdQDGI+4N2Y+xHo9pqJPGZqF1
- a/IU9h5zMyKq6aUuCr1l84qWnqmSzIE91xoDsaQI83dkw6BpwgpHXccjmJ0daZOm4Er8
- AQr+2pw7zOF/PPWVVw4p4qCJ1ZoD1jDpC7CpprAZoXN1fGceSQWxcrQVI4BXjHynqcRl
- 5wi36DZRxg15w9eEKBCzsTnHfHS6rFuaaggJO4bSppcrB9O49v+t6OlvLfGO7bDiE9aQ
- 1GGw5SBf4S0dlVuIuDrJ5Z2KL8QE1YSFh2QicOP9JXbZ81Brs6idIJiFxCEgdXU9mW56
- o8Jw==
-X-Gm-Message-State: AOAM532bvkVk3eF3zEKG86hgv1t00mLQEmzn2EMd3TCLOGPeGnYyIdBa
- TwE8qJlBdOuk8LyEMzNIGU+xAA==
-X-Google-Smtp-Source: ABdhPJwZeoPo9x8omx+s81/54cyOuzAHHrczEqi/4LBb31/NEc+YbqFYrgBCMYpFAXLQ2fhSxkv3Ug==
-X-Received: by 2002:aca:b506:: with SMTP id e6mr2278535oif.119.1608132308042; 
- Wed, 16 Dec 2020 07:25:08 -0800 (PST)
+ bh=EBiJLFbCoGaT5KSrVznC/DIBoyJXIdpSOQsDldGdams=;
+ b=ofvMDuLn6e3SLVDL30FXWBMKj6bTlWEOZTZRkr+EoJWNOfK9XxPiqX42nXL0vJ91qy
+ uKaNZxBz2NHA1EGnrS5W854EX+HDJAbDKT7RqKTkf8r2WAuCOarumcny5UZblALg1MHW
+ hIsSmWWNhyf5z+pE2ia2+Gd8nltFMzuQU5oispZu+B/k/5VepdtiNFjHF5EzdVuitoq9
+ tc7HsVcDJn/AGC00+awd3C6F36yynQ+WsDrsN6YfPwF0bgPHKaQ+Jl5GSFu1cN9C/4c4
+ UgYgrvhv190rbkAVTpL6ZKvGuSBzGtHYS2zQg7Oksm4JqixraFzeN5E9xR1ZAzYGf2SG
+ e5KA==
+X-Gm-Message-State: AOAM532Yq4Ump9HzArRN1PU1uPEN12b4jrk6KpEGIIh/AFErZ5kvzkif
+ k4UOOvEse2VGVLarfULqx1oxWg==
+X-Google-Smtp-Source: ABdhPJwHG4/HaDrPKlDLJX8nrwNX3DFGmb7GRvHfDZUJHhzWJYYxjG279ov5WlRfkIt0JyeDBdyIjw==
+X-Received: by 2002:aca:ec13:: with SMTP id k19mr2310751oih.97.1608132360448; 
+ Wed, 16 Dec 2020 07:26:00 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id 30sm490279oth.7.2020.12.16.07.25.06
+ by smtp.gmail.com with ESMTPSA id s23sm598074oot.0.2020.12.16.07.25.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Dec 2020 07:25:07 -0800 (PST)
-Subject: Re: [RFC v2 04/15] target/riscv: rvb: logic-with-negate
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20201216020150.3157-1-frank.chang@sifive.com>
- <20201216020150.3157-5-frank.chang@sifive.com>
+ Wed, 16 Dec 2020 07:25:59 -0800 (PST)
+Subject: Re: [PATCH 3/3] trace: do not include TCG helper tracepoints in
+ no-TCG builds
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20201216135529.265165-1-pbonzini@redhat.com>
+ <20201216135529.265165-4-pbonzini@redhat.com>
+ <98e787e4-884b-61c5-bf52-b041f57747c3@linaro.org>
+ <a4974b10-ba71-8bd7-e5a9-6eef7543cee4@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <db13a75d-1632-1683-6f3a-af1935fc8b7d@linaro.org>
-Date: Wed, 16 Dec 2020 09:25:04 -0600
+Message-ID: <476adc2f-fbff-48a9-78fa-ce64cc3e5f80@linaro.org>
+Date: Wed, 16 Dec 2020 09:25:57 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201216020150.3157-5-frank.chang@sifive.com>
+In-Reply-To: <a4974b10-ba71-8bd7-e5a9-6eef7543cee4@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::235;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x235.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,37 +91,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/15/20 8:01 PM, frank.chang@sifive.com wrote:
-> +static void gen_andn(TCGv ret, TCGv arg1, TCGv arg2)
-> +{
-> +    TCGv t = tcg_temp_new();
-> +    tcg_gen_andc_tl(ret, arg1, arg2);
-> +    tcg_temp_free(t);
-> +}
-> +
-> +static void gen_orn(TCGv ret, TCGv arg1, TCGv arg2)
-> +{
-> +    TCGv t = tcg_temp_new();
-> +    tcg_gen_orc_tl(ret, arg1, arg2);
-> +    tcg_temp_free(t);
-> +}
-> +
-> +static void gen_xnor(TCGv ret, TCGv arg1, TCGv arg2)
-> +{
-> +    TCGv t = tcg_temp_new();
-> +    tcg_gen_eqv_tl(ret, arg1, arg2);
-> +    tcg_temp_free(t);
-> +}
+On 12/16/20 9:22 AM, Paolo Bonzini wrote:
+> On 16/12/20 16:13, Richard Henderson wrote:
+>>> @@ -71,7 +71,7 @@ foreach d : [
+>>>                   input: meson.project_source_root() / 'trace-events',
+>>>                   command: [ tracetool, '--group=root',
+>>> '--format=@0@'.format(d[1]), '@INPUT@' ],
+>>>                   capture: true)
+>>> -  specific_ss.add(gen)
+>>> +  specific_ss.add(when: 'CONFIG_TCG', if_true: gen)
+>>>   endforeach
+>>
+>> Sure, unless it makes more sense to conditionalize the entire loop, so that
+>> those targets aren't even created?
+> 
+> The targets exist but the files won't be created (the rules will be in
+> build.ninja but they'll be orphan).
 
-Drop these functions entirely, along with their unused temporaries.
+Yes, I get that.  So... is there a reason for them to be there, when it seems
+just as easy for them not to be?
 
 
 r~
