@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7736D2DC4D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:59:05 +0100 (CET)
-Received: from localhost ([::1]:57220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D022DC4D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:59:19 +0100 (CET)
+Received: from localhost ([::1]:57222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpa8m-0003br-Hq
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:59:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38268)
+	id 1kpa90-0003bt-FJ
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:59:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpZyp-0008Fu-GS
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:48:47 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41821)
+ id 1kpZyq-0008Hy-Cv
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:48:48 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpZyn-0002PN-M6
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:48:47 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id a12so23816104wrv.8
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:48:45 -0800 (PST)
+ id 1kpZyo-0002PS-Ix
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:48:48 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id a12so23816150wrv.8
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:48:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2eVOlhod5aYsfnXeJBxVOLpS1FoyFiYktCGQIZA6BEI=;
- b=M7yZQxuNESFLxC8e3Xr2DO6fLSWyl7x/wlT6B7SivBQ0T+kaZTEqlOuSh+vTTNBBWK
- Cmyh6RemptgZKGsu2t9UiNFyz3I8IQS8nl64Xpwnh+J7y+aKR+bIrAKj+IzH42lkx77I
- j5Cz5OTmyo1cavJGL0BO9oOmE1Sky+EBybPfZ9rzWtJ8mfcakrvVYC3Ayi+eQzNAvPyq
- hmCnpAyNfM8pYQMFQeF+4ZZs/RBtTR/uHiKzU/YU30QmMMiifqAICLIwGPHFJEOxu9Mk
- CaoW0UOFrgG6nLaa5ap5bLkf5ni9+AAoHENnCxdRSiQpxyY0fDl5gwH5Ye/YSNOw0lgl
- 2hJA==
+ bh=UBVbAOKJHkDQsXBjd+dm95k76D5jiYsHiFF9IIrWfcg=;
+ b=VBGN/8QJB6Q3dZnEiay0Hjx0C7blghQh/jMAfb+YQk2XNYvh9U+sMxGiSBVaqBK7S6
+ YFAfAn+tUFlvofdfAIGFoT1srVrG50dmSv3N2VNjnA6A5WJeYfevVLzUEUSX9HgrZxlo
+ d/8ltlhbjT5mKVN9cSKPBLhDI2LTM5DGs63B2f9/dwfiYp/6kEhtN+lUjBx/gRbRtQLZ
+ bRVUVV+gzYAvJ8H9hvlCtxxIhFISCGiCGjwtVQKWX3SlXfFEt4yqL0QFMOKfQxnbQtW0
+ pHAZYNo1uRN5r9iLsXT3VwloF+b48UdInAqB41yfI6jEr/qsd7dPmMdBuIVf78hLfZJe
+ pWag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2eVOlhod5aYsfnXeJBxVOLpS1FoyFiYktCGQIZA6BEI=;
- b=eyEq65Eh2qKZmzixDXYsqgz5FKcX0qy97jmjVLTbzntcSoeMsLLXVw/T7IU1ruHjR1
- xxx+v2uspawGw98cWfvuq1BfAwaiNnYrCRE1h6zd5BXBoNDNqyg80BCdBmQZ+Ewc6KMo
- 6TzIS5RrI+Y17q4vBOYr7b91CbzttRSKgLSvzUpasG39Ie81Pbi2KzjKZ+Di0H7wdwqy
- iBSETluf8quldbWDY5c/Ii7JM9xrUfAQ18eUCGj5Sh8cjYWOFJjfcZIA7XH0/eyjHpgC
- 6CA/db9MjQd53ml/R6RQCXaH11iuvQlaHIxjHpBTGuDN81wIj93e7AbGxjwc/GwX2oC7
- ImhQ==
-X-Gm-Message-State: AOAM531Q9JW2p6pZxMlRV1RFw1ZKY/8JhuLnPIfUEjQTnjkrsHNsFH+c
- VpB/1Og1b55tMell6fTjShzEwQ==
-X-Google-Smtp-Source: ABdhPJwY8L5UUKpjLlQFIW+xnMLQa1NDPVdVqOWts6vAJL6BWTkiSnaUyrBBTXFUCYvnEM3t2/9l1Q==
-X-Received: by 2002:a05:6000:1152:: with SMTP id
- d18mr7985246wrx.6.1608137324335; 
- Wed, 16 Dec 2020 08:48:44 -0800 (PST)
+ bh=UBVbAOKJHkDQsXBjd+dm95k76D5jiYsHiFF9IIrWfcg=;
+ b=mGoNwgM72Y8wUkIBm5uPO26dCqbiRymLDzs0CL+h0LLTWm0KGAE/MPqorR/EDso343
+ Ebb3V8nivA9PnN8aQwRee6H/sagX7rzwr3hoqfkyKDJ6U2ajAD16IIDCoWcKnQcWTSjm
+ y375axRRA2ufGFLfWGimeQt5ZyJj5+3G851PTMH5dh5SZKMHKA9AxzpxkN3Yce1qbbXK
+ Pps/MSXIM3GiKCig9tNToyQtTULsXaz5HoS3zTMswOkkpycirXB9WIE9nCq+KJqYvtgW
+ so+0CML8kNir0ej1lqbkRG5eZhj47+blpYLZ1LFZkBVxRMeZQ/D6/NsujguyCM71ghFl
+ f8sw==
+X-Gm-Message-State: AOAM5320Bagrtb7UfoAwBwtwFyGL+sQFEiLw6pBA4aarTNRTwT06kD8c
+ IU6ZEwIw1k3TevyezQI9Sg3Stg==
+X-Google-Smtp-Source: ABdhPJziSS02YjMWVd19xcur78kJxRq+9mvG4cRL78itSC+Gl/mn6ncg/CGOlPwJGzAjrTQap1SLHQ==
+X-Received: by 2002:a5d:4a09:: with SMTP id m9mr13642653wrq.359.1608137325259; 
+ Wed, 16 Dec 2020 08:48:45 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w3sm3743673wma.3.2020.12.16.08.48.33
+ by smtp.gmail.com with ESMTPSA id u7sm2230520wmu.47.2020.12.16.08.48.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 16 Dec 2020 08:48:37 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AFC771FF98;
+ by zen.linaroharston (Postfix) with ESMTP id C66A01FF99;
  Wed, 16 Dec 2020 16:48:28 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/11] gitlab-CI: Test 32-bit builds with the fedora-i386-cross
- container
-Date: Wed, 16 Dec 2020 16:48:25 +0000
-Message-Id: <20201216164827.24457-10-alex.bennee@linaro.org>
+Subject: [PULL 10/11] tests/docker: Remove the remainders of debian9
+ containers from the Makefile
+Date: Wed, 16 Dec 2020 16:48:26 +0000
+Message-Id: <20201216164827.24457-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201216164827.24457-1-alex.bennee@linaro.org>
 References: <20201216164827.24457-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,95 +96,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-After adding some missing packages, it's possible to check 32-bit
-builds and tests with the fedora-i386-cross container in the gitlab-CI,
-too. Unfortunately, the code in subprojects/ ignores the --extra-cflags
-(on purpose), so the vhost-user part has to be disabled for this.
+The Debian 9 containers have been removed a while ago, so we can
+delete the corresponding entries in the Makefile, too.
 
-While we're at it, update the container to Fedora 31. Unfortunately the
-gcc from the later versions emits some very dubious format-truncation
-warnings, so Fedora 32 and 33 are currently unsuitable for this job.
-
+Fixes: e3755276d1 ("tests/docker: Remove old Debian 9 containers")
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20201215083451.92322-1-thuth@redhat.com>
+Message-Id: <20201215083318.92205-1-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index fcc1b95290..66547b6683 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -10,7 +10,7 @@
-         --target-list-exclude="arm-softmmu cris-softmmu i386-softmmu
-           microblaze-softmmu mips-softmmu mipsel-softmmu mips64-softmmu
-           ppc-softmmu sh4-softmmu xtensa-softmmu"
--    - make -j$(expr $(nproc) + 1) all check-build
-+    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 02ec92830b..c254ac38d0 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -11,8 +11,7 @@ HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
+ DOCKER_SUFFIX := .docker
+ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ # we don't run tests on intermediate images (used as base by another image)
+-DOCKER_PARTIAL_IMAGES := debian9 debian10 debian11
+-DOCKER_PARTIAL_IMAGES += debian9-mxe debian-bootstrap
++DOCKER_PARTIAL_IMAGES := debian10 debian11 debian-bootstrap
+ DOCKER_IMAGES := $(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker))))
+ DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+ # Use a global constant ccache directory to speed up repetitive builds
+@@ -96,7 +95,6 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
+ endif
  
- # Job to cross-build specific accelerators.
- #
-@@ -37,7 +37,7 @@
-     - cd build
-     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-       ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-system
--    - make -j$(expr $(nproc) + 1) all check-build
-+    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
+ # Enforce dependencies for composite images
+-docker-image-debian9-mxe: docker-image-debian9
+ ifeq ($(HOST_ARCH),x86_64)
+ docker-image-debian-amd64: docker-image-debian10
+ DOCKER_PARTIAL_IMAGES += debian-amd64-cross
+@@ -104,8 +102,6 @@ else
+ docker-image-debian-amd64-cross: docker-image-debian10
+ DOCKER_PARTIAL_IMAGES += debian-amd64
+ endif
+-docker-image-debian-win32-cross: docker-image-debian9-mxe
+-docker-image-debian-win64-cross: docker-image-debian9-mxe
  
- cross-armel-system:
-   extends: .cross_system_build_job
-@@ -69,6 +69,18 @@ cross-arm64-user:
-   variables:
-     IMAGE: debian-arm64-cross
- 
-+cross-i386-system:
-+  extends: .cross_system_build_job
-+  variables:
-+    IMAGE: fedora-i386-cross
-+    MAKE_CHECK_ARGS: check-qtest
-+
-+cross-i386-user:
-+  extends: .cross_user_build_job
-+  variables:
-+    IMAGE: fedora-i386-cross
-+    MAKE_CHECK_ARGS: check
-+
- cross-mips-system:
-   extends: .cross_system_build_job
-   variables:
-diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
-index cd16cd1bfa..a6e411291b 100644
---- a/tests/docker/dockerfiles/fedora-i386-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
-@@ -1,14 +1,26 @@
--FROM fedora:30
-+FROM fedora:31
- ENV PACKAGES \
-+    bzip2 \
-+    diffutils \
-+    findutils \
-     gcc \
-+    git \
-+    libtasn1-devel.i686 \
-+    libzstd-devel.i686 \
-+    make \
-+    meson \
-+    ninja-build \
-     glib2-devel.i686 \
-     glibc-devel.i686 \
-     glibc-static.i686 \
-     gnutls-devel.i686 \
-     nettle-devel.i686 \
-+    perl-Test-Harness \
-     pixman-devel.i686 \
--    zlib-devel.i686 \
--    libzstd-devel.i686
-+    zlib-devel.i686
-+
-+ENV QEMU_CONFIGURE_OPTS --extra-cflags=-m32 --disable-vhost-user
-+ENV PKG_CONFIG_PATH /usr/lib/pkgconfig
- 
- RUN dnf install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
+ # For non-x86 hosts not all cross-compilers have been packaged
+ ifneq ($(HOST_ARCH),x86_64)
 -- 
 2.20.1
 
