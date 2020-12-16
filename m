@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013CA2DC841
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 22:20:03 +0100 (CET)
-Received: from localhost ([::1]:48218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8BC2DC835
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 22:17:29 +0100 (CET)
+Received: from localhost ([::1]:42158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpeDK-0002La-2m
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 16:20:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48310)
+	id 1kpeAq-0008B8-Fq
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 16:17:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kpe9K-0007IW-4r
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 16:15:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46242)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpe9G-0007FK-OY
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 16:15:50 -0500
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:42574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kpe9I-0007kW-0H
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 16:15:53 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kpe9E-0007pf-Cv
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 21:15:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 189972E813C
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 21:15:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpe9E-0007kO-4p
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 16:15:50 -0500
+Received: by mail-oi1-x236.google.com with SMTP id l200so29359424oig.9
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 13:15:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=dhvcMQvhoRuqlm7Cn0mvhSFDfcmcRXxSs7q3FMiDo3o=;
+ b=Q01gijL+CwDh2D8c1p5/gFlFLd4fUszyAp6UsM3HMkU5w5MUH79MnQCt44oB/I5wFd
+ 6qlT5y0PPB0UjeWV9cD+C6EI+1u008LzbvcQ8B8uux6oDhrZeIlLYxyZKjup3lcV3uHR
+ D358NjzlPb55xGuu0rpSbVpa2sN1lDoqHmwAkmzJSSm4cQacfYJ3qtT0FQhiRsPEWXPw
+ vMcNf0BkOx/60c5nEZBt9Eqa3BZ7IH/tEGwwQytioqgLRaWEgyU6A3Fz+3r/hODDUaK8
+ hoStEUyHXBytWxCqOYGwNUALHf4vtLAxDwrcj63dWTo6oI34S9Trkbzx+n7p8plhMBu+
+ qNpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dhvcMQvhoRuqlm7Cn0mvhSFDfcmcRXxSs7q3FMiDo3o=;
+ b=E+5CO5p81I2lPzitHfY3H+zHa5nh2L9a/Znk2dZs9lKZFvfCINaZ4OZWA6FTRQYyEh
+ s6WpTmRgkuNTeDEU9h1se8pdbQ7JBUkXgX8UADQlw8CQE+L7hXIELxzb/MFASWwSpzW/
+ /N6TeLREU1xvQMVSj1aFqtS6vKuhIBMgDfbGGRQQaIqg1210XTsBYOSvdkz20FdcnYEz
+ G3O3JdtcGFXs8Bw4o6UzUL0l5cvWLDzQ2ICSKcgjTjEqYtj7G/chKlrKpX2SoEFtY9FR
+ 2BFM0wTC8G1XmB1gNj5OqWpp8WGNX0e5etFNk8xPo23bnDf6EFvW7E6qwMA9ybSI4Mol
+ BMfg==
+X-Gm-Message-State: AOAM531JFGkQhLG4Y12tMR2EIIl2Pw48BWL2WiRg4WfvcZ8LALzPjHr2
+ La8nVWIxF3r26o+4IT/l7Zy2uupZ7EVUdmOd
+X-Google-Smtp-Source: ABdhPJwOKUospZszQFgKgOJyYt8K/zivp+2sHzYPowstuBlKoC1bXc0ly2hHkB9LWYQeN1cPeuaVYg==
+X-Received: by 2002:aca:504e:: with SMTP id e75mr3124333oib.170.1608153346496; 
+ Wed, 16 Dec 2020 13:15:46 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id m10sm694189oig.27.2020.12.16.13.15.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Dec 2020 13:15:45 -0800 (PST)
+Subject: Re: [PATCH v3 1/4] hw/intc/armv7m_nvic: Correct handling of
+ CCR.BFHFNMIGN
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20201210201433.26262-1-peter.maydell@linaro.org>
+ <20201210201433.26262-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d37233a8-85ea-fe22-6287-3a255a217ad0@linaro.org>
+Date: Wed, 16 Dec 2020 15:15:43 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 16 Dec 2020 21:05:47 -0000
-From: =?utf-8?q?Andreas_K=2E_H=C3=BCttel?= <1906193@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dilfridge
-X-Launchpad-Bug-Reporter: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
- =?utf-8?q?=29?=
-References: <160669515259.21126.12178770886175022752.malonedeb@gac.canonical.com>
-Message-Id: <160815274799.3694.11955917378384050258.malone@gac.canonical.com>
-Subject: [Bug 1906193] Re: riscv32 user mode emulation: fork return values
- broken
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a68a6d599c812dd1dd335307d9c5c017c50ba81b"; Instance="production"
-X-Launchpad-Hash: a31e52c0d4e1182d719bd63566e8dcf7d1cfcc81
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201210201433.26262-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x236.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,112 +89,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906193 <1906193@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here's qemu's own strace log:
+On 12/10/20 2:14 PM, Peter Maydell wrote:
+> The CCR is a register most of whose bits are banked between security
+> states but where BFHFNMIGN is not, and we keep it in the non-secure
+> entry of the v7m.ccr[] array.  The logic which tries to handle this
+> bit fails to implement the "RAZ/WI from Nonsecure if AIRCR.BFHFNMINS
+> is zero" requirement; correct the omission.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> Changes since v2: get the "WI" bit right
+> ---
+>  hw/intc/armv7m_nvic.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 
-farino ~ # /usr/bin/qemu-riscv32 -strace /chroot/riscv-ilp32/tmp/wait-test-=
-short
-10123 brk(NULL) =3D 0x00073000
-10123 brk(0x00073880) =3D 0x00073880
-10123 uname(0x407ffed8) =3D 0
-10123 readlinkat(AT_FDCWD,"/proc/self/exe",0x407feff0,4096) =3D 39
-10123 brk(0x00094880) =3D 0x00094880
-10123 brk(0x00095000) =3D 0x00095000
-10123 mprotect(0x0006e000,8192,PROT_READ) =3D 0
-10123 clone(CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|0x11,child_stack=3D0x00=
-000000,parent_tidptr=3D0x00000000,tls=3D0x00000000,child_tidptr=3D0x0007306=
-8) =3D 10125
-10123 clone(CLONE_CHILD_CLEARTID|CLONE_CHILD_SETTID|0x11,child_stack=3D0x00=
-000000,parent_tidptr=3D0x00000000,tls=3D0x00000000,child_tidptr=3D0x0007306=
-8) =3D 0
-10125 exit_group(42)
-10123 waitid(0,-1,0x407fff8c,0x4) =3D 0
-10123 statx(1,"",AT_EMPTY_PATH,STATX_BASIC_STATS,0x407ff8e8) =3D 0
-child wants to return 42 (0x2A), parent received 40 (0x28), difference -2
-10123 write(1,0x73ad0,74) =3D 74
-10123 exit_group(0)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906193
-
-Title:
-  riscv32 user mode emulation: fork return values broken
-
-Status in QEMU:
-  New
-
-Bug description:
-  When running in a chroot with riscv32 (on x86_64; qemu git master as
-  of today):
-
-  The following short program forks; the child immediately returns with
-  exit(42). The parent checks for the return value - and obtains 40!
-
-  gcc-10.2
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  #include <stdlib.h>
-  #include <unistd.h>
-  #include <stdio.h>
-  #include <sys/wait.h>
-
-  main(c, v)
-       int c;
-       char **v;
-  {
-    pid_t pid, p;
-    int s, i, n;
-
-    s =3D 0;
-    pid =3D fork();
-    if (pid =3D=3D 0)
-      exit(42);
-
-    /* wait for the process */
-    p =3D wait(&s);
-    if (p !=3D pid)
-      exit (255);
-
-    if (WIFEXITED(s))
-    {
-       int r=3DWEXITSTATUS(s);
-       if (r!=3D42) {
-        printf("child wants to return %i (0x%X), parent received %i (0x%X),=
- difference %i\n",42,42,r,r,r-42);
-       }
-    }
-  }
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  (riscv-ilp32 chroot) farino /tmp # ./wait-test-short =
-
-  child wants to return 42 (0x2A), parent received 40 (0x28), difference -2
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  (riscv-ilp32 chroot) farino /tmp # gcc --version
-  gcc (Gentoo 10.2.0-r1 p2) 10.2.0
-  Copyright (C) 2020 Free Software Foundation, Inc.
-  Dies ist freie Software; die Kopierbedingungen stehen in den Quellen. Es
-  gibt KEINE Garantie; auch nicht f=C3=BCr MARKTG=C3=84NGIGKEIT oder F=C3=
-=9CR SPEZIELLE ZWECKE.
-
-  (riscv-ilp32 chroot) farino /tmp # ld --version
-  GNU ld (Gentoo 2.34 p6) 2.34.0
-  Copyright (C) 2020 Free Software Foundation, Inc.
-  This program is free software; you may redistribute it under the terms of
-  the GNU General Public License version 3 or (at your option) a later vers=
-ion.
-  This program has absolutely no warranty.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906193/+subscriptions
+r~
 
