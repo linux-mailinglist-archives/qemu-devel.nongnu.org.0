@@ -2,95 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34D02DC249
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 15:34:22 +0100 (CET)
-Received: from localhost ([::1]:45620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 423892DC271
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 15:46:56 +0100 (CET)
+Received: from localhost ([::1]:37522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpXsj-0001cH-VJ
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 09:34:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52392)
+	id 1kpY4t-00027Q-3w
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 09:46:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpXpV-0007if-K9
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 09:31:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57514)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kpY11-0007Rd-Jv
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 09:42:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpXpS-000525-I9
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 09:31:00 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kpY0z-0000is-7H
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 09:42:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608129055;
+ s=mimecast20190719; t=1608129771;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XmeDqr8lA/I3mtEsYkVzHdQovhuKezmVwRIWNat3Ua8=;
- b=dy5cnwrz/t56H9DspHqdm5Ku56qzRbkhgxa8MVK+FAYODDNUiwjZ3YVthr0xPd5ga7MLA3
- /dcXYfZYHUza2VIetjH3E87nF0KcocDAYPU2ZRX93KcrozO3puB7JJmvCAntgY0/ql4STw
- XIva+qfsMc7qn7PF17FDSHuDyaNdrSA=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-sq4GbnCEMxC-HMY43QCFlw-1; Wed, 16 Dec 2020 09:30:53 -0500
-X-MC-Unique: sq4GbnCEMxC-HMY43QCFlw-1
-Received: by mail-ed1-f69.google.com with SMTP id f19so11801436edq.20
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 06:30:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XmeDqr8lA/I3mtEsYkVzHdQovhuKezmVwRIWNat3Ua8=;
- b=bskbap66G231BBdJqN8dum4DR663lucxKtsluAYEVu7fEtZ6CcDBI9nK76OJ9J6ft+
- 96GsRkQR8lYNd041bMKnlJhpTn2hRaFRxc9W73AmpLI4Yt+MH0JiKXOBjNcz2bV+dCoi
- e4mIBBkO2r7Qs28Vf13+8Q7lG2W1lRic8MzXTGsnR7BYgI08N3QG4Iu9y+d0a7os6W/m
- bhO/IdnfJvAhs8MJozmTsPbzq5H+LQ2DSckkSKyyVYREhXGofRGoONTohSG5vJGrZOro
- Mg6pQ9vDpC+1OZFNG6zxDPnCmZmu54VFPd7LTz+9dYEdOaOXQESOZZ6Tuc5T861T1Dox
- csGQ==
-X-Gm-Message-State: AOAM530776PIdIyo3ayN6tfSYA4dKU0yB0k1OeOjfGuPJzF40hRCaqh2
- jVj7VLCqzptd5rsJHNP2jWrHPc7CZnLLnRbS3wGbl9qgCAK5zefS6VgBru4x6m4dPi0NuXgl0cx
- gKKInxnsIvUdWu5g=
-X-Received: by 2002:a17:907:101c:: with SMTP id
- ox28mr29227741ejb.201.1608129050961; 
- Wed, 16 Dec 2020 06:30:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwaOGA00ZUpqW0wpDEk4IgtgBrCGQSvsfIZPx5FPbGLcc6PVmP48JcC1lZG8L+CwImVpAIJEw==
-X-Received: by 2002:a17:907:101c:: with SMTP id
- ox28mr29227639ejb.201.1608129049739; 
- Wed, 16 Dec 2020 06:30:49 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id o13sm20761297edr.94.2020.12.16.06.30.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Dec 2020 06:30:48 -0800 (PST)
-Subject: Re: [PATCH v2 3/8] configure: move gettext detection to meson.build
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20201210190417.31673-1-alex.bennee@linaro.org>
- <20201210190417.31673-4-alex.bennee@linaro.org> <873605u92a.fsf@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ca2f983f-0b67-37d6-c853-a239105c7e40@redhat.com>
-Date: Wed, 16 Dec 2020 15:30:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=7vMCLcqRR1eNRYu6OA4/IViHWXTbaZyoys0aGofRiEc=;
+ b=YGpTnrQjAREK0Psp8h5K5woWHN73whtlkSNjoepVkEm2Apq32cSUOfUaPr4PcuX7ow9SFN
+ CA4NzTc0ejl4BvLQNCH8mimgvL+VFXVO0Y6ygSuV6DCwF6f0ZDB8gKmbBQgAHj8ZJ294sE
+ 0HOYwuT8cXMTc0O0rY1hqLcJv3m7HTQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-404-Ne41Ol0_Mr639TD5tXV40A-1; Wed, 16 Dec 2020 09:42:48 -0500
+X-MC-Unique: Ne41Ol0_Mr639TD5tXV40A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BAE7100E345;
+ Wed, 16 Dec 2020 14:42:42 +0000 (UTC)
+Received: from localhost (ovpn-115-151.ams2.redhat.com [10.36.115.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2651FE713;
+ Wed, 16 Dec 2020 14:42:41 +0000 (UTC)
+Date: Wed, 16 Dec 2020 14:42:41 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 3/3] trace: recommend "log" backend for getting started
+ with tracing
+Message-ID: <20201216144241.GA707467@stefanha-x1.localdomain>
+References: <20201209174225.401337-1-stefanha@redhat.com>
+ <20201209174225.401337-4-stefanha@redhat.com>
+ <CAFEAcA9nwUtgVF3-n=tfJ6JDTViP-G2XQhSWk-n-tEuV_aGvyQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <873605u92a.fsf@linaro.org>
+In-Reply-To: <CAFEAcA9nwUtgVF3-n=tfJ6JDTViP-G2XQhSWk-n-tEuV_aGvyQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="YZ5djTAD1cGYuMQK"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,109 +81,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, aurelien@aurel32.net
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/12/20 15:19, Alex Bennée wrote:
-> 
-> Alex Bennée <alex.bennee@linaro.org> writes:
-> 
->> This will allow meson to honour -Dauto_features=disabled later.
->>
->> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> ping Paolo, are you happy with this bit?
+--YZ5djTAD1cGYuMQK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, I'm so happy with this and the --with-default-features parts that I 
-was going to include it in my next pull request. :)
+On Fri, Dec 11, 2020 at 03:06:17PM +0000, Peter Maydell wrote:
+> On Wed, 9 Dec 2020 at 17:42, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> >
+> > The "simple" backend is actually more complicated to use than the "log"
+> > backend. Update the quickstart documentation to feature the "log"
+> > backend instead of the "simple" backend.
+> >
+> > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  docs/devel/tracing.rst | 19 ++++++++-----------
+> >  1 file changed, 8 insertions(+), 11 deletions(-)
+> >
+> > diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
+> > index 76cc1b24fa..039a0bb267 100644
+> > --- a/docs/devel/tracing.rst
+> > +++ b/docs/devel/tracing.rst
+> > @@ -11,9 +11,9 @@ for debugging, profiling, and observing execution.
+> >  Quickstart
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > -1. Build with the 'simple' trace backend::
+> > +1. Build with the 'log' trace backend::
+> >
+> > -    ./configure --enable-trace-backends=3Dsimple
+> > +    ./configure --enable-trace-backends=3Dlog
+> >      make
+>=20
+> Isn't this the default ?
+>=20
+> It seems to me that the real "quickstart" is
+> "your QEMU binary was likely already built with the log backend,
+> so all you need to do is pass it '-trace eventname -trace eventname'
+> or '-trace some-pattern*'" (or whatever the syntax is: I
+> usually use -d trace=3Dsomething but I assume we'd rather suggest
+> -trace to new users ?)
+>=20
+> We can suggest also "if you have a lot of events you might find
+> it useful to put them in a file and use --trace events=3Dfile"
+> but IME that's not the common case for "getting started with
+> just outputting trace events" because you can usually enable
+> a whole device's trace events with one suitable glob pattern.
 
-Series
+Good idea, I'll simplify the quickstart section.
 
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+> >  2. Create a file with the events you want to trace::
+> > @@ -24,10 +24,6 @@ Quickstart
+> >
+> >      qemu --trace events=3D/tmp/events ... # your normal QEMU invocatio=
+n
+> >
+> > -4. Pretty-print the binary trace file::
+> > -
+> > -    ./scripts/simpletrace.py trace-events-all trace-* # Override * wit=
+h QEMU <pid>
+> > -
+> >  Trace events
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > @@ -195,7 +191,7 @@ script.
+> >
+> >  The trace backends are chosen at configure time::
+> >
+> > -    ./configure --enable-trace-backends=3Dsimple
+> > +    ./configure --enable-trace-backends=3Dlog
+>=20
+> 'log' is the default so we don't need to specifically suggest people
+> select it as a configure argument.
 
-Paolo
+Will fix.
 
->> ---
->>   configure         | 19 +++----------------
->>   meson_options.txt |  2 +-
->>   po/meson.build    |  2 +-
->>   3 files changed, 5 insertions(+), 18 deletions(-)
->>
->> diff --git a/configure b/configure
->> index 8f2095a2db..46fdea88c7 100755
->> --- a/configure
->> +++ b/configure
->> @@ -448,7 +448,7 @@ libdaxctl=""
->>   meson=""
->>   ninja=""
->>   skip_meson=no
->> -gettext=""
->> +gettext="auto"
->>   
->>   bogus_os="no"
->>   malloc_trim="auto"
->> @@ -1014,9 +1014,9 @@ for opt do
->>     ;;
->>     --enable-vnc) vnc="enabled"
->>     ;;
->> -  --disable-gettext) gettext="false"
->> +  --disable-gettext) gettext="disabled"
->>     ;;
->> -  --enable-gettext) gettext="true"
->> +  --enable-gettext) gettext="enabled"
->>     ;;
->>     --oss-lib=*) oss_lib="$optarg"
->>     ;;
->> @@ -2839,19 +2839,6 @@ if test "$xen_pci_passthrough" != "disabled"; then
->>     fi
->>   fi
->>   
->> -##########################################
->> -# gettext probe
->> -if test "$gettext" != "false" ; then
->> -  if has xgettext; then
->> -    gettext=true
->> -  else
->> -    if test "$gettext" = "true" ; then
->> -      feature_not_found "gettext" "Install xgettext binary"
->> -    fi
->> -    gettext=false
->> -  fi
->> -fi
->> -
->>   ##########################################
->>   # X11 probe
->>   if $pkg_config --exists "x11"; then
->> diff --git a/meson_options.txt b/meson_options.txt
->> index f6f64785fe..191e848600 100644
->> --- a/meson_options.txt
->> +++ b/meson_options.txt
->> @@ -9,7 +9,7 @@ option('sphinx_build', type : 'string', value : '',
->>   
->>   option('docs', type : 'feature', value : 'auto',
->>          description: 'Documentations build support')
->> -option('gettext', type : 'boolean', value : true,
->> +option('gettext', type : 'feature', value : 'auto',
->>          description: 'Localization of the GTK+ user interface')
->>   option('install_blobs', type : 'boolean', value : true,
->>          description: 'install provided firmware blobs')
->> diff --git a/po/meson.build b/po/meson.build
->> index 1387fd979a..a863f0575f 100644
->> --- a/po/meson.build
->> +++ b/po/meson.build
->> @@ -1,6 +1,6 @@
->>   i18n = import('i18n')
->>   
->> -if get_option('gettext')
->> +if find_program('xgettext', required: get_option('gettext')).found()
->>     i18n.gettext(meson.project_name(),
->>                  args: '--msgid-bugs-address=qemu-devel@nongnu.org',
->>                  preset: 'glib')
-> 
-> 
+--YZ5djTAD1cGYuMQK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/aHOAACgkQnKSrs4Gr
+c8ij6Qf/U4kHEkXJBTXo679L1OvZBfsgenNFwtLwlfXIfinnVLroi+JjxoKlZpYP
+oZuDnF/sofzaBGbRFpVlw3ur+mWlaCKRArA+4sh3ySA/pucsfxe9NMgPBnY9vUk7
+v0j8oC4kLUpnpFe43oBOcG6Jp8Wqe0l+LHsjcPA9SZ6EsvJ2FizbknJNDRbsbFKn
+aGSqreO4zSBWxmo7o/ejEniia5e5pWF37oIrWAmQsUCfZtrf8w2bavBq0asIpRFu
+kwzswRVsjQ93b6zO8yHKLkFixtYxDnVUhVVvlFxJr4LsCkb5mKTsrxMAYzk2Hqsw
+sra1GvJrN0n0wRSNVrybi5fXJ0Q2Ew==
+=ELzD
+-----END PGP SIGNATURE-----
+
+--YZ5djTAD1cGYuMQK--
 
 
