@@ -2,49 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1904C2DB7EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 01:50:24 +0100 (CET)
-Received: from localhost ([::1]:40674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B74A2DB87A
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 02:39:13 +0100 (CET)
+Received: from localhost ([::1]:52210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpL1L-0003AI-67
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 19:50:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39738)
+	id 1kpLmZ-0002IH-VT
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 20:39:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kpKzv-00028F-0h; Tue, 15 Dec 2020 19:48:55 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:42893 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <gromero@linux.ibm.com>)
+ id 1kpLkq-0001aW-23; Tue, 15 Dec 2020 20:37:24 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kpKzs-0000uh-Fv; Tue, 15 Dec 2020 19:48:54 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cwc234L1Pz9sSn; Wed, 16 Dec 2020 11:48:43 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1608079723;
- bh=051eeJt+o0LHsk5VszTwucb67ia31Daaz43UdZ1Frtc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hvSwPZ3rKuLpCtrNuviL//5aAWJPpgdYHsNAiErc9S+olcC2KA7/FjapWuufL3aBj
- aylwuX5oOuWGhwvV6Sc6IGWoro70s1I6ip/BMhfmNJEzarwX+E+1nK/c52+xBoBCRT
- HHXHSXf9mjPvxVFWNYuPXnVgMSz8xIYmSTk28hvA=
-Date: Wed, 16 Dec 2020 11:47:12 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] spapr/xive: Make spapr_xive_pic_print_info() static
-Message-ID: <20201216004712.GJ4717@yekko.fritz.box>
-References: <20201215174025.2636824-1-clg@kaod.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="g3RkK9jYN81zD2N+"
-Content-Disposition: inline
-In-Reply-To: <20201215174025.2636824-1-clg@kaod.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <gromero@linux.ibm.com>)
+ id 1kpLkn-0006Sd-Qh; Tue, 15 Dec 2020 20:37:23 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0BG1WBeo045017; Tue, 15 Dec 2020 20:37:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject : date : message-id; s=pp1;
+ bh=Ju8x660/pKrGPXJZVq2CIK5klTp/EslBZp0m8fL3YJE=;
+ b=LD1XF8y5xQLb+29QPk+5NFCzfV9MU/ZRV9wSgHVbH1YOpGOiANgyl6qmtOxNdr5rHYD1
+ JH21tEhwbwDoBBttDaseiJvxDLwNFrRRvX3H+GpKzRTTqBK70Pm5ihgbxJdvSO380vRH
+ Uwz/oe0tBce3fXtZDdZQnEa/KvT/MIi8OBlioGIK8hWVsuJW+b/tJtuccrEa7hCGMwXx
+ R1B7TevtCfJ2+QyEA/4DvvVxD7UWQxrIXWULplMOSlk2mMYPNfm97RREU8+LY5sz5/Kp
+ X1jzKglsZN6rG/tDm6u7pRyxKeNv7b4BTYizNtugI7iM3kDClm8IxFkz56tBv4xnc5H9 1Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35f547wa81-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Dec 2020 20:37:14 -0500
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BG1WUmt045856;
+ Tue, 15 Dec 2020 20:37:14 -0500
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35f547wa7k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 15 Dec 2020 20:37:13 -0500
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BG1S1x2006806;
+ Wed, 16 Dec 2020 01:37:12 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma03wdc.us.ibm.com with ESMTP id 35cng9c1x5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Dec 2020 01:37:12 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0BG1bChF28180880
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 16 Dec 2020 01:37:12 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 51208AE062;
+ Wed, 16 Dec 2020 01:37:12 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A1031AE05C;
+ Wed, 16 Dec 2020 01:37:08 +0000 (GMT)
+Received: from pub.ltc.br.ibm.com (unknown [9.85.201.212])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed, 16 Dec 2020 01:37:08 +0000 (GMT)
+From: Gustavo Romero <gromero@linux.ibm.com>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: [PATCH] configure: Fail when specified cross compiler cannot be found
+Date: Tue, 15 Dec 2020 22:36:46 -0300
+Message-Id: <20201216013646.40799-1-gromero@linux.ibm.com>
+X-Mailer: git-send-email 2.17.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-15_13:2020-12-15,
+ 2020-12-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ mlxlogscore=999 spamscore=0 clxscore=1011 suspectscore=0 adultscore=0
+ bulkscore=0 impostorscore=0 phishscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012160002
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=gromero@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,79 +99,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: gustavo.romero@protonmail.com, gromero@linux.ibm.com,
+ alex.bennee@linaro.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Currently if the cross compiler passed to 'configure' (--cross-cc-<arch>) does
+not exist no error happens and only later when the TCG tests are run they fail
+because the cross compiler is not set correctly.
 
---g3RkK9jYN81zD2N+
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This commit changes that behavior and make 'configure' fail if the specified
+cross compiler cannot be found, displaying an error similar to the following:
 
-On Tue, Dec 15, 2020 at 06:40:25PM +0100, C=E9dric Le Goater wrote:
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+$ ../configure --target-list=ppc64-softmmu --cross-cc-ppc64=nonexisting_gcc
+Specified cross-compiler 'nonexisting_gcc' not found!
 
-Applied to ppc-for-6.0, thanks.
+Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
+---
+ configure              | 2 +-
+ tests/tcg/configure.sh | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-> ---
->  include/hw/ppc/spapr_xive.h | 2 --
->  hw/intc/spapr_xive.c        | 2 +-
->  2 files changed, 1 insertion(+), 3 deletions(-)
->=20
-> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-> index 26c8d90d7196..b282960ad90d 100644
-> --- a/include/hw/ppc/spapr_xive.h
-> +++ b/include/hw/ppc/spapr_xive.h
-> @@ -66,8 +66,6 @@ typedef struct SpaprXiveClass {
->   */
->  #define SPAPR_XIVE_BLOCK_ID 0x0
-> =20
-> -void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
-> -
->  struct SpaprMachineState;
->  void spapr_xive_hcall_init(struct SpaprMachineState *spapr);
->  void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index caedd312d745..801bc1934160 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -156,7 +156,7 @@ static void spapr_xive_end_pic_print_info(SpaprXive *=
-xive, XiveEND *end,
->  #define spapr_xive_in_kernel(xive) \
->      (kvm_irqchip_in_kernel() && (xive)->fd !=3D -1)
-> =20
-> -void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon)
-> +static void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon)
->  {
->      XiveSource *xsrc =3D &xive->source;
->      int i;
+diff --git a/configure b/configure
+index cb21108d34..c0389f5839 100755
+--- a/configure
++++ b/configure
+@@ -6854,7 +6854,7 @@ done
+   export $i
+ done
+ export target_list source_path use_containers
+-$source_path/tests/tcg/configure.sh)
++$source_path/tests/tcg/configure.sh) || exit 1
+ 
+ # temporary config to build submodules
+ for rom in seabios; do
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index e1b70e25f2..6c89d75c38 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -212,8 +212,10 @@ for target in $target_list; do
+ 
+     eval "target_compiler=\${cross_cc_$i}"
+     if ! has $target_compiler; then
+-      continue
++      echo "Specified cross-compiler '$target_compiler' not found!"
++      exit 1
+     fi
++
+     write_c_skeleton
+     if ! do_compiler "$target_compiler" $target_compiler_cflags -o $TMPE $TMPC -static ; then
+       # For host systems we might get away with building without -static
+-- 
+2.17.1
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---g3RkK9jYN81zD2N+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/ZWRAACgkQbDjKyiDZ
-s5LoJg//QBGSlbvXsUQBMG+Pj5e9kGZGO+Cdn64xI/CMPup5CGGkWpW+1NEr1tW+
-uFgjhDaqZjHkFD8pHLpayyfTLgy6HIeQvjhfHLz9fz5sj3IUovDzAfwXQcnGIO7z
-B5pV2DL9/lMbdVhmVDc0ggjHy8Vl9DHWxTNAlnVLIiO4zFj2D5uqkk3NO/9fwcs5
-5VutSHyWQe3IFDyP+J23zHvcS4U/fuGSWNSHatYrZJKprejjPLt41evVZghUjac8
-UL4pmYT1QmUhASAkcna2TtyrCChyq4oCxZoBQvF2Olmu5hSwerNQ2D3OGXnQBnPs
-ZC/qcSFeqphr5ckxXy5TqanDo6OXp8K6a7DgB6mRXP2eovswFGZQbKGz1l84Wk5T
-Nf7rfZHINNM4k2rqVH/xi6Iy2BDVI+XAXdQ3RfwtkhCAno4ItjxCofOmvBo+A6gu
-tlDSQz/9TBLexc5kqRWaMXl+DNHjXlXM3xTZhpudkZ3IO53z4oO42rCiKTkqbD2P
-fjIf/A7NNCY3zlAexzhk0XJcBS66/RzIYs4NZ7vECjaImpsudx7fxeCV3VzovTMd
-Q9f5ZU3NB1GZ5k/GpJFW7xO4wOapDGbWWKLRKxsElttqEqwttUQrlKOLgng75Wpk
-U5iBmqHv1RZ/Ee8bLMVoLRjdteTfjXssrnTbj7RsUYk3tRjjBeY=
-=Cem6
------END PGP SIGNATURE-----
-
---g3RkK9jYN81zD2N+--
 
