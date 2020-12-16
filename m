@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5D52DC44B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:31:05 +0100 (CET)
-Received: from localhost ([::1]:43084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B046D2DC41B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:27:42 +0100 (CET)
+Received: from localhost ([::1]:34062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpZhg-0006SO-Ac
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:31:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60228)
+	id 1kpZeP-0002aS-NN
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:27:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpZai-0006w9-OP
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:23:52 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:42571)
+ id 1kpZcB-0000C1-VC
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:25:23 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:42573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpZag-000749-Pb
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:23:52 -0500
-Received: by mail-pl1-x633.google.com with SMTP id s2so13203098plr.9
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:23:50 -0800 (PST)
+ id 1kpZc9-0007Cv-U4
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:25:23 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id s2so13205853plr.9
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:25:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lC8nQqfu8dQGPkjZW5dYaCUo0QW0XatYBEpQzH44NM4=;
- b=tcys7Xwueozl9V2FI4q67+3lrj0AZqYvLMYZwJYeoj/sfnXZ5kKYs+/8NV0dVH9/H3
- 3GOzoO2vRMf1576HDfO9bBEP24+S6bzt5cLtwerzX/8izlI8Y/viPT5LipqheNeunyM6
- N7XPd0zPh6uQ76kvD/9JnOPILmEvkvJamp0cLHz2VGE770OkmFKspofZYYXJ/AkWoZIg
- ddvfr0J0t/EiXaA8H6i8Fp2kbR2lRSlMi7MoJiQq/byt8xD/mSvNZYAvEwmIImNeP/BC
- 3yR8zTAnY1ZdfqTNqle58ukwzYnq1F0kxdZBZLa1j8TT+1ObbSRY/vfzonglWgF+QOOW
- TI4Q==
+ bh=kaJVsuiZGLpTpUX6LevuWpLqM5gPjTgFJgdqWdpdES8=;
+ b=UiL4ENjkCuK+1OYS1gpxDbo0zjvD9j7DvNUNj38CiGvDD3+Ggm0EgYdlzAbGnKpGl7
+ ocooWwcajtuR6TkRq+klIu1H+n4ys4HlX/Qz7u7egk6DlhHi0B4yLCXejVkQDm1XmhxX
+ QASEJKlEVyDXJpfhhM4TkDXyZkEa+YyK3cSmKji0+L5AiQbC/cTgEzm1IfRHxJkR9Cjs
+ tSLir5/oKHn9MhlKfXgr5K/H7U0bu7Gn8PI6ejfQhLGIBi3iCvBtV+M6/KJ9gBSlZNPC
+ dw1WzjNV2zdZ9D6+30NMCfuvWpieBOap7IpOrVJTkJ5jF60ZnBbKKXgyJwam++jIhrvR
+ YVbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lC8nQqfu8dQGPkjZW5dYaCUo0QW0XatYBEpQzH44NM4=;
- b=mO6juis4iSNdQUp4nOYyvCIpfB1RdE+vpmbZLJDYM+W7jvl0F692bxbqI09P9vQUo6
- SoiTgDs0WMQ+/Nf6K6Ma3siYNyTEKwkroBvcqUL02B+wptWbgkU+H2CDiTLx75a+r8yF
- N5cle75uiGCy4SfpkqLCB/NfCVe0Jui9J7NQyUupWJnYuzI+Dy1FqM5VOwikmudFViFf
- GuNRYawAEYHFZ60pWw0J0FnrNpZwKhjHkL1Nao1PXONEEnUy0zdtcl3gZsborCaQalgf
- TTxD4y2hi+dLULxz/QJWoY0g8K6gkrwhbTXtwSCCoI9wsghq1zq1V9cmD4b1g4dwOaPD
- Uc2g==
-X-Gm-Message-State: AOAM533fe0lEAS2lMmNrm0/Sd6GbK7fQp0vYpgUURp7w1pZ/WBy2RGhT
- TE7f+sRH6/XwvDArCrYGfdnPdQ==
-X-Google-Smtp-Source: ABdhPJyIeelRAEYq8BQg1d5TQ9IJN7y3/aYJB1J+gN9q/5jLHcFqLdM2EmFo+qKmvs7ZPQK5lfSVsw==
-X-Received: by 2002:a17:90a:3d4e:: with SMTP id
- o14mr3665953pjf.44.1608135829351; 
- Wed, 16 Dec 2020 08:23:49 -0800 (PST)
+ bh=kaJVsuiZGLpTpUX6LevuWpLqM5gPjTgFJgdqWdpdES8=;
+ b=GMVC8HZtHmq1+lRHJumdFhot9uGQGdqhZM2l2NS0x+1FbUa6QouN6zVO+rNcRCmuRH
+ dKOI/U15aFNJh6S7ZvkBs8FUG4obuL9fZKAkky0Jv/IJL04rDxEVzQ+RT+1GiFUUBhV1
+ ysuiyQYB+jje8g7RXvwbmbQ1ERcI+HcXcU4jExbk0vDLclPwL1KY7vTMKBP9xQXIgw+S
+ RdKQdyBiTesoHzV/wh3LNf7Moz+NMpOJXcRdiuSGwjV6L/MIxh6NJ6iPvG7Fct9xspUz
+ yLPmGcUW8+AlOBTlVdQbEzR3bwI16ImioJMii/E+R4n1FIKoxS0J3ymrdtV8wHniNeWA
+ FQ6Q==
+X-Gm-Message-State: AOAM533Dt599UWqguRagknzMERCBsK6+eL9RWghQtVoqQwTlsOhPByhZ
+ BTJyV/x3XYpczFHsBKnlU8Ucaw==
+X-Google-Smtp-Source: ABdhPJxbR1UTyC98l+EQIBSArhFIilUzQPdS4FUGApFAb830/74kaksPgmdMCoanwnhDVsaA0AVa7A==
+X-Received: by 2002:a17:90b:3110:: with SMTP id
+ gc16mr3746639pjb.83.1608135919793; 
+ Wed, 16 Dec 2020 08:25:19 -0800 (PST)
 Received: from [192.168.71.34] ([172.58.27.195])
- by smtp.gmail.com with ESMTPSA id z11sm3045078pfj.191.2020.12.16.08.23.45
+ by smtp.gmail.com with ESMTPSA id s5sm2549219pju.9.2020.12.16.08.25.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Dec 2020 08:23:48 -0800 (PST)
-Subject: Re: [RFC v2 06/15] target/riscv: rvb: min/max instructions
+ Wed, 16 Dec 2020 08:25:18 -0800 (PST)
+Subject: Re: [RFC v2 07/15] target/riscv: rvb: sign-extend instructions
 To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
 References: <20201216020150.3157-1-frank.chang@sifive.com>
- <20201216020150.3157-7-frank.chang@sifive.com>
+ <20201216020150.3157-8-frank.chang@sifive.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <627060be-b9ab-0d9d-285a-10fe87b359bc@linaro.org>
-Date: Wed, 16 Dec 2020 10:23:41 -0600
+Message-ID: <4fbcfe60-6bad-02cc-27dc-a354794aaec7@linaro.org>
+Date: Wed, 16 Dec 2020 10:25:11 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201216020150.3157-7-frank.chang@sifive.com>
+In-Reply-To: <20201216020150.3157-8-frank.chang@sifive.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,14 +97,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/15/20 8:01 PM, frank.chang@sifive.com wrote:
-> From: Kito Cheng <kito.cheng@sifive.com>
-> 
-> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> ---
->  target/riscv/insn32.decode              |  4 ++++
->  target/riscv/insn_trans/trans_rvb.c.inc | 24 ++++++++++++++++++++++++
->  2 files changed, 28 insertions(+)
+> +static bool trans_sext_h(DisasContext *ctx, arg_sext_h *a)
+> +{
+> +    REQUIRE_EXT(ctx, RVB);
+> +    return gen_unary(ctx, a, &tcg_gen_ext16s_tl);
+> +}
+> +
+> +{
+
+Stray "{".
+
+Presumably a rebase error fixed up in a later patch?
+Anyway, with that fixed,
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
