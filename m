@@ -2,74 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD952DBF8B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 12:38:12 +0100 (CET)
-Received: from localhost ([::1]:52712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044D42DBF90
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 12:39:14 +0100 (CET)
+Received: from localhost ([::1]:54030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpV8G-0007HB-0T
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 06:38:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35704)
+	id 1kpV9F-0007oI-1o
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 06:39:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpV6b-0006e6-DZ
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 06:36:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40364)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpV6X-0004d7-V7
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 06:36:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608118585;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gIT0+ucIcF8ZS1mBeugBG8ThVoeTp42UKdceXPw6uZ8=;
- b=fWmeYQHNX6rXpDZWkUlxVQgoe4zFLDaNmCcPAaCbYliZYf/ELwCqWmKazn3EimtBcmftrf
- PjtjRGRAme5f1H/E3VkHEY5/IztR97JLIoQbEWj5VmqRolZw5FsrM1qpoX96riYqwYIuoT
- ERYjtCd7oFqsXx4BIFNZ2RMhAWkHPwk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-mI2bpkqsPZK1xXkMHXH-Ug-1; Wed, 16 Dec 2020 06:36:23 -0500
-X-MC-Unique: mI2bpkqsPZK1xXkMHXH-Ug-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1kpV7H-0006xA-5H
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 06:37:11 -0500
+Received: from relay1.mymailcheap.com ([144.217.248.100]:55354)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1kpV7F-0004s3-2n
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 06:37:10 -0500
+Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
+ [91.134.140.82])
+ by relay1.mymailcheap.com (Postfix) with ESMTPS id F058D3F202;
+ Wed, 16 Dec 2020 11:37:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by filter2.mymailcheap.com (Postfix) with ESMTP id 488592A5BB;
+ Wed, 16 Dec 2020 12:37:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
+ s=default; t=1608118627;
+ bh=4SIzu0keCLrnVn57MGTUveX0UFBrMbVHPeo3ONkejXo=;
+ h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
+ b=sGbbeY/+rZZc09dSSikFkFo84+ZEfWGJM09T2kKCGELw74SMNC6Tbts6TCBLnJCbm
+ zezNNx5dIq918KWgaDHD3OBp6XDtl1qGPvB4nvIcKcuQt05nr7ZAhpwIKNXCSXJtRj
+ ZRj2rLa9q4PsJk6lKFcRcND6ZN9QsjGHQ2Yaovuw=
+X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
+Received: from filter2.mymailcheap.com ([127.0.0.1])
+ by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2h6wUZUyI6Mm; Wed, 16 Dec 2020 12:37:05 +0100 (CET)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+ (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EF74CC623;
- Wed, 16 Dec 2020 11:36:22 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8080810013C1;
- Wed, 16 Dec 2020 11:36:13 +0000 (UTC)
-Subject: Re: [PATCH] tests/acceptance: Add a test with the Fedora 31 kernel
- and initrd
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20201216105711.14796-1-thuth@redhat.com>
- <20201216123238.03c922b2.cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <fd6c8fc8-f78f-5443-254f-3cdd2b70ecae@redhat.com>
-Date: Wed, 16 Dec 2020 12:36:13 +0100
+ by filter2.mymailcheap.com (Postfix) with ESMTPS;
+ Wed, 16 Dec 2020 12:37:05 +0100 (CET)
+Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
+ by mail20.mymailcheap.com (Postfix) with ESMTP id 74FB042F56;
+ Wed, 16 Dec 2020 11:37:04 +0000 (UTC)
+Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="CwBSuhpd"; 
+ dkim-atps=neutral
+AI-Spam-Status: Not processed
+Received: from [0.0.0.0] (li1000-254.members.linode.com [45.33.50.254])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id B7BD642F4C;
+ Wed, 16 Dec 2020 11:36:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
+ s=default; t=1608118615;
+ bh=4SIzu0keCLrnVn57MGTUveX0UFBrMbVHPeo3ONkejXo=;
+ h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
+ b=CwBSuhpdrFDgh8j61PTChmHbhQQLwYnvLpp64KCU3UuZ7TFmmtqtJH6dUSavBMRHx
+ fGZoFqRjCbIyA8G48s9nGlBYS5U4eKn5/CJMdgNSnMBZrzJep5/8r63jEskgvafYTJ
+ 5xwhdYyEVWjioKjq2+Be4KGDWeCKC7EkIqEfqrv4=
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH v2 03/24] target/mips/cpu: Introduce isa_rel6_available()
+ helper
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>
+References: <20201215225757.764263-1-f4bug@amsat.org>
+ <20201215225757.764263-4-f4bug@amsat.org>
+ <508441db-8748-1b55-5f39-e6a778c0bdc0@linaro.org>
+ <40e8df0f-01ab-6693-785b-257b8d3144bf@amsat.org>
+ <af357960-40f2-b9e6-485f-d1cf36a4e95d@flygoat.com>
+ <b1e8b44c-ae6f-786c-abe0-9a03eb5d3d63@flygoat.com>
+ <5977d0f5-7e62-5f8a-d4ec-284f6f1af81d@amsat.org>
+ <c969a2ab-95bc-8a83-6d59-0037ba725c2a@amsat.org>
+Message-ID: <55c7a6cd-f93d-813a-d6fd-576845bfa28b@flygoat.com>
+Date: Wed, 16 Dec 2020 19:36:47 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20201216123238.03c922b2.cohuck@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <c969a2ab-95bc-8a83-6d59-0037ba725c2a@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-Rspamd-Server: mail20.mymailcheap.com
+X-Spamd-Result: default: False [-0.10 / 10.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ ARC_NA(0.00)[]; R_DKIM_ALLOW(0.00)[flygoat.com:s=default];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ R_SPF_SOFTFAIL(0.00)[~all]; ML_SERVERS(-3.10)[148.251.23.173];
+ DKIM_TRACE(0.00)[flygoat.com:+];
+ DMARC_POLICY_ALLOW(0.00)[flygoat.com,none];
+ RCPT_COUNT_SEVEN(0.00)[8];
+ DMARC_POLICY_ALLOW_WITH_FAILURES(0.00)[];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
+ RCVD_COUNT_TWO(0.00)[2]; MID_RHS_MATCH_FROM(0.00)[];
+ HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1]
+X-Rspamd-Queue-Id: 74FB042F56
+Received-SPF: pass client-ip=144.217.248.100;
+ envelope-from=jiaxun.yang@flygoat.com; helo=relay1.mymailcheap.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,136 +121,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/12/2020 12.32, Cornelia Huck wrote:
-> On Wed, 16 Dec 2020 11:57:11 +0100
-> Thomas Huth <thuth@redhat.com> wrote:
-> 
->> This initrd contains a virtio-net and a virtio-gpu kernel module,
->> so we can check that we can set a MAC address for the network device
->> and that we can successfully write some stuff into the emulated
->> framebuffer of the virtio-gpu device.
+
+
+在 2020/12/16 下午6:59, Philippe Mathieu-Daudé 写道:
+> On 12/16/20 11:50 AM, Philippe Mathieu-Daudé wrote:
+>> On 12/16/20 4:14 AM, Jiaxun Yang wrote:
+>>> 在 2020/12/16 上午10:50, Jiaxun Yang 写道:
+>>>> TBH I do think it doesn't sounds like a good idea to make 32-bit
+>>>> and 64-bit different. In fact ISA_MIPS32R6 is always set for targets
+>>>> with ISA_MIPS64R6.
+>>>>
+>>>> We're treating MIPS64R6 as a superset of MIPS32R6, and ISA_MIPS3
+>>>> is used to tell if a CPU supports 64-bit.
+> I suppose you are talking about the CPU definitions
+> (CPU_MIPS32R6/CPU_MIPS64R6).
+>
+>> Which is why I don't understand why they are 2 ISA_MIPS32R6/ISA_MIPS64R6
+>> definitions.
+> My comment is about the ISA definitions:
+>
+> #define ISA_MIPS32        0x0000000000000020ULL
+> #define ISA_MIPS32R2      0x0000000000000040ULL
+> #define ISA_MIPS64        0x0000000000000080ULL
+> #define ISA_MIPS64R2      0x0000000000000100ULL
+> #define ISA_MIPS32R3      0x0000000000000200ULL
+> #define ISA_MIPS64R3      0x0000000000000400ULL
+> #define ISA_MIPS32R5      0x0000000000000800ULL
+> #define ISA_MIPS64R5      0x0000000000001000ULL
+> #define ISA_MIPS32R6      0x0000000000002000ULL
+> #define ISA_MIPS64R6      0x0000000000004000ULL
+
+Yes, as insn_flags is
+
+/* MIPS Technologies "Release 1" */
+#define CPU_MIPS32      (CPU_MIPS2 | ISA_MIPS32)
+#define CPU_MIPS64      (CPU_MIPS5 | CPU_MIPS32 | ISA_MIPS64)
+
+/* MIPS Technologies "Release 2" */
+#define CPU_MIPS32R2    (CPU_MIPS32 | ISA_MIPS32R2)
+#define CPU_MIPS64R2    (CPU_MIPS64 | CPU_MIPS32R2 | ISA_MIPS64R2)
+
+......
+
+As you can see when you're set insn_flags to CPU_MIPS64R2 the ISA flags
+for ISA_MIPS64R2 ISA_MIPS32R2 ISA_MIPS32 ISA_MIPS64 ISA_MIPS5
+ISA_MIPS3 ISA_MIPS2 ISA_MIPS1 all get set as well.
+
+
 >>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  Based-on: 20201215183623.110128-1-thuth@redhat.com
+>>> So we may end up having four series of decodetrees for ISA
+>>> Series1: MIPS-II, MIPS32, MIPS32R2, MIPS32R5 (32bit "old" ISAs)
+>>> Series2: MIPS-III, MIPS64, MIPS64R2, MIPS64R5 (64bit "old" ISAs)
+>>>
+>>> Series3: MIPS32R6 (32bit "new" ISAs)
+>>> Series4: MIPS64R6 (64bit "new" ISAs)
+>> Something like that, I'm starting by converting the messier leaves
+>> first, so the R6 and ASEs. My approach is from your "series4" to
+>> "series1" last.
+
+Sounds neat!
+
+Thanks.
+
+- Jiaxun
+
 >>
->>  tests/acceptance/machine_s390_ccw_virtio.py | 78 +++++++++++++++++++++
->>  1 file changed, 78 insertions(+)
+>> Regards,
 >>
->> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
->> index abe25a08f0..a5be26b38e 100644
->> --- a/tests/acceptance/machine_s390_ccw_virtio.py
->> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
->> @@ -9,6 +9,8 @@
->>  # This work is licensed under the terms of the GNU GPL, version 2 or
->>  # later.  See the COPYING file in the top-level directory.
->>  
->> +import re
->> +import tempfile
->>  
->>  from avocado_qemu import Test
->>  from avocado_qemu import exec_command_and_wait_for_pattern
->> @@ -150,3 +152,79 @@ class S390CCWVirtioMachine(Test):
->>          self.vm.command('human-monitor-command', command_line='balloon 128')
->>          exec_command_and_wait_for_pattern(self, 'head -n 1 /proc/meminfo',
->>                                            'MemTotal:         115640 kB')
->> +
->> +
->> +    def test_s390x_fedora(self):
->> +
->> +        """
->> +        :avocado: tags=arch:s390x
->> +        :avocado: tags=machine:s390-ccw-virtio
->> +        """
->> +
->> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
->> +                      '/fedora-secondary/releases/31/Server/s390x/os'
->> +                      '/images/kernel.img')
->> +        kernel_hash = 'b93d1efcafcf29c1673a4ce371a1f8b43941cfeb'
->> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
->> +
->> +        initrd_url = ('https://archives.fedoraproject.org/pub/archive'
->> +                      '/fedora-secondary/releases/31/Server/s390x/os'
->> +                      '/images/initrd.img')
->> +        initrd_hash = '3de45d411df5624b8d8ef21cd0b44419ab59b12f'
->> +        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
->> +
->> +        self.vm.set_console()
->> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
->> +                              ' audit=0 rd.rescue')
->> +        self.vm.add_args('-nographic',
->> +                         '-smp', '4',
->> +                         '-m', '512',
->> +                         '-name', 'Some Guest Name',
->> +                         '-uuid', '30de4fd9-b4d5-409e-86a5-09b387f70bfa',
->> +                         '-kernel', kernel_path,
->> +                         '-initrd', initrd_path,
->> +                         '-append', kernel_command_line,
->> +                         '-device', 'virtio-net-pci,mac=02:ca:fe:fa:ce:12',
->> +                         '-device', 'virtio-rng-ccw',
->> +                         '-device', 'virtio-gpu-ccw')
-> 
-> Would it make sense to explicitly specify bus ids for the ccw devices?
-> You could check for them below, and it would potentially be more clear
-> *what* actually failed (e.g. handling the mac address vs device
-> detection).
-
-Do you mean PCI or CCW bus ids? The MAC address is only used for a PCI
-device here... but sure, I can add some addresses if you like.
-
->> +        self.vm.launch()
->> +        self.wait_for_console_pattern('Entering emergency mode')
->> +
->> +        # Some tests to see whether the CLI options have been considered:
->> +        exec_command_and_wait_for_pattern(self,
->> +                             'cat /sys/class/net/enP1p0s0/address',
->> +                             '02:ca:fe:fa:ce:12')
->> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
->> +                             'processors    : 4')
->> +        exec_command_and_wait_for_pattern(self, 'grep MemTotal /proc/meminfo',
->> +                             'MemTotal:         499848 kB')
->> +        exec_command_and_wait_for_pattern(self, 'grep Name /proc/sysinfo',
->> +                             'Extended Name:   Some Guest Name')
->> +        exec_command_and_wait_for_pattern(self, 'grep UUID /proc/sysinfo',
->> +                             '30de4fd9-b4d5-409e-86a5-09b387f70bfa')
->> +
->> +        # Disable blinking cursor, then write some stuff into the framebuffer
->> +        # ("32-bit encoded", the screendump PPM will then only contain 24-bit)
->> +        exec_command_and_wait_for_pattern(self,
->> +            'echo -e "\e[?25l" > /dev/tty0', ':/#')
->> +        exec_command_and_wait_for_pattern(self, 'for ((i=0;i<500;i++)); do '
->> +            'echo " The  qu ick  fo x j ump s o ver  a  laz y d og" >> fox.txt;'
->> +            'done',
->> +            ':/#')
->> +        exec_command_and_wait_for_pattern(self,
->> +            'dd if=fox.txt of=/dev/fb0 bs=1000 oflag=sync,nocache ; rm fox.txt',
->> +            '24+0 records out')
->> +        tmpfile = tempfile.NamedTemporaryFile(suffix='.ppm',
->> +                                              prefix='qemu-scrdump-')
->> +        self.vm.command('screendump', filename=tmpfile.name)
->> +        ppmfile = open(tmpfile.name, "r")
->> +        tmpfile.close
->> +        line = ppmfile.readline()
->> +        self.assertEqual(line, "P6\n")
->> +        line = ppmfile.readline()
->> +        self.assertEqual(line, "1024 768\n")
->> +        line = ppmfile.readline()
->> +        self.assertEqual(line, "255\n")
->> +        line = ppmfile.readline()
->> +        self.assertEqual(line, "The quick fox jumps over a lazy dog\n")
->> +        ppmfile.close
-> 
-> I think this sequence needs an explanatory comment :)
-
-See my other mail :-)
-
- Thomas
-
+>> Phil.
+>>
 
