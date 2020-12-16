@@ -2,77 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387DA2DBCC7
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 09:39:11 +0100 (CET)
-Received: from localhost ([::1]:38416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997B32DBCD7
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 09:45:31 +0100 (CET)
+Received: from localhost ([::1]:42924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpSL0-0006FH-Aq
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 03:39:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48534)
+	id 1kpSR8-0008QB-NU
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 03:45:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1kpSK0-0005e2-Uh
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 03:38:08 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:33349)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1kpSJz-0004m1-3K
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 03:38:08 -0500
-Received: by mail-wm1-x335.google.com with SMTP id n16so1458446wmc.0
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 00:38:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dme-org.20150623.gappssmtp.com; s=20150623;
- h=to:cc:subject:in-reply-to:references:from:date:message-id
- :mime-version; bh=DiQvKVBDYYiCXAWyMyuOeqNtZ9U770DMk4MyAhDrcl0=;
- b=E70lOKtyuP3ABJY6HbkJBCRKf0xE+kGkdd/+dXWJ6BlsMXJYoUxqN/7uvIfwqncYb0
- 4px8ZdJcnQiHUaE2Wm6c9m76pzWabeugfMRaPTstdyYi59XVfPdo8Y7A9wrIPY6gu6Wy
- NEhb0TmmAd9vHN6imJAnMefsjnkg3eZ+OJuhFoc/0zWVDFi/PcFzZ0UpDiigPfFe+Zo2
- 4VX87XB7JnD7aXf58P6HjfkFVbH+JPuOUoHq2x0qb+Ss1iB74Gq88dafVuNnv+hhejHy
- 1DDOhurpQbNM5bzb2gM5/IvnPLP3RyUjRRgMIHh5hbmavkX3wfv06Uv8l2XIC/YVPFie
- pMOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
- :message-id:mime-version;
- bh=DiQvKVBDYYiCXAWyMyuOeqNtZ9U770DMk4MyAhDrcl0=;
- b=SQN+E6va2D3enVdXRgG2VEWUe+iKIY33SSNlSoqOuxtdL5kSrb6nhWqBSgWfvwxOOQ
- kYMrpTJ1phuCTNn1o8XDwr1tBAeKF5WbZ+TB+26XfVauDM4NVi6Yd4iZ3rYVd3pJzvVx
- HQq9X8iQvNQW0mlj2/Ukwuhbev5re4Bz+tBVnXXXcEo7vKLrgE50ijNRMqt/5BZJFxDd
- 2xLzenE58EF+jyYxI3as3uh4Ifcir+hPO16q4wVdv6IB8AVUDeuZ+NACT2ltMfHzo9YE
- PJKuCuytrOVjbkF0mXpP5Lhq4/6D3OtlQcWbS/Z3zQ/OjYnk5+ohdKkHKimeTsTWpG3a
- VjgA==
-X-Gm-Message-State: AOAM531ot79CEE/C8rOz4MOvoWxyLFze9XjX657rsUc5kWeFWcsTQxaP
- 8qhK2TYcitwFWhGR39VK8yXC8A==
-X-Google-Smtp-Source: ABdhPJzYb8Td+FC+72nwhcx/KfNSPyQ9Qqe4DVM/sVWIHC7DjqOj/BbaL2DELzDqSEGnARWSY7u0UA==
-X-Received: by 2002:a1c:67c5:: with SMTP id b188mr2165039wmc.147.1608107884944; 
- Wed, 16 Dec 2020 00:38:04 -0800 (PST)
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
- [2001:8b0:bb71:7140:64::1])
- by smtp.gmail.com with ESMTPSA id a14sm2076724wrn.3.2020.12.16.00.38.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 00:38:03 -0800 (PST)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 82d1865a;
- Wed, 16 Dec 2020 08:38:02 +0000 (UTC)
-To: Andrew Jones <drjones@redhat.com>
-Subject: Re: [PATCH] hw/arm/virt: Remove virt machine state 'smp_cpus'
-In-Reply-To: <20201216064353.2n4evhicybkkuf7z@kamzik.brq.redhat.com>
-References: <20201215174815.51520-1-drjones@redhat.com>
- <cun8s9zorr3.fsf@zarquon.hh.sledj.net>
- <20201216064353.2n4evhicybkkuf7z@kamzik.brq.redhat.com>
-X-HGTTG: zarquon
-From: David Edmondson <dme@dme.org>
-Date: Wed, 16 Dec 2020 08:38:02 +0000
-Message-ID: <cun4kkm87th.fsf@zarquon.hh.sledj.net>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kpSQ0-0007z7-O9
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 03:44:20 -0500
+Received: from mx2.suse.de ([195.135.220.15]:36926)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kpSPz-0006hN-5Q
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 03:44:20 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 2D057AC91;
+ Wed, 16 Dec 2020 08:44:16 +0000 (UTC)
+Subject: Re: [PATCH v12 16/23] cpu: Move synchronize_from_tb() to tcg_ops
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20201212155530.23098-1-cfontana@suse.de>
+ <20201212155530.23098-17-cfontana@suse.de>
+ <20201214191029.GO1289986@habkost.net>
+ <e72e2d6b-ef99-5590-fe18-9cb6d4092e23@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <53e65297-3226-4432-9dfe-e0750333463b@suse.de>
+Date: Wed, 16 Dec 2020 09:44:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: neutral client-ip=2a00:1450:4864:20::335;
- envelope-from=dme@dme.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <e72e2d6b-ef99-5590-fe18-9cb6d4092e23@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,34 +59,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fangying1@huawei.com, peter.maydell@linaro.org, salil.mehta@huawei.com,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Emilio G . Cota" <cota@braap.org>, Paul Durrant <paul@xen.org>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday, 2020-12-16 at 07:43:53 +01, Andrew Jones wrote:
-
-> On Tue, Dec 15, 2020 at 06:20:48PM +0000, David Edmondson wrote:
->> On Tuesday, 2020-12-15 at 18:48:15 +01, Andrew Jones wrote:
->> 
->> >  static void fdt_add_cpu_nodes(const VirtMachineState *vms)
->> >  {
->> > -    int cpu;
->> > -    int addr_cells = 1;
->> >      const MachineState *ms = MACHINE(vms);
->> > +    int smp_cpus = ms->smp.cpus, cpu;
->> 
->> Is it house-style to have initialised and un-initialised local variables
->> declared on the same line?
+On 12/14/20 10:56 PM, Philippe Mathieu-Daudé wrote:
+> Hi Claudio, Eduardo.
+> 
+> On 12/14/20 8:10 PM, Eduardo Habkost wrote:
+>> On Sat, Dec 12, 2020 at 04:55:23PM +0100, Claudio Fontana wrote:
+>>> From: Eduardo Habkost <ehabkost@redhat.com>
+>>>
+>>> since tcg_cpu_ops.h is only included in cpu.h,
+>>> and as a standalone header it is not really useful,
+>>> as tcg_cpu_ops.h starts requiring cpu.h defines,
+>>> enums, etc, as well as (later on in the series),
+>>> additional definitions coming from memattr.h.
+>>>
+>>> Therefore rename it to tcg_cpu_ops.h.inc, to warn
+>>> any potential user that this file is not a standalone
+>>> header, but rather a partition of cpu.h that is
+>>> included conditionally if CONFIG_TCG is true.
 >>
->
-> checkpatch.pl doesn't complain and a grep of qemu shows hundreds of other
-> examples. That said, I only see one other example in hw/arm/virt.c, so if
-> we'd rather avoid it, I'll repost.
+>> What's the benefit of moving definitions to a separate file, if
+>> the new file is not a standalone header?
+> 
 
-Not at all, I was just curious.
+the benefit is avoiding a 100 line ifdef CONFIG_TCG, and already separating out what is tcg-specific and what isn't,
+but if this is a problem we can avoid that, and revisit later on.
 
-dme.
--- 
-Driving at 90 down those country lanes, singing to "Tiny Dancer".
+
+> Claudio, I haven't been following every respin. If you did that
+> change just to please me then the circular dependency remarked by
+> Richard, then if it simplify the series I'm OK if you have to
+> remove the includes.
+
+Richard, From the answer of Philippe and Eduardo I think they are not ok with .h.inc,
+I think the option of just putting everything in cpu.h was ok with you,
+should I go with that?
+
+Thanks,
+
+Claudio
+
+
+> 
+> Eduardo, if you are happy with patches 1-8 (x86 specific), maybe
+> you can queue them already. The rest is more TCG generic and
+> will likely go via Richard/Paolo trees IMO.
+> 
+>>
+>> If moving the definitions to a separate header is going to
+>> require too much work, it's completely OK to keep them in cpu.h
+>> by now, and try to move them later.
+>>
+>> I'm worried that the scope of this series is growing too much,
+>> and discussion/review of additional changes in each new version
+>> is preventing us from merging the original changes where we
+>> already had some consensus.
+> 
+
 
