@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91DEF2DC57A
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:40:58 +0100 (CET)
-Received: from localhost ([::1]:51790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C7232DC571
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:37:21 +0100 (CET)
+Received: from localhost ([::1]:41768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpanI-0001oZ-3x
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:40:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48800)
+	id 1kpajo-0005vE-BG
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:37:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpacp-0008RR-Pa
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:30:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46236)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpacs-0008Th-VE
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:30:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpacn-00014P-W8
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:30:07 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpacp-00014m-Og
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 12:30:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608139805;
+ s=mimecast20190719; t=1608139807;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2T6UN1mfg0U6GlpV4+jh0vnfDSHv41qUWviU2IK9Lf8=;
- b=a5G2zJEH1snvIbLybTNsnxEmymQ+AiEyA3c/YApNx6Y4LOPpRfkNme4MOp/0f5Igz1z8qp
- VxgTHi0TVPB8ENuzFXBCQlwqNUUJfZi6hicD9OrujqpMdtM6fHvMm9bjKIbsC+oMxrDe55
- fBAgzT3nS7wx8QhVKc/rR550DxQnJ5s=
+ bh=iJMktt1nQ1NlKnoOgCZyHmsz7qX8N7ctuQSuJ5wZpfM=;
+ b=LPHyXQt4vTgq3P7pvWXDhu8cG/9nbLvRwCuelycZPqIKIHyFB4LVFF+afuYT/2MKNKgx2g
+ qARlJ0VTT355Bwy4RkjVflhwCdRz4jjTK6vrAx8fMIIzrnzZGUyj1vee/uSsQydvYIqZB1
+ h8woAIud3XL5Xz5X3ZDcovy9t14Hpd4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-IZj0P2BmPfe8wKTwhsmIrw-1; Wed, 16 Dec 2020 12:30:01 -0500
-X-MC-Unique: IZj0P2BmPfe8wKTwhsmIrw-1
+ us-mta-215-KMZSZWvWOQicME8NLWSc2w-1; Wed, 16 Dec 2020 12:30:02 -0500
+X-MC-Unique: KMZSZWvWOQicME8NLWSc2w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 741AB180A093;
- Wed, 16 Dec 2020 17:29:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96AFB1005513;
+ Wed, 16 Dec 2020 17:30:01 +0000 (UTC)
 Received: from thuth.com (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C17510023B3;
- Wed, 16 Dec 2020 17:29:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC27010023B3;
+ Wed, 16 Dec 2020 17:29:59 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 02/12] target/unicore32/translate: Add missing fallthrough
- annotations
-Date: Wed, 16 Dec 2020 18:29:39 +0100
-Message-Id: <20201216172949.57380-3-thuth@redhat.com>
+Subject: [PULL 03/12] hw/rtc/twl92230: Silence warnings about missing
+ fallthrough statements
+Date: Wed, 16 Dec 2020 18:29:40 +0100
+Message-Id: <20201216172949.57380-4-thuth@redhat.com>
 In-Reply-To: <20201216172949.57380-1-thuth@redhat.com>
 References: <20201216172949.57380-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -83,40 +83,105 @@ Cc: Chen Qun <kuhn.chenqun@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking at the way the code is formatted here (there is an empty line
-after break statements, but none where the break is missing), and the
-instruction set overview at https://en.wikipedia.org/wiki/Unicore the
-fallthrough is very likely intended here. So add a fallthrough comment
-to make the it compilable with -Werror=implicit-fallthrough.
+When compiling with -Werror=implicit-fallthrough, gcc complains about
+missing fallthrough annotations in this file. Looking at the code,
+the fallthrough is indeed wanted here, but instead of adding the
+annotations, it can be done more efficiently by simply calculating
+the offset with a subtraction instead of increasing a local variable
+one by one.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201211152426.350966-3-thuth@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20201211152426.350966-4-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- target/unicore32/translate.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/rtc/twl92230.c | 43 +++++++++++++------------------------------
+ 1 file changed, 13 insertions(+), 30 deletions(-)
 
-diff --git a/target/unicore32/translate.c b/target/unicore32/translate.c
-index d4b06df672..962f9877a0 100644
---- a/target/unicore32/translate.c
-+++ b/target/unicore32/translate.c
-@@ -1801,6 +1801,7 @@ static void disas_uc32_insn(CPUUniCore32State *env, DisasContext *s)
-             do_misc(env, s, insn);
-             break;
-         }
-+        /* fallthrough */
-     case 0x1:
-         if (((UCOP_OPCODES >> 2) == 2) && !UCOP_SET_S) {
-             do_misc(env, s, insn);
-@@ -1817,6 +1818,7 @@ static void disas_uc32_insn(CPUUniCore32State *env, DisasContext *s)
-         if (UCOP_SET(8) || UCOP_SET(5)) {
-             ILLEGAL;
-         }
-+        /* fallthrough */
-     case 0x3:
-         do_ldst_ir(env, s, insn);
+diff --git a/hw/rtc/twl92230.c b/hw/rtc/twl92230.c
+index f838913b37..a787bd247d 100644
+--- a/hw/rtc/twl92230.c
++++ b/hw/rtc/twl92230.c
+@@ -271,37 +271,23 @@ static void menelaus_gpio_set(void *opaque, int line, int level)
+ static uint8_t menelaus_read(void *opaque, uint8_t addr)
+ {
+     MenelausState *s = (MenelausState *) opaque;
+-    int reg = 0;
+ 
+     switch (addr) {
+     case MENELAUS_REV:
+         return 0x22;
+ 
+-    case MENELAUS_VCORE_CTRL5: reg ++;
+-    case MENELAUS_VCORE_CTRL4: reg ++;
+-    case MENELAUS_VCORE_CTRL3: reg ++;
+-    case MENELAUS_VCORE_CTRL2: reg ++;
+-    case MENELAUS_VCORE_CTRL1:
+-        return s->vcore[reg];
++    case MENELAUS_VCORE_CTRL1 ... MENELAUS_VCORE_CTRL5:
++        return s->vcore[addr - MENELAUS_VCORE_CTRL1];
+ 
+-    case MENELAUS_DCDC_CTRL3: reg ++;
+-    case MENELAUS_DCDC_CTRL2: reg ++;
+-    case MENELAUS_DCDC_CTRL1:
+-        return s->dcdc[reg];
+-
+-    case MENELAUS_LDO_CTRL8: reg ++;
+-    case MENELAUS_LDO_CTRL7: reg ++;
+-    case MENELAUS_LDO_CTRL6: reg ++;
+-    case MENELAUS_LDO_CTRL5: reg ++;
+-    case MENELAUS_LDO_CTRL4: reg ++;
+-    case MENELAUS_LDO_CTRL3: reg ++;
+-    case MENELAUS_LDO_CTRL2: reg ++;
+-    case MENELAUS_LDO_CTRL1:
+-        return s->ldo[reg];
++    case MENELAUS_DCDC_CTRL1 ... MENELAUS_DCDC_CTRL3:
++        return s->dcdc[addr - MENELAUS_DCDC_CTRL1];
++
++    case MENELAUS_LDO_CTRL1 ... MENELAUS_LDO_CTRL8:
++        return s->ldo[addr - MENELAUS_LDO_CTRL1];
+ 
+-    case MENELAUS_SLEEP_CTRL2: reg ++;
+     case MENELAUS_SLEEP_CTRL1:
+-        return s->sleep[reg];
++    case MENELAUS_SLEEP_CTRL2:
++        return s->sleep[addr - MENELAUS_SLEEP_CTRL1];
+ 
+     case MENELAUS_DEVICE_OFF:
+         return 0;
+@@ -395,10 +381,8 @@ static uint8_t menelaus_read(void *opaque, uint8_t addr)
+     case MENELAUS_S2_PULL_DIR:
+         return s->pull[3];
+ 
+-    case MENELAUS_MCT_CTRL3: reg ++;
+-    case MENELAUS_MCT_CTRL2: reg ++;
+-    case MENELAUS_MCT_CTRL1:
+-        return s->mmc_ctrl[reg];
++    case MENELAUS_MCT_CTRL1 ... MENELAUS_MCT_CTRL3:
++        return s->mmc_ctrl[addr - MENELAUS_MCT_CTRL1];
+     case MENELAUS_MCT_PIN_ST:
+         /* TODO: return the real Card Detect */
+         return 0;
+@@ -418,7 +402,6 @@ static void menelaus_write(void *opaque, uint8_t addr, uint8_t value)
+ {
+     MenelausState *s = (MenelausState *) opaque;
+     int line;
+-    int reg = 0;
+     struct tm tm;
+ 
+     switch (addr) {
+@@ -496,9 +479,9 @@ static void menelaus_write(void *opaque, uint8_t addr, uint8_t value)
+         s->ldo[7] = value & 3;
          break;
+ 
+-    case MENELAUS_SLEEP_CTRL2: reg ++;
+     case MENELAUS_SLEEP_CTRL1:
+-        s->sleep[reg] = value;
++    case MENELAUS_SLEEP_CTRL2:
++        s->sleep[addr - MENELAUS_SLEEP_CTRL1] = value;
+         break;
+ 
+     case MENELAUS_DEVICE_OFF:
 -- 
 2.27.0
 
