@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2254A2DB8DD
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 03:17:01 +0100 (CET)
-Received: from localhost ([::1]:60794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978AA2DB8D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 03:13:27 +0100 (CET)
+Received: from localhost ([::1]:53030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpMN9-0002Zf-Vn
-	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 21:17:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
+	id 1kpMJi-0007ez-MB
+	for lists+qemu-devel@lfdr.de; Tue, 15 Dec 2020 21:13:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kpMBJ-00012A-KI
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 21:04:45 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:35624)
+ id 1kpMBO-00016F-46
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 21:04:50 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:55827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kpMBH-0001CX-Qz
- for qemu-devel@nongnu.org; Tue, 15 Dec 2020 21:04:45 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id g20so11224473plo.2
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 18:04:43 -0800 (PST)
+ id 1kpMBM-0001DC-0p
+ for qemu-devel@nongnu.org; Tue, 15 Dec 2020 21:04:49 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id lb18so630678pjb.5
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 18:04:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=iZK+rKAjOqv0UzEWB+rVOqX+wmO1H/CoTR7mTkztrw4=;
- b=LRrIBYVOjZ4gaQJ9swG7s9vZqnEnf+CPIsVrsobVI/1QhkuXTUlvscH3OF0kb3kGeE
- znFDs6tabotuq2W4ES9JZ6Shu31/ebF6/v5gyi09Qykylrt43CE894I7Dcmxua5fVYUU
- b5odlXFRoUIUeTmDcmsNO3Y5NHErq5by4+OQV6c+0Zqq5UDii/9gIfL+E4ENPilGNG7U
- JvwF86ThQr9pIOg7lzcLLZrx3AcpwpeF68TPKJr3kYhJXh8W+YR8sySoT3WVsxAjhXoF
- G8Gu/EywIMk8atme1WsfFuz6A+N0HvcmUjcpX32lupzFKIrKeV4+UwmuIpVB/isGU5q4
- UD/g==
+ bh=+CWaIlbPzrY451DhxfSimx4EEc+YfrZK05ZurdY+u+Q=;
+ b=UZUZ+dORZNY7hg4SBRL9soUYrZi/FL6QOT8HmWhInOPAmZU3SnH86t+U8k4X+o5tlu
+ CtTtZsVF9PtRVdMKyFCVq5j9bSBnVYjq2j2/T3mJPPBQDB/dnunbbr2hDkIdLazXk+t4
+ ndffAirt2E2frIKT5NqmK42SBqq0o71/lIuOlLKJQP77I2cfFrXBfoQamLFcVs21fKFe
+ 3Gzy6SbkvVMw4xKB8b2VYNK2JzbLR1MfeCeG5+vrExGJ9yk/J9BuklimsXX6uKDOBF/4
+ 2TqOLtuG3a0P7mJM7MZgKeQMLxQkHYvtI1ziAomMugfua5+ZHtVDVRBT1jN03ybnCDW0
+ EizQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=iZK+rKAjOqv0UzEWB+rVOqX+wmO1H/CoTR7mTkztrw4=;
- b=Or00EmFedxpfcSK8d1itsPywWMWR6TeqPQCgJPkpWGvBWl+ThCHqfRNyY7Cr9dRpx/
- I796ITQSe8QJvk9ZH6veQlXXhpzL6ITeQn2I10CeHWr4a0rTUnatw4Y9IrQCXpxulP3h
- mVmP8PNKnyzR81XUSMZ9fOfPaPjHsPFZG37E2Rg9VxoBeuB4ij6vA3vRQ8Zd1kiGyw2d
- 3qMzrgGkB2+4yX55h5yXwaI2IC5UHDUxGTX/a/F44bJsQAJPyqTD97RWUJqVmJzysxu/
- FTLPR+XW8OX3L4UJm1a15y4I15qI2t4NfvMVe4eNsvZNlUTDbZmHFl57ljqFhXyGcbMT
- XhLw==
-X-Gm-Message-State: AOAM531bJA6BRghwnSfOAnzC/1qi43sAF+dqmNdYHmF76V2xmp4DWDqX
- U8ySyD+L8cmoI/YGxu3lLuwVuuU+lrWH81c/WS8=
-X-Google-Smtp-Source: ABdhPJzXNBfhMClpQSOvbpzqiCtsZCyMMscbthuhjJuBb+BEmIH5oa7XUf0rsGLHweOmDVMYqs7cwg==
-X-Received: by 2002:a17:90b:384c:: with SMTP id
- nl12mr1221689pjb.72.1608084282334; 
- Tue, 15 Dec 2020 18:04:42 -0800 (PST)
+ bh=+CWaIlbPzrY451DhxfSimx4EEc+YfrZK05ZurdY+u+Q=;
+ b=V9KXXDxHv6AezcGXQPZAAz/1tjEK5Cd4AdCDTfmpZxCAeP7muEWJSlHu9/Z+FYAhGx
+ VcwOWOEkaSoIAQHwlsX1Pxb15wE795JA7vcpA6vLY/hFJ/J7xgInr1H37MDj+6KSX+8O
+ XnIk9lK5a1Bp1neSyxMalU5fvhuOQWyWO3wlFeJn1tc7XW5E218+l/fJAN/3Ow88VWFx
+ O1/7OoRPajz7vpcNubOCUpK0JkFGO21rz4be4F3atlvgy9Iyb9Y8ZvGPUKlkrqmG+q7Q
+ ikyLb3KY/USpRFKJqL3vVotMhrJEqoSUIEgDnXTMhVRfgyAgJr/ZHg+x6pHRdjlKuxNw
+ XvAA==
+X-Gm-Message-State: AOAM5336QzWyP/H8UA+y8cnNg2QNBjssGn0kobux4uo6Rk5yGXls1pD6
+ Xwb21ei7O94+N0dkhWihxzGrnbeaz3HrMLXn4F4=
+X-Google-Smtp-Source: ABdhPJwwQvotbGA0qJVwAgpoKnZU/WiL1oEoLFy/RNH+pNPObuWmwFU4SPlZ3UyQUgSLVJTX6wMppA==
+X-Received: by 2002:a17:90a:eac5:: with SMTP id
+ ev5mr1205567pjb.65.1608084285859; 
+ Tue, 15 Dec 2020 18:04:45 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id a13sm289150pfr.59.2020.12.15.18.04.40
+ by smtp.gmail.com with ESMTPSA id a13sm289150pfr.59.2020.12.15.18.04.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 18:04:41 -0800 (PST)
+ Tue, 15 Dec 2020 18:04:45 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v2 14/15] target/riscv: rvb: add/sub with postfix zero-extend
-Date: Wed, 16 Dec 2020 10:01:39 +0800
-Message-Id: <20201216020150.3157-15-frank.chang@sifive.com>
+Subject: [RFC v2 15/15] target/riscv: rvb: support and turn on B-extension
+ from command line
+Date: Wed, 16 Dec 2020 10:01:40 +0800
+Message-Id: <20201216020150.3157-16-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201216020150.3157-1-frank.chang@sifive.com>
 References: <20201216020150.3157-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,80 +93,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kito Cheng <kito.cheng@sifive.com>
 
+B-extension is default off, use cpu rv32 or rv64 with x-b=true to
+enable B-extension.
+
 Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/insn32-64.decode           |  3 +++
- target/riscv/insn_trans/trans_rvb.c.inc | 22 ++++++++++++++++++++++
- target/riscv/translate.c                |  6 ++++++
- 3 files changed, 31 insertions(+)
+ target/riscv/cpu.c | 4 ++++
+ target/riscv/cpu.h | 2 ++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/target/riscv/insn32-64.decode b/target/riscv/insn32-64.decode
-index 1059cab5aa4..f819028266c 100644
---- a/target/riscv/insn32-64.decode
-+++ b/target/riscv/insn32-64.decode
-@@ -107,6 +107,7 @@ gorcw      0010100 .......... 101 ..... 0111011 @r
- sh1addu_w  0010000 .......... 010 ..... 0111011 @r
- sh2addu_w  0010000 .......... 100 ..... 0111011 @r
- sh3addu_w  0010000 .......... 110 ..... 0111011 @r
-+addu_w     0000100 .......... 000 ..... 0111011 @r
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 6a0264fc6b1..33fa112c4ac 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -441,6 +441,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         if (cpu->cfg.ext_h) {
+             target_misa |= RVH;
+         }
++        if (cpu->cfg.ext_b) {
++            target_misa |= RVB;
++        }
+         if (cpu->cfg.ext_v) {
+             target_misa |= RVV;
+             if (!is_power_of_2(cpu->cfg.vlen)) {
+@@ -511,6 +514,7 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
+     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+     /* This is experimental so mark with 'x-' */
++    DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
+     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
+     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index c0a326c8430..4868f62f32b 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -66,6 +66,7 @@
+ #define RVS RV('S')
+ #define RVU RV('U')
+ #define RVH RV('H')
++#define RVB RV('B')
  
- sbsetiw    0010100 .......... 001 ..... 0011011 @sh5
- sbclriw    0100100 .......... 001 ..... 0011011 @sh5
-@@ -116,3 +117,5 @@ sroiw      0010000 .......... 101 ..... 0011011 @sh5
- roriw      0110000 .......... 101 ..... 0011011 @sh5
- greviw     0110100 .......... 101 ..... 0011011 @sh5
- gorciw     0010100 .......... 101 ..... 0011011 @sh5
-+
-+slliu_w    00001. ........... 001 ..... 0011011 @sh
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 07fe662b005..323ca5eccee 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -441,4 +441,26 @@ GEN_TRANS_SHADDU_W(1)
- GEN_TRANS_SHADDU_W(2)
- GEN_TRANS_SHADDU_W(3)
- 
-+static bool trans_addu_w(DisasContext *ctx, arg_addu_w *a)
-+{
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_arith(ctx, a, &gen_addu_w);
-+}
-+
-+static bool trans_slliu_w(DisasContext *ctx, arg_slliu_w *a)
-+{
-+    TCGv source1 = tcg_temp_new();
-+    gen_get_gpr(source1, a->rs1);
-+
-+    if (a->shamt < 32) {
-+        tcg_gen_deposit_z_i64(source1, source1, a->shamt, 32);
-+    } else {
-+        tcg_gen_shli_i64(source1, source1, a->shamt);
-+    }
-+
-+    gen_set_gpr(a->rd, source1);
-+    tcg_temp_free(source1);
-+    return true;
-+}
-+
- #endif
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index f9385bbcd4f..84e55880234 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -955,6 +955,12 @@ GEN_SHADDU_W(1)
- GEN_SHADDU_W(2)
- GEN_SHADDU_W(3)
- 
-+static void gen_addu_w(TCGv ret, TCGv arg1, TCGv arg2)
-+{
-+    tcg_gen_ext32u_tl(arg1, arg1);
-+    tcg_gen_add_tl(ret, arg1, arg2);
-+}
-+
- #endif
- 
- static bool gen_arith(DisasContext *ctx, arg_r *a,
+ /* S extension denotes that Supervisor mode exists, however it is possible
+    to have a core that support S mode but does not have an MMU and there
+@@ -276,6 +277,7 @@ struct RISCVCPU {
+         bool ext_f;
+         bool ext_d;
+         bool ext_c;
++        bool ext_b;
+         bool ext_s;
+         bool ext_u;
+         bool ext_h;
 -- 
 2.17.1
 
