@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90D42DC479
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:42:32 +0100 (CET)
-Received: from localhost ([::1]:41578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FE12DC4F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:02:17 +0100 (CET)
+Received: from localhost ([::1]:35830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpZsl-0001Vf-U4
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:42:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35800)
+	id 1kpaBs-0006m3-Hc
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:02:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpZq2-00088i-Io
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:39:42 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:45090)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpZyc-0007sC-LU
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:48:34 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpZq0-00010O-KI
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:39:42 -0500
-Received: by mail-pf1-x435.google.com with SMTP id q22so16920407pfk.12
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:39:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpZyZ-0002Nm-GW
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:48:33 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id c5so20194168wrp.6
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:48:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Pv4yxrkA0yZ30C+dZu/Q4tDSb+W74ioAdbdaVFGYZME=;
- b=wg8ueaLYAYXxtXdzB3QLZ31ymNZdnV3/eB9n5sEllPvNbPrW0tDmXB1Qxkpk+fZACM
- GtlfB01h4k5LLMtSZdbmhMye4Iz4uwyezF5LVzG6eZezb5zKJ3lEmdoIDwGNNBenEfox
- /PREfhv2Z9ojeuobJNvJtSXMAHT2yBxZz3fHJKjxBxiETY3JpDjtu51ao42XRn3/JVhm
- 7aNmzrmzsDjMnoxXJh/Hsi+znaalkr+xhla9mf34W/KC3p5C9RO1uFDkZYOGuN+5gj2p
- T7G8fPqomh8kirD8vswGYPb7EFu6Oqe4Rc4B/LtmDWIvWCSxiDmNgUfEscHWer7TKRqo
- g/5w==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d6r5TI+dJDVZQ5OwHi97mnEGqVifeMnT7F77mzxkvhA=;
+ b=bSvTmL9OO+6OWx5MaEPNhiMZ0u6TqtwVYSJ3IEJDTilnq/EIfWGU8V1gmRBvv3dOYh
+ rM4tmprAPx3Yd+ZpljyNW6/7iegm3uwf0Jcoylg+iFndDi0rc2H9rY+t1GI9A/WakOrE
+ zVKBjoTlMcnlURz0Hjm5o0HTGyAkfO9kDYOC/AlYvEqhWc0uiXgQ452KsKrL2+1juyRx
+ WWwtDRgUyoU7a1vT9LjeF4FN0/QepRXxFut9M8pBJwiazKE5KH4x+iLNOSnOjFSuqlK5
+ TpHUY/Rr9H7DaCkpvnT6dMGLl9f8Q2f2iIQVt3L4PvlNMoFMCsJqPQQS91mB4ceFzxd6
+ Cd5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Pv4yxrkA0yZ30C+dZu/Q4tDSb+W74ioAdbdaVFGYZME=;
- b=qBo+ZS+E7q4M/sTruvXgSGWCAv8mP2b+bQHMkUg4xdKj+jPjdr3DflsN3KU+snnGrz
- A8wDkS+RF91LOpOns/jehdOXx+OxYIgPk1ClBWgmbRXIS8kOHTWZXtVrK3AUstpq7YiN
- 2Dtvf3DJT/jstg5VfPEEbyDzsRt+2y1hg7ot7XQdTimaZ0u+tC89N5i/WEP2lnATdVMm
- Exqv9+UMSIP5hqSvSEoWCb+JulHZlkzz1htI/a39m0I/uriAfXO+Hb3ljNeNa5Qjy2Z1
- JZ/AYp9C8CAIGpvsE2xlQm9NqR/v956SoL2vG4QgUSLwugHlUevK8s6JADSDNlHUADO7
- Fzfg==
-X-Gm-Message-State: AOAM530FInDHrqjxKmisCzwsw06spanF+NdenAHXF6m9uG04159G1oyN
- ummUfZ7sGEI1qzHHQRc8ArUQQw==
-X-Google-Smtp-Source: ABdhPJx4ZxDMB7JvCC8+7DXoTxhugWx1WOOC6G6WWDfMwKtQ17Pf9gWXt3WoRXAlGkzzZKYjII6vHw==
-X-Received: by 2002:a63:e94f:: with SMTP id q15mr33990636pgj.401.1608136778988; 
- Wed, 16 Dec 2020 08:39:38 -0800 (PST)
-Received: from [192.168.71.34] ([172.58.27.195])
- by smtp.gmail.com with ESMTPSA id f126sm3040483pfa.58.2020.12.16.08.39.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Dec 2020 08:39:38 -0800 (PST)
-Subject: Re: [RFC v2 10/15] target/riscv: rvb: rotate (left/right)
-To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-References: <20201216020150.3157-1-frank.chang@sifive.com>
- <20201216020150.3157-11-frank.chang@sifive.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b0332f99-243d-4c40-1001-1f74fa2f43a1@linaro.org>
-Date: Wed, 16 Dec 2020 10:39:31 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ bh=d6r5TI+dJDVZQ5OwHi97mnEGqVifeMnT7F77mzxkvhA=;
+ b=pmyHiROngcCXW2fmAVrnUUEEckVHXn9B9rU0xXC+TcjA7M6kwV3+K3YWn8K9ylLwjr
+ 6BSV04+PwbkV1AfoH2xN6YMhAEitkb/pWjXFX9sK1IjiqZZ7TNKrDJlCg21Cz9rS4Hpe
+ OWx1WxcEkYoiHcN0VeJCK03uk8CQPSFgbA3OtEmTiYfpQwkKLWbAjwHaoO1FXCyrE0jU
+ nh/Iht8qaZrs5wKRa969jorHuBCl9epILGVAZvjUYY/3H/wZsG6xuxzGnIRfuDHFo/Sb
+ lRXWG7y19zjKySaXOqPq4TeDFRTUA7E6IxGGHi6KqfVUYNBgx6Cml5O0pjzOY2hoXSET
+ uRaw==
+X-Gm-Message-State: AOAM532hbIyJvdGyv0eRUUb/PeGPHFcYlsPnXXA9CCjlFuYLyIYv01ib
+ N0xQWJ+j5pSt8JqS2Fukv4LB+w==
+X-Google-Smtp-Source: ABdhPJwoCu+kqkCkifYSmmfmZJ07jyd0tZTUX6tohOcPnhHURiRy/ibhAbndnuTsRVJgOOWSf5xdmw==
+X-Received: by 2002:a5d:45d0:: with SMTP id b16mr38622180wrs.220.1608137309981; 
+ Wed, 16 Dec 2020 08:48:29 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i7sm4060697wrv.12.2020.12.16.08.48.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Dec 2020 08:48:28 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D80561FF7E;
+ Wed, 16 Dec 2020 16:48:27 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/11] testing and configure updates
+Date: Wed, 16 Dec 2020 16:48:16 +0000
+Message-Id: <20201216164827.24457-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201216020150.3157-11-frank.chang@sifive.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,75 +84,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/15/20 8:01 PM, frank.chang@sifive.com wrote:
-> +static bool trans_ror(DisasContext *ctx, arg_ror *a)
->  {
-> +    REQUIRE_EXT(ctx, RVB);
-> +    return gen_arith(ctx, a, &tcg_gen_rotr_tl);
-> +}
+The following changes since commit af3f37319cb1e1ca0c42842ecdbd1bcfc64a4b6f:
 
-Use gen_shift.
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2020-12-15 21:24:31 +0000)
 
-> +static bool trans_rori(DisasContext *ctx, arg_rori *a)
-> +{
-> +    REQUIRE_EXT(ctx, RVB);
-> +
-> +    if (a->shamt >= TARGET_LONG_BITS) {
-> +        return false;
-> +    }
-> +
-> +    TCGv source1 = tcg_temp_new();
-> +
-> +    gen_get_gpr(source1, a->rs1);
-> +    tcg_gen_rotri_tl(source1, source1, a->shamt);
-> +    gen_set_gpr(a->rd, source1);
+are available in the Git repository at:
 
-Use gen_shifti.
+  https://github.com/stsquad/qemu.git tags/pull-testing-161220-1
 
-> +static bool trans_rol(DisasContext *ctx, arg_rol *a)
-> +{
-> +    REQUIRE_EXT(ctx, RVB);
-> +    return gen_arith(ctx, a, &tcg_gen_rotl_tl);
-> +}
+for you to fetch changes up to f1d2e115645ddf18bd235e853ca47f73f4dffe6b:
 
-Use gen_shift.
+  tests: update for rename of CentOS8 PowerTools repo (2020-12-16 16:19:37 +0000)
 
-> +static bool trans_rorw(DisasContext *ctx, arg_rorw *a)
-> +{
-> +    REQUIRE_EXT(ctx, RVB);
-> +    return gen_shiftw(ctx, a, &gen_rorw);
-> +}
-> +
-> +static bool trans_roriw(DisasContext *ctx, arg_roriw *a)
-> +{
-> +    REQUIRE_EXT(ctx, RVB);
-> +
-> +    if (a->shamt >= 32) {
-> +        return false;
-> +    }
+----------------------------------------------------------------
+Testing and configure updates:
 
-Test is impossible due to @sh5.
+  - add moxie-softmmu to deprecated_targets_list
+  - improve cross-build KVM coverage
+  - new --without-default-features configure flag
+  - add __repr__ for ConsoleSocket for debugging
+  - build tcg tests with -Werror
+  - test 32 bit builds with fedora
+  - remove last traces of debian9
+  - hotfix for centos8 powertools repo
 
-> +    if (a->shamt == 0) {
-> +        TCGv t = tcg_temp_new();
-> +        gen_get_gpr(t, a->rs1);
-> +        tcg_gen_ext32s_tl(t, t);
-> +        gen_set_gpr(a->rd, t);
-> +        tcg_temp_free(t);
-> +        return true;
-> +    }
+----------------------------------------------------------------
+Alex Bennée (8):
+      configure: include moxie-softmmu in deprecated_targets_list
+      gitlab: include aarch64-softmmu and ppc64-softmmu cross-system-build
+      configure: move gettext detection to meson.build
+      configure: add --without-default-features
+      python: add __repr__ to ConsoleSocket to aid debugging
+      gitlab: move --without-default-devices build from Travis
+      gitlab: add --without-default-features build
+      tests/tcg: build tests with -Werror
 
-Why do you need this special case?  The general expansion would appear to work
-fine, and surely this needs no special optimization.
+Daniel P. Berrangé (1):
+      tests: update for rename of CentOS8 PowerTools repo
 
+Thomas Huth (2):
+      gitlab-CI: Test 32-bit builds with the fedora-i386-cross container
+      tests/docker: Remove the remainders of debian9 containers from the Makefile
 
-r~
+ configure                                         | 176 +++++++++++-----------
+ .gitlab-ci.d/crossbuilds.yml                      |  22 ++-
+ .gitlab-ci.yml                                    |  16 +-
+ .travis.yml                                       |   8 -
+ meson_options.txt                                 |   2 +-
+ po/meson.build                                    |   2 +-
+ python/qemu/console_socket.py                     |   7 +
+ tests/docker/Makefile.include                     |   6 +-
+ tests/docker/dockerfiles/centos8.docker           |   2 +-
+ tests/docker/dockerfiles/fedora-i386-cross.docker |  18 ++-
+ tests/tcg/Makefile.target                         |   2 +-
+ 11 files changed, 148 insertions(+), 113 deletions(-)
+
+-- 
+2.20.1
+
 
