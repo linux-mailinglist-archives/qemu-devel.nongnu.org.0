@@ -2,79 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BDE2DBF29
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 12:03:06 +0100 (CET)
-Received: from localhost ([::1]:55406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1116D2DBF10
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 11:56:34 +0100 (CET)
+Received: from localhost ([::1]:41022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpUaH-00032z-W5
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 06:03:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54706)
+	id 1kpUTw-00057P-LB
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 05:56:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpUWq-0000tQ-T3
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 05:59:32 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33915)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kpUSr-0004a2-UW
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 05:55:26 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpUWn-0000nl-9o
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 05:59:32 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id q18so15224359wrn.1
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 02:59:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=cTd/mOll46zxMP8ZrYGdOmk8KTejyNnlw2hVTulXCTw=;
- b=cZXt1HJyzMYHNiFPJrB0FlIycsRXels2ztP4VX0Xp7YIBYFrnDkxTg7JisVYKxCBxY
- q4tiod+r3jXZNq2xjK+ySaczUOtv6X5JYOV3GUkNBl47soyJJ75exEsUbMiv6vJXzTl4
- YeMstfYv5yv8vJ9wG/0uAGYO4yte2NGVTYVrQDi/6GANs9qaldLk7htAxQH2smdacv9o
- +G9g3kSLPF2UyrQKUlW9Rzv8oFi7HJnNMqnKa8DmtpLcsgI1RvzSgNYwYpsjGBSWjyvX
- m4YV6ylsMAUB2zLwlYEOcuUM50M9uleDrEHYCbKoptOldv6sZvFJbo7ehzVwZ1lbXme+
- rbig==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kpUSq-0007tw-AE
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 05:55:25 -0500
+Received: by mail-wr1-x434.google.com with SMTP id t16so22729145wra.3
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 02:55:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=q6tJxJvk5A7h0pQGeGrow1/29+Yel8mvO8oSdG6hhNw=;
+ b=QSEi6Y1GVGnXfUIxafMtZeZ4fqdChHpacHu2TTwv8DhhXZQvGdqncjVB+OSFf0LnYE
+ +5XGma0cKTMHl/2E+ypd8tjy2zrenSSbg4mPte3IYg1B1EGcr8SDg+BxD/9qcCzN9XLL
+ Zy42X4XwxLn7nkMCSZzeml8kou0ys2tICSJg5p8wGbdUzTA/pO3gGz8qq1F1sSctMOoi
+ ytz2uDozWa61dfJ+0RM4z5neKbJZUH62oA5ovC4QjmfjEE2wSAkuVq2EOuZ6ewGjdh0m
+ +LnudVPhJ67OnV9b5AoaeLDO5XCP8jEzK60ce9i85emze7pmaYjt7UikDmhsfHQoCUCS
+ nmTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=cTd/mOll46zxMP8ZrYGdOmk8KTejyNnlw2hVTulXCTw=;
- b=e39LhcQ9JjW2MTU5dt8pmoVP51thOC6UH1eMfagnTxAlBa2HVeTtkdrFD6TK6IWHHP
- /Kq8PGEO9yat8TG54YL+1kTDCqAtHfIXCSf3XQmiJj2wfF8gh5a4Oy52xi6opGsTzSaN
- fgWm15TfmdTzvCuRfMo2v0JmuPIG0zvpMHRHEoNIDVGjfYeDwKuGTNJtt9bGUOhCiCix
- 0AUHsLYpPhEDyNU0b+t9PivNrBF7PESdwsRgKMmZaRCFeyGEyMxDPw6VSfz6F0ujM0YT
- 1AoYuuCFZPnRcNSuUjtodcc4GogcS7nDkT36MoTtsyJ2wNbej/Yv/TIf0XzO9UVnNinV
- z6Lw==
-X-Gm-Message-State: AOAM533hz5gvqVh0pXHy8daYBiYikjQjU/5m9ABM0EMgR1/eRyECZQqn
- eRZ11WXbZ3s9DaHUp34VrM7Ew1tO7cKJFg==
-X-Google-Smtp-Source: ABdhPJwGVKoUpXLaPMK0hUfwmeZVBcBv1gwyclF0U+GjXWIOJ+R92WrAtZEnhhFEtP/5SZ0YtFQwRg==
-X-Received: by 2002:a5d:50c3:: with SMTP id f3mr30773232wrt.287.1608116367958; 
- Wed, 16 Dec 2020 02:59:27 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c129sm2294693wma.31.2020.12.16.02.59.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 02:59:26 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9A0511FF7E;
- Wed, 16 Dec 2020 10:59:25 +0000 (GMT)
-References: <20201216013646.40799-1-gromero@linux.ibm.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Gustavo Romero <gromero@linux.ibm.com>
-Subject: Re: [PATCH] configure: Fail when specified cross compiler cannot be
- found
-Date: Wed, 16 Dec 2020 10:51:06 +0000
-In-reply-to: <20201216013646.40799-1-gromero@linux.ibm.com>
-Message-ID: <87bleut3si.fsf@linaro.org>
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=q6tJxJvk5A7h0pQGeGrow1/29+Yel8mvO8oSdG6hhNw=;
+ b=ndSb0CHR6IN2QKdr5S+ZQV1ykrNgceI3dvTgAxU3P+wknYS329E0jJt6kMacI3RzZL
+ CGiRwvG4l1P0go7fu5HuDBee+uNCIzkaCmvMignGINwgCMnX78ww/o/zJC1XgzP+H4rA
+ YXwjVGONOv9MYD4SkQ3MNQqKXa8U9cvUG4G0/OVQtm6jH5Tf9JhjTX8VWvsVNmJ55mId
+ 02tZFuNj9/uHtKW4QcNIGSZbttW6+lAN+DuTuFhV4FjN3d/xSzs7E3mQF3lqyLl3zQEK
+ gUEbL+Q3bJeuGqO0vOW+GtixLqZ3/5bu0C02wbp9JMXqww5x3d9DNQ8l3Pid7Ei2+Ocm
+ qqCg==
+X-Gm-Message-State: AOAM5331Pfv4c6rtmzcLu4uzXHPhGliM+m5Cth7HkHyHuvcRcyVgodlo
+ h9U2Pl1cDBpyFZOKgiuiTFk=
+X-Google-Smtp-Source: ABdhPJxoMPnOCncEvtoBbbFdv3KzwRLhGLnbQMa/J34kg1/IUfC3Bjl+OX4GzUX3DuOFGisWwL+IGw==
+X-Received: by 2002:adf:8342:: with SMTP id 60mr38242089wrd.140.1608116122727; 
+ Wed, 16 Dec 2020 02:55:22 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id m2sm2138273wml.34.2020.12.16.02.55.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Dec 2020 02:55:21 -0800 (PST)
+Subject: Re: [PATCH v2 03/24] target/mips/cpu: Introduce isa_rel6_available()
+ helper
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Aurelien Jarno <aurelien@aurel32.net>
+References: <20201215225757.764263-1-f4bug@amsat.org>
+ <20201215225757.764263-4-f4bug@amsat.org>
+ <508441db-8748-1b55-5f39-e6a778c0bdc0@linaro.org>
+ <40e8df0f-01ab-6693-785b-257b8d3144bf@amsat.org>
+Message-ID: <47f9920e-38de-448c-b471-ba3e3a1f5c3b@amsat.org>
+Date: Wed, 16 Dec 2020 11:55:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <40e8df0f-01ab-6693-785b-257b8d3144bf@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,86 +93,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@protonmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, kvm@vger.kernel.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/16/20 12:48 AM, Philippe Mathieu-Daudé wrote:
+> On 12/16/20 12:27 AM, Richard Henderson wrote:
+>> On 12/15/20 4:57 PM, Philippe Mathieu-Daudé wrote:
+>>> +bool isa_rel6_available(const CPUMIPSState *env)
+>>> +{
+>>> +    if (TARGET_LONG_BITS == 64) {
+>>> +        return cpu_supports_isa(env, ISA_MIPS64R6);
+>>> +    }
+>>> +    return cpu_supports_isa(env, ISA_MIPS32R6);
+>>> +}
+>>
+>> So... does qemu-system-mips64 support 32-bit cpus?
+> 
+> Well... TBH I never tested it :S It looks the TCG code
+> is compiled with 64-bit TL registers, the machine address
+> space is 64-bit regardless the CPU, and I see various
+> #ifdef MIPS64 code that look dubious with 32-bit CPU.
 
-Gustavo Romero <gromero@linux.ibm.com> writes:
+I don't think 32-bit CPUs on 64-bit build currently work
+well, see:
 
-> Currently if the cross compiler passed to 'configure' (--cross-cc-<arch>)=
- does
-> not exist no error happens and only later when the TCG tests are run they=
- fail
-> because the cross compiler is not set correctly.
+382     env->CP0_Status = (MIPS_HFLAG_UM << CP0St_KSU);
+383 # ifdef TARGET_MIPS64
+384     /* Enable 64-bit register mode.  */
+385     env->CP0_Status |= (1 << CP0St_PX);
+386 # endif
+387 # ifdef TARGET_ABI_MIPSN64
+388     /* Enable 64-bit address mode.  */
+389     env->CP0_Status |= (1 << CP0St_UX);
+390 # endif
+391     /*
+392      * Enable access to the CPUNum, SYNCI_Step, CC, and CCRes RDHWR
+393      * hardware registers.
+394      */
+395     env->CP0_HWREna |= 0x0000000F;
+396     if (env->CP0_Config1 & (1 << CP0C1_FP)) {
+397         env->CP0_Status |= (1 << CP0St_CU1);
+398     }
+399     if (env->CP0_Config3 & (1 << CP0C3_DSPP)) {
+400         env->CP0_Status |= (1 << CP0St_MX);
+401     }
+402 # if defined(TARGET_MIPS64)
+403     /* For MIPS64, init FR bit to 1 if FPU unit is there and bit is
+writable. */
+404     if ((env->CP0_Config1 & (1 << CP0C1_FP)) &&
+405         (env->CP0_Status_rw_bitmask & (1 << CP0St_FR))) {
+406         env->CP0_Status |= (1 << CP0St_FR);
+407     }
+408 # endif
 
-Do they? They should just skip because of a non-existing compiler and a
-failed fallback to using docker:
+Or:
 
-  ../../configure --disable-docs --target-list=3Daarch64-softmmu --cross-cc=
--aarch64=3Dnonexisting_gcc
+1018 void helper_mtc0_pwsize(CPUMIPSState *env, target_ulong arg1)
+1019 {
+1020 #if defined(TARGET_MIPS64)
+1021     env->CP0_PWSize = arg1 & 0x3F7FFFFFFFULL;
+1022 #else
+1023     env->CP0_PWSize = arg1 & 0x3FFFFFFF;
+1024 #endif
+1025 }
 
-and then cat ./tests/tcg/config-aarch64-softmmu.mak
-
-  # Automatically generated by configure - do not modify
-  TARGET_NAME=3Daarch64
-  CONFIG_SOFTMMU=3Dy
-  QEMU=3D/home/alex/lsrc/qemu.git/builds/bisect/qemu-system-aarch64
-  CROSS_CC_GUEST_CFLAGS=3D
-  DOCKER_IMAGE=3Ddebian-arm64-test-cross
-  DOCKER_CROSS_CC_GUEST=3Daarch64-linux-gnu-gcc-10
-
-So what do you see in your failing case?
-
->
-> This commit changes that behavior and make 'configure' fail if the specif=
-ied
-> cross compiler cannot be found, displaying an error similar to the follow=
-ing:
->
-> $ ../configure --target-list=3Dppc64-softmmu --cross-cc-ppc64=3Dnonexisti=
-ng_gcc
-> Specified cross-compiler 'nonexisting_gcc' not found!
->
-> Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
-> ---
->  configure              | 2 +-
->  tests/tcg/configure.sh | 4 +++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/configure b/configure
-> index cb21108d34..c0389f5839 100755
-> --- a/configure
-> +++ b/configure
-> @@ -6854,7 +6854,7 @@ done
->    export $i
->  done
->  export target_list source_path use_containers
-> -$source_path/tests/tcg/configure.sh)
-> +$source_path/tests/tcg/configure.sh) || exit 1
->=20=20
->  # temporary config to build submodules
->  for rom in seabios; do
-> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-> index e1b70e25f2..6c89d75c38 100755
-> --- a/tests/tcg/configure.sh
-> +++ b/tests/tcg/configure.sh
-> @@ -212,8 +212,10 @@ for target in $target_list; do
->=20=20
->      eval "target_compiler=3D\${cross_cc_$i}"
->      if ! has $target_compiler; then
-> -      continue
-> +      echo "Specified cross-compiler '$target_compiler' not found!"
-> +      exit 1
->      fi
-> +
->      write_c_skeleton
->      if ! do_compiler "$target_compiler" $target_compiler_cflags -o $TMPE=
- $TMPC -static ; then
->        # For host systems we might get away with building without -static
-
-
---=20
-Alex Benn=C3=A9e
+1038 void helper_mtc0_pwctl(CPUMIPSState *env, target_ulong arg1)
+1039 {
+1040 #if defined(TARGET_MIPS64)
+1041     /* PWEn = 0. Hardware page table walking is not implemented. */
+1042     env->CP0_PWCtl = (env->CP0_PWCtl & 0x000000C0) | (arg1 &
+0x5C00003F);
+1043 #else
+1044     env->CP0_PWCtl = (arg1 & 0x800000FF);
+1045 #endif
+1046 }
 
