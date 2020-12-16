@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE87A2DBB2F
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 07:26:44 +0100 (CET)
-Received: from localhost ([::1]:40232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385882DBB39
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 07:30:06 +0100 (CET)
+Received: from localhost ([::1]:48436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpQGq-0002Xb-17
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 01:26:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53610)
+	id 1kpQK5-000685-8y
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 01:30:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kpQ89-0002tE-NW; Wed, 16 Dec 2020 01:17:45 -0500
-Received: from mail-eopbgr00135.outbound.protection.outlook.com
- ([40.107.0.135]:52920 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ id 1kpQ8B-0002yo-S6; Wed, 16 Dec 2020 01:17:47 -0500
+Received: from mail-eopbgr00123.outbound.protection.outlook.com
+ ([40.107.0.123]:51180 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kpQ87-0001CD-Tk; Wed, 16 Dec 2020 01:17:45 -0500
+ id 1kpQ88-0001E7-V4; Wed, 16 Dec 2020 01:17:47 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iND6B7p0JkmJT4rCZMQbq0sqm2imqlKtB3w72iBfWKOuel0WyyapTGnKNNEX4SvYU/183SNdV+YSp3hwFQawuDnctFSiQmJB78onvliCuyhLLVqri3XTMspRzDQJixY1vS9pMnm/0n9C6WquQxQqxMp7jvBzdPmYXUwfyrkppUtYPbMVJeLTLMM5R1N+6F9K1UjUIUcJ4ifgIKCakYH7YGS/EeTUXoC1uw+jRwbMhE6zeRWSm6iUEOtpKzR1U5B4xi3rUs0wOGCApiU7AaPUvOUbhzpMFBvy2ANbIBDnYXU5rzAY/hiTgwZIK9DXftJZmTQ1XjJTdHksA0ITnFpcTA==
+ b=oTxbcMsGmzVC2khyzwK/ygM9SE+kpZHOAAYRoUAPxz5+6KoTK/O3kQ+MGdxubKfJxSrsU5a8qb5I5kZEIflsqKif1A1Glw5zORJq1c+/w/RBqqozp9MocV1S+QcRb7I0ClQOR4+6dzN/8v9H5qQc/6qF6j9TbqE2fMeRNdvJPdRhhM69PM5Uvz2l9bVXqXzvkKYxjz0cRKcmTSA11H/O+SNOShxePmRPKHWhwueauEvJ/nhrVRomT/04E6fIvznbz9eN5+I5jY0exv0x01U3BppnlPWBiivn8SakKHtgLzS9mlOTUKVRObdGp2vnW0qr2j3Xtd1qwNgAu2oorYWU2A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4E+9NhwWrPoG2qRE8a9HR6Smd33Wp3DZ1RgaEhDAv6Q=;
- b=RNleRCGKUYwZBiESWAOdXrpSVCYKI/Ge+gWrl2TlE3+4dJiHWnD6zRuWfiEWGusiMO2LXTQlekp4XAb2v4SIyHD/8/yrCtH2px7CtcD/0xggsIIBBfysPT2wJp1qwImG0CgQLbcWeK4aTzB95zxNF3gX3hhns5s5IoFHZ8mcMZGhAHHrMT7symTmyoysK4s/tJsQP+WAIrSkXO+WmwbLk139vvfRbcQz4P8NedjMGaYNpHhToVjcAJAY2/dISZqyzzqRPtzTnCm1zWKZPn0KKt9T2hvtYEs85mOO8AYG3+Wui7udG149bM0QNUqKAlDIPuyhhku9IoWXJpJbWuVzpw==
+ bh=K1EN1Y/Yprxl4SBjkfLXYv0cV9ISMI/aWeFX9S/Ue4E=;
+ b=mUSgxgs1ua0N65x8Uo7l6X1oeNVThD/24VqON4GcbpKL4RfPCwDlPteq/zzeRPqLBnX/OlLt0cte6N0GeJBzwYOSXXsw7GHFEJVMAOIeyJfnVLGFqJsj6u0LKmrk6CHntuy6l2JGMD8FXgjTk5mM1slIxL8uWD/f4JcOyrFFnG3yKaREdplaWb7Hne315Y9qLSTredetOVTYFN0AYQqLgz3zz1JUtP60ANV6n+iD4HHZASyAGwRaAteysZX9vdFdWNi0dGmEFnShARJqQe6aMqv5T+nZR4uIs0o6XeedckdXQEc48k/+yndsR+3tGBDq+LrF7ngsp29L92dyUSVfMw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4E+9NhwWrPoG2qRE8a9HR6Smd33Wp3DZ1RgaEhDAv6Q=;
- b=YrrXcytCZ8vqW5QSUVQgthD/hfnTBXTvcO97OKBbosduc9Xy7YTrurA963EHuxDHMi/GqCILGd+RGYSe8bD7+XJwZT0xIXZKHSFTgGHE0viqPSRhg9zACVuVvnIpUWidvkdnGMA4KKWRPxJ835AYgJ1XeM5bWJ3RF/9RXq2K9xs=
+ bh=K1EN1Y/Yprxl4SBjkfLXYv0cV9ISMI/aWeFX9S/Ue4E=;
+ b=JcJZvmebsKxdq+eS7tARSEkkT0gCZiTQyzQkSFd8YhYkc2rbYTpxlnlTaBDIH/j/GHkLfQtZMNtmNM5flQnZoc5uG3se8PqZ6wUYisedBvP2B49XKuPsOJQOYK+cB0RU8beuEkLkfhcX7uYKrLQ2zOs050AJScOmCimPb9dWExc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6309.eurprd08.prod.outlook.com (2603:10a6:20b:29f::7)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.24; Wed, 16 Dec
- 2020 06:17:28 +0000
+ 2020 06:17:29 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3654.024; Wed, 16 Dec 2020
- 06:17:28 +0000
+ 06:17:29 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v15 11/13] iotests: 30: prepare to COR filter insertion by
- stream job
-Date: Wed, 16 Dec 2020 09:17:01 +0300
-Message-Id: <20201216061703.70908-12-vsementsov@virtuozzo.com>
+Subject: [PATCH v15 12/13] block/stream: add s->target_bs
+Date: Wed, 16 Dec 2020 09:17:02 +0300
+Message-Id: <20201216061703.70908-13-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20201216061703.70908-1-vsementsov@virtuozzo.com>
 References: <20201216061703.70908-1-vsementsov@virtuozzo.com>
@@ -65,59 +64,58 @@ Received: from kvm.sw.ru (185.215.60.92) by
  AM4PR0202CA0008.eurprd02.prod.outlook.com (2603:10a6:200:89::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend
- Transport; Wed, 16 Dec 2020 06:17:27 +0000
+ Transport; Wed, 16 Dec 2020 06:17:28 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 598a93a2-f83d-4540-7693-08d8a18a4396
+X-MS-Office365-Filtering-Correlation-Id: 69f0e266-409a-4083-a731-08d8a18a4443
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6309:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6309AC74D9067707A6D23914C1C50@AS8PR08MB6309.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB63090CECB154A0E719C4102AC1C50@AS8PR08MB6309.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:137;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Vi1s+OuNeF07pQ/FiZpv1ueim8POVsactNJzH/WcRN0xo6CSyuXfXeXHSbPFGzDZuTf0qQPLzEKFaK5nD8Y7RlZmOdZCQZfwTKkShA0QOfDDGT6n4NulKdiks39zjCTLorp1JMGNXry5nZhf74asmgMPG/9Jg7xYY9vDoyEC5hB+dUF8lmLtH6hIM9VXMi1vddPr0qoVSOl+qS8iF0VRxGzHRxbj+H5efBI1ftznipQ3jIHotDZeeKdXKLMBkJ40hGYUMiho2yTjZhXSbDsq35VDE+eIHWCz6NHv2g/Gh+aTcfJlUHpMBm0mEWtmV7F/WtSnX2sLGf8s7qyDBYTmvg==
+X-Microsoft-Antispam-Message-Info: ULBTZN6c/J6fh7h9df2Rx5fBQI/PoiUB1nGPz6c7froPzCxHUiL1n9t3hFZNeHBw0Gn0x1j4wKgJsQWAnVuTC3BIpxTa+/67NImc5aqcNZNP10BnBfY9g8JEBdTHVNMZ29aX/ZeK0m/00ZcSzo6kkyqE9M8rMucKLrBoKforUUyswYkWMLesxUWC82a+L9p7wi0Hw4RCSaXY5hHGMqtengwtX67SQ6R3Wku546/tY3HOam28S6VwyWR4ehpibYzTuUjNqZbgEj7ZPXOT41VjikCyPshmsPC+VL8oN7EUY1HJxZUMaSjwOjHdYbtv6ovLKhjSQrx4CwNcWOL+wMgGIQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(376002)(136003)(396003)(366004)(346002)(39840400004)(4326008)(5660300002)(66556008)(66476007)(186003)(16526019)(956004)(6506007)(6512007)(2616005)(66946007)(36756003)(6666004)(1076003)(86362001)(6916009)(316002)(6486002)(52116002)(2906002)(8676002)(83380400001)(107886003)(478600001)(8936002)(26005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?GVN94FtmLHqKkjlXtADk8X3HDCruYEhXtY7OsvuFp5E0d7m57wMhgNIDiyJv?=
- =?us-ascii?Q?98SSNzJS+Lb9Tm1ZJ4/sCB9ks0nBO8gNwikXD3arahm2DhcwZK/8FdGZpTc8?=
- =?us-ascii?Q?CGPLHJHyZNVLZL/Oq62ESAZNCMnnIwvRF+xOO+FVCRZFyr7UDzEZGAw+loRn?=
- =?us-ascii?Q?TBVrNAe6cN83KJY/hE+TXHRPg9c/NtcAxuZqn1w8Z3xvnSinGGsFI44ORdHC?=
- =?us-ascii?Q?823EPDctxZrz+xBVpJkUEbx3XbZiPFbEA8CR+IAEloATl2U3no7vd/OChGDL?=
- =?us-ascii?Q?pcWo1YPQuw6KWpI4pS1WPuqskBEIE3IyOPZzFXLTyxIVt0qD3d54GWo8PcGt?=
- =?us-ascii?Q?U79nCWgN38SkdxKhiUEuA81mc83lEktLzoLnbPNVSsN4adVQxgZaZ1dA3xqF?=
- =?us-ascii?Q?r1LxETi3WAjc+6nL4CoAIHtHa3CdULGRkI2yYEyQOcpMLq2xR/fEqD4Blb2f?=
- =?us-ascii?Q?U6z4BE/SU/P65iFwPTAdE6u8JufCzTq7Ok5o84MDfcTPb/77Z+I09C+yleL0?=
- =?us-ascii?Q?cOmwKE4Xx9umxLdAYQsue9KvBHj1Mkl9V4/Ylptd9arnFxq6KNt7P0VdU4As?=
- =?us-ascii?Q?Si/rf/rk53Zr3BX1dJ7uwN5jzKJo/2uQuSlbrF45x2B6dz9Eso8ubaWlClY+?=
- =?us-ascii?Q?XWSyLcFquNvsmh73UkTNSY/TbxFCbLrl61CsyhbaqYvKordqaftAQhvTlTzi?=
- =?us-ascii?Q?YKdl+B0+7Jl+HBJV3XbEgf7P9/fb/1zDTlSriOAcjcD3bqfUeJm5H6nGGjVs?=
- =?us-ascii?Q?GmF7O57ympu17PF1dtm/A/2dK6ROtEzyYaWzVotRg3ZvjghWiGs/0kTYLDtq?=
- =?us-ascii?Q?96cblLjl8exDavKmIGQMBy4nbmL1QT7XMsVk7BssuXwUuXn6Y9TjBiquN8ZT?=
- =?us-ascii?Q?FGJdw7wzEhkvbVv6HKpMZmB03Koiabs3jfKItbiRGhJrrSV4ls4c+5qaqJQq?=
- =?us-ascii?Q?vnScHIAf+umaRRr1i8pMBupzxuRQI9ywPq4vIdQUj9LxcIEApsUtMZ6NOZ8+?=
- =?us-ascii?Q?W3Zi?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ejXUsUuZbrLHg25uafrQszJoUDs1AK9iJ6cfIJIV02+A8Ghrk9S8vD6WJiKH?=
+ =?us-ascii?Q?5nffPdTm2kpwvvYb54VwOHajtUXXn6bkfT6vYCHduvIRu81IiP/8+b2mFqY5?=
+ =?us-ascii?Q?1RWS7SeGz+/oL+7UTuU5mvBtjuEKJPLSyYkwAlX2Z6nxxi56tWbQ6BmIar1d?=
+ =?us-ascii?Q?2sHpwg9nQCjPPs7/UNAXuZ4cQ5tdHYG+gcqEY1Qdb6gc2lm8ienUYQTTJfjk?=
+ =?us-ascii?Q?JOBe+We7/Ubk6bA6P+JVZ8eeVfDrqQCP3ivgrRX9c5Go1IdT7C9JrIMCvG5t?=
+ =?us-ascii?Q?rKppZoVm9Egk/rSgINImCEfSk5mCr6B1dxNAAkovhD9Yjfu8ySxIXQB79NfO?=
+ =?us-ascii?Q?GHgWlmVoeXR0g0gh7Aj4lZBIYN8sbvnBGvuXcfOGnnEbwOT0kkBxOgNI9Qjn?=
+ =?us-ascii?Q?1cXBSnL/sLnpGF/gwurqP8geWije0qMzKrS6WnGDkQSPfAjEpeuKs7tH0LJC?=
+ =?us-ascii?Q?H44HN+WikTKnItoL8/Hq9XF1q5Y2CfUSy1n4vT4F54/oD4UUAvp64M6durfU?=
+ =?us-ascii?Q?HAD4qCsrwhe+ntY4poOB5LF8MwAg0NaQDdQBuenQHCFcK+ZJ6F2A8wF3YpYP?=
+ =?us-ascii?Q?5LPCRql89k9zx3O6asw43h7N1nVwR0cgaonYOSPR5wOPHjyJjDkdSiN3XBj/?=
+ =?us-ascii?Q?Zs2RtDz5C45P0ZywkseyBJzFMXkmKd72n64+IsFcGCWflXokNTFYVN7Bg3Jl?=
+ =?us-ascii?Q?raNHuE7obvrkVpaj1LlQEekTOmpRLlKMHSGZDQ15Vd9zPZkQ5Kb90FVdIUDb?=
+ =?us-ascii?Q?7MhuWvFd83iFsJ7tYE1vLTkA3qwE9F8gtBQz5D9Bc1lba0Zmi822VL5YdMU4?=
+ =?us-ascii?Q?ktgia0+kPDETXSzJdToGkmQcULR+7Ph5jzI3SPmLMmaLHVkYlnlVUFDK62jf?=
+ =?us-ascii?Q?rO/4YVC7MTXux9jWYer7MlDU7ZICEZyuHo+6OkrZl6ZTRygYTkW68gHIOhht?=
+ =?us-ascii?Q?g2j+ArA1cXuSnIiLFZWrDzDDgyuU+kxG4pw8v5Slo2g3D2LotuTaefsm+d7m?=
+ =?us-ascii?Q?BOK/?=
 X-OriginatorOrg: virtuozzo.com
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2020 06:17:28.3810 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2020 06:17:29.4583 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: 598a93a2-f83d-4540-7693-08d8a18a4396
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69f0e266-409a-4083-a731-08d8a18a4443
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yMnYoLyzRREKtUzHr2vrvr9bRN99/hIWJvvRVudLMh+ChtlgzVj2m2oC/OW2KinTdDYeGSsFdFcRpD3NjDLf0FiUsy/7nUxxYlRLEGEJzyw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: yP0VPnpKSt6FUds2hkP8GEqW15S06rpaGelx7uSvgMB4Ic7tGU+l90ZeWTuvnjALOECBawTsq/zQ0A04ukDaRxhDZBno2we7LDj2yfZHTNU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6309
-Received-SPF: pass client-ip=40.107.0.135;
+Received-SPF: pass client-ip=40.107.0.123;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -136,35 +134,116 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-test_stream_parallel run parallel stream jobs, intersecting so that top
-of one is base of another. It's OK now, but it would be a problem if
-insert the filter, as one job will want to use another job's filter as
-above_base node.
+Add a direct link to target bs for convenience and to simplify
+following commit which will insert COR filter above target bs.
 
-Correct thing to do is move to new interface: "bottom" argument instead
-of base. This guarantees that jobs don't intersect by their actions.
+This is a part of original commit written by Andrey.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/030 | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ block/stream.c | 23 ++++++++++-------------
+ 1 file changed, 10 insertions(+), 13 deletions(-)
 
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index dcb4b5d6a6..bd8cf9cff7 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -245,7 +245,9 @@ class TestParallelOps(iotests.QMPTestCase):
-             node_name = 'node%d' % i
-             job_id = 'stream-%s' % node_name
-             pending_jobs.append(job_id)
--            result = self.vm.qmp('block-stream', device=node_name, job_id=job_id, base=self.imgs[i-2], speed=1024)
-+            result = self.vm.qmp('block-stream', device=node_name,
-+                                 job_id=job_id, bottom=f'node{i-1}',
-+                                 speed=1024)
-             self.assert_qmp(result, 'return', {})
+diff --git a/block/stream.c b/block/stream.c
+index 045d6bc76b..626dfa2b22 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -33,6 +33,7 @@ typedef struct StreamBlockJob {
+     BlockJob common;
+     BlockDriverState *base_overlay; /* COW overlay (stream from this) */
+     BlockDriverState *above_base;   /* Node directly above the base */
++    BlockDriverState *target_bs;
+     BlockdevOnError on_error;
+     char *backing_file_str;
+     bool bs_read_only;
+@@ -53,23 +54,20 @@ static void stream_abort(Job *job)
+     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
  
-         for job in pending_jobs:
+     if (s->chain_frozen) {
+-        BlockJob *bjob = &s->common;
+-        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->above_base);
++        bdrv_unfreeze_backing_chain(s->target_bs, s->above_base);
+     }
+ }
+ 
+ static int stream_prepare(Job *job)
+ {
+     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+-    BlockJob *bjob = &s->common;
+-    BlockDriverState *bs = blk_bs(bjob->blk);
+-    BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
++    BlockDriverState *unfiltered_bs = bdrv_skip_filters(s->target_bs);
+     BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
+     BlockDriverState *unfiltered_base = bdrv_skip_filters(base);
+     Error *local_err = NULL;
+     int ret = 0;
+ 
+-    bdrv_unfreeze_backing_chain(bs, s->above_base);
++    bdrv_unfreeze_backing_chain(s->target_bs, s->above_base);
+     s->chain_frozen = false;
+ 
+     if (bdrv_cow_child(unfiltered_bs)) {
+@@ -95,13 +93,12 @@ static void stream_clean(Job *job)
+ {
+     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+     BlockJob *bjob = &s->common;
+-    BlockDriverState *bs = blk_bs(bjob->blk);
+ 
+     /* Reopen the image back in read-only mode if necessary */
+     if (s->bs_read_only) {
+         /* Give up write permissions before making it read-only */
+         blk_set_perm(bjob->blk, 0, BLK_PERM_ALL, &error_abort);
+-        bdrv_reopen_set_read_only(bs, true, NULL);
++        bdrv_reopen_set_read_only(s->target_bs, true, NULL);
+     }
+ 
+     g_free(s->backing_file_str);
+@@ -111,8 +108,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+ {
+     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+     BlockBackend *blk = s->common.blk;
+-    BlockDriverState *bs = blk_bs(blk);
+-    BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
++    BlockDriverState *unfiltered_bs = bdrv_skip_filters(s->target_bs);
+     bool enable_cor = !bdrv_cow_child(s->base_overlay);
+     int64_t len;
+     int64_t offset = 0;
+@@ -125,7 +121,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+         return 0;
+     }
+ 
+-    len = bdrv_getlength(bs);
++    len = bdrv_getlength(s->target_bs);
+     if (len < 0) {
+         return len;
+     }
+@@ -137,7 +133,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+      * account.
+      */
+     if (enable_cor) {
+-        bdrv_enable_copy_on_read(bs);
++        bdrv_enable_copy_on_read(s->target_bs);
+     }
+ 
+     for ( ; offset < len; offset += n) {
+@@ -199,7 +195,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+     }
+ 
+     if (enable_cor) {
+-        bdrv_disable_copy_on_read(bs);
++        bdrv_disable_copy_on_read(s->target_bs);
+     }
+ 
+     /* Do not remove the backing file if an error was there but ignored. */
+@@ -314,6 +310,7 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+     s->base_overlay = base_overlay;
+     s->above_base = above_base;
+     s->backing_file_str = g_strdup(backing_file_str);
++    s->target_bs = bs;
+     s->bs_read_only = bs_read_only;
+     s->chain_frozen = true;
+ 
 -- 
 2.25.4
 
