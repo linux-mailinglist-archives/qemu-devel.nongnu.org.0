@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECD52DC17D
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 14:46:18 +0100 (CET)
-Received: from localhost ([::1]:33650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D462A2DC17E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 14:46:46 +0100 (CET)
+Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpX8D-0001aX-2i
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 08:46:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38056)
+	id 1kpX8f-0001vg-Uv
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 08:46:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpX5a-0000NO-UI
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 08:43:34 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36915)
+ id 1kpX5f-0000Qb-Tl
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 08:43:39 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpX5Z-0005KN-8x
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 08:43:34 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id q75so2501805wme.2
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 05:43:32 -0800 (PST)
+ id 1kpX5d-0005LU-Py
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 08:43:39 -0500
+Received: by mail-wr1-x429.google.com with SMTP id y17so23206669wrr.10
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 05:43:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=SgZ6f1R99Jp9rN3Fu2+TfzNqacn007bK0ejalp0kWYQ=;
- b=NORUMJZ4Ih9Yv5fnT6j3PC4VpqPLuu7w+xgbtg4bRnwsRkwetWNSTxrIQ56AOt1xHO
- xRMvhTJy1irNB2rac8UQ1iIGjTrXUfGkWgK7qX491cFpH+zTSWY1o8qJ0abKndaEfaAq
- qhlcWNVTyDeXJS02YYxPy6pe18uuoNgG0JxPwM8yc7f/S9GyAI8kjpIOOHvcs3GYfvVV
- 2JIba9CvjPLDZyOJ2GAU4lmdfJ/PZv1PutJWB1HPQOTzVEsXFajj/ONjCq3I72SNSHfz
- mRXdArozYp5aKiimop/jxBAnM59vV/mpTbjmxbkrj6gIayqq+Wn448qBq+PYFrjyQXqi
- bISA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=oTFmDDA44RDOidqjiT8+P76cR09Vmr7mXPAwAUfdyQ4=;
+ b=HHYdF7ZSiuZBH+hnyv/y0XGCnZdGwfcGRe5Mk5foWBgg5j33VU+zVMrWNdREAno0eQ
+ +9XNcHB0DW4QYW65QV9q3eUaqOrfzEL+XURBC7Tg/x+DcJ6131uec8HmPXFdlQZp9AvH
+ j48XZfquwQVGoCtmxIbjqlqBkQxXr0H2yLKt2w5s0mrgqbXBk/jjPlVlyTTNpk4SQfNz
+ wsgshU+qI1L4tqdJ+acF5BWwUpGkdQXxeRMdiCjsfaorAZWBBb9F4SwLEx/sQPNo8+yN
+ mw7+cXHKyKOAG+WBMmtpsLgeU2/TZisYMxRFhTiTm+G3WXSaB9ocomcxt1LF7U2klkMV
+ 8yrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=SgZ6f1R99Jp9rN3Fu2+TfzNqacn007bK0ejalp0kWYQ=;
- b=PGpHEzxxaSdYbe044iBBJw5feCoHut20K5OTuWwl3Yd6Ukvfhr0HaksIjn1ia3dGgw
- 9C3uvo5rokZ5Rb5oLXC6mDlCZymASNmEEK+rAhUZArAEj4FpWmHy62DtTf6PNdVc5InU
- a5TcJuvQw2M30i1nY/NWd6GkuTLS4AQjiBI35ZQKugIU+6zEtvt6ZvcmfFo5dd08Xy8l
- 196y+/ZzyPJ3f7izzjcPs2Lp5XTjW5FWBgRWJniHUD8qSKU+h+ept25Dn7a7cjLBcIYY
- QRY1rQLECAl4XoBatsX8YT/FpmIYFb6fZl8z76nLwUTtFWwfXHJEfaRzADrQ4o/vpa2+
- dJVw==
-X-Gm-Message-State: AOAM5326ciCdKqogwIU29b8k1MXRVxO3zOgLfPocJMmrD21MkOpmozRG
- 0oqq5ikvd3XAEoiFTBwd/pWynR1w48o=
-X-Google-Smtp-Source: ABdhPJzSpfJ2PSbLQsJ92VkDJVao8yWs0kqjG/U0GP0FHejR6mnqcwvaYb7oIgNHgsln1hOhl4l3Xw==
-X-Received: by 2002:a7b:c841:: with SMTP id c1mr3559819wml.31.1608126211469;
- Wed, 16 Dec 2020 05:43:31 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=oTFmDDA44RDOidqjiT8+P76cR09Vmr7mXPAwAUfdyQ4=;
+ b=BHZNhlJquziGX11dLcLbfK/HWGsDc0jjUGkJSLDYsvMTEatA5ZJSzygBsiqAVN15Gq
+ 7gVNc8voWVlIkfJgGxzmk+MxUgmZP39e69as5ntO64csYvm+6Y1mfkqx4DaF2R5aKl8X
+ uAmfL7TnNWTKrdLEhz+a1wsl2CSdVjwUBQtDb6ergVM2w9KAQBfjgYHQdYgKClrphuWd
+ Oezohm0seFiNp/WBztURsWDhZUOCW14lAndFpKPutWQp1xWHfvwTnGc/JUIk1dz/oou9
+ 7Qyh7eiZl5KVk/D4Qb4SLyhB8RU+Qeev6/gAOznKuCp6ar9NJzA/y4qHkc+9hOLEkrRz
+ jxaw==
+X-Gm-Message-State: AOAM531v1IabMQW8BQCzLliqYFD4ZrRPG2ErMP2zCsp4jOxciFT/vlwO
+ CpnXOMGJsYf0RQhnvWVcLuKjATUgT20=
+X-Google-Smtp-Source: ABdhPJzGcoql/OB58uD9Roli2Wm8Gt4YBB8U++4Tv1kzU4mk7bRCclMbDtczxSWItE17QBIRSd1u7A==
+X-Received: by 2002:a5d:4f90:: with SMTP id d16mr31800637wru.120.1608126216214; 
+ Wed, 16 Dec 2020 05:43:36 -0800 (PST)
 Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id l8sm3030281wmf.35.2020.12.16.05.43.30
+ by smtp.gmail.com with ESMTPSA id i9sm3439945wrs.70.2020.12.16.05.43.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 05:43:30 -0800 (PST)
+ Wed, 16 Dec 2020 05:43:35 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/11] target/mips/mips-defs: Simplify ISA definitions
-Date: Wed, 16 Dec 2020 14:43:17 +0100
-Message-Id: <20201216134328.851840-1-f4bug@amsat.org>
+Subject: [PATCH 01/11] target/mips/mips-defs: Reorder CPU_MIPS5 definition
+Date: Wed, 16 Dec 2020 14:43:18 +0100
+Message-Id: <20201216134328.851840-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201216134328.851840-1-f4bug@amsat.org>
+References: <20201216134328.851840-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,47 +94,33 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we don't need to duplicate 32/64-bit ISA defititions,=0D
-this series remove the duplicated 64-bit variants,=0D
-simplifying the overall.=0D
-=0D
-Changes done automatically with my editor using "find=0D
-and replace".=0D
-=0D
-While the 'ISA_MIPS_Rx' form is shorter than 'ISA_MIPS_RELx',=0D
-which one is the clearer?=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (11):=0D
-  target/mips/mips-defs: Reorder CPU_MIPS5 definition=0D
-  target/mips/mips-defs: Use ISA_MIPS3 for ISA_MIPS64=0D
-  target/mips/mips-defs: Use ISA_MIPS32R2 definition to check Release 2=0D
-  target/mips/mips-defs: Use ISA_MIPS32R3 definition to check Release 3=0D
-  target/mips/mips-defs: Use ISA_MIPS32R5 definition to check Release 5=0D
-  target/mips/mips-defs: Use ISA_MIPS32R6 definition to check Release 6=0D
-  target/mips/mips-defs: Rename ISA_MIPS32 as ISA_MIPS_R1=0D
-  target/mips/mips-defs: Rename ISA_MIPS32R2 as ISA_MIPS_R2=0D
-  target/mips/mips-defs: Rename ISA_MIPS32R3 as ISA_MIPS_R3=0D
-  target/mips/mips-defs: Rename ISA_MIPS32R5 as ISA_MIPS_R5=0D
-  target/mips/mips-defs: Rename ISA_MIPS32R6 as ISA_MIPS_R6=0D
-=0D
- target/mips/internal.h     |   8 +-=0D
- target/mips/mips-defs.h    |  40 +--=0D
- hw/mips/boston.c           |   2 +-=0D
- linux-user/elfload.c       |   2 +-=0D
- linux-user/mips/cpu_loop.c |   6 +-=0D
- target/mips/cp0_helper.c   |  18 +-=0D
- target/mips/cp0_timer.c    |   4 +-=0D
- target/mips/cpu.c          |  12 +-=0D
- target/mips/fpu_helper.c   |   4 +-=0D
- target/mips/tlb_helper.c   |   6 +-=0D
- target/mips/translate.c    | 620 ++++++++++++++++++-------------------=0D
- 11 files changed, 357 insertions(+), 365 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Move CPU_MIPS5 after CPU_MIPS4 :)
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/mips-defs.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
+index 805034b8956..f4d76e562d1 100644
+--- a/target/mips/mips-defs.h
++++ b/target/mips/mips-defs.h
+@@ -70,13 +70,12 @@
+ #define CPU_MIPS2       (CPU_MIPS1 | ISA_MIPS2)
+ #define CPU_MIPS3       (CPU_MIPS2 | ISA_MIPS3)
+ #define CPU_MIPS4       (CPU_MIPS3 | ISA_MIPS4)
++#define CPU_MIPS5       (CPU_MIPS4 | ISA_MIPS5)
+ #define CPU_VR54XX      (CPU_MIPS4 | INSN_VR54XX)
+ #define CPU_R5900       (CPU_MIPS3 | INSN_R5900)
+ #define CPU_LOONGSON2E  (CPU_MIPS3 | INSN_LOONGSON2E)
+ #define CPU_LOONGSON2F  (CPU_MIPS3 | INSN_LOONGSON2F | ASE_LMMI)
+ 
+-#define CPU_MIPS5       (CPU_MIPS4 | ISA_MIPS5)
+-
+ /* MIPS Technologies "Release 1" */
+ #define CPU_MIPS32      (CPU_MIPS2 | ISA_MIPS32)
+ #define CPU_MIPS64      (CPU_MIPS5 | CPU_MIPS32 | ISA_MIPS64)
+-- 
+2.26.2
+
 
