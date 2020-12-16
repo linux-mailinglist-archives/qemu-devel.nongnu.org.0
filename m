@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C3E2DBF81
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 12:35:45 +0100 (CET)
-Received: from localhost ([::1]:50094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C192DBF80
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 12:34:51 +0100 (CET)
+Received: from localhost ([::1]:47772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpV5s-00062l-TH
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 06:35:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34886)
+	id 1kpV51-00055M-1J
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 06:34:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpV2t-0003vX-S3
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 06:32:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59088)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kpV38-000421-PJ
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 06:32:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpV2q-0003RX-4M
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 06:32:38 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kpV36-0003Ws-4x
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 06:32:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608118355;
+ s=mimecast20190719; t=1608118371;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p8qRSbYa7+7RNnt/uCEbEjSvFlEhm+AHxJ/3wclQSWI=;
- b=VGmIWgeS+yJhTCZc6vtlMwZs8WEPCY8O9iPLewu1ou4FNd1vHzVjIEOfI6VVaG+/7/q1qt
- jqnK59OVyF7vzLCjB/dD2WM9qFDggxo9hauZKxRs4vqmSBypvdxiz89hGTgZo5sEE+Auoj
- KljCj3D5LMNBgtNFRnVgwAlOCq0XKOg=
+ bh=ocaVPMCVO6tJMlSzaFHMUYOnta5e10EVT/41y7qKfRw=;
+ b=GLmSaJI5p92Im8NkKCcUy5+8XfQ3es1lpjJwaTT3lSyRoCNOEiRX0BtPZ8IA5bvSNyAn3Q
+ IQPQELyQYo5X7/XpiFoc/7Y3su0B13fDD3yEvsVJ8gEyQ6W+VW7DQAnpMbneWioTHaZI7R
+ 9i0xH0G2m8ashk8+WkwLfaNx3ZYMxjs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-KrikGEmhNXieO8qVJBGRxg-1; Wed, 16 Dec 2020 06:32:32 -0500
-X-MC-Unique: KrikGEmhNXieO8qVJBGRxg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-29-ZKa2kUSMPlGjZzFPjDybcg-1; Wed, 16 Dec 2020 06:32:49 -0500
+X-MC-Unique: ZKa2kUSMPlGjZzFPjDybcg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85331107ACF6;
- Wed, 16 Dec 2020 11:32:31 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-7.ams2.redhat.com [10.36.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 275E919C48;
- Wed, 16 Dec 2020 11:32:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8EA7107ACE4;
+ Wed, 16 Dec 2020 11:32:48 +0000 (UTC)
+Received: from gondolin (ovpn-113-163.ams2.redhat.com [10.36.113.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F100710023B8;
+ Wed, 16 Dec 2020 11:32:40 +0000 (UTC)
+Date: Wed, 16 Dec 2020 12:32:38 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
 Subject: Re: [PATCH] tests/acceptance: Add a test with the Fedora 31 kernel
  and initrd
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>
-References: <20201216105711.14796-1-thuth@redhat.com>
-Message-ID: <6948dfc6-5ec4-6d7f-2c76-fe8449b8aa14@redhat.com>
-Date: Wed, 16 Dec 2020 12:32:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
+Message-ID: <20201216123238.03c922b2.cohuck@redhat.com>
 In-Reply-To: <20201216105711.14796-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20201216105711.14796-1-thuth@redhat.com>
+Organization: Red Hat GmbH
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,14 +78,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/12/2020 11.57, Thomas Huth wrote:
+On Wed, 16 Dec 2020 11:57:11 +0100
+Thomas Huth <thuth@redhat.com> wrote:
+
 > This initrd contains a virtio-net and a virtio-gpu kernel module,
 > so we can check that we can set a MAC address for the network device
 > and that we can successfully write some stuff into the emulated
@@ -153,6 +152,12 @@ On 16/12/2020 11.57, Thomas Huth wrote:
 > +                         '-device', 'virtio-net-pci,mac=02:ca:fe:fa:ce:12',
 > +                         '-device', 'virtio-rng-ccw',
 > +                         '-device', 'virtio-gpu-ccw')
+
+Would it make sense to explicitly specify bus ids for the ccw devices?
+You could check for them below, and it would potentially be more clear
+*what* actually failed (e.g. handling the mac address vs device
+detection).
+
 > +        self.vm.launch()
 > +        self.wait_for_console_pattern('Entering emergency mode')
 > +
@@ -171,23 +176,6 @@ On 16/12/2020 11.57, Thomas Huth wrote:
 > +
 > +        # Disable blinking cursor, then write some stuff into the framebuffer
 > +        # ("32-bit encoded", the screendump PPM will then only contain 24-bit)
-
-As just discussed offline with Cornelia, this maybe needs some more
-explanation, so I'd suggest to add something like:
-
- # Disable blinking cursor, then write some stuff into the
- # framebuffer. QEMU's PPM screendumps contain uncompressed
- # 24-bit values, while the framebuffer uses 32-bit, so we
- # pad our text with some spaces when writing to the frame-
- # buffer. Since the PPM is uncompressed, we then can simple
- # read the written "magic bytes" back from the PPM file to
- # check whether the framebuffer is working as expected.
-
-Does that sound ok?
-
- Thomas
-
-
 > +        exec_command_and_wait_for_pattern(self,
 > +            'echo -e "\e[?25l" > /dev/tty0', ':/#')
 > +        exec_command_and_wait_for_pattern(self, 'for ((i=0;i<500;i++)); do '
@@ -211,6 +199,7 @@ Does that sound ok?
 > +        line = ppmfile.readline()
 > +        self.assertEqual(line, "The quick fox jumps over a lazy dog\n")
 > +        ppmfile.close
-> 
+
+I think this sequence needs an explanatory comment :)
 
 
