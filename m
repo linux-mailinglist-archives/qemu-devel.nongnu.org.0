@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB322DC95D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 00:03:11 +0100 (CET)
-Received: from localhost ([::1]:59718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E192DC9A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 00:37:28 +0100 (CET)
+Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpfp7-0003FW-9T
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 18:03:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44858)
+	id 1kpgMI-0001y1-Pt
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 18:37:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kpfnn-0002nS-SL
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 18:01:49 -0500
-Resent-Date: Wed, 16 Dec 2020 18:01:47 -0500
-Resent-Message-Id: <E1kpfnn-0002nS-SL@lists.gnu.org>
-Received: from sender4-of-o52.zoho.com ([136.143.188.52]:21291)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kpfnl-0003e4-AC
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 18:01:47 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1608159690; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=DT4g7Sp8A4HmPnVGrRKK0jlbKCX+RFMhD6KXl6y7vpC24BOs/TniwcxOIOUgGYk239jfuq198qMGI5w1rzVJoGoK+oE7spgituUqrKm3AAvCBBWtf4a1wWlz5YGoz0Pn6s+u0yvkYmezpR7m9738/rrkxNml7sAWabQigH+jaRk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1608159690;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=fcJNIK/cN/WgrnHPBhFE4m4FHtePL8GVVNl4UaBIB/U=; 
- b=PwY98lWOun864sGB3TogG8cZdzQ3uEWdDTgkZDb6Coy6my5hjbUjseCqqNohvJBMl9kIHrvu6K9mikWE+7Nk6jxLklHVXL8z0yEVAsQmDfLDMSVM1mLnnwai5KUyIn1qzGFR8g2UhCe7/S5BXmbNo893Mu1KQGZKmirhSQxw+E8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1608159686612383.6298703998667;
- Wed, 16 Dec 2020 15:01:26 -0800 (PST)
-In-Reply-To: <20201216172949.57380-1-thuth@redhat.com>
-Subject: Re: [PULL 00/12] Compile QEMU with -Wimplicit-fallthrough
-Message-ID: <160815968521.31764.15770228187712660306@600e7e483b3a>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kpgKf-0001SW-97
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 18:35:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kpgKc-0007TW-OB
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 18:35:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kpgKZ-0003Xo-7h
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 23:35:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EBB2B2E813B
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 23:35:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: thuth@redhat.com
-Date: Wed, 16 Dec 2020 15:01:26 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.52; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o52.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 16 Dec 2020 23:28:29 -0000
+From: Alexander Bulekov <1879531@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+References: <158990645210.17233.17999678627149634965.malonedeb@soybean.canonical.com>
+Message-Id: <160816130959.4509.15123230467023568422.malone@gac.canonical.com>
+Subject: [Bug 1879531] Re: Stack-overflow in _eth_get_rss_ex_dst_addr
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a68a6d599c812dd1dd335307d9c5c017c50ba81b"; Instance="production"
+X-Launchpad-Hash: 692c8832167496fe2315b58d1324b4e8b0599499
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,78 +69,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- kuhn.chenqun@huawei.com
+Reply-To: Bug 1879531 <1879531@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIxNjE3Mjk0OS41NzM4
-MC0xLXRodXRoQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
-b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
-cm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTIxNjE3Mjk0OS41NzM4MC0x
-LXRodXRoQHJlZGhhdC5jb20KU3ViamVjdDogW1BVTEwgMDAvMTJdIENvbXBpbGUgUUVNVSB3aXRo
-IC1XaW1wbGljaXQtZmFsbHRocm91Z2gKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmlu
-L2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmln
-IC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
-ZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2Ny
-aXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQg
-PT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZy
-b20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAg
-ICAgICAgIHBhdGNoZXcvMjAyMDEyMTYxNzI5NDkuNTczODAtMS10aHV0aEByZWRoYXQuY29tIC0+
-IHBhdGNoZXcvMjAyMDEyMTYxNzI5NDkuNTczODAtMS10aHV0aEByZWRoYXQuY29tClN3aXRjaGVk
-IHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKN2JlZGJjOCBjb25maWd1cmU6IENvbXBpbGUgd2l0aCAt
-V2ltcGxpY2l0LWZhbGx0aHJvdWdoPTIKZTE0YmI5ZCB0ZXN0cy9mcDogRG8gbm90IGVtaXQgaW1w
-bGljaXQtZmFsbHRocm91Z2ggd2FybmluZ3MgaW4gdGhlIHNvZnRmbG9hdCB0ZXN0cwplYmQzYzQ1
-IHRjZy9vcHRpbWl6ZTogQWRkIGZhbGx0aHJvdWdoIGFubm90YXRpb25zCmNmZTU2NjIgdGFyZ2V0
-L3NwYXJjL3dpbl9oZWxwZXI6IHNpbGVuY2UgdGhlIGNvbXBpbGVyIHdhcm5pbmdzCjhlZjkzMzUg
-dGFyZ2V0L3NwYXJjL3RyYW5zbGF0ZTogc2lsZW5jZSB0aGUgY29tcGlsZXIgd2FybmluZ3MKNDU4
-OGJmOSBhY2NlbC90Y2cvdXNlci1leGVjOiBzaWxlbmNlIHRoZSBjb21waWxlciB3YXJuaW5ncwpi
-ZTIxMDhlIGh3L2ludGMvYXJtX2dpY3YzX2t2bTogc2lsZW5jZSB0aGUgY29tcGlsZXIgd2Fybmlu
-Z3MKN2QwMzNkMCB0YXJnZXQvaTM4Njogc2lsZW5jZSB0aGUgY29tcGlsZXIgd2FybmluZ3MgaW4g
-Z2VuX3NoaWZ0ZF9ybV9UMQoyODRiMDBhIGh3L3RpbWVyL3JlbmVzYXNfdG1yOiBzaWxlbmNlIHRo
-ZSBjb21waWxlciB3YXJuaW5ncwpjM2QyOTU3IGh3L3J0Yy90d2w5MjIzMDogU2lsZW5jZSB3YXJu
-aW5ncyBhYm91dCBtaXNzaW5nIGZhbGx0aHJvdWdoIHN0YXRlbWVudHMKMWIxNjA5YyB0YXJnZXQv
-dW5pY29yZTMyL3RyYW5zbGF0ZTogQWRkIG1pc3NpbmcgZmFsbHRocm91Z2ggYW5ub3RhdGlvbnMK
-OTliYzBmMCBkaXNhcy9saWJ2aXhsOiBGaXggZmFsbC10aHJvdWdoIGFubm90YXRpb24gZm9yIEdD
-QyA+PSA3Cgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzEyIENoZWNraW5nIGNvbW1pdCA5OWJjMGYw
-ZTkyYjcgKGRpc2FzL2xpYnZpeGw6IEZpeCBmYWxsLXRocm91Z2ggYW5ub3RhdGlvbiBmb3IgR0ND
-ID49IDcpCkVSUk9SOiBkbyBub3QgdXNlIEM5OSAvLyBjb21tZW50cwojNDk6IEZJTEU6IGRpc2Fz
-L2xpYnZpeGwvdml4bC9nbG9iYWxzLmg6MTExOgorLy8gRmFsbHRocm91Z2ggYW5ub3RhdGlvbiBm
-b3IgQ2xhbmcgYW5kIEMrKzExKDIwMTEwM0wpLgoKRVJST1I6IGRvIG5vdCB1c2UgQzk5IC8vIGNv
-bW1lbnRzCiM1MjogRklMRTogZGlzYXMvbGlidml4bC92aXhsL2dsb2JhbHMuaDoxMTQ6CisvLyBG
-YWxsdGhyb3VnaCBhbm5vdGF0aW9uIGZvciBHQ0MgPj0gNy4KCnRvdGFsOiAyIGVycm9ycywgMCB3
-YXJuaW5ncywgMjQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMS8xMiBoYXMgc3R5bGUgcHJvYmxlbXMs
-IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
-ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
-QUlORVJTLgoKMi8xMiBDaGVja2luZyBjb21taXQgMWIxNjA5Yzc1NzNhICh0YXJnZXQvdW5pY29y
-ZTMyL3RyYW5zbGF0ZTogQWRkIG1pc3NpbmcgZmFsbHRocm91Z2ggYW5ub3RhdGlvbnMpCjMvMTIg
-Q2hlY2tpbmcgY29tbWl0IGMzZDI5NTczODNiOCAoaHcvcnRjL3R3bDkyMjMwOiBTaWxlbmNlIHdh
-cm5pbmdzIGFib3V0IG1pc3NpbmcgZmFsbHRocm91Z2ggc3RhdGVtZW50cykKNC8xMiBDaGVja2lu
-ZyBjb21taXQgMjg0YjAwYWVmNTY2IChody90aW1lci9yZW5lc2FzX3Rtcjogc2lsZW5jZSB0aGUg
-Y29tcGlsZXIgd2FybmluZ3MpCjUvMTIgQ2hlY2tpbmcgY29tbWl0IDdkMDMzZDAyYjkwZCAodGFy
-Z2V0L2kzODY6IHNpbGVuY2UgdGhlIGNvbXBpbGVyIHdhcm5pbmdzIGluIGdlbl9zaGlmdGRfcm1f
-VDEpCjYvMTIgQ2hlY2tpbmcgY29tbWl0IGJlMjEwOGU2NDFjOSAoaHcvaW50Yy9hcm1fZ2ljdjNf
-a3ZtOiBzaWxlbmNlIHRoZSBjb21waWxlciB3YXJuaW5ncykKNy8xMiBDaGVja2luZyBjb21taXQg
-NDU4OGJmOTc0ODJiIChhY2NlbC90Y2cvdXNlci1leGVjOiBzaWxlbmNlIHRoZSBjb21waWxlciB3
-YXJuaW5ncykKOC8xMiBDaGVja2luZyBjb21taXQgOGVmOTMzNWYyODM4ICh0YXJnZXQvc3BhcmMv
-dHJhbnNsYXRlOiBzaWxlbmNlIHRoZSBjb21waWxlciB3YXJuaW5ncykKOS8xMiBDaGVja2luZyBj
-b21taXQgY2ZlNTY2MjNlY2U4ICh0YXJnZXQvc3BhcmMvd2luX2hlbHBlcjogc2lsZW5jZSB0aGUg
-Y29tcGlsZXIgd2FybmluZ3MpCjEwLzEyIENoZWNraW5nIGNvbW1pdCBlYmQzYzQ1ZmQwNTIgKHRj
-Zy9vcHRpbWl6ZTogQWRkIGZhbGx0aHJvdWdoIGFubm90YXRpb25zKQpXQVJOSU5HOiBhcmNoaXRl
-Y3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojMzU6IEZJTEU6IGluY2x1
-ZGUvcWVtdS9jb21waWxlci5oOjIzMDoKKyNpZiBfX2hhc19hdHRyaWJ1dGUoZmFsbHRocm91Z2gp
-Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDQzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEw
-LzEyIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
-cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
-c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjExLzEyIENoZWNraW5nIGNvbW1pdCBlMTRi
-YjlkZGQ2ZjMgKHRlc3RzL2ZwOiBEbyBub3QgZW1pdCBpbXBsaWNpdC1mYWxsdGhyb3VnaCB3YXJu
-aW5ncyBpbiB0aGUgc29mdGZsb2F0IHRlc3RzKQoxMi8xMiBDaGVja2luZyBjb21taXQgN2JlZGJj
-ODNiY2ZhIChjb25maWd1cmU6IENvbXBpbGUgd2l0aCAtV2ltcGxpY2l0LWZhbGx0aHJvdWdoPTIp
-Cj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpU
-aGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAx
-MjE2MTcyOTQ5LjU3MzgwLTEtdGh1dGhAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
-cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
-W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
-aGV3LWRldmVsQHJlZGhhdC5jb20=
+Minimized Reproducer:
+cat << EOF | ./qemu-system-i386 -M pc-q35-5.0 \
+-accel qtest -monitor none \
+-serial none -nographic -qtest stdio
+outl 0xcf8 0x80001010
+outl 0xcfc 0xe1020000
+outl 0xcf8 0x80001004
+outw 0xcfc 0x7
+write 0x25 0x1 0x86
+write 0x26 0x1 0xdd
+write 0x4f 0x1 0x2b
+write 0xe1020030 0x4 0x190002e1
+write 0xe102003a 0x2 0x0807
+write 0xe1020048 0x4 0x12077cdd
+write 0xe1020400 0x4 0xba077cdd
+write 0xe1020420 0x4 0x190002e1
+write 0xe1020428 0x4 0x3509d807
+write 0xe1020438 0x1 0xe2
+EOF
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1879531
+
+Title:
+  Stack-overflow in _eth_get_rss_ex_dst_addr
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+  While fuzzing, I found a 1-byte stack-overflow (read) through the
+  e1000e. =
+
+
+  =3D=3D10318=3D=3DERROR: AddressSanitizer: stack-buffer-overflow on addres=
+s 0x7ffdb76c16c2 at pc 0x55594f1a69e1 bp 0x7ffdb76c15a0 sp 0x7ffdb76c1598
+  READ of size 1 at 0x7ffdb76c16c2 thread T0
+      #0 0x55594f1a69e0 in _eth_get_rss_ex_dst_addr /home/alxndr/Developmen=
+t/qemu/net/eth.c:410:17
+      #1 0x55594f1a39da in eth_parse_ipv6_hdr /home/alxndr/Development/qemu=
+/net/eth.c:532:17
+      #2 0x55594ebc34f2 in net_tx_pkt_parse_headers /home/alxndr/Developmen=
+t/qemu/hw/net/net_tx_pkt.c:228:14
+      #3 0x55594ebc2149 in net_tx_pkt_parse /home/alxndr/Development/qemu/h=
+w/net/net_tx_pkt.c:273:9
+      #4 0x55594ec1ba76 in e1000e_process_tx_desc /home/alxndr/Development/=
+qemu/hw/net/e1000e_core.c:737:29
+      #5 0x55594ec1aea4 in e1000e_start_xmit /home/alxndr/Development/qemu/=
+hw/net/e1000e_core.c:934:9
+      #6 0x55594ec0e70e in e1000e_set_tdt /home/alxndr/Development/qemu/hw/=
+net/e1000e_core.c:2451:9
+      #7 0x55594ebec435 in e1000e_core_write /home/alxndr/Development/qemu/=
+hw/net/e1000e_core.c:3261:9
+      #8 0x55594ebdf11b in e1000e_mmio_write /home/alxndr/Development/qemu/=
+hw/net/e1000e.c:109:5
+      #9 0x55594dfd98b1 in memory_region_write_accessor /home/alxndr/Develo=
+pment/qemu/memory.c:483:5
+      #10 0x55594dfd9211 in access_with_adjusted_size /home/alxndr/Developm=
+ent/qemu/memory.c:544:18
+      #11 0x55594dfd7c30 in memory_region_dispatch_write /home/alxndr/Devel=
+opment/qemu/memory.c:1476:16
+      #12 0x55594dde24b8 in flatview_write_continue /home/alxndr/Developmen=
+t/qemu/exec.c:3137:23
+      #13 0x55594ddd12dc in flatview_write /home/alxndr/Development/qemu/ex=
+ec.c:3177:14
+      #14 0x55594ddd0dec in address_space_write /home/alxndr/Development/qe=
+mu/exec.c:3268:18
+      #15 0x55594dfcdbdc in qtest_process_command /home/alxndr/Development/=
+qemu/qtest.c:567:9
+      #16 0x55594dfc3700 in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/qtest.c:710:9
+      #17 0x55594dfc2cc8 in qtest_read /home/alxndr/Development/qemu/qtest.=
+c:722:5
+      #18 0x55594f74b259 in qemu_chr_be_write_impl /home/alxndr/Development=
+/qemu/chardev/char.c:183:9
+      #19 0x55594f74b3ee in qemu_chr_be_write /home/alxndr/Development/qemu=
+/chardev/char.c:195:9
+      #20 0x55594f7556fc in fd_chr_read /home/alxndr/Development/qemu/chard=
+ev/char-fd.c:68:9
+      #21 0x55594f7ea488 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
+elopment/qemu/io/channel-watch.c:84:12
+      #22 0x7f43f6c1d897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x4e897)
+      #23 0x55594f9dea5d in glib_pollfds_poll /home/alxndr/Development/qemu=
+/util/main-loop.c:219:9
+      #24 0x55594f9dd1d7 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/util/main-loop.c:242:5
+      #25 0x55594f9dcd6e in main_loop_wait /home/alxndr/Development/qemu/ut=
+il/main-loop.c:518:11
+      #26 0x55594e44cd01 in qemu_main_loop /home/alxndr/Development/qemu/so=
+ftmmu/vl.c:1664:9
+      #27 0x55594f803c21 in main /home/alxndr/Development/qemu/softmmu/main=
+.c:49:5
+      #28 0x7f43f57b4e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
+0/csu/../csu/libc-start.c:308:16
+      #29 0x55594dd03889 in _start (/home/alxndr/Development/qemu/build/i38=
+6-softmmu/qemu-system-i386+0xdbd889)
+
+  Address 0x7ffdb76c16c2 is located in stack of thread T0 at offset 34 in f=
+rame
+      #0 0x55594f1a303f in eth_parse_ipv6_hdr /home/alxndr/Development/qemu=
+/net/eth.c:486
+
+    This frame has 1 object(s):
+      [32, 34) 'ext_hdr' (line 487) <=3D=3D Memory access at offset 34 over=
+flows this variable
+  HINT: this may be a false positive if your program uses some custom stack=
+ unwind mechanism, swapcontext or vfork
+        (longjmp and C++ exceptions *are* supported)
+  SUMMARY: AddressSanitizer: stack-buffer-overflow /home/alxndr/Development=
+/qemu/net/eth.c:410:17 in _eth_get_rss_ex_dst_addr
+  Shadow bytes around the buggy address:
+    0x100036ed0280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed0290: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed02a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed02b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed02c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  =3D>0x100036ed02d0: 00 00 00 00 f1 f1 f1 f1[02]f3 f3 f3 00 00 00 00
+    0x100036ed02e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed02f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed0300: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed0310: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed0320: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  Shadow byte legend (one shadow byte represents 8 application bytes):
+    Addressable:           00
+    Partially addressable: 01 02 03 04 05 06 07
+    Heap left redzone:       fa
+    Freed heap region:       fd
+    Stack left redzone:      f1
+    Stack mid redzone:       f2
+    Stack right redzone:     f3
+    Stack after return:      f5
+    Stack use after scope:   f8
+    Global redzone:          f9
+    Global init order:       f6
+    Poisoned by user:        f7
+    Container overflow:      fc
+    Array cookie:            ac
+    Intra object redzone:    bb
+    ASan internal:           fe
+    Left alloca redzone:     ca
+    Right alloca redzone:    cb
+    Shadow gap:              cc
+  =3D=3D10318=3D=3DABORTING
+
+  I can reproduce it in qemu 5.0 built with address sanitizer using:
+
+  cat << EOF | ./qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -=
+monitor none -serial none -nographic
+  outl 0xcf8 0x80001010
+  outl 0xcfc 0xe1020000
+  outl 0xcf8 0x80001014
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  outl 0xcf8 0x800010a2
+  write 0x25 0x2b 0x86dd1900ff5df747002bfc90dd1900ff5df747002bfc9add1900ff5=
+df747002bfca4dd1900ff5df747002b
+  write 0xe1020030 0x409 0x190002e100000000350908077cdd190002e1000000003509=
+12077cdd190002e10000000035091c077cdd190002e100000000350926077cdd190002e1000=
+00000350930077cdd190002e10000000035093a077cdd190002e100000000350944077cdd19=
+0002e10000000035094e077cdd190002e100000000350958077cdd190002e10000000035096=
+2077cdd190002e10000000035096c077cdd190002e100000000350976077cdd190002e10000=
+0000350980077cdd190002e10000000035098a077cdd190002e100000000350994077cdd190=
+002e10000000035099e077cdd190002e1000000003509a8077cdd190002e1000000003509b2=
+077cdd190002e1000000003509bc077cdd190002e1000000003509c6077cdd190002e100000=
+0003509d0077cdd190002e1000000003509da077cdd190002e1000000003509e4077cdd1900=
+02e1000000003509ee077cdd190002e1000000003509f8077cdd190002e1000000003509020=
+77cdd190002e10000000035090c077cdd190002e100000000350916077cdd190002e1000000=
+00350920077cdd190002e10000000035092a077cdd190002e100000000350934077cdd19000=
+2e10000000035093e077cdd190002e100000000350948077cdd190002e10000000035095207=
+7cdd190002e10000000035095c077cdd190002e100000000350966077cdd190002e10000000=
+0350970077cdd190002e10000000035097a077cdd190002e100000000350984077cdd190002=
+e10000000035098e077cdd190002e100000000350998077cdd190002e1000000003509a2077=
+cdd190002e1000000003509ac077cdd190002e1000000003509b6077cdd190002e100000000=
+3509c0077cdd190002e1000000003509ca077cdd190002e1000000003509d4077cdd190002e=
+1000000003509de077cdd190002e1000000003509e8077cdd190002e1000000003509f2077c=
+dd190002e1000000003509fc077cdd190002e100000000350906077cdd190002e1000000003=
+50910077cdd190002e10000000035091a077cdd190002e100000000350924077cdd190002e1=
+0000000035092e077cdd190002e100000000350938077cdd190002e100000000350942077cd=
+d190002e10000000035094c077cdd190002e100000000350956077cdd190002e10000000035=
+0960077cdd190002e10000000035096a077cdd190002e100000000350974077cdd190002e10=
+000000035097e077cdd190002e100000000350988077cdd190002e100000000350992077cdd=
+190002e10000000035099c077cdd190002e1000000003509a6077cdd190002e100000000350=
+9b0077cdd190002e1000000003509ba077cdd190002e1000000003509c4077cdd190002e100=
+0000003509ce077cdd190002e1000000003509d8077cdd190002e1000000003509e2
+  EOF
+
+  Also attaching these commands. They can be executed with
+  ./qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -monitor none =
+-serial none -nographic < attachment
+
+  Let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1879531/+subscriptions
 
