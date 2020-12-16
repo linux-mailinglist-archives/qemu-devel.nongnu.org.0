@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70192DC842
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 22:21:10 +0100 (CET)
-Received: from localhost ([::1]:51990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9726F2DC85B
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 22:31:43 +0100 (CET)
+Received: from localhost ([::1]:33956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpeEP-0003vH-T0
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 16:21:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48804)
+	id 1kpeOc-0000Zi-5K
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 16:31:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpeCd-0002bq-6H
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 16:19:20 -0500
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:42602)
+ id 1kpeMk-00082R-LF
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 16:29:46 -0500
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:37766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpeCa-00081p-Lt
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 16:19:18 -0500
-Received: by mail-oi1-x236.google.com with SMTP id l200so29370075oig.9
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 13:19:16 -0800 (PST)
+ id 1kpeMi-0000mR-HP
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 16:29:46 -0500
+Received: by mail-oi1-x233.google.com with SMTP id l207so29484950oib.4
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 13:29:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=HCTW24jQanWs99dcC1wqZgjBiTOOnMC1mP1XWaGYBeA=;
- b=nl2n5+Nju8vG2gk++GlfZDXKQf2ziOIlNoQDCZf+CqnT9c/IdiTqnUEK30+Vlg0BqY
- jAhw21u+xl98a8TT4kyqGlf8Sl8EUBqOlw2Q94avXQ+KEgelh8qFV0EhP3+GBy2dgRXk
- HzooLYuOgQfpx1on0GlPqNJojJDWtDQHFgSDMzhhOsEOmxwcwVp3oTx3B/1STHatx+l2
- 1VRN9buyUJNBeKEX89pjWCFQh6YvUyE2xtZcX82qKgtDxplTQXOy2avS5gzT82hSoLm9
- aRH64z213iCu2TWV2Fgm7Dg1mVFie04kTvXQGfWTQT0LC6YYX2j6ZHCatNU713zNAmqm
- 9Iww==
+ bh=AePaXHMw0X6s/TILOy7QTjhmJSaLiCdDfo/lDa3LRV4=;
+ b=DwH2s14mXgDr89KXQ5UiS4mQgx1XCrctT8YT6GcQuhCEHtwUgyZSg0DSGpOXbVw4zB
+ rVTObdyMRaW2WHcgI3vvPpQs/tYHlEjV5EmCdbBRE7zuA4oxpq6QgwzYTcAxO3yShr5u
+ H7QDqs00UTuBcCaKZGOaysZXTgzQGSucSpCYZFngb9DOSdWPDSonToXZGPX1CCb+FcsB
+ XESZZzqSkxlkkBYiIwC0eFgGwsN1jhYCPg8Yv3e/mr+SEih9y7sZNjpFZ+HBOcC2bdqC
+ Em89pud3t2rH4BMOuWiWdU1WDUcuMo5lpPRGYnF7Di4czVw2txzIe7QqFtqjyA9MzGUG
+ 0ktQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HCTW24jQanWs99dcC1wqZgjBiTOOnMC1mP1XWaGYBeA=;
- b=mXydi3pfn7bvRgNYwnkYUuQW3iIiD4oPFwYGeNiw4cBwIiZAYgd/jZIfANUU/evzhk
- yN6i65i847f3voNufKikjV2aPKP3iy2XzRpIrIgubAILPbK69YsIcmIcn3JEBOD7zDOR
- +gkeBAiQMllvtzkiwuq2e2tZNrOAHXN6zmO7eRZ93empUuyyxRGU1nRLkxj8IW7/vh6T
- EopBabKaPaVSix1Cx41zj4eNq32TCkEddn7G/fMUteyF3AaVlCdW/mCjFnYz/SqOPd2t
- jME5jaZfNj2019YiavEiK+ICYvUf1mH0FvBzxYUhl8Xwgg2TtS+lNMtX3+HPCVZhyQ4g
- gFXw==
-X-Gm-Message-State: AOAM530TXq6jK8pFMKUpnLpiGYQdjwSx0jKdi2p9QSjq/Jj7yZ11RG7J
- ErMkBtrdEwB/p/qmn4y+Jrvdm5bpd1JEbom3
-X-Google-Smtp-Source: ABdhPJyUYw63AhX1KIGLaTWjOAx9yYrArMKJ5S97AC1n2klcgYJw4ddj8UyH7Q4WIKmLobwqwmesYQ==
-X-Received: by 2002:aca:bd0b:: with SMTP id n11mr2956722oif.11.1608153554787; 
- Wed, 16 Dec 2020 13:19:14 -0800 (PST)
+ bh=AePaXHMw0X6s/TILOy7QTjhmJSaLiCdDfo/lDa3LRV4=;
+ b=Lk38HFZy8L7Z290Yd6U0LChyxgc1hrEPiMa2+Ek3gNM3SPAsZAgFrgtpWj7gL6ll83
+ esAn2ZdkOXlcBUlj2+ouiHHUJ+NPwnREaHaScjdo3uDN2p3QtsC5P9jcxP6ODkJf84nq
+ hg70BPKZM0HGcjNY3ZggNb7iL6D0/04mKA1g/IPFNdyzPku6TwaSbl1gI3a/GMgjSDO9
+ ++ibxVhiqHOxdqTpL0VxwMs0hljB7z2gFIx6aX39i2f9Ayaq7vuGMdF50sN03HUL4/NL
+ tMoiSxXWZchOfmnC3YTA6pXwZgkEaMm+1ZV91RmiYH98g6IqA27Jm7RHTwX4kGYfuDxI
+ Ekhg==
+X-Gm-Message-State: AOAM531vr435IRfe6YkHjkfiOTRLPTRtvUyElqYgRyC0mZSfgEb6nnV9
+ Di50v08+SXr0zFFw+VE7pNdLaRtORM7J8Lg3
+X-Google-Smtp-Source: ABdhPJyGOMhaY7ya4Q58vjqfGq68oS8Mwdzs9tU2qevjKIC13SgPeG/6Ukvg+rAX/zD0LAMblgpn7A==
+X-Received: by 2002:aca:c492:: with SMTP id u140mr3028943oif.51.1608154182659; 
+ Wed, 16 Dec 2020 13:29:42 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id u20sm755062oor.45.2020.12.16.13.19.13
+ by smtp.gmail.com with ESMTPSA id l6sm809643oof.3.2020.12.16.13.29.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Dec 2020 13:19:14 -0800 (PST)
-Subject: Re: [PATCH v3 2/4] target/arm: Correct store of FPSCR value via
- FPCXT_S
+ Wed, 16 Dec 2020 13:29:42 -0800 (PST)
+Subject: Re: [PATCH v3 3/4] target/arm: Implement FPCXT_NS fp system register
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20201210201433.26262-1-peter.maydell@linaro.org>
- <20201210201433.26262-3-peter.maydell@linaro.org>
+ <20201210201433.26262-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <545761b2-a25d-cfc9-d009-09cf442790b9@linaro.org>
-Date: Wed, 16 Dec 2020 15:19:11 -0600
+Message-ID: <8804124b-6461-bc4a-2314-a42d301e2187@linaro.org>
+Date: Wed, 16 Dec 2020 15:29:39 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201210201433.26262-3-peter.maydell@linaro.org>
+In-Reply-To: <20201210201433.26262-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x236.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x233.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,24 +92,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/10/20 2:14 PM, Peter Maydell wrote:
-> In commit 64f863baeedc8659 we implemented the v8.1M FPCXT_S register,
-> but we got the write behaviour wrong. On read, this register reads
-> bits [27:0] of FPSCR plus the CONTROL.SFPA bit. On write, it doesn't
-> just write back those bits -- it writes a value to the whole FPSCR,
-> whose upper 4 bits are zeroes.
-> 
-> We also incorrectly implemented the write-to-FPSCR as a simple store
-> to vfp.xregs; this skips the "update the softfloat flags" part of
-> the vfp_set_fpscr helper so the value would read back correctly but
-> not actually take effect.
-> 
-> Fix both of these things by doing a complete write to the FPSCR
-> using the helper function.
+> Implement the v8.1M FPCXT_NS floating-point system register.  This is
+> a little more complicated than FPCXT_S, because it has specific
+> handling for "current FP state is inactive", and it only wants to do
+> PreserveFPState(), not the full set of actions done by
+> ExecuteFPCheck() which vfp_access_check() implements.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/arm/translate-vfp.c.inc | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> Changes since v2: refactored along lines suggested by RTH
+> ---
+>  target/arm/translate-vfp.c.inc | 102 ++++++++++++++++++++++++++++++++-
+>  1 file changed, 99 insertions(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
