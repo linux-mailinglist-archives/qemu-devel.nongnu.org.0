@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDA6B2DC6AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 19:42:44 +0100 (CET)
-Received: from localhost ([::1]:50776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC15B2DC68C
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 19:33:26 +0100 (CET)
+Received: from localhost ([::1]:56066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpbl5-0001CW-MP
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 13:42:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34362)
+	id 1kpbc5-0008Rk-On
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 13:33:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpbTx-0000c2-ET
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 13:25:01 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43417)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpbZd-00073O-4a
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 13:30:53 -0500
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:37339)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpbTu-0000Xn-Fy
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 13:25:01 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id y17so24106875wrr.10
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 10:24:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kpbZZ-0001ZS-1g
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 13:30:52 -0500
+Received: by mail-oi1-x236.google.com with SMTP id l207so28638783oib.4
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 10:30:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=xdDPmj1W2fYCoFOzDxIKfVwRWg0qBK/iaWe1CDAT2vw=;
- b=i2n6jkfmFt2uGWd9dM2McyCC47DoITkI748NhEoa0QBtEMyvDOv1pQF2Ddd+aptq4m
- AMWJ4zO63E2Cc4FJAGv7UWqU1FfOi3m32CitsFBgaMxql5jNC19fn2SUXYQ3iN+ziDUP
- KDI7dBJOrxgMMnxnnyOCkh2W9tPHyQ8k1yyt4C+9wgIROTVeqr1h7ySgcHUekb8JYO4F
- 0sWQ44baHEfROEuNLny5wjX/HqDVnuEcI0cu8OUIr3cNRnfso+KMTBgilyQqqg8zwInY
- jpN7moM9D7VQZ4GOQfv5v5AVQTR1uNDR2HZKRRq096t7hGhACIACfRH1NYIfFMZV7AWV
- DjAw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=edvCumAF1YT2/zB80ax6vbZoo4BbP6LxNmFIFOvMYLQ=;
+ b=A91IzgyrnhTtAioexEykevWKrwTTpnRP4X6vBJY8ZjYC5xc0/QxoGjxkrbrw7rrLuL
+ 3OLAOt3wOz605D6g3ogqouWHJFIXN+8HWz+J97gr1VxVsdXsnZ585lxj0owC+j/OnimO
+ kX82sj47Mo07V7BWuY+3qb/+wLP8vAxIEgd+0/3LLXimAe9Id4kF0491GfnT5Oy/h+oX
+ 8/dv9fpYsUTOt6dchHUcVBJxPXwD2sNeF6d1lvi6AGgY78yMFnBrA6WJp2w5zRe7+D0I
+ klotvlza/WBByVCQ9q72o5BeXAW8coO1+x1izfV+Z86T+/E6LRpsOxuUXMbCMvM49Lrl
+ qujQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=xdDPmj1W2fYCoFOzDxIKfVwRWg0qBK/iaWe1CDAT2vw=;
- b=g+W3MCjp56SgwXk2gu5bztEhaDrRFIKy6cf/OPCcsk7UQnG40fJk+wPCGAam5SF8GY
- e4d6FHjYXil5IaP7zt9iu3hqDKdeG0jJOMS3uPkUYMz+hT9yZnsJ0qjHNU7iB9sy69HL
- 48CNT3yldaTZ7m4SGIOwRv9TAe+jzl/D15oXLHbNYd5ePcIJtHOF9b72WfnsduC5Hrek
- NO2rZgKhUnr+pZM0K130CRaX5QkGfU/AbhSD3TPR2w7v5A+RiAR38XKCd7/XXaKrn2Qc
- j+Bmyi7mHoh4nD/52xs8KKtxCEeMRDMloepF1rT47xE9S9zYq4DUK8DocLzbZvPyUkmd
- deKg==
-X-Gm-Message-State: AOAM530rqZ6QwNZiXAzXhL5GK4kjEiND/Lh6wCQaSdcP/21jj8qMpm6/
- D+6PwmgCkwGrZO5DLTthpoSX+Q==
-X-Google-Smtp-Source: ABdhPJxiF5rSlYjSBsaVYMXUUep3gTEFUtt8KFrMbi9WHGjEi23VQGme8cDMpQ/jiwD0cJINZH3ljw==
-X-Received: by 2002:a05:6000:1d1:: with SMTP id
- t17mr40771009wrx.164.1608143096770; 
- Wed, 16 Dec 2020 10:24:56 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j2sm4220543wrt.35.2020.12.16.10.24.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 10:24:55 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E662E1FF7E;
- Wed, 16 Dec 2020 18:24:54 +0000 (GMT)
-References: <20201216164827.24457-1-alex.bennee@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: Re: [PULL 00/11] testing and configure updates
-Date: Wed, 16 Dec 2020 18:23:58 +0000
-In-reply-to: <20201216164827.24457-1-alex.bennee@linaro.org>
-Message-ID: <87ft45sj61.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=edvCumAF1YT2/zB80ax6vbZoo4BbP6LxNmFIFOvMYLQ=;
+ b=gXq4o7wRG3U3FCUnvu6kYUswtpivt8zK5LBk44gRrWnzKz9Xn7Nf4tdXvl6MO+oQEb
+ lgGMN8mBN4cR5Mw2N3/QBksGs1HyrSHMkrryW/Afy7h1g6Vv1IXimSxMJrK6LDa4puek
+ AkKM2EQZWFzf0CB5ec3M+FOpwfAmcqGMtWYbtlJcTBYm6ag3iPmpunErImfhaZBEdGLx
+ wH8nvzc2Cjbk32rxGkjYSimfzxs3q7rcan+HiRyIyMMvzGcg45D2ApSOa+HIRtTttday
+ E0O92QKeO8pKCOdUr/DnCbywA5zrgIi8NEj1r/JhgknnwB78Hon0C5N0u6flFZCY1IXc
+ JqHQ==
+X-Gm-Message-State: AOAM533l89lSTcj453G9lA38Z72BP+idc7KTC0hZnH7ESzprhzhxBiSz
+ XvCf0/JVzYB78e6UdBXhmCX2gw==
+X-Google-Smtp-Source: ABdhPJzgyGh7NtgvKGItysLJjnvElpxCFGI3ijf0oxJkRXav2uAkMOSvEBRgZmOmypT7XR7+s34meQ==
+X-Received: by 2002:aca:f15:: with SMTP id 21mr2848438oip.109.1608143447733;
+ Wed, 16 Dec 2020 10:30:47 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id v92sm606495otb.75.2020.12.16.10.30.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Dec 2020 10:30:47 -0800 (PST)
+Subject: Re: [RFC v2 14/15] target/riscv: rvb: add/sub with postfix zero-extend
+To: frank.chang@sifive.com, qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20201216020150.3157-1-frank.chang@sifive.com>
+ <20201216020150.3157-15-frank.chang@sifive.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ce40b96a-0aaa-d5e6-5136-0c56ccd37073@linaro.org>
+Date: Wed, 16 Dec 2020 12:30:33 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20201216020150.3157-15-frank.chang@sifive.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x236.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,31 +88,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Kito Cheng <kito.cheng@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/15/20 8:01 PM, frank.chang@sifive.com wrote:
+> From: Kito Cheng <kito.cheng@sifive.com>
+> 
+> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> ---
+>  target/riscv/insn32-64.decode           |  3 +++
+>  target/riscv/insn_trans/trans_rvb.c.inc | 22 ++++++++++++++++++++++
+>  target/riscv/translate.c                |  6 ++++++
+>  3 files changed, 31 insertions(+)
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+Subject should be add/slli as there is no sub.
+Otherwise,
 
-> The following changes since commit af3f37319cb1e1ca0c42842ecdbd1bcfc64a4b=
-6f:
->
->   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream'=
- into staging (2020-12-15 21:24:31 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-testing-161220-1
->
-<snip>
->   - hotfix for centos8 powertools repo
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-As you have noted this requires the cached copy to be deleted. I'm not
-sure if it's worth handling that in code or if you just do that manually
-before you merge?
-
---=20
-Alex Benn=C3=A9e
+r~
 
