@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F162DBBEF
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 08:26:29 +0100 (CET)
-Received: from localhost ([::1]:36796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0299D2DBBFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 08:33:13 +0100 (CET)
+Received: from localhost ([::1]:41540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpRCe-0002Xs-2A
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 02:26:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35748)
+	id 1kpRJ8-00050p-Cq
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 02:33:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kpRAZ-0001wu-LF
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 02:24:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41353)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kpRAU-0006J5-FU
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 02:24:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608103452;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HhY7pZAp+jq0qbHXvEw7A+INyJm/1/hBSkcL6a2jzoE=;
- b=BsxLBNB+EXbPP8qu2bkFG6bzbHLgac7enzzv+U6g4UgXEvfhhDY37J9IACr5/eJGz9Ldnf
- XjJOdWuyPYKcbzQZioUtyABfvbBem0/8CPrHvY5+d4I2a9tK+9PPNtiRNZKGqkcsDNMAFX
- KIJOAHrDtwcxb0pzAIydFPqbXfd4P4g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-Hr_wFm5QM0Su50GXNV2CAA-1; Wed, 16 Dec 2020 02:24:09 -0500
-X-MC-Unique: Hr_wFm5QM0Su50GXNV2CAA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6781107AD24;
- Wed, 16 Dec 2020 07:24:07 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E19566F926;
- Wed, 16 Dec 2020 07:24:01 +0000 (UTC)
-Date: Wed, 16 Dec 2020 08:23:58 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH 2/2] accel: kvm: Add aligment check for
- kvm_log_clear_one_slot
-Message-ID: <20201216072358.bmac5twmtoyxcna3@kamzik.brq.redhat.com>
-References: <20201215071948.23940-1-zhukeqian1@huawei.com>
- <20201215071948.23940-3-zhukeqian1@huawei.com>
- <20201215115541.vgbt7aaiueyw7ury@kamzik.brq.redhat.com>
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1kpRHL-0004Vw-7p
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 02:31:19 -0500
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:36747)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1kpRHI-0000GK-Fk
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 02:31:18 -0500
+Received: by mail-il1-x132.google.com with SMTP id u12so21618591ilv.3
+ for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 23:31:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xxbJsrPQVjcYsOqxMB6gXGw7OMWAgfnXofakRmQtRbY=;
+ b=uw/Zw2YI1wKeJ2T4QgYeS5JCHtbF9+9rosX7jQjI3u4V5OJT1KUebD3cKcYtCvIpXj
+ upfERyDIpm0iddCOumOzpKFt8Xkodnzm7jZMJhamz6OlVEdqx8koaXCSLLMzIkUMfbJ8
+ REAbROXcmrx8WqE/U+OVwNt2+ytd4sUUYOt2MqxPl+MgBB7qDzRcaCMbxrdcfEE8bn5m
+ iSQ3raVoKtTYLpA5ULikEubq4d07x5bUqOjLU1UcPxptdy/x9NBa3PKhbXxH6LtVERzN
+ qbVC0JgdkxEuB/FvkEGds055Su7d1rqJ8n6o3X2g9zxwIGwL/NUSDbHuA44L92oUHyA/
+ pIXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xxbJsrPQVjcYsOqxMB6gXGw7OMWAgfnXofakRmQtRbY=;
+ b=HZQxYSCKlAo/Euyh3n0rnZSxVArtETGWYaSJ75BNNuZcG97POGsZHQKRcTCWpcthJh
+ S3K5M88SbpSzR1xxeuEb7Ux9TB1b+CUxS7Bef8BBC/c6s1JXk5aQVrSWy4WY7xHK47B9
+ mR8udFDihro5Tdu1csZ/bPZjCn8YvTE4DHsb8E83P7kKRAXAWlI5nZoOE/Cw4Wshmzfr
+ OJRTwaM0Xa+umFPgVPK7P2mIQnd2W54Ufq863SiPCLj3GKjQI5H2JZF5KTX+0oZkiThR
+ A94NQ1NsJcvhpJ8w7TC3yKSs/gxd/6ufN5A6pBhfiL5SsfLjAaGolzCsdGmAwUle6MMJ
+ 45qw==
+X-Gm-Message-State: AOAM532IwlTz0ksVdI4V/QemjJyL6WVyb6Jc5hOA8pycMwLDEgEs4Hk3
+ X0V5Zz4PdfI8X1A5F9HWsVVIdrBdVyA6WBLyrcc0
+X-Google-Smtp-Source: ABdhPJxp95wXQdfJnpif5WRy/t9lTWv3k313/hB7QF+tXpjF7vW/SIZLzag6mtokYq0YxQeUXoaFucjG6kVLJT2bVL0=
+X-Received: by 2002:a05:6e02:12cc:: with SMTP id
+ i12mr35597537ilm.23.1608103874249; 
+ Tue, 15 Dec 2020 23:31:14 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201215115541.vgbt7aaiueyw7ury@kamzik.brq.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20201119153901.53705-1-steven.price@arm.com>
+ <CAFEAcA85fiqA206FuFANKbV_3GkfY1F8Gv7MP58BgTT81bs9kA@mail.gmail.com>
+ <20201119184248.4bycy6ouvaxqdiiy@kamzik.brq.redhat.com>
+ <db5ad775fa7cfe7defbd78d9ca6ccfd8@kernel.org>
+ <c25c297e-e9b5-ab3f-e401-c21ddd4d2ad1@arm.com>
+ <CAJc+Z1H7akXwDtVvQLiGVVyZ0DfmsxyJQhE7Sno6aAO9GaafEA@mail.gmail.com>
+ <46fd98a2-ee39-0086-9159-b38c406935ab@arm.com>
+In-Reply-To: <46fd98a2-ee39-0086-9159-b38c406935ab@arm.com>
+From: Haibo Xu <haibo.xu@linaro.org>
+Date: Wed, 16 Dec 2020 15:31:02 +0800
+Message-ID: <CAJc+Z1EzaUjbQ0o8BSF_+PQy_KnwPp1NqO+94RMphvaUu=dnug@mail.gmail.com>
+Subject: Re: [PATCH v5 0/2] MTE support for KVM guest
+To: Steven Price <steven.price@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
+ envelope-from=haibo.xu@linaro.org; helo=mail-il1-x132.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,59 +83,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, jiangkunkun@huawei.com,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- wanghaibin.wang@huawei.com, Zenghui Yu <yuzenghui@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>,
+ lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Juan Quintela <quintela@redhat.com>, Marc Zyngier <maz@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+ kvmarm <kvmarm@lists.cs.columbia.edu>,
+ arm-mail-list <linux-arm-kernel@lists.infradead.org>,
+ Dave Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 15, 2020 at 12:55:50PM +0100, Andrew Jones wrote:
-> On Tue, Dec 15, 2020 at 03:19:48PM +0800, Keqian Zhu wrote:
-> > The parameters start and size are transfered from QEMU memory
-> > emulation layer. It can promise that they are TARGET_PAGE_SIZE
-> > aligned. However, KVM needs they are qemu_real_page_size aligned.
-> > 
-> > Though no caller breaks this aligned requirement currently, we'd
-> > better add an explicit check to avoid future breaking.
-> > 
-> > Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
-> > ---
-> >  accel/kvm/kvm-all.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> > index c5e06288eb..3d0e3aa872 100644
-> > --- a/accel/kvm/kvm-all.c
-> > +++ b/accel/kvm/kvm-all.c
-> > @@ -701,6 +701,11 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
-> >      unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
-> >      int ret;
-> >  
-> > +    /* Make sure start and size are psize aligned */
-> > +    if (!QEMU_IS_ALIGNED(start, psize) || !QEMU_IS_ALIGNED(size, psize)) {
-> > +        return -EINVAL;
-> > +    }
-> > +
-> >      /*
-> >       * We need to extend either the start or the size or both to
-> >       * satisfy the KVM interface requirement.  Firstly, do the start
-> > -- 
-> > 2.23.0
-> > 
-> >
-> 
-> It's not clear to me that this function has any restrictions on start
-> and size. If it does, then please document those restrictions in the
-> function's header and assert rather than return.
+On Mon, 7 Dec 2020 at 22:48, Steven Price <steven.price@arm.com> wrote:
 >
+> On 04/12/2020 08:25, Haibo Xu wrote:
+> > On Fri, 20 Nov 2020 at 17:51, Steven Price <steven.price@arm.com> wrote:
+> >>
+> >> On 19/11/2020 19:11, Marc Zyngier wrote:
+> >>> On 2020-11-19 18:42, Andrew Jones wrote:
+> >>>> On Thu, Nov 19, 2020 at 03:45:40PM +0000, Peter Maydell wrote:
+> >>>>> On Thu, 19 Nov 2020 at 15:39, Steven Price <steven.price@arm.com> wrote:
+> >>>>>> This series adds support for Arm's Memory Tagging Extension (MTE) to
+> >>>>>> KVM, allowing KVM guests to make use of it. This builds on the
+> >>>>> existing
+> >>>>>> user space support already in v5.10-rc1, see [1] for an overview.
+> >>>>>
+> >>>>>> The change to require the VMM to map all guest memory PROT_MTE is
+> >>>>>> significant as it means that the VMM has to deal with the MTE tags
+> >>>>> even
+> >>>>>> if it doesn't care about them (e.g. for virtual devices or if the VMM
+> >>>>>> doesn't support migration). Also unfortunately because the VMM can
+> >>>>>> change the memory layout at any time the check for PROT_MTE/VM_MTE has
+> >>>>>> to be done very late (at the point of faulting pages into stage 2).
+> >>>>>
+> >>>>> I'm a bit dubious about requring the VMM to map the guest memory
+> >>>>> PROT_MTE unless somebody's done at least a sketch of the design
+> >>>>> for how this would work on the QEMU side. Currently QEMU just
+> >>>>> assumes the guest memory is guest memory and it can access it
+> >>>>> without special precautions...
+> >>>>>
+> >>>>
+> >>>> There are two statements being made here:
+> >>>>
+> >>>> 1) Requiring the use of PROT_MTE when mapping guest memory may not fit
+> >>>>     QEMU well.
+> >>>>
+> >>>> 2) New KVM features should be accompanied with supporting QEMU code in
+> >>>>     order to prove that the APIs make sense.
+> >>>>
+> >>>> I strongly agree with (2). While kvmtool supports some quick testing, it
+> >>>> doesn't support migration. We must test all new features with a migration
+> >>>> supporting VMM.
+> >>>>
+> >>>> I'm not sure about (1). I don't feel like it should be a major problem,
+> >>>> but (2).
+> >>
+> >> (1) seems to be contentious whichever way we go. Either PROT_MTE isn't
+> >> required in which case it's easy to accidentally screw up migration, or
+> >> it is required in which case it's difficult to handle normal guest
+> >> memory from the VMM. I get the impression that probably I should go back
+> >> to the previous approach - sorry for the distraction with this change.
+> >>
+> >> (2) isn't something I'm trying to skip, but I'm limited in what I can do
+> >> myself so would appreciate help here. Haibo is looking into this.
+> >>
+> >
+> > Hi Steven,
+> >
+> > Sorry for the later reply!
+> >
+> > I have finished the POC for the MTE migration support with the assumption
+> > that all the memory is mapped with PROT_MTE. But I got stuck in the test
+> > with a FVP setup. Previously, I successfully compiled a test case to verify
+> > the basic function of MTE in a guest. But these days, the re-compiled test
+> > can't be executed by the guest(very weird). The short plan to verify
+> > the migration
+> > is to set the MTE tags on one page in the guest, and try to dump the migrated
+> > memory contents.
+>
+> Hi Haibo,
+>
+> Sounds like you are making good progress - thanks for the update. Have
+> you thought about how the PROT_MTE mappings might work if QEMU itself
+> were to use MTE? My worry is that we end up with MTE in a guest
+> preventing QEMU from using MTE itself (because of the PROT_MTE
+> mappings). I'm hoping QEMU can wrap its use of guest memory in a
+> sequence which disables tag checking (something similar will be needed
+> for the "protected VM" use case anyway), but this isn't something I've
+> looked into.
+>
+> > I will update the status later next week!
+>
+> Great, I look forward to hearing how it goes.
 
-Also, I see this patch is on its way in
+Hi Steve,
 
-https://patchwork.ozlabs.org/project/qemu-devel/patch/20201215175445.1272776-27-pbonzini@redhat.com/
+I have finished verifying the POC on a FVP setup, and the MTE test case can
+be migrated from one VM to another successfully. Since the test case is very
+simple which just maps one page with MTE enabled and does some memory
+access, so I can't say it's OK for other cases.
 
-Thanks,
-drew 
+BTW, I noticed that you have sent out patch set v6 which mentions that mapping
+all the guest memory with PROT_MTE was not feasible. So what's the plan for the
+next step? Will new KVM APIs which can facilitate the tag store and recover be
+available?
 
+Regards,
+Haibo
+
+>
+> Thanks,
+>
+> Steve
 
