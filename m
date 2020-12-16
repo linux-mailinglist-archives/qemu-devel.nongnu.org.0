@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC032DBA53
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 06:09:18 +0100 (CET)
-Received: from localhost ([::1]:57688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8D962DBAAD
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 06:37:37 +0100 (CET)
+Received: from localhost ([::1]:43884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpP3t-0005Ae-Gj
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 00:09:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37236)
+	id 1kpPVI-0004F8-GO
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 00:37:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agpr123@gmail.com>) id 1kpP02-0003Xr-Q1
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 00:05:19 -0500
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:40193)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <agpr123@gmail.com>) id 1kpOzz-00031V-DM
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 00:05:18 -0500
-Received: by mail-oi1-x232.google.com with SMTP id p126so26102093oif.7
- for <qemu-devel@nongnu.org>; Tue, 15 Dec 2020 21:05:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=BQgv7IVRi+xaX4GGUdaG00dozn4WqeNqgYXPr7A+fB4=;
- b=WJHVgDOG9gwW0EctgQ1xUsJOMtYD01KG+/j4ZSb0Lz7bIG74AphZ/eGYONwMvuSilk
- 9plK4gQxnq9fJ7j01hDj1mo/P5JcgUYAWP6QhYE20D2Jab2WeYeSUqw8tOoqSyQ5jW03
- jp9yx8f6tG+12BZcU8wMQ2QJDwreBHbs0bpKUu5NcqGHfAPkJdpTQqoE+8u/WDxoeYA9
- 0YDg/EcB1CswHV+IQjPkeFTawO2+dxqQmSiMN097n2oAcI8LyGxjSdbJlR7lv6f29v4Z
- p29VqxfUQoazznnPTTmraoW9YzIj1KCOvxTNpAaWNxlgWdCvPDjfdiQ5qdlNMI6EVklf
- 3Jsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=BQgv7IVRi+xaX4GGUdaG00dozn4WqeNqgYXPr7A+fB4=;
- b=oAYHbB2ebCL6z6If3dzdTYtkPKesU3RqEKydD6ATiCPNcYe39azIcW9MXUVAoCbrN2
- Gsf6PeSTKzmCOu6lMsJFZoSWV1uK2ID/Sp9E/jyYQ2Rs8giQCJZuhlQ249NCB1UQRQIg
- wJSZiEQRdoecLLjsWE8yd6IrRPbKy1gbZYC+Qp6u7Inlw3+8YIy1KJ+6DFPQxggxmq3B
- hAyWoTEnXFu/3lfBmFrFpJWZMuUZA0TWoIfzI4i1PySFjE4DSMZKUOQWFm40eBK2G6Li
- lJVtz722Yve9b6mvo/FUKmnQza8yi9jxWw/B9bQP77j5i/X/LWlrwIxrujbyp6WWT6Ku
- eN9A==
-X-Gm-Message-State: AOAM530AeYbKDsQe1F4ukzzGb8tU5n53QMDiPg6WMv2pT4BWwvxh66I1
- Xr0gy7kHyFOyODiVakFX6xN3gczaMTOlPiKo3L4yO+PZynNlZw==
-X-Google-Smtp-Source: ABdhPJwHOcacnwqZKnx1ZWz6T/E/PJz+IN1IfpwwTFzd1P71UFHI1I7ODmLl3hBrQ9HviVtJwhbDQ28j6FjOmX8h+28=
-X-Received: by 2002:aca:5453:: with SMTP id i80mr1178129oib.2.1608095112927;
- Tue, 15 Dec 2020 21:05:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpPSy-000325-Hv
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 00:35:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41788)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpPSu-0003d3-5I
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 00:35:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608096906;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tCmtIHJ1p9zIGTaZffvSJ3GjBhRJmjjAR4zYlGbgjB8=;
+ b=H7JBcx8nc0pf76t2an8gm0YQWqwcsCFRlDaRv2w0LyzoOOC+mll2HWJ6IMD3aDdpgjXYkQ
+ eckdH6LTVFYZKpAk1dc5ztr8lmekc5Wjc10F5jtFdFl8dOpXqdE5WcFtrYTGN+/fntNiAa
+ TUmoDbFjPJRZkubNNJIzZWt+X+L5IYo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-547-rLsbK5SVPZCEyAUF_K9dYQ-1; Wed, 16 Dec 2020 00:35:04 -0500
+X-MC-Unique: rLsbK5SVPZCEyAUF_K9dYQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AB1E8030B4;
+ Wed, 16 Dec 2020 05:35:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D975A71C8B;
+ Wed, 16 Dec 2020 05:35:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 57EA111329A5; Wed, 16 Dec 2020 06:35:01 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 04/12] i386: Register feature bit properties as class
+ properties
+References: <20201111183823.283752-1-ehabkost@redhat.com>
+ <20201111183823.283752-5-ehabkost@redhat.com>
+ <87pn3b2m85.fsf@dusky.pond.sub.org>
+ <20201215150118.GU1289986@habkost.net>
+Date: Wed, 16 Dec 2020 06:35:01 +0100
+In-Reply-To: <20201215150118.GU1289986@habkost.net> (Eduardo Habkost's message
+ of "Tue, 15 Dec 2020 10:01:18 -0500")
+Message-ID: <875z52xqii.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-From: Prashant V Agarwal <agpr123@gmail.com>
-Date: Wed, 16 Dec 2020 10:35:00 +0530
-Message-ID: <CALOWxgPkoiR9jHSP-S+hYkWZb89xi8kLVY4vsHqTMzpg6Sv=jQ@mail.gmail.com>
-Subject: CXL support in QEMU
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000f89bed05b68dd1ae"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=agpr123@gmail.com; helo=mail-oi1-x232.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,36 +83,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f89bed05b68dd1ae
-Content-Type: text/plain; charset="UTF-8"
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Hi,
-Is there a way to know the support plans for CXL protocol in QEMU?
-I see that there is side branch development going on:
+> On Tue, Dec 15, 2020 at 03:11:06PM +0100, Markus Armbruster wrote:
+>> Eduardo Habkost <ehabkost@redhat.com> writes:
+>> 
+>> > Class properties make QOM introspection simpler and easier, as
+>> > they don't require an object to be instantiated.
+>> >
+>> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>> 
+>> This is significantly more than just "simpler and easier".
+>> 
+>> The other day, I played with the QMP core to reduce its appetite for
+>> malloc.  I came up with patches that should approximately halve it, and
+>> felt quite pleased with myself.  I looked for a simple test to
+>> demonstrate the effect.  Something with plenty of output.  Hmm, why not
+>> query-cpu-definitions, it produces about 32KiB.  Instrument, instrument,
+>> run, ... whaaaat?!?
+>> 
+>> My patches save some 7000 allocations (670 KiB total), roughly matching
+>> my expectations.
+>> 
+>> Turns out this is a drop in the bucket: query-cpu-definitions still
+>> takes some 180,000 allocations (almost 12 MiB total).  They're hiding
+>> behind this line in qmp_query_cpu_definitions():
+>> 
+>>     g_slist_foreach(list, x86_cpu_definition_entry, &cpu_list);
+>> 
+>> The line takes more than a quarter second for me.
+>> 
+>> Hogging the main loop for a quarter second is not good.
+>
+> Wow!
+>
+>> 
+>> Eduardo's patch reduces run time to 0.02 seconds (40,000 allocations, 9
+>> MiB total).  It's a smaller pig now.
+>
+> Thanks for investigating this!  I'll amend the commit message with:
+>
+>   Also, the hundreds of instance properties were having an impact
+>   on QMP commands that create temporary CPU objects.  On my
+>   machine, run time of qmp_query_cpu_definitions() patch changed
+>   from ~200ms to ~16ms after applying this patch.
+>
+> Numbers were obtained with:
+>
+>  $ sudo perf probe -v -x ./qemu-system-x86_64 -a 'qmp_query_cpu_definitions%return' -a 'qmp_query_cpu_definitions'
+>  $ echo -e '{"execute": "qmp_capabilities"}\n{"execute": "query-cpu-definitions"}\n{"execute": "quit"}' | sudo perf trace -e 'probe_qemu:*' ./qemu-system-x86_64 -S -display none -qmp stdio > /dev/null
+>
+> Before:
+>
+>      0.000 qemu-system-x8/3103211 probe_qemu:qmp_query_cpu_definitions(__probe_ip: 94851767056275)
+>    204.072 qemu-system-x8/3103211 probe_qemu:qmp_query_cpu_definitions__return(__probe_func: 94851767056275, __probe_ret_ip: 94851768499362)
+>
+> After:
+>
+>      0.000 qemu-system-x8/3105969 probe_qemu:qmp_query_cpu_definitions(__probe_ip: 94554723186579)
+>     16.445 qemu-system-x8/3105969 probe_qemu:qmp_query_cpu_definitions__return(__probe_func: 94554723186579, __probe_ret_ip: 94554724629631)
 
-https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v2
+Looks good, thanks!
 
-But when does it get merged and gets released in QEMU formally?
-Is there a way to know a rough timeline?
-
-Regards,
-Prashant
-
---000000000000f89bed05b68dd1ae
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div>Is there a way to know the support plans for CXL p=
-rotocol in QEMU?</div><div>I see that there is side branch development goin=
-g on:</div><div><br></div><div><a href=3D"https://gitlab.com/bwidawsk/qemu/=
--/tree/cxl-2.0v2">https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0v2</a><br>=
-</div><div><br></div><div>But when does it get merged and gets released in =
-QEMU formally?</div><div>Is there a way to know a rough timeline?</div><div=
-><br></div><div>Regards,</div><div>Prashant</div><div><br></div><div><br></=
-div></div>
-
---000000000000f89bed05b68dd1ae--
 
