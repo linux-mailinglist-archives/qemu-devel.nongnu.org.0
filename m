@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 976B62DBBDA
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 08:10:14 +0100 (CET)
-Received: from localhost ([::1]:59098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F162DBBEF
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 08:26:29 +0100 (CET)
+Received: from localhost ([::1]:36796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpQwv-0007ju-6f
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 02:10:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33080)
+	id 1kpRCe-0002Xs-2A
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 02:26:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpQvl-0007Jm-Oi
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 02:09:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50422)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kpRAZ-0001wu-LF
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 02:24:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpQvj-0001Aa-DO
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 02:09:00 -0500
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kpRAU-0006J5-FU
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 02:24:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608102538;
+ s=mimecast20190719; t=1608103452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4L+7l/eZnb41JhYiQAiUuTtTHzZsTMXEYEJIBAQ56u0=;
- b=gmnrpSnQ9FVQEddShyz9WkRscXZHkW9skDXFRoPI+6iUc9JmSDkyGP2OXw3XU8wcNhvexQ
- M8s9BEEGPZN81vwGtgRhnrYKDfMsi+2AbPRHZ0xQzBUe8ItIVCjvUdSGEjkEpWvxOGYDF3
- spReaKw5hyEvf8teuJzevtzLctLGEFg=
+ bh=HhY7pZAp+jq0qbHXvEw7A+INyJm/1/hBSkcL6a2jzoE=;
+ b=BsxLBNB+EXbPP8qu2bkFG6bzbHLgac7enzzv+U6g4UgXEvfhhDY37J9IACr5/eJGz9Ldnf
+ XjJOdWuyPYKcbzQZioUtyABfvbBem0/8CPrHvY5+d4I2a9tK+9PPNtiRNZKGqkcsDNMAFX
+ KIJOAHrDtwcxb0pzAIydFPqbXfd4P4g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-U8xU2udtNDWmMGxZ6MPC_w-1; Wed, 16 Dec 2020 02:08:56 -0500
-X-MC-Unique: U8xU2udtNDWmMGxZ6MPC_w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-369-Hr_wFm5QM0Su50GXNV2CAA-1; Wed, 16 Dec 2020 02:24:09 -0500
+X-MC-Unique: Hr_wFm5QM0Su50GXNV2CAA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F676107ACE3
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 07:08:55 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C2E45D6D3;
- Wed, 16 Dec 2020 07:08:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DF39711329A5; Wed, 16 Dec 2020 08:08:53 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 09/11] qapi/introspect.py: create a typed 'Annotated'
- data strutcure
-References: <20201026194251.11075-1-jsnow@redhat.com>
- <20201026194251.11075-10-jsnow@redhat.com>
- <87y2j1zk35.fsf@dusky.pond.sub.org>
- <b27f7930-d86b-8357-84e4-7daef00023d7@redhat.com>
-Date: Wed, 16 Dec 2020 08:08:53 +0100
-In-Reply-To: <b27f7930-d86b-8357-84e4-7daef00023d7@redhat.com> (John Snow's
- message of "Mon, 7 Dec 2020 19:21:26 -0500")
-Message-ID: <87bleuw7lm.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6781107AD24;
+ Wed, 16 Dec 2020 07:24:07 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E19566F926;
+ Wed, 16 Dec 2020 07:24:01 +0000 (UTC)
+Date: Wed, 16 Dec 2020 08:23:58 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH 2/2] accel: kvm: Add aligment check for
+ kvm_log_clear_one_slot
+Message-ID: <20201216072358.bmac5twmtoyxcna3@kamzik.brq.redhat.com>
+References: <20201215071948.23940-1-zhukeqian1@huawei.com>
+ <20201215071948.23940-3-zhukeqian1@huawei.com>
+ <20201215115541.vgbt7aaiueyw7ury@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201215115541.vgbt7aaiueyw7ury@kamzik.brq.redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,95 +80,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, jiangkunkun@huawei.com,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ wanghaibin.wang@huawei.com, Zenghui Yu <yuzenghui@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
-
-> On 11/16/20 5:12 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> This replaces _make_tree with Annotated(). By creating it as a generic
->>> container, we can more accurately describe the exact nature of this
->>> particular value. i.e., each Annotated object is actually an
->>> Annotated<T>, describing its contained value.
->>>
->>> This adds stricter typing to Annotated nodes and extra annotated
->>> information.
->> 
->> Inhowfar?
->> 
+On Tue, Dec 15, 2020 at 12:55:50PM +0100, Andrew Jones wrote:
+> On Tue, Dec 15, 2020 at 03:19:48PM +0800, Keqian Zhu wrote:
+> > The parameters start and size are transfered from QEMU memory
+> > emulation layer. It can promise that they are TARGET_PAGE_SIZE
+> > aligned. However, KVM needs they are qemu_real_page_size aligned.
+> > 
+> > Though no caller breaks this aligned requirement currently, we'd
+> > better add an explicit check to avoid future breaking.
+> > 
+> > Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+> > ---
+> >  accel/kvm/kvm-all.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> > index c5e06288eb..3d0e3aa872 100644
+> > --- a/accel/kvm/kvm-all.c
+> > +++ b/accel/kvm/kvm-all.c
+> > @@ -701,6 +701,11 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+> >      unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
+> >      int ret;
+> >  
+> > +    /* Make sure start and size are psize aligned */
+> > +    if (!QEMU_IS_ALIGNED(start, psize) || !QEMU_IS_ALIGNED(size, psize)) {
+> > +        return -EINVAL;
+> > +    }
+> > +
+> >      /*
+> >       * We need to extend either the start or the size or both to
+> >       * satisfy the KVM interface requirement.  Firstly, do the start
+> > -- 
+> > 2.23.0
+> > 
+> >
+> 
+> It's not clear to me that this function has any restrictions on start
+> and size. If it does, then please document those restrictions in the
+> function's header and assert rather than return.
 >
-> The Generic[T] trick lets us express the type of the annotated node 
-> itself, which is more specific than Tuple[_something, ...etc...] and 
-> this type can be preserved when we peel the annotations off.
->
-> It's not super crucial, but like you say, the big benefit is the field 
-> names and strict types for the special-purpose structure.
 
-I'd lead with a brief description of the data structure you're
-replacing, how we got there, and why it's ugly.  You can steal from my
-review of PATCH 5.  Then explain its replacement, briefly.  And only
-then talk about types.
+Also, I see this patch is on its way in
 
-By the time you get to types, I'm nodding along "yes, please", and will
-be predisposed to accept your typing arguments at face value.
+https://patchwork.ozlabs.org/project/qemu-devel/patch/20201215175445.1272776-27-pbonzini@redhat.com/
 
-If you start with typing arguments, they have to negotiate the "yes,
-please" bar all by themselves.  Harder, because Python typing stuff you
-have to explain for dummies.
-
->>>               It also replaces a check of "isinstance tuple" with the
->>> much more explicit "isinstance Annotated" which is guaranteed not to
->>> break if a tuple is accidentally introduced into the type tree. (Perhaps
->>> as a result of a bad conversion from a list.)
->> 
->> Sure this is worth writing home about?  Such accidents seem quite
->> unlikely.
->> 
->
-> We all have our phobias. I find "isinstance(x, 
-> extremely_common_stdlib_type)" to be extremely fragile and likely to 
-> frustrate.
-
-You're applying programming-in-the-large reasoning to a
-programming-in-the-small case.
-
-Say you're writing a piece of code you expect to be used in contexts you
-prudently refuse to predict.  The code deals with a bunch of basic
-Python types.  Reserving another basic Python type for internal use may
-well be unwise then, because it can make your code break confusingly
-when this other type appears in input.  Which it shouldn't, but making
-your reusable code harder to misuse, and misuses easier to diagnose are
-laudable goals.
-
-This is not such a piece of code.  All the users it will ever have are
-in the same file of 200-something LOC.
-
-Your commit message makes the case for your patch.  Sometimes, dropping
-weak arguments strengthens a case.  I believe dropping the "It also
-replaces" argument would strengthen your case.
-
-> Maybe what's unlikely is anyone editing this code ever again. You've 
-> mentioned wanting to look into changing how the schema information is 
-> stored in QEMU before, so a lot of this might not matter for too much 
-> longer, who knows.
-
-Yes, I expect generating the SchemaInfoList directly would beat
-generating QLitObject, then converting QLitObject -> QObject ->
-SchemaInfoList.  Whether it's worth the effort is unclear.
-
->> For me, the commit's benefit is making the structure of the annotated
->> tree node more explicit (your first paragraph, I guess).  It's a bit of
->> a pattern in developing Python code: we start with a Tuple because it's
->> terse and easy, then things get more complex, terse becomes too terse,
->> and we're replacing the Tuple with a class.
->> 
->
-> Yep.
->
->>> Signed-off-by: John Snow <jsnow@redhat.com>
+Thanks,
+drew 
 
 
