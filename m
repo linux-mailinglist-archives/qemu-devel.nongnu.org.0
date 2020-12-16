@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9456C2DBCC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 09:36:44 +0100 (CET)
-Received: from localhost ([::1]:33988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 387DA2DBCC7
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 09:39:11 +0100 (CET)
+Received: from localhost ([::1]:38416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpSId-0004LX-50
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 03:36:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48044)
+	id 1kpSL0-0006FH-Aq
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 03:39:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpSHB-0003pN-Bz
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 03:35:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24050)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpSH9-0003oY-0y
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 03:35:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608107709;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=B8kPtu2hayAVC9sRzQdJq0ur2W3fCJHms7Fqf9AihJQ=;
- b=D6P/18nbh7z3U+SCGZUVW6A0HLGpkBd06wtHC8Cq3S8tX0LAoGGAvc2vV4QO1w0QNcpvs4
- Qfvbm0mfdAEdOfVOHdz2zvXVpX8tBXTZe3UmDMk2Mb7teAOrDVYWFqJTsiRjJ3IYqLFCjB
- SyBdQAaySbWFOjJyUYneY86w9ladvrE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-_fsu0eovPcivu38vmuQsvA-1; Wed, 16 Dec 2020 03:35:07 -0500
-X-MC-Unique: _fsu0eovPcivu38vmuQsvA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA8AF107ACE6
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:35:06 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD0175C67A;
- Wed, 16 Dec 2020 08:35:02 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 371A111329A5; Wed, 16 Dec 2020 09:35:01 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 05/12] qapi/gen: use './builtin' for the built-in module
- name
-References: <20201214235327.1007124-1-jsnow@redhat.com>
- <20201214235327.1007124-6-jsnow@redhat.com>
-Date: Wed, 16 Dec 2020 09:35:01 +0100
-In-Reply-To: <20201214235327.1007124-6-jsnow@redhat.com> (John Snow's message
- of "Mon, 14 Dec 2020 18:53:20 -0500")
-Message-ID: <873606tah6.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1kpSK0-0005e2-Uh
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 03:38:08 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:33349)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1kpSJz-0004m1-3K
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 03:38:08 -0500
+Received: by mail-wm1-x335.google.com with SMTP id n16so1458446wmc.0
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 00:38:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version; bh=DiQvKVBDYYiCXAWyMyuOeqNtZ9U770DMk4MyAhDrcl0=;
+ b=E70lOKtyuP3ABJY6HbkJBCRKf0xE+kGkdd/+dXWJ6BlsMXJYoUxqN/7uvIfwqncYb0
+ 4px8ZdJcnQiHUaE2Wm6c9m76pzWabeugfMRaPTstdyYi59XVfPdo8Y7A9wrIPY6gu6Wy
+ NEhb0TmmAd9vHN6imJAnMefsjnkg3eZ+OJuhFoc/0zWVDFi/PcFzZ0UpDiigPfFe+Zo2
+ 4VX87XB7JnD7aXf58P6HjfkFVbH+JPuOUoHq2x0qb+Ss1iB74Gq88dafVuNnv+hhejHy
+ 1DDOhurpQbNM5bzb2gM5/IvnPLP3RyUjRRgMIHh5hbmavkX3wfv06Uv8l2XIC/YVPFie
+ pMOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version;
+ bh=DiQvKVBDYYiCXAWyMyuOeqNtZ9U770DMk4MyAhDrcl0=;
+ b=SQN+E6va2D3enVdXRgG2VEWUe+iKIY33SSNlSoqOuxtdL5kSrb6nhWqBSgWfvwxOOQ
+ kYMrpTJ1phuCTNn1o8XDwr1tBAeKF5WbZ+TB+26XfVauDM4NVi6Yd4iZ3rYVd3pJzvVx
+ HQq9X8iQvNQW0mlj2/Ukwuhbev5re4Bz+tBVnXXXcEo7vKLrgE50ijNRMqt/5BZJFxDd
+ 2xLzenE58EF+jyYxI3as3uh4Ifcir+hPO16q4wVdv6IB8AVUDeuZ+NACT2ltMfHzo9YE
+ PJKuCuytrOVjbkF0mXpP5Lhq4/6D3OtlQcWbS/Z3zQ/OjYnk5+ohdKkHKimeTsTWpG3a
+ VjgA==
+X-Gm-Message-State: AOAM531ot79CEE/C8rOz4MOvoWxyLFze9XjX657rsUc5kWeFWcsTQxaP
+ 8qhK2TYcitwFWhGR39VK8yXC8A==
+X-Google-Smtp-Source: ABdhPJzYb8Td+FC+72nwhcx/KfNSPyQ9Qqe4DVM/sVWIHC7DjqOj/BbaL2DELzDqSEGnARWSY7u0UA==
+X-Received: by 2002:a1c:67c5:: with SMTP id b188mr2165039wmc.147.1608107884944; 
+ Wed, 16 Dec 2020 00:38:04 -0800 (PST)
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
+ [2001:8b0:bb71:7140:64::1])
+ by smtp.gmail.com with ESMTPSA id a14sm2076724wrn.3.2020.12.16.00.38.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Dec 2020 00:38:03 -0800 (PST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 82d1865a;
+ Wed, 16 Dec 2020 08:38:02 +0000 (UTC)
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [PATCH] hw/arm/virt: Remove virt machine state 'smp_cpus'
+In-Reply-To: <20201216064353.2n4evhicybkkuf7z@kamzik.brq.redhat.com>
+References: <20201215174815.51520-1-drjones@redhat.com>
+ <cun8s9zorr3.fsf@zarquon.hh.sledj.net>
+ <20201216064353.2n4evhicybkkuf7z@kamzik.brq.redhat.com>
+X-HGTTG: zarquon
+From: David Edmondson <dme@dme.org>
+Date: Wed, 16 Dec 2020 08:38:02 +0000
+Message-ID: <cun4kkm87th.fsf@zarquon.hh.sledj.net>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: neutral client-ip=2a00:1450:4864:20::335;
+ envelope-from=dme@dme.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,115 +85,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: fangying1@huawei.com, peter.maydell@linaro.org, salil.mehta@huawei.com,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On Wednesday, 2020-12-16 at 07:43:53 +01, Andrew Jones wrote:
 
-> Use this in preference to 'None', which helps remove some edge cases in
-> the typing.
+> On Tue, Dec 15, 2020 at 06:20:48PM +0000, David Edmondson wrote:
+>> On Tuesday, 2020-12-15 at 18:48:15 +01, Andrew Jones wrote:
+>> 
+>> >  static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+>> >  {
+>> > -    int cpu;
+>> > -    int addr_cells = 1;
+>> >      const MachineState *ms = MACHINE(vms);
+>> > +    int smp_cpus = ms->smp.cpus, cpu;
+>> 
+>> Is it house-style to have initialised and un-initialised local variables
+>> declared on the same line?
+>>
 >
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> checkpatch.pl doesn't complain and a grep of qemu shows hundreds of other
+> examples. That said, I only see one other example in hw/arm/virt.c, so if
+> we'd rather avoid it, I'll repost.
 
-Clearly better.  Should've done it this way in commit c2e196a9b4 "qapi:
-Prepare for system modules other than 'builtin'".
+Not at all, I was just curious.
 
-> ---
->  scripts/qapi/gen.py | 27 +++++++++++++--------------
->  1 file changed, 13 insertions(+), 14 deletions(-)
->
-> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-> index a6dc991b1d03..0c5d1fee6088 100644
-> --- a/scripts/qapi/gen.py
-> +++ b/scripts/qapi/gen.py
-> @@ -245,23 +245,23 @@ def __init__(self,
->          self._pydoc = pydoc
->          self._genc: Optional[QAPIGenC] = None
->          self._genh: Optional[QAPIGenH] = None
-> -        self._module: Dict[Optional[str], Tuple[QAPIGenC, QAPIGenH]] = {}
-> +        self._module: Dict[str, Tuple[QAPIGenC, QAPIGenH]] = {}
->          self._main_module: Optional[str] = None
->  
->      @staticmethod
-> -    def _is_user_module(name: Optional[str]) -> bool:
-> -        return bool(name and not name.startswith('./'))
-> +    def _is_user_module(name: str) -> bool:
-> +        return not name.startswith('./')
->  
->      @staticmethod
-> -    def _is_builtin_module(name: Optional[str]) -> bool:
-> -        return not name
-> +    def _is_builtin_module(name: str) -> bool:
-> +        return name == './builtin'
->  
-> -    def _module_dirname(self, name: Optional[str]) -> str:
-> +    def _module_dirname(self, name: str) -> str:
->          if self._is_user_module(name):
->              return os.path.dirname(name)
->          return ''
->  
-> -    def _module_basename(self, what: str, name: Optional[str]) -> str:
-> +    def _module_basename(self, what: str, name: str) -> str:
->          ret = '' if self._is_builtin_module(name) else self._prefix
->          if self._is_user_module(name):
->              basename = os.path.basename(name)
-> @@ -269,15 +269,14 @@ def _module_basename(self, what: str, name: Optional[str]) -> str:
->              if name != self._main_module:
->                  ret += '-' + os.path.splitext(basename)[0]
->          else:
-
-Possible drive-by improvement:
-
-               assert name.startswith('./')
-
-> -            name = name[2:] if name else 'builtin'
-> -            ret += re.sub(r'-', '-' + name + '-', what)
-> +            ret += re.sub(r'-', '-' + name[2:] + '-', what)
->          return ret
->  
-> -    def _module_filename(self, what: str, name: Optional[str]) -> str:
-> +    def _module_filename(self, what: str, name: str) -> str:
->          return os.path.join(self._module_dirname(name),
->                              self._module_basename(what, name))
->  
-> -    def _add_module(self, name: Optional[str], blurb: str) -> None:
-> +    def _add_module(self, name: str, blurb: str) -> None:
->          basename = self._module_filename(self._what, name)
->          genc = QAPIGenC(basename + '.c', blurb, self._pydoc)
->          genh = QAPIGenH(basename + '.h', blurb, self._pydoc)
-> @@ -290,8 +289,8 @@ def _add_user_module(self, name: str, blurb: str) -> None:
->              self._main_module = name
->          self._add_module(name, blurb)
->  
-> -    def _add_system_module(self, name: Optional[str], blurb: str) -> None:
-> -        self._add_module(name and './' + name, blurb)
-> +    def _add_system_module(self, name: str, blurb: str) -> None:
-> +        self._add_module(f"./{name}", blurb)
-
-I like f-strings, I really do, but is
-
-    f"./{name}"
-
-really clearer than
-
-    './' + name
-
-?
-
->  
->      def write(self, output_dir: str, opt_builtins: bool = False) -> None:
->          for name in self._module:
-> @@ -310,7 +309,7 @@ def _begin_user_module(self, name: str) -> None:
->      def visit_module(self, name: Optional[str]) -> None:
->          if name is None:
->              if self._builtin_blurb:
-> -                self._add_system_module(None, self._builtin_blurb)
-> +                self._add_system_module('builtin', self._builtin_blurb)
->                  self._begin_system_module(name)
->              else:
->                  # The built-in module has not been created.  No code may
-
+dme.
+-- 
+Driving at 90 down those country lanes, singing to "Tiny Dancer".
 
