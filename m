@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D162DC4F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 18:02:40 +0100 (CET)
-Received: from localhost ([::1]:37352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FA742DC4C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:55:32 +0100 (CET)
+Received: from localhost ([::1]:45786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpaCF-0007hI-7Y
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 12:02:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38286)
+	id 1kpa5L-0007En-GR
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:55:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpZys-0008O8-Ql
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:48:50 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37630)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kpZzb-0000kR-DC
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:49:35 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpZyr-0002Pi-1O
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:48:50 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id i9so23865794wrc.4
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:48:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pPjzI6V7f3w9vt7Ex/NxJEhkQFHcnsnZ7sXAvMsjW94=;
- b=AzHMKJypdCdViQeP7TPtvfLFj/YraD/Ft2OypzyahQagWwkOOUxgVRXQViGvjhjvma
- AGnB6Q5bWUA8Rr2gyDL+xONSXkjE7SnLOtBZ+NPym7Kjc+G3geuWRq7r8CGyroTV4xvH
- cnlCvTm08/hAf9M6XF2jIzTu8Ntq2/qjRDr8E7Ja23u2vfiqvTtAFIgI5DLG7D3YGy+c
- hQf9R6mg17WOY9EWHJ9t0oKq/1+f45U3R4Cf2tilo3kjAHudQxifuYcXg3FrJ2dWPsIJ
- AnuOt/czzbV+IHU2LB109UAvyBD5NqpT5j+qiQx+Eh77jXLUUE6aZ6+zmdEn2vLGEAYc
- pwdQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kpZzZ-0002Uo-W7
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:49:35 -0500
+Received: by mail-wm1-x336.google.com with SMTP id g185so3095068wmf.3
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:49:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nSHWhj+ELcqRBYCW9V6Sfq91e9b106erlt0H+7rZY3U=;
+ b=AWXW+rwald5ids+Btkcl+NF9i63zS48qQUpjZce/74Za0b7g6Ukf7gsNKjJTlSwuRo
+ Z2Q6zr8FNj/qvoBHeGalFbC1YOAJU6S8nYnMC0M3vrNVoGJIWwvjbiKqgXctIXgvHRM1
+ 6A+QcpoGPm/MqTlYWb/q6s0GF0SyM6gwmXsTyslLWzDghbeZYGawl0EUI3EXBBjH+w85
+ KI/S/Jogbhy8hLEBc1lHKvskRyTXuQfjiULKPX0GZ01nz8TPsBPr41g/S42MAHODy6F1
+ KPjeAbDiJbFft920dishwKITvvLNgxKr5n3oPltiRIywmUFY2s2PSh3k+0ghtL1SEUfW
+ 2C1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pPjzI6V7f3w9vt7Ex/NxJEhkQFHcnsnZ7sXAvMsjW94=;
- b=E182/7CpYnsucGVpyb3HZNil8nzWNKErY0z5SqOC7H4WmQ3XEfXMQ32R6b9X33J+OK
- d82vX33nyWJLog9vZgEKaUev9DG0AOCezv5Ugqm6TGVztAKXsHQ3CBx3iJnTzNOToVO2
- mUT+aH8h+Swo8vpbIWxI8a0oxYJ3p5U7egGy3kX8dOv6h2mRf1DJvNVYxIX7g7g3TyfV
- D7c6ZMsHG5BaQRfn19Xj4a1j4EDQrq23ekfgy5VfmZ+dJmuNuU0D6ruGvotf2y+bCwp8
- SwC7Zfyu2WgiYPU9E1MjbX8Rr99ZGllBy71f2EHeRnR49b4jcVEFk3jrAm1iWQzh6ebH
- Chlw==
-X-Gm-Message-State: AOAM531nzorRYYE7Phq8Yicrzj27WbnHZ1PruQ79rmB2BZRLEpXX6t7A
- s3qgDV/GmrgdTKEsjZcG+bOv1w==
-X-Google-Smtp-Source: ABdhPJxqTD3itgPWq17j7ClOehg7PFL4XocuYAlYd+tf8k8K4iCcCCEZY3T25vJdyxl+3d9C5bIV3Q==
-X-Received: by 2002:adf:fb49:: with SMTP id c9mr7974026wrs.72.1608137327672;
- Wed, 16 Dec 2020 08:48:47 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v20sm3900563wra.19.2020.12.16.08.48.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 08:48:41 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DC9AE1FF9A;
- Wed, 16 Dec 2020 16:48:28 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 11/11] tests: update for rename of CentOS8 PowerTools repo
-Date: Wed, 16 Dec 2020 16:48:27 +0000
-Message-Id: <20201216164827.24457-12-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201216164827.24457-1-alex.bennee@linaro.org>
-References: <20201216164827.24457-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nSHWhj+ELcqRBYCW9V6Sfq91e9b106erlt0H+7rZY3U=;
+ b=HjBPOYul4f7NHiEJDliclMcMusmdyve30vo7zJ0XfC2ax97YfgILjqbfOgpafAuo4T
+ GmfpC+Vw0uMPdv0khY2J4ZgOCyfhBDnx5CTMiJOLPIqZj7FEFsIdi+jCkKHWiIgmKYeu
+ dUlgPFl1FgLzqRgJI0U0TZ92MvnECSz3Je55WZLWaO3iEAYpe1gGV1B6P8Nm9nNEdnuP
+ Upt6SYa23kdb5IDf63nsKeuzwwqHegD/l33UiBD4CiumuYHdMHOd11ULJ621rjMkf2eJ
+ ItyFJ5nxU2CgkGyXnMFINSoh2REzdjNIuGlxbENaXRcknPrkFninAa8jE5GqD0DT0R4K
+ UNEg==
+X-Gm-Message-State: AOAM530R+O52CIgpW//byrOW3kerLqJZQwfKt1+Z+jkhOzYYwYcXBdYb
+ 8NnDxE25NSKH5cSFpXA7wJikCt2mWmg=
+X-Google-Smtp-Source: ABdhPJxMvsRIdYJP822Jv6EMqFLb6Sjqvrd5axStyleX94xF+gnFnbcycB/a4t56l6qM69bR15rQVQ==
+X-Received: by 2002:a1c:4d12:: with SMTP id o18mr4282918wmh.114.1608137372053; 
+ Wed, 16 Dec 2020 08:49:32 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id x18sm4522694wrg.55.2020.12.16.08.49.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Dec 2020 08:49:31 -0800 (PST)
+Subject: Re: [PATCH 1/7] hw/mips/fuloong2e: Remove define DEBUG_FULOONG2E_INIT
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20201216022513.89451-1-jiaxun.yang@flygoat.com>
+ <20201216022513.89451-2-jiaxun.yang@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1b9f200d-bab1-9894-92a4-07608e6ac515@amsat.org>
+Date: Wed, 16 Dec 2020 17:49:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20201216022513.89451-2-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,39 +89,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: chenhuacai@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+On 12/16/20 3:25 AM, Jiaxun Yang wrote:
+> Seems useless....
 
-This was intentionally renamed recently to be all lowercase:
+Indeed, introduced in 051c190bce5 ("MIPS: Initial support of
+fulong mini pc (machine construction)") but never used.
 
-https://bugs.centos.org/view.php?id=17920
-https://wiki.centos.org/Manuals/ReleaseNotes/CentOS8.2011#Yum_repo_file_and_repoid_changes
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20201216141653.213980-1-berrange@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 54bc6d54cd..06b67962fd 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -31,6 +31,6 @@ ENV PACKAGES \
-     zlib-devel
- 
- RUN dnf install -y dnf-plugins-core && \
--  dnf config-manager --set-enabled PowerTools && \
-+  dnf config-manager --set-enabled powertools && \
-   dnf install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
--- 
-2.20.1
-
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>  hw/mips/fuloong2e.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index 9b0eb8a314..055b99e378 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -48,8 +48,6 @@
+>  #include "sysemu/reset.h"
+>  #include "qemu/error-report.h"
+>  
+> -#define DEBUG_FULOONG2E_INIT
+> -
+>  #define ENVP_PADDR              0x2000
+>  #define ENVP_VADDR              cpu_mips_phys_to_kseg0(NULL, ENVP_PADDR)
+>  #define ENVP_NB_ENTRIES         16
+> 
 
