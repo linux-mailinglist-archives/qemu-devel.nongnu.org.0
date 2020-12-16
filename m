@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DCE92DBB25
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 07:22:58 +0100 (CET)
-Received: from localhost ([::1]:32828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D16C02DBB2E
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 07:26:39 +0100 (CET)
+Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpQDB-0007tP-JV
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 01:22:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53542)
+	id 1kpQGk-0002QO-SP
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 01:26:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kpQ82-0002eu-1X; Wed, 16 Dec 2020 01:17:38 -0500
-Received: from mail-eopbgr00123.outbound.protection.outlook.com
- ([40.107.0.123]:51180 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ id 1kpQ83-0002hW-6K; Wed, 16 Dec 2020 01:17:39 -0500
+Received: from mail-eopbgr00135.outbound.protection.outlook.com
+ ([40.107.0.135]:52920 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kpQ7z-0001E7-7n; Wed, 16 Dec 2020 01:17:37 -0500
+ id 1kpQ80-0001CD-KC; Wed, 16 Dec 2020 01:17:38 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WJGftD0nQHAiWQsYB5jdkOuQewPK4s1NG8O26I0iqHQ3kP5G3Djgen+lnpRUehs0Yj7zZVbsu8Kwo0x26kqeKUwBQRvmViVWRxRsiIGMYLVNKwjWJejst8a91BsWdIAxj2Ot8vu1aspejTsRri/I09Ry2gHekoH2pF2uITypvaCZYRsyn4OSJrrQpayWewBqVLG3itYdDP+AFgVTrgOu7X7k5NUpSmlV25tc/sOWQf6H4oBKPbRLgntw0Jki5BqQjk8vwvGfnH9Du6KYmkcVVvLRp+J61abpGGnotzCOrvUgTABjmyoKrpE0e55FqmxBGpwjQ+HHI4RpbEjojMm8LQ==
+ b=ScBT6hpFSxHPw9BbO3CNrvGHKAWg4eNPAEXjUGZ2n1MpeaGrK+mJRriSXhhS3o06qZDak+8mKCkqBXBEVrBxy12cBWI52pzq5R+XCZML/Lzgb62huXRzlvPe2zVMOUaPgnKCHfLxFXvIR4Gx6TKcb4S+vXDT112/uTq5vxyhwPHsYrpBtxQR482z1exb5oID/flh0mZUIONbOD33FSFDcAXRbl9jabo6xlBeTh0xIsSb9kZqZkSgZl4BD02xWJ1hdmiUsGmDsYDH6DnZcM7VsHDbxeGbhTI06fk0lMY71yiRLxPzlBfIlu4cP1+NHXoEuXMYQHuP6Pmi7E4ofdnrOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ysAk9YjDb8FYXiFzmRglteAShBBDwua/b0Vip14ydTU=;
- b=bIKD+jsB7JsQmr+eIgWVqeVgcp7U+08YwaI6/PqZEBgiqa/F/nbFcxJ63ogtteBESMkKs6zbMipNn9rlvWxfDXqipXygTiaDyoCw/pETq+SSGUs85H7DRHT2utL1ez3CkvyIrREXoXg0brpY8RgC57TdXEU2ucHbRzW+3qaW9m9bkrHTzA5AYK1S3ymtt0yVVffhgZhnP12z7SmYhhxLCq8cTl+LpFioPcj+DXBz04Ny18XufNxeDKdsv9FA4eLLS7ZU2tQCZXnH/L+DY5EVZ15EX4MRT6fg/G7O+3Zo+RU+2JK3OeNB+aRU4XPKx0zNbduBWmKwI1YgyaS6Cuhj/g==
+ bh=vdW3agc+22dzruYsT1wtqRfmBd73+Jv+FVjlt+0gPXk=;
+ b=Q/At3hyXCiXu+nHOz6r+jQYgE3nBSxlo3TK+VxtlX97/jk80VaDiiNLxemR0w9qop4nw5ZNgZsxzkgFJd7T2SB0mf3Gn2VvcZzTYTY212N3YVtweIb5ZZ6+R7SulxVUDtasQwveSP6MRiEwSQdKbnC02Rw42eJlsdkA+hCbuREtsiFVNv5FcyoGbZ3xlIYUoTvZOUBMgssb+7s3ZhsNGpUVHHECeUP8GjkFQMrgPx0b5jxaz6UEYrfjGhpFjIUvB6H5doouP4h7ZI7JCn1sekQxejhKdURdJekLyFuytKM2iZ363gvSmb3d66SNoH8HbV0HFqaZVWdMEsMAFxXzoAQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ysAk9YjDb8FYXiFzmRglteAShBBDwua/b0Vip14ydTU=;
- b=IByhYPjsXQ4bMp1UVS1e2CSHIRNoC9xIEkiQTo2/IPgStoleQPPD8X+ynr4SC5I1QI/aLvOZvW5/ewT6UAT4CAEE5rbnpNJ8nEtc59P2BA4g8WyDztzBOgdwwvzCH85CbwsX3RYPP9TW+Rd5V14N5WDNxyeUAlh7rAeN5ZQvWqc=
+ bh=vdW3agc+22dzruYsT1wtqRfmBd73+Jv+FVjlt+0gPXk=;
+ b=qWbdEIFZVD5ZGO9fuPjR0qWaLJOSQP+XIki0NFkrafZN+Vxmm38tgCEu6UhxwAm8zHdcZ1x70LocmGh73/I9Ha4b9zBznAlIHP1erxTkzIZRWE+2h0Qi00Ao+hHHb48QKVagjSVgJYLHmh3YeiqmcQ1OuhAwpcrJBAjtwzF46gI=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6309.eurprd08.prod.outlook.com (2603:10a6:20b:29f::7)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.24; Wed, 16 Dec
- 2020 06:17:22 +0000
+ 2020 06:17:23 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3654.024; Wed, 16 Dec 2020
- 06:17:22 +0000
+ 06:17:23 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v15 05/13] qapi: copy-on-read filter: add 'bottom' option
-Date: Wed, 16 Dec 2020 09:16:55 +0300
-Message-Id: <20201216061703.70908-6-vsementsov@virtuozzo.com>
+Subject: [PATCH v15 06/13] iotests: add #310 to test bottom node in COR driver
+Date: Wed, 16 Dec 2020 09:16:56 +0300
+Message-Id: <20201216061703.70908-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20201216061703.70908-1-vsementsov@virtuozzo.com>
 References: <20201216061703.70908-1-vsementsov@virtuozzo.com>
@@ -64,58 +64,59 @@ Received: from kvm.sw.ru (185.215.60.92) by
  AM4PR0202CA0008.eurprd02.prod.outlook.com (2603:10a6:200:89::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend
- Transport; Wed, 16 Dec 2020 06:17:21 +0000
+ Transport; Wed, 16 Dec 2020 06:17:22 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9fea41af-0043-4a21-fa5e-08d8a18a3fc6
+X-MS-Office365-Filtering-Correlation-Id: ae779ee3-b849-400a-613a-08d8a18a405d
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6309:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6309A4FD700191272C26E0CBC1C50@AS8PR08MB6309.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB63094FBAF96B4F4AD1B1B1CFC1C50@AS8PR08MB6309.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8ss0CvJ9Sj7al4f4FrDmhRQDJBj8CWettksuW7AS5Rs9J165mwsDzPVNnIAgwgo1eUF0GzE3YJQZQM1rL+3qQbHIXXYNMZKGkvLfkz6N9DLxikl3r7BBVh/Polm3oVyGcrgmckmeziBtGPqcXs7hKPnAYzDgxN/jplFYRvXXluI1siz77CLdjk8IqxKbc99lHfbf3tEzZJK4faNbo0JPA8ilwl/S0hnQxhtHmuUxn5vQMV2QZNUpE7mamGwtV9Zw/T0WABiXPemUoZYSxWQRBtcX07pTxNQl1u7jBUrxndPW7UCfzQdcWNdR2b3gvar5
+X-Microsoft-Antispam-Message-Info: z2mtM930x75hvsx278qiQw/0I0GatdcBPNVe8SiA+5cFemsV/gzSZxke1RZFVXgCVsFCgbcxTVxi6B+ECkKM3/W0fkTkYKWySloAX5lFnL7tNTt7quwqsVFeo0EgckLXPT/33v6uNfFGwgGt9tmrsiueK/EJ1iOPLtFu9MzPvPl0MayD6DgWp1dRpZiJr5nvjmabtyIPCR6fPetduRg3Ox5+pZ0Vi+cW4PNnb+gJDZ0pbJIAISHoUYnhhrtEzBMXLdiSr83HAa27RApd3EuOQKrrp9CJhLSCAtSCZMrbsmHihp6h2Is5TkZCLx3HYi79JxR5onE0bvwna8FoI4V8odGs/zqzYrfY20KjFvtIStkq63EjQFPxr6ay6ewNBGEhsxCrJc4lT2uGhurm9pTbg8/7hudam5Tz7U8pHFQYntw7YBBnZ/jnti1iQMngUs+lzYMyQlXzWpbgF3o4+r42+w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(396003)(366004)(39830400003)(346002)(4326008)(5660300002)(66556008)(66476007)(186003)(16526019)(956004)(6506007)(6512007)(2616005)(66946007)(36756003)(6666004)(1076003)(86362001)(6916009)(316002)(6486002)(52116002)(2906002)(8676002)(83380400001)(107886003)(478600001)(8936002)(26005);
+ SFS:(4636009)(376002)(136003)(396003)(366004)(39830400003)(346002)(4326008)(5660300002)(66556008)(66476007)(186003)(16526019)(956004)(6506007)(6512007)(2616005)(66946007)(36756003)(6666004)(1076003)(86362001)(6916009)(316002)(6486002)(52116002)(2906002)(8676002)(83380400001)(107886003)(478600001)(8936002)(26005)(2004002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?L15FD5IEoKuUuwsuXyuKm1zzqVVFXq1xqH05pQkS66TDffFAJLmczF0Q2S6l?=
- =?us-ascii?Q?LXS//zO0cMuArXaIJRmuK9UOFipTxYs8Jgj2AK14pDfO8y8kBMxeTpFMg1Vn?=
- =?us-ascii?Q?m/1u/tzbWjhRm2iLwsD9Jxh4/abuic+mgg3jzBaXZwBs6mw52LvggEY8iB/0?=
- =?us-ascii?Q?0St0mOwvvpIr1mf5vbAje7Ur89VsHyItU76Hi7rzyNTnKf62bV6hXF6HpIXr?=
- =?us-ascii?Q?8lSBkzAbDrsuDyGdVDIz3T/dc/3JVbtBoqrs3MGXeEAmKNXX/xJXG5/kgRw9?=
- =?us-ascii?Q?J1oa3LymwUcZwt+iS0/fPbmV7z1R6iOtdB/Yv6m+3+t6xwv0KtXQTFm2jYI+?=
- =?us-ascii?Q?9AJOqOEgWvP1T433s+FVtH+N+Ve9FJPrHCpDXjSLWhikuVAiINp0mgPgdr7r?=
- =?us-ascii?Q?NWt+d9Z93AVDErJ9FW2zXfxserpmQHxIxaOdR+7SC7JheAsMU/2Y3xEpHqHe?=
- =?us-ascii?Q?HWxbZa8G9EiNT3NSW27Q3qKB4x0Xs7TW9jr+pCHYmylOjzQ5nEh6VtxGxXRX?=
- =?us-ascii?Q?9e/WH6iEEjpap2U9akao3Nipa7paASaemqb+WaEQRHXQ1GLEgOpjUHYKU7sW?=
- =?us-ascii?Q?7h/Sg6ZT7BF7RFkxXLccwRKQ+lH7Ps/lDLcWwVmbxF1eDTRtlzTlE7QlY63U?=
- =?us-ascii?Q?yPSZNbthnc4zl39E/aVDaFz4ihsE63NEfw10MUoms+Z5HQLH9CMwfci4D78n?=
- =?us-ascii?Q?/WItaDhWtxT3M7pR4Q3YFZfobflRTO98PDkS2Rqjhv9ne5G6kMRumf95uoAm?=
- =?us-ascii?Q?iQKSQsqFKCWebm4u5VTs09t5383bWkwYUmzIJ0NdLoTaZRiijMj8s36ApVJg?=
- =?us-ascii?Q?IaP5PceS6pprUm1kY7qIxjspxWS95UkS7ymjN3qCU7Lf7G6gVbyqirdaP3OP?=
- =?us-ascii?Q?/zvnsBZ8D8NRU8/Lt7Rvbp27r9ruNGW6hbWi3O9HVFkf4u0CLl6DYA7Z7FYx?=
- =?us-ascii?Q?5FgFLeVDfPUwDWXAsd9MdX9tHN0GfSEDcvizN6qfhWKLix3s66g7S0SVnSPi?=
- =?us-ascii?Q?gMYl?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?2K7OUEQBYy/iUU9NDgJNH0cvYFHacu3BKgmMckxIVlZdpdlD0b5/GhjN5dI+?=
+ =?us-ascii?Q?JUe8r7IS9tlYwBjifkQe3VptXzOISoMkIPCw3/y6ohUjz3ern/2wnEP2jekj?=
+ =?us-ascii?Q?CU2VJXZA0zXR7qM1nt8hjCGJUNrvmTrLlnyVz4yTkfdOow3ArAp6G2M9OJU2?=
+ =?us-ascii?Q?/f0iYzi1+63Trn6XADfLdIed6fMt5NCNI6+SU+rL/vrpljCT26SJVZm67IAH?=
+ =?us-ascii?Q?k9GKPdEeJMUZQPXfmBnrI5icuRFnt1dOSxtxBZ5D+DxtN04GplCToOQLfpKO?=
+ =?us-ascii?Q?oXqY5f4a1GT77K87HvHTg6vcQM6JsDZWjHmM5VfcsaP/gEt0bW9LGTYGqZ3s?=
+ =?us-ascii?Q?2WQx141TmEZwiYhesohulAeThyp4v5hXYWf5RS1bfmcXziqhsnV1yZoppL/a?=
+ =?us-ascii?Q?kf1+foep01nte1eivnjIkeRhZTVOmkmaLyADiYCfA5xnV3x9WE5wKUlkvE4A?=
+ =?us-ascii?Q?KJHaBvn/8WlsD8d/bMcVa0DKv17TXwOp/vWEz0oUeH0kpyvW4F4QUmPiFYuf?=
+ =?us-ascii?Q?2ab4AyZbklfZL8R03SVOdyKX5R3Cip8F7huCaAXWrdkvBaP0ZKV4WBQhZpRB?=
+ =?us-ascii?Q?vmbtVnNfJuXKeNJ+lgjxsv5ReNPpDm3cxeIkAktanzDjPojtyLFBkbn61QX0?=
+ =?us-ascii?Q?YJPrHaGzcYRRgrU+CUd2IzcEzXv/C0t8XozAaWf/nkZ3xJMmKKsVapdjcaDT?=
+ =?us-ascii?Q?KE3HBQgk8B6b0JFPz6UuS+jB9hkWnuE0SA2gz50s2+v6kY5ZPXDsazvr914n?=
+ =?us-ascii?Q?B8XFxVoD4fKyfoQmizMOOKGxc5XciHmHltZ9RpN0nwVMEfksa18gXk4Fb9sj?=
+ =?us-ascii?Q?OQfUfHgqFdfMYHbEqSuT/7QLlAgrKY96FN7mdqjmQtevzL6nOvIEjoYLYFVA?=
+ =?us-ascii?Q?alng70JmiXtUkPLAs2vLBPU2Zi5M6ZUGPUXXKDsbum9Y/L5w4jUq8KGGOQon?=
+ =?us-ascii?Q?iBiD6hU6+CKELDZpEhAZkcyhvhb+h2R5YMUjiPV9iJ66Ajh2v4+hBCRoeity?=
+ =?us-ascii?Q?FxTM?=
 X-OriginatorOrg: virtuozzo.com
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2020 06:17:21.9702 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2020 06:17:22.9907 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fea41af-0043-4a21-fa5e-08d8a18a3fc6
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae779ee3-b849-400a-613a-08d8a18a405d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bEOtXj3oj7EUUpSygVjRAAqApe6ut9Iy7iAvy3qLNvR5xmt6mDQTbQEs0alpX+OCDlbSibtsv/RBj71AX8VkK2AzP5rbU0AsLMz00gopnT8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: yTKOiOKU7wCd0K7TYD3ZK2/B6Rl68kFoAseTT1jICWoqGt19mok9ApwHMlybfCTdmpnPSZSDmL2JabbEY9zvoNSOaow6Yd2frzanFipbNLs=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6309
-Received-SPF: pass client-ip=40.107.0.123;
+Received-SPF: pass client-ip=40.107.0.135;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -136,214 +137,172 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-Add an option to limit copy-on-read operations to specified sub-chain
-of backing-chain, to make copy-on-read filter useful for block-stream
-job.
+The test case #310 is similar to #216 by Max Reitz. The difference is
+that the test #310 involves a bottom node to the COR filter driver.
 
-Suggested-by: Max Reitz <mreitz@redhat.com>
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-  [vsementsov: change subject, modified to freeze the chain,
-   do some fixes]
+  [vsementsov: detach backing to test reads from top, limit to qcow2]
 ---
- qapi/block-core.json | 20 ++++++++-
- block/copy-on-read.c | 98 +++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 115 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/310     | 116 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/310.out |  15 +++++
+ tests/qemu-iotests/group   |   1 +
+ 3 files changed, 132 insertions(+)
+ create mode 100755 tests/qemu-iotests/310
+ create mode 100644 tests/qemu-iotests/310.out
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 6050cf3c39..b8094a5ec7 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3942,6 +3942,24 @@
-   'data': { 'throttle-group': 'str',
-             'file' : 'BlockdevRef'
-              } }
-+
-+##
-+# @BlockdevOptionsCor:
+diff --git a/tests/qemu-iotests/310 b/tests/qemu-iotests/310
+new file mode 100755
+index 0000000000..a35e8e14f5
+--- /dev/null
++++ b/tests/qemu-iotests/310
+@@ -0,0 +1,116 @@
++#!/usr/bin/env python3
 +#
-+# Driver specific block device options for the copy-on-read driver.
++# Copy-on-read tests using a COR filter with a bottom node
 +#
-+# @bottom: The name of a non-filter node (allocation-bearing layer) that
-+#          limits the COR operations in the backing chain (inclusive), so
-+#          that no data below this node will be copied by this filter.
-+#          If option is absent, the limit is not applied, so that data
-+#          from all backing layers may be copied.
++# Copyright (C) 2018 Red Hat, Inc.
++# Copyright (c) 2020 Virtuozzo International GmbH
 +#
-+# Since: 6.0
-+##
-+{ 'struct': 'BlockdevOptionsCor',
-+  'base': 'BlockdevOptionsGenericFormat',
-+  'data': { '*bottom': 'str' } }
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
- ##
- # @BlockdevOptions:
- #
-@@ -3994,7 +4012,7 @@
-       'bochs':      'BlockdevOptionsGenericFormat',
-       'cloop':      'BlockdevOptionsGenericFormat',
-       'compress':   'BlockdevOptionsGenericFormat',
--      'copy-on-read':'BlockdevOptionsGenericFormat',
-+      'copy-on-read':'BlockdevOptionsCor',
-       'dmg':        'BlockdevOptionsGenericFormat',
-       'file':       'BlockdevOptionsFile',
-       'ftp':        'BlockdevOptionsCurlFtp',
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 618c4c4f43..71560984f6 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -24,18 +24,24 @@
- #include "block/block_int.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
-+#include "qapi/qmp/qdict.h"
- #include "block/copy-on-read.h"
- 
- 
- typedef struct BDRVStateCOR {
-     bool active;
-+    BlockDriverState *bottom_bs;
-+    bool chain_frozen;
- } BDRVStateCOR;
- 
- 
- static int cor_open(BlockDriverState *bs, QDict *options, int flags,
-                     Error **errp)
- {
-+    BlockDriverState *bottom_bs = NULL;
-     BDRVStateCOR *state = bs->opaque;
-+    /* Find a bottom node name, if any */
-+    const char *bottom_node = qdict_get_try_str(options, "bottom");
- 
-     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
-@@ -51,7 +57,38 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
-         ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
-             bs->file->bs->supported_zero_flags);
- 
-+    if (bottom_node) {
-+        bottom_bs = bdrv_find_node(bottom_node);
-+        if (!bottom_bs) {
-+            error_setg(errp, "Bottom node '%s' not found", bottom_node);
-+            qdict_del(options, "bottom");
-+            return -EINVAL;
-+        }
-+        qdict_del(options, "bottom");
++import iotests
++from iotests import log, qemu_img, qemu_io_silent
 +
-+        if (!bottom_bs->drv) {
-+            error_setg(errp, "Bottom node '%s' not opened", bottom_node);
-+            return -EINVAL;
-+        }
++# Need backing file support
++iotests.script_initialize(supported_fmts=['qcow2'],
++                          supported_platforms=['linux'])
 +
-+        if (bottom_bs->drv->is_filter) {
-+            error_setg(errp, "Bottom node '%s' is a filter", bottom_node);
-+            return -EINVAL;
-+        }
++log('')
++log('=== Copy-on-read across nodes ===')
++log('')
 +
-+        if (bdrv_freeze_backing_chain(bs, bottom_bs, errp) < 0) {
-+            return -EINVAL;
-+        }
-+        state->chain_frozen = true;
++# This test is similar to the 216 one by Max Reitz <mreitz@redhat.com>
++# The difference is that this test case involves a bottom node to the
++# COR filter driver.
 +
-+        /*
-+         * We do freeze the chain, so it shouldn't be removed. Still, storing a
-+         * pointer worth bdrv_ref().
-+         */
-+        bdrv_ref(bottom_bs);
-+    }
-     state->active = true;
-+    state->bottom_bs = bottom_bs;
- 
-     /*
-      * We don't need to call bdrv_child_refresh_perms() now as the permissions
-@@ -107,8 +144,46 @@ static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
-                                            size_t qiov_offset,
-                                            int flags)
- {
--    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
--                               flags | BDRV_REQ_COPY_ON_READ);
-+    int64_t n;
-+    int local_flags;
-+    int ret;
-+    BDRVStateCOR *state = bs->opaque;
++with iotests.FilePath('base.img') as base_img_path, \
++     iotests.FilePath('mid.img') as mid_img_path, \
++     iotests.FilePath('top.img') as top_img_path, \
++     iotests.VM() as vm:
 +
-+    if (!state->bottom_bs) {
-+        return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
-+                                   flags | BDRV_REQ_COPY_ON_READ);
-+    }
++    log('--- Setting up images ---')
++    log('')
 +
-+    while (bytes) {
-+        local_flags = flags;
++    assert qemu_img('create', '-f', iotests.imgfmt, base_img_path, '64M') == 0
++    assert qemu_io_silent(base_img_path, '-c', 'write -P 1 0M 1M') == 0
++    assert qemu_io_silent(base_img_path, '-c', 'write -P 1 3M 1M') == 0
++    assert qemu_img('create', '-f', iotests.imgfmt, '-b', base_img_path,
++                    '-F', iotests.imgfmt, mid_img_path) == 0
++    assert qemu_io_silent(mid_img_path,  '-c', 'write -P 3 2M 1M') == 0
++    assert qemu_io_silent(mid_img_path,  '-c', 'write -P 3 4M 1M') == 0
++    assert qemu_img('create', '-f', iotests.imgfmt, '-b', mid_img_path,
++                    '-F', iotests.imgfmt, top_img_path) == 0
++    assert qemu_io_silent(top_img_path,  '-c', 'write -P 2 1M 1M') == 0
 +
-+        /* In case of failure, try to copy-on-read anyway */
-+        ret = bdrv_is_allocated(bs->file->bs, offset, bytes, &n);
-+        if (ret <= 0) {
-+            ret = bdrv_is_allocated_above(bdrv_backing_chain_next(bs->file->bs),
-+                                          state->bottom_bs, true, offset,
-+                                          n, &n);
-+            if (ret > 0 || ret < 0) {
-+                local_flags |= BDRV_REQ_COPY_ON_READ;
-+            }
-+            /* Finish earlier if the end of a backing file has been reached */
-+            if (n == 0) {
-+                break;
-+            }
-+        }
++#      0 1 2 3 4
++# top    2
++# mid      3   3
++# base 1     1
 +
-+        ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
-+                                  local_flags);
-+        if (ret < 0) {
-+            return ret;
-+        }
++    log('Done')
 +
-+        offset += n;
-+        qiov_offset += n;
-+        bytes -= n;
-+    }
++    log('')
++    log('--- Doing COR ---')
++    log('')
 +
-+    return 0;
- }
- 
- 
-@@ -160,11 +235,25 @@ static void cor_lock_medium(BlockDriverState *bs, bool locked)
- }
- 
- 
-+static void cor_close(BlockDriverState *bs)
-+{
-+    BDRVStateCOR *s = bs->opaque;
++    vm.launch()
 +
-+    if (s->chain_frozen) {
-+        s->chain_frozen = false;
-+        bdrv_unfreeze_backing_chain(bs, s->bottom_bs);
-+    }
++    log(vm.qmp('blockdev-add',
++               node_name='node0',
++               driver='copy-on-read',
++               bottom='node2',
++               file={
++                   'driver': iotests.imgfmt,
++                   'file': {
++                       'driver': 'file',
++                       'filename': top_img_path
++                   },
++                   'backing': {
++                       'node-name': 'node2',
++                       'driver': iotests.imgfmt,
++                       'file': {
++                           'driver': 'file',
++                           'filename': mid_img_path
++                       },
++                       'backing': {
++                           'driver': iotests.imgfmt,
++                           'file': {
++                               'driver': 'file',
++                               'filename': base_img_path
++                           }
++                       },
++                   }
++               }))
 +
-+    bdrv_unref(s->bottom_bs);
-+}
++    # Trigger COR
++    log(vm.qmp('human-monitor-command',
++               command_line='qemu-io node0 "read 0 5M"'))
 +
++    vm.shutdown()
 +
- static BlockDriver bdrv_copy_on_read = {
-     .format_name                        = "copy-on-read",
-     .instance_size                      = sizeof(BDRVStateCOR),
- 
-     .bdrv_open                          = cor_open,
-+    .bdrv_close                         = cor_close,
-     .bdrv_child_perm                    = cor_child_perm,
- 
-     .bdrv_getlength                     = cor_getlength,
-@@ -201,6 +290,11 @@ void bdrv_cor_filter_drop(BlockDriverState *cor_filter_bs)
-     bdrv_drained_begin(bs);
-     /* Drop permissions before the graph change. */
-     s->active = false;
-+    /* unfreeze, as otherwise bdrv_replace_node() will fail */
-+    if (s->chain_frozen) {
-+        s->chain_frozen = false;
-+        bdrv_unfreeze_backing_chain(cor_filter_bs, s->bottom_bs);
-+    }
-     bdrv_child_refresh_perms(cor_filter_bs, child, &error_abort);
-     bdrv_replace_node(cor_filter_bs, bs, &error_abort);
- 
++    log('')
++    log('--- Checking COR result ---')
++    log('')
++
++    # Detach backing to check that we can read the data from the top level now
++    assert qemu_img('rebase', '-u', '-b', '', '-f', iotests.imgfmt,
++                    top_img_path,) == 0
++
++    assert qemu_io_silent(top_img_path,  '-c', 'read -P 0 0 1M') == 0
++    assert qemu_io_silent(top_img_path,  '-c', 'read -P 2 1M 1M') == 0
++    assert qemu_io_silent(top_img_path,  '-c', 'read -P 3 2M 1M') == 0
++    assert qemu_io_silent(top_img_path,  '-c', 'read -P 0 3M 1M') == 0
++    assert qemu_io_silent(top_img_path,  '-c', 'read -P 3 4M 1M') == 0
++
++    log('Done')
+diff --git a/tests/qemu-iotests/310.out b/tests/qemu-iotests/310.out
+new file mode 100644
+index 0000000000..a70aa5cdae
+--- /dev/null
++++ b/tests/qemu-iotests/310.out
+@@ -0,0 +1,15 @@
++
++=== Copy-on-read across nodes ===
++
++--- Setting up images ---
++
++Done
++
++--- Doing COR ---
++
++{"return": {}}
++{"return": ""}
++
++--- Checking COR result ---
++
++Done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 9a8394b4cd..9fa72cf442 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -317,3 +317,4 @@
+ 307 rw quick export
+ 308 rw
+ 309 rw auto quick
++310 rw quick
 -- 
 2.25.4
 
