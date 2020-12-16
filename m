@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A52D22DC7FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 21:53:28 +0100 (CET)
-Received: from localhost ([::1]:48656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B3A2DC825
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 22:08:43 +0100 (CET)
+Received: from localhost ([::1]:34112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpdnb-0005pX-ON
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 15:53:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43240)
+	id 1kpe2L-00046f-BL
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 16:08:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kpdmR-0005Hz-By
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 15:52:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28170)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kpdmP-0004o6-AX
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 15:52:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608151932;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JS4w7sYkGzzsgEI25qKy6Tk++4VyvFudGTj8ppZp1/o=;
- b=JNRKLu0CNisx5kQCr+yPoCNSBKs/rjH7920mIHQKEItHFjOHlwJtl0QPD5J1/67PoTViG8
- IbxcwXiC5vPvMoKB5f2tZfwmNKsDeB9pQufsMtXTIJ5uoYd1vuvd8w1QOwBAzkL6RJhvJy
- rVJHIceW5d7Spb4VSgBO/FrU9L4j1L0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-wEHjYQbFMN6A3tdkMMatkw-1; Wed, 16 Dec 2020 15:52:10 -0500
-X-MC-Unique: wEHjYQbFMN6A3tdkMMatkw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74D70800D55
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 20:52:09 +0000 (UTC)
-Received: from localhost (ovpn-115-226.rdu2.redhat.com [10.10.115.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 33FE51962F;
- Wed, 16 Dec 2020 20:52:09 +0000 (UTC)
-Date: Wed, 16 Dec 2020 15:52:02 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86
- machine types
-Message-ID: <20201216205202.GJ3140057@habkost.net>
-References: <20201119103221.1665171-1-vkuznets@redhat.com>
- <20201119103221.1665171-6-vkuznets@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kpe0K-0002aw-UO
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 16:06:36 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44342)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kpe0B-0006e8-7x
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 16:06:36 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kpe08-0006dM-Ky
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 21:06:24 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9DC6E2E813C
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 21:06:24 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201119103221.1665171-6-vkuznets@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 16 Dec 2020 20:56:49 -0000
+From: =?utf-8?q?Andreas_K=2E_H=C3=BCttel?= <1906193@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dilfridge
+X-Launchpad-Bug-Reporter: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
+ =?utf-8?q?=29?=
+References: <160669515259.21126.12178770886175022752.malonedeb@gac.canonical.com>
+Message-Id: <160815220976.15056.16804692011989580462.malone@soybean.canonical.com>
+Subject: [Bug 1906193] Re: riscv32 user mode emulation: fork return values
+ broken
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a68a6d599c812dd1dd335307d9c5c017c50ba81b"; Instance="production"
+X-Launchpad-Hash: c7793feeeea39781e280fcc94c62051a5b63da0d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,178 +71,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1906193 <1906193@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 19, 2020 at 11:32:21AM +0100, Vitaly Kuznetsov wrote:
-> Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
-> requires listing all currently supported enlightenments ("hv_*" CPU
-> features) explicitly. We do have a 'hv_passthrough' mode enabling
-> everything but it can't be used in production as it prevents migration.
-> 
-> Introduce a simple 'hyperv=on' option for all x86 machine types enabling
-> all currently supported Hyper-V enlightenments. Later, when new
-> enlightenments get implemented, we will be adding them to newer machine
-> types only (by disabling them for legacy machine types) thus preserving
-> migration.
-> 
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Here's the (abbreviated) output of strace'ing qemu:
+
+farino ~ # strace -f /usr/bin/qemu-riscv32 /chroot/riscv-ilp32/tmp/wait-tes=
+t-short
+execve("/usr/bin/qemu-riscv32", ["/usr/bin/qemu-riscv32", "/chroot/riscv-il=
+p32/tmp/wait-tes"...], 0x7ffd95fb1330 /* 40 vars */) =3D 0
+
 [...]
-> ---
->  docs/hyperv.txt       |  8 ++++++++
->  hw/i386/x86.c         | 30 ++++++++++++++++++++++++++++++
->  include/hw/i386/x86.h |  7 +++++++
->  target/i386/cpu.c     | 14 ++++++++++++++
->  4 files changed, 59 insertions(+)
-> 
-> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-> index 5df00da54fc4..1a76a07f8417 100644
-> --- a/docs/hyperv.txt
-> +++ b/docs/hyperv.txt
-> @@ -29,6 +29,14 @@ When any set of the Hyper-V enlightenments is enabled, QEMU changes hypervisor
->  identification (CPUID 0x40000000..0x4000000A) to Hyper-V. KVM identification
->  and features are kept in leaves 0x40000100..0x40000101.
->  
-> +Hyper-V enlightenments can be enabled in bulk by specifying 'hyperv=on' to an
-> +x86 machine type:
-> +
-> +  qemu-system-x86_64 -machine q35,accel=kvm,kernel-irqchip=split,hyperv=on ...
-> +
-> +Note, new enlightenments are only added to the latest (in-develompent) machine
-> +type, older machine types keep the list of the supported features intact to
-> +safeguard migration.
->  
->  3. Existing enlightenments
->  ===========================
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index 5944fc44edca..57f27d56ecc6 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -1171,6 +1171,20 @@ static void x86_machine_set_acpi(Object *obj, Visitor *v, const char *name,
->      visit_type_OnOffAuto(v, name, &x86ms->acpi, errp);
->  }
->  
-> +static bool x86_machine_get_hyperv(Object *obj, Error **errp)
-> +{
-> +    X86MachineState *x86ms = X86_MACHINE(obj);
-> +
-> +    return x86ms->hyperv_enabled;
-> +}
-> +
-> +static void x86_machine_set_hyperv(Object *obj, bool value, Error **errp)
-> +{
-> +    X86MachineState *x86ms = X86_MACHINE(obj);
-> +
-> +    x86ms->hyperv_enabled = value;
-> +}
-> +
->  static void x86_machine_initfn(Object *obj)
->  {
->      X86MachineState *x86ms = X86_MACHINE(obj);
-> @@ -1194,6 +1208,16 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
->      x86mc->save_tsc_khz = true;
->      nc->nmi_monitor_handler = x86_nmi;
->  
-> +    /* Hyper-V features enabled with 'hyperv=on' */
-> +    x86mc->default_hyperv_features = BIT(HYPERV_FEAT_RELAXED) |
-> +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
-> +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
-> +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
-> +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
-> +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
-> +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_EVMCS) |
-> +        BIT(HYPERV_FEAT_IPI) | BIT(HYPERV_FEAT_STIMER_DIRECT);
-> +
->      object_class_property_add(oc, X86_MACHINE_SMM, "OnOffAuto",
->          x86_machine_get_smm, x86_machine_set_smm,
->          NULL, NULL);
-> @@ -1205,6 +1229,12 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
->          NULL, NULL);
->      object_class_property_set_description(oc, X86_MACHINE_ACPI,
->          "Enable ACPI");
-> +
-> +    object_class_property_add_bool(oc, X86_MACHINE_HYPERV,
-> +        x86_machine_get_hyperv, x86_machine_set_hyperv);
-> +
-> +    object_class_property_set_description(oc, X86_MACHINE_HYPERV,
-> +        "Enable Hyper-V enlightenments");
->  }
->  
->  static const TypeInfo x86_machine_info = {
-> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-> index 739fac50871b..598abd1be806 100644
-> --- a/include/hw/i386/x86.h
-> +++ b/include/hw/i386/x86.h
-> @@ -38,6 +38,9 @@ struct X86MachineClass {
->      bool save_tsc_khz;
->      /* Enables contiguous-apic-ID mode */
->      bool compat_apic_id_mode;
-> +
-> +    /* Hyper-V features enabled with 'hyperv=on' */
-> +    uint64_t default_hyperv_features;
->  };
->  
->  struct X86MachineState {
-> @@ -71,10 +74,14 @@ struct X86MachineState {
->       * will be translated to MSI messages in the address space.
->       */
->      AddressSpace *ioapic_as;
-> +
-> +    /* Hyper-V emulation */
-> +    bool hyperv_enabled;
->  };
->  
->  #define X86_MACHINE_SMM              "smm"
->  #define X86_MACHINE_ACPI             "acpi"
-> +#define X86_MACHINE_HYPERV           "hyperv"
->  
->  #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
->  OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 83aca942d87c..63a931679d73 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -53,6 +53,7 @@
->  #include "sysemu/tcg.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/i386/topology.h"
-> +#include "hw/i386/x86.h"
->  #ifndef CONFIG_USER_ONLY
->  #include "exec/address-spaces.h"
->  #include "hw/i386/apic_internal.h"
-> @@ -6511,8 +6512,21 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->  
->  static void x86_cpu_hyperv_realize(X86CPU *cpu)
->  {
-> +    X86MachineState *x86ms = X86_MACHINE(qdev_get_machine());
-> +    X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
-> +    uint64_t feat;
->      size_t len;
->  
-> +    if (x86ms->hyperv_enabled) {
-> +        feat = x86mc->default_hyperv_features;
-> +        /* Enlightened VMCS is only available on Intel/VMX */
-> +        if (!cpu_has_vmx(&cpu->env)) {
-> +            feat &= ~BIT(HYPERV_FEAT_EVMCS);
-> +        }
-> +
-> +        cpu->hyperv_features |= feat;
-> +    }
 
-I had to dequeue this because it doesn't compile with
-CONFIG_USER_ONLY:
+[pid 16569] uname({sysname=3D"Linux", nodename=3D"farino", ...}) =3D 0
+[pid 16569] lstat("/chroot", {st_mode=3DS_IFDIR|0755, st_size=3D4096, ...})=
+ =3D 0
+[pid 16569] lstat("/chroot/riscv-ilp32", {st_mode=3DS_IFDIR|S_ISGID|0755, s=
+t_size=3D4096, ...}) =3D 0
+[pid 16569] lstat("/chroot/riscv-ilp32/tmp", {st_mode=3DS_IFDIR|S_ISVTX|077=
+7, st_size=3D4096, ...}) =3D 0
+[pid 16569] lstat("/chroot/riscv-ilp32/tmp/wait-test-short", {st_mode=3DS_I=
+FREG|0755, st_size=3D445632, ...}) =3D 0
+[pid 16569] mmap(0x413f1000, 135168, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_=
+FIXED|MAP_ANONYMOUS, -1, 0) =3D 0x413f1000
+[pid 16569] mprotect(0x413eb000, 8192, PROT_READ) =3D 0
+[pid 16569] rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+[pid 16569] clone(child_stack=3DNULL, flags=3DCLONE_CHILD_CLEARTID|CLONE_CH=
+ILD_SETTID|SIGCHLD, child_tidptr=3D0x1339710) =3D 16571
+strace: Process 16571 attached
+[pid 16571] set_robust_list(0x1339720, 24 <unfinished ...>
+[pid 16569] rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+[pid 16571] <... set_robust_list resumed>) =3D 0
+[pid 16569] rt_sigprocmask(SIG_SETMASK, [], NULL, 8) =3D 0
+[pid 16571] rt_sigprocmask(SIG_SETMASK, ~[ILL FPE SEGV RTMIN RT_1], ~[KILL =
+STOP RTMIN RT_1], 8) =3D 0
+[pid 16571] rt_sigprocmask(SIG_BLOCK, ~[], ~[ILL FPE KILL SEGV STOP RTMIN R=
+T_1], 8) =3D 0
+[pid 16571] clone(child_stack=3D0x7fe5b73871f0, flags=3DCLONE_VM|CLONE_FS|C=
+LONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLONE_SYSVSEM|CLONE_SETTLS|CLONE_PARE=
+NT_SETTID|CLONE_CHILD_CLEARTID, parent_tid=3D[16572], tls=3D0x7fe5b7387640,=
+ child_tidptr=3D0x7fe5b7387910) =3D 16572
+[pid 16571] rt_sigprocmask(SIG_SETMASK, ~[ILL FPE KILL SEGV STOP RTMIN RT_1=
+], NULL, 8) =3D 0
+[pid 16571] rt_sigprocmask(SIG_SETMASK, ~[KILL STOP RTMIN RT_1], NULL, 8) =
+=3D 0
+[pid 16571] gettid()                    =3D 16571
+[pid 16571] rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+[pid 16571] rt_sigprocmask(SIG_SETMASK, [], NULL, 8) =3D 0
+[pid 16569] waitid(P_ALL, -1,  <unfinished ...>
+[pid 16571] exit_group(42)              =3D ?
+strace: Process 16572 attached
+[pid 16572] +++ exited with 42 +++
+[pid 16571] +++ exited with 42 +++
+[pid 16569] <... waitid resumed>{si_signo=3DSIGCHLD, si_code=3DCLD_EXITED, =
+si_pid=3D16571, si_uid=3D0, si_status=3D42, si_utime=3D3472328296226648184,=
+ si_stime=3D3475143045726351408}, WEXITED, NULL) =3D 0
+[pid 16569] --- SIGCHLD {si_signo=3DSIGCHLD, si_code=3DCLD_EXITED, si_pid=
+=3D16571, si_uid=3D0, si_status=3D42, si_utime=3D0, si_stime=3D0} ---
+[pid 16569] statx(1, "", AT_STATX_SYNC_AS_STAT|AT_EMPTY_PATH, STATX_BASIC_S=
+TATS, {stx_mask=3DSTATX_BASIC_STATS|STATX_MNT_ID, stx_attributes=3D0, stx_m=
+ode=3DS_IFCHR|0600, stx_size=3D0, ...}) =3D 0
+[pid 16569] write(1, "child wants to return 42 (0x2A),"..., 74child wants t=
+o return 42 (0x2A), parent received 40 (0x28), difference -2
+) =3D 74
+[pid 16569] brk(0x13c1000)              =3D 0x13c1000
+[pid 16569] brk(0x13c0000)              =3D 0x13c0000
+[pid 16569] exit_group(0)               =3D ?
+[pid 16570] <... futex resumed>)        =3D ?
+[pid 16570] +++ exited with 0 +++
++++ exited with 0 +++
 
-https://gitlab.com/ehabkost/qemu/-/jobs/916651017
+-- =
 
-The easiest solution would be to wrap the new code in #ifndef
-CONFIG_USER_ONLY, but maybe we should try to move all
-X86Machine-specific code from cpu.c to
-hw/i386/x86.c:x86_cpu_pre_plug().
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906193
 
--- 
-Eduardo
+Title:
+  riscv32 user mode emulation: fork return values broken
 
+Status in QEMU:
+  New
+
+Bug description:
+  When running in a chroot with riscv32 (on x86_64; qemu git master as
+  of today):
+
+  The following short program forks; the child immediately returns with
+  exit(42). The parent checks for the return value - and obtains 40!
+
+  gcc-10.2
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  #include <stdlib.h>
+  #include <unistd.h>
+  #include <stdio.h>
+  #include <sys/wait.h>
+
+  main(c, v)
+       int c;
+       char **v;
+  {
+    pid_t pid, p;
+    int s, i, n;
+
+    s =3D 0;
+    pid =3D fork();
+    if (pid =3D=3D 0)
+      exit(42);
+
+    /* wait for the process */
+    p =3D wait(&s);
+    if (p !=3D pid)
+      exit (255);
+
+    if (WIFEXITED(s))
+    {
+       int r=3DWEXITSTATUS(s);
+       if (r!=3D42) {
+        printf("child wants to return %i (0x%X), parent received %i (0x%X),=
+ difference %i\n",42,42,r,r,r-42);
+       }
+    }
+  }
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  (riscv-ilp32 chroot) farino /tmp # ./wait-test-short =
+
+  child wants to return 42 (0x2A), parent received 40 (0x28), difference -2
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  (riscv-ilp32 chroot) farino /tmp # gcc --version
+  gcc (Gentoo 10.2.0-r1 p2) 10.2.0
+  Copyright (C) 2020 Free Software Foundation, Inc.
+  Dies ist freie Software; die Kopierbedingungen stehen in den Quellen. Es
+  gibt KEINE Garantie; auch nicht f=C3=BCr MARKTG=C3=84NGIGKEIT oder F=C3=
+=9CR SPEZIELLE ZWECKE.
+
+  (riscv-ilp32 chroot) farino /tmp # ld --version
+  GNU ld (Gentoo 2.34 p6) 2.34.0
+  Copyright (C) 2020 Free Software Foundation, Inc.
+  This program is free software; you may redistribute it under the terms of
+  the GNU General Public License version 3 or (at your option) a later vers=
+ion.
+  This program has absolutely no warranty.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906193/+subscriptions
 
