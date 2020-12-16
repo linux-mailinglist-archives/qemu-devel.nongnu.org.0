@@ -2,88 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13912DBEFF
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 11:51:47 +0100 (CET)
-Received: from localhost ([::1]:38198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0BDE2DBF29
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 12:03:06 +0100 (CET)
+Received: from localhost ([::1]:55406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpUPL-0003e9-2r
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 05:51:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52652)
+	id 1kpUaH-00032z-W5
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 06:03:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpUOY-0003DK-9O
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 05:50:58 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44821)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpUWq-0000tQ-T3
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 05:59:32 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kpUOW-0006ZZ-Mm
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 05:50:58 -0500
-Received: by mail-wr1-x435.google.com with SMTP id w5so18981848wrm.11
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 02:50:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Xv90pGKHSd1iup8rHBBas7LG9OwRK+eYIdDVNAi+Y4Q=;
- b=Y8WyiA0pXnULlK5az9uL5SaoKyZt5CYUHj2IODFlWsPFIWlHbpVK6r4XiyTQUN33pt
- IYlYtmDt1025FXEkHJzd1vyomivhWp+R5h3zYYPe1dcSrg46dMNtByKsdfn558dHPrrw
- YKadNJktDc3UULjj7Y1QZIP7qNZJN2UYI6Myj1dm3qd/pOKn2tZy8ZyKwReLc7BHQBKA
- P4uyFt7cFABs8qduy8BDvqBOqWVy8R9jf1RcuuRFY5LywS3c73pFG2CThETYIl21szT0
- H/ZiYqa03NTcRd+5JDbwV/fmR0MrDljwS5sjn4eJWTVNOtbsKX0EVi49Yc+2ugWBK95O
- qr9w==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpUWn-0000nl-9o
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 05:59:32 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id q18so15224359wrn.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 02:59:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=cTd/mOll46zxMP8ZrYGdOmk8KTejyNnlw2hVTulXCTw=;
+ b=cZXt1HJyzMYHNiFPJrB0FlIycsRXels2ztP4VX0Xp7YIBYFrnDkxTg7JisVYKxCBxY
+ q4tiod+r3jXZNq2xjK+ySaczUOtv6X5JYOV3GUkNBl47soyJJ75exEsUbMiv6vJXzTl4
+ YeMstfYv5yv8vJ9wG/0uAGYO4yte2NGVTYVrQDi/6GANs9qaldLk7htAxQH2smdacv9o
+ +G9g3kSLPF2UyrQKUlW9Rzv8oFi7HJnNMqnKa8DmtpLcsgI1RvzSgNYwYpsjGBSWjyvX
+ m4YV6ylsMAUB2zLwlYEOcuUM50M9uleDrEHYCbKoptOldv6sZvFJbo7ehzVwZ1lbXme+
+ rbig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Xv90pGKHSd1iup8rHBBas7LG9OwRK+eYIdDVNAi+Y4Q=;
- b=rU99CdyvZhvY/sdy1kE1QSkAlVBeAIEDqYIqgOW5i3HJschgWkKKoMbHuLwzBXeRle
- 6WAyh2+Z6ybdz3oduJlzhuwzFwEjXq3V6MUw+1AB8xE9Q9R72FxogYA1PlHn9tZKv2E7
- UDC9FmSB8DZrKTMxaCy32BXsfZJjoUdbjVpat6TNf+weQVmEmBaBpCAWAj3Wzg0HlkW5
- gj8+GsPBb/WJLnlYZJxtRHeKlH3ABjsAVdLQbfWrai58eZ0w9u6aHx3njEOB8mY+oKHI
- 4viVpng6bKg3fp2s2GAeBVmXMakD9mc2uCE82OlTJLxF4nZWv+2Fn6urN+wl+BCs3ujF
- oipQ==
-X-Gm-Message-State: AOAM531vx8X9RduW9mQwq6XvaWiZJtZs0m4oyuomU55SkHpeQWsDDfcb
- 6qjMqS1Y3X/e4/dGSA2J3wI=
-X-Google-Smtp-Source: ABdhPJwQfjTDc2P9bNpOrGqtI0lYbrDk2aMoShxBLBmrnbZ3rDbSvb1JSJSTXMYL8iorSSEjtVWgGw==
-X-Received: by 2002:adf:f7d2:: with SMTP id a18mr15934993wrq.47.1608115855152; 
- Wed, 16 Dec 2020 02:50:55 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id o13sm2092470wmc.44.2020.12.16.02.50.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Dec 2020 02:50:54 -0800 (PST)
-Subject: Re: [PATCH v2 03/24] target/mips/cpu: Introduce isa_rel6_available()
- helper
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>
-References: <20201215225757.764263-1-f4bug@amsat.org>
- <20201215225757.764263-4-f4bug@amsat.org>
- <508441db-8748-1b55-5f39-e6a778c0bdc0@linaro.org>
- <40e8df0f-01ab-6693-785b-257b8d3144bf@amsat.org>
- <af357960-40f2-b9e6-485f-d1cf36a4e95d@flygoat.com>
- <b1e8b44c-ae6f-786c-abe0-9a03eb5d3d63@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5977d0f5-7e62-5f8a-d4ec-284f6f1af81d@amsat.org>
-Date: Wed, 16 Dec 2020 11:50:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=cTd/mOll46zxMP8ZrYGdOmk8KTejyNnlw2hVTulXCTw=;
+ b=e39LhcQ9JjW2MTU5dt8pmoVP51thOC6UH1eMfagnTxAlBa2HVeTtkdrFD6TK6IWHHP
+ /Kq8PGEO9yat8TG54YL+1kTDCqAtHfIXCSf3XQmiJj2wfF8gh5a4Oy52xi6opGsTzSaN
+ fgWm15TfmdTzvCuRfMo2v0JmuPIG0zvpMHRHEoNIDVGjfYeDwKuGTNJtt9bGUOhCiCix
+ 0AUHsLYpPhEDyNU0b+t9PivNrBF7PESdwsRgKMmZaRCFeyGEyMxDPw6VSfz6F0ujM0YT
+ 1AoYuuCFZPnRcNSuUjtodcc4GogcS7nDkT36MoTtsyJ2wNbej/Yv/TIf0XzO9UVnNinV
+ z6Lw==
+X-Gm-Message-State: AOAM533hz5gvqVh0pXHy8daYBiYikjQjU/5m9ABM0EMgR1/eRyECZQqn
+ eRZ11WXbZ3s9DaHUp34VrM7Ew1tO7cKJFg==
+X-Google-Smtp-Source: ABdhPJwGVKoUpXLaPMK0hUfwmeZVBcBv1gwyclF0U+GjXWIOJ+R92WrAtZEnhhFEtP/5SZ0YtFQwRg==
+X-Received: by 2002:a5d:50c3:: with SMTP id f3mr30773232wrt.287.1608116367958; 
+ Wed, 16 Dec 2020 02:59:27 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c129sm2294693wma.31.2020.12.16.02.59.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Dec 2020 02:59:26 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9A0511FF7E;
+ Wed, 16 Dec 2020 10:59:25 +0000 (GMT)
+References: <20201216013646.40799-1-gromero@linux.ibm.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Gustavo Romero <gromero@linux.ibm.com>
+Subject: Re: [PATCH] configure: Fail when specified cross compiler cannot be
+ found
+Date: Wed, 16 Dec 2020 10:51:06 +0000
+In-reply-to: <20201216013646.40799-1-gromero@linux.ibm.com>
+Message-ID: <87bleut3si.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <b1e8b44c-ae6f-786c-abe0-9a03eb5d3d63@flygoat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,61 +87,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, kvm@vger.kernel.org
+Cc: gustavo.romero@protonmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/20 4:14 AM, Jiaxun Yang wrote:
-> 在 2020/12/16 上午10:50, Jiaxun Yang 写道:
->>
->>
->> TBH I do think it doesn't sounds like a good idea to make 32-bit
->> and 64-bit different. In fact ISA_MIPS32R6 is always set for targets
->> with ISA_MIPS64R6.
->>
->> We're treating MIPS64R6 as a superset of MIPS32R6, and ISA_MIPS3
->> is used to tell if a CPU supports 64-bit.
 
-Which is why I don't understand why they are 2 ISA_MIPS32R6/ISA_MIPS64R6
-definitions.
+Gustavo Romero <gromero@linux.ibm.com> writes:
 
->>
->> FYI:
->> https://commons.wikimedia.org/wiki/File:MIPS_instruction_set_family.svg
-> 
-> Just add more cents here...
-> The current method we handle R6 makes me a little bit annoying.
-> 
-> Given that MIPS is backward compatible until R5, and R6 reorganized a lot
-> of opcodes, I do think decoding procdure of R6 should be dedicated from
-> the rest,
-> otherwise we may fall into the hell of finding difference between R6 and
-> previous
-> ISAs, also I've heard some R6 only ASEs is occupying opcodes marked as
-> "removed in R6", so it doesn't looks like a wise idea to check removed
-> in R6
-> in helpers.
+> Currently if the cross compiler passed to 'configure' (--cross-cc-<arch>)=
+ does
+> not exist no error happens and only later when the TCG tests are run they=
+ fail
+> because the cross compiler is not set correctly.
 
-I'm not sure I understood well your comment, but I also find how
-R6 is handled messy...
+Do they? They should just skip because of a non-existing compiler and a
+failed fallback to using docker:
 
-I'm doing this removal (from helper to decoder) with the decodetree
-conversion.
+  ../../configure --disable-docs --target-list=3Daarch64-softmmu --cross-cc=
+-aarch64=3Dnonexisting_gcc
 
-> So we may end up having four series of decodetrees for ISA
-> Series1: MIPS-II, MIPS32, MIPS32R2, MIPS32R5 (32bit "old" ISAs)
-> Series2: MIPS-III, MIPS64, MIPS64R2, MIPS64R5 (64bit "old" ISAs)
-> 
-> Series3: MIPS32R6 (32bit "new" ISAs)
-> Series4: MIPS64R6 (64bit "new" ISAs)
+and then cat ./tests/tcg/config-aarch64-softmmu.mak
 
-Something like that, I'm starting by converting the messier leaves
-first, so the R6 and ASEs. My approach is from your "series4" to
-"series1" last.
+  # Automatically generated by configure - do not modify
+  TARGET_NAME=3Daarch64
+  CONFIG_SOFTMMU=3Dy
+  QEMU=3D/home/alex/lsrc/qemu.git/builds/bisect/qemu-system-aarch64
+  CROSS_CC_GUEST_CFLAGS=3D
+  DOCKER_IMAGE=3Ddebian-arm64-test-cross
+  DOCKER_CROSS_CC_GUEST=3Daarch64-linux-gnu-gcc-10
 
-Regards,
+So what do you see in your failing case?
 
-Phil.
+>
+> This commit changes that behavior and make 'configure' fail if the specif=
+ied
+> cross compiler cannot be found, displaying an error similar to the follow=
+ing:
+>
+> $ ../configure --target-list=3Dppc64-softmmu --cross-cc-ppc64=3Dnonexisti=
+ng_gcc
+> Specified cross-compiler 'nonexisting_gcc' not found!
+>
+> Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
+> ---
+>  configure              | 2 +-
+>  tests/tcg/configure.sh | 4 +++-
+>  2 files changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/configure b/configure
+> index cb21108d34..c0389f5839 100755
+> --- a/configure
+> +++ b/configure
+> @@ -6854,7 +6854,7 @@ done
+>    export $i
+>  done
+>  export target_list source_path use_containers
+> -$source_path/tests/tcg/configure.sh)
+> +$source_path/tests/tcg/configure.sh) || exit 1
+>=20=20
+>  # temporary config to build submodules
+>  for rom in seabios; do
+> diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+> index e1b70e25f2..6c89d75c38 100755
+> --- a/tests/tcg/configure.sh
+> +++ b/tests/tcg/configure.sh
+> @@ -212,8 +212,10 @@ for target in $target_list; do
+>=20=20
+>      eval "target_compiler=3D\${cross_cc_$i}"
+>      if ! has $target_compiler; then
+> -      continue
+> +      echo "Specified cross-compiler '$target_compiler' not found!"
+> +      exit 1
+>      fi
+> +
+>      write_c_skeleton
+>      if ! do_compiler "$target_compiler" $target_compiler_cflags -o $TMPE=
+ $TMPC -static ; then
+>        # For host systems we might get away with building without -static
+
+
+--=20
+Alex Benn=C3=A9e
 
