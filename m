@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2D02DC3F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:22:15 +0100 (CET)
-Received: from localhost ([::1]:45362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEEE2DC41D
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 17:28:19 +0100 (CET)
+Received: from localhost ([::1]:36616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpZZ8-0003x1-HH
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:22:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58890)
+	id 1kpZf0-0003dU-GV
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 11:28:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kpZX9-00028l-EP
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:20:11 -0500
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:33173)
+ id 1kpZXB-0002AN-8p
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:20:14 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:44205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kpZX7-0006UP-Mh
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:20:11 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id b9so8638585ejy.0
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:20:09 -0800 (PST)
+ id 1kpZX9-0006Uc-6e
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 11:20:12 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id w1so28904602ejf.11
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 08:20:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wriHtt7qiXwOsKyET9M1f7QWc8pzHgf4bO+e20Nf8bY=;
- b=D1E5zGm3SvpZuVWrff4jJ40NqoMC/mevLVPpRHYVtsmveh6jdrkGN2k7GsPaeYi56D
- ysJjE36s8gIjeiq32T5ki/R5SLZqm2VCJLIt0PV/Z1FlpdACXm52eaewnEsaZ+A5UjLl
- 1frIMaEhXs3iRF+DWAouSJVORW+lsDLm9basXPqLFs7Dp3SyNcukdPhLU2ScMwuPiWrb
- UV12EadfaYvF+70YdMCrt0CPui713PPHE+kVM7hVwK3VfUm13+OqwCsc3AZ8MTlUw7NO
- SWRM7kCuJisD8AEH4JVwN/yV6BKUbZ2lJzxFs8BWUGxArR98T/yoros4ZjtcJrYc0RL/
- BW3w==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=7RAuAOiHtCEg/kAzL1aVWGDPXJpz9DMSzL+PQoGrz8I=;
+ b=mqhNPk+V4KQiBUY9JhDWFDoK/CrSpyT2E7gi1rjQfmptOhBXWbFw0avCYQMimyXsKA
+ sPYXQtwzVeW8VV5EfCFzMN1zA0uVWndPVMB5XfZ26bC20z9n3TgELhPy9RtkBurbaYrV
+ Df/AefeBjdbZVG13rDZizF9Fb19dbvzaMO0JCtTWd7G+T4/rBYDtLvUXgQxbN5idNj5C
+ FS+DGQhx1SJ2ub9FHFrZeVBvQ2KVbQHogs8idk/kWGxIZH7hzz/Fpy4cAn7mRZ6u46/G
+ gVtoaGvfFc6tpICJ4B20t34Ple1SCobO0b47zr1TUPRH1KQ7+JMC9lT40Xb8Idl17OWW
+ Y6uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=wriHtt7qiXwOsKyET9M1f7QWc8pzHgf4bO+e20Nf8bY=;
- b=NW3Sde7ykbNeBifv1KJYu4u1rguGydRd6yK1toNZktrvxBtb7Aoa/QBot2Fbd1bnxw
- fJ7lGQDCds1BIaP7/zqbKK8TH0BObAR+w/3vHpEKXggKy09L4M6EugtZQ4xZ496+cKln
- QSqaGBt3sgnJNKLNP9j70gfC+DFQ1C2HlOReAqV3PLBpwa2RoLAEaISh7SUOCd21nR1v
- 2IEKkbQibMA3Zh2v5rjvftmJlIUQfpKikH3eNOdcpErpiJnqpPgbB8/sc1vsn5ZCtpmS
- CN4HV+0p59afQLeigrUJ5guxJrEGgU1a5wOm8N050yJGUFmsmzLGuJrdcthwxzjQCrlK
- ovzQ==
-X-Gm-Message-State: AOAM5310kCBO3J/F/OLNqVJxufcDxrsHBJ6KwJnvXCDULC5u8urTpiy/
- 8SjeOcUpBGubX/WJXf1x0DVsBpDqBxo=
-X-Google-Smtp-Source: ABdhPJzZQ8AyrpEnNkdvk3PRHfpcKjZkamSLipFDsUl7pQmpn1xzzvRnBW5pK+oujiahdjJHdRjTxw==
-X-Received: by 2002:a17:906:2898:: with SMTP id
- o24mr14933844ejd.215.1608135608363; 
- Wed, 16 Dec 2020 08:20:08 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=7RAuAOiHtCEg/kAzL1aVWGDPXJpz9DMSzL+PQoGrz8I=;
+ b=jD5whccugL117H/ePoafnSrNFEkOJ8zxVMtQmu6d/2oWe0E7eq8j1nRTRpv+yqS9G1
+ oEVNgxD6wsc3LsQjYSlCGXaxQg1ijQDAQPONbRUV72eQINC0nClnbahxC5OulX7sbm97
+ BzgCQihd9cWTHNQwFbY1mkLKdY03FBvX9YXcdAIJwqJqbXJpEgxgroZFDmkkZ51F8rLb
+ oDyFXhNjoJ8l9WygddhY5m+vwA0S67S2Ay2FJqjX0JiINMKDqadQvKpalET+Wa1dV2dg
+ cjV66BszlhN7bMT073zRW/Q8LEogWX3USff2IPSqEIVaiCW9OEVks81PIsGMsLczxeUr
+ 18PA==
+X-Gm-Message-State: AOAM5322nWqVJvszD7IcKCvYtTRkUNHMkKJVFFjExhmXalkE6qqkaVsC
+ VLAGSBQSNtDz60zYsa5yjmO/waiNpVw=
+X-Google-Smtp-Source: ABdhPJzEVc6t/8/G20ykUCb2yBq0Rrh234WNBrCQ90j9gZr9sckk6OoKti0PqTS87kW7OY5myPtNpw==
+X-Received: by 2002:a17:906:378f:: with SMTP id
+ n15mr30808863ejc.263.1608135609290; 
+ Wed, 16 Dec 2020 08:20:09 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id a13sm21264501edb.76.2020.12.16.08.20.07
+ by smtp.gmail.com with ESMTPSA id a13sm21264501edb.76.2020.12.16.08.20.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 08:20:07 -0800 (PST)
+ Wed, 16 Dec 2020 08:20:08 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/7] First round of meson bugfixes and cleanups for 6.0
-Date: Wed, 16 Dec 2020 17:19:59 +0100
-Message-Id: <20201216162006.433850-1-pbonzini@redhat.com>
+Subject: [PATCH 1/7] Makefile: add dummy target for build.ninja dependencies
+Date: Wed, 16 Dec 2020 17:20:00 +0100
+Message-Id: <20201216162006.433850-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201216162006.433850-1-pbonzini@redhat.com>
+References: <20201216162006.433850-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,34 +88,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mostly switching to 0.56.0 in order to remove the b_staticpic
-version-dependent hack.
+The dummy targets ensure that incremental build can be done after
+deleting a meson.build file.
 
-Paolo Bonzini (7):
-  Makefile: add dummy target for build.ninja dependencies
-  meson: update submodule to 0.56.0
-  meson: switch minimum meson version to 0.56.0
-  meson: fix detection of curses with pkgconfig
-  meson: use pkg-config method for libudev
-  meson: use dependency to gate block modules
-  meson: cleanup Kconfig.host handling
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
- Makefile                      |   1 +
- accel/Kconfig                 |   9 +++
- block/meson.build             |  20 +++----
- configure                     |   7 +--
- docs/devel/kconfig.rst        |  19 +++----
- docs/meson.build              |  12 ++--
- meson                         |   2 +-
- meson.build                   | 104 +++++++++++++++-------------------
- plugins/meson.build           |   4 +-
- tests/meson.build             |   2 +-
- tests/qapi-schema/meson.build |   4 +-
- tests/qtest/meson.build       |   2 +-
- trace/meson.build             |   4 +-
- 13 files changed, 91 insertions(+), 99 deletions(-)
-
+diff --git a/Makefile b/Makefile
+index 76dbb917f5..fb9923ff22 100644
+--- a/Makefile
++++ b/Makefile
+@@ -133,6 +133,7 @@ Makefile.ninja: build.ninja
+ 
+ # A separate rule is needed for Makefile dependencies to avoid -n
+ build.ninja: build.ninja.stamp
++$(build-files):
+ build.ninja.stamp: meson.stamp $(build-files)
+ 	$(NINJA) $(if $V,-v,) build.ninja && touch $@
+ endif
 -- 
 2.29.2
+
 
 
