@@ -2,133 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53A12DBE9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 11:27:44 +0100 (CET)
-Received: from localhost ([::1]:51068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81AA42DBEDC
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 11:42:28 +0100 (CET)
+Received: from localhost ([::1]:59160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpU23-0003x4-Np
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 05:27:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46466)
+	id 1kpUGJ-0008Qh-AQ
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 05:42:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kpU09-0002Qh-DW; Wed, 16 Dec 2020 05:25:46 -0500
-Received: from mail-am6eur05on2139.outbound.protection.outlook.com
- ([40.107.22.139]:40171 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kpU04-0006Zt-QP; Wed, 16 Dec 2020 05:25:44 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dGtF1QKT0zIGE9Dk/ZWnyDa05pRewYzbVE1eCY5o6ooSjgeyYQQAU2JltdGzbVObWXUzhofYjHOyZJ46hqH4XO0q6h2shA5ByeBmJ6hTFHaeigchURB98ghQ7auE6kjKTJRw2icM//LvVxrYwDQgpm5YSqvCCTqtyhPFhcs7yve5uT5Mexm50ysOqO8vdofNRTjGXggJo3+v3EiehIIwHWWVsTv4+/Ahr4V9nb78kT0nFPHP+dRpVCjaVXB+mGeHGyqXjIC2pQdF6louZBdGDzRqGkTeKc/5bKDf+4ujqWuGEZM4p1AE8UMOnb3XlsQR1GVD6f7rsZRi0rYhW6Zfog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+v4LfMifOuyghxko0uT/Qnqi7/w6VwDiM6gv0vllxXo=;
- b=ba1bq+RM5zcj1j8RHFKfHnZzcEMNThJcQqiXM6NOUeeOydv62kPZdZf0DDocgfAI/gahzVZkecv+Dt99J7mN3eiZDVArJgRlPCHrHuk3sAn2W9G0qel9nxEA5fJK1a4k4ZTBqlsxcsCqaNs5onwru2DsUf7ycEzdmsaB41/i37lWa9PSCyMBtax/cQNgCu/Qv0NSi3IcOXFir/ZrKcJ7830qgE9vJ5lhIxt2MhrNCHA8sA/SzIdCP8H3mDtQw++iSfpT0lR5Tf5+cjXy4mPKM0TkKNl5mzaZY250DO97fjk6cf2TV9n0R9IMJBHzW8Gw8fl4ZjelH+4N4z43diQ8DA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+v4LfMifOuyghxko0uT/Qnqi7/w6VwDiM6gv0vllxXo=;
- b=ZNucb1CoR4Ca2lunWVqzSo7FwuutexF+XKuubOHjy/EA5rUXUPloxto4mSXJLQ9ebrX8hk6p/5SsBbY0UX+8epc8vsjmLAoQJOQK8OdJaWbH9VYEaAMHONLmNFQGJax/T6pFGWfyhZ0oynC20PAKYCIgaVwmG6NolEamfygDzKk=
-Authentication-Results: smartx.com; dkim=none (message not signed)
- header.d=none;smartx.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB5031.eurprd08.prod.outlook.com (2603:10a6:20b:ed::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.26; Wed, 16 Dec
- 2020 10:25:37 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3654.024; Wed, 16 Dec 2020
- 10:25:37 +0000
-Subject: Re: [PATCH v5] file-posix: detect the lock using the real file
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <1608029636-31442-1-git-send-email-fengli@smartx.com>
- <05c96a12-b343-fec4-4060-7110bb0850d0@virtuozzo.com>
- <20201216094959.GC189795@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <e719c240-a232-c017-73e9-45dbcda619fd@virtuozzo.com>
-Date: Wed, 16 Dec 2020 13:25:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
-In-Reply-To: <20201216094959.GC189795@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.92]
-X-ClientProxiedBy: AM0PR01CA0177.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:aa::46) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kpUEs-0007sy-Nf
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 05:40:58 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54164)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kpUEo-0003DS-O0
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 05:40:58 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kpUEm-0004cd-PW
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 10:40:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B0EF22E8139
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 10:40:52 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.92) by
- AM0PR01CA0177.eurprd01.prod.exchangelabs.com (2603:10a6:208:aa::46) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend
- Transport; Wed, 16 Dec 2020 10:25:37 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dd7edd75-ae51-4ea1-0cef-08d8a1acee43
-X-MS-TrafficTypeDiagnostic: AM6PR08MB5031:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB5031D5D488093B558BEBBE3CC1C50@AM6PR08MB5031.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:107;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vGC1XpwKHvK8TgTcfhJLo//q3iEXgZGR8fjWeVxR/hx3qAUsxZSYX6CSE5bDWNdKTvs7mAD3ihNOoXkyY+klf5jqGaCAlCV2nBrnZ6VtRaDnmUM4cs3tkjEUSzK1XPB0bnY+69PA3h6NWtbu6ufsBAyNsbkDYTZvKx0jfjrTKLWLOfqtyVty1SnMdQdfujIh6KvbYsdeneWO6DELX0wAqitrtEc4oxE9DEzH3ZwpUg3ycjjru5V5aUbhdb0Hnc0SXHCAL9axYsdnc+ayQsn++QgVT7ftWnO5PzV43psZCWm1Z4R3GTgmL2GYuf6YKvaAX39a46HCW+Jo4cliJVmtYgL42jL5x40/aZfgeXCYsb78hUMgIfTbNr/ohN6Tamna
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(346002)(136003)(376002)(39840400004)(366004)(66556008)(66476007)(478600001)(66946007)(5660300002)(52116002)(2906002)(2616005)(83380400001)(86362001)(956004)(31686004)(16526019)(54906003)(16576012)(6486002)(186003)(8676002)(31696002)(36756003)(6916009)(26005)(316002)(8936002)(4326008)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TEt0WmxERzUrUitCUHhYd3JVOFdSY2dwQThVTjZEbjJheWViZzhzRWNadk1p?=
- =?utf-8?B?UE1GdUdzckhEVFEvQUpla0d2TVhjOG1KZDJIaE1MTnM0NFhLOVFyeXdBZk1t?=
- =?utf-8?B?WUYzUVRWd3lGMjhGM3NyRTFqM3RKcWdPQWxpOFFnQ3IxQ0d4OVNQdU5XZ1ZL?=
- =?utf-8?B?YlljUG9HVnBJYnNBK0xwL1lidHNLd2dva2FINyt6dysyVWJtN2VWT3ljVFBH?=
- =?utf-8?B?NFNNSEtQaTl0VkR6Qno1M281RCtiL1FsY3kyK2RzakFxVTk1Rm02Q1ZIblFH?=
- =?utf-8?B?S3ppemVwL1krdU5PcCtrbDdZQTVlNVlOZ2l0SlR0NUVmU0lTaVNNakI2TFhu?=
- =?utf-8?B?YjdCdFU3SitjT05pU0ZoZHhGeGZ2aGhoS3RBN0Qva3puUTJVQlFUQXJZcVNZ?=
- =?utf-8?B?UE15M0lMcXQ5d1FLUTRsUk1QVGZxbjdhdjVwbUNQek5LUWo2b21TekdXQ1cz?=
- =?utf-8?B?Skw2Z2hHcGVPcEpKNStBQlFUM0tOMVM2bU5hdXd1VzJwcFh5d2lHNThOVGdt?=
- =?utf-8?B?ajJFNHFrZGVVMXJUUGxiaFpIaXBaNlBBd1NjQWVOK3BRa3c0Qm9SaExhaXVu?=
- =?utf-8?B?SStIVU9oNGZ4R3Z0TW53cXhpaGFiME41WnNsYlJSbHNFaG9yUmg1eVdVdm1r?=
- =?utf-8?B?TSt1MENWVUNnYzhIaVBJbXA5amNPQ3FHUkJuV0xLR1FJV2FvaFdJc0RSMkFz?=
- =?utf-8?B?QXp1VnV5dkdkZnAzZldjVHpjWFZJc0x1aHpML25wVDZnOXkxWTE3MFV6ak96?=
- =?utf-8?B?cThiKy9rRER1Wm9mWmhSTCt5MmVGdmwyekVyQlFVRGJiOFJVSFJrbE52NGZ5?=
- =?utf-8?B?THlCakF0QUZrVHhVbStDMnNWeXVmY3I4R2JYUDZFbFkzbWxTNTdVS3JCQThw?=
- =?utf-8?B?aFE4R0Fld2M1aFdDYmQ5djNuT1hPdHJjYnJ1eGx1elVzSk9wck0vRVcxMG5K?=
- =?utf-8?B?SnhLZEFVTGtaZ2dXakMvS2l0R0RJOUExUmpaSjI2eWtNOHFETTUzbE8reUtT?=
- =?utf-8?B?NmVsWUFoYXFUTWxwQXFQeG1UZFdpOEFpRjZsMTVtVW9nN1NBY2F4US95N3pq?=
- =?utf-8?B?RjNuZ2VQckRzcnJCZzF4SEQxd2NNUklJdzFwRlJVYXVUSm5GQisvbWladEhW?=
- =?utf-8?B?RW1kMEtGZTU4NWhVU3JnR2xaWXNJNWk4bXF2Nk91VGcxNU5WekZGRm1IM3BH?=
- =?utf-8?B?akllWmJNVFpvTll2cDJ6VmJwSjBML1JrSGcxZGxDajh2cDZkT2FiUElIL2lt?=
- =?utf-8?B?b01lYkRaMzduUEhkU0VoL29ycmh2TWNmYm5WZEFzaHoyZ2VQcWxSajZxQmw1?=
- =?utf-8?Q?BslLudxmfBaJ4cSy8U5RUyaP28H+Whemnn?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2020 10:25:37.6395 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd7edd75-ae51-4ea1-0cef-08d8a1acee43
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZXW8D8P8JSHjCNFGCzprHzbJU/hpzbe71E8RDO2vqVFaTtT/oJbw/R/bEHSze6pPcl5ABNuvA76K6vVHHRcEogKGPJSHccYTi8zxCpaWQyc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5031
-Received-SPF: pass client-ip=40.107.22.139;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 16 Dec 2020 10:29:37 -0000
+From: Gaoning Pan <1908369@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=pgn@zju.edu.cn; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hades0506
+X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
+X-Launchpad-Bug-Modifier: Gaoning Pan (hades0506)
+References: <160810887564.16424.16206895369407245317.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160811457807.10418.7175367041296469518.launchpad@wampee.canonical.com>
+Subject: [Bug 1908369] Re: heap-use-after-free in in nic_reset
+ ../hw/net/eepro100.c:616
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: 22c8a43c2a831e9ad580e529579f7be089b5647b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -137,200 +71,510 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, lifeng1519@gmail.com,
- "open list:raw" <qemu-block@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Li Feng <fengli@smartx.com>, kyle@smartx.com
+Reply-To: Bug 1908369 <1908369@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-16.12.2020 12:49, Daniel P. Berrangé wrote:
-> On Wed, Dec 16, 2020 at 11:22:38AM +0300, Vladimir Sementsov-Ogievskiy wrote:
->> 15.12.2020 13:53, Li Feng wrote:
->>> This patch addresses this issue:
->>> When accessing a volume on an NFS filesystem without supporting the file lock,
->>> tools, like qemu-img, will complain "Failed to lock byte 100".
->>>
->>> In the original code, the qemu_has_ofd_lock will test the lock on the
->>> "/dev/null" pseudo-file. Actually, the file.locking is per-drive property,
->>> which depends on the underlay filesystem.
->>>
->>> In this patch, add a new 'qemu_has_file_lock' to detect whether the
->>> file supports the file lock. And disable the lock when the underlay file
->>> system doesn't support locks.
->>>
->>> Signed-off-by: Li Feng <fengli@smartx.com>
->>> ---
->>> v5: simplify the code.
->>> v4: use the fd as the qemu_has_file_lock argument.
->>> v3: don't call the qemu_has_ofd_lock, use a new function instead.
->>> v2: remove the refactoring.
->>> ---
->>>    block/file-posix.c   | 61 +++++++++++++++++++++++---------------------
->>>    include/qemu/osdep.h |  1 +
->>>    util/osdep.c         | 14 ++++++++++
->>>    3 files changed, 47 insertions(+), 29 deletions(-)
->>>
->>> diff --git a/block/file-posix.c b/block/file-posix.c
->>> index 806764f7e3..4e00111031 100644
->>> --- a/block/file-posix.c
->>> +++ b/block/file-posix.c
->>> @@ -584,6 +584,21 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
->>>        s->use_linux_io_uring = (aio == BLOCKDEV_AIO_OPTIONS_IO_URING);
->>>    #endif
->>> +    s->open_flags = open_flags;
->>> +    raw_parse_flags(bdrv_flags, &s->open_flags, false);
->>> +
->>> +    s->fd = -1;
->>> +    fd = qemu_open(filename, s->open_flags, errp);
->>> +    ret = fd < 0 ? -errno : 0;
->>> +
->>> +    if (ret < 0) {
->>> +        if (ret == -EROFS) {
->>> +            ret = -EACCES;
->>> +        }
->>> +        goto fail;
->>> +    }
->>> +    s->fd = fd;
->>> +
->>>        locking = qapi_enum_parse(&OnOffAuto_lookup,
->>>                                  qemu_opt_get(opts, "locking"),
->>>                                  ON_OFF_AUTO_AUTO, &local_err);
->>> @@ -606,7 +621,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
->>>            s->use_lock = false;
->>>            break;
->>
->> In case of ON_OFF_AUTO_ON: we do check qemu_has_ofd_lock() and print a warning.
->>
->> Probably we can also check new qemu_has_file_lock() and just do early fail, not waiting for permissions update..
->>
->>>        case ON_OFF_AUTO_AUTO:
->>> -        s->use_lock = qemu_has_ofd_lock();
->>> +        s->use_lock = qemu_has_file_lock(s->fd) && qemu_has_ofd_lock();
->>>            break;
->>>        default:
->>>            abort();
->>> @@ -625,22 +640,6 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
->>>        s->drop_cache = qemu_opt_get_bool(opts, "drop-cache", true);
->>>        s->check_cache_dropped = qemu_opt_get_bool(opts, "x-check-cache-dropped",
->>>                                                   false);
->>> -
->>> -    s->open_flags = open_flags;
->>> -    raw_parse_flags(bdrv_flags, &s->open_flags, false);
->>> -
->>> -    s->fd = -1;
->>> -    fd = qemu_open(filename, s->open_flags, errp);
->>> -    ret = fd < 0 ? -errno : 0;
->>> -
->>> -    if (ret < 0) {
->>> -        if (ret == -EROFS) {
->>> -            ret = -EACCES;
->>> -        }
->>> -        goto fail;
->>> -    }
->>> -    s->fd = fd;
->>> -
->>>        /* Check s->open_flags rather than bdrv_flags due to auto-read-only */
->>>        if (s->open_flags & O_RDWR) {
->>>            ret = check_hdev_writable(s->fd);
->>> @@ -2388,6 +2387,7 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
->>>        int fd;
->>>        uint64_t perm, shared;
->>>        int result = 0;
->>> +    bool use_lock;
->>>        /* Validate options and set default values */
->>>        assert(options->driver == BLOCKDEV_DRIVER_FILE);
->>> @@ -2428,19 +2428,22 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
->>>        perm = BLK_PERM_WRITE | BLK_PERM_RESIZE;
->>>        shared = BLK_PERM_ALL & ~BLK_PERM_RESIZE;
->>> -    /* Step one: Take locks */
->>> -    result = raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, errp);
->>> -    if (result < 0) {
->>> -        goto out_close;
->>> -    }
->>> +    use_lock = qemu_has_file_lock(fd);
->>> +    if (use_lock) {
->>> +        /* Step one: Take locks */
->>> +        result = raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, errp);
->>> +        if (result < 0) {
->>> +            goto out_close;
->>> +        }
->>> -    /* Step two: Check that nobody else has taken conflicting locks */
->>> -    result = raw_check_lock_bytes(fd, perm, shared, errp);
->>> -    if (result < 0) {
->>> -        error_append_hint(errp,
->>> -                          "Is another process using the image [%s]?\n",
->>> -                          file_opts->filename);
->>> -        goto out_unlock;
->>> +        /* Step two: Check that nobody else has taken conflicting locks */
->>> +        result = raw_check_lock_bytes(fd, perm, shared, errp);
->>> +        if (result < 0) {
->>> +            error_append_hint(errp,
->>> +                              "Is another process using the image [%s]?\n",
->>> +                              file_opts->filename);
->>> +            goto out_unlock;
->>> +        }
->>>        }
->>
->> In raw_co_create(), I think you should also update code under "out_unlock:", we shouldn't
->> call raw_apply_lock_bytes(), when use_lock is false.
->>
->>
->> Another thing is call to raw_apply_lock_bytes() in raw_check_perm(). Looks like a preexisting bug. Why don't we check for s->use_lock?
->>
->>>        /* Clear the file by truncating it to 0 */
->>> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
->>> index f9ec8c84e9..c7587be99d 100644
->>> --- a/include/qemu/osdep.h
->>> +++ b/include/qemu/osdep.h
->>> @@ -513,6 +513,7 @@ int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
->>>    int qemu_unlock_fd(int fd, int64_t start, int64_t len);
->>>    int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
->>>    bool qemu_has_ofd_lock(void);
->>> +bool qemu_has_file_lock(int fd);
->>>    #endif
->>>    #if defined(__HAIKU__) && defined(__i386__)
->>> diff --git a/util/osdep.c b/util/osdep.c
->>> index 66d01b9160..dee1f076da 100644
->>> --- a/util/osdep.c
->>> +++ b/util/osdep.c
->>> @@ -225,6 +225,20 @@ static void qemu_probe_lock_ops(void)
->>>        }
->>>    }
->>> +bool qemu_has_file_lock(int fd)
->>> +{
->>> +    int ret;
->>> +    struct flock fl = {
->>> +        .l_whence = SEEK_SET,
->>> +        .l_start  = 0,
->>> +        .l_len    = 0,
->>> +        .l_type   = F_WRLCK,
->>> +    };
->>> +
->>> +    ret = fcntl(fd, F_GETLK, &fl);
->>
->> I think we need
->>
->>      qemu_probe_lock_ops();
->>      ret = fcntl(fd, fcntl_op_getlk, &fl);
->>
->> pattern instead, like in qemu_lock_fd_test(). Otherwise, what we check may differ with what we are going to use.
-> 
-> No, we explicitly do *not* want that.  This function is *only*
-> about checking whether traditional fcntl locks work or not on
-> this specific file handle.
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Gaoning Pan (hades0506)
 
-Hmm, than may be name the function qemu_has_posix_lock(), to stress that fact? All other qemu*lock*(fd) API functions do rely on fcnt_op_getlk/fcntl_op_setlk and work with lock type determined by qemu_probe_lock_ops().
+** Description changed:
 
-> 
-> Support for OFD locks is a separate check, and its result
-> applies system wide.
-> 
+  Hello,
+  =
 
-Still, I don't follow, why should we check posix lock, when we are going to use ofd locks. What if OFD locks are supported by kernel, but specific file-system supports posix lock, but not ofd? Than we'll fail the same way as described in commit message and the patch doesn't help. Or what I miss?
+  An heap-use-after-free issue was found in hw/net/eepro100.c:616 in
+  latest version 5.2.0.
+  =
 
+  This issue was found when I was debugging Qemu in monitor. When I attach
+  An eepro100 NIC, and reload the snapshot, the use-after-free triggers.
+  =
 
--- 
-Best regards,
-Vladimir
+  Qemu boot command is as follows:
+  ./qemu-5.2.0-rc4/build/qemu-system-x86_64 -enable-kvm -boot c -m 2G -driv=
+e format=3Dqcow2,file=3D./ubuntu.img -display none -monitor stdio
+  (qemu) device_add i82559a,id=3Deepro
+  (qemu) device_del eepro
+  (qemu) savevm tag0
+  (qemu) loadvm tag0
+  =
+
+- =
+
+  Backtrace is as follows:
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D32048=3D=3DERROR: AddressSanitizer: heap-use-after-free on address =
+0x6280000449f0 at pc 0x7f751f5eed1a bp 0x7ffcd01f2cf0 sp 0x7ffcd01f2498
+  WRITE of size 8 at 0x6280000449f0 thread T0
+-     #0 0x7f751f5eed19  (/usr/lib/x86_64-linux-gnu/libasan.so.4+0x5ed19)
+-     #1 0x55948f3c9287 in nic_reset ../hw/net/eepro100.c:616
+-     #2 0x5594900f481a in qemu_devices_reset ../hw/core/reset.c:69
+-     #3 0x55948fae72e7 in pc_machine_reset ../hw/i386/pc.c:1615
+-     #4 0x55948fda10af in qemu_system_reset ../softmmu/vl.c:1405
+-     #5 0x55948f1ce8ed in load_snapshot ../migration/savevm.c:3008
+-     #6 0x55948f7420e9 in hmp_loadvm ../monitor/hmp-cmds.c:1133
+-     #7 0x55948f7e4319 in handle_hmp_command ../monitor/hmp.c:1100
+-     #8 0x55948f7dbf1f in monitor_command_cb ../monitor/hmp.c:47
+-     #9 0x559490599854 in readline_handle_byte ../util/readline.c:408
+-     #10 0x55948f7e635a in monitor_read ../monitor/hmp.c:1340
+-     #11 0x5594900c25c5 in qemu_chr_be_write_impl ../chardev/char.c:201
+-     #12 0x5594900c266b in qemu_chr_be_write ../chardev/char.c:213
+-     #13 0x5594900df9ce in fd_chr_read ../chardev/char-fd.c:68
+-     #14 0x55949011f217 in qio_channel_fd_source_dispatch ../io/channel-wa=
+tch.c:84
+-     #15 0x7f751e056284 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x4c284)
+-     #16 0x559490580e97 in glib_pollfds_poll ../util/main-loop.c:221
+-     #17 0x559490580fb3 in os_host_main_loop_wait ../util/main-loop.c:244
+-     #18 0x55949058124f in main_loop_wait ../util/main-loop.c:520
+-     #19 0x55948fda1e53 in qemu_main_loop ../softmmu/vl.c:1678
+-     #20 0x55948f183c76 in main ../softmmu/main.c:50
+-     #21 0x7f751a8e3b96 in __libc_start_main (/lib/x86_64-linux-gnu/libc.s=
+o.6+0x21b96)
+-     #22 0x55948f183b69 in _start (/home/zjusvn/qemu5-hypervisor/qemu-5.2.=
+0-rc4/build/qemu-system-x86_64+0x19c6b69)
++ =C2=A0=C2=A0=C2=A0=C2=A0#0 0x7f751f5eed19  (/usr/lib/x86_64-linux-gnu/lib=
+asan.so.4+0x5ed19)
++ =C2=A0=C2=A0=C2=A0=C2=A0#1 0x55948f3c9287 in nic_reset ../hw/net/eepro100=
+.c:616
++ =C2=A0=C2=A0=C2=A0=C2=A0#2 0x5594900f481a in qemu_devices_reset ../hw/cor=
+e/reset.c:69
++ =C2=A0=C2=A0=C2=A0=C2=A0#3 0x55948fae72e7 in pc_machine_reset ../hw/i386/=
+pc.c:1615
++ =C2=A0=C2=A0=C2=A0=C2=A0#4 0x55948fda10af in qemu_system_reset ../softmmu=
+/vl.c:1405
++ =C2=A0=C2=A0=C2=A0=C2=A0#5 0x55948f1ce8ed in load_snapshot ../migration/s=
+avevm.c:3008
++ =C2=A0=C2=A0=C2=A0=C2=A0#6 0x55948f7420e9 in hmp_loadvm ../monitor/hmp-cm=
+ds.c:1133
++ =C2=A0=C2=A0=C2=A0=C2=A0#7 0x55948f7e4319 in handle_hmp_command ../monito=
+r/hmp.c:1100
++ =C2=A0=C2=A0=C2=A0=C2=A0#8 0x55948f7dbf1f in monitor_command_cb ../monito=
+r/hmp.c:47
++ =C2=A0=C2=A0=C2=A0=C2=A0#9 0x559490599854 in readline_handle_byte ../util=
+/readline.c:408
++ =C2=A0=C2=A0=C2=A0=C2=A0#10 0x55948f7e635a in monitor_read ../monitor/hmp=
+.c:1340
++ =C2=A0=C2=A0=C2=A0=C2=A0#11 0x5594900c25c5 in qemu_chr_be_write_impl ../c=
+hardev/char.c:201
++ =C2=A0=C2=A0=C2=A0=C2=A0#12 0x5594900c266b in qemu_chr_be_write ../charde=
+v/char.c:213
++ =C2=A0=C2=A0=C2=A0=C2=A0#13 0x5594900df9ce in fd_chr_read ../chardev/char=
+-fd.c:68
++ =C2=A0=C2=A0=C2=A0=C2=A0#14 0x55949011f217 in qio_channel_fd_source_dispa=
+tch ../io/channel-watch.c:84
++ =C2=A0=C2=A0=C2=A0=C2=A0#15 0x7f751e056284 in g_main_context_dispatch (/u=
+sr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x4c284)
++ =C2=A0=C2=A0=C2=A0=C2=A0#16 0x559490580e97 in glib_pollfds_poll ../util/m=
+ain-loop.c:221
++ =C2=A0=C2=A0=C2=A0=C2=A0#17 0x559490580fb3 in os_host_main_loop_wait ../u=
+til/main-loop.c:244
++ =C2=A0=C2=A0=C2=A0=C2=A0#18 0x55949058124f in main_loop_wait ../util/main=
+-loop.c:520
++ =C2=A0=C2=A0=C2=A0=C2=A0#19 0x55948fda1e53 in qemu_main_loop ../softmmu/v=
+l.c:1678
++ =C2=A0=C2=A0=C2=A0=C2=A0#20 0x55948f183c76 in main ../softmmu/main.c:50
++ =C2=A0=C2=A0=C2=A0=C2=A0#21 0x7f751a8e3b96 in __libc_start_main (/lib/x86=
+_64-linux-gnu/libc.so.6+0x21b96)
++ =C2=A0=C2=A0=C2=A0=C2=A0#22 0x55948f183b69 in _start (/home/zjusvn/qemu5-=
+hypervisor/qemu-5.2.0-rc4/build/qemu-system-x86_64+0x19c6b69)
+  =
+
+  0x6280000449f0 is located 2288 bytes inside of 15616-byte region [0x62800=
+0044100,0x628000047e00)
+  freed by thread T1 here:
+-     #0 0x7f751f66e7a8 in __interceptor_free (/usr/lib/x86_64-linux-gnu/li=
+basan.so.4+0xde7a8)
+-     #1 0x5594900ade06 in object_finalize ../qom/object.c:689
+-     #2 0x5594900b04fe in object_unref ../qom/object.c:1183
+-     #3 0x5594900eae68 in bus_free_bus_child ../hw/core/qdev.c:56
+-     #4 0x55949055d2d7 in call_rcu_thread ../util/rcu.c:281
+-     #5 0x5594905ad296 in qemu_thread_start ../util/qemu-thread-posix.c:521
+-     #6 0x7f751acba6da in start_thread (/lib/x86_64-linux-gnu/libpthread.s=
+o.0+0x76da)
++ =C2=A0=C2=A0=C2=A0=C2=A0#0 0x7f751f66e7a8 in __interceptor_free (/usr/lib=
+/x86_64-linux-gnu/libasan.so.4+0xde7a8)
++ =C2=A0=C2=A0=C2=A0=C2=A0#1 0x5594900ade06 in object_finalize ../qom/objec=
+t.c:689
++ =C2=A0=C2=A0=C2=A0=C2=A0#2 0x5594900b04fe in object_unref ../qom/object.c=
+:1183
++ =C2=A0=C2=A0=C2=A0=C2=A0#3 0x5594900eae68 in bus_free_bus_child ../hw/cor=
+e/qdev.c:56
++ =C2=A0=C2=A0=C2=A0=C2=A0#4 0x55949055d2d7 in call_rcu_thread ../util/rcu.=
+c:281
++ =C2=A0=C2=A0=C2=A0=C2=A0#5 0x5594905ad296 in qemu_thread_start ../util/qe=
+mu-thread-posix.c:521
++ =C2=A0=C2=A0=C2=A0=C2=A0#6 0x7f751acba6da in start_thread (/lib/x86_64-li=
+nux-gnu/libpthread.so.0+0x76da)
+  =
+
+  previously allocated by thread T0 here:
+-     #0 0x7f751f66eb40 in __interceptor_malloc (/usr/lib/x86_64-linux-gnu/=
+libasan.so.4+0xdeb40)
+-     #1 0x7f751e05bab8 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
+so.0+0x51ab8)
+-     #2 0x5594900ae04f in object_new ../qom/object.c:744
+-     #3 0x5594900ec0c3 in qdev_new ../hw/core/qdev.c:154
+-     #4 0x55948f37b084 in qdev_device_add ../softmmu/qdev-monitor.c:654
+-     #5 0x55948f37c36d in qmp_device_add ../softmmu/qdev-monitor.c:805
+-     #6 0x55948f37cd40 in hmp_device_add ../softmmu/qdev-monitor.c:916
+-     #7 0x55948f7e4319 in handle_hmp_command ../monitor/hmp.c:1100
+-     #8 0x55948f7dbf1f in monitor_command_cb ../monitor/hmp.c:47
+-     #9 0x559490599854 in readline_handle_byte ../util/readline.c:408
+-     #10 0x55948f7e635a in monitor_read ../monitor/hmp.c:1340
+-     #11 0x5594900c25c5 in qemu_chr_be_write_impl ../chardev/char.c:201
+-     #12 0x5594900c266b in qemu_chr_be_write ../chardev/char.c:213
+-     #13 0x5594900df9ce in fd_chr_read ../chardev/char-fd.c:68
+-     #14 0x55949011f217 in qio_channel_fd_source_dispatch ../io/channel-wa=
+tch.c:84
+-     #15 0x7f751e056284 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x4c284)
++ =C2=A0=C2=A0=C2=A0=C2=A0#0 0x7f751f66eb40 in __interceptor_malloc (/usr/l=
+ib/x86_64-linux-gnu/libasan.so.4+0xdeb40)
++ =C2=A0=C2=A0=C2=A0=C2=A0#1 0x7f751e05bab8 in g_malloc (/usr/lib/x86_64-li=
+nux-gnu/libglib-2.0.so.0+0x51ab8)
++ =C2=A0=C2=A0=C2=A0=C2=A0#2 0x5594900ae04f in object_new ../qom/object.c:7=
+44
++ =C2=A0=C2=A0=C2=A0=C2=A0#3 0x5594900ec0c3 in qdev_new ../hw/core/qdev.c:1=
+54
++ =C2=A0=C2=A0=C2=A0=C2=A0#4 0x55948f37b084 in qdev_device_add ../softmmu/q=
+dev-monitor.c:654
++ =C2=A0=C2=A0=C2=A0=C2=A0#5 0x55948f37c36d in qmp_device_add ../softmmu/qd=
+ev-monitor.c:805
++ =C2=A0=C2=A0=C2=A0=C2=A0#6 0x55948f37cd40 in hmp_device_add ../softmmu/qd=
+ev-monitor.c:916
++ =C2=A0=C2=A0=C2=A0=C2=A0#7 0x55948f7e4319 in handle_hmp_command ../monito=
+r/hmp.c:1100
++ =C2=A0=C2=A0=C2=A0=C2=A0#8 0x55948f7dbf1f in monitor_command_cb ../monito=
+r/hmp.c:47
++ =C2=A0=C2=A0=C2=A0=C2=A0#9 0x559490599854 in readline_handle_byte ../util=
+/readline.c:408
++ =C2=A0=C2=A0=C2=A0=C2=A0#10 0x55948f7e635a in monitor_read ../monitor/hmp=
+.c:1340
++ =C2=A0=C2=A0=C2=A0=C2=A0#11 0x5594900c25c5 in qemu_chr_be_write_impl ../c=
+hardev/char.c:201
++ =C2=A0=C2=A0=C2=A0=C2=A0#12 0x5594900c266b in qemu_chr_be_write ../charde=
+v/char.c:213
++ =C2=A0=C2=A0=C2=A0=C2=A0#13 0x5594900df9ce in fd_chr_read ../chardev/char=
+-fd.c:68
++ =C2=A0=C2=A0=C2=A0=C2=A0#14 0x55949011f217 in qio_channel_fd_source_dispa=
+tch ../io/channel-watch.c:84
++ =C2=A0=C2=A0=C2=A0=C2=A0#15 0x7f751e056284 in g_main_context_dispatch (/u=
+sr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x4c284)
+  =
+
+  Thread T1 created by T0 here:
+-     #0 0x7f751f5c7d2f in __interceptor_pthread_create (/usr/lib/x86_64-li=
+nux-gnu/libasan.so.4+0x37d2f)
+-     #1 0x5594905ad673 in qemu_thread_create ../util/qemu-thread-posix.c:5=
+58
+-     #2 0x55949055d8f0 in rcu_init_complete ../util/rcu.c:379
+-     #3 0x55949055dab9 in rcu_init ../util/rcu.c:435
+-     #4 0x55949068e5dc in __libc_csu_init (/home/zjusvn/qemu5-hypervisor/q=
+emu-5.2.0-rc4/build/qemu-system-x86_64+0x2ed15dc)
++ =C2=A0=C2=A0=C2=A0=C2=A0#0 0x7f751f5c7d2f in __interceptor_pthread_create=
+ (/usr/lib/x86_64-linux-gnu/libasan.so.4+0x37d2f)
++ =C2=A0=C2=A0=C2=A0=C2=A0#1 0x5594905ad673 in qemu_thread_create ../util/q=
+emu-thread-posix.c:558
++ =C2=A0=C2=A0=C2=A0=C2=A0#2 0x55949055d8f0 in rcu_init_complete ../util/rc=
+u.c:379
++ =C2=A0=C2=A0=C2=A0=C2=A0#3 0x55949055dab9 in rcu_init ../util/rcu.c:435
++ =C2=A0=C2=A0=C2=A0=C2=A0#4 0x55949068e5dc in __libc_csu_init (/home/zjusv=
+n/qemu5-hypervisor/qemu-5.2.0-rc4/build/qemu-system-x86_64+0x2ed15dc)
+  =
+
+  SUMMARY: AddressSanitizer: heap-use-after-free (/usr/lib/x86_64-linux-gnu=
+/libasan.so.4+0x5ed19)
+  Shadow bytes around the buggy address:
+-   0x0c50800008e0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+-   0x0c50800008f0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+-   0x0c5080000900: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+-   0x0c5080000910: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+-   0x0c5080000920: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
++ =C2=A0=C2=A00x0c50800008e0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
++ =C2=A0=C2=A00x0c50800008f0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
++ =C2=A0=C2=A00x0c5080000900: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
++ =C2=A0=C2=A00x0c5080000910: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
++ =C2=A0=C2=A00x0c5080000920: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
+  =3D>0x0c5080000930: fd fd fd fd fd fd fd fd fd fd fd fd fd fd[fd]fd
+-   0x0c5080000940: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+-   0x0c5080000950: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+-   0x0c5080000960: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+-   0x0c5080000970: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+-   0x0c5080000980: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
++ =C2=A0=C2=A00x0c5080000940: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
++ =C2=A0=C2=A00x0c5080000950: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
++ =C2=A0=C2=A00x0c5080000960: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
++ =C2=A0=C2=A00x0c5080000970: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
++ =C2=A0=C2=A00x0c5080000980: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
+  Shadow byte legend (one shadow byte represents 8 application bytes):
+-   Addressable:           00
+-   Partially addressable: 01 02 03 04 05 06 07
+-   Heap left redzone:       fa
+-   Freed heap region:       fd
+-   Stack left redzone:      f1
+-   Stack mid redzone:       f2
+-   Stack right redzone:     f3
+-   Stack after return:      f5
+-   Stack use after scope:   f8
+-   Global redzone:          f9
+-   Global init order:       f6
+-   Poisoned by user:        f7
+-   Container overflow:      fc
+-   Array cookie:            ac
+-   Intra object redzone:    bb
+-   ASan internal:           fe
+-   Left alloca redzone:     ca
+-   Right alloca redzone:    cb
++ =C2=A0=C2=A0Addressable:           00
++ =C2=A0=C2=A0Partially addressable: 01 02 03 04 05 06 07
++ =C2=A0=C2=A0Heap left redzone:       fa
++ =C2=A0=C2=A0Freed heap region:       fd
++ =C2=A0=C2=A0Stack left redzone:      f1
++ =C2=A0=C2=A0Stack mid redzone:       f2
++ =C2=A0=C2=A0Stack right redzone:     f3
++ =C2=A0=C2=A0Stack after return:      f5
++ =C2=A0=C2=A0Stack use after scope:   f8
++ =C2=A0=C2=A0Global redzone:          f9
++ =C2=A0=C2=A0Global init order:       f6
++ =C2=A0=C2=A0Poisoned by user:        f7
++ =C2=A0=C2=A0Container overflow:      fc
++ =C2=A0=C2=A0Array cookie:            ac
++ =C2=A0=C2=A0Intra object redzone:    bb
++ =C2=A0=C2=A0ASan internal:           fe
++ =C2=A0=C2=A0Left alloca redzone:     ca
++ =C2=A0=C2=A0Right alloca redzone:    cb
+  =3D=3D32048=3D=3DABORTING
+  =
+
+- =
+
+  Thanks.
+
+** Description changed:
+
+- Hello,
+- =
+
+- An heap-use-after-free issue was found in hw/net/eepro100.c:616 in
+- latest version 5.2.0.
+- =
+
+- This issue was found when I was debugging Qemu in monitor. When I attach
+- An eepro100 NIC, and reload the snapshot, the use-after-free triggers.
+- =
+
+- Qemu boot command is as follows:
+- ./qemu-5.2.0-rc4/build/qemu-system-x86_64 -enable-kvm -boot c -m 2G -driv=
+e format=3Dqcow2,file=3D./ubuntu.img -display none -monitor stdio
+- (qemu) device_add i82559a,id=3Deepro
+- (qemu) device_del eepro
+- (qemu) savevm tag0
+- (qemu) loadvm tag0
+- =
+
+- Backtrace is as follows:
+- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+- =3D=3D32048=3D=3DERROR: AddressSanitizer: heap-use-after-free on address =
+0x6280000449f0 at pc 0x7f751f5eed1a bp 0x7ffcd01f2cf0 sp 0x7ffcd01f2498
+- WRITE of size 8 at 0x6280000449f0 thread T0
+- =C2=A0=C2=A0=C2=A0=C2=A0#0 0x7f751f5eed19  (/usr/lib/x86_64-linux-gnu/lib=
+asan.so.4+0x5ed19)
+- =C2=A0=C2=A0=C2=A0=C2=A0#1 0x55948f3c9287 in nic_reset ../hw/net/eepro100=
+.c:616
+- =C2=A0=C2=A0=C2=A0=C2=A0#2 0x5594900f481a in qemu_devices_reset ../hw/cor=
+e/reset.c:69
+- =C2=A0=C2=A0=C2=A0=C2=A0#3 0x55948fae72e7 in pc_machine_reset ../hw/i386/=
+pc.c:1615
+- =C2=A0=C2=A0=C2=A0=C2=A0#4 0x55948fda10af in qemu_system_reset ../softmmu=
+/vl.c:1405
+- =C2=A0=C2=A0=C2=A0=C2=A0#5 0x55948f1ce8ed in load_snapshot ../migration/s=
+avevm.c:3008
+- =C2=A0=C2=A0=C2=A0=C2=A0#6 0x55948f7420e9 in hmp_loadvm ../monitor/hmp-cm=
+ds.c:1133
+- =C2=A0=C2=A0=C2=A0=C2=A0#7 0x55948f7e4319 in handle_hmp_command ../monito=
+r/hmp.c:1100
+- =C2=A0=C2=A0=C2=A0=C2=A0#8 0x55948f7dbf1f in monitor_command_cb ../monito=
+r/hmp.c:47
+- =C2=A0=C2=A0=C2=A0=C2=A0#9 0x559490599854 in readline_handle_byte ../util=
+/readline.c:408
+- =C2=A0=C2=A0=C2=A0=C2=A0#10 0x55948f7e635a in monitor_read ../monitor/hmp=
+.c:1340
+- =C2=A0=C2=A0=C2=A0=C2=A0#11 0x5594900c25c5 in qemu_chr_be_write_impl ../c=
+hardev/char.c:201
+- =C2=A0=C2=A0=C2=A0=C2=A0#12 0x5594900c266b in qemu_chr_be_write ../charde=
+v/char.c:213
+- =C2=A0=C2=A0=C2=A0=C2=A0#13 0x5594900df9ce in fd_chr_read ../chardev/char=
+-fd.c:68
+- =C2=A0=C2=A0=C2=A0=C2=A0#14 0x55949011f217 in qio_channel_fd_source_dispa=
+tch ../io/channel-watch.c:84
+- =C2=A0=C2=A0=C2=A0=C2=A0#15 0x7f751e056284 in g_main_context_dispatch (/u=
+sr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x4c284)
+- =C2=A0=C2=A0=C2=A0=C2=A0#16 0x559490580e97 in glib_pollfds_poll ../util/m=
+ain-loop.c:221
+- =C2=A0=C2=A0=C2=A0=C2=A0#17 0x559490580fb3 in os_host_main_loop_wait ../u=
+til/main-loop.c:244
+- =C2=A0=C2=A0=C2=A0=C2=A0#18 0x55949058124f in main_loop_wait ../util/main=
+-loop.c:520
+- =C2=A0=C2=A0=C2=A0=C2=A0#19 0x55948fda1e53 in qemu_main_loop ../softmmu/v=
+l.c:1678
+- =C2=A0=C2=A0=C2=A0=C2=A0#20 0x55948f183c76 in main ../softmmu/main.c:50
+- =C2=A0=C2=A0=C2=A0=C2=A0#21 0x7f751a8e3b96 in __libc_start_main (/lib/x86=
+_64-linux-gnu/libc.so.6+0x21b96)
+- =C2=A0=C2=A0=C2=A0=C2=A0#22 0x55948f183b69 in _start (/home/zjusvn/qemu5-=
+hypervisor/qemu-5.2.0-rc4/build/qemu-system-x86_64+0x19c6b69)
+- =
+
+- 0x6280000449f0 is located 2288 bytes inside of 15616-byte region [0x62800=
+0044100,0x628000047e00)
+- freed by thread T1 here:
+- =C2=A0=C2=A0=C2=A0=C2=A0#0 0x7f751f66e7a8 in __interceptor_free (/usr/lib=
+/x86_64-linux-gnu/libasan.so.4+0xde7a8)
+- =C2=A0=C2=A0=C2=A0=C2=A0#1 0x5594900ade06 in object_finalize ../qom/objec=
+t.c:689
+- =C2=A0=C2=A0=C2=A0=C2=A0#2 0x5594900b04fe in object_unref ../qom/object.c=
+:1183
+- =C2=A0=C2=A0=C2=A0=C2=A0#3 0x5594900eae68 in bus_free_bus_child ../hw/cor=
+e/qdev.c:56
+- =C2=A0=C2=A0=C2=A0=C2=A0#4 0x55949055d2d7 in call_rcu_thread ../util/rcu.=
+c:281
+- =C2=A0=C2=A0=C2=A0=C2=A0#5 0x5594905ad296 in qemu_thread_start ../util/qe=
+mu-thread-posix.c:521
+- =C2=A0=C2=A0=C2=A0=C2=A0#6 0x7f751acba6da in start_thread (/lib/x86_64-li=
+nux-gnu/libpthread.so.0+0x76da)
+- =
+
+- previously allocated by thread T0 here:
+- =C2=A0=C2=A0=C2=A0=C2=A0#0 0x7f751f66eb40 in __interceptor_malloc (/usr/l=
+ib/x86_64-linux-gnu/libasan.so.4+0xdeb40)
+- =C2=A0=C2=A0=C2=A0=C2=A0#1 0x7f751e05bab8 in g_malloc (/usr/lib/x86_64-li=
+nux-gnu/libglib-2.0.so.0+0x51ab8)
+- =C2=A0=C2=A0=C2=A0=C2=A0#2 0x5594900ae04f in object_new ../qom/object.c:7=
+44
+- =C2=A0=C2=A0=C2=A0=C2=A0#3 0x5594900ec0c3 in qdev_new ../hw/core/qdev.c:1=
+54
+- =C2=A0=C2=A0=C2=A0=C2=A0#4 0x55948f37b084 in qdev_device_add ../softmmu/q=
+dev-monitor.c:654
+- =C2=A0=C2=A0=C2=A0=C2=A0#5 0x55948f37c36d in qmp_device_add ../softmmu/qd=
+ev-monitor.c:805
+- =C2=A0=C2=A0=C2=A0=C2=A0#6 0x55948f37cd40 in hmp_device_add ../softmmu/qd=
+ev-monitor.c:916
+- =C2=A0=C2=A0=C2=A0=C2=A0#7 0x55948f7e4319 in handle_hmp_command ../monito=
+r/hmp.c:1100
+- =C2=A0=C2=A0=C2=A0=C2=A0#8 0x55948f7dbf1f in monitor_command_cb ../monito=
+r/hmp.c:47
+- =C2=A0=C2=A0=C2=A0=C2=A0#9 0x559490599854 in readline_handle_byte ../util=
+/readline.c:408
+- =C2=A0=C2=A0=C2=A0=C2=A0#10 0x55948f7e635a in monitor_read ../monitor/hmp=
+.c:1340
+- =C2=A0=C2=A0=C2=A0=C2=A0#11 0x5594900c25c5 in qemu_chr_be_write_impl ../c=
+hardev/char.c:201
+- =C2=A0=C2=A0=C2=A0=C2=A0#12 0x5594900c266b in qemu_chr_be_write ../charde=
+v/char.c:213
+- =C2=A0=C2=A0=C2=A0=C2=A0#13 0x5594900df9ce in fd_chr_read ../chardev/char=
+-fd.c:68
+- =C2=A0=C2=A0=C2=A0=C2=A0#14 0x55949011f217 in qio_channel_fd_source_dispa=
+tch ../io/channel-watch.c:84
+- =C2=A0=C2=A0=C2=A0=C2=A0#15 0x7f751e056284 in g_main_context_dispatch (/u=
+sr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x4c284)
+- =
+
+- Thread T1 created by T0 here:
+- =C2=A0=C2=A0=C2=A0=C2=A0#0 0x7f751f5c7d2f in __interceptor_pthread_create=
+ (/usr/lib/x86_64-linux-gnu/libasan.so.4+0x37d2f)
+- =C2=A0=C2=A0=C2=A0=C2=A0#1 0x5594905ad673 in qemu_thread_create ../util/q=
+emu-thread-posix.c:558
+- =C2=A0=C2=A0=C2=A0=C2=A0#2 0x55949055d8f0 in rcu_init_complete ../util/rc=
+u.c:379
+- =C2=A0=C2=A0=C2=A0=C2=A0#3 0x55949055dab9 in rcu_init ../util/rcu.c:435
+- =C2=A0=C2=A0=C2=A0=C2=A0#4 0x55949068e5dc in __libc_csu_init (/home/zjusv=
+n/qemu5-hypervisor/qemu-5.2.0-rc4/build/qemu-system-x86_64+0x2ed15dc)
+- =
+
+- SUMMARY: AddressSanitizer: heap-use-after-free (/usr/lib/x86_64-linux-gnu=
+/libasan.so.4+0x5ed19)
+- Shadow bytes around the buggy address:
+- =C2=A0=C2=A00x0c50800008e0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
+- =C2=A0=C2=A00x0c50800008f0: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
+- =C2=A0=C2=A00x0c5080000900: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
+- =C2=A0=C2=A00x0c5080000910: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
+- =C2=A0=C2=A00x0c5080000920: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
+- =3D>0x0c5080000930: fd fd fd fd fd fd fd fd fd fd fd fd fd fd[fd]fd
+- =C2=A0=C2=A00x0c5080000940: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
+- =C2=A0=C2=A00x0c5080000950: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
+- =C2=A0=C2=A00x0c5080000960: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
+- =C2=A0=C2=A00x0c5080000970: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
+- =C2=A0=C2=A00x0c5080000980: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd =
+fd
+- Shadow byte legend (one shadow byte represents 8 application bytes):
+- =C2=A0=C2=A0Addressable:           00
+- =C2=A0=C2=A0Partially addressable: 01 02 03 04 05 06 07
+- =C2=A0=C2=A0Heap left redzone:       fa
+- =C2=A0=C2=A0Freed heap region:       fd
+- =C2=A0=C2=A0Stack left redzone:      f1
+- =C2=A0=C2=A0Stack mid redzone:       f2
+- =C2=A0=C2=A0Stack right redzone:     f3
+- =C2=A0=C2=A0Stack after return:      f5
+- =C2=A0=C2=A0Stack use after scope:   f8
+- =C2=A0=C2=A0Global redzone:          f9
+- =C2=A0=C2=A0Global init order:       f6
+- =C2=A0=C2=A0Poisoned by user:        f7
+- =C2=A0=C2=A0Container overflow:      fc
+- =C2=A0=C2=A0Array cookie:            ac
+- =C2=A0=C2=A0Intra object redzone:    bb
+- =C2=A0=C2=A0ASan internal:           fe
+- =C2=A0=C2=A0Left alloca redzone:     ca
+- =C2=A0=C2=A0Right alloca redzone:    cb
+- =3D=3D32048=3D=3DABORTING
+- =
+
+- Thanks.
++ sorry
+
+** Summary changed:
+
+- heap-use-after-free in in nic_reset ../hw/net/eepro100.c:616
++ deleted
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1908369
+
+Title:
+  deleted
+
+Status in QEMU:
+  New
+
+Bug description:
+  sorry
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1908369/+subscriptions
 
