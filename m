@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FDF2DC322
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 16:30:17 +0100 (CET)
-Received: from localhost ([::1]:55430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEB6F2DC35D
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 16:44:41 +0100 (CET)
+Received: from localhost ([::1]:58514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpYkq-0000f1-OC
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 10:30:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41198)
+	id 1kpYym-0005ks-SM
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 10:44:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpYgo-0006kz-35
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:26:06 -0500
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:35205)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpYij-000814-JO
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:28:06 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:40571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpYgj-00077P-Kp
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:26:05 -0500
-Received: by mail-oi1-x22d.google.com with SMTP id s2so27881613oij.2
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 07:26:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpYiD-0007am-AE
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 10:28:05 -0500
+Received: by mail-wr1-x434.google.com with SMTP id 91so23565585wrj.7
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 07:27:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EBiJLFbCoGaT5KSrVznC/DIBoyJXIdpSOQsDldGdams=;
- b=ifATdx7nqBMKPo2KSvxlghEjymbVFPmMgdYzAp8m/wEoPf9L3Vq+E+4OsaO6SQo0Qq
- I9E05FUk/pZnm7LsYaYhHU/GiMcDCTLyaYLGJN/jS9UHIfTM1phDoWeli/561C554qNM
- +r4NvgNF+w6KLxHNEALi0vevV/P4RnlAGCVJmxG7KxOrex5RNHX20F5dZrjrOPkQxHC9
- vMNZP2b5Q4Wu1pJAcSNdYWjG643njSeXmcOem5Ld7aOLq9ImwmiKFOWinsQtV2mkU97z
- fpEUuFIO68U05C0q5pGrH69TcTee7vdxiA8jzwL5LQ4o9OYvuoc4tvqO2lT4P7NYWHJp
- UVsg==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=jcpaazG62LhQ90cdc3PWPJ6Zl4x4OBS9o2V4NArgulI=;
+ b=uz2Rd/o8dwsF0TUUCOj7JPXiyWsM3F60BLCOAB5+FGKm4+OxDuMIYlFyV4R5YdKvT0
+ m/wqVoemVr2iScPSkC+smv6L7Fr8MGMK4OMr+b8HxC9S5ZcyiqOEu2Uz1FAvA1+Zw0ob
+ xmNZOmzLlWdJgGGjdhQRbYX9GIWSwOVw2RhhE/vzymKNyuapNpAwD64eCozzDvO3BUQ8
+ t0pYN6CNlnxoLIhT9X3O/xclH98UdFooKV/a4h+HYJTSwh3rucaE+/yFJWA+O86Xns8U
+ kd5RZRJoasN3H0NqmJf5y4ZGbAxG3Sfyq3lNYbtno/TasFzikw3PwAL1a9ipuqg4gyeW
+ IRng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EBiJLFbCoGaT5KSrVznC/DIBoyJXIdpSOQsDldGdams=;
- b=ofvMDuLn6e3SLVDL30FXWBMKj6bTlWEOZTZRkr+EoJWNOfK9XxPiqX42nXL0vJ91qy
- uKaNZxBz2NHA1EGnrS5W854EX+HDJAbDKT7RqKTkf8r2WAuCOarumcny5UZblALg1MHW
- hIsSmWWNhyf5z+pE2ia2+Gd8nltFMzuQU5oispZu+B/k/5VepdtiNFjHF5EzdVuitoq9
- tc7HsVcDJn/AGC00+awd3C6F36yynQ+WsDrsN6YfPwF0bgPHKaQ+Jl5GSFu1cN9C/4c4
- UgYgrvhv190rbkAVTpL6ZKvGuSBzGtHYS2zQg7Oksm4JqixraFzeN5E9xR1ZAzYGf2SG
- e5KA==
-X-Gm-Message-State: AOAM532Yq4Ump9HzArRN1PU1uPEN12b4jrk6KpEGIIh/AFErZ5kvzkif
- k4UOOvEse2VGVLarfULqx1oxWg==
-X-Google-Smtp-Source: ABdhPJwHG4/HaDrPKlDLJX8nrwNX3DFGmb7GRvHfDZUJHhzWJYYxjG279ov5WlRfkIt0JyeDBdyIjw==
-X-Received: by 2002:aca:ec13:: with SMTP id k19mr2310751oih.97.1608132360448; 
- Wed, 16 Dec 2020 07:26:00 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id s23sm598074oot.0.2020.12.16.07.25.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Dec 2020 07:25:59 -0800 (PST)
-Subject: Re: [PATCH 3/3] trace: do not include TCG helper tracepoints in
- no-TCG builds
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20201216135529.265165-1-pbonzini@redhat.com>
- <20201216135529.265165-4-pbonzini@redhat.com>
- <98e787e4-884b-61c5-bf52-b041f57747c3@linaro.org>
- <a4974b10-ba71-8bd7-e5a9-6eef7543cee4@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <476adc2f-fbff-48a9-78fa-ce64cc3e5f80@linaro.org>
-Date: Wed, 16 Dec 2020 09:25:57 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=jcpaazG62LhQ90cdc3PWPJ6Zl4x4OBS9o2V4NArgulI=;
+ b=Jee1a1YB4brs8lewjS4IWV8xAuOWXoGGjinARCX3ZjkE833zx92taIn3sX5fXEjyXq
+ kjG5jNZbGndUgk7wJNCV7yDFMxNdYsCJkqTRkgxfkmxvmUG1/orwszrchQgsDRevU/cv
+ tw+D3N+3KLSc46hBMBT37cvS2Ot4bFhl3RgqNxQCDtLb1DMGVRwYO4qE6bJrW7odDaLw
+ JmlhJB/Q6SkfWHpn/83YFQny7dC/MRUESQC5tUxXVdvyb0ntMr3r5v+InQnlQicp37JK
+ iyRUNCs08a0Z9kfFxADlR7l250W6cqZJ+lU2nQVmZcqSATgJxQMTbOB1HRhafwN6IlBA
+ MFHQ==
+X-Gm-Message-State: AOAM533HC1VbnKPU8IarZg3Rhw0l2Adl0bZ4bpOJXq1GLyY4755PRoLr
+ o6SLnwvqcTlMOjHrNpf0Bjl11A==
+X-Google-Smtp-Source: ABdhPJx4mYwBzSd81LhdVCscxMuHjFFPlFl6PrJz3lfpywgJtJFNawpWmJEMaKUutDp/06/GypNVyw==
+X-Received: by 2002:adf:fbc5:: with SMTP id d5mr7461696wrs.82.1608132450811;
+ Wed, 16 Dec 2020 07:27:30 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c4sm3863794wrw.72.2020.12.16.07.27.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Dec 2020 07:27:29 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AE79F1FF7E;
+ Wed, 16 Dec 2020 15:27:28 +0000 (GMT)
+References: <20201210190417.31673-1-alex.bennee@linaro.org>
+ <20201210190417.31673-4-alex.bennee@linaro.org>
+ <873605u92a.fsf@linaro.org>
+ <ca2f983f-0b67-37d6-c853-a239105c7e40@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2 3/8] configure: move gettext detection to meson.build
+Date: Wed, 16 Dec 2020 15:27:02 +0000
+In-reply-to: <ca2f983f-0b67-37d6-c853-a239105c7e40@redhat.com>
+Message-ID: <87zh2dsrdr.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <a4974b10-ba71-8bd7-e5a9-6eef7543cee4@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22d.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,30 +89,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, f4bug@amsat.org,
+ cota@braap.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/20 9:22 AM, Paolo Bonzini wrote:
-> On 16/12/20 16:13, Richard Henderson wrote:
->>> @@ -71,7 +71,7 @@ foreach d : [
->>>                   input: meson.project_source_root() / 'trace-events',
->>>                   command: [ tracetool, '--group=root',
->>> '--format=@0@'.format(d[1]), '@INPUT@' ],
->>>                   capture: true)
->>> -  specific_ss.add(gen)
->>> +  specific_ss.add(when: 'CONFIG_TCG', if_true: gen)
->>>   endforeach
->>
->> Sure, unless it makes more sense to conditionalize the entire loop, so that
->> those targets aren't even created?
-> 
-> The targets exist but the files won't be created (the rules will be in
-> build.ninja but they'll be orphan).
 
-Yes, I get that.  So... is there a reason for them to be there, when it seems
-just as easy for them not to be?
+Paolo Bonzini <pbonzini@redhat.com> writes:
+
+> On 16/12/20 15:19, Alex Benn=C3=A9e wrote:
+>>=20
+>> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>>=20
+>>> This will allow meson to honour -Dauto_features=3Ddisabled later.
+>>>
+>>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>=20
+>> ping Paolo, are you happy with this bit?
+>
+> Yes, I'm so happy with this and the --with-default-features parts that I=
+=20
+> was going to include it in my next pull request. :)
+
+I'm putting together an testing one now (as there is a testing update as
+well).
+
+>
+> Series
+>
+> Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+>
+> Paolo
+>
+>>> ---
+>>>   configure         | 19 +++----------------
+>>>   meson_options.txt |  2 +-
+>>>   po/meson.build    |  2 +-
+>>>   3 files changed, 5 insertions(+), 18 deletions(-)
+>>>
+>>> diff --git a/configure b/configure
+>>> index 8f2095a2db..46fdea88c7 100755
+>>> --- a/configure
+>>> +++ b/configure
+>>> @@ -448,7 +448,7 @@ libdaxctl=3D""
+>>>   meson=3D""
+>>>   ninja=3D""
+>>>   skip_meson=3Dno
+>>> -gettext=3D""
+>>> +gettext=3D"auto"
+>>>=20=20=20
+>>>   bogus_os=3D"no"
+>>>   malloc_trim=3D"auto"
+>>> @@ -1014,9 +1014,9 @@ for opt do
+>>>     ;;
+>>>     --enable-vnc) vnc=3D"enabled"
+>>>     ;;
+>>> -  --disable-gettext) gettext=3D"false"
+>>> +  --disable-gettext) gettext=3D"disabled"
+>>>     ;;
+>>> -  --enable-gettext) gettext=3D"true"
+>>> +  --enable-gettext) gettext=3D"enabled"
+>>>     ;;
+>>>     --oss-lib=3D*) oss_lib=3D"$optarg"
+>>>     ;;
+>>> @@ -2839,19 +2839,6 @@ if test "$xen_pci_passthrough" !=3D "disabled"; =
+then
+>>>     fi
+>>>   fi
+>>>=20=20=20
+>>> -##########################################
+>>> -# gettext probe
+>>> -if test "$gettext" !=3D "false" ; then
+>>> -  if has xgettext; then
+>>> -    gettext=3Dtrue
+>>> -  else
+>>> -    if test "$gettext" =3D "true" ; then
+>>> -      feature_not_found "gettext" "Install xgettext binary"
+>>> -    fi
+>>> -    gettext=3Dfalse
+>>> -  fi
+>>> -fi
+>>> -
+>>>   ##########################################
+>>>   # X11 probe
+>>>   if $pkg_config --exists "x11"; then
+>>> diff --git a/meson_options.txt b/meson_options.txt
+>>> index f6f64785fe..191e848600 100644
+>>> --- a/meson_options.txt
+>>> +++ b/meson_options.txt
+>>> @@ -9,7 +9,7 @@ option('sphinx_build', type : 'string', value : '',
+>>>=20=20=20
+>>>   option('docs', type : 'feature', value : 'auto',
+>>>          description: 'Documentations build support')
+>>> -option('gettext', type : 'boolean', value : true,
+>>> +option('gettext', type : 'feature', value : 'auto',
+>>>          description: 'Localization of the GTK+ user interface')
+>>>   option('install_blobs', type : 'boolean', value : true,
+>>>          description: 'install provided firmware blobs')
+>>> diff --git a/po/meson.build b/po/meson.build
+>>> index 1387fd979a..a863f0575f 100644
+>>> --- a/po/meson.build
+>>> +++ b/po/meson.build
+>>> @@ -1,6 +1,6 @@
+>>>   i18n =3D import('i18n')
+>>>=20=20=20
+>>> -if get_option('gettext')
+>>> +if find_program('xgettext', required: get_option('gettext')).found()
+>>>     i18n.gettext(meson.project_name(),
+>>>                  args: '--msgid-bugs-address=3Dqemu-devel@nongnu.org',
+>>>                  preset: 'glib')
+>>=20
+>>=20
 
 
-r~
+--=20
+Alex Benn=C3=A9e
 
