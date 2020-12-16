@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8562DC5EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 19:07:34 +0100 (CET)
-Received: from localhost ([::1]:41420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1982DC5FA
+	for <lists+qemu-devel@lfdr.de>; Wed, 16 Dec 2020 19:12:48 +0100 (CET)
+Received: from localhost ([::1]:45286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpbD3-0006IO-8Z
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 13:07:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58430)
+	id 1kpbI6-00087q-Ug
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 13:12:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpbB9-0005Dq-KZ
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 13:05:37 -0500
-Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:34435)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kpbH2-0007ft-RT
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 13:11:40 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:36588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpbB6-0006nr-Sx
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 13:05:35 -0500
-Received: by mail-ot1-x32d.google.com with SMTP id a109so23848512otc.1
- for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 10:05:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7CGCSff3VEKRV2nP/08rGbxv5YE6OT4TSr8+RbKmF64=;
- b=KIyVRP2OqGJAHcLn94mT1YcytMX9kP1b2pPVtqPdyjDlaaTY8ZLwd6fWLmIKxlzyWG
- PmkDQX1FoXx769KKl4jZZm/VaKbuuhX4VTx0Qnqf6yvCEhFAzANONFA2YjmVdIck+J/h
- lwJwA+OP/ocStrzMgl8SyFfdbXhXJdN1GAGbN2Q+/J+X5V5lsNrU/zFtYcymbY6NVK2J
- kb7kkxl1chDExj+8EgfhvaBNe7JcuNvViR+zsz6m+rxzrhsC2wZUlPSSZUZSt8d1+n1y
- YeDTRYQrkbalDn43OqQtv2lM6t2mYCBENy4TRTuN1CTNeaSUm5QaoDdfTEfT+wT5J4k4
- vGcQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kpbH1-0007TL-ES
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 13:11:40 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id y23so3330241wmi.1
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 10:11:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=pYdidEMO64K0L8F96ZsATuX9T2nfpTIncULIMJRvJKI=;
+ b=Rcix18/8ImQqY7+948tQ3VW97HW/JHh/U8EBsGkP/6XRcV/YPsPwRqEBUp++e13iER
+ qIWQeW2D5xHbwPS2VQ/QvUcmn4XM6ysCrG9t+pM+l4UfOXyio9Mq6MDR9YMeRkVY8b/M
+ Ck9/Gw1eOjnkPqTk4QJPmBkJpdVWlJWhyP/ert++Ip6ytBkDsWnl2uaiept257+D3mgY
+ 1mp8W7gOPEDahj7wiU0b6v1YeVsi9yhlvpfFw5RT1kSSOIIsuqX5q6iDiK0jS9kGXBgP
+ 3T+1YOCShb5pfVmylTNL9sGjIvtj9oOUQF7MUK4MQnme1LcaDD41FQ+4RLvMH7BsN5MK
+ p0eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7CGCSff3VEKRV2nP/08rGbxv5YE6OT4TSr8+RbKmF64=;
- b=QYnskRfImM/zg14EzxelsSgOh0XYiyiYVuRMbqUQN6k03hFYIB3woL37HFHUeKip2a
- VZqfgGSTXz05qi3oJad8RqTW47MbohAA3EotWN+eR/BX76T+iaVwqTVlAvbifcuWpmUh
- icj2EzE/35G4JUNM02ryQgnoK6GVoNQIWRoYh9hwguyNBVNTsmwqhoSCP8a7BP4WYA91
- 7GPvnhm4IpAaicT4gkJDJb2//fyujTNSN5y9sIfZmw4NSMpS572WknHhC8uzCB4uFwJw
- /JAfziQAoEXprJwWVSXTzptBSNtscYV+NvoVekc4COnphrH2EGLZWSbhUjzwxjw9G1n0
- klZg==
-X-Gm-Message-State: AOAM530Rw5WPS+1oxp0IDro3Ro0hiRrhzqHPG9mw82QWUMJShzLhjNWP
- vtx0zK9Qupn5Dc9oOSp6VZwzHTsqlMjp1DTN
-X-Google-Smtp-Source: ABdhPJycTa6OTDD+KXqXQ8WIHD01ohCTMuzu5pyNdk/6mhYyE2mQSux+/4LvO1vNrCmK0Kc8f+CJgg==
-X-Received: by 2002:a9d:372:: with SMTP id 105mr22670819otv.118.1608141931247; 
- Wed, 16 Dec 2020 10:05:31 -0800 (PST)
-Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id s23sm707304oot.0.2020.12.16.10.05.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Dec 2020 10:05:30 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg: Add tcg_gen_bswap_tl alias
-Date: Wed, 16 Dec 2020 12:05:28 -0600
-Message-Id: <20201216180528.187152-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ bh=pYdidEMO64K0L8F96ZsATuX9T2nfpTIncULIMJRvJKI=;
+ b=C8O8HAp8fredpF4cIDiO6VN/aDKI9qkXx6hLp81EowdTv1lWPSGiERnUyMUj5hOkXN
+ MQddVoOyGrAn6ndscvuyNZ1MaUa9beD5WI9SrP6rZm4WOqm0rkcd82hxvQxGhGleQgoG
+ zDKjqzs8XIKoFhJRch2JZhGufkhCNvLiOiv9uHqRap5GfC63yBeBet8hFb4HQG7mSRaV
+ cJb0L2UIbXJ3thlemjeqQuPpzz7eloDcVn0ag9I1Joa7KUKLv730ckqCfGGMFU/rEFzf
+ 2Vy7JFCXoErc9g2bNbVM81fKT0lmkm7S2A7zsWJO5k23FsnFtLS3yV1heZQaG0ri++Sz
+ iXcQ==
+X-Gm-Message-State: AOAM5319A5K9q9eCUzab0mvAs1Rop85CZ2fS0itS3r52jVSY2RKASAzy
+ mC2QLYC0ASO/OEY3FekWjQI=
+X-Google-Smtp-Source: ABdhPJzIl5XiC7OHpGqKR2NFgcQjClDZWNLKBcl42n5L/MNhWYIoJhoHCEyCY0duWTqJtiA7+dA2Hg==
+X-Received: by 2002:a1c:17:: with SMTP id 23mr4535550wma.35.1608142297466;
+ Wed, 16 Dec 2020 10:11:37 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id d8sm3803960wmb.11.2020.12.16.10.11.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 16 Dec 2020 10:11:36 -0800 (PST)
+Subject: Re: [PATCH V18 3/5] hw/mips: Add Loongson-3 boot parameter helpers
+To: Huacai Chen <chenhuacai@kernel.org>
+References: <20201215125716.477023-1-chenhuacai@kernel.org>
+ <20201215125716.477023-4-chenhuacai@kernel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <47ebfcd8-cfa9-f45a-dc66-f936681fc5e5@amsat.org>
+Date: Wed, 16 Dec 2020 19:11:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <20201215125716.477023-4-chenhuacai@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32d;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,39 +89,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: frank.chang@sifive.com
+Cc: Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The alias is intended to indicate that the bswap is for the
-entire target_long.  This should avoid ifdefs on some targets.
+Hi Huacai,
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/tcg/tcg-op.h | 2 ++
- 1 file changed, 2 insertions(+)
+On 12/15/20 1:57 PM, Huacai Chen wrote:
+> Preparing to add Loongson-3 machine support, add Loongson-3's LEFI (a
+> UEFI-like interface for BIOS-Kernel boot parameters) helpers first.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
+> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>  hw/mips/loongson3_bootp.c | 151 ++++++++++++++++++++++++
+>  hw/mips/loongson3_bootp.h | 241 ++++++++++++++++++++++++++++++++++++++
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index 5abf17fecc..5b3bdacc39 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -1085,6 +1085,7 @@ void tcg_gen_stl_vec(TCGv_vec r, TCGv_ptr base, TCGArg offset, TCGType t);
- #define tcg_gen_bswap16_tl tcg_gen_bswap16_i64
- #define tcg_gen_bswap32_tl tcg_gen_bswap32_i64
- #define tcg_gen_bswap64_tl tcg_gen_bswap64_i64
-+#define tcg_gen_bswap_tl tcg_gen_bswap64_i64
- #define tcg_gen_concat_tl_i64 tcg_gen_concat32_i64
- #define tcg_gen_extr_i64_tl tcg_gen_extr32_i64
- #define tcg_gen_andc_tl tcg_gen_andc_i64
-@@ -1197,6 +1198,7 @@ void tcg_gen_stl_vec(TCGv_vec r, TCGv_ptr base, TCGArg offset, TCGType t);
- #define tcg_gen_ext32s_tl tcg_gen_mov_i32
- #define tcg_gen_bswap16_tl tcg_gen_bswap16_i32
- #define tcg_gen_bswap32_tl tcg_gen_bswap32_i32
-+#define tcg_gen_bswap_tl tcg_gen_bswap32_i32
- #define tcg_gen_concat_tl_i64 tcg_gen_concat_i32_i64
- #define tcg_gen_extr_i64_tl tcg_gen_extr_i64_i32
- #define tcg_gen_andc_tl tcg_gen_andc_i32
--- 
-2.25.1
+I plan to add these to "Loongson-3 virtual platforms"
+in MAINTAINERS, is that OK with you?
 
+>  hw/mips/meson.build       |   1 +
+>  3 files changed, 393 insertions(+)
+>  create mode 100644 hw/mips/loongson3_bootp.c
+>  create mode 100644 hw/mips/loongson3_bootp.h
 
