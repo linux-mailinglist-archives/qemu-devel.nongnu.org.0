@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2BD72DCCFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 08:33:03 +0100 (CET)
-Received: from localhost ([::1]:38400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD702DCD08
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 08:44:49 +0100 (CET)
+Received: from localhost ([::1]:45636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpnmY-0008R8-CU
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 02:33:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49494)
+	id 1kpnxw-0003ge-84
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 02:44:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tu.guoyi@h3c.com>) id 1kpnkE-0007fF-Ld
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 02:30:38 -0500
-Received: from smtp.h3c.com ([60.191.123.56]:52037 helo=h3cspam01-ex.h3c.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tu.guoyi@h3c.com>) id 1kpnk8-0004PN-0q
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 02:30:38 -0500
-Received: from DAG2EX10-IDC.srv.huawei-3com.com ([10.8.0.73])
- by h3cspam01-ex.h3c.com with ESMTP id 0BH7Tdfl067947;
- Thu, 17 Dec 2020 15:29:40 +0800 (GMT-8)
- (envelope-from tu.guoyi@h3c.com)
-Received: from DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) by
- DAG2EX10-IDC.srv.huawei-3com.com (10.8.0.73) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Thu, 17 Dec 2020 15:29:42 +0800
-Received: from DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074])
- by DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074%7])
- with mapi id 15.01.2106.002; Thu, 17 Dec 2020 15:29:42 +0800
-From: Tuguoyi <tu.guoyi@h3c.com>
-To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Subject: RE: [PATCH v3] migration: Don't allow migration if vm is in
- POSTMIGRATE
-Thread-Topic: [PATCH v3] migration: Don't allow migration if vm is in
- POSTMIGRATE
-Thread-Index: AdbNA412vEo+hmt0TmuQR+h7GaeR1gA79n2AAZSRXGA=
-Date: Thu, 17 Dec 2020 07:29:42 +0000
-Message-ID: <9653de6ebacb4b0ea42cf7d2e6d68d84@h3c.com>
-References: <6b704294ad2e405781c38fb38d68c744@h3c.com>
- <CAM9Jb+jhfBqFurCQj_XpoP0cEOU9oiZcO9xrWm3GA3NAxcCdEg@mail.gmail.com>
-In-Reply-To: <CAM9Jb+jhfBqFurCQj_XpoP0cEOU9oiZcO9xrWm3GA3NAxcCdEg@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.125.108.131]
-x-sender-location: DAG2
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1kpnws-0003Gt-8p
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 02:43:42 -0500
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:46042)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1kpnwq-0000h5-Ji
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 02:43:42 -0500
+Received: by mail-il1-x12d.google.com with SMTP id w12so744086ilm.12
+ for <qemu-devel@nongnu.org>; Wed, 16 Dec 2020 23:43:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FRJB+OYXrg2hITJBDmlWmXexDtNHWPri9PE4fhBKc7M=;
+ b=LL9fia6VXPMLq3hV3OTObJrf7+zr5IJghDz/YEI9SGupNj5+MP6FfUtauzA1TC3SpZ
+ dbog/eq3pSHeljpsQJ/ycahnU+7n6WsgT9FcU49LzeOy/6+bgHQ7OBhHBavYLrpmcN9s
+ EsLs11m5dQBP6U90k0Vlxqcuy0s3Q9e/2b1JpKnmJ4RiukpYAEIfsBMfPZm+S0FHUji8
+ 7JsmNT95JUQDco8xDKx6y2uDwpm/geaXNflsFpQXId87syx0SmuQoUi7Mtu9+fG0gbdj
+ +Uo1idZ5KxI8gWGj5xcXmG/HJ4Z9bvJGAxITDnFvim51pxG/vTH8kVE/ZBqdzJ0j8NUR
+ dVIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FRJB+OYXrg2hITJBDmlWmXexDtNHWPri9PE4fhBKc7M=;
+ b=cnrrZzruWxKI7kjNAcqFqPAfgKfUb7WcgfbkTzn0uh06Uo130bRlWFxz+/SU6JbY1p
+ KhN0Ho5M3jsSAWncUFpYjYpfSr0EP3TET2UNYaKcOzRHZslTwiUdREHsZa/xjiycOO/V
+ 0LihFTPvskKdVQcr+A7z59MXz5gMn3jufmWmfHDXldm6qL3ksi/4E2NV3GDltOXo1iBF
+ WP95fIICOtQkkpo+LpUVck3Hy9UDVuA1rbeEw3SD1cXpd2VoBYQo9XAtbswPido4R0NB
+ WMr4ZgmdKsNzY2tMcjNdqqTjNgfOAlvkvMBvQpIc0G3WX/3bDyZzFmeZXkEArKnnLnNa
+ 0y0Q==
+X-Gm-Message-State: AOAM530Ly+HQjNd8lNuyNcrKDbzYtmHRybaZSbBrDC9ohTvvrSL1peBy
+ WhpGXiHZxN7p+Ql5IHZJA9CtunnhLC+LN83LZ+o=
+X-Google-Smtp-Source: ABdhPJzA7Rn8X4ZXfmmT+1T0b8FOi1mPjV/aLxTnFMVNOpywtitGbIzgNy02nHdKvZARUULqfx7fmxp8XT/C75Dhjcw=
+X-Received: by 2002:a92:9eda:: with SMTP id s87mr26001105ilk.85.1608191019214; 
+ Wed, 16 Dec 2020 23:43:39 -0800 (PST)
 MIME-Version: 1.0
-X-DNSRBL: 
-X-MAIL: h3cspam01-ex.h3c.com 0BH7Tdfl067947
-Received-SPF: pass client-ip=60.191.123.56; envelope-from=tu.guoyi@h3c.com;
- helo=h3cspam01-ex.h3c.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20201216141200.118742-1-david@redhat.com>
+ <20201216141200.118742-5-david@redhat.com>
+In-Reply-To: <20201216141200.118742-5-david@redhat.com>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Thu, 17 Dec 2020 08:43:27 +0100
+Message-ID: <CAM9Jb+jD6iLQ5RVWrN9DcKX7Kg3D1-qEdwb5OOmYd2diWxoqOQ@mail.gmail.com>
+Subject: Re: [PATCH v3 04/10] vfio: Query and store the maximum number of DMA
+ mappings
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-il1-x12d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,84 +78,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>,
- "tuguoyi@outlook.com" <tuguoyi@outlook.com>,
- Juan Quintela <quintela@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Li Zhang <li.zhang@cloud.ionos.com>
+Cc: Marek Kedzierski <mkedzier@redhat.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ teawater <teawaterz@linux.alibaba.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGluZy4gDQpJdCBzZWVtcyBubyBvbmUgaGFuZGxlIHRoaXMgcGF0Y2guIA0KDQoNCj4gLS0tLS1P
-cmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGFua2FqIEd1cHRhIFttYWlsdG86cGFua2Fq
-Lmd1cHRhLmxpbnV4QGdtYWlsLmNvbV0NCj4gU2VudDogV2VkbmVzZGF5LCBEZWNlbWJlciAwOSwg
-MjAyMCAxMDoyMSBQTQ0KPiBUbzogdHVndW95aSAoQ2xvdWQpIDx0dS5ndW95aUBoM2MuY29tPg0K
-PiBDYzogSnVhbiBRdWludGVsYSA8cXVpbnRlbGFAcmVkaGF0LmNvbT47IERyLiBEYXZpZCBBbGFu
-IEdpbGJlcnQNCj4gPGRnaWxiZXJ0QHJlZGhhdC5jb20+OyB2c2VtZW50c292QHZpcnR1b3p6by5j
-b207DQo+IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsgTGkgWmhhbmcgPGxpLnpoYW5nQGNsb3VkLmlv
-bm9zLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2M10gbWlncmF0aW9uOiBEb24ndCBhbGxv
-dyBtaWdyYXRpb24gaWYgdm0gaXMgaW4NCj4gUE9TVE1JR1JBVEUNCj4gDQo+ID4gVGhlIGZvbGxv
-d2luZyBzdGVwcyB3aWxsIGNhdXNlIHFlbXUgYXNzZXJ0aW9uIGZhaWx1cmU6DQo+ID4gLSBwYXVz
-ZSB2bSBieSBleGVjdXRpbmcgJ3ZpcnNoIHN1c3BlbmQnDQo+ID4gLSBjcmVhdGUgZXh0ZXJuYWwg
-c25hcHNob3Qgb2YgbWVtb3J5IGFuZCBkaXNrIHVzaW5nICd2aXJzaA0KPiBzbmFwc2hvdC1jcmVh
-dGUtYXMnDQo+ID4gLSBkb2luZyB0aGUgYWJvdmUgb3BlcmF0aW9uIGFnYWluIHdpbGwgY2F1c2Ug
-cWVtdSBjcmFzaA0KPiA+DQo+ID4gVGhlIGJhY2t0cmFjZSBsb29rcyBsaWtlOg0KPiA+ICMwICAw
-eDAwMDA3ZmJmOTU4YzVjMzcgaW4gcmFpc2UgKCkgZnJvbSAvbGliL3g4Nl82NC1saW51eC1nbnUv
-bGliYy5zby42DQo+ID4gIzEgIDB4MDAwMDdmYmY5NThjOTAyOCBpbiBhYm9ydCAoKSBmcm9tIC9s
-aWIveDg2XzY0LWxpbnV4LWdudS9saWJjLnNvLjYNCj4gPiAjMiAgMHgwMDAwN2ZiZjk1OGJlYmY2
-IGluID8/ICgpIGZyb20gL2xpYi94ODZfNjQtbGludXgtZ251L2xpYmMuc28uNg0KPiA+ICMzICAw
-eDAwMDA3ZmJmOTU4YmVjYTIgaW4gX19hc3NlcnRfZmFpbCAoKSBmcm9tDQo+IC9saWIveDg2XzY0
-LWxpbnV4LWdudS9saWJjLnNvLjYNCj4gPiAjNCAgMHgwMDAwNTVjYThkZWNkMzlkIGluIGJkcnZf
-aW5hY3RpdmF0ZV9yZWN1cnNlIChicz0weDU1Y2E5MGM4MDQwMCkNCj4gYXQgL2J1aWxkL3FlbXUt
-NS4wL2Jsb2NrLmM6NTcyNA0KPiA+ICM1ICAweDAwMDA1NWNhOGRlY2U5NjcgaW4gYmRydl9pbmFj
-dGl2YXRlX2FsbCAoKSBhdA0KPiAvYnVpbGQvL3FlbXUtNS4wL2Jsb2NrLmM6NTc5Mg0KPiA+ICM2
-ICAweDAwMDA1NWNhOGRlNTUzOWQgaW4NCj4gcWVtdV9zYXZldm1fc3RhdGVfY29tcGxldGVfcHJl
-Y29weV9ub25faXRlcmFibGUgKGluYWN0aXZhdGVfZGlza3M9dHJ1ZSwNCj4gaW5fcG9zdGNvcHk9
-ZmFsc2UsIGY9MHg1NWNhOTA3MDQ0YjApDQo+ID4gICAgIGF0IC9idWlsZC9xZW11LTUuMC9taWdy
-YXRpb24vc2F2ZXZtLmM6MTQwMQ0KPiA+ICM3ICBxZW11X3NhdmV2bV9zdGF0ZV9jb21wbGV0ZV9w
-cmVjb3B5IChmPTB4NTVjYTkwNzA0NGIwLA0KPiBpdGVyYWJsZV9vbmx5PWl0ZXJhYmxlX29ubHlA
-ZW50cnk9ZmFsc2UsDQo+IGluYWN0aXZhdGVfZGlza3M9aW5hY3RpdmF0ZV9kaXNrc0BlbnRyeT10
-cnVlKQ0KPiA+ICAgICBhdCAvYnVpbGQvcWVtdS01LjAvbWlncmF0aW9uL3NhdmV2bS5jOjE0NTMN
-Cj4gPiAjOCAgMHgwMDAwNTVjYThkZTRmNTgxIGluIG1pZ3JhdGlvbl9jb21wbGV0aW9uIChzPTB4
-NTVjYThmNjRkOWYwKSBhdA0KPiAvYnVpbGQvcWVtdS01LjAvbWlncmF0aW9uL21pZ3JhdGlvbi5j
-OjI5NDENCj4gPiAjOSAgbWlncmF0aW9uX2l0ZXJhdGlvbl9ydW4gKHM9MHg1NWNhOGY2NGQ5ZjAp
-IGF0DQo+IC9idWlsZC9xZW11LTUuMC9taWdyYXRpb24vbWlncmF0aW9uLmM6MzI5NQ0KPiA+ICMx
-MCBtaWdyYXRpb25fdGhyZWFkIChvcGFxdWU9b3BhcXVlQGVudHJ5PTB4NTVjYThmNjRkOWYwKSBh
-dA0KPiAvYnVpbGQvcWVtdS01LjAvbWlncmF0aW9uL21pZ3JhdGlvbi5jOjM0NTkNCj4gPiAjMTEg
-MHgwMDAwNTVjYThkZmM2NzE2IGluIHFlbXVfdGhyZWFkX3N0YXJ0IChhcmdzPTxvcHRpbWl6ZWQg
-b3V0PikgYXQNCj4gL2J1aWxkL3FlbXUtNS4wL3V0aWwvcWVtdS10aHJlYWQtcG9zaXguYzo1MTkN
-Cj4gPiAjMTIgMHgwMDAwN2ZiZjk1YzVmMTg0IGluIHN0YXJ0X3RocmVhZCAoKSBmcm9tDQo+IC9s
-aWIveDg2XzY0LWxpbnV4LWdudS9saWJwdGhyZWFkLnNvLjANCj4gPiAjMTMgMHgwMDAwN2ZiZjk1
-OThjYmVkIGluIGNsb25lICgpIGZyb20gL2xpYi94ODZfNjQtbGludXgtZ251L2xpYmMuc28uNg0K
-PiA+DQo+ID4gV2hlbiB0aGUgZmlyc3QgbWlncmF0aW9uIGNvbXBsZXRlcywgYnMtPm9wZW5fZmxh
-Z3Mgd2lsbCBzZXQNCj4gQkRSVl9PX0lOQUNUSVZFDQo+ID4gZmxhZyBieSBiZHJ2X2luYWN0aXZh
-dGVfYWxsKCksIGFuZCBkdXJpbmcgdGhlIHNlY29uZCBtaWdyYXRpb24gdGhlDQo+ID4gYmRydl9p
-bmFjdGl2YXRlX3JlY3Vyc2UgYXNzZXJ0IHRoYXQgdGhlIGJzLT5vcGVuX2ZsYWdzIGlzIGFscmVh
-ZHkNCj4gPiBCRFJWX09fSU5BQ1RJVkUgZW5hYmxlZCB3aGljaCBjYXVzZSBjcmFzaC4NCj4gPg0K
-PiA+IEFzIFZsYWRpbWlyIHN1Z2dlc3RlZCwgdGhpcyBwYXRjaCBtYWtlcyBtaWdyYXRlX3ByZXBh
-cmUgY2hlY2sgdGhlIHN0YXRlIG9mDQo+IHZtIGFuZA0KPiA+IHJldHVybiBlcnJvciBpZiBpdCBp
-cyBpbiBSVU5fU1RBVEVfUE9TVE1JR1JBVEUgc3RhdGUuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5
-OiBUdWd1b3lpIDx0dS5ndW95aUBoM2MuY29tPg0KPiBTaW1pbGFyIGlzc3VlIGlzIHJlcG9ydGVk
-IGJ5IExpIFpoYW5nKCtDQykgd2l0aCBhbG1vc3Qgc2FtZSBwYXRjaFszXQ0KPiB0byBmaXggdGhp
-cy4NCj4gDQo+IFJlcG9ydGVkLWJ5OiBMaSBaaGFuZyA8bGkuemhhbmdAY2xvdWQuaW9ub3MuY29t
-Pg0KPiBSZXZpZXdlZC1ieTogUGFua2FqIEd1cHRhIDxwYW5rYWouZ3VwdGFAY2xvdWQuaW9ub3Mu
-Y29tPg0KPiANCj4gWzNdIGh0dHBzOi8vbWFyYy5pbmZvLz9sPXFlbXUtZGV2ZWwmbT0xNjA3NDk4
-NTk4MzEzNTcmdz0yDQo+ID4gLS0tDQo+ID4gIG1pZ3JhdGlvbi9taWdyYXRpb24uYyB8IDYgKysr
-KysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykNCj4gPg0KPiA+IGRpZmYg
-LS1naXQgYS9taWdyYXRpb24vbWlncmF0aW9uLmMgYi9taWdyYXRpb24vbWlncmF0aW9uLmMNCj4g
-PiBpbmRleCA4N2E5YjU5Li41ZTMzOTYyIDEwMDY0NA0KPiA+IC0tLSBhL21pZ3JhdGlvbi9taWdy
-YXRpb24uYw0KPiA+ICsrKyBiL21pZ3JhdGlvbi9taWdyYXRpb24uYw0KPiA+IEBAIC0yMTE1LDYg
-KzIxMTUsMTIgQEAgc3RhdGljIGJvb2wgbWlncmF0ZV9wcmVwYXJlKE1pZ3JhdGlvblN0YXRlICpz
-LA0KPiBib29sIGJsaywgYm9vbCBibGtfaW5jLA0KPiA+ICAgICAgICAgIHJldHVybiBmYWxzZTsN
-Cj4gPiAgICAgIH0NCj4gPg0KPiA+ICsgICAgaWYgKHJ1bnN0YXRlX2NoZWNrKFJVTl9TVEFURV9Q
-T1NUTUlHUkFURSkpIHsNCj4gPiArICAgICAgICBlcnJvcl9zZXRnKGVycnAsICJDYW4ndCBtaWdy
-YXRlIHRoZSB2bSB0aGF0IHdhcyBwYXVzZWQgZHVlIHRvICINCj4gPiArICAgICAgICAgICAgICAg
-ICAgICJwcmV2aW91cyBtaWdyYXRpb24iKTsNCj4gPiArICAgICAgICByZXR1cm4gZmFsc2U7DQo+
-ID4gKyAgICB9DQo+ID4gKw0KPiA+ICAgICAgaWYgKG1pZ3JhdGlvbl9pc19ibG9ja2VkKGVycnAp
-KSB7DQo+ID4gICAgICAgICAgcmV0dXJuIGZhbHNlOw0KPiA+ICAgICAgfQ0KPiA+IC0tDQo+ID4g
-Mi43LjQNCj4gPg0KPiA+IFtQYXRjaCB2Ml06DQo+IGh0dHBzOi8vbGlzdHMuZ251Lm9yZy9hcmNo
-aXZlL2h0bWwvcWVtdS1kZXZlbC8yMDIwLTEyL21zZzAxMzE4Lmh0bWwNCj4gPiBbUGF0Y2ggdjFd
-Og0KPiBodHRwczovL2xpc3RzLmdudS5vcmcvYXJjaGl2ZS9odG1sL3FlbXUtZGV2ZWwvMjAyMC0x
-MS9tc2cwNTk1MC5odG1sDQo=
+> Let's query the maximum number of DMA mappings by querying the available
+> mappings when creating the container.
+>
+> In addition, count the number of DMA mappings and warn when we would
+> exceed it. This is a preparation for RamDiscardMgr which might
+> create quite some DMA mappings over time, and we at least want to warn
+> early that the QEMU setup might be problematic. Use "reserved"
+> terminology, so we can use this to reserve mappings before they are
+> actually created.
+>
+> Note: don't reserve vIOMMU DMA mappings - using the vIOMMU region size
+> divided by the mapping page size might be a bad indication of what will
+> happen in practice - we might end up warning all the time.
+>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Auger Eric <eric.auger@redhat.com>
+> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+> Cc: teawater <teawaterz@linux.alibaba.com>
+> Cc: Marek Kedzierski <mkedzier@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  hw/vfio/common.c              | 34 ++++++++++++++++++++++++++++++++++
+>  include/hw/vfio/vfio-common.h |  2 ++
+>  2 files changed, 36 insertions(+)
+>
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 6ff1daa763..5ad88d476f 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -288,6 +288,26 @@ const MemoryRegionOps vfio_region_ops = {
+>      },
+>  };
+>
+> +static void vfio_container_dma_reserve(VFIOContainer *container,
+> +                                       unsigned long dma_mappings)
+> +{
+> +    bool warned = container->dma_reserved > container->dma_max;
+> +
+> +    container->dma_reserved += dma_mappings;
+> +    if (!warned && container->dma_max &&
+> +        container->dma_reserved > container->dma_max) {
+> +        warn_report("%s: possibly running out of DMA mappings. "
+> +                    " Maximum number of DMA mappings: %d", __func__,
+> +                    container->dma_max);
+> +    }
+> +}
+> +
+> +static void vfio_container_dma_unreserve(VFIOContainer *container,
+> +                                         unsigned long dma_mappings)
+> +{
+> +    container->dma_reserved -= dma_mappings;
+> +}
+> +
+>  /*
+>   * Device state interfaces
+>   */
+> @@ -835,6 +855,9 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>          }
+>      }
+>
+> +    /* We'll need one DMA mapping. */
+> +    vfio_container_dma_reserve(container, 1);
+> +
+>      ret = vfio_dma_map(container, iova, int128_get64(llsize),
+>                         vaddr, section->readonly);
+>      if (ret) {
+> @@ -879,6 +902,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>                                       MemoryRegionSection *section)
+>  {
+>      VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+> +    bool unreserve_on_unmap = true;
+>      hwaddr iova, end;
+>      Int128 llend, llsize;
+>      int ret;
+> @@ -919,6 +943,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>           * based IOMMU where a big unmap flattens a large range of IO-PTEs.
+>           * That may not be true for all IOMMU types.
+>           */
+> +        unreserve_on_unmap = false;
+>      }
+>
+>      iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
+> @@ -970,6 +995,11 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>                           "0x%"HWADDR_PRIx") = %d (%m)",
+>                           container, iova, int128_get64(llsize), ret);
+>          }
+> +
+> +        /* We previously reserved one DMA mapping. */
+> +        if (unreserve_on_unmap) {
+> +            vfio_container_dma_unreserve(container, 1);
+> +        }
+>      }
+>
+>      memory_region_unref(section->mr);
+> @@ -1735,6 +1765,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>      container->fd = fd;
+>      container->error = NULL;
+>      container->dirty_pages_supported = false;
+> +    container->dma_max = 0;
+>      QLIST_INIT(&container->giommu_list);
+>      QLIST_INIT(&container->hostwin_list);
+>
+> @@ -1765,7 +1796,10 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>          vfio_host_win_add(container, 0, (hwaddr)-1, info->iova_pgsizes);
+>          container->pgsizes = info->iova_pgsizes;
+>
+> +        /* The default in the kernel ("dma_entry_limit") is 65535. */
+> +        container->dma_max = 65535;
+>          if (!ret) {
+> +            vfio_get_info_dma_avail(info, &container->dma_max);
+>              vfio_get_iommu_info_migration(container, info);
+>          }
+>          g_free(info);
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index 6141162d7a..fed0e85f66 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -88,6 +88,8 @@ typedef struct VFIOContainer {
+>      uint64_t dirty_pgsizes;
+>      uint64_t max_dirty_bitmap_size;
+>      unsigned long pgsizes;
+> +    unsigned int dma_max;
+> +    unsigned long dma_reserved;
+>      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
+>      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
+>      QLIST_HEAD(, VFIOGroup) group_list;
+
+Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
 
