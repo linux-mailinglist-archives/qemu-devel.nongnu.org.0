@@ -2,128 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B9262DD546
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 17:32:30 +0100 (CET)
-Received: from localhost ([::1]:49552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4972DD509
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 17:19:12 +0100 (CET)
+Received: from localhost ([::1]:44644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpwCb-00083c-6K
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 11:32:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55350)
+	id 1kpvzj-0001Vc-7O
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 11:19:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1kpw9l-0006P6-8s
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:29:35 -0500
-Received: from mail-eopbgr70094.outbound.protection.outlook.com
- ([40.107.7.94]:5249 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>) id 1kpw9i-0006oK-Fj
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:29:32 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qb0a1GRxRwxPlribh2mcYOY12lapOkFz/EH2TWUnCvkY2IE93S74q/RGlN9klECSEx3a7RQd9gUS06Bp2MXDKt8AuCfNn4tR7VT2QmukdVc8yJulwZDjy4JYKSNbXKuoHbVC2yDZ6XKwdSS1KljfIWc6EXsepvzdQ9BFWMOJ0sHEPbK3dIAsPnrSviX4MfM6rJDdMH0D2epvjru4aWCDETiQDwNTx3TrOPVWkchbSg9x9p48anbiVu/xz69NjGusAHm6i3Z8kyGgq8AeCCgbdrwDawfcu0URhigsVQGCVygwKt7T1KsJNIOFg9Ur++AFdi5TkHxsdzu56OKY+AC+0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SVt3RKOcacJgI2IfbGUn/FedPo3J3I49fWUgyGyoXfg=;
- b=DU/4WGhsGs81nrs9NhKTJR0YuaV57KwjklifqiCWbzWlCYOPoOPU84IpzMXa8yfylsK4j4rKmzy8HqNqt+Q3SnVF2+2czgAw1sdvvpX57mrlqwBjTeZuTQv5gUa+DXttKF7SjZfKvVdUFv+L/zdlx7BzmzVdXqaJBKc3QI/TtMrbTOJgdFEN0CMA5gYz/viez6zoVK07PDtRY2yOMTn0a5D4hmrbRplIxhW5Y1jaC+MmMP3m+bLg2xD8YERf285XO8te3xIFl0OqvXC+FiHanMmhZ3WMoMnvZlkPmKGgdBJw50lVdaWGJMelftEgC2hz/D4VcAAbLoIfmJZVWhxk3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none header.from=openvz.org;
- dkim=pass header.d=openvz.org; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=openvz.org;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SVt3RKOcacJgI2IfbGUn/FedPo3J3I49fWUgyGyoXfg=;
- b=T7B1jIk4X/opSjm/LsKMWcc9jWzM0fAR/7Fqs7dfCejKjJpBt5vo9lLvOjeTXIW4SCS08ykMEvoGOq+kNgFrjcMlx8v0F5G8e3lBfiWumoVBEbPWWSoYkLYYOsW/gDrxRuQq1JLYJ8wws4+x6QXDWnqQddKq39LZ4v/9iZWqB9k=
-Authentication-Results: outlook.com; dkim=none (message not signed)
- header.d=none;outlook.com; dmarc=none action=none header.from=openvz.org;
-Received: from AM6PR08MB4214.eurprd08.prod.outlook.com (2603:10a6:20b:8d::30)
- by AM6PR08MB4343.eurprd08.prod.outlook.com (2603:10a6:20b:ba::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Thu, 17 Dec
- 2020 16:14:24 +0000
-Received: from AM6PR08MB4214.eurprd08.prod.outlook.com
- ([fe80::311c:c7ce:56cc:1399]) by AM6PR08MB4214.eurprd08.prod.outlook.com
- ([fe80::311c:c7ce:56cc:1399%5]) with mapi id 15.20.3654.024; Thu, 17 Dec 2020
- 16:14:24 +0000
-Subject: Re: [PATCH 1/2] savevm: Remove dead code in save_snapshot()
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Tuguoyi
- <tu.guoyi@h3c.com>, berrange@redhat.com
-References: <1607410416-13563-1-git-send-email-tu.guoyi@h3c.com>
- <1607410416-13563-2-git-send-email-tu.guoyi@h3c.com>
- <20201217152708.GI4117@work-vm>
-From: "Denis V. Lunev" <den@openvz.org>
-Message-ID: <5b4d677b-88aa-ab28-cc2a-dc7d1c4934b8@openvz.org>
-Date: Thu, 17 Dec 2020 19:14:21 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
-In-Reply-To: <20201217152708.GI4117@work-vm>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [31.148.204.195]
-X-ClientProxiedBy: HE1P191CA0008.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::18)
- To AM6PR08MB4214.eurprd08.prod.outlook.com
- (2603:10a6:20b:8d::30)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kpvyH-0000Sc-GU
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:17:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29915)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kpvyF-00058k-0K
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:17:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608221857;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FAoKDEmoXAwzL2cvYApR2OT5x1UnveB0jDAjqh/Aj4A=;
+ b=FzCC9eeBh1Y7qSdIqxAdUk0AzMSyiEffNbZOPGsmkB65BvxS5qgHk0p60mAIXvh+7EeITW
+ 6v30/RJqt7FkYur0gQHRStAKrYeh5kJDYGiQexmx9hcau4QKjDcP4FNKe1+PYPaKw3Z/yB
+ SViBOfW6lEdpgWRDwbQV8iTZNtq4tf0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-bcFr7WazPZiOYTcdhJwDcA-1; Thu, 17 Dec 2020 11:17:34 -0500
+X-MC-Unique: bcFr7WazPZiOYTcdhJwDcA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BF16801817;
+ Thu, 17 Dec 2020 16:17:33 +0000 (UTC)
+Received: from localhost (ovpn-115-250.ams2.redhat.com [10.36.115.250])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 148225D9CD;
+ Thu, 17 Dec 2020 16:17:32 +0000 (UTC)
+Date: Thu, 17 Dec 2020 16:17:29 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH] block/nvme: Do not allow image creation with NVMe block
+ driver
+Message-ID: <20201217161729.GB24632@stefanha-x1.localdomain>
+References: <20201204165724.2647357-1-philmd@redhat.com>
+ <d1deeab3-251f-5081-7d45-0092b381bc5a@redhat.com>
+ <06e30ac7-e667-0b4c-4777-78a5edfe4069@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.22] (31.148.204.195) by
- HE1P191CA0008.EURP191.PROD.OUTLOOK.COM (2603:10a6:3:cf::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12 via Frontend Transport; Thu, 17 Dec 2020 16:14:23 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 59a4afc6-f6c1-4b94-e07c-08d8a2a6d1f9
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4343:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4343D2F0EDF6BC59473B81E5B6C40@AM6PR08MB4343.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BHWJYAxhFAJ7etVJmIgjfDFaloSMY+3T/cf1hSMvwpZzPywonTt+u2IS+TYo3qaAeFa3zni1J+A8b8577EDj7Ki3movEYNx0N9+OoqUNjAYZxHIB+Acmf7TcWXJXHASQTQQ9ng9wjdcN0Qu54H9ukljU23kI+Xhd6J4AtI5293qd2UresLxYQpiyWpjEE1xcJPvYJ9djR7j/rTF2jtlH5rx03G/EK3iF7IcBClpe0G5ZA78cTtBuTEs3smdUITs2yFWrcUfGHmjO0QzpjUl3cE4nepyWpWx2dg9zljT08BHKVDYsfs/wjkI1ZHDkgFQFjYFSSlnej3GDWERJEtgAlcyz00sLRNoCyLCvSYuYbDOE560B6yJB7Wv6aR/kIg2qSkRw+b0OHq2+stnva9Lb+a/Is9V7bkDt22A4IM/0I7TIBKOE2OewZoJG34dpISda
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM6PR08MB4214.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(396003)(346002)(376002)(39840400004)(52116002)(16576012)(42882007)(66476007)(8936002)(956004)(83380400001)(478600001)(110136005)(34580700001)(31686004)(66946007)(66556008)(5660300002)(316002)(31696002)(36756003)(16526019)(4326008)(53546011)(26005)(8676002)(6486002)(83170400001)(2616005)(2906002)(186003)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?SUppM1pXQzk2UDYrdWNpZkRsTXJFTC9sRjdNTUtUSTUzNGhETGwzR05iWkY4?=
- =?utf-8?B?ZndWWkpRMnBOWllXbnJ3L3lXTDYvR2MzV0x3Q1kyYi9yTlBEb244UUdQV2hS?=
- =?utf-8?B?R0k4Mkt2ZFJ1K00wVjJxQWFsMUIrS0FrRjUzRHRlQ3M2bzlNMDZGUVd3blNE?=
- =?utf-8?B?SnlYTmk4cllWcFFvUlVmdXlXdXRqUERrZUY0TFlHcDNQQ0JBNmh3WjRCRDBE?=
- =?utf-8?B?VWg5djE2eUZ2dUh1YlRLUmRON1hMa1NXVTliZTc2MVVIc1ltbkorRUM2S0FI?=
- =?utf-8?B?enVTTjlwNXB0SWNpZU00Q2dNbmZZUjlmZzIzdTlTcjRmTXZONGkrT0xJeGlm?=
- =?utf-8?B?c3BGVVhqTXRDNGNMaFo1cXcxdmR6bHhIZnVhQ0ZZUXh5dGl2MTA3Z0pON1Y1?=
- =?utf-8?B?RG94RjAwZ09JdXJINkRoa3prbU5FVGFHKzY5b0Njblp2cjRmWTZUaGN3NERQ?=
- =?utf-8?B?RllKTk83MERzTDRaK2ZPeE91WlE2d0hFMTNjdkN5Z0N0YmNCVCsrd2E2Nm5B?=
- =?utf-8?B?em1lQWQ1anloQ2RGQU9yMENUdzc2bit3TWR3QU1ZaTlyT2xtcEgrNWR5Yis1?=
- =?utf-8?B?SHphRzBNaitVa0FjQWMwU1BnMnNvN284RnRDb0JKS2xEZGZJUDVySFRuWnND?=
- =?utf-8?B?cjByS2JlT3pQRVc2a0hxVlVidVNQSFN0MVBudmZrYnM1MWE3ZWdxejFkeWR6?=
- =?utf-8?B?K2V2YTNvZTQzcElZWHNJNWErYUs1ZU5EL3orQVN2c1hiWjVVV3lPTTk0UXA5?=
- =?utf-8?B?SzhXMkpWcWF0ZCtsZlVWRHhBRzVPRkcxeWNTcVdheGRIdWhzR0hEcDZ2MFQx?=
- =?utf-8?B?VGUraFlNQzJnZVVUMTR1SCsxbnZhRmo4aUZoVEo4WkR0VVJXQVNzM01hTmJn?=
- =?utf-8?B?ZlU0ajlmL2lLT25rZnJicXdCVDBQMGdOUThiL2NMREtDN2YvaGNYeWI2NnRX?=
- =?utf-8?B?YUhPcXIwa0VsZm1wa3V6V2tTcUJKQ2IwbEJFYjh0OXU0NU81Z2Jab0hBa1FT?=
- =?utf-8?B?R2V6ZSttSWpWL3FPY1VwSXU5cGlwSUxjVXpoams3RXo4T0NkR1I3dmNqenRI?=
- =?utf-8?B?UmVOT21lRXY2b2l0VjlLemdQNFVxMmtPRzZIUW1VcHhmczlrcTRTUWdrNlFM?=
- =?utf-8?B?c0IxVDdXajRsbThpTzUveDlPRkRkU29ZOGdURmpkbzJHZkdURG1LRElxMHdM?=
- =?utf-8?B?dlN5UGZpNUxtYWVZZnFXcEZ2b29QSVBNMCtwR01UWHU1bjczVzlrUE1RVHpx?=
- =?utf-8?B?dDJJY3VoM0hFTHlleGtjWlNjNkFiaVRmUExSdVB0bXBNbTFXOUUyaCtIWURl?=
- =?utf-8?Q?A9ZLyoZ1u546JT24lXahr8s02I00TqlqXi?=
-X-OriginatorOrg: openvz.org
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4214.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2020 16:14:24.2850 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59a4afc6-f6c1-4b94-e07c-08d8a2a6d1f9
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VP/oNV0Fsl8t04oHZJR9SuVV47e4ZHvMvrnjbjgArTO/ZZO1GauixJDSykgHHCGKLr1AJhnLy65fXdNljnH24w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4343
-Received-SPF: pass client-ip=40.107.7.94; envelope-from=den@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <06e30ac7-e667-0b4c-4777-78a5edfe4069@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="UHN/qo2QbUvPLonB"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -136,62 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tuguoyi@outlook.com, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, Xueqiang Wei <xuwei@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/17/20 6:27 PM, Dr. David Alan Gilbert wrote:
-> * Tuguoyi (tu.guoyi@h3c.com) wrote:
->> The snapshot in each bs is deleted at the beginning, so there is no need
->> to find the snapshot again.
->>
->> Signed-off-by: Tuguoyi <tu.guoyi@h3c.com>
-> This looks OK to me, becoming redundant after Denis's 0b46160 - but
-> I don't know the snapshot code much;
->
-> Denis - do you agree this is correct?
+--UHN/qo2QbUvPLonB
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-For me it looks too that the code becomes redundant, thus
+On Mon, Dec 07, 2020 at 06:16:04PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> On 12/4/20 11:28 PM, Philippe Mathieu-Daud=E9 wrote:
+> > On 12/4/20 5:57 PM, Philippe Mathieu-Daud=E9 wrote:
+> >> The NVMe driver does not support image creation.
+> >> The full drive has to be passed to the guest.
+> >>
+> >> Before:
+> >>
+> >>   $ qemu-img create -f raw nvme://0000:04:00.0/1 20G
+> >>   Formatting 'nvme://0000:04:00.0/1', fmt=3Draw size=3D21474836480
+> >>
+> >>   $ qemu-img info nvme://0000:04:00.0/1
+> >>   image: nvme://0000:04:00.0/1
+> >>   file format: raw
+> >>   virtual size: 349 GiB (375083606016 bytes)
+> >>   disk size: unavailable
+>=20
+> Maybe I should not forbid all formats... But 'raw' is kinda
+> dangerous, as there is no way to enforce the next layer to
+> access beside the size allocated.
+>=20
+> Safe drive partitioning can be achieved creating namespaces,
+> feature which is not yet implemented.
 
-Reviewed-by: Denis V. Lunev <den@openvz.org>
+I don't see the need for this patch. Or if there is a need then
+block/file-posix.c, block/iscsi.c, and block/nbd.c should also be
+changed (anything that uses bdrv_co_create_opts_simple()).
 
-> Dave
->
->> ---
->>  migration/savevm.c | 10 ++--------
->>  1 file changed, 2 insertions(+), 8 deletions(-)
->>
->> diff --git a/migration/savevm.c b/migration/savevm.c
->> index 5f937a2..601b514 100644
->> --- a/migration/savevm.c
->> +++ b/migration/savevm.c
->> @@ -2728,7 +2728,7 @@ int qemu_load_device_state(QEMUFile *f)
->>  int save_snapshot(const char *name, Error **errp)
->>  {
->>      BlockDriverState *bs, *bs1;
->> -    QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
->> +    QEMUSnapshotInfo sn1, *sn = &sn1;
->>      int ret = -1, ret2;
->>      QEMUFile *f;
->>      int saved_vm_running;
->> @@ -2797,13 +2797,7 @@ int save_snapshot(const char *name, Error **errp)
->>      }
->>  
->>      if (name) {
->> -        ret = bdrv_snapshot_find(bs, old_sn, name);
->> -        if (ret >= 0) {
->> -            pstrcpy(sn->name, sizeof(sn->name), old_sn->name);
->> -            pstrcpy(sn->id_str, sizeof(sn->id_str), old_sn->id_str);
->> -        } else {
->> -            pstrcpy(sn->name, sizeof(sn->name), name);
->> -        }
->> +        pstrcpy(sn->name, sizeof(sn->name), name);
->>      } else {
->>          /* cast below needed for OpenBSD where tv_sec is still 'long' */
->>          localtime_r((const time_t *)&tv.tv_sec, &tm);
->> -- 
->> 2.7.4
->>
+Instead I suggest adding a warning at creation time if a raw format
+image is created on top of a BDS that is larger than requested. The
+warning should remind the user that they need to use the raw format
+drivers's size=3D open option to restrict the disk capacity when opening
+the image.
+
+Stefan
+
+--UHN/qo2QbUvPLonB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/bhJkACgkQnKSrs4Gr
+c8heKwf9Eo77AwoGGAUBMqH3enzO9Z1h56DVAgm7MWmgc3uCG3GnFXZ9ghIaGnuZ
+BkUHNIYSW5ifp7ocRHkEbSCLRz4Cl0cOEBU/vnU3MTwwjVV5v4nOncVLwaMydWH/
+DlohgIAj/6VJkSlj5rcSpBGesMtGe/688XOuG8Pi7dkBW5D7tt9uyyh+0a3+qhV/
+S/LxtJzghLlv7GWT65+5yj79qy0Fi04sp3mu4C0OB05/S5d2R14yIQ5JAjytcGVF
+hPZbVFhfcWHKuhF60gkMVGNuwK4398Wd6cbcY3oa9pV+5vGhQ/Ptd90J13b+0Z8i
+Mjf8kodjpR1jxh+dbSPfNzZy26LeHw==
+=x3Rp
+-----END PGP SIGNATURE-----
+
+--UHN/qo2QbUvPLonB--
 
 
