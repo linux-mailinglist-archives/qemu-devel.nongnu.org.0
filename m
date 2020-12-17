@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACE02DD3D2
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:12:10 +0100 (CET)
-Received: from localhost ([::1]:32894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9922DD439
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:31:48 +0100 (CET)
+Received: from localhost ([::1]:44316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpuwr-0004uY-3D
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:12:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34964)
+	id 1kpvFr-0005Nz-Cm
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:31:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kpumC-0004N9-Kr
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:01:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53916)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kpumf-0004Z8-5C
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:01:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kpum1-0007tO-Lq
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:01:08 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kpumN-00081J-SD
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:01:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608217255;
+ s=mimecast20190719; t=1608217278;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VK6nSYcyxlQ99/4gk2RQCa/LpwqjxsuqtL5MgNzEcLI=;
- b=PBQ/OmdzRH2didGMWldSe7cveQwfqyw7MmrvZztikvxgHIFliPPceI6lQGCY7ewuqaBBEg
- hSguRvC9/mFPYMT97HRJjARnh1hqsa25ht8YZsDis4pXoqvHfPMCp/9GyH3CmUUyK1FrID
- i23hdhBVJ4i+cWg07WuraJeP3ALmMFQ=
+ bh=yI29y8pbmEbuqRmJG6RRrU6ByDNBChUGgNBhRS5A8dY=;
+ b=IuKv50v9hf4VjAqLvz1WrThG1pUYwv2aEzO5hLJP+sUU/tK9SzjnpvJjKXXBOVOdAlg/k2
+ F7onp/LS3cbzSXiWggnmW9qYpHiBuJj8LWLCSf2Ew1U/cQGaj1MdSYCCPRT22uzhcj4jMS
+ yx7JhH10PsDq6pJyG1N70BuiUm7Hd48=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-f2gNOmDuNaiJvpewevI7ug-1; Thu, 17 Dec 2020 10:00:53 -0500
-X-MC-Unique: f2gNOmDuNaiJvpewevI7ug-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-525-37A00hBsOrCCmnHEQpLY5A-1; Thu, 17 Dec 2020 10:01:16 -0500
+X-MC-Unique: 37A00hBsOrCCmnHEQpLY5A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8D54107ACF6;
- Thu, 17 Dec 2020 15:00:52 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.35.206.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 00EA55D9D5;
- Thu, 17 Dec 2020 15:00:50 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] event_notifier: handle initialization failure better
-Date: Thu, 17 Dec 2020 17:00:40 +0200
-Message-Id: <20201217150040.906961-4-mlevitsk@redhat.com>
-In-Reply-To: <20201217150040.906961-1-mlevitsk@redhat.com>
-References: <20201217150040.906961-1-mlevitsk@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE669107ACE4
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 15:01:15 +0000 (UTC)
+Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9588C1B059;
+ Thu, 17 Dec 2020 15:01:06 +0000 (UTC)
+Date: Thu, 17 Dec 2020 15:01:04 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH] virtiofsd: update FUSE_FORGET comment on
+ "lo_inode.nlookup"
+Message-ID: <20201217150104.GG4117@work-vm>
+References: <20201208073936.8629-1-lersek@redhat.com>
+ <20201208165610.GA20722@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201208165610.GA20722@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,97 +80,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: virtio-fs@redhat.com, Laszlo Ersek <lersek@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add 'initialized' field and use it to avoid touching event notifiers which are
-either not initialized or if their initialization failed.
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> On Tue, Dec 08, 2020 at 08:39:36AM +0100, Laszlo Ersek wrote:
+> > Miklos confirms it's *only* the FUSE_FORGET request that the client can
+> > use for decrementing "lo_inode.nlookup".
+> > 
+> > Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > Cc: Miklos Szeredi <mszeredi@redhat.com>
+> > Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> > Fixes: 1222f015558fc34cea02aa3a5a92de608c82cec8
+> > Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+> 
+> Looks correct. unref_inode() calls in lo_rmdir() lo_rename() are dropping
+> ->nlookup they have taken internally during the function execution.
+> 
+> Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
 
-This is somewhat a hack, but it seems the less intrusive way to make
-virtio code deal with event notifiers that failed initialization.
+Queued.
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- include/qemu/event_notifier.h |  1 +
- util/event_notifier-posix.c   | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+)
-
-diff --git a/include/qemu/event_notifier.h b/include/qemu/event_notifier.h
-index 3380b662f3..b79add035d 100644
---- a/include/qemu/event_notifier.h
-+++ b/include/qemu/event_notifier.h
-@@ -24,6 +24,7 @@ struct EventNotifier {
- #else
-     int rfd;
-     int wfd;
-+    bool initialized;
- #endif
- };
- 
-diff --git a/util/event_notifier-posix.c b/util/event_notifier-posix.c
-index 00d93204f9..5b2110e861 100644
---- a/util/event_notifier-posix.c
-+++ b/util/event_notifier-posix.c
-@@ -29,6 +29,7 @@ void event_notifier_init_fd(EventNotifier *e, int fd)
- {
-     e->rfd = fd;
-     e->wfd = fd;
-+    e->initialized = true;
- }
- #endif
- 
-@@ -68,6 +69,7 @@ int event_notifier_init(EventNotifier *e, int active)
-     if (active) {
-         event_notifier_set(e);
-     }
-+    e->initialized = true;
-     return 0;
- 
- fail:
-@@ -78,12 +80,18 @@ fail:
- 
- void event_notifier_cleanup(EventNotifier *e)
- {
-+    if (!e->initialized) {
-+        return;
-+    }
-+
-     if (e->rfd != e->wfd) {
-         close(e->rfd);
-     }
-+
-     e->rfd = -1;
-     close(e->wfd);
-     e->wfd = -1;
-+    e->initialized = false;
- }
- 
- int event_notifier_get_fd(const EventNotifier *e)
-@@ -96,6 +104,10 @@ int event_notifier_set(EventNotifier *e)
-     static const uint64_t value = 1;
-     ssize_t ret;
- 
-+    if (!e->initialized) {
-+        return -1;
-+    }
-+
-     do {
-         ret = write(e->wfd, &value, sizeof(value));
-     } while (ret < 0 && errno == EINTR);
-@@ -113,6 +125,10 @@ int event_notifier_test_and_clear(EventNotifier *e)
-     ssize_t len;
-     char buffer[512];
- 
-+    if (!e->initialized) {
-+        return 0;
-+    }
-+
-     /* Drain the notify pipe.  For eventfd, only 8 bytes will be read.  */
-     value = 0;
-     do {
+> 
+> Thanks
+> Vivek
+> 
+> > ---
+> >  tools/virtiofsd/passthrough_ll.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > index 06543b20dcbb..d3be680e92c3 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -113,7 +113,7 @@ struct lo_inode {
+> >       * This counter keeps the inode alive during the FUSE session.
+> >       * Incremented when the FUSE inode number is sent in a reply
+> >       * (FUSE_LOOKUP, FUSE_READDIRPLUS, etc).  Decremented when an inode is
+> > -     * released by requests like FUSE_FORGET, FUSE_RMDIR, FUSE_RENAME, etc.
+> > +     * released by a FUSE_FORGET request.
+> >       *
+> >       * Note that this value is untrusted because the client can manipulate
+> >       * it arbitrarily using FUSE_FORGET requests.
+> > -- 
+> > 2.19.1.3.g30247aa5d201
+> > 
+> > _______________________________________________
+> > Virtio-fs mailing list
+> > Virtio-fs@redhat.com
+> > https://www.redhat.com/mailman/listinfo/virtio-fs
+> 
+> _______________________________________________
+> Virtio-fs mailing list
+> Virtio-fs@redhat.com
+> https://www.redhat.com/mailman/listinfo/virtio-fs
 -- 
-2.26.2
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
