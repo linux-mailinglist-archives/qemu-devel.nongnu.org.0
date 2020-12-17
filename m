@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2C32DD205
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 14:19:54 +0100 (CET)
-Received: from localhost ([::1]:35444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488882DD226
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 14:29:25 +0100 (CET)
+Received: from localhost ([::1]:43320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kptCD-0005gz-Ld
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 08:19:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38370)
+	id 1kptLQ-00012Q-Bq
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 08:29:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kpt4O-0008Sy-8w
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:11:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32887)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1kptJx-00005Q-2a
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:27:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kpt48-0004de-5d
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:11:48 -0500
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1kptJs-0001oB-OL
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:27:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608210690;
+ s=mimecast20190719; t=1608211667;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=hLatkZQKTcOuRGYhtQ4mDaDVL0qc3swgMUD7uZ0IZ4s=;
- b=LwtTVZIuFJDt/2P15i5OMPxijqlgXsq23Z2549I1eHVNZSKsJXTXKv/dmKVIvtNB2876AP
- qCP0AHd8EbuY0CGdy9p9qEw/Y8Eokc4ccYNQkujthtQyEmiJYIqL72gNACwZXnfP081FSS
- FXU7bpQCfWiVTUzqIatE8sZwfSUyBcA=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-282-xVDYbpCZPby-nnsqIwblyw-1; Thu, 17 Dec 2020 08:11:28 -0500
-X-MC-Unique: xVDYbpCZPby-nnsqIwblyw-1
-Received: by mail-il1-f198.google.com with SMTP id g1so25945273ilq.7
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 05:11:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hLatkZQKTcOuRGYhtQ4mDaDVL0qc3swgMUD7uZ0IZ4s=;
- b=uPI2fwxQGrrwgfM0305P8Wef5G0ZZl2cwQtxVAXGrERfHWsGIZiPAF9iJIYXIp1t9p
- cOdRSyv6Seroo5XP05toZ9AyuCkf+VZJxWKGdmr91GVQ1jWAsRhG+p5auT1nm9Xxzx3F
- GchlpJhlp16Q/tqgpHfwHP7e12Wu7TQoej6SMQcZv/01uUF6VRLx1YoI5/wnIO6mojvM
- 105bPUFkTeQzKxB08ERSghhANl3sYmfVvowvCRjI+n1PlkkvEEJRrULLfmYPczQc4I3A
- iVjxynpLJDxEvWH9bv509YJP1/NVZfc73x1rLRYaX8Kuriyq29MJuJEYjVtPxtn8kzKH
- HRmQ==
-X-Gm-Message-State: AOAM532XFNoKHfib5bz3NxMoOGmnk4vnQ8VIMriVoV4/Y208RMQZejlO
- KoZrpW+NuinjPWfJ1U7UR0AJMQB5CUo/e9loh9dT7V7nUDIUq5p8R4XR+IMTlQictWi5miw+ZKU
- 9mtBqvWuz2FnbnJwz3tXqe7P2qap0ePQ=
-X-Received: by 2002:a92:4101:: with SMTP id o1mr50760624ila.82.1608210687501; 
- Thu, 17 Dec 2020 05:11:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJztPnJJaOkoyfPwzigRx65Jl0nEoxShQOZ/0jJbokiQa0kUQL4FLozd7aVttGpy8B3QrAR97bx8iyzPq/OKc9M=
-X-Received: by 2002:a92:4101:: with SMTP id o1mr50760603ila.82.1608210687209; 
- Thu, 17 Dec 2020 05:11:27 -0800 (PST)
+ bh=fcN1UDTE30qNALnBkD3BVEMwYUnsHOvNV3eVqMCCVDE=;
+ b=DlyF3zggxt/oAIi6efcNQ/C46XfGZ4UA/7vYTMOdyuDcl1KhD0d8oiCVWkQ7uZd/dcS2oe
+ qDOatT1UekAMBOCbeZjiVj14dKSpCIMBbeDAiXS7ctimzUQvVNvacpwgLLmO4Kfvt5E9nQ
+ RSJI6qN7lIc0ccay0kCqvuvGTHTV78g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-abEwEbf0N_yVvfafwXb5ZQ-1; Thu, 17 Dec 2020 08:27:43 -0500
+X-MC-Unique: abEwEbf0N_yVvfafwXb5ZQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 962D959;
+ Thu, 17 Dec 2020 13:27:41 +0000 (UTC)
+Received: from localhost (ovpn-112-215.rdu2.redhat.com [10.10.112.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 43B34E723;
+ Thu, 17 Dec 2020 13:27:34 +0000 (UTC)
+Date: Thu, 17 Dec 2020 14:27:33 +0100
+From: Sergio Lopez <slp@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 2/4] block: Avoid processing BDS twice in
+ bdrv_set_aio_context_ignore()
+Message-ID: <20201217132733.cma4u2niu3texah3@mhamilton>
+References: <20201215131527.evpidxevevtfy54n@mhamilton>
+ <20201215150119.GE8185@merkur.fritz.box>
+ <20201215172337.w7vcn2woze2ejgco@mhamilton>
+ <20201216123514.GD7548@merkur.fritz.box>
+ <20201216145502.yiejsw47q5pfbzio@mhamilton>
+ <20201216183102.GH7548@merkur.fritz.box>
+ <20201217093744.tg6ik73o45nidcs4@mhamilton>
+ <20201217105830.GA12328@merkur.fritz.box>
+ <d7c1ee7f-4171-1407-3a71-a7e45708cc4a@virtuozzo.com>
+ <20201217130602.GB12328@merkur.fritz.box>
 MIME-Version: 1.0
-References: <20201217094044.46462-1-pbonzini@redhat.com>
- <20201217094044.46462-13-pbonzini@redhat.com>
-In-Reply-To: <20201217094044.46462-13-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 17 Dec 2020 17:11:16 +0400
-Message-ID: <CAMxuvay-=9DjjLvUbe4-NSNExmkVsebwHfofycr8a_LDk8ZU+w@mail.gmail.com>
-Subject: Re: [PATCH 12/18] lzfse: convert to meson
-To: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20201217130602.GB12328@merkur.fritz.box>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000bc55d905b6a8bad1"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5763q23vvthyoprt"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,355 +86,346 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paul Durrant <paul@xen.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, xen-devel@lists.xenproject.org,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bc55d905b6a8bad1
-Content-Type: text/plain; charset="UTF-8"
+--5763q23vvthyoprt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 17, 2020 at 1:41 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Thu, Dec 17, 2020 at 02:06:02PM +0100, Kevin Wolf wrote:
+> Am 17.12.2020 um 13:50 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> > 17.12.2020 13:58, Kevin Wolf wrote:
+> > > Am 17.12.2020 um 10:37 hat Sergio Lopez geschrieben:
+> > > > On Wed, Dec 16, 2020 at 07:31:02PM +0100, Kevin Wolf wrote:
+> > > > > Am 16.12.2020 um 15:55 hat Sergio Lopez geschrieben:
+> > > > > > On Wed, Dec 16, 2020 at 01:35:14PM +0100, Kevin Wolf wrote:
+> > > > > > > Anyway, trying to reconstruct the block graph with BdrvChild =
+pointers
+> > > > > > > annotated at the edges:
+> > > > > > >=20
+> > > > > > > BlockBackend
+> > > > > > >        |
+> > > > > > >        v
+> > > > > > >    backup-top ------------------------+
+> > > > > > >        |   |                          |
+> > > > > > >        |   +-----------------------+  |
+> > > > > > >        |            0x5655068b8510 |  | 0x565505e3c450
+> > > > > > >        |                           |  |
+> > > > > > >        | 0x565505e42090            |  |
+> > > > > > >        v                           |  |
+> > > > > > >      qcow2 ---------------------+  |  |
+> > > > > > >        |                        |  |  |
+> > > > > > >        | 0x565505e52060         |  |  | ??? [1]
+> > > > > > >        |                        |  |  |  |
+> > > > > > >        v         0x5655066a34d0 |  |  |  | 0x565505fc7aa0
+> > > > > > >      file                       v  v  v  v
+> > > > > > >                               qcow2 (backing)
+> > > > > > >                                      |
+> > > > > > >                                      | 0x565505e41d20
+> > > > > > >                                      v
+> > > > > > >                                    file
+> > > > > > >=20
+> > > > > > > [1] This seems to be a BdrvChild with a non-BDS parent. Proba=
+bly a
+> > > > > > >      BdrvChild directly owned by the backup job.
+> > > > > > >=20
+> > > > > > > > So it seems this is happening:
+> > > > > > > >=20
+> > > > > > > > backup-top (5e48030) <---------| (5)
+> > > > > > > >     |    |                      |
+> > > > > > > >     |    | (6) ------------> qcow2 (5fbf660)
+> > > > > > > >     |                           ^    |
+> > > > > > > >     |                       (3) |    | (4)
+> > > > > > > >     |-> (1) qcow2 (5e5d420) -----    |-> file (6bc0c00)
+> > > > > > > >     |
+> > > > > > > >     |-> (2) file (5e52060)
+> > > > > > > >=20
+> > > > > > > > backup-top (5e48030), the BDS that was passed as argument i=
+n the first
+> > > > > > > > bdrv_set_aio_context_ignore() call, is re-entered when qcow=
+2 (5fbf660)
+> > > > > > > > is processing its parents, and the latter is also re-entere=
+d when the
+> > > > > > > > first one starts processing its children again.
+> > > > > > >=20
+> > > > > > > Yes, but look at the BdrvChild pointers, it is through differ=
+ent edges
+> > > > > > > that we come back to the same node. No BdrvChild is used twic=
+e.
+> > > > > > >=20
+> > > > > > > If backup-top had added all of its children to the ignore lis=
+t before
+> > > > > > > calling into the overlay qcow2, the backing qcow2 wouldn't ev=
+entually
+> > > > > > > have called back into backup-top.
+> > > > > >=20
+> > > > > > I've tested a patch that first adds every child to the ignore l=
+ist,
+> > > > > > and then processes those that weren't there before, as you sugg=
+ested
+> > > > > > on a previous email. With that, the offending qcow2 is not re-e=
+ntered,
+> > > > > > so we avoid the crash, but backup-top is still entered twice:
+> > > > >=20
+> > > > > I think we also need to every parent to the ignore list before ca=
+lling
+> > > > > callbacks, though it doesn't look like this is the problem you're
+> > > > > currently seeing.
+> > > >=20
+> > > > I agree.
+> > > >=20
+> > > > > > bs=3D0x560db0e3b030 (backup-top) enter
+> > > > > > bs=3D0x560db0e3b030 (backup-top) processing children
+> > > > > > bs=3D0x560db0e3b030 (backup-top) calling bsaci child=3D0x560db0=
+e2f450 (child->bs=3D0x560db0fb2660)
+> > > > > > bs=3D0x560db0fb2660 (qcow2) enter
+> > > > > > bs=3D0x560db0fb2660 (qcow2) processing children
+> > > > > > bs=3D0x560db0fb2660 (qcow2) calling bsaci child=3D0x560db0e34d2=
+0 (child->bs=3D0x560db1bb3c00)
+> > > > > > bs=3D0x560db1bb3c00 (file) enter
+> > > > > > bs=3D0x560db1bb3c00 (file) processing children
+> > > > > > bs=3D0x560db1bb3c00 (file) processing parents
+> > > > > > bs=3D0x560db1bb3c00 (file) processing itself
+> > > > > > bs=3D0x560db0fb2660 (qcow2) calling bsaci child=3D0x560db16964d=
+0 (child->bs=3D0x560db0e50420)
+> > > > > > bs=3D0x560db0e50420 (qcow2) enter
+> > > > > > bs=3D0x560db0e50420 (qcow2) processing children
+> > > > > > bs=3D0x560db0e50420 (qcow2) calling bsaci child=3D0x560db0e34ea=
+0 (child->bs=3D0x560db0e45060)
+> > > > > > bs=3D0x560db0e45060 (file) enter
+> > > > > > bs=3D0x560db0e45060 (file) processing children
+> > > > > > bs=3D0x560db0e45060 (file) processing parents
+> > > > > > bs=3D0x560db0e45060 (file) processing itself
+> > > > > > bs=3D0x560db0e50420 (qcow2) processing parents
+> > > > > > bs=3D0x560db0e50420 (qcow2) processing itself
+> > > > > > bs=3D0x560db0fb2660 (qcow2) processing parents
+> > > > > > bs=3D0x560db0fb2660 (qcow2) calling set_aio_ctx child=3D0x560db=
+1672860
+> > > > > > bs=3D0x560db0fb2660 (qcow2) calling set_aio_ctx child=3D0x560db=
+1b14a20
+> > > > > > bs=3D0x560db0e3b030 (backup-top) enter
+> > > > > > bs=3D0x560db0e3b030 (backup-top) processing children
+> > > > > > bs=3D0x560db0e3b030 (backup-top) processing parents
+> > > > > > bs=3D0x560db0e3b030 (backup-top) calling set_aio_ctx child=3D0x=
+560db0e332d0
+> > > > > > bs=3D0x560db0e3b030 (backup-top) processing itself
+> > > > > > bs=3D0x560db0fb2660 (qcow2) processing itself
+> > > > > > bs=3D0x560db0e3b030 (backup-top) calling bsaci child=3D0x560db0=
+e35090 (child->bs=3D0x560db0e50420)
+> > > > > > bs=3D0x560db0e50420 (qcow2) enter
+> > > > > > bs=3D0x560db0e3b030 (backup-top) processing parents
+> > > > > > bs=3D0x560db0e3b030 (backup-top) processing itself
+> > > > > >=20
+> > > > > > I see that "blk_do_set_aio_context()" passes "blk->root" to
+> > > > > > "bdrv_child_try_set_aio_context()" so it's already in the ignor=
+e list,
+> > > > > > so I'm not sure what's happening here. Is backup-top is referen=
+ced
+> > > > > > from two different BdrvChild or is "blk->root" not pointing to
+> > > > > > backup-top's BDS?
+> > > > >=20
+> > > > > The second time that backup-top is entered, it is not as the BDS =
+of
+> > > > > blk->root, but as the parent node of the overlay qcow2. Which is
+> > > > > interesting, because last time it was still the backing qcow2, so=
+ the
+> > > > > change did have _some_ effect.
+> > > > >=20
+> > > > > The part that I don't understand is why you still get the line wi=
+th
+> > > > > child=3D0x560db1b14a20, because when you add all children to the =
+ignore
+> > > > > list first, that should have been put into the ignore list as one=
+ of the
+> > > > > first things in the whole process (when backup-top was first ente=
+red).
+> > > > >=20
+> > > > > Is 0x560db1b14a20 a BdrvChild that has backup-top as its opaque v=
+alue,
+> > > > > but isn't actually present in backup-top's bs->children?
+> > > >=20
+> > > > Exactly, that line corresponds to this chunk of code:
+> > > >=20
+> > > > <---- begin ---->
+> > > >      QLIST_FOREACH(child, &bs->parents, next_parent) {
+> > > >          if (g_slist_find(*ignore, child)) {
+> > > >              continue;
+> > > >          }
+> > > >          assert(child->klass->set_aio_ctx);
+> > > >          *ignore =3D g_slist_prepend(*ignore, child);
+> > > >          fprintf(stderr, "bs=3D%p (%s) calling set_aio_ctx child=3D=
+%p\n", bs, bs->drv->format_name, child);
+> > > >          child->klass->set_aio_ctx(child, new_context, ignore);
+> > > >      }
+> > > > <---- end ---->
+> > > >=20
+> > > > Do you think it's safe to re-enter backup-top, or should we look fo=
+r a
+> > > > way to avoid this?
+> > >=20
+> > > I think it should be avoided, but I don't understand why putting all
+> > > children of backup-top into the ignore list doesn't already avoid it.=
+ If
+> > > backup-top is in the parents list of qcow2, then qcow2 should be in t=
+he
+> > > children list of backup-top and therefore the BdrvChild should alread=
+y
+> > > be in the ignore list.
+> > >=20
+> > > The only way I can explain this is that backup-top and qcow2 have
+> > > different ideas about which BdrvChild objects exist that connect them=
+.
+> > > Or that the graph changes between both places, but I don't see how th=
+at
+> > > could happen in bdrv_set_aio_context_ignore().
+> > >=20
+> >=20
+> > bdrv_set_aio_context_ignore() do bdrv_drained_begin().. As I reported
+> > recently, nothing prevents some job finish and do graph modification
+> > during some another drained section. It may be the case.
+>=20
+> Good point, this might be the same bug then.
+>=20
+> If everything worked correctly, a job completion could only happen on
+> the outer bdrv_set_aio_context_ignore(). But after that, we are already
+> in a drain section, so the job should be quiesced and a second drain
+> shouldn't cause any additional graph changes.
+>=20
+> I would have to go back to the other discussion, but I think it was
+> related to block jobs that are already in the completion process and
+> keep moving forward even though they are supposed to be quiesced.
+>=20
+> If I remember correctly, actually pausing them at this point looked
+> difficult. Maybe what we should then do is letting .drained_poll return
+> true until they have actually fully completed?
+>=20
+> Ah, but was this something that would deadlock because the job
+> completion callbacks use drain sections themselves?
+>=20
+> > If backup-top involved, I can suppose that graph modification is in
+> > backup_clean, when we remove the filter.. Who is making
+> > set_aio_context in the issue? I mean, what is the backtrace of
+> > bdrv_set_aio_context_ignore()?
+>=20
+> Sergio, can you provide the backtrace and also test if the theory with a
+> job completion in the middle of the process is what you actually hit?
 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->
+No, I'm sure the job is not finishing in the middle of the
+set_aio_context chain, which is started by a
+virtio_blk_data_plane_[start|stop], which in turn is triggered by a
+guest reboot.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+This is a stack trace that reaches to the point in which backup-top is
+entered a second time:
 
----
->  configure         | 31 ++++---------------------------
->  meson.build       | 19 +++++++++++++++----
->  meson_options.txt |  2 ++
->  3 files changed, 21 insertions(+), 31 deletions(-)
->
-> diff --git a/configure b/configure
-> index aee27d9cdd..ea5650acca 100755
-> --- a/configure
-> +++ b/configure
-> @@ -397,7 +397,7 @@ capstone=3D"auto"
->  lzo=3D"auto"
->  snappy=3D"auto"
->  bzip2=3D"auto"
-> -lzfse=3D"$default_feature"
-> +lzfse=3D"auto"
->  zstd=3D"$default_feature"
->  guest_agent=3D"$default_feature"
->  guest_agent_with_vss=3D"no"
-> @@ -1324,9 +1324,9 @@ for opt do
->    ;;
->    --enable-bzip2) bzip2=3D"enabled"
->    ;;
-> -  --enable-lzfse) lzfse=3D"yes"
-> +  --enable-lzfse) lzfse=3D"enabled"
->    ;;
-> -  --disable-lzfse) lzfse=3D"no"
-> +  --disable-lzfse) lzfse=3D"disabled"
->    ;;
->    --disable-zstd) zstd=3D"no"
->    ;;
-> @@ -2458,24 +2458,6 @@ EOF
->    fi
->  fi
->
-> -##########################################
-> -# lzfse check
-> -
-> -if test "$lzfse" !=3D "no" ; then
-> -    cat > $TMPC << EOF
-> -#include <lzfse.h>
-> -int main(void) { lzfse_decode_scratch_size(); return 0; }
-> -EOF
-> -    if compile_prog "" "-llzfse" ; then
-> -        lzfse=3D"yes"
-> -    else
-> -        if test "$lzfse" =3D "yes"; then
-> -            feature_not_found "lzfse" "Install lzfse devel"
-> -        fi
-> -        lzfse=3D"no"
-> -    fi
-> -fi
-> -
->  ##########################################
->  # zstd check
->
-> @@ -6088,11 +6070,6 @@ if test "$avx512f_opt" =3D "yes" ; then
->    echo "CONFIG_AVX512F_OPT=3Dy" >> $config_host_mak
->  fi
->
-> -if test "$lzfse" =3D "yes" ; then
-> -  echo "CONFIG_LZFSE=3Dy" >> $config_host_mak
-> -  echo "LZFSE_LIBS=3D-llzfse" >> $config_host_mak
-> -fi
-> -
->  if test "$zstd" =3D "yes" ; then
->    echo "CONFIG_ZSTD=3Dy" >> $config_host_mak
->    echo "ZSTD_CFLAGS=3D$zstd_cflags" >> $config_host_mak
-> @@ -6651,7 +6628,7 @@ NINJA=3D$ninja $meson setup \
->          -Dcapstone=3D$capstone -Dslirp=3D$slirp -Dfdt=3D$fdt -Dbrlapi=3D=
-$brlapi \
->          -Dcurl=3D$curl -Dglusterfs=3D$glusterfs -Dbzip2=3D$bzip2
-> -Dlibiscsi=3D$libiscsi \
->          -Dlibnfs=3D$libnfs -Diconv=3D$iconv -Dcurses=3D$curses
-> -Dlibudev=3D$libudev\
-> -        -Dlibssh=3D$libssh -Drbd=3D$rbd -Dlzo=3D$lzo -Dsnappy=3D$snappy =
-\
-> +        -Dlibssh=3D$libssh -Drbd=3D$rbd -Dlzo=3D$lzo -Dsnappy=3D$snappy
-> -Dlzfse=3D$lzfse \
->          -Ddocs=3D$docs -Dsphinx_build=3D$sphinx_build -Dinstall_blobs=3D=
-$blobs \
->          -Dvhost_user_blk_server=3D$vhost_user_blk_server \
->          -Dfuse=3D$fuse -Dfuse_lseek=3D$fuse_lseek \
-> diff --git a/meson.build b/meson.build
-> index 9f6ea65626..c02d9c3e1a 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -695,10 +695,21 @@ if not get_option('bzip2').auto() or have_block
->      endif
->    endif
->  endif
-> -liblzfse =3D not_found
-> -if 'CONFIG_LZFSE' in config_host
-> -  liblzfse =3D declare_dependency(link_args:
-> config_host['LZFSE_LIBS'].split())
-> +
-> +liblzfse =3D cc.find_library('lzfse', has_headers: ['lzfse.h'],
-> +                      required: get_option('lzfse'),
-> +                      static: enable_static)
-> +if liblzfse.found() and not cc.links('''
-> +   #include <lzfse.h>
-> +   int main(void) { lzfse_decode_scratch_size(); return 0; }''',
-> dependencies: liblzfse)
-> +  liblzfse =3D not_found
-> +  if get_option('lzfse').enabled()
-> +    error('could not link liblzfse')
-> +  else
-> +    warning('could not link liblzfse, disabling')
-> +  endif
->  endif
-> +
->  oss =3D not_found
->  if 'CONFIG_AUDIO_OSS' in config_host
->    oss =3D declare_dependency(link_args: config_host['OSS_LIBS'].split())
-> @@ -2365,7 +2376,7 @@ summary_info +=3D {'Live block migration':
-> config_host.has_key('CONFIG_LIVE_BLOCK_
->  summary_info +=3D {'lzo support':       lzo.found()}
->  summary_info +=3D {'snappy support':    snappy.found()}
->  summary_info +=3D {'bzip2 support':     libbzip2.found()}
-> -summary_info +=3D {'lzfse support':     config_host.has_key('CONFIG_LZFS=
-E')}
-> +summary_info +=3D {'lzfse support':     liblzfse.found()}
->  summary_info +=3D {'zstd support':      config_host.has_key('CONFIG_ZSTD=
-')}
->  summary_info +=3D {'NUMA host support': config_host.has_key('CONFIG_NUMA=
-')}
->  summary_info +=3D {'libxml2':
->  config_host.has_key('CONFIG_LIBXML2')}
-> diff --git a/meson_options.txt b/meson_options.txt
-> index e2b7e23887..f74a3d78c4 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -64,6 +64,8 @@ option('curses', type : 'feature', value : 'auto',
->         description: 'curses UI')
->  option('libudev', type : 'feature', value : 'auto',
->         description: 'Use libudev to enumerate host devices')
-> +option('lzfse', type : 'feature', value : 'auto',
-> +       description: 'lzfse support for DMG images')
->  option('lzo', type : 'feature', value : 'auto',
->         description: 'lzo compression support')
->  option('rbd', type : 'feature', value : 'auto',
-> --
-> 2.29.2
->
->
->
+#0  0x0000560c3e173bbd in child_job_set_aio_ctx
+    (c=3D<optimized out>, ctx=3D0x560c40c45630, ignore=3D0x7f6d4eeb6f40) at=
+ ../blockjob.c:159
+#1  0x0000560c3e1aefc6 in bdrv_set_aio_context_ignore
+    (bs=3D0x560c40dc3660, new_context=3D0x560c40c45630, ignore=3D0x7f6d4eeb=
+6f40) at ../block.c:6509
+#2  0x0000560c3e1aee8a in bdrv_set_aio_context_ignore
+    (bs=3Dbs@entry=3D0x560c40c4c030, new_context=3Dnew_context@entry=3D0x56=
+0c40c45630, ignore=3Dignore@entry=3D0x7f6d4eeb6f40) at ../block.c:6487
+#3  0x0000560c3e1af503 in bdrv_child_try_set_aio_context
+    (bs=3Dbs@entry=3D0x560c40c4c030, ctx=3Dctx@entry=3D0x560c40c45630, igno=
+re_child=3D<optimized out>, errp=3Derrp@entry=3D0x7f6d4eeb6fc8) at ../block=
+.c:6619
+#4  0x0000560c3e1e561a in blk_do_set_aio_context
+    (blk=3D0x560c41ca4610, new_context=3D0x560c40c45630, update_root_node=
+=3Dupdate_root_node@entry=3Dtrue, errp=3Derrp@entry=3D0x7f6d4eeb6fc8) at ..=
+/block/block-backend.c:2027
+#5  0x0000560c3e1e740d in blk_set_aio_context
+    (blk=3D<optimized out>, new_context=3D<optimized out>, errp=3Derrp@entr=
+y=3D0x7f6d4eeb6fc8)
+    at ../block/block-backend.c:2048
+#6  0x0000560c3e10de78 in virtio_blk_data_plane_start (vdev=3D<optimized ou=
+t>)
+    at ../hw/block/dataplane/virtio-blk.c:220
+#7  0x0000560c3de691d2 in virtio_bus_start_ioeventfd (bus=3Dbus@entry=3D0x5=
+60c41ca1e98)
+    at ../hw/virtio/virtio-bus.c:222
+#8  0x0000560c3de4f907 in virtio_pci_start_ioeventfd (proxy=3D0x560c41c99d9=
+0)
+    at ../hw/virtio/virtio-pci.c:1261
+#9  0x0000560c3de4f907 in virtio_pci_common_write
+    (opaque=3D0x560c41c99d90, addr=3D<optimized out>, val=3D<optimized out>=
+, size=3D<optimized out>)
+    at ../hw/virtio/virtio-pci.c:1261
+#10 0x0000560c3e145d81 in memory_region_write_accessor
+    (mr=3D0x560c41c9a770, addr=3D20, value=3D<optimized out>, size=3D1, shi=
+ft=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at ../softmmu/me=
+mory.c:491
+#11 0x0000560c3e1447de in access_with_adjusted_size
+    (addr=3Daddr@entry=3D20, value=3Dvalue@entry=3D0x7f6d4eeb71a8, size=3Ds=
+ize@entry=3D1, access_size_min=3D<optimized out>, access_size_max=3D<optimi=
+zed out>, access_fn=3D
+    0x560c3e145c80 <memory_region_write_accessor>, mr=3D0x560c41c9a770, att=
+rs=3D...)
+    at ../softmmu/memory.c:552
+#12 0x0000560c3e148052 in memory_region_dispatch_write
+    (mr=3Dmr@entry=3D0x560c41c9a770, addr=3D20, data=3D<optimized out>, op=
+=3D<optimized out>, attrs=3Dattrs@entry=3D...) at ../softmmu/memory.c:1501
+#13 0x0000560c3e06b5b7 in flatview_write_continue
+    (fv=3Dfv@entry=3D0x7f6d400ed3e0, addr=3Daddr@entry=3D4261429268, attrs=
+=3D..., ptr=3Dptr@entry=3D0x7f6d71dad028, len=3Dlen@entry=3D1, addr1=3D<opt=
+imized out>, l=3D<optimized out>, mr=3D0x560c41c9a770)
+    at /home/BZs/1900326/qemu/include/qemu/host-utils.h:164
+#14 0x0000560c3e06b7d6 in flatview_write
+    (fv=3D0x7f6d400ed3e0, addr=3Daddr@entry=3D4261429268, attrs=3Dattrs@ent=
+ry=3D..., buf=3Dbuf@entry=3D0x7f6d71dad028, len=3Dlen@entry=3D1) at ../soft=
+mmu/physmem.c:2799
+#15 0x0000560c3e06e330 in address_space_write
+    (as=3D0x560c3ec0a920 <address_space_memory>, addr=3D4261429268, attrs=
+=3D..., buf=3Dbuf@entry=3D0x7f6d71dad028, len=3D1) at ../softmmu/physmem.c:=
+2891
+#16 0x0000560c3e06e3ba in address_space_rw (as=3D<optimized out>, addr=3D<o=
+ptimized out>, attrs=3D...,=20
+    attrs@entry=3D..., buf=3Dbuf@entry=3D0x7f6d71dad028, len=3D<optimized o=
+ut>, is_write=3D<optimized out>)
+    at ../softmmu/physmem.c:2901
+#17 0x0000560c3e10021a in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x560c40d7e0d0) a=
+t ../accel/kvm/kvm-all.c:2541
+#18 0x0000560c3e1445e5 in kvm_vcpu_thread_fn (arg=3Darg@entry=3D0x560c40d7e=
+0d0) at ../accel/kvm/kvm-cpus.c:49
+#19 0x0000560c3e2c798a in qemu_thread_start (args=3D<optimized out>) at ../=
+util/qemu-thread-posix.c:521
+#20 0x00007f6d6ba8614a in start_thread () at /lib64/libpthread.so.0
+#21 0x00007f6d6b7b8763 in clone () at /lib64/libc.so.6
 
---000000000000bc55d905b6a8bad1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks,
+Sergio.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 17, 2020 at 1:41 PM Paolo=
- Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Sign=
-ed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=
-=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><div=
->Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau=
-@redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div><br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 31 ++++-----------------=
-----------<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0| 19 +++++++++++++++----<br>
-=C2=A0meson_options.txt |=C2=A0 2 ++<br>
-=C2=A03 files changed, 21 insertions(+), 31 deletions(-)<br>
-<br>
-diff --git a/configure b/configure<br>
-index aee27d9cdd..ea5650acca 100755<br>
---- a/configure<br>
-+++ b/configure<br>
-@@ -397,7 +397,7 @@ capstone=3D&quot;auto&quot;<br>
-=C2=A0lzo=3D&quot;auto&quot;<br>
-=C2=A0snappy=3D&quot;auto&quot;<br>
-=C2=A0bzip2=3D&quot;auto&quot;<br>
--lzfse=3D&quot;$default_feature&quot;<br>
-+lzfse=3D&quot;auto&quot;<br>
-=C2=A0zstd=3D&quot;$default_feature&quot;<br>
-=C2=A0guest_agent=3D&quot;$default_feature&quot;<br>
-=C2=A0guest_agent_with_vss=3D&quot;no&quot;<br>
-@@ -1324,9 +1324,9 @@ for opt do<br>
-=C2=A0 =C2=A0;;<br>
-=C2=A0 =C2=A0--enable-bzip2) bzip2=3D&quot;enabled&quot;<br>
-=C2=A0 =C2=A0;;<br>
--=C2=A0 --enable-lzfse) lzfse=3D&quot;yes&quot;<br>
-+=C2=A0 --enable-lzfse) lzfse=3D&quot;enabled&quot;<br>
-=C2=A0 =C2=A0;;<br>
--=C2=A0 --disable-lzfse) lzfse=3D&quot;no&quot;<br>
-+=C2=A0 --disable-lzfse) lzfse=3D&quot;disabled&quot;<br>
-=C2=A0 =C2=A0;;<br>
-=C2=A0 =C2=A0--disable-zstd) zstd=3D&quot;no&quot;<br>
-=C2=A0 =C2=A0;;<br>
-@@ -2458,24 +2458,6 @@ EOF<br>
-=C2=A0 =C2=A0fi<br>
-=C2=A0fi<br>
-<br>
--##########################################<br>
--# lzfse check<br>
--<br>
--if test &quot;$lzfse&quot; !=3D &quot;no&quot; ; then<br>
--=C2=A0 =C2=A0 cat &gt; $TMPC &lt;&lt; EOF<br>
--#include &lt;lzfse.h&gt;<br>
--int main(void) { lzfse_decode_scratch_size(); return 0; }<br>
--EOF<br>
--=C2=A0 =C2=A0 if compile_prog &quot;&quot; &quot;-llzfse&quot; ; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 lzfse=3D&quot;yes&quot;<br>
--=C2=A0 =C2=A0 else<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$lzfse&quot; =3D &quot;yes&quot;=
-; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 feature_not_found &quot;lzfse&qu=
-ot; &quot;Install lzfse devel&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 lzfse=3D&quot;no&quot;<br>
--=C2=A0 =C2=A0 fi<br>
--fi<br>
--<br>
-=C2=A0##########################################<br>
-=C2=A0# zstd check<br>
-<br>
-@@ -6088,11 +6070,6 @@ if test &quot;$avx512f_opt&quot; =3D &quot;yes&quot;=
- ; then<br>
-=C2=A0 =C2=A0echo &quot;CONFIG_AVX512F_OPT=3Dy&quot; &gt;&gt; $config_host_=
-mak<br>
-=C2=A0fi<br>
-<br>
--if test &quot;$lzfse&quot; =3D &quot;yes&quot; ; then<br>
--=C2=A0 echo &quot;CONFIG_LZFSE=3Dy&quot; &gt;&gt; $config_host_mak<br>
--=C2=A0 echo &quot;LZFSE_LIBS=3D-llzfse&quot; &gt;&gt; $config_host_mak<br>
--fi<br>
--<br>
-=C2=A0if test &quot;$zstd&quot; =3D &quot;yes&quot; ; then<br>
-=C2=A0 =C2=A0echo &quot;CONFIG_ZSTD=3Dy&quot; &gt;&gt; $config_host_mak<br>
-=C2=A0 =C2=A0echo &quot;ZSTD_CFLAGS=3D$zstd_cflags&quot; &gt;&gt; $config_h=
-ost_mak<br>
-@@ -6651,7 +6628,7 @@ NINJA=3D$ninja $meson setup \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dcapstone=3D$capstone -Dslirp=3D$slirp -=
-Dfdt=3D$fdt -Dbrlapi=3D$brlapi \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dcurl=3D$curl -Dglusterfs=3D$glusterfs -=
-Dbzip2=3D$bzip2 -Dlibiscsi=3D$libiscsi \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dlibnfs=3D$libnfs -Diconv=3D$iconv -Dcur=
-ses=3D$curses -Dlibudev=3D$libudev\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 -Dlibssh=3D$libssh -Drbd=3D$rbd -Dlzo=3D$lzo -=
-Dsnappy=3D$snappy \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 -Dlibssh=3D$libssh -Drbd=3D$rbd -Dlzo=3D$lzo -=
-Dsnappy=3D$snappy -Dlzfse=3D$lzfse \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Ddocs=3D$docs -Dsphinx_build=3D$sphinx_b=
-uild -Dinstall_blobs=3D$blobs \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dvhost_user_blk_server=3D$vhost_user_blk=
-_server \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dfuse=3D$fuse -Dfuse_lseek=3D$fuse_lseek=
- \<br>
-diff --git a/meson.build b/meson.build<br>
-index 9f6ea65626..c02d9c3e1a 100644<br>
---- a/meson.build<br>
-+++ b/meson.build<br>
-@@ -695,10 +695,21 @@ if not get_option(&#39;bzip2&#39;).auto() or have_blo=
-ck<br>
-=C2=A0 =C2=A0 =C2=A0endif<br>
-=C2=A0 =C2=A0endif<br>
-=C2=A0endif<br>
--liblzfse =3D not_found<br>
--if &#39;CONFIG_LZFSE&#39; in config_host<br>
--=C2=A0 liblzfse =3D declare_dependency(link_args: config_host[&#39;LZFSE_L=
-IBS&#39;].split())<br>
-+<br>
-+liblzfse =3D cc.find_library(&#39;lzfse&#39;, has_headers: [&#39;lzfse.h&#=
-39;],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 required: get_option(&#39;lzfse&#39;),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 static: enable_static)<br>
-+if liblzfse.found() and not cc.links(&#39;&#39;&#39;<br>
-+=C2=A0 =C2=A0#include &lt;lzfse.h&gt;<br>
-+=C2=A0 =C2=A0int main(void) { lzfse_decode_scratch_size(); return 0; }&#39=
-;&#39;&#39;, dependencies: liblzfse)<br>
-+=C2=A0 liblzfse =3D not_found<br>
-+=C2=A0 if get_option(&#39;lzfse&#39;).enabled()<br>
-+=C2=A0 =C2=A0 error(&#39;could not link liblzfse&#39;)<br>
-+=C2=A0 else<br>
-+=C2=A0 =C2=A0 warning(&#39;could not link liblzfse, disabling&#39;)<br>
-+=C2=A0 endif<br>
-=C2=A0endif<br>
-+<br>
-=C2=A0oss =3D not_found<br>
-=C2=A0if &#39;CONFIG_AUDIO_OSS&#39; in config_host<br>
-=C2=A0 =C2=A0oss =3D declare_dependency(link_args: config_host[&#39;OSS_LIB=
-S&#39;].split())<br>
-@@ -2365,7 +2376,7 @@ summary_info +=3D {&#39;Live block migration&#39;: co=
-nfig_host.has_key(&#39;CONFIG_LIVE_BLOCK_<br>
-=C2=A0summary_info +=3D {&#39;lzo support&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0l=
-zo.found()}<br>
-=C2=A0summary_info +=3D {&#39;snappy support&#39;:=C2=A0 =C2=A0 snappy.foun=
-d()}<br>
-=C2=A0summary_info +=3D {&#39;bzip2 support&#39;:=C2=A0 =C2=A0 =C2=A0libbzi=
-p2.found()}<br>
--summary_info +=3D {&#39;lzfse support&#39;:=C2=A0 =C2=A0 =C2=A0config_host=
-.has_key(&#39;CONFIG_LZFSE&#39;)}<br>
-+summary_info +=3D {&#39;lzfse support&#39;:=C2=A0 =C2=A0 =C2=A0liblzfse.fo=
-und()}<br>
-=C2=A0summary_info +=3D {&#39;zstd support&#39;:=C2=A0 =C2=A0 =C2=A0 config=
-_host.has_key(&#39;CONFIG_ZSTD&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;NUMA host support&#39;: config_host.has_key(&=
-#39;CONFIG_NUMA&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;libxml2&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0config_host.has_key(&#39;CONFIG_LIBXML2&#39;)}<br>
-diff --git a/meson_options.txt b/meson_options.txt<br>
-index e2b7e23887..f74a3d78c4 100644<br>
---- a/meson_options.txt<br>
-+++ b/meson_options.txt<br>
-@@ -64,6 +64,8 @@ option(&#39;curses&#39;, type : &#39;feature&#39;, value =
-: &#39;auto&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;curses UI&#39;)<br>
-=C2=A0option(&#39;libudev&#39;, type : &#39;feature&#39;, value : &#39;auto=
-&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;Use libudev to enumerate host=
- devices&#39;)<br>
-+option(&#39;lzfse&#39;, type : &#39;feature&#39;, value : &#39;auto&#39;,<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0description: &#39;lzfse support for DMG images&=
-#39;)<br>
-=C2=A0option(&#39;lzo&#39;, type : &#39;feature&#39;, value : &#39;auto&#39=
-;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;lzo compression support&#39;)=
-<br>
-=C2=A0option(&#39;rbd&#39;, type : &#39;feature&#39;, value : &#39;auto&#39=
-;,<br>
--- <br>
-2.29.2<br>
-<br>
-<br>
-</blockquote></div></div>
+--5763q23vvthyoprt
+Content-Type: application/pgp-signature; name="signature.asc"
 
---000000000000bc55d905b6a8bad1--
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl/bXMQACgkQ9GknjS8M
+AjWHbhAAqAynHW2PvCqRDO5Fkb14jQqz48cxSOsYnnLgsq18xpQ7SiA9pHN83zjJ
+FBKwp2KYzTbaFF5Ojs/2JTlJBg/6ZZm+2nAXLTuMrQjQbR8ugjYB5iUk4F5ox48h
+NYrmczZK5oCUbHcbXkTa8H1YyVUo7xkx0F9JDG+GUTgKuazK6edwnE7k///+JmQK
+1au5ggmctwQZp2eLuX2Z0Y2cLAjkDSeSuweXH7LcAsEyf1GdlAxYVB1J0r6UXoMV
+5wxaTiHJdAubwGubfeLbAfMC/v9FohtQ4VVRiOSA0P7UfJDp4pFgefNjvxwBItwR
+LNc3ldk0eIGnWdt7+de0p5B6ObtMbbSqxIE3gJCLswjlZ8zjzLCnSWDJ+XJ88nx7
+78wkC4KtM6fCeMeYlahVFd8Kl4e/ykVq71H9W2XKgKwRQXH218DW7U7T2yqIGugw
+a6iECkEVhEksbaW5qFJvYgUH7N0hYV/InuKx5aq5f1tPD9TdTv0dPXXPkhR6r4vB
+3B3FPQ13LEEBjIHcg9ygOElwqo3kWDOXPb4Ms/RGoRSGqD3eeObewLBsjzddpe7A
+Vy977Bn7vrVs5hSar3e66QX2KmGFScgHAmedXOIrnM0299NCw4kCwhCF5x7hJ2Fd
+OXtJhXA08Uo4q/FW8WJl9Sd/KWIa2mdVB8g+yCYYfj15i8B+N2A=
+=zHsJ
+-----END PGP SIGNATURE-----
+
+--5763q23vvthyoprt--
 
 
