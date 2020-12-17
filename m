@@ -2,88 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D292DCE8D
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:41:26 +0100 (CET)
-Received: from localhost ([::1]:45716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F00092DD437
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:31:07 +0100 (CET)
+Received: from localhost ([::1]:42972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kppmn-00047r-A0
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:41:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46250)
+	id 1kpvFD-0004om-1g
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:31:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kppg4-0007O3-8P
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:34:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42081)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kpvCi-0003Hl-7C
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:28:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kppfz-0005Sd-RP
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:34:25 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kpvCg-0005xS-FR
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:28:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608197662;
+ s=mimecast20190719; t=1608218904;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=evVaArkvP70/zAr0KrGmxpGPiqSjyOE25/YkH7xVeZs=;
- b=PkNARryxwaDxX6wTVRdcNw8PI4+lyqpI7EquphUIW0iJNQATfyBUUNYJm7YyynnUHNSVZM
- QkQxHMHcYIAUWWSAI3q3LkhkblDTUCXir3w1jH25nVrfi/xpLUqsVWH9p03fz7DaN7RaaH
- bhL2NqhIZzop3EjR5jodFhGaguv6mRk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-NSkJB8TjNEO51lpCOZq_pw-1; Thu, 17 Dec 2020 04:34:20 -0500
-X-MC-Unique: NSkJB8TjNEO51lpCOZq_pw-1
-Received: by mail-ed1-f72.google.com with SMTP id c24so13159488edx.2
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:34:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=evVaArkvP70/zAr0KrGmxpGPiqSjyOE25/YkH7xVeZs=;
- b=bfWCN2LkkId/Q4LS1MeT/C2SslR9o5Ye27b040Ly7SQXO9JhhozxM0D2XEld1AaPeA
- o7jNpOChmay97UJAJOjY+LpQfH3/aCs450a3r1P56hpBSlsUx9UhvwYLztK7Cyun4oPt
- Lrq9gbiiUeVclet/jLy8W7Y8hFo//yfjjxiK8+yMqfgqG2Qep2vRf960U0dtViN9NXEW
- l1wCRaZMmh7AqfjlHLMIHE5haB7T+ML8C0qZ6hm3zUd7yzHTc/5Yn/5Ad9Y+1X1Weh12
- O7ftgXbuXNaUf8QPVB8fnrg7QdZ545YfvElqhWfotJTyxY16tn9CPzOA9eCDkFDGzicL
- 9C9g==
-X-Gm-Message-State: AOAM530pslpzq/mNKrnzETJ0ToEk9Lpyvs6c9J2bhcPMCA7UPyDVGk+f
- s7i87ArF1saX2wz14QxyvC5XlQ7UwwXe5wXFylBHtJ4rLZAr9s7xo5weyBzA8IEyAWT9joTqiE/
- CJrnUXcwmQu5Dgj8=
-X-Received: by 2002:a17:906:3a55:: with SMTP id
- a21mr34814482ejf.516.1608197659319; 
- Thu, 17 Dec 2020 01:34:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwYE1/sEQbaSF3uXLYB72pfskJlgljGyk7meayAZuvEw7m3JaLOj8iZAFmGn2j7yG8+5PCphA==
-X-Received: by 2002:a17:906:3a55:: with SMTP id
- a21mr34814467ejf.516.1608197659094; 
- Thu, 17 Dec 2020 01:34:19 -0800 (PST)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id e21sm22784354edv.96.2020.12.17.01.34.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 01:34:18 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86
- machine types
-In-Reply-To: <20201216205202.GJ3140057@habkost.net>
-References: <20201119103221.1665171-1-vkuznets@redhat.com>
- <20201119103221.1665171-6-vkuznets@redhat.com>
- <20201216205202.GJ3140057@habkost.net>
-Date: Thu, 17 Dec 2020 10:34:17 +0100
-Message-ID: <877dpgvkrq.fsf@vitty.brq.redhat.com>
+ bh=pqV1cCL7EkRdogH1awhqWjz+lwvMvmt3DZO8XCXUsio=;
+ b=Zf3OYbvQwdz5l3/cY9IVhCKPhFv7nqe0Tcav2XsAfSDBZH0Bu/0VdRo4jEXX1RU/mHWLn+
+ X+AzPM7E5V4AQM4etbNglBcw9XeVOs4cJ98+yXYc5GiuPYTVBkwHPzrIPaUd+GXbzn5M/Z
+ 9XbJsL8+nztItjVgiDY6U2inWNs1pT0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-98-GpzvccbYN2C_na5dRqdmXA-1; Thu, 17 Dec 2020 10:28:22 -0500
+X-MC-Unique: GpzvccbYN2C_na5dRqdmXA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F4491075649;
+ Thu, 17 Dec 2020 15:28:17 +0000 (UTC)
+Received: from localhost (ovpn-115-250.ams2.redhat.com [10.36.115.250])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC183289BF;
+ Thu, 17 Dec 2020 15:28:15 +0000 (UTC)
+Date: Thu, 17 Dec 2020 09:34:23 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v3 1/3] docs: generate qemu-storage-daemon-qmp-ref(7) man
+ page
+Message-ID: <20201217093423.GB4338@stefanha-x1.localdomain>
+References: <20201209103802.350848-1-stefanha@redhat.com>
+ <20201209103802.350848-2-stefanha@redhat.com>
+ <20201215161106.GJ8185@merkur.fritz.box>
+ <20201216162142.GB707467@stefanha-x1.localdomain>
+ <20201216175903.GG7548@merkur.fritz.box>
 MIME-Version: 1.0
+In-Reply-To: <20201216175903.GG7548@merkur.fritz.box>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XOIedfhf+7KOe/yw"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,184 +84,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Kashyap Chamarthy <kchamart@redhat.com>,
+ afrosi@redhat.com,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
+--XOIedfhf+7KOe/yw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On Thu, Nov 19, 2020 at 11:32:21AM +0100, Vitaly Kuznetsov wrote:
->> Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
->> requires listing all currently supported enlightenments ("hv_*" CPU
->> features) explicitly. We do have a 'hv_passthrough' mode enabling
->> everything but it can't be used in production as it prevents migration.
->> 
->> Introduce a simple 'hyperv=on' option for all x86 machine types enabling
->> all currently supported Hyper-V enlightenments. Later, when new
->> enlightenments get implemented, we will be adding them to newer machine
->> types only (by disabling them for legacy machine types) thus preserving
->> migration.
->> 
->> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
->> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-> [...]
->> ---
->>  docs/hyperv.txt       |  8 ++++++++
->>  hw/i386/x86.c         | 30 ++++++++++++++++++++++++++++++
->>  include/hw/i386/x86.h |  7 +++++++
->>  target/i386/cpu.c     | 14 ++++++++++++++
->>  4 files changed, 59 insertions(+)
->> 
->> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
->> index 5df00da54fc4..1a76a07f8417 100644
->> --- a/docs/hyperv.txt
->> +++ b/docs/hyperv.txt
->> @@ -29,6 +29,14 @@ When any set of the Hyper-V enlightenments is enabled, QEMU changes hypervisor
->>  identification (CPUID 0x40000000..0x4000000A) to Hyper-V. KVM identification
->>  and features are kept in leaves 0x40000100..0x40000101.
->>  
->> +Hyper-V enlightenments can be enabled in bulk by specifying 'hyperv=on' to an
->> +x86 machine type:
->> +
->> +  qemu-system-x86_64 -machine q35,accel=kvm,kernel-irqchip=split,hyperv=on ...
->> +
->> +Note, new enlightenments are only added to the latest (in-develompent) machine
->> +type, older machine types keep the list of the supported features intact to
->> +safeguard migration.
->>  
->>  3. Existing enlightenments
->>  ===========================
->> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
->> index 5944fc44edca..57f27d56ecc6 100644
->> --- a/hw/i386/x86.c
->> +++ b/hw/i386/x86.c
->> @@ -1171,6 +1171,20 @@ static void x86_machine_set_acpi(Object *obj, Visitor *v, const char *name,
->>      visit_type_OnOffAuto(v, name, &x86ms->acpi, errp);
->>  }
->>  
->> +static bool x86_machine_get_hyperv(Object *obj, Error **errp)
->> +{
->> +    X86MachineState *x86ms = X86_MACHINE(obj);
->> +
->> +    return x86ms->hyperv_enabled;
->> +}
->> +
->> +static void x86_machine_set_hyperv(Object *obj, bool value, Error **errp)
->> +{
->> +    X86MachineState *x86ms = X86_MACHINE(obj);
->> +
->> +    x86ms->hyperv_enabled = value;
->> +}
->> +
->>  static void x86_machine_initfn(Object *obj)
->>  {
->>      X86MachineState *x86ms = X86_MACHINE(obj);
->> @@ -1194,6 +1208,16 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
->>      x86mc->save_tsc_khz = true;
->>      nc->nmi_monitor_handler = x86_nmi;
->>  
->> +    /* Hyper-V features enabled with 'hyperv=on' */
->> +    x86mc->default_hyperv_features = BIT(HYPERV_FEAT_RELAXED) |
->> +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
->> +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
->> +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
->> +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
->> +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
->> +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_EVMCS) |
->> +        BIT(HYPERV_FEAT_IPI) | BIT(HYPERV_FEAT_STIMER_DIRECT);
->> +
->>      object_class_property_add(oc, X86_MACHINE_SMM, "OnOffAuto",
->>          x86_machine_get_smm, x86_machine_set_smm,
->>          NULL, NULL);
->> @@ -1205,6 +1229,12 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
->>          NULL, NULL);
->>      object_class_property_set_description(oc, X86_MACHINE_ACPI,
->>          "Enable ACPI");
->> +
->> +    object_class_property_add_bool(oc, X86_MACHINE_HYPERV,
->> +        x86_machine_get_hyperv, x86_machine_set_hyperv);
->> +
->> +    object_class_property_set_description(oc, X86_MACHINE_HYPERV,
->> +        "Enable Hyper-V enlightenments");
->>  }
->>  
->>  static const TypeInfo x86_machine_info = {
->> diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
->> index 739fac50871b..598abd1be806 100644
->> --- a/include/hw/i386/x86.h
->> +++ b/include/hw/i386/x86.h
->> @@ -38,6 +38,9 @@ struct X86MachineClass {
->>      bool save_tsc_khz;
->>      /* Enables contiguous-apic-ID mode */
->>      bool compat_apic_id_mode;
->> +
->> +    /* Hyper-V features enabled with 'hyperv=on' */
->> +    uint64_t default_hyperv_features;
->>  };
->>  
->>  struct X86MachineState {
->> @@ -71,10 +74,14 @@ struct X86MachineState {
->>       * will be translated to MSI messages in the address space.
->>       */
->>      AddressSpace *ioapic_as;
->> +
->> +    /* Hyper-V emulation */
->> +    bool hyperv_enabled;
->>  };
->>  
->>  #define X86_MACHINE_SMM              "smm"
->>  #define X86_MACHINE_ACPI             "acpi"
->> +#define X86_MACHINE_HYPERV           "hyperv"
->>  
->>  #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
->>  OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
->> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->> index 83aca942d87c..63a931679d73 100644
->> --- a/target/i386/cpu.c
->> +++ b/target/i386/cpu.c
->> @@ -53,6 +53,7 @@
->>  #include "sysemu/tcg.h"
->>  #include "hw/qdev-properties.h"
->>  #include "hw/i386/topology.h"
->> +#include "hw/i386/x86.h"
->>  #ifndef CONFIG_USER_ONLY
->>  #include "exec/address-spaces.h"
->>  #include "hw/i386/apic_internal.h"
->> @@ -6511,8 +6512,21 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
->>  
->>  static void x86_cpu_hyperv_realize(X86CPU *cpu)
->>  {
->> +    X86MachineState *x86ms = X86_MACHINE(qdev_get_machine());
->> +    X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
->> +    uint64_t feat;
->>      size_t len;
->>  
->> +    if (x86ms->hyperv_enabled) {
->> +        feat = x86mc->default_hyperv_features;
->> +        /* Enlightened VMCS is only available on Intel/VMX */
->> +        if (!cpu_has_vmx(&cpu->env)) {
->> +            feat &= ~BIT(HYPERV_FEAT_EVMCS);
->> +        }
->> +
->> +        cpu->hyperv_features |= feat;
->> +    }
->
-> I had to dequeue this because it doesn't compile with
-> CONFIG_USER_ONLY:
->
-> https://gitlab.com/ehabkost/qemu/-/jobs/916651017
->
-> The easiest solution would be to wrap the new code in #ifndef
-> CONFIG_USER_ONLY, but maybe we should try to move all
-> X86Machine-specific code from cpu.c to
-> hw/i386/x86.c:x86_cpu_pre_plug().
+On Wed, Dec 16, 2020 at 06:59:03PM +0100, Kevin Wolf wrote:
+> Am 16.12.2020 um 17:21 hat Stefan Hajnoczi geschrieben:
+> > On Tue, Dec 15, 2020 at 05:11:06PM +0100, Kevin Wolf wrote:
+> > > > diff --git a/docs/interop/qemu-storage-daemon-qmp-ref.rst b/docs/in=
+terop/qemu-storage-daemon-qmp-ref.rst
+> > > > new file mode 100644
+> > > > index 0000000000..caf9dad23a
+> > > > --- /dev/null
+> > > > +++ b/docs/interop/qemu-storage-daemon-qmp-ref.rst
+> > > > @@ -0,0 +1,13 @@
+> > > > +QEMU Storage Daemon QMP Reference Manual
+> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > +
+> > > > +..
+> > > > +   TODO: the old Texinfo manual used to note that this manual
+> > > > +   is GPL-v2-or-later. We should make that reader-visible
+> > > > +   both here and in our Sphinx manuals more generally.
+> > > > +
+> > > > +..
+> > > > +   TODO: display the QEMU version, both here and in our Sphinx man=
+uals
+> > > > +   more generally.
+> > > > +
+> > > > +.. qapi-doc:: storage-daemon/qapi/qapi-schema.json
+> > >=20
+> > > Did you intend to actually merge the TODO comments like this into mas=
+ter
+> > > or was this meant to be resolved before you send the series?
+> >=20
+> > Thanks for pointing this out. Both qemu-qmp-ref.rst and qemu-ga-ref.rst
+> > have these comments and I copied them when creating the file. I don't
+> > intend to try to solve that in this series.
+> >=20
+> > Would you like to keep the comments or should I drop them?
+>=20
+> Ah, I see. If the same already exists in other places, I'll just merge
+> it as it is. Thanks!
 
-Bummer, 
+Great, thanks!
 
-let me try the suggestion.
+Stefan
 
--- 
-Vitaly
+--XOIedfhf+7KOe/yw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/bJh8ACgkQnKSrs4Gr
+c8hlLgf/UKHN769Kxt16JoHD2Vz1GYQPkrxk7bOu2rJYgQTJi9LYVlAx/p7dwoQ8
+2NEAJyPdp+cGEMhadjy5unN1qQQ7KechMpU9hCQT5JoxHkp2QKIzOwzelcUd6iN1
+6OZUHhwXeoBIwxTYAKtZp7uINio7fT233KyMp6MWhbN5xhnKTgEi0FBiIVc5JOVD
+2Gu1JYd4/gukjm2S61OZ4AH2WN/QD5uGhN5Ycq8AIR+dDR+YeKtp9kJM8SDBnHoq
+MXuTrLrL/w1Un/U6QyUvzpzjv2gPfJTZ2tyQ/ZpN29mLYUNhWgCABkBJZ77T8dV1
+cpX6iRN2v4EkLaBa846B1Ls/6iUe/Q==
+=Nc6M
+-----END PGP SIGNATURE-----
+
+--XOIedfhf+7KOe/yw--
 
 
