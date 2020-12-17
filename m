@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D922DD18C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 13:37:09 +0100 (CET)
-Received: from localhost ([::1]:60038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8262DD191
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 13:40:08 +0100 (CET)
+Received: from localhost ([::1]:34040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpsWq-0003aw-Hr
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 07:37:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58688)
+	id 1kpsZj-0004lu-Dd
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 07:40:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kpsVY-0002mf-Cs
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 07:35:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60989)
+ id 1kpsWr-0003w0-RA
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 07:37:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kpsVS-0001FW-Lc
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 07:35:48 -0500
+ id 1kpsWc-0001g8-8j
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 07:37:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608208541;
+ s=mimecast20190719; t=1608208612;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Q3ot8FrGo6ybMUEB4eWb9RGfM2Nob3Ex2rioWubNla0=;
- b=jU+Mkt9IElGfHy0XLYcxGN7urXZCpTMG85rA24uSuHHHFu43QO9qfIYnkxce6CVh+hoJSl
- qkmixlYB5QxhzxZSPfYi/ghDhUjvbnowa59XN9xvfrpGSZjKa+3aNQNDbic1ryfHkKBHvo
- JTvTf8qrKxbZ8Kvd5ZnTobmdohp02Cc=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-a0tLVdhpNzyc0MhHR9ZiRg-1; Thu, 17 Dec 2020 07:35:39 -0500
-X-MC-Unique: a0tLVdhpNzyc0MhHR9ZiRg-1
-Received: by mail-io1-f70.google.com with SMTP id y197so27125092iof.3
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 04:35:38 -0800 (PST)
+ bh=tqgPbmXUQJG+oqee7pTX03sITS/s3zJ9J0HSAwd1f1U=;
+ b=WpKIJqtGqbHAJ6E0oWaTWbhYn8Yrp03yu9PKK0fHsTyIAUgKDaQiUHx0wjcLvrfBVpbWrv
+ LLFPDQRyF0A9PBmlxjqkBzx+HlyjN/LCLSxJa3YF8AQDjGeVo4eF7TYXcGjCaxgthaG9cg
+ Niqv1GEt7ejRRufXvtVFN3+N1ItbZiw=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-RtUb3clUNN6lEsfxn6ka2g-1; Thu, 17 Dec 2020 07:36:49 -0500
+X-MC-Unique: RtUb3clUNN6lEsfxn6ka2g-1
+Received: by mail-il1-f197.google.com with SMTP id f2so31398704ils.6
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 04:36:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Q3ot8FrGo6ybMUEB4eWb9RGfM2Nob3Ex2rioWubNla0=;
- b=fXXpiD5UiYzO6Q1Zd5dmoc3En/GdEfaDNhaeWng4nr6G5oWkOIAwZmQXDx/G0qQRvi
- NOH5aPUTDs2TmjrXpreCybUZ8XbrSsdg3+6XOZIQ50tkQQXSZ+9Bi6Ft/nkg5GLv8GPE
- i2veRcl/J20+23EOEeZYboSMyhR2dJRZXe/tWWxY3uF8ri1oOjAuwxqjGINLFLapL8C1
- wtX9zm2Ics4BbLiwwDpXWgUFoAZqQLcYCJ345hNzD7HhIWsNLJ/+T5IYfcM01mbqGi72
- 1FvOIeJ1V2CzBpYn2E0aZRnirg81sJaUeh8Se5CBira7SOgW+qSlvoXxRLi9rPBMPdgf
- 8+Kw==
-X-Gm-Message-State: AOAM532Gdp28UyEEXN6Wxis7OYfitOiZmWUPZWPrOSrd/6FZofneboX2
- X4R2RIsqZ6NOIjlI+X7dpdukZALd8Y1xqMGmY37tgA6DiVwJzTM6/77oElO1AreOzr9Kv2jhKsp
- j9tPdJ5NnMkazKXIYUFmQQQnhuTP/MCk=
-X-Received: by 2002:a92:c6c9:: with SMTP id v9mr50235948ilm.161.1608208538330; 
- Thu, 17 Dec 2020 04:35:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwwQFpYyLHmm6sr/CIte0a/PVraOmN4lWn3vp+JsuZdLVyX459WMsEx+6QN2LIQ8uDKA3Tk+qD1WTOXb2jq2Vc=
-X-Received: by 2002:a92:c6c9:: with SMTP id v9mr50235933ilm.161.1608208538155; 
- Thu, 17 Dec 2020 04:35:38 -0800 (PST)
+ bh=tqgPbmXUQJG+oqee7pTX03sITS/s3zJ9J0HSAwd1f1U=;
+ b=YBCkXQGSd9sXYjkmZvg0ku/RIjluESD3C+g3BaFieUqxuRaosMxOuVyfYaPFV9ynOQ
+ mxBSRkwALls8VQuEJ4qvfCbv/X1SkT9AYN/GvqHt6EU0dxjPOZHBDtEkaFMCIuufKY7g
+ vSuexVN3pBPPaa/2p0893czRNB8qpr4jiMVRF7mcqDdtUQmPzgewEdVQixD5HRo9NTAh
+ MEAukxRgfpZVbwYqwx4NYRsv8CZzzqAHfaWiofCvCFXpZFyYte7ZbgWDZyhgrgW/z0aA
+ mmIGf6yGgCl+1QTlKG/QQBcBNDiddYHeivuHz6TnXSMOvT/N6m9WjBWJKXA3P7yEqSvD
+ OS+w==
+X-Gm-Message-State: AOAM5321vzqER07Tas7nzWamVZ8CF0FCbct8t0m2YcLzLK+Y3FrhTT0m
+ +y7bz/fk/AAMgmE+imzZADaPHoxRwdACIOcmDjAk9HqlE7IWcqOejrs2n2sGOIXx8nuM5fMdZKe
+ 6Vm8K4KXkPqkE6BSSfFR1Ds3qLZza6QU=
+X-Received: by 2002:a92:b694:: with SMTP id m20mr43087944ill.182.1608208609067; 
+ Thu, 17 Dec 2020 04:36:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxO9rttbwVXC5tas6NNg/O69sSi3XwOvWTW0EcqryJi4j2B7Zf8Y3jw/mYVusExeCkvF/miXOn6cwxnUdnvnqY=
+X-Received: by 2002:a92:b694:: with SMTP id m20mr43087936ill.182.1608208608862; 
+ Thu, 17 Dec 2020 04:36:48 -0800 (PST)
 MIME-Version: 1.0
 References: <20201217094044.46462-1-pbonzini@redhat.com>
- <20201217094044.46462-9-pbonzini@redhat.com>
-In-Reply-To: <20201217094044.46462-9-pbonzini@redhat.com>
+ <20201217094044.46462-10-pbonzini@redhat.com>
+In-Reply-To: <20201217094044.46462-10-pbonzini@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 17 Dec 2020 16:35:27 +0400
-Message-ID: <CAMxuvawQHEghsAU2g5jzViMUANB94C_AbBxdcqAMW4N-=c5r3g@mail.gmail.com>
-Subject: Re: [PATCH 08/18] libssh: convert to meson
-To: Paolo Bonzini <pbonzini@redhat.com>, Pino Toscano <ptoscano@redhat.com>
+Date: Thu, 17 Dec 2020 16:36:37 +0400
+Message-ID: <CAMxuvawj0=+K69ANYHwfYDBQ+dsWe-Bt6zK6aMrffpEN9qRdaw@mail.gmail.com>
+Subject: Re: [PATCH 09/18] rbd: convert to meson
+To: Paolo Bonzini <pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000a453e605b6a83a9a"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000db3df405b6a83e34"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001,
  T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,306 +92,277 @@ Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a453e605b6a83a9a
+--000000000000db3df405b6a83e34
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi
-
-On Thu, Dec 17, 2020 at 1:40 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Thu, Dec 17, 2020 at 1:41 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  configure         | 45 ++++-----------------------------------------
->  meson.build       | 18 ++++++++++++++----
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+---
+>  configure         | 35 ++++-------------------------------
+>  meson.build       | 22 +++++++++++++++++++---
 >  meson_options.txt |  2 ++
->  3 files changed, 20 insertions(+), 45 deletions(-)
+>  3 files changed, 25 insertions(+), 34 deletions(-)
 >
 > diff --git a/configure b/configure
-> index c404252b17..f3271381f1 100755
+> index f3271381f1..e34885d505 100755
 > --- a/configure
 > +++ b/configure
-> @@ -430,7 +430,7 @@ auth_pam=3D"$default_feature"
->  vte=3D"$default_feature"
->  virglrenderer=3D"$default_feature"
->  tpm=3D"$default_feature"
-> -libssh=3D"$default_feature"
-> +libssh=3D"auto"
->  live_block_migration=3D${default_feature:-yes}
->  numa=3D"$default_feature"
->  tcmalloc=3D"no"
-> @@ -1424,9 +1424,9 @@ for opt do
+> @@ -384,7 +384,7 @@ qom_cast_debug=3D"yes"
+>  trace_backends=3D"log"
+>  trace_file=3D"trace"
+>  spice=3D"$default_feature"
+> -rbd=3D"$default_feature"
+> +rbd=3D"auto"
+>  smartcard=3D"$default_feature"
+>  u2f=3D"auto"
+>  libusb=3D"$default_feature"
+> @@ -1286,9 +1286,9 @@ for opt do
 >    ;;
->    --enable-tpm) tpm=3D"yes"
+>    --enable-opengl) opengl=3D"yes"
 >    ;;
-> -  --disable-libssh) libssh=3D"no"
-> +  --disable-libssh) libssh=3D"disabled"
+> -  --disable-rbd) rbd=3D"no"
+> +  --disable-rbd) rbd=3D"disabled"
 >    ;;
-> -  --enable-libssh) libssh=3D"yes"
-> +  --enable-libssh) libssh=3D"enabled"
+> -  --enable-rbd) rbd=3D"yes"
+> +  --enable-rbd) rbd=3D"enabled"
 >    ;;
->    --disable-live-block-migration) live_block_migration=3D"no"
+>    --disable-xfsctl) xfs=3D"no"
 >    ;;
-> @@ -3630,38 +3630,6 @@ EOF
->    fi
+> @@ -3607,29 +3607,6 @@ if compile_prog "" "$pthread_lib" ; then
+>    pthread_setname_np_wo_tid=3Dyes
 >  fi
 >
 > -##########################################
-> -# libssh probe
-> -if test "$libssh" !=3D "no" ; then
-> -  if $pkg_config --exists libssh; then
-> -    libssh_cflags=3D$($pkg_config libssh --cflags)
-> -    libssh_libs=3D$($pkg_config libssh --libs)
-> -    libssh=3Dyes
-> -  else
-> -    if test "$libssh" =3D "yes" ; then
-> -      error_exit "libssh required for --enable-libssh"
-> -    fi
-> -    libssh=3Dno
-> -  fi
-> -fi
-> -
-> -##########################################
-> -# Check for libssh 0.8
-> -# This is done like this instead of using the LIBSSH_VERSION_* and
-> -# SSH_VERSION_* macros because some distributions in the past shipped
-> -# snapshots of the future 0.8 from Git, and those snapshots did not
-> -# have updated version numbers (still referring to 0.7.0).
-> -
-> -if test "$libssh" =3D "yes"; then
+> -# rbd probe
+> -if test "$rbd" !=3D "no" ; then
 > -  cat > $TMPC <<EOF
-> -#include <libssh/libssh.h>
-> -int main(void) { return ssh_get_server_publickey(NULL, NULL); }
+> -#include <stdio.h>
+> -#include <rbd/librbd.h>
+> -int main(void) {
+> -    rados_t cluster;
+> -    rados_create(&cluster, NULL);
+> -    return 0;
+> -}
 > -EOF
-> -  if compile_prog "$libssh_cflags" "$libssh_libs"; then
-> -    libssh_cflags=3D"-DHAVE_LIBSSH_0_8 $libssh_cflags"
+> -  rbd_libs=3D"-lrbd -lrados"
+> -  if compile_prog "" "$rbd_libs" ; then
+> -    rbd=3Dyes
+> -  else
+> -    if test "$rbd" =3D "yes" ; then
+> -      feature_not_found "rados block device" "Install librbd/ceph devel"
+> -    fi
+> -    rbd=3Dno
 > -  fi
 > -fi
 > -
 >  ##########################################
 >  # linux-aio probe
 >
-> @@ -6288,12 +6256,6 @@ if test "$getauxval" =3D "yes" ; then
->    echo "CONFIG_GETAUXVAL=3Dy" >> $config_host_mak
+> @@ -6184,10 +6161,6 @@ fi
+>  if test "$qom_cast_debug" =3D "yes" ; then
+>    echo "CONFIG_QOM_CAST_DEBUG=3Dy" >> $config_host_mak
 >  fi
->
-> -if test "$libssh" =3D "yes" ; then
-> -  echo "CONFIG_LIBSSH=3Dy" >> $config_host_mak
-> -  echo "LIBSSH_CFLAGS=3D$libssh_cflags" >> $config_host_mak
-> -  echo "LIBSSH_LIBS=3D$libssh_libs" >> $config_host_mak
+> -if test "$rbd" =3D "yes" ; then
+> -  echo "CONFIG_RBD=3Dy" >> $config_host_mak
+> -  echo "RBD_LIBS=3D$rbd_libs" >> $config_host_mak
 > -fi
-> -
->  if test "$live_block_migration" =3D "yes" ; then
->    echo "CONFIG_LIVE_BLOCK_MIGRATION=3Dy" >> $config_host_mak
->  fi
-> @@ -6764,6 +6726,7 @@ NINJA=3D$ninja $meson setup \
+>
+>  echo "CONFIG_COROUTINE_BACKEND=3D$coroutine" >> $config_host_mak
+>  if test "$coroutine_pool" =3D "yes" ; then
+> @@ -6726,7 +6699,7 @@ NINJA=3D$ninja $meson setup \
 >          -Dcapstone=3D$capstone -Dslirp=3D$slirp -Dfdt=3D$fdt -Dbrlapi=3D=
 $brlapi \
 >          -Dcurl=3D$curl -Dglusterfs=3D$glusterfs -Dbzip2=3D$bzip2
 > -Dlibiscsi=3D$libiscsi \
 >          -Dlibnfs=3D$libnfs -Diconv=3D$iconv -Dcurses=3D$curses
 > -Dlibudev=3D$libudev\
-> +        -Dlibssh=3D$libssh \
+> -        -Dlibssh=3D$libssh \
+> +        -Dlibssh=3D$libssh -Drbd=3D$rbd \
 >          -Ddocs=3D$docs -Dsphinx_build=3D$sphinx_build -Dinstall_blobs=3D=
 $blobs \
 >          -Dvhost_user_blk_server=3D$vhost_user_blk_server \
 >          -Dfuse=3D$fuse -Dfuse_lseek=3D$fuse_lseek \
 > diff --git a/meson.build b/meson.build
-> index 0b8c9c5917..2d6660aa46 100644
+> index 2d6660aa46..6fa80e2d7e 100644
 > --- a/meson.build
 > +++ b/meson.build
-> @@ -652,9 +652,17 @@ if not get_option('glusterfs').auto() or have_block
->    endif
+> @@ -612,9 +612,24 @@ else
 >  endif
->  libssh =3D not_found
-> -if 'CONFIG_LIBSSH' in config_host
-> -  libssh =3D declare_dependency(compile_args:
-> config_host['LIBSSH_CFLAGS'].split(),
-> -                              link_args:
-> config_host['LIBSSH_LIBS'].split())
-> +have_libssh_0_8 =3D false
-> +if not get_option('libssh').auto() or have_block
-> +  libssh =3D dependency('libssh',
-> +                      required: get_option('libssh'),
-> +                      method: 'pkg-config', static: enable_static)
-> +  if libssh.found()
-> +    have_libssh_0_8 =3D cc.links('''
-> +      #include <libssh/libssh.h>
-> +      int main(void) { return ssh_get_server_publickey(NULL, NULL); }
-> +    ''', dependencies: libssh)
-> +  endif
 >
-
-You dropped the comment about  LIBSSH_VERSION_*,  I think it's worth
-keeping. Eventually, we should set an expectation when this can be dropped.
-(presumably when debian old stable with 0.7.3 support is dropped, Pino?)
-
-otherwise
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
- endif
->  libbzip2 =3D not_found
->  if not get_option('bzip2').auto() or have_block
-> @@ -931,6 +939,8 @@
-> config_host_data.set('CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT',
-> glusterfs_ftruncate_
->  config_host_data.set('CONFIG_GLUSTERFS_IOCB_HAS_STAT',
-> glusterfs_iocb_has_stat)
->  config_host_data.set('CONFIG_LIBISCSI', libiscsi.found())
+>  rbd =3D not_found
+> -if 'CONFIG_RBD' in config_host
+> -  rbd =3D declare_dependency(link_args: config_host['RBD_LIBS'].split())
+> +if not get_option('rbd').auto() or have_block
+> +  librados =3D cc.find_library('rados', required: get_option('rbd'),
+> +                             static: enable_static)
+> +  librbd =3D cc.find_library('rbd', has_headers: ['rbd/librbd.h'],
+> +                           required: get_option('rbd'),
+> +                           static: enable_static)
+> +  if librados.found() and librbd.found() and cc.links('''
+> +    #include <stdio.h>
+> +    #include <rbd/librbd.h>
+> +    int main(void) {
+> +      rados_t cluster;
+> +      rados_create(&cluster, NULL);
+> +      return 0;
+> +    }''', dependencies: [librbd, librados])
+> +    rbd =3D declare_dependency(dependencies: [librbd, librados])
+> +  endif
+>  endif
+> +
+>  glusterfs =3D not_found
+>  glusterfs_ftruncate_has_stat =3D false
+>  glusterfs_iocb_has_stat =3D false
+> @@ -941,6 +956,7 @@ config_host_data.set('CONFIG_LIBISCSI',
+> libiscsi.found())
 >  config_host_data.set('CONFIG_LIBNFS', libnfs.found())
-> +config_host_data.set('CONFIG_LIBSSH', libssh.found())
-> +config_host_data.set('HAVE_LIBSSH_0_8', have_libssh_0_8)
+>  config_host_data.set('CONFIG_LIBSSH', libssh.found())
+>  config_host_data.set('HAVE_LIBSSH_0_8', have_libssh_0_8)
+> +config_host_data.set('CONFIG_RBD', rbd.found())
 >  config_host_data.set('CONFIG_SDL', sdl.found())
 >  config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
 >  config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER',
 > have_vhost_user_blk_server)
-> @@ -2310,7 +2320,7 @@ summary_info +=3D {'crypto afalg':
-> config_host.has_key('CONFIG_AF_ALG')}
->  summary_info +=3D {'GlusterFS support': glusterfs.found()}
->  summary_info +=3D {'gcov':              get_option('b_coverage')}
->  summary_info +=3D {'TPM support':       config_host.has_key('CONFIG_TPM'=
+> @@ -2290,7 +2306,7 @@ if
+> config_host['TRACE_BACKENDS'].split().contains('simple')
+>  endif
+>  # TODO: add back protocol and server version
+>  summary_info +=3D {'spice support':     config_host.has_key('CONFIG_SPIC=
+E')}
+> -summary_info +=3D {'rbd support':       config_host.has_key('CONFIG_RBD'=
 )}
-> -summary_info +=3D {'libssh support':
-> config_host.has_key('CONFIG_LIBSSH')}
-> +summary_info +=3D {'libssh support':    libssh.found()}
->  summary_info +=3D {'QOM debugging':
->  config_host.has_key('CONFIG_QOM_CAST_DEBUG')}
->  summary_info +=3D {'Live block migration':
-> config_host.has_key('CONFIG_LIVE_BLOCK_MIGRATION')}
->  summary_info +=3D {'lzo support':       config_host.has_key('CONFIG_LZO'=
+> +summary_info +=3D {'rbd support':       rbd.found()}
+>  summary_info +=3D {'xfsctl support':    config_host.has_key('CONFIG_XFS'=
 )}
+>  summary_info +=3D {'smartcard support':
+> config_host.has_key('CONFIG_SMARTCARD')}
+>  summary_info +=3D {'U2F support':       u2f.found()}
 > diff --git a/meson_options.txt b/meson_options.txt
-> index 4535bc4dc2..6466dc67f6 100644
+> index 6466dc67f6..630c9dceb7 100644
 > --- a/meson_options.txt
 > +++ b/meson_options.txt
-> @@ -54,6 +54,8 @@ option('libiscsi', type : 'feature', value : 'auto',
->         description: 'libiscsi userspace initiator')
->  option('libnfs', type : 'feature', value : 'auto',
->         description: 'libnfs block device driver')
-> +option('libssh', type : 'feature', value : 'auto',
-> +       description: 'libssh block device driver')
->  option('mpath', type : 'feature', value : 'auto',
->         description: 'Multipath persistent reservation passthrough')
->  option('iconv', type : 'feature', value : 'auto',
+> @@ -64,6 +64,8 @@ option('curses', type : 'feature', value : 'auto',
+>         description: 'curses UI')
+>  option('libudev', type : 'feature', value : 'auto',
+>         description: 'Use libudev to enumerate host devices')
+> +option('rbd', type : 'feature', value : 'auto',
+> +       description: 'Ceph block device driver')
+>  option('sdl', type : 'feature', value : 'auto',
+>         description: 'SDL user interface')
+>  option('sdl_image', type : 'feature', value : 'auto',
 > --
 > 2.29.2
 >
 >
 >
 
---000000000000a453e605b6a83a9a
+--000000000000db3df405b6a83e34
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Thu, Dec 17, 2020 at 1:40 PM Paolo Bonzini=
- &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Signed-off-b=
-y: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blan=
-k">pbonzini@redhat.com</a>&gt;<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 17, 2020 at 1:41 PM Paolo=
+ Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Sign=
+ed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=
+=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><div=
+>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau=
+@redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div><br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 45 ++++-----------------=
-------------------------<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0| 18 ++++++++++++++----<br>
+=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 35 ++++-----------------=
+--------------<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0| 22 +++++++++++++++++++---<br>
 =C2=A0meson_options.txt |=C2=A0 2 ++<br>
-=C2=A03 files changed, 20 insertions(+), 45 deletions(-)<br>
+=C2=A03 files changed, 25 insertions(+), 34 deletions(-)<br>
 <br>
 diff --git a/configure b/configure<br>
-index c404252b17..f3271381f1 100755<br>
+index f3271381f1..e34885d505 100755<br>
 --- a/configure<br>
 +++ b/configure<br>
-@@ -430,7 +430,7 @@ auth_pam=3D&quot;$default_feature&quot;<br>
-=C2=A0vte=3D&quot;$default_feature&quot;<br>
-=C2=A0virglrenderer=3D&quot;$default_feature&quot;<br>
-=C2=A0tpm=3D&quot;$default_feature&quot;<br>
--libssh=3D&quot;$default_feature&quot;<br>
-+libssh=3D&quot;auto&quot;<br>
-=C2=A0live_block_migration=3D${default_feature:-yes}<br>
-=C2=A0numa=3D&quot;$default_feature&quot;<br>
-=C2=A0tcmalloc=3D&quot;no&quot;<br>
-@@ -1424,9 +1424,9 @@ for opt do<br>
+@@ -384,7 +384,7 @@ qom_cast_debug=3D&quot;yes&quot;<br>
+=C2=A0trace_backends=3D&quot;log&quot;<br>
+=C2=A0trace_file=3D&quot;trace&quot;<br>
+=C2=A0spice=3D&quot;$default_feature&quot;<br>
+-rbd=3D&quot;$default_feature&quot;<br>
++rbd=3D&quot;auto&quot;<br>
+=C2=A0smartcard=3D&quot;$default_feature&quot;<br>
+=C2=A0u2f=3D&quot;auto&quot;<br>
+=C2=A0libusb=3D&quot;$default_feature&quot;<br>
+@@ -1286,9 +1286,9 @@ for opt do<br>
 =C2=A0 =C2=A0;;<br>
-=C2=A0 =C2=A0--enable-tpm) tpm=3D&quot;yes&quot;<br>
+=C2=A0 =C2=A0--enable-opengl) opengl=3D&quot;yes&quot;<br>
 =C2=A0 =C2=A0;;<br>
--=C2=A0 --disable-libssh) libssh=3D&quot;no&quot;<br>
-+=C2=A0 --disable-libssh) libssh=3D&quot;disabled&quot;<br>
+-=C2=A0 --disable-rbd) rbd=3D&quot;no&quot;<br>
++=C2=A0 --disable-rbd) rbd=3D&quot;disabled&quot;<br>
 =C2=A0 =C2=A0;;<br>
--=C2=A0 --enable-libssh) libssh=3D&quot;yes&quot;<br>
-+=C2=A0 --enable-libssh) libssh=3D&quot;enabled&quot;<br>
+-=C2=A0 --enable-rbd) rbd=3D&quot;yes&quot;<br>
++=C2=A0 --enable-rbd) rbd=3D&quot;enabled&quot;<br>
 =C2=A0 =C2=A0;;<br>
-=C2=A0 =C2=A0--disable-live-block-migration) live_block_migration=3D&quot;n=
-o&quot;<br>
+=C2=A0 =C2=A0--disable-xfsctl) xfs=3D&quot;no&quot;<br>
 =C2=A0 =C2=A0;;<br>
-@@ -3630,38 +3630,6 @@ EOF<br>
-=C2=A0 =C2=A0fi<br>
+@@ -3607,29 +3607,6 @@ if compile_prog &quot;&quot; &quot;$pthread_lib&quot=
+; ; then<br>
+=C2=A0 =C2=A0pthread_setname_np_wo_tid=3Dyes<br>
 =C2=A0fi<br>
 <br>
 -##########################################<br>
--# libssh probe<br>
--if test &quot;$libssh&quot; !=3D &quot;no&quot; ; then<br>
--=C2=A0 if $pkg_config --exists libssh; then<br>
--=C2=A0 =C2=A0 libssh_cflags=3D$($pkg_config libssh --cflags)<br>
--=C2=A0 =C2=A0 libssh_libs=3D$($pkg_config libssh --libs)<br>
--=C2=A0 =C2=A0 libssh=3Dyes<br>
--=C2=A0 else<br>
--=C2=A0 =C2=A0 if test &quot;$libssh&quot; =3D &quot;yes&quot; ; then<br>
--=C2=A0 =C2=A0 =C2=A0 error_exit &quot;libssh required for --enable-libssh&=
-quot;<br>
--=C2=A0 =C2=A0 fi<br>
--=C2=A0 =C2=A0 libssh=3Dno<br>
--=C2=A0 fi<br>
--fi<br>
--<br>
--##########################################<br>
--# Check for libssh 0.8<br>
--# This is done like this instead of using the LIBSSH_VERSION_* and<br>
--# SSH_VERSION_* macros because some distributions in the past shipped<br>
--# snapshots of the future 0.8 from Git, and those snapshots did not<br>
--# have updated version numbers (still referring to 0.7.0).<br>
--<br>
--if test &quot;$libssh&quot; =3D &quot;yes&quot;; then<br>
+-# rbd probe<br>
+-if test &quot;$rbd&quot; !=3D &quot;no&quot; ; then<br>
 -=C2=A0 cat &gt; $TMPC &lt;&lt;EOF<br>
--#include &lt;libssh/libssh.h&gt;<br>
--int main(void) { return ssh_get_server_publickey(NULL, NULL); }<br>
+-#include &lt;stdio.h&gt;<br>
+-#include &lt;rbd/librbd.h&gt;<br>
+-int main(void) {<br>
+-=C2=A0 =C2=A0 rados_t cluster;<br>
+-=C2=A0 =C2=A0 rados_create(&amp;cluster, NULL);<br>
+-=C2=A0 =C2=A0 return 0;<br>
+-}<br>
 -EOF<br>
--=C2=A0 if compile_prog &quot;$libssh_cflags&quot; &quot;$libssh_libs&quot;=
-; then<br>
--=C2=A0 =C2=A0 libssh_cflags=3D&quot;-DHAVE_LIBSSH_0_8 $libssh_cflags&quot;=
-<br>
+-=C2=A0 rbd_libs=3D&quot;-lrbd -lrados&quot;<br>
+-=C2=A0 if compile_prog &quot;&quot; &quot;$rbd_libs&quot; ; then<br>
+-=C2=A0 =C2=A0 rbd=3Dyes<br>
+-=C2=A0 else<br>
+-=C2=A0 =C2=A0 if test &quot;$rbd&quot; =3D &quot;yes&quot; ; then<br>
+-=C2=A0 =C2=A0 =C2=A0 feature_not_found &quot;rados block device&quot; &quo=
+t;Install librbd/ceph devel&quot;<br>
+-=C2=A0 =C2=A0 fi<br>
+-=C2=A0 =C2=A0 rbd=3Dno<br>
 -=C2=A0 fi<br>
 -fi<br>
 -<br>
 =C2=A0##########################################<br>
 =C2=A0# linux-aio probe<br>
 <br>
-@@ -6288,12 +6256,6 @@ if test &quot;$getauxval&quot; =3D &quot;yes&quot; ;=
- then<br>
-=C2=A0 =C2=A0echo &quot;CONFIG_GETAUXVAL=3Dy&quot; &gt;&gt; $config_host_ma=
-k<br>
-=C2=A0fi<br>
-<br>
--if test &quot;$libssh&quot; =3D &quot;yes&quot; ; then<br>
--=C2=A0 echo &quot;CONFIG_LIBSSH=3Dy&quot; &gt;&gt; $config_host_mak<br>
--=C2=A0 echo &quot;LIBSSH_CFLAGS=3D$libssh_cflags&quot; &gt;&gt; $config_ho=
+@@ -6184,10 +6161,6 @@ fi<br>
+=C2=A0if test &quot;$qom_cast_debug&quot; =3D &quot;yes&quot; ; then<br>
+=C2=A0 =C2=A0echo &quot;CONFIG_QOM_CAST_DEBUG=3Dy&quot; &gt;&gt; $config_ho=
 st_mak<br>
--=C2=A0 echo &quot;LIBSSH_LIBS=3D$libssh_libs&quot; &gt;&gt; $config_host_m=
-ak<br>
--fi<br>
--<br>
-=C2=A0if test &quot;$live_block_migration&quot; =3D &quot;yes&quot; ; then<=
-br>
-=C2=A0 =C2=A0echo &quot;CONFIG_LIVE_BLOCK_MIGRATION=3Dy&quot; &gt;&gt; $con=
-fig_host_mak<br>
 =C2=A0fi<br>
-@@ -6764,6 +6726,7 @@ NINJA=3D$ninja $meson setup \<br>
+-if test &quot;$rbd&quot; =3D &quot;yes&quot; ; then<br>
+-=C2=A0 echo &quot;CONFIG_RBD=3Dy&quot; &gt;&gt; $config_host_mak<br>
+-=C2=A0 echo &quot;RBD_LIBS=3D$rbd_libs&quot; &gt;&gt; $config_host_mak<br>
+-fi<br>
+<br>
+=C2=A0echo &quot;CONFIG_COROUTINE_BACKEND=3D$coroutine&quot; &gt;&gt; $conf=
+ig_host_mak<br>
+=C2=A0if test &quot;$coroutine_pool&quot; =3D &quot;yes&quot; ; then<br>
+@@ -6726,7 +6699,7 @@ NINJA=3D$ninja $meson setup \<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dcapstone=3D$capstone -Dslirp=3D$slirp -=
 Dfdt=3D$fdt -Dbrlapi=3D$brlapi \<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dcurl=3D$curl -Dglusterfs=3D$glusterfs -=
 Dbzip2=3D$bzip2 -Dlibiscsi=3D$libiscsi \<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dlibnfs=3D$libnfs -Diconv=3D$iconv -Dcur=
 ses=3D$curses -Dlibudev=3D$libudev\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 -Dlibssh=3D$libssh \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 -Dlibssh=3D$libssh \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 -Dlibssh=3D$libssh -Drbd=3D$rbd \<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Ddocs=3D$docs -Dsphinx_build=3D$sphinx_b=
 uild -Dinstall_blobs=3D$blobs \<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dvhost_user_blk_server=3D$vhost_user_blk=
@@ -400,104 +370,97 @@ _server \<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dfuse=3D$fuse -Dfuse_lseek=3D$fuse_lseek=
  \<br>
 diff --git a/meson.build b/meson.build<br>
-index 0b8c9c5917..2d6660aa46 100644<br>
+index 2d6660aa46..6fa80e2d7e 100644<br>
 --- a/meson.build<br>
 +++ b/meson.build<br>
-@@ -652,9 +652,17 @@ if not get_option(&#39;glusterfs&#39;).auto() or have_=
-block<br>
-=C2=A0 =C2=A0endif<br>
+@@ -612,9 +612,24 @@ else<br>
 =C2=A0endif<br>
-=C2=A0libssh =3D not_found<br>
--if &#39;CONFIG_LIBSSH&#39; in config_host<br>
--=C2=A0 libssh =3D declare_dependency(compile_args: config_host[&#39;LIBSSH=
-_CFLAGS&#39;].split(),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 link_args: config_host[&#39;LIBSSH_LIBS&#39=
+<br>
+=C2=A0rbd =3D not_found<br>
+-if &#39;CONFIG_RBD&#39; in config_host<br>
+-=C2=A0 rbd =3D declare_dependency(link_args: config_host[&#39;RBD_LIBS&#39=
 ;].split())<br>
-+have_libssh_0_8 =3D false<br>
-+if not get_option(&#39;libssh&#39;).auto() or have_block<br>
-+=C2=A0 libssh =3D dependency(&#39;libssh&#39;,<br>
++if not get_option(&#39;rbd&#39;).auto() or have_block<br>
++=C2=A0 librados =3D cc.find_library(&#39;rados&#39;, required: get_option(=
+&#39;rbd&#39;),<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 required: get_option(&#39;libssh&#39;),<br>
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0static: enable_static)<br>
++=C2=A0 librbd =3D cc.find_library(&#39;rbd&#39;, has_headers: [&#39;rbd/li=
+brbd.h&#39;],<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 method: &#39;pkg-config&#39;, static: enable_static)<br>
-+=C2=A0 if libssh.found()<br>
-+=C2=A0 =C2=A0 have_libssh_0_8 =3D cc.links(&#39;&#39;&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 #include &lt;libssh/libssh.h&gt;<br>
-+=C2=A0 =C2=A0 =C2=A0 int main(void) { return ssh_get_server_publickey(NULL=
-, NULL); }<br>
-+=C2=A0 =C2=A0 &#39;&#39;&#39;, dependencies: libssh)<br>
-+=C2=A0 endif<br></blockquote><div><br></div><div>You dropped the comment a=
-bout=C2=A0  LIBSSH_VERSION_*,=C2=A0 I think it&#39;s worth keeping. Eventua=
-lly, we should set an expectation when this can be dropped. (presumably whe=
-n debian old stable with 0.7.3 support is dropped, Pino?)<br></div><div><br=
-></div><div>otherwise</div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a =
-href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>=
-&gt; <br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">
+=A0 =C2=A0 =C2=A0 =C2=A0required: get_option(&#39;rbd&#39;),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0static: enable_static)<br>
++=C2=A0 if librados.found() and librbd.found() and cc.links(&#39;&#39;&#39;=
+<br>
++=C2=A0 =C2=A0 #include &lt;stdio.h&gt;<br>
++=C2=A0 =C2=A0 #include &lt;rbd/librbd.h&gt;<br>
++=C2=A0 =C2=A0 int main(void) {<br>
++=C2=A0 =C2=A0 =C2=A0 rados_t cluster;<br>
++=C2=A0 =C2=A0 =C2=A0 rados_create(&amp;cluster, NULL);<br>
++=C2=A0 =C2=A0 =C2=A0 return 0;<br>
++=C2=A0 =C2=A0 }&#39;&#39;&#39;, dependencies: [librbd, librados])<br>
++=C2=A0 =C2=A0 rbd =3D declare_dependency(dependencies: [librbd, librados])=
+<br>
++=C2=A0 endif<br>
 =C2=A0endif<br>
-=C2=A0libbzip2 =3D not_found<br>
-=C2=A0if not get_option(&#39;bzip2&#39;).auto() or have_block<br>
-@@ -931,6 +939,8 @@ config_host_data.set(&#39;CONFIG_GLUSTERFS_FTRUNCATE_HA=
-S_STAT&#39;, glusterfs_ftruncate_<br>
-=C2=A0config_host_data.set(&#39;CONFIG_GLUSTERFS_IOCB_HAS_STAT&#39;, gluste=
-rfs_iocb_has_stat)<br>
-=C2=A0config_host_data.set(&#39;CONFIG_LIBISCSI&#39;, libiscsi.found())<br>
++<br>
+=C2=A0glusterfs =3D not_found<br>
+=C2=A0glusterfs_ftruncate_has_stat =3D false<br>
+=C2=A0glusterfs_iocb_has_stat =3D false<br>
+@@ -941,6 +956,7 @@ config_host_data.set(&#39;CONFIG_LIBISCSI&#39;, libiscs=
+i.found())<br>
 =C2=A0config_host_data.set(&#39;CONFIG_LIBNFS&#39;, libnfs.found())<br>
-+config_host_data.set(&#39;CONFIG_LIBSSH&#39;, libssh.found())<br>
-+config_host_data.set(&#39;HAVE_LIBSSH_0_8&#39;, have_libssh_0_8)<br>
+=C2=A0config_host_data.set(&#39;CONFIG_LIBSSH&#39;, libssh.found())<br>
+=C2=A0config_host_data.set(&#39;HAVE_LIBSSH_0_8&#39;, have_libssh_0_8)<br>
++config_host_data.set(&#39;CONFIG_RBD&#39;, rbd.found())<br>
 =C2=A0config_host_data.set(&#39;CONFIG_SDL&#39;, sdl.found())<br>
 =C2=A0config_host_data.set(&#39;CONFIG_SDL_IMAGE&#39;, sdl_image.found())<b=
 r>
 =C2=A0config_host_data.set(&#39;CONFIG_VHOST_USER_BLK_SERVER&#39;, have_vho=
 st_user_blk_server)<br>
-@@ -2310,7 +2320,7 @@ summary_info +=3D {&#39;crypto afalg&#39;:=C2=A0 =C2=
-=A0 =C2=A0 config_host.has_key(&#39;CONFIG_AF_ALG&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;GlusterFS support&#39;: glusterfs.found()}<br=
->
-=C2=A0summary_info +=3D {&#39;gcov&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 get_option(&#39;b_coverage&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;TPM support&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0c=
-onfig_host.has_key(&#39;CONFIG_TPM&#39;)}<br>
--summary_info +=3D {&#39;libssh support&#39;:=C2=A0 =C2=A0 config_host.has_=
-key(&#39;CONFIG_LIBSSH&#39;)}<br>
-+summary_info +=3D {&#39;libssh support&#39;:=C2=A0 =C2=A0 libssh.found()}<=
-br>
-=C2=A0summary_info +=3D {&#39;QOM debugging&#39;:=C2=A0 =C2=A0 =C2=A0config=
-_host.has_key(&#39;CONFIG_QOM_CAST_DEBUG&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;Live block migration&#39;: config_host.has_ke=
-y(&#39;CONFIG_LIVE_BLOCK_MIGRATION&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;lzo support&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0c=
-onfig_host.has_key(&#39;CONFIG_LZO&#39;)}<br>
+@@ -2290,7 +2306,7 @@ if config_host[&#39;TRACE_BACKENDS&#39;].split().cont=
+ains(&#39;simple&#39;)<br>
+=C2=A0endif<br>
+=C2=A0# TODO: add back protocol and server version<br>
+=C2=A0summary_info +=3D {&#39;spice support&#39;:=C2=A0 =C2=A0 =C2=A0config=
+_host.has_key(&#39;CONFIG_SPICE&#39;)}<br>
+-summary_info +=3D {&#39;rbd support&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0config=
+_host.has_key(&#39;CONFIG_RBD&#39;)}<br>
++summary_info +=3D {&#39;rbd support&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0rbd.fo=
+und()}<br>
+=C2=A0summary_info +=3D {&#39;xfsctl support&#39;:=C2=A0 =C2=A0 config_host=
+.has_key(&#39;CONFIG_XFS&#39;)}<br>
+=C2=A0summary_info +=3D {&#39;smartcard support&#39;: config_host.has_key(&=
+#39;CONFIG_SMARTCARD&#39;)}<br>
+=C2=A0summary_info +=3D {&#39;U2F support&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0u=
+2f.found()}<br>
 diff --git a/meson_options.txt b/meson_options.txt<br>
-index 4535bc4dc2..6466dc67f6 100644<br>
+index 6466dc67f6..630c9dceb7 100644<br>
 --- a/meson_options.txt<br>
 +++ b/meson_options.txt<br>
-@@ -54,6 +54,8 @@ option(&#39;libiscsi&#39;, type : &#39;feature&#39;, valu=
-e : &#39;auto&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;libiscsi userspace initiator&=
-#39;)<br>
-=C2=A0option(&#39;libnfs&#39;, type : &#39;feature&#39;, value : &#39;auto&=
-#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;libnfs block device driver&#3=
-9;)<br>
-+option(&#39;libssh&#39;, type : &#39;feature&#39;, value : &#39;auto&#39;,=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0description: &#39;libssh block device driver&#3=
-9;)<br>
-=C2=A0option(&#39;mpath&#39;, type : &#39;feature&#39;, value : &#39;auto&#=
-39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;Multipath persistent reservat=
-ion passthrough&#39;)<br>
-=C2=A0option(&#39;iconv&#39;, type : &#39;feature&#39;, value : &#39;auto&#=
-39;,<br>
+@@ -64,6 +64,8 @@ option(&#39;curses&#39;, type : &#39;feature&#39;, value =
+: &#39;auto&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;curses UI&#39;)<br>
+=C2=A0option(&#39;libudev&#39;, type : &#39;feature&#39;, value : &#39;auto=
+&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;Use libudev to enumerate host=
+ devices&#39;)<br>
++option(&#39;rbd&#39;, type : &#39;feature&#39;, value : &#39;auto&#39;,<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0description: &#39;Ceph block device driver&#39;=
+)<br>
+=C2=A0option(&#39;sdl&#39;, type : &#39;feature&#39;, value : &#39;auto&#39=
+;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;SDL user interface&#39;)<br>
+=C2=A0option(&#39;sdl_image&#39;, type : &#39;feature&#39;, value : &#39;au=
+to&#39;,<br>
 -- <br>
 2.29.2<br>
 <br>
 <br>
 </blockquote></div></div>
 
---000000000000a453e605b6a83a9a--
+--000000000000db3df405b6a83e34--
 
 
