@@ -2,59 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF5D2DD072
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:34:52 +0100 (CET)
-Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C272DD073
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:35:43 +0100 (CET)
+Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kprYZ-0003et-JL
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:34:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47126)
+	id 1kprZM-00043i-Ll
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:35:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kprWQ-00028a-TT
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:32:38 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:47653)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kprWs-0002Ll-AT
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:33:06 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kprWP-0005Zn-7B
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:32:38 -0500
-Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M3DFj-1koV0p43wL-003fPq; Thu, 17 Dec 2020 12:32:35 +0100
-Subject: Re: [PATCH v2 2/4] linux-user/sparc: Remove unneeded checks of 'err'
- from sparc64_get_context()
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201106152738.26026-1-peter.maydell@linaro.org>
- <20201106152738.26026-3-peter.maydell@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <b6cc0836-3245-3907-9bb0-83591d658320@vivier.eu>
-Date: Thu, 17 Dec 2020 12:32:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kprWo-0005fu-Eo
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:33:06 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E6866AC7B;
+ Thu, 17 Dec 2020 11:32:54 +0000 (UTC)
+Subject: Re: [PATCH] build-sys: fix win32 compilation with --target-list=''
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20201217104417.436508-1-marcandre.lureau@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <5c6d244b-1ed3-f065-88b6-7a007a224cc4@suse.de>
+Date: Thu, 17 Dec 2020 12:32:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201106152738.26026-3-peter.maydell@linaro.org>
+In-Reply-To: <20201217104417.436508-1-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zKQwESq4Bq+p/0/H+gOdbNq3t14qneXRoXQbJcP7Dl8zAEZG5Ld
- sFqHrnMDPe7HtkdWVfuMDIcQVmZsxIDGC+oEX9PdScDugsRawLk2IKmDZSb6MXnY3+w/a4Z
- uhUg3QasnqbTwyNSQYFfS+cI+8ZkDrHYVdsPNoNGtFN0awIU+hmhzcr22GQWsePzJIDy9wG
- GljlyENXl/GO85fG/gl8g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:75QTX5dsMiA=:lqP/clS+2oY/r1IOBmE4ME
- vkghU0tfzR7woQHrzoPWCU7CWAll76YkO5X1VjOev7yHsEUn+h0YaeCHYnTudLb82NqFbb2+I
- VtG0hZ5UWMJ3Js7rM8FOLAkYGu9jO9Y6Kx0CWbTpDYUcUQma+fgH9j7vKXEDDxM9+to0Oucl5
- 0ThN7Ak4gw8AA4c+BoOJHY/N8uDjprOgNUks6bt5USCW77ggtJy7ECNs9pdVKK2Kq4kgnOR+9
- okTv9ywF1ufFZ1VsbLXZZ1PvmzS1xTBmty43VzAnqPZNHAWdXzTQzumOLgu9VbsKaz7Aj/8jy
- 4phs0p/S5VjvKHsedTGQryFGwjiPp2k8JeYPbdF52ERehzsaBBkxiaTQrXz93Q9cCfX2PiRe/
- Op9qw4/RRMeSjROQrAQJfT0PhaKIBDGnDcSAMjvmF8Upp6oexiHerpnh2J3uK+loK+UVDCUBt
- lnuEto3LIw==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,53 +54,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/11/2020 à 16:27, Peter Maydell a écrit :
-> Unlike the kernel macros, our __get_user() and __put_user() do not
-> return a failure code.  Kernel code typically has a style of
->   err |= __get_user(...); err |= __get_user(...);
-> and then checking err at the end.  In sparc64_get_context() our
-> version of the code dropped the accumulating into err but left the
-> "if (err) goto do_sigsegv" checks, which will never be taken. Delete
-> unnecessary if()s.
+On 12/17/20 11:44 AM, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Fixes linking:
+> x86_64-w64-mingw32-gcc  -o tests/test-qapi-util.exe version.rc_version.o tests/test-qapi-util.exe.p/test-qapi-util.c.obj -Wl,--allow-shlib-undefined -Wl,--nxcompat -Wl,--no-seh -Wl,--dynamicbase -Wl,--warn-common -m64 -fstack-protector-strong -Wl,--start-group libqemuutil.a -pthread -L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -lgnutls -lwinmm -lm -L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -lgthread-2.0 -lglib-2.0 -lintl -lws2_32 -mconsole -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -Wl,--end-group
+> /usr/lib/gcc/x86_64-w64-mingw32/10.2.1/../../../../x86_64-w64-mingw32/bin/ld: libqemuutil.a(util_oslib-win32.c.obj): in function `qemu_try_set_nonblock':
+> /home/elmarco/src/qemu/buildw/../util/oslib-win32.c:224: undefined reference to `qemu_fd_register'
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  linux-user/sparc/signal.c | 4 ----
->  1 file changed, 4 deletions(-)
+>  util/main-loop-stub.c | 26 ++++++++++++++++++++++++++
+>  util/meson.build      |  2 ++
+>  2 files changed, 28 insertions(+)
+>  create mode 100644 util/main-loop-stub.c
 > 
-> diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-> index e661a769cb1..43dcd137f51 100644
-> --- a/linux-user/sparc/signal.c
-> +++ b/linux-user/sparc/signal.c
-> @@ -555,8 +555,6 @@ void sparc64_get_context(CPUSPARCState *env)
->          for (i = 0; i < TARGET_NSIG_WORDS; i++, dst++, src++) {
->              __put_user(*src, dst);
->          }
-> -        if (err)
-> -            goto do_sigsegv;
->      }
->  
->      /* XXX: tstate must be saved properly */
-> @@ -598,8 +596,6 @@ void sparc64_get_context(CPUSPARCState *env)
->       * hidden behind an "if (fenab)" where fenab is always 0).
->       */
->  
-> -    if (err)
-> -        goto do_sigsegv;
->      unlock_user_struct(ucp, ucp_addr, 1);
->      return;
->  do_sigsegv:
+> diff --git a/util/main-loop-stub.c b/util/main-loop-stub.c
+> new file mode 100644
+> index 0000000000..b3e175ade5
+> --- /dev/null
+> +++ b/util/main-loop-stub.c
+> @@ -0,0 +1,26 @@
+> +/*
+> + * QEMU main loop stub impl
+> + *
+> + * Copyright (c) 2020 Red Hat, Inc.
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/main-loop.h"
+> +
+> +void qemu_fd_register(int fd)
+> +{
+> +}
+> diff --git a/util/meson.build b/util/meson.build
+> index f359af0d46..462b79a61a 100644
+> --- a/util/meson.build
+> +++ b/util/meson.build
+> @@ -79,4 +79,6 @@ if have_block
+>    util_ss.add(when: 'CONFIG_INOTIFY1', if_true: files('filemonitor-inotify.c'),
+>                                          if_false: files('filemonitor-stub.c'))
+>    util_ss.add(when: 'CONFIG_LINUX', if_true: files('vfio-helpers.c'))
+> +else
+> +  util_ss.add(files('main-loop-stub.c'))
+>  endif
 > 
 
-Applied to my linux-user-for-6.0 branch.
+Is the root cause elsewhere though?
 
-Thanks,
-Laurent
+I don't like stubs very much, because often they are introduced as the easy way out of a problem instead of doing the necessary refactoring,
+and they end up confusing the hell out of someone trying to understand what is actually used where, never mind trying to debug the linker errors.
 
+There is already an bunch of #ifndef _WIN32, #else , ... in util/main-loop.c (quite a bunch of them really),
+is that what actually needs reworking, and putting the pieces together in the build system in a way that makes sense?
+
+Ciao, thanks,
+
+Claudio
 
