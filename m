@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7F12DCD53
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 09:04:26 +0100 (CET)
-Received: from localhost ([::1]:49944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 675C62DCD95
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 09:23:41 +0100 (CET)
+Received: from localhost ([::1]:60862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpoGu-0006fj-U6
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 03:04:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55560)
+	id 1kpoZX-00043X-Ra
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 03:23:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpoFQ-0006EF-0O
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 03:02:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpoFN-0007AM-58
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 03:02:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608192167;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jl/uOmjiiN1RgxSRzIjXpSsay2f4qL0xr70XZUZwHcE=;
- b=ef+i8Bc6ROVIGlz6OjRFvYK+PP3lqEhBO8hWeT5367XBPJXq+R2FoWCPNcTI4SnfcOnx2q
- AUC/6TAVjdS4EJcEE/XSUzuQLtHdPj2PR2dGukjH0S1RoeA+6XHxWYKmco1UdXFRBWxFkZ
- bNkitHyGPLI5vsWEPKbT1nguqVmbvxk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-n4J5rwRTNN-U41q47esUmA-1; Thu, 17 Dec 2020 03:02:45 -0500
-X-MC-Unique: n4J5rwRTNN-U41q47esUmA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26D36800D53
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 08:02:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FF8063633;
- Thu, 17 Dec 2020 08:02:40 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 01FC511329A5; Thu, 17 Dec 2020 09:02:39 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 08/12] qapi/schema: make QAPISourceInfo mandatory
-References: <20201214235327.1007124-1-jsnow@redhat.com>
- <20201214235327.1007124-9-jsnow@redhat.com>
- <875z52rr3h.fsf@dusky.pond.sub.org>
- <60c5ae45-c1c4-8bac-9617-5366e49dac7e@redhat.com>
-Date: Thu, 17 Dec 2020 09:02:38 +0100
-In-Reply-To: <60c5ae45-c1c4-8bac-9617-5366e49dac7e@redhat.com> (John Snow's
- message of "Wed, 16 Dec 2020 13:41:06 -0500")
-Message-ID: <87pn38lv1d.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpoYG-0003dJ-RS
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 03:22:20 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:46726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpoYE-0005jt-PX
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 03:22:20 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id d13so7395782wrc.13
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 00:22:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Nyq+7om6s+fYX7bREW/sWfTLxP2Pa8bwvfHP8ksIx5E=;
+ b=mNUm4hEyxnyDCMIFz6WxrTxulTYd/JIAL5d80YPpZqgEoPkb8+AKR90TbOHKPlv+HJ
+ QbJH7F8OOQpPhv2wdwtlwneZfECbl05cK1oS03Pdz4fpRAkqKeUxFofBwSq5m44gV2+d
+ /lUwM/Uptf1kj6h8lNTSCUopP+Hsunaf0jrsywv9aluvNhbWwhk2gNkmqvPhw6dNXfJ9
+ V9gau5Sd+Vmw/YrKz7WxHZjHaKe9VHRgSR1iGLTErFTQb95Wz1rQbOfS4NDs2lUfOFhg
+ 2g+6s1A6IHSybliq6syk6xXW0ksSUeq5LmvMhxCZy64WWVPY47rbCFSPT89Wt1jTwmZt
+ uRCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Nyq+7om6s+fYX7bREW/sWfTLxP2Pa8bwvfHP8ksIx5E=;
+ b=LufNWQGnHfRxNTR12b3um+gOXWRnS60iwhHthL9ba4/ytl1cTdmPF/emkBSiAPS499
+ cC6ZMB4ya28/4LcZXQi9xbaPFfoT6B6JWRV7zC9CK+x15uJT/KCpxzmuBo8k8eATt6gc
+ r9QHv0iSRNd2DPERDZzTI0L0/GC40e1SbxSVhdgZoU8G6mn2s7+2friipOL/6OJUbBRD
+ 1x0m+4d/nI/gxFm9FrzMTM1WNLWynLlGp3qnS49urrAvZNyaNqHZGwjx55qYrGorrwGy
+ aWVNpHRAwM7v19G6WeYzP/gOw6oVc5BI66Qvc0Pnu1Ra4rqVz1wY0Nit1TWRttiis+Sy
+ h3kg==
+X-Gm-Message-State: AOAM531fsKhC6iTkPO238RhoZsr5vtpPOgq11TqijR6wAiLyXUbY8LFC
+ +qKTPCkwN6AOje98zU0nDIGXwQ==
+X-Google-Smtp-Source: ABdhPJyvaxseMiBwxq58jRqmeeLtY/I8rSSrEHncG4rq8SfLpFa6jRjqw6ST44B778GSqSwCRLDFhA==
+X-Received: by 2002:adf:dd92:: with SMTP id x18mr6701547wrl.311.1608193336816; 
+ Thu, 17 Dec 2020 00:22:16 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p19sm9114987wrg.18.2020.12.17.00.22.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Dec 2020 00:22:15 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B551D1FF7E;
+ Thu, 17 Dec 2020 08:22:14 +0000 (GMT)
+References: <20201216164827.24457-1-alex.bennee@linaro.org>
+ <87ft45sj61.fsf@linaro.org>
+ <CAFEAcA9iXp8z_L-t6Y_kVfRMJf9a6MGMJVsLNVwzq6VfO9-Xmg@mail.gmail.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/11] testing and configure updates
+Date: Thu, 17 Dec 2020 08:20:47 +0000
+In-reply-to: <CAFEAcA9iXp8z_L-t6Y_kVfRMJf9a6MGMJVsLNVwzq6VfO9-Xmg@mail.gmail.com>
+Message-ID: <87a6ucsuyx.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,304 +88,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
 
-> On 12/16/20 5:18 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> --
->>>
->>> events.py had an info to route, was it by choice that it wasn't before?
->> 
->> See below.
->> 
->> I figure this is intentionally below the -- line, but ...
->> 
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->> 
->> ... this should be above it.
->> 
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> On Wed, 16 Dec 2020 at 18:24, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>>
+>> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>>
+>> > The following changes since commit af3f37319cb1e1ca0c42842ecdbd1bcfc64=
+a4b6f:
+>> >
+>> >   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstre=
+am' into staging (2020-12-15 21:24:31 +0000)
+>> >
+>> > are available in the Git repository at:
+>> >
+>> >   https://github.com/stsquad/qemu.git tags/pull-testing-161220-1
+>> >
+>> <snip>
+>> >   - hotfix for centos8 powertools repo
+>>
+>> As you have noted this requires the cached copy to be deleted. I'm not
+>> sure if it's worth handling that in code or if you just do that manually
+>> before you merge?
 >
-> Script failure. Or human failure, because I used '--' instead of '---'.
+> I would prefer it if the gitlab CI infra Just Worked. I don't
+> want to be manually messing around with it...
+
+I updated the centos8 image to FROM centos:8.3.2011 to trigger the full
+re-build automatically but that has caused a bunch of failures in other
+bits so that will need some additional fixes.
+
 >
->>> ---
->>>   scripts/qapi/events.py |  2 +-
->>>   scripts/qapi/schema.py | 23 +++++++++++++----------
->>>   scripts/qapi/types.py  |  9 +++++----
->>>   scripts/qapi/visit.py  |  6 +++---
->>>   4 files changed, 22 insertions(+), 18 deletions(-)
->>>
->>> diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
->>> index 9851653b9d11..9ba4f109028d 100644
->>> --- a/scripts/qapi/events.py
->>> +++ b/scripts/qapi/events.py
->>> @@ -225,7 +225,7 @@ def visit_event(self,
->>>                                             self._event_emit_name))
->>>           # Note: we generate the enum member regardless of @ifcond, to
->>>           # keep the enumeration usable in target-independent code.
->>> -        self._event_enum_members.append(QAPISchemaEnumMember(name, None))
->>> +        self._event_enum_members.append(QAPISchemaEnumMember(name, info))
->> 
->> We pass None because errors should never happen, and None makes that
->> quite clear.
->> 
->
-> Not clear: *why* should errors never happen? This is the only place we 
-> pass None for SourceInfo that isn't explicitly a literal built-in type. 
-> This is not obvious.
+> -- PMM
 
-You're right, but there are two separate "unclarities".
 
-Passing None effectively asserts "errors never happen".  We neglect to
-explain why, leaving the reader guessing.
-
-Passing @info "fixes" that by removing the assertion.  Now we have a
-more subtle problem: will errors make sense with this @info?  Normally,
-all members of an enum share one info.  Only this enum's members don't.
-It turns out the question is moot because @info is not actually used.
-But will it remain moot?  My point isn't that these are important
-questions to answer.  It is that we're replacing the relatively obvious
-question "why are we asserting errors can't happen" by more subtle ones.
-Feels like sweeping dirt under the rug.
-
->> We don't actually have a built-in QAPISchemaEnumType for the event enum.
->> We merely generate a C enum QAPIEvent along with macro QAPIEvent_str(),
->> by passing self._event_emit_name, self._event_enum_members straight to
->> gen_enum() and gen_enum_lookup().
->> 
->> If we did build a QAPISchemaEnumType, and used it to diagnose clashes,
->> then clashes would be reported like
->> 
->>      mumble.json: In event 'A-B':
->>      mumble.json: 2: value 'A-B' collides with value 'A_B'
->> 
->> leaving you guessing what "value" means, and where 'A_B' may be.
->> 
->> Bug: we don't diagnose certain event name clashes.  I'll fix it.
->> 
->
-> Not clear to me: If I want interface consistency, what *should* be 
-> passed downwards as the info? it's not quite a builtin as much as it is 
-> an inferred enum,
-
-True.
-
->                   so should I just ... leave it like this, or wait for 
-> you to offer a better fix?
-
-Waiting for some better fix feels undavisable.  We want to get type
-checking in place sooner rather than later.
-
-Aside: a possible fix is decoupling gen_enum_lookup() and gen_enum()
-from QAPISchemaEnumMember, so we don't have to make up
-QAPISchemaEnumMembers here.
-
-I think there are two interpretations of your QAPISourceInfo work's aim:
-
-1. Narrow: use a special QAPISourceInfo rather then None as "no errors
-   shall happen" poison.
-
-   QAPISourceInfo.builtin() returns this poison.  The name "builtin" is
-   less than ideal.
-
-2. Ambitious: eliminate "no errors shall happen".
-
-We're discussing this in reply of PATCH 06.  I think we need to reach a
-conclusion there before we can decide here.
-
->>>   
->>>   
->>>   def gen_events(schema: QAPISchema,
->>> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
->>> index 720449feee4d..d5f19732b516 100644
->>> --- a/scripts/qapi/schema.py
->>> +++ b/scripts/qapi/schema.py
->>> @@ -23,6 +23,7 @@
->>>   from .error import QAPIError, QAPISemError
->>>   from .expr import check_exprs
->>>   from .parser import QAPISchemaParser
->>> +from .source import QAPISourceInfo
->>>   
->>>   
->>>   class QAPISchemaEntity:
->>> @@ -36,10 +37,10 @@ def __init__(self, name, info, doc, ifcond=None, features=None):
->>>           self.name = name
->>>           self._module = None
->>>           # For explicitly defined entities, info points to the (explicit)
->>> -        # definition.  For builtins (and their arrays), info is None.
->>> -        # For implicitly defined entities, info points to a place that
->>> -        # triggered the implicit definition (there may be more than one
->>> -        # such place).
->>> +        # definition.  For builtins (and their arrays), info is a null-object
->>> +        # sentinel that evaluates to False. For implicitly defined entities,
->>> +        # info points to a place that triggered the implicit definition
->>> +        # (there may be more than one such place).
->> 
->> s/builtins/built-in types/
->> 
->> The meaning of "a null object sentinel" is less than clear.  Perhaps "a
->> special object".
->> 
->
-> OK.
->
->>>           self.info = info
->>>           self.doc = doc
->>>           self._ifcond = ifcond or []
->>> @@ -209,7 +210,7 @@ class QAPISchemaBuiltinType(QAPISchemaType):
->>>       meta = 'built-in'
->>>   
->>>       def __init__(self, name, json_type, c_type):
->>> -        super().__init__(name, None, None)
->>> +        super().__init__(name, QAPISourceInfo.builtin(), None)
->>>           assert not c_type or isinstance(c_type, str)
->>>           assert json_type in ('string', 'number', 'int', 'boolean', 'null',
->>>                                'value')
->>> @@ -871,7 +872,7 @@ def resolve_type(self, name, info, what):
->>>           return typ
->>>   
->>>       def _module_name(self, fname):
->>> -        if fname is None:
->>> +        if not fname:
->>>               return None
->>>           return os.path.relpath(fname, self._schema_dir)
->>>   
->> 
->> Sure this hunk belongs to this patch?
->> 
->
-> Accident.
->
-> "info and info.fname" does not behave the same with a falsey info object 
-> as it does when info was genuinely None; I compensated for that *here*, 
-> but I should have compensated for it elsewhere.
->
->>> @@ -897,9 +898,11 @@ def _def_builtin_type(self, name, json_type, c_type):
->>>           # be nice, but we can't as long as their generated code
->>>           # (qapi-builtin-types.[ch]) may be shared by some other
->>>           # schema.
->>> -        self._make_array_type(name, None)
->>> +        self._make_array_type(name, QAPISourceInfo.builtin())
->>>   
->>>       def _def_predefineds(self):
->>> +        info = QAPISourceInfo.builtin()
->>> +
->> 
->> Everything else gets its very own copy of the "no source info" object,
->> except for the stuff defined here, which gets to share one.  Isn't that
->> odd?
->> 
->
-> It's also the only function where we define so many built-ins in the 
-> same place, so spiritually they do have the same SourceInfo, right? :)
->
-> (OK, no, it wasn't a conscious design choice, but it also seems 
-> harmless. I am going to assume you'd prefer I not do this?)
-
-It is harmless.  It just made me wonder why we create more than one such
-QAPISourceInfo in the first place.  Method builtin() could return the
-same one every time.  It could even be an attribute instead of a method.
-Anyway, no big deal.
-
->>>           for t in [('str',    'string',  'char' + POINTER_SUFFIX),
->>>                     ('number', 'number',  'double'),
->>>                     ('int',    'int',     'int64_t'),
->>> @@ -917,15 +920,15 @@ def _def_predefineds(self):
->>>                     ('null',   'null',    'QNull' + POINTER_SUFFIX)]:
->>>               self._def_builtin_type(*t)
->>>           self.the_empty_object_type = QAPISchemaObjectType(
->>> -            'q_empty', None, None, None, None, None, [], None)
->>> +            'q_empty', info, None, None, None, None, [], None)
->>>           self._def_entity(self.the_empty_object_type)
->>>   
->>>           qtypes = ['none', 'qnull', 'qnum', 'qstring', 'qdict', 'qlist',
->>>                     'qbool']
->>>           qtype_values = self._make_enum_members(
->>> -            [{'name': n} for n in qtypes], None)
->>> +            [{'name': n} for n in qtypes], info)
->>>   
->>> -        self._def_entity(QAPISchemaEnumType('QType', None, None, None, None,
->>> +        self._def_entity(QAPISchemaEnumType('QType', info, None, None, None,
->>>                                               qtype_values, 'QTYPE'))
->>>   
->>>       def _make_features(self, features, info):
->>> diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
->>> index 2b4916cdaa1b..a3a16284006b 100644
->>> --- a/scripts/qapi/types.py
->>> +++ b/scripts/qapi/types.py
->>> @@ -71,7 +71,8 @@ def gen_enum(name: str,
->>>                members: List[QAPISchemaEnumMember],
->>>                prefix: Optional[str] = None) -> str:
->>>       # append automatically generated _MAX value
->>> -    enum_members = members + [QAPISchemaEnumMember('_MAX', None)]
->>> +    enum_members = members + [
->>> +        QAPISchemaEnumMember('_MAX', QAPISourceInfo.builtin())]
->>>   
->>>       ret = mcgen('''
->>>   
->>> @@ -306,7 +307,7 @@ def _gen_type_cleanup(self, name: str) -> None:
->>>   
->>>       def visit_enum_type(self,
->>>                           name: str,
->>> -                        info: Optional[QAPISourceInfo],
->>> +                        info: QAPISourceInfo,
->>>                           ifcond: List[str],
->>>                           features: List[QAPISchemaFeature],
->>>                           members: List[QAPISchemaEnumMember],
->>> @@ -317,7 +318,7 @@ def visit_enum_type(self,
->>>   
->>>       def visit_array_type(self,
->>>                            name: str,
->>> -                         info: Optional[QAPISourceInfo],
->>> +                         info: QAPISourceInfo,
->>>                            ifcond: List[str],
->>>                            element_type: QAPISchemaType) -> None:
->>>           with ifcontext(ifcond, self._genh, self._genc):
->>> @@ -327,7 +328,7 @@ def visit_array_type(self,
->>>   
->>>       def visit_object_type(self,
->>>                             name: str,
->>> -                          info: Optional[QAPISourceInfo],
->>> +                          info: QAPISourceInfo,
->>>                             ifcond: List[str],
->>>                             features: List[QAPISchemaFeature],
->>>                             base: Optional[QAPISchemaObjectType],
->>> diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
->>> index 339f1521524c..3f49c307c566 100644
->>> --- a/scripts/qapi/visit.py
->>> +++ b/scripts/qapi/visit.py
->>> @@ -336,7 +336,7 @@ def _begin_user_module(self, name: str) -> None:
->>>   
->>>       def visit_enum_type(self,
->>>                           name: str,
->>> -                        info: QAPISourceInfo,
->>> +                        info: Optional[QAPISourceInfo],
->>>                           ifcond: List[str],
->>>                           features: List[QAPISchemaFeature],
->>>                           members: List[QAPISchemaEnumMember],
->>> @@ -347,7 +347,7 @@ def visit_enum_type(self,
->>>   
->>>       def visit_array_type(self,
->>>                            name: str,
->>> -                         info: Optional[QAPISourceInfo],
->>> +                         info: QAPISourceInfo,
->>>                            ifcond: List[str],
->>>                            element_type: QAPISchemaType) -> None:
->>>           with ifcontext(ifcond, self._genh, self._genc):
->>> @@ -356,7 +356,7 @@ def visit_array_type(self,
->>>   
->>>       def visit_object_type(self,
->>>                             name: str,
->>> -                          info: Optional[QAPISourceInfo],
->>> +                          info: QAPISourceInfo,
->>>                             ifcond: List[str],
->>>                             features: List[QAPISchemaFeature],
->>>                             base: Optional[QAPISchemaObjectType],
-
+--=20
+Alex Benn=C3=A9e
 
