@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D05D2DCF02
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 11:02:35 +0100 (CET)
-Received: from localhost ([::1]:38422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69E72DD43C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:34:31 +0100 (CET)
+Received: from localhost ([::1]:49912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpq7G-0008Aq-Ik
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 05:02:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48856)
+	id 1kpvIT-0007jO-De
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:34:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpppf-0000WI-2A
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:44:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58575)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kpvCl-0003OO-BB
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:28:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kpppZ-0000TF-VV
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:44:22 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kpvCj-0005zA-HF
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:28:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608198257;
+ s=mimecast20190719; t=1608218912;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=L/7TpK3Ef4tIMDY4Nzwi5+MjAuy+oBEvFOcs2XikCqs=;
- b=JHoSrK2KmtCodSo265CE74bVy36rDLWGKBs7jpvgvCsiABJOa8p7GoC2ncgG1GUNlsydb7
- hw8QFGTC38klZbBxhtWNNxmio1kzWj7MqmD/nSLDk8rIp6TXeEMeWo0eZVZGkza3vjGvpE
- vRgknKOTYy6rmWN2wfFG5dxzYRCALcU=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-148-hEkGB5lqNWy8ocqBkRC5hw-1; Thu, 17 Dec 2020 04:44:15 -0500
-X-MC-Unique: hEkGB5lqNWy8ocqBkRC5hw-1
-Received: by mail-ed1-f72.google.com with SMTP id bo22so13153451edb.15
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:44:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=L/7TpK3Ef4tIMDY4Nzwi5+MjAuy+oBEvFOcs2XikCqs=;
- b=qwx0v5aWF84aIuJrszQJM5n3tJzTsHGlCwu1oUQZ3s8TpzK8aCDDbtx3ASxTDaNmnz
- w4hUQ/M9KZ4lFrzY2rzPUYeqgsRwcNXz4SgTQBfoZirolfx1pbS/iHuchlSdI1FcpPwP
- VoWUz9hiVdpbTduyiBvj3xQb+qSUS12LODYpVAxstJliGyD9piCUodTeoNXvk6zV+INv
- ezRlc43BuAzd/TMCxD3CwRtbFjJGsaFMOBmnrVztwSh1MU7A+IdEKf8oPsShKhd0h8Zp
- fqOAH+PjGrg7nnuPZGaNnTNgLKqUTGdVMnBft+In7fPLTCryFMK686nxIsFhhl/MZbgp
- Kzzw==
-X-Gm-Message-State: AOAM533gwSpetP/CoN+VhL9tw1MPHfKhm0VmdXb4AAsNRG9RTnL+wkFt
- v7hnX7rTN6HhhaGzugcwjdL64I2gCCTx9nuf6ZPOwPQKqmblZ0d1/SQcq2UJxhDMOAhABO2U5RZ
- x5Yven0q8YNTcFpk=
-X-Received: by 2002:a17:906:eb49:: with SMTP id
- mc9mr33447678ejb.487.1608198254016; 
- Thu, 17 Dec 2020 01:44:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz4DlrWQq4ReDA7aZV4nTczADu3FTGIhcsJefxzwXZCN32QlMN5kVA9VhHTryQV2JUo4YEgHA==
-X-Received: by 2002:a17:906:eb49:: with SMTP id
- mc9mr33447669ejb.487.1608198253835; 
- Thu, 17 Dec 2020 01:44:13 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id op5sm3366021ejb.43.2020.12.17.01.44.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Dec 2020 01:44:13 -0800 (PST)
-Subject: Re: Bug: qemu-system-ppc -M mac99 boots into compat-monitor, not
- openbios.
-To: Howard Spoelstra <hsp.cat7@gmail.com>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <CABLmASExSbekU=r2LajHDVxWXEY-vxBnT+_BnjdAm6Y9Nw8y1g@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <353a6f24-3027-d80d-bed3-82560a8afab5@redhat.com>
-Date: Thu, 17 Dec 2020 10:44:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ bh=BTQyBU2bx65y2imo//estOit4JLjzGaDQszoxinPR8I=;
+ b=fWHPIqymEqQ/Dw7fVS3tjKfio3v1tde7X9y2VOX2ghB2YflXbEUcnbLMuucXHmeIqkedZa
+ mcUTDC8QXgDHk/bNdaYFlpc3IwqfZIiFbz/deeJTwbwBteYFcLMrfEyW2WMJ9pUGQqwRAf
+ GBDm5SbzmxHlsCa1LrJT+qGA2gFn6/E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-202-toqOdtalMRanVsH52mqNyQ-1; Thu, 17 Dec 2020 10:28:28 -0500
+X-MC-Unique: toqOdtalMRanVsH52mqNyQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1390835B61;
+ Thu, 17 Dec 2020 15:28:19 +0000 (UTC)
+Received: from localhost (ovpn-115-250.ams2.redhat.com [10.36.115.250])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 740276ACE1;
+ Thu, 17 Dec 2020 15:28:17 +0000 (UTC)
+Date: Thu, 17 Dec 2020 09:47:35 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alex Chen <alex.chen@huawei.com>
+Subject: Re: [PATCH] readline: Fix possible array index out of bounds in
+ readline_hist_add()
+Message-ID: <20201217094735.GC4338@stefanha-x1.localdomain>
+References: <20201203135043.117072-1-alex.chen@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <CABLmASExSbekU=r2LajHDVxWXEY-vxBnT+_BnjdAm6Y9Nw8y1g@mail.gmail.com>
+In-Reply-To: <20201203135043.117072-1-alex.chen@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vOmOzSkFvhd7u8Ms"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,55 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, mjt@tls.msk.ru, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/12/20 22:16, Howard Spoelstra wrote:
-> Hi all,
-> 
-> It seems a qemu-system-ppc from current master no longer boots into 
-> openbios, but into to the compat monitor.
-> Command line to reproduce:
-> /home/hsp/src/qemu-master/build/qemu-system-ppc \
-> -L pc-bios \
-> -M mac99,via=pmu -m 1024 -boot c \
-> -drive file=/home/hsp/Mac-disks/9.2.img,format=raw,media=disk
-> 
-> Bisecting leads to this commit:
-> 
-> commit b4e1a342112e50e05b609e857f38c1f2b7aafdc4
-> Author: Paolo Bonzini <pbonzini@redhat.com <mailto:pbonzini@redhat.com>>
-> Date:   Tue Oct 27 08:44:23 2020 -0400
-> 
->      vl: remove separate preconfig main_loop
-> 
->      Move post-preconfig initialization to the x-exit-preconfig.  If 
-> preconfig
->      is not requested, just exit preconfig mode immediately with the QMP
->      command.
-> 
->      As a result, the preconfig loop will run with accel_setup_post
->      and os_setup_post restrictions (xen_restrict, chroot, etc.)
->      already done.
-> 
->      Reviewed-by: Igor Mammedov <imammedo@redhat.com 
-> <mailto:imammedo@redhat.com>>
->      Signed-off-by: Paolo Bonzini <pbonzini@redhat.com 
-> <mailto:pbonzini@redhat.com>>
-> 
->   include/sysemu/runstate.h |  1 -
->   monitor/qmp-cmds.c        |  9 -----
->   softmmu/vl.c              | 95 
-> ++++++++++++++++++++---------------------------
->   3 files changed, 41 insertions(+), 64 deletions(-)
-> 
-> Thanks for looking into this,
-> 
-> Best,
-> Howard
+--vOmOzSkFvhd7u8Ms
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Should be a one-line change, I have sent a patch.
+On Thu, Dec 03, 2020 at 01:50:43PM +0000, Alex Chen wrote:
+> When the 'cmdline' is the last entry in 'rs->history' array, there is
+> no need to put this entry to the end of the array, partly because it is
+> the last entry, and partly because the next operition will lead to array
+> index out of bounds.
+>=20
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+> ---
+>  util/readline.c | 3 +++
+>  1 file changed, 3 insertions(+)
 
-Paolo
+Thanks, applied to my block tree:
+https://gitlab.com/stefanha/qemu/commits/block
+
+Stefan
+
+--vOmOzSkFvhd7u8Ms
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/bKTcACgkQnKSrs4Gr
+c8iVhAf+IJzjhu/Crk8dMJrX7s4rVEJN3GS2V45V2967kIbCwuN5TsFtyzdOrj7D
+ZzjoGI5ndkHtfUQ6BGz5GWD00w+xGDNkSOs8ldl7eCjHmq6kv9YCVGeIMwHQhQFb
+x+MJoM6pYrBg2Ko9sHq2wyBWLw/N2D5E6XIll4IU4vFb1ybhAFZch13vQYz8XFe+
+eNZkIM0oZFOq2TUT67hcF3rGjgnujbYeX3rlPhQPfAwJF09HoeLRHPSHBeF11OEW
+Jm3Gk1xKy5Nfxw17qeK9SSn81HSiH6je27ujQtQ8ofNUof15Pt7TfRi0aDK3P/hS
+mMl2InXz+BxVSu/IR0loRnICgovIlg==
+=FfCr
+-----END PGP SIGNATURE-----
+
+--vOmOzSkFvhd7u8Ms--
 
 
