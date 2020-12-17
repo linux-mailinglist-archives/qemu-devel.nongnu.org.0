@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96C22DD456
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:40:35 +0100 (CET)
-Received: from localhost ([::1]:36404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E002DD49A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:52:24 +0100 (CET)
+Received: from localhost ([::1]:41218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpvOM-0005Tc-Hl
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:40:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42864)
+	id 1kpvZn-0002Xu-K0
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:52:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kpvME-0003lx-KC
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:38:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36180)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kpvMD-0003k9-Nr
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:38:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kpvMC-0007A9-Sg
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:38:22 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kpvMC-00078w-4n
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:38:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608219500;
+ s=mimecast20190719; t=1608219499;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uB8t/ed0eWCpzbMtlZyPmvfm1sd0uT7mTQgP7lht7Fc=;
- b=BxzeK9PP4MaXnDPPCJsdcwHTX8akjJbXUX7fX5eDYiEwHV5a9vQQuYlsFCgRvSU7xqS795
- Lm9nh68+SZ92IC0E/wr8NnlmgZ1Kwxio+BcJfEHNXOKAzU81XWABTom+d+PMt5pojAxuQO
- c0oYZknS3YgpJlqbchGJQFNuha8mZnQ=
+ bh=vU7csvr9Ti/jkL8FHIqekZe6NlaHON7sxoWSznnM5ec=;
+ b=BWbx5gLddUfnyVD3XuFgoqSX2v/UqXV4fwnc8QRNimig4UgkH9Q8ZK9kKxYp3Tb8Cxl1ff
+ EJoO3GMRu6IpOqcXIqAayVFUQi2AUt/AoKRrRn1f0YNlWdHet/HSMFOPOMpg0wfnvCAeV9
+ U+L89rfmrQVoNavDPlQk+yCTMfoWPqg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-nwqR0fZ2MdW0ic8JF5oTRQ-1; Thu, 17 Dec 2020 10:38:18 -0500
-X-MC-Unique: nwqR0fZ2MdW0ic8JF5oTRQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-62-7QQr8fH1N3SkEqTgXQA6gQ-1; Thu, 17 Dec 2020 10:38:15 -0500
+X-MC-Unique: 7QQr8fH1N3SkEqTgXQA6gQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74C1D107ACE4;
- Thu, 17 Dec 2020 15:38:17 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.35.206.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 176AD10013C0;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5926AFA81;
  Thu, 17 Dec 2020 15:38:14 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] scripts/gdb: fix 'qemu coroutine' when users selects a
- non topmost stack frame
-Date: Thu, 17 Dec 2020 17:38:10 +0200
-Message-Id: <20201217153811.919932-2-mlevitsk@redhat.com>
-In-Reply-To: <20201217153811.919932-1-mlevitsk@redhat.com>
-References: <20201217153811.919932-1-mlevitsk@redhat.com>
+Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CADF5D9D2;
+ Thu, 17 Dec 2020 15:38:13 +0000 (UTC)
+Date: Thu, 17 Dec 2020 15:38:10 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Tuguoyi <tu.guoyi@h3c.com>, berrange@redhat.com
+Subject: Re: [PATCH 2/2] savevm: Delete snapshots just created in case of error
+Message-ID: <20201217153810.GJ4117@work-vm>
+References: <1607410416-13563-1-git-send-email-tu.guoyi@h3c.com>
+ <1607410416-13563-3-git-send-email-tu.guoyi@h3c.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <1607410416-13563-3-git-send-email-tu.guoyi@h3c.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlevitsk@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,58 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: tuguoyi@outlook.com, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code that dumps the stack frame works like that:
-* save current registers
-* overwrite current registers (including rip/rsp) with coroutine snapshot
-  in the jmpbuf
-* print backtrace
-* restore the saved registers.
+* Tuguoyi (tu.guoyi@h3c.com) wrote:
+> bdrv_all_create_snapshot() can fails with some snapshots created,
+> so it's better to delete those snapshots before returns to the caller
+> 
+> Signed-off-by: Tuguoyi <tu.guoyi@h3c.com>
 
-If the user has currently selected a non topmost stack frame in gdb,
-the above code will still restore the selected frame registers,
-but the gdb will then lose the selected frame index, which makes it impossible
-to switch back to frame 0, to continue debugging the executable.
+This makes sense to me,
 
-Therefore switch temporarily to the topmost frame of the stack
-for the above code.
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- scripts/qemugdb/coroutine.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-diff --git a/scripts/qemugdb/coroutine.py b/scripts/qemugdb/coroutine.py
-index db61389022..e1399211e6 100644
---- a/scripts/qemugdb/coroutine.py
-+++ b/scripts/qemugdb/coroutine.py
-@@ -70,6 +70,11 @@ def bt_jmpbuf(jmpbuf):
-     regs = get_jmpbuf_regs(jmpbuf)
-     old = dict()
- 
-+    # remember current stack frame and select the topmost
-+    # so that register modifications don't wreck it
-+    selected_frame = gdb.selected_frame()
-+    gdb.newest_frame().select()
-+
-     for i in regs:
-         old[i] = gdb.parse_and_eval('(uint64_t)$%s' % i)
- 
-@@ -81,6 +86,8 @@ def bt_jmpbuf(jmpbuf):
-     for i in regs:
-         gdb.execute('set $%s = %s' % (i, old[i]))
- 
-+    selected_frame.select()
-+
- def coroutine_to_jmpbuf(co):
-     coroutine_pointer = co.cast(gdb.lookup_type('CoroutineUContext').pointer())
-     return coroutine_pointer['env']['__jmpbuf']
+> ---
+>  migration/savevm.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 601b514..4a18c9d 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -2833,6 +2833,7 @@ int save_snapshot(const char *name, Error **errp)
+>      if (ret < 0) {
+>          error_setg(errp, "Error while creating snapshot on '%s'",
+>                     bdrv_get_device_or_node_name(bs));
+> +        bdrv_all_delete_snapshot(sn->name, &bs, NULL);
+>          goto the_end;
+>      }
+>  
+> -- 
+> 2.7.4
+> 
 -- 
-2.26.2
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
