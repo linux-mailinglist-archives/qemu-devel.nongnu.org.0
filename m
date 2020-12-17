@@ -2,81 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2BEA2DD14B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 13:19:09 +0100 (CET)
-Received: from localhost ([::1]:60998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCEB32DD18A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 13:36:01 +0100 (CET)
+Received: from localhost ([::1]:57628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpsFP-00088C-Hh
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 07:19:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55008)
+	id 1kpsVk-0002TE-Qn
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 07:36:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kpsCW-0007Ic-5P
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 07:16:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42176)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kpsCR-0002wz-8s
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 07:16:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608207361;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=I5xozBUlgyHGtEYKIVkrzLA8qUfuIS9he5Je91bk87w=;
- b=LU8E1Qp6MCcgC8+5zPc+UEsiA+AyUBNrckUU6CCgmbxCIiDOXpRSEw5LbrFloaqCNTehtb
- SfrC44aazBl5vBBmRobuu/MqSK/OjJbGXGQDM3XxTm9dl3AJlznOLEvjV/6Dl21yAN2DU3
- Xy7hF0Wak3+6pVtpi/FjL19eaY9OUyk=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-hFWmypiaMb2kunQRMT0qJQ-1; Thu, 17 Dec 2020 07:15:56 -0500
-X-MC-Unique: hFWmypiaMb2kunQRMT0qJQ-1
-Received: by mail-io1-f71.google.com with SMTP id l5so27044687ioj.17
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 04:15:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=I5xozBUlgyHGtEYKIVkrzLA8qUfuIS9he5Je91bk87w=;
- b=pviHdxutLCf5HWok00BXsiDnUyqCWpMvjUmsUiZxpuGgoWR2rkCEidyaNzadq1p8jy
- YPIR5woDVnspX52pWIs7c4p50+YJzLesmJINjJjOcs/m+QLmWERlWxM88QP5Bi5FvVsy
- DNwEmh2NmpgjH0eoaDXawrMRc18cOUr2r5nwnokIh4H5Zx0b2kUVS1EeFgeie1uh/NQP
- uOsNjS3VA2Hmvb4V24UuUu1vSPt8MSdMfif3nSHj2Aaji9UofRjhMD9GDlx+CLyJlnEH
- 5V2Y72rBOl/vEoVKY8CqaNl0p7OPY//8i570icmuKZXMgBvdNBH/kEXEiA32MtAXq/p3
- s8OQ==
-X-Gm-Message-State: AOAM533RWrjYRMkU1YV5cK7z+WUcU+vj7RhEXWSlJ0pxMBCyNfZKVAAJ
- TcobhhY0b1Dlfren7tDywFIp+vo+8Bi9nyA6LAb1SaKIM9Av0g0MBqPUtL3XipmV8y1B4j4UIai
- ymru+qCzDBZOgDvQQ53GRf4Ec8rw7sEA=
-X-Received: by 2002:a92:c26c:: with SMTP id h12mr43536722ild.165.1608207356038; 
- Thu, 17 Dec 2020 04:15:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwoICh2hdbTVZAU9xxbGFW0L/hl+dOOB+8iuqkRVE4Cnr7AcdRMf/Mr2uqsP843GOcNvUgWL7HL6Pafy8EILDs=
-X-Received: by 2002:a92:c26c:: with SMTP id h12mr43536709ild.165.1608207355833; 
- Thu, 17 Dec 2020 04:15:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kpsRW-0008Lm-KH; Thu, 17 Dec 2020 07:31:38 -0500
+Received: from mail-am6eur05on2103.outbound.protection.outlook.com
+ ([40.107.22.103]:40672 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kpsRS-0008Hw-II; Thu, 17 Dec 2020 07:31:37 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jGTgfwADh0tqBcSmZwUS5bO7yupVX+oDwgVxR5yBlG9+PvscGPWjC3h0Y7XN5PQnnT1Qp5RJgDQg8t3Sv8SzdrQNKYeQfCh7PK0Uz2CjK+CMsIZmZ7Rp/KD3F1MXAH9/Q3wCIAxFsrsMN/FjXMLRAWaVFuAFglHhZ4vlWPnxQOVr2ZhcE8ISsEhS5Ep22O+/cyIQKUPtMqjn8nc9TtHrW6wsnL4eVVRUHn9F4jRRhKgu6sJ0RFnCiffI0OO5hjQ29jYJam2DdngP0LAts++f1Xtadu14A4UA0XgoqEmGL/HzhpteVTuYT3qqkA/CplwDwkBQXp9C/CVmiNfr9emY3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WgfnhvsHdDRWEisntm7/av+ZDm7Sh8jJKEKzppf3gq0=;
+ b=StuX3LH1pDwcWLDWlZbEfPr31W1jVhBwx9a0posvnR2W5kK52lAoYfL7LYlXkebdBk61Uaa2yoSUsZvDzii0MhFxt2vyITNhJPDlMNxljRNkmsm74xXoeGGELjyOm/qzavfzl/uNS4x2Xp+WmlQE0quSoC3F/a8mRXbGARldLdxb9Vqoz5px1j7W4nr9W2sXkVL9Sig0TM7XDbDwIeB5I/N/2lDhxJBv6qjBEq/4yaZJUHNrPMJinhyqpY90qf/1pRziXEg6iQ+St94RZyd7BaRRmHW5FY3Oyem2yJ3FnYfkG5B20oax7r8Wt4qff2Hugf9WnX4gpgRoNCtH0/bR/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WgfnhvsHdDRWEisntm7/av+ZDm7Sh8jJKEKzppf3gq0=;
+ b=YzCQDJwZy4uoHXu1LkcFaiRRt0YalRdOPA1NlwT9FGfFDrKBDaA7DKraTmin4A8rwbzgdUrc2VQVfyHEnXcEbRYMZxbVQCv8Aq0WDaUsQoRU4ue3FEA4QwUiB0wCEgR5EZQCPgWkSruEAfDrOGVH8j8tvc8qXdyoGWqR+K0RgUs=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1906.eurprd08.prod.outlook.com (2603:10a6:203:48::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.21; Thu, 17 Dec
+ 2020 12:16:29 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3654.024; Thu, 17 Dec 2020
+ 12:16:28 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu block <qemu-block@nongnu.org>
+Subject: aio-poll dead-lock
+Message-ID: <cc1d5eea-5a7a-5d78-5dbe-b10695078c11@virtuozzo.com>
+Date: Thu, 17 Dec 2020 15:16:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.92]
+X-ClientProxiedBy: AM0PR02CA0110.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28c::7) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20201217094044.46462-1-pbonzini@redhat.com>
- <20201217094044.46462-5-pbonzini@redhat.com>
-In-Reply-To: <20201217094044.46462-5-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 17 Dec 2020 16:15:44 +0400
-Message-ID: <CAMxuvaxu0mUDvTgZCQBTWqC7Q9eC6e4HkFFcuB7fdVkne36JEg@mail.gmail.com>
-Subject: Re: [PATCH 04/18] glusterfs: convert to meson
-To: Paolo Bonzini <pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000002b8c7805b6a7f403"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.92) by
+ AM0PR02CA0110.eurprd02.prod.outlook.com (2603:10a6:20b:28c::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3654.12 via Frontend Transport; Thu, 17 Dec 2020 12:16:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f9714ac6-1c1f-4d60-79ad-08d8a2859523
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1906:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB190668910AF9AA4BD8952DB9C1C40@AM5PR0801MB1906.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: u9DuTKZarFBc2dvZgjiPn9SlwUEAXO4CsrTuRRcNi4PUYEURkVB3RCuK6T2IS/k/gLxaiLo5NXtNwAO43r0wcG2/EEDkdrJhVADjRDd6ct4ferYiHty4vuJRBtIo8XdRi+DSflvri0Tp43tB1+IcCFTL8X6oUSIkIBbDos0OV4SiI9MylFk+j9kNHmOJpwQzwOwCEbVvu6/WKkX0swXqfYZ3LtLnfDpT9+23xdHCVGCGk9lf26CzkhQCcsh3VF964fbWeiAo5Z1npIcMEvL3PSHFpts7c+jGDW708ZLsYAAFKNy/a8JfZYYNrX3jV17ZSmuyqULbdjiNzcf7zx8Lr2l1dYLWhQKNBjJFWlZcZaPpCfASmkul5xQe1D4EkI80wb6iKdf2mFUbBOq1TmE7KFCHrLkMGdO146vKJeFAv9s=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(376002)(136003)(39840400004)(366004)(26005)(66946007)(54906003)(31686004)(8936002)(5660300002)(2906002)(4326008)(66476007)(478600001)(16576012)(16526019)(316002)(52116002)(83380400001)(8676002)(36756003)(956004)(6486002)(186003)(31696002)(86362001)(2616005)(6916009)(3480700007)(66556008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?N0NMVERjbGRSOVYwWUl2ZWVvWGFUTXpkdGtTN1B3L3FFRHU2ZVFuN1dPdUEz?=
+ =?utf-8?B?Unhwa296Tm5qV2ZVVjlvbWRZTXRPSTRhMzlKYmNVUnpoVlluL3M4YWpUYUVs?=
+ =?utf-8?B?QmRUQkZDZHd5eVFtcXRoVzFRRFhZYmZ5Z2xPZEVpMldNYzBXb3E5cFVUQWFw?=
+ =?utf-8?B?OEZ0aUxPM2ozeXo3THJaRXArRDBzbEE1akN4M2FlaUJjYmg5VmVoZjZVS2pB?=
+ =?utf-8?B?eG1nYXN0Q3VNaWFWcFNiNXg1ZGpZL0lBQ2tzOFRtb1ZpQlNOVWRHcW9VUkYw?=
+ =?utf-8?B?ZjFNQWtjNlZFOVR4d2tzWGFadm5nK2NSbmxtTGE2Q1FuYTZscjZyWGZ5bEVr?=
+ =?utf-8?B?YzBwRTlNWFZZUlhScnlMcm80Qm5VVi9KT2M4bzBhTGRjU3NxRU5KY1Nha0VP?=
+ =?utf-8?B?eHBKdllIa1NPSFlvQ1RMZU1qNnluTVM2WHg4V0kwVU0zbDdIcUNEMkROa2w3?=
+ =?utf-8?B?ZTlWZU9ubU1RN0FDMlJDWThDRmdsUE1TYW05cXBkOUFFVTRHWmh2a09WR1JG?=
+ =?utf-8?B?NHlZUFIwdE1jZzhYMkVxTEQ3NHc0VFY4RDZobG1hdWZUMlFqcmRLeTIydHNE?=
+ =?utf-8?B?VVRVMlo3SmRpUXY5ZG83NjBXQkZHZU5vZWtLWHBjZ2I1Y2JsUlgyd08wNUsx?=
+ =?utf-8?B?MTVScHZRc2V5d3huSnNSbS9vcks5OFh1MmZIRUxFaVlyMWlSTWZ5NnJEN0V5?=
+ =?utf-8?B?SHF5N2lOSjdiV3A3MVhaY2tsQWxLazR3TVJpenc3b01WMVZucExkUFJ0ZXhk?=
+ =?utf-8?B?UTl5Y1N2cmllUnNSbVAyNVVEelNwaHVQUm9wNkVMTXYvbi9XZFhJbXFYejlx?=
+ =?utf-8?B?dUU0Y1JUY3RVdi83WCtNYTk2L0VnRklnZzJrRlNIS3ErL1VrUXJGR1RtY01X?=
+ =?utf-8?B?c25JK2ptdXZiNFFnV0R0V2h5SFVvMkFjbm82RW41TzhKaGYxajZ1ZnhtelRq?=
+ =?utf-8?B?bzliTlJwZFZDU0xJSkg4TXQzL0hiZDVJaTFhd2VNK0NCMHppbXBPTFJZOFNF?=
+ =?utf-8?B?U1VUR3dqT3FSaG15K0ljYkFnam4zdGU3V0pNcE9aTHpybll4QmgrVDVaMDlW?=
+ =?utf-8?B?ZG1NTHNCOFNYZjZvVFJUVWRzdG5nblU3UFViSTBXVUxPS0ZaanBZb2R4bEll?=
+ =?utf-8?B?ZCtRbFF6UHBiTGIwVzE4MWhsZGY4R1dMZlFoZnU2QmpLSDQ0R2V5NjkrMnJL?=
+ =?utf-8?B?c0U3ejFuQ21FZU1PTGE4dHRMdkFBM1pYZGd4UVFHTE43RVlMWXhKcU9tZGdr?=
+ =?utf-8?B?QjlhTkNZdHdDU01mS0t1NmdTSzhERjY3NkxqNTRNMlgwMnJzS3d0K3FobWZQ?=
+ =?utf-8?Q?LELkM+COqyB6joBt33cYHsY8NN1rJGw7Td?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2020 12:16:28.8340 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9714ac6-1c1f-4d60-79ad-08d8a2859523
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: t4ggRf9KFj6tJJP8qybbZNyPSL+8XmwJrYU/h7A25vM5qTX1J1Is+oyhgy+4l4nGxKOum3AXJZe9t+VcR+/c5IfkqoE0BQhxpucg6nA5GbA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1906
+Received-SPF: pass client-ip=40.107.22.103;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,632 +131,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002b8c7805b6a7f403
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I don't think that it's something new, but just to keep it in mind:
 
-Hi
+blk_prw do polling with increased in-flight counter.
 
-On Thu, Dec 17, 2020 at 1:40 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+So, if some bh wants to do drain, we definitely dead-lock in a nested aio_poll loop.
 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  configure         | 102 ++--------------------------------------------
->  meson.build       |  46 +++++++++++++++++++--
->  meson_options.txt |   2 +
->  3 files changed, 48 insertions(+), 102 deletions(-)
->
-> diff --git a/configure b/configure
-> index 71196b1fe7..5529ac4b32 100755
-> --- a/configure
-> +++ b/configure
-> @@ -415,13 +415,7 @@ crypto_afalg=3D"no"
->  cfi=3D"false"
->  cfi_debug=3D"false"
->  seccomp=3D"$default_feature"
-> -glusterfs=3D"$default_feature"
-> -glusterfs_xlator_opt=3D"no"
-> -glusterfs_discard=3D"no"
-> -glusterfs_fallocate=3D"no"
-> -glusterfs_zerofill=3D"no"
-> -glusterfs_ftruncate_has_stat=3D"no"
-> -glusterfs_iocb_has_stat=3D"no"
-> +glusterfs=3D"auto"
->  gtk=3D"$default_feature"
->  gtk_gl=3D"no"
->  tls_priority=3D"NORMAL"
-> @@ -1366,7 +1360,7 @@ for opt do
->    ;;
->    --disable-seccomp) seccomp=3D"no"
->    ;;
-> -  --disable-glusterfs) glusterfs=3D"no"
-> +  --disable-glusterfs) glusterfs=3D"disabled"
->    ;;
->    --disable-avx2) avx2_opt=3D"no"
->    ;;
-> @@ -1377,7 +1371,7 @@ for opt do
->    --enable-avx512f) avx512f_opt=3D"yes"
->    ;;
->
-> -  --enable-glusterfs) glusterfs=3D"yes"
-> +  --enable-glusterfs) glusterfs=3D"enabled"
->    ;;
->    --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
->        echo "$0: $opt is obsolete, virtio-blk data-plane is always on" >&=
-2
-> @@ -3871,64 +3865,6 @@ if test "$libxml2" !=3D "no" ; then
->      fi
->  fi
->
-> -##########################################
-> -# glusterfs probe
-> -if test "$glusterfs" !=3D "no" ; then
-> -  if $pkg_config --atleast-version=3D3 glusterfs-api; then
-> -    glusterfs=3D"yes"
-> -    glusterfs_cflags=3D$($pkg_config --cflags glusterfs-api)
-> -    glusterfs_libs=3D$($pkg_config --libs glusterfs-api)
-> -    if $pkg_config --atleast-version=3D4 glusterfs-api; then
-> -      glusterfs_xlator_opt=3D"yes"
-> -    fi
-> -    if $pkg_config --atleast-version=3D5 glusterfs-api; then
-> -      glusterfs_discard=3D"yes"
-> -    fi
-> -    if $pkg_config --atleast-version=3D6 glusterfs-api; then
-> -      glusterfs_fallocate=3D"yes"
-> -      glusterfs_zerofill=3D"yes"
-> -    fi
-> -    cat > $TMPC << EOF
-> -#include <glusterfs/api/glfs.h>
-> -
-> -int
-> -main(void)
-> -{
-> -       /* new glfs_ftruncate() passes two additional args */
-> -       return glfs_ftruncate(NULL, 0, NULL, NULL);
-> -}
-> -EOF
-> -    if compile_prog "$glusterfs_cflags" "$glusterfs_libs" ; then
-> -      glusterfs_ftruncate_has_stat=3D"yes"
-> -    fi
-> -    cat > $TMPC << EOF
-> -#include <glusterfs/api/glfs.h>
-> -
-> -/* new glfs_io_cbk() passes two additional glfs_stat structs */
-> -static void
-> -glusterfs_iocb(glfs_fd_t *fd, ssize_t ret, struct glfs_stat *prestat,
-> struct glfs_stat *poststat, void *data)
-> -{}
-> -
-> -int
-> -main(void)
-> -{
-> -       glfs_io_cbk iocb =3D &glusterfs_iocb;
-> -       iocb(NULL, 0 , NULL, NULL, NULL);
-> -       return 0;
-> -}
-> -EOF
-> -    if compile_prog "$glusterfs_cflags" "$glusterfs_libs" ; then
-> -      glusterfs_iocb_has_stat=3D"yes"
-> -    fi
-> -  else
-> -    if test "$glusterfs" =3D "yes" ; then
-> -      feature_not_found "GlusterFS backend support" \
-> -          "Install glusterfs-api devel >=3D 3"
-> -    fi
-> -    glusterfs=3D"no"
-> -  fi
-> -fi
-> -
->  # Check for inotify functions when we are building linux-user
->  # emulator.  This is done because older glibc versions don't
->  # have syscall stubs for these implemented.  In that case we
-> @@ -6415,36 +6351,6 @@ if test "$getauxval" =3D "yes" ; then
->    echo "CONFIG_GETAUXVAL=3Dy" >> $config_host_mak
->  fi
->
-> -if test "$glusterfs" =3D "yes" ; then
-> -  echo "CONFIG_GLUSTERFS=3Dy" >> $config_host_mak
-> -  echo "GLUSTERFS_CFLAGS=3D$glusterfs_cflags" >> $config_host_mak
-> -  echo "GLUSTERFS_LIBS=3D$glusterfs_libs" >> $config_host_mak
-> -fi
-> -
-> -if test "$glusterfs_xlator_opt" =3D "yes" ; then
-> -  echo "CONFIG_GLUSTERFS_XLATOR_OPT=3Dy" >> $config_host_mak
-> -fi
-> -
-> -if test "$glusterfs_discard" =3D "yes" ; then
-> -  echo "CONFIG_GLUSTERFS_DISCARD=3Dy" >> $config_host_mak
-> -fi
-> -
-> -if test "$glusterfs_fallocate" =3D "yes" ; then
-> -  echo "CONFIG_GLUSTERFS_FALLOCATE=3Dy" >> $config_host_mak
-> -fi
-> -
-> -if test "$glusterfs_zerofill" =3D "yes" ; then
-> -  echo "CONFIG_GLUSTERFS_ZEROFILL=3Dy" >> $config_host_mak
-> -fi
-> -
-> -if test "$glusterfs_ftruncate_has_stat" =3D "yes" ; then
-> -  echo "CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT=3Dy" >> $config_host_mak
-> -fi
-> -
-> -if test "$glusterfs_iocb_has_stat" =3D "yes" ; then
-> -  echo "CONFIG_GLUSTERFS_IOCB_HAS_STAT=3Dy" >> $config_host_mak
-> -fi
-> -
->  if test "$libssh" =3D "yes" ; then
->    echo "CONFIG_LIBSSH=3Dy" >> $config_host_mak
->    echo "LIBSSH_CFLAGS=3D$libssh_cflags" >> $config_host_mak
-> @@ -6919,7 +6825,7 @@ NINJA=3D$ninja $meson setup \
->          -Dvnc=3D$vnc -Dvnc_sasl=3D$vnc_sasl -Dvnc_jpeg=3D$vnc_jpeg
-> -Dvnc_png=3D$vnc_png \
->          -Dgettext=3D$gettext -Dxkbcommon=3D$xkbcommon -Du2f=3D$u2f
-> -Dvirtiofsd=3D$virtiofsd \
->          -Dcapstone=3D$capstone -Dslirp=3D$slirp -Dfdt=3D$fdt -Dbrlapi=3D=
-$brlapi \
-> -        -Dcurl=3D$curl \
-> +        -Dcurl=3D$curl -Dglusterfs=3D$glusterfs \
->          -Diconv=3D$iconv -Dcurses=3D$curses -Dlibudev=3D$libudev\
->          -Ddocs=3D$docs -Dsphinx_build=3D$sphinx_build -Dinstall_blobs=3D=
-$blobs \
->          -Dvhost_user_blk_server=3D$vhost_user_blk_server \
-> diff --git a/meson.build b/meson.build
-> index 83dbc61acd..409b958a7f 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -613,9 +613,40 @@ if 'CONFIG_RBD' in config_host
->    rbd =3D declare_dependency(link_args: config_host['RBD_LIBS'].split())
->  endif
->  glusterfs =3D not_found
-> -if 'CONFIG_GLUSTERFS' in config_host
-> -  glusterfs =3D declare_dependency(compile_args:
-> config_host['GLUSTERFS_CFLAGS'].split(),
-> -                                 link_args:
-> config_host['GLUSTERFS_LIBS'].split())
-> +glusterfs_ftruncate_has_stat =3D false
-> +glusterfs_iocb_has_stat =3D false
-> +if not get_option('glusterfs').auto() or have_block
-> +  glusterfs =3D dependency('glusterfs-api', version: '>=3D3',
-> +                         required: get_option('glusterfs'),
-> +                         method: 'pkg-config', static: enable_static)
-> +  if glusterfs.found()
-> +    glusterfs_ftruncate_has_stat =3D cc.links('''
-> +      #include <glusterfs/api/glfs.h>
-> +
-> +      int
-> +      main(void)
-> +      {
-> +          /* new glfs_ftruncate() passes two additional args */
-> +          return glfs_ftruncate(NULL, 0, NULL, NULL);
-> +      }
-> +    ''', dependencies: glusterfs)
-> +    glusterfs_iocb_has_stat =3D cc.links('''
-> +      #include <glusterfs/api/glfs.h>
-> +
-> +      /* new glfs_io_cbk() passes two additional glfs_stat structs */
-> +      static void
-> +      glusterfs_iocb(glfs_fd_t *fd, ssize_t ret, struct glfs_stat
-> *prestat, struct glfs_stat *poststat, void *data)
-> +      {}
-> +
-> +      int
-> +      main(void)
-> +      {
-> +          glfs_io_cbk iocb =3D &glusterfs_iocb;
-> +          iocb(NULL, 0 , NULL, NULL, NULL);
-> +          return 0;
-> +      }
-> +    ''', dependencies: glusterfs)
-> +  endif
->  endif
->  libssh =3D not_found
->  if 'CONFIG_LIBSSH' in config_host
-> @@ -876,6 +907,13 @@ config_host_data.set('CONFIG_MPATH',
-> mpathpersist.found())
->  config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
->  config_host_data.set('CONFIG_CURL', curl.found())
->  config_host_data.set('CONFIG_CURSES', curses.found())
-> +config_host_data.set('CONFIG_GLUSTERFS', glusterfs.found())
-> +config_host_data.set('CONFIG_GLUSTERFS_XLATOR_OPT',
-> glusterfs.version().version_compare('>=3D4'))
-> +config_host_data.set('CONFIG_GLUSTERFS_DISCARD',
-> glusterfs.version().version_compare('>=3D5'))
-> +config_host_data.set('CONFIG_GLUSTERFS_FALLOCATE',
-> glusterfs.version().version_compare('>=3D6'))
-> +config_host_data.set('CONFIG_GLUSTERFS_ZEROFILL',
-> glusterfs.version().version_compare('>=3D6'))
-> +config_host_data.set('CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT',
-> glusterfs_ftruncate_has_stat)
-> +config_host_data.set('CONFIG_GLUSTERFS_IOCB_HAS_STAT',
-> glusterfs_iocb_has_stat)
->
+Here is a backtrace (comes from Virtuozzo branch, so I don't have reproducer for master, but probably I'll return to this later):
 
+#0  0x00007f895d751b56 in ppoll () at /lib64/libc.so.6
+#1  0x0000558f664e371c in qemu_poll_ns (fds=0x558f6778e630, nfds=1, timeout=-1) at util/qemu-timer.c:335
+#2  0x0000558f664bf5a5 in fdmon_poll_wait (ctx=0x558f67769480, ready_list=0x7ffe3d6be730, timeout=-1) at util/fdmon-poll.c:79
+#3  0x0000558f664beed3 in aio_poll (ctx=0x558f67769480, blocking=true) at util/aio-posix.c:600
+#4  0x0000558f663e8f82 in bdrv_do_drained_begin (bs=0x558f6855bcc0, recursive=false, parent=0x0, ignore_bds_parents=false, poll=true) at block/io.c:435
+#5  0x0000558f663e9067 in bdrv_drained_begin (bs=0x558f6855bcc0) at block/io.c:441
+#6  0x0000558f66411df3 in bdrv_backup_top_drop (bs=0x558f6855bcc0) at block/backup-top.c:296
+#7  0x0000558f6640a0de in backup_clean (job=0x558f6814f130) at block/backup.c:109
+#8  0x0000558f66372019 in job_clean (job=0x558f6814f130) at job.c:678
+#9  0x0000558f66372094 in job_finalize_single (job=0x558f6814f130) at job.c:694
+#10 0x0000558f66370c41 in job_txn_apply (job=0x558f6814f130, fn=0x558f6637201c <job_finalize_single>) at job.c:158
+#11 0x0000558f6637243b in job_do_finalize (job=0x558f6814f130) at job.c:803
+#12 0x0000558f663725d8 in job_completed_txn_success (job=0x558f6814f130) at job.c:853
+#13 0x0000558f66372678 in job_completed (job=0x558f6814f130) at job.c:866
+#14 0x0000558f663726cb in job_exit (opaque=0x558f6814f130) at job.c:886
+#15 0x0000558f664d48eb in aio_bh_call (bh=0x558f683ee370) at util/async.c:136
+#16 0x0000558f664d49f5 in aio_bh_poll (ctx=0x558f67769480) at util/async.c:164
+#17 0x0000558f664bf0c6 in aio_poll (ctx=0x558f67769480, blocking=true) at util/aio-posix.c:650
+#18 0x0000558f663d357a in blk_prw (blk=0x558f677804d0, offset=0, buf=0x558f67f34000 '\253' <repeats 200 times>..., bytes=65536, co_entry=0x558f663d339f <blk_write_entry>, flags=0) at block/block-backend.c:1336
+#19 0x0000558f663d3be3 in blk_pwrite (blk=0x558f677804d0, offset=0, buf=0x558f67f34000, count=65536, flags=0) at block/block-backend.c:1502
+#20 0x0000558f66374355 in do_pwrite (blk=0x558f677804d0, buf=0x558f67f34000 '\253' <repeats 200 times>..., offset=0, bytes=65536, flags=0, total=0x7ffe3d6bec38) at qemu-io-cmds.c:551
+#21 0x0000558f6637566a in write_f (blk=0x558f677804d0, argc=4, argv=0x558f685600d0) at qemu-io-cmds.c:1192
+#22 0x0000558f66373244 in command (blk=0x558f677804d0, ct=0x558f67544a58, argc=4, argv=0x558f685600d0) at qemu-io-cmds.c:118
+#23 0x0000558f66377d80 in qemuio_command (blk=0x558f677804d0, cmd=0x558f67ff0ee0 "write -P0xab 0 64k") at qemu-io-cmds.c:2465
+#24 0x0000558f6608badd in hmp_qemu_io (mon=0x7ffe3d6bee50, qdict=0x558f68125010) at block/monitor/block-hmp-cmds.c:628
+#25 0x0000558f662c76b2 in handle_hmp_command (mon=0x7ffe3d6bee50, cmdline=0x7f8948007688 "drive0 \"write -P0xab 0 64k\"") at monitor/hmp.c:1082
+#26 0x0000558f65fb12c6 in qmp_human_monitor_command (command_line=0x7f8948007680 "qemu-io drive0 \"write -P0xab 0 64k\"", has_cpu_index=false, cpu_index=0, errp=0x7ffe3d6bef58)
+     at /work/src/qemu/vz-8.0/monitor/misc.c:141
+#27 0x0000558f662facb1 in qmp_marshal_human_monitor_command (args=0x7f8948007930, ret=0x7ffe3d6befe0, errp=0x7ffe3d6befd8) at qapi/qapi-commands-misc.c:653
+#28 0x0000558f66468ff9 in qmp_dispatch (cmds=0x558f66a9bd10 <qmp_commands>, request=0x7f8948005600, allow_oob=false) at qapi/qmp-dispatch.c:155
+#29 0x0000558f662c416c in monitor_qmp_dispatch (mon=0x558f67790ab0, req=0x7f8948005600) at monitor/qmp.c:145
+#30 0x0000558f662c451b in monitor_qmp_bh_dispatcher (data=0x0) at monitor/qmp.c:234
+#31 0x0000558f664d48eb in aio_bh_call (bh=0x558f67594bb0) at util/async.c:136
+#32 0x0000558f664d49f5 in aio_bh_poll (ctx=0x558f675945f0) at util/async.c:164
+#33 0x0000558f664be7ca in aio_dispatch (ctx=0x558f675945f0) at util/aio-posix.c:380
+#34 0x0000558f664d4e26 in aio_ctx_dispatch (source=0x558f675945f0, callback=0x0, user_data=0x0) at util/async.c:306
+#35 0x00007f895f6bf570 in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
+#36 0x0000558f664dcd13 in glib_pollfds_poll () at util/main-loop.c:217
+#37 0x0000558f664dcd8d in os_host_main_loop_wait (timeout=985763000) at util/main-loop.c:240
+#38 0x0000558f664dce92 in main_loop_wait (nonblocking=0) at util/main-loop.c:516
+#39 0x0000558f65fcfe66 in qemu_main_loop () at /work/src/qemu/vz-8.0/softmmu/vl.c:1676
+#40 0x0000558f664625e4 in main (argc=20, argv=0x7ffe3d6bf468, envp=0x7ffe3d6bf510) at /work/src/qemu/vz-8.0/softmmu/main.c:49
 
-Since the header doesn't seem to export the version, we could have a
-CONFIG_GLUSTERFS_VERSION with the major version instead.. for a future
-cleanup eventually
+As far as I know, the only way to figth with this thing is moving things to coroutine. So, I think, moving backup_clean to coroutine is a necessary thing.
 
-lgtm
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Any thoughts?
 
- config_host_data.set('CONFIG_SDL', sdl.found())
->  config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
->  config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER',
-> have_vhost_user_blk_server)
-> @@ -2252,7 +2290,7 @@ summary_info +=3D {'coroutine pool':
-> config_host['CONFIG_COROUTINE_POOL'] =3D=3D '1
->  summary_info +=3D {'debug stack usage':
-> config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
->  summary_info +=3D {'mutex debugging':
->  config_host.has_key('CONFIG_DEBUG_MUTEX')}
->  summary_info +=3D {'crypto afalg':
-> config_host.has_key('CONFIG_AF_ALG')}
-> -summary_info +=3D {'GlusterFS support':
-> config_host.has_key('CONFIG_GLUSTERFS')}
-> +summary_info +=3D {'GlusterFS support': glusterfs.found()}
->  summary_info +=3D {'gcov':              get_option('b_coverage')}
->  summary_info +=3D {'TPM support':       config_host.has_key('CONFIG_TPM'=
-)}
->  summary_info +=3D {'libssh support':
-> config_host.has_key('CONFIG_LIBSSH')}
-> diff --git a/meson_options.txt b/meson_options.txt
-> index 2b845ac62b..b5d84bb88b 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -46,6 +46,8 @@ option('cocoa', type : 'feature', value : 'auto',
->         description: 'Cocoa user interface (macOS only)')
->  option('curl', type : 'feature', value : 'auto',
->         description: 'CURL block device driver')
-> +option('glusterfs', type : 'feature', value : 'auto',
-> +       description: 'Glusterfs block device driver')
->  option('mpath', type : 'feature', value : 'auto',
->         description: 'Multipath persistent reservation passthrough')
->  option('iconv', type : 'feature', value : 'auto',
-> --
-> 2.29.2
->
->
->
-
---0000000000002b8c7805b6a7f403
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 17, 2020 at 1:40 PM Pao=
-lo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Si=
-gned-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" targe=
-t=3D"_blank">pbonzini@redhat.com</a>&gt;<br>
----<br>
-=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 102 ++------------------=
---------------------------<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 46 +++++++++++++++++++-=
--<br>
-=C2=A0meson_options.txt |=C2=A0 =C2=A02 +<br>
-=C2=A03 files changed, 48 insertions(+), 102 deletions(-)<br>
-<br>
-diff --git a/configure b/configure<br>
-index 71196b1fe7..5529ac4b32 100755<br>
---- a/configure<br>
-+++ b/configure<br>
-@@ -415,13 +415,7 @@ crypto_afalg=3D&quot;no&quot;<br>
-=C2=A0cfi=3D&quot;false&quot;<br>
-=C2=A0cfi_debug=3D&quot;false&quot;<br>
-=C2=A0seccomp=3D&quot;$default_feature&quot;<br>
--glusterfs=3D&quot;$default_feature&quot;<br>
--glusterfs_xlator_opt=3D&quot;no&quot;<br>
--glusterfs_discard=3D&quot;no&quot;<br>
--glusterfs_fallocate=3D&quot;no&quot;<br>
--glusterfs_zerofill=3D&quot;no&quot;<br>
--glusterfs_ftruncate_has_stat=3D&quot;no&quot;<br>
--glusterfs_iocb_has_stat=3D&quot;no&quot;<br>
-+glusterfs=3D&quot;auto&quot;<br>
-=C2=A0gtk=3D&quot;$default_feature&quot;<br>
-=C2=A0gtk_gl=3D&quot;no&quot;<br>
-=C2=A0tls_priority=3D&quot;NORMAL&quot;<br>
-@@ -1366,7 +1360,7 @@ for opt do<br>
-=C2=A0 =C2=A0;;<br>
-=C2=A0 =C2=A0--disable-seccomp) seccomp=3D&quot;no&quot;<br>
-=C2=A0 =C2=A0;;<br>
--=C2=A0 --disable-glusterfs) glusterfs=3D&quot;no&quot;<br>
-+=C2=A0 --disable-glusterfs) glusterfs=3D&quot;disabled&quot;<br>
-=C2=A0 =C2=A0;;<br>
-=C2=A0 =C2=A0--disable-avx2) avx2_opt=3D&quot;no&quot;<br>
-=C2=A0 =C2=A0;;<br>
-@@ -1377,7 +1371,7 @@ for opt do<br>
-=C2=A0 =C2=A0--enable-avx512f) avx512f_opt=3D&quot;yes&quot;<br>
-=C2=A0 =C2=A0;;<br>
-<br>
--=C2=A0 --enable-glusterfs) glusterfs=3D&quot;yes&quot;<br>
-+=C2=A0 --enable-glusterfs) glusterfs=3D&quot;enabled&quot;<br>
-=C2=A0 =C2=A0;;<br>
-=C2=A0 =C2=A0--disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane=
-)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;$0: $opt is obsolete, virtio-blk data=
--plane is always on&quot; &gt;&amp;2<br>
-@@ -3871,64 +3865,6 @@ if test &quot;$libxml2&quot; !=3D &quot;no&quot; ; t=
-hen<br>
-=C2=A0 =C2=A0 =C2=A0fi<br>
-=C2=A0fi<br>
-<br>
--##########################################<br>
--# glusterfs probe<br>
--if test &quot;$glusterfs&quot; !=3D &quot;no&quot; ; then<br>
--=C2=A0 if $pkg_config --atleast-version=3D3 glusterfs-api; then<br>
--=C2=A0 =C2=A0 glusterfs=3D&quot;yes&quot;<br>
--=C2=A0 =C2=A0 glusterfs_cflags=3D$($pkg_config --cflags glusterfs-api)<br>
--=C2=A0 =C2=A0 glusterfs_libs=3D$($pkg_config --libs glusterfs-api)<br>
--=C2=A0 =C2=A0 if $pkg_config --atleast-version=3D4 glusterfs-api; then<br>
--=C2=A0 =C2=A0 =C2=A0 glusterfs_xlator_opt=3D&quot;yes&quot;<br>
--=C2=A0 =C2=A0 fi<br>
--=C2=A0 =C2=A0 if $pkg_config --atleast-version=3D5 glusterfs-api; then<br>
--=C2=A0 =C2=A0 =C2=A0 glusterfs_discard=3D&quot;yes&quot;<br>
--=C2=A0 =C2=A0 fi<br>
--=C2=A0 =C2=A0 if $pkg_config --atleast-version=3D6 glusterfs-api; then<br>
--=C2=A0 =C2=A0 =C2=A0 glusterfs_fallocate=3D&quot;yes&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 glusterfs_zerofill=3D&quot;yes&quot;<br>
--=C2=A0 =C2=A0 fi<br>
--=C2=A0 =C2=A0 cat &gt; $TMPC &lt;&lt; EOF<br>
--#include &lt;glusterfs/api/glfs.h&gt;<br>
--<br>
--int<br>
--main(void)<br>
--{<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0/* new glfs_ftruncate() passes two additional a=
-rgs */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return glfs_ftruncate(NULL, 0, NULL, NULL);<br>
--}<br>
--EOF<br>
--=C2=A0 =C2=A0 if compile_prog &quot;$glusterfs_cflags&quot; &quot;$gluster=
-fs_libs&quot; ; then<br>
--=C2=A0 =C2=A0 =C2=A0 glusterfs_ftruncate_has_stat=3D&quot;yes&quot;<br>
--=C2=A0 =C2=A0 fi<br>
--=C2=A0 =C2=A0 cat &gt; $TMPC &lt;&lt; EOF<br>
--#include &lt;glusterfs/api/glfs.h&gt;<br>
--<br>
--/* new glfs_io_cbk() passes two additional glfs_stat structs */<br>
--static void<br>
--glusterfs_iocb(glfs_fd_t *fd, ssize_t ret, struct glfs_stat *prestat, stru=
-ct glfs_stat *poststat, void *data)<br>
--{}<br>
--<br>
--int<br>
--main(void)<br>
--{<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0glfs_io_cbk iocb =3D &amp;glusterfs_iocb;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0iocb(NULL, 0 , NULL, NULL, NULL);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
--}<br>
--EOF<br>
--=C2=A0 =C2=A0 if compile_prog &quot;$glusterfs_cflags&quot; &quot;$gluster=
-fs_libs&quot; ; then<br>
--=C2=A0 =C2=A0 =C2=A0 glusterfs_iocb_has_stat=3D&quot;yes&quot;<br>
--=C2=A0 =C2=A0 fi<br>
--=C2=A0 else<br>
--=C2=A0 =C2=A0 if test &quot;$glusterfs&quot; =3D &quot;yes&quot; ; then<br=
->
--=C2=A0 =C2=A0 =C2=A0 feature_not_found &quot;GlusterFS backend support&quo=
-t; \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Install glusterfs-api devel &gt;=
-=3D 3&quot;<br>
--=C2=A0 =C2=A0 fi<br>
--=C2=A0 =C2=A0 glusterfs=3D&quot;no&quot;<br>
--=C2=A0 fi<br>
--fi<br>
--<br>
-=C2=A0# Check for inotify functions when we are building linux-user<br>
-=C2=A0# emulator.=C2=A0 This is done because older glibc versions don&#39;t=
-<br>
-=C2=A0# have syscall stubs for these implemented.=C2=A0 In that case we<br>
-@@ -6415,36 +6351,6 @@ if test &quot;$getauxval&quot; =3D &quot;yes&quot; ;=
- then<br>
-=C2=A0 =C2=A0echo &quot;CONFIG_GETAUXVAL=3Dy&quot; &gt;&gt; $config_host_ma=
-k<br>
-=C2=A0fi<br>
-<br>
--if test &quot;$glusterfs&quot; =3D &quot;yes&quot; ; then<br>
--=C2=A0 echo &quot;CONFIG_GLUSTERFS=3Dy&quot; &gt;&gt; $config_host_mak<br>
--=C2=A0 echo &quot;GLUSTERFS_CFLAGS=3D$glusterfs_cflags&quot; &gt;&gt; $con=
-fig_host_mak<br>
--=C2=A0 echo &quot;GLUSTERFS_LIBS=3D$glusterfs_libs&quot; &gt;&gt; $config_=
-host_mak<br>
--fi<br>
--<br>
--if test &quot;$glusterfs_xlator_opt&quot; =3D &quot;yes&quot; ; then<br>
--=C2=A0 echo &quot;CONFIG_GLUSTERFS_XLATOR_OPT=3Dy&quot; &gt;&gt; $config_h=
-ost_mak<br>
--fi<br>
--<br>
--if test &quot;$glusterfs_discard&quot; =3D &quot;yes&quot; ; then<br>
--=C2=A0 echo &quot;CONFIG_GLUSTERFS_DISCARD=3Dy&quot; &gt;&gt; $config_host=
-_mak<br>
--fi<br>
--<br>
--if test &quot;$glusterfs_fallocate&quot; =3D &quot;yes&quot; ; then<br>
--=C2=A0 echo &quot;CONFIG_GLUSTERFS_FALLOCATE=3Dy&quot; &gt;&gt; $config_ho=
-st_mak<br>
--fi<br>
--<br>
--if test &quot;$glusterfs_zerofill&quot; =3D &quot;yes&quot; ; then<br>
--=C2=A0 echo &quot;CONFIG_GLUSTERFS_ZEROFILL=3Dy&quot; &gt;&gt; $config_hos=
-t_mak<br>
--fi<br>
--<br>
--if test &quot;$glusterfs_ftruncate_has_stat&quot; =3D &quot;yes&quot; ; th=
-en<br>
--=C2=A0 echo &quot;CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT=3Dy&quot; &gt;&gt; $=
-config_host_mak<br>
--fi<br>
--<br>
--if test &quot;$glusterfs_iocb_has_stat&quot; =3D &quot;yes&quot; ; then<br=
->
--=C2=A0 echo &quot;CONFIG_GLUSTERFS_IOCB_HAS_STAT=3Dy&quot; &gt;&gt; $confi=
-g_host_mak<br>
--fi<br>
--<br>
-=C2=A0if test &quot;$libssh&quot; =3D &quot;yes&quot; ; then<br>
-=C2=A0 =C2=A0echo &quot;CONFIG_LIBSSH=3Dy&quot; &gt;&gt; $config_host_mak<b=
-r>
-=C2=A0 =C2=A0echo &quot;LIBSSH_CFLAGS=3D$libssh_cflags&quot; &gt;&gt; $conf=
-ig_host_mak<br>
-@@ -6919,7 +6825,7 @@ NINJA=3D$ninja $meson setup \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dvnc=3D$vnc -Dvnc_sasl=3D$vnc_sasl -Dvnc=
-_jpeg=3D$vnc_jpeg -Dvnc_png=3D$vnc_png \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dgettext=3D$gettext -Dxkbcommon=3D$xkbco=
-mmon -Du2f=3D$u2f -Dvirtiofsd=3D$virtiofsd \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dcapstone=3D$capstone -Dslirp=3D$slirp -=
-Dfdt=3D$fdt -Dbrlapi=3D$brlapi \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 -Dcurl=3D$curl \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 -Dcurl=3D$curl -Dglusterfs=3D$glusterfs \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Diconv=3D$iconv -Dcurses=3D$curses -Dlib=
-udev=3D$libudev\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Ddocs=3D$docs -Dsphinx_build=3D$sphinx_b=
-uild -Dinstall_blobs=3D$blobs \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dvhost_user_blk_server=3D$vhost_user_blk=
-_server \<br>
-diff --git a/meson.build b/meson.build<br>
-index 83dbc61acd..409b958a7f 100644<br>
---- a/meson.build<br>
-+++ b/meson.build<br>
-@@ -613,9 +613,40 @@ if &#39;CONFIG_RBD&#39; in config_host<br>
-=C2=A0 =C2=A0rbd =3D declare_dependency(link_args: config_host[&#39;RBD_LIB=
-S&#39;].split())<br>
-=C2=A0endif<br>
-=C2=A0glusterfs =3D not_found<br>
--if &#39;CONFIG_GLUSTERFS&#39; in config_host<br>
--=C2=A0 glusterfs =3D declare_dependency(compile_args: config_host[&#39;GLU=
-STERFS_CFLAGS&#39;].split(),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0link_args: config_host[&#39;GL=
-USTERFS_LIBS&#39;].split())<br>
-+glusterfs_ftruncate_has_stat =3D false<br>
-+glusterfs_iocb_has_stat =3D false<br>
-+if not get_option(&#39;glusterfs&#39;).auto() or have_block<br>
-+=C2=A0 glusterfs =3D dependency(&#39;glusterfs-api&#39;, version: &#39;&gt=
-;=3D3&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0required: get_option(&#39;glusterfs&#39;),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0method: &#39;pkg-config&#39;, static: enable_static)<br>
-+=C2=A0 if glusterfs.found()<br>
-+=C2=A0 =C2=A0 glusterfs_ftruncate_has_stat =3D cc.links(&#39;&#39;&#39;<br=
->
-+=C2=A0 =C2=A0 =C2=A0 #include &lt;glusterfs/api/glfs.h&gt;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 int<br>
-+=C2=A0 =C2=A0 =C2=A0 main(void)<br>
-+=C2=A0 =C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* new glfs_ftruncate() passes two addi=
-tional args */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return glfs_ftruncate(NULL, 0, NULL, NU=
-LL);<br>
-+=C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 &#39;&#39;&#39;, dependencies: glusterfs)<br>
-+=C2=A0 =C2=A0 glusterfs_iocb_has_stat =3D cc.links(&#39;&#39;&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 #include &lt;glusterfs/api/glfs.h&gt;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 /* new glfs_io_cbk() passes two additional glfs_stat =
-structs */<br>
-+=C2=A0 =C2=A0 =C2=A0 static void<br>
-+=C2=A0 =C2=A0 =C2=A0 glusterfs_iocb(glfs_fd_t *fd, ssize_t ret, struct glf=
-s_stat *prestat, struct glfs_stat *poststat, void *data)<br>
-+=C2=A0 =C2=A0 =C2=A0 {}<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 int<br>
-+=C2=A0 =C2=A0 =C2=A0 main(void)<br>
-+=C2=A0 =C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 glfs_io_cbk iocb =3D &amp;glusterfs_ioc=
-b;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 iocb(NULL, 0 , NULL, NULL, NULL);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 &#39;&#39;&#39;, dependencies: glusterfs)<br>
-+=C2=A0 endif<br>
-=C2=A0endif<br>
-=C2=A0libssh =3D not_found<br>
-=C2=A0if &#39;CONFIG_LIBSSH&#39; in config_host<br>
-@@ -876,6 +907,13 @@ config_host_data.set(&#39;CONFIG_MPATH&#39;, mpathpers=
-ist.found())<br>
-=C2=A0config_host_data.set(&#39;CONFIG_MPATH_NEW_API&#39;, mpathpersist_new=
-_api)<br>
-=C2=A0config_host_data.set(&#39;CONFIG_CURL&#39;, curl.found())<br>
-=C2=A0config_host_data.set(&#39;CONFIG_CURSES&#39;, curses.found())<br>
-+config_host_data.set(&#39;CONFIG_GLUSTERFS&#39;, glusterfs.found())<br>
-+config_host_data.set(&#39;CONFIG_GLUSTERFS_XLATOR_OPT&#39;, glusterfs.vers=
-ion().version_compare(&#39;&gt;=3D4&#39;))<br>
-+config_host_data.set(&#39;CONFIG_GLUSTERFS_DISCARD&#39;, glusterfs.version=
-().version_compare(&#39;&gt;=3D5&#39;))<br>
-+config_host_data.set(&#39;CONFIG_GLUSTERFS_FALLOCATE&#39;, glusterfs.versi=
-on().version_compare(&#39;&gt;=3D6&#39;))<br>
-+config_host_data.set(&#39;CONFIG_GLUSTERFS_ZEROFILL&#39;, glusterfs.versio=
-n().version_compare(&#39;&gt;=3D6&#39;))<br>
-+config_host_data.set(&#39;CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT&#39;, gluste=
-rfs_ftruncate_has_stat)<br>
-+config_host_data.set(&#39;CONFIG_GLUSTERFS_IOCB_HAS_STAT&#39;, glusterfs_i=
-ocb_has_stat)<br></blockquote><div><br></div><br><div>Since the header does=
-n&#39;t seem to export the version, we could have a CONFIG_GLUSTERFS_VERSIO=
-N with the major version instead.. for a future cleanup eventually</div><di=
-v><br></div><div>lgtm<br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt=
-;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com=
-</a>&gt; </div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">
-=C2=A0config_host_data.set(&#39;CONFIG_SDL&#39;, sdl.found())<br>
-=C2=A0config_host_data.set(&#39;CONFIG_SDL_IMAGE&#39;, sdl_image.found())<b=
-r>
-=C2=A0config_host_data.set(&#39;CONFIG_VHOST_USER_BLK_SERVER&#39;, have_vho=
-st_user_blk_server)<br>
-@@ -2252,7 +2290,7 @@ summary_info +=3D {&#39;coroutine pool&#39;:=C2=A0 =
-=C2=A0 config_host[&#39;CONFIG_COROUTINE_POOL&#39;] =3D=3D &#39;1<br>
-=C2=A0summary_info +=3D {&#39;debug stack usage&#39;: config_host.has_key(&=
-#39;CONFIG_DEBUG_STACK_USAGE&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;mutex debugging&#39;:=C2=A0 =C2=A0config_host=
-.has_key(&#39;CONFIG_DEBUG_MUTEX&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;crypto afalg&#39;:=C2=A0 =C2=A0 =C2=A0 config=
-_host.has_key(&#39;CONFIG_AF_ALG&#39;)}<br>
--summary_info +=3D {&#39;GlusterFS support&#39;: config_host.has_key(&#39;C=
-ONFIG_GLUSTERFS&#39;)}<br>
-+summary_info +=3D {&#39;GlusterFS support&#39;: glusterfs.found()}<br>
-=C2=A0summary_info +=3D {&#39;gcov&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 get_option(&#39;b_coverage&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;TPM support&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0c=
-onfig_host.has_key(&#39;CONFIG_TPM&#39;)}<br>
-=C2=A0summary_info +=3D {&#39;libssh support&#39;:=C2=A0 =C2=A0 config_host=
-.has_key(&#39;CONFIG_LIBSSH&#39;)}<br>
-diff --git a/meson_options.txt b/meson_options.txt<br>
-index 2b845ac62b..b5d84bb88b 100644<br>
---- a/meson_options.txt<br>
-+++ b/meson_options.txt<br>
-@@ -46,6 +46,8 @@ option(&#39;cocoa&#39;, type : &#39;feature&#39;, value :=
- &#39;auto&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;Cocoa user interface (macOS o=
-nly)&#39;)<br>
-=C2=A0option(&#39;curl&#39;, type : &#39;feature&#39;, value : &#39;auto&#3=
-9;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;CURL block device driver&#39;=
-)<br>
-+option(&#39;glusterfs&#39;, type : &#39;feature&#39;, value : &#39;auto&#3=
-9;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0description: &#39;Glusterfs block device driver=
-&#39;)<br>
-=C2=A0option(&#39;mpath&#39;, type : &#39;feature&#39;, value : &#39;auto&#=
-39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;Multipath persistent reservat=
-ion passthrough&#39;)<br>
-=C2=A0option(&#39;iconv&#39;, type : &#39;feature&#39;, value : &#39;auto&#=
-39;,<br>
--- <br>
-2.29.2<br>
-<br>
-<br>
-</blockquote></div></div>
-
---0000000000002b8c7805b6a7f403--
-
+-- 
+Best regards,
+Vladimir
 
