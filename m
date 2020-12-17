@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2BB32DD5CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:13:44 +0100 (CET)
-Received: from localhost ([::1]:44554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E113A2DD5E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:19:24 +0100 (CET)
+Received: from localhost ([::1]:54582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpwqU-0007SW-AB
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:13:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37192)
+	id 1kpwvz-0003Vb-MI
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:19:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kpwmM-00056c-26
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:09:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51932)
+ id 1kpwmN-00059m-8W
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:09:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kpwmI-0005X3-8D
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:09:25 -0500
+ id 1kpwmL-0005XP-6Y
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:09:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608224960;
+ s=mimecast20190719; t=1608224963;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D0HlEvjqxh7cvROOp870mU65UUlLcmZ84xVHTs4xjGo=;
- b=X1DKb5Vpb5N1CgYhiC4qi7wb0xeuBrEWBAXpdPyOzenKqpO7mzvzQvw4uaziThFG7NN51c
- 40MqNYYMEnThpew3kk9eTSHHxVYI2c5TeyG2z7uUpbRSZrm3TztrCYntXpv7NkQ6FqOq9t
- wdjtHWMCdPo/JQpXgcQyBWhXt1O6WYE=
+ bh=NXHRHevDuDHBmrbi+Qd1cRZtQl8RBWFSvvZJHFj2YC4=;
+ b=h/+CPWf6h3y1fvutaatbAw1QGzG49MOkfSJ8qAjnb++tu/kkZ68VK1y8VY8Kce4GVyPN++
+ 61UD+Xg5c4lY5K4LH87L6abrdjjbH4NJlD2OmQq6nTksbi6xf/oVcPpnq2kSpU7mbl8s7c
+ at11vfYb8KIByMzs5f2C0CizWs+l7Sk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-M24k-M3fP5uOAgxAW2dwMg-1; Thu, 17 Dec 2020 12:09:16 -0500
-X-MC-Unique: M24k-M3fP5uOAgxAW2dwMg-1
+ us-mta-354-Q8D8qebyOryfRP1bAv6wPA-1; Thu, 17 Dec 2020 12:09:21 -0500
+X-MC-Unique: Q8D8qebyOryfRP1bAv6wPA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1456801AC2;
- Thu, 17 Dec 2020 17:09:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4DF2800D55;
+ Thu, 17 Dec 2020 17:09:20 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.35.206.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C173F60BE5;
- Thu, 17 Dec 2020 17:09:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3706F60BE5;
+ Thu, 17 Dec 2020 17:09:15 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 2/3] block: add bdrv_co_delete_file_noerr
-Date: Thu, 17 Dec 2020 19:09:03 +0200
-Message-Id: <20201217170904.946013-3-mlevitsk@redhat.com>
+Subject: [PATCH v6 3/3] block: qcow2: remove the created file on
+ initialization error
+Date: Thu, 17 Dec 2020 19:09:04 +0200
+Message-Id: <20201217170904.946013-4-mlevitsk@redhat.com>
 In-Reply-To: <20201217170904.946013-1-mlevitsk@redhat.com>
 References: <20201217170904.946013-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -65,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,92 +85,39 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function wraps bdrv_co_delete_file for the common case of removing a file,
-which was just created by format driver, on an error condition.
+If the qcow initialization fails, we should remove the file if it was
+already created, to avoid leaving stale files around.
 
-It hides the -ENOTSUPP error, and reports all other errors otherwise.
-
-Use it in luks driver
+We already do this for luks raw images.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 Reviewed-by: Alberto Garcia <berto@igalia.com>
 ---
- block.c               | 22 ++++++++++++++++++++++
- block/crypto.c        | 15 ++-------------
- include/block/block.h |  1 +
- 3 files changed, 25 insertions(+), 13 deletions(-)
+ block/qcow2.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/block.c b/block.c
-index f1cedac362..b9edea3b97 100644
---- a/block.c
-+++ b/block.c
-@@ -704,6 +704,28 @@ int coroutine_fn bdrv_co_delete_file(BlockDriverState *bs, Error **errp)
-     return ret;
- }
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 3a90ef2786..a8638d250a 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3847,12 +3847,14 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
  
-+void coroutine_fn bdrv_co_delete_file_noerr(BlockDriverState *bs)
-+{
-+    Error *local_err = NULL;
-+    int ret;
-+
-+    if (!bs) {
-+        return;
-+    }
-+
-+    ret = bdrv_co_delete_file(bs, &local_err);
-+    /*
-+     * ENOTSUP will happen if the block driver doesn't support
-+     * the 'bdrv_co_delete_file' interface. This is a predictable
-+     * scenario and shouldn't be reported back to the user.
-+     */
-+    if (ret == -ENOTSUP) {
-+        error_free(local_err);
-+    } else if (ret < 0) {
-+        error_report_err(local_err);
-+    }
-+}
-+
- /**
-  * Try to get @bs's logical and physical block size.
-  * On success, store them in @bsz struct and return 0.
-diff --git a/block/crypto.c b/block/crypto.c
-index b3a5275132..1d30fde38e 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -725,19 +725,8 @@ fail:
-      * If an error occurred, delete 'filename'. Even if the file existed
-      * beforehand, it has been truncated and corrupted in the process.
-      */
--    if (ret && bs) {
--        Error *local_delete_err = NULL;
--        int r_del = bdrv_co_delete_file(bs, &local_delete_err);
--        /*
--         * ENOTSUP will happen if the block driver doesn't support
--         * the 'bdrv_co_delete_file' interface. This is a predictable
--         * scenario and shouldn't be reported back to the user.
--         */
--        if ((r_del < 0) && (r_del != -ENOTSUP)) {
--            error_report_err(local_delete_err);
--        } else {
--            error_free(local_delete_err);
--        }
-+    if (ret) {
+     /* Create the qcow2 image (format layer) */
+     ret = qcow2_co_create(create_options, errp);
++finish:
+     if (ret < 0) {
+-        goto finish;
 +        bdrv_co_delete_file_noerr(bs);
++        bdrv_co_delete_file_noerr(data_bs);
++    } else {
++        ret = 0;
      }
  
+-    ret = 0;
+-finish:
+     qobject_unref(qdict);
      bdrv_unref(bs);
-diff --git a/include/block/block.h b/include/block/block.h
-index c9d7c58765..af03022723 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -428,6 +428,7 @@ int bdrv_freeze_backing_chain(BlockDriverState *bs, BlockDriverState *base,
-                               Error **errp);
- void bdrv_unfreeze_backing_chain(BlockDriverState *bs, BlockDriverState *base);
- int coroutine_fn bdrv_co_delete_file(BlockDriverState *bs, Error **errp);
-+void coroutine_fn bdrv_co_delete_file_noerr(BlockDriverState *bs);
- 
- 
- typedef struct BdrvCheckResult {
+     bdrv_unref(data_bs);
 -- 
 2.26.2
 
