@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079C42DCE97
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:44:10 +0100 (CET)
-Received: from localhost ([::1]:53438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D1D2DCEAE
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:46:04 +0100 (CET)
+Received: from localhost ([::1]:59236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpppR-0007Y7-1D
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:44:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47628)
+	id 1kpprH-0001WG-P4
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:46:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kppmF-0004fg-F9
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:40:52 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:43526)
+ id 1kppmH-0004ga-Ba
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:40:55 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:41297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kppmD-0007i0-Mi
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:40:51 -0500
-Received: by mail-ed1-x529.google.com with SMTP id q16so27921462edv.10
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:40:49 -0800 (PST)
+ id 1kppmE-0007iD-Nj
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:40:52 -0500
+Received: by mail-ed1-x533.google.com with SMTP id i24so27890389edj.8
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:40:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=t+Y7UFYFTZ7LLffq17YS+EHmwTw0jFbFP2FYxjrbxAs=;
- b=NQAAXx8gYuS5CsLgK92IlTPoLEaKaBBncwA0LpD3ysSPvP7Bb1RMpwAaqfHMpyZQht
- vxmw7i7EBBLDk69Ae4bdPaTlW3YRcoMsB67Ytc5oRYYFRiOXwsunVpOObOx6B0z8bY5O
- NCTCEk4155KE9QqDHhbn91yQ5QPIzjPtXBQqfqW51c1qUfbSZR9G5eFuAXOIWiSILXwv
- joKDNBrFaRnBIg0pQ8dZgK5cpQC07iaDtEb1YM67LDkfHyCGqMfomQ4vaXkhz6tlYMVi
- pXBbR+WGT42GEmnHsMqKKt7oAR99s68c4NY98AVpSododI3rtcpd6YqWq5N+Ldm581vZ
- chlQ==
+ bh=BGSrQZxoaxOkU9kafkVAP7t2jTM7OoA0anXI1A0IxZI=;
+ b=h2u+x8H17w5dgB7Zy+vi1CKi47rkGkRpQxkhiFWFm70WtEJC0J5soTEipiQASVBz1N
+ OOpTrADHtqTod2nhkOVvTmTVQyIKTsGiFypw/gD6tQZwMp94FNj8DbvZ15KGV0Es+AKp
+ X3JMjwLpj8aBN3zO5Cflgd7Opto2lrJQwmd6eoHzSfl/2R6aNj/+7hCL8I9GewQ9+tZR
+ /G7Rin2+YZUTDzO58SIMmfddBL2zuGSljDpKbD77wg1bKsgKCNzSAl9Vci5F0RNadOol
+ he3lZ5MSAQeF+jRYHVH1WAUjDdR+iVblokMnIVjgF1A/BbmKTVrR7ormQaq+T0i20KVC
+ cDXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=t+Y7UFYFTZ7LLffq17YS+EHmwTw0jFbFP2FYxjrbxAs=;
- b=DS5nv0mlEIewvgLeI4hcRoeiYds+wWmnJsk4ABregAVRbYW/7OZ0h6+8bPhE7EsEcD
- Ffmhk1zmgRTQpAPy58syElqnhg9azcYjwkaSLwoXWPmQcNuAV9sp89GzfHT5NLnVkI0G
- SRLQH9SAMX2PtTuzuneQ4MLgxbxuOIcJWZDmadT/JqQ7wGTQcmmbrNDvfozQO0nqWWzB
- 6C275XcRZyHp/h/HZnzxic+Qp0UkRQ/Awdbsr9aik6ijEhM8Ege8LJtJPel01tTFaHWE
- 8m7AEYEl/yHjbwWsI6Sf+/0D6ePOCvj7t5cf3iN/bl3rvhCyK0LnctSBAT4Aropil1Uw
- zx/Q==
-X-Gm-Message-State: AOAM532+EIG2dF94wNHd77ymQkoCcgzO6xkMQVRhOlo9vbZ57sq/aIFH
- qXvlaCcJh+AoawGkBZE4su9w8ndN9Ac=
-X-Google-Smtp-Source: ABdhPJy0w8rB5W6OP21OZURf61bbtf2hocaulLP0fDBV3hS7Gh+N80bNx3HogUw8Gs2iOXQUehbsRg==
-X-Received: by 2002:a50:bacb:: with SMTP id x69mr22169835ede.39.1608198048251; 
- Thu, 17 Dec 2020 01:40:48 -0800 (PST)
+ bh=BGSrQZxoaxOkU9kafkVAP7t2jTM7OoA0anXI1A0IxZI=;
+ b=nWtNijCEpyGypE+UaOGROAAYKiAMOQLKtaBbTcRU5EFz2VXvd0QVNNx6BMhQqe1EwF
+ 7dl020RiBr3bZiG4jsyq0amKiv+dRwU21WnExpSNx3I8GeZGKQW0xBjAWaqqkLxH0YnA
+ 2/fmHBhkyvSHkUhV2efPzJdoIBXaakcSHhGfYI9tS8riOuarbJw/9dZgPV5BxO2R1PYI
+ n/R9PxvLl59Os4GHFPGB0JfqEkAME9y0VPbvjJRhSXkUIf0/bowmQPIV+6WnCTFrRKk3
+ lstZEvdzv8L98CCe1vOvjYXmJI/CwezEt5pvFsSgy+K2284B+UihtQ5pBI+sgJyrx+tr
+ 2gOw==
+X-Gm-Message-State: AOAM530td0bMDOk0HkarPCdVE5eqwnsPo+dD7EDnbKgE8MjbP5xwA4FS
+ X7C5VJc58Jkt8PJr3TQ85DnKLh0ppfo=
+X-Google-Smtp-Source: ABdhPJzpSKWc8piETXr/V8+EnJ9MXqV8Aqu2XNSW1gV35EyF0FyiZG3VatL3a9qJkCoed+U+yY213Q==
+X-Received: by 2002:a05:6402:139a:: with SMTP id
+ b26mr37855178edv.47.1608198049086; 
+ Thu, 17 Dec 2020 01:40:49 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id rs27sm3463677ejb.21.2020.12.17.01.40.47
+ by smtp.gmail.com with ESMTPSA id rs27sm3463677ejb.21.2020.12.17.01.40.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 01:40:47 -0800 (PST)
+ Thu, 17 Dec 2020 01:40:48 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/18] brlapi: convert to meson
-Date: Thu, 17 Dec 2020 10:40:27 +0100
-Message-Id: <20201217094044.46462-2-pbonzini@redhat.com>
+Subject: [PATCH 02/18] curl: remove compatibility code, require 7.29.0
+Date: Thu, 17 Dec 2020 10:40:28 +0100
+Message-Id: <20201217094044.46462-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217094044.46462-1-pbonzini@redhat.com>
 References: <20201217094044.46462-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,161 +85,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=83=C2=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=83=C2=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Daniel=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+cURL 7.16.0 was released in October 2006.  Just remove code that is
+in all likelihood not being used anywhere, and require the oldest version
+found in currently supported distros, which is 7.29.0 from CentOS 7.
+
+pkg-config is enough for QEMU, since it does not need extra information
+such as the path for certicate authorities.  All supported platforms
+today will all have pkg-config for curl, so we can drop curl-config.
+
+Suggested-by: Daniel Berrangé <berrange@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- chardev/meson.build |  2 +-
- configure           | 32 ++++----------------------------
- meson.build         | 20 +++++++++++++++++---
- meson_options.txt   |  2 ++
- 4 files changed, 24 insertions(+), 32 deletions(-)
+ block/curl.c | 28 ----------------------------
+ configure    |  9 ++-------
+ 2 files changed, 2 insertions(+), 35 deletions(-)
 
-diff --git a/chardev/meson.build b/chardev/meson.build
-index 4e19722c5e..32377af383 100644
---- a/chardev/meson.build
-+++ b/chardev/meson.build
-@@ -29,7 +29,7 @@ softmmu_ss.add(files('msmouse.c', 'wctablet.c', 'testdev.c'))
+diff --git a/block/curl.c b/block/curl.c
+index d24a4c5897..4ff895df8f 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -37,26 +37,6 @@
  
- chardev_modules = {}
+ // #define DEBUG_VERBOSE
  
--if config_host.has_key('CONFIG_BRLAPI')
-+if brlapi.found()
-   module_ss = ss.source_set()
-   module_ss.add(when: [brlapi], if_true: [files('baum.c'), pixman])
-   chardev_modules += { 'baum': module_ss }
+-#if LIBCURL_VERSION_NUM >= 0x071000
+-/* The multi interface timer callback was introduced in 7.16.0 */
+-#define NEED_CURL_TIMER_CALLBACK
+-#define HAVE_SOCKET_ACTION
+-#endif
+-
+-#ifndef HAVE_SOCKET_ACTION
+-/* If curl_multi_socket_action isn't available, define it statically here in
+- * terms of curl_multi_socket. Note that ev_bitmask will be ignored, which is
+- * less efficient but still safe. */
+-static CURLMcode __curl_multi_socket_action(CURLM *multi_handle,
+-                                            curl_socket_t sockfd,
+-                                            int ev_bitmask,
+-                                            int *running_handles)
+-{
+-    return curl_multi_socket(multi_handle, sockfd, running_handles);
+-}
+-#define curl_multi_socket_action __curl_multi_socket_action
+-#endif
+-
+ #define PROTOCOLS (CURLPROTO_HTTP | CURLPROTO_HTTPS | \
+                    CURLPROTO_FTP | CURLPROTO_FTPS)
+ 
+@@ -140,7 +120,6 @@ typedef struct BDRVCURLState {
+ static void curl_clean_state(CURLState *s);
+ static void curl_multi_do(void *arg);
+ 
+-#ifdef NEED_CURL_TIMER_CALLBACK
+ /* Called from curl_multi_do_locked, with s->mutex held.  */
+ static int curl_timer_cb(CURLM *multi, long timeout_ms, void *opaque)
+ {
+@@ -156,7 +135,6 @@ static int curl_timer_cb(CURLM *multi, long timeout_ms, void *opaque)
+     }
+     return 0;
+ }
+-#endif
+ 
+ /* Called from curl_multi_do_locked, with s->mutex held.  */
+ static int curl_sock_cb(CURL *curl, curl_socket_t fd, int action,
+@@ -433,7 +411,6 @@ static void curl_multi_do(void *arg)
+ 
+ static void curl_multi_timeout_do(void *arg)
+ {
+-#ifdef NEED_CURL_TIMER_CALLBACK
+     BDRVCURLState *s = (BDRVCURLState *)arg;
+     int running;
+ 
+@@ -446,9 +423,6 @@ static void curl_multi_timeout_do(void *arg)
+ 
+     curl_multi_check_completion(s);
+     qemu_mutex_unlock(&s->mutex);
+-#else
+-    abort();
+-#endif
+ }
+ 
+ /* Called with s->mutex held.  */
+@@ -598,10 +572,8 @@ static void curl_attach_aio_context(BlockDriverState *bs,
+     s->multi = curl_multi_init();
+     s->aio_context = new_context;
+     curl_multi_setopt(s->multi, CURLMOPT_SOCKETFUNCTION, curl_sock_cb);
+-#ifdef NEED_CURL_TIMER_CALLBACK
+     curl_multi_setopt(s->multi, CURLMOPT_TIMERDATA, s);
+     curl_multi_setopt(s->multi, CURLMOPT_TIMERFUNCTION, curl_timer_cb);
+-#endif
+ }
+ 
+ static QemuOptsList runtime_opts = {
 diff --git a/configure b/configure
-index 74eebfd692..42b39544d4 100755
+index 42b39544d4..c0a3e1556b 100755
 --- a/configure
 +++ b/configure
-@@ -306,7 +306,7 @@ for opt do
-   esac
- done
- 
--brlapi="$default_feature"
-+brlapi="auto"
- curl="$default_feature"
- iconv="auto"
- curses="auto"
-@@ -1105,9 +1105,9 @@ for opt do
-   ;;
-   --enable-xen-pci-passthrough) xen_pci_passthrough="enabled"
-   ;;
--  --disable-brlapi) brlapi="no"
-+  --disable-brlapi) brlapi="disabled"
-   ;;
--  --enable-brlapi) brlapi="yes"
-+  --enable-brlapi) brlapi="enabled"
-   ;;
-   --disable-kvm) kvm="disabled"
-   ;;
-@@ -3425,26 +3425,6 @@ for drv in $audio_drv_list; do
-     esac
- done
- 
--##########################################
--# BrlAPI probe
--
--if test "$brlapi" != "no" ; then
--  brlapi_libs="-lbrlapi"
--  cat > $TMPC << EOF
--#include <brlapi.h>
--#include <stddef.h>
--int main( void ) { return brlapi__openConnection (NULL, NULL, NULL); }
--EOF
--  if compile_prog "" "$brlapi_libs" ; then
--    brlapi=yes
--  else
--    if test "$brlapi" = "yes" ; then
--      feature_not_found "brlapi" "Install brlapi devel"
--    fi
--    brlapi=no
--  fi
--fi
--
+@@ -3428,17 +3428,12 @@ done
  ##########################################
  # curl probe
  if test "$curl" != "no" ; then
-@@ -6134,10 +6114,6 @@ if test "$curl" = "yes" ; then
-   echo "CURL_CFLAGS=$curl_cflags" >> $config_host_mak
-   echo "CURL_LIBS=$curl_libs" >> $config_host_mak
- fi
--if test "$brlapi" = "yes" ; then
--  echo "CONFIG_BRLAPI=y" >> $config_host_mak
--  echo "BRLAPI_LIBS=$brlapi_libs" >> $config_host_mak
--fi
- if test "$gtk" = "yes" ; then
-   echo "CONFIG_GTK=y" >> $config_host_mak
-   echo "GTK_CFLAGS=$gtk_cflags" >> $config_host_mak
-@@ -6971,7 +6947,7 @@ NINJA=$ninja $meson setup \
-         -Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
-         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
-         -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
--        -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
-+        -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
-         -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
-         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
-         -Dvhost_user_blk_server=$vhost_user_blk_server \
-diff --git a/meson.build b/meson.build
-index bb198f792a..70f81121d7 100644
---- a/meson.build
-+++ b/meson.build
-@@ -570,8 +570,21 @@ if have_system and not get_option('curses').disabled()
- endif
- 
- brlapi = not_found
--if 'CONFIG_BRLAPI' in config_host
--  brlapi = declare_dependency(link_args: config_host['BRLAPI_LIBS'].split())
-+if not get_option('brlapi').auto() or have_system
-+  brlapi = cc.find_library('brlapi', has_headers: ['brlapi.h'],
-+                         required: get_option('brlapi'),
-+                         static: enable_static)
-+  if brlapi.found() and not cc.links('''
-+     #include <brlapi.h>
-+     #include <stddef.h>
-+     int main(void) { return brlapi__openConnection (NULL, NULL, NULL); }''', dependencies: brlapi)
-+    brlapi = not_found
-+    if get_option('brlapi').enabled()
-+      error('could not link brlapi')
-+    else
-+      warning('could not link brlapi, disabling')
-+    endif
-+  endif
- endif
- 
- sdl = not_found
-@@ -854,6 +867,7 @@ config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') /
- config_host_data.set_quoted('CONFIG_QEMU_MODDIR', get_option('prefix') / qemu_moddir)
- config_host_data.set_quoted('CONFIG_SYSCONFDIR', get_option('prefix') / get_option('sysconfdir'))
- 
-+config_host_data.set('CONFIG_BRLAPI', brlapi.found())
- config_host_data.set('CONFIG_COCOA', cocoa.found())
- config_host_data.set('CONFIG_LIBUDEV', libudev.found())
- config_host_data.set('CONFIG_MPATH', mpathpersist.found())
-@@ -2164,7 +2178,7 @@ summary_info += {'xen support':       config_host.has_key('CONFIG_XEN_BACKEND')}
- if config_host.has_key('CONFIG_XEN_BACKEND')
-   summary_info += {'xen ctrl version':  config_host['CONFIG_XEN_CTRL_INTERFACE_VERSION']}
- endif
--summary_info += {'brlapi support':    config_host.has_key('CONFIG_BRLAPI')}
-+summary_info += {'brlapi support':    brlapi.found()}
- summary_info += {'Documentation':     build_docs}
- summary_info += {'PIE':               get_option('b_pie')}
- summary_info += {'vde support':       config_host.has_key('CONFIG_VDE')}
-diff --git a/meson_options.txt b/meson_options.txt
-index 242e0769fb..62efe96a91 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -40,6 +40,8 @@ option('cfi', type: 'boolean', value: 'false',
- option('cfi_debug', type: 'boolean', value: 'false',
-        description: 'Verbose errors in case of CFI violation')
- 
-+option('brlapi', type : 'feature', value : 'auto',
-+       description: 'brlapi character device driver')
- option('cocoa', type : 'feature', value : 'auto',
-        description: 'Cocoa user interface (macOS only)')
- option('mpath', type : 'feature', value : 'auto',
+-  if $pkg_config libcurl --exists; then
+-    curlconfig="$pkg_config libcurl"
+-  else
+-    curlconfig=curl-config
+-  fi
+   cat > $TMPC << EOF
+ #include <curl/curl.h>
+ int main(void) { curl_easy_init(); curl_multi_setopt(0, 0, 0); return 0; }
+ EOF
+-  curl_cflags=$($curlconfig --cflags 2>/dev/null)
+-  curl_libs=$($curlconfig --libs 2>/dev/null)
++  curl_cflags=$($pkg_config libcurl --cflags 2>/dev/null)
++  curl_libs=$($pkg_config libcurl --libs 2>/dev/null)
+   if compile_prog "$curl_cflags" "$curl_libs" ; then
+     curl=yes
+   else
 -- 
 2.29.2
 
