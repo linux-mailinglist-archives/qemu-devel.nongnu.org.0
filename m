@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE68E2DDA34
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 21:38:52 +0100 (CET)
-Received: from localhost ([::1]:60856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA512DDA4D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 21:49:56 +0100 (CET)
+Received: from localhost ([::1]:39812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq031-0000Z7-C9
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 15:38:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58264)
+	id 1kq0Di-0004cQ-S3
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 15:49:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kpzzQ-0006Qb-S8
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 15:35:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kpzzO-00073T-TX
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 15:35:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608237305;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lZT8xugnMLiCfvSpOS7aGDo0OdcwAef2DXB2gEEIXrA=;
- b=Cheuo8W0Ndm6VHn+93dT8A2zs7jeC21llRyHTOalrwVRgLTwSBB/Mp4YTmN6eaurAkL1j9
- sQFSUkD1nbIQIiARnP0AaZ21nHoHPZjQJPjTGljbFetGVJrI2HSOF8o6+tMaz4Rw/JSn/r
- s2Hw+YVnRVSBrO22iOh0IRc2jn5Ak1o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-BzZJo7x-NhSiBthtfPlNtg-1; Thu, 17 Dec 2020 15:35:03 -0500
-X-MC-Unique: BzZJo7x-NhSiBthtfPlNtg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B85B8015C6;
- Thu, 17 Dec 2020 20:35:02 +0000 (UTC)
-Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 50DE6669EC;
- Thu, 17 Dec 2020 20:35:01 +0000 (UTC)
-Date: Thu, 17 Dec 2020 20:34:58 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Subject: Re: Logging, abnormal cases, ...
-Message-ID: <20201217203458.GQ4117@work-vm>
-References: <5517eec6-1b0f-7c36-c1a7-61bd24bfb6cd@msgid.tls.msk.ru>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kq0C7-0003oS-Eu
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 15:48:15 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:40099)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kq0C5-0000Dh-II
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 15:48:15 -0500
+Received: by mail-ed1-x536.google.com with SMTP id h16so87005edt.7
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 12:48:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RnAgmJQWcXQ2U6xRqPgqoibj7Cpi9jEacSj5iW4E2uA=;
+ b=VzfvgpYY9fOw7APldWNwVjWgCmX2AxfOyDTGmVL6M8jGhFyC5lokdfWcwq7KXw23kA
+ tZbumAcyJOaay0VhZwjinWZtYfMN/vlLnCt35bjRDZxXIMDObmlhO7DE6LSejs8FjRz4
+ jBcr93kyRl8F+/M1yHzez0vw3RZxKqUIam1+MXTDTU09Qw2u2VBRzaasKlV1hjVcfra6
+ N3XbBo35l/2drfKCyTHs3YQu2GB6f3aYniNEJMQKqMOL04sOmC1Wb57rxZELt4yCH5sw
+ 4PC77rctqdjxM8Pe0xL4qFTWdkzT7dvEto7WFctJXpcnNHgp9A74mkBC6N7GmyTdkX90
+ 8Jww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RnAgmJQWcXQ2U6xRqPgqoibj7Cpi9jEacSj5iW4E2uA=;
+ b=IbpCsK/PxEKeqrX1nQ23o0RhOSFTbhJSYrnAjlsRsWAACfPH5Rsd44npAPHu7fUFb6
+ 9G/wUVit6GhOoSAum2XwldRuZx1lNqUoVRtF7QEdYx1D5rXMpieW41V9vfl/UOPDgS3H
+ OLSrB9OPMUPHet1oB1Dgj/hsYM2cHiayQBr56ZfFK9BzUmtRwQfbLZvy+K7o3pqXNvu5
+ N/2ijh1diy6GEX8Z++5i2Y6eHex/8ySJ9d/+TZUM8ewdP58zJmxsi3vVFQ57DoYqWVmh
+ 3kovAMgFM9ddOPNuFwzJk3etMkpsSJqebzgNiucMpwx303E18G8Ov46zTDkE3hoVY+hC
+ zqSQ==
+X-Gm-Message-State: AOAM531Y0p+KYXpk+osAUAjAVWv6b9NtEgJIqAhvP1L21tJbFqkxd7LG
+ PSpPVxq1kmCt4XyReBUFEW/6y/ukad8kYPBqmGY5vw==
+X-Google-Smtp-Source: ABdhPJy3FXuAsmRDUdTn2hDSzGNZc+zKHXB47nFf+IQTOsSrgwDTL+yP4YsikgqND7sfuNf4cTKDt8+sc9GyVnnhbEY=
+X-Received: by 2002:a05:6402:366:: with SMTP id
+ s6mr1241016edw.44.1608238091599; 
+ Thu, 17 Dec 2020 12:48:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <5517eec6-1b0f-7c36-c1a7-61bd24bfb6cd@msgid.tls.msk.ru>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20201217184620.3945917-1-ehabkost@redhat.com>
+In-Reply-To: <20201217184620.3945917-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Dec 2020 20:48:00 +0000
+Message-ID: <CAFEAcA_-So0cL8AXdet5zaDwo_5L_JqHstp=UbDysu4W05Vh+Q@mail.gmail.com>
+Subject: Re: [PULL 00/17] x86 queue, 2020-12-17
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,116 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Michael Tokarev (mjt@tls.msk.ru) wrote:
-> Hi!
-> 
-> I want to bring a topic which is mostly neglected in qemu but it is
-> one of very important, especially for serious usage of qemu.
-> 
-> This is about logging of various events or even some unexpected events
-> coming from guest.
-> 
-> Let's see for example a very easy to understand situation: a virtual
-> disk image of a VM runs out of space _on the host_, so that qemu does
-> not have space to write newly allocated blocks to.  What does it do?
-> By default it pauses the VM and just sits there waiting. But does it
-> lets someone to know that it run onto something which it can't handle?
-> Does it write at least some information about it somewhere?
-> 
-> I know this very situation should not happen in any serious environment
-> to start with, but everything happens, and the should ring a very loud
-> bell somewhere so that people can react sooner than later after numerous
-> attempt to _understand_ what's going on.
-> 
-> What I'm talking about is that we should have some standard way of
-> logging such events, at least, or a way of notifying something about these.
-> Including for example start/stop, suspend/resume, migration out/migration
-> in etc - while these might look like a job of some management layer on
-> top of qemu (like libvirt), it's still better do that in qemu so that
-> all possible tools using it will benefit.
-> 
-> But it is not restricted to such global events like outlined already,
-> there are much more interesting cases there. For another example,
-> there's a lot of places where qemu checks validity of various requests
-> coming to virtual hardware it emulates, - so that DMA is done to a
-> valid address, register holds valid index, etc etc. A majority of
-> these checks results in a simple error return or even abort().
-> But it'd be very interesting to be able to log these events, maybe
-> with some context, and be able to turn that logging on/off at runtime.
-> 
-> The thing is - there ara at least 2 types of guests out there, one
-> is possible "hostile" - this is what all the recent CVEs are about,
-> it is possible to abuse qemu in one way or another by doing some
-> strange things within a guest. And another is entirely different -
-> a "friendly" guest which is here just for easy management, so that
-> various migrations, expansions and reconfigurations are possible.
-> And there, it should not do evil things, and if it does, we'd better
-> know about that, as it is a possible bug which might turn into a
-> smoking gun one day.
-> 
-> The other day we had a quite bad system crash in a VMWare environment
-> which resulted in a massive data loss, interruption of service and
-> lots of really hard work for everyone.  A crash which actually started
-> after vmware side discovered that it does not have any place where to
-> put a new write for a (production, "friendly") guest. After that issue
-> were fixed, there were several more conditions _like_ this happened, -
-> not with lack of free space, but with the same freezing, vmware stopped
-> the guest for a few seconds several times, and I've seen brief change
-> in the guest's icon color (turning to red) in the monitor at least twice,
-> during these freezes. But there's nothing in the logs - *why* it stopped
-> the guest, what happened?? - nothing's left.  And finally it crashed
-> hard after live-migrating the VM into another host with larger capacity
-> storage - at the moment the migration finished, the VM freeze for a few
-> seconds, there was tons of kernel messages about stuck processes and
-> kernel threads after that, and, among other things, there were a few
-> error messages about failed writes into the (virtual) storage. Which,
-> in turn, hit some bugs in oracle and finally the db become corrupt and
-> oracle instance refused to open it in any way, crashing with sigsegvs
-> at startup, so we had to resort to the harder way.
+On Thu, 17 Dec 2020 at 18:46, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> Note that this is using my new gitlab.com repository URL, which
+> was updated on commit f953c100693d ("MAINTAINERS: Update my git
+> repository URLs").
+>
+> The following changes since commit af3f37319cb1e1ca0c42842ecdbd1bcfc64a4b6f:
+>
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2020-12-15 21:24:31 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/ehabkost/qemu.git tags/x86-next-pull-request
+>
+> for you to fetch changes up to 9fb75013d864489a91ba05e6009ed79c250d4064:
+>
+>   cpu: Remove unnecessary noop methods (2020-12-16 15:50:33 -0500)
+>
+> ----------------------------------------------------------------
+> x86 queue, 2020-12-17
+>
+> Features:
+> * AVX512_FP16 feature (Cathy Zhang)
+>
+> Cleanups:
+> * accel code cleanup (Claudio Fontana)
+> * hyperv initialization cleanup (Vitaly Kuznetsov)
+>
+> ----------------------------------------------------------------
 
-I'm glad it's not just me who has hard migration problems!
 
-> The thing was that there was absolutely nothing on the vmware side,
-> even the fact of migration weren't obvious in its logs. I bet there
-> were some inconsistences within data request handling from the guest
-> at least, or if system clocks were different this could have been
-> logged too, or anything else not-so-expected. But there's nothing,
-> so we don't sill know what happened. Sure it is a bug somewhere,
-> maybe several bugs at once (vmware tools are running in the vm and
-> the hypervisor surely can assume a safe state of the vm while doing
-> last steps of the migration, oracle should not sigsegv on bad blocks,
-> and so on). But if there were logs, we had at least some chance to
-> debug and maybe fix it, or to work around this if fixing isn't possible.
-> But there's nothing.
-> 
-> I think we can do much better in qemu.
-> 
-> Comments?
+Applied, thanks.
 
-We've got lots of things, the problem is deciding what to use when.
-We can:
-  a) Send QMP events - that's pretty good for a 'hey I've stopped, disk
-full'
-  b) We've got a logging mechanism, but I think it's rarely used.
-  c) We've got trace events - that's good for fine debug but not
-what you want all the time.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-For migration, if something fails, I always try and print to stderr
-so I get it in the /var/log/libvirt/qemu/... log;  the problem is
-that only happens if you know you've screwed up - if you corrupt some
-state during the migrate, then a hung guest is often the outcome.
-
-Dave
-
-> Thanks,
-> 
-> /mjt
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+-- PMM
 
