@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01B8B2DCE8F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:41:35 +0100 (CET)
-Received: from localhost ([::1]:46454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D592DCE96
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:43:31 +0100 (CET)
+Received: from localhost ([::1]:50746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kppmw-0004T6-9e
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:41:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47334)
+	id 1kppoo-0006R9-Qz
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:43:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kppkp-00038h-A8
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:39:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45861)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kppka-00070d-9p
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:39:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608197947;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KBJPP5YsxFKWgvOFibcAhFcIDi/GO8YWObtqiBGK0cw=;
- b=QO4wlQfSOUoGJwpunEPQ0OKYCMUOmImz57yI/svbNyblaODG3cuU6YvGL49gnU0oYt7TZj
- myIc2VrWCsK3IWUrBSvRQIVJtGFoWMdqmr+r5rWztw3nmPI6gbzHq0+PKm4sssaBnCAfeb
- zI9FvqAekoNedf5VdsnprQqdjOXOPsY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-7GIP32o1NkaorDxvanu7GA-1; Thu, 17 Dec 2020 04:39:03 -0500
-X-MC-Unique: 7GIP32o1NkaorDxvanu7GA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D69251005513;
- Thu, 17 Dec 2020 09:39:01 +0000 (UTC)
-Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A30B60CDE;
- Thu, 17 Dec 2020 09:38:56 +0000 (UTC)
-Date: Thu, 17 Dec 2020 09:38:39 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 16/20] migration: Replace migration's JSON writer by the
- general one
-Message-ID: <20201217093839.GA4117@work-vm>
-References: <20201211171152.146877-1-armbru@redhat.com>
- <20201211171152.146877-17-armbru@redhat.com>
- <20201216194615.GG3008@work-vm> <873604nc14.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kppmE-0004f4-Ur
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:40:51 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:33309)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kppmC-0007hF-Uv
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:40:50 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id j16so5506443edr.0
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:40:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/R1+lR72sXFvAOgt6QuHhVTv3DUHzbJ6zXMZY/lH7ys=;
+ b=tcAVk8IjQBXoW13K7onRC06DDyXjDHZ0t9giETQjIn+18hHBSRzVXXVIMSIRcLvdOn
+ SEVF8QfMBQ1y4BbZ4peD9P9yT3fAww2fZoG8lYdbN1bFgXbF27DyWPAsRSNtOZ/wp5Vw
+ 4+7yztL0X+Hxp35rDJAfAKDa5FImFDKhSt4j74biZTZIYmLENxlMf+IF5Th3FJg4AtkS
+ 8SDfiMP3IgMXd4qyoENa3p7hvmMjRpkPsTqmBB7MD4QM/XpcatrMk2GkA1z5BF03MF7P
+ tjPrMVUf6qnVHJLtNPgAtcTs+dv2VP4A5ieHbuzSfEB9whzF1PWMRXUeOmFhwpbR+1+A
+ 7XCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=/R1+lR72sXFvAOgt6QuHhVTv3DUHzbJ6zXMZY/lH7ys=;
+ b=GGX4KS/GyxrcgaVriGOpCCiPiNQEKW1Ro1yFFdiRj1te7W9y1AEBAd06ihjbANslGL
+ c555/LHmz0cYVtFI5sqWSlF6/O/RFy106ZOXf8SXp5qy8PRIOIVDt6nLPtP661acsFKf
+ ttw/8iKwvLX44sPUgWvQ3d3b1D/oDo2KBFxN/2vRbwdRU4Z57AoPqqRpQel6yXKU4E9r
+ TltAZVYGXbG6MZl6TMxlQi3iX3bGlrNvJ9OxsSsTYnyS4AgkLIlhJ83PNEZRemIm4PXg
+ Jp9ykkH2OpRx7CYvwWi9G3S0hw+h5NOwXva6XtRIZ0k87geOxbNui0VQpzdw2aN01B9B
+ XDQg==
+X-Gm-Message-State: AOAM5315MKQzW/xUWm2WmyjICZfTsfEZQuSMs1Fjo+LaJ+r6KiPjSgmK
+ aLlLgciubk3MbaOoTB+8ppF+enN9YlU=
+X-Google-Smtp-Source: ABdhPJxeDbngff1HO6Uq+4yYeMOiHQCBW3WZ7fupTRsd782jOEB1b8rjTjoLRHfH+yz932pmnV2GrQ==
+X-Received: by 2002:aa7:dc4b:: with SMTP id g11mr39003601edu.379.1608198047213; 
+ Thu, 17 Dec 2020 01:40:47 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id rs27sm3463677ejb.21.2020.12.17.01.40.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Dec 2020 01:40:45 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/22] meson: move detection of various libraries to
+ meson.build
+Date: Thu, 17 Dec 2020 10:40:26 +0100
+Message-Id: <20201217094044.46462-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <873604nc14.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,48 +83,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com, agraf@csgraf.de, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=83=C2=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
-> 
-> > * Markus Armbruster (armbru@redhat.com) wrote:
-> >> Commit 8118f0950f "migration: Append JSON description of migration
-> >> stream" needs a JSON writer.  The existing qobject_to_json() wasn't a
-> >> good fit, because it requires building a QObject to convert.  Instead,
-> >> migration got its very own JSON writer, in commit 190c882ce2 "QJSON:
-> >> Add JSON writer".  It tacitly limits numbers to int64_t, and strings
-> >> contents to characters that don't need escaping, unlike
-> >> qobject_to_json().
-> >> 
-> >> The previous commit factored the JSON writer out of qobject_to_json().
-> >> Replace migration's JSON writer by it.
-> >> 
-> >> Cc: Juan Quintela <quintela@redhat.com>
-> >> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> >
-> > (Copying in Alex)
-> >
-> > This looks OK to me, so:
-> >
-> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >
-> > but, can I just check, have you checked scripts/analyze-migration.py is
-> > still happy with the output?
-> 
-> Good point.  I just did, following instructions in
-> docs/devel/migration.rst.  It prints stuff and succeeds.  Anything else
-> you'd like me to try?
+Not particularly interesting except for the diffstat and for the removal of
+curl compatibility code.
 
-If it's happy, I'm happy.
+I am sending this in preparation for another RFC around automatically
+parsing configure command line options.  This uses Meson build option
+introspection data in order to parse --enable and --disable options
+that have been converted to Meson.  With a larger number of such options,
+the advantages should be more apparent.
 
-Dave
+Based-on: <20201216162006.433850-1-pbonzini@redhat.com>
+
+Paolo Bonzini (18):
+  brlapi: convert to meson
+  curl: remove compatibility code, require 7.29.0
+  curl: convert to meson
+  glusterfs: convert to meson
+  bzip2: convert to meson
+  libiscsi: convert to meson
+  libnfs: convert to meson
+  libssh: convert to meson
+  rbd: convert to meson
+  lzo: convert to meson
+  snappy: convert to meson
+  lzfse: convert to meson
+  zstd: convert to meson
+  seccomp: convert to meson
+  virtfs: convert to meson
+  cap_ng: convert to meson
+  libattr: convert to meson
+  meson.build: convert --with-default-devices to meson
+
+ block/curl.c                        |  28 --
+ block/meson.build                   |   2 +-
+ chardev/meson.build                 |   2 +-
+ configure                           | 593 +++-------------------------
+ contrib/elf2dmp/meson.build         |   2 +-
+ contrib/vhost-user-scsi/meson.build |   2 +-
+ meson.build                         | 325 ++++++++++++---
+ meson_options.txt                   |  43 +-
+ migration/meson.build               |   2 +-
+ softmmu/meson.build                 |   2 +-
+ softmmu/qemu-seccomp.c              |   2 -
+ tools/meson.build                   |   6 +-
+ 12 files changed, 370 insertions(+), 639 deletions(-)
 
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.29.2
 
 
