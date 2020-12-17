@@ -2,95 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836512DD427
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:28:37 +0100 (CET)
-Received: from localhost ([::1]:37682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A34FB2DD45A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:41:29 +0100 (CET)
+Received: from localhost ([::1]:39938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpvCm-0002af-In
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:28:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34826)
+	id 1kpvPE-0006tb-OF
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:41:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kpulZ-00048n-U1; Thu, 17 Dec 2020 10:00:29 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3332)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kpulW-0007fu-VF; Thu, 17 Dec 2020 10:00:28 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BHEVr0Z129773; Thu, 17 Dec 2020 10:00:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references; s=pp1;
- bh=2hHjAsYNeO3VDmOsMoaF2fCOAvAkCmD3evtAlrh1DDo=;
- b=Wb+HTUiCc0WjenpKXZQdA+wq2Fkxf5GPnWEqkG0f0pbq7f7QrixS3iCDyGJdH5twtxiq
- DMjZQxKGHRJlwNBCBIrX9/BLL852b2mGOWaCwTx45DpsZ707KtvOxulGc2eJHQOrzs5e
- gC1atL7CivWxXUO7lgQlm9nqH9JZ47Q0cQgGbLrYOt19MJqlHW13Uz7VCGutvC8hX2Be
- IabO49ef/3kbHAhNqXjxwvVtda7I5QCTskjhuQzkBjpNELRW6nRxKs7vliskZ0+lyqvP
- fuy0Q+BzY5tOpMP4JLTmvJCu5uhdmTwNSuk0HEe8+FJdSX5jhsenD2+02CiPbYNrUMC0 Mw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35g8k0t5x9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Dec 2020 10:00:22 -0500
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BHEWVm2132469;
- Thu, 17 Dec 2020 10:00:21 -0500
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35g8k0t5vf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Dec 2020 10:00:21 -0500
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BHEwmAW008963;
- Thu, 17 Dec 2020 15:00:20 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01wdc.us.ibm.com with ESMTP id 35cng97gy4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Dec 2020 15:00:20 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BHEx3H216318910
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 17 Dec 2020 14:59:03 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2E4736E052;
- Thu, 17 Dec 2020 14:59:03 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 420C16E04E;
- Thu, 17 Dec 2020 14:59:02 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.211.143.229])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 17 Dec 2020 14:59:02 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: cohuck@redhat.com, thuth@redhat.com
-Subject: [PATCH 2/2] s390x/pci: Fix memory_region_access_valid call
-Date: Thu, 17 Dec 2020 09:58:56 -0500
-Message-Id: <1608217136-5690-3-git-send-email-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1608217136-5690-1-git-send-email-mjrosato@linux.ibm.com>
-References: <1608217136-5690-1-git-send-email-mjrosato@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-17_09:2020-12-15,
- 2020-12-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- priorityscore=1501 clxscore=1015 suspectscore=0 mlxlogscore=903
- spamscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0 mlxscore=0
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012170099
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kpum4-0004KX-PY
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:01:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21151)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kpulv-0007p5-Tb
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:00:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608217249;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ltt4iL5jFMkjpTQF3uqtEyBePOF7b/JkTnpslp6IMrk=;
+ b=QrXDImn6EGHiKPVMhRrvb+2yhgLxRY9hiLGT2C6JzmyLeQfmac5WY0xhT8oT8aGBrIXLL9
+ tyEYzfJQ+LkrhFQcmc2p/vN3himq2ljv9kBHa9F7OHE8sXKwpcG9IR6Pcl/EaSeTnIhSRA
+ xseSQDYyMH+0SXaPWUK9ad+mUMwFmhI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-08dbqh1dNimj0rVc4gK3TA-1; Thu, 17 Dec 2020 10:00:47 -0500
+X-MC-Unique: 08dbqh1dNimj0rVc4gK3TA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 928B8190D340;
+ Thu, 17 Dec 2020 15:00:46 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.35.206.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D0F765D9D5;
+ Thu, 17 Dec 2020 15:00:41 +0000 (UTC)
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] RFC: few random hacks to improve eventfd fallback path
+Date: Thu, 17 Dec 2020 17:00:37 +0200
+Message-Id: <20201217150040.906961-1-mlevitsk@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,48 +75,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pmorel@linux.ibm.com, david@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In pcistb_service_handler, a call is made to validate that the memory
-region can be accessed.  However, the call is made using the entire length
-of the pcistb operation, which can be larger than the allowed memory
-access size (8).  Since we already know that the provided buffer is a
-multiple of 8, fix the call to memory_region_access_valid to iterate
-over the memory region in the same way as the subsequent call to
-memory_region_dispatch_write.
-
-Fixes: 863f6f52b7 ("s390: implement pci instructions")
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- hw/s390x/s390-pci-inst.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index e230293..f93f8ba 100644
---- a/hw/s390x/s390-pci-inst.c
-+++ b/hw/s390x/s390-pci-inst.c
-@@ -821,10 +821,12 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
-     mr = s390_get_subregion(mr, offset, len);
-     offset -= mr->addr;
- 
--    if (!memory_region_access_valid(mr, offset, len, true,
--                                    MEMTXATTRS_UNSPECIFIED)) {
--        s390_program_interrupt(env, PGM_OPERAND, ra);
--        return 0;
-+    for (i = 0; i < len / 8; i++) {
-+        if (!memory_region_access_valid(mr, offset + i * 8, 8, true,
-+                                        MEMTXATTRS_UNSPECIFIED)) {
-+            s390_program_interrupt(env, PGM_OPERAND, ra);
-+            return 0;
-+        }
-     }
- 
-     if (s390_cpu_virt_mem_read(cpu, gaddr, ar, buffer, len)) {
--- 
-1.8.3.1
+These few patches are the result of a random hacking I did to make the qemu=
+=0D
+cope with eventfd allocation failure, when using an iothread,=0D
+as it happened in bz #1897550.=0D
+=0D
+I am not 100% sure which patches in this series are worth to merge, or if=
+=0D
+this can be fixed in a better way.=0D
+=0D
+After this patch series applied, qemu still hangs while running reproducer =
+for=0D
+this BZ due to ABBA lock inversion which needs some heavy rework to get rid=
+ of.=0D
+I explained all the (gory) details in the bugzilla.=0D
+=0D
+This patch series was (lightly) tested with make check, iotests and with=0D
+the reproducer.=0D
+=0D
+Best regards,=0D
+=09Maxim Levitsky=0D
+=0D
+Maxim Levitsky (3):=0D
+  scsi: virtio-scsi: don't process IO on fenced dataplane=0D
+  virtio-scsi: don't uninitialize queues that we didn't initialize=0D
+  event_notifier: handle initialization failure better=0D
+=0D
+ hw/scsi/virtio-scsi-dataplane.c | 26 +++++++++++++++++++-------=0D
+ include/qemu/event_notifier.h   |  1 +=0D
+ util/event_notifier-posix.c     | 16 ++++++++++++++++=0D
+ 3 files changed, 36 insertions(+), 7 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
