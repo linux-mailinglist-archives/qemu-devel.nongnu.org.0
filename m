@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5252DD697
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:52:32 +0100 (CET)
-Received: from localhost ([::1]:34174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6754E2DD69E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:54:29 +0100 (CET)
+Received: from localhost ([::1]:38360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpxS3-0006Mm-Nt
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:52:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47934)
+	id 1kpxTw-0008CL-HK
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:54:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kpxQP-0005OT-71
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:50:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48998)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kpxR0-0006DA-MY
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:51:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kpxQM-0003fu-Uz
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:50:48 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kpxQz-0003mt-8T
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:51:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608227444;
+ s=mimecast20190719; t=1608227484;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7u95XguM1VdZRaezxoyuxoxUNzJHLsysV80ejvmag9Q=;
- b=JnXLwtDpkAL3cPcvMibG/KvFg6GRTzg2YVxLTqbHqIEF6lawKw5s85oTCJq7cM9zaL6Y8+
- PHkIXLscEyWbWYsPt5q5dEQ3B0e4iIZjLvjtrLiLtQdRfYF/T8uLykE6cujelcPXokl12I
- 1UoF3V4OeuTb9xaaAWnXB1bH6CZO+Dk=
+ bh=VvR64vx3+bL+cf2AEIhB4UIZ01Mjbe+Jn+VBGQvWh0k=;
+ b=QpFWPVIgyBSgtz7fS5M0fekv4GA6SAHuf1Y/vxZiGeZlCwiZfGZncpG9n8bhKAQ8xEGXub
+ XkAHiitRS6nEnGxJxDep5ioSmRJR/ldonrYjLd3pFaNsgsuluLRDAM0qAnUelJjLrnQhga
+ FuDG0aeeh9cDPXDN3pM8w6tzvX7XcUs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-CYmkCNMHMl21TLuPA9CelQ-1; Thu, 17 Dec 2020 12:50:42 -0500
-X-MC-Unique: CYmkCNMHMl21TLuPA9CelQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-535-DKauN0lOPqybSC_mgseUHA-1; Thu, 17 Dec 2020 12:51:21 -0500
+X-MC-Unique: DKauN0lOPqybSC_mgseUHA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CEEF59;
- Thu, 17 Dec 2020 17:50:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D414D59;
+ Thu, 17 Dec 2020 17:51:20 +0000 (UTC)
 Received: from gondolin (ovpn-113-176.ams2.redhat.com [10.36.113.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2103818993;
- Thu, 17 Dec 2020 17:50:35 +0000 (UTC)
-Date: Thu, 17 Dec 2020 18:50:34 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3CEC960BE5;
+ Thu, 17 Dec 2020 17:51:16 +0000 (UTC)
+Date: Thu, 17 Dec 2020 18:51:14 +0100
 From: Cornelia Huck <cohuck@redhat.com>
-To: qemu-devel@nongnu.org, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3] tests/acceptance: test hot(un)plug of ccw devices
-Message-ID: <20201217185034.17efb717.cohuck@redhat.com>
-In-Reply-To: <20201208122843.147186-1-cohuck@redhat.com>
-References: <20201208122843.147186-1-cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 0/3] tests/acceptance: Test virtio-rng and -balloon
+ on s390x
+Message-ID: <20201217185114.2715625f.cohuck@redhat.com>
+In-Reply-To: <20201215183623.110128-1-thuth@redhat.com>
+References: <20201215183623.110128-1-thuth@redhat.com>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -65,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,30 +78,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+Cc: qemu-s390x@nongnu.org,
  Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue,  8 Dec 2020 13:28:43 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
+On Tue, 15 Dec 2020 19:36:20 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-> Hotplug a virtio-net-ccw device, and then hotunplug it again.
+> Add two more simple tests to check that virtio-rng and virtio-balloon
+> are at least (very) basically working on s390x.
 > 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
-> v2->v3:
-> - do the dmesg cleanout and waiting for messages properly [Thomas]
+> Based-on: 20201204121450.120730-1-cohuck@redhat.com
 > 
-> Wainer: I dropped your r-b, as there had been too many changes for
->         me to be comfortable with retaining it
+> v2:
+>  - Cosmetic changes according to Cornelia's suggestions
+>  - Added Reviewed-bys from Wainer and Willian
 > 
-> ---
->  tests/acceptance/machine_s390_ccw_virtio.py | 24 +++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+> Thomas Huth (3):
+>   tests/acceptance: Extract the code to clear dmesg and wait for CRW
+>     reports
+>   tests/acceptance: Test virtio-rng on s390 via /dev/hwrng
+>   tests/acceptance: Test the virtio-balloon device on s390x
+> 
+>  tests/acceptance/machine_s390_ccw_virtio.py | 59 +++++++++++++++------
+>  1 file changed, 43 insertions(+), 16 deletions(-)
+> 
 
-Queued to s390-next.
+Thanks, applied.
 
 
