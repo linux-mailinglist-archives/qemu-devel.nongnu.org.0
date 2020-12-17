@@ -2,58 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE09B2DCF19
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 11:09:35 +0100 (CET)
-Received: from localhost ([::1]:50388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 055302DE7E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 18:14:45 +0100 (CET)
+Received: from localhost ([::1]:44126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpqE1-0005PB-Ji
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 05:09:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53472)
+	id 1kqJL1-0007Xj-I7
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 12:14:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kpq8B-0001xk-VF
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:03:31 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:54037)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kpq89-0006qe-Ek
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:03:31 -0500
-Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M5xDJ-1kiQXg33TX-007SdY; Thu, 17 Dec 2020 11:03:23 +0100
-Subject: Re: [PATCH-for-5.2] docs/user: Display linux-user binaries nicely
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201119160838.1981709-1-f4bug@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <edc7799a-e0b6-cfc3-abed-60a7db0123fa@vivier.eu>
-Date: Thu, 17 Dec 2020 11:03:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kqJJJ-0006WR-Di
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 12:12:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60325)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kqJJH-0008En-8r
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 12:12:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608311572;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EwBeDMgH3Kp9cppHD55XwlqzAh7idOu7q8t/VsFWDD0=;
+ b=ctDUoqEWN7KapOjA2AlLrXQCxf08zxHb3/fEhWnKSVft3dKyqmqkhAX6y026Z3Fa0dl9pU
+ dHQXEVtho2xHJJphntP9ry0IGZjalgTkzjmIn5J4S90B3TkUurezAFo+Q+nnu9UpJrcGWd
+ 5tcCX8Jcb3NNQ638EARDbYSDk0nKaXg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-277-hrdYafUAMlWrhHBTbKkA2Q-1; Fri, 18 Dec 2020 12:12:50 -0500
+X-MC-Unique: hrdYafUAMlWrhHBTbKkA2Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3E53801817;
+ Fri, 18 Dec 2020 17:12:48 +0000 (UTC)
+Received: from localhost (ovpn-112-107.ams2.redhat.com [10.36.112.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E9832C01E;
+ Fri, 18 Dec 2020 17:12:48 +0000 (UTC)
+Date: Thu, 17 Dec 2020 10:05:01 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Keqian Zhu <zhukeqian1@huawei.com>
+Subject: Re: [PATCH v2 1/2] ramlist: Make dirty bitmap blocks of ramlist
+ resizable
+Message-ID: <20201217100501.GE4338@stefanha-x1.localdomain>
+References: <20201130131104.10600-1-zhukeqian1@huawei.com>
+ <20201130131104.10600-2-zhukeqian1@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20201119160838.1981709-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:79AuQZ7KVgUzAc0MpLm++W9wZUvIp7W+IdDAT0wLKDu3Ae+AFwy
- PGUXhajkXBZcjvLMsPNJ1JRU+Nfq8SL532HDLs+OlBHmhaYO7ZE/RlI1xh1/+Hli6cJptVS
- ZqKu97qy/nKHtSytoVAWTgh3DY7uxiGdkkAw0nnRvWIlR3FM1p1wq/nVnCKehBwe1QWmHFJ
- mfnOnlpcPuINxqywuuoDQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2DQqZEB5u2o=:yEBFoXSURVGFrzcrhFjD1F
- bqraFvm4tS9nrHBNm0yOwCipU6OclKTfOVdBS8KXYWKBZLKigzF5xKBgeeNW9wgpbQ3qd5ped
- 4rfTifrVJVHUb6b2lJibVgTCp8RQDG86Py/jIWC96OTMtlV8Gpwkx3bPzU3PpnvN3XBzEVSiZ
- i3/2RHGUBFMAGHv2OjNaIs4hGokUvZqOcfxLnNUnT/YiTBjD3YtS9QKidt6XtNcNxPG8YcIa+
- ICHtgLTB3I5jYjFmOUu/25JYcNUc8jB2VdnQe8exbWrNJ1JyMJOKQnZ4qDxW1v1X7KQhKHHHd
- sUD3ZulyBgj52pGJplfphnAbYbyeOSqVkZvDHwY0E3HPwUOsO5eOqygo4lZFbyGbtl8g/Mbk+
- DNYQBPZokSYss54YcyuP/INFWXAGkn8zOUBuNMr3mx6P7kR4kuVVZmMBTXdL4al4FoN9zVxd/
- QAYckLWSTQ==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201130131104.10600-2-zhukeqian1@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="9crTWz/Z+Zyzu20v"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_24_48=1.34,
+ DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,150 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Fam Zheng <famz@redhat.com>,
+ kuhn.chenqun@huawei.com, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 19/11/2020 à 17:08, Philippe Mathieu-Daudé a écrit :
-> linux-user binaries are displayed altogether. Use the '*'
-> character to force displaying them as bullet list (one list
-> per architecture).
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  docs/user/main.rst | 99 ++++++++++++++++++++++++++--------------------
->  1 file changed, 56 insertions(+), 43 deletions(-)
-> 
-> diff --git a/docs/user/main.rst b/docs/user/main.rst
-> index bd99b0fdbe9..8dfe232a3af 100644
-> --- a/docs/user/main.rst
-> +++ b/docs/user/main.rst
-> @@ -170,68 +170,81 @@ QEMU_STRACE
->  Other binaries
->  ~~~~~~~~~~~~~~
->  
-> -user mode (Alpha)
-> -``qemu-alpha`` TODO.
-> +-  user mode (Alpha)
->  
-> -user mode (Arm)
-> -``qemu-armeb`` TODO.
-> +   * ``qemu-alpha`` TODO.
->  
-> -user mode (Arm)
-> -``qemu-arm`` is also capable of running Arm \"Angel\" semihosted ELF
-> -binaries (as implemented by the arm-elf and arm-eabi Newlib/GDB
-> -configurations), and arm-uclinux bFLT format binaries.
-> +-  user mode (Arm)
->  
-> -user mode (ColdFire)
-> -user mode (M68K)
-> -``qemu-m68k`` is capable of running semihosted binaries using the BDM
-> -(m5xxx-ram-hosted.ld) or m68k-sim (sim.ld) syscall interfaces, and
-> -coldfire uClinux bFLT format binaries.
-> +   * ``qemu-armeb`` TODO.
->  
-> -The binary format is detected automatically.
-> +   * ``qemu-arm`` is also capable of running Arm \"Angel\" semihosted ELF
-> +     binaries (as implemented by the arm-elf and arm-eabi Newlib/GDB
-> +     configurations), and arm-uclinux bFLT format binaries.
->  
-> -user mode (Cris)
-> -``qemu-cris`` TODO.
-> +-  user mode (ColdFire)
->  
-> -user mode (i386)
-> -``qemu-i386`` TODO. ``qemu-x86_64`` TODO.
-> +-  user mode (M68K)
->  
-> -user mode (Microblaze)
-> -``qemu-microblaze`` TODO.
-> +   * ``qemu-m68k`` is capable of running semihosted binaries using the BDM
-> +     (m5xxx-ram-hosted.ld) or m68k-sim (sim.ld) syscall interfaces, and
-> +     coldfire uClinux bFLT format binaries.
->  
-> -user mode (MIPS)
-> -``qemu-mips`` executes 32-bit big endian MIPS binaries (MIPS O32 ABI).
-> +   The binary format is detected automatically.
->  
-> -``qemu-mipsel`` executes 32-bit little endian MIPS binaries (MIPS O32
-> -ABI).
-> +-  user mode (Cris)
->  
-> -``qemu-mips64`` executes 64-bit big endian MIPS binaries (MIPS N64 ABI).
-> +   * ``qemu-cris`` TODO.
->  
-> -``qemu-mips64el`` executes 64-bit little endian MIPS binaries (MIPS N64
-> -ABI).
-> +-  user mode (i386)
->  
-> -``qemu-mipsn32`` executes 32-bit big endian MIPS binaries (MIPS N32
-> -ABI).
-> +   * ``qemu-i386`` TODO.
-> +   * ``qemu-x86_64`` TODO.
->  
-> -``qemu-mipsn32el`` executes 32-bit little endian MIPS binaries (MIPS N32
-> -ABI).
-> +-  user mode (Microblaze)
->  
-> -user mode (NiosII)
-> -``qemu-nios2`` TODO.
-> +   * ``qemu-microblaze`` TODO.
->  
-> -user mode (PowerPC)
-> -``qemu-ppc64abi32`` TODO. ``qemu-ppc64`` TODO. ``qemu-ppc`` TODO.
-> +-  user mode (MIPS)
->  
-> -user mode (SH4)
-> -``qemu-sh4eb`` TODO. ``qemu-sh4`` TODO.
-> +   * ``qemu-mips`` executes 32-bit big endian MIPS binaries (MIPS O32 ABI).
->  
-> -user mode (SPARC)
-> -``qemu-sparc`` can execute Sparc32 binaries (Sparc32 CPU, 32 bit ABI).
-> +   * ``qemu-mipsel`` executes 32-bit little endian MIPS binaries (MIPS O32 ABI).
->  
-> -``qemu-sparc32plus`` can execute Sparc32 and SPARC32PLUS binaries
-> -(Sparc64 CPU, 32 bit ABI).
-> +   * ``qemu-mips64`` executes 64-bit big endian MIPS binaries (MIPS N64 ABI).
->  
-> -``qemu-sparc64`` can execute some Sparc64 (Sparc64 CPU, 64 bit ABI) and
-> -SPARC32PLUS binaries (Sparc64 CPU, 32 bit ABI).
-> +   * ``qemu-mips64el`` executes 64-bit little endian MIPS binaries (MIPS N64
-> +     ABI).
-> +
-> +   * ``qemu-mipsn32`` executes 32-bit big endian MIPS binaries (MIPS N32 ABI).
-> +
-> +   * ``qemu-mipsn32el`` executes 32-bit little endian MIPS binaries (MIPS N32
-> +     ABI).
-> +
-> +-  user mode (NiosII)
-> +
-> +   * ``qemu-nios2`` TODO.
-> +
-> +-  user mode (PowerPC)
-> +
-> +   * ``qemu-ppc64abi32`` TODO.
-> +   * ``qemu-ppc64`` TODO.
-> +   * ``qemu-ppc`` TODO.
-> +
-> +-  user mode (SH4)
-> +
-> +   * ``qemu-sh4eb`` TODO.
-> +   * ``qemu-sh4`` TODO.
-> +
-> +-  user mode (SPARC)
-> +
-> +   * ``qemu-sparc`` can execute Sparc32 binaries (Sparc32 CPU, 32 bit ABI).
-> +
-> +   * ``qemu-sparc32plus`` can execute Sparc32 and SPARC32PLUS binaries
-> +     (Sparc64 CPU, 32 bit ABI).
-> +
-> +   * ``qemu-sparc64`` can execute some Sparc64 (Sparc64 CPU, 64 bit ABI) and
-> +     SPARC32PLUS binaries (Sparc64 CPU, 32 bit ABI).
->  
->  BSD User space emulator
->  -----------------------
-> 
+--9crTWz/Z+Zyzu20v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+On Mon, Nov 30, 2020 at 09:11:03PM +0800, Keqian Zhu wrote:
+> @@ -1839,15 +1841,26 @@ static void dirty_memory_extend(ram_addr_t old_ra=
+m_size,
+>          new_blocks =3D g_malloc(sizeof(*new_blocks) +
+>                                sizeof(new_blocks->blocks[0]) * new_num_bl=
+ocks);
+> =20
+> -        if (old_num_blocks) {
+> +        if (cpy_num_blocks) {
+>              memcpy(new_blocks->blocks, old_blocks->blocks,
+> -                   old_num_blocks * sizeof(old_blocks->blocks[0]));
+> +                   cpy_num_blocks * sizeof(old_blocks->blocks[0]));
+>          }
+> =20
+> -        for (j =3D old_num_blocks; j < new_num_blocks; j++) {
+> -            new_blocks->blocks[j] =3D bitmap_new(DIRTY_MEMORY_BLOCK_SIZE=
+);
+> +        if (extend) {
+> +            for (j =3D cpy_num_blocks; j < new_num_blocks; j++) {
+> +                new_blocks->blocks[j] =3D bitmap_new(DIRTY_MEMORY_BLOCK_=
+SIZE);
+> +            }
+> +        } else {
+> +            for (j =3D cpy_num_blocks; j < old_num_blocks; j++) {
+> +                /* We are safe to free it, for that it is out-of-use */
+> +                g_free(old_blocks->blocks[j]);
+
+This looks unsafe because this code uses Read Copy Update (RCU):
+
+  old_blocks =3D qatomic_rcu_read(&ram_list.dirty_memory[i]);
+
+Other threads may still be accessing old_blocks so we cannot modify it
+immediately. Changes need to be deferred until the next RCU period.
+g_free_rcu() needs to be used to do this.
+
+--9crTWz/Z+Zyzu20v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/bLU0ACgkQnKSrs4Gr
+c8h+Mgf+IS0RkUmTpoHXTKsa66GScp11SfqJ/QP3bfrig/BykyvFTGEpzSY+F11N
+9zASeC/fvB/dk8t/Bdl+5xzce2PyQ9i5PStow8iuZrCiYGyJHX6YMnRyj9sj7Gxi
+WCVVhXPMIIlOdd0Ffs/xeKYGQDNDmgMApEVsh1bHwnGEeMqQNqqe8GVm6Bj1zy06
+KoTzRFdZ6g4J8ZlFpe8WpIJ/vopVOhyhXd67cPT7FH89tHGBCDxS0fH1iPEuyD0O
+qX1bwBpQsOjbIcUVQCVwqOfJ95KCw+30jdTXo7LVW2taJrw380Gc/v7CyPTJch78
++N+ihQT9dN0hbB1IV8ODgN2wCdopWw==
+=f8dr
+-----END PGP SIGNATURE-----
+
+--9crTWz/Z+Zyzu20v--
+
 
