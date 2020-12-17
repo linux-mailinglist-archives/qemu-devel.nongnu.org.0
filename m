@@ -2,71 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC552DD0CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:51:08 +0100 (CET)
-Received: from localhost ([::1]:35234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17972DD0BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:49:16 +0100 (CET)
+Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kproJ-0004j9-M2
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:51:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49234)
+	id 1kprmV-0002Lm-UB
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:49:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kprh2-0005lr-R0
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:43:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26369)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kprkQ-00019W-0t
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:47:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kprh1-0000Sb-48
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:43:36 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kprkO-0001il-Dt
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:47:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608205414;
+ s=mimecast20190719; t=1608205623;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QyIqB23JwnZYHGAWkNFaM9pV1Ag2jMMOyHckGdG4sJU=;
- b=QLBDDxDSbqpqVlJpc2YS6GXb9nQO5JGrQpOFVK2HsoCaZPdJWqK4qtLiXSDXSLERokwbrr
- dIViv5ndEEkF00rjlLQ3oNBLnE2Ar8MbCBmP9+dXVJeN+P55jCRAppqfFELixXRnTCcD0P
- WvbVhtMzOGS8H0DH+8mqlTPOg60QvJE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-ep45ulrANZOTpRE_DowVqg-1; Thu, 17 Dec 2020 06:43:29 -0500
-X-MC-Unique: ep45ulrANZOTpRE_DowVqg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1A2D800D55;
- Thu, 17 Dec 2020 11:43:27 +0000 (UTC)
-Received: from gondolin (ovpn-113-176.ams2.redhat.com [10.36.113.176])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDC9D1A262;
- Thu, 17 Dec 2020 11:43:16 +0000 (UTC)
-Date: Thu, 17 Dec 2020 12:43:13 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [for-6.0 v5 00/13] Generalize memory encryption models
-Message-ID: <20201217124313.0b321ecf.cohuck@redhat.com>
-In-Reply-To: <20201217062116.GK310465@yekko.fritz.box>
-References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <f2419585-4e39-1f3d-9e38-9095e26a6410@de.ibm.com>
- <20201204140205.66e205da.cohuck@redhat.com>
- <20201204130727.GD2883@work-vm>
- <20201204141229.688b11e4.cohuck@redhat.com>
- <20201208025728.GD2555@yekko.fritz.box>
- <20201208134308.2afa0e3e.cohuck@redhat.com>
- <20201217062116.GK310465@yekko.fritz.box>
-Organization: Red Hat GmbH
+ bh=Iug3ggY0w5bjkPxymdifqXFLb7U0VPYPijxffyBr6r0=;
+ b=S2UGXmKA/5Yv3YT6khjnjWQay34ovedmyDiZHMugxrAvbvM0mMWz+tMBfiLrkf3nat2qRN
+ KP6qK+a5Dq7wIvpr+GgQGnvbmTsAIWpCjbLcNSK2NzpOPxpBS8uW2i/97Gt1nNBolQ37t8
+ GCyeKRGYe1/qceN41Wovy3y9lV1+IXU=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318-ZoorttTxNiui2dkGluokHA-1; Thu, 17 Dec 2020 06:47:01 -0500
+X-MC-Unique: ZoorttTxNiui2dkGluokHA-1
+Received: by mail-ej1-f69.google.com with SMTP id lw15so8537563ejb.7
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 03:47:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Iug3ggY0w5bjkPxymdifqXFLb7U0VPYPijxffyBr6r0=;
+ b=jMQKu2CPItlXuR/mAU76saHKdEhHPaVpQJoxZlGgH3zqP70rv/O3qguoswDs4V8yZD
+ 2H10dJYq5hFiNBlBifLwLghw2TD6x8iXE0K/+AJfGwAwdSvr3R+cObbRI2PAGlVTgDZL
+ gGZVmHIaal8Gc3+ueEC/bwyI4dufJ4wmx+/Xs9qsKLwgSnP4Cgdq0RatAnnRyNZ/9Q55
+ GI+el5nwONW0AAV0S/79ztPxgRDo8MNM1/h0ZaoI9594LnqxPG3WBq67V2EfpTG2YZth
+ gifL32GbPBgDCOvU5cdCw2KekIjd8RWdel5Q+l6Mda/Ez38+qh6rIQr5D6+d6Okn/Edj
+ vbFA==
+X-Gm-Message-State: AOAM532cjqMt6rKPf4lzDywsjJ8irtniPVhO6cNySkrOoFcsqi9CfNz0
+ aWMv2ewF1vGrcGiutF1vRjnocC/4TWeoBxv/CaY5ZPw0XZLzXVxrfxjJAX/k5Ocifqs8258ytPG
+ A/t/Jl8WNmAWWMmpxFTfkiVtsKLgz6jEW/Xutym+YnB3DBlyGzuD7W5am9BdsmM87f2s=
+X-Received: by 2002:a05:6402:1d15:: with SMTP id
+ dg21mr37536902edb.280.1608205620221; 
+ Thu, 17 Dec 2020 03:47:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzP40djTKi+lSCTWw6rwY+qq8djAgPs4SoSsmaKPHHHJI7JBMTeEvvI0L3+YCw4sjWNK/Sj5g==
+X-Received: by 2002:a05:6402:1d15:: with SMTP id
+ dg21mr37536883edb.280.1608205619971; 
+ Thu, 17 Dec 2020 03:46:59 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id k21sm3553844ejv.80.2020.12.17.03.46.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Dec 2020 03:46:58 -0800 (PST)
+To: Claudio Fontana <cfontana@suse.de>, marcandre.lureau@redhat.com,
+ qemu-devel@nongnu.org
+References: <20201217104417.436508-1-marcandre.lureau@redhat.com>
+ <5c6d244b-1ed3-f065-88b6-7a007a224cc4@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] build-sys: fix win32 compilation with --target-list=''
+Message-ID: <7fc16ac5-d0c2-9475-abc8-bd415c6b2a73@redhat.com>
+Date: Thu, 17 Dec 2020 12:46:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/R0kL8VplyVYXrejI1PMf7M_";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+In-Reply-To: <5c6d244b-1ed3-f065-88b6-7a007a224cc4@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,137 +103,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, david@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, berrange@redhat.com,
- thuth@redhat.com, pbonzini@redhat.com, rth@twiddle.net,
- mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/R0kL8VplyVYXrejI1PMf7M_
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 17/12/20 12:32, Claudio Fontana wrote:
+> Is the root cause elsewhere though?
+> 
+> I don't like stubs very much, because often they are introduced as the easy way out of a problem instead of doing the necessary refactoring,
+> and they end up confusing the hell out of someone trying to understand what is actually used where, never mind trying to debug the linker errors.
+> 
+> There is already an bunch of #ifndef _WIN32, #else , ... in util/main-loop.c (quite a bunch of them really),
+> is that what actually needs reworking, and putting the pieces together in the build system in a way that makes sense?
 
-On Thu, 17 Dec 2020 17:21:16 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+qemu_fd_register is almost not needed at all, since we have
 
-> On Tue, Dec 08, 2020 at 01:43:08PM +0100, Cornelia Huck wrote:
-> > On Tue, 8 Dec 2020 13:57:28 +1100
-> > David Gibson <david@gibson.dropbear.id.au> wrote:
-> >  =20
-> > > On Fri, Dec 04, 2020 at 02:12:29PM +0100, Cornelia Huck wrote: =20
-> > > > On Fri, 4 Dec 2020 13:07:27 +0000
-> > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > > >    =20
-> > > > > * Cornelia Huck (cohuck@redhat.com) wrote:   =20
-> > > > > > On Fri, 4 Dec 2020 09:06:50 +0100
-> > > > > > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-> > > > > >      =20
-> > > > > > > On 04.12.20 06:44, David Gibson wrote:     =20
-> > > > > > > > A number of hardware platforms are implementing mechanisms =
-whereby the
-> > > > > > > > hypervisor does not have unfettered access to guest memory,=
- in order
-> > > > > > > > to mitigate the security impact of a compromised hypervisor.
-> > > > > > > >=20
-> > > > > > > > AMD's SEV implements this with in-cpu memory encryption, an=
-d Intel has
-> > > > > > > > its own memory encryption mechanism.  POWER has an upcoming=
- mechanism
-> > > > > > > > to accomplish this in a different way, using a new memory p=
-rotection
-> > > > > > > > level plus a small trusted ultravisor.  s390 also has a pro=
-tected
-> > > > > > > > execution environment.
-> > > > > > > >=20
-> > > > > > > > The current code (committed or draft) for these features ha=
-s each
-> > > > > > > > platform's version configured entirely differently.  That d=
-oesn't seem
-> > > > > > > > ideal for users, or particularly for management layers.
-> > > > > > > >=20
-> > > > > > > > AMD SEV introduces a notionally generic machine option
-> > > > > > > > "machine-encryption", but it doesn't actually cover any cas=
-es other
-> > > > > > > > than SEV.
-> > > > > > > >=20
-> > > > > > > > This series is a proposal to at least partially unify confi=
-guration
-> > > > > > > > for these mechanisms, by renaming and generalizing AMD's
-> > > > > > > > "memory-encryption" property.  It is replaced by a
-> > > > > > > > "securable-guest-memory" property pointing to a platform sp=
-ecific       =20
-> > > > > > >=20
-> > > > > > > Can we do "securable-guest" ?
-> > > > > > > s390x also protects registers and integrity. memory is only o=
-ne piece
-> > > > > > > of the puzzle and what we protect might differ from platform =
-to=20
-> > > > > > > platform.
-> > > > > > >      =20
-> > > > > >=20
-> > > > > > I agree. Even technologies that currently only do memory encryp=
-tion may
-> > > > > > be enhanced with more protections later.     =20
-> > > > >=20
-> > > > > There's already SEV-ES patches onlist for this on the SEV side.
-> > > > >=20
-> > > > > <sigh on haggling over the name>
-> > > > >=20
-> > > > > Perhaps 'confidential guest' is actually what we need, since the
-> > > > > marketing folks seem to have started labelling this whole idea
-> > > > > 'confidential computing'.   =20
-> > >=20
-> > > That's not a bad idea, much as I usually hate marketing terms.  But it
-> > > does seem to be becoming a general term for this style of thing, and
-> > > it doesn't overlap too badly with other terms ("secure" and
-> > > "protected" are also used for hypervisor-from-guest and
-> > > guest-from-guest protection).
-> > >  =20
-> > > > It's more like a 'possibly confidential guest', though.   =20
-> > >=20
-> > > Hmm.  What about "Confidential Guest Facility" or "Confidential Guest
-> > > Mechanism"?  The implication being that the facility is there, whether
-> > > or not the guest actually uses it.
-> > >  =20
-> >=20
-> > "Confidential Guest Enablement"? The others generally sound fine to me
-> > as well, though; not sure if "Facility" might be a bit confusing, as
-> > that term is already a bit overloaded. =20
->=20
-> Well, "facility" is a bit overloaded, but IMO "enablement" is even
-> more so.  I think I'll go with "confidential guest support" in the
-> next spin.
->=20
+         WSAEventSelect(node->pfd.fd, event, bitmask);
 
-Works for me.
+in aio_set_fd_handler.  I think we can remove the call to 
+qemu_fd_register from qemu_try_set_nonblock, and that should fix the 
+issue as well.
 
---Sig_/R0kL8VplyVYXrejI1PMf7M_
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl/bRFEACgkQ3s9rk8bw
-L68CLRAAp36nl9zlR8I/XeSW6EAJQS+9P2Ose7DKrowr6/vkXSSOtHl9cv/6TDiU
-V5tOO3CbItyzBPxw5w7ezy88bgYOxgijmr4MHs4nC0YqtzYYv4vCeEIKmT99rgy4
-q/nCkRGY0C+cnSuehjLgPIC9wqFuOjrgui4edY1+eNxe311QZR/XuAfSGs4RJ0VB
-UiT7+xdqiygzNTgiLttpw+msZrj9lKLmad5LnUiEvVvzbxFPtWWqbBisWS7M7D49
-58yYobJr/o/Rh77mqNFDzgBiWmYvnmi2ukAMyLSUl+g0fGMKZzu1CVjPE0wg1jkX
-n8B7qkpZrTC27HqzUR+r37fuBpWgkqBmiUXzyayn4z3Z+HoY4Io2ipfYOK62PRLm
-+0j6Tgw3cIBHY+NscF4f83iNQRrxqqZia9PWdncfdwJC/JIkNnV9hIABTkm4lC2L
-GPoXS0X6/6Q5dXILqrSPJUuaWlF3P3/m3ehAHLqurs9hirutfTR5MPWREcy1oBxm
-kGqCaXUO/faCGGoJkYdKot5UpysuL87RBo7EgBo3HL8V/VfUlo+6CJeiPQWbDKw9
-l9z3kZfbFzl2FrJmxfuJapVlRCfSzpjVCebMDl4CSjP+Dax170lAt9bX/0CgdL8u
-z8c8aFVhACPWFRw8CJaqldSznQsISXj5BnPHvGTSwYTZRnNH1AA=
-=XYiF
------END PGP SIGNATURE-----
-
---Sig_/R0kL8VplyVYXrejI1PMf7M_--
+Paolo
 
 
