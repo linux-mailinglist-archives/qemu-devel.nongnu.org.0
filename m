@@ -2,70 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75622DD5A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:05:58 +0100 (CET)
-Received: from localhost ([::1]:56772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2CA2DD5E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:17:32 +0100 (CET)
+Received: from localhost ([::1]:52008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpwiz-0008QK-Fq
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:05:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34232)
+	id 1kpwuB-0002Oj-Om
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:17:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kpwaH-0003GO-J0
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:56:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kpwaC-00036k-FY
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:56:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608224210;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=595zJLnzjD7+CDUTBj/Yg/a0T1xQ06mWxKOc8uzzRDY=;
- b=b1HojGH1MECcr/R+9ncEsn8PsJmNFvcLRtpU1TRDe01QJ1zKwV7U2fwCkZk+6gBK/el+RG
- YD/l8GLyMTJvj2CbDBO2eyPygVmI+2Ry+rApkAhOU/PtK1+O7HH/EgNPhM0yw37/oFrJ/I
- Gowr+M2MMoAPDiUgzSJxTDo4aGWtZ94=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-7_9_vWBYMmqEHV-0WsVjXg-1; Thu, 17 Dec 2020 11:56:46 -0500
-X-MC-Unique: 7_9_vWBYMmqEHV-0WsVjXg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6515610766BA;
- Thu, 17 Dec 2020 16:56:45 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.35.206.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0B4A8E734;
- Thu, 17 Dec 2020 16:56:41 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kpwbB-0003r9-TX
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:57:53 -0500
+Received: from relay.sw.ru ([185.231.240.75]:45868 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kpway-0003D0-CU
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:57:53 -0500
+Received: from [192.168.15.61] (helo=andrey-MS-7B54.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kpwaV-00DOsx-If; Thu, 17 Dec 2020 19:57:11 +0300
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/5] block/scsi: correctly emulate the VPD block limits page
-Date: Thu, 17 Dec 2020 18:56:12 +0200
-Message-Id: <20201217165612.942849-6-mlevitsk@redhat.com>
-In-Reply-To: <20201217165612.942849-1-mlevitsk@redhat.com>
-References: <20201217165612.942849-1-mlevitsk@redhat.com>
+Subject: [PATCH v10 0/5] UFFD write-tracking migration/snapshots
+Date: Thu, 17 Dec 2020 19:57:07 +0300
+Message-Id: <20201217165712.369061-1-andrey.gruzdev@virtuozzo.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay3.sw.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,67 +49,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, qemu-block@nongnu.org,
- Peter Lieven <pl@kamp.de>, Tom Yan <tom.ty89@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Den Lunev <den@openvz.org>, Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
-When the device doesn't support the VPD block limits page, we emulate it even
-for SCSI passthrough.
+This patch series is a kind of 'rethinking' of Denis Plotnikov's ideas he's
+implemented in his series '[PATCH v0 0/4] migration: add background snapshot'.
 
-As a part of the emulation we need to add it to the 'Supported VPD Pages'
+Currently the only way to make (external) live VM snapshot is using existing
+dirty page logging migration mechanism. The main problem is that it tends to
+produce a lot of page duplicates while running VM goes on updating already
+saved pages. That leads to the fact that vmstate image size is commonly several
+times bigger then non-zero part of virtual machine's RSS. Time required to
+converge RAM migration and the size of snapshot image severely depend on the
+guest memory write rate, sometimes resulting in unacceptably long snapshot
+creation time and huge image size.
 
-The code that does this adds it to the page, but it doesn't increase the length
-of the data to be copied to the guest, thus the guest never sees the VPD block
-limits page as supported.
+This series propose a way to solve the aforementioned problems. This is done
+by using different RAM migration mechanism based on UFFD write protection
+management introduced in v5.7 kernel. The migration strategy is to 'freeze'
+guest RAM content using write-protection and iteratively release protection
+for memory ranges that have already been saved to the migration stream.
+At the same time we read in pending UFFD write fault events and save those
+pages out-of-order with higher priority.
 
-Bump the transfer size by 1 in this case.
+How to use:
+1. Enable write-tracking migration capability
+   virsh qemu-monitor-command <domain> --hmp migrate_set_capability.
+track-writes-ram on
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- hw/scsi/scsi-generic.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+2. Start the external migration to a file
+   virsh qemu-monitor-command <domain> --hmp migrate exec:'cat > ./vm_state'
 
-diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index 6df67bf889..8f43979cbc 100644
---- a/hw/scsi/scsi-generic.c
-+++ b/hw/scsi/scsi-generic.c
-@@ -134,7 +134,7 @@ static int execute_command(BlockBackend *blk,
-     return 0;
- }
- 
--static void scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s)
-+static int scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s, int len)
- {
-     uint8_t page, page_idx;
- 
-@@ -200,8 +200,13 @@ static void scsi_handle_inquiry_reply(SCSIGenericReq *r, SCSIDevice *s)
-                 r->buf[page_idx] = 0xb0;
-             }
-             stw_be_p(r->buf + 2, lduw_be_p(r->buf + 2) + 1);
-+
-+            if (len < r->buflen) {
-+                len++;
-+            }
-         }
-     }
-+    return len;
- }
- 
- static int scsi_generic_emulate_block_limits(SCSIGenericReq *r, SCSIDevice *s)
-@@ -316,7 +321,7 @@ static void scsi_read_complete(void * opaque, int ret)
-         }
-     }
-     if (r->req.cmd.buf[0] == INQUIRY) {
--        scsi_handle_inquiry_reply(r, s);
-+        len = scsi_handle_inquiry_reply(r, s, len);
-     }
- 
- req_complete:
+3. Wait for the migration finish and check that the migration has completed.
+state.
+
+
+Changes v9->v10:
+
+* 1. Fixed commit message for [PATCH v9 1/5].
+
+Changes v8->v9
+
+* 1. Fixed wrong cover letter subject.
+
+Changes v7->v8
+
+* 1. Fixed coding style problems to pass checkpatch.
+
+Changes v6->v7:
+
+* 1. Fixed background snapshot on suspended guest: call qemu_system_wakeup_request()
+*    before stopping VM to make runstate transition valid.
+* 2. Disabled dirty page logging and log syn when 'background-snapshot' is enabled.
+* 3. Introduced 'userfaultfd-wrlat.py' script to analyze UFFD write fault latencies.
+
+Changes v5->v6:
+
+* 1. Consider possible hot pluggin/unpluggin of memory device - don't use static
+*    for write-tracking support level in migrate_query_write_tracking(), check
+*    each time when one tries to enable 'background-snapshot' capability.
+
+Changes v4->v5:
+
+* 1. Refactored util/userfaultfd.c code to support features required by postcopy.
+* 2. Introduced checks for host kernel and guest memory backend compatibility
+*    to 'background-snapshot' branch in migrate_caps_check().
+* 3. Switched to using trace_xxx instead of info_report()/error_report() for
+*    cases when error message must be hidden (probing UFFD-IO) or info may be
+*    really littering output if goes to stderr.
+* 4  Added RCU_READ_LOCK_GUARDs to the code dealing with RAM block list.
+* 5. Added memory_region_ref() for each RAM block being wr-protected.
+* 6. Reused qemu_ram_block_from_host() instead of custom RAM block lookup routine.
+* 7. Refused from using specific hwaddr/ram_addr_t in favour of void */uint64_t.
+* 8. Currently dropped 'linear-scan-rate-limiting' patch. The reason is that
+*    that choosen criteria for high-latency fault detection (i.e. timestamp of
+*    UFFD event fetch) is not representative enough for this task.
+*    At the moment it looks somehow like premature optimization effort.
+* 8. Dropped some unnecessary/unused code.
+
+Andrey Gruzdev (5):
+  migration: introduce 'background-snapshot' migration capability
+  migration: introduce UFFD-WP low-level interface helpers
+  migration: support UFFD write fault processing in ram_save_iterate()
+  migration: implementation of background snapshot thread
+  migration: introduce 'userfaultfd-wrlat.py' script
+
+ include/exec/memory.h        |   8 +
+ include/qemu/userfaultfd.h   |  35 ++++
+ migration/migration.c        | 365 ++++++++++++++++++++++++++++++++++-
+ migration/migration.h        |   4 +
+ migration/ram.c              | 288 ++++++++++++++++++++++++++-
+ migration/ram.h              |   6 +
+ migration/savevm.c           |   1 -
+ migration/savevm.h           |   2 +
+ migration/trace-events       |   2 +
+ qapi/migration.json          |   7 +-
+ scripts/userfaultfd-wrlat.py | 148 ++++++++++++++
+ util/meson.build             |   1 +
+ util/trace-events            |   9 +
+ util/userfaultfd.c           | 345 +++++++++++++++++++++++++++++++++
+ 14 files changed, 1211 insertions(+), 10 deletions(-)
+ create mode 100644 include/qemu/userfaultfd.h
+ create mode 100755 scripts/userfaultfd-wrlat.py
+ create mode 100644 util/userfaultfd.c
+
 -- 
-2.26.2
+2.25.1
 
 
