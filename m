@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F80D2DD299
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 15:07:07 +0100 (CET)
-Received: from localhost ([::1]:58468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8146F2DD29A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 15:09:02 +0100 (CET)
+Received: from localhost ([::1]:34628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kptvu-0004bl-AY
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 09:07:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51300)
+	id 1kptxl-0006b8-II
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 09:09:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kpttc-0003fQ-K0
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:04:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36929)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kptv6-00050G-O6
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:06:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kpttX-0005Wm-8Z
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:04:44 -0500
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kptv2-00065E-Vk
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:06:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608213878;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1608213972;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aNNP1+c6giGoFeLMPWp2RKc4wh6W9NIcrbhqYpVpYJg=;
- b=WsVF/5czeGwKqq4TPfko6JomF5eZm5LP5revzk1enDD80LVBvWYYkGlcvQ/GVAa0nIjaWg
- mTkSrb6EmbcfyHKyABZu4BgW+13uxNXpr5cDkg8DesU92Kx8MgFq98qQWixzTSKmTqDVSG
- 3Sed7lXBswHZinTpgmEMJwZzi13NOVg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-MnwXLCC4MOiqur6DRjWcmg-1; Thu, 17 Dec 2020 09:04:34 -0500
-X-MC-Unique: MnwXLCC4MOiqur6DRjWcmg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2A4D800D55
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 14:04:33 +0000 (UTC)
-Received: from redhat.com (ovpn-115-33.ams2.redhat.com [10.36.115.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 090795D9C0;
- Thu, 17 Dec 2020 14:04:31 +0000 (UTC)
-Date: Thu, 17 Dec 2020 14:04:28 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 1/6] migration: Fix and clean up around @tls-authz
-Message-ID: <20201217140428.GG247354@redhat.com>
-References: <20201113065236.2644169-1-armbru@redhat.com>
- <20201113065236.2644169-2-armbru@redhat.com>
- <20201210181009.GA59494@redhat.com>
- <87sg88g0dx.fsf@dusky.pond.sub.org>
- <20201216105559.GF189795@redhat.com>
- <87v9d0int6.fsf@dusky.pond.sub.org>
+ bh=t1Wg/YG3QwbYTN9BKULTOXDCD4Zokzgi9bqGcjCAjJI=;
+ b=LV/I6OvhVVMF75GAWN8s/R5fRC/ffLNSJcItvnFhhN8PPDitlx0kAotmmDIJ5mIepWe4Wt
+ Rrj3yZnBoWhVT6rU4O+5X5MWedWwURzymqlxcFTeP80jck2aOfGOo4zzCUtcmJ19yd5KXy
+ X70MCfehepCSMlfhJq/nYl8SBTh75wA=
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
+ [209.85.166.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-456-2sdbJwtyOQW2FP3qzNUrfw-1; Thu, 17 Dec 2020 09:06:07 -0500
+X-MC-Unique: 2sdbJwtyOQW2FP3qzNUrfw-1
+Received: by mail-il1-f197.google.com with SMTP id f4so29109005ilu.15
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 06:06:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=t1Wg/YG3QwbYTN9BKULTOXDCD4Zokzgi9bqGcjCAjJI=;
+ b=CMf8yujT4Wh8nuVn9bGS2cBzovnK2ybBoajxf0fnNav7bws/5ZXOUsTtIc+rWYNMZ1
+ Q/Sn5pLQLv4OYtzks5voRciQkAekhW1GtLsuHsC2b6ohYGZ9AIRsZckQn+mYB+pff/YB
+ 8MaKK4nzNwm/UyvL7J0qMG3rnuqgHtgzJsEKvrRL1Y4JikJiruyt4sqrBM3ikaoallDe
+ S3hqN6aqEJaIE3vPXxYXVkUfsmy2kxmJfCs9dZacog4/2qmhqljX9CafzqbRqEH9iXSx
+ tEkqTR42XHVS3pLMVp6/mEHYsROetnxhwFsZF38Xjz3j2aIkQjlwXWXmKrq+uvmXiufD
+ z4UQ==
+X-Gm-Message-State: AOAM533rP3LmLpfinw0IvisFCrI2NrWr4zUd8PVEidIMCiLjH0E4/yfF
+ OBWvICo2BMTyyybRWUIVhEWE0eyJgLNOcVlZXPmgkWadkXK0jrYxij/3ZjR6gjo39h0qQ9VgZBI
+ KEPqUe1iXWV4pVN8N2fD47gzhKhvOLQ8=
+X-Received: by 2002:a92:c26c:: with SMTP id h12mr43931950ild.165.1608213967046; 
+ Thu, 17 Dec 2020 06:06:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwp7JgmYT5Mlop/58T5KyJL8LVBF3P89iEpbT/CU4l/2ELZKDWG+wFzfvRVf+aHQ2/IYn2HuFdlewzu784Kung=
+X-Received: by 2002:a92:c26c:: with SMTP id h12mr43931920ild.165.1608213966696; 
+ Thu, 17 Dec 2020 06:06:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87v9d0int6.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20201217094044.46462-1-pbonzini@redhat.com>
+ <20201217094044.46462-18-pbonzini@redhat.com>
+In-Reply-To: <20201217094044.46462-18-pbonzini@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 17 Dec 2020 18:05:55 +0400
+Message-ID: <CAMxuvawKTEAZ1AWVK+Xvwn3OpOBWAbBD7aktfxuY6Q_cx_mxZQ@mail.gmail.com>
+Subject: Re: [PATCH 17/18] libattr: convert to meson
+To: Paolo Bonzini <pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: multipart/alternative; boundary="00000000000035570105b6a97eed"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,236 +89,489 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 17, 2020 at 02:07:01PM +0100, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
-> > On Mon, Dec 14, 2020 at 11:14:34AM +0100, Markus Armbruster wrote:
-> >> Daniel P. Berrangé <berrange@redhat.com> writes:
-> >> 
-> >> > On Fri, Nov 13, 2020 at 07:52:31AM +0100, Markus Armbruster wrote:
-> >> >> Commit d2f1d29b95 "migration: add support for a "tls-authz" migration
-> >> >> parameter" added MigrationParameters member @tls-authz.  Whereas the
-> >> >> other members aren't really optional (see commit 1bda8b3c695), this
-> >> >> one is genuinely optional: migration_instance_init() leaves it absent,
-> >> >> and migration_tls_channel_process_incoming() passes it to
-> >> >> qcrypto_tls_session_new(), which checks for null.
-> >> >> 
-> >> >> Commit d2f1d29b95 has a number of issues, though:
-> >> >> 
-> >> >> * When qmp_query_migrate_parameters() copies migration parameters into
-> >> >>   its reply, it ignores has_tls_authz, and assumes true instead.  When
-> >> >>   it is false,
-> >> >> 
-> >> >>   - HMP info migrate_parameters prints the null pointer (crash bug on
-> >> >>     some systems), and
-> >> >> 
-> >> >>   - QMP query-migrate-parameters replies "tls-authz": "" (because the
-> >> >>     QObject output visitor silently maps null pointer to "", which it
-> >> >>     really shouldn't).
-> >> >> 
-> >> >>   The HMP defect was noticed and fixed in commit 7cd75cbdb8
-> >> >>   'migration: use "" instead of (null) for tls-authz'.  Unfortunately,
-> >> >>   the fix papered over the real bug: it made
-> >> >>   qmp_query_migrate_parameters() map null tls_authz to "".  It also
-> >> >>   dropped the check for has_tls_authz from
-> >> >>   hmp_info_migrate_parameters().
-> >> >> 
-> >> >>   Revert, and fix qmp_query_migrate_parameters() not to screw up
-> >> >>   has_tls_authz.  No change to HMP.  QMP now has "tls-authz" in the
-> >> >>   reply only when it's actually present in
-> >> >>   migrate_get_current()->parameters.  If we prefer to remain
-> >> >>   bug-compatible, we should make tls_authz non-optional there.
-> >> >> 
-> >> >> * migrate_params_test_apply() neglects to apply tls_authz.  Currently
-> >> >>   harmless, because migrate_params_check() doesn't care.  Fix it
-> >> >>   anyway.
-> >> >> 
-> >> >> * qmp_migrate_set_parameters() crashes:
-> >> >> 
-> >> >>     {"execute": "migrate-set-parameters", "arguments": {"tls-authz": null}}
-> >> >> 
-> >> >>   Add the necessary rewrite of null to "".  For background
-> >> >>   information, see commit 01fa559826 "migration: Use JSON null instead
-> >> >>   of "" to reset parameter to default".
-> >> >> 
-> >> >> Fixes: d2f1d29b95aa45d13262b39153ff501ed6b1ac95
-> >> >> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> >> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> >> >> ---
-> >> >>  qapi/migration.json   |  2 +-
-> >> >>  migration/migration.c | 17 ++++++++++++++---
-> >> >>  monitor/hmp-cmds.c    |  2 +-
-> >> >>  3 files changed, 16 insertions(+), 5 deletions(-)
-> >> >> 
-> >> >> diff --git a/qapi/migration.json b/qapi/migration.json
-> >> >> index 3c75820527..688e8da749 100644
-> >> >> --- a/qapi/migration.json
-> >> >> +++ b/qapi/migration.json
-> >> >> @@ -928,7 +928,7 @@
-> >> >>  ##
-> >> >>  # @MigrationParameters:
-> >> >>  #
-> >> >> -# The optional members aren't actually optional.
-> >> >> +# The optional members aren't actually optional, except for @tls-authz.
-> >> >
-> >> > and tls-hostname and tls-creds.
-> >> 
-> >> Really?  See [*] below.
-> >> 
-> >> >>  #
-> >> >>  # @announce-initial: Initial delay (in milliseconds) before sending the
-> >> >>  #                    first announce (Since 4.0)
-> >> >> diff --git a/migration/migration.c b/migration/migration.c
-> >> >> index 3263aa55a9..cad56fbf8c 100644
-> >> >> --- a/migration/migration.c
-> >> >> +++ b/migration/migration.c
-> >> >> @@ -855,9 +855,8 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
-> >>         params->has_tls_creds = true;
-> >> >>      params->tls_creds = g_strdup(s->parameters.tls_creds);
-> >> >>      params->has_tls_hostname = true;
-> >> >>      params->tls_hostname = g_strdup(s->parameters.tls_hostname);
-> >> 
-> >> [*] Looks non-optional to me.
-> >
-> > I guess it depends on what you mean by "optional" :-)
-> 
-> I meant "non-optional in the value of query-migrate-parameters".  The
-> comment were debating applies to that value, and nothing else.
-> 
-> > When I say they are all optional, I'm talking about from the POV
-> > of the end users / mgmt who first configures a migration operation.
-> >
-> > tls-creds only needs to be set if you want to enable TLS
-> >
-> > tls-hostname only needs to be set if you need to override the
-> > default hostname used for cert validation.
-> >
-> > tls-authz only needs to be set if you want to enable access
-> > control over migration clients.
-> >
-> > IOW, all three are optional from the POV of configuring a
-> > migration.
-> 
-> Understood.
-> 
-> > As with many things though, simple theory has turned into
-> > messy reality, by virtue of this previous fixup:
-> >
-> >   commit 4af245dc3e6e5c96405b3edb9d75657504256469
-> >   Author: Daniel P. Berrangé <berrange@redhat.com>
-> >   Date:   Wed Mar 15 16:16:03 2017 +0000
-> >
-> >     migration: use "" as the default for tls-creds/hostname
-> >     
-> >     The tls-creds parameter has a default value of NULL indicating
-> >     that TLS should not be used. Setting it to non-NULL enables
-> >     use of TLS. Once tls-creds are set to a non-NULL value via the
-> >     monitor, it isn't possible to set them back to NULL again, due
-> >     to current implementation limitations. The empty string is not
-> >     a valid QObject identifier, so this switches to use "" as the
-> >     default, indicating that TLS will not be used
-> >     
-> >     The tls-hostname parameter has a default value of NULL indicating
-> >     the the hostname from the migrate connection URI should be used.
-> >     Again, once tls-hostname is set non-NULL, to override the default
-> >     hostname for x509 cert validation, it isn't possible to reset it
-> >     back to NULL via the monitor. The empty string is not a valid
-> >     hostname, so this switches to use "" as the default, indicating
-> >     that the migrate URI hostname should be used.
-> >     
-> >     Using "" as the default for both, also means that the monitor
-> >     commands "info migrate_parameters" / "query-migrate-parameters"
-> >     will report existance of tls-creds/tls-parameters even when set
-> >     to their default values.
-> >     
-> >     Signed-off-by: Daniel P. Berrange <berrange@redhat.com>
-> >     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >     Reviewed-by: Eric Blake <eblake@redhat.com>
-> >     
-> >     Signed-off-by: Juan Quintela <quintela@redhat.com>
-> >
-> >
-> > I have a nasty feeling that libvirt relies on that last paragraph
-> > to determine whether TLS is supported in QEMU or not too :-( Ideally
-> > we should be able to report their existance, but also report that
-> > they are set to NULL. I guess that could be considered a regression
-> > at this point though.
-> >
-> > So anyway, this explains why we have the wierd behaviour where
-> > querying parameters always reports them as being set.
-> 
-> Yes.
-> 
-> What do you want me to change in my patch?
-> 
-> >> >> -    params->has_tls_authz = true;
-> >> >> -    params->tls_authz = g_strdup(s->parameters.tls_authz ?
-> >> >> -                                 s->parameters.tls_authz : "");
-> >> >> +    params->has_tls_authz = s->parameters.has_tls_authz;
-> >> >
-> >> > I'm kind of confused why has_tls_authz needs to be handled differently
-> >> > from tls_hostname and tls_creds - both of these are optional to
-> >> > the same extent that tls_authz is AFAIR.
-> >> 
-> >> I'm kind of confused about pretty much everything around here :)
-> >
-> > So tls_authz was following the wierd precedent used by tls_hostname
-> > and tls_creds in always reporting its own existance, as the empty
-> > string.
-> >
-> >> The patch hunk is part of the revert of flawed commit 7cd75cbdb8.  We
-> >> need to revert both parts or none.
-> >> 
-> >> One difference between tls_authz and the others is in
-> >> migration_instance_init(): it leaves params->tls_authz null, unlike
-> >> ->tls_hostname and ->tls_creds.
-> >> 
-> >> Hmm, it sets ->has_ for none of them.  Wrong.  If we set ->FOO, we must
-> >> also set ->has_FOO = true, and if we leave ->has_FOO false, we should
-> >> leave ->FOO null.
-> >> 
-> >> Another difference is in migration_tls_channel_process_incoming():
-> >> s->parameters.tls_creds must not be null (it's used unchecked in
-> >> migration_tls_get_creds()), while s->parameters.tls_authz may be
-> >> (qcrypto_tls_session_new() checks).
-> >> 
-> >> We need to make up our minds what is optional and what isn't.
-> >
-> > So they are all optional in terms of what needs to be set.
-> >
-> > They are all always reported when querying parameters.
-> >
-> > The main difference seems to be that internally we use NULL
-> > as a default for tls_authz, and convert NULL to "" when reporting,
-> > while for tls_creds/tls_hostname we convert NULL to "" immediately
-> > so we always have "" internally.
-> >
-> > Should we instead set tls_authz to "" internally straight away
-> > like we do for tls_creds/tls_hostname, and then make the code
-> > turn "" back into NULL at time of use.
-> 
-> I don't know!  I'm merely trying to fix a crash bug I ran into :)
+--00000000000035570105b6a97eed
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Ok, if you don't mind which approach, then I'd vote for making
-migration_instance_init() set  tls_authz to "", in common with
-tls_hostname/tls_creds.
+Hi
 
-Then in migration_tls_channel_process_incoming we can turn the
-"" back into NULL.
+On Thu, Dec 17, 2020 at 1:41 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-That way we'll have consistently used "" internally for all the
-TLS related parameters.
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  configure         | 45 ++++-----------------------------------------
+>  meson.build       | 38 +++++++++++++++++++++++++++++++++++---
+>  meson_options.txt |  2 ++
+>  3 files changed, 41 insertions(+), 44 deletions(-)
+>
+> diff --git a/configure b/configure
+> index faee71612f..420663d69a 100755
+> --- a/configure
+> +++ b/configure
+> @@ -332,8 +332,7 @@ xen_pci_passthrough=3D"auto"
+>  linux_aio=3D"$default_feature"
+>  linux_io_uring=3D"$default_feature"
+>  cap_ng=3D"auto"
+> -attr=3D"$default_feature"
+> -libattr=3D"$default_feature"
+> +attr=3D"auto"
+>  xfs=3D"$default_feature"
+>  tcg=3D"enabled"
+>  membarrier=3D"$default_feature"
+> @@ -1230,9 +1229,9 @@ for opt do
+>    ;;
+>    --enable-linux-io-uring) linux_io_uring=3D"yes"
+>    ;;
+> -  --disable-attr) attr=3D"no"
+> +  --disable-attr) attr=3D"disabled"
+>    ;;
+> -  --enable-attr) attr=3D"yes"
+> +  --enable-attr) attr=3D"enabled"
+>    ;;
+>    --disable-membarrier) membarrier=3D"no"
+>    ;;
+> @@ -3544,36 +3543,6 @@ elif test "$tpm" =3D "yes"; then
+>    fi
+>  fi
+>
+> -##########################################
+> -# attr probe
+> -
+> -libattr_libs=3D
+> -if test "$attr" !=3D "no" ; then
+> -  cat > $TMPC <<EOF
+> -#include <stdio.h>
+> -#include <sys/types.h>
+> -#ifdef CONFIG_LIBATTR
+> -#include <attr/xattr.h>
+> -#else
+> -#include <sys/xattr.h>
+> -#endif
+> -int main(void) { getxattr(NULL, NULL, NULL, 0); setxattr(NULL, NULL,
+> NULL, 0, 0); return 0; }
+> -EOF
+> -  if compile_prog "" "" ; then
+> -    attr=3Dyes
+> -  # Older distros have <attr/xattr.h>, and need -lattr:
+> -  elif compile_prog "-DCONFIG_LIBATTR" "-lattr" ; then
+> -    attr=3Dyes
+> -    libattr_libs=3D"-lattr"
+> -    libattr=3Dyes
+> -  else
+> -    if test "$attr" =3D "yes" ; then
+> -      feature_not_found "ATTR" "Install libc6 or libattr devel"
+> -    fi
+> -    attr=3Dno
+> -  fi
+> -fi
+> -
+>  ##########################################
+>  # iovec probe
+>  cat > $TMPC <<EOF
+> @@ -5868,13 +5837,6 @@ if test "$linux_io_uring" =3D "yes" ; then
+>    echo "LINUX_IO_URING_CFLAGS=3D$linux_io_uring_cflags" >> $config_host_=
+mak
+>    echo "LINUX_IO_URING_LIBS=3D$linux_io_uring_libs" >> $config_host_mak
+>  fi
+> -if test "$attr" =3D "yes" ; then
+> -  echo "CONFIG_ATTR=3Dy" >> $config_host_mak
+> -  echo "LIBATTR_LIBS=3D$libattr_libs" >> $config_host_mak
+> -fi
+> -if test "$libattr" =3D "yes" ; then
+> -  echo "CONFIG_LIBATTR=3Dy" >> $config_host_mak
+> -fi
+>  if test "$vhost_scsi" =3D "yes" ; then
+>    echo "CONFIG_VHOST_SCSI=3Dy" >> $config_host_mak
+>  fi
+> @@ -6536,6 +6498,7 @@ NINJA=3D$ninja $meson setup \
+>          -Dlibnfs=3D$libnfs -Diconv=3D$iconv -Dcurses=3D$curses
+> -Dlibudev=3D$libudev\
+>          -Dlibssh=3D$libssh -Drbd=3D$rbd -Dlzo=3D$lzo -Dsnappy=3D$snappy
+> -Dlzfse=3D$lzfse \
+>          -Dzstd=3D$zstd -Dseccomp=3D$seccomp -Dvirtfs=3D$virtfs -Dcap_ng=
+=3D$cap_ng
+> \
+> +        -Dattr=3D$attr \
+>          -Ddocs=3D$docs -Dsphinx_build=3D$sphinx_build -Dinstall_blobs=3D=
+$blobs \
+>          -Dvhost_user_blk_server=3D$vhost_user_blk_server \
+>          -Dfuse=3D$fuse -Dfuse_lseek=3D$fuse_lseek \
+> diff --git a/meson.build b/meson.build
+> index 56ab291d87..341eadaa5c 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -324,10 +324,40 @@ if not get_option('libnfs').auto() or have_block
+>                        required: get_option('libnfs'),
+>                        method: 'pkg-config', static: enable_static)
+>  endif
+> +
+> +libattr_test =3D '''
+> +  #include <stddef.h>
+> +  #include <sys/types.h>
+> +  #ifdef CONFIG_LIBATTR
+> +  #include <attr/xattr.h>
+> +  #else
+> +  #include <sys/xattr.h>
+> +  #endif
+> +  int main(void) { getxattr(NULL, NULL, NULL, 0); setxattr(NULL, NULL,
+> NULL, 0, 0); return 0; }'''
+> +
+>  libattr =3D not_found
+> -if 'CONFIG_ATTR' in config_host
+> -  libattr =3D declare_dependency(link_args:
+> config_host['LIBATTR_LIBS'].split())
+> +have_old_libattr =3D false
+> +if not get_option('attr').disabled()
+> +  if cc.links(libattr_test)
+> +    libattr =3D declare_dependency()
+> +  else
+> +    libattr =3D cc.find_library('attr', has_headers: ['attr/xattr.h'],
+> +                              required: get_option('attr'),
+> +                              static: enable_static)
+> +    if libattr.found() and not \
+> +      cc.links(libattr_test, dependencies: libattr, args:
+> '-DCONFIG_LIBATTR')
+>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Most probably we can drop that libattr support now, it was added in qemu in
+2011.
+
+glibc supports attr since 2.3, that's from 2002-10-02...
+
+Aaanyway,
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+
++      libattr =3D not_found
+> +      if get_option('attr').enabled()
+> +        error('could not link libattr')
+> +      else
+> +        warning('could not link libattr, disabling')
+> +      endif
+> +    else
+> +      have_old_libattr =3D libattr.found()
+> +    endif
+> +  endif
+>  endif
+> +
+>  seccomp =3D not_found
+>  if not get_option('libiscsi').auto() or have_system or have_tools
+>    seccomp =3D dependency('libseccomp', version: '>=3D2.3.0',
+> @@ -1006,6 +1036,7 @@
+> config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR',
+> get_option('prefix') /
+>  config_host_data.set_quoted('CONFIG_QEMU_MODDIR', get_option('prefix') /
+> qemu_moddir)
+>  config_host_data.set_quoted('CONFIG_SYSCONFDIR', get_option('prefix') /
+> get_option('sysconfdir'))
+>
+> +config_host_data.set('CONFIG_ATTR', libattr.found())
+>  config_host_data.set('CONFIG_BRLAPI', brlapi.found())
+>  config_host_data.set('CONFIG_COCOA', cocoa.found())
+>  config_host_data.set('CONFIG_LIBUDEV', libudev.found())
+> @@ -1021,6 +1052,7 @@ config_host_data.set('CONFIG_GLUSTERFS_FALLOCATE',
+> glusterfs.version().version_c
+>  config_host_data.set('CONFIG_GLUSTERFS_ZEROFILL',
+> glusterfs.version().version_compare('>=3D6'))
+>  config_host_data.set('CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT',
+> glusterfs_ftruncate_has_stat)
+>  config_host_data.set('CONFIG_GLUSTERFS_IOCB_HAS_STAT',
+> glusterfs_iocb_has_stat)
+> +config_host_data.set('CONFIG_LIBATTR', have_old_libattr)
+>  config_host_data.set('CONFIG_LIBCAP_NG', libcap_ng.found())
+>  config_host_data.set('CONFIG_LIBISCSI', libiscsi.found())
+>  config_host_data.set('CONFIG_LIBNFS', libnfs.found())
+> @@ -2343,7 +2375,7 @@ summary_info +=3D {'vde support':
+>  config_host.has_key('CONFIG_VDE')}
+>  summary_info +=3D {'netmap support':
+> config_host.has_key('CONFIG_NETMAP')}
+>  summary_info +=3D {'Linux AIO support':
+> config_host.has_key('CONFIG_LINUX_AIO')}
+>  summary_info +=3D {'Linux io_uring support':
+> config_host.has_key('CONFIG_LINUX_IO_URING')}
+> -summary_info +=3D {'ATTR/XATTR support': config_host.has_key('CONFIG_ATT=
+R')}
+> +summary_info +=3D {'ATTR/XATTR support': libattr.found()}
+>  summary_info +=3D {'Install blobs':     get_option('install_blobs')}
+>  summary_info +=3D {'KVM support':       config_all.has_key('CONFIG_KVM')=
+}
+>  summary_info +=3D {'HAX support':       config_all.has_key('CONFIG_HAX')=
+}
+> diff --git a/meson_options.txt b/meson_options.txt
+> index 12a1872f20..8fcec056cd 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -40,6 +40,8 @@ option('cfi', type: 'boolean', value: 'false',
+>  option('cfi_debug', type: 'boolean', value: 'false',
+>         description: 'Verbose errors in case of CFI violation')
+>
+> +option('attr', type : 'feature', value : 'auto',
+> +       description: 'attr/xattr support')
+>  option('brlapi', type : 'feature', value : 'auto',
+>         description: 'brlapi character device driver')
+>  option('bzip2', type : 'feature', value : 'auto',
+> --
+> 2.29.2
+>
+>
+>
+
+--00000000000035570105b6a97eed
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 17, 2020 at 1:41 PM Pao=
+lo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Si=
+gned-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" targe=
+t=3D"_blank">pbonzini@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 45 ++++-----------------=
+------------------------<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0| 38 ++++++++++++++++++++++++++=
++++++++++---<br>
+=C2=A0meson_options.txt |=C2=A0 2 ++<br>
+=C2=A03 files changed, 41 insertions(+), 44 deletions(-)<br>
+<br>
+diff --git a/configure b/configure<br>
+index faee71612f..420663d69a 100755<br>
+--- a/configure<br>
++++ b/configure<br>
+@@ -332,8 +332,7 @@ xen_pci_passthrough=3D&quot;auto&quot;<br>
+=C2=A0linux_aio=3D&quot;$default_feature&quot;<br>
+=C2=A0linux_io_uring=3D&quot;$default_feature&quot;<br>
+=C2=A0cap_ng=3D&quot;auto&quot;<br>
+-attr=3D&quot;$default_feature&quot;<br>
+-libattr=3D&quot;$default_feature&quot;<br>
++attr=3D&quot;auto&quot;<br>
+=C2=A0xfs=3D&quot;$default_feature&quot;<br>
+=C2=A0tcg=3D&quot;enabled&quot;<br>
+=C2=A0membarrier=3D&quot;$default_feature&quot;<br>
+@@ -1230,9 +1229,9 @@ for opt do<br>
+=C2=A0 =C2=A0;;<br>
+=C2=A0 =C2=A0--enable-linux-io-uring) linux_io_uring=3D&quot;yes&quot;<br>
+=C2=A0 =C2=A0;;<br>
+-=C2=A0 --disable-attr) attr=3D&quot;no&quot;<br>
++=C2=A0 --disable-attr) attr=3D&quot;disabled&quot;<br>
+=C2=A0 =C2=A0;;<br>
+-=C2=A0 --enable-attr) attr=3D&quot;yes&quot;<br>
++=C2=A0 --enable-attr) attr=3D&quot;enabled&quot;<br>
+=C2=A0 =C2=A0;;<br>
+=C2=A0 =C2=A0--disable-membarrier) membarrier=3D&quot;no&quot;<br>
+=C2=A0 =C2=A0;;<br>
+@@ -3544,36 +3543,6 @@ elif test &quot;$tpm&quot; =3D &quot;yes&quot;; then=
+<br>
+=C2=A0 =C2=A0fi<br>
+=C2=A0fi<br>
+<br>
+-##########################################<br>
+-# attr probe<br>
+-<br>
+-libattr_libs=3D<br>
+-if test &quot;$attr&quot; !=3D &quot;no&quot; ; then<br>
+-=C2=A0 cat &gt; $TMPC &lt;&lt;EOF<br>
+-#include &lt;stdio.h&gt;<br>
+-#include &lt;sys/types.h&gt;<br>
+-#ifdef CONFIG_LIBATTR<br>
+-#include &lt;attr/xattr.h&gt;<br>
+-#else<br>
+-#include &lt;sys/xattr.h&gt;<br>
+-#endif<br>
+-int main(void) { getxattr(NULL, NULL, NULL, 0); setxattr(NULL, NULL, NULL,=
+ 0, 0); return 0; }<br>
+-EOF<br>
+-=C2=A0 if compile_prog &quot;&quot; &quot;&quot; ; then<br>
+-=C2=A0 =C2=A0 attr=3Dyes<br>
+-=C2=A0 # Older distros have &lt;attr/xattr.h&gt;, and need -lattr:<br>
+-=C2=A0 elif compile_prog &quot;-DCONFIG_LIBATTR&quot; &quot;-lattr&quot; ;=
+ then<br>
+-=C2=A0 =C2=A0 attr=3Dyes<br>
+-=C2=A0 =C2=A0 libattr_libs=3D&quot;-lattr&quot;<br>
+-=C2=A0 =C2=A0 libattr=3Dyes<br>
+-=C2=A0 else<br>
+-=C2=A0 =C2=A0 if test &quot;$attr&quot; =3D &quot;yes&quot; ; then<br>
+-=C2=A0 =C2=A0 =C2=A0 feature_not_found &quot;ATTR&quot; &quot;Install libc=
+6 or libattr devel&quot;<br>
+-=C2=A0 =C2=A0 fi<br>
+-=C2=A0 =C2=A0 attr=3Dno<br>
+-=C2=A0 fi<br>
+-fi<br>
+-<br>
+=C2=A0##########################################<br>
+=C2=A0# iovec probe<br>
+=C2=A0cat &gt; $TMPC &lt;&lt;EOF<br>
+@@ -5868,13 +5837,6 @@ if test &quot;$linux_io_uring&quot; =3D &quot;yes&qu=
+ot; ; then<br>
+=C2=A0 =C2=A0echo &quot;LINUX_IO_URING_CFLAGS=3D$linux_io_uring_cflags&quot=
+; &gt;&gt; $config_host_mak<br>
+=C2=A0 =C2=A0echo &quot;LINUX_IO_URING_LIBS=3D$linux_io_uring_libs&quot; &g=
+t;&gt; $config_host_mak<br>
+=C2=A0fi<br>
+-if test &quot;$attr&quot; =3D &quot;yes&quot; ; then<br>
+-=C2=A0 echo &quot;CONFIG_ATTR=3Dy&quot; &gt;&gt; $config_host_mak<br>
+-=C2=A0 echo &quot;LIBATTR_LIBS=3D$libattr_libs&quot; &gt;&gt; $config_host=
+_mak<br>
+-fi<br>
+-if test &quot;$libattr&quot; =3D &quot;yes&quot; ; then<br>
+-=C2=A0 echo &quot;CONFIG_LIBATTR=3Dy&quot; &gt;&gt; $config_host_mak<br>
+-fi<br>
+=C2=A0if test &quot;$vhost_scsi&quot; =3D &quot;yes&quot; ; then<br>
+=C2=A0 =C2=A0echo &quot;CONFIG_VHOST_SCSI=3Dy&quot; &gt;&gt; $config_host_m=
+ak<br>
+=C2=A0fi<br>
+@@ -6536,6 +6498,7 @@ NINJA=3D$ninja $meson setup \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dlibnfs=3D$libnfs -Diconv=3D$iconv -Dcur=
+ses=3D$curses -Dlibudev=3D$libudev\<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dlibssh=3D$libssh -Drbd=3D$rbd -Dlzo=3D$=
+lzo -Dsnappy=3D$snappy -Dlzfse=3D$lzfse \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dzstd=3D$zstd -Dseccomp=3D$seccomp -Dvir=
+tfs=3D$virtfs -Dcap_ng=3D$cap_ng \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 -Dattr=3D$attr \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Ddocs=3D$docs -Dsphinx_build=3D$sphinx_b=
+uild -Dinstall_blobs=3D$blobs \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dvhost_user_blk_server=3D$vhost_user_blk=
+_server \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-Dfuse=3D$fuse -Dfuse_lseek=3D$fuse_lseek=
+ \<br>
+diff --git a/meson.build b/meson.build<br>
+index 56ab291d87..341eadaa5c 100644<br>
+--- a/meson.build<br>
++++ b/meson.build<br>
+@@ -324,10 +324,40 @@ if not get_option(&#39;libnfs&#39;).auto() or have_bl=
+ock<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0required: get_option(&#39;libnfs&#39;),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0method: &#39;pkg-config&#39;, static: enable_static)<br>
+=C2=A0endif<br>
++<br>
++libattr_test =3D &#39;&#39;&#39;<br>
++=C2=A0 #include &lt;stddef.h&gt;<br>
++=C2=A0 #include &lt;sys/types.h&gt;<br>
++=C2=A0 #ifdef CONFIG_LIBATTR<br>
++=C2=A0 #include &lt;attr/xattr.h&gt;<br>
++=C2=A0 #else<br>
++=C2=A0 #include &lt;sys/xattr.h&gt;<br>
++=C2=A0 #endif<br>
++=C2=A0 int main(void) { getxattr(NULL, NULL, NULL, 0); setxattr(NULL, NULL=
+, NULL, 0, 0); return 0; }&#39;&#39;&#39;<br>
++<br>
+=C2=A0libattr =3D not_found<br>
+-if &#39;CONFIG_ATTR&#39; in config_host<br>
+-=C2=A0 libattr =3D declare_dependency(link_args: config_host[&#39;LIBATTR_=
+LIBS&#39;].split())<br>
++have_old_libattr =3D false<br>
++if not get_option(&#39;attr&#39;).disabled()<br>
++=C2=A0 if cc.links(libattr_test)<br>
++=C2=A0 =C2=A0 libattr =3D declare_dependency()<br>
++=C2=A0 else<br>
++=C2=A0 =C2=A0 libattr =3D cc.find_library(&#39;attr&#39;, has_headers: [&#=
+39;attr/xattr.h&#39;],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 required: get_option(&#39;attr&#39;),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 static: enable_static)<br>
++=C2=A0 =C2=A0 if libattr.found() and not \<br>
++=C2=A0 =C2=A0 =C2=A0 cc.links(libattr_test, dependencies: libattr, args: &=
+#39;-DCONFIG_LIBATTR&#39;)<br></blockquote><div><br></div><div>Most probabl=
+y we can drop that libattr support now, it was added in qemu in 2011.</div>=
+<div><br></div><div>glibc supports attr since 2.3, that&#39;s from 2002-10-=
+02...</div><div><br></div><div>Aaanyway,</div><div>Reviewed-by: Marc-Andr=
+=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.=
+lureau@redhat.com</a>&gt; </div><div><br></div><div> <br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 libattr =3D not_found<br>
++=C2=A0 =C2=A0 =C2=A0 if get_option(&#39;attr&#39;).enabled()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error(&#39;could not link libattr&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 warning(&#39;could not link libattr, disabling=
+&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 endif<br>
++=C2=A0 =C2=A0 else<br>
++=C2=A0 =C2=A0 =C2=A0 have_old_libattr =3D libattr.found()<br>
++=C2=A0 =C2=A0 endif<br>
++=C2=A0 endif<br>
+=C2=A0endif<br>
++<br>
+=C2=A0seccomp =3D not_found<br>
+=C2=A0if not get_option(&#39;libiscsi&#39;).auto() or have_system or have_t=
+ools<br>
+=C2=A0 =C2=A0seccomp =3D dependency(&#39;libseccomp&#39;, version: &#39;&gt=
+;=3D2.3.0&#39;,<br>
+@@ -1006,6 +1036,7 @@ config_host_data.set_quoted(&#39;CONFIG_QEMU_LOCALSTA=
+TEDIR&#39;, get_option(&#39;prefix&#39;) /<br>
+=C2=A0config_host_data.set_quoted(&#39;CONFIG_QEMU_MODDIR&#39;, get_option(=
+&#39;prefix&#39;) / qemu_moddir)<br>
+=C2=A0config_host_data.set_quoted(&#39;CONFIG_SYSCONFDIR&#39;, get_option(&=
+#39;prefix&#39;) / get_option(&#39;sysconfdir&#39;))<br>
+<br>
++config_host_data.set(&#39;CONFIG_ATTR&#39;, libattr.found())<br>
+=C2=A0config_host_data.set(&#39;CONFIG_BRLAPI&#39;, brlapi.found())<br>
+=C2=A0config_host_data.set(&#39;CONFIG_COCOA&#39;, cocoa.found())<br>
+=C2=A0config_host_data.set(&#39;CONFIG_LIBUDEV&#39;, libudev.found())<br>
+@@ -1021,6 +1052,7 @@ config_host_data.set(&#39;CONFIG_GLUSTERFS_FALLOCATE&=
+#39;, glusterfs.version().version_c<br>
+=C2=A0config_host_data.set(&#39;CONFIG_GLUSTERFS_ZEROFILL&#39;, glusterfs.v=
+ersion().version_compare(&#39;&gt;=3D6&#39;))<br>
+=C2=A0config_host_data.set(&#39;CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT&#39;, g=
+lusterfs_ftruncate_has_stat)<br>
+=C2=A0config_host_data.set(&#39;CONFIG_GLUSTERFS_IOCB_HAS_STAT&#39;, gluste=
+rfs_iocb_has_stat)<br>
++config_host_data.set(&#39;CONFIG_LIBATTR&#39;, have_old_libattr)<br>
+=C2=A0config_host_data.set(&#39;CONFIG_LIBCAP_NG&#39;, libcap_ng.found())<b=
+r>
+=C2=A0config_host_data.set(&#39;CONFIG_LIBISCSI&#39;, libiscsi.found())<br>
+=C2=A0config_host_data.set(&#39;CONFIG_LIBNFS&#39;, libnfs.found())<br>
+@@ -2343,7 +2375,7 @@ summary_info +=3D {&#39;vde support&#39;:=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0config_host.has_key(&#39;CONFIG_VDE&#39;)}<br>
+=C2=A0summary_info +=3D {&#39;netmap support&#39;:=C2=A0 =C2=A0 config_host=
+.has_key(&#39;CONFIG_NETMAP&#39;)}<br>
+=C2=A0summary_info +=3D {&#39;Linux AIO support&#39;: config_host.has_key(&=
+#39;CONFIG_LINUX_AIO&#39;)}<br>
+=C2=A0summary_info +=3D {&#39;Linux io_uring support&#39;: config_host.has_=
+key(&#39;CONFIG_LINUX_IO_URING&#39;)}<br>
+-summary_info +=3D {&#39;ATTR/XATTR support&#39;: config_host.has_key(&#39;=
+CONFIG_ATTR&#39;)}<br>
++summary_info +=3D {&#39;ATTR/XATTR support&#39;: libattr.found()}<br>
+=C2=A0summary_info +=3D {&#39;Install blobs&#39;:=C2=A0 =C2=A0 =C2=A0get_op=
+tion(&#39;install_blobs&#39;)}<br>
+=C2=A0summary_info +=3D {&#39;KVM support&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0c=
+onfig_all.has_key(&#39;CONFIG_KVM&#39;)}<br>
+=C2=A0summary_info +=3D {&#39;HAX support&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0c=
+onfig_all.has_key(&#39;CONFIG_HAX&#39;)}<br>
+diff --git a/meson_options.txt b/meson_options.txt<br>
+index 12a1872f20..8fcec056cd 100644<br>
+--- a/meson_options.txt<br>
++++ b/meson_options.txt<br>
+@@ -40,6 +40,8 @@ option(&#39;cfi&#39;, type: &#39;boolean&#39;, value: &#3=
+9;false&#39;,<br>
+=C2=A0option(&#39;cfi_debug&#39;, type: &#39;boolean&#39;, value: &#39;fals=
+e&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;Verbose errors in case of CFI=
+ violation&#39;)<br>
+<br>
++option(&#39;attr&#39;, type : &#39;feature&#39;, value : &#39;auto&#39;,<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0description: &#39;attr/xattr support&#39;)<br>
+=C2=A0option(&#39;brlapi&#39;, type : &#39;feature&#39;, value : &#39;auto&=
+#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 description: &#39;brlapi character device drive=
+r&#39;)<br>
+=C2=A0option(&#39;bzip2&#39;, type : &#39;feature&#39;, value : &#39;auto&#=
+39;,<br>
+-- <br>
+2.29.2<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--00000000000035570105b6a97eed--
 
 
