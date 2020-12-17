@@ -2,49 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758732DD0A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:43:29 +0100 (CET)
-Received: from localhost ([::1]:44132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF5D2DD072
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:34:52 +0100 (CET)
+Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kprgu-0004pb-H0
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:43:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47440)
+	id 1kprYZ-0003et-JL
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:34:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kprXQ-0002uO-I5; Thu, 17 Dec 2020 06:33:40 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2477)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kprWQ-00028a-TT
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:32:38 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:47653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kprXL-0005qF-F8; Thu, 17 Dec 2020 06:33:40 -0500
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CxVGc53BhzM5ZW;
- Thu, 17 Dec 2020 19:32:40 +0800 (CST)
-Received: from huawei.com (10.175.104.175) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.498.0; Thu, 17 Dec 2020
- 19:33:23 +0800
-From: Gan Qixin <ganqixin@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 7/7] musicpal: Use ptimer_free() in the finalize function
- to avoid memleaks
-Date: Thu, 17 Dec 2020 19:31:54 +0800
-Message-ID: <20201217113154.121668-7-ganqixin@huawei.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20201217113154.121668-1-ganqixin@huawei.com>
-References: <20201217113154.121668-1-ganqixin@huawei.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kprWP-0005Zn-7B
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:32:38 -0500
+Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1M3DFj-1koV0p43wL-003fPq; Thu, 17 Dec 2020 12:32:35 +0100
+Subject: Re: [PATCH v2 2/4] linux-user/sparc: Remove unneeded checks of 'err'
+ from sparc64_get_context()
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20201106152738.26026-1-peter.maydell@linaro.org>
+ <20201106152738.26026-3-peter.maydell@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <b6cc0836-3245-3907-9bb0-83591d658320@vivier.eu>
+Date: Thu, 17 Dec 2020 12:32:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <20201106152738.26026-3-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=ganqixin@huawei.com;
- helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:zKQwESq4Bq+p/0/H+gOdbNq3t14qneXRoXQbJcP7Dl8zAEZG5Ld
+ sFqHrnMDPe7HtkdWVfuMDIcQVmZsxIDGC+oEX9PdScDugsRawLk2IKmDZSb6MXnY3+w/a4Z
+ uhUg3QasnqbTwyNSQYFfS+cI+8ZkDrHYVdsPNoNGtFN0awIU+hmhzcr22GQWsePzJIDy9wG
+ GljlyENXl/GO85fG/gl8g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:75QTX5dsMiA=:lqP/clS+2oY/r1IOBmE4ME
+ vkghU0tfzR7woQHrzoPWCU7CWAll76YkO5X1VjOev7yHsEUn+h0YaeCHYnTudLb82NqFbb2+I
+ VtG0hZ5UWMJ3Js7rM8FOLAkYGu9jO9Y6Kx0CWbTpDYUcUQma+fgH9j7vKXEDDxM9+to0Oucl5
+ 0ThN7Ak4gw8AA4c+BoOJHY/N8uDjprOgNUks6bt5USCW77ggtJy7ECNs9pdVKK2Kq4kgnOR+9
+ okTv9ywF1ufFZ1VsbLXZZ1PvmzS1xTBmty43VzAnqPZNHAWdXzTQzumOLgu9VbsKaz7Aj/8jy
+ 4phs0p/S5VjvKHsedTGQryFGwjiPp2k8JeYPbdF52ERehzsaBBkxiaTQrXz93Q9cCfX2PiRe/
+ Op9qw4/RRMeSjROQrAQJfT0PhaKIBDGnDcSAMjvmF8Upp6oexiHerpnh2J3uK+loK+UVDCUBt
+ lnuEto3LIw==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,73 +67,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
- Jan Kiszka <jan.kiszka@web.de>, Gan Qixin <ganqixin@huawei.com>,
- Euler Robot <euler.robot@huawei.com>, kuhn.chenqun@huawei.com
+Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running device-introspect-test, a memory leak occurred in the
-mv88w8618_pit_init function, so use ptimer_free() in the finalize function to
-avoid it.
+Le 06/11/2020 à 16:27, Peter Maydell a écrit :
+> Unlike the kernel macros, our __get_user() and __put_user() do not
+> return a failure code.  Kernel code typically has a style of
+>   err |= __get_user(...); err |= __get_user(...);
+> and then checking err at the end.  In sparc64_get_context() our
+> version of the code dropped the accumulating into err but left the
+> "if (err) goto do_sigsegv" checks, which will never be taken. Delete
+> unnecessary if()s.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  linux-user/sparc/signal.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
+> index e661a769cb1..43dcd137f51 100644
+> --- a/linux-user/sparc/signal.c
+> +++ b/linux-user/sparc/signal.c
+> @@ -555,8 +555,6 @@ void sparc64_get_context(CPUSPARCState *env)
+>          for (i = 0; i < TARGET_NSIG_WORDS; i++, dst++, src++) {
+>              __put_user(*src, dst);
+>          }
+> -        if (err)
+> -            goto do_sigsegv;
+>      }
+>  
+>      /* XXX: tstate must be saved properly */
+> @@ -598,8 +596,6 @@ void sparc64_get_context(CPUSPARCState *env)
+>       * hidden behind an "if (fenab)" where fenab is always 0).
+>       */
+>  
+> -    if (err)
+> -        goto do_sigsegv;
+>      unlock_user_struct(ucp, ucp_addr, 1);
+>      return;
+>  do_sigsegv:
+> 
 
-ASAN shows memory leak stack:
+Applied to my linux-user-for-6.0 branch.
 
-Indirect leak of 192 byte(s) in 4 object(s) allocated from:
-    #0 0xffffab97e1f0 in __interceptor_calloc (/lib64/libasan.so.5+0xee1f0)
-    #1 0xffffab256800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
-    #2 0xaaabf555db84 in timer_new_full /qemu/include/qemu/timer.h:523
-    #3 0xaaabf555db84 in timer_new /qemu/include/qemu/timer.h:544
-    #4 0xaaabf555db84 in timer_new_ns /qemu/include/qemu/timer.h:562
-    #5 0xaaabf555db84 in ptimer_init /qemu/hw/core/ptimer.c:433
-    #6 0xaaabf5bb2290 in mv88w8618_timer_init /qemu/hw/arm/musicpal.c:862
-    #7 0xaaabf5bb2290 in mv88w8618_pit_init /qemu/hw/arm/musicpal.c:954
-    #8 0xaaabf6339f6c in object_initialize_with_type /qemu/qom/object.c:515
-    #9 0xaaabf633a1e0 in object_new_with_type /qemu/qom/object.c:729
-    #10 0xaaabf6375e40 in qmp_device_list_properties /qemu/qom/qom-qmp-cmds.c:153
-    #11 0xaaabf5a95540 in qdev_device_help /qemu/softmmu/qdev-monitor.c:283
-    #12 0xaaabf5a96940 in qmp_device_add /qemu/softmmu/qdev-monitor.c:801
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Gan Qixin <ganqixin@huawei.com>
----
-Cc: Jan Kiszka <jan.kiszka@web.de>
-Cc: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/musicpal.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
-index 458b1cbeb7..6aec84aeed 100644
---- a/hw/arm/musicpal.c
-+++ b/hw/arm/musicpal.c
-@@ -959,6 +959,17 @@ static void mv88w8618_pit_init(Object *obj)
-     sysbus_init_mmio(dev, &s->iomem);
- }
- 
-+static void mv88w8618_pit_finalize(Object *obj)
-+{
-+    SysBusDevice *dev = SYS_BUS_DEVICE(obj);
-+    mv88w8618_pit_state *s = MV88W8618_PIT(dev);
-+    int i;
-+
-+    for (i = 0; i < 4; i++) {
-+        ptimer_free(s->timer[i].ptimer);
-+    }
-+}
-+
- static const VMStateDescription mv88w8618_timer_vmsd = {
-     .name = "timer",
-     .version_id = 1,
-@@ -994,6 +1005,7 @@ static const TypeInfo mv88w8618_pit_info = {
-     .parent        = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(mv88w8618_pit_state),
-     .instance_init = mv88w8618_pit_init,
-+    .instance_finalize = mv88w8618_pit_finalize,
-     .class_init    = mv88w8618_pit_class_init,
- };
- 
--- 
-2.23.0
+Thanks,
+Laurent
 
 
