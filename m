@@ -2,94 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC51A2DDB3C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 23:18:48 +0100 (CET)
-Received: from localhost ([::1]:45398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 664562DDB76
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 23:33:17 +0100 (CET)
+Received: from localhost ([::1]:58270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq1bj-0002X1-SG
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 17:18:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52566)
+	id 1kq1pk-0000Kn-2g
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 17:33:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kq1Zu-0001Ds-PJ; Thu, 17 Dec 2020 17:16:56 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6662)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kq1Zo-00032R-3b; Thu, 17 Dec 2020 17:16:54 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BHMBTH8035504; Thu, 17 Dec 2020 17:16:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references; s=pp1;
- bh=NqV8Pq1HUKwZb/iAteyrlOi5/s2o5CEqSRp1v53RnTI=;
- b=AdrbU7finpj5PPhYz4DSa8H1E5QIWh8UV0j3Up6gB+OHgmjSbkfeQib/852IRKJCUdgk
- th4wDWzUQMDsKe0giBYU/RCOgaJ5yEQMvTlxoSi9quW5Pw6BO5y8VXG0xnpuTMmgV6vK
- bIB7gbGwtcpanIBC3T5+zc8q3phJcz+VN7LsxILOTRndZdF9w9zDDg+UIzO1TdFM4IBu
- zRmXDiW10wWKiRe3ySj8UgJamYmXUs29rMH+966JYUYrkef17GC0m9jBO5BCXVNp87ni
- q/MQBo6NdcwVD0mIkMBA2flBSSXs+ZfurDnR//6yXBeazVJQSdAh6YZInsBSUjF2wh+q aQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35gfwfg37v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Dec 2020 17:16:46 -0500
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BHMBeiu035788;
- Thu, 17 Dec 2020 17:16:46 -0500
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35gfwfg37n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Dec 2020 17:16:46 -0500
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BHM9jBF025740;
- Thu, 17 Dec 2020 22:16:45 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma01wdc.us.ibm.com with ESMTP id 35cng9aj8c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 17 Dec 2020 22:16:45 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BHMGib530933492
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 17 Dec 2020 22:16:44 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 290836A047;
- Thu, 17 Dec 2020 22:16:44 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 09C4F6A07C;
- Thu, 17 Dec 2020 22:16:43 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.211.143.229])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 17 Dec 2020 22:16:42 +0000 (GMT)
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-To: cohuck@redhat.com, thuth@redhat.com
-Subject: [PATCH v2 2/2] s390x/pci: Fix memory_region_access_valid call
-Date: Thu, 17 Dec 2020 17:16:37 -0500
-Message-Id: <1608243397-29428-3-git-send-email-mjrosato@linux.ibm.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1608243397-29428-1-git-send-email-mjrosato@linux.ibm.com>
-References: <1608243397-29428-1-git-send-email-mjrosato@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-17_14:2020-12-17,
- 2020-12-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 phishscore=0 priorityscore=1501 impostorscore=0
- suspectscore=0 spamscore=0 adultscore=0 mlxlogscore=903 mlxscore=0
- bulkscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012170142
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1kq1oB-0008Ev-Ev
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 17:31:41 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:43369)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1kq1o8-0004da-28
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 17:31:39 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id x12so306167plr.10
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 14:31:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d+wPOtIhDirfL8ATFPP4hrcwCB+1OSP2geV3SP38/xU=;
+ b=MntMcFMjSMyiPN9R7L2lgx+V3Cwg+zLGTPlkn+I9GQfrZYUdbCJBVoip72VlAUXsXm
+ C2FPsxd8HANaqVt75kcG7x4a9Lv0yrKFMUCgyO3P4BtByN4JEAoB2nmThydpyYz+hFKC
+ gp78MG0AX9BbSRiZ8hxjpMQy54MoHCaggtBJuhe6MZ9sVo3G/V1whmvcBjW4Fr3M6POf
+ 2pLn64+GpMJJIAnZqvXahHjVlV0KlboOZrOZH4ONisoawXrL8rZQdTjYWgBDa8fO8LR6
+ NXPC7as6Zd+kD+91orcDfWWIxN8rwCRXBe5inBxqkhgQTpVuYgFSgk3G58ick7Nf4eNt
+ nPDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=d+wPOtIhDirfL8ATFPP4hrcwCB+1OSP2geV3SP38/xU=;
+ b=Anp1Cid1KH8NFIljQL4OJisz7xHoezj7ziaNorDZexDAGu6Z5C7/ETeiAqWScHTFNT
+ HhQ4323SH58Awa3hEYu5vOMIE3keUEM6WAlvqvfRd1XId0aO+MkfgPPsyZdUWQydVJFC
+ m1p+n4x6BNH3v7KLdsYORFu7kynIcR3K2gN6dMbu/ISZabeHNkX0dol1oT01BrhbfzyF
+ nGSWiTP6Qau1OAHUW98c76fm5jTjtV6z5d+9pP3FUHUystwH35P1pUzrfbYO31E2OI3z
+ qgN9eV5dt9KnEkP0j0jh5dyMSRhyxE57XL6iIQ65WmrrAKmZsZDBJMW1S49pKWZ5UKzK
+ QMBA==
+X-Gm-Message-State: AOAM533QVnDQqjMM+7GKCCq+f6hOTbBu1EflBw2nNPZZjq/+HzsVUCU8
+ jAWXHATPTAOwGDndPdaE4Z5b1MXJllmt/a89
+X-Google-Smtp-Source: ABdhPJx06QhgEFj1OSDKXo44+3bAu/FY6dJMvAwmx5vF2KAE48W69Z3BrPkjHGotWG3LoOYyN9XL6g==
+X-Received: by 2002:a17:902:7b84:b029:da:60e0:9d38 with SMTP id
+ w4-20020a1709027b84b02900da60e09d38mr1221357pll.55.1608244293343; 
+ Thu, 17 Dec 2020 14:31:33 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id 77sm6921922pfx.156.2020.12.17.14.31.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Dec 2020 14:31:32 -0800 (PST)
+Date: Thu, 17 Dec 2020 14:31:32 -0800 (PST)
+X-Google-Original-Date: Thu, 17 Dec 2020 14:31:31 PST (-0800)
+Subject: Re: [PATCH] RISC-V: Place DTB at 3GB boundary instead of 4GB
+In-Reply-To: <20201217214826.2094617-1-atish.patra@wdc.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: Atish Patra <Atish.Patra@wdc.com>
+Message-ID: <mhng-b0271174-4849-4bcd-a63d-b53fafb1ab89@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=palmer@dabbelt.com; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,48 +84,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pmorel@linux.ibm.com, david@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org
+Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Anup Patel <Anup.Patel@wdc.com>, qemu-devel@nongnu.org,
+ Atish Patra <Atish.Patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In pcistb_service_handler, a call is made to validate that the memory
-region can be accessed.  However, the call is made using the entire length
-of the pcistb operation, which can be larger than the allowed memory
-access size (8).  Since we already know that the provided buffer is a
-multiple of 8, fix the call to memory_region_access_valid to iterate
-over the memory region in the same way as the subsequent call to
-memory_region_dispatch_write.
+On Thu, 17 Dec 2020 13:48:26 PST (-0800), Atish Patra wrote:
+> Currently, we place the DTB at 2MB from 4GB or end of DRAM which ever is
+> lesser. However, Linux kernel can address only 1GB of memory for RV32.
+> Thus, it can not map anything beyond 3GB (assuming 2GB is the starting address).
+> As a result, it can not process DT and panic if opensbi dynamic firmware
+> is used.
+>
+> Fix this by placing the DTB at 2MB from 3GB or end of DRAM whichever is lower.
+>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> ---
+>  hw/riscv/boot.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index d62f3dc7581e..9e77b22e4d56 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -203,9 +203,9 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+>       * We should put fdt as far as possible to avoid kernel/initrd overwriting
+>       * its content. But it should be addressable by 32 bit system as well.
+>       * Thus, put it at an aligned address that less than fdt size from end of
+> -     * dram or 4GB whichever is lesser.
+> +     * dram or 3GB whichever is lesser.
+>       */
+> -    temp = MIN(dram_end, 4096 * MiB);
+> +    temp = MIN(dram_end, 3072 * MiB);
+>      fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
+>
+>      fdt_pack(fdt);
 
-Fixes: 863f6f52b7 ("s390: implement pci instructions")
-Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
----
- hw/s390x/s390-pci-inst.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index e230293..76b08a3 100644
---- a/hw/s390x/s390-pci-inst.c
-+++ b/hw/s390x/s390-pci-inst.c
-@@ -821,10 +821,12 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
-     mr = s390_get_subregion(mr, offset, len);
-     offset -= mr->addr;
- 
--    if (!memory_region_access_valid(mr, offset, len, true,
--                                    MEMTXATTRS_UNSPECIFIED)) {
--        s390_program_interrupt(env, PGM_OPERAND, ra);
--        return 0;
-+    for (i = 0; i < len; i += 8) {
-+        if (!memory_region_access_valid(mr, offset + i, 8, true,
-+                                        MEMTXATTRS_UNSPECIFIED)) {
-+            s390_program_interrupt(env, PGM_OPERAND, ra);
-+            return 0;
-+        }
-     }
- 
-     if (s390_cpu_virt_mem_read(cpu, gaddr, ar, buffer, len)) {
--- 
-1.8.3.1
-
+Presumably this was the cause of that 32-bit boot issue?
 
