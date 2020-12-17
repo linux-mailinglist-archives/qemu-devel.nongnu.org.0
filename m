@@ -2,73 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C972DCF89
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 11:34:29 +0100 (CET)
-Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107EA2DCFA0
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 11:42:08 +0100 (CET)
+Received: from localhost ([::1]:54796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpqc8-0002Hv-38
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 05:34:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33678)
+	id 1kpqjX-0004Dj-5E
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 05:42:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kpqaS-0001ND-Pv
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:32:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kpqaK-0000sD-N3
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:32:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608201154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KBJPP5YsxFKWgvOFibcAhFcIDi/GO8YWObtqiBGK0cw=;
- b=CIBmZs+yxykEA5fRaGA43vaOt3W68XwI41w1J+iK+k2mv42b78+SAiN/mcrROETQIzwg/v
- tDoha2EuozI8ClkrmZx0sBemInpvvFdnjdLf4zThZVogNi5//mKA2WU5A/oTPgOVOL+vXq
- XhRnORCgUs2/AL2+Ro+kNd1HVdcKOv0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-H6TjJc8-P4WqqVmJWLFrbA-1; Thu, 17 Dec 2020 05:32:32 -0500
-X-MC-Unique: H6TjJc8-P4WqqVmJWLFrbA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59A891005D52;
- Thu, 17 Dec 2020 10:32:31 +0000 (UTC)
-Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F61B19C9B;
- Thu, 17 Dec 2020 10:32:29 +0000 (UTC)
-Date: Thu, 17 Dec 2020 10:32:22 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 16/20] migration: Replace migration's JSON writer by the
- general one
-Message-ID: <20201217103222.GB4117@work-vm>
-References: <20201211171152.146877-1-armbru@redhat.com>
- <20201211171152.146877-17-armbru@redhat.com>
- <20201216194615.GG3008@work-vm> <873604nc14.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kpqic-0003nf-Uf
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:41:12 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:41771)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kpqiZ-0003uc-9L
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:41:10 -0500
+Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N2mWA-1k6vaL0n8u-0138zs; Thu, 17 Dec 2020 11:40:45 +0100
+Subject: Re: [PATCH 2/4] linux-user/mips64: Support o32 ABI syscalls
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201119161710.1985083-1-f4bug@amsat.org>
+ <20201119161710.1985083-3-f4bug@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <a081586a-c136-3766-6c28-9c054b24e84b@vivier.eu>
+Date: Thu, 17 Dec 2020 11:40:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <873604nc14.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20201119161710.1985083-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:+PGQyj/skV2B3FYUgsQjBXhfaqOSA3l477s7TFtuzVM1Zf9mFUL
+ KSS0SRczDVg4TIdmm+eOdsqQJjCtkCBtl4Z3mWFoo98nZfV3W9im4e26GPRc4sDlIWF30Lk
+ +BMvUzeQja+YTS8FXca2Lh1QrhjlMXfL8D2+M+mI+awUE4t9RgwXJBmasLplTx3uMHhVZ4y
+ 1ITlVhR8vrVI7IYcxJSYw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:6SxruHNSPW8=:0zlO1ALSbjdrbAet1VnPyD
+ A2UPwbGaOs9A0aA/uz+MrKu2YnICbqNoY0/JA4Fl2VUk3LHmd6F6iXOZr/Lcb+x3GxgqlS5zK
+ HfaPtXsN17LAjlygDVgd7pYkue7V9R7Xuj0xjF3XP5V5HhLGXutBRu4SlMxmz4gWW+bj0k6Ye
+ UuKAdZ2qVjMz0+2pRakyrD0GV8neKb1vc+qz8GXc3zLbWF9lutYzXt4rRhFo8Bz33/j2gJhYe
+ UEDJi6A5BIZ1KRFBLIA8d0zGJzhJmkZy2FAuqBFurFzRAzPZHGAekVYzDlU/sA/3BsYjRRpFB
+ m515glONesBfPIVoZjX0pjVF1iW4MdZqTfzfFhx76Pfvmg/RftlzffSLgIIA/Xm1RVeuKbYVI
+ Ht1bJ8CJ+7tVRe7g91ZXYqZ/X/YqmcMPw73Vi4zewL2b5mWFkiOWaKQSlhI/v
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,48 +66,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com, agraf@csgraf.de, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Markus Armbruster (armbru@redhat.com) wrote:
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
+Le 19/11/2020 à 17:17, Philippe Mathieu-Daudé a écrit :
+> o32 ABI syscalls start at offset 4000.
 > 
-> > * Markus Armbruster (armbru@redhat.com) wrote:
-> >> Commit 8118f0950f "migration: Append JSON description of migration
-> >> stream" needs a JSON writer.  The existing qobject_to_json() wasn't a
-> >> good fit, because it requires building a QObject to convert.  Instead,
-> >> migration got its very own JSON writer, in commit 190c882ce2 "QJSON:
-> >> Add JSON writer".  It tacitly limits numbers to int64_t, and strings
-> >> contents to characters that don't need escaping, unlike
-> >> qobject_to_json().
-> >> 
-> >> The previous commit factored the JSON writer out of qobject_to_json().
-> >> Replace migration's JSON writer by it.
-> >> 
-> >> Cc: Juan Quintela <quintela@redhat.com>
-> >> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> >
-> > (Copying in Alex)
-> >
-> > This looks OK to me, so:
-> >
-> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >
-> > but, can I just check, have you checked scripts/analyze-migration.py is
-> > still happy with the output?
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  linux-user/mips64/syscall_nr.h | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> Good point.  I just did, following instructions in
-> docs/devel/migration.rst.  It prints stuff and succeeds.  Anything else
-> you'd like me to try?
+> diff --git a/linux-user/mips64/syscall_nr.h b/linux-user/mips64/syscall_nr.h
+> index 672f2fa51cb..6579421fa63 100644
+> --- a/linux-user/mips64/syscall_nr.h
+> +++ b/linux-user/mips64/syscall_nr.h
+> @@ -1,4 +1,7 @@
+> -#ifdef TARGET_ABI_MIPSN32
+> +#if defined(TARGET_ABI_MIPSO32)
+> +#define TARGET_SYSCALL_OFFSET 4000
 
-If it's happy, I'm happy.
+The value of the offset is hardcoded in linux-user/mips/meson.build, so either you remove
+TARGET_SYSCALL_OFFSET here or you update meson.build to use it.
 
-Dave
+> +#include "syscall_o32_nr.h"
+> +#elif defined(TARGET_ABI_MIPSN32)
+>  #define TARGET_SYSCALL_OFFSET 6000
+>  #include "syscall_n32_nr.h"
+>  #else
+> 
 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Thanks,
+Laurent
 
