@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C022DCED3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:51:18 +0100 (CET)
-Received: from localhost ([::1]:42378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8412DCEB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:47:07 +0100 (CET)
+Received: from localhost ([::1]:34244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kppwL-0006Mh-NU
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:51:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47764)
+	id 1kppsH-0002xv-VP
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:47:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kppmR-0004qV-6z
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:03 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45991)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kppmP-0004pV-4D
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:01 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:35490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kppmJ-0007jZ-2b
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:02 -0500
-Received: by mail-wr1-x429.google.com with SMTP id d26so12648982wrb.12
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:40:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=M+tr7mFncEpFbMli579Awo902J6m+hUxFWBXhXMr8/Q=;
- b=nZflh/AyjYb79LTchhs6jkIQ/O4WGlCxldmIkRflgZUx/9GwGw6moaseMRGEd62pNx
- NMO8yyjFhw4TWqyQntX1Qt8hrExcgbRMkkoQ8uESJyDlIBOFQ6FcwdqKTvVVrn8mvPRB
- AmXjYkxc7KvdfoEY724B4fJ9VnONwDKie0Zx0j2llH60r7cBRZife9QQOTYO1oMhlqOQ
- AZ6YoSI4TKbRNLoO5D95A96QuE+7xX4U+C8CdYWqZvexxjvI98ZP4wVcMEpwamKRnGBR
- 1mxp8PuX0zPB/qpD5FSz4HSns2W11n0raXQiBiPyleIHrq2MvBRr1fMVn5MB+vF8zGPW
- D76A==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kppmL-0007kg-2z
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:00 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id u19so27970675edx.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:40:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Sdm9DJbEOk14KqxbRA3HA1LywARm1ZJ32EVNtckhfz8=;
+ b=m+UfQ79IlcrDNErYwpXuBrl77U24ism9S6nqs27rASpuj8IESN2PY6p0rP1M3DHaqh
+ bD026oauWli9nUIPe62YQxCPVWAabjBfA7RUd6wRCwxkGBdLymUPp51Wq6Hryk6zrPI3
+ jZFa/EfnsnXk/GLq9BbSJrYOJktEGBiVZFVnOm2FmcC7VUsl9ZXABbNm9NPEvQOjAmwS
+ Y1lsOOMeD8XWjO1TErtxv+B238pPrBLvzy72++jSihZK9IPi9yz9XQDzHjPZRWbdkJdb
+ Iq6YGvwwy2ZqkUpWqXya0686CpznmjNxYhuG1MrnsOX4H4nmxZE2AcaANgDq2FW5ZlSS
+ Goqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=M+tr7mFncEpFbMli579Awo902J6m+hUxFWBXhXMr8/Q=;
- b=TuGkcSJD0Nv+HkJtcYmjVZMHOUN4d9BDLvatE0dnnsk5qzTePyhiwXdHJB6VBsnO1O
- DjaMvPtKKeQzaXwUFwv3ewBxGGhusuIHU2GfNT63VaVKE3XqOp3+hlk0ToA4us5m2Bxq
- 5X4IpcfumfYM+wiVedVk1uNEu/njb65OoGAT+JEd7pgzEMwGrTxeovUexJUv3IsG1Fs9
- hbrtJgkRiHWUUYv4ZNWFfBdL6F//Xzm6IpwvGvXx3LpEy6290V6lMINRcGb2Guotkk8+
- 1ERX2kNvw3MTftTC1nIBluQlnMnih2aizHJD2LZEv6IZ/EKB+XGzLuQ5wfjV20iX7pPP
- mQ9Q==
-X-Gm-Message-State: AOAM532HT5OjnoUCWHsUFrZTlWS4n83ctOv+nmBU474pOkClzEvic7qy
- F9aCjkKEui2TstD5nQVjk5UCgA==
-X-Google-Smtp-Source: ABdhPJyxDZdTYgG3cqSPk4ywbuCrHC1Jbx5pAHAnWtri/JRPItouwGuBfZJ+VttTMh3jX4hXgCqEvQ==
-X-Received: by 2002:a05:6000:1043:: with SMTP id
- c3mr11218233wrx.34.1608198053219; 
- Thu, 17 Dec 2020 01:40:53 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m18sm7939814wrw.43.2020.12.17.01.40.51
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=Sdm9DJbEOk14KqxbRA3HA1LywARm1ZJ32EVNtckhfz8=;
+ b=j3I1OA4JmN5TLYJIx00j8BQh3AyJNSZSUG9wy5LsBChkA3hiCFZ9HpnWVV0LcX4uBB
+ 0itTJTz/YH9EnqacFzZ6q4N5r+Zb/ZOWMz8sZJP0pxB3Hzny77rKCSGiFjmt8TjgPLf6
+ mbovGRf4X82rQXAM8q91LdIgtPfj+QZibtRX4h4ae6A85R0Jj28/frFprRS6nV8AQNlD
+ inq3hoUkJ51hk9eXIsU5CmP8GyWCZo4TGj0bbLgLuyjTTtCgDVYsEM1FkqE45CNUpegZ
+ rit179V5xoJs3VA6Jfjf4dmI1PnYYlxgVB+Pm80filbhJ93cRnswceXskEy+HpfJ14j9
+ MiuA==
+X-Gm-Message-State: AOAM530XOnuaVVGfNcqEZKTq4PM4DdB5rytUlcgUBWzsV8AE2pkVF2VQ
+ bENfX0tKBjKOL+ROlYk6aRQwheehE/U=
+X-Google-Smtp-Source: ABdhPJwChW+AeWZs5P9aLka62EsppZ4N22Hh9zARiJYPZGeObb91GPH34ItTcTjIQ8InGc7mMyt3HQ==
+X-Received: by 2002:a50:ab51:: with SMTP id t17mr38153062edc.89.1608198055827; 
+ Thu, 17 Dec 2020 01:40:55 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id rs27sm3463677ejb.21.2020.12.17.01.40.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 01:40:52 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 513401FF7E;
- Thu, 17 Dec 2020 09:40:51 +0000 (GMT)
-References: <20201216164827.24457-1-alex.bennee@linaro.org>
- <87ft45sj61.fsf@linaro.org>
- <CAFEAcA9iXp8z_L-t6Y_kVfRMJf9a6MGMJVsLNVwzq6VfO9-Xmg@mail.gmail.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/11] testing and configure updates
-Date: Thu, 17 Dec 2020 09:40:35 +0000
-In-reply-to: <CAFEAcA9iXp8z_L-t6Y_kVfRMJf9a6MGMJVsLNVwzq6VfO9-Xmg@mail.gmail.com>
-Message-ID: <877dpgsrbw.fsf@linaro.org>
+ Thu, 17 Dec 2020 01:40:55 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 10/18] lzo: convert to meson
+Date: Thu, 17 Dec 2020 10:40:36 +0100
+Message-Id: <20201217094044.46462-11-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201217094044.46462-1-pbonzini@redhat.com>
+References: <20201217094044.46462-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,45 +83,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Marc-Andr=C3=83=C2=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure         | 32 ++++----------------------------
+ meson.build       | 20 ++++++++++++++++----
+ meson_options.txt |  2 ++
+ 3 files changed, 22 insertions(+), 32 deletions(-)
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+diff --git a/configure b/configure
+index e34885d505..f52f04d0e3 100755
+--- a/configure
++++ b/configure
+@@ -394,7 +394,7 @@ opengl_dmabuf="no"
+ cpuid_h="no"
+ avx2_opt="$default_feature"
+ capstone="auto"
+-lzo="$default_feature"
++lzo="auto"
+ snappy="$default_feature"
+ bzip2="auto"
+ lzfse="$default_feature"
+@@ -1312,9 +1312,9 @@ for opt do
+   ;;
+   --disable-zlib-test)
+   ;;
+-  --disable-lzo) lzo="no"
++  --disable-lzo) lzo="disabled"
+   ;;
+-  --enable-lzo) lzo="yes"
++  --enable-lzo) lzo="enabled"
+   ;;
+   --disable-snappy) snappy="no"
+   ;;
+@@ -2458,25 +2458,6 @@ EOF
+   fi
+ fi
+ 
+-##########################################
+-# lzo check
+-
+-if test "$lzo" != "no" ; then
+-    cat > $TMPC << EOF
+-#include <lzo/lzo1x.h>
+-int main(void) { lzo_version(); return 0; }
+-EOF
+-    if compile_prog "" "-llzo2" ; then
+-        lzo_libs="-llzo2"
+-        lzo="yes"
+-    else
+-        if test "$lzo" = "yes"; then
+-            feature_not_found "liblzo2" "Install liblzo2 devel"
+-        fi
+-        lzo="no"
+-    fi
+-fi
+-
+ ##########################################
+ # snappy check
+ 
+@@ -6126,11 +6107,6 @@ if test "$avx512f_opt" = "yes" ; then
+   echo "CONFIG_AVX512F_OPT=y" >> $config_host_mak
+ fi
+ 
+-if test "$lzo" = "yes" ; then
+-  echo "CONFIG_LZO=y" >> $config_host_mak
+-  echo "LZO_LIBS=$lzo_libs" >> $config_host_mak
+-fi
+-
+ if test "$snappy" = "yes" ; then
+   echo "CONFIG_SNAPPY=y" >> $config_host_mak
+   echo "SNAPPY_LIBS=$snappy_libs" >> $config_host_mak
+@@ -6699,7 +6675,7 @@ NINJA=$ninja $meson setup \
+         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
+         -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
+         -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
+-        -Dlibssh=$libssh -Drbd=$rbd \
++        -Dlibssh=$libssh -Drbd=$rbd -Dlzo=$lzo \
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+         -Dvhost_user_blk_server=$vhost_user_blk_server \
+         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek \
+diff --git a/meson.build b/meson.build
+index 6fa80e2d7e..0310d6d89a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -753,10 +753,21 @@ snappy = not_found
+ if 'CONFIG_SNAPPY' in config_host
+   snappy = declare_dependency(link_args: config_host['SNAPPY_LIBS'].split())
+ endif
+-lzo = not_found
+-if 'CONFIG_LZO' in config_host
+-  lzo = declare_dependency(link_args: config_host['LZO_LIBS'].split())
++
++lzo = cc.find_library('lzo2', has_headers: ['lzo/lzo1x.h'],
++                      required: get_option('lzo'),
++                      static: enable_static)
++if lzo.found() and not cc.links('''
++   #include <lzo/lzo1x.h>
++   int main(void) { lzo_version(); return 0; }''', dependencies: lzo)
++  lzo = not_found
++  if get_option('lzo').enabled()
++    error('could not link liblzo2')
++  else
++    warning('could not link liblzo2, disabling')
++  endif
+ endif
++
+ rdma = not_found
+ if 'CONFIG_RDMA' in config_host
+   rdma = declare_dependency(link_args: config_host['RDMA_LIBS'].split())
+@@ -941,6 +952,7 @@ config_host_data.set_quoted('CONFIG_SYSCONFDIR', get_option('prefix') / get_opti
+ config_host_data.set('CONFIG_BRLAPI', brlapi.found())
+ config_host_data.set('CONFIG_COCOA', cocoa.found())
+ config_host_data.set('CONFIG_LIBUDEV', libudev.found())
++config_host_data.set('CONFIG_LZO', lzo.found())
+ config_host_data.set('CONFIG_MPATH', mpathpersist.found())
+ config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
+ config_host_data.set('CONFIG_CURL', curl.found())
+@@ -2339,7 +2351,7 @@ summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
+ summary_info += {'libssh support':    libssh.found()}
+ summary_info += {'QOM debugging':     config_host.has_key('CONFIG_QOM_CAST_DEBUG')}
+ summary_info += {'Live block migration': config_host.has_key('CONFIG_LIVE_BLOCK_MIGRATION')}
+-summary_info += {'lzo support':       config_host.has_key('CONFIG_LZO')}
++summary_info += {'lzo support':       lzo.found()}
+ summary_info += {'snappy support':    config_host.has_key('CONFIG_SNAPPY')}
+ summary_info += {'bzip2 support':     libbzip2.found()}
+ summary_info += {'lzfse support':     config_host.has_key('CONFIG_LZFSE')}
+diff --git a/meson_options.txt b/meson_options.txt
+index 630c9dceb7..00a5ec55bd 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -64,6 +64,8 @@ option('curses', type : 'feature', value : 'auto',
+        description: 'curses UI')
+ option('libudev', type : 'feature', value : 'auto',
+        description: 'Use libudev to enumerate host devices')
++option('lzo', type : 'feature', value : 'auto',
++       description: 'lzo compression support')
+ option('rbd', type : 'feature', value : 'auto',
+        description: 'Ceph block device driver')
+ option('sdl', type : 'feature', value : 'auto',
+-- 
+2.29.2
 
-> On Wed, 16 Dec 2020 at 18:24, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->>
->> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->>
->> > The following changes since commit af3f37319cb1e1ca0c42842ecdbd1bcfc64=
-a4b6f:
->> >
->> >   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstre=
-am' into staging (2020-12-15 21:24:31 +0000)
->> >
->> > are available in the Git repository at:
->> >
->> >   https://github.com/stsquad/qemu.git tags/pull-testing-161220-1
->> >
->> <snip>
->> >   - hotfix for centos8 powertools repo
->>
->> As you have noted this requires the cached copy to be deleted. I'm not
->> sure if it's worth handling that in code or if you just do that manually
->> before you merge?
->
-> I would prefer it if the gitlab CI infra Just Worked. I don't
-> want to be manually messing around with it...
 
-OK it was only a missing diffutils, sending v2 shortly...
-
->
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
 
