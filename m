@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF362DD6EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 19:08:20 +0100 (CET)
-Received: from localhost ([::1]:55110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770AD2DD6B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 19:01:11 +0100 (CET)
+Received: from localhost ([::1]:49230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpxhB-0007fd-AO
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 13:08:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52014)
+	id 1kpxaP-0004lU-Se
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 13:01:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpxfU-00071h-OW
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:06:25 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39608)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1kpxYo-0003lb-PA
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:59:30 -0500
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:35335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kpxfS-0005kj-P6
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:06:24 -0500
-Received: by mail-wm1-x336.google.com with SMTP id 3so6494268wmg.4
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 10:06:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=WIz585ar4YIyXTWDiab15oiwikT12YPWRYxM+Uv72WM=;
- b=TXc8vAu9FL/TUOXLid75k/pPrhf/v0koyoFm/7MlQbcS5zji+K9Hr/ngGmUTZjmk5W
- VM+A2WlXQyJ3kkRXqQ9ZW6BPjSi7gUKiLbdpXpkyq7HAic9jhtza2N2COQ9e4tIrX7so
- h+4fqbAXRZJSG7Zo54oUX4nJ6JbVOIDxmp2eYWPVztSEvmh/TkUep462p7nZQTZ7WDyP
- NMIVRDwbtCM0fkqDM434wCTC8h1SLUj/8uGHQVDpRz7yCVT6VSd/KnbY8zTUQe0GWyCa
- u0eJEpHTo//ljQa37mi26HE9g6GqtiN8OtwtGmJOSXYbxjkytteJ+VUFecxsrPakRqxE
- 2DHQ==
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1kpxYl-0004tR-QY
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:59:30 -0500
+Received: by mail-qt1-x82c.google.com with SMTP id b9so20714288qtr.2
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 09:59:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rJKaMneizJgCzs3oaS8ikmUiDGM9ktaRn7/MWxalvyk=;
+ b=zTF9H9HsfJWZpcDg0fiBoJUaXLi7aGs94UrI6vl52VuT/ktY4KVz68Y5CNgjbmxscH
+ zbRxq3B+ftx79IR6gaf60KrlyXd7sm8fDcOe/WitOp+9knhZ+03gfwUUDbEdPED0E3+k
+ aZ9Th9fs3hm8B7W8YItdlCeLXsoT2sNUiyyFjHyqZTYqTXrKuGz9CD+JZ1c2nYyLQwWi
+ VqXTRs1o8rG2lUwmay4qnQabmnuVwtMXKnEJnA20AKcPntynluBQuG2vDLTThp0U6ou7
+ DlxPsQtGuiAGTqoMxpILZZ8/3Z3zOv5R3aCv7TWSgy+8aIeKzDQX/wvAaEZ2yUZmQiUb
+ LAMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=WIz585ar4YIyXTWDiab15oiwikT12YPWRYxM+Uv72WM=;
- b=ul2SdNmPrt6oc97eed/3aYq1E9q2gX0wbeYpCutIhE8B30ug7fp1ndN9cH70U8KXUh
- ZvlW4yUrQZv3dOTjMDN/vRuXTeNQM6W7silSRwBq3L3W3IudtbO7EoVTIzVv55R49tNQ
- BLmz8gwnJDH4DDux1WcP3Xf2n9GwiTSwiZgOTysflBEz6z70GUcgmSzs3J+CytdScTUb
- hKvBIHhxlvHE/1SZGY9Ul58jr1HAn6uzihLY4Tqrv0REN1dYi1Flyt5maGS54bX8F/S+
- 7ojnfW14U5//I682TrqSVOHGI1O1FvbNeZF/nL6GTWFFY36RyOI0OljhCbAramlkggkF
- DlRg==
-X-Gm-Message-State: AOAM530i3CNb05PcuVuSF5FT90FBLnQQQwxSA3ICmygM/8IWD8/hLQKX
- h6zhegw4u+ih31GM3KSN9xIWkA==
-X-Google-Smtp-Source: ABdhPJyXvcFum38tqBdiSdezqKxMys8Az/k3JH/pvDATbYj2vHI3Kg9jJqkaFmeHB7sdvJiO8txuaw==
-X-Received: by 2002:a1c:3b46:: with SMTP id i67mr551357wma.108.1608228381328; 
- Thu, 17 Dec 2020 10:06:21 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h98sm11389919wrh.69.2020.12.17.10.06.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 10:06:18 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7447A1FF7E;
- Thu, 17 Dec 2020 18:06:17 +0000 (GMT)
-References: <20201216013646.40799-1-gromero@linux.ibm.com>
- <87bleut3si.fsf@linaro.org>
- <16b08946-9f96-200e-231f-40e24bb21734@linux.ibm.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Gustavo Romero <gromero@linux.ibm.com>
-Subject: Re: [PATCH] configure: Fail when specified cross compiler cannot be
- found
-Date: Thu, 17 Dec 2020 17:56:19 +0000
-In-reply-to: <16b08946-9f96-200e-231f-40e24bb21734@linux.ibm.com>
-Message-ID: <87y2hwqpd2.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rJKaMneizJgCzs3oaS8ikmUiDGM9ktaRn7/MWxalvyk=;
+ b=TA2D4qKpKpAgGtFZIjsDKQKNwc9e+DIsj2O8taTM4t2scYtH7vC7L0N/BdqRdu6Gyq
+ IafEx3KIxCwc8zFGV7JDLpMAJznQ9p+YOUm7VERy3x5hHsGtVZPjyHcEvdMnoIu2DlQG
+ Dk/rO7Zerpd0C2L6JlUiwxXBr8+tYxK7UUlOflW2VIl9NW6l7aGlzUauuWy/E+8pqwdh
+ uHk4vN5mL6COe6kxV78ftn/ib+pG593iA16UncHnlc3pEEFPaDc8itI+LBDmFr43bocC
+ rsp3+zxjWSczzAYj/tWI/LPnQDUHcSwlM3WWGqcUqtEs8dOWAqFDU0J8H9bIwDGtjh3k
+ kbHw==
+X-Gm-Message-State: AOAM530HHeRmS/T3WX3ovpB74b/aVH31T4sa/OQoOAfhknq59pdjkj1S
+ 9iwqajnNR6qJgKR3XUni4KtNR0JFKlH6sqb2UvZE2g==
+X-Google-Smtp-Source: ABdhPJwWFotkTp7kW5fIRxNpW4Gg2j1qlwateQ6jZ3hLWNZnhyCZGtrObMpemc9RI2NRVB5exs7ekP+qlbKSsB+GbyY=
+X-Received: by 2002:ac8:58d2:: with SMTP id u18mr46652266qta.235.1608227965530; 
+ Thu, 17 Dec 2020 09:59:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201216172949.57380-1-thuth@redhat.com>
+ <CAFEAcA97zNc3yEfSeBTOuQLFghcJHbh_toJ368HMZzHke+y0SQ@mail.gmail.com>
+ <a6271697-c645-968a-7e0f-e1993140633b@redhat.com>
+ <20201217140012.GF247354@redhat.com>
+ <CANCZdfpQeiWNt38D60W7un0vkK-GRCU-fShW0amfiwjKs=Wv-Q@mail.gmail.com>
+ <CAFEAcA_gs5wqr258FBTAKbctKLf4J4etvvu0hfeFPtH6gRy2+g@mail.gmail.com>
+ <CANCZdfpJ0iGWoSaz3Qarea2nUEM_tkyHw+z7C6J49CrtjrKANg@mail.gmail.com>
+In-Reply-To: <CANCZdfpJ0iGWoSaz3Qarea2nUEM_tkyHw+z7C6J49CrtjrKANg@mail.gmail.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Thu, 17 Dec 2020 10:59:14 -0700
+Message-ID: <CANCZdfrVB+3+S_4eTuCvfdTSd2rt=GPbSDSt5BnAauomiTtuxg@mail.gmail.com>
+Subject: Re: Status/future of QEMU bsd-user impl ? (Wea Re: [PULL 00/12]
+ Compile QEMU with -Wimplicit-fallthrough)
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000009a8f7005b6acc040"
+Received-SPF: none client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,125 +81,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pbonzini@redhat.com, gustavo.romero@protonmail.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ Sean Bruno <sbruno@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Kamil Rytarowski <kamil@netbsd.org>, Chen Qun <kuhn.chenqun@huawei.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000009a8f7005b6acc040
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Gustavo Romero <gromero@linux.ibm.com> writes:
-
-> Hi Alex,
->
-> On 12/16/20 7:51 AM, Alex Benn=C3=A9e wrote:
->>=20
->> Gustavo Romero <gromero@linux.ibm.com> writes:
->>=20
->>> Currently if the cross compiler passed to 'configure' (--cross-cc-<arch=
->) does
->>> not exist no error happens and only later when the TCG tests are run th=
-ey fail
->>> because the cross compiler is not set correctly.
->>=20
->> Do they? They should just skip because of a non-existing compiler and a
->> failed fallback to using docker:
->>=20
->>    ../../configure --disable-docs --target-list=3Daarch64-softmmu --cros=
-s-cc-aarch64=3Dnonexisting_gcc
->>=20
->> and then cat ./tests/tcg/config-aarch64-softmmu.mak
->>=20
->>    # Automatically generated by configure - do not modify
->>    TARGET_NAME=3Daarch64
->>    CONFIG_SOFTMMU=3Dy
->>    QEMU=3D/home/alex/lsrc/qemu.git/builds/bisect/qemu-system-aarch64
->>    CROSS_CC_GUEST_CFLAGS=3D
->>    DOCKER_IMAGE=3Ddebian-arm64-test-cross
->>    DOCKER_CROSS_CC_GUEST=3Daarch64-linux-gnu-gcc-10
->>=20
->> So what do you see in your failing case?
->
-> I get the following (I don't have docker installed):
->
-> $  ../configure --disable-docs --target-list=3Daarch64-softmmu --cross-cc=
--aarch64=3Dnonexisting_gcc
-> gromero@pub:~/git/qemu/build$ cat ./tests/tcg/config-aarch64-softmmu.mak
-> # Automatically generated by configure - do not modify
-> TARGET_NAME=3Daarch64
-> CONFIG_SOFTMMU=3Dy
-> QEMU=3D/home/gromero/git/qemu/build/qemu-system-aarch64
-> CROSS_CC_GUEST_CFLAGS=3D
->
-> $ ../configure --disable-docs --target-list=3Dppc64-softmmu --cross-cc-pp=
-c64=3Dnonexisting_gcc
-> gromero@pub:~/git/qemu/build$ cat ./tests/tcg/config-ppc64-softmmu.mak
-> # Automatically generated by configure - do not modify
-> TARGET_NAME=3Dppc64
-> CONFIG_SOFTMMU=3Dy
-> QEMU=3D/home/gromero/git/qemu/build/qemu-system-ppc64
-> CROSS_CC_GUEST_CFLAGS=3D
-> CROSS_CC_GUEST_STATIC=3Dy
-> CROSS_CC_GUEST=3Dpowerpc-linux-gnu-gcc
-
-Hmm that is impressively wrong to somehow get the 32 bit compiler. But
-I'm still failing to replicate the problem. Could you try the following
-configure for a like-for-like comparison:
-
-  ../../configure --disable-containers --target-list=3Dppc64-softmmu --cros=
-s-cc-ppc64=3Dnonexisting_gcc
-
-which gives me:
-
-  $ cat tests/tcg/config-ppc64-softmmu.mak
-  # Automatically generated by configure - do not modify
-  TARGET_NAME=3Dppc64
-  CONFIG_SOFTMMU=3Dy
-  QEMU=3D/home/alex/lsrc/qemu.git/builds/ppc-linux.all/qemu-system-ppc64
-  CROSS_CC_GUEST_CFLAGS=3D
+On Thu, Dec 17, 2020 at 10:10 AM Warner Losh <imp@bsdimp.com> wrote:
 
 >
-> hrm It seems PPC64 is even assuming some default gcc...
 >
-> I'm at commit af3f37319c from Dec 15.
-
-Yep I'm based on that as well.
-
-> I'm wondering if tha happens because I don't have docker package installe=
-d.
+> On Thu, Dec 17, 2020 at 9:21 AM Peter Maydell <peter.maydell@linaro.org>
+> wrote:
 >
-> Anyway, should we at least say we're using Docker as fallback?
+>> On Thu, 17 Dec 2020 at 16:03, Warner Losh <imp@bsdimp.com> wrote:
+>> > On Thu, Dec 17, 2020 at 7:02 AM Daniel P. Berrang=C3=A9 <berrange@redh=
+at.com>
+>> wrote:
+>> >> I don't recall what happened after that initial discussion about
+>> >> merging the new impl. Did Sean simply not have the time to invest
+>> >> in the merge ? I'll CC him here to see what opinion he has on the
+>> >> future of bsd-user in QEMU.
+>> >
+>> >
+>> > I've actually taken over for Sean Bruno managing this.
+>>
+>> > I'd love to hear from people ways that I can speed things up.
+>>
+>> There was a bit of discussion about this on #qemu IRC the other
+>> day, coincidentally. I think the conclusion we (upstream QEMU)
+>> came to was that we'd be happy with a "delete all of bsd-user
+>> and reinstate" approach, assuming that the "reinstate" part is
+>> in reasonably logical chunks and not one big "here's what we
+>> have all in one lump" patch.
+>>
+>> AIUI from IRC this is being primarily driven by FreeBSD and
+>> NetBSD/OpenBSD support is merely "we hope it is not broken
+>> by the delete-and-reinstate but it was probably broken anyway" ?
+>>
+>
+> Yea, I don't think it actually works for anything non-trivial on the othe=
+r
+> BSDs.
+>
 
-Something like:
+Looking at the changes, it may be possible to get the first dozen or so
+into a recent tree. It's not until after that that the changes touch areas
+that have the high churn rate, but it may mean things like threaded apps
+may have issues...  I'll see what I can do over the holidays.
 
-modified   tests/tcg/configure.sh
-@@ -255,6 +255,7 @@ for target in $target_list; do
-   if test $got_cross_cc =3D no && test "$container" !=3D no && test -n "$c=
-ontainer_image"; then
-     echo "DOCKER_IMAGE=3D$container_image" >> $config_target_mak
-     echo "DOCKER_CROSS_CC_GUEST=3D$container_cross_cc" >> $config_target_m=
-ak
-+    enabled_container_compilers=3D"$enabled_container_compilers $container=
-_cross_cc"
-   fi
- done
-=20
-@@ -265,3 +266,6 @@ if test -n "$enabled_cross_compilers"; then
-     echo
-     echo "NOTE: guest cross-compilers enabled:$enabled_cross_compilers"
- fi
-+if test -n "$enabled_container_compilers"; then
-+    echo "NOTE: container cross-compilers enabled:$enabled_container_compi=
-lers"
-+fi
+Warner
 
-To be honest at the moment the information is a little hidden at the top
-of the output. It would be nice if we could teach meson to echo it in
-it's nice coloured output.
+--0000000000009a8f7005b6acc040
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Paolo,
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 17, 2020 at 10:10 AM Warn=
+er Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr=
+"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
+" class=3D"gmail_attr">On Thu, Dec 17, 2020 at 9:21 AM Peter Maydell &lt;<a=
+ href=3D"mailto:peter.maydell@linaro.org" target=3D"_blank">peter.maydell@l=
+inaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On Thu, 17 Dec 2020 at 16:03, Warner Losh &lt;<a href=3D"mailto:=
+imp@bsdimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
+&gt; On Thu, Dec 17, 2020 at 7:02 AM Daniel P. Berrang=C3=A9 &lt;<a href=3D=
+"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt; =
+wrote:<br>
+&gt;&gt; I don&#39;t recall what happened after that initial discussion abo=
+ut<br>
+&gt;&gt; merging the new impl. Did Sean simply not have the time to invest<=
+br>
+&gt;&gt; in the merge ? I&#39;ll CC him here to see what opinion he has on =
+the<br>
+&gt;&gt; future of bsd-user in QEMU.<br>
+&gt;<br>
+&gt;<br>
+&gt; I&#39;ve actually taken over for Sean Bruno managing this.<br>
+<br>
+&gt; I&#39;d love to hear from people ways that I can speed things up.<br>
+<br>
+There was a bit of discussion about this on #qemu IRC the other<br>
+day, coincidentally. I think the conclusion we (upstream QEMU)<br>
+came to was that we&#39;d be happy with a &quot;delete all of bsd-user<br>
+and reinstate&quot; approach, assuming that the &quot;reinstate&quot; part =
+is<br>
+in reasonably logical chunks and not one big &quot;here&#39;s what we<br>
+have all in one lump&quot; patch.<br>
+<br>
+AIUI from IRC this is being primarily driven by FreeBSD and<br>
+NetBSD/OpenBSD support is merely &quot;we hope it is not broken<br>
+by the delete-and-reinstate but it was probably broken anyway&quot; ?<br></=
+blockquote><div><br></div><div>Yea, I don&#39;t think it actually works for=
+ anything non-trivial on the other BSDs.</div></div></div></blockquote><div=
+><br></div><div>Looking at the changes, it may be possible to get the first=
+ dozen or so into a recent tree. It&#39;s not until after that that the cha=
+nges touch areas that have the high churn rate, but it may mean things like=
+ threaded apps may have issues...=C2=A0 I&#39;ll see what I can do over the=
+ holidays.=C2=A0</div><div><br></div><div>Warner</div></div></div>
 
-Any ideas for the cleanest way to do that?
-
---=20
-Alex Benn=C3=A9e
+--0000000000009a8f7005b6acc040--
 
