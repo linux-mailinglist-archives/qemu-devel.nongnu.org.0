@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E952DCAB3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 02:56:29 +0100 (CET)
-Received: from localhost ([::1]:57786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4731C2DCAB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 02:57:21 +0100 (CET)
+Received: from localhost ([::1]:60266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpiWq-0005Tc-4F
-	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 20:56:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52198)
+	id 1kpiXg-0006b7-7G
+	for lists+qemu-devel@lfdr.de; Wed, 16 Dec 2020 20:57:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kpiUK-0003rR-Tu
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 20:53:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54862)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kpiUL-0003su-Nr
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 20:53:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kpiUI-0006I5-98
- for qemu-devel@nongnu.org; Wed, 16 Dec 2020 20:53:52 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kpiUI-0006ID-IP
+ for qemu-devel@nongnu.org; Wed, 16 Dec 2020 20:53:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608170028;
+ s=mimecast20190719; t=1608170030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xWHrqcMBEOU3yRruC4x1dukbTB5q97mV7cjAg3LUICI=;
- b=dKkQLdvlTXBKdUVQjfPUvP5GkW62m0wXN9BjHKMb9LsdFP4Y99V/Kr56dNNLIwcXiekN8l
- PP1/qX3td5zwjC9gLDj4m6QB5ut3PtBzQ8J7mzAyYQVPCykQNyPHe5O3kRC8U2WdQ5E85Z
- LZZpc3CDOkPXUoPY2LalsOG7PC2TYbA=
+ bh=xGFmdJ3x6IPQiTvgIjvXL530rozPOQdchBURc2F7S3A=;
+ b=SMlKtprFZCPYPchHhyctsE8Z1XwLctq4KSCE5sqbWAF4YJcfFe1bjBTwoRqVnF9AzpLutj
+ qdM1vvhfay0jm7vLHtK5DflVssn5AKNAfAA0QBP6gZMUs739ifC3svDehR6c5Z4SeJtxah
+ BvjvWeGe5JomnmoU6jhiid5n7ZUfuTk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-pfCUZ9_hM0arisbLAZOKrQ-1; Wed, 16 Dec 2020 20:53:46 -0500
-X-MC-Unique: pfCUZ9_hM0arisbLAZOKrQ-1
+ us-mta-311-JT_rHQ0ANpiXLky__8K1Pg-1; Wed, 16 Dec 2020 20:53:47 -0500
+X-MC-Unique: JT_rHQ0ANpiXLky__8K1Pg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B674D1005513
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:53:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B416801FC4
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:53:46 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-112-131.rdu2.redhat.com [10.10.112.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 18CA260CC4;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DDECB60CC4;
  Thu, 17 Dec 2020 01:53:45 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 01/13] qapi/introspect.py: assert schema is not None
-Date: Wed, 16 Dec 2020 20:53:31 -0500
-Message-Id: <20201217015343.196279-2-jsnow@redhat.com>
+Subject: [PATCH v3 02/13] qapi/introspect.py: use _make_tree for features nodes
+Date: Wed, 16 Dec 2020 20:53:32 -0500
+Message-Id: <20201217015343.196279-3-jsnow@redhat.com>
 In-Reply-To: <20201217015343.196279-1-jsnow@redhat.com>
 References: <20201217015343.196279-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -82,44 +82,31 @@ Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The introspect visitor is stateful, but expects that it will have a
-schema to refer to. Add assertions that state this.
+At present, we open-code this in _make_tree itself; but if the structure
+of the tree changes, this is brittle. Use an explicit recursive call to
+_make_tree when appropriate to help keep the interior node typing
+consistent.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/introspect.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ scripts/qapi/introspect.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index fafec94e022..43ab4be1f77 100644
+index 43ab4be1f77..3295a15c98e 100644
 --- a/scripts/qapi/introspect.py
 +++ b/scripts/qapi/introspect.py
-@@ -147,6 +147,8 @@ def _name(self, name):
-         return self._name_map[name]
- 
-     def _use_type(self, typ):
-+        assert self._schema is not None
-+
-         # Map the various integer types to plain int
-         if typ.json_type() == 'int':
-             typ = self._schema.lookup_type('int')
-@@ -225,6 +227,8 @@ def visit_alternate_type(self, name, info, ifcond, features, variants):
-     def visit_command(self, name, info, ifcond, features,
-                       arg_type, ret_type, gen, success_response, boxed,
-                       allow_oob, allow_preconfig, coroutine):
-+        assert self._schema is not None
-+
-         arg_type = arg_type or self._schema.the_empty_object_type
-         ret_type = ret_type or self._schema.the_empty_object_type
-         obj = {'arg-type': self._use_type(arg_type),
-@@ -234,6 +238,7 @@ def visit_command(self, name, info, ifcond, features,
-         self._gen_tree(name, 'command', obj, ifcond, features)
- 
-     def visit_event(self, name, info, ifcond, features, arg_type, boxed):
-+        assert self._schema is not None
-         arg_type = arg_type or self._schema.the_empty_object_type
-         self._gen_tree(name, 'event', {'arg-type': self._use_type(arg_type)},
-                        ifcond, features)
+@@ -30,7 +30,9 @@ def _make_tree(obj, ifcond, features, extra=None):
+     if ifcond:
+         extra['if'] = ifcond
+     if features:
+-        obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
++        obj['features'] = [
++            _make_tree(f.name, f.ifcond, None) for f in features
++        ]
+     if extra:
+         return (obj, extra)
+     return obj
 -- 
 2.26.2
 
