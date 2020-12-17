@@ -2,75 +2,303 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99622DD913
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 20:07:19 +0100 (CET)
-Received: from localhost ([::1]:49550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6B12DD952
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 20:27:47 +0100 (CET)
+Received: from localhost ([::1]:56246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpycR-0000ta-02
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 14:07:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36506)
+	id 1kpywC-0004t8-Ul
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 14:27:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kpyaB-0008LJ-0c
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 14:04:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35935)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kpya8-0003zu-Ld
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 14:04:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608231896;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sdGmaKMgXEXBGTV/JpEglw+lUZI7JvbNx1J3chl8BzU=;
- b=R2RCeuR7MA+CL4bEMOVJatSg4wUYyG9oTv5m9RhAYeN8NgcUibLIaqBYdEDKhO/cSA5Ay0
- zulLvB+aP3SETjBZwWuA7SNpJ3gatXxZ/A6dis0N1aG0mSDNwbAvDmaSS6xyt4GTmTQZ7r
- dtcRkGCtp1xue9xSKhfIDYxY64NyFu0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-owzZjaIxMOy9eVL6d3mrcg-1; Thu, 17 Dec 2020 14:04:49 -0500
-X-MC-Unique: owzZjaIxMOy9eVL6d3mrcg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F97C59;
- Thu, 17 Dec 2020 19:04:48 +0000 (UTC)
-Received: from [10.36.113.93] (ovpn-113-93.ams2.redhat.com [10.36.113.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3051518993;
- Thu, 17 Dec 2020 19:04:30 +0000 (UTC)
-Subject: Re: [PATCH v3 04/10] vfio: Query and store the maximum number of DMA
- mappings
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <20201216141200.118742-1-david@redhat.com>
- <20201216141200.118742-5-david@redhat.com>
- <20201217105512.78a2ef71@omen.home>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <bb621937-3d39-bade-082a-892f4126b018@redhat.com>
-Date: Thu, 17 Dec 2020 20:04:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <ard.biesheuvel@arm.com>)
+ id 1kpytS-0004Qk-3y
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 14:24:54 -0500
+Received: from foss.arm.com ([217.140.110.172]:46988)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <ard.biesheuvel@arm.com>) id 1kpytN-0006X6-KV
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 14:24:53 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 81BAB30E;
+ Thu, 17 Dec 2020 11:24:44 -0800 (PST)
+Received: from [192.168.1.81] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 279B03F66E;
+ Thu, 17 Dec 2020 11:24:43 -0800 (PST)
+Subject: Re: [PATCH] acpi/gpex: Inform os to keep firmware resource map
+To: Laszlo Ersek <lersek@redhat.com>, Jiahui Cen <cenjiahui@huawei.com>,
+ qemu-devel@nongnu.org
+References: <20201217132926.4812-1-cenjiahui@huawei.com>
+ <44529260-f89a-67b5-d6ab-3652376badcc@huawei.com>
+ <6eb6b9f9-d1b5-b4da-d3e0-fe7c9aa6ab87@redhat.com>
+From: Ard Biesheuvel <ard.biesheuvel@arm.com>
+Autocrypt: addr=ard.biesheuvel@arm.com; keydata=
+ LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCgptUUlOQkZFS2xnWUJFQURa
+ cnFjY1c0SStpaFBqNHhxYmI0eng5OHNFNTVXSGt5ME82dTRBc1c0RDZyQy9HdnFiCjRlQ2JG
+ KzVEdzViSm5rbWp0dWQ0c0Z1NWl0Mkg4RHJ0NGh5V3pPVkh0NmJzckJFc3FCY1ZjZEdSV3FP
+ dk93UVEKNExPbDhiY1U5cHd2dUZ1ZklaLzkvZDNiNS80RmFUek1DQnpWMWtvQm1aaXNBVlRM
+ VWNQOVVJUklTa25hNjREVwo4TVFXUU1OeDR5S3hQYU5QRXVzd1Z2c3RwUi81Ri9Sa2N2SjhL
+ QVZ3ZTVmVUxMNHdFdy8raXhlcWFOV3M3b09LCkQvQjREYUltWXRCSmdsVmh0OUxNTU1qU1NS
+ KzVMQUpJOWl5bWE0TFNjSURqNVVGRUI5ZUp3SmR4emx0LzBISSsKMXlaWnAwbVJTNmNqZjha
+ anFKL1VhVGsvOXM4VWNxZllMTHlqTlBOSGRyZjRENmdYY1pXQzdZNDg0MElmSlpweQp6WHNh
+ bnBoWC9xMUI2VmREeVVnc1VTUGU2cnNxTHAyL0hHc1l1MEJBODl2S3VvRGpPS1htb05uMFlv
+ S2NQOUZaCjZDNVl3SjdkdTlTSUM2cjBnWFE4WGlXd05vMDZ4aHpaaUFvd1BRcFdZSTBJS3VU
+ a1hYK2RLVHAycGhhRW9aWWEKNjF3YXB3RnJYUy9sMmducjlTOXZmSFJnTFdGUFdMem9rcHhO
+ aC9BZk8wSUF0QjV3MHRUbERqT1Nzd05MdFBJRApKNjJvMDA3MEc0ODhkYnBPSVh1MjRSaU56
+ QkJBd3U3Vmt3LzZlc0F5d2dORlpibjJKOEJQLzJwSy9lNHYvTHRSClhIcVl2QkViT3k1QTBU
+ dDFOWkJxRVJKci9wTVdwVjhrd0k0dnZPdUtwZUxCZS9TQ3ByODNsWlVuK1FBUkFRQUIKdERO
+ QlpISnBZV0Z1SUNoQmNtUXBJRUpwWlhOb1pYVjJaV3dnUEdGeVpDNWlhV1Z6YUdWMWRtVnNR
+ R2R0WVdscwpMbU52YlQ2SkFsZ0VFd0VJQUVJQ0d3TUdDd2tJQndNQ0JoVUlBZ2tLQ3dRV0Fn
+ TUJBaDRCQWhlQUJRa1VVTHlFCkZpRUU5RDBETW9FVm9aakpBQmFJUFNBT25LWXltUWtGQWwr
+ OC9ZWUNHUUVBQ2drUVBTQU9uS1l5bVFrYkp4QUEKdE9neFcydTQ2K0UvYjJwNkxQSVBQWkM3
+ VVFmdWVEMXJSbWNIWERKUXlzdGF6dWZFSDNVZytHU0pNQTMxdGErVAo4NlVET1lhMUYxd0RS
+ WFpMTXUrdlRoVEZTUnMxNWY0NVRNM0dlK0hTQ094L20xcUZJb2hvOE9FYmY5dXM3Ny93Ck5l
+ MEU4d0NJcnl0TVNLZ0VZaFRnQVlmR2JkTjg1SWJGV2gzcVhlV2JTRXVBQ2dIalZqdWdKUFR6
+ eXhFN3BjTFYKZ1RzbmRiMHNIQjgvcFptUGxiRFZldmY4bWszaUdYNnpONno4QVZ0NC9tMVpM
+ M3ZxemlkazI2ZHk3VHBHdWZHVQpWdThKT1ZlaXU4RlRTMGc4dGhSY0hVMGRiN1BOZmV1cTZV
+ c0dzNjEvYXBibHZ6ZXkyWk4rSGVXdmxLVzFoM3Q3CkZHT2RwbnBJL3hsZ1FiMWJqbXBmN2dw
+ YjMrcm9OdWRWMUdSSW1MWldLYU1TbTBaTWdWTk1ETnNZSXNETXNhM0sKQVhoUW1WbnBYa2hC
+ T05kbGs1UWthVExndFkweVQ0SlhZdUJlMUdrRzV6U1NvNWxzaHlsZEVxbzBSRXRFUSsvMAow
+ VVArUVg4UGpSUFBMTEk0OHFseVFLalBaenFrdmo3cGpZaGh6Z2F1dE5MVkJLT3hYZ0JxeUIy
+ UzF5M0craTJoCkVRR1BicElyY1B0SWh2d2lKR09MUkpHMnFHaUREeS90TzBaOUg5TFB6SUNS
+ QWJrNmlGNk5OMmxzOTM3TDRhcUsKVzEvV1RieDdXMXRiby85N1F5VGh6UG9XQ2p3aG9oaTJZ
+ UExpTS9aUU56dVdEUTdLMDNMNnVJRXhzRjdBOUx0SQp0RlMyZW8zcnRjRmgxOEpIYzgzNkRR
+ cW9yRHMwNk1qNlBnczByT08wQkZxME5FRmtjbWxoWVc0Z0tFRnlaQ2tnClFtbGxjMmhsZFha
+ bGJDQThZWEprTG1KcFpYTm9aWFYyWld4QWJHbHVZWEp2TG05eVp6NkpBbFVFRXdFSUFEOEMK
+ R3dNR0N3a0lCd01DQmhVSUFna0tDd1FXQWdNQkFoNEJBaGVBQlFrVVVMeUVGaUVFOUQwRE1v
+ RVZvWmpKQUJhSQpQU0FPbktZeW1Ra0ZBbCs4L1lZQUNna1FQU0FPbktZeW1Ra2NVdy85SEpv
+ U3pWV0xWak84TmVaT1h1MzBMc1l4ClliSmwvZi9WOFdhS1VnYkRyQzZLenJkYUhYcUh4MjdM
+ RS9Wck1BSHRaNkJzckdoZUkxcjlsdy8ySkU0ZzFKMXIKSzNobWFhOS9SZ29sZXpUU3dsajc0
+ NzFZbHNTL2FkOHhseEJnRDArdG13UHdvM2xZVkgwOXc0N0pnajFlWGwzegovYUdkTEk2MGJ4
+ U1hCamxJdmJqZUdHMkhYZ2V0MGpaOUhYM1ZNaTFkbk9EeTRQUmM5Q0o3aXN4TkZLamtYbEdJ
+ Cks0MEZPUDhXckdkRytSM0RqK2FmdEtyZ1VQaEtuTGVRZTd4VjdURUxpQzc2cWlWWU5ET0cz
+ NkIzVC9yYVpMQzYKU2wySCtwNHhTaktCL2E2bUtjLzNiY1lVZGswUkxjNnZFbmlDMXh6dHZY
+ NGVlcXJtRlp5RGpWVnEvTjhSSGwxQQpTVE8xL3J5MGZqUGp5UVVqWi9CeGU2cm1JWGJka3lM
+ a2tNeVZMOUxsdnp0Tk1XUWQ1T2lwaFRvSmg0QXlnVXd6CmVYdzhCcnNya2NEN1U0MHR0aytJ
+ cmhKN0tZdStJUVN0dG43dUUydFhZZURWZ3ExV2xrV2tqUTF4eW1uMzVRV0YKdGsra3ZKVWdH
+ a1lMZGx5SDkyaHRMOWNOR1dYMWUxNW53OHl4SnUxRURhM2I0QW94ZStnYTRyeGtpelc3YjlJ
+ Mgo1VEw1RVZVamw2YVN0WEdjTy93RkJHbGRWV1EwSmRtNDRWYkZaMjBQcmVxNHc0WWtJNGlu
+ c0c4UFdCQ3hESnhNCjhVazZZc3h6MzZPU3ZwOGRONDUreWV1WkMzcU1ENzdGMWJNYXdlOGtW
+ VWFWZXBrTUpHUTdnbkZEZU1rSFAxeVIKQmh0RXd2SStVS2wxOVlScHJ4cTBLa0ZrY21saFlX
+ NGdLRUZ5WkNrZ1FtbGxjMmhsZFhabGJDQThZWEprWWtCcgpaWEp1Wld3dWIzSm5Qb2tDUGdR
+ VEFRSUFLQVVDWEo1eDJRSWJBd1VKRHdWL1VnWUxDUWdIQXdJR0ZRZ0NDUW9MCkJCWUNBd0VD
+ SGdFQ0Y0QUFDZ2tRUFNBT25LWXltUWtaTXcvK01VSitzd0lsWmQ4eHNYWHFsYnZtR09ONUNp
+ b0UKbVBrSloxR2RKMHIwMFQvSkV5NEJhYVRySnpPVjFrS29TVVpQTW9Ld1BxTHhlcmsvem5s
+ UnVybmg2OHUvV09HSwoyWDZrYXcxTDlqdUF1ZkZqV1FkYnFtQ1JWUGhEK2hTemE3ZllDbDBF
+ bGxNMkN6dzZGN0tuVCsxS29vQlE0NVlaCk00MHlFY2tvVHdmYTUrNGx6b1BBRlZiSU1GTHBI
+ QS80dFh1YWxPWEIzaksxdTZoZHVaRUpRWDA1cjBpL05sY1oKcTZESUJkckdmMEhBeE9nNC9x
+ N01vVXZ3VU5DN3NWWEFJRkIvWmtCRnB4MEJkT1h5WUJsc3VLOW93M0dCWTkvMAprOVN3Yk83
+ SW8xYThXVjl6cittYllIS3ZYTmVKaEF4OEJrYW0vb3daL1gzQWk1Z1R2bzBPSlJjNzFzc2RP
+ bGFSCkpuTGFMMDVjTGdiTDIySFJNZTlubUFNQ3F4d1NCUmZCS1JuUTQ1K09MZTE1NkJBQnhM
+ bmZWT2ptQmlwZFVZSDIKSkp0OENWakVDREhkOHFGankyQytablZpVHdaTVFPVHRSd2t1U21v
+ MzRabk1XMmlmMXRCdUlPTUszQnArekJtZQpQRitoaW8xV2h6R0RZUDZobHVzeG5NVjd5cTc3
+ d1NvWExFTm9FaXY5TmdkRThtSFNKSUtiYmRYWGY4cTNoNnhTCkxqTnJZaURiUzhaWFFtWTJB
+ Ni9RN3Qrc0RvTFJYT0Vjd3ROOGxpbThCQ250cGVreThNQk9ha1JCZDZxRzQzeVQKbWhqVEpD
+ UUJhM25yWTdXTU9lWlFlZ3hHbTQ1VlpRMnpGVWhJRHBseFFBN3V6V2FRZzhCdW5YampreUIx
+ WWNpTwp6VHIxdWE3MXRWVkxuMGUwTVVGa2NtbGhZVzRnS0VGeVpDa2dRbWxsYzJobGRYWmxi
+ Q0E4WVhKa0xtSnBaWE5vClpYVjJaV3hBWVhKdExtTnZiVDZKQWo0RUV3RUNBQ2dGQWx5ZWNn
+ NENHd01GQ1E4RmYxSUdDd2tJQndNQ0JoVUkKQWdrS0N3UVdBZ01CQWg0QkFoZUFBQW9KRUQw
+ Z0RweW1NcGtKMXNNUC9pSWhPVDVRT1Ara1JJSXNRK2Vmc0h2YQp0Y0tsdU56ZmwyVXA5a0k5
+ V09tYnczUTZ2OXlHR1N0YUlLWVFySSs1dXN6dUc1QUtsVk1IUStKei92UGVLR3I0CnRNcWFJ
+ aFlWNDg4Q21FbmJmbXRhbEQ3aHZBdXN3a2ZDZ2JuT096SS80cVBOdm5oem11Q2JJYUI3OS91
+ TnNPSzgKaHA0SUM0OEZnYkRYbnRJK3crSWVNOUE5bjNlU1FONnpBeGh4WnNOUVhEcEJzSzhC
+ ZG9pOEtvdDhFSnh2QUIzNgpGZUNVdm1YTGxwNk9ZMys2b01zcnJGMnZyQnkrdE93aWIyK1hs
+ UkVrKzZsS0lvbW83a094VDlXZU92dWYvSDh5CmYvUDR6aGxOOGNMSVdFcy80V0dxc2dzcmxG
+ OHNDdzZ2KzVWOFJheVkwMGMwejRCQnlYTVZGMnhCZFd5ZC8xeE4KWE91c3hnTXA2c3F6WXJF
+ Rmh6UDdjNjZELzAraFIvejIrUzk3SVM1RDc4NzZLS2JYQ25CZ1ZFN1hYcG1WRXczTwo0dU44
+ MXQ3NXc0QW5nZ3Q4NHpGRmJGVnRkU3N6c3ZWYyswd2M1SXNpRFhCOVo2N1FpN3VQbEJWK3Zv
+ Q0VaQjRlClB6TTJySlFEL2MyRThYSHU5MUlpTU51K2tPWU1MbGJONDZod0tWbkdsc0YyTWxp
+ Y25WRTd5OTc2QUJpUWNkU3gKeFBlb05jTlBnbmlaVWhycVRXMnNab3Jkc080RUdpVHJSRXdj
+ d1U3ZGloNDRWTjJDU29nTnJwYUdJOTR3cDQrdwo3WFRZQlZvSUE0QmEzRXZENXQwcy9ZYjlW
+ Wko5WHJxOXByRFpTSGZwejl5cFdSSnRSbWJpbjUwUlkyTWlFOTVvCmsrWUVkTXNtaGNydmhM
+ alc2dUZSdVFHTkJGKzdoemdCREFESTNiUDBuaHFUcTFrek9venBLNC9DY0JNajhrQ2oKeFNl
+ NTZpNCtEZ1hZakxmWkFNcFM1MHF4dDRXb1BaM2s5K1A5Mno5dTZFSFoxSDNjeEM1OGV3M1Rn
+ a1pPTzdSMApVN1N1clpLSUEyemdoZHRHTDI1clRmRWxteFUzS2paOXJGNFFkc1l1Qml0dU5L
+ T1pIZTdqUEcwTGk2enVHWFlFClRkQ0xQbXYrMmFRZFV3dmhCQkxxRXdwR2NLWElsd3NBclVn
+ d0NXL1lLV29LT2ZOU2YranNRSzRTdC9mWjVYeFoKZjZIZkFEcGN0ZUh5NjhKZDVQem9LQ3dn
+ akg5cFNTd1NWUm1UWUJLdGxxdnVEejV1K1RLRE5MTysxYWhhZSsvKwoxbExaalZ6bWhHMS8w
+ L29YM2k5SzVtR3RuTVQyTzJNUi9uT0duYlVLNGFybExOZEZmd0RidzNXMy8zSmpmMWtBCmlU
+ UXY1Qm5STndLczl5cE56dHpTV0hCNjgxc3JSUTVwNFNTRWdGZTRsTzN4ckdLUHluVWFCSWlp
+ cDcxQmxGdlYKa2RlZGVCdWRoYmZ3cmZpdGpGNmUzT2QwTWs0aGEvME1CSDkzZlVyeTlVMEdk
+ SzRCay9KYk5qTmV6QnYrbk5YOQpCRkFFOXJOek9JYndhNDM4MDZIbUZrU2xpb3ZQSEFrcE40
+ MEFFUUVBQVlrRDhnUVlBUW9BSmhZaEJQUTlBektCCkZhR1l5UUFXaUQwZ0RweW1NcGtKQlFK
+ ZnU0YzRBaHNDQlFrRm81cUFBY0FKRUQwZ0RweW1NcGtKd1BRZ0JCa0IKQ2dBZEZpRUUrOWxp
+ ZkVCcHlVSVZOMWNwdzA4aU9aTFpqeVFGQWwrN2h6Z0FDZ2tRdzA4aU9aTFpqeVRiTnd3QQpy
+ NkhMV1hQYzBscUIrNVhadFo3SWVMeDNoTFBBMHlCR3pCa3NNd2FkUVZiQmQ0UHVtbWRNZUJX
+ ZmJDTFZVQTlPCjZ6WERIdkVmcU9jNGt1RWIrVnI4L05DM05FeGZrQnVpQThBYkRXbE9GUXE2
+ NGZmZ1NkT0g1LzQvRFRzWWFLbHcKWnJNWXZzNHhQanlYSG4vd2lLZzlHZU5WeGZTTjBqdzYx
+ MUFhWWd5aFQxZng3VzBRVERyOExPbTdiZGtldUF6bgpsNVhDK0tKOW4yaHNCVkZROWI1eDd6
+ QzlvbG1qcXRTd2JuT05tcFdkZFI3Wm14WmhMYlZwRWppZjlYbGgzVHVnCkZ3OEJBS1lsN0FM
+ UzJ4anJGSEFEeVZWNFJYNXhCUklIcnRvQ25peU9LZlFqUDRpaXY0cmhEWUx5MldJMTk3SGgK
+ dVFsYnFHM01kcjFTYlVqVFFBanhWV1MrZkVqd0tqNlpRb0pWcVIrajlBdGxxb0xMSzRwVUh3
+ aTFhS1RIS1RCWApVL0pxY3lXWmZEMG5VZ1krdldxRGxaODVnYzdERm9VeFFjNllDZHhzTEhr
+ YS9wMmd4MTVNa082UU1PQzhnSGRoCnI3YUNiR3VpZGl4SGVIdENDQ2dpRHpIRVF5Z1NHcFlh
+ NVQ3Wm56ekhsbGhtZ2p0b05WVHJKNmtaVWRSaGM5bkcKcTlFUC8wcnRWZmVnUVNYcWNLblJD
+ Q1NwTENQaWU2WDZqMjQ4M2QrbkJHZ2VLWjVIcVBFZU9NTDhwb1ZMc005UQpTUXdIOWs5NnVZ
+ OENCUVl6aU1IRFZ2aXlsbVNmNWNGMSs1WDFKS1crOWhJcjNDWUxpQ3d1c3lGc0ZYbEY1czZH
+ CkZvWFBPQiszZ255SHZtU0lHeUQva3JtT1p1bzgrSUt5clptSEFJYVhTOTRaMUdyT2FBcjIz
+ RlhqbWhXaVhlVXAKUFBSWEs4bHMwMUZpekNZdFNrNXV1WkVLc2psQjd5ckdzYnRodGIxRERB
+ UkVTZW9GU2xzQzZUMlg5ZnFKM292Vgp5dnNHMmNZMHB3NS9FblhDSGpEQmVCaVFIUFRlWjJM
+ eWlyTHZXdFhiaytPSjRkSGNTdFhTdFVwOG9zVEIzNmMxCkp2KzcxQUEvbFYwMm5qYnpmSy9E
+ VXpUTEFrM1RGNWZ5S0tYSFRUWnpQcFA1SVZrTHJLaDVOL2xYMXUwUHQrMnEKVWNpSi9LR3Rj
+ TlNoeGZBdWxmc2RBbDNFMUJBL1Uzc1YrVC9JV2hjbmJtQ3dDUHowWVdtZlJsNjZheFp2bTFT
+ eQo5bU5PWnVSb1d1Z1hKRDBWUGtqVW9jcmF6L3p2TzliZXBaeTRLblJHVFNybndYbFR3aTNZ
+ eDdRSG1PeXNNZTFuCm8wY1dHcVIzSHpLa2pPWGhmTGNxWkloOUdESmZ1a2dDb1dYME02V0hB
+ ZVVHZXd3ZHZJZEttY2NGc2ppeGh2b1kKLzZxdTY4aGVDQ3d1STZVSGp6NkdLbnI0dGcyZ2Fp
+ Um95QUkxckxjZm1mSllKYjk2dWxnK0pBaGJsUHJ0OWdYNAplRGlNSmIweUNyMCttdzA5T1FQ
+ dUJCbW1Iamd2a1daVXFZYVE4V0RnU2xSbmx1eHh1UUdOQkYrN2gwd0JEQUMrCkc4WWFvOWRV
+ OFZZTytsNVhFQitFRW1oTlRTWWJMMlVpWGl0WXUrMHpyMDBxelRDakN2S2p4V2QzVmp3bWdZ
+ VjMKN1JreGhRbHM5TGJFUmZEVVBmZ0JBbFd1MzRzR3FxWnRMZTRsM3IzVHRzUTlSdklvTzN4
+ dHQ2THAzV2VHeWxaNwp3OGpsdVZBMXZKV1p6ZHlmbnVUU1F4RmhWdEtyT2N3VlJncjZUUXlS
+ K0NISVFXRXMxb29WT3NocGxmektsYmd3CmhWbVUrd24xaVJJU0hZWWJwR2Rsb2RoOUJ4cUY5
+ RisweVN4TkVQLzhLcm1hS3A5dDBrZDZrY2NiVGd6S212TWsKRzhkSVVzMHJ6NjAzc3Y0eXd2
+ blZtSzZjLy9TZnRDdmVMdFpLRXRPYkFLa20xc3RQWGJ3Uk15ajB2Ulp5RmdXagpXb2hCUkNC
+ UDRoblE2L0hlRDl5dEN0SFNkeGVueTFiVjdDeGVGeDZyV29LNjlibG43c3RnZ3AycWRuODk4
+ cVE0CkhyRFh3eU03K09CVWtzR3NCV2ZPRTBadlJaNVYvNFpWNnYzTDFDRnVmR243RSsweDJH
+ dUFLVnVjQ1pzTW0vQmYKR002ckJKdTB1bUZaby9lYjJWUGg1MUdHUDNjVU1aVDNka09FVWh4
+ bFN0Ty9rUjFOMVVsQS9aSFIwcEcwQ1BVQQpFUUVBQVlrQ1BBUVlBUW9BSmhZaEJQUTlBektC
+ RmFHWXlRQVdpRDBnRHB5bU1wa0pCUUpmdTRkTUFoc2dCUWtGCm81cUFBQW9KRUQwZ0RweW1N
+ cGtKK0pjUC8yOGtoN0xON0liWlJZRVhpWDY2d1N6WHo4NHF4eUh5WXNRZ3dkZWcKYzVVNzcx
+ TVVNNXpRVGM4TXRhQ2dBYjZDQ1VKdDQvZjdsWk1POTUzOUZ4Q0lRdlI1bGFNRHNkNEZWcXp5
+ WUc1RgpEK2ZoYjlpMGg2V2llby9JaGE3UDZSK1FOSkNyM3JCTkRVNFZmZnFvQjVoT2hwUitX
+ dVZaak5HNnNVemFBeHVaCnRNRDJuSmxURFpKdUFwYURpR0FXWTJIOCtJNjdPMjJHSFhUMDEy
+ RmVDVExuU1RwSnJleUtRcm9ndjQwMVE4b3QKRi9zekZtTURFR1E2OG1ZRktRMldkOGpyOUtF
+ NFJ6VTlzRGYxQktFYUlQbDM0alJ1TGhxSDVJZUFCdzZIaVovTworWEttbDZFOWd6V3VnLzZL
+ bUxhaUY4bWduWWk4Z3ZwUW5OSnBVV2lSdnFiZ1I5K3N5SXJudXNOUG5INDF6Y0FjCjRIS2ND
+ MHQxNTRnWDBUTDZUMVpwTmlzV3UxN0hMNWVoTUJEczk2WFVialVKM3VXZzFCaDIvSHJLa3Bv
+ YjMvSGIKdldFSWlNeUVPZUVxVEM0eGRUTnJJd2IrN3RKeXo2VWhjN3YwbTNqYUFET1RWUTdJ
+ RjlXM2VzbFlvNExlZ2FaTApwdWR6TXBoL2Ryb0tzVUZxdWZUTk1UWWhHN0F3T3JUV1hUeGcz
+ MW5HZXdCQTRWWmhEN0hQOWR0QnRlV25helRkCk1jbFRPc0Q5REMzRUdRLzFnbkxzUnpqNTEy
+ MVJrSkE2UFVETngwcG1kdHpqZkZCVWMwK3k2SFIxb3BMaWt3eU4KVVNabDU5WlVMM29FUVNw
+ d1J6MkdDQ2p0WkdLVGVJNmErOXpqRkcvVU5JQisybzY3OGN1MmwxQXhyalMwdnlQcwphU25i
+ dVFFTkJGRUxsdjBCQ0FERUU2SjFGNmZEaEZNMkJNSy9Xc2x3clRGWHdJV3lIdlVJRDlqaFVr
+ ZVE1ZWFhCnh3ak1pYkhzM2ZmVzAxa1hkRGxTT3NRWjVieldFeDNCc1N3UFluTkp3WWUzam40
+ YThsLzVweDE2Sk1rZVh2Vm8KODJrWWRoQ3JnSTNuQ1hocEZEODlpZVo5WmVhOGlhaWhQRito
+ eVp6MDlPZXk1WFJ3MU5iVVhLLzg0R1ZZdTJtVQpPZE5Db2kvVnE4VmhSejAyUFVNRFVkZThB
+ bVVENnBPc0pGbU55dXZ3RzE0ZXpEK2wzUU81ZXVMblRaUU4zQ2QzClJqWThjTTl1M3I2L0x6
+ TnhMQnc2R0psTW9SOHV3VlltSlA2TUFveC9oSWpmaW5odmlFSmRCeUhuZXRnZDdsejgKR2lF
+ TU5HMDNxc2ZHZFl2T2hUOTZwL21xSVUweitGMHlUOUJkck42ZkFCRUJBQUdKQWx3RUtBRUtB
+ RVlXSVFUMApQUU15Z1JXaG1Na0FGb2c5SUE2Y3BqS1pDUVVDWDd1Z0FpZ2RBVk4xY0dWeWMy
+ VmtaV1FnWW5rZ2NuTmhOREE1Ck5pOHpSakU0TUVZMk1qWkVNRVJCUVVJekFBb0pFRDBnRHB5
+ bU1wa0poVXdRQUx3b25QcEpSN0VVTk9XY3pTSEgKZ2xCYVZhTGxuWGVnQi9IblFDQ3FTVVF2
+ VHQ5SDZPRVg4Y3pxZFl0cS9JOUp1OCtWRHRWcDdHejZIRGx0ZUJjNApIanRoK3MrejN6YTFm
+ aTdzQjFBdEhTQjl4VE5sZ1ZQeWR2dWlGcFRKamJBUllVTmZlQXl3MkY3cmJKY3MyWjdGCnlJ
+ akY4M3RRQU5wMzMzZGxVN2pLcXMyVm1ESlN2d0pNdmRML29uYnFiR2h2TWp1aVVZUDFlUC9P
+ TlNmdUhVcDUKRmdDa0kxUXZ4QlF2d1NSN05CM296QVM0ZVNLVTdLdUdiMzZKMlVZRVFnNXBB
+ bXFvaHZQZkl6QWx2QlhGY29tWApNcFNsdTJIVGpIb3NCN1A1OXpwSldTeTdJVmI4YVVyazRi
+ ZHlQSEVXY3QvTXIwL0QwWUxhZ0NzTnRXbW1XdkFMCnFrTlo3VFpscWsrVnVrdi9WVm5tRUtL
+ SFkyY0JsWXp6aWNleWo0bmxhejR1S2ZEOWVlY1lWcnNLQUswdDVzUHIKcVdZU3I5R3pIcEts
+ V21Kc1NxRWlNY2NVZERsWjR1dFVpMjRjWFNDOEtTdUFydXlFZk1yTklaYnJCeExyTjJWcwo3
+ b2RDZXpTbUpNdzVSR1BnalB1a0JVbGJFc29NOVI0bDY2M2w1dG84eEdENk5ZN2pCQ3R1MXZV
+ SlFlNTY5NzkxCkdrdEI5S3N4UjA5aEI5YVJUeld2M0JXcTB5K1ZwMEQ1Rm9mMkNLeTdIRHFx
+ bFB2MDhrWVkxNXRKQUt1cHZhSU0KemdMNlh3MDJnQVo5Z1BoY24rL1VhNGpicUJ6d00zTExI
+ ZFhkS0dEWlpZMGRPUWtlbndqQ09XYzVCYWExYUhZTwpRUFNtdjhnRnZMTEhpekxUM1lTK0lj
+ UzlpUUlsQkJnQkNBQVBBaHNNQlFKYWJIc2hCUWtQQkg2a0FBb0pFRDBnCkRweW1NcGtKRWhv
+ UC9SRHQ2eDZ6UGdiKzFHandHWXVVQXp0bmdZcEZFOTRQdERyQm5aY1hlQmp6TXFvZmdKR0MK
+ Q0hSRlBoY1NZVXB5Sm84MXhZYVBoNGhza0pKRU1PQlp3QXVNYXZiZlpMUHBvT0NIakh4aVdB
+ TG5GWTBvQlRuZwo1VzEwMU1hbnVuMlcyejlOMFlaWTdBaElwMmJGcElPeVk2TW9HQlluSUM0
+ NU4vb29hNExCWmJCTlBZVlpidmZCCkREeGEvOXZUMHE1eG5qRGtCUmRTRFFoRGU1TjJ2VTBu
+ ejlFWWRzbXE4c2tFWEFFVGpNdCtLQW9ueVhTTG53eWUKNElja1ZpV3lGODhHQnFKM3hHTVBS
+ KzVLeVpwRXhvTXlCL3M1dWhWNTBqelFqOTVhUDd3TDQybzBvWVIzV2crNQoxVXY0dy9Xdjdv
+ Ui9CTlNBZ0VQMVlML2hacWxjTmgxakNHdTdmMWw2Y3lsMTd0WDZtUk1ETEZSbUhDOTArcG1p
+ ClYwMWxZeTczWURnRGhHOFNDbHdnQm4wYXhRQjRMVDhvYnY0dUVCd1hXUkFMOUU3VDNLb0tO
+ VEllUWE4dCtudVoKTm1DMFVXb2MwUFMzalFVZUhsdU43Z0FCS1p0V2ZvSXk4OFVJNGgxSkdZ
+ K0JmUTBpa1cxdVJTcjJmYUJsNHNuWQo5VExkVFFOeHNMb3daNjFxK2RHZzhYS3AxbVY1QWxz
+ b0NwRGJ2TXkrdGM4UXNBNUx5T2Jvank5U3hJdHVObE5kCnVSWEdJVFp0QTlEbDQwTlczTTcr
+ SXJJWnJrRWV3TFZoMngzcm9QTlVGZjNkdy9acUpsTDlPQ3phRnZ5Z1doN1UKbmROQlFJWk5O
+ bzhLcjhoVmsyaFV0cTgxUDBWNGRyYkNsYW90cHRTWVFjUUFxQTVVSVFmeEZ0OFN1UUlOQkZF
+ SwpsZ1lCRUFDbzZKK0JOZWtZejdUNko5RzN3K2gyaSs3eXZmbkRyME1RMDJhWjFPdHRBcS9B
+ MmNDYUNjc3VBQmVpCjdkSVh0OHBiTEw2VlcwNnNuVmdIdC9qTEI0YlVqbTd5bWdjTUEydGpI
+ OW8xeWhCM2xabUZ0QUN2K01YRnRKL24KdE9WaVlEMVdGYjg5ZWd0TGJxQUVtanpKdHJTQkdU
+ Z0UyVUhVck0zb0tWdmdaVm53czRvdDdIVGdXQWN4Z2MrMApmdTdDREc0TXAvNm9yQ1ZCemNP
+ R2ZDUGZPNE9LVTc3STQrM0k0dEc1MDJWcGhHTGdhVVpWdlVJdUNyc0ZWU1Z2CnYrQ1dBYW9n
+ SDc2MWUxVTZsc0d4cmo4MDN3b21NR1VHazZpaGE0S2VJUm9PSytrb3hpcTZQSnJqT2xJZ1c1
+ WUMKenk2SFdTY012TTZVOGY2SjRsR2k4WExwZFM4RkoyZmFkRHIrMHIvb2J6TWhhcTFGVFBZ
+ NDRONHc5WVJiTzhJTQpQemJIdmFaeHpLeGI4bU1GWXdGT2xYcE5RU2c3TEVlMEhsYjdKeVpx
+ bDMvTEVHaGEyS0drRURXaFJuTVJqOG5iClpySXd2SEtxYjlxSGMxSkhCd1pSNytnblpmMzlo
+ a0krWkh0QktLRFlERWlmVlhGaEdmU0YwalI1UGVYdDlHNGgKUUFQdHBvc2wwYTRUeXQ5akdn
+ cFpFTWhQRnZhcUVHNzBDUjMzY2FoNmxaandjRk16WVFlNjduSXlhN3EvaWRkNQpZczdqMnlt
+ YWxRNHJQMjdWcG9sbnR1Sll1aUpCSk0yWFJhV2VQNGR3cE9YVEdJb041N0ptTlQ0VlNRQnZo
+ TGlvCmpNOE1oZG41cWcrSFNISWlURkNjR2czc1VHc1Z4UWZmcXhRYVlLNEx0NWEzZ3JUZm53
+ QVJBUUFCaVFJOEJCZ0IKQ0FBbUFoc01GaUVFOUQwRE1vRVZvWmpKQUJhSVBTQU9uS1l5bVFr
+ RkFsKzZRQWdGQ1JSVFJJSUFDZ2tRUFNBTwpuS1l5bVFtM3JRLytJbk1UMThjbXNuRy9MS0s4
+ WHRlRmtIaVhvZEdXei9McldPWE51TjVsQ21rL09vVTh3ZWRvClBnSlk0WlRxK2hQMjQvam5w
+ UzFsUyt6b1ZTZmxDY2p0bnlRamhDRkhpNGFUTlU2S0ZtaTRrTzlmTW9uZGpiUisKSU1WVDhT
+ RmZZck1udUR0RE1mUXQyWFVDeDgwWTQ3YmtGcHlVa01MSjkwMHhLc3c4VTlicEJkeXVjUm9I
+ SEtNOQpOZTdEdVBFbWI1TWNNbTA3SmhHZ2tPa2k3Unl0REVBdjk2UVRpakljUWUzazBPbERo
+ dmowVkVnTURJWTFXOW9MClZoa3A5Vkl5V3p4RGNHOUlmaUpOcC9iS2FDRk9wczhyc1o4V2h3
+ UEFxRlgwaHBDUXIvcmEzRGJDaERmR3czazcKcVFETlhITUgyUG9wZnhVd2NXcU9lYk54YkJL
+ ZURZWG5sM0NTUTdzYVVWKzlOd2xsK1o3TVZtTlJMaGkyMi83TQpQY0IyZEdDR2VHK2JCTDZM
+ aFJPT2hkSFd1T29sMGNKZ0xMYldBZkhGK3p5Q0VvS2d0ZUhMYTMybWN2TzhBNFNxCjlEYno2
+ YktNWjZTTmkyQnpwZEl0N1ZzekNadE14d05XWVduTjN2c3JteWw3azIzS2VFQ0l6dlNLdnor
+ VDJkcjQKaXVQQkx2RUR4N3BFOXV6K0FNQ3VlNURHeVZ6eDVwTmk2b1pDZmIrZzkwRG9OZUFL
+ ejRIbFRWYzVPVzV4TWdpcwp5YkhnSE9NSTFmZzc0UitxS08rYXFuUlZLam1nNUpWMDAvQTFJ
+ UFgwdE1RRit5dkRaQkQ3SHdCN21VM0dSY1VyCnd2UHBkb1dpMVVCQVZ0NU9ydi9XRDJ4WWV4
+ cEt0aG45TFkxUnZjM1ZiRVdsZjBheU5kV09rODY1QVEwRVVRdVcKM2dFSUFNTWhIayszbFQ0
+ ZDFHd3NjS3kzU2VhRXBRSGVva0FsZWZ4eWVrbWlOa3I1K1JlOG5adm56TmN6bEphLwpLMzBv
+ Q3RkOWJwMlRpd05IZU1KR1ZBbHlXTVV0b05lamkvUFdDdGJTQ002V05FVlFWVldtRVRBeGJK
+ amFaSm9pCmVKbU9zQ29QODhyU0xBUzdMR0tGTUhmRnozb2hTSG1rUXgrR1AwaTlhWVNrUlZU
+ Uy9pcUNPeFFvNG9ycmxJbVgKbEN4RWdBeTM5czQvNjRqRXlyR2NZNzRobFk3cDNyVFdKTUVp
+ OU9yUzdLbnF1YUVma2M4eXBsYkdlTmc3SDJmNQovWFpFMFNESzIzbUJ3Zks0V25SUTllT2J3
+ NmJ0d2lsYjM0SVh5UnY0cGN6bWZ4UzU0S3M1eURnUThDcHFIWk5ECmx6SUZqenJsa1FFK0pO
+ OTNOTEI3ZnZqczdkOEFFUUVBQVlrRFJBUVlBUWdBRHdJYkFnVUNXbXg2L3dVSkR3UisKb1FF
+ cHdGMGdCQmtCQWdBR0JRSlJDNWJlQUFvSkVNSTNJSDZWZFBwOXUwRUgvUlk3bHRBS3M1NlFO
+ MnNndkR4WgoycGFndC9qQWl0cHliM3ZiakpqOXRlQThKamMwemNhUEJPcnhxdU9EMmdidWxp
+ c0JMaWtrZG1PTVlheE15MWFZCkIva2Y0WnBXQ2tSRlNOeWpmTXFhMEMyd2pITzJaS0pXQlFO
+ dXJBZ1MvRWg3bVBEUDh5cHIxU1ZwQWEvOExrLzIKY21CcVJ3a3JXSGVJY2tHc3NDMnkxMzl4
+ Z3QzemJoeXNKMzV6ZGJzb1ZGQzlXUTFJejg5QjNONUZpNC9UMU9sagp6SXRaWFg0S1JNTnRF
+ Zm8xd2lZcGJ5b2FSZEt4eHE2NmcyU294a250RjBKR3p5Nm1FTksyYnRESi9TaGdxaGpICnhz
+ NENGZlp5MU9SSDRTRGhQSmcrSGNwYUk2ZlBQZWdEOXFDeVhTTHBMWEFtOS9qR01tc2RyOW1l
+ MXZzK1VoVW4KbitrSkVEMGdEcHltTXBrSm44a1FBTTVMWjBKTXNTaG1JR0hFbyt5cnNUT05W
+ K2dPZWFtVXB5dVpQb0xDQmhCeApJbHdEayt0NkV0RmV4YlFoSWl6ZjE4U1hxWHIzOHBrVzFx
+ Q0tScXJlbXR0YlQzUUd3dmRaVnQ4QmhERWFmem5mCnN6dE5UYlFNbjNtbVhETmYwOVk5Tmtl
+ RFlOZGJwWi8rc1NlUHdYTzlYZkRMVkdIZmp2Ym81azUwZ1VGNkNpK0UKbEpENW82cCtEWGJE
+ MXBQWEwvYmlnSkRYMWJabTNFVjhXNmtJU1dKOUduNDFpT1RkSm0rdk9teFRsYTByaGZNagpj
+ ZVQyRk93SS96alhRbnB5c3R2U1JCVnhxK2hrWnZhOXZEWlNYOUFnNit4aUxPamZ1cndOK3hR
+ ZTAzOERTdkR3CmdoOGJ5TkJzemh4ajFOOW5wcFlsMFN0dGNzK0RWU2Z6T1E3VW94Uy9ZMkJ2
+ UjRyZ2k5bUZ6bTQwcDlwZllYTWUKRXkyeG9EVTFXc0hyQlZyT2hQckhhTGIxSVpETU1EeWwx
+ Y2ZVMlZlSkpZVGZnK0NJNFhHR0pLS1FWVTB4bFBHRgpWYzZLMklwRU1yVWxuSSt5ZWlkM3dj
+ RUFNcnUxcWpEYm9acUg3a2FOQTRXN3VYUzJqQ09QTm03Z084bjQ2RFpUCnI4QUpGRmxKZi9N
+ bTdVbWNiN2d4bDhFcDMvbUpjZjM3bzhJMU43ZWRFNkhUdGtkWEp3MXh3RGpYemt1TUI3UUoK
+ UWpjWmZScEorL2k2b0ZzWHBkeHhQcmp2Qmw0dklXcmtZV0JaTzliR3ordVliUUlYSVplMVlp
+ aUJnTGVYaGN2aApFdVlTcnNOaDBPVnRJMlBBZnZqZ1lXYUZSMGtrU3pGTitFRkpmS0JoazNR
+ bjlhK0hZNUIxZUxHL1BtL2R1TnVRCnVRRU5CRkVMbHpvQkNBRHIyOHZBNVBjWnJZZWRHMnJG
+ QUppaDI3OExPZksxSXc1SEdEVzVvZlZtYkpmNSt3RVkKZWdsSFlxUGRMRS9WNGJuR1l1bERs
+ Mkh3N1crK2VsWjVDWTFjNG9uV0RNMlU0M3hrM1RaS2t3NkRWdzFob2g3NwpKa2RrTDFocTRQ
+ azRXRGFoRUlwY0R0QWNYbE9ZOFduckdlQktiU2krME1pK1hPNXdkUlRmNVc5S3A1dEh0dGJs
+ ClNXamNrUThtMkVKeE5Xc2F3THdIcTNGM0REL1prZDFiV3pnQjQrbFczVitNbjZnSHNUbnd3
+ VW1zY3ZVazZ0UDMKNkoxVE4xQXJqc1o2ajRaZGE3NWRpc0tvcWgrWVV3cFd3V0pBSm1jU2ZN
+ bW5kVkJUeEZyeVhGYmM0LzFQaFAwMgpxM2QxNi92dXRMaEZER21XQ0RzS2tVYTgwOUZGUHhS
+ U2kyVGxBQkVCQUFHSkFpVUVHQUVJQUE4Q0d5QUZBbHBzCmV5RUZDUThFZm1jQUNna1FQU0FP
+ bktZeW1RbUlKdy8rTmdKNnJGbjJsNGNBOWdLenk2RmJHMVNlUm55K2RsOVgKOS96VlpiYU1l
+ cVRMNlZyZ2llZXJsVEx4Zm5GSjZ3Ky9iQnhzUHhteXNHOWswdDE0dzN1OWZ2OTRUL1ZzeWk5
+ NgoyYUUraHhnWitZd2ozclltcTVMMXVBSkJkMXF4dTJ0NlBOWHdOaEdJWXR3TEJweWdSRUpz
+ WVJBNGFrdCtLTmQ5Cjh6djNjUVRUbXhUYTgyNjVnbUJ6RHN4MitwSUdOUFZKa0xoMm1NU3pz
+ VUQ3ZDhZQkdJV3BmVStxczFNK2k1dzQKdHhNbVA0a2lXaVozdW55ay9IRWpRL2VnMHZiSmho
+ OFU5UW4yMTI2dWkwOGs1SHdFbEUvUlgzQk5ORlUwRHhKVQo5ZzBVWUZEeHVxeURQMEpWS1ZV
+ ZVVrSXVLMVVaQStOWWI0RnlnaTZjNnpXSmwrd1d5TnhHMmFGOGhRS3JxUlhzClNvMUpFTG1U
+ VmJaQ1lhTTlaQTNLbC96eDNDczFkZ210QlZFRTErditXVmUzeDhxWG5jcU1qK1VDOW1aemFh
+ YVIKSC8xT2IzTHprL29ndVpIdDBBZmZhV1hvTXY3SjhuZDNHa29GbmxQZ1RYdm9ETStmRXpC
+ Y1ZzSXl6dVVaRDhxQgpiRTI4MUlUdHlJSHh2TjJBN0FoaE9DZmdlV0FRUEJneHJXWGZxajhr
+ K2pHRU9rUjN4ck80Qy9OK1hPRGVKRmlQClNCalpOR1VEL2tEdFBPTDNjUVR4dFhOV0JXT2hv
+ Vjh5SE1abTlhWTNSNE9oR1BDNU5vZ0V1Q3JZeFN3UXZYZ0IKdHptQmxTZlc5UGtiWTZvY3dO
+ UVRDdk5URjU4NUd1YlJvWFNwWDV1ODZZeUEySjRlSjBhUHhjSUJpcnBTWDQ0MQpUSzZtOEgx
+ d0Zxaz0KPXpEZFAKLS0tLS1FTkQgUEdQIFBVQkxJQyBLRVkgQkxPQ0stLS0tLQo=
+Message-ID: <a23c52c4-d166-f2f1-5047-955bc901a20b@arm.com>
+Date: Thu, 17 Dec 2020 20:24:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201217105512.78a2ef71@omen.home>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <6eb6b9f9-d1b5-b4da-d3e0-fe7c9aa6ab87@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=ard.biesheuvel@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,127 +312,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>
+Cc: xieyingtai@huawei.com, Igor Mammedov <imammedo@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.12.20 18:55, Alex Williamson wrote:
-> On Wed, 16 Dec 2020 15:11:54 +0100
-> David Hildenbrand <david@redhat.com> wrote:
-> 
->> Let's query the maximum number of DMA mappings by querying the available
->> mappings when creating the container.
+On 12/17/20 6:23 PM, Laszlo Ersek wrote:
+> On 12/17/20 14:52, Jiahui Cen wrote:
+>> +Laszlo
 >>
->> In addition, count the number of DMA mappings and warn when we would
->> exceed it. This is a preparation for RamDiscardMgr which might
->> create quite some DMA mappings over time, and we at least want to warn
->> early that the QEMU setup might be problematic. Use "reserved"
->> terminology, so we can use this to reserve mappings before they are
->> actually created.
-> 
-> This terminology doesn't make much sense to me, we're not actually
-> performing any kind of reservation.
-
-I see you spotted the second user which actually performs reservations.
-
-> 
->> Note: don't reserve vIOMMU DMA mappings - using the vIOMMU region size
->> divided by the mapping page size might be a bad indication of what will
->> happen in practice - we might end up warning all the time.
-> 
-> This suggests we're not really tracking DMA "reservations" at all.
-> Would something like dma_regions_mappings be a more appropriate
-> identifier for the thing you're trying to count?  We might as well also
-
-Right now I want to count
-- Mappings we know we will definitely have (counted in this patch)
-- Mappings we know we could eventually have later (RamDiscardMgr)
-
-> keep a counter for dma_iommu_mappings where the sum of those two should
-> stay below dma_max_mappings.
-
-We could, however, tracking active IOMMU mappings when removing a memory
-region from the address space isn't easily possible - we do a single
-vfio_dma_unmap() which might span multiple mappings. Same applies to
-RamDiscardMgr. Hard to count how many mappings we actually *currently*
-have using that approach.
-
->  
->> Cc: Paolo Bonzini <pbonzini@redhat.com>
->> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> Cc: Alex Williamson <alex.williamson@redhat.com>
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Cc: Igor Mammedov <imammedo@redhat.com>
->> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
->> Cc: Peter Xu <peterx@redhat.com>
->> Cc: Auger Eric <eric.auger@redhat.com>
->> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
->> Cc: teawater <teawaterz@linux.alibaba.com>
->> Cc: Marek Kedzierski <mkedzier@redhat.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>  hw/vfio/common.c              | 34 ++++++++++++++++++++++++++++++++++
->>  include/hw/vfio/vfio-common.h |  2 ++
->>  2 files changed, 36 insertions(+)
+>> On 2020/12/17 21:29, Jiahui Cen wrote:
+>>> There may be some differences in pci resource assignment between guest os
+>>> and firmware.
+>>>
+>>> Eg. A Bridge with Bus [d2]
+>>>     -+-[0000:d2]---01.0-[d3]----01.0
+>>>
+>>>     where [d2:01.00] is a pcie-pci-bridge with BAR0 (mem, 64-bit, non-pref) [size=256]
+>>>           [d3:01.00] is a PCI Device with BAR0 (mem, 64-bit, pref) [size=128K]
+>>>                                           BAR4 (mem, 64-bit, pref) [size=64M]
+>>>
+>>>     In EDK2, the Resource Map would be:
+>>>         PciBus: Resource Map for Bridge [D2|01|00]
+>>>         Type = PMem64; Base = 0x8004000000;     Length = 0x4100000;     Alignment = 0x3FFFFFF
+>>>            Base = 0x8004000000; Length = 0x4000000;     Alignment = 0x3FFFFFF;  Owner = PCI [D3|01|00:20]
+>>>            Base = 0x8008000000; Length = 0x20000;       Alignment = 0x1FFFF;    Owner = PCI [D3|01|00:10]
+>>>         Type =  Mem64; Base = 0x8008100000;     Length = 0x100; Alignment = 0xFFF
+>>>
+>>>     While in Linux, kernel will use 0x2FFFFFF as the alignment to calculate
+>>>     the PMem64 size, which would be 0x6000000.
+>>>
+>>> The diffences could result in resource assignment failure.
+>>>
+>>> Using _DSM #5 method to inform guest os not to ignore the PCI configuration
+>>> that firmware has done at boot time could handle the differences.
+>>>
+>>> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+>>> ---
+>>>  hw/pci-host/gpex-acpi.c | 11 ++++++++++-
+>>>  1 file changed, 10 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
+>>> index 071aa11b5c..2b490f3379 100644
+>>> --- a/hw/pci-host/gpex-acpi.c
+>>> +++ b/hw/pci-host/gpex-acpi.c
+>>> @@ -112,10 +112,19 @@ static void acpi_dsdt_add_pci_osc(Aml *dev)
+>>>      UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
+>>>      ifctx = aml_if(aml_equal(aml_arg(0), UUID));
+>>>      ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(0)));
+>>> -    uint8_t byte_list[1] = {1};
+>>> +    uint8_t byte_list[1] = {0x21};
+>>>      buf = aml_buffer(1, byte_list);
+>>>      aml_append(ifctx1, aml_return(buf));
+>>>      aml_append(ifctx, ifctx1);
+>>> +
+>>> +    /* PCI Firmware Specification 3.2
+>>> +     * 4.6.5. _DSM for Ignoring PCI Boot Configurations
+>>> +     * The UUID in _DSM in this context is
+>>> +     * {E5C937D0-3553-4D7A-9117-EA4D19C3434D}
+>>> +     */
+>>> +    ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(5)));
+>>> +    aml_append(ifctx1, aml_return(aml_int(0)));
+>>> +    aml_append(ifctx, ifctx1);
+>>>      aml_append(method, ifctx);
+>>>  
+>>>      byte_list[0] = 0;
+>>>
 >>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index 6ff1daa763..5ad88d476f 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -288,6 +288,26 @@ const MemoryRegionOps vfio_region_ops = {
->>      },
->>  };
->>  
->> +static void vfio_container_dma_reserve(VFIOContainer *container,
->> +                                       unsigned long dma_mappings)
->> +{
->> +    bool warned = container->dma_reserved > container->dma_max;
->> +
->> +    container->dma_reserved += dma_mappings;
->> +    if (!warned && container->dma_max &&
->> +        container->dma_reserved > container->dma_max) {
->> +        warn_report("%s: possibly running out of DMA mappings. "
->> +                    " Maximum number of DMA mappings: %d", __func__,
->> +                    container->dma_max);
 > 
-> If we kept track of all the mappings we could predict better than
-> "possibly".  Tracing support to track a high water mark might be useful
-> too.
-
-It's an early warning for reservations e.g., on fundamental setup issues
-with virtio-mem.
-
-[...]
-
->> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
->> index 6141162d7a..fed0e85f66 100644
->> --- a/include/hw/vfio/vfio-common.h
->> +++ b/include/hw/vfio/vfio-common.h
->> @@ -88,6 +88,8 @@ typedef struct VFIOContainer {
->>      uint64_t dirty_pgsizes;
->>      uint64_t max_dirty_bitmap_size;
->>      unsigned long pgsizes;
->> +    unsigned int dma_max;
->> +    unsigned long dma_reserved;
+> Seems to make sense to me (I didn't realize we already had the _DSM
+> method with this GUID!), but now I'm not sure what to expect of the
+> guest kernel, in light of what Ard said. So if it works now, is that by
+> accident, or is it an intentional, fresh commit in the kernel? Like
+> a78cf9657ba5 ("PCI/ACPI: Evaluate PCI Boot Configuration _DSM", 2019-06-21)?
 > 
-> If dma_max is unsigned int, why do we need an unsigned long to track
-> how many are in use?  Thanks,
+> Benjamin: can you please tell us something about this Linux commit? What
+> was the motivation for it?
+> 
+> Hmm.... this commit seems to be a part of the following series:
+> 
+> a78cf9657ba5 PCI/ACPI: Evaluate PCI Boot Configuration _DSM
+> 7ac0d094fbe9 PCI: Don't auto-realloc if we're preserving firmware config
+> 3e8ba9686600 arm64: PCI: Allow resource reallocation if necessary
+> 85dc04136e86 arm64: PCI: Preserve firmware configuration when desired
+> 
+> OK, after reading through the commit messages in those commits (esp.
+> 7ac0d094fbe9), I think the Linux change was made exactly for the purpose
+> that we want it for -- stick with the firmware assignments.
+> 
+> Ard, does that seem right, or am I misunderstanding the kernel series?
+> 
 
-My thinking was that some vfio IOMMU types don't have such a limit
-(dma_max == -1) and could allow for more. But thinking again, such a
-huge number of mappings is highly unrealistic :)
+Hmm, I had no recollection of those changes going in, but I was clearly
+aware at the time, given my acks.
 
-
--- 
-Thanks,
-
-David / dhildenb
+So we clearly do support DSM #5 to prevent resource reallocation, and it
+makes sense to use it in the proposed way.
 
 
