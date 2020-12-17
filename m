@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1842DD5AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:06:27 +0100 (CET)
-Received: from localhost ([::1]:57996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9E82DD59F
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:01:47 +0100 (CET)
+Received: from localhost ([::1]:49724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpwjR-0000Wv-5g
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:06:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34136)
+	id 1kpwev-00051V-KO
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:01:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kpwa8-0003AH-LY
+ id 1kpwa8-0003A0-GO
  for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:56:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56210)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kpwZw-00030B-Oq
+ id 1kpwa0-00030H-Ko
  for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:56:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608224194;
+ s=mimecast20190719; t=1608224196;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E0hcK4vCU1fPXhHXgBWJoyzpnX6SOzIaa4nbZLEe7xM=;
- b=awrvcHj5Y0wPMMazRjokycqgT0pG5BaCGmIsHgMQxRPeRe5sPBvp19JLJ1CZ36ebWZMVTQ
- dcJcqHI70Lm0IZTO5OFjle1BUxt+9OWIpJ5klZmG8nAbNCI6+Cem4quVeDS+Q1+Wo6+24X
- sygnOjj6PR1brJZS04KbWLdxonQ4Twg=
+ bh=lAF4AMDHh0B6zN8Q97spxe57FkcIvd7Tu2zQJxqa9tc=;
+ b=ZkRuMCu2laEls51IGTGBFnZ1yCSf7jKFAb2z3yNzn02ZTx8kM7UIiepCkjSLETAoF93cd6
+ cGV6t8xFJhvA2IAy7LdIfts5deDS9H+E2Q6ohABN0TZmUgPHhue2uPOUYU1avGa6AKmjw0
+ 1wWjBnwG8eAWU+d2yV8BIEgPioKQFHk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-FR9k8o0sMHewwMrlXj_Lew-1; Thu, 17 Dec 2020 11:56:31 -0500
-X-MC-Unique: FR9k8o0sMHewwMrlXj_Lew-1
+ us-mta-178-PFnpIJpBNrewaaVPoYQsmA-1; Thu, 17 Dec 2020 11:56:35 -0500
+X-MC-Unique: PFnpIJpBNrewaaVPoYQsmA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9986A1052A1A;
- Thu, 17 Dec 2020 16:56:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DB53101AFBA;
+ Thu, 17 Dec 2020 16:56:33 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.35.206.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 115D5E73C;
- Thu, 17 Dec 2020 16:56:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C7C41F055;
+ Thu, 17 Dec 2020 16:56:29 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/5] file-posix: add sg_get_max_segments that actually
- works with sg
-Date: Thu, 17 Dec 2020 18:56:09 +0200
-Message-Id: <20201217165612.942849-3-mlevitsk@redhat.com>
+Subject: [PATCH v3 3/5] block: add max_ioctl_transfer to BlockLimits
+Date: Thu, 17 Dec 2020 18:56:10 +0200
+Message-Id: <20201217165612.942849-4-mlevitsk@redhat.com>
 In-Reply-To: <20201217165612.942849-1-mlevitsk@redhat.com>
 References: <20201217165612.942849-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -58,15 +57,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,61 +86,91 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tom Yan <tom.ty89@gmail.com>
+Maximum transfer size when accessing a kernel block device is only relevant
+when using SCSI passthrough (SG_IO ioctl) since only in this case the requests
+are passed directly to underlying hardware with no pre-processing.
+Same is true when using /dev/sg* character devices (which only support SG_IO)
 
-sg devices have different major/minor than their corresponding
-block devices. Using sysfs to get max segments never really worked
-for them.
+Therefore split the block driver's advertized max transfer size by
+the regular max transfer size, and the max transfer size for SCSI passthrough
+(the new max_ioctl_transfer field)
 
-Fortunately the sg driver provides an ioctl to get sg_tablesize,
-which is apparently equivalent to max segments.
+In the next patch, the qemu block drivers that support SCSI passthrough
+will set the max_ioctl_transfer field, and simultaneously, the block devices
+that implement scsi passthrough will switch to 'blk_get_max_ioctl_transfer' to
+query and to pass it to the guest.
 
-Signed-off-by: Tom Yan <tom.ty89@gmail.com>
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- block/file-posix.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+ block/block-backend.c          | 12 ++++++++++++
+ block/io.c                     |  2 ++
+ include/block/block_int.h      |  4 ++++
+ include/sysemu/block-backend.h |  1 +
+ 4 files changed, 19 insertions(+)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index cbf1271773..2bf4d095a7 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1179,6 +1179,26 @@ static int sg_get_max_transfer_length(int fd)
- #endif
+diff --git a/block/block-backend.c b/block/block-backend.c
+index ce78d30794..c1d149a755 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1938,6 +1938,18 @@ uint32_t blk_get_max_transfer(BlockBackend *blk)
+     return MIN_NON_ZERO(max, INT_MAX);
  }
  
-+static int sg_get_max_segments(int fd)
++/* Returns the maximum transfer length, for SCSI passthrough */
++uint32_t blk_get_max_ioctl_transfer(BlockBackend *blk)
 +{
-+    /*
-+     * /dev/sg* character devices report 'max_segments' via
-+     * SG_GET_SG_TABLESIZE ioctl
-+     */
++    BlockDriverState *bs = blk_bs(blk);
++    uint32_t max = 0;
 +
-+#ifdef SG_GET_SG_TABLESIZE
-+    long max_segments = 0;
-+
-+    if (ioctl(fd, SG_GET_SG_TABLESIZE, &max_segments) == 0) {
-+        return max_segments;
-+    } else {
-+        return -errno;
++    if (bs) {
++        max = bs->bl.max_ioctl_transfer;
 +    }
-+#else
-+    return -ENOSYS;
-+#endif
++    return MIN_NON_ZERO(max, INT_MAX);
 +}
 +
- static int get_max_transfer_length(int fd)
+ int blk_get_max_iov(BlockBackend *blk)
  {
- #if defined(BLKSECTGET)
-@@ -1265,7 +1285,7 @@ static void hdev_refresh_limits(BlockDriverState *bs, Error **errp)
-         bs->bl.max_transfer = pow2floor(ret);
-     }
+     return blk->root->bs->bl.max_iov;
+diff --git a/block/io.c b/block/io.c
+index 24205f5168..ac5aea435e 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -126,6 +126,8 @@ static void bdrv_merge_limits(BlockLimits *dst, const BlockLimits *src)
+ {
+     dst->opt_transfer = MAX(dst->opt_transfer, src->opt_transfer);
+     dst->max_transfer = MIN_NON_ZERO(dst->max_transfer, src->max_transfer);
++    dst->max_ioctl_transfer = MIN_NON_ZERO(dst->max_ioctl_transfer,
++                                        src->max_ioctl_transfer);
+     dst->opt_mem_alignment = MAX(dst->opt_mem_alignment,
+                                  src->opt_mem_alignment);
+     dst->min_mem_alignment = MAX(dst->min_mem_alignment,
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index 1eeafc118c..c59b0aefc4 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -686,6 +686,10 @@ typedef struct BlockLimits {
+      * clamped down. */
+     uint32_t max_transfer;
  
--    ret = get_max_segments(s->fd);
-+    ret = bs->sg ? sg_get_max_segments(s->fd) : get_max_segments(s->fd);
-     if (ret > 0) {
-         bs->bl.max_transfer = MIN_NON_ZERO(bs->bl.max_transfer,
-                                            ret * qemu_real_host_page_size);
++    /* Maximal transfer length for SCSI passthrough (ioctl interface) */
++    uint32_t max_ioctl_transfer;
++
++
+     /* memory alignment, in bytes so that no bounce buffer is needed */
+     size_t min_mem_alignment;
+ 
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+index 8203d7f6f9..b019a37b7a 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -203,6 +203,7 @@ void blk_eject(BlockBackend *blk, bool eject_flag);
+ int blk_get_flags(BlockBackend *blk);
+ uint32_t blk_get_request_alignment(BlockBackend *blk);
+ uint32_t blk_get_max_transfer(BlockBackend *blk);
++uint32_t blk_get_max_ioctl_transfer(BlockBackend *blk);
+ int blk_get_max_iov(BlockBackend *blk);
+ void blk_set_guest_block_size(BlockBackend *blk, int align);
+ void *blk_try_blockalign(BlockBackend *blk, size_t size);
 -- 
 2.26.2
 
