@@ -2,59 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127B92DD297
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 15:05:58 +0100 (CET)
-Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F80D2DD299
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 15:07:07 +0100 (CET)
+Received: from localhost ([::1]:58468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kptun-0004BU-4N
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 09:05:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51194)
+	id 1kptvu-0004bl-AY
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 09:07:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kpttD-0003Q9-Bj
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:04:19 -0500
-Resent-Date: Thu, 17 Dec 2020 09:04:19 -0500
-Resent-Message-Id: <E1kpttD-0003Q9-Bj@lists.gnu.org>
-Received: from sender4-of-o52.zoho.com ([136.143.188.52]:21237)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kptt9-0005No-J7
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:04:19 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1608213833; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=T5AW1kiFcxi5b31xhZ4t4AOlfliIgwdNabDsdb99jb/Fm0UYF6xZLktE7sGXzXTssRjF2izzbaR5hfmmePnnoZx+bQELCPL92m1Xly0SHN1NmIm6BpG+S2QO77C1PBv2T2OgnVAoVbtct5hfWCpu9OC1vO6WuzLoMOjqt+efI6s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1608213833;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=9nD2XdcdvPt4ZDW9dUx+wcVxh8gUYcIExAVnoNFBiAY=; 
- b=TNsHIiUQH8a3nA4YezwozUVQ8ANbAePWY6/P/QQy9PJgb176jyKi5YRISkSWoRjj6nW1HHnNH0v8N7OLUYA9FziDPnOzWDRgPAgANNLtyTBe0rv3AhW7OME/F82amvdK3B+tOoAUAzghv31uYJESZA1/JBbXsg1kzw7h5ZufG/I=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 160821382888655.64668978721568;
- Thu, 17 Dec 2020 06:03:48 -0800 (PST)
-In-Reply-To: <20201217130413.363172-1-andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v7 0/5] migration: UFFD write-tracking migration/snapshots
-Message-ID: <160821382690.9526.16073974538909625634@600e7e483b3a>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kpttc-0003fQ-K0
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:04:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36929)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kpttX-0005Wm-8Z
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:04:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608213878;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aNNP1+c6giGoFeLMPWp2RKc4wh6W9NIcrbhqYpVpYJg=;
+ b=WsVF/5czeGwKqq4TPfko6JomF5eZm5LP5revzk1enDD80LVBvWYYkGlcvQ/GVAa0nIjaWg
+ mTkSrb6EmbcfyHKyABZu4BgW+13uxNXpr5cDkg8DesU92Kx8MgFq98qQWixzTSKmTqDVSG
+ 3Sed7lXBswHZinTpgmEMJwZzi13NOVg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-471-MnwXLCC4MOiqur6DRjWcmg-1; Thu, 17 Dec 2020 09:04:34 -0500
+X-MC-Unique: MnwXLCC4MOiqur6DRjWcmg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2A4D800D55
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 14:04:33 +0000 (UTC)
+Received: from redhat.com (ovpn-115-33.ams2.redhat.com [10.36.115.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 090795D9C0;
+ Thu, 17 Dec 2020 14:04:31 +0000 (UTC)
+Date: Thu, 17 Dec 2020 14:04:28 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 1/6] migration: Fix and clean up around @tls-authz
+Message-ID: <20201217140428.GG247354@redhat.com>
+References: <20201113065236.2644169-1-armbru@redhat.com>
+ <20201113065236.2644169-2-armbru@redhat.com>
+ <20201210181009.GA59494@redhat.com>
+ <87sg88g0dx.fsf@dusky.pond.sub.org>
+ <20201216105559.GF189795@redhat.com>
+ <87v9d0int6.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: qemu-devel@nongnu.org
-Date: Thu, 17 Dec 2020 06:03:48 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.52; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o52.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87v9d0int6.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,116 +86,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: quintela@redhat.com, armbru@redhat.com, peterx@redhat.com,
- qemu-devel@nongnu.org, den@openvz.org, pbonzini@redhat.com,
- andrey.gruzdev@virtuozzo.com, dgilbert@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIxNzEzMDQxMy4zNjMx
-NzItMS1hbmRyZXkuZ3J1emRldkB2aXJ0dW96em8uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDEyMTcx
-MzA0MTMuMzYzMTcyLTEtYW5kcmV5LmdydXpkZXZAdmlydHVvenpvLmNvbQpTdWJqZWN0OiBbUEFU
-Q0ggdjcgMC81XSBtaWdyYXRpb246IFVGRkQgd3JpdGUtdHJhY2tpbmcgbWlncmF0aW9uL3NuYXBz
-aG90cwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNl
-IGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
-ZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcg
-LS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwg
-LS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNm
-NWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5j
-b20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIw
-MTIxNzEzMDQxMy4zNjMxNzItMS1hbmRyZXkuZ3J1emRldkB2aXJ0dW96em8uY29tIC0+IHBhdGNo
-ZXcvMjAyMDEyMTcxMzA0MTMuMzYzMTcyLTEtYW5kcmV5LmdydXpkZXZAdmlydHVvenpvLmNvbQog
-LSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3L2NvdmVyLjE2MDgxNDI5MTYuZ2l0LmFsaXN0YWly
-LmZyYW5jaXNAd2RjLmNvbSAtPiBwYXRjaGV3L2NvdmVyLjE2MDgxNDI5MTYuZ2l0LmFsaXN0YWly
-LmZyYW5jaXNAd2RjLmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjllZTcwMmYg
-bWlncmF0aW9uOiBpbnRyb2R1Y2UgJ3VzZXJmYXVsdGZkLXdybGF0LnB5JyBzY3JpcHQKMjk3N2Ix
-MiBtaWdyYXRpb246IGltcGxlbWVudGF0aW9uIG9mIGJhY2tncm91bmQgc25hcHNob3QgdGhyZWFk
-CjVlOTE1MTcgbWlncmF0aW9uOiBzdXBwb3J0IFVGRkQgd3JpdGUgZmF1bHQgcHJvY2Vzc2luZyBp
-biByYW1fc2F2ZV9pdGVyYXRlKCkKMzk4ODViNCBtaWdyYXRpb246IGludHJvZHVjZSBVRkZELVdQ
-IGxvdy1sZXZlbCBpbnRlcmZhY2UgaGVscGVycwo1YWYyZTNiIG1pZ3JhdGlvbjogaW50cm9kdWNl
-ICdiYWNrZ3JvdW5kLXNuYXBzaG90JyBtaWdyYXRpb24gY2FwYWJpbGl0eQoKPT09IE9VVFBVVCBC
-RUdJTiA9PT0KMS81IENoZWNraW5nIGNvbW1pdCA1YWYyZTNiNzhlZDAgKG1pZ3JhdGlvbjogaW50
-cm9kdWNlICdiYWNrZ3JvdW5kLXNuYXBzaG90JyBtaWdyYXRpb24gY2FwYWJpbGl0eSkKV0FSTklO
-RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzExNTogRklMRTogbWlncmF0aW9uL21pZ3JhdGlv
-bi5jOjEyMjU6CisgICAgICAgICAgICBlcnJvcl9zZXRnKGVycnAsICJCYWNrZ3JvdW5kLXNuYXBz
-aG90IGlzIG5vdCBzdXBwb3J0ZWQgYnkgaG9zdCBrZXJuZWwiKTsKCldBUk5JTkc6IEJsb2NrIGNv
-bW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxOTI6IEZJTEU6IG1p
-Z3JhdGlvbi9yYW0uYzozNzkxOgorLyogcmFtX3dyaXRlX3RyYWNraW5nX2F2YWlsYWJsZTogY2hl
-Y2sgaWYga2VybmVsIHN1cHBvcnRzIHJlcXVpcmVkIFVGRkQgZmVhdHVyZXMKCldBUk5JTkc6IEJs
-b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyMDI6IEZJ
-TEU6IG1pZ3JhdGlvbi9yYW0uYzozODAxOgorLyogcmFtX3dyaXRlX3RyYWNraW5nX2NvbXBhdGli
-bGU6IGNoZWNrIGlmIGd1ZXN0IGNvbmZpZ3VyYXRpb24gaXMKCnRvdGFsOiAwIGVycm9ycywgMyB3
-YXJuaW5ncywgMjA3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvNSBoYXMgc3R5bGUgcHJvYmxlbXMs
-IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
-ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
-QUlORVJTLgoyLzUgQ2hlY2tpbmcgY29tbWl0IDM5ODg1YjRkMGRhMSAobWlncmF0aW9uOiBpbnRy
-b2R1Y2UgVUZGRC1XUCBsb3ctbGV2ZWwgaW50ZXJmYWNlIGhlbHBlcnMpCldBUk5JTkc6IGFkZGVk
-LCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGlu
-Zz8KIzI4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFy
-YWN0ZXJzCiMyNjU6IEZJTEU6IHV0aWwvdXNlcmZhdWx0ZmQuYzoxNjM6CisgKiB1ZmZkX2NoYW5n
-ZV9wcm90ZWN0aW9uOiBwcm90ZWN0L3VuLXByb3RlY3QgbWVtb3J5IHJhbmdlIGZvciB3cml0ZXMg
-dmlhIFVGRkQtSU8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMjQ6IEZJTEU6
-IHV0aWwvdXNlcmZhdWx0ZmQuYzoyMjI6CisgICAgICAgIGVycm9yX3JlcG9ydCgidWZmZF9jb3B5
-X3BhZ2UoKSBmYWlsZWQ6IGRzdF9hZGRyPSVwIHNyY19hZGRyPSVwIGxlbmd0aD0lIiBQUkl1NjQK
-CldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzNjQ6IEZJTEU6IHV0aWwvdXNlcmZh
-dWx0ZmQuYzoyNjI6CisgKiB1ZmZkX3dha2V1cDogd2FrZSB1cCB0aHJlYWRzIHdhaXRpbmcgb24g
-cGFnZSBVRkZELW1hbmFnZWQgcGFnZSBmYXVsdCByZXNvbHV0aW9uCgpXQVJOSU5HOiBsaW5lIG92
-ZXIgODAgY2hhcmFjdGVycwojMzg1OiBGSUxFOiB1dGlsL3VzZXJmYXVsdGZkLmM6MjgzOgorICAg
-ICAgICBlcnJvcl9yZXBvcnQoInVmZmRfd2FrZXVwKCkgZmFpbGVkOiBhZGRyPSVwIGxlbmd0aD0l
-IiBQUkl1NjQgIiBlcnJubz0laSIsCgp0b3RhbDogMCBlcnJvcnMsIDUgd2FybmluZ3MsIDQwNiBs
-aW5lcyBjaGVja2VkCgpQYXRjaCAyLzUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
-LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
-IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMy81IENo
-ZWNraW5nIGNvbW1pdCA1ZTkxNTE3MzgyZDkgKG1pZ3JhdGlvbjogc3VwcG9ydCBVRkZEIHdyaXRl
-IGZhdWx0IHByb2Nlc3NpbmcgaW4gcmFtX3NhdmVfaXRlcmF0ZSgpKQpXQVJOSU5HOiBsaW5lIG92
-ZXIgODAgY2hhcmFjdGVycwojMTY4OiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6MTgzOToKKyAgICAg
-ICAgLyogV2UgZG9uJ3Qgd2FudCB0byBvdmVycmlkZSBleGlzdGluZyBlcnJvciBmcm9tIHJhbV9z
-YXZlX2hvc3RfcGFnZSgpLiAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGlu
-ZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzIwMjogRklMRTogbWlncmF0aW9uL3JhbS5jOjE5ODc6
-CisgICAgICAgIC8qIGNhbGxlciBoYXZlIGhvbGQgaW90aHJlYWQgbG9jayBvciBpcyBpbiBhIGJo
-LCBzbyB0aGVyZSBpcwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMzMTogRklM
-RTogbWlncmF0aW9uL3JhbS5jOjQwMDk6CisgICAgZXJyb3JfcmVwb3J0KCJyYW1fd3JpdGVfdHJh
-Y2tpbmdfc3RhcnQoKSBmYWlsZWQ6IHJlc3RvcmluZyBpbml0aWFsIG1lbW9yeSBzdGF0ZSIpOwoK
-V0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzM0MTogRklMRTogbWlncmF0aW9uL3Jh
-bS5jOjQwMTk6CisgICAgICAgIHVmZmRfY2hhbmdlX3Byb3RlY3Rpb24ocnMtPnVmZmRpb19mZCwg
-YnMtPmhvc3QsIGJzLT5tYXhfbGVuZ3RoLCBmYWxzZSwgZmFsc2UpOwoKV0FSTklORzogbGluZSBv
-dmVyIDgwIGNoYXJhY3RlcnMKIzM3MDogRklMRTogbWlncmF0aW9uL3JhbS5jOjQwNDg6CisgICAg
-ICAgIHVmZmRfY2hhbmdlX3Byb3RlY3Rpb24ocnMtPnVmZmRpb19mZCwgYnMtPmhvc3QsIGJzLT5t
-YXhfbGVuZ3RoLCBmYWxzZSwgZmFsc2UpOwoKdG90YWw6IDAgZXJyb3JzLCA1IHdhcm5pbmdzLCAz
-NjEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy81IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
-dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
-dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjQv
-NSBDaGVja2luZyBjb21taXQgMjk3N2IxMjNlY2JkIChtaWdyYXRpb246IGltcGxlbWVudGF0aW9u
-IG9mIGJhY2tncm91bmQgc25hcHNob3QgdGhyZWFkKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hh
-cmFjdGVycwojMTU2OiBGSUxFOiBtaWdyYXRpb24vbWlncmF0aW9uLmM6MzgxMDoKKyAqIG1lY2hh
-bmlzbSwgd2hpY2ggZWZmZWN0aXZlbHkgcmVzdWx0cyBpbiB0aGF0IHNhdmVkIHNuYXBzaG90IGlz
-IHRoZSBzdGF0ZSBvZiBWTQoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAzMzAgbGluZXMg
-Y2hlY2tlZAoKUGF0Y2ggNC81IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
-IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
-aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjUvNSBDaGVja2lu
-ZyBjb21taXQgOWVlNzAyZjkzNDRmIChtaWdyYXRpb246IGludHJvZHVjZSAndXNlcmZhdWx0ZmQt
-d3JsYXQucHknIHNjcmlwdCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShz
-KSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTM6IApuZXcgZmlsZSBtb2RlIDEw
-MDc1NQoKRVJST1I6IHBsZWFzZSB1c2UgcHl0aG9uMyBpbnRlcnByZXRlcgojMTg6IEZJTEU6IHNj
-cmlwdHMvdXNlcmZhdWx0ZmQtd3JsYXQucHk6MToKKyMhL3Vzci9iaW4vcHl0aG9uCgpFUlJPUjog
-dHJhaWxpbmcgd2hpdGVzcGFjZQojMTEzOiBGSUxFOiBzY3JpcHRzL3VzZXJmYXVsdGZkLXdybGF0
-LnB5Ojk2OgorICAgICAqIG9yIHBlbmRpbmcgc2lnbmFsIHdlJ2xsIHN0aWxsIGdldCAoYXQgbGVh
-c3QgZm9yIHY1LjguMCBrZXJuZWwpICQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMxMTY6
-IEZJTEU6IHNjcmlwdHMvdXNlcmZhdWx0ZmQtd3JsYXQucHk6OTk6CisgICAgICoga2VlcGluZyBp
-bml0aWFsIHRpbWVzdGFtcCB1bmNoYW5nZWQgZm9yIHRoZSBmYXVsdGluZyB0aHJlYWQuICAkCgpX
-QVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTQ0OiBGSUxFOiBzY3JpcHRzL3VzZXJm
-YXVsdGZkLXdybGF0LnB5OjEyNzoKK2IuYXR0YWNoX2tyZXRwcm9iZShldmVudD0iaGFuZGxlX3Vz
-ZXJmYXVsdCIsIGZuX25hbWU9InJldHByb2JlX2hhbmRsZV91c2VyZmF1bHQiKQoKdG90YWw6IDMg
-ZXJyb3JzLCAyIHdhcm5pbmdzLCAxNDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS81IGhhcyBzdHls
-ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
-bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
-Q0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0
-ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0
-Y2hldy5vcmcvbG9ncy8yMDIwMTIxNzEzMDQxMy4zNjMxNzItMS1hbmRyZXkuZ3J1emRldkB2aXJ0
-dW96em8uY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2Vu
-ZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQ
-bGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Thu, Dec 17, 2020 at 02:07:01PM +0100, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+> > On Mon, Dec 14, 2020 at 11:14:34AM +0100, Markus Armbruster wrote:
+> >> Daniel P. Berrangé <berrange@redhat.com> writes:
+> >> 
+> >> > On Fri, Nov 13, 2020 at 07:52:31AM +0100, Markus Armbruster wrote:
+> >> >> Commit d2f1d29b95 "migration: add support for a "tls-authz" migration
+> >> >> parameter" added MigrationParameters member @tls-authz.  Whereas the
+> >> >> other members aren't really optional (see commit 1bda8b3c695), this
+> >> >> one is genuinely optional: migration_instance_init() leaves it absent,
+> >> >> and migration_tls_channel_process_incoming() passes it to
+> >> >> qcrypto_tls_session_new(), which checks for null.
+> >> >> 
+> >> >> Commit d2f1d29b95 has a number of issues, though:
+> >> >> 
+> >> >> * When qmp_query_migrate_parameters() copies migration parameters into
+> >> >>   its reply, it ignores has_tls_authz, and assumes true instead.  When
+> >> >>   it is false,
+> >> >> 
+> >> >>   - HMP info migrate_parameters prints the null pointer (crash bug on
+> >> >>     some systems), and
+> >> >> 
+> >> >>   - QMP query-migrate-parameters replies "tls-authz": "" (because the
+> >> >>     QObject output visitor silently maps null pointer to "", which it
+> >> >>     really shouldn't).
+> >> >> 
+> >> >>   The HMP defect was noticed and fixed in commit 7cd75cbdb8
+> >> >>   'migration: use "" instead of (null) for tls-authz'.  Unfortunately,
+> >> >>   the fix papered over the real bug: it made
+> >> >>   qmp_query_migrate_parameters() map null tls_authz to "".  It also
+> >> >>   dropped the check for has_tls_authz from
+> >> >>   hmp_info_migrate_parameters().
+> >> >> 
+> >> >>   Revert, and fix qmp_query_migrate_parameters() not to screw up
+> >> >>   has_tls_authz.  No change to HMP.  QMP now has "tls-authz" in the
+> >> >>   reply only when it's actually present in
+> >> >>   migrate_get_current()->parameters.  If we prefer to remain
+> >> >>   bug-compatible, we should make tls_authz non-optional there.
+> >> >> 
+> >> >> * migrate_params_test_apply() neglects to apply tls_authz.  Currently
+> >> >>   harmless, because migrate_params_check() doesn't care.  Fix it
+> >> >>   anyway.
+> >> >> 
+> >> >> * qmp_migrate_set_parameters() crashes:
+> >> >> 
+> >> >>     {"execute": "migrate-set-parameters", "arguments": {"tls-authz": null}}
+> >> >> 
+> >> >>   Add the necessary rewrite of null to "".  For background
+> >> >>   information, see commit 01fa559826 "migration: Use JSON null instead
+> >> >>   of "" to reset parameter to default".
+> >> >> 
+> >> >> Fixes: d2f1d29b95aa45d13262b39153ff501ed6b1ac95
+> >> >> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> >> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> >> >> ---
+> >> >>  qapi/migration.json   |  2 +-
+> >> >>  migration/migration.c | 17 ++++++++++++++---
+> >> >>  monitor/hmp-cmds.c    |  2 +-
+> >> >>  3 files changed, 16 insertions(+), 5 deletions(-)
+> >> >> 
+> >> >> diff --git a/qapi/migration.json b/qapi/migration.json
+> >> >> index 3c75820527..688e8da749 100644
+> >> >> --- a/qapi/migration.json
+> >> >> +++ b/qapi/migration.json
+> >> >> @@ -928,7 +928,7 @@
+> >> >>  ##
+> >> >>  # @MigrationParameters:
+> >> >>  #
+> >> >> -# The optional members aren't actually optional.
+> >> >> +# The optional members aren't actually optional, except for @tls-authz.
+> >> >
+> >> > and tls-hostname and tls-creds.
+> >> 
+> >> Really?  See [*] below.
+> >> 
+> >> >>  #
+> >> >>  # @announce-initial: Initial delay (in milliseconds) before sending the
+> >> >>  #                    first announce (Since 4.0)
+> >> >> diff --git a/migration/migration.c b/migration/migration.c
+> >> >> index 3263aa55a9..cad56fbf8c 100644
+> >> >> --- a/migration/migration.c
+> >> >> +++ b/migration/migration.c
+> >> >> @@ -855,9 +855,8 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
+> >>         params->has_tls_creds = true;
+> >> >>      params->tls_creds = g_strdup(s->parameters.tls_creds);
+> >> >>      params->has_tls_hostname = true;
+> >> >>      params->tls_hostname = g_strdup(s->parameters.tls_hostname);
+> >> 
+> >> [*] Looks non-optional to me.
+> >
+> > I guess it depends on what you mean by "optional" :-)
+> 
+> I meant "non-optional in the value of query-migrate-parameters".  The
+> comment were debating applies to that value, and nothing else.
+> 
+> > When I say they are all optional, I'm talking about from the POV
+> > of the end users / mgmt who first configures a migration operation.
+> >
+> > tls-creds only needs to be set if you want to enable TLS
+> >
+> > tls-hostname only needs to be set if you need to override the
+> > default hostname used for cert validation.
+> >
+> > tls-authz only needs to be set if you want to enable access
+> > control over migration clients.
+> >
+> > IOW, all three are optional from the POV of configuring a
+> > migration.
+> 
+> Understood.
+> 
+> > As with many things though, simple theory has turned into
+> > messy reality, by virtue of this previous fixup:
+> >
+> >   commit 4af245dc3e6e5c96405b3edb9d75657504256469
+> >   Author: Daniel P. Berrangé <berrange@redhat.com>
+> >   Date:   Wed Mar 15 16:16:03 2017 +0000
+> >
+> >     migration: use "" as the default for tls-creds/hostname
+> >     
+> >     The tls-creds parameter has a default value of NULL indicating
+> >     that TLS should not be used. Setting it to non-NULL enables
+> >     use of TLS. Once tls-creds are set to a non-NULL value via the
+> >     monitor, it isn't possible to set them back to NULL again, due
+> >     to current implementation limitations. The empty string is not
+> >     a valid QObject identifier, so this switches to use "" as the
+> >     default, indicating that TLS will not be used
+> >     
+> >     The tls-hostname parameter has a default value of NULL indicating
+> >     the the hostname from the migrate connection URI should be used.
+> >     Again, once tls-hostname is set non-NULL, to override the default
+> >     hostname for x509 cert validation, it isn't possible to reset it
+> >     back to NULL via the monitor. The empty string is not a valid
+> >     hostname, so this switches to use "" as the default, indicating
+> >     that the migrate URI hostname should be used.
+> >     
+> >     Using "" as the default for both, also means that the monitor
+> >     commands "info migrate_parameters" / "query-migrate-parameters"
+> >     will report existance of tls-creds/tls-parameters even when set
+> >     to their default values.
+> >     
+> >     Signed-off-by: Daniel P. Berrange <berrange@redhat.com>
+> >     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >     Reviewed-by: Eric Blake <eblake@redhat.com>
+> >     
+> >     Signed-off-by: Juan Quintela <quintela@redhat.com>
+> >
+> >
+> > I have a nasty feeling that libvirt relies on that last paragraph
+> > to determine whether TLS is supported in QEMU or not too :-( Ideally
+> > we should be able to report their existance, but also report that
+> > they are set to NULL. I guess that could be considered a regression
+> > at this point though.
+> >
+> > So anyway, this explains why we have the wierd behaviour where
+> > querying parameters always reports them as being set.
+> 
+> Yes.
+> 
+> What do you want me to change in my patch?
+> 
+> >> >> -    params->has_tls_authz = true;
+> >> >> -    params->tls_authz = g_strdup(s->parameters.tls_authz ?
+> >> >> -                                 s->parameters.tls_authz : "");
+> >> >> +    params->has_tls_authz = s->parameters.has_tls_authz;
+> >> >
+> >> > I'm kind of confused why has_tls_authz needs to be handled differently
+> >> > from tls_hostname and tls_creds - both of these are optional to
+> >> > the same extent that tls_authz is AFAIR.
+> >> 
+> >> I'm kind of confused about pretty much everything around here :)
+> >
+> > So tls_authz was following the wierd precedent used by tls_hostname
+> > and tls_creds in always reporting its own existance, as the empty
+> > string.
+> >
+> >> The patch hunk is part of the revert of flawed commit 7cd75cbdb8.  We
+> >> need to revert both parts or none.
+> >> 
+> >> One difference between tls_authz and the others is in
+> >> migration_instance_init(): it leaves params->tls_authz null, unlike
+> >> ->tls_hostname and ->tls_creds.
+> >> 
+> >> Hmm, it sets ->has_ for none of them.  Wrong.  If we set ->FOO, we must
+> >> also set ->has_FOO = true, and if we leave ->has_FOO false, we should
+> >> leave ->FOO null.
+> >> 
+> >> Another difference is in migration_tls_channel_process_incoming():
+> >> s->parameters.tls_creds must not be null (it's used unchecked in
+> >> migration_tls_get_creds()), while s->parameters.tls_authz may be
+> >> (qcrypto_tls_session_new() checks).
+> >> 
+> >> We need to make up our minds what is optional and what isn't.
+> >
+> > So they are all optional in terms of what needs to be set.
+> >
+> > They are all always reported when querying parameters.
+> >
+> > The main difference seems to be that internally we use NULL
+> > as a default for tls_authz, and convert NULL to "" when reporting,
+> > while for tls_creds/tls_hostname we convert NULL to "" immediately
+> > so we always have "" internally.
+> >
+> > Should we instead set tls_authz to "" internally straight away
+> > like we do for tls_creds/tls_hostname, and then make the code
+> > turn "" back into NULL at time of use.
+> 
+> I don't know!  I'm merely trying to fix a crash bug I ran into :)
+
+Ok, if you don't mind which approach, then I'd vote for making
+migration_instance_init() set  tls_authz to "", in common with
+tls_hostname/tls_creds.
+
+Then in migration_tls_channel_process_incoming we can turn the
+"" back into NULL.
+
+That way we'll have consistently used "" internally for all the
+TLS related parameters.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
