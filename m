@@ -2,138 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB0C2DD294
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 15:03:59 +0100 (CET)
-Received: from localhost ([::1]:54260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 127B92DD297
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 15:05:58 +0100 (CET)
+Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kptss-0002p5-Nu
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 09:03:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50386)
+	id 1kptun-0004BU-4N
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 09:05:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kptqG-0001AP-4x; Thu, 17 Dec 2020 09:01:16 -0500
-Received: from mail-eopbgr00095.outbound.protection.outlook.com
- ([40.107.0.95]:62852 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kpttD-0003Q9-Bj
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:04:19 -0500
+Resent-Date: Thu, 17 Dec 2020 09:04:19 -0500
+Resent-Message-Id: <E1kpttD-0003Q9-Bj@lists.gnu.org>
+Received: from sender4-of-o52.zoho.com ([136.143.188.52]:21237)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kptq8-0004O8-NA; Thu, 17 Dec 2020 09:01:14 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fMAGZInbdk2Hru95/QMExIdpX8OzG69oehlLcl2cc1KkhGgnb6o6Ve02XgOwD/jdNwR2SIoC2YcyVbx4QH5YENW23OEor4BCqdi0KtYvx34hUxWwzV2nYLNUN0VjTDfpFQcd04stEuZTFmntsu0MRHKy3Y1PAMOW3JUTBrDBXxwV2JKwVkzubX4cM7lYYdTEU5XU4sRWLnSqnIInzWy1SWJ+crurAczRE5JsayJxltV5QXg4+dzc19BKz73VDSDIFGCRD7U9qrxlCJC808sJyTm+sIL0WpL/qcFprtL93vh7Qu6efQlGuuO1bWeqZNQJKcFqrMMjX7HZcJW/Chwy6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pO4nCuCyX73aaYqdOq4oxM1ZPe9FqdWAsp0oFeIBq2g=;
- b=Xu3/FIpd5Uuq4jcrALsi+KOTiqmF8JIJuh2uwOHOsqPYphsvwO9acnuh4x+eanu/Pe/V/mc2RBjAd7m1CrWynmotEy6bvzgTu1EpMwvBB1GCEVYmnDEmDwFncQIpavVljcdktVhSmPxRa20A2DuzJax6N94LAeXNfJblAVFS1ZLdJuqC5KMyLV+61pbaTUJ/vu9hc47LP5t9eBnaFUmV6H2KyxevGEdUv+cypeWm4TMtFAU7Iphp4JfitdsW1TISnHdH1DWgG/j2ljHyDAae6lspNNJOD6coG5mijEpHbEp9C9thQZ7fq38ygXrohCuPj8+23CvLJUtx7H2v0T5cFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pO4nCuCyX73aaYqdOq4oxM1ZPe9FqdWAsp0oFeIBq2g=;
- b=WiTxmDWDLW8avJU6t00WZ+/3mHPPB0sVOfK9iSdt28xe1Zh+4cvuIQX0XIdMmIx6c7vzg0zbICauRwVYwAynYgZWNrU+LO+5fInyzltIicWI+5iYaq0fxomTspfuXctvz5IOTEvWGQ+vzPY27v4Bk/S3Eo4WGVBdngjJuapCuWs=
-Authentication-Results: lists.xenproject.org; dkim=none (message not signed)
- header.d=none;lists.xenproject.org; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB5944.eurprd08.prod.outlook.com (2603:10a6:20b:297::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.24; Thu, 17 Dec
- 2020 14:01:05 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3654.024; Thu, 17 Dec 2020
- 14:01:05 +0000
-Subject: Re: [PATCH v2 2/4] block: Avoid processing BDS twice in
- bdrv_set_aio_context_ignore()
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20201215121233.GD8185@merkur.fritz.box>
- <20201215131527.evpidxevevtfy54n@mhamilton>
- <20201215150119.GE8185@merkur.fritz.box>
- <20201215172337.w7vcn2woze2ejgco@mhamilton>
- <20201216123514.GD7548@merkur.fritz.box>
- <20201216145502.yiejsw47q5pfbzio@mhamilton>
- <20201216183102.GH7548@merkur.fritz.box>
- <20201217093744.tg6ik73o45nidcs4@mhamilton>
- <20201217105830.GA12328@merkur.fritz.box>
- <d7c1ee7f-4171-1407-3a71-a7e45708cc4a@virtuozzo.com>
- <20201217130602.GB12328@merkur.fritz.box>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <84380429-388c-f8c3-d318-788eda550c97@virtuozzo.com>
-Date: Thu, 17 Dec 2020 17:01:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
-In-Reply-To: <20201217130602.GB12328@merkur.fritz.box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.92]
-X-ClientProxiedBy: AM0PR06CA0089.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::30) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kptt9-0005No-J7
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:04:19 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1608213833; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=T5AW1kiFcxi5b31xhZ4t4AOlfliIgwdNabDsdb99jb/Fm0UYF6xZLktE7sGXzXTssRjF2izzbaR5hfmmePnnoZx+bQELCPL92m1Xly0SHN1NmIm6BpG+S2QO77C1PBv2T2OgnVAoVbtct5hfWCpu9OC1vO6WuzLoMOjqt+efI6s=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1608213833;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=9nD2XdcdvPt4ZDW9dUx+wcVxh8gUYcIExAVnoNFBiAY=; 
+ b=TNsHIiUQH8a3nA4YezwozUVQ8ANbAePWY6/P/QQy9PJgb176jyKi5YRISkSWoRjj6nW1HHnNH0v8N7OLUYA9FziDPnOzWDRgPAgANNLtyTBe0rv3AhW7OME/F82amvdK3B+tOoAUAzghv31uYJESZA1/JBbXsg1kzw7h5ZufG/I=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 160821382888655.64668978721568;
+ Thu, 17 Dec 2020 06:03:48 -0800 (PST)
+In-Reply-To: <20201217130413.363172-1-andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v7 0/5] migration: UFFD write-tracking migration/snapshots
+Message-ID: <160821382690.9526.16073974538909625634@600e7e483b3a>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.92) by
- AM0PR06CA0089.eurprd06.prod.outlook.com (2603:10a6:208:fa::30) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12 via Frontend Transport; Thu, 17 Dec 2020 14:01:04 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f7a67be9-9a09-4319-25fc-08d8a29431fe
-X-MS-TrafficTypeDiagnostic: AS8PR08MB5944:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB5944F2BEC381BEA81910DC13C1C40@AS8PR08MB5944.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zKD4Hd47SKkjtLbHHKlaM/C2vhOfTZElmjvrxSH/ur+DsEq6eXQvACbbsXT5heL79zWUclkce5+K0XZhGA8VZLf3cLLrEDSuNg11+FhxAt8er8gBVROXr71k/8F3MPqOFExxeLKuRkvJ+b0kRP0VT1Icc9NKAjkQ8ZzZKb3fxZrxZujuj+5aCagrmZN/Y6BEg/512GHHvqW8GsozsWCedUDOo696iQ1SwopyYvVpWg5/KSn+JN5mGyetJvrblIb85/QKH6qOReqNuGZJM0FdEf8dK0e4QxoUWpYlLoPxy8Y4/zW9nMa0+gdxOMfifmx4hiHjj7IKyQnndklKAN3stBIcQyD0vZsYQVAuCp7ZD0+edv8T5uBm7wDmB4Smu5ffyvpelYCGo0zwT95kK2AwAfb0mRD2V42dp07yXV5KH0I=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(346002)(396003)(136003)(39830400003)(376002)(7416002)(478600001)(66946007)(6486002)(6916009)(36756003)(316002)(66556008)(8936002)(16526019)(16576012)(66476007)(5660300002)(31696002)(54906003)(186003)(8676002)(2616005)(956004)(4326008)(31686004)(83380400001)(86362001)(2906002)(52116002)(26005)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MDVZUzVJZHJ2blNjT0hJbEtDcTFaeEs5OUhreE9pSC92UXE2ZS85M3ZQQi9C?=
- =?utf-8?B?VlNHbm9WN3RTeHhoTEFiT0pvem9ndXYvYU1xQWJ1V1NBT3RBQzFqZGRBMDFJ?=
- =?utf-8?B?YVc3bG5kTUFjdkkrY0ZaN0hORGFhSmJIMDNLUTFhcDhjd0hTV0x2d2RBYlZw?=
- =?utf-8?B?NUtGdVMxZ1Mva1Nhdmc2djBYTERQMG1UR0RCZm9LcWtHcWZWSmlHbzhiamlG?=
- =?utf-8?B?NE81alV5bGJKSldDWnBndXg5WEpZQ2ZVR2NoRXNkdTR1cm0xRjVkV0pYbXFn?=
- =?utf-8?B?TCtUeGk2N2NINGNvUkJndmU1WmdTN1RoS01FQ1IweEcyMXFSNk5Qc2tXR2Nj?=
- =?utf-8?B?aTlKVmtRQ1VSSVdnZGdqT2hNOWdneTFyV2psZ2tWUHdBVGUyOTc0d2JpNVE2?=
- =?utf-8?B?SGxRbmsxNFE2OVMvbEllMW5UQjllR0NlSGZpRU1LdFlXS2JrNEo0ZExZVUVT?=
- =?utf-8?B?dDRjQ1VEM1psM2s2dTFQck1OV2hrRzZtYkl4QkdrNWZmeDFzd1ByOTZNalFG?=
- =?utf-8?B?SFFmMzFrN3QxSSsxS2d3MTVNSnNnWXdUU2g1WUlUUnBicmZFNEJoak5XcERy?=
- =?utf-8?B?TGpOY1hCMU1kWFBqVmxWOEdZQ0dsalhsM1drcmp2bnpkd3pJaDBuY3lNcVUw?=
- =?utf-8?B?SkZ4UTQyVVhCNGUvdHBab3V5RE9DTWxIbFFZWnVjWDdpKzBQR2ZmdFVSNFpB?=
- =?utf-8?B?MmNuSDJrVFFvalJZUXRhK21uc2xiVVpxaHFuRm5vQUN0TE8zZlZqWFIrbkJw?=
- =?utf-8?B?MU9DdCtkLzJGOW5IbTYraEJyRzRHYWxEdHlwTGlnRWxNdWFUR1A5czU4ZHY3?=
- =?utf-8?B?TldQVXlnWHJCQnhWWGVuQm1uZVk2SXE0RWRHNlNHMFVjeEhBVXpuRFIvQzFL?=
- =?utf-8?B?bU1OenI2RExsaVFoTytjY1BzTjIrdFNkWlp1MkhQSFZuaVBvZTlEZU9KRVZG?=
- =?utf-8?B?RXNYMnI5RW5nYUNINnpydDdUM1dVbXVSQ1k3c0ZzM0JkRlU0ZTZIOHNRWXhT?=
- =?utf-8?B?c0dLUjJTOGZUVW1BbnN6aCs2L2JRdWIrWlBST0gzWmRSKzNPYll2d0Z6R2JM?=
- =?utf-8?B?VkdDNmFrcUVQTVc2Nll3aU9BNmtRRTJsY1pVek00SU5MWCs2Vjc1YjM1aHFa?=
- =?utf-8?B?OUVpOFltSWhyTktpRmRBcTZrQWdqelB5WWVoR1RKK3FHNFhjVzFvb0l2bWxq?=
- =?utf-8?B?Q2pnOVhYYUh5eFN0SHRWaVVsNnowSGhucWFEdTFWTW9MV3NObjJ1dXJWTXkx?=
- =?utf-8?B?eFNheEdrUnRqZ2hvMFRPQ2x3bFlyNmZEckYvb0FEVUZzaCtyZE5rc0FqMHlM?=
- =?utf-8?Q?/1cS4y2Fn92Ofo4MGTRK3lYsBfTaPNK50g?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2020 14:01:04.9916 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7a67be9-9a09-4319-25fc-08d8a29431fe
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aRzVLTntScyIFkZhiAbvnTglALE6I5m9iN58xbIuONPDSJTvxm8SM51jkBuHkTE2y/AdczRjsJGJQa+oBxyCXHu85UGFTxd08liuxyhtnbc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5944
-Received-SPF: pass client-ip=40.107.0.95;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: qemu-devel@nongnu.org
+Date: Thu, 17 Dec 2020 06:03:48 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.52; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o52.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -146,209 +67,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Stefano Stabellini <sstabellini@kernel.org>,
- Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Paul Durrant <paul@xen.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, xen-devel@lists.xenproject.org,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: quintela@redhat.com, armbru@redhat.com, peterx@redhat.com,
+ qemu-devel@nongnu.org, den@openvz.org, pbonzini@redhat.com,
+ andrey.gruzdev@virtuozzo.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-17.12.2020 16:06, Kevin Wolf wrote:
-> Am 17.12.2020 um 13:50 hat Vladimir Sementsov-Ogievskiy geschrieben:
->> 17.12.2020 13:58, Kevin Wolf wrote:
->>> Am 17.12.2020 um 10:37 hat Sergio Lopez geschrieben:
->>>> On Wed, Dec 16, 2020 at 07:31:02PM +0100, Kevin Wolf wrote:
->>>>> Am 16.12.2020 um 15:55 hat Sergio Lopez geschrieben:
->>>>>> On Wed, Dec 16, 2020 at 01:35:14PM +0100, Kevin Wolf wrote:
->>>>>>> Anyway, trying to reconstruct the block graph with BdrvChild pointers
->>>>>>> annotated at the edges:
->>>>>>>
->>>>>>> BlockBackend
->>>>>>>         |
->>>>>>>         v
->>>>>>>     backup-top ------------------------+
->>>>>>>         |   |                          |
->>>>>>>         |   +-----------------------+  |
->>>>>>>         |            0x5655068b8510 |  | 0x565505e3c450
->>>>>>>         |                           |  |
->>>>>>>         | 0x565505e42090            |  |
->>>>>>>         v                           |  |
->>>>>>>       qcow2 ---------------------+  |  |
->>>>>>>         |                        |  |  |
->>>>>>>         | 0x565505e52060         |  |  | ??? [1]
->>>>>>>         |                        |  |  |  |
->>>>>>>         v         0x5655066a34d0 |  |  |  | 0x565505fc7aa0
->>>>>>>       file                       v  v  v  v
->>>>>>>                                qcow2 (backing)
->>>>>>>                                       |
->>>>>>>                                       | 0x565505e41d20
->>>>>>>                                       v
->>>>>>>                                     file
->>>>>>>
->>>>>>> [1] This seems to be a BdrvChild with a non-BDS parent. Probably a
->>>>>>>       BdrvChild directly owned by the backup job.
->>>>>>>
->>>>>>>> So it seems this is happening:
->>>>>>>>
->>>>>>>> backup-top (5e48030) <---------| (5)
->>>>>>>>      |    |                      |
->>>>>>>>      |    | (6) ------------> qcow2 (5fbf660)
->>>>>>>>      |                           ^    |
->>>>>>>>      |                       (3) |    | (4)
->>>>>>>>      |-> (1) qcow2 (5e5d420) -----    |-> file (6bc0c00)
->>>>>>>>      |
->>>>>>>>      |-> (2) file (5e52060)
->>>>>>>>
->>>>>>>> backup-top (5e48030), the BDS that was passed as argument in the first
->>>>>>>> bdrv_set_aio_context_ignore() call, is re-entered when qcow2 (5fbf660)
->>>>>>>> is processing its parents, and the latter is also re-entered when the
->>>>>>>> first one starts processing its children again.
->>>>>>>
->>>>>>> Yes, but look at the BdrvChild pointers, it is through different edges
->>>>>>> that we come back to the same node. No BdrvChild is used twice.
->>>>>>>
->>>>>>> If backup-top had added all of its children to the ignore list before
->>>>>>> calling into the overlay qcow2, the backing qcow2 wouldn't eventually
->>>>>>> have called back into backup-top.
->>>>>>
->>>>>> I've tested a patch that first adds every child to the ignore list,
->>>>>> and then processes those that weren't there before, as you suggested
->>>>>> on a previous email. With that, the offending qcow2 is not re-entered,
->>>>>> so we avoid the crash, but backup-top is still entered twice:
->>>>>
->>>>> I think we also need to every parent to the ignore list before calling
->>>>> callbacks, though it doesn't look like this is the problem you're
->>>>> currently seeing.
->>>>
->>>> I agree.
->>>>
->>>>>> bs=0x560db0e3b030 (backup-top) enter
->>>>>> bs=0x560db0e3b030 (backup-top) processing children
->>>>>> bs=0x560db0e3b030 (backup-top) calling bsaci child=0x560db0e2f450 (child->bs=0x560db0fb2660)
->>>>>> bs=0x560db0fb2660 (qcow2) enter
->>>>>> bs=0x560db0fb2660 (qcow2) processing children
->>>>>> bs=0x560db0fb2660 (qcow2) calling bsaci child=0x560db0e34d20 (child->bs=0x560db1bb3c00)
->>>>>> bs=0x560db1bb3c00 (file) enter
->>>>>> bs=0x560db1bb3c00 (file) processing children
->>>>>> bs=0x560db1bb3c00 (file) processing parents
->>>>>> bs=0x560db1bb3c00 (file) processing itself
->>>>>> bs=0x560db0fb2660 (qcow2) calling bsaci child=0x560db16964d0 (child->bs=0x560db0e50420)
->>>>>> bs=0x560db0e50420 (qcow2) enter
->>>>>> bs=0x560db0e50420 (qcow2) processing children
->>>>>> bs=0x560db0e50420 (qcow2) calling bsaci child=0x560db0e34ea0 (child->bs=0x560db0e45060)
->>>>>> bs=0x560db0e45060 (file) enter
->>>>>> bs=0x560db0e45060 (file) processing children
->>>>>> bs=0x560db0e45060 (file) processing parents
->>>>>> bs=0x560db0e45060 (file) processing itself
->>>>>> bs=0x560db0e50420 (qcow2) processing parents
->>>>>> bs=0x560db0e50420 (qcow2) processing itself
->>>>>> bs=0x560db0fb2660 (qcow2) processing parents
->>>>>> bs=0x560db0fb2660 (qcow2) calling set_aio_ctx child=0x560db1672860
->>>>>> bs=0x560db0fb2660 (qcow2) calling set_aio_ctx child=0x560db1b14a20
->>>>>> bs=0x560db0e3b030 (backup-top) enter
->>>>>> bs=0x560db0e3b030 (backup-top) processing children
->>>>>> bs=0x560db0e3b030 (backup-top) processing parents
->>>>>> bs=0x560db0e3b030 (backup-top) calling set_aio_ctx child=0x560db0e332d0
->>>>>> bs=0x560db0e3b030 (backup-top) processing itself
->>>>>> bs=0x560db0fb2660 (qcow2) processing itself
->>>>>> bs=0x560db0e3b030 (backup-top) calling bsaci child=0x560db0e35090 (child->bs=0x560db0e50420)
->>>>>> bs=0x560db0e50420 (qcow2) enter
->>>>>> bs=0x560db0e3b030 (backup-top) processing parents
->>>>>> bs=0x560db0e3b030 (backup-top) processing itself
->>>>>>
->>>>>> I see that "blk_do_set_aio_context()" passes "blk->root" to
->>>>>> "bdrv_child_try_set_aio_context()" so it's already in the ignore list,
->>>>>> so I'm not sure what's happening here. Is backup-top is referenced
->>>>>> from two different BdrvChild or is "blk->root" not pointing to
->>>>>> backup-top's BDS?
->>>>>
->>>>> The second time that backup-top is entered, it is not as the BDS of
->>>>> blk->root, but as the parent node of the overlay qcow2. Which is
->>>>> interesting, because last time it was still the backing qcow2, so the
->>>>> change did have _some_ effect.
->>>>>
->>>>> The part that I don't understand is why you still get the line with
->>>>> child=0x560db1b14a20, because when you add all children to the ignore
->>>>> list first, that should have been put into the ignore list as one of the
->>>>> first things in the whole process (when backup-top was first entered).
->>>>>
->>>>> Is 0x560db1b14a20 a BdrvChild that has backup-top as its opaque value,
->>>>> but isn't actually present in backup-top's bs->children?
->>>>
->>>> Exactly, that line corresponds to this chunk of code:
->>>>
->>>> <---- begin ---->
->>>>       QLIST_FOREACH(child, &bs->parents, next_parent) {
->>>>           if (g_slist_find(*ignore, child)) {
->>>>               continue;
->>>>           }
->>>>           assert(child->klass->set_aio_ctx);
->>>>           *ignore = g_slist_prepend(*ignore, child);
->>>>           fprintf(stderr, "bs=%p (%s) calling set_aio_ctx child=%p\n", bs, bs->drv->format_name, child);
->>>>           child->klass->set_aio_ctx(child, new_context, ignore);
->>>>       }
->>>> <---- end ---->
->>>>
->>>> Do you think it's safe to re-enter backup-top, or should we look for a
->>>> way to avoid this?
->>>
->>> I think it should be avoided, but I don't understand why putting all
->>> children of backup-top into the ignore list doesn't already avoid it. If
->>> backup-top is in the parents list of qcow2, then qcow2 should be in the
->>> children list of backup-top and therefore the BdrvChild should already
->>> be in the ignore list.
->>>
->>> The only way I can explain this is that backup-top and qcow2 have
->>> different ideas about which BdrvChild objects exist that connect them.
->>> Or that the graph changes between both places, but I don't see how that
->>> could happen in bdrv_set_aio_context_ignore().
->>>
->>
->> bdrv_set_aio_context_ignore() do bdrv_drained_begin().. As I reported
->> recently, nothing prevents some job finish and do graph modification
->> during some another drained section. It may be the case.
-> 
-> Good point, this might be the same bug then.
-> 
-> If everything worked correctly, a job completion could only happen on
-> the outer bdrv_set_aio_context_ignore(). But after that, we are already
-> in a drain section, so the job should be quiesced and a second drain
-> shouldn't cause any additional graph changes.
-> 
-> I would have to go back to the other discussion, but I think it was
-> related to block jobs that are already in the completion process and
-> keep moving forward even though they are supposed to be quiesced.
-> 
-> If I remember correctly, actually pausing them at this point looked
-> difficult. Maybe what we should then do is letting .drained_poll return
-> true until they have actually fully completed?
-> 
-> Ah, but was this something that would deadlock because the job
-> completion callbacks use drain sections themselves?
-
-Hmm..  I've recently sent good example of dead-lock in email "aio-poll dead-lock"..
-
-I don't have better idea than moving all graph modifications (together with
-corresponding drained sections) into coroutines and protect by global coroutine
-mutex.
-
-> 
->> If backup-top involved, I can suppose that graph modification is in
->> backup_clean, when we remove the filter.. Who is making
->> set_aio_context in the issue? I mean, what is the backtrace of
->> bdrv_set_aio_context_ignore()?
-> 
-> Sergio, can you provide the backtrace and also test if the theory with a
-> job completion in the middle of the process is what you actually hit?
-> 
-> Kevin
-> 
-
-
--- 
-Best regards,
-Vladimir
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIxNzEzMDQxMy4zNjMx
+NzItMS1hbmRyZXkuZ3J1emRldkB2aXJ0dW96em8uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
+ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
+Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDEyMTcx
+MzA0MTMuMzYzMTcyLTEtYW5kcmV5LmdydXpkZXZAdmlydHVvenpvLmNvbQpTdWJqZWN0OiBbUEFU
+Q0ggdjcgMC81XSBtaWdyYXRpb246IFVGRkQgd3JpdGUtdHJhY2tpbmcgbWlncmF0aW9uL3NuYXBz
+aG90cwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNl
+IGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
+ZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcg
+LS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwg
+LS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNm
+NWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5j
+b20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIw
+MTIxNzEzMDQxMy4zNjMxNzItMS1hbmRyZXkuZ3J1emRldkB2aXJ0dW96em8uY29tIC0+IHBhdGNo
+ZXcvMjAyMDEyMTcxMzA0MTMuMzYzMTcyLTEtYW5kcmV5LmdydXpkZXZAdmlydHVvenpvLmNvbQog
+LSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3L2NvdmVyLjE2MDgxNDI5MTYuZ2l0LmFsaXN0YWly
+LmZyYW5jaXNAd2RjLmNvbSAtPiBwYXRjaGV3L2NvdmVyLjE2MDgxNDI5MTYuZ2l0LmFsaXN0YWly
+LmZyYW5jaXNAd2RjLmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjllZTcwMmYg
+bWlncmF0aW9uOiBpbnRyb2R1Y2UgJ3VzZXJmYXVsdGZkLXdybGF0LnB5JyBzY3JpcHQKMjk3N2Ix
+MiBtaWdyYXRpb246IGltcGxlbWVudGF0aW9uIG9mIGJhY2tncm91bmQgc25hcHNob3QgdGhyZWFk
+CjVlOTE1MTcgbWlncmF0aW9uOiBzdXBwb3J0IFVGRkQgd3JpdGUgZmF1bHQgcHJvY2Vzc2luZyBp
+biByYW1fc2F2ZV9pdGVyYXRlKCkKMzk4ODViNCBtaWdyYXRpb246IGludHJvZHVjZSBVRkZELVdQ
+IGxvdy1sZXZlbCBpbnRlcmZhY2UgaGVscGVycwo1YWYyZTNiIG1pZ3JhdGlvbjogaW50cm9kdWNl
+ICdiYWNrZ3JvdW5kLXNuYXBzaG90JyBtaWdyYXRpb24gY2FwYWJpbGl0eQoKPT09IE9VVFBVVCBC
+RUdJTiA9PT0KMS81IENoZWNraW5nIGNvbW1pdCA1YWYyZTNiNzhlZDAgKG1pZ3JhdGlvbjogaW50
+cm9kdWNlICdiYWNrZ3JvdW5kLXNuYXBzaG90JyBtaWdyYXRpb24gY2FwYWJpbGl0eSkKV0FSTklO
+RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzExNTogRklMRTogbWlncmF0aW9uL21pZ3JhdGlv
+bi5jOjEyMjU6CisgICAgICAgICAgICBlcnJvcl9zZXRnKGVycnAsICJCYWNrZ3JvdW5kLXNuYXBz
+aG90IGlzIG5vdCBzdXBwb3J0ZWQgYnkgaG9zdCBrZXJuZWwiKTsKCldBUk5JTkc6IEJsb2NrIGNv
+bW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxOTI6IEZJTEU6IG1p
+Z3JhdGlvbi9yYW0uYzozNzkxOgorLyogcmFtX3dyaXRlX3RyYWNraW5nX2F2YWlsYWJsZTogY2hl
+Y2sgaWYga2VybmVsIHN1cHBvcnRzIHJlcXVpcmVkIFVGRkQgZmVhdHVyZXMKCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMyMDI6IEZJ
+TEU6IG1pZ3JhdGlvbi9yYW0uYzozODAxOgorLyogcmFtX3dyaXRlX3RyYWNraW5nX2NvbXBhdGli
+bGU6IGNoZWNrIGlmIGd1ZXN0IGNvbmZpZ3VyYXRpb24gaXMKCnRvdGFsOiAwIGVycm9ycywgMyB3
+YXJuaW5ncywgMjA3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvNSBoYXMgc3R5bGUgcHJvYmxlbXMs
+IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
+ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
+QUlORVJTLgoyLzUgQ2hlY2tpbmcgY29tbWl0IDM5ODg1YjRkMGRhMSAobWlncmF0aW9uOiBpbnRy
+b2R1Y2UgVUZGRC1XUCBsb3ctbGV2ZWwgaW50ZXJmYWNlIGhlbHBlcnMpCldBUk5JTkc6IGFkZGVk
+LCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGlu
+Zz8KIzI4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFy
+YWN0ZXJzCiMyNjU6IEZJTEU6IHV0aWwvdXNlcmZhdWx0ZmQuYzoxNjM6CisgKiB1ZmZkX2NoYW5n
+ZV9wcm90ZWN0aW9uOiBwcm90ZWN0L3VuLXByb3RlY3QgbWVtb3J5IHJhbmdlIGZvciB3cml0ZXMg
+dmlhIFVGRkQtSU8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMjQ6IEZJTEU6
+IHV0aWwvdXNlcmZhdWx0ZmQuYzoyMjI6CisgICAgICAgIGVycm9yX3JlcG9ydCgidWZmZF9jb3B5
+X3BhZ2UoKSBmYWlsZWQ6IGRzdF9hZGRyPSVwIHNyY19hZGRyPSVwIGxlbmd0aD0lIiBQUkl1NjQK
+CldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzNjQ6IEZJTEU6IHV0aWwvdXNlcmZh
+dWx0ZmQuYzoyNjI6CisgKiB1ZmZkX3dha2V1cDogd2FrZSB1cCB0aHJlYWRzIHdhaXRpbmcgb24g
+cGFnZSBVRkZELW1hbmFnZWQgcGFnZSBmYXVsdCByZXNvbHV0aW9uCgpXQVJOSU5HOiBsaW5lIG92
+ZXIgODAgY2hhcmFjdGVycwojMzg1OiBGSUxFOiB1dGlsL3VzZXJmYXVsdGZkLmM6MjgzOgorICAg
+ICAgICBlcnJvcl9yZXBvcnQoInVmZmRfd2FrZXVwKCkgZmFpbGVkOiBhZGRyPSVwIGxlbmd0aD0l
+IiBQUkl1NjQgIiBlcnJubz0laSIsCgp0b3RhbDogMCBlcnJvcnMsIDUgd2FybmluZ3MsIDQwNiBs
+aW5lcyBjaGVja2VkCgpQYXRjaCAyLzUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
+LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
+IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMy81IENo
+ZWNraW5nIGNvbW1pdCA1ZTkxNTE3MzgyZDkgKG1pZ3JhdGlvbjogc3VwcG9ydCBVRkZEIHdyaXRl
+IGZhdWx0IHByb2Nlc3NpbmcgaW4gcmFtX3NhdmVfaXRlcmF0ZSgpKQpXQVJOSU5HOiBsaW5lIG92
+ZXIgODAgY2hhcmFjdGVycwojMTY4OiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6MTgzOToKKyAgICAg
+ICAgLyogV2UgZG9uJ3Qgd2FudCB0byBvdmVycmlkZSBleGlzdGluZyBlcnJvciBmcm9tIHJhbV9z
+YXZlX2hvc3RfcGFnZSgpLiAqLwoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGlu
+ZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzIwMjogRklMRTogbWlncmF0aW9uL3JhbS5jOjE5ODc6
+CisgICAgICAgIC8qIGNhbGxlciBoYXZlIGhvbGQgaW90aHJlYWQgbG9jayBvciBpcyBpbiBhIGJo
+LCBzbyB0aGVyZSBpcwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMzMTogRklM
+RTogbWlncmF0aW9uL3JhbS5jOjQwMDk6CisgICAgZXJyb3JfcmVwb3J0KCJyYW1fd3JpdGVfdHJh
+Y2tpbmdfc3RhcnQoKSBmYWlsZWQ6IHJlc3RvcmluZyBpbml0aWFsIG1lbW9yeSBzdGF0ZSIpOwoK
+V0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzM0MTogRklMRTogbWlncmF0aW9uL3Jh
+bS5jOjQwMTk6CisgICAgICAgIHVmZmRfY2hhbmdlX3Byb3RlY3Rpb24ocnMtPnVmZmRpb19mZCwg
+YnMtPmhvc3QsIGJzLT5tYXhfbGVuZ3RoLCBmYWxzZSwgZmFsc2UpOwoKV0FSTklORzogbGluZSBv
+dmVyIDgwIGNoYXJhY3RlcnMKIzM3MDogRklMRTogbWlncmF0aW9uL3JhbS5jOjQwNDg6CisgICAg
+ICAgIHVmZmRfY2hhbmdlX3Byb3RlY3Rpb24ocnMtPnVmZmRpb19mZCwgYnMtPmhvc3QsIGJzLT5t
+YXhfbGVuZ3RoLCBmYWxzZSwgZmFsc2UpOwoKdG90YWw6IDAgZXJyb3JzLCA1IHdhcm5pbmdzLCAz
+NjEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy81IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
+dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
+dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjQv
+NSBDaGVja2luZyBjb21taXQgMjk3N2IxMjNlY2JkIChtaWdyYXRpb246IGltcGxlbWVudGF0aW9u
+IG9mIGJhY2tncm91bmQgc25hcHNob3QgdGhyZWFkKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hh
+cmFjdGVycwojMTU2OiBGSUxFOiBtaWdyYXRpb24vbWlncmF0aW9uLmM6MzgxMDoKKyAqIG1lY2hh
+bmlzbSwgd2hpY2ggZWZmZWN0aXZlbHkgcmVzdWx0cyBpbiB0aGF0IHNhdmVkIHNuYXBzaG90IGlz
+IHRoZSBzdGF0ZSBvZiBWTQoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAzMzAgbGluZXMg
+Y2hlY2tlZAoKUGF0Y2ggNC81IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjUvNSBDaGVja2lu
+ZyBjb21taXQgOWVlNzAyZjkzNDRmIChtaWdyYXRpb246IGludHJvZHVjZSAndXNlcmZhdWx0ZmQt
+d3JsYXQucHknIHNjcmlwdCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShz
+KSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTM6IApuZXcgZmlsZSBtb2RlIDEw
+MDc1NQoKRVJST1I6IHBsZWFzZSB1c2UgcHl0aG9uMyBpbnRlcnByZXRlcgojMTg6IEZJTEU6IHNj
+cmlwdHMvdXNlcmZhdWx0ZmQtd3JsYXQucHk6MToKKyMhL3Vzci9iaW4vcHl0aG9uCgpFUlJPUjog
+dHJhaWxpbmcgd2hpdGVzcGFjZQojMTEzOiBGSUxFOiBzY3JpcHRzL3VzZXJmYXVsdGZkLXdybGF0
+LnB5Ojk2OgorICAgICAqIG9yIHBlbmRpbmcgc2lnbmFsIHdlJ2xsIHN0aWxsIGdldCAoYXQgbGVh
+c3QgZm9yIHY1LjguMCBrZXJuZWwpICQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMxMTY6
+IEZJTEU6IHNjcmlwdHMvdXNlcmZhdWx0ZmQtd3JsYXQucHk6OTk6CisgICAgICoga2VlcGluZyBp
+bml0aWFsIHRpbWVzdGFtcCB1bmNoYW5nZWQgZm9yIHRoZSBmYXVsdGluZyB0aHJlYWQuICAkCgpX
+QVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTQ0OiBGSUxFOiBzY3JpcHRzL3VzZXJm
+YXVsdGZkLXdybGF0LnB5OjEyNzoKK2IuYXR0YWNoX2tyZXRwcm9iZShldmVudD0iaGFuZGxlX3Vz
+ZXJmYXVsdCIsIGZuX25hbWU9InJldHByb2JlX2hhbmRsZV91c2VyZmF1bHQiKQoKdG90YWw6IDMg
+ZXJyb3JzLCAyIHdhcm5pbmdzLCAxNDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS81IGhhcyBzdHls
+ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
+bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
+Q0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0
+ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0
+Y2hldy5vcmcvbG9ncy8yMDIwMTIxNzEzMDQxMy4zNjMxNzItMS1hbmRyZXkuZ3J1emRldkB2aXJ0
+dW96em8uY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2Vu
+ZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQ
+bGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
