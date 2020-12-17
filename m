@@ -2,72 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8918D2DD1B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 13:53:01 +0100 (CET)
-Received: from localhost ([::1]:48068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84CFA2DD1B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 13:54:34 +0100 (CET)
+Received: from localhost ([::1]:51664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpsmC-0002qy-Js
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 07:53:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60724)
+	id 1kpsnh-0004MI-Kz
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 07:54:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kpsja-0008Of-Hu
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 07:50:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48003)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kpsjY-0005gJ-Jv
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 07:50:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608209416;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VaoFFn4EZX5K6u1mTrw18nR7Kxg/hrIggBqDFeL2iY0=;
- b=ifT9FyGcA1rY9+wiC21DJ73EUDxiGJsbKxScmIaF4BcrnQ+aLjp7Nu3226cDEGctYSuAj+
- eGDcbznksvCloeFj4Z0tKbqTnJe7eTXDCNAElQh48tZ2x5fl4ysNmp2J58PeWkHqd4YUCa
- cwkhUllghTJluz3Rvd1ozb45WewADoo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-HgpdCGGvP1KhBLGeJ31NQA-1; Thu, 17 Dec 2020 07:50:14 -0500
-X-MC-Unique: HgpdCGGvP1KhBLGeJ31NQA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 655A7107ACE3
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 12:50:13 +0000 (UTC)
-Received: from vitty.brq.redhat.com (ovpn-116-238.ams2.redhat.com
- [10.36.116.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 097745D9C0;
- Thu, 17 Dec 2020 12:50:08 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] i386: provide simple 'hyperv=on' option to x86 machine
- types
-Date: Thu, 17 Dec 2020 13:49:59 +0100
-Message-Id: <20201217124959.262639-3-vkuznets@redhat.com>
-In-Reply-To: <20201217124959.262639-1-vkuznets@redhat.com>
-References: <20201217124959.262639-1-vkuznets@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kpskC-0000lM-Jg; Thu, 17 Dec 2020 07:50:56 -0500
+Received: from mail-am6eur05on2138.outbound.protection.outlook.com
+ ([40.107.22.138]:30816 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kpsk8-0005zQ-4R; Thu, 17 Dec 2020 07:50:55 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YIiCdlhBsNn+vZ5AYmKITysRiryLC14M/1jjaHM38ME4SZvCcaAA2+1aQLFw61UHQJfhECreyx42turaDz7X2MRcXEheq3SInpyC/qyAHChX4Z7c4zmcIeB2lLoGNRGmyeMzsfFprXQx3Bkw/ZCKFP4JB1F4w6/EvnDcV4aV+TrNg0tZfLw8YoxjEdaZsU4X+xuzY8LdB8h3DEJAGHIqAugGgycNnXZJRsYnsGXvwyg/S26ivf3OHCR6+hmfh2dU9D3OqrNGiZ29XcYTCFNml+MpTcj8ivNESIBl+i3VDx7RK7/aMU4kurH50s7EF8lshl0mwgZzJLClg4RV76U3Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8g828gnbvP1DL+ouvCbDDCfpOXOeIAKu/9EbpQKk5aY=;
+ b=kvbgSbGDoAA8rAQblGI5L3YKAIZwApmzwUmdfcdc+qo8bm6OVzQdprmT2lNXEcWHfZrVb3tZvG10LlO+kDCXhv19s1xpLosy7MiKU5jV2YbFH5BDEA+w+6AzKba5/5+BpthG2K+RFvoEwJe/JxpxfKV/lBqtv2pc0Ut0YvgLRJTJ/Ir5FBr0GQVqwqcuavYAVqK0kK/xV54BXNVOWuzs2GPZLbR34tfQDH6gKBCSpCjdYICoHUe3Fzrt+VOSZbXoCvo6acTmGt0863xl4No9YHWzrJvOhNxdakx5vn0UVajsQtSfNs9YtlLFgRbGndSZZrwDzjABAyWUgxRLsj5NqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8g828gnbvP1DL+ouvCbDDCfpOXOeIAKu/9EbpQKk5aY=;
+ b=K3KarMMgNXKJV3SUCBvPRD3tt1AJjdTtcWXVB/17ldb+ZZ3lPHpJRRlw9k4j8yuEVgawCBmbJ21zk4zTssuPimevfKR5ogoxK2dE6trOwqxJfurephNBwV+1BhWym/v2mvAdvSdy0LmunnUknXZ9ZxJqt7MsvfgUWvAq65/K+9c=
+Authentication-Results: lists.xenproject.org; dkim=none (message not signed)
+ header.d=none;lists.xenproject.org; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6152.eurprd08.prod.outlook.com (2603:10a6:20b:298::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.26; Thu, 17 Dec
+ 2020 12:50:48 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3654.024; Thu, 17 Dec 2020
+ 12:50:48 +0000
+Subject: Re: [PATCH v2 2/4] block: Avoid processing BDS twice in
+ bdrv_set_aio_context_ignore()
+To: Kevin Wolf <kwolf@redhat.com>, Sergio Lopez <slp@redhat.com>
+References: <20201214170519.223781-1-slp@redhat.com>
+ <20201214170519.223781-3-slp@redhat.com>
+ <20201215121233.GD8185@merkur.fritz.box>
+ <20201215131527.evpidxevevtfy54n@mhamilton>
+ <20201215150119.GE8185@merkur.fritz.box>
+ <20201215172337.w7vcn2woze2ejgco@mhamilton>
+ <20201216123514.GD7548@merkur.fritz.box>
+ <20201216145502.yiejsw47q5pfbzio@mhamilton>
+ <20201216183102.GH7548@merkur.fritz.box>
+ <20201217093744.tg6ik73o45nidcs4@mhamilton>
+ <20201217105830.GA12328@merkur.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <d7c1ee7f-4171-1407-3a71-a7e45708cc4a@virtuozzo.com>
+Date: Thu, 17 Dec 2020 15:50:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
+In-Reply-To: <20201217105830.GA12328@merkur.fritz.box>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.92]
+X-ClientProxiedBy: AM0PR02CA0107.eurprd02.prod.outlook.com
+ (2603:10a6:208:154::48) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.92) by
+ AM0PR02CA0107.eurprd02.prod.outlook.com (2603:10a6:208:154::48) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend
+ Transport; Thu, 17 Dec 2020 12:50:47 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f1ccdb98-6293-4112-c685-08d8a28a608f
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6152:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB615264F26C176D9EB1BC82EDC1C40@AS8PR08MB6152.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: maSiBUjHN9+MXbTXT+/8FxSs48oIErhGbQdKJxoM66LdaVJtVLgaiyyWke5vajHlCwAm9n16g4MWslx+6i3aOzHTVzMEXk+TVtbHQ2rh6ZcOIzi1i+OGhpKTLsnsJBCRtmGdZTqDh0mSJCA94XlKY6DF6+xvNaVdyAFmYqPP13InL/unooNAIAiDV5oKGb6VQg6RrtlLW/5YhfFslGDuZ32o1EY4KO0zK4QXzF8wNLFWzXIkBUBx6Armra3wKzhGmF2xRMVB+GTrpDGaljDC3ZkeluS/r0QGxogjsImYhq2v96i/gZTXrUYA7S6nTyEbsgElMJZHbdV6m7dCIbImd+s/luO7uNdsvjNRKck3iwjyGaQAXvoFjuMteRnZAFuaw+qYQmv6ClF5ikqVhEIhSX8nqnaN0goW6ZZu30MEJA4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39830400003)(366004)(136003)(396003)(376002)(346002)(8936002)(186003)(26005)(31686004)(66946007)(86362001)(36756003)(52116002)(66556008)(83380400001)(66476007)(110136005)(8676002)(7416002)(54906003)(478600001)(6486002)(956004)(16526019)(30864003)(2616005)(5660300002)(31696002)(2906002)(316002)(16576012)(4326008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?Windows-1252?Q?elqVAOEva7sdNeiNpUP3H20KyWA3kSg2UhigopzkXzuWuSnvJtu4ahtK?=
+ =?Windows-1252?Q?6uioe1XSIHEHzR4D9R0paq0NCxfYKI8u9u3qxmiFAUkCd3IRVzw/ckXt?=
+ =?Windows-1252?Q?vF+D5UKFGcp193RRQe12Ve1vOY+XSeBzbyodwLALP2HYpLc3abew37vp?=
+ =?Windows-1252?Q?jHpC0ZfU6tIFDKxfFVcG21U7ST2XavOT7ZU9GQ2bwtVfhgL9Q5NcbJRO?=
+ =?Windows-1252?Q?0jhznpwxmQuTpVFVX/pdzCZv+72W/PoYm7WyAEHaDUHogpHHGWvEUZqn?=
+ =?Windows-1252?Q?kZzV8gKHdEOeftT8V1Vpzm6OQRSnIUOKf4vkIWzBtBNlQ9WUdKtynLEJ?=
+ =?Windows-1252?Q?mLpuBvJyuhBZKCaJCxvWdqyot5yOBfe4f7JVb704GR0uhBrY9A97CeC5?=
+ =?Windows-1252?Q?j13GTLSRY/Ym9BmQ/k7JZUKZIwwckskNirdMKd2FC1Y/GReHcLZpS70B?=
+ =?Windows-1252?Q?qxgQQuAnPf0osGeZXkHm+AvbbIGWbCLVTWUgvvvz43DAgIi2+npKeO+O?=
+ =?Windows-1252?Q?Oz18l/bx+q5UjjlHE5rguDqXUHbTzcxY6lddr6w42mdjWRXQtICqThp2?=
+ =?Windows-1252?Q?L6hqXrd7/EdRWjKtS3C0Ev6umGAlzQMBZcNWNr42Bsv6dkqfcd7v169f?=
+ =?Windows-1252?Q?CTmlWnmpyXozmjlWq/LrNkUTKnIwHjYJzznpidfxmRGLdio5IhsGndhY?=
+ =?Windows-1252?Q?K06pNw2hC1qJJWFPPKSYBPqgFkUgiAoLRTZ1xJARKXgCa076vQFR48WB?=
+ =?Windows-1252?Q?HzKmKLKYbleUYJN4Rm+gTQMDF/S45H1EkeV0mN4qateMRnOA4YXzjiV6?=
+ =?Windows-1252?Q?yz2nK1TZdv8pbpP9VddOPx7pAOwmHuVOb1B2YYpw5eugGbo9po8Ni7cA?=
+ =?Windows-1252?Q?2L+gNMxHYiS2dZfaGjIPwcYfDDNtbajah+vz8ToZgI7q8xSCbngh4swj?=
+ =?Windows-1252?Q?vzST60pqBDu7zmC5NQ1uLhs+1782l+yOy0MMors1ZkqX7JC8Tg6RjZo9?=
+ =?Windows-1252?Q?n8qM/CncjBlS+GRuvYIeXv74+eYkw2hSwaV7Wd4B6mvcokUdt2pqYjCN?=
+ =?Windows-1252?Q?YXYr2X03AHT6Qeu4?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2020 12:50:48.0952 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1ccdb98-6293-4112-c685-08d8a28a608f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kGIaMMHKCg55quve8Q4tFYhw5cguUPaG8UPiu+qrJ9gTCxPyiDriPH55Ce7c0u5egMys/EABMJlox47tX9xUuogLNexRdlRfI8dECHSwgfA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6152
+Received-SPF: pass client-ip=40.107.22.138;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,152 +143,270 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paul Durrant <paul@xen.org>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
-requires listing all currently supported enlightenments ("hv_*" CPU
-features) explicitly. We do have a 'hv_passthrough' mode enabling
-everything but it can't be used in production as it prevents migration.
+17.12.2020 13:58, Kevin Wolf wrote:
+> Am 17.12.2020 um 10:37 hat Sergio Lopez geschrieben:
+>> On Wed, Dec 16, 2020 at 07:31:02PM +0100, Kevin Wolf wrote:
+>>> Am 16.12.2020 um 15:55 hat Sergio Lopez geschrieben:
+>>>> On Wed, Dec 16, 2020 at 01:35:14PM +0100, Kevin Wolf wrote:
+>>>>> Am 15.12.2020 um 18:23 hat Sergio Lopez geschrieben:
+>>>>>> On Tue, Dec 15, 2020 at 04:01:19PM +0100, Kevin Wolf wrote:
+>>>>>>> Am 15.12.2020 um 14:15 hat Sergio Lopez geschrieben:
+>>>>>>>> On Tue, Dec 15, 2020 at 01:12:33PM +0100, Kevin Wolf wrote:
+>>>>>>>>> Am 14.12.2020 um 18:05 hat Sergio Lopez geschrieben:
+>>>>>>>>>> While processing the parents of a BDS, one of the parents may process
+>>>>>>>>>> the child that's doing the tail recursion, which leads to a BDS being
+>>>>>>>>>> processed twice. This is especially problematic for the aio_notifiers,
+>>>>>>>>>> as they might attempt to work on both the old and the new AIO
+>>>>>>>>>> contexts.
+>>>>>>>>>>
+>>>>>>>>>> To avoid this, add the BDS pointer to the ignore list, and check the
+>>>>>>>>>> child BDS pointer while iterating over the children.
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Sergio Lopez <slp@redhat.com>
+>>>>>>>>>
+>>>>>>>>> Ugh, so we get a mixed list of BdrvChild and BlockDriverState? :-/
+>>>>>>>>
+>>>>>>>> I know, it's effective but quite ugly...
+>>>>>>>>
+>>>>>>>>> What is the specific scenario where you saw this breaking? Did you have
+>>>>>>>>> multiple BdrvChild connections between two nodes so that we would go to
+>>>>>>>>> the parent node through one and then come back to the child node through
+>>>>>>>>> the other?
+>>>>>>>>
+>>>>>>>> I don't think this is a corner case. If the graph is walked top->down,
+>>>>>>>> there's no problem since children are added to the ignore list before
+>>>>>>>> getting processed, and siblings don't process each other. But, if the
+>>>>>>>> graph is walked bottom->up, a BDS will start processing its parents
+>>>>>>>> without adding itself to the ignore list, so there's nothing
+>>>>>>>> preventing them from processing it again.
+>>>>>>>
+>>>>>>> I don't understand. child is added to ignore before calling the parent
+>>>>>>> callback on it, so how can we come back through the same BdrvChild?
+>>>>>>>
+>>>>>>>      QLIST_FOREACH(child, &bs->parents, next_parent) {
+>>>>>>>          if (g_slist_find(*ignore, child)) {
+>>>>>>>              continue;
+>>>>>>>          }
+>>>>>>>          assert(child->klass->set_aio_ctx);
+>>>>>>>          *ignore = g_slist_prepend(*ignore, child);
+>>>>>>>          child->klass->set_aio_ctx(child, new_context, ignore);
+>>>>>>>      }
+>>>>>>
+>>>>>> Perhaps I'm missing something, but the way I understand it, that loop
+>>>>>> is adding the BdrvChild pointer of each of its parents, but not the
+>>>>>> BdrvChild pointer of the BDS that was passed as an argument to
+>>>>>> b_s_a_c_i.
+>>>>>
+>>>>> Generally, the caller has already done that.
+>>>>>
+>>>>> In the theoretical case that it was the outermost call in the recursion
+>>>>> and it hasn't (I couldn't find any such case), I think we should still
+>>>>> call the callback for the passed BdrvChild like we currently do.
+>>>>>
+>>>>>>> You didn't dump the BdrvChild here. I think that would add some
+>>>>>>> information on why we re-entered 0x555ee2fbf660. Maybe you can also add
+>>>>>>> bs->drv->format_name for each node to make the scenario less abstract?
+>>>>>>
+>>>>>> I've generated another trace with more data:
+>>>>>>
+>>>>>> bs=0x565505e48030 (backup-top) enter
+>>>>>> bs=0x565505e48030 (backup-top) processing children
+>>>>>> bs=0x565505e48030 (backup-top) calling bsaci child=0x565505e42090 (child->bs=0x565505e5d420)
+>>>>>> bs=0x565505e5d420 (qcow2) enter
+>>>>>> bs=0x565505e5d420 (qcow2) processing children
+>>>>>> bs=0x565505e5d420 (qcow2) calling bsaci child=0x565505e41ea0 (child->bs=0x565505e52060)
+>>>>>> bs=0x565505e52060 (file) enter
+>>>>>> bs=0x565505e52060 (file) processing children
+>>>>>> bs=0x565505e52060 (file) processing parents
+>>>>>> bs=0x565505e52060 (file) processing itself
+>>>>>> bs=0x565505e5d420 (qcow2) processing parents
+>>>>>> bs=0x565505e5d420 (qcow2) calling set_aio_ctx child=0x5655066a34d0
+>>>>>> bs=0x565505fbf660 (qcow2) enter
+>>>>>> bs=0x565505fbf660 (qcow2) processing children
+>>>>>> bs=0x565505fbf660 (qcow2) calling bsaci child=0x565505e41d20 (child->bs=0x565506bc0c00)
+>>>>>> bs=0x565506bc0c00 (file) enter
+>>>>>> bs=0x565506bc0c00 (file) processing children
+>>>>>> bs=0x565506bc0c00 (file) processing parents
+>>>>>> bs=0x565506bc0c00 (file) processing itself
+>>>>>> bs=0x565505fbf660 (qcow2) processing parents
+>>>>>> bs=0x565505fbf660 (qcow2) calling set_aio_ctx child=0x565505fc7aa0
+>>>>>> bs=0x565505fbf660 (qcow2) calling set_aio_ctx child=0x5655068b8510
+>>>>>> bs=0x565505e48030 (backup-top) enter
+>>>>>> bs=0x565505e48030 (backup-top) processing children
+>>>>>> bs=0x565505e48030 (backup-top) calling bsaci child=0x565505e3c450 (child->bs=0x565505fbf660)
+>>>>>> bs=0x565505fbf660 (qcow2) enter
+>>>>>> bs=0x565505fbf660 (qcow2) processing children
+>>>>>> bs=0x565505fbf660 (qcow2) processing parents
+>>>>>> bs=0x565505fbf660 (qcow2) processing itself
+>>>>>> bs=0x565505e48030 (backup-top) processing parents
+>>>>>> bs=0x565505e48030 (backup-top) calling set_aio_ctx child=0x565505e402d0
+>>>>>> bs=0x565505e48030 (backup-top) processing itself
+>>>>>> bs=0x565505fbf660 (qcow2) processing itself
+>>>>>
+>>>>> Hm, is this complete? Is see no "processing itself" for
+>>>>> bs=0x565505e5d420. Or is this because it crashed before getting there?
+>>>>
+>>>> Yes, it crashes there. I forgot to mention that, sorry.
+>>>>
+>>>>> Anyway, trying to reconstruct the block graph with BdrvChild pointers
+>>>>> annotated at the edges:
+>>>>>
+>>>>> BlockBackend
+>>>>>        |
+>>>>>        v
+>>>>>    backup-top ------------------------+
+>>>>>        |   |                          |
+>>>>>        |   +-----------------------+  |
+>>>>>        |            0x5655068b8510 |  | 0x565505e3c450
+>>>>>        |                           |  |
+>>>>>        | 0x565505e42090            |  |
+>>>>>        v                           |  |
+>>>>>      qcow2 ---------------------+  |  |
+>>>>>        |                        |  |  |
+>>>>>        | 0x565505e52060         |  |  | ??? [1]
+>>>>>        |                        |  |  |  |
+>>>>>        v         0x5655066a34d0 |  |  |  | 0x565505fc7aa0
+>>>>>      file                       v  v  v  v
+>>>>>                               qcow2 (backing)
+>>>>>                                      |
+>>>>>                                      | 0x565505e41d20
+>>>>>                                      v
+>>>>>                                    file
+>>>>>
+>>>>> [1] This seems to be a BdrvChild with a non-BDS parent. Probably a
+>>>>>      BdrvChild directly owned by the backup job.
+>>>>>
+>>>>>> So it seems this is happening:
+>>>>>>
+>>>>>> backup-top (5e48030) <---------| (5)
+>>>>>>     |    |                      |
+>>>>>>     |    | (6) ------------> qcow2 (5fbf660)
+>>>>>>     |                           ^    |
+>>>>>>     |                       (3) |    | (4)
+>>>>>>     |-> (1) qcow2 (5e5d420) -----    |-> file (6bc0c00)
+>>>>>>     |
+>>>>>>     |-> (2) file (5e52060)
+>>>>>>
+>>>>>> backup-top (5e48030), the BDS that was passed as argument in the first
+>>>>>> bdrv_set_aio_context_ignore() call, is re-entered when qcow2 (5fbf660)
+>>>>>> is processing its parents, and the latter is also re-entered when the
+>>>>>> first one starts processing its children again.
+>>>>>
+>>>>> Yes, but look at the BdrvChild pointers, it is through different edges
+>>>>> that we come back to the same node. No BdrvChild is used twice.
+>>>>>
+>>>>> If backup-top had added all of its children to the ignore list before
+>>>>> calling into the overlay qcow2, the backing qcow2 wouldn't eventually
+>>>>> have called back into backup-top.
+>>>>
+>>>> I've tested a patch that first adds every child to the ignore list,
+>>>> and then processes those that weren't there before, as you suggested
+>>>> on a previous email. With that, the offending qcow2 is not re-entered,
+>>>> so we avoid the crash, but backup-top is still entered twice:
+>>>
+>>> I think we also need to every parent to the ignore list before calling
+>>> callbacks, though it doesn't look like this is the problem you're
+>>> currently seeing.
+>>
+>> I agree.
+>>
+>>>> bs=0x560db0e3b030 (backup-top) enter
+>>>> bs=0x560db0e3b030 (backup-top) processing children
+>>>> bs=0x560db0e3b030 (backup-top) calling bsaci child=0x560db0e2f450 (child->bs=0x560db0fb2660)
+>>>> bs=0x560db0fb2660 (qcow2) enter
+>>>> bs=0x560db0fb2660 (qcow2) processing children
+>>>> bs=0x560db0fb2660 (qcow2) calling bsaci child=0x560db0e34d20 (child->bs=0x560db1bb3c00)
+>>>> bs=0x560db1bb3c00 (file) enter
+>>>> bs=0x560db1bb3c00 (file) processing children
+>>>> bs=0x560db1bb3c00 (file) processing parents
+>>>> bs=0x560db1bb3c00 (file) processing itself
+>>>> bs=0x560db0fb2660 (qcow2) calling bsaci child=0x560db16964d0 (child->bs=0x560db0e50420)
+>>>> bs=0x560db0e50420 (qcow2) enter
+>>>> bs=0x560db0e50420 (qcow2) processing children
+>>>> bs=0x560db0e50420 (qcow2) calling bsaci child=0x560db0e34ea0 (child->bs=0x560db0e45060)
+>>>> bs=0x560db0e45060 (file) enter
+>>>> bs=0x560db0e45060 (file) processing children
+>>>> bs=0x560db0e45060 (file) processing parents
+>>>> bs=0x560db0e45060 (file) processing itself
+>>>> bs=0x560db0e50420 (qcow2) processing parents
+>>>> bs=0x560db0e50420 (qcow2) processing itself
+>>>> bs=0x560db0fb2660 (qcow2) processing parents
+>>>> bs=0x560db0fb2660 (qcow2) calling set_aio_ctx child=0x560db1672860
+>>>> bs=0x560db0fb2660 (qcow2) calling set_aio_ctx child=0x560db1b14a20
+>>>> bs=0x560db0e3b030 (backup-top) enter
+>>>> bs=0x560db0e3b030 (backup-top) processing children
+>>>> bs=0x560db0e3b030 (backup-top) processing parents
+>>>> bs=0x560db0e3b030 (backup-top) calling set_aio_ctx child=0x560db0e332d0
+>>>> bs=0x560db0e3b030 (backup-top) processing itself
+>>>> bs=0x560db0fb2660 (qcow2) processing itself
+>>>> bs=0x560db0e3b030 (backup-top) calling bsaci child=0x560db0e35090 (child->bs=0x560db0e50420)
+>>>> bs=0x560db0e50420 (qcow2) enter
+>>>> bs=0x560db0e3b030 (backup-top) processing parents
+>>>> bs=0x560db0e3b030 (backup-top) processing itself
+>>>>
+>>>> I see that "blk_do_set_aio_context()" passes "blk->root" to
+>>>> "bdrv_child_try_set_aio_context()" so it's already in the ignore list,
+>>>> so I'm not sure what's happening here. Is backup-top is referenced
+>>>> from two different BdrvChild or is "blk->root" not pointing to
+>>>> backup-top's BDS?
+>>>
+>>> The second time that backup-top is entered, it is not as the BDS of
+>>> blk->root, but as the parent node of the overlay qcow2. Which is
+>>> interesting, because last time it was still the backing qcow2, so the
+>>> change did have _some_ effect.
+>>>
+>>> The part that I don't understand is why you still get the line with
+>>> child=0x560db1b14a20, because when you add all children to the ignore
+>>> list first, that should have been put into the ignore list as one of the
+>>> first things in the whole process (when backup-top was first entered).
+>>>
+>>> Is 0x560db1b14a20 a BdrvChild that has backup-top as its opaque value,
+>>> but isn't actually present in backup-top's bs->children?
+>>
+>> Exactly, that line corresponds to this chunk of code:
+>>
+>> <---- begin ---->
+>>      QLIST_FOREACH(child, &bs->parents, next_parent) {
+>>          if (g_slist_find(*ignore, child)) {
+>>              continue;
+>>          }
+>>          assert(child->klass->set_aio_ctx);
+>>          *ignore = g_slist_prepend(*ignore, child);
+>>          fprintf(stderr, "bs=%p (%s) calling set_aio_ctx child=%p\n", bs, bs->drv->format_name, child);
+>>          child->klass->set_aio_ctx(child, new_context, ignore);
+>>      }
+>> <---- end ---->
+>>
+>> Do you think it's safe to re-enter backup-top, or should we look for a
+>> way to avoid this?
+> 
+> I think it should be avoided, but I don't understand why putting all
+> children of backup-top into the ignore list doesn't already avoid it. If
+> backup-top is in the parents list of qcow2, then qcow2 should be in the
+> children list of backup-top and therefore the BdrvChild should already
+> be in the ignore list.
+> 
+> The only way I can explain this is that backup-top and qcow2 have
+> different ideas about which BdrvChild objects exist that connect them.
+> Or that the graph changes between both places, but I don't see how that
+> could happen in bdrv_set_aio_context_ignore().
+> 
 
-Introduce a simple 'hyperv=on' option for all x86 machine types enabling
-all currently supported Hyper-V enlightenments. Later, when new
-enlightenments get implemented, we will be adding them to newer machine
-types only (by disabling them for legacy machine types) thus preserving
-migration.
+bdrv_set_aio_context_ignore() do bdrv_drained_begin().. As I reported recently, nothing prevents some job finish and do graph modification during some another drained section. It may be the case.
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- docs/hyperv.txt       |  8 ++++++++
- hw/i386/x86.c         | 42 ++++++++++++++++++++++++++++++++++++++++++
- include/hw/i386/x86.h |  7 +++++++
- 3 files changed, 57 insertions(+)
+If backup-top involved, I can suppose that graph modification is in backup_clean, when we remove the filter.. Who is making set_aio_context in the issue? I mean, what is the backtrace of bdrv_set_aio_context_ignore()?
 
-diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-index 5df00da54fc4..1a76a07f8417 100644
---- a/docs/hyperv.txt
-+++ b/docs/hyperv.txt
-@@ -29,6 +29,14 @@ When any set of the Hyper-V enlightenments is enabled, QEMU changes hypervisor
- identification (CPUID 0x40000000..0x4000000A) to Hyper-V. KVM identification
- and features are kept in leaves 0x40000100..0x40000101.
- 
-+Hyper-V enlightenments can be enabled in bulk by specifying 'hyperv=on' to an
-+x86 machine type:
-+
-+  qemu-system-x86_64 -machine q35,accel=kvm,kernel-irqchip=split,hyperv=on ...
-+
-+Note, new enlightenments are only added to the latest (in-develompent) machine
-+type, older machine types keep the list of the supported features intact to
-+safeguard migration.
- 
- 3. Existing enlightenments
- ===========================
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 49e1d419b2ce..7a8e0313aedb 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -418,6 +418,18 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
-     cs->cpu_index = idx;
- 
-     numa_cpu_pre_plug(cpu_slot, dev, errp);
-+
-+    if (x86ms->hyperv_enabled) {
-+        X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
-+        uint64_t hyperv_features = x86mc->default_hyperv_features;
-+
-+        /* Enlightened VMCS is only available on Intel/VMX */
-+        if (!kvm_hv_evmcs_available()) {
-+            hyperv_features &= ~BIT(HYPERV_FEAT_EVMCS);
-+        }
-+
-+        cpu->hyperv_features |= hyperv_features;
-+    }
- }
- 
- CpuInstanceProperties
-@@ -1199,6 +1211,20 @@ static void x86_machine_set_acpi(Object *obj, Visitor *v, const char *name,
-     visit_type_OnOffAuto(v, name, &x86ms->acpi, errp);
- }
- 
-+static bool x86_machine_get_hyperv(Object *obj, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+
-+    return x86ms->hyperv_enabled;
-+}
-+
-+static void x86_machine_set_hyperv(Object *obj, bool value, Error **errp)
-+{
-+    X86MachineState *x86ms = X86_MACHINE(obj);
-+
-+    x86ms->hyperv_enabled = value;
-+}
-+
- static void x86_machine_initfn(Object *obj)
- {
-     X86MachineState *x86ms = X86_MACHINE(obj);
-@@ -1222,6 +1248,16 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
-     x86mc->save_tsc_khz = true;
-     nc->nmi_monitor_handler = x86_nmi;
- 
-+    /* Hyper-V features enabled with 'hyperv=on' */
-+    x86mc->default_hyperv_features = BIT(HYPERV_FEAT_RELAXED) |
-+        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
-+        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
-+        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
-+        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
-+        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
-+        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_EVMCS) |
-+        BIT(HYPERV_FEAT_IPI) | BIT(HYPERV_FEAT_STIMER_DIRECT);
-+
-     object_class_property_add(oc, X86_MACHINE_SMM, "OnOffAuto",
-         x86_machine_get_smm, x86_machine_set_smm,
-         NULL, NULL);
-@@ -1233,6 +1269,12 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_set_description(oc, X86_MACHINE_ACPI,
-         "Enable ACPI");
-+
-+    object_class_property_add_bool(oc, X86_MACHINE_HYPERV,
-+        x86_machine_get_hyperv, x86_machine_set_hyperv);
-+
-+    object_class_property_set_description(oc, X86_MACHINE_HYPERV,
-+        "Enable Hyper-V enlightenments");
- }
- 
- static const TypeInfo x86_machine_info = {
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 56080bd1fb14..c6e9c8500357 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -38,6 +38,9 @@ struct X86MachineClass {
-     bool save_tsc_khz;
-     /* Enables contiguous-apic-ID mode */
-     bool compat_apic_id_mode;
-+
-+    /* Hyper-V features enabled with 'hyperv=on' */
-+    uint64_t default_hyperv_features;
- };
- 
- struct X86MachineState {
-@@ -72,10 +75,14 @@ struct X86MachineState {
-      * will be translated to MSI messages in the address space.
-      */
-     AddressSpace *ioapic_as;
-+
-+    /* Hyper-V emulation */
-+    bool hyperv_enabled;
- };
- 
- #define X86_MACHINE_SMM              "smm"
- #define X86_MACHINE_ACPI             "acpi"
-+#define X86_MACHINE_HYPERV           "hyperv"
- 
- #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
- OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+
 -- 
-2.29.2
-
+Best regards,
+Vladimir
 
