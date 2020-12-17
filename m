@@ -2,73 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE10C2DD3E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:15:25 +0100 (CET)
-Received: from localhost ([::1]:40002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBD22DD3FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:20:05 +0100 (CET)
+Received: from localhost ([::1]:49656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpv00-0007yd-TA
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:15:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37660)
+	id 1kpv4W-00044f-Vo
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:20:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpuwz-0006Fb-Cc
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:12:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31159)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpuwv-0003B8-Px
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 10:12:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608217932;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QMUFU7dyqovpHVqPsFu3lSxwACyUTQ1+/4dT46JZq7g=;
- b=ivoUDIvvzdG8JWqYQCri1egvYJs/q7bpcK4kWp9YfMoByAxGfv8f4aCBegk3sKvlUHz5x/
- 4j4SAr2IgFdLGE7U3fhrw9kUHgmed4UAQm00m+oo90bChiIY7V+jgjnVIColoWrea/N3mc
- LDv4VhjiB4G+8CgIgBlr9APadYEYYtA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-jjGuxjaIN7O6_1OEcXCBeg-1; Thu, 17 Dec 2020 10:12:11 -0500
-X-MC-Unique: jjGuxjaIN7O6_1OEcXCBeg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A02C3180E461;
- Thu, 17 Dec 2020 15:12:09 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-175.ams2.redhat.com [10.36.112.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 530B25D6DC;
- Thu, 17 Dec 2020 15:12:03 +0000 (UTC)
-Subject: Re: [PATCH 2/2] s390x/pci: Fix memory_region_access_valid call
-To: Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com
-References: <1608217136-5690-1-git-send-email-mjrosato@linux.ibm.com>
- <1608217136-5690-3-git-send-email-mjrosato@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <e4f1c9c1-1846-6b94-b7f0-7190d478de3a@redhat.com>
-Date: Thu, 17 Dec 2020 16:12:02 +0100
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1kpuyg-0008GW-NC; Thu, 17 Dec 2020 10:14:03 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49542)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1kpuye-0003th-Aw; Thu, 17 Dec 2020 10:14:02 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0BHF2tBm119052; Thu, 17 Dec 2020 10:13:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=06Wh7hAT7363mpLKPm0pNRy7w9VPGrwsyPhhy0TSNzE=;
+ b=DOGEbc0mgKNWDSZiW7H5ZJIsMuu6NWFlixFScKOc+6VpclXoxUE7odZNRX+CdMsnWe/h
+ yuJMZTpk62Kbxkz6qQbxYq49z+6vKAAqCU3q2+IZlYurgJ8i5KaumEfRFqZ9ZyVw0jtj
+ 6pBGZ77UEZWyTckH34qz7cFcSCAYPbtubQpleNfjcG69YkPPVH4xdcot079c1cBAb4ph
+ OD5LRew75SdhFL5KZsp6iIKm/gOQmPSWNwG3NGbVWcwfwwu5BMRkRiem9WS8/KahfrOX
+ AHmOPyZYlECgdMprJnLBW/YdmuJb1CTRLEpyo/ALxLvBzeLAyvj4hq8HNUNIVWcB/S7z hQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35g99495jr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Dec 2020 10:13:57 -0500
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BHF3MGE121254;
+ Thu, 17 Dec 2020 10:13:57 -0500
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35g99495hw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Dec 2020 10:13:56 -0500
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BHF9W1q024021;
+ Thu, 17 Dec 2020 15:13:55 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma01wdc.us.ibm.com with ESMTP id 35cng97n01-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Dec 2020 15:13:55 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0BHFCder20709786
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Dec 2020 15:12:39 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B3C9813604F;
+ Thu, 17 Dec 2020 15:12:39 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3CD28136053;
+ Thu, 17 Dec 2020 15:12:38 +0000 (GMT)
+Received: from oc4221205838.ibm.com (unknown [9.211.143.229])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 17 Dec 2020 15:12:38 +0000 (GMT)
+Subject: Re: [RFC 2/8] s390x/pci: MSI-X isn't strictly required for passthrough
+To: Cornelia Huck <cohuck@redhat.com>
+References: <1607546066-2240-1-git-send-email-mjrosato@linux.ibm.com>
+ <1607546066-2240-3-git-send-email-mjrosato@linux.ibm.com>
+ <20201210112806.61b0c854.cohuck@redhat.com>
+ <9fc712d1-2350-f16f-7073-87162def13eb@linux.ibm.com>
+ <20201217140817.30bae4e4.cohuck@redhat.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+Message-ID: <e4f0ddb6-b273-6bde-7463-265ed145cf1e@linux.ibm.com>
+Date: Thu, 17 Dec 2020 10:12:37 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <1608217136-5690-3-git-send-email-mjrosato@linux.ibm.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20201217140817.30bae4e4.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-17_09:2020-12-15,
+ 2020-12-17 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0
+ mlxscore=0 mlxlogscore=999 malwarescore=0 clxscore=1015 lowpriorityscore=0
+ impostorscore=0 spamscore=0 adultscore=0 priorityscore=1501 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012170103
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,55 +113,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pmorel@linux.ibm.com, david@redhat.com, richard.henderson@linaro.org,
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
+ schnelle@linux.ibm.com, richard.henderson@linaro.org, qemu-s390x@nongnu.org,
  qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org
+ alex.williamson@redhat.com, mst@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/12/2020 15.58, Matthew Rosato wrote:
-> In pcistb_service_handler, a call is made to validate that the memory
-> region can be accessed.  However, the call is made using the entire length
-> of the pcistb operation, which can be larger than the allowed memory
-> access size (8).  Since we already know that the provided buffer is a
-> multiple of 8, fix the call to memory_region_access_valid to iterate
-> over the memory region in the same way as the subsequent call to
-> memory_region_dispatch_write.
+On 12/17/20 8:08 AM, Cornelia Huck wrote:
+> On Thu, 10 Dec 2020 10:13:29 -0500
+> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
 > 
-> Fixes: 863f6f52b7 ("s390: implement pci instructions")
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->  hw/s390x/s390-pci-inst.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
+>> On 12/10/20 5:28 AM, Cornelia Huck wrote:
+>>> On Wed,  9 Dec 2020 15:34:20 -0500
+>>> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+>>>    
+>>>> s390 PCI currently disallows PCI devices without the MSI-X capability.
+>>>> However, this fence doesn't make sense for passthrough devices.  Move
+>>>> the check to only fence emulated devices (e.g., virtio).
+>>>>
+>>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>>>> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+>>>> ---
+>>>>    hw/s390x/s390-pci-bus.c | 14 ++++++++------
+>>>>    1 file changed, 8 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+>>>> index 05f7460..afad048 100644
+>>>> --- a/hw/s390x/s390-pci-bus.c
+>>>> +++ b/hw/s390x/s390-pci-bus.c
+>>>> @@ -1028,12 +1028,12 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>>>>                s390_pci_get_clp_info(pbdev);
+>>>>            } else {
+>>>>                pbdev->fh |= FH_SHM_EMUL;
+>>>> -        }
+>>>>    
+>>>> -        if (s390_pci_msix_init(pbdev)) {
+>>>> -            error_setg(errp, "MSI-X support is mandatory "
+>>>> -                       "in the S390 architecture");
+>>>> -            return;
+>>>> +            if (s390_pci_msix_init(pbdev)) {
+>>>> +                error_setg(errp, "MSI-X support is mandatory "
+>>>> +                           "in the S390 architecture");
+>>>> +                return;
+>>>> +            }
+>>>>            }
+>>>>    
+>>>>            if (dev->hotplugged) {
+>>>> @@ -1073,7 +1073,9 @@ static void s390_pcihost_unplug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>>>>            devfn = pci_dev->devfn;
+>>>>            qdev_unrealize(dev);
+>>>>    
+>>>> -        s390_pci_msix_free(pbdev);
+>>>> +        if (pbdev->fh & FH_SHM_EMUL) {
+>>>> +            s390_pci_msix_free(pbdev);
+>>>> +        }
+>>>>            s390_pci_iommu_free(s, bus, devfn);
+>>>>            pbdev->pdev = NULL;
+>>>>            pbdev->state = ZPCI_FS_RESERVED;
+>>>
+>>> Remind me: Wasn't it only msi that was strictly required (i.e., not msi-x?)
+>>>
+>>> Can we generally relax this requirement, possibly with some changes in
+>>> the adapter interrupt mapping? I might misremember, though.
+>>>    
+>>
+>> Yes, but even so our current emulation support only sets up for MSI-X,
+>> it does not have an msi_init() equivalent.  I do believe that this
+>> requirement can be relaxed at some point for the emulation support as
+>> well, but the focus on this set was to at least stop fencing passthrough
+>> for no reason.
 > 
-> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-> index e230293..f93f8ba 100644
-> --- a/hw/s390x/s390-pci-inst.c
-> +++ b/hw/s390x/s390-pci-inst.c
-> @@ -821,10 +821,12 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
->      mr = s390_get_subregion(mr, offset, len);
->      offset -= mr->addr;
->  
-> -    if (!memory_region_access_valid(mr, offset, len, true,
-> -                                    MEMTXATTRS_UNSPECIFIED)) {
-> -        s390_program_interrupt(env, PGM_OPERAND, ra);
-> -        return 0;
-> +    for (i = 0; i < len / 8; i++) {
+> Looking back to when this was introduced, I see that 857cc71985dc
+> ("s390x/pci: merge msix init functions") actually makes this mandatory
+> and states that nothing changes for passthrough. Has anything changed
+> regarding msi-x in the architecture in the meantime?
+> 
 
-You could also do:
-
-  for (i = 0; i < len; i += 8)
-
-then you don't have to multiply by 8 in the line below anymore.
-
-> +        if (!memory_region_access_valid(mr, offset + i * 8, 8, true,
-> +                                        MEMTXATTRS_UNSPECIFIED)) {
-> +            s390_program_interrupt(env, PGM_OPERAND, ra);
-> +            return 0;
-> +        }
->      }
-
-Anyway:
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
+I don't believe anything has changed from the architecture or kernel 
+support perspective (Maybe I'm wrong about the latter; Niklas feel free 
+to correct me in that case) -- Otherwise, as far as I can, tell the 
+statement from 857cc71985dc was just incorrect and the restriction was 
+placed unnecessarily for passthrough.  vfio-pci sets up for both, and 
+our base s390 kernel support allows for both (and I can drive ISM 
+traffic and see interrupts being routed to the guest with these patches 
+applied of course); it's just our qemu emulation support that only sets 
+up for MSI-X.
 
