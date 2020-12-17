@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6201B2DD8EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 19:59:16 +0100 (CET)
-Received: from localhost ([::1]:37976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D99622DD913
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 20:07:19 +0100 (CET)
+Received: from localhost ([::1]:49550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpyUd-0004Fy-Do
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 13:59:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34866)
+	id 1kpycR-0000ta-02
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 14:07:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kpyRs-0001sY-RE
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:56:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24820)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kpyaB-0008LJ-0c
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 14:04:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kpyRq-0003Cl-AP
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:56:24 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kpya8-0003zu-Ld
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 14:04:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608231380;
+ s=mimecast20190719; t=1608231896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8csouhW2K+pLOHnfCU3GUNBw2Ja+wB9Cyu3lVtzIqZ4=;
- b=iVKvJEEEHbKjTpgnVGzQDKjauQOFjz7S4+VjTkEcgF76gnar37tb5A9NsHQlSG6jxHeSi9
- 4FhwE1HuK7qPrAS8gRJPmoDs4m9r56YLoJs56EcuZ5Xv49RaPxZRsyXESzAWoARfMP7IFh
- GMdT6LGxqai1MgW87IKUPV0tgPhk1ds=
+ bh=sdGmaKMgXEXBGTV/JpEglw+lUZI7JvbNx1J3chl8BzU=;
+ b=R2RCeuR7MA+CL4bEMOVJatSg4wUYyG9oTv5m9RhAYeN8NgcUibLIaqBYdEDKhO/cSA5Ay0
+ zulLvB+aP3SETjBZwWuA7SNpJ3gatXxZ/A6dis0N1aG0mSDNwbAvDmaSS6xyt4GTmTQZ7r
+ dtcRkGCtp1xue9xSKhfIDYxY64NyFu0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-ndtLrJgxPL-EcnQnDho6kw-1; Thu, 17 Dec 2020 13:56:18 -0500
-X-MC-Unique: ndtLrJgxPL-EcnQnDho6kw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-365-owzZjaIxMOy9eVL6d3mrcg-1; Thu, 17 Dec 2020 14:04:49 -0500
+X-MC-Unique: owzZjaIxMOy9eVL6d3mrcg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5F62192202C;
- Thu, 17 Dec 2020 18:56:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F97C59;
+ Thu, 17 Dec 2020 19:04:48 +0000 (UTC)
 Received: from [10.36.113.93] (ovpn-113-93.ams2.redhat.com [10.36.113.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 429725D9E3;
- Thu, 17 Dec 2020 18:55:56 +0000 (UTC)
-Subject: Re: [PATCH v3 05/10] vfio: Support for RamDiscardMgr in the !vIOMMU
- case
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3051518993;
+ Thu, 17 Dec 2020 19:04:30 +0000 (UTC)
+Subject: Re: [PATCH v3 04/10] vfio: Query and store the maximum number of DMA
+ mappings
 To: Alex Williamson <alex.williamson@redhat.com>
 References: <20201216141200.118742-1-david@redhat.com>
- <20201216141200.118742-6-david@redhat.com>
- <20201217113612.0410b143@omen.home>
+ <20201216141200.118742-5-david@redhat.com>
+ <20201217105512.78a2ef71@omen.home>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat GmbH
-Message-ID: <ff63c12d-9d96-0650-de19-9331091aaaf7@redhat.com>
-Date: Thu, 17 Dec 2020 19:55:55 +0100
+Message-ID: <bb621937-3d39-bade-082a-892f4126b018@redhat.com>
+Date: Thu, 17 Dec 2020 20:04:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201217113612.0410b143@omen.home>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201217105512.78a2ef71@omen.home>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -95,25 +95,48 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.12.20 19:36, Alex Williamson wrote:
-> On Wed, 16 Dec 2020 15:11:55 +0100
+On 17.12.20 18:55, Alex Williamson wrote:
+> On Wed, 16 Dec 2020 15:11:54 +0100
 > David Hildenbrand <david@redhat.com> wrote:
 > 
->> Implement support for RamDiscardMgr, to prepare for virtio-mem
->> support. Instead of mapping the whole memory section, we only map
->> "populated" parts and update the mapping when notified about
->> discarding/population of memory via the RamDiscardListener. Similarly, when
->> syncing the dirty bitmaps, sync only the actually mapped (populated) parts
->> by replaying via the notifier.
+>> Let's query the maximum number of DMA mappings by querying the available
+>> mappings when creating the container.
 >>
->> Small mapping granularity is problematic for vfio, because we might run out
->> of mappings. Indicate virito-mem as one of the problematic parts when
->> warning in vfio_container_dma_reserve() to at least make users aware that
->> there is such a limitation.
->>
->> Using virtio-mem with vfio is still blocked via
->> ram_block_discard_disable()/ram_block_discard_require() after this patch.
->>
+>> In addition, count the number of DMA mappings and warn when we would
+>> exceed it. This is a preparation for RamDiscardMgr which might
+>> create quite some DMA mappings over time, and we at least want to warn
+>> early that the QEMU setup might be problematic. Use "reserved"
+>> terminology, so we can use this to reserve mappings before they are
+>> actually created.
+> 
+> This terminology doesn't make much sense to me, we're not actually
+> performing any kind of reservation.
+
+I see you spotted the second user which actually performs reservations.
+
+> 
+>> Note: don't reserve vIOMMU DMA mappings - using the vIOMMU region size
+>> divided by the mapping page size might be a bad indication of what will
+>> happen in practice - we might end up warning all the time.
+> 
+> This suggests we're not really tracking DMA "reservations" at all.
+> Would something like dma_regions_mappings be a more appropriate
+> identifier for the thing you're trying to count?  We might as well also
+
+Right now I want to count
+- Mappings we know we will definitely have (counted in this patch)
+- Mappings we know we could eventually have later (RamDiscardMgr)
+
+> keep a counter for dma_iommu_mappings where the sum of those two should
+> stay below dma_max_mappings.
+
+We could, however, tracking active IOMMU mappings when removing a memory
+region from the address space isn't easily possible - we do a single
+vfio_dma_unmap() which might span multiple mappings. Same applies to
+RamDiscardMgr. Hard to count how many mappings we actually *currently*
+have using that approach.
+
+>  
 >> Cc: Paolo Bonzini <pbonzini@redhat.com>
 >> Cc: "Michael S. Tsirkin" <mst@redhat.com>
 >> Cc: Alex Williamson <alex.williamson@redhat.com>
@@ -127,161 +150,56 @@ On 17.12.20 19:36, Alex Williamson wrote:
 >> Cc: Marek Kedzierski <mkedzier@redhat.com>
 >> Signed-off-by: David Hildenbrand <david@redhat.com>
 >> ---
->>  hw/vfio/common.c              | 213 +++++++++++++++++++++++++++++++++-
->>  include/hw/vfio/vfio-common.h |  13 +++
->>  2 files changed, 225 insertions(+), 1 deletion(-)
+>>  hw/vfio/common.c              | 34 ++++++++++++++++++++++++++++++++++
+>>  include/hw/vfio/vfio-common.h |  2 ++
+>>  2 files changed, 36 insertions(+)
 >>
 >> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index 5ad88d476f..b1582be1e8 100644
+>> index 6ff1daa763..5ad88d476f 100644
 >> --- a/hw/vfio/common.c
 >> +++ b/hw/vfio/common.c
->> @@ -296,7 +296,8 @@ static void vfio_container_dma_reserve(VFIOContainer *container,
->>      container->dma_reserved += dma_mappings;
->>      if (!warned && container->dma_max &&
->>          container->dma_reserved > container->dma_max) {
->> -        warn_report("%s: possibly running out of DMA mappings. "
->> +        warn_report("%s: possibly running out of DMA mappings. E.g., try"
->> +                    " increasing the 'block-size' of virtio-mem devies."
->>                      " Maximum number of DMA mappings: %d", __func__,
->>                      container->dma_max);
->>      }
->> @@ -674,6 +675,146 @@ out:
->>      rcu_read_unlock();
->>  }
+>> @@ -288,6 +288,26 @@ const MemoryRegionOps vfio_region_ops = {
+>>      },
+>>  };
 >>  
->> +static void vfio_ram_discard_notify_discard(RamDiscardListener *rdl,
->> +                                            const MemoryRegion *mr,
->> +                                            ram_addr_t offset, ram_addr_t size)
+>> +static void vfio_container_dma_reserve(VFIOContainer *container,
+>> +                                       unsigned long dma_mappings)
 >> +{
->> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
->> +                                                listener);
->> +    const hwaddr mr_start = MAX(offset, vrdl->offset_within_region);
->> +    const hwaddr mr_end = MIN(offset + size,
->> +                              vrdl->offset_within_region + vrdl->size);
->> +    const hwaddr iova = mr_start - vrdl->offset_within_region +
->> +                        vrdl->offset_within_address_space;
->> +    int ret;
+>> +    bool warned = container->dma_reserved > container->dma_max;
 >> +
->> +    if (mr_start >= mr_end) {
->> +        return;
->> +    }
->> +
->> +    /* Unmap with a single call. */
->> +    ret = vfio_dma_unmap(vrdl->container, iova, mr_end - mr_start, NULL);
->> +    if (ret) {
->> +        error_report("%s: vfio_dma_unmap() failed: %s", __func__,
->> +                     strerror(-ret));
->> +    }
->> +}
->> +
->> +static int vfio_ram_discard_notify_populate(RamDiscardListener *rdl,
->> +                                            const MemoryRegion *mr,
->> +                                            ram_addr_t offset, ram_addr_t size)
->> +{
->> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
->> +                                                listener);
->> +    const hwaddr mr_end = MIN(offset + size,
->> +                              vrdl->offset_within_region + vrdl->size);
->> +    hwaddr mr_start = MAX(offset, vrdl->offset_within_region);
->> +    hwaddr mr_next, iova;
->> +    void *vaddr;
->> +    int ret;
->> +
->> +    /*
->> +     * Map in (aligned within memory region) minimum granularity, so we can
->> +     * unmap in minimum granularity later.
->> +     */
->> +    for (; mr_start < mr_end; mr_start = mr_next) {
->> +        mr_next = QEMU_ALIGN_UP(mr_start + 1, vrdl->granularity);
->> +        mr_next = MIN(mr_next, mr_end);
->> +
->> +        iova = mr_start - vrdl->offset_within_region +
->> +               vrdl->offset_within_address_space;
->> +        vaddr = memory_region_get_ram_ptr(vrdl->mr) + mr_start;
->> +
->> +        ret = vfio_dma_map(vrdl->container, iova, mr_next - mr_start,
->> +                           vaddr, mr->readonly);
->> +        if (ret) {
->> +            /* Rollback */
->> +            vfio_ram_discard_notify_discard(rdl, mr, offset, size);
->> +            return ret;
->> +        }
->> +    }
->> +    return 0;
->> +}
->> +
->> +static void vfio_ram_discard_notify_discard_all(RamDiscardListener *rdl,
->> +                                                const MemoryRegion *mr)
->> +{
->> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
->> +                                                listener);
->> +    int ret;
->> +
->> +    /* Unmap with a single call. */
->> +    ret = vfio_dma_unmap(vrdl->container, vrdl->offset_within_address_space,
->> +                         vrdl->size, NULL);
->> +    if (ret) {
->> +        error_report("%s: vfio_dma_unmap() failed: %s", __func__,
->> +                     strerror(-ret));
->> +    }
->> +}
->> +
->> +static void vfio_register_ram_discard_notifier(VFIOContainer *container,
->> +                                               MemoryRegionSection *section)
->> +{
->> +    RamDiscardMgr *rdm = memory_region_get_ram_discard_mgr(section->mr);
->> +    RamDiscardMgrClass *rdmc = RAM_DISCARD_MGR_GET_CLASS(rdm);
->> +    VFIORamDiscardListener *vrdl;
->> +
->> +    vrdl = g_new0(VFIORamDiscardListener, 1);
->> +    vrdl->container = container;
->> +    vrdl->mr = section->mr;
->> +    vrdl->offset_within_region = section->offset_within_region;
->> +    vrdl->offset_within_address_space = section->offset_within_address_space;
->> +    vrdl->size = int128_get64(section->size);
->> +    vrdl->granularity = rdmc->get_min_granularity(rdm, section->mr);
->> +    vrdl->dma_max = vrdl->size / vrdl->granularity;
->> +    if (!QEMU_IS_ALIGNED(vrdl->size, vrdl->granularity) ||
->> +        !QEMU_IS_ALIGNED(vrdl->offset_within_region, vrdl->granularity)) {
->> +        vrdl->dma_max++;
->> +    }
->> +
->> +    /* Ignore some corner cases not relevant in practice. */
->> +    g_assert(QEMU_IS_ALIGNED(vrdl->offset_within_region, TARGET_PAGE_SIZE));
->> +    g_assert(QEMU_IS_ALIGNED(vrdl->offset_within_address_space,
->> +                             TARGET_PAGE_SIZE));
->> +    g_assert(QEMU_IS_ALIGNED(vrdl->size, TARGET_PAGE_SIZE));
->> +
->> +    /* We could consume quite some mappings later. */
->> +    vfio_container_dma_reserve(container, vrdl->dma_max);
+>> +    container->dma_reserved += dma_mappings;
+>> +    if (!warned && container->dma_max &&
+>> +        container->dma_reserved > container->dma_max) {
+>> +        warn_report("%s: possibly running out of DMA mappings. "
+>> +                    " Maximum number of DMA mappings: %d", __func__,
+>> +                    container->dma_max);
 > 
+> If we kept track of all the mappings we could predict better than
+> "possibly".  Tracing support to track a high water mark might be useful
+> too.
+
+It's an early warning for reservations e.g., on fundamental setup issues
+with virtio-mem.
+
+[...]
+
+>> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+>> index 6141162d7a..fed0e85f66 100644
+>> --- a/include/hw/vfio/vfio-common.h
+>> +++ b/include/hw/vfio/vfio-common.h
+>> @@ -88,6 +88,8 @@ typedef struct VFIOContainer {
+>>      uint64_t dirty_pgsizes;
+>>      uint64_t max_dirty_bitmap_size;
+>>      unsigned long pgsizes;
+>> +    unsigned int dma_max;
+>> +    unsigned long dma_reserved;
 > 
-> Aha, I guess this is where the "reservation" aspect begins to appear.
-> Should this be its own counter though, perhaps
-> dma_discard_max_mappings?  The populate and discard callbacks could
-> further divide this into used and outstanding counters.  However, TBH
-> I'm not sure I understand the counters since this is probably the most
-> robust mapping path where we can actually safely nak a populate
+> If dma_max is unsigned int, why do we need an unsigned long to track
+> how many are in use?  Thanks,
 
-I'd like to be able to warn early on fundamental setup issues, not only
-when accidentally running into these limits later.
-
-> callback.  Maybe rather than any of these runtime counters we should
-> just walk the vrdl_list, calculate max mappings, and if that exceeds
-> some large fraction of available mappings, issue a warning (not that
-> they wouldn't be useful for tracing).  Thanks,
-
-Sure, we can calculate max mappings from the vrdl_list. But which
-fraction to chose? The reservation approach simply considers any
-mappings (well, except IOMMU because they are kind of special)
-
-Guidance on the fraction / #mappings to assume we can use appreciated.
-
-Thanks!
-
-> 
-> Alex
-
+My thinking was that some vfio IOMMU types don't have such a limit
+(dma_max == -1) and could allow for more. But thinking again, such a
+huge number of mappings is highly unrealistic :)
 
 
 -- 
