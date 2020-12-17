@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB80A2DCF4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 11:14:47 +0100 (CET)
-Received: from localhost ([::1]:33526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBC02DE7EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 18:14:56 +0100 (CET)
+Received: from localhost ([::1]:44306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpqJ5-0001pq-0y
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 05:14:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54990)
+	id 1kqJLD-0007cJ-Px
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 12:14:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kpqDz-0006CW-5g
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:09:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57109)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kqJJK-0006XW-3p
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 12:12:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kpqDk-0000FZ-P1
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:09:26 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kqJJI-0008Fq-OW
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 12:12:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608199753;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1608311575;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QAAK5PrPnvuu1ATu55SE0CNzMR2cB+J4D1xqqg2Rw58=;
- b=SCgBWGPgPlKxt3U4vcBFLlV7q+AWCJU1T2EXj7BnPEGLtY/wfLTrcWtZKoDUgpZIzd+V5T
- 0mVoEag4RS93E/+M78IJMEe28rq9oGMvqwrMVN+Y6zNrXHtT41834QzAFpUaAMDlukT85b
- O2AofPOr5Sv6dkwgpwor/xCK/nKikL0=
+ bh=BPVhun/R5Pjm/1P81mrRRfh1iV7PU5izmcRUhojmqUg=;
+ b=ePbvw/VnfHJMlG8dJG4x8oNyNM9P0SAgtzsaPaMZS+PRqF99aPDHmYqx8l2vJPHsb6jygr
+ JUq8W9VmHFFsaZqQsaIkVoIct49Z94i7GPO5UhrQwA0r0FqTnnTPFFcpTMO/vF2DsvDUHB
+ tLfBrK0He0Tu4VL8IZ9UtImsIA4AFCo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-bMJ6nFM8NpSvJdmYybWJzg-1; Thu, 17 Dec 2020 05:09:08 -0500
-X-MC-Unique: bMJ6nFM8NpSvJdmYybWJzg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-466-gVQNQRmINOGx-Fh7DnyYmw-1; Fri, 18 Dec 2020 12:12:52 -0500
+X-MC-Unique: gVQNQRmINOGx-Fh7DnyYmw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D2746D520
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 10:09:07 +0000 (UTC)
-Received: from redhat.com (ovpn-115-33.ams2.redhat.com [10.36.115.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D71FE19C9B;
- Thu, 17 Dec 2020 10:09:01 +0000 (UTC)
-Date: Thu, 17 Dec 2020 10:08:57 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 02/18] curl: remove compatibility code, require 7.29.0
-Message-ID: <20201217100857.GC247354@redhat.com>
-References: <20201217094044.46462-1-pbonzini@redhat.com>
- <20201217094044.46462-3-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E6B9809DCD;
+ Fri, 18 Dec 2020 17:12:51 +0000 (UTC)
+Received: from localhost (ovpn-112-107.ams2.redhat.com [10.36.112.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D0FD648A8;
+ Fri, 18 Dec 2020 17:12:49 +0000 (UTC)
+Date: Thu, 17 Dec 2020 10:09:48 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: zhukeqian <zhukeqian1@huawei.com>
+Subject: Re: Ping: [PATCH v2 0/2] bugfix: Decrease dirty bitmap blocks after
+ we remove ramblock
+Message-ID: <20201217100948.GF4338@stefanha-x1.localdomain>
+References: <20201130131104.10600-1-zhukeqian1@huawei.com>
+ <34d6fc79-aafb-54cc-6a07-4f4c2c0e0db8@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20201217094044.46462-3-pbonzini@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <34d6fc79-aafb-54cc-6a07-4f4c2c0e0db8@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="hUH5gZbnpyIv7Mn4"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_24_48=1.34,
+ DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,64 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: =?utf-8?B?TWFyYy1BbmRyw4PCqQ==?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Fam Zheng <famz@redhat.com>,
+ kuhn.chenqun@huawei.com, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 17, 2020 at 10:40:28AM +0100, Paolo Bonzini wrote:
-> cURL 7.16.0 was released in October 2006.  Just remove code that is
-> in all likelihood not being used anywhere, and require the oldest version
-> found in currently supported distros, which is 7.29.0 from CentOS 7.
-> 
-> pkg-config is enough for QEMU, since it does not need extra information
-> such as the path for certicate authorities.  All supported platforms
-> today will all have pkg-config for curl, so we can drop curl-config.
-> 
-> Suggested-by: Daniel Berrangé <berrange@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  block/curl.c | 28 ----------------------------
->  configure    |  9 ++-------
->  2 files changed, 2 insertions(+), 35 deletions(-)
-> 
+--hUH5gZbnpyIv7Mn4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> diff --git a/configure b/configure
-> index 42b39544d4..c0a3e1556b 100755
-> --- a/configure
-> +++ b/configure
-> @@ -3428,17 +3428,12 @@ done
->  ##########################################
->  # curl probe
->  if test "$curl" != "no" ; then
-> -  if $pkg_config libcurl --exists; then
-> -    curlconfig="$pkg_config libcurl"
-> -  else
-> -    curlconfig=curl-config
-> -  fi
->    cat > $TMPC << EOF
->  #include <curl/curl.h>
->  int main(void) { curl_easy_init(); curl_multi_setopt(0, 0, 0); return 0; }
->  EOF
-> -  curl_cflags=$($curlconfig --cflags 2>/dev/null)
-> -  curl_libs=$($curlconfig --libs 2>/dev/null)
-> +  curl_cflags=$($pkg_config libcurl --cflags 2>/dev/null)
-> +  curl_libs=$($pkg_config libcurl --libs 2>/dev/null)
+On Thu, Dec 03, 2020 at 10:02:05PM +0800, zhukeqian wrote:
+> Hi folks, kindly ping ...
+>=20
+> This bugfix can save several MBs memory, waiting for review, thanks.
 
-Should really be  libcurl >= 7.29.0, but since you're removing this in
-the next patch, and have the right version check in meson, I'm ambivalent
-here.
+Paolo: Please take a look when you get a chance.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+I left a comment because Patch 1 doesn't seem to take RCU into account.
 
+Stefan
 
+--hUH5gZbnpyIv7Mn4
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/bLmwACgkQnKSrs4Gr
+c8j6hQf/eeMf9jaNvYJ49d6JoWBgMsnbnbMFYo7Vb+cPC0dqOGmQdKMI9S2d0Uht
+44AGRBF0JaN6RGDtPc1RmOSUAZXLbjmEmQ+R3PNHwLsvbmHtEkmYnuRCSfDr/AT/
+bEdhervbOiFwmdpB3wFt9XS0KFTMj8t2GAE16GR8K7f7rThnI6bYxZWeUAkpcXlT
+Q/AAjfyqyKGO3EZYoyPGVEVoD00jOKdi2xcxgsuDwWkLp7kGCd7HLB6rApIOgMdv
+tYj+ETB9CpYiDfPi6sq3N+iLG8jVgTT4tVFcY1gL4zmyK6FKIHqbvaznbehA5vY4
+d0JRf3oj7VSG03rvDHl4+VDXTSbTVA==
+=LXyt
+-----END PGP SIGNATURE-----
+
+--hUH5gZbnpyIv7Mn4--
 
 
