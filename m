@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199802DD282
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 14:59:45 +0100 (CET)
-Received: from localhost ([::1]:48636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273C52DD291
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 15:02:30 +0100 (CET)
+Received: from localhost ([::1]:51430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kptom-0008Eu-4X
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 08:59:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49752)
+	id 1kptrR-0001Ze-16
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 09:02:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kptnY-0007La-Jn
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:58:28 -0500
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:37135)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kptnM-0003T9-9a
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:58:28 -0500
-Received: by mail-oi1-x229.google.com with SMTP id l207so32272264oib.4
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 05:58:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uiRoCLzv9/s/EN0X3jILm2hVkQkHrupiJPU0fjC3L74=;
- b=ND/KK4PsrBNF9UIkPJK936xc0cP2h+zvPIONsV4rViiI3FeyawaSNNycr80e4slfLh
- Y8ohzupIMb83ral6u7H2PUyzS99EVhHDarfJDFwgwvh/Eockndf9Snokq7CPOBIyZ/Ne
- 0wNt5jI7ex4ZpZNnyS81pJXS0dKPNrDFqxCZamNEGz0hTjmwgW+b1QGQUv0rHIFah8he
- RohgWBxSPy3Fant1gsdBMe+5EePOOx+IMrMnumMzgbHMxEd7zj02F+D3xzrWGB42zfyw
- k6doKzyThGmfQgI00gzp4duJk5q5/JK88srgJ7AEBhEcB5sVrIq1HL+VCXCR3J4fddup
- BWrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uiRoCLzv9/s/EN0X3jILm2hVkQkHrupiJPU0fjC3L74=;
- b=BHA12aOpKK5wjFv/myf9ckHoBYkGqMMlgplvT5ixk9AXIywE4nF6oZlPOwZuR28YDa
- Ke3jMGQQK647GvEwPoPqdSzY/P+2Hw13x+Zxcxesqd6qgbxT9RLGCw3JR4l87/j4hBRy
- nHGtBG2nXZl2dWnId/UwAIQfo/TNuXfezPzxvRtqJ1IUc7XYGFf0J3kVin9dDgj4rpXY
- uqmwfK8idiOXiPFhTofJHyQJ6d1Yvo1RGE8cV7zgeQMqQSkQPQMxedz8N4FiPXtCLj91
- rVbBITlDXXWDY4Ay+BvGCGV0T+rmrippVsDEhOC7P3nCQsOakIj9Z9YsJ78/shjKeqM8
- aV1g==
-X-Gm-Message-State: AOAM533zGC7KiwQjeWbThPPzLMEB920sOulC7zrvQIkfEO9gMOC7FdYb
- cVt0Gy3hACNXML+OheNDcIye5A==
-X-Google-Smtp-Source: ABdhPJypQvbO8Ljh0YUNHnzw2Ia0OrRuAQHZW853pmVz/UlfCgv05OMyvVCvjk74a8VC2GUi5emxHQ==
-X-Received: by 2002:aca:5dd7:: with SMTP id r206mr4938552oib.130.1608213494840; 
- Thu, 17 Dec 2020 05:58:14 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id r25sm1217792otp.23.2020.12.17.05.58.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Dec 2020 05:58:14 -0800 (PST)
-Subject: Re: [PATCH v4 16/16] hw/riscv: Use the CPU to determine if 32-bit
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>
-References: <cover.1608142916.git.alistair.francis@wdc.com>
- <8ab7614e5df93ab5267788b73dcd75f9f5615e82.1608142916.git.alistair.francis@wdc.com>
- <CAEUhbmWbCVnEYRAmaQOpfBmnRtOzFrs-85S+g-AfGhy65bTWXQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7d2b4053-dbca-faf8-04b2-8da0aab70f29@linaro.org>
-Date: Thu, 17 Dec 2020 07:58:11 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kptpk-0000k9-53
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:00:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40785)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kptpe-0004H5-HW
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:00:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608213637;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=2+16//hvUAw3zrcbJ9jokGLknjlIEA5pfZMurEUGmqc=;
+ b=Vak7jPIibwslwJveoQIKmCWbWvPzxQIVZ29DYRSnDBJN999kW1KCdBWm6JCDh6Ht2Xfysk
+ Rz/VUPSslkVrOTqiZ8DPcxaJAZUHL8Nxm6W/AjxnxuN5HQk/lKvxkwx1doceD5Thy+YWf6
+ +l4419n6g2QfPIn+Z0+ka15TQjZNuaI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-nFV8zwMpOrahHdmGKuEnbA-1; Thu, 17 Dec 2020 09:00:20 -0500
+X-MC-Unique: nFV8zwMpOrahHdmGKuEnbA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14638107ACE8;
+ Thu, 17 Dec 2020 14:00:19 +0000 (UTC)
+Received: from redhat.com (ovpn-115-33.ams2.redhat.com [10.36.115.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13FCB1A353;
+ Thu, 17 Dec 2020 14:00:15 +0000 (UTC)
+Date: Thu, 17 Dec 2020 14:00:12 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Status/future of QEMU bsd-user impl ? (Wea Re: [PULL 00/12] Compile
+ QEMU with -Wimplicit-fallthrough)
+Message-ID: <20201217140012.GF247354@redhat.com>
+References: <20201216172949.57380-1-thuth@redhat.com>
+ <CAFEAcA97zNc3yEfSeBTOuQLFghcJHbh_toJ368HMZzHke+y0SQ@mail.gmail.com>
+ <a6271697-c645-968a-7e0f-e1993140633b@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmWbCVnEYRAmaQOpfBmnRtOzFrs-85S+g-AfGhy65bTWXQ@mail.gmail.com>
+In-Reply-To: <a6271697-c645-968a-7e0f-e1993140633b@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x229.google.com
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,19 +81,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Ed Maste <emaste@freebsd.org>,
+ Sean Bruno <sbruno@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Kamil Rytarowski <kamil@netbsd.org>, Chen Qun <kuhn.chenqun@huawei.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/17/20 12:44 AM, Bin Meng wrote:
-> What happens if something like ARM big.LITTLE needs to be supported on RISC-V?
+On Thu, Dec 17, 2020 at 02:03:47PM +0100, Thomas Huth wrote:
+> On 17/12/2020 13.51, Peter Maydell wrote:
+> > On Wed, 16 Dec 2020 at 17:29, Thomas Huth <thuth@redhat.com> wrote:
+> >>
+> >>  Hi!
+> >>
+> >> The following changes since commit af3f37319cb1e1ca0c42842ecdbd1bcfc64a4b6f:
+> >>
+> >>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2020-12-15 21:24:31 +0000)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>   https://gitlab.com/huth/qemu.git tags/pull-request-2020-12-16
+> >>
+> >> for you to fetch changes up to cbbedfeeb77e25b065f8a2b0c33e81403edaf728:
+> >>
+> >>   configure: Compile with -Wimplicit-fallthrough=2 (2020-12-16 12:52:20 +0100)
+> >>
+> >> ----------------------------------------------------------------
+> >> * Compile QEMU with -Wimplicit-fallthrough=2 to avoid bugs in
+> >>   switch-case statements
+> >> ----------------------------------------------------------------
+> > 
+> > Hi; this generates a new warning on the NetBSD build:
+> > 
+> > ../src/bsd-user/main.c: In function 'cpu_loop':
+> > ../src/bsd-user/main.c:513:16: warning: this statement may fall
+> > through [-Wimplicit-fallthrough=]
+> >              if (bsd_type != target_freebsd)
+> >                 ^
+> > ../src/bsd-user/main.c:515:9: note: here
+> >          case 0x100:
+> >          ^~~~
+> 
+> Oh man, can't we just ditch the bsd-user folder now? It's known to be broken
+> since many releases, so it's currently only causing additional effort to
+> keep this code compilable (also with regards to the automatic code scan tool
+> reports that we've seen during the past months), without real benefit. Even
+> if the BSD folks finally upstream their fixed version again, it's more
+> likely that they will start from scratch again instead of fixing the old
+> folder, I guess?
 
-I'd say it's the board's job to pass the boot heart.
-(Though even big.LITTLE doesn't mix 64 and 32-bit cores.)
+Yeah, it has been a while since we last discussed this:
 
+  https://lists.gnu.org/archive/html/qemu-devel/2017-01/msg00171.html
 
-r~
+Meanwhile their out of free bsd-user impl continues to be developed
+until Dec 2019 at least:
+
+  https://github.com/seanbruno/qemu-bsd-user/commits/bsd-user
+
+I don't recall what happened after that initial discussion about
+merging the new impl. Did Sean simply not have the time to invest
+in the merge ? I'll CC him here to see what opinion he has on the
+future of bsd-user in QEMU.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
