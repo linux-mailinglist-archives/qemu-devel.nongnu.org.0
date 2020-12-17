@@ -2,68 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7942DCFAE
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 11:45:57 +0100 (CET)
-Received: from localhost ([::1]:57842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA8E62DCFB8
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 11:50:11 +0100 (CET)
+Received: from localhost ([::1]:60848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpqnE-0005Yo-Me
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 05:45:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35988)
+	id 1kpqrI-0006z1-Ph
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 05:50:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kpqls-00059V-PW
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:44:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kpqlq-00052J-Gc
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:44:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608201868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Q+mh4ZhFjuCykImm8FIaqD8XRSD51LXXAQUonj0HKl0=;
- b=NeqlhohASJFU26PI1BZVY+vbFdGxD+Ob27/D7MLPAUG1QnbWxG7uE8RF2e5DvnBW87h6lO
- /WUbGPLDhdEawJ8AGtUJ0E8RTQkn9h12VYdI/eJ/+VBGMbIai9jdrCpAupc19cdkxKofjg
- 6KCNHKif4kaifWVp+6IdHzbEXAKJrDw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-AzHgHFWFMji_KbLXFdUuLQ-1; Thu, 17 Dec 2020 05:44:26 -0500
-X-MC-Unique: AzHgHFWFMji_KbLXFdUuLQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B7E2C73A2
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 10:44:25 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D47271C85;
- Thu, 17 Dec 2020 10:44:20 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] build-sys: fix win32 compilation with --target-list=''
-Date: Thu, 17 Dec 2020 14:44:17 +0400
-Message-Id: <20201217104417.436508-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kpqpZ-0006GG-09
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:48:21 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:33207)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kpqpV-0006FZ-F6
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:48:20 -0500
+Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N7AAk-1k2VtO3ywO-017Va2; Thu, 17 Dec 2020 11:48:11 +0100
+Subject: Re: [PATCH] linux-user: Fix loading of BSS segments
+To: Giuseppe Musacchio <thatlemon@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <c9106487-dc4d-120a-bd48-665b3c617287@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <a8162f75-e8a1-9ad5-9524-1217b0ba935b@vivier.eu>
+Date: Thu, 17 Dec 2020 11:48:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <c9106487-dc4d-120a-bd48-665b3c617287@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:gMymxwgIopLBM7aWghXcg3OaNIaICg3bRCtQSP5jeQZkDa+pIMq
+ L/2lRsnTGEuwVeckReGx2AqNBOdGC9XYfaugYE0+0MYR7SVSE8XBfBTjzxU6bRl1KbdcZi7
+ w/y56MZQHuN2qMcPUh9P0jCF8bKrxvirDHrI/eBhRjRZyDN7PMLyI+X4KiMeTCKz0+kWnS1
+ z7nDZKmvO/+SVNHhuruFQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:M6lsN4XHGkM=:AeE7o60vSV93kmCdFLMzyD
+ 4IAx4Swzx9sEl00x1UKNKCUKCyk86dBRVQygvJDtRj0E0wfrRdMfFmbHT3FNadUB0r9bjaz+Y
+ eERJxfZahjZKPn7RGCewUeqUxP/3cHy0kPEMyprIwdsYJRTAHTfRJmEsUzj7gT/CSmBRebDvq
+ xgKJzRJ3HSL/cD90b8ihxiFr5IkJWSs78pL7TGy4VZhERfm661EBX/SPCuyAwAncHQxWqh5Bb
+ B2exfagEEtwv6Da/mU8kFfoL39u6K/AUcaHRKp/rZoRNTNxP1i1/EP2FJPzwIFm4ayXHiAh1/
+ +2Pmi6pXjXKYvTjNxlcPT9WbMdgI94A6I1w+ebUseF1UlqOW2FOZvWhQ3ac8vSs9c4C5PDj3b
+ s+GPmnA1/X/92/khVtehcmVV1UoBLkmABuIzcIdbLgFk1W03XBEMbtPnzpVqrayCN8NcdWdin
+ axWNx1TsFQ==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,69 +66,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Hutchings <ben@decadent.org.uk>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "philippe.mathieu.daude@gmail.com" <philippe.mathieu.daude@gmail.com>,
+ Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Le 17/12/2020 à 11:17, Giuseppe Musacchio a écrit :
+> Some ELF binaries encode the .bss section as an extension of the data
+> ones by setting the segment p_memsz > p_filesz. Some other binaries take
+> a different route and encode it as a stand-alone PT_LOAD segment with
+> p_filesz = 0 and p_memsz > 0.
+> 
+> Both the encodings are actually correct per ELF specification but the
+> ELF loader had some troubles in handling the former: with the old logic
+> it was very likely to get Qemu to crash in zero_bss when trying to
+> access unmapped memory.
+> 
+> zero_bss isn't meant to allocate whole zero-filled segments but to
+> "complete" a previously mapped segment with the needed zero bits.
+> 
+> The fix is pretty simple, if the segment is completely zero-filled we
+> simply allocate one or more pages (according to p_memsz) and avoid
+> calling zero_bss altogether.
 
-Fixes linking:
-x86_64-w64-mingw32-gcc  -o tests/test-qapi-util.exe version.rc_version.o tests/test-qapi-util.exe.p/test-qapi-util.c.obj -Wl,--allow-shlib-undefined -Wl,--nxcompat -Wl,--no-seh -Wl,--dynamicbase -Wl,--warn-common -m64 -fstack-protector-strong -Wl,--start-group libqemuutil.a -pthread -L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -lgnutls -lwinmm -lm -L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -lgthread-2.0 -lglib-2.0 -lintl -lws2_32 -mconsole -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -Wl,--end-group
-/usr/lib/gcc/x86_64-w64-mingw32/10.2.1/../../../../x86_64-w64-mingw32/bin/ld: libqemuutil.a(util_oslib-win32.c.obj): in function `qemu_try_set_nonblock':
-/home/elmarco/src/qemu/buildw/../util/oslib-win32.c:224: undefined reference to `qemu_fd_register'
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- util/main-loop-stub.c | 26 ++++++++++++++++++++++++++
- util/meson.build      |  2 ++
- 2 files changed, 28 insertions(+)
- create mode 100644 util/main-loop-stub.c
+Is this also fixing what "linux-user/elfload: Fix handling of pure BSS segments" [1] patch fixes?
 
-diff --git a/util/main-loop-stub.c b/util/main-loop-stub.c
-new file mode 100644
-index 0000000000..b3e175ade5
---- /dev/null
-+++ b/util/main-loop-stub.c
-@@ -0,0 +1,26 @@
-+/*
-+ * QEMU main loop stub impl
-+ *
-+ * Copyright (c) 2020 Red Hat, Inc.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/main-loop.h"
-+
-+void qemu_fd_register(int fd)
-+{
-+}
-diff --git a/util/meson.build b/util/meson.build
-index f359af0d46..462b79a61a 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -79,4 +79,6 @@ if have_block
-   util_ss.add(when: 'CONFIG_INOTIFY1', if_true: files('filemonitor-inotify.c'),
-                                         if_false: files('filemonitor-stub.c'))
-   util_ss.add(when: 'CONFIG_LINUX', if_true: files('vfio-helpers.c'))
-+else
-+  util_ss.add(files('main-loop-stub.c'))
- endif
--- 
-2.29.0
+Thanks,
+Laurent
+[1] https://patchew.org/QEMU/20201118165206.2826-1-steplong@quicinc.com/
+
+> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+> ---
+>  linux-user/elfload.c | 30 ++++++++++++++++++++----------
+>  1 file changed, 20 insertions(+), 10 deletions(-)
+> 
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index 0b02a92602..a16c240e0f 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -2776,14 +2776,16 @@ static void load_elf_image(const char *image_name, int image_fd,
+>              vaddr = load_bias + eppnt->p_vaddr;
+>              vaddr_po = TARGET_ELF_PAGEOFFSET(vaddr);
+>              vaddr_ps = TARGET_ELF_PAGESTART(vaddr);
+> -            vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
+> +
+> +            vaddr_ef = vaddr + eppnt->p_filesz;
+> +            vaddr_em = vaddr + eppnt->p_memsz;
+>  
+>              /*
+> -             * Some segments may be completely empty without any backing file
+> -             * segment, in that case just let zero_bss allocate an empty buffer
+> -             * for it.
+> +             * Some segments may be completely empty, with a non-zero p_memsz
+> +             * but no backing file segment.
+>               */
+>              if (eppnt->p_filesz != 0) {
+> +                vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
+>                  error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
+>                                      MAP_PRIVATE | MAP_FIXED,
+>                                      image_fd, eppnt->p_offset - vaddr_po);
+> @@ -2791,14 +2793,22 @@ static void load_elf_image(const char *image_name, int image_fd,
+>                  if (error == -1) {
+>                      goto exit_mmap;
+>                  }
+> -            }
+>  
+> -            vaddr_ef = vaddr + eppnt->p_filesz;
+> -            vaddr_em = vaddr + eppnt->p_memsz;
+> +                /*
+> +                 * If the load segment requests extra zeros (e.g. bss), map it.
+> +                 */
+> +                if (eppnt->p_filesz < eppnt->p_memsz) {
+> +                    zero_bss(vaddr_ef, vaddr_em, elf_prot);
+> +                }
+> +            } else if (eppnt->p_memsz != 0) {
+> +                vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_memsz + vaddr_po);
+> +                error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
+> +                                    MAP_PRIVATE | MAP_FIXED | MAP_ANONYMOUS,
+> +                                    -1, 0);
+>  
+> -            /* If the load segment requests extra zeros (e.g. bss), map it.  */
+> -            if (vaddr_ef < vaddr_em) {
+> -                zero_bss(vaddr_ef, vaddr_em, elf_prot);
+> +                if (error == -1) {
+> +                    goto exit_mmap;
+> +                }
+>              }
+>  
+>              /* Find the full program boundaries.  */
+> 
 
 
