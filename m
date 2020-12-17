@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B712DD0F3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:58:13 +0100 (CET)
-Received: from localhost ([::1]:39710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57142DD0F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 13:00:33 +0100 (CET)
+Received: from localhost ([::1]:42214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kprvA-0006sp-AX
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:58:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51392)
+	id 1kprxQ-0007wd-O9
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 07:00:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kprtv-0006Sq-A7
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:56:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41440)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kprvx-0007MC-Rs
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:59:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kprtt-00051A-3l
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:56:54 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kprvw-0005ii-9P
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:59:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608206212;
+ s=mimecast20190719; t=1608206339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=77vsFjyXEd1xt+mSuaouIZ9xJSMYgCUk+OzG8+d77fg=;
- b=fBUZ9FyYEX69DhtA/sNeSoUac8foLNxMPBOVb8mWgTQm5Z4OymS3l6ILAT9Kyg4EcT4LRH
- 0JNPDFu/wqDQfSDjAiIEOJto7VvDlzGw8UGsan9fjB+Z22v/601QJU3/LTfCbnOXJXa3qf
- 2HuLCBuFkQq8Xj1ELxtk87gIyDqknFo=
+ bh=KTqnw/JJGdtc0sdKJAS+TokTrUDDih2xc69mQYSIpD0=;
+ b=F+cPYAwxkycDxZh4CslG9AKSeaiNIH6J08TSSAZbJ+89ZGBYA4wBG+QjaXOhHeZX0OiSa0
+ MmAUbL6hP//2hSFrEEZQb+pwhnlU9LAXX7tgpTsDzh2JP427e5uZoaiuBLC4BQzwFP4cYF
+ I+TSW6DekJhyltTsuV5XvWjvveBQbyE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-cOTNMW0vMpi0P6ch5mdVdw-1; Thu, 17 Dec 2020 06:56:50 -0500
-X-MC-Unique: cOTNMW0vMpi0P6ch5mdVdw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-357-YcKzu5apPaayoc8iJe2miA-1; Thu, 17 Dec 2020 06:58:57 -0500
+X-MC-Unique: YcKzu5apPaayoc8iJe2miA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C28B59
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 11:56:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D18360CDE;
- Thu, 17 Dec 2020 11:56:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8FD201130358; Thu, 17 Dec 2020 12:56:44 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH 06/12] qapi/source: Add builtin null-object sentinel
-References: <20201214235327.1007124-1-jsnow@redhat.com>
- <20201214235327.1007124-7-jsnow@redhat.com>
- <87r1nqrtp7.fsf@dusky.pond.sub.org>
- <9f25c91a-774d-fbe3-3780-5415e7a54524@redhat.com>
-Date: Thu, 17 Dec 2020 12:56:44 +0100
-In-Reply-To: <9f25c91a-774d-fbe3-3780-5415e7a54524@redhat.com> (John Snow's
- message of "Wed, 16 Dec 2020 14:11:35 -0500")
-Message-ID: <87im90k5mr.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 989F784A5EE
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 11:58:56 +0000 (UTC)
+Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A2E22C316;
+ Thu, 17 Dec 2020 11:58:50 +0000 (UTC)
+Date: Thu, 17 Dec 2020 11:58:48 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] docs/devel/migration: Improve debugging section a bit
+Message-ID: <20201217115848.GD4117@work-vm>
+References: <20201217071450.701909-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201217071450.701909-1-armbru@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,57 +78,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+* Markus Armbruster (armbru@redhat.com) wrote:
+> Fix typos, and make the example work out of the box.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-> On 12/16/20 4:22 AM, Markus Armbruster wrote:
->> 2. On error with "no source info", don't crash.
->>     I have my doubts on this one.
->>     Such an error means the QAPI code generator screwed up, at least
->> in
->>     theory.  Crashing is only proper.  It gets the screwup fixed.
->> 
->
-> QAPISemError and friends will also halt the generator and don't
-> produce output and will fail tests. They aren't less visible or more
-> ignorable somehow.
->
->>     In practice, errors due to interactions between built-in stuff and
->>     user-defined stuff could conceivably escape testing.  I can't
->>     remember such a case offhand.
->>     Will the "no source info" error be more useful than a crash?
->>     Possibly.  Will it get the screwup fixed?  Maybe not.
->
-> I don't understand this; if it's an error -- there's no QAPI, there's
-> no QEMU. It's definitely getting fixed.
->
-> If QAPISourceInfo is primarily used for printing error information, we
-> are already in a situation where the generator is hosed and has
-> wandered itself into a problem that can't be ignored.
->
-> There's no additional value in having python crash twice per every
-> crash because we have bad types in our error reporting functions.
+Thanks,
 
-Consider the following scenario.  The average developer knows just
-enough about QAPI to be dangerous.  That's okay; if you had to be a QAPI
-expert to modify the QAPI schema, we would have failed.  Now meet Joe
-Average.  He's a good guy.  Today his job happens to require extending
-the QAPI schema.  In a hurry, as usual.  So Joe brings his well-honed
-voodoo programming skills to bear, and writes something that looks
-plausible to him.  His build fails.  He's not surprised; he's voodoo-
-programming after all.  However, the error message is less clear than
-usual.  Something about a '[builtin]' file.  There is no '[builtin]'
-file.  What to do?  Obvious!  If a bit of voodoo doesn't get you over
-the finish line, use more: twiddle the schema until it works.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-If his build failed with a Python backtrace instead, Joe would
-immediately know that he ran into a bug in our tooling he should report.
+and queued.
 
-Again, I don't mean to criticize Joe.  I've walked in his shoes myself.
+> ---
+>  docs/devel/migration.rst | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
+> index 49112bb27a..ad381b89b2 100644
+> --- a/docs/devel/migration.rst
+> +++ b/docs/devel/migration.rst
+> @@ -53,22 +53,23 @@ savevm/loadvm functionality.
+>  Debugging
+>  =========
+>  
+> -The migration stream can be analyzed thanks to `scripts/analyze_migration.py`.
+> +The migration stream can be analyzed thanks to `scripts/analyze-migration.py`.
+>  
+>  Example usage:
+>  
+>  .. code-block:: shell
+>  
+> -  $ qemu-system-x86_64
+> -   (qemu) migrate "exec:cat > mig"
+> -  $ ./scripts/analyze_migration.py -f mig
+> +  $ qemu-system-x86_64 -display none -monitor stdio
+> +  (qemu) migrate "exec:cat > mig"
+> +  (qemu) q
+> +  $ ./scripts/analyze-migration.py -f mig
+>    {
+>      "ram (3)": {
+>          "section sizes": {
+>              "pc.ram": "0x0000000008000000",
+>    ...
+>  
+> -See also ``analyze_migration.py -h`` help for more options.
+> +See also ``analyze-migration.py -h`` help for more options.
+>  
+>  Common infrastructure
+>  =====================
+> -- 
+> 2.26.2
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
