@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244092DD1E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 14:08:56 +0100 (CET)
-Received: from localhost ([::1]:41724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD862DD1FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 14:15:31 +0100 (CET)
+Received: from localhost ([::1]:55572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpt1b-0004lI-58
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 08:08:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36844)
+	id 1kpt7y-000294-R8
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 08:15:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kpszE-0002yf-Qr
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:06:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38350)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpszw-0003zQ-5P
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:07:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kpszC-0003AV-Jt
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:06:28 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kpszr-0003M8-Ew
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:07:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608210383;
+ s=mimecast20190719; t=1608210426;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HoEHYiafdJ3VFjwGMLtUd6Ab5KECP7FSkHqJfsBmj5k=;
- b=JKBfVhoNM4L/TAWUtQyrtpsiPy4IviCWlRzrWkpeksm+qIXJZ3yk2qWhhV7/P5QAYVO7XG
- v/XH02uG8ODB0+fA3JfNmCAXsU19qWYGKTdlVn+UulJFii26b8zp3+bpuDAhdubW1jCfTJ
- gMrYIWnzKqVF/sTRh1Yh8q677QGd1Nc=
+ bh=Cbv8UKcy46EliaizR3gkW5XH+f5NGo8mZgodkbdFvSw=;
+ b=SJIw5K/OTn4XhpSvAXLUWw4135R+BADQLfFUXsdkP+xamWlLs4JVDyzpctn9IeHEk+DABa
+ cN4kHdD5WDAFSO425zrEpkeXd8TmSiv+mkKLXw9GIdSFXDvyq8cXU3Eq4NNFfT7mjIZW7/
+ gajmwKJKXGfuODydCH4E81d1WXO7Wtg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-y7LRLn09PFaB_IwleJrLMQ-1; Thu, 17 Dec 2020 08:06:20 -0500
-X-MC-Unique: y7LRLn09PFaB_IwleJrLMQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-408-iTP6PBh4NJyVLDGcMzLcOA-1; Thu, 17 Dec 2020 08:07:04 -0500
+X-MC-Unique: iTP6PBh4NJyVLDGcMzLcOA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9081835DE9;
- Thu, 17 Dec 2020 13:06:18 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-122.ams2.redhat.com [10.36.112.122])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 33C431B469;
- Thu, 17 Dec 2020 13:06:03 +0000 (UTC)
-Date: Thu, 17 Dec 2020 14:06:02 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 2/4] block: Avoid processing BDS twice in
- bdrv_set_aio_context_ignore()
-Message-ID: <20201217130602.GB12328@merkur.fritz.box>
-References: <20201215121233.GD8185@merkur.fritz.box>
- <20201215131527.evpidxevevtfy54n@mhamilton>
- <20201215150119.GE8185@merkur.fritz.box>
- <20201215172337.w7vcn2woze2ejgco@mhamilton>
- <20201216123514.GD7548@merkur.fritz.box>
- <20201216145502.yiejsw47q5pfbzio@mhamilton>
- <20201216183102.GH7548@merkur.fritz.box>
- <20201217093744.tg6ik73o45nidcs4@mhamilton>
- <20201217105830.GA12328@merkur.fritz.box>
- <d7c1ee7f-4171-1407-3a71-a7e45708cc4a@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5215100F340
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 13:07:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BA07319CBF;
+ Thu, 17 Dec 2020 13:07:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4F6021130358; Thu, 17 Dec 2020 14:07:01 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH 1/6] migration: Fix and clean up around @tls-authz
+References: <20201113065236.2644169-1-armbru@redhat.com>
+ <20201113065236.2644169-2-armbru@redhat.com>
+ <20201210181009.GA59494@redhat.com>
+ <87sg88g0dx.fsf@dusky.pond.sub.org>
+ <20201216105559.GF189795@redhat.com>
+Date: Thu, 17 Dec 2020 14:07:01 +0100
+In-Reply-To: <20201216105559.GF189795@redhat.com> ("Daniel P. =?utf-8?Q?Be?=
+ =?utf-8?Q?rrang=C3=A9=22's?=
+ message of "Wed, 16 Dec 2020 10:55:59 +0000")
+Message-ID: <87v9d0int6.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <d7c1ee7f-4171-1407-3a71-a7e45708cc4a@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,196 +86,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Stefano Stabellini <sstabellini@kernel.org>,
- Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Paul Durrant <paul@xen.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, xen-devel@lists.xenproject.org,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.12.2020 um 13:50 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 17.12.2020 13:58, Kevin Wolf wrote:
-> > Am 17.12.2020 um 10:37 hat Sergio Lopez geschrieben:
-> > > On Wed, Dec 16, 2020 at 07:31:02PM +0100, Kevin Wolf wrote:
-> > > > Am 16.12.2020 um 15:55 hat Sergio Lopez geschrieben:
-> > > > > On Wed, Dec 16, 2020 at 01:35:14PM +0100, Kevin Wolf wrote:
-> > > > > > Anyway, trying to reconstruct the block graph with BdrvChild pointers
-> > > > > > annotated at the edges:
-> > > > > > 
-> > > > > > BlockBackend
-> > > > > >        |
-> > > > > >        v
-> > > > > >    backup-top ------------------------+
-> > > > > >        |   |                          |
-> > > > > >        |   +-----------------------+  |
-> > > > > >        |            0x5655068b8510 |  | 0x565505e3c450
-> > > > > >        |                           |  |
-> > > > > >        | 0x565505e42090            |  |
-> > > > > >        v                           |  |
-> > > > > >      qcow2 ---------------------+  |  |
-> > > > > >        |                        |  |  |
-> > > > > >        | 0x565505e52060         |  |  | ??? [1]
-> > > > > >        |                        |  |  |  |
-> > > > > >        v         0x5655066a34d0 |  |  |  | 0x565505fc7aa0
-> > > > > >      file                       v  v  v  v
-> > > > > >                               qcow2 (backing)
-> > > > > >                                      |
-> > > > > >                                      | 0x565505e41d20
-> > > > > >                                      v
-> > > > > >                                    file
-> > > > > > 
-> > > > > > [1] This seems to be a BdrvChild with a non-BDS parent. Probably a
-> > > > > >      BdrvChild directly owned by the backup job.
-> > > > > > 
-> > > > > > > So it seems this is happening:
-> > > > > > > 
-> > > > > > > backup-top (5e48030) <---------| (5)
-> > > > > > >     |    |                      |
-> > > > > > >     |    | (6) ------------> qcow2 (5fbf660)
-> > > > > > >     |                           ^    |
-> > > > > > >     |                       (3) |    | (4)
-> > > > > > >     |-> (1) qcow2 (5e5d420) -----    |-> file (6bc0c00)
-> > > > > > >     |
-> > > > > > >     |-> (2) file (5e52060)
-> > > > > > > 
-> > > > > > > backup-top (5e48030), the BDS that was passed as argument in the first
-> > > > > > > bdrv_set_aio_context_ignore() call, is re-entered when qcow2 (5fbf660)
-> > > > > > > is processing its parents, and the latter is also re-entered when the
-> > > > > > > first one starts processing its children again.
-> > > > > > 
-> > > > > > Yes, but look at the BdrvChild pointers, it is through different edges
-> > > > > > that we come back to the same node. No BdrvChild is used twice.
-> > > > > > 
-> > > > > > If backup-top had added all of its children to the ignore list before
-> > > > > > calling into the overlay qcow2, the backing qcow2 wouldn't eventually
-> > > > > > have called back into backup-top.
-> > > > > 
-> > > > > I've tested a patch that first adds every child to the ignore list,
-> > > > > and then processes those that weren't there before, as you suggested
-> > > > > on a previous email. With that, the offending qcow2 is not re-entered,
-> > > > > so we avoid the crash, but backup-top is still entered twice:
-> > > > 
-> > > > I think we also need to every parent to the ignore list before calling
-> > > > callbacks, though it doesn't look like this is the problem you're
-> > > > currently seeing.
-> > > 
-> > > I agree.
-> > > 
-> > > > > bs=0x560db0e3b030 (backup-top) enter
-> > > > > bs=0x560db0e3b030 (backup-top) processing children
-> > > > > bs=0x560db0e3b030 (backup-top) calling bsaci child=0x560db0e2f450 (child->bs=0x560db0fb2660)
-> > > > > bs=0x560db0fb2660 (qcow2) enter
-> > > > > bs=0x560db0fb2660 (qcow2) processing children
-> > > > > bs=0x560db0fb2660 (qcow2) calling bsaci child=0x560db0e34d20 (child->bs=0x560db1bb3c00)
-> > > > > bs=0x560db1bb3c00 (file) enter
-> > > > > bs=0x560db1bb3c00 (file) processing children
-> > > > > bs=0x560db1bb3c00 (file) processing parents
-> > > > > bs=0x560db1bb3c00 (file) processing itself
-> > > > > bs=0x560db0fb2660 (qcow2) calling bsaci child=0x560db16964d0 (child->bs=0x560db0e50420)
-> > > > > bs=0x560db0e50420 (qcow2) enter
-> > > > > bs=0x560db0e50420 (qcow2) processing children
-> > > > > bs=0x560db0e50420 (qcow2) calling bsaci child=0x560db0e34ea0 (child->bs=0x560db0e45060)
-> > > > > bs=0x560db0e45060 (file) enter
-> > > > > bs=0x560db0e45060 (file) processing children
-> > > > > bs=0x560db0e45060 (file) processing parents
-> > > > > bs=0x560db0e45060 (file) processing itself
-> > > > > bs=0x560db0e50420 (qcow2) processing parents
-> > > > > bs=0x560db0e50420 (qcow2) processing itself
-> > > > > bs=0x560db0fb2660 (qcow2) processing parents
-> > > > > bs=0x560db0fb2660 (qcow2) calling set_aio_ctx child=0x560db1672860
-> > > > > bs=0x560db0fb2660 (qcow2) calling set_aio_ctx child=0x560db1b14a20
-> > > > > bs=0x560db0e3b030 (backup-top) enter
-> > > > > bs=0x560db0e3b030 (backup-top) processing children
-> > > > > bs=0x560db0e3b030 (backup-top) processing parents
-> > > > > bs=0x560db0e3b030 (backup-top) calling set_aio_ctx child=0x560db0e332d0
-> > > > > bs=0x560db0e3b030 (backup-top) processing itself
-> > > > > bs=0x560db0fb2660 (qcow2) processing itself
-> > > > > bs=0x560db0e3b030 (backup-top) calling bsaci child=0x560db0e35090 (child->bs=0x560db0e50420)
-> > > > > bs=0x560db0e50420 (qcow2) enter
-> > > > > bs=0x560db0e3b030 (backup-top) processing parents
-> > > > > bs=0x560db0e3b030 (backup-top) processing itself
-> > > > > 
-> > > > > I see that "blk_do_set_aio_context()" passes "blk->root" to
-> > > > > "bdrv_child_try_set_aio_context()" so it's already in the ignore list,
-> > > > > so I'm not sure what's happening here. Is backup-top is referenced
-> > > > > from two different BdrvChild or is "blk->root" not pointing to
-> > > > > backup-top's BDS?
-> > > > 
-> > > > The second time that backup-top is entered, it is not as the BDS of
-> > > > blk->root, but as the parent node of the overlay qcow2. Which is
-> > > > interesting, because last time it was still the backing qcow2, so the
-> > > > change did have _some_ effect.
-> > > > 
-> > > > The part that I don't understand is why you still get the line with
-> > > > child=0x560db1b14a20, because when you add all children to the ignore
-> > > > list first, that should have been put into the ignore list as one of the
-> > > > first things in the whole process (when backup-top was first entered).
-> > > > 
-> > > > Is 0x560db1b14a20 a BdrvChild that has backup-top as its opaque value,
-> > > > but isn't actually present in backup-top's bs->children?
-> > > 
-> > > Exactly, that line corresponds to this chunk of code:
-> > > 
-> > > <---- begin ---->
-> > >      QLIST_FOREACH(child, &bs->parents, next_parent) {
-> > >          if (g_slist_find(*ignore, child)) {
-> > >              continue;
-> > >          }
-> > >          assert(child->klass->set_aio_ctx);
-> > >          *ignore = g_slist_prepend(*ignore, child);
-> > >          fprintf(stderr, "bs=%p (%s) calling set_aio_ctx child=%p\n", bs, bs->drv->format_name, child);
-> > >          child->klass->set_aio_ctx(child, new_context, ignore);
-> > >      }
-> > > <---- end ---->
-> > > 
-> > > Do you think it's safe to re-enter backup-top, or should we look for a
-> > > way to avoid this?
-> > 
-> > I think it should be avoided, but I don't understand why putting all
-> > children of backup-top into the ignore list doesn't already avoid it. If
-> > backup-top is in the parents list of qcow2, then qcow2 should be in the
-> > children list of backup-top and therefore the BdrvChild should already
-> > be in the ignore list.
-> > 
-> > The only way I can explain this is that backup-top and qcow2 have
-> > different ideas about which BdrvChild objects exist that connect them.
-> > Or that the graph changes between both places, but I don't see how that
-> > could happen in bdrv_set_aio_context_ignore().
-> > 
-> 
-> bdrv_set_aio_context_ignore() do bdrv_drained_begin().. As I reported
-> recently, nothing prevents some job finish and do graph modification
-> during some another drained section. It may be the case.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Good point, this might be the same bug then.
+> On Mon, Dec 14, 2020 at 11:14:34AM +0100, Markus Armbruster wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>>=20
+>> > On Fri, Nov 13, 2020 at 07:52:31AM +0100, Markus Armbruster wrote:
+>> >> Commit d2f1d29b95 "migration: add support for a "tls-authz" migration
+>> >> parameter" added MigrationParameters member @tls-authz.  Whereas the
+>> >> other members aren't really optional (see commit 1bda8b3c695), this
+>> >> one is genuinely optional: migration_instance_init() leaves it absent=
+,
+>> >> and migration_tls_channel_process_incoming() passes it to
+>> >> qcrypto_tls_session_new(), which checks for null.
+>> >>=20
+>> >> Commit d2f1d29b95 has a number of issues, though:
+>> >>=20
+>> >> * When qmp_query_migrate_parameters() copies migration parameters int=
+o
+>> >>   its reply, it ignores has_tls_authz, and assumes true instead.  Whe=
+n
+>> >>   it is false,
+>> >>=20
+>> >>   - HMP info migrate_parameters prints the null pointer (crash bug on
+>> >>     some systems), and
+>> >>=20
+>> >>   - QMP query-migrate-parameters replies "tls-authz": "" (because the
+>> >>     QObject output visitor silently maps null pointer to "", which it
+>> >>     really shouldn't).
+>> >>=20
+>> >>   The HMP defect was noticed and fixed in commit 7cd75cbdb8
+>> >>   'migration: use "" instead of (null) for tls-authz'.  Unfortunately=
+,
+>> >>   the fix papered over the real bug: it made
+>> >>   qmp_query_migrate_parameters() map null tls_authz to "".  It also
+>> >>   dropped the check for has_tls_authz from
+>> >>   hmp_info_migrate_parameters().
+>> >>=20
+>> >>   Revert, and fix qmp_query_migrate_parameters() not to screw up
+>> >>   has_tls_authz.  No change to HMP.  QMP now has "tls-authz" in the
+>> >>   reply only when it's actually present in
+>> >>   migrate_get_current()->parameters.  If we prefer to remain
+>> >>   bug-compatible, we should make tls_authz non-optional there.
+>> >>=20
+>> >> * migrate_params_test_apply() neglects to apply tls_authz.  Currently
+>> >>   harmless, because migrate_params_check() doesn't care.  Fix it
+>> >>   anyway.
+>> >>=20
+>> >> * qmp_migrate_set_parameters() crashes:
+>> >>=20
+>> >>     {"execute": "migrate-set-parameters", "arguments": {"tls-authz": =
+null}}
+>> >>=20
+>> >>   Add the necessary rewrite of null to "".  For background
+>> >>   information, see commit 01fa559826 "migration: Use JSON null instea=
+d
+>> >>   of "" to reset parameter to default".
+>> >>=20
+>> >> Fixes: d2f1d29b95aa45d13262b39153ff501ed6b1ac95
+>> >> Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> >> ---
+>> >>  qapi/migration.json   |  2 +-
+>> >>  migration/migration.c | 17 ++++++++++++++---
+>> >>  monitor/hmp-cmds.c    |  2 +-
+>> >>  3 files changed, 16 insertions(+), 5 deletions(-)
+>> >>=20
+>> >> diff --git a/qapi/migration.json b/qapi/migration.json
+>> >> index 3c75820527..688e8da749 100644
+>> >> --- a/qapi/migration.json
+>> >> +++ b/qapi/migration.json
+>> >> @@ -928,7 +928,7 @@
+>> >>  ##
+>> >>  # @MigrationParameters:
+>> >>  #
+>> >> -# The optional members aren't actually optional.
+>> >> +# The optional members aren't actually optional, except for @tls-aut=
+hz.
+>> >
+>> > and tls-hostname and tls-creds.
+>>=20
+>> Really?  See [*] below.
+>>=20
+>> >>  #
+>> >>  # @announce-initial: Initial delay (in milliseconds) before sending =
+the
+>> >>  #                    first announce (Since 4.0)
+>> >> diff --git a/migration/migration.c b/migration/migration.c
+>> >> index 3263aa55a9..cad56fbf8c 100644
+>> >> --- a/migration/migration.c
+>> >> +++ b/migration/migration.c
+>> >> @@ -855,9 +855,8 @@ MigrationParameters *qmp_query_migrate_parameters=
+(Error **errp)
+>>         params->has_tls_creds =3D true;
+>> >>      params->tls_creds =3D g_strdup(s->parameters.tls_creds);
+>> >>      params->has_tls_hostname =3D true;
+>> >>      params->tls_hostname =3D g_strdup(s->parameters.tls_hostname);
+>>=20
+>> [*] Looks non-optional to me.
+>
+> I guess it depends on what you mean by "optional" :-)
 
-If everything worked correctly, a job completion could only happen on
-the outer bdrv_set_aio_context_ignore(). But after that, we are already
-in a drain section, so the job should be quiesced and a second drain
-shouldn't cause any additional graph changes.
+I meant "non-optional in the value of query-migrate-parameters".  The
+comment were debating applies to that value, and nothing else.
 
-I would have to go back to the other discussion, but I think it was
-related to block jobs that are already in the completion process and
-keep moving forward even though they are supposed to be quiesced.
+> When I say they are all optional, I'm talking about from the POV
+> of the end users / mgmt who first configures a migration operation.
+>
+> tls-creds only needs to be set if you want to enable TLS
+>
+> tls-hostname only needs to be set if you need to override the
+> default hostname used for cert validation.
+>
+> tls-authz only needs to be set if you want to enable access
+> control over migration clients.
+>
+> IOW, all three are optional from the POV of configuring a
+> migration.
 
-If I remember correctly, actually pausing them at this point looked
-difficult. Maybe what we should then do is letting .drained_poll return
-true until they have actually fully completed?
+Understood.
 
-Ah, but was this something that would deadlock because the job
-completion callbacks use drain sections themselves?
+> As with many things though, simple theory has turned into
+> messy reality, by virtue of this previous fixup:
+>
+>   commit 4af245dc3e6e5c96405b3edb9d75657504256469
+>   Author: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>   Date:   Wed Mar 15 16:16:03 2017 +0000
+>
+>     migration: use "" as the default for tls-creds/hostname
+>    =20
+>     The tls-creds parameter has a default value of NULL indicating
+>     that TLS should not be used. Setting it to non-NULL enables
+>     use of TLS. Once tls-creds are set to a non-NULL value via the
+>     monitor, it isn't possible to set them back to NULL again, due
+>     to current implementation limitations. The empty string is not
+>     a valid QObject identifier, so this switches to use "" as the
+>     default, indicating that TLS will not be used
+>    =20
+>     The tls-hostname parameter has a default value of NULL indicating
+>     the the hostname from the migrate connection URI should be used.
+>     Again, once tls-hostname is set non-NULL, to override the default
+>     hostname for x509 cert validation, it isn't possible to reset it
+>     back to NULL via the monitor. The empty string is not a valid
+>     hostname, so this switches to use "" as the default, indicating
+>     that the migrate URI hostname should be used.
+>    =20
+>     Using "" as the default for both, also means that the monitor
+>     commands "info migrate_parameters" / "query-migrate-parameters"
+>     will report existance of tls-creds/tls-parameters even when set
+>     to their default values.
+>    =20
+>     Signed-off-by: Daniel P. Berrange <berrange@redhat.com>
+>     Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>     Reviewed-by: Eric Blake <eblake@redhat.com>
+>    =20
+>     Signed-off-by: Juan Quintela <quintela@redhat.com>
+>
+>
+> I have a nasty feeling that libvirt relies on that last paragraph
+> to determine whether TLS is supported in QEMU or not too :-( Ideally
+> we should be able to report their existance, but also report that
+> they are set to NULL. I guess that could be considered a regression
+> at this point though.
+>
+> So anyway, this explains why we have the wierd behaviour where
+> querying parameters always reports them as being set.
 
-> If backup-top involved, I can suppose that graph modification is in
-> backup_clean, when we remove the filter.. Who is making
-> set_aio_context in the issue? I mean, what is the backtrace of
-> bdrv_set_aio_context_ignore()?
+Yes.
 
-Sergio, can you provide the backtrace and also test if the theory with a
-job completion in the middle of the process is what you actually hit?
+What do you want me to change in my patch?
 
-Kevin
+>> >> -    params->has_tls_authz =3D true;
+>> >> -    params->tls_authz =3D g_strdup(s->parameters.tls_authz ?
+>> >> -                                 s->parameters.tls_authz : "");
+>> >> +    params->has_tls_authz =3D s->parameters.has_tls_authz;
+>> >
+>> > I'm kind of confused why has_tls_authz needs to be handled differently
+>> > from tls_hostname and tls_creds - both of these are optional to
+>> > the same extent that tls_authz is AFAIR.
+>>=20
+>> I'm kind of confused about pretty much everything around here :)
+>
+> So tls_authz was following the wierd precedent used by tls_hostname
+> and tls_creds in always reporting its own existance, as the empty
+> string.
+>
+>> The patch hunk is part of the revert of flawed commit 7cd75cbdb8.  We
+>> need to revert both parts or none.
+>>=20
+>> One difference between tls_authz and the others is in
+>> migration_instance_init(): it leaves params->tls_authz null, unlike
+>> ->tls_hostname and ->tls_creds.
+>>=20
+>> Hmm, it sets ->has_ for none of them.  Wrong.  If we set ->FOO, we must
+>> also set ->has_FOO =3D true, and if we leave ->has_FOO false, we should
+>> leave ->FOO null.
+>>=20
+>> Another difference is in migration_tls_channel_process_incoming():
+>> s->parameters.tls_creds must not be null (it's used unchecked in
+>> migration_tls_get_creds()), while s->parameters.tls_authz may be
+>> (qcrypto_tls_session_new() checks).
+>>=20
+>> We need to make up our minds what is optional and what isn't.
+>
+> So they are all optional in terms of what needs to be set.
+>
+> They are all always reported when querying parameters.
+>
+> The main difference seems to be that internally we use NULL
+> as a default for tls_authz, and convert NULL to "" when reporting,
+> while for tls_creds/tls_hostname we convert NULL to "" immediately
+> so we always have "" internally.
+>
+> Should we instead set tls_authz to "" internally straight away
+> like we do for tls_creds/tls_hostname, and then make the code
+> turn "" back into NULL at time of use.
+
+I don't know!  I'm merely trying to fix a crash bug I ran into :)
 
 
