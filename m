@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E754D2DDAB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 22:16:52 +0100 (CET)
-Received: from localhost ([::1]:42358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4492DDAB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 22:18:47 +0100 (CET)
+Received: from localhost ([::1]:45152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq0do-0001og-2E
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 16:16:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38718)
+	id 1kq0fe-00033z-UJ
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 16:18:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kq0bq-0000mk-Cm; Thu, 17 Dec 2020 16:14:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48960)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kq0cg-0001Vg-LZ
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 16:15:42 -0500
+Received: from mx2.suse.de ([195.135.220.15]:55430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kq0bo-0003uT-2M; Thu, 17 Dec 2020 16:14:49 -0500
-Date: Thu, 17 Dec 2020 13:14:40 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608239683;
- bh=danwhvRHSn8FFR3H+DAwgN8RDLYbBiKSfcwP43pGNZc=;
- h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=NQByENDVpRv334gnfc76LCuy3B79Le6E3hegKs9upFI58OWsGJGmtppcb+xZ65yse
- wztvFEnJ9OW3j5VMjeaCQA2hGkHUvTKtpwFkIZ4xXm13XEgIy8Z9QpcSyDreqRyivb
- IDx4iAd/cK81oaQB0CKDbyFmmcMnVyXRQDHsyCIPXYAM48P39s5Fr8yV1M7puHIitO
- z8thZRHep/PY4krm7LjN72SKHvgD478gDrXO/Uo3kC1C6BSkIzDgFuu+II7Vq9uDVb
- YnoucqzPpwwcfd7fl7Mvb5dJWtBgjfArfCZZh5dZzCe8UPv6r9dxwzttxmqBcA/yZe
- iE8eIoGltt24Q==
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH RFC 0/3] hw/block/nvme: dif-based end-to-end data
- protection support
-Message-ID: <20201217211440.GA502315@dhcp-10-100-145-180.wdc.com>
-References: <20201217210222.779619-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kq0cR-0003zk-2l
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 16:15:42 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 4CB3DAC7F;
+ Thu, 17 Dec 2020 21:15:25 +0000 (UTC)
+Subject: Re: dangers of current NEED_CPU_H, CONFIG_SOFTMMU, CONFIG_USER_ONLY
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20201211100908.19696-1-cfontana@suse.de>
+ <20201211100908.19696-8-cfontana@suse.de>
+ <e47ef5e5-2053-d98d-9cd5-f6d96c423c82@suse.de>
+ <CAFEAcA8FL23_bZaOM_u8CdSQoCrrQ2SxnuOoU0H9kPFeANyT0A@mail.gmail.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <71c2c316-38ab-3f27-0147-fbe01446dde2@suse.de>
+Date: Thu, 17 Dec 2020 22:15:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201217210222.779619-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA8FL23_bZaOM_u8CdSQoCrrQ2SxnuOoU0H9kPFeANyT0A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,67 +56,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Alex Bennee <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 17, 2020 at 10:02:19PM +0100, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> This series adds support for extended LBAs and end-to-end data
-> protection. Marked RFC, since there are a bunch of issues that could use
-> some discussion.
-> 
-> Storing metadata bytes contiguously with the logical block data and
-> creating a physically extended logical block basically breaks the DULBE
-> and deallocation support I just added. Formatting a namespace with
-> protection information requires the app- and reftags of deallocated or
-> unwritten blocks to be 0xffff and 0xffffffff respectively; this could be
-> used to reintroduce DULBE support in that case, albeit at a somewhat
-> higher cost than the block status flag-based approach.
-> 
-> There is basically three ways of storing metadata (and maybe a forth,
-> but that is probably quite the endeavour):
-> 
->   1. Storing metadata as extended blocks directly on the blockdev. That
->      is the approach used in this RFC.
-> 
->   2. Use a separate blockdev. Incidentially, this is also the easiest
->      and most straightforward solution to support MPTR-based "separate
->      metadata". This also allows DULBE and block deallocation to be
->      supported using the existing approach.
-> 
->   3. A hybrid of 1 and 2 where the metadata is stored contiguously at
->     the end of the nvme-ns blockdev.
-> 
-> Option 1 obviously works well with DIF-based protection information and
-> extended LBAs since it maps one to one. Option 2 works flawlessly with
-> MPTR-based metadata, but extended LBAs can be "emulated" at the cost of
-> a bunch of scatter/gather operations.
+Hi Peter,
 
-Are there any actual users of extended metadata that we care about? I'm
-aware of only a few niche places that can even access an extended
-metadata format. There's not kernel support in any major OS that I know
-of.
+thanks for your answer,
 
-Option 2 sounds fine.
+On 12/17/20 9:15 PM, Peter Maydell wrote:
+> On Thu, 17 Dec 2020 at 19:46, Claudio Fontana <cfontana@suse.de> wrote:
+>>
+>> Hi,
+>>
+>> I would like to highlight the current dangerous state of NEED_CPU_H / CONFIG_SOFTMMU / CONFIG_USER_ONLY.
+> 
+>> So our struct TcgCpuOperations in include/hw/core/cpu.h,
+>> which contains after this series:
+>>
+>> #ifndef CONFIG_USER_ONLY
+>>     /**
+>>      * @do_transaction_failed: Callback for handling failed memory transactions
+>>      * (ie bus faults or external aborts; not MMU faults)
+>>      */
+>>     void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
+>>                                   unsigned size, MMUAccessType access_type,
+>>                                   int mmu_idx, MemTxAttrs attrs,
+>>                                   MemTxResult response, uintptr_t retaddr);
+>>     /**
+>>      * @do_unaligned_access: Callback for unaligned access handling
+>>      */
+>>     void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
+>>                                 MMUAccessType access_type,
+>>                                 int mmu_idx, uintptr_t retaddr);
+>> #endif /* !CONFIG_USER_ONLY */
+> 
+> Yeah, don't try to ifdef out struct fields in common-compiled code...
+> 
+>> Note that include/hw/core/cpu.h already uses CONFIG_USER_ONLY in other parts of the header file, and we might have hidden problems as a result we (or at least I) don't know about,
+>> because code is being compiled in for linux-user which explicitly should not be compiled there.
+> 
+> The other CONFIG_USER_ONLY checks in that file are only
+> ifdeffing out prototypes for functions that exist only in
+> the softmmu build, or providing do-nothing stubs for functions
+> that are softmmu only. I think they're safe.
 
-If option 3 means that you're still using MPTR, but just sequester space
-at the end of the backing block device for meta-data purposes, then that
-is fine too. You can even resize it dynamically if you want to support
-different metadata sizes.
+right, in cpu.h the extra prototypes do not cause immediate harm, but they lead to believe someone editing the file that CONFIG_USER_ONLY can be used and is effective in the file;
+if CONFIG_USER_ONLY is ineffective, why use it?
 
-> The 4th option is extending an existing image format (QCOW2) or create
-> something on top of RAW to supports metadata bytes per block. But both
-> approaches require full API support through the block layer. And
-> probably a lot of other stuff that I did not think about.
+In the same file, in other places
 
-It definitely sounds appealing to push the feature to a lower level if
-you're really willing to see that through.
+#ifdef NEED_CPU_H
+#ifdef CONFIG_SOFTMMU
 
-In any case, calculating T10 CRCs is *really* slow unless you have
-special hardware and software support for it.
+is used. Should this pattern be used instead consistently in header files? Is this guaranteed to always do the right thing, from wherever the header file is included?
+
+Also in hw/core/cpu.c we see this:
+
+#if !defined(CONFIG_USER_ONLY)
+GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
+{
+    CPUClass *cc = CPU_GET_CLASS(cpu);
+    GuestPanicInformation *res = NULL;
+
+    if (cc->get_crash_info) {
+        res = cc->get_crash_info(cpu);
+    }
+    return res;
+}
+#endif
+
+If !CONFIG_USER_ONLY is always ineffective, why have it there? This code should probably then be in $(top_srcdir)/cpu.c ?
+
+These things may be harmless by themselves, but it takes very little to make a false step,
+using the existing uses as a reference, as there is no other documentation (I know of).
+
+CONFIG_USER_ONLY is used in a few other places outside of target/, including in other header files,
+as you noted in a follow up email.
+Are all these uses harmless? Not sure how to determine that for sure..
+
+
+> 
+>> There are multiple workarounds / fixes possible for my short term problem,
+>> but would it not be a good idea to fix this problem at its root once and for all?
+> 
+> What's your proposal for fixing things ?
+
+
+I don't think I have the full picture yet, so I think the optimal solution can only be figured out together;
+
+I will try to flail in the dark hoping to hit on something that sparks an idea.
+
+
+- do we need both CONFIG_SOFTMMU and CONFIG_USER_ONLY? (I always wondered about the "ONLY" part of it, why not just CONFIG_USER?)
+  Based on previous comments from Richard we might need both in the future, but I fail to detect which places are meaningful for the one or the other.
+
+
+- Is the NEED_CPU_H + CONFIG_SOFTMMU check always the right thing to do? Is it always right in header files? ...
+
+
+- is it possible to define very clearly where in the codebase they should be used?
+  As an ignorant example from my side: only use CONFIG_USER_ONLY inside of target/,
+
+  Making the rule "don't use this for common_ss" is very difficult to stick to in practice,
+  with header files that end up being used from multiple sources, some in common_ss and some not, and it's so hidden from the day to day activities,
+  one need to explicitly check.
+
+  Instead if it's something obvious like: only in this subtree, then it is at least realistic to try to stick to it.
+  
+
+- is it possible to check the [in]correct use of CONFIG_USER_ONLY and CONFIG_SOFTMMU during compilation or with a script in scripts/ ?
+  I think you answered that already, adding it to "poison". Any downside to that?
+  Does it still make sense to restrict the uses more, in favor of clarity?
+
+
+- once we figure out the solution, I would try to document the result of the whole experience clearly, in doc/devel/ for example?
+
+
+> 
+> Incidentally, this should not be a problem for CONFIG_SOFTMMU,
+> because that is listed in include/exec/poison.h so trying to
+> use it in a common (not compiled-per-target) file will give you
+> a compile error. (So in theory we could make CONFIG_USER_ONLY
+> a poisoned identifier but that will require some work to
+> adjust places where we currently use it in "safe" ways...)
+> 
+> thanks
+> -- PMM
+
+ 
+Thanks!
+
+Claudio
+
 
