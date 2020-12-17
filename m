@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F702DD671
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:42:42 +0100 (CET)
-Received: from localhost ([::1]:45308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8452DD676
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:44:02 +0100 (CET)
+Received: from localhost ([::1]:50946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpxIX-0007M4-HI
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:42:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40822)
+	id 1kpxJp-0001E5-NA
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:44:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1kpx1y-0002O5-Eh
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:25:36 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:51187)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1kpx1t-0007d5-NA
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:25:34 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id lj6so4027518pjb.0
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 09:25:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
- h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
- :content-transfer-encoding;
- bh=E4FnEq0N6E9+/yf/onWrHYhBr5rr/hsxLviV2xg3oak=;
- b=Q0Wud+5fLdVDI5eZnB5KG6GGQDLj5SkapMCgzQEMPjvow6PHujLP2Do2j4LeLqZ66z
- HwjCqBBhPJcuyrEmrIMpUQBpM+IsP4XnRYzp8xsLPdhRr0r4CWr5CochBg/ZKBewMydl
- QgJNobaVwZQq7GS0d+la7GwQ0yiw3Qp+BaMfkBY2E/Z4hCseltlHE7AwHkCeRBi9t2Gh
- Cdh4F5fGFQAba9HR14neqwsQimCWd/C4SVJWhNzEHxQ3SqtRIsdrm504MTVwC+vUp0MB
- K8vZ9umTe41d2wrkk3B+OIYvDa1Yvetry+uvRwCseAAdDO1cNe8ESAsmHfj/bd9ENulN
- jxWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=E4FnEq0N6E9+/yf/onWrHYhBr5rr/hsxLviV2xg3oak=;
- b=r7ULBsxVp+JSDJ0G6W/jE7sQBSnyFgeGySH3/TJ/xFw76g8QkWDMidXwB3QDIKgfKK
- z8zYd9EdryyBd6mJAan3Uoc5TM0XFMOHN0F38fyuWkGX++eunGzkL042J+QMxtKftZTP
- 69e+EOe3skb5pyFei+TE9l1sxVSESaaLCvOlRZ6pB80QuZiE5VfBLezccSQyuguQcxgn
- E7j5PpDJZQ7CI6YvFHPDcNmg5ZcRaiFYvoH2HpWqMe1n/HvsUBlC98gK1/u1SLjfNsSD
- 3FTCo6vyghh/awdLnfivpXtJKXx4sSYGfGS2nGlXY2mxVY7CcvmYl7jxDz6SV4fQsePO
- Zcjw==
-X-Gm-Message-State: AOAM5332KtWc+cVbhPc4DH84oKspEk6teLX7oZQtSkgiXVn1vFLVYerB
- IQ7K8DzA9lChBblANwC7WbzOeg==
-X-Google-Smtp-Source: ABdhPJykDwJNWd/eHP7jwwGbKe2w6eZEdY0mNvQEL6UgbhvbAoM5c/bOoNznbJXwXF9j8qkxuXY9XA==
-X-Received: by 2002:a17:902:9b97:b029:da:4299:2214 with SMTP id
- y23-20020a1709029b97b02900da42992214mr228501plp.37.1608225927493; 
- Thu, 17 Dec 2020 09:25:27 -0800 (PST)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
- [76.210.143.223])
- by smtp.gmail.com with ESMTPSA id g17sm2514980pgg.78.2020.12.17.09.25.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 09:25:26 -0800 (PST)
-Date: Thu, 17 Dec 2020 09:25:26 -0800 (PST)
-X-Google-Original-Date: Thu, 17 Dec 2020 09:25:25 PST (-0800)
-Subject: Re: [PATCH v4 16/16] hw/riscv: Use the CPU to determine if 32-bit
-In-Reply-To: <7d2b4053-dbca-faf8-04b2-8da0aab70f29@linaro.org>
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: richard.henderson@linaro.org
-Message-ID: <mhng-18cffb57-6f85-430d-aa0e-bf19e4698c9a@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=palmer@dabbelt.com; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kpx8x-0007Zc-Hp
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:32:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23301)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kpx8u-0000bZ-Op
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:32:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608226361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=seMx5CZ6agch/pjgunyk+WVPhaHfVsU9Sz0HFrGtlXc=;
+ b=b6yErFjj4y1fMTcRwttbI5GoZe2WHMCLwuhEyL+ArYKOrYKaS6SR2os++Pq5TXAa52rZFw
+ fI/zgcrfZAAjTNgFvdXoUmxF6DfjlYtssuCnhKuPwn+1cpvQevBCLJjDcf0hR/rsUt6n6d
+ 09WDdAVa/8CRltp1wdImxbqfk1tTNic=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-366-cQl_hea-OoGqq_mmXrRe8w-1; Thu, 17 Dec 2020 12:32:39 -0500
+X-MC-Unique: cQl_hea-OoGqq_mmXrRe8w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81075180483F;
+ Thu, 17 Dec 2020 17:32:38 +0000 (UTC)
+Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 13C4D60D06;
+ Thu, 17 Dec 2020 17:32:36 +0000 (UTC)
+Date: Thu, 17 Dec 2020 17:32:34 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Denis V. Lunev" <den@openvz.org>
+Subject: Re: [PATCH 1/2] savevm: Remove dead code in save_snapshot()
+Message-ID: <20201217173234.GN4117@work-vm>
+References: <1607410416-13563-1-git-send-email-tu.guoyi@h3c.com>
+ <1607410416-13563-2-git-send-email-tu.guoyi@h3c.com>
+ <20201217152708.GI4117@work-vm>
+ <5b4d677b-88aa-ab28-cc2a-dc7d1c4934b8@openvz.org>
+MIME-Version: 1.0
+In-Reply-To: <5b4d677b-88aa-ab28-cc2a-dc7d1c4934b8@openvz.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,40 +81,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, bmeng.cn@gmail.com,
- Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
- alistair23@gmail.com
+Cc: qemu-devel@nongnu.org, tuguoyi@outlook.com, berrange@redhat.com,
+ Tuguoyi <tu.guoyi@h3c.com>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Dec 2020 05:58:11 PST (-0800), richard.henderson@linaro.org wrote:
-> On 12/17/20 12:44 AM, Bin Meng wrote:
->> What happens if something like ARM big.LITTLE needs to be supported on RISC-V?
->
-> I'd say it's the board's job to pass the boot heart.
-> (Though even big.LITTLE doesn't mix 64 and 32-bit cores.)
+* Denis V. Lunev (den@openvz.org) wrote:
+> On 12/17/20 6:27 PM, Dr. David Alan Gilbert wrote:
+> > * Tuguoyi (tu.guoyi@h3c.com) wrote:
+> >> The snapshot in each bs is deleted at the beginning, so there is no need
+> >> to find the snapshot again.
+> >>
+> >> Signed-off-by: Tuguoyi <tu.guoyi@h3c.com>
+> > This looks OK to me, becoming redundant after Denis's 0b46160 - but
+> > I don't know the snapshot code much;
+> >
+> > Denis - do you agree this is correct?
+> 
+> For me it looks too that the code becomes redundant, thus
+> 
+> Reviewed-by: Denis V. Lunev <den@openvz.org>
 
-I guess we can't stop people from building crazy things, but it does seem like
-building a system that mixes up base ISAs is unlikely.  IDK if 32-bit
-compatibility on 64-bit systems is ever going to be important enough to show up
-on RISC-V, as 32-bit might be defunct in portable systems by the point real
-RISC-V systems are availiable, but one could imagine systems where only a
-subset of cores have 32-bit compatibility.  My guess is that they'd all boot
-into 64-bit mode, though, so that sort of stuff won't be relevant until one
-tries to get to 32-bit code.
+Thanks!
+(Both patches) queued
 
-Regardless of where that sort of thing goes, it seems reasonable to just ban
-people from spinning up mixed machine XLEN systems in QEMU for the time being.
-IIUC that's always been impossible (as it was a #define before), so it's not
-like we're regressing on any functionality with that constraint.
+> > Dave
+> >
+> >> ---
+> >>  migration/savevm.c | 10 ++--------
+> >>  1 file changed, 2 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/migration/savevm.c b/migration/savevm.c
+> >> index 5f937a2..601b514 100644
+> >> --- a/migration/savevm.c
+> >> +++ b/migration/savevm.c
+> >> @@ -2728,7 +2728,7 @@ int qemu_load_device_state(QEMUFile *f)
+> >>  int save_snapshot(const char *name, Error **errp)
+> >>  {
+> >>      BlockDriverState *bs, *bs1;
+> >> -    QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
+> >> +    QEMUSnapshotInfo sn1, *sn = &sn1;
+> >>      int ret = -1, ret2;
+> >>      QEMUFile *f;
+> >>      int saved_vm_running;
+> >> @@ -2797,13 +2797,7 @@ int save_snapshot(const char *name, Error **errp)
+> >>      }
+> >>  
+> >>      if (name) {
+> >> -        ret = bdrv_snapshot_find(bs, old_sn, name);
+> >> -        if (ret >= 0) {
+> >> -            pstrcpy(sn->name, sizeof(sn->name), old_sn->name);
+> >> -            pstrcpy(sn->id_str, sizeof(sn->id_str), old_sn->id_str);
+> >> -        } else {
+> >> -            pstrcpy(sn->name, sizeof(sn->name), name);
+> >> -        }
+> >> +        pstrcpy(sn->name, sizeof(sn->name), name);
+> >>      } else {
+> >>          /* cast below needed for OpenBSD where tv_sec is still 'long' */
+> >>          localtime_r((const time_t *)&tv.tv_sec, &tm);
+> >> -- 
+> >> 2.7.4
+> >>
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Other hetergenous ISA/microarctucture stuff seems reasonable to support in
-QEMU, but also not a high priority.  It doesn't seem that hard to write the
-early boot stuff in a way such that it only depends on the base ISA -- that's
-essentially how we're handling stuff like F/D in Linux, you just either probe
-or handle the traps.  There's already some simple hetergenous stuff floating
-around (like the non-MMU cores in the SiFive designs) and that all seems to
-work fine so my guess is we have enough stuff there, but I'm sure there'll be
-more work do to as more complicated designs start to show up (doubly so as
-there's no specs for any of this).
 
