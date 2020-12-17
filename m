@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998792DD8FC
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 20:03:02 +0100 (CET)
-Received: from localhost ([::1]:45176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E542DD8CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 19:56:31 +0100 (CET)
+Received: from localhost ([::1]:58810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpyYH-0007Kf-Es
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 14:03:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32992)
+	id 1kpyRy-00016g-Hw
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 13:56:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kpyIb-0006Vf-9j
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:46:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30094)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kpyIZ-000209-Ij
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:46:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608230806;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kEG86ZsQNf/+4LIkBiTmnAufwFPZKTquQ/8dOW7iK+g=;
- b=JO4DtDJs9/tad4D+YAoIIN7F3WEFmkE9kSeEKaN3cg9UiFZ4KGf/rhNRJz2MwamrOgr0fG
- ykOA/eYpar1/w7YRq72oc1uqOzOsMYxH9T5qvK1++QTFCmvPVMxpSDR458z4q0C6N+1ODc
- Zlgb7KWyQZ3x6/urjTG1/gBA1fCqTb0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-KPJAsWRqN7e3yDTe5NSQlg-1; Thu, 17 Dec 2020 13:46:44 -0500
-X-MC-Unique: KPJAsWRqN7e3yDTe5NSQlg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EB501005504;
- Thu, 17 Dec 2020 18:46:43 +0000 (UTC)
-Received: from localhost (ovpn-115-226.rdu2.redhat.com [10.10.115.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 56BD1100238C;
- Thu, 17 Dec 2020 18:46:43 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL 17/17] cpu: Remove unnecessary noop methods
-Date: Thu, 17 Dec 2020 13:46:20 -0500
-Message-Id: <20201217184620.3945917-18-ehabkost@redhat.com>
-In-Reply-To: <20201217184620.3945917-1-ehabkost@redhat.com>
-References: <20201217184620.3945917-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kpyKo-0000KX-JM
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:49:06 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:43592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kpyKm-0002CI-OJ
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:49:06 -0500
+Received: by mail-ed1-x530.google.com with SMTP id q16so29691872edv.10
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 10:49:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=AN2jGgv3zS9WmyZRs/4IQBiIwFus92oK1nrkAJ3DNYk=;
+ b=Mr2UNJlCx1ScYS30qi7rC3CPHw9uutReMQAtDrqKJ32U/wbKIFWYaVeHcFxHHLPVki
+ y3ux4UMRtCI83glAzX69EG+C0vcZBCcZuyjugjWxtf4sqMhwSRoDwPaXlbbjnRgeIgNH
+ 68pKry69aqjuO0MHKhWukMXCpqleDKNNkF9CD2+3C2EFpRbfCuFVzaZ8f+t65VG2XSYp
+ toe5gS74HHYMqMmVg+WVnFZCHPQHCR/ioRWSQ3aenw3eSM4Sg1Ihcv58DPIvsIyrbWD1
+ I7QYYFIuK5Rce0ftqDio3fkQlenI01ziwCUO/g/F0q8bE6CTv8S7ckJcYYAJrND8HkFw
+ ffJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AN2jGgv3zS9WmyZRs/4IQBiIwFus92oK1nrkAJ3DNYk=;
+ b=ZVpzruZqRaLH7c2Dw0z0jzVuJT+LKLxo+IwJYcYeGBnqgdQbKgpHqnVwIIgZ4Ag45e
+ k75+Wtc+djF1Yij6yFSA1tTzqKrtMu8eNTIy0wlexKnJ6GRWH/KwqrneHf57mY9ZFGvk
+ Qyw0OH64ZHkMAXofbfKSKIhdbPaOCal72ZMZshYPLcrqW9WRw3oIizZ2T2kd1TxLH315
+ jNb7UvIhmswhTOMVKykjSWKZgnBTk0QrQ4voLwDq2//UrOXo2E+31zHMHJRCbFxn8pY8
+ xNWLq7Ye054JeV6KPCsVSc5nArnrh5dJjZDJVqW/HbFtnSConsgK1An5AXVJZjvVodcr
+ rwWw==
+X-Gm-Message-State: AOAM532TZMesZ7L0jE9gDZJXzMrqiYR99uv7If7fjf5taASE2Ycp8kEN
+ elOHuwFa3mN659Mus4cok9y5o7oB7Yl3p3+KL98Ofw==
+X-Google-Smtp-Source: ABdhPJzdWzN1mv6lEP8CkObx6xiPV4XTrBQpTSNwZ1DGabDm/gb716VyZnb1cUmP8JgxL9B3SmCtKlOHC0PSkx633CI=
+X-Received: by 2002:a05:6402:366:: with SMTP id s6mr782375edw.44.1608230943029; 
+ Thu, 17 Dec 2020 10:49:03 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20201217094330.17400-1-alex.bennee@linaro.org>
+In-Reply-To: <20201217094330.17400-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 17 Dec 2020 18:48:51 +0000
+Message-ID: <CAFEAcA8SAGVe44y=6wHC_MxcmxUE=cSu5DGs-0Md3Zt+ZZrS+A@mail.gmail.com>
+Subject: Re: [PULL v2 00/11] testing and configure updates
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,59 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the previous commits we made cpu_exec_* and debug_excp_handler
-optional, so we can now remove these no-op handlers.
+On Thu, 17 Dec 2020 at 09:43, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> The following changes since commit af3f37319cb1e1ca0c42842ecdbd1bcfc64a4b=
+6f:
+>
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream'=
+ into staging (2020-12-15 21:24:31 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stsquad/qemu.git tags/pull-testing-171220-2
+>
+> for you to fetch changes up to a1c04860cec798914f8cd8ef77fce195f360d36e:
+>
+>   tests: update for rename of CentOS8 PowerTools repo (2020-12-17 09:38:5=
+1 +0000)
+>
+> ----------------------------------------------------------------
+> Testing and configure updates:
+>
+>   - add moxie-softmmu to deprecated_targets_list
+>   - improve cross-build KVM coverage
+>   - new --without-default-features configure flag
+>   - add __repr__ for ConsoleSocket for debugging
+>   - build tcg tests with -Werror
+>   - test 32 bit builds with fedora
+>   - remove last traces of debian9
+>   - hotfix for centos8 powertools repo
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201212155530.23098-13-cfontana@suse.de>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- hw/core/cpu.c | 13 -------------
- 1 file changed, 13 deletions(-)
+This seems to fail for x86 builds on my local Linux system with
+errors like this:
+make: Entering directory '/home/petmay01/linaro/qemu-for-merges/build/alldb=
+g'
+MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+QTEST_QEMU_IMG=3D./qemu-img
+G_TEST_DBUS_DAEMON=3D/home/petmay01/linaro/qemu-for-merges/tests/dbus-vmsta=
+te-daemon.sh
+QTEST_QEMU_BINARY=3D./qemu-system-moxie tests/qtest/qmp-cmd-test --tap
+-k
+sh: 1: exec: ./qemu-system-moxie: not found
+socket_accept failed: Resource temporarily unavailable
+**
+ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
+assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+../../tests/qtest/libqtest.c:172: kill_qemu() tried to terminate QEMU
+process but encountered exit status 127 (expected 0)
+ERROR qtest-moxie/qmp-cmd-test - Bail out!
+ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshake:
+assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+Makefile.mtest:2417: recipe for target 'run-test-300' failed
+make: *** [run-test-300] Error 1
+make: Leaving directory '/home/petmay01/linaro/qemu-for-merges/build/alldbg=
+'
 
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 5c89c858aa..7553411653 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -199,15 +199,6 @@ static bool cpu_common_virtio_is_big_endian(CPUState *cpu)
-     return target_words_bigendian();
- }
- 
--static void cpu_common_noop(CPUState *cpu)
--{
--}
--
--static bool cpu_common_exec_interrupt(CPUState *cpu, int int_req)
--{
--    return false;
--}
--
- #if !defined(CONFIG_USER_ONLY)
- GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
- {
-@@ -425,11 +416,7 @@ static void cpu_class_init(ObjectClass *klass, void *data)
-     k->gdb_read_register = cpu_common_gdb_read_register;
-     k->gdb_write_register = cpu_common_gdb_write_register;
-     k->virtio_is_big_endian = cpu_common_virtio_is_big_endian;
--    k->debug_excp_handler = cpu_common_noop;
-     k->debug_check_watchpoint = cpu_common_debug_check_watchpoint;
--    k->cpu_exec_enter = cpu_common_noop;
--    k->cpu_exec_exit = cpu_common_noop;
--    k->cpu_exec_interrupt = cpu_common_exec_interrupt;
-     k->adjust_watchpoint_address = cpu_adjust_watchpoint_address;
-     set_bit(DEVICE_CATEGORY_CPU, dc->categories);
-     dc->realize = cpu_common_realizefn;
--- 
-2.28.0
+Something in the Moxie deprecation patch not right?
+If we didn't build the executable we shouldn't try to
+run tests for it...
 
+thanks
+-- PMM
 
