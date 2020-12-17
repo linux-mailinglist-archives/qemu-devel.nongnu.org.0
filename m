@@ -2,74 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432C02DD582
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 17:54:21 +0100 (CET)
-Received: from localhost ([::1]:41572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8B52DD58D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 17:58:21 +0100 (CET)
+Received: from localhost ([::1]:45872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpwXj-0001N5-47
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 11:54:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33066)
+	id 1kpwbc-0003Pk-V4
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 11:58:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kpwV3-0008Qx-SV
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:51:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37647)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kpwV1-0002OR-7W
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:51:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608223890;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YOeVbU0ODFRQh5p3gAiAqVn+cohW7EpHB375KTAtU2g=;
- b=Wbvk9iCCBb3ZyezcPaJdUNJID5lDoIhmg2zsw058BMTMT4Q2+Cgv9FPoo11hoDoYjJm6ui
- p5RTfxFGT0/ze8ykGDil0kn26EgPM8vz2hV6g0sB37osgqXsmfATCEowzesrBARdY/ss/D
- 9Alf383zlnGjxmGW5immlTAupGHTM8A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-IxkfkvbKPnq-pSyZnCf5JQ-1; Thu, 17 Dec 2020 11:51:28 -0500
-X-MC-Unique: IxkfkvbKPnq-pSyZnCf5JQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48E95800D55;
- Thu, 17 Dec 2020 16:51:27 +0000 (UTC)
-Received: from starship (unknown [10.35.206.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 68F70E73C;
- Thu, 17 Dec 2020 16:51:16 +0000 (UTC)
-Message-ID: <48fbfb7519dedd9ca32a1ab4c72aee22699973f8.camel@redhat.com>
-Subject: Re: [PATCH v2 1/5] file-posix: split hdev_refresh_limits from
- raw_refresh_limits
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Tom Yan <tom.ty89@gmail.com>
-Date: Thu, 17 Dec 2020 18:51:15 +0200
-In-Reply-To: <CAGnHSEni73NXKEhoBBpgnD1xyfyUBkAnK_7r-u0kwn6xQoD7_A@mail.gmail.com>
-References: <20201209135355.561745-1-mlevitsk@redhat.com>
- <20201209135355.561745-2-mlevitsk@redhat.com>
- <CAGnHSEni73NXKEhoBBpgnD1xyfyUBkAnK_7r-u0kwn6xQoD7_A@mail.gmail.com>
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+ (Exim 4.90_1) (envelope-from <gromero@linux.ibm.com>)
+ id 1kpwYl-0002Us-4r; Thu, 17 Dec 2020 11:55:23 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5974)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gromero@linux.ibm.com>)
+ id 1kpwYj-0002mS-Cl; Thu, 17 Dec 2020 11:55:22 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0BHGVZkC032620; Thu, 17 Dec 2020 11:55:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=weG5EWEKNB+5Jz44HXn81ThRGoIOQMbcznhlb2mKjj4=;
+ b=C/W6WzaB/zpkSqbBK8S3bKcmWuZT22rHwEVCKZbz+YE7+6lfY9X91gDVqFoBXx4IuqC/
+ zbr+zA8Q+1rt7ny2I1zTle35VksaKmisoaVElH7EIjEk2ANnvHjT8ovMc956eyK0oc3Y
+ 5lfFsy2UiKBsUVi6DzqaWtX6V+tyM9opp1jcRB0bv34tGfd8Nbs/7euWShamUMSnuBOj
+ k8plhWLTjubU5iqcOWCLTI2bUDy9zu0YtYZpzwcH7uXYj5L8amsI0xz0GWm+s54YuXtU
+ XzQNZ69SN7T7NjRM2RjiPZl4RSJSG/aLElwZbGN6MHUxp2wiD44mK9MYliv4BtyLdrLE lw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35gav08tsh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Dec 2020 11:55:08 -0500
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BHGWB7W034975;
+ Thu, 17 Dec 2020 11:55:08 -0500
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35gav08ts1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Dec 2020 11:55:08 -0500
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BHGrM3f030272;
+ Thu, 17 Dec 2020 16:55:07 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma04dal.us.ibm.com with ESMTP id 35cng9u9gj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Dec 2020 16:55:07 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0BHGt6PF24838592
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Dec 2020 16:55:06 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8CB95AC06A;
+ Thu, 17 Dec 2020 16:55:06 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7B811AC06E;
+ Thu, 17 Dec 2020 16:55:05 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.85.157.218])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Thu, 17 Dec 2020 16:55:05 +0000 (GMT)
+Subject: Re: [PATCH] configure: Fail when specified cross compiler cannot be
+ found
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20201216013646.40799-1-gromero@linux.ibm.com>
+ <87bleut3si.fsf@linaro.org>
+From: Gustavo Romero <gromero@linux.ibm.com>
+Message-ID: <16b08946-9f96-200e-231f-40e24bb21734@linux.ibm.com>
+Date: Thu, 17 Dec 2020 13:55:04 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <87bleut3si.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-17_10:2020-12-15,
+ 2020-12-17 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=999
+ malwarescore=0 suspectscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
+ lowpriorityscore=0 mlxscore=0 adultscore=0 spamscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012170110
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=gromero@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,142 +110,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, qemu-block@nongnu.org,
- Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: gustavo.romero@protonmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2020-12-10 at 18:36 +0800, Tom Yan wrote:
-> On Wed, 9 Dec 2020 at 21:54, Maxim Levitsky <mlevitsk@redhat.com> wrote:
-> > From: Tom Yan <tom.ty89@gmail.com>
-> > 
-> > We can and should get max transfer length and max segments for all host
-> > devices / cdroms (on Linux).
-> > 
-> > Also use MIN_NON_ZERO instead when we clamp max transfer length against
-> > max segments.
-> > 
-> > Signed-off-by: Tom Yan <tom.ty89@gmail.com>
-> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > ---
-> >  block/file-posix.c | 59 +++++++++++++++++++++++++++++++++-------------
-> >  1 file changed, 43 insertions(+), 16 deletions(-)
-> > 
-> > diff --git a/block/file-posix.c b/block/file-posix.c
-> > index d5fd1dbcd2..226ddbbdad 100644
-> > --- a/block/file-posix.c
-> > +++ b/block/file-posix.c
-> > @@ -1162,6 +1162,12 @@ static void raw_reopen_abort(BDRVReopenState *state)
-> > 
-> >  static int sg_get_max_transfer_length(int fd)
-> >  {
-> > +    /*
-> > +     * BLKSECTGET for /dev/sg* character devices incorrectly returns
-> > +     * the max transfer size in bytes (rather than in blocks).
-> > +     * Also note that /dev/sg* doesn't support BLKSSZGET ioctl.
-> > +     */
-> The second statement should be removed. Also maybe it's better to have
-> the first one right above the line `return max_bytes;`.
-Done, thanks.
+Hi Alex,
 
-Best regards,
-	Maxim Levitsky
+On 12/16/20 7:51 AM, Alex Bennée wrote:
+> 
+> Gustavo Romero <gromero@linux.ibm.com> writes:
+> 
+>> Currently if the cross compiler passed to 'configure' (--cross-cc-<arch>) does
+>> not exist no error happens and only later when the TCG tests are run they fail
+>> because the cross compiler is not set correctly.
+> 
+> Do they? They should just skip because of a non-existing compiler and a
+> failed fallback to using docker:
+> 
+>    ../../configure --disable-docs --target-list=aarch64-softmmu --cross-cc-aarch64=nonexisting_gcc
+> 
+> and then cat ./tests/tcg/config-aarch64-softmmu.mak
+> 
+>    # Automatically generated by configure - do not modify
+>    TARGET_NAME=aarch64
+>    CONFIG_SOFTMMU=y
+>    QEMU=/home/alex/lsrc/qemu.git/builds/bisect/qemu-system-aarch64
+>    CROSS_CC_GUEST_CFLAGS=
+>    DOCKER_IMAGE=debian-arm64-test-cross
+>    DOCKER_CROSS_CC_GUEST=aarch64-linux-gnu-gcc-10
+> 
+> So what do you see in your failing case?
 
-> > +
-> >  #ifdef BLKSECTGET
-> >      int max_bytes = 0;
-> > 
-> > @@ -1175,7 +1181,22 @@ static int sg_get_max_transfer_length(int fd)
-> >  #endif
-> >  }
-> > 
-> > -static int sg_get_max_segments(int fd)
-> > +static int get_max_transfer_length(int fd)
-> > +{
-> > +#if defined(BLKSECTGET)
-> > +    int sect = 0;
-> > +
-> > +    if (ioctl(fd, BLKSECTGET, &sect) == 0) {
-> > +        return sect << 9;
-> > +    } else {
-> > +        return -errno;
-> > +    }
-> > +#else
-> > +    return -ENOSYS;
-> > +#endif
-> > +}
-> > +
-> > +static int get_max_segments(int fd)
-> >  {
-> >  #ifdef CONFIG_LINUX
-> >      char buf[32];
-> > @@ -1230,23 +1251,29 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
-> >  {
-> >      BDRVRawState *s = bs->opaque;
-> > 
-> > -    if (bs->sg) {
-> > -        int ret = sg_get_max_transfer_length(s->fd);
-> > +    raw_probe_alignment(bs, s->fd, errp);
-> > +    bs->bl.min_mem_alignment = s->buf_align;
-> > +    bs->bl.opt_mem_alignment = MAX(s->buf_align, qemu_real_host_page_size);
-> > +}
-> > 
-> > -        if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
-> > -            bs->bl.max_transfer = pow2floor(ret);
-> > -        }
-> > +static void hdev_refresh_limits(BlockDriverState *bs, Error **errp)
-> > +{
-> > +    BDRVRawState *s = bs->opaque;
-> > 
-> > -        ret = sg_get_max_segments(s->fd);
-> > -        if (ret > 0) {
-> > -            bs->bl.max_transfer = MIN(bs->bl.max_transfer,
-> > -                                      ret * qemu_real_host_page_size);
-> > -        }
-> > +    int ret = bs->sg ? sg_get_max_transfer_length(s->fd) :
-> > +                       get_max_transfer_length(s->fd);
-> > +
-> > +    if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
-> > +        bs->bl.max_transfer = pow2floor(ret);
-> >      }
-> > 
-> > -    raw_probe_alignment(bs, s->fd, errp);
-> > -    bs->bl.min_mem_alignment = s->buf_align;
-> > -    bs->bl.opt_mem_alignment = MAX(s->buf_align, qemu_real_host_page_size);
-> > +    ret = get_max_segments(s->fd);
-> > +    if (ret > 0) {
-> > +        bs->bl.max_transfer = MIN_NON_ZERO(bs->bl.max_transfer,
-> > +                                           ret * qemu_real_host_page_size);
-> > +    }
-> > +
-> > +    raw_refresh_limits(bs, errp);
-> >  }
-> > 
-> >  static int check_for_dasd(int fd)
-> > @@ -3601,7 +3628,7 @@ static BlockDriver bdrv_host_device = {
-> >      .bdrv_co_pdiscard       = hdev_co_pdiscard,
-> >      .bdrv_co_copy_range_from = raw_co_copy_range_from,
-> >      .bdrv_co_copy_range_to  = raw_co_copy_range_to,
-> > -    .bdrv_refresh_limits = raw_refresh_limits,
-> > +    .bdrv_refresh_limits = hdev_refresh_limits,
-> >      .bdrv_io_plug = raw_aio_plug,
-> >      .bdrv_io_unplug = raw_aio_unplug,
-> >      .bdrv_attach_aio_context = raw_aio_attach_aio_context,
-> > @@ -3725,7 +3752,7 @@ static BlockDriver bdrv_host_cdrom = {
-> >      .bdrv_co_preadv         = raw_co_preadv,
-> >      .bdrv_co_pwritev        = raw_co_pwritev,
-> >      .bdrv_co_flush_to_disk  = raw_co_flush_to_disk,
-> > -    .bdrv_refresh_limits = raw_refresh_limits,
-> > +    .bdrv_refresh_limits = hdev_refresh_limits,
-> >      .bdrv_io_plug = raw_aio_plug,
-> >      .bdrv_io_unplug = raw_aio_unplug,
-> >      .bdrv_attach_aio_context = raw_aio_attach_aio_context,
-> > --
-> > 2.26.2
-> > 
+I get the following (I don't have docker installed):
+
+$  ../configure --disable-docs --target-list=aarch64-softmmu --cross-cc-aarch64=nonexisting_gcc
+gromero@pub:~/git/qemu/build$ cat ./tests/tcg/config-aarch64-softmmu.mak
+# Automatically generated by configure - do not modify
+TARGET_NAME=aarch64
+CONFIG_SOFTMMU=y
+QEMU=/home/gromero/git/qemu/build/qemu-system-aarch64
+CROSS_CC_GUEST_CFLAGS=
+
+$ ../configure --disable-docs --target-list=ppc64-softmmu --cross-cc-ppc64=nonexisting_gcc
+gromero@pub:~/git/qemu/build$ cat ./tests/tcg/config-ppc64-softmmu.mak
+# Automatically generated by configure - do not modify
+TARGET_NAME=ppc64
+CONFIG_SOFTMMU=y
+QEMU=/home/gromero/git/qemu/build/qemu-system-ppc64
+CROSS_CC_GUEST_CFLAGS=
+CROSS_CC_GUEST_STATIC=y
+CROSS_CC_GUEST=powerpc-linux-gnu-gcc
+
+hrm It seems PPC64 is even assuming some default gcc...
+
+I'm at commit af3f37319c from Dec 15.
+
+I'm wondering if tha happens because I don't have docker package installed.
+
+Anyway, should we at least say we're using Docker as fallback?
 
 
+Cheers,
+Gustavo
 
