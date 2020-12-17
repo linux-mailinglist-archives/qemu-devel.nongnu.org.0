@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38DED2DD3C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:09:55 +0100 (CET)
-Received: from localhost ([::1]:56282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3FF2DD438
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:31:23 +0100 (CET)
+Received: from localhost ([::1]:43468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpuug-0002s4-3j
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:09:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33308)
+	id 1kpvFS-00052s-LB
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:31:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpue0-0003Ud-Qi
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:52:40 -0500
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:44498)
+ id 1kpue4-0003Y4-5m
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:52:44 -0500
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:39848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpudu-0004x2-Uh
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:52:40 -0500
-Received: by mail-ot1-x32f.google.com with SMTP id f16so27476814otl.11
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 06:52:34 -0800 (PST)
+ id 1kpudv-0004xE-O3
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:52:42 -0500
+Received: by mail-ot1-x330.google.com with SMTP id d8so27520803otq.6
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 06:52:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=aEQok0/L5FX5jAQIApgNcuA+gqvYfIDMod+uDV+LrZA=;
- b=M0/zEyDMPIqR/5PP88yWRmRfBiH5+UoLRD50jjHf9rbGbqnIU6Qj6133XmCfSMqHo0
- HvwcI+D76kQb0afSIohuF/ezI1D8QFOjrzwLRjNb77D8s9g3/YcVkQxSO8c8JZRrhq+o
- o9pN8nlbWXTGJH7fFipEX+HJDLQKGl5QlalUm61XiDV9xE3oTEL7/JRd1/5950omdsrz
- 0H9cDRW/NE5RUdQ0vJbFfhQ7O6VgGnzUnz594eajir3CqQIXdQwh0ttLpPbb0HV2nCMW
- YvzG5jliaAsKH9NPMWGpnijPLtajX4WyLEgOPsy39eyr9rcDJx5uy9/8L/J/8S8UHkLe
- KVSw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=HakP3QzMMgoP+5PWHWKQnZl86G7xrmBYKlGdyeWSyq0=;
+ b=IMZyzKq3d8o3AyeSInAdPCruq1KpvShtpxG6Hbgo9XrqUBR0iy+ffTs51I9D7Kr8Tk
+ Dtj11wFNmx/5FxPe/K1+S6RXpPImVcSNCqeinbPShOi2UJ5g2p6m6SYLMTzfCyCeGc5a
+ FQP2jCXF2SIYuvtjYEVE7wHHfTKhLKSJpDXCdM5ZLXekyf3B2ea1Ql4uU1IWdcsGfv01
+ kYI9AyVxWLRdHoSESZdUP/2D6n3k6feQ9WOonEolEA7I38KlIWuA/GUpEuMGJuqa4Nul
+ gWxPu6GimkJg7TqyQ9ASSB4EXBIMC23131lbPS4s6tcUPNyEQWjt5HnMtBrpSUtTh/Rx
+ ycVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aEQok0/L5FX5jAQIApgNcuA+gqvYfIDMod+uDV+LrZA=;
- b=ONXNpVDsC5FguxONhfGGejjzDgUe8rEMngohaBOMvPI4Otx0Tw7F8yT4zjSQ6r/lF2
- NpBCOYoMjVzjKUFhmpUj3/6NdpNDxwGIcOjOHYD+iLK4bacnNYdTfggldZSv+WVrWZVd
- Ismvlsmu2wES/2s2REOAfa5sw/lMM9lkawyH+9J2DLlFv9Nl4eBzZSD2DOJ9KE5zbYZR
- CXcd+H1px6D+rBPP8J7hCapyXxOhvcDNIizKBVN1GsebPtWHeM8RKlmvPYPKcJQTzlHM
- EaBL4gzpgZR1BERkeRLTT5KojWpEoCxS3+HRjATkk+c4W0JwStQkNb9+b+2yT1KKE/wp
- EVCw==
-X-Gm-Message-State: AOAM5337W1vHogdTAXDvL4ZwXXSkYbtsCimWJcMpc3/W+i5vS3bvG0ak
- 8+4udLnr7tksQ6MeuQ7jLhezMg2Q6bYHtLrL
-X-Google-Smtp-Source: ABdhPJyMxJyMx+Cjv/DpACrGxES73IQJgInYo3ahvBIWfOjlKZ/flDwY1PrpfK2UJOTRMBG4CxrkKQ==
-X-Received: by 2002:a05:6830:2144:: with SMTP id
- r4mr28583745otd.180.1608216753051; 
- Thu, 17 Dec 2020 06:52:33 -0800 (PST)
+ bh=HakP3QzMMgoP+5PWHWKQnZl86G7xrmBYKlGdyeWSyq0=;
+ b=IwxxBeTgLBh9UmO6buywBxB24YcscakvgDesJGtNmpIZxKrHEGfCNzKbJqKGivVRW2
+ rq/pTIh5Uj62fLpXJA/cSIUCnANgQ3nfZz/YtKhNSt3sfrpROSMNqUgWIhKlmp2T1GB8
+ Uu9VM5zXF8ZFu25BqmFd7BWkghqbP6yq3HwUpDP5s9k3G11M2+6zWyUPkTexc864aTtK
+ +7ZdDvL412iLNXETDRqDswmF/r7BAMj5bA6MjdEZhT8PaA3kEJzuvE+tM3XbpvjtbHEj
+ mw+EHXfjVctuVSNWlQ8Kp4o7H+F9WkfYiu/xVVyNMc7memGFxe50Ir5vaGCclApdnRG9
+ ljpw==
+X-Gm-Message-State: AOAM532yC95SNXigiDAH2ejKAXx4pcQF1R7g2fw0WgR1nb0MPiKKQICp
+ XM1Wq5J+FvGDyiyJY+DGQrAAzdeMObCTACQj
+X-Google-Smtp-Source: ABdhPJxo+HZW2wA/SoiG5FXHT688UzsN3Lg0eLJJqRAC0zCGWpgqmpDHULJBTEXJTiRMsfmxvLdfOw==
+X-Received: by 2002:a05:6830:110b:: with SMTP id
+ w11mr26695273otq.285.1608216754152; 
+ Thu, 17 Dec 2020 06:52:34 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id x130sm1136342oif.3.2020.12.17.06.52.32
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id x130sm1136342oif.3.2020.12.17.06.52.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 06:52:32 -0800 (PST)
+ Thu, 17 Dec 2020 06:52:33 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 14/23] tcg: Use tcg_constant_{i32,
- i64} with tcg int expanders
-Date: Thu, 17 Dec 2020 08:52:06 -0600
-Message-Id: <20201217145215.534637-15-richard.henderson@linaro.org>
+Subject: [PATCH v5 15/23] tcg: Use tcg_constant_{i32,i64} with tcg plugins
+Date: Thu, 17 Dec 2020 08:52:07 -0600
+Message-Id: <20201217145215.534637-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201217145215.534637-1-richard.henderson@linaro.org>
 References: <20201217145215.534637-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,636 +85,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-op.h |  13 +--
- tcg/tcg-op.c         | 227 ++++++++++++++++++++-----------------------
- 2 files changed, 109 insertions(+), 131 deletions(-)
+ accel/tcg/plugin-gen.c | 49 +++++++++++++++++++-----------------------
+ 1 file changed, 22 insertions(+), 27 deletions(-)
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index 5abf17fecc..b4fba35e87 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -271,6 +271,7 @@ void tcg_gen_mb(TCGBar);
- 
- /* 32 bit ops */
- 
-+void tcg_gen_movi_i32(TCGv_i32 ret, int32_t arg);
- void tcg_gen_addi_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2);
- void tcg_gen_subfi_i32(TCGv_i32 ret, int32_t arg1, TCGv_i32 arg2);
- void tcg_gen_subi_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2);
-@@ -349,11 +350,6 @@ static inline void tcg_gen_mov_i32(TCGv_i32 ret, TCGv_i32 arg)
-     }
- }
- 
--static inline void tcg_gen_movi_i32(TCGv_i32 ret, int32_t arg)
--{
--    tcg_gen_op2i_i32(INDEX_op_movi_i32, ret, arg);
--}
--
- static inline void tcg_gen_ld8u_i32(TCGv_i32 ret, TCGv_ptr arg2,
-                                     tcg_target_long offset)
- {
-@@ -467,6 +463,7 @@ static inline void tcg_gen_not_i32(TCGv_i32 ret, TCGv_i32 arg)
- 
- /* 64 bit ops */
- 
-+void tcg_gen_movi_i64(TCGv_i64 ret, int64_t arg);
- void tcg_gen_addi_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2);
- void tcg_gen_subfi_i64(TCGv_i64 ret, int64_t arg1, TCGv_i64 arg2);
- void tcg_gen_subi_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2);
-@@ -550,11 +547,6 @@ static inline void tcg_gen_mov_i64(TCGv_i64 ret, TCGv_i64 arg)
-     }
- }
- 
--static inline void tcg_gen_movi_i64(TCGv_i64 ret, int64_t arg)
--{
--    tcg_gen_op2i_i64(INDEX_op_movi_i64, ret, arg);
--}
--
- static inline void tcg_gen_ld8u_i64(TCGv_i64 ret, TCGv_ptr arg2,
-                                     tcg_target_long offset)
- {
-@@ -698,7 +690,6 @@ static inline void tcg_gen_sub_i64(TCGv_i64 ret, TCGv_i64 arg1, TCGv_i64 arg2)
- 
- void tcg_gen_discard_i64(TCGv_i64 arg);
- void tcg_gen_mov_i64(TCGv_i64 ret, TCGv_i64 arg);
--void tcg_gen_movi_i64(TCGv_i64 ret, int64_t arg);
- void tcg_gen_ld8u_i64(TCGv_i64 ret, TCGv_ptr arg2, tcg_target_long offset);
- void tcg_gen_ld8s_i64(TCGv_i64 ret, TCGv_ptr arg2, tcg_target_long offset);
- void tcg_gen_ld16u_i64(TCGv_i64 ret, TCGv_ptr arg2, tcg_target_long offset);
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 4b8a473fad..e2d8ae3234 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -104,15 +104,18 @@ void tcg_gen_mb(TCGBar mb_type)
- 
- /* 32 bit ops */
- 
-+void tcg_gen_movi_i32(TCGv_i32 ret, int32_t arg)
-+{
-+    tcg_gen_mov_i32(ret, tcg_constant_i32(arg));
-+}
-+
- void tcg_gen_addi_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
- {
-     /* some cases can be optimized here */
-     if (arg2 == 0) {
-         tcg_gen_mov_i32(ret, arg1);
-     } else {
--        TCGv_i32 t0 = tcg_const_i32(arg2);
--        tcg_gen_add_i32(ret, arg1, t0);
--        tcg_temp_free_i32(t0);
-+        tcg_gen_add_i32(ret, arg1, tcg_constant_i32(arg2));
-     }
- }
- 
-@@ -122,9 +125,7 @@ void tcg_gen_subfi_i32(TCGv_i32 ret, int32_t arg1, TCGv_i32 arg2)
-         /* Don't recurse with tcg_gen_neg_i32.  */
-         tcg_gen_op2_i32(INDEX_op_neg_i32, ret, arg2);
-     } else {
--        TCGv_i32 t0 = tcg_const_i32(arg1);
--        tcg_gen_sub_i32(ret, t0, arg2);
--        tcg_temp_free_i32(t0);
-+        tcg_gen_sub_i32(ret, tcg_constant_i32(arg1), arg2);
-     }
- }
- 
-@@ -134,15 +135,12 @@ void tcg_gen_subi_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
-     if (arg2 == 0) {
-         tcg_gen_mov_i32(ret, arg1);
-     } else {
--        TCGv_i32 t0 = tcg_const_i32(arg2);
--        tcg_gen_sub_i32(ret, arg1, t0);
--        tcg_temp_free_i32(t0);
-+        tcg_gen_sub_i32(ret, arg1, tcg_constant_i32(arg2));
-     }
- }
- 
- void tcg_gen_andi_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
- {
--    TCGv_i32 t0;
-     /* Some cases can be optimized here.  */
-     switch (arg2) {
-     case 0:
-@@ -165,9 +163,8 @@ void tcg_gen_andi_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
-         }
-         break;
-     }
--    t0 = tcg_const_i32(arg2);
--    tcg_gen_and_i32(ret, arg1, t0);
--    tcg_temp_free_i32(t0);
-+
-+    tcg_gen_and_i32(ret, arg1, tcg_constant_i32(arg2));
- }
- 
- void tcg_gen_ori_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
-@@ -178,9 +175,7 @@ void tcg_gen_ori_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
-     } else if (arg2 == 0) {
-         tcg_gen_mov_i32(ret, arg1);
-     } else {
--        TCGv_i32 t0 = tcg_const_i32(arg2);
--        tcg_gen_or_i32(ret, arg1, t0);
--        tcg_temp_free_i32(t0);
-+        tcg_gen_or_i32(ret, arg1, tcg_constant_i32(arg2));
-     }
- }
- 
-@@ -193,9 +188,7 @@ void tcg_gen_xori_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
-         /* Don't recurse with tcg_gen_not_i32.  */
-         tcg_gen_op2_i32(INDEX_op_not_i32, ret, arg1);
-     } else {
--        TCGv_i32 t0 = tcg_const_i32(arg2);
--        tcg_gen_xor_i32(ret, arg1, t0);
--        tcg_temp_free_i32(t0);
-+        tcg_gen_xor_i32(ret, arg1, tcg_constant_i32(arg2));
-     }
- }
- 
-@@ -205,9 +198,7 @@ void tcg_gen_shli_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
-     if (arg2 == 0) {
-         tcg_gen_mov_i32(ret, arg1);
-     } else {
--        TCGv_i32 t0 = tcg_const_i32(arg2);
--        tcg_gen_shl_i32(ret, arg1, t0);
--        tcg_temp_free_i32(t0);
-+        tcg_gen_shl_i32(ret, arg1, tcg_constant_i32(arg2));
-     }
- }
- 
-@@ -217,9 +208,7 @@ void tcg_gen_shri_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
-     if (arg2 == 0) {
-         tcg_gen_mov_i32(ret, arg1);
-     } else {
--        TCGv_i32 t0 = tcg_const_i32(arg2);
--        tcg_gen_shr_i32(ret, arg1, t0);
--        tcg_temp_free_i32(t0);
-+        tcg_gen_shr_i32(ret, arg1, tcg_constant_i32(arg2));
-     }
- }
- 
-@@ -229,9 +218,7 @@ void tcg_gen_sari_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
-     if (arg2 == 0) {
-         tcg_gen_mov_i32(ret, arg1);
-     } else {
--        TCGv_i32 t0 = tcg_const_i32(arg2);
--        tcg_gen_sar_i32(ret, arg1, t0);
--        tcg_temp_free_i32(t0);
-+        tcg_gen_sar_i32(ret, arg1, tcg_constant_i32(arg2));
-     }
- }
- 
-@@ -250,9 +237,7 @@ void tcg_gen_brcondi_i32(TCGCond cond, TCGv_i32 arg1, int32_t arg2, TCGLabel *l)
-     if (cond == TCG_COND_ALWAYS) {
-         tcg_gen_br(l);
-     } else if (cond != TCG_COND_NEVER) {
--        TCGv_i32 t0 = tcg_const_i32(arg2);
--        tcg_gen_brcond_i32(cond, arg1, t0, l);
--        tcg_temp_free_i32(t0);
-+        tcg_gen_brcond_i32(cond, arg1, tcg_constant_i32(arg2), l);
-     }
- }
- 
-@@ -271,9 +256,7 @@ void tcg_gen_setcond_i32(TCGCond cond, TCGv_i32 ret,
- void tcg_gen_setcondi_i32(TCGCond cond, TCGv_i32 ret,
-                           TCGv_i32 arg1, int32_t arg2)
- {
--    TCGv_i32 t0 = tcg_const_i32(arg2);
--    tcg_gen_setcond_i32(cond, ret, arg1, t0);
--    tcg_temp_free_i32(t0);
-+    tcg_gen_setcond_i32(cond, ret, arg1, tcg_constant_i32(arg2));
- }
- 
- void tcg_gen_muli_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
-@@ -283,9 +266,7 @@ void tcg_gen_muli_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
-     } else if (is_power_of_2(arg2)) {
-         tcg_gen_shli_i32(ret, arg1, ctz32(arg2));
-     } else {
--        TCGv_i32 t0 = tcg_const_i32(arg2);
--        tcg_gen_mul_i32(ret, arg1, t0);
--        tcg_temp_free_i32(t0);
-+        tcg_gen_mul_i32(ret, arg1, tcg_constant_i32(arg2));
-     }
- }
- 
-@@ -433,9 +414,7 @@ void tcg_gen_clz_i32(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2)
- 
- void tcg_gen_clzi_i32(TCGv_i32 ret, TCGv_i32 arg1, uint32_t arg2)
- {
--    TCGv_i32 t = tcg_const_i32(arg2);
--    tcg_gen_clz_i32(ret, arg1, t);
--    tcg_temp_free_i32(t);
-+    tcg_gen_clz_i32(ret, arg1, tcg_constant_i32(arg2));
- }
- 
- void tcg_gen_ctz_i32(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2)
-@@ -468,10 +447,9 @@ void tcg_gen_ctz_i32(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2)
-             tcg_gen_clzi_i32(t, t, 32);
-             tcg_gen_xori_i32(t, t, 31);
-         }
--        z = tcg_const_i32(0);
-+        z = tcg_constant_i32(0);
-         tcg_gen_movcond_i32(TCG_COND_EQ, ret, arg1, z, arg2, t);
-         tcg_temp_free_i32(t);
--        tcg_temp_free_i32(z);
-     } else {
-         gen_helper_ctz_i32(ret, arg1, arg2);
-     }
-@@ -487,9 +465,7 @@ void tcg_gen_ctzi_i32(TCGv_i32 ret, TCGv_i32 arg1, uint32_t arg2)
-         tcg_gen_ctpop_i32(ret, t);
-         tcg_temp_free_i32(t);
-     } else {
--        TCGv_i32 t = tcg_const_i32(arg2);
--        tcg_gen_ctz_i32(ret, arg1, t);
--        tcg_temp_free_i32(t);
-+        tcg_gen_ctz_i32(ret, arg1, tcg_constant_i32(arg2));
-     }
- }
- 
-@@ -547,9 +523,7 @@ void tcg_gen_rotli_i32(TCGv_i32 ret, TCGv_i32 arg1, int32_t arg2)
-     if (arg2 == 0) {
-         tcg_gen_mov_i32(ret, arg1);
-     } else if (TCG_TARGET_HAS_rot_i32) {
--        TCGv_i32 t0 = tcg_const_i32(arg2);
--        tcg_gen_rotl_i32(ret, arg1, t0);
--        tcg_temp_free_i32(t0);
-+        tcg_gen_rotl_i32(ret, arg1, tcg_constant_i32(arg2));
-     } else {
-         TCGv_i32 t0, t1;
-         t0 = tcg_temp_new_i32();
-@@ -653,9 +627,8 @@ void tcg_gen_deposit_z_i32(TCGv_i32 ret, TCGv_i32 arg,
-         tcg_gen_andi_i32(ret, arg, (1u << len) - 1);
-     } else if (TCG_TARGET_HAS_deposit_i32
-                && TCG_TARGET_deposit_i32_valid(ofs, len)) {
--        TCGv_i32 zero = tcg_const_i32(0);
-+        TCGv_i32 zero = tcg_constant_i32(0);
-         tcg_gen_op5ii_i32(INDEX_op_deposit_i32, ret, zero, arg, ofs, len);
--        tcg_temp_free_i32(zero);
-     } else {
-         /* To help two-operand hosts we prefer to zero-extend first,
-            which allows ARG to stay live.  */
-@@ -1052,7 +1025,7 @@ void tcg_gen_bswap32_i32(TCGv_i32 ret, TCGv_i32 arg)
-     } else {
-         TCGv_i32 t0 = tcg_temp_new_i32();
-         TCGv_i32 t1 = tcg_temp_new_i32();
--        TCGv_i32 t2 = tcg_const_i32(0x00ff00ff);
-+        TCGv_i32 t2 = tcg_constant_i32(0x00ff00ff);
- 
-                                         /* arg = abcd */
-         tcg_gen_shri_i32(t0, arg, 8);   /*  t0 = .abc */
-@@ -1067,7 +1040,6 @@ void tcg_gen_bswap32_i32(TCGv_i32 ret, TCGv_i32 arg)
- 
-         tcg_temp_free_i32(t0);
-         tcg_temp_free_i32(t1);
--        tcg_temp_free_i32(t2);
-     }
- }
- 
-@@ -1114,8 +1086,15 @@ void tcg_gen_discard_i64(TCGv_i64 arg)
- 
- void tcg_gen_mov_i64(TCGv_i64 ret, TCGv_i64 arg)
- {
--    tcg_gen_mov_i32(TCGV_LOW(ret), TCGV_LOW(arg));
--    tcg_gen_mov_i32(TCGV_HIGH(ret), TCGV_HIGH(arg));
-+    TCGTemp *ts = tcgv_i64_temp(arg);
-+
-+    /* Canonicalize TCGv_i64 TEMP_CONST into TCGv_i32 TEMP_CONST. */
-+    if (ts->kind == TEMP_CONST) {
-+        tcg_gen_movi_i64(ret, ts->val);
-+    } else {
-+        tcg_gen_mov_i32(TCGV_LOW(ret), TCGV_LOW(arg));
-+        tcg_gen_mov_i32(TCGV_HIGH(ret), TCGV_HIGH(arg));
-+    }
- }
- 
- void tcg_gen_movi_i64(TCGv_i64 ret, int64_t arg)
-@@ -1237,6 +1216,14 @@ void tcg_gen_mul_i64(TCGv_i64 ret, TCGv_i64 arg1, TCGv_i64 arg2)
-     tcg_temp_free_i64(t0);
-     tcg_temp_free_i32(t1);
- }
-+
-+#else
-+
-+void tcg_gen_movi_i64(TCGv_i64 ret, int64_t arg)
-+{
-+    tcg_gen_mov_i64(ret, tcg_constant_i64(arg));
-+}
-+
- #endif /* TCG_TARGET_REG_SIZE == 32 */
- 
- void tcg_gen_addi_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-@@ -1244,10 +1231,12 @@ void tcg_gen_addi_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-     /* some cases can be optimized here */
-     if (arg2 == 0) {
-         tcg_gen_mov_i64(ret, arg1);
-+    } else if (TCG_TARGET_REG_BITS == 64) {
-+        tcg_gen_add_i64(ret, arg1, tcg_constant_i64(arg2));
-     } else {
--        TCGv_i64 t0 = tcg_const_i64(arg2);
--        tcg_gen_add_i64(ret, arg1, t0);
--        tcg_temp_free_i64(t0);
-+        tcg_gen_add2_i32(TCGV_LOW(ret), TCGV_HIGH(ret),
-+                         TCGV_LOW(arg1), TCGV_HIGH(arg1),
-+                         tcg_constant_i32(arg2), tcg_constant_i32(arg2 >> 32));
-     }
- }
- 
-@@ -1256,10 +1245,12 @@ void tcg_gen_subfi_i64(TCGv_i64 ret, int64_t arg1, TCGv_i64 arg2)
-     if (arg1 == 0 && TCG_TARGET_HAS_neg_i64) {
-         /* Don't recurse with tcg_gen_neg_i64.  */
-         tcg_gen_op2_i64(INDEX_op_neg_i64, ret, arg2);
-+    } else if (TCG_TARGET_REG_BITS == 64) {
-+        tcg_gen_sub_i64(ret, tcg_constant_i64(arg1), arg2);
-     } else {
--        TCGv_i64 t0 = tcg_const_i64(arg1);
--        tcg_gen_sub_i64(ret, t0, arg2);
--        tcg_temp_free_i64(t0);
-+        tcg_gen_sub2_i32(TCGV_LOW(ret), TCGV_HIGH(ret),
-+                         tcg_constant_i32(arg1), tcg_constant_i32(arg1 >> 32),
-+                         TCGV_LOW(arg2), TCGV_HIGH(arg2));
-     }
- }
- 
-@@ -1268,17 +1259,17 @@ void tcg_gen_subi_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-     /* some cases can be optimized here */
-     if (arg2 == 0) {
-         tcg_gen_mov_i64(ret, arg1);
-+    } else if (TCG_TARGET_REG_BITS == 64) {
-+        tcg_gen_sub_i64(ret, arg1, tcg_constant_i64(arg2));
-     } else {
--        TCGv_i64 t0 = tcg_const_i64(arg2);
--        tcg_gen_sub_i64(ret, arg1, t0);
--        tcg_temp_free_i64(t0);
-+        tcg_gen_sub2_i32(TCGV_LOW(ret), TCGV_HIGH(ret),
-+                         TCGV_LOW(arg1), TCGV_HIGH(arg1),
-+                         tcg_constant_i32(arg2), tcg_constant_i32(arg2 >> 32));
-     }
- }
- 
- void tcg_gen_andi_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
- {
--    TCGv_i64 t0;
--
+diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
+index 51580d51a0..e5dc9d0ca9 100644
+--- a/accel/tcg/plugin-gen.c
++++ b/accel/tcg/plugin-gen.c
+@@ -284,8 +284,8 @@ static TCGOp *copy_extu_i32_i64(TCGOp **begin_op, TCGOp *op)
      if (TCG_TARGET_REG_BITS == 32) {
-         tcg_gen_andi_i32(TCGV_LOW(ret), TCGV_LOW(arg1), arg2);
-         tcg_gen_andi_i32(TCGV_HIGH(ret), TCGV_HIGH(arg1), arg2 >> 32);
-@@ -1313,9 +1304,8 @@ void tcg_gen_andi_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-         }
-         break;
-     }
--    t0 = tcg_const_i64(arg2);
--    tcg_gen_and_i64(ret, arg1, t0);
--    tcg_temp_free_i64(t0);
-+
-+    tcg_gen_and_i64(ret, arg1, tcg_constant_i64(arg2));
- }
- 
- void tcg_gen_ori_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-@@ -1331,9 +1321,7 @@ void tcg_gen_ori_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-     } else if (arg2 == 0) {
-         tcg_gen_mov_i64(ret, arg1);
+         /* mov_i32 */
+         op = copy_op(begin_op, op, INDEX_op_mov_i32);
+-        /* movi_i32 */
+-        op = copy_op(begin_op, op, INDEX_op_movi_i32);
++        /* mov_i32 w/ $0 */
++        op = copy_op(begin_op, op, INDEX_op_mov_i32);
      } else {
--        TCGv_i64 t0 = tcg_const_i64(arg2);
--        tcg_gen_or_i64(ret, arg1, t0);
--        tcg_temp_free_i64(t0);
-+        tcg_gen_or_i64(ret, arg1, tcg_constant_i64(arg2));
-     }
+         /* extu_i32_i64 */
+         op = copy_op(begin_op, op, INDEX_op_extu_i32_i64);
+@@ -306,39 +306,34 @@ static TCGOp *copy_mov_i64(TCGOp **begin_op, TCGOp *op)
+     return op;
  }
  
-@@ -1351,9 +1339,7 @@ void tcg_gen_xori_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-         /* Don't recurse with tcg_gen_not_i64.  */
-         tcg_gen_op2_i64(INDEX_op_not_i64, ret, arg1);
-     } else {
--        TCGv_i64 t0 = tcg_const_i64(arg2);
--        tcg_gen_xor_i64(ret, arg1, t0);
--        tcg_temp_free_i64(t0);
-+        tcg_gen_xor_i64(ret, arg1, tcg_constant_i64(arg2));
-     }
- }
- 
-@@ -1415,9 +1401,7 @@ void tcg_gen_shli_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-     } else if (arg2 == 0) {
-         tcg_gen_mov_i64(ret, arg1);
-     } else {
--        TCGv_i64 t0 = tcg_const_i64(arg2);
--        tcg_gen_shl_i64(ret, arg1, t0);
--        tcg_temp_free_i64(t0);
-+        tcg_gen_shl_i64(ret, arg1, tcg_constant_i64(arg2));
-     }
- }
- 
-@@ -1429,9 +1413,7 @@ void tcg_gen_shri_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-     } else if (arg2 == 0) {
-         tcg_gen_mov_i64(ret, arg1);
-     } else {
--        TCGv_i64 t0 = tcg_const_i64(arg2);
--        tcg_gen_shr_i64(ret, arg1, t0);
--        tcg_temp_free_i64(t0);
-+        tcg_gen_shr_i64(ret, arg1, tcg_constant_i64(arg2));
-     }
- }
- 
-@@ -1443,9 +1425,7 @@ void tcg_gen_sari_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-     } else if (arg2 == 0) {
-         tcg_gen_mov_i64(ret, arg1);
-     } else {
--        TCGv_i64 t0 = tcg_const_i64(arg2);
--        tcg_gen_sar_i64(ret, arg1, t0);
--        tcg_temp_free_i64(t0);
-+        tcg_gen_sar_i64(ret, arg1, tcg_constant_i64(arg2));
-     }
- }
- 
-@@ -1468,12 +1448,17 @@ void tcg_gen_brcond_i64(TCGCond cond, TCGv_i64 arg1, TCGv_i64 arg2, TCGLabel *l)
- 
- void tcg_gen_brcondi_i64(TCGCond cond, TCGv_i64 arg1, int64_t arg2, TCGLabel *l)
+-static TCGOp *copy_movi_i64(TCGOp **begin_op, TCGOp *op, uint64_t v)
+-{
+-    if (TCG_TARGET_REG_BITS == 32) {
+-        /* 2x movi_i32 */
+-        op = copy_op(begin_op, op, INDEX_op_movi_i32);
+-        op->args[1] = v;
+-
+-        op = copy_op(begin_op, op, INDEX_op_movi_i32);
+-        op->args[1] = v >> 32;
+-    } else {
+-        /* movi_i64 */
+-        op = copy_op(begin_op, op, INDEX_op_movi_i64);
+-        op->args[1] = v;
+-    }
+-    return op;
+-}
+-
+ static TCGOp *copy_const_ptr(TCGOp **begin_op, TCGOp *op, void *ptr)
  {
--    if (cond == TCG_COND_ALWAYS) {
-+    if (TCG_TARGET_REG_BITS == 64) {
-+        tcg_gen_brcond_i64(cond, arg1, tcg_constant_i64(arg2), l);
-+    } else if (cond == TCG_COND_ALWAYS) {
-         tcg_gen_br(l);
-     } else if (cond != TCG_COND_NEVER) {
--        TCGv_i64 t0 = tcg_const_i64(arg2);
--        tcg_gen_brcond_i64(cond, arg1, t0, l);
--        tcg_temp_free_i64(t0);
-+        l->refs++;
-+        tcg_gen_op6ii_i32(INDEX_op_brcond2_i32,
-+                          TCGV_LOW(arg1), TCGV_HIGH(arg1),
-+                          tcg_constant_i32(arg2),
-+                          tcg_constant_i32(arg2 >> 32),
-+                          cond, label_arg(l));
+     if (UINTPTR_MAX == UINT32_MAX) {
+-        /* movi_i32 */
+-        op = copy_op(begin_op, op, INDEX_op_movi_i32);
+-        op->args[1] = (uintptr_t)ptr;
++        /* mov_i32 */
++        op = copy_op(begin_op, op, INDEX_op_mov_i32);
++        op->args[1] = tcgv_i32_arg(tcg_constant_i32((uintptr_t)ptr));
+     } else {
+-        /* movi_i64 */
+-        op = copy_movi_i64(begin_op, op, (uint64_t)(uintptr_t)ptr);
++        /* mov_i64 */
++        op = copy_op(begin_op, op, INDEX_op_mov_i64);
++        op->args[1] = tcgv_i64_arg(tcg_constant_i64((uintptr_t)ptr));
      }
+     return op;
  }
  
-@@ -1499,9 +1484,19 @@ void tcg_gen_setcond_i64(TCGCond cond, TCGv_i64 ret,
- void tcg_gen_setcondi_i64(TCGCond cond, TCGv_i64 ret,
-                           TCGv_i64 arg1, int64_t arg2)
+ static TCGOp *copy_const_i64(TCGOp **begin_op, TCGOp *op, uint64_t v)
  {
--    TCGv_i64 t0 = tcg_const_i64(arg2);
--    tcg_gen_setcond_i64(cond, ret, arg1, t0);
--    tcg_temp_free_i64(t0);
-+    if (TCG_TARGET_REG_BITS == 64) {
-+        tcg_gen_setcond_i64(cond, ret, arg1, tcg_constant_i64(arg2));
-+    } else if (cond == TCG_COND_ALWAYS) {
-+        tcg_gen_movi_i64(ret, 1);
-+    } else if (cond == TCG_COND_NEVER) {
-+        tcg_gen_movi_i64(ret, 0);
+-    return copy_movi_i64(begin_op, op, v);
++    if (TCG_TARGET_REG_BITS == 32) {
++        /* 2x mov_i32 */
++        op = copy_op(begin_op, op, INDEX_op_mov_i32);
++        op->args[1] = tcgv_i32_arg(tcg_constant_i32(v));
++        op = copy_op(begin_op, op, INDEX_op_mov_i32);
++        op->args[1] = tcgv_i32_arg(tcg_constant_i32(v >> 32));
 +    } else {
-+        tcg_gen_op6i_i32(INDEX_op_setcond2_i32, TCGV_LOW(ret),
-+                         TCGV_LOW(arg1), TCGV_HIGH(arg1),
-+                         tcg_constant_i32(arg2),
-+                         tcg_constant_i32(arg2 >> 32), cond);
-+        tcg_gen_movi_i32(TCGV_HIGH(ret), 0);
++        /* mov_i64 */
++        op = copy_op(begin_op, op, INDEX_op_mov_i64);
++        op->args[1] = tcgv_i64_arg(tcg_constant_i64(v));
 +    }
++    return op;
  }
  
- void tcg_gen_muli_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-@@ -1690,7 +1685,7 @@ void tcg_gen_bswap32_i64(TCGv_i64 ret, TCGv_i64 arg)
-     } else {
-         TCGv_i64 t0 = tcg_temp_new_i64();
-         TCGv_i64 t1 = tcg_temp_new_i64();
--        TCGv_i64 t2 = tcg_const_i64(0x00ff00ff);
-+        TCGv_i64 t2 = tcg_constant_i64(0x00ff00ff);
+ static TCGOp *copy_extu_tl_i64(TCGOp **begin_op, TCGOp *op)
+@@ -486,8 +481,8 @@ static TCGOp *append_mem_cb(const struct qemu_plugin_dyn_cb *cb,
  
-                                         /* arg = ....abcd */
-         tcg_gen_shri_i64(t0, arg, 8);   /*  t0 = .....abc */
-@@ -1706,7 +1701,6 @@ void tcg_gen_bswap32_i64(TCGv_i64 ret, TCGv_i64 arg)
+     tcg_debug_assert(type == PLUGIN_GEN_CB_MEM);
  
-         tcg_temp_free_i64(t0);
-         tcg_temp_free_i64(t1);
--        tcg_temp_free_i64(t2);
-     }
- }
+-    /* const_i32 == movi_i32 ("info", so it remains as is) */
+-    op = copy_op(&begin_op, op, INDEX_op_movi_i32);
++    /* const_i32 == mov_i32 ("info", so it remains as is) */
++    op = copy_op(&begin_op, op, INDEX_op_mov_i32);
  
-@@ -1850,16 +1844,16 @@ void tcg_gen_clzi_i64(TCGv_i64 ret, TCGv_i64 arg1, uint64_t arg2)
-     if (TCG_TARGET_REG_BITS == 32
-         && TCG_TARGET_HAS_clz_i32
-         && arg2 <= 0xffffffffu) {
--        TCGv_i32 t = tcg_const_i32((uint32_t)arg2 - 32);
--        tcg_gen_clz_i32(t, TCGV_LOW(arg1), t);
-+        TCGv_i32 t = tcg_temp_new_i32();
-+        tcg_gen_clzi_i32(t, TCGV_LOW(arg1), arg2 - 32);
-         tcg_gen_addi_i32(t, t, 32);
-         tcg_gen_clz_i32(TCGV_LOW(ret), TCGV_HIGH(arg1), t);
-         tcg_gen_movi_i32(TCGV_HIGH(ret), 0);
-         tcg_temp_free_i32(t);
-     } else {
--        TCGv_i64 t = tcg_const_i64(arg2);
--        tcg_gen_clz_i64(ret, arg1, t);
--        tcg_temp_free_i64(t);
-+        TCGv_i64 t0 = tcg_const_i64(arg2);
-+        tcg_gen_clz_i64(ret, arg1, t0);
-+        tcg_temp_free_i64(t0);
-     }
- }
- 
-@@ -1881,7 +1875,7 @@ void tcg_gen_ctz_i64(TCGv_i64 ret, TCGv_i64 arg1, TCGv_i64 arg2)
-             tcg_gen_clzi_i64(t, t, 64);
-             tcg_gen_xori_i64(t, t, 63);
-         }
--        z = tcg_const_i64(0);
-+        z = tcg_constant_i64(0);
-         tcg_gen_movcond_i64(TCG_COND_EQ, ret, arg1, z, arg2, t);
-         tcg_temp_free_i64(t);
-         tcg_temp_free_i64(z);
-@@ -1895,8 +1889,8 @@ void tcg_gen_ctzi_i64(TCGv_i64 ret, TCGv_i64 arg1, uint64_t arg2)
-     if (TCG_TARGET_REG_BITS == 32
-         && TCG_TARGET_HAS_ctz_i32
-         && arg2 <= 0xffffffffu) {
--        TCGv_i32 t32 = tcg_const_i32((uint32_t)arg2 - 32);
--        tcg_gen_ctz_i32(t32, TCGV_HIGH(arg1), t32);
-+        TCGv_i32 t32 = tcg_temp_new_i32();
-+        tcg_gen_ctzi_i32(t32, TCGV_HIGH(arg1), arg2 - 32);
-         tcg_gen_addi_i32(t32, t32, 32);
-         tcg_gen_ctz_i32(TCGV_LOW(ret), TCGV_LOW(arg1), t32);
-         tcg_gen_movi_i32(TCGV_HIGH(ret), 0);
-@@ -1911,9 +1905,9 @@ void tcg_gen_ctzi_i64(TCGv_i64 ret, TCGv_i64 arg1, uint64_t arg2)
-         tcg_gen_ctpop_i64(ret, t);
-         tcg_temp_free_i64(t);
-     } else {
--        TCGv_i64 t64 = tcg_const_i64(arg2);
--        tcg_gen_ctz_i64(ret, arg1, t64);
--        tcg_temp_free_i64(t64);
-+        TCGv_i64 t0 = tcg_const_i64(arg2);
-+        tcg_gen_ctz_i64(ret, arg1, t0);
-+        tcg_temp_free_i64(t0);
-     }
- }
- 
-@@ -1969,9 +1963,7 @@ void tcg_gen_rotli_i64(TCGv_i64 ret, TCGv_i64 arg1, int64_t arg2)
-     if (arg2 == 0) {
-         tcg_gen_mov_i64(ret, arg1);
-     } else if (TCG_TARGET_HAS_rot_i64) {
--        TCGv_i64 t0 = tcg_const_i64(arg2);
--        tcg_gen_rotl_i64(ret, arg1, t0);
--        tcg_temp_free_i64(t0);
-+        tcg_gen_rotl_i64(ret, arg1, tcg_constant_i64(arg2));
-     } else {
-         TCGv_i64 t0, t1;
-         t0 = tcg_temp_new_i64();
-@@ -2089,9 +2081,8 @@ void tcg_gen_deposit_z_i64(TCGv_i64 ret, TCGv_i64 arg,
-         tcg_gen_andi_i64(ret, arg, (1ull << len) - 1);
-     } else if (TCG_TARGET_HAS_deposit_i64
-                && TCG_TARGET_deposit_i64_valid(ofs, len)) {
--        TCGv_i64 zero = tcg_const_i64(0);
-+        TCGv_i64 zero = tcg_constant_i64(0);
-         tcg_gen_op5ii_i64(INDEX_op_deposit_i64, ret, zero, arg, ofs, len);
--        tcg_temp_free_i64(zero);
-     } else {
-         if (TCG_TARGET_REG_BITS == 32) {
-             if (ofs >= 32) {
-@@ -3102,9 +3093,8 @@ void tcg_gen_atomic_cmpxchg_i32(TCGv_i32 retv, TCGv addr, TCGv_i32 cmpv,
- 
- #ifdef CONFIG_SOFTMMU
-         {
--            TCGv_i32 oi = tcg_const_i32(make_memop_idx(memop & ~MO_SIGN, idx));
--            gen(retv, cpu_env, addr, cmpv, newv, oi);
--            tcg_temp_free_i32(oi);
-+            TCGMemOpIdx oi = make_memop_idx(memop & ~MO_SIGN, idx);
-+            gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
-         }
- #else
-         gen(retv, cpu_env, addr, cmpv, newv);
-@@ -3147,9 +3137,8 @@ void tcg_gen_atomic_cmpxchg_i64(TCGv_i64 retv, TCGv addr, TCGv_i64 cmpv,
- 
- #ifdef CONFIG_SOFTMMU
-         {
--            TCGv_i32 oi = tcg_const_i32(make_memop_idx(memop, idx));
--            gen(retv, cpu_env, addr, cmpv, newv, oi);
--            tcg_temp_free_i32(oi);
-+            TCGMemOpIdx oi = make_memop_idx(memop, idx);
-+            gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
-         }
- #else
-         gen(retv, cpu_env, addr, cmpv, newv);
-@@ -3211,9 +3200,8 @@ static void do_atomic_op_i32(TCGv_i32 ret, TCGv addr, TCGv_i32 val,
- 
- #ifdef CONFIG_SOFTMMU
-     {
--        TCGv_i32 oi = tcg_const_i32(make_memop_idx(memop & ~MO_SIGN, idx));
--        gen(ret, cpu_env, addr, val, oi);
--        tcg_temp_free_i32(oi);
-+        TCGMemOpIdx oi = make_memop_idx(memop & ~MO_SIGN, idx);
-+        gen(ret, cpu_env, addr, val, tcg_constant_i32(oi));
-     }
- #else
-     gen(ret, cpu_env, addr, val);
-@@ -3257,9 +3245,8 @@ static void do_atomic_op_i64(TCGv_i64 ret, TCGv addr, TCGv_i64 val,
- 
- #ifdef CONFIG_SOFTMMU
-         {
--            TCGv_i32 oi = tcg_const_i32(make_memop_idx(memop & ~MO_SIGN, idx));
--            gen(ret, cpu_env, addr, val, oi);
--            tcg_temp_free_i32(oi);
-+            TCGMemOpIdx oi = make_memop_idx(memop & ~MO_SIGN, idx);
-+            gen(ret, cpu_env, addr, val, tcg_constant_i32(oi));
-         }
- #else
-         gen(ret, cpu_env, addr, val);
+     /* const_ptr */
+     op = copy_const_ptr(&begin_op, op, cb->userp);
 -- 
 2.25.1
 
