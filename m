@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28AA2DDB0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 22:50:30 +0100 (CET)
-Received: from localhost ([::1]:33386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E73AF2DDB28
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 23:03:01 +0100 (CET)
+Received: from localhost ([::1]:38660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq1AG-0003bY-VL
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 16:50:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46910)
+	id 1kq1MS-0006bG-Il
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 17:03:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=6131d52cb=atish.patra@wdc.com>)
- id 1kq18c-00035g-U8; Thu, 17 Dec 2020 16:48:44 -0500
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:6682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=6131d52cb=atish.patra@wdc.com>)
- id 1kq18Z-0008JI-4X; Thu, 17 Dec 2020 16:48:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1608241719; x=1639777719;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=Eyb1s+6C1ZE1gqsUGC3r72kRqTJupLnUxPH2PkKmvHQ=;
- b=T0f2EErIANnae781x4vqbMG+KS+jMJ7sQorRvlnH5q3o13X7RNDeCtlD
- GO94o2Fa5pkxnkRlN9nvKFaGJyH3z091o6ipKTVW57v+8mQLZYOdD7Nsv
- +1c9IZd4u3+opLGw2JGvXXPF3nGaVsRTB9qJOUopCSOUIk44pL8cN8Xz2
- qPpr8MdMStPWhKd5BSYEY973eXogRN6CnIgRm6y7HdEG+FDbeoY91/eGE
- 6inf/C9/Z6bPECPbMOi1Z3pJieG7blPkOk8RFn99FeRlj2JtSNJmmA6K+
- IOuOlteTtyLz7Vto9uCZF536JaYjW10TIha/HNFdVh2pVh9DC4kLQ7G4u Q==;
-IronPort-SDR: ZcxZlVdjBzHaCWJFzG3m7chKxipMxKvH7xbHzoQms1YmTgCnJ8yWIkayIH/OLQIZut2gRNOtjS
- o7bc9kLP5pCNgIatyCPPgR7Re/qoRg0JP03wKfNekn4XdBf8W2c8o7qxrASHQKtZMsxK/m//HT
- hEl1UB0tDsXYV4NC45yujGMfbG5vblWCnlHtm2gqZl4dSjVd6HDGMVWJUiZ9mzmpbbZfhGMKcc
- dzx5Sd1AwZM1DQZ5WxmOPfsgOJt6BT6gAFKzxcIL2LT4JgLPtQcRStgTASw5/zi/daZcfjgvHk
- l/Y=
-X-IronPort-AV: E=Sophos;i="5.78,428,1599494400"; d="scan'208";a="159855642"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 18 Dec 2020 05:48:32 +0800
-IronPort-SDR: bJvl7pvdlXUyNG9vKc0JWtkX67/awytzhF0D/uG8eanlj/OH4f9sWLRanJ1XsHdcTdVciwac8b
- xRANA42NZURSkflxkyBK4J4Lj5ycXZ9wPj1rnHM9Ohs93yJDB9D/ndE+yy93iQC/mdK2inctx4
- j77iz+RCgSA77B7Tsk1oXV5o8Rd2zwxOIwVgD3d1dXExjQI66w8CKjnKYf9vG+1l9ZUn19Gcw3
- PNownZtCS1Hb0wZyNVGEzHsHe9G0Qyt8iUucqwoc72s2CakslyGzNVlRt4uEfkDz3skftO7aUz
- otZXFxfGWmUiD5nYPYCe7xv4
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2020 13:33:48 -0800
-IronPort-SDR: nvz75U7PzX5XOy1DWEInC4ulPk0GkFYYZkV33DV6ok+HqSv4vKENksp/SgqCvwmr2FdKEVw1z3
- 8rZD8d7rCoH1q/4Ru5knbOWHJgpN+hqtZF7Aoso2H379JPOPyRDPwC9RKUw6TqeBCpN2A9fr1W
- 9vCpiPEmZlPA4ymMknoRcZROZBGkuhSJnpieV1Bm8ucwjtDJhsqJTeF8X3zVKwDhp33ol0DlGu
- tLSV2PTPnql9BNn/Tm+UL1y72yQn8S+2kBb9YtS8jo14qxAAQ/84Ub4WM7x8sYFQ2unvQdUIv9
- h6g=
-WDCIronportException: Internal
-Received: from cnf011319.ad.shared (HELO jedi-01.hgst.com) ([10.86.62.39])
- by uls-op-cesaip02.wdc.com with ESMTP; 17 Dec 2020 13:48:32 -0800
-From: Atish Patra <atish.patra@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH] RISC-V: Place DTB at 3GB boundary instead of 4GB
-Date: Thu, 17 Dec 2020 13:48:26 -0800
-Message-Id: <20201217214826.2094617-1-atish.patra@wdc.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kq1L7-00063H-BR
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 17:01:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57009)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kq1L3-0001RN-1q
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 17:01:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608242491;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=C6wn7due1XakCHxGpE4fEAFq/ym+1X8S05mpbVM9AE8=;
+ b=SLOk+MoPe7ydCUfhVvDWZG6MXNWPZIaFww26TcWBG2Vm7LLHptF6eajK6hGZ4p6ed6gDK6
+ Nh0G+972LsBOsixn6OwNOsxGvuk5cJpuG9+ofl3V/ki+Hd+unLTTiVMhr9uNTatc2A211v
+ UbXTD23S2slUerISStajOsRLXKD1RoU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-cBwcLqVON_aT4iOYJ__yGQ-1; Thu, 17 Dec 2020 17:01:27 -0500
+X-MC-Unique: cBwcLqVON_aT4iOYJ__yGQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1FB2800D55;
+ Thu, 17 Dec 2020 22:01:25 +0000 (UTC)
+Received: from localhost (ovpn-115-226.rdu2.redhat.com [10.10.115.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 77DE560BE5;
+ Thu, 17 Dec 2020 22:01:22 +0000 (UTC)
+Date: Thu, 17 Dec 2020 17:01:21 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: dangers of current NEED_CPU_H, CONFIG_SOFTMMU, CONFIG_USER_ONLY
+ (was: [PATCH v11 7/7] cpu: introduce cpu_accel_instance_init)
+Message-ID: <20201217220121.GN3140057@habkost.net>
+References: <20201211100908.19696-1-cfontana@suse.de>
+ <20201211100908.19696-8-cfontana@suse.de>
+ <e47ef5e5-2053-d98d-9cd5-f6d96c423c82@suse.de>
+ <CAFEAcA8FL23_bZaOM_u8CdSQoCrrQ2SxnuOoU0H9kPFeANyT0A@mail.gmail.com>
+ <CAFEAcA8RyT58QCX=UpfGRrOvBZWAC7Jhvq0t+X2cAX7qEjhfkQ@mail.gmail.com>
+ <CABgObfaQBuwQ3UHC6VLm03Y=djQQnorT+Ecqx5QLe0oz_XrAXQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=6131d52cb=atish.patra@wdc.com; helo=esa3.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CABgObfaQBuwQ3UHC6VLm03Y=djQQnorT+Ecqx5QLe0oz_XrAXQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,44 +83,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Anup Patel <anup.patel@wdc.com>, Atish Patra <atish.patra@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Claudio Fontana <cfontana@suse.de>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Alex Bennee <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, we place the DTB at 2MB from 4GB or end of DRAM which ever is
-lesser. However, Linux kernel can address only 1GB of memory for RV32.
-Thus, it can not map anything beyond 3GB (assuming 2GB is the starting address).
-As a result, it can not process DT and panic if opensbi dynamic firmware
-is used.
+On Thu, Dec 17, 2020 at 10:13:17PM +0100, Paolo Bonzini wrote:
+> I will take a look, CONFIG_USER_ONLY is definitely something that should be
+> poisoned.
 
-Fix this by placing the DTB at 2MB from 3GB or end of DRAM whichever is lower.
+Thanks!  I started looking at it, but I gave up when I realized
+how much work it would required.  :)
 
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
----
- hw/riscv/boot.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+In any case, feel free to reuse the 2 small commits I've just pushed to
+https://gitlab.com/ehabkost/qemu/-/commits/work/poison-user-only
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index d62f3dc7581e..9e77b22e4d56 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -203,9 +203,9 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
-      * We should put fdt as far as possible to avoid kernel/initrd overwriting
-      * its content. But it should be addressable by 32 bit system as well.
-      * Thus, put it at an aligned address that less than fdt size from end of
--     * dram or 4GB whichever is lesser.
-+     * dram or 3GB whichever is lesser.
-      */
--    temp = MIN(dram_end, 4096 * MiB);
-+    temp = MIN(dram_end, 3072 * MiB);
-     fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
- 
-     fdt_pack(fdt);
+> 
+> Paolo
+> 
+> Il gio 17 dic 2020, 21:26 Peter Maydell <peter.maydell@linaro.org> ha
+> scritto:
+> 
+> > On Thu, 17 Dec 2020 at 20:15, Peter Maydell <peter.maydell@linaro.org>
+> > wrote:
+> > > (So in theory we could make CONFIG_USER_ONLY
+> > > a poisoned identifier but that will require some work to
+> > > adjust places where we currently use it in "safe" ways...)
+> >
+> > Specifically, putting it in poison.h turns up these places
+> > that would need to be made to do what they're doing in a
+> > different way somehow:
+> >
+> > ../../hw/core/cpu.c:211:14: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/disas/disas.h:27:13: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/exec/address-spaces.h:24:9: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/exec/cpu-common.h:20:14: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/exec/cpu-common.h:6:9: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/exec/ioport.h:43:9: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/exec/memory.h:17:9: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/exec/ramblock.h:22:9: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/hw/core/cpu.h:1035:8: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/hw/core/cpu.h:518:14: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/hw/core/cpu.h:602:9: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/hw/hw.h:4:8: error: attempt to use poisoned "CONFIG_USER_ONLY"
+> > include/hw/semihosting/semihost.h:29:8: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/sysemu/accel.h:40:9: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/sysemu/cpus.h:65:9: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/sysemu/dma.h:34:9: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> > include/sysemu/xen.h:27:9: error: attempt to use poisoned
+> > "CONFIG_USER_ONLY"
+> >
+> > That cpu.c one is definitely dubious given it's in a C file,
+> > not a header.
+> >
+> > thanks
+> > -- PMM
+> >
+> >
+
 -- 
-2.25.1
+Eduardo
 
 
