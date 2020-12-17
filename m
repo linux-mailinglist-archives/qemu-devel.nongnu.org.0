@@ -2,57 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9582DD03C
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:21:48 +0100 (CET)
-Received: from localhost ([::1]:35350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C0F2DD051
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:27:37 +0100 (CET)
+Received: from localhost ([::1]:43480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kprLu-0004gY-TY
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:21:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43796)
+	id 1kprRY-0008Qc-Kz
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:27:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kprKS-000424-3A
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:20:16 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:33985)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kprKN-0000jm-ED
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:20:15 -0500
-Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mof1D-1kIfEl2sOX-00p7GV; Thu, 17 Dec 2020 12:19:58 +0100
-Subject: Re: [PATCH v4] linux-user: Add most IFTUN ioctls
-To: Shu-Chun Weng <scw@google.com>, qemu-devel@nongnu.org
-References: <20200929014801.655524-1-scw@google.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <697281a2-21a8-695a-a9bf-831838f0467d@vivier.eu>
-Date: Thu, 17 Dec 2020 12:19:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kprPT-0007fo-4F
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:25:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49786)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kprPP-0002tm-OS
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:25:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608204322;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lxpRQsHZQY7Zhu3tHDp4QojWc4yaEKZVUewR/UonSok=;
+ b=htDZB9NlajgA4XWKifDKQl+3SJ8LvvJd9KFOfbDC5JfEHyblbCNtN8TcMcKXPyPkDsIn1q
+ CcKzxAjTVr13a1sUDCwPNz+JjH+9cja/POgMiBGDS51h0ZwAzHcQ+IVqnxXXRy2o4TPRLw
+ 5fiBHy3NVEV+ZtkDFvqoFW11dSMrijM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-0m8KPQnMPVORYFAcIXnkGw-1; Thu, 17 Dec 2020 06:25:18 -0500
+X-MC-Unique: 0m8KPQnMPVORYFAcIXnkGw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3FC4809DCD;
+ Thu, 17 Dec 2020 11:25:16 +0000 (UTC)
+Received: from gondolin (ovpn-113-176.ams2.redhat.com [10.36.113.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 75A36100164C;
+ Thu, 17 Dec 2020 11:25:03 +0000 (UTC)
+Date: Thu, 17 Dec 2020 12:24:35 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [for-6.0 v5 08/13] securable guest memory: Introduce sgm
+ "ready" flag
+Message-ID: <20201217122435.5d7513fe.cohuck@redhat.com>
+In-Reply-To: <20201217053820.GG310465@yekko.fritz.box>
+References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ <20201204054415.579042-9-david@gibson.dropbear.id.au>
+ <20201214180036.3837693e.cohuck@redhat.com>
+ <20201217053820.GG310465@yekko.fritz.box>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20200929014801.655524-1-scw@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BnwfOc0JOBUqIbrdGI48rzunVp/WwXl643BfumwpsVQMxcOdQ83
- 9dHsQxFzy0JkbOaW7twTjXPqiXMkuY7TCseo4mP7iu5Gb3+95Y660HJHZskVFrHDIo+1IJL
- iOp/gKGcjAum8A/isuOondbhHOodmIgqhCB63HS4Mtdy2UW4jaIxse0eOaNEOmu0LP8BLDT
- DMWEbLSKjWhR+xtxqGlJw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4XZaXGOuqnI=:EAwAZ1TP+7IGyvgBdMh/9U
- 27HuutdmSgw4U8Pg43V2LQEimuQSEMLXWQUxa6X8/d6IarG2sa1yLUGpnXORetTlotSPYyNVr
- 7a4TARzodTN6iRkkdMYBgNCSrg1QgaXNjudlKkYVWQ5luR7PLU4U3yFQ0i+nFGKwea1HZ4xs0
- 3TR39HUyna4vMcI24SHynaBSrcTGCB1VqwFQDWRsS0JC356ZQJOynE3OqYJ5Rfk2Sfe1THnX9
- 4SySvRo/ZWwGSIY1Zwv7HNabSPMUx0V71vUg9qY+aJUqjbF1NUrtaidjyLRRHEfljbTFFYJHa
- SpJDpzRd2mUftpUkwaALRAnU+l+LeEvZZSBBgpWYZy+lMHkNeckzUmQVwFrlpVeBVtPgTCosX
- uZNsVzWs4ucb28VbR0AhsVrIJ0dxVYo/XL12d1TfgHzLCwZOabz+r7MhpgrdCydPC1xvBBmoF
- u0ONcRo0lg==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/wsLjr2rTq1uwHIhjnWRYsmX";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,190 +76,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Josh Kunz <jkz@google.com>, riku.voipio@iki.fi
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, david@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, berrange@redhat.com,
+ thuth@redhat.com, pbonzini@redhat.com, rth@twiddle.net,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 29/09/2020 à 03:48, Shu-Chun Weng via a écrit :
-> The three options handling `struct sock_fprog` (TUNATTACHFILTER,
-> TUNDETACHFILTER, and TUNGETFILTER) are not implemented. Linux kernel
-> keeps a user space pointer in them which we cannot correctly handle.
-> 
-> Signed-off-by: Josh Kunz <jkz@google.com>
-> Signed-off-by: Shu-Chun Weng <scw@google.com>
-> ---
-> v2->v3:
->   IOCTL_SPECIAL(TUNSETTXFILTER) type changed to MK_PTR(TYPE_PTRVOID) for strace
->   to display the raw pointer.
-> 
->   Updated do_ioctl_TUNSETTXFILTER for correct usages of unlock_user() and
->   offsetof().
-> 
-> v3->v4:
->   IOCTL_SPECIAL(TUNSETTXFILTER) corrected to TYPE_PTRVOID.
-> 
->  linux-user/ioctls.h       | 46 +++++++++++++++++++++++++++++++++++++++
->  linux-user/syscall.c      | 38 ++++++++++++++++++++++++++++++++
->  linux-user/syscall_defs.h | 32 +++++++++++++++++++++++++++
->  3 files changed, 116 insertions(+)
-> 
-> diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-> index 0713ae1311..c6e5926eb4 100644
-> --- a/linux-user/ioctls.h
-> +++ b/linux-user/ioctls.h
-> @@ -593,3 +593,49 @@
->    IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
->    IOCTL(KCOV_INIT_TRACE, IOC_R, TYPE_ULONG)
->  #endif
-> +
-> +  IOCTL(TUNSETDEBUG,     IOC_W, TYPE_INT)
-> +  IOCTL(TUNSETIFF,       IOC_RW, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
-> +  IOCTL(TUNSETPERSIST,   IOC_W, TYPE_INT)
-> +  IOCTL(TUNSETOWNER,     IOC_W, TYPE_INT)
-> +  IOCTL(TUNSETLINK,      IOC_W, TYPE_INT)
-> +  IOCTL(TUNSETGROUP,     IOC_W, TYPE_INT)
-> +  IOCTL(TUNGETFEATURES,  IOC_R, MK_PTR(TYPE_INT))
-> +  IOCTL(TUNSETOFFLOAD,   IOC_W, TYPE_LONG)
-> +  IOCTL_SPECIAL(TUNSETTXFILTER, IOC_W, do_ioctl_TUNSETTXFILTER,
-> +                /*
-> +                 * We can't represent `struct tun_filter` in thunk so leaving
-> +                 * it uninterpreted. do_ioctl_TUNSETTXFILTER will do the
-> +                 * conversion.
-> +                 */
-> +                TYPE_PTRVOID)
-> +  IOCTL(TUNGETIFF,       IOC_R, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
-> +  IOCTL(TUNGETSNDBUF,    IOC_R, MK_PTR(TYPE_INT))
-> +  IOCTL(TUNSETSNDBUF,    IOC_W, MK_PTR(TYPE_INT))
-> +  /*
-> +   * TUNATTACHFILTER and TUNDETACHFILTER are not supported. Linux kernel keeps a
-> +   * user pointer in TUNATTACHFILTER, which we are not able to correctly handle.
-> +   */
-> +  IOCTL(TUNGETVNETHDRSZ, IOC_R, MK_PTR(TYPE_INT))
-> +  IOCTL(TUNSETVNETHDRSZ, IOC_W, MK_PTR(TYPE_INT))
-> +  IOCTL(TUNSETQUEUE,     IOC_W, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
-> +  IOCTL(TUNSETIFINDEX ,  IOC_W, MK_PTR(TYPE_INT))
-> +  /* TUNGETFILTER is not supported: see TUNATTACHFILTER. */
-> +  IOCTL(TUNSETVNETLE,    IOC_W, MK_PTR(TYPE_INT))
-> +  IOCTL(TUNGETVNETLE,    IOC_R, MK_PTR(TYPE_INT))
-> +#ifdef TUNSETVNETBE
-> +  IOCTL(TUNSETVNETBE,    IOC_W, MK_PTR(TYPE_INT))
-> +  IOCTL(TUNGETVNETBE,    IOC_R, MK_PTR(TYPE_INT))
-> +#endif
-> +#ifdef TUNSETSTEERINGEBPF
-> +  IOCTL(TUNSETSTEERINGEBPF, IOC_W, MK_PTR(TYPE_INT))
-> +#endif
-> +#ifdef TUNSETFILTEREBPF
-> +  IOCTL(TUNSETFILTEREBPF, IOC_W, MK_PTR(TYPE_INT))
-> +#endif
-> +#ifdef TUNSETCARRIER
-> +  IOCTL(TUNSETCARRIER,   IOC_W, MK_PTR(TYPE_INT))
-> +#endif
-> +#ifdef TUNGETDEVNETNS
-> +  IOCTL(TUNGETDEVNETNS,  IOC_R, TYPE_NULL)
-> +#endif
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 945fc25279..1c955bc675 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -56,6 +56,7 @@
->  #include <linux/wireless.h>
->  #include <linux/icmp.h>
->  #include <linux/icmpv6.h>
-> +#include <linux/if_tun.h>
->  #include <linux/errqueue.h>
->  #include <linux/random.h>
->  #ifdef CONFIG_TIMERFD
-> @@ -5415,6 +5416,43 @@ static abi_long do_ioctl_drm(const IOCTLEntry *ie, uint8_t *buf_temp,
->  
->  #endif
->  
-> +static abi_long do_ioctl_TUNSETTXFILTER(const IOCTLEntry *ie, uint8_t *buf_temp,
-> +                                        int fd, int cmd, abi_long arg)
-> +{
-> +    struct tun_filter *filter = (struct tun_filter *)buf_temp;
-> +    struct tun_filter *target_filter;
-> +    char *target_addr;
-> +
-> +    assert(ie->access == IOC_W);
-> +
-> +    target_filter = lock_user(VERIFY_READ, arg, sizeof(*target_filter), 1);
-> +    if (!target_filter) {
-> +        return -TARGET_EFAULT;
-> +    }
-> +    filter->flags = tswap16(target_filter->flags);
-> +    filter->count = tswap16(target_filter->count);
-> +    unlock_user(target_filter, arg, 0);
-> +
-> +    if (filter->count) {
-> +        if (offsetof(struct tun_filter, addr) + filter->count * ETH_ALEN >
-> +            MAX_STRUCT_SIZE) {
-> +            return -TARGET_EFAULT;
-> +        }
-> +
-> +        target_addr = lock_user(VERIFY_READ,
-> +                                arg + offsetof(struct tun_filter, addr),
-> +                                filter->count * ETH_ALEN, 1);
-> +        if (!target_addr) {
-> +            return -TARGET_EFAULT;
-> +        }
-> +        memcpy(filter->addr, target_addr, filter->count * ETH_ALEN);
-> +        unlock_user(target_addr, arg + offsetof(struct tun_filter, addr),
-> +                    filter->count * ETH_ALEN);
-> +    }
-> +
-> +    return get_errno(safe_ioctl(fd, ie->host_cmd, filter));
-> +}
-> +
->  IOCTLEntry ioctl_entries[] = {
->  #define IOCTL(cmd, access, ...) \
->      { TARGET_ ## cmd, cmd, #cmd, access, 0, {  __VA_ARGS__ } },
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 3c261cff0e..7ef0ff0328 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -891,6 +891,38 @@ struct target_rtc_pll_info {
->  
->  #define TARGET_SIOCGIWNAME     0x8B01          /* get name == wireless protocol */
->  
-> +/* From <linux/if_tun.h> */
-> +
-> +#define TARGET_TUNSETDEBUG        TARGET_IOW('T', 201, int)
-> +#define TARGET_TUNSETIFF          TARGET_IOW('T', 202, int)
-> +#define TARGET_TUNSETPERSIST      TARGET_IOW('T', 203, int)
-> +#define TARGET_TUNSETOWNER        TARGET_IOW('T', 204, int)
-> +#define TARGET_TUNSETLINK         TARGET_IOW('T', 205, int)
-> +#define TARGET_TUNSETGROUP        TARGET_IOW('T', 206, int)
-> +#define TARGET_TUNGETFEATURES     TARGET_IOR('T', 207, unsigned int)
-> +#define TARGET_TUNSETOFFLOAD      TARGET_IOW('T', 208, unsigned int)
-> +#define TARGET_TUNSETTXFILTER     TARGET_IOW('T', 209, unsigned int)
-> +#define TARGET_TUNGETIFF          TARGET_IOR('T', 210, unsigned int)
-> +#define TARGET_TUNGETSNDBUF       TARGET_IOR('T', 211, int)
-> +#define TARGET_TUNSETSNDBUF       TARGET_IOW('T', 212, int)
-> +/*
-> + * TUNATTACHFILTER and TUNDETACHFILTER are not supported. Linux kernel keeps a
-> + * user pointer in TUNATTACHFILTER, which we are not able to correctly handle.
-> + */
-> +#define TARGET_TUNGETVNETHDRSZ    TARGET_IOR('T', 215, int)
-> +#define TARGET_TUNSETVNETHDRSZ    TARGET_IOW('T', 216, int)
-> +#define TARGET_TUNSETQUEUE        TARGET_IOW('T', 217, int)
-> +#define TARGET_TUNSETIFINDEX      TARGET_IOW('T', 218, unsigned int)
-> +/* TUNGETFILTER is not supported: see TUNATTACHFILTER. */
-> +#define TARGET_TUNSETVNETLE       TARGET_IOW('T', 220, int)
-> +#define TARGET_TUNGETVNETLE       TARGET_IOR('T', 221, int)
-> +#define TARGET_TUNSETVNETBE       TARGET_IOW('T', 222, int)
-> +#define TARGET_TUNGETVNETBE       TARGET_IOR('T', 223, int)
-> +#define TARGET_TUNSETSTEERINGEBPF TARGET_IOR('T', 224, int)
-> +#define TARGET_TUNSETFILTEREBPF   TARGET_IOR('T', 225, int)
-> +#define TARGET_TUNSETCARRIER      TARGET_IOW('T', 226, int)
-> +#define TARGET_TUNGETDEVNETNS     TARGET_IO('T', 227)
-> +
->  /* From <linux/random.h> */
->  
->  #define TARGET_RNDGETENTCNT    TARGET_IOR('R', 0x00, int)
-> 
+--Sig_/wsLjr2rTq1uwHIhjnWRYsmX
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Applied to my linux-user-for-6.0 branch
+On Thu, 17 Dec 2020 16:38:20 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-Thanks,
-Laurent
+> On Mon, Dec 14, 2020 at 06:00:36PM +0100, Cornelia Huck wrote:
+> > On Fri,  4 Dec 2020 16:44:10 +1100
+> > David Gibson <david@gibson.dropbear.id.au> wrote:
+> >  =20
+> > > The platform specific details of mechanisms for implementing securable
+> > > guest memory may require setup at various points during initializatio=
+n.
+> > > Thus, it's not really feasible to have a single sgm initialization ho=
+ok,
+> > > but instead each mechanism needs its own initialization calls in arch=
+ or
+> > > machine specific code.
+> > >=20
+> > > However, to make it harder to have a bug where a mechanism isn't prop=
+erly
+> > > initialized under some circumstances, we want to have a common place,
+> > > relatively late in boot, where we verify that sgm has been initialize=
+d if
+> > > it was requested.
+> > >=20
+> > > This patch introduces a ready flag to the SecurableGuestMemory base t=
+ype
+> > > to accomplish this, which we verify just before the machine specific
+> > > initialization function.
+> > >=20
+> > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > > ---
+> > >  hw/core/machine.c                     | 8 ++++++++
+> > >  include/exec/securable-guest-memory.h | 2 ++
+> > >  target/i386/sev.c                     | 2 ++
+> > >  3 files changed, 12 insertions(+)
+> > >=20
+> > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > index 816ea3ae3e..a67a27d03c 100644
+> > > --- a/hw/core/machine.c
+> > > +++ b/hw/core/machine.c
+> > > @@ -1155,6 +1155,14 @@ void machine_run_board_init(MachineState *mach=
+ine)
+> > >      }
+> > > =20
+> > >      if (machine->sgm) {
+> > > +        /*
+> > > +         * Where securable guest memory is initialized depends on the
+> > > +         * specific mechanism in use.  But, we need to make sure it's
+> > > +         * ready by now.  If it isn't, that's a bug in the
+> > > +         * implementation of that sgm mechanism.
+> > > +         */
+> > > +        assert(machine->sgm->ready); =20
+> >=20
+> > Under which circumstances might we arrive here with 'ready' not set?
+> >=20
+> > - programming error, setup is happening too late -> assert() seems
+> >   appropriate =20
+>=20
+> Yes, this is designed to catch programming errors.  In particular I'm
+> concerned about:
+>   * Re-arranging the init code, and either entirely forgetting the sgm
+>     setup, or accidentally moving it too late
+>   * The sgm setup is buried in the machine setup code, conditional on
+>     various things, and changes mean we no longer either call it or
+>     (correctly) fail
+>   * User has specified an sgm scheme designed for a machine type other
+>     than the one they selected.  The arch/machine init code hasn't
+>     correctly accounted for that possibility and ignores it, instead
+>     of correctly throwing an error
+> =20
+> > - we tried to set it up, but some error happened -> should we rely on
+> >   the setup code to error out first? (i.e. we won't end up here, unless
+> >   there's a programming error, in which case the assert() looks
+> >   fine) =20
+>=20
+> Yes, that's my intention.
+>=20
+> >   Is there a possible use case for "we could not set it up, but we
+> >   support an unsecured guest (as long as it is clear what happens)"? =20
+>=20
+> I don't think so.  My feeling is that if you specify that you want the
+> feature, qemu needs to either give it to you, or fail, not silently
+> degrade the features presented to the guest.
+
+Yes, that should align with what QEMU is doing elsewhere.
+
+>=20
+> >   Likely only for guests that transition themselves, but one could
+> >   argue that QEMU should simply be invoked a second time without the
+> >   sgm stuff being specified in the error case. =20
+>=20
+> Right - I think whatever error we give here is likely to be easier to
+> diagnose than the guest itself throwing an error when it fails to
+> transition to secure mode (plus we should catch it always, rather than
+> only if we run a guest which tries to go secure).
+
+Yes, that makes sense.
+
+--Sig_/wsLjr2rTq1uwHIhjnWRYsmX
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl/bP/MACgkQ3s9rk8bw
+L6/uTw//S3IbdBwx0BYRCbCnGHnICuCmlQmt5o41nd86PMCiN1dQ6egtoQf6j2RY
+fkRrd0AmD/5QtfO7KYUJnaIy9W3uSDgFQTIfGey0J7SvoY0BIxEW5gSMl31othxI
+jAkxrC6JRc4/SgpuvdWUTTf1NBph+v5LycOTjLfih6UvVrSLCsrAtt+X4opPx1ti
+reDAsF1qmeCaIUll9JgF3seJzsjl794hmW69DycTv9qLcLOdBHjwDhUnfh5Ttd0Y
+3Tf9wPBJDs3Wpdmxx5G6un+4n79MCZ+13QnFcrPObo21jn4+Tm2lVViPJrjKGhxc
+XQ8nJlaGRMaqtfpi9HEI1bxi7+2Js6oHudpWavXMKjOydtbmT5kI9/NjIKasnXLK
+tRN2ropRKxYUmSA8L2sStv1zUig1yp2A8Ih6r2CCnaCBJK7ls2o7vXF6ytwI7m7u
++Rh+Xg871P0b+vtFW+TCSzcNBT2K9yFM4BDkWn3vsnJi72Z2bPku2o7wZJQx5GJJ
+DpBmroXYVLpwrgjjYmZHYpXKRNZIdfsGDkH1xj9hYoAqUFp0lwjvqmKRPjAIT92E
+ip6ejIcl4+rPUzn7b0tYH7EtNebYV2yzKvlDi7POdWoidFpmUzPCG9b8tmGpz+Os
+2N84KaCwSFn2PBDqUnR1uKXlViE1qitO+mUozNgyafFaaTmZpR8=
+=L1lU
+-----END PGP SIGNATURE-----
+
+--Sig_/wsLjr2rTq1uwHIhjnWRYsmX--
+
 
