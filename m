@@ -2,46 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C272DD073
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:35:43 +0100 (CET)
-Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A292DD07C
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:38:26 +0100 (CET)
+Received: from localhost ([::1]:58964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kprZM-00043i-Ll
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:35:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47234)
+	id 1kprc1-0007Yg-Jr
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:38:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kprWs-0002Ll-AT
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:33:06 -0500
-Received: from mx2.suse.de ([195.135.220.15]:43668)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kprX2-0002SY-Qg
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:33:17 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:33115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kprWo-0005fu-Eo
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:33:06 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E6866AC7B;
- Thu, 17 Dec 2020 11:32:54 +0000 (UTC)
-Subject: Re: [PATCH] build-sys: fix win32 compilation with --target-list=''
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20201217104417.436508-1-marcandre.lureau@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <5c6d244b-1ed3-f065-88b6-7a007a224cc4@suse.de>
-Date: Thu, 17 Dec 2020 12:32:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kprX1-0005ja-46
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:33:16 -0500
+Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MsI0K-1jwOWo0l8U-00tn77; Thu, 17 Dec 2020 12:33:12 +0100
+Subject: Re: [PATCH v2 3/4] linux-user/sparc: Don't restore %g7 in
+ sparc64_set_context()
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20201106152738.26026-1-peter.maydell@linaro.org>
+ <20201106152738.26026-4-peter.maydell@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <9ee3d3b4-ca5c-dbc8-d735-300d172a4290@vivier.eu>
+Date: Thu, 17 Dec 2020 12:33:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201217104417.436508-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20201106152738.26026-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:03lrXPLIF3EzbLw+cuzW2QtEkjbIJnRYge4Qdghd6ZFfze9pK3q
+ pTdqYpKMFLQovyx2giY3YNpTulT6R0rH3fT5dLp9A9ELZqnM45yRfVrMmJAnJQ9EhdGTSRG
+ ZBrB2PsByU6Y2+FSTqEsncKiUlRSNT3IimfxnO1/aSpyUT3t/Y1zf+5F/XuhCoM2Qhwn8N8
+ tyEgdq5haPSZUK+KvoYsg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4CaY6t+w6Gs=:SqI/q/WhNl3kWHQwd4gctN
+ Wu4vw9nHbnAeNmvhGsugkB58993p2nWO/Z8q4FqM6lrCO6yT0moqNYKkoycKGtWiES5z/jipp
+ y6+Zd8mjsBoRJr/Rm2gDToD14iJ+SGz4hx2cGczAFQa70wz9hQ0mGjpGDqyyTnogxiQAP09/K
+ LMg+u8a0XzPmtZOjNmmz667/7/VyvG4D09YSmczt+UbF/tXVg/3QFkn574ZsxPsLkIuP/tokJ
+ yFbSjw/+bARCbEYi9r8JSdvnJCB90YhmRO0JZspRXoYmgL/a3jlUA6hrrvsjGmn1/AvdEvIpT
+ yURVhVdnwJgGmXmsE7bYkNN7wgWZypgdXM5uSJUcib27MzbmMAYY3E9X0oyOiEmftsOdk+luF
+ OZkSk1m5dXMImmfNr5okJMAlO6lM8nMWUWysIdxJLKFQjN/O9iTYmmxikjnvGb3KfwMXPtxfv
+ StckApJzMw==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,79 +67,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com
+Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/17/20 11:44 AM, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Le 06/11/2020 à 16:27, Peter Maydell a écrit :
+> The kernel does not restore the g7 register in sparc64_set_context();
+> neither should we. (We still save it in sparc64_get_context().)
 > 
-> Fixes linking:
-> x86_64-w64-mingw32-gcc  -o tests/test-qapi-util.exe version.rc_version.o tests/test-qapi-util.exe.p/test-qapi-util.c.obj -Wl,--allow-shlib-undefined -Wl,--nxcompat -Wl,--no-seh -Wl,--dynamicbase -Wl,--warn-common -m64 -fstack-protector-strong -Wl,--start-group libqemuutil.a -pthread -L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -lgnutls -lwinmm -lm -L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -lgthread-2.0 -lglib-2.0 -lintl -lws2_32 -mconsole -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -Wl,--end-group
-> /usr/lib/gcc/x86_64-w64-mingw32/10.2.1/../../../../x86_64-w64-mingw32/bin/ld: libqemuutil.a(util_oslib-win32.c.obj): in function `qemu_try_set_nonblock':
-> /home/elmarco/src/qemu/buildw/../util/oslib-win32.c:224: undefined reference to `qemu_fd_register'
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  util/main-loop-stub.c | 26 ++++++++++++++++++++++++++
->  util/meson.build      |  2 ++
->  2 files changed, 28 insertions(+)
->  create mode 100644 util/main-loop-stub.c
+>  linux-user/sparc/signal.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/util/main-loop-stub.c b/util/main-loop-stub.c
-> new file mode 100644
-> index 0000000000..b3e175ade5
-> --- /dev/null
-> +++ b/util/main-loop-stub.c
-> @@ -0,0 +1,26 @@
-> +/*
-> + * QEMU main loop stub impl
-> + *
-> + * Copyright (c) 2020 Red Hat, Inc.
-> + *
-> + * This library is free software; you can redistribute it and/or
-> + * modify it under the terms of the GNU Lesser General Public
-> + * License as published by the Free Software Foundation; either
-> + * version 2.1 of the License, or (at your option) any later version.
-> + *
-> + * This library is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> + * Lesser General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU Lesser General Public
-> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/main-loop.h"
-> +
-> +void qemu_fd_register(int fd)
-> +{
-> +}
-> diff --git a/util/meson.build b/util/meson.build
-> index f359af0d46..462b79a61a 100644
-> --- a/util/meson.build
-> +++ b/util/meson.build
-> @@ -79,4 +79,6 @@ if have_block
->    util_ss.add(when: 'CONFIG_INOTIFY1', if_true: files('filemonitor-inotify.c'),
->                                          if_false: files('filemonitor-stub.c'))
->    util_ss.add(when: 'CONFIG_LINUX', if_true: files('vfio-helpers.c'))
-> +else
-> +  util_ss.add(files('main-loop-stub.c'))
->  endif
+> diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
+> index 43dcd137f51..ed32c7abd17 100644
+> --- a/linux-user/sparc/signal.c
+> +++ b/linux-user/sparc/signal.c
+> @@ -447,7 +447,7 @@ void sparc64_set_context(CPUSPARCState *env)
+>      __get_user(env->gregs[4], (&(*grp)[SPARC_MC_G4]));
+>      __get_user(env->gregs[5], (&(*grp)[SPARC_MC_G5]));
+>      __get_user(env->gregs[6], (&(*grp)[SPARC_MC_G6]));
+> -    __get_user(env->gregs[7], (&(*grp)[SPARC_MC_G7]));
+> +    /* Skip g7 as that's the thread register in userspace */
+>  
+>      /*
+>       * Note that unlike the kernel, we didn't need to mess with the
 > 
 
-Is the root cause elsewhere though?
+Applied to my linux-user-for-6.0 branch.
 
-I don't like stubs very much, because often they are introduced as the easy way out of a problem instead of doing the necessary refactoring,
-and they end up confusing the hell out of someone trying to understand what is actually used where, never mind trying to debug the linker errors.
+Thanks,
+Laurent
 
-There is already an bunch of #ifndef _WIN32, #else , ... in util/main-loop.c (quite a bunch of them really),
-is that what actually needs reworking, and putting the pieces together in the build system in a way that makes sense?
-
-Ciao, thanks,
-
-Claudio
 
