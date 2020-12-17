@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB312DD1B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 13:50:19 +0100 (CET)
-Received: from localhost ([::1]:40614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8562DD1B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 13:51:52 +0100 (CET)
+Received: from localhost ([::1]:44552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpsja-00083f-4P
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 07:50:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60438)
+	id 1kpsl5-0001Ot-Sl
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 07:51:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpshp-0006wu-Tw
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 07:48:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32498)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kpsjU-0008Iy-GP
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 07:50:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kpshm-00057s-UL
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 07:48:29 -0500
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kpsjS-0005dw-H6
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 07:50:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608209304;
+ s=mimecast20190719; t=1608209409;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2gx3RPDg/EnnMZh7CEkIsZzZDjxFh4K3S2/33OehUZE=;
- b=STUJCI+c90CgVwf5ljdmAw+XIBVGDMTIOEeRLvNqkBgb56zqxMiN5PjLBn+p/7Q8+4976h
- OMvCvFS0/J5Y0ryGW1RRZvMNrMwNauRFday+vUcxC2vfCjqBlWp9s9RHE00AdJBw9zF5sS
- brvEUobHlJdy3Nsv6TtLXOilEExIOWY=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=lw2bowT3fZoKthP/GE2EVsgI7RYSXfYNEsUapVFIW/o=;
+ b=ipgBP8ii711abspAeYWac60uVseYKayem38bupCAilG6EJI5KY3uv5t3Zxyio5JsLvZ1/L
+ MxOuU8jQqrxXzmUsoqa9Wf5zOAnkzIxSZ6EyXYfVPqLiGgq45CQuWSZiQdZkW87l3dYyUh
+ Kmm1oWdkjIj+AkLLuQyxJ1LGxCAxdhs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-wIoD_BddMoGXK1a3ax_5Rw-1; Thu, 17 Dec 2020 07:48:22 -0500
-X-MC-Unique: wIoD_BddMoGXK1a3ax_5Rw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-28-dwjATBexMniyJ0g2mYCyRA-1; Thu, 17 Dec 2020 07:50:07 -0500
+X-MC-Unique: dwjATBexMniyJ0g2mYCyRA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04E99801AC1;
- Thu, 17 Dec 2020 12:48:22 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-175.ams2.redhat.com [10.36.112.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C94C1002C10;
- Thu, 17 Dec 2020 12:48:14 +0000 (UTC)
-Subject: Re: [PATCH 3/3] gitlab-ci: Archive logs of acceptance tests
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
-References: <20201211183827.915232-1-wainersm@redhat.com>
- <20201211183827.915232-4-wainersm@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <41467468-d940-a3dd-3b89-3fc89d18180f@redhat.com>
-Date: Thu, 17 Dec 2020 13:48:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C833515720
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 12:50:06 +0000 (UTC)
+Received: from vitty.brq.redhat.com (ovpn-116-238.ams2.redhat.com
+ [10.36.116.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 345635D9C0;
+ Thu, 17 Dec 2020 12:50:01 +0000 (UTC)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] i386: simplify Hyper-V enlightenments enablement
+Date: Thu, 17 Dec 2020 13:49:57 +0100
+Message-Id: <20201217124959.262639-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201211183827.915232-4-wainersm@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,45 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: willianr@redhat.com, alex.bennee@linaro.org, philmd@redhat.com,
- crosa@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/12/2020 19.38, Wainer dos Santos Moschetta wrote:
-> Keep the logs of acceptance tests for two days on GitLab. If you want
-> to make it available for more time, click on the 'Keep' button on
-> the Job page at web UI.
-> 
-> By default GitLab will archive artifacts only if the job succeed.
-> Instead let's keep it on both success and failure, so it gives the
-> opportunity to the developer/maintainer to check the error logs
-> as well as to the logs of CANCEL tests (not shown on the job logs).
-> 
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> ---
->  .gitlab-ci.yml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 85aa20ffde..bf3df843e2 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -49,8 +49,12 @@ include:
->        - ${CI_PROJECT_DIR}/avocado-cache
->      policy: pull-push
->    artifacts:
-> +    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
-> +    when: always
-> +    expire_in: 2 days
->      paths:
->        - build/tests/results/latest/results.xml
-> +      - build/tests/results/latest/test-results
->      reports:
->        junit: build/tests/results/latest/results.xml
->    before_script:
-> 
+Changes since v1:
+- Moved X86MachineClass related setup to x86_cpu_pre_plug [Eduardo],
+  introduced kvm_hv_evmcs_available() to support the change.
+- Droped PATCHes0-4 from v1 as x86_cpu_hyperv_realize() is not
+  needed for the purpose of this series. I'll be sending them out
+  as part of "KVM: expand Hyper-V features early" series after 5.11-rc1
+  Linux release.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Original description:
+
+This series is a part of the previously sent "[PATCH RFC v3 00/23] i386:
+KVM: expand Hyper-V features early":
+https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg02443.html
+
+We're not ready to merge the full patch set yet because the required
+KVM capability is only queued for 5.11. We can, however, extract the
+part providing 'hyperv=on' option to x86 machine types which is valuable
+on its own.
+
+Vitaly Kuznetsov (2):
+  i386: introduce kvm_hv_evmcs_available()
+  i386: provide simple 'hyperv=on' option to x86 machine types
+
+ docs/hyperv.txt        |  8 ++++++++
+ hw/i386/x86.c          | 42 ++++++++++++++++++++++++++++++++++++++++++
+ include/hw/i386/x86.h  |  7 +++++++
+ target/i386/kvm-stub.c |  5 +++++
+ target/i386/kvm.c      |  8 ++++++++
+ target/i386/kvm_i386.h |  1 +
+ 6 files changed, 71 insertions(+)
+
+-- 
+2.29.2
 
 
