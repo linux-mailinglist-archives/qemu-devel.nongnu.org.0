@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D1D2DD23B
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 14:36:08 +0100 (CET)
-Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A059D2DD233
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 14:34:50 +0100 (CET)
+Received: from localhost ([::1]:50858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kptRv-0005aY-Uc
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 08:36:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44844)
+	id 1kptQf-0004XR-Ng
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 08:34:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kptOA-0003Is-L5
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:32:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55296)
+ id 1kptOv-0003fO-3E
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:33:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kptO7-0003IO-Bh
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:32:14 -0500
+ id 1kptOs-0003Wq-K0
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 08:33:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608211930;
+ s=mimecast20190719; t=1608211977;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=yLQyRE6LKqqSHxqYimZmRQHYZMLPzwh3qepqzIFSt08=;
- b=TP/dpakQduv50J4ZPpX+wVwbItP4eQn3kBxH5b0q1ciUETyeBNBZGkq1rUgjXa+/XELfdX
- j01igyAx0gm/pte2WET71nNxWICIYo+vuTxseGCOPC+APDS/pmN1IMBlwkgS7CrE+4EvyY
- ao231Rm+r4MpkBlZyp/eybqsMo27SY4=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-jpEXa5NzOQeU08z-qCyEwQ-1; Thu, 17 Dec 2020 08:32:05 -0500
-X-MC-Unique: jpEXa5NzOQeU08z-qCyEwQ-1
-Received: by mail-io1-f72.google.com with SMTP id h206so27207197iof.18
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 05:32:05 -0800 (PST)
+ bh=DjSiuIjcYuXbeMZablWuLkczonUrLuD54utHwFRR1m0=;
+ b=VHVZ/7V96ZbMOOdwA2vzKRG+/+QJ773M6VPTgFWqCJ20/W1QIuocL9eW/9GMKkHuXNljUv
+ TWeRyVqyZFwSrJwvmNpD2hD/y5cRhotM9EY1yMXWIx59DENR8JJTb0XJAeyE/VQrb4q4k1
+ 3rqcgrIMgF7cWB8FPVwj1wh+2j1gAVY=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-oy9YoqijMfev2BitH-i49w-1; Thu, 17 Dec 2020 08:32:56 -0500
+X-MC-Unique: oy9YoqijMfev2BitH-i49w-1
+Received: by mail-il1-f199.google.com with SMTP id p10so20070304ilo.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 05:32:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yLQyRE6LKqqSHxqYimZmRQHYZMLPzwh3qepqzIFSt08=;
- b=a5QCLSWT5LszENLefDCR2H1yuZf/9AUnFqOlPCsGi+qT9W4fLLrkAp8nXaHPvwxk6z
- SLZ48tcCKvK1ZzRMzaWGjTZjLmFYWm3U7lFG4RhJzP6WArj/DnkFTiYojMtm+yD335EN
- eM6vI6YiT1eqTlyzr4sFel2+RVX/VxTDvYpVWJoWKPRGEh0f+G10o/dDnNUNgg8841OH
- 2ZSvHQijxIHEA96Q12pn/WEmZ53FfWdZYKShxqSRswf+LDoUtQzC5VL2Jw1SdC3YCIf2
- E1LLUqDy2a8ks/M7clhoo5gfFK2p/dcZIsV1XPuiT3CfrvVYi5kx9G3m0s/1Yt/kcdGG
- YP3w==
-X-Gm-Message-State: AOAM531oD/xYIAmCvxGzniGbsbz1oALQ643BJtKrzi8F+BsIKLI9QmTP
- UH4H2KhJeBxSIivvxlHBtDRhvqu72AEQmI0sDvY3mWQ8DngqX2hITQmfTgC4bBXORQ4y9UF4oAO
- LzEdIs+ZtHWtuCDle1Nfe3Dtgw0lEhM0=
-X-Received: by 2002:a92:c26c:: with SMTP id h12mr43801045ild.165.1608211924941; 
- Thu, 17 Dec 2020 05:32:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxo2mSD6TeUbTHjw40QsTSp0u3alSLTVYmfCpkXBT2zNykhAho/r4qA8U6RsEun2oX20USnG+qZZcP9t63g3eE=
-X-Received: by 2002:a92:c26c:: with SMTP id h12mr43801027ild.165.1608211924793; 
- Thu, 17 Dec 2020 05:32:04 -0800 (PST)
+ bh=DjSiuIjcYuXbeMZablWuLkczonUrLuD54utHwFRR1m0=;
+ b=DKWpwBMhj94U8UaIwG7y2JM5uYSHsDABe862K7v10XlUpXwIH+SwXXyA4qpSjiN3hC
+ 34ufUPN0/qodZkPZbyvwxtrkWRdkRJqNQl3C8ze3Z19cmCrNhG08jiiXRKeKriEk8JP4
+ 240nNbp164DjoEQJm+WPItI/3chC9DS/FdYKXDw+bMWdauABcJXyLPQNdnmoL4WZ/X/3
+ aSfwN9NtLUw3f4npO2Ld4gmetRsZeK4H0ct6QdcBVNBByck9aQIkDe91Ei5pLKQ9+tNR
+ ajmUM262MTZ1Q5PWWhl/OAf51l8LgC0r0nbueVpBjHOpQvLFpa0tH37gou9jcAJiVf1o
+ ADAg==
+X-Gm-Message-State: AOAM533FOGdv5HIgyhPQ982JPW2iZQ+aR/0/1Zn/wyzGgFZZGR2ZVe+S
+ u5ffPjbpk6ZX7QmPg5ddfB9j+EGzadL4A5OoN3Qf+cwWpE1AF2QwpWp+n8mVTRJ8q9CV0KcC/hS
+ kxXdK2yFAQX3ial/nBmbVb++KD3205Qk=
+X-Received: by 2002:a05:6e02:cb:: with SMTP id
+ r11mr50900644ilq.11.1608211974695; 
+ Thu, 17 Dec 2020 05:32:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxUuw+AEkXtJPecw4p4wykgVyrVEPAc0VODzUCCvKFu7WtBz9CEkQF7ejtnPtT3Tp+IM1o4lUeOsaKtPQaHjL0=
+X-Received: by 2002:a05:6e02:cb:: with SMTP id
+ r11mr50900625ilq.11.1608211974522; 
+ Thu, 17 Dec 2020 05:32:54 -0800 (PST)
 MIME-Version: 1.0
 References: <20201217094044.46462-1-pbonzini@redhat.com>
  <20201217094044.46462-14-pbonzini@redhat.com>
-In-Reply-To: <20201217094044.46462-14-pbonzini@redhat.com>
+ <CAMxuvaySnEMbHGNUSNPEEtMstO=iM5kG3NtYvshw_TX5x+o9sQ@mail.gmail.com>
+In-Reply-To: <CAMxuvaySnEMbHGNUSNPEEtMstO=iM5kG3NtYvshw_TX5x+o9sQ@mail.gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 17 Dec 2020 17:31:53 +0400
-Message-ID: <CAMxuvaySnEMbHGNUSNPEEtMstO=iM5kG3NtYvshw_TX5x+o9sQ@mail.gmail.com>
+Date: Thu, 17 Dec 2020 17:32:43 +0400
+Message-ID: <CAMxuvazk5YjS9j-J_rOomPa=jfZ+QMYCOpa5HbS36h2_16xpbQ@mail.gmail.com>
 Subject: Re: [PATCH 13/18] zstd: convert to meson
 To: Paolo Bonzini <pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000080511705b6a9048f"
+Content-Type: multipart/alternative; boundary="0000000000007718e005b6a907f4"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -93,183 +96,207 @@ Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000080511705b6a9048f
+--0000000000007718e005b6a907f4
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 17, 2020 at 1:41 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Thu, Dec 17, 2020 at 5:31 PM Marc-Andr=C3=A9 Lureau <
+marcandre.lureau@redhat.com> wrote:
 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  configure             | 30 ++++--------------------------
->  meson.build           | 10 ++++++----
->  meson_options.txt     |  2 ++
->  migration/meson.build |  2 +-
->  4 files changed, 13 insertions(+), 31 deletions(-)
 >
-> diff --git a/configure b/configure
-> index ea5650acca..649da881a2 100755
-> --- a/configure
-> +++ b/configure
-> @@ -398,7 +398,7 @@ lzo="auto"
->  snappy="auto"
->  bzip2="auto"
->  lzfse="auto"
-> -zstd="$default_feature"
-> +zstd="auto"
->  guest_agent="$default_feature"
->  guest_agent_with_vss="no"
->  guest_agent_ntddscsi="no"
-> @@ -1328,9 +1328,9 @@ for opt do
->    ;;
->    --disable-lzfse) lzfse="disabled"
->    ;;
-> -  --disable-zstd) zstd="no"
-> +  --disable-zstd) zstd="disabled"
->    ;;
-> -  --enable-zstd) zstd="yes"
-> +  --enable-zstd) zstd="enabled"
->    ;;
->    --enable-guest-agent) guest_agent="yes"
->    ;;
-> @@ -2458,23 +2458,6 @@ EOF
->    fi
->  fi
 >
-> -##########################################
-> -# zstd check
-> -
-> -if test "$zstd" != "no" ; then
-> -    libzstd_minver="1.4.0"
-> -    if $pkg_config --atleast-version=$libzstd_minver libzstd ; then
-> -        zstd_cflags="$($pkg_config --cflags libzstd)"
-> -        zstd_libs="$($pkg_config --libs libzstd)"
-> -        zstd="yes"
-> -    else
-> -        if test "$zstd" = "yes" ; then
-> -            feature_not_found "libzstd" "Install libzstd devel"
-> -        fi
-> -        zstd="no"
-> -    fi
-> -fi
-> -
->  ##########################################
->  # libseccomp check
+> On Thu, Dec 17, 2020 at 1:41 PM Paolo Bonzini <pbonzini@redhat.com> wrote=
+:
 >
-> @@ -6070,12 +6053,6 @@ if test "$avx512f_opt" = "yes" ; then
->    echo "CONFIG_AVX512F_OPT=y" >> $config_host_mak
->  fi
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>  configure             | 30 ++++--------------------------
+>>  meson.build           | 10 ++++++----
+>>  meson_options.txt     |  2 ++
+>>  migration/meson.build |  2 +-
+>>  4 files changed, 13 insertions(+), 31 deletions(-)
+>>
+>> diff --git a/configure b/configure
+>> index ea5650acca..649da881a2 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -398,7 +398,7 @@ lzo=3D"auto"
+>>  snappy=3D"auto"
+>>  bzip2=3D"auto"
+>>  lzfse=3D"auto"
+>> -zstd=3D"$default_feature"
+>> +zstd=3D"auto"
+>>  guest_agent=3D"$default_feature"
+>>  guest_agent_with_vss=3D"no"
+>>  guest_agent_ntddscsi=3D"no"
+>> @@ -1328,9 +1328,9 @@ for opt do
+>>    ;;
+>>    --disable-lzfse) lzfse=3D"disabled"
+>>    ;;
+>> -  --disable-zstd) zstd=3D"no"
+>> +  --disable-zstd) zstd=3D"disabled"
+>>    ;;
+>> -  --enable-zstd) zstd=3D"yes"
+>> +  --enable-zstd) zstd=3D"enabled"
+>>    ;;
+>>    --enable-guest-agent) guest_agent=3D"yes"
+>>    ;;
+>> @@ -2458,23 +2458,6 @@ EOF
+>>    fi
+>>  fi
+>>
+>> -##########################################
+>> -# zstd check
+>> -
+>> -if test "$zstd" !=3D "no" ; then
+>> -    libzstd_minver=3D"1.4.0"
+>> -    if $pkg_config --atleast-version=3D$libzstd_minver libzstd ; then
+>> -        zstd_cflags=3D"$($pkg_config --cflags libzstd)"
+>> -        zstd_libs=3D"$($pkg_config --libs libzstd)"
+>> -        zstd=3D"yes"
+>> -    else
+>> -        if test "$zstd" =3D "yes" ; then
+>> -            feature_not_found "libzstd" "Install libzstd devel"
+>> -        fi
+>> -        zstd=3D"no"
+>> -    fi
+>> -fi
+>> -
+>>  ##########################################
+>>  # libseccomp check
+>>
+>> @@ -6070,12 +6053,6 @@ if test "$avx512f_opt" =3D "yes" ; then
+>>    echo "CONFIG_AVX512F_OPT=3Dy" >> $config_host_mak
+>>  fi
+>>
+>> -if test "$zstd" =3D "yes" ; then
+>> -  echo "CONFIG_ZSTD=3Dy" >> $config_host_mak
+>> -  echo "ZSTD_CFLAGS=3D$zstd_cflags" >> $config_host_mak
+>> -  echo "ZSTD_LIBS=3D$zstd_libs" >> $config_host_mak
+>> -fi
+>> -
+>>  if test "$seccomp" =3D "yes"; then
+>>    echo "CONFIG_SECCOMP=3Dy" >> $config_host_mak
+>>    echo "SECCOMP_CFLAGS=3D$seccomp_cflags" >> $config_host_mak
+>> @@ -6629,6 +6606,7 @@ NINJA=3D$ninja $meson setup \
+>>          -Dcurl=3D$curl -Dglusterfs=3D$glusterfs -Dbzip2=3D$bzip2
+>> -Dlibiscsi=3D$libiscsi \
+>>          -Dlibnfs=3D$libnfs -Diconv=3D$iconv -Dcurses=3D$curses
+>> -Dlibudev=3D$libudev\
+>>          -Dlibssh=3D$libssh -Drbd=3D$rbd -Dlzo=3D$lzo -Dsnappy=3D$snappy
+>> -Dlzfse=3D$lzfse \
+>> +        -Dzstd=3D$zstd \
+>>          -Ddocs=3D$docs -Dsphinx_build=3D$sphinx_build -Dinstall_blobs=
+=3D$blobs
+>> \
+>>          -Dvhost_user_blk_server=3D$vhost_user_blk_server \
+>>          -Dfuse=3D$fuse -Dfuse_lseek=3D$fuse_lseek \
+>> diff --git a/meson.build b/meson.build
+>> index c02d9c3e1a..93a95d7a7f 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -380,9 +380,10 @@ if not get_option('libiscsi').auto() or have_block
+>>                           method: 'pkg-config', static: enable_static)
+>>  endif
+>>  zstd =3D not_found
+>> -if 'CONFIG_ZSTD' in config_host
+>> -  zstd =3D declare_dependency(compile_args:
+>> config_host['ZSTD_CFLAGS'].split(),
+>> -                            link_args: config_host['ZSTD_LIBS'].split()=
+)
+>> +if not get_option('zstd').auto() or have_block
+>> +  zstd =3D dependency('zstd', version: '>=3D1.4.0',
+>>
 >
-> -if test "$zstd" = "yes" ; then
-> -  echo "CONFIG_ZSTD=y" >> $config_host_mak
-> -  echo "ZSTD_CFLAGS=$zstd_cflags" >> $config_host_mak
-> -  echo "ZSTD_LIBS=$zstd_libs" >> $config_host_mak
-> -fi
-> -
->  if test "$seccomp" = "yes"; then
->    echo "CONFIG_SECCOMP=y" >> $config_host_mak
->    echo "SECCOMP_CFLAGS=$seccomp_cflags" >> $config_host_mak
-> @@ -6629,6 +6606,7 @@ NINJA=$ninja $meson setup \
->          -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2
-> -Dlibiscsi=$libiscsi \
->          -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses
-> -Dlibudev=$libudev\
->          -Dlibssh=$libssh -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy
-> -Dlzfse=$lzfse \
-> +        -Dzstd=$zstd \
->          -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
->          -Dvhost_user_blk_server=$vhost_user_blk_server \
->          -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek \
-> diff --git a/meson.build b/meson.build
-> index c02d9c3e1a..93a95d7a7f 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -380,9 +380,10 @@ if not get_option('libiscsi').auto() or have_block
->                           method: 'pkg-config', static: enable_static)
->  endif
->  zstd = not_found
-> -if 'CONFIG_ZSTD' in config_host
-> -  zstd = declare_dependency(compile_args:
-> config_host['ZSTD_CFLAGS'].split(),
-> -                            link_args: config_host['ZSTD_LIBS'].split())
-> +if not get_option('zstd').auto() or have_block
-> +  zstd = dependency('zstd', version: '>=1.4.0',
+> -> libzstd
 >
-
--> libzstd
-
-Interestingly, meson didn't seem to overwrite config-host.h correctly
-(that's how I noticed failed to link). I removed it and now it regenerates
-it correctly.. weird.
+> Interestingly, meson didn't seem to overwrite config-host.h correctly
+> (that's how I noticed failed to link). I removed it and now it regenerate=
+s
+> it correctly.. weird.
+>
+>
+with that fix,
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 +                    required: get_option('zstd'),
-> +                    method: 'pkg-config', static: enable_static)
->  endif
->  gbm = not_found
->  if 'CONFIG_GBM' in config_host
-> @@ -1003,6 +1004,7 @@ config_host_data.set('CONFIG_KEYUTILS',
-> keyutils.found())
->  config_host_data.set('CONFIG_GETTID', has_gettid)
->  config_host_data.set('CONFIG_MALLOC_TRIM', has_malloc_trim)
->  config_host_data.set('CONFIG_STATX', has_statx)
-> +config_host_data.set('CONFIG_ZSTD', zstd.found())
->  config_host_data.set('CONFIG_FUSE', fuse.found())
->  config_host_data.set('CONFIG_FUSE_LSEEK', fuse_lseek.found())
->  config_host_data.set('CONFIG_CFI', get_option('cfi'))
-> @@ -2377,7 +2379,7 @@ summary_info += {'lzo support':       lzo.found()}
->  summary_info += {'snappy support':    snappy.found()}
->  summary_info += {'bzip2 support':     libbzip2.found()}
->  summary_info += {'lzfse support':     liblzfse.found()}
-> -summary_info += {'zstd support':      config_host.has_key('CONFIG_ZSTD')}
-> +summary_info += {'zstd support':      zstd.found()}
->  summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
->  summary_info += {'libxml2':
->  config_host.has_key('CONFIG_LIBXML2')}
->  summary_info += {'memory allocator':  get_option('malloc')}
-> diff --git a/meson_options.txt b/meson_options.txt
-> index f74a3d78c4..5a1de9b1fe 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -92,6 +92,8 @@ option('virtiofsd', type: 'feature', value: 'auto',
->         description: 'build virtiofs daemon (virtiofsd)')
->  option('vhost_user_blk_server', type: 'feature', value: 'auto',
->         description: 'build vhost-user-blk server')
-> +option('zstd', type : 'feature', value : 'auto',
-> +       description: 'zstd compression support')
->  option('fuse', type: 'feature', value: 'auto',
->         description: 'FUSE block device export')
->  option('fuse_lseek', type : 'feature', value : 'auto',
-> diff --git a/migration/meson.build b/migration/meson.build
-> index 980e37865c..c783f2f2ae 100644
-> --- a/migration/meson.build
-> +++ b/migration/meson.build
-> @@ -29,6 +29,6 @@ softmmu_ss.add(files(
->
->  softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
->  softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true:
-> files('block.c'))
-> -softmmu_ss.add(when: 'CONFIG_ZSTD', if_true: [files('multifd-zstd.c'),
-> zstd])
-> +softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
->
->  specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('dirtyrate.c',
-> 'ram.c'))
-> --
-> 2.29.2
->
->
->
+>> +                    method: 'pkg-config', static: enable_static)
+>>  endif
+>>  gbm =3D not_found
+>>  if 'CONFIG_GBM' in config_host
+>> @@ -1003,6 +1004,7 @@ config_host_data.set('CONFIG_KEYUTILS',
+>> keyutils.found())
+>>  config_host_data.set('CONFIG_GETTID', has_gettid)
+>>  config_host_data.set('CONFIG_MALLOC_TRIM', has_malloc_trim)
+>>  config_host_data.set('CONFIG_STATX', has_statx)
+>> +config_host_data.set('CONFIG_ZSTD', zstd.found())
+>>  config_host_data.set('CONFIG_FUSE', fuse.found())
+>>  config_host_data.set('CONFIG_FUSE_LSEEK', fuse_lseek.found())
+>>  config_host_data.set('CONFIG_CFI', get_option('cfi'))
+>> @@ -2377,7 +2379,7 @@ summary_info +=3D {'lzo support':       lzo.found(=
+)}
+>>  summary_info +=3D {'snappy support':    snappy.found()}
+>>  summary_info +=3D {'bzip2 support':     libbzip2.found()}
+>>  summary_info +=3D {'lzfse support':     liblzfse.found()}
+>> -summary_info +=3D {'zstd support':      config_host.has_key('CONFIG_ZST=
+D')}
+>> +summary_info +=3D {'zstd support':      zstd.found()}
+>>  summary_info +=3D {'NUMA host support': config_host.has_key('CONFIG_NUM=
+A')}
+>>  summary_info +=3D {'libxml2':
+>>  config_host.has_key('CONFIG_LIBXML2')}
+>>  summary_info +=3D {'memory allocator':  get_option('malloc')}
+>> diff --git a/meson_options.txt b/meson_options.txt
+>> index f74a3d78c4..5a1de9b1fe 100644
+>> --- a/meson_options.txt
+>> +++ b/meson_options.txt
+>> @@ -92,6 +92,8 @@ option('virtiofsd', type: 'feature', value: 'auto',
+>>         description: 'build virtiofs daemon (virtiofsd)')
+>>  option('vhost_user_blk_server', type: 'feature', value: 'auto',
+>>         description: 'build vhost-user-blk server')
+>> +option('zstd', type : 'feature', value : 'auto',
+>> +       description: 'zstd compression support')
+>>  option('fuse', type: 'feature', value: 'auto',
+>>         description: 'FUSE block device export')
+>>  option('fuse_lseek', type : 'feature', value : 'auto',
+>> diff --git a/migration/meson.build b/migration/meson.build
+>> index 980e37865c..c783f2f2ae 100644
+>> --- a/migration/meson.build
+>> +++ b/migration/meson.build
+>> @@ -29,6 +29,6 @@ softmmu_ss.add(files(
+>>
+>>  softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
+>>  softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true:
+>> files('block.c'))
+>> -softmmu_ss.add(when: 'CONFIG_ZSTD', if_true: [files('multifd-zstd.c'),
+>> zstd])
+>> +softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
+>>
+>>  specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('dirtyrate.c',
+>> 'ram.c'))
+>> --
+>> 2.29.2
+>>
+>>
+>>
 
---00000000000080511705b6a9048f
+--0000000000007718e005b6a907f4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 17, 2020 at 1:41 PM Paolo=
- Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Sign=
-ed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=
-=3D"_blank">pbonzini@redhat.com</a>&gt;<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 17, 2020 at 5:31 PM Marc-=
+Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcan=
+dre.lureau@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 17, =
+2020 at 1:41 PM Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" ta=
+rget=3D"_blank">pbonzini@redhat.com</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">Signed-off-by: Paolo Bonzini &lt;<a href=
+=3D"mailto:pbonzini@redhat.com" target=3D"_blank">pbonzini@redhat.com</a>&g=
+t;<br>
 ---<br>
 =C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 30 ++++---=
 -----------------------<br>
@@ -387,9 +414,14 @@ AGS&#39;].split(),<br>
 ,<br></blockquote><div><br></div><div>-&gt; libzstd<br></div><div><br></div=
 ><div>Interestingly, meson didn&#39;t seem to overwrite config-host.h corre=
 ctly (that&#39;s how I noticed failed to link). I removed it and now it reg=
-enerates it correctly.. weird.<br></div><div><br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">
+enerates it correctly.. weird.<br></div><div><br></div></div></div></blockq=
+uote><div><br></div><div>with that fix,</div><div>Reviewed-by: Marc-Andr=C3=
+=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lur=
+eau@redhat.com</a>&gt; <br></div><div><br> </div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 requ=
 ired: get_option(&#39;zstd&#39;),<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 meth=
@@ -470,7 +502,8 @@ irtyrate.c&#39;, &#39;ram.c&#39;))<br>
 <br>
 <br>
 </blockquote></div></div>
+</blockquote></div></div>
 
---00000000000080511705b6a9048f--
+--0000000000007718e005b6a907f4--
 
 
