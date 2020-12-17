@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DC652DCD02
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 08:37:24 +0100 (CET)
-Received: from localhost ([::1]:41278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2BD72DCCFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 08:33:03 +0100 (CET)
+Received: from localhost ([::1]:38400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpnql-0001Zj-Nv
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 02:37:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50116)
+	id 1kpnmY-0008R8-CU
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 02:33:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kpnpB-00018p-PK
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 02:35:45 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59540)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kpnp9-0006JH-B8
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 02:35:45 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kpnp7-0006Zt-4y
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 07:35:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D97FF2E813B
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 07:35:40 +0000 (UTC)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <tu.guoyi@h3c.com>) id 1kpnkE-0007fF-Ld
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 02:30:38 -0500
+Received: from smtp.h3c.com ([60.191.123.56]:52037 helo=h3cspam01-ex.h3c.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tu.guoyi@h3c.com>) id 1kpnk8-0004PN-0q
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 02:30:38 -0500
+Received: from DAG2EX10-IDC.srv.huawei-3com.com ([10.8.0.73])
+ by h3cspam01-ex.h3c.com with ESMTP id 0BH7Tdfl067947;
+ Thu, 17 Dec 2020 15:29:40 +0800 (GMT-8)
+ (envelope-from tu.guoyi@h3c.com)
+Received: from DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) by
+ DAG2EX10-IDC.srv.huawei-3com.com (10.8.0.73) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 17 Dec 2020 15:29:42 +0800
+Received: from DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074])
+ by DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074%7])
+ with mapi id 15.01.2106.002; Thu, 17 Dec 2020 15:29:42 +0800
+From: Tuguoyi <tu.guoyi@h3c.com>
+To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Subject: RE: [PATCH v3] migration: Don't allow migration if vm is in
+ POSTMIGRATE
+Thread-Topic: [PATCH v3] migration: Don't allow migration if vm is in
+ POSTMIGRATE
+Thread-Index: AdbNA412vEo+hmt0TmuQR+h7GaeR1gA79n2AAZSRXGA=
+Date: Thu, 17 Dec 2020 07:29:42 +0000
+Message-ID: <9653de6ebacb4b0ea42cf7d2e6d68d84@h3c.com>
+References: <6b704294ad2e405781c38fb38d68c744@h3c.com>
+ <CAM9Jb+jhfBqFurCQj_XpoP0cEOU9oiZcO9xrWm3GA3NAxcCdEg@mail.gmail.com>
+In-Reply-To: <CAM9Jb+jhfBqFurCQj_XpoP0cEOU9oiZcO9xrWm3GA3NAxcCdEg@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.125.108.131]
+x-sender-location: DAG2
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 17 Dec 2020 07:29:01 -0000
-From: John Doe <1907776@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: vfat
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: user4592
-X-Launchpad-Bug-Reporter: John Doe (user4592)
-X-Launchpad-Bug-Modifier: John Doe (user4592)
-References: <160767424861.11774.3900541063456386240.malonedeb@wampee.canonical.com>
-Message-Id: <160819014106.15965.17521721574393880948.malone@soybean.canonical.com>
-Subject: [Bug 1907776] Re: Mounting VFat drive yields error messages.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a68a6d599c812dd1dd335307d9c5c017c50ba81b"; Instance="production"
-X-Launchpad-Hash: 01d9f5d4ef959c32bf4d2642f039ecb4c788c2f5
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-DNSRBL: 
+X-MAIL: h3cspam01-ex.h3c.com 0BH7Tdfl067947
+Received-SPF: pass client-ip=60.191.123.56; envelope-from=tu.guoyi@h3c.com;
+ helo=h3cspam01-ex.h3c.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,53 +70,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907776 <1907776@bugs.launchpad.net>
+Cc: "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>,
+ "tuguoyi@outlook.com" <tuguoyi@outlook.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Li Zhang <li.zhang@cloud.ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have just noticed that the error does not appear when mounting the
-VFat drive in the installed instance of Arch Linux. The reported error
-messages occurred when using the "LiveUSB".
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907776
-
-Title:
-  Mounting VFat drive yields error messages.
-
-Status in QEMU:
-  New
-
-Bug description:
-  Mounting a virtual Fat drive results in error messages (see attached
-  image).
-
-  * https://www.qemu.org/docs/master/system/images.html#virtual-fat-
-  disk-images
-
-  The "drive" is however mounted, and as a test, saving a text file to
-  the drive is successfully stored in the directory `/tmp`, which can be
-  read after shutdown of Qemu.
-
-      Archlinux 5.9.11-arch2-1 (64-bit)
-      qemu-headless 5.1.0-3
-    =
-
-      qemu-system-x86_64 -boot order=3Dd -name test \
-        -enable-kvm -m 2G -cpu host -k sv \
-        -daemonize \
-        -drive if=3Dpflash,format=3Draw,readonly,file=3D/usr/share/edk2-ovm=
-f/x64/OVMF_CODE.fd \
-        -drive if=3Dpflash,format=3Draw,file=3D~/vm/OVMF_VARS.local.fd \
-        -drive if=3Dide,format=3Draw,media=3Ddisk,index=3D1,file=3Dfat:rw:/=
-tmp \
-        -vnc :1 \
-        -cdrom /obj/archlinux/release/2020.10.01-x86_64.iso \
-        -drive format=3Draw,index=3D0,media=3Ddisk,file=3D~/vm/qemu.raw
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907776/+subscriptions
+UGluZy4gDQpJdCBzZWVtcyBubyBvbmUgaGFuZGxlIHRoaXMgcGF0Y2guIA0KDQoNCj4gLS0tLS1P
+cmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGFua2FqIEd1cHRhIFttYWlsdG86cGFua2Fq
+Lmd1cHRhLmxpbnV4QGdtYWlsLmNvbV0NCj4gU2VudDogV2VkbmVzZGF5LCBEZWNlbWJlciAwOSwg
+MjAyMCAxMDoyMSBQTQ0KPiBUbzogdHVndW95aSAoQ2xvdWQpIDx0dS5ndW95aUBoM2MuY29tPg0K
+PiBDYzogSnVhbiBRdWludGVsYSA8cXVpbnRlbGFAcmVkaGF0LmNvbT47IERyLiBEYXZpZCBBbGFu
+IEdpbGJlcnQNCj4gPGRnaWxiZXJ0QHJlZGhhdC5jb20+OyB2c2VtZW50c292QHZpcnR1b3p6by5j
+b207DQo+IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsgTGkgWmhhbmcgPGxpLnpoYW5nQGNsb3VkLmlv
+bm9zLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2M10gbWlncmF0aW9uOiBEb24ndCBhbGxv
+dyBtaWdyYXRpb24gaWYgdm0gaXMgaW4NCj4gUE9TVE1JR1JBVEUNCj4gDQo+ID4gVGhlIGZvbGxv
+d2luZyBzdGVwcyB3aWxsIGNhdXNlIHFlbXUgYXNzZXJ0aW9uIGZhaWx1cmU6DQo+ID4gLSBwYXVz
+ZSB2bSBieSBleGVjdXRpbmcgJ3ZpcnNoIHN1c3BlbmQnDQo+ID4gLSBjcmVhdGUgZXh0ZXJuYWwg
+c25hcHNob3Qgb2YgbWVtb3J5IGFuZCBkaXNrIHVzaW5nICd2aXJzaA0KPiBzbmFwc2hvdC1jcmVh
+dGUtYXMnDQo+ID4gLSBkb2luZyB0aGUgYWJvdmUgb3BlcmF0aW9uIGFnYWluIHdpbGwgY2F1c2Ug
+cWVtdSBjcmFzaA0KPiA+DQo+ID4gVGhlIGJhY2t0cmFjZSBsb29rcyBsaWtlOg0KPiA+ICMwICAw
+eDAwMDA3ZmJmOTU4YzVjMzcgaW4gcmFpc2UgKCkgZnJvbSAvbGliL3g4Nl82NC1saW51eC1nbnUv
+bGliYy5zby42DQo+ID4gIzEgIDB4MDAwMDdmYmY5NThjOTAyOCBpbiBhYm9ydCAoKSBmcm9tIC9s
+aWIveDg2XzY0LWxpbnV4LWdudS9saWJjLnNvLjYNCj4gPiAjMiAgMHgwMDAwN2ZiZjk1OGJlYmY2
+IGluID8/ICgpIGZyb20gL2xpYi94ODZfNjQtbGludXgtZ251L2xpYmMuc28uNg0KPiA+ICMzICAw
+eDAwMDA3ZmJmOTU4YmVjYTIgaW4gX19hc3NlcnRfZmFpbCAoKSBmcm9tDQo+IC9saWIveDg2XzY0
+LWxpbnV4LWdudS9saWJjLnNvLjYNCj4gPiAjNCAgMHgwMDAwNTVjYThkZWNkMzlkIGluIGJkcnZf
+aW5hY3RpdmF0ZV9yZWN1cnNlIChicz0weDU1Y2E5MGM4MDQwMCkNCj4gYXQgL2J1aWxkL3FlbXUt
+NS4wL2Jsb2NrLmM6NTcyNA0KPiA+ICM1ICAweDAwMDA1NWNhOGRlY2U5NjcgaW4gYmRydl9pbmFj
+dGl2YXRlX2FsbCAoKSBhdA0KPiAvYnVpbGQvL3FlbXUtNS4wL2Jsb2NrLmM6NTc5Mg0KPiA+ICM2
+ICAweDAwMDA1NWNhOGRlNTUzOWQgaW4NCj4gcWVtdV9zYXZldm1fc3RhdGVfY29tcGxldGVfcHJl
+Y29weV9ub25faXRlcmFibGUgKGluYWN0aXZhdGVfZGlza3M9dHJ1ZSwNCj4gaW5fcG9zdGNvcHk9
+ZmFsc2UsIGY9MHg1NWNhOTA3MDQ0YjApDQo+ID4gICAgIGF0IC9idWlsZC9xZW11LTUuMC9taWdy
+YXRpb24vc2F2ZXZtLmM6MTQwMQ0KPiA+ICM3ICBxZW11X3NhdmV2bV9zdGF0ZV9jb21wbGV0ZV9w
+cmVjb3B5IChmPTB4NTVjYTkwNzA0NGIwLA0KPiBpdGVyYWJsZV9vbmx5PWl0ZXJhYmxlX29ubHlA
+ZW50cnk9ZmFsc2UsDQo+IGluYWN0aXZhdGVfZGlza3M9aW5hY3RpdmF0ZV9kaXNrc0BlbnRyeT10
+cnVlKQ0KPiA+ICAgICBhdCAvYnVpbGQvcWVtdS01LjAvbWlncmF0aW9uL3NhdmV2bS5jOjE0NTMN
+Cj4gPiAjOCAgMHgwMDAwNTVjYThkZTRmNTgxIGluIG1pZ3JhdGlvbl9jb21wbGV0aW9uIChzPTB4
+NTVjYThmNjRkOWYwKSBhdA0KPiAvYnVpbGQvcWVtdS01LjAvbWlncmF0aW9uL21pZ3JhdGlvbi5j
+OjI5NDENCj4gPiAjOSAgbWlncmF0aW9uX2l0ZXJhdGlvbl9ydW4gKHM9MHg1NWNhOGY2NGQ5ZjAp
+IGF0DQo+IC9idWlsZC9xZW11LTUuMC9taWdyYXRpb24vbWlncmF0aW9uLmM6MzI5NQ0KPiA+ICMx
+MCBtaWdyYXRpb25fdGhyZWFkIChvcGFxdWU9b3BhcXVlQGVudHJ5PTB4NTVjYThmNjRkOWYwKSBh
+dA0KPiAvYnVpbGQvcWVtdS01LjAvbWlncmF0aW9uL21pZ3JhdGlvbi5jOjM0NTkNCj4gPiAjMTEg
+MHgwMDAwNTVjYThkZmM2NzE2IGluIHFlbXVfdGhyZWFkX3N0YXJ0IChhcmdzPTxvcHRpbWl6ZWQg
+b3V0PikgYXQNCj4gL2J1aWxkL3FlbXUtNS4wL3V0aWwvcWVtdS10aHJlYWQtcG9zaXguYzo1MTkN
+Cj4gPiAjMTIgMHgwMDAwN2ZiZjk1YzVmMTg0IGluIHN0YXJ0X3RocmVhZCAoKSBmcm9tDQo+IC9s
+aWIveDg2XzY0LWxpbnV4LWdudS9saWJwdGhyZWFkLnNvLjANCj4gPiAjMTMgMHgwMDAwN2ZiZjk1
+OThjYmVkIGluIGNsb25lICgpIGZyb20gL2xpYi94ODZfNjQtbGludXgtZ251L2xpYmMuc28uNg0K
+PiA+DQo+ID4gV2hlbiB0aGUgZmlyc3QgbWlncmF0aW9uIGNvbXBsZXRlcywgYnMtPm9wZW5fZmxh
+Z3Mgd2lsbCBzZXQNCj4gQkRSVl9PX0lOQUNUSVZFDQo+ID4gZmxhZyBieSBiZHJ2X2luYWN0aXZh
+dGVfYWxsKCksIGFuZCBkdXJpbmcgdGhlIHNlY29uZCBtaWdyYXRpb24gdGhlDQo+ID4gYmRydl9p
+bmFjdGl2YXRlX3JlY3Vyc2UgYXNzZXJ0IHRoYXQgdGhlIGJzLT5vcGVuX2ZsYWdzIGlzIGFscmVh
+ZHkNCj4gPiBCRFJWX09fSU5BQ1RJVkUgZW5hYmxlZCB3aGljaCBjYXVzZSBjcmFzaC4NCj4gPg0K
+PiA+IEFzIFZsYWRpbWlyIHN1Z2dlc3RlZCwgdGhpcyBwYXRjaCBtYWtlcyBtaWdyYXRlX3ByZXBh
+cmUgY2hlY2sgdGhlIHN0YXRlIG9mDQo+IHZtIGFuZA0KPiA+IHJldHVybiBlcnJvciBpZiBpdCBp
+cyBpbiBSVU5fU1RBVEVfUE9TVE1JR1JBVEUgc3RhdGUuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5
+OiBUdWd1b3lpIDx0dS5ndW95aUBoM2MuY29tPg0KPiBTaW1pbGFyIGlzc3VlIGlzIHJlcG9ydGVk
+IGJ5IExpIFpoYW5nKCtDQykgd2l0aCBhbG1vc3Qgc2FtZSBwYXRjaFszXQ0KPiB0byBmaXggdGhp
+cy4NCj4gDQo+IFJlcG9ydGVkLWJ5OiBMaSBaaGFuZyA8bGkuemhhbmdAY2xvdWQuaW9ub3MuY29t
+Pg0KPiBSZXZpZXdlZC1ieTogUGFua2FqIEd1cHRhIDxwYW5rYWouZ3VwdGFAY2xvdWQuaW9ub3Mu
+Y29tPg0KPiANCj4gWzNdIGh0dHBzOi8vbWFyYy5pbmZvLz9sPXFlbXUtZGV2ZWwmbT0xNjA3NDk4
+NTk4MzEzNTcmdz0yDQo+ID4gLS0tDQo+ID4gIG1pZ3JhdGlvbi9taWdyYXRpb24uYyB8IDYgKysr
+KysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykNCj4gPg0KPiA+IGRpZmYg
+LS1naXQgYS9taWdyYXRpb24vbWlncmF0aW9uLmMgYi9taWdyYXRpb24vbWlncmF0aW9uLmMNCj4g
+PiBpbmRleCA4N2E5YjU5Li41ZTMzOTYyIDEwMDY0NA0KPiA+IC0tLSBhL21pZ3JhdGlvbi9taWdy
+YXRpb24uYw0KPiA+ICsrKyBiL21pZ3JhdGlvbi9taWdyYXRpb24uYw0KPiA+IEBAIC0yMTE1LDYg
+KzIxMTUsMTIgQEAgc3RhdGljIGJvb2wgbWlncmF0ZV9wcmVwYXJlKE1pZ3JhdGlvblN0YXRlICpz
+LA0KPiBib29sIGJsaywgYm9vbCBibGtfaW5jLA0KPiA+ICAgICAgICAgIHJldHVybiBmYWxzZTsN
+Cj4gPiAgICAgIH0NCj4gPg0KPiA+ICsgICAgaWYgKHJ1bnN0YXRlX2NoZWNrKFJVTl9TVEFURV9Q
+T1NUTUlHUkFURSkpIHsNCj4gPiArICAgICAgICBlcnJvcl9zZXRnKGVycnAsICJDYW4ndCBtaWdy
+YXRlIHRoZSB2bSB0aGF0IHdhcyBwYXVzZWQgZHVlIHRvICINCj4gPiArICAgICAgICAgICAgICAg
+ICAgICJwcmV2aW91cyBtaWdyYXRpb24iKTsNCj4gPiArICAgICAgICByZXR1cm4gZmFsc2U7DQo+
+ID4gKyAgICB9DQo+ID4gKw0KPiA+ICAgICAgaWYgKG1pZ3JhdGlvbl9pc19ibG9ja2VkKGVycnAp
+KSB7DQo+ID4gICAgICAgICAgcmV0dXJuIGZhbHNlOw0KPiA+ICAgICAgfQ0KPiA+IC0tDQo+ID4g
+Mi43LjQNCj4gPg0KPiA+IFtQYXRjaCB2Ml06DQo+IGh0dHBzOi8vbGlzdHMuZ251Lm9yZy9hcmNo
+aXZlL2h0bWwvcWVtdS1kZXZlbC8yMDIwLTEyL21zZzAxMzE4Lmh0bWwNCj4gPiBbUGF0Y2ggdjFd
+Og0KPiBodHRwczovL2xpc3RzLmdudS5vcmcvYXJjaGl2ZS9odG1sL3FlbXUtZGV2ZWwvMjAyMC0x
+MS9tc2cwNTk1MC5odG1sDQo=
 
