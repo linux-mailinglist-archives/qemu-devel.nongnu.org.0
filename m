@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF4C2DCDE3
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 09:54:04 +0100 (CET)
-Received: from localhost ([::1]:58006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4D12DCDDE
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 09:52:01 +0100 (CET)
+Received: from localhost ([::1]:52602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpp2x-0007d6-Qp
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 03:54:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38220)
+	id 1kpp0z-0005Tm-1T
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 03:52:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kpozF-00049f-MG
+ id 1kpozF-00049x-UB
  for qemu-devel@nongnu.org; Thu, 17 Dec 2020 03:50:13 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:34671)
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:38653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kpozD-00070T-O8
+ id 1kpozE-00070e-A7
  for qemu-devel@nongnu.org; Thu, 17 Dec 2020 03:50:13 -0500
-Received: by mail-ed1-x536.google.com with SMTP id dk8so27801440edb.1
+Received: by mail-ed1-x531.google.com with SMTP id cw27so27768345edb.5
  for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 00:50:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1UWB/KbKVBfapzCvrRRtEQyA2vOZPGrms88j7Z9G7LA=;
- b=qnIpSxHs6n6nh0Zk24EP8Ib/NUvCEc332qV8vXq0EiBV4ZgC9K/z7im5p5LhnuEr8/
- fAlrnIb9DzJuX1bP5t98RwWgJ9xHfihgglbtUiSBPx6dhOR8oxCeEdP+EgESuGXFKAoK
- o5OhCYej9Yox5rcZX51yNqLGhBDaiMjxLAACAd0Pqfl6nRqqSGY+emNcDP0O9+Npj1w8
- TdPRD9Tiyo4p+1hd3+5IviWD1WR7bTTfFv3Iprr/pb3XeX+KyZ4x0s6ZQRfREe5m0iBd
- f/hywn2jXmtQog0bnQkkUp0SDd2F/+bcaDWZ6MmcEY6kS29tQ1ZdCcKryPGXqLqNYCMJ
- kfRA==
+ bh=AQWAnc6Cy9wCfLr/SfdyiSneflQ+1u+pan2MYebIIjs=;
+ b=P4flaldiYERsJakV0ICGnrcaB8i+fWH9bG3LHwG/R9/huiAO77zPAFzTMWOBlUesqj
+ D4J3p94KhN+8Ju6SZmu/8m9c9iN7MC/fkRphTvwLENhMk3lUGwqsQhEpJMp7ZjNRVMkK
+ hyGahAWIR1ihPiiAERnWAF3GkcKdXJ56RYSe0hOxyXLboqN9oZ+GiUpJ6gzR6FC2N9yM
+ 7ZkjxVxLSwQzJoTOSTwEhBViWCqEzXyS4eX9Eclz26cp1ehVphCzolme8q5oi0IEST2B
+ YQdeyZ9cPsiioQl5LnDeGDIwF8p+zhkvm6B79+X2pxpIUswji1udjA3IJPO0IxJNvV+I
+ 0rzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=1UWB/KbKVBfapzCvrRRtEQyA2vOZPGrms88j7Z9G7LA=;
- b=C8K4GrO1+D4NJp7lhc+lQO8K1WxlywTHhdVD50J8k4Q+pmiVnZZoWAMSydC3CeEGo8
- zl3vCha92UccMoE8slBJ0rU9gqThJPF4izIK8wMSnueugpMZ6q9FNBb7g9JlHSVMQiZv
- 48PDKW8v4D6x4RrhvlBMpZNzuoevkhp7o03akpWonVEMPipONbnPJQOjVGCXG5wWufyN
- 8VZFQd20UdG83G+RivEOA4KQczZB7NZFGWScJGVf4uGybnj0wXEq+wnw9egTCWOxdVuH
- X/Rf+0pCQXbDp+AWwsS2MHLgVoKmjgyKhaLuIWi8UwR0T1VWBb853IeyoO6C1Ff+/pkp
- QyTA==
-X-Gm-Message-State: AOAM53281G1A3VhP/6Lz9jyqp0gKn789aFg63s5Ww9cbT2ZVbkeSFJ/i
- 6kjMIDiAcT4FvNrNLX+fPFwvwFTEGCI=
-X-Google-Smtp-Source: ABdhPJykutOwnk6GqAzZaAFB+ADpEmZSm4uAwj6qA0xfBrsU7Uvb5Wq85FFoA35foI4PIqcYpyU2Og==
-X-Received: by 2002:a05:6402:352:: with SMTP id
- r18mr36550511edw.373.1608195010113; 
- Thu, 17 Dec 2020 00:50:10 -0800 (PST)
+ bh=AQWAnc6Cy9wCfLr/SfdyiSneflQ+1u+pan2MYebIIjs=;
+ b=Xqh57ZVMI/OpTfpw4nlv9481SgDHgvTOjubDTpy4PobJtLoRI4JBkr5rtPWhyXu2ET
+ /gs8QReUiPlmARkxWVp5OZ7716UoiKk0h/K25E4ea9JDO55Q1UdNwzxArLMXk96Bb1sS
+ I5PNdBsgmphlhNgNSSi0jEBz65krPRbMwe3zn0vMdC7ndFyAwfwIR0fQfv3Fby2FM1CH
+ 4t48Hc9R0AWWJb+MwALQFBwzzGpsD9IzzTpjldRFiTvh/7ZIlda8jE8poj/hDWyz5ADu
+ CJTFyyI6thkTpBXGdVkmmjXoqUnlH4WUTEe30ZBJUt73l7zaBedMXgEFaQmERFT1SFSL
+ NNUw==
+X-Gm-Message-State: AOAM530b+mv5RKlnazGH9h7IUPqYPjy6YyT+WU7Lpu5YkFEgd3w8Y9iM
+ lpp/JcDX4xtVJgCHsIGVGyH89Ke6O74=
+X-Google-Smtp-Source: ABdhPJwLmkkSZoxeGIAPsO40f8vJaE/jCwQ3RnKGaxpoHJkASRYl9IgApOM8pQyDEeccLMqM6oKk1g==
+X-Received: by 2002:a05:6402:8da:: with SMTP id
+ d26mr10070053edz.157.1608195011015; 
+ Thu, 17 Dec 2020 00:50:11 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id dd12sm22949542edb.6.2020.12.17.00.50.09
+ by smtp.gmail.com with ESMTPSA id dd12sm22949542edb.6.2020.12.17.00.50.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 00:50:09 -0800 (PST)
+ Thu, 17 Dec 2020 00:50:10 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] configure: accept --enable-slirp
-Date: Thu, 17 Dec 2020 09:50:04 +0100
-Message-Id: <20201217085005.10644-4-pbonzini@redhat.com>
+Subject: [PATCH 4/4] configure: remove CONFIG_FILEVERSION and
+ CONFIG_PRODUCTVERSION
+Date: Thu, 17 Dec 2020 09:50:05 +0100
+Message-Id: <20201217085005.10644-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217085005.10644-1-pbonzini@redhat.com>
 References: <20201217085005.10644-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,29 +89,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Meson understands -Dslirp=enabled, so there is no reason not to
-accept the configure option as well.
+version.rc can just use existing preprocessor symbols.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 2 ++
- 1 file changed, 2 insertions(+)
+ configure  | 9 ---------
+ version.rc | 4 ++--
+ 2 files changed, 2 insertions(+), 11 deletions(-)
 
 diff --git a/configure b/configure
-index 18af8207d9..568818e72d 100755
+index 568818e72d..74eebfd692 100755
 --- a/configure
 +++ b/configure
-@@ -1083,6 +1083,8 @@ for opt do
-   ;;
-   --disable-slirp) slirp="disabled"
-   ;;
-+  --enable-slirp) slirp="enabled"
-+  ;;
-   --enable-slirp=git) slirp="internal"
-   ;;
-   --enable-slirp=system) slirp="system"
+@@ -5929,15 +5929,6 @@ if test "$bigendian" = "yes" ; then
+ fi
+ if test "$mingw32" = "yes" ; then
+   echo "CONFIG_WIN32=y" >> $config_host_mak
+-  rc_version=$(cat $source_path/VERSION)
+-  version_major=${rc_version%%.*}
+-  rc_version=${rc_version#*.}
+-  version_minor=${rc_version%%.*}
+-  rc_version=${rc_version#*.}
+-  version_subminor=${rc_version%%.*}
+-  version_micro=0
+-  echo "CONFIG_FILEVERSION=$version_major,$version_minor,$version_subminor,$version_micro" >> $config_host_mak
+-  echo "CONFIG_PRODUCTVERSION=$version_major,$version_minor,$version_subminor,$version_micro" >> $config_host_mak
+   if test "$guest_agent_with_vss" = "yes" ; then
+     echo "CONFIG_QGA_VSS=y" >> $config_host_mak
+     echo "QGA_VSS_PROVIDER=$qga_vss_provider" >> $config_host_mak
+diff --git a/version.rc b/version.rc
+index d8e1569991..0daadbf981 100644
+--- a/version.rc
++++ b/version.rc
+@@ -2,8 +2,8 @@
+ #include "config-host.h"
+ 
+ VS_VERSION_INFO VERSIONINFO
+-FILEVERSION CONFIG_FILEVERSION
+-PRODUCTVERSION CONFIG_PRODUCTVERSION
++FILEVERSION QEMU_VERSION_MAJOR,QEMU_VERSION_MINOR,QEMU_VERSION_MICRO,0
++PRODUCTVERSION QEMU_VERSION_MAJOR,QEMU_VERSION_MINOR,QEMU_VERSION_MICRO,0
+ FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
 -- 
 2.29.2
-
 
 
