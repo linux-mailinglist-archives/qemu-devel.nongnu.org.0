@@ -2,73 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055302DE7E9
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 18:14:45 +0100 (CET)
-Received: from localhost ([::1]:44126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54CE02DCF43
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 11:13:23 +0100 (CET)
+Received: from localhost ([::1]:57514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqJL1-0007Xj-I7
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 12:14:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57364)
+	id 1kpqHb-0008Ti-DI
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 05:13:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kqJJJ-0006WR-Di
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 12:12:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60325)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kpqCQ-0005CM-1J
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:07:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kqJJH-0008En-8r
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 12:12:56 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kpqCI-0008FA-GE
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 05:07:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608311572;
+ s=mimecast20190719; t=1608199664;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EwBeDMgH3Kp9cppHD55XwlqzAh7idOu7q8t/VsFWDD0=;
- b=ctDUoqEWN7KapOjA2AlLrXQCxf08zxHb3/fEhWnKSVft3dKyqmqkhAX6y026Z3Fa0dl9pU
- dHQXEVtho2xHJJphntP9ry0IGZjalgTkzjmIn5J4S90B3TkUurezAFo+Q+nnu9UpJrcGWd
- 5tcCX8Jcb3NNQ638EARDbYSDk0nKaXg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-hrdYafUAMlWrhHBTbKkA2Q-1; Fri, 18 Dec 2020 12:12:50 -0500
-X-MC-Unique: hrdYafUAMlWrhHBTbKkA2Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3E53801817;
- Fri, 18 Dec 2020 17:12:48 +0000 (UTC)
-Received: from localhost (ovpn-112-107.ams2.redhat.com [10.36.112.107])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E9832C01E;
- Fri, 18 Dec 2020 17:12:48 +0000 (UTC)
-Date: Thu, 17 Dec 2020 10:05:01 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH v2 1/2] ramlist: Make dirty bitmap blocks of ramlist
- resizable
-Message-ID: <20201217100501.GE4338@stefanha-x1.localdomain>
-References: <20201130131104.10600-1-zhukeqian1@huawei.com>
- <20201130131104.10600-2-zhukeqian1@huawei.com>
+ bh=iv4o6O7wgU95otK7tmhjSnsF9ez0bRUNVYjKan5Yiiw=;
+ b=HVuwlPOvHLzg8QSltrqgIZaF5VOAhqgyoZbAvolOtNocgigmG71eJuxo7webQCWbf8EuiB
+ xdyAz1i58cbVxRsSDw1fvLsFmtgutZr67lHgfIOu1Qlr6XJAbn97fCVa8hx16In3UOMeT6
+ DSlJv54bH8GAi17bez+3y1W34an+N+g=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-279-uaf_0xcGM4WideeAP5ducw-1; Thu, 17 Dec 2020 05:07:43 -0500
+X-MC-Unique: uaf_0xcGM4WideeAP5ducw-1
+Received: by mail-ed1-f69.google.com with SMTP id y19so11531869edw.16
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 02:07:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iv4o6O7wgU95otK7tmhjSnsF9ez0bRUNVYjKan5Yiiw=;
+ b=a6KpHKis4l2yMmaWfKk+BmduJXutgMIWzleBxJ1TCW4TvKuIb6F+6Tu01oCHsLAGP3
+ SYiU1HRp1KcWpHJ0mMa5keDLVfrnlE1vKvOhi8bJeDOa5hcc5Lxx3bn2wN9uBSA4Mr5u
+ /Bws5YTnAhP4b0mUi87+fITes62NTknzTd9iU33lL9cdHqEMzhladkPUnOUzMPphZ5QG
+ S6Lzt9CkdkcnV7oDGJuAYshW9lgadZxbD6ZjHxAnAhtk0iWWRHFMxuLRNyVhPqwUYLuu
+ qVm8PLUSRDG6jd0/LkEvDV2/Gypk4a01o8/nmwYJThxoqgrMQBqBfnygxlqEbZhBDv1p
+ qbxA==
+X-Gm-Message-State: AOAM5327qiPAu6nStNykA375gqO08x5+Mj21pDMLyzsCALRZDOxZUvc0
+ HhER92z5ZEXH/JJ8Zff0tf08yEAw7Zs8KtlyqmsHyucj0ILHuS2rOFm2OU0CUeXD83eWOfx2xXK
+ 2opaqIIacIvX0l0xqDsD9Dp6u6R2bh4b9fpVeECw7R8Df9Mw7SL21ZtewADHvwVLfDxY=
+X-Received: by 2002:aa7:d485:: with SMTP id b5mr36622944edr.214.1608199660598; 
+ Thu, 17 Dec 2020 02:07:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyioTXoksT+J3P7+CY8yWprmABJXytS4u7bhQUWXkWqnG92/Vjgi8zfsv5Ku7VtFmjyib1I/g==
+X-Received: by 2002:aa7:d485:: with SMTP id b5mr36622918edr.214.1608199660294; 
+ Thu, 17 Dec 2020 02:07:40 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id n13sm3402860ejr.93.2020.12.17.02.07.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Dec 2020 02:07:39 -0800 (PST)
+Subject: Re: [PATCH 0/7] scsi: scsi-disk corrupts data
+To: Hannes Reinecke <hare@suse.de>
+References: <20201116184041.60465-1-hare@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6e1ae80a-0497-9a03-d5fc-dcfd6fd1c275@redhat.com>
+Date: Thu, 17 Dec 2020 11:07:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201130131104.10600-2-zhukeqian1@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20201116184041.60465-1-hare@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9crTWz/Z+Zyzu20v"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_24_48=1.34,
- DKIMWL_WL_HIGH=-0.001, DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,68 +99,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Fam Zheng <famz@redhat.com>,
- kuhn.chenqun@huawei.com, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---9crTWz/Z+Zyzu20v
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 16/11/20 19:40, Hannes Reinecke wrote:
+> Hi all,
+> 
+> a customer of ours reported repeated data corruption in the guest following a command abort.
+> After lengthy debugging we found that scsi-disk (and scsi-generic, for that matter) ignores
+> the host_status field from SG_IO once a command is aborted. If the command is aborted, SG_IO
+> will return with a SCSI status 'GOOD', and host_status 'DID_TIME_OUT'. scsi-disk will now
+> ignore the DID_TIME_OUT setting, and just report the SCSI status back to the guest.
+> The guest will then assume everything is okay and not retry the command, leading to the data
+> corruption.
+> 
+> This patchset moves the (linux only) SG_ERR host_status codes to generic code as SCSI_HOST
+> values, and adds a host_status field to SCSIRequest. With that some drivers like virtio_scsi
+> can interpret the host_status code and map it onto it driver-specific status.
+> This status is then visible to the guest, which then is able to take appropriate action.
+> 
+> As usual, comments and reviews are welcome.
+> 
+> Hannes Reinecke (6):
+>    scsi-disk: Add sg_io callback to evaluate status
+>    scsi: drop 'result' argument from command_complete callback
+>    scsi: Rename linux-specific SG_ERR codes to generic SCSI_HOST error
+>      codes
+>    scsi: Add mapping for generic SCSI_HOST status to sense codes
+>    scsi: split sg_io_sense_from_errno() in two functions
+>    scsi: move host_status handling into SCSI drivers
+> 
+> Paolo Bonzini (1):
+>    scsi-disk: convert more errno values back to SCSI statuses
+> 
+>   hw/scsi/esp-pci.c      |   5 +--
+>   hw/scsi/esp.c          |  17 +++++--
+>   hw/scsi/lsi53c895a.c   |  17 +++++--
+>   hw/scsi/megasas.c      |  15 +++++--
+>   hw/scsi/mptsas.c       |  14 +++++-
+>   hw/scsi/scsi-bus.c     |   2 +-
+>   hw/scsi/scsi-disk.c    |  75 ++++++++++++++++++++-----------
+>   hw/scsi/scsi-generic.c |  21 ++++++---
+>   hw/scsi/spapr_vscsi.c  |  20 ++++++---
+>   hw/scsi/virtio-scsi.c  |  44 ++++++++++++++++--
+>   hw/scsi/vmw_pvscsi.c   |  29 +++++++++++-
+>   hw/usb/dev-storage.c   |   6 +--
+>   hw/usb/dev-uas.c       |   7 ++-
+>   include/hw/scsi/esp.h  |   2 +-
+>   include/hw/scsi/scsi.h |   5 ++-
+>   include/scsi/utils.h   |  29 +++++++-----
+>   scsi/qemu-pr-helper.c  |  14 ++++--
+>   scsi/utils.c           | 119 ++++++++++++++++++++++++++++++++++++-------------
+>   18 files changed, 328 insertions(+), 113 deletions(-)
+> 
 
-On Mon, Nov 30, 2020 at 09:11:03PM +0800, Keqian Zhu wrote:
-> @@ -1839,15 +1841,26 @@ static void dirty_memory_extend(ram_addr_t old_ra=
-m_size,
->          new_blocks =3D g_malloc(sizeof(*new_blocks) +
->                                sizeof(new_blocks->blocks[0]) * new_num_bl=
-ocks);
-> =20
-> -        if (old_num_blocks) {
-> +        if (cpy_num_blocks) {
->              memcpy(new_blocks->blocks, old_blocks->blocks,
-> -                   old_num_blocks * sizeof(old_blocks->blocks[0]));
-> +                   cpy_num_blocks * sizeof(old_blocks->blocks[0]));
->          }
-> =20
-> -        for (j =3D old_num_blocks; j < new_num_blocks; j++) {
-> -            new_blocks->blocks[j] =3D bitmap_new(DIRTY_MEMORY_BLOCK_SIZE=
-);
-> +        if (extend) {
-> +            for (j =3D cpy_num_blocks; j < new_num_blocks; j++) {
-> +                new_blocks->blocks[j] =3D bitmap_new(DIRTY_MEMORY_BLOCK_=
-SIZE);
-> +            }
-> +        } else {
-> +            for (j =3D cpy_num_blocks; j < old_num_blocks; j++) {
-> +                /* We are safe to free it, for that it is out-of-use */
-> +                g_free(old_blocks->blocks[j]);
+Queued, thanks.
 
-This looks unsafe because this code uses Read Copy Update (RCU):
-
-  old_blocks =3D qatomic_rcu_read(&ram_list.dirty_memory[i]);
-
-Other threads may still be accessing old_blocks so we cannot modify it
-immediately. Changes need to be deferred until the next RCU period.
-g_free_rcu() needs to be used to do this.
-
---9crTWz/Z+Zyzu20v
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/bLU0ACgkQnKSrs4Gr
-c8h+Mgf+IS0RkUmTpoHXTKsa66GScp11SfqJ/QP3bfrig/BykyvFTGEpzSY+F11N
-9zASeC/fvB/dk8t/Bdl+5xzce2PyQ9i5PStow8iuZrCiYGyJHX6YMnRyj9sj7Gxi
-WCVVhXPMIIlOdd0Ffs/xeKYGQDNDmgMApEVsh1bHwnGEeMqQNqqe8GVm6Bj1zy06
-KoTzRFdZ6g4J8ZlFpe8WpIJ/vopVOhyhXd67cPT7FH89tHGBCDxS0fH1iPEuyD0O
-qX1bwBpQsOjbIcUVQCVwqOfJ95KCw+30jdTXo7LVW2taJrw380Gc/v7CyPTJch78
-+N+ihQT9dN0hbB1IV8ODgN2wCdopWw==
-=f8dr
------END PGP SIGNATURE-----
-
---9crTWz/Z+Zyzu20v--
+Paolo
 
 
