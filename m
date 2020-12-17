@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A852DD835
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 19:24:24 +0100 (CET)
-Received: from localhost ([::1]:37380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99FFD2DD84A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 19:30:24 +0100 (CET)
+Received: from localhost ([::1]:42964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpxwt-0004i9-Au
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 13:24:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55844)
+	id 1kpy2h-0007H2-Ax
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 13:30:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kpxve-0004Cz-OL
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:23:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30852)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kpy1b-0006ma-Lx
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:29:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kpxvZ-0007fO-6w
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:23:06 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kpy1Z-0008KQ-I7
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:29:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608229379;
+ s=mimecast20190719; t=1608229751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xDu83V6Mp8vvtIRh7zS78DJSQXWtfjLu5wa46lLlIrU=;
- b=VwiNlehXlVbFmc+x4vMYKCaOO8nxFByUZoduWPiElQT361s/nwLeU5DGQIyFhq9ojN1iLQ
- yUcSSIa0l4WI28BY4kj2L6VMf4SmbG/P5n3kDi6FxS1okxRqF6Lqb1qA4UrcqFLBMlN1En
- gHq2CASeqtD/xlfQuDIU5Yj56uDyI5o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-cPrSYLL-OZOok-YUMRelow-1; Thu, 17 Dec 2020 13:22:54 -0500
-X-MC-Unique: cPrSYLL-OZOok-YUMRelow-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 651051005504;
- Thu, 17 Dec 2020 18:22:53 +0000 (UTC)
-Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC63519CBA;
- Thu, 17 Dec 2020 18:22:51 +0000 (UTC)
-Date: Thu, 17 Dec 2020 18:22:49 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Tuguoyi <tu.guoyi@h3c.com>
-Subject: Re: [PATCH v3] migration: Don't allow migration if vm is in
- POSTMIGRATE
-Message-ID: <20201217182249.GO4117@work-vm>
-References: <6b704294ad2e405781c38fb38d68c744@h3c.com>
+ bh=9pc84JSqpJor5txpReTnUrRtyK4+zJp5NVckqHkQetg=;
+ b=ITLZO+T0X4gOkGIoSkFx4TnpFUW9khoHJLJ7WvzQdZQYCR9NKO9CqT7XAzb0TBBKiRG35K
+ e6x8QHQUNI+Ibo1y/G58q5gIwYOjxY1IXYpCAgtYrIp4AaKDuREvqEHBxt2XsFkkVgg/ww
+ LiSA8bribJHdRxBu3m5Jzs3VlQjzDrs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-201-7aGVJKEWPy6EDWrl_78k2w-1; Thu, 17 Dec 2020 13:29:10 -0500
+X-MC-Unique: 7aGVJKEWPy6EDWrl_78k2w-1
+Received: by mail-wm1-f69.google.com with SMTP id r1so3455069wmn.8
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 10:29:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9pc84JSqpJor5txpReTnUrRtyK4+zJp5NVckqHkQetg=;
+ b=PG4PFunNZ1bMn7dpUJMBWQkmTJSkz3bvmXZh0lGTFlYQhSDgtrN1gehTCFVuU35wYW
+ TKux9QY3DJCzs1Cs3u5+Fiy9MpjrFRfVE3TmHv9cH1ScxXBOIOqTmPHvuczFxaAWpeoP
+ mbv20wW2fHAwmvic63Q47vlWvYAXK4BiHhz3C89WWSyxXRRVSk8kfOlgipdYYgPpvDgg
+ j+D3VPYbO6/l3x4s5B1qL8HRTFDwp+POQMrzu4xLTNUFYGpzJtEuni3mfNfhe7oYvpja
+ E0yPQp6Dp19nivBo6mviZVnwIccRqUWxZiE+GFsvDnPNOzXY298juilwx6b5kcHI312c
+ xrdA==
+X-Gm-Message-State: AOAM531QWkE8zlNDQjFfw+GXDX+HrsVU0repD7ZZmqUbl9g9+2izK72s
+ d5TqDr0ygNm1/ntJyu0bMIpJgX9qiz6orOnamMYB1a2siy9jBxDX3to2u/ubH045lxfohgWglGq
+ JOtHtzr4Xx6UHrgM=
+X-Received: by 2002:a7b:cbda:: with SMTP id n26mr649466wmi.144.1608229748174; 
+ Thu, 17 Dec 2020 10:29:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxneDy82L9kp79rI/bN6am/vBFqNBpSfMFnLWvgkjCOTa50GX8Lztwq8ZpwuIg6Ln+q6rbNiw==
+X-Received: by 2002:a7b:cbda:: with SMTP id n26mr649450wmi.144.1608229747981; 
+ Thu, 17 Dec 2020 10:29:07 -0800 (PST)
+Received: from redhat.com (bzq-79-178-32-166.red.bezeqint.net. [79.178.32.166])
+ by smtp.gmail.com with ESMTPSA id o13sm8378569wmc.44.2020.12.17.10.29.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Dec 2020 10:29:06 -0800 (PST)
+Date: Thu, 17 Dec 2020 13:29:03 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jiahui Cen <cenjiahui@huawei.com>
+Subject: Re: [PATCH] acpi/gpex: Inform os to keep firmware resource map
+Message-ID: <20201217132844-mutt-send-email-mst@kernel.org>
+References: <20201217132926.4812-1-cenjiahui@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <6b704294ad2e405781c38fb38d68c744@h3c.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20201217132926.4812-1-cenjiahui@huawei.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,82 +90,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Juan Quintela <quintela@redhat.com>
+Cc: xieyingtai@huawei.com, Igor Mammedov <imammedo@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Tuguoyi (tu.guoyi@h3c.com) wrote:
-> The following steps will cause qemu assertion failure:
-> - pause vm by executing 'virsh suspend'
-> - create external snapshot of memory and disk using 'virsh snapshot-create-as'
-> - doing the above operation again will cause qemu crash
+On Thu, Dec 17, 2020 at 09:29:26PM +0800, Jiahui Cen wrote:
+> There may be some differences in pci resource assignment between guest os
+> and firmware.
 > 
-> The backtrace looks like:
-> #0  0x00007fbf958c5c37 in raise () from /lib/x86_64-linux-gnu/libc.so.6
-> #1  0x00007fbf958c9028 in abort () from /lib/x86_64-linux-gnu/libc.so.6
-> #2  0x00007fbf958bebf6 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
-> #3  0x00007fbf958beca2 in __assert_fail () from /lib/x86_64-linux-gnu/libc.so.6
-> #4  0x000055ca8decd39d in bdrv_inactivate_recurse (bs=0x55ca90c80400) at /build/qemu-5.0/block.c:5724
-> #5  0x000055ca8dece967 in bdrv_inactivate_all () at /build//qemu-5.0/block.c:5792
-> #6  0x000055ca8de5539d in qemu_savevm_state_complete_precopy_non_iterable (inactivate_disks=true, in_postcopy=false, f=0x55ca907044b0)
->     at /build/qemu-5.0/migration/savevm.c:1401
-> #7  qemu_savevm_state_complete_precopy (f=0x55ca907044b0, iterable_only=iterable_only@entry=false, inactivate_disks=inactivate_disks@entry=true)
->     at /build/qemu-5.0/migration/savevm.c:1453
-> #8  0x000055ca8de4f581 in migration_completion (s=0x55ca8f64d9f0) at /build/qemu-5.0/migration/migration.c:2941
-> #9  migration_iteration_run (s=0x55ca8f64d9f0) at /build/qemu-5.0/migration/migration.c:3295
-> #10 migration_thread (opaque=opaque@entry=0x55ca8f64d9f0) at /build/qemu-5.0/migration/migration.c:3459
-> #11 0x000055ca8dfc6716 in qemu_thread_start (args=<optimized out>) at /build/qemu-5.0/util/qemu-thread-posix.c:519
-> #12 0x00007fbf95c5f184 in start_thread () from /lib/x86_64-linux-gnu/libpthread.so.0
-> #13 0x00007fbf9598cbed in clone () from /lib/x86_64-linux-gnu/libc.so.6
+> Eg. A Bridge with Bus [d2]
+>     -+-[0000:d2]---01.0-[d3]----01.0
 > 
-> When the first migration completes, bs->open_flags will set BDRV_O_INACTIVE
-> flag by bdrv_inactivate_all(), and during the second migration the
-> bdrv_inactivate_recurse assert that the bs->open_flags is already
-> BDRV_O_INACTIVE enabled which cause crash.
+>     where [d2:01.00] is a pcie-pci-bridge with BAR0 (mem, 64-bit, non-pref) [size=256]
+>           [d3:01.00] is a PCI Device with BAR0 (mem, 64-bit, pref) [size=128K]
+>                                           BAR4 (mem, 64-bit, pref) [size=64M]
 > 
-> As Vladimir suggested, this patch makes migrate_prepare check the state of vm and
-> return error if it is in RUN_STATE_POSTMIGRATE state.
+>     In EDK2, the Resource Map would be:
+>         PciBus: Resource Map for Bridge [D2|01|00]
+>         Type = PMem64; Base = 0x8004000000;     Length = 0x4100000;     Alignment = 0x3FFFFFF
+>            Base = 0x8004000000; Length = 0x4000000;     Alignment = 0x3FFFFFF;  Owner = PCI [D3|01|00:20]
+>            Base = 0x8008000000; Length = 0x20000;       Alignment = 0x1FFFF;    Owner = PCI [D3|01|00:10]
+>         Type =  Mem64; Base = 0x8008100000;     Length = 0x100; Alignment = 0xFFF
 > 
-> Signed-off-by: Tuguoyi <tu.guoyi@h3c.com>
+>     While in Linux, kernel will use 0x2FFFFFF as the alignment to calculate
+>     the PMem64 size, which would be 0x6000000.
+> 
+> The diffences could result in resource assignment failure.
 
-Yes, we've had this problem for a long long time; there are a bunch of
-other similar conditions; the real answer is to figure out some command
-for explicitly handing back control of the block devices (without
-actually restarting the CPUs).
+A bit more data here please. When does this result in a failure?
 
-However, this is a reasonable patch to cover the common case.
-
-Queued
-
+> Using _DSM #5 method to inform guest os not to ignore the PCI configuration
+> that firmware has done at boot time could handle the differences.
+> 
+> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 > ---
->  migration/migration.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  hw/pci-host/gpex-acpi.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 > 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 87a9b59..5e33962 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -2115,6 +2115,12 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
->          return false;
->      }
->  
-> +    if (runstate_check(RUN_STATE_POSTMIGRATE)) {
-> +        error_setg(errp, "Can't migrate the vm that was paused due to "
-> +                   "previous migration");
-> +        return false;
-> +    }
+> diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
+> index 071aa11b5c..2b490f3379 100644
+> --- a/hw/pci-host/gpex-acpi.c
+> +++ b/hw/pci-host/gpex-acpi.c
+> @@ -112,10 +112,19 @@ static void acpi_dsdt_add_pci_osc(Aml *dev)
+>      UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
+>      ifctx = aml_if(aml_equal(aml_arg(0), UUID));
+>      ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(0)));
+> -    uint8_t byte_list[1] = {1};
+> +    uint8_t byte_list[1] = {0x21};
+>      buf = aml_buffer(1, byte_list);
+>      aml_append(ifctx1, aml_return(buf));
+>      aml_append(ifctx, ifctx1);
 > +
->      if (migration_is_blocked(errp)) {
->          return false;
->      }
+> +    /* PCI Firmware Specification 3.2
+> +     * 4.6.5. _DSM for Ignoring PCI Boot Configurations
+> +     * The UUID in _DSM in this context is
+> +     * {E5C937D0-3553-4D7A-9117-EA4D19C3434D}
+> +     */
+> +    ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(5)));
+> +    aml_append(ifctx1, aml_return(aml_int(0)));
+> +    aml_append(ifctx, ifctx1);
+>      aml_append(method, ifctx);
+>  
+>      byte_list[0] = 0;
 > -- 
-> 2.7.4
-> 
-> [Patch v2]: https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg01318.html
-> [Patch v1]: https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05950.html
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 2.28.0
 
 
