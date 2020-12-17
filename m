@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8782DD6A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:57:26 +0100 (CET)
-Received: from localhost ([::1]:43708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF362DD6EC
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 19:08:20 +0100 (CET)
+Received: from localhost ([::1]:55110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpxWn-0002Cg-Be
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:57:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49138)
+	id 1kpxhB-0007fd-AO
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 13:08:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kpxV9-0001LP-OF
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:55:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kpxV7-0004Dl-7S
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:55:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608227739;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HLce+TfByDbZUXm19Ze7MJRX0qNz39QKae9+EKa9lAc=;
- b=V5ePlc4GJtHbWnXgU5ZnIS5C74nANLBXUecYYpRZPo9XM8zXKy24fjUCsUZAmmAAZjBEHt
- NbY5lQireUnfUvS9LAnOgXLU5cnYgxokHhmer3f6dhWUg1oVNtC1gxtmp/Ffy4YC7vezNZ
- s5hvbfVztfhpzIX+9Qkg6rf3of4PK1M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-xnzgUZiWP92i64BggYWzgQ-1; Thu, 17 Dec 2020 12:55:38 -0500
-X-MC-Unique: xnzgUZiWP92i64BggYWzgQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18F1E814413;
- Thu, 17 Dec 2020 17:55:27 +0000 (UTC)
-Received: from omen.home (ovpn-112-193.phx2.redhat.com [10.3.112.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 00ACA19CB4;
- Thu, 17 Dec 2020 17:55:12 +0000 (UTC)
-Date: Thu, 17 Dec 2020 10:55:12 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v3 04/10] vfio: Query and store the maximum number of
- DMA mappings
-Message-ID: <20201217105512.78a2ef71@omen.home>
-In-Reply-To: <20201216141200.118742-5-david@redhat.com>
-References: <20201216141200.118742-1-david@redhat.com>
- <20201216141200.118742-5-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpxfU-00071h-OW
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:06:25 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39608)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kpxfS-0005kj-P6
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 13:06:24 -0500
+Received: by mail-wm1-x336.google.com with SMTP id 3so6494268wmg.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 10:06:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=WIz585ar4YIyXTWDiab15oiwikT12YPWRYxM+Uv72WM=;
+ b=TXc8vAu9FL/TUOXLid75k/pPrhf/v0koyoFm/7MlQbcS5zji+K9Hr/ngGmUTZjmk5W
+ VM+A2WlXQyJ3kkRXqQ9ZW6BPjSi7gUKiLbdpXpkyq7HAic9jhtza2N2COQ9e4tIrX7so
+ h+4fqbAXRZJSG7Zo54oUX4nJ6JbVOIDxmp2eYWPVztSEvmh/TkUep462p7nZQTZ7WDyP
+ NMIVRDwbtCM0fkqDM434wCTC8h1SLUj/8uGHQVDpRz7yCVT6VSd/KnbY8zTUQe0GWyCa
+ u0eJEpHTo//ljQa37mi26HE9g6GqtiN8OtwtGmJOSXYbxjkytteJ+VUFecxsrPakRqxE
+ 2DHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=WIz585ar4YIyXTWDiab15oiwikT12YPWRYxM+Uv72WM=;
+ b=ul2SdNmPrt6oc97eed/3aYq1E9q2gX0wbeYpCutIhE8B30ug7fp1ndN9cH70U8KXUh
+ ZvlW4yUrQZv3dOTjMDN/vRuXTeNQM6W7silSRwBq3L3W3IudtbO7EoVTIzVv55R49tNQ
+ BLmz8gwnJDH4DDux1WcP3Xf2n9GwiTSwiZgOTysflBEz6z70GUcgmSzs3J+CytdScTUb
+ hKvBIHhxlvHE/1SZGY9Ul58jr1HAn6uzihLY4Tqrv0REN1dYi1Flyt5maGS54bX8F/S+
+ 7ojnfW14U5//I682TrqSVOHGI1O1FvbNeZF/nL6GTWFFY36RyOI0OljhCbAramlkggkF
+ DlRg==
+X-Gm-Message-State: AOAM530i3CNb05PcuVuSF5FT90FBLnQQQwxSA3ICmygM/8IWD8/hLQKX
+ h6zhegw4u+ih31GM3KSN9xIWkA==
+X-Google-Smtp-Source: ABdhPJyXvcFum38tqBdiSdezqKxMys8Az/k3JH/pvDATbYj2vHI3Kg9jJqkaFmeHB7sdvJiO8txuaw==
+X-Received: by 2002:a1c:3b46:: with SMTP id i67mr551357wma.108.1608228381328; 
+ Thu, 17 Dec 2020 10:06:21 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h98sm11389919wrh.69.2020.12.17.10.06.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Dec 2020 10:06:18 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7447A1FF7E;
+ Thu, 17 Dec 2020 18:06:17 +0000 (GMT)
+References: <20201216013646.40799-1-gromero@linux.ibm.com>
+ <87bleut3si.fsf@linaro.org>
+ <16b08946-9f96-200e-231f-40e24bb21734@linux.ibm.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Gustavo Romero <gromero@linux.ibm.com>
+Subject: Re: [PATCH] configure: Fail when specified cross compiler cannot be
+ found
+Date: Thu, 17 Dec 2020 17:56:19 +0000
+In-reply-to: <16b08946-9f96-200e-231f-40e24bb21734@linux.ibm.com>
+Message-ID: <87y2hwqpd2.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,172 +89,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>
+Cc: Pbonzini@redhat.com, gustavo.romero@protonmail.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 16 Dec 2020 15:11:54 +0100
-David Hildenbrand <david@redhat.com> wrote:
 
-> Let's query the maximum number of DMA mappings by querying the available
-> mappings when creating the container.
-> 
-> In addition, count the number of DMA mappings and warn when we would
-> exceed it. This is a preparation for RamDiscardMgr which might
-> create quite some DMA mappings over time, and we at least want to warn
-> early that the QEMU setup might be problematic. Use "reserved"
-> terminology, so we can use this to reserve mappings before they are
-> actually created.
+Gustavo Romero <gromero@linux.ibm.com> writes:
 
-This terminology doesn't make much sense to me, we're not actually
-performing any kind of reservation.
+> Hi Alex,
+>
+> On 12/16/20 7:51 AM, Alex Benn=C3=A9e wrote:
+>>=20
+>> Gustavo Romero <gromero@linux.ibm.com> writes:
+>>=20
+>>> Currently if the cross compiler passed to 'configure' (--cross-cc-<arch=
+>) does
+>>> not exist no error happens and only later when the TCG tests are run th=
+ey fail
+>>> because the cross compiler is not set correctly.
+>>=20
+>> Do they? They should just skip because of a non-existing compiler and a
+>> failed fallback to using docker:
+>>=20
+>>    ../../configure --disable-docs --target-list=3Daarch64-softmmu --cros=
+s-cc-aarch64=3Dnonexisting_gcc
+>>=20
+>> and then cat ./tests/tcg/config-aarch64-softmmu.mak
+>>=20
+>>    # Automatically generated by configure - do not modify
+>>    TARGET_NAME=3Daarch64
+>>    CONFIG_SOFTMMU=3Dy
+>>    QEMU=3D/home/alex/lsrc/qemu.git/builds/bisect/qemu-system-aarch64
+>>    CROSS_CC_GUEST_CFLAGS=3D
+>>    DOCKER_IMAGE=3Ddebian-arm64-test-cross
+>>    DOCKER_CROSS_CC_GUEST=3Daarch64-linux-gnu-gcc-10
+>>=20
+>> So what do you see in your failing case?
+>
+> I get the following (I don't have docker installed):
+>
+> $  ../configure --disable-docs --target-list=3Daarch64-softmmu --cross-cc=
+-aarch64=3Dnonexisting_gcc
+> gromero@pub:~/git/qemu/build$ cat ./tests/tcg/config-aarch64-softmmu.mak
+> # Automatically generated by configure - do not modify
+> TARGET_NAME=3Daarch64
+> CONFIG_SOFTMMU=3Dy
+> QEMU=3D/home/gromero/git/qemu/build/qemu-system-aarch64
+> CROSS_CC_GUEST_CFLAGS=3D
+>
+> $ ../configure --disable-docs --target-list=3Dppc64-softmmu --cross-cc-pp=
+c64=3Dnonexisting_gcc
+> gromero@pub:~/git/qemu/build$ cat ./tests/tcg/config-ppc64-softmmu.mak
+> # Automatically generated by configure - do not modify
+> TARGET_NAME=3Dppc64
+> CONFIG_SOFTMMU=3Dy
+> QEMU=3D/home/gromero/git/qemu/build/qemu-system-ppc64
+> CROSS_CC_GUEST_CFLAGS=3D
+> CROSS_CC_GUEST_STATIC=3Dy
+> CROSS_CC_GUEST=3Dpowerpc-linux-gnu-gcc
 
-> Note: don't reserve vIOMMU DMA mappings - using the vIOMMU region size
-> divided by the mapping page size might be a bad indication of what will
-> happen in practice - we might end up warning all the time.
+Hmm that is impressively wrong to somehow get the 32 bit compiler. But
+I'm still failing to replicate the problem. Could you try the following
+configure for a like-for-like comparison:
 
-This suggests we're not really tracking DMA "reservations" at all.
-Would something like dma_regions_mappings be a more appropriate
-identifier for the thing you're trying to count?  We might as well also
-keep a counter for dma_iommu_mappings where the sum of those two should
-stay below dma_max_mappings.
- 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Auger Eric <eric.auger@redhat.com>
-> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-> Cc: teawater <teawaterz@linux.alibaba.com>
-> Cc: Marek Kedzierski <mkedzier@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  hw/vfio/common.c              | 34 ++++++++++++++++++++++++++++++++++
->  include/hw/vfio/vfio-common.h |  2 ++
->  2 files changed, 36 insertions(+)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 6ff1daa763..5ad88d476f 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -288,6 +288,26 @@ const MemoryRegionOps vfio_region_ops = {
->      },
->  };
->  
-> +static void vfio_container_dma_reserve(VFIOContainer *container,
-> +                                       unsigned long dma_mappings)
-> +{
-> +    bool warned = container->dma_reserved > container->dma_max;
-> +
-> +    container->dma_reserved += dma_mappings;
-> +    if (!warned && container->dma_max &&
-> +        container->dma_reserved > container->dma_max) {
-> +        warn_report("%s: possibly running out of DMA mappings. "
-> +                    " Maximum number of DMA mappings: %d", __func__,
-> +                    container->dma_max);
+  ../../configure --disable-containers --target-list=3Dppc64-softmmu --cros=
+s-cc-ppc64=3Dnonexisting_gcc
 
-If we kept track of all the mappings we could predict better than
-"possibly".  Tracing support to track a high water mark might be useful
-too.
+which gives me:
 
+  $ cat tests/tcg/config-ppc64-softmmu.mak
+  # Automatically generated by configure - do not modify
+  TARGET_NAME=3Dppc64
+  CONFIG_SOFTMMU=3Dy
+  QEMU=3D/home/alex/lsrc/qemu.git/builds/ppc-linux.all/qemu-system-ppc64
+  CROSS_CC_GUEST_CFLAGS=3D
 
-> +    }
-> +}
-> +
-> +static void vfio_container_dma_unreserve(VFIOContainer *container,
-> +                                         unsigned long dma_mappings)
-> +{
-> +    container->dma_reserved -= dma_mappings;
-> +}
-> +
->  /*
->   * Device state interfaces
->   */
-> @@ -835,6 +855,9 @@ static void vfio_listener_region_add(MemoryListener *listener,
->          }
->      }
->  
-> +    /* We'll need one DMA mapping. */
-> +    vfio_container_dma_reserve(container, 1);
-> +
->      ret = vfio_dma_map(container, iova, int128_get64(llsize),
->                         vaddr, section->readonly);
->      if (ret) {
-> @@ -879,6 +902,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
->                                       MemoryRegionSection *section)
->  {
->      VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-> +    bool unreserve_on_unmap = true;
->      hwaddr iova, end;
->      Int128 llend, llsize;
->      int ret;
-> @@ -919,6 +943,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
->           * based IOMMU where a big unmap flattens a large range of IO-PTEs.
->           * That may not be true for all IOMMU types.
->           */
-> +        unreserve_on_unmap = false;
->      }
->  
->      iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
-> @@ -970,6 +995,11 @@ static void vfio_listener_region_del(MemoryListener *listener,
->                           "0x%"HWADDR_PRIx") = %d (%m)",
->                           container, iova, int128_get64(llsize), ret);
->          }
-> +
-> +        /* We previously reserved one DMA mapping. */
-> +        if (unreserve_on_unmap) {
-> +            vfio_container_dma_unreserve(container, 1);
-> +        }
->      }
->  
->      memory_region_unref(section->mr);
-> @@ -1735,6 +1765,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->      container->fd = fd;
->      container->error = NULL;
->      container->dirty_pages_supported = false;
-> +    container->dma_max = 0;
->      QLIST_INIT(&container->giommu_list);
->      QLIST_INIT(&container->hostwin_list);
->  
-> @@ -1765,7 +1796,10 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->          vfio_host_win_add(container, 0, (hwaddr)-1, info->iova_pgsizes);
->          container->pgsizes = info->iova_pgsizes;
->  
-> +        /* The default in the kernel ("dma_entry_limit") is 65535. */
-> +        container->dma_max = 65535;
->          if (!ret) {
-> +            vfio_get_info_dma_avail(info, &container->dma_max);
->              vfio_get_iommu_info_migration(container, info);
->          }
->          g_free(info);
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index 6141162d7a..fed0e85f66 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -88,6 +88,8 @@ typedef struct VFIOContainer {
->      uint64_t dirty_pgsizes;
->      uint64_t max_dirty_bitmap_size;
->      unsigned long pgsizes;
-> +    unsigned int dma_max;
-> +    unsigned long dma_reserved;
+>
+> hrm It seems PPC64 is even assuming some default gcc...
+>
+> I'm at commit af3f37319c from Dec 15.
 
-If dma_max is unsigned int, why do we need an unsigned long to track
-how many are in use?  Thanks,
+Yep I'm based on that as well.
 
-Alex
+> I'm wondering if tha happens because I don't have docker package installe=
+d.
+>
+> Anyway, should we at least say we're using Docker as fallback?
 
->      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
->      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
->      QLIST_HEAD(, VFIOGroup) group_list;
+Something like:
 
+modified   tests/tcg/configure.sh
+@@ -255,6 +255,7 @@ for target in $target_list; do
+   if test $got_cross_cc =3D no && test "$container" !=3D no && test -n "$c=
+ontainer_image"; then
+     echo "DOCKER_IMAGE=3D$container_image" >> $config_target_mak
+     echo "DOCKER_CROSS_CC_GUEST=3D$container_cross_cc" >> $config_target_m=
+ak
++    enabled_container_compilers=3D"$enabled_container_compilers $container=
+_cross_cc"
+   fi
+ done
+=20
+@@ -265,3 +266,6 @@ if test -n "$enabled_cross_compilers"; then
+     echo
+     echo "NOTE: guest cross-compilers enabled:$enabled_cross_compilers"
+ fi
++if test -n "$enabled_container_compilers"; then
++    echo "NOTE: container cross-compilers enabled:$enabled_container_compi=
+lers"
++fi
+
+To be honest at the moment the information is a little hidden at the top
+of the output. It would be nice if we could teach meson to echo it in
+it's nice coloured output.
+
+Paolo,
+
+Any ideas for the cleanest way to do that?
+
+--=20
+Alex Benn=C3=A9e
 
