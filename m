@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5FB2DCF08
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 11:04:22 +0100 (CET)
-Received: from localhost ([::1]:43534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 980952DCECD
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:48:42 +0100 (CET)
+Received: from localhost ([::1]:36872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpq8y-0002IS-3z
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 05:04:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47826)
+	id 1kpptp-00043T-JV
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:48:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kppmY-0004wi-N1
+ id 1kppmY-0004wp-BD
  for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:10 -0500
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:36965)
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:33842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kppmJ-0007jh-Gt
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:09 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id ga15so36892389ejb.4
+ id 1kppmK-0007jt-8X
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:10 -0500
+Received: by mail-ej1-x636.google.com with SMTP id g20so36942627ejb.1
  for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:40:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qHUlVj/D5xv+plQtQIg0kY8a748yvyAJDUx9FuuVB8Q=;
- b=qseMN4N3EuH2jV+5+KOHwhHkiL6Xnjrj5B7Q5ehWa/jRQeJ6lBSFxz79zwQE7j15sq
- 4fxN49Je6fXNaRcrVCYbpUIGhGBMO7sr9KeknAg0RwX8lRwD9Y/I5SEqFRVuk8EH+LCP
- hbZxuJYl7nTYg0n+uWqcYeLk5yyOS8FGnwd4eqkDeAyBuAqQbla808zya6k6SYzMtCWP
- 8PgoR0Zx+h3DuCNZ0fIOSMzlfBq5ixwp5KAhqY6O0GaYEb8JcKHbaWospvwFzAPHHN3E
- ogiMZLzqxGNYMkpZsU90WiNpn2dg3Q6MPDhPNu2Ee9sgzmw0+zNem4O9YYBKn/odYYT/
- 2hWQ==
+ bh=ed2gqJphg3Tl6K+vVMJ7D7AAx0eSWTNxNjJBcE2fDoY=;
+ b=cO/5NPcaFez+ivVWzvxMNgFjXJppfc7MmHftFS/y5pdlp/mfYdMdA1hpEKKicmwYRh
+ gxJ5Ujh4w8PJcItTCd4j2/Fe4mtv6GBrwevz27drlAPQU1jhmxK9BFuSARrqrCWSVJad
+ rdixoP3oDxdNHKTFmKuQu+6k6vikRjyUoJRZGLd1IOPYGAPeSiJiDUDXOEmQAMeU4sQi
+ z10P1dKRWZJPtjO2GDimEcpijpHBMQUVEBnsr/rm/0/zbVCXJO8TEcHvHyVEEbiDK4Cp
+ 4hBmIA51526ej7x/p0FjR8ST1bVqHXOhhjeHJexG1iHZbuhE7tPcy4y/BjmNipHrPvD0
+ Er1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qHUlVj/D5xv+plQtQIg0kY8a748yvyAJDUx9FuuVB8Q=;
- b=RyAKssaZv2tHxA3g7Fx0W7T39F5q2GeE6s2wFqjft75DbpJidsueadYzjrm+QJz8lz
- PBaECSzxkVsVdvwr9WHk9LKQ0QhhVF8mKV5Q/iZM+wUVxa9hBWI1K25DXQWqxmsLyuzp
- PajaHRL8ieclvkwFz7Txu2HjRTPuOi9hJnMX5GwsYd6xIP+536ztRo7rZZ9qmXmFCyfk
- MJuTxCVP8lRAlHVhha3ul2gTBOpCiYxPUTSOAduXn3FA4i9jKfOkVB5SQd+l5DEoCJQ6
- WIUMlxw7V34BqqhOy1D9Rbs5Bcoh9zoGrIXfb6wo8P+qL2M1ot6Es0+xmNJ1KORKgEEc
- 71bw==
-X-Gm-Message-State: AOAM531Tyi17u3jjyv4NPfvtTp3ZSq7/UgRi8T4XpRzpXxz/PVEPZFpG
- HRPr3myPEi8f96ZSYO7ZJTTYTJtecTw=
-X-Google-Smtp-Source: ABdhPJxnUAXNK9QOT1AS/bWpwYDbd6U+b/gveIPQGjkgdgkueWwjIjK0pIawroXiU2wrlv077lOF3g==
-X-Received: by 2002:a17:906:3999:: with SMTP id
- h25mr20659867eje.146.1608198054164; 
- Thu, 17 Dec 2020 01:40:54 -0800 (PST)
+ bh=ed2gqJphg3Tl6K+vVMJ7D7AAx0eSWTNxNjJBcE2fDoY=;
+ b=qgp6Mpf/f2sDuG7FTJDCeBL7qnODlAatC+BlLkqnP8nypowTGBCfII+ks9bGLsdHRz
+ fWcRb/qtFKklY64Vhep9P/InjQwkUBvFN/Ex6+rCgIASeZqBH5Q+LWEBS+cXo/QmKQfX
+ AIr6d+bcYDp6qi2zIUVMaSflQxQ2a5ThYJtbdRZ+sqNEkmn/QqKqlm4c5tdjRUMU+4Ra
+ 7HWU5fcyku2NfSHGCCTRZFSvbfAkznTGSkncCJyuBjdkCPfS0TWg/h4ixCojdgfiu7NY
+ 4tVxRvvabpcjjBOQvYMxcXiP0LCq8T66FPoNODan4FfoQvksbq49HBXLVOsbCFP+xCBx
+ Bwkg==
+X-Gm-Message-State: AOAM532XaZvw/aoijgnMEE+J+JgD025iJT9y7HroEuh3apomfaEEYeEF
+ xmJ7Pr68KXhoBqtdPXNQkAt7YCWLPT0=
+X-Google-Smtp-Source: ABdhPJzuWnxaRp3SKWX6SPY5EWYLwSJjMWVvkVuPH7gE8FZWjVX2pD5zYwMTQ1fT4TXi6U3HEA0NBg==
+X-Received: by 2002:a17:906:3711:: with SMTP id
+ d17mr10232769ejc.121.1608198055004; 
+ Thu, 17 Dec 2020 01:40:55 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id rs27sm3463677ejb.21.2020.12.17.01.40.53
+ by smtp.gmail.com with ESMTPSA id rs27sm3463677ejb.21.2020.12.17.01.40.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 01:40:53 -0800 (PST)
+ Thu, 17 Dec 2020 01:40:54 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/18] libssh: convert to meson
-Date: Thu, 17 Dec 2020 10:40:34 +0100
-Message-Id: <20201217094044.46462-9-pbonzini@redhat.com>
+Subject: [PATCH 09/18] rbd: convert to meson
+Date: Thu, 17 Dec 2020 10:40:35 +0100
+Message-Id: <20201217094044.46462-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217094044.46462-1-pbonzini@redhat.com>
 References: <20201217094044.46462-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,152 +89,147 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         | 45 ++++-----------------------------------------
- meson.build       | 18 ++++++++++++++----
+ configure         | 35 ++++-------------------------------
+ meson.build       | 22 +++++++++++++++++++---
  meson_options.txt |  2 ++
- 3 files changed, 20 insertions(+), 45 deletions(-)
+ 3 files changed, 25 insertions(+), 34 deletions(-)
 
 diff --git a/configure b/configure
-index c404252b17..f3271381f1 100755
+index f3271381f1..e34885d505 100755
 --- a/configure
 +++ b/configure
-@@ -430,7 +430,7 @@ auth_pam="$default_feature"
- vte="$default_feature"
- virglrenderer="$default_feature"
- tpm="$default_feature"
--libssh="$default_feature"
-+libssh="auto"
- live_block_migration=${default_feature:-yes}
- numa="$default_feature"
- tcmalloc="no"
-@@ -1424,9 +1424,9 @@ for opt do
+@@ -384,7 +384,7 @@ qom_cast_debug="yes"
+ trace_backends="log"
+ trace_file="trace"
+ spice="$default_feature"
+-rbd="$default_feature"
++rbd="auto"
+ smartcard="$default_feature"
+ u2f="auto"
+ libusb="$default_feature"
+@@ -1286,9 +1286,9 @@ for opt do
    ;;
-   --enable-tpm) tpm="yes"
+   --enable-opengl) opengl="yes"
    ;;
--  --disable-libssh) libssh="no"
-+  --disable-libssh) libssh="disabled"
+-  --disable-rbd) rbd="no"
++  --disable-rbd) rbd="disabled"
    ;;
--  --enable-libssh) libssh="yes"
-+  --enable-libssh) libssh="enabled"
+-  --enable-rbd) rbd="yes"
++  --enable-rbd) rbd="enabled"
    ;;
-   --disable-live-block-migration) live_block_migration="no"
+   --disable-xfsctl) xfs="no"
    ;;
-@@ -3630,38 +3630,6 @@ EOF
-   fi
+@@ -3607,29 +3607,6 @@ if compile_prog "" "$pthread_lib" ; then
+   pthread_setname_np_wo_tid=yes
  fi
  
 -##########################################
--# libssh probe
--if test "$libssh" != "no" ; then
--  if $pkg_config --exists libssh; then
--    libssh_cflags=$($pkg_config libssh --cflags)
--    libssh_libs=$($pkg_config libssh --libs)
--    libssh=yes
--  else
--    if test "$libssh" = "yes" ; then
--      error_exit "libssh required for --enable-libssh"
--    fi
--    libssh=no
--  fi
--fi
--
--##########################################
--# Check for libssh 0.8
--# This is done like this instead of using the LIBSSH_VERSION_* and
--# SSH_VERSION_* macros because some distributions in the past shipped
--# snapshots of the future 0.8 from Git, and those snapshots did not
--# have updated version numbers (still referring to 0.7.0).
--
--if test "$libssh" = "yes"; then
+-# rbd probe
+-if test "$rbd" != "no" ; then
 -  cat > $TMPC <<EOF
--#include <libssh/libssh.h>
--int main(void) { return ssh_get_server_publickey(NULL, NULL); }
+-#include <stdio.h>
+-#include <rbd/librbd.h>
+-int main(void) {
+-    rados_t cluster;
+-    rados_create(&cluster, NULL);
+-    return 0;
+-}
 -EOF
--  if compile_prog "$libssh_cflags" "$libssh_libs"; then
--    libssh_cflags="-DHAVE_LIBSSH_0_8 $libssh_cflags"
+-  rbd_libs="-lrbd -lrados"
+-  if compile_prog "" "$rbd_libs" ; then
+-    rbd=yes
+-  else
+-    if test "$rbd" = "yes" ; then
+-      feature_not_found "rados block device" "Install librbd/ceph devel"
+-    fi
+-    rbd=no
 -  fi
 -fi
 -
  ##########################################
  # linux-aio probe
  
-@@ -6288,12 +6256,6 @@ if test "$getauxval" = "yes" ; then
-   echo "CONFIG_GETAUXVAL=y" >> $config_host_mak
+@@ -6184,10 +6161,6 @@ fi
+ if test "$qom_cast_debug" = "yes" ; then
+   echo "CONFIG_QOM_CAST_DEBUG=y" >> $config_host_mak
  fi
- 
--if test "$libssh" = "yes" ; then
--  echo "CONFIG_LIBSSH=y" >> $config_host_mak
--  echo "LIBSSH_CFLAGS=$libssh_cflags" >> $config_host_mak
--  echo "LIBSSH_LIBS=$libssh_libs" >> $config_host_mak
+-if test "$rbd" = "yes" ; then
+-  echo "CONFIG_RBD=y" >> $config_host_mak
+-  echo "RBD_LIBS=$rbd_libs" >> $config_host_mak
 -fi
--
- if test "$live_block_migration" = "yes" ; then
-   echo "CONFIG_LIVE_BLOCK_MIGRATION=y" >> $config_host_mak
- fi
-@@ -6764,6 +6726,7 @@ NINJA=$ninja $meson setup \
+ 
+ echo "CONFIG_COROUTINE_BACKEND=$coroutine" >> $config_host_mak
+ if test "$coroutine_pool" = "yes" ; then
+@@ -6726,7 +6699,7 @@ NINJA=$ninja $meson setup \
          -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
          -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
          -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
-+        -Dlibssh=$libssh \
+-        -Dlibssh=$libssh \
++        -Dlibssh=$libssh -Drbd=$rbd \
          -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
          -Dvhost_user_blk_server=$vhost_user_blk_server \
          -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek \
 diff --git a/meson.build b/meson.build
-index 0b8c9c5917..2d6660aa46 100644
+index 2d6660aa46..6fa80e2d7e 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -652,9 +652,17 @@ if not get_option('glusterfs').auto() or have_block
-   endif
+@@ -612,9 +612,24 @@ else
  endif
- libssh = not_found
--if 'CONFIG_LIBSSH' in config_host
--  libssh = declare_dependency(compile_args: config_host['LIBSSH_CFLAGS'].split(),
--                              link_args: config_host['LIBSSH_LIBS'].split())
-+have_libssh_0_8 = false
-+if not get_option('libssh').auto() or have_block
-+  libssh = dependency('libssh',
-+                      required: get_option('libssh'),
-+                      method: 'pkg-config', static: enable_static)
-+  if libssh.found()
-+    have_libssh_0_8 = cc.links('''
-+      #include <libssh/libssh.h>
-+      int main(void) { return ssh_get_server_publickey(NULL, NULL); }
-+    ''', dependencies: libssh)
+ 
+ rbd = not_found
+-if 'CONFIG_RBD' in config_host
+-  rbd = declare_dependency(link_args: config_host['RBD_LIBS'].split())
++if not get_option('rbd').auto() or have_block
++  librados = cc.find_library('rados', required: get_option('rbd'),
++                             static: enable_static)
++  librbd = cc.find_library('rbd', has_headers: ['rbd/librbd.h'],
++                           required: get_option('rbd'),
++                           static: enable_static)
++  if librados.found() and librbd.found() and cc.links('''
++    #include <stdio.h>
++    #include <rbd/librbd.h>
++    int main(void) {
++      rados_t cluster;
++      rados_create(&cluster, NULL);
++      return 0;
++    }''', dependencies: [librbd, librados])
++    rbd = declare_dependency(dependencies: [librbd, librados])
 +  endif
  endif
- libbzip2 = not_found
- if not get_option('bzip2').auto() or have_block
-@@ -931,6 +939,8 @@ config_host_data.set('CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT', glusterfs_ftruncate_
- config_host_data.set('CONFIG_GLUSTERFS_IOCB_HAS_STAT', glusterfs_iocb_has_stat)
- config_host_data.set('CONFIG_LIBISCSI', libiscsi.found())
++
+ glusterfs = not_found
+ glusterfs_ftruncate_has_stat = false
+ glusterfs_iocb_has_stat = false
+@@ -941,6 +956,7 @@ config_host_data.set('CONFIG_LIBISCSI', libiscsi.found())
  config_host_data.set('CONFIG_LIBNFS', libnfs.found())
-+config_host_data.set('CONFIG_LIBSSH', libssh.found())
-+config_host_data.set('HAVE_LIBSSH_0_8', have_libssh_0_8)
+ config_host_data.set('CONFIG_LIBSSH', libssh.found())
+ config_host_data.set('HAVE_LIBSSH_0_8', have_libssh_0_8)
++config_host_data.set('CONFIG_RBD', rbd.found())
  config_host_data.set('CONFIG_SDL', sdl.found())
  config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
  config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
-@@ -2310,7 +2320,7 @@ summary_info += {'crypto afalg':      config_host.has_key('CONFIG_AF_ALG')}
- summary_info += {'GlusterFS support': glusterfs.found()}
- summary_info += {'gcov':              get_option('b_coverage')}
- summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
--summary_info += {'libssh support':    config_host.has_key('CONFIG_LIBSSH')}
-+summary_info += {'libssh support':    libssh.found()}
- summary_info += {'QOM debugging':     config_host.has_key('CONFIG_QOM_CAST_DEBUG')}
- summary_info += {'Live block migration': config_host.has_key('CONFIG_LIVE_BLOCK_MIGRATION')}
- summary_info += {'lzo support':       config_host.has_key('CONFIG_LZO')}
+@@ -2290,7 +2306,7 @@ if config_host['TRACE_BACKENDS'].split().contains('simple')
+ endif
+ # TODO: add back protocol and server version
+ summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
+-summary_info += {'rbd support':       config_host.has_key('CONFIG_RBD')}
++summary_info += {'rbd support':       rbd.found()}
+ summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
+ summary_info += {'smartcard support': config_host.has_key('CONFIG_SMARTCARD')}
+ summary_info += {'U2F support':       u2f.found()}
 diff --git a/meson_options.txt b/meson_options.txt
-index 4535bc4dc2..6466dc67f6 100644
+index 6466dc67f6..630c9dceb7 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -54,6 +54,8 @@ option('libiscsi', type : 'feature', value : 'auto',
-        description: 'libiscsi userspace initiator')
- option('libnfs', type : 'feature', value : 'auto',
-        description: 'libnfs block device driver')
-+option('libssh', type : 'feature', value : 'auto',
-+       description: 'libssh block device driver')
- option('mpath', type : 'feature', value : 'auto',
-        description: 'Multipath persistent reservation passthrough')
- option('iconv', type : 'feature', value : 'auto',
+@@ -64,6 +64,8 @@ option('curses', type : 'feature', value : 'auto',
+        description: 'curses UI')
+ option('libudev', type : 'feature', value : 'auto',
+        description: 'Use libudev to enumerate host devices')
++option('rbd', type : 'feature', value : 'auto',
++       description: 'Ceph block device driver')
+ option('sdl', type : 'feature', value : 'auto',
+        description: 'SDL user interface')
+ option('sdl_image', type : 'feature', value : 'auto',
 -- 
 2.29.2
 
