@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491D92DCEB6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:46:43 +0100 (CET)
-Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48C92DCEA2
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:45:25 +0100 (CET)
+Received: from localhost ([::1]:56902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kppru-0002aI-8i
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:46:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47770)
+	id 1kppqe-0000Ye-Nn
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:45:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kppmR-0004rp-HQ
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:04 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:43035)
+ id 1kppmT-0004tY-9D
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:05 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:36863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kppmL-0007kr-Tu
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:03 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id jx16so36893653ejb.10
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:40:57 -0800 (PST)
+ id 1kppmM-0007l3-OF
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:04 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id b2so27969254edm.3
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:40:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PWW3yyZ9XoYXeO9VbTn/wnx0HTEWAUTSGBeXZtoTkcs=;
- b=iGNWJy42fGFyj+iyd1b8FADemgMSE1AOcYE21zmKIzwFZoFmTWv2tn9HVYLTf2GIy7
- 77NuGHmVXSrRowVxJzAdyDchwCHfyrRwPvt378fT8/+LsCpujuaDJWLm/CHGr6BMFqii
- t1c58Ov5Tw7zL83c8Bq7GtLI0azV9Xsmd95mmkm3lKNav1FZ9rJ0I8MLkXnTwlJ6vN9y
- IT7cvLURvEvPesHrKJDElM3nULZ1FDsZeSuqf1h4wIV/7uPwMJSgkCDxxg99N7iezhU+
- 2S34I0zxtERyc3OZH5HRuN2/RXPbhIBWvdyH/+Jt1lJQkygsr7D9mfIW3nkz+Yl+wXyi
- MWdw==
+ bh=MNFT69bkW3xmjtHMNViAC1UFouy8o01pGCWful8WbCI=;
+ b=IrWwVIKiRDrqY5Mv6y+GJPl1LNOsU2zCFo08D5NUy2XZRPvHATI66AO553OWoS6xLc
+ 3lMjXDRm0FfLbQkpXguNLBTrz2Idhd4zIOfkfbSZXkI/5hTnNqgwehZkKeXKvuEKGqda
+ hEY57m2x5JyfvM/WUbXNy8ig8CBR/g8YaMu/X76Gj94OfOHSFNkbk5hPE6QePeZD6ZJ4
+ xmUS7K1DsJzXVeJcOjPxdqExQKm62JX9mZ+Jfekpi+2pXpccmCHcdUc5po2JufasZ2og
+ E1GXk+G0wMf6cN2XdJKRUht/ZxgSzKivv6bxa0eLNawmBegXjAZ9Rl0mSZsH81l38HL6
+ 7ibQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PWW3yyZ9XoYXeO9VbTn/wnx0HTEWAUTSGBeXZtoTkcs=;
- b=HqQxOgqmtnKJ7006iVYEaIPsYAK9H195g/9MkYSh+tnMjlN5TDbiwwFZ3CQJENswgQ
- QvvUK/9HhREHYOd6JMaJh0hBaadMcKRR9xoHAxe3pLvNVJPjJ8xzsfokXc9RqrIsVO16
- lVyJerBg3hQw4ktSz8/7ZYLNIBT1Em+xWePSZd8pBIajcpaEkMl+Olhig7Y/X4zAFwmy
- 8Glyqzz3cRi7BeW/GBGORmgTZN9vceQoCUwIJ4dWIugEPvxoCK0OKu08PhUvJRTKnxfx
- 8PC7C0Ux/1KbIpIg1V/Tlrz/pBdFytqRrSY1HGeT/QXx5hHCkO1QSKW/QRCCWxhqy6IH
- /VAw==
-X-Gm-Message-State: AOAM532pjTD/djmIzWyXHjS+DlPHce2do9nAIO5J2/qiII7p+j7haP+4
- YRKIIyJ2La4xHE6kHgtVX2tD7Qxav1U=
-X-Google-Smtp-Source: ABdhPJym822Up/pvRliNMRsw4QdPBrIToVwdtDwDoz5Xhi/yOSQjOVs6hfTwCsGbA+pEfN0b5IBmTg==
-X-Received: by 2002:a17:906:af83:: with SMTP id
- mj3mr14087169ejb.243.1608198056614; 
- Thu, 17 Dec 2020 01:40:56 -0800 (PST)
+ bh=MNFT69bkW3xmjtHMNViAC1UFouy8o01pGCWful8WbCI=;
+ b=Z9AATRZg9LVkXsLq75VjT2YacobTRmxphCcD+hnwjSTSnmAxA7SGAAmUiAqsBPb1DW
+ yJba/3qVob5XZj8prLG8+4zZWR/Ke9xxaAPCJTSmIPOhHcoTsU9Th44N8a8NaISpQidL
+ EzfdOH+1n8zDdy/L5MJ35bCdEmr8wb0LWPhgIARTR7BUnx8ABQAItZnDxr2f0TET+eJW
+ jN9OLbaZlth6SO5iwCmJrVaQn3lZvzGQ5c2YM//J+gze78dVjYeYoJsVteixl2965MqK
+ 7I1oVMiZjzXAUwE4qOX1P5hq42CDpRgeNVJq1ZT77LcXnmkuvS5UrMXEYSxXPJ7tM4KX
+ QOEA==
+X-Gm-Message-State: AOAM5337owowZOyMhpweKvNEDf9ra5jyVlJwyBDbxE9A7OYrqT+55iiJ
+ FrP8SJOtYYHkiDyC3tvQBPPXstoYvSI=
+X-Google-Smtp-Source: ABdhPJwkExypWW2s/OEw6vyUvcNV0Eu8llDU2HQjteEaq/anp0Ed55lL6AWO3xrJfwM8UcdtJn3+kg==
+X-Received: by 2002:a05:6402:307c:: with SMTP id
+ bs28mr38123921edb.186.1608198057403; 
+ Thu, 17 Dec 2020 01:40:57 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id rs27sm3463677ejb.21.2020.12.17.01.40.55
+ by smtp.gmail.com with ESMTPSA id rs27sm3463677ejb.21.2020.12.17.01.40.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 17 Dec 2020 01:40:56 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/18] snappy: convert to meson
-Date: Thu, 17 Dec 2020 10:40:37 +0100
-Message-Id: <20201217094044.46462-12-pbonzini@redhat.com>
+Subject: [PATCH 12/18] lzfse: convert to meson
+Date: Thu, 17 Dec 2020 10:40:38 +0100
+Message-Id: <20201217094044.46462-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217094044.46462-1-pbonzini@redhat.com>
 References: <20201217094044.46462-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,140 +90,133 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         | 32 ++++----------------------------
+ configure         | 31 ++++---------------------------
  meson.build       | 19 +++++++++++++++----
  meson_options.txt |  2 ++
- 3 files changed, 21 insertions(+), 32 deletions(-)
+ 3 files changed, 21 insertions(+), 31 deletions(-)
 
 diff --git a/configure b/configure
-index f52f04d0e3..aee27d9cdd 100755
+index aee27d9cdd..ea5650acca 100755
 --- a/configure
 +++ b/configure
-@@ -395,7 +395,7 @@ cpuid_h="no"
- avx2_opt="$default_feature"
- capstone="auto"
+@@ -397,7 +397,7 @@ capstone="auto"
  lzo="auto"
--snappy="$default_feature"
-+snappy="auto"
+ snappy="auto"
  bzip2="auto"
- lzfse="$default_feature"
+-lzfse="$default_feature"
++lzfse="auto"
  zstd="$default_feature"
-@@ -1316,9 +1316,9 @@ for opt do
+ guest_agent="$default_feature"
+ guest_agent_with_vss="no"
+@@ -1324,9 +1324,9 @@ for opt do
    ;;
-   --enable-lzo) lzo="enabled"
+   --enable-bzip2) bzip2="enabled"
    ;;
--  --disable-snappy) snappy="no"
-+  --disable-snappy) snappy="disabled"
+-  --enable-lzfse) lzfse="yes"
++  --enable-lzfse) lzfse="enabled"
    ;;
--  --enable-snappy) snappy="yes"
-+  --enable-snappy) snappy="enabled"
+-  --disable-lzfse) lzfse="no"
++  --disable-lzfse) lzfse="disabled"
    ;;
-   --disable-bzip2) bzip2="disabled"
+   --disable-zstd) zstd="no"
    ;;
-@@ -2458,25 +2458,6 @@ EOF
+@@ -2458,24 +2458,6 @@ EOF
    fi
  fi
  
 -##########################################
--# snappy check
+-# lzfse check
 -
--if test "$snappy" != "no" ; then
+-if test "$lzfse" != "no" ; then
 -    cat > $TMPC << EOF
--#include <snappy-c.h>
--int main(void) { snappy_max_compressed_length(4096); return 0; }
+-#include <lzfse.h>
+-int main(void) { lzfse_decode_scratch_size(); return 0; }
 -EOF
--    if compile_prog "" "-lsnappy" ; then
--        snappy_libs='-lsnappy'
--        snappy="yes"
+-    if compile_prog "" "-llzfse" ; then
+-        lzfse="yes"
 -    else
--        if test "$snappy" = "yes"; then
--            feature_not_found "libsnappy" "Install libsnappy devel"
+-        if test "$lzfse" = "yes"; then
+-            feature_not_found "lzfse" "Install lzfse devel"
 -        fi
--        snappy="no"
+-        lzfse="no"
 -    fi
 -fi
 -
  ##########################################
- # lzfse check
+ # zstd check
  
-@@ -6107,11 +6088,6 @@ if test "$avx512f_opt" = "yes" ; then
+@@ -6088,11 +6070,6 @@ if test "$avx512f_opt" = "yes" ; then
    echo "CONFIG_AVX512F_OPT=y" >> $config_host_mak
  fi
  
--if test "$snappy" = "yes" ; then
--  echo "CONFIG_SNAPPY=y" >> $config_host_mak
--  echo "SNAPPY_LIBS=$snappy_libs" >> $config_host_mak
+-if test "$lzfse" = "yes" ; then
+-  echo "CONFIG_LZFSE=y" >> $config_host_mak
+-  echo "LZFSE_LIBS=-llzfse" >> $config_host_mak
 -fi
 -
- if test "$lzfse" = "yes" ; then
-   echo "CONFIG_LZFSE=y" >> $config_host_mak
-   echo "LZFSE_LIBS=-llzfse" >> $config_host_mak
-@@ -6675,7 +6651,7 @@ NINJA=$ninja $meson setup \
+ if test "$zstd" = "yes" ; then
+   echo "CONFIG_ZSTD=y" >> $config_host_mak
+   echo "ZSTD_CFLAGS=$zstd_cflags" >> $config_host_mak
+@@ -6651,7 +6628,7 @@ NINJA=$ninja $meson setup \
          -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
          -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
          -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
--        -Dlibssh=$libssh -Drbd=$rbd -Dlzo=$lzo \
-+        -Dlibssh=$libssh -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy \
+-        -Dlibssh=$libssh -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy \
++        -Dlibssh=$libssh -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse \
          -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
          -Dvhost_user_blk_server=$vhost_user_blk_server \
          -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek \
 diff --git a/meson.build b/meson.build
-index 0310d6d89a..9f6ea65626 100644
+index 9f6ea65626..c02d9c3e1a 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -749,9 +749,19 @@ if get_option('vnc').enabled()
-                               compile_args: '-DSTRUCT_IOVEC_DEFINED')
+@@ -695,10 +695,21 @@ if not get_option('bzip2').auto() or have_block
+     endif
    endif
  endif
--snappy = not_found
--if 'CONFIG_SNAPPY' in config_host
--  snappy = declare_dependency(link_args: config_host['SNAPPY_LIBS'].split())
+-liblzfse = not_found
+-if 'CONFIG_LZFSE' in config_host
+-  liblzfse = declare_dependency(link_args: config_host['LZFSE_LIBS'].split())
 +
-+snappy = cc.find_library('snappy', has_headers: ['snappy-c.h'],
-+                      required: get_option('snappy'),
++liblzfse = cc.find_library('lzfse', has_headers: ['lzfse.h'],
++                      required: get_option('lzfse'),
 +                      static: enable_static)
-+if snappy.found() and not cc.links('''
-+   #include <snappy-c.h>
-+   int main(void) { snappy_max_compressed_length(4096); return 0; }''', dependencies: snappy)
-+  snappy = not_found
-+  if get_option('snappy').enabled()
-+    error('could not link libsnappy')
++if liblzfse.found() and not cc.links('''
++   #include <lzfse.h>
++   int main(void) { lzfse_decode_scratch_size(); return 0; }''', dependencies: liblzfse)
++  liblzfse = not_found
++  if get_option('lzfse').enabled()
++    error('could not link liblzfse')
 +  else
-+    warning('could not link libsnappy, disabling')
++    warning('could not link liblzfse, disabling')
 +  endif
  endif
- 
- lzo = cc.find_library('lzo2', has_headers: ['lzo/lzo1x.h'],
-@@ -971,6 +981,7 @@ config_host_data.set('HAVE_LIBSSH_0_8', have_libssh_0_8)
- config_host_data.set('CONFIG_RBD', rbd.found())
- config_host_data.set('CONFIG_SDL', sdl.found())
- config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
-+config_host_data.set('CONFIG_SNAPPY', snappy.found())
- config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
- config_host_data.set('CONFIG_VNC', vnc.found())
- config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
-@@ -2352,7 +2363,7 @@ summary_info += {'libssh support':    libssh.found()}
- summary_info += {'QOM debugging':     config_host.has_key('CONFIG_QOM_CAST_DEBUG')}
- summary_info += {'Live block migration': config_host.has_key('CONFIG_LIVE_BLOCK_MIGRATION')}
++
+ oss = not_found
+ if 'CONFIG_AUDIO_OSS' in config_host
+   oss = declare_dependency(link_args: config_host['OSS_LIBS'].split())
+@@ -2365,7 +2376,7 @@ summary_info += {'Live block migration': config_host.has_key('CONFIG_LIVE_BLOCK_
  summary_info += {'lzo support':       lzo.found()}
--summary_info += {'snappy support':    config_host.has_key('CONFIG_SNAPPY')}
-+summary_info += {'snappy support':    snappy.found()}
+ summary_info += {'snappy support':    snappy.found()}
  summary_info += {'bzip2 support':     libbzip2.found()}
- summary_info += {'lzfse support':     config_host.has_key('CONFIG_LZFSE')}
+-summary_info += {'lzfse support':     config_host.has_key('CONFIG_LZFSE')}
++summary_info += {'lzfse support':     liblzfse.found()}
  summary_info += {'zstd support':      config_host.has_key('CONFIG_ZSTD')}
+ summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
+ summary_info += {'libxml2':           config_host.has_key('CONFIG_LIBXML2')}
 diff --git a/meson_options.txt b/meson_options.txt
-index 00a5ec55bd..e2b7e23887 100644
+index e2b7e23887..f74a3d78c4 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -72,6 +72,8 @@ option('sdl', type : 'feature', value : 'auto',
-        description: 'SDL user interface')
- option('sdl_image', type : 'feature', value : 'auto',
-        description: 'SDL Image support for icons')
-+option('snappy', type : 'feature', value : 'auto',
-+       description: 'snappy compression support')
- option('u2f', type : 'feature', value : 'auto',
-        description: 'U2F emulation support')
- option('vnc', type : 'feature', value : 'enabled',
+@@ -64,6 +64,8 @@ option('curses', type : 'feature', value : 'auto',
+        description: 'curses UI')
+ option('libudev', type : 'feature', value : 'auto',
+        description: 'Use libudev to enumerate host devices')
++option('lzfse', type : 'feature', value : 'auto',
++       description: 'lzfse support for DMG images')
+ option('lzo', type : 'feature', value : 'auto',
+        description: 'lzo compression support')
+ option('rbd', type : 'feature', value : 'auto',
 -- 
 2.29.2
 
