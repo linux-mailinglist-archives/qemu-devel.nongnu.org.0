@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0552DDA8F
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 22:08:14 +0100 (CET)
-Received: from localhost ([::1]:55454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57BED2DDA8E
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 22:07:56 +0100 (CET)
+Received: from localhost ([::1]:55122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq0VR-0003ZZ-4M
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 16:08:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36176)
+	id 1kq0V8-0003NN-Oi
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 16:07:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kq0Py-000252-CE; Thu, 17 Dec 2020 16:02:34 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:45433)
+ id 1kq0Py-000259-Oa; Thu, 17 Dec 2020 16:02:34 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:34785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kq0Pv-0002C0-HC; Thu, 17 Dec 2020 16:02:34 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 8A8D16A3;
- Thu, 17 Dec 2020 16:02:26 -0500 (EST)
+ id 1kq0Pw-0002C4-1h; Thu, 17 Dec 2020 16:02:34 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.west.internal (Postfix) with ESMTP id A21CC5C1;
+ Thu, 17 Dec 2020 16:02:27 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 17 Dec 2020 16:02:27 -0500
+ by compute2.internal (MEProxy); Thu, 17 Dec 2020 16:02:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm1; bh=Ipn7va8QVQG4eoQiemms2FxBhT
- 5Y2tr/J7EjvC7vqI4=; b=EUpBt9hpb7vpMVNjWi5bnuxnH5CY28TZYV7ZZKti1g
- BHIwvZ/Q7aaY48dLlN7VV3Wt+q0kr8DN+Oog07Mg2E8F25vwwVMRDb1oedYaqVW2
- HIF/PVb31dAPxO5OPN+mfYU5DUR52xIMQwJCyrURRtFY3bmSu2wjTeY4HFPj4QCk
- rThHWMiJlAoifxuKtVa22mrPkcVrEa2zHS5UpVvgZpq0o6fler4hLHvuTB0xzGUW
- 8SdpYJh9U5eE2v641pCaw5GGHnU3VKqKpXeWGlYV/sGkIFTTUKcRzKXZy9XtpuR/
- AZG2tfeg6i9EjbxqkgWFv3zdF+wwBSDekbcCEbFzaxag==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=hhw9gLpBdP6/r
+ 6Sd+jV/ZS2e3O75A/6Z+R6ZKiPYXBM=; b=ab2VRbNPm0u8kHGXpeTVo6U55NFBP
+ smF0hoW/V/jgu9+5vKx53sa7gB9CWHlEycfcXEBOvrKVqxq61uYzZwIFGvXT+uIS
+ IiIxnEjJ72uHsoMwDRQEgdwWjHl3Obf3NGi+ztER82JAKDKgQZcx0eRUGFMZebGC
+ VZs0XYNfKM5qmLVsu1JDe/nPGgWQIH6R4U1epdgm6F5X/doMiiH2Rk1o5f+SFz2f
+ Z9QgPU56bmxV67s2shsc7/R2XOu6iwAxKGiJqwzVHS8K3SdUrfIrxVCd0n92lr8L
+ SQzRbyr1ZJThRLdyj+8V8zf9ATUzfowhylWswigIcdTca7OgPaCedQkWQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Ipn7va
- 8QVQG4eoQiemms2FxBhT5Y2tr/J7EjvC7vqI4=; b=NqbaiNnU3wqAuVVmOsbTNX
- WHJPC02lQpqJlYaUnnR2sh+26cXVVQhFUNvoMU3foFZZ0Xg5TIhtKtA2KXcxAbVg
- to/q0J6jU2A90J/tYIcTCZ2V0BfeumWpGsmtbQVx9usF1rZhbm6886PKYciSOfWQ
- ghKw/ZngzS81C4GJN+gcQPKWkLFAqkaDpSnIXGWaMtJgx0Vr/1H+v4a5vclKi8ma
- +EJbyCiZ2hQY9D81C1bO034+pKHNsQ+fP7mGQ3v34NQQf6QsRQiyRXyZhyMowQ8O
- B83r+AJZczyKxyzdwAhcaHxvFrK2WO2on10kwYauIpfWnDEkmZm3OQFda+ZqDpRg
- ==
-X-ME-Sender: <xms:YMfbX8R84lR6EvYL54KIDwJ5L0Kb1iV_NE3UPuI5peCXMakO3TZb6w>
- <xme:YMfbX5xTLeWt5yX6TxXr8Zr1go98fk6tc5qHwgzoZiw5WxRQaYKDcxq4lvg8pKJqN
- JEsEfY_3Vtb68x_mDQ>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=hhw9gLpBdP6/r6Sd+jV/ZS2e3O75A/6Z+R6ZKiPYXBM=; b=Kl1NFgWo
+ SKf6y30d2jNh+dDWP2py0QZzOBLOy3pNJCG4ePPRmUjnD5+yVobr0YpvHpAJIrkU
+ nVlEf4Vs3MGKTzGRZp2r/fLNC55Dt7rj2x1FWdPiLaLv7TCnp4UNaA3JdRwsA5jz
+ rmMcVHGIZIvUN0TckPAGru0NojXIoXnAo9FjJjpmnbXyWQuguttacNwtFLVabNUQ
+ b9Hk47DH5FVCJWxn7RlyB2hCCd61eb6SzxP/RExQem/XUYchM2JFDTXRdXXzQq11
+ nlDhps5NGVOwm0bX95GiOucx2xi05lMdEllTuttnYZPFVItRL2YGZgfCqJ0L4RGW
+ 9UP8kDvk+jfWJA==
+X-ME-Sender: <xms:YsfbXxnQtg4WJ8Acfii5wxwQf7kV5R3twMYqvKH6IrHRimdVmdvH6g>
+ <xme:YsfbXxEG_qgcVxxTHhFf9hZLvghbXuxTEviC6Nalqz_ZLEXjIlR0b61tY6iuCZEz8
+ u7AedztzfmDofBxCSM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelgedgudegudcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpefhgeevkeeigfekvedvteejjeekkedugfdvheeijeffgfekffdvveelffetvdeg
- hfenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:YMfbX50Zm6BMo9l-tl2JjfQIxS4K8wLQ9BkT0IzuNMxVwZmoXVRF9Q>
- <xmx:YMfbXwBirMIp0Je5Iea72ioKbgwNQqRUMzT4K4xmDbn1QYwZyVUnlA>
- <xmx:YMfbX1h-tVfOA0ZsMjExK29BWfXcpnWeQ9w90MI48sf49yZ7PmpgJA>
- <xmx:YsfbXwWbuAa2CDrjiFIaQvu-U5aZ6nfF0H13RBPtVTrDQbFDQ4UQtg>
+ enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffev
+ gfeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:YsfbXyrI8kSwwjJtJAH4IgkTlvB3QmvDAAwFodAUMSU8T7QtesdW9A>
+ <xmx:YsfbX17_63yDtx2RCHt6aUm34ohwVOo20Ez0CbTH4zPr0DjA9Sl-yQ>
+ <xmx:YsfbX47OJf_M9mo9NkVXUN9h24cwLKZQjpUPfArDS12K3O8Opj8vnA>
+ <xmx:Y8fbX0DRatYn4bIPAuD7IMnKjeKi6g6EomwTz7VpJ5aiG0U7mOGF4w>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 8601B24005E;
- Thu, 17 Dec 2020 16:02:23 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id E4131240066;
+ Thu, 17 Dec 2020 16:02:24 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 0/3] hw/block/nvme: dif-based end-to-end data protection
- support
-Date: Thu, 17 Dec 2020 22:02:19 +0100
-Message-Id: <20201217210222.779619-1-its@irrelevant.dk>
+Subject: [PATCH RFC 1/3] nvme: add support for extended LBAs
+Date: Thu, 17 Dec 2020 22:02:20 +0100
+Message-Id: <20201217210222.779619-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.29.2
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20201217210222.779619-1-its@irrelevant.dk>
+References: <20201217210222.779619-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
  helo=wout5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -94,67 +94,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-This series adds support for extended LBAs and end-to-end data=0D
-protection. Marked RFC, since there are a bunch of issues that could use=0D
-some discussion.=0D
-=0D
-Storing metadata bytes contiguously with the logical block data and=0D
-creating a physically extended logical block basically breaks the DULBE=0D
-and deallocation support I just added. Formatting a namespace with=0D
-protection information requires the app- and reftags of deallocated or=0D
-unwritten blocks to be 0xffff and 0xffffffff respectively; this could be=0D
-used to reintroduce DULBE support in that case, albeit at a somewhat=0D
-higher cost than the block status flag-based approach.=0D
-=0D
-There is basically three ways of storing metadata (and maybe a forth,=0D
-but that is probably quite the endeavour):=0D
-=0D
-  1. Storing metadata as extended blocks directly on the blockdev. That=0D
-     is the approach used in this RFC.=0D
-=0D
-  2. Use a separate blockdev. Incidentially, this is also the easiest=0D
-     and most straightforward solution to support MPTR-based "separate=0D
-     metadata". This also allows DULBE and block deallocation to be=0D
-     supported using the existing approach.=0D
-=0D
-  3. A hybrid of 1 and 2 where the metadata is stored contiguously at=0D
-    the end of the nvme-ns blockdev.=0D
-=0D
-Option 1 obviously works well with DIF-based protection information and=0D
-extended LBAs since it maps one to one. Option 2 works flawlessly with=0D
-MPTR-based metadata, but extended LBAs can be "emulated" at the cost of=0D
-a bunch of scatter/gather operations.=0D
-=0D
-The 4th option is extending an existing image format (QCOW2) or create=0D
-something on top of RAW to supports metadata bytes per block. But both=0D
-approaches require full API support through the block layer. And=0D
-probably a lot of other stuff that I did not think about.=0D
-=0D
-Anyway, we would love some comments on this.=0D
-=0D
-Gollu Appalanaidu (2):=0D
-  nvme: add support for extended LBAs=0D
-  hw/block/nvme: end-to-end data protection=0D
-=0D
-Klaus Jensen (1):=0D
-  hw/block/nvme: refactor nvme_dma=0D
-=0D
- hw/block/nvme-ns.h    |  22 +-=0D
- hw/block/nvme.h       |  36 +++=0D
- include/block/nvme.h  |  24 +-=0D
- hw/block/nvme-ns.c    |  66 ++++-=0D
- hw/block/nvme.c       | 616 ++++++++++++++++++++++++++++++++++++++----=0D
- hw/block/trace-events |  10 +=0D
- 6 files changed, 704 insertions(+), 70 deletions(-)=0D
-=0D
--- =0D
-2.29.2=0D
-=0D
+This allows logical blocks to be extended with a number of metadata
+bytes specified by the new namespace parameter 'ms'. The additional
+bytes are stored immediately after each logical block.
+
+The Deallocated or Unwritten Logical Block Error recovery feature is not
+supported for namespaces with extended LBAs since the extended logical
+blocks are not aligned with the blocks of the underlying device and the
+allocation status of blocks can thus not be detemined by the
+BDRV_BLOCK_ZERO bdrv_block_status flag. Similary, the DLFEAT field will
+not report any read behavior for deallocated logical blocks reported.
+
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme-ns.h | 19 ++++++++++++++++---
+ hw/block/nvme-ns.c | 21 +++++++++++++++++----
+ hw/block/nvme.c    |  6 ++++--
+ 3 files changed, 37 insertions(+), 9 deletions(-)
+
+diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+index 44bf6271b744..1e621fb130a3 100644
+--- a/hw/block/nvme-ns.h
++++ b/hw/block/nvme-ns.h
+@@ -21,6 +21,7 @@
+ 
+ typedef struct NvmeNamespaceParams {
+     uint32_t nsid;
++    uint16_t ms;
+ } NvmeNamespaceParams;
+ 
+ typedef struct NvmeNamespace {
+@@ -57,18 +58,30 @@ static inline uint8_t nvme_ns_lbads(NvmeNamespace *ns)
+     return nvme_ns_lbaf(ns)->ds;
+ }
+ 
+-/* calculate the number of LBAs that the namespace can accomodate */
+-static inline uint64_t nvme_ns_nlbas(NvmeNamespace *ns)
++static inline uint16_t nvme_ns_ms(NvmeNamespace *ns)
+ {
+-    return ns->size >> nvme_ns_lbads(ns);
++    return nvme_ns_lbaf(ns)->ms;
+ }
+ 
+ /* convert an LBA to the equivalent in bytes */
+ static inline size_t nvme_l2b(NvmeNamespace *ns, uint64_t lba)
+ {
++    if (NVME_ID_NS_FLBAS_EXTENDED(ns->id_ns.flbas)) {
++        return (lba << nvme_ns_lbads(ns)) + (lba * nvme_ns_ms(ns));
++    }
++
+     return lba << nvme_ns_lbads(ns);
+ }
+ 
++/* calculate the number of LBAs that the namespace can accomodate */
++static inline uint64_t nvme_ns_nlbas(NvmeNamespace *ns)
++{
++    if (NVME_ID_NS_FLBAS_EXTENDED(ns->id_ns.flbas)) {
++        return ns->size / nvme_l2b(ns, 1);
++    }
++    return ns->size >> nvme_ns_lbads(ns);
++}
++
+ typedef struct NvmeCtrl NvmeCtrl;
+ 
+ int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp);
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index 2d69b5177b51..a9785a12eb13 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -37,9 +37,24 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+     int lba_index = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
+     int npdg;
+ 
+-    ns->id_ns.dlfeat = 0x9;
++    id_ns->dlfeat = 0x10;
+ 
+     id_ns->lbaf[lba_index].ds = 31 - clz32(ns->blkconf.logical_block_size);
++    id_ns->lbaf[lba_index].ms = ns->params.ms;
++
++    /* support DULBE and I/O optimization fields */
++    id_ns->nsfeat |= 0x10;
++
++    if (!ns->params.ms) {
++        /* zeroes are guaranteed to be read from deallocated blocks */
++        id_ns->dlfeat |= 0x1 | 0x8;
++
++        /* support DULBE */
++        id_ns->nsfeat |= 0x4;
++    } else {
++        id_ns->mc = 0x1;
++        id_ns->flbas |= 0x10;
++    }
+ 
+     id_ns->nsze = cpu_to_le64(nvme_ns_nlbas(ns));
+ 
+@@ -47,9 +62,6 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+     id_ns->ncap = id_ns->nsze;
+     id_ns->nuse = id_ns->ncap;
+ 
+-    /* support DULBE and I/O optimization fields */
+-    id_ns->nsfeat |= (0x4 | 0x10);
+-
+     npdg = ns->blkconf.discard_granularity / ns->blkconf.logical_block_size;
+ 
+     if (bdrv_get_info(blk_bs(ns->blkconf.blk), &bdi) >= 0 &&
+@@ -150,6 +162,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+ static Property nvme_ns_props[] = {
+     DEFINE_BLOCK_PROPERTIES(NvmeNamespace, blkconf),
+     DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsid, 0),
++    DEFINE_PROP_UINT16("ms", NvmeNamespace, params.ms, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 28416b18a5c0..e4922c37c94d 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1214,6 +1214,7 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
+         BLOCK_ACCT_WRITE : BLOCK_ACCT_READ;
+     BlockBackend *blk = ns->blkconf.blk;
+     uint16_t status;
++    uint32_t sector_size;
+ 
+     trace_pci_nvme_rw(nvme_cid(req), nvme_io_opc_str(rw->opcode),
+                       nvme_nsid(ns), nlb, data_size, slba);
+@@ -1246,12 +1247,13 @@ static uint16_t nvme_rw(NvmeCtrl *n, NvmeRequest *req)
+ 
+     block_acct_start(blk_get_stats(blk), &req->acct, data_size, acct);
+     if (req->qsg.sg) {
++        sector_size = nvme_l2b(ns, 1);
+         if (acct == BLOCK_ACCT_WRITE) {
+             req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
+-                                       BDRV_SECTOR_SIZE, nvme_rw_cb, req);
++                                       sector_size, nvme_rw_cb, req);
+         } else {
+             req->aiocb = dma_blk_read(blk, &req->qsg, data_offset,
+-                                      BDRV_SECTOR_SIZE, nvme_rw_cb, req);
++                                      sector_size, nvme_rw_cb, req);
+         }
+     } else {
+         if (acct == BLOCK_ACCT_WRITE) {
+-- 
+2.29.2
+
 
