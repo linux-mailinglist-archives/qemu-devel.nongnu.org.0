@@ -2,48 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4492DDAB6
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 22:18:47 +0100 (CET)
-Received: from localhost ([::1]:45152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C28AA2DDB0A
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 22:50:30 +0100 (CET)
+Received: from localhost ([::1]:33386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq0fe-00033z-UJ
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 16:18:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38870)
+	id 1kq1AG-0003bY-VL
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 16:50:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kq0cg-0001Vg-LZ
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 16:15:42 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55430)
+ (Exim 4.90_1) (envelope-from <prvs=6131d52cb=atish.patra@wdc.com>)
+ id 1kq18c-00035g-U8; Thu, 17 Dec 2020 16:48:44 -0500
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:6682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kq0cR-0003zk-2l
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 16:15:42 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4CB3DAC7F;
- Thu, 17 Dec 2020 21:15:25 +0000 (UTC)
-Subject: Re: dangers of current NEED_CPU_H, CONFIG_SOFTMMU, CONFIG_USER_ONLY
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20201211100908.19696-1-cfontana@suse.de>
- <20201211100908.19696-8-cfontana@suse.de>
- <e47ef5e5-2053-d98d-9cd5-f6d96c423c82@suse.de>
- <CAFEAcA8FL23_bZaOM_u8CdSQoCrrQ2SxnuOoU0H9kPFeANyT0A@mail.gmail.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <71c2c316-38ab-3f27-0147-fbe01446dde2@suse.de>
-Date: Thu, 17 Dec 2020 22:15:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <prvs=6131d52cb=atish.patra@wdc.com>)
+ id 1kq18Z-0008JI-4X; Thu, 17 Dec 2020 16:48:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1608241719; x=1639777719;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Eyb1s+6C1ZE1gqsUGC3r72kRqTJupLnUxPH2PkKmvHQ=;
+ b=T0f2EErIANnae781x4vqbMG+KS+jMJ7sQorRvlnH5q3o13X7RNDeCtlD
+ GO94o2Fa5pkxnkRlN9nvKFaGJyH3z091o6ipKTVW57v+8mQLZYOdD7Nsv
+ +1c9IZd4u3+opLGw2JGvXXPF3nGaVsRTB9qJOUopCSOUIk44pL8cN8Xz2
+ qPpr8MdMStPWhKd5BSYEY973eXogRN6CnIgRm6y7HdEG+FDbeoY91/eGE
+ 6inf/C9/Z6bPECPbMOi1Z3pJieG7blPkOk8RFn99FeRlj2JtSNJmmA6K+
+ IOuOlteTtyLz7Vto9uCZF536JaYjW10TIha/HNFdVh2pVh9DC4kLQ7G4u Q==;
+IronPort-SDR: ZcxZlVdjBzHaCWJFzG3m7chKxipMxKvH7xbHzoQms1YmTgCnJ8yWIkayIH/OLQIZut2gRNOtjS
+ o7bc9kLP5pCNgIatyCPPgR7Re/qoRg0JP03wKfNekn4XdBf8W2c8o7qxrASHQKtZMsxK/m//HT
+ hEl1UB0tDsXYV4NC45yujGMfbG5vblWCnlHtm2gqZl4dSjVd6HDGMVWJUiZ9mzmpbbZfhGMKcc
+ dzx5Sd1AwZM1DQZ5WxmOPfsgOJt6BT6gAFKzxcIL2LT4JgLPtQcRStgTASw5/zi/daZcfjgvHk
+ l/Y=
+X-IronPort-AV: E=Sophos;i="5.78,428,1599494400"; d="scan'208";a="159855642"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 18 Dec 2020 05:48:32 +0800
+IronPort-SDR: bJvl7pvdlXUyNG9vKc0JWtkX67/awytzhF0D/uG8eanlj/OH4f9sWLRanJ1XsHdcTdVciwac8b
+ xRANA42NZURSkflxkyBK4J4Lj5ycXZ9wPj1rnHM9Ohs93yJDB9D/ndE+yy93iQC/mdK2inctx4
+ j77iz+RCgSA77B7Tsk1oXV5o8Rd2zwxOIwVgD3d1dXExjQI66w8CKjnKYf9vG+1l9ZUn19Gcw3
+ PNownZtCS1Hb0wZyNVGEzHsHe9G0Qyt8iUucqwoc72s2CakslyGzNVlRt4uEfkDz3skftO7aUz
+ otZXFxfGWmUiD5nYPYCe7xv4
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2020 13:33:48 -0800
+IronPort-SDR: nvz75U7PzX5XOy1DWEInC4ulPk0GkFYYZkV33DV6ok+HqSv4vKENksp/SgqCvwmr2FdKEVw1z3
+ 8rZD8d7rCoH1q/4Ru5knbOWHJgpN+hqtZF7Aoso2H379JPOPyRDPwC9RKUw6TqeBCpN2A9fr1W
+ 9vCpiPEmZlPA4ymMknoRcZROZBGkuhSJnpieV1Bm8ucwjtDJhsqJTeF8X3zVKwDhp33ol0DlGu
+ tLSV2PTPnql9BNn/Tm+UL1y72yQn8S+2kBb9YtS8jo14qxAAQ/84Ub4WM7x8sYFQ2unvQdUIv9
+ h6g=
+WDCIronportException: Internal
+Received: from cnf011319.ad.shared (HELO jedi-01.hgst.com) ([10.86.62.39])
+ by uls-op-cesaip02.wdc.com with ESMTP; 17 Dec 2020 13:48:32 -0800
+From: Atish Patra <atish.patra@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH] RISC-V: Place DTB at 3GB boundary instead of 4GB
+Date: Thu, 17 Dec 2020 13:48:26 -0800
+Message-Id: <20201217214826.2094617-1-atish.patra@wdc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8FL23_bZaOM_u8CdSQoCrrQ2SxnuOoU0H9kPFeANyT0A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.141;
+ envelope-from=prvs=6131d52cb=atish.patra@wdc.com; helo=esa3.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,142 +84,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alex Bennee <alex.bennee@linaro.org>
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Anup Patel <anup.patel@wdc.com>, Atish Patra <atish.patra@wdc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Currently, we place the DTB at 2MB from 4GB or end of DRAM which ever is
+lesser. However, Linux kernel can address only 1GB of memory for RV32.
+Thus, it can not map anything beyond 3GB (assuming 2GB is the starting address).
+As a result, it can not process DT and panic if opensbi dynamic firmware
+is used.
 
-thanks for your answer,
+Fix this by placing the DTB at 2MB from 3GB or end of DRAM whichever is lower.
 
-On 12/17/20 9:15 PM, Peter Maydell wrote:
-> On Thu, 17 Dec 2020 at 19:46, Claudio Fontana <cfontana@suse.de> wrote:
->>
->> Hi,
->>
->> I would like to highlight the current dangerous state of NEED_CPU_H / CONFIG_SOFTMMU / CONFIG_USER_ONLY.
-> 
->> So our struct TcgCpuOperations in include/hw/core/cpu.h,
->> which contains after this series:
->>
->> #ifndef CONFIG_USER_ONLY
->>     /**
->>      * @do_transaction_failed: Callback for handling failed memory transactions
->>      * (ie bus faults or external aborts; not MMU faults)
->>      */
->>     void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
->>                                   unsigned size, MMUAccessType access_type,
->>                                   int mmu_idx, MemTxAttrs attrs,
->>                                   MemTxResult response, uintptr_t retaddr);
->>     /**
->>      * @do_unaligned_access: Callback for unaligned access handling
->>      */
->>     void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
->>                                 MMUAccessType access_type,
->>                                 int mmu_idx, uintptr_t retaddr);
->> #endif /* !CONFIG_USER_ONLY */
-> 
-> Yeah, don't try to ifdef out struct fields in common-compiled code...
-> 
->> Note that include/hw/core/cpu.h already uses CONFIG_USER_ONLY in other parts of the header file, and we might have hidden problems as a result we (or at least I) don't know about,
->> because code is being compiled in for linux-user which explicitly should not be compiled there.
-> 
-> The other CONFIG_USER_ONLY checks in that file are only
-> ifdeffing out prototypes for functions that exist only in
-> the softmmu build, or providing do-nothing stubs for functions
-> that are softmmu only. I think they're safe.
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
+---
+ hw/riscv/boot.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-right, in cpu.h the extra prototypes do not cause immediate harm, but they lead to believe someone editing the file that CONFIG_USER_ONLY can be used and is effective in the file;
-if CONFIG_USER_ONLY is ineffective, why use it?
-
-In the same file, in other places
-
-#ifdef NEED_CPU_H
-#ifdef CONFIG_SOFTMMU
-
-is used. Should this pattern be used instead consistently in header files? Is this guaranteed to always do the right thing, from wherever the header file is included?
-
-Also in hw/core/cpu.c we see this:
-
-#if !defined(CONFIG_USER_ONLY)
-GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
-{
-    CPUClass *cc = CPU_GET_CLASS(cpu);
-    GuestPanicInformation *res = NULL;
-
-    if (cc->get_crash_info) {
-        res = cc->get_crash_info(cpu);
-    }
-    return res;
-}
-#endif
-
-If !CONFIG_USER_ONLY is always ineffective, why have it there? This code should probably then be in $(top_srcdir)/cpu.c ?
-
-These things may be harmless by themselves, but it takes very little to make a false step,
-using the existing uses as a reference, as there is no other documentation (I know of).
-
-CONFIG_USER_ONLY is used in a few other places outside of target/, including in other header files,
-as you noted in a follow up email.
-Are all these uses harmless? Not sure how to determine that for sure..
-
-
-> 
->> There are multiple workarounds / fixes possible for my short term problem,
->> but would it not be a good idea to fix this problem at its root once and for all?
-> 
-> What's your proposal for fixing things ?
-
-
-I don't think I have the full picture yet, so I think the optimal solution can only be figured out together;
-
-I will try to flail in the dark hoping to hit on something that sparks an idea.
-
-
-- do we need both CONFIG_SOFTMMU and CONFIG_USER_ONLY? (I always wondered about the "ONLY" part of it, why not just CONFIG_USER?)
-  Based on previous comments from Richard we might need both in the future, but I fail to detect which places are meaningful for the one or the other.
-
-
-- Is the NEED_CPU_H + CONFIG_SOFTMMU check always the right thing to do? Is it always right in header files? ...
-
-
-- is it possible to define very clearly where in the codebase they should be used?
-  As an ignorant example from my side: only use CONFIG_USER_ONLY inside of target/,
-
-  Making the rule "don't use this for common_ss" is very difficult to stick to in practice,
-  with header files that end up being used from multiple sources, some in common_ss and some not, and it's so hidden from the day to day activities,
-  one need to explicitly check.
-
-  Instead if it's something obvious like: only in this subtree, then it is at least realistic to try to stick to it.
-  
-
-- is it possible to check the [in]correct use of CONFIG_USER_ONLY and CONFIG_SOFTMMU during compilation or with a script in scripts/ ?
-  I think you answered that already, adding it to "poison". Any downside to that?
-  Does it still make sense to restrict the uses more, in favor of clarity?
-
-
-- once we figure out the solution, I would try to document the result of the whole experience clearly, in doc/devel/ for example?
-
-
-> 
-> Incidentally, this should not be a problem for CONFIG_SOFTMMU,
-> because that is listed in include/exec/poison.h so trying to
-> use it in a common (not compiled-per-target) file will give you
-> a compile error. (So in theory we could make CONFIG_USER_ONLY
-> a poisoned identifier but that will require some work to
-> adjust places where we currently use it in "safe" ways...)
-> 
-> thanks
-> -- PMM
-
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index d62f3dc7581e..9e77b22e4d56 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -203,9 +203,9 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+      * We should put fdt as far as possible to avoid kernel/initrd overwriting
+      * its content. But it should be addressable by 32 bit system as well.
+      * Thus, put it at an aligned address that less than fdt size from end of
+-     * dram or 4GB whichever is lesser.
++     * dram or 3GB whichever is lesser.
+      */
+-    temp = MIN(dram_end, 4096 * MiB);
++    temp = MIN(dram_end, 3072 * MiB);
+     fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
  
-Thanks!
-
-Claudio
+     fdt_pack(fdt);
+-- 
+2.25.1
 
 
