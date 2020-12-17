@@ -2,75 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E73AF2DDB28
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 23:03:01 +0100 (CET)
-Received: from localhost ([::1]:38660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB40F2DDB3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 23:18:49 +0100 (CET)
+Received: from localhost ([::1]:45474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq1MS-0006bG-Il
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 17:03:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49638)
+	id 1kq1bk-0002Yr-Tm
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 17:18:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kq1L7-00063H-BR
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 17:01:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57009)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kq1L3-0001RN-1q
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 17:01:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608242491;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=C6wn7due1XakCHxGpE4fEAFq/ym+1X8S05mpbVM9AE8=;
- b=SLOk+MoPe7ydCUfhVvDWZG6MXNWPZIaFww26TcWBG2Vm7LLHptF6eajK6hGZ4p6ed6gDK6
- Nh0G+972LsBOsixn6OwNOsxGvuk5cJpuG9+ofl3V/ki+Hd+unLTTiVMhr9uNTatc2A211v
- UbXTD23S2slUerISStajOsRLXKD1RoU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-cBwcLqVON_aT4iOYJ__yGQ-1; Thu, 17 Dec 2020 17:01:27 -0500
-X-MC-Unique: cBwcLqVON_aT4iOYJ__yGQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1FB2800D55;
- Thu, 17 Dec 2020 22:01:25 +0000 (UTC)
-Received: from localhost (ovpn-115-226.rdu2.redhat.com [10.10.115.226])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 77DE560BE5;
- Thu, 17 Dec 2020 22:01:22 +0000 (UTC)
-Date: Thu, 17 Dec 2020 17:01:21 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: dangers of current NEED_CPU_H, CONFIG_SOFTMMU, CONFIG_USER_ONLY
- (was: [PATCH v11 7/7] cpu: introduce cpu_accel_instance_init)
-Message-ID: <20201217220121.GN3140057@habkost.net>
-References: <20201211100908.19696-1-cfontana@suse.de>
- <20201211100908.19696-8-cfontana@suse.de>
- <e47ef5e5-2053-d98d-9cd5-f6d96c423c82@suse.de>
- <CAFEAcA8FL23_bZaOM_u8CdSQoCrrQ2SxnuOoU0H9kPFeANyT0A@mail.gmail.com>
- <CAFEAcA8RyT58QCX=UpfGRrOvBZWAC7Jhvq0t+X2cAX7qEjhfkQ@mail.gmail.com>
- <CABgObfaQBuwQ3UHC6VLm03Y=djQQnorT+Ecqx5QLe0oz_XrAXQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CABgObfaQBuwQ3UHC6VLm03Y=djQQnorT+Ecqx5QLe0oz_XrAXQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1kq1Zr-0001CY-W4; Thu, 17 Dec 2020 17:16:52 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1kq1Zo-00032E-AP; Thu, 17 Dec 2020 17:16:51 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0BHM2P1s085625; Thu, 17 Dec 2020 17:16:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject : date : message-id; s=pp1;
+ bh=Q5wqvAnUrrf2gG98MTfSnb4MHO4FIPVnWHbIT5kcrms=;
+ b=alhYKBVD1B5NVBVYBm3xgTUIG6Ea6Qi7DHw7g43L7TeC4wy9Q8MyInAuCEjeYbzLyRQ5
+ 9puaUSPxHmWqRfkxvT+jVIbaEa8E7d82yo/WoxsIVnTUCBDQYGuf7l9b0JRNFGP/oQkA
+ 3/AtFdCWvB2CwS1SET2/X/Pih8z0TuO1SeQ3MAnxfrn//kUSeVvZRN4ksDB1VNe2TAdJ
+ fbLTTjDd7i+jYXV2mjpYjMyffnNzkhkGlJGjgezS6rpamnnjlDrz7hvO2jXhI9LSiVOR
+ ho7AZ88EVPLALsym7mLkACvIaS2RDM+tSRwDGuvbl8ssAzL9LC7Qu73YQ/vfAYkqVs+J Dw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35gfn88enn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Dec 2020 17:16:44 -0500
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BHM2QMD085772;
+ Thu, 17 Dec 2020 17:16:44 -0500
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35gfn88en6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Dec 2020 17:16:44 -0500
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BHMC8fW014053;
+ Thu, 17 Dec 2020 22:16:43 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma03wdc.us.ibm.com with ESMTP id 35cng9tsu2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 17 Dec 2020 22:16:43 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0BHMGfSc12648932
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 17 Dec 2020 22:16:41 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A32676A047;
+ Thu, 17 Dec 2020 22:16:41 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 930626A077;
+ Thu, 17 Dec 2020 22:16:40 +0000 (GMT)
+Received: from oc4221205838.ibm.com (unknown [9.211.143.229])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 17 Dec 2020 22:16:40 +0000 (GMT)
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+To: cohuck@redhat.com, thuth@redhat.com
+Subject: [PATCH v2 0/2] s390x/pci: some pcistb fixes
+Date: Thu, 17 Dec 2020 17:16:35 -0500
+Message-Id: <1608243397-29428-1-git-send-email-mjrosato@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-17_14:2020-12-17,
+ 2020-12-17 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ spamscore=0 mlxscore=0 impostorscore=0 phishscore=0 mlxlogscore=999
+ adultscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012170142
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,84 +100,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Claudio Fontana <cfontana@suse.de>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Alex Bennee <alex.bennee@linaro.org>
+Cc: pmorel@linux.ibm.com, david@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 17, 2020 at 10:13:17PM +0100, Paolo Bonzini wrote:
-> I will take a look, CONFIG_USER_ONLY is definitely something that should be
-> poisoned.
+Here are a few fixes pulled out of the 'Fixing s390 vfio-pci ISM support'
+patchset.
 
-Thanks!  I started looking at it, but I gave up when I realized
-how much work it would required.  :)
+v2:
+- Changed loop pattern for patch 2.  @Thomas to be on the safe side I
+didn't include your RB since I changed code, please have a look.
 
-In any case, feel free to reuse the 2 small commits I've just pushed to
-https://gitlab.com/ehabkost/qemu/-/commits/work/poison-user-only
+If there are further issues/comments I will address them after the
+holidays, these aren't urgent fixes.  Thanks!
 
-> 
-> Paolo
-> 
-> Il gio 17 dic 2020, 21:26 Peter Maydell <peter.maydell@linaro.org> ha
-> scritto:
-> 
-> > On Thu, 17 Dec 2020 at 20:15, Peter Maydell <peter.maydell@linaro.org>
-> > wrote:
-> > > (So in theory we could make CONFIG_USER_ONLY
-> > > a poisoned identifier but that will require some work to
-> > > adjust places where we currently use it in "safe" ways...)
-> >
-> > Specifically, putting it in poison.h turns up these places
-> > that would need to be made to do what they're doing in a
-> > different way somehow:
-> >
-> > ../../hw/core/cpu.c:211:14: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/disas/disas.h:27:13: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/exec/address-spaces.h:24:9: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/exec/cpu-common.h:20:14: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/exec/cpu-common.h:6:9: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/exec/ioport.h:43:9: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/exec/memory.h:17:9: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/exec/ramblock.h:22:9: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/hw/core/cpu.h:1035:8: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/hw/core/cpu.h:518:14: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/hw/core/cpu.h:602:9: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/hw/hw.h:4:8: error: attempt to use poisoned "CONFIG_USER_ONLY"
-> > include/hw/semihosting/semihost.h:29:8: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/sysemu/accel.h:40:9: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/sysemu/cpus.h:65:9: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/sysemu/dma.h:34:9: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> > include/sysemu/xen.h:27:9: error: attempt to use poisoned
-> > "CONFIG_USER_ONLY"
-> >
-> > That cpu.c one is definitely dubious given it's in a C file,
-> > not a header.
-> >
-> > thanks
-> > -- PMM
-> >
-> >
+Matthew Rosato (2):
+  s390x/pci: fix pcistb length
+  s390x/pci: Fix memory_region_access_valid call
+
+ hw/s390x/s390-pci-inst.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
 -- 
-Eduardo
+1.8.3.1
 
 
