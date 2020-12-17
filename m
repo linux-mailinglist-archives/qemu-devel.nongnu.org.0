@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA0C2DD387
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:02:21 +0100 (CET)
-Received: from localhost ([::1]:39534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF962DD3FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 16:20:57 +0100 (CET)
+Received: from localhost ([::1]:51936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpunM-0003kR-I5
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:02:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33108)
+	id 1kpv5M-00051i-T3
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 10:20:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpudp-0003Ls-SD
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:52:30 -0500
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:40704)
+ id 1kpudx-0003Pa-S5
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:52:37 -0500
+Received: from mail-oo1-xc31.google.com ([2607:f8b0:4864:20::c31]:42133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kpudm-0004uN-8c
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:52:29 -0500
-Received: by mail-ot1-x334.google.com with SMTP id j12so27484861ota.7
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 06:52:25 -0800 (PST)
+ id 1kpudn-0004uS-VD
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 09:52:37 -0500
+Received: by mail-oo1-xc31.google.com with SMTP id x203so6868878ooa.9
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 06:52:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bBAAD2EsIW/155GIjaU48r4O2esHCcXs+AbT7vfXmho=;
- b=O/+k+KSr9hvaCLLhNFSRZoTnmppJsZP+iKhkMRFeOFLZJqY26DarRxtegaaKIqR4Gg
- oUDWgneg0fssO7iZiPNDR7XghhU6asWG6eEhc5LhbARpH2yhIw5HhEb6eHgtV3zLXhjR
- ZYw6vWPt+/Gy2f6xOxfgz0q29sjPwb0aFWoZ0Ro84C+CSwFXQ0LAEXxUwrTAQMRQn5m3
- W3JmIcXrjThbe+55Gf9FqJafueB9wzagg6Q+yuJ04GhWbZu/fHLDlwSfOxe8ryg1MWjE
- RgPNEwSUB4ghqiAU5nbj5QhDOMZARPPiIQCLKuomyc73nezOFywBjUte5cKa5a2O+pQg
- 2UQQ==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=KysIP4SxxPHUzbaJQ7kkTPCy9I7LKQnOtelCJefhblY=;
+ b=yIKD49JAu+6AueDqQFIaf02ddPzsHKJ54J+oQYJJYI7EAB875UO8mMJvzJNmDFCcVS
+ +abi1Nu9XI+QU/MzII5299JymmjCEgNKuzEoYq3jpfzcRhsq3/F67dYjh4U8agAtcn7W
+ zdENWOTlSi0ES2jfGah5rTbJfy9U/RnVJFuZYBcT3U/0x3FxrViAeopQAnHKxvuU3afc
+ Z2irNilExahD2gecsuMaGa6KFvUBjVsiLXhg3yeLwQS52iE5U2J1dS3aaWV+c+BX8PJ6
+ mEY8ES8Lg0yY8jaAaHrwBnBChDwe7YDmpGRYo6pXngsccDzyOf3+FNMt5jNabt9c24Zd
+ ojCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bBAAD2EsIW/155GIjaU48r4O2esHCcXs+AbT7vfXmho=;
- b=aC8FXCVFhlib+JW/ANN+mtDFPyEw74VZoROVGWWJJagvj2lz9qySiOyVDuHDwJNSsI
- qlZH5YNyjkOL+R02yXazDZtWh/hmOec6z/sYtRVXFrQNOCpLva5SSTdoR9u7/GGbQC+/
- FmUYhVySMKIb0C04d9Ic407W6uEklCfvGZVinUjHoXXjozvaeWT6LLMUVZxVYe3adAJW
- fh+gJ38CTiYH5UKGJHi1rbjUAUwUOd5f8FlwgVxCNXkQ/XwCx3NcpXhFfs+pIe5Na+3D
- S3VjYHLcZwJZQjFfgPs7xwXz0cShXYdvLQrqfcMcMpJrL4qmxXVf8tCeQVgCotbQTzMR
- pTUw==
-X-Gm-Message-State: AOAM5334gYGC51LNlydlDWzis8d048bmrezvUN2hXJzfvj88PMdHbn9k
- HvVDgh+v0ADiMefLBhooYcICg1ElJtFXUaTC
-X-Google-Smtp-Source: ABdhPJxGni9k6cd01JtRDVAVzjieOeYlYDMWLw34gCAoHeQCwhq5ayBUbpTwn4zSvupBYrFYZINlUw==
-X-Received: by 2002:a9d:a4e:: with SMTP id 72mr30361815otg.267.1608216744212; 
- Thu, 17 Dec 2020 06:52:24 -0800 (PST)
+ bh=KysIP4SxxPHUzbaJQ7kkTPCy9I7LKQnOtelCJefhblY=;
+ b=ROD/J04/nXaTiqokTwnGdkGF/uUz9wa8iXH0j0lPSjCvo0QjBhQkeQBgZeQRFDRp0X
+ z5DpGOD9UgNnSnOTxhG6ydigBejaGRcIV8nuMuyTOURuNfHMWqCsMilRqwdkSFQCEfCA
+ cnimqCN+xsPM1/CrgNgwJXMPmcAn69/3I7fWW3vXov0BxDzCTRdeoExF4MOTkTkAi9AH
+ XPJO/zvYKcEE5ljwhRN9a3dS1uON5v3GLxeMH7wVHVfUyeglt5avaKSPt+lMWj8E/dLi
+ 5QN0co5j8/K/YN+ekS0yPvZR1J78N2F4kSlsfDK8RQug+0DBPqpIHwmLPgqkXMom7Uph
+ 1xXQ==
+X-Gm-Message-State: AOAM531YZb3JTHcItKCIjwvVyw1HAIyqE1e3scjB93PF0ocSoOWddVS5
+ zldApR2xDIN3KW+oKqoH8mQ+GLoks+O6nXlM
+X-Google-Smtp-Source: ABdhPJx7cw/RRdbNjjHgIsxZqMN1CB4FuLYzb1Sv9s+rE5t1Uz4ySEXN8gkAZiAfU36HgItADfbuWg==
+X-Received: by 2002:a4a:6c45:: with SMTP id u5mr13203208oof.61.1608216745352; 
+ Thu, 17 Dec 2020 06:52:25 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id x130sm1136342oif.3.2020.12.17.06.52.23
+ by smtp.gmail.com with ESMTPSA id x130sm1136342oif.3.2020.12.17.06.52.24
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 06:52:23 -0800 (PST)
+ Thu, 17 Dec 2020 06:52:24 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 06/23] tcg: Rename struct tcg_temp_info to TempOptInfo
-Date: Thu, 17 Dec 2020 08:51:58 -0600
-Message-Id: <20201217145215.534637-7-richard.henderson@linaro.org>
+Subject: [PATCH v5 07/23] tcg: Expand TempOptInfo to 64-bits
+Date: Thu, 17 Dec 2020 08:51:59 -0600
+Message-Id: <20201217145215.534637-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201217145215.534637-1-richard.henderson@linaro.org>
 References: <20201217145215.534637-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x334.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c31;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,133 +84,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix this name vs our coding style.
+This propagates the extended value of TCGTemp.val that we did before.
+In addition, it will be required for vector constants.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 32 ++++++++++++++++----------------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ tcg/optimize.c | 40 +++++++++++++++++++++-------------------
+ 1 file changed, 21 insertions(+), 19 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 3cffd941bd..81faf7cf10 100644
+index 81faf7cf10..33d1fc8f87 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -35,20 +35,20 @@
-         glue(glue(case INDEX_op_, x), _i64):    \
-         glue(glue(case INDEX_op_, x), _vec)
- 
--struct tcg_temp_info {
-+typedef struct TempOptInfo {
+@@ -39,8 +39,8 @@ typedef struct TempOptInfo {
      bool is_const;
      TCGTemp *prev_copy;
      TCGTemp *next_copy;
-     tcg_target_ulong val;
-     tcg_target_ulong mask;
--};
-+} TempOptInfo;
+-    tcg_target_ulong val;
+-    tcg_target_ulong mask;
++    uint64_t val;
++    uint64_t mask;
+ } TempOptInfo;
  
--static inline struct tcg_temp_info *ts_info(TCGTemp *ts)
-+static inline TempOptInfo *ts_info(TCGTemp *ts)
- {
-     return ts->state_ptr;
+ static inline TempOptInfo *ts_info(TCGTemp *ts)
+@@ -166,11 +166,11 @@ static bool args_are_copies(TCGArg arg1, TCGArg arg2)
+     return ts_are_copies(arg_temp(arg1), arg_temp(arg2));
  }
  
--static inline struct tcg_temp_info *arg_info(TCGArg arg)
-+static inline TempOptInfo *arg_info(TCGArg arg)
+-static void tcg_opt_gen_movi(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg val)
++static void tcg_opt_gen_movi(TCGContext *s, TCGOp *op, TCGArg dst, uint64_t val)
  {
-     return ts_info(arg_temp(arg));
- }
-@@ -71,9 +71,9 @@ static inline bool ts_is_copy(TCGTemp *ts)
- /* Reset TEMP's state, possibly removing the temp for the list of copies.  */
- static void reset_ts(TCGTemp *ts)
- {
--    struct tcg_temp_info *ti = ts_info(ts);
--    struct tcg_temp_info *pi = ts_info(ti->prev_copy);
--    struct tcg_temp_info *ni = ts_info(ti->next_copy);
-+    TempOptInfo *ti = ts_info(ts);
-+    TempOptInfo *pi = ts_info(ti->prev_copy);
-+    TempOptInfo *ni = ts_info(ti->next_copy);
+     const TCGOpDef *def;
+     TCGOpcode new_op;
+-    tcg_target_ulong mask;
++    uint64_t mask;
+     TempOptInfo *di = arg_info(dst);
  
-     ni->prev_copy = ti->prev_copy;
-     pi->next_copy = ti->next_copy;
-@@ -89,12 +89,12 @@ static void reset_temp(TCGArg arg)
- }
+     def = &tcg_op_defs[op->opc];
+@@ -204,7 +204,7 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
+     const TCGOpDef *def;
+     TempOptInfo *di;
+     TempOptInfo *si;
+-    tcg_target_ulong mask;
++    uint64_t mask;
+     TCGOpcode new_op;
  
- /* Initialize and activate a temporary.  */
--static void init_ts_info(struct tcg_temp_info *infos,
-+static void init_ts_info(TempOptInfo *infos,
-                          TCGTempSet *temps_used, TCGTemp *ts)
- {
-     size_t idx = temp_idx(ts);
-     if (!test_bit(idx, temps_used->l)) {
--        struct tcg_temp_info *ti = &infos[idx];
-+        TempOptInfo *ti = &infos[idx];
- 
-         ts->state_ptr = ti;
-         ti->next_copy = ts;
-@@ -105,7 +105,7 @@ static void init_ts_info(struct tcg_temp_info *infos,
+     if (ts_are_copies(dst_ts, src_ts)) {
+@@ -247,7 +247,7 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
      }
  }
  
--static void init_arg_info(struct tcg_temp_info *infos,
-+static void init_arg_info(TempOptInfo *infos,
-                           TCGTempSet *temps_used, TCGArg arg)
+-static TCGArg do_constant_folding_2(TCGOpcode op, TCGArg x, TCGArg y)
++static uint64_t do_constant_folding_2(TCGOpcode op, uint64_t x, uint64_t y)
  {
-     init_ts_info(infos, temps_used, arg_temp(arg));
-@@ -171,7 +171,7 @@ static void tcg_opt_gen_movi(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg val)
-     const TCGOpDef *def;
-     TCGOpcode new_op;
-     tcg_target_ulong mask;
--    struct tcg_temp_info *di = arg_info(dst);
-+    TempOptInfo *di = arg_info(dst);
+     uint64_t l64, h64;
  
-     def = &tcg_op_defs[op->opc];
-     if (def->flags & TCG_OPF_VECTOR) {
-@@ -202,8 +202,8 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
-     TCGTemp *dst_ts = arg_temp(dst);
-     TCGTemp *src_ts = arg_temp(src);
-     const TCGOpDef *def;
--    struct tcg_temp_info *di;
--    struct tcg_temp_info *si;
-+    TempOptInfo *di;
-+    TempOptInfo *si;
-     tcg_target_ulong mask;
-     TCGOpcode new_op;
+@@ -410,10 +410,10 @@ static TCGArg do_constant_folding_2(TCGOpcode op, TCGArg x, TCGArg y)
+     }
+ }
  
-@@ -236,7 +236,7 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
-     di->mask = mask;
- 
-     if (src_ts->type == dst_ts->type) {
--        struct tcg_temp_info *ni = ts_info(si->next_copy);
-+        TempOptInfo *ni = ts_info(si->next_copy);
- 
-         di->next_copy = si->next_copy;
-         di->prev_copy = src_ts;
-@@ -599,7 +599,7 @@ void tcg_optimize(TCGContext *s)
+-static TCGArg do_constant_folding(TCGOpcode op, TCGArg x, TCGArg y)
++static uint64_t do_constant_folding(TCGOpcode op, uint64_t x, uint64_t y)
  {
-     int nb_temps, nb_globals;
-     TCGOp *op, *op_next, *prev_mb = NULL;
--    struct tcg_temp_info *infos;
-+    TempOptInfo *infos;
-     TCGTempSet temps_used;
- 
-     /* Array VALS has an element for each temp.
-@@ -610,7 +610,7 @@ void tcg_optimize(TCGContext *s)
-     nb_temps = s->nb_temps;
-     nb_globals = s->nb_globals;
-     bitmap_zero(temps_used.l, nb_temps);
--    infos = tcg_malloc(sizeof(struct tcg_temp_info) * nb_temps);
-+    infos = tcg_malloc(sizeof(TempOptInfo) * nb_temps);
+     const TCGOpDef *def = &tcg_op_defs[op];
+-    TCGArg res = do_constant_folding_2(op, x, y);
++    uint64_t res = do_constant_folding_2(op, x, y);
+     if (!(def->flags & TCG_OPF_64BIT)) {
+         res = (int32_t)res;
+     }
+@@ -501,8 +501,9 @@ static bool do_constant_folding_cond_eq(TCGCond c)
+ static TCGArg do_constant_folding_cond(TCGOpcode op, TCGArg x,
+                                        TCGArg y, TCGCond c)
+ {
+-    tcg_target_ulong xv = arg_info(x)->val;
+-    tcg_target_ulong yv = arg_info(y)->val;
++    uint64_t xv = arg_info(x)->val;
++    uint64_t yv = arg_info(y)->val;
++
+     if (arg_is_const(x) && arg_is_const(y)) {
+         const TCGOpDef *def = &tcg_op_defs[op];
+         tcg_debug_assert(!(def->flags & TCG_OPF_VECTOR));
+@@ -613,9 +614,8 @@ void tcg_optimize(TCGContext *s)
+     infos = tcg_malloc(sizeof(TempOptInfo) * nb_temps);
  
      QTAILQ_FOREACH_SAFE(op, &s->ops, link, op_next) {
-         tcg_target_ulong mask, partmask, affected;
+-        tcg_target_ulong mask, partmask, affected;
++        uint64_t mask, partmask, affected, tmp;
+         int nb_oargs, nb_iargs, i;
+-        TCGArg tmp;
+         TCGOpcode opc = op->opc;
+         const TCGOpDef *def = &tcg_op_defs[opc];
+ 
+@@ -1221,14 +1221,15 @@ void tcg_optimize(TCGContext *s)
+ 
+         CASE_OP_32_64(extract2):
+             if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
+-                TCGArg v1 = arg_info(op->args[1])->val;
+-                TCGArg v2 = arg_info(op->args[2])->val;
++                uint64_t v1 = arg_info(op->args[1])->val;
++                uint64_t v2 = arg_info(op->args[2])->val;
++                int shr = op->args[3];
+ 
+                 if (opc == INDEX_op_extract2_i64) {
+-                    tmp = (v1 >> op->args[3]) | (v2 << (64 - op->args[3]));
++                    tmp = (v1 >> shr) | (v2 << (64 - shr));
+                 } else {
+-                    tmp = (int32_t)(((uint32_t)v1 >> op->args[3]) |
+-                                    ((uint32_t)v2 << (32 - op->args[3])));
++                    tmp = (int32_t)(((uint32_t)v1 >> shr) |
++                                    ((uint32_t)v2 << (32 - shr)));
+                 }
+                 tcg_opt_gen_movi(s, op, op->args[0], tmp);
+                 break;
+@@ -1267,9 +1268,10 @@ void tcg_optimize(TCGContext *s)
+                 break;
+             }
+             if (arg_is_const(op->args[3]) && arg_is_const(op->args[4])) {
+-                tcg_target_ulong tv = arg_info(op->args[3])->val;
+-                tcg_target_ulong fv = arg_info(op->args[4])->val;
++                uint64_t tv = arg_info(op->args[3])->val;
++                uint64_t fv = arg_info(op->args[4])->val;
+                 TCGCond cond = op->args[5];
++
+                 if (fv == 1 && tv == 0) {
+                     cond = tcg_invert_cond(cond);
+                 } else if (!(tv == 1 && fv == 0)) {
 -- 
 2.25.1
 
