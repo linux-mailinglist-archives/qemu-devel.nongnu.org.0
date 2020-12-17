@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6338D2DCE20
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:15:47 +0100 (CET)
-Received: from localhost ([::1]:45568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F7C2DCE31
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:22:17 +0100 (CET)
+Received: from localhost ([::1]:49230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kppNx-0007bX-T0
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:15:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42476)
+	id 1kppUG-00017A-02
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:22:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kppMO-00073z-EB
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:14:08 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:36827)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kppT0-0000fJ-RD
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:20:58 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kppMM-0006ew-PC
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:14:08 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id lt17so36817127ejb.3
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:14:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LfsOLhAWMVJ2deCuay3ook5aFVWeXApOj+vJo+lp9yU=;
- b=RVeWqM+sSa/0ckyCm4aqpCfGURUDlJSm5UNmK31t6IVy6urfWYqWDqUFKvAkhg0VfD
- YOSj6C4jVixKY1nK+KPE3bnxA7vg/eBu112ZYCundEmn6jPhGKaepd5ZD/zX6K67IJ8R
- RAQAK8YQhkjVWfFwFCRpU4D2FuzK01AFx7aqjaIM6UYX6hzdUmgsBUUIgi3Y+em1Thst
- ugHFcigFNdHQ+JihGIWskR+wf4lX8ucu+2OGQ6t7ZT1bjEMBxiTBuJlPr+EvfCn8EAu0
- tbi2cVIxaM1lodevrjQD3ywl3LAAH43Cf9IHa9k0e9S/u1TaBc77Hf0uK1xLdTJVUkLD
- O3zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=LfsOLhAWMVJ2deCuay3ook5aFVWeXApOj+vJo+lp9yU=;
- b=R9ChzKy4ABUTUIFF1Pg0nG42Hfsd1Mo8xA3iYzEgDv76Tedi3ZVBXt+PiPqA6XQj5u
- f42o7xdiD5Ua3NsphlL1dnh3dersE/GSb4Sxohox7w0l9SBjLab+tVHHhvmXYkxUmcPE
- weTkXkA43k70+dA5rv/DQgZIViow4veATc8mIDYKSmwAzilUbqi62vPto7xQP+N2pCh3
- nISydw2ypJuE5ovR3ZMcfuOS5hzlImkRu9DGgcscKtkDNDwMSc0+KTWs6M4FBqDCUIrw
- aHI51Hpvwry+R4SiU/Msyd+SP0IGuHx9TQ/gSe1I3UOJJ4BkIAewD6rCFAtYJNGiryho
- YFwA==
-X-Gm-Message-State: AOAM533BnxR97AIr9TZVoM1EDfa7bXiMjU2i3USJ8UVdMfdmh9wsfXrW
- ZMXJbXvnok2xaDkdAGfo5Y6JwGCJWAs=
-X-Google-Smtp-Source: ABdhPJxk8XvHAtXsP1JXPHkA3kka3m4XzGODp2LcDn2So1QbFsSeyVkvDcGoQsIjbXIPo/pG+Keoqg==
-X-Received: by 2002:a17:906:56ca:: with SMTP id
- an10mr34126777ejc.498.1608196445214; 
- Thu, 17 Dec 2020 01:14:05 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id e21sm22746778edv.96.2020.12.17.01.14.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 01:14:04 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] vl: initialize displays _after_ exiting preconfiguration
-Date: Thu, 17 Dec 2020 10:14:03 +0100
-Message-Id: <20201217091403.36195-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kppSy-0000kO-SK
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:20:58 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kppSv-0007ad-Up
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 09:20:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D9B862E813B
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 09:20:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 17 Dec 2020 09:15:06 -0000
+From: Luqman <1908489@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: luqmana
+X-Launchpad-Bug-Reporter: Luqman (luqmana)
+X-Launchpad-Bug-Modifier: Luqman (luqmana)
+References: <160818582988.15420.16250079431178848252.malonedeb@soybean.canonical.com>
+Message-Id: <160819650721.3633.7137990688169103960.malone@gac.canonical.com>
+Subject: [Bug 1908489] Re: qemu 4.2 bootloops with -cpu host and nested
+ hypervisor
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="a68a6d599c812dd1dd335307d9c5c017c50ba81b"; Instance="production"
+X-Launchpad-Hash: e8ff3956afb6bb6f7f0f0e713d9d97c481be6a60
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,41 +70,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>
+Reply-To: Bug 1908489 <1908489@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Due to the renumbering of text consoles when graphical consoles are
-created, init_displaystate must be called after all QemuConsoles are
-created, i.e. after devices are created.
+** Attachment added: "vmxcap"
+   https://bugs.launchpad.net/qemu/+bug/1908489/+attachment/5444455/+files/=
+vmxcap.txt
 
-vl.c calls it from qemu_init_displays, while qmp_x_exit_preconfig is
-where devices are created.  If qemu_init_displays is called before it,
-the VGA graphical console does not come up.
+-- =
 
-Reported-by: Howard Spoelstra <hsp.cat7@gmail.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- softmmu/vl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1908489
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 0ed5c5ba93..7ddf405d76 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3529,10 +3529,10 @@ void qemu_init(int argc, char **argv, char **envp)
-         exit(0);
-     }
- 
--    qemu_init_displays();
-     if (!preconfig_requested) {
-         qmp_x_exit_preconfig(&error_fatal);
-     }
-+    qemu_init_displays();
-     accel_setup_post(current_machine);
-     os_setup_post();
-     resume_mux_open();
--- 
-2.29.2
+Title:
+  qemu 4.2 bootloops with -cpu host and nested hypervisor
 
+Status in QEMU:
+  New
+
+Bug description:
+  I've noticed that after upgrading from Ubuntu 18.04 to 20.04 that
+  nested virtualization isn't working anymore.
+
+  I have a simple repro where I create a Windows 10 2004 guest and
+  enable Hyper-V in it. This worked fine in 18.04 and specifically qemu
+  <4.2 (I specifically tested Qemu 2.11-4.1 which work fine).
+
+  The -cpu arg I'm passing is simply:
+      -cpu host,l3-cache=3Don,hv_relaxed,hv_spinlocks=3D0x1fff,hv_vapic,hv_=
+time
+
+  Using that Windows won't boot because the nested hypervisor (Hyper-V)
+  is unable to be initialize and so it just boot loops. Using the exact
+  same qemu command works fine with 4.1 and lower.
+
+  Switching to a named CPU model like Skylake-Client-noTSX-IBRS instead
+  of host lets the VM boot but causes some weird behaviour later trying
+  to use nested VMs.
+
+  If I had to guess I think it would probably be related to this change
+  https://github.com/qemu/qemu/commit/20a78b02d31534ae478779c2f2816c273601e=
+869
+  which would line up with 4.2 being the first bad version but unsure.
+
+  For now I just have to keep an older build of QEMU to work around
+  this. Let me know if there's anything else needed. I can also try out
+  any patches. I already have at least a dozen copies of qemu lying
+  around now.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1908489/+subscriptions
 
