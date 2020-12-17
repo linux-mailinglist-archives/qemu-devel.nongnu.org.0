@@ -2,42 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 296942DD5D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:14:32 +0100 (CET)
-Received: from localhost ([::1]:46342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638E92DD5FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:24:03 +0100 (CET)
+Received: from localhost ([::1]:36318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpwrH-0008B2-5H
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:14:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35022)
+	id 1kpx0S-0007j5-WF
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:24:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kpwd5-0005ZH-8k
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:59:53 -0500
-Received: from relay.sw.ru ([185.231.240.75]:46642 helo=relay3.sw.ru)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kpwcz-0003Om-8F
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 11:59:50 -0500
-Received: from [192.168.15.61] (helo=andrey-MS-7B54.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.94)
- (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kpwcW-00DOsx-Qy; Thu, 17 Dec 2020 19:59:16 +0300
-To: qemu-devel@nongnu.org
-Subject: [PATCH v10 5/5] migration: introduce 'userfaultfd-wrlat.py' script
-Date: Thu, 17 Dec 2020 19:57:12 +0300
-Message-Id: <20201217165712.369061-6-andrey.gruzdev@virtuozzo.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201217165712.369061-1-andrey.gruzdev@virtuozzo.com>
-References: <20201217165712.369061-1-andrey.gruzdev@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kpwfu-0007AH-UG
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:02:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60135)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kpwfq-00046g-OJ
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:02:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608224559;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2ChTPvZbdFZfTkVx4qvlsErYXEtHWDc59eRJmHdQmUg=;
+ b=OGE5pTT54s7TuAhnbwCozDAWKVsLCfWM7VJY2w/2NHaAk4/6x6FRZNjFJwxe+SGeSLv1J3
+ AC0NFHBKIVR/G7XoVnsEjED+CNDj5rh3bx5iMwI8YtQPh4E2BQX3fevIqNKcO7ydfFmSt8
+ ljFipNKy0CSkMXupF10tQOvOjGMT59k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-slCZaERsNROoWtHgY7WXow-1; Thu, 17 Dec 2020 12:02:36 -0500
+X-MC-Unique: slCZaERsNROoWtHgY7WXow-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A78559
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 17:02:35 +0000 (UTC)
+Received: from [10.10.112.131] (ovpn-112-131.rdu2.redhat.com [10.10.112.131])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C375E669ED;
+ Thu, 17 Dec 2020 17:02:30 +0000 (UTC)
+Subject: Re: [PATCH 08/12] qapi/schema: make QAPISourceInfo mandatory
+To: Markus Armbruster <armbru@redhat.com>
+References: <20201214235327.1007124-1-jsnow@redhat.com>
+ <20201214235327.1007124-9-jsnow@redhat.com>
+ <875z52rr3h.fsf@dusky.pond.sub.org>
+ <60c5ae45-c1c4-8bac-9617-5366e49dac7e@redhat.com>
+ <87pn38lv1d.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <e9f43898-1c0b-54e3-59a7-d9064c2d86ea@redhat.com>
+Date: Thu, 17 Dec 2020 12:02:29 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay3.sw.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <87pn38lv1d.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -51,178 +84,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Den Lunev <den@openvz.org>, Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
-Add BCC/eBPF script to analyze userfaultfd write fault latency distribution.
+On 12/17/20 3:02 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> On 12/16/20 5:18 AM, Markus Armbruster wrote:
+>>> John Snow <jsnow@redhat.com> writes:
+>>>
+>>>> --
+>>>>
+>>>> events.py had an info to route, was it by choice that it wasn't before?
+>>>
+>>> See below.
+>>>
+>>> I figure this is intentionally below the -- line, but ...
+>>>
+>>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>>
+>>> ... this should be above it.
+>>>
+>>
+>> Script failure. Or human failure, because I used '--' instead of '---'.
+>>
+>>>> ---
+>>>>    scripts/qapi/events.py |  2 +-
+>>>>    scripts/qapi/schema.py | 23 +++++++++++++----------
+>>>>    scripts/qapi/types.py  |  9 +++++----
+>>>>    scripts/qapi/visit.py  |  6 +++---
+>>>>    4 files changed, 22 insertions(+), 18 deletions(-)
+>>>>
+>>>> diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+>>>> index 9851653b9d11..9ba4f109028d 100644
+>>>> --- a/scripts/qapi/events.py
+>>>> +++ b/scripts/qapi/events.py
+>>>> @@ -225,7 +225,7 @@ def visit_event(self,
+>>>>                                              self._event_emit_name))
+>>>>            # Note: we generate the enum member regardless of @ifcond, to
+>>>>            # keep the enumeration usable in target-independent code.
+>>>> -        self._event_enum_members.append(QAPISchemaEnumMember(name, None))
+>>>> +        self._event_enum_members.append(QAPISchemaEnumMember(name, info))
+>>>
+>>> We pass None because errors should never happen, and None makes that
+>>> quite clear.
+>>>
+>>
+>> Not clear: *why* should errors never happen? This is the only place we
+>> pass None for SourceInfo that isn't explicitly a literal built-in type.
+>> This is not obvious.
+> 
+> You're right, but there are two separate "unclarities".
+> 
+> Passing None effectively asserts "errors never happen".  We neglect to
+> explain why, leaving the reader guessing.
+> 
+> Passing @info "fixes" that by removing the assertion.  Now we have a
+> more subtle problem: will errors make sense with this @info?  Normally,
+> all members of an enum share one info.  Only this enum's members don't.
+> It turns out the question is moot because @info is not actually used.
+> But will it remain moot?  My point isn't that these are important
+> questions to answer.  It is that we're replacing the relatively obvious
+> question "why are we asserting errors can't happen" by more subtle ones.
+> Feels like sweeping dirt under the rug.
+> 
 
-Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
----
- scripts/userfaultfd-wrlat.py | 148 +++++++++++++++++++++++++++++++++++
- 1 file changed, 148 insertions(+)
- create mode 100755 scripts/userfaultfd-wrlat.py
+I'll grant you that. I'm going wide instead of deep, here. There were 
+200+ errors to fix, and not every last one got the same level of attention.
 
-diff --git a/scripts/userfaultfd-wrlat.py b/scripts/userfaultfd-wrlat.py
-new file mode 100755
-index 0000000000..5ffd3c6c9a
---- /dev/null
-+++ b/scripts/userfaultfd-wrlat.py
-@@ -0,0 +1,148 @@
-+#!/usr/bin/python3
-+#
-+# userfaultfd-wrlat Summarize userfaultfd write fault latencies.
-+#                   Events are continuously accumulated for the
-+#                   run, while latency distribution histogram is
-+#                   dumped each 'interval' seconds.
-+#
-+#                   For Linux, uses BCC, eBPF.
-+#
-+# USAGE: userfaultfd-lat [interval [count]]
-+#
-+# Copyright Virtuozzo GmbH, 2020
-+#
-+# Authors:
-+#   Andrey Gruzdev   <andrey.gruzdev@virtuozzo.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+from __future__ import print_function
-+from bcc import BPF
-+from ctypes import c_ushort, c_int, c_ulonglong
-+from time import sleep
-+from sys import argv
-+
-+def usage():
-+    print("USAGE: %s [interval [count]]" % argv[0])
-+    exit()
-+
-+# define BPF program
-+bpf_text = """
-+#include <uapi/linux/ptrace.h>
-+#include <linux/mm.h>
-+
-+/*
-+ * UFFD page fault event descriptor.
-+ * Used as a key to BPF_HASH table.
-+ */
-+struct ev_desc {
-+    u64 pid;
-+    u64 addr;
-+};
-+
-+BPF_HASH(ev_start, struct ev_desc, u64);
-+BPF_HASH(ctx_handle_userfault, u64, u64);
-+BPF_HISTOGRAM(ev_delta_hist, u64);
-+
-+/* Trace UFFD page fault start event. */
-+static void do_event_start(u64 pid, u64 address)
-+{
-+    struct ev_desc desc = { .pid = pid, .addr = address };
-+    u64 ts = bpf_ktime_get_ns();
-+
-+    ev_start.insert(&desc, &ts);
-+}
-+
-+/* Trace UFFD page fault end event. */
-+static void do_event_end(u64 pid, u64 address)
-+{
-+    struct ev_desc desc = { .pid = pid, .addr = address };
-+    u64 ts = bpf_ktime_get_ns();
-+    u64 *tsp;
-+
-+    tsp = ev_start.lookup(&desc);
-+    if (tsp) {
-+        u64 delta = ts - (*tsp);
-+        /* Transform time delta to milliseconds */
-+        ev_delta_hist.increment(bpf_log2l(delta / 1000000));
-+        ev_start.delete(&desc);
-+    }
-+}
-+
-+/* KPROBE for handle_userfault(). */
-+int probe_handle_userfault(struct pt_regs *ctx, struct vm_fault *vmf,
-+        unsigned long reason)
-+{
-+    /* Trace only UFFD write faults. */
-+    if (reason & VM_UFFD_WP) {
-+        u64 pid = (u32) bpf_get_current_pid_tgid();
-+        u64 addr = vmf->address;
-+
-+        do_event_start(pid, addr);
-+        ctx_handle_userfault.update(&pid, &addr);
-+    }
-+    return 0;
-+}
-+
-+/* KRETPROBE for handle_userfault(). */
-+int retprobe_handle_userfault(struct pt_regs *ctx)
-+{
-+    u64 pid = (u32) bpf_get_current_pid_tgid();
-+    u64 *addr_p;
-+
-+    /*
-+     * Here we just ignore the return value. In case of spurious wakeup
-+     * or pending signal we'll still get (at least for v5.8.0 kernel)
-+     * VM_FAULT_RETRY or (VM_FAULT_RETRY | VM_FAULT_MAJOR) here.
-+     * Anyhow, handle_userfault() would be re-entered if such case happens,
-+     * keeping initial timestamp unchanged for the faulting thread.
-+     */
-+    addr_p = ctx_handle_userfault.lookup(&pid);
-+    if (addr_p) {
-+        do_event_end(pid, *addr_p);
-+        ctx_handle_userfault.delete(&pid);
-+    }
-+    return 0;
-+}
-+"""
-+
-+# arguments
-+interval = 10
-+count = -1
-+if len(argv) > 1:
-+    try:
-+        interval = int(argv[1])
-+        if interval == 0:
-+            raise
-+        if len(argv) > 2:
-+            count = int(argv[2])
-+    except:    # also catches -h, --help
-+        usage()
-+
-+# load BPF program
-+b = BPF(text=bpf_text)
-+# attach KRPOBEs
-+b.attach_kprobe(event="handle_userfault", fn_name="probe_handle_userfault")
-+b.attach_kretprobe(event="handle_userfault", fn_name="retprobe_handle_userfault")
-+
-+# header
-+print("Tracing UFFD-WP write fault latency... Hit Ctrl-C to end.")
-+
-+# output
-+loop = 0
-+do_exit = 0
-+while (1):
-+    if count > 0:
-+        loop += 1
-+        if loop > count:
-+            exit()
-+    try:
-+        sleep(interval)
-+    except KeyboardInterrupt:
-+        pass; do_exit = 1
-+
-+    print()
-+    b["ev_delta_hist"].print_log2_hist("msecs")
-+    if do_exit:
-+        exit()
--- 
-2.25.1
+I definitely did just sweep some dirt under the rug.
+
+>>> We don't actually have a built-in QAPISchemaEnumType for the event enum.
+>>> We merely generate a C enum QAPIEvent along with macro QAPIEvent_str(),
+>>> by passing self._event_emit_name, self._event_enum_members straight to
+>>> gen_enum() and gen_enum_lookup().
+>>>
+>>> If we did build a QAPISchemaEnumType, and used it to diagnose clashes,
+>>> then clashes would be reported like
+>>>
+>>>       mumble.json: In event 'A-B':
+>>>       mumble.json: 2: value 'A-B' collides with value 'A_B'
+>>>
+>>> leaving you guessing what "value" means, and where 'A_B' may be.
+>>>
+>>> Bug: we don't diagnose certain event name clashes.  I'll fix it.
+>>>
+>>
+>> Not clear to me: If I want interface consistency, what *should* be
+>> passed downwards as the info? it's not quite a builtin as much as it is
+>> an inferred enum,
+> 
+> True.
+> 
+>>                    so should I just ... leave it like this, or wait for
+>> you to offer a better fix?
+> 
+> Waiting for some better fix feels undavisable.  We want to get type
+> checking in place sooner rather than later.
+> 
+
+OK. You mentioned fixing the conflicts, so I had thought maybe that was 
+near-term instead of long-term. We have cleared that misunderstanding up ;)
+
+> Aside: a possible fix is decoupling gen_enum_lookup() and gen_enum()
+> from QAPISchemaEnumMember, so we don't have to make up
+> QAPISchemaEnumMembers here.
+> 
+
+I'm not sure I have the broader picture here to do this, or the time to 
+focus on it. It's a bit of a deeper fix than the rest of the minor 
+refactorings I do in these series.
+
+> I think there are two interpretations of your QAPISourceInfo work's aim:
+> 
+> 1. Narrow: use a special QAPISourceInfo rather then None as "no errors
+>     shall happen" poison.
+> 
+>     QAPISourceInfo.builtin() returns this poison.  The name "builtin" is
+>     less than ideal.
+> 
+
+I did intend it to be used for explicit built-in types; this is an 
+"inferred" type, and I'd use a differently named poison for it, I suppose.
+
+> 2. Ambitious: eliminate "no errors shall happen".
+> 
+> We're discussing this in reply of PATCH 06.  I think we need to reach a
+> conclusion there before we can decide here.
+> 
+
+OK, I'll head over there. I'm still a bit confused over here, but we'll 
+get to it.
+
+
+>>>>    
+>>>>    
+>>>>    def gen_events(schema: QAPISchema,
+>>>> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+>>>> index 720449feee4d..d5f19732b516 100644
+>>>> --- a/scripts/qapi/schema.py
+>>>> +++ b/scripts/qapi/schema.py
+>>>> @@ -23,6 +23,7 @@
+>>>>    from .error import QAPIError, QAPISemError
+>>>>    from .expr import check_exprs
+>>>>    from .parser import QAPISchemaParser
+>>>> +from .source import QAPISourceInfo
+>>>>    
+>>>>    
+>>>>    class QAPISchemaEntity:
+>>>> @@ -36,10 +37,10 @@ def __init__(self, name, info, doc, ifcond=None, features=None):
+>>>>            self.name = name
+>>>>            self._module = None
+>>>>            # For explicitly defined entities, info points to the (explicit)
+>>>> -        # definition.  For builtins (and their arrays), info is None.
+>>>> -        # For implicitly defined entities, info points to a place that
+>>>> -        # triggered the implicit definition (there may be more than one
+>>>> -        # such place).
+>>>> +        # definition.  For builtins (and their arrays), info is a null-object
+>>>> +        # sentinel that evaluates to False. For implicitly defined entities,
+>>>> +        # info points to a place that triggered the implicit definition
+>>>> +        # (there may be more than one such place).
+>>>
+>>> s/builtins/built-in types/
+>>>
+>>> The meaning of "a null object sentinel" is less than clear.  Perhaps "a
+>>> special object".
+>>>
+>>
+>> OK.
+>>
+>>>>            self.info = info
+>>>>            self.doc = doc
+>>>>            self._ifcond = ifcond or []
+>>>> @@ -209,7 +210,7 @@ class QAPISchemaBuiltinType(QAPISchemaType):
+>>>>        meta = 'built-in'
+>>>>    
+>>>>        def __init__(self, name, json_type, c_type):
+>>>> -        super().__init__(name, None, None)
+>>>> +        super().__init__(name, QAPISourceInfo.builtin(), None)
+>>>>            assert not c_type or isinstance(c_type, str)
+>>>>            assert json_type in ('string', 'number', 'int', 'boolean', 'null',
+>>>>                                 'value')
+>>>> @@ -871,7 +872,7 @@ def resolve_type(self, name, info, what):
+>>>>            return typ
+>>>>    
+>>>>        def _module_name(self, fname):
+>>>> -        if fname is None:
+>>>> +        if not fname:
+>>>>                return None
+>>>>            return os.path.relpath(fname, self._schema_dir)
+>>>>    
+>>>
+>>> Sure this hunk belongs to this patch?
+>>>
+>>
+>> Accident.
+>>
+>> "info and info.fname" does not behave the same with a falsey info object
+>> as it does when info was genuinely None; I compensated for that *here*,
+>> but I should have compensated for it elsewhere.
+>>
+>>>> @@ -897,9 +898,11 @@ def _def_builtin_type(self, name, json_type, c_type):
+>>>>            # be nice, but we can't as long as their generated code
+>>>>            # (qapi-builtin-types.[ch]) may be shared by some other
+>>>>            # schema.
+>>>> -        self._make_array_type(name, None)
+>>>> +        self._make_array_type(name, QAPISourceInfo.builtin())
+>>>>    
+>>>>        def _def_predefineds(self):
+>>>> +        info = QAPISourceInfo.builtin()
+>>>> +
+>>>
+>>> Everything else gets its very own copy of the "no source info" object,
+>>> except for the stuff defined here, which gets to share one.  Isn't that
+>>> odd?
+>>>
+>>
+>> It's also the only function where we define so many built-ins in the
+>> same place, so spiritually they do have the same SourceInfo, right? :)
+>>
+>> (OK, no, it wasn't a conscious design choice, but it also seems
+>> harmless. I am going to assume you'd prefer I not do this?)
+> 
+> It is harmless.  It just made me wonder why we create more than one such
+> QAPISourceInfo in the first place.  Method builtin() could return the
+> same one every time.  It could even be an attribute instead of a method.
+> Anyway, no big deal.
+> 
+
+I could conceivably use source line information and stuff, to be 
+needlessly fancy about it. Nah. I just think singleton patterns are kind 
+of weird to implement in Python, so I didn't.
+
+--js
 
 
