@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1322DCED2
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:51:01 +0100 (CET)
-Received: from localhost ([::1]:41598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC5F2DCEF3
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 10:58:15 +0100 (CET)
+Received: from localhost ([::1]:58640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kppw4-000617-A9
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:51:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47792)
+	id 1kpq34-0004uR-AA
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 04:58:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kppmT-0004ta-B7
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:05 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:44929)
+ id 1kppmZ-0004xp-6J
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:12 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:35490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kppmN-0007lD-Ec
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:05 -0500
-Received: by mail-ed1-x529.google.com with SMTP id p22so27891438edu.11
+ id 1kppmO-0007lz-9O
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 04:41:10 -0500
+Received: by mail-ed1-x529.google.com with SMTP id u19so27970860edx.2
  for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 01:40:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eZF+riI0bftey6nWzva3b4atB2nE4nkBmnvVQo3cJOM=;
- b=pT6/QpU1Hb+04i26hYjRmgz4/ZntGEcG07ZX5aJHstRRbwFED7QNuAi06VjzR244OW
- p4njWkxCOza7NlHlA9Rfv7BVbnQWn6oMMbJWA64hCaip3iOgIDwZkuX/8zK0Kg5h4YLa
- 1BiFSX/v/ydx23UYIbR2lnxFqLbjMWJ5r+3vVl3ouR/7bNNuOJ2Al3zkg1Dq8y1XxHbg
- 6j9XD5lua1Ws1k0tSG2fb79yWKzikDcPVU1gh8FHNIQBWaFm0pfQcIAgJ85LfEOBRjfY
- oKiBFo3uuxc4ATskBMrZ6It18hxI9Y/Z6/Fd3vNcs42fA1X/AO3no22PqwaN0/ZftElX
- mKpw==
+ bh=vUEGmeFPHcUwApgJAGGVOl2ZiRp6LKFQ+cuO5XM1h3A=;
+ b=QT0sAwsLm8D72z1rfPVe/OujjYpt3IrICOlaWgE7LrWJI38YOy4ZhTKbq6EpRhGefr
+ ZOM+ow/JKwcBGsaOwPMp6c4AHT84z6ZX765OHGiRAT5aZw/6eEbJk4rSrL1+oTrItwVo
+ cLYHsqz47BcSENOZZMuUbnFGMemTdeiEuVq3KkQi0CCeroXULWTstNFs9BQkL7tMqFvs
+ j/zI0A9uM2Ur+rf/Y8c2T48uUKEJLaHnhRsoJMnKsdrwVVTg/+ZXnZR1ih2xUTfrNdaR
+ zWtmdg4tPUVVpv8S0v9Zk9Lp/BF4mkHMHYk0xO+KdphxNbIHRPUCNCarxClKgwr3zjL5
+ su0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eZF+riI0bftey6nWzva3b4atB2nE4nkBmnvVQo3cJOM=;
- b=X3if2ZDtSRqJb4s0JffGqDvmEgehKm7lscJKo+06fKbpOChnmxxf2NawMbPWAlN1iV
- Siu0M2uOBxpgxC67/SFjbYg8hGFvYZKXOZgyd+OJ/yOAd67b301OVPyyc+SNTf8c/ZeX
- ttKoznkvRURZevM2hBmypE9jJJGnd/cLI6PJxRW55FdjuIGnz8jByoSBtTbdYASeq2Za
- GFDj2pbxvB229tr9kxacHY7Lm3d9Bdo7r1LYI26Dl7A7ffdQ/q6wSZJYTjBXessHzAx1
- OQ5Bsc7dQv7CWTF0fE6+5p+tyNVLCqxfWkViFc5mN/CJpaEeTA8kWRD+UYSPKXLx435Y
- DY2Q==
-X-Gm-Message-State: AOAM531z4w1ZDUqHLQA0TBZaPTVaavz5vRMEVYmdnmZsuWJUcYFjDCJF
- tYdi+xvIjtYT6LSZ2py7OJ1is3HnmUU=
-X-Google-Smtp-Source: ABdhPJxpXwozskKdhUghI2TFBr8r57GO0FvfnkqyWpwPPBaJe6oqH88dZfMo2zynSdeX721roONNjA==
-X-Received: by 2002:aa7:cf85:: with SMTP id z5mr23326532edx.274.1608198058232; 
- Thu, 17 Dec 2020 01:40:58 -0800 (PST)
+ bh=vUEGmeFPHcUwApgJAGGVOl2ZiRp6LKFQ+cuO5XM1h3A=;
+ b=nd4odI0qlZ2r4ySwc46ZWp5wdcMtnW2p8NvBJoKrYB6ie/QQTihDcbrNQTyScxM0Tq
+ PRrw7k2WOI2KNngKvOAF0I7M6YjUKyu/Ctgnk909vLlrmbmx/zs2NM3x3ta05hciTbmP
+ w1s3hSt/2SMBMCSHA1O27cpk8iMXjq2v6Ce+Ym4a7lX7TE6rpmSSnv/fCjD+rah5N9rz
+ +vOVf6l0cUM+PzHjovftuOV/Z8Dlr/UuskT88FQ6YQuiggXuWonMlK5WVwO23l3ycFOl
+ mBDTzyANFC0Cd8LvzVhiFwAz8XUYm0hobmq8Ez2FOBVqZkuKZcdIRSmIINuhocgsV+EB
+ H8hA==
+X-Gm-Message-State: AOAM531JPi+f2y9DS0hmfZAf7KOG/vcjDfyKNdNXpyENHNXuzRrDkjKe
+ 7qtgbl+Uj16EPzN0BLQUTTl9+P4z5NI=
+X-Google-Smtp-Source: ABdhPJw4ztnqBQnOiDDIDCvaK0ZcUrN7biIYMJAFJR1xYG1d2JS9vgaZr32XEkAKXD9ImPqylJXmkw==
+X-Received: by 2002:a50:fc8b:: with SMTP id f11mr37869388edq.11.1608198059079; 
+ Thu, 17 Dec 2020 01:40:59 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id rs27sm3463677ejb.21.2020.12.17.01.40.57
+ by smtp.gmail.com with ESMTPSA id rs27sm3463677ejb.21.2020.12.17.01.40.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Dec 2020 01:40:57 -0800 (PST)
+ Thu, 17 Dec 2020 01:40:58 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/18] zstd: convert to meson
-Date: Thu, 17 Dec 2020 10:40:39 +0100
-Message-Id: <20201217094044.46462-14-pbonzini@redhat.com>
+Subject: [PATCH 14/18] seccomp: convert to meson
+Date: Thu, 17 Dec 2020 10:40:40 +0100
+Message-Id: <20201217094044.46462-15-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201217094044.46462-1-pbonzini@redhat.com>
 References: <20201217094044.46462-1-pbonzini@redhat.com>
@@ -89,142 +89,183 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure             | 30 ++++--------------------------
- meson.build           | 10 ++++++----
- meson_options.txt     |  2 ++
- migration/meson.build |  2 +-
- 4 files changed, 13 insertions(+), 31 deletions(-)
+ configure              | 32 ++++----------------------------
+ meson.build            | 10 ++++++----
+ meson_options.txt      |  2 ++
+ softmmu/meson.build    |  2 +-
+ softmmu/qemu-seccomp.c |  2 --
+ tools/meson.build      |  4 ++--
+ 6 files changed, 15 insertions(+), 37 deletions(-)
 
 diff --git a/configure b/configure
-index ea5650acca..649da881a2 100755
+index 649da881a2..00c2d61a96 100755
 --- a/configure
 +++ b/configure
-@@ -398,7 +398,7 @@ lzo="auto"
- snappy="auto"
- bzip2="auto"
- lzfse="auto"
--zstd="$default_feature"
-+zstd="auto"
- guest_agent="$default_feature"
- guest_agent_with_vss="no"
- guest_agent_ntddscsi="no"
-@@ -1328,9 +1328,9 @@ for opt do
+@@ -414,7 +414,7 @@ debug_stack_usage="no"
+ crypto_afalg="no"
+ cfi="false"
+ cfi_debug="false"
+-seccomp="$default_feature"
++seccomp="auto"
+ glusterfs="auto"
+ gtk="$default_feature"
+ gtk_gl="no"
+@@ -1356,9 +1356,9 @@ for opt do
    ;;
-   --disable-lzfse) lzfse="disabled"
+   --disable-tools) want_tools="no"
    ;;
--  --disable-zstd) zstd="no"
-+  --disable-zstd) zstd="disabled"
+-  --enable-seccomp) seccomp="yes"
++  --enable-seccomp) seccomp="enabled"
    ;;
--  --enable-zstd) zstd="yes"
-+  --enable-zstd) zstd="enabled"
+-  --disable-seccomp) seccomp="no"
++  --disable-seccomp) seccomp="disabled"
    ;;
-   --enable-guest-agent) guest_agent="yes"
+   --disable-glusterfs) glusterfs="disabled"
    ;;
-@@ -2458,23 +2458,6 @@ EOF
+@@ -2458,24 +2458,6 @@ EOF
    fi
  fi
  
 -##########################################
--# zstd check
+-# libseccomp check
 -
--if test "$zstd" != "no" ; then
--    libzstd_minver="1.4.0"
--    if $pkg_config --atleast-version=$libzstd_minver libzstd ; then
--        zstd_cflags="$($pkg_config --cflags libzstd)"
--        zstd_libs="$($pkg_config --libs libzstd)"
--        zstd="yes"
+-if test "$seccomp" != "no" ; then
+-    libseccomp_minver="2.3.0"
+-    if $pkg_config --atleast-version=$libseccomp_minver libseccomp ; then
+-        seccomp_cflags="$($pkg_config --cflags libseccomp)"
+-        seccomp_libs="$($pkg_config --libs libseccomp)"
+-        seccomp="yes"
 -    else
--        if test "$zstd" = "yes" ; then
--            feature_not_found "libzstd" "Install libzstd devel"
+-        if test "$seccomp" = "yes" ; then
+-            feature_not_found "libseccomp" \
+-                 "Install libseccomp devel >= $libseccomp_minver"
 -        fi
--        zstd="no"
+-        seccomp="no"
 -    fi
 -fi
 -
  ##########################################
- # libseccomp check
+ # xen probe
  
-@@ -6070,12 +6053,6 @@ if test "$avx512f_opt" = "yes" ; then
+@@ -6053,12 +6035,6 @@ if test "$avx512f_opt" = "yes" ; then
    echo "CONFIG_AVX512F_OPT=y" >> $config_host_mak
  fi
  
--if test "$zstd" = "yes" ; then
--  echo "CONFIG_ZSTD=y" >> $config_host_mak
--  echo "ZSTD_CFLAGS=$zstd_cflags" >> $config_host_mak
--  echo "ZSTD_LIBS=$zstd_libs" >> $config_host_mak
+-if test "$seccomp" = "yes"; then
+-  echo "CONFIG_SECCOMP=y" >> $config_host_mak
+-  echo "SECCOMP_CFLAGS=$seccomp_cflags" >> $config_host_mak
+-  echo "SECCOMP_LIBS=$seccomp_libs" >> $config_host_mak
 -fi
 -
- if test "$seccomp" = "yes"; then
-   echo "CONFIG_SECCOMP=y" >> $config_host_mak
-   echo "SECCOMP_CFLAGS=$seccomp_cflags" >> $config_host_mak
-@@ -6629,6 +6606,7 @@ NINJA=$ninja $meson setup \
+ # XXX: suppress that
+ if [ "$bsd" = "yes" ] ; then
+   echo "CONFIG_BSD=y" >> $config_host_mak
+@@ -6606,7 +6582,7 @@ NINJA=$ninja $meson setup \
          -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
          -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
          -Dlibssh=$libssh -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse \
-+        -Dzstd=$zstd \
+-        -Dzstd=$zstd \
++        -Dzstd=$zstd -Dseccomp=$seccomp \
          -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
          -Dvhost_user_blk_server=$vhost_user_blk_server \
          -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek \
 diff --git a/meson.build b/meson.build
-index c02d9c3e1a..93a95d7a7f 100644
+index 93a95d7a7f..a0132730d7 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -380,9 +380,10 @@ if not get_option('libiscsi').auto() or have_block
-                          method: 'pkg-config', static: enable_static)
+@@ -329,9 +329,10 @@ if 'CONFIG_ATTR' in config_host
+   libattr = declare_dependency(link_args: config_host['LIBATTR_LIBS'].split())
  endif
- zstd = not_found
--if 'CONFIG_ZSTD' in config_host
--  zstd = declare_dependency(compile_args: config_host['ZSTD_CFLAGS'].split(),
--                            link_args: config_host['ZSTD_LIBS'].split())
-+if not get_option('zstd').auto() or have_block
-+  zstd = dependency('zstd', version: '>=1.4.0',
-+                    required: get_option('zstd'),
-+                    method: 'pkg-config', static: enable_static)
+ seccomp = not_found
+-if 'CONFIG_SECCOMP' in config_host
+-  seccomp = declare_dependency(compile_args: config_host['SECCOMP_CFLAGS'].split(),
+-                               link_args: config_host['SECCOMP_LIBS'].split())
++if not get_option('libiscsi').auto() or have_system or have_tools
++  seccomp = dependency('libseccomp', version: '>=2.3.0',
++                       required: get_option('seccomp'),
++                       method: 'pkg-config', static: enable_static)
  endif
- gbm = not_found
- if 'CONFIG_GBM' in config_host
-@@ -1003,6 +1004,7 @@ config_host_data.set('CONFIG_KEYUTILS', keyutils.found())
- config_host_data.set('CONFIG_GETTID', has_gettid)
- config_host_data.set('CONFIG_MALLOC_TRIM', has_malloc_trim)
- config_host_data.set('CONFIG_STATX', has_statx)
-+config_host_data.set('CONFIG_ZSTD', zstd.found())
- config_host_data.set('CONFIG_FUSE', fuse.found())
- config_host_data.set('CONFIG_FUSE_LSEEK', fuse_lseek.found())
- config_host_data.set('CONFIG_CFI', get_option('cfi'))
-@@ -2377,7 +2379,7 @@ summary_info += {'lzo support':       lzo.found()}
- summary_info += {'snappy support':    snappy.found()}
- summary_info += {'bzip2 support':     libbzip2.found()}
- summary_info += {'lzfse support':     liblzfse.found()}
--summary_info += {'zstd support':      config_host.has_key('CONFIG_ZSTD')}
-+summary_info += {'zstd support':      zstd.found()}
- summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
- summary_info += {'libxml2':           config_host.has_key('CONFIG_LIBXML2')}
- summary_info += {'memory allocator':  get_option('malloc')}
+ libcap_ng = not_found
+ if 'CONFIG_LIBCAP_NG' in config_host
+@@ -993,6 +994,7 @@ config_host_data.set('HAVE_LIBSSH_0_8', have_libssh_0_8)
+ config_host_data.set('CONFIG_RBD', rbd.found())
+ config_host_data.set('CONFIG_SDL', sdl.found())
+ config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
++config_host_data.set('CONFIG_SECCOMP', seccomp.found())
+ config_host_data.set('CONFIG_SNAPPY', snappy.found())
+ config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
+ config_host_data.set('CONFIG_VNC', vnc.found())
+@@ -2361,7 +2363,7 @@ if targetos == 'windows'
+   summary_info += {'QGA w32 disk info': config_host.has_key('CONFIG_QGA_NTDDSCSI')}
+   summary_info += {'QGA MSI support':   config_host.has_key('CONFIG_QGA_MSI')}
+ endif
+-summary_info += {'seccomp support':   config_host.has_key('CONFIG_SECCOMP')}
++summary_info += {'seccomp support':   seccomp.found()}
+ summary_info += {'CFI support':       get_option('cfi')}
+ summary_info += {'CFI debug support': get_option('cfi_debug')}
+ summary_info += {'coroutine backend': config_host['CONFIG_COROUTINE_BACKEND']}
 diff --git a/meson_options.txt b/meson_options.txt
-index f74a3d78c4..5a1de9b1fe 100644
+index 5a1de9b1fe..1854a9639f 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -92,6 +92,8 @@ option('virtiofsd', type: 'feature', value: 'auto',
-        description: 'build virtiofs daemon (virtiofsd)')
- option('vhost_user_blk_server', type: 'feature', value: 'auto',
-        description: 'build vhost-user-blk server')
-+option('zstd', type : 'feature', value : 'auto',
-+       description: 'zstd compression support')
- option('fuse', type: 'feature', value: 'auto',
-        description: 'FUSE block device export')
- option('fuse_lseek', type : 'feature', value : 'auto',
-diff --git a/migration/meson.build b/migration/meson.build
-index 980e37865c..c783f2f2ae 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -29,6 +29,6 @@ softmmu_ss.add(files(
+@@ -74,6 +74,8 @@ option('sdl', type : 'feature', value : 'auto',
+        description: 'SDL user interface')
+ option('sdl_image', type : 'feature', value : 'auto',
+        description: 'SDL Image support for icons')
++option('seccomp', type : 'feature', value : 'auto',
++       description: 'seccomp support')
+ option('snappy', type : 'feature', value : 'auto',
+        description: 'snappy compression support')
+ option('u2f', type : 'feature', value : 'auto',
+diff --git a/softmmu/meson.build b/softmmu/meson.build
+index 2dab6c7eb6..d8e03018ab 100644
+--- a/softmmu/meson.build
++++ b/softmmu/meson.build
+@@ -28,5 +28,5 @@ softmmu_ss.add(files(
+ ), sdl, libpmem, libdaxctl)
  
- softmmu_ss.add(when: ['CONFIG_RDMA', rdma], if_true: files('rdma.c'))
- softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
--softmmu_ss.add(when: 'CONFIG_ZSTD', if_true: [files('multifd-zstd.c'), zstd])
-+softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
+ softmmu_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
+-softmmu_ss.add(when: 'CONFIG_SECCOMP', if_true: [files('qemu-seccomp.c'), seccomp])
++softmmu_ss.add(when: seccomp, if_true: files('qemu-seccomp.c'))
+ softmmu_ss.add(when: fdt, if_true: files('device_tree.c'))
+diff --git a/softmmu/qemu-seccomp.c b/softmmu/qemu-seccomp.c
+index 8325ecb766..377ef6937c 100644
+--- a/softmmu/qemu-seccomp.c
++++ b/softmmu/qemu-seccomp.c
+@@ -202,7 +202,6 @@ static int seccomp_start(uint32_t seccomp_opts, Error **errp)
+     return rc < 0 ? -1 : 0;
+ }
  
- specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files('dirtyrate.c', 'ram.c'))
+-#ifdef CONFIG_SECCOMP
+ int parse_sandbox(void *opaque, QemuOpts *opts, Error **errp)
+ {
+     if (qemu_opt_get_bool(opts, "enable", false)) {
+@@ -328,4 +327,3 @@ static void seccomp_register(void)
+     }
+ }
+ opts_init(seccomp_register);
+-#endif
+diff --git a/tools/meson.build b/tools/meson.build
+index 76bf84df52..5c52d79fe4 100644
+--- a/tools/meson.build
++++ b/tools/meson.build
+@@ -1,6 +1,6 @@
+ have_virtiofsd = (targetos == 'linux' and
+     have_tools and
+-    'CONFIG_SECCOMP' in config_host and
++    seccomp.found() and
+     'CONFIG_LIBCAP_NG' in config_host and
+     'CONFIG_VHOST_USER' in config_host)
+ 
+@@ -8,7 +8,7 @@ if get_option('virtiofsd').enabled()
+   if not have_virtiofsd
+     if targetos != 'linux'
+       error('virtiofsd requires Linux')
+-    elif 'CONFIG_SECCOMP' not in config_host or 'CONFIG_LIBCAP_NG' not in config_host
++    elif not seccomp.found() or 'CONFIG_LIBCAP_NG' not in config_host
+       error('virtiofsd requires libcap-ng-devel and seccomp-devel')
+     elif not have_tools or 'CONFIG_VHOST_USER' not in config_host
+       error('virtiofsd needs tools and vhost-user support')
 -- 
 2.29.2
 
