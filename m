@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9AC52DD0B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:48:26 +0100 (CET)
-Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC552DD0CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 12:51:08 +0100 (CET)
+Received: from localhost ([::1]:35234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kprlh-0001f5-RC
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:48:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48944)
+	id 1kproJ-0004j9-M2
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 06:51:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kprfc-0003tD-8x
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:42:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28682)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kprh2-0005lr-R0
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:43:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1kprfZ-0008Sp-OL
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:42:08 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kprh1-0000Sb-48
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 06:43:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608205325;
+ s=mimecast20190719; t=1608205414;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=35MEgoCGEXEBgarujpqv4YXJI/R+hsr0zoaJuzaBByo=;
- b=RqKEAuP748ezKO/Jqb6RC0jwKDYaxYcJOaACyaaGcEVdwuDYeSMBRnDQul24KvkY+aotQn
- NPYNFHUAOszECjYSv/Pa/7MLvObJ1CKUs65u2wtkYY2o3/nLSf5xjpWJTcAipnRyq54jQ9
- iPOOBsvsWUmoQ5GP+TTSM0y6zkYRsTU=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-0XgSzFZIMyax2QvTJKGIZA-1; Thu, 17 Dec 2020 06:42:02 -0500
-X-MC-Unique: 0XgSzFZIMyax2QvTJKGIZA-1
-Received: by mail-io1-f69.google.com with SMTP id m9so26975807ioa.9
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 03:42:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=35MEgoCGEXEBgarujpqv4YXJI/R+hsr0zoaJuzaBByo=;
- b=t0sUdS6uJ5ku+lsyQZZkqagfJ8h2q/K2grfL1yDANI8woxmQLLAyndU+ddppXjABEW
- pxuMQ06jpEhf73695VVNswo5GywEdZngKgjSRp+X2z7em1WbZ/hP4L6mO2kDVzbOL8hu
- duRgnN8MCYzZp2k7FaBDJKKxvusrLznH6kAJ3uKiXxkLORVhKo/9moYoLdHSGnvtBuuR
- VAg1kRAxSI5fHejy7/aVoAGuldpKSou68G8PHRVp7EakyH1eqfHXLzXdGSSp2cVaMr/S
- 5kzyiQEOGA+atGVWrmB2EO73sWWi4i7HXGmzM6sc9RtEMmBXcOGiO4hwuQtx6mD1eQ0Z
- AH+g==
-X-Gm-Message-State: AOAM533XaDsKPR08WDjaYx8mrZrYKkiC1YuAYYlk3zARgbmHSV6hG0mb
- UTPdevmFOFv6uVwCtMz+BmOFAg6fOOfKW8zx1kTM0fTDmWw9X5s29y3yHkYHfXXzNjfis9zrbhD
- 6AWtPlfmpE9wTS79ysxfjOq0RrevfQWo=
-X-Received: by 2002:a05:6e02:cb:: with SMTP id
- r11mr50491428ilq.11.1608205321527; 
- Thu, 17 Dec 2020 03:42:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxbHS7of6SwTPT77OIAllpW6n2x7cJfDecdJSeQipfk+mEPawSPRlok2jdN6Ro560oJdJ+H4kncwJwvlUOkgRc=
-X-Received: by 2002:a05:6e02:cb:: with SMTP id
- r11mr50491420ilq.11.1608205321375; 
- Thu, 17 Dec 2020 03:42:01 -0800 (PST)
+ bh=QyIqB23JwnZYHGAWkNFaM9pV1Ag2jMMOyHckGdG4sJU=;
+ b=QLBDDxDSbqpqVlJpc2YS6GXb9nQO5JGrQpOFVK2HsoCaZPdJWqK4qtLiXSDXSLERokwbrr
+ dIViv5ndEEkF00rjlLQ3oNBLnE2Ar8MbCBmP9+dXVJeN+P55jCRAppqfFELixXRnTCcD0P
+ WvbVhtMzOGS8H0DH+8mqlTPOg60QvJE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-574-ep45ulrANZOTpRE_DowVqg-1; Thu, 17 Dec 2020 06:43:29 -0500
+X-MC-Unique: ep45ulrANZOTpRE_DowVqg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1A2D800D55;
+ Thu, 17 Dec 2020 11:43:27 +0000 (UTC)
+Received: from gondolin (ovpn-113-176.ams2.redhat.com [10.36.113.176])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDC9D1A262;
+ Thu, 17 Dec 2020 11:43:16 +0000 (UTC)
+Date: Thu, 17 Dec 2020 12:43:13 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [for-6.0 v5 00/13] Generalize memory encryption models
+Message-ID: <20201217124313.0b321ecf.cohuck@redhat.com>
+In-Reply-To: <20201217062116.GK310465@yekko.fritz.box>
+References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ <f2419585-4e39-1f3d-9e38-9095e26a6410@de.ibm.com>
+ <20201204140205.66e205da.cohuck@redhat.com>
+ <20201204130727.GD2883@work-vm>
+ <20201204141229.688b11e4.cohuck@redhat.com>
+ <20201208025728.GD2555@yekko.fritz.box>
+ <20201208134308.2afa0e3e.cohuck@redhat.com>
+ <20201217062116.GK310465@yekko.fritz.box>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20201217104417.436508-1-marcandre.lureau@redhat.com>
- <5c6d244b-1ed3-f065-88b6-7a007a224cc4@suse.de>
-In-Reply-To: <5c6d244b-1ed3-f065-88b6-7a007a224cc4@suse.de>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 17 Dec 2020 15:41:50 +0400
-Message-ID: <CAMxuvazEL7f6oXKse0qQWoZvS_n31JEKX5_HLRQ+9LHyMOh6yA@mail.gmail.com>
-Subject: Re: [PATCH] build-sys: fix win32 compilation with --target-list=''
-To: Claudio Fontana <cfontana@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000e8330205b6a77af9"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
+Content-Type: multipart/signed; boundary="Sig_/R0kL8VplyVYXrejI1PMf7M_";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,234 +79,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, david@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, berrange@redhat.com,
+ thuth@redhat.com, pbonzini@redhat.com, rth@twiddle.net,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e8330205b6a77af9
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/R0kL8VplyVYXrejI1PMf7M_
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Thu, 17 Dec 2020 17:21:16 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-On Thu, Dec 17, 2020 at 3:33 PM Claudio Fontana <cfontana@suse.de> wrote:
+> On Tue, Dec 08, 2020 at 01:43:08PM +0100, Cornelia Huck wrote:
+> > On Tue, 8 Dec 2020 13:57:28 +1100
+> > David Gibson <david@gibson.dropbear.id.au> wrote:
+> >  =20
+> > > On Fri, Dec 04, 2020 at 02:12:29PM +0100, Cornelia Huck wrote: =20
+> > > > On Fri, 4 Dec 2020 13:07:27 +0000
+> > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > > >    =20
+> > > > > * Cornelia Huck (cohuck@redhat.com) wrote:   =20
+> > > > > > On Fri, 4 Dec 2020 09:06:50 +0100
+> > > > > > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> > > > > >      =20
+> > > > > > > On 04.12.20 06:44, David Gibson wrote:     =20
+> > > > > > > > A number of hardware platforms are implementing mechanisms =
+whereby the
+> > > > > > > > hypervisor does not have unfettered access to guest memory,=
+ in order
+> > > > > > > > to mitigate the security impact of a compromised hypervisor.
+> > > > > > > >=20
+> > > > > > > > AMD's SEV implements this with in-cpu memory encryption, an=
+d Intel has
+> > > > > > > > its own memory encryption mechanism.  POWER has an upcoming=
+ mechanism
+> > > > > > > > to accomplish this in a different way, using a new memory p=
+rotection
+> > > > > > > > level plus a small trusted ultravisor.  s390 also has a pro=
+tected
+> > > > > > > > execution environment.
+> > > > > > > >=20
+> > > > > > > > The current code (committed or draft) for these features ha=
+s each
+> > > > > > > > platform's version configured entirely differently.  That d=
+oesn't seem
+> > > > > > > > ideal for users, or particularly for management layers.
+> > > > > > > >=20
+> > > > > > > > AMD SEV introduces a notionally generic machine option
+> > > > > > > > "machine-encryption", but it doesn't actually cover any cas=
+es other
+> > > > > > > > than SEV.
+> > > > > > > >=20
+> > > > > > > > This series is a proposal to at least partially unify confi=
+guration
+> > > > > > > > for these mechanisms, by renaming and generalizing AMD's
+> > > > > > > > "memory-encryption" property.  It is replaced by a
+> > > > > > > > "securable-guest-memory" property pointing to a platform sp=
+ecific       =20
+> > > > > > >=20
+> > > > > > > Can we do "securable-guest" ?
+> > > > > > > s390x also protects registers and integrity. memory is only o=
+ne piece
+> > > > > > > of the puzzle and what we protect might differ from platform =
+to=20
+> > > > > > > platform.
+> > > > > > >      =20
+> > > > > >=20
+> > > > > > I agree. Even technologies that currently only do memory encryp=
+tion may
+> > > > > > be enhanced with more protections later.     =20
+> > > > >=20
+> > > > > There's already SEV-ES patches onlist for this on the SEV side.
+> > > > >=20
+> > > > > <sigh on haggling over the name>
+> > > > >=20
+> > > > > Perhaps 'confidential guest' is actually what we need, since the
+> > > > > marketing folks seem to have started labelling this whole idea
+> > > > > 'confidential computing'.   =20
+> > >=20
+> > > That's not a bad idea, much as I usually hate marketing terms.  But it
+> > > does seem to be becoming a general term for this style of thing, and
+> > > it doesn't overlap too badly with other terms ("secure" and
+> > > "protected" are also used for hypervisor-from-guest and
+> > > guest-from-guest protection).
+> > >  =20
+> > > > It's more like a 'possibly confidential guest', though.   =20
+> > >=20
+> > > Hmm.  What about "Confidential Guest Facility" or "Confidential Guest
+> > > Mechanism"?  The implication being that the facility is there, whether
+> > > or not the guest actually uses it.
+> > >  =20
+> >=20
+> > "Confidential Guest Enablement"? The others generally sound fine to me
+> > as well, though; not sure if "Facility" might be a bit confusing, as
+> > that term is already a bit overloaded. =20
+>=20
+> Well, "facility" is a bit overloaded, but IMO "enablement" is even
+> more so.  I think I'll go with "confidential guest support" in the
+> next spin.
+>=20
 
-> On 12/17/20 11:44 AM, marcandre.lureau@redhat.com wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Fixes linking:
-> > x86_64-w64-mingw32-gcc  -o tests/test-qapi-util.exe version.rc_version.=
-o
-> tests/test-qapi-util.exe.p/test-qapi-util.c.obj -Wl,--allow-shlib-undefin=
-ed
-> -Wl,--nxcompat -Wl,--no-seh -Wl,--dynamicbase -Wl,--warn-common -m64
-> -fstack-protector-strong -Wl,--start-group libqemuutil.a -pthread
-> -L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -lgnutls -lwinmm -lm
-> -L/usr/x86_64-w64-mingw32/sys-root/mingw/lib -lgthread-2.0 -lglib-2.0
-> -lintl -lws2_32 -mconsole -lkernel32 -luser32 -lgdi32 -lwinspool -lshell3=
-2
-> -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 -Wl,--end-group
-> >
-> /usr/lib/gcc/x86_64-w64-mingw32/10.2.1/../../../../x86_64-w64-mingw32/bin=
-/ld:
-> libqemuutil.a(util_oslib-win32.c.obj): in function `qemu_try_set_nonblock=
-':
-> > /home/elmarco/src/qemu/buildw/../util/oslib-win32.c:224: undefined
-> reference to `qemu_fd_register'
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  util/main-loop-stub.c | 26 ++++++++++++++++++++++++++
-> >  util/meson.build      |  2 ++
-> >  2 files changed, 28 insertions(+)
-> >  create mode 100644 util/main-loop-stub.c
-> >
-> > diff --git a/util/main-loop-stub.c b/util/main-loop-stub.c
-> > new file mode 100644
-> > index 0000000000..b3e175ade5
-> > --- /dev/null
-> > +++ b/util/main-loop-stub.c
-> > @@ -0,0 +1,26 @@
-> > +/*
-> > + * QEMU main loop stub impl
-> > + *
-> > + * Copyright (c) 2020 Red Hat, Inc.
-> > + *
-> > + * This library is free software; you can redistribute it and/or
-> > + * modify it under the terms of the GNU Lesser General Public
-> > + * License as published by the Free Software Foundation; either
-> > + * version 2.1 of the License, or (at your option) any later version.
-> > + *
-> > + * This library is distributed in the hope that it will be useful,
-> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> > + * Lesser General Public License for more details.
-> > + *
-> > + * You should have received a copy of the GNU Lesser General Public
-> > + * License along with this library; if not, see <
-> http://www.gnu.org/licenses/>.
-> > + *
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qemu/main-loop.h"
-> > +
-> > +void qemu_fd_register(int fd)
-> > +{
-> > +}
-> > diff --git a/util/meson.build b/util/meson.build
-> > index f359af0d46..462b79a61a 100644
-> > --- a/util/meson.build
-> > +++ b/util/meson.build
-> > @@ -79,4 +79,6 @@ if have_block
-> >    util_ss.add(when: 'CONFIG_INOTIFY1', if_true:
-> files('filemonitor-inotify.c'),
-> >                                          if_false:
-> files('filemonitor-stub.c'))
-> >    util_ss.add(when: 'CONFIG_LINUX', if_true: files('vfio-helpers.c'))
-> > +else
-> > +  util_ss.add(files('main-loop-stub.c'))
-> >  endif
-> >
->
-> Is the root cause elsewhere though?
->
-> I don't like stubs very much, because often they are introduced as the
-> easy way out of a problem instead of doing the necessary refactoring,
-> and they end up confusing the hell out of someone trying to understand
-> what is actually used where, never mind trying to debug the linker errors=
-.
->
-> There is already an bunch of #ifndef _WIN32, #else , ... in
-> util/main-loop.c (quite a bunch of them really),
-> is that what actually needs reworking, and putting the pieces together in
-> the build system in a way that makes sense?
->
->
-I am not sure we can improve it so much.
+Works for me.
 
-qemu_fd_register() is called from qemu_set_nonblock() and net/slirp.c.
+--Sig_/R0kL8VplyVYXrejI1PMf7M_
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-It is necessary for win32 util/main-loop.c.
+-----BEGIN PGP SIGNATURE-----
 
-Eventually, we could move qemu_fd_register() in its own unit, but then we
-will probably need more stubs or configure knobs for the main-loop symbols.
-I don't think it's worth, but maybe I am missing something and I should try
-it.
+iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl/bRFEACgkQ3s9rk8bw
+L68CLRAAp36nl9zlR8I/XeSW6EAJQS+9P2Ose7DKrowr6/vkXSSOtHl9cv/6TDiU
+V5tOO3CbItyzBPxw5w7ezy88bgYOxgijmr4MHs4nC0YqtzYYv4vCeEIKmT99rgy4
+q/nCkRGY0C+cnSuehjLgPIC9wqFuOjrgui4edY1+eNxe311QZR/XuAfSGs4RJ0VB
+UiT7+xdqiygzNTgiLttpw+msZrj9lKLmad5LnUiEvVvzbxFPtWWqbBisWS7M7D49
+58yYobJr/o/Rh77mqNFDzgBiWmYvnmi2ukAMyLSUl+g0fGMKZzu1CVjPE0wg1jkX
+n8B7qkpZrTC27HqzUR+r37fuBpWgkqBmiUXzyayn4z3Z+HoY4Io2ipfYOK62PRLm
++0j6Tgw3cIBHY+NscF4f83iNQRrxqqZia9PWdncfdwJC/JIkNnV9hIABTkm4lC2L
+GPoXS0X6/6Q5dXILqrSPJUuaWlF3P3/m3ehAHLqurs9hirutfTR5MPWREcy1oBxm
+kGqCaXUO/faCGGoJkYdKot5UpysuL87RBo7EgBo3HL8V/VfUlo+6CJeiPQWbDKw9
+l9z3kZfbFzl2FrJmxfuJapVlRCfSzpjVCebMDl4CSjP+Dax170lAt9bX/0CgdL8u
+z8c8aFVhACPWFRw8CJaqldSznQsISXj5BnPHvGTSwYTZRnNH1AA=
+=XYiF
+-----END PGP SIGNATURE-----
 
---000000000000e8330205b6a77af9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 17, 2020 at 3:33 PM Cla=
-udio Fontana &lt;<a href=3D"mailto:cfontana@suse.de">cfontana@suse.de</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 12/=
-17/20 11:44 AM, <a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_b=
-lank">marcandre.lureau@redhat.com</a> wrote:<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; Fixes linking:<br>
-&gt; x86_64-w64-mingw32-gcc=C2=A0 -o tests/test-qapi-util.exe version.rc_ve=
-rsion.o tests/test-qapi-util.exe.p/test-qapi-util.c.obj -Wl,--allow-shlib-u=
-ndefined -Wl,--nxcompat -Wl,--no-seh -Wl,--dynamicbase -Wl,--warn-common -m=
-64 -fstack-protector-strong -Wl,--start-group libqemuutil.a -pthread -L/usr=
-/x86_64-w64-mingw32/sys-root/mingw/lib -lgnutls -lwinmm -lm -L/usr/x86_64-w=
-64-mingw32/sys-root/mingw/lib -lgthread-2.0 -lglib-2.0 -lintl -lws2_32 -mco=
-nsole -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -=
-luuid -lcomdlg32 -ladvapi32 -Wl,--end-group<br>
-&gt; /usr/lib/gcc/x86_64-w64-mingw32/10.2.1/../../../../x86_64-w64-mingw32/=
-bin/ld: libqemuutil.a(util_oslib-win32.c.obj): in function `qemu_try_set_no=
-nblock&#39;:<br>
-&gt; /home/elmarco/src/qemu/buildw/../util/oslib-win32.c:224: undefined ref=
-erence to `qemu_fd_register&#39;<br>
-&gt; <br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 util/main-loop-stub.c | 26 ++++++++++++++++++++++++++<br>
-&gt;=C2=A0 util/meson.build=C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 ++<br>
-&gt;=C2=A0 2 files changed, 28 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 util/main-loop-stub.c<br>
-&gt; <br>
-&gt; diff --git a/util/main-loop-stub.c b/util/main-loop-stub.c<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..b3e175ade5<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/util/main-loop-stub.c<br>
-&gt; @@ -0,0 +1,26 @@<br>
-&gt; +/*<br>
-&gt; + * QEMU main loop stub impl<br>
-&gt; + *<br>
-&gt; + * Copyright (c) 2020 Red Hat, Inc.<br>
-&gt; + *<br>
-&gt; + * This library is free software; you can redistribute it and/or<br>
-&gt; + * modify it under the terms of the GNU Lesser General Public<br>
-&gt; + * License as published by the Free Software Foundation; either<br>
-&gt; + * version 2.1 of the License, or (at your option) any later version.=
-<br>
-&gt; + *<br>
-&gt; + * This library is distributed in the hope that it will be useful,<br=
->
-&gt; + * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
-&gt; + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the=
- GNU<br>
-&gt; + * Lesser General Public License for more details.<br>
-&gt; + *<br>
-&gt; + * You should have received a copy of the GNU Lesser General Public<b=
-r>
-&gt; + * License along with this library; if not, see &lt;<a href=3D"http:/=
-/www.gnu.org/licenses/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu=
-.org/licenses/</a>&gt;.<br>
-&gt; + *<br>
-&gt; + */<br>
-&gt; +<br>
-&gt; +#include &quot;qemu/osdep.h&quot;<br>
-&gt; +#include &quot;qemu/main-loop.h&quot;<br>
-&gt; +<br>
-&gt; +void qemu_fd_register(int fd)<br>
-&gt; +{<br>
-&gt; +}<br>
-&gt; diff --git a/util/meson.build b/util/meson.build<br>
-&gt; index f359af0d46..462b79a61a 100644<br>
-&gt; --- a/util/meson.build<br>
-&gt; +++ b/util/meson.build<br>
-&gt; @@ -79,4 +79,6 @@ if have_block<br>
-&gt;=C2=A0 =C2=A0 util_ss.add(when: &#39;CONFIG_INOTIFY1&#39;, if_true: fil=
-es(&#39;filemonitor-inotify.c&#39;),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 if_false: files(&#39;filemonitor-stub.c&#39;))<br>
-&gt;=C2=A0 =C2=A0 util_ss.add(when: &#39;CONFIG_LINUX&#39;, if_true: files(=
-&#39;vfio-helpers.c&#39;))<br>
-&gt; +else<br>
-&gt; +=C2=A0 util_ss.add(files(&#39;main-loop-stub.c&#39;))<br>
-&gt;=C2=A0 endif<br>
-&gt; <br>
-<br>
-Is the root cause elsewhere though?<br>
-<br>
-I don&#39;t like stubs very much, because often they are introduced as the =
-easy way out of a problem instead of doing the necessary refactoring,<br>
-and they end up confusing the hell out of someone trying to understand what=
- is actually used where, never mind trying to debug the linker errors.<br>
-<br>
-There is already an bunch of #ifndef _WIN32, #else , ... in util/main-loop.=
-c (quite a bunch of them really),<br>
-is that what actually needs reworking, and putting the pieces together in t=
-he build system in a way that makes sense?<br>
-<br></blockquote><div><br></div><div>I am not sure we can improve it so muc=
-h.</div><div><br></div><div>qemu_fd_register() is called from qemu_set_nonb=
-lock() and net/slirp.c.</div><div><br></div><div>It is necessary for win32 =
-util/main-loop.c.</div><div><br></div><div>Eventually, we could move qemu_f=
-d_register() in its own unit, but then we will probably need more stubs or =
-configure knobs for the main-loop symbols. I don&#39;t think it&#39;s worth=
-, but maybe I am missing something and I should try it.<br></div><div>=C2=
-=A0</div></div></div>
-
---000000000000e8330205b6a77af9--
+--Sig_/R0kL8VplyVYXrejI1PMf7M_--
 
 
