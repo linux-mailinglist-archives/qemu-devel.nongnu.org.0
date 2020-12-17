@@ -2,73 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8452DD676
-	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:44:02 +0100 (CET)
-Received: from localhost ([::1]:50946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2542DD675
+	for <lists+qemu-devel@lfdr.de>; Thu, 17 Dec 2020 18:43:24 +0100 (CET)
+Received: from localhost ([::1]:47502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kpxJp-0001E5-NA
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:44:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43226)
+	id 1kpxJD-0008FP-HY
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 12:43:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kpx8x-0007Zc-Hp
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:32:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23301)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kpx8u-0000bZ-Op
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:32:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608226361;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=seMx5CZ6agch/pjgunyk+WVPhaHfVsU9Sz0HFrGtlXc=;
- b=b6yErFjj4y1fMTcRwttbI5GoZe2WHMCLwuhEyL+ArYKOrYKaS6SR2os++Pq5TXAa52rZFw
- fI/zgcrfZAAjTNgFvdXoUmxF6DfjlYtssuCnhKuPwn+1cpvQevBCLJjDcf0hR/rsUt6n6d
- 09WDdAVa/8CRltp1wdImxbqfk1tTNic=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-cQl_hea-OoGqq_mmXrRe8w-1; Thu, 17 Dec 2020 12:32:39 -0500
-X-MC-Unique: cQl_hea-OoGqq_mmXrRe8w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81075180483F;
- Thu, 17 Dec 2020 17:32:38 +0000 (UTC)
-Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13C4D60D06;
- Thu, 17 Dec 2020 17:32:36 +0000 (UTC)
-Date: Thu, 17 Dec 2020 17:32:34 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Denis V. Lunev" <den@openvz.org>
-Subject: Re: [PATCH 1/2] savevm: Remove dead code in save_snapshot()
-Message-ID: <20201217173234.GN4117@work-vm>
-References: <1607410416-13563-1-git-send-email-tu.guoyi@h3c.com>
- <1607410416-13563-2-git-send-email-tu.guoyi@h3c.com>
- <20201217152708.GI4117@work-vm>
- <5b4d677b-88aa-ab28-cc2a-dc7d1c4934b8@openvz.org>
+ (Exim 4.90_1) (envelope-from <steplong@quicinc.com>)
+ id 1kpxHC-0006oe-8u
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:41:18 -0500
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:8379)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <steplong@quicinc.com>)
+ id 1kpxH9-0001qk-SZ
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 12:41:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1608226875; x=1639762875;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=uSIzAiVCcznhegL++70KmccLyv013QNG1hu4n2rGbG8=;
+ b=WqwAzmZb8NqlxzkjjgG218qR/Nua90zVk6GAWwGQPIIF6OlJhHAMRGq6
+ DLIbVtIiJ+ADgnXivuq3UwEiDkDh09QNqkL1W6J3S6q8qMQpm9CLUuoeZ
+ D8VanJt02YSPTc/0fuzciGVQpIib4osaNobQ22NMe4OrV05mTNJgH5bf7 w=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 17 Dec 2020 09:41:12 -0800
+X-QCInternal: smtphost
+Received: from nasanexm03a.na.qualcomm.com ([10.85.0.103])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 17 Dec 2020 09:41:12 -0800
+Received: from nasanexm03g.na.qualcomm.com (10.85.0.49) by
+ nasanexm03a.na.qualcomm.com (10.85.0.103) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 17 Dec 2020 09:41:11 -0800
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03g.na.qualcomm.com (10.85.0.49) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Thu, 17 Dec 2020 09:41:11 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aCGJ60P9bzTBRWJpwDwWjPKhOix+ldCxfXwqfuwk6CUtR4qBuyXGPhqR/w+BZ/USOnYfWNqpwmaAraFspkm1+F07GFxRBRTkKqLf78ZRgGlvjtVmi4ZuBrLQneyISioCVbhlQHE3jDOqKwuPsryuSoAks/Q5Zl9iApJg6HcClPrhBvgUfnZRwsxw3u5Ik8jA4arWwnQWIBq0ZXcKsbtMKJYKmlj++ypV9I6MHHheKZLCDJn/FsJMWSGyWPFsriRVEcp/GvugNQOiYmHB3gNH77QtmPFHby2mCGpPEnjUxEabOC/aKxWjIwAmlDX+1BiJlh3VKhQyyvi1R23Y0hDesA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uSIzAiVCcznhegL++70KmccLyv013QNG1hu4n2rGbG8=;
+ b=f2Recxe7vrId/W6eEx5wXRHK+ZFOaWhDi2nxOWbBddtFVDeQqwS4WeengnIj1ofYXIgdQb5OKEQZvKHq9pEn6Ui3XD30/JxNfcyOOjaxBgMCAduPvjkymRp2iWObOsd/KtNMiJK1qkY3ccQVI34TgO/lZT1Zxj+/1uo1wKtuTlr4Bsx//OBtMAuf44iIZOH0hlvPAGTd9TmX6RZt+1oiLGL88eIPOVgeR4fzt+nQJsLQ9ZwEgXYcIXz0I2p98Fd0mNal3ztyfF0pyid5/rWI/kcqcoTYT3/VF06skp2VsNyYK72AA+9kHioM11ZiIRgWI8YvspouFlT2oHB8EJS5dA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uSIzAiVCcznhegL++70KmccLyv013QNG1hu4n2rGbG8=;
+ b=o+ZImMg7ZedrTQIO+CK/wT1B5g4s+FakOsG6KXqFPPmpZR94CFNuveNhqZ19baRkYy1/GbFr7JhfwL2haKT+l/dpmVJb60KuqWiC6CVhmNxt5+FlUhXX4fiqGIrLEaAoSpvMTlgJIwqjGW1dBLtHXDg0byE9suXj9cyZT2uIZN8=
+Authentication-Results: vivier.eu; dkim=none (message not signed)
+ header.d=none;vivier.eu; dmarc=none action=none header.from=quicinc.com;
+Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
+ (2603:10b6:301:7b::24) by MW2PR02MB3753.namprd02.prod.outlook.com
+ (2603:10b6:907:f::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.14; Thu, 17 Dec
+ 2020 17:41:10 +0000
+Received: from MWHPR0201MB3547.namprd02.prod.outlook.com
+ ([fe80::c07b:6b00:b5f0:a5d6]) by MWHPR0201MB3547.namprd02.prod.outlook.com
+ ([fe80::c07b:6b00:b5f0:a5d6%7]) with mapi id 15.20.3654.024; Thu, 17 Dec 2020
+ 17:41:09 +0000
+From: Stephen Long <steplong@quicinc.com>
+To: <laurent@vivier.eu>, <qemu-devel@nongnu.org>
+Subject: Re: [PATCH] linux-user: Fix loading of BSS segments
+Date: Thu, 17 Dec 2020 09:40:55 -0800
+Message-ID: <20201217174055.544-1-steplong@quicinc.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <c9106487-dc4d-120a-bd48-665b3c617287@gmail.com>
+References: <c9106487-dc4d-120a-bd48-665b3c617287@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [24.24.203.211]
+X-ClientProxiedBy: BYAPR05CA0023.namprd05.prod.outlook.com
+ (2603:10b6:a03:c0::36) To MWHPR0201MB3547.namprd02.prod.outlook.com
+ (2603:10b6:301:7b::24)
 MIME-Version: 1.0
-In-Reply-To: <5b4d677b-88aa-ab28-cc2a-dc7d1c4934b8@openvz.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from STEPLONG.qualcomm.com (24.24.203.211) by
+ BYAPR05CA0023.namprd05.prod.outlook.com (2603:10b6:a03:c0::36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3676.9 via Frontend Transport; Thu, 17 Dec 2020 17:41:08 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 215e89ec-085e-449b-c35f-08d8a2b2f0bf
+X-MS-TrafficTypeDiagnostic: MW2PR02MB3753:
+X-Microsoft-Antispam-PRVS: <MW2PR02MB375322BF7BC8772BF7E05FD6C7C40@MW2PR02MB3753.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:324;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BMGMT9tfSAK14/14FFSjBfGVPB1kykUsQ3cWdAkZQN1hQoFD1CjtXjW/HRCQuchBmpHf+gOvQC2vESSd60vuXvKVJKMeb3tLXKLKItKwXu2F7ZK9EY5WMxpUdYmOahbNP7eHUBDI+sAi6pWFGc4o3LtHsyNFmk4A23DOt0RxJ9KNsl+0KCVC+EZfB2ZVFG5KLKJFkgloPpEkoT5Gd43vwZ3ZJglKIatjHazCeCmIy3DOkwb2U3QUwYXpkmGkY57grU12UEPLGlfcaVp2vhQ4iAnUPWDj4RJA6KlUYrhxAnjtWpDOx9TPZ8rxxkq4dNZaeRtiwDTJtG9U4zPLKKGLBQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR0201MB3547.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(346002)(366004)(136003)(376002)(66946007)(6506007)(16526019)(4744005)(8676002)(66556008)(186003)(86362001)(316002)(66476007)(8936002)(5660300002)(2616005)(2906002)(1076003)(52116002)(6666004)(4326008)(6512007)(956004)(478600001)(26005)(36756003)(6486002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?RFMZ4pHcIqJHxxxUFv4MKdCZ+tJjanJmgQOXExeAjj0KYpvstM6Ayc0GFAyT?=
+ =?us-ascii?Q?8WvVcvQ+HBgV1AP/4XxhMuVTjGTFTQM926ldkw6cq5npfXKZlXAFvfKsEDqa?=
+ =?us-ascii?Q?86FAAbYEk2zZp0yuTavEcq9xp2ig2JSBrSeLlQy47wFEmMO5EHFuQ3h1AE70?=
+ =?us-ascii?Q?ul3SWodBuZ/t34HXQhAqSqYK3+0NzR9X5EELug64DdXBW2/UuACpVk1d/p+l?=
+ =?us-ascii?Q?bSILmUn5IjwbEEKFlOF7pyM47aszQHGxdNB/l5pgjYCTS4LlJGntephH8Z25?=
+ =?us-ascii?Q?ppLn32eoZffOy4YSNfU7KmcKgX/YD1zGrQflX6n5WJtARyErn+D+R653iAez?=
+ =?us-ascii?Q?4dwTwYJ8KG65gG2sE1bLQWvv5wpGbpbEFPNSPW9p2dBOotGtcJS1A9rWGDKh?=
+ =?us-ascii?Q?BeL+ekgrF9plBymb3Gby3gSXJdm4GwawGTxe/gDKqriNMuzZ7mtYnTIi8IJX?=
+ =?us-ascii?Q?7hu2ISsEQT3KtZzt3H4480gXoQ8En9+qha5gd896szqpwz3HIJXq6RhiyjnZ?=
+ =?us-ascii?Q?pCkQpC4mPGp38AmCywxBvZv8IPfPDIxtBQy6359sZqP7nCjnsww85jqXuH/Y?=
+ =?us-ascii?Q?Z/Y3Nd69FJl7WwbXnRMYJny2BFlBaWD+c8XiVVs5DC30tgTIl9tqTdHFg4je?=
+ =?us-ascii?Q?I4ER+RthuH0fs46G9KM+xr7lv/MtkDlW9cX+9/8UShwUMamAq4B6fafDXsLp?=
+ =?us-ascii?Q?tNl/vXvrJn9JHd74hQ6Z9Z0yHM8/jnq6GH3czapoeYeHjR1FqPzKrzyS7b0h?=
+ =?us-ascii?Q?18IPvrc7IqdJsL45T3taZLc6eLCER8vQ22OurnWHP+U5neByXn/KxeEez+t8?=
+ =?us-ascii?Q?ziANyu9v0np7pbv92s8GJvIDnGArvNTqAWZA+Wzf9Ax8KkhUEAo7o0ZnK4aN?=
+ =?us-ascii?Q?toT8eQu8YHIffiQ53bX5ZodRmupuZIWl8YN608q6lMOTxigRrPY3UVPkRihM?=
+ =?us-ascii?Q?lYk1oue8hyRc0xf7ORfN4OMvJSjw0BJevehGSnjbzujekdCQJ4AzJikexOmh?=
+ =?us-ascii?Q?dTbX?=
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR0201MB3547.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2020 17:41:09.9423 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 215e89ec-085e-449b-c35f-08d8a2b2f0bf
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qVAyUBMRanASCV8gzKhjCy1ze+FDaA/fxGnIXCxNJQuuOD2hKr5yBILu/1mcEkJT3ZkcZUSnyjlJiSZRdl/xEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR02MB3753
+X-OriginatorOrg: quicinc.com
+Received-SPF: pass client-ip=199.106.114.39; envelope-from=steplong@quicinc.com;
+ helo=alexa-out-sd-02.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,69 +147,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, tuguoyi@outlook.com, berrange@redhat.com,
- Tuguoyi <tu.guoyi@h3c.com>, Juan Quintela <quintela@redhat.com>
+Cc: thatlemon@gmail.com, philippe.mathieu.daude@gmail.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, ben@decadent.org.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Denis V. Lunev (den@openvz.org) wrote:
-> On 12/17/20 6:27 PM, Dr. David Alan Gilbert wrote:
-> > * Tuguoyi (tu.guoyi@h3c.com) wrote:
-> >> The snapshot in each bs is deleted at the beginning, so there is no need
-> >> to find the snapshot again.
-> >>
-> >> Signed-off-by: Tuguoyi <tu.guoyi@h3c.com>
-> > This looks OK to me, becoming redundant after Denis's 0b46160 - but
-> > I don't know the snapshot code much;
-> >
-> > Denis - do you agree this is correct?
-> 
-> For me it looks too that the code becomes redundant, thus
-> 
-> Reviewed-by: Denis V. Lunev <den@openvz.org>
+Laurent Vivier wrote:
+> Is this also fixing what "linux-user/elfload: Fix handling of pure BSS segments" [1] patch fixes?
 
-Thanks!
-(Both patches) queued
-
-> > Dave
-> >
-> >> ---
-> >>  migration/savevm.c | 10 ++--------
-> >>  1 file changed, 2 insertions(+), 8 deletions(-)
-> >>
-> >> diff --git a/migration/savevm.c b/migration/savevm.c
-> >> index 5f937a2..601b514 100644
-> >> --- a/migration/savevm.c
-> >> +++ b/migration/savevm.c
-> >> @@ -2728,7 +2728,7 @@ int qemu_load_device_state(QEMUFile *f)
-> >>  int save_snapshot(const char *name, Error **errp)
-> >>  {
-> >>      BlockDriverState *bs, *bs1;
-> >> -    QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
-> >> +    QEMUSnapshotInfo sn1, *sn = &sn1;
-> >>      int ret = -1, ret2;
-> >>      QEMUFile *f;
-> >>      int saved_vm_running;
-> >> @@ -2797,13 +2797,7 @@ int save_snapshot(const char *name, Error **errp)
-> >>      }
-> >>  
-> >>      if (name) {
-> >> -        ret = bdrv_snapshot_find(bs, old_sn, name);
-> >> -        if (ret >= 0) {
-> >> -            pstrcpy(sn->name, sizeof(sn->name), old_sn->name);
-> >> -            pstrcpy(sn->id_str, sizeof(sn->id_str), old_sn->id_str);
-> >> -        } else {
-> >> -            pstrcpy(sn->name, sizeof(sn->name), name);
-> >> -        }
-> >> +        pstrcpy(sn->name, sizeof(sn->name), name);
-> >>      } else {
-> >>          /* cast below needed for OpenBSD where tv_sec is still 'long' */
-> >>          localtime_r((const time_t *)&tv.tv_sec, &tm);
-> >> -- 
-> >> 2.7.4
-> >>
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+I can do a v2 of my patch with a better commit description and addressing Peter's
+questions, but feel free to take this patch instead. It has a much
+clearer commit msg and seems to be more correct to me.
 
