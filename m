@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BF322DEA9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 21:56:20 +0100 (CET)
-Received: from localhost ([::1]:55622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D023B2DEAA4
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 21:59:22 +0100 (CET)
+Received: from localhost ([::1]:38042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqMnS-0002os-Ih
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 15:56:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55648)
+	id 1kqMqP-0007IX-Q4
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 15:59:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqMlb-000141-Gd
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 15:54:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26690)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqMm7-0001fr-4n
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 15:54:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqMlZ-0002wE-Fr
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 15:54:23 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqMm4-00035X-E9
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 15:54:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608324860;
+ s=mimecast20190719; t=1608324890;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kiu34yZPMbDq9A//PdWwlmecaLa8JCyoCuAnIWCd9jQ=;
- b=BA3uwx5Y5a22cNEJuKT9ZfLcFOL5OH5JFDzTzrTOh0WwQFYxKgORN6N3+HuDoEJQTK9mpn
- D3O6W4Nc/3WTrTO6B4Acmvm9YutacQtwCKTdYU1kGab1LTs9baZwx7HncQ2+SEt9DCb7Ig
- ioGxoHD6sxLKatgPtP3bcdWJ/goiprY=
+ bh=fNy72KJQm8NtDgfkUBo9YKJjmL7JjBTXL1LMq0uQRv8=;
+ b=Mw6fv457fFcWdxKyM3yyLw3o5HrJetMbx7IGE6kzuRTghgI0Oa7H0YBXsBECHFyBZiI4qN
+ 96lNer5/IZXdGQ0yD46uLYdsDeDEBc3Aut9HCcM6kFx3KXpr04A+uqIISrXbh+9jHwCPEM
+ fu8ytJmen9r7PmDdn8CP/xzS7xiHX5Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-VxNn6ZUrMMmX4CmysaYe3A-1; Fri, 18 Dec 2020 15:54:19 -0500
-X-MC-Unique: VxNn6ZUrMMmX4CmysaYe3A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-499-e48J-g-QO-eBp33GiNOWBg-1; Fri, 18 Dec 2020 15:54:16 -0500
+X-MC-Unique: e48J-g-QO-eBp33GiNOWBg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E7EE10054FF
- for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 20:54:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C47A801AA9
+ for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 20:54:15 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B262D5C233;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B70542999F;
  Fri, 18 Dec 2020 20:54:14 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E7ECA11275EC; Fri, 18 Dec 2020 21:54:07 +0100 (CET)
+ id EB2D411275ED; Fri, 18 Dec 2020 21:54:07 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/11] qapi/gen: Support for switching to another module
- temporarily
-Date: Fri, 18 Dec 2020 21:54:05 +0100
-Message-Id: <20201218205407.1326907-10-armbru@redhat.com>
+Subject: [PATCH 10/11] qapi/commands: Simplify command registry generation
+Date: Fri, 18 Dec 2020 21:54:06 +0100
+Message-Id: <20201218205407.1326907-11-armbru@redhat.com>
 In-Reply-To: <20201218205407.1326907-1-armbru@redhat.com>
 References: <20201218205407.1326907-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,37 +84,124 @@ Cc: marcandre.lureau@redhat.com, jsnow@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+QAPISchemaGenCommandVisitor.visit_command() needs to generate the
+marshalling function into the current module, and also generate its
+registration into the ./init system module.  The latter is done
+somewhat awkwardly: .__init__() creates a QAPIGenCCode that will not
+be written out, each .visit_command() adds its registration to it, and
+.visit_end() copies its contents into the ./init module it creates.
+
+Instead provide the means to temporarily switch to another module.
+Create the ./init module in .visit_begin(), and generate its initial
+part.  Add registrations to it in .visit_command().  Finish it in
+.visit_end().
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/gen.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ scripts/qapi/commands.py | 49 ++++++++++++++++++----------------------
+ 1 file changed, 22 insertions(+), 27 deletions(-)
 
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index d9f8bac9aa..cb00229f5d 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -15,6 +15,7 @@ from contextlib import contextmanager
- import os
- import re
- from typing import (
-+    ContextManager,
-     Dict,
-     Iterator,
-     List,
-@@ -296,6 +297,13 @@ class QAPISchemaModularCVisitor(QAPISchemaVisitor):
-         self._module[name] = (genc, genh)
-         self._current_module = name
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 4911166339..396485cc1a 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -23,7 +23,6 @@ from typing import (
+ from .common import c_name, mcgen
+ from .gen import (
+     QAPIGenC,
+-    QAPIGenCCode,
+     QAPISchemaModularCVisitor,
+     build_params,
+     ifcontext,
+@@ -237,28 +236,11 @@ def gen_register_command(name: str,
+     return ret
  
-+    @contextmanager
-+    def _temp_module(self, name: str) -> ContextManager[None]:
-+        old_module = self._current_module
-+        self._current_module = name
-+        yield
-+        self._current_module = old_module
+ 
+-def gen_registry(registry: str, prefix: str) -> str:
+-    ret = mcgen('''
+-
+-void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmds)
+-{
+-    QTAILQ_INIT(cmds);
+-
+-''',
+-                c_prefix=c_name(prefix, protect=False))
+-    ret += registry
+-    ret += mcgen('''
+-}
+-''')
+-    return ret
+-
+-
+ class QAPISchemaGenCommandVisitor(QAPISchemaModularCVisitor):
+     def __init__(self, prefix: str):
+         super().__init__(
+             prefix, 'qapi-commands',
+             ' * Schema-defined QAPI/QMP commands', None, __doc__)
+-        self._regy = QAPIGenCCode(None)
+         self._visited_ret_types: Dict[QAPIGenC, Set[QAPISchemaType]] = {}
+ 
+     def _begin_user_module(self, name: str) -> None:
+@@ -285,7 +267,7 @@ class QAPISchemaGenCommandVisitor(QAPISchemaModularCVisitor):
+ ''',
+                              types=types))
+ 
+-    def visit_end(self) -> None:
++    def visit_begin(self, schema) -> None:
+         self._add_module('./init', ' * QAPI Commands initialization')
+         self._genh.add(mcgen('''
+ #include "qapi/qmp/dispatch.h"
+@@ -293,13 +275,24 @@ class QAPISchemaGenCommandVisitor(QAPISchemaModularCVisitor):
+ void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmds);
+ ''',
+                              c_prefix=c_name(self._prefix, protect=False)))
+-        self._genc.preamble_add(mcgen('''
++        self._genc.add(mcgen('''
+ #include "qemu/osdep.h"
+ #include "%(prefix)sqapi-commands.h"
+ #include "%(prefix)sqapi-init-commands.h"
 +
-     def write(self, output_dir: str, opt_builtins: bool = False) -> None:
-         for name in self._module:
-             if self._is_builtin_module(name) and not opt_builtins:
++void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmds)
++{
++    QTAILQ_INIT(cmds);
++
+ ''',
+-                                      prefix=self._prefix))
+-        self._genc.add(gen_registry(self._regy.get_content(), self._prefix))
++                             prefix=self._prefix,
++                             c_prefix=c_name(self._prefix, protect=False)))
++
++    def visit_end(self) -> None:
++        with self._temp_module('./init'):
++            self._genc.add(mcgen('''
++}
++'''))
+ 
+     def visit_command(self,
+                       name: str,
+@@ -324,15 +317,17 @@ void %(c_prefix)sqmp_init_marshal(QmpCommandList *cmds);
+         if ret_type and ret_type not in self._visited_ret_types[self._genc]:
+             self._visited_ret_types[self._genc].add(ret_type)
+             with ifcontext(ret_type.ifcond,
+-                           self._genh, self._genc, self._regy):
++                           self._genh, self._genc):
+                 self._genc.add(gen_marshal_output(ret_type))
+-        with ifcontext(ifcond, self._genh, self._genc, self._regy):
++        with ifcontext(ifcond, self._genh, self._genc):
+             self._genh.add(gen_command_decl(name, arg_type, boxed, ret_type))
+             self._genh.add(gen_marshal_decl(name))
+             self._genc.add(gen_marshal(name, arg_type, boxed, ret_type))
+-            self._regy.add(gen_register_command(name, success_response,
+-                                                allow_oob, allow_preconfig,
+-                                                coroutine))
++        with self._temp_module('./init'):
++            with ifcontext(ifcond, self._genh, self._genc):
++                self._genc.add(gen_register_command(name, success_response,
++                                                    allow_oob, allow_preconfig,
++                                                    coroutine))
+ 
+ 
+ def gen_commands(schema: QAPISchema,
 -- 
 2.26.2
 
