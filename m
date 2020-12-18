@@ -2,83 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61D362DE240
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 13:02:22 +0100 (CET)
-Received: from localhost ([::1]:34966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDC02DE241
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 13:02:38 +0100 (CET)
+Received: from localhost ([::1]:35496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqESj-0006Y9-5C
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 07:02:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34756)
+	id 1kqESz-0006mu-Om
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 07:02:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kqEPI-0004l5-H6
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:58:48 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54294)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kqEPC-0005XM-T6
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:58:48 -0500
-Received: by mail-wm1-x335.google.com with SMTP id c133so2073253wme.4
- for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 03:58:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=3MSM6gZ/HdloIkZ5v7afg1iOtNpcUZimcw7niD7H4KM=;
- b=z0Kbb4wTod5aKEK04V2xJ8xZ/pJ65bkY6b0CnEyS3C3uQKfYgcx3s//n/q5EaVPmbl
- RDwAVVqBYwOI10tAPVM7y/7aDVdoKpL5bLLlT7Tqbw3mcb90WFIrE3Nn0K8xdD3smBuw
- jfxBCg4ksPtsPOjyLvmOkiWyHJAKy6XqplGeDo7LkHoYxHiFDXydkMg/FcvfrHoZMMU4
- UIPVOnM4qMnsM6Soqx+IdQZHm/w/F9s/s2Tj2rPWScz4prPJFiCPU8GAn7rrApp4cAiO
- 9T7JkqCVSbvjq4Ujutw5ulkJitnkvVCuOZkN1GdwwOlmYtOr3wovL1g8OZHPD/hYtT+y
- 7FxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=3MSM6gZ/HdloIkZ5v7afg1iOtNpcUZimcw7niD7H4KM=;
- b=SwUz7NN7wlc3g0M0JcJe2v2DNjXEEMbDvV0lhe8M4rTsNFR0dklTwM6OPwOodJo025
- zOuh4oKaQyJADZkOOXSYAy9UNYviUW5ewgxG4kWBNh6/CT/4xa1pyunm+cygTx3dTMtb
- klRycKfiuEF5oV/8jl9OiuUTr7kARhVKAcDFkx0RQ2AemQgTzle7OAqOPivenZ22Pt3P
- qw62gB4atIilbm/qvjHrAplXMSiSeEbpBWR/+6A/ZlIWVA7yEkyf+wq7ObwjanfK/Ud3
- tZCYqRVdNS1bYKZMppjfR1IFBWS/XdY7GYAjEPbidvx3MxgK6J0VDKMDP9h5H8QCaHiU
- TcZQ==
-X-Gm-Message-State: AOAM533dsptrrOi0iCyLjzIpvLGwdv8efG9KFquY2VFGlPG9UMZSV66S
- KD5k9RiHppvGE+gnVGGbyaC33g==
-X-Google-Smtp-Source: ABdhPJzxz2xsh9X3Wjx3RuUXZwTfjicmVpQNsMi3VD9yNVxh4BjtviF7J0oHBIpHQAWLWxS2phvBXw==
-X-Received: by 2002:a1c:3d86:: with SMTP id k128mr3852927wma.66.1608292721221; 
- Fri, 18 Dec 2020 03:58:41 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o124sm8451111wmb.5.2020.12.18.03.58.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Dec 2020 03:58:39 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 34CBA1FF7E;
- Fri, 18 Dec 2020 11:58:39 +0000 (GMT)
-References: <20201216013646.40799-1-gromero@linux.ibm.com>
- <87bleut3si.fsf@linaro.org>
- <16b08946-9f96-200e-231f-40e24bb21734@linux.ibm.com>
- <87y2hwqpd2.fsf@linaro.org>
- <9d350192-db21-82ea-1246-8f70e5c89b36@redhat.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] configure: Fail when specified cross compiler cannot be
- found
-Date: Fri, 18 Dec 2020 11:57:49 +0000
-In-reply-to: <9d350192-db21-82ea-1246-8f70e5c89b36@redhat.com>
-Message-ID: <87mtybqqa8.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kqEQD-0005FV-6a; Fri, 18 Dec 2020 06:59:45 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:45449)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kqEQB-0005uu-72; Fri, 18 Dec 2020 06:59:44 -0500
+Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MHFwM-1kueGP0WuW-00DFlt; Fri, 18 Dec 2020 12:59:37 +0100
+Subject: Re: [PATCH v2 6/9] gdbstub: drop CPUEnv from gdb_exit()
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20201218112707.28348-1-alex.bennee@linaro.org>
+ <20201218112707.28348-7-alex.bennee@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <3dc57d93-fe80-9562-be88-cbf86af6bfea@vivier.eu>
+Date: Fri, 18 Dec 2020 12:59:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <20201218112707.28348-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:cwws3PKH0n/LHeZy2tGBJGFljYv5c/SLwFWhTnRGM/+L409EojT
+ akoxqCR44vsRkKDQRzhR9jDMfJM0Zu4evnEG/MXx4DWsQD2mo6v7lQqxVhHzQPAHDYPwNK7
+ qjz8dpZth2jFQZ6/xOeQv1+ZbS1VEKOziYi/LI49Rn4SL3Lv5WlIYCkIC4BKnDi5S6GHYOh
+ RGLoFccyhgVc6bO7+F98w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:29TTJlhp5EQ=:wyauKb+ddqcumaDJRoTBqW
+ UMBHpx30UvcR+XNg6tnd9E5irsAsEms7AS2YbDzoc74SlPhsut7vODdfrY67I4cegaEeBmATo
+ oImV2WnqL/AdZZewDLx9D2Ix07xBNU5ETCcWNFez0JgkH+/snphQnvFwZCMmuvlT9/8ByFLUQ
+ FRI1mXSKIzdxaDlbBmJycEddGfvqXbaSpqjxbB9NlJaYz3964tZPe0ClmxtDmNvi+eZJCeOqn
+ /uB7bCA/E9Zqx6ytopeNEtc8SsNKmsi4RGxaCASEtF4Q5BeHS5PdBPN+J9uTUhvP/TcltVqUe
+ 3jCbslq0HLfl8TdTRvIbozVtJGapf39biwWbZKjgBpS67Bc9uoXgWJoWWxERBHO2HE/miww8q
+ VaKAyO0tc18uXVn0vJtmxJcypupcWIYexwGWT58daZOTE0NTSJIUcrX41jiyv
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,59 +66,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@protonmail.com, david@gibson.dropbear.id.au,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Gustavo Romero <gromero@linux.ibm.com>
+Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
+ Chris Wulff <crwulff@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 18/12/2020 à 12:27, Alex Bennée a écrit :
+> gdb_exit() has never needed anything from env and I doubt we are going
+> to start now.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20201214153012.12723-5-alex.bennee@linaro.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  include/exec/gdbstub.h    | 2 +-
+>  bsd-user/syscall.c        | 6 +++---
+>  gdbstub.c                 | 2 +-
+>  linux-user/exit.c         | 2 +-
+>  target/arm/arm-semi.c     | 2 +-
+>  target/m68k/m68k-semi.c   | 2 +-
+>  target/nios2/nios2-semi.c | 2 +-
+>  7 files changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+> index 94d8f83e92..492db0f512 100644
+> --- a/include/exec/gdbstub.h
+> +++ b/include/exec/gdbstub.h
+> @@ -46,7 +46,7 @@ void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...);
+>  void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va);
+>  int use_gdb_syscalls(void);
+>  void gdb_set_stop_cpu(CPUState *cpu);
+> -void gdb_exit(CPUArchState *, int);
+> +void gdb_exit(int);
+>  #ifdef CONFIG_USER_ONLY
+>  /**
+>   * gdb_handlesig: yield control to gdb
+> diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
+> index d38ec7a162..adc3d21b54 100644
+> --- a/bsd-user/syscall.c
+> +++ b/bsd-user/syscall.c
+> @@ -333,7 +333,7 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+>  #ifdef CONFIG_GPROF
+>          _mcleanup();
+>  #endif
+> -        gdb_exit(cpu_env, arg1);
+> +        gdb_exit(arg1);
+>          qemu_plugin_atexit_cb();
+>          /* XXX: should free thread stack and CPU env */
+>          _exit(arg1);
+> @@ -435,7 +435,7 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
+>  #ifdef CONFIG_GPROF
+>          _mcleanup();
+>  #endif
+> -        gdb_exit(cpu_env, arg1);
+> +        gdb_exit(arg1);
+>          qemu_plugin_atexit_cb();
+>          /* XXX: should free thread stack and CPU env */
+>          _exit(arg1);
+> @@ -514,7 +514,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
+>  #ifdef CONFIG_GPROF
+>          _mcleanup();
+>  #endif
+> -        gdb_exit(cpu_env, arg1);
+> +        gdb_exit(arg1);
+>          qemu_plugin_atexit_cb();
+>          /* XXX: should free thread stack and CPU env */
+>          _exit(arg1);
+> diff --git a/gdbstub.c b/gdbstub.c
+> index 15d3a8e1f5..afa553e8fc 100644
+> --- a/gdbstub.c
+> +++ b/gdbstub.c
+> @@ -3068,7 +3068,7 @@ static void gdb_read_byte(uint8_t ch)
+>  }
+>  
+>  /* Tell the remote gdb that the process has exited.  */
+> -void gdb_exit(CPUArchState *env, int code)
+> +void gdb_exit(int code)
+>  {
+>    char buf[4];
+>  
+> diff --git a/linux-user/exit.c b/linux-user/exit.c
+> index 1594015444..70b344048c 100644
+> --- a/linux-user/exit.c
+> +++ b/linux-user/exit.c
+> @@ -34,6 +34,6 @@ void preexit_cleanup(CPUArchState *env, int code)
+>  #ifdef CONFIG_GCOV
+>          __gcov_dump();
+>  #endif
+> -        gdb_exit(env, code);
+> +        gdb_exit(code);
+>          qemu_plugin_atexit_cb();
+>  }
+> diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+> index f7b7bff522..93360e28c7 100644
+> --- a/target/arm/arm-semi.c
+> +++ b/target/arm/arm-semi.c
+> @@ -1101,7 +1101,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+>               */
+>              ret = (args == ADP_Stopped_ApplicationExit) ? 0 : 1;
+>          }
+> -        gdb_exit(env, ret);
+> +        gdb_exit(ret);
+>          exit(ret);
+>      case TARGET_SYS_SYNCCACHE:
+>          /*
+> diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
+> index 27600e0cc0..d919245e4f 100644
+> --- a/target/m68k/m68k-semi.c
+> +++ b/target/m68k/m68k-semi.c
+> @@ -195,7 +195,7 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
+>      args = env->dregs[1];
+>      switch (nr) {
+>      case HOSTED_EXIT:
+> -        gdb_exit(env, env->dregs[0]);
+> +        gdb_exit(env->dregs[0]);
+>          exit(env->dregs[0]);
+>      case HOSTED_OPEN:
+>          GET_ARG(0);
+> diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
+> index d7a80dd303..e508b2fafc 100644
+> --- a/target/nios2/nios2-semi.c
+> +++ b/target/nios2/nios2-semi.c
+> @@ -215,7 +215,7 @@ void do_nios2_semihosting(CPUNios2State *env)
+>      args = env->regs[R_ARG1];
+>      switch (nr) {
+>      case HOSTED_EXIT:
+> -        gdb_exit(env, env->regs[R_ARG0]);
+> +        gdb_exit(env->regs[R_ARG0]);
+>          exit(env->regs[R_ARG0]);
+>      case HOSTED_OPEN:
+>          GET_ARG(0);
+> 
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-> On 17/12/20 18:56, Alex Benn=C3=A9e wrote:
->> To be honest at the moment the information is a little hidden at the top
->> of the output. It would be nice if we could teach meson to echo it in
->> it's nice coloured output.
->>=20
->> Paolo,
->>=20
->> Any ideas for the cleanest way to do that?
->
-> The code in configure is pretty small:
->
-> (for i in $cross_cc_vars; do
->    export $i
-> done
-> export target_list source_path use_containers
-> $source_path/tests/tcg/configure.sh)
->
-> configure would place the cross-cc variables (which are really just=20
-> command line options) in a file, something like config-cross-cc.mak, and=
-=20
-> the Meson translation of the above would be
->
-> env =3D environment()
-> foreach k, v : keyval.load(meson.current_build_dir() /=20
-> 'config-cross-cc.mak')
->    env.set(k, v)
-> endforeach
-> env.set('target_list', ','.join(target_dirs))
-> env.set('source_path', meson.source_root())
-> env.set('use_containers',
->          'CROSS_CC_CONTAINERS' in config_host ? 'yes' : 'no')
-> message(run_command(files('tests/tcg/configure.sh'), env: env).stdout())
->
-> For a bit more polish, one could make tests/tcg/configure.sh print the=20
-> result in keyval format, parse it back from meson as a dictionary with=20
-> keyval.load(), and pass the result to summary().
-
-Don't we already have this in the form of tests/tcg/config-$TARGET.mak?
-Shouldn't we just injest that into meson after configure.sh has run?
-
->
-> Paolo
-
-
---=20
-Alex Benn=C3=A9e
 
