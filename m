@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985FC2DE099
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 10:52:23 +0100 (CET)
-Received: from localhost ([::1]:44098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F4D2DE0B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:07:19 +0100 (CET)
+Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqCQw-0006mQ-MG
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 04:52:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37270)
+	id 1kqCfN-0001nm-OC
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:07:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kqCPn-00063z-VU
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 04:51:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25924)
+ id 1kqCe3-0000vA-ST
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:05:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kqCPf-00047M-JJ
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 04:51:10 -0500
+ id 1kqCe0-0000u1-TX
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:05:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608285061;
+ s=mimecast20190719; t=1608285951;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IBzk+/iwD18STurBHpiN2UHvvqdnFunrg1V8dnAg428=;
- b=ecANMgqfUqsrjN3cK2d+DZ+QdOnPH6apFeRf3/envlm8G1C9DGueG8f7jl4P1m2S65mBKF
- jkT6cLa69PXA7hu1Da7rMNhK3i8gJUAEdVwchnW+4UAYOjT81zQ1xzzGvP7mKBURjh3vNv
- 0bZFDzKUESqDG3k7Edqek0cWyl2nwnY=
+ bh=Yk73ldKhOWuFYvTVGTVu19urmqbAsmpbkCjFIwv2vFY=;
+ b=f82ZjPFJJYiqmrfeam5nLlep5lwpnFoz7uBEnagoAS+MyXOA9XbUvDcaTFTFoDojGTuzsY
+ cj3VjdNM1/EC0FzCVbut/tFmp+jdmU6Fc1hcNLZkMhJzzy0rca4kInCKuyIqBPaePx3OUD
+ tnoX0MSWUvYd6USHXL9bt2No6yRWihg=
 Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
  [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-pmtSMNDzMTCrt7Cf4Nb4Jw-1; Fri, 18 Dec 2020 04:50:59 -0500
-X-MC-Unique: pmtSMNDzMTCrt7Cf4Nb4Jw-1
-Received: by mail-ej1-f72.google.com with SMTP id h17so589426ejk.21
- for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 01:50:59 -0800 (PST)
+ us-mta-548-j2D12OpXNdK5BT2wGqU8Kw-1; Fri, 18 Dec 2020 05:05:49 -0500
+X-MC-Unique: j2D12OpXNdK5BT2wGqU8Kw-1
+Received: by mail-ej1-f72.google.com with SMTP id n17so607949eja.23
+ for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 02:05:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IBzk+/iwD18STurBHpiN2UHvvqdnFunrg1V8dnAg428=;
- b=ltv6X+hTZGU4f1CtLUv4plV1llAA1/A0s+yj6n38teXMypZD7PrCctJF2TkVtwbUVE
- 9EE7qqTXEZogs1kZUJYhSV/G1MdeHEIsT3bxP6dcMS96UMfqc/QBHXSNy4eJvIjj8dI0
- zi9ZVf3wQ2GBeNwra0ss412Sa8AkGvgaiLYbPKa26Za1dc8d3n6lxYfAWdr2gL7NdUv0
- 6tlsxsQB/Ssgaz//YHoo509/H05KD64EJi6BhhcisLzNrTX9qYqDMlkKkKdg/YECVj6X
- RZ29OgGTagwqLCX92UGnfpkZASBtrsr/RoDkvSBT8iDZ0vgyMODyUd8k+csINrghPK6q
- dxpA==
-X-Gm-Message-State: AOAM532IBzOU+RPNQxaeiTo5N7iMS0vTh3YxNiaGcYTcMKLUNdlMiE7W
- J7p0EcmPTWenDTpDEVDzIAXLVwZlkSsXo5vT2gN+YB5wbYzlREphG3vr48cyLaTI2gC6DGM/D4f
- SPtB1IqjhbFkQ8wo=
-X-Received: by 2002:a05:6402:a52:: with SMTP id
- bt18mr3540336edb.228.1608285058338; 
- Fri, 18 Dec 2020 01:50:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwsL1SPPMwxjcCo0j6NXDz+Lgxti8XLLLZ9Jl5Hv+ENbwS31HXnwM6+sGNcrTkB/moGs5t/KA==
-X-Received: by 2002:a05:6402:a52:: with SMTP id
- bt18mr3540323edb.228.1608285058153; 
- Fri, 18 Dec 2020 01:50:58 -0800 (PST)
+ bh=Yk73ldKhOWuFYvTVGTVu19urmqbAsmpbkCjFIwv2vFY=;
+ b=VREXtJRxH45ojoAxbp2kACQx145SIgDAThtakaHtsbEhxrqdGkwElFbXSgemfOAg2z
+ c7Xyut4MYVTBtKrBpM+OVaDmQVG7yy+e5RHhhC+QmKDaxGuEGxL+85jUsMS2SeQmbuYd
+ bYHHjEThHSm2mjz2Prq2QteRKmH5oYRSQy4J+D6b2xf74qCpEco8DaG19iew0HWSKS9h
+ 2WHzXtNIY1h7v9Z2oCsHpkjeGfBQMlbmYvbJK/1tPMyOeaBUDluzIXgnbzNhtv5oFCCo
+ uAnXMMEnQeltcqu3KRaBMaOyUcJB7xzozTkz79k8EUucoengs9Nm5ujI8xj4bxEspr/M
+ 6cuQ==
+X-Gm-Message-State: AOAM530j0haMZKoFWS7KUeF0kngHKesEytrQ84ucGZbYNfLrkz2//qSn
+ WRKWdenzNw93q0jwwkh3iDVc2coSDsJG2mBWwg/Nkj5laRbo7xTtL2Jby8/gNHf4E06Zr78K2DL
+ WuS9dWAgF5AP8RYo=
+X-Received: by 2002:a17:906:451:: with SMTP id
+ e17mr3171783eja.228.1608285947952; 
+ Fri, 18 Dec 2020 02:05:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyOCaUps7C1Blc17nM+DRtSqSrsTKZ8FQgwQt5Eq/mY+9wDFi1lqne28rTtDUudakiDb/j1Vg==
+X-Received: by 2002:a17:906:451:: with SMTP id
+ e17mr3171763eja.228.1608285947771; 
+ Fri, 18 Dec 2020 02:05:47 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id rs27sm5399073ejb.21.2020.12.18.01.50.56
+ by smtp.gmail.com with ESMTPSA id lz17sm5251835ejb.19.2020.12.18.02.05.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Dec 2020 01:50:57 -0800 (PST)
-Subject: Re: [PATCH] whpx: fix compilation
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20201218084611.634254-1-marcandre.lureau@redhat.com>
+ Fri, 18 Dec 2020 02:05:46 -0800 (PST)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Gustavo Romero <gromero@linux.ibm.com>
+References: <20201216013646.40799-1-gromero@linux.ibm.com>
+ <87bleut3si.fsf@linaro.org>
+ <16b08946-9f96-200e-231f-40e24bb21734@linux.ibm.com>
+ <87y2hwqpd2.fsf@linaro.org>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <023ac901-2c57-15da-4dfe-62b1f4f1c23d@redhat.com>
-Date: Fri, 18 Dec 2020 10:50:56 +0100
+Subject: Re: [PATCH] configure: Fail when specified cross compiler cannot be
+ found
+Message-ID: <9d350192-db21-82ea-1246-8f70e5c89b36@redhat.com>
+Date: Fri, 18 Dec 2020 11:05:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201218084611.634254-1-marcandre.lureau@redhat.com>
+In-Reply-To: <87y2hwqpd2.fsf@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,16 +84,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,48 +106,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sunilmut@microsoft.com
+Cc: gustavo.romero@protonmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/12/20 09:46, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 17/12/20 18:56, Alex Bennée wrote:
+> To be honest at the moment the information is a little hidden at the top
+> of the output. It would be nice if we could teach meson to echo it in
+> it's nice coloured output.
 > 
-> When compiling WHPX (on msys2)
+> Paolo,
 > 
-> FAILED: libqemu-x86_64-softmmu.fa.p/target_i386_whpx_whpx-all.c.obj
-> ../target/i386/whpx/whpx-all.c:29:10: fatal error: whp-dispatch.h: No such file or directory
->     29 | #include "whp-dispatch.h"
->        |          ^~~~~~~~~~~~~~~~
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   include/sysemu/whpx.h | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h
-> index 9346fd92e9..79ab3d73cf 100644
-> --- a/include/sysemu/whpx.h
-> +++ b/include/sysemu/whpx.h
-> @@ -15,7 +15,9 @@
->   
->   #ifdef CONFIG_WHPX
->   
-> -#include "whp-dispatch.h"
-> +#include <windows.h>
-> +#include <WinHvPlatform.h>
-> +#include <WinHvEmulation.h>
->   
->   struct whpx_state {
->       uint64_t mem_quota;
-> 
+> Any ideas for the cleanest way to do that?
 
-This is wrong, just "git mv target/i386/whpx/whp-dispatch.h 
-include/sysemu" instead (and possibly change the #include line to 
-sysemu/whp-dispatch.h).
+The code in configure is pretty small:
 
-But I wonder if whp-dispatch.h is needed at all in this file.  If we can 
-just include it in whpx-all.c and whpx-apic.c, that would be much better.
+(for i in $cross_cc_vars; do
+   export $i
+done
+export target_list source_path use_containers
+$source_path/tests/tcg/configure.sh)
+
+configure would place the cross-cc variables (which are really just 
+command line options) in a file, something like config-cross-cc.mak, and 
+the Meson translation of the above would be
+
+env = environment()
+foreach k, v : keyval.load(meson.current_build_dir() / 
+'config-cross-cc.mak')
+   env.set(k, v)
+endforeach
+env.set('target_list', ','.join(target_dirs))
+env.set('source_path', meson.source_root())
+env.set('use_containers',
+         'CROSS_CC_CONTAINERS' in config_host ? 'yes' : 'no')
+message(run_command(files('tests/tcg/configure.sh'), env: env).stdout())
+
+For a bit more polish, one could make tests/tcg/configure.sh print the 
+result in keyval format, parse it back from meson as a dictionary with 
+keyval.load(), and pass the result to summary().
 
 Paolo
 
