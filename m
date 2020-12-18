@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749042DE06A
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 10:30:15 +0100 (CET)
-Received: from localhost ([::1]:36792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7ACB2DE06F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 10:35:31 +0100 (CET)
+Received: from localhost ([::1]:41752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqC5W-0007xf-4I
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 04:30:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59706)
+	id 1kqCAc-0001vM-6y
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 04:35:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kqByz-0005Ux-CP; Fri, 18 Dec 2020 04:23:29 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:48125)
+ id 1kqBz2-0005W2-2A; Fri, 18 Dec 2020 04:23:32 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:39239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kqByw-0002aV-D4; Fri, 18 Dec 2020 04:23:29 -0500
+ id 1kqByy-0002ba-Og; Fri, 18 Dec 2020 04:23:31 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 3E5885C00D0;
- Fri, 18 Dec 2020 04:23:25 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 04D985C00DA;
+ Fri, 18 Dec 2020 04:23:28 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 18 Dec 2020 04:23:25 -0500
+ by compute4.internal (MEProxy); Fri, 18 Dec 2020 04:23:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=J0rSAQf7JoSJM
- 5eGidEZCIpeA32MKYZZ27SHwZsIcN4=; b=MBMQT4IAeSWTRoeYTuGJ8gWmQEipe
- R5jLYiqZX6X8IAhIk84Fimp8jgWejEoUgz5czcq+LYsqFRfmNpdk+Rh5HvctHcW3
- 9T1o3np5ulPJ88AuQ15A6xj+tctxdBSWanFH+2dRyxi8AE97av/fpyXxH1Y2wYm2
- 5AabgoaN+JJRSGazI1RidvSciibZ15xWVofNU6OjZkNx+HzFzBbJyuj3B3nC+N0l
- qAGkGsgxMDLHm/UdoUhoywctbISAQLJyz4AUqHtSyO5sZegkkvaAkq1oQWNulO+T
- rx+C/dL7q/gjddwy80RwA7nbFpOTxnpgLo/LEnS9qcmuYG/QjMltK4SHQ==
+ :mime-version:content-transfer-encoding; s=fm1; bh=nbYYYyegDfhtW
+ KwgTYEkPIcmuu1KBLskaOCuM8x4MnM=; b=TLOfDlL8ZfLB4JEnd8X3ds68ygf2l
+ PQ5haPOdqvsLiL6auynnGz97UMlXnmNQucijMlaxZgmOhKRK9bMzm5SMIwlmVsNH
+ OO2XY0qCNtrZz3MKNEaXoW++Yw0axxY6jv2p9boobahqrAQo9wB6bnvGh6rIiY+5
+ hcxgcxBGhzstIUnss11CXfjjxrZjvB/cKFFPqZSk9+0DGVH26T3vbgYr9R+x+uIW
+ q5CxM5xVMOgtJldaSniAAfzl8cxTaYYSZWdBjaII7TwH+KcvL9QI6ricauNOmQCc
+ Yed97z73ofIszF5Vd7ufjZkmf9tMIY8wYncJ/jd1FimfdZKz/LAIq20nQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=J0rSAQf7JoSJM5eGidEZCIpeA32MKYZZ27SHwZsIcN4=; b=hMUcpf7C
- xeDN90tSaHEo+TT8O1QpuEZz06p8jnR/omAez5+gLqu5LdCEGh1FoVIAgvi/Si42
- yzoJzcRnwSkbAwvApU/L4Ry1FekmjNVLDJWVhVjqwy6JIkyw3yI+wt0+3IATLyVO
- Md1ZlJJC0ok1RyHeY9QO9bCOVBqCUzE7P6l+1at9eCpRUfs3rUZ3OHw0B9y740Y5
- vyphLMN7+nYwLpeeCiGjmYwcrRe3PiwhbNvtcuIjXFyi+qxr9356pmJ/WxYQMMCp
- OHKoZM7oKReTdu+Kd6o2UYSi3A9r6To/ePUoJ5S7E+1uXoVY5cOMFybZ5kNSr8sg
- oSrn1YhX0y6rlw==
-X-ME-Sender: <xms:DXXcXwCQssr7_qfwf0Ii6Q6r08f58cKjhOqNjbQRRVoSq1uxB6MLNA>
- <xme:DXXcXyhsXcPpXaldMzAJBmjuBzTJ_-A0geKxQp6afVaGzMf2cELN_7oZSncUTkO-i
- aU8dGiPyFa0F4S_nww>
+ fm1; bh=nbYYYyegDfhtWKwgTYEkPIcmuu1KBLskaOCuM8x4MnM=; b=CkbCQCG9
+ 8VMsvoQWSRu+57vviusgxH9YhB1wmPXVpOmzIdicuJctLiLroTEiL5nVdgCn5Lh5
+ p8IYpAcps7qVYDOLcwqAt5Y0F7T7nQANj4DwwYbm4xLEg6T6g3hskudoqoiteOT2
+ Rxy60rc85G22LJCJbPcGl/ag/sviqFreY1SMvXqlXDM6t0HvC8mZBh2Y+YWVhDte
+ spU/3V/5F3Q1gGHQIJV/oQwp2lqxTeJCyQDFhNK4RxqRvXsiz5gUO/ihTzDhDDGP
+ tx2Sw9UqOLqd3NXHDp24/3B5NXByLMVBIVRaTqA2IFo4dLFV4fmF1nS41GLDRxRX
+ ez503zrdx1LLXA==
+X-ME-Sender: <xms:D3XcX6rFG0fCm34inwCXt0U_ek4hHG-AHCr6ncbdFv5NdOJ5WulzFQ>
+ <xme:D3XcX4oBGCcTS1EN4wwSDLW24AJHz1F26awYFU8Qyz0BJuruoIlD82nAmmQlkox37
+ SoTv2SuNW1EZhkplMQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeliedgtdefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedvne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:DXXcXzlVM3rGBierqq00tknFki0WPRIhb5COGS26gIiJptCWqouL3w>
- <xmx:DXXcX2zr22k5NWgErLevuBMUS8hwpluj1H7FOxP5XO6EBLUmUw_gbQ>
- <xmx:DXXcX1QJ-pPqZnnbXgsH0jJkaMDzAPmCn1yzR9djaB7vwGqgfT2Pog>
- <xmx:DXXcX0H148fsLt8ttNII4dINbuBwnUo0MlEv2bmf5BntUw6elWcNfA>
+X-ME-Proxy: <xmx:D3XcX_P7MkVAlZmQJQ8rIoE9yXifI2rRtn9_ag4yzBpIxiGnAvMNRg>
+ <xmx:D3XcX54E-YevuPp9SmU_nTLyWimncyEypW8RqRmUOzNLzm9aC058_A>
+ <xmx:D3XcX56vGCHII3-Ns6lInhImfTIIdN8fKD-CA6U-KUGg7TgoLQndhQ>
+ <xmx:EHXcX2vpDUIf0KKyaAUVXCOCCBfWvjd5zeOb8x_lCSIL9ns6qYYP2g>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 48A52108005F;
- Fri, 18 Dec 2020 04:23:21 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 4E59E108005F;
+ Fri, 18 Dec 2020 04:23:25 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/block/nvme: bump to v1.4
-Date: Fri, 18 Dec 2020 10:23:06 +0100
-Message-Id: <20201218092308.894367-3-its@irrelevant.dk>
+Subject: [PATCH 3/3] hw/block/nvme: lift cmb restrictions
+Date: Fri, 18 Dec 2020 10:23:07 +0100
+Message-Id: <20201218092308.894367-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201218092308.894367-1-its@irrelevant.dk>
 References: <20201218092308.894367-1-its@irrelevant.dk>
@@ -101,27 +101,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-With the new CMB logic in place, bump the implemented specification
-version to v1.4.
+The controller now implements v1.4 and we can lift the restrictions on
+CMB Data Pointer and Command Independent Locations Support (CDPCILS) and
+CMB Data Pointer Mixed Locations Support (CDPMLS) since the device
+really does not care about mixed host/cmb pointers in those cases.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/nvme.c | 33 ++-------------------------------
+ 1 file changed, 2 insertions(+), 31 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index f3c111ee0a5c..16bf05638bf6 100644
+index 16bf05638bf6..bd1de8453cfa 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -74,7 +74,7 @@
+@@ -336,7 +336,6 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
+     trans_len = MIN(len, trans_len);
+     int num_prps = (len >> n->page_bits) + 1;
+     uint16_t status;
+-    bool prp_list_in_cmb = false;
+     int ret;
  
- #define NVME_MAX_IOQPAIRS 0xffff
- #define NVME_DB_SIZE  4
--#define NVME_SPEC_VER 0x00010300
-+#define NVME_SPEC_VER 0x00010400
- #define NVME_CMB_BIR 2
- #define NVME_PMR_BIR 2
- #define NVME_TEMPERATURE 0x143
+     QEMUSGList *qsg = &req->qsg;
+@@ -362,10 +361,6 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
+             uint32_t nents, prp_trans;
+             int i = 0;
+ 
+-            if (nvme_addr_is_cmb(n, prp2)) {
+-                prp_list_in_cmb = true;
+-            }
+-
+             nents = (len + n->page_size - 1) >> n->page_bits;
+             prp_trans = MIN(n->max_prp_ents, nents) * sizeof(uint64_t);
+             ret = nvme_addr_read(n, prp2, (void *)prp_list, prp_trans);
+@@ -382,10 +377,6 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
+                         return NVME_INVALID_PRP_OFFSET | NVME_DNR;
+                     }
+ 
+-                    if (prp_list_in_cmb != nvme_addr_is_cmb(n, prp_ent)) {
+-                        return NVME_INVALID_USE_OF_CMB | NVME_DNR;
+-                    }
+-
+                     i = 0;
+                     nents = (len + n->page_size - 1) >> n->page_bits;
+                     prp_trans = MIN(n->max_prp_ents, nents) * sizeof(uint64_t);
+@@ -519,7 +510,6 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
+     uint64_t nsgld;
+     uint32_t seg_len;
+     uint16_t status;
+-    bool sgl_in_cmb = false;
+     hwaddr addr;
+     int ret;
+ 
+@@ -541,18 +531,6 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
+         goto out;
+     }
+ 
+-    /*
+-     * If the segment is located in the CMB, the submission queue of the
+-     * request must also reside there.
+-     */
+-    if (nvme_addr_is_cmb(n, addr)) {
+-        if (!nvme_addr_is_cmb(n, req->sq->dma_addr)) {
+-            return NVME_INVALID_USE_OF_CMB | NVME_DNR;
+-        }
+-
+-        sgl_in_cmb = true;
+-    }
+-
+     for (;;) {
+         switch (NVME_SGL_TYPE(sgld->type)) {
+         case NVME_SGL_DESCR_TYPE_SEGMENT:
+@@ -641,15 +619,6 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
+         if (status) {
+             goto unmap;
+         }
+-
+-        /*
+-         * If the next segment is in the CMB, make sure that the sgl was
+-         * already located there.
+-         */
+-        if (sgl_in_cmb != nvme_addr_is_cmb(n, addr)) {
+-            status = NVME_INVALID_USE_OF_CMB | NVME_DNR;
+-            goto unmap;
+-        }
+     }
+ 
+ out:
+@@ -2428,6 +2397,8 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+ 
+ static void nvme_cmb_enable_regs(NvmeCtrl *n)
+ {
++    NVME_CMBLOC_SET_CDPCILS(n->bar.cmbloc, 1);
++    NVME_CMBLOC_SET_CDPMLS(n->bar.cmbloc, 1);
+     NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_CMB_BIR);
+ 
+     NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
 -- 
 2.29.2
 
