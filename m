@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B452DE181
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:50:31 +0100 (CET)
-Received: from localhost ([::1]:41584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 390F32DE180
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:50:23 +0100 (CET)
+Received: from localhost ([::1]:40736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqDLC-0004Lp-AJ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:50:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46884)
+	id 1kqDL3-00040g-8c
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:50:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kqD9Z-00074V-AL; Fri, 18 Dec 2020 05:38:29 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:55298
+ id 1kqD9Y-00071Q-50; Fri, 18 Dec 2020 05:38:28 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:55300
  helo=ns207790.ip-94-23-215.eu)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <remi@remlab.net>)
- id 1kqD9W-0003L7-NM; Fri, 18 Dec 2020 05:38:29 -0500
+ id 1kqD9W-0003L8-Is; Fri, 18 Dec 2020 05:38:27 -0500
 Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id DD64D60413;
- Fri, 18 Dec 2020 11:38:02 +0100 (CET)
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 28670606AE;
+ Fri, 18 Dec 2020 11:38:03 +0100 (CET)
 From: remi.denis.courmont@huawei.com
 To: qemu-arm@nongnu.org
-Subject: [PATCH 12/18] target/arm: translate NS bit in page-walks
-Date: Fri, 18 Dec 2020 12:37:53 +0200
-Message-Id: <20201218103759.19929-12-remi.denis.courmont@huawei.com>
+Subject: [PATCH 13/18] target/arm: generalize 2-stage page-walk condition
+Date: Fri, 18 Dec 2020 12:37:54 +0200
+Message-Id: <20201218103759.19929-13-remi.denis.courmont@huawei.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <3337797.iIbC2pHGDl@basile.remlab.net>
 References: <3337797.iIbC2pHGDl@basile.remlab.net>
@@ -58,34 +58,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
+The stage_1_mmu_idx() already effectively keeps track of which
+translation regimes have two stages. Don't hard-code another test.
+
 Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 ---
- target/arm/helper.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ target/arm/helper.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 4b6ffcd326..ff69b46d43 100644
+index ff69b46d43..6d60fa23c9 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -10433,6 +10433,18 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
-             fi->s1ptw = true;
-             return ~0;
-         }
+@@ -12152,11 +12152,11 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+                    target_ulong *page_size,
+                    ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs)
+ {
+-    if (mmu_idx == ARMMMUIdx_E10_0 ||
+-        mmu_idx == ARMMMUIdx_E10_1 ||
+-        mmu_idx == ARMMMUIdx_E10_1_PAN) {
++    ARMMMUIdx s1_mmu_idx = stage_1_mmu_idx(mmu_idx);
 +
-+        if (arm_is_secure_below_el3(env)) {
-+            /* Check if page table walk is to secure or non-secure PA space. */
-+            if (*is_secure) {
-+                *is_secure = !(env->cp15.vstcr_el2.raw_tcr & VSTCR_SW);
-+            } else {
-+                *is_secure = !(env->cp15.vtcr_el2.raw_tcr & VTCR_NSW);
-+            }
-+        } else {
-+            assert(!*is_secure);
-+        }
-+
-         addr = s2pa;
-     }
-     return addr;
++    if (mmu_idx != s1_mmu_idx) {
+         /* Call ourselves recursively to do the stage 1 and then stage 2
+-         * translations.
++         * translations if mmu_idx is a two-stage regime.
+          */
+         if (arm_feature(env, ARM_FEATURE_EL2)) {
+             hwaddr ipa;
+@@ -12164,9 +12164,8 @@ bool get_phys_addr(CPUARMState *env, target_ulong address,
+             int ret;
+             ARMCacheAttrs cacheattrs2 = {};
+ 
+-            ret = get_phys_addr(env, address, access_type,
+-                                stage_1_mmu_idx(mmu_idx), &ipa, attrs,
+-                                prot, page_size, fi, cacheattrs);
++            ret = get_phys_addr(env, address, access_type, s1_mmu_idx, &ipa,
++                                attrs, prot, page_size, fi, cacheattrs);
+ 
+             /* If S1 fails or S2 is disabled, return early.  */
+             if (ret || regime_translation_disabled(env, ARMMMUIdx_Stage2)) {
 -- 
 2.29.2
 
