@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7102DE35B
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 14:38:11 +0100 (CET)
-Received: from localhost ([::1]:38152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 127EB2DE384
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 14:53:23 +0100 (CET)
+Received: from localhost ([::1]:35546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqFxR-0005gV-RS
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 08:38:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55564)
+	id 1kqGC9-0000fZ-Ua
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 08:53:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kqFou-0003Tg-Sh; Fri, 18 Dec 2020 08:29:20 -0500
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:44299)
+ id 1kqFp1-0003WZ-UX; Fri, 18 Dec 2020 08:29:27 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:53681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kqFop-0002u2-Qo; Fri, 18 Dec 2020 08:29:20 -0500
+ id 1kqFoq-0002u3-T8; Fri, 18 Dec 2020 08:29:27 -0500
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.west.internal (Postfix) with ESMTP id 7A76988A;
+ by mailout.west.internal (Postfix) with ESMTP id EFC65917;
  Fri, 18 Dec 2020 08:29:11 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
  by compute2.internal (MEProxy); Fri, 18 Dec 2020 08:29:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=QHIU6l3GSFq9S
- aq0UIfD5aj+OYbt/5OEHiYmulTTuTQ=; b=U5L/vwU0RxHOlSUJUppjW8XmYZsos
- 7Xqogxo46G5IKeXJBzgNPQUL8r03snwdCaZmE2kddM9paUPPKoMKyzmfxjAnbpOP
- udzE5aNzhnjFJrK4cCaUdW1odI30CD+jD/mFYQcKzZTyxUaTGaQ7B/q15Fvt72Yg
- WmDzFcUZvMcgPfziIMzrqC/ptHGNTOaap9AtwUmO6KMpGSg/LXodWuUNJ1rFVq2S
- drHB19IsW/hmY8eaQ0B8V4vonWUsPyv7562vm9niMZICHpI682ZmvmFE1aycgBJd
- wM1bo0COD/ZnN0oksPjkY53JROFM6Xv6AbiDNmegNeh48yH8LcGSXjXEg==
+ :mime-version:content-transfer-encoding; s=fm1; bh=vqbhskpWMx7Q0
+ iG+nffD6pOJmmg47tfLLChG4xysoUk=; b=e0uODoCOITCP9oLznDbxa4qpWgjwg
+ Usyxq+Yq87h7uukcgy9jiEcwuHj2fgT8cdpccxz4pxe8dq9Z+LBTp+0hEesTJGHM
+ oXmW9TZSqFT4yRa6aE4o5sFX7+OYhMftTJL4NPKSDc+f5A6iiFAX4Xa49i2aMdJ2
+ ecmGEE5l39x8W9m+XYcvSN1oBh+MZ19/CsC6pJht78LeU2aQIsqbHLZJUXCt3Y0n
+ WHlQmWSIMfeUntm2boooHPiXOXBw0vhaOcYxzfU+ehyCn0hKrx8lHCGW/+9Au4Lh
+ WdId7Fk9WpHr35ynX9qdQ/DV7Z30sVRj9p5FFaLIeRrc0ia/D7tvhs3GA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=QHIU6l3GSFq9Saq0UIfD5aj+OYbt/5OEHiYmulTTuTQ=; b=eEd1o2L+
- K+CpcXZx2kWXLftsKT/W6zIgxidqwTCgZEubjJVvGILFNIjXtHEGh34qGFw92pLT
- /K8eCyQhU08IMgg2jYooC+dkMvIGrH4DlIF5wBEAPJdARMJGYFVt3Cvn2uTj1rDU
- qg1XS85nOwqp8dxLct0T4OwXjvMV5zhOV+243iySEf1TIWpv952rNWzqsEItfchZ
- fKFOQavwhcT9IJ108ptGgV7U5i3kUQ6J20qJN4XkLqYhCVUpUkJVg4vhMfpg5wwv
- XfsNTUnNMSycYm5MoAw0Ao4g319ZmkhRXsFgKmUQSIrnKNxJsveXZxFef6yrWEF+
- 1tnk4wUW9EYtQw==
-X-ME-Sender: <xms:pq7cX_UUroVwP7aVXiXaqPc4jOP852PybMSGVoya0S3YZhnAaap5yQ>
- <xme:pq7cXxpqHGzb56zTMkyNQaLzjRU3-qFnsUorKYrXPbWLLnELTyTks0uqOz3AoyRWE
- nUkC9UylWwvyWV04Ak>
+ fm1; bh=vqbhskpWMx7Q0iG+nffD6pOJmmg47tfLLChG4xysoUk=; b=LIYhvQGk
+ D/Yg43AI0fRA+YzRZqStrNfgMuT0ySC7Z4iH7/xD8NJjHtKVGDML7WQKFM+K3qkq
+ 8p7PyKtU2jnptDhhSCTFEEMsFrvM5MI0QM3ZDLYz3puwV6DPB1X0Fj5GJrCbfUlP
+ akSa8apqX0aIyZ7QOU4A3TH8sWslx2d/X9yn1PWRM/09YcNIGifsxdkojx/wSldQ
+ MuPTIzYEOIgaKEmDYFBnyjG/2aH4JsA+G/STaPBp1HZXWLJptvKD9FbFrNW5kBHg
+ LJycgH0s1ccgiVDDZYfebbxRAr1oIFARFKds5ge03MY1dM0Dy/m2Hxc8Rls3fpEy
+ 34FbK36o2rYZow==
+X-ME-Sender: <xms:p67cX3vKh6sKFfg89DZLW0t4D9KpFsKnE_HcKZTntkbg8ppHJodTNA>
+ <xme:p67cX9pGXoSZ8RtqPAu7VNA26OQyLcSP0RC0NEH8JDJbmtJkH1pMbOl3jSArcq3QP
+ yMHFk_3Ld_Q-CmkLAg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeliedgheefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:pq7cX7TkPl_pTagUTPLNpd8UTmPwveG9cftkZkD0au2dGqweB5ZA9g>
- <xmx:pq7cX70Tmoux_6bRnglCOIyzXhl2hMPOOIgRzxcDsEcnXZ18dHYsWA>
- <xmx:pq7cX3DzHoqQGjwql6PDBPqHg4362zqPYui6XT7dSOyuAHUj9wGm7A>
- <xmx:p67cX64xKLGm9Utk-0L03KFsvv4ImO-xXv5aGvsO3IOoMcBdfVQzWWqxROc>
+ gvrhhnpefgvdetkeetudefffefkefhjeefueelveekudeiieeffeevfffhgeeujedvteef
+ udenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeektddrudeijedrleekrd
+ duledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+ ihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:p67cX7oEfE0e0G-8mTBZdQDU-PB2HbD_1ZLA3ohTMDV-XR8dB-Q6cg>
+ <xmx:p67cX8ZvSJQPCzIJYme2o91Max8-Nfkt6xRIBfXx2_-ssqJHReRvlw>
+ <xmx:p67cX59bfyjCQHj3ksp53QszTYn_Fl96LkxvhezU62XCmI7l8NBtRA>
+ <xmx:p67cX937gotJ8cMM6NCTzkahMsgYovblBu08BZlUAzB6GcA2CZYk9A>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id AFACE24005A;
- Fri, 18 Dec 2020 08:29:08 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 4A26624005B;
+ Fri, 18 Dec 2020 08:29:10 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/8] hw/block/nvme: indicate CMB support through controller
- capabilities register
-Date: Fri, 18 Dec 2020 14:28:58 +0100
-Message-Id: <20201218132905.967326-2-its@irrelevant.dk>
+Subject: [PATCH 2/8] hw/block/nvme: move msix table and pba to BAR 0
+Date: Fri, 18 Dec 2020 14:28:59 +0100
+Message-Id: <20201218132905.967326-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201218132905.967326-1-its@irrelevant.dk>
 References: <20201218132905.967326-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
- helo=wnew4-smtp.messagingengine.com
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,72 +97,85 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
  Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
  Andrzej Jakowski <andrzej.jakowski@linux.intel.com>,
- Maxim Levitsky <mlevitsky@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
+ Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-This patch sets CMBS bit in controller capabilities register when user
-configures NVMe driver with CMB support, so capabilites are correctly
-reported to guest OS.
+In the interest of supporting both CMB and PMR to be enabled on the same
+device, move the MSI-X table and pending bit out of BAR 4 and into BAR
+0.
 
-Signed-off-by: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
-Reviewed-by: Maxim Levitsky <mlevitsky@gmail.com>
+This is a simplified version of the patch contributed by Andrzej
+Jakowski (see [1]). Leaving the CMB at offset 0 removes the need for
+changes to CMB address mapping code.
+
+  [1]: https://lore.kernel.org/qemu-devel/20200729220107.37758-3-andrzej.jakowski@linux.intel.com/
+
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- include/block/nvme.h | 10 +++++++---
- hw/block/nvme.c      |  1 +
- 2 files changed, 8 insertions(+), 3 deletions(-)
+ hw/block/nvme.h |  1 +
+ hw/block/nvme.c | 24 ++++++++++++++++++++++--
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 11ac1c2b7dfb..24f3c256a7f9 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -36,6 +36,7 @@ enum NvmeCapShift {
-     CAP_MPSMIN_SHIFT   = 48,
-     CAP_MPSMAX_SHIFT   = 52,
-     CAP_PMR_SHIFT      = 56,
-+    CAP_CMB_SHIFT      = 57,
- };
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 574333caa3f9..b1b273ce535e 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -118,6 +118,7 @@ typedef struct NvmeFeatureVal {
  
- enum NvmeCapMask {
-@@ -49,6 +50,7 @@ enum NvmeCapMask {
-     CAP_MPSMIN_MASK    = 0xf,
-     CAP_MPSMAX_MASK    = 0xf,
-     CAP_PMR_MASK       = 0x1,
-+    CAP_CMB_MASK       = 0x1,
- };
- 
- #define NVME_CAP_MQES(cap)  (((cap) >> CAP_MQES_SHIFT)   & CAP_MQES_MASK)
-@@ -78,9 +80,11 @@ enum NvmeCapMask {
- #define NVME_CAP_SET_MPSMIN(cap, val) (cap |= (uint64_t)(val & CAP_MPSMIN_MASK)\
-                                                            << CAP_MPSMIN_SHIFT)
- #define NVME_CAP_SET_MPSMAX(cap, val) (cap |= (uint64_t)(val & CAP_MPSMAX_MASK)\
--                                                            << CAP_MPSMAX_SHIFT)
--#define NVME_CAP_SET_PMRS(cap, val) (cap |= (uint64_t)(val & CAP_PMR_MASK)\
--                                                            << CAP_PMR_SHIFT)
-+                                                           << CAP_MPSMAX_SHIFT)
-+#define NVME_CAP_SET_PMRS(cap, val)   (cap |= (uint64_t)(val & CAP_PMR_MASK)   \
-+                                                           << CAP_PMR_SHIFT)
-+#define NVME_CAP_SET_CMBS(cap, val)   (cap |= (uint64_t)(val & CAP_CMB_MASK)   \
-+                                                           << CAP_CMB_SHIFT)
- 
- enum NvmeCapCss {
-     NVME_CAP_CSS_NVM        = 1 << 0,
+ typedef struct NvmeCtrl {
+     PCIDevice    parent_obj;
++    MemoryRegion bar0;
+     MemoryRegion iomem;
+     MemoryRegion ctrl_mem;
+     NvmeBar      bar;
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 28416b18a5c0..fe809195a08a 100644
+index fe809195a08a..8a7f682cb3ab 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -3046,6 +3046,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     NVME_CAP_SET_CSS(n->bar.cap, NVME_CAP_CSS_NVM);
-     NVME_CAP_SET_CSS(n->bar.cap, NVME_CAP_CSS_ADMIN_ONLY);
-     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
-+    NVME_CAP_SET_CMBS(n->bar.cap, n->params.cmb_size_mb ? 1 : 0);
+@@ -2952,6 +2952,8 @@ static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
+ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+ {
+     uint8_t *pci_conf = pci_dev->config;
++    uint64_t bar_size, msix_table_size, msix_pba_size;
++    unsigned msix_table_offset, msix_pba_offset;
  
-     n->bar.vs = NVME_SPEC_VER;
-     n->bar.intmc = n->bar.intms = 0;
+     pci_conf[PCI_INTERRUPT_PIN] = 1;
+     pci_config_set_prog_interface(pci_conf, 0x2);
+@@ -2967,11 +2969,29 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+     pci_config_set_class(pci_conf, PCI_CLASS_STORAGE_EXPRESS);
+     pcie_endpoint_cap_init(pci_dev, 0x80);
+ 
++    bar_size = QEMU_ALIGN_UP(n->reg_size, 4 * KiB);
++    msix_table_offset = bar_size;
++    msix_table_size = PCI_MSIX_ENTRY_SIZE * n->params.msix_qsize;
++
++    bar_size += msix_table_size;
++    bar_size = QEMU_ALIGN_UP(bar_size, 4 * KiB);
++    msix_pba_offset = bar_size;
++    msix_pba_size = QEMU_ALIGN_UP(n->params.msix_qsize, 64) / 8;
++
++    bar_size += msix_pba_size;
++    bar_size = pow2ceil(bar_size);
++
++    memory_region_init(&n->bar0, OBJECT(n), "nvme-bar0", bar_size);
+     memory_region_init_io(&n->iomem, OBJECT(n), &nvme_mmio_ops, n, "nvme",
+                           n->reg_size);
++    memory_region_add_subregion(&n->bar0, 0, &n->iomem);
++
+     pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY |
+-                     PCI_BASE_ADDRESS_MEM_TYPE_64, &n->iomem);
+-    if (msix_init_exclusive_bar(pci_dev, n->params.msix_qsize, 4, errp)) {
++                     PCI_BASE_ADDRESS_MEM_TYPE_64, &n->bar0);
++
++    if (msix_init(pci_dev, n->params.msix_qsize,
++                  &n->bar0, 0, msix_table_offset,
++                  &n->bar0, 0, msix_pba_offset, 0, errp)) {
+         return;
+     }
+ 
 -- 
 2.29.2
 
