@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06C72DDE50
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 07:03:52 +0100 (CET)
-Received: from localhost ([::1]:47908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C84932DDE67
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 07:08:10 +0100 (CET)
+Received: from localhost ([::1]:60010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq8ro-0006oL-0s
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 01:03:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51938)
+	id 1kq8vx-0003O4-QK
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 01:08:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=614e9c0eb=alistair.francis@wdc.com>)
- id 1kq8pQ-0004vn-U6
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:01:25 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:9924)
+ id 1kq8pS-0004wU-HN
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:01:26 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:9925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=614e9c0eb=alistair.francis@wdc.com>)
- id 1kq8pO-0002G4-DQ
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:01:24 -0500
+ id 1kq8pO-0002GA-EN
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:01:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1608271589; x=1639807589;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=PLLYWAnBWQ7O/ZTDweRdRbF5ailjF4KdcczuwY6QGwY=;
- b=bCPMpoHlw/WfczXkvrKw+vYLpKq8yHtUwpdtmRTflSEGVYmDADPik6+m
- 47MIuRz6Cnp3sgX8EFwUzJEipFhQMopsLQWOVQeARnUakaFtwscqgUfvQ
- 7QfNS7Wf7GM0CBoSCsXmIewI+A4QtGLVvgeVoJMsXr06vT/aj2g8t/YO1
- EBB46Q1jCmNRzaRzvFuM6ynecOx69vCX+xTxLJ5nsAAjEgKdtIyt40N9Y
- k20769RkQZ/N67NnoWfQMrzUbHHB4U4N7ksXLlIte+Z2KraY7GQkezuJ4
- UuwnmgExJ5xkPk3A+BnaUlVOM1BvGuAiIqs7jkyGEB4eXXOFtfxdIa91J g==;
-IronPort-SDR: 6TI/9v3PdxCmDF7J6hUkWfT/aAIwD4IgrGBOSG7/GZKsaeyEvEvsR29oi7C3yO1eS8m5/rjJcL
- hWMZ6zOFCrT8nTMi7DiqgH+MTWgt6z2JKGLqLYAeMEglYUNbBcu2/NqEZjBsP+LnzugXfPeJFV
- AOwQtgknR+dJWwQg2lYG0FdzM3svrcGrlU5PSLfEiNlh+t3AObKVU4wdM8EtXhcKMYfNPnK0K3
- py9amQmjjKSgbISVLIDn5q2tLjdvqRwhhA9zd7FYaQbK+uAdJaHHDoeTXUT5Jz7Q/D+/tPMyEf
- Moo=
-X-IronPort-AV: E=Sophos;i="5.78,429,1599494400"; d="scan'208";a="259237035"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=bROvv1sYpscojN5ig6iYRttdbF9TwiO/rm25YagzCms=;
+ b=UWZhml0gZO1+BNjBeLzSR8yHLlcSjVY9WKke/0xg7PBIXFFXC5+fNu4h
+ KUOXbq5rmHyYj+T0T0U1H48+YK/2Dyj8YEtNSKoKZjpd89mT7XVnAnTKi
+ 7Y8To2lyCAGffvY0TlnxU5QmNQhuBRU+RG1bSfXgJokKhnEZPw63iKOKi
+ qgMU8Ot1FCYwtVP7q/FAl8Jk6yd7o/4DxJTnDXusWJWBJxe1bb2RcHzqZ
+ OdHDO2IARMlR/Oe4tum5lhz6kZIGz21KeDKcnXQxo2U/votkinFT8EMXL
+ GSF0T/D9iosyX1Q6XeLlOtpdy4tzSCAkWEbzkvbQezmt63x/bvocULFH8 w==;
+IronPort-SDR: WRfM73q+/nwkZYUlfljVWCe2iXcTXIZtQRp6szjx3199koTx1Nsvh1F0XMHWF0Poh6gdIby/OQ
+ pyi4+fKXGosQkJQ5b7WZX6jYvcL3ukENUuTHJQcnOcCmmAVpoKrcH5aWcvMz5gQcB6T816/Vyh
+ YuoqaxqfNbt56mmDQN6NDGPdReNQEYI1GrNuvq6M9Cp2crHOhRzwFppz/s/sqM3kY0pgrWVljq
+ 1pqZ2KrGCviBTO6vCEQTXUr3xmggvFz2j2Fem1l74W3If/um3rQpceJ0PVGzgPUFbWn8yy4mHC
+ WVM=
+X-IronPort-AV: E=Sophos;i="5.78,429,1599494400"; d="scan'208";a="259237036"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 18 Dec 2020 14:06:22 +0800
-IronPort-SDR: Hn+85V2oNnDHBynPGMUwrwvuqIf34rG7RWmzB3de32qvD4OIbvgn4PqM3ZtNFPW6b5VSLLb4tk
- vnaZaYweb2BV54/crOiTbFkHTBQ0cxnVJTp2PgdEzMNNYRP/z2fSwK/rwBsJ0YI90roxFGj+0V
- RwHD45Rf41R3zCf8neaY66ugiwZ+aU1QDBJ5NixhWWSv+eW5QFYfTvp3obAUbI9+Q4j4NkD5mo
- YBQz41K3+F8DokoGZUYWZtCxdkLxb/ZURsSBmNjzLZGkAYczQOI7lOT4tM+3Y8TmuqGViCIhfK
- HGaKBd1ye0dhF6dP1QxbhaJe
+ by ob1.hgst.iphmx.com with ESMTP; 18 Dec 2020 14:06:23 +0800
+IronPort-SDR: BZu+hqW43UZEGEdTg2Awfj3a8dG2Gg+TxGkK2gLYxo8rv4u2t3t63djY0M3WgwKWZpAV4Qvhkr
+ 3abZA4fQoQUU0JFCyl3Ssh7bgSbEm0M827dVl9w2/aVs2isy3wT/ZzrkDAVQS4xZi7ivNFJcs5
+ lsaz/IghYdUNWZahUirGfRoFmX3yqPgYeZGLgJYsBVLNsWuzPINiKx/EyZPaiAZVs+TSNI0WI1
+ /icCjDUuQhvEeSeCepKrEQL1ZhGx5dfn9Go7RSBsEVBi/n3HONKuVHekwGewzrE3gEw55FSj7n
+ SLdlY1AQuv5RGvhunAoAc6A7
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2020 21:46:33 -0800
-IronPort-SDR: i7DVvE4YXsZ+ue3RtrzHtclGOu/LpyOnoBE3+EegHImnQ7YQi7GN40Icj7lzuYnH043gUHkl1/
- JuiTvS/wbQSwhNPdWOAAQDwSt/qQ/7PkYxKIJCK2rWcjur8AJkUaLzJbdDtdimKmD13LYEQl7m
- TNvLiFxX48xK98d48NeE7csb2/kgY5lCI6dfH1yync6QafntVnOce5ZZLY0P9ntNPlgENv78Q1
- JHJRMUyerNiXetLiQDriMxIIzYG2vdIkGPc1n0gDONuDasb2W74d0au9HGz11Ig292JghSOJ3u
- l7Y=
+ 17 Dec 2020 21:46:34 -0800
+IronPort-SDR: SfHD5PEQhs9fhmfI0Fr59uq7N25Tk39C1ApOXMWbEqOBu5qiriA2AR743lmYjTfhPPo5NERelS
+ nmLxCu/It/w8xtQTcG1Apxr1cZrWMoIhMVRb+Sy9rCO+izvpb4rbKTUPWfGty0ITu046/XtNxU
+ P9o7oQ5udS2IQ75dKzRTgbbGSVIUHUiwr8kmVseL2e7SJstIYt9PVTqi8nNeD37Tg2EccpKN3t
+ X5hGI9Io9QvcNt4axaQar3cceE+ZmjR1x00JkOexq9NTS+KVP5BedEZZRD/bLUn4rQT9f9rRBK
+ QJw=
 WDCIronportException: Internal
 Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.62.68])
- by uls-op-cesaip01.wdc.com with ESMTP; 17 Dec 2020 22:01:17 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 17 Dec 2020 22:01:18 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 00/23] riscv-to-apply queue
-Date: Thu, 17 Dec 2020 22:00:51 -0800
-Message-Id: <20201218060114.3591217-1-alistair.francis@wdc.com>
+Subject: [PULL 01/23] hw/riscv: sifive_u: Add UART1 DT node in the generated
+ DTB
+Date: Thu, 17 Dec 2020 22:00:52 -0800
+Message-Id: <20201218060114.3591217-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201218060114.3591217-1-alistair.francis@wdc.com>
+References: <20201218060114.3591217-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=68.232.143.124;
@@ -90,87 +93,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+Cc: alistair23@gmail.com, Anup Patel <anup.patel@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 75ee62ac606bfc9eb59310b9446df3434bf6e8c2:
+From: Anup Patel <anup.patel@wdc.com>
 
-  Merge remote-tracking branch 'remotes/ehabkost-gl/tags/x86-next-pull-request' into staging (2020-12-17 18:53:36 +0000)
+The sifive_u machine emulates two UARTs but we have only UART0 DT
+node in the generated DTB so this patch adds UART1 DT node in the
+generated DTB.
 
-are available in the Git repository at:
+Signed-off-by: Anup Patel <anup.patel@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20201111094725.3768755-1-anup.patel@wdc.com
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ hw/riscv/sifive_u.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20201217-1
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index e7f6dc5fb3..a629416785 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -385,6 +385,21 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     qemu_fdt_setprop_cell(fdt, nodename, "reg", 0x0);
+     g_free(nodename);
+ 
++    nodename = g_strdup_printf("/soc/serial@%lx",
++        (long)memmap[SIFIVE_U_DEV_UART1].base);
++    qemu_fdt_add_subnode(fdt, nodename);
++    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,uart0");
++    qemu_fdt_setprop_cells(fdt, nodename, "reg",
++        0x0, memmap[SIFIVE_U_DEV_UART1].base,
++        0x0, memmap[SIFIVE_U_DEV_UART1].size);
++    qemu_fdt_setprop_cells(fdt, nodename, "clocks",
++        prci_phandle, PRCI_CLK_TLCLK);
++    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
++    qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_UART1_IRQ);
++
++    qemu_fdt_setprop_string(fdt, "/aliases", "serial1", nodename);
++    g_free(nodename);
++
+     nodename = g_strdup_printf("/soc/serial@%lx",
+         (long)memmap[SIFIVE_U_DEV_UART0].base);
+     qemu_fdt_add_subnode(fdt, nodename);
+-- 
+2.29.2
 
-for you to fetch changes up to d31e970a01e7399b9cd43ec0dc00c857d968987e:
-
-  riscv/opentitan: Update the OpenTitan memory layout (2020-12-17 21:56:44 -0800)
-
-----------------------------------------------------------------
-A collection of RISC-V improvements:
- - Improve the sifive_u DTB generation
- - Add QSPI NOR flash to Microchip PFSoC
- - Fix a bug in the Hypervisor HLVX/HLV/HSV instructions
- - Fix some mstatus mask defines
- - Ibex PLIC improvements
- - OpenTitan memory layout update
- - Initial steps towards support for 32-bit CPUs on 64-bit builds
-
-----------------------------------------------------------------
-Alex Richardson (1):
-      target/riscv: Fix definition of MSTATUS_TW and MSTATUS_TSR
-
-Alistair Francis (18):
-      intc/ibex_plic: Clear interrupts that occur during claim process
-      hw/riscv: Expand the is 32-bit check to support more CPUs
-      target/riscv: Add a TYPE_RISCV_CPU_BASE CPU
-      riscv: spike: Remove target macro conditionals
-      riscv: virt: Remove target macro conditionals
-      hw/riscv: boot: Remove compile time XLEN checks
-      hw/riscv: virt: Remove compile time XLEN checks
-      hw/riscv: spike: Remove compile time XLEN checks
-      hw/riscv: sifive_u: Remove compile time XLEN checks
-      target/riscv: fpu_helper: Match function defs in HELPER macros
-      target/riscv: Add a riscv_cpu_is_32bit() helper function
-      target/riscv: Specify the XLEN for CPUs
-      target/riscv: cpu: Remove compile time XLEN checks
-      target/riscv: cpu_helper: Remove compile time XLEN checks
-      target/riscv: csr: Remove compile time XLEN checks
-      target/riscv: cpu: Set XLEN independently from target
-      hw/riscv: Use the CPU to determine if 32-bit
-      riscv/opentitan: Update the OpenTitan memory layout
-
-Anup Patel (1):
-      hw/riscv: sifive_u: Add UART1 DT node in the generated DTB
-
-Vitaly Wool (1):
-      hw/riscv: microchip_pfsoc: add QSPI NOR flash
-
-Xinhao Zhang (1):
-      hw/core/register.c: Don't use '#' flag of printf format
-
-Yifei Jiang (1):
-      target/riscv: Fix the bug of HLVX/HLV/HSV
-
- include/hw/riscv/boot.h            |  14 +--
- include/hw/riscv/microchip_pfsoc.h |   3 +
- include/hw/riscv/opentitan.h       |  23 +++--
- include/hw/riscv/spike.h           |   6 --
- include/hw/riscv/virt.h            |   6 --
- target/riscv/cpu.h                 |   8 ++
- target/riscv/cpu_bits.h            |   8 +-
- target/riscv/helper.h              |  24 ++---
- hw/core/register.c                 |  16 ++--
- hw/intc/ibex_plic.c                |  13 ++-
- hw/riscv/boot.c                    |  70 ++++++++-------
- hw/riscv/microchip_pfsoc.c         |  21 +++++
- hw/riscv/opentitan.c               |  81 ++++++++++++-----
- hw/riscv/sifive_u.c                |  74 ++++++++++------
- hw/riscv/spike.c                   |  52 ++++++-----
- hw/riscv/virt.c                    |  39 ++++----
- target/riscv/cpu.c                 |  84 ++++++++++++------
- target/riscv/cpu_helper.c          |  15 ++--
- target/riscv/csr.c                 | 176 +++++++++++++++++++------------------
- target/riscv/fpu_helper.c          |   8 --
- 20 files changed, 434 insertions(+), 307 deletions(-)
 
