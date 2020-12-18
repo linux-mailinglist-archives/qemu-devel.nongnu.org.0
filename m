@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D402DE9CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 20:34:07 +0100 (CET)
-Received: from localhost ([::1]:55202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8272E2DE9D2
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 20:36:27 +0100 (CET)
+Received: from localhost ([::1]:60292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqLVu-00080c-W6
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 14:34:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37266)
+	id 1kqLYA-0001hZ-J4
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 14:36:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3xQPdXwMKCkY0k4owwotm.kwuymu2-lm3mtvwvov2.wzo@flex--scw.bounces.google.com>)
- id 1kqLUL-0006l0-UR
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 14:32:30 -0500
-Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549]:42338)
+ <3xwPdXwMKCkg2m6qyyqvo.myw0ow4-no5ovxyxqx4.y1q@flex--scw.bounces.google.com>)
+ id 1kqLUN-0006mS-QX
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 14:32:31 -0500
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:40986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3xQPdXwMKCkY0k4owwotm.kwuymu2-lm3mtvwvov2.wzo@flex--scw.bounces.google.com>)
- id 1kqLUG-0007uU-Am
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 14:32:29 -0500
-Received: by mail-pg1-x549.google.com with SMTP id f3so2285410pgg.9
- for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 11:32:22 -0800 (PST)
+ <3xwPdXwMKCkg2m6qyyqvo.myw0ow4-no5ovxyxqx4.y1q@flex--scw.bounces.google.com>)
+ id 1kqLUJ-0007vR-8L
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 14:32:31 -0500
+Received: by mail-yb1-xb4a.google.com with SMTP id c9so4485802ybs.8
+ for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 11:32:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=sender:date:in-reply-to:message-id:mime-version:references:subject
- :from:to:cc; bh=1tMnHV/4/e4q+MAB0WmRon6EU9Fl6zVw62+wbVTIBM4=;
- b=G3q7e82FaBO4ZGk1Rkfvbr4yEbc62tlB5L8iD3j9TcWf2YFFkVnd3m79Gk0p726yY0
- MyMVFB4/fPxAxCDyTEtTNyj7aLI66jc/1e4NQKWXhtQup0uv+T+/Dn+DiJHIwAL/+Z3k
- IBplI4aKVmU9RPuo0rVS+saS9ahgrLIB3zJi/NbT6MuABD9dJ/lZCe94yBcB+SYpkdJG
- aB5h7LLeqT+1VcArqXHaEVsUvjAnbeBO1+Onlup2XL4wcnECN03eUVNgQauSDpmYR0ns
- HfvKJ+l4kSnD9GYeT17l9+yuxxcD2m2+HIkSRdcWU0ld9bGxDfq7Ifp1/Tkd9D8ivy0O
- nmZA==
+ :from:to:cc; bh=olShlt4DrOPr8PLRzTjh9UgQNZd0VxxTaitEcdUgak8=;
+ b=dSlz5v+slEffEBM5NG7HxrfU+oBb97cGiY0Sn2p7HBwf1Us0gC31xw2ENlrKeIWZfq
+ lO0ADPNpL1GKJLDHrcz1WWmaA3yuwGGArOx6iTgbs6LzYNlNkOUkZDdjE9LItyAs45pD
+ AVPi7CCwBK+/+kUvI+ZWJLQvTHffM6WqAGq/Om39hZask2uVXIUvdQFLKhSJYEkHSdZJ
+ rTPYDGvicmsJSvitAT1n1WGLmBE3q6yjSucLi6EsjWWXttL7mK9Za7gdaWF3BVUDLvlI
+ o9en4YY0cRemTEk1bspK8kIN0kCydGU8lF5NR5mCkDXRnmx9CpQwBqebgVMjx8P6SovD
+ 68pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=1tMnHV/4/e4q+MAB0WmRon6EU9Fl6zVw62+wbVTIBM4=;
- b=QU6/IaNJFFMhtoZq6Q4ZrdfSA7xaPTcOrd4uN5RobO6iT7tlTHGCPU3FtqD6V9p0sc
- V/JDzuFMWtqf+PNJ22MbMS6FaCpO7YwiHHUfTAbtMF77yh/506BYXBzIc96eNWtNREBJ
- hKO0SpdKR9eAeWNS+j/whFnvXZymfuSIsYqWgL9EM4fo9eGrGC89IWGS9RWqUMTKr5cD
- +ipmMuC7cXEPom2d7FwFOemVcjngC8WPnWsR5c+iopxxITqqhtInk5MQgyGauSo5sNR5
- SPHmU5cZrWoef27sScHq4J7IybBcSniry26y0wytmQruAu2WIQy0MOuru3EQ5r0sEqvP
- bV6g==
-X-Gm-Message-State: AOAM533+vDew2OT9+QN3w5KYhlK7EEuXhoON2Z6AE6TKD8QQvQwIzxO1
- 1FiRLoYFyc2N5BmTRpJA+/wCWTGi+0uu/2IBe9WBcUSDb+OdNm0Z6pabq84YGPuuxgC0tL8doUh
- 3UtutIB+CxHzLI330NtdAM9dtroW47/Kpu6GVPI/7CR1MJzvC0qPm
-X-Google-Smtp-Source: ABdhPJzLytA/q7cfnp5t/ca+J+FB0QHA8JupkrD1tDqDnUokAh3CNiexziwV/hRV4JPeQ6wbvyNFw4c=
+ bh=olShlt4DrOPr8PLRzTjh9UgQNZd0VxxTaitEcdUgak8=;
+ b=oK3PxcoSxsl5bRr4TSAGwcyGpUsLVmVNP7yBHRSDQe+4okEZ9baG/p6vWoQ1snYAyL
+ 5Kh+Z97DINVNwh8ANdcwM4Hg09W/yvKYF1Krvb0RpgyUCrSPaTzJoujHNMfKehY+Aihs
+ BsnAWKyUM3lve6H5BsWPcgC/GLKweNSOQhspUAb42X/gaA9mibjuNunFqek7f8BTIVlA
+ umKw77Y2ehYE0svHXWYlrK9w8TCpcjotIgpjzxSu4ie26Tb0IF4MA/fx/QFOtQMpIP+l
+ SJ8DwjRn3nu/EG3eS5BoO9NWdSicL8zKD3/R2Q14Lg4ncvnVMPzXVypfqT77sZ2ACq+y
+ IoCQ==
+X-Gm-Message-State: AOAM531MDdcwc7huVW5eIXXQwrpMVk0RwdiBqfJFQOkUGZIHT0dapjAv
+ Fowc50pS8x/6YiBkCqn1wVkdaUEXe7T9aIUtkHgIDjpiE6W75R5gzrU9KowexQXxHv8zMaD/QFB
+ avtLl30TNcmMXzk5ZK3XSc+3zByxL5YFY5TMnATB48QMefSTMdgIj
+X-Google-Smtp-Source: ABdhPJz+9TDRd9sDJh4/1P+e+X10+xyGsEGGlEx1r3VTEWHIDx56keWNIfJl8PRk9vtYAOcyMNi/nzA=
 X-Received: from scw-glinux.svl.corp.google.com
  ([2620:15c:2ce:200:f693:9fff:fef4:29b5])
- (user=scw job=sendgmr) by 2002:a62:1d43:0:b029:1ab:7f7a:4ab8 with SMTP id
- d64-20020a621d430000b02901ab7f7a4ab8mr3721623pfd.43.1608319941690; Fri, 18
- Dec 2020 11:32:21 -0800 (PST)
-Date: Fri, 18 Dec 2020 11:32:11 -0800
+ (user=scw job=sendgmr) by 2002:a25:3587:: with SMTP id
+ c129mr8096391yba.223.1608319943651; 
+ Fri, 18 Dec 2020 11:32:23 -0800 (PST)
+Date: Fri, 18 Dec 2020 11:32:12 -0800
 In-Reply-To: <20201218193213.3566856-1-scw@google.com>
-Message-Id: <20201218193213.3566856-3-scw@google.com>
+Message-Id: <20201218193213.3566856-4-scw@google.com>
 Mime-Version: 1.0
 References: <20201218193213.3566856-1-scw@google.com>
 X-Mailer: git-send-email 2.29.2.684.gfbc64c5ab5-goog
-Subject: [PATCH v3 2/4] linux-user: add missing UDP get/setsockopt option
+Subject: [PATCH v3 3/4] linux-user: add missing IPv6 get/setsockopt option
 To: qemu-devel@nongnu.org, laurent@vivier.eu
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::549;
- envelope-from=3xQPdXwMKCkY0k4owwotm.kwuymu2-lm3mtvwvov2.wzo@flex--scw.bounces.google.com;
- helo=mail-pg1-x549.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3xwPdXwMKCkg2m6qyyqvo.myw0ow4-no5ovxyxqx4.y1q@flex--scw.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -89,79 +89,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Shu-Chun Weng <scw@google.com>
 From: Shu-Chun Weng via <qemu-devel@nongnu.org>
 
-SOL_UDP manipulate options at UDP level. All six options currently defined
-in linux source include/uapi/linux/udp.h take integer values.
+IPV6_ADDR_PREFERENCES (RFC5014: Source address selection) was not supported.
 
 Signed-off-by: Shu-Chun Weng <scw@google.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
 v1 -> v2:
-  Split out SOL_UDP into own patch.
-  Updated do_print_sockopt().
+  Split out IPV6 options into own patch.
+  do_print_sockopt() changes added in a separate patch since a large number of
+  unrelated changes are involved.
 
 v2 -> v3:
   Rebase to master on Dec 18, 2020
 
- linux-user/strace.c  | 6 ++++++
- linux-user/syscall.c | 7 +++++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ linux-user/syscall.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 227812c07e..64172de99d 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -7,6 +7,7 @@
- #include <sys/mount.h>
- #include <arpa/inet.h>
- #include <netinet/tcp.h>
-+#include <netinet/udp.h>
- #include <linux/if_packet.h>
- #include <linux/netlink.h>
- #include <sched.h>
-@@ -2644,6 +2645,11 @@ static void do_print_sockopt(const char *name, abi_long arg1)
-         print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
-         print_pointer(optval, 0);
-         break;
-+    case SOL_UDP:
-+        qemu_log("SOL_UDP,");
-+        print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
-+        print_pointer(optval, 0);
-+        break;
-     case SOL_IP:
-         qemu_log("SOL_IP,");
-         print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index be39cf8215..8576ad24b7 100644
+index 8576ad24b7..cac4ec3b5a 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -53,6 +53,7 @@
+@@ -51,6 +51,7 @@
+ #include <sys/sysinfo.h>
+ #include <sys/signalfd.h>
  //#include <sys/user.h>
++#include <netinet/in.h>
  #include <netinet/ip.h>
  #include <netinet/tcp.h>
-+#include <netinet/udp.h>
- #include <linux/wireless.h>
- #include <linux/icmp.h>
- #include <linux/icmpv6.h>
-@@ -2177,7 +2178,8 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
- 
-     switch(level) {
-     case SOL_TCP:
--        /* TCP options all take an 'int' value.  */
-+    case SOL_UDP:
-+        /* TCP and UDP options all take an 'int' value.  */
-         if (optlen < sizeof(uint32_t))
-             return -TARGET_EINVAL;
- 
-@@ -2825,7 +2827,8 @@ get_timeout:
-         }
-         break;
-     case SOL_TCP:
--        /* TCP options all take an 'int' value.  */
-+    case SOL_UDP:
-+        /* TCP and UDP options all take an 'int' value.  */
-     int_case:
-         if (get_user_u32(len, optlen))
-             return -TARGET_EFAULT;
+ #include <netinet/udp.h>
+@@ -2265,6 +2266,7 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+         case IPV6_RECVDSTOPTS:
+         case IPV6_2292DSTOPTS:
+         case IPV6_TCLASS:
++        case IPV6_ADDR_PREFERENCES:
+ #ifdef IPV6_RECVPATHMTU
+         case IPV6_RECVPATHMTU:
+ #endif
+@@ -2919,6 +2921,7 @@ get_timeout:
+         case IPV6_RECVDSTOPTS:
+         case IPV6_2292DSTOPTS:
+         case IPV6_TCLASS:
++        case IPV6_ADDR_PREFERENCES:
+ #ifdef IPV6_RECVPATHMTU
+         case IPV6_RECVPATHMTU:
+ #endif
 -- 
 2.29.2.684.gfbc64c5ab5-goog
 
