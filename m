@@ -2,47 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 073F82DE120
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:35:22 +0100 (CET)
-Received: from localhost ([::1]:50252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 219692DE0F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:28:02 +0100 (CET)
+Received: from localhost ([::1]:55872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqD6X-00019s-1C
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:35:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43950)
+	id 1kqCzR-0008CM-3n
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:28:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvu-00030H-P7
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:22 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:48389)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvr-0002uI-Pa
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:19 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:57155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvq-00074I-4D
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:22 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvo-00073l-NU
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:19 -0500
 Received: from localhost.localdomain ([82.252.144.198]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Md6V3-1kHh7u48dH-00aD2t; Fri, 18 Dec 2020 11:24:14 +0100
+ id 1MJm8N-1kWlAV1pQv-00KBET; Fri, 18 Dec 2020 11:24:14 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/14] docs/user: Display linux-user binaries nicely
-Date: Fri, 18 Dec 2020 11:24:01 +0100
-Message-Id: <20201218102407.597566-9-laurent@vivier.eu>
+Subject: [PULL 09/14] linux-user: Implement copy_file_range
+Date: Fri, 18 Dec 2020 11:24:02 +0100
+Message-Id: <20201218102407.597566-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201218102407.597566-1-laurent@vivier.eu>
 References: <20201218102407.597566-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:aZjga+gCPf6lwOsHveYCJzg6ouMofbZGvYmocBMW1p/8ROvyRGP
- oxBjQK9tq92zVhmD0Kr/qZX7251LMHwY+72uBK4tUr8AwmHDcPiaN1aAxpY4ShgQR9PQxgQ
- PPEWYN6q2G9fdDBeOf4L+34xHqUBTnLCZQXgTbi79r2cV4Mz52TNP0jatuZiCX4v8IK+/yg
- 9rGhon9MGLr18MhN1+Xmg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+AjcLFspfiM=:DkDCO7SrF+hiPzFMWwSVrJ
- wAREbzQEYFRdtnpNTSIeFqtbNcu0EZWFHFfQTsu1FFiPoEXVgliGlvgkE31vBYai6DwgAZTmc
- GPv7RmaXSGQBA9MQNrABfT7FBN9e8puE7+MppWGEjIBxw8Cj5ikqvK+khoN6Z4XsC65jMr60i
- c+XlKwgiavmJQHt8TeQYh8rFeKPJSIVvYYdggjmflLNQKt1X1dT725ttWtJgQPQJNJkDnph0V
- eLK0CMjewxW8zC1lM23BY3eWX72T54dliGy9OkTHvptbgijyHW3fxTeMre5AL9rainTNtIpit
- ZPyHLwrFWoLXkNflRijDh02ijHD+tCT3j7E2EbgR050n/NaN8gS9VbyNIkbejHQl2130N+CVu
- nkIsEMXmv8fKNxzu3oRgTuIjLSGcvc7669HOiESIOivOXJx551woAekXwH3AHvTcEc+2UFNV+
- Sfd1BFbBGA==
+X-Provags-ID: V03:K1:M7Y6VUsinl5UsHCnR+fuTEkSA7HvYYIgUxOhWm5zrMN5cZJXslU
+ +i6WKlAPfHaZmbKxtgpDv8Qfm6iqHTSsgW1A+oml+i+AUrweEcHXyUVzM5pSzgfv1wTWs7i
+ ydoVs2OnIQBnYEhXixqTFazpj5tfYE9SDs0iqvkCwhPZebjV371aGeLfSD4OWHMek3Isr6W
+ zTnP8c5KhCWPj3plEQF+w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:PDyM3IT3CiE=:HJV2/vpQnxJs2IaCyVVodN
+ +DqOsyxC8MVOggPrIeiVZJqvm/H1CfarWIIbxvxZvaxY+0yUJ0t2vnU8ecAjAf529nJMFvI4I
+ pOVnFGIEgtU6sth+9d26FxrmhxXLyorv6SJZn+GX6uAZCDPoEM5pfawIwJIXvpZjWDvDrbied
+ gS/SuGHKaAIZ8ewjzztUnPcWQQs6VmFicyjJ+elaUKRKZO0frV2S5Iree4unFwPx4aiRlwAwS
+ SIovupTxY9x7vSzGnl99bAaabWmQf4PgkshD3ZtxTCR3IZ2sSK2i56wfkb2cpEEvlIcpyABtf
+ KSbP9RA0XKmD1WXb/1/Eq4y8SccFSOtMRCBaVEOkL0Dcy5ZFnzj7p7a8qB0UPA6T0inwyHgoc
+ usfX5CJ5+RgleIVKp9wPxrxz8NUQcl3yTfdvfA3fWURIRxI7Dsp4rDHxgi0dN
 Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -63,154 +61,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Andreas Schwab <schwab@suse.de>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Andreas Schwab <schwab@suse.de>
 
-linux-user binaries are displayed altogether. Use the '*'
-character to force displaying them as bullet list (one list
-per architecture).
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Andreas Schwab <schwab@suse.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20201119160838.1981709-1-f4bug@amsat.org>
+Message-Id: <mvm361eer3n.fsf@suse.de>
+[lv: copy back offset only if there is no error]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- docs/user/main.rst | 99 ++++++++++++++++++++++++++--------------------
- 1 file changed, 56 insertions(+), 43 deletions(-)
+ linux-user/syscall.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/docs/user/main.rst b/docs/user/main.rst
-index bd99b0fdbe9b..8dfe232a3af1 100644
---- a/docs/user/main.rst
-+++ b/docs/user/main.rst
-@@ -170,68 +170,81 @@ QEMU_STRACE
- Other binaries
- ~~~~~~~~~~~~~~
- 
--user mode (Alpha)
--``qemu-alpha`` TODO.
-+-  user mode (Alpha)
- 
--user mode (Arm)
--``qemu-armeb`` TODO.
-+   * ``qemu-alpha`` TODO.
- 
--user mode (Arm)
--``qemu-arm`` is also capable of running Arm \"Angel\" semihosted ELF
--binaries (as implemented by the arm-elf and arm-eabi Newlib/GDB
--configurations), and arm-uclinux bFLT format binaries.
-+-  user mode (Arm)
- 
--user mode (ColdFire)
--user mode (M68K)
--``qemu-m68k`` is capable of running semihosted binaries using the BDM
--(m5xxx-ram-hosted.ld) or m68k-sim (sim.ld) syscall interfaces, and
--coldfire uClinux bFLT format binaries.
-+   * ``qemu-armeb`` TODO.
- 
--The binary format is detected automatically.
-+   * ``qemu-arm`` is also capable of running Arm \"Angel\" semihosted ELF
-+     binaries (as implemented by the arm-elf and arm-eabi Newlib/GDB
-+     configurations), and arm-uclinux bFLT format binaries.
- 
--user mode (Cris)
--``qemu-cris`` TODO.
-+-  user mode (ColdFire)
- 
--user mode (i386)
--``qemu-i386`` TODO. ``qemu-x86_64`` TODO.
-+-  user mode (M68K)
- 
--user mode (Microblaze)
--``qemu-microblaze`` TODO.
-+   * ``qemu-m68k`` is capable of running semihosted binaries using the BDM
-+     (m5xxx-ram-hosted.ld) or m68k-sim (sim.ld) syscall interfaces, and
-+     coldfire uClinux bFLT format binaries.
- 
--user mode (MIPS)
--``qemu-mips`` executes 32-bit big endian MIPS binaries (MIPS O32 ABI).
-+   The binary format is detected automatically.
- 
--``qemu-mipsel`` executes 32-bit little endian MIPS binaries (MIPS O32
--ABI).
-+-  user mode (Cris)
- 
--``qemu-mips64`` executes 64-bit big endian MIPS binaries (MIPS N64 ABI).
-+   * ``qemu-cris`` TODO.
- 
--``qemu-mips64el`` executes 64-bit little endian MIPS binaries (MIPS N64
--ABI).
-+-  user mode (i386)
- 
--``qemu-mipsn32`` executes 32-bit big endian MIPS binaries (MIPS N32
--ABI).
-+   * ``qemu-i386`` TODO.
-+   * ``qemu-x86_64`` TODO.
- 
--``qemu-mipsn32el`` executes 32-bit little endian MIPS binaries (MIPS N32
--ABI).
-+-  user mode (Microblaze)
- 
--user mode (NiosII)
--``qemu-nios2`` TODO.
-+   * ``qemu-microblaze`` TODO.
- 
--user mode (PowerPC)
--``qemu-ppc64abi32`` TODO. ``qemu-ppc64`` TODO. ``qemu-ppc`` TODO.
-+-  user mode (MIPS)
- 
--user mode (SH4)
--``qemu-sh4eb`` TODO. ``qemu-sh4`` TODO.
-+   * ``qemu-mips`` executes 32-bit big endian MIPS binaries (MIPS O32 ABI).
- 
--user mode (SPARC)
--``qemu-sparc`` can execute Sparc32 binaries (Sparc32 CPU, 32 bit ABI).
-+   * ``qemu-mipsel`` executes 32-bit little endian MIPS binaries (MIPS O32 ABI).
- 
--``qemu-sparc32plus`` can execute Sparc32 and SPARC32PLUS binaries
--(Sparc64 CPU, 32 bit ABI).
-+   * ``qemu-mips64`` executes 64-bit big endian MIPS binaries (MIPS N64 ABI).
- 
--``qemu-sparc64`` can execute some Sparc64 (Sparc64 CPU, 64 bit ABI) and
--SPARC32PLUS binaries (Sparc64 CPU, 32 bit ABI).
-+   * ``qemu-mips64el`` executes 64-bit little endian MIPS binaries (MIPS N64
-+     ABI).
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 7bf99beb1814..6091a449fbf0 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -813,6 +813,12 @@ safe_syscall5(int, mq_timedsend, int, mqdes, const char *, msg_ptr,
+ safe_syscall5(int, mq_timedreceive, int, mqdes, char *, msg_ptr,
+               size_t, len, unsigned *, prio, const struct timespec *, timeout)
+ #endif
++#if defined(TARGET_NR_copy_file_range) && defined(__NR_copy_file_range)
++safe_syscall6(ssize_t, copy_file_range, int, infd, loff_t *, pinoff,
++              int, outfd, loff_t *, poutoff, size_t, length,
++              unsigned int, flags)
++#endif
 +
-+   * ``qemu-mipsn32`` executes 32-bit big endian MIPS binaries (MIPS N32 ABI).
-+
-+   * ``qemu-mipsn32el`` executes 32-bit little endian MIPS binaries (MIPS N32
-+     ABI).
-+
-+-  user mode (NiosII)
-+
-+   * ``qemu-nios2`` TODO.
-+
-+-  user mode (PowerPC)
-+
-+   * ``qemu-ppc64abi32`` TODO.
-+   * ``qemu-ppc64`` TODO.
-+   * ``qemu-ppc`` TODO.
-+
-+-  user mode (SH4)
-+
-+   * ``qemu-sh4eb`` TODO.
-+   * ``qemu-sh4`` TODO.
-+
-+-  user mode (SPARC)
-+
-+   * ``qemu-sparc`` can execute Sparc32 binaries (Sparc32 CPU, 32 bit ABI).
-+
-+   * ``qemu-sparc32plus`` can execute Sparc32 and SPARC32PLUS binaries
-+     (Sparc64 CPU, 32 bit ABI).
-+
-+   * ``qemu-sparc64`` can execute some Sparc64 (Sparc64 CPU, 64 bit ABI) and
-+     SPARC32PLUS binaries (Sparc64 CPU, 32 bit ABI).
+ /* We do ioctl like this rather than via safe_syscall3 to preserve the
+  * "third argument might be integer or pointer or not present" behaviour of
+  * the libc function.
+@@ -13065,6 +13071,42 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         return get_errno(membarrier(arg1, arg2));
+ #endif
  
- BSD User space emulator
- -----------------------
++#if defined(TARGET_NR_copy_file_range) && defined(__NR_copy_file_range)
++    case TARGET_NR_copy_file_range:
++        {
++            loff_t inoff, outoff;
++            loff_t *pinoff = NULL, *poutoff = NULL;
++
++            if (arg2) {
++                if (get_user_u64(inoff, arg2)) {
++                    return -TARGET_EFAULT;
++                }
++                pinoff = &inoff;
++            }
++            if (arg4) {
++                if (get_user_u64(outoff, arg4)) {
++                    return -TARGET_EFAULT;
++                }
++                poutoff = &outoff;
++            }
++            ret = get_errno(safe_copy_file_range(arg1, pinoff, arg3, poutoff,
++                                                 arg5, arg6));
++            if (!is_error(ret) && ret > 0) {
++                if (arg2) {
++                    if (put_user_u64(inoff, arg2)) {
++                        return -TARGET_EFAULT;
++                    }
++                }
++                if (arg4) {
++                    if (put_user_u64(outoff, arg4)) {
++                        return -TARGET_EFAULT;
++                    }
++                }
++            }
++        }
++        return ret;
++#endif
++
+     default:
+         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
+         return -TARGET_ENOSYS;
 -- 
 2.29.2
 
