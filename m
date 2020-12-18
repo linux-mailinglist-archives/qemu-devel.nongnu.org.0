@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33442DE0BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:11:00 +0100 (CET)
-Received: from localhost ([::1]:55688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C9042DE0DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:22:11 +0100 (CET)
+Received: from localhost ([::1]:39080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqCix-0004Gg-RI
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:10:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40822)
+	id 1kqCtl-0001By-Jq
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:22:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kqCi2-0003gg-JA
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:10:02 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36171)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kqCi0-00029y-Pl
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:10:02 -0500
-Received: by mail-wr1-x431.google.com with SMTP id t16so1526721wra.3
- for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 02:09:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=4KggAfV3YBbw1ge5MkjlThMckmM+tMUgJvdWkCJ4uNU=;
- b=SRRDarvKx3dxRD99xncuxml8cGF9B7WkTYI3lJJkE/ULzGMBT6VAwD/43dgZ4z21T1
- 1IpU+/6uZU6gGQk9Wn+zLmZgirwcUG5GDSKPM1pOC/4RZTwcI4v88d4kNcJa8SLkn0rA
- uMuCZlRkZxokKEVUjrJhgUgDXdzLoW/nPDLffdzP5vSg6jU3lbKT86Lkrq9EP7xGPSN0
- waRMIKTT54qKyojmWxzpI8Q6ZPIXTH1K0OJJHTKsF+qDe+bIJHCRdlzGou8c52Qk1uqj
- d6C5IMTK1apGR0pK1QV/YPWH/WIu0Y5LBPvV8Ye+6flI5N1EJs2FMO1O8OmIOzDzrYla
- g/Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=4KggAfV3YBbw1ge5MkjlThMckmM+tMUgJvdWkCJ4uNU=;
- b=EHrqBXBFQBYBEgBYSMW50HX7M0MJ+vqHcRLJ/2oYF2JWzIqd2mxoaXEo2tGHehEFMa
- HTri/yBBya1GmdqTVAX9s5w1ClNbzt5e2oucyWTfRfTxpC9/8kvN50lafAJ965/PoLr/
- GY1QupQr7alWyu4/FdbnHv0T6y/bfB4/C+L9ZgKm2lfy+ncA5wWlpKeT46zW26No8RWY
- uSpr3wgqfIW3q281VvvFTOvv1Xt4g4lMiRiHOwfQZp0t3IbrW3v6dd81GkyI8ZYSAlvi
- VE7aMZym+nQWComjAuRJQd5rp+c8Mz98/6W7wMGsNjRrxVfDt10CGyQ2zFUylNCvERUI
- 7AnQ==
-X-Gm-Message-State: AOAM530k92ZMxDgGmPa1ZMpiarBnXp1s36OVeMYufKRkzuy4h3I0Nvzk
- iGADHFVXhp84V1nXi6+wSgeOhw==
-X-Google-Smtp-Source: ABdhPJzI2B3/9YK91saRdRge3MNhsO5a7mlIXSqdvPeFzCWM3NWkd+uz+1E0oyLdekCrvdA+s2bB1w==
-X-Received: by 2002:adf:9546:: with SMTP id 64mr3531749wrs.343.1608286198394; 
- Fri, 18 Dec 2020 02:09:58 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s1sm12871848wrv.97.2020.12.18.02.09.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Dec 2020 02:09:57 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7ED381FF7E;
- Fri, 18 Dec 2020 10:09:56 +0000 (GMT)
-References: <20201218011158.13495-1-jiaxun.yang@flygoat.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH] tests/docker: Use lower case for centos8 powertools
-Date: Fri, 18 Dec 2020 10:08:47 +0000
-In-reply-to: <20201218011158.13495-1-jiaxun.yang@flygoat.com>
-Message-ID: <87sg83qvbf.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kqCrd-00007W-5x
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:19:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41610)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kqCra-0005aw-Ou
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:19:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608286793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xccaUp7hhKcYp1527odmwDQcCG3Q6tk/gqm0zReKG7o=;
+ b=X/PumbeXvOfFl2l+ruM8y2FHuzbbYnCmsGOjD+Z+YLpg4AHBi+9SpwkNCDCvFdGAPMbHhc
+ 3OvJDJn7w5D8E33Db50AOvYDXoEpzR7bbzJN95CmdDi1iNhy2PqJp5lYgECSrWYvZN0FRv
+ gGXJ3Tp6m1Vl3I90Fvle714iYVKA3PU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-60-wbC_-A8bOd21CL39g1RGdA-1; Fri, 18 Dec 2020 05:19:50 -0500
+X-MC-Unique: wbC_-A8bOd21CL39g1RGdA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A026510054FF;
+ Fri, 18 Dec 2020 10:19:49 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-84.ams2.redhat.com
+ [10.36.114.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B5D510023AB;
+ Fri, 18 Dec 2020 10:19:48 +0000 (UTC)
+Subject: Re: [PATCH 1/9] block/vpc: Make vpc_open() read the full dynamic
+ header
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20201217162003.1102738-1-armbru@redhat.com>
+ <20201217162003.1102738-2-armbru@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <c47aef12-38cd-fd21-7fdb-af3be0af1833@redhat.com>
+Date: Fri, 18 Dec 2020 11:19:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+In-Reply-To: <20201217162003.1102738-2-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,46 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, philmd@redhat.com, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, mrezanin@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Jiaxun Yang <jiaxun.yang@flygoat.com> writes:
-
-> Our gitlab amd64-centos8-container pipeline constantly fail at:
->
-> 15.36 Error: No matching repo to modify: PowerTools.
->
-> Fix it by convert it to lower case.
->
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-
-Thanks for you patch, we already have a similar fix in flight this PR:
-
-  Subject: [PULL v2 00/11] testing and configure updates
-  Date: Thu, 17 Dec 2020 09:43:30 +0000
-  Message-Id: <20201217094330.17400-1-alex.bennee@linaro.org>
-
+On 17.12.20 17:19, Markus Armbruster wrote:
+> The dynamic header's size is 1024 bytes.
+> 
+> vpc_open() reads only the 512 bytes of the dynamic header into buf[].
+> Works, because it doesn't actually access the second half.  However, a
+> colleague told me that GCC 11 warns:
+> 
+>      ../block/vpc.c:358:51: error: array subscript 'struct VHDDynDiskHeader[0]' is partly outside array bounds of 'uint8_t[512]' [-Werror=array-bounds]
+> 
+> Clean up to read the full header.
+> 
+> Rename buf[] to dyndisk_header_buf[] while there.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  tests/docker/dockerfiles/centos8.docker | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/docke=
-rfiles/centos8.docker
-> index 54bc6d54cd..06b67962fd 100644
-> --- a/tests/docker/dockerfiles/centos8.docker
-> +++ b/tests/docker/dockerfiles/centos8.docker
-> @@ -31,6 +31,6 @@ ENV PACKAGES \
->      zlib-devel
->=20=20
->  RUN dnf install -y dnf-plugins-core && \
-> -  dnf config-manager --set-enabled PowerTools && \
-> +  dnf config-manager --set-enabled powertools && \
->    dnf install -y $PACKAGES
->  RUN rpm -q $PACKAGES | sort > /packages.txt
+>   block/vpc.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/block/vpc.c b/block/vpc.c
+> index 1ab55f9287..2fcf3f6283 100644
+> --- a/block/vpc.c
+> +++ b/block/vpc.c
+> @@ -220,7 +220,7 @@ static int vpc_open(BlockDriverState *bs, QDict *options, int flags,
+>       QemuOpts *opts = NULL;
+>       Error *local_err = NULL;
+>       bool use_chs;
+> -    uint8_t buf[HEADER_SIZE];
+> +    uint8_t dyndisk_header_buf[1024];
 
+Perhaps this should be heap-allocated, but I don’t know whether qemu has 
+ever established a (perhaps just inofficial) threshold on what goes on 
+the stack and what goes on the heap.
 
---=20
-Alex Benn=C3=A9e
+>       uint32_t checksum;
+>       uint64_t computed_size;
+>       uint64_t pagetable_size;
+> @@ -340,14 +340,14 @@ static int vpc_open(BlockDriverState *bs, QDict *options, int flags,
+>       }
+>   
+>       if (disk_type == VHD_DYNAMIC) {
+> -        ret = bdrv_pread(bs->file, be64_to_cpu(footer->data_offset), buf,
+> -                         HEADER_SIZE);
+> +        ret = bdrv_pread(bs->file, be64_to_cpu(footer->data_offset),
+> +                         dyndisk_header_buf, 1024);
+
+sizeof() would be better, but I see that’s what patch 6 is for.
+
+>           if (ret < 0) {
+>               error_setg(errp, "Error reading dynamic VHD header");
+>               goto fail;
+>           }
+>   
+> -        dyndisk_header = (VHDDynDiskHeader *) buf;
+> +        dyndisk_header = (VHDDynDiskHeader *)dyndisk_header_buf;
+>   
+>           if (strncmp(dyndisk_header->magic, "cxsparse", 8)) {
+>               error_setg(errp, "Invalid header magic");
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
 
