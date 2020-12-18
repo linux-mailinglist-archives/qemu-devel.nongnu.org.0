@@ -2,91 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E06B2DEA89
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 21:53:26 +0100 (CET)
-Received: from localhost ([::1]:48628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B452DF1AF
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 21:58:13 +0100 (CET)
+Received: from localhost ([::1]:44554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqMkf-00089q-2J
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 15:53:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55142)
+	id 1kqjIo-000135-PQ
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 15:58:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1kqMjB-0007hW-6L
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 15:51:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24168)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1kqMj8-0002C1-KI
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 15:51:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608324709;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ADcxVTjC7ETKOE36XvpLfzB0IKh+5lhYttDfyDv42Qs=;
- b=gAIWSbqJBDYDQka1rDrOOEnDej7RWKoWt2ZEFwTZ32BmOZQBHfaR3SUg+0Sig/dmmTx1gu
- BrQmVjefLZbDBUrqPRRHVco8b85318CR7+rzTi3Bddlv5TgXo/9c/MS+IewO0zGf/XUHko
- Sk2TzeurW/XTZIuXHU+RfAtmdvPLr4M=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-OZPW0mHnPdWFWFysdpPcJQ-1; Fri, 18 Dec 2020 15:51:47 -0500
-X-MC-Unique: OZPW0mHnPdWFWFysdpPcJQ-1
-Received: by mail-qk1-f197.google.com with SMTP id l138so2928877qke.4
- for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 12:51:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ADcxVTjC7ETKOE36XvpLfzB0IKh+5lhYttDfyDv42Qs=;
- b=prKXWdOy7KLDJeBmF1aoEgpoYLHYeqh2ME62Rsllw/tak2iyg0amNPYl2qeMZSg+GC
- LQgifF3bWxCzmQ0KYcjjsyarbP/NmQ1CnuxBrCOKQLig7h+gVtyAFvllLh7aphRyQdOQ
- cLDTUiamup4mN/etPvr7DCM/A8o74W/hpBwrtx8RWXowZGzJB71pbOtLOjEzSNkoXW2y
- x2kv9eSo1qoziIlRDkZFkdtnNfapDTA4OGrzdmaQSzzs/wVmR9YX9wReBjCTnVun7btv
- YfSK13NT4IbtdE0ufhP8x6aDwalF1VtOR/k1Bbbved2mW5+johyHmjG9TI742wM8Zkdm
- V/fg==
-X-Gm-Message-State: AOAM533fqraA8tYuH+VRU5SGrvfm0SVMKWD+DWRb1qBjaCh5prYEqJt6
- 1dHNU2RSS5w/R/gpmTaifNJOUlVzkdhSdYPtlxdpLsSbcLh4SoTJ/HCzxqTEOSCK0wIcy8saHAe
- GPK1fWKkvdszSf+0=
-X-Received: by 2002:a37:4a58:: with SMTP id x85mr6627171qka.83.1608324707026; 
- Fri, 18 Dec 2020 12:51:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz5eldllvQLCw/twNkicAJeLw9J+8A8e2aIp09lYtl85FDpRZZGmwbRtgQeGIKGNwVnIhFQKQ==
-X-Received: by 2002:a37:4a58:: with SMTP id x85mr6627142qka.83.1608324706676; 
- Fri, 18 Dec 2020 12:51:46 -0800 (PST)
-Received: from [192.168.1.108] ([177.194.2.130])
- by smtp.gmail.com with ESMTPSA id c7sm6236790qtm.60.2020.12.18.12.51.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Dec 2020 12:51:46 -0800 (PST)
-Subject: Re: [PATCH] tests/acceptance: Test PMON with Loongson-3A1000 CPU
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Huacai Chen <chenhuacai@kernel.org>
-References: <20201216181759.933527-1-f4bug@amsat.org>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Message-ID: <ad7ff216-66b9-9b0c-eece-80a294240c28@redhat.com>
-Date: Fri, 18 Dec 2020 17:51:42 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <imp@dune.bsdimp.com>)
+ id 1kqj5T-0007SV-Nb
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 15:44:27 -0500
+Received: from 50-253-99-174-static.hfc.comcastbusiness.net
+ ([50.253.99.174]:31469 helo=dune.bsdimp.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imp@dune.bsdimp.com>)
+ id 1kqj5S-000412-1B
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 15:44:23 -0500
+Received: from dune.bsdimp.com (localhost [127.0.0.1])
+ by dune.bsdimp.com (8.15.2/8.15.2) with ESMTPS id 0BIKqrxW086424
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 18 Dec 2020 13:52:53 -0700 (MST)
+ (envelope-from imp@dune.bsdimp.com)
+Received: (from imp@localhost)
+ by dune.bsdimp.com (8.15.2/8.15.2/Submit) id 0BIKqrpV086423;
+ Fri, 18 Dec 2020 13:52:53 -0700 (MST) (envelope-from imp)
+From: imp@freebsd.org
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] A few preliminary bsd-user patches
+Date: Fri, 18 Dec 2020 13:52:46 -0700
+Message-Id: <20201218205250.86382-1-imp@freebsd.org>
+X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
-In-Reply-To: <20201216181759.933527-1-f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=50.253.99.174; envelope-from=imp@dune.bsdimp.com;
+ helo=dune.bsdimp.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, KHOP_HELO_FCRDNS=0.267,
+ NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,162 +58,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Warner Losh <imp@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/20 3:17 PM, Philippe Mathieu-Daudé wrote:
-> Test the PMON firmware. As the firmware is not redistributable,
-> it has to be downloaded manually first. Then it can be used by
-> providing its path via the PMON_PATH environment variable:
-> 
->    $ AVOCADO_ALLOW_UNTRUSTED_CODE=1 \
->      PMON_PATH=/images/pmon \
->      avocado --show=app,console \
->        run -t machine:loongson3-virt tests/acceptance
->    JOB ID     : 363e66a2d20b1c0e3f515653f9137483b83b2984
->    JOB LOG    : /home/phil/avocado/job-results/job-2020-12-16T19.02-363e66a/job.log
->     (1/2) tests/acceptance/machine_mips_fuloong3.py:MipsFuloong3.test_pmon_BLD_serial_console:
->    console: PMON2000 MIPS Initializing. Standby...
->    console: 00000000
->    console: Shut down other cores
->    console: 0xbfe00190  : 0000000000000000
->    console: CPU CLK SEL : 00000000
->    console: MEM CLK SEL : 00000000
->    console: Change the driver
->    console: Soft CLK SEL adjust begin
->    console: HT         :00000000
->    console: DDR_DIV:00000002
->    console: BBGEN start  :
->    console: BBGEN config value  :00000000
->    console: MC RESET
->    console: Fix L1xbar illegal access at NODE 0
->    console: Fix L2xbar in NODE 0
->    console: 32 bit PCI space translate to 64 bit HT space
->    console: Waiting HyperTransport bus to be up.
->    PASS (0.10 s)
->     (2/2) tests/acceptance/machine_mips_fuloong3.py:MipsFuloong3.test_pmon_A1101_serial_console:
->    console: PMON2000 MIPS Initializing. Standby...
->    console: 0xbfe00190  : 0000000000000000
->    console: CPU CLK SEL : 00000000
->    console: CPU clk frequency = SYSCLK x 0x0000001e /  1
->    console: MEM CLK SEL : 00000000
->    console: DDR clk frequency = MEMCLK x 0x0000001e /  3
->    console: Fix L1xbar illegal access
->    console: Fix L2xbar illegal access
->    console: Init tlb...
->    console: godson2 caches found
->    PASS (0.12 s)
->    RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
->    JOB TIME   : 0.58 s
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> Based-on: <20201215125716.477023-1-chenhuacai@kernel.org>
-> ---
->   MAINTAINERS                                 |  1 +
->   tests/acceptance/machine_mips_loongson3v.py | 66 +++++++++++++++++++++
->   2 files changed, 67 insertions(+)
->   create mode 100644 tests/acceptance/machine_mips_loongson3v.py
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f75fa2a7142..9a02d44f997 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1166,6 +1166,7 @@ M: Huacai Chen <chenhuacai@kernel.org>
->   R: Jiaxun Yang <jiaxun.yang@flygoat.com>
->   S: Maintained
->   F: hw/intc/loongson_liointc.c
-> +F: tests/acceptance/machine_mips_loongson3v.py
->   
->   Boston
->   M: Paul Burton <paulburton@kernel.org>
-> diff --git a/tests/acceptance/machine_mips_loongson3v.py b/tests/acceptance/machine_mips_loongson3v.py
-> new file mode 100644
-> index 00000000000..8e698bbc99b
-> --- /dev/null
-> +++ b/tests/acceptance/machine_mips_loongson3v.py
-> @@ -0,0 +1,66 @@
-> +# Functional tests for the Generic Loongson-3 Platform.
-> +#
-> +# Copyright (c) 2020 Philippe Mathieu-Daudé <f4bug@amsat.org>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or later.
-> +# See the COPYING file in the top-level directory.
-> +#
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +import os
-> +import time
-> +
-> +from avocado import skipUnless
-> +from avocado_qemu import Test
-> +from avocado_qemu import wait_for_console_pattern
-> +
-> +class MipsFuloong3(Test):
-> +
-> +    timeout = 60
-> +
-> +    @skipUnless(os.getenv('PMON_PATH'), 'PMON_PATH not available')
-> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-> +    def test_pmon_BLD_serial_console(self):
-> +        """
-> +        :avocado: tags=arch:mips64el
-> +        :avocado: tags=endian:little
-> +        :avocado: tags=machine:loongson3-virt
-> +        :avocado: tags=cpu:Loongson-3A1000
-> +        :avocado: tags=device:liointc
-> +        :avocado: tags=device:goldfish_rtc
-> +        """
-> +        pmon_name = 'pmon_BLD-3A3000-780EMATX-1w-V1.10.bin'
-> +        pmon_hash = '38916ee03ed09a86997b40c687c83e92'
+From: Warner Losh <imp@freebsd.org>
 
-In case you keep this approach of manually downloading the binary, it 
-would be good to have a pointer (url) to it to avoid download of an 
-incorrect binary that will not match the hash here.
+Here's the first round of bsd-user patches. There's on the order of 280 that
+we've done, but that's too much to review all at once. In addition, 3.1 release
+was the last rebase point that we've been successful with for a number of reasons
+unrelated to qemu. Now that those have been resolved, we have a new push under way
+to push things forward, but wanted to upstream as many of the patches as we can
+directly to qemu's head to lighten the load of carrying all these.
 
-> +        pmon_path = self.fetch_asset('file://' + os.path.join(
-> +                                        os.getenv('PMON_PATH'), pmon_name),
-> +                                     asset_hash=pmon_hash, algorithm='md5')
-> +
-> +        self.vm.set_console()
-> +        self.vm.add_args('-bios', pmon_path)
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, 'PMON2000 MIPS Initializing. Standby...')
-> +        wait_for_console_pattern(self, 'Shut down other cores')
-> +        wait_for_console_pattern(self, 'Waiting HyperTransport bus to be up.')
-> +
-> +    @skipUnless(os.getenv('PMON_PATH'), 'PMON_PATH not available')
-> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
-> +    def test_pmon_A1101_serial_console(self):
-> +        """
-> +        :avocado: tags=arch:mips64el
-> +        :avocado: tags=endian:little
-> +        :avocado: tags=machine:loongson3-virt
-> +        :avocado: tags=cpu:Loongson-3A1000
-> +        :avocado: tags=device:liointc
-> +        :avocado: tags=device:goldfish_rtc
-> +        """
-> +        pmon_name = 'pmon-A1101-2.0.8.bin'
+This first small series updates the system call lists, moves things around to
+make it easier to support divergence in the BSD world, and adjusts to the new
+meson build. It's also designed to help me learn how to land such a large set
+upstream.
 
-Same comment here about the pointer to the binary.
+These patches have passed through several hands, with different tweaks over the
+years so have an unusually large number of signed-off-by lines that are the
+result of this refinement process where several hands have touched the patches
+in the last 7 years.
 
-> +        pmon_hash = 'cc40276213cfa20922720f183b92ab61'
-> +        pmon_path = self.fetch_asset('file://' + os.path.join(
-> +                                        os.getenv('PMON_PATH'), pmon_name),
-> +                                     asset_hash=pmon_hash, algorithm='md5')
-> +
-> +        self.vm.set_console()
-> +        self.vm.add_args('-bios', pmon_path)
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, 'PMON2000 MIPS Initializing. Standby...')
-> +        wait_for_console_pattern(self, 'godson2 caches found')
-> 
+Sean Bruno (1):
+  tcg: Additional Trap type for FreeBSD
 
-Inspite of a small comment,
+Stacey Son (1):
+  bsd-user: move strace OS/arch dependent code to host/arch dirs
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Warner Losh (2):
+  bsd-user: regenerate FreeBSD's system call numbers
+  bsd-user: Update strace.list for FreeBSD's latest syscalls
+
+ accel/tcg/user-exec.c                  |   8 +-
+ bsd-user/arm/target_arch_sysarch.h     |  78 +++
+ bsd-user/arm/target_syscall.h          |  36 ++
+ bsd-user/freebsd/os-strace.h           |  29 ++
+ bsd-user/freebsd/strace.list           |  65 ++-
+ bsd-user/freebsd/syscall_nr.h          | 695 ++++++++++++++-----------
+ bsd-user/i386/target_arch_sysarch.h    |  77 +++
+ bsd-user/i386/target_syscall.h         |  19 +
+ bsd-user/mips/target_arch_sysarch.h    |  69 +++
+ bsd-user/mips/target_syscall.h         |  52 ++
+ bsd-user/mips64/target_arch_sysarch.h  |  69 +++
+ bsd-user/mips64/target_syscall.h       |  53 ++
+ bsd-user/netbsd/os-strace.h            |   1 +
+ bsd-user/openbsd/os-strace.h           |   1 +
+ bsd-user/sparc/target_arch_sysarch.h   |  52 ++
+ bsd-user/sparc/target_syscall.h        |  24 +-
+ bsd-user/sparc64/target_arch_sysarch.h |  52 ++
+ bsd-user/sparc64/target_syscall.h      |  24 +-
+ bsd-user/strace.c                      |  11 +
+ bsd-user/x86_64/target_arch_sysarch.h  |  76 +++
+ bsd-user/x86_64/target_syscall.h       |  21 +-
+ meson.build                            |   1 +
+ 22 files changed, 1186 insertions(+), 327 deletions(-)
+ create mode 100644 bsd-user/arm/target_arch_sysarch.h
+ create mode 100644 bsd-user/arm/target_syscall.h
+ create mode 100644 bsd-user/freebsd/os-strace.h
+ create mode 100644 bsd-user/i386/target_arch_sysarch.h
+ create mode 100644 bsd-user/mips/target_arch_sysarch.h
+ create mode 100644 bsd-user/mips/target_syscall.h
+ create mode 100644 bsd-user/mips64/target_arch_sysarch.h
+ create mode 100644 bsd-user/mips64/target_syscall.h
+ create mode 100644 bsd-user/netbsd/os-strace.h
+ create mode 100644 bsd-user/openbsd/os-strace.h
+ create mode 100644 bsd-user/sparc/target_arch_sysarch.h
+ create mode 100644 bsd-user/sparc64/target_arch_sysarch.h
+ create mode 100644 bsd-user/x86_64/target_arch_sysarch.h
+
+-- 
+2.22.1
 
 
