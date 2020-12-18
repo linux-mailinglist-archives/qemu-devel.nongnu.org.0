@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508A22DE031
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 10:03:31 +0100 (CET)
-Received: from localhost ([::1]:51468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD8E2DE01B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 09:52:11 +0100 (CET)
+Received: from localhost ([::1]:42844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqBfd-0000qp-VV
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 04:03:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55434)
+	id 1kqBUg-0005Bf-BM
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 03:52:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kqBdS-0008Di-PK
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 04:01:14 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kqBdA-0003Ks-H7
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 04:01:13 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kqBd7-00036W-5L
- for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 09:00:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 247F12E813A
- for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 09:00:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kqBTI-0004cS-Hv
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 03:50:44 -0500
+Received: from mx2.suse.de ([195.135.220.15]:54586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kqBTG-0008AH-Ml
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 03:50:44 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E2B63ACBD;
+ Fri, 18 Dec 2020 08:50:40 +0000 (UTC)
+Subject: Re: [PULL 07/17] i386: move hyperv_vendor_id initialization to
+ x86_cpu_realizefn()
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20201217184620.3945917-1-ehabkost@redhat.com>
+ <20201217184620.3945917-8-ehabkost@redhat.com>
+ <e3168f16-b338-d758-34f6-ee5bff41e918@suse.de>
+ <20201217225313.GO3140057@habkost.net>
+ <5deb513d-336f-fadb-a15f-75f51e2211ed@suse.de>
+ <20201217234702.GP3140057@habkost.net>
+ <7889aaaf-06ca-e442-384e-9dd183e87681@suse.de>
+ <20201218010540.GR3140057@habkost.net>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <f3151b45-df10-23ed-b3f7-a8e1ce9b33cc@suse.de>
+Date: Fri, 18 Dec 2020 09:50:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 18 Dec 2020 08:48:35 -0000
-From: taos <1908626@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ggbq
-X-Launchpad-Bug-Reporter: taos (ggbq)
-X-Launchpad-Bug-Modifier: taos (ggbq)
-References: <160825871448.3957.12246357766912503656.malonedeb@wampee.canonical.com>
-Message-Id: <160828131554.32032.3351696172710640037.malone@chaenomeles.canonical.com>
-Subject: [Bug 1908626] Re: Atomic test-and-set instruction does not work on
- qemu-user
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="a68a6d599c812dd1dd335307d9c5c017c50ba81b"; Instance="production"
-X-Launchpad-Hash: f4264ef624504c5258cdd0a402fb1ce08b62e8c8
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201218010540.GR3140057@habkost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,143 +62,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908626 <1908626@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Interestingly, the spinlock test works after I change tas() implementation
-FROM
-  __sync_lock_test_and_set(lock, 1);
-TO
-  __sync_val_compare_and_swap(lock, 0, 1);
+On 12/18/20 2:05 AM, Eduardo Habkost wrote:
+> On Fri, Dec 18, 2020 at 01:07:33AM +0100, Claudio Fontana wrote:
+>> On 12/18/20 12:47 AM, Eduardo Habkost wrote:
+>>> On Fri, Dec 18, 2020 at 12:34:46AM +0100, Claudio Fontana wrote:
+>>>> On 12/17/20 11:53 PM, Eduardo Habkost wrote:
+>>>>> On Thu, Dec 17, 2020 at 11:33:57PM +0100, Claudio Fontana wrote:
+>>>>>> Hello all,
+>>>>>>
+>>>>>> On 12/17/20 7:46 PM, Eduardo Habkost wrote:
+>>>>>>> From: Vitaly Kuznetsov <vkuznets@redhat.com>
+>>>>>>>
+>>>>>>> As a preparation to expanding Hyper-V CPU features early, move
+>>>>>>> hyperv_vendor_id initialization to x86_cpu_realizefn(). Introduce
+>>>>>>> x86_cpu_hyperv_realize() to not not pollute x86_cpu_realizefn()
+>>>>>>> itself.
+>>>>>>
+>>>>>> this seems to fit very well the ongoing work on separating accelerator specific realize functions;
+>>>>>>
+>>>>>> related to the previous discussions about the class hierarchies,
+>>>>>> do you think that we should have a separate class in target/i386/kvm/ for a hyperv variant of the kvm-cpu.c?
+>>>>>>
+>>>>>> Should it be a separate class or a subclass of "kvm-accel-x86_64-cpu" ?
+>>>>>
+>>>>> I don't see how a separate QOM class for Hyper-V would be helpful
+>>>>> here.  What would be the problem you are trying to solve in this
+>>>>> case?
+>>>>
+>>>> there is now a call to accelerator specific code x86_hyperv_cpu_realize just before cpu_exec_realize,
+>>>> tying the generic target/i386/cpu.c code to kvm/hyperv-specific accel initialization.
+>>>>
+>>>> if this is just a feature of the kvm accel, maybe I should just move all to kvm-cpu.c and that's it.
+>>>
+>>> That would make sense.  If we decide this is a KVM-specific
+>>> feature, this code can be moved to kvm_cpu_realizefn(), provided
+>>> by the kvm-accel-x86_64-cpu class added by your series.
+>>>
+>>> However, I'm not sure we can say this is a KVM-specific feature.
+>>> The feature is currently only supported by the KVM accelerator,
+>>> but I'd say it is a generic feature.
+>>>
+>>
+>> Maybe in the future it will be a generic feature, and we can export it the right way?
+>> It will be super-easy if the feature is well contained.
+>>
+>> Until it really is generic though, should it really appear in the middle of x86_cpu_realizefn?
+>> currently the generic code in target/i386/cpu.c contains an unconditional call to:
+>>
+>> x86_cpu_hyperv_realize(cpu);
+>>
+>> before the call to cpu_exec_realizefn().
+>>
+>> the function is defined in this very same file before as:
+>>
+>> static void x86_cpu_hyperv_realize(X86CPU *cpu)
+>> {
+>>  ...
+>> }
+>>
+>> with a bunch of initializations of hyperv specific data, for example cpu->hyperv_interface_id, cpu->hyperv_vendor_id, cpu->hyperv_version_id.
+>>
+>> That data is ever only used in kvm/kvm.c, which is built conditionally under CONFIG_KVM.
+>>
+>> So the existing situation is fairly inconsistent in my view, at least for how things are now, and in principle the extra code of the initializations for hyperv should never be executed if !CONFIG_KVM.
+> 
+> What's the problem you are trying to solve?  Speed?  Binary size?
+> Something else?
+> 
+> Moving the code in x86_cpu_hyperv_realize() to kvm-cpu.c sounds
+> like a drop in the bucket.  It wouldn't get rid of
+> hyperv-specific code in cpu.c, which includes:
+> - the "hv-*" properties in x86_cpu_properties[];
+> - FEAT_HYPERV_* CPUID leaf definitions;
+> - hyperv code in x86_cpu_get_crash_info().
+> 
+> I wouldn't object if somebody really wants to move it, but I
+> don't see it as a problem.
+> 
 
-## gcc (GCC) 8.3.1 20190311 (Red Hat 8.3.1-3)
+Nm I'll take a look later on.
 
-=3D=3D=3D=3D
-__sync_lock_test_and_set(lock, 1) disassembly:
+Thanks!
 
-```
-objdump -S a.out
-
-000000000040073c <tas>:
-  40073c:	d10043ff 	sub	sp, sp, #0x10
-  400740:	f90007e0 	str	x0, [sp, #8]
-  400744:	f94007e0 	ldr	x0, [sp, #8]
-  400748:	52800021 	mov	w1, #0x1                   	// #1
-  40074c:	885f7c02 	ldxr	w2, [x0]
-  400750:	88037c01 	stxr	w3, w1, [x0]
-  400754:	35ffffc3 	cbnz	w3, 40074c <tas+0x10>
-  400758:	d5033bbf 	dmb	ish
-  40075c:	2a0203e0 	mov	w0, w2
-  400760:	910043ff 	add	sp, sp, #0x10
-  400764:	d65f03c0 	ret
-```
-
-=3D=3D=3D=3D
-__sync_val_compare_and_swap(lock, 0, 1); disassembly:
-
-```
-objdump -S a.out
-
-000000000040073c <tas>:
-  40073c:	d10043ff 	sub	sp, sp, #0x10
-  400740:	f90007e0 	str	x0, [sp, #8]
-  400744:	f94007e0 	ldr	x0, [sp, #8]
-  400748:	52800021 	mov	w1, #0x1                   	// #1
-  40074c:	885f7c02 	ldxr	w2, [x0]
-  400750:	35000062 	cbnz	w2, 40075c <tas+0x20>
-  400754:	8803fc01 	stlxr	w3, w1, [x0]
-  400758:	35ffffa3 	cbnz	w3, 40074c <tas+0x10>
-  40075c:	7100005f 	cmp	w2, #0x0
-  400760:	d5033bbf 	dmb	ish
-  400764:	2a0203e0 	mov	w0, w2
-  400768:	910043ff 	add	sp, sp, #0x10
-  40076c:	d65f03c0 	ret
-```
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908626
-
-Title:
-  Atomic test-and-set instruction does not work on qemu-user
-
-Status in QEMU:
-  New
-
-Bug description:
-  I try to compile and run PostgreSQL/Greenplum database inside docker cont=
-ainer/qemu-aarch64-static:
-  ```
-   host: CentOS7 x86_64
-   container: centos:centos7.9.2009 --platform linux/arm64/v8
-   qemu-user-static: https://github.com/multiarch/qemu-user-static/releases/
-  ```
-
-  However, GP/PG's spinlock always gets stuck and reports PANIC errors. It =
-seems its spinlock
-  has something wrong.
-  ```
-  https://github.com/greenplum-db/gpdb/blob/master/src/include/storage/s_lo=
-ck.h
-  https://github.com/greenplum-db/gpdb/blob/master/src/backend/storage/lmgr=
-/s_lock.c
-  ```
-
-  So I extract its spinlock implementation into one test C source file (see=
- attachment file),
-  and get reprodcued:
-
-  ```
-  $ gcc spinlock_qemu.c
-  $ ./a.out =
-
-  C -- slock inited, lock value is: 0
-  parent 139642, child 139645
-  P -- slock lock before, lock value is: 0
-  P -- slock locked, lock value is: 1
-  P -- slock unlock after, lock value is: 0
-  C -- slock lock before, lock value is: 1
-  P -- slock lock before, lock value is: 1
-  C -- slock locked, lock value is: 1
-  C -- slock unlock after, lock value is: 0
-  C -- slock lock before, lock value is: 1
-  P -- slock locked, lock value is: 1
-  P -- slock unlock after, lock value is: 0
-  P -- slock lock before, lock value is: 1
-  C -- slock locked, lock value is: 1
-  C -- slock unlock after, lock value is: 0
-  P -- slock locked, lock value is: 1
-  C -- slock lock before, lock value is: 1
-  P -- slock unlock after, lock value is: 0
-  C -- slock locked, lock value is: 1
-  P -- slock lock before, lock value is: 1
-  C -- slock unlock after, lock value is: 0
-  P -- slock locked, lock value is: 1
-  C -- slock lock before, lock value is: 1
-  P -- slock unlock after, lock value is: 0
-  C -- slock locked, lock value is: 1
-  P -- slock lock before, lock value is: 1
-  C -- slock unlock after, lock value is: 0
-  P -- slock locked, lock value is: 1
-  C -- slock lock before, lock value is: 1
-  P -- slock unlock after, lock value is: 0
-  P -- slock lock before, lock value is: 1
-  spin timeout, lock value is 1 (pid 139642)
-  spin timeout, lock value is 1 (pid 139645)
-  spin timeout, lock value is 1 (pid 139645)
-  spin timeout, lock value is 1 (pid 139642)
-  spin timeout, lock value is 1 (pid 139645)
-  spin timeout, lock value is 1 (pid 139642)
-  ...
-  ...
-  ...
-  ```
-
-  NOTE: this code always works on PHYSICAL ARM64 server.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908626/+subscriptions
+Claudio
 
