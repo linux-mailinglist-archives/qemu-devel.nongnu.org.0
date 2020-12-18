@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973DA2DE10B
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:32:55 +0100 (CET)
-Received: from localhost ([::1]:43762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 073F82DE120
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:35:22 +0100 (CET)
+Received: from localhost ([::1]:50252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqD4A-0006eF-H8
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:32:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43982)
+	id 1kqD6X-00019s-1C
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:35:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvw-00033J-6P
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:24 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:56911)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvu-00030H-P7
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:22 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:48389)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvq-00074M-8c
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:23 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvq-00074I-4D
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:22 -0500
 Received: from localhost.localdomain ([82.252.144.198]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MWzXj-1kbD9w2Qjx-00XMWj; Fri, 18 Dec 2020 11:24:13 +0100
+ id 1Md6V3-1kHh7u48dH-00aD2t; Fri, 18 Dec 2020 11:24:14 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/14] linux-user: Add support for MIPS Loongson 2F/3A
-Date: Fri, 18 Dec 2020 11:24:00 +0100
-Message-Id: <20201218102407.597566-8-laurent@vivier.eu>
+Subject: [PULL 08/14] docs/user: Display linux-user binaries nicely
+Date: Fri, 18 Dec 2020 11:24:01 +0100
+Message-Id: <20201218102407.597566-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201218102407.597566-1-laurent@vivier.eu>
 References: <20201218102407.597566-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:EjvWeq5wtv2u7gwt+VE/tzeCrjRn7we95o/YGLSe5rf1J00oeg6
- PUL3EgZ5rwx8bt8CEUMU/27wf8Ot/17B1t9W+DYKysNb9YY+zzgxpupigFqpIgJEh/Dvs+h
- kChbWppufCfaOcQQ1/bjXrWVnxIyAKkKO2R8VSfVPeFkJcFRafNfBe/YOmuyntA6CtYPE9Z
- MH88yHNmHmDnszN+jZy+w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5NmNh1MMsYE=:C78dy8bjOhAxav9f9QPo95
- CK4hTYfTHhtTD3Ff/okMtFwsrvfgupxQKsupwuww3H1LRDNMiWPg32luk9uJVIu9k/9QqDcRb
- JAmla34Dt6I3pmT7vEENhLp1oduNC3fl32yZ11xAeZz9y8xsxXw5wLoEdPV1SsoBJpBuDyLEY
- fuwJu7enWjIoSMVEkoX6grYylTsstWECrhQ3+xB89+exmC9gXjbcd3cL64V2vrlcAznpCiESb
- /Hso18ebr9U92ted0NGLFgaakVSqU3H+euheErQTbxmAoX61COUrnjhQXhJzqDtbkJgazboa7
- 0wpdsjPQnyNNFHgFNH14zwh4QBewyFon3Zikg4U3w6E/0AQHJhTqd+KDERgnHUZQHb+q05ySh
- PUQMdk0+GEWw3Vhn1KQ3xi19JSYX/OW71+dLOHCfpWQiuxLtQARWthX9mcDZm
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:aZjga+gCPf6lwOsHveYCJzg6ouMofbZGvYmocBMW1p/8ROvyRGP
+ oxBjQK9tq92zVhmD0Kr/qZX7251LMHwY+72uBK4tUr8AwmHDcPiaN1aAxpY4ShgQR9PQxgQ
+ PPEWYN6q2G9fdDBeOf4L+34xHqUBTnLCZQXgTbi79r2cV4Mz52TNP0jatuZiCX4v8IK+/yg
+ 9rGhon9MGLr18MhN1+Xmg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+AjcLFspfiM=:DkDCO7SrF+hiPzFMWwSVrJ
+ wAREbzQEYFRdtnpNTSIeFqtbNcu0EZWFHFfQTsu1FFiPoEXVgliGlvgkE31vBYai6DwgAZTmc
+ GPv7RmaXSGQBA9MQNrABfT7FBN9e8puE7+MppWGEjIBxw8Cj5ikqvK+khoN6Z4XsC65jMr60i
+ c+XlKwgiavmJQHt8TeQYh8rFeKPJSIVvYYdggjmflLNQKt1X1dT725ttWtJgQPQJNJkDnph0V
+ eLK0CMjewxW8zC1lM23BY3eWX72T54dliGy9OkTHvptbgijyHW3fxTeMre5AL9rainTNtIpit
+ ZPyHLwrFWoLXkNflRijDh02ijHD+tCT3j7E2EbgR050n/NaN8gS9VbyNIkbejHQl2130N+CVu
+ nkIsEMXmv8fKNxzu3oRgTuIjLSGcvc7669HOiESIOivOXJx551woAekXwH3AHvTcEc+2UFNV+
+ Sfd1BFbBGA==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -62,43 +63,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Userland ELF binaries using Loongson SIMD instructions have the
-HWCAP_LOONGSON_MMI bit set [1].
-Binaries compiled for Loongson 3A [2] have the HWCAP_LOONGSON_EXT
-bit set for the LQ / SQ instructions.
+linux-user binaries are displayed altogether. Use the '*'
+character to force displaying them as bullet list (one list
+per architecture).
 
-[1] commit 8e2d5831e4b ("target/mips: Legalize Loongson insn flags")
-[2] commit af868995e1b ("target/mips: Add Loongson-3 CPU definition")
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201214003215.344522-7-f4bug@amsat.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20201119160838.1981709-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 2 ++
- 1 file changed, 2 insertions(+)
+ docs/user/main.rst | 99 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 56 insertions(+), 43 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 0836e72b5ac3..a64050713f28 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1024,6 +1024,8 @@ static uint32_t get_elf_hwcap(void)
-     GET_FEATURE_REG_EQU(CP0_Config0, CP0C0_AR, CP0C0_AR_LENGTH,
-                         2, HWCAP_MIPS_R6);
-     GET_FEATURE_REG_SET(CP0_Config3, 1 << CP0C3_MSAP, HWCAP_MIPS_MSA);
-+    GET_FEATURE_INSN(ASE_LMMI, HWCAP_LOONGSON_MMI);
-+    GET_FEATURE_INSN(ASE_LEXT, HWCAP_LOONGSON_EXT);
+diff --git a/docs/user/main.rst b/docs/user/main.rst
+index bd99b0fdbe9b..8dfe232a3af1 100644
+--- a/docs/user/main.rst
++++ b/docs/user/main.rst
+@@ -170,68 +170,81 @@ QEMU_STRACE
+ Other binaries
+ ~~~~~~~~~~~~~~
  
-     return hwcaps;
- }
+-user mode (Alpha)
+-``qemu-alpha`` TODO.
++-  user mode (Alpha)
+ 
+-user mode (Arm)
+-``qemu-armeb`` TODO.
++   * ``qemu-alpha`` TODO.
+ 
+-user mode (Arm)
+-``qemu-arm`` is also capable of running Arm \"Angel\" semihosted ELF
+-binaries (as implemented by the arm-elf and arm-eabi Newlib/GDB
+-configurations), and arm-uclinux bFLT format binaries.
++-  user mode (Arm)
+ 
+-user mode (ColdFire)
+-user mode (M68K)
+-``qemu-m68k`` is capable of running semihosted binaries using the BDM
+-(m5xxx-ram-hosted.ld) or m68k-sim (sim.ld) syscall interfaces, and
+-coldfire uClinux bFLT format binaries.
++   * ``qemu-armeb`` TODO.
+ 
+-The binary format is detected automatically.
++   * ``qemu-arm`` is also capable of running Arm \"Angel\" semihosted ELF
++     binaries (as implemented by the arm-elf and arm-eabi Newlib/GDB
++     configurations), and arm-uclinux bFLT format binaries.
+ 
+-user mode (Cris)
+-``qemu-cris`` TODO.
++-  user mode (ColdFire)
+ 
+-user mode (i386)
+-``qemu-i386`` TODO. ``qemu-x86_64`` TODO.
++-  user mode (M68K)
+ 
+-user mode (Microblaze)
+-``qemu-microblaze`` TODO.
++   * ``qemu-m68k`` is capable of running semihosted binaries using the BDM
++     (m5xxx-ram-hosted.ld) or m68k-sim (sim.ld) syscall interfaces, and
++     coldfire uClinux bFLT format binaries.
+ 
+-user mode (MIPS)
+-``qemu-mips`` executes 32-bit big endian MIPS binaries (MIPS O32 ABI).
++   The binary format is detected automatically.
+ 
+-``qemu-mipsel`` executes 32-bit little endian MIPS binaries (MIPS O32
+-ABI).
++-  user mode (Cris)
+ 
+-``qemu-mips64`` executes 64-bit big endian MIPS binaries (MIPS N64 ABI).
++   * ``qemu-cris`` TODO.
+ 
+-``qemu-mips64el`` executes 64-bit little endian MIPS binaries (MIPS N64
+-ABI).
++-  user mode (i386)
+ 
+-``qemu-mipsn32`` executes 32-bit big endian MIPS binaries (MIPS N32
+-ABI).
++   * ``qemu-i386`` TODO.
++   * ``qemu-x86_64`` TODO.
+ 
+-``qemu-mipsn32el`` executes 32-bit little endian MIPS binaries (MIPS N32
+-ABI).
++-  user mode (Microblaze)
+ 
+-user mode (NiosII)
+-``qemu-nios2`` TODO.
++   * ``qemu-microblaze`` TODO.
+ 
+-user mode (PowerPC)
+-``qemu-ppc64abi32`` TODO. ``qemu-ppc64`` TODO. ``qemu-ppc`` TODO.
++-  user mode (MIPS)
+ 
+-user mode (SH4)
+-``qemu-sh4eb`` TODO. ``qemu-sh4`` TODO.
++   * ``qemu-mips`` executes 32-bit big endian MIPS binaries (MIPS O32 ABI).
+ 
+-user mode (SPARC)
+-``qemu-sparc`` can execute Sparc32 binaries (Sparc32 CPU, 32 bit ABI).
++   * ``qemu-mipsel`` executes 32-bit little endian MIPS binaries (MIPS O32 ABI).
+ 
+-``qemu-sparc32plus`` can execute Sparc32 and SPARC32PLUS binaries
+-(Sparc64 CPU, 32 bit ABI).
++   * ``qemu-mips64`` executes 64-bit big endian MIPS binaries (MIPS N64 ABI).
+ 
+-``qemu-sparc64`` can execute some Sparc64 (Sparc64 CPU, 64 bit ABI) and
+-SPARC32PLUS binaries (Sparc64 CPU, 32 bit ABI).
++   * ``qemu-mips64el`` executes 64-bit little endian MIPS binaries (MIPS N64
++     ABI).
++
++   * ``qemu-mipsn32`` executes 32-bit big endian MIPS binaries (MIPS N32 ABI).
++
++   * ``qemu-mipsn32el`` executes 32-bit little endian MIPS binaries (MIPS N32
++     ABI).
++
++-  user mode (NiosII)
++
++   * ``qemu-nios2`` TODO.
++
++-  user mode (PowerPC)
++
++   * ``qemu-ppc64abi32`` TODO.
++   * ``qemu-ppc64`` TODO.
++   * ``qemu-ppc`` TODO.
++
++-  user mode (SH4)
++
++   * ``qemu-sh4eb`` TODO.
++   * ``qemu-sh4`` TODO.
++
++-  user mode (SPARC)
++
++   * ``qemu-sparc`` can execute Sparc32 binaries (Sparc32 CPU, 32 bit ABI).
++
++   * ``qemu-sparc32plus`` can execute Sparc32 and SPARC32PLUS binaries
++     (Sparc64 CPU, 32 bit ABI).
++
++   * ``qemu-sparc64`` can execute some Sparc64 (Sparc64 CPU, 64 bit ABI) and
++     SPARC32PLUS binaries (Sparc64 CPU, 32 bit ABI).
+ 
+ BSD User space emulator
+ -----------------------
 -- 
 2.29.2
 
