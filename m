@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FA32DE35F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 14:38:59 +0100 (CET)
-Received: from localhost ([::1]:38948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABBD12DE37A
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 14:50:28 +0100 (CET)
+Received: from localhost ([::1]:60802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqFyE-0006Bv-9U
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 08:38:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55638)
+	id 1kqG9L-0007mC-DM
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 08:50:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kqFp3-0003Y8-TX; Fri, 18 Dec 2020 08:29:29 -0500
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:37829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kqFox-0002yG-9F; Fri, 18 Dec 2020 08:29:29 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 0E49390F;
- Fri, 18 Dec 2020 08:29:20 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 18 Dec 2020 08:29:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=CHosVz7wDL0jI
- rN2brZWFzDkPR7DRtDfUFuuzgG3sGM=; b=cHnEl2bHKXZqk6CzXoTAzm7gKO0V2
- uXDXbDr03HOuWKcrZV0Snw9oaKi/Z7ki0XRPHi64prDNErq4SrxaH79XK1W6ocVk
- l3AHoMMMTvfEazu6CxsL07YwGjIzF/+rkCxmiSbL/AdaE1hhxWQ8xsOXbYyyHxiB
- 7gZD5k4xeYnQRBYo/M26dIdx5iu5wtGvRC3DQzfF4XjSh1Z7T+rpakDA9Ul/djqW
- 0UtCS8fhlTKNP6FQFKt0OY3cyEh4wwr/eM7WnQODvsr7G/0S0qO06q6/EVv2RT6h
- 6nvuxPNE2Osk1bXxIL6OKt8PhpIFY6zW7jF7DBq+DQpCUuKvtyoElqOjw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=CHosVz7wDL0jIrN2brZWFzDkPR7DRtDfUFuuzgG3sGM=; b=N/3UFGdX
- zgsXCLjQ2dQOCqKfZZBN+HdxjqyhMnNFsTE9u8dw0qzqhe6T4Y2ZVH6RY9RBux9l
- qg1bqTvNblH+fDgoaQTNU6Xg6BQ//RUygfKxdNoOK5DgST0gZY2Yt90IdarCujKr
- ZWdjxwafOFoZfHosnzbQR++olvPusdQU9xhBq6yiHhpZyR7nB0w8QmfFxhVdqUud
- Rs5CwsmmyjksfjG5fBaY5dm1cF8BE5BCgZi3d9hYJPbCLZf+YO/82/URNYQ+qqzj
- k1ACM2i4h3EPHXFk57pABVWnJeaSs8sskjDFz6AVT4E83ngo1Ay/5GRhzsielkLR
- SH4447fMuWMEZw==
-X-ME-Sender: <xms:sK7cX7dJWMn3y3hF5gqmdAfBxt8L_ZtLHo0PIXn5sZWytfDZoF38ew>
- <xme:sK7cXxPpe_uC967d4ZjCUISXZU1c_UUSHTzFI7MM7VP0-a-bdHX25VQ9kI-MWWULg
- w2aRqzd2VwO5ghZj58>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeliedghedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:sK7cX0inDbZJXVv_vwiFaJm0-Q88Rell-i7ytsEU1_tPLBkgbgSMNA>
- <xmx:sK7cX89VXrNjAZRUs3__fb3TLT-oftr2BOrXEEWKD-soDnJQBudeXA>
- <xmx:sK7cX3tHWvnuG720qdilyqcCpUDz886X3d_sSrwYmPVXgq8qfFqJ-w>
- <xmx:sK7cX9DxFFljvHWDbXDor5onLetqKgqAlSvrMhlA18pdx_VF0sLwBQiVGEc>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 28ACB24005A;
- Fri, 18 Dec 2020 08:29:19 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 8/8] hw/block/nvme: add PMR RDS/WDS support
-Date: Fri, 18 Dec 2020 14:29:05 +0100
-Message-Id: <20201218132905.967326-9-its@irrelevant.dk>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201218132905.967326-1-its@irrelevant.dk>
-References: <20201218132905.967326-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kqFtd-0005XL-9E
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 08:34:13 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:36331)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kqFtb-0004es-Eq
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 08:34:13 -0500
+Received: by mail-ej1-x632.google.com with SMTP id lt17so3238497ejb.3
+ for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 05:34:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bq0tHY4ZqnQ14SQSytNmNpVx0uxQejQO14hzAqt8ACM=;
+ b=qgW/kzB/5XtDlbVB8r8N/JZ5XL3We5ezAYK0SD5WBzxJLT/Vu8oqWtJsE89gp5b2zl
+ xc2zh5eLgxhRC5ffMVHK5irccFTWiFJqJCH89x2JzLYt83Iu3thZg3oO5QEvaFsrbN0w
+ /EyWnBG/pRkBKYBnz6WTbseTSYTmQDmUoPeqjL7Lqr6PllVQyRH9ArVD1rRN0jzORj0m
+ r2dFvh+0votXw7axApbg9Vx8X/e20GGw23aZDZD/rXEbIKoQideDfcnWoq0wiI7nWjJv
+ /WRNlA496dx0V7aC2VRkF/oGFTYKBaMxmOdxDtfXWF/f6cJ1BhC7EQVKiL2FPCTUfse0
+ CArg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bq0tHY4ZqnQ14SQSytNmNpVx0uxQejQO14hzAqt8ACM=;
+ b=happb39mA08EfJG1olObrfDAVicWrYc5aAEK1Gxvqylv3B4Tfm+n+nZ1co8K+GS1WM
+ xJemJWfaD2GAr21XFy/RafQLEmbZ+rny0i/bWAF3uqkm+xzlSiNPW++puWvTGEMiQIVw
+ LD3oBoGpMmuMl1vVr5K/JeotV1t8MGzSa2fj3gKx9bEOGWbvojDJR9ajAr2EPQCCsppZ
+ fnUQsKsORCbDrFml5SW8c0iFhOOw/Wvcb46N7IaBaEyNBoPHyWQoYiLWvTPwsTwYaanr
+ L4PECnt6XYT+LtHDd9RG4Le3ptfIx+QzBBt9hkxS7tKvKKmow6ohRJwVkXs8Y8Oi2inl
+ EVUw==
+X-Gm-Message-State: AOAM533Sb5bLeOnTb1uozh+7HM8/CBTB5BuWreWU+7+lRgKzxMMSsun7
+ 6YdL2T3p8vRm6I81YA0eU5wZAria77UfA0PGflY=
+X-Google-Smtp-Source: ABdhPJwF+G3eajW/szlMle95/4pp7NUqXAADogP/HGsPC5RzzRgZ8/1uUcV7Hmz6fmHocE5u4S30RXhU1Sryj1MDzWU=
+X-Received: by 2002:a17:906:98d4:: with SMTP id
+ zd20mr4022378ejb.532.1608298448510; 
+ Fri, 18 Dec 2020 05:34:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.18; envelope-from=its@irrelevant.dk;
- helo=wnew4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20201217104417.436508-1-marcandre.lureau@redhat.com>
+ <5c6d244b-1ed3-f065-88b6-7a007a224cc4@suse.de>
+ <7fc16ac5-d0c2-9475-abc8-bd415c6b2a73@redhat.com>
+ <CAMxuvawOQc7sHoVV+eaAChwDb5RVRBHWPqzZ85xoovp+_nqtdg@mail.gmail.com>
+ <4287c327-0e3e-5f35-b078-0360796e6103@redhat.com>
+In-Reply-To: <4287c327-0e3e-5f35-b078-0360796e6103@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 18 Dec 2020 17:33:56 +0400
+Message-ID: <CAJ+F1CLh2pbdTrGG5+aMxjdMAZRfbip4L1gjowCfNiY-F2AcyQ@mail.gmail.com>
+Subject: Re: [PATCH] build-sys: fix win32 compilation with --target-list=''
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000b8f3f405b6bd296b"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,196 +81,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Naveen Nagar <naveen.n1@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>,
- Andrzej Jakowski <andrzej.jakowski@linux.intel.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
+Cc: Claudio Fontana <cfontana@suse.de>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Naveen Nagar <naveen.n1@samsung.com>
+--000000000000b8f3f405b6bd296b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add support for the PMRMSCL and PMRMSCU MMIO registers. This allows
-adding RDS/WDS support for PMR as well.
+Hi
 
-Signed-off-by: Naveen Nagar <naveen.n1@samsung.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme.h      |  1 +
- include/block/nvme.h |  1 +
- hw/block/nvme.c      | 88 ++++++++++++++++++++++++++++++++++++++++++--
- 3 files changed, 87 insertions(+), 3 deletions(-)
+On Fri, Dec 18, 2020 at 5:24 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index b1b273ce535e..0dc119dedc00 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -142,6 +142,7 @@ typedef struct NvmeCtrl {
-     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
-     uint64_t    starttime_ms;
-     uint16_t    temperature;
-+    bool        pmr_cmse;
- 
-     HostMemoryBackend *pmrdev;
- 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 686e2541a587..ed645b6cb4f2 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -62,6 +62,7 @@ enum NvmeCapMask {
- #define NVME_CAP_CSS(cap)   (((cap) >> CAP_CSS_SHIFT)    & CAP_CSS_MASK)
- #define NVME_CAP_MPSMIN(cap)(((cap) >> CAP_MPSMIN_SHIFT) & CAP_MPSMIN_MASK)
- #define NVME_CAP_MPSMAX(cap)(((cap) >> CAP_MPSMAX_SHIFT) & CAP_MPSMAX_MASK)
-+#define NVME_CAP_PMRS(cap)  (((cap) >> CAP_PMRS_SHIFT)   & CAP_PMRS_MASK)
- 
- #define NVME_CAP_SET_MQES(cap, val)   (cap |= (uint64_t)(val & CAP_MQES_MASK)  \
-                                                            << CAP_MQES_SHIFT)
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index c04d6e69e4df..055b9c69bafb 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -142,6 +142,31 @@ static inline void *nvme_addr_to_cmb(NvmeCtrl *n, hwaddr addr)
-     return &n->cmbuf[addr - n->ctrl_mem.addr];
- }
- 
-+static inline bool nvme_addr_is_pmr(NvmeCtrl *n, hwaddr addr)
-+{
-+    hwaddr hi, low;
-+
-+    if (!n->pmrdev || !n->pmrdev->mr.enabled) {
-+        return false;
-+    }
-+
-+    low = NVME_PMRMSC_CBA(n->bar.pmrmsc) << PMRMSC_CBA_SHIFT;
-+    hi  = low + int128_get64(n->pmrdev->mr.size);
-+
-+    return addr >= low && addr < hi;
-+}
-+
-+static inline void *nvme_addr_to_pmr(NvmeCtrl *n, hwaddr addr)
-+{
-+    hwaddr cba;
-+
-+    assert(nvme_addr_is_pmr(n, addr));
-+
-+    cba = NVME_PMRMSC_CBA(n->bar.pmrmsc) << PMRMSC_CBA_SHIFT;
-+
-+    return memory_region_get_ram_ptr(&n->pmrdev->mr) + (addr - cba);
-+}
-+
- static int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
- {
-     hwaddr hi = addr + size - 1;
-@@ -154,6 +179,11 @@ static int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
-         return 0;
-     }
- 
-+    if (nvme_addr_is_pmr(n, addr) && nvme_addr_is_pmr(n, hi)) {
-+        memcpy(buf, nvme_addr_to_pmr(n, addr), size);
-+        return 0;
-+    }
-+
-     return pci_dma_read(&n->parent_obj, addr, buf, size);
- }
- 
-@@ -275,6 +305,22 @@ static uint16_t nvme_map_addr_cmb(NvmeCtrl *n, QEMUIOVector *iov, hwaddr addr,
-     return NVME_SUCCESS;
- }
- 
-+static uint16_t nvme_map_addr_pmr(NvmeCtrl *n, QEMUIOVector *iov, hwaddr addr,
-+    size_t len)
-+{
-+    if (!len) {
-+        return NVME_SUCCESS;
-+    }
-+
-+    if (!nvme_addr_is_pmr(n, addr) || !nvme_addr_is_pmr(n, addr + len - 1)) {
-+        return NVME_DATA_TRAS_ERROR;
-+    }
-+
-+    qemu_iovec_add(iov, nvme_addr_to_pmr(n, addr), len);
-+
-+    return NVME_SUCCESS;
-+}
-+
- static uint16_t nvme_map_addr(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
-                               hwaddr addr, size_t len)
- {
-@@ -297,6 +343,19 @@ static uint16_t nvme_map_addr(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
- 
-         return nvme_map_addr_cmb(n, iov, addr, len);
-     }
-+    if (nvme_addr_is_pmr(n, addr)) {
-+        if (qsg && qsg->sg) {
-+            return NVME_INVALID_FIELD | NVME_DNR;
-+        }
-+
-+        assert(iov);
-+
-+        if (!iov->iov) {
-+            qemu_iovec_init(iov, 1);
-+        }
-+
-+        return nvme_map_addr_pmr(n, iov, addr, len);
-+    }
- 
-     if (iov && iov->iov) {
-         return NVME_INVALID_USE_OF_CMB | NVME_DNR;
-@@ -328,7 +387,7 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
- 
-     trace_pci_nvme_map_prp(trans_len, len, prp1, prp2, num_prps);
- 
--    if (nvme_addr_is_cmb(n, prp1)) {
-+    if (nvme_addr_is_cmb(n, prp1) || (nvme_addr_is_pmr(n, prp1))) {
-         qemu_iovec_init(iov, num_prps);
-     } else {
-         pci_dma_sglist_init(qsg, &n->parent_obj, num_prps);
-@@ -2571,8 +2630,28 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
-         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrswtp_readonly,
-                        "invalid write to PMRSWTP register, ignored");
-         return;
--    case 0xE14: /* TODO PMRMSC */
--        break;
-+    case 0xE14: /* PMRMSCL */
-+        if (!NVME_CAP_PMRS(n->bar.cap)) {
-+            return;
-+        }
-+
-+        n->bar.pmrmsc |= data & 0xffffffff;
-+
-+        if (NVME_PMRMSC_CMSE(n->bar.pmrmsc)) {
-+            hwaddr cba = NVME_PMRMSC_CBA(n->bar.pmrmsc) << PMRMSC_CBA_SHIFT;
-+            if (cba + int128_get64(n->pmrdev->mr.size) < cba) {
-+                NVME_PMRSTS_SET_CBAI(n->bar.pmrsts, 1);
-+            }
-+        }
-+
-+        return;
-+    case 0xE18: /* PMRMSCU */
-+        if (!NVME_CAP_PMRS(n->bar.cap)) {
-+            return;
-+        }
-+
-+        n->bar.pmrmsc |= data << 32;
-+        return;
-     default:
-         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_invalid,
-                        "invalid MMIO write,"
-@@ -2919,8 +2998,11 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
- 
- static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
- {
-+    NVME_PMRCAP_SET_RDS(n->bar.pmrcap, 1);
-+    NVME_PMRCAP_SET_WDS(n->bar.pmrcap, 1);
-     NVME_PMRCAP_SET_BIR(n->bar.pmrcap, NVME_PMR_BIR);
-     NVME_PMRCAP_SET_PMRWBM(n->bar.pmrcap, 0x02);
-+    NVME_PMRCAP_SET_CMSS(n->bar.pmrcap, 1);
- 
-     pci_register_bar(pci_dev, NVME_PMRCAP_BIR(n->bar.pmrcap),
-                      PCI_BASE_ADDRESS_SPACE_MEMORY |
--- 
-2.29.2
+> On 18/12/20 14:01, Marc-Andr=C3=A9 Lureau wrote:
+> >> in aio_set_fd_handler.  I think we can remove the call to
+> >> qemu_fd_register from qemu_try_set_nonblock, and that should fix the
+> >> issue as well.
+> >
+> > That's tricky to say whether this won't introduce regression. For most
+> > fds from qemu, if they use aio_set_fd_handler, that should be ok.
+> >
+> > But what about other fds? For examples, the ones from slirp?
+>
+> slirp already calls qemu_fd_register, see net_slirp_register_poll_fd
+>
+> > In fact, I
+> > don't understand how it could work today. We are passing socket() fd
+> > directly to g_poll(). But according to the documentation:
+> >
+> >   * On Win32, the fd in a GPollFD should be Win32 HANDLE (*not* a file
+> >   * descriptor as provided by the C runtime) that can be used by
+> >   * MsgWaitForMultipleObjects. This does *not* include file handles
+> >   * from CreateFile, SOCKETs, nor pipe handles. (But you can use
+> >   * WSAEventSelect to signal events when a SOCKET is readable).
+> >
+> > And MsgWaitForMultipleObjects doesn't mention SOCKET as being valid
+> > handles to wait for.
+>
+> No, it's more complicated.  On Win32, gpollfds is only used for sockets
+> (despite the name!), while poll_fds is used for prepare/query/g_poll/chec=
+k.
+>
+> What we do is basically the same that QIOChannel and aio-win32.c already
+> do, just with more indirection to fit the SLIRP callback API:
+>
+> - main_loop_wait calls net_slirp_poll_notify, which asks SLIRP to send
+> back the list of file descriptors through the net_slirp_add_poll callback=
+.
+>
+> - the file descriptors are stored in the gpollfds global.
+>
+> - os_host_main_loop_wait does a select on the sockets with 0 timeout
+>
+> - if no socket is ready, g_poll is done with the original timeout
+> (otherwise the timeout is zeroed)
+>
+>
+- the sockets were registered with WSAEventSelect in
+> net_slirp_register_poll_fd, so they interrupt the subsequent g_poll if
+> data comes in.
+>
+>
+Ah thanks, I mixed the unix and the win32 versions.
 
+
+> I don't see any other use of MainLoopPoll, so all non-SLIRP sockets
+> should be going through {qemu,aio}_set_fd_handler.  In particular this
+> is the case for all of chardev/ (which uses QIOChannel), io/ and net/.
+> These are all the other users of qemu_set_nonblock and
+> qemu_try_set_nonblock.
+>
+>
+Ok, I guess we can simply register fd to be a win32-specific call for slirp
+then.
+
+
+> Paolo
+>
+> > But when I run qemu with slirp, with or without qemu_fd_register, I
+> > don't see any error or regression.
+> >
+> > Am I missing something?
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000b8f3f405b6bd296b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 18, 2020 at 5:24 PM Pao=
+lo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
+ 18/12/20 14:01, Marc-Andr=C3=A9 Lureau wrote:<br>
+&gt;&gt; in aio_set_fd_handler.=C2=A0 I think we can remove the call to<br>
+&gt;&gt; qemu_fd_register from qemu_try_set_nonblock, and that should fix t=
+he<br>
+&gt;&gt; issue as well.<br>
+&gt;<br>
+&gt; That&#39;s tricky to say whether this won&#39;t introduce regression. =
+For most <br>
+&gt; fds from qemu, if they use aio_set_fd_handler, that should be ok.<br>
+&gt; <br>
+&gt; But what about other fds? For examples, the ones from slirp?<br>
+<br>
+slirp already calls qemu_fd_register, see net_slirp_register_poll_fd<br>
+<br>
+&gt; In fact, I <br>
+&gt; don&#39;t understand how it could work today. We are passing socket() =
+fd <br>
+&gt; directly to g_poll(). But according to the documentation:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0* On Win32, the fd in a GPollFD should be Win32 HANDLE (*n=
+ot* a file<br>
+&gt;=C2=A0 =C2=A0* descriptor as provided by the C runtime) that can be use=
+d by<br>
+&gt;=C2=A0 =C2=A0* MsgWaitForMultipleObjects. This does *not* include file =
+handles<br>
+&gt;=C2=A0 =C2=A0* from CreateFile, SOCKETs, nor pipe handles. (But you can=
+ use<br>
+&gt;=C2=A0 =C2=A0* WSAEventSelect to signal events when a SOCKET is readabl=
+e).<br>
+&gt; <br>
+&gt; And MsgWaitForMultipleObjects doesn&#39;t mention SOCKET as being vali=
+d <br>
+&gt; handles to wait for.<br>
+<br>
+No, it&#39;s more complicated.=C2=A0 On Win32, gpollfds is only used for so=
+ckets <br>
+(despite the name!), while poll_fds is used for prepare/query/g_poll/check.=
+<br>
+<br>
+What we do is basically the same that QIOChannel and aio-win32.c already <b=
+r>
+do, just with more indirection to fit the SLIRP callback API:<br>
+<br>
+- main_loop_wait calls net_slirp_poll_notify, which asks SLIRP to send <br>
+back the list of file descriptors through the net_slirp_add_poll callback.<=
+br>
+<br>
+- the file descriptors are stored in the gpollfds global.<br>
+<br>
+- os_host_main_loop_wait does a select on the sockets with 0 timeout<br>
+<br>
+- if no socket is ready, g_poll is done with the original timeout <br>
+(otherwise the timeout is zeroed)<br>=C2=A0 <br></blockquote><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
+- the sockets were registered with WSAEventSelect in <br>
+net_slirp_register_poll_fd, so they interrupt the subsequent g_poll if <br>
+data comes in.<br>
+<br></blockquote><div><br></div><div>Ah thanks, I mixed the unix and the wi=
+n32 versions.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
+I don&#39;t see any other use of MainLoopPoll, so all non-SLIRP sockets <br=
+>
+should be going through {qemu,aio}_set_fd_handler.=C2=A0 In particular this=
+ <br>
+is the case for all of chardev/ (which uses QIOChannel), io/ and net/. <br>
+These are all the other users of qemu_set_nonblock and <br>
+qemu_try_set_nonblock.<br>
+<br></blockquote><div><br></div><div>Ok, I guess we can simply register fd =
+to be a win32-specific call for slirp then.<br></div><div>=C2=A0</div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">
+Paolo<br>
+<br>
+&gt; But when I run qemu with slirp, with or without qemu_fd_register, I <b=
+r>
+&gt; don&#39;t see any error or regression.<br>
+&gt; <br>
+&gt; Am I missing something?<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000b8f3f405b6bd296b--
 
