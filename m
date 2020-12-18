@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FAA2DDE85
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 07:20:45 +0100 (CET)
-Received: from localhost ([::1]:57216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1A32DDE79
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 07:14:31 +0100 (CET)
+Received: from localhost ([::1]:45624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq988-00065i-OP
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 01:20:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52368)
+	id 1kq926-0000yJ-S5
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 01:14:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=614e9c0eb=alistair.francis@wdc.com>)
- id 1kq8qD-0005xY-Q4
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:13 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:9928)
+ id 1kq8qF-00060u-93
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:15 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:9925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=614e9c0eb=alistair.francis@wdc.com>)
- id 1kq8qB-0002GJ-Rt
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:13 -0500
+ id 1kq8qD-0002GA-Cu
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1608271664; x=1639807664;
+ t=1608271666; x=1639807666;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JqethK/wgaIv1vHrVHKWjttgWoEh/oPr6sRUwqqQKQk=;
- b=QBwZBm8Kq/fBapiDHpMpH5wxrz0PlZ01v6obdLUKlgbFjEDVh+Ng9WK4
- zC+BqwBypFbNxvczBBLxIuUnIQII0GEba05HG6BX5KCqYpsa2xQ0W/zYl
- fix3ugOV34aC0PP95lK9PJe3aQp1sd8opFOSgGe23t6Wv+5tgzqyFilWJ
- Dua7LPkF3oFvyNfYDGd6unrdiNFQoDlzzgrz5pKn/QeO860A5Wgnq2smE
- TYWu+woWezQLz8wAde21PrDJ9tZbiHfkMK7liTYK6dacD8AiJ3AlLaZCo
- XedNBr3vXj0kr5SXWAKZ63HxF9u9+JnXfEA2ExU1IhuYjVovofpUTigbJ g==;
-IronPort-SDR: h8F/55RCU/8K/bzRbuazw1CwEA/QTTCESukYEvVjvf0r4npsTKDQrgzo5tLr3OgCPnGSif8IZo
- NrlmH21Ai9iemODaFIjKTWhA8jhGm83HRm18RMYAsePzgAIX9yymAXPeRS5+B1R6R1ZM06OZeI
- JGfWV+v3yeDj3H+yYdas1Rx01GOAD4qelw3ZNzpm5V8STc+JjL/WvbHsT6PNVsAFAYSOQjhzUB
- E6GZxvNnUwNIYQGkGX8lUJtV2HwqV9OrasIG/QI2nQh5j8ucODNwxRjdFL3O6K9I1UNic5cn31
- 9yo=
-X-IronPort-AV: E=Sophos;i="5.78,429,1599494400"; d="scan'208";a="259237065"
+ bh=9VpZUgyhJvVlDUH8ILpPm7P8WlStpKgf31n1DHhdqmw=;
+ b=Vuq9i4mhlz1qB2g/qGuUdiKnHWw7LPPNnLb0do37fiCPyF5fXibtGsTg
+ iW9SZBcHy5k4tnj/eoDIr9+vnLforwjv77mnuZ2Qz2MF8QL3Bpwav3Md2
+ jX3QqjtvbasU5LGPLQsGeYaVHjzeRsCNexev424/wSLJzHpgr2w0sjomH
+ DppJl9zv7wyl8zzgvr0FqNjNRDVjN1rujtzfsKjCzn0aBjVQxaegXPanA
+ 0FkQCHGf7BaAD6TqelaeEcLJ6XuQCV87CXiPotGFwdZDigmrptQxK+QA4
+ AUOvXg1/KhUObHp2DT/AkPm4iglTEpd7/DGXX6udyTnZkzsf8EL7cHE5d w==;
+IronPort-SDR: inmBGEjT2h/aibwwz7j/cYXTN8BCNJohcJAlTHB9MVMIZ9XF63su/XP6rWXxonH/GA/ZaoG3Ot
+ qgH0bleApLcLJkZaSqlsu4K6dwWzlCucpW4ZRLb/2QyfdRYTvUXAstEYjpw2IHtGubGRWhk9Jw
+ J9PNSBKeqslCeilU/r/u4n9MGFRN9EWxbZ+foQD8/1tcPOQ0MoNH7Js8t3iBCyNYj9YeknQy+G
+ AYkrCd1FU87iMZ1iUA76l+CefgMT3Z2RdYCP0tvqKkIBwavrUbSkOV9++zaT/NQ1qezvTp7q3k
+ MsI=
+X-IronPort-AV: E=Sophos;i="5.78,429,1599494400"; d="scan'208";a="259237066"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 18 Dec 2020 14:06:32 +0800
-IronPort-SDR: 6HYeZBg68tOdXjR+UJb/kDxEVqaNv4IsznWjWCnN2SwNTyNi4Ia7waCyTin3l6fJ1D6Wd4LQL0
- upqoiPlss7eX43iLdAwsHTcCkk7gFSh25MR7j/h8LQSgFXiYF8Z1Am3cpBLuabywXGrcWiAWPs
- Mv8biFiOYtQcY57EeqJG8USRnBXeipy32c6bRl0yHLBa4qNp1ZOpyRGyFAQ8VSoOqQq23P4vqu
- IWZGBu2zQmO46RzMAoxGV2hW9j6SgT8dis1c6Rch8mlc650t6A8aa8isMnHJqO22lg4czkTNX5
- v6W9dA6kjDQC8n6zPPEOYmyR
+ by ob1.hgst.iphmx.com with ESMTP; 18 Dec 2020 14:06:33 +0800
+IronPort-SDR: MjraJSQ49QKD541AgPxni4KDk2lJMpwpzCdWpIQgqCk0i5En6c04GI6mEFrVxO6dx8YlcjNBqJ
+ bI0lM1vf9WVZtwXEPOoPWDkxIbGzcxrXZEt7zMBahptmlsjLQ7OCikVc8yQ+fvyF8zzAwuAI9f
+ bmFZisOTZwgEMrWsvRZ0L7AKh9KoGXRCesILIN6N2FiOSYO37+q0/AxyS1qQ3hXuO4zad7EOzo
+ r0GkgFOxOp8R6GCW8UeRCi35rk/nOzwJschjOByeNBCNpinuRfuwmU9TkwuhZfStu9D6qdsPUc
+ iwdD5mkpTLfjcP3Nj7vlg3AN
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Dec 2020 21:46:40 -0800
-IronPort-SDR: /AtSA3Q0sP74md/6teEerrTRtpoJCVyH8Bfy8o7cehrPMSqHIjCRkLyfFgKVkQdBi24LevokXH
- pLBAQ17bCOmG1coTN/OlLVvi9WiuOpUrao6uNmoxEGRy3EXM1W2PZY3EBBG0QdOnljzOrD3tnG
- SK2NW+Tb3tp6Wu1BB3uiExobErM9L4flDXGHDqE/lzMfcz5E3WrJ5OWIMedQrPbzcadl2LZx/K
- 6QtzqauoHlSfJ8yFwro7sWevhAScuTuRa3qZiWp8xUUMWBPpQX7u3y45efd3XeV3FUWv6+f/Ir
- lp8=
+IronPort-SDR: 5aXs+N4EYyWzruVEOtdC91KIz1Jcq6qu+6bnKodkU+luBhy4SwhlZVklGBXbxUh43+LA3oSP9i
+ qp1lp6runfD8tk5Tp+ppC5xAV37pnbI7PFrW1OhdYpCfqVuOYLdJpvwkJHmeFvwy1Ue7XYOyKL
+ x7JXQ8qfpZxArKeuCwiZrDENAjvpzX30/PZgjnS3DiW8TaXmVPPDS8shm0GxqO2RIMYjRq75bc
+ Udf/5serkL6n6SB2Lf3Beov5c3IqkdtBIp8gMA6WIAhUZriyxxqnzZYBXXywjMtyhJpPz3m9e0
+ 1kw=
 WDCIronportException: Internal
 Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.62.68])
@@ -62,9 +62,9 @@ Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 16/23] target/riscv: Add a riscv_cpu_is_32bit() helper function
-Date: Thu, 17 Dec 2020 22:01:07 -0800
-Message-Id: <20201218060114.3591217-17-alistair.francis@wdc.com>
+Subject: [PULL 17/23] target/riscv: Specify the XLEN for CPUs
+Date: Thu, 17 Dec 2020 22:01:08 -0800
+Message-Id: <20201218060114.3591217-18-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201218060114.3591217-1-alistair.francis@wdc.com>
 References: <20201218060114.3591217-1-alistair.francis@wdc.com>
@@ -93,6 +93,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Palmer Dabbelt <palmerdabbelt@google.com>, alistair23@gmail.com,
+ Richard Henderson <richard.henderson@linaro.org>,
  Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -100,47 +101,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bin.meng@windriver.com>
 Tested-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Message-id: ebd37b237a8cbe457335b948bd57f487b6b31869.1608142916.git.alistair.francis@wdc.com
+Message-id: c1da66affbb83ec4a2fbeb0194293bd24d65f5dc.1608142916.git.alistair.francis@wdc.com
 ---
- target/riscv/cpu.h | 2 ++
- target/riscv/cpu.c | 9 +++++++++
- 2 files changed, 11 insertions(+)
+ target/riscv/cpu.c | 33 +++++++++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 9c064f3094..6339e84819 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -384,6 +384,8 @@ FIELD(TB_FLAGS, VILL, 8, 1)
- /* Is a Hypervisor instruction load/store allowed? */
- FIELD(TB_FLAGS, HLSX, 9, 1)
- 
-+bool riscv_cpu_is_32bit(CPURISCVState *env);
-+
- /*
-  * A simplification for VLMAX
-  * = (1 << LMUL) * VLEN / (8 * (1 << SEW))
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 6a0264fc6b..32a6916b8a 100644
+index 32a6916b8a..7d6f032122 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -108,6 +108,15 @@ const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
-     }
+@@ -158,22 +158,36 @@ static void riscv_base_cpu_init(Object *obj)
+     set_misa(env, 0);
  }
  
-+bool riscv_cpu_is_32bit(CPURISCVState *env)
-+{
-+    if (env->misa & RV64) {
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
- static void set_misa(CPURISCVState *env, target_ulong misa)
+-static void rvxx_sifive_u_cpu_init(Object *obj)
++#ifdef TARGET_RISCV64
++static void rv64_sifive_u_cpu_init(Object *obj)
  {
-     env->misa_mask = env->misa = misa;
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+-    set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
++    set_misa(env, RV64 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+ }
+ 
+-static void rvxx_sifive_e_cpu_init(Object *obj)
++static void rv64_sifive_e_cpu_init(Object *obj)
+ {
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+-    set_misa(env, RVXLEN | RVI | RVM | RVA | RVC | RVU);
++    set_misa(env, RV64 | RVI | RVM | RVA | RVC | RVU);
+     set_priv_version(env, PRIV_VERSION_1_10_0);
+     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+ }
++#else
++static void rv32_sifive_u_cpu_init(Object *obj)
++{
++    CPURISCVState *env = &RISCV_CPU(obj)->env;
++    set_misa(env, RV32 | RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
++    set_priv_version(env, PRIV_VERSION_1_10_0);
++}
+ 
+-#if defined(TARGET_RISCV32)
++static void rv32_sifive_e_cpu_init(Object *obj)
++{
++    CPURISCVState *env = &RISCV_CPU(obj)->env;
++    set_misa(env, RV32 | RVI | RVM | RVA | RVC | RVU);
++    set_priv_version(env, PRIV_VERSION_1_10_0);
++    qdev_prop_set_bit(DEVICE(obj), "mmu", false);
++}
+ 
+ static void rv32_ibex_cpu_init(Object *obj)
+ {
+@@ -191,7 +205,6 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
+     set_resetvec(env, DEFAULT_RSTVEC);
+     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
+ }
+-
+ #endif
+ 
+ static ObjectClass *riscv_cpu_class_by_name(const char *cpu_model)
+@@ -643,13 +656,13 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+ #if defined(TARGET_RISCV32)
+     DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           riscv_base_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rvxx_sifive_e_cpu_init),
++    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32_sifive_e_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rvxx_sifive_u_cpu_init),
++    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32_sifive_u_cpu_init),
+ #elif defined(TARGET_RISCV64)
+     DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rvxx_sifive_e_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rvxx_sifive_u_cpu_init),
++    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
++    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
+ #endif
+ };
+ 
 -- 
 2.29.2
 
