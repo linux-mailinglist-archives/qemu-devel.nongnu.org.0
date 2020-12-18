@@ -2,117 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 390AD2DE8E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 19:22:22 +0100 (CET)
-Received: from localhost ([::1]:54366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF00E2DE8E4
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 19:26:23 +0100 (CET)
+Received: from localhost ([::1]:58804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqKOS-0005ap-Sm
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 13:22:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50336)
+	id 1kqKSM-0007UK-A9
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 13:26:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kqKMp-00053K-5C; Fri, 18 Dec 2020 13:20:39 -0500
-Received: from mail-eopbgr00108.outbound.protection.outlook.com
- ([40.107.0.108]:46987 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kqKMi-0008WK-4y; Fri, 18 Dec 2020 13:20:37 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=W0c8hguNhGrKMz7vabxlhvnKerio7xGTg1sEB+iZe8MFeQY3aPsTtj4IbzABTNlSpH/fzSyt09cF47UplZaRdp6JCJUgU8z/DWU9ttxnxKIw+1xe3EQhRTLiKhzqDfOdbLbROrlEH9ee1Op6oCuOhePq0UMZWN2+9BdahNMJ6TWsoqFgEHero+DkRTr9ayoDsZXFd/ZqnQ0SZy0/TA0K4mq4vIRM6r30AyhIpQdtku1xNfuhFXfEAsGkwakscBcT4SKiLYpvNAYUrUbThYy493zSRDOmFUIrSuuPwEAHwzqTlJ90Cv399Bz+ZY+VdvFq+Xs+DixnSWbayrjRf+9BMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+pc2xPusRV41LHjGlKz3FKcQ5c+IXuLeRgLCSCIoDZ8=;
- b=XX9ehK4kjXPPvCB9pYIcixL7+x/BGK8NKOlEC+jkcR7WamnQ0yGKLAf0QnW7fEx+0LaWxBLqxIk5uBIlwwqjQyDnj4dwqQzdwTGoIWS3AyZWmuvrhgDFWWTUZytUsLXNKDzEYG5lUHRFZeHpk32ZKMNX8Y9rx2jyN1PWqKPN59rYrteOTIkWEndlQ2n+x6YebzHWR+YVlXwRJMHoyX9FpKfakbo/H8WBLiVDwU/hXw8iDVRUYoybUWYck8MTCJf1Q3sOM7E5cH62E19bZEqTU/6YQxS+e6+bdkbRgI9PL25XDYxqtyF7ThI61anVmYxXkwUDZKs8cOQnlzqxDmUIzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+pc2xPusRV41LHjGlKz3FKcQ5c+IXuLeRgLCSCIoDZ8=;
- b=r7/mobOwtfA+KXr1gkNc1IsnO4Uba6MXSEoXvC9ExP+NbHO+SGJ9o8d0rOgJOqNJY/U8MycWsUT/eoonAnoGuW7lr6EQuxPkXoQBP3ta6aY+GmcnNaItDR11UHLjIXhq6484yGOvuknHovB/ctZBF7ighT/45GgSnBO1vLeZU9E=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4724.eurprd08.prod.outlook.com (2603:10a6:20b:cd::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Fri, 18 Dec
- 2020 18:20:26 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3654.026; Fri, 18 Dec 2020
- 18:20:26 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] iotests: fix _check_o_direct
-Date: Fri, 18 Dec 2020 21:20:12 +0300
-Message-Id: <20201218182012.47607-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.25.4
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.92]
-X-ClientProxiedBy: AM0PR06CA0105.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::46) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1kqKPo-0006SA-74
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 13:23:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28063)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1kqKPl-0001GX-FZ
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 13:23:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608315819;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e6Dneus7OgrxXKZRQokvaBAQMQRda6FjR3aXFSbCsNY=;
+ b=ZJ3LlBMPcKcA/w3pchpgzaltqSImyKBEaVYd6fy5oFvnclQYitHSOZMGxMSX/t2gRCxXD/
+ kZcGHoopFjmh5UqCkEz35HonIpqn5xJQJQOyLrSIGOBe1oFdpRSwsryM+mLXFZzeHvM88c
+ VqpSsTzlndus9mypqd3AxpnX3affOjg=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-366-Ns0jkjo3OF-rz_N1YacYAw-1; Fri, 18 Dec 2020 13:23:36 -0500
+X-MC-Unique: Ns0jkjo3OF-rz_N1YacYAw-1
+Received: by mail-qk1-f199.google.com with SMTP id n190so2615005qkf.18
+ for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 10:23:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e6Dneus7OgrxXKZRQokvaBAQMQRda6FjR3aXFSbCsNY=;
+ b=hyNwCHkfuhCr6qfnoQOsnSDYmBv4WQ5+EEYR8GOPBMpC21dhLluLdpj9TBRqBl0mT3
+ 8i80pN+VXM4j1RUKcdW0Z+NZzDf5Jcv3eRTt8q0B5+ypk92DlMHG84VivJJAVxgttVd2
+ i8n/rIBop3g+dr+bNedAg6GZA37TNGJXhln+2249vnZf1UyAeTrqGCqck4Z1tBmYEYbA
+ fma9GHpiLGWGqzbIy3HoAULwKSSCOT5+HbrrP9VG9PEA7K14loCeMCKaIxTLhVY8a8Uu
+ 3Ok9P/x2lgvBIovSyesKAq61RowXBLvEFf84JsxDQI/jOUylIucGuzQpQfFrMVeUxj9s
+ PjUA==
+X-Gm-Message-State: AOAM530KXBNJA6/LDpRpO2JUgOfF41rqxkxoNgXEjADvjbNeGmmdgAlY
+ JlzZLderXVl4GohaIJtvPTLVYwMQF2n5S/lfaTzsC1TTmi5JFWSEG/QoCQQXUuQPzVn4G2QxAgp
+ vHRNJrWZUDZJkYoE=
+X-Received: by 2002:a37:aace:: with SMTP id t197mr5997764qke.400.1608315816463; 
+ Fri, 18 Dec 2020 10:23:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyjXJ8NBCQYFU4Q/U99XXpqtaDuZxuXCqaqxBQHWI67vyY35fzETvaPA2kqF7DEjqvGdD6nWA==
+X-Received: by 2002:a37:aace:: with SMTP id t197mr5997742qke.400.1608315816211; 
+ Fri, 18 Dec 2020 10:23:36 -0800 (PST)
+Received: from [192.168.1.108] ([177.194.2.130])
+ by smtp.gmail.com with ESMTPSA id w8sm6262257qts.50.2020.12.18.10.23.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Dec 2020 10:23:35 -0800 (PST)
+Subject: Re: [PATCH v2] tests/acceptance: Add a test with the Fedora 31 kernel
+ and initrd
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>
+References: <20201217085334.211772-1-thuth@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Message-ID: <d341b59d-17bb-a159-0bbd-e53e2dab9f65@redhat.com>
+Date: Fri, 18 Dec 2020 15:23:32 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.92) by
- AM0PR06CA0105.eurprd06.prod.outlook.com (2603:10a6:208:fa::46) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12 via Frontend Transport; Fri, 18 Dec 2020 18:20:25 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aa3a2fe4-9377-441f-abd2-08d8a3819787
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4724:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4724A265F9975DD4B908271DC1C30@AM6PR08MB4724.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:419;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gYUagJjEvbizM3iY4QOeoZR4ffeAJUM2JRVbfTY+H82b8OrBKF67ReTjc1Fh5ccPVglKQo0qumR+8hoZwUPvZGib2lXOIGR46tpiYNKufr+2SAM+Oda24tndTYpKHXxSiW7y+jMAd414A+Og3tBcswAVWso4vDg5mSipMNnav028WSHnkXoAFA1n7AqiiGWkoOjZky72nQDrcQ/44+F5O/PAEFggvgwZnCQni+x7pLjGW2rBGpn8mB9n877euqBfbybLwct+drjov/3h+og0V01JWgTQVQglWV0UGVY5kPAOaHP4YEiKjw741no09sIvW6qIHXhPCYAlh3Tq2+qvMHGSSx0xlGOYI5iH/u0tf+E+5wAuhmRNZ+yz0PMyOt5GwXwrD1tj4SA9opv3CSkyVdDA0GiJ520KLW2IoqIgBgA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(366004)(136003)(83380400001)(16526019)(6512007)(8676002)(107886003)(86362001)(4326008)(6486002)(508600001)(36756003)(186003)(26005)(66946007)(1076003)(6506007)(6916009)(956004)(52116002)(2906002)(34490700003)(2616005)(6666004)(8936002)(66476007)(66556008)(5660300002)(33290500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?mstRJH40/lmfhB0rQmEdhAYG35hdc5fT26My9N6trIZlvdmBkFjzn82L0AaN?=
- =?us-ascii?Q?Y6F8ZbaHnFz/1lFbb2LcPuTiFTZ1Aic/IKNFiMM8MJAquPV+wcjBVmnZvL9Z?=
- =?us-ascii?Q?2SNfgvW8NJHp90HFb/laSeibst6xH/lZ8uAt8AeCAp/HnKxMw9pRUIB8f2lo?=
- =?us-ascii?Q?zShScJfyA1I0VzKvu1//Kg9t6dJ/1A7uvbKPr/6/FYCmcKi4QHAsw8jwUqI+?=
- =?us-ascii?Q?V4kdpT0DjjM7mdl87bL4XDS86TjM/dXMrpUH85i6fxA/K19uHOpMVg96O7Ep?=
- =?us-ascii?Q?URYVC41vO8pIBbRKzddStyrWT9JwTJqZnlS1clNFIrM4zCYnXHuPz2Bq8D01?=
- =?us-ascii?Q?G7pYIc3ll09sx7i+yLoX+Uv1jJfBR24chi3oWHN+zMJnwkG1XF1dZEX0Mdx/?=
- =?us-ascii?Q?owJNGPr9/eAf7gGwF5IFPTiU+ll8aRods/aIg68iGFZnmKXhF8sX2UVY+etL?=
- =?us-ascii?Q?TXTAA96qo+W+gw1kssYS1+tmvdF5O4L8ipuwgY5ynWnZ9DwVDOdF9FwxpVOe?=
- =?us-ascii?Q?tNgL1xSBm1NfQBIIL1qxLmu9s1pu1G73/AAHFHkmQWfnRk41M3u1p74La6js?=
- =?us-ascii?Q?hU8PdpmxC2OjqS/1Q58qFpLy8AuF3T6/8NH782+iRuIA3H2of9OQL2ycHjYV?=
- =?us-ascii?Q?vN9gJ3cLwAy2QHP5L/RDgA9YiuKhpjStWBKwwIAdnYtk6r2zWHOQQAD7X73Z?=
- =?us-ascii?Q?rYubafOswdrpwZGGj4CpdyR5BWM9RVQPNGEMfNj8NpP9uYVOztMAJCGfOOse?=
- =?us-ascii?Q?XWoAYm0ESEx2nmPRSx6mw+1l1jLyjchCmtSEZeBn5PuDFejZ3ZKM4dXnE2tg?=
- =?us-ascii?Q?8K+l4u73kXlOLw6YV2VygKdT7prNY1NkJUgol+8AR4S4e0chxa2GYxIBwM1t?=
- =?us-ascii?Q?XexTRs3hAXMHqut4gkT/GVnT1q/ckDhjfDPhYE3rOIRDHrXK/qNuxq6N+DjH?=
- =?us-ascii?Q?Jgs+/PnVpjZymFDR2kWjfU225xl0hAMaREY311wHF3gmr0ZAlLGacJrNiAyu?=
- =?us-ascii?Q?evSh?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2020 18:20:25.9791 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa3a2fe4-9377-441f-abd2-08d8a3819787
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VIADQ4PAAZDdxtYvApr6J81UxV5jJ8Hv2s2rg4KZ+e8yfmTbq9jsiM1h90F+CaPDh+fzVxzfW7BMLPMOgtUqHwl+5Crz2BGpknaTL+rtKoY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4724
-Received-SPF: pass client-ip=40.107.0.108;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20201217085334.211772-1-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,48 +100,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unfortunately commit "iotests: handle tmpfs" break running iotests
-with -nbd -nocache, as _check_o_direct tries to create
-$TEST_IMG.test_o_direct, but in case of nbd TEST_IMG is smothing like
-nbd+unix:///... , and test fails with message
+On 12/17/20 5:53 AM, Thomas Huth wrote:
+> This initrd contains a virtio-net and a virtio-gpu kernel module,
+> so we can check that we can set a MAC address for the network device
+> and whether we can hot-plug and -unplug a virtio-crypto device.
+> But the most interesting part is maybe that we can also successfully
+> write some stuff into the emulated framebuffer of the virtio-gpu
+> device and make sure that we can read back that data from a screenshot.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   Based-on: 20201215183623.110128-1-thuth@redhat.com
+> 
+>   v2:
+>   - Uncompress the initrd on the host already to speed up the test
+>   - Disable plymouth to seepd up the test
+>   - Check for device numbers
+>   - Added virtio-crypto test
+>   - Added ":avocado: tags=device:" lines
+> 
+>   tests/acceptance/machine_s390_ccw_virtio.py | 111 ++++++++++++++++++++
+>   1 file changed, 111 insertions(+)
+> 
+> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
+> index abe25a08f0..a9a0f8a8e2 100644
+> --- a/tests/acceptance/machine_s390_ccw_virtio.py
+> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
+> @@ -9,10 +9,14 @@
+>   # This work is licensed under the terms of the GNU GPL, version 2 or
+>   # later.  See the COPYING file in the top-level directory.
+>   
+> +import os
+> +import re
+> +import tempfile
+>   
+>   from avocado_qemu import Test
+>   from avocado_qemu import exec_command_and_wait_for_pattern
+>   from avocado_qemu import wait_for_console_pattern
+> +from avocado.utils import archive
+>   
+>   class S390CCWVirtioMachine(Test):
+>       KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
+> @@ -150,3 +154,110 @@ class S390CCWVirtioMachine(Test):
+>           self.vm.command('human-monitor-command', command_line='balloon 128')
+>           exec_command_and_wait_for_pattern(self, 'head -n 1 /proc/meminfo',
+>                                             'MemTotal:         115640 kB')
+> +
+> +
+> +    def test_s390x_fedora(self):
+> +
+> +        """
+> +        :avocado: tags=arch:s390x
+> +        :avocado: tags=machine:s390-ccw-virtio
+> +        :avocado: tags=device:virtio-gpu
+> +        :avocado: tags=device:virtio-crypto
+> +        :avocado: tags=device:virtio-net
+> +        """
+> +
+> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+> +                      '/fedora-secondary/releases/31/Server/s390x/os'
+> +                      '/images/kernel.img')
+> +        kernel_hash = 'b93d1efcafcf29c1673a4ce371a1f8b43941cfeb'
+> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+> +
+> +        initrd_url = ('https://archives.fedoraproject.org/pub/archive'
+> +                      '/fedora-secondary/releases/31/Server/s390x/os'
+> +                      '/images/initrd.img')
+> +        initrd_hash = '3de45d411df5624b8d8ef21cd0b44419ab59b12f'
+> +        initrd_path_xz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
+> +        initrd_path = os.path.join(self.workdir, 'initrd-raw.img')
+> +        archive.lzma_uncompress(initrd_path_xz, initrd_path)
+> +
+> +        self.vm.set_console()
+> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE + ' audit=0 '
+> +                              'rd.plymouth=0 plymouth.enable=0 rd.rescue')
+> +        self.vm.add_args('-nographic',
+> +                         '-smp', '4',
+> +                         '-m', '512',
+> +                         '-name', 'Some Guest Name',
+> +                         '-uuid', '30de4fd9-b4d5-409e-86a5-09b387f70bfa',
+> +                         '-kernel', kernel_path,
+> +                         '-initrd', initrd_path,
+> +                         '-append', kernel_command_line,
+> +                         '-device', 'zpci,uid=7,target=n',
+> +                         '-device', 'virtio-net-pci,id=n,mac=02:ca:fe:fa:ce:12',
+> +                         '-device', 'virtio-rng-ccw,devno=fe.1.9876',
+> +                         '-device', 'virtio-gpu-ccw,devno=fe.2.5432')
+> +        self.vm.launch()
+> +        self.wait_for_console_pattern('Entering emergency mode')
+> +
+> +        # Some tests to see whether the CLI options have been considered:
+> +        exec_command_and_wait_for_pattern(self, 'lspci',
+> +                             '0007:00:00.0 Class 0200: Device 1af4:1000')
+> +        exec_command_and_wait_for_pattern(self,
+> +                             'cat /sys/class/net/enP7p0s0/address',
+> +                             '02:ca:fe:fa:ce:12')
+> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
+> +                             '0.1.9876')
+> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
+> +                             '0.2.5432')
+> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
+> +                             'processors    : 4')
+> +        exec_command_and_wait_for_pattern(self, 'grep MemTotal /proc/meminfo',
+> +                             'MemTotal:         499848 kB')
+> +        exec_command_and_wait_for_pattern(self, 'grep Name /proc/sysinfo',
+> +                             'Extended Name:   Some Guest Name')
+> +        exec_command_and_wait_for_pattern(self, 'grep UUID /proc/sysinfo',
+> +                             '30de4fd9-b4d5-409e-86a5-09b387f70bfa')
+> +
+> +        # Disable blinking cursor, then write some stuff into the framebuffer.
+> +        # QEMU's PPM screendumps contain uncompressed 24-bit values, while the
+> +        # framebuffer uses 32-bit, so we pad our text with some spaces when
+> +        # writing to the framebuffer. Since the PPM is uncompressed, we then
+> +        # can simply read the written "magic bytes" back from the PPM file to
+> +        # check whether the framebuffer is working as expected.
+> +        exec_command_and_wait_for_pattern(self,
+> +            'echo -e "\e[?25l" > /dev/tty0', ':/#')
+> +        exec_command_and_wait_for_pattern(self, 'for ((i=0;i<250;i++)); do '
+> +            'echo " The  qu ick  fo x j ump s o ver  a  laz y d og" >> fox.txt;'
+> +            'done',
+> +            ':/#')
+> +        exec_command_and_wait_for_pattern(self,
+> +            'dd if=fox.txt of=/dev/fb0 bs=1000 oflag=sync,nocache ; rm fox.txt',
+> +            '12+0 records out')
+> +        tmpfile = tempfile.NamedTemporaryFile(suffix='.ppm',
+> +                                              prefix='qemu-scrdump-')
+> +        self.vm.command('screendump', filename=tmpfile.name)
+> +        ppmfile = open(tmpfile.name, "r")
+> +        tmpfile.close
+> +        line = ppmfile.readline()
+> +        self.assertEqual(line, "P6\n")
+> +        line = ppmfile.readline()
+> +        self.assertEqual(line, "1024 768\n")
+> +        line = ppmfile.readline()
+> +        self.assertEqual(line, "255\n")
+> +        line = ppmfile.readline()
+> +        self.assertEqual(line, "The quick fox jumps over a lazy dog\n")
+> +        ppmfile.close
+> +
+> +        # Hot-plug a virtio-crypto device and see whether it gets accepted
+> +        self.clear_guest_dmesg()
 
-  qemu-img: nbd+unix:///?socket[...]test_o_direct: Protocol driver
-    'nbd' does not support image creation, and opening the image
-    failed: Failed to connect to '/tmp/tmp.[...]/nbd/test_o_direct': No
-    such file or directory
+Your previous patch "[PATCH 1/3] tests/acceptance: Extract the code to 
+clear dmesg and wait for CRW reports" defined the method as 
+"clear_guests_dmesg". After fixing this in the code:
 
-Use TEST_DIR instead.
+Tested-by: Willian Rampazzo <willianr@redhat.com>
 
-Fixes: cfdca2b9f9d4ca26bb2b2dfe8de3149092e39170
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/common.rc | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+> +        self.vm.command('object-add', qom_type='cryptodev-backend-builtin',
+> +                        id='cbe0')
+> +        self.vm.command('device_add', driver='virtio-crypto-ccw', id='crypdev0',
+> +                        cryptodev='cbe0')
+> +        exec_command_and_wait_for_pattern(self,
+> +                        'while ! (dmesg -c | grep Accelerator.device) ; do'
+> +                        ' sleep 1 ; done', 'Accelerator device is ready')
+> +        self.vm.command('device_del', id='crypdev0')
+> +        self.vm.command('object-del', id='cbe0')
+> +        exec_command_and_wait_for_pattern(self,
+> +                        'while ! (dmesg -c | grep Start.virtcrypto_remove) ; do'
+> +                        ' sleep 1 ; done', 'Start virtcrypto_remove.')
+> 
 
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 29354654cc..297acf9b6a 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -821,9 +821,10 @@ _supported_cache_modes()
- # Check whether the filesystem supports O_DIRECT
- _check_o_direct()
- {
--    $QEMU_IMG create -f raw "$TEST_IMG".test_o_direct 1M > /dev/null
--    out=$($QEMU_IO -f raw -t none -c quit "$TEST_IMG".test_o_direct 2>&1)
--    rm -f "$TEST_IMG".test_o_direct
-+    testfile="$TEST_DIR"/_check_o_direct
-+    $QEMU_IMG create -f raw "$testfile" 1M > /dev/null
-+    out=$($QEMU_IO -f raw -t none -c quit "$testfile" 2>&1)
-+    rm -f "$testfile"
- 
-     [[ "$out" != *"O_DIRECT"* ]]
- }
--- 
-2.25.4
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
