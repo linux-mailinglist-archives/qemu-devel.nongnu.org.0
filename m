@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F64C2DE0F0
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:26:02 +0100 (CET)
-Received: from localhost ([::1]:46526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD6C2DE0F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:26:05 +0100 (CET)
+Received: from localhost ([::1]:46638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqCxV-0004Ll-F9
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:26:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43756)
+	id 1kqCxY-0004OE-6n
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:26:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvn-0002qI-SL
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:15 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:34835)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvo-0002qP-JD
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:16 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:33355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvm-00071Q-2l
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:15 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvm-00072a-U4
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:16 -0500
 Received: from localhost.localdomain ([82.252.144.198]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MStKq-1kelvQ1Bx0-00UJqs; Fri, 18 Dec 2020 11:24:10 +0100
+ id 1MWAay-1kbU8m32Ec-00XdmA; Fri, 18 Dec 2020 11:24:10 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/14] Linux user for 6.0 patches
-Date: Fri, 18 Dec 2020 11:23:53 +0100
-Message-Id: <20201218102407.597566-1-laurent@vivier.eu>
+Subject: [PULL 01/14] linux-user/mmap.c: check range of mremap result in
+ target address space
+Date: Fri, 18 Dec 2020 11:23:54 +0100
+Message-Id: <20201218102407.597566-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201218102407.597566-1-laurent@vivier.eu>
+References: <20201218102407.597566-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Hvokw5DUedM346Eu1YJhl+5CSM1EaIoDsFcE3VZ0n59lkM4suLE
- abbAel9qPpGr6vmCWYINBJAlPpdo1rauvrrEdZbvHwWJmqXwccmHFKJvRf3RrMM0b4LSnK9
- dmlRauFnS8wEBWapIdHMJPDtdQ+7wFRyLjtA4yTLcgkpD20XDA5HKb/xX0soZSzvgjjNn4V
- 3KYSo/HibM35z9U9qnwEA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dvUADuuuyTY=:9BEvTpquSBUBsg+Xjdz12n
- vJ60S7AJ6j3y5bZO6QuMkzMaWTSaUhFYfnng6XYOtp6c7BvgWXsLXJSkvOv5FU6JtIMUwf5z6
- fnKA7c4okh87Ra+H+7mNcpAnDh6Fk0SCIrOs3VMzw7iS6s6sOCgt6ZiIQvIx1/gm7RJ0HKBrD
- 27W7O3BNZ5+VAIDvTenu7tHG7n76LZCETFVFISqDdbNQFpnW0UlwIEt2qc8LP47gmUGpEQNUI
- 3Yiv/vkaKebUUn//bozOgjvU8sCW8c8KvmC3BIg9jpWRVFFbMFsiFNn88r9qikjrthV6LqFeC
- 0tcnYKWm27I+0074uOjokHSGYuI6j22zduY1ziAriq3n2wfGGvwolHcCQsModlniHUlR48Lex
- RP8Iyh+BZEN3JgZlVs7D00/sr3x2XkFZnmCkY+AZiMgmusgILQFcX4ppiEa3+3stLjxOyEyQp
- Kkwvg57CSQ==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:j3gKVhnKa4Q0GO+Crgw8R3KLVLNoUemxtY1bDxMsYC0DGKFvUC4
+ x98pfaw0kPoov5Je2L+36XKDqBlbkRwwIUHNlFOheVc5CriZqPmnwFLVTUyuSK2WfW6a7M/
+ P6FqR42gEKr+MalLahkYtPggrdlinda4nHmXc9fhbYtyqj1KPq+a3zfkR/RAX2Wv3bE5ewM
+ QvNsBF47QNqh79UtpkdpQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:n5UsRjsgMjQ=:G8N/W8rzChePCC7EpvNjvM
+ MxskfINOdne9n1S7v8O6zM7rX5Yi5leMAnWWiyZP2ZdmawgP1XFaTTBIeiS3BmtYcIG4J4lgJ
+ nQkI3lJM5Wts3KJ9o7EURJqBBMDxU5updAwYnKU8B4XVmBb0AKScd3Bjfy1b2dNYqBxZDK2sQ
+ +J12GvuQu3D2rzmTUuGgnKb/4xIrGaisX8nPEJXw5/cl8wBLjNLd/JWd4YFI5qsDY52rih9p2
+ 3X2PVY4cOKbmlhbqHjKgZkibsp0Qo0Vflbza/AkD665vymQGQIZeLBpVhe4w8n9U1QT6wHD8B
+ WrCKxb4FqE3cH/2wPWfPdSunkUI4/mpeoJ2BNOKQdlANBc48SAopziShVhW2gg9YwUKJgHHh/
+ XOVB6LOsYLEv+g7CPDBjt99uBShwXFb9TG18Up5kTbjzDsVu9CxkW+PIaZZWY
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -61,75 +62,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Tobias Koch <tobias.koch@nonterra.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit af3f37319cb1e1ca0c42842ecdbd1bcfc64a4b6f=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' i=
-nt=3D=0D
-o staging (2020-12-15 21:24:31 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-6.0-pull-request=0D
-=0D
-for you to fetch changes up to 7a5805a08f942325b373643099f784cdac65c9ea:=0D
-=0D
-  linux-user/sparc: Handle tstate in sparc64_get/set_context() (2020-12-18 =
-11=3D=0D
-:23:29 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-Add MIPS Loongson 2F/3A=0D
-sparc64 bug fix=0D
-Implement copy_file_range=0D
-Add most IFTUN ioctls=0D
-Fix mremap=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Andreas Schwab (1):=0D
-  linux-user: Implement copy_file_range=0D
-=0D
-Peter Maydell (4):=0D
-  linux-user/sparc: Correct sparc64_get/set_context() FPU handling=0D
-  linux-user/sparc: Remove unneeded checks of 'err' from=0D
-    sparc64_get_context()=0D
-  linux-user/sparc: Don't restore %g7 in sparc64_set_context()=0D
-  linux-user/sparc: Handle tstate in sparc64_get/set_context()=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (7):=0D
-  linux-user/elfload: Move GET_FEATURE macro out of get_elf_hwcap() body=0D
-  linux-user/elfload: Rename MIPS GET_FEATURE() as GET_FEATURE_INSN()=0D
-  linux-user/elfload: Introduce MIPS GET_FEATURE_REG_SET() macro=0D
-  linux-user/elfload: Introduce MIPS GET_FEATURE_REG_EQU() macro=0D
-  linux-user/elfload: Update HWCAP bits from linux 5.7=0D
-  linux-user: Add support for MIPS Loongson 2F/3A=0D
-  docs/user: Display linux-user binaries nicely=0D
-=0D
-Shu-Chun Weng (1):=0D
-  linux-user: Add most IFTUN ioctls=0D
-=0D
-Tobias Koch (1):=0D
-  linux-user/mmap.c: check range of mremap result in target address=0D
-    space=0D
-=0D
- docs/user/main.rst          | 99 +++++++++++++++++++++----------------=0D
- linux-user/elfload.c        | 43 +++++++++++++---=0D
- linux-user/ioctls.h         | 46 +++++++++++++++++=0D
- linux-user/mmap.c           | 21 ++++----=0D
- linux-user/sparc/signal.c   | 87 +++++++++++++++++---------------=0D
- linux-user/syscall.c        | 79 +++++++++++++++++++++++++++++=0D
- linux-user/syscall_defs.h   | 32 ++++++++++++=0D
- target/mips/cpu.h           |  1 +=0D
- target/sparc/cpu.h          | 28 +++++++++--=0D
- target/sparc/int64_helper.c |  5 +-=0D
- 10 files changed, 333 insertions(+), 108 deletions(-)=0D
-=0D
---=3D20=0D
-2.29.2=0D
-=0D
+From: Tobias Koch <tobias.koch@nonterra.com>
+
+If mremap succeeds, an additional check is performed to ensure that the
+new address range fits into the target address space. This check was
+previously perfomed in host address space, with the upper bound fixed to
+abi_ulong.
+
+This patch replaces the static check with a call to `guest_range_valid`,
+performing the range check against the actual size of the target address
+space. It also moves the corresponding block to prevent it from being
+called incorrectly when the mapping itself fails.
+
+Signed-off-by: Tobias Koch <tobias.koch@nonterra.com>
+Message-Id: <20201028213833.26592-1-tobias.koch@nonterra.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/mmap.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
+
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 00c05e6a0f19..810653c50357 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -767,20 +767,23 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
+         }
+         if (prot == 0) {
+             host_addr = mremap(g2h(old_addr), old_size, new_size, flags);
+-            if (host_addr != MAP_FAILED && reserved_va && old_size > new_size) {
+-                mmap_reserve(old_addr + old_size, old_size - new_size);
++
++            if (host_addr != MAP_FAILED) {
++                /* Check if address fits target address space */
++                if (!guest_range_valid(h2g(host_addr), new_size)) {
++                    /* Revert mremap() changes */
++                    host_addr = mremap(g2h(old_addr), new_size, old_size,
++                                       flags);
++                    errno = ENOMEM;
++                    host_addr = MAP_FAILED;
++                } else if (reserved_va && old_size > new_size) {
++                    mmap_reserve(old_addr + old_size, old_size - new_size);
++                }
+             }
+         } else {
+             errno = ENOMEM;
+             host_addr = MAP_FAILED;
+         }
+-        /* Check if address fits target address space */
+-        if ((unsigned long)host_addr + new_size > (abi_ulong)-1) {
+-            /* Revert mremap() changes */
+-            host_addr = mremap(g2h(old_addr), new_size, old_size, flags);
+-            errno = ENOMEM;
+-            host_addr = MAP_FAILED;
+-        }
+     }
+ 
+     if (host_addr == MAP_FAILED) {
+-- 
+2.29.2
+
 
