@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7227C2DE204
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 12:32:05 +0100 (CET)
-Received: from localhost ([::1]:47512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6781C2DE205
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 12:32:35 +0100 (CET)
+Received: from localhost ([::1]:49980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqDzQ-0003m6-Fk
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 06:32:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57554)
+	id 1kqDzu-0004qF-E5
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 06:32:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kqDur-0006yV-OS
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:27:21 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51992)
+ id 1kqDut-000732-Jf
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:27:23 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kqDuo-00036R-97
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:27:21 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id v14so1992409wml.1
- for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 03:27:17 -0800 (PST)
+ id 1kqDur-00037v-LJ
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:27:23 -0500
+Received: by mail-wr1-x431.google.com with SMTP id d13so1724855wrc.13
+ for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 03:27:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qzjSb7TtaIs2FGaM8dLD/lXODxjDnZRhX0kYxDeMf/0=;
- b=YNJLCJRXjXXwKTGmY28f+WUCU2SQy4OYAGmw0Ib1c7z7of+wbB+uT54mksudMDrAzJ
- 42inANlaI9vm3wvbVKly6Z0gzz7dKYCymRM7rNLtRUdL2VyXdPGiw9uOHfdaCAlRwjA6
- epzrw92BGHE7pa4fgaTV4ZxLrlyZam5twdvQId+fKY3qQlDM/e20HSW5lBA5nheUMf1u
- wI6fJCobxuBs82lpT2LjVrfKO12zNQ764MOzzM7xpzrkMO0pgLG1ycu72fljnnC5dIYR
- 4Ihq+LDLUulIr4sa1NUtgJqhA6LMRkE6JC9NDBHYbKqg6wvGWP6+7zQ7qMou1QAlJgoC
- 3prw==
+ bh=yB8UJ3jgqS4qYz+f00mcHp/m9Q9/LaOQZNMtgdlHZX8=;
+ b=URHBHGEgkp9WV6Fb5bnoo1cMm+ZnrCfS8kPWdEEP8B4K62RUTf6zIFkCycgSAHU4DZ
+ QrgJsA5vdtMG3DQ5iOicqYNHu9Brzv/pLhsRD+1tUDQ0muouCQoXIaSgt9+Zk1jP/q4i
+ pOoSNabaFDOFNFXN43wMXASycDvTTV01DKSEa1y4bkO8jJlRd+sw6cNf5NcIFxNEMa9U
+ FnSmTuH1YiWsLSRCc4b1V6ek9p0I3r/naiamUnnbDae7EMpVBu5sJb/6Cf2k7BTqJfX5
+ ATXn4JxIj8MKPPWu3LMk0GERphgZ5ZaAjHpid+o4vyS6twvp8SZeZDLFrVxiQF6hsYhq
+ P8WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qzjSb7TtaIs2FGaM8dLD/lXODxjDnZRhX0kYxDeMf/0=;
- b=nij5U7qgBzr2pZfRh77NhFZLxtR5c1pEEbpI/nqTL6+l5pDd1SXHiAcEft4XXiUlbz
- t3kibXJNl48T8iRXQJGmDAZ/mXiUsmtmZ5ItkBd7s2ra4a+Hq+UkLNOqArD+SS9JDyC7
- Wa+0JL4Fd5Q7FUvt86RcS4nJGItO/ffjTSQhLpEBu9dW1hAcrZ2PVGAZ9NTRJZpr16VS
- w6zxmmOAatk2otjCVdKi3uQ8UjdKw63H4ooW/Q8s0bwRwav+6wfShBQP1Dz6BVSh/+NL
- rVxZO01NZ3WgTKf3gxRlHzDejNtAKuEYws6gBTY723HbiFk/pgqG+1C+5DFPZg+IvuRM
- Ch+g==
-X-Gm-Message-State: AOAM532pL2TkZGCE79H8O0irYcJnEEq6+SmzOrZNWERAF8TVLns2C+2R
- YUkqhmz6E9SQ3RgDp7WBPrmThw==
-X-Google-Smtp-Source: ABdhPJy4wyjih1cGkYrZQ54n/6sGGNAFSz7yq85MgbSQA+ITp8lrccLTH7WSoV1mWw58F/s4MnfS2w==
-X-Received: by 2002:a1c:5410:: with SMTP id i16mr3889763wmb.30.1608290836832; 
- Fri, 18 Dec 2020 03:27:16 -0800 (PST)
+ bh=yB8UJ3jgqS4qYz+f00mcHp/m9Q9/LaOQZNMtgdlHZX8=;
+ b=AqLg/uHenlmSr0gshRtqNR1qcCDp+RWKXnAxTS/NWilcgo3CEz+mleLK/ZpE1AhVTe
+ aToi6sG44LlrVl5sIa0chZbYaBMs2MeTpxi/ZQ/iUJBcKsEzYw+DUTo9+w84hsbQZAOE
+ YEmsRVl4DY3c6SfRDh0FugY5oDepOZ9VROy/Tpi2/JQC7mLhpQMVvV1YSzALqd9nM8pG
+ vSaUNR4pf3IcGwFiwDL7Dl6lQjkHIX6jMq7UbG88CfX1I3FM6hVPZ0ZtxRohmZppYjb9
+ Uhcie0hPnCxXP/ZfSxRh63iUXcrNFZ1SdWDBFgqcHVAz90DSUbciY9zV3TzYC+8q1ytO
+ nvmg==
+X-Gm-Message-State: AOAM533EzP0xbJH7xJZZEYC4M5m1GEQT5hHM+zVLLohtsAIos9eyGEup
+ YEbPONzhnqIudLJ0O+yzon0ZOYBu+x9xEA==
+X-Google-Smtp-Source: ABdhPJy1mh9Z1uvlU/eDKZazlXNNwoznimOxYhmoIZG7xJkbiOZtEtspjMi2SZiLCjbiW3IEk0Yggg==
+X-Received: by 2002:a5d:5227:: with SMTP id i7mr4086919wra.68.1608290840147;
+ Fri, 18 Dec 2020 03:27:20 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l8sm14438759wrb.73.2020.12.18.03.27.10
+ by smtp.gmail.com with ESMTPSA id a17sm13644300wrs.20.2020.12.18.03.27.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 18 Dec 2020 03:27:13 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4B2E21FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 64C0D1FF93;
  Fri, 18 Dec 2020 11:27:08 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 6/9] gdbstub: drop CPUEnv from gdb_exit()
-Date: Fri, 18 Dec 2020 11:27:04 +0000
-Message-Id: <20201218112707.28348-7-alex.bennee@linaro.org>
+Subject: [PATCH v2 7/9] gdbstub: drop gdbserver_cleanup in favour of gdb_exit
+Date: Fri, 18 Dec 2020 11:27:05 +0000
+Message-Id: <20201218112707.28348-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201218112707.28348-1-alex.bennee@linaro.org>
 References: <20201218112707.28348-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,141 +86,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Chris Wulff <crwulff@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-gdb_exit() has never needed anything from env and I doubt we are going
-to start now.
+Despite it's name it didn't actually clean-up so let us document
+gdb_exit() better and use that.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201214153012.12723-5-alex.bennee@linaro.org>
+Message-Id: <20201214153012.12723-6-alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/exec/gdbstub.h    | 2 +-
- bsd-user/syscall.c        | 6 +++---
- gdbstub.c                 | 2 +-
- linux-user/exit.c         | 2 +-
- target/arm/arm-semi.c     | 2 +-
- target/m68k/m68k-semi.c   | 2 +-
- target/nios2/nios2-semi.c | 2 +-
- 7 files changed, 9 insertions(+), 9 deletions(-)
+ include/exec/gdbstub.h | 14 +++++++++++---
+ gdbstub.c              |  7 -------
+ softmmu/runstate.c     |  2 +-
+ 3 files changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index 94d8f83e92..492db0f512 100644
+index 492db0f512..ff0b7bc45e 100644
 --- a/include/exec/gdbstub.h
 +++ b/include/exec/gdbstub.h
-@@ -46,7 +46,7 @@ void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...);
+@@ -46,7 +46,17 @@ void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...);
  void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va);
  int use_gdb_syscalls(void);
  void gdb_set_stop_cpu(CPUState *cpu);
--void gdb_exit(CPUArchState *, int);
-+void gdb_exit(int);
+-void gdb_exit(int);
++
++/**
++ * gdb_exit: exit gdb session, reporting inferior status
++ * @code: exit code reported
++ *
++ * This closes the session and sends a final packet to GDB reporting
++ * the exit status of the program. It also cleans up any connections
++ * detritus before returning.
++ */
++void gdb_exit(int code);
++
  #ifdef CONFIG_USER_ONLY
  /**
   * gdb_handlesig: yield control to gdb
-diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index d38ec7a162..adc3d21b54 100644
---- a/bsd-user/syscall.c
-+++ b/bsd-user/syscall.c
-@@ -333,7 +333,7 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
- #ifdef CONFIG_GPROF
-         _mcleanup();
- #endif
--        gdb_exit(cpu_env, arg1);
-+        gdb_exit(arg1);
-         qemu_plugin_atexit_cb();
-         /* XXX: should free thread stack and CPU env */
-         _exit(arg1);
-@@ -435,7 +435,7 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
- #ifdef CONFIG_GPROF
-         _mcleanup();
- #endif
--        gdb_exit(cpu_env, arg1);
-+        gdb_exit(arg1);
-         qemu_plugin_atexit_cb();
-         /* XXX: should free thread stack and CPU env */
-         _exit(arg1);
-@@ -514,7 +514,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
- #ifdef CONFIG_GPROF
-         _mcleanup();
- #endif
--        gdb_exit(cpu_env, arg1);
-+        gdb_exit(arg1);
-         qemu_plugin_atexit_cb();
-         /* XXX: should free thread stack and CPU env */
-         _exit(arg1);
+@@ -187,8 +197,6 @@ static inline uint8_t * gdb_get_reg_ptr(GByteArray *buf, int len)
+  */
+ int gdbserver_start(const char *port_or_device);
+ 
+-void gdbserver_cleanup(void);
+-
+ /**
+  * gdb_has_xml:
+  * This is an ugly hack to cope with both new and old gdb.
 diff --git a/gdbstub.c b/gdbstub.c
-index 15d3a8e1f5..afa553e8fc 100644
+index afa553e8fc..bab8476357 100644
 --- a/gdbstub.c
 +++ b/gdbstub.c
-@@ -3068,7 +3068,7 @@ static void gdb_read_byte(uint8_t ch)
+@@ -3547,13 +3547,6 @@ int gdbserver_start(const char *device)
+     return 0;
  }
  
- /* Tell the remote gdb that the process has exited.  */
--void gdb_exit(CPUArchState *env, int code)
-+void gdb_exit(int code)
+-void gdbserver_cleanup(void)
+-{
+-    if (gdbserver_state.init) {
+-        put_packet("W00");
+-    }
+-}
+-
+ static void register_types(void)
  {
-   char buf[4];
+     type_register_static(&char_gdb_type_info);
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index 636aab0add..6177693a30 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -775,7 +775,7 @@ void qemu_init_subsystems(void)
  
-diff --git a/linux-user/exit.c b/linux-user/exit.c
-index 1594015444..70b344048c 100644
---- a/linux-user/exit.c
-+++ b/linux-user/exit.c
-@@ -34,6 +34,6 @@ void preexit_cleanup(CPUArchState *env, int code)
- #ifdef CONFIG_GCOV
-         __gcov_dump();
- #endif
--        gdb_exit(env, code);
-+        gdb_exit(code);
-         qemu_plugin_atexit_cb();
- }
-diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-index f7b7bff522..93360e28c7 100644
---- a/target/arm/arm-semi.c
-+++ b/target/arm/arm-semi.c
-@@ -1101,7 +1101,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
-              */
-             ret = (args == ADP_Stopped_ApplicationExit) ? 0 : 1;
-         }
--        gdb_exit(env, ret);
-+        gdb_exit(ret);
-         exit(ret);
-     case TARGET_SYS_SYNCCACHE:
-         /*
-diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
-index 27600e0cc0..d919245e4f 100644
---- a/target/m68k/m68k-semi.c
-+++ b/target/m68k/m68k-semi.c
-@@ -195,7 +195,7 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
-     args = env->dregs[1];
-     switch (nr) {
-     case HOSTED_EXIT:
--        gdb_exit(env, env->dregs[0]);
-+        gdb_exit(env->dregs[0]);
-         exit(env->dregs[0]);
-     case HOSTED_OPEN:
-         GET_ARG(0);
-diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
-index d7a80dd303..e508b2fafc 100644
---- a/target/nios2/nios2-semi.c
-+++ b/target/nios2/nios2-semi.c
-@@ -215,7 +215,7 @@ void do_nios2_semihosting(CPUNios2State *env)
-     args = env->regs[R_ARG1];
-     switch (nr) {
-     case HOSTED_EXIT:
--        gdb_exit(env, env->regs[R_ARG0]);
-+        gdb_exit(env->regs[R_ARG0]);
-         exit(env->regs[R_ARG0]);
-     case HOSTED_OPEN:
-         GET_ARG(0);
+ void qemu_cleanup(void)
+ {
+-    gdbserver_cleanup();
++    gdb_exit(0);
+ 
+     /*
+      * cleaning up the migration object cancels any existing migration
 -- 
 2.20.1
 
