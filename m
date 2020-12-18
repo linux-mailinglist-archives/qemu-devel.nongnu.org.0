@@ -2,52 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB132DF1B3
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 21:59:08 +0100 (CET)
-Received: from localhost ([::1]:44900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E1C2DEA8A
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 21:54:18 +0100 (CET)
+Received: from localhost ([::1]:50756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqjJh-0001CR-A1
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 15:59:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56144)
+	id 1kqMlV-0000en-UW
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 15:54:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@dune.bsdimp.com>)
- id 1kqj6I-0007dZ-HO
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 15:45:16 -0500
-Received: from 50-253-99-174-static.hfc.comcastbusiness.net
- ([50.253.99.174]:16435 helo=dune.bsdimp.com)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqMkV-0008OD-SN
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 15:53:15 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:52279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@dune.bsdimp.com>)
- id 1kqj65-0004GY-1X
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 15:45:14 -0500
-Received: from dune.bsdimp.com (localhost [127.0.0.1])
- by dune.bsdimp.com (8.15.2/8.15.2) with ESMTPS id 0BIKqsRm086440
- (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 18 Dec 2020 13:52:54 -0700 (MST)
- (envelope-from imp@dune.bsdimp.com)
-Received: (from imp@localhost)
- by dune.bsdimp.com (8.15.2/8.15.2/Submit) id 0BIKqsaP086439;
- Fri, 18 Dec 2020 13:52:54 -0700 (MST) (envelope-from imp)
-From: imp@freebsd.org
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] bsd-user: Update strace.list for FreeBSD's latest syscalls
-Date: Fri, 18 Dec 2020 13:52:50 -0700
-Message-Id: <20201218205250.86382-5-imp@freebsd.org>
-X-Mailer: git-send-email 2.22.1
-In-Reply-To: <20201218205250.86382-1-imp@freebsd.org>
-References: <20201218205250.86382-1-imp@freebsd.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqMkT-0002Zj-WF
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 15:53:15 -0500
+Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MRTEp-1kT2bC0klx-00NVFl; Fri, 18 Dec 2020 21:53:11 +0100
+Subject: Re: [PATCH v3 1/4] linux-user: Support F_ADD_SEALS and F_GET_SEALS
+ fcntls
+To: Shu-Chun Weng <scw@google.com>, qemu-devel@nongnu.org
+References: <20201218193213.3566856-1-scw@google.com>
+ <20201218193213.3566856-2-scw@google.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <0dec5768-0686-f08f-ad8c-eb09befd7938@vivier.eu>
+Date: Fri, 18 Dec 2020 21:53:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20201218193213.3566856-2-scw@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=50.253.99.174; envelope-from=imp@dune.bsdimp.com;
- helo=dune.bsdimp.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+X-Provags-ID: V03:K1:P5CtoGye7neHBI6X7oaxkI/s8jPDf96TbJs1Ix6sGTaRdPurp9I
+ ByNEhWPeFPgVZkXDq6kW2zpsXiUcq+CHxYzfe6/bqQeDoItZeuFzHwdS4XvSr3JT/wl8t3r
+ vu/TOcV/ZEG3CxOcuHF92gQmlY6SVOke3E3m69pjScC/HVWwHMtrvCigE9t3gEWLH7HZdEV
+ JblF7H25KNwgYwa00l9uw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+uVPiZcyIUM=:jCxaBhcorZ19CRlcRdmQS2
+ u7qX/bcHW11yr6NTC7SGZ6meQHCrtSBGb0GnljA9tGmwQciD1ah9Hb5OdDEzO2k6GW3ExGkdW
+ WtjVQuNukIN7sg7ri3msqqGwcHgkRZa0WgP/5lATYlWDZmxvgNeGK66BRS+GEU4WHlmxdY6hE
+ FdLo+Ls7NYnu6rsL5GRDcghI6YYZaDLrb+11dDAi/RnkcJCw4ChayeNyWCjvbZm9MCYKjNtaY
+ XArfxBrzE5f+Xm5yAU+DC2eynwpeP0lbGuQY5MFwaefqlKFu2Bd2EBT9fRf3POUOZDxCz+19z
+ q2V51cz7obHmX5/6vwejsi+komm5B6QN0VgqAXX1ryc7Uc8KBl+WIlxzWrAFAW9yJ547wndNr
+ cWyLV/fBS7OR7r9xDjqhX79B01KupdYhwWXfhnO0y6AW0R4TOQIjF3rxFJqmQvZtEMLYJkSdp
+ GncLtarQqw==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, KHOP_HELO_FCRDNS=0.267,
- NO_DNS_FOR_FROM=0.001, SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01,
- UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,214 +67,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@FreeBSD.org>, Warner Losh <wlosh@netflix.com>,
- Alexander Kabaev <kan@FreeBSD.org>, Jung-uk Kim <jkim@FreeBSD.org>,
- Sean Bruno <sburno@FreeBSD.org>, Warner Losh <imp@FreeBSD.org>,
- =?UTF-8?q?Mika=C3=ABl=20Urankar?= <mikael.urankar@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Warner Losh <wlosh@netflix.com>
+Le 18/12/2020 à 20:32, Shu-Chun Weng via a écrit :
+> Also reorder blocks so that they are all in the same order everywhere.
+> 
+> Signed-off-by: Shu-Chun Weng <scw@google.com>
+> ---
+> v1 -> v2:
+>   Updated print_fcntl().
+> 
+> v2 -> v3:
+>   Rebase to master on Dec 18, 2020
+> 
+>  linux-user/strace.c       | 39 ++++++++++++++++++++++++++++++++-------
+>  linux-user/syscall.c      | 10 ++++++++++
+>  linux-user/syscall_defs.h | 14 ++++++++------
+>  3 files changed, 50 insertions(+), 13 deletions(-)
+> 
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index e00275fcb5..227812c07e 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -2066,11 +2066,34 @@ print_fcntl(void *cpu_env, const struct syscallname *name,
+>          break;
+>      case TARGET_F_SETLEASE:
+>          qemu_log("F_SETLEASE,");
+> -        print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
+> +        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
+>          break;
+>      case TARGET_F_GETLEASE:
+>          qemu_log("F_GETLEASE");
+>          break;
+> +#ifdef F_DUPFD_CLOEXEC
+> +    case TARGET_F_DUPFD_CLOEXEC:
+> +        qemu_log("F_DUPFD_CLOEXEC,");
+> +        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
+> +        break;
+> +#endif
+> +    case TARGET_F_NOTIFY:
+> +        qemu_log("F_NOTIFY,");
+> +        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
+> +        break;
+> +#ifdef F_GETOWN_EX
+> +    case TARGET_F_GETOWN_EX:
+> +        qemu_log("F_GETOWN_EX,");
+> +        print_pointer(arg2, 1);
+> +        break;
+> +#endif
+> +#ifdef F_SETOWN_EX
+> +    case TARGET_F_SETOWN_EX:
+> +        qemu_log("F_SETOWN_EX,");
+> +        print_pointer(arg2, 1);
+> +        break;
+> +#endif
+> +#ifdef F_SETPIPE_SZ
+>      case TARGET_F_SETPIPE_SZ:
+>          qemu_log("F_SETPIPE_SZ,");
+>          print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
+> @@ -2078,14 +2101,16 @@ print_fcntl(void *cpu_env, const struct syscallname *name,
+>      case TARGET_F_GETPIPE_SZ:
+>          qemu_log("F_GETPIPE_SZ");
+>          break;
+> -    case TARGET_F_DUPFD_CLOEXEC:
+> -        qemu_log("F_DUPFD_CLOEXEC,");
+> -        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
+> +#endif
+> +#ifdef F_ADD_SEALS
+> +    case TARGET_F_ADD_SEALS:
+> +        qemu_log("F_ADD_SEALS,");
+> +        print_raw_param("0x"TARGET_ABI_FMT_lx, arg2, 1);
+>          break;
+> -    case TARGET_F_NOTIFY:
+> -        qemu_log("F_NOTIFY,");
+> -        print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
+> +    case TARGET_F_GET_SEALS:
+> +        qemu_log("F_GET_SEALS");
+>          break;
+> +#endif
+>      default:
+>          print_raw_param(TARGET_ABI_FMT_ld, arg1, 0);
+>          print_pointer(arg2, 1);
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 7bf99beb18..be39cf8215 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -6596,6 +6596,14 @@ static int target_to_host_fcntl_cmd(int cmd)
+>      case TARGET_F_GETPIPE_SZ:
+>          ret = F_GETPIPE_SZ;
+>          break;
+> +#endif
+> +#ifdef F_ADD_SEALS
+> +    case TARGET_F_ADD_SEALS:
+> +        ret = F_ADD_SEALS;
+> +        break;
+> +    case TARGET_F_GET_SEALS:
+> +        ret = F_GET_SEALS;
+> +        break;
+>  #endif
+>      default:
+>          ret = -TARGET_EINVAL;
+> @@ -6888,6 +6896,8 @@ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
+>      case TARGET_F_GETLEASE:
+>      case TARGET_F_SETPIPE_SZ:
+>      case TARGET_F_GETPIPE_SZ:
+> +    case TARGET_F_ADD_SEALS:
+> +    case TARGET_F_GET_SEALS:
+>          ret = get_errno(safe_fcntl(fd, host_cmd, arg));
+>          break;
+>  
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index b934d0b606..1beaa71d37 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -2376,12 +2376,14 @@ struct target_statfs64 {
+>  #endif
+>  
+>  #define TARGET_F_LINUX_SPECIFIC_BASE 1024
+> -#define TARGET_F_SETLEASE (TARGET_F_LINUX_SPECIFIC_BASE + 0)
+> -#define TARGET_F_GETLEASE (TARGET_F_LINUX_SPECIFIC_BASE + 1)
+> -#define TARGET_F_DUPFD_CLOEXEC (TARGET_F_LINUX_SPECIFIC_BASE + 6)
+> -#define TARGET_F_SETPIPE_SZ (TARGET_F_LINUX_SPECIFIC_BASE + 7)
+> -#define TARGET_F_GETPIPE_SZ (TARGET_F_LINUX_SPECIFIC_BASE + 8)
+> -#define TARGET_F_NOTIFY  (TARGET_F_LINUX_SPECIFIC_BASE+2)
+> +#define TARGET_F_SETLEASE            (TARGET_F_LINUX_SPECIFIC_BASE + 0)
+> +#define TARGET_F_GETLEASE            (TARGET_F_LINUX_SPECIFIC_BASE + 1)
+> +#define TARGET_F_DUPFD_CLOEXEC       (TARGET_F_LINUX_SPECIFIC_BASE + 6)
+> +#define TARGET_F_NOTIFY              (TARGET_F_LINUX_SPECIFIC_BASE + 2)
+> +#define TARGET_F_SETPIPE_SZ          (TARGET_F_LINUX_SPECIFIC_BASE + 7)
+> +#define TARGET_F_GETPIPE_SZ          (TARGET_F_LINUX_SPECIFIC_BASE + 8)
+> +#define TARGET_F_ADD_SEALS           (TARGET_F_LINUX_SPECIFIC_BASE + 9)
+> +#define TARGET_F_GET_SEALS           (TARGET_F_LINUX_SPECIFIC_BASE + 10)
+>  
+>  #include "target_fcntl.h"
+>  
+> 
 
-Update strace.list to include all of FreeBSD's syscalls up through svn
-r331280.
+Series applied to my linux-user-for-6.0 branch
 
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Sean Bruno <sburno@FreeBSD.org>
-Signed-off-by: Alexander Kabaev <kan@FreeBSD.org>
-Signed-off-by: Jung-uk Kim <jkim@FreeBSD.org>
-Author: Michal Meloun <mmel@FreeBSD.org>
-Signed-off-by: Mikaël Urankar <mikael.urankar@gmail.com>
-[imp moved this change to early in the sequence]
-Signed-off-by: Warner Losh <imp@FreeBSD.org>
----
- bsd-user/freebsd/strace.list | 62 ++++++++++++++++++++++++++++++++----
- 1 file changed, 55 insertions(+), 7 deletions(-)
-
-diff --git a/bsd-user/freebsd/strace.list b/bsd-user/freebsd/strace.list
-index d8f2eb66a6..b01b5f36e8 100644
---- a/bsd-user/freebsd/strace.list
-+++ b/bsd-user/freebsd/strace.list
-@@ -33,14 +33,32 @@
- { TARGET_FREEBSD_NR___syscall, "__syscall", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR___sysctl, "__sysctl", NULL, print_sysctl, NULL },
- { TARGET_FREEBSD_NR__umtx_op, "_umtx_op", "%s(%#x, %d, %d, %#x, %#x)", NULL, NULL },
-+#if defined(__FreeBSD_version) && __FreeBSD_version < 1000000
-+{ TARGET_FREEBSD_NR__umtx_lock, "__umtx_lock", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR__umtx_unlock, "__umtx_unlock", NULL, NULL, NULL },
-+#endif
- { TARGET_FREEBSD_NR_accept, "accept", "%s(%d,%#x,%#x)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_accept4, "accept4", "%s(%d,%d,%#x,%#x)", NULL, NULL },
- { TARGET_FREEBSD_NR_access, "access", "%s(\"%s\",%#o)", NULL, NULL },
- { TARGET_FREEBSD_NR_acct, "acct", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_adjtime, "adjtime", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_bind, "bind", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_bindat, "bindat", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_break, "break", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_cap_enter, "cap_enter", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_cap_fcntls_get, "cap_fcntls_get", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_cap_fcntls_limit, "cap_fcntls_limit", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_cap_getmode, "cap_getmode", NULL, NULL, NULL },
-+#if defined(__FreeBSD_version) && __FreeBSD_version < 1000000
-+{ TARGET_FREEBSD_NR_cap_getrights, "cap_getrights", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_cap_new, "cap_new", NULL, NULL, NULL },
-+#endif
-+{ TARGET_FREEBSD_NR_cap_ioctls_get, "cap_ioctls_get", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_cap_ioctls_limit, "cap_ioctls_limit", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_cap_rights_limit, "cap_rights_limit", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_chdir, "chdir", "%s(\"%s\")", NULL, NULL },
- { TARGET_FREEBSD_NR_chflags, "chflags", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_chflagsat, "chflagsat", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_chmod, "chmod", "%s(\"%s\",%#o)", NULL, NULL },
- { TARGET_FREEBSD_NR_chown, "chown", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_chroot, "chroot", NULL, NULL, NULL },
-@@ -49,6 +67,9 @@
- { TARGET_FREEBSD_NR_clock_settime, "clock_settime", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_close, "close", "%s(%d)", NULL, NULL },
- { TARGET_FREEBSD_NR_connect, "connect", "%s(%d,%#x,%d)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_connectat, "connectat", "%s(%d,%d,%#x,%d)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_cpuset_getdomain, "cpuset_getdomain", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_cpuset_setdomain, "cpuset_setdomain", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_dup, "dup", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_dup2, "dup2", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_eaccess, "eaccess", "%s(\"%s\",%#x)", NULL, NULL },
-@@ -62,7 +83,7 @@
- { TARGET_FREEBSD_NR_extattr_get_file, "extattr_get_file", "%s(\"%s\", %d, \"%s\", %#x, %d)", NULL, NULL },
- { TARGET_FREEBSD_NR_extattr_get_file, "extattr_get_link", "%s(\"%s\", %d, \"%s\", %#x, %d)", NULL, NULL },
- { TARGET_FREEBSD_NR_extattr_list_fd, "extattr_list_fd", "%s(%d, %d, %#x, %d)", NULL, NULL },
--{ TARGET_FREEBSD_NR_extattr_list_file, "extattr_list_file", "%s(\"%s\", %d, %#x, %d)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_extattr_list_file, "extattr_list_file", "%s(\"%s\", %#x, %d)", NULL, NULL },
- { TARGET_FREEBSD_NR_extattr_list_link, "extattr_list_link", "%s(\"%s\", %d, %#x, %d)", NULL, NULL },
- { TARGET_FREEBSD_NR_extattr_set_fd, "extattr_set_fd", "%s(%d, %d, \"%s\", %#x, %d)", NULL, NULL },
- { TARGET_FREEBSD_NR_extattr_set_file, "extattr_set_file", "%s(\"%s\", %d, \"%s\", %#x, %d)", NULL, NULL },
-@@ -72,26 +93,34 @@
- { TARGET_FREEBSD_NR_fchmod, "fchmod", "%s(%d,%#o)", NULL, NULL },
- { TARGET_FREEBSD_NR_fchown, "fchown", "%s(%d,%d,%d)", NULL, NULL },
- { TARGET_FREEBSD_NR_fcntl, "fcntl", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_fdatasync, "fdatasync", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_fexecve, "fexecve", NULL, print_execve, NULL },
- { TARGET_FREEBSD_NR_fhopen, "fhopen", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_fhstat, "fhstat", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_fhstatfs, "fhstatfs", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_fhstat, "freebsd11_fhstat", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_fhstatfs, "freebsd11_fhstatfs", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_flock, "flock", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_fork, "fork", "%s()", NULL, NULL },
- { TARGET_FREEBSD_NR_fpathconf, "fpathconf", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_fstat, "fstat", "%s(%d,%#x)", NULL, NULL },
- { TARGET_FREEBSD_NR_fstatat, "fstatat", "%s(%d,\"%s\", %#x, %d)", NULL, NULL },
- { TARGET_FREEBSD_NR_fstatfs, "fstatfs", "%s(%d,%#x)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_fstat, "freebsd11_fstat", "%s(%d,%#x)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_fstatat, "freebsd11_fstatat", "%s(%d,\"%s\", %#x, %d)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_fstatfs, "freebsd11_fstatfs", "%s(%d,%#x)", NULL, NULL },
- { TARGET_FREEBSD_NR_fsync, "fsync", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_ftruncate, "ftruncate", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_futimens, "futimens", "%s(%d,%p)", NULL, NULL },
- { TARGET_FREEBSD_NR_futimes, "futimes", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_getcontext, "getcontext", "%s(%#x)", NULL, NULL },
- { TARGET_FREEBSD_NR_getdirentries, "getdirentries", NULL, NULL, NULL },
--{ TARGET_FREEBSD_NR_freebsd6_mmap, "freebsd6_mmap", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_getdirentries, "freebsd11_getdirentries", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_getegid, "getegid", "%s()", NULL, NULL },
- { TARGET_FREEBSD_NR_geteuid, "geteuid", "%s()", NULL, NULL },
- { TARGET_FREEBSD_NR_getfh, "getfh", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_getfsstat, "getfsstat", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_getfsstat, "freebsd11_getfsstat", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_getgid, "getgid", "%s()", NULL, NULL },
- { TARGET_FREEBSD_NR_getgroups, "getgroups", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_getitimer, "getitimer", NULL, NULL, NULL },
-@@ -102,6 +131,7 @@
- { TARGET_FREEBSD_NR_getpid, "getpid", "%s()", NULL, NULL },
- { TARGET_FREEBSD_NR_getppid, "getppid", "%s()", NULL, NULL },
- { TARGET_FREEBSD_NR_getpriority, "getpriority", "%s(%#x,%#x)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_getrandom, "getrandom", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_getresgid, "getresgid", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_getresuid, "getresuid", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_getrlimit, "getrlimit", NULL, NULL, NULL },
-@@ -113,8 +143,12 @@
- { TARGET_FREEBSD_NR_getuid, "getuid", "%s()", NULL, NULL },
- { TARGET_FREEBSD_NR_ioctl, "ioctl", NULL, print_ioctl, NULL },
- { TARGET_FREEBSD_NR_issetugid, "issetugid", "%s()", NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_kevent, "freebsd11_kevent", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_kevent, "kevent", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_kill, "kill", NULL, NULL, NULL },
-+#if defined(__FreeBSD_version) && __FreeBSD_version < 1000000
-+{ TARGET_FREEBSD_NR_killpg, "killpg", NULL, NULL, NULL },
-+#endif
- { TARGET_FREEBSD_NR_kqueue, "kqueue", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_ktrace, "ktrace", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_lchown, "lchown", NULL, NULL, NULL },
-@@ -122,13 +156,15 @@
- { TARGET_FREEBSD_NR_listen, "listen", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_lpathconf, "lpathconf", "%s(\"%s\", %d)", NULL, NULL },
- { TARGET_FREEBSD_NR_lseek, "lseek", NULL, NULL, NULL },
--{ TARGET_FREEBSD_NR_lstat, "lstat", "%s(\"%s\",%p)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_lstat, "freebsd11_lstat", "%s(\"%s\",%p)", NULL, NULL },
- { TARGET_FREEBSD_NR_madvise, "madvise", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_mincore, "mincore", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_minherit, "minherit", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_mkdir, "mkdir", "%s(\"%s\",%#o)", NULL, NULL },
- { TARGET_FREEBSD_NR_mkfifo, "mkfifo", NULL, NULL, NULL },
--{ TARGET_FREEBSD_NR_mknod, "mknod", "%s(\"%s\",%#o,%#x)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_mknodat, "mknodat", "%s(%d, \"%s\",%#o,%#x)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_mknod, "freebsd11_mknod", "%s(\"%s\",%#o,%#x)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_mknodat, "freebsd11_mknodat", "%s(%d, \"%s\",%#o,%#x)", NULL, NULL },
- { TARGET_FREEBSD_NR_mlock, "mlock", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_mlockall, "mlockall", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_mmap, "mmap", NULL, NULL, print_syscall_ret_addr },
-@@ -147,8 +183,10 @@
- { TARGET_FREEBSD_NR_open, "open", "%s(\"%s\",%#x,%#o)", NULL, NULL },
- { TARGET_FREEBSD_NR_openat, "openat", "%s(%d, \"%s\",%#x,%#o)", NULL, NULL },
- { TARGET_FREEBSD_NR_pathconf, "pathconf", "%s(\"%s\", %d)", NULL, NULL },
--{ TARGET_FREEBSD_NR_pipe, "pipe", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd10_pipe, "freebsd10_pipe", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_pipe2, "pipe2", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_poll, "poll", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_posix_fallocate, "posix_fallocate", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_pread, "pread", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_preadv, "preadv", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_profil, "profil", NULL, NULL, NULL },
-@@ -168,6 +206,8 @@
- { TARGET_FREEBSD_NR_rmdir, "rmdir", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_rtprio_thread, "rtprio_thread", "%s(%d, %d, %p)", NULL, NULL },
- { TARGET_FREEBSD_NR_sbrk, "sbrk", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_sched_get_priority_max, "sched_get_priority_max", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_sched_get_priority_min, "sched_get_priority_min", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_sched_yield, "sched_yield", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_select, "select", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_semget, "semget", NULL, NULL, NULL },
-@@ -206,12 +246,17 @@
- { TARGET_FREEBSD_NR_socket, "socket", "%s(%d,%d,%d)", NULL, NULL },
- { TARGET_FREEBSD_NR_socketpair, "socketpair", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_sstk, "sstk", NULL, NULL, NULL },
--{ TARGET_FREEBSD_NR_stat, "stat", "%s(\"%s\",%p)", NULL, NULL },
--{ TARGET_FREEBSD_NR_statfs, "statfs", "%s(\"%s\",%p)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_stat, "freebsd11_stat", "%s(\"%s\",%p)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_freebsd11_statfs, "freebsd11_statfs", "%s(\"%s\",%p)", NULL, NULL },
- { TARGET_FREEBSD_NR_symlink, "symlink", "%s(\"%s\",\"%s\")", NULL, NULL },
- { TARGET_FREEBSD_NR_sync, "sync", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_sysarch, "sysarch", NULL, print_sysarch, NULL },
- { TARGET_FREEBSD_NR_syscall, "syscall", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_ktimer_create, "timer_create" , NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_ktimer_delete, "timer_delete" , NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_ktimer_settime, "timer_settime" , NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_ktimer_gettime, "timer_gettime" , NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_ktimer_getoverrun, "timer_getoverrun" , NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_thr_create, "thr_create", "%s(%#x, %#x, %d)", NULL, NULL },
- { TARGET_FREEBSD_NR_thr_exit, "thr_exit", "%s(%#x)", NULL, NULL },
- { TARGET_FREEBSD_NR_thr_kill, "thr_kill", "%s(%d, %#x)", NULL, NULL },
-@@ -226,7 +271,10 @@
- { TARGET_FREEBSD_NR_unlink, "unlink", "%s(\"%s\")", NULL, NULL },
- { TARGET_FREEBSD_NR_unmount, "unmount", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_utimes, "utimes", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_utimensat, "utimensat", "%s(%d,%s,%p,%#x)", NULL, NULL },
- { TARGET_FREEBSD_NR_vfork, "vfork", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_wait4, "wait4", NULL, NULL, NULL },
-+{ TARGET_FREEBSD_NR_wait6, "wait6", NULL, NULL, NULL },
- { TARGET_FREEBSD_NR_write, "write", "%s(%d,%#x,%d)", NULL, NULL },
- { TARGET_FREEBSD_NR_writev, "writev", "%s(%d,%p,%#x)", NULL, NULL },
-+{ TARGET_FREEBSD_NR_posix_openpt, "posix_openpt", "%s(%d)", NULL, NULL },
--- 
-2.22.1
-
+Thanks,
+Laurent
 
