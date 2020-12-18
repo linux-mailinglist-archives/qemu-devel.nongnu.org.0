@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F2292DDE99
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 07:29:23 +0100 (CET)
-Received: from localhost ([::1]:43444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC012DDE77
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 07:14:10 +0100 (CET)
+Received: from localhost ([::1]:44706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq9GU-0004Fy-Dc
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 01:29:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52298)
+	id 1kq91l-0000YS-Fv
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 01:14:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=614e9c0eb=alistair.francis@wdc.com>)
- id 1kq8q3-0005dp-RF
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:03 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:9924)
+ id 1kq8q1-0005Z9-II
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:01 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:9928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=614e9c0eb=alistair.francis@wdc.com>)
- id 1kq8q0-0002G4-3k
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:03 -0500
+ id 1kq8pz-0002GJ-Br
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1608271646; x=1639807646;
+ t=1608271645; x=1639807645;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Y4LoVyuGcHBUO7rS4R6vtkpvvACOE/5MROLra+otT+A=;
- b=lr+qk8L2VT+lyJOWPNN04YvptNNYrbBpa99UvWY5+ZMluRDPeGDNtDN3
- vK7a4igx40nMDo15MWg0TG6AMngkVvwnHAl3pn1t+C+S67n4a/0d+GIwM
- 5P3uLjzGznS+fYGwjn4iRm7dqTZaUgUmwUOuVqkwg5RH4XSqj1x/ZG4oh
- VSxdIBdqtql/LAPThsKcsbW18PlUTqd3xPqKpdZHmd97tkqLVP1UtNQH5
- dumVZaYNlkTTK2yCYBCPZHGNKJjszVobd+RJ1E2kjbXOmgQtB4Xts48SW
- +1vrBmo7i29yXKUSTEO0/vKM8jNrPEs6bxRTJf46tYiWumBWFqSilq4XW Q==;
-IronPort-SDR: U3qbfjQIq7pPKQcTMtmKJJ5kzYppr9DBLgqPxSXmwTF+oel/uB9/TQU/+vKUPQJTwxLgwgM0dN
- 26tOGJnfmRK4Im2uYtf9/ah+GG/mA71ErrGQ+qEfq0GfCnSxDtD/ePW7ITUjbqAUVRgp3LT0bz
- mfxxq7XmmjD/pcehtYGLgLF3rYK3APeOa023tSe8M+NRSFlBm7LCCejzfKkqWGn51PL6Yt0A+z
- qmozB6PYYLBnRiZzvIYxnrYrwxwXQdwrGsUPaF+iQ+BzkmPcd9QPr3RTxVMoUKJSkWPbwq5RDp
- AWU=
-X-IronPort-AV: E=Sophos;i="5.78,429,1599494400"; d="scan'208";a="259237060"
+ bh=aMxvCMJADPI6otFNQIx+fwzLZbNlj+QD2cuJyzAVj94=;
+ b=j7NE8qn5JiiB7UoNRt72nuYckZo92/F9AnkOjsg8mZbZ21F3K0CLBPf+
+ 1MLeaRQ4T7eWgXpBoRKuqejQ69b4xme/Tiq1dD4FrMHvQbnZ0dXuD7l7G
+ x7UGwlZOhzK8E/rC5q6EzV4iMoT8uX0kgBzsewvulRYHWpnzAZi/JqyQt
+ n6qgwiiNEXRBfTwzC+YW/yC7sMhnPAWKD5YQNJMUiuwqoBmgy8ISMVFas
+ nJDlhVAM59jg6ZH/tWOlC+HbRX/oS3SPONgfEV6wVpLKwHsk8dO3s8YRF
+ aoYO93/CnXxskPoW8tXroB2yxjOPPo0JKBjrLz1ocTm/aGwJj78VZuou6 g==;
+IronPort-SDR: zH+5Ees2VminCZ7dVa3ljvy6IYiTXwusBWHYuH+deh6TjqvNkNs1m+n5lfYIo7JmZFGqPxAscl
+ dUXi+pVlv7Nn4UMnHl8Nakg3X4+N5DOzcjY8t3jV3zryYiXpmalfOEKeOi+adZBPn5dXliag3Q
+ 9OJ2Efql8BxN29ZtqHuhl+ZBtz0Od2bzTyFDx90txQZ0nrO4yqLRr23pyBhBh7mJfHrS4F8ewL
+ 7saOwZXA9aIOMp0JPz65sSCAgTLlZlSP+sdnZPgOMAiarUlbWckSthjlt+e84c5WAuDb0lZku3
+ 664=
+X-IronPort-AV: E=Sophos;i="5.78,429,1599494400"; d="scan'208";a="259237062"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 18 Dec 2020 14:06:30 +0800
-IronPort-SDR: S1W/SFieIbKUHK81cFyzAsc3qnPTHI1HR6pOt5xlYbvBktj8aVnAVSLaxuz1fZUa+A/sg4nNVf
- u3GT8l0o9DQ07q8h2LPJnnadQ6tIDZXzvjC4K2RZ3F1t+uDmCa4tlAtiS6mRDlHruPXKNY8OlG
- 98vKbM1G+UXpuIxOog7iBP5fu7/GiJgrE2fTx+uXAMc2NCue0IY/VNiLQ4PuFjXY4wQV7AFk6p
- LqYWhBmvSjZfL2xSVeuBVN7gLb483Pt2+sLWfKzIkqZ9MCYd90tgDcKjR2lag973uNQn8TKV/Y
- XVbvXLVPasFzn3MeNZgEaBJ0
+ by ob1.hgst.iphmx.com with ESMTP; 18 Dec 2020 14:06:31 +0800
+IronPort-SDR: DrvaF6Dhudho7N1jk4lS41nuPsIMH7GrNogc6BPQl0GgaiWT6sYYNDKGNDQb7BtCEx6b0/LE2i
+ a1fO7UP4eJduTldEh0WL/chlHb3sEN5QbJRlUN9X0LrP9yIV8xaY1rHo2rFYUGXcbG9pX7WP6V
+ F+D3dSIaBvzhz/38higpua6n/jHaF+MVL8L0akeOabDrVwTG0Ng1cFQy6sqyXw8czOqqA+6TkY
+ P6DY/Wk/KqwVDBe3BgsoR3CP6JgmBWklp5a9O2ZipU6zT75TWsekccl25zieJeDYSyVOHmsaO8
+ qkhz+6KhgcfcSLyrYvaHmxaV
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Dec 2020 21:46:39 -0800
-IronPort-SDR: +wKU6tLd6P5kbRAgw1hlHercz/jLiZJsOJoUDPpXMxOLiq5nb88XIZXdX7m4txUITuCBBQNwip
- RLymNlWqXPfpnkb5oT/mH/ZyaNj3uWfQhDhjN1lWStpJ7jMZ3bCiLdH9X9NR+umjybCRxXyFwD
- dkmJUV0gGxsVCsu394i9lut47jbBCZSu/okAiIHwir3wiUzbQsb51cuGQ2cvmMrzz0fLveRURE
- sw/kwj34MHM0pGPfY7s59qPIPafqSW+Go9U2H93GdELOHbDZ6IqDboNBB2jhwiWdCeViUP9O1y
- mlg=
+IronPort-SDR: rZTterxt+llcj0CJS5dD1OmsMbEp4ASZotcFixUrhqkk0rQvcVlU7YILzYBd82t5lu8NSDta8O
+ L5MxJOvBqbw0WN5qfsMO3Z9nfsu/qwwOLDP4xrrasDm5blHmPs4M1ZKAVVFHebu2UKbsOtH8lr
+ 1RPTZAt8b4kqDys0hpSPPlnKMfhhs2s3VzDor7xNIYkHfjO6ULKIz4IDyhnd3ybZENBGfh1C0J
+ YXy7aCphDVjmFJ74m2o7eLvblSwkv3HWQlC/6TqEXKWsDSdcOjbGR9j2QAhgZUeZVhWovaEwEo
+ BK4=
 WDCIronportException: Internal
 Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.62.68])
@@ -62,9 +62,9 @@ Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 13/23] hw/riscv: spike: Remove compile time XLEN checks
-Date: Thu, 17 Dec 2020 22:01:04 -0800
-Message-Id: <20201218060114.3591217-14-alistair.francis@wdc.com>
+Subject: [PULL 14/23] hw/riscv: sifive_u: Remove compile time XLEN checks
+Date: Thu, 17 Dec 2020 22:01:05 -0800
+Message-Id: <20201218060114.3591217-15-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201218060114.3591217-1-alistair.francis@wdc.com>
 References: <20201218060114.3591217-1-alistair.francis@wdc.com>
@@ -92,104 +92,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmerdabbelt@google.com>, alistair23@gmail.com,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>, alistair23@gmail.com,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Message-id: ac75037dd58061486de421a0fcd9ac8a92014607.1608142916.git.alistair.francis@wdc.com
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
+Tested-by: Bin Meng <bin.meng@windriver.com>
+Message-id: 40d6df4dd05302c566e419be3a1fef7799e57c2e.1608142916.git.alistair.francis@wdc.com
 ---
- hw/riscv/spike.c | 45 ++++++++++++++++++++++++---------------------
- 1 file changed, 24 insertions(+), 21 deletions(-)
+ hw/riscv/sifive_u.c | 55 ++++++++++++++++++++++++---------------------
+ 1 file changed, 30 insertions(+), 25 deletions(-)
 
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 875f371f0f..3e47e4579d 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -43,17 +43,6 @@
- #include "sysemu/qtest.h"
- #include "sysemu/sysemu.h"
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 34e6d9c355..170e49315f 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -60,12 +60,6 @@
  
--/*
-- * Not like other RISC-V machines that use plain binary bios images,
-- * keeping ELF files here was intentional because BIN files don't work
-- * for the Spike machine as HTIF emulation depends on ELF parsing.
-- */
+ #include <libfdt.h>
+ 
 -#if defined(TARGET_RISCV32)
--# define BIOS_FILENAME "opensbi-riscv32-generic-fw_dynamic.elf"
+-# define BIOS_FILENAME "opensbi-riscv32-generic-fw_dynamic.bin"
 -#else
--# define BIOS_FILENAME "opensbi-riscv64-generic-fw_dynamic.elf"
+-# define BIOS_FILENAME "opensbi-riscv64-generic-fw_dynamic.bin"
 -#endif
 -
  static const struct MemmapEntry {
      hwaddr base;
      hwaddr size;
-@@ -64,7 +53,7 @@ static const struct MemmapEntry {
- };
+@@ -93,7 +87,7 @@ static const struct MemmapEntry {
+ #define GEM_REVISION        0x10070109
  
- static void create_fdt(SpikeState *s, const struct MemmapEntry *memmap,
+ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
 -    uint64_t mem_size, const char *cmdline)
 +                       uint64_t mem_size, const char *cmdline, bool is_32_bit)
  {
+     MachineState *ms = MACHINE(qdev_get_machine());
      void *fdt;
-     uint64_t addr, size;
-@@ -115,11 +104,11 @@ static void create_fdt(SpikeState *s, const struct MemmapEntry *memmap,
-             cpu_name = g_strdup_printf("/cpus/cpu@%d",
-                 s->soc[socket].hartid_base + cpu);
-             qemu_fdt_add_subnode(fdt, cpu_name);
+@@ -176,11 +170,11 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+         qemu_fdt_add_subnode(fdt, nodename);
+         /* cpu 0 is the management hart that does not have mmu */
+         if (cpu != 0) {
 -#if defined(TARGET_RISCV32)
--            qemu_fdt_setprop_string(fdt, cpu_name, "mmu-type", "riscv,sv32");
+-            qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv32");
 -#else
--            qemu_fdt_setprop_string(fdt, cpu_name, "mmu-type", "riscv,sv48");
+-            qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv48");
 -#endif
 +            if (is_32_bit) {
-+                qemu_fdt_setprop_string(fdt, cpu_name, "mmu-type", "riscv,sv32");
++                qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv32");
 +            } else {
-+                qemu_fdt_setprop_string(fdt, cpu_name, "mmu-type", "riscv,sv48");
++                qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv48");
 +            }
-             name = riscv_isa_string(&s->soc[socket].harts[cpu]);
-             qemu_fdt_setprop_string(fdt, cpu_name, "riscv,isa", name);
-             g_free(name);
-@@ -254,7 +243,8 @@ static void spike_board_init(MachineState *machine)
-         main_mem);
+             isa = riscv_isa_string(&s->soc.u_cpus.harts[cpu - 1]);
+         } else {
+             isa = riscv_isa_string(&s->soc.e_cpus.harts[0]);
+@@ -471,7 +465,8 @@ static void sifive_u_machine_init(MachineState *machine)
+                           qemu_allocate_irq(sifive_u_machine_reset, NULL, 0));
  
      /* create device tree */
 -    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline);
 +    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
 +               riscv_is_32_bit(machine));
  
-     /* boot rom */
-     memory_region_init_rom(mask_rom, NULL, "riscv.spike.mrom",
-@@ -262,9 +252,22 @@ static void spike_board_init(MachineState *machine)
-     memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
-                                 mask_rom);
+     if (s->start_in_flash) {
+         /*
+@@ -500,8 +495,15 @@ static void sifive_u_machine_init(MachineState *machine)
+         break;
+     }
  
 -    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
--                                                     memmap[SPIKE_DRAM].base,
--                                                     htif_symbol_callback);
-+    /*
-+     * Not like other RISC-V machines that use plain binary bios images,
-+     * keeping ELF files here was intentional because BIN files don't work
-+     * for the Spike machine as HTIF emulation depends on ELF parsing.
-+     */
+-                                                     start_addr, NULL);
 +    if (riscv_is_32_bit(machine)) {
 +        firmware_end_addr = riscv_find_and_load_firmware(machine,
-+                                    "opensbi-riscv32-generic-fw_dynamic.elf",
-+                                    memmap[SPIKE_DRAM].base,
-+                                    htif_symbol_callback);
++                                    "opensbi-riscv32-generic-fw_dynamic.bin",
++                                    start_addr, NULL);
 +    } else {
 +        firmware_end_addr = riscv_find_and_load_firmware(machine,
-+                                    "opensbi-riscv64-generic-fw_dynamic.elf",
-+                                    memmap[SPIKE_DRAM].base,
-+                                    htif_symbol_callback);
++                                    "opensbi-riscv64-generic-fw_dynamic.bin",
++                                    start_addr, NULL);
 +    }
  
      if (machine->kernel_filename) {
          kernel_start_addr = riscv_calc_kernel_start_addr(machine,
+@@ -531,9 +533,9 @@ static void sifive_u_machine_init(MachineState *machine)
+     /* Compute the fdt load address in dram */
+     fdt_load_addr = riscv_load_fdt(memmap[SIFIVE_U_DEV_DRAM].base,
+                                    machine->ram_size, s->fdt);
+-    #if defined(TARGET_RISCV64)
+-    start_addr_hi32 = start_addr >> 32;
+-    #endif
++    if (!riscv_is_32_bit(machine)) {
++        start_addr_hi32 = (uint64_t)start_addr >> 32;
++    }
+ 
+     /* reset vector */
+     uint32_t reset_vec[11] = {
+@@ -541,13 +543,8 @@ static void sifive_u_machine_init(MachineState *machine)
+         0x00000297,                    /* 1:  auipc  t0, %pcrel_hi(fw_dyn) */
+         0x02828613,                    /*     addi   a2, t0, %pcrel_lo(1b) */
+         0xf1402573,                    /*     csrr   a0, mhartid  */
+-#if defined(TARGET_RISCV32)
+-        0x0202a583,                    /*     lw     a1, 32(t0) */
+-        0x0182a283,                    /*     lw     t0, 24(t0) */
+-#elif defined(TARGET_RISCV64)
+-        0x0202b583,                    /*     ld     a1, 32(t0) */
+-        0x0182b283,                    /*     ld     t0, 24(t0) */
+-#endif
++        0,
++        0,
+         0x00028067,                    /*     jr     t0 */
+         start_addr,                    /* start: .dword */
+         start_addr_hi32,
+@@ -555,6 +552,14 @@ static void sifive_u_machine_init(MachineState *machine)
+         0x00000000,
+                                        /* fw_dyn: */
+     };
++    if (riscv_is_32_bit(machine)) {
++        reset_vec[4] = 0x0202a583;     /*     lw     a1, 32(t0) */
++        reset_vec[5] = 0x0182a283;     /*     lw     t0, 24(t0) */
++    } else {
++        reset_vec[4] = 0x0202b583;     /*     ld     a1, 32(t0) */
++        reset_vec[5] = 0x0182b283;     /*     ld     t0, 24(t0) */
++    }
++
+ 
+     /* copy in the reset vector in little_endian byte order */
+     for (i = 0; i < ARRAY_SIZE(reset_vec); i++) {
 -- 
 2.29.2
 
