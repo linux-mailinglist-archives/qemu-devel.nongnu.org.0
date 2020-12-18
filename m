@@ -2,57 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35AE42DDD28
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 03:59:51 +0100 (CET)
-Received: from localhost ([::1]:34658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3142DDD92
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 05:03:36 +0100 (CET)
+Received: from localhost ([::1]:55642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq5zh-0003fY-Q0
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 21:59:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48534)
+	id 1kq6zP-00086F-An
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 23:03:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kq5y3-0002u0-Ex; Thu, 17 Dec 2020 21:58:09 -0500
-Resent-Date: Thu, 17 Dec 2020 21:58:07 -0500
-Resent-Message-Id: <E1kq5y3-0002u0-Ex@lists.gnu.org>
-Received: from sender4-of-o52.zoho.com ([136.143.188.52]:21217)
+ (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
+ id 1kq6wt-0006NO-B2
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 23:00:59 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:39684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kq5xy-0008F9-Ty; Thu, 17 Dec 2020 21:58:07 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1608260270; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=gu/BVC72na/wJSHKr1dZEZsSWOpSbZDHgd75moNKGTgDQxwpaIhq4BBZXHOu5aZE73+HPbN/qmchslhSPVB7JIRgJieZWWRBwWjs8Bc0566S3yWULYVjRT1XZyblJR4hYkMnVUz1n+WicQ1ToCHZ42DuyrI396yQpeT1Cw6vM24=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1608260270;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=6OGwWwbbEkfIw2e5+3MARGZt1uuJOcYj2HshctXegxc=; 
- b=diBgququR35pgOCicY4C8SjGBAkAYzd2jx7RZmCKRfWAA8X1bH8YK7rcjHbQT32pqWNE4Vxfk47oJPRyPSNObWrrPPHra9WdOyaCJjWQCi6pKdxlpe7N8fDRgfqQmW+BP49CDb8L3bW1IMlw7ffUeCCsC2XEXQBOzGOEfVcI3TI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1608260268019300.59934315960436;
- Thu, 17 Dec 2020 18:57:48 -0800 (PST)
-In-Reply-To: <20201218025040.98132-1-aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v12] spapr: Implement Open Firmware client interface
-Message-ID: <160826026656.13274.17680374872040751021@600e7e483b3a>
+ (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
+ id 1kq6wq-0003xD-6x
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 23:00:59 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BI40009111390;
+ Fri, 18 Dec 2020 04:00:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2020-01-29; bh=yQjMKLFMpNS1FEL7RZxtwozTMUKB+GhYFbRdHQnWfi0=;
+ b=CBOnF10i6UgnGzqMvvI6R9tskOHp4uAFL7+reg5z9KHSmuTrQQi5SEuJbAIxlxKF+stZ
+ jbMPVkx6ss60Cjyg6+WB8bGHbX9OYUU75aQhen0u/FwH6aTtLqxt5bpbKd6Izm68FhFj
+ cgq5RPqNh6CD924EIaF2mpCx6G/AWQmk4EfE116r17KZFMMhK4U4jvrATySHAoxSFZOW
+ zkXqkR26VlQuD5903+MnYouWC7HBdUvV9RgCK7TPHSw+u4ZHDaLYTGh/iPEVCrtmIuSB
+ zak2zFUKkzIV3HeS6h+qTXkfXcsz4ftjDMGFDAhAuLs/jhB5ft3xR5OZ1oleMA1HHIHW sw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2130.oracle.com with ESMTP id 35ckcbrpm9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 18 Dec 2020 04:00:48 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BI3oIkv077293;
+ Fri, 18 Dec 2020 03:58:47 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 35d7t1akgj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 18 Dec 2020 03:58:47 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BI3wg3q025234;
+ Fri, 18 Dec 2020 03:58:43 GMT
+Received: from flaka.hsd1.ca.comcast.net (/10.159.131.68)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 17 Dec 2020 19:58:42 -0800
+From: elena.ufimtseva@oracle.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v14 00/21] Initial support for multi-process Qemu
+Date: Thu, 17 Dec 2020 19:57:47 -0800
+Message-Id: <cover.1608263017.git.elena.ufimtseva@oracle.com>
+X-Mailer: git-send-email 2.25.GIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: aik@ozlabs.ru
-Date: Thu, 17 Dec 2020 18:57:48 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.52; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o52.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9838
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0
+ mlxlogscore=999 spamscore=0 mlxscore=0 suspectscore=0 malwarescore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012180026
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9838
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxlogscore=999
+ priorityscore=1501 mlxscore=0 suspectscore=0 adultscore=0 phishscore=0
+ malwarescore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012180027
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=elena.ufimtseva@oracle.com; helo=aserp2130.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,177 +92,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
+ kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIxODAyNTA0MC45ODEz
-Mi0xLWFpa0BvemxhYnMucnUvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBzb21l
-IGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZvcm1h
-dGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTIxODAyNTA0MC45ODEzMi0xLWFp
-a0BvemxhYnMucnUKU3ViamVjdDogW1BBVENIIHFlbXUgdjEyXSBzcGFwcjogSW1wbGVtZW50IE9w
-ZW4gRmlybXdhcmUgY2xpZW50IGludGVyZmFjZQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQoj
-IS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBj
-b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
-cmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0K
-Li9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBU
-IEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMz
-ODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0
-YWddICAgICAgICAgcGF0Y2hldy8yMDIwMTIxODAyNTA0MC45ODEzMi0xLWFpa0BvemxhYnMucnUg
-LT4gcGF0Y2hldy8yMDIwMTIxODAyNTA0MC45ODEzMi0xLWFpa0BvemxhYnMucnUKU3dpdGNoZWQg
-dG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo0NTNlZjJiIHNwYXByOiBJbXBsZW1lbnQgT3BlbiBGaXJt
-d2FyZSBjbGllbnQgaW50ZXJmYWNlCgo9PT0gT1VUUFVUIEJFR0lOID09PQpXQVJOSU5HOiBsaW5l
-IG92ZXIgODAgY2hhcmFjdGVycwojMjIzOiBGSUxFOiBody9wcGMvc3BhcHIuYzo0NDYzOgorICAg
-IENsaWVudEFyY2hpdGVjdHVyZVN1cHBvcnRDbGFzcyAqY2FzYyA9IENMSUVOVF9BUkNISVRFQ1RV
-UkVfU1VQUE9SVF9DTEFTUyhvYyk7CgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBm
-aWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyODI6IApuZXcgZmlsZSBt
-b2RlIDEwMDY0NAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzEzOTg6IEZJTEU6
-IGh3L3BwYy92b2YuaDozMToKKyAgICBJTlRFUkZBQ0VfQ0hFQ0soQ2xpZW50QXJjaGl0ZWN0dXJl
-U3VwcG9ydCwgKG9iaiksIFRZUEVfQ0xJRU5UX0FSQ0hJVEVDVFVSRV9TVVBQT1JUKQoKRVJST1I6
-IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTUxNDogRklMRTogcGMtYmlvcy92
-b2YvYm9vdG1lbS5jOjU6CiteSXVpbnQ2NF90IGtlcm5bMl07JAoKRVJST1I6IGNvZGUgaW5kZW50
-IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTUxNTogRklMRTogcGMtYmlvcy92b2YvYm9vdG1lbS5j
-OjY6CiteSXBoYW5kbGUgY2hvc2VuID0gY2lfZmluZGRldmljZSgiL2Nob3NlbiIpOyQKCkVSUk9S
-OiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE1MTc6IEZJTEU6IHBjLWJpb3Mv
-dm9mL2Jvb3RtZW0uYzo4OgorXklpZiAoY2lfZ2V0cHJvcChjaG9zZW4sICJxZW11LGJvb3Qta2Vy
-bmVsIiwga2Vybiwgc2l6ZW9mKGtlcm4pKSAhPSQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQg
-bmV2ZXIgdXNlIHRhYnMKIzE1MTg6IEZJTEU6IHBjLWJpb3Mvdm9mL2Jvb3RtZW0uYzo5OgorXkle
-SV5Jc2l6ZW9mKGtlcm4pKSQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRh
-YnMKIzE1MTk6IEZJTEU6IHBjLWJpb3Mvdm9mL2Jvb3RtZW0uYzoxMDoKK15JXklyZXR1cm47JAoK
-RVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTUyMTogRklMRTogcGMt
-Ymlvcy92b2YvYm9vdG1lbS5jOjEyOgorXklkb19ib290KGtlcm5bMF0sIGluaXRyZCwgaW5pdHJk
-c2l6ZSk7JAoKRVJST1I6IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4gLmMgZmlsZXMKIzE1
-NDA6IEZJTEU6IHBjLWJpb3Mvdm9mL2NpLmM6MTI6CitleHRlcm4gdWludDMyX3QgY2lfZW50cnko
-dWludDMyX3QgcGFyYW1zKTsKCkVSUk9SOiBleHRlcm5zIHNob3VsZCBiZSBhdm9pZGVkIGluIC5j
-IGZpbGVzCiMxNTQyOiBGSUxFOiBwYy1iaW9zL3ZvZi9jaS5jOjE0OgorZXh0ZXJuIHVuc2lnbmVk
-IGxvbmcgaHZfcnRhcyh1bnNpZ25lZCBsb25nIHBhcmFtcyk7CgpFUlJPUjogZXh0ZXJucyBzaG91
-bGQgYmUgYXZvaWRlZCBpbiAuYyBmaWxlcwojMTU0MzogRklMRTogcGMtYmlvcy92b2YvY2kuYzox
-NToKK2V4dGVybiB1bnNpZ25lZCBpbnQgaHZfcnRhc19zaXplOwoKRVJST1I6IGNvZGUgaW5kZW50
-IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTU0NzogRklMRTogcGMtYmlvcy92b2YvY2kuYzoxOToK
-K15Jdm9pZCAqcnRhc2Jhc2U7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2Ug
-dGFicwojMTU0ODogRklMRTogcGMtYmlvcy92b2YvY2kuYzoyMDoKK15JdWludDMyX3QgcnRhc3Np
-emUgPSAwOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE1NDk6
-IEZJTEU6IHBjLWJpb3Mvdm9mL2NpLmM6MjE6CiteSXBoYW5kbGUgcnRhczskCgpFUlJPUjogY29k
-ZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMxNTUxOiBGSUxFOiBwYy1iaW9zL3ZvZi9j
-aS5jOjIzOgorXklpZiAoc3RyY21wKCJjYWxsLW1ldGhvZCIsICh2b2lkICopKHVuc2lnbmVkIGxv
-bmcpIHBhcmdzLT5zZXJ2aWNlKSkkCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9y
-IGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiMxNTUxOiBGSUxFOiBwYy1iaW9zL3ZvZi9jaS5j
-OjIzOgorICAgICAgIGlmIChzdHJjbXAoImNhbGwtbWV0aG9kIiwgKHZvaWQgKikodW5zaWduZWQg
-bG9uZykgcGFyZ3MtPnNlcnZpY2UpKQpbLi4uXQoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBu
-ZXZlciB1c2UgdGFicwojMTU1MjogRklMRTogcGMtYmlvcy92b2YvY2kuYzoyNDoKK15JXklyZXR1
-cm4gZmFsc2U7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTU1
-NDogRklMRTogcGMtYmlvcy92b2YvY2kuYzoyNjoKK15JaWYgKHN0cmNtcCgiaW5zdGFudGlhdGUt
-cnRhcyIsICh2b2lkICopKHVuc2lnbmVkIGxvbmcpIHBhcmdzLT5hcmdzWzBdKSkkCgpFUlJPUjog
-YnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiMx
-NTU0OiBGSUxFOiBwYy1iaW9zL3ZvZi9jaS5jOjI2OgorICAgICAgIGlmIChzdHJjbXAoImluc3Rh
-bnRpYXRlLXJ0YXMiLCAodm9pZCAqKSh1bnNpZ25lZCBsb25nKSBwYXJncy0+YXJnc1swXSkpClsu
-Li5dCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMxNTU1OiBGSUxF
-OiBwYy1iaW9zL3ZvZi9jaS5jOjI3OgorXkleSXJldHVybiBmYWxzZTskCgpFUlJPUjogY29kZSBp
-bmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMxNTU3OiBGSUxFOiBwYy1iaW9zL3ZvZi9jaS5j
-OjI5OgorXklydGFzID0gY2lfZmluZGRldmljZSgiL3J0YXMiKTskCgpFUlJPUjogY29kZSBpbmRl
-bnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMxNTU4OiBGSUxFOiBwYy1iaW9zL3ZvZi9jaS5jOjMw
-OgorXkljaV9nZXRwcm9wKHJ0YXMsICJydGFzLXNpemUiLCAmcnRhc3NpemUsIHNpemVvZihydGFz
-c2l6ZSkpOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE1NTk6
-IEZJTEU6IHBjLWJpb3Mvdm9mL2NpLmM6MzE6CiteSWlmIChydGFzc2l6ZSA8IGh2X3J0YXNfc2l6
-ZSkkCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMg
-c3RhdGVtZW50CiMxNTU5OiBGSUxFOiBwYy1iaW9zL3ZvZi9jaS5jOjMxOgorICAgICAgIGlmIChy
-dGFzc2l6ZSA8IGh2X3J0YXNfc2l6ZSkKWy4uLl0KCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQg
-bmV2ZXIgdXNlIHRhYnMKIzE1NjA6IEZJTEU6IHBjLWJpb3Mvdm9mL2NpLmM6MzI6CiteSV5JcmV0
-dXJuIGZhbHNlOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE1
-NjI6IEZJTEU6IHBjLWJpb3Mvdm9mL2NpLmM6MzQ6CiteSXJ0YXNiYXNlID0gKHZvaWQgKikodW5z
-aWduZWQgbG9uZykgcGFyZ3MtPmFyZ3NbMl07JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBu
-ZXZlciB1c2UgdGFicwojMTU2NDogRklMRTogcGMtYmlvcy92b2YvY2kuYzozNjoKK15JbWVtY3B5
-KHJ0YXNiYXNlLCBodl9ydGFzLCBodl9ydGFzX3NpemUpOyQKCkVSUk9SOiBjb2RlIGluZGVudCBz
-aG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE1NjU6IEZJTEU6IHBjLWJpb3Mvdm9mL2NpLmM6Mzc6Cite
-SXBhcmdzLT5hcmdzW3BhcmdzLT5uYXJnc10gPSAwOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91
-bGQgbmV2ZXIgdXNlIHRhYnMKIzE1NjY6IEZJTEU6IHBjLWJpb3Mvdm9mL2NpLmM6Mzg6CiteSXBh
-cmdzLT5hcmdzW3BhcmdzLT5uYXJncyArIDFdID0gcGFyZ3MtPmFyZ3NbMl07JAoKRVJST1I6IGNv
-ZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTU2ODogRklMRTogcGMtYmlvcy92b2Yv
-Y2kuYzo0MDoKK15JcmV0dXJuIHRydWU7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZl
-ciB1c2UgdGFicwojMTU3MzogRklMRTogcGMtYmlvcy92b2YvY2kuYzo0NToKK15JaWYgKCFwcm9t
-X2hhbmRsZSgodm9pZCAqKSh1bnNpZ25lZCBsb25nKSBhcmdzKSkkCgpFUlJPUjogYnJhY2VzIHt9
-IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiMxNTczOiBGSUxF
-OiBwYy1iaW9zL3ZvZi9jaS5jOjQ1OgorICAgICAgIGlmICghcHJvbV9oYW5kbGUoKHZvaWQgKiko
-dW5zaWduZWQgbG9uZykgYXJncykpClsuLi5dCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5l
-dmVyIHVzZSB0YWJzCiMxNTc0OiBGSUxFOiBwYy1iaW9zL3ZvZi9jaS5jOjQ2OgorXkleSWNpX2Vu
-dHJ5KGFyZ3MpOyQKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMg
-b2YgdGhpcyBzdGF0ZW1lbnQKIzE1ODg6IEZJTEU6IHBjLWJpb3Mvdm9mL2NpLmM6NjA6CisgICAg
-ICAgIGZvciAoaSA9IDA7IGkgPCBuYXJnczsgaSsrKQpbLi4uXQoKRVJST1I6IGJyYWNlcyB7fSBh
-cmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMTU5MjogRklMRTog
-cGMtYmlvcy92b2YvY2kuYzo2NDoKKyAgICAgICAgZm9yIChpID0gMDsgaSA8IG5yZXQ7IGkrKykK
-Wy4uLl0KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJysnIChjdHg6VnhWKQoj
-MTU5MzogRklMRTogcGMtYmlvcy92b2YvY2kuYzo2NToKKyAgICAgICAgICAgICAgICBhcmdzLmFy
-Z3NbbmFyZ3MraV0gPSAwOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9S
-OiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQK
-IzE1OTU6IEZJTEU6IHBjLWJpb3Mvdm9mL2NpLmM6Njc6CisgICAgICAgIGlmIChjaV9lbnRyeSgo
-dWludDMyX3QpKCZhcmdzKSkgPCAwKQpbLi4uXQoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBu
-ZXZlciB1c2UgdGFicwojMTYwMzogRklMRTogcGMtYmlvcy92b2YvY2kuYzo3NToKK15JY2FsbF9w
-cm9tKCJleGl0IiwgMCwgMCk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2Ug
-dGFicwojMTYwODogRklMRTogcGMtYmlvcy92b2YvY2kuYzo4MDoKK15JcmV0dXJuIGNhbGxfcHJv
-bSgiZmluZGRldmljZSIsIDEsIDEsIHBhdGgpOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQg
-bmV2ZXIgdXNlIHRhYnMKIzE2MTM6IEZJTEU6IHBjLWJpb3Mvdm9mL2NpLmM6ODU6CiteSXJldHVy
-biBjYWxsX3Byb20oImdldHByb3AiLCA0LCAxLCBwaCwgcHJvcG5hbWUsIHByb3AsIGxlbik7JAoK
-RVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTYxODogRklMRTogcGMt
-Ymlvcy92b2YvY2kuYzo5MDoKK15JcmV0dXJuIGNhbGxfcHJvbSgib3BlbiIsIDEsIDEsIHBhdGgp
-OyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE2MjM6IEZJTEU6
-IHBjLWJpb3Mvdm9mL2NpLmM6OTU6CiteSWNhbGxfcHJvbSgiY2xvc2UiLCAxLCAwLCBpaCk7JAoK
-RVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTYyODogRklMRTogcGMt
-Ymlvcy92b2YvY2kuYzoxMDA6CiteSXVpbnQzMl90IHJldCA9IGNhbGxfcHJvbSgiY2xhaW0iLCAz
-LCAxLCBBRERSKHZpcnQpLCBzaXplLCBhbGlnbik7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3Vs
-ZCBuZXZlciB1c2UgdGFicwojMTYzMDogRklMRTogcGMtYmlvcy92b2YvY2kuYzoxMDI6CiteSXJl
-dHVybiAodm9pZCAqKSAodW5zaWduZWQgbG9uZykgcmV0OyQKCkVSUk9SOiBjb2RlIGluZGVudCBz
-aG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE2MzU6IEZJTEU6IHBjLWJpb3Mvdm9mL2NpLmM6MTA3Ogor
-XklyZXR1cm4gY2FsbF9wcm9tKCJyZWxlYXNlIiwgMiwgMSwgQUREUih2aXJ0KSwgc2l6ZSk7JAoK
-RVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTc1ODogRklMRTogcGMt
-Ymlvcy92b2YvbGliYy5jOjU6CiteSWludCBsZW4gPSAwOyQKCkVSUk9SOiBjb2RlIGluZGVudCBz
-aG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE3NjA6IEZJTEU6IHBjLWJpb3Mvdm9mL2xpYmMuYzo3Ogor
-Xkl3aGlsZSAoKnMgIT0gMCkgeyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNl
-IHRhYnMKIzE3NjE6IEZJTEU6IHBjLWJpb3Mvdm9mL2xpYmMuYzo4OgorXkleSWxlbiArPSAxOyQK
-CkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE3NjI6IEZJTEU6IHBj
-LWJpb3Mvdm9mL2xpYmMuYzo5OgorXkleSXMgKz0gMTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hv
-dWxkIG5ldmVyIHVzZSB0YWJzCiMxNzYzOiBGSUxFOiBwYy1iaW9zL3ZvZi9saWJjLmM6MTA6Cite
-SX0kCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMxNzY1OiBGSUxF
-OiBwYy1iaW9zL3ZvZi9saWJjLmM6MTI6CiteSXJldHVybiBsZW47JAoKRVJST1I6IGJyYWNlcyB7
-fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMTc3MTogRklM
-RTogcGMtYmlvcy92b2YvbGliYy5jOjE4OgorICAgICAgICAgICAgICAgIGlmICgqczEgIT0gKnMy
-KQpbLi4uXQoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0
-aGlzIHN0YXRlbWVudAojMTc5OTogRklMRTogcGMtYmlvcy92b2YvbGliYy5jOjQ2OgorICAgICAg
-ICAgICAgICAgIGlmICgqcDEgIT0gKnAyKQpbLi4uXQoKRVJST1I6IHJldHVybiBpcyBub3QgYSBm
-dW5jdGlvbiwgcGFyZW50aGVzZXMgYXJlIG5vdCByZXF1aXJlZAojMTgwMDogRklMRTogcGMtYmlv
-cy92b2YvbGliYy5jOjQ3OgorICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuICgqcDEgLSAq
-cDIpOwoKRVJST1I6IGVsc2Ugc2hvdWxkIGZvbGxvdyBjbG9zZSBicmFjZSAnfScKIzE4MjM6IEZJ
-TEU6IHBjLWJpb3Mvdm9mL2xpYmMuYzo3MDoKKyAgICAgICAgfQorICAgICAgICBlbHNlIHsKCkVS
-Uk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE4NTY6IEZJTEU6IHBjLWJp
-b3Mvdm9mL21haW4uYzo2OgorXklyZWdpc3RlciB1bnNpZ25lZCBsb25nIHIzIF9fYXNtX18oInIz
-IikgPSBfcjM7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTg1
-NzogRklMRTogcGMtYmlvcy92b2YvbWFpbi5jOjc6CiteSXJlZ2lzdGVyIHVuc2lnbmVkIGxvbmcg
-cjQgX19hc21fXygicjQiKSA9IF9yNDskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVy
-IHVzZSB0YWJzCiMxODU4OiBGSUxFOiBwYy1iaW9zL3ZvZi9tYWluLmM6ODoKK15JcmVnaXN0ZXIg
-dW5zaWduZWQgbG9uZyByNSBfX2FzbV9fKCJyNSIpID0gKHVuc2lnbmVkIGxvbmcpIF9wcm9tX2Vu
-dHJ5OyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE4NjA6IEZJ
-TEU6IHBjLWJpb3Mvdm9mL21haW4uYzoxMDoKK15JKChjbGllbnQgKikodWludDMyX3QpYWRkciko
-KTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMxODY1OiBGSUxF
-OiBwYy1iaW9zL3ZvZi9tYWluLmM6MTU6CiteSXJlZ2lzdGVyIHVuc2lnbmVkIGxvbmcgcjMgX19h
-c21fXygicjMiKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMx
-ODY2OiBGSUxFOiBwYy1iaW9zL3ZvZi9tYWluLmM6MTY6CiteSXJlZ2lzdGVyIHVuc2lnbmVkIGxv
-bmcgcjQgX19hc21fXygicjQiKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVz
-ZSB0YWJzCiMxODY3OiBGSUxFOiBwYy1iaW9zL3ZvZi9tYWluLmM6MTc6CiteSXJlZ2lzdGVyIHVu
-c2lnbmVkIGxvbmcgcjUgX19hc21fXygicjUiKTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxk
-IG5ldmVyIHVzZSB0YWJzCiMxODY4OiBGSUxFOiBwYy1iaW9zL3ZvZi9tYWluLmM6MTg6CiteSXVp
-bnQ2NF90IGluaXRyZCA9IHIzLCBpbml0cmRzaXplID0gcjQ7JAoKRVJST1I6IGNvZGUgaW5kZW50
-IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTg3MDogRklMRTogcGMtYmlvcy92b2YvbWFpbi5jOjIw
-OgorXklib290X2Zyb21fbWVtb3J5KGluaXRyZCwgaW5pdHJkc2l6ZSk7JAoKRVJST1I6IGNvZGUg
-aW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTg3MTogRklMRTogcGMtYmlvcy92b2YvbWFp
-bi5jOjIxOgorXkljaV9wYW5pYygiKioqIE5vIGJvb3QgdGFyZ2V0ICoqKlxuIik7JAoKdG90YWw6
-IDYzIGVycm9ycywgMyB3YXJuaW5ncywgMTc0MyBsaW5lcyBjaGVja2VkCgpDb21taXQgNDUzZWYy
-YmQwMWM2IChzcGFwcjogSW1wbGVtZW50IE9wZW4gRmlybXdhcmUgY2xpZW50IGludGVyZmFjZSkg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1h
-bmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
-cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDEyMTgwMjUwNDAuOTgxMzItMS1haWtAb3psYWJzLnJ1
-L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
-dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
-ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+
+Hi
+
+This is the v14 of the patchset. Thank you very much for reviewing v13 and
+sharing your feedback.
+
+We have addressed all the comments from the v13 review with changelog below:
+
+- [PATCH v14 05/21] multi-process: Add config option for multi-process QEMU
+  add config option to disable the feature (--disable-multiprocess).
+
+- [PATCH v14 08/21] multi-process: add qio channel write function
+- [PATCH v14 09/21] multi-process: add qio channel read function
+  refactor code in qio channel and split in two for read and write.
+
+- [PATCH v14 04/21] socket: export socket_get_fd() function
+  export socket_get_fd() and use in remote process with some
+  modifications.
+
+In addition, we will be sending a follow-up patch with the acceptance
+test that can be used to verify that this feature is working correctly.
+
+From the v13 review few items are TODOs:
+- Prefix log messages with PID in the logging subsystem.
+- Refactor the MemoryListener code in vfio-user and multi-process code
+  to avoid logic duplication.
+
+To touch upon the history of this project, we posted the Proof Of Concept
+patches before the BoF session in 2018. Subsequently, we have posted 13 
+versions on the qemu-devel mailing list. You can find them by following the
+links below ([1] - [13]). Following people contributed to the design and
+implementation of this project:
+Jagannathan Raman <jag.raman@oracle.com>
+Elena Ufimtseva <elena.ufimtseva@oracle.com>
+John G Johnson <john.g.johnson@oracle.com>
+Stefan Hajnoczi <stefanha@redhat.com>
+Konrad Wilk <konrad.wilk@oracle.com>
+Kanth Ghatraju <kanth.ghatraju@oracle.com>
+
+We would like to thank the QEMU community for your feedback in the
+design and implementation of this project. Qemu wiki page:
+https://wiki.qemu.org/Features/MultiProcessQEMU
+
+For the full concept writeup about QEMU multi-process, please
+refer to docs/devel/qemu-multiprocess.rst. Also, see
+docs/qemu-multiprocess.txt for usage information.
+
+Thank you for reviewing these series.
+
+[POC]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.html
+[1]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg602285.html
+[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg624877.html
+[3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.html
+[4]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg655118.html
+[5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg682429.html
+[6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg697484.html
+[7]: https://patchew.org/QEMU/cover.1593273671.git.elena.ufimtseva@oracle.com/
+[8]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg727007.html
+[9]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg734275.html
+[10]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg747638.html
+[11]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg750972.html
+[12]: https://patchew.org/QEMU/cover.1606853298.git.jag.raman@oracle.com/
+[13]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg766825.html
+
+Elena Ufimtseva (8):
+  multi-process: add configure and usage information
+  multi-process: add qio channel write function
+  multi-process: add qio channel read function
+  multi-process: define MPQemuMsg format and transmission functions
+  multi-process: introduce proxy object
+  multi-process: add proxy communication functions
+  multi-process: Forward PCI config space acceses to the remote process
+  multi-process: perform device reset in the remote process
+
+Jagannathan Raman (12):
+  memory: alloc RAM from file at offset
+  socket: export socket_get_fd() function
+  multi-process: Add config option for multi-process QEMU
+  multi-process: setup PCI host bridge for remote device
+  multi-process: setup a machine object for remote device process
+  multi-process: Initialize message handler in remote device
+  multi-process: Associate fd of a PCIDevice with its object
+  multi-process: setup memory manager for remote device
+  multi-process: PCI BAR read/write handling for proxy & remote
+    endpoints
+  multi-process: Synchronize remote memory
+  multi-process: create IOHUB object to handle irq
+  multi-process: Retrieve PCI info from remote process
+
+John G Johnson (1):
+  multi-process: add the concept description to
+    docs/devel/qemu-multiprocess
+
+ docs/devel/index.rst                      |   1 +
+ docs/devel/multi-process.rst              | 966 ++++++++++++++++++++++
+ docs/multi-process.rst                    |  64 ++
+ configure                                 |  10 +
+ meson.build                               |   3 +
+ hw/remote/trace.h                         |   1 +
+ include/exec/memory.h                     |   2 +
+ include/exec/ram_addr.h                   |   2 +-
+ include/hw/pci-host/remote.h              |  31 +
+ include/hw/pci/pci_ids.h                  |   3 +
+ include/hw/remote/iohub.h                 |  42 +
+ include/hw/remote/machine.h               |  40 +
+ include/hw/remote/memory.h                |  19 +
+ include/hw/remote/mpqemu-link.h           |  99 +++
+ include/hw/remote/proxy-memory-listener.h |  28 +
+ include/hw/remote/proxy.h                 |  52 ++
+ include/io/channel.h                      |  50 ++
+ include/qemu/mmap-alloc.h                 |   4 +-
+ include/qemu/sockets.h                    |   1 +
+ include/sysemu/iothread.h                 |   6 +
+ backends/hostmem-memfd.c                  |   2 +-
+ hw/misc/ivshmem.c                         |   3 +-
+ hw/pci-host/remote.c                      |  75 ++
+ hw/remote/iohub.c                         | 119 +++
+ hw/remote/machine.c                       |  80 ++
+ hw/remote/memory.c                        |  65 ++
+ hw/remote/message.c                       | 230 ++++++
+ hw/remote/mpqemu-link.c                   | 267 ++++++
+ hw/remote/proxy-memory-listener.c         | 227 +++++
+ hw/remote/proxy.c                         | 371 +++++++++
+ hw/remote/remote-obj.c                    | 194 +++++
+ io/channel.c                              |  88 +-
+ iothread.c                                |   6 +
+ softmmu/memory.c                          |   3 +-
+ softmmu/physmem.c                         |  11 +-
+ stubs/monitor.c                           |   2 +-
+ tests/test-util-sockets.c                 |   2 +-
+ util/mmap-alloc.c                         |   7 +-
+ util/oslib-posix.c                        |   2 +-
+ util/qemu-sockets.c                       |  18 +-
+ Kconfig.host                              |   4 +
+ MAINTAINERS                               |  24 +
+ hw/Kconfig                                |   1 +
+ hw/meson.build                            |   1 +
+ hw/pci-host/Kconfig                       |   3 +
+ hw/pci-host/meson.build                   |   1 +
+ hw/remote/Kconfig                         |   4 +
+ hw/remote/meson.build                     |  13 +
+ hw/remote/trace-events                    |   4 +
+ 49 files changed, 3202 insertions(+), 49 deletions(-)
+ create mode 100644 docs/devel/multi-process.rst
+ create mode 100644 docs/multi-process.rst
+ create mode 100644 hw/remote/trace.h
+ create mode 100644 include/hw/pci-host/remote.h
+ create mode 100644 include/hw/remote/iohub.h
+ create mode 100644 include/hw/remote/machine.h
+ create mode 100644 include/hw/remote/memory.h
+ create mode 100644 include/hw/remote/mpqemu-link.h
+ create mode 100644 include/hw/remote/proxy-memory-listener.h
+ create mode 100644 include/hw/remote/proxy.h
+ create mode 100644 hw/pci-host/remote.c
+ create mode 100644 hw/remote/iohub.c
+ create mode 100644 hw/remote/machine.c
+ create mode 100644 hw/remote/memory.c
+ create mode 100644 hw/remote/message.c
+ create mode 100644 hw/remote/mpqemu-link.c
+ create mode 100644 hw/remote/proxy-memory-listener.c
+ create mode 100644 hw/remote/proxy.c
+ create mode 100644 hw/remote/remote-obj.c
+ create mode 100644 hw/remote/Kconfig
+ create mode 100644 hw/remote/meson.build
+ create mode 100644 hw/remote/trace-events
+
+-- 
+2.25.GIT
+
 
