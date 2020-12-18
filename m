@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E1C2DEA8A
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 21:54:18 +0100 (CET)
-Received: from localhost ([::1]:50756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4DD2DEAAE
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 22:01:51 +0100 (CET)
+Received: from localhost ([::1]:44042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqMlV-0000en-UW
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 15:54:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55352)
+	id 1kqMso-0001bX-QX
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 16:01:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqMkV-0008OD-SN
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 15:53:15 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:52279)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqMkT-0002Zj-WF
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 15:53:15 -0500
-Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MRTEp-1kT2bC0klx-00NVFl; Fri, 18 Dec 2020 21:53:11 +0100
-Subject: Re: [PATCH v3 1/4] linux-user: Support F_ADD_SEALS and F_GET_SEALS
- fcntls
-To: Shu-Chun Weng <scw@google.com>, qemu-devel@nongnu.org
-References: <20201218193213.3566856-1-scw@google.com>
- <20201218193213.3566856-2-scw@google.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <0dec5768-0686-f08f-ad8c-eb09befd7938@vivier.eu>
-Date: Fri, 18 Dec 2020 21:53:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqMlY-00010g-GW
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 15:54:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21423)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqMlV-0002u6-1s
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 15:54:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608324856;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8G7rK1+9CMAm0lbNyoSKVAwFiR91RgEkGOevG1efrgQ=;
+ b=GRQrliFIZs6grn0TmTGUKugpuCCan9mr2iSm5AxU83Di+8KJ2fj7gXFgQMZoMnfBZ2RXN8
+ a3ZsuyPY+Mx7tk2AE1Tj6Mautm4hdE+TJsm95PGN/bVDPQtOhI/azc5kyoVXnE8hdEGHc2
+ 7apXb4ggiH+81zt+9poS5iTBLAf1TjY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-HlTN3LuQPBCPrWpD6GATKQ-1; Fri, 18 Dec 2020 15:54:14 -0500
+X-MC-Unique: HlTN3LuQPBCPrWpD6GATKQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81C8E801817
+ for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 20:54:13 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79C5810013C0;
+ Fri, 18 Dec 2020 20:54:09 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CBE0A1130358; Fri, 18 Dec 2020 21:54:07 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/11] Drop support for QAPIGen without a file name
+Date: Fri, 18 Dec 2020 21:53:56 +0100
+Message-Id: <20201218205407.1326907-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201218193213.3566856-2-scw@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:P5CtoGye7neHBI6X7oaxkI/s8jPDf96TbJs1Ix6sGTaRdPurp9I
- ByNEhWPeFPgVZkXDq6kW2zpsXiUcq+CHxYzfe6/bqQeDoItZeuFzHwdS4XvSr3JT/wl8t3r
- vu/TOcV/ZEG3CxOcuHF92gQmlY6SVOke3E3m69pjScC/HVWwHMtrvCigE9t3gEWLH7HZdEV
- JblF7H25KNwgYwa00l9uw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+uVPiZcyIUM=:jCxaBhcorZ19CRlcRdmQS2
- u7qX/bcHW11yr6NTC7SGZ6meQHCrtSBGb0GnljA9tGmwQciD1ah9Hb5OdDEzO2k6GW3ExGkdW
- WtjVQuNukIN7sg7ri3msqqGwcHgkRZa0WgP/5lATYlWDZmxvgNeGK66BRS+GEU4WHlmxdY6hE
- FdLo+Ls7NYnu6rsL5GRDcghI6YYZaDLrb+11dDAi/RnkcJCw4ChayeNyWCjvbZm9MCYKjNtaY
- XArfxBrzE5f+Xm5yAU+DC2eynwpeP0lbGuQY5MFwaefqlKFu2Bd2EBT9fRf3POUOZDxCz+19z
- q2V51cz7obHmX5/6vwejsi+komm5B6QN0VgqAXX1ryc7Uc8KBl+WIlxzWrAFAW9yJ547wndNr
- cWyLV/fBS7OR7r9xDjqhX79B01KupdYhwWXfhnO0y6AW0R4TOQIjF3rxFJqmQvZtEMLYJkSdp
- GncLtarQqw==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,145 +76,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: marcandre.lureau@redhat.com, jsnow@redhat.com, ehabkost@redhat.com,
+ crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 18/12/2020 à 20:32, Shu-Chun Weng via a écrit :
-> Also reorder blocks so that they are all in the same order everywhere.
-> 
-> Signed-off-by: Shu-Chun Weng <scw@google.com>
-> ---
-> v1 -> v2:
->   Updated print_fcntl().
-> 
-> v2 -> v3:
->   Rebase to master on Dec 18, 2020
-> 
->  linux-user/strace.c       | 39 ++++++++++++++++++++++++++++++++-------
->  linux-user/syscall.c      | 10 ++++++++++
->  linux-user/syscall_defs.h | 14 ++++++++------
->  3 files changed, 50 insertions(+), 13 deletions(-)
-> 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index e00275fcb5..227812c07e 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -2066,11 +2066,34 @@ print_fcntl(void *cpu_env, const struct syscallname *name,
->          break;
->      case TARGET_F_SETLEASE:
->          qemu_log("F_SETLEASE,");
-> -        print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
-> +        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
->          break;
->      case TARGET_F_GETLEASE:
->          qemu_log("F_GETLEASE");
->          break;
-> +#ifdef F_DUPFD_CLOEXEC
-> +    case TARGET_F_DUPFD_CLOEXEC:
-> +        qemu_log("F_DUPFD_CLOEXEC,");
-> +        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
-> +        break;
-> +#endif
-> +    case TARGET_F_NOTIFY:
-> +        qemu_log("F_NOTIFY,");
-> +        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
-> +        break;
-> +#ifdef F_GETOWN_EX
-> +    case TARGET_F_GETOWN_EX:
-> +        qemu_log("F_GETOWN_EX,");
-> +        print_pointer(arg2, 1);
-> +        break;
-> +#endif
-> +#ifdef F_SETOWN_EX
-> +    case TARGET_F_SETOWN_EX:
-> +        qemu_log("F_SETOWN_EX,");
-> +        print_pointer(arg2, 1);
-> +        break;
-> +#endif
-> +#ifdef F_SETPIPE_SZ
->      case TARGET_F_SETPIPE_SZ:
->          qemu_log("F_SETPIPE_SZ,");
->          print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
-> @@ -2078,14 +2101,16 @@ print_fcntl(void *cpu_env, const struct syscallname *name,
->      case TARGET_F_GETPIPE_SZ:
->          qemu_log("F_GETPIPE_SZ");
->          break;
-> -    case TARGET_F_DUPFD_CLOEXEC:
-> -        qemu_log("F_DUPFD_CLOEXEC,");
-> -        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
-> +#endif
-> +#ifdef F_ADD_SEALS
-> +    case TARGET_F_ADD_SEALS:
-> +        qemu_log("F_ADD_SEALS,");
-> +        print_raw_param("0x"TARGET_ABI_FMT_lx, arg2, 1);
->          break;
-> -    case TARGET_F_NOTIFY:
-> -        qemu_log("F_NOTIFY,");
-> -        print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
-> +    case TARGET_F_GET_SEALS:
-> +        qemu_log("F_GET_SEALS");
->          break;
-> +#endif
->      default:
->          print_raw_param(TARGET_ABI_FMT_ld, arg1, 0);
->          print_pointer(arg2, 1);
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 7bf99beb18..be39cf8215 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -6596,6 +6596,14 @@ static int target_to_host_fcntl_cmd(int cmd)
->      case TARGET_F_GETPIPE_SZ:
->          ret = F_GETPIPE_SZ;
->          break;
-> +#endif
-> +#ifdef F_ADD_SEALS
-> +    case TARGET_F_ADD_SEALS:
-> +        ret = F_ADD_SEALS;
-> +        break;
-> +    case TARGET_F_GET_SEALS:
-> +        ret = F_GET_SEALS;
-> +        break;
->  #endif
->      default:
->          ret = -TARGET_EINVAL;
-> @@ -6888,6 +6896,8 @@ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
->      case TARGET_F_GETLEASE:
->      case TARGET_F_SETPIPE_SZ:
->      case TARGET_F_GETPIPE_SZ:
-> +    case TARGET_F_ADD_SEALS:
-> +    case TARGET_F_GET_SEALS:
->          ret = get_errno(safe_fcntl(fd, host_cmd, arg));
->          break;
->  
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index b934d0b606..1beaa71d37 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -2376,12 +2376,14 @@ struct target_statfs64 {
->  #endif
->  
->  #define TARGET_F_LINUX_SPECIFIC_BASE 1024
-> -#define TARGET_F_SETLEASE (TARGET_F_LINUX_SPECIFIC_BASE + 0)
-> -#define TARGET_F_GETLEASE (TARGET_F_LINUX_SPECIFIC_BASE + 1)
-> -#define TARGET_F_DUPFD_CLOEXEC (TARGET_F_LINUX_SPECIFIC_BASE + 6)
-> -#define TARGET_F_SETPIPE_SZ (TARGET_F_LINUX_SPECIFIC_BASE + 7)
-> -#define TARGET_F_GETPIPE_SZ (TARGET_F_LINUX_SPECIFIC_BASE + 8)
-> -#define TARGET_F_NOTIFY  (TARGET_F_LINUX_SPECIFIC_BASE+2)
-> +#define TARGET_F_SETLEASE            (TARGET_F_LINUX_SPECIFIC_BASE + 0)
-> +#define TARGET_F_GETLEASE            (TARGET_F_LINUX_SPECIFIC_BASE + 1)
-> +#define TARGET_F_DUPFD_CLOEXEC       (TARGET_F_LINUX_SPECIFIC_BASE + 6)
-> +#define TARGET_F_NOTIFY              (TARGET_F_LINUX_SPECIFIC_BASE + 2)
-> +#define TARGET_F_SETPIPE_SZ          (TARGET_F_LINUX_SPECIFIC_BASE + 7)
-> +#define TARGET_F_GETPIPE_SZ          (TARGET_F_LINUX_SPECIFIC_BASE + 8)
-> +#define TARGET_F_ADD_SEALS           (TARGET_F_LINUX_SPECIFIC_BASE + 9)
-> +#define TARGET_F_GET_SEALS           (TARGET_F_LINUX_SPECIFIC_BASE + 10)
->  
->  #include "target_fcntl.h"
->  
-> 
+John Snow posted
 
-Series applied to my linux-user-for-6.0 branch
+    [PATCH 09/12] qapi/gen: move write method to QAPIGenC, make fname a str
 
-Thanks,
-Laurent
+    QAPIGenC and QAPIGenH in particular depend on fname being defined, but
+    we have a usage of QAPIGenCCode that isn't intended to be associated
+    with a particular file.
+
+    No problem, move the write method down to the class that actually needs
+    it, and keep QAPIGenCCode more abstract.
+
+    Signed-off-by: John Snow <jsnow@redhat.com>
+    ---
+     scripts/qapi/commands.py |  2 +-
+     scripts/qapi/gen.py      | 54 ++++++++++++++++++++--------------------
+     2 files changed, 28 insertions(+), 28 deletions(-)
+
+There is just one user of QAPIGen without a file name, and it's
+awkward.  Let's get rid of it.
+
+Since my work to get rid of it depends on parts of John's series, and
+I'm pressed for time, I include the parts I need in my series.  John,
+feel free to pick this into your complete series.
+
+John Snow (6):
+  qapi/commands: assert arg_type is not None
+  qapi/events: fix visit_event typing
+  qapi/main: handle theoretical None-return from re.match()
+  qapi/gen: assert that _start_if is not None in _wrap_ifcond
+  qapi/gen: use './builtin' for the built-in module name
+  qapi/gen: write _genc/_genh access shims
+
+Markus Armbruster (5):
+  qapi/gen: Replace ._begin_system_module()
+  qapi/gen: Expose a single module name space
+  qapi/gen: Support for switching to another module temporarily
+  qapi/commands: Simplify command registry generation
+  qapi/gen: Drop support for QAPIGen without a file name
+
+ scripts/qapi/commands.py | 60 ++++++++++++++++-----------------
+ scripts/qapi/events.py   | 14 ++++----
+ scripts/qapi/gen.py      | 72 +++++++++++++++++++++++-----------------
+ scripts/qapi/main.py     |  2 ++
+ scripts/qapi/types.py    |  2 +-
+ scripts/qapi/visit.py    |  2 +-
+ 6 files changed, 82 insertions(+), 70 deletions(-)
+
+-- 
+2.26.2
+
 
