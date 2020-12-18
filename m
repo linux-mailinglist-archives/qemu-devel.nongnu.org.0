@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04ACA2DDDD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 06:23:22 +0100 (CET)
-Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 125232DDE04
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 06:25:59 +0100 (CET)
+Received: from localhost ([::1]:34884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq8Eb-0008S0-2U
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 00:23:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45450)
+	id 1kq8H8-0002U0-1G
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 00:25:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kq8D4-0007EO-V1
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 00:21:46 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:41632)
+ id 1kq8FD-0001eB-Kn
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 00:24:00 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:43226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1kq8D1-0004tQ-LH
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 00:21:46 -0500
+ id 1kq8Eu-0005Qm-VD
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 00:23:59 -0500
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BI5JmqJ046261;
- Fri, 18 Dec 2020 05:21:33 GMT
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BI5JuvQ046294;
+ Fri, 18 Dec 2020 05:23:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2020-01-29;
- bh=ONlW5mKiaBlNnYIw4pW7Ix+VlxdnVg6WmCbAhlQbLB0=;
- b=I4zD96lzZoCfgiUpsaaSRWu//kvZ92ugpIL1cFFl0Xqa2G8un6Wko24/as1Jz4uc9mW1
- ob9p7PbGcVf2bipDnM0vr6OgEYxvKkTdJomkBAcJsEGGIOGGFpTIRuVa5N/jO8Ddtpn3
- 0NnKxvPB/oiIqPIRwa8fN8q5tTCHssZgdn37uCbxn+BAJFjGJCMNhpVSSRa4AHQ/sRSB
- okiZVC8i1eI652HornXGIoMRpc89pxbdqOpRtEgePp8PRVfhPLmvuiVljVuxXGZFdevx
- 6sLt0EOlb6nj/jdTvzXEowdZHDgbD2PzJui8o6rsZmXoWVi7KQfhpT3y8aUGFKvt+MxA 5Q== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 35cntmgmt0-1
+ bh=kcb4JMB5mX3hd6Jcp0uagYEYIeCXPWbLJDwKbuEvCfw=;
+ b=spSZwjejhoDyDWcThXx7XZKMRR2kKHECl06g+m7onKdCWTo2NQqWZimcAx9ptTq+fHPG
+ pITDtauAkYkQhfJ5TVFWA271FFKCwQVvb4Z0LHoctnCpHoY/fg04YnEOzHoW4xCnYg3c
+ /Bx5j/1ldnkuC++DMcdS5JYT6QLeKC6lUeatfsHf0CbZWGOlNtH+n05WRRxXKHWwC5Az
+ fA9tVjvp2XnsCUBEhVCEtMq6SCTGRp3ls5f/mGywLtLIH+hdbm0gQ2KBoTfhWI33zp2Z
+ 6+TctJQMXWbyGn5jEM0gFSB3I4CM8jZ9+tOaKcUwBsQFHod4AxpiwAc4F28Y/5SSUszb ig== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 35cntmgmwn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 18 Dec 2020 05:21:33 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BI5LIEC008461;
- Fri, 18 Dec 2020 05:21:32 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 35g3rfp8ke-1
+ Fri, 18 Dec 2020 05:23:33 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BI5LL2L127207;
+ Fri, 18 Dec 2020 05:21:33 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 35d7erv1w9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Dec 2020 05:21:32 +0000
+ Fri, 18 Dec 2020 05:21:33 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BI5LVLE025987;
- Fri, 18 Dec 2020 05:21:31 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BI5LWsT014953;
+ Fri, 18 Dec 2020 05:21:32 GMT
 Received: from flaka.hsd1.ca.comcast.net (/10.159.131.68)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 17 Dec 2020 21:21:30 -0800
+ with ESMTP ; Thu, 17 Dec 2020 21:21:32 -0800
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v14 RESEND 03/21] memory: alloc RAM from file at offset
-Date: Thu, 17 Dec 2020 21:20:56 -0800
-Message-Id: <e5af76a1fa5f069ab7daaa2b4a7cd615ff621be2.1608263018.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v14 RESEND 04/21] socket: export socket_get_fd() function
+Date: Thu, 17 Dec 2020 21:20:57 -0800
+Message-Id: <8b5f13cc11701ed8a61273aef88eeee0f0aa44c6.1608263018.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1608263017.git.elena.ufimtseva@oracle.com>
 References: <cover.1608263017.git.elena.ufimtseva@oracle.com>
@@ -62,8 +62,8 @@ Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9838
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0 malwarescore=0
- spamscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
+ spamscore=0 bulkscore=0
+ suspectscore=0 adultscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2012180038
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9838
@@ -76,13 +76,13 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  definitions=main-2012180038
 Received-SPF: pass client-ip=141.146.126.78;
  envelope-from=elena.ufimtseva@oracle.com; helo=aserp2120.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,224 +108,112 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jagannathan Raman <jag.raman@oracle.com>
 
-Allow RAM MemoryRegion to be created from an offset in a file, instead
-of allocating at offset of 0 by default. This is needed to synchronize
-RAM between QEMU & remote process.
+Export socket_get_fd() helper function. The function protorype is
+changed to be more generic. Use monitor_fd_param() instead of
+monitor_fd_get() in order to support named fds as well.
 
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/exec/memory.h     |  2 ++
- include/exec/ram_addr.h   |  2 +-
- include/qemu/mmap-alloc.h |  4 +++-
- backends/hostmem-memfd.c  |  2 +-
- hw/misc/ivshmem.c         |  3 ++-
- softmmu/memory.c          |  3 ++-
- softmmu/physmem.c         | 11 +++++++----
- util/mmap-alloc.c         |  7 ++++---
- util/oslib-posix.c        |  2 +-
- 9 files changed, 23 insertions(+), 13 deletions(-)
+ include/qemu/sockets.h    |  1 +
+ stubs/monitor.c           |  2 +-
+ tests/test-util-sockets.c |  2 +-
+ util/qemu-sockets.c       | 18 ++++++++++--------
+ 4 files changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 521d9901d7..a9d2b669e8 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -990,6 +990,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
-  * @size: size of the region.
-  * @share: %true if memory must be mmaped with the MAP_SHARED flag
-  * @fd: the fd to mmap.
-+ * @offset: offset within the file referenced by fd
-  * @errp: pointer to Error*, to store an error if it happens.
-  *
-  * Note that this function does not do anything to cause the data in the
-@@ -1001,6 +1002,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
-                                     uint64_t size,
-                                     bool share,
-                                     int fd,
-+                                    ram_addr_t offset,
-                                     Error **errp);
- #endif
+diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+index 7d1f813576..d87cf9f1c5 100644
+--- a/include/qemu/sockets.h
++++ b/include/qemu/sockets.h
+@@ -41,6 +41,7 @@ int unix_listen(const char *path, Error **errp);
+ int unix_connect(const char *path, Error **errp);
  
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index c6d2ef1d07..d465a483c6 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -121,7 +121,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
-                                    Error **errp);
- RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-                                  uint32_t ram_flags, int fd,
--                                 Error **errp);
-+                                 off_t offset, Error **errp);
+ SocketAddress *socket_parse(const char *str, Error **errp);
++int socket_get_fd(const char *fdstr, Error **errp);
+ int socket_connect(SocketAddress *addr, Error **errp);
+ int socket_listen(SocketAddress *addr, int num, Error **errp);
+ void socket_listen_cleanup(int fd, Error **errp);
+diff --git a/stubs/monitor.c b/stubs/monitor.c
+index 20786ac4ff..6e6850cd3a 100644
+--- a/stubs/monitor.c
++++ b/stubs/monitor.c
+@@ -3,7 +3,7 @@
+ #include "monitor/monitor.h"
+ #include "../monitor/monitor-internal.h"
  
- RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void *host,
-                                   MemoryRegion *mr, Error **errp);
-diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
-index e786266b92..b096ffb7e9 100644
---- a/include/qemu/mmap-alloc.h
-+++ b/include/qemu/mmap-alloc.h
-@@ -16,6 +16,7 @@ size_t qemu_mempath_getpagesize(const char *mem_path);
-  *          otherwise, the alignment in use will be determined by QEMU.
-  *  @shared: map has RAM_SHARED flag.
-  *  @is_pmem: map has RAM_PMEM flag.
-+ *  @map_offset: map starts at offset of map_offset from the start of fd
-  *
-  * Return:
-  *  On success, return a pointer to the mapped area.
-@@ -25,7 +26,8 @@ void *qemu_ram_mmap(int fd,
-                     size_t size,
-                     size_t align,
-                     bool shared,
--                    bool is_pmem);
-+                    bool is_pmem,
-+                    off_t map_offset);
+-int monitor_get_fd(Monitor *mon, const char *name, Error **errp)
++int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
+ {
+     error_setg(errp, "only QEMU supports file descriptor passing");
+     return -1;
+diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
+index 67486055ed..e790a0af25 100644
+--- a/tests/test-util-sockets.c
++++ b/tests/test-util-sockets.c
+@@ -54,7 +54,7 @@ static int mon_fd = -1;
+ static const char *mon_fdname;
+ __thread Monitor *cur_mon;
  
- void qemu_ram_munmap(int fd, void *ptr, size_t size);
- 
-diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
-index e5626d4330..69b0ae30bb 100644
---- a/backends/hostmem-memfd.c
-+++ b/backends/hostmem-memfd.c
-@@ -55,7 +55,7 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-     name = host_memory_backend_get_name(backend);
-     memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
-                                    name, backend->size,
--                                   backend->share, fd, errp);
-+                                   backend->share, fd, 0, errp);
-     g_free(name);
+-int monitor_get_fd(Monitor *mon, const char *fdname, Error **errp)
++int monitor_fd_param(Monitor *mon, const char *fdname, Error **errp)
+ {
+     g_assert(cur_mon);
+     g_assert(mon == cur_mon);
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 8af0278f15..694552cb7d 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -1116,16 +1116,12 @@ fail:
+     return NULL;
  }
  
-diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
-index e321e5cb69..8d3e1eedbd 100644
---- a/hw/misc/ivshmem.c
-+++ b/hw/misc/ivshmem.c
-@@ -494,7 +494,8 @@ static void process_msg_shmem(IVShmemState *s, int fd, Error **errp)
- 
-     /* mmap the region and map into the BAR2 */
-     memory_region_init_ram_from_fd(&s->server_bar2, OBJECT(s),
--                                   "ivshmem.bar2", size, true, fd, &local_err);
-+                                   "ivshmem.bar2", size, true, fd, 0,
-+                                   &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 333e1ed7b0..fa65f45532 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1609,6 +1609,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
-                                     uint64_t size,
-                                     bool share,
-                                     int fd,
-+                                    ram_addr_t offset,
-                                     Error **errp)
+-static int socket_get_fd(const char *fdstr, int num, Error **errp)
++int socket_get_fd(const char *fdstr, Error **errp)
  {
-     Error *err = NULL;
-@@ -1618,7 +1619,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
-     mr->destructor = memory_region_destructor_ram;
-     mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
-                                            share ? RAM_SHARED : 0,
--                                           fd, &err);
-+                                           fd, offset, &err);
-     if (err) {
-         mr->size = int128_zero();
-         object_unparent(OBJECT(mr));
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 2cd1de4a2c..4206dec857 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -1461,6 +1461,7 @@ static void *file_ram_alloc(RAMBlock *block,
-                             ram_addr_t memory,
-                             int fd,
-                             bool truncate,
-+                            off_t offset,
-                             Error **errp)
- {
-     void *area;
-@@ -1511,7 +1512,8 @@ static void *file_ram_alloc(RAMBlock *block,
-     }
+     Monitor *cur_mon = monitor_cur();
+     int fd;
+-    if (num != 1) {
+-        error_setg_errno(errp, EINVAL, "socket_get_fd: too many connections");
+-        return -1;
+-    }
+     if (cur_mon) {
+-        fd = monitor_get_fd(cur_mon, fdstr, errp);
++        fd = monitor_fd_param(cur_mon, fdstr, errp);
+         if (fd < 0) {
+             return -1;
+         }
+@@ -1159,7 +1155,7 @@ int socket_connect(SocketAddress *addr, Error **errp)
+         break;
  
-     area = qemu_ram_mmap(fd, memory, block->mr->align,
--                         block->flags & RAM_SHARED, block->flags & RAM_PMEM);
-+                         block->flags & RAM_SHARED, block->flags & RAM_PMEM,
-+                         offset);
-     if (area == MAP_FAILED) {
-         error_setg_errno(errp, errno,
-                          "unable to map backing store for guest RAM");
-@@ -1943,7 +1945,7 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
- #ifdef CONFIG_POSIX
- RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-                                  uint32_t ram_flags, int fd,
--                                 Error **errp)
-+                                 off_t offset, Error **errp)
- {
-     RAMBlock *new_block;
-     Error *local_err = NULL;
-@@ -1996,7 +1998,8 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-     new_block->used_length = size;
-     new_block->max_length = size;
-     new_block->flags = ram_flags;
--    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, errp);
-+    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, offset,
-+                                     errp);
-     if (!new_block->host) {
-         g_free(new_block);
-         return NULL;
-@@ -2026,7 +2029,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
-         return NULL;
-     }
+     case SOCKET_ADDRESS_TYPE_FD:
+-        fd = socket_get_fd(addr->u.fd.str, 1, errp);
++        fd = socket_get_fd(addr->u.fd.str, errp);
+         break;
  
--    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, errp);
-+    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, 0, errp);
-     if (!block) {
-         if (created) {
-             unlink(mem_path);
-diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-index 27dcccd8ec..ddffa0db4e 100644
---- a/util/mmap-alloc.c
-+++ b/util/mmap-alloc.c
-@@ -86,7 +86,8 @@ void *qemu_ram_mmap(int fd,
-                     size_t size,
-                     size_t align,
-                     bool shared,
--                    bool is_pmem)
-+                    bool is_pmem,
-+                    off_t map_offset)
- {
-     int flags;
-     int map_sync_flags = 0;
-@@ -147,7 +148,7 @@ void *qemu_ram_mmap(int fd,
-     offset = QEMU_ALIGN_UP((uintptr_t)guardptr, align) - (uintptr_t)guardptr;
+     case SOCKET_ADDRESS_TYPE_VSOCK:
+@@ -1177,6 +1173,12 @@ int socket_listen(SocketAddress *addr, int num, Error **errp)
+     int fd;
  
-     ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
--               flags | map_sync_flags, fd, 0);
-+               flags | map_sync_flags, fd, map_offset);
+     trace_socket_listen(num);
++
++    if (num != 1) {
++        error_setg_errno(errp, EINVAL, "socket_get_fd: too many connections");
++        return -1;
++    }
++
+     switch (addr->type) {
+     case SOCKET_ADDRESS_TYPE_INET:
+         fd = inet_listen_saddr(&addr->u.inet, 0, num, errp);
+@@ -1187,7 +1189,7 @@ int socket_listen(SocketAddress *addr, int num, Error **errp)
+         break;
  
-     if (ptr == MAP_FAILED && map_sync_flags) {
-         if (errno == ENOTSUP) {
-@@ -172,7 +173,7 @@ void *qemu_ram_mmap(int fd,
-          * we will remove these flags to handle compatibility.
-          */
-         ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
--                   flags, fd, 0);
-+                   flags, fd, map_offset);
-     }
+     case SOCKET_ADDRESS_TYPE_FD:
+-        fd = socket_get_fd(addr->u.fd.str, num, errp);
++        fd = socket_get_fd(addr->u.fd.str, errp);
+         break;
  
-     if (ptr == MAP_FAILED) {
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index f15234b5c0..93874dfc9b 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -227,7 +227,7 @@ void *qemu_memalign(size_t alignment, size_t size)
- void *qemu_anon_ram_alloc(size_t size, uint64_t *alignment, bool shared)
- {
-     size_t align = QEMU_VMALLOC_ALIGN;
--    void *ptr = qemu_ram_mmap(-1, size, align, shared, false);
-+    void *ptr = qemu_ram_mmap(-1, size, align, shared, false, 0);
- 
-     if (ptr == MAP_FAILED) {
-         return NULL;
+     case SOCKET_ADDRESS_TYPE_VSOCK:
 -- 
 2.25.GIT
 
