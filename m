@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 261AC2DE3BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 15:12:49 +0100 (CET)
-Received: from localhost ([::1]:48040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 014AC2DE3C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 15:13:24 +0100 (CET)
+Received: from localhost ([::1]:49718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqGUy-0001VV-5T
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 09:12:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36706)
+	id 1kqGVW-0002Ax-W4
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 09:13:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kqGSl-0000Eg-1u
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 09:10:31 -0500
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:43996)
+ id 1kqGT2-0000V0-Ey; Fri, 18 Dec 2020 09:10:48 -0500
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:34306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kqGSj-0008DG-DC
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 09:10:30 -0500
-Received: by mail-lf1-x12c.google.com with SMTP id 23so5687984lfg.10
- for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 06:10:26 -0800 (PST)
+ id 1kqGT0-0008Kn-PZ; Fri, 18 Dec 2020 09:10:47 -0500
+Received: by mail-lf1-x12e.google.com with SMTP id o19so5809425lfo.1;
+ Fri, 18 Dec 2020 06:10:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9g93bjJxbJqVwaeAzDTF0cLaPS87LT1hVcbDYM+HoG0=;
- b=E9cF8t+oqILgC5Jtb9gPA8RWQoul7l2ERepRA5VoG59Px4TcQEEM6MwxDtSmrJu8XS
- bYpqA7XNJpRnfZCFW5+Q1cF+1tmzFhrl4LEKm67hC1oxTmk7pHgbFCaAyoCEnHsHb1+t
- G6ckIWltCqGw4lmO227ZquZpjtUhZ7VHTJpPHICndx5iMFF1IOPRYsVPi5n2W2m715Ak
- Ytp+fT9v4tdNM0T2Jo2GHuRtfo0rh2SlzHmUaSOlRz1ukb3X6Dx/OIooeYWMPFRxOCCO
- ILMlJtLNki7j5sdex+fMF5nG3wJ91KB4XtKaWR2FSoDUzoFCYJ9BUpAQt1s7eExjw05T
- XhrA==
+ bh=Icab2t581Ck4QeC270P5fiAfqxwfrPopZCszLQQScwY=;
+ b=JRT7WLwVDF7J+BV0mV2sQq+vWJa4zYMf1pyQPoemuNg/Ho2TMr889GxT7DfycHMRSt
+ l0yByQ4jQrjBa5EDOy7yeQeSj5d9icK9Pesweu8D7CWjdT3E9Mgn9Td+7BLtazbvDz9X
+ +W2rIvCE1zxFvRZpRkhP0vdd0WkkVq3opGqaGeoETM/V0fRXNnJeDsO3IdXYWEO4Egs7
+ xAtZ6XygqI8VdDLbT57V3eINNvoGCP1Ft/H/6DxYm4GOIBnUHrNFGDhcoFi7TwQpj+55
+ ujpEBN2NxyUuL5wiNuXpahFHGSe9SYrp1wzrftMSZ6XFZCnrkJxd3ItCZFP5ZduMM4KG
+ 15WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9g93bjJxbJqVwaeAzDTF0cLaPS87LT1hVcbDYM+HoG0=;
- b=iY3z3PmFaPXzGTqmNJStysNFZ1CtbeeCkDwF+3V31KXF7XRn1zwE3vFz2N7yIW/wuf
- GWrLy0vEktNIqRQSI44Y8w+bb/lOqRLLElvY3YPyCr4HVyd7wG5/zBLoBhjDQIUC5RqK
- uEKVZ2L/xAVB9GhtMbEgNEIN1URxsOprNsA9Rj7UtEdheUlsqgKSYw5a43eiY4vqhp8c
- vG7/FGp+mQCOlQfN+aF4e0W5FG0heVHvLBaIc2YScjxFAt25a1uRHmFEQMChi1MbyMWD
- zSVTuCSswr24hhf9ZQU601VcoG30HnLdSxy5r16h1DT7c5yjm93ksFqVAxBU1LGL8u+F
- KBvA==
-X-Gm-Message-State: AOAM530DwDhahwUuLuMgy+Zd+k6YEh51ijJcRgSBJp2+3YL7tbl7rcXu
- HYcn8nYWeYVn66Apb09kN1g=
-X-Google-Smtp-Source: ABdhPJzYc0ptGLrWBEGCZ4FSjr11qe7mQucGHUPWAgtRy9Th6iyCFSeVcltnEZg6LoNudZZkqgV6ow==
-X-Received: by 2002:a2e:b891:: with SMTP id r17mr1849769ljp.130.1608300624470; 
- Fri, 18 Dec 2020 06:10:24 -0800 (PST)
+ bh=Icab2t581Ck4QeC270P5fiAfqxwfrPopZCszLQQScwY=;
+ b=kFUgHHPmLQwjOygcsl3hG4urJj1XTXGvi9cv3LjIlBs7qlvgGARI9vFuRzTs0rUIUK
+ QfUywAANpSViN3XQxC7aewk27XII4tiUoaR8W29e5salZWkAFxjGVbzW1o22UV47fwLv
+ GP6cJe0A5vGbOG2T63Sp5AJ1/ro0nrAmboI0RfGIP7JQ84y40yX2IHrb87WItev9h6HK
+ BkUuaIEgaC/0uI8oKjV8ciRIY5bwnIXU9Pwc9VfdLIinpZhTntJL3eSqqU+h58TT/HQE
+ j13sMgwZEpWwHW6qLyqVxgXTYbM1ymWWbV+0R4e0HH2H3t4ANV0Vp4T3nHkmcnbzfMY+
+ l33w==
+X-Gm-Message-State: AOAM531strcOnZGq8qCn3Aakrp8EO8EALGNDFLuhmgZpgxZyQHcWfi2+
+ khD1scqXXP8eldb2ZjZp/p3pn1L5rfBdVA==
+X-Google-Smtp-Source: ABdhPJzusSQcpmaHegR7i1GvQ6Cd6Wvw0+O4nnTnefthvlgcT1V/bRaAwci4oD0qyz3x7tbMm87KjQ==
+X-Received: by 2002:a2e:b80c:: with SMTP id u12mr1902535ljo.490.1608300644273; 
+ Fri, 18 Dec 2020 06:10:44 -0800 (PST)
 Received: from [10.101.1.184] ([185.224.57.162])
- by smtp.gmail.com with ESMTPSA id n14sm936433lfe.95.2020.12.18.06.10.21
+ by smtp.gmail.com with ESMTPSA id x138sm938286lfa.66.2020.12.18.06.10.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Dec 2020 06:10:23 -0800 (PST)
-Subject: Re: [PATCH v2 7/9] gdbstub: drop gdbserver_cleanup in favour of
- gdb_exit
+ Fri, 18 Dec 2020 06:10:43 -0800 (PST)
+Subject: Re: [PATCH v2 6/9] gdbstub: drop CPUEnv from gdb_exit()
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20201218112707.28348-1-alex.bennee@linaro.org>
- <20201218112707.28348-8-alex.bennee@linaro.org>
+ <20201218112707.28348-7-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <53786f12-fd14-5a1b-a870-3726b1f78fad@amsat.org>
-Date: Fri, 18 Dec 2020 15:10:11 +0100
+Message-ID: <abbd5586-655f-c3c8-409a-c2edad3e798b@amsat.org>
+Date: Fri, 18 Dec 2020 15:10:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201218112707.28348-8-alex.bennee@linaro.org>
+In-Reply-To: <20201218112707.28348-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-lf1-x12c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-lf1-x12e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,23 +87,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
+ Chris Wulff <crwulff@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/18/20 12:27 PM, Alex Bennée wrote:
-> Despite it's name it didn't actually clean-up so let us document
-> gdb_exit() better and use that.
+> gdb_exit() has never needed anything from env and I doubt we are going
+> to start now.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20201214153012.12723-6-alex.bennee@linaro.org>
+> Message-Id: <20201214153012.12723-5-alex.bennee@linaro.org>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  include/exec/gdbstub.h | 14 +++++++++++---
->  gdbstub.c              |  7 -------
->  softmmu/runstate.c     |  2 +-
->  3 files changed, 12 insertions(+), 11 deletions(-)
+>  include/exec/gdbstub.h    | 2 +-
+>  bsd-user/syscall.c        | 6 +++---
+>  gdbstub.c                 | 2 +-
+>  linux-user/exit.c         | 2 +-
+>  target/arm/arm-semi.c     | 2 +-
+>  target/m68k/m68k-semi.c   | 2 +-
+>  target/nios2/nios2-semi.c | 2 +-
+>  7 files changed, 9 insertions(+), 9 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
