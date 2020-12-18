@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6010E2DE183
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:51:49 +0100 (CET)
-Received: from localhost ([::1]:44892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7212DE176
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:47:55 +0100 (CET)
+Received: from localhost ([::1]:59634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqDMR-0005ka-Dh
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:51:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46752)
+	id 1kqDIg-0000G7-DL
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:47:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kqD9E-0006C3-1y; Fri, 18 Dec 2020 05:38:08 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:55292
+ id 1kqD9E-0006Bu-23; Fri, 18 Dec 2020 05:38:08 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:55294
  helo=ns207790.ip-94-23-215.eu)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <remi@remlab.net>)
- id 1kqD9C-0003Km-1h; Fri, 18 Dec 2020 05:38:07 -0500
+ id 1kqD9C-0003Kr-6q; Fri, 18 Dec 2020 05:38:07 -0500
 Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 13CCA603C4;
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 52D60603D7;
  Fri, 18 Dec 2020 11:38:02 +0100 (CET)
 From: remi.denis.courmont@huawei.com
 To: qemu-arm@nongnu.org
-Subject: [PATCH 09/18] target/arm: add ARMv8.4-SEL2 system registers
-Date: Fri, 18 Dec 2020 12:37:50 +0200
-Message-Id: <20201218103759.19929-9-remi.denis.courmont@huawei.com>
+Subject: [PATCH 10/18] target/arm: handle VMID change in secure state
+Date: Fri, 18 Dec 2020 12:37:51 +0200
+Message-Id: <20201218103759.19929-10-remi.denis.courmont@huawei.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <3337797.iIbC2pHGDl@basile.remlab.net>
 References: <3337797.iIbC2pHGDl@basile.remlab.net>
@@ -58,82 +58,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
-Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
----
- target/arm/cpu.h    |  7 +++++++
- target/arm/helper.c | 24 ++++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
+The VTTBR write callback so far assumes that the underlying VM lies in
+non-secure state. This handles the secure state scenario.
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index ec96784bba..f6b59cb56b 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -168,6 +168,11 @@ typedef struct {
-     uint32_t base_mask;
- } TCR;
- 
-+#define VTCR_NSW (1u << 29)
-+#define VTCR_NSA (1u << 30)
-+#define VSTCR_SW VTCR_NSW
-+#define VSTCR_SA VTCR_NSA
-+
- /* Define a maximum sized vector register.
-  * For 32-bit, this is a 128-bit NEON/AdvSIMD register.
-  * For 64-bit, this is a 2048-bit SVE register.
-@@ -323,9 +328,11 @@ typedef struct CPUARMState {
-             uint64_t ttbr1_el[4];
-         };
-         uint64_t vttbr_el2; /* Virtualization Translation Table Base.  */
-+        uint64_t vsttbr_el2; /* Secure Virtualization Translation Table. */
-         /* MMU translation table base control. */
-         TCR tcr_el[4];
-         TCR vtcr_el2; /* Virtualization Translation Control.  */
-+        TCR vstcr_el2; /* Secure Virtualization Translation Control. */
-         uint32_t c2_data; /* MPU data cacheable bits.  */
-         uint32_t c2_insn; /* MPU instruction cacheable bits.  */
-         union { /* MMU domain access control register
+Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/helper.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e92408229b..32469abf92 100644
+index 32469abf92..649c9237ce 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -5721,6 +5721,27 @@ static const ARMCPRegInfo el2_v8_cp_reginfo[] = {
-     REGINFO_SENTINEL
- };
- 
-+static CPAccessResult sel2_access(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                  bool isread)
-+{
-+    if (arm_current_el(env) == 3 || arm_is_secure_below_el3(env)) {
-+        return CP_ACCESS_OK;
-+    }
-+    return CP_ACCESS_TRAP_UNCATEGORIZED;
-+}
+@@ -4017,10 +4017,15 @@ static void vttbr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+      * the combined stage 1&2 tlbs (EL10_1 and EL10_0).
+      */
+     if (raw_read(env, ri) != value) {
+-        tlb_flush_by_mmuidx(cs,
+-                            ARMMMUIdxBit_E10_1 |
+-                            ARMMMUIdxBit_E10_1_PAN |
+-                            ARMMMUIdxBit_E10_0);
++        uint16_t mask = ARMMMUIdxBit_E10_1 |
++                        ARMMMUIdxBit_E10_1_PAN |
++                        ARMMMUIdxBit_E10_0;
 +
-+static const ARMCPRegInfo el2_sec_cp_reginfo[] = {
-+    { .name = "VSTTBR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 6, .opc2 = 0,
-+      .access = PL2_RW, .accessfn = sel2_access,
-+      .fieldoffset = offsetof(CPUARMState, cp15.vsttbr_el2) },
-+    { .name = "VSTCR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 6, .opc2 = 2,
-+      .access = PL2_RW, .accessfn = sel2_access,
-+      .fieldoffset = offsetof(CPUARMState, cp15.vstcr_el2) },
-+    REGINFO_SENTINEL
-+};
-+
- static CPAccessResult nsacr_access(CPUARMState *env, const ARMCPRegInfo *ri,
-                                    bool isread)
- {
-@@ -7733,6 +7754,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-         if (arm_feature(env, ARM_FEATURE_V8)) {
-             define_arm_cp_regs(cpu, el2_v8_cp_reginfo);
-         }
-+        if (cpu_isar_feature(aa64_sel2, cpu)) {
-+            define_arm_cp_regs(cpu, el2_sec_cp_reginfo);
++        if (arm_is_secure_below_el3(env)) {
++            mask >>= ARM_MMU_IDX_A_NS;
 +        }
-         /* RVBAR_EL2 is only implemented if EL2 is the highest EL */
-         if (!arm_feature(env, ARM_FEATURE_EL3)) {
-             ARMCPRegInfo rvbar = {
++
++        tlb_flush_by_mmuidx(cs, mask);
+         raw_write(env, ri, value);
+     }
+ }
 -- 
 2.29.2
 
