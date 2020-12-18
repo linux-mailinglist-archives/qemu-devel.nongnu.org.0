@@ -2,88 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64DED2DE319
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 14:09:23 +0100 (CET)
-Received: from localhost ([::1]:47744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DAB2DE31E
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 14:11:50 +0100 (CET)
+Received: from localhost ([::1]:50698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqFVa-0004aR-0i
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 08:09:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50882)
+	id 1kqFXx-0005yM-C9
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 08:11:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kqFTp-00042C-RZ
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 08:07:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56450)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1kqFWQ-0005QA-AQ
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 08:10:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kqFTo-0004H2-Db
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 08:07:33 -0500
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1kqFWO-00056P-Jh
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 08:10:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608296851;
+ s=mimecast20190719; t=1608297011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qacsSh4favAsJCUK0oJ15yR0w8zjNZVeZQa3PE+FIg0=;
- b=ZVodn3Z1XbmPDsQLNV00P7/nxAZlCZvlK+J2oIjTCwlVbh4L/sirHJ0Gxv0OSm8Rq0QyLt
- t8+toIgNGInBWAwRFESWJhpt+vf5iWY8utyX4u6FvwAG6pQrbUsKYB2yTPvEIBONkFg7k8
- uKzMSrfpZmILKZzNF7klaQVVBYMbnnU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-fBasH34lOAO5HKGznnGzOw-1; Fri, 18 Dec 2020 08:07:30 -0500
-X-MC-Unique: fBasH34lOAO5HKGznnGzOw-1
-Received: by mail-ed1-f69.google.com with SMTP id z20so1018430edl.21
- for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 05:07:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qacsSh4favAsJCUK0oJ15yR0w8zjNZVeZQa3PE+FIg0=;
- b=i73Vv5j6FqDXhbAfsl+gmm1McireAieyQ86gggm758LJrs6MLI5xBKVHDrMxSFascB
- yhpP9uLopMu7MsecxSFiFbBabQtXNiQ9SRmoVjFxAhno1pURBvcWZ3AkzhKtJoanEvAp
- jJWnfNBWCpnscz+ks0fJPUd8eo4SMuEKzbb9pk+Qyvb8khk3C+OZFkT+lGFS+MBfEvHd
- /W/HVy706NKmR/8UE9ic0mOefLI3LvomzXvSCQ9VQ8QrQRIM8ufjaEho55ZiILmezUCY
- r5YMxQl/bG1MzsNtMFS7Q/hETNQRoWH/FJzYxBhiYsG4JqpjKKY0ZXVtf09Yj+ezRz+2
- 89Ug==
-X-Gm-Message-State: AOAM530/Epus/00dSFSwc8uE7Rmn/yNF4fWFFlLth4g6QMbb9Y1206+D
- vqpSJxQV+C0KH2BrbmG4tLfL8WgnAdqYl7BksxlbfmcXFdgUS6I7fvZ9uV5dN3uw3bDnELgkXDa
- bWEIxLndH9p2OjXo=
-X-Received: by 2002:a05:6402:1765:: with SMTP id
- da5mr4366128edb.27.1608296849246; 
- Fri, 18 Dec 2020 05:07:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxncrVE3GvA6TbBHVyFYgVPQkSLmsauguq6hWR0qNveSFTUfD9ovVcqawAiXmb0J1GXPV/ldg==
-X-Received: by 2002:a05:6402:1765:: with SMTP id
- da5mr4366110edb.27.1608296849089; 
- Fri, 18 Dec 2020 05:07:29 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u2sm5576765ejb.65.2020.12.18.05.07.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Dec 2020 05:07:28 -0800 (PST)
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20201218084611.634254-1-marcandre.lureau@redhat.com>
- <023ac901-2c57-15da-4dfe-62b1f4f1c23d@redhat.com>
- <CAMxuvayDzUmpBg8n10zD=7pYtKtwQZs1n0wAvPjMzKTZ4ZNuGQ@mail.gmail.com>
- <9ea55256-e3fd-e8e7-3b70-9c690b09dc74@redhat.com>
- <CAMxuvaw=koNfQbhVpaHWt0nCZhMzy703X=Hhxw_gi2wCJyjciA@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] whpx: fix compilation
-Message-ID: <d54e4e19-d199-a03d-ceab-0da9ba21ac48@redhat.com>
-Date: Fri, 18 Dec 2020 14:07:27 +0100
+ bh=mKBqDMjlmVql5c5J082IvuiGSMlMWynBuk4BjR422SA=;
+ b=RVmcaizvPbRcVnXccpvw1KbkWw8fz0b8M3uj9dEzHs/mZ6CKqco6LIE4LdazVX8uZVG2ap
+ tqou2uDoDy5VGDUeKPwl92if0uuC0lTvAyTIRMe/idL4dPDQ7bmw/QhGzxVQG6EB7dSb2E
+ 7FMMVd911LfH12CsRIuw58q4EES9NJs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-533-980hYy9RMtCnaPRXGjx03Q-1; Fri, 18 Dec 2020 08:10:08 -0500
+X-MC-Unique: 980hYy9RMtCnaPRXGjx03Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA5EC107ACE4;
+ Fri, 18 Dec 2020 13:10:06 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-114-123.rdu2.redhat.com
+ [10.10.114.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BE225D9D7;
+ Fri, 18 Dec 2020 13:10:03 +0000 (UTC)
+Subject: Re: [PATCH] tests/docker: Use lower case for centos8 powertools
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20201218011158.13495-1-jiaxun.yang@flygoat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <4b93008d-26f9-7410-e5a5-6c48f34b0505@redhat.com>
+Date: Fri, 18 Dec 2020 10:10:02 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvaw=koNfQbhVpaHWt0nCZhMzy703X=Hhxw_gi2wCJyjciA@mail.gmail.com>
+In-Reply-To: <20201218011158.13495-1-jiaxun.yang@flygoat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -105,23 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sunilmut@microsoft.com, qemu-devel <qemu-devel@nongnu.org>
+Cc: fam@euphon.net, alex.bennee@linaro.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You're right that the headers _are_ included in whp-dispatch.h, so yeah 
-they do provide WHV_PARTITION_HANDLE which is the only thing that needs 
-API includes.
+Hi,
 
-But in turn whpx_state is only needed for whpx_apic_in_platform(), so 
-the main issue is that sysemu/whpx.h is exposing unnecessary application 
-details.  We can make two changes.  First, make whpx_apic_in_platform() 
-a function instead of a macro, so that whpx_state can be moved to a new 
-header whpx-internal.h.
+On 12/17/20 10:11 PM, Jiaxun Yang wrote:
+> Our gitlab amd64-centos8-container pipeline constantly fail at:
+>
+> 15.36 Error: No matching repo to modify: PowerTools.
+>
+> Fix it by convert it to lower case.
 
-In fact, whp-dispatch.h and the new header can be merged, too.  I'll 
-send two patches.
+They recently changed the name of some repositories:
 
-Paolo
+https://wiki.centos.org/Manuals/ReleaseNotes/CentOS8.2011#Yum_repo_file_and_repoid_changes
+
+Thanks for working on this fix!
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+>
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>   tests/docker/dockerfiles/centos8.docker | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+> index 54bc6d54cd..06b67962fd 100644
+> --- a/tests/docker/dockerfiles/centos8.docker
+> +++ b/tests/docker/dockerfiles/centos8.docker
+> @@ -31,6 +31,6 @@ ENV PACKAGES \
+>       zlib-devel
+>   
+>   RUN dnf install -y dnf-plugins-core && \
+> -  dnf config-manager --set-enabled PowerTools && \
+> +  dnf config-manager --set-enabled powertools && \
+>     dnf install -y $PACKAGES
+>   RUN rpm -q $PACKAGES | sort > /packages.txt
 
 
