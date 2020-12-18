@@ -2,78 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC722DE39F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 15:02:44 +0100 (CET)
-Received: from localhost ([::1]:55150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3462DE3AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 15:09:17 +0100 (CET)
+Received: from localhost ([::1]:41518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqGLD-0000zq-JL
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 09:02:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33882)
+	id 1kqGRY-00079i-Ns
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 09:09:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kqGHp-00081w-Og; Fri, 18 Dec 2020 08:59:14 -0500
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:45793)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kqGHm-0004X3-7N; Fri, 18 Dec 2020 08:59:13 -0500
-Received: by mail-qt1-x836.google.com with SMTP id g24so1257830qtq.12;
- Fri, 18 Dec 2020 05:59:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QPcBuKMjlPV9+rXNLG3pzufaUT3MLt/VA66HPc9Kdr4=;
- b=B2IbwusAMAqjL+enOfKDF7OLTUGylGv7QJTmyJgI1il2jc/GAPCXPqoYrxVfkDPJ9D
- yLbIdlV1ctxpq63kFa1Vpr78uc3A77NGUTq5PIV/zhi9yjezlPInp9m2QTcCknCLaLgz
- 2RO8QMCWSKrnZiG+CmnvwovetZ8UjerWANoNHZrEx4/KvPMUFR+uQG36ZKgX9Hy7f5ZI
- l1uXcTLPFv4lJyA7859Q0M+Mhpgpp0vADVZ+EUlpOm7nYMItFJAISix2l0f6oGHn+z/y
- 972jfeOnSyu/QO+nxt+S2FDx9aGtuPcMBVui51ke3ioWGkNYWuPQhxXtmGZGi6ZMudBl
- DV/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QPcBuKMjlPV9+rXNLG3pzufaUT3MLt/VA66HPc9Kdr4=;
- b=G1rty9RdGk0Kh+wpy8TY8TVY5/+xuHLwNZQcefUFH6ohjKR2EW+LW7B6my0Ri/GXa+
- AAIZkM8neq1C75vAr38Bi705pzk04XkruCV81qKkJUjn7lAbAi8D2E0KNguCOzPSTwfP
- nfxgb7bV8jJNFaKsjrGqZBKys6ZUgpgzlY1FqJGTkQvdjy+MLHS5rmYjxDq6w0vXZs0k
- P7zzeIalX2wjzArzmgT84cwbYFco+5YUjPnw4fQANPmwNWwpR1JjW+mmvvzvlVAvo0Yp
- i8mFL4X1Q/knBmPrM5X84n9HeoveWWIGRhVSCNqWCHXtOxxeDtudGiobxz5WNFL+0AXw
- OnKA==
-X-Gm-Message-State: AOAM531jOz7jBVLZjodMibZc1VVzw1UflNtD6mITJ/FcS2BjO7IqxYoO
- BkuAlhNUwh/R5xl4/Ut2inuSqD6Ds5Q=
-X-Google-Smtp-Source: ABdhPJy2xkW9eEDDxD4O5e88OCVn2KPgaCmAxPfoQu69CPvORVLTAHhv+kGRarjjiSvAxUQjps+I5w==
-X-Received: by 2002:ac8:6b95:: with SMTP id z21mr3962054qts.353.1608299947957; 
- Fri, 18 Dec 2020 05:59:07 -0800 (PST)
-Received: from ?IPv6:2804:431:c7c6:9e32:a7fb:6602:e8c2:3c0f?
- ([2804:431:c7c6:9e32:a7fb:6602:e8c2:3c0f])
- by smtp.gmail.com with ESMTPSA id o4sm4981393qkc.93.2020.12.18.05.59.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Dec 2020 05:59:07 -0800 (PST)
-Subject: Re: [PATCH] spapr: Fix buffer overflow in
- spapr_numa_associativity_init()
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-References: <160829960428.734871.12634150161215429514.stgit@bahia.lan>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <cd24bc8a-6ca6-385e-8171-ba84ff17187b@gmail.com>
-Date: Fri, 18 Dec 2020 10:59:03 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kqGMn-0003d8-L6; Fri, 18 Dec 2020 09:04:21 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:56551)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kqGMl-0006BT-5p; Fri, 18 Dec 2020 09:04:21 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.191])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A4BD9753DC26;
+ Fri, 18 Dec 2020 15:04:15 +0100 (CET)
+Received: from kaod.org (37.59.142.105) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 18 Dec
+ 2020 15:04:14 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006603a450e-cd91-4a4d-9ae1-ae46c13989fe,
+ FB7A68720C4516EC60B551F1D5F540B41FF25855) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Fri, 18 Dec 2020 15:04:13 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v12] spapr: Implement Open Firmware client interface
+Message-ID: <20201218150413.44da862d@bahia.lan>
+In-Reply-To: <20201218025040.98132-1-aik@ozlabs.ru>
+References: <20201218025040.98132-1-aik@ozlabs.ru>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <160829960428.734871.12634150161215429514.stgit@bahia.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x836.google.com
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 62d17b9d-b55a-4dc0-92bb-9da581fce39a
+X-Ovh-Tracer-Id: 13177251036712049117
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudeliedgiedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeegffehgeejgedvjeeuveelieffkeehgefhieejteevudekheduteelhfetfefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,127 +67,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
- qemu-stable@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 18 Dec 2020 13:50:40 +1100
+Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
 
-
-On 12/18/20 10:53 AM, Greg Kurz wrote:
-> Running a guest with 128 NUMA nodes crashes QEMU:
+> The PAPR platform which describes an OS environment that's presented by
+> a combination of a hypervisor and firmware. The features it specifies
+> require collaboration between the firmware and the hypervisor.
 > 
-> ../../util/error.c:59: error_setv: Assertion `*errp == NULL' failed.
+> Since the beginning, the runtime component of the firmware (RTAS) has
+> been implemented as a 20 byte shim which simply forwards it to
+> a hypercall implemented in qemu. The boot time firmware component is
+> SLOF - but a build that's specific to qemu, and has always needed to be
+> updated in sync with it. Even though we've managed to limit the amount
+> of runtime communication we need between qemu and SLOF, there's some,
+> and it has become increasingly awkward to handle as we've implemented
+> new features.
 > 
-> The crash happens when setting the FWNMI migration blocker:
+> This implements a boot time OF client interface (CI) which is
+> enabled by a new "x-vof" pseries machine option (stands for "Virtual Open
+> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
+> which implements Open Firmware Client Interface (OF CI). This allows
+> using a smaller stateless firmware which does not have to manage
+> the device tree.
 > 
-> 2861	    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) == SPAPR_CAP_ON) {
-> 2862	        /* Create the error string for live migration blocker */
-> 2863	        error_setg(&spapr->fwnmi_migration_blocker,
-> 2864	            "A machine check is being handled during migration. The handler"
-> 2865	            "may run and log hardware error on the destination");
-> 2866	    }
+> The new "vof.bin" firmware image is included with source code under
+> pc-bios/. It also includes RTAS blob.
 > 
-> Inspection reveals that papr->fwnmi_migration_blocker isn't NULL:
+> This implements a handful of CI methods just to get -kernel/-initrd
+> working. In particular, this implements the device tree fetching and
+> simple memory allocator - "claim" (an OF CI memory allocator) and updates
+> "/memory@0/available" to report the client about available memory.
 > 
-> (gdb) p spapr->fwnmi_migration_blocker
-> $1 = (Error *) 0x8000000004000000
+> This implements changing some device tree properties which we know how
+> to deal with, the rest is ignored. To allow changes, this skips
+> fdt_pack() when x-vof=on as not packing the blob leaves some room for
+> appending.
 > 
-> Since this is the only place where papr->fwnmi_migration_blocker is
-> set, this means someone wrote there in our back. Further analysis
-> points to spapr_numa_associativity_init(), especially the part
-> that initializes the associative arrays for NVLink GPUs:
+> In absence of SLOF, this assigns phandles to device tree nodes to make
+> device tree traversing work.
 > 
->      max_nodes_with_gpus = nb_numa_nodes + NVGPU_MAX_NUM;
+> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
 > 
-> ie. max_nodes_with_gpus = 128 + 6, but the array isn't sized to
-> accommodate the 6 extra nodes:
+> This adds basic instances support which are managed by a hash map
+> ihandle -> [phandle].
 > 
-> #define MAX_NODES 128
+> Before the guest started, the used memory is:
+> 0..4000 - the initial firmware
+> 10000..180000 - stack
 > 
-> struct SpaprMachineState {
->      .
->      .
->      .
->      uint32_t numa_assoc_array[MAX_NODES][NUMA_ASSOC_SIZE];
+> This OF CI does not implement "interpret".
 > 
->      Error *fwnmi_migration_blocker;
-> };
+> Unlike SLOF, this does not format uninitialized nvram. Instead, this
+> includes a disk image with pre-formatted nvram.
 > 
-> and the following loops happily overwrite spapr->fwnmi_migration_blocker,
-> and probably more:
+> With this basic support, this can only boot into kernel directly.
+> However this is just enough for the petitboot kernel and initradmdisk to
+> boot from any possible source. Note this requires reasonably recent guest
+> kernel with:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735
 > 
->      for (i = nb_numa_nodes; i < max_nodes_with_gpus; i++) {
->          spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
-> 
->          for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
->              uint32_t gpu_assoc = smc->pre_5_1_assoc_refpoints ?
->                                   SPAPR_GPU_NUMA_ID : cpu_to_be32(i);
->              spapr->numa_assoc_array[i][j] = gpu_assoc;
->          }
-> 
->          spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
->      }
-> 
-> Fix the size of the array. This requires "hw/ppc/spapr.h" to see
-> NVGPU_MAX_NUM. Including "hw/pci-host/spapr.h" introduces a
-> circular dependency that breaks the build, so this moves the
-> definition of NVGPU_MAX_NUM to "hw/ppc/spapr.h" instead.
-> 
-> Reported-by: Min Deng <mdeng@redhat.com>
-> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1908693
-> Fixes: dd7e1d7ae431 ("spapr_numa: move NVLink2 associativity handling to spapr_numa.c")
-> Cc: danielhb413@gmail.com
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
 > ---
-
-
-Good catch. Thanks for fixing it!
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-
->   include/hw/pci-host/spapr.h |    2 --
->   include/hw/ppc/spapr.h      |    5 ++++-
->   2 files changed, 4 insertions(+), 3 deletions(-)
 > 
-> diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
-> index 4f58f0223b56..bd014823a933 100644
-> --- a/include/hw/pci-host/spapr.h
-> +++ b/include/hw/pci-host/spapr.h
-> @@ -115,8 +115,6 @@ struct SpaprPhbState {
->   #define SPAPR_PCI_NV2RAM64_WIN_BASE  SPAPR_PCI_LIMIT
->   #define SPAPR_PCI_NV2RAM64_WIN_SIZE  (2 * TiB) /* For up to 6 GPUs 256GB each */
->   
-> -/* Max number of these GPUsper a physical box */
-> -#define NVGPU_MAX_NUM                6
->   /* Max number of NVLinks per GPU in any physical box */
->   #define NVGPU_MAX_LINKS              3
->   
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 06a5b4259f20..1cc19575f548 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -112,6 +112,9 @@ typedef enum {
->   #define NUMA_ASSOC_SIZE            (MAX_DISTANCE_REF_POINTS + 1)
->   #define VCPU_ASSOC_SIZE            (NUMA_ASSOC_SIZE + 1)
->   
-> +/* Max number of these GPUsper a physical box */
-> +#define NVGPU_MAX_NUM                6
-> +
->   typedef struct SpaprCapabilities SpaprCapabilities;
->   struct SpaprCapabilities {
->       uint8_t caps[SPAPR_CAP_NUM];
-> @@ -240,7 +243,7 @@ struct SpaprMachineState {
->       unsigned gpu_numa_id;
->       SpaprTpmProxy *tpm_proxy;
->   
-> -    uint32_t numa_assoc_array[MAX_NODES][NUMA_ASSOC_SIZE];
-> +    uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE];
->   
->       Error *fwnmi_migration_blocker;
->   };
+> The example command line is:
 > 
+> -c 0 /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
+> -nodefaults \
+> -chardev stdio,id=STDIO0,signal=off,mux=on \
+> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
+> -mon id=MON0,chardev=STDIO0,mode=readline \
+> -nographic \
+> -vga none \
+> -enable-kvm \
+> -m 2G \
+> -machine pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off \
+> -kernel pbuild/kernel-le-guest/vmlinux \
+> -initrd t/le.cpio \
+> -drive id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof/nvram.bin,format=raw \
+> -global spapr-nvram.drive=DRIVE0 \
+> -snapshot \
+> -smp 8,threads=8 \
+> -L /home/aik/t/qemu-ppc64-bios/ \
+> -trace events=qemu_trace_events \
+> -d guest_errors \
+> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
+> -mon chardev=SOCKET0,mode=control
 > 
+> ---
+> Changes:
+> v12:
+> * split VOF and SPAPR
 > 
+
+Thanks for the split. The VOF paths are now clearly identified in
+the sPAPR code, and well guarded by a check on x-vof. Rest of the
+patch looks good to me. I gave it a try with a stock fedora 33
+kernel and initramfs and it booted really fast !
+
+With the checkpatch complaints addressed,
+
+Acked-by: Greg Kurz <groug@kaod.org>
+
+and
+
+Tested-by: Greg Kurz <groug@kaod.org>
 
