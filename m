@@ -2,104 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056DE2DE416
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 15:34:17 +0100 (CET)
-Received: from localhost ([::1]:37384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C9382DE418
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 15:34:55 +0100 (CET)
+Received: from localhost ([::1]:39118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqGpj-0001XI-UZ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 09:34:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41014)
+	id 1kqGqM-0002Gn-BO
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 09:34:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1kqGns-0000q9-VL; Fri, 18 Dec 2020 09:32:20 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35202)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1kqGnq-0007EZ-Sc; Fri, 18 Dec 2020 09:32:20 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BIETKP3169565; Fri, 18 Dec 2020 09:32:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=gj8mMmzk6QjmUkxKHg2GrPIMyKpP7i0f2AFO46x4mCw=;
- b=iORNuiraPZSeWphn1HsQZmIrdXhR2U7mKCGB1xLGJkpsxXRwArnjmjLzYmfNxcs7XmXx
- nNUxYMwJahFBfcmbQejBYFGYlTRlsoSJTzcWvLNQjjNkdGYOcK3gmAKDS6/EUJndL2kF
- W6+Y9G/gcYLTXT+CgucqeGVVTLpYz9T11DD27FBDUrsee6aFrtyZFz8O2EMWsQLpAziK
- By7WNhivuhNDT9uFkQm5PNUWha6Jc+eTOuKoI7++Mcb6ZoDKoP/cJFPgk3G5TOM1CX/O
- GTx6SHBYKC/QLhWxggWETbrM+pZF/6ctRh3fMMHoDfoJbTO8p4S9pz0bVt6BBGvQFec6 Ng== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35gx7y825r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Dec 2020 09:32:15 -0500
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BIETW7D170745;
- Fri, 18 Dec 2020 09:32:14 -0500
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35gx7y823h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Dec 2020 09:32:14 -0500
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BIEOf8b013061;
- Fri, 18 Dec 2020 14:32:12 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06fra.de.ibm.com with ESMTP id 35d310b30r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Dec 2020 14:32:12 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BIEW95u41419066
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Dec 2020 14:32:09 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1DEE711C04A;
- Fri, 18 Dec 2020 14:32:09 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A9E8711C054;
- Fri, 18 Dec 2020 14:32:08 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.46.39])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 18 Dec 2020 14:32:08 +0000 (GMT)
-Subject: Re: [PATCH v2 2/2] s390x/pci: Fix memory_region_access_valid call
-To: Cornelia Huck <cohuck@redhat.com>
-References: <1608243397-29428-1-git-send-email-mjrosato@linux.ibm.com>
- <1608243397-29428-3-git-send-email-mjrosato@linux.ibm.com>
- <72f4e03f-7208-6af0-4cd2-9715d9f9ec77@linux.ibm.com>
- <20201218120440.36b56e80.cohuck@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-Message-ID: <2c5a2ccb-dbe1-f355-3980-462be1d93942@linux.ibm.com>
-Date: Fri, 18 Dec 2020 15:32:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <remi@remlab.net>)
+ id 1kqGoP-00015g-Os; Fri, 18 Dec 2020 09:32:54 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:56798
+ helo=ns207790.ip-94-23-215.eu)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <remi@remlab.net>)
+ id 1kqGoN-0007Og-9J; Fri, 18 Dec 2020 09:32:53 -0500
+Received: from basile.remlab.net (dzyqn8ypzhx7l91mxjsvy-3.rev.dnainternet.fi
+ [IPv6:2001:14ba:a01a:be01:9434:f69e:d553:3be2])
+ (Authenticated sender: remi)
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTPSA id BC81C5FC85;
+ Fri, 18 Dec 2020 15:32:47 +0100 (CET)
+From: =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi.denis.courmont@huawei.com>
+To: qemu-arm@nongnu.org
+Subject: [RFC][PATCH 0/3] ARMv8.4-TTST extension
+Date: Fri, 18 Dec 2020 16:32:45 +0200
+Message-ID: <7884934.NyiUUSuA9g@basile.remlab.net>
+Organization: Huawei Technologies, Finland
 MIME-Version: 1.0
-In-Reply-To: <20201218120440.36b56e80.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-18_09:2020-12-18,
- 2020-12-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- mlxscore=0 bulkscore=0 phishscore=0 priorityscore=1501 suspectscore=0
- adultscore=0 mlxlogscore=999 spamscore=0 lowpriorityscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012180095
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2001:41d0:2:5a1a::; envelope-from=remi@remlab.net;
+ helo=ns207790.ip-94-23-215.eu
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,78 +52,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Matthew Rosato <mjrosato@linux.ibm.com>, david@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+	Hello,
+
+The following changes since commit 6d3fd902ab9c4d6762532d4b5cce2275e458aa32:
+
+  target/arm: refactor vae1_tlbmask() (2020-12-18 12:27:56 +0200)
+
+follow. They add support for small translation tables, allowing for=20
+translation regimes as small as 16-bits. This extension is nominally a=20
+required dependency of Secure EL2.
+
+=2D---------------------------------------------------------------
+R=C3=A9mi Denis-Courmont (3):
+      target/arm: keep translation start level unsigned
+      target/arm: ARMv8.4-TTST extension
+      target/arm: enable Small Translation tables in max CPU
+
+ target/arm/cpu.h    |  5 +++++
+ target/arm/cpu64.c  |  1 +
+ target/arm/helper.c | 25 +++++++++++++++----------
+ 3 files changed, 21 insertions(+), 10 deletions(-)
+
+=2D-=20
+R=C3=A9mi Denis-Courmont
 
 
-On 12/18/20 12:04 PM, Cornelia Huck wrote:
-> On Fri, 18 Dec 2020 10:37:38 +0100
-> Pierre Morel <pmorel@linux.ibm.com> wrote:
-> 
->> On 12/17/20 11:16 PM, Matthew Rosato wrote:
->>> In pcistb_service_handler, a call is made to validate that the memory
->>> region can be accessed.  However, the call is made using the entire length
->>> of the pcistb operation, which can be larger than the allowed memory
->>> access size (8).  Since we already know that the provided buffer is a
->>> multiple of 8, fix the call to memory_region_access_valid to iterate
->>> over the memory region in the same way as the subsequent call to
->>> memory_region_dispatch_write.
->>>
->>> Fixes: 863f6f52b7 ("s390: implement pci instructions")
->>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->>> ---
->>>    hw/s390x/s390-pci-inst.c | 10 ++++++----
->>>    1 file changed, 6 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
->>> index e230293..76b08a3 100644
->>> --- a/hw/s390x/s390-pci-inst.c
->>> +++ b/hw/s390x/s390-pci-inst.c
->>> @@ -821,10 +821,12 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
->>>        mr = s390_get_subregion(mr, offset, len);
->>>        offset -= mr->addr;
->>>    
->>> -    if (!memory_region_access_valid(mr, offset, len, true,
->>> -                                    MEMTXATTRS_UNSPECIFIED)) {
->>> -        s390_program_interrupt(env, PGM_OPERAND, ra);
->>> -        return 0;
->>> +    for (i = 0; i < len; i += 8) {
->>> +        if (!memory_region_access_valid(mr, offset + i, 8, true,
->>> +                                        MEMTXATTRS_UNSPECIFIED)) {
->>> +            s390_program_interrupt(env, PGM_OPERAND, ra);
->>> +            return 0;
->>> +        }
->>>        }
->>>    
->>>        if (s390_cpu_virt_mem_read(cpu, gaddr, ar, buffer, len)) {
->>>    
->>
->> wouldn't it be made automatically by defining the io_region
->> max_access_size when reading the bars in clp_service_call?
->>
-> 
-> But that's already what is happening, isn't it? The access check is
-> done for a size that is potentially too large, while the actual access
-> will happen in chunks of 8? I think that this patch is correct.
-> 
-
-Sorry I was too rapid and half wrong in my writing I was also not 
-specific enough.
-
-In MemoryRegionOps we have a field valid with a callback accepts().
-
-I was wondering if doing the check in the accept() callback which is 
-called by the memory_region_access_valid() function and then using 
-max_access_size would not be cleaner.
-
-Note that it does not change a lot but only where the check is done.
-
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
