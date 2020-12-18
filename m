@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F4F2DE0FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:29:50 +0100 (CET)
-Received: from localhost ([::1]:34284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F5D2DE104
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:30:05 +0100 (CET)
+Received: from localhost ([::1]:35384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqD1B-0002Wn-47
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:29:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43856)
+	id 1kqD1Q-0002yJ-8F
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:30:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvr-0002u5-Mr
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:19 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:42643)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvu-000304-IK
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:22 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:38333)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvo-00073h-Jo
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:19 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvq-00074H-5s
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:22 -0500
 Received: from localhost.localdomain ([82.252.144.198]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N0G5h-1jugbD2rnr-00xOCZ; Fri, 18 Dec 2020 11:24:12 +0100
+ id 1Mz9d7-1jvmWs0Vgh-00wIH1; Fri, 18 Dec 2020 11:24:13 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/14] linux-user/elfload: Introduce MIPS GET_FEATURE_REG_EQU()
- macro
-Date: Fri, 18 Dec 2020 11:23:58 +0100
-Message-Id: <20201218102407.597566-6-laurent@vivier.eu>
+Subject: [PULL 06/14] linux-user/elfload: Update HWCAP bits from linux 5.7
+Date: Fri, 18 Dec 2020 11:23:59 +0100
+Message-Id: <20201218102407.597566-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201218102407.597566-1-laurent@vivier.eu>
 References: <20201218102407.597566-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zezIeuqzhi3r8oWSXvmkGfZsJCySwYvgoG/Rw2ognH5UPj8egU3
- Rw1xWWOh2puACTv6E+w5uDMfxhrFs6P5XxNCAHSQQfU1/43xvm9nA1sh7jnonBpnIFeiTqv
- Ui0K96DqtKJmX9P3SojvoRYMiK6GQd6xxkUZFLPl98vrIRIM97PTsrUbQt0BexzyVzCyzMC
- Y1J8bQKRCgmwf/R4JAfrA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:/FpwHOKjJnc=:Oqohn0N3AiigjbfUD2qv+h
- lQ8oa7UAww5uLndh08dypWOOl/+WD1pGSeM/tvnRimxOrsNOArqWrkanEvQUguPPdZHfVdpzr
- sHDG0GEkEN179kzzxJblR09pjvowqagCYPdmuH+VlqiVTGt3KqtFU7ehElIzVLCSq/foVj/Ll
- ly/QvhlV67B1vT9c3IDtk0UvZgip0Td+DvKYmyI1RidwsL1V7r1Puykn/iDupNCX4Tz/5uQOf
- RlYOimvuh5aMDK3rr59NvqsO+ItFJ6eEAQ0+kj/UOOsQPjd2tl/JgJkijAcqXST3Tnxvsm2Wi
- iX9swera29D6P4gp6xIH56fSXzW/papRempX3xwN/0vG60ItXOjmGCnFB6ruoQP77OgTCEfPp
- JL9nbPqqZrvXe2AtQZDcCWLp7Bp4n7VvBA79vXQoeTTYQqJ8cfL4JQBJljCsxCTafDH5Xyzwa
- XnAgosalbw==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:ln7BD3Vva7z3+0n3K6ePZTRRHrwfDX39fNErvgC+/ZHhdULMGn2
+ Aq7DasUcLh53oIxAxNZrgFXCfyXDZ0TkeaOrw8+1IPoAsnU4ivlzNTUWza1h0m+IIZgXTTD
+ AjhtYXsTNaRp6elrsO/O8WAEtIPZX8Gldrv5ti4i0a7L6pqdlu98dKD/LPogUWiCZOqKhXB
+ MZzIyoGxQaevQGR1PiFQA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:P6X4E4EsIm0=:65KMPFVM+ANAhD3vFxalR0
+ aDCQ8AUMXZer1we1f3OfUhLR+pQQYX6dxSYUCz2H6AFG81zjWD7S84oCYmKJ/aPDyTqj/lg1S
+ rfygkn4Sarks3cYTz1ZkEXXBUjVz4v0ZSrGf/341WJFbwChxKPduBdM2unwlsNJ+/OPksfKeg
+ NK3pq2RtChirkJMesDmiB3N3bqYS4dRvORG3bVNZAtq2oDRCmCIQVX2kB2y9ux8ZeMAZ8zYg2
+ k9ceLxscLtDrIMjHq7qd688rSpnv3MO+JOHit87BRsjq3n+nppepn4+ymMo0pVG98rqoDCvDB
+ dxIMkKB2depojpVLHuWWCjkuiwb+UalQWCj94ITGl9gh6TEp2NPRo0yzf2PZT2/97HrrxheiV
+ 4W2qr+0Eu1UftG0gOJwL/bQI6ASC+rmAwdWSrAjHtGd+oNvc3pUczBbp2ureGzZqirqJ8waa0
+ /mRZreXEDw==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,75 +71,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-ISA features are usually denoted in read-only bits from
-CPU registers. Add the GET_FEATURE_REG_EQU() macro which
-checks if a CPU register has bits set to a specific value.
-
-Use the macro to check the 'Architecture Revision' level
-of the Config0 register, which is '2' when the Release 6
-ISA is implemented.
-
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201214003215.344522-5-f4bug@amsat.org>
+Message-Id: <20201214003215.344522-6-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 12 +++++++++++-
- target/mips/cpu.h    |  1 +
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ linux-user/elfload.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index b7c6d30723a3..8f943f93ba75 100644
+index 8f943f93ba75..0836e72b5ac3 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -7,6 +7,7 @@
+@@ -986,6 +986,19 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUMIPSState *e
+ enum {
+     HWCAP_MIPS_R6           = (1 << 0),
+     HWCAP_MIPS_MSA          = (1 << 1),
++    HWCAP_MIPS_CRC32        = (1 << 2),
++    HWCAP_MIPS_MIPS16       = (1 << 3),
++    HWCAP_MIPS_MDMX         = (1 << 4),
++    HWCAP_MIPS_MIPS3D       = (1 << 5),
++    HWCAP_MIPS_SMARTMIPS    = (1 << 6),
++    HWCAP_MIPS_DSP          = (1 << 7),
++    HWCAP_MIPS_DSP2         = (1 << 8),
++    HWCAP_MIPS_DSP3         = (1 << 9),
++    HWCAP_MIPS_MIPS16E2     = (1 << 10),
++    HWCAP_LOONGSON_MMI      = (1 << 11),
++    HWCAP_LOONGSON_EXT      = (1 << 12),
++    HWCAP_LOONGSON_EXT2     = (1 << 13),
++    HWCAP_LOONGSON_CPUCFG   = (1 << 14),
+ };
  
- #include "qemu.h"
- #include "disas/disas.h"
-+#include "qemu/bitops.h"
- #include "qemu/path.h"
- #include "qemu/queue.h"
- #include "qemu/guest-random.h"
-@@ -995,17 +996,26 @@ enum {
- #define GET_FEATURE_REG_SET(_reg, _mask, _hwcap) \
-     do { if (cpu->env._reg & (_mask)) { hwcaps |= _hwcap; } } while (0)
- 
-+#define GET_FEATURE_REG_EQU(_reg, _start, _length, _val, _hwcap) \
-+    do { \
-+        if (extract32(cpu->env._reg, (_start), (_length)) == (_val)) { \
-+            hwcaps |= _hwcap; \
-+        } \
-+    } while (0)
-+
- static uint32_t get_elf_hwcap(void)
- {
-     MIPSCPU *cpu = MIPS_CPU(thread_cpu);
-     uint32_t hwcaps = 0;
- 
--    GET_FEATURE_INSN(ISA_MIPS32R6 | ISA_MIPS64R6, HWCAP_MIPS_R6);
-+    GET_FEATURE_REG_EQU(CP0_Config0, CP0C0_AR, CP0C0_AR_LENGTH,
-+                        2, HWCAP_MIPS_R6);
-     GET_FEATURE_REG_SET(CP0_Config3, 1 << CP0C3_MSAP, HWCAP_MIPS_MSA);
- 
-     return hwcaps;
- }
- 
-+#undef GET_FEATURE_REG_EQU
- #undef GET_FEATURE_REG_SET
- #undef GET_FEATURE_INSN
- 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 3ac21d0e9c07..4cbc31c3e8d2 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -844,6 +844,7 @@ struct CPUMIPSState {
- #define CP0C0_MT   7     /*  9..7  */
- #define CP0C0_VI   3
- #define CP0C0_K0   0     /*  2..0  */
-+#define CP0C0_AR_LENGTH 3
-     int32_t CP0_Config1;
- #define CP0C1_M    31
- #define CP0C1_MMU  25    /* 30..25 */
+ #define ELF_HWCAP get_elf_hwcap()
 -- 
 2.29.2
 
