@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1ED22DDE6C
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 07:11:31 +0100 (CET)
-Received: from localhost ([::1]:38508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2292DDE99
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 07:29:23 +0100 (CET)
+Received: from localhost ([::1]:43444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq8zC-0006Dt-W0
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 01:11:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52182)
+	id 1kq9GU-0004Fy-Dc
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 01:29:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=614e9c0eb=alistair.francis@wdc.com>)
- id 1kq8po-0005A7-W9
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:01:49 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:9928)
+ id 1kq8q3-0005dp-RF
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:03 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:9924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=614e9c0eb=alistair.francis@wdc.com>)
- id 1kq8pm-0002GJ-VX
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:01:48 -0500
+ id 1kq8q0-0002G4-3k
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1608271626; x=1639807626;
+ t=1608271646; x=1639807646;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=NRom57mWy/1ehb9v0plLMKp/sVJWe1c7hvvP+FK6PF4=;
- b=eNnvzpmFY3xS+LjbvbTJOmAvsYntzkoLyiC2JZ/pouUZHbAC5f9xP2Nh
- ZmdpaAvJtA4HSJlEw66wWqa0YQwNISNMIW2lAtw7/OqasWs6BwwBQdnZK
- tLvzFseWBsDGl9PDyGpZ9Jd2wjTeP9ih8PQjWPvZveLsRc7JubtTdreUb
- Pry2YnmQ4RGedKCWAHOz1T2mSnI6G2hA4FWlwAOzAQpdjy+foyQO5jr0V
- cDWsGXhus2s/+DJly6qdlz5bqZF8A298XYCaLuJ1Yz9Eq4tvib2KCcokf
- is23Qg7MxOPKQZ7uY0hLPtcOK/RdZqymZIaXFJSd+wik/TzgdHs2me5P1 g==;
-IronPort-SDR: ze1HTAioctzqVrI8guYzaDp5E7hnNjHZaaG0pGHjcccFXobcsBkg7zGaFM+MnXB0ZYh4pTqvla
- ZiobCZbJh32OWrcnuF1CPlY1yslP2+OXgv/EGkEnTMdEeLFJMADr54trSYKobRpjfXshxLU6CF
- L220hl8Xu42U2/krHrH0X4qbeygl7gqZIrGUBQOJ0YLLI/RAblUfp5RaRAN7ax3Skim6hjEEj9
- a0I2bjNC9cXwFpvZg9oCqL3dJaFu3PEY0zdRDppHb2sKZFcq+s8K9uVzOY/i+5LUneIDTCAp22
- ePI=
-X-IronPort-AV: E=Sophos;i="5.78,429,1599494400"; d="scan'208";a="259237059"
+ bh=Y4LoVyuGcHBUO7rS4R6vtkpvvACOE/5MROLra+otT+A=;
+ b=lr+qk8L2VT+lyJOWPNN04YvptNNYrbBpa99UvWY5+ZMluRDPeGDNtDN3
+ vK7a4igx40nMDo15MWg0TG6AMngkVvwnHAl3pn1t+C+S67n4a/0d+GIwM
+ 5P3uLjzGznS+fYGwjn4iRm7dqTZaUgUmwUOuVqkwg5RH4XSqj1x/ZG4oh
+ VSxdIBdqtql/LAPThsKcsbW18PlUTqd3xPqKpdZHmd97tkqLVP1UtNQH5
+ dumVZaYNlkTTK2yCYBCPZHGNKJjszVobd+RJ1E2kjbXOmgQtB4Xts48SW
+ +1vrBmo7i29yXKUSTEO0/vKM8jNrPEs6bxRTJf46tYiWumBWFqSilq4XW Q==;
+IronPort-SDR: U3qbfjQIq7pPKQcTMtmKJJ5kzYppr9DBLgqPxSXmwTF+oel/uB9/TQU/+vKUPQJTwxLgwgM0dN
+ 26tOGJnfmRK4Im2uYtf9/ah+GG/mA71ErrGQ+qEfq0GfCnSxDtD/ePW7ITUjbqAUVRgp3LT0bz
+ mfxxq7XmmjD/pcehtYGLgLF3rYK3APeOa023tSe8M+NRSFlBm7LCCejzfKkqWGn51PL6Yt0A+z
+ qmozB6PYYLBnRiZzvIYxnrYrwxwXQdwrGsUPaF+iQ+BzkmPcd9QPr3RTxVMoUKJSkWPbwq5RDp
+ AWU=
+X-IronPort-AV: E=Sophos;i="5.78,429,1599494400"; d="scan'208";a="259237060"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 18 Dec 2020 14:06:30 +0800
-IronPort-SDR: fAfDTXVjrLnj4b/1MExhQkPYEUbPTo9XadzqGIVSzxPghOu5urbIGmMZRu3/PSl+DfIqcENdAT
- IDFVMNrLPVDYHPqadfv2emoeI0PdpTANT1I2m51QUWx4xeuy77qdEzdtcuiuWd+QQE7xICOXLL
- NU1xPtoNcSGPPCTRbGa2pm5b+cDjR3HfV9CzLUBEUk8KiKi2DaPhj2BYS2znIWyDm8GDKlhR7a
- L15t8R+2D9xytVYEGv7GxF7OShcRbQGoJPzPCMTyPm09tmqrb9SR+Hce4cGOdm9/1ywC9au0NG
- 17BB+x6xANQT98+1ppGvyn+G
+IronPort-SDR: S1W/SFieIbKUHK81cFyzAsc3qnPTHI1HR6pOt5xlYbvBktj8aVnAVSLaxuz1fZUa+A/sg4nNVf
+ u3GT8l0o9DQ07q8h2LPJnnadQ6tIDZXzvjC4K2RZ3F1t+uDmCa4tlAtiS6mRDlHruPXKNY8OlG
+ 98vKbM1G+UXpuIxOog7iBP5fu7/GiJgrE2fTx+uXAMc2NCue0IY/VNiLQ4PuFjXY4wQV7AFk6p
+ LqYWhBmvSjZfL2xSVeuBVN7gLb483Pt2+sLWfKzIkqZ9MCYd90tgDcKjR2lag973uNQn8TKV/Y
+ XVbvXLVPasFzn3MeNZgEaBJ0
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2020 21:46:38 -0800
-IronPort-SDR: oX0CGK2HJbMkOApiZQPmsOBAy0K+3zybLTlRW45QngRg1DkNNT54v285U+tIb3ZL8JgqNhBnAx
- qRDvNiKjHGjsAVr2Bu3Lj01qLZfyDS0LX4QbGVJ30t0R8jvzM2N/CUcfISrimc31XAK+8iU/O/
- 2HXMpKraQVAZY/sFrE179GDVcPNtYFULCNC/ybcSw/SqQzfpqV96j8nwAfKCiMGYaSY4NhZ/cg
- wr2EQeS0sS82vmrNZaXcAG0yUo1BHAKuX4YHY8k4JpflAmuiiV8a6g5dZkm53CJl9o8azqEb9A
- tx0=
+ 17 Dec 2020 21:46:39 -0800
+IronPort-SDR: +wKU6tLd6P5kbRAgw1hlHercz/jLiZJsOJoUDPpXMxOLiq5nb88XIZXdX7m4txUITuCBBQNwip
+ RLymNlWqXPfpnkb5oT/mH/ZyaNj3uWfQhDhjN1lWStpJ7jMZ3bCiLdH9X9NR+umjybCRxXyFwD
+ dkmJUV0gGxsVCsu394i9lut47jbBCZSu/okAiIHwir3wiUzbQsb51cuGQ2cvmMrzz0fLveRURE
+ sw/kwj34MHM0pGPfY7s59qPIPafqSW+Go9U2H93GdELOHbDZ6IqDboNBB2jhwiWdCeViUP9O1y
+ mlg=
 WDCIronportException: Internal
 Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.62.68])
- by uls-op-cesaip01.wdc.com with ESMTP; 17 Dec 2020 22:01:22 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 17 Dec 2020 22:01:23 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 12/23] hw/riscv: virt: Remove compile time XLEN checks
-Date: Thu, 17 Dec 2020 22:01:03 -0800
-Message-Id: <20201218060114.3591217-13-alistair.francis@wdc.com>
+Subject: [PULL 13/23] hw/riscv: spike: Remove compile time XLEN checks
+Date: Thu, 17 Dec 2020 22:01:04 -0800
+Message-Id: <20201218060114.3591217-14-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201218060114.3591217-1-alistair.francis@wdc.com>
 References: <20201218060114.3591217-1-alistair.francis@wdc.com>
@@ -99,41 +99,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bin.meng@windriver.com>
-Tested-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Message-id: d7ca1aca672515e6a4aa0d41716238b055f3f25c.1608142916.git.alistair.francis@wdc.com
+Message-id: ac75037dd58061486de421a0fcd9ac8a92014607.1608142916.git.alistair.francis@wdc.com
 ---
- hw/riscv/virt.c | 32 +++++++++++++++++---------------
- 1 file changed, 17 insertions(+), 15 deletions(-)
+ hw/riscv/spike.c | 45 ++++++++++++++++++++++++---------------------
+ 1 file changed, 24 insertions(+), 21 deletions(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 5377075869..9321d8eda5 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -43,12 +43,6 @@
- #include "hw/pci/pci.h"
- #include "hw/pci-host/gpex.h"
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 875f371f0f..3e47e4579d 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -43,17 +43,6 @@
+ #include "sysemu/qtest.h"
+ #include "sysemu/sysemu.h"
  
+-/*
+- * Not like other RISC-V machines that use plain binary bios images,
+- * keeping ELF files here was intentional because BIN files don't work
+- * for the Spike machine as HTIF emulation depends on ELF parsing.
+- */
 -#if defined(TARGET_RISCV32)
--# define BIOS_FILENAME "opensbi-riscv32-generic-fw_dynamic.bin"
+-# define BIOS_FILENAME "opensbi-riscv32-generic-fw_dynamic.elf"
 -#else
--# define BIOS_FILENAME "opensbi-riscv64-generic-fw_dynamic.bin"
+-# define BIOS_FILENAME "opensbi-riscv64-generic-fw_dynamic.elf"
 -#endif
 -
  static const struct MemmapEntry {
      hwaddr base;
      hwaddr size;
-@@ -177,7 +171,7 @@ static void create_pcie_irq_map(void *fdt, char *nodename,
- }
+@@ -64,7 +53,7 @@ static const struct MemmapEntry {
+ };
  
- static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+ static void create_fdt(SpikeState *s, const struct MemmapEntry *memmap,
 -    uint64_t mem_size, const char *cmdline)
 +                       uint64_t mem_size, const char *cmdline, bool is_32_bit)
  {
      void *fdt;
-     int i, cpu, socket;
-@@ -240,11 +234,11 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+     uint64_t addr, size;
+@@ -115,11 +104,11 @@ static void create_fdt(SpikeState *s, const struct MemmapEntry *memmap,
              cpu_name = g_strdup_printf("/cpus/cpu@%d",
                  s->soc[socket].hartid_base + cpu);
              qemu_fdt_add_subnode(fdt, cpu_name);
@@ -150,7 +154,7 @@ index 5377075869..9321d8eda5 100644
              name = riscv_isa_string(&s->soc[socket].harts[cpu]);
              qemu_fdt_setprop_string(fdt, cpu_name, "riscv,isa", name);
              g_free(name);
-@@ -606,7 +600,8 @@ static void virt_machine_init(MachineState *machine)
+@@ -254,7 +243,8 @@ static void spike_board_init(MachineState *machine)
          main_mem);
  
      /* create device tree */
@@ -159,21 +163,29 @@ index 5377075869..9321d8eda5 100644
 +               riscv_is_32_bit(machine));
  
      /* boot rom */
-     memory_region_init_rom(mask_rom, NULL, "riscv_virt_board.mrom",
-@@ -614,8 +609,15 @@ static void virt_machine_init(MachineState *machine)
-     memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
+     memory_region_init_rom(mask_rom, NULL, "riscv.spike.mrom",
+@@ -262,9 +252,22 @@ static void spike_board_init(MachineState *machine)
+     memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
                                  mask_rom);
  
 -    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
--                                                     start_addr, NULL);
+-                                                     memmap[SPIKE_DRAM].base,
+-                                                     htif_symbol_callback);
++    /*
++     * Not like other RISC-V machines that use plain binary bios images,
++     * keeping ELF files here was intentional because BIN files don't work
++     * for the Spike machine as HTIF emulation depends on ELF parsing.
++     */
 +    if (riscv_is_32_bit(machine)) {
 +        firmware_end_addr = riscv_find_and_load_firmware(machine,
-+                                    "opensbi-riscv32-generic-fw_dynamic.bin",
-+                                    start_addr, NULL);
++                                    "opensbi-riscv32-generic-fw_dynamic.elf",
++                                    memmap[SPIKE_DRAM].base,
++                                    htif_symbol_callback);
 +    } else {
 +        firmware_end_addr = riscv_find_and_load_firmware(machine,
-+                                    "opensbi-riscv64-generic-fw_dynamic.bin",
-+                                    start_addr, NULL);
++                                    "opensbi-riscv64-generic-fw_dynamic.elf",
++                                    memmap[SPIKE_DRAM].base,
++                                    htif_symbol_callback);
 +    }
  
      if (machine->kernel_filename) {
