@@ -2,103 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF542DE07B
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 10:39:31 +0100 (CET)
-Received: from localhost ([::1]:51332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA3D2DE08B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 10:45:48 +0100 (CET)
+Received: from localhost ([::1]:57678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqCEU-00066U-8G
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 04:39:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34278)
+	id 1kqCKZ-0000U7-Q1
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 04:45:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1kqCCq-000543-N3; Fri, 18 Dec 2020 04:37:48 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4656)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kqCED-0006ia-Dv; Fri, 18 Dec 2020 04:39:14 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:35499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1kqCCo-0007kq-Jr; Fri, 18 Dec 2020 04:37:48 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BI9UwmL107224; Fri, 18 Dec 2020 04:37:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=/1MRTEf9PVYiAIM+rwxpWMqTfEJdBqZcqN1D/ViBmaY=;
- b=HhyWmtziDzYTZRM9kITAISOd0PXhxNFj1GKLCPw2OXiATEoh4+XjxWqAugOL+wrZdG0h
- 6JqFl7iFG60c4PrhbcXNW9Iwut9iQR6CW9QzWFRQDoCNLUpaYuo877zo+UrmdZx2c5v5
- mHNhVLHZNGx6/eqUiANTmU8oJuwCv7X9UKJMWbOjZqNng4fr85bylsrIcVc6rsSH6SsM
- bBkwHKZzDPGTPrXo5sTyC1cDIg44oOKEEdSMEpphPgAc4qZVkYo8HnZqdiCsqcLzxKh0
- rJt4yZek7Dng9O8i2Rcm9wRJ50wtixK1ckABoEbxqWN+AxUL2i9/5nopJi89gmExgdpu vw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35grpra7cv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Dec 2020 04:37:44 -0500
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BI9WeqS111666;
- Fri, 18 Dec 2020 04:37:44 -0500
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35grpra7cg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Dec 2020 04:37:43 -0500
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BI9WueH006298;
- Fri, 18 Dec 2020 09:37:42 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06fra.de.ibm.com with ESMTP id 35d310ay1n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 18 Dec 2020 09:37:42 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BI9bdD529032868
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 18 Dec 2020 09:37:39 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0C5C211C058;
- Fri, 18 Dec 2020 09:37:39 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9CDFF11C04A;
- Fri, 18 Dec 2020 09:37:38 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.46.39])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 18 Dec 2020 09:37:38 +0000 (GMT)
-Subject: Re: [PATCH v2 2/2] s390x/pci: Fix memory_region_access_valid call
-To: Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com,
- thuth@redhat.com
-References: <1608243397-29428-1-git-send-email-mjrosato@linux.ibm.com>
- <1608243397-29428-3-git-send-email-mjrosato@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-Message-ID: <72f4e03f-7208-6af0-4cd2-9715d9f9ec77@linux.ibm.com>
-Date: Fri, 18 Dec 2020 10:37:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kqCE7-00089Q-4A; Fri, 18 Dec 2020 04:39:12 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id C21065C008E;
+ Fri, 18 Dec 2020 04:39:05 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 18 Dec 2020 04:39:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=luGOYjIDjKB4b80mQ0JZ+DVtDOV
+ Lx2ftEBmk6VAQKXc=; b=HUVc8j/XSRNB5C4czpYSjHa57TLCzdsiqcA6cRzYbEk
+ rVqRz1fXIwygX87xY5LLSfPr/gIE292VMWnwCZtZR+uoIAm3544LDqOHWBaNiAwh
+ 1OematNkd0kV9G07xR5anJRuSzzpUG6rA2ZxJVW8LoADfRgvYtutBSvPYWuKo6SQ
+ 6O1Sfexv757MjMQ+ZWmzk6P7mtcIBAIImRsHEMHYHU5249zD4U+U3Q4U5iSRkZeG
+ FcYzv8rExR6bzN5X4cZeCCWNJmVOpE7HvdgAleT5j629bm6MpkyWNHu8lEXBdUMS
+ degWWecsBDGzHG7oyybqIwCH1Qwm/x/0FfKKFGWmFkA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=luGOYj
+ IDjKB4b80mQ0JZ+DVtDOVLx2ftEBmk6VAQKXc=; b=IjssT0EzvksaCzKvguIThK
+ 60Nw3ksyHk/r0jNlQ80bNW+nFO1O/8QMJWHV146oSPBx2rCCGpvlzn7+N8yoc8zY
+ N9HRmc2pNz3Z75QIVIqpDuObO2Gsl9XlaRplV6O0ULi20UaKykXHe9E2UAcB4tDM
+ 38IwBc9guZsNDh2GIliwt/t1oQfyxghnFkXiEVGXQbQTHi3gYXAxDVim3dp0tP0U
+ Fw4MBJZO1NFUwmz5nn5DP0wTCDZSIcnhhfh5uyZvI8naQzw74iR5G6EOqkJdltG+
+ 4/XBLULIrFrbtYp+g75NnE028OlTLnYULwgRea0MqsP9T5i43iZ5O+c0e7HjSg2Q
+ ==
+X-ME-Sender: <xms:uHjcX_0eMp_v9-ejGQiEe92AuNmNtAT8wt2F0kLBp4_YmVojvQl41g>
+ <xme:uHjcX-GbYA9mjhbqXVWfEhebuTKmGCLG3UIOZD6BfoWw03WN20lHu_wXH-ZAX28dI
+ kpvMtFpE73k08LPw8s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeliedgtdeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:uHjcX_7c-iAdTGInJ6DYMfW-LE-mQqpPcv0bD4BI7sBUXtXWd2DLqg>
+ <xmx:uHjcX024Z7A1Kwn64-X3wJmh0Dp5xH5byv9-0fScVXRg35HARjgZ6g>
+ <xmx:uHjcXyFr_jTP5CiVJ89JOG6NQR-Ye9OQbQIr-1a2Zn_8jCQJ2lye1w>
+ <xmx:uXjcX349CWaFH0on3YVxfqh0ffEKYwVwnIC4g5VpRpxktDIkqjwtkQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id B338924005E;
+ Fri, 18 Dec 2020 04:39:03 -0500 (EST)
+Date: Fri, 18 Dec 2020 10:39:01 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH RFC 0/3] hw/block/nvme: dif-based end-to-end data
+ protection support
+Message-ID: <X9x4tUI+QLDNTBtS@apples.localdomain>
+References: <20201217210222.779619-1-its@irrelevant.dk>
+ <20201217211440.GA502315@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <1608243397-29428-3-git-send-email-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-18_05:2020-12-18,
- 2020-12-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0
- mlxlogscore=999 impostorscore=0 malwarescore=0 priorityscore=1501
- bulkscore=0 spamscore=0 lowpriorityscore=0 clxscore=1015 phishscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012180065
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="HK+RASooX07dsBIq"
+Content-Disposition: inline
+In-Reply-To: <20201217211440.GA502315@dhcp-10-100-145-180.wdc.com>
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,55 +95,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--HK+RASooX07dsBIq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 12/17/20 11:16 PM, Matthew Rosato wrote:
-> In pcistb_service_handler, a call is made to validate that the memory
-> region can be accessed.  However, the call is made using the entire length
-> of the pcistb operation, which can be larger than the allowed memory
-> access size (8).  Since we already know that the provided buffer is a
-> multiple of 8, fix the call to memory_region_access_valid to iterate
-> over the memory region in the same way as the subsequent call to
-> memory_region_dispatch_write.
-> 
-> Fixes: 863f6f52b7 ("s390: implement pci instructions")
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->   hw/s390x/s390-pci-inst.c | 10 ++++++----
->   1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-> index e230293..76b08a3 100644
-> --- a/hw/s390x/s390-pci-inst.c
-> +++ b/hw/s390x/s390-pci-inst.c
-> @@ -821,10 +821,12 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
->       mr = s390_get_subregion(mr, offset, len);
->       offset -= mr->addr;
->   
-> -    if (!memory_region_access_valid(mr, offset, len, true,
-> -                                    MEMTXATTRS_UNSPECIFIED)) {
-> -        s390_program_interrupt(env, PGM_OPERAND, ra);
-> -        return 0;
-> +    for (i = 0; i < len; i += 8) {
-> +        if (!memory_region_access_valid(mr, offset + i, 8, true,
-> +                                        MEMTXATTRS_UNSPECIFIED)) {
-> +            s390_program_interrupt(env, PGM_OPERAND, ra);
-> +            return 0;
-> +        }
->       }
->   
->       if (s390_cpu_virt_mem_read(cpu, gaddr, ar, buffer, len)) {
-> 
+On Dec 17 13:14, Keith Busch wrote:
+> On Thu, Dec 17, 2020 at 10:02:19PM +0100, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > This series adds support for extended LBAs and end-to-end data
+> > protection. Marked RFC, since there are a bunch of issues that could use
+> > some discussion.
+> >=20
+> > Storing metadata bytes contiguously with the logical block data and
+> > creating a physically extended logical block basically breaks the DULBE
+> > and deallocation support I just added. Formatting a namespace with
+> > protection information requires the app- and reftags of deallocated or
+> > unwritten blocks to be 0xffff and 0xffffffff respectively; this could be
+> > used to reintroduce DULBE support in that case, albeit at a somewhat
+> > higher cost than the block status flag-based approach.
+> >=20
+> > There is basically three ways of storing metadata (and maybe a forth,
+> > but that is probably quite the endeavour):
+> >=20
+> >   1. Storing metadata as extended blocks directly on the blockdev. That
+> >      is the approach used in this RFC.
+> >=20
+> >   2. Use a separate blockdev. Incidentially, this is also the easiest
+> >      and most straightforward solution to support MPTR-based "separate
+> >      metadata". This also allows DULBE and block deallocation to be
+> >      supported using the existing approach.
+> >=20
+> >   3. A hybrid of 1 and 2 where the metadata is stored contiguously at
+> >     the end of the nvme-ns blockdev.
+> >=20
+> > Option 1 obviously works well with DIF-based protection information and
+> > extended LBAs since it maps one to one. Option 2 works flawlessly with
+> > MPTR-based metadata, but extended LBAs can be "emulated" at the cost of
+> > a bunch of scatter/gather operations.
+>=20
+> Are there any actual users of extended metadata that we care about? I'm
+> aware of only a few niche places that can even access an extended
+> metadata format. There's not kernel support in any major OS that I know
+> of.
+>=20
 
-wouldn't it be made automatically by defining the io_region 
-max_access_size when reading the bars in clp_service_call?
+Yes, there are definitely actual users in enterprise storage. But the
+main use case here is testing (using extended LBAs with SPDK for
+instance).
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+> Option 2 sounds fine.
+>=20
+> If option 3 means that you're still using MPTR, but just sequester space
+> at the end of the backing block device for meta-data purposes, then that
+> is fine too. You can even resize it dynamically if you want to support
+> different metadata sizes.
+
+Heh, I tend to think that my English vocabulary is pretty decent but I
+had to look up 'sequester'. I just learned a new word today \o/
+
+Yes. I actually also like option 3. Technically option 2 does not break
+image interoperability between devices (ide, virtio), but you would
+leave out a bunch of metadata that your application might depend on, so
+I don't see any way to not break interoperability really.
+
+And I would then be just fine with "emulating" extended LBAs at the cost
+of more I/O. Because I would like the device to support that mode of
+operation as well. We have not implemented this, but my gut feeling says
+that it can be done.
+
+>=20
+> > The 4th option is extending an existing image format (QCOW2) or create
+> > something on top of RAW to supports metadata bytes per block. But both
+> > approaches require full API support through the block layer. And
+> > probably a lot of other stuff that I did not think about.
+>=20
+> It definitely sounds appealing to push the feature to a lower level if
+> you're really willing to see that through.
+>=20
+
+Yes, its super appealing and I would like to have some input from the
+block layer guys on this. That is, if anyone has ever explored it?
+
+> In any case, calculating T10 CRCs is *really* slow unless you have
+> special hardware and software support for it.
+>=20
+
+Yeah. I know this is super slow. For for emulation and testing purposes
+I think it is a nice feature for the device to optionally offer.
+
+--HK+RASooX07dsBIq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/ceLIACgkQTeGvMW1P
+DelHDQf+Iw1RqDHDwW5hf/itfFy4zGAF3BAs6VTaTgLySf5bWFY8lPELy5W+Pr22
+rdDmB8MBYG/1CddBXqy5DVuVj0negns8mRYzBivBIaPE64OurzVUmQz8rhROMbpm
+yc3JkdrLi/qQc+VHpPjH1afpi8WNdzgMgsSGnl5+IAI4MNL/WQpPmL4UBvH/dQ31
+qcCBVhMtapV4mmMtEbDG37/7Xh395aoFkqZb8zEmbDYQji0ow7+lV/e6vmY/gCeR
+as/woYVfnzn7eb5uz/5SeqJDr48EbcPrzQrczEO5Xe4fgzY6oknrFk3OJ0GLbSEg
+YnlmPyNN/XOxkIRGOx89JJuDte72Gg==
+=Vav9
+-----END PGP SIGNATURE-----
+
+--HK+RASooX07dsBIq--
 
