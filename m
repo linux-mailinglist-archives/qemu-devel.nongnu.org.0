@@ -2,98 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B36942DE802
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 18:25:45 +0100 (CET)
-Received: from localhost ([::1]:33066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D20752DE889
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 18:52:29 +0100 (CET)
+Received: from localhost ([::1]:52772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqJVg-0006jd-QZ
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 12:25:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60126)
+	id 1kqJvY-0008UL-Ce
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 12:52:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kqJTg-0005yV-IN
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 12:23:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kqJTM-0003JS-Ih
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 12:23:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608312198;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yT/+FWuw5z1fvHYafELKl/UnZUkO1XdC1i1khLiNjOg=;
- b=CMi4vTXLP7pOU82uKpIGOWpB8ql6LpWnknW3FSQxwLaDRGHI+61G5yAXas72zFK2vUqFmJ
- tfHevhsXBI1UEN/VdPXDMItZ4HHuK4NhTvkey3OFdLxy9wFh6uHEoZFriMrS4/oqmSfC1R
- 4TH8aU1O7hTKFEWYGBG9sY0fta8xuPc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-sdVV0QJQMj2TNMwcpyGiJw-1; Fri, 18 Dec 2020 12:23:17 -0500
-X-MC-Unique: sdVV0QJQMj2TNMwcpyGiJw-1
-Received: by mail-ed1-f69.google.com with SMTP id h5so1383931edq.3
- for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 09:23:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yT/+FWuw5z1fvHYafELKl/UnZUkO1XdC1i1khLiNjOg=;
- b=eGoaoYFVmBKJdEyBZa76WUSTjCmOu5TkF3kqC2UGfBGSLsr/f12pgXhV2bX3qaTrEy
- f77nZHe0zQypSgliHQ4DlSAJ0UqwFKMf8JhwdMxIGGreAHssAtWCM14YIf3LPIMfHlTl
- k8tnJ62m8qbEtxu3bybZWSGArhRqxLsdb8KQoG7bwO6450NyFBVlpYR5IZ7uokAlmpjr
- vMtsMPx4PcLqSZ9vWyt96FwWwVHnAr/bLGO2z0kIx0gdPf8Qhvn1FW1WJX65SAsnSYAJ
- /IXhPnwgSGIfxHlnx9lZz6oV8IXDZFviC0XPSoQYmqdUII6fzF4qPmrPU6C8XMbrwMoM
- qYTQ==
-X-Gm-Message-State: AOAM530j08o9kbTdFWlL+2eynXlesJQVM7080rNSfn1SCy4ZFk8lMyRZ
- 611q9TVxtTh8Tp5eHOjWrdGXq1PrAxuLi+sDYke2vTWSiDnfP0CByOGccp8KVuehj3zxJ2SrA+S
- un9K76LRlEiuJLB7oReD46IEXNl8pN3FF1naHd62r/RI9DrPhGFpeILhLvJEy8+TOuZY=
-X-Received: by 2002:a17:907:36a:: with SMTP id
- rs10mr4926117ejb.411.1608312195353; 
- Fri, 18 Dec 2020 09:23:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyyoeVeTMYSyxTyjK3UGJJkNK4DQUU5jbkf6achoJiEcyT8t2FjqvWQA2k5RWDestpT+TTuNQ==
-X-Received: by 2002:a17:907:36a:: with SMTP id
- rs10mr4926095ejb.411.1608312195103; 
- Fri, 18 Dec 2020 09:23:15 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id i18sm11718920edt.68.2020.12.18.09.23.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Dec 2020 09:23:14 -0800 (PST)
-Subject: Re: [PULL v2 00/11] testing and configure updates
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20201217094330.17400-1-alex.bennee@linaro.org>
- <CAFEAcA8SAGVe44y=6wHC_MxcmxUE=cSu5DGs-0Md3Zt+ZZrS+A@mail.gmail.com>
- <87v9d0q9rr.fsf@linaro.org>
- <CAFEAcA9dFV5ym=N1XQBJrXHYgu5NNRJC8eB9pPRaK2CokHoHxg@mail.gmail.com>
- <87pn37qqh1.fsf@linaro.org>
- <CAFEAcA-UmyTw8Sn5yZrZFxumJRPv-oGg4uL++7av0oTh8fEAMw@mail.gmail.com>
- <87blerqblh.fsf@linaro.org> <878s9vqbh4.fsf@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <91499156-7bdc-a994-340b-b1c8e9a65dcc@redhat.com>
-Date: Fri, 18 Dec 2020 18:23:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kqJts-0007CZ-E1; Fri, 18 Dec 2020 12:50:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42684)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kqJtq-0005hr-Fz; Fri, 18 Dec 2020 12:50:44 -0500
+Date: Sat, 19 Dec 2020 02:50:34 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1608313840;
+ bh=jpquabZR58cccOR7sLwR50JiVuDXWleltebbI5tnTk4=;
+ h=From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KVE4Ud0bcJcEczO2+sy/Zq4U/Y/uNNK1//msKytYR5TEiktNzj4juhGwuYHzLzADh
+ 3A5Weg74m/G353wnfZD/VZrG46JmOEO37ddplszIlyV72wIeV699YAV4JmR0wJ0W+C
+ hrflLuVDzAc3Y9IVn5Gm8Zf8seHRzkjqRXA1tsFWSzePlQWuB85XSpTNVQr5t+HORl
+ WPmsHicJlJDXLgHulOBjF4nzqlRKU+8MO6qN2db9/fLT6xmAZCrWkzJQTl9bfaDQTJ
+ 7k8wlPhifTKPB3ae7mNyVhpRCJ8XFDE6SnzG5t7mdYkWcb7bV4wb6jkc6bVhvmIC35
+ jPoQn1prC8KWQ==
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH RFC 0/3] hw/block/nvme: dif-based end-to-end data
+ protection support
+Message-ID: <20201218175034.GA8722@redsun51.ssa.fujisawa.hgst.com>
+References: <20201217210222.779619-1-its@irrelevant.dk>
+ <20201217211440.GA502315@dhcp-10-100-145-180.wdc.com>
+ <X9x4tUI+QLDNTBtS@apples.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <878s9vqbh4.fsf@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <X9x4tUI+QLDNTBtS@apples.localdomain>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,58 +62,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/12/20 18:17, Alex Bennée wrote:
->> I'm surprised about build.ninja and Makefile.ninja Don't they get
->> regenerated by the configure?
+On Fri, Dec 18, 2020 at 10:39:01AM +0100, Klaus Jensen wrote:
+> On Dec 17 13:14, Keith Busch wrote:
+> > On Thu, Dec 17, 2020 at 10:02:19PM +0100, Klaus Jensen wrote:
+> > 
+> > Are there any actual users of extended metadata that we care about? I'm
+> > aware of only a few niche places that can even access an extended
+> > metadata format. There's not kernel support in any major OS that I know
+> > of.
+> > 
+> 
+> Yes, there are definitely actual users in enterprise storage. But the
+> main use case here is testing (using extended LBAs with SPDK for
+> instance).
 
-This just means that meson _looked_ at some moxie file, so the files are 
-a dependency of configure.
+Fair enough.
 
-> Even weirder, re-run configure and the list grows!
->
->    meson-private/microblazeel-softmmu-config-devices.mak.d
->    meson-private/sh4eb-softmmu-config-devices.mak.d
->    meson-private/xtensa-softmmu-config-devices.mak.d
->    meson-private/mips64-softmmu-config-devices.mak.d
->    meson-private/nios2-softmmu-config-devices.mak.d
->    meson-private/rx-softmmu-config-devices.mak.d
->    meson-private/tricore-softmmu-config-devices.mak.d
->    meson-private/s390x-softmmu-config-devices.mak.d
->    meson-private/microblaze-softmmu-config-devices.mak.d
->    meson-private/riscv64-softmmu-config-devices.mak.d
->    meson-private/riscv32-softmmu-config-devices.mak.d
->    meson-private/sparc64-softmmu-config-devices.mak.d
->    meson-private/arm-softmmu-config-devices.mak.d
->    meson-private/xtensaeb-softmmu-config-devices.mak.d
->    meson-private/sh4-softmmu-config-devices.mak.d
->    meson-private/mips-softmmu-config-devices.mak.d
->    meson-private/or1k-softmmu-config-devices.mak.d
->    meson-private/sparc-softmmu-config-devices.mak.d
->    meson-private/x86_64-softmmu-config-devices.mak.d
->    meson-private/avr-softmmu-config-devices.mak.d
->    meson-private/mips64el-softmmu-config-devices.mak.d
->    meson-private/mipsel-softmmu-config-devices.mak.d
->    meson-private/ppc-softmmu-config-devices.mak.d
->    meson-private/aarch64-softmmu-config-devices.mak.d
->    meson-private/i386-softmmu-config-devices.mak.d
->    meson-private/alpha-softmmu-config-devices.mak.d
->    meson-private/ppc64-softmmu-config-devices.mak.d
->    meson-private/hppa-softmmu-config-devices.mak.d
->    meson-private/m68k-softmmu-config-devices.mak.d
->    meson-private/cris-softmmu-config-devices.mak.d
->    moxie-softmmu-config-devices.h
->    build.ninja
+And just to make sure we're coverging on the same nomenclature, spec
+suggests "extended" metadata means the interleaved format that does not
+use the MPTR field. Metadata with the MPTR field is referred to as
+"separate". I'm only mentioning this because I've been in confused
+conversations where "extended LBA" interchangably meant either method.
+ 
+> Yes. I actually also like option 3. Technically option 2 does not break
+> image interoperability between devices (ide, virtio), but you would
+> leave out a bunch of metadata that your application might depend on, so
+> I don't see any way to not break interoperability really.
 
-This is expected since there's still an unconditional "source 
-hw/moxie/Kconfig".
+Either is fine. If you're switching metadata modes through your qemu
+parameters, you could think of this as a firmware change, which doesn't
+guarantee the same LBA formats.
 
-Alex, would you like to just drop the deprecation patch?  I can pick it 
-up in my tree and try to debug it.
+> And I would then be just fine with "emulating" extended LBAs at the cost
+> of more I/O. Because I would like the device to support that mode of
+> operation as well. We have not implemented this, but my gut feeling says
+> that it can be done.
 
-Paolo
+It can. My qemu tree from way back did this, but infradead.org lost it
+all and never recovered. I didn't retain a local copy either, but
+starting from scratch is probably the best course anyway.
 
+> > In any case, calculating T10 CRCs is *really* slow unless you have
+> > special hardware and software support for it.
+> > 
+> 
+> Yeah. I know this is super slow. For for emulation and testing purposes
+> I think it is a nice feature for the device to optionally offer.
+
+Bonus if you want to implement this with PCLMULQDQ support in x86-64
+hosts. For reference, here's the linux kernel's implementation:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/x86/crypto/crct10dif-pcl-asm_64.S
+
+I wouldn't necessarily tie metadata support to T10DIF, though, since
+it has uses beyond protection info.
 
