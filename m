@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC1F2DEB68
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 23:07:31 +0100 (CET)
-Received: from localhost ([::1]:42968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1202A2DEB9F
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 23:33:30 +0100 (CET)
+Received: from localhost ([::1]:60410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqNuM-0003ET-7a
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 17:07:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38174)
+	id 1kqOJU-0003Xb-AW
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 17:33:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kqNib-0006He-Eg
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 16:55:21 -0500
-Received: from mx2.suse.de ([195.135.220.15]:58946)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kqOH7-00034N-1n
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 17:31:01 -0500
+Received: from mx2.suse.de ([195.135.220.15]:45430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kqNiU-00073g-2p
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 16:55:21 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kqOH4-0003BP-Ej
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 17:31:00 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2337CAC7B;
- Fri, 18 Dec 2020 21:55:12 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id AF440AC7B;
+ Fri, 18 Dec 2020 22:30:56 +0000 (UTC)
 Subject: Re: [RFC v6 10/11] accel: introduce AccelCPUClass extending CPUClass
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
@@ -36,12 +36,13 @@ References: <20201126223218.31480-1-cfontana@suse.de>
  <ff157643-5245-85ba-123e-32800f212f4b@suse.de>
  <51838c6c-8a44-afef-1acf-b8acb3eada19@redhat.com>
  <050bc10b-861c-f463-18e1-c4d1aa0c301e@suse.de>
-Message-ID: <4bca1b60-ceeb-4b99-dd92-77dac07e9064@suse.de>
-Date: Fri, 18 Dec 2020 22:55:10 +0100
+ <4bca1b60-ceeb-4b99-dd92-77dac07e9064@suse.de>
+Message-ID: <343846ce-12ba-23d6-4832-4aa16cb22f9d@suse.de>
+Date: Fri, 18 Dec 2020 23:30:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <050bc10b-861c-f463-18e1-c4d1aa0c301e@suse.de>
+In-Reply-To: <4bca1b60-ceeb-4b99-dd92-77dac07e9064@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -76,65 +77,66 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/18/20 7:04 PM, Claudio Fontana wrote:
-> On 12/18/20 7:01 PM, Paolo Bonzini wrote:
->> On 18/12/20 18:51, Claudio Fontana wrote:
->>> But with things like cris/ for example,
->>> the tcg functions to use are actually versioned per each subclass of TYPE_CRIS_CPU.
+On 12/18/20 10:55 PM, Claudio Fontana wrote:
+> On 12/18/20 7:04 PM, Claudio Fontana wrote:
+>> On 12/18/20 7:01 PM, Paolo Bonzini wrote:
+>>> On 18/12/20 18:51, Claudio Fontana wrote:
+>>>> But with things like cris/ for example,
+>>>> the tcg functions to use are actually versioned per each subclass of TYPE_CRIS_CPU.
+>>>>
+>>>> Different tcg_ops need to be used for different subclasses of the CPU_RESOLVING_TYPE.
 >>>
->>> Different tcg_ops need to be used for different subclasses of the CPU_RESOLVING_TYPE.
+>>> CRIS is not that bad since it's TCG only.  You can just make it a field 
+>>> in CRISCPUClass and copy it over to tcg_ops.
+>>>
+>>> I think ARM had something similar though, with different do_interrupt 
+>>> implementations for M and A processors.  Somebody from Linaro was 
+>>> cleaning it up as part of some BQL work, but it was never merged.  But 
+>>> even in that case, do_interrupt is somewhat special for ARM so making it 
+>>> an xxxCPUClass field makes sense.
+>>>
+>>> Paolo
 >>
->> CRIS is not that bad since it's TCG only.  You can just make it a field 
->> in CRISCPUClass and copy it over to tcg_ops.
+>> Ok that's a good alternative,
 >>
->> I think ARM had something similar though, with different do_interrupt 
->> implementations for M and A processors.  Somebody from Linaro was 
->> cleaning it up as part of some BQL work, but it was never merged.  But 
->> even in that case, do_interrupt is somewhat special for ARM so making it 
->> an xxxCPUClass field makes sense.
+>>>
+>>>> So in order to avoid code in the class initialization like this:
+>>>>
+>>>> if (version1) { then set the tcg ops for version 1; }
+>>>> if (version2) { then set the tcg ops for version 2; ...} etc,
+>>>>
+>>>> we could define the right tcg op variants corresponding to the cpu variants, so that everything can be matched automatically.
+>>>>
+>>>> But I think we'd need to pass explicitly the cpu type in accel_init_cpu_interfaces for this to work..
+>>>> we could still in the future call accel_init_cpu_interfaces multiple times, once for each cpu model we want to use.
+>>>>
+>>>> Or, we could do something else: we could delay the accel cpu interface initialization and call it in cpu_create(const char *typename),
+>>>> where typename needs to be known for sure.
 >>
->> Paolo
-> 
-> Ok that's a good alternative,
-> 
 >>
->>> So in order to avoid code in the class initialization like this:
->>>
->>> if (version1) { then set the tcg ops for version 1; }
->>> if (version2) { then set the tcg ops for version 2; ...} etc,
->>>
->>> we could define the right tcg op variants corresponding to the cpu variants, so that everything can be matched automatically.
->>>
->>> But I think we'd need to pass explicitly the cpu type in accel_init_cpu_interfaces for this to work..
->>> we could still in the future call accel_init_cpu_interfaces multiple times, once for each cpu model we want to use.
->>>
->>> Or, we could do something else: we could delay the accel cpu interface initialization and call it in cpu_create(const char *typename),
->>> where typename needs to be known for sure.
+>> I take you don't like this idea to initialize the accel cpu interface in cpu_create()?
+>> It seems to make sense to me, but any drawbacks?
+>>
+>> Ciao thanks!
+>>
+>> Claudio
+>>
+>>
+>>>>
+>>>> This last option seems kinda attractive, but any ideas?
+>>
+>>
 > 
+> Oh I see, sadly, only user mode code seem to be guaranteed to go through cpu_create(), so there is probably no single code point,
+> where we are guaranteed to see the creation of a cpu, everything is duplicated with explict calls to object_new in multiple places.
 > 
-> I take you don't like this idea to initialize the accel cpu interface in cpu_create()?
-> It seems to make sense to me, but any drawbacks?
-> 
-> Ciao thanks!
-> 
-> Claudio
-> 
-> 
->>>
->>> This last option seems kinda attractive, but any ideas?
-> 
-> 
+> Hmm...
 
-Oh I see, sadly, only user mode code seem to be guaranteed to go through cpu_create(), so there is probably no single code point,
-where we are guaranteed to see the creation of a cpu, everything is duplicated with explict calls to object_new in multiple places.
-
-Hmm...
+Well we can actually do it in the right place, that is in cpu_common_intfn,
+by calling accel_init_cpu_intefaces there, which kinda makes sense anyway... wdyt?
 
 Ciao,
 
-Claudio
-
-
-
+CLaudio
 
 
