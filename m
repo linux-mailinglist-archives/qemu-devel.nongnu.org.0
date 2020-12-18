@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20AB12DE278
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 13:13:18 +0100 (CET)
-Received: from localhost ([::1]:47002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B2C2DE2AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 13:19:49 +0100 (CET)
+Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqEdI-0003hV-Vi
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 07:13:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38392)
+	id 1kqEjc-0002R0-9d
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 07:19:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kqEbB-0001qg-MW
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 07:11:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50036)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kqEb9-0001n4-Pr
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 07:11:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kqEb6-0001fH-6u
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 07:11:05 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kqEb5-0001ee-Q4
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 07:11:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608293459;
+ s=mimecast20190719; t=1608293458;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9bXSjMFhnK3KRuZwSkGmvSVGzZQJgcjXl2wklsYBL7U=;
- b=F7vKDOIoRFV5+j3K4juRkSlnEulkBnSrsEzEgXL2SZ1JEK2QDNb8Isd1QBKbmLKNcM1Oy2
- 8pQCQ9UjkkQmGzDnkuMEAzRMwF78y7kbjh2YXUrbqDlBSFhb8/aTcMwbYBQEN+wT/yRV2K
- op++ERdoHjc4ceyd+IrRwhBpIRTAAJE=
+ bh=S7tOIEeirGXlxkGsf9Qlnd3pkP40MD7zbMOvzjGi6Nc=;
+ b=MIQgXE5PECRcr8wGj1TcKp2/S+52UeVuPcd7MSzjQqEx3Vp/8IYYc7f2tIsej1zU6q7eub
+ qyxIjLVhhkvK1k+E5jsJ/maDyhkMlKL8BMjS9/S2Vr7M2iUyCdpXDr96k9dUHoFJP/XzHr
+ 6ClUehvy3KzMzwkFyoEA1ohGp4Y5/xU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-Nnp-ZrYENk2z2zhJCZSvOg-1; Fri, 18 Dec 2020 07:10:55 -0500
-X-MC-Unique: Nnp-ZrYENk2z2zhJCZSvOg-1
+ us-mta-131-L0vZoJkMMAi6hu0zrTHA4w-1; Fri, 18 Dec 2020 07:10:56 -0500
+X-MC-Unique: L0vZoJkMMAi6hu0zrTHA4w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39009CE642;
- Fri, 18 Dec 2020 12:10:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 976C5CE646;
+ Fri, 18 Dec 2020 12:10:55 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-115-34.ams2.redhat.com [10.36.115.34])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3FA8F60C15;
- Fri, 18 Dec 2020 12:10:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8332260C15;
+ Fri, 18 Dec 2020 12:10:54 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/17] MAINTAINERS: add Kevin Wolf as storage daemon maintainer
-Date: Fri, 18 Dec 2020 13:10:30 +0100
-Message-Id: <20201218121041.299788-7-kwolf@redhat.com>
+Subject: [PULL 07/17] iotests: make _filter_qom_path more strict
+Date: Fri, 18 Dec 2020 13:10:31 +0100
+Message-Id: <20201218121041.299788-8-kwolf@redhat.com>
 In-Reply-To: <20201218121041.299788-1-kwolf@redhat.com>
 References: <20201218121041.299788-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -53,16 +53,16 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,39 +80,290 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-The MAINTAINERS file was not updated when the storage daemon was merged.
+According to original commit, that added this filter (627f607e3dddb2),
+the problematic thing in qom path is device[NUMBER], not the whole
+path. Seems that tracking the other parts of the path in iotest output
+is not bad. Let's make _filter_qom_path stricter.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Acked-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201209103802.350848-4-stefanha@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20201216095205.526235-2-vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ tests/qemu-iotests/186.out       | 56 ++++++++++++++++----------------
+ tests/qemu-iotests/common.filter |  2 +-
+ 2 files changed, 29 insertions(+), 29 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1e7c8f0488..0e139d9612 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2165,6 +2165,15 @@ F: qobject/block-qdict.c
- F: tests/check-block-qdict.c
- T: git https://repo.or.cz/qemu/kevin.git block
+diff --git a/tests/qemu-iotests/186.out b/tests/qemu-iotests/186.out
+index 5b3504042a..01530040e5 100644
+--- a/tests/qemu-iotests/186.out
++++ b/tests/qemu-iotests/186.out
+@@ -7,7 +7,7 @@ Testing: -device floppy
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ /machine/peripheral-anon/device[1]: [not inserted]
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Removable device: not locked, tray closed
+ (qemu) quit
  
-+Storage daemon
-+M: Kevin Wolf <kwolf@redhat.com>
-+L: qemu-block@nongnu.org
-+S: Supported
-+F: storage-daemon/
-+F: docs/interop/qemu-storage-daemon-qmp-ref.rst
-+F: docs/tools/qemu-storage-daemon.rst
-+T: git https://repo.or.cz/qemu/kevin.git block
-+
- Block I/O path
- M: Stefan Hajnoczi <stefanha@redhat.com>
- M: Fam Zheng <fam@euphon.net>
+@@ -23,7 +23,7 @@ Testing: -device ide-cd
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ /machine/peripheral-anon/device[1]: [not inserted]
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Removable device: not locked, tray closed
+ (qemu) quit
+ 
+@@ -39,7 +39,7 @@ Testing: -device scsi-cd
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ /machine/peripheral-anon/device[1]: [not inserted]
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Removable device: not locked, tray closed
+ (qemu) quit
+ 
+@@ -58,7 +58,7 @@ Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device ide-hd,d
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Cache mode:       writeback
+ (qemu) quit
+ 
+@@ -74,7 +74,7 @@ Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device scsi-hd,
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Cache mode:       writeback
+ (qemu) quit
+ 
+@@ -90,7 +90,7 @@ Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device virtio-b
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]/virtio-backend
+     Cache mode:       writeback
+ (qemu) quit
+ 
+@@ -98,7 +98,7 @@ Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device virtio-b
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral/qdev_id/virtio-backend
+     Cache mode:       writeback
+ (qemu) quit
+ 
+@@ -106,7 +106,7 @@ Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device floppy,d
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Removable device: not locked, tray closed
+     Cache mode:       writeback
+ (qemu) quit
+@@ -124,7 +124,7 @@ Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device ide-cd,d
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Removable device: not locked, tray closed
+     Cache mode:       writeback
+ (qemu) quit
+@@ -142,7 +142,7 @@ Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device scsi-cd,
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Removable device: not locked, tray closed
+     Cache mode:       writeback
+ (qemu) quit
+@@ -191,7 +191,7 @@ none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
+     Cache mode:       writeback
+ 
+ null: json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral/qdev_id/virtio-backend
+     Cache mode:       writeback
+ (qemu) quit
+ 
+@@ -241,7 +241,7 @@ Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device ide
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Cache mode:       writeback
+ (qemu) quit
+ 
+@@ -257,7 +257,7 @@ Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device scs
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Cache mode:       writeback
+ (qemu) quit
+ 
+@@ -273,7 +273,7 @@ Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device vir
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]/virtio-backend
+     Cache mode:       writeback
+ (qemu) quit
+ 
+@@ -281,7 +281,7 @@ Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device vir
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral/qdev_id/virtio-backend
+     Cache mode:       writeback
+ (qemu) quit
+ 
+@@ -289,7 +289,7 @@ Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device flo
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Removable device: not locked, tray closed
+     Cache mode:       writeback
+ (qemu) quit
+@@ -307,7 +307,7 @@ Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device ide
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Removable device: not locked, tray closed
+     Cache mode:       writeback
+ (qemu) quit
+@@ -325,7 +325,7 @@ Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device scs
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Removable device: not locked, tray closed
+     Cache mode:       writeback
+ (qemu) quit
+@@ -353,7 +353,7 @@ Testing: -drive if=none -device floppy,drive=none0
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ none0: [not inserted]
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Removable device: not locked, tray closed
+ (qemu) quit
+ 
+@@ -369,7 +369,7 @@ Testing: -drive if=none -device ide-cd,drive=none0
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ none0: [not inserted]
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Removable device: not locked, tray closed
+ (qemu) quit
+ 
+@@ -385,7 +385,7 @@ Testing: -drive if=none -device scsi-cd,drive=none0
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ none0: [not inserted]
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]
+     Removable device: not locked, tray closed
+ (qemu) quit
+ 
+@@ -404,7 +404,7 @@ Testing: -drive if=floppy
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ floppy0: [not inserted]
+-    Attached to:      PATH
++    Attached to:      /machine/unattached/device[N]
+     Removable device: not locked, tray closed
+ (qemu) quit
+ 
+@@ -412,7 +412,7 @@ Testing: -drive if=floppy,driver=null-co,read-zeroes=on
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ floppy0 (NODE_NAME): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/unattached/device[N]
+     Removable device: not locked, tray closed
+     Cache mode:       writeback
+ (qemu) quit
+@@ -421,7 +421,7 @@ Testing: -drive if=ide,driver=null-co,read-zeroes=on
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ ide0-hd0 (NODE_NAME): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/unattached/device[N]
+     Cache mode:       writeback
+ (qemu) quit
+ 
+@@ -429,7 +429,7 @@ Testing: -drive if=ide,media=cdrom
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ ide0-cd0: [not inserted]
+-    Attached to:      PATH
++    Attached to:      /machine/unattached/device[N]
+     Removable device: not locked, tray closed
+ (qemu) quit
+ 
+@@ -437,7 +437,7 @@ Testing: -drive if=ide,driver=null-co,read-zeroes=on,media=cdrom
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ ide0-cd0 (NODE_NAME): json:{"read-zeroes": "on", "driver": "null-co"} (null-co, read-only)
+-    Attached to:      PATH
++    Attached to:      /machine/unattached/device[N]
+     Removable device: not locked, tray closed
+     Cache mode:       writeback
+ (qemu) quit
+@@ -446,7 +446,7 @@ Testing: -drive if=virtio,driver=null-co,read-zeroes=on
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ virtio0 (NODE_NAME): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/peripheral-anon/device[N]/virtio-backend
+     Cache mode:       writeback
+ (qemu) quit
+ 
+@@ -454,7 +454,7 @@ Testing: -drive if=pflash,driver=null-co,read-zeroes=on,size=1M
+ QEMU X.Y.Z monitor - type 'help' for more information
+ (qemu) info block
+ pflash0 (NODE_NAME): json:{"read-zeroes": "on", "driver": "null-co", "size": "1M"} (null-co)
+-    Attached to:      PATH
++    Attached to:      /machine/system.flash0
+     Cache mode:       writeback
+ (qemu) quit
+ 
+diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+index 172ea5752e..268b749e2f 100644
+--- a/tests/qemu-iotests/common.filter
++++ b/tests/qemu-iotests/common.filter
+@@ -37,7 +37,7 @@ _filter_generated_node_ids()
+ 
+ _filter_qom_path()
+ {
+-    $SED -e 's#\(Attached to: *\) /.*#\1 PATH#'
++    $SED -e '/Attached to:/s/\device[[0-9]\+\]/device[N]/g'
+ }
+ 
+ # replace occurrences of the actual TEST_DIR value with TEST_DIR
 -- 
 2.29.2
 
