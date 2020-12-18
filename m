@@ -2,75 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48442DE1EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 12:23:22 +0100 (CET)
-Received: from localhost ([::1]:55100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3402DE1F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 12:27:36 +0100 (CET)
+Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqDqz-0003Gi-IO
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 06:23:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54270)
+	id 1kqDv4-0006fD-3v
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 06:27:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kqDiW-0002pZ-EZ
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:14:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27544)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kqDiU-0006yW-MX
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:14:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608290073;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F9+UOI2kD6w6X2JLPDbmrlTWaSfkV2Qf8RbQMnmEr40=;
- b=cbgB3oDmXsaf9xKW1wceJrjAdewa/S5tU3PBO3Ofe8CYRI/zMPxbK/XZ2AG7ZZmvaTFSYF
- LiE76P20zwjQPaBOfBHZT6VCEvgVicCwUJeEM+ofe7qjc6S6GkhVkwVE/n9MvqJdKKVmjL
- g7WG8bUSBz2nf/FJLizNEaYhsRgelRo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-upL7qDdaPLWPC1X3036f4g-1; Fri, 18 Dec 2020 06:14:32 -0500
-X-MC-Unique: upL7qDdaPLWPC1X3036f4g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48F91801817;
- Fri, 18 Dec 2020 11:14:31 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-84.ams2.redhat.com
- [10.36.114.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 29D785D9C6;
- Fri, 18 Dec 2020 11:14:29 +0000 (UTC)
-Subject: Re: [PATCH 9/9] block/vpc: Use sizeof() instead of HEADER_SIZE for
- footer size
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20201217162003.1102738-1-armbru@redhat.com>
- <20201217162003.1102738-10-armbru@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <2b05d0db-0c53-f80d-697d-7e1bb0ee5c69@redhat.com>
-Date: Fri, 18 Dec 2020 12:14:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kqDtB-0005qb-2T
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:25:37 -0500
+Received: from mx2.suse.de ([195.135.220.15]:34640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kqDt5-0002Kf-NA
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:25:35 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E930EAF2C;
+ Fri, 18 Dec 2020 11:25:29 +0000 (UTC)
+Subject: Re: [PATCH] whpx: fix compilation
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20201218084611.634254-1-marcandre.lureau@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <60f08ffb-e761-d708-e90e-aed66c1dd584@suse.de>
+Date: Fri, 18 Dec 2020 12:25:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201217162003.1102738-10-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20201218084611.634254-1-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,16 +54,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, mrezanin@redhat.com, qemu-block@nongnu.org
+Cc: pbonzini@redhat.com, sunilmut@microsoft.com,
+ Alex Bennee <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.12.20 17:20, Markus Armbruster wrote:
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On 12/18/20 9:46 AM, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> When compiling WHPX (on msys2)
+> 
+> FAILED: libqemu-x86_64-softmmu.fa.p/target_i386_whpx_whpx-all.c.obj
+> ../target/i386/whpx/whpx-all.c:29:10: fatal error: whp-dispatch.h: No such file or directory
+>    29 | #include "whp-dispatch.h"
+>       |          ^~~~~~~~~~~~~~~~
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->   block/vpc.c | 29 ++++++++++++++---------------
->   1 file changed, 14 insertions(+), 15 deletions(-)
+>  include/sysemu/whpx.h | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h
+> index 9346fd92e9..79ab3d73cf 100644
+> --- a/include/sysemu/whpx.h
+> +++ b/include/sysemu/whpx.h
+> @@ -15,7 +15,9 @@
+>  
+>  #ifdef CONFIG_WHPX
+>  
+> -#include "whp-dispatch.h"
+> +#include <windows.h>
+> +#include <WinHvPlatform.h>
+> +#include <WinHvEmulation.h>
+>  
+>  struct whpx_state {
+>      uint64_t mem_quota;
+> 
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Hi Marc, interesting factoid: cirrus-ci shows "GREEN", screaming all-ok for msys2, while the error is present,
+and visible only on manual inspection of "Run main".
 
+https://cirrus-ci.com/task/6573590369796096
+
+Maybe something that needs attention CI-wise? Not sure who knows the details there, and how to fix it..
+Maybe it's my move of whpx code to a subdirectory of target/i386/ that caused the breakage?
+
+Ciao,
+
+Claudio
 
