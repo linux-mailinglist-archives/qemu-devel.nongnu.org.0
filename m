@@ -2,56 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D891F2DDF7F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 09:26:48 +0100 (CET)
-Received: from localhost ([::1]:42368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67DF2DDF83
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 09:29:38 +0100 (CET)
+Received: from localhost ([::1]:47058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqB67-0000Fj-Df
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 03:26:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47642)
+	id 1kqB8r-0002JQ-OC
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 03:29:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqB4C-0008Fj-EK
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 03:24:48 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:37545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqB49-0007Nj-Fz
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 03:24:48 -0500
-Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N95Nf-1k3YAY3mkh-0165EH; Fri, 18 Dec 2020 09:24:42 +0100
-Subject: Re: [PATCH v2 0/8] fcntl, sockopt, and ioctl options
-To: Shu-Chun Weng <scw@google.com>, qemu-devel@nongnu.org
-References: <cover.1597129029.git.scw@google.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <bb068f91-d3df-1245-1798-85af33598e9a@vivier.eu>
-Date: Fri, 18 Dec 2020 09:24:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kqB6b-00014T-Ht
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 03:27:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20263)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kqB6Y-0008Jw-RU
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 03:27:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608280033;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HB5s1OfLdvkZ+YjEV+2Xzh3v4FKG6zDaRiLxijxsR4g=;
+ b=Slo/QaWrt0/HytZXxHHZ4zZqZ/qxuNwoxFjaqjR2y1bLv4YQ/T44gWP8rBzmsfcnYPEEZ3
+ Cbig06KFsE+bY3af8tiuI18mqMbpyGFIy6DnpallHVnNvjYyC/rtlkKDbwZultz1HnHt7B
+ gXV5bOQd+S/Q9QV7sleNixXmSjhwQQU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223-YmbF8ZouMgO-jRa45w6rsQ-1; Fri, 18 Dec 2020 03:27:09 -0500
+X-MC-Unique: YmbF8ZouMgO-jRa45w6rsQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43D4C19251A0;
+ Fri, 18 Dec 2020 08:27:08 +0000 (UTC)
+Received: from thuth.com (ovpn-112-59.ams2.redhat.com [10.36.112.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E979D10016FF;
+ Fri, 18 Dec 2020 08:27:06 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL v2 00/14] Compile QEMU with -Wimplicit-fallthrough
+Date: Fri, 18 Dec 2020 09:27:01 +0100
+Message-Id: <20201218082704.2014294-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <cover.1597129029.git.scw@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3q7gvSBuRcIhKfZ06gel94Qqi3i+WhbeLbhvicTq7VUpTQw9CSO
- qqiU7TAG5ErBJ70J11KtJNXvyjhNiDFJshpbCbCXkwmBimCnhVFdq621o6cQbaAEsezq1jC
- PR0STfg4cNtwG7hyS73f4rsPamB6dMW2GmI/dji4hyMRSec1GeZTppAq628rAW49Dks/JiT
- N0UUYRPlFJA4Uf859Yx2A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ErDgR2jRq1g=:dkIx5vl+UKla/KgNuauGbp
- jAxWKSTkoeBgrdtY4cigLh5329yfERgzBwcHhXxKDullYieyzQKmVwq9MmqVzM8c2VbSV2Any
- Al2oN0TU8CHiUA9Y6za9PvjuuumbYwkZzsPD72Xm0KarnFBVrFk2F2LucC4fB3J9tRaPJvxaO
- qJ8nw9MmqLC7Kkaf2nI5Wz14WAdOpzuw0XV/i19Ral16pe03+RsdFnxJi9DMAuitPWFyaxyby
- 5/WKPK/191t6qTdeMKZuMD2kqd9Iuw0K+cAB/3meyvx+4/5k5w6V1Z8ooefcLLTJTGLpo8bO6
- uWGrwStgv3rh56y7buCkstRrcM4Y4qz7srfQa2Keer+rGU+xl2aM70muPIP4aftSvh12K9+kM
- u0APEp1GVn7VWJYxgzUPydu8E1SvY7qpHDRfgbYCJuQslOlMISHTDP2t6enhP
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,84 +74,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Chen Qun <kuhn.chenqun@huawei.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Shu-Chun,
+ Hi!
 
-I'm sorry for the delay.
+The following changes since commit 75ee62ac606bfc9eb59310b9446df3434bf6e8c2:
 
-Your series doesn't apply anymore.
+  Merge remote-tracking branch 'remotes/ehabkost-gl/tags/x86-next-pull-request'
+  into staging (2020-12-17 18:53:36 +0000)
 
-Could you rebase it and send a new version. I'll merge the 4 first patches.
+are available in the Git repository at:
 
-Thanks,
-Laurent
+  https://gitlab.com/huth/qemu.git tags/pull-request-2020-12-18
 
-Le 11/08/2020 à 09:09, Shu-Chun Weng a écrit :
-> Hi Laurent,
-> 
-> This is a series of 8 patches in 4 groups, putting into a single thread for
-> easier tracking.
-> 
-> [PATCH v2 1/8] linux-user: Support F_ADD_SEALS and F_GET_SEALS fcntls
->   An incidental follow up on
->   https://lists.nongnu.org/archive/html/qemu-devel/2019-09/msg01925.html
-> 
-> [PATCH v2 2/8] linux-user: add missing UDP get/setsockopt option
-> [PATCH v2 3/8] linux-user: add missing IPv6 get/setsockopt option
-> [PATCH v2 4/8] linux-user: Add IPv6 options to do_print_sockopt()
->   Updated https://lists.nongnu.org/archive/html/qemu-devel/2019-09/msg01317.html
->   to consistently add them in get/setsockopt
-> 
-> [PATCH v2 5/8] linux-user: Update SO_TIMESTAMP to SO_TIMESTAMP_OLD/NEW
-> [PATCH v2 6/8] linux-user: setsockopt() SO_TIMESTAMPNS and SO_TIMESTAMPING
->   Updated https://lists.nongnu.org/archive/html/qemu-devel/2019-09/msg01319.html
->   to only use TARGET_SO_*_OLD/NEW
-> 
-> [PATCH v2 7/8] thunk: supports flexible arrays
-> [PATCH v2 8/8] linux-user: Add support for SIOCETHTOOL ioctl
->   Updated https://lists.nongnu.org/archive/html/qemu-devel/2019-08/msg05090.html
-> 
-> v1 -> v2:
->   Address comments on the first 5 (was 3) patches.
->   Fix style problems.
-> 
-> Shu-Chun Weng (8):
->   linux-user: Support F_ADD_SEALS and F_GET_SEALS fcntls
->   linux-user: add missing UDP get/setsockopt option
->   linux-user: add missing IPv6 get/setsockopt option
->   linux-user: Add IPv6 options to do_print_sockopt()
->   linux-user: Update SO_TIMESTAMP to SO_TIMESTAMP_OLD/NEW
->   linux-user: setsockopt() SO_TIMESTAMPNS and SO_TIMESTAMPING
->   thunk: supports flexible arrays
->   linux-user: Add support for SIOCETHTOOL ioctl
-> 
->  include/exec/user/thunk.h              |  24 +
->  linux-user/Makefile.objs               |   3 +-
->  linux-user/alpha/sockbits.h            |  21 +-
->  linux-user/ethtool.c                   | 840 +++++++++++++++++++++++++
->  linux-user/ethtool.h                   |  20 +
->  linux-user/ethtool_entries.h           | 107 ++++
->  linux-user/generic/sockbits.h          |  17 +-
->  linux-user/hppa/sockbits.h             |  20 +-
->  linux-user/ioctls.h                    |   2 +
->  linux-user/mips/sockbits.h             |  16 +-
->  linux-user/qemu.h                      |   1 +
->  linux-user/sparc/sockbits.h            |  21 +-
->  linux-user/strace.c                    | 188 +++++-
->  linux-user/syscall.c                   | 286 ++++++++-
->  linux-user/syscall_defs.h              |  26 +-
->  linux-user/syscall_types.h             | 280 +++++++++
->  tests/tcg/multiarch/ethtool.c          | 423 +++++++++++++
->  tests/tcg/multiarch/socket_timestamp.c | 540 ++++++++++++++++
->  thunk.c                                | 152 ++++-
->  19 files changed, 2916 insertions(+), 71 deletions(-)
->  create mode 100644 linux-user/ethtool.c
->  create mode 100644 linux-user/ethtool.h
->  create mode 100644 linux-user/ethtool_entries.h
->  create mode 100644 tests/tcg/multiarch/ethtool.c
->  create mode 100644 tests/tcg/multiarch/socket_timestamp.c
-> 
+for you to fetch changes up to 0a2ebce92a3f10a89843e4a7a8e2f2eba4f7b109:
+
+  configure: Compile with -Wimplicit-fallthrough=2 (2020-12-18 09:15:47 +0100)
+
+----------------------------------------------------------------
+* Compile QEMU with -Wimplicit-fallthrough=2 to avoid bugs in
+  switch-case statements
+----------------------------------------------------------------
+
+ v2:
+  - Added the patch for bsd-user
+  - Included Philippe's twl92230 break patch
+
+Chen Qun (6):
+      hw/timer/renesas_tmr: silence the compiler warnings
+      target/i386: silence the compiler warnings in gen_shiftd_rm_T1
+      hw/intc/arm_gicv3_kvm: silence the compiler warnings
+      accel/tcg/user-exec: silence the compiler warnings
+      target/sparc/translate: silence the compiler warnings
+      target/sparc/win_helper: silence the compiler warnings
+
+Philippe Mathieu-Daudé (1):
+      hw/rtc/twl92230: Add missing 'break'
+
+Thomas Huth (7):
+      disas/libvixl: Fix fall-through annotation for GCC >= 7
+      target/unicore32/translate: Add missing fallthrough annotations
+      hw/rtc/twl92230: Silence warnings about missing fallthrough statements
+      tcg/optimize: Add fallthrough annotations
+      tests/fp: Do not emit implicit-fallthrough warnings in the softfloat tests
+      bsd-user: Silence warnings about missing fallthrough statement
+      configure: Compile with -Wimplicit-fallthrough=2
+
+ accel/tcg/user-exec.c                |  3 ++-
+ bsd-user/main.c                      |  1 +
+ configure                            |  1 +
+ disas/libvixl/vixl/a64/disasm-a64.cc |  4 ++++
+ disas/libvixl/vixl/globals.h         |  6 +++--
+ hw/intc/arm_gicv3_kvm.c              |  8 +++++++
+ hw/rtc/twl92230.c                    | 44 ++++++++++++------------------------
+ hw/timer/renesas_tmr.c               |  1 +
+ include/qemu/compiler.h              | 11 +++++++++
+ target/i386/tcg/translate.c          |  7 ++++--
+ target/sparc/translate.c             |  2 +-
+ target/sparc/win_helper.c            |  2 +-
+ target/unicore32/translate.c         |  2 ++
+ tcg/optimize.c                       |  4 ++++
+ tests/fp/meson.build                 |  2 ++
+ 15 files changed, 61 insertions(+), 37 deletions(-)
 
 
