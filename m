@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39DD2DE0F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:26:27 +0100 (CET)
-Received: from localhost ([::1]:47286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1916D2DE0F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:28:02 +0100 (CET)
+Received: from localhost ([::1]:55792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqCxu-0004ea-2U
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:26:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43908)
+	id 1kqCzR-0008AG-3M
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:28:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvt-0002xf-B3
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:21 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:50493)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvs-0002wX-SW
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:20 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:41353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvp-00074A-Kj
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:21 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvp-000741-H3
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:20 -0500
 Received: from localhost.localdomain ([82.252.144.198]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MDQqe-1kyUfY3ity-00AScE; Fri, 18 Dec 2020 11:24:15 +0100
+ id 1M9WqY-1kkjHv1aZI-005YnI; Fri, 18 Dec 2020 11:24:15 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/14] linux-user: Add most IFTUN ioctls
-Date: Fri, 18 Dec 2020 11:24:03 +0100
-Message-Id: <20201218102407.597566-11-laurent@vivier.eu>
+Subject: [PULL 11/14] linux-user/sparc: Correct sparc64_get/set_context() FPU
+ handling
+Date: Fri, 18 Dec 2020 11:24:04 +0100
+Message-Id: <20201218102407.597566-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201218102407.597566-1-laurent@vivier.eu>
 References: <20201218102407.597566-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:WX4zhIraeXJ57QngkiIZ3VOefRuMouUQGqnpfcJ6Og/w2Ds0DbP
- tNpEtW/0GGrRUCzitk0M4IA42CNz+DaB1oQ9n+GpcqegWtjDwdExK1kkxuXw0W3rUXEWHip
- w10RJwJfQCgZi95w8sXwFsmSVdxCip+Abh317HxMKiUmF/cfNzW50X6TtU4UzhMW2bnt24W
- Riy+dy3zLx6ZHVX+hIAHw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:B0qMyKwVQc0=:JOZBwyKfwdaX6MU8jtQHTP
- 2at2DlsSpeO0ms0LVapSh4+on2BMfoAmVy5YHzIA4xUXW3uS09ZwdQ2G6CuHoV/eSdy8xsIRf
- zAT/tPCFEY/u3qH0FQ7PJnp9AsSByCKVrN5NBP8KSxQzRJeIyHXeIACSHPrcYPR3wRqIVEGOW
- POz2hopNn5GXM5ghyEtJci6mnFiTH1bEKEAuR8i1dOHBCqgx/gZXX+akMNpRpqFsanewppOBJ
- yzKj5ZSr+7PQ587e6+vgDnggOZeeFSckj3HM/OVMnOjiPztzhmHAeIHuaXZ6mjjKR7Fuf8vCo
- 4sUO9dgHYxZ3sCUFk55nCTFdmRfdzvZX/FfCoQhstfElMOqhdQxgj24jxPgwfwIVD0zOpB+NF
- r2rFaZkETjfOfHZkcU+bAFPfzzocDt0i+MPvLYOYI74cILPGkhAn//co/TFP+
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:tAA8wzpmcyTJvwGHlgOvaKxlvdE0g2SF7CMassFbzX1PMAMdj4K
+ haISmeZscM90+XOik+FLruL+p5MaO/p0NzkYO3EIeeIAbIxzOMi/cDPdbUhKoCvo9gfa+fH
+ ppik7UmnlV5jrEUWladWNOL4kN309vXCeDw7tPueKjB/QBNkDbRRRFzLftgPjUzb4XZ6bkb
+ 2GYyyI+DXcFtReQjm8wfg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Y55u4TcnwEY=:x3+GQFQNpKep3YgaCxKES8
+ P+YtFIgafhvsqRcu8cwKbTJJcYifSBYwnNWc1x1y0rYoTZl0CkQcCFCxjqN5HKFXPqrhvdYpz
+ VNj7YTzvLIschvi43KYNxSNYDPWpMsHjfiF26txqu5AMY/WKu7kMtRcW8paiH7j4UaXT9/McK
+ Oas3Noc97xXcLrIVdhv160sWZN4rhKhsNXnnUcTw9aEI/F6fjzf2ltjN7e3ZXLwsYfj06WsJg
+ izPc9YjxIy3DMy8t9RObeKbHF+hV1Sg6Wg9BIjrd2N3sOr586iASW6Qg5/1Z8e5h82OwlGgKH
+ n9vkRgb4TnU6awfJossq8B4XQe0dWytVSen/pRaBlohST1VKbVDYjxs5p7mZ/p2082MIwxUy1
+ 2sXbh6+/DosC0UmqFLTEARehVIx6SaVxPgXuIhPae2Q5LlOVTTrtRDLNmF6Pd
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -61,181 +62,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Josh Kunz <jkz@google.com>, Shu-Chun Weng <scw@google.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shu-Chun Weng <scw@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-The three options handling `struct sock_fprog` (TUNATTACHFILTER,
-TUNDETACHFILTER, and TUNGETFILTER) are not implemented. Linux kernel
-keeps a user space pointer in them which we cannot correctly handle.
+The handling of the FPU state in sparc64_get_context() and
+sparc64_set_context() is not the same as what the kernel actually
+does: we unconditionally read and write the FP registers and the
+FSR, GSR and FPRS, but the kernel logic is more complicated:
+ * in get_context the kernel has code for saving FPU registers,
+   but it is hidden inside an "if (fenab) condition and the
+   fenab flag is always set to 0 (inside an "#if 1" which has
+   been in the kernel for over 15 years). So the effect is that
+   the FPU state part is always written as zeroes.
+ * in set_context the kernel looks at the fenab field in the
+   structure from the guest, and only restores the state if
+   it is set; it also looks at the structure's FPRS to see
+   whether either the upper or lower or both halves of the
+   register file have valid data.
 
-Signed-off-by: Josh Kunz <jkz@google.com>
-Signed-off-by: Shu-Chun Weng <scw@google.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200929014801.655524-1-scw@google.com>
-[lv: use 0 size in unlock_user()]
+Bring our implementations into line with the kernel:
+ * in get_context:
+    - clear the entire target_ucontext at the top of the
+      function (as the kernel does)
+    - then don't write the FPU state, so those fields remain zero
+    - this fixes Coverity issue CID 1432305 by deleting the code
+      it was complaining about
+ * in set_context:
+    - check the fenab and the fpsr to decide which parts of
+      the FPU data to restore, if any
+    - instead of setting the FPU registers by doing two
+      32-bit loads and filling in the .upper and .lower parts
+      of the CPU_Double union separately, just do a 64-bit
+      load of the whole register at once. This fixes Coverity
+      issue CID 1432303 because we now access the dregs[] part
+      of the mcfpu_fregs union rather than the sregs[] part
+      (which is not large enough to actually cover the whole of
+      the data, so we were accessing off the end of sregs[])
+
+We change both functions in a single commit to avoid potentially
+breaking bisection.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20201106152738.26026-2-peter.maydell@linaro.org>
+[lv: fix FPRS_DU loop s/31/32/]
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/ioctls.h       | 46 +++++++++++++++++++++++++++++++++++++++
- linux-user/syscall.c      | 37 +++++++++++++++++++++++++++++++
- linux-user/syscall_defs.h | 32 +++++++++++++++++++++++++++
- 3 files changed, 115 insertions(+)
+ linux-user/sparc/signal.c | 74 +++++++++++++++++++++++----------------
+ target/sparc/cpu.h        |  4 ++-
+ 2 files changed, 46 insertions(+), 32 deletions(-)
 
-diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index 8efb4d38c014..661b5daa9fd8 100644
---- a/linux-user/ioctls.h
-+++ b/linux-user/ioctls.h
-@@ -720,3 +720,49 @@
-   IOCTL(KCOV_DISABLE, 0, TYPE_NULL)
-   IOCTL(KCOV_INIT_TRACE, IOC_R, TYPE_ULONG)
- #endif
-+
-+  IOCTL(TUNSETDEBUG,     IOC_W, TYPE_INT)
-+  IOCTL(TUNSETIFF,       IOC_RW, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
-+  IOCTL(TUNSETPERSIST,   IOC_W, TYPE_INT)
-+  IOCTL(TUNSETOWNER,     IOC_W, TYPE_INT)
-+  IOCTL(TUNSETLINK,      IOC_W, TYPE_INT)
-+  IOCTL(TUNSETGROUP,     IOC_W, TYPE_INT)
-+  IOCTL(TUNGETFEATURES,  IOC_R, MK_PTR(TYPE_INT))
-+  IOCTL(TUNSETOFFLOAD,   IOC_W, TYPE_LONG)
-+  IOCTL_SPECIAL(TUNSETTXFILTER, IOC_W, do_ioctl_TUNSETTXFILTER,
-+                /*
-+                 * We can't represent `struct tun_filter` in thunk so leaving
-+                 * it uninterpreted. do_ioctl_TUNSETTXFILTER will do the
-+                 * conversion.
-+                 */
-+                TYPE_PTRVOID)
-+  IOCTL(TUNGETIFF,       IOC_R, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
-+  IOCTL(TUNGETSNDBUF,    IOC_R, MK_PTR(TYPE_INT))
-+  IOCTL(TUNSETSNDBUF,    IOC_W, MK_PTR(TYPE_INT))
-+  /*
-+   * TUNATTACHFILTER and TUNDETACHFILTER are not supported. Linux kernel keeps a
-+   * user pointer in TUNATTACHFILTER, which we are not able to correctly handle.
-+   */
-+  IOCTL(TUNGETVNETHDRSZ, IOC_R, MK_PTR(TYPE_INT))
-+  IOCTL(TUNSETVNETHDRSZ, IOC_W, MK_PTR(TYPE_INT))
-+  IOCTL(TUNSETQUEUE,     IOC_W, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
-+  IOCTL(TUNSETIFINDEX ,  IOC_W, MK_PTR(TYPE_INT))
-+  /* TUNGETFILTER is not supported: see TUNATTACHFILTER. */
-+  IOCTL(TUNSETVNETLE,    IOC_W, MK_PTR(TYPE_INT))
-+  IOCTL(TUNGETVNETLE,    IOC_R, MK_PTR(TYPE_INT))
-+#ifdef TUNSETVNETBE
-+  IOCTL(TUNSETVNETBE,    IOC_W, MK_PTR(TYPE_INT))
-+  IOCTL(TUNGETVNETBE,    IOC_R, MK_PTR(TYPE_INT))
-+#endif
-+#ifdef TUNSETSTEERINGEBPF
-+  IOCTL(TUNSETSTEERINGEBPF, IOC_W, MK_PTR(TYPE_INT))
-+#endif
-+#ifdef TUNSETFILTEREBPF
-+  IOCTL(TUNSETFILTEREBPF, IOC_W, MK_PTR(TYPE_INT))
-+#endif
-+#ifdef TUNSETCARRIER
-+  IOCTL(TUNSETCARRIER,   IOC_W, MK_PTR(TYPE_INT))
-+#endif
-+#ifdef TUNGETDEVNETNS
-+  IOCTL(TUNGETDEVNETNS,  IOC_R, TYPE_NULL)
-+#endif
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 6091a449fbf0..d182890ff04a 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -56,6 +56,7 @@
- #include <linux/wireless.h>
- #include <linux/icmp.h>
- #include <linux/icmpv6.h>
-+#include <linux/if_tun.h>
- #include <linux/errqueue.h>
- #include <linux/random.h>
- #ifdef CONFIG_TIMERFD
-@@ -5709,6 +5710,42 @@ static abi_long do_ioctl_drm_i915(const IOCTLEntry *ie, uint8_t *buf_temp,
+diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
+index d12adc8e6ff9..0057b48fad93 100644
+--- a/linux-user/sparc/signal.c
++++ b/linux-user/sparc/signal.c
+@@ -402,8 +402,10 @@ void sparc64_set_context(CPUSPARCState *env)
+     abi_ulong ucp_addr;
+     struct target_ucontext *ucp;
+     target_mc_gregset_t *grp;
++    target_mc_fpu_t *fpup;
+     abi_ulong pc, npc, tstate;
+     unsigned int i;
++    unsigned char fenab;
  
- #endif
+     ucp_addr = env->regwptr[WREG_O0];
+     if (!lock_user_struct(VERIFY_READ, ucp, ucp_addr, 1)) {
+@@ -467,26 +469,42 @@ void sparc64_set_context(CPUSPARCState *env)
+     __get_user(env->regwptr[WREG_FP], &(ucp->tuc_mcontext.mc_fp));
+     __get_user(env->regwptr[WREG_I7], &(ucp->tuc_mcontext.mc_i7));
  
-+static abi_long do_ioctl_TUNSETTXFILTER(const IOCTLEntry *ie, uint8_t *buf_temp,
-+                                        int fd, int cmd, abi_long arg)
-+{
-+    struct tun_filter *filter = (struct tun_filter *)buf_temp;
-+    struct tun_filter *target_filter;
-+    char *target_addr;
+-    /* FIXME this does not match how the kernel handles the FPU in
+-     * its sparc64_set_context implementation. In particular the FPU
+-     * is only restored if fenab is non-zero in:
+-     *   __get_user(fenab, &(ucp->tuc_mcontext.mc_fpregs.mcfpu_enab));
+-     */
+-    __get_user(env->fprs, &(ucp->tuc_mcontext.mc_fpregs.mcfpu_fprs));
+-    {
+-        uint32_t *src = ucp->tuc_mcontext.mc_fpregs.mcfpu_fregs.sregs;
+-        for (i = 0; i < 64; i++, src++) {
+-            if (i & 1) {
+-                __get_user(env->fpr[i/2].l.lower, src);
+-            } else {
+-                __get_user(env->fpr[i/2].l.upper, src);
++    fpup = &ucp->tuc_mcontext.mc_fpregs;
 +
-+    assert(ie->access == IOC_W);
++    __get_user(fenab, &(fpup->mcfpu_enab));
++    if (fenab) {
++        abi_ulong fprs;
 +
-+    target_filter = lock_user(VERIFY_READ, arg, sizeof(*target_filter), 1);
-+    if (!target_filter) {
-+        return -TARGET_EFAULT;
-+    }
-+    filter->flags = tswap16(target_filter->flags);
-+    filter->count = tswap16(target_filter->count);
-+    unlock_user(target_filter, arg, 0);
-+
-+    if (filter->count) {
-+        if (offsetof(struct tun_filter, addr) + filter->count * ETH_ALEN >
-+            MAX_STRUCT_SIZE) {
-+            return -TARGET_EFAULT;
++        /*
++         * We use the FPRS from the guest only in deciding whether
++         * to restore the upper, lower, or both banks of the FPU regs.
++         * The kernel here writes the FPU register data into the
++         * process's current_thread_info state and unconditionally
++         * clears FPRS and TSTATE_PEF: this disables the FPU so that the
++         * next FPU-disabled trap will copy the data out of
++         * current_thread_info and into the real FPU registers.
++         * QEMU doesn't need to handle lazy-FPU-state-restoring like that,
++         * so we always load the data directly into the FPU registers
++         * and leave FPRS and TSTATE_PEF alone (so the FPU stays enabled).
++         * Note that because we (and the kernel) always write zeroes for
++         * the fenab and fprs in sparc64_get_context() none of this code
++         * will execute unless the guest manually constructed or changed
++         * the context structure.
++         */
++        __get_user(fprs, &(fpup->mcfpu_fprs));
++        if (fprs & FPRS_DL) {
++            for (i = 0; i < 16; i++) {
++                __get_user(env->fpr[i].ll, &(fpup->mcfpu_fregs.dregs[i]));
++            }
 +        }
++        if (fprs & FPRS_DU) {
++            for (i = 16; i < 32; i++) {
++                __get_user(env->fpr[i].ll, &(fpup->mcfpu_fregs.dregs[i]));
+             }
+         }
++        __get_user(env->fsr, &(fpup->mcfpu_fsr));
++        __get_user(env->gsr, &(fpup->mcfpu_gsr));
+     }
+-    __get_user(env->fsr,
+-               &(ucp->tuc_mcontext.mc_fpregs.mcfpu_fsr));
+-    __get_user(env->gsr,
+-               &(ucp->tuc_mcontext.mc_fpregs.mcfpu_gsr));
+     unlock_user_struct(ucp, ucp_addr, 0);
+     return;
+ do_sigsegv:
+@@ -509,7 +527,9 @@ void sparc64_get_context(CPUSPARCState *env)
+     if (!lock_user_struct(VERIFY_WRITE, ucp, ucp_addr, 0)) {
+         goto do_sigsegv;
+     }
+-    
 +
-+        target_addr = lock_user(VERIFY_READ,
-+                                arg + offsetof(struct tun_filter, addr),
-+                                filter->count * ETH_ALEN, 1);
-+        if (!target_addr) {
-+            return -TARGET_EFAULT;
-+        }
-+        memcpy(filter->addr, target_addr, filter->count * ETH_ALEN);
-+        unlock_user(target_addr, arg + offsetof(struct tun_filter, addr), 0);
-+    }
++    memset(ucp, 0, sizeof(*ucp));
 +
-+    return get_errno(safe_ioctl(fd, ie->host_cmd, filter));
-+}
-+
- IOCTLEntry ioctl_entries[] = {
- #define IOCTL(cmd, access, ...) \
-     { TARGET_ ## cmd, cmd, #cmd, access, 0, {  __VA_ARGS__ } },
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index b934d0b60676..a00bfc2647c7 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -929,6 +929,38 @@ struct target_rtc_pll_info {
+     mcp = &ucp->tuc_mcontext;
+     grp = &mcp->mc_gregs;
  
- #define TARGET_SIOCGIWNAME     0x8B01          /* get name == wireless protocol */
+@@ -572,19 +592,11 @@ void sparc64_get_context(CPUSPARCState *env)
+     __put_user(env->regwptr[WREG_FP], &(mcp->mc_fp));
+     __put_user(env->regwptr[WREG_I7], &(mcp->mc_i7));
  
-+/* From <linux/if_tun.h> */
-+
-+#define TARGET_TUNSETDEBUG        TARGET_IOW('T', 201, int)
-+#define TARGET_TUNSETIFF          TARGET_IOW('T', 202, int)
-+#define TARGET_TUNSETPERSIST      TARGET_IOW('T', 203, int)
-+#define TARGET_TUNSETOWNER        TARGET_IOW('T', 204, int)
-+#define TARGET_TUNSETLINK         TARGET_IOW('T', 205, int)
-+#define TARGET_TUNSETGROUP        TARGET_IOW('T', 206, int)
-+#define TARGET_TUNGETFEATURES     TARGET_IOR('T', 207, unsigned int)
-+#define TARGET_TUNSETOFFLOAD      TARGET_IOW('T', 208, unsigned int)
-+#define TARGET_TUNSETTXFILTER     TARGET_IOW('T', 209, unsigned int)
-+#define TARGET_TUNGETIFF          TARGET_IOR('T', 210, unsigned int)
-+#define TARGET_TUNGETSNDBUF       TARGET_IOR('T', 211, int)
-+#define TARGET_TUNSETSNDBUF       TARGET_IOW('T', 212, int)
-+/*
-+ * TUNATTACHFILTER and TUNDETACHFILTER are not supported. Linux kernel keeps a
-+ * user pointer in TUNATTACHFILTER, which we are not able to correctly handle.
-+ */
-+#define TARGET_TUNGETVNETHDRSZ    TARGET_IOR('T', 215, int)
-+#define TARGET_TUNSETVNETHDRSZ    TARGET_IOW('T', 216, int)
-+#define TARGET_TUNSETQUEUE        TARGET_IOW('T', 217, int)
-+#define TARGET_TUNSETIFINDEX      TARGET_IOW('T', 218, unsigned int)
-+/* TUNGETFILTER is not supported: see TUNATTACHFILTER. */
-+#define TARGET_TUNSETVNETLE       TARGET_IOW('T', 220, int)
-+#define TARGET_TUNGETVNETLE       TARGET_IOR('T', 221, int)
-+#define TARGET_TUNSETVNETBE       TARGET_IOW('T', 222, int)
-+#define TARGET_TUNGETVNETBE       TARGET_IOR('T', 223, int)
-+#define TARGET_TUNSETSTEERINGEBPF TARGET_IOR('T', 224, int)
-+#define TARGET_TUNSETFILTEREBPF   TARGET_IOR('T', 225, int)
-+#define TARGET_TUNSETCARRIER      TARGET_IOW('T', 226, int)
-+#define TARGET_TUNGETDEVNETNS     TARGET_IO('T', 227)
-+
- /* From <linux/random.h> */
+-    {
+-        uint32_t *dst = ucp->tuc_mcontext.mc_fpregs.mcfpu_fregs.sregs;
+-        for (i = 0; i < 64; i++, dst++) {
+-            if (i & 1) {
+-                __put_user(env->fpr[i/2].l.lower, dst);
+-            } else {
+-                __put_user(env->fpr[i/2].l.upper, dst);
+-            }
+-        }
+-    }
+-    __put_user(env->fsr, &(mcp->mc_fpregs.mcfpu_fsr));
+-    __put_user(env->gsr, &(mcp->mc_fpregs.mcfpu_gsr));
+-    __put_user(env->fprs, &(mcp->mc_fpregs.mcfpu_fprs));
++    /*
++     * We don't write out the FPU state. This matches the kernel's
++     * implementation (which has the code for doing this but
++     * hidden behind an "if (fenab)" where fenab is always 0).
++     */
  
- #define TARGET_RNDGETENTCNT    TARGET_IOR('R', 0x00, int)
+     if (err)
+         goto do_sigsegv;
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index b9369398f24b..277254732b93 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -156,7 +156,9 @@ enum {
+ #define PS_IE    (1<<1)
+ #define PS_AG    (1<<0) /* v9, zero on UA2007 */
+ 
+-#define FPRS_FEF (1<<2)
++#define FPRS_DL (1 << 0)
++#define FPRS_DU (1 << 1)
++#define FPRS_FEF (1 << 2)
+ 
+ #define HS_PRIV  (1<<2)
+ #endif
 -- 
 2.29.2
 
