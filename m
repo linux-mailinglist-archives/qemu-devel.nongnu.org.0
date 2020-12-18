@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5302DE103
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:30:03 +0100 (CET)
-Received: from localhost ([::1]:35370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D05FC2DE0F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:27:55 +0100 (CET)
+Received: from localhost ([::1]:55178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqD1O-0002y6-BY
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:30:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43938)
+	id 1kqCzK-0007uk-SA
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:27:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvu-0002z8-3c
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:22 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:32927)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvv-00032N-OR
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:23 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:42843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvq-00074F-0c
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:21 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqCvq-00074d-T6
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 05:24:23 -0500
 Received: from localhost.localdomain ([82.252.144.198]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MS3rB-1kg8pw3gOB-00TUuF; Fri, 18 Dec 2020 11:24:16 +0100
+ id 1MRTEp-1kTTNd1fmP-00NV9V; Fri, 18 Dec 2020 11:24:16 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/14] linux-user/sparc: Remove unneeded checks of 'err' from
- sparc64_get_context()
-Date: Fri, 18 Dec 2020 11:24:05 +0100
-Message-Id: <20201218102407.597566-13-laurent@vivier.eu>
+Subject: [PULL 13/14] linux-user/sparc: Don't restore %g7 in
+ sparc64_set_context()
+Date: Fri, 18 Dec 2020 11:24:06 +0100
+Message-Id: <20201218102407.597566-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201218102407.597566-1-laurent@vivier.eu>
 References: <20201218102407.597566-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ZmAq9ybs8O5o28NnMQotEu1ugm4XdPERtwd950RO8gEeC4I8rcD
- YUcRpcQiQFywXZkcukoicbqYh/sHIk7diteQmJWrCs5UbCdqpezSibVoO3UI460FULRuoqC
- 6O/fZriYmLZ4x8Wz8D09JT1oLEDTmUkVtRKcaxNYLFHYhYHOkb+O5RkU68WfN78VeUXQdMT
- zMEyMnHoFxsOptUK/pKVQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ztmoiu/l2bA=:KI5SRkyExS5Sv0iD3WzIDW
- R7f+Yi/8EqmncTKNUovIAqI2nvbkpqqfEiswX2Ufew77C6mGS7MgjKJetZvKTlaZ432um/480
- rvtJGU1x1lzW9JAk5xauJi/hrnnY3z+AzZKkH7Nzhw3DEicE9yLQYjFpZG7e3lnB/6eaENnBq
- PCAwyQetCEv54j6KIx/keN4PkUvEFj6g7+coTFSNk9ubzWSmWdk43qQGyNZSWX1OLmPoxsjJ0
- r3aEeNgWh5TAasdkDfWWh5svg+YMfBJuG/gzoz0TuKQHELZwjHILbv6LWCnqVZYFEpxqrfMHh
- ZusrLZ6br+Qp/uBD3nP3GPqOdKNA7iqWvqG7laZ/3BXCD3PwFJKA6XlmU6DGv5T4wR1brbkog
- Sz0l8it6kYEcotG59GJYX/C8s7xM+rc/f6PN4pJP82R2yLfhzweZImQEVndtMcXUzXBYlaMcW
- 2csR2wsDbw==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:bhY+mFh4+79meoAigyLRoy7nfbcBXT9YT0XkjqwgRpkXBO8kAHo
+ cSGLSopnN3QQafTXqtdUu2Ar7boCUawUF1+T5Y9t7Bi78zkUxljAbWi0nlc0CKLw1g6u5Z0
+ sSjSOhNw5qDQRLLFb2jbJyYzOGOVoKNVS8VpKCjaY2Zspr8VolmcrT+FeS72TEZ/Va7I+v7
+ 7S7SeoZMPSFgvNL1JFy6w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Q2Kw8nzRnxg=:6Ocwacmuloa0YLKVmTV7su
+ HL0kr91dcwog4oqgYwF+N+qB7xLr2cGFgbBkUw7I9gcrQsvxjVgH2zuouNoCMokOLGGXG2nX0
+ NOKY0DncEQ6DJnZJgTG/qMyXvmYdQyic0DZeyl7s+HP5zMSA3cPqxkYLZAPxLe2tDQUKlyKH/
+ uTesRmLyyerBLlSI4foLXjnMSZiQHRwFwfwPQUYeoT7AtAr3a7RJNSwheGG7XzTcpTLglHCrX
+ fA9cxBcvDGsEOsXqZjvI84E0GgtQSh9z3Xs8bZlfDm25q+1ljNlp0WnB5QsXTMYXjinwb/VTc
+ AnWHxVRlVFrGCNpReI2oZFj+9ndvJJD7uaGGjaFVahaHzjTqGAlYaotOHyghYYSn1VCaM4r++
+ A9/tYXZ+efrlW1mCuZMPXt7SuMZLk1ZCBeiLPO24pwN3q6KsI0cpVTGiRjyuIYt4hvUZ8m46u
+ 14+W3K2LzA==
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -71,44 +71,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-Unlike the kernel macros, our __get_user() and __put_user() do not
-return a failure code.  Kernel code typically has a style of
-  err |= __get_user(...); err |= __get_user(...);
-and then checking err at the end.  In sparc64_get_context() our
-version of the code dropped the accumulating into err but left the
-"if (err) goto do_sigsegv" checks, which will never be taken. Delete
-unnecessary if()s.
+The kernel does not restore the g7 register in sparc64_set_context();
+neither should we. (We still save it in sparc64_get_context().)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201106152738.26026-3-peter.maydell@linaro.org>
+Message-Id: <20201106152738.26026-4-peter.maydell@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/sparc/signal.c | 4 ----
- 1 file changed, 4 deletions(-)
+ linux-user/sparc/signal.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-index 0057b48fad93..58b48afe29c9 100644
+index 58b48afe29c9..d92e096cafa7 100644
 --- a/linux-user/sparc/signal.c
 +++ b/linux-user/sparc/signal.c
-@@ -555,8 +555,6 @@ void sparc64_get_context(CPUSPARCState *env)
-         for (i = 0; i < TARGET_NSIG_WORDS; i++, dst++, src++) {
-             __put_user(*src, dst);
-         }
--        if (err)
--            goto do_sigsegv;
-     }
+@@ -447,7 +447,7 @@ void sparc64_set_context(CPUSPARCState *env)
+     __get_user(env->gregs[4], (&(*grp)[SPARC_MC_G4]));
+     __get_user(env->gregs[5], (&(*grp)[SPARC_MC_G5]));
+     __get_user(env->gregs[6], (&(*grp)[SPARC_MC_G6]));
+-    __get_user(env->gregs[7], (&(*grp)[SPARC_MC_G7]));
++    /* Skip g7 as that's the thread register in userspace */
  
-     /* XXX: tstate must be saved properly */
-@@ -598,8 +596,6 @@ void sparc64_get_context(CPUSPARCState *env)
-      * hidden behind an "if (fenab)" where fenab is always 0).
-      */
- 
--    if (err)
--        goto do_sigsegv;
-     unlock_user_struct(ucp, ucp_addr, 1);
-     return;
- do_sigsegv:
+     /*
+      * Note that unlike the kernel, we didn't need to mess with the
 -- 
 2.29.2
 
