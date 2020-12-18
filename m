@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A02EC2DDDA4
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 05:11:22 +0100 (CET)
-Received: from localhost ([::1]:40642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B79E2DDDA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 05:09:53 +0100 (CET)
+Received: from localhost ([::1]:37642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq76v-0005Mn-LC
-	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 23:11:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34698)
+	id 1kq75U-00044x-9k
+	for lists+qemu-devel@lfdr.de; Thu, 17 Dec 2020 23:09:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scw@google.com>) id 1kq6xm-0007Gg-An
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 23:01:56 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:45474)
+ (Exim 4.90_1) (envelope-from <scw@google.com>) id 1kq6z8-0000J1-7W
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 23:03:18 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:37308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <scw@google.com>) id 1kq6xh-0004Hi-2M
- for qemu-devel@nongnu.org; Thu, 17 Dec 2020 23:01:53 -0500
-Received: by mail-ej1-x633.google.com with SMTP id qw4so1166971ejb.12
- for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 20:01:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <scw@google.com>) id 1kq6yr-0004aO-5r
+ for qemu-devel@nongnu.org; Thu, 17 Dec 2020 23:03:17 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id ga15so1231389ejb.4
+ for <qemu-devel@nongnu.org>; Thu, 17 Dec 2020 20:03:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tbx+fECYDwqgrE/crdLGhrvxuc/EtQNBlgPnMK0nlcU=;
- b=XGFLKryVIaMYH9AD2j/9kydxgtKDjul/9B8ytfhaAr+SOibPyta2p4oQKyz94J4RGZ
- tCX2B1oKF0pM5KkWXWJ2tDQHd4h/B7HWoGgKrnL2b3E8aGWn/ihHq+1Twx4RM/C0sQ6v
- wxITL9tBfXxzx9UMggzu+7ExQ50kbG3cfN1S6odYvOMjpIZ6F59JHI+ht36od+jReIGV
- LJybOGOWxhUz+CuJEOmMwxS5uGsHQQdztWy6hWxFVOI2bRCPVAF0hjZ/HnjTNtZsujj1
- HsIGCGuG7+2SblWQQQ2NirEkeMGAgzle5/M/9PhD1gLBwLzuQh4FbngWwevjOIXwRfCU
- 8GBg==
+ :cc; bh=+hCvXfg+g5i5JTzzWcy0PHP3dbCTbzL+tdlc/86gt9Q=;
+ b=Nxt94IaQK2RmfA8Ujmjq4vQw4ymSyryQVKVSfJ+wHzORG5nM6wB74JDlYrlGgWbCEr
+ AkyoTtBQ50g3NSO+e4Y/gwADNWJUQdP2YnRMqNcThZ8pLZ7qs4cGhk7gxMs9bKO3Z1/y
+ DSJdAei3P2zd+KyeVZ/4qHQ9iO4MHyp+yzFdeyxAP47uIvrYaOWRuSxJaXCbfwlllKem
+ nmhhiYDNUG53M1GLfaids9bRiiROOezS3sTBWg/SCyW0wVr50fO0iSqK1TKll7riQlm9
+ uab9hJGklM68N7l1n2TTfRlLJrCFdML3OW9mEe+uZD77lMPD1Vgsu+D8Kn0dh5Ni3kPd
+ jk5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tbx+fECYDwqgrE/crdLGhrvxuc/EtQNBlgPnMK0nlcU=;
- b=GHHVeLY+GiI9kFmHaOHWAgNOvqfZyOdTi3w7KWd3h4udPKm+fvLtdkt/Jgf0YpaeTA
- oV06j1dmYjv18/GBP82bScj3Nrv/dZn++ty8Y6iLaEh80F0N1PXia9LCRSPLoxch3Uz+
- LFd1PLyM2etN8nygKhM7XOQg0Ewj2EQVxD4GiIHVbn7RM14CiK0/+zP//pGg9HHgsVEz
- Qm798LlveJu4xNXJPnvBKNa1/76yolAZpYy+6nzIIFKMcvCimIbNDUGCxCEJiVzYwMyU
- 64QkEH8ABlCFQlZ49rhWa6lW3+sBMakx1xufq9sxMd5t5vZ6F/xOv+dkLruAs4jRmgee
- AMow==
-X-Gm-Message-State: AOAM5332qkitvuiB9DBrwkThFJvNReA5N4iS1npcJ6TZFFejZEqwPTMc
- acAlX9Fe0isPUa9fQ8aCciJoTpV0p7WQLLUZEsyow89q9mfOIgUW
-X-Google-Smtp-Source: ABdhPJw0vt/qpxbFRnPxotTC+V/NRCRDJf9bX6U+B35ysnx3boSbpvOtTj+H+WN2eHV/7aJ5mHW4ik4rS2sgvW25CWg=
-X-Received: by 2002:a17:906:1752:: with SMTP id
- d18mr2108311eje.529.1608264106900; 
- Thu, 17 Dec 2020 20:01:46 -0800 (PST)
+ bh=+hCvXfg+g5i5JTzzWcy0PHP3dbCTbzL+tdlc/86gt9Q=;
+ b=p4Unf2LGL/20mK3mgCKRDN+G1Cyd3ybrYgFl7xqpBiYZgy0RtrJhvgNFh4Lvv5Libd
+ DnmYBxMO4HfQcF58bUGfWgTou47XKuDQby0O/Ptx/wKISNcdiomrhxKwKv3Sz1HoYNYr
+ wKMUj0YG6ag5EuhrwkZT8WdeTKbzU9zvAvafiKaP4uU9LrIQoTzISpudb4xyZQNBHMut
+ h1W+g6zo39SKxHkkUugFxnYuzBbMdUKIujaj89cb6xwZQhSfhPpjnWtc68WZe5kPuM25
+ dIo0mBRfVtqTsvfeJDcC6wK75i1GvgsyqvH80m4cp++Jo6vu8wN24fCjl8VeWqszisvT
+ lbbg==
+X-Gm-Message-State: AOAM530+xfoBhq8YrNJrA0T1SG9iw0n9u/g83T6xP3eBroHWGu4P64b2
+ eRcazx7/HNL1C13YxLijfBua6YbRSCAtQwCcWJ6BsTTiBtoCMY8b
+X-Google-Smtp-Source: ABdhPJzki2EpHG36Pfs/pDSz3rWtdFlndKfAmQaFPTCeK2sxyEs5rvqMWgVk6+YJdpEYuWTTa6IpOiMroYlFi9GV20U=
+X-Received: by 2002:a17:906:5847:: with SMTP id
+ h7mr2117858ejs.124.1608264178544; 
+ Thu, 17 Dec 2020 20:02:58 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1597129029.git.scw@google.com>
- <611db81c87911cb38a35e5f761e11b76e1f0d538.1597129029.git.scw@google.com>
- <CAF3nBxhvL9Us8BgxD2Dhk2ULmrNSxv7mUQCOV5GBrqTXKt8ARw@mail.gmail.com>
-In-Reply-To: <CAF3nBxhvL9Us8BgxD2Dhk2ULmrNSxv7mUQCOV5GBrqTXKt8ARw@mail.gmail.com>
+ <c1fdce46c35527ea9da34ca26eab4efcdac407db.1597129029.git.scw@google.com>
+In-Reply-To: <c1fdce46c35527ea9da34ca26eab4efcdac407db.1597129029.git.scw@google.com>
 From: Shu-Chun Weng <scw@google.com>
-Date: Thu, 17 Dec 2020 20:01:35 -0800
-Message-ID: <CAF3nBxh+J7ihbr+qYK+Rv3cpFipLhFwBtNHsjf3-P0H22xFSYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/8] linux-user: Update SO_TIMESTAMP to
- SO_TIMESTAMP_OLD/NEW
+Date: Thu, 17 Dec 2020 20:02:47 -0800
+Message-ID: <CAF3nBxhvnMKitovtGnTGPOSCMmdObx8b8A2SbHiFtEs=5_aBTw@mail.gmail.com>
+Subject: Re: [PATCH v2 6/8] linux-user: setsockopt() SO_TIMESTAMPNS and
+ SO_TIMESTAMPING
 To: qemu-devel@nongnu.org
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000d34fb905b6b52ac8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=scw@google.com; helo=mail-ej1-x633.google.com
+ micalg=sha-256; boundary="000000000000195a6a05b6b52fa5"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=scw@google.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -175
 X-Spam_score: -17.6
 X-Spam_bar: -----------------
 X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
  USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,1056 +83,1422 @@ Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d34fb905b6b52ac8
-Content-Type: multipart/alternative; boundary="000000000000cc622905b6b52a15"
+--000000000000195a6a05b6b52fa5
+Content-Type: multipart/alternative; boundary="00000000000011995805b6b52fc5"
 
---000000000000cc622905b6b52a15
+--00000000000011995805b6b52fc5
 Content-Type: text/plain; charset="UTF-8"
 
-Ping again. This specific patch is here:
-https://patchew.org/QEMU/cover.1597129029.git.scw@google.com/611db81c87911cb38a35e5f761e11b76e1f0d538.1597129029.git.scw@google.com/
+Ping -- any comments on
+https://patchew.org/QEMU/cover.1597129029.git.scw@google.com/c1fdce46c35527ea9da34ca26eab4efcdac407db.1597129029.git.scw@google.com/
 
-If you want to include the first four patches for now and prefer a separate
-patch set for the pending changes I can split them off into a new thread.
+On Tue, Aug 11, 2020 at 12:10 AM Shu-Chun Weng <scw@google.com> wrote:
 
-Shu-Chun
-
-On Thu, Sep 17, 2020 at 12:29 AM Shu-Chun Weng <scw@google.com> wrote:
-
-> Ping -- any comments on the four patches start with this?
-> https://patchew.org/QEMU/cover.1597129029.git.scw@google.com/
+> This change supports SO_TIMESTAMPNS_OLD/NEW and SO_TIMESTAMPING_OLD/NEW
+> for setsocketopt() with SOL_SOCKET. Based on the SO_TIMESTAMP_OLD/NEW
+> framework. The three pairs share the same flag `SOCK_TSTAMP_NEW` in
+> linux kernel for deciding if the old or the new format is used.
 >
-> On Tue, Aug 11, 2020 at 12:10 AM Shu-Chun Weng <scw@google.com> wrote:
+> Signed-off-by: Shu-Chun Weng <scw@google.com>
+> ---
+> v1 -> v2:
+>   Only keep track of old/new format in a global state.
+>   Fix style problems.
 >
->> Both guest options map to host SO_TIMESTAMP while keeping a global bit to
->> remember if the guest expects the old or the new format. Don't support
->> programs mixing two formats.
->>
->> Added a multiarch test to verify.
->>
->> Signed-off-by: Shu-Chun Weng <scw@google.com>
->> ---
->> v1 -> v2:
->>   Only keep track of old or new format globally, remove support for
->> different
->>   sockets mixing different formats.
->>   Fix style problems.
->>
->>  linux-user/alpha/sockbits.h            |   8 +-
->>  linux-user/generic/sockbits.h          |   9 +-
->>  linux-user/hppa/sockbits.h             |   8 +-
->>  linux-user/mips/sockbits.h             |   8 +-
->>  linux-user/sparc/sockbits.h            |   8 +-
->>  linux-user/strace.c                    |   7 +-
->>  linux-user/syscall.c                   |  91 ++++++--
->>  tests/tcg/multiarch/socket_timestamp.c | 296 +++++++++++++++++++++++++
->>  8 files changed, 408 insertions(+), 27 deletions(-)
->>  create mode 100644 tests/tcg/multiarch/socket_timestamp.c
->>
->> diff --git a/linux-user/alpha/sockbits.h b/linux-user/alpha/sockbits.h
->> index d54dc98c09..40f0644df0 100644
->> --- a/linux-user/alpha/sockbits.h
->> +++ b/linux-user/alpha/sockbits.h
->> @@ -48,8 +48,6 @@
->>  #define TARGET_SO_DETACH_FILTER        27
->>
->>  #define TARGET_SO_PEERNAME      28
->> -#define TARGET_SO_TIMESTAMP     29
->> -#define TARGET_SCM_TIMESTAMP        TARGET_SO_TIMESTAMP
->>
->>  #define TARGET_SO_PEERSEC       30
->>  #define TARGET_SO_PASSSEC       34
->> @@ -75,6 +73,12 @@
->>  /* Instruct lower device to use last 4-bytes of skb data as FCS */
->>  #define TARGET_SO_NOFCS     43
->>
->> +#define TARGET_SO_TIMESTAMP_OLD        29
->> +#define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
->> +
->> +#define TARGET_SO_TIMESTAMP_NEW        63
->> +#define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
->> +
->>  /* TARGET_O_NONBLOCK clashes with the bits used for socket types.
->> Therefore we
->>   * have to define SOCK_NONBLOCK to a different value here.
->>   */
->> diff --git a/linux-user/generic/sockbits.h b/linux-user/generic/sockbits.h
->> index e44733c601..532cf2d3dc 100644
->> --- a/linux-user/generic/sockbits.h
->> +++ b/linux-user/generic/sockbits.h
->> @@ -49,10 +49,15 @@
->>  #define TARGET_SO_DETACH_FILTER        27
->>
->>  #define TARGET_SO_PEERNAME             28
->> -#define TARGET_SO_TIMESTAMP            29
->> -#define TARGET_SCM_TIMESTAMP           TARGET_SO_TIMESTAMP
->>
->>  #define TARGET_SO_ACCEPTCONN           30
->>
->>  #define TARGET_SO_PEERSEC              31
->> +
->> +#define TARGET_SO_TIMESTAMP_OLD        29
->> +#define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
->> +
->> +#define TARGET_SO_TIMESTAMP_NEW        63
->> +#define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
->> +
->>  #endif
->> diff --git a/linux-user/hppa/sockbits.h b/linux-user/hppa/sockbits.h
->> index 23f69a3293..284a47e74e 100644
->> --- a/linux-user/hppa/sockbits.h
->> +++ b/linux-user/hppa/sockbits.h
->> @@ -29,8 +29,6 @@
->>  #define TARGET_SO_BSDCOMPAT    0x400e
->>  #define TARGET_SO_PASSCRED     0x4010
->>  #define TARGET_SO_PEERCRED     0x4011
->> -#define TARGET_SO_TIMESTAMP    0x4012
->> -#define TARGET_SCM_TIMESTAMP   TARGET_SO_TIMESTAMP
->>  #define TARGET_SO_TIMESTAMPNS  0x4013
->>  #define TARGET_SCM_TIMESTAMPNS TARGET_SO_TIMESTAMPNS
->>
->> @@ -67,6 +65,12 @@
->>
->>  #define TARGET_SO_CNX_ADVICE           0x402E
->>
->> +#define TARGET_SO_TIMESTAMP_OLD        0x4012
->> +#define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
->> +
->> +#define TARGET_SO_TIMESTAMP_NEW        0x4038
->> +#define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
->> +
->>  /* TARGET_O_NONBLOCK clashes with the bits used for socket types.
->> Therefore we
->>   * have to define SOCK_NONBLOCK to a different value here.
->>   */
->> diff --git a/linux-user/mips/sockbits.h b/linux-user/mips/sockbits.h
->> index 0f022cd598..b4c39d9588 100644
->> --- a/linux-user/mips/sockbits.h
->> +++ b/linux-user/mips/sockbits.h
->> @@ -61,14 +61,18 @@
->>  #define TARGET_SO_DETACH_FILTER        27
->>
->>  #define TARGET_SO_PEERNAME             28
->> -#define TARGET_SO_TIMESTAMP            29
->> -#define SCM_TIMESTAMP          SO_TIMESTAMP
->>
->>  #define TARGET_SO_PEERSEC              30
->>  #define TARGET_SO_SNDBUFFORCE          31
->>  #define TARGET_SO_RCVBUFFORCE          33
->>  #define TARGET_SO_PASSSEC              34
->>
->> +#define TARGET_SO_TIMESTAMP_OLD        29
->> +#define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
->> +
->> +#define TARGET_SO_TIMESTAMP_NEW        63
->> +#define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
->> +
->>  /** sock_type - Socket types
->>   *
->>   * Please notice that for binary compat reasons MIPS has to
->> diff --git a/linux-user/sparc/sockbits.h b/linux-user/sparc/sockbits.h
->> index 0a822e3e1f..07440efd14 100644
->> --- a/linux-user/sparc/sockbits.h
->> +++ b/linux-user/sparc/sockbits.h
->> @@ -48,8 +48,6 @@
->>  #define TARGET_SO_GET_FILTER           TARGET_SO_ATTACH_FILTER
->>
->>  #define TARGET_SO_PEERNAME             0x001c
->> -#define TARGET_SO_TIMESTAMP            0x001d
->> -#define TARGET_SCM_TIMESTAMP           TARGET_SO_TIMESTAMP
->>
->>  #define TARGET_SO_PEERSEC              0x001e
->>  #define TARGET_SO_PASSSEC              0x001f
->> @@ -104,6 +102,12 @@
->>
->>  #define TARGET_SO_ZEROCOPY             0x003e
->>
->> +#define TARGET_SO_TIMESTAMP_OLD        0x001d
->> +#define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
->> +
->> +#define TARGET_SO_TIMESTAMP_NEW        0x0046
->> +#define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
->> +
->>  /* Security levels - as per NRL IPv6 - don't actually do anything */
->>  #define TARGET_SO_SECURITY_AUTHENTICATION              0x5001
->>  #define TARGET_SO_SECURITY_ENCRYPTION_TRANSPORT        0x5002
->> diff --git a/linux-user/strace.c b/linux-user/strace.c
->> index 089fb3968e..a11a5e9e86 100644
->> --- a/linux-user/strace.c
->> +++ b/linux-user/strace.c
->> @@ -2257,8 +2257,11 @@ print_optint:
->>          case TARGET_SO_PASSCRED:
->>              qemu_log("SO_PASSCRED,");
->>              goto print_optint;
->> -        case TARGET_SO_TIMESTAMP:
->> -            qemu_log("SO_TIMESTAMP,");
->> +        case TARGET_SO_TIMESTAMP_OLD:
->> +            qemu_log("SO_TIMESTAMP_OLD,");
->> +            goto print_optint;
->> +        case TARGET_SO_TIMESTAMP_NEW:
->> +            qemu_log("SO_TIMESTAMP_NEW,");
->>              goto print_optint;
->>          case TARGET_SO_RCVLOWAT:
->>              qemu_log("SO_RCVLOWAT,");
->> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> index cda194a7cc..e6b1a18cc0 100644
->> --- a/linux-user/syscall.c
->> +++ b/linux-user/syscall.c
->> @@ -1697,6 +1697,18 @@ static inline abi_long target_to_host_cmsg(struct
->> msghdr *msgh,
->>      return 0;
->>  }
->>
->> +/*
->> + * Linux kernel actually keeps track of whether the old version
->> (potentially
->> + * 32-bit time_t) or the new version is used for each socket. Instead of
->> + * replicate it will all the complexity, we only keep track of one
->> global state,
->> + * which is enough for guest programs that don't intentionally mix the
->> two
->> + * versions.
->> + */
->> +static enum TargetTimestampVersion {
->> +    TARGET_TIMESTAMP_OLD,
->> +    TARGET_TIMESTAMP_NEW,
->> +} target_expected_timestamp_version = TARGET_TIMESTAMP_OLD;
->> +
->>  static inline abi_long host_to_target_cmsg(struct target_msghdr
->> *target_msgh,
->>                                             struct msghdr *msgh)
->>  {
->> @@ -1747,8 +1759,17 @@ static inline abi_long host_to_target_cmsg(struct
->> target_msghdr *target_msgh,
->>          switch (cmsg->cmsg_level) {
->>          case SOL_SOCKET:
->>              switch (cmsg->cmsg_type) {
->> -            case SO_TIMESTAMP:
->> -                tgt_len = sizeof(struct target_timeval);
->> +            case SCM_TIMESTAMP:
->> +                switch (target_expected_timestamp_version) {
->> +                case TARGET_TIMESTAMP_OLD:
->> +                    tgt_len = sizeof(struct target_timeval);
->> +                    target_cmsg->cmsg_type =
->> tswap32(TARGET_SCM_TIMESTAMP_OLD);
->> +                    break;
->> +                case TARGET_TIMESTAMP_NEW:
->> +                    tgt_len = sizeof(struct target__kernel_sock_timeval);
->> +                    target_cmsg->cmsg_type =
->> tswap32(TARGET_SCM_TIMESTAMP_NEW);
->> +                    break;
->> +                }
->>                  break;
->>              default:
->>                  break;
->> @@ -1782,20 +1803,39 @@ static inline abi_long host_to_target_cmsg(struct
->> target_msghdr *target_msgh,
->>                  }
->>                  break;
->>              }
->> -            case SO_TIMESTAMP:
->> +            case SCM_TIMESTAMP:
->>              {
->>                  struct timeval *tv = (struct timeval *)data;
->> -                struct target_timeval *target_tv =
->> -                    (struct target_timeval *)target_data;
->> -
->> -                if (len != sizeof(struct timeval) ||
->> -                    tgt_len != sizeof(struct target_timeval)) {
->> +                if (len != sizeof(struct timeval)) {
->>                      goto unimplemented;
->>                  }
->>
->> -                /* copy struct timeval to target */
->> -                __put_user(tv->tv_sec, &target_tv->tv_sec);
->> -                __put_user(tv->tv_usec, &target_tv->tv_usec);
->> +                switch (target_expected_timestamp_version) {
->> +                case TARGET_TIMESTAMP_OLD:
->> +                {
->> +                    struct target_timeval *target_tv =
->> +                        (struct target_timeval *)target_data;
->> +                    if (tgt_len != sizeof(struct target_timeval)) {
->> +                        goto unimplemented;
->> +                    }
->> +
->> +                    __put_user(tv->tv_sec, &target_tv->tv_sec);
->> +                    __put_user(tv->tv_usec, &target_tv->tv_usec);
->> +                    break;
->> +                }
->> +                case TARGET_TIMESTAMP_NEW:
->> +                {
->> +                    struct target__kernel_sock_timeval *target_tv =
->> +                        (struct target__kernel_sock_timeval
->> *)target_data;
->> +                    if (tgt_len != sizeof(struct
->> target__kernel_sock_timeval)) {
->> +                        goto unimplemented;
->> +                    }
->> +
->> +                    __put_user(tv->tv_sec, &target_tv->tv_sec);
->> +                    __put_user(tv->tv_usec, &target_tv->tv_usec);
->> +                    break;
->> +                }
->> +                }
->>                  break;
->>              }
->>              case SCM_CREDENTIALS:
->> @@ -1937,6 +1977,8 @@ static abi_long do_setsockopt(int sockfd, int
->> level, int optname,
->>      int val;
->>      struct ip_mreqn *ip_mreq;
->>      struct ip_mreq_source *ip_mreq_source;
->> +    enum TargetTimestampVersion target_timestamp_version =
->> +        target_expected_timestamp_version;
->>
->>      switch(level) {
->>      case SOL_TCP:
->> @@ -2331,9 +2373,14 @@ set_timeout:
->>          case TARGET_SO_PASSSEC:
->>                  optname = SO_PASSSEC;
->>                  break;
->> -        case TARGET_SO_TIMESTAMP:
->> -               optname = SO_TIMESTAMP;
->> -               break;
->> +        case TARGET_SO_TIMESTAMP_OLD:
->> +                target_timestamp_version = TARGET_TIMESTAMP_OLD;
->> +                optname = SO_TIMESTAMP;
->> +                break;
->> +        case TARGET_SO_TIMESTAMP_NEW:
->> +                target_timestamp_version = TARGET_TIMESTAMP_NEW;
->> +                optname = SO_TIMESTAMP;
->> +                break;
->>          case TARGET_SO_RCVLOWAT:
->>                 optname = SO_RCVLOWAT;
->>                 break;
->> @@ -2346,6 +2393,9 @@ set_timeout:
->>         if (get_user_u32(val, optval_addr))
->>              return -TARGET_EFAULT;
->>         ret = get_errno(setsockopt(sockfd, SOL_SOCKET, optname, &val,
->> sizeof(val)));
->> +        if (!is_error(ret) && optname == SO_TIMESTAMP) {
->> +            target_expected_timestamp_version = target_timestamp_version;
->> +        }
->>          break;
->>  #ifdef SOL_NETLINK
->>      case SOL_NETLINK:
->> @@ -2396,6 +2446,7 @@ static abi_long do_getsockopt(int sockfd, int
->> level, int optname,
->>      abi_long ret;
->>      int len, val;
->>      socklen_t lv;
->> +    int timestamp_format_matches = 0;
->>
->>      switch(level) {
->>      case TARGET_SOL_SOCKET:
->> @@ -2576,7 +2627,14 @@ get_timeout:
->>          case TARGET_SO_PASSCRED:
->>              optname = SO_PASSCRED;
->>              goto int_case;
->> -        case TARGET_SO_TIMESTAMP:
->> +        case TARGET_SO_TIMESTAMP_OLD:
->> +            timestamp_format_matches =
->> +                (target_expected_timestamp_version ==
->> TARGET_TIMESTAMP_OLD);
->> +            optname = SO_TIMESTAMP;
->> +            goto int_case;
->> +        case TARGET_SO_TIMESTAMP_NEW:
->> +            timestamp_format_matches =
->> +                (target_expected_timestamp_version ==
->> TARGET_TIMESTAMP_NEW);
->>              optname = SO_TIMESTAMP;
->>              goto int_case;
->>          case TARGET_SO_RCVLOWAT:
->> @@ -2604,6 +2662,9 @@ get_timeout:
->>          if (optname == SO_TYPE) {
->>              val = host_to_target_sock_type(val);
->>          }
->> +        if (optname == SO_TIMESTAMP) {
->> +            val = val && timestamp_format_matches;
->> +        }
->>          if (len > lv)
->>              len = lv;
->>          if (len == 4) {
->> diff --git a/tests/tcg/multiarch/socket_timestamp.c
->> b/tests/tcg/multiarch/socket_timestamp.c
->> new file mode 100644
->> index 0000000000..71ab1845de
->> --- /dev/null
->> +++ b/tests/tcg/multiarch/socket_timestamp.c
->> @@ -0,0 +1,296 @@
->> +#include <assert.h>
->> +#include <errno.h>
->> +#include <linux/types.h>
->> +#include <netinet/in.h>
->> +#include <stdint.h>
->> +#include <stdio.h>
->> +#include <stdlib.h>
->> +#include <string.h>
->> +#include <sys/ioctl.h>
->> +#include <sys/socket.h>
->> +#include <sys/time.h>
->> +#include <sys/types.h>
->> +#include <sys/wait.h>
->> +#include <unistd.h>
->> +
->> +#ifdef __kernel_old_timeval
->> +#define kernel_old_timeval __kernel_old_timeval
->> +#else
->> +struct kernel_old_timeval {
->> +    __kernel_long_t tv_sec;
->> +    __kernel_long_t tv_usec;
->> +};
->> +#endif
->> +
->> +struct kernel_sock_timeval {
->> +    int64_t tv_sec;
->> +    int64_t tv_usec;
->> +};
->> +
->> +int create_udp_socket(struct sockaddr_in *sockaddr)
->> +{
->> +    socklen_t sockaddr_len;
->> +    int sock = socket(AF_INET, SOCK_DGRAM, 0);
->> +    if (sock < 0) {
->> +        int err = errno;
->> +        fprintf(stderr, "Failed to create server socket: %s\n",
->> strerror(err));
->> +        exit(err);
->> +    }
->> +
->> +    memset(sockaddr, 0, sizeof(*sockaddr));
->> +    sockaddr->sin_family = AF_INET;
->> +    sockaddr->sin_port = htons(0);  /* let kernel select a port for us */
->> +    sockaddr->sin_addr.s_addr = htonl(INADDR_LOOPBACK);
->> +
->> +    if (bind(sock, (struct sockaddr *)sockaddr, sizeof(*sockaddr)) < 0) {
->> +        int err = errno;
->> +        fprintf(stderr, "Failed to bind server socket: %s\n",
->> strerror(err));
->> +        exit(err);
->> +    }
->> +
->> +    sockaddr_len = sizeof(*sockaddr);
->> +    if (getsockname(sock, (struct sockaddr *)sockaddr, &sockaddr_len) <
->> 0) {
->> +        int err = errno;
->> +        fprintf(stderr, "Failed to get socket name: %s\n",
->> strerror(err));
->> +        exit(err);
->> +    }
->> +    return sock;
->> +}
->> +
->> +/*
->> + * Checks that the timestamp in the message is not after the reception
->> timestamp
->> + * as well as the reception time is within 10 seconds of the message
->> time.
->> + */
->> +void check_timestamp_difference(const struct timeval *msg_tv,
->> +                                const struct timeval *pkt_tv)
->> +{
->> +    if (pkt_tv->tv_sec < msg_tv->tv_sec ||
->> +        (pkt_tv->tv_sec == msg_tv->tv_sec && pkt_tv->tv_usec <
->> msg_tv->tv_usec))
->> +    {
->> +        fprintf(stderr,
->> +                "Packet received before sent: %lld.%06lld <
->> %lld.%06lld\n",
->> +                (long long)pkt_tv->tv_sec, (long long)pkt_tv->tv_usec,
->> +                (long long)msg_tv->tv_sec, (long long)msg_tv->tv_usec);
->> +        exit(-1);
->> +    }
->> +
->> +    if (pkt_tv->tv_sec > msg_tv->tv_sec + 10 ||
->> +        (pkt_tv->tv_sec == msg_tv->tv_sec + 10 &&
->> +         pkt_tv->tv_usec > msg_tv->tv_usec)) {
->> +        fprintf(stderr,
->> +                "Packet received more than 10 seconds after sent: "
->> +                "%lld.%06lld > %lld.%06lld + 10\n",
->> +                (long long)pkt_tv->tv_sec, (long long)pkt_tv->tv_usec,
->> +                (long long)msg_tv->tv_sec, (long long)msg_tv->tv_usec);
->> +        exit(-1);
->> +    }
->> +}
->> +
->> +void send_current_time(int sock, struct sockaddr_in server_sockaddr)
->> +{
->> +    struct timeval tv = {0, 0};
->> +    gettimeofday(&tv, NULL);
->> +    sendto(sock, &tv, sizeof(tv), 0, (struct sockaddr *)&server_sockaddr,
->> +           sizeof(server_sockaddr));
->> +}
->> +
->> +typedef void (*get_timeval_t)(const struct cmsghdr *cmsg, struct timeval
->> *tv);
->> +
->> +
->> +void receive_packet(int sock, get_timeval_t get_timeval)
->> +{
->> +    struct msghdr msg = {0};
->> +
->> +    char iobuf[1024];
->> +    struct iovec iov;
->> +
->> +    union {
->> +        /*
->> +         * 128 bytes are enough for all existing
->> +         * timeval/timespec/scm_timestamping structures.
->> +         */
->> +        char cmsg_buf[CMSG_SPACE(128)];
->> +        struct cmsghdr align;
->> +    } u;
->> +    struct cmsghdr *cmsg;
->> +    struct timeval msg_tv, pkt_tv;
->> +
->> +    int res;
->> +
->> +    iov.iov_base = iobuf;
->> +    iov.iov_len = sizeof(iobuf);
->> +
->> +    msg.msg_iov = &iov;
->> +    msg.msg_iovlen = 1;
->> +    msg.msg_control = (caddr_t)u.cmsg_buf;
->> +    msg.msg_controllen = sizeof(u.cmsg_buf);
->> +
->> +    res = recvmsg(sock, &msg, 0);
->> +    if (res < 0) {
->> +        int err = errno;
->> +        fprintf(stderr, "Failed to receive packet: %s\n", strerror(err));
->> +        exit(err);
->> +    }
->> +
->> +    assert(res == sizeof(struct timeval));
->> +    assert(iov.iov_base == iobuf);
->> +    memcpy(&msg_tv, iov.iov_base, sizeof(msg_tv));
->> +    printf("Message timestamp: %lld.%06lld\n",
->> +           (long long)msg_tv.tv_sec, (long long)msg_tv.tv_usec);
->> +
->> +    cmsg = CMSG_FIRSTHDR(&msg);
->> +    assert(cmsg);
->> +    (*get_timeval)(cmsg, &pkt_tv);
->> +    printf("Packet timestamp: %lld.%06lld\n",
->> +           (long long)pkt_tv.tv_sec, (long long)pkt_tv.tv_usec);
->> +
->> +    check_timestamp_difference(&msg_tv, &pkt_tv);
->> +}
->> +
->> +void get_timeval_from_so_timestamp(const struct cmsghdr *cmsg,
->> +                                   struct timeval *tv)
->> +{
->> +    assert(cmsg->cmsg_level == SOL_SOCKET);
->> +    assert(cmsg->cmsg_type == SCM_TIMESTAMP);
->> +    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(struct timeval)));
->> +    memcpy(tv, CMSG_DATA(cmsg), sizeof(*tv));
->> +}
->> +
->> +#ifdef SO_TIMESTAMP_OLD
->> +void get_timeval_from_so_timestamp_old(const struct cmsghdr *cmsg,
->> +                                       struct timeval *tv)
->> +{
->> +    struct kernel_old_timeval old_tv;
->> +    assert(cmsg->cmsg_level == SOL_SOCKET);
->> +    assert(cmsg->cmsg_type == SO_TIMESTAMP_OLD);
->> +    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(old_tv)));
->> +
->> +    memcpy(&old_tv, CMSG_DATA(cmsg), sizeof(old_tv));
->> +    tv->tv_sec = old_tv.tv_sec;
->> +    tv->tv_usec = old_tv.tv_usec;
->> +}
->> +
->> +#ifdef SO_TIMESTAMP_NEW
->> +void get_timeval_from_so_timestamp_new(const struct cmsghdr *cmsg,
->> +                                       struct timeval *tv)
->> +{
->> +    struct kernel_sock_timeval sock_tv;
->> +    assert(cmsg->cmsg_level == SOL_SOCKET);
->> +    assert(cmsg->cmsg_type == SO_TIMESTAMP_NEW);
->> +    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(sock_tv)));
->> +
->> +    memcpy(&sock_tv, CMSG_DATA(cmsg), sizeof(sock_tv));
->> +    tv->tv_sec = sock_tv.tv_sec;
->> +    tv->tv_usec = sock_tv.tv_usec;
->> +}
->> +#endif /* defined(SO_TIMESTAMP_NEW) */
->> +#endif /* defined(SO_TIMESTAMP_OLD) */
->> +
->> +void set_socket_option(int sock, int sockopt, int on)
->> +{
->> +    socklen_t len;
->> +    int val = on;
->> +    if (setsockopt(sock, SOL_SOCKET, sockopt, &val, sizeof(val)) < 0) {
->> +        int err = errno;
->> +        fprintf(stderr, "Failed to setsockopt %d (%s): %s\n",
->> +                sockopt, on ? "on" : "off", strerror(err));
->> +        exit(err);
->> +    }
->> +
->> +    len = sizeof(val);
->> +    val = -1;
->> +    if (getsockopt(sock, SOL_SOCKET, sockopt, &val, &len) < 0) {
->> +        int err = errno;
->> +        fprintf(stderr, "Failed to getsockopt (%d): %s\n", sock,
->> strerror(err));
->> +        exit(err);
->> +    }
->> +    assert(len == sizeof(val));
->> +    assert(val == on);
->> +}
->> +
->> +int main(int argc, char **argv)
->> +{
->> +    int parent_sock, child_sock;
->> +    struct sockaddr_in parent_sockaddr, child_sockaddr;
->> +    int pid;
->> +    struct timeval tv = {0, 0};
->> +    gettimeofday(&tv, NULL);
->> +
->> +    parent_sock = create_udp_socket(&parent_sockaddr);
->> +    child_sock = create_udp_socket(&child_sockaddr);
->> +
->> +    printf("Parent sock bound to port %d\nChild sock bound to port %d\n",
->> +           parent_sockaddr.sin_port, child_sockaddr.sin_port);
->> +
->> +    pid = fork();
->> +    if (pid < 0) {
->> +        fprintf(stderr, "SKIPPED. Failed to fork: %s\n",
->> strerror(errno));
->> +    } else if (pid == 0) {
->> +        close(child_sock);
->> +
->> +        /* Test 1: SO_TIMESTAMP */
->> +        send_current_time(parent_sock, child_sockaddr);
->> +
->> +        if (tv.tv_sec > 0x7fffff00) {
->> +            /* Too close to y2038 problem, old system may not work. */
->> +            close(parent_sock);
->> +            return 0;
->> +        }
->> +
->> +#ifdef SO_TIMESTAMP_OLD
->> +        if (SO_TIMESTAMP_OLD != SO_TIMESTAMP) {
->> +            /* Test 2a: SO_TIMESTAMP_OLD */
->> +            set_socket_option(parent_sock, SO_TIMESTAMP_OLD, 1);
->> +            receive_packet(parent_sock,
->> &get_timeval_from_so_timestamp_old);
->> +            set_socket_option(parent_sock, SO_TIMESTAMP_OLD, 0);
->> +        }
->> +#ifdef SO_TIMESTAMP_NEW
->> +        else {
->> +            /* Test 2b: SO_TIMESTAMP_NEW */
->> +            set_socket_option(parent_sock, SO_TIMESTAMP_NEW, 1);
->> +            receive_packet(parent_sock,
->> &get_timeval_from_so_timestamp_new);
->> +            set_socket_option(parent_sock, SO_TIMESTAMP_NEW, 0);
->> +        }
->> +#endif /* defined(SO_TIMESTAMP_NEW) */
->> +#endif /* defined(SO_TIMESTAMP_OLD) */
->> +
->> +        close(parent_sock);
->> +    } else {
->> +        int child_status;
->> +        close(parent_sock);
->> +
->> +        /* Test 1: SO_TIMESTAMP */
->> +        set_socket_option(child_sock, SO_TIMESTAMP, 1);
->> +        receive_packet(child_sock, &get_timeval_from_so_timestamp);
->> +        set_socket_option(child_sock, SO_TIMESTAMP, 0);
->> +
->> +        if (tv.tv_sec > 0x7fffff00) {
->> +            /* Too close to y2038 problem, old system may not work. */
->> +            close(child_sock);
->> +            return 0;
->> +        }
->> +
->> +#ifdef SO_TIMESTAMP_OLD
->> +        if (SO_TIMESTAMP_OLD != SO_TIMESTAMP) {
->> +            /* Test 2a: SO_TIMESTAMP_OLD */
->> +            send_current_time(child_sock, parent_sockaddr);
->> +        }
->> +#ifdef SO_TIMESTAMP_NEW
->> +        else {
->> +            /* Test 2b: SO_TIMESTAMP_NEW */
->> +            send_current_time(child_sock, parent_sockaddr);
->> +        }
->> +#endif /* defined(SO_TIMESTAMP_NEW) */
->> +#endif /* defined(SO_TIMESTAMP_OLD) */
->> +
->> +        close(child_sock);
->> +
->> +        if (waitpid(pid, &child_status, 0) < 0) {
->> +            int err = errno;
->> +            fprintf(stderr, "Final wait() failed: %s\n", strerror(err));
->> +            return err;
->> +        }
->> +        return child_status;
->> +    }
->> +    return 0;
->> +}
->> --
->> 2.28.0.220.ged08abb693-goog
->>
->>
+>  linux-user/alpha/sockbits.h            |  13 +-
+>  linux-user/generic/sockbits.h          |   8 +
+>  linux-user/hppa/sockbits.h             |  12 +-
+>  linux-user/mips/sockbits.h             |   8 +
+>  linux-user/sparc/sockbits.h            |  13 +-
+>  linux-user/strace.c                    |  12 +
+>  linux-user/syscall.c                   | 149 ++++++++-
+>  tests/tcg/multiarch/socket_timestamp.c | 442 +++++++++++++++++++------
+>  8 files changed, 540 insertions(+), 117 deletions(-)
+>
+> diff --git a/linux-user/alpha/sockbits.h b/linux-user/alpha/sockbits.h
+> index 40f0644df0..c2c88f432b 100644
+> --- a/linux-user/alpha/sockbits.h
+> +++ b/linux-user/alpha/sockbits.h
+> @@ -51,8 +51,6 @@
+>
+>  #define TARGET_SO_PEERSEC       30
+>  #define TARGET_SO_PASSSEC       34
+> -#define TARGET_SO_TIMESTAMPNS       35
+> -#define TARGET_SCM_TIMESTAMPNS      TARGET_SO_TIMESTAMPNS
+>
+>  /* Security levels - as per NRL IPv6 - don't actually do anything */
+>  #define TARGET_SO_SECURITY_AUTHENTICATION       19
+> @@ -61,9 +59,6 @@
+>
+>  #define TARGET_SO_MARK          36
+>
+> -#define TARGET_SO_TIMESTAMPING      37
+> -#define TARGET_SCM_TIMESTAMPING TARGET_SO_TIMESTAMPING
+> -
+>  #define TARGET_SO_RXQ_OVFL             40
+>
+>  #define TARGET_SO_WIFI_STATUS       41
+> @@ -75,9 +70,17 @@
+>
+>  #define TARGET_SO_TIMESTAMP_OLD        29
+>  #define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
+> +#define TARGET_SO_TIMESTAMPNS_OLD      35
+> +#define TARGET_SCM_TIMESTAMPNS_OLD     TARGET_SO_TIMESTAMPNS_OLD
+> +#define TARGET_SO_TIMESTAMPING_OLD     37
+> +#define TARGET_SCM_TIMESTAMPING_OLD    TARGET_SO_TIMESTAMPING_OLD
+>
+>  #define TARGET_SO_TIMESTAMP_NEW        63
+>  #define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
+> +#define TARGET_SO_TIMESTAMPNS_NEW      64
+> +#define TARGET_SCM_TIMESTAMPNS_NEW     TARGET_SO_TIMESTAMPNS_NEW
+> +#define TARGET_SO_TIMESTAMPING_NEW     65
+> +#define TARGET_SCM_TIMESTAMPING_NEW    TARGET_SO_TIMESTAMPING_NEW
+>
+>  /* TARGET_O_NONBLOCK clashes with the bits used for socket types.
+> Therefore we
+>   * have to define SOCK_NONBLOCK to a different value here.
+> diff --git a/linux-user/generic/sockbits.h b/linux-user/generic/sockbits.h
+> index 532cf2d3dc..a0496d8751 100644
+> --- a/linux-user/generic/sockbits.h
+> +++ b/linux-user/generic/sockbits.h
+> @@ -56,8 +56,16 @@
+>
+>  #define TARGET_SO_TIMESTAMP_OLD        29
+>  #define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
+> +#define TARGET_SO_TIMESTAMPNS_OLD      35
+> +#define TARGET_SCM_TIMESTAMPNS_OLD     TARGET_SO_TIMESTAMPNS_OLD
+> +#define TARGET_SO_TIMESTAMPING_OLD     37
+> +#define TARGET_SCM_TIMESTAMPING_OLD    TARGET_SO_TIMESTAMPING_OLD
+>
+>  #define TARGET_SO_TIMESTAMP_NEW        63
+>  #define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
+> +#define TARGET_SO_TIMESTAMPNS_NEW      64
+> +#define TARGET_SCM_TIMESTAMPNS_NEW     TARGET_SO_TIMESTAMPNS_NEW
+> +#define TARGET_SO_TIMESTAMPING_NEW     65
+> +#define TARGET_SCM_TIMESTAMPING_NEW    TARGET_SO_TIMESTAMPING_NEW
+>
+>  #endif
+> diff --git a/linux-user/hppa/sockbits.h b/linux-user/hppa/sockbits.h
+> index 284a47e74e..d7e9aa340d 100644
+> --- a/linux-user/hppa/sockbits.h
+> +++ b/linux-user/hppa/sockbits.h
+> @@ -29,8 +29,6 @@
+>  #define TARGET_SO_BSDCOMPAT    0x400e
+>  #define TARGET_SO_PASSCRED     0x4010
+>  #define TARGET_SO_PEERCRED     0x4011
+> -#define TARGET_SO_TIMESTAMPNS  0x4013
+> -#define TARGET_SCM_TIMESTAMPNS TARGET_SO_TIMESTAMPNS
+>
+>  #define TARGET_SO_SECURITY_AUTHENTICATION              0x4016
+>  #define TARGET_SO_SECURITY_ENCRYPTION_TRANSPORT        0x4017
+> @@ -44,8 +42,6 @@
+>  #define TARGET_SO_PEERSEC              0x401d
+>  #define TARGET_SO_PASSSEC              0x401e
+>  #define TARGET_SO_MARK                 0x401f
+> -#define TARGET_SO_TIMESTAMPING         0x4020
+> -#define TARGET_SCM_TIMESTAMPING        TARGET_SO_TIMESTAMPING
+>  #define TARGET_SO_RXQ_OVFL             0x4021
+>  #define TARGET_SO_WIFI_STATUS          0x4022
+>  #define TARGET_SCM_WIFI_STATUS         TARGET_SO_WIFI_STATUS
+> @@ -67,9 +63,17 @@
+>
+>  #define TARGET_SO_TIMESTAMP_OLD        0x4012
+>  #define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
+> +#define TARGET_SO_TIMESTAMPNS_OLD      0x4013
+> +#define TARGET_SCM_TIMESTAMPNS_OLD     TARGET_SO_TIMESTAMPNS_OLD
+> +#define TARGET_SO_TIMESTAMPING_OLD     0x4020
+> +#define TARGET_SCM_TIMESTAMPING_OLD    TARGET_SO_TIMESTAMPING_OLD
+>
+>  #define TARGET_SO_TIMESTAMP_NEW        0x4038
+>  #define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
+> +#define TARGET_SO_TIMESTAMPNS_NEW      0x4039
+> +#define TARGET_SCM_TIMESTAMPNS_NEW     TARGET_SO_TIMESTAMPNS_NEW
+> +#define TARGET_SO_TIMESTAMPING_NEW     0x403A
+> +#define TARGET_SCM_TIMESTAMPING_NEW    TARGET_SO_TIMESTAMPING_NEW
+>
+>  /* TARGET_O_NONBLOCK clashes with the bits used for socket types.
+> Therefore we
+>   * have to define SOCK_NONBLOCK to a different value here.
+> diff --git a/linux-user/mips/sockbits.h b/linux-user/mips/sockbits.h
+> index b4c39d9588..49524e23ac 100644
+> --- a/linux-user/mips/sockbits.h
+> +++ b/linux-user/mips/sockbits.h
+> @@ -69,9 +69,17 @@
+>
+>  #define TARGET_SO_TIMESTAMP_OLD        29
+>  #define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
+> +#define TARGET_SO_TIMESTAMPNS_OLD      35
+> +#define TARGET_SCM_TIMESTAMPNS_OLD     TARGET_SO_TIMESTAMPNS_OLD
+> +#define TARGET_SO_TIMESTAMPING_OLD     37
+> +#define TARGET_SCM_TIMESTAMPING_OLD    TARGET_SO_TIMESTAMPING_OLD
+>
+>  #define TARGET_SO_TIMESTAMP_NEW        63
+>  #define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
+> +#define TARGET_SO_TIMESTAMPNS_NEW      64
+> +#define TARGET_SCM_TIMESTAMPNS_NEW     TARGET_SO_TIMESTAMPNS_NEW
+> +#define TARGET_SO_TIMESTAMPING_NEW     65
+> +#define TARGET_SCM_TIMESTAMPING_NEW    TARGET_SO_TIMESTAMPING_NEW
+>
+>  /** sock_type - Socket types
+>   *
+> diff --git a/linux-user/sparc/sockbits.h b/linux-user/sparc/sockbits.h
+> index 07440efd14..c5fade3ad1 100644
+> --- a/linux-user/sparc/sockbits.h
+> +++ b/linux-user/sparc/sockbits.h
+> @@ -51,14 +51,9 @@
+>
+>  #define TARGET_SO_PEERSEC              0x001e
+>  #define TARGET_SO_PASSSEC              0x001f
+> -#define TARGET_SO_TIMESTAMPNS          0x0021
+> -#define TARGET_SCM_TIMESTAMPNS         TARGET_SO_TIMESTAMPNS
+>
+>  #define TARGET_SO_MARK                 0x0022
+>
+> -#define TARGET_SO_TIMESTAMPING         0x0023
+> -#define TARGET_SCM_TIMESTAMPING        TARGET_SO_TIMESTAMPING
+> -
+>  #define TARGET_SO_RXQ_OVFL             0x0024
+>
+>  #define TARGET_SO_WIFI_STATUS          0x0025
+> @@ -104,9 +99,17 @@
+>
+>  #define TARGET_SO_TIMESTAMP_OLD        0x001d
+>  #define TARGET_SCM_TIMESTAMP_OLD       TARGET_SO_TIMESTAMP_OLD
+> +#define TARGET_SO_TIMESTAMPNS_OLD      0x0021
+> +#define TARGET_SCM_TIMESTAMPNS_OLD     TARGET_SO_TIMESTAMPNS_OLD
+> +#define TARGET_SO_TIMESTAMPING_OLD     0x0023
+> +#define TARGET_SCM_TIMESTAMPING_OLD    TARGET_SO_TIMESTAMPING_OLD
+>
+>  #define TARGET_SO_TIMESTAMP_NEW        0x0046
+>  #define TARGET_SCM_TIMESTAMP_NEW       TARGET_SO_TIMESTAMP_NEW
+> +#define TARGET_SO_TIMESTAMPNS_NEW      0x0042
+> +#define TARGET_SCM_TIMESTAMPNS_NEW     TARGET_SO_TIMESTAMPNS_NEW
+> +#define TARGET_SO_TIMESTAMPING_NEW     0x0043
+> +#define TARGET_SCM_TIMESTAMPING_NEW    TARGET_SO_TIMESTAMPING_NEW
+>
+>  /* Security levels - as per NRL IPv6 - don't actually do anything */
+>  #define TARGET_SO_SECURITY_AUTHENTICATION              0x5001
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index a11a5e9e86..7aabb3c972 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -2260,9 +2260,21 @@ print_optint:
+>          case TARGET_SO_TIMESTAMP_OLD:
+>              qemu_log("SO_TIMESTAMP_OLD,");
+>              goto print_optint;
+> +        case TARGET_SO_TIMESTAMPNS_OLD:
+> +            qemu_log("SO_TIMESTAMPNS_OLD,");
+> +            goto print_optint;
+> +        case TARGET_SO_TIMESTAMPING_OLD:
+> +            qemu_log("SO_TIMESTAMPING_OLD,");
+> +            goto print_optint;
+>          case TARGET_SO_TIMESTAMP_NEW:
+>              qemu_log("SO_TIMESTAMP_NEW,");
+>              goto print_optint;
+> +        case TARGET_SO_TIMESTAMPNS_NEW:
+> +            qemu_log("SO_TIMESTAMPNS_NEW,");
+> +            goto print_optint;
+> +        case TARGET_SO_TIMESTAMPING_NEW:
+> +            qemu_log("SO_TIMESTAMPING_NEW,");
+> +            goto print_optint;
+>          case TARGET_SO_RCVLOWAT:
+>              qemu_log("SO_RCVLOWAT,");
+>              goto print_optint;
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index e6b1a18cc0..bfc4219104 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -1771,6 +1771,34 @@ static inline abi_long host_to_target_cmsg(struct
+> target_msghdr *target_msgh,
+>                      break;
+>                  }
+>                  break;
+> +            case SCM_TIMESTAMPNS:
+> +                switch (target_expected_timestamp_version) {
+> +                case TARGET_TIMESTAMP_OLD:
+> +                    tgt_len = sizeof(struct target_timespec);
+> +                    target_cmsg->cmsg_type =
+> +                        tswap32(TARGET_SCM_TIMESTAMPNS_OLD);
+> +                    break;
+> +                case TARGET_TIMESTAMP_NEW:
+> +                    tgt_len = sizeof(struct target__kernel_timespec);
+> +                    target_cmsg->cmsg_type =
+> +                        tswap32(TARGET_SCM_TIMESTAMPNS_NEW);
+> +                    break;
+> +                }
+> +                break;
+> +            case SCM_TIMESTAMPING:
+> +                switch (target_expected_timestamp_version) {
+> +                case TARGET_TIMESTAMP_OLD:
+> +                    tgt_len = sizeof(struct target_timespec[3]);
+> +                    target_cmsg->cmsg_type =
+> +                        tswap32(TARGET_SCM_TIMESTAMPING_OLD);
+> +                    break;
+> +                case TARGET_TIMESTAMP_NEW:
+> +                    tgt_len = sizeof(struct target__kernel_timespec[3]);
+> +                    target_cmsg->cmsg_type =
+> +                        tswap32(TARGET_SCM_TIMESTAMPING_NEW);
+> +                    break;
+> +                }
+> +                break;
+>              default:
+>                  break;
+>              }
+> @@ -1838,6 +1866,81 @@ static inline abi_long host_to_target_cmsg(struct
+> target_msghdr *target_msgh,
+>                  }
+>                  break;
+>              }
+> +            case SCM_TIMESTAMPNS:
+> +            {
+> +                struct timespec *ts = (struct timespec *)data;
+> +                if (len != sizeof(struct timespec)) {
+> +                    goto unimplemented;
+> +                }
+> +
+> +                switch (target_expected_timestamp_version) {
+> +                case TARGET_TIMESTAMP_OLD:
+> +                {
+> +                    struct target_timespec *target_ts =
+> +                        (struct target_timespec *)target_data;
+> +                    if (tgt_len != sizeof(struct target_timespec)) {
+> +                        goto unimplemented;
+> +                    }
+> +
+> +                    __put_user(ts->tv_sec, &target_ts->tv_sec);
+> +                    __put_user(ts->tv_nsec, &target_ts->tv_nsec);
+> +                    break;
+> +                }
+> +                case TARGET_TIMESTAMP_NEW:
+> +                {
+> +                    struct target__kernel_timespec *target_ts =
+> +                        (struct target__kernel_timespec *)target_data;
+> +                    if (tgt_len != sizeof(struct
+> target__kernel_timespec)) {
+> +                        goto unimplemented;
+> +                    }
+> +
+> +                    __put_user(ts->tv_sec, &target_ts->tv_sec);
+> +                    __put_user(ts->tv_nsec, &target_ts->tv_nsec);
+> +                    break;
+> +                }
+> +                }
+> +                break;
+> +            }
+> +            case SCM_TIMESTAMPING:
+> +            {
+> +                int i;
+> +                struct timespec *ts = (struct timespec *)data;
+> +                if (len != sizeof(struct timespec[3])) {
+> +                    goto unimplemented;
+> +                }
+> +
+> +                switch (target_expected_timestamp_version) {
+> +                case TARGET_TIMESTAMP_OLD:
+> +                {
+> +                    struct target_timespec *target_ts =
+> +                        (struct target_timespec *)target_data;
+> +                    if (tgt_len != sizeof(struct target_timespec[3])) {
+> +                        goto unimplemented;
+> +                    }
+> +
+> +                    for (i = 0; i < 3; ++i) {
+> +                        __put_user(ts[i].tv_sec, &target_ts[i].tv_sec);
+> +                        __put_user(ts[i].tv_nsec, &target_ts[i].tv_nsec);
+> +                    }
+> +                    break;
+> +                }
+> +                case TARGET_TIMESTAMP_NEW:
+> +                {
+> +                    struct target__kernel_timespec *target_ts =
+> +                        (struct target__kernel_timespec *)target_data;
+> +                    if (tgt_len != sizeof(struct
+> target__kernel_timespec[3])) {
+> +                        goto unimplemented;
+> +                    }
+> +
+> +                    for (i = 0; i < 3; ++i) {
+> +                        __put_user(ts[i].tv_sec, &target_ts[i].tv_sec);
+> +                        __put_user(ts[i].tv_nsec, &target_ts[i].tv_nsec);
+> +                    }
+> +                    break;
+> +                }
+> +                }
+> +                break;
+> +            }
+>              case SCM_CREDENTIALS:
+>              {
+>                  struct ucred *cred = (struct ucred *)data;
+> @@ -2381,6 +2484,22 @@ set_timeout:
+>                  target_timestamp_version = TARGET_TIMESTAMP_NEW;
+>                  optname = SO_TIMESTAMP;
+>                  break;
+> +        case TARGET_SO_TIMESTAMPNS_OLD:
+> +                target_timestamp_version = TARGET_TIMESTAMP_OLD;
+> +                optname = SO_TIMESTAMPNS;
+> +                break;
+> +        case TARGET_SO_TIMESTAMPNS_NEW:
+> +                target_timestamp_version = TARGET_TIMESTAMP_NEW;
+> +                optname = SO_TIMESTAMPNS;
+> +                break;
+> +        case TARGET_SO_TIMESTAMPING_OLD:
+> +                target_timestamp_version = TARGET_TIMESTAMP_OLD;
+> +                optname = SO_TIMESTAMPING;
+> +                break;
+> +        case TARGET_SO_TIMESTAMPING_NEW:
+> +                target_timestamp_version = TARGET_TIMESTAMP_NEW;
+> +                optname = SO_TIMESTAMPING;
+> +                break;
+>          case TARGET_SO_RCVLOWAT:
+>                 optname = SO_RCVLOWAT;
+>                 break;
+> @@ -2393,7 +2512,9 @@ set_timeout:
+>         if (get_user_u32(val, optval_addr))
+>              return -TARGET_EFAULT;
+>         ret = get_errno(setsockopt(sockfd, SOL_SOCKET, optname, &val,
+> sizeof(val)));
+> -        if (!is_error(ret) && optname == SO_TIMESTAMP) {
+> +        if (!is_error(ret) &&
+> +            (optname == SO_TIMESTAMP || optname == SO_TIMESTAMPNS ||
+> +             optname == SO_TIMESTAMPING)) {
+>              target_expected_timestamp_version = target_timestamp_version;
+>          }
+>          break;
+> @@ -2637,6 +2758,26 @@ get_timeout:
+>                  (target_expected_timestamp_version ==
+> TARGET_TIMESTAMP_NEW);
+>              optname = SO_TIMESTAMP;
+>              goto int_case;
+> +        case TARGET_SO_TIMESTAMPNS_OLD:
+> +            timestamp_format_matches =
+> +                (target_expected_timestamp_version ==
+> TARGET_TIMESTAMP_OLD);
+> +            optname = SO_TIMESTAMPNS;
+> +            goto int_case;
+> +        case TARGET_SO_TIMESTAMPNS_NEW:
+> +            timestamp_format_matches =
+> +                (target_expected_timestamp_version ==
+> TARGET_TIMESTAMP_NEW);
+> +            optname = SO_TIMESTAMPNS;
+> +            goto int_case;
+> +        case TARGET_SO_TIMESTAMPING_OLD:
+> +            timestamp_format_matches =
+> +                (target_expected_timestamp_version ==
+> TARGET_TIMESTAMP_OLD);
+> +            optname = SO_TIMESTAMPING;
+> +            goto int_case;
+> +        case TARGET_SO_TIMESTAMPING_NEW:
+> +            timestamp_format_matches =
+> +                (target_expected_timestamp_version ==
+> TARGET_TIMESTAMP_NEW);
+> +            optname = SO_TIMESTAMPING;
+> +            goto int_case;
+>          case TARGET_SO_RCVLOWAT:
+>              optname = SO_RCVLOWAT;
+>              goto int_case;
+> @@ -2661,9 +2802,9 @@ get_timeout:
+>              return ret;
+>          if (optname == SO_TYPE) {
+>              val = host_to_target_sock_type(val);
+> -        }
+> -        if (optname == SO_TIMESTAMP) {
+> -            val = val && timestamp_format_matches;
+> +        } else if ((optname == SO_TIMESTAMP || optname == SO_TIMESTAMPNS
+> ||
+> +                    optname == SO_TIMESTAMPING) &&
+> !timestamp_format_matches) {
+> +            val = 0;
+>          }
+>          if (len > lv)
+>              len = lv;
+> diff --git a/tests/tcg/multiarch/socket_timestamp.c
+> b/tests/tcg/multiarch/socket_timestamp.c
+> index 71ab1845de..3ae833ad44 100644
+> --- a/tests/tcg/multiarch/socket_timestamp.c
+> +++ b/tests/tcg/multiarch/socket_timestamp.c
+> @@ -1,5 +1,6 @@
+>  #include <assert.h>
+>  #include <errno.h>
+> +#include <linux/net_tstamp.h>
+>  #include <linux/types.h>
+>  #include <netinet/in.h>
+>  #include <stdint.h>
+> @@ -11,6 +12,7 @@
+>  #include <sys/time.h>
+>  #include <sys/types.h>
+>  #include <sys/wait.h>
+> +#include <time.h>
+>  #include <unistd.h>
+>
+>  #ifdef __kernel_old_timeval
+> @@ -27,6 +29,33 @@ struct kernel_sock_timeval {
+>      int64_t tv_usec;
+>  };
+>
+> +struct kernel_old_timespec {
+> +    __kernel_long_t tv_sec;
+> +    long            tv_nsec;
+> +};
+> +
+> +struct kernel_timespec {
+> +    int64_t   tv_sec;
+> +    long long tv_nsec;
+> +};
+> +
+> +struct scm_timestamping {
+> +    struct timespec ts[3];
+> +};
+> +
+> +struct scm_old_timestamping {
+> +    struct kernel_old_timespec ts[3];
+> +};
+> +
+> +struct scm_timestamping64 {
+> +    struct kernel_timespec ts[3];
+> +};
+> +
+> +const int so_timestamping_flags =
+> +    SOF_TIMESTAMPING_RX_HARDWARE |
+> +    SOF_TIMESTAMPING_RX_SOFTWARE |
+> +    SOF_TIMESTAMPING_SOFTWARE;
+> +
+>  int create_udp_socket(struct sockaddr_in *sockaddr)
+>  {
+>      socklen_t sockaddr_len;
+> @@ -61,43 +90,47 @@ int create_udp_socket(struct sockaddr_in *sockaddr)
+>   * Checks that the timestamp in the message is not after the reception
+> timestamp
+>   * as well as the reception time is within 10 seconds of the message time.
+>   */
+> -void check_timestamp_difference(const struct timeval *msg_tv,
+> -                                const struct timeval *pkt_tv)
+> +void check_timestamp_difference(const struct timespec *msg_ts,
+> +                                const struct timespec *pkt_ts)
+>  {
+> -    if (pkt_tv->tv_sec < msg_tv->tv_sec ||
+> -        (pkt_tv->tv_sec == msg_tv->tv_sec && pkt_tv->tv_usec <
+> msg_tv->tv_usec))
+> +    if (pkt_ts->tv_sec < msg_ts->tv_sec ||
+> +        (pkt_ts->tv_sec == msg_ts->tv_sec && pkt_ts->tv_nsec <
+> msg_ts->tv_nsec))
+>      {
+>          fprintf(stderr,
+> -                "Packet received before sent: %lld.%06lld <
+> %lld.%06lld\n",
+> -                (long long)pkt_tv->tv_sec, (long long)pkt_tv->tv_usec,
+> -                (long long)msg_tv->tv_sec, (long long)msg_tv->tv_usec);
+> +                "Packet received before sent: %lld.%06lld <
+> %lld.%09lld\n",
+> +                (long long)pkt_ts->tv_sec, (long long)pkt_ts->tv_nsec,
+> +                (long long)msg_ts->tv_sec, (long long)msg_ts->tv_nsec);
+>          exit(-1);
+>      }
+>
+> -    if (pkt_tv->tv_sec > msg_tv->tv_sec + 10 ||
+> -        (pkt_tv->tv_sec == msg_tv->tv_sec + 10 &&
+> -         pkt_tv->tv_usec > msg_tv->tv_usec)) {
+> +    if (pkt_ts->tv_sec > msg_ts->tv_sec + 10 ||
+> +        (pkt_ts->tv_sec == msg_ts->tv_sec + 10 &&
+> +         pkt_ts->tv_nsec > msg_ts->tv_nsec)) {
+>          fprintf(stderr,
+>                  "Packet received more than 10 seconds after sent: "
+> -                "%lld.%06lld > %lld.%06lld + 10\n",
+> -                (long long)pkt_tv->tv_sec, (long long)pkt_tv->tv_usec,
+> -                (long long)msg_tv->tv_sec, (long long)msg_tv->tv_usec);
+> +                "%lld.%06lld > %lld.%09lld + 10\n",
+> +                (long long)pkt_ts->tv_sec, (long long)pkt_ts->tv_nsec,
+> +                (long long)msg_ts->tv_sec, (long long)msg_ts->tv_nsec);
+>          exit(-1);
+>      }
+>  }
+>
+>  void send_current_time(int sock, struct sockaddr_in server_sockaddr)
+>  {
+> -    struct timeval tv = {0, 0};
+> -    gettimeofday(&tv, NULL);
+> -    sendto(sock, &tv, sizeof(tv), 0, (struct sockaddr *)&server_sockaddr,
+> +    struct timespec ts = {0, 0};
+> +    clock_gettime(CLOCK_REALTIME, &ts);
+> +#ifdef MSG_CONFIRM
+> +    const int flags = MSG_CONFIRM;
+> +#else
+> +    const int flags = 0;
+> +#endif
+> +    sendto(sock, &ts, sizeof(ts), flags, (struct sockaddr
+> *)&server_sockaddr,
+>             sizeof(server_sockaddr));
+>  }
+>
+> -typedef void (*get_timeval_t)(const struct cmsghdr *cmsg, struct timeval
+> *tv);
+> +typedef void (*get_timespec_t)(const struct cmsghdr *cmsg, struct
+> timespec *tv);
+>
+> -
+> -void receive_packet(int sock, get_timeval_t get_timeval)
+> +void receive_packet(int sock, get_timespec_t get_timespec)
+>  {
+>      struct msghdr msg = {0};
+>
+> @@ -113,7 +146,7 @@ void receive_packet(int sock, get_timeval_t
+> get_timeval)
+>          struct cmsghdr align;
+>      } u;
+>      struct cmsghdr *cmsg;
+> -    struct timeval msg_tv, pkt_tv;
+> +    struct timespec msg_ts, pkt_ts;
+>
+>      int res;
+>
+> @@ -134,31 +167,35 @@ void receive_packet(int sock, get_timeval_t
+> get_timeval)
+>
+>      assert(res == sizeof(struct timeval));
+>      assert(iov.iov_base == iobuf);
+> -    memcpy(&msg_tv, iov.iov_base, sizeof(msg_tv));
+> -    printf("Message timestamp: %lld.%06lld\n",
+> -           (long long)msg_tv.tv_sec, (long long)msg_tv.tv_usec);
+> +    memcpy(&msg_ts, iov.iov_base, sizeof(msg_ts));
+> +    printf("Message timestamp: %lld.%09lld\n",
+> +           (long long)msg_ts.tv_sec, (long long)msg_ts.tv_nsec);
+>
+>      cmsg = CMSG_FIRSTHDR(&msg);
+>      assert(cmsg);
+> -    (*get_timeval)(cmsg, &pkt_tv);
+> -    printf("Packet timestamp: %lld.%06lld\n",
+> -           (long long)pkt_tv.tv_sec, (long long)pkt_tv.tv_usec);
+> +    (*get_timespec)(cmsg, &pkt_ts);
+> +    printf("Packet timestamp: %lld.%09lld\n",
+> +           (long long)pkt_ts.tv_sec, (long long)pkt_ts.tv_nsec);
+>
+> -    check_timestamp_difference(&msg_tv, &pkt_tv);
+> +    check_timestamp_difference(&msg_ts, &pkt_ts);
+>  }
+>
+> -void get_timeval_from_so_timestamp(const struct cmsghdr *cmsg,
+> -                                   struct timeval *tv)
+> +void get_timespec_from_so_timestamp(const struct cmsghdr *cmsg,
+> +                                    struct timespec *ts)
+>  {
+> +    struct timeval tv;
+>      assert(cmsg->cmsg_level == SOL_SOCKET);
+>      assert(cmsg->cmsg_type == SCM_TIMESTAMP);
+> -    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(struct timeval)));
+> -    memcpy(tv, CMSG_DATA(cmsg), sizeof(*tv));
+> +    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(tv)));
+> +
+> +    memcpy(&tv, CMSG_DATA(cmsg), sizeof(tv));
+> +    ts->tv_sec = tv.tv_sec;
+> +    ts->tv_nsec = tv.tv_usec * 1000LL;
+>  }
+>
+>  #ifdef SO_TIMESTAMP_OLD
+> -void get_timeval_from_so_timestamp_old(const struct cmsghdr *cmsg,
+> -                                       struct timeval *tv)
+> +void get_timespec_from_so_timestamp_old(const struct cmsghdr *cmsg,
+> +                                        struct timespec *ts)
+>  {
+>      struct kernel_old_timeval old_tv;
+>      assert(cmsg->cmsg_level == SOL_SOCKET);
+> @@ -166,13 +203,13 @@ void get_timeval_from_so_timestamp_old(const struct
+> cmsghdr *cmsg,
+>      assert(cmsg->cmsg_len == CMSG_LEN(sizeof(old_tv)));
+>
+>      memcpy(&old_tv, CMSG_DATA(cmsg), sizeof(old_tv));
+> -    tv->tv_sec = old_tv.tv_sec;
+> -    tv->tv_usec = old_tv.tv_usec;
+> +    ts->tv_sec = old_tv.tv_sec;
+> +    ts->tv_nsec = old_tv.tv_usec * 1000LL;
+>  }
+>
+>  #ifdef SO_TIMESTAMP_NEW
+> -void get_timeval_from_so_timestamp_new(const struct cmsghdr *cmsg,
+> -                                       struct timeval *tv)
+> +void get_timespec_from_so_timestamp_new(const struct cmsghdr *cmsg,
+> +                                        struct timespec *ts)
+>  {
+>      struct kernel_sock_timeval sock_tv;
+>      assert(cmsg->cmsg_level == SOL_SOCKET);
+> @@ -180,42 +217,298 @@ void get_timeval_from_so_timestamp_new(const struct
+> cmsghdr *cmsg,
+>      assert(cmsg->cmsg_len == CMSG_LEN(sizeof(sock_tv)));
+>
+>      memcpy(&sock_tv, CMSG_DATA(cmsg), sizeof(sock_tv));
+> -    tv->tv_sec = sock_tv.tv_sec;
+> -    tv->tv_usec = sock_tv.tv_usec;
+> +    ts->tv_sec = sock_tv.tv_sec;
+> +    ts->tv_nsec = sock_tv.tv_usec * 1000LL;
+>  }
+>  #endif /* defined(SO_TIMESTAMP_NEW) */
+>  #endif /* defined(SO_TIMESTAMP_OLD) */
+>
+> -void set_socket_option(int sock, int sockopt, int on)
+> +void get_timespec_from_so_timestampns(const struct cmsghdr *cmsg,
+> +                                      struct timespec *ts)
+> +{
+> +    assert(cmsg->cmsg_level == SOL_SOCKET);
+> +    assert(cmsg->cmsg_type == SCM_TIMESTAMPNS);
+> +    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(*ts)));
+> +
+> +    memcpy(ts, CMSG_DATA(cmsg), sizeof(*ts));
+> +}
+> +
+> +#ifdef SO_TIMESTAMPNS_OLD
+> +void get_timespec_from_so_timestampns_old(const struct cmsghdr *cmsg,
+> +                                          struct timespec *ts)
+> +{
+> +    struct kernel_old_timespec old_ts;
+> +    assert(cmsg->cmsg_level == SOL_SOCKET);
+> +    assert(cmsg->cmsg_type == SO_TIMESTAMPNS_OLD);
+> +    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(old_ts)));
+> +
+> +    memcpy(&old_ts, CMSG_DATA(cmsg), sizeof(old_ts));
+> +    ts->tv_sec = old_ts.tv_sec;
+> +    ts->tv_nsec = old_ts.tv_nsec;
+> +}
+> +
+> +#ifdef SO_TIMESTAMPNS_NEW
+> +void get_timespec_from_so_timestampns_new(const struct cmsghdr *cmsg,
+> +                                          struct timespec *ts)
+> +{
+> +    struct kernel_timespec sock_ts;
+> +    assert(cmsg->cmsg_level == SOL_SOCKET);
+> +    assert(cmsg->cmsg_type == SO_TIMESTAMPNS_NEW);
+> +    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(sock_ts)));
+> +
+> +    memcpy(&sock_ts, CMSG_DATA(cmsg), sizeof(sock_ts));
+> +    ts->tv_sec = sock_ts.tv_sec;
+> +    ts->tv_nsec = sock_ts.tv_nsec;
+> +}
+> +#endif /* defined(SO_TIMESTAMPNS_NEW) */
+> +#endif /* defined(SO_TIMESTAMPNS_OLD) */
+> +
+> +void get_timespec_from_so_timestamping(const struct cmsghdr *cmsg,
+> +                                       struct timespec *ts)
+> +{
+> +    int i;
+> +    struct scm_timestamping tss;
+> +    assert(cmsg->cmsg_level == SOL_SOCKET);
+> +    assert(cmsg->cmsg_type == SCM_TIMESTAMPING);
+> +    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(tss)));
+> +
+> +    memcpy(&tss, CMSG_DATA(cmsg), sizeof(tss));
+> +
+> +    for (i = 0; i < 3; ++i) {
+> +        if (tss.ts[i].tv_sec || tss.ts[i].tv_nsec) {
+> +            *ts = tss.ts[i];
+> +            return;
+> +        }
+> +    }
+> +    assert(!"All three entries in scm_timestamping are empty");
+> +}
+> +
+> +#ifdef SO_TIMESTAMPING_OLD
+> +void get_timespec_from_so_timestamping_old(const struct cmsghdr *cmsg,
+> +                                           struct timespec *ts)
+> +{
+> +    int i;
+> +    struct scm_old_timestamping tss;
+> +    assert(cmsg->cmsg_level == SOL_SOCKET);
+> +    assert(cmsg->cmsg_type == SO_TIMESTAMPING_OLD);
+> +    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(tss)));
+> +
+> +    memcpy(&tss, CMSG_DATA(cmsg), sizeof(tss));
+> +
+> +    for (i = 0; i < 3; ++i) {
+> +        if (tss.ts[i].tv_sec || tss.ts[i].tv_nsec) {
+> +            ts->tv_sec = tss.ts[i].tv_sec;
+> +            ts->tv_nsec = tss.ts[i].tv_nsec;
+> +            return;
+> +        }
+> +    }
+> +    assert(!"All three entries in scm_old_timestamping are empty");
+> +}
+> +
+> +#ifdef SO_TIMESTAMPING_NEW
+> +void get_timespec_from_so_timestamping_new(const struct cmsghdr *cmsg,
+> +                                           struct timespec *ts)
+> +{
+> +    int i;
+> +    struct scm_timestamping64 tss;
+> +    assert(cmsg->cmsg_level == SOL_SOCKET);
+> +    assert(cmsg->cmsg_type == SO_TIMESTAMPING_NEW);
+> +    assert(cmsg->cmsg_len == CMSG_LEN(sizeof(tss)));
+> +
+> +    memcpy(&tss, CMSG_DATA(cmsg), sizeof(tss));
+> +    for (i = 0; i < 3; ++i) {
+> +        if (tss.ts[i].tv_sec || tss.ts[i].tv_nsec) {
+> +            ts->tv_sec = tss.ts[i].tv_sec;
+> +            ts->tv_nsec = tss.ts[i].tv_nsec;
+> +            return;
+> +        }
+> +    }
+> +    assert(!"All three entries in scm_timestamp64 are empty");
+> +}
+> +#endif /* defined(SO_TIMESTAMPING_NEW) */
+> +#endif /* defined(SO_TIMESTAMPING_OLD) */
+> +
+> +void set_socket_option(int sock, int sockopt, int set_to)
+>  {
+>      socklen_t len;
+> -    int val = on;
+> +    int val = set_to;
+>      if (setsockopt(sock, SOL_SOCKET, sockopt, &val, sizeof(val)) < 0) {
+>          int err = errno;
+> -        fprintf(stderr, "Failed to setsockopt %d (%s): %s\n",
+> -                sockopt, on ? "on" : "off", strerror(err));
+> +        fprintf(stderr, "Failed at setsockopt(%d, SOL_SOCKET, %d, %d):
+> %s\n",
+> +                sock, sockopt, set_to, strerror(err));
+>          exit(err);
+>      }
+>
+> +#ifdef SO_TIMESTAMPING_NEW
+> +    if (sockopt == SO_TIMESTAMPING_NEW) {
+> +        /*
+> +         * `getsockopt(sock, SOL_SOCKET, SO_TIMESTAMPING_NEW)` not
+> implemented
+> +         * as of linux kernel v5.8-rc4.
+> +         */
+> +        return;
+> +    }
+> +#endif
+> +
+>      len = sizeof(val);
+>      val = -1;
+>      if (getsockopt(sock, SOL_SOCKET, sockopt, &val, &len) < 0) {
+>          int err = errno;
+> -        fprintf(stderr, "Failed to getsockopt (%d): %s\n", sock,
+> strerror(err));
+> +        fprintf(stderr, "Failed at getsockopt(%d, SOL_SOCKET, %d): %s\n",
+> +                sock, sockopt, strerror(err));
+>          exit(err);
+>      }
+>      assert(len == sizeof(val));
+> -    assert(val == on);
+> +    assert(val == set_to);
+> +}
+> +
+> +void child_steps(int sock, struct sockaddr_in addr, int run_old)
+> +{
+> +    /* Test 1: SO_TIMESTAMP */
+> +    send_current_time(sock, addr);
+> +
+> +    /* Test 2: SO_TIMESTAMPNS */
+> +    printf("Test 2: SO_TIMESTAMPNS\n");
+> +    set_socket_option(sock, SO_TIMESTAMPNS, 1);
+> +    receive_packet(sock, &get_timespec_from_so_timestampns);
+> +    set_socket_option(sock, SO_TIMESTAMPNS, 0);
+> +
+> +    /* Test 3: SO_TIMESTAMPING */
+> +    send_current_time(sock, addr);
+> +
+> +    if (!run_old) {
+> +        return;
+> +    }
+> +
+> +#ifdef SO_TIMESTAMP_OLD
+> +    if (SO_TIMESTAMP_OLD != SO_TIMESTAMP) {
+> +        /* Test 4a: SO_TIMESTAMP_OLD */
+> +        printf("Test 4a: SO_TIMESTAMP_OLD\n");
+> +        set_socket_option(sock, SO_TIMESTAMP_OLD, 1);
+> +        receive_packet(sock, &get_timespec_from_so_timestamp_old);
+> +        set_socket_option(sock, SO_TIMESTAMP_OLD, 0);
+> +    }
+> +#ifdef SO_TIMESTAMP_NEW
+> +    else {
+> +        /* Test 4b: SO_TIMESTAMP_NEW */
+> +        printf("Test 4b: SO_TIMESTAMP_NEW\n");
+> +        set_socket_option(sock, SO_TIMESTAMP_NEW, 1);
+> +        receive_packet(sock, &get_timespec_from_so_timestamp_new);
+> +        set_socket_option(sock, SO_TIMESTAMP_NEW, 0);
+> +    }
+> +#endif /* defined(SO_TIMESTAMP_NEW) */
+> +#endif /* defined(SO_TIMESTAMP_OLD) */
+> +
+> +#ifdef SO_TIMESTAMPNS_OLD
+> +    if (SO_TIMESTAMPNS_OLD != SO_TIMESTAMPNS) {
+> +        /* Test 5a: SO_TIMESTAMPNS_OLD */
+> +        send_current_time(sock, addr);
+> +    }
+> +#ifdef SO_TIMESTAMPNS_NEW
+> +    else {
+> +        /* Test 5b: SO_TIMESTAMPNS_NEW */
+> +        send_current_time(sock, addr);
+> +    }
+> +#endif /* defined(SO_TIMESTAMPNS_NEW) */
+> +#endif /* defined(SO_TIMESTAMPNS_OLD) */
+> +
+> +#ifdef SO_TIMESTAMPING_OLD
+> +    if (SO_TIMESTAMPING_OLD != SO_TIMESTAMPING) {
+> +        /* Test 6a: SO_TIMESTAMPING_OLD */
+> +        printf("Test 6a: SO_TIMESTAMPING_OLD\n");
+> +        set_socket_option(sock, SO_TIMESTAMPING_OLD,
+> so_timestamping_flags);
+> +        receive_packet(sock, &get_timespec_from_so_timestamping_old);
+> +        set_socket_option(sock, SO_TIMESTAMPING_OLD, 0);
+> +    }
+> +#ifdef SO_TIMESTAMPING_NEW
+> +    else {
+> +        /* Test 6b: SO_TIMESTAMPING_NEW */
+> +        printf("Test 6b: SO_TIMESTAMPING_NEW\n");
+> +        set_socket_option(sock, SO_TIMESTAMPING_NEW,
+> so_timestamping_flags);
+> +        receive_packet(sock, &get_timespec_from_so_timestamping_new);
+> +        set_socket_option(sock, SO_TIMESTAMPING_NEW, 0);
+> +    }
+> +#endif /* defined(SO_TIMESTAMPING_NEW) */
+> +#endif /* defined(SO_TIMESTAMPING_OLD) */
+> +}
+> +
+> +void parent_steps(int sock, struct sockaddr_in addr, int run_old)
+> +{
+> +    /* Test 1: SO_TIMESTAMP */
+> +    printf("Test 1: SO_TIMESTAMP\n");
+> +    set_socket_option(sock, SO_TIMESTAMP, 1);
+> +    receive_packet(sock, &get_timespec_from_so_timestamp);
+> +    set_socket_option(sock, SO_TIMESTAMP, 0);
+> +
+> +    /* Test 2: SO_TIMESTAMPNS */
+> +    send_current_time(sock, addr);
+> +
+> +    /* Test 3: SO_TIMESTAMPING */
+> +    printf("Test 3: SO_TIMESTAMPING\n");
+> +    set_socket_option(sock, SO_TIMESTAMPING, so_timestamping_flags);
+> +    receive_packet(sock, &get_timespec_from_so_timestamping);
+> +    set_socket_option(sock, SO_TIMESTAMPING, 0);
+> +
+> +    if (!run_old) {
+> +        return;
+> +    }
+> +
+> +#ifdef SO_TIMESTAMP_OLD
+> +    if (SO_TIMESTAMP_OLD != SO_TIMESTAMP) {
+> +        /* Test 4a: SO_TIMESTAMP_OLD */
+> +        send_current_time(sock, addr);
+> +    }
+> +#ifdef SO_TIMESTAMP_NEW
+> +    else {
+> +        /* Test 4b: SO_TIMESTAMP_NEW */
+> +        send_current_time(sock, addr);
+> +    }
+> +#endif /* defined(SO_TIMESTAMP_NEW) */
+> +#endif /* defined(SO_TIMESTAMP_OLD) */
+> +
+> +#ifdef SO_TIMESTAMPNS_OLD
+> +    if (SO_TIMESTAMPNS_OLD != SO_TIMESTAMPNS) {
+> +        /* Test 5a: SO_TIMESTAMPNS_OLD */
+> +        printf("Test 5a: SO_TIMESTAMPNS_OLD\n");
+> +        set_socket_option(sock, SO_TIMESTAMPNS_OLD, 1);
+> +        receive_packet(sock, &get_timespec_from_so_timestampns_old);
+> +        set_socket_option(sock, SO_TIMESTAMPNS_OLD, 0);
+> +    }
+> +#ifdef SO_TIMESTAMPNS_NEW
+> +    else {
+> +        /* Test 5b: SO_TIMESTAMPNS_NEW */
+> +        printf("Test 5b: SO_TIMESTAMPNS_NEW\n");
+> +        set_socket_option(sock, SO_TIMESTAMPNS_NEW, 1);
+> +        receive_packet(sock, &get_timespec_from_so_timestampns_new);
+> +        set_socket_option(sock, SO_TIMESTAMPNS_NEW, 0);
+> +    }
+> +#endif /* defined(SO_TIMESTAMPNS_NEW) */
+> +#endif /* defined(SO_TIMESTAMPNS_OLD) */
+> +
+> +#ifdef SO_TIMESTAMPING_OLD
+> +    if (SO_TIMESTAMPING_OLD != SO_TIMESTAMPING) {
+> +        /* Test 6a: SO_TIMESTAMPING_OLD */
+> +        send_current_time(sock, addr);
+> +    }
+> +#ifdef SO_TIMESTAMPING_NEW
+> +    else {
+> +        /* Test 6b: SO_TIMESTAMPING_NEW */
+> +        send_current_time(sock, addr);
+> +    }
+> +#endif /* defined(SO_TIMESTAMPING_NEW) */
+> +#endif /* defined(SO_TIMESTAMPING_OLD) */
+>  }
+>
+>  int main(int argc, char **argv)
+>  {
+>      int parent_sock, child_sock;
+>      struct sockaddr_in parent_sockaddr, child_sockaddr;
+> -    int pid;
+> +    int pid, run_old;
+>      struct timeval tv = {0, 0};
+>      gettimeofday(&tv, NULL);
+>
+> +    /* Too close to y2038 old systems may not work. */
+> +    run_old = tv.tv_sec < 0x7fffff00;
+> +
+>      parent_sock = create_udp_socket(&parent_sockaddr);
+>      child_sock = create_udp_socket(&child_sockaddr);
+>
+> @@ -226,64 +519,15 @@ int main(int argc, char **argv)
+>      if (pid < 0) {
+>          fprintf(stderr, "SKIPPED. Failed to fork: %s\n", strerror(errno));
+>      } else if (pid == 0) {
+> -        close(child_sock);
+> -
+> -        /* Test 1: SO_TIMESTAMP */
+> -        send_current_time(parent_sock, child_sockaddr);
+> -
+> -        if (tv.tv_sec > 0x7fffff00) {
+> -            /* Too close to y2038 problem, old system may not work. */
+> -            close(parent_sock);
+> -            return 0;
+> -        }
+> -
+> -#ifdef SO_TIMESTAMP_OLD
+> -        if (SO_TIMESTAMP_OLD != SO_TIMESTAMP) {
+> -            /* Test 2a: SO_TIMESTAMP_OLD */
+> -            set_socket_option(parent_sock, SO_TIMESTAMP_OLD, 1);
+> -            receive_packet(parent_sock,
+> &get_timeval_from_so_timestamp_old);
+> -            set_socket_option(parent_sock, SO_TIMESTAMP_OLD, 0);
+> -        }
+> -#ifdef SO_TIMESTAMP_NEW
+> -        else {
+> -            /* Test 2b: SO_TIMESTAMP_NEW */
+> -            set_socket_option(parent_sock, SO_TIMESTAMP_NEW, 1);
+> -            receive_packet(parent_sock,
+> &get_timeval_from_so_timestamp_new);
+> -            set_socket_option(parent_sock, SO_TIMESTAMP_NEW, 0);
+> -        }
+> -#endif /* defined(SO_TIMESTAMP_NEW) */
+> -#endif /* defined(SO_TIMESTAMP_OLD) */
+> -
+>          close(parent_sock);
+> +        child_steps(child_sock, parent_sockaddr, run_old);
+> +        close(child_sock);
+>      } else {
+>          int child_status;
+> -        close(parent_sock);
+> -
+> -        /* Test 1: SO_TIMESTAMP */
+> -        set_socket_option(child_sock, SO_TIMESTAMP, 1);
+> -        receive_packet(child_sock, &get_timeval_from_so_timestamp);
+> -        set_socket_option(child_sock, SO_TIMESTAMP, 0);
+> -
+> -        if (tv.tv_sec > 0x7fffff00) {
+> -            /* Too close to y2038 problem, old system may not work. */
+> -            close(child_sock);
+> -            return 0;
+> -        }
+> -
+> -#ifdef SO_TIMESTAMP_OLD
+> -        if (SO_TIMESTAMP_OLD != SO_TIMESTAMP) {
+> -            /* Test 2a: SO_TIMESTAMP_OLD */
+> -            send_current_time(child_sock, parent_sockaddr);
+> -        }
+> -#ifdef SO_TIMESTAMP_NEW
+> -        else {
+> -            /* Test 2b: SO_TIMESTAMP_NEW */
+> -            send_current_time(child_sock, parent_sockaddr);
+> -        }
+> -#endif /* defined(SO_TIMESTAMP_NEW) */
+> -#endif /* defined(SO_TIMESTAMP_OLD) */
+>
+>          close(child_sock);
+> +        parent_steps(parent_sock, child_sockaddr, run_old);
+> +        close(parent_sock);
+>
+>          if (waitpid(pid, &child_status, 0) < 0) {
+>              int err = errno;
+> --
+> 2.28.0.220.ged08abb693-goog
+>
+>
 
---000000000000cc622905b6b52a15
+--00000000000011995805b6b52fc5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Ping again. This specific patch is here: =
-<a href=3D"https://patchew.org/QEMU/cover.1597129029.git.scw@google.com/611=
-db81c87911cb38a35e5f761e11b76e1f0d538.1597129029.git.scw@google.com/">https=
-://patchew.org/QEMU/cover.1597129029.git.scw@google.com/611db81c87911cb38a3=
-5e5f761e11b76e1f0d538.1597129029.git.scw@google.com/</a></div><div dir=3D"l=
-tr"><br></div><div>If you want to include the first four patches for now an=
-d prefer a separate patch set for the pending changes I can split them off =
-into a new thread.</div><div><br></div><div>Shu-Chun<br></div><br><div clas=
-s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 17, 202=
-0 at 12:29 AM Shu-Chun Weng &lt;<a href=3D"mailto:scw@google.com" target=3D=
-"_blank">scw@google.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex"><div dir=3D"ltr">Ping -- any comments on the four pa=
-tches start with this?=C2=A0<a href=3D"https://patchew.org/QEMU/cover.15971=
-29029.git.scw@google.com/" target=3D"_blank">https://patchew.org/QEMU/cover=
-.1597129029.git.scw@google.com/</a></div><br><div class=3D"gmail_quote"><di=
-v dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 11, 2020 at 12:10 AM Shu-Chu=
-n Weng &lt;<a href=3D"mailto:scw@google.com" target=3D"_blank">scw@google.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">Both guest options map to host SO_TIMESTAMP while keeping a global bit to=
-<br>
-remember if the guest expects the old or the new format. Don&#39;t support<=
-br>
-programs mixing two formats.<br>
-<br>
-Added a multiarch test to verify.<br>
+<div dir=3D"ltr">Ping -- any comments on <a href=3D"https://patchew.org/QEM=
+U/cover.1597129029.git.scw@google.com/c1fdce46c35527ea9da34ca26eab4efcdac40=
+7db.1597129029.git.scw@google.com/">https://patchew.org/QEMU/cover.15971290=
+29.git.scw@google.com/c1fdce46c35527ea9da34ca26eab4efcdac407db.1597129029.g=
+it.scw@google.com/</a></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
+ class=3D"gmail_attr">On Tue, Aug 11, 2020 at 12:10 AM Shu-Chun Weng &lt;<a=
+ href=3D"mailto:scw@google.com">scw@google.com</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">This change supports SO_TIMES=
+TAMPNS_OLD/NEW and SO_TIMESTAMPING_OLD/NEW<br>
+for setsocketopt() with SOL_SOCKET. Based on the SO_TIMESTAMP_OLD/NEW<br>
+framework. The three pairs share the same flag `SOCK_TSTAMP_NEW` in<br>
+linux kernel for deciding if the old or the new format is used.<br>
 <br>
 Signed-off-by: Shu-Chun Weng &lt;<a href=3D"mailto:scw@google.com" target=
 =3D"_blank">scw@google.com</a>&gt;<br>
 ---<br>
 v1 -&gt; v2:<br>
-=C2=A0 Only keep track of old or new format globally, remove support for di=
-fferent<br>
-=C2=A0 sockets mixing different formats.<br>
+=C2=A0 Only keep track of old/new format in a global state.<br>
 =C2=A0 Fix style problems.<br>
 <br>
 =C2=A0linux-user/alpha/sockbits.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A08 +-<br>
+|=C2=A0 13 +-<br>
 =C2=A0linux-user/generic/sockbits.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 =C2=A09 +-<br>
+=A0 =C2=A08 +<br>
 =C2=A0linux-user/hppa/sockbits.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 =C2=A08 +-<br>
+=C2=A0|=C2=A0 12 +-<br>
 =C2=A0linux-user/mips/sockbits.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 =C2=A08 +-<br>
+=C2=A0|=C2=A0 =C2=A08 +<br>
 =C2=A0linux-user/sparc/sockbits.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A08 +-<br>
+|=C2=A0 13 +-<br>
 =C2=A0linux-user/strace.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A07 +-<br>
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 12 +<br>
 =C2=A0linux-user/syscall.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 91 ++++++--<br>
-=C2=A0tests/tcg/multiarch/socket_timestamp.c | 296 ++++++++++++++++++++++++=
-+<br>
-=C2=A08 files changed, 408 insertions(+), 27 deletions(-)<br>
-=C2=A0create mode 100644 tests/tcg/multiarch/socket_timestamp.c<br>
+=C2=A0 =C2=A0 =C2=A0| 149 ++++++++-<br>
+=C2=A0tests/tcg/multiarch/socket_timestamp.c | 442 +++++++++++++++++++-----=
+-<br>
+=C2=A08 files changed, 540 insertions(+), 117 deletions(-)<br>
 <br>
 diff --git a/linux-user/alpha/sockbits.h b/linux-user/alpha/sockbits.h<br>
-index d54dc98c09..40f0644df0 100644<br>
+index 40f0644df0..c2c88f432b 100644<br>
 --- a/linux-user/alpha/sockbits.h<br>
 +++ b/linux-user/alpha/sockbits.h<br>
-@@ -48,8 +48,6 @@<br>
-=C2=A0#define TARGET_SO_DETACH_FILTER=C2=A0 =C2=A0 =C2=A0 =C2=A0 27<br>
-<br>
-=C2=A0#define TARGET_SO_PEERNAME=C2=A0 =C2=A0 =C2=A0 28<br>
--#define TARGET_SO_TIMESTAMP=C2=A0 =C2=A0 =C2=A029<br>
--#define TARGET_SCM_TIMESTAMP=C2=A0 =C2=A0 =C2=A0 =C2=A0 TARGET_SO_TIMESTAM=
-P<br>
+@@ -51,8 +51,6 @@<br>
 <br>
 =C2=A0#define TARGET_SO_PEERSEC=C2=A0 =C2=A0 =C2=A0 =C2=A030<br>
 =C2=A0#define TARGET_SO_PASSSEC=C2=A0 =C2=A0 =C2=A0 =C2=A034<br>
-@@ -75,6 +73,12 @@<br>
-=C2=A0/* Instruct lower device to use last 4-bytes of skb data as FCS */<br=
->
-=C2=A0#define TARGET_SO_NOFCS=C2=A0 =C2=A0 =C2=A043<br>
+-#define TARGET_SO_TIMESTAMPNS=C2=A0 =C2=A0 =C2=A0 =C2=A035<br>
+-#define TARGET_SCM_TIMESTAMPNS=C2=A0 =C2=A0 =C2=A0 TARGET_SO_TIMESTAMPNS<b=
+r>
 <br>
-+#define TARGET_SO_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0 29<br>
-+#define TARGET_SCM_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMES=
-TAMP_OLD<br>
-+<br>
-+#define TARGET_SO_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0 63<br>
-+#define TARGET_SCM_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMES=
-TAMP_NEW<br>
-+<br>
+=C2=A0/* Security levels - as per NRL IPv6 - don&#39;t actually do anything=
+ */<br>
+=C2=A0#define TARGET_SO_SECURITY_AUTHENTICATION=C2=A0 =C2=A0 =C2=A0 =C2=A01=
+9<br>
+@@ -61,9 +59,6 @@<br>
+<br>
+=C2=A0#define TARGET_SO_MARK=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 36<br>
+<br>
+-#define TARGET_SO_TIMESTAMPING=C2=A0 =C2=A0 =C2=A0 37<br>
+-#define TARGET_SCM_TIMESTAMPING TARGET_SO_TIMESTAMPING<br>
+-<br>
+=C2=A0#define TARGET_SO_RXQ_OVFL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A040<br>
+<br>
+=C2=A0#define TARGET_SO_WIFI_STATUS=C2=A0 =C2=A0 =C2=A0 =C2=A041<br>
+@@ -75,9 +70,17 @@<br>
+<br>
+=C2=A0#define TARGET_SO_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0 29<br>
+=C2=A0#define TARGET_SCM_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_=
+TIMESTAMP_OLD<br>
++#define TARGET_SO_TIMESTAMPNS_OLD=C2=A0 =C2=A0 =C2=A0 35<br>
++#define TARGET_SCM_TIMESTAMPNS_OLD=C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMESTAMPN=
+S_OLD<br>
++#define TARGET_SO_TIMESTAMPING_OLD=C2=A0 =C2=A0 =C2=A037<br>
++#define TARGET_SCM_TIMESTAMPING_OLD=C2=A0 =C2=A0 TARGET_SO_TIMESTAMPING_OL=
+D<br>
+<br>
+=C2=A0#define TARGET_SO_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0 63<br>
+=C2=A0#define TARGET_SCM_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_=
+TIMESTAMP_NEW<br>
++#define TARGET_SO_TIMESTAMPNS_NEW=C2=A0 =C2=A0 =C2=A0 64<br>
++#define TARGET_SCM_TIMESTAMPNS_NEW=C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMESTAMPN=
+S_NEW<br>
++#define TARGET_SO_TIMESTAMPING_NEW=C2=A0 =C2=A0 =C2=A065<br>
++#define TARGET_SCM_TIMESTAMPING_NEW=C2=A0 =C2=A0 TARGET_SO_TIMESTAMPING_NE=
+W<br>
+<br>
 =C2=A0/* TARGET_O_NONBLOCK clashes with the bits used for socket types.=C2=
 =A0 Therefore we<br>
 =C2=A0 * have to define SOCK_NONBLOCK to a different value here.<br>
-=C2=A0 */<br>
 diff --git a/linux-user/generic/sockbits.h b/linux-user/generic/sockbits.h<=
 br>
-index e44733c601..532cf2d3dc 100644<br>
+index 532cf2d3dc..a0496d8751 100644<br>
 --- a/linux-user/generic/sockbits.h<br>
 +++ b/linux-user/generic/sockbits.h<br>
-@@ -49,10 +49,15 @@<br>
-=C2=A0#define TARGET_SO_DETACH_FILTER=C2=A0 =C2=A0 =C2=A0 =C2=A0 27<br>
+@@ -56,8 +56,16 @@<br>
 <br>
-=C2=A0#define TARGET_SO_PEERNAME=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A028<br>
--#define TARGET_SO_TIMESTAMP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 29<br=
->
--#define TARGET_SCM_TIMESTAMP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TARGE=
-T_SO_TIMESTAMP<br>
+=C2=A0#define TARGET_SO_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0 29<br>
+=C2=A0#define TARGET_SCM_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_=
+TIMESTAMP_OLD<br>
++#define TARGET_SO_TIMESTAMPNS_OLD=C2=A0 =C2=A0 =C2=A0 35<br>
++#define TARGET_SCM_TIMESTAMPNS_OLD=C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMESTAMPN=
+S_OLD<br>
++#define TARGET_SO_TIMESTAMPING_OLD=C2=A0 =C2=A0 =C2=A037<br>
++#define TARGET_SCM_TIMESTAMPING_OLD=C2=A0 =C2=A0 TARGET_SO_TIMESTAMPING_OL=
+D<br>
 <br>
-=C2=A0#define TARGET_SO_ACCEPTCONN=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-30<br>
+=C2=A0#define TARGET_SO_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0 63<br>
+=C2=A0#define TARGET_SCM_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_=
+TIMESTAMP_NEW<br>
++#define TARGET_SO_TIMESTAMPNS_NEW=C2=A0 =C2=A0 =C2=A0 64<br>
++#define TARGET_SCM_TIMESTAMPNS_NEW=C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMESTAMPN=
+S_NEW<br>
++#define TARGET_SO_TIMESTAMPING_NEW=C2=A0 =C2=A0 =C2=A065<br>
++#define TARGET_SCM_TIMESTAMPING_NEW=C2=A0 =C2=A0 TARGET_SO_TIMESTAMPING_NE=
+W<br>
 <br>
-=C2=A0#define TARGET_SO_PEERSEC=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 31<br>
-+<br>
-+#define TARGET_SO_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0 29<br>
-+#define TARGET_SCM_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMES=
-TAMP_OLD<br>
-+<br>
-+#define TARGET_SO_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0 63<br>
-+#define TARGET_SCM_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMES=
-TAMP_NEW<br>
-+<br>
 =C2=A0#endif<br>
 diff --git a/linux-user/hppa/sockbits.h b/linux-user/hppa/sockbits.h<br>
-index 23f69a3293..284a47e74e 100644<br>
+index 284a47e74e..d7e9aa340d 100644<br>
 --- a/linux-user/hppa/sockbits.h<br>
 +++ b/linux-user/hppa/sockbits.h<br>
 @@ -29,8 +29,6 @@<br>
 =C2=A0#define TARGET_SO_BSDCOMPAT=C2=A0 =C2=A0 0x400e<br>
 =C2=A0#define TARGET_SO_PASSCRED=C2=A0 =C2=A0 =C2=A00x4010<br>
 =C2=A0#define TARGET_SO_PEERCRED=C2=A0 =C2=A0 =C2=A00x4011<br>
--#define TARGET_SO_TIMESTAMP=C2=A0 =C2=A0 0x4012<br>
--#define TARGET_SCM_TIMESTAMP=C2=A0 =C2=A0TARGET_SO_TIMESTAMP<br>
-=C2=A0#define TARGET_SO_TIMESTAMPNS=C2=A0 0x4013<br>
-=C2=A0#define TARGET_SCM_TIMESTAMPNS TARGET_SO_TIMESTAMPNS<br>
+-#define TARGET_SO_TIMESTAMPNS=C2=A0 0x4013<br>
+-#define TARGET_SCM_TIMESTAMPNS TARGET_SO_TIMESTAMPNS<br>
 <br>
-@@ -67,6 +65,12 @@<br>
+=C2=A0#define TARGET_SO_SECURITY_AUTHENTICATION=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 0x4016<br>
+=C2=A0#define TARGET_SO_SECURITY_ENCRYPTION_TRANSPORT=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 0x4017<br>
+@@ -44,8 +42,6 @@<br>
+=C2=A0#define TARGET_SO_PEERSEC=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 0x401d<br>
+=C2=A0#define TARGET_SO_PASSSEC=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 0x401e<br>
+=C2=A0#define TARGET_SO_MARK=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A00x401f<br>
+-#define TARGET_SO_TIMESTAMPING=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x4020<br>
+-#define TARGET_SCM_TIMESTAMPING=C2=A0 =C2=A0 =C2=A0 =C2=A0 TARGET_SO_TIMES=
+TAMPING<br>
+=C2=A0#define TARGET_SO_RXQ_OVFL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A00x4021<br>
+=C2=A0#define TARGET_SO_WIFI_STATUS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x402=
+2<br>
+=C2=A0#define TARGET_SCM_WIFI_STATUS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TARGE=
+T_SO_WIFI_STATUS<br>
+@@ -67,9 +63,17 @@<br>
 <br>
-=C2=A0#define TARGET_SO_CNX_ADVICE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-0x402E<br>
+=C2=A0#define TARGET_SO_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x4012<br>
+=C2=A0#define TARGET_SCM_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_=
+TIMESTAMP_OLD<br>
++#define TARGET_SO_TIMESTAMPNS_OLD=C2=A0 =C2=A0 =C2=A0 0x4013<br>
++#define TARGET_SCM_TIMESTAMPNS_OLD=C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMESTAMPN=
+S_OLD<br>
++#define TARGET_SO_TIMESTAMPING_OLD=C2=A0 =C2=A0 =C2=A00x4020<br>
++#define TARGET_SCM_TIMESTAMPING_OLD=C2=A0 =C2=A0 TARGET_SO_TIMESTAMPING_OL=
+D<br>
 <br>
-+#define TARGET_SO_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x4012<br>
-+#define TARGET_SCM_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMES=
-TAMP_OLD<br>
-+<br>
-+#define TARGET_SO_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x4038<br>
-+#define TARGET_SCM_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMES=
-TAMP_NEW<br>
-+<br>
+=C2=A0#define TARGET_SO_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x4038<br>
+=C2=A0#define TARGET_SCM_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_=
+TIMESTAMP_NEW<br>
++#define TARGET_SO_TIMESTAMPNS_NEW=C2=A0 =C2=A0 =C2=A0 0x4039<br>
++#define TARGET_SCM_TIMESTAMPNS_NEW=C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMESTAMPN=
+S_NEW<br>
++#define TARGET_SO_TIMESTAMPING_NEW=C2=A0 =C2=A0 =C2=A00x403A<br>
++#define TARGET_SCM_TIMESTAMPING_NEW=C2=A0 =C2=A0 TARGET_SO_TIMESTAMPING_NE=
+W<br>
+<br>
 =C2=A0/* TARGET_O_NONBLOCK clashes with the bits used for socket types.=C2=
 =A0 Therefore we<br>
 =C2=A0 * have to define SOCK_NONBLOCK to a different value here.<br>
-=C2=A0 */<br>
 diff --git a/linux-user/mips/sockbits.h b/linux-user/mips/sockbits.h<br>
-index 0f022cd598..b4c39d9588 100644<br>
+index b4c39d9588..49524e23ac 100644<br>
 --- a/linux-user/mips/sockbits.h<br>
 +++ b/linux-user/mips/sockbits.h<br>
-@@ -61,14 +61,18 @@<br>
-=C2=A0#define TARGET_SO_DETACH_FILTER=C2=A0 =C2=A0 =C2=A0 =C2=A0 27<br>
+@@ -69,9 +69,17 @@<br>
 <br>
-=C2=A0#define TARGET_SO_PEERNAME=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A028<br>
--#define TARGET_SO_TIMESTAMP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 29<br=
->
--#define SCM_TIMESTAMP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SO_TIMESTAMP<br>
+=C2=A0#define TARGET_SO_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0 29<br>
+=C2=A0#define TARGET_SCM_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_=
+TIMESTAMP_OLD<br>
++#define TARGET_SO_TIMESTAMPNS_OLD=C2=A0 =C2=A0 =C2=A0 35<br>
++#define TARGET_SCM_TIMESTAMPNS_OLD=C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMESTAMPN=
+S_OLD<br>
++#define TARGET_SO_TIMESTAMPING_OLD=C2=A0 =C2=A0 =C2=A037<br>
++#define TARGET_SCM_TIMESTAMPING_OLD=C2=A0 =C2=A0 TARGET_SO_TIMESTAMPING_OL=
+D<br>
 <br>
-=C2=A0#define TARGET_SO_PEERSEC=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 30<br>
-=C2=A0#define TARGET_SO_SNDBUFFORCE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 31<br=
->
-=C2=A0#define TARGET_SO_RCVBUFFORCE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 33<br=
->
-=C2=A0#define TARGET_SO_PASSSEC=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 34<br>
+=C2=A0#define TARGET_SO_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0 63<br>
+=C2=A0#define TARGET_SCM_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_=
+TIMESTAMP_NEW<br>
++#define TARGET_SO_TIMESTAMPNS_NEW=C2=A0 =C2=A0 =C2=A0 64<br>
++#define TARGET_SCM_TIMESTAMPNS_NEW=C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMESTAMPN=
+S_NEW<br>
++#define TARGET_SO_TIMESTAMPING_NEW=C2=A0 =C2=A0 =C2=A065<br>
++#define TARGET_SCM_TIMESTAMPING_NEW=C2=A0 =C2=A0 TARGET_SO_TIMESTAMPING_NE=
+W<br>
 <br>
-+#define TARGET_SO_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0 29<br>
-+#define TARGET_SCM_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMES=
-TAMP_OLD<br>
-+<br>
-+#define TARGET_SO_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0 63<br>
-+#define TARGET_SCM_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMES=
-TAMP_NEW<br>
-+<br>
 =C2=A0/** sock_type - Socket types<br>
 =C2=A0 *<br>
-=C2=A0 * Please notice that for binary compat reasons MIPS has to<br>
 diff --git a/linux-user/sparc/sockbits.h b/linux-user/sparc/sockbits.h<br>
-index 0a822e3e1f..07440efd14 100644<br>
+index 07440efd14..c5fade3ad1 100644<br>
 --- a/linux-user/sparc/sockbits.h<br>
 +++ b/linux-user/sparc/sockbits.h<br>
-@@ -48,8 +48,6 @@<br>
-=C2=A0#define TARGET_SO_GET_FILTER=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-TARGET_SO_ATTACH_FILTER<br>
-<br>
-=C2=A0#define TARGET_SO_PEERNAME=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A00x001c<br>
--#define TARGET_SO_TIMESTAMP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x001=
-d<br>
--#define TARGET_SCM_TIMESTAMP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TARGE=
-T_SO_TIMESTAMP<br>
+@@ -51,14 +51,9 @@<br>
 <br>
 =C2=A0#define TARGET_SO_PEERSEC=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
 =C2=A0 0x001e<br>
 =C2=A0#define TARGET_SO_PASSSEC=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
 =C2=A0 0x001f<br>
-@@ -104,6 +102,12 @@<br>
+-#define TARGET_SO_TIMESTAMPNS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x0021<br>
+-#define TARGET_SCM_TIMESTAMPNS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_=
+TIMESTAMPNS<br>
 <br>
-=C2=A0#define TARGET_SO_ZEROCOPY=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A00x003e<br>
+=C2=A0#define TARGET_SO_MARK=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A00x0022<br>
 <br>
-+#define TARGET_SO_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x001d<br>
-+#define TARGET_SCM_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMES=
-TAMP_OLD<br>
-+<br>
-+#define TARGET_SO_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x0046<br>
-+#define TARGET_SCM_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMES=
-TAMP_NEW<br>
-+<br>
+-#define TARGET_SO_TIMESTAMPING=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A00x0023<br>
+-#define TARGET_SCM_TIMESTAMPING=C2=A0 =C2=A0 =C2=A0 =C2=A0 TARGET_SO_TIMES=
+TAMPING<br>
+-<br>
+=C2=A0#define TARGET_SO_RXQ_OVFL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A00x0024<br>
+<br>
+=C2=A0#define TARGET_SO_WIFI_STATUS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x002=
+5<br>
+@@ -104,9 +99,17 @@<br>
+<br>
+=C2=A0#define TARGET_SO_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x001d<br>
+=C2=A0#define TARGET_SCM_TIMESTAMP_OLD=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_=
+TIMESTAMP_OLD<br>
++#define TARGET_SO_TIMESTAMPNS_OLD=C2=A0 =C2=A0 =C2=A0 0x0021<br>
++#define TARGET_SCM_TIMESTAMPNS_OLD=C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMESTAMPN=
+S_OLD<br>
++#define TARGET_SO_TIMESTAMPING_OLD=C2=A0 =C2=A0 =C2=A00x0023<br>
++#define TARGET_SCM_TIMESTAMPING_OLD=C2=A0 =C2=A0 TARGET_SO_TIMESTAMPING_OL=
+D<br>
+<br>
+=C2=A0#define TARGET_SO_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x0046<br>
+=C2=A0#define TARGET_SCM_TIMESTAMP_NEW=C2=A0 =C2=A0 =C2=A0 =C2=A0TARGET_SO_=
+TIMESTAMP_NEW<br>
++#define TARGET_SO_TIMESTAMPNS_NEW=C2=A0 =C2=A0 =C2=A0 0x0042<br>
++#define TARGET_SCM_TIMESTAMPNS_NEW=C2=A0 =C2=A0 =C2=A0TARGET_SO_TIMESTAMPN=
+S_NEW<br>
++#define TARGET_SO_TIMESTAMPING_NEW=C2=A0 =C2=A0 =C2=A00x0043<br>
++#define TARGET_SCM_TIMESTAMPING_NEW=C2=A0 =C2=A0 TARGET_SO_TIMESTAMPING_NE=
+W<br>
+<br>
 =C2=A0/* Security levels - as per NRL IPv6 - don&#39;t actually do anything=
  */<br>
 =C2=A0#define TARGET_SO_SECURITY_AUTHENTICATION=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
 =C2=A0 =C2=A0 =C2=A0 0x5001<br>
-=C2=A0#define TARGET_SO_SECURITY_ENCRYPTION_TRANSPORT=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 0x5002<br>
 diff --git a/linux-user/strace.c b/linux-user/strace.c<br>
-index 089fb3968e..a11a5e9e86 100644<br>
+index a11a5e9e86..7aabb3c972 100644<br>
 --- a/linux-user/strace.c<br>
 +++ b/linux-user/strace.c<br>
-@@ -2257,8 +2257,11 @@ print_optint:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case TARGET_SO_PASSCRED:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_log(&quot;SO_PASSCRED,=
-&quot;);<br>
+@@ -2260,9 +2260,21 @@ print_optint:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case TARGET_SO_TIMESTAMP_OLD:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_log(&quot;SO_TIMESTAMP=
+_OLD,&quot;);<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto print_optint;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMP:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;SO_TIMESTAMP,&quo=
-t;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMP_OLD:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;SO_TIMESTAMP_OLD,=
-&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMPNS_OLD:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;SO_TIMESTAMPNS_OL=
+D,&quot;);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto print_optint;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMP_NEW:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;SO_TIMESTAMP_NEW,=
-&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMPING_OLD:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;SO_TIMESTAMPING_O=
+LD,&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto print_optint;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case TARGET_SO_TIMESTAMP_NEW:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_log(&quot;SO_TIMESTAMP=
+_NEW,&quot;);<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto print_optint;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMPNS_NEW:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;SO_TIMESTAMPNS_NE=
+W,&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto print_optint;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMPING_NEW:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log(&quot;SO_TIMESTAMPING_N=
+EW,&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto print_optint;<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case TARGET_SO_RCVLOWAT:<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_log(&quot;SO_RCVLOWAT,=
 &quot;);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto print_optint;<br>
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c<br>
-index cda194a7cc..e6b1a18cc0 100644<br>
+index e6b1a18cc0..bfc4219104 100644<br>
 --- a/linux-user/syscall.c<br>
 +++ b/linux-user/syscall.c<br>
-@@ -1697,6 +1697,18 @@ static inline abi_long target_to_host_cmsg(struct ms=
-ghdr *msgh,<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
-+/*<br>
-+ * Linux kernel actually keeps track of whether the old version (potential=
-ly<br>
-+ * 32-bit time_t) or the new version is used for each socket. Instead of<b=
-r>
-+ * replicate it will all the complexity, we only keep track of one global =
-state,<br>
-+ * which is enough for guest programs that don&#39;t intentionally mix the=
- two<br>
-+ * versions.<br>
-+ */<br>
-+static enum TargetTimestampVersion {<br>
-+=C2=A0 =C2=A0 TARGET_TIMESTAMP_OLD,<br>
-+=C2=A0 =C2=A0 TARGET_TIMESTAMP_NEW,<br>
-+} target_expected_timestamp_version =3D TARGET_TIMESTAMP_OLD;<br>
-+<br>
-=C2=A0static inline abi_long host_to_target_cmsg(struct target_msghdr *targ=
-et_msgh,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 struct msghdr *msgh)<br>
-=C2=A0{<br>
-@@ -1747,8 +1759,17 @@ static inline abi_long host_to_target_cmsg(struct ta=
+@@ -1771,6 +1771,34 @@ static inline abi_long host_to_target_cmsg(struct ta=
 rget_msghdr *target_msgh,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0switch (cmsg-&gt;cmsg_level) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case SOL_SOCKET:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0switch (cmsg-&gt;cmsg_type)=
- {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case SO_TIMESTAMP:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tgt_len =3D sizeof=
-(struct target_timeval);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case SCM_TIMESTAMP:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case SCM_TIMESTAMPNS:<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (target_exp=
 ected_timestamp_version) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_TIMEST=
 AMP_OLD:<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tgt_=
-len =3D sizeof(struct target_timeval);<br>
+len =3D sizeof(struct target_timespec);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 targ=
-et_cmsg-&gt;cmsg_type =3D tswap32(TARGET_SCM_TIMESTAMP_OLD);<br>
+et_cmsg-&gt;cmsg_type =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 tswap32(TARGET_SCM_TIMESTAMPNS_OLD);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
 k;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_TIMEST=
 AMP_NEW:<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tgt_=
-len =3D sizeof(struct target__kernel_sock_timeval);<br>
+len =3D sizeof(struct target__kernel_timespec);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 targ=
-et_cmsg-&gt;cmsg_type =3D tswap32(TARGET_SCM_TIMESTAMP_NEW);<br>
+et_cmsg-&gt;cmsg_type =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 tswap32(TARGET_SCM_TIMESTAMPNS_NEW);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
 k;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case SCM_TIMESTAMPING:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (target_exp=
+ected_timestamp_version) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_TIMEST=
+AMP_OLD:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tgt_=
+len =3D sizeof(struct target_timespec[3]);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 targ=
+et_cmsg-&gt;cmsg_type =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 tswap32(TARGET_SCM_TIMESTAMPING_OLD);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
+k;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_TIMEST=
+AMP_NEW:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tgt_=
+len =3D sizeof(struct target__kernel_timespec[3]);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 targ=
+et_cmsg-&gt;cmsg_type =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 tswap32(TARGET_SCM_TIMESTAMPING_NEW);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
+k;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0default:<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-@@ -1782,20 +1803,39 @@ static inline abi_long host_to_target_cmsg(struct t=
-arget_msghdr *target_msgh,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+@@ -1838,6 +1866,81 @@ static inline abi_long host_to_target_cmsg(struct ta=
+rget_msghdr *target_msgh,<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case SO_TIMESTAMP:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case SCM_TIMESTAMP:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct timeva=
-l *tv =3D (struct timeval *)data;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct target_time=
-val *target_tv =3D<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (str=
-uct target_timeval *)target_data;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len !=3D sizeo=
-f(struct timeval) ||<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tgt_=
-len !=3D sizeof(struct target_timeval)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case SCM_TIMESTAMPNS:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct timespec *t=
+s =3D (struct timespec *)data;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len !=3D sizeo=
-f(struct timeval)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0goto unimplemented;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* copy struct tim=
-eval to target */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 __put_user(tv-&gt;=
-tv_sec, &amp;target_tv-&gt;tv_sec);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 __put_user(tv-&gt;=
-tv_usec, &amp;target_tv-&gt;tv_usec);<br>
+f(struct timespec)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto=
+ unimplemented;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (target_exp=
 ected_timestamp_version) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_TIMEST=
 AMP_OLD:<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stru=
-ct target_timeval *target_tv =3D<br>
+ct target_timespec *target_ts =3D<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 (struct target_timeval *)target_data;<br>
+=A0 =C2=A0 (struct target_timespec *)target_data;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (=
-tgt_len !=3D sizeof(struct target_timeval)) {<br>
+tgt_len !=3D sizeof(struct target_timespec)) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 goto unimplemented;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
 >
 +<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 __pu=
-t_user(tv-&gt;tv_sec, &amp;target_tv-&gt;tv_sec);<br>
+t_user(ts-&gt;tv_sec, &amp;target_ts-&gt;tv_sec);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 __pu=
-t_user(tv-&gt;tv_usec, &amp;target_tv-&gt;tv_usec);<br>
+t_user(ts-&gt;tv_nsec, &amp;target_ts-&gt;tv_nsec);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
 k;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
@@ -1141,490 +1506,917 @@ k;<br>
 AMP_NEW:<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stru=
-ct target__kernel_sock_timeval *target_tv =3D<br>
+ct target__kernel_timespec *target_ts =3D<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 (struct target__kernel_sock_timeval *)target_data;<br>
+=A0 =C2=A0 (struct target__kernel_timespec *)target_data;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (=
-tgt_len !=3D sizeof(struct target__kernel_sock_timeval)) {<br>
+tgt_len !=3D sizeof(struct target__kernel_timespec)) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 goto unimplemented;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
 >
 +<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 __pu=
-t_user(tv-&gt;tv_sec, &amp;target_tv-&gt;tv_sec);<br>
+t_user(ts-&gt;tv_sec, &amp;target_ts-&gt;tv_sec);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 __pu=
-t_user(tv-&gt;tv_usec, &amp;target_tv-&gt;tv_usec);<br>
+t_user(ts-&gt;tv_nsec, &amp;target_ts-&gt;tv_nsec);<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
 k;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case SCM_TIMESTAMPING:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int i;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct timespec *t=
+s =3D (struct timespec *)data;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len !=3D sizeo=
+f(struct timespec[3])) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto=
+ unimplemented;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (target_exp=
+ected_timestamp_version) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_TIMEST=
+AMP_OLD:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stru=
+ct target_timespec *target_ts =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 (struct target_timespec *)target_data;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (=
+tgt_len !=3D sizeof(struct target_timespec[3])) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 goto unimplemented;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
+>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for =
+(i =3D 0; i &lt; 3; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 __put_user(ts[i].tv_sec, &amp;target_ts[i].tv_sec);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 __put_user(ts[i].tv_nsec, &amp;target_ts[i].tv_nsec);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
+k;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_TIMEST=
+AMP_NEW:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stru=
+ct target__kernel_timespec *target_ts =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 (struct target__kernel_timespec *)target_data;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (=
+tgt_len !=3D sizeof(struct target__kernel_timespec[3])) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 goto unimplemented;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
+>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for =
+(i =3D 0; i &lt; 3; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 __put_user(ts[i].tv_sec, &amp;target_ts[i].tv_sec);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 __put_user(ts[i].tv_nsec, &amp;target_ts[i].tv_nsec);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 brea=
+k;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case SCM_CREDENTIALS:<br>
-@@ -1937,6 +1977,8 @@ static abi_long do_setsockopt(int sockfd, int level, =
-int optname,<br>
-=C2=A0 =C2=A0 =C2=A0int val;<br>
-=C2=A0 =C2=A0 =C2=A0struct ip_mreqn *ip_mreq;<br>
-=C2=A0 =C2=A0 =C2=A0struct ip_mreq_source *ip_mreq_source;<br>
-+=C2=A0 =C2=A0 enum TargetTimestampVersion target_timestamp_version =3D<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 target_expected_timestamp_version;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0switch(level) {<br>
-=C2=A0 =C2=A0 =C2=A0case SOL_TCP:<br>
-@@ -2331,9 +2373,14 @@ set_timeout:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case TARGET_SO_PASSSEC:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct ucred =
+*cred =3D (struct ucred *)data;<br>
+@@ -2381,6 +2484,22 @@ set_timeout:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0target_timest=
+amp_version =3D TARGET_TIMESTAMP_NEW;<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0optname =3D S=
-O_PASSSEC;<br>
+O_TIMESTAMP;<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMP:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0optname =3D SO_TIME=
-STAMP;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMP_OLD:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMPNS_OLD:<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_timestamp_v=
 ersion =3D TARGET_TIMESTAMP_OLD;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 optname =3D SO_TIM=
-ESTAMP;<br>
+ESTAMPNS;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMP_NEW:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMPNS_NEW:<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_timestamp_v=
 ersion =3D TARGET_TIMESTAMP_NEW;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 optname =3D SO_TIM=
-ESTAMP;<br>
+ESTAMPNS;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMPING_OLD:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_timestamp_v=
+ersion =3D TARGET_TIMESTAMP_OLD;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 optname =3D SO_TIM=
+ESTAMPING;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMPING_NEW:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_timestamp_v=
+ersion =3D TARGET_TIMESTAMP_NEW;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 optname =3D SO_TIM=
+ESTAMPING;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case TARGET_SO_RCVLOWAT:<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 optname =3D SO_RCVL=
 OWAT;<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-@@ -2346,6 +2393,9 @@ set_timeout:<br>
+@@ -2393,7 +2512,9 @@ set_timeout:<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (get_user_u32(val, optval_addr))<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -TARGET_EFAULT;<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D get_errno(setsockopt(sockfd, SOL_SOCKET=
 , optname, &amp;val, sizeof(val)));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!is_error(ret) &amp;&amp; optname =3D=3D S=
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!is_error(ret) &amp;&amp; optname =3D=3D S=
 O_TIMESTAMP) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_expected_timestamp_versio=
-n =3D target_timestamp_version;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!is_error(ret) &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (optname =3D=3D SO_TIMESTAMP || =
+optname =3D=3D SO_TIMESTAMPNS ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0optname =3D=3D SO_TIMESTAM=
+PING)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0target_expected_timestamp_v=
+ersion =3D target_timestamp_version;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0#ifdef SOL_NETLINK<br>
-=C2=A0 =C2=A0 =C2=A0case SOL_NETLINK:<br>
-@@ -2396,6 +2446,7 @@ static abi_long do_getsockopt(int sockfd, int level, =
-int optname,<br>
-=C2=A0 =C2=A0 =C2=A0abi_long ret;<br>
-=C2=A0 =C2=A0 =C2=A0int len, val;<br>
-=C2=A0 =C2=A0 =C2=A0socklen_t lv;<br>
-+=C2=A0 =C2=A0 int timestamp_format_matches =3D 0;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0switch(level) {<br>
-=C2=A0 =C2=A0 =C2=A0case TARGET_SOL_SOCKET:<br>
-@@ -2576,7 +2627,14 @@ get_timeout:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case TARGET_SO_PASSCRED:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0optname =3D SO_PASSCRED;<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto int_case;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMP:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMP_OLD:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 timestamp_format_matches =3D<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (target_expected_t=
-imestamp_version =3D=3D TARGET_TIMESTAMP_OLD);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 optname =3D SO_TIMESTAMP;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto int_case;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMP_NEW:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 timestamp_format_matches =3D<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (target_expected_t=
-imestamp_version =3D=3D TARGET_TIMESTAMP_NEW);<br>
+@@ -2637,6 +2758,26 @@ get_timeout:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(target_expec=
+ted_timestamp_version =3D=3D TARGET_TIMESTAMP_NEW);<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0optname =3D SO_TIMESTAMP;<b=
 r>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto int_case;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMPNS_OLD:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 timestamp_format_matches =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (target_expected_t=
+imestamp_version =3D=3D TARGET_TIMESTAMP_OLD);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 optname =3D SO_TIMESTAMPNS;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto int_case;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMPNS_NEW:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 timestamp_format_matches =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (target_expected_t=
+imestamp_version =3D=3D TARGET_TIMESTAMP_NEW);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 optname =3D SO_TIMESTAMPNS;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto int_case;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMPING_OLD:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 timestamp_format_matches =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (target_expected_t=
+imestamp_version =3D=3D TARGET_TIMESTAMP_OLD);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 optname =3D SO_TIMESTAMPING;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto int_case;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 case TARGET_SO_TIMESTAMPING_NEW:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 timestamp_format_matches =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (target_expected_t=
+imestamp_version =3D=3D TARGET_TIMESTAMP_NEW);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 optname =3D SO_TIMESTAMPING;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto int_case;<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case TARGET_SO_RCVLOWAT:<br>
-@@ -2604,6 +2662,9 @@ get_timeout:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0optname =3D SO_RCVLOWAT;<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto int_case;<br>
+@@ -2661,9 +2802,9 @@ get_timeout:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ret;<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (optname =3D=3D SO_TYPE) {<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0val =3D host_to_target_sock=
 _type(val);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (optname =3D=3D SO_TIMESTAMP) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D val &amp;&amp; timestamp=
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (optname =3D=3D SO_TIMESTAMP) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D val &amp;&amp; timestamp=
 _format_matches;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if ((optname =3D=3D SO_TIMESTAMP || opt=
+name =3D=3D SO_TIMESTAMPNS ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 optn=
+ame =3D=3D SO_TIMESTAMPING) &amp;&amp; !timestamp_format_matches) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 val =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (len &gt; lv)<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0len =3D lv;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (len =3D=3D 4) {<br>
 diff --git a/tests/tcg/multiarch/socket_timestamp.c b/tests/tcg/multiarch/s=
 ocket_timestamp.c<br>
-new file mode 100644<br>
-index 0000000000..71ab1845de<br>
---- /dev/null<br>
+index 71ab1845de..3ae833ad44 100644<br>
+--- a/tests/tcg/multiarch/socket_timestamp.c<br>
 +++ b/tests/tcg/multiarch/socket_timestamp.c<br>
-@@ -0,0 +1,296 @@<br>
-+#include &lt;assert.h&gt;<br>
-+#include &lt;errno.h&gt;<br>
-+#include &lt;linux/types.h&gt;<br>
-+#include &lt;netinet/in.h&gt;<br>
-+#include &lt;stdint.h&gt;<br>
-+#include &lt;stdio.h&gt;<br>
-+#include &lt;stdlib.h&gt;<br>
-+#include &lt;string.h&gt;<br>
-+#include &lt;sys/ioctl.h&gt;<br>
-+#include &lt;sys/socket.h&gt;<br>
-+#include &lt;sys/time.h&gt;<br>
-+#include &lt;sys/types.h&gt;<br>
-+#include &lt;sys/wait.h&gt;<br>
-+#include &lt;unistd.h&gt;<br>
-+<br>
-+#ifdef __kernel_old_timeval<br>
-+#define kernel_old_timeval __kernel_old_timeval<br>
-+#else<br>
-+struct kernel_old_timeval {<br>
-+=C2=A0 =C2=A0 __kernel_long_t tv_sec;<br>
-+=C2=A0 =C2=A0 __kernel_long_t tv_usec;<br>
-+};<br>
-+#endif<br>
-+<br>
-+struct kernel_sock_timeval {<br>
-+=C2=A0 =C2=A0 int64_t tv_sec;<br>
-+=C2=A0 =C2=A0 int64_t tv_usec;<br>
-+};<br>
-+<br>
-+int create_udp_socket(struct sockaddr_in *sockaddr)<br>
-+{<br>
-+=C2=A0 =C2=A0 socklen_t sockaddr_len;<br>
-+=C2=A0 =C2=A0 int sock =3D socket(AF_INET, SOCK_DGRAM, 0);<br>
-+=C2=A0 =C2=A0 if (sock &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int err =3D errno;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Failed to create server =
-socket: %s\n&quot;, strerror(err));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(err);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 memset(sockaddr, 0, sizeof(*sockaddr));<br>
-+=C2=A0 =C2=A0 sockaddr-&gt;sin_family =3D AF_INET;<br>
-+=C2=A0 =C2=A0 sockaddr-&gt;sin_port =3D htons(0);=C2=A0 /* let kernel sele=
-ct a port for us */<br>
-+=C2=A0 =C2=A0 sockaddr-&gt;sin_addr.s_addr =3D htonl(INADDR_LOOPBACK);<br>
-+<br>
-+=C2=A0 =C2=A0 if (bind(sock, (struct sockaddr *)sockaddr, sizeof(*sockaddr=
-)) &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int err =3D errno;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Failed to bind server so=
-cket: %s\n&quot;, strerror(err));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(err);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 sockaddr_len =3D sizeof(*sockaddr);<br>
-+=C2=A0 =C2=A0 if (getsockname(sock, (struct sockaddr *)sockaddr, &amp;sock=
-addr_len) &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int err =3D errno;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Failed to get socket nam=
-e: %s\n&quot;, strerror(err));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(err);<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 return sock;<br>
-+}<br>
-+<br>
-+/*<br>
-+ * Checks that the timestamp in the message is not after the reception tim=
-estamp<br>
-+ * as well as the reception time is within 10 seconds of the message time.=
+@@ -1,5 +1,6 @@<br>
+=C2=A0#include &lt;assert.h&gt;<br>
+=C2=A0#include &lt;errno.h&gt;<br>
++#include &lt;linux/net_tstamp.h&gt;<br>
+=C2=A0#include &lt;linux/types.h&gt;<br>
+=C2=A0#include &lt;netinet/in.h&gt;<br>
+=C2=A0#include &lt;stdint.h&gt;<br>
+@@ -11,6 +12,7 @@<br>
+=C2=A0#include &lt;sys/time.h&gt;<br>
+=C2=A0#include &lt;sys/types.h&gt;<br>
+=C2=A0#include &lt;sys/wait.h&gt;<br>
++#include &lt;time.h&gt;<br>
+=C2=A0#include &lt;unistd.h&gt;<br>
 <br>
-+ */<br>
-+void check_timestamp_difference(const struct timeval *msg_tv,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=C2=A0#ifdef __kernel_old_timeval<br>
+@@ -27,6 +29,33 @@ struct kernel_sock_timeval {<br>
+=C2=A0 =C2=A0 =C2=A0int64_t tv_usec;<br>
+=C2=A0};<br>
+<br>
++struct kernel_old_timespec {<br>
++=C2=A0 =C2=A0 __kernel_long_t tv_sec;<br>
++=C2=A0 =C2=A0 long=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tv_nsec;<br>
++};<br>
++<br>
++struct kernel_timespec {<br>
++=C2=A0 =C2=A0 int64_t=C2=A0 =C2=A0tv_sec;<br>
++=C2=A0 =C2=A0 long long tv_nsec;<br>
++};<br>
++<br>
++struct scm_timestamping {<br>
++=C2=A0 =C2=A0 struct timespec ts[3];<br>
++};<br>
++<br>
++struct scm_old_timestamping {<br>
++=C2=A0 =C2=A0 struct kernel_old_timespec ts[3];<br>
++};<br>
++<br>
++struct scm_timestamping64 {<br>
++=C2=A0 =C2=A0 struct kernel_timespec ts[3];<br>
++};<br>
++<br>
++const int so_timestamping_flags =3D<br>
++=C2=A0 =C2=A0 SOF_TIMESTAMPING_RX_HARDWARE |<br>
++=C2=A0 =C2=A0 SOF_TIMESTAMPING_RX_SOFTWARE |<br>
++=C2=A0 =C2=A0 SOF_TIMESTAMPING_SOFTWARE;<br>
++<br>
+=C2=A0int create_udp_socket(struct sockaddr_in *sockaddr)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0socklen_t sockaddr_len;<br>
+@@ -61,43 +90,47 @@ int create_udp_socket(struct sockaddr_in *sockaddr)<br>
+=C2=A0 * Checks that the timestamp in the message is not after the receptio=
+n timestamp<br>
+=C2=A0 * as well as the reception time is within 10 seconds of the message =
+time.<br>
+=C2=A0 */<br>
+-void check_timestamp_difference(const struct timeval *msg_tv,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const struct timeval *pkt_tv)<br>
-+{<br>
-+=C2=A0 =C2=A0 if (pkt_tv-&gt;tv_sec &lt; msg_tv-&gt;tv_sec ||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (pkt_tv-&gt;tv_sec =3D=3D msg_tv-&gt;tv_sec &a=
++void check_timestamp_difference(const struct timespec *msg_ts,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const struct timespec *pkt_ts)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 if (pkt_tv-&gt;tv_sec &lt; msg_tv-&gt;tv_sec ||<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 (pkt_tv-&gt;tv_sec =3D=3D msg_tv-&gt;tv_sec &a=
 mp;&amp; pkt_tv-&gt;tv_usec &lt; msg_tv-&gt;tv_usec))<br>
-+=C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Packet recei=
++=C2=A0 =C2=A0 if (pkt_ts-&gt;tv_sec &lt; msg_ts-&gt;tv_sec ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (pkt_ts-&gt;tv_sec =3D=3D msg_ts-&gt;tv_sec &a=
+mp;&amp; pkt_ts-&gt;tv_nsec &lt; msg_ts-&gt;tv_nsec))<br>
+=C2=A0 =C2=A0 =C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Packet recei=
 ved before sent: %lld.%06lld &lt; %lld.%06lld\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long long)pkt_tv-=
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long long)pkt_tv-=
 &gt;tv_sec, (long long)pkt_tv-&gt;tv_usec,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long long)msg_tv-=
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long long)msg_tv-=
 &gt;tv_sec, (long long)msg_tv-&gt;tv_usec);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(-1);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (pkt_tv-&gt;tv_sec &gt; msg_tv-&gt;tv_sec + 10 ||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (pkt_tv-&gt;tv_sec =3D=3D msg_tv-&gt;tv_sec + =
-10 &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkt_tv-&gt;tv_usec &gt; msg_tv-&gt;tv_us=
-ec)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Packet recei=
-ved more than 10 seconds after sent: &quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;%lld.%06lld =
+ved before sent: %lld.%06lld &lt; %lld.%09lld\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long long)pkt_ts-=
+&gt;tv_sec, (long long)pkt_ts-&gt;tv_nsec,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long long)msg_ts-=
+&gt;tv_sec, (long long)msg_ts-&gt;tv_nsec);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(-1);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 if (pkt_tv-&gt;tv_sec &gt; msg_tv-&gt;tv_sec + 10 ||<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 (pkt_tv-&gt;tv_sec =3D=3D msg_tv-&gt;tv_sec + =
+10 &amp;&amp;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkt_tv-&gt;tv_usec &gt; msg_tv-&gt;tv_us=
+ec)) {<br>
++=C2=A0 =C2=A0 if (pkt_ts-&gt;tv_sec &gt; msg_ts-&gt;tv_sec + 10 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (pkt_ts-&gt;tv_sec =3D=3D msg_ts-&gt;tv_sec + =
+10 &amp;&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pkt_ts-&gt;tv_nsec &gt; msg_ts-&gt;tv_ns=
+ec)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Packet =
+received more than 10 seconds after sent: &quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;%lld.%06lld =
 &gt; %lld.%06lld + 10\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long long)pkt_tv-=
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long long)pkt_tv-=
 &gt;tv_sec, (long long)pkt_tv-&gt;tv_usec,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long long)msg_tv-=
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long long)msg_tv-=
 &gt;tv_sec, (long long)msg_tv-&gt;tv_usec);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(-1);<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+void send_current_time(int sock, struct sockaddr_in server_sockaddr)<br>
-+{<br>
-+=C2=A0 =C2=A0 struct timeval tv =3D {0, 0};<br>
-+=C2=A0 =C2=A0 gettimeofday(&amp;tv, NULL);<br>
-+=C2=A0 =C2=A0 sendto(sock, &amp;tv, sizeof(tv), 0, (struct sockaddr *)&amp=
-;server_sockaddr,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sizeof(server_sockaddr));<br>
-+}<br>
-+<br>
-+typedef void (*get_timeval_t)(const struct cmsghdr *cmsg, struct timeval *=
-tv);<br>
-+<br>
-+<br>
-+void receive_packet(int sock, get_timeval_t get_timeval)<br>
-+{<br>
-+=C2=A0 =C2=A0 struct msghdr msg =3D {0};<br>
-+<br>
-+=C2=A0 =C2=A0 char iobuf[1024];<br>
-+=C2=A0 =C2=A0 struct iovec iov;<br>
-+<br>
-+=C2=A0 =C2=A0 union {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* 128 bytes are enough for all existing<=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;%lld.%06lld =
+&gt; %lld.%09lld + 10\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long long)pkt_ts-=
+&gt;tv_sec, (long long)pkt_ts-&gt;tv_nsec,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (long long)msg_ts-=
+&gt;tv_sec, (long long)msg_ts-&gt;tv_nsec);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(-1);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
+=C2=A0void send_current_time(int sock, struct sockaddr_in server_sockaddr)<=
 br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* timeval/timespec/scm_timestamping stru=
-ctures.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 char cmsg_buf[CMSG_SPACE(128)];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct cmsghdr align;<br>
-+=C2=A0 =C2=A0 } u;<br>
-+=C2=A0 =C2=A0 struct cmsghdr *cmsg;<br>
-+=C2=A0 =C2=A0 struct timeval msg_tv, pkt_tv;<br>
-+<br>
-+=C2=A0 =C2=A0 int res;<br>
-+<br>
-+=C2=A0 =C2=A0 iov.iov_base =3D iobuf;<br>
-+=C2=A0 =C2=A0 iov.iov_len =3D sizeof(iobuf);<br>
-+<br>
-+=C2=A0 =C2=A0 msg.msg_iov =3D &amp;iov;<br>
-+=C2=A0 =C2=A0 msg.msg_iovlen =3D 1;<br>
-+=C2=A0 =C2=A0 msg.msg_control =3D (caddr_t)u.cmsg_buf;<br>
-+=C2=A0 =C2=A0 msg.msg_controllen =3D sizeof(u.cmsg_buf);<br>
-+<br>
-+=C2=A0 =C2=A0 res =3D recvmsg(sock, &amp;msg, 0);<br>
-+=C2=A0 =C2=A0 if (res &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int err =3D errno;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Failed to receive packet=
-: %s\n&quot;, strerror(err));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(err);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 assert(res =3D=3D sizeof(struct timeval));<br>
-+=C2=A0 =C2=A0 assert(iov.iov_base =3D=3D iobuf);<br>
-+=C2=A0 =C2=A0 memcpy(&amp;msg_tv, iov.iov_base, sizeof(msg_tv));<br>
-+=C2=A0 =C2=A0 printf(&quot;Message timestamp: %lld.%06lld\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(long long)msg_tv.tv_sec, (long l=
+=C2=A0{<br>
+-=C2=A0 =C2=A0 struct timeval tv =3D {0, 0};<br>
+-=C2=A0 =C2=A0 gettimeofday(&amp;tv, NULL);<br>
+-=C2=A0 =C2=A0 sendto(sock, &amp;tv, sizeof(tv), 0, (struct sockaddr *)&amp=
+;server_sockaddr,<br>
++=C2=A0 =C2=A0 struct timespec ts =3D {0, 0};<br>
++=C2=A0 =C2=A0 clock_gettime(CLOCK_REALTIME, &amp;ts);<br>
++#ifdef MSG_CONFIRM<br>
++=C2=A0 =C2=A0 const int flags =3D MSG_CONFIRM;<br>
++#else<br>
++=C2=A0 =C2=A0 const int flags =3D 0;<br>
++#endif<br>
++=C2=A0 =C2=A0 sendto(sock, &amp;ts, sizeof(ts), flags, (struct sockaddr *)=
+&amp;server_sockaddr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(server_sockaddr));<br>
+=C2=A0}<br>
+<br>
+-typedef void (*get_timeval_t)(const struct cmsghdr *cmsg, struct timeval *=
+tv);<br>
++typedef void (*get_timespec_t)(const struct cmsghdr *cmsg, struct timespec=
+ *tv);<br>
+<br>
+-<br>
+-void receive_packet(int sock, get_timeval_t get_timeval)<br>
++void receive_packet(int sock, get_timespec_t get_timespec)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0struct msghdr msg =3D {0};<br>
+<br>
+@@ -113,7 +146,7 @@ void receive_packet(int sock, get_timeval_t get_timeval=
+)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct cmsghdr align;<br>
+=C2=A0 =C2=A0 =C2=A0} u;<br>
+=C2=A0 =C2=A0 =C2=A0struct cmsghdr *cmsg;<br>
+-=C2=A0 =C2=A0 struct timeval msg_tv, pkt_tv;<br>
++=C2=A0 =C2=A0 struct timespec msg_ts, pkt_ts;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0int res;<br>
+<br>
+@@ -134,31 +167,35 @@ void receive_packet(int sock, get_timeval_t get_timev=
+al)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0assert(res =3D=3D sizeof(struct timeval));<br>
+=C2=A0 =C2=A0 =C2=A0assert(iov.iov_base =3D=3D iobuf);<br>
+-=C2=A0 =C2=A0 memcpy(&amp;msg_tv, iov.iov_base, sizeof(msg_tv));<br>
+-=C2=A0 =C2=A0 printf(&quot;Message timestamp: %lld.%06lld\n&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(long long)msg_tv.tv_sec, (long l=
 ong)msg_tv.tv_usec);<br>
-+<br>
-+=C2=A0 =C2=A0 cmsg =3D CMSG_FIRSTHDR(&amp;msg);<br>
-+=C2=A0 =C2=A0 assert(cmsg);<br>
-+=C2=A0 =C2=A0 (*get_timeval)(cmsg, &amp;pkt_tv);<br>
-+=C2=A0 =C2=A0 printf(&quot;Packet timestamp: %lld.%06lld\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(long long)pkt_tv.tv_sec, (long l=
++=C2=A0 =C2=A0 memcpy(&amp;msg_ts, iov.iov_base, sizeof(msg_ts));<br>
++=C2=A0 =C2=A0 printf(&quot;Message timestamp: %lld.%09lld\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(long long)msg_ts.tv_sec, (long l=
+ong)msg_ts.tv_nsec);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0cmsg =3D CMSG_FIRSTHDR(&amp;msg);<br>
+=C2=A0 =C2=A0 =C2=A0assert(cmsg);<br>
+-=C2=A0 =C2=A0 (*get_timeval)(cmsg, &amp;pkt_tv);<br>
+-=C2=A0 =C2=A0 printf(&quot;Packet timestamp: %lld.%06lld\n&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(long long)pkt_tv.tv_sec, (long l=
 ong)pkt_tv.tv_usec);<br>
-+<br>
-+=C2=A0 =C2=A0 check_timestamp_difference(&amp;msg_tv, &amp;pkt_tv);<br>
-+}<br>
-+<br>
-+void get_timeval_from_so_timestamp(const struct cmsghdr *cmsg,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
++=C2=A0 =C2=A0 (*get_timespec)(cmsg, &amp;pkt_ts);<br>
++=C2=A0 =C2=A0 printf(&quot;Packet timestamp: %lld.%09lld\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(long long)pkt_ts.tv_sec, (long l=
+ong)pkt_ts.tv_nsec);<br>
+<br>
+-=C2=A0 =C2=A0 check_timestamp_difference(&amp;msg_tv, &amp;pkt_tv);<br>
++=C2=A0 =C2=A0 check_timestamp_difference(&amp;msg_ts, &amp;pkt_ts);<br>
+=C2=A0}<br>
+<br>
+-void get_timeval_from_so_timestamp(const struct cmsghdr *cmsg,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct timeval *tv)<br>
-+{<br>
-+=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_level =3D=3D SOL_SOCKET);<br>
-+=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_type =3D=3D SCM_TIMESTAMP);<br>
-+=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(struct timev=
-al)));<br>
-+=C2=A0 =C2=A0 memcpy(tv, CMSG_DATA(cmsg), sizeof(*tv));<br>
-+}<br>
-+<br>
-+#ifdef SO_TIMESTAMP_OLD<br>
-+void get_timeval_from_so_timestamp_old(const struct cmsghdr *cmsg,<br>
++void get_timespec_from_so_timestamp(const struct cmsghdr *cmsg,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct timespec *ts)<b=
+r>
+=C2=A0{<br>
++=C2=A0 =C2=A0 struct timeval tv;<br>
+=C2=A0 =C2=A0 =C2=A0assert(cmsg-&gt;cmsg_level =3D=3D SOL_SOCKET);<br>
+=C2=A0 =C2=A0 =C2=A0assert(cmsg-&gt;cmsg_type =3D=3D SCM_TIMESTAMP);<br>
+-=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(struct timev=
+al)));<br>
+-=C2=A0 =C2=A0 memcpy(tv, CMSG_DATA(cmsg), sizeof(*tv));<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(tv)));<br>
++<br>
++=C2=A0 =C2=A0 memcpy(&amp;tv, CMSG_DATA(cmsg), sizeof(tv));<br>
++=C2=A0 =C2=A0 ts-&gt;tv_sec =3D tv.tv_sec;<br>
++=C2=A0 =C2=A0 ts-&gt;tv_nsec =3D tv.tv_usec * 1000LL;<br>
+=C2=A0}<br>
+<br>
+=C2=A0#ifdef SO_TIMESTAMP_OLD<br>
+-void get_timeval_from_so_timestamp_old(const struct cmsghdr *cmsg,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct ti=
 meval *tv)<br>
++void get_timespec_from_so_timestamp_old(const struct cmsghdr *cmsg,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct t=
+imespec *ts)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0struct kernel_old_timeval old_tv;<br>
+=C2=A0 =C2=A0 =C2=A0assert(cmsg-&gt;cmsg_level =3D=3D SOL_SOCKET);<br>
+@@ -166,13 +203,13 @@ void get_timeval_from_so_timestamp_old(const struct c=
+msghdr *cmsg,<br>
+=C2=A0 =C2=A0 =C2=A0assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(old_tv)=
+));<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0memcpy(&amp;old_tv, CMSG_DATA(cmsg), sizeof(old_tv));<b=
+r>
+-=C2=A0 =C2=A0 tv-&gt;tv_sec =3D old_tv.tv_sec;<br>
+-=C2=A0 =C2=A0 tv-&gt;tv_usec =3D old_tv.tv_usec;<br>
++=C2=A0 =C2=A0 ts-&gt;tv_sec =3D old_tv.tv_sec;<br>
++=C2=A0 =C2=A0 ts-&gt;tv_nsec =3D old_tv.tv_usec * 1000LL;<br>
+=C2=A0}<br>
+<br>
+=C2=A0#ifdef SO_TIMESTAMP_NEW<br>
+-void get_timeval_from_so_timestamp_new(const struct cmsghdr *cmsg,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct ti=
+meval *tv)<br>
++void get_timespec_from_so_timestamp_new(const struct cmsghdr *cmsg,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct t=
+imespec *ts)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0struct kernel_sock_timeval sock_tv;<br>
+=C2=A0 =C2=A0 =C2=A0assert(cmsg-&gt;cmsg_level =3D=3D SOL_SOCKET);<br>
+@@ -180,42 +217,298 @@ void get_timeval_from_so_timestamp_new(const struct =
+cmsghdr *cmsg,<br>
+=C2=A0 =C2=A0 =C2=A0assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(sock_tv=
+)));<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0memcpy(&amp;sock_tv, CMSG_DATA(cmsg), sizeof(sock_tv));=
+<br>
+-=C2=A0 =C2=A0 tv-&gt;tv_sec =3D sock_tv.tv_sec;<br>
+-=C2=A0 =C2=A0 tv-&gt;tv_usec =3D sock_tv.tv_usec;<br>
++=C2=A0 =C2=A0 ts-&gt;tv_sec =3D sock_tv.tv_sec;<br>
++=C2=A0 =C2=A0 ts-&gt;tv_nsec =3D sock_tv.tv_usec * 1000LL;<br>
+=C2=A0}<br>
+=C2=A0#endif /* defined(SO_TIMESTAMP_NEW) */<br>
+=C2=A0#endif /* defined(SO_TIMESTAMP_OLD) */<br>
+<br>
+-void set_socket_option(int sock, int sockopt, int on)<br>
++void get_timespec_from_so_timestampns(const struct cmsghdr *cmsg,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct timespec=
+ *ts)<br>
 +{<br>
-+=C2=A0 =C2=A0 struct kernel_old_timeval old_tv;<br>
 +=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_level =3D=3D SOL_SOCKET);<br>
-+=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_type =3D=3D SO_TIMESTAMP_OLD);<br>
-+=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(old_tv)));<b=
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_type =3D=3D SCM_TIMESTAMPNS);<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(*ts)));<br>
++<br>
++=C2=A0 =C2=A0 memcpy(ts, CMSG_DATA(cmsg), sizeof(*ts));<br>
++}<br>
++<br>
++#ifdef SO_TIMESTAMPNS_OLD<br>
++void get_timespec_from_so_timestampns_old(const struct cmsghdr *cmsg,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s=
+truct timespec *ts)<br>
++{<br>
++=C2=A0 =C2=A0 struct kernel_old_timespec old_ts;<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_level =3D=3D SOL_SOCKET);<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_type =3D=3D SO_TIMESTAMPNS_OLD);<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(old_ts)));<b=
 r>
 +<br>
-+=C2=A0 =C2=A0 memcpy(&amp;old_tv, CMSG_DATA(cmsg), sizeof(old_tv));<br>
-+=C2=A0 =C2=A0 tv-&gt;tv_sec =3D old_tv.tv_sec;<br>
-+=C2=A0 =C2=A0 tv-&gt;tv_usec =3D old_tv.tv_usec;<br>
++=C2=A0 =C2=A0 memcpy(&amp;old_ts, CMSG_DATA(cmsg), sizeof(old_ts));<br>
++=C2=A0 =C2=A0 ts-&gt;tv_sec =3D old_ts.tv_sec;<br>
++=C2=A0 =C2=A0 ts-&gt;tv_nsec =3D old_ts.tv_nsec;<br>
 +}<br>
 +<br>
-+#ifdef SO_TIMESTAMP_NEW<br>
-+void get_timeval_from_so_timestamp_new(const struct cmsghdr *cmsg,<br>
++#ifdef SO_TIMESTAMPNS_NEW<br>
++void get_timespec_from_so_timestampns_new(const struct cmsghdr *cmsg,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s=
+truct timespec *ts)<br>
++{<br>
++=C2=A0 =C2=A0 struct kernel_timespec sock_ts;<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_level =3D=3D SOL_SOCKET);<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_type =3D=3D SO_TIMESTAMPNS_NEW);<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(sock_ts)));<=
+br>
++<br>
++=C2=A0 =C2=A0 memcpy(&amp;sock_ts, CMSG_DATA(cmsg), sizeof(sock_ts));<br>
++=C2=A0 =C2=A0 ts-&gt;tv_sec =3D sock_ts.tv_sec;<br>
++=C2=A0 =C2=A0 ts-&gt;tv_nsec =3D sock_ts.tv_nsec;<br>
++}<br>
++#endif /* defined(SO_TIMESTAMPNS_NEW) */<br>
++#endif /* defined(SO_TIMESTAMPNS_OLD) */<br>
++<br>
++void get_timespec_from_so_timestamping(const struct cmsghdr *cmsg,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct ti=
-meval *tv)<br>
+mespec *ts)<br>
 +{<br>
-+=C2=A0 =C2=A0 struct kernel_sock_timeval sock_tv;<br>
++=C2=A0 =C2=A0 int i;<br>
++=C2=A0 =C2=A0 struct scm_timestamping tss;<br>
 +=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_level =3D=3D SOL_SOCKET);<br>
-+=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_type =3D=3D SO_TIMESTAMP_NEW);<br>
-+=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(sock_tv)));<=
-br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_type =3D=3D SCM_TIMESTAMPING);<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(tss)));<br>
 +<br>
-+=C2=A0 =C2=A0 memcpy(&amp;sock_tv, CMSG_DATA(cmsg), sizeof(sock_tv));<br>
-+=C2=A0 =C2=A0 tv-&gt;tv_sec =3D sock_tv.tv_sec;<br>
-+=C2=A0 =C2=A0 tv-&gt;tv_usec =3D sock_tv.tv_usec;<br>
++=C2=A0 =C2=A0 memcpy(&amp;tss, CMSG_DATA(cmsg), sizeof(tss));<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; 3; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (tss.ts[i].tv_sec || tss.ts[i].tv_nsec) {<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *ts =3D tss.ts[i];<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 assert(!&quot;All three entries in scm_timestamping are empt=
+y&quot;);<br>
 +}<br>
-+#endif /* defined(SO_TIMESTAMP_NEW) */<br>
-+#endif /* defined(SO_TIMESTAMP_OLD) */<br>
 +<br>
-+void set_socket_option(int sock, int sockopt, int on)<br>
++#ifdef SO_TIMESTAMPING_OLD<br>
++void get_timespec_from_so_timestamping_old(const struct cmsghdr *cmsg,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0struct timespec *ts)<br>
 +{<br>
-+=C2=A0 =C2=A0 socklen_t len;<br>
-+=C2=A0 =C2=A0 int val =3D on;<br>
-+=C2=A0 =C2=A0 if (setsockopt(sock, SOL_SOCKET, sockopt, &amp;val, sizeof(v=
-al)) &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int err =3D errno;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Failed to setsockopt %d =
++=C2=A0 =C2=A0 int i;<br>
++=C2=A0 =C2=A0 struct scm_old_timestamping tss;<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_level =3D=3D SOL_SOCKET);<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_type =3D=3D SO_TIMESTAMPING_OLD);<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(tss)));<br>
++<br>
++=C2=A0 =C2=A0 memcpy(&amp;tss, CMSG_DATA(cmsg), sizeof(tss));<br>
++<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; 3; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (tss.ts[i].tv_sec || tss.ts[i].tv_nsec) {<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ts-&gt;tv_sec =3D tss.ts[i].tv_s=
+ec;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ts-&gt;tv_nsec =3D tss.ts[i].tv_=
+nsec;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 assert(!&quot;All three entries in scm_old_timestamping are =
+empty&quot;);<br>
++}<br>
++<br>
++#ifdef SO_TIMESTAMPING_NEW<br>
++void get_timespec_from_so_timestamping_new(const struct cmsghdr *cmsg,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0struct timespec *ts)<br>
++{<br>
++=C2=A0 =C2=A0 int i;<br>
++=C2=A0 =C2=A0 struct scm_timestamping64 tss;<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_level =3D=3D SOL_SOCKET);<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_type =3D=3D SO_TIMESTAMPING_NEW);<br>
++=C2=A0 =C2=A0 assert(cmsg-&gt;cmsg_len =3D=3D CMSG_LEN(sizeof(tss)));<br>
++<br>
++=C2=A0 =C2=A0 memcpy(&amp;tss, CMSG_DATA(cmsg), sizeof(tss));<br>
++=C2=A0 =C2=A0 for (i =3D 0; i &lt; 3; ++i) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (tss.ts[i].tv_sec || tss.ts[i].tv_nsec) {<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ts-&gt;tv_sec =3D tss.ts[i].tv_s=
+ec;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ts-&gt;tv_nsec =3D tss.ts[i].tv_=
+nsec;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 assert(!&quot;All three entries in scm_timestamp64 are empty=
+&quot;);<br>
++}<br>
++#endif /* defined(SO_TIMESTAMPING_NEW) */<br>
++#endif /* defined(SO_TIMESTAMPING_OLD) */<br>
++<br>
++void set_socket_option(int sock, int sockopt, int set_to)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0socklen_t len;<br>
+-=C2=A0 =C2=A0 int val =3D on;<br>
++=C2=A0 =C2=A0 int val =3D set_to;<br>
+=C2=A0 =C2=A0 =C2=A0if (setsockopt(sock, SOL_SOCKET, sockopt, &amp;val, siz=
+eof(val)) &lt; 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int err =3D errno;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Failed to setsockopt %d =
 (%s): %s\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sockopt, on ? &quo=
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sockopt, on ? &quo=
 t;on&quot; : &quot;off&quot;, strerror(err));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(err);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Failed at setsockopt(%d,=
+ SOL_SOCKET, %d, %d): %s\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sock, sockopt, set=
+_to, strerror(err));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(err);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
++#ifdef SO_TIMESTAMPING_NEW<br>
++=C2=A0 =C2=A0 if (sockopt =3D=3D SO_TIMESTAMPING_NEW) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* `getsockopt(sock, SOL_SOCKET, SO_TIMES=
+TAMPING_NEW)` not implemented<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* as of linux kernel v5.8-rc4.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
 +=C2=A0 =C2=A0 }<br>
++#endif<br>
 +<br>
-+=C2=A0 =C2=A0 len =3D sizeof(val);<br>
-+=C2=A0 =C2=A0 val =3D -1;<br>
-+=C2=A0 =C2=A0 if (getsockopt(sock, SOL_SOCKET, sockopt, &amp;val, &amp;len=
-) &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int err =3D errno;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Failed to getsockopt (%d=
+=C2=A0 =C2=A0 =C2=A0len =3D sizeof(val);<br>
+=C2=A0 =C2=A0 =C2=A0val =3D -1;<br>
+=C2=A0 =C2=A0 =C2=A0if (getsockopt(sock, SOL_SOCKET, sockopt, &amp;val, &am=
+p;len) &lt; 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int err =3D errno;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Failed to getsockopt (%d=
 ): %s\n&quot;, sock, strerror(err));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit(err);<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 assert(len =3D=3D sizeof(val));<br>
-+=C2=A0 =C2=A0 assert(val =3D=3D on);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Failed at getsockopt(%d,=
+ SOL_SOCKET, %d): %s\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sock, sockopt, str=
+error(err));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(err);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0assert(len =3D=3D sizeof(val));<br>
+-=C2=A0 =C2=A0 assert(val =3D=3D on);<br>
++=C2=A0 =C2=A0 assert(val =3D=3D set_to);<br>
 +}<br>
 +<br>
-+int main(int argc, char **argv)<br>
++void child_steps(int sock, struct sockaddr_in addr, int run_old)<br>
 +{<br>
-+=C2=A0 =C2=A0 int parent_sock, child_sock;<br>
-+=C2=A0 =C2=A0 struct sockaddr_in parent_sockaddr, child_sockaddr;<br>
-+=C2=A0 =C2=A0 int pid;<br>
-+=C2=A0 =C2=A0 struct timeval tv =3D {0, 0};<br>
-+=C2=A0 =C2=A0 gettimeofday(&amp;tv, NULL);<br>
++=C2=A0 =C2=A0 /* Test 1: SO_TIMESTAMP */<br>
++=C2=A0 =C2=A0 send_current_time(sock, addr);<br>
 +<br>
-+=C2=A0 =C2=A0 parent_sock =3D create_udp_socket(&amp;parent_sockaddr);<br>
-+=C2=A0 =C2=A0 child_sock =3D create_udp_socket(&amp;child_sockaddr);<br>
++=C2=A0 =C2=A0 /* Test 2: SO_TIMESTAMPNS */<br>
++=C2=A0 =C2=A0 printf(&quot;Test 2: SO_TIMESTAMPNS\n&quot;);<br>
++=C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMPNS, 1);<br>
++=C2=A0 =C2=A0 receive_packet(sock, &amp;get_timespec_from_so_timestampns);=
+<br>
++=C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMPNS, 0);<br>
 +<br>
-+=C2=A0 =C2=A0 printf(&quot;Parent sock bound to port %d\nChild sock bound =
-to port %d\n&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0parent_sockaddr.sin_port, child_s=
-ockaddr.sin_port);<br>
++=C2=A0 =C2=A0 /* Test 3: SO_TIMESTAMPING */<br>
++=C2=A0 =C2=A0 send_current_time(sock, addr);<br>
 +<br>
-+=C2=A0 =C2=A0 pid =3D fork();<br>
-+=C2=A0 =C2=A0 if (pid &lt; 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;SKIPPED. Failed to fork:=
- %s\n&quot;, strerror(errno));<br>
-+=C2=A0 =C2=A0 } else if (pid =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(child_sock);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 1: SO_TIMESTAMP */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 send_current_time(parent_sock, child_sockaddr)=
-;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (tv.tv_sec &gt; 0x7fffff00) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Too close to y2038 problem, o=
-ld system may not work. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(parent_sock);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+#ifdef SO_TIMESTAMP_OLD<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (SO_TIMESTAMP_OLD !=3D SO_TIMESTAMP) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 2a: SO_TIMESTAMP_OLD */<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(parent_sock, S=
-O_TIMESTAMP_OLD, 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 receive_packet(parent_sock, &amp=
-;get_timeval_from_so_timestamp_old);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(parent_sock, S=
-O_TIMESTAMP_OLD, 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+#ifdef SO_TIMESTAMP_NEW<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 2b: SO_TIMESTAMP_NEW */<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(parent_sock, S=
-O_TIMESTAMP_NEW, 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 receive_packet(parent_sock, &amp=
-;get_timeval_from_so_timestamp_new);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(parent_sock, S=
-O_TIMESTAMP_NEW, 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+#endif /* defined(SO_TIMESTAMP_NEW) */<br>
-+#endif /* defined(SO_TIMESTAMP_OLD) */<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(parent_sock);<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 int child_status;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(parent_sock);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 1: SO_TIMESTAMP */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(child_sock, SO_TIMESTAMP, 1)=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 receive_packet(child_sock, &amp;get_timeval_fr=
-om_so_timestamp);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(child_sock, SO_TIMESTAMP, 0)=
-;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (tv.tv_sec &gt; 0x7fffff00) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Too close to y2038 problem, o=
-ld system may not work. */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(child_sock);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+#ifdef SO_TIMESTAMP_OLD<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (SO_TIMESTAMP_OLD !=3D SO_TIMESTAMP) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 2a: SO_TIMESTAMP_OLD */<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 send_current_time(child_sock, pa=
-rent_sockaddr);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+#ifdef SO_TIMESTAMP_NEW<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 2b: SO_TIMESTAMP_NEW */<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 send_current_time(child_sock, pa=
-rent_sockaddr);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+#endif /* defined(SO_TIMESTAMP_NEW) */<br>
-+#endif /* defined(SO_TIMESTAMP_OLD) */<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(child_sock);<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (waitpid(pid, &amp;child_status, 0) &lt; 0)=
- {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int err =3D errno;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Final wait=
-() failed: %s\n&quot;, strerror(err));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return child_status;<br>
++=C2=A0 =C2=A0 if (!run_old) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
 +=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 return 0;<br>
++<br>
++#ifdef SO_TIMESTAMP_OLD<br>
++=C2=A0 =C2=A0 if (SO_TIMESTAMP_OLD !=3D SO_TIMESTAMP) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 4a: SO_TIMESTAMP_OLD */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;Test 4a: SO_TIMESTAMP_OLD\n&quot;=
+);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMP_OLD, 1);<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 receive_packet(sock, &amp;get_timespec_from_so=
+_timestamp_old);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMP_OLD, 0);<=
+br>
++=C2=A0 =C2=A0 }<br>
++#ifdef SO_TIMESTAMP_NEW<br>
++=C2=A0 =C2=A0 else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 4b: SO_TIMESTAMP_NEW */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;Test 4b: SO_TIMESTAMP_NEW\n&quot;=
+);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMP_NEW, 1);<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 receive_packet(sock, &amp;get_timespec_from_so=
+_timestamp_new);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMP_NEW, 0);<=
+br>
++=C2=A0 =C2=A0 }<br>
++#endif /* defined(SO_TIMESTAMP_NEW) */<br>
++#endif /* defined(SO_TIMESTAMP_OLD) */<br>
++<br>
++#ifdef SO_TIMESTAMPNS_OLD<br>
++=C2=A0 =C2=A0 if (SO_TIMESTAMPNS_OLD !=3D SO_TIMESTAMPNS) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 5a: SO_TIMESTAMPNS_OLD */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 send_current_time(sock, addr);<br>
++=C2=A0 =C2=A0 }<br>
++#ifdef SO_TIMESTAMPNS_NEW<br>
++=C2=A0 =C2=A0 else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 5b: SO_TIMESTAMPNS_NEW */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 send_current_time(sock, addr);<br>
++=C2=A0 =C2=A0 }<br>
++#endif /* defined(SO_TIMESTAMPNS_NEW) */<br>
++#endif /* defined(SO_TIMESTAMPNS_OLD) */<br>
++<br>
++#ifdef SO_TIMESTAMPING_OLD<br>
++=C2=A0 =C2=A0 if (SO_TIMESTAMPING_OLD !=3D SO_TIMESTAMPING) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 6a: SO_TIMESTAMPING_OLD */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;Test 6a: SO_TIMESTAMPING_OLD\n&qu=
+ot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMPING_OLD, s=
+o_timestamping_flags);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 receive_packet(sock, &amp;get_timespec_from_so=
+_timestamping_old);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMPING_OLD, 0=
+);<br>
++=C2=A0 =C2=A0 }<br>
++#ifdef SO_TIMESTAMPING_NEW<br>
++=C2=A0 =C2=A0 else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 6b: SO_TIMESTAMPING_NEW */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;Test 6b: SO_TIMESTAMPING_NEW\n&qu=
+ot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMPING_NEW, s=
+o_timestamping_flags);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 receive_packet(sock, &amp;get_timespec_from_so=
+_timestamping_new);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMPING_NEW, 0=
+);<br>
++=C2=A0 =C2=A0 }<br>
++#endif /* defined(SO_TIMESTAMPING_NEW) */<br>
++#endif /* defined(SO_TIMESTAMPING_OLD) */<br>
 +}<br>
++<br>
++void parent_steps(int sock, struct sockaddr_in addr, int run_old)<br>
++{<br>
++=C2=A0 =C2=A0 /* Test 1: SO_TIMESTAMP */<br>
++=C2=A0 =C2=A0 printf(&quot;Test 1: SO_TIMESTAMP\n&quot;);<br>
++=C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMP, 1);<br>
++=C2=A0 =C2=A0 receive_packet(sock, &amp;get_timespec_from_so_timestamp);<b=
+r>
++=C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMP, 0);<br>
++<br>
++=C2=A0 =C2=A0 /* Test 2: SO_TIMESTAMPNS */<br>
++=C2=A0 =C2=A0 send_current_time(sock, addr);<br>
++<br>
++=C2=A0 =C2=A0 /* Test 3: SO_TIMESTAMPING */<br>
++=C2=A0 =C2=A0 printf(&quot;Test 3: SO_TIMESTAMPING\n&quot;);<br>
++=C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMPING, so_timestamping_fla=
+gs);<br>
++=C2=A0 =C2=A0 receive_packet(sock, &amp;get_timespec_from_so_timestamping)=
+;<br>
++=C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMPING, 0);<br>
++<br>
++=C2=A0 =C2=A0 if (!run_old) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++#ifdef SO_TIMESTAMP_OLD<br>
++=C2=A0 =C2=A0 if (SO_TIMESTAMP_OLD !=3D SO_TIMESTAMP) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 4a: SO_TIMESTAMP_OLD */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 send_current_time(sock, addr);<br>
++=C2=A0 =C2=A0 }<br>
++#ifdef SO_TIMESTAMP_NEW<br>
++=C2=A0 =C2=A0 else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 4b: SO_TIMESTAMP_NEW */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 send_current_time(sock, addr);<br>
++=C2=A0 =C2=A0 }<br>
++#endif /* defined(SO_TIMESTAMP_NEW) */<br>
++#endif /* defined(SO_TIMESTAMP_OLD) */<br>
++<br>
++#ifdef SO_TIMESTAMPNS_OLD<br>
++=C2=A0 =C2=A0 if (SO_TIMESTAMPNS_OLD !=3D SO_TIMESTAMPNS) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 5a: SO_TIMESTAMPNS_OLD */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;Test 5a: SO_TIMESTAMPNS_OLD\n&quo=
+t;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMPNS_OLD, 1)=
+;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 receive_packet(sock, &amp;get_timespec_from_so=
+_timestampns_old);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMPNS_OLD, 0)=
+;<br>
++=C2=A0 =C2=A0 }<br>
++#ifdef SO_TIMESTAMPNS_NEW<br>
++=C2=A0 =C2=A0 else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 5b: SO_TIMESTAMPNS_NEW */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;Test 5b: SO_TIMESTAMPNS_NEW\n&quo=
+t;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMPNS_NEW, 1)=
+;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 receive_packet(sock, &amp;get_timespec_from_so=
+_timestampns_new);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(sock, SO_TIMESTAMPNS_NEW, 0)=
+;<br>
++=C2=A0 =C2=A0 }<br>
++#endif /* defined(SO_TIMESTAMPNS_NEW) */<br>
++#endif /* defined(SO_TIMESTAMPNS_OLD) */<br>
++<br>
++#ifdef SO_TIMESTAMPING_OLD<br>
++=C2=A0 =C2=A0 if (SO_TIMESTAMPING_OLD !=3D SO_TIMESTAMPING) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 6a: SO_TIMESTAMPING_OLD */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 send_current_time(sock, addr);<br>
++=C2=A0 =C2=A0 }<br>
++#ifdef SO_TIMESTAMPING_NEW<br>
++=C2=A0 =C2=A0 else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 6b: SO_TIMESTAMPING_NEW */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 send_current_time(sock, addr);<br>
++=C2=A0 =C2=A0 }<br>
++#endif /* defined(SO_TIMESTAMPING_NEW) */<br>
++#endif /* defined(SO_TIMESTAMPING_OLD) */<br>
+=C2=A0}<br>
+<br>
+=C2=A0int main(int argc, char **argv)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0int parent_sock, child_sock;<br>
+=C2=A0 =C2=A0 =C2=A0struct sockaddr_in parent_sockaddr, child_sockaddr;<br>
+-=C2=A0 =C2=A0 int pid;<br>
++=C2=A0 =C2=A0 int pid, run_old;<br>
+=C2=A0 =C2=A0 =C2=A0struct timeval tv =3D {0, 0};<br>
+=C2=A0 =C2=A0 =C2=A0gettimeofday(&amp;tv, NULL);<br>
+<br>
++=C2=A0 =C2=A0 /* Too close to y2038 old systems may not work. */<br>
++=C2=A0 =C2=A0 run_old =3D tv.tv_sec &lt; 0x7fffff00;<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0parent_sock =3D create_udp_socket(&amp;parent_sockaddr)=
+;<br>
+=C2=A0 =C2=A0 =C2=A0child_sock =3D create_udp_socket(&amp;child_sockaddr);<=
+br>
+<br>
+@@ -226,64 +519,15 @@ int main(int argc, char **argv)<br>
+=C2=A0 =C2=A0 =C2=A0if (pid &lt; 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr, &quot;SKIPPED. Failed to =
+fork: %s\n&quot;, strerror(errno));<br>
+=C2=A0 =C2=A0 =C2=A0} else if (pid =3D=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(child_sock);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 1: SO_TIMESTAMP */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 send_current_time(parent_sock, child_sockaddr)=
+;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (tv.tv_sec &gt; 0x7fffff00) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Too close to y2038 problem, o=
+ld system may not work. */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(parent_sock);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-<br>
+-#ifdef SO_TIMESTAMP_OLD<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (SO_TIMESTAMP_OLD !=3D SO_TIMESTAMP) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 2a: SO_TIMESTAMP_OLD */<=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(parent_sock, S=
+O_TIMESTAMP_OLD, 1);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 receive_packet(parent_sock, &amp=
+;get_timeval_from_so_timestamp_old);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(parent_sock, S=
+O_TIMESTAMP_OLD, 0);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-#ifdef SO_TIMESTAMP_NEW<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 2b: SO_TIMESTAMP_NEW */<=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(parent_sock, S=
+O_TIMESTAMP_NEW, 1);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 receive_packet(parent_sock, &amp=
+;get_timeval_from_so_timestamp_new);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(parent_sock, S=
+O_TIMESTAMP_NEW, 0);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-#endif /* defined(SO_TIMESTAMP_NEW) */<br>
+-#endif /* defined(SO_TIMESTAMP_OLD) */<br>
+-<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0close(parent_sock);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 child_steps(child_sock, parent_sockaddr, run_o=
+ld);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(child_sock);<br>
+=C2=A0 =C2=A0 =C2=A0} else {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int child_status;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(parent_sock);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 1: SO_TIMESTAMP */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(child_sock, SO_TIMESTAMP, 1)=
+;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 receive_packet(child_sock, &amp;get_timeval_fr=
+om_so_timestamp);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 set_socket_option(child_sock, SO_TIMESTAMP, 0)=
+;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (tv.tv_sec &gt; 0x7fffff00) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Too close to y2038 problem, o=
+ld system may not work. */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(child_sock);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-<br>
+-#ifdef SO_TIMESTAMP_OLD<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (SO_TIMESTAMP_OLD !=3D SO_TIMESTAMP) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 2a: SO_TIMESTAMP_OLD */<=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 send_current_time(child_sock, pa=
+rent_sockaddr);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-#ifdef SO_TIMESTAMP_NEW<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Test 2b: SO_TIMESTAMP_NEW */<=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 send_current_time(child_sock, pa=
+rent_sockaddr);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-#endif /* defined(SO_TIMESTAMP_NEW) */<br>
+-#endif /* defined(SO_TIMESTAMP_OLD) */<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0close(child_sock);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 parent_steps(parent_sock, child_sockaddr, run_=
+old);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 close(parent_sock);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (waitpid(pid, &amp;child_status, 0) &l=
+t; 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int err =3D errno;<br>
 -- <br>
 2.28.0.220.ged08abb693-goog<br>
 <br>
 </blockquote></div>
-</blockquote></div></div>
 
---000000000000cc622905b6b52a15--
+--00000000000011995805b6b52fc5--
 
---000000000000d34fb905b6b52ac8
+--000000000000195a6a05b6b52fa5
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -1691,14 +2483,14 @@ fj6NEprNrkDFdegzTt/ptu3CS432kneuiLZXOyBWmhZkcdOHipuYjQ1nmuDk9ziWVtGUTl3XqE5B
 UoUMJm713ykBBikjH02oVRiJNqGk+emm2TLaroGhvyFsGFqqfub8CPbQyxd3e0Ch6LjZCosQjxT9
 LNTa43AxggJqMIICZgIBATBoMFQxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
 LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFzIFIzIFNNSU1FIENBIDIwMjACEAHy0XLDpZOC
-M1Wo/zUtMzMwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEII9MJy8JpRwkex4UNq+y
-KsVtz9In5sqVtDOFvrW9OORrMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkF
-MQ8XDTIwMTIxODA0MDE0N1owaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUD
+M1Wo/zUtMzMwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIL+d1Hr39CT6E76X0MN+
+DRq8mH+1im60TIkTcT2PABU7MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkF
+MQ8XDTIwMTIxODA0MDI1OVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUD
 BAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsG
-CWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBhsxoBDiZXFXNLSMigTUI8iepsWErpX53G5a6o
-cVVy4UXUQ1qL0yrYR6Cz9H4ND2m3KJke7du4eBd/knR8qF3V3eAtRFFeckNTNS/yQRUJZN75ikIn
-XaWAsQagkTb5R1gv/ZjAQITrsfqcddtfHhd0mbBhKu8hjdSawtnrf0VJCr4U9TLMjQRsdcMtJT0F
-+UAcANBls3YTPbYExGO4fA4hb4b4TPD6Un4swCOyHrUr1ztXN1pmrrTX4fVMpPDTxPddgtb35bGk
-HhiIENVwRBh/GkJ9VoT6JGdYVVf6w9mj9NR+cz18neqFAE02RFMwASNToBedrN75lAGvuExary+c
---000000000000d34fb905b6b52ac8--
+CWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQC8n5V3pcY/LGUArfxwjtwKb+36gUbjodf4xspr
+ThY94Kaa4pZtTfWPLSjT1wDkwJDOwH3KcAB+qdVCxCUGs2TFSkV4lwjmzYhBxM8RZNEAKoNjAu10
+VjUIwJcc+ynMStEf+9dizXdFmGFvy3QYzTG1rHoKYe6M7jxy8wwnnysKNFYde/7Fw2J1hSa+WoSp
+hkPimgj3Kp00cy6H3GdyUTYx3cXy+0tGxAMegKKTwUs02nbofxW4TU+uRaP8rBHiNQxz8Xa5zFW0
+PoJaMcxIu1zzCG4fNzILCy3myY8xQSBJqDZPqgnjw03mTl+wdkwv6pFYHztTGSj809eUIf/JgP7z
+--000000000000195a6a05b6b52fa5--
 
