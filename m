@@ -2,51 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3062DE8B0
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 19:06:15 +0100 (CET)
-Received: from localhost ([::1]:38452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE0552DE8AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 19:06:01 +0100 (CET)
+Received: from localhost ([::1]:37630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqK8s-0006gn-3M
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 13:06:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46362)
+	id 1kqK8f-0006HE-0l
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 13:06:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kqK6W-0005AY-M8; Fri, 18 Dec 2020 13:03:48 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46586)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kqK6v-0005Jp-Hc
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 13:04:15 -0500
+Received: from mx2.suse.de ([195.135.220.15]:39766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kqK6U-0002OK-4h; Fri, 18 Dec 2020 13:03:48 -0500
-Date: Sat, 19 Dec 2020 03:03:41 +0900
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608314624;
- bh=Wqq1EiNEs/MYMYAkJFxphHudYvIzkHrOuAYR+JtmLzQ=;
- h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=Yv5t2lCxErgB8a4sW82Jm48E76twm+siuX0gyAsxrQMP5AY0mWwLHqdViGsEa3fw+
- 73Qb5F5lrWcvdT/SuWep+DG8xzshtDapr/vJj+iEUlaxWZRGUN5Cu8sboTGm2tLXSb
- LHh8kpHAIfhLY0EJr6hyjKtg4dPSr+4stSAj3VSspyWMcWQXApT/ONJ5JcjJgnLZZt
- d2lYQFa4vLgmJ5ydioSLZZ47/s9OpaV/j3tIgmToPwYuELR5uEbjEQCzq4ElZTy8ja
- ks/5m6aKqg/ciTFcHVx0DaRReGIUQE+rQvgI06YXdHoKDZh9V6sNNP3icJZ4zHGWNa
- dN3vof7d9tIdw==
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 0/3] hw/block/nvme: cmb enhancements and bump to v1.4
-Message-ID: <20201218180341.GB8722@redsun51.ssa.fujisawa.hgst.com>
-References: <20201218092308.894367-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kqK6q-0002Uo-Se
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 13:04:13 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id EB545ACF1;
+ Fri, 18 Dec 2020 18:04:06 +0000 (UTC)
+Subject: Re: [RFC v6 10/11] accel: introduce AccelCPUClass extending CPUClass
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20201126223218.31480-1-cfontana@suse.de>
+ <20201126223218.31480-11-cfontana@suse.de>
+ <6cbd508c-b24b-3219-3302-196dfefaa8f7@redhat.com>
+ <ff157643-5245-85ba-123e-32800f212f4b@suse.de>
+ <51838c6c-8a44-afef-1acf-b8acb3eada19@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <050bc10b-861c-f463-18e1-c4d1aa0c301e@suse.de>
+Date: Fri, 18 Dec 2020 19:04:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201218092308.894367-1-its@irrelevant.dk>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <51838c6c-8a44-afef-1acf-b8acb3eada19@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,40 +64,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Anthony Perard <anthony.perard@citrix.com>,
+ Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
+ "Emilio G . Cota" <cota@braap.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 18, 2020 at 10:23:04AM +0100, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
+On 12/18/20 7:01 PM, Paolo Bonzini wrote:
+> On 18/12/20 18:51, Claudio Fontana wrote:
+>> But with things like cris/ for example,
+>> the tcg functions to use are actually versioned per each subclass of TYPE_CRIS_CPU.
+>>
+>> Different tcg_ops need to be used for different subclasses of the CPU_RESOLVING_TYPE.
 > 
-> This adds CMB logic from v1.4. To my knowledge, this is the last piece
-> missing for v1.4 compliance, so bump the controller spec version. Please
-> retort if I am jumping the gun.
+> CRIS is not that bad since it's TCG only.  You can just make it a field 
+> in CRISCPUClass and copy it over to tcg_ops.
 > 
-> Since the slow-moving (sorry, super poor attempt of humor) Linux kernel
-> nvme driver does not support v1.4 CMB, this series adds a 'x-legacy-cmb'
-> nvme device parameter that reverts the CMB configuration behavior to
-> v1.3, thus allowing the kernel to continue using the CMB for submission
-> queues.
+> I think ARM had something similar though, with different do_interrupt 
+> implementations for M and A processors.  Somebody from Linaro was 
+> cleaning it up as part of some BQL work, but it was never merged.  But 
+> even in that case, do_interrupt is somewhat special for ARM so making it 
+> an xxxCPUClass field makes sense.
 > 
-> The question here is if we should rather skip that parameter, only
-> support v1.4 behavior and point the finger at the kernel nvme gang. I'm
-> leaning towards this.
-> 
-> Keith, what is your opinion on this?
+> Paolo
 
-The driver may know if it's running in a VM, but it doesn't necessarily
-know if its device is a passthrough vs. emulated. In the passthrough
-case, we can't use the CMB at all for <= 1.3 versions since the GPA vs
-HPA are not being considered. IMO, the kernel driver does need to be
-updated to suppress CMB usage for pre-1.4, and it should also add the
-CMBMSC capabilities for 1.4+.
+Ok that's a good alternative,
 
-Going forward with the qemu controller, I would remove legacy support
-for CMB entirely since every host should be able to interop with it
-without CMB support.
+> 
+>> So in order to avoid code in the class initialization like this:
+>>
+>> if (version1) { then set the tcg ops for version 1; }
+>> if (version2) { then set the tcg ops for version 2; ...} etc,
+>>
+>> we could define the right tcg op variants corresponding to the cpu variants, so that everything can be matched automatically.
+>>
+>> But I think we'd need to pass explicitly the cpu type in accel_init_cpu_interfaces for this to work..
+>> we could still in the future call accel_init_cpu_interfaces multiple times, once for each cpu model we want to use.
+>>
+>> Or, we could do something else: we could delay the accel cpu interface initialization and call it in cpu_create(const char *typename),
+>> where typename needs to be known for sure.
+
+
+I take you don't like this idea to initialize the accel cpu interface in cpu_create()?
+It seems to make sense to me, but any drawbacks?
+
+Ciao thanks!
+
+Claudio
+
+
+>>
+>> This last option seems kinda attractive, but any ideas?
+
+
+
 
