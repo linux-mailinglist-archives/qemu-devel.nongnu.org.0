@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951DD2DE21F
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 12:43:33 +0100 (CET)
-Received: from localhost ([::1]:42964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4163B2DE239
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 12:55:37 +0100 (CET)
+Received: from localhost ([::1]:55158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqEAW-0005YQ-MV
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 06:43:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60494)
+	id 1kqEMB-0002yD-Qf
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 06:55:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kqE8t-0004m6-CX
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:41:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kqE8r-000807-8Y
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:41:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608291708;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tj9t6kN2UP0QofxsrhdX5RQQ+0Plma+TZ/8BZUbHoM8=;
- b=GlBYSCqW9yaxvOFjWRV+MNbaEEaZYM0ZLIfQldZBQEDuMB3/FzLkNW5GMrdVCnKS38RSWf
- OItIngJWJ/PPElkvP9MmAsiVhdIHJLvB1fTnX+ScJvwxKwWA5oSMumqn2ytRc8OvPtBkfH
- qp6ghpFE6LTZSipOKrAlrBfB9QcHfY8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-Rc_xfMdyM36z5eYhxgiqBA-1; Fri, 18 Dec 2020 06:41:44 -0500
-X-MC-Unique: Rc_xfMdyM36z5eYhxgiqBA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31065B810E;
- Fri, 18 Dec 2020 11:41:42 +0000 (UTC)
-Received: from gondolin (ovpn-113-130.ams2.redhat.com [10.36.113.130])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 37C1010013C0;
- Fri, 18 Dec 2020 11:41:26 +0000 (UTC)
-Date: Fri, 18 Dec 2020 12:41:11 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-Message-ID: <20201218124111.4957eb50.cohuck@redhat.com>
-In-Reply-To: <20201217151530.54431f0e@bahia.lan>
-References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <20201204054415.579042-12-david@gibson.dropbear.id.au>
- <20201214182240.2abd85eb.cohuck@redhat.com>
- <20201217054736.GH310465@yekko.fritz.box>
- <20201217123842.51063918.cohuck@redhat.com>
- <20201217151530.54431f0e@bahia.lan>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kqELI-0002Vh-1b
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:54:40 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:37602)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kqELG-00042R-4B
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 06:54:39 -0500
+Received: by mail-wm1-x332.google.com with SMTP id q75so2283029wme.2
+ for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 03:54:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=wRKdX8cngjA2pWNr6PNMYltJlN4LP/MVgbah31xqFJw=;
+ b=hcl9C/aB5EIJ0kINPSjcuE273/gK+wgC/BFgvRzfYUAMK5/A8GEYIAX/xHgcFUFZEv
+ Tv8Inj9/39EH65M+bqVbAAe+aTgV45e//OUm/AH4xXHhnPmUWxcy2FuEIfpcWo4dBoC1
+ IWJBp772rpxFEaW2L+ZalK5lWB65E51gvNSaMxVFZOWuEfGwoxmiAQX9t91iTE330TEE
+ 9EBdllRfnkja0ntAabZVhjN17K+LNLS3QVyENn7/kHSSuSJq4f7KVNAR6A5tIVYra9WO
+ e1WSlBPL9U+VtWFcCSuTGgZ28+uFVPYCPSoLAPuJuIImB4delDdh5RCJSxX8RMA8TOyS
+ 08yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=wRKdX8cngjA2pWNr6PNMYltJlN4LP/MVgbah31xqFJw=;
+ b=QR8dyclZ1gslbxgj4zui2b+AmWI/XbXuTPt8l+9rNKRlhYGAIhdgvRKGC3mWoaYkHx
+ sPdxPNGQ1GmeXCGFx6tybWooMsFlppcxrsatknWIbc62WreK6hUueVYwqhCFOOnWuwek
+ SIT4vsUnlJp0VSmgJFQ/3HhAwUur67s9hR/sVuBCUASkqYJaO4c6HEGMc/glU6WgYNgr
+ jD1QSjXJXwwLEyVyMn92fKl790Trb/D8c4gOeXHStUvW65pqm+mRiwSExq1mVaJ/IDfl
+ umlHzTC6a3bwSXg9Jt7n6j/P9ll4HGgQ/vY01svrRzrbgnl0zwOoxNllRhfGq6wA0bHn
+ 48WQ==
+X-Gm-Message-State: AOAM532i/Evnwzr4OmLI3Ba61h9MoyM4bzLae00DHn002cwpklXidXYg
+ p/siSM5lmw/pTqVgZVoQGKWxDg==
+X-Google-Smtp-Source: ABdhPJx7pejI2sdwcYr2iIWNeaRXHroZrFnJCfhOGC6lWdYvCJKVWOwwn7UvYsKnxo9Rp5u+EKu2WA==
+X-Received: by 2002:a1c:e342:: with SMTP id a63mr3992843wmh.64.1608292476040; 
+ Fri, 18 Dec 2020 03:54:36 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g191sm12666315wmg.39.2020.12.18.03.54.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Dec 2020 03:54:34 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1D3CD1FF7E;
+ Fri, 18 Dec 2020 11:54:34 +0000 (GMT)
+References: <20201217094330.17400-1-alex.bennee@linaro.org>
+ <CAFEAcA8SAGVe44y=6wHC_MxcmxUE=cSu5DGs-0Md3Zt+ZZrS+A@mail.gmail.com>
+ <87v9d0q9rr.fsf@linaro.org>
+ <CAFEAcA9dFV5ym=N1XQBJrXHYgu5NNRJC8eB9pPRaK2CokHoHxg@mail.gmail.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL v2 00/11] testing and configure updates
+Date: Fri, 18 Dec 2020 11:53:05 +0000
+In-reply-to: <CAFEAcA9dFV5ym=N1XQBJrXHYgu5NNRJC8eB9pPRaK2CokHoHxg@mail.gmail.com>
+Message-ID: <87pn37qqh1.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; boundary="Sig_/Vylb/u9=rJguPKl=nAXsyuP";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,169 +89,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- frankja@linux.ibm.com, david@redhat.com, mdroth@linux.vnet.ibm.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>, thuth@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
- qemu-s390x@nongnu.org, rth@twiddle.net, berrange@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- pbonzini@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/Vylb/u9=rJguPKl=nAXsyuP
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, 17 Dec 2020 15:15:30 +0100
-Greg Kurz <groug@kaod.org> wrote:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> On Thu, 17 Dec 2020 12:38:42 +0100
-> Cornelia Huck <cohuck@redhat.com> wrote:
->=20
-> > On Thu, 17 Dec 2020 16:47:36 +1100
-> > David Gibson <david@gibson.dropbear.id.au> wrote:
-> >  =20
-> > > On Mon, Dec 14, 2020 at 06:22:40PM +0100, Cornelia Huck wrote: =20
-> > > > On Fri,  4 Dec 2020 16:44:13 +1100
-> > > > David Gibson <david@gibson.dropbear.id.au> wrote:
-> > > >    =20
-> > > > > We haven't yet implemented the fairly involved handshaking that w=
-ill be
-> > > > > needed to migrate PEF protected guests.  For now, just use a migr=
-ation
-> > > > > blocker so we get a meaningful error if someone attempts this (th=
-is is the
-> > > > > same approach used by AMD SEV).
-> > > > >=20
-> > > > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > > > > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > > > ---
-> > > > >  hw/ppc/pef.c | 9 +++++++++
-> > > > >  1 file changed, 9 insertions(+)
-> > > > >=20
-> > > > > diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
-> > > > > index 3ae3059cfe..edc3e744ba 100644
-> > > > > --- a/hw/ppc/pef.c
-> > > > > +++ b/hw/ppc/pef.c
-> > > > > @@ -38,7 +38,11 @@ struct PefGuestState {
-> > > > >  };
-> > > > > =20
-> > > > >  #ifdef CONFIG_KVM
-> > > > > +static Error *pef_mig_blocker;
-> > > > > +
-> > > > >  static int kvmppc_svm_init(Error **errp)   =20
-> > > >=20
-> > > > This looks weird?   =20
-> > >=20
-> > > Oops.  Not sure how that made it past even my rudimentary compile
-> > > testing.
-> > >  =20
-> > > > > +
-> > > > > +int kvmppc_svm_init(SecurableGuestMemory *sgm, Error **errp)
-> > > > >  {
-> > > > >      if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURABLE_GU=
-EST)) {
-> > > > >          error_setg(errp,
-> > > > > @@ -54,6 +58,11 @@ static int kvmppc_svm_init(Error **errp)
-> > > > >          }
-> > > > >      }
-> > > > > =20
-> > > > > +    /* add migration blocker */
-> > > > > +    error_setg(&pef_mig_blocker, "PEF: Migration is not implemen=
-ted");
-> > > > > +    /* NB: This can fail if --only-migratable is used */
-> > > > > +    migrate_add_blocker(pef_mig_blocker, &error_fatal);   =20
-> > > >=20
-> > > > Just so that I understand: is PEF something that is enabled by the =
-host
-> > > > (and the guest is either secured or doesn't start), or is it using =
-a
-> > > > model like s390x PV where the guest initiates the transition into
-> > > > secured mode?   =20
-> > >=20
-> > > Like s390x PV it's initiated by the guest.
-> > >  =20
-> > > > Asking because s390x adds the migration blocker only when the
-> > > > transition is actually happening (i.e. guests that do not transitio=
-n
-> > > > into secure mode remain migratable.) This has the side effect that =
-you
-> > > > might be able to start a machine with --only-migratable that
-> > > > transitions into a non-migratable machine via a guest action, if I'=
-m
-> > > > not mistaken. Without the new object, I don't see a way to block wi=
-th
-> > > > --only-migratable; with it, we should be able to do that. Not sure =
-what
-> > > > the desirable behaviour is here.   =20
-> > >  =20
->=20
-> The purpose of --only-migratable is specifically to prevent the machine
-> to transition to a non-migrate state IIUC. The guest transition to
-> secure mode should be nacked in this case.
+> On Thu, 17 Dec 2020 at 23:43, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>>
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>
+>> > On Thu, 17 Dec 2020 at 09:43, Alex Benn=C3=A9e <alex.bennee@linaro.org=
+> wrote:
+>> >>
+>> >> The following changes since commit af3f37319cb1e1ca0c42842ecdbd1bcfc6=
+4a4b6f:
+>> >>
+>> >>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstr=
+eam' into staging (2020-12-15 21:24:31 +0000)
+>> >>
+>> >> are available in the Git repository at:
+>> >>
+>> >>   https://github.com/stsquad/qemu.git tags/pull-testing-171220-2
+>> >>
+>> >> for you to fetch changes up to a1c04860cec798914f8cd8ef77fce195f360d3=
+6e:
+>> >>
+>> >>   tests: update for rename of CentOS8 PowerTools repo (2020-12-17 09:=
+38:51 +0000)
+>> >>
+>> >> ----------------------------------------------------------------
+>> >> Testing and configure updates:
+>> >>
+>> >>   - add moxie-softmmu to deprecated_targets_list
+>> >>   - improve cross-build KVM coverage
+>> >>   - new --without-default-features configure flag
+>> >>   - add __repr__ for ConsoleSocket for debugging
+>> >>   - build tcg tests with -Werror
+>> >>   - test 32 bit builds with fedora
+>> >>   - remove last traces of debian9
+>> >>   - hotfix for centos8 powertools repo
+>> >
+>> > This seems to fail for x86 builds on my local Linux system with
+>> > errors like this:
+>> > make: Entering directory '/home/petmay01/linaro/qemu-for-merges/build/=
+alldbg'
+>> > MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+>> > QTEST_QEMU_IMG=3D./qemu-img
+>> > G_TEST_DBUS_DAEMON=3D/home/petmay01/linaro/qemu-for-merges/tests/dbus-=
+vmstate-daemon.sh
+>> > QTEST_QEMU_BINARY=3D./qemu-system-moxie tests/qtest/qmp-cmd-test --tap
+>> > -k
+>> > sh: 1: exec: ./qemu-system-moxie: not found
+>> > socket_accept failed: Resource temporarily unavailable
+>> > **
+>> > ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshak=
+e:
+>> > assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+>> > ../../tests/qtest/libqtest.c:172: kill_qemu() tried to terminate QEMU
+>> > process but encountered exit status 127 (expected 0)
+>> > ERROR qtest-moxie/qmp-cmd-test - Bail out!
+>> > ERROR:../../tests/qtest/libqtest.c:308:qtest_init_without_qmp_handshak=
+e:
+>> > assertion failed: (s->fd >=3D 0 && s->qmp_fd >=3D 0)
+>> > Makefile.mtest:2417: recipe for target 'run-test-300' failed
+>> > make: *** [run-test-300] Error 1
+>> > make: Leaving directory '/home/petmay01/linaro/qemu-for-merges/build/a=
+lldbg'
+>> >
+>> > Something in the Moxie deprecation patch not right?
+>> > If we didn't build the executable we shouldn't try to
+>> > run tests for it...
+>>
+>> We shouldn't but I can't replicate the failure here. I'm guessing it
+>> goes away on a "make clean"?
+>
+> No, the 'alldbg' build is the one that does do a 'make clean';
+> the build-not-from-clean build worked (presumably because the
+> old executable was still left in place from the previous build).
 
-Yes, that's what happens for s390x: The guest tries to transition, QEMU
-can't add a migration blocker and fails the instruction used for
-transitioning, the guest sees the error.
+Hmm I wonder if it's related to the configure options then. What's your
+configure setup for that build?
 
-The drawback is that we see the failure only when we already launched
-the machine and the guest tries to transition. If I start QEMU with
---only-migratable, it will refuse to start when non-migratable devices
-are configured in the command line, so I see the issue right from the
-start. (For s390x, that would possibly mean that we should not even
-present the cpu feature bit when only_migratable is set?)
-
->=20
-> > > Hm, I'm not sure what the best option is here either. =20
-> >=20
-> > If we agree on anything, it should be as consistent across
-> > architectures as possible :)
-> >=20
-> > If we want to add the migration blocker to s390x even before the guest
-> > transitions, it needs to be tied to the new object; if we'd make it
-> > dependent on the cpu feature bit, we'd block migration of all machines
-> > on hardware with SE and a recent kernel.
-> >=20
-> > Is there a convenient point in time when PEF guests transition where
-> > QEMU can add a blocker?
-> >  =20
-> > >  =20
-> > > >    =20
-> > > > > +
-> > > > >      return 0;
-> > > > >  }
-> > > > >     =20
-> > > >    =20
-> > >  =20
-> >  =20
->=20
+>
+> thanks
+> -- PMM
 
 
---Sig_/Vylb/u9=rJguPKl=nAXsyuP
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAl/clVcACgkQ3s9rk8bw
-L68GvRAAmnQKPZJpT4e4zfPtZUbsiBZNlDXG1PccwMMYQg5aPzggivFHXkLrSiCY
-ajxpSsCV4wm7blL/edi5FfxCpF+P73C76xPEW60VqEoKul0asKqNgPygd+5/poO7
-zJStU9OY2+kidBworPRHxCibHU6zTY5sRc+An11IXkVARugZqZicuBrYfyBERfpX
-go//D9Dcj7BjOho7ektBKsedTOutMQd76Cvi5QBv/Br6eYBjCPBU5PwK7PWOx5vS
-Sq1ihjhc30CqcFzWyUSW7eb2Xq63JIIUzeapEAZzGbfkKXywk/nvL2vPn5Dsoeg9
-8A3FN2O6u1w2G9KmVEgiF1QPrMyhfpHpQsQC2kNL8qhnkEy4k2TMW37e0sdeOhlk
-axR3IygoX63ZwlxcrHijqS/0K7lAUlLcQ8DBgQO526ivNREbyzQqH2mWfmU6MUlx
-s9KgSLca0auR0gGULUVwAMlxO6azTR+szPUMn7HD0pjzCDx+T29G+WMOw2QbbjVK
-QU0FfRqN33H0GJZp5J6PVhwopVoslmfkxyk44SMnTFxEbysgcC97bPlPaLmDjPuJ
-SgszIX+l2k8KLubnnhS9+6iYiMUZH8h9UYr0rCZX5rKlhRnUAw+Gw/wXd8bBG6BZ
-nJ+kJa1Ipl5Dm7ZNfhWWyw1L7RKamzoBdXrnTWJ1IboGGFWQ8cg=
-=adiW
------END PGP SIGNATURE-----
-
---Sig_/Vylb/u9=rJguPKl=nAXsyuP--
-
+--=20
+Alex Benn=C3=A9e
 
