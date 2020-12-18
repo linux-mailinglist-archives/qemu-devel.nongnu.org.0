@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588DD2DE16B
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:44:51 +0100 (CET)
-Received: from localhost ([::1]:51048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE30B2DE17B
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 11:49:07 +0100 (CET)
+Received: from localhost ([::1]:36496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqDFi-00057O-Au
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:44:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46734)
+	id 1kqDJq-0002K0-Mp
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 05:49:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kqD9D-00069k-7g; Fri, 18 Dec 2020 05:38:07 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:55286
+ id 1kqD9D-0006A8-CR; Fri, 18 Dec 2020 05:38:07 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:55288
  helo=ns207790.ip-94-23-215.eu)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <remi@remlab.net>)
- id 1kqD9B-0003Jk-Ko; Fri, 18 Dec 2020 05:38:06 -0500
+ id 1kqD9B-0003Jl-NL; Fri, 18 Dec 2020 05:38:07 -0500
 Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 4251A6009A;
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 7F6C4600E1;
  Fri, 18 Dec 2020 11:38:01 +0100 (CET)
 From: remi.denis.courmont@huawei.com
 To: qemu-arm@nongnu.org
-Subject: [PATCH 06/18] target/arm: declare new AA64PFR0 bit-fields
-Date: Fri, 18 Dec 2020 12:37:47 +0200
-Message-Id: <20201218103759.19929-6-remi.denis.courmont@huawei.com>
+Subject: [PATCH 07/18] target/arm: add 64-bit S-EL2 to EL exception table
+Date: Fri, 18 Dec 2020 12:37:48 +0200
+Message-Id: <20201218103759.19929-7-remi.denis.courmont@huawei.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <3337797.iIbC2pHGDl@basile.remlab.net>
 References: <3337797.iIbC2pHGDl@basile.remlab.net>
@@ -58,41 +58,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
-Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+With the ARMv8.4-SEL2 extension, EL2 is a legal exception level in
+secure mode, though it can only be AArch64.
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index c4e370df06..6a5a253eb6 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1881,6 +1881,12 @@ FIELD(ID_AA64PFR0, ADVSIMD, 20, 4)
- FIELD(ID_AA64PFR0, GIC, 24, 4)
- FIELD(ID_AA64PFR0, RAS, 28, 4)
- FIELD(ID_AA64PFR0, SVE, 32, 4)
-+FIELD(ID_AA64PFR0, SEL2, 36, 4)
-+FIELD(ID_AA64PFR0, MPAM, 40, 4)
-+FIELD(ID_AA64PFR0, AMU, 44, 4)
-+FIELD(ID_AA64PFR0, DIT, 48, 4)
-+FIELD(ID_AA64PFR0, CSV2, 56, 4)
-+FIELD(ID_AA64PFR0, CSV3, 60, 4)
+This patch adds the target EL for exceptions from 64-bit S-EL2.
+
+It also fixes the target EL to EL2 when HCR.{A,F,I}MO are set in secure
+mode. Those values were never used in practice as the effective value of
+HCR was always 0 in secure mode.
+
+Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+---
+ target/arm/helper.c    | 10 +++++-----
+ target/arm/op_helper.c |  4 ++--
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index b85c1bf9d8..99adac5cc1 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -9005,13 +9005,13 @@ static const int8_t target_el_table[2][2][2][2][2][4] = {
+       {{/* 0   1   1   0 */{ 3,  3,  3, -1 },{ 3, -1, -1,  3 },},
+        {/* 0   1   1   1 */{ 3,  3,  3, -1 },{ 3, -1, -1,  3 },},},},},
+     {{{{/* 1   0   0   0 */{ 1,  1,  2, -1 },{ 1,  1, -1,  1 },},
+-       {/* 1   0   0   1 */{ 2,  2,  2, -1 },{ 1,  1, -1,  1 },},},
+-      {{/* 1   0   1   0 */{ 1,  1,  1, -1 },{ 1,  1, -1,  1 },},
+-       {/* 1   0   1   1 */{ 2,  2,  2, -1 },{ 1,  1, -1,  1 },},},},
++       {/* 1   0   0   1 */{ 2,  2,  2, -1 },{ 2,  2, -1,  1 },},},
++      {{/* 1   0   1   0 */{ 1,  1,  1, -1 },{ 1,  1,  1,  1 },},
++       {/* 1   0   1   1 */{ 2,  2,  2, -1 },{ 2,  2,  2,  1 },},},},
+      {{{/* 1   1   0   0 */{ 3,  3,  3, -1 },{ 3,  3, -1,  3 },},
+        {/* 1   1   0   1 */{ 3,  3,  3, -1 },{ 3,  3, -1,  3 },},},
+-      {{/* 1   1   1   0 */{ 3,  3,  3, -1 },{ 3,  3, -1,  3 },},
+-       {/* 1   1   1   1 */{ 3,  3,  3, -1 },{ 3,  3, -1,  3 },},},},},
++      {{/* 1   1   1   0 */{ 3,  3,  3, -1 },{ 3,  3,  3,  3 },},
++       {/* 1   1   1   1 */{ 3,  3,  3, -1 },{ 3,  3,  3,  3 },},},},},
+ };
  
- FIELD(ID_AA64PFR1, BT, 0, 4)
- FIELD(ID_AA64PFR1, SBSS, 4, 4)
-@@ -3928,6 +3934,11 @@ static inline bool isar_feature_aa64_sve(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, SVE) != 0;
- }
- 
-+static inline bool isar_feature_aa64_sel2(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, SEL2) != 0;
-+}
-+
- static inline bool isar_feature_aa64_vh(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, VH) != 0;
+ /*
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index ff91fe6121..5e0f123043 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
+@@ -652,10 +652,10 @@ void HELPER(access_check_cp_reg)(CPUARMState *env, void *rip, uint32_t syndrome,
+         target_el = exception_target_el(env);
+         break;
+     case CP_ACCESS_TRAP_EL2:
+-        /* Requesting a trap to EL2 when we're in EL3 or S-EL0/1 is
++        /* Requesting a trap to EL2 when we're in EL3 is
+          * a bug in the access function.
+          */
+-        assert(!arm_is_secure(env) && arm_current_el(env) != 3);
++        assert(arm_current_el(env) != 3);
+         target_el = 2;
+         break;
+     case CP_ACCESS_TRAP_EL3:
 -- 
 2.29.2
 
