@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6502DDE8D
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 07:26:42 +0100 (CET)
-Received: from localhost ([::1]:38578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2852DDE98
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 07:29:06 +0100 (CET)
+Received: from localhost ([::1]:42834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kq9Dt-0001xx-Hy
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 01:26:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52510)
+	id 1kq9GD-0003yZ-6i
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 01:29:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=614e9c0eb=alistair.francis@wdc.com>)
- id 1kq8qU-0006KW-Vq
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:31 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:9924)
+ id 1kq8qe-0006aD-Po
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:40 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:9928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=614e9c0eb=alistair.francis@wdc.com>)
- id 1kq8qQ-0002G4-Mf
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:30 -0500
+ id 1kq8qc-0002GJ-4Y
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 01:02:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1608271687; x=1639807687;
+ t=1608271704; x=1639807704;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=vidbo8EhI8MyRUVmSr8AdzEsxfhWjeBL+CHG8Pf4+S4=;
- b=ILm/uqKeGKj12qVmmhOowyHkqDvWYM1mKQ+LAqvS9FE9KTogseyP8alt
- aTBt5+6OYuJBE5QJIshywYMnyvReuOXTRGC2YzdkHe+AE/g1X+ppE1UCU
- /QaX6KFCKi9aq012rL+iQ7KlEIE/xdQqcBgBx52sp9lfKeu4H3Tri9vSW
- hFumXz9N8A0pNirMXpkgofmgh03+MqrVH3hndHnGti4XXiQbfLAE0AKJi
- VM3jPwfaFb4S6T1sbSLNkUJS3ItKXniI39rtgqmREWYvnKHiR/q3Ave8Q
- pP8i1bP6TymQKW5nJx7+4AVa5ZwAUZFC8LgPzhLIFRobNI+PkiafuQhRM w==;
-IronPort-SDR: /jn1AJ7SdzDVVRWjCxC3idRVMenOa4TsXpv8jrWJUzIqssrqjrgB4sEU/n2dYXkFCBWaFEVY06
- 6aACpQYbGg3g1yAT96BpcEwT/dP0M6Q9aIknE4UAs1mYHKl+6DTwM1GB0AEXbKg7elUiFekJWV
- CO7jo+fnKcodF/sVgrc92D378+yLXdyRHUIwCY8fG5zmEg57msXd+Wpb2YKHa2HXpoz3cLg73T
- JQyRyqSWtvGrPeOUL+l6sDjlTM1tvGT7ThjGq5fQwdLnTXtvTjrqNW9aueUh9Y2qmNwc6acKtf
- 8Nk=
-X-IronPort-AV: E=Sophos;i="5.78,429,1599494400"; d="scan'208";a="259237071"
+ bh=wvQyQvI7qux3rC42CBPGjnKS6AUNz13p/gLfuwrAxkY=;
+ b=mXVa9VvdDjy9w2krFwbakCSzeuKfmePBV/GteajiGITaSMbjn9o86mGZ
+ tIVr6sDqWZgkUYemDos1p4qHkW0vpMBQ/RieqLB/hCfRwGvRAxuyr6C5b
+ J3TLNjEJqUfO0g66U/Gr+OTE9l0r1BSF3F8KDfKRNXNh6wEIDPpMk+tLf
+ kWvqdbTPpdiMpiS3u6sQs4lUjMas18EaHNF2zAaHO0oHYjTfxg71JiJ8V
+ LCoP2Gl+KIDHhvZnjSVS3gCe5koj02Yt/mBay78lPs+YL02KKKyJtB/vL
+ HbId1oLRbLqFajyRqY8BS8ku/zPyfRW9SzszwvWzyzexBtsT5i7OtLsjp w==;
+IronPort-SDR: MVUJg/4Jjci5YWhfYztbMoN2Lnpt0t7GOrz5wlbncODqDEAsT5jw6lwmibcvQhBAbKmAtZcS7r
+ 5mWR3ZPPirfNbP7X9QpWo78nBM1oAFLGnpQVvHMXsqe89CZ/mMOmHlh7u6Sf5cKoq9MRdYJTxR
+ iHz36aa2Oq2NWEAXfZaMB9GxbXYhWqP5N6fGShLFgmTMzHCfe7QNm5T7h5QHDX1mOuUbw8l5wt
+ lZMNXGvRC6bFiX1uGDpLxVzkKGP+Uaab3kVfRxc0WDaZrs2mtYqLd1g+ZAd/AXqH8IvdMQ5Nuu
+ Il0=
+X-IronPort-AV: E=Sophos;i="5.78,429,1599494400"; d="scan'208";a="259237072"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 18 Dec 2020 14:06:35 +0800
-IronPort-SDR: QEbxyRvqVWRErDT7iyH2OVmP+0p4sBiZyvQ6SRlDiHqtCM+wYwh6A70eCmDsxNKwguBgrDoeOE
- om+zH5fD6zpVmi+ASAa3/RVlapvanHOEnqEa+OIRS11rYRAZEvrjb0MfPPghtCRwXiLszOdsEQ
- kX+SvidGSwXu9Q9hdGhzPTErKtPhaMoMtT5hKs2NyG3hwJe9iH4/00i8pKG/nspLqfbZ0vX32c
- 04yh354f7+TK3pMdMaV0BLeSLoHQRA6opzX3dg7I5eknuW3C/7RlEZpJ2853IfSB9JSyKCIpug
- +VfI6pdG6NG+Iqe3ptJVp77J
+IronPort-SDR: 42JQjdTOchC9qDlubPyZULKQWMtXujvfEgRNp4jl3/Iso2WHPO5SiddHIMTm9YZC6rjIlm+hRK
+ ZTG00QOp6tuaQWlZNyGU6RXH/xYPL6tMbf9PrsqQXBvSb9q8JpoADyHne9UtJfuOuvjBZRRYqx
+ 308B/Wk21SlFGkfCWil4UJJLE4GJWreN+2/IBk+5++3FpG1c9pY3sI73QYzdr6Lc/kbnBUdIok
+ B6BXk68Ctm+6u7pgugXSUsB647t+7tUGDdp3vTK48rod9dgO5Dtj7ke7d1agqfPnOp2aNSNBIf
+ C4GVSUZGZTJyryT1tAWcP61x
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2020 21:46:41 -0800
-IronPort-SDR: ziwd2PZROSJWO7iqj031CibqK3see5ASC6UxYlH1y20loJAg8kH8ltnlHV6fWwJo3R1RLBBVgv
- wqNf/ZIzpx0j0ISByaeg27A4rb5eMMnsgbFCE3pG6q2olSrN2ar9ujLq2mGM07bgiOdJop5dyd
- nvccbk+vRlq8F+qTBlSV4hQnZsgeaXaixiprhjPdW06u7eqVfWSsxudiqepWvQbdLX0CU3+VLl
- bM42KDeh+TcKsNekmQ56e+/6HyntyNM6NJb90Ftk5WbDfH3kYdtel/vKkWI5Oon+PadtMCURxq
- Nz8=
+ 17 Dec 2020 21:46:42 -0800
+IronPort-SDR: zl6uuq0FEa+m4ls6cxy54PwFu/U57hH0EknxWYNZmo4ZXrYGeaUzVlHoB4amq3BClaF8P3NQ24
+ CPIKtt7uANKf4ydYW57kJrc6CZjSGFVBI3tGILxAnnFueuSmD9s6qP2xPPExhSwkPmDcjeGtFg
+ 2Rs+K41UCbyTyyP0COzXKqlCL0VFYavon9zyY6OqE0Wt2pOuS+9DGhBJHL5CyIi/2nVBpVtMnP
+ eZolYhshklNiKrS2Syn8DODbCs1qaJ/yEuxe2khrnyxsBBDnO9si/LOJ/Z0q/n9hR1qfsQIIz/
+ paA=
 WDCIronportException: Internal
 Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.62.68])
@@ -62,9 +62,9 @@ Received: from 6hj08h2.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 21/23] target/riscv: cpu: Set XLEN independently from target
-Date: Thu, 17 Dec 2020 22:01:12 -0800
-Message-Id: <20201218060114.3591217-22-alistair.francis@wdc.com>
+Subject: [PULL 22/23] hw/riscv: Use the CPU to determine if 32-bit
+Date: Thu, 17 Dec 2020 22:01:13 -0800
+Message-Id: <20201218060114.3591217-23-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201218060114.3591217-1-alistair.francis@wdc.com>
 References: <20201218060114.3591217-1-alistair.francis@wdc.com>
@@ -92,102 +92,254 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmerdabbelt@google.com>, alistair23@gmail.com,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>
+Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
-Tested-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Message-id: 7eddba45b5d223321c031431849fdd42eceb514b.1608142916.git.alistair.francis@wdc.com
----
- target/riscv/cpu.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+Instead of using string compares to determine if a RISC-V machine is
+using 32-bit or 64-bit CPUs we can use the initalised CPUs. This avoids
+us having to maintain a list of CPU names to compare against.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 47b738c314..254cd83f8b 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -151,14 +151,14 @@ static void riscv_any_cpu_init(Object *obj)
-     set_priv_version(env, PRIV_VERSION_1_11_0);
- }
+This commit also fixes the name of the function to match the
+riscv_cpu_is_32bit() function.
+
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 8ab7614e5df93ab5267788b73dcd75f9f5615e82.1608142916.git.alistair.francis@wdc.com
+---
+ include/hw/riscv/boot.h |  8 +++++---
+ hw/riscv/boot.c         | 31 ++++++++++---------------------
+ hw/riscv/sifive_u.c     | 10 +++++-----
+ hw/riscv/spike.c        |  8 ++++----
+ hw/riscv/virt.c         |  9 +++++----
+ 5 files changed, 29 insertions(+), 37 deletions(-)
+
+diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+index b6d37a91d6..20ff5fe5e5 100644
+--- a/include/hw/riscv/boot.h
++++ b/include/hw/riscv/boot.h
+@@ -22,10 +22,11 @@
  
--static void riscv_base_cpu_init(Object *obj)
-+#if defined(TARGET_RISCV64)
-+static void rv64_base_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     /* We set this in the realise function */
--    set_misa(env, 0);
-+    set_misa(env, RV64);
- }
+ #include "exec/cpu-defs.h"
+ #include "hw/loader.h"
++#include "hw/riscv/riscv_hart.h"
  
--#ifdef TARGET_RISCV64
- static void rv64_sifive_u_cpu_init(Object *obj)
+-bool riscv_is_32_bit(MachineState *machine);
++bool riscv_is_32bit(RISCVHartArrayState harts);
+ 
+-target_ulong riscv_calc_kernel_start_addr(MachineState *machine,
++target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState harts,
+                                           target_ulong firmware_end_addr);
+ target_ulong riscv_find_and_load_firmware(MachineState *machine,
+                                           const char *default_machine_firmware,
+@@ -41,7 +42,8 @@ target_ulong riscv_load_kernel(const char *kernel_filename,
+ hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
+                          uint64_t kernel_entry, hwaddr *start);
+ uint32_t riscv_load_fdt(hwaddr dram_start, uint64_t dram_size, void *fdt);
+-void riscv_setup_rom_reset_vec(MachineState *machine, hwaddr saddr,
++void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState harts,
++                               hwaddr saddr,
+                                hwaddr rom_base, hwaddr rom_size,
+                                uint64_t kernel_entry,
+                                uint32_t fdt_load_addr, void *fdt);
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index 6bce6fb485..83586aef41 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -33,28 +33,16 @@
+ 
+ #include <libfdt.h>
+ 
+-bool riscv_is_32_bit(MachineState *machine)
++bool riscv_is_32bit(RISCVHartArrayState harts)
  {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-@@ -174,6 +174,13 @@ static void rv64_sifive_e_cpu_init(Object *obj)
-     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
- }
- #else
-+static void rv32_base_cpu_init(Object *obj)
-+{
-+    CPURISCVState *env = &RISCV_CPU(obj)->env;
-+    /* We set this in the realise function */
-+    set_misa(env, RV32);
-+}
+-    /*
+-     * To determine if the CPU is 32-bit we need to check a few different CPUs.
+-     *
+-     * If the CPU starts with rv32
+-     * If the CPU is a sifive 3 seriries CPU (E31, U34)
+-     * If it's the Ibex CPU
+-     */
+-    if (!strncmp(machine->cpu_type, "rv32", 4) ||
+-        (!strncmp(machine->cpu_type, "sifive", 6) &&
+-            machine->cpu_type[8] == '3') ||
+-        !strncmp(machine->cpu_type, "lowrisc-ibex", 12)) {
+-        return true;
+-    } else {
+-        return false;
+-    }
++    RISCVCPU hart = harts.harts[0];
 +
- static void rv32_sifive_u_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-@@ -372,7 +379,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-     int priv_version = PRIV_VERSION_1_11_0;
-     int vext_version = VEXT_VERSION_0_07_1;
--    target_ulong target_misa = 0;
-+    target_ulong target_misa = env->misa;
-     Error *local_err = NULL;
++    return riscv_cpu_is_32bit(&hart.env);
+ }
  
-     cpu_exec_realizefn(cs, &local_err);
-@@ -407,8 +414,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+-target_ulong riscv_calc_kernel_start_addr(MachineState *machine,
++target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState harts,
+                                           target_ulong firmware_end_addr) {
+-    if (riscv_is_32_bit(machine)) {
++    if (riscv_is_32bit(harts)) {
+         return QEMU_ALIGN_UP(firmware_end_addr, 4 * MiB);
+     } else {
+         return QEMU_ALIGN_UP(firmware_end_addr, 2 * MiB);
+@@ -259,7 +247,8 @@ void riscv_rom_copy_firmware_info(MachineState *machine, hwaddr rom_base,
+                            &address_space_memory);
+ }
  
-     set_resetvec(env, cpu->cfg.resetvec);
+-void riscv_setup_rom_reset_vec(MachineState *machine, hwaddr start_addr,
++void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState harts,
++                               hwaddr start_addr,
+                                hwaddr rom_base, hwaddr rom_size,
+                                uint64_t kernel_entry,
+                                uint32_t fdt_load_addr, void *fdt)
+@@ -267,7 +256,7 @@ void riscv_setup_rom_reset_vec(MachineState *machine, hwaddr start_addr,
+     int i;
+     uint32_t start_addr_hi32 = 0x00000000;
  
--    /* If misa isn't set (rv32 and rv64 machines) set it here */
--    if (!env->misa) {
-+    /* If only XLEN is set for misa, then set misa from properties */
-+    if (env->misa == RV32 || env->misa == RV64) {
-         /* Do some ISA extension error checking */
-         if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
-             error_setg(errp,
-@@ -504,7 +511,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-             set_vext_version(env, vext_version);
-         }
+-    if (!riscv_is_32_bit(machine)) {
++    if (!riscv_is_32bit(harts)) {
+         start_addr_hi32 = start_addr >> 32;
+     }
+     /* reset vector */
+@@ -284,7 +273,7 @@ void riscv_setup_rom_reset_vec(MachineState *machine, hwaddr start_addr,
+         0x00000000,
+                                      /* fw_dyn: */
+     };
+-    if (riscv_is_32_bit(machine)) {
++    if (riscv_is_32bit(harts)) {
+         reset_vec[3] = 0x0202a583;   /*     lw     a1, 32(t0) */
+         reset_vec[4] = 0x0182a283;   /*     lw     t0, 24(t0) */
+     } else {
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 170e49315f..f5c400dd44 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -466,7 +466,7 @@ static void sifive_u_machine_init(MachineState *machine)
  
--        set_misa(env, RVXLEN | target_misa);
-+        set_misa(env, target_misa);
+     /* create device tree */
+     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
+-               riscv_is_32_bit(machine));
++               riscv_is_32bit(s->soc.u_cpus));
+ 
+     if (s->start_in_flash) {
+         /*
+@@ -495,7 +495,7 @@ static void sifive_u_machine_init(MachineState *machine)
+         break;
      }
  
-     riscv_cpu_register_gdb_regs_for_features(cs);
-@@ -655,13 +662,13 @@ static const TypeInfo riscv_cpu_type_infos[] = {
-     },
-     DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
- #if defined(TARGET_RISCV32)
--    DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           riscv_base_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           rv32_base_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32_sifive_u_cpu_init),
- #elif defined(TARGET_RISCV64)
--    DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
- #endif
+-    if (riscv_is_32_bit(machine)) {
++    if (riscv_is_32bit(s->soc.u_cpus)) {
+         firmware_end_addr = riscv_find_and_load_firmware(machine,
+                                     "opensbi-riscv32-generic-fw_dynamic.bin",
+                                     start_addr, NULL);
+@@ -506,7 +506,7 @@ static void sifive_u_machine_init(MachineState *machine)
+     }
+ 
+     if (machine->kernel_filename) {
+-        kernel_start_addr = riscv_calc_kernel_start_addr(machine,
++        kernel_start_addr = riscv_calc_kernel_start_addr(s->soc.u_cpus,
+                                                          firmware_end_addr);
+ 
+         kernel_entry = riscv_load_kernel(machine->kernel_filename,
+@@ -533,7 +533,7 @@ static void sifive_u_machine_init(MachineState *machine)
+     /* Compute the fdt load address in dram */
+     fdt_load_addr = riscv_load_fdt(memmap[SIFIVE_U_DEV_DRAM].base,
+                                    machine->ram_size, s->fdt);
+-    if (!riscv_is_32_bit(machine)) {
++    if (!riscv_is_32bit(s->soc.u_cpus)) {
+         start_addr_hi32 = (uint64_t)start_addr >> 32;
+     }
+ 
+@@ -552,7 +552,7 @@ static void sifive_u_machine_init(MachineState *machine)
+         0x00000000,
+                                        /* fw_dyn: */
+     };
+-    if (riscv_is_32_bit(machine)) {
++    if (riscv_is_32bit(s->soc.u_cpus)) {
+         reset_vec[4] = 0x0202a583;     /*     lw     a1, 32(t0) */
+         reset_vec[5] = 0x0182a283;     /*     lw     t0, 24(t0) */
+     } else {
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 3e47e4579d..e723ca0ac9 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -244,7 +244,7 @@ static void spike_board_init(MachineState *machine)
+ 
+     /* create device tree */
+     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
+-               riscv_is_32_bit(machine));
++               riscv_is_32bit(s->soc[0]));
+ 
+     /* boot rom */
+     memory_region_init_rom(mask_rom, NULL, "riscv.spike.mrom",
+@@ -257,7 +257,7 @@ static void spike_board_init(MachineState *machine)
+      * keeping ELF files here was intentional because BIN files don't work
+      * for the Spike machine as HTIF emulation depends on ELF parsing.
+      */
+-    if (riscv_is_32_bit(machine)) {
++    if (riscv_is_32bit(s->soc[0])) {
+         firmware_end_addr = riscv_find_and_load_firmware(machine,
+                                     "opensbi-riscv32-generic-fw_dynamic.elf",
+                                     memmap[SPIKE_DRAM].base,
+@@ -270,7 +270,7 @@ static void spike_board_init(MachineState *machine)
+     }
+ 
+     if (machine->kernel_filename) {
+-        kernel_start_addr = riscv_calc_kernel_start_addr(machine,
++        kernel_start_addr = riscv_calc_kernel_start_addr(s->soc[0],
+                                                          firmware_end_addr);
+ 
+         kernel_entry = riscv_load_kernel(machine->kernel_filename,
+@@ -299,7 +299,7 @@ static void spike_board_init(MachineState *machine)
+     fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
+                                    machine->ram_size, s->fdt);
+     /* load the reset vector */
+-    riscv_setup_rom_reset_vec(machine, memmap[SPIKE_DRAM].base,
++    riscv_setup_rom_reset_vec(machine, s->soc[0], memmap[SPIKE_DRAM].base,
+                               memmap[SPIKE_MROM].base,
+                               memmap[SPIKE_MROM].size, kernel_entry,
+                               fdt_load_addr, s->fdt);
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 9321d8eda5..8de4c35c9d 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -601,7 +601,7 @@ static void virt_machine_init(MachineState *machine)
+ 
+     /* create device tree */
+     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
+-               riscv_is_32_bit(machine));
++               riscv_is_32bit(s->soc[0]));
+ 
+     /* boot rom */
+     memory_region_init_rom(mask_rom, NULL, "riscv_virt_board.mrom",
+@@ -609,7 +609,7 @@ static void virt_machine_init(MachineState *machine)
+     memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
+                                 mask_rom);
+ 
+-    if (riscv_is_32_bit(machine)) {
++    if (riscv_is_32bit(s->soc[0])) {
+         firmware_end_addr = riscv_find_and_load_firmware(machine,
+                                     "opensbi-riscv32-generic-fw_dynamic.bin",
+                                     start_addr, NULL);
+@@ -620,7 +620,7 @@ static void virt_machine_init(MachineState *machine)
+     }
+ 
+     if (machine->kernel_filename) {
+-        kernel_start_addr = riscv_calc_kernel_start_addr(machine,
++        kernel_start_addr = riscv_calc_kernel_start_addr(s->soc[0],
+                                                          firmware_end_addr);
+ 
+         kernel_entry = riscv_load_kernel(machine->kernel_filename,
+@@ -656,7 +656,8 @@ static void virt_machine_init(MachineState *machine)
+     fdt_load_addr = riscv_load_fdt(memmap[VIRT_DRAM].base,
+                                    machine->ram_size, s->fdt);
+     /* load the reset vector */
+-    riscv_setup_rom_reset_vec(machine, start_addr, virt_memmap[VIRT_MROM].base,
++    riscv_setup_rom_reset_vec(machine, s->soc[0], start_addr,
++                              virt_memmap[VIRT_MROM].base,
+                               virt_memmap[VIRT_MROM].size, kernel_entry,
+                               fdt_load_addr, s->fdt);
+ 
 -- 
 2.29.2
 
