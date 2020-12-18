@@ -2,59 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD3462DE3AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 15:09:17 +0100 (CET)
-Received: from localhost ([::1]:41518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 261AC2DE3BE
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 15:12:49 +0100 (CET)
+Received: from localhost ([::1]:48040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqGRY-00079i-Ns
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 09:09:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35326)
+	id 1kqGUy-0001VV-5T
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 09:12:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kqGMn-0003d8-L6; Fri, 18 Dec 2020 09:04:21 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:56551)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kqGMl-0006BT-5p; Fri, 18 Dec 2020 09:04:21 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.191])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id A4BD9753DC26;
- Fri, 18 Dec 2020 15:04:15 +0100 (CET)
-Received: from kaod.org (37.59.142.105) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 18 Dec
- 2020 15:04:14 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006603a450e-cd91-4a4d-9ae1-ae46c13989fe,
- FB7A68720C4516EC60B551F1D5F540B41FF25855) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Fri, 18 Dec 2020 15:04:13 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v12] spapr: Implement Open Firmware client interface
-Message-ID: <20201218150413.44da862d@bahia.lan>
-In-Reply-To: <20201218025040.98132-1-aik@ozlabs.ru>
-References: <20201218025040.98132-1-aik@ozlabs.ru>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kqGSl-0000Eg-1u
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 09:10:31 -0500
+Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:43996)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kqGSj-0008DG-DC
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 09:10:30 -0500
+Received: by mail-lf1-x12c.google.com with SMTP id 23so5687984lfg.10
+ for <qemu-devel@nongnu.org>; Fri, 18 Dec 2020 06:10:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9g93bjJxbJqVwaeAzDTF0cLaPS87LT1hVcbDYM+HoG0=;
+ b=E9cF8t+oqILgC5Jtb9gPA8RWQoul7l2ERepRA5VoG59Px4TcQEEM6MwxDtSmrJu8XS
+ bYpqA7XNJpRnfZCFW5+Q1cF+1tmzFhrl4LEKm67hC1oxTmk7pHgbFCaAyoCEnHsHb1+t
+ G6ckIWltCqGw4lmO227ZquZpjtUhZ7VHTJpPHICndx5iMFF1IOPRYsVPi5n2W2m715Ak
+ Ytp+fT9v4tdNM0T2Jo2GHuRtfo0rh2SlzHmUaSOlRz1ukb3X6Dx/OIooeYWMPFRxOCCO
+ ILMlJtLNki7j5sdex+fMF5nG3wJ91KB4XtKaWR2FSoDUzoFCYJ9BUpAQt1s7eExjw05T
+ XhrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9g93bjJxbJqVwaeAzDTF0cLaPS87LT1hVcbDYM+HoG0=;
+ b=iY3z3PmFaPXzGTqmNJStysNFZ1CtbeeCkDwF+3V31KXF7XRn1zwE3vFz2N7yIW/wuf
+ GWrLy0vEktNIqRQSI44Y8w+bb/lOqRLLElvY3YPyCr4HVyd7wG5/zBLoBhjDQIUC5RqK
+ uEKVZ2L/xAVB9GhtMbEgNEIN1URxsOprNsA9Rj7UtEdheUlsqgKSYw5a43eiY4vqhp8c
+ vG7/FGp+mQCOlQfN+aF4e0W5FG0heVHvLBaIc2YScjxFAt25a1uRHmFEQMChi1MbyMWD
+ zSVTuCSswr24hhf9ZQU601VcoG30HnLdSxy5r16h1DT7c5yjm93ksFqVAxBU1LGL8u+F
+ KBvA==
+X-Gm-Message-State: AOAM530DwDhahwUuLuMgy+Zd+k6YEh51ijJcRgSBJp2+3YL7tbl7rcXu
+ HYcn8nYWeYVn66Apb09kN1g=
+X-Google-Smtp-Source: ABdhPJzYc0ptGLrWBEGCZ4FSjr11qe7mQucGHUPWAgtRy9Th6iyCFSeVcltnEZg6LoNudZZkqgV6ow==
+X-Received: by 2002:a2e:b891:: with SMTP id r17mr1849769ljp.130.1608300624470; 
+ Fri, 18 Dec 2020 06:10:24 -0800 (PST)
+Received: from [10.101.1.184] ([185.224.57.162])
+ by smtp.gmail.com with ESMTPSA id n14sm936433lfe.95.2020.12.18.06.10.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Dec 2020 06:10:23 -0800 (PST)
+Subject: Re: [PATCH v2 7/9] gdbstub: drop gdbserver_cleanup in favour of
+ gdb_exit
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20201218112707.28348-1-alex.bennee@linaro.org>
+ <20201218112707.28348-8-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <53786f12-fd14-5a1b-a870-3726b1f78fad@amsat.org>
+Date: Fri, 18 Dec 2020 15:10:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 62d17b9d-b55a-4dc0-92bb-9da581fce39a
-X-Ovh-Tracer-Id: 13177251036712049117
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudeliedgiedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeegffehgeejgedvjeeuveelieffkeehgefhieejteevudekheduteelhfetfefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <20201218112707.28348-8-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-lf1-x12c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,112 +90,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Dec 2020 13:50:40 +1100
-Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
-
-> The PAPR platform which describes an OS environment that's presented by
-> a combination of a hypervisor and firmware. The features it specifies
-> require collaboration between the firmware and the hypervisor.
+On 12/18/20 12:27 PM, Alex Bennée wrote:
+> Despite it's name it didn't actually clean-up so let us document
+> gdb_exit() better and use that.
 > 
-> Since the beginning, the runtime component of the firmware (RTAS) has
-> been implemented as a 20 byte shim which simply forwards it to
-> a hypercall implemented in qemu. The boot time firmware component is
-> SLOF - but a build that's specific to qemu, and has always needed to be
-> updated in sync with it. Even though we've managed to limit the amount
-> of runtime communication we need between qemu and SLOF, there's some,
-> and it has become increasingly awkward to handle as we've implemented
-> new features.
-> 
-> This implements a boot time OF client interface (CI) which is
-> enabled by a new "x-vof" pseries machine option (stands for "Virtual Open
-> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
-> which implements Open Firmware Client Interface (OF CI). This allows
-> using a smaller stateless firmware which does not have to manage
-> the device tree.
-> 
-> The new "vof.bin" firmware image is included with source code under
-> pc-bios/. It also includes RTAS blob.
-> 
-> This implements a handful of CI methods just to get -kernel/-initrd
-> working. In particular, this implements the device tree fetching and
-> simple memory allocator - "claim" (an OF CI memory allocator) and updates
-> "/memory@0/available" to report the client about available memory.
-> 
-> This implements changing some device tree properties which we know how
-> to deal with, the rest is ignored. To allow changes, this skips
-> fdt_pack() when x-vof=on as not packing the blob leaves some room for
-> appending.
-> 
-> In absence of SLOF, this assigns phandles to device tree nodes to make
-> device tree traversing work.
-> 
-> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
-> 
-> This adds basic instances support which are managed by a hash map
-> ihandle -> [phandle].
-> 
-> Before the guest started, the used memory is:
-> 0..4000 - the initial firmware
-> 10000..180000 - stack
-> 
-> This OF CI does not implement "interpret".
-> 
-> Unlike SLOF, this does not format uninitialized nvram. Instead, this
-> includes a disk image with pre-formatted nvram.
-> 
-> With this basic support, this can only boot into kernel directly.
-> However this is just enough for the petitboot kernel and initradmdisk to
-> boot from any possible source. Note this requires reasonably recent guest
-> kernel with:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735
-> 
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20201214153012.12723-6-alex.bennee@linaro.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
-> 
-> The example command line is:
-> 
-> -c 0 /home/aik/pbuild/qemu-killslof-localhost-ppc64/qemu-system-ppc64 \
-> -nodefaults \
-> -chardev stdio,id=STDIO0,signal=off,mux=on \
-> -device spapr-vty,id=svty0,reg=0x71000110,chardev=STDIO0 \
-> -mon id=MON0,chardev=STDIO0,mode=readline \
-> -nographic \
-> -vga none \
-> -enable-kvm \
-> -m 2G \
-> -machine pseries,x-vof=on,cap-cfpc=broken,cap-sbbc=broken,cap-ibs=broken,cap-ccf-assist=off \
-> -kernel pbuild/kernel-le-guest/vmlinux \
-> -initrd t/le.cpio \
-> -drive id=DRIVE0,if=none,file=./p/qemu-killslof/pc-bios/vof/nvram.bin,format=raw \
-> -global spapr-nvram.drive=DRIVE0 \
-> -snapshot \
-> -smp 8,threads=8 \
-> -L /home/aik/t/qemu-ppc64-bios/ \
-> -trace events=qemu_trace_events \
-> -d guest_errors \
-> -chardev socket,id=SOCKET0,server,nowait,path=qemu.mon.tmux26 \
-> -mon chardev=SOCKET0,mode=control
-> 
-> ---
-> Changes:
-> v12:
-> * split VOF and SPAPR
-> 
+>  include/exec/gdbstub.h | 14 +++++++++++---
+>  gdbstub.c              |  7 -------
+>  softmmu/runstate.c     |  2 +-
+>  3 files changed, 12 insertions(+), 11 deletions(-)
 
-Thanks for the split. The VOF paths are now clearly identified in
-the sPAPR code, and well guarded by a check on x-vof. Rest of the
-patch looks good to me. I gave it a try with a stock fedora 33
-kernel and initramfs and it booted really fast !
-
-With the checkpatch complaints addressed,
-
-Acked-by: Greg Kurz <groug@kaod.org>
-
-and
-
-Tested-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
