@@ -2,55 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE2E2DE6C9
-	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 16:41:29 +0100 (CET)
-Received: from localhost ([::1]:60480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B3C2DE6F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 18 Dec 2020 16:52:58 +0100 (CET)
+Received: from localhost ([::1]:56032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqHsm-0001bg-AX
-	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 10:41:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58702)
+	id 1kqI3t-0003GR-CR
+	for lists+qemu-devel@lfdr.de; Fri, 18 Dec 2020 10:52:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kqHjy-0000Vi-JM
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 10:32:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51671)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kqI26-0002MJ-DG
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 10:51:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kqHjw-0003aP-Pi
- for qemu-devel@nongnu.org; Fri, 18 Dec 2020 10:32:22 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kqI1y-0001oY-Uk
+ for qemu-devel@nongnu.org; Fri, 18 Dec 2020 10:51:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608305540;
+ s=mimecast20190719; t=1608306657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xOziwv1LEQ+iXlKE0HHfLJTU6f/ND8eTWwJ7aow9xcM=;
- b=U+08aPIuz8DIWHirNtblty3FaeN8ui46L4FwtBt4JJ/T+ZavYUOjnHUbB1YVxz4ypNL7Ec
- TioQCUr4a15pT014Pl1U/3QVfCatWORilAzyNwzEN//SR5ICYC2d01SYuAfm5LnuXQLaKY
- U1JzVv3gZsU5Tn7wqlrzWu/tdrBI+jk=
+ bh=E4/XyA1ya/EaJMFtds9x9DEfr6nx1zRFSvosS3MnUYA=;
+ b=d6lRg+9WC7Lc8+AANBq2oKvsYHy9bdv/erLbUAn2aiG8QEecSUCpWzdmXI13WscwgZP3Ks
+ 8R2v2rJkzVqRjgdUI7n4CyInBOrV/94N5fDaz7grpi5FM/InUBboADvqlsM1FgEmI3a9Pw
+ 89oDhC/123xEXDq8FWRi4skgQ9yOvxk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-ulDsiCkQOBqC3x43ah6kIA-1; Fri, 18 Dec 2020 10:32:16 -0500
-X-MC-Unique: ulDsiCkQOBqC3x43ah6kIA-1
+ us-mta-172-0RHqb4zTMtKiEvsIWCRkhw-1; Fri, 18 Dec 2020 10:50:53 -0500
+X-MC-Unique: 0RHqb4zTMtKiEvsIWCRkhw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF230180A09C;
- Fri, 18 Dec 2020 15:32:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39C79192AB7A;
+ Fri, 18 Dec 2020 15:50:52 +0000 (UTC)
 Received: from gondolin (ovpn-113-130.ams2.redhat.com [10.36.113.130])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75D3228D05;
- Fri, 18 Dec 2020 15:32:09 +0000 (UTC)
-Date: Fri, 18 Dec 2020 16:32:06 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6EDAE27CA3;
+ Fri, 18 Dec 2020 15:50:45 +0000 (UTC)
+Date: Fri, 18 Dec 2020 16:50:42 +0100
 From: Cornelia Huck <cohuck@redhat.com>
-To: Pierre Morel <pmorel@linux.ibm.com>
-Subject: Re: [PATCH v2 2/2] s390x/pci: Fix memory_region_access_valid call
-Message-ID: <20201218163206.7b8efa2a.cohuck@redhat.com>
-In-Reply-To: <2c5a2ccb-dbe1-f355-3980-462be1d93942@linux.ibm.com>
-References: <1608243397-29428-1-git-send-email-mjrosato@linux.ibm.com>
- <1608243397-29428-3-git-send-email-mjrosato@linux.ibm.com>
- <72f4e03f-7208-6af0-4cd2-9715d9f9ec77@linux.ibm.com>
- <20201218120440.36b56e80.cohuck@redhat.com>
- <2c5a2ccb-dbe1-f355-3980-462be1d93942@linux.ibm.com>
+To: Zenghui Yu <yuzenghui@huawei.com>
+Subject: Re: [PATCH] vfio: Fix vfio_listener_log_sync function name typo
+Message-ID: <20201218165042.59b972c9.cohuck@redhat.com>
+In-Reply-To: <20201204014240.772-1-yuzenghui@huawei.com>
+References: <20201204014240.772-1-yuzenghui@huawei.com>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -68,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,79 +77,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Matthew Rosato <mjrosato@linux.ibm.com>, david@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org
+Cc: wanghaibin.wang@huawei.com, alex.williamson@redhat.com,
+ kwankhede@nvidia.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Dec 2020 15:32:08 +0100
-Pierre Morel <pmorel@linux.ibm.com> wrote:
+On Fri, 4 Dec 2020 09:42:40 +0800
+Zenghui Yu <yuzenghui@huawei.com> wrote:
 
-> On 12/18/20 12:04 PM, Cornelia Huck wrote:
-> > On Fri, 18 Dec 2020 10:37:38 +0100
-> > Pierre Morel <pmorel@linux.ibm.com> wrote:
-> >   
-> >> On 12/17/20 11:16 PM, Matthew Rosato wrote:  
-> >>> In pcistb_service_handler, a call is made to validate that the memory
-> >>> region can be accessed.  However, the call is made using the entire length
-> >>> of the pcistb operation, which can be larger than the allowed memory
-> >>> access size (8).  Since we already know that the provided buffer is a
-> >>> multiple of 8, fix the call to memory_region_access_valid to iterate
-> >>> over the memory region in the same way as the subsequent call to
-> >>> memory_region_dispatch_write.
-> >>>
-> >>> Fixes: 863f6f52b7 ("s390: implement pci instructions")
-> >>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> >>> ---
-> >>>    hw/s390x/s390-pci-inst.c | 10 ++++++----
-> >>>    1 file changed, 6 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-> >>> index e230293..76b08a3 100644
-> >>> --- a/hw/s390x/s390-pci-inst.c
-> >>> +++ b/hw/s390x/s390-pci-inst.c
-> >>> @@ -821,10 +821,12 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
-> >>>        mr = s390_get_subregion(mr, offset, len);
-> >>>        offset -= mr->addr;
-> >>>    
-> >>> -    if (!memory_region_access_valid(mr, offset, len, true,
-> >>> -                                    MEMTXATTRS_UNSPECIFIED)) {
-> >>> -        s390_program_interrupt(env, PGM_OPERAND, ra);
-> >>> -        return 0;
-> >>> +    for (i = 0; i < len; i += 8) {
-> >>> +        if (!memory_region_access_valid(mr, offset + i, 8, true,
-> >>> +                                        MEMTXATTRS_UNSPECIFIED)) {
-> >>> +            s390_program_interrupt(env, PGM_OPERAND, ra);
-> >>> +            return 0;
-> >>> +        }
-> >>>        }
-> >>>    
-> >>>        if (s390_cpu_virt_mem_read(cpu, gaddr, ar, buffer, len)) {
-> >>>      
-> >>
-> >> wouldn't it be made automatically by defining the io_region
-> >> max_access_size when reading the bars in clp_service_call?
-> >>  
-> > 
-> > But that's already what is happening, isn't it? The access check is
-> > done for a size that is potentially too large, while the actual access
-> > will happen in chunks of 8? I think that this patch is correct.
-> >   
+> There is an obvious typo in the function name of the .log_sync() callback.
+> Spell it correctly.
 > 
-> Sorry I was too rapid and half wrong in my writing I was also not 
-> specific enough.
-> 
-> In MemoryRegionOps we have a field valid with a callback accepts().
-> 
-> I was wondering if doing the check in the accept() callback which is 
-> called by the memory_region_access_valid() function and then using 
-> max_access_size would not be cleaner.
-> 
-> Note that it does not change a lot but only where the check is done.
+> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> ---
+>  hw/vfio/common.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-But where would we add those ops? My understanding is that pcistb acts
-on whatever region the device provided, and that differs from device to
-device?
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
