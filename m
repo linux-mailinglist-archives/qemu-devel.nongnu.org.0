@@ -2,39 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A182DEE32
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 11:44:11 +0100 (CET)
-Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2705B2DEE33
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 11:44:15 +0100 (CET)
+Received: from localhost ([::1]:47940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqZib-00054b-Ly
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 05:44:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48792)
+	id 1kqZif-0005CG-40
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 05:44:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kqZhE-0003T8-Qe; Sat, 19 Dec 2020 05:42:44 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39256
+ id 1kqZhF-0003TH-TK; Sat, 19 Dec 2020 05:42:45 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39264
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kqZhC-00031M-MD; Sat, 19 Dec 2020 05:42:44 -0500
+ id 1kqZhE-00032L-F3; Sat, 19 Dec 2020 05:42:45 -0500
 Received: from host86-191-183-22.range86-191.btcentralplus.com
  ([86.191.183.22] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kqZh2-0004BS-C9; Sat, 19 Dec 2020 10:42:36 +0000
+ id 1kqZh6-0004BS-H8; Sat, 19 Dec 2020 10:42:39 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
  thuth@redhat.com
-Date: Sat, 19 Dec 2020 10:42:22 +0000
-Message-Id: <20201219104229.1964-1-mark.cave-ayland@ilande.co.uk>
+Date: Sat, 19 Dec 2020 10:42:23 +0000
+Message-Id: <20201219104229.1964-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201219104229.1964-1-mark.cave-ayland@ilande.co.uk>
+References: <20201219104229.1964-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.191.183.22
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 0/7] macio: remove PIC object property links
+Subject: [PATCH 1/7] mac_oldworld: remove duplicate bus check for
+ PPC_INPUT(env)
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -60,43 +63,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset follows on from the dicussion at https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg02630.html
-where the user_creatable flag for the macio devices was set back to false just
-before the 5.2 release.
-
-The underlying cause was that the PIC object property links were not being set
-before realise. Whilst this cannot happen when launching the g3beige and mac99
-machines from qemu-system-ppc, it caused some automated tests to fail.
-
-Here we fix the real problem which is to move the PIC for both machines into the
-macio device, which not only matches real hardware but also enables the PIC object
-property links to be completely removed.
-
-Patch 6 rewires the macio gpios for the mac99 machine as per Ben's original comment
-after the OpenPIC device has been moved into the macio-newworld device, and then
-finally patch 7 removes setting the user_creatable flag to false on the macio devices
-once again.
+This condition will have already been caught when wiring the heathrow PIC
+irqs to the CPU.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/ppc/mac_oldworld.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-
-Mark Cave-Ayland (7):
-  mac_oldworld: remove duplicate bus check for PPC_INPUT(env)
-  mac_oldworld: move initialisation of grackle before heathrow
-  macio: move heathrow PIC inside macio-oldworld device
-  mac_newworld: delay wiring of PCI IRQs in New World machine
-  macio: move OpenPIC inside macio-newworld device
-  macio: wire macio GPIOs to OpenPIC using sysbus IRQs
-  macio: don't set user_creatable to false
-
- hw/misc/macio/gpio.c          | 24 +++--------
- hw/misc/macio/macio.c         | 53 ++++++++++++------------
- hw/ppc/mac_newworld.c         | 71 ++++++++++++++++----------------
- hw/ppc/mac_oldworld.c         | 76 ++++++++++++++++-------------------
- include/hw/misc/macio/gpio.h  |  2 -
- include/hw/misc/macio/macio.h |  4 +-
- 6 files changed, 104 insertions(+), 126 deletions(-)
-
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 04f98a4d81..2ead34bdf1 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -251,12 +251,6 @@ static void ppc_heathrow_init(MachineState *machine)
+         tbfreq = TBFREQ;
+     }
+ 
+-    /* init basic PC hardware */
+-    if (PPC_INPUT(env) != PPC_FLAGS_INPUT_6xx) {
+-        error_report("Only 6xx bus is supported on heathrow machine");
+-        exit(1);
+-    }
+-
+     /* Grackle PCI host bridge */
+     dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
+     qdev_prop_set_uint32(dev, "ofw-addr", 0x80000000);
 -- 
 2.20.1
 
