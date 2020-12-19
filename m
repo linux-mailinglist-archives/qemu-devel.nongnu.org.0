@@ -2,89 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745092DEECB
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 13:39:55 +0100 (CET)
-Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1342DEFE6
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 14:54:38 +0100 (CET)
+Received: from localhost ([::1]:42166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqbWc-0006tM-I2
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 07:39:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36836)
+	id 1kqcgv-0006yv-86
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 08:54:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kqbV9-0006Ra-BN
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 07:38:23 -0500
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:53475)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kqbV5-0007Lu-04
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 07:38:23 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 1A4CF60E;
- Sat, 19 Dec 2020 07:38:16 -0500 (EST)
-Received: from imap1 ([10.202.2.51])
- by compute6.internal (MEProxy); Sat, 19 Dec 2020 07:38:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm1; bh=nSGfy
- ll8oJ/HLtxR59BC/5tieR9f195uSH0+/+PBOsI=; b=o3ClACCP4qC32bWaPKhP2
- dJb3VEbW+jN2ybXAysFjK5+puBo6OSUHajL8xhKCjofcjvFBSekzBi8XqBH38bQ1
- 2F8rxojT9Y6M5qIDwTi1Fg4WByfbI7/kE/Q8tlxKQNYh+I8f/lmspU0GbzcrlNZY
- VF8egjZXfWcyBSqNpGfaPKY1bXkb6xvw2A5i4P6zfEymgrILSVoR80TgrrTFdfBQ
- fSkFIonQ5vL5hFDOZtOXXxxv4LFFst5l4QyRqDAnGqZ8sKbyinnk+tTWh2I4rCTl
- kXdX3lhjAzL3U+qiQWKtnDhXJE9jxVjwT5sbyd6eslP/cvDkwHvq5qZK2muQS+Fr
- g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=nSGfyll8oJ/HLtxR59BC/5tieR9f195uSH0+/+PBO
- sI=; b=aByN5zQrUoQp+A4qg22sf7MMZxlUniANIU0fhAD9bSVIhLmMJQEFD2hNK
- KqBjWiBOCHvHUcSy9hLalB/VmPvyeDrtQe1AaOIwBRp3QF2BmJGn3mqcfVO2LLrT
- 9cQI2qDPrIQlluI0+PJot2rEdejdBciv1NdMA+wn0vjpnSKvOsBKAddPZlkVgSOv
- SxvwdzI/3ZRUjaY3sKjpNKeZ4a1T74SIK2lWuiN0v+n7AvkN29Vy5BUKtLiTexPp
- heY4kkY2Yb94iSUxmIZq/LrjdE26y8rsbjDBNisZVYhONlpCC/gorYOBpyON4NiD
- qlXBVU6kmqcII4wAg/OeYh6YFxlaA==
-X-ME-Sender: <xms:NvTdXx-KzQIs_MEY3OSHRambLgNmASrgVMigYJJxBiv9K96B-vaCww>
- <xme:NvTdX1vFJVqdiyX6wrYOHCWCQrH43UubxTaxUwi3tUGN1eareqjmzNuCJjmGqtcoy
- MKwSbD7BH-VBAI2QwQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelkedggeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
- rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
- eqnecuggftrfgrthhtvghrnhepudfhjeeuheekteeftdeiieegfeduhfdvteetudehleeg
- hedtleefkeetkeekvdfgnecuffhomhgrihhnpehoshgunhdrnhgvthenucevlhhushhtvg
- hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhg
- sehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:NvTdX_AhqSLx9F5ivlcTSzmF-64jfZdYqZaJLFsFYEdoIZ1hTrhduA>
- <xmx:NvTdX1d_pGSbFx79Cun4WtQ7UK3e-ctSP534rVKiIMxEV1mMMu2J2w>
- <xmx:NvTdX2Mm6rbe4Xo0BbY7qkm7ZLMbbQo50v0HpTeSTDOPZpwafhdZXA>
- <xmx:N_TdX_Z8IMjwo7L3DeKRC32kak-aUR6zed1ThPWPVyCd2tpZVHRltjZEp7RU1DTc>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 282F9C200A5; Sat, 19 Dec 2020 07:38:15 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.3.1-61-gb52c239-fm-20201210.001-gb52c2396
-Mime-Version: 1.0
-Message-Id: <5cb09aab-f425-4faa-969d-9df324768af2@www.fastmail.com>
-In-Reply-To: <516bc88e-d49-94f9-b4a2-a9d31e9026@eik.bme.hu>
-References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
- <516bc88e-d49-94f9-b4a2-a9d31e9026@eik.bme.hu>
-Date: Sat, 19 Dec 2020 20:37:42 +0800
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "BALATON Zoltan" <balaton@eik.bme.hu>
-Subject: Re: [PATCH v2 0/8] hm/mips/fuloong2e fixes
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: permerror client-ip=64.147.123.27;
- envelope-from=jiaxun.yang@flygoat.com; helo=wnew2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kqcfW-0006Ma-7T; Sat, 19 Dec 2020 08:53:10 -0500
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:40202)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kqcfU-00072q-Ea; Sat, 19 Dec 2020 08:53:09 -0500
+Received: by mail-yb1-xb2b.google.com with SMTP id b64so4220281ybg.7;
+ Sat, 19 Dec 2020 05:53:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ax30wj6bzo99/WdCT4BVrqr+NylIZVJ/stk8yKc6bBs=;
+ b=jgNvJp62MOES0NSuinbvM30zx1T19Cjs7DEJdvtVbSNsWGkY3qQulD2hTqFXi3+ct7
+ vuSgeffn2sd5yzbVZ1xYmjxWQiwMGz0baoFSRGBiNDdM5SQkQ4HGuaEcERPFP2TXatT0
+ QuwNi8v9hxQuBmqDDXoaOkGj883/Aer6vIBjGeob4PzfQ2zYtfkC3BeBlDxmrGpNFGoY
+ thUOqMaCdbZ6KG5+nUfUOX1XkJpBfWaVbwaft/vEgI1mniMHc3KzqkJxxHeHHP7825NQ
+ htsSEvQdNZDJy3NkkxdZlD4aHg8QfUYgyRsieW+5RK2t0lpcTcyoeZbZYt27hDOAOKJC
+ upHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ax30wj6bzo99/WdCT4BVrqr+NylIZVJ/stk8yKc6bBs=;
+ b=qAfx/EMC2dvD94ws9xxN+jyWYwGA/tq7JZEjt3mbj41KEu/ZLMIaBlcLLPw9vZjTNA
+ QldVbI4MCHe7u8fc+zqKhoF2NaguNkJoD6X47ZUzkAxloOWHuh5N1jPmPYCtXe1MVtyt
+ Cbr+NB3RCfbXNJ2AMgyg9asVSWSDBM95cw99X3b6TkZPbO+MjiV8ltkCLgIs6596wlXe
+ dX+LIMet8qWZmHVZLEEv9T2EVFykiNBwoz0L2Ie7inQYcwgjjJ3NCRVFZxd/GrA6ttMB
+ q1aHCipi9x9uvH0N2ogPjcfssYMv6ynLDzoPjTOdTI0xERlOxdgatM3fzGwvmF3/fv6v
+ P7hg==
+X-Gm-Message-State: AOAM5310+nABWm3V6Kkq8dLTc42dmZ+bM3Ei6fQoDt69sc2lfI1HO5//
+ TCFG63uolkdi6KnJs0N8Of4sft96K4e8KaKIqBA=
+X-Google-Smtp-Source: ABdhPJxuFLbp1QaliEZZ0e92zLqVch+zhfTpyXqeuBzVxlr58SiXCdZZK8tWSE+9tqbLtvWTXslQ6AeCXnVW2KsQXUw=
+X-Received: by 2002:a25:be87:: with SMTP id i7mr12166341ybk.332.1608385986450; 
+ Sat, 19 Dec 2020 05:53:06 -0800 (PST)
+MIME-Version: 1.0
+References: <1607668640-33970-1-git-send-email-bmeng.cn@gmail.com>
+ <1607668640-33970-2-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1607668640-33970-2-git-send-email-bmeng.cn@gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sat, 19 Dec 2020 21:52:54 +0800
+Message-ID: <CAEUhbmUHLNsDZPmKvxW+MvNryA3A=QBn0vMHFDoYCKrgzzayrA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] hw/block: m25p80: Implement AAI-WP command support
+ for SST flashes
+To: Alistair Francis <alistair.francis@wdc.com>, 
+ Francisco Iglesias <frasse.iglesias@gmail.com>, Kevin Wolf <kwolf@redhat.com>, 
+ Max Reitz <mreitz@redhat.com>, Qemu-block <qemu-block@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,54 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: crosa@redhat.com, chenhuacai@kernel.org, qemu-devel@nongnu.org,
- wainersm@redhat.com, f4bug@amsat.org
+Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Francisco,
 
+On Fri, Dec 11, 2020 at 2:37 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+>
+> Auto Address Increment (AAI) Word-Program is a special command of
+> SST flashes. AAI-WP allows multiple bytes of data to be programmed
+> without re-issuing the next sequential address location.
+>
+> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>
+> ---
+>
+> Changes in v3:
+> - initialize aai_enable to false in reset_memory()
+>
+> Changes in v2:
+> - add aai_enable into the vmstate
+> - validate AAI command before decoding a new command
+> - log guest errors during AAI_WP command handling
+> - report AAI status in the status register
+> - abort AAI programming when address is wrapped
+> - make sure AAI programming starts from the even address
+>
+>  hw/block/m25p80.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 61 insertions(+)
+>
 
-=E5=9C=A82020=E5=B9=B412=E6=9C=8819=E6=97=A5=E5=8D=81=E4=BA=8C=E6=9C=88 =
-=E4=B8=8B=E5=8D=888:13=EF=BC=8CBALATON Zoltan=E5=86=99=E9=81=93=EF=BC=9A=
+Any comments for this series?
 
-> On Sat, 19 Dec 2020, Jiaxun Yang wrote:
-> > It can now boot Debian installer[1] as well as a custom PMON bootloa=
-der
-> > distribution[2].
-> >
-> > Note that it can't boot PMON shipped with actual machine as our ATI =
-vgabios
-> > is using some x86 hack that can't be handled by x86emu in original P=
-MON.
->=20
-> This may be similar problem that I've seen with similar PPC firmwares:=
-
->=20
-> https://osdn.net/projects/qmiga/wiki/SubprojectAti
-> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2#h3-Known.20iss=
-ues
->=20
-> TLDR; vgabios-ati.bin is compiled for i386 real mode (bacause that's w=
-hat=20
-> gcc can do, real x86 real mode would need something like bcc I think) =
-that=20
-> some x86emu can't handle. You can either use Bochs vga bios via romfil=
-e=20
-> property of the vga emulation or try the option for x86emu when compil=
-ing=20
-> vgabios-ati.bin (which did not help the firmwares I've tried).
-
-Hi,
-
-Thinks for your reminder!
-
-To be more specified, our x86emu in PMON can handle i386 real mode,
-however vgabios-ati uses INT15h when INT10h ax=3D0x4f01 (Get VESA Mode)
-is called. And x86emu won't process INT15h properly.
-
-My workround[1] is to allow 0x4f01 to be failed in PMON, as ax=3D0x4f02
-(Set VESA Mode) do work, it won't be a actual problem.
-
-
-- Jiaxun
+Regards,
+Bin
 
