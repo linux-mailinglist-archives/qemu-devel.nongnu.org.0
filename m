@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F8F2DEDA8
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 08:14:29 +0100 (CET)
-Received: from localhost ([::1]:41266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EA02DEDA9
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 08:14:42 +0100 (CET)
+Received: from localhost ([::1]:41512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqWRf-0006Cm-MS
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 02:14:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52384)
+	id 1kqWRt-0006KN-JH
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 02:14:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kqWQM-0005Og-5k
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:13:06 -0500
-Received: from relay1.mymailcheap.com ([149.56.97.132]:47428)
+ id 1kqWQO-0005Q6-QW
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:13:08 -0500
+Received: from relay1.mymailcheap.com ([149.56.97.132]:43111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kqWQG-0003sX-EO
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:13:05 -0500
+ id 1kqWQN-0003vm-An
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:13:08 -0500
 Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
  [91.134.140.82])
- by relay1.mymailcheap.com (Postfix) with ESMTPS id 642E73F201;
- Sat, 19 Dec 2020 07:12:58 +0000 (UTC)
+ by relay1.mymailcheap.com (Postfix) with ESMTPS id 40E763F201;
+ Sat, 19 Dec 2020 07:13:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by filter2.mymailcheap.com (Postfix) with ESMTP id A885D2A524;
- Sat, 19 Dec 2020 08:12:57 +0100 (CET)
+ by filter2.mymailcheap.com (Postfix) with ESMTP id 867F72A524;
+ Sat, 19 Dec 2020 08:13:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
- s=default; t=1608361977;
- bh=f9kzqVajYw0kHsOJgVnfCbJm4vyhZb+LIwVZk6QRM5U=;
- h=From:To:Cc:Subject:Date:From;
- b=W2UTV0ALRWsFldHqaxfdmOKfN/VLMngpGqWhUs0Yeque6V4VyuoPDGDIkYIcPi4Ls
- MGhZBqS7sO5u5OgC3ebiAKlTo9bJxiFICG6bMWrOhxCcAlEOAOqW+TFjrR7RoogMOR
- 6ZRhvSvrVulZA9OVCcOdnyuRuc0I7GKBq+fHwG3M=
+ s=default; t=1608361985;
+ bh=SmpCn0QVYIFFEZ0CJpU7NG27FM9Oa4phXycKb6IE7/0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=NQDVSFoK8ozOu2fDKzLUwddzVYlrWjlOY1KBW6jlKx9UPg/g+JtqthkLjH57dUHcB
+ fpOV13WZj261kVH/hqSyBZxIx27qziBlB6czC/ak7u2RVm8IUjnhAlEPuTRYVViS5E
+ a3Rl+BUvS9VyqFqlZlCNmgnsa7twlgbeCZUsF48k=
 X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
 Received: from filter2.mymailcheap.com ([127.0.0.1])
  by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gEZT22ejHhH9; Sat, 19 Dec 2020 08:12:56 +0100 (CET)
+ with ESMTP id vVqwNalZI7yU; Sat, 19 Dec 2020 08:13:04 +0100 (CET)
 Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
  (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  by filter2.mymailcheap.com (Postfix) with ESMTPS;
- Sat, 19 Dec 2020 08:12:56 +0100 (CET)
+ Sat, 19 Dec 2020 08:13:04 +0100 (CET)
 Received: from [213.133.102.83] (ml.mymailcheap.com [213.133.102.83])
- by mail20.mymailcheap.com (Postfix) with ESMTP id C337E41E18;
- Sat, 19 Dec 2020 07:12:53 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTP id 3B8AF41009;
+ Sat, 19 Dec 2020 07:13:04 +0000 (UTC)
 Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
- unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="l6/JTcLU"; 
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="hCUoQKQZ"; 
  dkim-atps=neutral
 AI-Spam-Status: Not processed
 Received: from localhost.localdomain (unknown [180.97.240.22])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 97BFD41009;
- Sat, 19 Dec 2020 07:12:45 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id 95DC941009;
+ Sat, 19 Dec 2020 07:12:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
- s=default; t=1608361969;
- bh=f9kzqVajYw0kHsOJgVnfCbJm4vyhZb+LIwVZk6QRM5U=;
- h=From:To:Cc:Subject:Date:From;
- b=l6/JTcLUdh/lZMf7UPivsMXjrf+hVJpufVMemAhi52DzD2HOkjocGSE+EKa4bGRN+
- HH6pluBtA+cJD8LIKaIEe2MmtdKx9yT4odc5dfBOcK3pbU0lRYXMs4yNdO8DvO61PB
- TVcJjpYHb3HKHdELJ33CgaQRddFMDWqhHEKXDW6g=
+ s=default; t=1608361976;
+ bh=SmpCn0QVYIFFEZ0CJpU7NG27FM9Oa4phXycKb6IE7/0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=hCUoQKQZwPYkqZciZzQohM8Ed/fU6q0QzSLValFkkUcc+aquQyyOek+8t2beIXpXd
+ uNnjhwpqz91HIQPbPSGGANWqvJY7P/lwMCp3AP4Th/6uEXzeMM/iNpOsS1Nwt0CrQV
+ cbNj/meKR7nqIBjxrzWZG36bmXTVeOHyADBJgXok=
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/8] hm/mips/fuloong2e fixes
-Date: Sat, 19 Dec 2020 15:12:27 +0800
-Message-Id: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 1/8] hw/mips/fuloong2e: Remove define DEBUG_FULOONG2E_INIT
+Date: Sat, 19 Dec 2020 15:12:28 +0800
+Message-Id: <20201219071235.35040-2-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
+References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [4.90 / 10.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_XBL(3.00)[180.97.240.22:received];
+X-Spamd-Result: default: False [4.90 / 10.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
  R_DKIM_ALLOW(0.00)[flygoat.com:s=default];
  RECEIVED_SPAMHAUS_CSS(1.00)[180.97.240.22:received];
  FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- ARC_NA(0.00)[]; R_SPF_SOFTFAIL(0.00)[~all];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RECEIVED_SPAMHAUS_XBL(3.00)[180.97.240.22:received];
+ MIME_GOOD(-0.10)[text/plain]; R_SPF_SOFTFAIL(0.00)[~all:c];
  RCPT_COUNT_FIVE(0.00)[6]; ML_SERVERS(-3.10)[213.133.102.83];
  DKIM_TRACE(0.00)[flygoat.com:+];
  DMARC_POLICY_ALLOW(0.00)[flygoat.com,none];
@@ -88,7 +91,7 @@ X-Spamd-Result: default: False [4.90 / 10.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
  ASN(0.00)[asn:24940, ipnet:213.133.96.0/19, country:DE];
  RCVD_COUNT_TWO(0.00)[2];
  HFILTER_HELO_BAREIP(3.00)[213.133.102.83,1]
-X-Rspamd-Queue-Id: C337E41E18
+X-Rspamd-Queue-Id: 3B8AF41009
 X-Rspamd-Server: mail20.mymailcheap.com
 X-Spam: Yes
 Received-SPF: pass client-ip=149.56.97.132;
@@ -116,42 +119,28 @@ Cc: chenhuacai@kernel.org, f4bug@amsat.org, wainersm@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It can now boot Debian installer[1] as well as a custom PMON bootloader
-distribution[2].
+Seems useless....
 
-Note that it can't boot PMON shipped with actual machine as our ATI vgabios
-is using some x86 hack that can't be handled by x86emu in original PMON. 
+Fixes: 051c190bce5 ("MIPS: Initial support of fulong mini pc (machine construction)")
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/mips/fuloong2e.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-
-Tree avilable at: https://gitlab.com/FlyGoat/qemu/-/tree/fuloong_fixes_v2
-
-v2:
- - Collect review tags.
- - Get CPU clock via elegant method. (philmd)
- - Add boot_linux_console scceptance test
-
-[1]: http://archive.debian.org/debian/dists/jessie/main/installer-mipsel/current/images/loongson-2e/netboot/
-[2]: https://github.com/loongson-community/pmon/releases/download/20201219/pmon-2edev.bin
-
-Thanks.
-
-- Jiaxun
-
-Jiaxun Yang (8):
-  hw/mips/fuloong2e: Remove define DEBUG_FULOONG2E_INIT
-  hw/mips/fuloong2e: Relpace fault links
-  hw/pci-host/bonito: Fixup IRQ mapping
-  hw/pci-host/bonito: Fixup pci.lomem mapping
-  hw/mips/fuloong2e: Remove unused env entry
-  hw/mips/fuloong2e: Correct cpuclock env
-  hw/mips/fuloong2e: Add highmem support
-  tests/acceptance: Test boot_linux_console for fuloong2e
-
- hw/mips/fuloong2e.c                    | 84 +++++++++++++++++---------
- hw/pci-host/bonito.c                   | 45 ++++----------
- tests/acceptance/boot_linux_console.py | 21 +++++++
- 3 files changed, 87 insertions(+), 63 deletions(-)
-
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 9b0eb8a314..055b99e378 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -48,8 +48,6 @@
+ #include "sysemu/reset.h"
+ #include "qemu/error-report.h"
+ 
+-#define DEBUG_FULOONG2E_INIT
+-
+ #define ENVP_PADDR              0x2000
+ #define ENVP_VADDR              cpu_mips_phys_to_kseg0(NULL, ENVP_PADDR)
+ #define ENVP_NB_ENTRIES         16
 -- 
 2.29.2
 
