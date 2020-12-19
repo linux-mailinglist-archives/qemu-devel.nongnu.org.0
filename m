@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9953E2DEE70
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 12:12:47 +0100 (CET)
-Received: from localhost ([::1]:36156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E652DEE6F
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 12:11:20 +0100 (CET)
+Received: from localhost ([::1]:59274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqaAH-0002C2-H5
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 06:12:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50828)
+	id 1kqa8s-0008Ps-DF
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 06:11:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtx-000568-5E
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42114)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZty-00059u-HT
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtm-0007Hx-7i
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:52 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtn-0007IH-0k
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608375341;
+ s=mimecast20190719; t=1608375342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=29AdrfONURv16D17PL5O506hts+OonM70cmpwZeP+fo=;
- b=YdFMIp9S/dflA7YzKvfDkoSh4FJPxzYNLikLdAJt1qEiLbkHO1xlOtpL3hP2FiCEoo84Jx
- E7nGYor3qdb2FvLloTHT1aBsNuE/xJMg3xHNdfHxqJ9/mdGAwbyNK4l1k1H6Z421os2lLM
- 6ZQ8vOSXx5K+ppxoyrcLwzMi007737I=
+ bh=0PDVUNmxz2T8ZWdNyK2rDNunPXdtOqOJQJybNSVkkzU=;
+ b=UMRK8BUn5bfgw6gEo0aQSZoW/BKC4axFb9tE1/KvHRFkSsm80ByNC4UAPwgwJiV7ISB+6h
+ vECTp5559WMeNt/Bq2VgqWUJUtB2rUGkshjzmNmxiV94B/0OHeiYK5MrIGxIDaroV5UmNG
+ iLInnlPX0lAOs8UYhAADrirr2DdVJk8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-IndbO86zO4eTuPb6iPjBJA-1; Sat, 19 Dec 2020 05:55:39 -0500
-X-MC-Unique: IndbO86zO4eTuPb6iPjBJA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-119-PkQDDYQpPF-f0u16GZRtYg-1; Sat, 19 Dec 2020 05:55:39 -0500
+X-MC-Unique: PkQDDYQpPF-f0u16GZRtYg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51C20180A087;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51DBE180A089;
  Sat, 19 Dec 2020 10:55:38 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 23E666A8F0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 237383AA2;
  Sat, 19 Dec 2020 10:55:38 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D9BE8112564B; Sat, 19 Dec 2020 11:55:32 +0100 (CET)
+ id DC571112564C; Sat, 19 Dec 2020 11:55:32 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/33] json: Use GString instead of QString to accumulate
- strings
-Date: Sat, 19 Dec 2020 11:55:29 +0100
-Message-Id: <20201219105532.1734134-31-armbru@redhat.com>
+Subject: [PULL 31/33] keyval: Use GString to accumulate value strings
+Date: Sat, 19 Dec 2020 11:55:30 +0100
+Message-Id: <20201219105532.1734134-32-armbru@redhat.com>
 In-Reply-To: <20201219105532.1734134-1-armbru@redhat.com>
 References: <20201219105532.1734134-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,105 +87,61 @@ QString supports modifying its string, but it's quite limited: you can
 only append.  The remaining callers use it for building an initial
 string, never for modifying it later.
 
-Change parse_string() to do build the initial string with GString.
+Change keyval_parse_one() to do build the initial string with GString.
 This is another step towards making QString immutable.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20201211171152.146877-18-armbru@redhat.com>
+Message-Id: <20201211171152.146877-19-armbru@redhat.com>
 ---
- qobject/json-parser.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ util/keyval.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/qobject/json-parser.c b/qobject/json-parser.c
-index c0f521b56b..d351039b10 100644
---- a/qobject/json-parser.c
-+++ b/qobject/json-parser.c
-@@ -130,7 +130,7 @@ static int cvt4hex(const char *s)
- static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
- {
-     const char *ptr = token->str;
--    QString *str;
-+    GString *str;
-     char quote;
-     const char *beg;
-     int cp, trailing;
-@@ -140,7 +140,7 @@ static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
+diff --git a/util/keyval.c b/util/keyval.c
+index 7f625ad33c..be34928813 100644
+--- a/util/keyval.c
++++ b/util/keyval.c
+@@ -189,7 +189,7 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
+     QDict *cur;
+     int ret;
+     QObject *next;
+-    QString *val;
++    GString *val;
  
-     assert(*ptr == '"' || *ptr == '\'');
-     quote = *ptr++;
--    str = qstring_new();
-+    str = g_string_new(NULL);
+     key = params;
+     val_end = NULL;
+@@ -263,7 +263,7 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
  
-     while (*ptr != quote) {
-         assert(*ptr);
-@@ -149,31 +149,31 @@ static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
-             beg = ptr++;
-             switch (*ptr++) {
-             case '"':
--                qstring_append_chr(str, '"');
-+                g_string_append_c(str, '"');
+     if (key == implied_key) {
+         assert(!*s);
+-        val = qstring_from_substr(params, 0, val_end - params);
++        val = g_string_new_len(params, val_end - params);
+         s = val_end;
+         if (*s == ',') {
+             s++;
+@@ -276,7 +276,7 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
+         }
+         s++;
+ 
+-        val = qstring_new();
++        val = g_string_new(NULL);
+         for (;;) {
+             if (!*s) {
                  break;
-             case '\'':
--                qstring_append_chr(str, '\'');
-+                g_string_append_c(str, '\'');
-                 break;
-             case '\\':
--                qstring_append_chr(str, '\\');
-+                g_string_append_c(str, '\\');
-                 break;
-             case '/':
--                qstring_append_chr(str, '/');
-+                g_string_append_c(str, '/');
-                 break;
-             case 'b':
--                qstring_append_chr(str, '\b');
-+                g_string_append_c(str, '\b');
-                 break;
-             case 'f':
--                qstring_append_chr(str, '\f');
-+                g_string_append_c(str, '\f');
-                 break;
-             case 'n':
--                qstring_append_chr(str, '\n');
-+                g_string_append_c(str, '\n');
-                 break;
-             case 'r':
--                qstring_append_chr(str, '\r');
-+                g_string_append_c(str, '\r');
-                 break;
-             case 't':
--                qstring_append_chr(str, '\t');
-+                g_string_append_c(str, '\t');
-                 break;
-             case 'u':
-                 cp = cvt4hex(ptr);
-@@ -200,7 +200,7 @@ static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
-                                 (int)(ptr - beg), beg);
-                     goto out;
+@@ -286,11 +286,12 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
+                     break;
                  }
--                qstring_append(str, utf8_buf);
-+                g_string_append(str, utf8_buf);
-                 break;
-             default:
-                 parse_error(ctxt, token, "invalid escape sequence in string");
-@@ -225,14 +225,14 @@ static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
-             ptr = end;
-             len = mod_utf8_encode(utf8_buf, sizeof(utf8_buf), cp);
-             assert(len >= 0);
--            qstring_append(str, utf8_buf);
-+            g_string_append(str, utf8_buf);
+             }
+-            qstring_append_chr(val, *s++);
++            g_string_append_c(val, *s++);
          }
      }
  
--    return str;
-+    return qstring_from_gstring(str);
- 
- out:
--    qobject_unref(str);
-+    g_string_free(str, true);
-     return NULL;
- }
- 
+-    if (!keyval_parse_put(cur, key_in_cur, val, key, key_end, errp)) {
++    if (!keyval_parse_put(cur, key_in_cur, qstring_from_gstring(val),
++                          key, key_end, errp)) {
+         return NULL;
+     }
+     return s;
 -- 
 2.26.2
 
