@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729712DEE5F
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 12:05:37 +0100 (CET)
-Received: from localhost ([::1]:38806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E352DEE69
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 12:08:00 +0100 (CET)
+Received: from localhost ([::1]:47864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqa3M-0008TY-EL
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 06:05:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50738)
+	id 1kqa5e-0003lZ-Vw
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 06:07:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZts-0004qx-D2
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54907)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtw-00053n-EN
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtl-0007Gx-Ef
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:48 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtl-0007Hm-U0
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608375340;
+ s=mimecast20190719; t=1608375341;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SllfA2N6rUeiGlBN0XXzFzmBSwlJl7y67Ae4fWix+Zs=;
- b=IJsykYtcS2v3aVob6NK8H4M78hWqkIdmtXEw5GtqnzRj9fZJ0cewqUZ5VUrJ45S5rxnBXZ
- JGouxkqxOo/HzrN5ISwsO65EwTNLqOhP1fEX00bGJ72faAZULeRgoHXarzDH/1NQ6y3V34
- AtoWz2l/xL1nTD1HQIPtcu+xX3W5yKE=
+ bh=8+TIx5BUivhcBaDYs/Fddcv8Oasy9cn6EtQxoHAhUek=;
+ b=jC1SimSBlI8rRpZTrCRny2Gspocp3M+ZBvyg4+cz++h0FMfD047jyG91tGuHHuPP+7LqAk
+ j9+bKlDINNDF9vDQk8Ko0VVERllUrpDor8Y8jgaZZY+36FVLRRAFP7aTV7nWSmKxV44R+O
+ oATH66blsy+7yAKdX4uUQLFuZQOmM2c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-9FUwyJhFM5GYmjwDQLj6SQ-1; Sat, 19 Dec 2020 05:55:38 -0500
-X-MC-Unique: 9FUwyJhFM5GYmjwDQLj6SQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-122-OselJvTyNGeW_EOPnTpG_w-1; Sat, 19 Dec 2020 05:55:38 -0500
+X-MC-Unique: OselJvTyNGeW_EOPnTpG_w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12750180A096;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39561107ACF6;
  Sat, 19 Dec 2020 10:55:37 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D9AAB5D769;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA88750DD3;
  Sat, 19 Dec 2020 10:55:36 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C25491125643; Sat, 19 Dec 2020 11:55:32 +0100 (CET)
+ id C74371125648; Sat, 19 Dec 2020 11:55:32 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/33] qobject: Drop qstring_get_try_str()
-Date: Sat, 19 Dec 2020 11:55:25 +0100
-Message-Id: <20201219105532.1734134-27-armbru@redhat.com>
+Subject: [PULL 27/33] qobject: Factor quoted_str() out of to_json()
+Date: Sat, 19 Dec 2020 11:55:26 +0100
+Message-Id: <20201219105532.1734134-28-armbru@redhat.com>
 In-Reply-To: <20201219105532.1734134-1-armbru@redhat.com>
 References: <20201219105532.1734134-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,93 +83,154 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No users left outside tests/, and the ones in tests/ can just as well
-use qstring_get_str().  Do that, and drop the function.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20201211171152.146877-14-armbru@redhat.com>
+Message-Id: <20201211171152.146877-15-armbru@redhat.com>
 ---
- include/qapi/qmp/qstring.h |  1 -
- qobject/qstring.c          | 10 ----------
- tests/check-qjson.c        | 11 +++++------
- 3 files changed, 5 insertions(+), 17 deletions(-)
+ qobject/qjson.c | 110 ++++++++++++++++++++++++------------------------
+ 1 file changed, 54 insertions(+), 56 deletions(-)
 
-diff --git a/include/qapi/qmp/qstring.h b/include/qapi/qmp/qstring.h
-index 56034dae54..53567db6c0 100644
---- a/include/qapi/qmp/qstring.h
-+++ b/include/qapi/qmp/qstring.h
-@@ -28,7 +28,6 @@ QString *qstring_from_substr(const char *str, size_t start, size_t end);
- QString *qstring_from_gstring(GString *gstr);
- size_t qstring_get_length(const QString *qstring);
- const char *qstring_get_str(const QString *qstring);
--const char *qstring_get_try_str(const QString *qstring);
- void qstring_append_int(QString *qstring, int64_t value);
- void qstring_append(QString *qstring, const char *str);
- void qstring_append_chr(QString *qstring, int c);
-diff --git a/qobject/qstring.c b/qobject/qstring.c
-index cfe3f3bf00..ea86d80cf0 100644
---- a/qobject/qstring.c
-+++ b/qobject/qstring.c
-@@ -139,16 +139,6 @@ const char *qstring_get_str(const QString *qstring)
-     return qstring->string;
+diff --git a/qobject/qjson.c b/qobject/qjson.c
+index 2f690c1816..962214f5a7 100644
+--- a/qobject/qjson.c
++++ b/qobject/qjson.c
+@@ -156,6 +156,58 @@ static void json_pretty_newline(GString *accu, bool pretty, int indent)
+     }
  }
  
--/**
-- * qstring_get_try_str(): Return a pointer to the stored string
-- *
-- * NOTE: will return NULL if qstring is not provided.
-- */
--const char *qstring_get_try_str(const QString *qstring)
--{
--    return qstring ? qstring_get_str(qstring) : NULL;
--}
++static void quoted_str(const char *str, GString *accu)
++{
++    const char *ptr;
++    int cp;
++    char *end;
++
++    g_string_append_c(accu, '"');
++
++    for (ptr = str; *ptr; ptr = end) {
++        cp = mod_utf8_codepoint(ptr, 6, &end);
++        switch (cp) {
++        case '\"':
++            g_string_append(accu, "\\\"");
++            break;
++        case '\\':
++            g_string_append(accu, "\\\\");
++            break;
++        case '\b':
++            g_string_append(accu, "\\b");
++            break;
++        case '\f':
++            g_string_append(accu, "\\f");
++            break;
++        case '\n':
++            g_string_append(accu, "\\n");
++            break;
++        case '\r':
++            g_string_append(accu, "\\r");
++            break;
++        case '\t':
++            g_string_append(accu, "\\t");
++            break;
++        default:
++            if (cp < 0) {
++                cp = 0xFFFD; /* replacement character */
++            }
++            if (cp > 0xFFFF) {
++                /* beyond BMP; need a surrogate pair */
++                g_string_append_printf(accu, "\\u%04X\\u%04X",
++                                       0xD800 + ((cp - 0x10000) >> 10),
++                                       0xDC00 + ((cp - 0x10000) & 0x3FF));
++            } else if (cp < 0x20 || cp >= 0x7F) {
++                g_string_append_printf(accu, "\\u%04X", cp);
++            } else {
++                g_string_append_c(accu, cp);
++            }
++        }
++    };
++
++    g_string_append_c(accu, '"');
++}
++
+ static void to_json(const QObject *obj, GString *accu, bool pretty, int indent)
+ {
+     switch (qobject_type(obj)) {
+@@ -170,56 +222,7 @@ static void to_json(const QObject *obj, GString *accu, bool pretty, int indent)
+         break;
+     }
+     case QTYPE_QSTRING: {
+-        QString *val = qobject_to(QString, obj);
+-        const char *ptr;
+-        int cp;
+-        char *end;
 -
- /**
-  * qstring_is_equal(): Test whether the two QStrings are equal
-  */
-diff --git a/tests/check-qjson.c b/tests/check-qjson.c
-index 337add0838..c845f91d43 100644
---- a/tests/check-qjson.c
-+++ b/tests/check-qjson.c
-@@ -89,7 +89,7 @@ static void escaped_string(void)
-         for (j = 0; j < 2; j++) {
-             if (test_cases[i].utf8_out) {
-                 cstr = from_json_str(test_cases[i].json_in, j, &error_abort);
--                g_assert_cmpstr(qstring_get_try_str(cstr),
-+                g_assert_cmpstr(qstring_get_str(cstr),
-                                 ==, test_cases[i].utf8_out);
-                 if (!test_cases[i].skip) {
-                     jstr = to_json_str(cstr);
-@@ -751,7 +751,7 @@ static void utf8_string(void)
-             /* Parse @json_in, expect @utf8_out */
-             if (utf8_out) {
-                 str = from_json_str(json_in, j, &error_abort);
--                g_assert_cmpstr(qstring_get_try_str(str), ==, utf8_out);
-+                g_assert_cmpstr(qstring_get_str(str), ==, utf8_out);
-                 qobject_unref(str);
-             } else {
-                 str = from_json_str(json_in, j, NULL);
-@@ -782,7 +782,7 @@ static void utf8_string(void)
-             /* Parse @json_out right back, unless it has replacements */
-             if (!strstr(json_out, "\\uFFFD")) {
-                 str = from_json_str(json_out, j, &error_abort);
--                g_assert_cmpstr(qstring_get_try_str(str), ==, utf8_in);
-+                g_assert_cmpstr(qstring_get_str(str), ==, utf8_in);
-                 qobject_unref(str);
-             }
-         }
-@@ -1021,9 +1021,8 @@ static void interpolation_valid(void)
+-        ptr = qstring_get_str(val);
+-        g_string_append_c(accu, '"');
+-
+-        for (; *ptr; ptr = end) {
+-            cp = mod_utf8_codepoint(ptr, 6, &end);
+-            switch (cp) {
+-            case '\"':
+-                g_string_append(accu, "\\\"");
+-                break;
+-            case '\\':
+-                g_string_append(accu, "\\\\");
+-                break;
+-            case '\b':
+-                g_string_append(accu, "\\b");
+-                break;
+-            case '\f':
+-                g_string_append(accu, "\\f");
+-                break;
+-            case '\n':
+-                g_string_append(accu, "\\n");
+-                break;
+-            case '\r':
+-                g_string_append(accu, "\\r");
+-                break;
+-            case '\t':
+-                g_string_append(accu, "\\t");
+-                break;
+-            default:
+-                if (cp < 0) {
+-                    cp = 0xFFFD; /* replacement character */
+-                }
+-                if (cp > 0xFFFF) {
+-                    /* beyond BMP; need a surrogate pair */
+-                    g_string_append_printf(accu, "\\u%04X\\u%04X",
+-                                           0xD800 + ((cp - 0x10000) >> 10),
+-                                           0xDC00 + ((cp - 0x10000) & 0x3FF));
+-                } else if (cp < 0x20 || cp >= 0x7F) {
+-                    g_string_append_printf(accu, "\\u%04X", cp);
+-                } else {
+-                    g_string_append_c(accu, cp);
+-                }
+-            }
+-        };
+-
+-        g_string_append_c(accu, '"');
++        quoted_str(qstring_get_str(qobject_to(QString, obj)), accu);
+         break;
+     }
+     case QTYPE_QDICT: {
+@@ -227,7 +230,6 @@ static void to_json(const QObject *obj, GString *accu, bool pretty, int indent)
+         const char *comma = pretty ? "," : ", ";
+         const char *sep = "";
+         const QDictEntry *entry;
+-        QString *qkey;
  
-     /* string */
+         g_string_append_c(accu, '{');
  
--    qstr = qobject_to(QString,
--                     qobject_from_jsonf_nofail("%s", value_s));
--    g_assert_cmpstr(qstring_get_try_str(qstr), ==, value_s);
-+    qstr = qobject_to(QString, qobject_from_jsonf_nofail("%s", value_s));
-+    g_assert_cmpstr(qstring_get_str(qstr), ==, value_s);
-     qobject_unref(qstr);
- 
-     /* object */
+@@ -236,11 +238,7 @@ static void to_json(const QObject *obj, GString *accu, bool pretty, int indent)
+              entry = qdict_next(val, entry)) {
+             g_string_append(accu, sep);
+             json_pretty_newline(accu, pretty, indent + 1);
+-
+-            qkey = qstring_from_str(qdict_entry_key(entry));
+-            to_json(QOBJECT(qkey), accu, pretty, indent + 1);
+-            qobject_unref(qkey);
+-
++            quoted_str(qdict_entry_key(entry), accu);
+             g_string_append(accu, ": ");
+             to_json(qdict_entry_value(entry), accu, pretty, indent + 1);
+             sep = comma;
 -- 
 2.26.2
 
