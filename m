@@ -2,51 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF062DEE7D
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 12:21:27 +0100 (CET)
-Received: from localhost ([::1]:32972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF3CD2DEE7E
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 12:26:39 +0100 (CET)
+Received: from localhost ([::1]:37500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqaIg-0004Cp-SI
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 06:21:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54206)
+	id 1kqaNi-0006GU-Tn
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 06:26:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kqaH6-00039c-DI
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 06:19:50 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39462
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kqaML-0005jq-06
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 06:25:13 -0500
+Resent-Date: Sat, 19 Dec 2020 06:25:13 -0500
+Resent-Message-Id: <E1kqaML-0005jq-06@lists.gnu.org>
+Received: from sender3-of-o53.zoho.com ([136.143.184.53]:21346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kqaH4-0006Om-5u
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 06:19:48 -0500
-Received: from host86-191-183-22.range86-191.btcentralplus.com
- ([86.191.183.22] helo=kentang.home)
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kqaGw-0004Ts-CR; Sat, 19 Dec 2020 11:19:43 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org,
-	atar4qemu@gmail.com,
-	f4bug@amsat.org
-Date: Sat, 19 Dec 2020 11:19:34 +0000
-Message-Id: <20201219111934.5540-1-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kqaMF-00089n-5D
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 06:25:12 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1608377098; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Z65iMm2eDiSU4/EG1csx1NIrNPU1bxzezM6opUG3E0UZQrODaxdZrND9UL/KxLFzLdabqVBoVUja87kRI2rc7VrD/PZ9F71kM4vjBeaYvTMNsCumx4cXv2PxW2/jN2z7eymiiJwCteUtRfTJFgzzNS75lfGg8bfipVjE6NoM+8k=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1608377098;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=Shjw5qsinVPr7o2d17mJUCzOEsjUEsgqELAObppTcDw=; 
+ b=bIEQ73IVBRfPtPWLwhnRhOqoJ1OGa/qCum8p+Gc5aigOx/Y4Z5T5nbcCme8s/qBUfkEqcyyP4S4uz1VLCSqrrui27CUawLZI6FsIJjw95HvyWKLORBaTicAOs+Ju93fTvS7JakgrpsSUiDG8OXFqeY7PKeF5jN6R+thAelLqA9s=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1608377095671351.4050195028407;
+ Sat, 19 Dec 2020 03:24:55 -0800 (PST)
+In-Reply-To: <20201219105532.1734134-1-armbru@redhat.com>
+Subject: Re: [PULL 00/33] QAPI patches patches for 2020-12-19
+Message-ID: <160837709464.2802.12754729094303785460@600e7e483b3a>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.191.183.22
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH] sun4m: don't connect two qemu_irqs directly to the same input
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: armbru@redhat.com
+Date: Sat, 19 Dec 2020 03:24:55 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.184.53; envelope-from=no-reply@patchew.org;
+ helo=sender3-of-o53.zoho.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,96 +67,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sun4m board code connects both of the IRQ outputs of each ESCC to the
-same slavio input qemu_irq. Connecting two qemu_irqs outputs directly to the
-same input is not valid as it produces subtly wrong behaviour (for instance
-if both the IRQ lines are high, and then one goes low, the PIC input will see
-this as a high-to-low transition even though the second IRQ line should still
-be holding it high).
-
-This kind of wiring needs an explicitly created OR gate; add one.
-
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- hw/sparc/Kconfig |  1 +
- hw/sparc/sun4m.c | 23 ++++++++++++++++++-----
- 2 files changed, 19 insertions(+), 5 deletions(-)
-
-diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
-index 91805afab6..8dcb10086f 100644
---- a/hw/sparc/Kconfig
-+++ b/hw/sparc/Kconfig
-@@ -14,6 +14,7 @@ config SUN4M
-     select M48T59
-     select STP2000
-     select CHRP_NVRAM
-+    select OR_IRQ
- 
- config LEON3
-     bool
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 8686371318..c06c43be18 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -50,6 +50,7 @@
- #include "hw/misc/empty_slot.h"
- #include "hw/misc/unimp.h"
- #include "hw/irq.h"
-+#include "hw/or-irq.h"
- #include "hw/loader.h"
- #include "elf.h"
- #include "trace.h"
-@@ -848,7 +849,7 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
-     uint32_t initrd_size;
-     DriveInfo *fd[MAX_FD];
-     FWCfgState *fw_cfg;
--    DeviceState *dev;
-+    DeviceState *dev, *ms_kb_orgate, *serial_orgate;
-     SysBusDevice *s;
-     unsigned int smp_cpus = machine->smp.cpus;
-     unsigned int max_cpus = machine->smp.max_cpus;
-@@ -994,10 +995,16 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
-     qdev_prop_set_uint32(dev, "chnAtype", escc_kbd);
-     s = SYS_BUS_DEVICE(dev);
-     sysbus_realize_and_unref(s, &error_fatal);
--    sysbus_connect_irq(s, 0, slavio_irq[14]);
--    sysbus_connect_irq(s, 1, slavio_irq[14]);
-     sysbus_mmio_map(s, 0, hwdef->ms_kb_base);
- 
-+    /* Logically OR both its IRQs together */
-+    ms_kb_orgate = DEVICE(object_new(TYPE_OR_IRQ));
-+    object_property_set_int(OBJECT(ms_kb_orgate), "num-lines", 2, &error_fatal);
-+    qdev_realize_and_unref(ms_kb_orgate, NULL, &error_fatal);
-+    sysbus_connect_irq(s, 0, qdev_get_gpio_in(ms_kb_orgate, 0));
-+    sysbus_connect_irq(s, 1, qdev_get_gpio_in(ms_kb_orgate, 1));
-+    qdev_connect_gpio_out(DEVICE(ms_kb_orgate), 0, slavio_irq[14]);
-+
-     dev = qdev_new(TYPE_ESCC);
-     qdev_prop_set_uint32(dev, "disabled", 0);
-     qdev_prop_set_uint32(dev, "frequency", ESCC_CLOCK);
-@@ -1009,10 +1016,16 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
- 
-     s = SYS_BUS_DEVICE(dev);
-     sysbus_realize_and_unref(s, &error_fatal);
--    sysbus_connect_irq(s, 0, slavio_irq[15]);
--    sysbus_connect_irq(s, 1,  slavio_irq[15]);
-     sysbus_mmio_map(s, 0, hwdef->serial_base);
- 
-+    /* Logically OR both its IRQs together */
-+    serial_orgate = DEVICE(object_new(TYPE_OR_IRQ));
-+    object_property_set_int(OBJECT(serial_orgate), "num-lines", 2, &error_fatal);
-+    qdev_realize_and_unref(serial_orgate, NULL, &error_fatal);
-+    sysbus_connect_irq(s, 0, qdev_get_gpio_in(serial_orgate, 0));
-+    sysbus_connect_irq(s, 1, qdev_get_gpio_in(serial_orgate, 1));
-+    qdev_connect_gpio_out(DEVICE(serial_orgate), 0, slavio_irq[15]);
-+
-     if (hwdef->apc_base) {
-         apc_init(hwdef->apc_base, qemu_allocate_irq(cpu_halt_signal, NULL, 0));
-     }
--- 
-2.20.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIxOTEwNTUzMi4xNzM0
+MTM0LTEtYXJtYnJ1QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTIxOTEwNTUzMi4xNzM0
+MTM0LTEtYXJtYnJ1QHJlZGhhdC5jb20KU3ViamVjdDogW1BVTEwgMDAvMzNdIFFBUEkgcGF0Y2hl
+cyBwYXRjaGVzIGZvciAyMDIwLTEyLTE5Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jp
+bi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZp
+ZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
+bWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Nj
+cmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5E
+ID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApG
+cm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10g
+ICAgICAgICBwYXRjaGV3LzIwMjAxMjE5MTA1NTMyLjE3MzQxMzQtMS1hcm1icnVAcmVkaGF0LmNv
+bSAtPiBwYXRjaGV3LzIwMjAxMjE5MTA1NTMyLjE3MzQxMzQtMS1hcm1icnVAcmVkaGF0LmNvbQog
+KiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAxMjE5MTExOTM0LjU1NDAtMS1tYXJrLmNh
+dmUtYXlsYW5kQGlsYW5kZS5jby51ayAtPiBwYXRjaGV3LzIwMjAxMjE5MTExOTM0LjU1NDAtMS1t
+YXJrLmNhdmUtYXlsYW5kQGlsYW5kZS5jby51awpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rl
+c3QnCjUwY2Y4OGYgcW9iamVjdDogTWFrZSBRU3RyaW5nIGltbXV0YWJsZQoyMTlhZGMzZiBibG9j
+azogVXNlIEdTdHJpbmcgaW5zdGVhZCBvZiBRU3RyaW5nIHRvIGJ1aWxkIGZpbGVuYW1lcwo2YjI2
+NTg2IGtleXZhbDogVXNlIEdTdHJpbmcgdG8gYWNjdW11bGF0ZSB2YWx1ZSBzdHJpbmdzCmMyMDFk
+ODQganNvbjogVXNlIEdTdHJpbmcgaW5zdGVhZCBvZiBRU3RyaW5nIHRvIGFjY3VtdWxhdGUgc3Ry
+aW5ncwo3ZjNiMzcyIG1pZ3JhdGlvbjogUmVwbGFjZSBtaWdyYXRpb24ncyBKU09OIHdyaXRlciBi
+eSB0aGUgZ2VuZXJhbCBvbmUKNTI4ODYxZiBxb2JqZWN0OiBGYWN0b3IgSlNPTiB3cml0ZXIgb3V0
+IG9mIHFvYmplY3RfdG9fanNvbigpCjJlYzUzNjQgcW9iamVjdDogRmFjdG9yIHF1b3RlZF9zdHIo
+KSBvdXQgb2YgdG9fanNvbigpCjNjNmI0ZTQgcW9iamVjdDogRHJvcCBxc3RyaW5nX2dldF90cnlf
+c3RyKCkKZTlhNTg2MiBxb2JqZWN0OiBEcm9wIHFvYmplY3RfZ2V0X3RyeV9zdHIoKQo1MzU1YzBi
+IFJldmVydCAicW9iamVjdDogbGV0IG9iamVjdF9wcm9wZXJ0eV9nZXRfc3RyKCkgdXNlIG5ldyBB
+UEkiCmJiNzk3NTkgYmxvY2s6IEF2b2lkIHFvYmplY3RfZ2V0X3RyeV9zdHIoKQo2ODJkNGEyIHFt
+cDogRml4IHRyYWNpbmcgb2Ygbm9uLXN0cmluZyBjb21tYW5kIElEcwo5NGZiOWYyIHFvYmplY3Q6
+IE1vdmUgaW50ZXJuYWxzIHRvIHFvYmplY3QtaW50ZXJuYWwuaApjMzVlNzQ2IGh3L3JkbWE6IFJl
+cGxhY2UgUUxpc3QgYnkgR1F1ZXVlCmNlNjU1MmQgUmV2ZXJ0ICJxc3RyaW5nOiBhZGQgcXN0cmlu
+Z19mcmVlKCkiCjkyYTIxNGUgcW9iamVjdDogQ2hhbmdlIHFvYmplY3RfdG9fanNvbigpJ3MgdmFs
+dWUgdG8gR1N0cmluZwo5MzAwZDRmIHFvYmplY3Q6IFVzZSBHU3RyaW5nIGluc3RlYWQgb2YgUVN0
+cmluZyB0byBhY2N1bXVsYXRlIEpTT04KODNjNThlOSBxb2JqZWN0OiBNYWtlIHFvYmplY3RfdG9f
+anNvbl9wcmV0dHkoKSB0YWtlIGEgcHJldHR5IGFyZ3VtZW50CmNhZTM0NzIwIG1vbml0b3I6IFVz
+ZSBHU3RyaW5nIGluc3RlYWQgb2YgUVN0cmluZyBmb3Igb3V0cHV0IGJ1ZmZlcgo1Y2U1MjNmIGht
+cDogU2ltcGxpZnkgaG93IHFtcF9odW1hbl9tb25pdG9yX2NvbW1hbmQoKSBnZXRzIG91dHB1dApk
+MDBjNGE5IHRlc3QtdmlzaXRvci1zZXJpYWxpemF0aW9uOiBDbGVhbiB1cCB0ZXN0X3ByaW1pdGl2
+ZXMoKQoxZjIwNzIwIHRlc3QtdmlzaXRvci1zZXJpYWxpemF0aW9uOiBEcm9wIGluc3VmZmljaWVu
+dCBwcmVjaXNpb24gd29ya2Fyb3VuZAowOGU1MTc5IHN0cmluZy1vdXRwdXQtdmlzaXRvcjogRml4
+IHRvIHVzZSBzdWZmaWNpZW50IHByZWNpc2lvbgpmNmIyNzhhIHRlc3Qtc3RyaW5nLW91dHB1dC12
+aXNpdG9yOiBDb3ZlciAidW5yb3VuZCIgbnVtYmVyCjBjNTQ1NmUgcW9iamVjdDogRml4IHFudW1f
+dG9fc3RyaW5nKCkgdG8gdXNlIHN1ZmZpY2llbnQgcHJlY2lzaW9uCjk5NzA5YjUgdGVzdHMvY2hl
+Y2stcW51bTogQ292ZXIgcW51bV90b19zdHJpbmcoKSBmb3IgInVucm91bmQiIGFyZ3VtZW50CmI5
+Zjk5NmUgdGVzdHMvY2hlY2stcWpzb246IFJlcGxhY2UgcmVkdW5kYW50IGxhcmdlX251bWJlcigp
+CjUzOTVjYmIgdGVzdHMvY2hlY2stcWpzb246IENvdmVyIG51bWJlciAyXjYzCjc3MmE1NGYgdGVz
+dHMvY2hlY2stcWpzb246IEV4YW1pbmUgUU51bSBtb3JlIHRob3JvdWdobHkKZTRkZWNkOSB0ZXN0
+cy9jaGVjay1xanNvbjogRG9uJ3Qgc2tpcCBmdW5ueSBRTnVtYmVyIHRvIEpTT04gY29udmVyc2lv
+bnMKM2IxMGJiNiBxYXBpOiBVc2UgUUFQSV9MSVNUX1BSRVBFTkQoKSB3aGVyZSBwb3NzaWJsZQox
+YTVlNmU0IG1pZ3JhdGlvbjogUmVmYWN0b3IgbWlncmF0ZV9jYXBfYWRkCmIxOTdhNjEgcm9ja2Vy
+OiBSZXZhbXAgZnBfcG9ydF9nZXRfaW5mbwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8zMyBDaGVj
+a2luZyBjb21taXQgYjE5N2E2MWNhZWNiIChyb2NrZXI6IFJldmFtcCBmcF9wb3J0X2dldF9pbmZv
+KQoyLzMzIENoZWNraW5nIGNvbW1pdCAxYTVlNmU0YTJjOWYgKG1pZ3JhdGlvbjogUmVmYWN0b3Ig
+bWlncmF0ZV9jYXBfYWRkKQozLzMzIENoZWNraW5nIGNvbW1pdCAzYjEwYmI2NjI1MDggKHFhcGk6
+IFVzZSBRQVBJX0xJU1RfUFJFUEVORCgpIHdoZXJlIHBvc3NpYmxlKQo0LzMzIENoZWNraW5nIGNv
+bW1pdCBlNGRlY2Q5NDVhYzggKHRlc3RzL2NoZWNrLXFqc29uOiBEb24ndCBza2lwIGZ1bm55IFFO
+dW1iZXIgdG8gSlNPTiBjb252ZXJzaW9ucykKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEg
+bGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzk1OiBGSUxFOiB0ZXN0cy9jaGVjay1xanNv
+bi5jOjg4MzoKKyAgICAgICAgeyAiLTMyLjIwZS0xMCIsIC0zMi4yMGUtMTAsICItMCIgLyogQlVH
+ICovIH0sCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikK
+Izk1OiBGSUxFOiB0ZXN0cy9jaGVjay1xanNvbi5jOjg4MzoKKyAgICAgICAgeyAiLTMyLjIwZS0x
+MCIsIC0zMi4yMGUtMTAsICItMCIgLyogQlVHICovIH0sCiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgXgoKdG90YWw6IDEgZXJyb3JzLCAxIHdhcm5pbmdzLCA5NyBsaW5lcyBjaGVja2Vk
+CgpQYXRjaCA0LzMzIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
+ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
+bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo1LzMzIENoZWNraW5nIGNv
+bW1pdCA3NzJhNTRmMWNmNWEgKHRlc3RzL2NoZWNrLXFqc29uOiBFeGFtaW5lIFFOdW0gbW9yZSB0
+aG9yb3VnaGx5KQo2LzMzIENoZWNraW5nIGNvbW1pdCA1Mzk1Y2JiZTdkZjkgKHRlc3RzL2NoZWNr
+LXFqc29uOiBDb3ZlciBudW1iZXIgMl42MykKNy8zMyBDaGVja2luZyBjb21taXQgYjlmOTk2ZThh
+MmUxICh0ZXN0cy9jaGVjay1xanNvbjogUmVwbGFjZSByZWR1bmRhbnQgbGFyZ2VfbnVtYmVyKCkp
+CjgvMzMgQ2hlY2tpbmcgY29tbWl0IDk5NzA5YjU4NmUwMyAodGVzdHMvY2hlY2stcW51bTogQ292
+ZXIgcW51bV90b19zdHJpbmcoKSBmb3IgInVucm91bmQiIGFyZ3VtZW50KQo5LzMzIENoZWNraW5n
+IGNvbW1pdCAwYzU0NTZlYThkMDAgKHFvYmplY3Q6IEZpeCBxbnVtX3RvX3N0cmluZygpIHRvIHVz
+ZSBzdWZmaWNpZW50IHByZWNpc2lvbikKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVh
+ZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzEwNTogRklMRTogcW9iamVjdC9xbnVtLmM6MTcw
+OgorICAgICAgICAvKiBGSVhNRTogZ19zdHJkdXBfcHJpbnRmKCkgaXMgbG9jYWxlIGRlcGVuZGVu
+dDsgYnV0IEpTT04gcmVxdWlyZXMKCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQg
+Jy0nIChjdHg6VnhWKQojMTQ1OiBGSUxFOiB0ZXN0cy9jaGVjay1xanNvbi5jOjg4NjoKKyAgICAg
+ICAgeyAiLTMyLjIwZS0xMCIsIC0zMi4yMGUtMTAsICItMy4yMmUtMDkiIH0sCiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDEgZXJyb3JzLCAxIHdhcm5pbmdzLCA2OSBs
+aW5lcyBjaGVja2VkCgpQYXRjaCA5LzMzIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
+dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
+bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxMC8z
+MyBDaGVja2luZyBjb21taXQgZjZiMjc4YWZlZTc0ICh0ZXN0LXN0cmluZy1vdXRwdXQtdmlzaXRv
+cjogQ292ZXIgInVucm91bmQiIG51bWJlcikKMTEvMzMgQ2hlY2tpbmcgY29tbWl0IDA4ZTUxNzli
+NWY5MyAoc3RyaW5nLW91dHB1dC12aXNpdG9yOiBGaXggdG8gdXNlIHN1ZmZpY2llbnQgcHJlY2lz
+aW9uKQoxMi8zMyBDaGVja2luZyBjb21taXQgMWYyMDcyMDQ0OGE0ICh0ZXN0LXZpc2l0b3Itc2Vy
+aWFsaXphdGlvbjogRHJvcCBpbnN1ZmZpY2llbnQgcHJlY2lzaW9uIHdvcmthcm91bmQpCjEzLzMz
+IENoZWNraW5nIGNvbW1pdCBkMDBjNGE5NTQxNDEgKHRlc3QtdmlzaXRvci1zZXJpYWxpemF0aW9u
+OiBDbGVhbiB1cCB0ZXN0X3ByaW1pdGl2ZXMoKSkKMTQvMzMgQ2hlY2tpbmcgY29tbWl0IDVjZTUy
+M2YxMWEwNSAoaG1wOiBTaW1wbGlmeSBob3cgcW1wX2h1bWFuX21vbml0b3JfY29tbWFuZCgpIGdl
+dHMgb3V0cHV0KQoxNS8zMyBDaGVja2luZyBjb21taXQgY2FlMzQ3MjAzZGMwIChtb25pdG9yOiBV
+c2UgR1N0cmluZyBpbnN0ZWFkIG9mIFFTdHJpbmcgZm9yIG91dHB1dCBidWZmZXIpCjE2LzMzIENo
+ZWNraW5nIGNvbW1pdCA4M2M1OGU5ZmZlZDMgKHFvYmplY3Q6IE1ha2UgcW9iamVjdF90b19qc29u
+X3ByZXR0eSgpIHRha2UgYSBwcmV0dHkgYXJndW1lbnQpCjE3LzMzIENoZWNraW5nIGNvbW1pdCA5
+MzAwZDRmYTlkMTkgKHFvYmplY3Q6IFVzZSBHU3RyaW5nIGluc3RlYWQgb2YgUVN0cmluZyB0byBh
+Y2N1bXVsYXRlIEpTT04pCjE4LzMzIENoZWNraW5nIGNvbW1pdCA5MmEyMTRlMjZiNGEgKHFvYmpl
+Y3Q6IENoYW5nZSBxb2JqZWN0X3RvX2pzb24oKSdzIHZhbHVlIHRvIEdTdHJpbmcpCjE5LzMzIENo
+ZWNraW5nIGNvbW1pdCBjZTY1NTJkNzZmMDcgKFJldmVydCAicXN0cmluZzogYWRkIHFzdHJpbmdf
+ZnJlZSgpIikKMjAvMzMgQ2hlY2tpbmcgY29tbWl0IGMzNWU3NDYzODQ5MCAoaHcvcmRtYTogUmVw
+bGFjZSBRTGlzdCBieSBHUXVldWUpCjIxLzMzIENoZWNraW5nIGNvbW1pdCA5NGZiOWYyMGZhZmMg
+KHFvYmplY3Q6IE1vdmUgaW50ZXJuYWxzIHRvIHFvYmplY3QtaW50ZXJuYWwuaCkKV0FSTklORzog
+YWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVw
+ZGF0aW5nPwojMTc0OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3
+YXJuaW5ncywgMTU0IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIxLzMzIGhhcyBzdHlsZSBwcm9ibGVt
+cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
+aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
+TlRBSU5FUlMuCjIyLzMzIENoZWNraW5nIGNvbW1pdCA2ODJkNGEyNTZhYzQgKHFtcDogRml4IHRy
+YWNpbmcgb2Ygbm9uLXN0cmluZyBjb21tYW5kIElEcykKMjMvMzMgQ2hlY2tpbmcgY29tbWl0IGJi
+Nzk3NTkwMTIzNCAoYmxvY2s6IEF2b2lkIHFvYmplY3RfZ2V0X3RyeV9zdHIoKSkKMjQvMzMgQ2hl
+Y2tpbmcgY29tbWl0IDUzNTVjMGJmNWI5YyAoUmV2ZXJ0ICJxb2JqZWN0OiBsZXQgb2JqZWN0X3By
+b3BlcnR5X2dldF9zdHIoKSB1c2UgbmV3IEFQSSIpCjI1LzMzIENoZWNraW5nIGNvbW1pdCBlOWE1
+ODYyYWYxZjkgKHFvYmplY3Q6IERyb3AgcW9iamVjdF9nZXRfdHJ5X3N0cigpKQoyNi8zMyBDaGVj
+a2luZyBjb21taXQgM2M2YjRlNDgyMDBhIChxb2JqZWN0OiBEcm9wIHFzdHJpbmdfZ2V0X3RyeV9z
+dHIoKSkKMjcvMzMgQ2hlY2tpbmcgY29tbWl0IDJlYzUzNjQ3NDc2OCAocW9iamVjdDogRmFjdG9y
+IHF1b3RlZF9zdHIoKSBvdXQgb2YgdG9fanNvbigpKQoyOC8zMyBDaGVja2luZyBjb21taXQgNTI4
+ODYxZmJiY2E0IChxb2JqZWN0OiBGYWN0b3IgSlNPTiB3cml0ZXIgb3V0IG9mIHFvYmplY3RfdG9f
+anNvbigpKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1B
+SU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyNzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3Rh
+bDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDQ4NyBsaW5lcyBjaGVja2VkCgpQYXRjaCAyOC8zMyBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyOS8zMyBDaGVja2luZyBjb21taXQgN2YzYjM3Mjdm
+NmU5IChtaWdyYXRpb246IFJlcGxhY2UgbWlncmF0aW9uJ3MgSlNPTiB3cml0ZXIgYnkgdGhlIGdl
+bmVyYWwgb25lKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
+IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyODc6IApkZWxldGVkIGZpbGUgbW9kZSAxMDA2
+NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNzUxIGxpbmVzIGNoZWNrZWQKClBhdGNo
+IDI5LzMzIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVz
+ZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5l
+ciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjMwLzMzIENoZWNraW5nIGNvbW1pdCBj
+MjAxZDg0ZGZmM2QgKGpzb246IFVzZSBHU3RyaW5nIGluc3RlYWQgb2YgUVN0cmluZyB0byBhY2N1
+bXVsYXRlIHN0cmluZ3MpCjMxLzMzIENoZWNraW5nIGNvbW1pdCA2YjI2NTg2MjdkYjMgKGtleXZh
+bDogVXNlIEdTdHJpbmcgdG8gYWNjdW11bGF0ZSB2YWx1ZSBzdHJpbmdzKQozMi8zMyBDaGVja2lu
+ZyBjb21taXQgMjE5YWRjM2Y3ZjllIChibG9jazogVXNlIEdTdHJpbmcgaW5zdGVhZCBvZiBRU3Ry
+aW5nIHRvIGJ1aWxkIGZpbGVuYW1lcykKMzMvMzMgQ2hlY2tpbmcgY29tbWl0IDUwY2Y4OGY1NTI2
+MiAocW9iamVjdDogTWFrZSBRU3RyaW5nIGltbXV0YWJsZSkKPT09IE9VVFBVVCBFTkQgPT09CgpU
+ZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFi
+bGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDEyMTkxMDU1MzIuMTczNDEzNC0xLWFy
+bWJydUByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1h
+aWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9y
+Zy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNv
+bQ==
 
