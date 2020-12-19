@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E172D2DEDE4
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 10:08:21 +0100 (CET)
-Received: from localhost ([::1]:59250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120492DEDE9
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 10:14:05 +0100 (CET)
+Received: from localhost ([::1]:38294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqYDr-00079K-5Q
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 04:08:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35776)
+	id 1kqYJQ-00022m-4h
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 04:14:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kqYCP-0006MS-0K
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 04:06:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36202)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kqYCM-0004DL-4A
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 04:06:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608368804;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Hg8d2PDhOVHoGWCzkruxDDDN0Z3PROZY3JZC6uFkyvQ=;
- b=G92N5vrHmPeTDv0BRGTyrLVu67urSykiPT549vR2w/NpLJ7rtaD1iOwD1QSfk4XoKKdsyD
- 1ih126OFzt2Z8mt2RrfAZMPK5edPcofxgQ07ftd1gFJTfqdFi+5im1nxjgoyApr5YWkBJ/
- EODFXlOq84OZNxJuu/3tI+JCmxT1Skk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-my_gCrUCOr2LAvibHpBUFA-1; Sat, 19 Dec 2020 04:06:42 -0500
-X-MC-Unique: my_gCrUCOr2LAvibHpBUFA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C245801817
- for <qemu-devel@nongnu.org>; Sat, 19 Dec 2020 09:06:42 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA763380;
- Sat, 19 Dec 2020 09:06:41 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] whpx: move internal definitions to whpx-internal.h
-Date: Sat, 19 Dec 2020 04:06:37 -0500
-Message-Id: <20201219090637.1700900-3-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kqYIM-0001e3-OR
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 04:12:58 -0500
+Resent-Date: Sat, 19 Dec 2020 04:12:58 -0500
+Resent-Message-Id: <E1kqYIM-0001e3-OR@lists.gnu.org>
+Received: from sender4-of-o52.zoho.com ([136.143.188.52]:21213)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kqYIK-0006Ii-G4
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 04:12:58 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1608369166; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=E/pznDv3gJ3SqQQ6skKGifq/3V7zqjiSHc2+hkb/h2KDnDuQaYPcJ+7QfmOMnkhmVClVuL+j/3OIa23MR+CtnDXPy+Dg0rUJFK43iDu/pi8kiNoQ4JWiMrxXEOhEPdylk6GnXBuQdffp6rLJSaqpDqkCK9+DU1vmL8bmZt3XMhU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1608369166;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=M/Y/cRlIeJuDMqOzuddOxDjD2iwjmebX2tNAXvq+OkE=; 
+ b=Lt24GYZW1M5iAivjuzla/OZrrRY0bMl3N6XE79LHfYvmn/cFVqjiq+NfrbRloxLLyC++6+/QFP05N5yLIzrR6ngQjTB+Iqk2OAoPISByEUfd8/Qbe2ypOru4vMET9rej6EmXp3YRIWWHMln/uLAXVWs7KKkbIFHMP25GY8XCZZc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1608369164325139.601752433991;
+ Sat, 19 Dec 2020 01:12:44 -0800 (PST)
 In-Reply-To: <20201219090637.1700900-1-pbonzini@redhat.com>
-References: <20201219090637.1700900-1-pbonzini@redhat.com>
+Subject: Re: [PATCH 0/2] Cleanup internal WHPX headers
+Message-ID: <160836916317.2802.14206275821051568672@600e7e483b3a>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Sat, 19 Dec 2020 01:12:44 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.52; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o52.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,100 +67,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only leave the external interface in sysemu/whpx.h.  whpx_apic_in_platform
-is moved to a .c file because it needs whpx_state.
-
-Reported-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/sysemu/whpx.h            | 22 +---------------------
- target/i386/whpx/whpx-all.c      |  4 ++++
- target/i386/whpx/whpx-internal.h | 18 ++++++++++++++++++
- 3 files changed, 23 insertions(+), 21 deletions(-)
-
-diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h
-index 9346fd92e9..8ca1c1c4ac 100644
---- a/include/sysemu/whpx.h
-+++ b/include/sysemu/whpx.h
-@@ -15,28 +15,8 @@
- 
- #ifdef CONFIG_WHPX
- 
--#include "whp-dispatch.h"
--
--struct whpx_state {
--    uint64_t mem_quota;
--    WHV_PARTITION_HANDLE partition;
--    bool kernel_irqchip_allowed;
--    bool kernel_irqchip_required;
--    bool apic_in_platform;
--};
--
--struct whpx_lapic_state {
--    struct {
--        uint32_t data;
--        uint32_t padding[3];
--    } fields[256];
--};
--
--extern struct whpx_state whpx_global;
- int whpx_enabled(void);
--
--void whpx_apic_get(DeviceState *s);
--#define whpx_apic_in_platform() (whpx_global.apic_in_platform)
-+bool whpx_apic_in_platform(void);
- 
- #else /* CONFIG_WHPX */
- 
-diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
-index 12f79e2cd6..985ceba8f8 100644
---- a/target/i386/whpx/whpx-all.c
-+++ b/target/i386/whpx/whpx-all.c
-@@ -1866,6 +1866,10 @@ int whpx_enabled(void)
-     return whpx_allowed;
- }
- 
-+bool whpx_apic_in_platform(void) {
-+    return whpx_global.apic_in_platform;
-+}
-+
- static void whpx_accel_class_init(ObjectClass *oc, void *data)
- {
-     AccelClass *ac = ACCEL_CLASS(oc);
-diff --git a/target/i386/whpx/whpx-internal.h b/target/i386/whpx/whpx-internal.h
-index e0a9ea1dce..8cfaaef141 100644
---- a/target/i386/whpx/whpx-internal.h
-+++ b/target/i386/whpx/whpx-internal.h
-@@ -5,6 +5,24 @@
- #include <WinHvPlatform.h>
- #include <WinHvEmulation.h>
- 
-+struct whpx_state {
-+    uint64_t mem_quota;
-+    WHV_PARTITION_HANDLE partition;
-+    bool kernel_irqchip_allowed;
-+    bool kernel_irqchip_required;
-+    bool apic_in_platform;
-+};
-+
-+struct whpx_lapic_state {
-+    struct {
-+        uint32_t data;
-+        uint32_t padding[3];
-+    } fields[256];
-+};
-+
-+extern struct whpx_state whpx_global;
-+void whpx_apic_get(DeviceState *s);
-+
- #define WHV_E_UNKNOWN_CAPABILITY 0x80370300L
- 
- #define LIST_WINHVPLATFORM_FUNCTIONS(X) \
--- 
-2.26.2
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIxOTA5MDYzNy4xNzAw
+OTAwLTEtcGJvbnppbmlAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAxMjE5MDkwNjM3LjE3
+MDA5MDAtMS1wYm9uemluaUByZWRoYXQuY29tClN1YmplY3Q6IFtQQVRDSCAwLzJdIENsZWFudXAg
+aW50ZXJuYWwgV0hQWCBoZWFkZXJzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9i
+YXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAt
+LWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVz
+IFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Njcmlw
+dHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
+PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9t
+IGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAg
+ICAgICBwYXRjaGV3LzIwMjAxMjE5MDkwNjM3LjE3MDA5MDAtMS1wYm9uemluaUByZWRoYXQuY29t
+IC0+IHBhdGNoZXcvMjAyMDEyMTkwOTA2MzcuMTcwMDkwMC0xLXBib256aW5pQHJlZGhhdC5jb20K
+U3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwphYWRhMWJmIHdocHg6IG1vdmUgaW50ZXJu
+YWwgZGVmaW5pdGlvbnMgdG8gd2hweC1pbnRlcm5hbC5oCjJiMDc3MWEgd2hweDogcmVuYW1lIHdo
+cC1kaXNwYXRjaCB0byB3aHB4LWludGVybmFsLmgKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMiBD
+aGVja2luZyBjb21taXQgMmIwNzcxYWU4YWQwICh3aHB4OiByZW5hbWUgd2hwLWRpc3BhdGNoIHRv
+IHdocHgtaW50ZXJuYWwuaCkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShz
+KSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNjQ6IApyZW5hbWUgZnJvbSB0YXJn
+ZXQvaTM4Ni93aHB4L3docC1kaXNwYXRjaC5oCgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3Ms
+IDQ2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMiBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
+ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
+IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoy
+LzIgQ2hlY2tpbmcgY29tbWl0IGFhZGExYmYyNjI1NSAod2hweDogbW92ZSBpbnRlcm5hbCBkZWZp
+bml0aW9ucyB0byB3aHB4LWludGVybmFsLmgpCkVSUk9SOiBvcGVuIGJyYWNlICd7JyBmb2xsb3dp
+bmcgZnVuY3Rpb24gZGVjbGFyYXRpb25zIGdvIG9uIHRoZSBuZXh0IGxpbmUKIzU2OiBGSUxFOiB0
+YXJnZXQvaTM4Ni93aHB4L3docHgtYWxsLmM6MTg2OToKK2Jvb2wgd2hweF9hcGljX2luX3BsYXRm
+b3JtKHZvaWQpIHsKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgNjMgbGluZXMgY2hlY2tl
+ZAoKUGF0Y2ggMi8yIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
+ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
+bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9
+PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2
+YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMTIxOTA5MDYzNy4xNzAwOTAw
+LTEtcGJvbnppbmlAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4K
+LS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0
+Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJl
+ZGhhdC5jb20=
 
