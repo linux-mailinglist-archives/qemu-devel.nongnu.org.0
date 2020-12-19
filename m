@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAA92DEDB2
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 08:23:22 +0100 (CET)
-Received: from localhost ([::1]:52994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFCD2DEDB4
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 08:26:10 +0100 (CET)
+Received: from localhost ([::1]:56008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqWaH-0003Em-TQ
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 02:23:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53188)
+	id 1kqWcy-0004jh-LO
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 02:26:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kqWZG-0002cO-18
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:22:18 -0500
-Received: from relay2.mymailcheap.com ([151.80.165.199]:35373)
+ id 1kqWZT-0002lo-UY
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:22:31 -0500
+Received: from relay4.mymailcheap.com ([137.74.80.154]:50947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kqWZA-0007nn-Tp
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:22:17 -0500
+ id 1kqWZS-0007un-2z
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:22:31 -0500
 Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
  [91.134.140.82])
- by relay2.mymailcheap.com (Postfix) with ESMTPS id 081933ECDA;
- Sat, 19 Dec 2020 08:22:10 +0100 (CET)
+ by relay4.mymailcheap.com (Postfix) with ESMTPS id 5AE883F162;
+ Sat, 19 Dec 2020 08:22:28 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by filter2.mymailcheap.com (Postfix) with ESMTP id D99ED2A524;
- Sat, 19 Dec 2020 08:22:09 +0100 (CET)
+ by filter2.mymailcheap.com (Postfix) with ESMTP id 2A2E52A524;
+ Sat, 19 Dec 2020 08:22:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
- s=default; t=1608362529;
- bh=dyKoXVD/Q8mN6CiIF+05QataG8bsUQl+A1JiBrXzgnY=;
+ s=default; t=1608362548;
+ bh=zkf8OP88hZRH0n+IZi2DL1V5j7BrE4FS4wH4Q9tOVEw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JWNYnrCINUTdI5JVd+x5AIPHs4Qh2zCFfXBsv3shmboCJbr1R/Cocg0bASYr+UYrS
- ckjjExMDFrRVW92VeeT1jXTuMDHK7H2grKIztkuCuC19RxFi3G7Qs+P/XcdLetmk64
- tYc/9arTEIsUZHRtw5EX1Z53dD84iCiKmOT90jfY=
+ b=U0wlZm19kMcZmuqlMqWRnZQ7xKYR3Hx0oXzZmiKUQ3eTNzpD53opSrAwwAfX/boBQ
+ uyjJPPTLr2Kc8uEq0pMlEoOl6CuqlYRGgCCn51k0w9+iy32P9iPi7Z0VHulvWUYTGM
+ I4kBPmAgxKWhX7vCFaHwly+I1MqJVpn03cBuR/Cg=
 X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
 Received: from filter2.mymailcheap.com ([127.0.0.1])
  by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kWzRDMc7l3BQ; Sat, 19 Dec 2020 08:22:08 +0100 (CET)
+ with ESMTP id gQHDqy8-bp12; Sat, 19 Dec 2020 08:22:27 +0100 (CET)
 Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
  (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  by filter2.mymailcheap.com (Postfix) with ESMTPS;
- Sat, 19 Dec 2020 08:22:08 +0100 (CET)
+ Sat, 19 Dec 2020 08:22:27 +0100 (CET)
 Received: from [213.133.102.83] (ml.mymailcheap.com [213.133.102.83])
- by mail20.mymailcheap.com (Postfix) with ESMTP id 7FF1C42F8B;
- Sat, 19 Dec 2020 07:22:08 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTP id DE3A941009;
+ Sat, 19 Dec 2020 07:22:26 +0000 (UTC)
 Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
- unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="F0lH/9sZ"; 
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="tvn2cDJp"; 
  dkim-atps=neutral
 AI-Spam-Status: Not processed
 Received: from localhost.localdomain (unknown [180.97.240.22])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 5A92441E18;
- Sat, 19 Dec 2020 07:21:55 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id 5C19541E18;
+ Sat, 19 Dec 2020 07:22:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
- s=default; t=1608362525;
- bh=dyKoXVD/Q8mN6CiIF+05QataG8bsUQl+A1JiBrXzgnY=;
+ s=default; t=1608362535;
+ bh=zkf8OP88hZRH0n+IZi2DL1V5j7BrE4FS4wH4Q9tOVEw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=F0lH/9sZK9JGYRTqo5N+KFXnUqJbKBvC1dT5QnRDG9pxmsbtvN2ETIi7R0X22WKL+
- MhxSQWtjnjiWksV6mF5QjB0hoa9zMHTolFDtWN76l8Yo88Payyc8prCtx9Wm3rNFsm
- /KMak2Qq8Y8BViBx/aapz91VuXMc0l2o1X8xydvU=
+ b=tvn2cDJpOmJ9K9XiVMvba9g7r8CygALoTEx30RrQx2m4B8+7aQq+FjQcS2Aoepx3v
+ pepKzquk54h94c8JwNnlnKkq5jVDi9LmYhZa2Lrc1c93Uw6H//IoeFBqAVDME4FWDz
+ quITOa9YYIRn5AUJrdmYtffe26bJmKYR+yH/GAXE=
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/8] hw/mips/fuloong2e: Remove unused env entry
-Date: Sat, 19 Dec 2020 15:21:38 +0800
-Message-Id: <20201219072139.39347-1-jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 6/8] hw/mips/fuloong2e: Correct cpuclock env
+Date: Sat, 19 Dec 2020 15:21:39 +0800
+Message-Id: <20201219072139.39347-2-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
 References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
@@ -91,11 +91,11 @@ X-Spamd-Result: default: False [8.90 / 10.00]; ARC_NA(0.00)[];
  ASN(0.00)[asn:24940, ipnet:213.133.96.0/19, country:DE];
  RCVD_COUNT_TWO(0.00)[2];
  HFILTER_HELO_BAREIP(3.00)[213.133.102.83,1]
-X-Rspamd-Queue-Id: 7FF1C42F8B
+X-Rspamd-Queue-Id: DE3A941009
 X-Rspamd-Server: mail20.mymailcheap.com
 X-Spam: Yes
-Received-SPF: pass client-ip=151.80.165.199;
- envelope-from=jiaxun.yang@flygoat.com; helo=relay2.mymailcheap.com
+Received-SPF: pass client-ip=137.74.80.154;
+ envelope-from=jiaxun.yang@flygoat.com; helo=relay4.mymailcheap.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -119,29 +119,47 @@ Cc: chenhuacai@kernel.org, f4bug@amsat.org, wainersm@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-modetty and busclock is not handled by kernel and the parameter
-here seems unreasonable.
+It was missed in 3ca7639ff00 ("hw/mips/fuloong2e:
+Set CPU frequency to 533 MHz"), we need to tell kernel
+correct clocks.
 
+Fixes: 3ca7639ff00 ("hw/mips/fuloong2e: Set CPU frequency to 533 MHz").
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- hw/mips/fuloong2e.c | 2 --
- 1 file changed, 2 deletions(-)
+ hw/mips/fuloong2e.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index d846ef7b00..c4843dd15e 100644
+index c4843dd15e..2744b211fd 100644
 --- a/hw/mips/fuloong2e.c
 +++ b/hw/mips/fuloong2e.c
-@@ -159,10 +159,8 @@ static uint64_t load_kernel(CPUMIPSState *env)
+@@ -100,7 +100,7 @@ static void GCC_FMT_ATTR(3, 4) prom_set(uint32_t *prom_buf, int index,
+     va_end(ap);
+ }
+ 
+-static uint64_t load_kernel(CPUMIPSState *env)
++static uint64_t load_kernel(MIPSCPU *cpu)
+ {
+     uint64_t kernel_entry, kernel_high, initrd_size;
+     int index = 0;
+@@ -159,7 +159,7 @@ static uint64_t load_kernel(CPUMIPSState *env)
      }
  
      /* Setup minimum environment variables */
--    prom_set(prom_buf, index++, "busclock=33000000");
-     prom_set(prom_buf, index++, "cpuclock=100000000");
+-    prom_set(prom_buf, index++, "cpuclock=100000000");
++    prom_set(prom_buf, index++, "cpuclock=%u", clock_get_hz(cpu->clock));
      prom_set(prom_buf, index++, "memsize=%"PRIi64, loaderparams.ram_size / MiB);
--    prom_set(prom_buf, index++, "modetty0=38400n8r");
      prom_set(prom_buf, index++, NULL);
  
-     rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
+@@ -304,7 +304,7 @@ static void mips_fuloong2e_init(MachineState *machine)
+         loaderparams.kernel_filename = kernel_filename;
+         loaderparams.kernel_cmdline = kernel_cmdline;
+         loaderparams.initrd_filename = initrd_filename;
+-        kernel_entry = load_kernel(env);
++        kernel_entry = load_kernel(cpu);
+         write_bootloader(env, memory_region_get_ram_ptr(bios), kernel_entry);
+     } else {
+         filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
 -- 
 2.29.2
 
