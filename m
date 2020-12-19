@@ -2,105 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25C62DF12C
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 20:02:21 +0100 (CET)
-Received: from localhost ([::1]:60704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BAE42DF12F
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 20:07:41 +0100 (CET)
+Received: from localhost ([::1]:35836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqhUi-0007FR-Ro
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 14:02:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35114)
+	id 1kqhZq-0000Pd-SF
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 14:07:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kqhPS-0005j9-2n
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 13:56:54 -0500
-Received: from mail-sg2apc01olkn0805.outbound.protection.outlook.com
- ([2a01:111:f400:febd::805]:6102
- helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ id 1kqhPL-0005h4-VQ
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 13:56:48 -0500
+Received: from mail-oln040092255040.outbound.protection.outlook.com
+ ([40.92.255.40]:42752 helo=APC01-HK2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kqhPP-00053y-P4
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 13:56:53 -0500
+ id 1kqhPK-000533-2M
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 13:56:47 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U0M/aQb4f9VLCdpiVP+gw8kVq5O4mVm6vhgZHsMIp8wck3BsomuaYXuhj6d3SonIngKKbHBTKUo9RgzgZgxQNAj0Gz0fkGvvVsLIBXcPOPEBunW9LyvvTIFCCoYXfe6Cpl5R4HuI12OQatKfwcFAiiceeJSzaYpN4q6yFyQQZv4YdFLUoeJto+zKwHSRBI4VD29IZ5z6aeHhQxS7+HdBGJxwh0OCWNtFQBu61XY9bNoIel/SXdkLeKsgCu6CvLbMKuOQ0cEOXAOaTNS5HYjODMbOijnnMDjZJZ1S5UmdeQqa1LMOHbzDrd0A1LT09qPtchTMGC8+IUvRFds6rXfTIg==
+ b=Yn+F2nx2eYOIGzf0Us5RDvIe4If3A4jUl2PBmKqlkJLIObPHwmEdzBrbZzFhyLnL0DWS5zqVMwN5Wxi3Q3cIE+k849PrgKk2RHdWnQWzMxOLTE1ZloPwUHHDRSRF1PAWv4BUTBRi5y4oUgWtt9yiuALRJVCZn09RcVFEFTO9rRgmzHyANrBvp4s7uLOzI1S95fVrCWF3BIWvn7SfKFnBnkq3HXQ5ly6Wrtn4dCT9R8jmDnc7m2G6G19tUkXKWY0wx3LfiJZftfGZWVXVqTfk2vuYez3BRuaTyCRZNGpeFhtYOzI+txyvKMIVYVIzS7RQg6OOoTxh+VA/IbLQyfdiMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K4COuRNlH0U3x+uAA6WkZnDDGyJnIzTiOPY2Yvmjv6Y=;
- b=MlmG6w1yeTPr7jXO68K+KxB8u0y9fip+dFzhc9isOIIfnAG8CWFi0XEhWeV6x3aVqK31SDnWIWVJfYTdTaalkqmew2lCu91UcVrR3jtwL+uOYDPJ4TlOuAEFjQh8mQorOSB7wo8bvs90zEFqvxA81pium/APeW8CR/HMfzLZBFnL1BIUxnvv2akrna1gMAbul0AD8BXTt50FLVLjODkFNG+/qRam1VECXBLHh5qJGjlkl6kIeH44ilLv4l3+2ESi0AidpNQ/CP8Im8Q+ppOG8uqZUXAgU43soo3GkOJSOHNgUx9g27Ens82U7gWrH9ODDzWL1002qXh4nw4Lwrp1EQ==
+ bh=BbXD7nJRBh+aBV9kpgMFpgs/dVx/+dfExKu+I9kH/iQ=;
+ b=i1Mw7yu9+Mi0gp/LO0hHvr05BVY4PTCpZja9u8Ynl/EETGaxOXLQDdGAq1ml48aRaSBpZXGQDkoF9fLBd+ojcSHRd45s9+KPxtrywzyJUpRQg1c5XiX4eNed9f0LczcJER7bqnkrjKEyD+SVvptQqqXpWLSV021g9PCDfbUlBl77OcsI+cuPvCFBUdqjcC0jAf98J3Osfl1y6sAx4LiCwBChpmuKNY2/DAk7Vf+madbVdFTJCN8ObQjdl/EvvsRDv1WIUiW/Nop9EluNHk1hzGi08Hoo3R8Dvd+Dx/Bgi5IrnqQklqabZSKa+wkh81CZSn8CPUvPwCAebdckVim4Jw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K4COuRNlH0U3x+uAA6WkZnDDGyJnIzTiOPY2Yvmjv6Y=;
- b=TSn36DNY00hv3nF2O6spDEwiJ+rgOry4snyuW8MRNTftcfW1kfliFoz80P0x3CSLbrUI7xmkF1duPi7U79Mlvee9BvRiXI6/f/aH4aYAp92NDHSe6lCIxFY/oFFOK2oQQ3Dfb7bKY+cpeVdf3ibcwvEcsaoUe5EQmiytD2Z0T2Z3Kmxe8sk8cEYBzWphl534fYhHTkU2Sq+nqeYOq9JNzQXbs1YjxQYjOMLzRrnJTt24Bn/t8+t7yPJLmjeVPH3eWaOyDTNC1dhgXRy1M6wCNxnbt2inNlC9XdJ0cKzyGTwJk1+vcr+vlJ7KEp88QR0EpPUYOuxp9IDk0sxnZpaJNw==
+ bh=BbXD7nJRBh+aBV9kpgMFpgs/dVx/+dfExKu+I9kH/iQ=;
+ b=fBIToY3qk0ioIlYftUHIB2iao6f+aOfOB0+pLFPt/eCVwKwbO8tCydaQIHMbp1m6sv5fO2F8YrNr3MJF2l/gQy3VBagb5lQ6x07AmVfo6Q18FYJOngBsBwQxiiBNMo/lOxN1xkwKNnSShiApHF7FTmnzNpb2HKxXZOnQmnocFyAACD2rR3/0t++iyZM5sFTZVeBryGSRx/UWcd7HfvaMqhCvd0g7zdMiCBwNqX2JvnZ8keCnL0fPhUY8G2tCAItSdbIR3NsnAsKPWhsAHlsAI0guQANElRASIcsDuidd76FsyX4QHhQxHqYmzgOn7HuD7HCyp9LNTc1/ocIf2ysqEQ==
 Received: from SG2APC01FT053.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebd::52) by
- SG2APC01HT102.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebd::253)
+ (2a01:111:e400:7ebd::4d) by
+ SG2APC01HT057.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebd::294)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.22; Sat, 19 Dec
- 2020 18:56:33 +0000
+ 2020 18:56:38 +0000
 Received: from ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM (10.152.250.58) by
  SG2APC01FT053.mail.protection.outlook.com (10.152.250.240) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3676.22 via Frontend Transport; Sat, 19 Dec 2020 18:56:33 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:7782C5DAF034113D8BF60F55FD3C7979E032494DABCDA5D9949D935A44E2F80D;
- UpperCasedChecksum:1C4A6562CAA0035725C4004B66DC987367855FF74B7DBFE1E2D0AAEA11186482;
- SizeAsReceived:7644; Count:47
+ 15.20.3676.22 via Frontend Transport; Sat, 19 Dec 2020 18:56:38 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:0D5F90FD6C5CD639638846DDDC41779085427FE59809E71B2CBA565801537764;
+ UpperCasedChecksum:333E3C4EBAF4ED471C97CB45951C3FD76D26155192F6A20CAB84F8D580B8D0A8;
+ SizeAsReceived:7654; Count:47
 Received: from ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM
  ([fe80::d86c:2255:e334:54f7]) by ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM
  ([fe80::d86c:2255:e334:54f7%5]) with mapi id 15.20.3676.025; Sat, 19 Dec 2020
- 18:56:33 +0000
+ 18:56:38 +0000
 From: Qiuhao Li <Qiuhao.Li@outlook.com>
 To: alxndr@bu.edu,
 	qemu-devel@nongnu.org
-Subject: [PATCH 1/4] fuzz: refine crash detection mechanism
-Date: Sun, 20 Dec 2020 02:56:24 +0800
-Message-ID: <ME3P282MB14924A6558A105B7FBFA579DFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
+Subject: [PATCH 2/4] fuzz: split QTest writes from the rightmost byte
+Date: Sun, 20 Dec 2020 02:56:25 +0800
+Message-ID: <ME3P282MB1492172012FA8E0D08819C07FCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <ME3P282MB1492BFA2302041F2AB420EBEFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
 References: <ME3P282MB1492BFA2302041F2AB420EBEFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [Gz29zdfRJ9CQqjVM072V1OkU6mnrPpQ2F11iposnh3trjv7w/s6cn3eha9vikojL]
-X-ClientProxiedBy: TY2PR06CA0019.apcprd06.prod.outlook.com
- (2603:1096:404:42::31) To ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM
+X-TMN: [W5anXRpZJMIKpmSCzQjlq1T+Ic4pQD3T+mpaAdy6mYqEW5fIyRfA2rI8TOzF+XcD]
+X-ClientProxiedBy: HK2PR0401CA0018.apcprd04.prod.outlook.com
+ (2603:1096:202:2::28) To ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM
  (2603:10c6:220:a0::14)
-X-Microsoft-Original-Message-ID: <20201219185627.426615-1-Qiuhao.Li@outlook.com>
+X-Microsoft-Original-Message-ID: <20201219185627.426615-2-Qiuhao.Li@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from pc (2001:250:fe01:130:1079:e2bc:42d3:a57e) by
- TY2PR06CA0019.apcprd06.prod.outlook.com (2603:1096:404:42::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3676.29 via Frontend Transport; Sat, 19 Dec 2020 18:56:32 +0000
+ HK2PR0401CA0018.apcprd04.prod.outlook.com (2603:1096:202:2::28) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.28 via Frontend
+ Transport; Sat, 19 Dec 2020 18:56:37 +0000
 X-MS-PublicTrafficType: Email
 X-IncomingHeaderCount: 47
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 65e94c4e-1e8a-4cf9-5c63-08d8a44fcde5
-X-MS-TrafficTypeDiagnostic: SG2APC01HT102:
+X-MS-Office365-Filtering-Correlation-Id: 17bb6789-c32f-45c5-553c-08d8a44fd0d2
+X-MS-TrafficTypeDiagnostic: SG2APC01HT057:
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8gv7xPxhDJbSGfERRoKHqX/PlnGOKmRkLnS3LGxR9e9aLtH/QrEqo/DbZoSbsOy9BeUlfFg6qYcyAPmIkWKl/WjvvU08/CgHhSdwbL7Oo8ObX9BeAZoNSFAK/ubKpLyUNu4qUukrcUtjbPb+5gsezsNRBqx8QfQ1XYiUWyx1fr5pBCDHSY+M65LcqdEPp42P50PmwAtfdEFSSmJRc2qCIEcS+2QSLhDi0fIlM3R+D8iOa7zGJdCTdWG6RKEx9CfoOCmSbHRkff0zn7Cthtj0cr6C6YmGg+oHmunht6i31m0=
-X-MS-Exchange-AntiSpam-MessageData: DlYdASImjoKS4I97RQUs1HZsb76rcap8LnfB2KWS8T4cNHTkQJP+8b+EFsyJzKhKxXvjHmLNkaNsHSeBprVy0HnScxQLODIVvKJLkt8lHkjXI2jtMqqEe4MBUnP9ehq3fs1z7dBuKJ3HwMozoBQqa4gTPZqw+wVllfYlLCx0CTglf3RVmczN1qcUYEIk7bea67T/Gd7GH2Bik5gWCZNGmA==
+X-Microsoft-Antispam-Message-Info: X0F1JJfSWK5c1iDnVGlQKQZBm1rPcWxBdOLJ/pd63R5bk+qjU4wIlz+1OeE1QDIi7sd9ekMbXw7J3Jei9NbWGKJxvrxCZAcCNQSDCEdjulU+Jxqd/Ue+vhv2OzZ3LUCteePQKR4JCHWeS5yG+XLbFK2ci4qrWx/hh+BqlmJAiujnMOxh89HNXgkZwJT7HNCgHe8RINElNl038K0cKKggZfw2OpBPlaqIEUv5tPGjnnIRXRXqWZDIALBkW0VeY497
+X-MS-Exchange-AntiSpam-MessageData: vlOGbmYwc74bqhzBZfF1i+bgg/75Kb2f3B+V2mds9X3k0a02t7Lg0iZcfKTrRUweFJ/xm59ia27vtk9nAWLhK//h7GXLnE6wtHLdMOis1WoGiXa+1WfoT8Djf0J51AMwSkpyg2TYtgEtYWwq4xUzuGtBVDjf4ZeeO33D4+G7gVAxbnONAX/xcPSr003x9K9oe97m8a/uNsbBPEMkRjHs4g==
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2020 18:56:33.5641 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2020 18:56:38.4537 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65e94c4e-1e8a-4cf9-5c63-08d8a44fcde5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17bb6789-c32f-45c5-553c-08d8a44fd0d2
 X-MS-Exchange-CrossTenant-AuthSource: SG2APC01FT053.eop-APC01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT102
-Received-SPF: pass client-ip=2a01:111:f400:febd::805;
- envelope-from=Qiuhao.Li@outlook.com;
- helo=APC01-SG2-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT057
+Received-SPF: pass client-ip=40.92.255.40; envelope-from=Qiuhao.Li@outlook.com;
+ helo=APC01-HK2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,144 +119,69 @@ Cc: darren.kenny@oracle.com, bsd@redhat.com, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The original crash detection method is to fork a process to test our new
-trace input. If the child process exits in time and the second-to-last line
-is the same as the first crash, we think it is a crash triggered by the same
-bug. However, in some situations, it doesn't work since it is a
-hardcoded-offset string comparison.
+Currently, we split the write commands' data from the middle. If it does not
+work, try to move the pivot "left" and retry until there is no space left.
+But, this is complete for ram writes but not for IO writes.
 
-For example, suppose an assertion failure makes the crash. In that case, the
-second-to-last line will be 'timeout: the monitored command dumped core',
-which doesn't contain any information about the assertion failure like where
-it happened or the assertion statement. This may lead to a minimized input
-triggers assertion failure but may indicate another bug. As for some
-sanitizers' crashes, the direct string comparison may stop us from getting a
-smaller input, since they may have a different leaf stack frame.
+For example, there is an IO write command:
 
-Perhaps we can detect crashes using both precise output string comparison
-and rough pattern string match and info the user when the trace input
-triggers different but a seminar output.
+  write addr uuxxxxuu
 
-Tested:
-Assertion failure, https://bugs.launchpad.net/qemu/+bug/1908062
-AddressSanitizer, https://bugs.launchpad.net/qemu/+bug/1907497
-Trace input that doesn't crash
-Trace input that crashes Qtest
+u is the unnecessary byte for the crash. Unlike ram write commands, in most
+case, a split IO write won't trigger the same crash, So if we split from the
+middle, we will get:
+
+  write addr uu (will be removed in next round)
+  write addr xxxxuu
+
+For xxxxuu, since split it from the middle and retry to the leftmost byte
+won't get the same crash, we will be stopped from removing the last two
+bytes.
+
+Therefore, we should split QTest writes from the rightmost byte.
+
+Tested with Bug 1908062. Refined vs. Original result:
+
+outl 0xcf8 0x8000081c            outl 0xcf8 0x8000081c
+outb 0xcfc 0xc3                  outb 0xcfc 0xc3
+outl 0xcf8 0x8000082f            outl 0xcf8 0x8000082f
+outl 0xcf8 0x80000804            outl 0xcf8 0x80000804
+outl 0xcfc 0x9b2765be            outl 0xcfc 0x9b2765be
+write 0xc300001024 0x2 0x0055    write 0xc300001024 0x2 0x0055
+write 0xc300001028 0x1 0x5a      write 0xc300001028 0x1 0x5a
+write 0xc30000101c 0x1 0x01      write 0xc30000101c 0x1 0x01
+writel 0xc30000100c 0x2a6f6c63   writel 0xc30000100c 0x2a6f6c63
+write 0xc300001018 0x1 0xa4  <-- write 0xc300001016 0x3 0xa4a4a4
+write 0x5c 0x1 0x19              write 0x5c 0x1 0x19
+write 0xc300003002 0x1 0x8a      write 0xc300003002 0x1 0x8a
 
 Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
 ---
- scripts/oss-fuzz/minimize_qtest_trace.py | 59 ++++++++++++++++++------
- 1 file changed, 46 insertions(+), 13 deletions(-)
+ scripts/oss-fuzz/minimize_qtest_trace.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-index 5e405a0d5f..d3b09e6567 100755
+index d3b09e6567..855c3bcb54 100755
 --- a/scripts/oss-fuzz/minimize_qtest_trace.py
 +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-@@ -10,11 +10,16 @@ import os
- import subprocess
- import time
- import struct
-+import re
+@@ -140,7 +140,7 @@ def minimize_trace(inpath, outpath):
  
- QEMU_ARGS = None
- QEMU_PATH = None
- TIMEOUT = 5
--CRASH_TOKEN = None
-+
-+crash_patterns = ("Assertion.+failed",
-+                  "SUMMARY.+Sanitizer")
-+crash_pattern = None
-+crash_string = None
- 
- write_suffix_lookup = {"b": (1, "B"),
-                        "w": (2, "H"),
-@@ -24,13 +29,12 @@ write_suffix_lookup = {"b": (1, "B"),
- def usage():
-     sys.exit("""\
- Usage: QEMU_PATH="/path/to/qemu" QEMU_ARGS="args" {} input_trace output_trace
--By default, will try to use the second-to-last line in the output to identify
--whether the crash occred. Optionally, manually set a string that idenitifes the
--crash by setting CRASH_TOKEN=
-+By default, we will try to search predefined crash patterns through the
-+tracing output to see whether the crash occred. Optionally, manually set a
-+string that idenitifes the crash by setting CRASH_PATTERN=
- """.format((sys.argv[0])))
- 
- def check_if_trace_crashes(trace, path):
--    global CRASH_TOKEN
-     with open(path, "w") as tracefile:
-         tracefile.write("".join(trace))
- 
-@@ -42,17 +46,47 @@ def check_if_trace_crashes(trace, path):
-                           shell=True,
-                           stdin=subprocess.PIPE,
-                           stdout=subprocess.PIPE)
-+    if rc.returncode == 137:    # Timed Out
-+        return False
-+
-     stdo = rc.communicate()[0]
-     output = stdo.decode('unicode_escape')
--    if rc.returncode == 137:    # Timed Out
--        return False
--    if len(output.splitlines()) < 2:
-+    output_lines = output.splitlines()
-+    # Usually we care about the summary info in the last few lines, reverse.
-+    output_lines.reverse()
-+
-+    global crash_pattern, crash_patterns, crash_string
-+    if crash_pattern is None: # Initialization
-+        for line in output_lines:
-+            for c in crash_patterns:
-+                if re.search(c, line) is not None:
-+                    crash_pattern = c
-+                    crash_string = line
-+                    print("Identifying crash pattern by this string: ",\
-+                          crash_string)
-+                    print("Using regex pattern: ", crash_pattern)
-+                    return True
-+        print("Failed to initialize crash pattern: no match.")
-         return False
- 
--    if CRASH_TOKEN is None:
--        CRASH_TOKEN = output.splitlines()[-2]
-+    # First, we search exactly the previous crash string.
-+    for line in output_lines:
-+        if crash_string == line:
-+            return True
-+
-+    # Then we decide whether a similar (same pattern) crash happened.
-+    # Slower now :(
-+    for line in output_lines:
-+        if re.search(crash_pattern, line) is not None:
-+            print("\nINFO: The crash string changed during our minimization process.")
-+            print("Before: ", crash_string)
-+            print("After: ", line)
-+            print("The original regex pattern can still match, updated the crash string.")
-+            crash_string = line
-+            return True
- 
--    return CRASH_TOKEN in output
-+    # The input did not trigger (the same type) bug.
-+    return False
- 
- 
- def minimize_trace(inpath, outpath):
-@@ -66,7 +100,6 @@ def minimize_trace(inpath, outpath):
-     print("Crashed in {} seconds".format(end-start))
-     TIMEOUT = (end-start)*5
-     print("Setting the timeout for {} seconds".format(TIMEOUT))
--    print("Identifying Crashes by this string: {}".format(CRASH_TOKEN))
- 
-     i = 0
-     newtrace = trace[:]
-@@ -152,6 +185,6 @@ if __name__ == '__main__':
-         usage()
-     # if "accel" not in QEMU_ARGS:
-     #     QEMU_ARGS += " -accel qtest"
--    CRASH_TOKEN = os.getenv("CRASH_TOKEN")
-+    crash_pattern = os.getenv("CRASH_PATTERN")
-     QEMU_ARGS += " -qtest stdio -monitor none -serial none "
-     minimize_trace(sys.argv[1], sys.argv[2])
+         # 3.) If it is a qtest write command: write addr len data, try to split
+         # it into two separate write commands. If splitting the write down the
+-        # middle does not work, try to move the pivot "left" and retry, until
++        # rightmost does not work, try to move the pivot "left" and retry, until
+         # there is no space left. The idea is to prune unneccessary bytes from
+         # long writes, while accommodating arbitrary MemoryRegion access sizes
+         # and alignments.
+@@ -149,7 +149,7 @@ def minimize_trace(inpath, outpath):
+             length = int(newtrace[i].split()[2], 16)
+             data = newtrace[i].split()[3][2:]
+             if length > 1:
+-                leftlength = int(length/2)
++                leftlength = length - 1
+                 rightlength = length - leftlength
+                 newtrace.insert(i+1, "")
+                 while leftlength > 0:
 -- 
 2.25.1
 
