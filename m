@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA3302DEE6C
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 12:09:58 +0100 (CET)
-Received: from localhost ([::1]:56154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6992DEE79
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 12:17:55 +0100 (CET)
+Received: from localhost ([::1]:50058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqa7Z-00078U-KV
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 06:09:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50774)
+	id 1kqaFG-00085R-LY
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 06:17:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtu-0004xl-Lf
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30800)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtx-00056s-Gm
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtl-0007HL-KZ
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:50 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtl-0007HY-Me
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1608375340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M7Mbkx49VnsZZPTjzSq3CtgEnaNIXUwF1DNyuy1pL44=;
- b=Z/Lz9+cr7zlOyQbV4mP8kDq6XzkAHpMVBto7ue/e0tuL0l24kifmVkD4DyD3cPmf13Kv+1
- AT1WqWbSopsmaiwGFaEKETtaUNHwMFj8yOU/+YGTnQI3H9A3W9jv4Wa0ZwBVn9rTh0oI4z
- 0SGpVGpUdW3o/KJMR320EzJ6suA6PIs=
+ bh=lRD6uFJd0VXDs5x/i8afxBfXsoy7XklAaqM9TAjeGkY=;
+ b=i0UJOXsi7taleHNQPgk5UhLduQ4ylTbc0kAwGKheXKF2307TxiKZze4E0tucLtb+Wtcx8g
+ 0zDQJYChhSALtF6tpv/92lq4jrh7uGvpRS6vviTrVOjxL6S5+C5JR+1eNiyzjiPjTt95Tp
+ pWbz9fSN+jRjc++cFAe6RfJrlQJSKP8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-2A5GdPL_MXeKza7WQDWePg-1; Sat, 19 Dec 2020 05:55:38 -0500
-X-MC-Unique: 2A5GdPL_MXeKza7WQDWePg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-109-fgwB4SEKO06No4mVhHnI9g-1; Sat, 19 Dec 2020 05:55:38 -0500
+X-MC-Unique: fgwB4SEKO06No4mVhHnI9g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23ABB180A097;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2912451E4;
  Sat, 19 Dec 2020 10:55:37 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4AAB5D9D7;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CAE546E51F;
  Sat, 19 Dec 2020 10:55:36 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A5AC011268A2; Sat, 19 Dec 2020 11:55:32 +0100 (CET)
+ id AA92B11268B3; Sat, 19 Dec 2020 11:55:32 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/33] hw/rdma: Replace QList by GQueue
-Date: Sat, 19 Dec 2020 11:55:19 +0100
-Message-Id: <20201219105532.1734134-21-armbru@redhat.com>
+Subject: [PULL 21/33] qobject: Move internals to qobject-internal.h
+Date: Sat, 19 Dec 2020 11:55:20 +0100
+Message-Id: <20201219105532.1734134-22-armbru@redhat.com>
 In-Reply-To: <20201219105532.1734134-1-armbru@redhat.com>
 References: <20201219105532.1734134-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,199 +79,262 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Yuval Shaia <yuval.shaia.ml@gmail.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RdmaProtectedQList provides a thread-safe queue of int64_t on top of a
-QList.
-
-rdma_protected_qlist_destroy() calls qlist_destroy_obj() directly.
-qlist_destroy_obj() is actually for use by qobject_destroy() only.
-The next commit will make that obvious.
-
-The minimal fix would be calling qobject_unref() instead.  But QList
-is actually a bad fit here.  It's designed for representing JSON
-arrays.  We're better off with a GQueue here.  Replace.
-
-Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20201211171152.146877-8-armbru@redhat.com>
+Message-Id: <20201211171152.146877-9-armbru@redhat.com>
 ---
- hw/rdma/rdma_backend_defs.h |  2 +-
- hw/rdma/rdma_utils.h        | 15 ++++++++-------
- hw/rdma/rdma_backend.c      | 10 +++++-----
- hw/rdma/rdma_utils.c        | 29 ++++++++++++++++-------------
- 4 files changed, 30 insertions(+), 26 deletions(-)
+ include/qapi/qmp/qbool.h   |  2 --
+ include/qapi/qmp/qdict.h   |  2 --
+ include/qapi/qmp/qlist.h   |  2 --
+ include/qapi/qmp/qnull.h   |  2 --
+ include/qapi/qmp/qnum.h    |  3 ---
+ include/qapi/qmp/qobject.h |  9 +--------
+ include/qapi/qmp/qstring.h |  2 --
+ qobject/qobject-internal.h | 39 ++++++++++++++++++++++++++++++++++++++
+ qobject/qbool.c            |  1 +
+ qobject/qdict.c            |  1 +
+ qobject/qlist.c            |  1 +
+ qobject/qnull.c            |  1 +
+ qobject/qnum.c             |  1 +
+ qobject/qobject.c          |  1 +
+ qobject/qstring.c          |  1 +
+ 15 files changed, 47 insertions(+), 21 deletions(-)
+ create mode 100644 qobject/qobject-internal.h
 
-diff --git a/hw/rdma/rdma_backend_defs.h b/hw/rdma/rdma_backend_defs.h
-index 0b55be3503..4e6c0ad695 100644
---- a/hw/rdma/rdma_backend_defs.h
-+++ b/hw/rdma/rdma_backend_defs.h
-@@ -43,7 +43,7 @@ typedef struct RdmaBackendDev {
-     struct ibv_context *context;
-     struct ibv_comp_channel *channel;
-     uint8_t port_num;
--    RdmaProtectedQList recv_mads_list;
-+    RdmaProtectedGQueue recv_mads_list;
-     RdmaCmMux rdmacm_mux;
- } RdmaBackendDev;
+diff --git a/include/qapi/qmp/qbool.h b/include/qapi/qmp/qbool.h
+index 5f61e38e64..2f888d1057 100644
+--- a/include/qapi/qmp/qbool.h
++++ b/include/qapi/qmp/qbool.h
+@@ -23,7 +23,5 @@ struct QBool {
  
-diff --git a/hw/rdma/rdma_utils.h b/hw/rdma/rdma_utils.h
-index e7babe96cb..9fd0efd940 100644
---- a/hw/rdma/rdma_utils.h
-+++ b/hw/rdma/rdma_utils.h
-@@ -28,10 +28,10 @@
- #define rdma_info_report(fmt, ...) \
-     info_report("%s: " fmt, "rdma", ## __VA_ARGS__)
+ QBool *qbool_from_bool(bool value);
+ bool qbool_get_bool(const QBool *qb);
+-bool qbool_is_equal(const QObject *x, const QObject *y);
+-void qbool_destroy_obj(QObject *obj);
  
--typedef struct RdmaProtectedQList {
-+typedef struct RdmaProtectedGQueue {
-     QemuMutex lock;
--    QList *list;
--} RdmaProtectedQList;
-+    GQueue *list;
-+} RdmaProtectedGQueue;
+ #endif /* QBOOL_H */
+diff --git a/include/qapi/qmp/qdict.h b/include/qapi/qmp/qdict.h
+index da942347a7..9934539c1b 100644
+--- a/include/qapi/qmp/qdict.h
++++ b/include/qapi/qmp/qdict.h
+@@ -39,10 +39,8 @@ void qdict_put_obj(QDict *qdict, const char *key, QObject *value);
+ void qdict_del(QDict *qdict, const char *key);
+ int qdict_haskey(const QDict *qdict, const char *key);
+ QObject *qdict_get(const QDict *qdict, const char *key);
+-bool qdict_is_equal(const QObject *x, const QObject *y);
+ const QDictEntry *qdict_first(const QDict *qdict);
+ const QDictEntry *qdict_next(const QDict *qdict, const QDictEntry *entry);
+-void qdict_destroy_obj(QObject *obj);
  
- typedef struct RdmaProtectedGSList {
-     QemuMutex lock;
-@@ -40,10 +40,11 @@ typedef struct RdmaProtectedGSList {
+ /* Helper to qdict_put_obj(), accepts any object */
+ #define qdict_put(qdict, key, obj) \
+diff --git a/include/qapi/qmp/qlist.h b/include/qapi/qmp/qlist.h
+index 595b7943e1..06e98ad5f4 100644
+--- a/include/qapi/qmp/qlist.h
++++ b/include/qapi/qmp/qlist.h
+@@ -51,8 +51,6 @@ QObject *qlist_pop(QList *qlist);
+ QObject *qlist_peek(QList *qlist);
+ int qlist_empty(const QList *qlist);
+ size_t qlist_size(const QList *qlist);
+-bool qlist_is_equal(const QObject *x, const QObject *y);
+-void qlist_destroy_obj(QObject *obj);
  
- void *rdma_pci_dma_map(PCIDevice *dev, dma_addr_t addr, dma_addr_t plen);
- void rdma_pci_dma_unmap(PCIDevice *dev, void *buffer, dma_addr_t len);
--void rdma_protected_qlist_init(RdmaProtectedQList *list);
--void rdma_protected_qlist_destroy(RdmaProtectedQList *list);
--void rdma_protected_qlist_append_int64(RdmaProtectedQList *list, int64_t value);
--int64_t rdma_protected_qlist_pop_int64(RdmaProtectedQList *list);
-+void rdma_protected_gqueue_init(RdmaProtectedGQueue *list);
-+void rdma_protected_gqueue_destroy(RdmaProtectedGQueue *list);
-+void rdma_protected_gqueue_append_int64(RdmaProtectedGQueue *list,
-+                                        int64_t value);
-+int64_t rdma_protected_gqueue_pop_int64(RdmaProtectedGQueue *list);
- void rdma_protected_gslist_init(RdmaProtectedGSList *list);
- void rdma_protected_gslist_destroy(RdmaProtectedGSList *list);
- void rdma_protected_gslist_append_int32(RdmaProtectedGSList *list,
-diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
-index 5de010b1fa..6dcdfbbbe2 100644
---- a/hw/rdma/rdma_backend.c
-+++ b/hw/rdma/rdma_backend.c
-@@ -78,7 +78,7 @@ static void clean_recv_mads(RdmaBackendDev *backend_dev)
-     unsigned long cqe_ctx_id;
- 
-     do {
--        cqe_ctx_id = rdma_protected_qlist_pop_int64(&backend_dev->
-+        cqe_ctx_id = rdma_protected_gqueue_pop_int64(&backend_dev->
-                                                     recv_mads_list);
-         if (cqe_ctx_id != -ENOENT) {
-             qatomic_inc(&backend_dev->rdma_dev_res->stats.missing_cqe);
-@@ -597,7 +597,7 @@ static unsigned int save_mad_recv_buffer(RdmaBackendDev *backend_dev,
-     bctx->up_ctx = ctx;
-     bctx->sge = *sge;
- 
--    rdma_protected_qlist_append_int64(&backend_dev->recv_mads_list, bctx_id);
-+    rdma_protected_gqueue_append_int64(&backend_dev->recv_mads_list, bctx_id);
- 
-     return 0;
- }
-@@ -1111,7 +1111,7 @@ static void process_incoming_mad_req(RdmaBackendDev *backend_dev,
- 
-     trace_mad_message("recv", msg->umad.mad, msg->umad_len);
- 
--    cqe_ctx_id = rdma_protected_qlist_pop_int64(&backend_dev->recv_mads_list);
-+    cqe_ctx_id = rdma_protected_gqueue_pop_int64(&backend_dev->recv_mads_list);
-     if (cqe_ctx_id == -ENOENT) {
-         rdma_warn_report("No more free MADs buffers, waiting for a while");
-         sleep(THR_POLL_TO);
-@@ -1185,7 +1185,7 @@ static int mad_init(RdmaBackendDev *backend_dev, CharBackend *mad_chr_be)
-         return -EIO;
-     }
- 
--    rdma_protected_qlist_init(&backend_dev->recv_mads_list);
-+    rdma_protected_gqueue_init(&backend_dev->recv_mads_list);
- 
-     enable_rdmacm_mux_async(backend_dev);
- 
-@@ -1205,7 +1205,7 @@ static void mad_fini(RdmaBackendDev *backend_dev)
+ static inline const QListEntry *qlist_first(const QList *qlist)
  {
-     disable_rdmacm_mux_async(backend_dev);
-     qemu_chr_fe_disconnect(backend_dev->rdmacm_mux.chr_be);
--    rdma_protected_qlist_destroy(&backend_dev->recv_mads_list);
-+    rdma_protected_gqueue_destroy(&backend_dev->recv_mads_list);
+diff --git a/include/qapi/qmp/qnull.h b/include/qapi/qmp/qnull.h
+index c1426882c5..e84ecceedb 100644
+--- a/include/qapi/qmp/qnull.h
++++ b/include/qapi/qmp/qnull.h
+@@ -26,6 +26,4 @@ static inline QNull *qnull(void)
+     return qobject_ref(&qnull_);
  }
  
- int rdma_backend_get_gid_index(RdmaBackendDev *backend_dev,
-diff --git a/hw/rdma/rdma_utils.c b/hw/rdma/rdma_utils.c
-index 698ed4716c..98df58f689 100644
---- a/hw/rdma/rdma_utils.c
-+++ b/hw/rdma/rdma_utils.c
-@@ -14,8 +14,6 @@
+-bool qnull_is_equal(const QObject *x, const QObject *y);
+-
+ #endif /* QNULL_H */
+diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h
+index bbae0a5ec8..7f84e20bfb 100644
+--- a/include/qapi/qmp/qnum.h
++++ b/include/qapi/qmp/qnum.h
+@@ -68,7 +68,4 @@ double qnum_get_double(QNum *qn);
+ 
+ char *qnum_to_string(QNum *qn);
+ 
+-bool qnum_is_equal(const QObject *x, const QObject *y);
+-void qnum_destroy_obj(QObject *obj);
+-
+ #endif /* QNUM_H */
+diff --git a/include/qapi/qmp/qobject.h b/include/qapi/qmp/qobject.h
+index fcfd549220..9003b71fd3 100644
+--- a/include/qapi/qmp/qobject.h
++++ b/include/qapi/qmp/qobject.h
+@@ -64,14 +64,6 @@ QEMU_BUILD_BUG_MSG(QTYPE__MAX != 7,
+ #define qobject_to(type, obj)                                       \
+     ((type *)qobject_check_type(obj, glue(QTYPE_CAST_TO_, type)))
+ 
+-/* Initialize an object to default values */
+-static inline void qobject_init(QObject *obj, QType type)
+-{
+-    assert(QTYPE_NONE < type && type < QTYPE__MAX);
+-    obj->base.refcnt = 1;
+-    obj->base.type = type;
+-}
+-
+ static inline void qobject_ref_impl(QObject *obj)
+ {
+     if (obj) {
+@@ -90,6 +82,7 @@ bool qobject_is_equal(const QObject *x, const QObject *y);
+ 
+ /**
+  * qobject_destroy(): Free resources used by the object
++ * For use via qobject_unref() only!
   */
+ void qobject_destroy(QObject *obj);
+ 
+diff --git a/include/qapi/qmp/qstring.h b/include/qapi/qmp/qstring.h
+index ae5b4b44d2..e4ac761a22 100644
+--- a/include/qapi/qmp/qstring.h
++++ b/include/qapi/qmp/qstring.h
+@@ -33,7 +33,5 @@ const char *qobject_get_try_str(const QObject *qstring);
+ void qstring_append_int(QString *qstring, int64_t value);
+ void qstring_append(QString *qstring, const char *str);
+ void qstring_append_chr(QString *qstring, int c);
+-bool qstring_is_equal(const QObject *x, const QObject *y);
+-void qstring_destroy_obj(QObject *obj);
+ 
+ #endif /* QSTRING_H */
+diff --git a/qobject/qobject-internal.h b/qobject/qobject-internal.h
+new file mode 100644
+index 0000000000..b310c8e1b5
+--- /dev/null
++++ b/qobject/qobject-internal.h
+@@ -0,0 +1,39 @@
++/*
++ * QObject internals
++ *
++ * Copyright (C) 2015 Red Hat, Inc.
++ *
++ * This work is licensed under the terms of the GNU LGPL, version 2.1
++ * or later.  See the COPYING.LIB file in the top-level directory.
++ */
++
++#ifndef QOBJECT_INTERNAL_H
++#define QOBJECT_INTERNAL_H
++
++#include "qapi/qmp/qobject.h"
++
++static inline void qobject_init(QObject *obj, QType type)
++{
++    assert(QTYPE_NONE < type && type < QTYPE__MAX);
++    obj->base.refcnt = 1;
++    obj->base.type = type;
++}
++
++void qbool_destroy_obj(QObject *obj);
++bool qbool_is_equal(const QObject *x, const QObject *y);
++
++void qdict_destroy_obj(QObject *obj);
++bool qdict_is_equal(const QObject *x, const QObject *y);
++
++void qlist_destroy_obj(QObject *obj);
++bool qlist_is_equal(const QObject *x, const QObject *y);
++
++bool qnull_is_equal(const QObject *x, const QObject *y);
++
++void qnum_destroy_obj(QObject *obj);
++bool qnum_is_equal(const QObject *x, const QObject *y);
++
++void qstring_destroy_obj(QObject *obj);
++bool qstring_is_equal(const QObject *x, const QObject *y);
++
++#endif
+diff --git a/qobject/qbool.c b/qobject/qbool.c
+index 06dfc43498..16a600abb9 100644
+--- a/qobject/qbool.c
++++ b/qobject/qbool.c
+@@ -13,6 +13,7 @@
  
  #include "qemu/osdep.h"
--#include "qapi/qmp/qlist.h"
--#include "qapi/qmp/qnum.h"
- #include "trace.h"
- #include "rdma_utils.h"
+ #include "qapi/qmp/qbool.h"
++#include "qobject-internal.h"
  
-@@ -54,41 +52,46 @@ void rdma_pci_dma_unmap(PCIDevice *dev, void *buffer, dma_addr_t len)
-     }
- }
+ /**
+  * qbool_from_bool(): Create a new QBool from a bool
+diff --git a/qobject/qdict.c b/qobject/qdict.c
+index 1079bd3f6f..d84443391e 100644
+--- a/qobject/qdict.c
++++ b/qobject/qdict.c
+@@ -16,6 +16,7 @@
+ #include "qapi/qmp/qbool.h"
+ #include "qapi/qmp/qnull.h"
+ #include "qapi/qmp/qstring.h"
++#include "qobject-internal.h"
  
--void rdma_protected_qlist_init(RdmaProtectedQList *list)
-+void rdma_protected_gqueue_init(RdmaProtectedGQueue *list)
- {
-     qemu_mutex_init(&list->lock);
--    list->list = qlist_new();
-+    list->list = g_queue_new();
- }
+ /**
+  * qdict_new(): Create a new QDict
+diff --git a/qobject/qlist.c b/qobject/qlist.c
+index 1be95367d1..60562a1f52 100644
+--- a/qobject/qlist.c
++++ b/qobject/qlist.c
+@@ -17,6 +17,7 @@
+ #include "qapi/qmp/qnum.h"
+ #include "qapi/qmp/qstring.h"
+ #include "qemu/queue.h"
++#include "qobject-internal.h"
  
--void rdma_protected_qlist_destroy(RdmaProtectedQList *list)
-+void rdma_protected_gqueue_destroy(RdmaProtectedGQueue *list)
- {
-     if (list->list) {
--        qlist_destroy_obj(QOBJECT(list->list));
-+        g_queue_free_full(list->list, g_free);
-         qemu_mutex_destroy(&list->lock);
-         list->list = NULL;
-     }
- }
+ /**
+  * qlist_new(): Create a new QList
+diff --git a/qobject/qnull.c b/qobject/qnull.c
+index 00870a1824..b26b368219 100644
+--- a/qobject/qnull.c
++++ b/qobject/qnull.c
+@@ -12,6 +12,7 @@
  
--void rdma_protected_qlist_append_int64(RdmaProtectedQList *list, int64_t value)
-+void rdma_protected_gqueue_append_int64(RdmaProtectedGQueue *list,
-+                                        int64_t value)
- {
-     qemu_mutex_lock(&list->lock);
--    qlist_append_int(list->list, value);
-+    g_queue_push_tail(list->list, g_memdup(&value, sizeof(value)));
-     qemu_mutex_unlock(&list->lock);
- }
+ #include "qemu/osdep.h"
+ #include "qapi/qmp/qnull.h"
++#include "qobject-internal.h"
  
--int64_t rdma_protected_qlist_pop_int64(RdmaProtectedQList *list)
-+int64_t rdma_protected_gqueue_pop_int64(RdmaProtectedGQueue *list)
- {
--    QObject *obj;
-+    int64_t *valp;
-+    int64_t val;
+ QNull qnull_ = {
+     .base = {
+diff --git a/qobject/qnum.c b/qobject/qnum.c
+index bf1240ecec..35ba41e61c 100644
+--- a/qobject/qnum.c
++++ b/qobject/qnum.c
+@@ -14,6 +14,7 @@
  
-     qemu_mutex_lock(&list->lock);
--    obj = qlist_pop(list->list);
-+
-+    valp = g_queue_pop_head(list->list);
-     qemu_mutex_unlock(&list->lock);
+ #include "qemu/osdep.h"
+ #include "qapi/qmp/qnum.h"
++#include "qobject-internal.h"
  
--    if (!obj) {
-+    if (!valp) {
-         return -ENOENT;
-     }
+ /**
+  * qnum_from_int(): Create a new QNum from an int64_t
+diff --git a/qobject/qobject.c b/qobject/qobject.c
+index 878dd76e79..d7077b8f2a 100644
+--- a/qobject/qobject.c
++++ b/qobject/qobject.c
+@@ -14,6 +14,7 @@
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qlist.h"
+ #include "qapi/qmp/qstring.h"
++#include "qobject-internal.h"
  
--    return qnum_get_uint(qobject_to(QNum, obj));
-+    val = *valp;
-+    g_free(valp);
-+    return val;
- }
+ QEMU_BUILD_BUG_MSG(
+     offsetof(QNull, base) != 0 ||
+diff --git a/qobject/qstring.c b/qobject/qstring.c
+index c1891beda0..d6724bd4e5 100644
+--- a/qobject/qstring.c
++++ b/qobject/qstring.c
+@@ -12,6 +12,7 @@
  
- void rdma_protected_gslist_init(RdmaProtectedGSList *list)
+ #include "qemu/osdep.h"
+ #include "qapi/qmp/qstring.h"
++#include "qobject-internal.h"
+ 
+ /**
+  * qstring_new(): Create a new empty QString
 -- 
 2.26.2
 
