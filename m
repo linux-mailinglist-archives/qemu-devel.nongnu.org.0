@@ -2,99 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4A02DEDAE
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 08:20:36 +0100 (CET)
-Received: from localhost ([::1]:49576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 898572DEDAF
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 08:20:58 +0100 (CET)
+Received: from localhost ([::1]:49952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqWXb-0001Q8-6n
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 02:20:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52916)
+	id 1kqWXx-0001ZP-K4
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 02:20:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kqWVp-0000WU-7J
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:18:45 -0500
-Received: from relay2.mymailcheap.com ([217.182.66.162]:43392)
+ id 1kqWVy-0000jA-7Y
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:18:54 -0500
+Received: from relay1.mymailcheap.com ([149.56.97.132]:33408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kqWVn-0006K5-5M
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:18:44 -0500
-Received: from filter1.mymailcheap.com (filter1.mymailcheap.com
- [149.56.130.247])
- by relay2.mymailcheap.com (Postfix) with ESMTPS id 219783ECD9;
- Sat, 19 Dec 2020 08:18:41 +0100 (CET)
+ id 1kqWVv-0006Nu-Mv
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:18:52 -0500
+Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
+ [91.134.140.82])
+ by relay1.mymailcheap.com (Postfix) with ESMTPS id ABAAC3F201;
+ Sat, 19 Dec 2020 07:18:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by filter1.mymailcheap.com (Postfix) with ESMTP id 4642E2A374;
- Sat, 19 Dec 2020 02:18:40 -0500 (EST)
+ by filter2.mymailcheap.com (Postfix) with ESMTP id F18A42A524;
+ Sat, 19 Dec 2020 08:18:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
- s=default; t=1608362320;
- bh=9GAlcZiIpk5OxCQ9VlVskCbXgWc7zag2riobEZWFmJU=;
+ s=default; t=1608362330;
+ bh=eKoDjSU09L+lCJ3Pvy0RBeJSqAVU9BqQvA7QQSHj1V4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=wqcYbRuip5ayattSQh6GnXnn6UZTviNF1uZmK0/q3NuVETU098JZwyAvwCkIJi/Cj
- kAZYTlUBSFbSPOkq4BJC4XFygiO2tHi/jhNk/QfyyPax4E8Nimx+YADkZrVNZ76qO1
- kinZ0fAFEWyK9z0YH1gbSSuRCdpfFdx5eIlhPFW8=
-X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
-Received: from filter1.mymailcheap.com ([127.0.0.1])
- by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aVhZg5Wvecso; Sat, 19 Dec 2020 02:18:39 -0500 (EST)
+ b=j0RBNvOfcesrQqRHOzVMzakJ/4I2mbUai7Q2VOYDQo3Q9yvkfqWAd5W4/pX4u7qXt
+ SoZwxuGFbhLn6VVXTvMNCWar6GzweV7WEucrfSa9O06UU+YBD8F3Fp54wITjYbRIe9
+ UFQ4Cdpuq8XyxjaU3t7R5frkYLn/wpAF7jY6TkqU=
+X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
+Received: from filter2.mymailcheap.com ([127.0.0.1])
+ by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6b_xEY6NfsfY; Sat, 19 Dec 2020 08:18:48 +0100 (CET)
 Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
  (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by filter1.mymailcheap.com (Postfix) with ESMTPS;
- Sat, 19 Dec 2020 02:18:39 -0500 (EST)
+ by filter2.mymailcheap.com (Postfix) with ESMTPS;
+ Sat, 19 Dec 2020 08:18:47 +0100 (CET)
 Received: from [213.133.102.83] (ml.mymailcheap.com [213.133.102.83])
- by mail20.mymailcheap.com (Postfix) with ESMTP id 71DF742F8B;
- Sat, 19 Dec 2020 07:18:38 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTP id AB8A741009;
+ Sat, 19 Dec 2020 07:18:47 +0000 (UTC)
 Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
- unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="aLu2DX3G"; 
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="sAgNLeEO"; 
  dkim-atps=neutral
 AI-Spam-Status: Not processed
 Received: from localhost.localdomain (unknown [180.97.240.22])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 0572541009;
- Sat, 19 Dec 2020 07:18:27 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id BFD0141009;
+ Sat, 19 Dec 2020 07:18:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
- s=default; t=1608362313;
- bh=9GAlcZiIpk5OxCQ9VlVskCbXgWc7zag2riobEZWFmJU=;
+ s=default; t=1608362319;
+ bh=eKoDjSU09L+lCJ3Pvy0RBeJSqAVU9BqQvA7QQSHj1V4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aLu2DX3GXjWHqamq+HcbBjkzxIDPdBxx8UdXPcEDnzCehaF/wnUDe+/9tycvqDNTV
- WiPujqPINTzqG9D37jr8P4DmUpr+UpWTzuEs8ST+161XX5MXlvPYzNwSHgn7R7CxHZ
- OLRxUdaK+WqOSITOlWlDA3jFjT03rE3NZRbSrDH4=
+ b=sAgNLeEOwPqvDQVvrPZovfVqp+kveMyBD6Iv6Ppqs2VewvgS6KY/GTLzwAWy3ytUz
+ 9RvWbK9PXq1wOdRaZ4gxabRTnpPGQqgPAVHvxRUlJWTuxmwQMGHgXDZMXJJgI8MgH8
+ kZZUCyEy3LkM5NX6vWMoUp9flskCXmlZtMfxhxbo=
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/8] hw/pci-host/bonito: Fixup IRQ mapping
-Date: Sat, 19 Dec 2020 15:18:15 +0800
-Message-Id: <20201219071816.37963-1-jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 4/8] hw/pci-host/bonito: Fixup pci.lomem mapping
+Date: Sat, 19 Dec 2020 15:18:16 +0800
+Message-Id: <20201219071816.37963-2-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
 References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [8.90 / 10.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_XBL(3.00)[180.97.240.22:received];
+X-Spamd-Result: default: False [8.90 / 10.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
  R_DKIM_ALLOW(0.00)[flygoat.com:s=default];
  RECEIVED_SPAMHAUS_CSS(1.00)[180.97.240.22:received];
  FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
  R_MISSING_CHARSET(2.50)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  MIME_GOOD(-0.10)[text/plain]; BROKEN_CONTENT_TYPE(1.50)[];
- R_SPF_SOFTFAIL(0.00)[~all]; RCPT_COUNT_FIVE(0.00)[6];
- ARC_NA(0.00)[]; ML_SERVERS(-3.10)[213.133.102.83];
+ R_SPF_SOFTFAIL(0.00)[~all:c]; RCPT_COUNT_FIVE(0.00)[6];
+ ML_SERVERS(-3.10)[213.133.102.83];
  DKIM_TRACE(0.00)[flygoat.com:+];
  DMARC_POLICY_ALLOW(0.00)[flygoat.com,none];
  MID_CONTAINS_FROM(1.00)[];
  DMARC_POLICY_ALLOW_WITH_FAILURES(0.00)[];
+ RECEIVED_SPAMHAUS_XBL(3.00)[180.97.240.22:received];
  RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
  MIME_TRACE(0.00)[0:+];
  ASN(0.00)[asn:24940, ipnet:213.133.96.0/19, country:DE];
  RCVD_COUNT_TWO(0.00)[2];
  HFILTER_HELO_BAREIP(3.00)[213.133.102.83,1]
-X-Rspamd-Queue-Id: 71DF742F8B
+X-Rspamd-Queue-Id: AB8A741009
 X-Rspamd-Server: mail20.mymailcheap.com
 X-Spam: Yes
-Received-SPF: pass client-ip=217.182.66.162;
- envelope-from=jiaxun.yang@flygoat.com; helo=relay2.mymailcheap.com
+Received-SPF: pass client-ip=149.56.97.132;
+ envelope-from=jiaxun.yang@flygoat.com; helo=relay1.mymailcheap.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -118,73 +119,50 @@ Cc: chenhuacai@kernel.org, f4bug@amsat.org, wainersm@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Accroading to arch/mips/pci/fixup-fuloong2e.c in kernel,
-despites south bridge IRQs needs special care, all other
-IRQ pins are mapped by 'LOONGSON_IRQ_BASE + 25 + pin'.
-
-As south bridge IRQs are all handled by ISA bus, we can simply
-remove BONITO_IRQ_BASE and direct map IRQs here.
+The original mapping had wrong base address.
+Fix by correct the base adress and merge three alias into
+a single.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- hw/pci-host/bonito.c | 28 +++++-----------------------
- 1 file changed, 5 insertions(+), 23 deletions(-)
+ hw/pci-host/bonito.c | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
 diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index a99eced065..43b79448a9 100644
+index 43b79448a9..3a31ba42f2 100644
 --- a/hw/pci-host/bonito.c
 +++ b/hw/pci-host/bonito.c
-@@ -546,19 +546,16 @@ static const MemoryRegionOps bonito_spciconf_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
--#define BONITO_IRQ_BASE 32
--
- static void pci_bonito_set_irq(void *opaque, int irq_num, int level)
+@@ -608,7 +608,7 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
  {
-     BonitoState *s = opaque;
-     qemu_irq *pic = s->pic;
-     PCIBonitoState *bonito_state = s->pci_dev;
--    int internal_irq = irq_num - BONITO_IRQ_BASE;
+     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
+     BonitoState *bs = BONITO_PCI_HOST_BRIDGE(dev);
+-    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 3);
++    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 1);
  
--    if (bonito_state->regs[BONITO_INTEDGE] & (1 << internal_irq)) {
-+    if (bonito_state->regs[BONITO_INTEDGE] & (1 << irq_num)) {
-         qemu_irq_pulse(*pic);
-     } else {   /* level triggered */
--        if (bonito_state->regs[BONITO_INTPOL] & (1 << internal_irq)) {
-+        if (bonito_state->regs[BONITO_INTPOL] & (1 << irq_num)) {
-             qemu_irq_raise(*pic);
-         } else {
-             qemu_irq_lower(*pic);
-@@ -566,25 +563,10 @@ static void pci_bonito_set_irq(void *opaque, int irq_num, int level)
-     }
- }
+     memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCIHI_SIZE);
+     phb->bus = pci_register_root_bus(dev, "pci",
+@@ -616,16 +616,11 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
+                                      dev, &bs->pci_mem, get_system_io(),
+                                      0x28, 32, TYPE_PCI_BUS);
  
--/* map the original irq (0~3) to bonito irq (16~47, but 16~31 are unused) */
--static int pci_bonito_map_irq(PCIDevice *pci_dev, int irq_num)
-+/* PCI slots IRQ pins started from 25 */
-+static int pci_bonito_map_irq(PCIDevice *pci_dev, int pin)
- {
--    int slot;
+-    for (size_t i = 0; i < 3; i++) {
+-        char *name = g_strdup_printf("pci.lomem%zu", i);
 -
--    slot = (pci_dev->devfn >> 3);
--
--    switch (slot) {
--    case 5:   /* FULOONG2E_VIA_SLOT, SouthBridge, IDE, USB, ACPI, AC97, MC97 */
--        return irq_num % 4 + BONITO_IRQ_BASE;
--    case 6:   /* FULOONG2E_ATI_SLOT, VGA */
--        return 4 + BONITO_IRQ_BASE;
--    case 7:   /* FULOONG2E_RTL_SLOT, RTL8139 */
--        return 5 + BONITO_IRQ_BASE;
--    case 8 ... 12: /* PCI slot 1 to 4 */
--        return (slot - 8 + irq_num) + 6 + BONITO_IRQ_BASE;
--    default:  /* Unknown device, don't do any translation */
--        return irq_num;
+-        memory_region_init_alias(&pcimem_lo_alias[i], NULL, name,
+-                                 &bs->pci_mem, i * 64 * MiB, 64 * MiB);
+-        memory_region_add_subregion(get_system_memory(),
+-                                    BONITO_PCILO_BASE + i * 64 * MiB,
+-                                    &pcimem_lo_alias[i]);
+-        g_free(name);
 -    }
-+    return 25 + pin;
- }
++    memory_region_init_alias(pcimem_lo_alias, OBJECT(dev), "pci.lomem",
++                             &bs->pci_mem, BONITO_PCILO_BASE,
++                             BONITO_PCILO_SIZE);
++    memory_region_add_subregion(get_system_memory(), BONITO_PCILO_BASE,
++                                pcimem_lo_alias);
  
- static void bonito_reset(void *opaque)
+     create_unimplemented_device("pci.io", BONITO_PCIIO_BASE, 1 * MiB);
+ }
 -- 
 2.29.2
 
