@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504A92DEE3F
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 11:57:07 +0100 (CET)
-Received: from localhost ([::1]:40304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA3302DEE6C
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 12:09:58 +0100 (CET)
+Received: from localhost ([::1]:56154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqZv8-0005s4-0V
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 05:57:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50464)
+	id 1kqa7Z-00078U-KV
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 06:09:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqZtY-0004T5-93
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:28 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:58227)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqZtU-00074b-P2
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:27 -0500
-Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MXpM2-1ka0z53BMK-00YAkH; Sat, 19 Dec 2020 11:55:19 +0100
-To: Giuseppe Musacchio <thatlemon@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <c9106487-dc4d-120a-bd48-665b3c617287@gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH] linux-user: Fix loading of BSS segments
-Message-ID: <3695fc3b-e477-deb9-fdb3-270ead41e04c@vivier.eu>
-Date: Sat, 19 Dec 2020 11:55:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtu-0004xl-Lf
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30800)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtl-0007HL-KZ
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608375340;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=M7Mbkx49VnsZZPTjzSq3CtgEnaNIXUwF1DNyuy1pL44=;
+ b=Z/Lz9+cr7zlOyQbV4mP8kDq6XzkAHpMVBto7ue/e0tuL0l24kifmVkD4DyD3cPmf13Kv+1
+ AT1WqWbSopsmaiwGFaEKETtaUNHwMFj8yOU/+YGTnQI3H9A3W9jv4Wa0ZwBVn9rTh0oI4z
+ 0SGpVGpUdW3o/KJMR320EzJ6suA6PIs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-50-2A5GdPL_MXeKza7WQDWePg-1; Sat, 19 Dec 2020 05:55:38 -0500
+X-MC-Unique: 2A5GdPL_MXeKza7WQDWePg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23ABB180A097;
+ Sat, 19 Dec 2020 10:55:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C4AAB5D9D7;
+ Sat, 19 Dec 2020 10:55:36 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A5AC011268A2; Sat, 19 Dec 2020 11:55:32 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 20/33] hw/rdma: Replace QList by GQueue
+Date: Sat, 19 Dec 2020 11:55:19 +0100
+Message-Id: <20201219105532.1734134-21-armbru@redhat.com>
+In-Reply-To: <20201219105532.1734134-1-armbru@redhat.com>
+References: <20201219105532.1734134-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <c9106487-dc4d-120a-bd48-665b3c617287@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:POyVWDJ/kW/FreRytdfIk4tdnroocPM6vKUQKlv++dr+osKz9qx
- V+0ot4T92t90xFiQsXeeYJucLgA4UPaoxSy7ZwIz6w+Z/YNMMDSUEaZL6d8z7Fba290bnnj
- yzOi8SHt8M+R0lbti9KBvmtj2pdFo0KeCPAghhxu8npL+NwZXcSAAM8M3WWe4anERRoQObN
- i6hjNRsUZvmk4T7+N9Y1A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eW2RjpEyv5M=:Fgk5lo2up2PLsNPGFCs2eZ
- IQLrRQ/ycQtrokcR+by7M9wv2ty0efsajn/FPahXhlbAywjY4yBKfLcmywwgv5Mc451roispy
- seWfKEEbb1he7z+eGwGgYxTF8HeDInUvlAPehKdVFZ8p3RXWf92Ctvn8obNcEW6PoISZB9YVX
- rSj8ZUaGdtGL8Pjuv8HRGP/L0wGQ6eP8dpYigAyVcUpT0CtziNaEEEb0e9tTvHXIgRqC9vvdR
- TXhBn6+6u++FCi6AgaWCYujoncZiYcMR2umKvJL6Tf5N5VfM/gOnK0NBQhRI52PdALSeZU7hP
- iy9shBjdnRJVZgK9oKR90bGbhV69REjJnmZCR9k21UMQPDjuEhoH4zNAq4G4IwGb6i6MUES7c
- boWgTBgOB/tjVK9m7UksZfaSIv0UCvsdWEpiNj4K8J2vKJneAyDZML3tIuHVAs8ca0ZHBqJ6p
- u61fqEMYsg==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,138 +79,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org, Yuval Shaia <yuval.shaia.ml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 17/12/2020 à 11:17, Giuseppe Musacchio a écrit :
-> Some ELF binaries encode the .bss section as an extension of the data
-> ones by setting the segment p_memsz > p_filesz. Some other binaries take
-> a different route and encode it as a stand-alone PT_LOAD segment with
-> p_filesz = 0 and p_memsz > 0.
-> 
-> Both the encodings are actually correct per ELF specification but the
-> ELF loader had some troubles in handling the former: with the old logic
-> it was very likely to get Qemu to crash in zero_bss when trying to
-> access unmapped memory.
-> 
-> zero_bss isn't meant to allocate whole zero-filled segments but to
-> "complete" a previously mapped segment with the needed zero bits.
-> 
-> The fix is pretty simple, if the segment is completely zero-filled we
-> simply allocate one or more pages (according to p_memsz) and avoid
-> calling zero_bss altogether.
+RdmaProtectedQList provides a thread-safe queue of int64_t on top of a
+QList.
 
-So, the current code manages the bss segment when the memory page has already
-been allocated for the data segment by zeroing it:
+rdma_protected_qlist_destroy() calls qlist_destroy_obj() directly.
+qlist_destroy_obj() is actually for use by qobject_destroy() only.
+The next commit will make that obvious.
 
-+----------------------------------+
- PAGE                              |
- ----------+------------+          |
- DATA      |   BSS      |          |
+The minimal fix would be calling qobject_unref() instead.  But QList
+is actually a bad fit here.  It's designed for representing JSON
+arrays.  We're better off with a GQueue here.  Replace.
 
-So your patch fixes the case when there is no data segment and thus no page
-to complete:
+Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20201211171152.146877-8-armbru@redhat.com>
+---
+ hw/rdma/rdma_backend_defs.h |  2 +-
+ hw/rdma/rdma_utils.h        | 15 ++++++++-------
+ hw/rdma/rdma_backend.c      | 10 +++++-----
+ hw/rdma/rdma_utils.c        | 29 ++++++++++++++++-------------
+ 4 files changed, 30 insertions(+), 26 deletions(-)
 
-+----------------------------------+
- PAGE                              |
- ----------+                       |
- BSS       |                       |
-
-
-But could we have a case where the BSS starts in a page allocated for the
-data segment but needs more pages?
-
-+----------------------------------+----------------------------------+
- PAGE                              | PAGE                             |
- ------------------------+----------------------------+               |
- DATA                    | BSS                        |               |
-
-In this case we should also allocate the page, and the previous case is only a
-special case (data segment = 0) of this one.
-
-so something like (approxymately):
-
-if (eppnt->p_filesz != 0) {
-   target_mmap()
-   if (vaddr_ef < vaddr_mem) {
-       zero_bss(vaddr_ef, MIN(vaddr_mem, vaddr_ps + vaddr_len))
-   }
-}
-if (vaddr_ps + vaddr_len < vaddr_mem) {
-  target_mmap(vaddr_ps + vaddr_len, vaddr_ps + vaddr_len - vaddr_mem - 1,
-              elf_prot, MAP_PRIVATE | MAP_FIXED | MAP_ANONYMOUS, -1, 0);
-}
-
-I think your fix is correct, but I'm wondering if we can have something more
-generic, if we can cover an other possible case.
-
-If you think we don't need to introduce more complexity for a case that can't
-happen I will queue your patch as is.
-
-Thanks,
-Laurent
-
-> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
-> ---
->  linux-user/elfload.c | 30 ++++++++++++++++++++----------
->  1 file changed, 20 insertions(+), 10 deletions(-)
-> 
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 0b02a92602..a16c240e0f 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -2776,14 +2776,16 @@ static void load_elf_image(const char *image_name, int image_fd,
->              vaddr = load_bias + eppnt->p_vaddr;
->              vaddr_po = TARGET_ELF_PAGEOFFSET(vaddr);
->              vaddr_ps = TARGET_ELF_PAGESTART(vaddr);
-> -            vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
-> +
-> +            vaddr_ef = vaddr + eppnt->p_filesz;
-> +            vaddr_em = vaddr + eppnt->p_memsz;
->  
->              /*
-> -             * Some segments may be completely empty without any backing file
-> -             * segment, in that case just let zero_bss allocate an empty buffer
-> -             * for it.
-> +             * Some segments may be completely empty, with a non-zero p_memsz
-> +             * but no backing file segment.
->               */
->              if (eppnt->p_filesz != 0) {
-> +                vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
->                  error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
->                                      MAP_PRIVATE | MAP_FIXED,
->                                      image_fd, eppnt->p_offset - vaddr_po);
-> @@ -2791,14 +2793,22 @@ static void load_elf_image(const char *image_name, int image_fd,
->                  if (error == -1) {
->                      goto exit_mmap;
->                  }
-> -            }
->  
-> -            vaddr_ef = vaddr + eppnt->p_filesz;
-> -            vaddr_em = vaddr + eppnt->p_memsz;
-> +                /*
-> +                 * If the load segment requests extra zeros (e.g. bss), map it.
-> +                 */
-> +                if (eppnt->p_filesz < eppnt->p_memsz) {
-> +                    zero_bss(vaddr_ef, vaddr_em, elf_prot);
-> +                }
-> +            } else if (eppnt->p_memsz != 0) {
-> +                vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_memsz + vaddr_po);
-> +                error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
-> +                                    MAP_PRIVATE | MAP_FIXED | MAP_ANONYMOUS,
-> +                                    -1, 0);
->  
-> -            /* If the load segment requests extra zeros (e.g. bss), map it.  */
-> -            if (vaddr_ef < vaddr_em) {
-> -                zero_bss(vaddr_ef, vaddr_em, elf_prot);
-> +                if (error == -1) {
-> +                    goto exit_mmap;
-> +                }
->              }
->  
->              /* Find the full program boundaries.  */
-> 
+diff --git a/hw/rdma/rdma_backend_defs.h b/hw/rdma/rdma_backend_defs.h
+index 0b55be3503..4e6c0ad695 100644
+--- a/hw/rdma/rdma_backend_defs.h
++++ b/hw/rdma/rdma_backend_defs.h
+@@ -43,7 +43,7 @@ typedef struct RdmaBackendDev {
+     struct ibv_context *context;
+     struct ibv_comp_channel *channel;
+     uint8_t port_num;
+-    RdmaProtectedQList recv_mads_list;
++    RdmaProtectedGQueue recv_mads_list;
+     RdmaCmMux rdmacm_mux;
+ } RdmaBackendDev;
+ 
+diff --git a/hw/rdma/rdma_utils.h b/hw/rdma/rdma_utils.h
+index e7babe96cb..9fd0efd940 100644
+--- a/hw/rdma/rdma_utils.h
++++ b/hw/rdma/rdma_utils.h
+@@ -28,10 +28,10 @@
+ #define rdma_info_report(fmt, ...) \
+     info_report("%s: " fmt, "rdma", ## __VA_ARGS__)
+ 
+-typedef struct RdmaProtectedQList {
++typedef struct RdmaProtectedGQueue {
+     QemuMutex lock;
+-    QList *list;
+-} RdmaProtectedQList;
++    GQueue *list;
++} RdmaProtectedGQueue;
+ 
+ typedef struct RdmaProtectedGSList {
+     QemuMutex lock;
+@@ -40,10 +40,11 @@ typedef struct RdmaProtectedGSList {
+ 
+ void *rdma_pci_dma_map(PCIDevice *dev, dma_addr_t addr, dma_addr_t plen);
+ void rdma_pci_dma_unmap(PCIDevice *dev, void *buffer, dma_addr_t len);
+-void rdma_protected_qlist_init(RdmaProtectedQList *list);
+-void rdma_protected_qlist_destroy(RdmaProtectedQList *list);
+-void rdma_protected_qlist_append_int64(RdmaProtectedQList *list, int64_t value);
+-int64_t rdma_protected_qlist_pop_int64(RdmaProtectedQList *list);
++void rdma_protected_gqueue_init(RdmaProtectedGQueue *list);
++void rdma_protected_gqueue_destroy(RdmaProtectedGQueue *list);
++void rdma_protected_gqueue_append_int64(RdmaProtectedGQueue *list,
++                                        int64_t value);
++int64_t rdma_protected_gqueue_pop_int64(RdmaProtectedGQueue *list);
+ void rdma_protected_gslist_init(RdmaProtectedGSList *list);
+ void rdma_protected_gslist_destroy(RdmaProtectedGSList *list);
+ void rdma_protected_gslist_append_int32(RdmaProtectedGSList *list,
+diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
+index 5de010b1fa..6dcdfbbbe2 100644
+--- a/hw/rdma/rdma_backend.c
++++ b/hw/rdma/rdma_backend.c
+@@ -78,7 +78,7 @@ static void clean_recv_mads(RdmaBackendDev *backend_dev)
+     unsigned long cqe_ctx_id;
+ 
+     do {
+-        cqe_ctx_id = rdma_protected_qlist_pop_int64(&backend_dev->
++        cqe_ctx_id = rdma_protected_gqueue_pop_int64(&backend_dev->
+                                                     recv_mads_list);
+         if (cqe_ctx_id != -ENOENT) {
+             qatomic_inc(&backend_dev->rdma_dev_res->stats.missing_cqe);
+@@ -597,7 +597,7 @@ static unsigned int save_mad_recv_buffer(RdmaBackendDev *backend_dev,
+     bctx->up_ctx = ctx;
+     bctx->sge = *sge;
+ 
+-    rdma_protected_qlist_append_int64(&backend_dev->recv_mads_list, bctx_id);
++    rdma_protected_gqueue_append_int64(&backend_dev->recv_mads_list, bctx_id);
+ 
+     return 0;
+ }
+@@ -1111,7 +1111,7 @@ static void process_incoming_mad_req(RdmaBackendDev *backend_dev,
+ 
+     trace_mad_message("recv", msg->umad.mad, msg->umad_len);
+ 
+-    cqe_ctx_id = rdma_protected_qlist_pop_int64(&backend_dev->recv_mads_list);
++    cqe_ctx_id = rdma_protected_gqueue_pop_int64(&backend_dev->recv_mads_list);
+     if (cqe_ctx_id == -ENOENT) {
+         rdma_warn_report("No more free MADs buffers, waiting for a while");
+         sleep(THR_POLL_TO);
+@@ -1185,7 +1185,7 @@ static int mad_init(RdmaBackendDev *backend_dev, CharBackend *mad_chr_be)
+         return -EIO;
+     }
+ 
+-    rdma_protected_qlist_init(&backend_dev->recv_mads_list);
++    rdma_protected_gqueue_init(&backend_dev->recv_mads_list);
+ 
+     enable_rdmacm_mux_async(backend_dev);
+ 
+@@ -1205,7 +1205,7 @@ static void mad_fini(RdmaBackendDev *backend_dev)
+ {
+     disable_rdmacm_mux_async(backend_dev);
+     qemu_chr_fe_disconnect(backend_dev->rdmacm_mux.chr_be);
+-    rdma_protected_qlist_destroy(&backend_dev->recv_mads_list);
++    rdma_protected_gqueue_destroy(&backend_dev->recv_mads_list);
+ }
+ 
+ int rdma_backend_get_gid_index(RdmaBackendDev *backend_dev,
+diff --git a/hw/rdma/rdma_utils.c b/hw/rdma/rdma_utils.c
+index 698ed4716c..98df58f689 100644
+--- a/hw/rdma/rdma_utils.c
++++ b/hw/rdma/rdma_utils.c
+@@ -14,8 +14,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qapi/qmp/qlist.h"
+-#include "qapi/qmp/qnum.h"
+ #include "trace.h"
+ #include "rdma_utils.h"
+ 
+@@ -54,41 +52,46 @@ void rdma_pci_dma_unmap(PCIDevice *dev, void *buffer, dma_addr_t len)
+     }
+ }
+ 
+-void rdma_protected_qlist_init(RdmaProtectedQList *list)
++void rdma_protected_gqueue_init(RdmaProtectedGQueue *list)
+ {
+     qemu_mutex_init(&list->lock);
+-    list->list = qlist_new();
++    list->list = g_queue_new();
+ }
+ 
+-void rdma_protected_qlist_destroy(RdmaProtectedQList *list)
++void rdma_protected_gqueue_destroy(RdmaProtectedGQueue *list)
+ {
+     if (list->list) {
+-        qlist_destroy_obj(QOBJECT(list->list));
++        g_queue_free_full(list->list, g_free);
+         qemu_mutex_destroy(&list->lock);
+         list->list = NULL;
+     }
+ }
+ 
+-void rdma_protected_qlist_append_int64(RdmaProtectedQList *list, int64_t value)
++void rdma_protected_gqueue_append_int64(RdmaProtectedGQueue *list,
++                                        int64_t value)
+ {
+     qemu_mutex_lock(&list->lock);
+-    qlist_append_int(list->list, value);
++    g_queue_push_tail(list->list, g_memdup(&value, sizeof(value)));
+     qemu_mutex_unlock(&list->lock);
+ }
+ 
+-int64_t rdma_protected_qlist_pop_int64(RdmaProtectedQList *list)
++int64_t rdma_protected_gqueue_pop_int64(RdmaProtectedGQueue *list)
+ {
+-    QObject *obj;
++    int64_t *valp;
++    int64_t val;
+ 
+     qemu_mutex_lock(&list->lock);
+-    obj = qlist_pop(list->list);
++
++    valp = g_queue_pop_head(list->list);
+     qemu_mutex_unlock(&list->lock);
+ 
+-    if (!obj) {
++    if (!valp) {
+         return -ENOENT;
+     }
+ 
+-    return qnum_get_uint(qobject_to(QNum, obj));
++    val = *valp;
++    g_free(valp);
++    return val;
+ }
+ 
+ void rdma_protected_gslist_init(RdmaProtectedGSList *list)
+-- 
+2.26.2
 
 
