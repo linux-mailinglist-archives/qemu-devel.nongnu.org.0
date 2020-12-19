@@ -2,71 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D3F2DEE68
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 12:07:59 +0100 (CET)
-Received: from localhost ([::1]:47794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 504A92DEE3F
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 11:57:07 +0100 (CET)
+Received: from localhost ([::1]:40304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqa5e-0003ju-3K
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 06:07:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
+	id 1kqZv8-0005s4-0V
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 05:57:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtr-0004on-Lc
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32307)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kqZtl-0007Go-A8
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608375340;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/d3mzP8nvBbMA3ku1d3EdmHDICO8fDbwDwYwndxAmlI=;
- b=iB3JprR4b+pP68gF0cWPzdh6EQ3xtFUSPGeyaW3QHPpVoNJ6q3ZI02P2ZZpcUvNZKkNz2w
- 55uPTjeSRz/1MFDaoLgDHF/TuCUOhWai2oZi9wbXfNk6+ABFq1NOUh8s/f0yHe9I68QLra
- j0M3bUZvENmws7VNpUAx4bUCj38tjKg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127--slwTxFWN3WNIEPIS3RKhg-1; Sat, 19 Dec 2020 05:55:38 -0500
-X-MC-Unique: -slwTxFWN3WNIEPIS3RKhg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9D8051E2;
- Sat, 19 Dec 2020 10:55:36 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BD90671D53;
- Sat, 19 Dec 2020 10:55:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A0BC311268A1; Sat, 19 Dec 2020 11:55:32 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 19/33] Revert "qstring: add qstring_free()"
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqZtY-0004T5-93
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:28 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:58227)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqZtU-00074b-P2
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 05:55:27 -0500
+Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MXpM2-1ka0z53BMK-00YAkH; Sat, 19 Dec 2020 11:55:19 +0100
+To: Giuseppe Musacchio <thatlemon@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <c9106487-dc4d-120a-bd48-665b3c617287@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH] linux-user: Fix loading of BSS segments
+Message-ID: <3695fc3b-e477-deb9-fdb3-270ead41e04c@vivier.eu>
 Date: Sat, 19 Dec 2020 11:55:18 +0100
-Message-Id: <20201219105532.1734134-20-armbru@redhat.com>
-In-Reply-To: <20201219105532.1734134-1-armbru@redhat.com>
-References: <20201219105532.1734134-1-armbru@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <c9106487-dc4d-120a-bd48-665b3c617287@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:POyVWDJ/kW/FreRytdfIk4tdnroocPM6vKUQKlv++dr+osKz9qx
+ V+0ot4T92t90xFiQsXeeYJucLgA4UPaoxSy7ZwIz6w+Z/YNMMDSUEaZL6d8z7Fba290bnnj
+ yzOi8SHt8M+R0lbti9KBvmtj2pdFo0KeCPAghhxu8npL+NwZXcSAAM8M3WWe4anERRoQObN
+ i6hjNRsUZvmk4T7+N9Y1A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eW2RjpEyv5M=:Fgk5lo2up2PLsNPGFCs2eZ
+ IQLrRQ/ycQtrokcR+by7M9wv2ty0efsajn/FPahXhlbAywjY4yBKfLcmywwgv5Mc451roispy
+ seWfKEEbb1he7z+eGwGgYxTF8HeDInUvlAPehKdVFZ8p3RXWf92Ctvn8obNcEW6PoISZB9YVX
+ rSj8ZUaGdtGL8Pjuv8HRGP/L0wGQ6eP8dpYigAyVcUpT0CtziNaEEEb0e9tTvHXIgRqC9vvdR
+ TXhBn6+6u++FCi6AgaWCYujoncZiYcMR2umKvJL6Tf5N5VfM/gOnK0NBQhRI52PdALSeZU7hP
+ iy9shBjdnRJVZgK9oKR90bGbhV69REjJnmZCR9k21UMQPDjuEhoH4zNAq4G4IwGb6i6MUES7c
+ boWgTBgOB/tjVK9m7UksZfaSIv0UCvsdWEpiNj4K8J2vKJneAyDZML3tIuHVAs8ca0ZHBqJ6p
+ u61fqEMYsg==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,78 +66,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 164c374b75f87c6765a705c4418ab7005a2d356f.
+Le 17/12/2020 à 11:17, Giuseppe Musacchio a écrit :
+> Some ELF binaries encode the .bss section as an extension of the data
+> ones by setting the segment p_memsz > p_filesz. Some other binaries take
+> a different route and encode it as a stand-alone PT_LOAD segment with
+> p_filesz = 0 and p_memsz > 0.
+> 
+> Both the encodings are actually correct per ELF specification but the
+> ELF loader had some troubles in handling the former: with the old logic
+> it was very likely to get Qemu to crash in zero_bss when trying to
+> access unmapped memory.
+> 
+> zero_bss isn't meant to allocate whole zero-filled segments but to
+> "complete" a previously mapped segment with the needed zero bits.
+> 
+> The fix is pretty simple, if the segment is completely zero-filled we
+> simply allocate one or more pages (according to p_memsz) and avoid
+> calling zero_bss altogether.
 
-A free function for a reference-counted object is in bad taste.
-Fortunately, this one is now also unused.  Drop it.
+So, the current code manages the bss segment when the memory page has already
+been allocated for the data segment by zeroing it:
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20201211171152.146877-7-armbru@redhat.com>
----
- include/qapi/qmp/qstring.h |  1 -
- qobject/qstring.c          | 27 +++++----------------------
- 2 files changed, 5 insertions(+), 23 deletions(-)
++----------------------------------+
+ PAGE                              |
+ ----------+------------+          |
+ DATA      |   BSS      |          |
 
-diff --git a/include/qapi/qmp/qstring.h b/include/qapi/qmp/qstring.h
-index ae7698d6c7..ae5b4b44d2 100644
---- a/include/qapi/qmp/qstring.h
-+++ b/include/qapi/qmp/qstring.h
-@@ -34,7 +34,6 @@ void qstring_append_int(QString *qstring, int64_t value);
- void qstring_append(QString *qstring, const char *str);
- void qstring_append_chr(QString *qstring, int c);
- bool qstring_is_equal(const QObject *x, const QObject *y);
--char *qstring_free(QString *qstring, bool return_str);
- void qstring_destroy_obj(QObject *obj);
- 
- #endif /* QSTRING_H */
-diff --git a/qobject/qstring.c b/qobject/qstring.c
-index af7c18ca73..c1891beda0 100644
---- a/qobject/qstring.c
-+++ b/qobject/qstring.c
-@@ -168,33 +168,16 @@ bool qstring_is_equal(const QObject *x, const QObject *y)
-                    qobject_to(QString, y)->string);
- }
- 
--/**
-- * qstring_free(): Free the memory allocated by a QString object
-- *
-- * Return: if @return_str, return the underlying string, to be
-- * g_free(), otherwise NULL is returned.
-- */
--char *qstring_free(QString *qstring, bool return_str)
--{
--    char *rv = NULL;
--
--    if (return_str) {
--        rv = qstring->string;
--    } else {
--        g_free(qstring->string);
--    }
--
--    g_free(qstring);
--
--    return rv;
--}
--
- /**
-  * qstring_destroy_obj(): Free all memory allocated by a QString
-  * object
-  */
- void qstring_destroy_obj(QObject *obj)
- {
-+    QString *qs;
-+
-     assert(obj != NULL);
--    qstring_free(qobject_to(QString, obj), FALSE);
-+    qs = qobject_to(QString, obj);
-+    g_free(qs->string);
-+    g_free(qs);
- }
--- 
-2.26.2
+So your patch fixes the case when there is no data segment and thus no page
+to complete:
+
++----------------------------------+
+ PAGE                              |
+ ----------+                       |
+ BSS       |                       |
+
+
+But could we have a case where the BSS starts in a page allocated for the
+data segment but needs more pages?
+
++----------------------------------+----------------------------------+
+ PAGE                              | PAGE                             |
+ ------------------------+----------------------------+               |
+ DATA                    | BSS                        |               |
+
+In this case we should also allocate the page, and the previous case is only a
+special case (data segment = 0) of this one.
+
+so something like (approxymately):
+
+if (eppnt->p_filesz != 0) {
+   target_mmap()
+   if (vaddr_ef < vaddr_mem) {
+       zero_bss(vaddr_ef, MIN(vaddr_mem, vaddr_ps + vaddr_len))
+   }
+}
+if (vaddr_ps + vaddr_len < vaddr_mem) {
+  target_mmap(vaddr_ps + vaddr_len, vaddr_ps + vaddr_len - vaddr_mem - 1,
+              elf_prot, MAP_PRIVATE | MAP_FIXED | MAP_ANONYMOUS, -1, 0);
+}
+
+I think your fix is correct, but I'm wondering if we can have something more
+generic, if we can cover an other possible case.
+
+If you think we don't need to introduce more complexity for a case that can't
+happen I will queue your patch as is.
+
+Thanks,
+Laurent
+
+> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+> ---
+>  linux-user/elfload.c | 30 ++++++++++++++++++++----------
+>  1 file changed, 20 insertions(+), 10 deletions(-)
+> 
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index 0b02a92602..a16c240e0f 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -2776,14 +2776,16 @@ static void load_elf_image(const char *image_name, int image_fd,
+>              vaddr = load_bias + eppnt->p_vaddr;
+>              vaddr_po = TARGET_ELF_PAGEOFFSET(vaddr);
+>              vaddr_ps = TARGET_ELF_PAGESTART(vaddr);
+> -            vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
+> +
+> +            vaddr_ef = vaddr + eppnt->p_filesz;
+> +            vaddr_em = vaddr + eppnt->p_memsz;
+>  
+>              /*
+> -             * Some segments may be completely empty without any backing file
+> -             * segment, in that case just let zero_bss allocate an empty buffer
+> -             * for it.
+> +             * Some segments may be completely empty, with a non-zero p_memsz
+> +             * but no backing file segment.
+>               */
+>              if (eppnt->p_filesz != 0) {
+> +                vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
+>                  error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
+>                                      MAP_PRIVATE | MAP_FIXED,
+>                                      image_fd, eppnt->p_offset - vaddr_po);
+> @@ -2791,14 +2793,22 @@ static void load_elf_image(const char *image_name, int image_fd,
+>                  if (error == -1) {
+>                      goto exit_mmap;
+>                  }
+> -            }
+>  
+> -            vaddr_ef = vaddr + eppnt->p_filesz;
+> -            vaddr_em = vaddr + eppnt->p_memsz;
+> +                /*
+> +                 * If the load segment requests extra zeros (e.g. bss), map it.
+> +                 */
+> +                if (eppnt->p_filesz < eppnt->p_memsz) {
+> +                    zero_bss(vaddr_ef, vaddr_em, elf_prot);
+> +                }
+> +            } else if (eppnt->p_memsz != 0) {
+> +                vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_memsz + vaddr_po);
+> +                error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
+> +                                    MAP_PRIVATE | MAP_FIXED | MAP_ANONYMOUS,
+> +                                    -1, 0);
+>  
+> -            /* If the load segment requests extra zeros (e.g. bss), map it.  */
+> -            if (vaddr_ef < vaddr_em) {
+> -                zero_bss(vaddr_ef, vaddr_em, elf_prot);
+> +                if (error == -1) {
+> +                    goto exit_mmap;
+> +                }
+>              }
+>  
+>              /* Find the full program boundaries.  */
+> 
 
 
