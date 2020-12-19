@@ -2,99 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE662DEDB5
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 08:26:12 +0100 (CET)
-Received: from localhost ([::1]:56088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BC52DEDB9
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 08:30:32 +0100 (CET)
+Received: from localhost ([::1]:59954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqWd1-0004lh-Sa
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 02:26:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53322)
+	id 1kqWhD-0006YQ-MZ
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 02:30:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kqWar-0003qr-CP
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:23:57 -0500
-Received: from relay1.mymailcheap.com ([144.217.248.100]:58578)
+ id 1kqWb5-000442-Kk
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:24:11 -0500
+Received: from relay2.mymailcheap.com ([151.80.165.199]:53459)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kqWao-0008QN-Ke
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:23:56 -0500
+ id 1kqWb3-000050-NV
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 02:24:11 -0500
 Received: from filter1.mymailcheap.com (filter1.mymailcheap.com
  [149.56.130.247])
- by relay1.mymailcheap.com (Postfix) with ESMTPS id 5B2563F202;
- Sat, 19 Dec 2020 07:23:51 +0000 (UTC)
+ by relay2.mymailcheap.com (Postfix) with ESMTPS id CFE283ECDA;
+ Sat, 19 Dec 2020 08:24:06 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by filter1.mymailcheap.com (Postfix) with ESMTP id 42C342A374;
- Sat, 19 Dec 2020 02:23:51 -0500 (EST)
+ by filter1.mymailcheap.com (Postfix) with ESMTP id 1FC862A374;
+ Sat, 19 Dec 2020 02:24:06 -0500 (EST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
- s=default; t=1608362631;
- bh=uA2bJbWIb3kc5yACc/sM6b8KUw3r9+UGTPYWRnrDYOs=;
+ s=default; t=1608362646;
+ bh=1h22Q81ELmn0MngW57iPmDs3dEPNoGgS5R+YZl2qWC4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZLRi+1Rznq82/0+bs5VV9fo63cEddaZ07afLkFuD7vk7U3OR+B9zh+hXhbBR7H5gY
- Ii09cL7prtPljfl3u2eK/YpUVL/exFFoHxYBMnhxtz8luE3wSppkMAkW6MwuVEjnI6
- g8Lmr628K6nUi5cAAxe6SdVD1/IH64PLVbl0QKVQ=
+ b=IZby4Y9simOvN9Kf2eyvYamCiJUMxZdwghvOkXnV1yRW54KmPimX7rlzqVD4JGhn+
+ K4HiekA/jn2EU9jQwVzUClnDz57ltfr++AA/ReUJxPQbNuPqaW4DwdQY4pwp8su3Pw
+ gmmyuYDRwxGQqMUWQGVsTL7Tzs1l2QkzOej/Zs40=
 X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
 Received: from filter1.mymailcheap.com ([127.0.0.1])
  by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KtuY0XAlO3dE; Sat, 19 Dec 2020 02:23:50 -0500 (EST)
+ with ESMTP id B-Zgs47iHl2h; Sat, 19 Dec 2020 02:24:05 -0500 (EST)
 Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
  (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  by filter1.mymailcheap.com (Postfix) with ESMTPS;
- Sat, 19 Dec 2020 02:23:49 -0500 (EST)
+ Sat, 19 Dec 2020 02:24:05 -0500 (EST)
 Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
- by mail20.mymailcheap.com (Postfix) with ESMTP id EDE2741E18;
- Sat, 19 Dec 2020 07:23:48 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTP id 3F25C41E18;
+ Sat, 19 Dec 2020 07:24:04 +0000 (UTC)
 Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
- unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="qdhpo010"; 
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="g5WH1VOM"; 
  dkim-atps=neutral
 AI-Spam-Status: Not processed
 Received: from localhost.localdomain (unknown [180.97.240.22])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 300D442F8B;
- Sat, 19 Dec 2020 07:23:40 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id F08FC42F8B;
+ Sat, 19 Dec 2020 07:23:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
- s=default; t=1608362624;
- bh=uA2bJbWIb3kc5yACc/sM6b8KUw3r9+UGTPYWRnrDYOs=;
+ s=default; t=1608362636;
+ bh=1h22Q81ELmn0MngW57iPmDs3dEPNoGgS5R+YZl2qWC4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qdhpo0109LoIFMcdsbeb3542F9HrnUE4rAPtDqBeShQcRSh1JtvQyLH1dsh7PRxH2
- nWuWic8ogMDQzs3Bt2pb2ubtVHJxTxetp9ksJ4TF+ItJu44kmEdoIOMQ/jg+qsNI81
- aefwdIB9Gkb5UWgP5wmr+LiNc+u6mjoO1pFRI0JU=
+ b=g5WH1VOMLhy9oHqU9hQK5L0kGKG825nMjTkJ6hb+qtG7NduC2w5BO/PqlGVZhCp8v
+ DPOcF11uQdU3IxzmIzurFx/OlIhJWH6fbPZ7f5KNUQwAGUTiM46h+cqWD6byPAgYIn
+ zansrugdnmb4AWXp+r7H7Xj9Ro6hBFKkKiWt+P2U=
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/8] hw/mips/fuloong2e: Add highmem support
-Date: Sat, 19 Dec 2020 15:23:25 +0800
-Message-Id: <20201219072326.40157-1-jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 8/8] tests/acceptance: Test boot_linux_console for fuloong2e
+Date: Sat, 19 Dec 2020 15:23:26 +0800
+Message-Id: <20201219072326.40157-2-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
 References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [8.90 / 10.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_XBL(3.00)[180.97.240.22:received];
+X-Spamd-Result: default: False [8.90 / 10.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
  R_DKIM_ALLOW(0.00)[flygoat.com:s=default];
  RECEIVED_SPAMHAUS_CSS(1.00)[180.97.240.22:received];
  FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
  R_MISSING_CHARSET(2.50)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  MIME_GOOD(-0.10)[text/plain]; BROKEN_CONTENT_TYPE(1.50)[];
- R_SPF_SOFTFAIL(0.00)[~all]; RCPT_COUNT_FIVE(0.00)[6];
- ARC_NA(0.00)[]; ML_SERVERS(-3.10)[148.251.23.173];
+ R_SPF_SOFTFAIL(0.00)[~all:c]; RCPT_COUNT_FIVE(0.00)[6];
+ ML_SERVERS(-3.10)[148.251.23.173];
  DKIM_TRACE(0.00)[flygoat.com:+];
  DMARC_POLICY_ALLOW(0.00)[flygoat.com,none];
  MID_CONTAINS_FROM(1.00)[];
  DMARC_POLICY_ALLOW_WITH_FAILURES(0.00)[];
+ RECEIVED_SPAMHAUS_XBL(3.00)[180.97.240.22:received];
  RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
  MIME_TRACE(0.00)[0:+];
  ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
  RCVD_COUNT_TWO(0.00)[2];
  HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1]
-X-Rspamd-Queue-Id: EDE2741E18
+X-Rspamd-Queue-Id: 3F25C41E18
 X-Rspamd-Server: mail20.mymailcheap.com
 X-Spam: Yes
-Received-SPF: pass client-ip=144.217.248.100;
- envelope-from=jiaxun.yang@flygoat.com; helo=relay1.mymailcheap.com
+Received-SPF: pass client-ip=151.80.165.199;
+ envelope-from=jiaxun.yang@flygoat.com; helo=relay2.mymailcheap.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -118,154 +119,45 @@ Cc: chenhuacai@kernel.org, f4bug@amsat.org, wainersm@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-highmem started from 0x20000000.
-Now we can have up to 2G RAM.
+The kernel comes from debian archive so it's trusted.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
-v2: Handle SPD for dual DIMM correctly.
----
- hw/mips/fuloong2e.c | 61 ++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 49 insertions(+), 12 deletions(-)
+ tests/acceptance/boot_linux_console.py | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 2744b211fd..8a4bebe066 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -56,6 +56,7 @@
- /* Fuloong 2e has a 512k flash: Winbond W39L040AP70Z */
- #define BIOS_SIZE               (512 * KiB)
- #define MAX_IDE_BUS             2
-+#define HIGHMEM_START           0x20000000
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index cc6ec0f8c1..fb41bb7144 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -170,6 +170,27 @@ class BootLinuxConsole(LinuxKernelTest):
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+         self.wait_for_console_pattern(console_pattern)
  
- /*
-  * PMON is not part of qemu and released with BSD license, anyone
-@@ -71,7 +72,8 @@
- #define FULOONG2E_RTL8139_SLOT    7
- 
- static struct _loaderparams {
--    int ram_size;
-+    int ram_low_size;
-+    int ram_high_size;
-     const char *kernel_filename;
-     const char *kernel_cmdline;
-     const char *initrd_filename;
-@@ -128,14 +130,14 @@ static uint64_t load_kernel(MIPSCPU *cpu)
-         initrd_size = get_image_size(loaderparams.initrd_filename);
-         if (initrd_size > 0) {
-             initrd_offset = ROUND_UP(kernel_high, INITRD_PAGE_SIZE);
--            if (initrd_offset + initrd_size > loaderparams.ram_size) {
-+            if (initrd_offset + initrd_size > loaderparams.ram_low_size) {
-                 error_report("memory too small for initial ram disk '%s'",
-                              loaderparams.initrd_filename);
-                 exit(1);
-             }
-             initrd_size = load_image_targphys(loaderparams.initrd_filename,
-                                               initrd_offset,
--                                              loaderparams.ram_size - initrd_offset);
-+                                              loaderparams.ram_low_size - initrd_offset);
-         }
-         if (initrd_size == (target_ulong) -1) {
-             error_report("could not load initial ram disk '%s'",
-@@ -160,7 +162,11 @@ static uint64_t load_kernel(MIPSCPU *cpu)
- 
-     /* Setup minimum environment variables */
-     prom_set(prom_buf, index++, "cpuclock=%u", clock_get_hz(cpu->clock));
--    prom_set(prom_buf, index++, "memsize=%"PRIi64, loaderparams.ram_size / MiB);
-+    prom_set(prom_buf, index++, "memsize=%"PRIi64, loaderparams.ram_low_size / MiB);
-+    if (loaderparams.ram_high_size > 0) {
-+            prom_set(prom_buf, index++, "highmemsize=%"PRIi64,
-+                    loaderparams.ram_high_size / MiB);
-+    }
-     prom_set(prom_buf, index++, NULL);
- 
-     rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
-@@ -186,7 +192,7 @@ static void write_bootloader(CPUMIPSState *env, uint8_t *base,
-     p = (uint32_t *)(base + 0x040);
- 
-     bl_gen_jump_kernel(&p, ENVP_VADDR - 64, 2, ENVP_VADDR,
--                       ENVP_VADDR + 8, loaderparams.ram_size,
-+                       ENVP_VADDR + 8, loaderparams.ram_low_size,
-                        kernel_addr);
- }
- 
-@@ -258,8 +264,11 @@ static void mips_fuloong2e_init(MachineState *machine)
-     const char *kernel_filename = machine->kernel_filename;
-     const char *kernel_cmdline = machine->kernel_cmdline;
-     const char *initrd_filename = machine->initrd_filename;
-+    ram_addr_t ram_low_size, ram_high_size = 0;
-     char *filename;
-     MemoryRegion *address_space_mem = get_system_memory();
-+    MemoryRegion *ram_low_alias = g_new(MemoryRegion, 1);
-+    MemoryRegion *ram_high_alias;
-     MemoryRegion *bios = g_new(MemoryRegion, 1);
-     long bios_size;
-     uint8_t *spd_data;
-@@ -282,12 +291,31 @@ static void mips_fuloong2e_init(MachineState *machine)
- 
-     qemu_register_reset(main_cpu_reset, cpu);
- 
--    /* TODO: support more than 256M RAM as highmem */
--    if (machine->ram_size != 256 * MiB) {
--        error_report("Invalid RAM size, should be 256MB");
-+    if (machine->ram_size > 2 * GiB) {
-+        error_report("Too much memory for this machine: %" PRId64 "MB,"
-+                     " maximum 2048MB", machine->ram_size / MiB);
-         exit(EXIT_FAILURE);
-     }
--    memory_region_add_subregion(address_space_mem, 0, machine->ram);
++    def test_mips64el_fuloong2e(self):
++        """
++        :avocado: tags=arch:mips64el
++        :avocado: tags=machine:fuloong2e
++        :avocado: tags=endian:little
++        """
++        deb_url = ('http://archive.debian.org/debian/pool/main/l/linux/'
++                   'linux-image-3.16.0-6-loongson-2e_3.16.56-1+deb8u1_mipsel.deb')
++        deb_hash = 'd04d446045deecf7b755ef576551de0c4184dd44'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        kernel_path = self.extract_from_deb(deb_path,
++                                            '/boot/vmlinux-3.16.0-6-loongson-2e')
 +
-+    ram_low_size = MIN(machine->ram_size, 256 * MiB);
++        self.vm.set_console()
++        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=ttyS0'
++        self.vm.add_args('-kernel', kernel_path,
++                         '-append', kernel_command_line)
++        self.vm.launch()
++        console_pattern = 'Kernel command line: %s' % kernel_command_line
++        self.wait_for_console_pattern(console_pattern)
 +
-+    memory_region_init_alias(ram_low_alias, NULL,
-+                            "ram_low_alias",
-+                            machine->ram, 0,
-+                            ram_low_size);
-+    memory_region_add_subregion(address_space_mem, 0,
-+                                ram_low_alias);
-+
-+    if (machine->ram_size > 256 * MiB) {
-+        ram_high_alias = g_new(MemoryRegion, 1);
-+        ram_high_size = machine->ram_size - ram_low_size;
-+        memory_region_init_alias(ram_high_alias, NULL,
-+                                "ram_high_alias",
-+                                machine->ram, ram_low_size,
-+                                ram_high_size);
-+        memory_region_add_subregion(address_space_mem, HIGHMEM_START,
-+                                    ram_high_alias);
-+    }
- 
-     /* Boot ROM */
-     memory_region_init_rom(bios, NULL, "fuloong2e.bios", BIOS_SIZE,
-@@ -300,7 +328,8 @@ static void mips_fuloong2e_init(MachineState *machine)
-      */
- 
-     if (kernel_filename) {
--        loaderparams.ram_size = machine->ram_size;
-+        loaderparams.ram_low_size = ram_low_size;
-+        loaderparams.ram_high_size = ram_high_size;
-         loaderparams.kernel_filename = kernel_filename;
-         loaderparams.kernel_cmdline = kernel_cmdline;
-         loaderparams.initrd_filename = initrd_filename;
-@@ -345,8 +374,16 @@ static void mips_fuloong2e_init(MachineState *machine)
-     }
- 
-     /* Populate SPD eeprom data */
--    spd_data = spd_data_generate(DDR, machine->ram_size);
--    smbus_eeprom_init_one(smbus, 0x50, spd_data);
-+    if (machine->ram_size <= 1 * GiB) {
-+        /* It supports maxium of 1 GiB per DIMM */
-+        spd_data = spd_data_generate(DDR, machine->ram_size);
-+        smbus_eeprom_init_one(smbus, 0x50, spd_data);
-+    } else {
-+        /* Split to dual DIMM for more than 1 GiB  */
-+        spd_data = spd_data_generate(DDR, machine->ram_size / 2);
-+        smbus_eeprom_init_one(smbus, 0x50, spd_data);
-+        smbus_eeprom_init_one(smbus, 0x51, spd_data);
-+    }
- 
-     mc146818_rtc_init(isa_bus, 2000, NULL);
- 
+     def test_mips_malta_cpio(self):
+         """
+         :avocado: tags=arch:mips
 -- 
 2.29.2
 
