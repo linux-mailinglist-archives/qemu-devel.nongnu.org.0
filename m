@@ -2,49 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E389C2DF060
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 17:04:36 +0100 (CET)
-Received: from localhost ([::1]:51230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5F52DF0BE
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 18:48:19 +0100 (CET)
+Received: from localhost ([::1]:41804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqeih-0004tb-DE
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 11:04:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37704)
+	id 1kqgL3-0000SP-KD
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 12:48:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kqehS-0004O6-9P
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 11:03:18 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:33084)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kqehO-00009T-PX
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 11:03:17 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BFFC17470DD;
- Sat, 19 Dec 2020 17:03:09 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 7EABD74646C; Sat, 19 Dec 2020 17:03:09 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 7CF80746383;
- Sat, 19 Dec 2020 17:03:09 +0100 (CET)
-Date: Sat, 19 Dec 2020 17:03:09 +0100 (CET)
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH v2 0/8] hm/mips/fuloong2e fixes
-In-Reply-To: <5cb09aab-f425-4faa-969d-9df324768af2@www.fastmail.com>
-Message-ID: <b3e15e5d-2ecf-9364-1963-3d6dae5b7b7@eik.bme.hu>
-References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
- <516bc88e-d49-94f9-b4a2-a9d31e9026@eik.bme.hu>
- <5cb09aab-f425-4faa-969d-9df324768af2@www.fastmail.com>
+ (Exim 4.90_1) (envelope-from <thatlemon@gmail.com>)
+ id 1kqgJO-0008RU-Qo
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 12:46:34 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <thatlemon@gmail.com>)
+ id 1kqgJN-0004ZX-49
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 12:46:34 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id r4so6566640wmh.5
+ for <qemu-devel@nongnu.org>; Sat, 19 Dec 2020 09:46:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vGSZS7zjwrMuzJsJG+d3G6gDlFATDkMR38tCSn7OqWY=;
+ b=UWeGQh+KlMra7YzsYV3c/vHm8aigtpBDR8vXbAVxqz58bRp2e5U37hIuNmmPjNvZ9t
+ qX7qt+PEl4K1XSMRm8DdN7m+BtwOSMWr5PYaaxBLkil5un3N4Grz/RgOi0EAtIgqOjq7
+ rFHeHX26fiwUmkjWSlv3NDHTrZu6Mq3fhDa9lnkEQ7HW8hWznQ83sa7dXHeHE7+a+GQQ
+ 5bImnsx1iDA7fS1dikon+NM5JRJmlrFy/Z7GnSlGWaBN2Kvr8RuORdIxJOnQTcwZ36mV
+ tlLXIv+KYiPd3kUO++XHZFmhIiOxVflvkObzr1hA26rTHmN8JPm8na0QAYmKFnkj3MmW
+ PoOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vGSZS7zjwrMuzJsJG+d3G6gDlFATDkMR38tCSn7OqWY=;
+ b=s5Mg3Wp1PN5E5ZaX6Ithh+Y0YJBkg3OP54KWyRVJSpnDtUVdOQvlYZDSi8X2L9RKmw
+ TdCtFODjtwv4skVmYZr6+13FJQ6BbyjexXzZqkwOtroGI37PrbwBOnWbnP0gtZ9nb28z
+ 3LrEWq//OXGmtVYqEcxgcJfLAYcBsFQO3Ce11EP3ZExykAFFcvAa35Z6qyUUjnTH0NRH
+ P5UShDUr+wHHQBAFvobwTzJILxmkEbDls88MlbK7cNkcmlhtNksBJKkyJ4rkTA1ityjd
+ mDdR2BrJSNWixG5ODbwcomFrqdmX1PT2TH+Yfgi51mRuQIPpPUPNsc2C/1tyHiMB6s3e
+ LiXQ==
+X-Gm-Message-State: AOAM530aPNcKBxdocc6zUB0pVYebNGiY1/f4JxSgtiH/b3ctWJe5mk5k
+ /gjejBQET3xCVSDfrY7k9JQ=
+X-Google-Smtp-Source: ABdhPJySlSXzimgHNnq/z451pJcguQduvNkXWgfsHFCLGen70IcTJke8CwFoXt5htgYFzPx4Qddqug==
+X-Received: by 2002:a7b:c7d3:: with SMTP id z19mr9100067wmk.31.1608399991165; 
+ Sat, 19 Dec 2020 09:46:31 -0800 (PST)
+Received: from [192.168.1.103] ([151.33.227.77])
+ by smtp.gmail.com with ESMTPSA id o7sm18938420wrw.62.2020.12.19.09.46.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 19 Dec 2020 09:46:30 -0800 (PST)
+Subject: Re: [PATCH] linux-user: Fix loading of BSS segments
+To: Laurent Vivier <laurent@vivier.eu>, QEMU Developers <qemu-devel@nongnu.org>
+References: <c9106487-dc4d-120a-bd48-665b3c617287@gmail.com>
+ <3695fc3b-e477-deb9-fdb3-270ead41e04c@vivier.eu>
+From: Giuseppe Musacchio <thatlemon@gmail.com>
+Message-ID: <271b80d2-cdf9-4339-1c61-c0ca8c79d4b3@gmail.com>
+Date: Sat, 19 Dec 2020 18:46:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-367278282-1608393789=:87178"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <3695fc3b-e477-deb9-fdb3-270ead41e04c@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=thatlemon@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,133 +87,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenhuacai@kernel.org, qemu-devel@nongnu.org, wainersm@redhat.com,
- f4bug@amsat.org, Gerd Hoffmann <kraxel@redhat.com>, crosa@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-367278282-1608393789=:87178
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Sat, 19 Dec 2020, Jiaxun Yang wrote:
-> 在2020年12月19日十二月 下午8:13，BALATON Zoltan写道：
->> On Sat, 19 Dec 2020, Jiaxun Yang wrote:
->>> It can now boot Debian installer[1] as well as a custom PMON bootloader
->>> distribution[2].
->>>
->>> Note that it can't boot PMON shipped with actual machine as our ATI vgabios
->>> is using some x86 hack that can't be handled by x86emu in original PMON.
+On 19/12/20 11:55, Laurent Vivier wrote:
+> Le 17/12/2020 à 11:17, Giuseppe Musacchio a écrit :
+>> Some ELF binaries encode the .bss section as an extension of the data
+>> ones by setting the segment p_memsz > p_filesz. Some other binaries take
+>> a different route and encode it as a stand-alone PT_LOAD segment with
+>> p_filesz = 0 and p_memsz > 0.
 >>
->> This may be similar problem that I've seen with similar PPC firmwares:
+>> Both the encodings are actually correct per ELF specification but the
+>> ELF loader had some troubles in handling the former: with the old logic
+>> it was very likely to get Qemu to crash in zero_bss when trying to
+>> access unmapped memory.
 >>
->> https://osdn.net/projects/qmiga/wiki/SubprojectAti
->> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2#h3-Known.20issues
+>> zero_bss isn't meant to allocate whole zero-filled segments but to
+>> "complete" a previously mapped segment with the needed zero bits.
 >>
->> TLDR; vgabios-ati.bin is compiled for i386 real mode (bacause that's what
->> gcc can do, real x86 real mode would need something like bcc I think) that
->> some x86emu can't handle. You can either use Bochs vga bios via romfile
->> property of the vga emulation or try the option for x86emu when compiling
->> vgabios-ati.bin (which did not help the firmwares I've tried).
->
-> Hi,
->
-> Thinks for your reminder!
->
-> To be more specified, our x86emu in PMON can handle i386 real mode,
-> however vgabios-ati uses INT15h when INT10h ax=0x4f01 (Get VESA Mode)
-> is called. And x86emu won't process INT15h properly.
->
-> My workround[1] is to allow 0x4f01 to be failed in PMON, as ax=0x4f02
-> (Set VESA Mode) do work, it won't be a actual problem.
+>> The fix is pretty simple, if the segment is completely zero-filled we
+>> simply allocate one or more pages (according to p_memsz) and avoid
+>> calling zero_bss altogether.
+> 
+> So, the current code manages the bss segment when the memory page has already
+> been allocated for the data segment by zeroing it:
+> 
+> +----------------------------------+
+>  PAGE                              |
+>  ----------+------------+          |
+>  DATA      |   BSS      |          |
+> 
+> So your patch fixes the case when there is no data segment and thus no page
+> to complete:
+> 
+> +----------------------------------+
+>  PAGE                              |
+>  ----------+                       |
+>  BSS       |                       |
+> 
+> 
+> But could we have a case where the BSS starts in a page allocated for the
+> data segment but needs more pages?
+> 
+> +----------------------------------+----------------------------------+
+>  PAGE                              | PAGE                             |
+>  ------------------------+----------------------------+               |
+>  DATA                    | BSS                        |               |
+> 
+> In this case we should also allocate the page, and the previous case is only a
+> special case (data segment = 0) of this one.
+> 
 
-Adding Gerd who is the vgabios maintainer and added the VESA mode support 
-so he knows about this even if no fix is needed but maybe he knows a 
-simple way to work around it anyway. Maybe this could be related to my 
-problems too but with the sam460ex firmware I did not get any output, it 
-just stops (did not check u-boot-sam460ex source yet), but with the 
-pegasos2 firmware I got this diagnostics:
+If I correctly understand your example here this case should be already
+handled by zero_bss: the first chunk of .bss is mapped as part of the
+vaddr_len mapping and is zeroed by the memset, while the other chunk/page
+is mapped in the `host_map_start < host_end` clause.
 
-INTERNAL ERROR: 0000000E=UNIMPLEMENTED EXTENDED OPCODE
-
-EAX=0000 EBX=0000 ECX=2222 EDX=3333 ESP=0000 EBP=0000 ESI=6666 EDI=0000
-  AX=0055  BX=FFDA  CX=2222  DX=3333  SP=FF86  BP=FF9A  SI=6666  DI=FFA6
-  DS=1000  ES=BAD0  SS=1000  CS=C000  IP=2E05   NV UP -- PL NZ NA PE NC
-CS:IP = 0F
-STACK: 0000 0000 0000 0000 FFDA 0000 6666 6666
-   00: FE00 F000 FE01 F000 FE02 F000 FE03 F000
-   10: FE04 F000 FE05 F000 FE06 F000 FE07 F000
-   20: FE08 F000 FE09 F000 FE0A F000 FE0B F000
-   30: FE0C F000 FE0D F000 FE0E F000 FE0F F000
-   40: FE10 F000 FE11 F000 FE12 F000 FE13 F000
-   50: FE14 F000 FE15 F000 FE16 F000 FE17 F000
-   60: FE18 F000 FE19 F000 FE1A F000 FE1B F000
-   70: FE1C F000 FE1D F000 FE1E F000 FE1F F000
-   80: FE20 F000 FE21 F000 FE22 F000 FE23 F000
-   90: FE24 F000 FE25 F000 FE26 F000 FE27 F000
-   A0: FE28 F000 FE29 F000 FE2A F000 FE2B F000
-   B0: FE2C F000 FE2D F000 FE2E F000 FE2F F000
-   C0: FE30 F000 FE31 F000 FE32 F000 FE33 F000
-   D0: FE34 F000 FE35 F000 FE36 F000 FE37 F000
-   E0: FE38 F000 FE39 F000 FE3A F000 FE3B F000
-   F0: FE3C F000 FE3D F000 FE3E F000 FE3F F000
-   00: FE40 F000 FE41 F000 FE42 F000 FE43 F000
-   10: FE44 F000 FE45 F000 FE46 F000 FE47 F000
-   20: FE48 F000 FE49 F000 FE4A F000 FE4B F000
-   30: FE4C F000 FE4D F000 FE4E F000 FE4F F000
-MISC: UNHANDLED 32 BIT DATA PREFIX AT CS:IP = 0000C000:00002E04 0F
-INTERNAL ERROR: 0000000A=UNHANDLED 32BIT PREFIX
-
-EAX=0000 EBX=0000 ECX=2222 EDX=3333 ESP=0000 EBP=0000 ESI=6666 EDI=0000
-  AX=0055  BX=FFDA  CX=2222  DX=3333  SP=FF86  BP=FF9A  SI=6666  DI=FFA6
-  DS=1000  ES=BAD0  SS=1000  CS=C000  IP=2E05   NV UP -- PL NZ NA PE NC
-CS:IP = 0F
-STACK: 0000 0000 0000 0000 FFDA 0000 6666 6666
-   00: FE00 F000 FE01 F000 FE02 F000 FE03 F000
-   10: FE04 F000 FE05 F000 FE06 F000 FE07 F000
-   20: FE08 F000 FE09 F000 FE0A F000 FE0B F000
-   30: FE0C F000 FE0D F000 FE0E F000 FE0F F000
-   40: FE10 F000 FE11 F000 FE12 F000 FE13 F000
-   50: FE14 F000 FE15 F000 FE16 F000 FE17 F000
-   60: FE18 F000 FE19 F000 FE1A F000 FE1B F000
-   70: FE1C F000 FE1D F000 FE1E F000 FE1F F000
-   80: FE20 F000 FE21 F000 FE22 F000 FE23 F000
-   90: FE24 F000 FE25 F000 FE26 F000 FE27 F000
-   A0: FE28 F000 FE29 F000 FE2A F000 FE2B F000
-   B0: FE2C F000 FE2D F000 FE2E F000 FE2F F000
-   C0: FE30 F000 FE31 F000 FE32 F000 FE33 F000
-   D0: FE34 F000 FE35 F000 FE36 F000 FE37 F000
-   E0: FE38 F000 FE39 F000 FE3A F000 FE3B F000
-   F0: FE3C F000 FE3D F000 FE3E F000 FE3F F000
-   00: FE40 F000 FE41 F000 FE42 F000 FE43 F000
-   10: FE44 F000 FE45 F000 FE46 F000 FE47 F000
-   20: FE48 F000 FE49 F000 FE4A F000 FE4B F000
-   30: FE4C F000 FE4D F000 FE4E F000 FE4F F000
-Failed to emulate CS:IP [C000:2E04]=66,0F,BE,C0,E9,FB
-UNHANDLED INT 10 FUNCTION 0100 WITHIN EMULATION
-EA: BYTE READ FROM UNINITIALIZED LOW MEM 0040:0085
-UNHANDLED INT 10 FUNCTION 0300 WITHIN EMULATION
-UNHANDLED INT 10 FUNCTION 1301 WITHIN EMULATION
-UNHANDLED INT 10 FUNCTION 0300 WITHIN EMULATION
-UNHANDLED INT 10 FUNCTION 1301 WITHIN EMULATION
-UNHANDLED INT 10 FUNCTION 0300 WITHIN EMULATION
-UNHANDLED INT 10 FUNCTION 1301 WITHIN EMULATION
-UNHANDLED INT 10 FUNCTION 0300 WITHIN EMULATION
-
-which I assumed could be the same problem with sam460ex too but maybe it's 
-different then.
-
-Regards,
-BALATON Zoltan
-
->
-> - Jiaxun
->
->
---3866299591-367278282-1608393789=:87178--
+> so something like (approxymately):
+> 
+> if (eppnt->p_filesz != 0) {
+>    target_mmap()
+>    if (vaddr_ef < vaddr_mem) {
+>        zero_bss(vaddr_ef, MIN(vaddr_mem, vaddr_ps + vaddr_len))
+>    }
+> }
+> if (vaddr_ps + vaddr_len < vaddr_mem) {
+>   target_mmap(vaddr_ps + vaddr_len, vaddr_ps + vaddr_len - vaddr_mem - 1,
+>               elf_prot, MAP_PRIVATE | MAP_FIXED | MAP_ANONYMOUS, -1, 0);
+> }
+> 
+> I think your fix is correct, but I'm wondering if we can have something more
+> generic, if we can cover an other possible case.
+> 
+> If you think we don't need to introduce more complexity for a case that can't
+> happen I will queue your patch as is.
+> 
+> Thanks,
+> Laurent
+> 
+>> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+>> ---
+>>  linux-user/elfload.c | 30 ++++++++++++++++++++----------
+>>  1 file changed, 20 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+>> index 0b02a92602..a16c240e0f 100644
+>> --- a/linux-user/elfload.c
+>> +++ b/linux-user/elfload.c
+>> @@ -2776,14 +2776,16 @@ static void load_elf_image(const char *image_name, int image_fd,
+>>              vaddr = load_bias + eppnt->p_vaddr;
+>>              vaddr_po = TARGET_ELF_PAGEOFFSET(vaddr);
+>>              vaddr_ps = TARGET_ELF_PAGESTART(vaddr);
+>> -            vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
+>> +
+>> +            vaddr_ef = vaddr + eppnt->p_filesz;
+>> +            vaddr_em = vaddr + eppnt->p_memsz;
+>>  
+>>              /*
+>> -             * Some segments may be completely empty without any backing file
+>> -             * segment, in that case just let zero_bss allocate an empty buffer
+>> -             * for it.
+>> +             * Some segments may be completely empty, with a non-zero p_memsz
+>> +             * but no backing file segment.
+>>               */
+>>              if (eppnt->p_filesz != 0) {
+>> +                vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
+>>                  error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
+>>                                      MAP_PRIVATE | MAP_FIXED,
+>>                                      image_fd, eppnt->p_offset - vaddr_po);
+>> @@ -2791,14 +2793,22 @@ static void load_elf_image(const char *image_name, int image_fd,
+>>                  if (error == -1) {
+>>                      goto exit_mmap;
+>>                  }
+>> -            }
+>>  
+>> -            vaddr_ef = vaddr + eppnt->p_filesz;
+>> -            vaddr_em = vaddr + eppnt->p_memsz;
+>> +                /*
+>> +                 * If the load segment requests extra zeros (e.g. bss), map it.
+>> +                 */
+>> +                if (eppnt->p_filesz < eppnt->p_memsz) {
+>> +                    zero_bss(vaddr_ef, vaddr_em, elf_prot);
+>> +                }
+>> +            } else if (eppnt->p_memsz != 0) {
+>> +                vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_memsz + vaddr_po);
+>> +                error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
+>> +                                    MAP_PRIVATE | MAP_FIXED | MAP_ANONYMOUS,
+>> +                                    -1, 0);
+>>  
+>> -            /* If the load segment requests extra zeros (e.g. bss), map it.  */
+>> -            if (vaddr_ef < vaddr_em) {
+>> -                zero_bss(vaddr_ef, vaddr_em, elf_prot);
+>> +                if (error == -1) {
+>> +                    goto exit_mmap;
+>> +                }
+>>              }
+>>  
+>>              /* Find the full program boundaries.  */
+>>
+> 
 
