@@ -2,62 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48BE2DF1D0
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 22:34:24 +0100 (CET)
-Received: from localhost ([::1]:49938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A87F2DF220
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 00:31:58 +0100 (CET)
+Received: from localhost ([::1]:55456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqjrr-0008CE-FJ
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 16:34:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36078)
+	id 1kqlhd-0005tu-CF
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 18:31:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqjpN-0007EU-AW
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 16:31:49 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:54801)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kqjnm-0007ot-H4
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 16:31:49 -0500
-Received: from [192.168.100.1] ([82.252.144.198]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MrQ2R-1kKeqI1waV-00oTxw; Sat, 19 Dec 2020 22:30:05 +0100
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20201215175445.1272776-1-pbonzini@redhat.com>
- <20201215175445.1272776-3-pbonzini@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PULL 02/45] vl: remove separate preconfig main_loop
-Message-ID: <e28196a5-2221-fcd6-c497-f7c595e2c3e0@vivier.eu>
-Date: Sat, 19 Dec 2020 22:30:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kqlgT-0005MO-HR
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 18:30:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38242)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kqlgQ-0007He-FL
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 18:30:44 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kqlgO-0007tk-Mg
+ for <qemu-devel@nongnu.org>; Sat, 19 Dec 2020 23:30:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9832E2E813A
+ for <qemu-devel@nongnu.org>; Sat, 19 Dec 2020 23:30:40 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201215175445.1272776-3-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2FYnISeUw+x4jmnRrhngbIOgN20dGWk1M+uqohXPNcrxvDn7HU/
- YtgIsgtGcZTjx5wuZt+pgQBxOCrlLx4egVNDSktL0gn61fVt3mgzAJCleAyGRDim849vcGV
- WWmDPFVGDjCzq0h7oDBRFKsnMRunZnM2QIowI2wc21RbAlxs7M8YAB8o+SPLLX5LrZi6o1v
- PeNfJYvR6LYCDanOd7+Ig==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pgB6S1+r0v8=:73VrRZkrY2TjchObKyTWaI
- XMJkmvQUx3/3wbc/U7owq0u73Lkfx75GRtfAUgfTXymKaiCBEB5ajoh7UbhyzkEZlyYumCify
- MYG8SeA0K57TV+cSjreubYdJJUE2KFnc8qTCHiUFx+k3upeGjYIBFUi82BshgeEIyJVdngF0V
- BkYSg+fuSnmTlJaPcEfpntZVCjsNO/QM/Ojt8bDv0+brKq5M5Tgc/ElA5RHUPRbLT7vYNyJ2J
- +gepqk4RD9JS8zn1P4mLSBgTEky6nZ/aK1HNlIKBh3bf+1IxV//eBLZNp/8fZ5MHbStjB2Ad0
- mSvS23vfPqdt+yfzfshn4wtico2/OPzI7tuxcQDMlB9RiWNUyVaP90AigiQN0s2t4C3ZM+U9g
- BBczCuFtHDk/5AusrK6Yy+DZMtRb63m6peyZyhvzVl2fyswmD1Q2vIW+LPc8F7qf+qUdnlED2
- gIznjY8Gaw==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 19 Dec 2020 23:21:10 -0000
+From: =?utf-8?q?Andreas_K=2E_H=C3=BCttel?= <1906193@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alistair2323 dilfridge
+X-Launchpad-Bug-Reporter: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
+ =?utf-8?q?=29?=
+References: <160669515259.21126.12178770886175022752.malonedeb@gac.canonical.com>
+Message-Id: <160842007086.3465.16116660255490173952.malone@wampee.canonical.com>
+Subject: [Bug 1906193] Re: riscv32 user mode emulation: fork return values
+ broken
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
+X-Launchpad-Hash: 4918fbbc2786d24965b6d5f55635c3ddfb19b806
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,252 +72,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>
+Reply-To: Bug 1906193 <1906193@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/12/2020 à 18:54, Paolo Bonzini a écrit :
-> Move post-preconfig initialization to the x-exit-preconfig.  If preconfig
-> is not requested, just exit preconfig mode immediately with the QMP
-> command.
-> 
-> As a result, the preconfig loop will run with accel_setup_post
-> and os_setup_post restrictions (xen_restrict, chroot, etc.)
-> already done.
-> 
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  include/sysemu/runstate.h |  1 -
->  monitor/qmp-cmds.c        |  9 ----
->  softmmu/vl.c              | 95 +++++++++++++++++----------------------
->  3 files changed, 41 insertions(+), 64 deletions(-)
+Thanks a lot! Will test and post the result on monday when I'm back
+home.
 
-Moving the qemu_init_displays() before qemu_create_cli_devices() breaks the display when the graphic
-card is provided by the cli.
+-- =
 
-Try:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906193
 
-qemu-system-x86_64 -device virtio-gpu-pci
+Title:
+  riscv32 user mode emulation: fork return values broken
 
--> we don't have any display, only the parallel port output...
+Status in QEMU:
+  New
 
-Then:
+Bug description:
+  When running in a chroot with riscv32 (on x86_64; qemu git master as
+  of today):
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 0ed5c5ba9348..2f198e0023e0 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2525,6 +2525,7 @@ void qmp_x_exit_preconfig(Error **errp)
+  The following short program forks; the child immediately returns with
+  exit(42). The parent checks for the return value - and obtains 40!
 
-     qemu_init_board();
-     qemu_create_cli_devices();
-+    qemu_init_displays();
-     qemu_machine_creation_done();
+  gcc-10.2
 
-     if (loadvm) {
-@@ -3529,7 +3530,6 @@ void qemu_init(int argc, char **argv, char **envp)
-         exit(0);
-     }
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  #include <stdlib.h>
+  #include <unistd.h>
+  #include <stdio.h>
+  #include <sys/wait.h>
 
--    qemu_init_displays();
-     if (!preconfig_requested) {
-         qmp_x_exit_preconfig(&error_fatal);
-     }
+  main(c, v)
+       int c;
+       char **v;
+  {
+    pid_t pid, p;
+    int s, i, n;
 
-and then re-try:
+    s =3D 0;
+    pid =3D fork();
+    if (pid =3D=3D 0)
+      exit(42);
 
-qemu-system-x86_64 -device virtio-gpu-pci
+    /* wait for the process */
+    p =3D wait(&s);
+    if (p !=3D pid)
+      exit (255);
 
--> we have the BIOS boot screen.
+    if (WIFEXITED(s))
+    {
+       int r=3DWEXITSTATUS(s);
+       if (r!=3D42) {
+        printf("child wants to return %i (0x%X), parent received %i (0x%X),=
+ difference %i\n",42,42,r,r,r-42);
+       }
+    }
+  }
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Any idea?
+  (riscv-ilp32 chroot) farino /tmp # ./wait-test-short =
 
-Thanks,
-Laurent
+  child wants to return 42 (0x2A), parent received 40 (0x28), difference -2
 
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  (riscv-ilp32 chroot) farino /tmp # gcc --version
+  gcc (Gentoo 10.2.0-r1 p2) 10.2.0
+  Copyright (C) 2020 Free Software Foundation, Inc.
+  Dies ist freie Software; die Kopierbedingungen stehen in den Quellen. Es
+  gibt KEINE Garantie; auch nicht f=C3=BCr MARKTG=C3=84NGIGKEIT oder F=C3=
+=9CR SPEZIELLE ZWECKE.
 
-> diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
-> index f760094858..e557f470d4 100644
-> --- a/include/sysemu/runstate.h
-> +++ b/include/sysemu/runstate.h
-> @@ -41,7 +41,6 @@ typedef enum WakeupReason {
->      QEMU_WAKEUP_REASON_OTHER,
->  } WakeupReason;
->  
-> -void qemu_exit_preconfig_request(void);
->  void qemu_system_reset_request(ShutdownCause reason);
->  void qemu_system_suspend_request(void);
->  void qemu_register_suspend_notifier(Notifier *notifier);
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 639a219294..d141aaa132 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -102,15 +102,6 @@ void qmp_system_powerdown(Error **errp)
->      qemu_system_powerdown_request();
->  }
->  
-> -void qmp_x_exit_preconfig(Error **errp)
-> -{
-> -    if (qdev_hotplug) {
-> -        error_setg(errp, "The command is permitted only before machine initialization");
-> -        return;
-> -    }
-> -    qemu_exit_preconfig_request();
-> -}
-> -
->  void qmp_cont(Error **errp)
->  {
->      BlockBackend *blk;
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index ab2210bc79..abbbb83e1a 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -1151,7 +1151,6 @@ static pid_t shutdown_pid;
->  static int powerdown_requested;
->  static int debug_requested;
->  static int suspend_requested;
-> -static bool preconfig_exit_requested = true;
->  static WakeupReason wakeup_reason;
->  static NotifierList powerdown_notifiers =
->      NOTIFIER_LIST_INITIALIZER(powerdown_notifiers);
-> @@ -1238,11 +1237,6 @@ static int qemu_debug_requested(void)
->      return r;
->  }
->  
-> -void qemu_exit_preconfig_request(void)
-> -{
-> -    preconfig_exit_requested = true;
-> -}
-> -
->  /*
->   * Reset the VM. Issue an event unless @reason is SHUTDOWN_CAUSE_NONE.
->   */
-> @@ -1464,10 +1458,6 @@ static bool main_loop_should_exit(void)
->      RunState r;
->      ShutdownCause request;
->  
-> -    if (preconfig_exit_requested) {
-> -        preconfig_exit_requested = false;
-> -        return true;
-> -    }
->      if (qemu_debug_requested()) {
->          vm_stop(RUN_STATE_DEBUG);
->      }
-> @@ -3283,6 +3273,43 @@ static void qemu_machine_creation_done(void)
->      register_global_state();
->  }
->  
-> +void qmp_x_exit_preconfig(Error **errp)
-> +{
-> +    if (qdev_hotplug) {
-> +        error_setg(errp, "The command is permitted only before machine initialization");
-> +        return;
-> +    }
-> +
-> +    qemu_init_board();
-> +    qemu_create_cli_devices();
-> +    qemu_machine_creation_done();
-> +
-> +    if (loadvm) {
-> +        Error *local_err = NULL;
-> +        if (load_snapshot(loadvm, &local_err) < 0) {
-> +            error_report_err(local_err);
-> +            autostart = 0;
-> +            exit(1);
-> +        }
-> +    }
-> +    if (replay_mode != REPLAY_MODE_NONE) {
-> +        replay_vmstate_init();
-> +    }
-> +
-> +    if (incoming) {
-> +        Error *local_err = NULL;
-> +        if (strcmp(incoming, "defer") != 0) {
-> +            qmp_migrate_incoming(incoming, &local_err);
-> +            if (local_err) {
-> +                error_reportf_err(local_err, "-incoming %s: ", incoming);
-> +                exit(1);
-> +            }
-> +        }
-> +    } else if (autostart) {
-> +        qmp_cont(NULL);
-> +    }
-> +}
-> +
->  void qemu_init(int argc, char **argv, char **envp)
->  {
->      QemuOpts *opts;
-> @@ -3847,7 +3874,6 @@ void qemu_init(int argc, char **argv, char **envp)
->                  }
->                  break;
->              case QEMU_OPTION_preconfig:
-> -                preconfig_exit_requested = false;
->                  preconfig_requested = true;
->                  break;
->              case QEMU_OPTION_enable_kvm:
-> @@ -4272,57 +4298,18 @@ void qemu_init(int argc, char **argv, char **envp)
->      qemu_resolve_machine_memdev();
->      parse_numa_opts(current_machine);
->  
-> -    if (preconfig_requested) {
-> -        qemu_init_displays();
-> -    }
-> -
-> -    /* do monitor/qmp handling at preconfig state if requested */
-> -    qemu_main_loop();
-> -
-> -    qemu_init_board();
-> -
-> -    qemu_create_cli_devices();
-> -
-> -    /* initialize displays after all errors have been reported */
-> -    if (!preconfig_requested) {
-> -        qemu_init_displays();
-> -    }
-> -    qemu_machine_creation_done();
-> -
-> -    if (loadvm) {
-> -        Error *local_err = NULL;
-> -        if (load_snapshot(loadvm, &local_err) < 0) {
-> -            error_report_err(local_err);
-> -            autostart = 0;
-> -            exit(1);
-> -        }
-> -    }
-> -    if (replay_mode != REPLAY_MODE_NONE) {
-> -        replay_vmstate_init();
-> -    }
-> -
->      if (vmstate_dump_file) {
->          /* dump and exit */
->          dump_vmstate_json_to_file(vmstate_dump_file);
->          exit(0);
->      }
-> -    if (incoming) {
-> -        Error *local_err = NULL;
-> -        if (strcmp(incoming, "defer") != 0) {
-> -            qmp_migrate_incoming(incoming, &local_err);
-> -            if (local_err) {
-> -                error_reportf_err(local_err, "-incoming %s: ", incoming);
-> -                exit(1);
-> -            }
-> -        }
-> -    } else if (autostart) {
-> -        qmp_cont(NULL);
-> -    }
->  
-> +    qemu_init_displays();
-> +    if (!preconfig_requested) {
-> +        qmp_x_exit_preconfig(&error_fatal);
-> +    }
->      accel_setup_post(current_machine);
->      os_setup_post();
-> -
-> -    return;
->  }
->  
->  void qemu_cleanup(void)
-> 
+  (riscv-ilp32 chroot) farino /tmp # ld --version
+  GNU ld (Gentoo 2.34 p6) 2.34.0
+  Copyright (C) 2020 Free Software Foundation, Inc.
+  This program is free software; you may redistribute it under the terms of
+  the GNU General Public License version 3 or (at your option) a later vers=
+ion.
+  This program has absolutely no warranty.
 
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906193/+subscriptions
 
