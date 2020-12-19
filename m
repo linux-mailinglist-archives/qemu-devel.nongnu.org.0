@@ -2,68 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CEF2DEFFE
-	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 15:27:04 +0100 (CET)
-Received: from localhost ([::1]:49938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E389C2DF060
+	for <lists+qemu-devel@lfdr.de>; Sat, 19 Dec 2020 17:04:36 +0100 (CET)
+Received: from localhost ([::1]:51230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqdCJ-0003ss-Hn
-	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 09:27:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52834)
+	id 1kqeih-0004tb-DE
+	for lists+qemu-devel@lfdr.de; Sat, 19 Dec 2020 11:04:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <a.tarasenko@gmail.com>)
- id 1kqdAS-000327-Q8
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 09:25:09 -0500
-Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:45746)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <a.tarasenko@gmail.com>)
- id 1kqdAQ-0000eZ-IF
- for qemu-devel@nongnu.org; Sat, 19 Dec 2020 09:25:08 -0500
-Received: by mail-qv1-xf34.google.com with SMTP id a4so2055632qvd.12
- for <qemu-devel@nongnu.org>; Sat, 19 Dec 2020 06:25:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=U6R+D7HvrEmNvQsAbsurPQ8PG0AZSaTodOUUSRyCfzQ=;
- b=eoUVKNylTT748xHvjraAmbVl4mZEb3QEgBVvKjYRLTgf+uY3i/Xv6GZC08xjOwww9V
- PSGAsho5kahBp6jXV3pvzL8mGxKxQRJMp8397s6EE9aMSAoon7rsD8XOXdMoHxKMBBOj
- COUXR4D14IzJO5wONpw3j9NZvRMR5wB9dhz6U87OzJPWuZD17Hk88vgmSXbxJ++cIg+f
- Bqd1XUcp1G1UBIfXv47XQuAUbiy98ozr02HlqA2eWObnsbdYsnDrgxZAsfnaYR2+TiH8
- N4WQe1tJQ8qa2Ojdq0oHy+q89VG7PzzM6Mb60XPjmHSzjHfq/XN1UdgxYs3fcQ1uqOjY
- 6SOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=U6R+D7HvrEmNvQsAbsurPQ8PG0AZSaTodOUUSRyCfzQ=;
- b=jTBMAcr6GZRToGdxfIFm+cGPwAh4Pw01+ohLYpQix9eLYXm8N2T7PGiejOc/knASVG
- UUMSvfq2hTF1T/Ktmuo1rTNHzVjk63gCc2dQI733hoe0Yxvoepna18IJozAiwkwzB19z
- Vlp42O7WfJlzcwy9dw3IY7Wzlkgj7MV6OXLuGdsVhDyeMgL388h3fqCZxvl2rGCkl5RY
- bZM9T7EIXot17aixe2QbG7/gS8PFtdV84yIDuFSjxaOYp26MA/y/Oe9oNR9JYDAm7qRM
- X+5lcw7tzAGSw/lq293fko2JwrvYUbK4791huEnOiamz7iFxF2jxmyxECg2VRjJMTCMc
- RV8w==
-X-Gm-Message-State: AOAM531buNTWHM8jN3UQaU33MP8RkBLTBN9mV6koWB92W0Rc8kh8Sa5/
- oAgWiUuR+zIw0DT8as1x30UsG45tn2Gw3D3HpcQ=
-X-Google-Smtp-Source: ABdhPJygPvhyapvS8EoqHLYetFEMx/Bx/EN6dEdDnyo/bs6BkZNeFeZLNpWo5Bf6BJ2xctlJyE/GYeF3sp71/FdpAKY=
-X-Received: by 2002:a0c:83e1:: with SMTP id k88mr9896582qva.60.1608387905191; 
- Sat, 19 Dec 2020 06:25:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kqehS-0004O6-9P
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 11:03:18 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:33084)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kqehO-00009T-PX
+ for qemu-devel@nongnu.org; Sat, 19 Dec 2020 11:03:17 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id BFFC17470DD;
+ Sat, 19 Dec 2020 17:03:09 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 7EABD74646C; Sat, 19 Dec 2020 17:03:09 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 7CF80746383;
+ Sat, 19 Dec 2020 17:03:09 +0100 (CET)
+Date: Sat, 19 Dec 2020 17:03:09 +0100 (CET)
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH v2 0/8] hm/mips/fuloong2e fixes
+In-Reply-To: <5cb09aab-f425-4faa-969d-9df324768af2@www.fastmail.com>
+Message-ID: <b3e15e5d-2ecf-9364-1963-3d6dae5b7b7@eik.bme.hu>
+References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
+ <516bc88e-d49-94f9-b4a2-a9d31e9026@eik.bme.hu>
+ <5cb09aab-f425-4faa-969d-9df324768af2@www.fastmail.com>
 MIME-Version: 1.0
-References: <20201219111934.5540-1-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20201219111934.5540-1-mark.cave-ayland@ilande.co.uk>
-From: Artyom Tarasenko <atar4qemu@gmail.com>
-Date: Sat, 19 Dec 2020 15:24:52 +0100
-Message-ID: <CAAM0arO18dtN6UHUxdKkgR6AeE8zrcm28smP6ctGe_ReqrMOtA@mail.gmail.com>
-Subject: Re: [PATCH] sun4m: don't connect two qemu_irqs directly to the same
- input
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: multipart/alternative; boundary="000000000000c003ba05b6d1fd21"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
- envelope-from=a.tarasenko@gmail.com; helo=mail-qv1-xf34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-367278282-1608393789=:87178"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,250 +58,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: chenhuacai@kernel.org, qemu-devel@nongnu.org, wainersm@redhat.com,
+ f4bug@amsat.org, Gerd Hoffmann <kraxel@redhat.com>, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
---000000000000c003ba05b6d1fd21
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-=D1=81=D0=B1, 19 =D0=B4=D0=B5=D0=BA. 2020 =D0=B3., 12:19 Mark Cave-Ayland <=
-mark.cave-ayland@ilande.co.uk>:
+--3866299591-367278282-1608393789=:87178
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> The sun4m board code connects both of the IRQ outputs of each ESCC to the
-> same slavio input qemu_irq. Connecting two qemu_irqs outputs directly to
-> the
-> same input is not valid as it produces subtly wrong behaviour (for instan=
-ce
-> if both the IRQ lines are high, and then one goes low, the PIC input will
-> see
-> this as a high-to-low transition even though the second IRQ line should
-> still
-> be holding it high).
+On Sat, 19 Dec 2020, Jiaxun Yang wrote:
+> 在2020年12月19日十二月 下午8:13，BALATON Zoltan写道：
+>> On Sat, 19 Dec 2020, Jiaxun Yang wrote:
+>>> It can now boot Debian installer[1] as well as a custom PMON bootloader
+>>> distribution[2].
+>>>
+>>> Note that it can't boot PMON shipped with actual machine as our ATI vgabios
+>>> is using some x86 hack that can't be handled by x86emu in original PMON.
+>>
+>> This may be similar problem that I've seen with similar PPC firmwares:
+>>
+>> https://osdn.net/projects/qmiga/wiki/SubprojectAti
+>> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2#h3-Known.20issues
+>>
+>> TLDR; vgabios-ati.bin is compiled for i386 real mode (bacause that's what
+>> gcc can do, real x86 real mode would need something like bcc I think) that
+>> some x86emu can't handle. You can either use Bochs vga bios via romfile
+>> property of the vga emulation or try the option for x86emu when compiling
+>> vgabios-ati.bin (which did not help the firmwares I've tried).
 >
-> This kind of wiring needs an explicitly created OR gate; add one.
+> Hi,
 >
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Thinks for your reminder!
 >
+> To be more specified, our x86emu in PMON can handle i386 real mode,
+> however vgabios-ati uses INT15h when INT10h ax=0x4f01 (Get VESA Mode)
+> is called. And x86emu won't process INT15h properly.
+>
+> My workround[1] is to allow 0x4f01 to be failed in PMON, as ax=0x4f02
+> (Set VESA Mode) do work, it won't be a actual problem.
 
-Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
+Adding Gerd who is the vgabios maintainer and added the VESA mode support 
+so he knows about this even if no fix is needed but maybe he knows a 
+simple way to work around it anyway. Maybe this could be related to my 
+problems too but with the sam460ex firmware I did not get any output, it 
+just stops (did not check u-boot-sam460ex source yet), but with the 
+pegasos2 firmware I got this diagnostics:
 
----
->  hw/sparc/Kconfig |  1 +
->  hw/sparc/sun4m.c | 23 ++++++++++++++++++-----
->  2 files changed, 19 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
-> index 91805afab6..8dcb10086f 100644
-> --- a/hw/sparc/Kconfig
-> +++ b/hw/sparc/Kconfig
-> @@ -14,6 +14,7 @@ config SUN4M
->      select M48T59
->      select STP2000
->      select CHRP_NVRAM
-> +    select OR_IRQ
->
->  config LEON3
->      bool
-> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-> index 8686371318..c06c43be18 100644
-> --- a/hw/sparc/sun4m.c
-> +++ b/hw/sparc/sun4m.c
-> @@ -50,6 +50,7 @@
->  #include "hw/misc/empty_slot.h"
->  #include "hw/misc/unimp.h"
->  #include "hw/irq.h"
-> +#include "hw/or-irq.h"
->  #include "hw/loader.h"
->  #include "elf.h"
->  #include "trace.h"
-> @@ -848,7 +849,7 @@ static void sun4m_hw_init(const struct sun4m_hwdef
-> *hwdef,
->      uint32_t initrd_size;
->      DriveInfo *fd[MAX_FD];
->      FWCfgState *fw_cfg;
-> -    DeviceState *dev;
-> +    DeviceState *dev, *ms_kb_orgate, *serial_orgate;
->      SysBusDevice *s;
->      unsigned int smp_cpus =3D machine->smp.cpus;
->      unsigned int max_cpus =3D machine->smp.max_cpus;
-> @@ -994,10 +995,16 @@ static void sun4m_hw_init(const struct sun4m_hwdef
-> *hwdef,
->      qdev_prop_set_uint32(dev, "chnAtype", escc_kbd);
->      s =3D SYS_BUS_DEVICE(dev);
->      sysbus_realize_and_unref(s, &error_fatal);
-> -    sysbus_connect_irq(s, 0, slavio_irq[14]);
-> -    sysbus_connect_irq(s, 1, slavio_irq[14]);
->      sysbus_mmio_map(s, 0, hwdef->ms_kb_base);
->
-> +    /* Logically OR both its IRQs together */
-> +    ms_kb_orgate =3D DEVICE(object_new(TYPE_OR_IRQ));
-> +    object_property_set_int(OBJECT(ms_kb_orgate), "num-lines", 2,
-> &error_fatal);
-> +    qdev_realize_and_unref(ms_kb_orgate, NULL, &error_fatal);
-> +    sysbus_connect_irq(s, 0, qdev_get_gpio_in(ms_kb_orgate, 0));
-> +    sysbus_connect_irq(s, 1, qdev_get_gpio_in(ms_kb_orgate, 1));
-> +    qdev_connect_gpio_out(DEVICE(ms_kb_orgate), 0, slavio_irq[14]);
-> +
->      dev =3D qdev_new(TYPE_ESCC);
->      qdev_prop_set_uint32(dev, "disabled", 0);
->      qdev_prop_set_uint32(dev, "frequency", ESCC_CLOCK);
-> @@ -1009,10 +1016,16 @@ static void sun4m_hw_init(const struct sun4m_hwde=
-f
-> *hwdef,
->
->      s =3D SYS_BUS_DEVICE(dev);
->      sysbus_realize_and_unref(s, &error_fatal);
-> -    sysbus_connect_irq(s, 0, slavio_irq[15]);
-> -    sysbus_connect_irq(s, 1,  slavio_irq[15]);
->      sysbus_mmio_map(s, 0, hwdef->serial_base);
->
-> +    /* Logically OR both its IRQs together */
-> +    serial_orgate =3D DEVICE(object_new(TYPE_OR_IRQ));
-> +    object_property_set_int(OBJECT(serial_orgate), "num-lines", 2,
-> &error_fatal);
-> +    qdev_realize_and_unref(serial_orgate, NULL, &error_fatal);
-> +    sysbus_connect_irq(s, 0, qdev_get_gpio_in(serial_orgate, 0));
-> +    sysbus_connect_irq(s, 1, qdev_get_gpio_in(serial_orgate, 1));
-> +    qdev_connect_gpio_out(DEVICE(serial_orgate), 0, slavio_irq[15]);
-> +
->      if (hwdef->apc_base) {
->          apc_init(hwdef->apc_base, qemu_allocate_irq(cpu_halt_signal,
-> NULL, 0));
->      }
-> --
-> 2.20.1
->
->
+INTERNAL ERROR: 0000000E=UNIMPLEMENTED EXTENDED OPCODE
 
---000000000000c003ba05b6d1fd21
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+EAX=0000 EBX=0000 ECX=2222 EDX=3333 ESP=0000 EBP=0000 ESI=6666 EDI=0000
+  AX=0055  BX=FFDA  CX=2222  DX=3333  SP=FF86  BP=FF9A  SI=6666  DI=FFA6
+  DS=1000  ES=BAD0  SS=1000  CS=C000  IP=2E05   NV UP -- PL NZ NA PE NC
+CS:IP = 0F
+STACK: 0000 0000 0000 0000 FFDA 0000 6666 6666
+   00: FE00 F000 FE01 F000 FE02 F000 FE03 F000
+   10: FE04 F000 FE05 F000 FE06 F000 FE07 F000
+   20: FE08 F000 FE09 F000 FE0A F000 FE0B F000
+   30: FE0C F000 FE0D F000 FE0E F000 FE0F F000
+   40: FE10 F000 FE11 F000 FE12 F000 FE13 F000
+   50: FE14 F000 FE15 F000 FE16 F000 FE17 F000
+   60: FE18 F000 FE19 F000 FE1A F000 FE1B F000
+   70: FE1C F000 FE1D F000 FE1E F000 FE1F F000
+   80: FE20 F000 FE21 F000 FE22 F000 FE23 F000
+   90: FE24 F000 FE25 F000 FE26 F000 FE27 F000
+   A0: FE28 F000 FE29 F000 FE2A F000 FE2B F000
+   B0: FE2C F000 FE2D F000 FE2E F000 FE2F F000
+   C0: FE30 F000 FE31 F000 FE32 F000 FE33 F000
+   D0: FE34 F000 FE35 F000 FE36 F000 FE37 F000
+   E0: FE38 F000 FE39 F000 FE3A F000 FE3B F000
+   F0: FE3C F000 FE3D F000 FE3E F000 FE3F F000
+   00: FE40 F000 FE41 F000 FE42 F000 FE43 F000
+   10: FE44 F000 FE45 F000 FE46 F000 FE47 F000
+   20: FE48 F000 FE49 F000 FE4A F000 FE4B F000
+   30: FE4C F000 FE4D F000 FE4E F000 FE4F F000
+MISC: UNHANDLED 32 BIT DATA PREFIX AT CS:IP = 0000C000:00002E04 0F
+INTERNAL ERROR: 0000000A=UNHANDLED 32BIT PREFIX
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">=D1=81=D0=B1, 19 =D0=B4=D0=B5=D0=BA. 2020 =D0=B3., 12:=
-19 Mark Cave-Ayland &lt;<a href=3D"mailto:mark.cave-ayland@ilande.co.uk">ma=
-rk.cave-ayland@ilande.co.uk</a>&gt;:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-">The sun4m board code connects both of the IRQ outputs of each ESCC to the=
-<br>
-same slavio input qemu_irq. Connecting two qemu_irqs outputs directly to th=
-e<br>
-same input is not valid as it produces subtly wrong behaviour (for instance=
-<br>
-if both the IRQ lines are high, and then one goes low, the PIC input will s=
-ee<br>
-this as a high-to-low transition even though the second IRQ line should sti=
-ll<br>
-be holding it high).<br>
-<br>
-This kind of wiring needs an explicitly created OR gate; add one.<br>
-<br>
-Signed-off-by: Mark Cave-Ayland &lt;<a href=3D"mailto:mark.cave-ayland@ilan=
-de.co.uk" target=3D"_blank" rel=3D"noreferrer">mark.cave-ayland@ilande.co.u=
-k</a>&gt;<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Reviewed-by: Artyom Tarasenko &lt;<a href=3D"mailto:atar4qemu@gma=
-il.com">atar4qemu@gmail.com</a>&gt;</div><div dir=3D"auto"><br></div><div d=
-ir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
----<br>
-=C2=A0hw/sparc/Kconfig |=C2=A0 1 +<br>
-=C2=A0hw/sparc/sun4m.c | 23 ++++++++++++++++++-----<br>
-=C2=A02 files changed, 19 insertions(+), 5 deletions(-)<br>
-<br>
-diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig<br>
-index 91805afab6..8dcb10086f 100644<br>
---- a/hw/sparc/Kconfig<br>
-+++ b/hw/sparc/Kconfig<br>
-@@ -14,6 +14,7 @@ config SUN4M<br>
-=C2=A0 =C2=A0 =C2=A0select M48T59<br>
-=C2=A0 =C2=A0 =C2=A0select STP2000<br>
-=C2=A0 =C2=A0 =C2=A0select CHRP_NVRAM<br>
-+=C2=A0 =C2=A0 select OR_IRQ<br>
-<br>
-=C2=A0config LEON3<br>
-=C2=A0 =C2=A0 =C2=A0bool<br>
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c<br>
-index 8686371318..c06c43be18 100644<br>
---- a/hw/sparc/sun4m.c<br>
-+++ b/hw/sparc/sun4m.c<br>
-@@ -50,6 +50,7 @@<br>
-=C2=A0#include &quot;hw/misc/empty_slot.h&quot;<br>
-=C2=A0#include &quot;hw/misc/unimp.h&quot;<br>
-=C2=A0#include &quot;hw/irq.h&quot;<br>
-+#include &quot;hw/or-irq.h&quot;<br>
-=C2=A0#include &quot;hw/loader.h&quot;<br>
-=C2=A0#include &quot;elf.h&quot;<br>
-=C2=A0#include &quot;trace.h&quot;<br>
-@@ -848,7 +849,7 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwd=
-ef,<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t initrd_size;<br>
-=C2=A0 =C2=A0 =C2=A0DriveInfo *fd[MAX_FD];<br>
-=C2=A0 =C2=A0 =C2=A0FWCfgState *fw_cfg;<br>
--=C2=A0 =C2=A0 DeviceState *dev;<br>
-+=C2=A0 =C2=A0 DeviceState *dev, *ms_kb_orgate, *serial_orgate;<br>
-=C2=A0 =C2=A0 =C2=A0SysBusDevice *s;<br>
-=C2=A0 =C2=A0 =C2=A0unsigned int smp_cpus =3D machine-&gt;smp.cpus;<br>
-=C2=A0 =C2=A0 =C2=A0unsigned int max_cpus =3D machine-&gt;smp.max_cpus;<br>
-@@ -994,10 +995,16 @@ static void sun4m_hw_init(const struct sun4m_hwdef *h=
-wdef,<br>
-=C2=A0 =C2=A0 =C2=A0qdev_prop_set_uint32(dev, &quot;chnAtype&quot;, escc_kb=
-d);<br>
-=C2=A0 =C2=A0 =C2=A0s =3D SYS_BUS_DEVICE(dev);<br>
-=C2=A0 =C2=A0 =C2=A0sysbus_realize_and_unref(s, &amp;error_fatal);<br>
--=C2=A0 =C2=A0 sysbus_connect_irq(s, 0, slavio_irq[14]);<br>
--=C2=A0 =C2=A0 sysbus_connect_irq(s, 1, slavio_irq[14]);<br>
-=C2=A0 =C2=A0 =C2=A0sysbus_mmio_map(s, 0, hwdef-&gt;ms_kb_base);<br>
-<br>
-+=C2=A0 =C2=A0 /* Logically OR both its IRQs together */<br>
-+=C2=A0 =C2=A0 ms_kb_orgate =3D DEVICE(object_new(TYPE_OR_IRQ));<br>
-+=C2=A0 =C2=A0 object_property_set_int(OBJECT(ms_kb_orgate), &quot;num-line=
-s&quot;, 2, &amp;error_fatal);<br>
-+=C2=A0 =C2=A0 qdev_realize_and_unref(ms_kb_orgate, NULL, &amp;error_fatal)=
-;<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(s, 0, qdev_get_gpio_in(ms_kb_orgate, 0));=
-<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(s, 1, qdev_get_gpio_in(ms_kb_orgate, 1));=
-<br>
-+=C2=A0 =C2=A0 qdev_connect_gpio_out(DEVICE(ms_kb_orgate), 0, slavio_irq[14=
-]);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0dev =3D qdev_new(TYPE_ESCC);<br>
-=C2=A0 =C2=A0 =C2=A0qdev_prop_set_uint32(dev, &quot;disabled&quot;, 0);<br>
-=C2=A0 =C2=A0 =C2=A0qdev_prop_set_uint32(dev, &quot;frequency&quot;, ESCC_C=
-LOCK);<br>
-@@ -1009,10 +1016,16 @@ static void sun4m_hw_init(const struct sun4m_hwdef =
-*hwdef,<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0s =3D SYS_BUS_DEVICE(dev);<br>
-=C2=A0 =C2=A0 =C2=A0sysbus_realize_and_unref(s, &amp;error_fatal);<br>
--=C2=A0 =C2=A0 sysbus_connect_irq(s, 0, slavio_irq[15]);<br>
--=C2=A0 =C2=A0 sysbus_connect_irq(s, 1,=C2=A0 slavio_irq[15]);<br>
-=C2=A0 =C2=A0 =C2=A0sysbus_mmio_map(s, 0, hwdef-&gt;serial_base);<br>
-<br>
-+=C2=A0 =C2=A0 /* Logically OR both its IRQs together */<br>
-+=C2=A0 =C2=A0 serial_orgate =3D DEVICE(object_new(TYPE_OR_IRQ));<br>
-+=C2=A0 =C2=A0 object_property_set_int(OBJECT(serial_orgate), &quot;num-lin=
-es&quot;, 2, &amp;error_fatal);<br>
-+=C2=A0 =C2=A0 qdev_realize_and_unref(serial_orgate, NULL, &amp;error_fatal=
-);<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(s, 0, qdev_get_gpio_in(serial_orgate, 0))=
-;<br>
-+=C2=A0 =C2=A0 sysbus_connect_irq(s, 1, qdev_get_gpio_in(serial_orgate, 1))=
-;<br>
-+=C2=A0 =C2=A0 qdev_connect_gpio_out(DEVICE(serial_orgate), 0, slavio_irq[1=
-5]);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0if (hwdef-&gt;apc_base) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0apc_init(hwdef-&gt;apc_base, qemu_allocat=
-e_irq(cpu_halt_signal, NULL, 0));<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--- <br>
-2.20.1<br>
-<br>
-</blockquote></div></div></div>
+EAX=0000 EBX=0000 ECX=2222 EDX=3333 ESP=0000 EBP=0000 ESI=6666 EDI=0000
+  AX=0055  BX=FFDA  CX=2222  DX=3333  SP=FF86  BP=FF9A  SI=6666  DI=FFA6
+  DS=1000  ES=BAD0  SS=1000  CS=C000  IP=2E05   NV UP -- PL NZ NA PE NC
+CS:IP = 0F
+STACK: 0000 0000 0000 0000 FFDA 0000 6666 6666
+   00: FE00 F000 FE01 F000 FE02 F000 FE03 F000
+   10: FE04 F000 FE05 F000 FE06 F000 FE07 F000
+   20: FE08 F000 FE09 F000 FE0A F000 FE0B F000
+   30: FE0C F000 FE0D F000 FE0E F000 FE0F F000
+   40: FE10 F000 FE11 F000 FE12 F000 FE13 F000
+   50: FE14 F000 FE15 F000 FE16 F000 FE17 F000
+   60: FE18 F000 FE19 F000 FE1A F000 FE1B F000
+   70: FE1C F000 FE1D F000 FE1E F000 FE1F F000
+   80: FE20 F000 FE21 F000 FE22 F000 FE23 F000
+   90: FE24 F000 FE25 F000 FE26 F000 FE27 F000
+   A0: FE28 F000 FE29 F000 FE2A F000 FE2B F000
+   B0: FE2C F000 FE2D F000 FE2E F000 FE2F F000
+   C0: FE30 F000 FE31 F000 FE32 F000 FE33 F000
+   D0: FE34 F000 FE35 F000 FE36 F000 FE37 F000
+   E0: FE38 F000 FE39 F000 FE3A F000 FE3B F000
+   F0: FE3C F000 FE3D F000 FE3E F000 FE3F F000
+   00: FE40 F000 FE41 F000 FE42 F000 FE43 F000
+   10: FE44 F000 FE45 F000 FE46 F000 FE47 F000
+   20: FE48 F000 FE49 F000 FE4A F000 FE4B F000
+   30: FE4C F000 FE4D F000 FE4E F000 FE4F F000
+Failed to emulate CS:IP [C000:2E04]=66,0F,BE,C0,E9,FB
+UNHANDLED INT 10 FUNCTION 0100 WITHIN EMULATION
+EA: BYTE READ FROM UNINITIALIZED LOW MEM 0040:0085
+UNHANDLED INT 10 FUNCTION 0300 WITHIN EMULATION
+UNHANDLED INT 10 FUNCTION 1301 WITHIN EMULATION
+UNHANDLED INT 10 FUNCTION 0300 WITHIN EMULATION
+UNHANDLED INT 10 FUNCTION 1301 WITHIN EMULATION
+UNHANDLED INT 10 FUNCTION 0300 WITHIN EMULATION
+UNHANDLED INT 10 FUNCTION 1301 WITHIN EMULATION
+UNHANDLED INT 10 FUNCTION 0300 WITHIN EMULATION
 
---000000000000c003ba05b6d1fd21--
+which I assumed could be the same problem with sam460ex too but maybe it's 
+different then.
+
+Regards,
+BALATON Zoltan
+
+>
+> - Jiaxun
+>
+>
+--3866299591-367278282-1608393789=:87178--
 
