@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73332DF5C2
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 15:57:18 +0100 (CET)
-Received: from localhost ([::1]:44884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199AD2DF5C6
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 16:06:33 +0100 (CET)
+Received: from localhost ([::1]:48020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kr097-0004X2-Fj
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 09:57:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55916)
+	id 1kr0I3-0006Ks-J6
+	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 10:06:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kr07p-00046q-Hk
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 09:55:57 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54248)
+ id 1kr0HI-0005mt-15
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 10:05:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kr07m-0006Wr-1A
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 09:55:57 -0500
+ id 1kr0HF-0001nF-Dm
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 10:05:43 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kr07k-00013w-2A
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 14:55:52 +0000
+ id 1kr0HD-0001d8-Lv
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 15:05:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0EF022E8084
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 14:55:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8AB0A2E8089
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 15:05:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Dec 2020 14:50:00 -0000
-From: Luqman <1908489@bugs.launchpad.net>
+Date: Sun, 20 Dec 2020 15:00:09 -0000
+From: Paolo Bonzini <1908489@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,9 +41,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: bonzini luqmana
 X-Launchpad-Bug-Reporter: Luqman (luqmana)
-X-Launchpad-Bug-Modifier: Luqman (luqmana)
+X-Launchpad-Bug-Modifier: Paolo Bonzini (bonzini)
 References: <160818582988.15420.16250079431178848252.malonedeb@soybean.canonical.com>
-Message-Id: <160847580081.2681.11348115411461752812.malone@soybean.canonical.com>
+Message-Id: <160847640915.4079.6370006903038343780.malone@wampee.canonical.com>
 Subject: [Bug 1908489] Re: qemu 4.2 bootloops with -cpu host and nested
  hypervisor
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -51,7 +51,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 383a3c365a76285ba03aed33dca57342f62b0ec3
+X-Launchpad-Hash: f4b8a4429c23bef2b99f5a2e65ae7679bd5b2c67
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -76,7 +76,8 @@ Reply-To: Bug 1908489 <1908489@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding -mpx doesn't seem to help on 5.8, the guest still bootloops.
+If you can bisect between 5.9 (I understand it's bad?) and 5.10 we could
+propose it for stable kernels.
 
 -- =
 
