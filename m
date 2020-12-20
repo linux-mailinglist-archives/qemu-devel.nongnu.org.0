@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EA12DF59D
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 15:11:52 +0100 (CET)
-Received: from localhost ([::1]:51636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73332DF5C2
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 15:57:18 +0100 (CET)
+Received: from localhost ([::1]:44884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqzR9-0001WV-4j
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 09:11:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49486)
+	id 1kr097-0004X2-Fj
+	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 09:57:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kqzQ9-00013n-Cf
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 09:10:49 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51616)
+ id 1kr07p-00046q-Hk
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 09:55:57 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kqzQ7-0006cR-4E
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 09:10:49 -0500
+ id 1kr07m-0006Wr-1A
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 09:55:57 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kqzQ4-0007On-Cp
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 14:10:44 +0000
+ id 1kr07k-00013w-2A
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 14:55:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 59B522E8084
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 14:10:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0EF022E8084
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 14:55:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Dec 2020 13:58:58 -0000
+Date: Sun, 20 Dec 2020 14:50:00 -0000
 From: Luqman <1908489@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,7 +43,7 @@ X-Launchpad-Bug-Commenters: bonzini luqmana
 X-Launchpad-Bug-Reporter: Luqman (luqmana)
 X-Launchpad-Bug-Modifier: Luqman (luqmana)
 References: <160818582988.15420.16250079431178848252.malonedeb@soybean.canonical.com>
-Message-Id: <160847273827.1780.1291216797699485311.malone@soybean.canonical.com>
+Message-Id: <160847580081.2681.11348115411461752812.malone@soybean.canonical.com>
 Subject: [Bug 1908489] Re: qemu 4.2 bootloops with -cpu host and nested
  hypervisor
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -51,7 +51,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 3250610548f459df2b5c28fca3fea7c0a08dd58f
+X-Launchpad-Hash: 383a3c365a76285ba03aed33dca57342f62b0ec3
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -76,10 +76,7 @@ Reply-To: Bug 1908489 <1908489@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Aha! The final boot loop issue is resolved if I either upgrade to 5.10
-or downgrade to 5.4 from 5.8.
-
-So the main issue then seems to be the missing control bits.
+Adding -mpx doesn't seem to help on 5.8, the guest still bootloops.
 
 -- =
 
