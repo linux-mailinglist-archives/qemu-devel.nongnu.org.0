@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 467822DF574
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 14:17:19 +0100 (CET)
-Received: from localhost ([::1]:48242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A672DF575
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 14:17:20 +0100 (CET)
+Received: from localhost ([::1]:48390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kqyaL-0001tr-SF
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 08:17:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39708)
+	id 1kqyaN-0001xd-UR
+	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 08:17:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kqyYu-00010y-6O
+ id 1kqyYu-000115-Ei
  for qemu-devel@nongnu.org; Sun, 20 Dec 2020 08:15:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48738)
+Received: from indium.canonical.com ([91.189.90.7]:48724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kqyYq-00032q-19
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 08:15:47 -0500
+ id 1kqyYq-00032l-2z
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 08:15:48 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kqyYo-0004kf-HB
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 13:15:42 +0000
+ id 1kqyYn-0004kf-T4
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 13:15:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8072C2E804B
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 13:15:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id DAB022E8088
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 13:15:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Dec 2020 13:07:40 -0000
-From: Paolo Bonzini <1908489@bugs.launchpad.net>
+Date: Sun, 20 Dec 2020 13:07:47 -0000
+From: Luqman <1908489@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,18 +41,17 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: bonzini luqmana
 X-Launchpad-Bug-Reporter: Luqman (luqmana)
-X-Launchpad-Bug-Modifier: Paolo Bonzini (bonzini)
+X-Launchpad-Bug-Modifier: Luqman (luqmana)
 References: <160818582988.15420.16250079431178848252.malonedeb@soybean.canonical.com>
- <160846060219.1287.7718951679916511019.malone@soybean.canonical.com>
-Message-Id: <2f020818-c55f-6979-28ac-78e429abc17d@gnu.org>
-Subject: Re: [Bug 1908489] Re: qemu 4.2 bootloops with -cpu host and nested
+Message-Id: <160846966840.28797.376298284608674737.launchpad@gac.canonical.com>
+Subject: [Bug 1908489] Re: qemu 4.2 bootloops with -cpu host and nested
  hypervisor
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: ce8d40ba7bc61fbb7be3b44414b330869b2cba2d
+X-Launchpad-Hash: ae2a67859c4863b69752c50ad6cdd6884b39b727
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -77,7 +76,13 @@ Reply-To: Bug 1908489 <1908489@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Try instead disabling MPX with "-cpu host,-mpx".
+** Bug watch added: bugs.centos.org/ #17788
+   https://bugs.centos.org/view.php?id=3D17788
+
+** Also affects: qemu-kvm (CentOS) via
+   https://bugs.centos.org/view.php?id=3D17788
+   Importance: Unknown
+       Status: Unknown
 
 -- =
 
