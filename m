@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F222DF60C
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 17:11:59 +0100 (CET)
-Received: from localhost ([::1]:53226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 990A52DF613
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 17:22:02 +0100 (CET)
+Received: from localhost ([::1]:60532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kr1JN-00011R-JR
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 11:11:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41872)
+	id 1kr1T7-00055g-43
+	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 11:22:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kr1IN-0000W2-KW
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 11:10:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58988)
+ id 1kr1Rs-0004eI-LT
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 11:20:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kr1IH-0001vf-Ec
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 11:10:54 -0500
+ id 1kr1Rq-0004Wz-S7
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 11:20:44 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kr1IF-00054X-PP
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 16:10:47 +0000
+ id 1kr1Rp-0005kW-74
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 16:20:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 972E82E8089
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 16:10:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1B6552E8084
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 16:20:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Dec 2020 16:03:28 -0000
-From: Paolo Bonzini <1908489@bugs.launchpad.net>
+Date: Sun, 20 Dec 2020 16:10:02 -0000
+From: Luqman <1908489@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,9 +41,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: bonzini luqmana
 X-Launchpad-Bug-Reporter: Luqman (luqmana)
-X-Launchpad-Bug-Modifier: Paolo Bonzini (bonzini)
+X-Launchpad-Bug-Modifier: Luqman (luqmana)
 References: <160818582988.15420.16250079431178848252.malonedeb@soybean.canonical.com>
-Message-Id: <160848020867.3147.13862694076878398203.malone@wampee.canonical.com>
+Message-Id: <160848060264.11628.6808507330600577393.malone@chaenomeles.canonical.com>
 Subject: [Bug 1908489] Re: qemu 4.2 bootloops with -cpu host and nested
  hypervisor
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -51,7 +51,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 8495dfeb7602137b022ee480169314befe588a25
+X-Launchpad-Hash: b149d4134ad88f9b15195b350a80c2b98149d39d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -76,7 +76,23 @@ Reply-To: Bug 1908489 <1908489@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's more likely to be a bug in KVM.
+Oh, and I guess I misinterpreted what -mpx was for. To be clear, I was
+running into 2 issues:
+
+1. Hyper-V fails to initialize.
+   "Fixed" by one of:
+     a) using named cpu model
+     b) cpu=3Dhost and running `bcdedit /set xsavedisable 1` in Windows bef=
+ore enabling Hyper-V
+     c) cpu=3Dhost,-mpx
+     d) my hack-y patch from earlier
+
+    (b) just tells Hyper-V to disable XSAVE support for its (nested)
+guests altogether whereas (c) is more fine=3Dgrained and just disables the
+BNDCFGx bits.
+
+2. Hyper-V initializes but Windows bootloops. I only seem to run into
+this with 5.8 but not 5.4 or 5.10.
 
 -- =
 
