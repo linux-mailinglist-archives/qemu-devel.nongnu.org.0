@@ -2,101 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77332DF49A
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 10:26:58 +0100 (CET)
-Received: from localhost ([::1]:46214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FEFE2DF509
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 11:51:51 +0100 (CET)
+Received: from localhost ([::1]:33028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kquzR-0004vQ-Cl
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 04:26:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38800)
+	id 1kqwJa-0008MO-3u
+	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 05:51:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kquy7-0004VU-Kd
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 04:25:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kquy4-0003YL-ID
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 04:25:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608456330;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=quFqN1bCbZZSyNzWBx9m+BoutP4+aZWOcPlz6XiY5QM=;
- b=auugksEv4ub2bGVJQ/jT4xF/MsU9U7dsjhbX/VrYIV/j5iFUWNWqRxbW6rTQNYhmIkSbP9
- I/teh9iXCxrFdGcHds2CdHUi56z/ss85ru3JkY0hqm3vpYqVVcIWOfEi3UeYTaEyeltU00
- rqKQ9s6FVspTwHruAJvF3O/CVbDIfKM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-k_Bi1Lq7NweiZ2ZsfdBing-1; Sun, 20 Dec 2020 04:25:28 -0500
-X-MC-Unique: k_Bi1Lq7NweiZ2ZsfdBing-1
-Received: by mail-ed1-f71.google.com with SMTP id g14so1798036edt.12
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 01:25:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=quFqN1bCbZZSyNzWBx9m+BoutP4+aZWOcPlz6XiY5QM=;
- b=ms78YtkP9ZXzsHBHBoS6sbWmQTWtFC9EgVRzwBUVLEJY2GWjoRvC/xlxgAiiNLQmP6
- PP3y7on/OsAmrVORD7a/rLqV4H7xTGC22lCzIk/F390Bxqqj/qp9+ftDXJw3k9pVaZrr
- AOitXcMO1DKhnJ8FCEvAHh+ePCno78S1Her3Ny/dSMgNYfGYXIWeoBXpIuEBbPMZnvbW
- D5fyEF2I/daA29srdKBw3sSWpCBy5l3IjdgnwosjiaF+Q+yvH3hk8Szegv4jNyZoUT8X
- WDSPFZXfUJ6lVfcQKrFoq5n5NEjJ6A2gBWbutL4JStNQepcZ/tYOAtH45WAkLzqBFvlh
- YjMA==
-X-Gm-Message-State: AOAM532QGVBsO4WIdo8dcaC4p0bwTHRqmvgpui2XnbES3pzBWn/1A+DL
- 4gzLwn+NU/y3s7vSzHqw/3yMa5iUb4xHfqGyQYc/936PP/QnBneo7MATH90dmljBe8B7SPwYe41
- daCy3iKeHqSSJEVc=
-X-Received: by 2002:a05:6402:318f:: with SMTP id
- di15mr11737571edb.237.1608456327458; 
- Sun, 20 Dec 2020 01:25:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzXOftcIl07/aFFNcRqz8Q649k3jPrpMJrsf/EKYsZLir0UIswQlcRd8ATa2rjeb2RqysM88w==
-X-Received: by 2002:a05:6402:318f:: with SMTP id
- di15mr11737560edb.237.1608456327300; 
- Sun, 20 Dec 2020 01:25:27 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id f17sm13515735edu.25.2020.12.20.01.25.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 20 Dec 2020 01:25:26 -0800 (PST)
-To: Eduardo Habkost <ehabkost@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <0ad53d69-ce4a-c5ea-fba4-fa19daada11c@ilande.co.uk>
- <4d4b1f60-98b6-6a41-42e7-685b2059da4c@redhat.com>
- <e3932dd6-545b-f329-f88f-e8c9694fc35e@ilande.co.uk>
- <20201218223250.GW3140057@habkost.net>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: QOM address space handling
-Message-ID: <750e98b8-4e7b-f912-f06b-d2b835cc6113@redhat.com>
-Date: Sun, 20 Dec 2020 10:25:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kqwIl-0007vt-Aw
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 05:50:59 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42976)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kqwIe-0004j0-1j
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 05:50:57 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kqwIb-0006na-VM
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 10:50:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EB2D22E8060
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 10:50:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201218223250.GW3140057@habkost.net>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 20 Dec 2020 10:36:41 -0000
+From: Luqman <1908489@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: luqmana
+X-Launchpad-Bug-Reporter: Luqman (luqmana)
+X-Launchpad-Bug-Modifier: Luqman (luqmana)
+References: <160818582988.15420.16250079431178848252.malonedeb@soybean.canonical.com>
+Message-Id: <160846060219.1287.7718951679916511019.malone@soybean.canonical.com>
+Subject: [Bug 1908489] Re: qemu 4.2 bootloops with -cpu host and nested
+ hypervisor
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
+X-Launchpad-Hash: 8f18c438c4e04f764539df0fe2460ba871e0a828
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -105,51 +70,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Reply-To: Bug 1908489 <1908489@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/12/20 23:32, Eduardo Habkost wrote:
-> Who owns the FlatView reference, exactly?
+Ok, so I narrowed done one possible issue: the BNDCFGS bits in the vm
+entry/exit control MSRs are not set but HyperV expects them to be set if
+xsave is supported. This quick patch actually lets Hyper-V initialize
+and continue booting:
+https://gist.github.com/552baa8be026e67bef2d223076b81636
 
-The AddressSpace.  The device creates the AddressSpace, which holds a 
-reference to the MemoryRegion through FlatView and AddressSpaceDispatch, 
-which holds a reference to the device.
+An alternative to that patch is just telling Hyper-V xsave is disabled.
+In the guest before enabling Hyper-V: bcdedit /set xsavedisable 1
 
-By destroying the address space that it created, the device can break 
-the reference loop.
+Unfortunately while this does let the guest Hyper-V initialize, the
+nested (root) Windows guest doesn't boot and still gets stuck in a
+bootloop.
 
-> If the FlatView reference is owned by the MemoryRegion, we have a
-> reference loop: the device holds a reference to the MemoryRegion,
-> which owns the FlatView, which holds a reference to the device.
-> In this case, who owns the reference loop and is responsible for
-> breaking it?
+-- =
 
-The reference loop is owned by the device, which breaks it through 
-unrealize (called by unparent).
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1908489
 
-instance_finalize by definition cannot break reference loops, so this 
-means that my suggestion of using address_space_init in instance_init 
-was wrong.
+Title:
+  qemu 4.2 bootloops with -cpu host and nested hypervisor
 
-Thanks,
+Status in QEMU:
+  New
 
-Paolo
+Bug description:
+  I've noticed that after upgrading from Ubuntu 18.04 to 20.04 that
+  nested virtualization isn't working anymore.
 
-> If the FlatView reference is not owned by the MemoryRegion, who
-> owns it?
+  I have a simple repro where I create a Windows 10 2004 guest and
+  enable Hyper-V in it. This worked fine in 18.04 and specifically qemu
+  <4.2 (I specifically tested Qemu 2.11-4.1 which work fine).
 
+  The -cpu arg I'm passing is simply:
+      -cpu host,l3-cache=3Don,hv_relaxed,hv_spinlocks=3D0x1fff,hv_vapic,hv_=
+time
 
->>>> There are 2 possible solutions here: 1) ensure QOM objects that add
->>>> address spaces during instance init have a corresponding instance
->>>> finalize function to remove them or 2) move the creation of address
->>>> spaces from instance init to realize.
->>>>
->>>> Does anyone have any arguments for which solution is preferred?
->>> 
->>> I slightly prefer (1) because there could be cases where you also create
->>> subdevices using that address space, and in order to set properties of
->>> subdevices before realize, you would have to create the subdevices in
->>> instance_init as well.
+  Using that Windows won't boot because the nested hypervisor (Hyper-V)
+  is unable to be initialize and so it just boot loops. Using the exact
+  same qemu command works fine with 4.1 and lower.
 
+  Switching to a named CPU model like Skylake-Client-noTSX-IBRS instead
+  of host lets the VM boot but causes some weird behaviour later trying
+  to use nested VMs.
+
+  If I had to guess I think it would probably be related to this change
+  https://github.com/qemu/qemu/commit/20a78b02d31534ae478779c2f2816c273601e=
+869
+  which would line up with 4.2 being the first bad version but unsure.
+
+  For now I just have to keep an older build of QEMU to work around
+  this. Let me know if there's anything else needed. I can also try out
+  any patches. I already have at least a dozen copies of qemu lying
+  around now.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1908489/+subscriptions
 
