@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5607B2DF683
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 19:36:23 +0100 (CET)
-Received: from localhost ([::1]:38640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7DC2DF69E
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 20:17:18 +0100 (CET)
+Received: from localhost ([::1]:52910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kr3Z6-0001k5-9G
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 13:36:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37630)
+	id 1kr4Ci-0001VS-Sh
+	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 14:17:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kr3YM-0001L3-Iy
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 13:35:34 -0500
-Received: from indium.canonical.com ([91.189.90.7]:42164)
+ id 1kr4BF-00014X-Dl
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 14:15:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:43694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kr3YK-0005RM-FN
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 13:35:34 -0500
+ id 1kr4BC-0003Gr-8y
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 14:15:45 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kr3YI-0005xR-Ie
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 18:35:30 +0000
+ id 1kr4BA-0007bN-4C
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 19:15:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8408E2E8085
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 18:35:30 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1CDDF2E8087
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 19:15:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Dec 2020 18:29:32 -0000
-From: =?utf-8?q?Jos=C3=A9_Pekkarinen?= <1908832@bugs.launchpad.net>
+Date: Sun, 20 Dec 2020 19:07:49 -0000
+From: Christian Schoenebeck <1908832@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: koalinux
+X-Launchpad-Bug-Commenters: koalinux schoenebeck
 X-Launchpad-Bug-Reporter: =?utf-8?q?Jos=C3=A9_Pekkarinen_=28koalinux=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Jos=C3=A9_Pekkarinen_=28koalinux=29?=
-Message-Id: <160848897234.4298.12739306431901820443.malonedeb@wampee.canonical.com>
-Subject: [Bug 1908832] [NEW] jack audio dev produces no sound
+X-Launchpad-Bug-Modifier: Christian Schoenebeck (schoenebeck)
+References: <160848897234.4298.12739306431901820443.malonedeb@wampee.canonical.com>
+Message-Id: <160849126976.12085.16415739296010167286.malone@chaenomeles.canonical.com>
+Subject: [Bug 1908832] Re: jack audio dev produces no sound
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 2bdbda36d135086ee4194d2419da84279a6032fd
+X-Launchpad-Hash: 9710fc8e191907bef12c0181aca6545db7fb78d5
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -72,77 +73,10 @@ Reply-To: Bug 1908832 <1908832@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Does this patch make a difference for you?
+https://github.com/qemu/qemu/commit/a6e037390dd91276f4a631d41188c87e8a60bb3f
 
-Hi,
-
-I'm testing the new jack audiodev backend in my
-laptop. The host system is gentoo, using the
-ebuild for qemu 5.1.0-r2, and I'm using jack
-use flag globally in the system so any ebuild
-that have support for jack should be build with
-it. The jack setup reportedly works as I use it
-with firefox, and mumble with no trouble. When
-I launch the following script, I see the vm
-connects to jack:
-
-/usr/bin/qemu-system-x86_64 -enable-kvm -M q35 -vga virtio -display gtk,gl=
-=3Don \
-        -cpu host -smp 2,cores=3D2,threads=3D1 \
-        -m 4G -L /usr/share/qemu \
-        -global ICH9-LPC.disable_s3=3D1 -global ICH9-LPC.disable_s4=3D1 \
-        -drive file=3D/usr/share/edk2-ovmf/OVMF_CODE.fd,if=3Dpflash,format=
-=3Draw,unit=3D0,readonly=3Don \
-        -drive file=3Ddebian_VARS.fd,if=3Dpflash,format=3Draw,unit=3D1 \
-        -audiodev id=3Djack,driver=3Djack -device ich9-intel-hda -device hd=
-a-duplex,audiodev=3Djack \
-        -device virtio-serial-pci \
-        -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.sp=
-ice.0 \
-        -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent \
-        -device nec-usb-xhci,id=3Dusb \
-        -device usb-host,vendorid=3D0x04ca,productid=3D0x708e \
-        -device usb-host,vendorid=3D0x1050,productid=3D0x0407 \
-        -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev1 \
-        -device usb-redir,chardev=3Dusbredirchardev1,id=3Dusbredirdev1 \
-        -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev2 \
-        -device usb-redir,chardev=3Dusbredirchardev2,id=3Dusbredirdev2 \
-        -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev3 \
-        -device usb-redir,chardev=3Dusbredirchardev3,id=3Dusbredirdev3 \
-        -netdev user,id=3Duser.0 -device virtio-net-pci,netdev=3Duser.0 \
-        -drive file=3Ddebian.qcow2,cache=3Dnone,aio=3Dio_uring,if=3Dvirtio
-
-Output of vm initialization:
-
-jack: JACK output configured for 48000Hz (1024 samples)
-jack: JACK input configured for 48000Hz (1024 samples)
-gl_version 46 - core profile enabled
-GLSL feature level 430
-
-Though executing any application that uses sound,
-for instance, any youtube video through browser,
-I listen nothing. By executing pkill jackd, and
-launching the same script replacing the audiodev
-line for the following:
-
-        -audiodev id=3Dalsa,driver=3Dalsa -device ich9-intel-hda -device
-hda-duplex,audiodev=3Dalsa \
-
-The audio works, and I can listen to music, or
-any other kind of application, though I cannot
-listen anything else in the host.
-
-The guest is a simple debian testing(bullseye)
-system with plasma desktop, using pulseaudio,
-nothing fancy.
-
-Thanks!
-
-Jos=C3=A9
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+If not, what's the precise JACK version you are using.
 
 -- =
 
