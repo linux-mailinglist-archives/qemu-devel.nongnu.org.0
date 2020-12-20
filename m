@@ -2,68 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990A52DF613
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 17:22:02 +0100 (CET)
-Received: from localhost ([::1]:60532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31A62DF61B
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 17:36:56 +0100 (CET)
+Received: from localhost ([::1]:37598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kr1T7-00055g-43
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 11:22:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45508)
+	id 1kr1hX-0001C6-Fk
+	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 11:36:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kr1Rs-0004eI-LT
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 11:20:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59984)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kr1Rq-0004Wz-S7
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 11:20:44 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kr1Rp-0005kW-74
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 16:20:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1B6552E8084
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 16:20:41 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Dec 2020 16:10:02 -0000
-From: Luqman <1908489@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kr1gU-0000gE-S4
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 11:35:50 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:54681)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kr1gT-0008EC-3C
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 11:35:50 -0500
+Received: from localhost.localdomain ([82.252.144.198]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MvsMz-1jyN1l2ioB-00syJa; Sun, 20 Dec 2020 17:35:42 +0100
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=centos; sourcepackage=qemu-kvm; component=None; 
- status=Unknown; importance=Unknown; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bonzini luqmana
-X-Launchpad-Bug-Reporter: Luqman (luqmana)
-X-Launchpad-Bug-Modifier: Luqman (luqmana)
-References: <160818582988.15420.16250079431178848252.malonedeb@soybean.canonical.com>
-Message-Id: <160848060264.11628.6808507330600577393.malone@chaenomeles.canonical.com>
-Subject: [Bug 1908489] Re: qemu 4.2 bootloops with -cpu host and nested
- hypervisor
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: b149d4134ad88f9b15195b350a80c2b98149d39d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Subject: [PATCH] virtio-mmio: fix guest kernel crash with SHM regions
+Date: Sun, 20 Dec 2020 17:35:39 +0100
+Message-Id: <20201220163539.2255963-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:YoSapikZG61iTr6eC9JDC78C+bmcnQd0/Z0xcDslru3vNP2Eeju
+ ihpT0B3gI7hy0+iDHtIcPW+gJ54GlwIj4sc+e/m/Y45ZApjozhFhGXeTtjgLMVloMUsxw0P
+ BiWaxxG9khNslMfSX7jlzFes8Ds2hG49giYjJa1AikagxC0ObnbWbvk7IV2a3MTHnmqdZ9c
+ C2Xa8dlxko3VUH7koOrJA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yXlQIFGb5Cc=:+7XitlCXGNAcr7cX7b/40B
+ XNDZYrWckS1PNlGOpDwBlMijM2fm+mW4avRtXdj5pfKXVcT4k0/Sgf9WM6LO2IIIV/+YkJ7Dr
+ HSD3AgkSHKPqrEC8x3QBASLABk/ZtK4wp0llIwhPLJqigxn/THRJpBQ7Fj0OPJcylUfSENaXW
+ 99pzYL6jnOeLovwOx3VVfrSgb5e1XNVKvSC6PDhu7ri8ZqfDQ0n1rO12ADZgH80frGAxUTZWf
+ FT5g7QAz/Jyp1XWjB4zcbQuy56qvFH4c77ovWchnohKv8ebM9Voo85/LpW+wT0qfl5NciY3fo
+ DmThc5WMoR6oWSDTGJls2lPVBGlJdnn/6qlBh6ox/TJlrRgXcwPnGXUd2oIZwF0ylQtf3xocp
+ wdKoxiekVbB+lXbq7Xw78knVwf0LP7rQB7F9SJ+t4bI1C4jzW8Ta6F6R75yh0
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,72 +59,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908489 <1908489@bugs.launchpad.net>
+Cc: Laurent Vivier <laurent@vivier.eu>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Oh, and I guess I misinterpreted what -mpx was for. To be clear, I was
-running into 2 issues:
+In the kernel, virtio_gpu_init() uses virtio_get_shm_region()
+since
+commit 6076a9711dc5 ("drm/virtio: implement blob resources: probe for host visible region")
+but vm_get_shm_region() unconditionally uses VIRTIO_MMIO_SHM_SEL to
+get the address and the length of the region.
 
-1. Hyper-V fails to initialize.
-   "Fixed" by one of:
-     a) using named cpu model
-     b) cpu=3Dhost and running `bcdedit /set xsavedisable 1` in Windows bef=
-ore enabling Hyper-V
-     c) cpu=3Dhost,-mpx
-     d) my hack-y patch from earlier
+commit 38e895487afc ("virtio: Implement get_shm_region for MMIO transport"
 
-    (b) just tells Hyper-V to disable XSAVE support for its (nested)
-guests altogether whereas (c) is more fine=3Dgrained and just disables the
-BNDCFGx bits.
+As this is not implemented in QEMU, address and length are 0 and passed
+as is to devm_request_mem_region() that triggers a crash:
 
-2. Hyper-V initializes but Windows bootloops. I only seem to run into
-this with 5.8 but not 5.4 or 5.10.
+  [drm:virtio_gpu_init] *ERROR* Could not reserve host visible region
+  Unable to handle kernel NULL pointer dereference at virtual address (ptrval)
 
--- =
+According to the comments in the kernel, a non existent shared region
+has a length of (u64)-1.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908489
+This is what we return now with this patch to disable the region.
 
-Title:
-  qemu 4.2 bootloops with -cpu host and nested hypervisor
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ hw/virtio/virtio-mmio.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Status in QEMU:
-  New
-Status in qemu-kvm package in CentOS:
-  Unknown
+diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+index e1b5c3b81e37..610661d6a526 100644
+--- a/hw/virtio/virtio-mmio.c
++++ b/hw/virtio/virtio-mmio.c
+@@ -191,6 +191,14 @@ static uint64_t virtio_mmio_read(void *opaque, hwaddr offset, unsigned size)
+             return 0;
+         }
+         return vdev->generation;
++   case VIRTIO_MMIO_SHM_LEN_LOW:
++   case VIRTIO_MMIO_SHM_LEN_HIGH:
++        /*
++         * VIRTIO_MMIO_SHM_SEL is unimplemented
++         * according to the linux driver, if region length is -1
++         * the shared memory doesn't exist
++         */
++        return -1;
+     case VIRTIO_MMIO_DEVICE_FEATURES_SEL:
+     case VIRTIO_MMIO_DRIVER_FEATURES:
+     case VIRTIO_MMIO_DRIVER_FEATURES_SEL:
+-- 
+2.29.2
 
-Bug description:
-  I've noticed that after upgrading from Ubuntu 18.04 to 20.04 that
-  nested virtualization isn't working anymore.
-
-  I have a simple repro where I create a Windows 10 2004 guest and
-  enable Hyper-V in it. This worked fine in 18.04 and specifically qemu
-  <4.2 (I specifically tested Qemu 2.11-4.1 which work fine).
-
-  The -cpu arg I'm passing is simply:
-      -cpu host,l3-cache=3Don,hv_relaxed,hv_spinlocks=3D0x1fff,hv_vapic,hv_=
-time
-
-  Using that Windows won't boot because the nested hypervisor (Hyper-V)
-  is unable to be initialize and so it just boot loops. Using the exact
-  same qemu command works fine with 4.1 and lower.
-
-  Switching to a named CPU model like Skylake-Client-noTSX-IBRS instead
-  of host lets the VM boot but causes some weird behaviour later trying
-  to use nested VMs.
-
-  If I had to guess I think it would probably be related to this change
-  https://github.com/qemu/qemu/commit/20a78b02d31534ae478779c2f2816c273601e=
-869
-  which would line up with 4.2 being the first bad version but unsure.
-
-  For now I just have to keep an older build of QEMU to work around
-  this. Let me know if there's anything else needed. I can also try out
-  any patches. I already have at least a dozen copies of qemu lying
-  around now.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908489/+subscriptions
 
