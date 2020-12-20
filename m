@@ -2,55 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31A62DF61B
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 17:36:56 +0100 (CET)
-Received: from localhost ([::1]:37598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5607B2DF683
+	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 19:36:23 +0100 (CET)
+Received: from localhost ([::1]:38640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kr1hX-0001C6-Fk
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 11:36:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49828)
+	id 1kr3Z6-0001k5-9G
+	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 13:36:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kr1gU-0000gE-S4
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 11:35:50 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:54681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kr1gT-0008EC-3C
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 11:35:50 -0500
-Received: from localhost.localdomain ([82.252.144.198]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MvsMz-1jyN1l2ioB-00syJa; Sun, 20 Dec 2020 17:35:42 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtio-mmio: fix guest kernel crash with SHM regions
-Date: Sun, 20 Dec 2020 17:35:39 +0100
-Message-Id: <20201220163539.2255963-1-laurent@vivier.eu>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kr3YM-0001L3-Iy
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 13:35:34 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42164)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kr3YK-0005RM-FN
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 13:35:34 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kr3YI-0005xR-Ie
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 18:35:30 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8408E2E8085
+ for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 18:35:30 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YoSapikZG61iTr6eC9JDC78C+bmcnQd0/Z0xcDslru3vNP2Eeju
- ihpT0B3gI7hy0+iDHtIcPW+gJ54GlwIj4sc+e/m/Y45ZApjozhFhGXeTtjgLMVloMUsxw0P
- BiWaxxG9khNslMfSX7jlzFes8Ds2hG49giYjJa1AikagxC0ObnbWbvk7IV2a3MTHnmqdZ9c
- C2Xa8dlxko3VUH7koOrJA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yXlQIFGb5Cc=:+7XitlCXGNAcr7cX7b/40B
- XNDZYrWckS1PNlGOpDwBlMijM2fm+mW4avRtXdj5pfKXVcT4k0/Sgf9WM6LO2IIIV/+YkJ7Dr
- HSD3AgkSHKPqrEC8x3QBASLABk/ZtK4wp0llIwhPLJqigxn/THRJpBQ7Fj0OPJcylUfSENaXW
- 99pzYL6jnOeLovwOx3VVfrSgb5e1XNVKvSC6PDhu7ri8ZqfDQ0n1rO12ADZgH80frGAxUTZWf
- FT5g7QAz/Jyp1XWjB4zcbQuy56qvFH4c77ovWchnohKv8ebM9Voo85/LpW+wT0qfl5NciY3fo
- DmThc5WMoR6oWSDTGJls2lPVBGlJdnn/6qlBh6ox/TJlrRgXcwPnGXUd2oIZwF0ylQtf3xocp
- wdKoxiekVbB+lXbq7Xw78knVwf0LP7rQB7F9SJ+t4bI1C4jzW8Ta6F6R75yh0
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 20 Dec 2020 18:29:32 -0000
+From: =?utf-8?q?Jos=C3=A9_Pekkarinen?= <1908832@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: koalinux
+X-Launchpad-Bug-Reporter: =?utf-8?q?Jos=C3=A9_Pekkarinen_=28koalinux=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Jos=C3=A9_Pekkarinen_=28koalinux=29?=
+Message-Id: <160848897234.4298.12739306431901820443.malonedeb@wampee.canonical.com>
+Subject: [Bug 1908832] [NEW] jack audio dev produces no sound
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
+X-Launchpad-Hash: 2bdbda36d135086ee4194d2419da84279a6032fd
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,55 +68,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1908832 <1908832@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the kernel, virtio_gpu_init() uses virtio_get_shm_region()
-since
-commit 6076a9711dc5 ("drm/virtio: implement blob resources: probe for host visible region")
-but vm_get_shm_region() unconditionally uses VIRTIO_MMIO_SHM_SEL to
-get the address and the length of the region.
+Public bug reported:
 
-commit 38e895487afc ("virtio: Implement get_shm_region for MMIO transport"
+Hi,
 
-As this is not implemented in QEMU, address and length are 0 and passed
-as is to devm_request_mem_region() that triggers a crash:
+I'm testing the new jack audiodev backend in my
+laptop. The host system is gentoo, using the
+ebuild for qemu 5.1.0-r2, and I'm using jack
+use flag globally in the system so any ebuild
+that have support for jack should be build with
+it. The jack setup reportedly works as I use it
+with firefox, and mumble with no trouble. When
+I launch the following script, I see the vm
+connects to jack:
 
-  [drm:virtio_gpu_init] *ERROR* Could not reserve host visible region
-  Unable to handle kernel NULL pointer dereference at virtual address (ptrval)
+/usr/bin/qemu-system-x86_64 -enable-kvm -M q35 -vga virtio -display gtk,gl=
+=3Don \
+        -cpu host -smp 2,cores=3D2,threads=3D1 \
+        -m 4G -L /usr/share/qemu \
+        -global ICH9-LPC.disable_s3=3D1 -global ICH9-LPC.disable_s4=3D1 \
+        -drive file=3D/usr/share/edk2-ovmf/OVMF_CODE.fd,if=3Dpflash,format=
+=3Draw,unit=3D0,readonly=3Don \
+        -drive file=3Ddebian_VARS.fd,if=3Dpflash,format=3Draw,unit=3D1 \
+        -audiodev id=3Djack,driver=3Djack -device ich9-intel-hda -device hd=
+a-duplex,audiodev=3Djack \
+        -device virtio-serial-pci \
+        -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.sp=
+ice.0 \
+        -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent \
+        -device nec-usb-xhci,id=3Dusb \
+        -device usb-host,vendorid=3D0x04ca,productid=3D0x708e \
+        -device usb-host,vendorid=3D0x1050,productid=3D0x0407 \
+        -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev1 \
+        -device usb-redir,chardev=3Dusbredirchardev1,id=3Dusbredirdev1 \
+        -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev2 \
+        -device usb-redir,chardev=3Dusbredirchardev2,id=3Dusbredirdev2 \
+        -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev3 \
+        -device usb-redir,chardev=3Dusbredirchardev3,id=3Dusbredirdev3 \
+        -netdev user,id=3Duser.0 -device virtio-net-pci,netdev=3Duser.0 \
+        -drive file=3Ddebian.qcow2,cache=3Dnone,aio=3Dio_uring,if=3Dvirtio
 
-According to the comments in the kernel, a non existent shared region
-has a length of (u64)-1.
+Output of vm initialization:
 
-This is what we return now with this patch to disable the region.
+jack: JACK output configured for 48000Hz (1024 samples)
+jack: JACK input configured for 48000Hz (1024 samples)
+gl_version 46 - core profile enabled
+GLSL feature level 430
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- hw/virtio/virtio-mmio.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Though executing any application that uses sound,
+for instance, any youtube video through browser,
+I listen nothing. By executing pkill jackd, and
+launching the same script replacing the audiodev
+line for the following:
 
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index e1b5c3b81e37..610661d6a526 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -191,6 +191,14 @@ static uint64_t virtio_mmio_read(void *opaque, hwaddr offset, unsigned size)
-             return 0;
-         }
-         return vdev->generation;
-+   case VIRTIO_MMIO_SHM_LEN_LOW:
-+   case VIRTIO_MMIO_SHM_LEN_HIGH:
-+        /*
-+         * VIRTIO_MMIO_SHM_SEL is unimplemented
-+         * according to the linux driver, if region length is -1
-+         * the shared memory doesn't exist
-+         */
-+        return -1;
-     case VIRTIO_MMIO_DEVICE_FEATURES_SEL:
-     case VIRTIO_MMIO_DRIVER_FEATURES:
-     case VIRTIO_MMIO_DRIVER_FEATURES_SEL:
--- 
-2.29.2
+        -audiodev id=3Dalsa,driver=3Dalsa -device ich9-intel-hda -device
+hda-duplex,audiodev=3Dalsa \
 
+The audio works, and I can listen to music, or
+any other kind of application, though I cannot
+listen anything else in the host.
+
+The guest is a simple debian testing(bullseye)
+system with plasma desktop, using pulseaudio,
+nothing fancy.
+
+Thanks!
+
+Jos=C3=A9
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1908832
+
+Title:
+  jack audio dev produces no sound
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi,
+
+  I'm testing the new jack audiodev backend in my
+  laptop. The host system is gentoo, using the
+  ebuild for qemu 5.1.0-r2, and I'm using jack
+  use flag globally in the system so any ebuild
+  that have support for jack should be build with
+  it. The jack setup reportedly works as I use it
+  with firefox, and mumble with no trouble. When
+  I launch the following script, I see the vm
+  connects to jack:
+
+  /usr/bin/qemu-system-x86_64 -enable-kvm -M q35 -vga virtio -display gtk,g=
+l=3Don \
+          -cpu host -smp 2,cores=3D2,threads=3D1 \
+          -m 4G -L /usr/share/qemu \
+          -global ICH9-LPC.disable_s3=3D1 -global ICH9-LPC.disable_s4=3D1 \
+          -drive file=3D/usr/share/edk2-ovmf/OVMF_CODE.fd,if=3Dpflash,forma=
+t=3Draw,unit=3D0,readonly=3Don \
+          -drive file=3Ddebian_VARS.fd,if=3Dpflash,format=3Draw,unit=3D1 \
+          -audiodev id=3Djack,driver=3Djack -device ich9-intel-hda -device =
+hda-duplex,audiodev=3Djack \
+          -device virtio-serial-pci \
+          -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.=
+spice.0 \
+          -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent \
+          -device nec-usb-xhci,id=3Dusb \
+          -device usb-host,vendorid=3D0x04ca,productid=3D0x708e \
+          -device usb-host,vendorid=3D0x1050,productid=3D0x0407 \
+          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev1 \
+          -device usb-redir,chardev=3Dusbredirchardev1,id=3Dusbredirdev1 \
+          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev2 \
+          -device usb-redir,chardev=3Dusbredirchardev2,id=3Dusbredirdev2 \
+          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev3 \
+          -device usb-redir,chardev=3Dusbredirchardev3,id=3Dusbredirdev3 \
+          -netdev user,id=3Duser.0 -device virtio-net-pci,netdev=3Duser.0 \
+          -drive file=3Ddebian.qcow2,cache=3Dnone,aio=3Dio_uring,if=3Dvirtio
+
+  Output of vm initialization:
+
+  jack: JACK output configured for 48000Hz (1024 samples)
+  jack: JACK input configured for 48000Hz (1024 samples)
+  gl_version 46 - core profile enabled
+  GLSL feature level 430
+
+  Though executing any application that uses sound,
+  for instance, any youtube video through browser,
+  I listen nothing. By executing pkill jackd, and
+  launching the same script replacing the audiodev
+  line for the following:
+
+          -audiodev id=3Dalsa,driver=3Dalsa -device ich9-intel-hda -device
+  hda-duplex,audiodev=3Dalsa \
+
+  The audio works, and I can listen to music, or
+  any other kind of application, though I cannot
+  listen anything else in the host.
+
+  The guest is a simple debian testing(bullseye)
+  system with plasma desktop, using pulseaudio,
+  nothing fancy.
+
+  Thanks!
+
+  Jos=C3=A9
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1908832/+subscriptions
 
