@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECEBD2DFDB4
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:48:52 +0100 (CET)
-Received: from localhost ([::1]:46290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2692DFDA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:39:16 +0100 (CET)
+Received: from localhost ([::1]:60436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krNQa-0001pC-1Z
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:48:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52014)
+	id 1krNHH-0004BH-OH
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:39:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1krN7g-0003yP-R1
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 10:29:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52796)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1krN7f-0005I5-4e
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 10:29:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608564557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IVy8vtxMEo/uIv4yozx0ODaeWjB5p67KIOpQprOfV40=;
- b=UH/zPkpRcvgyVQJkl7FL+WE6doXiywlp3xjZi4m2eqN/a6nMXuTK03y4S3MnoOhbMe2+bJ
- 0qRjdvESiWzeil27FH0Wow+5uzwbMTEVnHHlAFAFHNrtIl+Ldw5TvaIZvpFNp5DVuKgj96
- +yaw3Zof2Q8rtjYoL7wbkjxUbPeKzwU=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-ACIUPsrjM2-6rAx567AH-Q-1; Mon, 21 Dec 2020 10:29:14 -0500
-X-MC-Unique: ACIUPsrjM2-6rAx567AH-Q-1
-Received: by mail-qk1-f200.google.com with SMTP id p21so3828330qke.6
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 07:29:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1krND3-00010L-QA
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 10:34:53 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1krND2-0007RL-3X
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 10:34:53 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id g185so11309770wmf.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 07:34:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=uhiOY+efx9vnfXKKXE2mcYor3GFTvjDkr/Jn1lcn57s=;
+ b=ed5Jth10BK50fUMYVcEnVKjxqTSMOr83+pbgXrHRVkq9DQVO6MffFlMhQQqDolWRu1
+ p//76s9IZT53BKOi66AH379/Eu99pnSdUJoSuoSmWbE0OV+444haD4aioElleKTHMcFG
+ bcMSB4T2PbpZycoM3+TFRbpSIhE1NJhyAfl+rF9RRE+tLdNVoLT5+TuWJPJKv5qImFAC
+ /UILHnCHiCa2UNv6K7U3vJIMciHDb7KgW6fo2qkDrfqmKXGJ/eiJ7PD5UxrM2oiUrgEE
+ s5YQSaWKplfJfdQkIWtUHcn8J/n0LR1Qv7BwnA58D7o9BzZGFG9xy3NiIfxmfQiwpYJO
+ Qc7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=IVy8vtxMEo/uIv4yozx0ODaeWjB5p67KIOpQprOfV40=;
- b=ruMTJFpUaHSGj+JJEEAWdEBMsbHme0PvYC/7vjpUI8ZyTuADQUOWjqdN2s5k2fLbLk
- 5LI5oz+3NmGzicd3zdIemTcrKfXAWY6h61idlCEZOpdwaAUjSlKg3TwZbCw4/1M3xXsP
- /KRBQrtyHjDr/AI68coaRH875Qo16s77Sy34Wsm+W8C2vxwrizg7AsTU2b3WoLi+UZqw
- kp7d235kL3Wxp4yowIabR010wvPKboZW/4Z+VB1U6+B8YKdteZ6YtiJyfiknaxvCisOs
- dd+iH94EXSholuhwV/ru7nzk4DerqP+/nwB4w1UXckUE2hA2TKP6XADXmoGPYhd/07Q8
- ePUw==
-X-Gm-Message-State: AOAM530yP0N7YSrY1jtXRSEwcTqCSiHAPU2bnTll7/Iu6fX0FaMqWUyo
- kxvkfc/hEBW1d2GrHj1UOea4FAc2R3mtPyxYPkpvn4wm2JE1s3OPatTGdGsyAN3IKdWk6txQUW/
- ibxWz9Bqo6QDl/2c=
-X-Received: by 2002:a0c:f107:: with SMTP id i7mr17617829qvl.35.1608564553624; 
- Mon, 21 Dec 2020 07:29:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwfPZk4wUi9EkGmT0zNJJXztPPaqRSBxRPK+wVfM77AppF4DOTgXUIKr1OFe4AOC558v7WWmA==
-X-Received: by 2002:a0c:f107:: with SMTP id i7mr17617807qvl.35.1608564553435; 
- Mon, 21 Dec 2020 07:29:13 -0800 (PST)
-Received: from xz-x1 ([142.126.83.202])
- by smtp.gmail.com with ESMTPSA id d72sm10965011qkg.34.2020.12.21.07.29.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Dec 2020 07:29:12 -0800 (PST)
-Date: Mon, 21 Dec 2020 10:29:11 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH] Docs/RCU: Correct sample code of qatomic_rcu_set
-Message-ID: <20201221152911.GC6640@xz-x1>
-References: <20201221121745.27156-1-zhukeqian1@huawei.com>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uhiOY+efx9vnfXKKXE2mcYor3GFTvjDkr/Jn1lcn57s=;
+ b=hqvwlhenzpg7GAd+dTI8XnqNn8v3NT5zD2GO/xkHAEmP6pqLkuamB5hJIEy/ARo7es
+ 9lYcuqfWSeZYNji0AVnEtkwNT9IykyYGTRVlxDtQFVqb9p/hI03ojl9lgiIIzwnLEbLA
+ sfppUCADSuEojOHe8selTK7rIXjAKUlxL3b/gv49229BxLgClcDC4XfmT4F6EFrNvYld
+ TUCfyNxLvJQaESbz7V2CLU2GVelrnoJEsi7s+57n7lm7mFHT0XzPIA/lg/YTM8TbgfqZ
+ ChuQdWbMWSuA8B8j59bU2I1tdi5rPca7b9QRHXWRhvCLU6nOVaUKQGUKKPq78uK0c2dn
+ wg+A==
+X-Gm-Message-State: AOAM532NxkEyRbphHttPfYGehU7F56GNiNMqxhN0GJsFr5oE9lNN4WrD
+ 3D3C79m0s3Bl2oiufz4Qa6E=
+X-Google-Smtp-Source: ABdhPJwMdVy9BX2D4LrPB1zvAuKR/6j8ASyPNh1O22aFK9BO0t8bD6+pXs8Gq3E4+IC7l+67Qm7xsw==
+X-Received: by 2002:a1c:4d05:: with SMTP id o5mr17615104wmh.85.1608564888294; 
+ Mon, 21 Dec 2020 07:34:48 -0800 (PST)
+Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
+ ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
+ by smtp.gmail.com with ESMTPSA id v1sm25767071wrr.48.2020.12.21.07.34.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Dec 2020 07:34:47 -0800 (PST)
+Subject: Re: [PATCH] tests/acceptance: Test PMON with Loongson-3A1000 CPU
+To: Huacai Chen <chenhuacai@kernel.org>, Willian Rampazzo <wrampazz@redhat.com>
+References: <20201216181759.933527-1-f4bug@amsat.org>
+ <ad7ff216-66b9-9b0c-eece-80a294240c28@redhat.com>
+ <CAAhV-H7f4Bw_+BLCC0DcrUQKK0nUanQTTQ+a272ADBheB_NBJQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <57336906-ec68-020a-9388-4d43db937a81@amsat.org>
+Date: Mon, 21 Dec 2020 16:34:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201221121745.27156-1-zhukeqian1@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAAhV-H7f4Bw_+BLCC0DcrUQKK0nUanQTTQ+a272ADBheB_NBJQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.233,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,22 +90,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 21, 2020 at 08:17:45PM +0800, Keqian Zhu wrote:
-> Correct sample code to avoid confusing readers.
+On 12/21/20 1:51 PM, Huacai Chen wrote:
+> Hi, Philippe,
 > 
-> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+> On Sat, Dec 19, 2020 at 4:51 AM Willian Rampazzo <wrampazz@redhat.com> wrote:
+>>
+>> On 12/16/20 3:17 PM, Philippe Mathieu-Daudé wrote:
+>>> Test the PMON firmware. As the firmware is not redistributable,
+>>> it has to be downloaded manually first. Then it can be used by
+>>> providing its path via the PMON_PATH environment variable:
+> A1101 is a real machine type, and there is a UEFI-based bios designed
+> for loongson3-virt machine (though it is also not redistributable),
+> why not test that one?
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Well, if you already shared that information, I probably missed it.
 
--- 
-Peter Xu
+I'm trying to add test for your machine to be able to test it regularly
+to avoid regressions... I'd rather let you contribute the tests :)
 
+Phil.
 
