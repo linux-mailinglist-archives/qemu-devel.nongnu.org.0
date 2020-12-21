@@ -2,65 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328D82DFEBC
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 18:07:07 +0100 (CET)
-Received: from localhost ([::1]:58072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C812DFEC1
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 18:09:34 +0100 (CET)
+Received: from localhost ([::1]:33504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krOeH-0003Ts-Oh
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 12:07:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46542)
+	id 1krOgf-0005UY-J5
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 12:09:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1krOYP-0006AA-HS
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 12:01:02 -0500
-Received: from indium.canonical.com ([91.189.90.7]:36882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1krOYH-0003lw-4C
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 12:00:59 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1krOYF-00069a-1t
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 17:00:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F01642E8138
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 17:00:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1krOf8-0004st-FH
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 12:07:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34101)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1krOf5-0006dV-EQ
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 12:07:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608570473;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ql3QY2EZmY15Osz1anO3jVM9GRD3QvHydriR29vDEaE=;
+ b=HivKIw9/SOjS4obWNyF2SHA0S0i4rsY3TelFbwXpvovZihoIjXt1L/EW+uEmA1DuITLHnX
+ 0LzLRp4FnGgiP9jeDkoF2Z6LsRcWeoEgQIUR59ks82oSEq9skaTia+Y+w6pgo5VmyFAid4
+ po170njrXNzZ158nkugVjxhVAcbaCnQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-101-mdHOWa_6MG2mqk5i0E4Gjg-1; Mon, 21 Dec 2020 12:07:49 -0500
+X-MC-Unique: mdHOWa_6MG2mqk5i0E4Gjg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A15171054F8B;
+ Mon, 21 Dec 2020 17:07:47 +0000 (UTC)
+Received: from localhost (ovpn-117-28.rdu2.redhat.com [10.10.117.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 58BC85B695;
+ Mon, 21 Dec 2020 17:07:37 +0000 (UTC)
+Date: Mon, 21 Dec 2020 18:07:36 +0100
+From: Sergio Lopez <slp@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 4/4] block: Close block exports in two steps
+Message-ID: <20201221170736.6rf4ip7xpvcho2eq@mhamilton>
+References: <20201214170519.223781-1-slp@redhat.com>
+ <20201214170519.223781-5-slp@redhat.com>
+ <20201215153405.GF8185@merkur.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Dec 2020 16:54:50 -0000
-From: none none <1898490@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ethannij noneenon novhak
-X-Launchpad-Bug-Reporter: Ethan (ethannij)
-X-Launchpad-Bug-Modifier: none none (noneenon)
-References: <160185589302.24503.10461684970761806737.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160856969018.11934.5812452632378838424.malone@chaenomeles.canonical.com>
-Subject: [Bug 1898490] Re: gtk with virtio and opengl black screen
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: f0ed8ac24c53827678f851a11185ee77ed12c9d4
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201215153405.GF8185@merkur.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="nrplgk2vygihh27c"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=slp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,83 +78,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1898490 <1898490@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I am having the same issue. Tested on Xubuntu 20.10 (qemu 5.0) and
-ArchLinux (qemu 5.2).
+--nrplgk2vygihh27c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Furthermore, SDL is broken too: In principle I get some output with SDL
-but its broken and not very usable. After some time (after starting the
-Desktop Env. - as far as I can tell), the screen also turns black as
-with GTK.
+On Tue, Dec 15, 2020 at 04:34:05PM +0100, Kevin Wolf wrote:
+> Am 14.12.2020 um 18:05 hat Sergio Lopez geschrieben:
+> > There's a cross-dependency between closing the block exports and
+> > draining the block layer. The latter needs that we close all export's
+> > client connections to ensure they won't queue more requests, but the
+> > exports may have coroutines yielding in the block layer, which implies
+> > they can't be fully closed until we drain it.
+>=20
+> A coroutine that yielded must have some way to be reentered. So I guess
+> the quesiton becomes why they aren't reentered until drain. We do
+> process events:
+>=20
+>     AIO_WAIT_WHILE(NULL, blk_exp_has_type(type));
+>=20
+> So in theory, anything that would finalise the block export closing
+> should still execute.
+>=20
+> What is the difference that drain makes compared to a simple
+> AIO_WAIT_WHILE, so that coroutine are reentered during drain, but not
+> during AIO_WAIT_WHILE?
+>=20
+> This is an even more interesting question because the NBD server isn't a
+> block node nor a BdrvChildClass implementation, so it shouldn't even
+> notice a drain operation.
 
-When redirecting IO to stdio I get the following error message:
+OK, took a deeper dive into the issue. While shutting down the guest,
+some co-routines from the NBD server are stuck here:
 
-## opengl error ##
-gl_version 45 - core profile enabled
-vrend_renderer_fill_caps: Entering with stale GL error: 1280
-GLSL feature level 430
+nbd_trip
+ nbd_handle_request
+  nbd_do_cmd_read
+   nbd_co_send_sparse_read
+    blk_pread
+     blk_prw
+      blk_read_entry
+       blk_do_preadv
+        blk_wait_while_drained
+         qemu_co_queue_wait
 
+This happens because bdrv_close_all() is called after
+bdrv_drain_all_begin(), so all block backends are quiesced.
 
-## startup command ##
-qemu-system-x86_64 \
--serial stdio \
--m 8G \
--enable-kvm \
--vga virtio \
--display gtk,gl=3Don \
--machine q35 \
--cpu host \
--bios /usr/share/OVMF/x64/OVMF_CODE.fd \
--boot order=3Dd \
--drive file=3Dtest.img,format=3Draw \
--cdrom /media/os/xubuntu-20.10-desktop-amd64.iso
+An alternative approach to this patch would be moving
+blk_exp_close_all() to vl.c:qemu_cleanup, before
+bdrv_drain_all_begin().
 
+Do you have a preference for one of these options?
 
-## hardware of host ##
-ryzen 3700x on b450 chipset
-geforce 1060 with latest nvidia drivers
+Thanks,
+Sergio.
 
--- =
+--nrplgk2vygihh27c
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1898490
+-----BEGIN PGP SIGNATURE-----
 
-Title:
-  gtk with virtio and opengl black screen
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl/g1lcACgkQ9GknjS8M
+AjUBEg/9HoD49y3ShNbcRWwXbZD0eTwreK8HAvqk328INIakQIFw5Y398rFnHUoW
+z5tMH/NritkqYA/x6a9qBvH+zEhJW+r4skdFmgqcs5N5DQQA/ImemCD2Oc9ytdXc
+CTZYjxx90Mz+X5MO9PUY3Ngbx6+oOCGwGQyVlKD/IqPrMd5Fkq/gQpVdShp7oWY9
+guFRVAzTdkH36rMvkmxEwbo4x+1CmKuhiQk7IeKcDS7t45TuPGZXCOqE8HGREH29
+z7NjRrdatwlmbta14V5YmU4FOZTJy6vq4wSM23evZ3cNjng4D6d92hjxFS9V8fc6
+slwv2Dtj4uZZPg+zxvNjq92j0qUKOuiXNfLsEoPaQWwjsZTa9n6P3qHRo3OFp4Ww
+leJiVpNVPD+f/5ophXKbTAB/zaw3a8uMx7oXMgYnXjUS4snIWdJ4h1DnuTIPKBA1
+VUyh93uCEInT0VlSYrlYeIDu+lZv9/J3wwtpM/CR/P2xFfxFHNzWpoT461YJgHXU
+TMto49ag5KSWya+IWjfUiscWuj0nq2RvZVziYNN93o4ekDaMEC2UV65qZZRdxtI7
+mgH1oVmQUruWjiSaCVIxwMPT8KCVkngpOlVHkSuY0nSzTebxxjsoJIynhfy/xJwK
+GcFjTLpua/nREnq3qg3WBJHJ1Mo9QjKIQ+/1MLxNU+uYo+lGgZc=
+=cw1v
+-----END PGP SIGNATURE-----
 
-Status in QEMU:
-  New
+--nrplgk2vygihh27c--
 
-Bug description:
-  qemu-system-x86_64 -name manjaro -enable-kvm -cpu host -smp
-  cores=3D4,threads=3D1 -M q35 -m 8G -cdrom /mnt/Storage/ISO/manjaro-
-  gnome-20.0.3-minimal-200606-linux56.iso -machine type=3Dpc,accel=3Dkvm
-  -vga virtio -display sdl,gl=3Don Boots properly and has working 3d
-  acceleration with virgl.
-
-  Running qemu-system-x86_64 -name manjaro -enable-kvm -cpu host -smp
-  cores=3D4,threads=3D1 -M q35 -m 8G -cdrom /mnt/Storage/ISO/manjaro-
-  gnome-20.0.3-minimal-200606-linux56.iso -machine type=3Dpc,accel=3Dkvm
-  -vga virtio -display gtk,gl=3Don however, (difference being gtk instead
-  of sdl), the screen is black, and the vm still starts.
-
-  System Specs
-  Gentoo Linux 64bit
-  Gentoo-Sources 5.8.13 Kernel
-  Qemu 5.10.0-r1 compiled with USE=3D"aio bzip2 caps curl fdt filecaps gtk =
-jpeg ncurses nls opengl oss pin-upstream-blobs png pulseaudio sdl seccomp s=
-lirp spice usb usbredir vhost-net virgl vnc xattr xkb" PYTHON_TARGETS=3D"py=
-thon3_7" QEMU_SOFTMMU_TARGETS=3D"x86_64" QEMU_USER_TARGETS=3D"x86_64"
-
-  Ryzen 7 2700x
-  Nvidia 1070ti GPU
-
-  I can confirm the same issue when using libvirt with opengl.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1898490/+subscriptions
 
