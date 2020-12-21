@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECD172E0197
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 21:36:54 +0100 (CET)
-Received: from localhost ([::1]:42434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0F72E0198
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 21:37:03 +0100 (CET)
+Received: from localhost ([::1]:43268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krRvJ-0008Na-Hu
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 15:36:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48358)
+	id 1krRvS-0000Gu-4m
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 15:37:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1krRtR-0006sd-VP; Mon, 21 Dec 2020 15:34:57 -0500
-Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:38511)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1krRtU-0006w2-JS
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 15:35:00 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1krRtQ-0003Op-8J; Mon, 21 Dec 2020 15:34:57 -0500
-Received: by mail-qv1-xf34.google.com with SMTP id az16so5042024qvb.5;
- Mon, 21 Dec 2020 12:34:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1krRtS-0003Pu-Lu
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 15:35:00 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id k10so131608wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 12:34:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+zrk2kq9FxRm6oI58bL/AQP4T9VGuHANK2Y72VNniro=;
- b=Knrj27wvifQpDxrfhCIlDTIgr6swCUUkhnZs1f4iT4zjiyRKyiUCNZPaJN4I9LQZVQ
- +eewnG+mUZKOtPDOlQPUTo/xzqZDWjDlC9DMZYzXmloAms4x/SHcPZeyVU3KI6Zu6dFx
- w1xYvcfTIAQdFQxwlTGAyBZRbfISr5MPOEoIAoMuc2ykjfJlXxAtZDRXrF3FrDZpa4iQ
- io+0V4yMBt7+PIBob9mbkp4hL6Q9Egtqyze725rboQ7F1avNSetb6pgj/bhR0VP7WFsn
- HiVdp4w0Hg2coam+njfX86ERBlbzldLQ8WnBMcH0Ns9p1PB9hMnJLF2EurkAMuvF8mMK
- hx6A==
+ bh=85kj926BUr+8jj+wicWA/5n1BvJrqKgBK5HE+QQ4GQI=;
+ b=nMiwNnaHkARDJbI84JtUasMuPLPtDckRKt1QAGZamNM4Tv6Va6x09YMaHkOsipMcHa
+ HDZ7zLT6+KYrBnvJYyXGHxUMmaWSN74JD9gXAR0RE10TuC5b3SbbnV7YvtJ87yJ89f7j
+ HIRQznsvQsYWtUBnnNVqU6q5rGzLo7WGPkkV0hnnIKlmMSXQg9gCuWB0dJgZAwMpZK8J
+ qPDWCPnmdzOxWlhnbXStbIOi5zAxJnyO9nxDbHA++jguHoW3kAUVfdG7GJ0uU8El2PoA
+ yY7zXuEzGt1l42vtWGh41RUlYPfAcmjcRo9mbaflzQb5idhBPo+4TE809177WQS6IuIk
+ Obog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+zrk2kq9FxRm6oI58bL/AQP4T9VGuHANK2Y72VNniro=;
- b=UIZNsBp/gE4/R5iikXUYLzgDInaeUvi9YJhVICFSF6wtFywDS5/CfE6Tj8kSnHAD2K
- 8+hg5BoOkyDeC34XzgwgbmVr+2n8SSJDgvy1TWxN/43pO2IaeWNgK5Hmt7R4mtYAvTzv
- cUTeCxHHs4i8OoeaSjTdPb1fj2YeDQA+155uN+pDgh9TCDlqz/MELAfKrfGq0aCrIUxV
- t2q4QY/zaDt0tXP88OzQHbFS8h3qadInc47YelWI8dwG/2NA24A2TGnc6HEU8H/SY7q4
- scQ/0kZRCnKlYNPG8akvVbDzRulEc3g8I95uTZbBkk7VFhw6EN55F+oK1OuMjgWMzIZG
- fOPQ==
-X-Gm-Message-State: AOAM531jnjLqExjNn7A/mBv3Mtlhx6v/FbW5cCCnV1rRYzmV6boyWZv5
- X08oy1HqenzQBnPkPoaE7Rk=
-X-Google-Smtp-Source: ABdhPJylR+6teZyCSyuaffv15dpIdr2LhrAjLPC+uB0D3XN6D35nMdvxLHP2UWxUQE//amU0YjoQew==
-X-Received: by 2002:a0c:e5d1:: with SMTP id u17mr8104677qvm.34.1608582893742; 
- Mon, 21 Dec 2020 12:34:53 -0800 (PST)
-Received: from ?IPv6:2804:431:c7c6:556d:fa44:43b8:486b:f066?
- ([2804:431:c7c6:556d:fa44:43b8:486b:f066])
- by smtp.gmail.com with ESMTPSA id g28sm11205010qtm.91.2020.12.21.12.34.51
+ bh=85kj926BUr+8jj+wicWA/5n1BvJrqKgBK5HE+QQ4GQI=;
+ b=g+efuSfsJiWiBoizQp8Q/fVJzmvJ96qLSzHzRogH6UmCeLIr/8mjYCCTXzrJIa3Qyt
+ GpA/+CwITrvMrt1XwQ9Ahu3EjKpO3CjpJsHu9ZlQpP87MHWKc//0Vjr5x/Qi5e/9KP5G
+ QSLTdH//b3mDBDH2F/tSYtAxETDZ72Zk0CV530aJPGFTXhWj0/ILExcwFVmlzWGVOW6c
+ iM5VMFHxJdXu3/iP+aStjPea5MnNHFL//O+HZGpfFvvN+2+okGz6m2x8V7re3COfVDKA
+ kGb+Tl+RH/5yu0FLjoA31ECRvfYy8IL2ZuFHe72EX1guV3Sl8ro0UefxZ3JYKC/4KmaJ
+ l8OA==
+X-Gm-Message-State: AOAM532NDZlCc2aCD8/Fcb1D3ROBtd22n0ZFlu+GF1OEsbys4iSOsrRb
+ Ka2aas74FzUzX4FoaGJJWxI=
+X-Google-Smtp-Source: ABdhPJzU5t46YauN35Er6tgDA3UWn+SUCMObScYuBtlQGk4JFiXksMqnafkjthiudycR41RuCs111A==
+X-Received: by 2002:a1c:790f:: with SMTP id l15mr18510942wme.188.1608582896746; 
+ Mon, 21 Dec 2020 12:34:56 -0800 (PST)
+Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
+ ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
+ by smtp.gmail.com with ESMTPSA id g191sm26483859wmg.39.2020.12.21.12.34.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Dec 2020 12:34:53 -0800 (PST)
-Subject: Re: [PATCH 2/6] spapr: Fix reset of transient DR connectors
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-References: <20201218103400.689660-1-groug@kaod.org>
- <20201218103400.689660-3-groug@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <43981f61-d189-1e47-989b-2c74f720ec39@gmail.com>
-Date: Mon, 21 Dec 2020 17:34:50 -0300
+ Mon, 21 Dec 2020 12:34:55 -0800 (PST)
+Subject: Re: [PATCH v2 7/8] hw/mips/fuloong2e: Add highmem support
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
+ <20201219072326.40157-1-jiaxun.yang@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b8418bf5-e7c5-0ae0-9470-7715642bb100@amsat.org>
+Date: Mon, 21 Dec 2020 21:34:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201218103400.689660-3-groug@kaod.org>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20201219072326.40157-1-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf34.google.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.233,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.233,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,111 +89,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: chenhuacai@kernel.org, wainersm@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/19/20 8:23 AM, Jiaxun Yang wrote:
+> highmem started from 0x20000000.
 
+"started from" -> "starts at"?
 
-On 12/18/20 7:33 AM, Greg Kurz wrote:
-> Documentation of object_property_iter_init() clearly stipulates that
-> "it is forbidden to modify the property list while iterating". But this
-> is exactly what we do when resetting transient DR connectors during CAS.
-> The call to spapr_drc_reset() can finalize the hot-unplug sequence of a
-> PHB or a PCI bridge, both of which will then in turn destroy their PCI
-> DRCs. This could potentially invalidate the iterator. It is pure luck
-> that this haven't caused any issues so far.
+> Now we can have up to 2G RAM.
 > 
-> Change spapr_drc_reset() to return true if it caused a device to be
-> removed. Restart from scratch in this case. This can potentially
-> increase the overall DRC reset time, especially with a high maxmem
-> which generates a lot of LMB DRCs. But this kind of setup is rare,
-> and so is the use case of rebooting a guest while doing hot-unplug.
-> 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
->   include/hw/ppc/spapr_drc.h | 3 ++-
->   hw/ppc/spapr_drc.c         | 6 +++++-
->   hw/ppc/spapr_hcall.c       | 8 +++++++-
->   3 files changed, 14 insertions(+), 3 deletions(-)
+> v2: Handle SPD for dual DIMM correctly.
+> ---
+>  hw/mips/fuloong2e.c | 61 ++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 49 insertions(+), 12 deletions(-)
 > 
-> diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-> index cff5e707d0d9..5d80019f82e2 100644
-> --- a/include/hw/ppc/spapr_drc.h
-> +++ b/include/hw/ppc/spapr_drc.h
-> @@ -224,7 +224,8 @@ static inline bool spapr_drc_hotplugged(DeviceState *dev)
->       return dev->hotplugged && !runstate_check(RUN_STATE_INMIGRATE);
->   }
->   
-> -void spapr_drc_reset(SpaprDrc *drc);
-> +/* Returns true if an unplug request completed */
-> +bool spapr_drc_reset(SpaprDrc *drc);
->   
->   uint32_t spapr_drc_index(SpaprDrc *drc);
->   SpaprDrcType spapr_drc_type(SpaprDrc *drc);
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index 8d62f55066b6..5b5e2ac58a7e 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -417,9 +417,10 @@ void spapr_drc_detach(SpaprDrc *drc)
->       spapr_drc_release(drc);
->   }
->   
-> -void spapr_drc_reset(SpaprDrc *drc)
-> +bool spapr_drc_reset(SpaprDrc *drc)
->   {
->       SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
-> +    bool unplug_completed = false;
->   
->       trace_spapr_drc_reset(spapr_drc_index(drc));
->   
-> @@ -428,6 +429,7 @@ void spapr_drc_reset(SpaprDrc *drc)
->        */
->       if (drc->unplug_requested) {
->           spapr_drc_release(drc);
-> +        unplug_completed = true;
->       }
->   
->       if (drc->dev) {
-> @@ -444,6 +446,8 @@ void spapr_drc_reset(SpaprDrc *drc)
->           drc->ccs_offset = -1;
->           drc->ccs_depth = -1;
->       }
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index 2744b211fd..8a4bebe066 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -56,6 +56,7 @@
+>  /* Fuloong 2e has a 512k flash: Winbond W39L040AP70Z */
+>  #define BIOS_SIZE               (512 * KiB)
+>  #define MAX_IDE_BUS             2
+> +#define HIGHMEM_START           0x20000000
+>  
+>  /*
+>   * PMON is not part of qemu and released with BSD license, anyone
+> @@ -71,7 +72,8 @@
+>  #define FULOONG2E_RTL8139_SLOT    7
+>  
+>  static struct _loaderparams {
+> -    int ram_size;
+> +    int ram_low_size;
+> +    int ram_high_size;
+>      const char *kernel_filename;
+>      const char *kernel_cmdline;
+>      const char *initrd_filename;
+> @@ -128,14 +130,14 @@ static uint64_t load_kernel(MIPSCPU *cpu)
+>          initrd_size = get_image_size(loaderparams.initrd_filename);
+>          if (initrd_size > 0) {
+>              initrd_offset = ROUND_UP(kernel_high, INITRD_PAGE_SIZE);
+> -            if (initrd_offset + initrd_size > loaderparams.ram_size) {
+> +            if (initrd_offset + initrd_size > loaderparams.ram_low_size) {
+>                  error_report("memory too small for initial ram disk '%s'",
+>                               loaderparams.initrd_filename);
+>                  exit(1);
+>              }
+>              initrd_size = load_image_targphys(loaderparams.initrd_filename,
+>                                                initrd_offset,
+> -                                              loaderparams.ram_size - initrd_offset);
+> +                                              loaderparams.ram_low_size - initrd_offset);
+>          }
+>          if (initrd_size == (target_ulong) -1) {
+>              error_report("could not load initial ram disk '%s'",
+> @@ -160,7 +162,11 @@ static uint64_t load_kernel(MIPSCPU *cpu)
+>  
+>      /* Setup minimum environment variables */
+>      prom_set(prom_buf, index++, "cpuclock=%u", clock_get_hz(cpu->clock));
+> -    prom_set(prom_buf, index++, "memsize=%"PRIi64, loaderparams.ram_size / MiB);
+> +    prom_set(prom_buf, index++, "memsize=%"PRIi64, loaderparams.ram_low_size / MiB);
+> +    if (loaderparams.ram_high_size > 0) {
+> +            prom_set(prom_buf, index++, "highmemsize=%"PRIi64,
+> +                    loaderparams.ram_high_size / MiB);
+> +    }
+>      prom_set(prom_buf, index++, NULL);
+>  
+>      rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
+> @@ -186,7 +192,7 @@ static void write_bootloader(CPUMIPSState *env, uint8_t *base,
+>      p = (uint32_t *)(base + 0x040);
+>  
+>      bl_gen_jump_kernel(&p, ENVP_VADDR - 64, 2, ENVP_VADDR,
+> -                       ENVP_VADDR + 8, loaderparams.ram_size,
+> +                       ENVP_VADDR + 8, loaderparams.ram_low_size,
+>                         kernel_addr);
+>  }
+>  
+> @@ -258,8 +264,11 @@ static void mips_fuloong2e_init(MachineState *machine)
+>      const char *kernel_filename = machine->kernel_filename;
+>      const char *kernel_cmdline = machine->kernel_cmdline;
+>      const char *initrd_filename = machine->initrd_filename;
+> +    ram_addr_t ram_low_size, ram_high_size = 0;
+>      char *filename;
+>      MemoryRegion *address_space_mem = get_system_memory();
+> +    MemoryRegion *ram_low_alias = g_new(MemoryRegion, 1);
+> +    MemoryRegion *ram_high_alias;
+>      MemoryRegion *bios = g_new(MemoryRegion, 1);
+>      long bios_size;
+>      uint8_t *spd_data;
+> @@ -282,12 +291,31 @@ static void mips_fuloong2e_init(MachineState *machine)
+>  
+>      qemu_register_reset(main_cpu_reset, cpu);
+>  
+> -    /* TODO: support more than 256M RAM as highmem */
+> -    if (machine->ram_size != 256 * MiB) {
+> -        error_report("Invalid RAM size, should be 256MB");
+> +    if (machine->ram_size > 2 * GiB) {
+> +        error_report("Too much memory for this machine: %" PRId64 "MB,"
+> +                     " maximum 2048MB", machine->ram_size / MiB);
+>          exit(EXIT_FAILURE);
+>      }
+> -    memory_region_add_subregion(address_space_mem, 0, machine->ram);
 > +
-> +    return unplug_completed;
->   }
->   
->   static bool spapr_drc_unplug_requested_needed(void *opaque)
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index 4e9d50c254f0..aa22830ac4bd 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -1639,6 +1639,7 @@ static void spapr_handle_transient_dev_before_cas(SpaprMachineState *spapr)
->       ObjectPropertyIterator iter;
->   
->       drc_container = container_get(object_get_root(), "/dr-connector");
-> +restart:
->       object_property_iter_init(&iter, drc_container);
->       while ((prop = object_property_iter_next(&iter))) {
->           SpaprDrc *drc;
-> @@ -1652,8 +1653,13 @@ static void spapr_handle_transient_dev_before_cas(SpaprMachineState *spapr)
->   
->           /*
->            * This will complete any pending plug/unplug requests.
-> +         * In case of a unplugged PHB or PCI bridge, this will
-> +         * cause some DRCs to be destroyed and thus potentially
-> +         * invalidate the iterator.
->            */
-> -        spapr_drc_reset(drc);
-> +        if (spapr_drc_reset(drc)) {
-> +            goto restart;
-> +        }
->       }
->   
->       spapr_clear_pending_hotplug_events(spapr);
+> +    ram_low_size = MIN(machine->ram_size, 256 * MiB);
+> +
+> +    memory_region_init_alias(ram_low_alias, NULL,
+> +                            "ram_low_alias",
+> +                            machine->ram, 0,
+> +                            ram_low_size);
+> +    memory_region_add_subregion(address_space_mem, 0,
+> +                                ram_low_alias);
+> +
+> +    if (machine->ram_size > 256 * MiB) {
+> +        ram_high_alias = g_new(MemoryRegion, 1);
+> +        ram_high_size = machine->ram_size - ram_low_size;
+> +        memory_region_init_alias(ram_high_alias, NULL,
+> +                                "ram_high_alias",
+> +                                machine->ram, ram_low_size,
+> +                                ram_high_size);
+> +        memory_region_add_subregion(address_space_mem, HIGHMEM_START,
+> +                                    ram_high_alias);
+
+Cool, I've been using the same patch for one year. It works fine with
+a Linux kernel which doesn't change the northbridge mapping. As there
+is no plan for using another bootloader than PMON with this machine,
+that is fine.
+
+> +    }
+>  
+>      /* Boot ROM */
+>      memory_region_init_rom(bios, NULL, "fuloong2e.bios", BIOS_SIZE,
+> @@ -300,7 +328,8 @@ static void mips_fuloong2e_init(MachineState *machine)
+>       */
+>  
+>      if (kernel_filename) {
+> -        loaderparams.ram_size = machine->ram_size;
+> +        loaderparams.ram_low_size = ram_low_size;
+> +        loaderparams.ram_high_size = ram_high_size;
+>          loaderparams.kernel_filename = kernel_filename;
+>          loaderparams.kernel_cmdline = kernel_cmdline;
+>          loaderparams.initrd_filename = initrd_filename;
+> @@ -345,8 +374,16 @@ static void mips_fuloong2e_init(MachineState *machine)
+>      }
+>  
+>      /* Populate SPD eeprom data */
+> -    spd_data = spd_data_generate(DDR, machine->ram_size);
+> -    smbus_eeprom_init_one(smbus, 0x50, spd_data);
+> +    if (machine->ram_size <= 1 * GiB) {
+> +        /* It supports maxium of 1 GiB per DIMM */
+
+Typo "maximum".
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> +        spd_data = spd_data_generate(DDR, machine->ram_size);
+> +        smbus_eeprom_init_one(smbus, 0x50, spd_data);
+> +    } else {
+> +        /* Split to dual DIMM for more than 1 GiB  */
+> +        spd_data = spd_data_generate(DDR, machine->ram_size / 2);
+> +        smbus_eeprom_init_one(smbus, 0x50, spd_data);
+> +        smbus_eeprom_init_one(smbus, 0x51, spd_data);
+> +    }
+>  
+>      mc146818_rtc_init(isa_bus, 2000, NULL);
+>  
 > 
 
