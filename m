@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E198C2DFC4C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:28:38 +0100 (CET)
-Received: from localhost ([::1]:56384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95EF32DFC4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:29:05 +0100 (CET)
+Received: from localhost ([::1]:56928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krLEr-0005Gv-Ac
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:28:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53556)
+	id 1krLFI-0005Xw-KE
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:29:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1krLAz-0004Ca-Dk
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:24:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55409)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krLB7-0004Jr-PJ
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:24:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29749)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1krLAu-0004fT-A0
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:24:36 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krLB3-0004jY-8b
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:24:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608557068;
+ s=mimecast20190719; t=1608557079;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ca03RvTNGVHMob98GXsi+/ZMYRTzgFfE+NY9/FeLQSQ=;
- b=QABICLm5cNQKAkVm+bPIu9ruU5Ck3afipgmmU5gg6TSAVQPIWvOelADe127gYQWSB4GksY
- krsK4qYxx9kHsn8YtJDC3vNgjGkPe4Ed6xHHt60PZiUWqEhKkS/udXHuIjT06V3qQkRoO6
- fg1TzchMjbjbLPFCbIqLYtyvZfsVQ5o=
+ bh=xOdxTxgHveKb8y7ozq+34Xqv/F5TbKf0gSjTAHmJ+RI=;
+ b=B8iGQQXj14W7y8Tki23wbv5M5sg0en9nddgogA4NUjQYObY/qRyqilu9AZ11kGPbiq8+Qm
+ KSroHzT4+NA3Y0SnZtyX4L72rWYJMcSUX+H2bOl2YsK8pohGbo6n+6Gor1bkcU71unPLax
+ ekVl7fvJKg9fYHCJblwmKaD/9ZU/3wo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-Cvx_tR_ZM9CLbEAr8HleWA-1; Mon, 21 Dec 2020 08:24:26 -0500
-X-MC-Unique: Cvx_tR_ZM9CLbEAr8HleWA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-421-noJSY1Z6M6yoA-IvLGqxdA-1; Mon, 21 Dec 2020 08:24:35 -0500
+X-MC-Unique: noJSY1Z6M6yoA-IvLGqxdA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 655651009475
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 13:24:25 +0000 (UTC)
-Received: from localhost (ovpn-113-127.ams2.redhat.com [10.36.113.127])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 06F285D9CA;
- Mon, 21 Dec 2020 13:24:20 +0000 (UTC)
-Date: Mon, 21 Dec 2020 14:24:18 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86
- machine types
-Message-ID: <20201221142418.0863bc59@redhat.com>
-In-Reply-To: <20201218180721.GS3140057@habkost.net>
-References: <20201119103221.1665171-1-vkuznets@redhat.com>
- <20201119103221.1665171-6-vkuznets@redhat.com>
- <20201216205202.GJ3140057@habkost.net>
- <20201218181340.5e398280@redhat.com>
- <20201218180721.GS3140057@habkost.net>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED9CD19251AA;
+ Mon, 21 Dec 2020 13:24:34 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-232.ams2.redhat.com [10.36.113.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 501F219C44;
+ Mon, 21 Dec 2020 13:24:26 +0000 (UTC)
+Subject: Re: [PATCH v2] tests/acceptance: Add a test with the Fedora 31 kernel
+ and initrd
+To: Cornelia Huck <cohuck@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>
+References: <20201217085334.211772-1-thuth@redhat.com>
+ <d341b59d-17bb-a159-0bbd-e53e2dab9f65@redhat.com>
+ <20201221135955.69b0b182.cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <2e0c5e5c-86e6-ff0c-4b01-6ffcc08903de@redhat.com>
+Date: Mon, 21 Dec 2020 14:24:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201221135955.69b0b182.cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.233, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,273 +83,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org
+Cc: Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Dec 2020 13:07:21 -0500
-Eduardo Habkost <ehabkost@redhat.com> wrote:
-
-> On Fri, Dec 18, 2020 at 06:13:40PM +0100, Igor Mammedov wrote:
-> > On Wed, 16 Dec 2020 15:52:02 -0500
-> > Eduardo Habkost <ehabkost@redhat.com> wrote:
-> >   
-> > > On Thu, Nov 19, 2020 at 11:32:21AM +0100, Vitaly Kuznetsov wrote:  
-> > > > Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
-> > > > requires listing all currently supported enlightenments ("hv_*" CPU
-> > > > features) explicitly. We do have a 'hv_passthrough' mode enabling
-> > > > everything but it can't be used in production as it prevents migration.
-> > > > 
-> > > > Introduce a simple 'hyperv=on' option for all x86 machine types enabling
-> > > > all currently supported Hyper-V enlightenments. Later, when new
-> > > > enlightenments get implemented, we will be adding them to newer machine
-> > > > types only (by disabling them for legacy machine types) thus preserving
-> > > > migration.
-> > > > 
-> > > > Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> > > > Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>    
-> > > [...]  
-> > > > ---
-> > > >  docs/hyperv.txt       |  8 ++++++++
-> > > >  hw/i386/x86.c         | 30 ++++++++++++++++++++++++++++++
-> > > >  include/hw/i386/x86.h |  7 +++++++
-> > > >  target/i386/cpu.c     | 14 ++++++++++++++
-> > > >  4 files changed, 59 insertions(+)
-> > > > 
-> > > > diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-> > > > index 5df00da54fc4..1a76a07f8417 100644
-> > > > --- a/docs/hyperv.txt
-> > > > +++ b/docs/hyperv.txt
-> > > > @@ -29,6 +29,14 @@ When any set of the Hyper-V enlightenments is enabled, QEMU changes hypervisor
-> > > >  identification (CPUID 0x40000000..0x4000000A) to Hyper-V. KVM identification
-> > > >  and features are kept in leaves 0x40000100..0x40000101.
-> > > >  
-> > > > +Hyper-V enlightenments can be enabled in bulk by specifying 'hyperv=on' to an
-> > > > +x86 machine type:
-> > > > +
-> > > > +  qemu-system-x86_64 -machine q35,accel=kvm,kernel-irqchip=split,hyperv=on ...
-> > > > +
-> > > > +Note, new enlightenments are only added to the latest (in-develompent) machine
-> > > > +type, older machine types keep the list of the supported features intact to
-> > > > +safeguard migration.
-> > > >  
-> > > >  3. Existing enlightenments
-> > > >  ===========================
-> > > > diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> > > > index 5944fc44edca..57f27d56ecc6 100644
-> > > > --- a/hw/i386/x86.c
-> > > > +++ b/hw/i386/x86.c
-> > > > @@ -1171,6 +1171,20 @@ static void x86_machine_set_acpi(Object *obj, Visitor *v, const char *name,
-> > > >      visit_type_OnOffAuto(v, name, &x86ms->acpi, errp);
-> > > >  }
-> > > >  
-> > > > +static bool x86_machine_get_hyperv(Object *obj, Error **errp)
-> > > > +{
-> > > > +    X86MachineState *x86ms = X86_MACHINE(obj);
-> > > > +
-> > > > +    return x86ms->hyperv_enabled;
-> > > > +}
-> > > > +
-> > > > +static void x86_machine_set_hyperv(Object *obj, bool value, Error **errp)
-> > > > +{
-> > > > +    X86MachineState *x86ms = X86_MACHINE(obj);
-> > > > +
-> > > > +    x86ms->hyperv_enabled = value;
-> > > > +}
-> > > > +
-> > > >  static void x86_machine_initfn(Object *obj)
-> > > >  {
-> > > >      X86MachineState *x86ms = X86_MACHINE(obj);
-> > > > @@ -1194,6 +1208,16 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
-> > > >      x86mc->save_tsc_khz = true;
-> > > >      nc->nmi_monitor_handler = x86_nmi;
-> > > >  
-> > > > +    /* Hyper-V features enabled with 'hyperv=on' */
-> > > > +    x86mc->default_hyperv_features = BIT(HYPERV_FEAT_RELAXED) |
-> > > > +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
-> > > > +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
-> > > > +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
-> > > > +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
-> > > > +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
-> > > > +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_EVMCS) |
-> > > > +        BIT(HYPERV_FEAT_IPI) | BIT(HYPERV_FEAT_STIMER_DIRECT);  
-> > I'd argue that feature bits do not belong to machine code at all.
-> > If we have to involve machine at all then it should be a set property/value pairs
-> > that machine will set on CPU object (I'm not convinced that doing it
-> > from machine code is good idea though).  
+On 21/12/2020 13.59, Cornelia Huck wrote:
+> On Fri, 18 Dec 2020 15:23:32 -0300
+> Willian Rampazzo <wrampazz@redhat.com> wrote:
 > 
-> The set of default hyperv features needs be defined by the
-> machine type somehow, we can't avoid that.
+>> On 12/17/20 5:53 AM, Thomas Huth wrote:
 > 
-> You are correct that the policy could be implemented using
-> compat_props, but I don't think we should block a patch just
-> because we're not using a pure QOM property-based interface to
-> implement that.
-I'm fine with 1-4/5 patches but not with this one.
-With this patch I don't agree with inventing
-special semantics to property handling when it could
-be done in a typical and consistent way (especially for
-the sake of convenience).
-
-
-> We need the external interface to be good, though:
+>>> +        # Hot-plug a virtio-crypto device and see whether it gets accepted
+>>> +        self.clear_guest_dmesg()  
+>>
+>> Your previous patch "[PATCH 1/3] tests/acceptance: Extract the code to 
+>> clear dmesg and wait for CRW reports" defined the method as 
+>> "clear_guests_dmesg". After fixing this in the code:
 > 
-> >   
-> [...]
-> > > >  static void x86_cpu_hyperv_realize(X86CPU *cpu)
-> > > >  {
-> > > > +    X86MachineState *x86ms = X86_MACHINE(qdev_get_machine());
-> > > > +    X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
-> > > > +    uint64_t feat;
-> > > >      size_t len;
-> > > >  
-> > > > +    if (x86ms->hyperv_enabled) {
-> > > > +        feat = x86mc->default_hyperv_features;
-> > > > +        /* Enlightened VMCS is only available on Intel/VMX */
-> > > > +        if (!cpu_has_vmx(&cpu->env)) {
-> > > > +            feat &= ~BIT(HYPERV_FEAT_EVMCS);
-> > > > +        }
-> > > > +
-> > > > +        cpu->hyperv_features |= feat;  
-> > that will ignore features user explicitly doesn't want,
-> > ex:
-> >  -machine hyperv=on -cpu foo,hv-foo=off  
-> 
-> Oops, good point.
-> 
-> 
-> > 
-> > not sure we would like to introduce such invariant,
-> > in normal qom property handling the latest set property should have effect
-> > (all other invariants we have in x86 cpu property semantics are comming from legacy handling
-> > and I plan to deprecate them (it will affect x86 and sparc cpus) so CPUs will behave like
-> > any other QOM object when it come to property handling)
-> >  
-> > anyways it's confusing a bit to have cpu flags to come from 2 different places
-> > 
-> > -cpu hyperv-use-preset=on,hv-foo=off
-> > 
-> > looks less confusing and will heave expected effect
-> >   
-> > > > +    }    
-> > > 
-> > > I had to dequeue this because it doesn't compile with
-> > > CONFIG_USER_ONLY:
-> > > 
-> > > https://gitlab.com/ehabkost/qemu/-/jobs/916651017
-> > > 
-> > > The easiest solution would be to wrap the new code in #ifndef
-> > > CONFIG_USER_ONLY, but maybe we should try to move all
-> > > X86Machine-specific code from cpu.c to
-> > > hw/i386/x86.c:x86_cpu_pre_plug().  
-> > this looks to me like a preset of feature flags that belongs to CPU,
-> > and machine code here only as a way to version subset of CPU features.
-> > 
-> > Is there a way to implement it without modifying machine?  
-> 
-> Maybe there is, but why modifying machine is a problem?
+> Hm, I see clear_guest_dmesg in the code I have on my s390-next branch?
 
-1. it doesn't let do the job properly (realize time is too late)
-2. unnecessarily pushes CPU specific logic to machine code,
-   it just doesn't belong there.
-   Sure we can do that here, then some where else and in the end
-   code becomes unmanageable mess.
- 
-> I agree the interface needs to be clear and consistent, though.
-> Maybe making it a -cpu option would make this clearer and more
-> consistent.
-> 
-> > 
-> > for example versioned CPUs or maybe something like this:
-> > 
-> > for CLI:
-> > -cpu hyperv-use-preset=on,hv-foo=off  
-> 
-> In either case, we must clearly define what should happen if the
-> preset is (HYPERV_FEAT_X | HYPERV_FEAT_Y), and the command line
-> has:
-> 
->   -cpu foo,hv-A=on,hv-X=off,hyperv-use-preset=on,hv-B=on,hv-Y=off
+I likely used the wrong "Based-on" line in the header, sorry.
 
-current x86 cpu code (it doesn't have typical properties handling
-for keeping legacy semantics), it will basically reorder all features
-with 'off' value to the end, so hv-X=off will still have an effect.
-
-However I plan to deprecate those reordering semantics (x86/sparc cpus),
-to make it consistent with typical property handling
-(last set value overwrites any previously set one).
-
-That will let us drop custom parsing of -cpu (quite a bit of code) and
-more importantly make it consistent with -device/device_add cpu-foo.
-
-
-> or:
-> 
->   -machine hyperv=on -cpu foo,hv-A=on,hv-X=off,hv-B=on,hv-X=off
-> 
-> Personally, I don't care what the rules are, as long as: 1) they
-> are clearly defined and documented; 2) they support the use cases
-> we need to support.
-
-I'd like to stick with typical property handling rules, and resort to
-inventing/using other invariant only if there is no other choice.
-
-
-> An automated test case to make sure we don't break the rules
-> would be really welcome.
-> 
-> > 
-> >    diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > index 8d1a90c6cf..8828dcde8e 100644
-> > --- a/hw/core/machine.c
-> > +++ b/hw/core/machine.c
-> > @@ -35,6 +35,7 @@ GlobalProperty hw_compat_5_0[] = {
-> >      { "vmport", "x-signal-unsupported-cmd", "off" },
-> >      { "vmport", "x-report-vmx-type", "off" },
-> >      { "vmport", "x-cmds-v2", "off" },
-> > +    { "cpu-foo", "hv-preset", "0xXXXX" }, // use compat props to keep old defaults
-> > +                                          // it will be set before we return from object_new(cpu_type)
-> >  };
-> >  const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
-> >  
-> > diff --git a/slirp b/slirp
-> > --- a/slirp
-> > +++ b/slirp
-> > @@ -1 +1 @@
-> > -Subproject commit ce94eba2042d52a0ba3d9e252ebce86715e94275
-> > +Subproject commit ce94eba2042d52a0ba3d9e252ebce86715e94275-dirty
-> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > index 588f32e136..f0b511ce27 100644
-> > --- a/target/i386/cpu.c
-> > +++ b/target/i386/cpu.c
-> > @@ -7190,6 +7190,8 @@ static Property x86_cpu_properties[] = {
-> >  
-> >      DEFINE_PROP_UINT32("hv-spinlocks", X86CPU, hyperv_spinlock_attempts,
-> >                         HYPERV_SPINLOCK_NEVER_RETRY),
-> > +    DEFINE_PROP_UNIT64("hyperv-preset", X86CPU, hyperv_features_def, 0xYYYYY),
-> > + // prop_info should define custom setter/getter that will copy hyperv_features_def into hyperv_features
-> > + // moment "hyperv-use-preset=on" is processed, it will overwrite any previously set
-> > + // hv-foo but that's fine because user asked for it explictly
-> > +    DEFINE_PROP("hyperv-use-preset", X86CPU, hyperv_use_preset, prop_info, bool),  
-> 
-> We don't need to use custom getters/setters with DEFINE_PROP, if
-> we can use object_class_property_add_bool().
-of cause, I've used DEFINE_PROP just as a possible example.
-
-> I dislike custom getters/setters in either case, but maybe we
-> don't have a choice.  Depending on the rules we agree upon above,
-> custom setters could become avoidable, or they could become a
-> necessity.
-
-I do dislike them too, but sometimes custom setters are convenient
-as they allow to check if value is valid and let us implement non
-trivial handling (like in this case) at property setting time.
-(doing overwites)
-
-> >      DEFINE_PROP_BIT64("hv-relaxed", X86CPU, hyperv_features,
-> >                        HYPERV_FEAT_RELAXED, 0),
-> >      DEFINE_PROP_BIT64("hv-vapic", X86CPU, hyperv_features,  
-> 
+ Thomas
 
 
