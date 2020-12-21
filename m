@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239EE2DFCE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 15:35:50 +0100 (CET)
-Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 209D22DFCEC
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 15:39:39 +0100 (CET)
+Received: from localhost ([::1]:38056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krMHs-0001up-MX
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 09:35:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40162)
+	id 1krMLa-0003YA-6m
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 09:39:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krMGm-0001Dl-Fw
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:34:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54017)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krMGk-0003qf-05
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:34:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608561277;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=M+w7wxwrppW54XR1Y6py377SvaIpfqwfg7PregYxjgQ=;
- b=Zu62Xpsyvd0XAy+bV4c+MReAQzrp4RuUtvOyQONU7aKagkR3ii+ri6UarxXA0WpQGU91y6
- gKH7/dbrFA8sAbWRFLHfsa6HKC0Qg8N0GAZ40tqy+2zR+N8p+A4BBFA5FE/kkdH5q5/7us
- W3I7S02vTSGSY7v4UE1qAkVwv0VXobc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-1OFpyzwUM4KpV0UlqL4JzQ-1; Mon, 21 Dec 2020 09:34:35 -0500
-X-MC-Unique: 1OFpyzwUM4KpV0UlqL4JzQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DDAD800D53;
- Mon, 21 Dec 2020 14:34:34 +0000 (UTC)
-Received: from thuth.com (ovpn-113-232.ams2.redhat.com [10.36.113.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE2FD60C0F;
- Mon, 21 Dec 2020 14:34:25 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v4] tests/acceptance: Add a test with the Fedora 31 kernel and
- initrd
-Date: Mon, 21 Dec 2020 15:34:23 +0100
-Message-Id: <20201221143423.23607-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1krMK1-00031i-R6; Mon, 21 Dec 2020 09:38:01 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:58127)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1krMJy-000582-GA; Mon, 21 Dec 2020 09:38:01 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.118])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id A7F927C6309A;
+ Mon, 21 Dec 2020 15:37:53 +0100 (CET)
+Received: from kaod.org (37.59.142.105) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 21 Dec
+ 2020 15:37:52 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G0062042e9fd-7140-4554-99a2-1b6c1fba7915,
+ 0B619508FA83EFFE02DCDB9DB2C04BF8DACB1B13) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Mon, 21 Dec 2020 15:37:50 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Subject: Re: [RFC Qemu PATCH v2 1/2] spapr: drc: Add support for async
+ hcalls at the drc level
+Message-ID: <20201221153750.72cbe834@bahia.lan>
+In-Reply-To: <20201221130853.15c8ddfd@bahia.lan>
+References: <160674929554.2492771.17651548703390170573.stgit@lep8c.aus.stglabs.ibm.com>
+ <160674938210.2492771.1728601884822491679.stgit@lep8c.aus.stglabs.ibm.com>
+ <20201221130853.15c8ddfd@bahia.lan>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: d6b0d9f8-5155-426a-8bb3-f939bc278b92
+X-Ovh-Tracer-Id: 12916605208219720123
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvddtvddgjedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,157 +70,329 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: xiaoguangrong.eric@gmail.com, linux-nvdimm@lists.01.org,
+ aneesh.kumar@linux.ibm.com, mst@redhat.com, qemu-devel@nongnu.org,
+ kvm-ppc@vger.kernel.org, shivaprasadbhat@gmail.com, qemu-ppc@nongnu.org,
+ bharata@linux.vnet.ibm.com, imammedo@redhat.com, linuxppc-dev@lists.ozlabs.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This initrd contains a virtio-net and a virtio-gpu kernel module,
-so we can check that we can set a MAC address for the network device
-and whether we can hot-plug and -unplug a virtio-crypto device.
-But the most interesting part is maybe that we can also successfully
-write some stuff into the emulated framebuffer of the virtio-gpu
-device and make sure that we can read back that data from a screenshot.
+On Mon, 21 Dec 2020 13:08:53 +0100
+Greg Kurz <groug@kaod.org> wrote:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- v4:
- - Run lscss twice, just to be sure
+> Hi Shiva,
+> 
+> On Mon, 30 Nov 2020 09:16:39 -0600
+> Shivaprasad G Bhat <sbhat@linux.ibm.com> wrote:
+> 
+> > The patch adds support for async hcalls at the DRC level for the
+> > spapr devices. To be used by spapr-scm devices in the patch/es to follow.
+> > 
+> > Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+> > ---
+> 
+> The overall idea looks good but I think you should consider using
+> a thread pool to implement it. See below.
+> 
 
- tests/acceptance/machine_s390_ccw_virtio.py | 110 ++++++++++++++++++++
- 1 file changed, 110 insertions(+)
+Some more comments.
 
-diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
-index abe25a08f0..0f81af9950 100644
---- a/tests/acceptance/machine_s390_ccw_virtio.py
-+++ b/tests/acceptance/machine_s390_ccw_virtio.py
-@@ -9,10 +9,13 @@
- # This work is licensed under the terms of the GNU GPL, version 2 or
- # later.  See the COPYING file in the top-level directory.
- 
-+import os
-+import tempfile
- 
- from avocado_qemu import Test
- from avocado_qemu import exec_command_and_wait_for_pattern
- from avocado_qemu import wait_for_console_pattern
-+from avocado.utils import archive
- 
- class S390CCWVirtioMachine(Test):
-     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-@@ -150,3 +153,110 @@ class S390CCWVirtioMachine(Test):
-         self.vm.command('human-monitor-command', command_line='balloon 128')
-         exec_command_and_wait_for_pattern(self, 'head -n 1 /proc/meminfo',
-                                           'MemTotal:         115640 kB')
-+
-+
-+    def test_s390x_fedora(self):
-+
-+        """
-+        :avocado: tags=arch:s390x
-+        :avocado: tags=machine:s390-ccw-virtio
-+        :avocado: tags=device:virtio-gpu
-+        :avocado: tags=device:virtio-crypto
-+        :avocado: tags=device:virtio-net
-+        """
-+
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
-+                      '/fedora-secondary/releases/31/Server/s390x/os'
-+                      '/images/kernel.img')
-+        kernel_hash = 'b93d1efcafcf29c1673a4ce371a1f8b43941cfeb'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-+
-+        initrd_url = ('https://archives.fedoraproject.org/pub/archive'
-+                      '/fedora-secondary/releases/31/Server/s390x/os'
-+                      '/images/initrd.img')
-+        initrd_hash = '3de45d411df5624b8d8ef21cd0b44419ab59b12f'
-+        initrd_path_xz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-+        initrd_path = os.path.join(self.workdir, 'initrd-raw.img')
-+        archive.lzma_uncompress(initrd_path_xz, initrd_path)
-+
-+        self.vm.set_console()
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE + ' audit=0 '
-+                              'rd.plymouth=0 plymouth.enable=0 rd.rescue')
-+        self.vm.add_args('-nographic',
-+                         '-smp', '4',
-+                         '-m', '512',
-+                         '-name', 'Some Guest Name',
-+                         '-uuid', '30de4fd9-b4d5-409e-86a5-09b387f70bfa',
-+                         '-kernel', kernel_path,
-+                         '-initrd', initrd_path,
-+                         '-append', kernel_command_line,
-+                         '-device', 'zpci,uid=7,target=n',
-+                         '-device', 'virtio-net-pci,id=n,mac=02:ca:fe:fa:ce:12',
-+                         '-device', 'virtio-rng-ccw,devno=fe.1.9876',
-+                         '-device', 'virtio-gpu-ccw,devno=fe.2.5432')
-+        self.vm.launch()
-+        self.wait_for_console_pattern('Entering emergency mode')
-+
-+        # Some tests to see whether the CLI options have been considered:
-+        self.log.info("Test whether QEMU CLI options have been considered")
-+        exec_command_and_wait_for_pattern(self, 'lspci',
-+                             '0007:00:00.0 Class 0200: Device 1af4:1000')
-+        exec_command_and_wait_for_pattern(self,
-+                             'cat /sys/class/net/enP7p0s0/address',
-+                             '02:ca:fe:fa:ce:12')
-+        exec_command_and_wait_for_pattern(self, 'lscss', '0.1.9876')
-+        exec_command_and_wait_for_pattern(self, 'lscss', '0.2.5432')
-+        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-+                             'processors    : 4')
-+        exec_command_and_wait_for_pattern(self, 'grep MemTotal /proc/meminfo',
-+                             'MemTotal:         499848 kB')
-+        exec_command_and_wait_for_pattern(self, 'grep Name /proc/sysinfo',
-+                             'Extended Name:   Some Guest Name')
-+        exec_command_and_wait_for_pattern(self, 'grep UUID /proc/sysinfo',
-+                             '30de4fd9-b4d5-409e-86a5-09b387f70bfa')
-+
-+        # Disable blinking cursor, then write some stuff into the framebuffer.
-+        # QEMU's PPM screendumps contain uncompressed 24-bit values, while the
-+        # framebuffer uses 32-bit, so we pad our text with some spaces when
-+        # writing to the framebuffer. Since the PPM is uncompressed, we then
-+        # can simply read the written "magic bytes" back from the PPM file to
-+        # check whether the framebuffer is working as expected.
-+        self.log.info("Test screendump of virtio-gpu device")
-+        exec_command_and_wait_for_pattern(self,
-+            'echo -e "\e[?25l" > /dev/tty0', ':/#')
-+        exec_command_and_wait_for_pattern(self, 'for ((i=0;i<250;i++)); do '
-+            'echo " The  qu ick  fo x j ump s o ver  a  laz y d og" >> fox.txt;'
-+            'done',
-+            ':/#')
-+        exec_command_and_wait_for_pattern(self,
-+            'dd if=fox.txt of=/dev/fb0 bs=1000 oflag=sync,nocache ; rm fox.txt',
-+            '12+0 records out')
-+        with tempfile.NamedTemporaryFile(suffix='.ppm',
-+                                         prefix='qemu-scrdump-') as ppmfile:
-+            self.vm.command('screendump', filename=ppmfile.name)
-+            ppmfile.seek(0)
-+            line = ppmfile.readline()
-+            self.assertEqual(line, b"P6\n")
-+            line = ppmfile.readline()
-+            self.assertEqual(line, b"1024 768\n")
-+            line = ppmfile.readline()
-+            self.assertEqual(line, b"255\n")
-+            line = ppmfile.readline()
-+            self.assertEqual(line, b"The quick fox jumps over a lazy dog\n")
-+
-+        # Hot-plug a virtio-crypto device and see whether it gets accepted
-+        self.log.info("Test hot-plug virtio-crypto device")
-+        self.clear_guest_dmesg()
-+        self.vm.command('object-add', qom_type='cryptodev-backend-builtin',
-+                        id='cbe0')
-+        self.vm.command('device_add', driver='virtio-crypto-ccw', id='crypdev0',
-+                        cryptodev='cbe0', devno='fe.0.2342')
-+        exec_command_and_wait_for_pattern(self,
-+                        'while ! (dmesg -c | grep Accelerator.device) ; do'
-+                        ' sleep 1 ; done', 'Accelerator device is ready')
-+        exec_command_and_wait_for_pattern(self, 'lscss', '0.0.2342')
-+        self.vm.command('device_del', id='crypdev0')
-+        self.vm.command('object-del', id='cbe0')
-+        exec_command_and_wait_for_pattern(self,
-+                        'while ! (dmesg -c | grep Start.virtcrypto_remove) ; do'
-+                        ' sleep 1 ; done', 'Start virtcrypto_remove.')
--- 
-2.27.0
+> >  hw/ppc/spapr_drc.c         |  149 ++++++++++++++++++++++++++++++++++++++++++++
+> >  include/hw/ppc/spapr_drc.h |   25 +++++++
+> >  2 files changed, 174 insertions(+)
+> > 
+> > diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> > index 77718cde1f..4ecd04f686 100644
+> > --- a/hw/ppc/spapr_drc.c
+> > +++ b/hw/ppc/spapr_drc.c
+> > @@ -15,6 +15,7 @@
+> >  #include "qapi/qmp/qnull.h"
+> >  #include "cpu.h"
+> >  #include "qemu/cutils.h"
+> > +#include "qemu/guest-random.h"
+> >  #include "hw/ppc/spapr_drc.h"
+> >  #include "qom/object.h"
+> >  #include "migration/vmstate.h"
+> > @@ -421,6 +422,148 @@ void spapr_drc_detach(SpaprDrc *drc)
+> >      spapr_drc_release(drc);
+> >  }
+> >  
+> > +
+> > +/*
+> > + * @drc : device DRC targetting which the async hcalls to be made.
+> > + *
+> > + * All subsequent requests to run/query the status should use the
+> > + * unique token returned here.
+> > + */
+> > +uint64_t spapr_drc_get_new_async_hcall_token(SpaprDrc *drc)
+> > +{
+> > +    Error *err = NULL;
+> > +    uint64_t token;
+> > +    SpaprDrcDeviceAsyncHCallState *tmp, *next, *state;
+> > +
+> > +    state = g_malloc0(sizeof(*state));
+> > +    state->pending = true;
+> > +
+> > +    qemu_mutex_lock(&drc->async_hcall_states_lock);
+> > +retry:
+> > +    if (qemu_guest_getrandom(&token, sizeof(token), &err) < 0) {
+> > +        error_report_err(err);
+> > +        g_free(state);
+> > +        qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> > +        return 0;
+> > +    }
+> > +
+> > +    if (!token) /* Token should be non-zero */
+> > +        goto retry;
+> > +
+> > +    if (!QLIST_EMPTY(&drc->async_hcall_states)) {
+> > +        QLIST_FOREACH_SAFE(tmp, &drc->async_hcall_states, node, next) {
+> > +            if (tmp->continue_token == token) {
+> > +                /* If the token already in use, get a new one */
+> > +                goto retry;
+> > +            }
+> > +        }
+> > +    }
+> > +
+> > +    state->continue_token = token;
+> > +    QLIST_INSERT_HEAD(&drc->async_hcall_states, state, node);
+> > +
+> > +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> > +
+> > +    return state->continue_token;
+> > +}
+> > +
+> > +static void *spapr_drc_async_hcall_runner(void *opaque)
+> > +{
+> > +    int response = -1;
+
+It feels wrong since the return value of func() is supposed to be
+opaque to this function. And anyway it isn't needed since response
+is always set a few lines below.
+
+> > +    SpaprDrcDeviceAsyncHCallState *state = opaque;
+> > +
+> > +    /*
+> > +     * state is freed only after this thread finishes(after pthread_join()),
+> > +     * don't worry about it becoming NULL.
+> > +     */
+> > +
+> > +    response = state->func(state->data);
+> > +
+> > +    state->hcall_ret = response;
+> > +    state->pending = 0;
+
+s/0/false/
+
+> > +
+> > +    return NULL;
+> > +}
+> > +
+> > +/*
+> > + * @drc  : device DRC targetting which the async hcalls to be made.
+> > + * token : The continue token to be used for tracking as recived from
+> > + *         spapr_drc_get_new_async_hcall_token
+> > + * @func() : the worker function which needs to be executed asynchronously
+> > + * @data : data to be passed to the asynchronous function. Worker is supposed
+> > + *         to free/cleanup the data that is passed here
+> 
+> It'd be cleaner to pass a completion callback and have free/cleanup handled there.
+> 
+> > + */
+> > +void spapr_drc_run_async_hcall(SpaprDrc *drc, uint64_t token,
+> > +                               SpaprDrcAsyncHcallWorkerFunc *func, void *data)
+> > +{
+> > +    SpaprDrcDeviceAsyncHCallState *state;
+> > +
+> > +    qemu_mutex_lock(&drc->async_hcall_states_lock);
+> > +    QLIST_FOREACH(state, &drc->async_hcall_states, node) {
+> > +        if (state->continue_token == token) {
+> > +            state->func = func;
+> > +            state->data = data;
+> > +            qemu_thread_create(&state->thread, "sPAPR Async HCALL",
+> > +                               spapr_drc_async_hcall_runner, state,
+> > +                               QEMU_THREAD_JOINABLE);
+> 
+> qemu_thread_create() exits on failure, it shouldn't be called on
+> a guest triggerable path, eg. a buggy guest could call it up to
+> the point that pthread_create() returns EAGAIN.
+> 
+> Please use a thread pool (see thread_pool_submit_aio()). This takes care
+> of all the thread housekeeping for you in a safe way, and it provides a
+> completion callback API. The implementation could then be just about
+> having two lists: one for pending requests (fed here) and one for
+> completed requests (fed by the completion callback).
+> 
+> > +            break;
+> > +        }
+> > +    }
+> > +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> > +}
+> > +
+> > +/*
+> > + * spapr_drc_finish_async_hcalls
+> > + *      Waits for all pending async requests to complete
+> > + *      thier execution and free the states
+> > + */
+> > +static void spapr_drc_finish_async_hcalls(SpaprDrc *drc)
+> > +{
+> > +    SpaprDrcDeviceAsyncHCallState *state, *next;
+> > +
+> > +    if (QLIST_EMPTY(&drc->async_hcall_states)) {
+> > +        return;
+> > +    }
+> > +
+
+This is called during machine reset and there won't be contention
+in the large majority of cases. If the list is empty QLIST_FOREACH_SAFE()
+won't iterate. So I don't think special casing the empty list brings much.
+
+> > +    qemu_mutex_lock(&drc->async_hcall_states_lock);
+> > +    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, next) {
+> > +        qemu_thread_join(&state->thread);
+> 
+> With a thread-pool, you'd just need to aio_poll() until the pending list
+> is empty and then clear the completed list.
+> 
+> > +        QLIST_REMOVE(state, node);
+> > +        g_free(state);
+> > +    }
+> > +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> > +}
+> > +
+> > +/*
+> > + * spapr_drc_get_async_hcall_status
+> > + *      Fetches the status of the hcall worker and returns H_BUSY
+> > + *      if the worker is still running.
+> > + */
+> > +int spapr_drc_get_async_hcall_status(SpaprDrc *drc, uint64_t token)
+> > +{
+> > +    int ret = H_PARAMETER;
+> > +    SpaprDrcDeviceAsyncHCallState *state, *node;
+> > +
+> > +    qemu_mutex_lock(&drc->async_hcall_states_lock);
+> > +    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, node) {
+> > +        if (state->continue_token == token) {
+> > +            if (state->pending) {
+> > +                ret = H_BUSY;
+> > +                break;
+> > +            } else {
+> > +                ret = state->hcall_ret;
+> > +                qemu_thread_join(&state->thread);
+> 
+> Like for qemu_thread_create(), the guest shouldn't be responsible for
+> thread housekeeping. Getting the hcall status should just be about
+> finding the token in the pending or completed lists.
+> 
+> > +                QLIST_REMOVE(state, node);
+> > +                g_free(state);
+> > +                break;
+> > +            }
+> > +        }
+> > +    }
+> > +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> > +
+> > +    return ret;
+> > +}
+> > +
+> >  void spapr_drc_reset(SpaprDrc *drc)
+> >  {
+> >      SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> > @@ -448,6 +591,7 @@ void spapr_drc_reset(SpaprDrc *drc)
+> >          drc->ccs_offset = -1;
+> >          drc->ccs_depth = -1;
+> >      }
+> > +    spapr_drc_finish_async_hcalls(drc);
+> >  }
+> >  
+> >  static bool spapr_drc_unplug_requested_needed(void *opaque)
+> > @@ -558,6 +702,7 @@ SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
+> >      drc->owner = owner;
+> >      prop_name = g_strdup_printf("dr-connector[%"PRIu32"]",
+> >                                  spapr_drc_index(drc));
+> > +
+> 
+> Unrelated change.
+> 
+> >      object_property_add_child(owner, prop_name, OBJECT(drc));
+> >      object_unref(OBJECT(drc));
+> >      qdev_realize(DEVICE(drc), NULL, NULL);
+> > @@ -577,6 +722,10 @@ static void spapr_dr_connector_instance_init(Object *obj)
+> >      object_property_add(obj, "fdt", "struct", prop_get_fdt,
+> >                          NULL, NULL, NULL);
+> >      drc->state = drck->empty_state;
+> > +
+> > +    qemu_mutex_init(&drc->async_hcall_states_lock);
+> > +    QLIST_INIT(&drc->async_hcall_states);
+> > +
+> 
+> Empty line not needed.
+> 
+> >  }
+> >  
+> >  static void spapr_dr_connector_class_init(ObjectClass *k, void *data)
+> > diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+> > index 165b281496..77f6e4386c 100644
+> > --- a/include/hw/ppc/spapr_drc.h
+> > +++ b/include/hw/ppc/spapr_drc.h
+> > @@ -18,6 +18,7 @@
+> >  #include "sysemu/runstate.h"
+> >  #include "hw/qdev-core.h"
+> >  #include "qapi/error.h"
+> > +#include "block/thread-pool.h"
+> >  
+> >  #define TYPE_SPAPR_DR_CONNECTOR "spapr-dr-connector"
+> >  #define SPAPR_DR_CONNECTOR_GET_CLASS(obj) \
+> > @@ -168,6 +169,21 @@ typedef enum {
+> >      SPAPR_DRC_STATE_PHYSICAL_CONFIGURED = 8,
+> >  } SpaprDrcState;
+> >  
+> > +typedef struct SpaprDrc SpaprDrc;
+> > +
+> > +typedef int SpaprDrcAsyncHcallWorkerFunc(void *opaque);
+> > +typedef struct SpaprDrcDeviceAsyncHCallState {
+> > +    uint64_t continue_token;
+> > +    bool pending;
+> > +
+> > +    int hcall_ret;
+> > +    SpaprDrcAsyncHcallWorkerFunc *func;
+> > +    void *data;
+> > +
+> > +    QemuThread thread;
+> > +
+> > +    QLIST_ENTRY(SpaprDrcDeviceAsyncHCallState) node;
+> > +} SpaprDrcDeviceAsyncHCallState;
+> >  typedef struct SpaprDrc {
+> >      /*< private >*/
+> >      DeviceState parent;
+> > @@ -182,6 +198,10 @@ typedef struct SpaprDrc {
+> >      int ccs_offset;
+> >      int ccs_depth;
+> >  
+> > +    /* async hcall states */
+> > +    QemuMutex async_hcall_states_lock;
+> > +    QLIST_HEAD(, SpaprDrcDeviceAsyncHCallState) async_hcall_states;
+> > +
+> >      /* device pointer, via link property */
+> >      DeviceState *dev;
+> >      bool unplug_requested;
+> > @@ -241,6 +261,11 @@ void spapr_drc_detach(SpaprDrc *drc);
+> >  /* Returns true if a hot plug/unplug request is pending */
+> >  bool spapr_drc_transient(SpaprDrc *drc);
+> >  
+> > +uint64_t spapr_drc_get_new_async_hcall_token(SpaprDrc *drc);
+> > +void spapr_drc_run_async_hcall(SpaprDrc *drc, uint64_t token,
+> > +                               SpaprDrcAsyncHcallWorkerFunc, void *data);
+> > +int spapr_drc_get_async_hcall_status(SpaprDrc *drc, uint64_t token);
+> > +
+> >  static inline bool spapr_drc_unplug_requested(SpaprDrc *drc)
+> >  {
+> >      return drc->unplug_requested;
+> > 
+> > 
+> > 
+> 
+> 
 
 
