@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8282DFC65
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:47:43 +0100 (CET)
-Received: from localhost ([::1]:48104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19C82DFC66
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:49:24 +0100 (CET)
+Received: from localhost ([::1]:53772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krLXK-0006p3-Jo
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:47:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58328)
+	id 1krLYx-0000lI-0W
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:49:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krLV6-0005PZ-DA
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:45:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27434)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krLV9-0005Rf-Fv
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:45:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krLV1-0003WS-SV
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:45:24 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krLV4-0003Yp-8b
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:45:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608558318;
+ s=mimecast20190719; t=1608558321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XtQzKNXjYD4lFF08F+TTwiC5ZxxU5jwPrRyrZnivy38=;
- b=XI0Kd/Y/kaSJ8yUe0IBpDpvJVoDHozDnTEkNRCLnxnMstrs776dN+thNVORwW4GP4NWd42
- t2RL7CiFQoe3OgyucAP22br9Svf6GGoSP7NvqrncbIWtDAuOUW7DiipJTrxl2AsCNXW70L
- LhyOIhLv6NWXVuvhykW8YW0BGXGYI9I=
+ bh=SKlsNlyOM6qaQv+2YX/2kBlIJ+0Ub6VFngW+2JKEpJQ=;
+ b=f9cOsGoiVLttUhU4kq6q3Sl9AOlHT42+aXkmkZLXgKAUS3Sr1+P9XGZe4OJEhUAfn18dJh
+ MfpBenbKqh6YpjZkrJZ5tXeRSv2fH2LXf1OQccTTXb12XVElTMaNTxkSSd5m3I4138gT7B
+ mBbz5b5WtmirMAjTwyG0fjdwaR19ZJ0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-ePtAD-PHOFKiiU2UWhBU0g-1; Mon, 21 Dec 2020 08:45:16 -0500
-X-MC-Unique: ePtAD-PHOFKiiU2UWhBU0g-1
+ us-mta-337-5fYaNaSfOXa1YhEEE4dTfA-1; Mon, 21 Dec 2020 08:45:18 -0500
+X-MC-Unique: 5fYaNaSfOXa1YhEEE4dTfA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10D7B800D55;
- Mon, 21 Dec 2020 13:45:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC83D801B15;
+ Mon, 21 Dec 2020 13:45:16 +0000 (UTC)
 Received: from thuth.com (ovpn-113-232.ams2.redhat.com [10.36.113.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6F7D5D9CA;
- Mon, 21 Dec 2020 13:45:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6F05C5D9CA;
+ Mon, 21 Dec 2020 13:45:15 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 2/5] fuzz: fix the generic-fuzz-floppy config
-Date: Mon, 21 Dec 2020 14:45:01 +0100
-Message-Id: <20201221134504.764-3-thuth@redhat.com>
+Subject: [PULL 3/5] tests/acceptance: Bump avocado requirements to 83.0
+Date: Mon, 21 Dec 2020 14:45:02 +0100
+Message-Id: <20201221134504.764-4-thuth@redhat.com>
 In-Reply-To: <20201221134504.764-1-thuth@redhat.com>
 References: <20201221134504.764-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -83,35 +83,30 @@ Cc: Alexander Bulekov <alxndr@bu.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Bulekov <alxndr@bu.edu>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-On the pc-i440fx machine, the floppy drive relies on the i8257 DMA
-controller. Add this device to the floppy fuzzer config, and silence the
-warning about a missing format specifier for the null-co:// drive.
+To use Avocado's testlogs plug-in on CI it is required to use
+its 83.0 or greater version.
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20201216203328.41112-1-alxndr@bu.edu>
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Message-Id: <20201211183827.915232-2-wainersm@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/fuzz/generic_fuzz_configs.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/requirements.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-index fbc9779f7f..7fed035345 100644
---- a/tests/qtest/fuzz/generic_fuzz_configs.h
-+++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-@@ -92,9 +92,9 @@ const generic_fuzz_config predefined_configs[] = {
-     },{
-         .name = "floppy",
-         .args = "-machine pc -nodefaults -device floppy,id=floppy0 "
--        "-drive id=disk0,file=null-co://,file.read-zeroes=on,if=none "
-+        "-drive id=disk0,file=null-co://,file.read-zeroes=on,if=none,format=raw "
-         "-device floppy,drive=disk0,drive-type=288",
--        .objects = "fd* floppy*",
-+        .objects = "fd* floppy* i8257",
-     },{
-         .name = "xhci",
-         .args = "-machine q35 -nodefaults "
+diff --git a/tests/requirements.txt b/tests/requirements.txt
+index a1c631fa59..62e8ffd28c 100644
+--- a/tests/requirements.txt
++++ b/tests/requirements.txt
+@@ -1,5 +1,5 @@
+ # Add Python module requirements, one per line, to be installed
+ # in the tests/venv Python virtual environment. For more info,
+ # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+-avocado-framework==81.0
++avocado-framework==83.0
+ pycdlib==1.11.0
 -- 
 2.27.0
 
