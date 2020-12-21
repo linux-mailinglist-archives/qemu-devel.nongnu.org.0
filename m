@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70962DFD0A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 15:51:44 +0100 (CET)
-Received: from localhost ([::1]:54986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 382392DFD03
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 15:48:56 +0100 (CET)
+Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krMXH-0002zm-NL
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 09:51:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42168)
+	id 1krMUZ-0007kF-6u
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 09:48:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMQp-0004lz-5E
+ id 1krMQq-0004m3-18
  for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:04 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42796)
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMQn-0007gZ-Bx
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:02 -0500
-Received: by mail-wr1-x433.google.com with SMTP id m5so11278395wrx.9
+ id 1krMQo-0007gf-Cm
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:03 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id w5so11291697wrm.11
  for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LfsOLhAWMVJ2deCuay3ook5aFVWeXApOj+vJo+lp9yU=;
- b=CbWPl941A2AOf73zAtC4RGdcaEXbNbJj+u3XJ1UXwy4M5q+Dj/kvxFQjRuiPR4UUgN
- Rv0FlvFPFLjiv7XIMVTHi1C1AA78nJGFviDgeRNWZOw6mrTiBxm3gBKUe2CPe2uLKYHA
- VoblwjKqmDkWwO63Ez/qvhhbbQRnMCbnTzm9EN0wloaOXA50//7C0d5Aoija4gP7nRI4
- PNescjBgAZIMxlFeH6BiHmSLh0XoonUUa2gI6uFHEDk1bUDY8ZSgNXGKRemDYuMMJ+yV
- rY/1Yyf1tBtq0lOolYIyfWBe8r4wkQnRVvXc43mqCGx8K0VDQDsrF0gj9nYor5vAjJz4
- e/mA==
+ bh=g0fGdFEztzm8rAibMt6QoL7YynVwcGLqq1vKO1IDiTA=;
+ b=GhPflRf0FrMecdr7q4aCOBR1BOd8mRN9fk6mkxmDwrgVPlBDQJcni/YDkBF6UF5pQt
+ /oaZ0MrE7FAfVbzvNo4VWdQLV4jR8BEthiwj3/LcZ9ZIRrdPLHyUPyyQoXNnL7IIsSOl
+ dyT1y6TDVGDJIZ289qqixARVVmM0VOtQRaq4kbeJp1Ri3zX4kOmd20dUd3gQCkNlhSd7
+ V4RUatQeWBp2MAkdjKEyXd02iHaLSaTql7nfggJ30x+SmsXAPqEgXgA0kNOjhRReV0iO
+ KLBMLucA8sVTKK9g0T09f7hbu7KICvC9GBD3WXcxHx1Qi2zBoK/xj8a1p2HiMddiXB6w
+ Gsug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LfsOLhAWMVJ2deCuay3ook5aFVWeXApOj+vJo+lp9yU=;
- b=C5wBJY9v6OFnziwggeqUAR7HxOmOpZ1G4k2viMCTdgejgl+HdmhDsPbWWbGHC3k73o
- /3bGILgBBM6Is8xxDThuOE7X6hGu4eOlP7Zttn27MRhW51SRi/Bo7HdKJTwU/KUvUNRZ
- EOdx4obtzPPRM6YZiNQ/E9xe381WmtVjr0dPHF64PIfraQIS1EUlMcdwMek0KCGsGVYK
- FkW1JDNxg0SvWntwqbWty1g7qsB9Z86+tODe8uIc8OQRwsv79J0L5ZzOECxZQAJvPmB/
- 1NBPbjeOb6l977NMOvZ/nb+fjYcumcEQiix6AeI2FNVB7uYc2qX+7F5VNJb48HRRaeVD
- Pwcw==
-X-Gm-Message-State: AOAM533EPCgDjDMVGQvGkL1dmXMvGyGV4+XU/n480bfA1RRNRlBUrSOj
- sHLikMZT6Kt5jd1Y5ZOMxaWthVgN9EM=
-X-Google-Smtp-Source: ABdhPJzCkQKCGnEQsj1WKQlxKO7fKI3UCmUKgpmbPy5gl5kpAJyodS5jww+Hol189F9x4qdtKtbJuw==
-X-Received: by 2002:adf:8290:: with SMTP id 16mr18482341wrc.27.1608561900183; 
- Mon, 21 Dec 2020 06:45:00 -0800 (PST)
+ bh=g0fGdFEztzm8rAibMt6QoL7YynVwcGLqq1vKO1IDiTA=;
+ b=maaCJjDkajVv6Vju0Z2FosbylvPE62Kp7YX2yxGSBJ5HwrzlMRBhiMBLwBI7NC8Fso
+ QlGDWyv92H1Ib+SkfmFoYgfdkZq3uaKZ9lbj9XZWa9Fw86hhtEpcay00v5ESUmokKwQG
+ zI2z9OYvwS1W1ZD0fh/gS7gR4xRymTnc+sgeO3pb5MkRHpB2kxTSEFRKrt0yFtrVXTIv
+ N4nCJKiBWIG9BgeTbOVlEjg3dnXSe9BKwhsbKE8GI+YngZ9t2JI1XRioMhV74ToA5mbg
+ +HRRoVI0AEF1eWktC+R6S+REqipQIkviejBfHzIY/NjUs1AnrwuLSa7XVFzgI9yvT8TR
+ PsVA==
+X-Gm-Message-State: AOAM53348XnuXfVwOu+vpmw5hJaiO+w3M3msh8TnYTziY+WtzskDtbMA
+ QfVssf2Kvl2t8daC4uhCXKp3nLzQdNw=
+X-Google-Smtp-Source: ABdhPJxsIZEPQNCm6kSZu7vRm7weyloiA84P/vpFE4HA93z3fKMq9edn22vo5LPjoyVC4Q74ZROLRg==
+X-Received: by 2002:a05:6000:108b:: with SMTP id
+ y11mr18889352wrw.379.1608561901141; 
+ Mon, 21 Dec 2020 06:45:01 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.44.59
+ by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Dec 2020 06:44:59 -0800 (PST)
+ Mon, 21 Dec 2020 06:45:00 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/55] vl: initialize displays _after_ exiting preconfiguration
-Date: Mon, 21 Dec 2020 15:44:04 +0100
-Message-Id: <20201221144447.26161-13-pbonzini@redhat.com>
+Subject: [PULL 13/55] test-char: Destroy chardev correctly at
+ char_file_test_internal()
+Date: Mon, 21 Dec 2020 15:44:05 +0100
+Message-Id: <20201221144447.26161-14-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201221144447.26161-1-pbonzini@redhat.com>
 References: <20201221144447.26161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,40 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Due to the renumbering of text consoles when graphical consoles are
-created, init_displaystate must be called after all QemuConsoles are
-created, i.e. after devices are created.
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-vl.c calls it from qemu_init_displays, while qmp_x_exit_preconfig is
-where devices are created.  If qemu_init_displays is called before it,
-the VGA graphical console does not come up.
+commit 1e419ee68fa5 ("chardev: generate an internal id when none
+given") changed the reference ownership semantics of
+qemu_chardev_new(NULL, ...): now all chardevs created using
+qemu_chardev_new() are added to the /chardevs QOM container, and
+the caller does not own a reference to the newly created object.
 
-Reported-by: Howard Spoelstra <hsp.cat7@gmail.com>
+However, the code at char_file_test_internal() had not been
+updated and was calling object_unref() on a chardev object it
+didn't own.  This makes the chardev be destroyed, but leaves a
+dangling pointer in the /chardev container children list, and
+seems to be the cause of the following char_serial_test() crash:
+
+  Unexpected error in object_property_try_add() at ../qom/object.c:1220: \
+      attempt to add duplicate property 'serial-id' to object (type 'container')
+  ERROR test-char - too few tests run (expected 38, got 9)
+
+Update the code to use object_unparent() at the end of
+char_file_test_internal(), to make sure the chardev will be
+correctly removed from the QOM tree.
+
+Fixes: 1e419ee68fa5 ("chardev: generate an internal id when none given")
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20201215224133.3545901-2-ehabkost@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 2 +-
+ tests/test-char.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 0ed5c5ba93..7ddf405d76 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3529,10 +3529,10 @@ void qemu_init(int argc, char **argv, char **envp)
-         exit(0);
-     }
+diff --git a/tests/test-char.c b/tests/test-char.c
+index 953e0d1c1f..06102977b6 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -1298,7 +1298,7 @@ static void char_file_test_internal(Chardev *ext_chr, const char *filepath)
+     g_assert(strncmp(contents, "hello!", 6) == 0);
  
--    qemu_init_displays();
-     if (!preconfig_requested) {
-         qmp_x_exit_preconfig(&error_fatal);
+     if (!ext_chr) {
+-        object_unref(OBJECT(chr));
++        object_unparent(OBJECT(chr));
+         g_unlink(out);
      }
-+    qemu_init_displays();
-     accel_setup_post(current_machine);
-     os_setup_post();
-     resume_mux_open();
+     g_free(contents);
 -- 
 2.29.2
 
