@@ -2,49 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E3D2DFC3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:14:55 +0100 (CET)
-Received: from localhost ([::1]:49120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CC42DFC35
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:08:22 +0100 (CET)
+Received: from localhost ([::1]:37244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krL1a-0001Le-Lb
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:14:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48654)
+	id 1krKvF-0004Zt-CY
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:08:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1krKqM-0001DZ-Ca
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:03:18 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2617)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1krKqF-0005q0-Ie
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:03:17 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4D004K0rQfz7JDl;
- Mon, 21 Dec 2020 21:02:25 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.498.0; Mon, 21 Dec 2020
- 21:03:00 +0800
-From: Jiahui Cen <cenjiahui@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 6/6] acpi: Update addr_trans and _DSM in expected files
-Date: Mon, 21 Dec 2020 21:02:16 +0800
-Message-ID: <20201221130216.6086-7-cenjiahui@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201221130216.6086-1-cenjiahui@huawei.com>
-References: <20201221130216.6086-1-cenjiahui@huawei.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krKtC-0003El-38
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:06:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41173)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krKt8-0006yX-KY
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:06:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608555969;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SZA8d3ZGJTgPyxIgsJV03xyx7OB9/SHAdU5EyJMPhdU=;
+ b=KTG86trWbTX2APLeBfmtX0H2a2uXt/eH5A4Z2YgZG/uXexGRC3DHLYISHcw1pg6QmqlOH4
+ QlCol29r14/roDqjVjIXFq3PZiUkszGmoHlwDUTnDe4kvt0yNiYrNro/SI1MuUOZclLgh9
+ T8F3tgIgH7yn2On85wYfwPZj+0StduU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-320-OEPWtLdcOSKaBXLqo2yAJw-1; Mon, 21 Dec 2020 08:06:06 -0500
+X-MC-Unique: OEPWtLdcOSKaBXLqo2yAJw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDBD3EC1A2;
+ Mon, 21 Dec 2020 13:06:05 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-232.ams2.redhat.com [10.36.113.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 075635C3F8;
+ Mon, 21 Dec 2020 13:05:57 +0000 (UTC)
+Subject: Re: [PATCH v2] tests/acceptance: Add a test with the Fedora 31 kernel
+ and initrd
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20201217085334.211772-1-thuth@redhat.com>
+ <20201218143803.0c5eecf6.cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <b209fc32-4c66-ebac-af85-4ddc2e21ee06@redhat.com>
+Date: Mon, 21 Dec 2020 14:05:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.184.155]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=cenjiahui@huawei.com;
- helo=szxga07-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201218143803.0c5eecf6.cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.233, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,398 +82,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, Jiahui Cen <cenjiahui@huawei.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Ard Biesheuvel <ard.biesheuvel@arm.com>,
- Richard Henderson <richard.henderson@linaro.org>, Paolo
- Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Addr_trans in _CRS is changed and a new _DSM #5 method is added.
-Also the expected file for pxb for ARM virt does not match the source code.
+On 18/12/2020 14.38, Cornelia Huck wrote:
+> On Thu, 17 Dec 2020 09:53:34 +0100
+> Thomas Huth <thuth@redhat.com> wrote:
+> 
+>> This initrd contains a virtio-net and a virtio-gpu kernel module,
+>> so we can check that we can set a MAC address for the network device
+>> and whether we can hot-plug and -unplug a virtio-crypto device.
+>> But the most interesting part is maybe that we can also successfully
+>> write some stuff into the emulated framebuffer of the virtio-gpu
+>> device and make sure that we can read back that data from a screenshot.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>  Based-on: 20201215183623.110128-1-thuth@redhat.com
+>>
+>>  v2:
+>>  - Uncompress the initrd on the host already to speed up the test
+>>  - Disable plymouth to seepd up the test
+>>  - Check for device numbers
+>>  - Added virtio-crypto test
+>>  - Added ":avocado: tags=device:" lines
+>>
+>>  tests/acceptance/machine_s390_ccw_virtio.py | 111 ++++++++++++++++++++
+>>  1 file changed, 111 insertions(+)
+>>
+>> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
+>> index abe25a08f0..a9a0f8a8e2 100644
+>> --- a/tests/acceptance/machine_s390_ccw_virtio.py
+>> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
+>> @@ -9,10 +9,14 @@
+>>  # This work is licensed under the terms of the GNU GPL, version 2 or
+>>  # later.  See the COPYING file in the top-level directory.
+>>  
+>> +import os
+>> +import re
+>> +import tempfile
+>>  
+>>  from avocado_qemu import Test
+>>  from avocado_qemu import exec_command_and_wait_for_pattern
+>>  from avocado_qemu import wait_for_console_pattern
+>> +from avocado.utils import archive
+>>  
+>>  class S390CCWVirtioMachine(Test):
+>>      KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
+>> @@ -150,3 +154,110 @@ class S390CCWVirtioMachine(Test):
+>>          self.vm.command('human-monitor-command', command_line='balloon 128')
+>>          exec_command_and_wait_for_pattern(self, 'head -n 1 /proc/meminfo',
+>>                                            'MemTotal:         115640 kB')
+>> +
+>> +
+>> +    def test_s390x_fedora(self):
+>> +
+>> +        """
+>> +        :avocado: tags=arch:s390x
+>> +        :avocado: tags=machine:s390-ccw-virtio
+>> +        :avocado: tags=device:virtio-gpu
+>> +        :avocado: tags=device:virtio-crypto
+>> +        :avocado: tags=device:virtio-net
+> 
+> Hm. I'm wondering whether we should add some of these device: tags to
+> the other test in this file as well?
 
-Update expected DSDT files accordingly, and re-enable their testing.
+Yes, we could do that (in a separate patch later)
 
-Full diff of changed files disassembly:
+>> +        """
+>> +
+>> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+>> +                      '/fedora-secondary/releases/31/Server/s390x/os'
+>> +                      '/images/kernel.img')
+>> +        kernel_hash = 'b93d1efcafcf29c1673a4ce371a1f8b43941cfeb'
+>> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>> +
+>> +        initrd_url = ('https://archives.fedoraproject.org/pub/archive'
+>> +                      '/fedora-secondary/releases/31/Server/s390x/os'
+>> +                      '/images/initrd.img')
+>> +        initrd_hash = '3de45d411df5624b8d8ef21cd0b44419ab59b12f'
+>> +        initrd_path_xz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
+>> +        initrd_path = os.path.join(self.workdir, 'initrd-raw.img')
+>> +        archive.lzma_uncompress(initrd_path_xz, initrd_path)
+>> +
+>> +        self.vm.set_console()
+>> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE + ' audit=0 '
+>> +                              'rd.plymouth=0 plymouth.enable=0 rd.rescue')
+>> +        self.vm.add_args('-nographic',
+>> +                         '-smp', '4',
+>> +                         '-m', '512',
+>> +                         '-name', 'Some Guest Name',
+>> +                         '-uuid', '30de4fd9-b4d5-409e-86a5-09b387f70bfa',
+>> +                         '-kernel', kernel_path,
+>> +                         '-initrd', initrd_path,
+>> +                         '-append', kernel_command_line,
+>> +                         '-device', 'zpci,uid=7,target=n',
+>> +                         '-device', 'virtio-net-pci,id=n,mac=02:ca:fe:fa:ce:12',
+>> +                         '-device', 'virtio-rng-ccw,devno=fe.1.9876',
+>> +                         '-device', 'virtio-gpu-ccw,devno=fe.2.5432')
+>> +        self.vm.launch()
+>> +        self.wait_for_console_pattern('Entering emergency mode')
+>> +
+>> +        # Some tests to see whether the CLI options have been considered:
+>> +        exec_command_and_wait_for_pattern(self, 'lspci',
+>> +                             '0007:00:00.0 Class 0200: Device 1af4:1000')
+>> +        exec_command_and_wait_for_pattern(self,
+>> +                             'cat /sys/class/net/enP7p0s0/address',
+>> +                             '02:ca:fe:fa:ce:12')
+>> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
+> 
+> Does the Fedora image have lscss? (As it seems to have lspci.) If yes,
+> you could use it here; I only looked directly at the sysfs entry in the
+> tests above because the environment there is rather minimal.
 
-diff -ru /tmp/old/tests/data/acpi/microvm/DSDT.pcie.dsl /tmp/new/tests/data/acpi/microvm/DSDT.pcie.dsl
---- /tmp/old/tests/data/acpi/microvm/DSDT.pcie.dsl      2020-12-21 18:24:33.560000000 +0800
-+++ /tmp/new/tests/data/acpi/microvm/DSDT.pcie.dsl      2020-12-21 18:29:14.392000000 +0800
-@@ -9,9 +9,9 @@
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x00000BCF (3023)
-+ *     Length           0x00000BD7 (3031)
-  *     Revision         0x02
-- *     Checksum         0x29
-+ *     Checksum         0x99
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -1302,9 +1302,14 @@
-                     {
-                         Return (Buffer (One)
-                         {
--                             0x01                                             /* . */
-+                             0x21                                             /* ! */
-                         })
-                     }
-+
-+                    If (Arg2 == 0x05)
-+                    {
-+                        Return (Zero)
-+                    }
-                 }
+Seems like lscss is available indeed. I'll try to change this...
 
-                 Return (Buffer (One)
-diff -ru /tmp/old/tests/data/acpi/virt/DSDT.dsl /tmp/new/tests/data/acpi/virt/DSDT.dsl
---- /tmp/old/tests/data/acpi/virt/DSDT.dsl      2020-12-21 18:24:33.772000000 +0800
-+++ /tmp/new/tests/data/acpi/virt/DSDT.dsl      2020-12-21 18:29:14.736000000 +0800
-@@ -9,9 +9,9 @@
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x0000144C (5196)
-+ *     Length           0x00001454 (5204)
-  *     Revision         0x02
-- *     Checksum         0xF0
-+ *     Checksum         0x60
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -1838,9 +1838,14 @@
-                     {
-                         Return (Buffer (One)
-                         {
--                             0x01                                             /* . */
-+                             0x21                                             /* ! */
-                         })
-                     }
-+
-+                    If (Arg2 == 0x05)
-+                    {
-+                        Return (Zero)
-+                    }
-                 }
+> 
+>> +                             '0.1.9876')
+>> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
+>> +                             '0.2.5432')
+>> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
+>> +                             'processors    : 4')
+>> +        exec_command_and_wait_for_pattern(self, 'grep MemTotal /proc/meminfo',
+>> +                             'MemTotal:         499848 kB')
+>> +        exec_command_and_wait_for_pattern(self, 'grep Name /proc/sysinfo',
+>> +                             'Extended Name:   Some Guest Name')
+>> +        exec_command_and_wait_for_pattern(self, 'grep UUID /proc/sysinfo',
+>> +                             '30de4fd9-b4d5-409e-86a5-09b387f70bfa')
+>> +
+>> +        # Disable blinking cursor, then write some stuff into the framebuffer.
+>> +        # QEMU's PPM screendumps contain uncompressed 24-bit values, while the
+>> +        # framebuffer uses 32-bit, so we pad our text with some spaces when
+>> +        # writing to the framebuffer. Since the PPM is uncompressed, we then
+>> +        # can simply read the written "magic bytes" back from the PPM file to
+>> +        # check whether the framebuffer is working as expected.
+>> +        exec_command_and_wait_for_pattern(self,
+>> +            'echo -e "\e[?25l" > /dev/tty0', ':/#')
+>> +        exec_command_and_wait_for_pattern(self, 'for ((i=0;i<250;i++)); do '
+>> +            'echo " The  qu ick  fo x j ump s o ver  a  laz y d og" >> fox.txt;'
+>> +            'done',
+>> +            ':/#')
+>> +        exec_command_and_wait_for_pattern(self,
+>> +            'dd if=fox.txt of=/dev/fb0 bs=1000 oflag=sync,nocache ; rm fox.txt',
+>> +            '12+0 records out')
+>> +        tmpfile = tempfile.NamedTemporaryFile(suffix='.ppm',
+>> +                                              prefix='qemu-scrdump-')
+>> +        self.vm.command('screendump', filename=tmpfile.name)
+>> +        ppmfile = open(tmpfile.name, "r")
+>> +        tmpfile.close
+>> +        line = ppmfile.readline()
+>> +        self.assertEqual(line, "P6\n")
+>> +        line = ppmfile.readline()
+>> +        self.assertEqual(line, "1024 768\n")
+>> +        line = ppmfile.readline()
+>> +        self.assertEqual(line, "255\n")
+>> +        line = ppmfile.readline()
+>> +        self.assertEqual(line, "The quick fox jumps over a lazy dog\n")
+>> +        ppmfile.close
+>> +
+>> +        # Hot-plug a virtio-crypto device and see whether it gets accepted
+>> +        self.clear_guest_dmesg()
+>> +        self.vm.command('object-add', qom_type='cryptodev-backend-builtin',
+>> +                        id='cbe0')
+>> +        self.vm.command('device_add', driver='virtio-crypto-ccw', id='crypdev0',
+>> +                        cryptodev='cbe0')
+> 
+> Do you want to add a device number and check for it here as well? And
+> maybe wait for the CRWs here and below, although that might not be
+> strictly needed?
 
-                 Return (Buffer (One)
-diff -ru /tmp/old/tests/data/acpi/virt/DSDT.memhp.dsl /tmp/new/tests/data/acpi/virt/DSDT.memhp.dsl
---- /tmp/old/tests/data/acpi/virt/DSDT.memhp.dsl        2020-12-21 18:24:33.780000000 +0800
-+++ /tmp/new/tests/data/acpi/virt/DSDT.memhp.dsl        2020-12-21 18:29:14.740000000 +0800
-@@ -9,9 +9,9 @@
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x0000199D (6557)
-+ *     Length           0x000019A5 (6565)
-  *     Revision         0x02
-- *     Checksum         0x11
-+ *     Checksum         0x90
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -1840,9 +1840,14 @@
-                     {
-                         Return (Buffer (One)
-                         {
--                             0x01                                             /* . */
-+                             0x21                                             /* ! */
-                         })
-                     }
-+
-+                    If (Arg2 == 0x05)
-+                    {
-+                        Return (Zero)
-+                    }
-                 }
+I don't think that this is strictly necessary here, indeed, since the
+"Accelerator device is ready" already means that the device has been
+detected correctly.
 
-                 Return (Buffer (One)
-diff -ru /tmp/old/tests/data/acpi/virt/DSDT.numamem.dsl /tmp/new/tests/data/acpi/virt/DSDT.numamem.dsl
---- /tmp/old/tests/data/acpi/virt/DSDT.numamem.dsl      2020-12-21 18:24:33.784000000 +0800
-+++ /tmp/new/tests/data/acpi/virt/DSDT.numamem.dsl      2020-12-21 18:29:14.744000000 +0800
-@@ -9,9 +9,9 @@
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x0000144C (5196)
-+ *     Length           0x00001454 (5204)
-  *     Revision         0x02
-- *     Checksum         0xF0
-+ *     Checksum         0x60
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -1838,9 +1838,14 @@
-                     {
-                         Return (Buffer (One)
-                         {
--                             0x01                                             /* . */
-+                             0x21                                             /* ! */
-                         })
-                     }
-+
-+                    If (Arg2 == 0x05)
-+                    {
-+                        Return (Zero)
-+                    }
-                 }
+>> +        exec_command_and_wait_for_pattern(self,
+>> +                        'while ! (dmesg -c | grep Accelerator.device) ; do'
+>> +                        ' sleep 1 ; done', 'Accelerator device is ready')
+>> +        self.vm.command('device_del', id='crypdev0')
+>> +        self.vm.command('object-del', id='cbe0')
+>> +        exec_command_and_wait_for_pattern(self,
+>> +                        'while ! (dmesg -c | grep Start.virtcrypto_remove) ; do'
+>> +                        ' sleep 1 ; done', 'Start virtcrypto_remove.')
+> 
 
-                 Return (Buffer (One)
-diff -ru /tmp/old/tests/data/acpi/virt/DSDT.pxb.dsl /tmp/new/tests/data/acpi/virt/DSDT.pxb.dsl
---- /tmp/old/tests/data/acpi/virt/DSDT.pxb.dsl  2020-12-21 18:24:33.792000000 +0800
-+++ /tmp/new/tests/data/acpi/virt/DSDT.pxb.dsl  2020-12-21 18:29:14.752000000 +0800
-@@ -9,9 +9,9 @@
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x00001E7A (7802)
-+ *     Length           0x00001E09 (7689)
-  *     Revision         0x02
-- *     Checksum         0x57
-+ *     Checksum         0x30
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -45,32 +45,6 @@
-             })
-         }
-
--        Device (FLS0)
--        {
--            Name (_HID, "LNRO0015")  // _HID: Hardware ID
--            Name (_UID, Zero)  // _UID: Unique ID
--            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
--            {
--                Memory32Fixed (ReadWrite,
--                    0x00000000,         // Address Base
--                    0x04000000,         // Address Length
--                    )
--            })
--        }
--
--        Device (FLS1)
--        {
--            Name (_HID, "LNRO0015")  // _HID: Hardware ID
--            Name (_UID, One)  // _UID: Unique ID
--            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
--            {
--                Memory32Fixed (ReadWrite,
--                    0x04000000,         // Address Base
--                    0x04000000,         // Address Length
--                    )
--            })
--        }
--
-         Device (FWCF)
-         {
-             Name (_HID, "QEMU0002")  // _HID: Hardware ID
-@@ -665,9 +639,6 @@
-         {
-             Name (_HID, "PNP0A08" /* PCI Express Bus */)  // _HID: Hardware ID
-             Name (_CID, "PNP0A03" /* PCI Bus */)  // _CID: Compatible ID
--            Name (_ADR, Zero)  // _ADR: Address
--            Name (_CCA, One)  // _CCA: Cache Coherency Attribute
--            Name (_SEG, Zero)  // _SEG: PCI Segment
-             Name (_BBN, 0x80)  // _BBN: BIOS Bus Number
-             Name (_UID, 0x80)  // _UID: Unique ID
-             Name (_STR, Unicode ("pxb Device"))  // _STR: Description String
-@@ -1839,9 +1810,14 @@
-                     {
-                         Return (Buffer (One)
-                         {
--                             0x01                                             /* . */
-+                             0x21                                             /* ! */
-                         })
-                     }
-+
-+                    If (Arg2 == 0x05)
-+                    {
-+                        Return (Zero)
-+                    }
-                 }
-
-                 Return (Buffer (One)
-@@ -1857,7 +1833,7 @@
-             Name (_CID, "PNP0A03" /* PCI Bus */)  // _CID: Compatible ID
-             Name (_SEG, Zero)  // _SEG: PCI Segment
-             Name (_BBN, Zero)  // _BBN: BIOS Bus Number
--            Name (_UID, "PCI0")  // _UID: Unique ID
-+            Name (_UID, Zero)  // _UID: Unique ID
-             Name (_STR, Unicode ("PCIe 0 Device"))  // _STR: Description String
-             Name (_CCA, One)  // _CCA: Cache Coherency Attribute
-             Name (_PRT, Package (0x80)  // _PRT: PCI Routing Table
-@@ -2983,41 +2959,37 @@
-                 Return (0x0000004010000000)
-             }
-
--            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
-+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-             {
--                Return (ResourceTemplate ()
--                {
--                    WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
--                        0x0000,             // Granularity
--                        0x0000,             // Range Minimum
--                        0x007F,             // Range Maximum
--                        0x0000,             // Translation Offset
--                        0x0080,             // Length
--                        ,, )
--                    DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
--                        0x00000000,         // Granularity
--                        0x10000000,         // Range Minimum
--                        0x3EFEFFFF,         // Range Maximum
--                        0x00000000,         // Translation Offset
--                        0x2EFF0000,         // Length
--                        ,, , AddressRangeMemory, TypeStatic)
--                    DWordIO (ResourceProducer, MinFixed, MaxFixed, PosDecode, EntireRange,
--                        0x00000000,         // Granularity
--                        0x00000000,         // Range Minimum
--                        0x0000FFFF,         // Range Maximum
--                        0x3EFF0000,         // Translation Offset
--                        0x00010000,         // Length
--                        ,, , TypeStatic)
--                    QWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
--                        0x0000000000000000, // Granularity
--                        0x0000008000000000, // Range Minimum
--                        0x000000FFFFFFFFFF, // Range Maximum
--                        0x0000000000000000, // Translation Offset
--                        0x0000008000000000, // Length
--                        ,, , AddressRangeMemory, TypeStatic)
--                })
--            }
--
-+                WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
-+                    0x0000,             // Granularity
-+                    0x0000,             // Range Minimum
-+                    0x007F,             // Range Maximum
-+                    0x0000,             // Translation Offset
-+                    0x0080,             // Length
-+                    ,, )
-+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
-+                    0x00000000,         // Granularity
-+                    0x10000000,         // Range Minimum
-+                    0x3EFEFFFF,         // Range Maximum
-+                    0x00000000,         // Translation Offset
-+                    0x2EFF0000,         // Length
-+                    ,, , AddressRangeMemory, TypeStatic)
-+                DWordIO (ResourceProducer, MinFixed, MaxFixed, PosDecode, EntireRange,
-+                    0x00000000,         // Granularity
-+                    0x00000000,         // Range Minimum
-+                    0x0000FFFF,         // Range Maximum
-+                    0x3EFF0000,         // Translation Offset
-+                    0x00010000,         // Length
-+                    ,, , TypeStatic)
-+                QWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
-+                    0x0000000000000000, // Granularity
-+                    0x0000008000000000, // Range Minimum
-+                    0x000000FFFFFFFFFF, // Range Maximum
-+                    0x0000000000000000, // Translation Offset
-+                    0x0000008000000000, // Length
-+                    ,, , AddressRangeMemory, TypeStatic)
-+            })
-             Name (SUPP, Zero)
-             Name (CTRL, Zero)
-             Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capabilities
-@@ -3058,9 +3030,14 @@
-                     {
-                         Return (Buffer (One)
-                         {
--                             0x01                                             /* . */
-+                             0x21                                             /* ! */
-                         })
-                     }
-+
-+                    If (Arg2 == 0x05)
-+                    {
-+                        Return (Zero)
-+                    }
-                 }
-
-                 Return (Buffer (One)
-
-Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
----
- tests/data/acpi/microvm/DSDT.pcie           | Bin 3023 -> 3031 bytes
- tests/data/acpi/virt/DSDT                   | Bin 5196 -> 5204 bytes
- tests/data/acpi/virt/DSDT.memhp             | Bin 6557 -> 6565 bytes
- tests/data/acpi/virt/DSDT.numamem           | Bin 5196 -> 5204 bytes
- tests/data/acpi/virt/DSDT.pxb               | Bin 7802 -> 7689 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   5 -----
- 6 files changed, 5 deletions(-)
-
-diff --git a/tests/data/acpi/microvm/DSDT.pcie b/tests/data/acpi/microvm/DSDT.pcie
-index 4b765541e372f4ba4e25529c14acf696516c8f61..e590b98f9960025f75dd0544492d3088781406dc 100644
-GIT binary patch
-delta 59
-zcmV-B0L1^#7uOdGL{mgm*9!mu0-2Et8v;SPu_reH0Z6l70pke>HD5$iO$4ARlS&I8
-R2_c{dlWGbDqyUp@3uOk*5ZC|!
-
-delta 51
-zcmcaEeqNl*CD<k8JU0UaljcM&X(rE|8`aGj867sqGd||z(2aKq_GMY1IN6I^o{@2K
-H5qBy8b(js<
-
-diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
-index bc519abff9cadc1552e4e586b0a3f5f0db498f4a..ea8a0869af1637ab75fe335e100256a2acf85e16 100644
-GIT binary patch
-delta 58
-zcmX@3aYcj6CD<h-M1+BXDPba)G-LlpHAzk;w-t*WIk`AY<6VM%Sr%wc_7s-qR9wJ5
-OIg5*R3B%+};l}{T<qzlp
-
-delta 50
-zcmcbjaYlp7CD<jzM}&ca>BB@WX~y=AYLc8xe#;j-a&mF##=8XjvMf-X>?thI$T+!B
-G_%Q%yeGTXU
-
-diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DSDT.memhp
-index 54728e2b4b8b959f3f829386f6a388ef2600e747..897648637cc6c8af47c67a9a349477c0240f833b 100644
-GIT binary patch
-delta 60
-zcmV-C0K@;CGo>>ML{mgmr5OMK0+5jk8v=lsu_qV_0!FB#K?w>7HD5$iO$4ARlSvaF
-S2_c{dlWGbDqyV#N6Ep_<;t(eQ
-
-delta 52
-zcmZ2#JlB}ZCD<iot|S8kli)-yX{L_p8`UK^nf#V7cI4#Z(2aKq_GMY1IN4KJo{@2L
-Ip|A-X0Bmp#CjbBd
-
-diff --git a/tests/data/acpi/virt/DSDT.numamem b/tests/data/acpi/virt/DSDT.numamem
-index bc519abff9cadc1552e4e586b0a3f5f0db498f4a..ea8a0869af1637ab75fe335e100256a2acf85e16 100644
-GIT binary patch
-delta 58
-zcmX@3aYcj6CD<h-M1+BXDPba)G-LlpHAzk;w-t*WIk`AY<6VM%Sr%wc_7s-qR9wJ5
-OIg5*R3B%+};l}{T<qzlp
-
-delta 50
-zcmcbjaYlp7CD<jzM}&ca>BB@WX~y=AYLc8xe#;j-a&mF##=8XjvMf-X>?thI$T+!B
-G_%Q%yeGTXU
-
-diff --git a/tests/data/acpi/virt/DSDT.pxb b/tests/data/acpi/virt/DSDT.pxb
-index d5f0533a02d62bc2ae2db9b9de9484e5c06652fe..ce3b67dff277e23f43925b1adcbb55c9d0b4eee3 100644
-GIT binary patch
-delta 125
-zcmexm(`m!y66_MfDaXLTWH6CSnyKa9MD>J?Z+CDoI!|84sl53%XA~!gX}n9YFUtbW
-z$+p7sqKXUHCuec7E@4<A$jrzP-Q>0+z}a*1Do**y9m4#Z=LoOmVC9H+4hr5JBqPg+
-NqLmY_b@FuC#{fVBB|`uJ
-
-delta 255
-zcmeCQ`DMf966_LECC9+P6h4tlnyK~aMD>JvLpPsb1CDqPPZwSvzaW1D14B~=j`&bd
-z7a-{z6f7vn#n;Bkz{mgrER_t=O&~3X*t9UBYheNE0&B5w3wL&dXbE)n4K*+@Fanw%
-z9OAff!F&!z-^mV~%KVNlK_EMw9f8IKySi^q;Ed(u(2aKq_GMY1IQgH9JSXE4L1spv
-r1KcNn6*6Mw4RH1}*sLzRmV;Bo5o|NVlFc`zWf@U4F)~h8lYI;TA6Y!*
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 42418e58e7..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,6 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/microvm/DSDT.pcie",
--"tests/data/acpi/virt/DSDT",
--"tests/data/acpi/virt/DSDT.memhp",
--"tests/data/acpi/virt/DSDT.numamem",
--"tests/data/acpi/virt/DSDT.pxb",
--- 
-2.28.0
+ Thomas
 
 
