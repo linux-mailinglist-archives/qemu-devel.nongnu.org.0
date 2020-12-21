@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D712DF6D8
-	for <lists+qemu-devel@lfdr.de>; Sun, 20 Dec 2020 21:42:55 +0100 (CET)
-Received: from localhost ([::1]:47908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 418502DF74B
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 01:55:08 +0100 (CET)
+Received: from localhost ([::1]:50052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kr5Xa-0008Tm-1Q
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 15:42:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56922)
+	id 1kr9Te-0007aE-Ir
+	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 19:55:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kr5Va-0007xN-LD
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 15:40:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48252)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kr5VW-0001EJ-Iy
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 15:40:50 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kr5VU-0003Rh-Q3
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 20:40:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C237D2E8084
- for <qemu-devel@nongnu.org>; Sun, 20 Dec 2020 20:40:44 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 20 Dec 2020 20:32:04 -0000
-From: =?utf-8?q?Jos=C3=A9_Pekkarinen?= <1908832@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1kr9SF-0006cQ-20; Sun, 20 Dec 2020 19:53:39 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:48467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1kr9SD-0005H7-4l; Sun, 20 Dec 2020 19:53:38 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B230C5803E8;
+ Sun, 20 Dec 2020 19:53:34 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Sun, 20 Dec 2020 19:53:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=sUtRj3NPtex5SKNHchbwBlkxCW
+ UTwtJkEMqd19YdEoo=; b=rb3+vnOYw47nGA793QjNFj305dzdpLD0QiQPynvhsx
+ Ow1dPKfaRS147GloYsVpnqAaJ5lRUvW2VJcONc921QpDCWb5P9hoUgXuCh4EJ4uO
+ /qjJaE1ghoREl/tXvXcxg/2aBxtDUrbniwtEJK7RaEK8BjJwNFydQ9ys/q2ocUZG
+ ioDSU4KEEQB7zWyXc6GE7gcNPA0NIDaZHg0Xr8+V5HIZ5b4poukzNj1FtNJALZt8
+ aWuSX6UvBEtyS3KHgipa9KFcku5UfMDqOaMEj12RgN6c7TB82QtvQxX95oppndmJ
+ sb0EndTvPdGZmKsCIUASAFFIN7msMA0TYcs374Qjk4SA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=sUtRj3NPtex5SKNHc
+ hbwBlkxCWUTwtJkEMqd19YdEoo=; b=dOLFE8uc6ZJIIZoxWj5Xym7QRVGeUMcms
+ VwGPlcFrC4f1eBQxjbxbEG9F9BW3+zY/tUChD1BPSq+YydnIud8TSa+3omR4RJkX
+ TYXeNDC7biKtYnDzhIGgTwvGzBaX5IPxApz/6fjSAospZvr1VGrc2tMZeMSifdTU
+ RN97AG8qxnC5VmH5qki2Sdr0/9v/I+1bq5/X4iBFtQ6PZpdS0ZcsHSFAv6GTw3CH
+ O8pVLGhowHfmHr5mCECRo7KW5wU/7QwHvWqI9+KZOtY7iJVU/9fez9cVN+AXFehH
+ Lyd0WYzzGCgRg5xk8ojigIaoq7d0Pf5eyoJvaRdppQAIJHHOWZ9Lw==
+X-ME-Sender: <xms:DPLfX_Qby4D_Z-T_otFR0awzCRzM_eWzY6DxSo1W0xBa98NI04Bu2Q>
+ <xme:DPLfXww7fvYz5BwIjFVq1ermLCS5WdZjVBkmMpOhsTF_kdfd82371ol_Bj28dKPUS
+ f1uJIJU91wu4FiUUks>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtuddgvdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflihgrgihunhcu
+ jggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecuggftrf
+ grthhtvghrnhepffdtheduudetvdeijefgjeegleeiudeikeekjeffheeiteejffduiefh
+ leehvedunecuffhomhgrihhnpegrlhhpihhnvghlihhnuhigrdhorhhgpdhgihhtlhgrsg
+ drtghomhenucfkphepgeehrdeffedrhedtrddvheegnecuvehluhhsthgvrhfuihiivgep
+ tdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgoh
+ grthdrtghomh
+X-ME-Proxy: <xmx:DPLfX01EPCvMjPPRWlIdC2ZvexfT6qmWqo9YEgZIMfUbzK8s3EuP_g>
+ <xmx:DPLfX_Cu5Y8jXiaGj7XHEQg0vvvwJVTl6MZN1XzYO_eJd-OfyHYLJQ>
+ <xmx:DPLfX4jgekGth9QEmV8rRSV_5fm4pcJBhZIeGWfn2WYrxzxx3nr01w>
+ <xmx:DvLfX47_ys_J75tgycK8JorROAT7nEQHrm4q-KZh6pKEibCqmxtDBZWbkiBNOryd>
+Received: from strike.U-LINK.com (li1000-254.members.linode.com [45.33.50.254])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7995B24005A;
+ Sun, 20 Dec 2020 19:53:24 -0500 (EST)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: koalinux schoenebeck
-X-Launchpad-Bug-Reporter: =?utf-8?q?Jos=C3=A9_Pekkarinen_=28koalinux=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Jos=C3=A9_Pekkarinen_=28koalinux=29?=
-References: <160848897234.4298.12739306431901820443.malonedeb@wampee.canonical.com>
-Message-Id: <160849632468.3008.1858046100980293548.malone@wampee.canonical.com>
-Subject: [Bug 1908832] Re: jack audio dev produces no sound
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 7ac70708264dd1801411632d3d15a13cd3e792d6
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH 0/9] Alpine Linux build fix and CI pipeline
+Date: Mon, 21 Dec 2020 08:53:09 +0800
+Message-Id: <20201221005318.11866-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: permerror client-ip=66.111.4.224;
+ envelope-from=jiaxun.yang@flygoat.com; helo=new2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,130 +90,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908832 <1908832@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
+ Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm afraid it didn't. Jack version is:
+Alpine Linux[1] is a security-oriented, lightweight Linux distribution
+based on musl libc and busybox.
 
-*  media-sound/jack2
-      Latest version available: 1.9.16
-      Latest version installed: 1.9.16
-      Size of files: 952 KiB
-      Homepage:      https://jackaudio.org/
-      Description:   Jackdmp jack implemention for multi-processor machine
-      License:       GPL-2
+It it popular among Docker guests and embedded applications.
 
-qemu config used in build:
+Adding it to test against different libc.
 
-../configure --prefix=3D/usr --sysconfdir=3D/etc --bindir=3D/usr/bin
---libdir=3D/usr/lib64 --datadir=3D/usr/share
---docdir=3D/usr/share/doc/qemu-5.1.0-r2/html --mandir=3D/usr/share/man
---with-confsuffix=3D/qemu --localstatedir=3D/var --disable-bsd-user
---disable-containers --disable-guest-agent --disable-strip --disable-
-tcg-interpreter --disable-werror --disable-gcrypt
---python=3D/usr/bin/python3.8 --cc=3Dx86_64-pc-linux-gnu-gcc --cxx=3Dx86_64
--pc-linux-gnu-g++ --host-cc=3Dx86_64-pc-linux-gnu-gcc --disable-debug-info
---disable-debug-tcg --disable-docs --disable-plugins --enable-attr
---disable-brlapi --enable-linux-aio --enable-bzip2 --disable-capstone
---enable-cap-ng --enable-curl --enable-fdt --disable-glusterfs
---disable-gnutls --disable-nettle --enable-gtk --disable-rdma --disable-
-libiscsi --enable-linux-io-uring --disable-jemalloc --enable-vnc-jpeg
---enable-kvm --disable-lzo --disable-mpath --enable-curses --disable-
-libnfs --disable-numa --enable-opengl --enable-vnc-png --disable-rbd
---disable-vnc-sasl --enable-sdl --disable-sdl-image --enable-seccomp
---enable-slirp=3Dsystem --disable-smartcard --disable-snappy --enable-
-spice --disable-libssh --enable-libusb --enable-usb-redir --disable-vde
---enable-vhost-net --disable-vhost-user-fs --enable-virglrenderer
---disable-virtfs --enable-vnc --disable-vte --disable-xen --disable-xen-
-pci-passthrough --disable-xfsctl --enable-xkbcommon --disable-zstd
---enable-libxml2 --audio-drv-list=3Djack,sdl,alsa,oss, --disable-linux-
-user --enable-system --disable-tools --target-list=3Daarch64-softmmu,arm-
-softmmu,riscv32-softmmu,riscv64-softmmu,x86_64-softmmu --enable-pie
+[1]: https://alpinelinux.org/
 
-thanks!
+Tree avilable at: https://gitlab.com/FlyGoat/qemu/-/tree/alpine_linux_v1
 
-Jos=C3=A9.
+Jiaxun Yang (9):
+  tests/docker: Add dockerfile for Alpine Linux
+  configure: Add sys/timex.h to probe clk_adjtime
+  configure/meson: Only check sys/signal.h on non-Linux
+  libvhost-user: Include poll.h instead of sys/poll.h
+  elf2dmp: Rename PAGE_SIZE to ELF2DMP_PAGE_SIZE
+  hw/block/nand: Rename PAGE_SIZE to NAND_PAGE_SIZE
+  accel/kvm: avoid using predefined
+  tests: Rename PAGE_SIZE definitions
+  gitlab-ci: Add alpine to pipeline
 
--- =
+ .gitlab-ci.d/containers.yml               |  5 ++
+ .gitlab-ci.yml                            | 23 ++++++++
+ accel/kvm/kvm-all.c                       |  3 +
+ configure                                 |  1 +
+ contrib/elf2dmp/addrspace.c               |  4 +-
+ contrib/elf2dmp/addrspace.h               |  6 +-
+ contrib/elf2dmp/main.c                    | 18 +++---
+ hw/block/nand.c                           | 40 ++++++-------
+ meson.build                               |  5 +-
+ subprojects/libvhost-user/libvhost-user.h |  2 +-
+ tests/docker/dockerfiles/alpine.docker    | 56 ++++++++++++++++++
+ tests/migration/stress.c                  | 10 ++--
+ tests/qtest/libqos/malloc-pc.c            |  4 +-
+ tests/qtest/libqos/malloc-spapr.c         |  4 +-
+ tests/qtest/m25p80-test.c                 | 54 ++++++++---------
+ tests/tcg/multiarch/system/memory.c       |  6 +-
+ tests/test-xbzrle.c                       | 70 +++++++++++------------
+ 17 files changed, 201 insertions(+), 110 deletions(-)
+ create mode 100644 tests/docker/dockerfiles/alpine.docker
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908832
+-- 
+2.29.2
 
-Title:
-  jack audio dev produces no sound
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-
-  I'm testing the new jack audiodev backend in my
-  laptop. The host system is gentoo, using the
-  ebuild for qemu 5.1.0-r2, and I'm using jack
-  use flag globally in the system so any ebuild
-  that have support for jack should be build with
-  it. The jack setup reportedly works as I use it
-  with firefox, and mumble with no trouble. When
-  I launch the following script, I see the vm
-  connects to jack:
-
-  /usr/bin/qemu-system-x86_64 -enable-kvm -M q35 -vga virtio -display gtk,g=
-l=3Don \
-          -cpu host -smp 2,cores=3D2,threads=3D1 \
-          -m 4G -L /usr/share/qemu \
-          -global ICH9-LPC.disable_s3=3D1 -global ICH9-LPC.disable_s4=3D1 \
-          -drive file=3D/usr/share/edk2-ovmf/OVMF_CODE.fd,if=3Dpflash,forma=
-t=3Draw,unit=3D0,readonly=3Don \
-          -drive file=3Ddebian_VARS.fd,if=3Dpflash,format=3Draw,unit=3D1 \
-          -audiodev id=3Djack,driver=3Djack -device ich9-intel-hda -device =
-hda-duplex,audiodev=3Djack \
-          -device virtio-serial-pci \
-          -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.=
-spice.0 \
-          -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent \
-          -device nec-usb-xhci,id=3Dusb \
-          -device usb-host,vendorid=3D0x04ca,productid=3D0x708e \
-          -device usb-host,vendorid=3D0x1050,productid=3D0x0407 \
-          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev1 \
-          -device usb-redir,chardev=3Dusbredirchardev1,id=3Dusbredirdev1 \
-          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev2 \
-          -device usb-redir,chardev=3Dusbredirchardev2,id=3Dusbredirdev2 \
-          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev3 \
-          -device usb-redir,chardev=3Dusbredirchardev3,id=3Dusbredirdev3 \
-          -netdev user,id=3Duser.0 -device virtio-net-pci,netdev=3Duser.0 \
-          -drive file=3Ddebian.qcow2,cache=3Dnone,aio=3Dio_uring,if=3Dvirtio
-
-  Output of vm initialization:
-
-  jack: JACK output configured for 48000Hz (1024 samples)
-  jack: JACK input configured for 48000Hz (1024 samples)
-  gl_version 46 - core profile enabled
-  GLSL feature level 430
-
-  Though executing any application that uses sound,
-  for instance, any youtube video through browser,
-  I listen nothing. By executing pkill jackd, and
-  launching the same script replacing the audiodev
-  line for the following:
-
-          -audiodev id=3Dalsa,driver=3Dalsa -device ich9-intel-hda -device
-  hda-duplex,audiodev=3Dalsa \
-
-  The audio works, and I can listen to music, or
-  any other kind of application, though I cannot
-  listen anything else in the host.
-
-  The guest is a simple debian testing(bullseye)
-  system with plasma desktop, using pulseaudio,
-  nothing fancy.
-
-  Thanks!
-
-  Jos=C3=A9
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908832/+subscriptions
 
