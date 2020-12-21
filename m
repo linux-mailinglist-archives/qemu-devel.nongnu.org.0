@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617B52DFD4D
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:13:33 +0100 (CET)
-Received: from localhost ([::1]:59406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5C52DFD2A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:05:12 +0100 (CET)
+Received: from localhost ([::1]:37942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krMsO-0004as-9O
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:13:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42404)
+	id 1krMkJ-0003oY-4b
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:05:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRD-0004rU-Aw
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:31 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:39290)
+ id 1krMRJ-0004x3-Sw
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:33 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMR9-0007kF-SV
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:26 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id 3so11167696wmg.4
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:08 -0800 (PST)
+ id 1krMRC-0007kS-LH
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:33 -0500
+Received: by mail-wr1-x431.google.com with SMTP id r3so11336230wrt.2
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k2+lnQdbYW5o2TDgNfADkbUQIgRgyS2w63tb0hudqTs=;
- b=rcskzjasiVDtwegj4Q69kAvZaojyi9ah0xtSuf66ndPqt+LFcLRZ5D5InM9AoI8WYD
- +Zr4lnViNQ1ZoAEP9LqfxOXWDCtJsfpLuBKiZkecvWTMrz2R9KoMtY6AuwPO4pATRq9u
- ZlMwzgwccdTKrJgXyXxAZonYBUfPWmyVxafjXLBTdmjnp7D1//4lXV4+sg1jlwPrJdlr
- ZPlu4l6yHkaPvwohSUhVFFvxWMk8mUIbc1Igo2I7yeX+2TTCOVFANnVEMNHDqIO68pR7
- DytPV4t/06VfyQujGZ9S42DVp9MMzzdjJD6Mj48wL9UicscteGUWLCecLAm3FXlEFmM4
- tRqg==
+ bh=sUsC5XccRN5FSZ4Jz4t0i7Xc2JZJL4oZwyC7G9+iFnU=;
+ b=EIlwpCo884b38gbE2AmrOeFvBhxslytz50wwLdP/zn44DGymD7eoMLscbnaQ5CjHJv
+ 8N5DnYLR2H5TEaeInyQJyfoQviUpqwdl7S/NN++HM5CZYk7ApDsI5MoHCyw98WZi7cxN
+ DcDIeBSFNZmaWTxR/KnGD18rnyg1XNHM8yejazAxMvMEN6yyMrkORdc2SEuq5jRAQ0B2
+ AxLAs0wm09goXG3q8MxNphSJ6tkBv3xN28izk70bMKY2gBVw3ohdcWDg5BRrlWp+xU/8
+ IN86fVjWp+ft6HmFeCZUT1JfnIOgcZ5L7jB73sAT5C0Ot7KH2kwxrsECu0sn8RR1EflB
+ ctpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=k2+lnQdbYW5o2TDgNfADkbUQIgRgyS2w63tb0hudqTs=;
- b=AoAwgN/KFAhpfVHMTwIt3HJctffUWV333GY7DexWxtj+FjJmb0Ad9jZs4+lLep1bXC
- ZPJ1lWCTTYb6qDh4coPXUSPie1UYWTgSwxoTwyWPOh9iyvBhrPug4gSY4eF0fcE90vQS
- e/8PHhGv9IrHmNxP3iqNntMM40TAcZF4Bk1qdJY2MZVbtBm6yiAXkSd1edySw/bWP3tV
- I7f6hZgkjT1GGPN7mQI1PQ5dOTMc/A25Ey2EIjX3kDsJRQp94IKwALf7tho0BJ8F0rEr
- Cy1nZj29/vDqx0wOedPReRh0PcSx2mA8AgSaKP9cXxCwk6bIo315rKUmBEp8AV455UuC
- oVbw==
-X-Gm-Message-State: AOAM532D6kSVPVoYlTLQyMUf0HCzHwKMgzB0DL5Dluoa0dFIlpdCYlqj
- IubkXSm01NYVxn6W++LdPn6FnhHkOy4=
-X-Google-Smtp-Source: ABdhPJz295R5Vz144aGh888m7q722pSsKtLsfen5VnA3TlaBWK7J1mc8T0UCecvP3n+eg88YZzYUAQ==
-X-Received: by 2002:a1c:f405:: with SMTP id z5mr16672408wma.93.1608561907952; 
- Mon, 21 Dec 2020 06:45:07 -0800 (PST)
+ bh=sUsC5XccRN5FSZ4Jz4t0i7Xc2JZJL4oZwyC7G9+iFnU=;
+ b=KsXkg8DQFSvlvTo9Sr4LNzuoF4CivLUckUAEmUY4jI7z+CutjnD1xESi+9gE7hkAt6
+ DzVAbFlw/FhOe8omKB2rxwQHyoe/MyY3ESwSAmUGPsBcNxA/3ohCAzKGmpJ4LlzqBhlX
+ GPe5RekKHI6CrBgUaEuqjPUh1nPw0bZM/bhaM5rH5rQBfPNJRE1jyFtBTGSLd25vJ236
+ v5SlnqYKUw6Dx75M9/MtQD/5rVz8lD04uiSKeZPCPN5oYUZQTqUuJwugq1AQeATxaBw6
+ yZztaRLLyrA55wKKeWV3WyHJOez91yOe+ki4PTogtk50BB4vOCpiEyy0gvkxEVV/aH6O
+ DlHA==
+X-Gm-Message-State: AOAM533GXX4ZQitWbRSYJIbqsSjCfXMW5msld10Xbp92+00R/I1i97Xr
+ y0qcbqDFn+s/o9LrdCVeGXMFxChZGZ4=
+X-Google-Smtp-Source: ABdhPJwD5n//eSq8HKG+6Uixs9xXOhChU60XgsVtkVpcZs8KIWB6opX2TV/8UTVOZaYOyVcUZZGSgw==
+X-Received: by 2002:a5d:42d0:: with SMTP id t16mr19007660wrr.230.1608561908688; 
+ Mon, 21 Dec 2020 06:45:08 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.07
+ by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.08
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Dec 2020 06:45:07 -0800 (PST)
+ Mon, 21 Dec 2020 06:45:08 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/55] build-sys: fix -static linking of libvhost-user
-Date: Mon, 21 Dec 2020 15:44:13 +0100
-Message-Id: <20201221144447.26161-22-pbonzini@redhat.com>
+Subject: [PULL 22/55] remove TCG includes from common code
+Date: Mon, 21 Dec 2020 15:44:14 +0100
+Message-Id: <20201221144447.26161-23-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201221144447.26161-1-pbonzini@redhat.com>
 References: <20201221144447.26161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,42 +84,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+Enable removing tcg/$tcg_arch from the include path when TCG is disabled.
+Move translate-all.h to include/exec, since stubs exist for the functions
+defined therein.
 
-Fix linking vhost-user binaries with with ./configure -static, by
-overriding glib-2.0 dependency with configure results.
-
-Fixes: 0df750e9d3a5fea5e1 ("libvhost-user: make it a meson subproject")
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20201215080319.136228-1-marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ accel/stubs/tcg-stub.c                      | 1 -
+ accel/tcg/cputlb.c                          | 2 +-
+ accel/tcg/translate-all.c                   | 2 +-
+ accel/tcg/user-exec.c                       | 2 +-
+ cpu.c                                       | 2 +-
+ hw/i386/kvmvapic.c                          | 1 -
+ {accel/tcg => include/exec}/translate-all.h | 0
+ monitor/misc.c                              | 1 -
+ softmmu/physmem.c                           | 3 +--
+ 9 files changed, 5 insertions(+), 9 deletions(-)
+ rename {accel/tcg => include/exec}/translate-all.h (100%)
 
-diff --git a/meson.build b/meson.build
-index 94ef023ad1..ada35d56e1 100644
---- a/meson.build
-+++ b/meson.build
-@@ -268,7 +268,11 @@ endif
- # grandfathered in from the QEMU Makefiles.
- add_project_arguments(config_host['GLIB_CFLAGS'].split(),
-                       native: false, language: ['c', 'cpp', 'objc'])
--glib = declare_dependency(link_args: config_host['GLIB_LIBS'].split())
-+glib = declare_dependency(compile_args: config_host['GLIB_CFLAGS'].split(),
-+                          link_args: config_host['GLIB_LIBS'].split())
-+# override glib dep with the configure results (for subprojects)
-+meson.override_dependency('glib-2.0', glib)
-+
- gio = not_found
- if 'CONFIG_GIO' in config_host
-   gio = declare_dependency(compile_args: config_host['GIO_CFLAGS'].split(),
+diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
+index e4bbf997aa..8c18d3eabd 100644
+--- a/accel/stubs/tcg-stub.c
++++ b/accel/stubs/tcg-stub.c
+@@ -12,7 +12,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+-#include "tcg/tcg.h"
+ #include "exec/exec-all.h"
+ 
+ void tb_flush(CPUState *cpu)
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 42ab79c1a5..ced3dc077e 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -33,7 +33,7 @@
+ #include "exec/helper-proto.h"
+ #include "qemu/atomic.h"
+ #include "qemu/atomic128.h"
+-#include "translate-all.h"
++#include "exec/translate-all.h"
+ #include "trace/trace-root.h"
+ #include "trace/mem.h"
+ #ifdef CONFIG_PLUGIN
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index b7d50a73d4..a1803a1026 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -49,7 +49,7 @@
+ 
+ #include "exec/cputlb.h"
+ #include "exec/tb-hash.h"
+-#include "translate-all.h"
++#include "exec/translate-all.h"
+ #include "qemu/bitmap.h"
+ #include "qemu/error-report.h"
+ #include "qemu/qemu-print.h"
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 4ebe25461a..abb9555201 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -23,7 +23,7 @@
+ #include "tcg/tcg.h"
+ #include "qemu/bitops.h"
+ #include "exec/cpu_ldst.h"
+-#include "translate-all.h"
++#include "exec/translate-all.h"
+ #include "exec/helper-proto.h"
+ #include "qemu/atomic128.h"
+ #include "trace/trace-root.h"
+diff --git a/cpu.c b/cpu.c
+index 0c485cdf2d..0b245cda2e 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -34,7 +34,7 @@
+ #include "sysemu/tcg.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/replay.h"
+-#include "translate-all.h"
++#include "exec/translate-all.h"
+ #include "exec/log.h"
+ 
+ uintptr_t qemu_host_page_size;
+diff --git a/hw/i386/kvmvapic.c b/hw/i386/kvmvapic.c
+index 077c3f4866..2c1898032e 100644
+--- a/hw/i386/kvmvapic.c
++++ b/hw/i386/kvmvapic.c
+@@ -21,7 +21,6 @@
+ #include "hw/sysbus.h"
+ #include "hw/boards.h"
+ #include "migration/vmstate.h"
+-#include "tcg/tcg.h"
+ #include "qom/object.h"
+ 
+ #define VAPIC_IO_PORT           0x7e
+diff --git a/accel/tcg/translate-all.h b/include/exec/translate-all.h
+similarity index 100%
+rename from accel/tcg/translate-all.h
+rename to include/exec/translate-all.h
+diff --git a/monitor/misc.c b/monitor/misc.c
+index fde6e36a0b..9a132f73d1 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -77,7 +77,6 @@
+ #include "qapi/qmp-event.h"
+ #include "sysemu/cpus.h"
+ #include "qemu/cutils.h"
+-#include "tcg/tcg.h"
+ 
+ #if defined(TARGET_S390X)
+ #include "hw/s390x/storage-keys.h"
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 2cd1de4a2c..67b53d39e4 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -25,7 +25,6 @@
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ #include "exec/target_page.h"
+-#include "tcg/tcg.h"
+ #include "hw/qdev-core.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/boards.h"
+@@ -53,7 +52,7 @@
+ 
+ #include "qemu/rcu_queue.h"
+ #include "qemu/main-loop.h"
+-#include "translate-all.h"
++#include "exec/translate-all.h"
+ #include "sysemu/replay.h"
+ 
+ #include "exec/memory-internal.h"
 -- 
 2.29.2
 
