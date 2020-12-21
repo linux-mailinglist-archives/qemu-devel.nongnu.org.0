@@ -2,74 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B15A2DFC07
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 13:50:21 +0100 (CET)
-Received: from localhost ([::1]:44814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 664A72DFC09
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 13:53:11 +0100 (CET)
+Received: from localhost ([::1]:47810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krKdo-0003V1-1h
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 07:50:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45134)
+	id 1krKgY-0004uX-Fp
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 07:53:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1krKcv-00033j-M0
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:49:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51100)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1krKct-0000YH-0V
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:49:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608554962;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5yCz1xk1G61tEQ0WOrnpa0N67Ud3Qjk8WX3/nKpYlCg=;
- b=GlmlmtM07HlbUmLu32//GKAjkugb8CNOX1J9ocslAy9QbKtpYBoH1EcjMzYsBd1Kr/7Szh
- cqjSBCX3EHMmC/ReqfqQ+a87DuS37nKmrOLhXJtGvWn48te1BzxMJYebZJ1HM9MY3R/gaj
- HJP9tGDMR6DZeH1dGG/3HFjuHpAoPtk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-bc7xoo4VNjiVSkSxMtUi1Q-1; Mon, 21 Dec 2020 07:49:20 -0500
-X-MC-Unique: bc7xoo4VNjiVSkSxMtUi1Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ED7D180A087
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 12:49:19 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-3.ams2.redhat.com
- [10.36.114.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F00CD5D6D1;
- Mon, 21 Dec 2020 12:49:09 +0000 (UTC)
-Subject: Re: virtiofsd: sshfs as submount?
-To: Laszlo Ersek <lersek@redhat.com>, Miklos Szeredi <mszeredi@redhat.com>
-References: <599fd4bd-2f62-1ce5-2b9c-0512ee7ead6e@redhat.com>
- <0208dde6-df57-c27a-418f-57cb3c0173f2@redhat.com>
- <c0f7c512-d796-db16-e5fb-a2e346c37e48@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <06de2310-e566-61a7-9ae8-679e9fefabc3@redhat.com>
-Date: Mon, 21 Dec 2020 13:49:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1krKfW-0004F1-1y
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:52:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57088)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1krKfT-0001YN-Nj
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:52:05 -0500
+X-Gm-Message-State: AOAM530d0OCbgE8s3hy8FYNBFRDcGboUenym1Tr9xxkk01kD6ZW3jwPs
+ iIoEQ99mtiJ2TVOZt5Ptir/Gb7nPEpqsXGdgpNA=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1608555122;
+ bh=MFZMyKGRv06CaVhflIYPz0b1KQi4EwJ90NAp6cg0WP8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=CZoqBmawew63dc3JB+E5IQzm4/saXM/1bXO8HYn91B86Cea94ZbPaQ5ywNLlY0fZI
+ oHxiRKveRRe8H2/OhzRtNO7m1XQ+lp4SORz1RAX2pRXMGvAnZjoWI+YGuAzj+MUZPN
+ lnHKCAIMR2iIvJ5KMLDDMqGMX7oLZ91laskc24rafEHMeMy6NCkvNOno6XCra+3cLv
+ Za1vZfxu/ipCn26vZA7pJPXRj6LSOA7vMI+NfxsUDV1Zn0B9fgORA88D6WesGaU452
+ CbQ3m76RvVDnyB9yRT61y+yIwwEksxf7NMU8V6s+S0Fzmun3YJUiiIvEFcfMpS/2Dm
+ FeBBGmu58Y1CA==
+X-Google-Smtp-Source: ABdhPJwY5qbD/T6f6YMBkRLXJk4SbYN8rWyB378uMnKZ2D5SNUY8X1rWKu1QGX+w5U55JFWoxSPtKvpK4hSZzZxYX6I=
+X-Received: by 2002:a92:870b:: with SMTP id m11mr15516956ild.134.1608555121310; 
+ Mon, 21 Dec 2020 04:52:01 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <c0f7c512-d796-db16-e5fb-a2e346c37e48@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <20201216181759.933527-1-f4bug@amsat.org>
+ <ad7ff216-66b9-9b0c-eece-80a294240c28@redhat.com>
+In-Reply-To: <ad7ff216-66b9-9b0c-eece-80a294240c28@redhat.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Mon, 21 Dec 2020 20:51:49 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H7f4Bw_+BLCC0DcrUQKK0nUanQTTQ+a272ADBheB_NBJQ@mail.gmail.com>
+Message-ID: <CAAhV-H7f4Bw_+BLCC0DcrUQKK0nUanQTTQ+a272ADBheB_NBJQ@mail.gmail.com>
+Subject: Re: [PATCH] tests/acceptance: Test PMON with Loongson-3A1000 CPU
+To: Willian Rampazzo <wrampazz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.233, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,47 +67,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21.12.20 13:45, Laszlo Ersek wrote:
-> On 12/21/20 13:06, Max Reitz wrote:
-> 
->> I can share sshfs through sshfs, so it must be something virtiofs-specific.
-> 
-> Your insight proved crucial to solving the riddle.
-> 
-> Chaining sshfs with sshfs made me think that you must have used a normal
-> (non-root) user account on the first remote computer (where you ran the
-> 2nd sshfs command).
-> 
-> And that reminded me of the "allow_root" option which I seemed to have
-> read somewhere around the FUSE manuals.
+Hi, Philippe,
 
-Oh, that makes sense.  Right.
+On Sat, Dec 19, 2020 at 4:51 AM Willian Rampazzo <wrampazz@redhat.com> wrot=
+e:
+>
+> On 12/16/20 3:17 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > Test the PMON firmware. As the firmware is not redistributable,
+> > it has to be downloaded manually first. Then it can be used by
+> > providing its path via the PMON_PATH environment variable:
+A1101 is a real machine type, and there is a UEFI-based bios designed
+for loongson3-virt machine (though it is also not redistributable),
+why not test that one?
 
-> So indeed I set up another sshfs mount on my laptop, with my normal UID,
-> and tried to access the mount point from a plain root shell (with
-> virtiofsd completely out of the picture) -- it failed with "Permission
-> denied". :) It's apparently intentional on sshfs's / FUSE's part, to
-> protect the local root user from "remote nastiness injection".
-> 
-> Then I re-did the sshfs mount, but with "-o allow_root" this time. The
-> plain root shell can now access the mount point.
-
-Indeed, that works better.
-
-> ... So can virtiofsd :) It's *amazing* to see remote files in the UEFI
-> shell. I never thought "filesystem as a service" could feel this empowering.
-> 
-> Thanks, Max!
-
-Er, *cough*, my pleasure! O:)
-
-Max
-
+Huacai
+> >
+> >    $ AVOCADO_ALLOW_UNTRUSTED_CODE=3D1 \
+> >      PMON_PATH=3D/images/pmon \
+> >      avocado --show=3Dapp,console \
+> >        run -t machine:loongson3-virt tests/acceptance
+> >    JOB ID     : 363e66a2d20b1c0e3f515653f9137483b83b2984
+> >    JOB LOG    : /home/phil/avocado/job-results/job-2020-12-16T19.02-363=
+e66a/job.log
+> >     (1/2) tests/acceptance/machine_mips_fuloong3.py:MipsFuloong3.test_p=
+mon_BLD_serial_console:
+> >    console: PMON2000 MIPS Initializing. Standby...
+> >    console: 00000000
+> >    console: Shut down other cores
+> >    console: 0xbfe00190  : 0000000000000000
+> >    console: CPU CLK SEL : 00000000
+> >    console: MEM CLK SEL : 00000000
+> >    console: Change the driver
+> >    console: Soft CLK SEL adjust begin
+> >    console: HT         :00000000
+> >    console: DDR_DIV:00000002
+> >    console: BBGEN start  :
+> >    console: BBGEN config value  :00000000
+> >    console: MC RESET
+> >    console: Fix L1xbar illegal access at NODE 0
+> >    console: Fix L2xbar in NODE 0
+> >    console: 32 bit PCI space translate to 64 bit HT space
+> >    console: Waiting HyperTransport bus to be up.
+> >    PASS (0.10 s)
+> >     (2/2) tests/acceptance/machine_mips_fuloong3.py:MipsFuloong3.test_p=
+mon_A1101_serial_console:
+> >    console: PMON2000 MIPS Initializing. Standby...
+> >    console: 0xbfe00190  : 0000000000000000
+> >    console: CPU CLK SEL : 00000000
+> >    console: CPU clk frequency =3D SYSCLK x 0x0000001e /  1
+> >    console: MEM CLK SEL : 00000000
+> >    console: DDR clk frequency =3D MEMCLK x 0x0000001e /  3
+> >    console: Fix L1xbar illegal access
+> >    console: Fix L2xbar illegal access
+> >    console: Init tlb...
+> >    console: godson2 caches found
+> >    PASS (0.12 s)
+> >    RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT=
+ 0 | CANCEL 0
+> >    JOB TIME   : 0.58 s
+> >
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > ---
+> > Based-on: <20201215125716.477023-1-chenhuacai@kernel.org>
+> > ---
+> >   MAINTAINERS                                 |  1 +
+> >   tests/acceptance/machine_mips_loongson3v.py | 66 ++++++++++++++++++++=
++
+> >   2 files changed, 67 insertions(+)
+> >   create mode 100644 tests/acceptance/machine_mips_loongson3v.py
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index f75fa2a7142..9a02d44f997 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -1166,6 +1166,7 @@ M: Huacai Chen <chenhuacai@kernel.org>
+> >   R: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> >   S: Maintained
+> >   F: hw/intc/loongson_liointc.c
+> > +F: tests/acceptance/machine_mips_loongson3v.py
+> >
+> >   Boston
+> >   M: Paul Burton <paulburton@kernel.org>
+> > diff --git a/tests/acceptance/machine_mips_loongson3v.py b/tests/accept=
+ance/machine_mips_loongson3v.py
+> > new file mode 100644
+> > index 00000000000..8e698bbc99b
+> > --- /dev/null
+> > +++ b/tests/acceptance/machine_mips_loongson3v.py
+> > @@ -0,0 +1,66 @@
+> > +# Functional tests for the Generic Loongson-3 Platform.
+> > +#
+> > +# Copyright (c) 2020 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > +#
+> > +# This work is licensed under the terms of the GNU GPL, version 2 or l=
+ater.
+> > +# See the COPYING file in the top-level directory.
+> > +#
+> > +# SPDX-License-Identifier: GPL-2.0-or-later
+> > +
+> > +import os
+> > +import time
+> > +
+> > +from avocado import skipUnless
+> > +from avocado_qemu import Test
+> > +from avocado_qemu import wait_for_console_pattern
+> > +
+> > +class MipsFuloong3(Test):
+> > +
+> > +    timeout =3D 60
+> > +
+> > +    @skipUnless(os.getenv('PMON_PATH'), 'PMON_PATH not available')
+> > +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted =
+code')
+> > +    def test_pmon_BLD_serial_console(self):
+> > +        """
+> > +        :avocado: tags=3Darch:mips64el
+> > +        :avocado: tags=3Dendian:little
+> > +        :avocado: tags=3Dmachine:loongson3-virt
+> > +        :avocado: tags=3Dcpu:Loongson-3A1000
+> > +        :avocado: tags=3Ddevice:liointc
+> > +        :avocado: tags=3Ddevice:goldfish_rtc
+> > +        """
+> > +        pmon_name =3D 'pmon_BLD-3A3000-780EMATX-1w-V1.10.bin'
+> > +        pmon_hash =3D '38916ee03ed09a86997b40c687c83e92'
+>
+> In case you keep this approach of manually downloading the binary, it
+> would be good to have a pointer (url) to it to avoid download of an
+> incorrect binary that will not match the hash here.
+>
+> > +        pmon_path =3D self.fetch_asset('file://' + os.path.join(
+> > +                                        os.getenv('PMON_PATH'), pmon_n=
+ame),
+> > +                                     asset_hash=3Dpmon_hash, algorithm=
+=3D'md5')
+> > +
+> > +        self.vm.set_console()
+> > +        self.vm.add_args('-bios', pmon_path)
+> > +        self.vm.launch()
+> > +        wait_for_console_pattern(self, 'PMON2000 MIPS Initializing. St=
+andby...')
+> > +        wait_for_console_pattern(self, 'Shut down other cores')
+> > +        wait_for_console_pattern(self, 'Waiting HyperTransport bus to =
+be up.')
+> > +
+> > +    @skipUnless(os.getenv('PMON_PATH'), 'PMON_PATH not available')
+> > +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted =
+code')
+> > +    def test_pmon_A1101_serial_console(self):
+> > +        """
+> > +        :avocado: tags=3Darch:mips64el
+> > +        :avocado: tags=3Dendian:little
+> > +        :avocado: tags=3Dmachine:loongson3-virt
+> > +        :avocado: tags=3Dcpu:Loongson-3A1000
+> > +        :avocado: tags=3Ddevice:liointc
+> > +        :avocado: tags=3Ddevice:goldfish_rtc
+> > +        """
+> > +        pmon_name =3D 'pmon-A1101-2.0.8.bin'
+>
+> Same comment here about the pointer to the binary.
+>
+> > +        pmon_hash =3D 'cc40276213cfa20922720f183b92ab61'
+> > +        pmon_path =3D self.fetch_asset('file://' + os.path.join(
+> > +                                        os.getenv('PMON_PATH'), pmon_n=
+ame),
+> > +                                     asset_hash=3Dpmon_hash, algorithm=
+=3D'md5')
+> > +
+> > +        self.vm.set_console()
+> > +        self.vm.add_args('-bios', pmon_path)
+> > +        self.vm.launch()
+> > +        wait_for_console_pattern(self, 'PMON2000 MIPS Initializing. St=
+andby...')
+> > +        wait_for_console_pattern(self, 'godson2 caches found')
+> >
+>
+> Inspite of a small comment,
+>
+> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+>
 
