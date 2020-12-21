@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC2B32DFD61
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:19:44 +0100 (CET)
-Received: from localhost ([::1]:43170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E012DFD6C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:22:00 +0100 (CET)
+Received: from localhost ([::1]:50122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krMyO-0001Ea-0F
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:19:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42756)
+	id 1krN0Z-0004CA-7l
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:21:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRP-0005Bv-Es
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:39 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33929)
+ id 1krMRQ-0005FE-On
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:40 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRL-0007xv-FV
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:39 -0500
-Received: by mail-wr1-x436.google.com with SMTP id q18so11334116wrn.1
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:34 -0800 (PST)
+ id 1krMRM-0007yC-5b
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:40 -0500
+Received: by mail-wr1-x432.google.com with SMTP id 91so11314171wrj.7
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RdW2HjhcohpbvrKSbpoMZNbyc1Eg4tJlxHdWFEO6tHw=;
- b=eh32L3WCLk/tlJLc+CvQoyoRMRnXuAtCdbWqfRRyWiSypBnF5Lwr6OzXFW6qw3LYSn
- iu/Fxe//pcRhzPyN3BsxvYtAMI5UmXi8sHgmS5+TK8PiT0ILcc+zSxhuEp9Ow+L1qx9P
- WIkYwBpDdqVaXESCAwiTfc8A9LupQkSEXNQEVOyVEgS+3CEhtnZMPGqXystr7nsIe0ux
- PqE34FZu5F7wMXqn66uSj3KgT9He1HSi7qkiJC6CaMyZbuqEUArNBWnlmvuUSJMagPH8
- Y2mHySAadiAovA5ySI/ORwkuB3ovTuEJxrcIf2wpyNuCpYnbtxZiieJHT8B5a7Tc0/qP
- aJuQ==
+ bh=x+XV7POEVzZV9uOrwvIZLsGMYHJ/WzP2anWj6Wklw4o=;
+ b=EpVJHdcrjVOeV+TcaUSqr98K+inA8CLtvlYV4nS1r/a6wbu1hYhRQdRGQIMm+dqr1N
+ gNCvAdGIOrit0x8P5tdKdFhtRF387c536drwILymXUSHW7pR4Ak0t0hFpBevixCiptN1
+ FAB7BqrVDJmhIWgaH1bXmX0o4yBLDIaWNcv4Lw7bR8Y39zwJhuQlnni+hD3IludyZGI5
+ kNJ6CT5pE1z268xMpJ/yxk+QSt4F3w8YEEbYr13g/fBr27yO4fEME1QcQaPWf+NtbgrX
+ eZuEd0xa0xIbKuQUeZ4R3mYl6BG6YZb3v9Gf2IaRT+GUg40JacK4lOfJq6BhomOayOg2
+ wTHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RdW2HjhcohpbvrKSbpoMZNbyc1Eg4tJlxHdWFEO6tHw=;
- b=Rq0x+GrAZojAhYDD7I13yL13Qt5HAFbF9PvqbiQzhMBHlxbqyRTzBhYP0411mB+Iid
- RMMSEl01TucomK1cpBI+MV+5aidrA0aq3i74Tb96qOvERv2VPt8ElpGoz0eXOdS62Vqy
- Rf57kPN/iXJEJeyLJ3A1TCht/fEvaF9cq0VH241ZJ1biJfusnYpo1qwOGMVqszKSS5nu
- hs7L6fygs/1sXZae87YvVouR42nC1PUcDvHbWPpNJwMzui2IWP/aP8pyft10N0XcOVFb
- RT8zjChYkoSWUYrGvCHaxuDvDd36hUTnqiYGSSiPA4VCmvUJWQ5HEXxLP4YY+HwgPfxS
- mtVg==
-X-Gm-Message-State: AOAM531TIiWehZVHDOwelVT0rIXyWhyTUuNE0ktX3g8lSFv01+rG2HIG
- h7f3Z5Y5XPMNDbhte/SUBR9wV/M25qQ=
-X-Google-Smtp-Source: ABdhPJyInkrbSD+sMh+0q+F1BVZtJUvgyrwt9t7+0Iwyvy+rELx04Ti5pSnwbl5lmx7nCFE6/sLVLg==
-X-Received: by 2002:a5d:67c1:: with SMTP id n1mr18824035wrw.205.1608561934012; 
+ bh=x+XV7POEVzZV9uOrwvIZLsGMYHJ/WzP2anWj6Wklw4o=;
+ b=iHJefzhMpy7O4MmR/rcpw4PfkurjfeKeT1BxIu5y67yhwPKc+Om86cZZ04nfU9LuYp
+ ZDM4gwwRgbusGwmQTUnwaUGxvchcFytepmpHNYcjFF1706CyKGiUSpcTV/HjYBSbTkd8
+ R6QwCqTGAHnk8echHnOnJ26CN/6MWq1/W7MgD/Ezk/lLv7tkYVrrPyQNJ67exJ2L4MN8
+ R+6h1Zhe/MJ+3/cLgz73S3Eir/cBmqxel/2CK/r3liH1ndYA3blzT7xyn13budKYfpoU
+ AcBuO1NLMk0kUVlzwp1wTB3cwM7lkRj8i6N6UN6kPgZV5k/pWumCmmlsd+6m42ydHi7k
+ DexQ==
+X-Gm-Message-State: AOAM531gT+U+e6jVsU3NA7D9d8n5jGCbPP7hsYpO1rtYGU58ZU2RDjmh
+ jpVV+wbhlaqAcYOVOLS1zID7c/7WTpw=
+X-Google-Smtp-Source: ABdhPJzgchAneWYicCTcY6OhG+m2iBC46VsiZk0xoe9x2AK3SYrKNSt4ddJ0OHvAfVEFfuVQXrVSLQ==
+X-Received: by 2002:adf:c387:: with SMTP id p7mr18943960wrf.95.1608561934748; 
  Mon, 21 Dec 2020 06:45:34 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.33
+ by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.34
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Dec 2020 06:45:33 -0800 (PST)
+ Mon, 21 Dec 2020 06:45:34 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 51/55] cap_ng: convert to meson
-Date: Mon, 21 Dec 2020 15:44:43 +0100
-Message-Id: <20201221144447.26161-52-pbonzini@redhat.com>
+Subject: [PULL 52/55] libattr: convert to meson
+Date: Mon, 21 Dec 2020 15:44:44 +0100
+Message-Id: <20201221144447.26161-53-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201221144447.26161-1-pbonzini@redhat.com>
 References: <20201221144447.26161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,170 +89,181 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         | 34 ++++------------------------------
- meson.build       | 24 ++++++++++++++++++++----
+ configure         | 45 ++++-----------------------------------------
+ meson.build       | 38 +++++++++++++++++++++++++++++++++++---
  meson_options.txt |  2 ++
- tools/meson.build |  4 ++--
- 4 files changed, 28 insertions(+), 36 deletions(-)
+ 3 files changed, 41 insertions(+), 44 deletions(-)
 
 diff --git a/configure b/configure
-index 46ee3da40e..569396248b 100755
+index 569396248b..18af62a3e0 100755
 --- a/configure
 +++ b/configure
-@@ -330,7 +330,7 @@ xen_ctrl_version="$default_feature"
- xen_pci_passthrough="auto"
+@@ -331,8 +331,7 @@ xen_pci_passthrough="auto"
  linux_aio="$default_feature"
  linux_io_uring="$default_feature"
--cap_ng="$default_feature"
-+cap_ng="auto"
- attr="$default_feature"
- libattr="$default_feature"
+ cap_ng="auto"
+-attr="$default_feature"
+-libattr="$default_feature"
++attr="auto"
  xfs="$default_feature"
-@@ -1122,9 +1122,9 @@ for opt do
+ tcg="enabled"
+ membarrier="$default_feature"
+@@ -1229,9 +1228,9 @@ for opt do
    ;;
-   --enable-tcg-interpreter) tcg_interpreter="yes"
+   --enable-linux-io-uring) linux_io_uring="yes"
    ;;
--  --disable-cap-ng)  cap_ng="no"
-+  --disable-cap-ng)  cap_ng="disabled"
+-  --disable-attr) attr="no"
++  --disable-attr) attr="disabled"
    ;;
--  --enable-cap-ng) cap_ng="yes"
-+  --enable-cap-ng) cap_ng="enabled"
+-  --enable-attr) attr="yes"
++  --enable-attr) attr="enabled"
    ;;
-   --disable-tcg) tcg="disabled"
+   --disable-membarrier) membarrier="no"
    ;;
-@@ -3191,28 +3191,6 @@ EOF
+@@ -3542,36 +3541,6 @@ elif test "$tpm" = "yes"; then
    fi
  fi
  
 -##########################################
--# libcap-ng library probe
--if test "$cap_ng" != "no" ; then
--  cap_libs="-lcap-ng"
--  cat > $TMPC << EOF
--#include <cap-ng.h>
--int main(void)
--{
--    capng_capability_to_name(CAPNG_EFFECTIVE);
--    return 0;
--}
+-# attr probe
+-
+-libattr_libs=
+-if test "$attr" != "no" ; then
+-  cat > $TMPC <<EOF
+-#include <stdio.h>
+-#include <sys/types.h>
+-#ifdef CONFIG_LIBATTR
+-#include <attr/xattr.h>
+-#else
+-#include <sys/xattr.h>
+-#endif
+-int main(void) { getxattr(NULL, NULL, NULL, 0); setxattr(NULL, NULL, NULL, 0, 0); return 0; }
 -EOF
--  if compile_prog "" "$cap_libs" ; then
--    cap_ng=yes
+-  if compile_prog "" "" ; then
+-    attr=yes
+-  # Older distros have <attr/xattr.h>, and need -lattr:
+-  elif compile_prog "-DCONFIG_LIBATTR" "-lattr" ; then
+-    attr=yes
+-    libattr_libs="-lattr"
+-    libattr=yes
 -  else
--    if test "$cap_ng" = "yes" ; then
--      feature_not_found "cap_ng" "Install libcap-ng devel"
+-    if test "$attr" = "yes" ; then
+-      feature_not_found "ATTR" "Install libc6 or libattr devel"
 -    fi
--    cap_ng=no
+-    attr=no
 -  fi
 -fi
 -
  ##########################################
- # Sound support libraries probe
- 
-@@ -5669,10 +5647,6 @@ fi
- if test "$gprof" = "yes" ; then
-   echo "CONFIG_GPROF=y" >> $config_host_mak
+ # iovec probe
+ cat > $TMPC <<EOF
+@@ -5866,13 +5835,6 @@ if test "$linux_io_uring" = "yes" ; then
+   echo "LINUX_IO_URING_CFLAGS=$linux_io_uring_cflags" >> $config_host_mak
+   echo "LINUX_IO_URING_LIBS=$linux_io_uring_libs" >> $config_host_mak
  fi
--if test "$cap_ng" = "yes" ; then
--  echo "CONFIG_LIBCAP_NG=y" >> $config_host_mak
--  echo "LIBCAP_NG_LIBS=$cap_libs" >> $config_host_mak
+-if test "$attr" = "yes" ; then
+-  echo "CONFIG_ATTR=y" >> $config_host_mak
+-  echo "LIBATTR_LIBS=$libattr_libs" >> $config_host_mak
 -fi
- echo "CONFIG_AUDIO_DRIVERS=$audio_drv_list" >> $config_host_mak
- for drv in $audio_drv_list; do
-     def=CONFIG_AUDIO_$(echo $drv | LC_ALL=C tr '[a-z]' '[A-Z]')
-@@ -6559,7 +6533,7 @@ NINJA=$ninja $meson setup \
-         -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
+-if test "$libattr" = "yes" ; then
+-  echo "CONFIG_LIBATTR=y" >> $config_host_mak
+-fi
+ if test "$vhost_scsi" = "yes" ; then
+   echo "CONFIG_VHOST_SCSI=y" >> $config_host_mak
+ fi
+@@ -6534,6 +6496,7 @@ NINJA=$ninja $meson setup \
          -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
          -Dlibssh=$libssh -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse \
--        -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs \
-+        -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
+         -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
++        -Dattr=$attr \
          -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
          -Dvhost_user_blk_server=$vhost_user_blk_server \
          -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek \
 diff --git a/meson.build b/meson.build
-index 22413b4f16..f580f2f67f 100644
+index f580f2f67f..fef0c0f013 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -334,10 +334,25 @@ if not get_option('libiscsi').auto() or have_system or have_tools
-                        required: get_option('seccomp'),
-                        method: 'pkg-config', static: enable_static)
+@@ -324,10 +324,40 @@ if not get_option('libnfs').auto() or have_block
+                       required: get_option('libnfs'),
+                       method: 'pkg-config', static: enable_static)
  endif
--libcap_ng = not_found
--if 'CONFIG_LIBCAP_NG' in config_host
--  libcap_ng = declare_dependency(link_args: config_host['LIBCAP_NG_LIBS'].split())
 +
-+libcap_ng = cc.find_library('cap-ng', has_headers: ['cap-ng.h'],
-+                      required: get_option('cap_ng'),
-+                      static: enable_static)
-+if libcap_ng.found() and not cc.links('''
-+   #include <cap-ng.h>
-+   int main(void)
-+   {
-+     capng_capability_to_name(CAPNG_EFFECTIVE);
-+     return 0;
-+   }''', dependencies: libcap_ng)
-+  libcap_ng = not_found
-+  if get_option('cap_ng').enabled()
-+    error('could not link libcap-ng')
++libattr_test = '''
++  #include <stddef.h>
++  #include <sys/types.h>
++  #ifdef CONFIG_LIBATTR
++  #include <attr/xattr.h>
++  #else
++  #include <sys/xattr.h>
++  #endif
++  int main(void) { getxattr(NULL, NULL, NULL, 0); setxattr(NULL, NULL, NULL, 0, 0); return 0; }'''
++
+ libattr = not_found
+-if 'CONFIG_ATTR' in config_host
+-  libattr = declare_dependency(link_args: config_host['LIBATTR_LIBS'].split())
++have_old_libattr = false
++if not get_option('attr').disabled()
++  if cc.links(libattr_test)
++    libattr = declare_dependency()
 +  else
-+    warning('could not link libcap-ng, disabling')
++    libattr = cc.find_library('attr', has_headers: ['attr/xattr.h'],
++                              required: get_option('attr'),
++                              static: enable_static)
++    if libattr.found() and not \
++      cc.links(libattr_test, dependencies: libattr, args: '-DCONFIG_LIBATTR')
++      libattr = not_found
++      if get_option('attr').enabled()
++        error('could not link libattr')
++      else
++        warning('could not link libattr, disabling')
++      endif
++    else
++      have_old_libattr = libattr.found()
++    endif
 +  endif
  endif
 +
- if get_option('xkbcommon').auto() and not have_system and not have_tools
-   xkbcommon = not_found
- else
-@@ -1012,6 +1027,7 @@ if glusterfs.found()
+ seccomp = not_found
+ if not get_option('libiscsi').auto() or have_system or have_tools
+   seccomp = dependency('libseccomp', version: '>=2.3.0',
+@@ -1010,6 +1040,7 @@ config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') /
+ config_host_data.set_quoted('CONFIG_QEMU_MODDIR', get_option('prefix') / qemu_moddir)
+ config_host_data.set_quoted('CONFIG_SYSCONFDIR', get_option('prefix') / get_option('sysconfdir'))
+ 
++config_host_data.set('CONFIG_ATTR', libattr.found())
+ config_host_data.set('CONFIG_BRLAPI', brlapi.found())
+ config_host_data.set('CONFIG_COCOA', cocoa.found())
+ config_host_data.set('CONFIG_LIBUDEV', libudev.found())
+@@ -1027,6 +1058,7 @@ if glusterfs.found()
    config_host_data.set('CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT', glusterfs_ftruncate_has_stat)
    config_host_data.set('CONFIG_GLUSTERFS_IOCB_HAS_STAT', glusterfs_iocb_has_stat)
  endif
-+config_host_data.set('CONFIG_LIBCAP_NG', libcap_ng.found())
++config_host_data.set('CONFIG_LIBATTR', have_old_libattr)
+ config_host_data.set('CONFIG_LIBCAP_NG', libcap_ng.found())
  config_host_data.set('CONFIG_LIBISCSI', libiscsi.found())
  config_host_data.set('CONFIG_LIBNFS', libnfs.found())
- config_host_data.set('CONFIG_LIBSSH', libssh.found())
-@@ -2355,7 +2371,7 @@ summary_info += {'fdatasync':         config_host.has_key('CONFIG_FDATASYNC')}
- summary_info += {'madvise':           config_host.has_key('CONFIG_MADVISE')}
- summary_info += {'posix_madvise':     config_host.has_key('CONFIG_POSIX_MADVISE')}
- summary_info += {'posix_memalign':    config_host.has_key('CONFIG_POSIX_MEMALIGN')}
--summary_info += {'libcap-ng support': config_host.has_key('CONFIG_LIBCAP_NG')}
-+summary_info += {'libcap-ng support': libcap_ng.found()}
- summary_info += {'vhost-kernel support': config_host.has_key('CONFIG_VHOST_KERNEL')}
- summary_info += {'vhost-net support': config_host.has_key('CONFIG_VHOST_NET')}
- summary_info += {'vhost-crypto support': config_host.has_key('CONFIG_VHOST_CRYPTO')}
+@@ -2350,7 +2382,7 @@ summary_info += {'vde support':       config_host.has_key('CONFIG_VDE')}
+ summary_info += {'netmap support':    config_host.has_key('CONFIG_NETMAP')}
+ summary_info += {'Linux AIO support': config_host.has_key('CONFIG_LINUX_AIO')}
+ summary_info += {'Linux io_uring support': config_host.has_key('CONFIG_LINUX_IO_URING')}
+-summary_info += {'ATTR/XATTR support': config_host.has_key('CONFIG_ATTR')}
++summary_info += {'ATTR/XATTR support': libattr.found()}
+ summary_info += {'Install blobs':     get_option('install_blobs')}
+ summary_info += {'KVM support':       config_all.has_key('CONFIG_KVM')}
+ summary_info += {'HAX support':       config_all.has_key('CONFIG_HAX')}
 diff --git a/meson_options.txt b/meson_options.txt
-index 59a8a50e5b..12a1872f20 100644
+index 12a1872f20..8fcec056cd 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -44,6 +44,8 @@ option('brlapi', type : 'feature', value : 'auto',
+@@ -40,6 +40,8 @@ option('cfi', type: 'boolean', value: 'false',
+ option('cfi_debug', type: 'boolean', value: 'false',
+        description: 'Verbose errors in case of CFI violation')
+ 
++option('attr', type : 'feature', value : 'auto',
++       description: 'attr/xattr support')
+ option('brlapi', type : 'feature', value : 'auto',
         description: 'brlapi character device driver')
  option('bzip2', type : 'feature', value : 'auto',
-        description: 'bzip2 support for DMG images')
-+option('cap_ng', type : 'feature', value : 'auto',
-+       description: 'cap_ng support')
- option('cocoa', type : 'feature', value : 'auto',
-        description: 'Cocoa user interface (macOS only)')
- option('curl', type : 'feature', value : 'auto',
-diff --git a/tools/meson.build b/tools/meson.build
-index 5c52d79fe4..fdce66857d 100644
---- a/tools/meson.build
-+++ b/tools/meson.build
-@@ -1,14 +1,14 @@
- have_virtiofsd = (targetos == 'linux' and
-     have_tools and
-     seccomp.found() and
--    'CONFIG_LIBCAP_NG' in config_host and
-+    libcap_ng.found() and
-     'CONFIG_VHOST_USER' in config_host)
- 
- if get_option('virtiofsd').enabled()
-   if not have_virtiofsd
-     if targetos != 'linux'
-       error('virtiofsd requires Linux')
--    elif not seccomp.found() or 'CONFIG_LIBCAP_NG' not in config_host
-+    elif not seccomp.found() or not libcap_ng.found()
-       error('virtiofsd requires libcap-ng-devel and seccomp-devel')
-     elif not have_tools or 'CONFIG_VHOST_USER' not in config_host
-       error('virtiofsd needs tools and vhost-user support')
 -- 
 2.29.2
 
