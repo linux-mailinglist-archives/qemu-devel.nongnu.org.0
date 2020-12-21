@@ -2,180 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B232E006A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 19:50:06 +0100 (CET)
-Received: from localhost ([::1]:36558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD9E2E009D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 20:02:07 +0100 (CET)
+Received: from localhost ([::1]:45942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krQFx-0005bw-7M
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 13:50:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45710)
+	id 1krQRa-0001cx-2s
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 14:02:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1krQDm-0004xI-MZ
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 13:47:50 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:50881)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1krQDi-0000BX-Ut
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 13:47:49 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: pool-72-93-72-163.bstnma.fios.verizon.net [72.93.72.163]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 0BLIl0dq028397
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 21 Dec 2020 13:47:15 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Qiuhao Li <Qiuhao.Li@outlook.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/4] fuzz: refine crash detection mechanism
-In-Reply-To: <ME3P282MB14924A6558A105B7FBFA579DFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1krQQU-00017i-Vb
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 14:00:59 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1krQQO-0004X7-St
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 14:00:58 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1krQQM-0002m0-Mg
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 19:00:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A5A862E8138
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 19:00:50 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-signatures: 
-https: //github.com/google/clusterfuzz/blob/master/src/python/crash_analysis/crash_analyzer.py
- Qiuhao Li <Qiuhao.Li@outlook.com> writes:
- > The original crash detection method is to fork a process to test our new
- > trace input. If the child process exits in time and the second-to-last line
- > is the same as the first crash, we think it is a crash triggered by the same
- > bug. However, in some situations, it doesn't work since it is a
- > hardcoded-offset string comparison. >
- > For example, suppose an assertion failure makes the crash. In that case, the
- > second-to-last line will be 'timeout: the monitored command dumped core',
- > which doesn't contain any information about the assertion failure like where
- > it happened or the assertion statement. This may lead to a minimized input
- > triggers assertion failure but may indicate another bug. As for some
- > sanitizers' crashes, the direct string comparison may stop us from getting a
- > smaller input, since they may have a different leaf stack frame. >
- > Perhaps we can detect crashes using both precise output string comparison
- > and rough pattern string match and info the user when the trace input
- > triggers different but a seminar output. ^^ similar > > Tested:
- > Assertion failure, https://bugs.launchpad.net/qemu/+bug/1908062
- > AddressSanitizer, https://bugs.launchpad.net/qemu/+bug/1907497
- > Trace input that doesn't crash > Trace input that crashes Qtest
- I'm not sure about this one. Is there an example where setting
- CRASH_TOKEN is not sufficient? The current approach isn't great. It
- relies on only a few bad assumptions and has some limitations:
- 1. lines[-2] is often "good enough" to find a crash.
- 2. If lines[-2] doesn't do the trick, it should be simple to identify a
- "CRASH_TOKEN" (eg a path:line-number in the stack-trace)
- 3. Limitation: no good way to minimize timeouts. This is a tricky one,
- since a well-behaved QEMU will continune running after going through
- all the qtest commands and this can be tough to distinguish from a QEMU
- stuck in an infinite loop, or stuck in a syscall.
- I think my main concerns are
- * Crash_patterns might not catch everything. For example, this one
- doesn't match either pattern https://bugs.launchpad.net/bugs/1890160
- * SUMMARY.*Sanitizer lines often contain volatile addresses, so the
- matching will often fallback to SUMMARY.*Sanitizer. Sometimes this
- means that the minimized result will be another crash (I have seen this
- happen).
- * Maybe it is unlikely, but what will happen if ASan/UBSan etc decide
- to change the format of their output?
- We can look at the way ClusterFuzz (and OSS-Fuzz) identifies crash
- It seems a lot more involved, and I'm not sure if it is necessary,
- since at this point, the minimizer is only used manually.
- Are there any cases, where the current approach + sometimes a fallback
- to CRASH_TOKEN are not sufficient?
- I like the idea of making CRASH_TOKEN/crash_pattern a regex, though I
- would simply do a global match over the output, instead of applying it
- to each line. Thanks -Alex >
- > Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com> > ---
- >  scripts/oss-fuzz/minimize_qtest_trace.py | 59 ++++++++++++++++++------
- >  1 file changed, 46 insertions(+), 13 deletions(-) >
- > diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py
- b/scripts/oss-fuzz/minimize_qtest_trace.py
- > index 5e405a0d5f..d3b09e6567 100755
- > --- a/scripts/oss-fuzz/minimize_qtest_trace.py
- > +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
- > @@ -10,11 +10,16 @@ import os >  import subprocess >  import time
- >  import struct > +import re > >  QEMU_ARGS = None >  QEMU_PATH = None
- >  TIMEOUT = 5 > -CRASH_TOKEN = None > +
- > +crash_patterns = ("Assertion.+failed",
- > +                  "SUMMARY.+Sanitizer") > +crash_pattern = None
- > +crash_string = None > >  write_suffix_lookup = {"b": (1, "B"),
- >                         "w": (2, "H"),
- > @@ -24,13 +29,12 @@ write_suffix_lookup = {"b": (1, "B"),
- >  def usage(): >      sys.exit("""\
- > Usage: QEMU_PATH="/path/to/qemu" QEMU_ARGS="args" {} input_trace
- output_trace > -By default,
- will try to use the second-to-last line in the output to identify
- > -whether the crash occred. Optionally,
- manually set a string that idenitifes the
- > -crash by setting CRASH_TOKEN=
- > +By default, we will try to search predefined crash patterns through the
- > +tracing output to see whether the crash occred. Optionally, manually set a
- > +string that idenitifes the crash by setting CRASH_PATTERN=
- >  """.format((sys.argv[0]))) >
- >  def check_if_trace_crashes(trace, path): > -    global CRASH_TOKEN
- >      with open(path, "w") as tracefile:
- >          tracefile.write("".join(trace)) >
- > @@ -42,17 +46,47 @@ def check_if_trace_crashes(trace, path):
- >                            shell=True,
- >                            stdin=subprocess.PIPE,
- >                            stdout=subprocess.PIPE)
- > +    if rc.returncode == 137:    # Timed Out > +        return False
- > + >      stdo = rc.communicate()[0]
- >      output = stdo.decode('unicode_escape')
- > -    if rc.returncode == 137:    # Timed Out > -        return False
- > -    if len(output.splitlines()) < 2:
- > +    output_lines = output.splitlines()
- > +    # Usually we care about the summary info in the last few lines, reverse.
- > +    output_lines.reverse() > +
- > +    global crash_pattern, crash_patterns, crash_string
- > +    if crash_pattern is None: # Initialization
- > +        for line in output_lines:
- > +            for c in crash_patterns:
- > +                if re.search(c, line) is not None:
- > +                    crash_pattern = c
- > +                    crash_string = line
- > +                    print("Identifying crash pattern by this string: ",\
- > +                          crash_string)
- > +                    print("Using regex pattern: ", crash_pattern)
- > +                    return True
- > +        print("Failed to initialize crash pattern: no match.")
- >          return False > > -    if CRASH_TOKEN is None:
- > -        CRASH_TOKEN = output.splitlines()[-2]
- > +    # First, we search exactly the previous crash string.
- > +    for line in output_lines: > +        if crash_string == line:
- > +            return True > +
- > +    # Then we decide whether a similar (same pattern) crash happened.
- > +    # Slower now :( > +    for line in output_lines:
- > +        if re.search(crash_pattern, line) is not None:
- > + print("\nINFO: The crash string changed during our minimization process.")
- > +            print("Before: ", crash_string)
- > +            print("After: ", line)
- > +            print("The original regex pattern can still match,
- updated the crash string.") > +            crash_string = line
- > +            return True > > -    return CRASH_TOKEN in output
- > +    # The input did not trigger (the same type) bug.
- > +    return False > > >  def minimize_trace(inpath, outpath):
- > @@ -66,7 +100,6 @@ def minimize_trace(inpath, outpath):
- >      print("Crashed in {} seconds".format(end-start))
- >      TIMEOUT = (end-start)*5
- >      print("Setting the timeout for {} seconds".format(TIMEOUT))
- > -    print("Identifying Crashes by this string: {}".format(CRASH_TOKEN))
- > >      i = 0 >      newtrace = trace[:]
- > @@ -152,6 +185,6 @@ if __name__ == '__main__': >          usage()
- >      # if "accel" not in QEMU_ARGS:
- >      #     QEMU_ARGS += " -accel qtest"
- > -    CRASH_TOKEN = os.getenv("CRASH_TOKEN")
- > +    crash_pattern = os.getenv("CRASH_PATTERN")
- >      QEMU_ARGS += " -qtest stdio -monitor none -serial none "
- >      minimize_trace(sys.argv[1], sys.argv[2]) > -- > 2.25.1
-Date: Mon, 21 Dec 2020 13:46:40 -0500
-Message-ID: <87v9cv3skv.fsf@stormtrooper.vrmnet>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: 8
-X-Spam_score: 0.8
-X-Spam_bar: /
-X-Spam_report: (0.8 / 5.0 requ) BAYES_00=-1.9, BODY_EMPTY=1.999,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.001, PYZOR_CHECK=1.392,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 21 Dec 2020 18:52:14 -0000
+From: Richard Henderson <1907137@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pcc-goog rth
+X-Launchpad-Bug-Reporter: Peter Collingbourne (pcc-goog)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <160737386315.5907.11436467204976213940.malonedeb@gac.canonical.com>
+Message-Id: <160857673436.13157.11407851234749657779.malone@chaenomeles.canonical.com>
+Subject: [Bug 1907137] Re: LDTR not properly emulated when MTE tag checks
+ enabled at EL0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
+X-Launchpad-Hash: c847c3e5be7167f0e7cafd4fdd25251f9d0f7352
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -184,9 +71,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: darren.kenny@oracle.com, bsd@redhat.com, thuth@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com
+Reply-To: Bug 1907137 <1907137@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+>From the hash id in your patch, it would appear that you are using a
+fork of qemu.
+
+This should be fixed by 50244cc76abc present in the qemu 5.2 release.
+
+** Changed in: qemu
+       Status: New =3D> Incomplete
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1907137
+
+Title:
+  LDTR not properly emulated when MTE tag checks enabled at EL0
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  I am trying to boot Android (just the non-GUI parts for now) under
+  QEMU with MTE enabled. This can be done by following the instructions
+  here to build the fvp-eng target with MTE support:
+
+  https://cs.android.com/android/platform/superproject/+/master:device/gene=
+ric/goldfish/fvpbase/
+
+  and launching QEMU with the following command:
+
+  qemu-system-aarch64 -kernel $ANDROID_PRODUCT_OUT/kernel -initrd
+  $ANDROID_PRODUCT_OUT/combined-ramdisk.img -machine virt,mte=3Don -cpu
+  max -drive driver=3Draw,file=3D$ANDROID_PRODUCT_OUT/system-
+  qemu.img,if=3Dnone,id=3Dsystem -device virtio-blk-device,drive=3Dsystem
+  -append "console=3DttyAMA0 earlyprintk=3DttyAMA0
+  androidboot.hardware=3Dfvpbase
+  androidboot.boot_devices=3Da003e00.virtio_mmio loglevel=3D9
+  printk.devkmsg=3Don buildvariant=3Deng" -m 512 -nographic -no-reboot
+
+  If I do this then QEMU crashes like so:
+
+  **
+  ERROR:../target/arm/mte_helper.c:558:mte_check_fail: code should not be r=
+eached
+  Bail out! ERROR:../target/arm/mte_helper.c:558:mte_check_fail: code shoul=
+d not be reached
+
+  The error is caused by an MTE tag check fault from an LDTR instruction
+  in __arch_copy_from_user. At this point TCF=3D0 and TCF0=3D2.
+
+  I have this patch that gets me past the error but it is unclear
+  whether this is the correct fix since there may be other confusion
+  between TCF and TCF0 elsewhere.
+
+  diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+  index 153bd1e9df..aa5db4eac4 100644
+  --- a/target/arm/mte_helper.c
+  +++ b/target/arm/mte_helper.c
+  @@ -552,10 +552,8 @@ static void mte_check_fail(CPUARMState *env, uint32_=
+t desc,
+       case 0:
+           /*
+            * Tag check fail does not affect the PE.
+  -         * We eliminate this case by not setting MTE_ACTIVE
+  -         * in tb_flags, so that we never make this runtime call.
+            */
+  -        g_assert_not_reached();
+  +        break;
+   =
+
+       case 2:
+           /* Tag check fail causes asynchronous flag set.  */
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1907137/+subscriptions
 
