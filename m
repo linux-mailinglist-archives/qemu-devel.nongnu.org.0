@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB5F72DF785
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 02:46:23 +0100 (CET)
-Received: from localhost ([::1]:58940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4272DF887
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 06:12:10 +0100 (CET)
+Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krAHA-0000PN-Vk
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 20:46:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47508)
+	id 1krDUM-0003c6-T6
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 00:12:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1krAEH-0007u7-8t
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 20:43:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42950)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1krAEF-0005Mb-Im
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 20:43:16 -0500
-X-Gm-Message-State: AOAM531k1LOaH6qlTZO4kB/wgfwgoUBKO9dSI/QVuVK17tWp7vK85xJH
- ZaYlUl37zPCeYInU4xeuWFHkBhxWpPzoNIzyjFE=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608514991;
- bh=nmdMhO9Y90fn0xiuLG5ynq+mKgSlKPfhINADwI5qOqg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Fv8swC6/qdHxsnjyH8yaRPI3k9Eb/zBRwkSIXUEO+UxD3GQ3sMK1PbpOiRXeRc3Wp
- TlKa0oxxwmOdp92IM1D8oCTWtHVN/gZO5b9lQuR0pWYtCwqgZcZVzx0ADToCON7Ir6
- 0BhBIbHR8COusGiYKBCq9cyJEBQnkMaMXVrySCAH94G7BlKArdG24HV0c8oKnahN8H
- scS14yMA2jConDgd2WY6RR5qM5ewhHeRx9fxWI0YcVBFDYeQlCptUnJR2Vl4BMl1Nq
- 8VWVFvTe/E9GIaLfYgmmkGDh5V8MoJdWXb5A8PnmGugUT0rDdB6+5WDMLYh2ynccM1
- oogqOEyhhW7pg==
-X-Google-Smtp-Source: ABdhPJz8Q2Lnx3KKxWQyiGD1CZQe3zlWyq/DLiu98IS4jQN1m7kwOwxLSz8GwEkZCg1JtXLEWxFWoJhPJ8vxzeQOTOs=
-X-Received: by 2002:a5d:8a1a:: with SMTP id w26mr12538369iod.112.1608514990795; 
- Sun, 20 Dec 2020 17:43:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1krDT7-00037J-QJ
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 00:10:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:52970)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1krDT4-0005WT-6y
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 00:10:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1krDT0-00051Z-JC
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 05:10:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6A3882E802D
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 05:10:42 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201215125716.477023-1-chenhuacai@kernel.org>
- <20201215125716.477023-4-chenhuacai@kernel.org>
- <47ebfcd8-cfa9-f45a-dc66-f936681fc5e5@amsat.org>
-In-Reply-To: <47ebfcd8-cfa9-f45a-dc66-f936681fc5e5@amsat.org>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Mon, 21 Dec 2020 09:42:59 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5U2KsVe497cEJua4BxzOsGC7EdT6xMD8jro+isTKLHfQ@mail.gmail.com>
-Message-ID: <CAAhV-H5U2KsVe497cEJua4BxzOsGC7EdT6xMD8jro+isTKLHfQ@mail.gmail.com>
-Subject: Re: [PATCH V18 3/5] hw/mips: Add Loongson-3 boot parameter helpers
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Mon, 21 Dec 2020 05:02:46 -0000
+From: =?utf-8?q?Jos=C3=A9_Pekkarinen?= <1908832@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: koalinux schoenebeck
+X-Launchpad-Bug-Reporter: =?utf-8?q?Jos=C3=A9_Pekkarinen_=28koalinux=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Jos=C3=A9_Pekkarinen_=28koalinux=29?=
+References: <160848897234.4298.12739306431901820443.malonedeb@wampee.canonical.com>
+Message-Id: <160852696651.12642.2012764192410399049.malone@chaenomeles.canonical.com>
+Subject: [Bug 1908832] Re: jack audio dev produces no sound
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
+X-Launchpad-Hash: 21f558a5c09acbbbfc45528bc7eba840c28c353a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,37 +69,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Reply-To: Bug 1908832 <1908832@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yes, that's fine.
+I unmasked qemu-5.2.0-r1, well, actually any newer qemu coming
+from gentoo, and rebuild the software. The situation is still
+reproducible, which confirms what I tested yesterday with the
+patch. I also cleaned up the launch script to remove several
+spice related unneeded since I use the gtk display, here is
+how it looks like right now:
 
-On Thu, Dec 17, 2020 at 2:11 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Hi Huacai,
->
-> On 12/15/20 1:57 PM, Huacai Chen wrote:
-> > Preparing to add Loongson-3 machine support, add Loongson-3's LEFI (a
-> > UEFI-like interface for BIOS-Kernel boot parameters) helpers first.
-> >
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
-> > Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> > Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> > ---
-> >  hw/mips/loongson3_bootp.c | 151 ++++++++++++++++++++++++
-> >  hw/mips/loongson3_bootp.h | 241 ++++++++++++++++++++++++++++++++++++++
->
-> I plan to add these to "Loongson-3 virtual platforms"
-> in MAINTAINERS, is that OK with you?
->
-> >  hw/mips/meson.build       |   1 +
-> >  3 files changed, 393 insertions(+)
-> >  create mode 100644 hw/mips/loongson3_bootp.c
-> >  create mode 100644 hw/mips/loongson3_bootp.h
+/usr/bin/qemu-system-x86_64 -enable-kvm -M q35 -vga virtio -display gtk,gl=
+=3Don \
+        -cpu host -smp 4,cores=3D4,threads=3D1 \
+        -m 2G -L /usr/share/qemu \
+        -global ICH9-LPC.disable_s3=3D1 -global ICH9-LPC.disable_s4=3D1 \
+        -drive file=3D/usr/share/edk2-ovmf/OVMF_CODE.fd,if=3Dpflash,format=
+=3Draw,unit=3D0,readonly=3Don \
+        -drive file=3Ddebian_VARS.fd,if=3Dpflash,format=3Draw,unit=3D1 \
+        -audiodev id=3Djack,driver=3Djack -device ich9-intel-hda -device hd=
+a-duplex,audiodev=3Djack \
+        -device nec-usb-xhci,id=3Dusb \
+        -device usb-host,vendorid=3D0x04ca,productid=3D0x708e \
+        -device usb-host,vendorid=3D0x1050,productid=3D0x0407 \
+        -netdev user,id=3Duser.0 -device virtio-net-pci,netdev=3Duser.0 \
+        -drive file=3Ddebian.qcow2,cache=3Dnone,aio=3Dio_uring,if=3Dvirtio
+
+Thanks!
+
+Jos=C3=A9.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1908832
+
+Title:
+  jack audio dev produces no sound
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi,
+
+  I'm testing the new jack audiodev backend in my
+  laptop. The host system is gentoo, using the
+  ebuild for qemu 5.1.0-r2, and I'm using jack
+  use flag globally in the system so any ebuild
+  that have support for jack should be build with
+  it. The jack setup reportedly works as I use it
+  with firefox, and mumble with no trouble. When
+  I launch the following script, I see the vm
+  connects to jack:
+
+  /usr/bin/qemu-system-x86_64 -enable-kvm -M q35 -vga virtio -display gtk,g=
+l=3Don \
+          -cpu host -smp 2,cores=3D2,threads=3D1 \
+          -m 4G -L /usr/share/qemu \
+          -global ICH9-LPC.disable_s3=3D1 -global ICH9-LPC.disable_s4=3D1 \
+          -drive file=3D/usr/share/edk2-ovmf/OVMF_CODE.fd,if=3Dpflash,forma=
+t=3Draw,unit=3D0,readonly=3Don \
+          -drive file=3Ddebian_VARS.fd,if=3Dpflash,format=3Draw,unit=3D1 \
+          -audiodev id=3Djack,driver=3Djack -device ich9-intel-hda -device =
+hda-duplex,audiodev=3Djack \
+          -device virtio-serial-pci \
+          -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.=
+spice.0 \
+          -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent \
+          -device nec-usb-xhci,id=3Dusb \
+          -device usb-host,vendorid=3D0x04ca,productid=3D0x708e \
+          -device usb-host,vendorid=3D0x1050,productid=3D0x0407 \
+          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev1 \
+          -device usb-redir,chardev=3Dusbredirchardev1,id=3Dusbredirdev1 \
+          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev2 \
+          -device usb-redir,chardev=3Dusbredirchardev2,id=3Dusbredirdev2 \
+          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev3 \
+          -device usb-redir,chardev=3Dusbredirchardev3,id=3Dusbredirdev3 \
+          -netdev user,id=3Duser.0 -device virtio-net-pci,netdev=3Duser.0 \
+          -drive file=3Ddebian.qcow2,cache=3Dnone,aio=3Dio_uring,if=3Dvirtio
+
+  Output of vm initialization:
+
+  jack: JACK output configured for 48000Hz (1024 samples)
+  jack: JACK input configured for 48000Hz (1024 samples)
+  gl_version 46 - core profile enabled
+  GLSL feature level 430
+
+  Though executing any application that uses sound,
+  for instance, any youtube video through browser,
+  I listen nothing. By executing pkill jackd, and
+  launching the same script replacing the audiodev
+  line for the following:
+
+          -audiodev id=3Dalsa,driver=3Dalsa -device ich9-intel-hda -device
+  hda-duplex,audiodev=3Dalsa \
+
+  The audio works, and I can listen to music, or
+  any other kind of application, though I cannot
+  listen anything else in the host.
+
+  The guest is a simple debian testing(bullseye)
+  system with plasma desktop, using pulseaudio,
+  nothing fancy.
+
+  Thanks!
+
+  Jos=C3=A9
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1908832/+subscriptions
 
