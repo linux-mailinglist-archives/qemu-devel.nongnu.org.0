@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0832E019A
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 21:39:29 +0100 (CET)
-Received: from localhost ([::1]:50232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D50762E019E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 21:41:52 +0100 (CET)
+Received: from localhost ([::1]:55818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krRxo-00039v-OR
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 15:39:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48840)
+	id 1krS07-0005dD-T1
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 15:41:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1krRvT-0001G2-5S; Mon, 21 Dec 2020 15:37:04 -0500
-Received: from mail-qv1-xf2f.google.com ([2607:f8b0:4864:20::f2f]:41990)
+ id 1krRwS-0002jD-Su; Mon, 21 Dec 2020 15:38:04 -0500
+Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31]:46522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1krRvR-0004CR-F2; Mon, 21 Dec 2020 15:37:02 -0500
-Received: by mail-qv1-xf2f.google.com with SMTP id bd6so5037324qvb.9;
- Mon, 21 Dec 2020 12:37:00 -0800 (PST)
+ id 1krRwQ-0004Wc-KR; Mon, 21 Dec 2020 15:38:04 -0500
+Received: by mail-qv1-xf31.google.com with SMTP id p12so5025650qvj.13;
+ Mon, 21 Dec 2020 12:38:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Hy+1dBLXENlCsEMWHPxupwODxwVINsP+MIW1044Tjkw=;
- b=c0AGueUkjm9LhO72lnynZzl1FvC9LfcfGZE9pSUQp5akhmz2RB9SMhjJPXwIDYJLku
- CXdweN7Ej/4DkH8CEeXrykhcqJit1XB+/RHTADKryvPq2Styv0Ys3KFlg6t2E29O8ZmQ
- av5AqLW9L6kgJ44pfgBHaqXjZnGwoB/58l7SOGQvgmmB+5tKRQmSle8jptwJHT3QS5zJ
- Nm44i8hLv6gbuclW4A/wk93EMxB1MxMo61cvgafDNdSx+hEXvVHs/badFg/HrL9tIlox
- OHjP3IsxhKkId1ltVaXpQ0z4lbwxg+Wx0tmYsAgBbpxR6r/fBEeO0IVIyfTbql2H040s
- CXMA==
+ bh=s0iuvGjufj6Wwojbrw2O2jw5ilmRFaFTbHyDsF5evKQ=;
+ b=fql4nTfEzNNEqbA2dc39mperX6kihFTRioTD3yPzI+yBHYBMWyXzXbhTwBBfdEhusj
+ XzQIbiw0MIkW6IOnLvKf2Qf0a3U5o8P5aMYUxoyg3+mhDRqFUoz+JHsnD8oarwvbRhfa
+ AZL7JZFXBR0Sb1qHbnZXKUsqX1aVwXcPC0InZ724hqVIjsIdlY17PFAvClIaFpqQ5aPc
+ QALtYm9Nd46a83A4KAG9iY4WMmYfuePyc0RQ/vNZsR+SRmJs/CxLmYP1SEeNyCtVfYB/
+ ycpWqbccecgHtxmFJRWnFPS4Z6zWxk0sFyZqy0DUzU78RKxMhKX1N+3Jr1ETSDjrjxQQ
+ cpgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Hy+1dBLXENlCsEMWHPxupwODxwVINsP+MIW1044Tjkw=;
- b=NRVBuaKt7o7WSJmOTuRZKBSTS+OS/LlE+BU/8ueqMU+Ns3C/wrwEkWmAk2XZSohUjO
- MHBZfqdDp8f5Eds4Z3c9phfhorZz5f/4fpB4JDf6auWhpeCkwQVfFYAENeoInVcLwLXL
- INw9V+aMBCyI2KWXvO7Q+WVOAsS//fr8N+hyX1X7Z+Wa5CmL4CuIMj/iC2yD1K6Xgty6
- S5P3PqWkrICSjP+jZ4NTncLGXjuJH7f5P7F7UdGFg1YMJ9zP4FSTVG3seV+Qa4vScep5
- l8lW1P48xDHlc0OB5wn5LfiV+NTjQMTDKPFaovTFYZLzj1hC7v8FV3JCn2hEH/gbPLg3
- YImw==
-X-Gm-Message-State: AOAM531l4xf43ZbMm82lrt316T/x9ziX3pdQHOrXasNc4dyhElE1qhYC
- Bl0EiG4833c9X85JlSBtiC7XCgOLNF0=
-X-Google-Smtp-Source: ABdhPJy/CRzPsBQsdZQGnC/22mfIKxiFjL1rhBCUQiciTB46AYhZWya7G3oOfoLxuw9bP4Jw6A/KcA==
-X-Received: by 2002:a0c:efc9:: with SMTP id a9mr18802314qvt.31.1608583020303; 
- Mon, 21 Dec 2020 12:37:00 -0800 (PST)
+ bh=s0iuvGjufj6Wwojbrw2O2jw5ilmRFaFTbHyDsF5evKQ=;
+ b=QKUzYKX/jl7eKPRnaMfpNimIo4hOML/V3Yp8lLE0UO+5cchDrm3n16mIe0UxSJMGLl
+ AEXZuQmkMn6fDgxXtN2STlMmbnrTfAyGbloZ1vmvsmws0oHn0SAPUFy3TaduSGdvkLE8
+ U4x+E5YIi/glrdPypG7XLW6pkFDMq/4+zJs/lCBb7L3qehrQQ2QgdrL4quLAXUQGgRxg
+ vuu23VHrcdjq1TZV+kWtLqziYp+CobYMVnar95jDq6IZABYn4uidVajAEHQzuNkL93DN
+ pG70bZ9FtND0ubi9DYMa7MLvVQbl3ZLOOE9G4ozdWF2bNsRR9E1OHmuDvTuexAktS1mS
+ 8PFQ==
+X-Gm-Message-State: AOAM533AcWWMMym2E344fYAPfDLFSg6EASdetxL5ydoJhxnSaXjR9n7Y
+ fYErnPFtp9RkS9D4PzM/CRc=
+X-Google-Smtp-Source: ABdhPJzsdRSuw7486xzM3sTH3PTBRrWPWvEyji5ia9Lwfm5sxc1OoMu/OgP03m8p9WbIhJjNvZqw5Q==
+X-Received: by 2002:a05:6214:768:: with SMTP id
+ f8mr19020793qvz.1.1608583081495; 
+ Mon, 21 Dec 2020 12:38:01 -0800 (PST)
 Received: from ?IPv6:2804:431:c7c6:556d:fa44:43b8:486b:f066?
  ([2804:431:c7c6:556d:fa44:43b8:486b:f066])
- by smtp.gmail.com with ESMTPSA id q70sm1597539qka.107.2020.12.21.12.36.58
+ by smtp.gmail.com with ESMTPSA id z30sm11067558qtc.15.2020.12.21.12.37.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Dec 2020 12:36:59 -0800 (PST)
-Subject: Re: [PATCH 4/6] spapr: Use spapr_drc_reset_all() at machine reset
+ Mon, 21 Dec 2020 12:38:00 -0800 (PST)
+Subject: Re: [PATCH 5/6] spapr: Add drc_ prefix to the DRC realize and
+ unrealize functions
 To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 References: <20201218103400.689660-1-groug@kaod.org>
- <20201218103400.689660-5-groug@kaod.org>
+ <20201218103400.689660-6-groug@kaod.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <ab5a6495-5fe2-f536-f50e-279f077c65f0@gmail.com>
-Date: Mon, 21 Dec 2020 17:36:57 -0300
+Message-ID: <fd01fa77-9662-738f-78d8-862053f49fc6@gmail.com>
+Date: Mon, 21 Dec 2020 17:37:58 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201218103400.689660-5-groug@kaod.org>
+In-Reply-To: <20201218103400.689660-6-groug@kaod.org>
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2f;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf31.google.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
@@ -95,56 +97,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 12/18/20 7:33 AM, Greg Kurz wrote:
-> Documentation of object_child_foreach_recursive() clearly stipulates
-> that "it is forbidden to add or remove children from @obj from the @fn
-> callback". But this is exactly what we do during machine reset. The call
-> to spapr_drc_reset() can finalize the hot-unplug sequence of a PHB or a
-> PCI bridge, both of which will then in turn destroy their PCI DRCs. This
-> could potentially invalidate the iterator used by do_object_child_foreach().
-> It is pure luck that this haven't caused any issues so far.
-> 
-> Use spapr_drc_reset_all() since it can cope with DRC removal.
+> Use a less generic name for an easier experience with tools such as
+> cscope or grep.
 > 
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 > ---
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
->   hw/ppc/spapr.c | 15 +--------------
->   1 file changed, 1 insertion(+), 14 deletions(-)
+>   hw/ppc/spapr_drc.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 43dded87f498..8528bc90fec4 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1566,19 +1566,6 @@ void spapr_setup_hpt(SpaprMachineState *spapr)
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index a4d2608017c5..8571d5bafe4e 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -503,7 +503,7 @@ static const VMStateDescription vmstate_spapr_drc = {
 >       }
+>   };
+>   
+> -static void realize(DeviceState *d, Error **errp)
+> +static void drc_realize(DeviceState *d, Error **errp)
+>   {
+>       SpaprDrc *drc = SPAPR_DR_CONNECTOR(d);
+>       Object *root_container;
+> @@ -530,7 +530,7 @@ static void realize(DeviceState *d, Error **errp)
+>       trace_spapr_drc_realize_complete(spapr_drc_index(drc));
 >   }
 >   
-> -static int spapr_reset_drcs(Object *child, void *opaque)
-> -{
-> -    SpaprDrc *drc =
-> -        (SpaprDrc *) object_dynamic_cast(child,
-> -                                                 TYPE_SPAPR_DR_CONNECTOR);
-> -
-> -    if (drc) {
-> -        spapr_drc_reset(drc);
-> -    }
-> -
-> -    return 0;
-> -}
-> -
->   static void spapr_machine_reset(MachineState *machine)
+> -static void unrealize(DeviceState *d)
+> +static void drc_unrealize(DeviceState *d)
 >   {
->       SpaprMachineState *spapr = SPAPR_MACHINE(machine);
-> @@ -1633,7 +1620,7 @@ static void spapr_machine_reset(MachineState *machine)
->        * will crash QEMU if the DIMM holding the vring goes away). To avoid such
->        * situations, we reset DRCs after all devices have been reset.
->        */
-> -    object_child_foreach_recursive(object_get_root(), spapr_reset_drcs, NULL);
-> +    spapr_drc_reset_all(spapr);
+>       SpaprDrc *drc = SPAPR_DR_CONNECTOR(d);
+>       Object *root_container;
+> @@ -579,8 +579,8 @@ static void spapr_dr_connector_class_init(ObjectClass *k, void *data)
+>   {
+>       DeviceClass *dk = DEVICE_CLASS(k);
 >   
->       spapr_clear_pending_events(spapr);
+> -    dk->realize = realize;
+> -    dk->unrealize = unrealize;
+> +    dk->realize = drc_realize;
+> +    dk->unrealize = drc_unrealize;
+>       /*
+>        * Reason: DR connector needs to be wired to either the machine or to a
+>        * PHB in spapr_dr_connector_new().
+> @@ -628,7 +628,7 @@ static void realize_physical(DeviceState *d, Error **errp)
+>       SpaprDrcPhysical *drcp = SPAPR_DRC_PHYSICAL(d);
+>       Error *local_err = NULL;
 >   
+> -    realize(d, &local_err);
+> +    drc_realize(d, &local_err);
+>       if (local_err) {
+>           error_propagate(errp, local_err);
+>           return;
+> @@ -644,7 +644,7 @@ static void unrealize_physical(DeviceState *d)
+>   {
+>       SpaprDrcPhysical *drcp = SPAPR_DRC_PHYSICAL(d);
+>   
+> -    unrealize(d);
+> +    drc_unrealize(d);
+>       vmstate_unregister(VMSTATE_IF(drcp), &vmstate_spapr_drc_physical, drcp);
+>       qemu_unregister_reset(drc_physical_reset, drcp);
+>   }
 > 
 
