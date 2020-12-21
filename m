@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE9D2DFBD1
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 13:26:22 +0100 (CET)
-Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 993B82DFBD6
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 13:29:13 +0100 (CET)
+Received: from localhost ([::1]:35604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krKGb-0004RX-JP
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 07:26:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40588)
+	id 1krKJM-0006zU-CM
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 07:29:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1krKEW-0003Ht-RK
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:24:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1krKET-0008MU-5o
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:24:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608553447;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PitXkHjVFwSlGiBNq49X3I2cCWxhGBLQygf1QRaCDI4=;
- b=a9MRGKblMa9QNHk0z2imzRzDAuDlpLWPeOAZooJDrJrBMN3uwwf/LgjoxytEyEfheGIdxF
- XOtC+hqt+TsLh5F4qnqSDUg9kG5BnB0AImbIZ6iZmvISyNx9q11zoNsbFBnyt2eT9vUbCB
- hJoO/4/2t5vY6jX9y9WllO0SxnXkGPo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-8aX7iJumPiCfINAAfhkPxQ-1; Mon, 21 Dec 2020 07:24:05 -0500
-X-MC-Unique: 8aX7iJumPiCfINAAfhkPxQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32E65800D53
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 12:24:04 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-114-71.ams2.redhat.com
- [10.36.114.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1F4D6064B;
- Mon, 21 Dec 2020 12:23:54 +0000 (UTC)
-Subject: Re: virtiofsd: sshfs as submount?
-To: Max Reitz <mreitz@redhat.com>, Miklos Szeredi <mszeredi@redhat.com>
-References: <599fd4bd-2f62-1ce5-2b9c-0512ee7ead6e@redhat.com>
- <0208dde6-df57-c27a-418f-57cb3c0173f2@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <60f161b8-3380-7020-7cbf-7897fcfa0525@redhat.com>
-Date: Mon, 21 Dec 2020 13:23:54 +0100
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1krKHv-00060H-Gy
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:27:43 -0500
+Received: from 9.mo51.mail-out.ovh.net ([46.105.48.137]:54591)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1krKHr-0001BH-Da
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:27:43 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.128])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 13C4C246905;
+ Mon, 21 Dec 2020 13:27:35 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 21 Dec
+ 2020 13:27:35 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R003d622ae1a-13f8-4068-bf50-cc4b02c6614b,
+ 0B619508FA83EFFE02DCDB9DB2C04BF8DACB1B13) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Mon, 21 Dec 2020 13:27:34 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v12] spapr: Implement Open Firmware client interface
+Message-ID: <20201221132734.084df0e8@bahia.lan>
+In-Reply-To: <f6d39e3e-e4e8-4397-b83a-9e51fd54c0d4@ozlabs.ru>
+References: <20201218025040.98132-1-aik@ozlabs.ru>
+ <20201218150413.44da862d@bahia.lan>
+ <f6d39e3e-e4e8-4397-b83a-9e51fd54c0d4@ozlabs.ru>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <0208dde6-df57-c27a-418f-57cb3c0173f2@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 71ce656d-cf78-4d50-9ba4-831153b6dc73
+X-Ovh-Tracer-Id: 10716033838928468448
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvddtvddggeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepsggrlhgrthhonhesvghikhdrsghmvgdrhhhu
+Received-SPF: pass client-ip=46.105.48.137; envelope-from=groug@kaod.org;
+ helo=9.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,81 +69,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "=?UTF-8?Q?Daniel_P._Berrang=c3=a9?=" <berrange@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/21/20 13:06, Max Reitz wrote:
-> On 20.12.20 00:41, Laszlo Ersek wrote:
->> Hi Miklos,
-> 
-> (I hope it’s OK for me not to be Miklos, even though I don’t have much
-> to add)
+On Mon, 21 Dec 2020 23:06:40 +1100
+Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
 
-:)
+[...]
 
-Thank you, Max!
-Laszlo
+> > Thanks for the split. The VOF paths are now clearly identified in
+> > the sPAPR code, and well guarded by a check on x-vof. Rest of the
+> > patch looks good to me. I gave it a try with a stock fedora 33
+> > kernel and initramfs and it booted really fast !
+>  >
+> > With the checkpatch complaints addressed,
+> 
+> 
+> They all are about the firmware, not QEMU ifself, do we enforce it for 
+> such things as firmwares too?
+> 
 
->> the following 2019 presentation on Stefan's website:
->>
->>    https://vmsplice.net/
->>    virtio-fs: A Shared File System for Virtual Machines at KVM Forum 2019
->>   
->> https://vmsplice.net/~stefan/virtio-fs_%20A%20Shared%20File%20System%20for%20Virtual%20Machines.pdf
->>
->>
->> has a slide called "Use case: File system-as-a-service" (slide#4). It
->> seems to confirm my "grand" idea to expose an sshfs submount to the
->> guest, via virtiofsd. (The guest need not / should not know it's a
->> submount, just see the files.) Beyond the pure utility of this, it feels
->> exciting to chain FUSE to FUSE. :)
->>
->> I've tried it; the FUSE_READDIRPLUS request fails.
->>
->> [2020-12-20 00:32:08.64+0100] [ID: 00000006] unique: 83, opcode:
->> READDIRPLUS (44), nodeid: 1, insize: 80, pid: 1
->> [2020-12-20 00:32:08.64+0100] [ID: 00000006]    unique: 83, error: -13
->> (Permission denied), outsize: 16
->>
->> More precisely, it fails on the directory entry in the containing
->> directory that is the sshfs mount point, when listing the containing
->> directory.
-> 
-> I see the same.
-> 
->> I've skimmed the following thread:
->>
->>    [PATCH] virtiofsd: Show submounts
->>    https://www.redhat.com/archives/virtio-fs/2020-April/msg00023.html
->>
->> (which is now QEMU commit ace0829c0d08), and I vaguely suspect it should
->> work -- the MS_REC flag is present, and the MS_REC flag seems to be so
->> old that I think my host kernel (latest RHEL7) must support it too.
-> 
-> It works (for me) with other mounts (like XFS or ext4), so submounts
-> shouldn’t be the problem.
-> 
->> So... does the sshfs filesystem present itself as unshareable? Is it
->> supposed to work? Does it break for others too?
-> 
-> I can share sshfs through sshfs, so it must be something virtiofs-specific.
-> 
-> I tried to debug it, but I could only find that the fstatat()/statx() on
-> it (FD opened, then stat called with that FD, an empty pathname, and
-> AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW) fails with EPERM.  I tried
-> disabling all the sandboxing, but still got that error.
-> 
-> FWIW, I get the same error with virtiofsd-rs (and there, too, the
-> fstatat64() yields the EPERM).
-> 
-> So far, I couldn’t reproduce it outside of virtiofsd, though...  (Like,
-> just invoking stat on the command line works; and a simple program that
-> opens the mount point FD and then stats it works, too.)
-> 
-> Max
+Well, apparently checkpatch does :) 
 
+More seriously, this code is being added to the QEMU source tree, not
+like it is some foreign code imported as a git submodule, so I don't see
+why regular QEMU coding style guidelines wouldn't apply ?
+
+> 
+> > 
+> > Acked-by: Greg Kurz <groug@kaod.org>
+> > 
+> > and
+> > 
+> > Tested-by: Greg Kurz <groug@kaod.org>
+> 
+> 
+> Thanks! Now I am thinking whether someone may want to use it for 
+> something else, like... dunno... ARM? :)
+> 
+> 
+
+Well, Zoltan seemed to have some interest in using VOF for
+presumably other PowerPC based boards IIUC.
+
+Another future work could be to add enough support to be able
+to start grub and boot from a virtio device. :)
+
+Cheers,
+
+--
+Greg
 
