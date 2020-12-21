@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26D82DFC40
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:17:15 +0100 (CET)
-Received: from localhost ([::1]:51342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E198C2DFC4C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:28:38 +0100 (CET)
+Received: from localhost ([::1]:56384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krL3q-0002RZ-LB
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:17:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50350)
+	id 1krLEr-0005Gv-Ac
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:28:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1krKv5-0005Ri-Vk
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:08:12 -0500
-Received: from 10.mo52.mail-out.ovh.net ([87.98.187.244]:48837)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1krKv0-0007Zd-DP
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:08:11 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.10])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id C20A122695B;
- Mon, 21 Dec 2020 14:08:02 +0100 (CET)
-Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 21 Dec
- 2020 14:08:01 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003342da0f8-d1ed-4d7c-a098-bf4140ed99bc,
- 0B619508FA83EFFE02DCDB9DB2C04BF8DACB1B13) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Mon, 21 Dec 2020 14:07:59 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Subject: Re: [RFC Qemu PATCH v2 0/2] spapr: nvdimm: Asynchronus flush hcall
- support
-Message-ID: <20201221140759.24930917@bahia.lan>
-In-Reply-To: <160674929554.2492771.17651548703390170573.stgit@lep8c.aus.stglabs.ibm.com>
-References: <160674929554.2492771.17651548703390170573.stgit@lep8c.aus.stglabs.ibm.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1krLAz-0004Ca-Dk
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:24:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55409)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1krLAu-0004fT-A0
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:24:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608557068;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ca03RvTNGVHMob98GXsi+/ZMYRTzgFfE+NY9/FeLQSQ=;
+ b=QABICLm5cNQKAkVm+bPIu9ruU5Ck3afipgmmU5gg6TSAVQPIWvOelADe127gYQWSB4GksY
+ krsK4qYxx9kHsn8YtJDC3vNgjGkPe4Ed6xHHt60PZiUWqEhKkS/udXHuIjT06V3qQkRoO6
+ fg1TzchMjbjbLPFCbIqLYtyvZfsVQ5o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-Cvx_tR_ZM9CLbEAr8HleWA-1; Mon, 21 Dec 2020 08:24:26 -0500
+X-MC-Unique: Cvx_tR_ZM9CLbEAr8HleWA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 655651009475
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 13:24:25 +0000 (UTC)
+Received: from localhost (ovpn-113-127.ams2.redhat.com [10.36.113.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 06F285D9CA;
+ Mon, 21 Dec 2020 13:24:20 +0000 (UTC)
+Date: Mon, 21 Dec 2020 14:24:18 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86
+ machine types
+Message-ID: <20201221142418.0863bc59@redhat.com>
+In-Reply-To: <20201218180721.GS3140057@habkost.net>
+References: <20201119103221.1665171-1-vkuznets@redhat.com>
+ <20201119103221.1665171-6-vkuznets@redhat.com>
+ <20201216205202.GJ3140057@habkost.net>
+ <20201218181340.5e398280@redhat.com>
+ <20201218180721.GS3140057@habkost.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: a924b426-9b24-4c28-b578-02054eb1d407
-X-Ovh-Tracer-Id: 11399173607988763067
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvddtvddghedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeeftdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehtdefveevfeeuudejteekhfdtgeduleeutedukefhleekieekjedvieelheejheenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheplhhinhhugihpphgtqdguvghvsehlihhsthhsrdhoiihlrggsshdrohhrgh
-Received-SPF: pass client-ip=87.98.187.244; envelope-from=groug@kaod.org;
- helo=10.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,93 +83,273 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, aneesh.kumar@linux.ibm.com,
- linux-nvdimm@lists.01.org, qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org,
- shivaprasadbhat@gmail.com, qemu-ppc@nongnu.org, bharata@linux.vnet.ibm.com,
- imammedo@redhat.com, linuxppc-dev@lists.ozlabs.org,
- david@gibson.dropbear.id.au
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 Nov 2020 09:16:14 -0600
-Shivaprasad G Bhat <sbhat@linux.ibm.com> wrote:
+On Fri, 18 Dec 2020 13:07:21 -0500
+Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-> The nvdimm devices are expected to ensure write persistent during power
-> failure kind of scenarios.
+> On Fri, Dec 18, 2020 at 06:13:40PM +0100, Igor Mammedov wrote:
+> > On Wed, 16 Dec 2020 15:52:02 -0500
+> > Eduardo Habkost <ehabkost@redhat.com> wrote:
+> >   
+> > > On Thu, Nov 19, 2020 at 11:32:21AM +0100, Vitaly Kuznetsov wrote:  
+> > > > Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
+> > > > requires listing all currently supported enlightenments ("hv_*" CPU
+> > > > features) explicitly. We do have a 'hv_passthrough' mode enabling
+> > > > everything but it can't be used in production as it prevents migration.
+> > > > 
+> > > > Introduce a simple 'hyperv=on' option for all x86 machine types enabling
+> > > > all currently supported Hyper-V enlightenments. Later, when new
+> > > > enlightenments get implemented, we will be adding them to newer machine
+> > > > types only (by disabling them for legacy machine types) thus preserving
+> > > > migration.
+> > > > 
+> > > > Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> > > > Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>    
+> > > [...]  
+> > > > ---
+> > > >  docs/hyperv.txt       |  8 ++++++++
+> > > >  hw/i386/x86.c         | 30 ++++++++++++++++++++++++++++++
+> > > >  include/hw/i386/x86.h |  7 +++++++
+> > > >  target/i386/cpu.c     | 14 ++++++++++++++
+> > > >  4 files changed, 59 insertions(+)
+> > > > 
+> > > > diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+> > > > index 5df00da54fc4..1a76a07f8417 100644
+> > > > --- a/docs/hyperv.txt
+> > > > +++ b/docs/hyperv.txt
+> > > > @@ -29,6 +29,14 @@ When any set of the Hyper-V enlightenments is enabled, QEMU changes hypervisor
+> > > >  identification (CPUID 0x40000000..0x4000000A) to Hyper-V. KVM identification
+> > > >  and features are kept in leaves 0x40000100..0x40000101.
+> > > >  
+> > > > +Hyper-V enlightenments can be enabled in bulk by specifying 'hyperv=on' to an
+> > > > +x86 machine type:
+> > > > +
+> > > > +  qemu-system-x86_64 -machine q35,accel=kvm,kernel-irqchip=split,hyperv=on ...
+> > > > +
+> > > > +Note, new enlightenments are only added to the latest (in-develompent) machine
+> > > > +type, older machine types keep the list of the supported features intact to
+> > > > +safeguard migration.
+> > > >  
+> > > >  3. Existing enlightenments
+> > > >  ===========================
+> > > > diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> > > > index 5944fc44edca..57f27d56ecc6 100644
+> > > > --- a/hw/i386/x86.c
+> > > > +++ b/hw/i386/x86.c
+> > > > @@ -1171,6 +1171,20 @@ static void x86_machine_set_acpi(Object *obj, Visitor *v, const char *name,
+> > > >      visit_type_OnOffAuto(v, name, &x86ms->acpi, errp);
+> > > >  }
+> > > >  
+> > > > +static bool x86_machine_get_hyperv(Object *obj, Error **errp)
+> > > > +{
+> > > > +    X86MachineState *x86ms = X86_MACHINE(obj);
+> > > > +
+> > > > +    return x86ms->hyperv_enabled;
+> > > > +}
+> > > > +
+> > > > +static void x86_machine_set_hyperv(Object *obj, bool value, Error **errp)
+> > > > +{
+> > > > +    X86MachineState *x86ms = X86_MACHINE(obj);
+> > > > +
+> > > > +    x86ms->hyperv_enabled = value;
+> > > > +}
+> > > > +
+> > > >  static void x86_machine_initfn(Object *obj)
+> > > >  {
+> > > >      X86MachineState *x86ms = X86_MACHINE(obj);
+> > > > @@ -1194,6 +1208,16 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+> > > >      x86mc->save_tsc_khz = true;
+> > > >      nc->nmi_monitor_handler = x86_nmi;
+> > > >  
+> > > > +    /* Hyper-V features enabled with 'hyperv=on' */
+> > > > +    x86mc->default_hyperv_features = BIT(HYPERV_FEAT_RELAXED) |
+> > > > +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
+> > > > +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
+> > > > +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
+> > > > +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
+> > > > +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
+> > > > +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_EVMCS) |
+> > > > +        BIT(HYPERV_FEAT_IPI) | BIT(HYPERV_FEAT_STIMER_DIRECT);  
+> > I'd argue that feature bits do not belong to machine code at all.
+> > If we have to involve machine at all then it should be a set property/value pairs
+> > that machine will set on CPU object (I'm not convinced that doing it
+> > from machine code is good idea though).  
 > 
-> The libpmem has architecture specific instructions like dcbf on power
-> to flush the cache data to backend nvdimm device during normal writes.
+> The set of default hyperv features needs be defined by the
+> machine type somehow, we can't avoid that.
 > 
-> Qemu - virtual nvdimm devices are memory mapped. The dcbf in the guest
-> doesn't traslate to actual flush to the backend file on the host in case
-> of file backed vnvdimms. This is addressed by virtio-pmem in case of x86_64
-> by making asynchronous flushes.
-> 
-> On PAPR, issue is addressed by adding a new hcall to
-> request for an explicit asynchronous flush requests from the guest ndctl
-> driver when the backend nvdimm cannot ensure write persistence with dcbf
-> alone. So, the approach here is to convey when the asynchronous flush is
-> required in a device tree property. The guest makes the hcall when the
-> property is found, instead of relying on dcbf.
-> 
-> The first patch adds the necessary asynchronous hcall support infrastructure
-> code at the DRC level. Second patch implements the hcall using the
-> infrastructure.
-> 
-> Hcall semantics are in review and not final.
-> 
-> A new device property sync-dax is added to the nvdimm device. When the 
-> sync-dax is off(default), the asynchronous hcalls will be called.
-> 
-> With respect to save from new qemu to restore on old qemu, having the
-> sync-dax by default off(when not specified) causes IO errors in guests as
-> the async-hcall would not be supported on old qemu. The new hcall
-> implementation being supported only on the new  pseries machine version,
-> the current machine version checks may be sufficient to prevent
-> such migration. Please suggest what should be done.
-> 
+> You are correct that the policy could be implemented using
+> compat_props, but I don't think we should block a patch just
+> because we're not using a pure QOM property-based interface to
+> implement that.
+I'm fine with 1-4/5 patches but not with this one.
+With this patch I don't agree with inventing
+special semantics to property handling when it could
+be done in a typical and consistent way (especially for
+the sake of convenience).
 
-First, all requests that are still not completed from the guest POV,
-ie. the hcall hasn't returned H_SUCCESS yet, are state that we should
-migrate in theory. In this case, I guess we rather want to drain all
-pending requests on the source in some pre-save handler.
 
-Then, as explained in another mail, you should enforce stable behavior
-for existing machine types with some hw_compat magic.
+> We need the external interface to be good, though:
+> 
+> >   
+> [...]
+> > > >  static void x86_cpu_hyperv_realize(X86CPU *cpu)
+> > > >  {
+> > > > +    X86MachineState *x86ms = X86_MACHINE(qdev_get_machine());
+> > > > +    X86MachineClass *x86mc = X86_MACHINE_GET_CLASS(x86ms);
+> > > > +    uint64_t feat;
+> > > >      size_t len;
+> > > >  
+> > > > +    if (x86ms->hyperv_enabled) {
+> > > > +        feat = x86mc->default_hyperv_features;
+> > > > +        /* Enlightened VMCS is only available on Intel/VMX */
+> > > > +        if (!cpu_has_vmx(&cpu->env)) {
+> > > > +            feat &= ~BIT(HYPERV_FEAT_EVMCS);
+> > > > +        }
+> > > > +
+> > > > +        cpu->hyperv_features |= feat;  
+> > that will ignore features user explicitly doesn't want,
+> > ex:
+> >  -machine hyperv=on -cpu foo,hv-foo=off  
+> 
+> Oops, good point.
+> 
+> 
+> > 
+> > not sure we would like to introduce such invariant,
+> > in normal qom property handling the latest set property should have effect
+> > (all other invariants we have in x86 cpu property semantics are comming from legacy handling
+> > and I plan to deprecate them (it will affect x86 and sparc cpus) so CPUs will behave like
+> > any other QOM object when it come to property handling)
+> >  
+> > anyways it's confusing a bit to have cpu flags to come from 2 different places
+> > 
+> > -cpu hyperv-use-preset=on,hv-foo=off
+> > 
+> > looks less confusing and will heave expected effect
+> >   
+> > > > +    }    
+> > > 
+> > > I had to dequeue this because it doesn't compile with
+> > > CONFIG_USER_ONLY:
+> > > 
+> > > https://gitlab.com/ehabkost/qemu/-/jobs/916651017
+> > > 
+> > > The easiest solution would be to wrap the new code in #ifndef
+> > > CONFIG_USER_ONLY, but maybe we should try to move all
+> > > X86Machine-specific code from cpu.c to
+> > > hw/i386/x86.c:x86_cpu_pre_plug().  
+> > this looks to me like a preset of feature flags that belongs to CPU,
+> > and machine code here only as a way to version subset of CPU features.
+> > 
+> > Is there a way to implement it without modifying machine?  
+> 
+> Maybe there is, but why modifying machine is a problem?
 
-> The below demonstration shows the map_sync behavior with sync-dax on & off.
-> (https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c)
+1. it doesn't let do the job properly (realize time is too late)
+2. unnecessarily pushes CPU specific logic to machine code,
+   it just doesn't belong there.
+   Sure we can do that here, then some where else and in the end
+   code becomes unmanageable mess.
+ 
+> I agree the interface needs to be clear and consistent, though.
+> Maybe making it a -cpu option would make this clearer and more
+> consistent.
 > 
-> The pmem0 is from nvdimm with With sync-dax=on, and pmem1 is from nvdimm with syn-dax=off, mounted as
-> /dev/pmem0 on /mnt1 type xfs (rw,relatime,attr2,dax=always,inode64,logbufs=8,logbsize=32k,noquota)
-> /dev/pmem1 on /mnt2 type xfs (rw,relatime,attr2,dax=always,inode64,logbufs=8,logbsize=32k,noquota)
+> > 
+> > for example versioned CPUs or maybe something like this:
+> > 
+> > for CLI:
+> > -cpu hyperv-use-preset=on,hv-foo=off  
 > 
-> [root@atest-guest ~]# ./mapsync /mnt1/newfile    ----> When sync-dax=off
-> [root@atest-guest ~]# ./mapsync /mnt2/newfile    ----> when sync-dax=on
-> Failed to mmap  with Operation not supported
+> In either case, we must clearly define what should happen if the
+> preset is (HYPERV_FEAT_X | HYPERV_FEAT_Y), and the command line
+> has:
 > 
-> ---
-> v1 - https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg06330.html
-> Changes from v1
->       - Fixed a missed-out unlock
->       - using QLIST_FOREACH instead of QLIST_FOREACH_SAFE while generating token
+>   -cpu foo,hv-A=on,hv-X=off,hyperv-use-preset=on,hv-B=on,hv-Y=off
+
+current x86 cpu code (it doesn't have typical properties handling
+for keeping legacy semantics), it will basically reorder all features
+with 'off' value to the end, so hv-X=off will still have an effect.
+
+However I plan to deprecate those reordering semantics (x86/sparc cpus),
+to make it consistent with typical property handling
+(last set value overwrites any previously set one).
+
+That will let us drop custom parsing of -cpu (quite a bit of code) and
+more importantly make it consistent with -device/device_add cpu-foo.
+
+
+> or:
 > 
-> Shivaprasad G Bhat (2):
->       spapr: drc: Add support for async hcalls at the drc level
->       spapr: nvdimm: Implement async flush hcalls
+>   -machine hyperv=on -cpu foo,hv-A=on,hv-X=off,hv-B=on,hv-X=off
 > 
+> Personally, I don't care what the rules are, as long as: 1) they
+> are clearly defined and documented; 2) they support the use cases
+> we need to support.
+
+I'd like to stick with typical property handling rules, and resort to
+inventing/using other invariant only if there is no other choice.
+
+
+> An automated test case to make sure we don't break the rules
+> would be really welcome.
 > 
->  hw/mem/nvdimm.c            |    1
->  hw/ppc/spapr_drc.c         |  146 ++++++++++++++++++++++++++++++++++++++++++++
->  hw/ppc/spapr_nvdimm.c      |   79 ++++++++++++++++++++++++
->  include/hw/mem/nvdimm.h    |   10 +++
->  include/hw/ppc/spapr.h     |    3 +
->  include/hw/ppc/spapr_drc.h |   25 ++++++++
->  6 files changed, 263 insertions(+), 1 deletion(-)
+> > 
+> >    diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index 8d1a90c6cf..8828dcde8e 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -35,6 +35,7 @@ GlobalProperty hw_compat_5_0[] = {
+> >      { "vmport", "x-signal-unsupported-cmd", "off" },
+> >      { "vmport", "x-report-vmx-type", "off" },
+> >      { "vmport", "x-cmds-v2", "off" },
+> > +    { "cpu-foo", "hv-preset", "0xXXXX" }, // use compat props to keep old defaults
+> > +                                          // it will be set before we return from object_new(cpu_type)
+> >  };
+> >  const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
+> >  
+> > diff --git a/slirp b/slirp
+> > --- a/slirp
+> > +++ b/slirp
+> > @@ -1 +1 @@
+> > -Subproject commit ce94eba2042d52a0ba3d9e252ebce86715e94275
+> > +Subproject commit ce94eba2042d52a0ba3d9e252ebce86715e94275-dirty
+> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> > index 588f32e136..f0b511ce27 100644
+> > --- a/target/i386/cpu.c
+> > +++ b/target/i386/cpu.c
+> > @@ -7190,6 +7190,8 @@ static Property x86_cpu_properties[] = {
+> >  
+> >      DEFINE_PROP_UINT32("hv-spinlocks", X86CPU, hyperv_spinlock_attempts,
+> >                         HYPERV_SPINLOCK_NEVER_RETRY),
+> > +    DEFINE_PROP_UNIT64("hyperv-preset", X86CPU, hyperv_features_def, 0xYYYYY),
+> > + // prop_info should define custom setter/getter that will copy hyperv_features_def into hyperv_features
+> > + // moment "hyperv-use-preset=on" is processed, it will overwrite any previously set
+> > + // hv-foo but that's fine because user asked for it explictly
+> > +    DEFINE_PROP("hyperv-use-preset", X86CPU, hyperv_use_preset, prop_info, bool),  
 > 
-> --
-> Signature
-> 
+> We don't need to use custom getters/setters with DEFINE_PROP, if
+> we can use object_class_property_add_bool().
+of cause, I've used DEFINE_PROP just as a possible example.
+
+> I dislike custom getters/setters in either case, but maybe we
+> don't have a choice.  Depending on the rules we agree upon above,
+> custom setters could become avoidable, or they could become a
+> necessity.
+
+I do dislike them too, but sometimes custom setters are convenient
+as they allow to check if value is valid and let us implement non
+trivial handling (like in this case) at property setting time.
+(doing overwites)
+
+> >      DEFINE_PROP_BIT64("hv-relaxed", X86CPU, hyperv_features,
+> >                        HYPERV_FEAT_RELAXED, 0),
+> >      DEFINE_PROP_BIT64("hv-vapic", X86CPU, hyperv_features,  
 > 
 
 
