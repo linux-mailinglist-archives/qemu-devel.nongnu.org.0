@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1532E0172
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 21:13:20 +0100 (CET)
-Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD172E0197
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 21:36:54 +0100 (CET)
+Received: from localhost ([::1]:42434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krRYV-00015t-Jx
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 15:13:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43022)
+	id 1krRvJ-0008Na-Hu
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 15:36:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1krRXW-0000eT-Ss
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 15:12:19 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:42355)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1krRtR-0006sd-VP; Mon, 21 Dec 2020 15:34:57 -0500
+Received: from mail-qv1-xf34.google.com ([2607:f8b0:4864:20::f34]:38511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1krRXU-0004EV-Dc
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 15:12:18 -0500
-Received: by mail-wr1-x431.google.com with SMTP id m5so12350159wrx.9
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 12:12:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1krRtQ-0003Op-8J; Mon, 21 Dec 2020 15:34:57 -0500
+Received: by mail-qv1-xf34.google.com with SMTP id az16so5042024qvb.5;
+ Mon, 21 Dec 2020 12:34:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=f8V7kEJyW+5RP+UsisXpLcqd0Plo+hWJxI0DRdfyq9s=;
- b=MHazKVSjmdWptL6FHj7dRGJq+vglXokG93EysYxo5WZYtbQfkI4osPKEtAAC5SqgBw
- V0H1u62vCyJHrh0qoZjm5yCwqaZVb8JUzILQC2vnNoYIH6QL4ADCPsbRynNEZ9KE/yp7
- +13tq4oelKTB/H6kbeF9ynWZgpC3QQ9Kws/WGItTeGznb2gINpjFSjZ8HHwfZR4tnCzt
- 4o0rN26F0HKPIBBb2kTGBaoZNfqjBBR3mRn/Zi+/xTM8rJWk/yodnGNXqJYglqvk7STc
- 0PSpKN9V7UG9/ekdbHWtxwUHJlDs/vTp/MRpjtVeo4/tP2PXrfuryguEJwssTk7uBsHA
- KqXw==
+ bh=+zrk2kq9FxRm6oI58bL/AQP4T9VGuHANK2Y72VNniro=;
+ b=Knrj27wvifQpDxrfhCIlDTIgr6swCUUkhnZs1f4iT4zjiyRKyiUCNZPaJN4I9LQZVQ
+ +eewnG+mUZKOtPDOlQPUTo/xzqZDWjDlC9DMZYzXmloAms4x/SHcPZeyVU3KI6Zu6dFx
+ w1xYvcfTIAQdFQxwlTGAyBZRbfISr5MPOEoIAoMuc2ykjfJlXxAtZDRXrF3FrDZpa4iQ
+ io+0V4yMBt7+PIBob9mbkp4hL6Q9Egtqyze725rboQ7F1avNSetb6pgj/bhR0VP7WFsn
+ HiVdp4w0Hg2coam+njfX86ERBlbzldLQ8WnBMcH0Ns9p1PB9hMnJLF2EurkAMuvF8mMK
+ hx6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=f8V7kEJyW+5RP+UsisXpLcqd0Plo+hWJxI0DRdfyq9s=;
- b=PhS+NHIMhOtB7+Qw5i4IxaXmNWXVSry7VmLyZu7RkPA221M6HlPZQuJlZlrdBOnJcF
- TyliNJtOBd9JWCxEwhihBDcVJW4Fg+gyKKxAbg0cu0GBSLRrXJF8JMTm7aa9eoTZ2Kyi
- 3Jk+BXAImakqZeqR8ksSoem1jez8CXZjicNriDZNs5vMwN1cpt6bUuuI7fWOjGgejqkC
- JgtE9toxQl1eVE8BxTfLbwrzYIbUNOjY3QdckNOKiATyGOA7yqY3rbBXUtumkE6YD2K2
- X6BhJb+gCcnneQ3kCd2aZHY0S8RQ4XbZij5TnfVtoDSBqGnuubz6L9yfss+W9ld8f6rS
- awIw==
-X-Gm-Message-State: AOAM530K3D369cRiAS7izzy78A3nWb94fhYrfBX1qrl+HiUnJN5g+EVL
- 26LpYLiTIEge6etoQ1O01PM=
-X-Google-Smtp-Source: ABdhPJxr5+p/+eO/7R37dcDD31D9/byKL8MCAqcEuA08NCgihikeSUbYA8F+lo+CM2xPApf/JRqTPQ==
-X-Received: by 2002:adf:f684:: with SMTP id v4mr20754729wrp.387.1608581534484; 
- Mon, 21 Dec 2020 12:12:14 -0800 (PST)
-Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
- ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
- by smtp.gmail.com with ESMTPSA id f14sm23057774wme.14.2020.12.21.12.12.13
+ bh=+zrk2kq9FxRm6oI58bL/AQP4T9VGuHANK2Y72VNniro=;
+ b=UIZNsBp/gE4/R5iikXUYLzgDInaeUvi9YJhVICFSF6wtFywDS5/CfE6Tj8kSnHAD2K
+ 8+hg5BoOkyDeC34XzgwgbmVr+2n8SSJDgvy1TWxN/43pO2IaeWNgK5Hmt7R4mtYAvTzv
+ cUTeCxHHs4i8OoeaSjTdPb1fj2YeDQA+155uN+pDgh9TCDlqz/MELAfKrfGq0aCrIUxV
+ t2q4QY/zaDt0tXP88OzQHbFS8h3qadInc47YelWI8dwG/2NA24A2TGnc6HEU8H/SY7q4
+ scQ/0kZRCnKlYNPG8akvVbDzRulEc3g8I95uTZbBkk7VFhw6EN55F+oK1OuMjgWMzIZG
+ fOPQ==
+X-Gm-Message-State: AOAM531jnjLqExjNn7A/mBv3Mtlhx6v/FbW5cCCnV1rRYzmV6boyWZv5
+ X08oy1HqenzQBnPkPoaE7Rk=
+X-Google-Smtp-Source: ABdhPJylR+6teZyCSyuaffv15dpIdr2LhrAjLPC+uB0D3XN6D35nMdvxLHP2UWxUQE//amU0YjoQew==
+X-Received: by 2002:a0c:e5d1:: with SMTP id u17mr8104677qvm.34.1608582893742; 
+ Mon, 21 Dec 2020 12:34:53 -0800 (PST)
+Received: from ?IPv6:2804:431:c7c6:556d:fa44:43b8:486b:f066?
+ ([2804:431:c7c6:556d:fa44:43b8:486b:f066])
+ by smtp.gmail.com with ESMTPSA id g28sm11205010qtm.91.2020.12.21.12.34.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Dec 2020 12:12:13 -0800 (PST)
-Subject: Re: [PATCH 3/5] net/tap: tap_set_sndbuf(): return status
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20201221190609.93768-1-vsementsov@virtuozzo.com>
- <20201221190609.93768-4-vsementsov@virtuozzo.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <30577d97-bd0b-5f07-643b-ffa8e966dee9@amsat.org>
-Date: Mon, 21 Dec 2020 21:12:12 +0100
+ Mon, 21 Dec 2020 12:34:53 -0800 (PST)
+Subject: Re: [PATCH 2/6] spapr: Fix reset of transient DR connectors
+To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+References: <20201218103400.689660-1-groug@kaod.org>
+ <20201218103400.689660-3-groug@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <43981f61-d189-1e47-989b-2c74f720ec39@gmail.com>
+Date: Mon, 21 Dec 2020 17:34:50 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201221190609.93768-4-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20201218103400.689660-3-groug@kaod.org>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.233,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f34;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf34.google.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.233,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,97 +87,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, jasowang@redhat.com
+Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/21/20 8:06 PM, Vladimir Sementsov-Ogievskiy wrote:
-> It's recommended to return a value indicating success / failure for
-> functions with errp parameter (see include/qapi/error.h). Let's update
-> tap_set_sndbuf().
 
-For simple "success/failure" a bool type is enough.
 
-Preferably using bool type:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
+On 12/18/20 7:33 AM, Greg Kurz wrote:
+> Documentation of object_property_iter_init() clearly stipulates that
+> "it is forbidden to modify the property list while iterating". But this
+> is exactly what we do when resetting transient DR connectors during CAS.
+> The call to spapr_drc_reset() can finalize the hot-unplug sequence of a
+> PHB or a PCI bridge, both of which will then in turn destroy their PCI
+> DRCs. This could potentially invalidate the iterator. It is pure luck
+> that this haven't caused any issues so far.
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Change spapr_drc_reset() to return true if it caused a device to be
+> removed. Restart from scratch in this case. This can potentially
+> increase the overall DRC reset time, especially with a high maxmem
+> which generates a lot of LMB DRCs. But this kind of setup is rare,
+> and so is the use case of rebooting a guest while doing hot-unplug.
+> 
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 > ---
->  net/tap_int.h   | 2 +-
->  net/tap-linux.c | 5 ++++-
->  net/tap-stub.c  | 2 +-
->  net/tap.c       | 6 +++---
->  4 files changed, 9 insertions(+), 6 deletions(-)
-> 
-> diff --git a/net/tap_int.h b/net/tap_int.h
-> index 225a49ea48..57567b9f24 100644
-> --- a/net/tap_int.h
-> +++ b/net/tap_int.h
-> @@ -33,7 +33,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
->  
->  ssize_t tap_read_packet(int tapfd, uint8_t *buf, int maxlen);
->  
-> -void tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp);
-> +int tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp);
->  int tap_probe_vnet_hdr(int fd, Error **errp);
->  int tap_probe_vnet_hdr_len(int fd, int len);
->  int tap_probe_has_ufo(int fd);
-> diff --git a/net/tap-linux.c b/net/tap-linux.c
-> index b0635e9e32..c51bcdc2a3 100644
-> --- a/net/tap-linux.c
-> +++ b/net/tap-linux.c
-> @@ -130,7 +130,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
->   */
->  #define TAP_DEFAULT_SNDBUF 0
->  
-> -void tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp)
-> +int tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp)
->  {
->      int sndbuf;
->  
-> @@ -144,7 +144,10 @@ void tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp)
->  
->      if (ioctl(fd, TUNSETSNDBUF, &sndbuf) == -1 && tap->has_sndbuf) {
->          error_setg_errno(errp, errno, "TUNSETSNDBUF ioctl failed");
-> +        return -1;
->      }
-> +
-> +    return 0;
->  }
->  
->  int tap_probe_vnet_hdr(int fd, Error **errp)
-> diff --git a/net/tap-stub.c b/net/tap-stub.c
-> index 6fa130758b..473d5e4afe 100644
-> --- a/net/tap-stub.c
-> +++ b/net/tap-stub.c
-> @@ -26,7 +26,7 @@
->  #include "qapi/error.h"
->  #include "tap_int.h"
->  
-> -void tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp)
-> +int tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp)
->  {
->  }
->  
-> diff --git a/net/tap.c b/net/tap.c
-> index 75b01d54ee..33d749c7b6 100644
-> --- a/net/tap.c
-> +++ b/net/tap.c
-> @@ -661,10 +661,10 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
->      Error *err = NULL;
->      TAPState *s = net_tap_fd_init(peer, model, name, fd, vnet_hdr);
->      int vhostfd;
-> +    int ret;
->  
-> -    tap_set_sndbuf(s->fd, tap, &err);
-> -    if (err) {
-> -        error_propagate(errp, err);
-> +    ret = tap_set_sndbuf(s->fd, tap, errp);
-> +    if (ret < 0) {
->          return;
->      }
->  
-> 
 
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   include/hw/ppc/spapr_drc.h | 3 ++-
+>   hw/ppc/spapr_drc.c         | 6 +++++-
+>   hw/ppc/spapr_hcall.c       | 8 +++++++-
+>   3 files changed, 14 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+> index cff5e707d0d9..5d80019f82e2 100644
+> --- a/include/hw/ppc/spapr_drc.h
+> +++ b/include/hw/ppc/spapr_drc.h
+> @@ -224,7 +224,8 @@ static inline bool spapr_drc_hotplugged(DeviceState *dev)
+>       return dev->hotplugged && !runstate_check(RUN_STATE_INMIGRATE);
+>   }
+>   
+> -void spapr_drc_reset(SpaprDrc *drc);
+> +/* Returns true if an unplug request completed */
+> +bool spapr_drc_reset(SpaprDrc *drc);
+>   
+>   uint32_t spapr_drc_index(SpaprDrc *drc);
+>   SpaprDrcType spapr_drc_type(SpaprDrc *drc);
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index 8d62f55066b6..5b5e2ac58a7e 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -417,9 +417,10 @@ void spapr_drc_detach(SpaprDrc *drc)
+>       spapr_drc_release(drc);
+>   }
+>   
+> -void spapr_drc_reset(SpaprDrc *drc)
+> +bool spapr_drc_reset(SpaprDrc *drc)
+>   {
+>       SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> +    bool unplug_completed = false;
+>   
+>       trace_spapr_drc_reset(spapr_drc_index(drc));
+>   
+> @@ -428,6 +429,7 @@ void spapr_drc_reset(SpaprDrc *drc)
+>        */
+>       if (drc->unplug_requested) {
+>           spapr_drc_release(drc);
+> +        unplug_completed = true;
+>       }
+>   
+>       if (drc->dev) {
+> @@ -444,6 +446,8 @@ void spapr_drc_reset(SpaprDrc *drc)
+>           drc->ccs_offset = -1;
+>           drc->ccs_depth = -1;
+>       }
+> +
+> +    return unplug_completed;
+>   }
+>   
+>   static bool spapr_drc_unplug_requested_needed(void *opaque)
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 4e9d50c254f0..aa22830ac4bd 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1639,6 +1639,7 @@ static void spapr_handle_transient_dev_before_cas(SpaprMachineState *spapr)
+>       ObjectPropertyIterator iter;
+>   
+>       drc_container = container_get(object_get_root(), "/dr-connector");
+> +restart:
+>       object_property_iter_init(&iter, drc_container);
+>       while ((prop = object_property_iter_next(&iter))) {
+>           SpaprDrc *drc;
+> @@ -1652,8 +1653,13 @@ static void spapr_handle_transient_dev_before_cas(SpaprMachineState *spapr)
+>   
+>           /*
+>            * This will complete any pending plug/unplug requests.
+> +         * In case of a unplugged PHB or PCI bridge, this will
+> +         * cause some DRCs to be destroyed and thus potentially
+> +         * invalidate the iterator.
+>            */
+> -        spapr_drc_reset(drc);
+> +        if (spapr_drc_reset(drc)) {
+> +            goto restart;
+> +        }
+>       }
+>   
+>       spapr_clear_pending_hotplug_events(spapr);
+> 
 
