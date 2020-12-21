@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418502DF74B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 01:55:08 +0100 (CET)
-Received: from localhost ([::1]:50052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296142DF74C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 01:55:37 +0100 (CET)
+Received: from localhost ([::1]:50708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kr9Te-0007aE-Ir
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 19:55:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41618)
+	id 1kr9U8-0007s7-6z
+	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 19:55:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kr9SF-0006cQ-20; Sun, 20 Dec 2020 19:53:39 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:48467)
+ id 1kr9SJ-0006g4-RA; Sun, 20 Dec 2020 19:53:43 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:60415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kr9SD-0005H7-4l; Sun, 20 Dec 2020 19:53:38 -0500
+ id 1kr9SI-0005Iw-4n; Sun, 20 Dec 2020 19:53:43 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id B230C5803E8;
- Sun, 20 Dec 2020 19:53:34 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 1AB015803F8;
+ Sun, 20 Dec 2020 19:53:41 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Sun, 20 Dec 2020 19:53:34 -0500
+ by compute6.internal (MEProxy); Sun, 20 Dec 2020 19:53:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm1; bh=sUtRj3NPtex5SKNHchbwBlkxCW
- UTwtJkEMqd19YdEoo=; b=rb3+vnOYw47nGA793QjNFj305dzdpLD0QiQPynvhsx
- Ow1dPKfaRS147GloYsVpnqAaJ5lRUvW2VJcONc921QpDCWb5P9hoUgXuCh4EJ4uO
- /qjJaE1ghoREl/tXvXcxg/2aBxtDUrbniwtEJK7RaEK8BjJwNFydQ9ys/q2ocUZG
- ioDSU4KEEQB7zWyXc6GE7gcNPA0NIDaZHg0Xr8+V5HIZ5b4poukzNj1FtNJALZt8
- aWuSX6UvBEtyS3KHgipa9KFcku5UfMDqOaMEj12RgN6c7TB82QtvQxX95oppndmJ
- sb0EndTvPdGZmKsCIUASAFFIN7msMA0TYcs374Qjk4SA==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=ld7CKW5vB77WI
+ lvV4wV47qN/agE7Mm627Lyt8Dw6I+8=; b=VbDRe6BhmOr/FLXZ04jZwqRWcsiSE
+ +mZ5syHy6w3ggZ2WvyAIvV+UGj2dwVPGx5lUgGnZFoNQcIv7Wn/o8AjOwvMOoerr
+ tzeDagLJ2Yfc1uoR3krKhWLWVdW83zaC2ifhxVT7ojsyDFOczjFlH4ATPKrzYm7x
+ Rk3esHNtiRPaJaFcDTxsZ3vE7yf0ElFrClmMVadSnwIc7TFTy/8bIUFoQCD4E6q+
+ vkzswXkYNBsHxKFExC+1WCRFcdVE2pWkAqCDhC+LBogClPaDUP4VEY9IzypBdh/S
+ aLjjADp8KPv7s3me94Z+7IVeyt55nBXL/ip94GP+3VsZkn56UYUBlkNKg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=sUtRj3NPtex5SKNHc
- hbwBlkxCWUTwtJkEMqd19YdEoo=; b=dOLFE8uc6ZJIIZoxWj5Xym7QRVGeUMcms
- VwGPlcFrC4f1eBQxjbxbEG9F9BW3+zY/tUChD1BPSq+YydnIud8TSa+3omR4RJkX
- TYXeNDC7biKtYnDzhIGgTwvGzBaX5IPxApz/6fjSAospZvr1VGrc2tMZeMSifdTU
- RN97AG8qxnC5VmH5qki2Sdr0/9v/I+1bq5/X4iBFtQ6PZpdS0ZcsHSFAv6GTw3CH
- O8pVLGhowHfmHr5mCECRo7KW5wU/7QwHvWqI9+KZOtY7iJVU/9fez9cVN+AXFehH
- Lyd0WYzzGCgRg5xk8ojigIaoq7d0Pf5eyoJvaRdppQAIJHHOWZ9Lw==
-X-ME-Sender: <xms:DPLfX_Qby4D_Z-T_otFR0awzCRzM_eWzY6DxSo1W0xBa98NI04Bu2Q>
- <xme:DPLfXww7fvYz5BwIjFVq1ermLCS5WdZjVBkmMpOhsTF_kdfd82371ol_Bj28dKPUS
- f1uJIJU91wu4FiUUks>
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=ld7CKW5vB77WIlvV4wV47qN/agE7Mm627Lyt8Dw6I+8=; b=DP8AhrES
+ wUBmG1vdl7vtLE97r+OrKSVGunFvkFQQbgdiFf4RKmhIHlyyDRh2msAjWlAFD2mB
+ O8iFSsCckNMRGEfNODCRv5CeuF3L0z+q0eeQn0CN6NLsIuPt/QmuMLPkRk2aw1oi
+ 5Hopcb/w8yfR+25IrBXn/a6+rJncsGTaEVDuiuzmTOO8MGmFG9QkM7jKdcBBVRk0
+ iSCrlIW6BP2JOuXCsExvVw51pn+D+Xpl4U8Ndt0wA6FooHxjUobzi/bOnX7SeeZX
+ NaL2Z17EJdYz8ob1nE7aMGeIUb48kMinTu1N9tn4RSx15lthfA8sTfooWzgyGrCI
+ obshvFFBdZvdkQ==
+X-ME-Sender: <xms:FPLfX24a8VisuVr_LPH-sqUNNoxM06by7-F2y8phaJmzRbFPazA2dw>
+ <xme:FPLfX_4wxYWX6nR0zZ1idZkYflGWi1lYBhSWVM0qPe61CjPq9t6vjsK4nMC9YKUDs
+ VijTEhWCjhTlkW0GKY>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtuddgvdekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflihgrgihunhcu
- jggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecuggftrf
- grthhtvghrnhepffdtheduudetvdeijefgjeegleeiudeikeekjeffheeiteejffduiefh
- leehvedunecuffhomhgrihhnpegrlhhpihhnvghlihhnuhigrdhorhhgpdhgihhtlhgrsg
- drtghomhenucfkphepgeehrdeffedrhedtrddvheegnecuvehluhhsthgvrhfuihiivgep
- tdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgoh
- grthdrtghomh
-X-ME-Proxy: <xmx:DPLfX01EPCvMjPPRWlIdC2ZvexfT6qmWqo9YEgZIMfUbzK8s3EuP_g>
- <xmx:DPLfX_Cu5Y8jXiaGj7XHEQg0vvvwJVTl6MZN1XzYO_eJd-OfyHYLJQ>
- <xmx:DPLfX4jgekGth9QEmV8rRSV_5fm4pcJBhZIeGWfn2WYrxzxx3nr01w>
- <xmx:DvLfX47_ys_J75tgycK8JorROAT7nEQHrm4q-KZh6pKEibCqmxtDBZWbkiBNOryd>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeflihgrgihu
+ nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
+ ftrfgrthhtvghrnhepjeeuhfekgeehhefftefgueevuedvueekveekieegudfhhffgvddv
+ heehhfffhfdunecuffhomhgrihhnpegrlhhpihhnvghlihhnuhigrdhorhhgnecukfhppe
+ eghedrfeefrdehtddrvdehgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
+ mhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:FPLfX1dogoQ3mhTe_E3EtuRa1puwsO-A0JH-D8IDh4G2rTdA1tTVSg>
+ <xmx:FPLfXzIDXHzP4lH9w-JwSz_kCE1opnrjgx_Yy7Is316RO-VPzV6uuQ>
+ <xmx:FPLfX6IMaChvbEp2_6a2XZCLcOV68e7IEzHuQ3rdQ9EYPMPCw_Q2Og>
+ <xmx:FPLfX8j1NJSusrn0wJNIDurb048IU7JL5JaihxM6LwD6voiTzv7c5mdE26P2YMP1>
 Received: from strike.U-LINK.com (li1000-254.members.linode.com [45.33.50.254])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7995B24005A;
- Sun, 20 Dec 2020 19:53:24 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id A112F24005C;
+ Sun, 20 Dec 2020 19:53:33 -0500 (EST)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/9] Alpine Linux build fix and CI pipeline
-Date: Mon, 21 Dec 2020 08:53:09 +0800
-Message-Id: <20201221005318.11866-1-jiaxun.yang@flygoat.com>
+Subject: [PATCH 1/9] tests/docker: Add dockerfile for Alpine Linux
+Date: Mon, 21 Dec 2020 08:53:10 +0800
+Message-Id: <20201221005318.11866-2-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201221005318.11866-1-jiaxun.yang@flygoat.com>
+References: <20201221005318.11866-1-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: permerror client-ip=66.111.4.224;
@@ -113,39 +115,74 @@ Adding it to test against different libc.
 
 [1]: https://alpinelinux.org/
 
-Tree avilable at: https://gitlab.com/FlyGoat/qemu/-/tree/alpine_linux_v1
-
-Jiaxun Yang (9):
-  tests/docker: Add dockerfile for Alpine Linux
-  configure: Add sys/timex.h to probe clk_adjtime
-  configure/meson: Only check sys/signal.h on non-Linux
-  libvhost-user: Include poll.h instead of sys/poll.h
-  elf2dmp: Rename PAGE_SIZE to ELF2DMP_PAGE_SIZE
-  hw/block/nand: Rename PAGE_SIZE to NAND_PAGE_SIZE
-  accel/kvm: avoid using predefined
-  tests: Rename PAGE_SIZE definitions
-  gitlab-ci: Add alpine to pipeline
-
- .gitlab-ci.d/containers.yml               |  5 ++
- .gitlab-ci.yml                            | 23 ++++++++
- accel/kvm/kvm-all.c                       |  3 +
- configure                                 |  1 +
- contrib/elf2dmp/addrspace.c               |  4 +-
- contrib/elf2dmp/addrspace.h               |  6 +-
- contrib/elf2dmp/main.c                    | 18 +++---
- hw/block/nand.c                           | 40 ++++++-------
- meson.build                               |  5 +-
- subprojects/libvhost-user/libvhost-user.h |  2 +-
- tests/docker/dockerfiles/alpine.docker    | 56 ++++++++++++++++++
- tests/migration/stress.c                  | 10 ++--
- tests/qtest/libqos/malloc-pc.c            |  4 +-
- tests/qtest/libqos/malloc-spapr.c         |  4 +-
- tests/qtest/m25p80-test.c                 | 54 ++++++++---------
- tests/tcg/multiarch/system/memory.c       |  6 +-
- tests/test-xbzrle.c                       | 70 +++++++++++------------
- 17 files changed, 201 insertions(+), 110 deletions(-)
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ tests/docker/dockerfiles/alpine.docker | 56 ++++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
  create mode 100644 tests/docker/dockerfiles/alpine.docker
 
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+new file mode 100644
+index 0000000000..a1b80f08d2
+--- /dev/null
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -0,0 +1,56 @@
++
++FROM alpine:edge
++
++RUN apk update
++RUN apk upgrade
++
++# Please keep this list sorted alphabetically
++ENV PACKAGES \
++	alsa-lib-dev \
++	bash \
++	bison \
++	build-base \
++	coreutils \
++	curl-dev \
++	flex \
++	git \
++	glib-dev \
++	glib-static \
++	gnutls-dev \
++	gtk+3.0-dev \
++	libaio-dev \
++	libcap-dev \
++	libcap-ng-dev \
++	libjpeg-turbo-dev \
++	libnfs-dev \
++	libpng-dev \
++	libseccomp-dev \
++	libssh-dev \
++	libusb-dev \
++	libxml2-dev \
++	linux-headers \
++	lzo-dev \
++	mesa-dev \
++	mesa-egl \
++	mesa-gbm \
++	meson \
++	ncurses-dev \
++	ninja \
++	paxmark \
++	perl \
++	pulseaudio-dev \
++	python3 \
++	py3-sphinx \
++	snappy-dev \
++	spice-dev \
++	texinfo \
++	usbredir-dev \
++	util-linux-dev \
++	vde2-dev \
++	virglrenderer-dev \
++	vte3-dev \
++	xfsprogs-dev \
++	zlib-dev \
++	zlib-static
++
++RUN apk add $PACKAGES
 -- 
 2.29.2
 
