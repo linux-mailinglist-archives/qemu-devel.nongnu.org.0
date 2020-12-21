@@ -2,67 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21AB22DFA0F
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 09:42:32 +0100 (CET)
-Received: from localhost ([::1]:44106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D9A2DFA25
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 09:51:30 +0100 (CET)
+Received: from localhost ([::1]:51200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krGly-0008Lh-PU
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 03:42:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52750)
+	id 1krGud-0003RS-HB
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 03:51:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1krGkS-0007cW-IZ
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 03:40:56 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1krGkP-0005NP-Ox
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 03:40:56 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1krGkM-0000iH-5t
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 08:40:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2AE062E8139
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 08:40:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1krGtp-00031k-Ke; Mon, 21 Dec 2020 03:50:37 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21396)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1krGtn-0001dA-Md; Mon, 21 Dec 2020 03:50:37 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0BL8WcOA083598; Mon, 21 Dec 2020 03:50:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to : cc
+ : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=a/vb/MGdYzn9sOvcsG9mVd5+YA+RZR4SmjvqtjVgYHA=;
+ b=MZMwcRHnfAmygbHojP988dXtqf1eUR0DKUuk5AZzw5jsV9J8bGAxQJLUYTR3F12XPtyI
+ Ha508O7HLeYDBDuDvEz9qy/YlMPuEsmYNnSj6hXAPfgpGIX3Cv3LRn/yCi7fm+c2In7o
+ 0odKhCUjBgWnZL3bF1GuEihdFlEfYOi+QGbS8qEqLDi/W8rcaseyFzEI6NeXIPGxPYJz
+ HNKWtuY4/rJFrix6mAk7hmJn8TYB2AN7wPhP/4TOa1UaZHwFyqmZxQqCojNJNnhyvuQh
+ YDDxlt9cGmdqasBakKG2tgX+p5U9Cee8Xn6EQ9JGQc8KkvutWU4UYI9pnSZOdWlYz5CL 7w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35jjqafw6p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Dec 2020 03:50:30 -0500
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BL8WvCp084612;
+ Mon, 21 Dec 2020 03:50:30 -0500
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35jjqafw5w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Dec 2020 03:50:30 -0500
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BL8kvIG027345;
+ Mon, 21 Dec 2020 08:50:27 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06ams.nl.ibm.com with ESMTP id 35h8sh1uhq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 21 Dec 2020 08:50:27 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0BL8oOxJ50200954
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 21 Dec 2020 08:50:24 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9B8E94C04E;
+ Mon, 21 Dec 2020 08:50:24 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2F0314C058;
+ Mon, 21 Dec 2020 08:50:24 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.60.78])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 21 Dec 2020 08:50:24 +0000 (GMT)
+Subject: Re: [PATCH v2 2/2] s390x/pci: Fix memory_region_access_valid call
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+References: <1608243397-29428-1-git-send-email-mjrosato@linux.ibm.com>
+ <1608243397-29428-3-git-send-email-mjrosato@linux.ibm.com>
+ <72f4e03f-7208-6af0-4cd2-9715d9f9ec77@linux.ibm.com>
+ <20201218120440.36b56e80.cohuck@redhat.com>
+ <2c5a2ccb-dbe1-f355-3980-462be1d93942@linux.ibm.com>
+ <20201218163206.7b8efa2a.cohuck@redhat.com>
+ <52c93c12-b9a4-99ba-186c-4db2e6267b9f@linux.ibm.com>
+ <20201218175119.5f43b378.cohuck@redhat.com>
+ <608f9aff-965f-62ee-6034-c61f98213200@linux.ibm.com>
+Message-ID: <79611b57-f88d-00d0-a13b-a9acc1100781@linux.ibm.com>
+Date: Mon, 21 Dec 2020 09:50:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Dec 2020 08:35:40 -0000
-From: Thomas Huth <1908450@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
- assignee=jsnow@redhat.com; 
-X-Launchpad-Bug-Tags: ata atapi ide identify x86
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gourryinverse th-huth
-X-Launchpad-Bug-Reporter: Gregory Price (gourryinverse)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160815666653.31417.1447357912774624366.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160853974077.12208.2344520758063471744.malone@chaenomeles.canonical.com>
-Subject: [Bug 1908450] Re: ide/core.c ATA Major Version reporting incorrect
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 5947d64600bb5cd2472c4b81b748e1fdb475361d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
+In-Reply-To: <608f9aff-965f-62ee-6034-c61f98213200@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-21_02:2020-12-19,
+ 2020-12-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1015
+ lowpriorityscore=0 phishscore=0 malwarescore=0 impostorscore=0 spamscore=0
+ mlxscore=0 mlxlogscore=892 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012210057
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -59
+X-Spam_score: -6.0
 X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.299,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,82 +117,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908450 <1908450@bugs.launchpad.net>
+Cc: thuth@redhat.com, Matthew Rosato <mjrosato@linux.ibm.com>, david@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John, could you please have a look?
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> John Snow (jnsnow)
 
--- =
+On 12/18/20 6:05 PM, Pierre Morel wrote:
+> 
+> 
+> On 12/18/20 5:51 PM, Cornelia Huck wrote:
+>> On Fri, 18 Dec 2020 17:40:50 +0100
+>> Pierre Morel <pmorel@linux.ibm.com> wrote:
+>>
+>>> On 12/18/20 4:32 PM, Cornelia Huck wrote:
+>>>> On Fri, 18 Dec 2020 15:32:08 +0100
+>>>> Pierre Morel <pmorel@linux.ibm.com> wrote:
+>>>>> On 12/18/20 12:04 PM, Cornelia Huck wrote:
+>>>>>> On Fri, 18 Dec 2020 10:37:38 +0100
+>>>>>> Pierre Morel <pmorel@linux.ibm.com> wrote:
+>>>>>>> On 12/17/20 11:16 PM, Matthew Rosato wrote:
+>>>>>>>> In pcistb_service_handler, a call is made to validate that the 
+>>>>>>>> memory
+>>>>>>>> region can be accessed.  However, the call is made using the 
+>>>>>>>> entire length
+>>>>>>>> of the pcistb operation, which can be larger than the allowed 
+>>>>>>>> memory
+>>>>>>>> access size (8).  Since we already know that the provided buffer 
+>>>>>>>> is a
+>>>>>>>> multiple of 8, fix the call to memory_region_access_valid to 
+>>>>>>>> iterate
+>>>>>>>> over the memory region in the same way as the subsequent call to
+>>>>>>>> memory_region_dispatch_write.
+>>>>>>>>
+>>>>>>>> Fixes: 863f6f52b7 ("s390: implement pci instructions")
+>>>>>>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>>>>>>>> ---
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908450
+...snip...
 
-Title:
-  ide/core.c ATA Major Version reporting incorrect
+>>>>
+>>>
+>>> The ops already exist, I thought adding a dedicated callback for s390 on
+>>> every regions used by vfio_pci instead of the default.
+>>> But it does not add a lot, just looks cleaner to me.
+>>
+>> But we end up here for every pci device, not just for vfio devices,
+>> don't we?
+>>
+>>
+> 
+> Yes, but isn't what is done here?
+> 
 
-Status in QEMU:
-  New
+It was not my intention to slow the integration process.
+We can start with this fix and eventually move the code to the callback 
+in another series when/if we all agree.
 
-Bug description:
-  @@ -165,7 +165,7 @@ static void ide_identify(IDEState *s)
-          put_le16(p + 76, (1 << 8));
-      }
+Acked-by: Pierre Morel <pmorel@linux.ibm.com>
 
-      put_le16(p + 80, 0xf0); /* ata3 -> ata6 supported */
-  -   put_le16(p + 80, 0xf0); /* ata3 -> ata6 supported */
-  +   put_le16(p + 80, ((1 << 6) | (1 << 5) (1 << 4) (1 << 3)); /* ata3 -> =
-ata6 supported */
-      put_le16(p + 81, 0x16); /* conforms to ata5 */
-      /* 14=3DNOP supported, 5=3DWCACHE supported, 0=3DSMART supported */
-      put_le16(p + 82, (1 << 14) | (1 << 5) | 1);
 
-  =
 
-  This field Major Version Number field is presently reporting support for =
-ATA-4 through ATA-7.
-  Bitfield[80] is defined in the ATA-6 specification below.
-
-  0xF0 =3D (1<<7) | (1<<6) | (1 << 5) | (1 << 4) // 4-7 - current settings
-  0x78 =3D (1<<6) | (1<<5) | (1 << 4) | (1 << 3) // 3-6 - new settings
-
-  Either the comment is wrong, or the field is wrong. If the field is
-  wrong it can cause errors in drivers that check support vs conformity.
-  This will not break most guests, since the conformity field is set to
-  ATA-5.
-
-  I'm not sure whether this component supports ATA-7, but since it's
-  commented as if it supports up through 6, correcting the field
-  assignment seems more correct.
-
-  ATA/ATAPI-6 Specification
-  https://web.archive.org/web/20200124094822/https://www.t13.org/Documents/=
-UploadedDocuments/project/d1410r3b-ATA-ATAPI-6.pdf
-
-  Page 116
-  80 - M Major version number
-  0000h or FFFFh =3D device does not report version
-  F 15 Reserved
-  F 14 Reserved for ATA/ATAPI-14
-  F 13 Reserved for ATA/ATAPI-13
-  F 12 Reserved for ATA/ATAPI-12
-  F 11 Reserved for ATA/ATAPI-11
-  F 10 Reserved for ATA/ATAPI-10
-  F 9 Reserved for ATA/ATAPI-9
-  F 8 Reserved for ATA/ATAPI-8
-  F 7 Reserved for ATA/ATAPI-7
-  F 6 1 =3D supports ATA/ATAPI-6
-  F 5 1 =3D supports ATA/ATAPI-5
-  F 4 1 =3D supports ATA/ATAPI-4
-  F 3 1 =3D supports ATA-3
-  X 2 Obsolete
-  X 1 Obsolete
-  F 0 Reserved
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908450/+subscriptions
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
