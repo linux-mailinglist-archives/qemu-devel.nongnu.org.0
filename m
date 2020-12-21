@@ -2,88 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9F42DF9E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 09:26:31 +0100 (CET)
-Received: from localhost ([::1]:39250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548F92DFA10
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 09:42:41 +0100 (CET)
+Received: from localhost ([::1]:44752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krGWU-0005IS-Hf
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 03:26:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50406)
+	id 1krGm8-0000Ab-CG
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 03:42:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1krGVe-0004dt-Qy; Mon, 21 Dec 2020 03:25:38 -0500
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:50179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1krGVc-0006FI-JX; Mon, 21 Dec 2020 03:25:38 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 1049E746;
- Mon, 21 Dec 2020 03:25:32 -0500 (EST)
-Received: from imap1 ([10.202.2.51])
- by compute6.internal (MEProxy); Mon, 21 Dec 2020 03:25:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type; s=fm1; bh=lQSJlbSnCrIxq7ACsUlUgE3h2uggyz5
- DzOSy8q0FVIM=; b=u2j79H66TxeTWNVEiDwkPDSOgmbgaI3/eCwYXlietxyr7gd
- 0nwr73Uu6KcoZL/4NrEt10DRTJphQRqVdPPHFuIjSa626iz9kiViCJ350izVuDB+
- WZ1w0JU1I8iDOKUCuPvntAP9aMlIkR0C67xNT+whX/uslnYuqqZcHIZhvrw85HfJ
- oS4TtyZF10E/7l9eehYgsXpc5nS6Ws/8iVFoR0s1S/jmcj661Q0LC68vmxqLaAuP
- 8kTwX/sQZAMqRkvQyKqVuD9UIcoBqpa4CiRgvvyHEoZ0ALSOSgxr67icCgxm4uXk
- Wil/JsWfPhT0BVwhdLqatpLsTIUsTh2z6kRfN2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=lQSJlb
- SnCrIxq7ACsUlUgE3h2uggyz5DzOSy8q0FVIM=; b=kQL17YDH5+IaBFLRnqkj2E
- TAXGznBi6tmWeKRltJ2osDqyQI95vhC4oIM8gC0b6/YfLWwX2FSbDwzXm5k+OA0v
- +VQf9WZLRw/2DjiclSzMSv03qnEVlbgJwp10aZib1svDL+lxW8Uk9+o9uE/J48Cu
- BCee1tvH2mRT5zTn61ZRrdCMkkoSKvYqE+lMLqCAqXkgFZzDZLTF9WVRF27mmdPj
- aP98DKaqBeu8IdITEI5Nt6LhrY9yHcDYPJ0SjyhWiRAeVk4jV2K97LMr02p/mlLI
- FS/LAJu3DskgNuUilzKjpjc5SHwdYqXTI1Y6BD6cFoNIUs9ZjJ8XlCvxpOtSiKsQ
- ==
-X-ME-Sender: <xms:-VvgX_JIcdRuwMwazIJG4Z_VJ25pYTssF3a7TKP8IwzwJOermgJqPg>
- <xme:-VvgXzKX057BOIJ3gf5e_KFTjaUTabBq6xZBN6DapTWj5yciQXdIw3GQcHiF_yJkH
- HcBmXv-haphFTYth78>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtuddguddvudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkjghffffhvffutgesth
- dtredtreertdenucfhrhhomhepfdflihgrgihunhcujggrnhhgfdcuoehjihgrgihunhdr
- higrnhhgsehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpeeliefhjeffhf
- ejffetveevvdehvefftdejveethedtgffhgffghedvudefuedvveenucffohhmrghinhep
- phgrthgthhgvfidrohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihg
- ohgrthdrtghomh
-X-ME-Proxy: <xmx:-VvgX3ukZm8eAKPtlngEBKY8pYjJ-p_x6x66LKPk3lp4CaRKevIUlg>
- <xmx:-VvgX4b2wTYvvZhbG9PAGznolGePGqj0FuEAxveX9ztI-841IYRDCA>
- <xmx:-VvgX2Yf3keCw4ui2iD8kfNnEBF-vnC3nPEcxsiArbgWsI6QiTkKLw>
- <xmx:-1vgX-pd_hzIMV1mCwlNF3tNfQm0ujR25DjCs8UaL9kKXIMA0riqeAAVv9U5RNplLpmI2A>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 0EF61C200A5; Mon, 21 Dec 2020 03:25:30 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.3.1-61-gb52c239-fm-20201210.001-gb52c2396
-Mime-Version: 1.0
-Message-Id: <1389d6d1-33fe-46cc-b03c-f2a40e03853b@www.fastmail.com>
-In-Reply-To: <160851280526.21294.6201442635975331015@600e7e483b3a>
-References: <160851280526.21294.6201442635975331015@600e7e483b3a>
-Date: Mon, 21 Dec 2020 16:25:08 +0800
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1krGkb-0007kg-K8
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 03:41:05 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41904)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1krGkZ-0005RP-Nj
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 03:41:05 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1krGkX-0000tb-L4
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 08:41:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 61B042E8148
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 08:41:01 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 21 Dec 2020 08:33:02 -0000
+From: Thomas Huth <1884990@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/9] Alpine Linux build fix and CI pipeline
-Content-Type: text/plain
-Received-SPF: permerror client-ip=64.147.123.17;
- envelope-from=jiaxun.yang@flygoat.com; helo=wnew3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: kvanals philmd th-huth
+X-Launchpad-Bug-Reporter: Kenneth Van Alstyne (kvanals)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159301342319.25339.2718719880566533302.malonedeb@gac.canonical.com>
+Message-Id: <160853958222.28187.4523789356940435325.malone@gac.canonical.com>
+Subject: [Bug 1884990] Re: Cirrus graphics results in monochrome colour depth
+ at 640x480 resolution
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
+X-Launchpad-Hash: b971b861adbed00ef94206fdd0971fe73523705c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,133 +71,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, thuth@redhat.com, kvm@vger.kernel.org,
- viktor.prutyanov@phystech.edu, lvivier@redhat.com, alex.bennee@linaro.org,
- alistair@alistair23.me, groug@kaod.org, wainersm@redhat.com, mreitz@redhat.com,
- qemu-ppc@nongnu.org, pbonzini@redhat.com, qemu-block@nongnu.org,
- philmd@redhat.com, david@gibson.dropbear.id.au
+Reply-To: Bug 1884990 <1884990@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The patch mentioned by Philippe ("vga: fix cirrus bios") has been included =
+into QEMU via this commit here:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dde15df5ead400b7c3d0cf2
+... which has been released as part of QEMU v5.1 already. Thus this issue s=
+hould be fixed now.
 
+** Changed in: qemu
+       Status: New =3D> Fix Released
 
-On Mon, Dec 21, 2020, at 9:06 AM, no-reply@patchew.org wrote:
-> Patchew URL: 
-> https://patchew.org/QEMU/20201221005318.11866-1-jiaxun.yang@flygoat.com/
-> 
-> 
-> 
-> Hi,
-> 
-> This series seems to have some coding style problems. See output below for
-> more information:
-> 
-> Type: series
-> Message-id: 20201221005318.11866-1-jiaxun.yang@flygoat.com
-> Subject: [PATCH 0/9] Alpine Linux build fix and CI pipeline
-> 
-> === TEST SCRIPT BEGIN ===
-> #!/bin/bash
-> git rev-parse base > /dev/null || exit 0
-> git config --local diff.renamelimit 0
-> git config --local diff.renames True
-> git config --local diff.algorithm histogram
-> ./scripts/checkpatch.pl --mailback base..
-> === TEST SCRIPT END ===
-> 
-> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
-> From https://github.com/patchew-project/qemu
->  * [new tag]         
-> patchew/20201221005318.11866-1-jiaxun.yang@flygoat.com -> 
-> patchew/20201221005318.11866-1-jiaxun.yang@flygoat.com
-> Switched to a new branch 'test'
-> 10095a9 gitlab-ci: Add alpine to pipeline
-> a177af3 tests: Rename PAGE_SIZE definitions
-> 5fcb0ed accel/kvm: avoid using predefined PAGE_SIZE
-> e7febdf hw/block/nand: Rename PAGE_SIZE to NAND_PAGE_SIZE
-> ba307d5 elf2dmp: Rename PAGE_SIZE to ELF2DMP_PAGE_SIZE
-> 0ccf92b libvhost-user: Include poll.h instead of sys/poll.h
-> 41a10db configure/meson: Only check sys/signal.h on non-Linux
-> 0bcd2f2 configure: Add sys/timex.h to probe clk_adjtime
-> a16c7ff tests/docker: Add dockerfile for Alpine Linux
-> 
-> === OUTPUT BEGIN ===
-> 1/9 Checking commit a16c7ff7d859 (tests/docker: Add dockerfile for Alpine Linux)
-> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> #20: 
-> new file mode 100644
-> 
-> total: 0 errors, 1 warnings, 56 lines checked
-> 
-> Patch 1/9 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 2/9 Checking commit 0bcd2f2eae84 (configure: Add sys/timex.h to probe 
-> clk_adjtime)
-> 3/9 Checking commit 41a10dbdc8da (configure/meson: Only check 
-> sys/signal.h on non-Linux)
-> 4/9 Checking commit 0ccf92b8ec37 (libvhost-user: Include poll.h instead 
-> of sys/poll.h)
-> 5/9 Checking commit ba307d5a51aa (elf2dmp: Rename PAGE_SIZE to 
-> ELF2DMP_PAGE_SIZE)
-> WARNING: line over 80 characters
-> #69: FILE: contrib/elf2dmp/main.c:284:
-> +        h.PhysicalMemoryBlock.NumberOfPages += ps->block[i].size / 
-> ELF2DMP_PAGE_SIZE;
-> 
-> WARNING: line over 80 characters
-> #79: FILE: contrib/elf2dmp/main.c:291:
-> +    h.RequiredDumpSpace += h.PhysicalMemoryBlock.NumberOfPages << 
-> ELF2DMP_PAGE_BITS;
-> 
-> total: 0 errors, 2 warnings, 70 lines checked
-> 
-> Patch 5/9 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 6/9 Checking commit e7febdf0b056 (hw/block/nand: Rename PAGE_SIZE to 
-> NAND_PAGE_SIZE)
-> ERROR: code indent should never use tabs
-> #26: FILE: hw/block/nand.c:117:
-> +# define PAGE_START(page)^I(PAGE(page) * (NAND_PAGE_SIZE + OOB_SIZE))$
-> 
-> ERROR: code indent should never use tabs
-> #46: FILE: hw/block/nand.c:134:
-> +# define NAND_PAGE_SIZE^I^I2048$
-> 
-> WARNING: line over 80 characters
-> #65: FILE: hw/block/nand.c:684:
-> +        mem_and(iobuf + (soff | off), s->io, MIN(s->iolen, 
-> NAND_PAGE_SIZE - off));
-> 
-> WARNING: line over 80 characters
-> #70: FILE: hw/block/nand.c:687:
-> +            mem_and(s->storage + (page << OOB_SHIFT), s->io + 
-> NAND_PAGE_SIZE - off,
-> 
-> total: 2 errors, 2 warnings, 120 lines checked
-> 
-> Patch 6/9 has style problems, please review.  If any of these errors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> 
-> 7/9 Checking commit 5fcb0ed1331a (accel/kvm: avoid using predefined PAGE_SIZE)
-> 8/9 Checking commit a177af33938d (tests: Rename PAGE_SIZE definitions)
-> 9/9 Checking commit 10095a92643d (gitlab-ci: Add alpine to pipeline)
-> === OUTPUT END ===
-> 
-> Test command exited with code: 1
+-- =
 
-All pre-existing errors.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1884990
 
-> 
-> 
-> The full log is available at
-> http://patchew.org/logs/20201221005318.11866-1-jiaxun.yang@flygoat.com/testing.checkpatch/?type=message.
-> ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
+Title:
+  Cirrus graphics results in monochrome colour depth at 640x480
+  resolution
 
--- 
-- Jiaxun
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  Recently we upgraded to a distribution that bundled QEMU 4.2.0.  We
+  were previously running on QEMU 3.0.0.  When booting Windows 10 VMs on
+  x86_64, users experienced slow, monochrome graphics and the resolution
+  was restricted to 640x480.  Reverting to the prior vgabios-cirrus.bin
+  from the prior source tarball remediated the issue.
+
+  An example QEMU command line is below, if needed:
+  /bin/qemu-system-x86_64 -vnc 0.0.0.0:100 -device cirrus-vga,id=3Dvideo0,b=
+us=3Dpci.0,addr=3D0x2  -machine pc-i440fx-4.2,accel=3Dkvm,usb=3Doff,dump-gu=
+est-core=3Doff -cpu qemu64 -m 2048 -overcommit mem-lock=3Doff -smp 1,socket=
+s=3D1,cores=3D1,threads=3D1 -no-user-config -nodefaults -hda test.raw &
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1884990/+subscriptions
 
