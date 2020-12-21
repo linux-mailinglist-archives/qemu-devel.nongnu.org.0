@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A37C92DFD79
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:25:35 +0100 (CET)
-Received: from localhost ([::1]:51088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696422DFD8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:28:57 +0100 (CET)
+Received: from localhost ([::1]:38228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krN3y-0004aG-PC
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:25:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48922)
+	id 1krN7I-0002oh-Fz
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:28:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1krMw9-0008Fn-Pa
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 10:17:26 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:49533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1krMw3-0001Ob-B3
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 10:17:25 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id DA6995C01E5;
- Mon, 21 Dec 2020 10:17:14 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 21 Dec 2020 10:17:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=Epq3EQwJgZ5c/dOkaJef0AxChoI
- N4oN/F5bNe0juSek=; b=eAoygY6MTcaihh3toLpbgXmOpCLDkxuh7P9fPjcX6X2
- U2BHcoZaEFd012y6CaJpMQvnw+vGnRZKP48WPw16cNfKql+M5BBrK8WdICfRYAq5
- 1IfXZTrk/AdxJOvkDFuS5L3eH7T/ee/OjF7zqm0aBT/Ju3UnnP0Bj4JGSr+LccRJ
- fJ7vCXAWBiNZB3bR1Eofs3ph/NxKbhL6OnJCWXWFs8a53iserCiZY00jyo/suWfL
- f/Da12xe80610vyylH2qz7CSg01ILBjm2wUvid1d9EmJSS9UYKAtHbj/0AvT0kFV
- uWimebSs4EB2PCPbt41QEDGoIiHhR0/GESu/ObpWt6g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Epq3EQ
- wJgZ5c/dOkaJef0AxChoIN4oN/F5bNe0juSek=; b=cakk9asaZnzbapeAbvEUE+
- 1dhpaBAoX8LzvtVH7GsMUtJc2Vop5sMMPZh2SXA2yJejg23aJnwNRoNsHxElsmsz
- e56ClNHsCLOFR7z+L0yZ/npiILY2aIsOumkqBghViVuz2/TEzBXwCe5D+4vAKbey
- FBM/OMH8nMkqx+pZKDAy0TQwRqX/tcmgprr9Aqhn3anXOal8tZQoKh7k/MtyGc4g
- pr5SJkApIi3sxwcQAUu0NpUUAr8DF96JyelZIauQ1QLpgiUMnTHAZRH+iYO8UPYj
- 1s1cCPtAka3z7m97Qdk8szBl07MLxM68plDHo4nOAbXyeSUWGQxPlBtqhhVGawxw
- ==
-X-ME-Sender: <xms:ebzgX1WosWfWb_kErNeDTVmDCb5Hk6ohET6AMc0NRTB-AZsS7wRujA>
- <xme:ebzgX1kmM_Dt0dTKvBOi8jJEkBjMDyTYSN345aIuqRsnxEUHYwXvzlwifm1kareZc
- FnbQQiBz0a9C4skRO0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtvddgjeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:ebzgXxaip7lH0wd4PRLnze_9t1SoPNk1Mh-7dz-B7C2IBFdooFhRYQ>
- <xmx:ebzgX4UzK21qm4UeINDYcbq6GPaoqN1wRgj9kK7RN4_65MuyYTrK_A>
- <xmx:ebzgX_kxjlyZmqL4uEvx0-nx44Dwo6SreFVnSPOjzaoJ7htJ1r_wiA>
- <xmx:erzgX9gyz1rcHxq5hZaFZKzylHqWBLXM-vcJJvwlF4YJds9acENeBQ>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1609824005C;
- Mon, 21 Dec 2020 10:17:12 -0500 (EST)
-Date: Mon, 21 Dec 2020 16:17:10 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: Dropped/disabled NVME support in qemu
-Message-ID: <X+C8dpngmpVsy0Q3@apples.localdomain>
-References: <bcf1a98d-e86b-7b34-e384-b4b7e0e22747@roeck-us.net>
- <77d714a6-9922-1541-9f32-6ccb6ff9ea0f@redhat.com>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1krMwW-0008Ou-6n
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 10:17:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46168)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1krMwQ-0001U4-Og
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 10:17:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608563856;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=O/X7eD4L9r4wf37CaXSlFG0H63KmGZb6YVR8cH5yGTM=;
+ b=WknZ1nndafkpz18env0MT9esVGq9TFL7FKlnVk7lD2jXqw2EB9aovKTrqQZ3WEVdXOnf9k
+ jZ/qGVDHWGiX7W53G+ACZ6dKxRMDV3okBaMxSpHq6U8HeQYy8xHfOnI3FRG3leD5IRPLZq
+ OsDgJ6xfPWE5N9k4JV0PY6YC0cd/oto=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-443-d5m9J9UUOWCSLvwwgnpz7g-1; Mon, 21 Dec 2020 10:17:33 -0500
+X-MC-Unique: d5m9J9UUOWCSLvwwgnpz7g-1
+Received: by mail-ot1-f72.google.com with SMTP id f11so5178215otp.13
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 07:17:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=O/X7eD4L9r4wf37CaXSlFG0H63KmGZb6YVR8cH5yGTM=;
+ b=GlHeY/EPjcvL5bSJH6Hc8v3qvpAVMu8i/oJI3OuIuikQAlzP16vVd2WDTx04U7Wqof
+ qr9x7HS0/lqoOvRg1EQlEF0KXc6YmqBfao5v9/WEPG0LvqLu0yrr8sk1+YmlOsLwmViH
+ Wqs1Vy6B9VO0tbzyztjnXU+yi5osxzZVYz4rUtOwvFCXycpnkGjOc5RFVcZd3BpATISg
+ xbm8/EnCA4+LsZ/DMwVkZx2YbJoZRKLKVg9qkMnC7s9ZYMPXLqK7y0Nz0uxENDrQhEpf
+ wQ2asL6Qo8Dv7sC2LzsVLsfAdOK+XzObG68nJtOcCdj3jZlZ5rRB1IvbbFtNeEm8jLw7
+ Nncg==
+X-Gm-Message-State: AOAM530A7/Vb8oTBnMXgWXcH/5SSQOYHeQDiKpcQOOAxt21aqVH3rB14
+ KQrwcAtjsIWtl/IvNAPmpj5B4ob6MgNMW0Hyz9kIFEOtdXVptyLCLYioOkdfNW2wB/MG+jERUIg
+ VobsJNrKqUKSqVWI=
+X-Received: by 2002:aca:5653:: with SMTP id k80mr11554694oib.0.1608563852617; 
+ Mon, 21 Dec 2020 07:17:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwtz/5R9Wq/FHRgtuUXbX5KsEfAMqjk3OfW5M37KqOrcYe1JR/DsW3pImPkrzuaGVcNoOzocw==
+X-Received: by 2002:aca:5653:: with SMTP id k80mr11554673oib.0.1608563852358; 
+ Mon, 21 Dec 2020 07:17:32 -0800 (PST)
+Received: from xz-x1 ([142.126.83.202])
+ by smtp.gmail.com with ESMTPSA id e12sm3889184otp.25.2020.12.21.07.17.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 21 Dec 2020 07:17:31 -0800 (PST)
+Date: Mon, 21 Dec 2020 10:17:25 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v10 0/5] UFFD write-tracking migration/snapshots
+Message-ID: <20201221151725.GA6640@xz-x1>
+References: <20201217165712.369061-1-andrey.gruzdev@virtuozzo.com>
+ <594af923-f960-5e8c-ec14-ef43d8ede8c9@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="kxUr1jeybEQABEQH"
+In-Reply-To: <594af923-f960-5e8c-ec14-ef43d8ede8c9@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <77d714a6-9922-1541-9f32-6ccb6ff9ea0f@redhat.com>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,81 +91,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Guenter Roeck <linux@roeck-us.net>
+Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Dec 21, 2020 at 03:44:38PM +0300, Andrey Gruzdev wrote:
+> Hi Peter,
+> 
+> I have a question about the Wiki page you've created https://wiki.qemu.org/ToDo/LiveMigration#Features.
+> May we also add to that page/have access rights?
 
---kxUr1jeybEQABEQH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Yes.  I'll send you another email soon for that.  Thanks,
 
-On Dec 21 15:11, Philippe Mathieu-Daud=C3=A9 wrote:
-> Cc'ing NVMe emulation maintainers.
->=20
-> On 12/21/20 6:12 AM, Guenter Roeck wrote:
-> > Hi all,
-> >=20
-> > since qemu v5.1, nvme support has been dropped from several architectur=
-es.
-> > Well, it was not exactly dropped, but disabled.
-> >=20
-> > On those architectures, trying to boot from an nvme drive now results
-> > in the following or a similar error message.
-> >=20
-> > qemu-system-alpha: -device nvme,serial=3Dfoo,drive=3Dd0: MSI-X is not s=
-upported by interrupt controller
-> >=20
-> > This is the result of the following two commits.
-> >=20
-> > fbf2e5375e ("hw/block/nvme: Verify msix_vector_use() returned value")
-> > 1c0c2163aa ("hw/block/nvme: verify msix_init_exclusive_bar() return val=
-ue")
-> >=20
-> > Affected architectures are alpha, parisc, ppc, sh, and sparc, and every=
- other
-> > architecture/platform where the interrupt controller does not support M=
-SI-X.
-> > After reverting above patches, I can boot from nvme again.
-> >=20
-> > This does not really matter for me - I run my own versions of qemu anyw=
-ay,
-> > and don't mind carrying reverts if I have to. However, for my education,
-> > I would like to understand why nvme support was disabled, especially si=
-nce
-> > it seemed to work for me just fine for years. Can someone please explai=
-n ?
-> >=20
-> > Thanks,
-> > Guenter
-> >=20
->=20
+-- 
+Peter Xu
 
-Hi Guenter,
-
-Thanks for reporting this. My apologies - this is an unintended
-regression. I'll get a revert staged.
-
-I'll of course also look into why this was not picked up doing testing.
-There is an nvme QTest that should have picked this up, but it obviously
-was not run for these architectures.
-
---kxUr1jeybEQABEQH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/gvHMACgkQTeGvMW1P
-DekpTQgAtFw4zjx3QzkgWJtpWIhtgG+H9z+4MEkfHyzakyYcE45ALrXNFNztqbFC
-Rn3Ana/8n40xJNhz0erFlY2YyxaeM1y1pN8oSDnor7aFpu5YUqT7BFZyhjyg/6Zq
-wRXxUyODuo912mzQ2ttugAf407WZkKrdZx10xBms3TxCjtm81UvHtobytxT88y09
-9FH4qlkCFLMPXDxD/4orI7bPAPROKCVZx0D0jdO7AZkszd5ZXqQoBe4s/2bXW5wM
-zVywSgEbSNa3U4OIZzCAkba1LpK0N86riwQp5UV6nzCq1Rgg7gQU5JMvGLDr+AYR
-iXTFt+5q9xn5uN5X1Hjjkqprg4wMJw==
-=3dwJ
------END PGP SIGNATURE-----
-
---kxUr1jeybEQABEQH--
 
