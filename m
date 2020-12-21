@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6DF92DFD4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:15:03 +0100 (CET)
-Received: from localhost ([::1]:34584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404682DFD9C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:34:27 +0100 (CET)
+Received: from localhost ([::1]:49930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krMtq-0005xy-SI
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:15:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42396)
+	id 1krNCc-0007tF-3Y
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:34:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRD-0004rQ-0T
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:31 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37967)
+ id 1krMRJ-0004wo-Mi
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:33 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMR8-0007ks-Bg
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:26 -0500
-Received: by mail-wm1-x329.google.com with SMTP id g185so11155922wmf.3
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:12 -0800 (PST)
+ id 1krMRC-0007kx-KU
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:33 -0500
+Received: by mail-wr1-x434.google.com with SMTP id t30so11339744wrb.0
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7RAuAOiHtCEg/kAzL1aVWGDPXJpz9DMSzL+PQoGrz8I=;
- b=Y7MpI3gCpoy1MhCGs2UQxG/zfq7//LHAmbRCZJ4wCFRvqQIzXVuul3aYq1ZsKdkWI9
- Wyf335BvR7IX/aRhBVPROhP6tr40956WaS23NN2ucrGUfTcrmtJprwuw26NxFp3RagAi
- ODSoGMEbM8kFzWtT9HA3QoUx2LfUWI9zwpEhtcSm7UtiK8cNFegeNguf28Vb/WuK70ok
- dwlup+s08IPqfqDbMY5XrFs9L9sNG9sHIYjyAaAxOLb34bxrPHd7WPTgcLuHV1zengjP
- +3uoenDCZLza+KfwrObNrP0sZ+PwK6/nZ9KXxRXSiqKsGdZGaTG89VgMhkpdis8ntr3i
- lhzg==
+ bh=ShYU9aOzFgjl095Tg4E1zebighsrFbmAImMfMf68LL4=;
+ b=EgsjkKON+xfiE8+K8jYLSt0dq86gmG5G9/yGzdlquso/zUQwoUIrLONqMFsg+qre0A
+ 3cDuAXf1gHacgTPZQlyQAPLmD42vmBCo2JSTYKFrf9nJY2eb8WZ5h7RzoliVnkKRjTwa
+ JHf1DeyHbWWk9vIliUvyj0s1FbcmK3oCHV0F6iM+aCfLqUj90pYV8M7NAwEZ1eYG8RBE
+ 9aTm2+Ci7mEUzluYBWwwxBCPRMcX0V9d/8khAduluAKAZNcX2zJFHU7mqodvZT+kv3uD
+ xOG0zeqt4kf63qoBSA40o4+EJ2WYj0jnZBJ1oP7O34aqe7UoRbMPYZN40733LPXOoUaZ
+ qsWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7RAuAOiHtCEg/kAzL1aVWGDPXJpz9DMSzL+PQoGrz8I=;
- b=Q5Qe008rfMwZIm1zdYHbqruDUakY1dVYVpUaKZvkZit/E5Z0L/fTWWIjw06Gw7yWz9
- dZLNX+jCb5vuH6cWyvski5GH4WdHBPKz1XhrJBT5TG4N4NFfhGP6mrbgSKZd5bWNFLGC
- 93MU9Tmuk19pI6bEyM7zSECEftAaVz7dYJUUY2wYDMpAN6torIJIfKceq2Q52Zd44k+T
- Q907S9MKVsLiSXMJG5h57yrjxCf/xx/UQRkx4kKjtsKydMnZhBBsebJOwwrUKk94bT+c
- 2340ZcA1eCzWpiJm+DSdGGAsMx5o8l6Wenx4KHPldSHvX7O/pZfINeOr67DcWPj6FdiP
- OdSA==
-X-Gm-Message-State: AOAM533SuGHRMcfKDPe7kq+96Q8v8qd8ADCKLoaJTnuwt+N8Aq+9wOy5
- a0OTZz/La+ZlBFkYjmfwU+FQR6eAcuw=
-X-Google-Smtp-Source: ABdhPJxhHd3hS8KL6gF5ZHpisbyPdrbhsTRSwt1FZ8ZCaNNsjIWKfCfNkyC1rkvI1A2kKKlG4Ybwkg==
-X-Received: by 2002:a7b:cc0f:: with SMTP id f15mr17138797wmh.29.1608561911271; 
- Mon, 21 Dec 2020 06:45:11 -0800 (PST)
+ bh=ShYU9aOzFgjl095Tg4E1zebighsrFbmAImMfMf68LL4=;
+ b=O62mfshZAJ6AV1tsJwKW/Bi4uNd95g82VoT9hitgMU839k2a1mRHV40nxjNRyroC0B
+ uKeMyOFCE6YU4+b8IVSHrJc0ZPkog/JnUCLH51rScbh7PjnAiEO/uXmXwCh2hAWLzzML
+ GyRqC4ZpMC1Wt1/fO41Z0+A14VzkPZVJSoXO1H/eTwU5892xD7rcvUUI9ILgI7m6ZBFo
+ YtOnVJjcMrpNmoD7C+eB5SWeBM3hU/kA+bfUi67I5z2n6QZMOx2VADFfYwGelJZuFL01
+ 49TsovELvRYZYpLvAD+E3Skkpk22/wspHAAmMYTUETNbzqtqJvPb6MI8XeAKLXrmV+vv
+ YjjQ==
+X-Gm-Message-State: AOAM533UgQMdPfhJx877gu7gHiVtVniwXrj2X1D0UiTqt39LDSNbXmOb
+ AmFtlQkv2lr1ib4hnmNx0e0/BC72eVo=
+X-Google-Smtp-Source: ABdhPJxpfC/OeezRAbUa2C/H+j8R4j55ZpWuDTh+ytAWENNlxGZh4aEXQGz6tg+2qdZlBlFjLKgm8g==
+X-Received: by 2002:a5d:51c4:: with SMTP id n4mr18711429wrv.67.1608561912082; 
+ Mon, 21 Dec 2020 06:45:12 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.10
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Dec 2020 06:45:10 -0800 (PST)
+ Mon, 21 Dec 2020 06:45:11 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/55] Makefile: add dummy target for build.ninja dependencies
-Date: Mon, 21 Dec 2020 15:44:17 +0100
-Message-Id: <20201221144447.26161-26-pbonzini@redhat.com>
+Subject: [PULL 26/55] meson: update submodule to 0.56.0
+Date: Mon, 21 Dec 2020 15:44:18 +0100
+Message-Id: <20201221144447.26161-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201221144447.26161-1-pbonzini@redhat.com>
 References: <20201221144447.26161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,29 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The dummy targets ensure that incremental build can be done after
-deleting a meson.build file.
-
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile | 1 +
- 1 file changed, 1 insertion(+)
+ configure | 2 +-
+ meson     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 76dbb917f5..fb9923ff22 100644
---- a/Makefile
-+++ b/Makefile
-@@ -133,6 +133,7 @@ Makefile.ninja: build.ninja
+diff --git a/configure b/configure
+index f470cdbe50..0a6de3b8ef 100755
+--- a/configure
++++ b/configure
+@@ -1936,7 +1936,7 @@ python_version=$($python -c 'import sys; print("%d.%d.%d" % (sys.version_info[0]
+ python="$python -B"
  
- # A separate rule is needed for Makefile dependencies to avoid -n
- build.ninja: build.ninja.stamp
-+$(build-files):
- build.ninja.stamp: meson.stamp $(build-files)
- 	$(NINJA) $(if $V,-v,) build.ninja && touch $@
- endif
+ if test -z "$meson"; then
+-    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.55.3; then
++    if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.56.0; then
+         meson=meson
+     elif test -e "${source_path}/.git" && test $git_update = 'yes' ; then
+         meson=git
+diff --git a/meson b/meson
+index 776acd2a80..f16d31607e 160000
+--- a/meson
++++ b/meson
+@@ -1 +1 @@
+-Subproject commit 776acd2a805c9b42b4f0375150977df42130317f
++Subproject commit f16d31607eb3cd0f281758bd0944e206ef6be387
 -- 
 2.29.2
 
