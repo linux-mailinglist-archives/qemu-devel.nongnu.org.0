@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C93CA2DF9D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 09:18:37 +0100 (CET)
-Received: from localhost ([::1]:35866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9F42DF9E3
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 09:26:31 +0100 (CET)
+Received: from localhost ([::1]:39250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krGOq-0003VY-TP
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 03:18:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48674)
+	id 1krGWU-0005IS-Hf
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 03:26:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1krGNl-0002wt-FR
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 03:17:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60873)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1krGNj-0002AV-NC
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 03:17:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608538647;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jYxLRZ3EOr3SOXpHKs3VP3d8duK/x/0djdzIJlPn7D8=;
- b=QiCZ6aE1kv++ZT9CTrjipctIXI2Vwt7FgB0oDarfdGz94IzzOcdo3xLBlzLynva70Iosa2
- baYjhh5CQdNkIE99dCXQD/J9DDCaXxUXU/FrBr1UannTrJMleqj+k+U29g6I8BHvHEjGJd
- K45M/k2c8NJn6ztw6tjinY6b7H2Lfds=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-Kvp2oGtBOaKDZlOySgPevw-1; Mon, 21 Dec 2020 03:17:15 -0500
-X-MC-Unique: Kvp2oGtBOaKDZlOySgPevw-1
-Received: by mail-il1-f197.google.com with SMTP id z8so8622862ilq.21
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 00:17:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jYxLRZ3EOr3SOXpHKs3VP3d8duK/x/0djdzIJlPn7D8=;
- b=IaBmbuJDcAOapH24p0818NJZs1oxURJshyDrwn3vuLaXvvgVIPbu8klVEEGnEcjyf7
- R94H7NeLCbF7Rb9Q2QCJ6pZBx1Y9+IJLztZwRswzJCnFg/R4E2wOkNuIDHiANvZ9Yu9M
- /mqLsS+AzaXPNlXJ+eTjT+HBsvfYv3oN8tL9rtBosls+hrp3BIy75j2q8+4q4+jxYNH0
- eZ6SfLEQXgNU5+qT9R7/GhJKblMdT9vrAM2k4l0UEHQs3QLIiu6HupTaWQC07Zx8wSdt
- 9WHi/jQI9VxwzRUvLSDDAoSWrHoVsP70PNrnpx9yEdh8VTokwiREWoUPTbu5mfspDFJr
- cJMA==
-X-Gm-Message-State: AOAM532W9o8UTTKHPIqWeyLcuNW3J6NfUlwNCUbGmvDFCorV2OqF4EPE
- qcp+CqfqApECX9XMJBR12fpiVZ6HMJ/QFE1w8/dqSH2wJOggdrFZZ31e42u+FV3Bp2upDlFZX2/
- Rtz0QE5p+QLdtvXLG8Sr3teGf/RJhaLM=
-X-Received: by 2002:a92:c26c:: with SMTP id h12mr14849081ild.165.1608538634425; 
- Mon, 21 Dec 2020 00:17:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyh9pE6SEdPW60TpKGhFulrd1VWfZtS+8eBnTps19vxCIl/kI3zaorjE18Ha9TUscAjRPY0L6j8OtVRiOOs8KI=
-X-Received: by 2002:a92:c26c:: with SMTP id h12mr14849069ild.165.1608538634239; 
- Mon, 21 Dec 2020 00:17:14 -0800 (PST)
-MIME-Version: 1.0
-References: <20201219090637.1700900-1-pbonzini@redhat.com>
- <20201219090637.1700900-3-pbonzini@redhat.com>
-In-Reply-To: <20201219090637.1700900-3-pbonzini@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 21 Dec 2020 12:17:03 +0400
-Message-ID: <CAMxuvazLz+EANi7AF3D3BPSBKmnx9qp6eq4oZg8Nnqg6X_U4aA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] whpx: move internal definitions to whpx-internal.h
-To: Paolo Bonzini <pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000e7003b05b6f51560"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1krGVe-0004dt-Qy; Mon, 21 Dec 2020 03:25:38 -0500
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:50179)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1krGVc-0006FI-JX; Mon, 21 Dec 2020 03:25:38 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 1049E746;
+ Mon, 21 Dec 2020 03:25:32 -0500 (EST)
+Received: from imap1 ([10.202.2.51])
+ by compute6.internal (MEProxy); Mon, 21 Dec 2020 03:25:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type; s=fm1; bh=lQSJlbSnCrIxq7ACsUlUgE3h2uggyz5
+ DzOSy8q0FVIM=; b=u2j79H66TxeTWNVEiDwkPDSOgmbgaI3/eCwYXlietxyr7gd
+ 0nwr73Uu6KcoZL/4NrEt10DRTJphQRqVdPPHFuIjSa626iz9kiViCJ350izVuDB+
+ WZ1w0JU1I8iDOKUCuPvntAP9aMlIkR0C67xNT+whX/uslnYuqqZcHIZhvrw85HfJ
+ oS4TtyZF10E/7l9eehYgsXpc5nS6Ws/8iVFoR0s1S/jmcj661Q0LC68vmxqLaAuP
+ 8kTwX/sQZAMqRkvQyKqVuD9UIcoBqpa4CiRgvvyHEoZ0ALSOSgxr67icCgxm4uXk
+ Wil/JsWfPhT0BVwhdLqatpLsTIUsTh2z6kRfN2Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=lQSJlb
+ SnCrIxq7ACsUlUgE3h2uggyz5DzOSy8q0FVIM=; b=kQL17YDH5+IaBFLRnqkj2E
+ TAXGznBi6tmWeKRltJ2osDqyQI95vhC4oIM8gC0b6/YfLWwX2FSbDwzXm5k+OA0v
+ +VQf9WZLRw/2DjiclSzMSv03qnEVlbgJwp10aZib1svDL+lxW8Uk9+o9uE/J48Cu
+ BCee1tvH2mRT5zTn61ZRrdCMkkoSKvYqE+lMLqCAqXkgFZzDZLTF9WVRF27mmdPj
+ aP98DKaqBeu8IdITEI5Nt6LhrY9yHcDYPJ0SjyhWiRAeVk4jV2K97LMr02p/mlLI
+ FS/LAJu3DskgNuUilzKjpjc5SHwdYqXTI1Y6BD6cFoNIUs9ZjJ8XlCvxpOtSiKsQ
+ ==
+X-ME-Sender: <xms:-VvgX_JIcdRuwMwazIJG4Z_VJ25pYTssF3a7TKP8IwzwJOermgJqPg>
+ <xme:-VvgXzKX057BOIJ3gf5e_KFTjaUTabBq6xZBN6DapTWj5yciQXdIw3GQcHiF_yJkH
+ HcBmXv-haphFTYth78>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtuddguddvudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkjghffffhvffutgesth
+ dtredtreertdenucfhrhhomhepfdflihgrgihunhcujggrnhhgfdcuoehjihgrgihunhdr
+ higrnhhgsehflhihghhorghtrdgtohhmqeenucggtffrrghtthgvrhhnpeeliefhjeffhf
+ ejffetveevvdehvefftdejveethedtgffhgffghedvudefuedvveenucffohhmrghinhep
+ phgrthgthhgvfidrohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihg
+ ohgrthdrtghomh
+X-ME-Proxy: <xmx:-VvgX3ukZm8eAKPtlngEBKY8pYjJ-p_x6x66LKPk3lp4CaRKevIUlg>
+ <xmx:-VvgX4b2wTYvvZhbG9PAGznolGePGqj0FuEAxveX9ztI-841IYRDCA>
+ <xmx:-VvgX2Yf3keCw4ui2iD8kfNnEBF-vnC3nPEcxsiArbgWsI6QiTkKLw>
+ <xmx:-1vgX-pd_hzIMV1mCwlNF3tNfQm0ujR25DjCs8UaL9kKXIMA0riqeAAVv9U5RNplLpmI2A>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 0EF61C200A5; Mon, 21 Dec 2020 03:25:30 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.1-61-gb52c239-fm-20201210.001-gb52c2396
+Mime-Version: 1.0
+Message-Id: <1389d6d1-33fe-46cc-b03c-f2a40e03853b@www.fastmail.com>
+In-Reply-To: <160851280526.21294.6201442635975331015@600e7e483b3a>
+References: <160851280526.21294.6201442635975331015@600e7e483b3a>
+Date: Mon, 21 Dec 2020 16:25:08 +0800
+From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/9] Alpine Linux build fix and CI pipeline
+Content-Type: text/plain
+Received-SPF: permerror client-ip=64.147.123.17;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wnew3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,228 +92,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, fam@euphon.net, thuth@redhat.com, kvm@vger.kernel.org,
+ viktor.prutyanov@phystech.edu, lvivier@redhat.com, alex.bennee@linaro.org,
+ alistair@alistair23.me, groug@kaod.org, wainersm@redhat.com, mreitz@redhat.com,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com, qemu-block@nongnu.org,
+ philmd@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e7003b05b6f51560
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 19, 2020 at 1:06 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> Only leave the external interface in sysemu/whpx.h.  whpx_apic_in_platfor=
-m
-> is moved to a .c file because it needs whpx_state.
->
-> Reported-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->
+On Mon, Dec 21, 2020, at 9:06 AM, no-reply@patchew.org wrote:
+> Patchew URL: 
+> https://patchew.org/QEMU/20201221005318.11866-1-jiaxun.yang@flygoat.com/
+> 
+> 
+> 
+> Hi,
+> 
+> This series seems to have some coding style problems. See output below for
+> more information:
+> 
+> Type: series
+> Message-id: 20201221005318.11866-1-jiaxun.yang@flygoat.com
+> Subject: [PATCH 0/9] Alpine Linux build fix and CI pipeline
+> 
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> git rev-parse base > /dev/null || exit 0
+> git config --local diff.renamelimit 0
+> git config --local diff.renames True
+> git config --local diff.algorithm histogram
+> ./scripts/checkpatch.pl --mailback base..
+> === TEST SCRIPT END ===
+> 
+> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
+> From https://github.com/patchew-project/qemu
+>  * [new tag]         
+> patchew/20201221005318.11866-1-jiaxun.yang@flygoat.com -> 
+> patchew/20201221005318.11866-1-jiaxun.yang@flygoat.com
+> Switched to a new branch 'test'
+> 10095a9 gitlab-ci: Add alpine to pipeline
+> a177af3 tests: Rename PAGE_SIZE definitions
+> 5fcb0ed accel/kvm: avoid using predefined PAGE_SIZE
+> e7febdf hw/block/nand: Rename PAGE_SIZE to NAND_PAGE_SIZE
+> ba307d5 elf2dmp: Rename PAGE_SIZE to ELF2DMP_PAGE_SIZE
+> 0ccf92b libvhost-user: Include poll.h instead of sys/poll.h
+> 41a10db configure/meson: Only check sys/signal.h on non-Linux
+> 0bcd2f2 configure: Add sys/timex.h to probe clk_adjtime
+> a16c7ff tests/docker: Add dockerfile for Alpine Linux
+> 
+> === OUTPUT BEGIN ===
+> 1/9 Checking commit a16c7ff7d859 (tests/docker: Add dockerfile for Alpine Linux)
+> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+> #20: 
+> new file mode 100644
+> 
+> total: 0 errors, 1 warnings, 56 lines checked
+> 
+> Patch 1/9 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 2/9 Checking commit 0bcd2f2eae84 (configure: Add sys/timex.h to probe 
+> clk_adjtime)
+> 3/9 Checking commit 41a10dbdc8da (configure/meson: Only check 
+> sys/signal.h on non-Linux)
+> 4/9 Checking commit 0ccf92b8ec37 (libvhost-user: Include poll.h instead 
+> of sys/poll.h)
+> 5/9 Checking commit ba307d5a51aa (elf2dmp: Rename PAGE_SIZE to 
+> ELF2DMP_PAGE_SIZE)
+> WARNING: line over 80 characters
+> #69: FILE: contrib/elf2dmp/main.c:284:
+> +        h.PhysicalMemoryBlock.NumberOfPages += ps->block[i].size / 
+> ELF2DMP_PAGE_SIZE;
+> 
+> WARNING: line over 80 characters
+> #79: FILE: contrib/elf2dmp/main.c:291:
+> +    h.RequiredDumpSpace += h.PhysicalMemoryBlock.NumberOfPages << 
+> ELF2DMP_PAGE_BITS;
+> 
+> total: 0 errors, 2 warnings, 70 lines checked
+> 
+> Patch 5/9 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 6/9 Checking commit e7febdf0b056 (hw/block/nand: Rename PAGE_SIZE to 
+> NAND_PAGE_SIZE)
+> ERROR: code indent should never use tabs
+> #26: FILE: hw/block/nand.c:117:
+> +# define PAGE_START(page)^I(PAGE(page) * (NAND_PAGE_SIZE + OOB_SIZE))$
+> 
+> ERROR: code indent should never use tabs
+> #46: FILE: hw/block/nand.c:134:
+> +# define NAND_PAGE_SIZE^I^I2048$
+> 
+> WARNING: line over 80 characters
+> #65: FILE: hw/block/nand.c:684:
+> +        mem_and(iobuf + (soff | off), s->io, MIN(s->iolen, 
+> NAND_PAGE_SIZE - off));
+> 
+> WARNING: line over 80 characters
+> #70: FILE: hw/block/nand.c:687:
+> +            mem_and(s->storage + (page << OOB_SHIFT), s->io + 
+> NAND_PAGE_SIZE - off,
+> 
+> total: 2 errors, 2 warnings, 120 lines checked
+> 
+> Patch 6/9 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 
+> 7/9 Checking commit 5fcb0ed1331a (accel/kvm: avoid using predefined PAGE_SIZE)
+> 8/9 Checking commit a177af33938d (tests: Rename PAGE_SIZE definitions)
+> 9/9 Checking commit 10095a92643d (gitlab-ci: Add alpine to pipeline)
+> === OUTPUT END ===
+> 
+> Test command exited with code: 1
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+All pre-existing errors.
 
----
->  include/sysemu/whpx.h            | 22 +---------------------
->  target/i386/whpx/whpx-all.c      |  4 ++++
->  target/i386/whpx/whpx-internal.h | 18 ++++++++++++++++++
->  3 files changed, 23 insertions(+), 21 deletions(-)
->
-> diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h
-> index 9346fd92e9..8ca1c1c4ac 100644
-> --- a/include/sysemu/whpx.h
-> +++ b/include/sysemu/whpx.h
-> @@ -15,28 +15,8 @@
->
->  #ifdef CONFIG_WHPX
->
-> -#include "whp-dispatch.h"
-> -
-> -struct whpx_state {
-> -    uint64_t mem_quota;
-> -    WHV_PARTITION_HANDLE partition;
-> -    bool kernel_irqchip_allowed;
-> -    bool kernel_irqchip_required;
-> -    bool apic_in_platform;
-> -};
-> -
-> -struct whpx_lapic_state {
-> -    struct {
-> -        uint32_t data;
-> -        uint32_t padding[3];
-> -    } fields[256];
-> -};
-> -
-> -extern struct whpx_state whpx_global;
->  int whpx_enabled(void);
-> -
-> -void whpx_apic_get(DeviceState *s);
-> -#define whpx_apic_in_platform() (whpx_global.apic_in_platform)
-> +bool whpx_apic_in_platform(void);
->
->  #else /* CONFIG_WHPX */
->
-> diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
-> index 12f79e2cd6..985ceba8f8 100644
-> --- a/target/i386/whpx/whpx-all.c
-> +++ b/target/i386/whpx/whpx-all.c
-> @@ -1866,6 +1866,10 @@ int whpx_enabled(void)
->      return whpx_allowed;
->  }
->
-> +bool whpx_apic_in_platform(void) {
-> +    return whpx_global.apic_in_platform;
-> +}
-> +
->  static void whpx_accel_class_init(ObjectClass *oc, void *data)
->  {
->      AccelClass *ac =3D ACCEL_CLASS(oc);
-> diff --git a/target/i386/whpx/whpx-internal.h
-> b/target/i386/whpx/whpx-internal.h
-> index e0a9ea1dce..8cfaaef141 100644
-> --- a/target/i386/whpx/whpx-internal.h
-> +++ b/target/i386/whpx/whpx-internal.h
-> @@ -5,6 +5,24 @@
->  #include <WinHvPlatform.h>
->  #include <WinHvEmulation.h>
->
-> +struct whpx_state {
-> +    uint64_t mem_quota;
-> +    WHV_PARTITION_HANDLE partition;
-> +    bool kernel_irqchip_allowed;
-> +    bool kernel_irqchip_required;
-> +    bool apic_in_platform;
-> +};
-> +
-> +struct whpx_lapic_state {
-> +    struct {
-> +        uint32_t data;
-> +        uint32_t padding[3];
-> +    } fields[256];
-> +};
-> +
-> +extern struct whpx_state whpx_global;
-> +void whpx_apic_get(DeviceState *s);
-> +
->  #define WHV_E_UNKNOWN_CAPABILITY 0x80370300L
->
->  #define LIST_WINHVPLATFORM_FUNCTIONS(X) \
-> --
-> 2.26.2
->
->
+> 
+> 
+> The full log is available at
+> http://patchew.org/logs/20201221005318.11866-1-jiaxun.yang@flygoat.com/testing.checkpatch/?type=message.
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
 
---000000000000e7003b05b6f51560
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Dec 19, 2020 at 1:06 PM Paolo=
- Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Only=
- leave the external interface in sysemu/whpx.h.=C2=A0 whpx_apic_in_platform=
-<br>
-is moved to a .c file because it needs whpx_state.<br>
-<br>
-Reported-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
-get=3D"_blank">pbonzini@redhat.com</a>&gt;<br></blockquote><div><br></div><=
-div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lur=
-eau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div><b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0include/sysemu/whpx.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 22 +=
----------------------<br>
-=C2=A0target/i386/whpx/whpx-all.c=C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 ++++<br>
-=C2=A0target/i386/whpx/whpx-internal.h | 18 ++++++++++++++++++<br>
-=C2=A03 files changed, 23 insertions(+), 21 deletions(-)<br>
-<br>
-diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h<br>
-index 9346fd92e9..8ca1c1c4ac 100644<br>
---- a/include/sysemu/whpx.h<br>
-+++ b/include/sysemu/whpx.h<br>
-@@ -15,28 +15,8 @@<br>
-<br>
-=C2=A0#ifdef CONFIG_WHPX<br>
-<br>
--#include &quot;whp-dispatch.h&quot;<br>
--<br>
--struct whpx_state {<br>
--=C2=A0 =C2=A0 uint64_t mem_quota;<br>
--=C2=A0 =C2=A0 WHV_PARTITION_HANDLE partition;<br>
--=C2=A0 =C2=A0 bool kernel_irqchip_allowed;<br>
--=C2=A0 =C2=A0 bool kernel_irqchip_required;<br>
--=C2=A0 =C2=A0 bool apic_in_platform;<br>
--};<br>
--<br>
--struct whpx_lapic_state {<br>
--=C2=A0 =C2=A0 struct {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t data;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t padding[3];<br>
--=C2=A0 =C2=A0 } fields[256];<br>
--};<br>
--<br>
--extern struct whpx_state whpx_global;<br>
-=C2=A0int whpx_enabled(void);<br>
--<br>
--void whpx_apic_get(DeviceState *s);<br>
--#define whpx_apic_in_platform() (whpx_global.apic_in_platform)<br>
-+bool whpx_apic_in_platform(void);<br>
-<br>
-=C2=A0#else /* CONFIG_WHPX */<br>
-<br>
-diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c<br>
-index 12f79e2cd6..985ceba8f8 100644<br>
---- a/target/i386/whpx/whpx-all.c<br>
-+++ b/target/i386/whpx/whpx-all.c<br>
-@@ -1866,6 +1866,10 @@ int whpx_enabled(void)<br>
-=C2=A0 =C2=A0 =C2=A0return whpx_allowed;<br>
-=C2=A0}<br>
-<br>
-+bool whpx_apic_in_platform(void) {<br>
-+=C2=A0 =C2=A0 return whpx_global.apic_in_platform;<br>
-+}<br>
-+<br>
-=C2=A0static void whpx_accel_class_init(ObjectClass *oc, void *data)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0AccelClass *ac =3D ACCEL_CLASS(oc);<br>
-diff --git a/target/i386/whpx/whpx-internal.h b/target/i386/whpx/whpx-inter=
-nal.h<br>
-index e0a9ea1dce..8cfaaef141 100644<br>
---- a/target/i386/whpx/whpx-internal.h<br>
-+++ b/target/i386/whpx/whpx-internal.h<br>
-@@ -5,6 +5,24 @@<br>
-=C2=A0#include &lt;WinHvPlatform.h&gt;<br>
-=C2=A0#include &lt;WinHvEmulation.h&gt;<br>
-<br>
-+struct whpx_state {<br>
-+=C2=A0 =C2=A0 uint64_t mem_quota;<br>
-+=C2=A0 =C2=A0 WHV_PARTITION_HANDLE partition;<br>
-+=C2=A0 =C2=A0 bool kernel_irqchip_allowed;<br>
-+=C2=A0 =C2=A0 bool kernel_irqchip_required;<br>
-+=C2=A0 =C2=A0 bool apic_in_platform;<br>
-+};<br>
-+<br>
-+struct whpx_lapic_state {<br>
-+=C2=A0 =C2=A0 struct {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t data;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t padding[3];<br>
-+=C2=A0 =C2=A0 } fields[256];<br>
-+};<br>
-+<br>
-+extern struct whpx_state whpx_global;<br>
-+void whpx_apic_get(DeviceState *s);<br>
-+<br>
-=C2=A0#define WHV_E_UNKNOWN_CAPABILITY 0x80370300L<br>
-<br>
-=C2=A0#define LIST_WINHVPLATFORM_FUNCTIONS(X) \<br>
--- <br>
-2.26.2<br>
-<br>
-</blockquote></div></div>
-
---000000000000e7003b05b6f51560--
-
+-- 
+- Jiaxun
 
