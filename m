@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002382E0219
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 22:38:13 +0100 (CET)
-Received: from localhost ([::1]:54774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9FA22E022D
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 22:46:10 +0100 (CET)
+Received: from localhost ([::1]:57630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krSsf-0007UJ-3o
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 16:38:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32778)
+	id 1krT0L-0000e8-G0
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 16:46:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1krSr3-0006mW-Pg
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 16:36:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27323)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1krSr1-0007bM-OB
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 16:36:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608586590;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hFfGV+7bR8eTtdbc/DI4Y5RRdgaHeCobZnNm96Jhy7E=;
- b=hw+5ziqh6HnSZXuZ1QhCLdAU2LCs7YuoF51+SLQfScj2TkHVcKNCzeM2FxKQbLC5iD70gk
- Qnm3155Q+1ka3VK6q6ZQ1OmCFmFjdDEUr4jT2Bx7vMEER0yuJ3LFvZ508yNgyatzmSEXez
- CU2l4l23CAz+ZH3phFfScG6wKA98V5A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-cXmR7g2XMqmzf_B5u_Isiw-1; Mon, 21 Dec 2020 16:36:28 -0500
-X-MC-Unique: cXmR7g2XMqmzf_B5u_Isiw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00B451005504;
- Mon, 21 Dec 2020 21:36:25 +0000 (UTC)
-Received: from localhost (ovpn-113-96.rdu2.redhat.com [10.10.113.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 50D7A5C6B8;
- Mon, 21 Dec 2020 21:36:21 +0000 (UTC)
-Date: Mon, 21 Dec 2020 16:36:20 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Zhenyu Ye <yezhenyu2@huawei.com>
-Subject: Re: [RFC PATCH v2] x86/cpu: initialize the CPU concurrently
-Message-ID: <20201221213620.GF6040@habkost.net>
-References: <90be4860-cbe0-25d4-ccca-75b96ecb4a3c@huawei.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1krSyv-0000Bs-Gj
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 16:44:41 -0500
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:40743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1krSyt-0001zY-Rz
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 16:44:41 -0500
+Received: by mail-il1-x130.google.com with SMTP id g1so10225584ilk.7
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 13:44:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=UkNvTpXSMb+uo7g0ecTVlt6ue5aHzCHPeUdW9ppa/HY=;
+ b=WInGGA54zE6A31L42ypJZvQ0ZdzqEAhwpbYInsAqaoNqHiPhC1vykO+oNfxHkO79nW
+ DbcOvK7DyiXEEuRatBKCgCk7a+inFy/6mOFdO4W/NJxo23QM+O7dzUe8M/9kQf7NR10B
+ 69pFR/QsWV6s71sasiAefYKSdyHoFd+FGZ2bT1UmmZqUGXrU4ur+BwtscECR9L7QOjXg
+ wXhxo6Ey6mxSEMDPXnJIPnvLKyYtWJIDMleZv7ubZtnOj09cCRXq99Yymkd/qYPT/Ujk
+ AiOiOS8lzXIyiLSWCQwaSjGHKKRY6lAt+ukOz+DbBC8SYorbKdnyOjXwmDhJklTMGG/d
+ Mglw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=UkNvTpXSMb+uo7g0ecTVlt6ue5aHzCHPeUdW9ppa/HY=;
+ b=pzEmULgeM4yyxb8K3i7tcyYX5VFEbsQeLJDHhOn/K//+Dma/MlGaTzRA9nJwxv5ZIL
+ 2RUOjipOpHHn90cqcRSGwFQK4Bb+yX3M3m8pPOvVyXaeTaiQyCIu76le/2ARB8BRAFUx
+ t1VGwk9JgT1Sq0XVyTXazeMb1jQ+9lP3OR+WB7xkVFxtjKcU40gJLYGG36E2vqRIQ0+H
+ 7RavzIxKpPp4KVTL8HfAvxG8tCmLTanG4VQda7xVpVEZfbnsRV3mhIXgFwFuPsYnoyuA
+ CmhTi5/U8Cw+ADkNrSIx6DDC7OYBP6hceKLIVkSDxTQjftwdVh6aksV6vPmqMQzSmScd
+ 8f6Q==
+X-Gm-Message-State: AOAM533UEneyZ19lXK8Pgd1zBJz8j9rnG0MeuKHWUxDOMLt1YGv9SMkV
+ cLJwUzvZsXZoP7ui6skQiPBbCfNHug7k2+5avQXgE3OfPt0=
+X-Google-Smtp-Source: ABdhPJyK/56J+ajY7wE0C990LVojcdCHFfAop4tUf9B1kqLBMjEVYq5+50LtaZRGl+oL4s6BnEoWrEogyBS0SkJbr08=
+X-Received: by 2002:a92:dc0f:: with SMTP id t15mr18158593iln.267.1608587078269; 
+ Mon, 21 Dec 2020 13:44:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <90be4860-cbe0-25d4-ccca-75b96ecb4a3c@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <160669515259.21126.12178770886175022752.malonedeb@gac.canonical.com>
+ <160855733170.28187.8715477213337798297.malone@gac.canonical.com>
+In-Reply-To: <160855733170.28187.8715477213337798297.malone@gac.canonical.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 21 Dec 2020 13:44:11 -0800
+Message-ID: <CAKmqyKM4UX85=Lq9PVfjLviUE6FC+V+d+dbjAXLz5M17-Ck2oA@mail.gmail.com>
+Subject: Re: [Bug 1906193] Re: riscv32 user mode emulation: fork return values
+ broken
+To: Bug 1906193 <1906193@bugs.launchpad.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x130.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,200 +81,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>, "S. Tsirkin,
- Michael" <mst@redhat.com>, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Xiexiangyou <xiexiangyou@huawei.com>, yebiaoxiang <yebiaoxiang@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 21, 2020 at 07:36:18PM +0800, Zhenyu Ye wrote:
-> Providing a optional mechanism to wait for all VCPU threads be
-> created out of qemu_init_vcpu(), then we can initialize the cpu
-> concurrently on the x86 architecture.
-> 
-> This reduces the time of creating virtual machines. For example, when
-> the haxm is used as the accelerator, cpus_accel->create_vcpu_thread()
-> will cause at least 200ms for each cpu, extremely prolong the boot
-> time.
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> Signed-off-by: eillon <yezhenyu2@huawei.com>
+Great! Thanks for testing that.
 
-The patch is easier to follow now, but I have a question that may
-be difficult to answer:
+Do you mind supplying a Tested-by tag that I can apply to the patch?
 
-What exactly is the meaning of cpu->created=true, and what
-exactly would break if we never wait for cpu->created==true at all?
+Alistair
 
-I'm asking that because we might be introducing subtle races
-here, if some of the remaining CPU initialization code in
-x86_cpu_realizefn() [1] expects the VCPU thread to be already
-initialized.
-
-The cpu_reset() call below is one such example (but probably not
-the only one).  cpu_reset() ends up calling
-kvm_arch_reset_vcpu(), which seems to assume kvm_init_vcpu() was
-already called.  With your patch, kvm_init_vcpu() might end up
-being called after kvm_arch_reset_vcpu().
-
-Maybe a simpler alternative is to keep the existing thread
-creation logic, but changing hax_cpu_thread_fn() to do less work
-before calling cpu_thread_signal_created()?
-
-In my testing (without this patch), creation of 8 KVM VCPU
-threads in a 4 core machine takes less than 3 ms.  Why is
-qemu_init_vcpu() taking so long on haxm?  Which parts of haxm
-initialization can be moved after cpu_thread_signal_created(), to
-make this better?
-
----
-[1]  For reference, the last few lines of x86_cpu_realizefn() are:
-
-|     qemu_init_vcpu(cs);
-| 
-|     /*
-|      * Most Intel and certain AMD CPUs support hyperthreading. Even though QEMU
-|      * fixes this issue by adjusting CPUID_0000_0001_EBX and CPUID_8000_0008_ECX
-|      * based on inputs (sockets,cores,threads), it is still better to give
-|      * users a warning.
-|      *
-|      * NOTE: the following code has to follow qemu_init_vcpu(). Otherwise
-|      * cs->nr_threads hasn't be populated yet and the checking is incorrect.
-|      */
-|     if (IS_AMD_CPU(env) &&
-|         !(env->features[FEAT_8000_0001_ECX] & CPUID_EXT3_TOPOEXT) &&
-|         cs->nr_threads > 1 && !ht_warned) {
-|             warn_report("This family of AMD CPU doesn't support "
-|                         "hyperthreading(%d)",
-|                         cs->nr_threads);
-|             error_printf("Please configure -smp options properly"
-|                          " or try enabling topoext feature.\n");
-|             ht_warned = true;
-|     }
-| 
-|     x86_cpu_apic_realize(cpu, &local_err);
-|     if (local_err != NULL) {
-|         goto out;
-|     }
-|     cpu_reset(cs);
-| 
-|     xcc->parent_realize(dev, &local_err);
-| 
-| out:
-|     if (local_err != NULL) {
-|         error_propagate(errp, local_err);
-|         return;
-|     }
-| }
-
-
-
-> ---
->  hw/i386/x86.c         |  3 +++
->  include/hw/core/cpu.h | 13 +++++++++++++
->  softmmu/cpus.c        | 21 +++++++++++++++++++--
->  3 files changed, 35 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index 6329f90ef9..09afff724a 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -108,6 +108,8 @@ void x86_cpu_new(X86MachineState *x86ms, int64_t apic_id, Error **errp)
->      if (!object_property_set_uint(cpu, "apic-id", apic_id, errp)) {
->          goto out;
->      }
-> +
-> +    CPU(cpu)->async_init = true;
->      qdev_realize(DEVICE(cpu), NULL, errp);
-> 
->  out:
-> @@ -137,6 +139,7 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
->      for (i = 0; i < ms->smp.cpus; i++) {
->          x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
->      }
-> +    qemu_wait_all_vcpu_threads_init();
->  }
-> 
->  void x86_rtc_set_cpus_count(ISADevice *rtc, uint16_t cpus_count)
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index 8e7552910d..55c2c17d93 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -467,6 +467,12 @@ struct CPUState {
-> 
->      /* track IOMMUs whose translations we've cached in the TCG TLB */
->      GArray *iommu_notifiers;
-> +
-> +    /*
-> +     * If true, qemu_init_vcpu() will not wait for the VCPU thread to be created
-> +     * before returning.
-> +     */
-> +    bool async_init;
->  };
-> 
->  typedef QTAILQ_HEAD(CPUTailQ, CPUState) CPUTailQ;
-> @@ -977,6 +983,13 @@ void start_exclusive(void);
->   */
->  void end_exclusive(void);
-> 
-> +/**
-> + * qemu_wait_all_vcpu_threads_init:
-> + *
-> + * Wait for all VCPU threads to be created.
-> + */
-> +void qemu_wait_all_vcpu_threads_init(void);
-> +
->  /**
->   * qemu_init_vcpu:
->   * @cpu: The vCPU to initialize.
-> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-> index 1dc20b9dc3..d76853d356 100644
-> --- a/softmmu/cpus.c
-> +++ b/softmmu/cpus.c
-> @@ -601,6 +601,23 @@ void cpus_register_accel(const CpusAccel *ca)
->      cpus_accel = ca;
->  }
-> 
-> +static void qemu_wait_vcpu_thread_init(CPUState *cpu)
-> +{
-> +    while (!cpu->created) {
-> +        qemu_cond_wait(&qemu_cpu_cond, &qemu_global_mutex);
-> +    }
-> +}
-> +
-> +void qemu_wait_all_vcpu_threads_init(void)
-> +{
-> +    CPUState *cpu;
-> +
-> +    CPU_FOREACH(cpu) {
-> +        printf("***** cpuid: %d\n", cpu->cpu_index);
-
-Debugging leftover.
-
-> +        qemu_wait_vcpu_thread_init(cpu);
-> +    }
-> +}
-> +
->  void qemu_init_vcpu(CPUState *cpu)
->  {
->      MachineState *ms = MACHINE(qdev_get_machine());
-> @@ -622,8 +639,8 @@ void qemu_init_vcpu(CPUState *cpu)
->      g_assert(cpus_accel != NULL && cpus_accel->create_vcpu_thread != NULL);
->      cpus_accel->create_vcpu_thread(cpu);
-> 
-> -    while (!cpu->created) {
-> -        qemu_cond_wait(&qemu_cpu_cond, &qemu_global_mutex);
-> +    if (!cpu->async_init) {
-> +        qemu_wait_vcpu_thread_init(cpu);
->      }
->  }
-> 
-> -- 
-> 2.22.0.windows.1
-> 
-
--- 
-Eduardo
-
+On Mon, Dec 21, 2020 at 5:36 AM Andreas K. H=C3=BCttel
+<1906193@bugs.launchpad.net> wrote:
+>
+> After applying this patch on top of qemu-5.2.0, I can confirm that it
+> fixes the problem.
+>
+> Thank you!!
+>
+> --
+> You received this bug notification because you are a member of qemu-
+> devel-ml, which is subscribed to QEMU.
+> https://bugs.launchpad.net/bugs/1906193
+>
+> Title:
+>   riscv32 user mode emulation: fork return values broken
+>
+> Status in QEMU:
+>   New
+>
+> Bug description:
+>   When running in a chroot with riscv32 (on x86_64; qemu git master as
+>   of today):
+>
+>   The following short program forks; the child immediately returns with
+>   exit(42). The parent checks for the return value - and obtains 40!
+>
+>   gcc-10.2
+>
+>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>   #include <stdlib.h>
+>   #include <unistd.h>
+>   #include <stdio.h>
+>   #include <sys/wait.h>
+>
+>   main(c, v)
+>        int c;
+>        char **v;
+>   {
+>     pid_t pid, p;
+>     int s, i, n;
+>
+>     s =3D 0;
+>     pid =3D fork();
+>     if (pid =3D=3D 0)
+>       exit(42);
+>
+>     /* wait for the process */
+>     p =3D wait(&s);
+>     if (p !=3D pid)
+>       exit (255);
+>
+>     if (WIFEXITED(s))
+>     {
+>        int r=3DWEXITSTATUS(s);
+>        if (r!=3D42) {
+>         printf("child wants to return %i (0x%X), parent received %i (0x%X=
+), difference %i\n",42,42,r,r,r-42);
+>        }
+>     }
+>   }
+>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>   (riscv-ilp32 chroot) farino /tmp # ./wait-test-short
+>   child wants to return 42 (0x2A), parent received 40 (0x28), difference =
+-2
+>
+>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>   (riscv-ilp32 chroot) farino /tmp # gcc --version
+>   gcc (Gentoo 10.2.0-r1 p2) 10.2.0
+>   Copyright (C) 2020 Free Software Foundation, Inc.
+>   Dies ist freie Software; die Kopierbedingungen stehen in den Quellen. E=
+s
+>   gibt KEINE Garantie; auch nicht f=C3=BCr MARKTG=C3=84NGIGKEIT oder F=C3=
+=9CR SPEZIELLE ZWECKE.
+>
+>   (riscv-ilp32 chroot) farino /tmp # ld --version
+>   GNU ld (Gentoo 2.34 p6) 2.34.0
+>   Copyright (C) 2020 Free Software Foundation, Inc.
+>   This program is free software; you may redistribute it under the terms =
+of
+>   the GNU General Public License version 3 or (at your option) a later ve=
+rsion.
+>   This program has absolutely no warranty.
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1906193/+subscriptions
+>
 
