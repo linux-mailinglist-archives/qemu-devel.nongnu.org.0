@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF2D2DFD5D
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:18:03 +0100 (CET)
-Received: from localhost ([::1]:38240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F0C02DFD22
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:00:03 +0100 (CET)
+Received: from localhost ([::1]:52196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krMwk-0007cU-IS
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:18:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42476)
+	id 1krMfK-0005GW-2x
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:00:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRG-0004ro-K6
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:31 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37452)
+ id 1krMRI-0004u1-6B
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:32 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMR9-0007mR-To
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:28 -0500
-Received: by mail-wr1-x434.google.com with SMTP id i9so11319150wrc.4
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:17 -0800 (PST)
+ id 1krMRC-0007mX-Hb
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:31 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id v14so10095287wml.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QcALGteNqeaz9wkB1WyIxyZdXEQ5pVyXB1p6a5LUXjc=;
- b=M5vWrwMISVzFopxvoipMeZpDuxuWYqzlxYp0GJeWqWkBkyww8RJA8wYghyT6shSxWL
- tWan8THqOH0F+wW661nYla4EILGOn1EGwuSsW8qgAOOb5wDKiQmsh7GtxDmY3AIxrmI7
- Hc+E4C1rFpYINIuxlaum9f5JgIeAm31F50PfnWH915uMImVRg11JpFRHbiuGcZ954dSP
- qPOsjaAstFwiSBSJxCMYGtmsP+JcD8TgRglQVwijAl1GOhWpQXaLWi2iF/ssm34I0ckI
- qEkFZlPT4akUem3Uf4Hhctlzfj3Yx/6nCvMIrLmM8t2EQ+YJg7IK9SThbm3gSfVHSel9
- t7BA==
+ bh=lh7IRMrgTGCLn22WAhKDgSov3MsoKDobeP7waDosJsw=;
+ b=pBr+RH6Gy64+ZzEin5FcW8wQeK1/CPcFdHnkypEsHhGce5g9Le70GMTEJeeDmajuQS
+ kf2Z4angZanmvc8fmbL5qTnNivWDc40vFb214ZhFDu0BeFTVMmo0+BS9DAFLJmFqWqA7
+ 0dMFsxUfHLZquQ1zja9faLq+Zsz7y2v296KIKCM5lRje3UIyRekb8FpE1pbRrQ8wd32+
+ VlZEF9Z+6ajTXh1AzXBL8OGF4mmVknNNNu+/XgtrrnZKLSZ1CaNbhzgxetCwMXZN8ojh
+ cc83CZn58VKabw/n65T0hvyR8jkBZcxemIwM3+Tju7cljeyDfgSMZZxO5q3B+Bd+Fy+V
+ 0cBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=QcALGteNqeaz9wkB1WyIxyZdXEQ5pVyXB1p6a5LUXjc=;
- b=ouRoZgFKwwThYcYtwLr8TZhvhFiCx+lJkRziWUrYH/+i1IPo9H/Ch2s5123Khv269c
- uM4SAfw5EtX5bkgL3qKFv/lNYCxj6bUdkpnOXzGFlT5cC/kzlg290ynsZIgwvh/GRvWF
- +U6q3BNWIwmnK7xT/taXqgAIvgIcSW3Gc0woqHtaDML+twTEsa2LNxLF6q+Dnq0/aTot
- qtJjNBQXCZvrpLyA3iA+d5h7eJIrBMNOYYWFq6/m71HmHfGTVrf1GEOmHXq2KHHjMmRj
- va5RkB6sBpvMqfA+PEzMngRIiPJCvSQKxCQoUNZ4criKf8niecmHr1N8nEyiWs2m3rIx
- z2PQ==
-X-Gm-Message-State: AOAM532HIZxFFqC/V20N0wDw86CPZkhHlqvOA+/c6AhtM1GxLMkQfsfi
- ekneQRxjt5GLRdwxZe+rGJ9zMyTzU1g=
-X-Google-Smtp-Source: ABdhPJxd3EDFvGcxujYpxD0aYe26OHB943CdQWwTp3cdMGu7vXDLCYfUh1rCquHtxXfghb9ZNskwEg==
-X-Received: by 2002:a05:6000:108b:: with SMTP id
- y11mr18890514wrw.379.1608561917160; 
- Mon, 21 Dec 2020 06:45:17 -0800 (PST)
+ bh=lh7IRMrgTGCLn22WAhKDgSov3MsoKDobeP7waDosJsw=;
+ b=mSmTivl4MzdnV1I3PSV2wkzG27ObwaXLS8zcE9I+EBPjxrRFh4DieO2tD0RnLSn/9Y
+ 4m19Htp0lbhWubGFXGhd1dFUgmXVRaUK5eKPOv134MzCC33QHpOvGbYbZdyF+fDb3f8G
+ F8drGlqrKAhFRyyvB3OWbqb9vz8B1IbOKTSPyimtaVbNfig8WKE+MaV2tcKQI2QYmwln
+ FyJCD2t7Kfmrr9zjZJ3Qvoo9zCrGYyfMMgvXOadU21DBOEN9fUISwVIkbPns+DXqAuF8
+ 7i9aLAokKaGy09yR/hPSANYLqyDwscM2IwuDzMJ2WtZJbjyFxnbLDLMZIHABMtoJGOB/
+ WJqA==
+X-Gm-Message-State: AOAM530W5kzEsOzCp346RmE0KrX12o2UIyrgq6lDmifaWGR9SYDomL1u
+ RaaGZ8/2CiyhgcjlHPtKq1hARhlzNK0=
+X-Google-Smtp-Source: ABdhPJweytDT9jaDt7tb80kMStIw+0fZ+ukaZ9wGD+Q8rxcxIuewikBewTtd5Gj+omLdeR3RwQth+g==
+X-Received: by 2002:a1c:2c4:: with SMTP id 187mr17252334wmc.187.1608561918600; 
+ Mon, 21 Dec 2020 06:45:18 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.16
+ by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Dec 2020 06:45:16 -0800 (PST)
+ Mon, 21 Dec 2020 06:45:18 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/55] configure: remove useless code to check for Xen PCI
- passthrough
-Date: Mon, 21 Dec 2020 15:44:24 +0100
-Message-Id: <20201221144447.26161-33-pbonzini@redhat.com>
+Subject: [PULL 33/55] configure: remove variable bogus_os
+Date: Mon, 21 Dec 2020 15:44:25 +0100
+Message-Id: <20201221144447.26161-34-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201221144447.26161-1-pbonzini@redhat.com>
 References: <20201221144447.26161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,42 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-meson.build is already doing the same check, so remove it from
-configure.
+The condition can be tested also from $targetos, clean up.
 
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 12 ------------
- 1 file changed, 12 deletions(-)
+ configure | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/configure b/configure
-index ce4f365231..ca8496b607 100755
+index ca8496b607..d5d630c0ee 100755
 --- a/configure
 +++ b/configure
-@@ -2877,18 +2877,6 @@ EOF
-   fi
+@@ -466,7 +466,6 @@ gettext="auto"
+ fuse="auto"
+ fuse_lseek="auto"
+ 
+-bogus_os="no"
+ malloc_trim="auto"
+ 
+ # parse CC options second
+@@ -619,7 +618,6 @@ else
+   # might be going to just print the --help text, or it might
+   # be the result of a missing compiler.
+   targetos='bogus'
+-  bogus_os='yes'
  fi
  
--if test "$xen_pci_passthrough" != "disabled"; then
--  if test "$xen" = "enabled" && test "$linux" = "yes"; then
--    xen_pci_passthrough=enabled
--  else
--    if test "$xen_pci_passthrough" = "enabled"; then
--      error_exit "User requested feature Xen PCI Passthrough" \
--          " but this feature requires /sys from Linux"
--    fi
--    xen_pci_passthrough=disabled
--  fi
--fi
--
- ##########################################
- # X11 probe
- if $pkg_config --exists "x11"; then
+ # Some host OSes need non-standard checks for which CPU to use.
+@@ -2014,7 +2012,7 @@ if test -z "$werror" ; then
+     fi
+ fi
+ 
+-if test "$bogus_os" = "yes"; then
++if test "$targetos" = "bogus"; then
+     # Now that we know that we're not printing the help and that
+     # the compiler works (so the results of the check_defines we used
+     # to identify the OS are reliable), if we didn't recognize the
 -- 
 2.29.2
 
