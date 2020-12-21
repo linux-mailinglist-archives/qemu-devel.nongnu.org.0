@@ -2,54 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C828F2DF768
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 02:14:32 +0100 (CET)
-Received: from localhost ([::1]:48408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB5F72DF785
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 02:46:23 +0100 (CET)
+Received: from localhost ([::1]:58940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kr9mR-0002gL-MQ
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 20:14:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44134)
+	id 1krAHA-0000PN-Vk
+	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 20:46:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kr9l8-0001eT-5H
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 20:13:10 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3003)
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1krAEH-0007u7-8t
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 20:43:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kr9l4-0003Ve-Qr
- for qemu-devel@nongnu.org; Sun, 20 Dec 2020 20:13:09 -0500
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CzhJp0HhrzhrsV;
- Mon, 21 Dec 2020 09:12:10 +0800 (CST)
-Received: from [10.174.184.155] (10.174.184.155) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 21 Dec 2020 09:12:41 +0800
-Subject: Re: [PATCH] acpi/gpex: Inform os to keep firmware resource map
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20201217132926.4812-1-cenjiahui@huawei.com>
- <20201217144933-mutt-send-email-mst@kernel.org>
- <0c7bcfe9-437b-f750-29d5-983d09a47b3c@huawei.com>
- <20201218122408-mutt-send-email-mst@kernel.org>
-From: Jiahui Cen <cenjiahui@huawei.com>
-Message-ID: <95b79754-de5d-1562-b20f-a50e14f745b6@huawei.com>
-Date: Mon, 21 Dec 2020 09:12:40 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1krAEF-0005Mb-Im
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 20:43:16 -0500
+X-Gm-Message-State: AOAM531k1LOaH6qlTZO4kB/wgfwgoUBKO9dSI/QVuVK17tWp7vK85xJH
+ ZaYlUl37zPCeYInU4xeuWFHkBhxWpPzoNIzyjFE=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1608514991;
+ bh=nmdMhO9Y90fn0xiuLG5ynq+mKgSlKPfhINADwI5qOqg=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=Fv8swC6/qdHxsnjyH8yaRPI3k9Eb/zBRwkSIXUEO+UxD3GQ3sMK1PbpOiRXeRc3Wp
+ TlKa0oxxwmOdp92IM1D8oCTWtHVN/gZO5b9lQuR0pWYtCwqgZcZVzx0ADToCON7Ir6
+ 0BhBIbHR8COusGiYKBCq9cyJEBQnkMaMXVrySCAH94G7BlKArdG24HV0c8oKnahN8H
+ scS14yMA2jConDgd2WY6RR5qM5ewhHeRx9fxWI0YcVBFDYeQlCptUnJR2Vl4BMl1Nq
+ 8VWVFvTe/E9GIaLfYgmmkGDh5V8MoJdWXb5A8PnmGugUT0rDdB6+5WDMLYh2ynccM1
+ oogqOEyhhW7pg==
+X-Google-Smtp-Source: ABdhPJz8Q2Lnx3KKxWQyiGD1CZQe3zlWyq/DLiu98IS4jQN1m7kwOwxLSz8GwEkZCg1JtXLEWxFWoJhPJ8vxzeQOTOs=
+X-Received: by 2002:a5d:8a1a:: with SMTP id w26mr12538369iod.112.1608514990795; 
+ Sun, 20 Dec 2020 17:43:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201218122408-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.155]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=cenjiahui@huawei.com;
- helo=szxga05-in.huawei.com
-X-Spam_score_int: -74
-X-Spam_score: -7.5
+References: <20201215125716.477023-1-chenhuacai@kernel.org>
+ <20201215125716.477023-4-chenhuacai@kernel.org>
+ <47ebfcd8-cfa9-f45a-dc66-f936681fc5e5@amsat.org>
+In-Reply-To: <47ebfcd8-cfa9-f45a-dc66-f936681fc5e5@amsat.org>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Mon, 21 Dec 2020 09:42:59 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5U2KsVe497cEJua4BxzOsGC7EdT6xMD8jro+isTKLHfQ@mail.gmail.com>
+Message-ID: <CAAhV-H5U2KsVe497cEJua4BxzOsGC7EdT6xMD8jro+isTKLHfQ@mail.gmail.com>
+Subject: Re: [PATCH V18 3/5] hw/mips: Add Loongson-3 boot parameter helpers
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
 X-Spam_bar: -------
-X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.299,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,189 +68,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, Igor Mammedov <imammedo@redhat.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Michael,
+Yes, that's fine.
 
-On 2020/12/20 3:06, Michael S. Tsirkin wrote:
-> On Fri, Dec 18, 2020 at 01:56:29PM +0800, Jiahui Cen wrote:
->> Hi Michael,
->>
->> On 2020/12/18 4:04, Michael S. Tsirkin wrote:
->>> On Thu, Dec 17, 2020 at 09:29:26PM +0800, Jiahui Cen wrote:
->>>> There may be some differences in pci resource assignment between guest os
->>>> and firmware.
->>>>
->>>> Eg. A Bridge with Bus [d2]
->>>>     -+-[0000:d2]---01.0-[d3]----01.0
->>>>
->>>>     where [d2:01.00] is a pcie-pci-bridge with BAR0 (mem, 64-bit, non-pref) [size=256]
->>>>           [d3:01.00] is a PCI Device with BAR0 (mem, 64-bit, pref) [size=128K]
->>>>                                           BAR4 (mem, 64-bit, pref) [size=64M]
->>>>
->>>>     In EDK2, the Resource Map would be:
->>>>         PciBus: Resource Map for Bridge [D2|01|00]
->>>>         Type = PMem64; Base = 0x8004000000;     Length = 0x4100000;     Alignment = 0x3FFFFFF
->>>>            Base = 0x8004000000; Length = 0x4000000;     Alignment = 0x3FFFFFF;  Owner = PCI [D3|01|00:20]
->>>>            Base = 0x8008000000; Length = 0x20000;       Alignment = 0x1FFFF;    Owner = PCI [D3|01|00:10]
->>>>         Type =  Mem64; Base = 0x8008100000;     Length = 0x100; Alignment = 0xFFF
->>>>
->>>>     While in Linux, kernel will use 0x2FFFFFF as the alignment to calculate
->>>>     the PMem64 size, which would be 0x6000000.
->>>>
->>>> The diffences could result in resource assignment failure.
->>>>
->>>> Using _DSM #5 method to inform guest os not to ignore the PCI configuration
->>>> that firmware has done at boot time could handle the differences.
->>>>
->>>> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
->>>> ---
->>>>  hw/pci-host/gpex-acpi.c | 11 ++++++++++-
->>>>  1 file changed, 10 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
->>>> index 071aa11b5c..2b490f3379 100644
->>>> --- a/hw/pci-host/gpex-acpi.c
->>>> +++ b/hw/pci-host/gpex-acpi.c
->>>> @@ -112,10 +112,19 @@ static void acpi_dsdt_add_pci_osc(Aml *dev)
->>>>      UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
->>>>      ifctx = aml_if(aml_equal(aml_arg(0), UUID));
->>>>      ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(0)));
->>>> -    uint8_t byte_list[1] = {1};
->>>> +    uint8_t byte_list[1] = {0x21};
->>>>      buf = aml_buffer(1, byte_list);
->>>
->>>
->>> Hmm what is this change for?
->>>
->>> I also noticed something weird.
->>> Spec seems to say for _DSM for PCI Express Slot Information:
->>>
->>>
->>> Arguments:
->>> Arg0: UUID: E5C937D0-3553-4d7a-9117-EA4D19C3434D
->>> Arg1: Revision ID: 2
->>> Arg2: Function Index: 1
->>> Arg3: Empty Package
->>>
->>>
->>> how come we are comparing function index to 0 here?
->>>
->>
->> PCI Firmware Spec says in 4.6.1. _DSM for PCI Express Slot Information
->>
->> Note: Function 0 is a generic Query function that is supported by _DSMs with any UUID and
->> Revision ID. The definition of function 0 is generic to _DSM and specified in the ACPI Specification,
->> Version 3.0 (or later).
->>
->>
->> And ACPI Spec says in 9.1.1 _DSM (Device Specific Method)
->>
->> Return Value Information:
->> If Function Index is zero, the return is a buffer containing one bit for each function index, starting with zero. Bit 0
->> indicates whether there is support for any functions other than function 0 for the specified UUID and Revision ID.
->> If set to zero, no functions are supported (other than function zero) for the specified UUID and Revision ID. If set
->> to one, at least one additional function is supported. For all other bits in the buffer, a bit is set to zero to indicate if
->> that function index is not supported for the specific UUID and Revision ID. (For example, bit 1 set to 0 indicates that
->> function index 1 is not supported for the specific UUID and Revision ID.)
->>
->>
->> I have no idea whether the original code does aim to use _DSM #0
->> by setting function index 0 (The return value seems not to be suitable
->> with _DSM #1). But if it does, I think it is necessary to set bit 5
->> in return value to indicate _DSM #5 function is supported.
-> 
-> 
-> 
-> So let's make it self documenting:
-> 
-> {
-> 	0x1 << 0 /* support for support for any functions other than function 0 */ |
-> 	0x1 << 5 /* support for function 5 */
-> }
-> 
-> 
-> 
->>>
->>> Also, as long as we are changing this probably shouldn't hard-code
->>> 1 as array size ...
->>>
->>
->> Is a macro enough? Like #define RET_BUF_SIZE 2
-> 
-> Better to use 
-> 
-> uint8_t byte_list[] = { ... };
-> 
-> And then ARRAY_SIZE(byte_list)
-> 
-
-Got it. I'll fix in the next patch.
-
-Thanks,
-Jiahui
-
-> 
->>>
->>>>      aml_append(ifctx1, aml_return(buf));
->>>>      aml_append(ifctx, ifctx1);
->>>> +
->>>> +    /* PCI Firmware Specification 3.2
->>>> +     * 4.6.5. _DSM for Ignoring PCI Boot Configurations
->>>
->>> Note you must always quote the most recent spec that
->>> your change refers to. This is so people can figure out
->>> legacy guest compatibility.
->>>
->>> In this case I think this first appeard in 3.1 not 3.2
->>>
->>
->> OK, I'll fix this.
->>
->>>> +     * The UUID in _DSM in this context is
->>>> +     * {E5C937D0-3553-4D7A-9117-EA4D19C3434D}
->>>
->>> This is just five lines earier, I don't think we need it here.
->>>
->>
->> Will remove.
->>
->>>> +     */
->>>> +    ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(5)));
->>>
->>> add comment:
->>> 	/* Arg2: Function Index: 5 */
->>
->> Will add.
->>
->>>
->>>> +    aml_append(ifctx1, aml_return(aml_int(0)));
->>>
->>>
->>> add comment: /* 0 - do not ignore ... (quote spec I don't have it to hand) */
->>>
->>
->> Will add.
->>
->> Thanks,
->> Jiahui
->>
->>>
->>>
->>>
->>>> +    aml_append(ifctx, ifctx1);
->>>>      aml_append(method, ifctx);
->>>>  
->>>>      byte_list[0] = 0;
->>>> -- 
->>>> 2.28.0
->>>
->>> .
->>>
-> 
-> .
-> 
+On Thu, Dec 17, 2020 at 2:11 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Hi Huacai,
+>
+> On 12/15/20 1:57 PM, Huacai Chen wrote:
+> > Preparing to add Loongson-3 machine support, add Loongson-3's LEFI (a
+> > UEFI-like interface for BIOS-Kernel boot parameters) helpers first.
+> >
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
+> > Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> > Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> > ---
+> >  hw/mips/loongson3_bootp.c | 151 ++++++++++++++++++++++++
+> >  hw/mips/loongson3_bootp.h | 241 ++++++++++++++++++++++++++++++++++++++
+>
+> I plan to add these to "Loongson-3 virtual platforms"
+> in MAINTAINERS, is that OK with you?
+>
+> >  hw/mips/meson.build       |   1 +
+> >  3 files changed, 393 insertions(+)
+> >  create mode 100644 hw/mips/loongson3_bootp.c
+> >  create mode 100644 hw/mips/loongson3_bootp.h
 
