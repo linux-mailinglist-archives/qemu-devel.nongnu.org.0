@@ -2,46 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0C92E019B
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 21:39:43 +0100 (CET)
-Received: from localhost ([::1]:50660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877D02E0199
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 21:37:42 +0100 (CET)
+Received: from localhost ([::1]:45090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krRy2-0003L5-Pk
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 15:39:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48660)
+	id 1krRw5-00012E-JW
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 15:37:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1krRuh-0008EJ-PU
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 15:36:16 -0500
-Received: from relay68.bu.edu ([128.197.228.73]:39980)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1krRue-0003rf-Os
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 15:36:15 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 0BLKZhBX006631
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 21 Dec 2020 15:35:46 -0500
-Date: Mon, 21 Dec 2020 15:35:43 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Qiuhao Li <Qiuhao.Li@outlook.com>
-Subject: Re: [PATCH 3/4] fuzz: setting bits in operand of out/write to zero
-Message-ID: <20201221203543.vlezaw2sxiq7wpde@mozz.bu.edu>
-References: <ME3P282MB1492BFA2302041F2AB420EBEFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
- <ME3P282MB149243C4D0FE93B71E6B8AA6FCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1krRuN-0007zs-4f; Mon, 21 Dec 2020 15:35:55 -0500
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:44220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1krRuJ-0003i8-QJ; Mon, 21 Dec 2020 15:35:54 -0500
+Received: by mail-qt1-x82d.google.com with SMTP id u21so7523938qtw.11;
+ Mon, 21 Dec 2020 12:35:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=oXwll2BOrzU4es4pd8p7n0axQHw8zIk9/L8/J55rAfc=;
+ b=ceL7ID8OtxMoC8CXhkHB5NOnft/oF37YPmxDDs2Fyb46YHfu9f0GoaJk5CVzgl+tcR
+ Z0KMDuSbrCuBSY23KCYf3F6LhpUFUH417ivEaXs3bM4d8bLbUJOcpcvXOOFwxWikzqSb
+ LJQIzHqNVtCUNKnFcLDnsCDbvLgDwrkWaRRXuVIG1o+ypc9kGaROhWQrb59IZ9GJKd7E
+ 3ReSC5KRKa0/mxI5qnAZDMTqEhx51zuoGqxy6lf5gN34BdqM+ZckEOQNZDv7UT5PZTcz
+ 6495xSv9KhfzMzcl+qg9p7rLbMWCexcA0MyCOuBXx40s9jPB62iPZPfZwTfElxUJnOUR
+ dD2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oXwll2BOrzU4es4pd8p7n0axQHw8zIk9/L8/J55rAfc=;
+ b=D8sM35i86xTxf9wsD4u9oPN6fOipSu8XfynYQ72hZGrt8ujzz6lUFRJ+QY1C+0cGKI
+ lNOCowErrrKo9wFd5/ZJ1a+p6FhedWNS3rHLjVCGlHoH8GYhVC5tNzvPI+052Mm747Tg
+ PVTB/GbpdHMTYSbEVQVfZpCqsdNd3aoUUHza/4sOitzSwt+p8ocvYnkJEnicoYjkXdRK
+ U/4WpgsGFl3ftIHYShVWexW0FheXbmdfXRP4Zsmo5uz5d0QvUWpKlqzHHV9cZNJb5Mvb
+ 5RIYNn1aqRPXYWCE8S66sgeCVjzwBa15BDn16NxRH52XjdGzuVFccduMKkA+0F9Agb58
+ UhkA==
+X-Gm-Message-State: AOAM53004w+jsyEbiIgs8R14uCl1E6TmQnocaBwLlfjwVUUDNHCwkdFX
+ H4utYrCqCDwJxpPM4sJ1pg8=
+X-Google-Smtp-Source: ABdhPJxhfz4TFAyweSU9oagC+Gjx8VsHVvYWlwk21ElsXlMj5mG69lWi1BVQKdtH7RgD/YlNiBiTVA==
+X-Received: by 2002:ac8:3ac5:: with SMTP id x63mr18337467qte.376.1608582950590; 
+ Mon, 21 Dec 2020 12:35:50 -0800 (PST)
+Received: from ?IPv6:2804:431:c7c6:556d:fa44:43b8:486b:f066?
+ ([2804:431:c7c6:556d:fa44:43b8:486b:f066])
+ by smtp.gmail.com with ESMTPSA id 184sm2701659qkg.92.2020.12.21.12.35.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 21 Dec 2020 12:35:49 -0800 (PST)
+Subject: Re: [PATCH 3/6] spapr: Introduce spapr_drc_reset_all()
+To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+References: <20201218103400.689660-1-groug@kaod.org>
+ <20201218103400.689660-4-groug@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <09c16282-941c-a9d1-3fef-1cedf5e08ecd@gmail.com>
+Date: Mon, 21 Dec 2020 17:35:47 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ME3P282MB149243C4D0FE93B71E6B8AA6FCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201218103400.689660-4-groug@kaod.org>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82d.google.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.233,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,100 +87,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-devel@nongnu.org, darren.kenny@oracle.com,
- bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com
+Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 201220 0256, Qiuhao Li wrote:
-> Simplifying the crash cases by opportunistically setting bits in
-> operands of
-> out/write to zero may help to debug, since usually bit one means turn on
-> or
-> trigger a function while zero is the default turn-off setting.
+
+
+On 12/18/20 7:33 AM, Greg Kurz wrote:
+> No need to expose the way DRCs are traversed outside of spapr_drc.c.
 > 
-> Tested Bug 1908062. Refined vs. Original result:
-> 
-> outl 0xcf8 0x8000081c            outl 0xcf8 0x8000081c
-> outb 0xcfc 0xc3                  outb 0xcfc 0xc3
-> outl 0xcf8 0x0               <-- outl 0xcf8 0x8000082f
-> outl 0xcf8 0x80000804            outl 0xcf8 0x80000804
-> outl 0xcfc 0x10000006        <-- outl 0xcfc 0x9b2765be
-> write 0xc300001024 0x2 0x10  <-- write 0xc300001024 0x2 0x0055
-> write 0xc300001028 0x1 0x5a      write 0xc300001028 0x1 0x5a
-> write 0xc30000101c 0x1 0x01      write 0xc30000101c 0x1 0x01
-> writel 0xc30000100c 0x2a6f6c63   writel 0xc30000100c 0x2a6f6c63
-> write 0xc300001018 0x1 0x80  <-- write 0xc300001018 0x1 0xa4
-> write 0x5c 0x1 0x10          <-- write 0x5c 0x1 0x19
-> write 0xc300003002 0x1 0x0   <-- write 0xc300003002 0x1 0x8a
-> 
-> Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-
-Looks good. One nit below.
-
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-
-
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 > ---
->  scripts/oss-fuzz/minimize_qtest_trace.py | 42 +++++++++++++++++++++++-
->  1 file changed, 41 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-> index 855c3bcb54..f3e88064c4 100755
-> --- a/scripts/oss-fuzz/minimize_qtest_trace.py
-> +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-> @@ -172,7 +172,47 @@ def minimize_trace(inpath, outpath):
->                      newtrace[i] = prior
->                      del newtrace[i+1]
->          i += 1
-> -    check_if_trace_crashes(newtrace, outpath)
-> +
-> +    assert(check_if_trace_crashes(newtrace, outpath))
-> +
-> +    TIMEOUT = (end-start)*2 # input is short now
-> +
-> +    # try setting bits in operands of out/write to zero
-> +    i = 0
-> +    while i < len(newtrace):
-> +        if (not newtrace[i].startswith("write ") and not
-> +           newtrace[i].startswith("out")):
-> +           i += 1
-> +           continue
-> +        # write ADDR SIZE DATA
-> +        # outx ADDR VALUE
-> +        print("\nzero setting bits: {}".format(newtrace[i]))
-> +
-> +        prefix = " ".join(newtrace[i].split()[:-1])
-> +        data = newtrace[i].split()[-1]
-> +        data_bin = bin(int(data, 16))
-> +        data_bin_list = list(data_bin)
-> +
-> +        for j in range(2, len(data_bin_list)):
-> +            prior = newtrace[i]
-> +            if (data_bin_list[j] == '1'):
-> +                data_bin_list[j] = '0'
-> +                data_try = hex(int("".join(data_bin_list), 2))
-> +                # It seems qtest only accect hex with one byte zero padding
-                                         ^^ "accepts padded hex-values."
 
-> +                if len(data_try) % 2 == 1:
-> +                    data_try = data_try[:2] + "0" + data_try[2:-1]
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   include/hw/ppc/spapr_drc.h |  6 ++++++
+>   hw/ppc/spapr_drc.c         | 31 +++++++++++++++++++++++++++++
+>   hw/ppc/spapr_hcall.c       | 40 ++++++--------------------------------
+>   3 files changed, 43 insertions(+), 34 deletions(-)
+> 
+> diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+> index 5d80019f82e2..8982927d5c24 100644
+> --- a/include/hw/ppc/spapr_drc.h
+> +++ b/include/hw/ppc/spapr_drc.h
+> @@ -245,6 +245,12 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask);
+>   void spapr_drc_attach(SpaprDrc *drc, DeviceState *d);
+>   void spapr_drc_detach(SpaprDrc *drc);
+>   
+> +/*
+> + * Reset all DRCs, causing pending hot-plug/unplug requests to complete.
+> + * Safely handles potential DRC removal (eg. PHBs or PCI bridges).
+> + */
+> +void spapr_drc_reset_all(struct SpaprMachineState *spapr);
 > +
-> +                newtrace[i] = "{prefix} {data_try}\n".format(
-> +                        prefix=prefix,
-> +                        data_try=data_try)
+>   static inline bool spapr_drc_unplug_requested(SpaprDrc *drc)
+>   {
+>       return drc->unplug_requested;
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index 5b5e2ac58a7e..a4d2608017c5 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -949,6 +949,37 @@ out:
+>       return ret;
+>   }
+>   
+> +void spapr_drc_reset_all(SpaprMachineState *spapr)
+> +{
+> +    Object *drc_container;
+> +    ObjectProperty *prop;
+> +    ObjectPropertyIterator iter;
 > +
-> +                if not check_if_trace_crashes(newtrace, outpath):
-> +                    data_bin_list[j] = '1'
-> +                    newtrace[i] = prior
+> +    drc_container = container_get(object_get_root(), DRC_CONTAINER_PATH);
+> +restart:
+> +    object_property_iter_init(&iter, drc_container);
+> +    while ((prop = object_property_iter_next(&iter))) {
+> +        SpaprDrc *drc;
 > +
-> +        i += 1
+> +        if (!strstart(prop->type, "link<", NULL)) {
+> +            continue;
+> +        }
+> +        drc = SPAPR_DR_CONNECTOR(object_property_get_link(drc_container,
+> +                                                          prop->name,
+> +                                                          &error_abort));
 > +
-> +    assert(check_if_trace_crashes(newtrace, outpath))
->  
->  
->  if __name__ == '__main__':
-> -- 
-> 2.25.1
+> +        /*
+> +         * This will complete any pending plug/unplug requests.
+> +         * In case of a unplugged PHB or PCI bridge, this will
+> +         * cause some DRCs to be destroyed and thus potentially
+> +         * invalidate the iterator.
+> +         */
+> +        if (spapr_drc_reset(drc)) {
+> +            goto restart;
+> +        }
+> +    }
+> +}
+> +
+>   /*
+>    * RTAS calls
+>    */
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index aa22830ac4bd..e5dfc1ba7acc 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1632,39 +1632,6 @@ static uint32_t cas_check_pvr(PowerPCCPU *cpu, uint32_t max_compat,
+>       return best_compat;
+>   }
+>   
+> -static void spapr_handle_transient_dev_before_cas(SpaprMachineState *spapr)
+> -{
+> -    Object *drc_container;
+> -    ObjectProperty *prop;
+> -    ObjectPropertyIterator iter;
+> -
+> -    drc_container = container_get(object_get_root(), "/dr-connector");
+> -restart:
+> -    object_property_iter_init(&iter, drc_container);
+> -    while ((prop = object_property_iter_next(&iter))) {
+> -        SpaprDrc *drc;
+> -
+> -        if (!strstart(prop->type, "link<", NULL)) {
+> -            continue;
+> -        }
+> -        drc = SPAPR_DR_CONNECTOR(object_property_get_link(drc_container,
+> -                                                          prop->name,
+> -                                                          &error_abort));
+> -
+> -        /*
+> -         * This will complete any pending plug/unplug requests.
+> -         * In case of a unplugged PHB or PCI bridge, this will
+> -         * cause some DRCs to be destroyed and thus potentially
+> -         * invalidate the iterator.
+> -         */
+> -        if (spapr_drc_reset(drc)) {
+> -            goto restart;
+> -        }
+> -    }
+> -
+> -    spapr_clear_pending_hotplug_events(spapr);
+> -}
+> -
+>   target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+>                                               SpaprMachineState *spapr,
+>                                               target_ulong vec,
+> @@ -1822,7 +1789,12 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+>   
+>       spapr_irq_update_active_intc(spapr);
+>   
+> -    spapr_handle_transient_dev_before_cas(spapr);
+> +    /*
+> +     * Process all pending hot-plug/unplug requests now. An updated full
+> +     * rendered FDT will be returned to the guest.
+> +     */
+> +    spapr_drc_reset_all(spapr);
+> +    spapr_clear_pending_hotplug_events(spapr);
+>   
+>       /*
+>        * If spapr_machine_reset() did not set up a HPT but one is necessary
 > 
 
