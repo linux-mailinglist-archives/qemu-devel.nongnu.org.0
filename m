@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58BD2DFD17
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 15:56:53 +0100 (CET)
-Received: from localhost ([::1]:43862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6C32DFD8E
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:28:29 +0100 (CET)
+Received: from localhost ([::1]:37242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krMcG-0001jS-Lj
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 09:56:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42494)
+	id 1krN6q-0002Q9-2U
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:28:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRH-0004rt-8f
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:31 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37029)
+ id 1krMRJ-0004vH-0h
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:33 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51729)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRC-0007q3-Ej
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:30 -0500
-Received: by mail-wm1-x335.google.com with SMTP id q75so11189439wme.2
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:23 -0800 (PST)
+ id 1krMRC-0007qL-Ha
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:32 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id v14so10095560wml.1
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mlh+izxa5vEMNNyEE/2INCc8XWxagZR6Muhe29rcraY=;
- b=o7bGX6bi4mpe4JI8pXu7ctfj2cY9RLYy/9l+Vru43imYQ09pVvbvtoi4Aepi5mfBTZ
- LTzpcpnDL6Cok+fwnaizrQpcANsYmC2ameCa3HPMCly8unL8zWfgQ+xweWl5j9i8QNz3
- kiltyjEGvmrBWHVwUoyjr/pacxPFDEVuZ8GFZ5ZCSZjFe3/CSG44u9HAGDicySnj9UBj
- sOdORVZRb7x06flphl6sN6r7f/QPzVXuyTHmuVlT7ijVRWMyJ7EjKd9xuIDUQl10qXDh
- qGCSU4Fd2W5w7Z8KEuNbRUUlz0XQnNGdkCw44xZGz54lutWglPrDxd+R/TkLFwcH22ak
- VLkw==
+ bh=YvGDjUX1uzLrPzoSyBtKDm1Id/IjIEI43leAgzqJqhU=;
+ b=GjSAnPZGbVYqszF+K55bs8+51fglNPeZUvEr3sun4/OdNZN6NJIay2SMQ0WUjeF6H7
+ 7OsmHmj6ymwCdP1xl0/JcKaIF8PU1Dh+QtwK+XSQH4qzfGDc4kdMxCNki9DWxIhUObAi
+ 8Cd9Fp1Jisg2Sx5Cj5fWUajUP0fzFRyhhXdGkOsmTCBIMEuKIGGPxq2+BqkzbV6wSRM1
+ z8YG1c9crnBVqR+uBe7/pqbjpam2vjAUBNUOempk1a+oR5/vMxcKQhGXfQcBuCER/HRN
+ QyCKEx8AkPzmm4ChPsykl9w/RuURGHGKtf5gxRb+YyA6tot1grfsW334I1bT0TheGXZp
+ upJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=mlh+izxa5vEMNNyEE/2INCc8XWxagZR6Muhe29rcraY=;
- b=SBgqj/y8WRjpo6M0SK8J3QIYKJuHOfZhNyxoNUFDZG2wSK+tyAhRx7RB9n+WkORl/9
- 2WcH1CfLqJrHvR3O1uoGtVmrIeXuSOb6lyRzpq0Odj2LQMSY4OWIb0+mMAAG081MEUhh
- Gk86XpMXPKliEqv2vATypYjzZQx8AW+VSN39TJXFgjRuxntp3OD0sPCrAGxKg2W1T6Cp
- ZHjmHiDSU5QbNRXg/ky6zR6hmQRvYfUsukeB60ZjfbBSWCsgnTTzlaOCr/CKvpIsqL9u
- D8jsjT4FkVkz0jdg47YmL5xn41KPM226Uo+PPRtECwbpIeaydZu2MJ7WPcFSMn92DmrR
- 454Q==
-X-Gm-Message-State: AOAM5318U/5ppTaKJcXoQVi+RisBhRLUpOEW/WTktiWUq8EqJVja00PF
- y7ihuezFB7/vVZYQf5h+8hLiqgOUico=
-X-Google-Smtp-Source: ABdhPJzjn98/9F4db+OyQ7uIgHvpgf/HQdwF7Trq+bLKAbH6aDvyLQyf23T2IdNgzBf4Ue3RFiABrw==
-X-Received: by 2002:a1c:de41:: with SMTP id v62mr17074728wmg.135.1608561923087; 
- Mon, 21 Dec 2020 06:45:23 -0800 (PST)
+ bh=YvGDjUX1uzLrPzoSyBtKDm1Id/IjIEI43leAgzqJqhU=;
+ b=NoXwizXHdBRRRGCBF5yVzMXAahQiMvBxSS6IjrFmNwOp5aIK4+fnCJLkJBtm/GmVyD
+ JiqGBMk/EeBtVJSl1d5HCRxQm5VwmhCFPLIu9IvD8eBNEeYSb0vewdhRilM9V2l9+W+j
+ keplftgRJM2r4RayOuQj1mzwMzRO3xAgcLbrfxghUjrdd2VJzoJeQYt58ce4FWCXeH9X
+ uKMWHG6TAK1KjaGN0VGSDRxrSpDRGmwGmIOhV9/mhVQjGhrnYF1w4Lb3qcC6nxoeixoZ
+ JKpbjCydZWvGY9gMahsSDsWA6cm9Im4dRRXDjC4prhtnHnOnJOc82zMVAe4YdyOFEoqV
+ yJYg==
+X-Gm-Message-State: AOAM531Fmk8OeMvMT0q4iGwXZLVfREpWaSeDEjih7n9HJBdk4om9wJCx
+ hwVbQctDAIzHgWtL2yZWrSNvxY4gaX4=
+X-Google-Smtp-Source: ABdhPJyIFN0OslCzEpf6+jPU9LJvw/YkGFZGsg/R0qwbPBNzXyVzhRwqS8pKZU/87Z0BBLyUFf6ixg==
+X-Received: by 2002:a1c:df85:: with SMTP id
+ w127mr17383726wmg.166.1608561924222; 
+ Mon, 21 Dec 2020 06:45:24 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.22
+ by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.23
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Dec 2020 06:45:22 -0800 (PST)
+ Mon, 21 Dec 2020 06:45:23 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 38/55] curl: convert to meson
-Date: Mon, 21 Dec 2020 15:44:30 +0100
-Message-Id: <20201221144447.26161-39-pbonzini@redhat.com>
+Subject: [PULL 39/55] glusterfs: convert to meson
+Date: Mon, 21 Dec 2020 15:44:31 +0100
+Message-Id: <20201221144447.26161-40-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201221144447.26161-1-pbonzini@redhat.com>
 References: <20201221144447.26161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,146 +85,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Daniel Berrangé <berrange@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure                   | 31 ++++---------------------------
- contrib/elf2dmp/meson.build |  2 +-
- meson.build                 | 11 +++++++----
- meson_options.txt           |  2 ++
- 4 files changed, 14 insertions(+), 32 deletions(-)
+ configure         | 102 ++--------------------------------------------
+ meson.build       |  48 ++++++++++++++++++++--
+ meson_options.txt |   2 +
+ 3 files changed, 50 insertions(+), 102 deletions(-)
 
 diff --git a/configure b/configure
-index c75196beb1..bb6b8eefdb 100755
+index bb6b8eefdb..b7644cfbd9 100755
 --- a/configure
 +++ b/configure
-@@ -306,7 +306,7 @@ for opt do
- done
+@@ -414,13 +414,7 @@ crypto_afalg="no"
+ cfi="false"
+ cfi_debug="false"
+ seccomp="$default_feature"
+-glusterfs="$default_feature"
+-glusterfs_xlator_opt="no"
+-glusterfs_discard="no"
+-glusterfs_fallocate="no"
+-glusterfs_zerofill="no"
+-glusterfs_ftruncate_has_stat="no"
+-glusterfs_iocb_has_stat="no"
++glusterfs="auto"
+ gtk="$default_feature"
+ gtk_gl="no"
+ tls_priority="NORMAL"
+@@ -1365,7 +1359,7 @@ for opt do
+   ;;
+   --disable-seccomp) seccomp="no"
+   ;;
+-  --disable-glusterfs) glusterfs="no"
++  --disable-glusterfs) glusterfs="disabled"
+   ;;
+   --disable-avx2) avx2_opt="no"
+   ;;
+@@ -1376,7 +1370,7 @@ for opt do
+   --enable-avx512f) avx512f_opt="yes"
+   ;;
  
- brlapi="auto"
--curl="$default_feature"
-+curl="auto"
- iconv="auto"
- curses="auto"
- docs="auto"
-@@ -1215,9 +1215,9 @@ for opt do
+-  --enable-glusterfs) glusterfs="yes"
++  --enable-glusterfs) glusterfs="enabled"
    ;;
-   --enable-iconv) iconv="enabled"
-   ;;
--  --disable-curl) curl="no"
-+  --disable-curl) curl="disabled"
-   ;;
--  --enable-curl) curl="yes"
-+  --enable-curl) curl="enabled"
-   ;;
-   --disable-fdt) fdt="disabled"
-   ;;
-@@ -3423,25 +3423,6 @@ for drv in $audio_drv_list; do
-     esac
- done
+   --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
+       echo "$0: $opt is obsolete, virtio-blk data-plane is always on" >&2
+@@ -3869,64 +3863,6 @@ if test "$libxml2" != "no" ; then
+     fi
+ fi
  
 -##########################################
--# curl probe
--if test "$curl" != "no" ; then
--  cat > $TMPC << EOF
--#include <curl/curl.h>
--int main(void) { curl_easy_init(); curl_multi_setopt(0, 0, 0); return 0; }
--EOF
--  curl_cflags=$($pkg_config libcurl --cflags 2>/dev/null)
--  curl_libs=$($pkg_config libcurl --libs 2>/dev/null)
--  if compile_prog "$curl_cflags" "$curl_libs" ; then
--    curl=yes
--  else
--    if test "$curl" = "yes" ; then
--      feature_not_found "curl" "Install libcurl devel"
+-# glusterfs probe
+-if test "$glusterfs" != "no" ; then
+-  if $pkg_config --atleast-version=3 glusterfs-api; then
+-    glusterfs="yes"
+-    glusterfs_cflags=$($pkg_config --cflags glusterfs-api)
+-    glusterfs_libs=$($pkg_config --libs glusterfs-api)
+-    if $pkg_config --atleast-version=4 glusterfs-api; then
+-      glusterfs_xlator_opt="yes"
 -    fi
--    curl=no
--  fi
--fi # test "$curl"
+-    if $pkg_config --atleast-version=5 glusterfs-api; then
+-      glusterfs_discard="yes"
+-    fi
+-    if $pkg_config --atleast-version=6 glusterfs-api; then
+-      glusterfs_fallocate="yes"
+-      glusterfs_zerofill="yes"
+-    fi
+-    cat > $TMPC << EOF
+-#include <glusterfs/api/glfs.h>
 -
- ##########################################
- # glib support probe
- 
-@@ -6102,11 +6083,6 @@ fi
- if test "$bswap_h" = "yes" ; then
-   echo "CONFIG_MACHINE_BSWAP_H=y" >> $config_host_mak
- fi
--if test "$curl" = "yes" ; then
--  echo "CONFIG_CURL=y" >> $config_host_mak
--  echo "CURL_CFLAGS=$curl_cflags" >> $config_host_mak
--  echo "CURL_LIBS=$curl_libs" >> $config_host_mak
+-int
+-main(void)
+-{
+-	/* new glfs_ftruncate() passes two additional args */
+-	return glfs_ftruncate(NULL, 0, NULL, NULL);
+-}
+-EOF
+-    if compile_prog "$glusterfs_cflags" "$glusterfs_libs" ; then
+-      glusterfs_ftruncate_has_stat="yes"
+-    fi
+-    cat > $TMPC << EOF
+-#include <glusterfs/api/glfs.h>
+-
+-/* new glfs_io_cbk() passes two additional glfs_stat structs */
+-static void
+-glusterfs_iocb(glfs_fd_t *fd, ssize_t ret, struct glfs_stat *prestat, struct glfs_stat *poststat, void *data)
+-{}
+-
+-int
+-main(void)
+-{
+-	glfs_io_cbk iocb = &glusterfs_iocb;
+-	iocb(NULL, 0 , NULL, NULL, NULL);
+-	return 0;
+-}
+-EOF
+-    if compile_prog "$glusterfs_cflags" "$glusterfs_libs" ; then
+-      glusterfs_iocb_has_stat="yes"
+-    fi
+-  else
+-    if test "$glusterfs" = "yes" ; then
+-      feature_not_found "GlusterFS backend support" \
+-          "Install glusterfs-api devel >= 3"
+-    fi
+-    glusterfs="no"
+-  fi
 -fi
- if test "$gtk" = "yes" ; then
-   echo "CONFIG_GTK=y" >> $config_host_mak
-   echo "GTK_CFLAGS=$gtk_cflags" >> $config_host_mak
-@@ -6941,6 +6917,7 @@ NINJA=$ninja $meson setup \
+-
+ # Check for inotify functions when we are building linux-user
+ # emulator.  This is done because older glibc versions don't
+ # have syscall stubs for these implemented.  In that case we
+@@ -6413,36 +6349,6 @@ if test "$getauxval" = "yes" ; then
+   echo "CONFIG_GETAUXVAL=y" >> $config_host_mak
+ fi
+ 
+-if test "$glusterfs" = "yes" ; then
+-  echo "CONFIG_GLUSTERFS=y" >> $config_host_mak
+-  echo "GLUSTERFS_CFLAGS=$glusterfs_cflags" >> $config_host_mak
+-  echo "GLUSTERFS_LIBS=$glusterfs_libs" >> $config_host_mak
+-fi
+-
+-if test "$glusterfs_xlator_opt" = "yes" ; then
+-  echo "CONFIG_GLUSTERFS_XLATOR_OPT=y" >> $config_host_mak
+-fi
+-
+-if test "$glusterfs_discard" = "yes" ; then
+-  echo "CONFIG_GLUSTERFS_DISCARD=y" >> $config_host_mak
+-fi
+-
+-if test "$glusterfs_fallocate" = "yes" ; then
+-  echo "CONFIG_GLUSTERFS_FALLOCATE=y" >> $config_host_mak
+-fi
+-
+-if test "$glusterfs_zerofill" = "yes" ; then
+-  echo "CONFIG_GLUSTERFS_ZEROFILL=y" >> $config_host_mak
+-fi
+-
+-if test "$glusterfs_ftruncate_has_stat" = "yes" ; then
+-  echo "CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT=y" >> $config_host_mak
+-fi
+-
+-if test "$glusterfs_iocb_has_stat" = "yes" ; then
+-  echo "CONFIG_GLUSTERFS_IOCB_HAS_STAT=y" >> $config_host_mak
+-fi
+-
+ if test "$libssh" = "yes" ; then
+   echo "CONFIG_LIBSSH=y" >> $config_host_mak
+   echo "LIBSSH_CFLAGS=$libssh_cflags" >> $config_host_mak
+@@ -6917,7 +6823,7 @@ NINJA=$ninja $meson setup \
          -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
          -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
          -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
-+        -Dcurl=$curl \
+-        -Dcurl=$curl \
++        -Dcurl=$curl -Dglusterfs=$glusterfs \
          -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
          -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
          -Dvhost_user_blk_server=$vhost_user_blk_server \
-diff --git a/contrib/elf2dmp/meson.build b/contrib/elf2dmp/meson.build
-index b3de173316..4d86cb390a 100644
---- a/contrib/elf2dmp/meson.build
-+++ b/contrib/elf2dmp/meson.build
-@@ -1,4 +1,4 @@
--if 'CONFIG_CURL' in config_host
-+if curl.found()
-   executable('elf2dmp', files('main.c', 'addrspace.c', 'download.c', 'pdb.c', 'qemu_elf.c'),
-              dependencies: [glib, curl],
-              install: true)
 diff --git a/meson.build b/meson.build
-index ecc95207e5..1d5b00aef1 100644
+index 1d5b00aef1..db52ac6bdf 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -392,9 +392,11 @@ if 'CONFIG_VIRGL' in config_host
-                              link_args: config_host['VIRGL_LIBS'].split())
+@@ -613,9 +613,40 @@ if 'CONFIG_RBD' in config_host
+   rbd = declare_dependency(link_args: config_host['RBD_LIBS'].split())
  endif
- curl = not_found
--if 'CONFIG_CURL' in config_host
--  curl = declare_dependency(compile_args: config_host['CURL_CFLAGS'].split(),
--                            link_args: config_host['CURL_LIBS'].split())
-+if not get_option('curl').auto() or have_block
-+  curl = dependency('libcurl', version: '>=7.29.0',
-+                    method: 'pkg-config',
-+                    required: get_option('curl'),
-+                    static: enable_static)
+ glusterfs = not_found
+-if 'CONFIG_GLUSTERFS' in config_host
+-  glusterfs = declare_dependency(compile_args: config_host['GLUSTERFS_CFLAGS'].split(),
+-                                 link_args: config_host['GLUSTERFS_LIBS'].split())
++glusterfs_ftruncate_has_stat = false
++glusterfs_iocb_has_stat = false
++if not get_option('glusterfs').auto() or have_block
++  glusterfs = dependency('glusterfs-api', version: '>=3',
++                         required: get_option('glusterfs'),
++                         method: 'pkg-config', static: enable_static)
++  if glusterfs.found()
++    glusterfs_ftruncate_has_stat = cc.links('''
++      #include <glusterfs/api/glfs.h>
++
++      int
++      main(void)
++      {
++          /* new glfs_ftruncate() passes two additional args */
++          return glfs_ftruncate(NULL, 0, NULL, NULL);
++      }
++    ''', dependencies: glusterfs)
++    glusterfs_iocb_has_stat = cc.links('''
++      #include <glusterfs/api/glfs.h>
++
++      /* new glfs_io_cbk() passes two additional glfs_stat structs */
++      static void
++      glusterfs_iocb(glfs_fd_t *fd, ssize_t ret, struct glfs_stat *prestat, struct glfs_stat *poststat, void *data)
++      {}
++
++      int
++      main(void)
++      {
++          glfs_io_cbk iocb = &glusterfs_iocb;
++          iocb(NULL, 0 , NULL, NULL, NULL);
++          return 0;
++      }
++    ''', dependencies: glusterfs)
++  endif
  endif
- libudev = not_found
- if targetos == 'linux' and (have_system or have_tools)
-@@ -872,6 +874,7 @@ config_host_data.set('CONFIG_COCOA', cocoa.found())
- config_host_data.set('CONFIG_LIBUDEV', libudev.found())
- config_host_data.set('CONFIG_MPATH', mpathpersist.found())
+ libssh = not_found
+ if 'CONFIG_LIBSSH' in config_host
+@@ -876,6 +907,15 @@ config_host_data.set('CONFIG_MPATH', mpathpersist.found())
  config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
-+config_host_data.set('CONFIG_CURL', curl.found())
+ config_host_data.set('CONFIG_CURL', curl.found())
  config_host_data.set('CONFIG_CURSES', curses.found())
++config_host_data.set('CONFIG_GLUSTERFS', glusterfs.found())
++if glusterfs.found()
++  config_host_data.set('CONFIG_GLUSTERFS_XLATOR_OPT', glusterfs.version().version_compare('>=4'))
++  config_host_data.set('CONFIG_GLUSTERFS_DISCARD', glusterfs.version().version_compare('>=5'))
++  config_host_data.set('CONFIG_GLUSTERFS_FALLOCATE', glusterfs.version().version_compare('>=6'))
++  config_host_data.set('CONFIG_GLUSTERFS_ZEROFILL', glusterfs.version().version_compare('>=6'))
++  config_host_data.set('CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT', glusterfs_ftruncate_has_stat)
++  config_host_data.set('CONFIG_GLUSTERFS_IOCB_HAS_STAT', glusterfs_iocb_has_stat)
++endif
  config_host_data.set('CONFIG_SDL', sdl.found())
  config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
-@@ -2161,7 +2164,7 @@ summary_info += {'iconv support':     iconv.found()}
- summary_info += {'curses support':    curses.found()}
- # TODO: add back version
- summary_info += {'virgl support':     config_host.has_key('CONFIG_VIRGL')}
--summary_info += {'curl support':      config_host.has_key('CONFIG_CURL')}
-+summary_info += {'curl support':      curl.found()}
- summary_info += {'mingw32 support':   targetos == 'windows'}
- summary_info += {'Audio drivers':     config_host['CONFIG_AUDIO_DRIVERS']}
- summary_info += {'Block whitelist (rw)': config_host['CONFIG_BDRV_RW_WHITELIST']}
+ config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
+@@ -2253,7 +2293,7 @@ summary_info += {'coroutine pool':    config_host['CONFIG_COROUTINE_POOL'] == '1
+ summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
+ summary_info += {'mutex debugging':   config_host.has_key('CONFIG_DEBUG_MUTEX')}
+ summary_info += {'crypto afalg':      config_host.has_key('CONFIG_AF_ALG')}
+-summary_info += {'GlusterFS support': config_host.has_key('CONFIG_GLUSTERFS')}
++summary_info += {'GlusterFS support': glusterfs.found()}
+ summary_info += {'gcov':              get_option('b_coverage')}
+ summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
+ summary_info += {'libssh support':    config_host.has_key('CONFIG_LIBSSH')}
 diff --git a/meson_options.txt b/meson_options.txt
-index 62efe96a91..2b845ac62b 100644
+index 2b845ac62b..b5d84bb88b 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -44,6 +44,8 @@ option('brlapi', type : 'feature', value : 'auto',
-        description: 'brlapi character device driver')
- option('cocoa', type : 'feature', value : 'auto',
+@@ -46,6 +46,8 @@ option('cocoa', type : 'feature', value : 'auto',
         description: 'Cocoa user interface (macOS only)')
-+option('curl', type : 'feature', value : 'auto',
-+       description: 'CURL block device driver')
+ option('curl', type : 'feature', value : 'auto',
+        description: 'CURL block device driver')
++option('glusterfs', type : 'feature', value : 'auto',
++       description: 'Glusterfs block device driver')
  option('mpath', type : 'feature', value : 'auto',
         description: 'Multipath persistent reservation passthrough')
  option('iconv', type : 'feature', value : 'auto',
