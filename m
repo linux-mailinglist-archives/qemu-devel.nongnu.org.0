@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6C32DFD8E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:28:29 +0100 (CET)
-Received: from localhost ([::1]:37242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BAE82DFD7C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:26:21 +0100 (CET)
+Received: from localhost ([::1]:58958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krN6q-0002Q9-2U
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:28:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42560)
+	id 1krN4m-0007zv-9Y
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:26:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRJ-0004vH-0h
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:33 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51729)
+ id 1krMRI-0004uu-PQ
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:32 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:40582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRC-0007qL-Ha
+ id 1krMRC-0007r7-HE
  for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:32 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id v14so10095560wml.1
+Received: by mail-wm1-x334.google.com with SMTP id r4so11156634wmh.5
  for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YvGDjUX1uzLrPzoSyBtKDm1Id/IjIEI43leAgzqJqhU=;
- b=GjSAnPZGbVYqszF+K55bs8+51fglNPeZUvEr3sun4/OdNZN6NJIay2SMQ0WUjeF6H7
- 7OsmHmj6ymwCdP1xl0/JcKaIF8PU1Dh+QtwK+XSQH4qzfGDc4kdMxCNki9DWxIhUObAi
- 8Cd9Fp1Jisg2Sx5Cj5fWUajUP0fzFRyhhXdGkOsmTCBIMEuKIGGPxq2+BqkzbV6wSRM1
- z8YG1c9crnBVqR+uBe7/pqbjpam2vjAUBNUOempk1a+oR5/vMxcKQhGXfQcBuCER/HRN
- QyCKEx8AkPzmm4ChPsykl9w/RuURGHGKtf5gxRb+YyA6tot1grfsW334I1bT0TheGXZp
- upJA==
+ bh=MqJQF5mR+4cetOd5KHLJPsleSno/7cp2ZMdnZoPO5/4=;
+ b=J/ZoQpZsZ/TifmfGKA+VR3HkyMTDr5q6wV24lFxOhF6U08Lwz8DMW7Ex/Ukr8ktKqq
+ i4DZUX3mLaYv7sMUkNT5f3j0ZBLXOBKJIXE7xrBilcD9ye/+RTzoHgIOxOUOLbQ0I3ZZ
+ I4fIjXVS24Fxf0svepN1V6aNJYc5vc/A5MW31EUpZWMMKtJRiRMNss3D9JEEobqXP0vb
+ TLbPX5iT9co20/YUD3ZHOg1d+cGAXbRxkOtjpWc/tG/8R0pALrLfKcgFazaeFUsqYa+b
+ WWFNsu/5h0AwWuLsD8aYbtPWPdQ1xz5QT/aCWB9clnlP6tZUGB3DNtcXXKfSrnoestWX
+ eUfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=YvGDjUX1uzLrPzoSyBtKDm1Id/IjIEI43leAgzqJqhU=;
- b=NoXwizXHdBRRRGCBF5yVzMXAahQiMvBxSS6IjrFmNwOp5aIK4+fnCJLkJBtm/GmVyD
- JiqGBMk/EeBtVJSl1d5HCRxQm5VwmhCFPLIu9IvD8eBNEeYSb0vewdhRilM9V2l9+W+j
- keplftgRJM2r4RayOuQj1mzwMzRO3xAgcLbrfxghUjrdd2VJzoJeQYt58ce4FWCXeH9X
- uKMWHG6TAK1KjaGN0VGSDRxrSpDRGmwGmIOhV9/mhVQjGhrnYF1w4Lb3qcC6nxoeixoZ
- JKpbjCydZWvGY9gMahsSDsWA6cm9Im4dRRXDjC4prhtnHnOnJOc82zMVAe4YdyOFEoqV
- yJYg==
-X-Gm-Message-State: AOAM531Fmk8OeMvMT0q4iGwXZLVfREpWaSeDEjih7n9HJBdk4om9wJCx
- hwVbQctDAIzHgWtL2yZWrSNvxY4gaX4=
-X-Google-Smtp-Source: ABdhPJyIFN0OslCzEpf6+jPU9LJvw/YkGFZGsg/R0qwbPBNzXyVzhRwqS8pKZU/87Z0BBLyUFf6ixg==
-X-Received: by 2002:a1c:df85:: with SMTP id
- w127mr17383726wmg.166.1608561924222; 
+ bh=MqJQF5mR+4cetOd5KHLJPsleSno/7cp2ZMdnZoPO5/4=;
+ b=SHDrzQObSWD60BtOrxGZ5cZYor9RPuAXCB9VXBAd3cwxEV8Z5P/8JDUdrdkbpWIxxj
+ BNah2YVganWvTqEXaxtB7cAJic/M8enpbZ1+00e8uiqw0ZdZFzoI0cElNa7M1YJgNcQW
+ 5l/9keNOGP4rZdSjzrQVPlnIbJ+xptjTxLOpB5RrUOosxa7M7pR9Lh1pr/RURXyqBe+1
+ CgIQm7rdJGgdoKlsiVrB5tbY/5pS4mHyt7a2tyrV7dY1OI4A1ugVXdjBrOiAMnm2J6SG
+ Y11FBgIAg26z8JgmuU9CM28rCSkGceFjuAoFsQmMYxFBnuUMBSjfwDOwhWGgsyhazKnl
+ gtlw==
+X-Gm-Message-State: AOAM532xHXVE+9/8fnziE922Vxog+5pYatipcL5NGiDAppa683ix7Q1Y
+ OyIWdeeHJSi+moPWPNdojuRWv031egk=
+X-Google-Smtp-Source: ABdhPJxkKK64+K4IhQOGDkbDN5OmejGvXZ34nv5ZG+lxDFqjrF4l7MX27AFeY8PlXujnQcmyYmPakg==
+X-Received: by 2002:a7b:cb54:: with SMTP id v20mr10806460wmj.148.1608561924954; 
  Mon, 21 Dec 2020 06:45:24 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.23
+ by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Dec 2020 06:45:23 -0800 (PST)
+ Mon, 21 Dec 2020 06:45:24 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/55] glusterfs: convert to meson
-Date: Mon, 21 Dec 2020 15:44:31 +0100
-Message-Id: <20201221144447.26161-40-pbonzini@redhat.com>
+Subject: [PULL 40/55] bzip2: convert to meson
+Date: Mon, 21 Dec 2020 15:44:32 +0100
+Message-Id: <20201221144447.26161-41-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201221144447.26161-1-pbonzini@redhat.com>
 References: <20201221144447.26161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,245 +89,131 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         | 102 ++--------------------------------------------
- meson.build       |  48 ++++++++++++++++++++--
- meson_options.txt |   2 +
- 3 files changed, 50 insertions(+), 102 deletions(-)
+ configure         | 31 ++++---------------------------
+ meson.build       | 18 +++++++++++++++---
+ meson_options.txt |  2 ++
+ 3 files changed, 21 insertions(+), 30 deletions(-)
 
 diff --git a/configure b/configure
-index bb6b8eefdb..b7644cfbd9 100755
+index b7644cfbd9..3d65c1e196 100755
 --- a/configure
 +++ b/configure
-@@ -414,13 +414,7 @@ crypto_afalg="no"
- cfi="false"
- cfi_debug="false"
- seccomp="$default_feature"
--glusterfs="$default_feature"
--glusterfs_xlator_opt="no"
--glusterfs_discard="no"
--glusterfs_fallocate="no"
--glusterfs_zerofill="no"
--glusterfs_ftruncate_has_stat="no"
--glusterfs_iocb_has_stat="no"
-+glusterfs="auto"
- gtk="$default_feature"
- gtk_gl="no"
- tls_priority="NORMAL"
-@@ -1365,7 +1359,7 @@ for opt do
+@@ -395,7 +395,7 @@ avx2_opt="$default_feature"
+ capstone="auto"
+ lzo="$default_feature"
+ snappy="$default_feature"
+-bzip2="$default_feature"
++bzip2="auto"
+ lzfse="$default_feature"
+ zstd="$default_feature"
+ guest_agent="$default_feature"
+@@ -1319,9 +1319,9 @@ for opt do
    ;;
-   --disable-seccomp) seccomp="no"
+   --enable-snappy) snappy="yes"
    ;;
--  --disable-glusterfs) glusterfs="no"
-+  --disable-glusterfs) glusterfs="disabled"
+-  --disable-bzip2) bzip2="no"
++  --disable-bzip2) bzip2="disabled"
    ;;
-   --disable-avx2) avx2_opt="no"
+-  --enable-bzip2) bzip2="yes"
++  --enable-bzip2) bzip2="enabled"
    ;;
-@@ -1376,7 +1370,7 @@ for opt do
-   --enable-avx512f) avx512f_opt="yes"
+   --enable-lzfse) lzfse="yes"
    ;;
- 
--  --enable-glusterfs) glusterfs="yes"
-+  --enable-glusterfs) glusterfs="enabled"
-   ;;
-   --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
-       echo "$0: $opt is obsolete, virtio-blk data-plane is always on" >&2
-@@ -3869,64 +3863,6 @@ if test "$libxml2" != "no" ; then
+@@ -2494,24 +2494,6 @@ EOF
      fi
  fi
  
 -##########################################
--# glusterfs probe
--if test "$glusterfs" != "no" ; then
--  if $pkg_config --atleast-version=3 glusterfs-api; then
--    glusterfs="yes"
--    glusterfs_cflags=$($pkg_config --cflags glusterfs-api)
--    glusterfs_libs=$($pkg_config --libs glusterfs-api)
--    if $pkg_config --atleast-version=4 glusterfs-api; then
--      glusterfs_xlator_opt="yes"
--    fi
--    if $pkg_config --atleast-version=5 glusterfs-api; then
--      glusterfs_discard="yes"
--    fi
--    if $pkg_config --atleast-version=6 glusterfs-api; then
--      glusterfs_fallocate="yes"
--      glusterfs_zerofill="yes"
--    fi
+-# bzip2 check
+-
+-if test "$bzip2" != "no" ; then
 -    cat > $TMPC << EOF
--#include <glusterfs/api/glfs.h>
--
--int
--main(void)
--{
--	/* new glfs_ftruncate() passes two additional args */
--	return glfs_ftruncate(NULL, 0, NULL, NULL);
--}
+-#include <bzlib.h>
+-int main(void) { BZ2_bzlibVersion(); return 0; }
 -EOF
--    if compile_prog "$glusterfs_cflags" "$glusterfs_libs" ; then
--      glusterfs_ftruncate_has_stat="yes"
+-    if compile_prog "" "-lbz2" ; then
+-        bzip2="yes"
+-    else
+-        if test "$bzip2" = "yes"; then
+-            feature_not_found "libbzip2" "Install libbzip2 devel"
+-        fi
+-        bzip2="no"
 -    fi
--    cat > $TMPC << EOF
--#include <glusterfs/api/glfs.h>
--
--/* new glfs_io_cbk() passes two additional glfs_stat structs */
--static void
--glusterfs_iocb(glfs_fd_t *fd, ssize_t ret, struct glfs_stat *prestat, struct glfs_stat *poststat, void *data)
--{}
--
--int
--main(void)
--{
--	glfs_io_cbk iocb = &glusterfs_iocb;
--	iocb(NULL, 0 , NULL, NULL, NULL);
--	return 0;
--}
--EOF
--    if compile_prog "$glusterfs_cflags" "$glusterfs_libs" ; then
--      glusterfs_iocb_has_stat="yes"
--    fi
--  else
--    if test "$glusterfs" = "yes" ; then
--      feature_not_found "GlusterFS backend support" \
--          "Install glusterfs-api devel >= 3"
--    fi
--    glusterfs="no"
--  fi
 -fi
 -
- # Check for inotify functions when we are building linux-user
- # emulator.  This is done because older glibc versions don't
- # have syscall stubs for these implemented.  In that case we
-@@ -6413,36 +6349,6 @@ if test "$getauxval" = "yes" ; then
-   echo "CONFIG_GETAUXVAL=y" >> $config_host_mak
+ ##########################################
+ # lzfse check
+ 
+@@ -6236,11 +6218,6 @@ if test "$snappy" = "yes" ; then
+   echo "SNAPPY_LIBS=$snappy_libs" >> $config_host_mak
  fi
  
--if test "$glusterfs" = "yes" ; then
--  echo "CONFIG_GLUSTERFS=y" >> $config_host_mak
--  echo "GLUSTERFS_CFLAGS=$glusterfs_cflags" >> $config_host_mak
--  echo "GLUSTERFS_LIBS=$glusterfs_libs" >> $config_host_mak
+-if test "$bzip2" = "yes" ; then
+-  echo "CONFIG_BZIP2=y" >> $config_host_mak
+-  echo "BZIP2_LIBS=-lbz2" >> $config_host_mak
 -fi
 -
--if test "$glusterfs_xlator_opt" = "yes" ; then
--  echo "CONFIG_GLUSTERFS_XLATOR_OPT=y" >> $config_host_mak
--fi
--
--if test "$glusterfs_discard" = "yes" ; then
--  echo "CONFIG_GLUSTERFS_DISCARD=y" >> $config_host_mak
--fi
--
--if test "$glusterfs_fallocate" = "yes" ; then
--  echo "CONFIG_GLUSTERFS_FALLOCATE=y" >> $config_host_mak
--fi
--
--if test "$glusterfs_zerofill" = "yes" ; then
--  echo "CONFIG_GLUSTERFS_ZEROFILL=y" >> $config_host_mak
--fi
--
--if test "$glusterfs_ftruncate_has_stat" = "yes" ; then
--  echo "CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT=y" >> $config_host_mak
--fi
--
--if test "$glusterfs_iocb_has_stat" = "yes" ; then
--  echo "CONFIG_GLUSTERFS_IOCB_HAS_STAT=y" >> $config_host_mak
--fi
--
- if test "$libssh" = "yes" ; then
-   echo "CONFIG_LIBSSH=y" >> $config_host_mak
-   echo "LIBSSH_CFLAGS=$libssh_cflags" >> $config_host_mak
-@@ -6917,7 +6823,7 @@ NINJA=$ninja $meson setup \
+ if test "$lzfse" = "yes" ; then
+   echo "CONFIG_LZFSE=y" >> $config_host_mak
+   echo "LZFSE_LIBS=-llzfse" >> $config_host_mak
+@@ -6823,7 +6800,7 @@ NINJA=$ninja $meson setup \
          -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
          -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
          -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
--        -Dcurl=$curl \
-+        -Dcurl=$curl -Dglusterfs=$glusterfs \
+-        -Dcurl=$curl -Dglusterfs=$glusterfs \
++        -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 \
          -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
          -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
          -Dvhost_user_blk_server=$vhost_user_blk_server \
 diff --git a/meson.build b/meson.build
-index 1d5b00aef1..db52ac6bdf 100644
+index db52ac6bdf..66e35598ce 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -613,9 +613,40 @@ if 'CONFIG_RBD' in config_host
-   rbd = declare_dependency(link_args: config_host['RBD_LIBS'].split())
+@@ -654,8 +654,20 @@ if 'CONFIG_LIBSSH' in config_host
+                               link_args: config_host['LIBSSH_LIBS'].split())
  endif
- glusterfs = not_found
--if 'CONFIG_GLUSTERFS' in config_host
--  glusterfs = declare_dependency(compile_args: config_host['GLUSTERFS_CFLAGS'].split(),
--                                 link_args: config_host['GLUSTERFS_LIBS'].split())
-+glusterfs_ftruncate_has_stat = false
-+glusterfs_iocb_has_stat = false
-+if not get_option('glusterfs').auto() or have_block
-+  glusterfs = dependency('glusterfs-api', version: '>=3',
-+                         required: get_option('glusterfs'),
-+                         method: 'pkg-config', static: enable_static)
-+  if glusterfs.found()
-+    glusterfs_ftruncate_has_stat = cc.links('''
-+      #include <glusterfs/api/glfs.h>
-+
-+      int
-+      main(void)
-+      {
-+          /* new glfs_ftruncate() passes two additional args */
-+          return glfs_ftruncate(NULL, 0, NULL, NULL);
-+      }
-+    ''', dependencies: glusterfs)
-+    glusterfs_iocb_has_stat = cc.links('''
-+      #include <glusterfs/api/glfs.h>
-+
-+      /* new glfs_io_cbk() passes two additional glfs_stat structs */
-+      static void
-+      glusterfs_iocb(glfs_fd_t *fd, ssize_t ret, struct glfs_stat *prestat, struct glfs_stat *poststat, void *data)
-+      {}
-+
-+      int
-+      main(void)
-+      {
-+          glfs_io_cbk iocb = &glusterfs_iocb;
-+          iocb(NULL, 0 , NULL, NULL, NULL);
-+          return 0;
-+      }
-+    ''', dependencies: glusterfs)
+ libbzip2 = not_found
+-if 'CONFIG_BZIP2' in config_host
+-  libbzip2 = declare_dependency(link_args: config_host['BZIP2_LIBS'].split())
++if not get_option('bzip2').auto() or have_block
++  libbzip2 = cc.find_library('bz2', has_headers: ['bzlib.h'],
++                             required: get_option('bzip2'),
++                             static: enable_static)
++  if libbzip2.found() and not cc.links('''
++     #include <bzlib.h>
++     int main(void) { BZ2_bzlibVersion(); return 0; }''', dependencies: libbzip2)
++    libbzip2 = not_found
++    if get_option('bzip2').enabled()
++      error('could not link libbzip2')
++    else
++      warning('could not link libbzip2, disabling')
++    endif
 +  endif
  endif
- libssh = not_found
- if 'CONFIG_LIBSSH' in config_host
-@@ -876,6 +907,15 @@ config_host_data.set('CONFIG_MPATH', mpathpersist.found())
- config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
- config_host_data.set('CONFIG_CURL', curl.found())
- config_host_data.set('CONFIG_CURSES', curses.found())
-+config_host_data.set('CONFIG_GLUSTERFS', glusterfs.found())
-+if glusterfs.found()
-+  config_host_data.set('CONFIG_GLUSTERFS_XLATOR_OPT', glusterfs.version().version_compare('>=4'))
-+  config_host_data.set('CONFIG_GLUSTERFS_DISCARD', glusterfs.version().version_compare('>=5'))
-+  config_host_data.set('CONFIG_GLUSTERFS_FALLOCATE', glusterfs.version().version_compare('>=6'))
-+  config_host_data.set('CONFIG_GLUSTERFS_ZEROFILL', glusterfs.version().version_compare('>=6'))
-+  config_host_data.set('CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT', glusterfs_ftruncate_has_stat)
-+  config_host_data.set('CONFIG_GLUSTERFS_IOCB_HAS_STAT', glusterfs_iocb_has_stat)
-+endif
- config_host_data.set('CONFIG_SDL', sdl.found())
- config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
- config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
-@@ -2253,7 +2293,7 @@ summary_info += {'coroutine pool':    config_host['CONFIG_COROUTINE_POOL'] == '1
- summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
- summary_info += {'mutex debugging':   config_host.has_key('CONFIG_DEBUG_MUTEX')}
- summary_info += {'crypto afalg':      config_host.has_key('CONFIG_AF_ALG')}
--summary_info += {'GlusterFS support': config_host.has_key('CONFIG_GLUSTERFS')}
-+summary_info += {'GlusterFS support': glusterfs.found()}
- summary_info += {'gcov':              get_option('b_coverage')}
- summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
- summary_info += {'libssh support':    config_host.has_key('CONFIG_LIBSSH')}
+ liblzfse = not_found
+ if 'CONFIG_LZFSE' in config_host
+@@ -2301,7 +2313,7 @@ summary_info += {'QOM debugging':     config_host.has_key('CONFIG_QOM_CAST_DEBUG
+ summary_info += {'Live block migration': config_host.has_key('CONFIG_LIVE_BLOCK_MIGRATION')}
+ summary_info += {'lzo support':       config_host.has_key('CONFIG_LZO')}
+ summary_info += {'snappy support':    config_host.has_key('CONFIG_SNAPPY')}
+-summary_info += {'bzip2 support':     config_host.has_key('CONFIG_BZIP2')}
++summary_info += {'bzip2 support':     libbzip2.found()}
+ summary_info += {'lzfse support':     config_host.has_key('CONFIG_LZFSE')}
+ summary_info += {'zstd support':      config_host.has_key('CONFIG_ZSTD')}
+ summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
 diff --git a/meson_options.txt b/meson_options.txt
-index 2b845ac62b..b5d84bb88b 100644
+index b5d84bb88b..fd16f3b399 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -46,6 +46,8 @@ option('cocoa', type : 'feature', value : 'auto',
+@@ -42,6 +42,8 @@ option('cfi_debug', type: 'boolean', value: 'false',
+ 
+ option('brlapi', type : 'feature', value : 'auto',
+        description: 'brlapi character device driver')
++option('bzip2', type : 'feature', value : 'auto',
++       description: 'bzip2 support for DMG images')
+ option('cocoa', type : 'feature', value : 'auto',
         description: 'Cocoa user interface (macOS only)')
  option('curl', type : 'feature', value : 'auto',
-        description: 'CURL block device driver')
-+option('glusterfs', type : 'feature', value : 'auto',
-+       description: 'Glusterfs block device driver')
- option('mpath', type : 'feature', value : 'auto',
-        description: 'Multipath persistent reservation passthrough')
- option('iconv', type : 'feature', value : 'auto',
 -- 
 2.29.2
 
