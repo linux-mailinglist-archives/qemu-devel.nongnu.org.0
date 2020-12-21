@@ -2,71 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7F62DFC23
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:02:06 +0100 (CET)
-Received: from localhost ([::1]:55090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C492DFC32
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:07:48 +0100 (CET)
+Received: from localhost ([::1]:36910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krKpB-0008MW-Ia
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:02:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47374)
+	id 1krKuh-0004Qk-AD
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:07:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1krKnW-0007Lp-Pz
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:00:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54875)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1krKnQ-0004dI-TQ
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:00:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608555615;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=suEYwfPWdaLWupUno6rJ+RD5ZVoFDeIY3jROtzij/I4=;
- b=QqOUEz5IHS+0CLke5+B1sqvuDGqONLLzMLs9tVwmAtwIL+9O9Oanncy7mkiQVAPYoVmSLR
- ipdhjmUdjZC6q+WHufTmE3DJn+EKiYt2EUynPdFqP25V4DhAPRihA41eU2InMXzolx+mXE
- v53WS33yTo+oVXIU6QngjfXj2C5ZTVw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-2jckLrQpPaeJwQhhMERhHg-1; Mon, 21 Dec 2020 08:00:14 -0500
-X-MC-Unique: 2jckLrQpPaeJwQhhMERhHg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 137CF10054FF;
- Mon, 21 Dec 2020 13:00:13 +0000 (UTC)
-Received: from gondolin (ovpn-113-49.ams2.redhat.com [10.36.113.49])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6C74B19C44;
- Mon, 21 Dec 2020 12:59:58 +0000 (UTC)
-Date: Mon, 21 Dec 2020 13:59:55 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Willian Rampazzo <wrampazz@redhat.com>
-Subject: Re: [PATCH v2] tests/acceptance: Add a test with the Fedora 31
- kernel and initrd
-Message-ID: <20201221135955.69b0b182.cohuck@redhat.com>
-In-Reply-To: <d341b59d-17bb-a159-0bbd-e53e2dab9f65@redhat.com>
-References: <20201217085334.211772-1-thuth@redhat.com>
- <d341b59d-17bb-a159-0bbd-e53e2dab9f65@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
+ id 1krKqK-0001Bp-7f
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:03:16 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
+ id 1krKqF-0005pp-DY
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:03:15 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D004H3cl0z15h0k;
+ Mon, 21 Dec 2020 21:02:23 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.498.0; Mon, 21 Dec 2020
+ 21:02:55 +0800
+From: Jiahui Cen <cenjiahui@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v2 0/6] acpi: Some fixes for pxb support for ARM virt machine
+Date: Mon, 21 Dec 2020 21:02:10 +0800
+Message-ID: <20201221130216.6086-1-cenjiahui@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.184.155]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=cenjiahui@huawei.com;
+ helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,45 +56,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: xieyingtai@huawei.com, Jiahui Cen <cenjiahui@huawei.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Ard Biesheuvel <ard.biesheuvel@arm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Paolo
+ Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Dec 2020 15:23:32 -0300
-Willian Rampazzo <wrampazz@redhat.com> wrote:
+This patch series add some fixes for ARM virt machine pxb support.
+1. Pass addr offset for IO, MMIO and bus number when builing crs, because
+the addr_trans is needed to describe an addr resource.
+2. Inform guest os not to ignore the resource map generated by firmware as
+the x86 default way.
+3. Enable pxb for ARM virt machine by default.
+4. Update expected DSDT files with the above changes and enable the pxb
+unit-test.
 
-> On 12/17/20 5:53 AM, Thomas Huth wrote:
+v1->v2:
+* Update expected DSDT files.
+* Quote PCI Firmware spec as comments.
 
-> > +        # Hot-plug a virtio-crypto device and see whether it gets accepted
-> > +        self.clear_guest_dmesg()  
-> 
-> Your previous patch "[PATCH 1/3] tests/acceptance: Extract the code to 
-> clear dmesg and wait for CRW reports" defined the method as 
-> "clear_guests_dmesg". After fixing this in the code:
+REF: https://lore.kernel.org/qemu-devel/20201217132747.4744-1-cenjiahui@huawei.com/
+REF: https://lore.kernel.org/qemu-devel/20201217132926.4812-1-cenjiahui@huawei.com/
 
-Hm, I see clear_guest_dmesg in the code I have on my s390-next branch?
+Jiahui Cen (6):
+  acpi: Allow DSDT acpi table changes
+  acpi: Add addr offset in build_crs
+  acpi/gpex: Inform os to keep firmware resource map
+  Kconfig: Enable PXB for ARM_VIRT by default
+  acpi: Enable pxb unit-test for ARM virt machine
+  acpi: Update addr_trans and _DSM in expected files
 
-> 
-> Tested-by: Willian Rampazzo <willianr@redhat.com>
-> 
-> > +        self.vm.command('object-add', qom_type='cryptodev-backend-builtin',
-> > +                        id='cbe0')
-> > +        self.vm.command('device_add', driver='virtio-crypto-ccw', id='crypdev0',
-> > +                        cryptodev='cbe0')
-> > +        exec_command_and_wait_for_pattern(self,
-> > +                        'while ! (dmesg -c | grep Accelerator.device) ; do'
-> > +                        ' sleep 1 ; done', 'Accelerator device is ready')
-> > +        self.vm.command('device_del', id='crypdev0')
-> > +        self.vm.command('object-del', id='cbe0')
-> > +        exec_command_and_wait_for_pattern(self,
-> > +                        'while ! (dmesg -c | grep Start.virtcrypto_remove) ; do'
-> > +                        ' sleep 1 ; done', 'Start virtcrypto_remove.')
-> >   
-> 
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> 
+ hw/acpi/aml-build.c               |  18 +++++++++--------
+ hw/i386/acpi-build.c              |   3 ++-
+ hw/pci-bridge/Kconfig             |   2 +-
+ hw/pci-host/gpex-acpi.c           |  21 +++++++++++++++++---
+ include/hw/acpi/aml-build.h       |   4 +++-
+ tests/data/acpi/microvm/DSDT.pcie | Bin 3023 -> 3031 bytes
+ tests/data/acpi/virt/DSDT         | Bin 5196 -> 5204 bytes
+ tests/data/acpi/virt/DSDT.memhp   | Bin 6557 -> 6565 bytes
+ tests/data/acpi/virt/DSDT.numamem | Bin 5196 -> 5204 bytes
+ tests/data/acpi/virt/DSDT.pxb     | Bin 7802 -> 7689 bytes
+ tests/qtest/bios-tables-test.c    |   4 ----
+ 11 files changed, 34 insertions(+), 18 deletions(-)
+
+-- 
+2.28.0
 
 
