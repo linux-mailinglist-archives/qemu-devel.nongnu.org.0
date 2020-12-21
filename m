@@ -2,77 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CAD2E01D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 22:12:18 +0100 (CET)
-Received: from localhost ([::1]:33280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B8E2E01FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 22:20:05 +0100 (CET)
+Received: from localhost ([::1]:39784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krSTZ-0005Cs-Es
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 16:12:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55556)
+	id 1krSb5-0008QC-Qr
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 16:20:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1krSSE-0004IM-CA
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 16:10:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50693)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1krSSA-0007Ap-Vc
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 16:10:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608585049;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/qhrkh/zWH6CGNuTAFIU/OVjeCfy8MvGxk2GTg7Ksoc=;
- b=Upg+q+XJCITZ0DtVNtqumhV1iSVMLlHsi0pGO4eMwga8rEl0Rf/c2BnamGDN1Z1uakU9wD
- RopDW8ExZNwke7QjMx2iZkHr00WCxKfRDFh9XND2Rw8D4SXsmQ5svqKpQtkFp96nv7dgm/
- HrvUvCTRzk2JzzI+B7Ob+173sDN42x0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-SlIssn9bMCW4C-uTsqatCw-1; Mon, 21 Dec 2020 16:10:46 -0500
-X-MC-Unique: SlIssn9bMCW4C-uTsqatCw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A85EC800D55;
- Mon, 21 Dec 2020 21:10:45 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-114-123.rdu2.redhat.com
- [10.10.114.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 67C7019725;
- Mon, 21 Dec 2020 21:10:40 +0000 (UTC)
-Subject: Re: [PATCH v4] tests/acceptance: Add a test with the Fedora 31 kernel
- and initrd
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>
-References: <20201221143423.23607-1-thuth@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <18af4277-7ea7-48ed-5887-667fa1f81743@redhat.com>
-Date: Mon, 21 Dec 2020 18:10:38 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1krSYw-0007ir-6y
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 16:17:50 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:53474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1krSYr-00016X-Qy
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 16:17:49 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 0BLLH4Ls030432
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 21 Dec 2020 16:17:07 -0500
+Date: Mon, 21 Dec 2020 16:17:04 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Qiuhao Li <Qiuhao.Li@outlook.com>
+Subject: Re: [PATCH 4/4] fuzz: delay IO until they can't trigger the crash
+Message-ID: <20201221211704.qiai5j75fmcqrueo@mozz.bu.edu>
+References: <ME3P282MB1492BFA2302041F2AB420EBEFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
+ <ME3P282MB14920C8592A1D04D4A5685D9FCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-In-Reply-To: <20201221143423.23607-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.233, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ME3P282MB14920C8592A1D04D4A5685D9FCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,160 +55,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: thuth@redhat.com, qemu-devel@nongnu.org, darren.kenny@oracle.com,
+ bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 201220 0256, Qiuhao Li wrote:
+> Since programmers usually trigger an IO just before they need it. Try to
+> delay some IO instructions may help us better understanding the timing
+> context when debug.
+> 
+> Tested with Bug 1908062. Refined vs. Original result:
+> 
+> outl 0xcf8 0x8000081c            outl 0xcf8 0x0
+> outb 0xcfc 0xc3                | outl 0xcf8 0x8000081c
+> outl 0xcf8 0x80000804          | outb 0xcfc 0xc3
+> outl 0xcfc 0x10000006          | outl 0xcf8 0x80000804
+> write 0xc300001028 0x1 0x5a    | outl 0xcfc 0x10000006
+> write 0xc300001024 0x2 0x10    | write 0xc300001028 0x1 0x5a
+> write 0xc30000101c 0x1 0x01    | writel 0xc30000100c 0x2a6f6c63
+> write 0xc300003002 0x1 0x0     v write 0xc300001024 0x2 0x10
+> write 0x5c 0x1 0x10              write 0xc30000101c 0x1 0x01
+> writel 0xc30000100c 0x2a6f6c63   write 0xc300001018 0x1 0x80
+> write 0xc300001018 0x1 0x80      write 0x5c 0x1 0x10
+> outl 0xcf8 0x0                   write 0xc300003002 0x1 0x0
+> 
 
-On 12/21/20 11:34 AM, Thomas Huth wrote:
-> This initrd contains a virtio-net and a virtio-gpu kernel module,
-> so we can check that we can set a MAC address for the network device
-> and whether we can hot-plug and -unplug a virtio-crypto device.
-> But the most interesting part is maybe that we can also successfully
-> write some stuff into the emulated framebuffer of the virtio-gpu
-> device and make sure that we can read back that data from a screenshot.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+In this example, I can remove the outl 0xcf8 0x0, and I still see the
+crash, so maybe the 1st step in the minimizer is failing somewhere.. 
+
+Is the Refined one better? To me the original one read as:
+"Do a bunch of PCI configuration to map an MMIO BAR, then interact with
+the MMIO range and trigger some DMA activity". I also know exactly the
+line that will trigger the DMA activity and access 0x5c. With the
+refined one, I'm not so sure. Which line now causes the DMA read from
+0x5c? writel 0xc30000100c? write 0xc300001018?
+Is there another example where this type of reordering makes the result
+easier to read?
+
+> Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
 > ---
->   v4:
->   - Run lscss twice, just to be sure
->
->   tests/acceptance/machine_s390_ccw_virtio.py | 110 ++++++++++++++++++++
->   1 file changed, 110 insertions(+)
+>  scripts/oss-fuzz/minimize_qtest_trace.py | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
+> index f3e88064c4..da7aa73b3c 100755
+> --- a/scripts/oss-fuzz/minimize_qtest_trace.py
+> +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
+> @@ -214,6 +214,27 @@ def minimize_trace(inpath, outpath):
+>  
+>      assert(check_if_trace_crashes(newtrace, outpath))
+>  
+> +    # delay IO instructions until they can't trigger the crash
+> +    # Note: O(n^2) and many timeouts, kinda slow
 
+Maybe do a binary search instead of a linear scan for the optimal position
+to save some time?
+Also, if you re-run this multiple times, you can end up with different
+results, since some lines might not really be tied to a position (e.g.
+the outl cf8 0x0 in your example). Maybe it's not a problem, but i'm
+still not sure that this is making the result easier to read.
+-Alex
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
->
-> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
-> index abe25a08f0..0f81af9950 100644
-> --- a/tests/acceptance/machine_s390_ccw_virtio.py
-> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
-> @@ -9,10 +9,13 @@
->   # This work is licensed under the terms of the GNU GPL, version 2 or
->   # later.  See the COPYING file in the top-level directory.
->   
-> +import os
-> +import tempfile
->   
->   from avocado_qemu import Test
->   from avocado_qemu import exec_command_and_wait_for_pattern
->   from avocado_qemu import wait_for_console_pattern
-> +from avocado.utils import archive
->   
->   class S390CCWVirtioMachine(Test):
->       KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-> @@ -150,3 +153,110 @@ class S390CCWVirtioMachine(Test):
->           self.vm.command('human-monitor-command', command_line='balloon 128')
->           exec_command_and_wait_for_pattern(self, 'head -n 1 /proc/meminfo',
->                                             'MemTotal:         115640 kB')
+> +    i = len(newtrace) - 1
+> +    while i >= 0:
+> +        tmp_i = newtrace[i]
+> +        if len(tmp_i) < 2:
+> +            i -= 1
+> +            continue
+> +        print("Delaying ", newtrace[i])
+> +        for j in reversed(range(i+1, len(newtrace)+1)):
+> +            newtrace.insert(j, tmp_i)
+> +            del newtrace[i]
+> +            if check_if_trace_crashes(newtrace, outpath):
+> +                break
+> +            newtrace.insert(i, tmp_i)
+> +            del newtrace[j]
+> +        i -= 1
 > +
+> +    assert(check_if_trace_crashes(newtrace, outpath))
+> +    # maybe another removing round
 > +
-> +    def test_s390x_fedora(self):
-> +
-> +        """
-> +        :avocado: tags=arch:s390x
-> +        :avocado: tags=machine:s390-ccw-virtio
-> +        :avocado: tags=device:virtio-gpu
-> +        :avocado: tags=device:virtio-crypto
-> +        :avocado: tags=device:virtio-net
-> +        """
-> +
-> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
-> +                      '/fedora-secondary/releases/31/Server/s390x/os'
-> +                      '/images/kernel.img')
-> +        kernel_hash = 'b93d1efcafcf29c1673a4ce371a1f8b43941cfeb'
-> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-> +
-> +        initrd_url = ('https://archives.fedoraproject.org/pub/archive'
-> +                      '/fedora-secondary/releases/31/Server/s390x/os'
-> +                      '/images/initrd.img')
-> +        initrd_hash = '3de45d411df5624b8d8ef21cd0b44419ab59b12f'
-> +        initrd_path_xz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-> +        initrd_path = os.path.join(self.workdir, 'initrd-raw.img')
-> +        archive.lzma_uncompress(initrd_path_xz, initrd_path)
-> +
-> +        self.vm.set_console()
-> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE + ' audit=0 '
-> +                              'rd.plymouth=0 plymouth.enable=0 rd.rescue')
-> +        self.vm.add_args('-nographic',
-> +                         '-smp', '4',
-> +                         '-m', '512',
-> +                         '-name', 'Some Guest Name',
-> +                         '-uuid', '30de4fd9-b4d5-409e-86a5-09b387f70bfa',
-> +                         '-kernel', kernel_path,
-> +                         '-initrd', initrd_path,
-> +                         '-append', kernel_command_line,
-> +                         '-device', 'zpci,uid=7,target=n',
-> +                         '-device', 'virtio-net-pci,id=n,mac=02:ca:fe:fa:ce:12',
-> +                         '-device', 'virtio-rng-ccw,devno=fe.1.9876',
-> +                         '-device', 'virtio-gpu-ccw,devno=fe.2.5432')
-> +        self.vm.launch()
-> +        self.wait_for_console_pattern('Entering emergency mode')
-> +
-> +        # Some tests to see whether the CLI options have been considered:
-> +        self.log.info("Test whether QEMU CLI options have been considered")
-> +        exec_command_and_wait_for_pattern(self, 'lspci',
-> +                             '0007:00:00.0 Class 0200: Device 1af4:1000')
-> +        exec_command_and_wait_for_pattern(self,
-> +                             'cat /sys/class/net/enP7p0s0/address',
-> +                             '02:ca:fe:fa:ce:12')
-> +        exec_command_and_wait_for_pattern(self, 'lscss', '0.1.9876')
-> +        exec_command_and_wait_for_pattern(self, 'lscss', '0.2.5432')
-> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
-> +                             'processors    : 4')
-> +        exec_command_and_wait_for_pattern(self, 'grep MemTotal /proc/meminfo',
-> +                             'MemTotal:         499848 kB')
-> +        exec_command_and_wait_for_pattern(self, 'grep Name /proc/sysinfo',
-> +                             'Extended Name:   Some Guest Name')
-> +        exec_command_and_wait_for_pattern(self, 'grep UUID /proc/sysinfo',
-> +                             '30de4fd9-b4d5-409e-86a5-09b387f70bfa')
-> +
-> +        # Disable blinking cursor, then write some stuff into the framebuffer.
-> +        # QEMU's PPM screendumps contain uncompressed 24-bit values, while the
-> +        # framebuffer uses 32-bit, so we pad our text with some spaces when
-> +        # writing to the framebuffer. Since the PPM is uncompressed, we then
-> +        # can simply read the written "magic bytes" back from the PPM file to
-> +        # check whether the framebuffer is working as expected.
-> +        self.log.info("Test screendump of virtio-gpu device")
-> +        exec_command_and_wait_for_pattern(self,
-> +            'echo -e "\e[?25l" > /dev/tty0', ':/#')
-> +        exec_command_and_wait_for_pattern(self, 'for ((i=0;i<250;i++)); do '
-> +            'echo " The  qu ick  fo x j ump s o ver  a  laz y d og" >> fox.txt;'
-> +            'done',
-> +            ':/#')
-> +        exec_command_and_wait_for_pattern(self,
-> +            'dd if=fox.txt of=/dev/fb0 bs=1000 oflag=sync,nocache ; rm fox.txt',
-> +            '12+0 records out')
-> +        with tempfile.NamedTemporaryFile(suffix='.ppm',
-> +                                         prefix='qemu-scrdump-') as ppmfile:
-> +            self.vm.command('screendump', filename=ppmfile.name)
-> +            ppmfile.seek(0)
-> +            line = ppmfile.readline()
-> +            self.assertEqual(line, b"P6\n")
-> +            line = ppmfile.readline()
-> +            self.assertEqual(line, b"1024 768\n")
-> +            line = ppmfile.readline()
-> +            self.assertEqual(line, b"255\n")
-> +            line = ppmfile.readline()
-> +            self.assertEqual(line, b"The quick fox jumps over a lazy dog\n")
-> +
-> +        # Hot-plug a virtio-crypto device and see whether it gets accepted
-> +        self.log.info("Test hot-plug virtio-crypto device")
-> +        self.clear_guest_dmesg()
-> +        self.vm.command('object-add', qom_type='cryptodev-backend-builtin',
-> +                        id='cbe0')
-> +        self.vm.command('device_add', driver='virtio-crypto-ccw', id='crypdev0',
-> +                        cryptodev='cbe0', devno='fe.0.2342')
-> +        exec_command_and_wait_for_pattern(self,
-> +                        'while ! (dmesg -c | grep Accelerator.device) ; do'
-> +                        ' sleep 1 ; done', 'Accelerator device is ready')
-> +        exec_command_and_wait_for_pattern(self, 'lscss', '0.0.2342')
-> +        self.vm.command('device_del', id='crypdev0')
-> +        self.vm.command('object-del', id='cbe0')
-> +        exec_command_and_wait_for_pattern(self,
-> +                        'while ! (dmesg -c | grep Start.virtcrypto_remove) ; do'
-> +                        ' sleep 1 ; done', 'Start virtcrypto_remove.')
-
+>  
+>  if __name__ == '__main__':
+>      if len(sys.argv) < 3:
+> -- 
+> 2.25.1
+> 
 
