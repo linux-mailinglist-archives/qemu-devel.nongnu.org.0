@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F5B2DFD86
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:27:15 +0100 (CET)
-Received: from localhost ([::1]:33714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E03D2DFD54
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:16:48 +0100 (CET)
+Received: from localhost ([::1]:36506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krN5e-0000uL-5v
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:27:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42750)
+	id 1krMvX-0006nD-IL
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:16:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRO-0005AR-Uo
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:38 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37450)
+ id 1krMRP-0005Aw-3X
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:39 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRJ-0007xG-OT
+ id 1krMRK-0007xd-Hj
  for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:38 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id i9so11319998wrc.4
+Received: by mail-wm1-x330.google.com with SMTP id q75so11189946wme.2
  for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S41BGPZRveGqkm5mvgfMqkVIT2lorAEsSBbiL0WKr8I=;
- b=iqqHT01kwFs6PSC8Vv7jk4rybJ+yb7gbjuIu2YrUffr9PVlrOSU9MEnTkA4to6d1NG
- K2of5vsXxro0VNyb46HgYcGkZJJiKUnd+8OX7oZZZZ4GpWamCHfqdC2XxItRbpUvI5jM
- Lf1TEeNydE0V2yf6c6HX47Zo10YIWJAcjF4OZD6BlWJyEToItqzvkH8ldgYbdZX2NVkm
- k+3KF1q0+G8jWd+ExczW25zYs57Gk3uDtzyLgb5Hdtp4aG3XsF0BCSNEYkw9CioZfeIM
- UtGB7892uhVnvDry5at9WSJ3mvWXOzpY1Kbz7IZ6o8zQjLybZWV6vikFGuY5uXWaIvox
- aq5g==
+ bh=9TR752MNLWceHvtFCikM71zHYckwDkSayW1xOx+GF/E=;
+ b=OH1Dn3eXzv2fyHQW6fas9aGA+o1IBVHTUTtxTZ4e/Xy/apuxeR8OVhdVzzM5zYjXuv
+ P/tRfcKFr+PIlpZY5qUMtmqcI3K3pc+cit2LjbeiQm3MT7pHAuB9egnQo/K09sgqLHWM
+ 85QQUGlEPWPmTa62dZAv9NSxawRPBfUoBVHb8QEixVpCL1fRHnvNh7bDRjj6tKUd2m72
+ /85MuuThoZ3BJ5SQjrIu83wgVvuAYAEEmYNnt8xbRxK1h9z/bl/O4LDVu33OL1eHFbX3
+ jlXdyGNJN/8rACEblxIi+qQtxax5SYAzi5sW32Zl7d3huBl7kfYdVoDDdOO5dmzjj3xB
+ Dhbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=S41BGPZRveGqkm5mvgfMqkVIT2lorAEsSBbiL0WKr8I=;
- b=F8Zu//9OA/FLDD7so72JtH5P/wUCUzHpvVa+s0GG1I8xSJd6YCKEWB9H9y22LaYCAz
- pyznUtCgUUV5adZgHGhIjIr6bSmT1O6f1Yd3tiBUCZCoUdlNNF5L+59b+t0ySvvfpAtl
- 4BUsCvT9xGabzlunROTbNM1OIb9Si63D562N1VqRdqZgWG3LzjSK6sSGaxib7WNGOfR/
- m6E5CQIdcwB8zj8R6GQDLDzV8T9tKbX0pqsBPl6YDkUhvTTcukFM3fJV1SAZ91Iby1fm
- T9NDYH/pHBgI+8YJwzqwGF8rePXxtt7hJdNaIqayhV5hO3QNMzgWkaRL8zdmfp0nljiY
- ObBA==
-X-Gm-Message-State: AOAM5312AXWPxK1t0kCqIynvyPhXqcnkdOovcGh24X8k9+LHOlf45xx2
- jt3PtmDCNKpO3C6S6l/uwskYJKVO1yk=
-X-Google-Smtp-Source: ABdhPJwN5MjV7X/wfszSb/tWNfWqUmIoYKqbWOBHRqynbYRerbUYQWOT0lCfG1KMs4wH5rDcyb40Nw==
-X-Received: by 2002:adf:e688:: with SMTP id r8mr18775408wrm.20.1608561932342; 
- Mon, 21 Dec 2020 06:45:32 -0800 (PST)
+ bh=9TR752MNLWceHvtFCikM71zHYckwDkSayW1xOx+GF/E=;
+ b=mDl5OyDecJaE/UWVB6DNwp5ACByXfduEy0pdfWgEFmUqT7/wz9rigZfnw7MckqW9wx
+ JZUH+qKTeUSAXMlP8EzamIUXKGJqjx6LOoXlfKxYZskYRUJa8ztLHv8U741TMe762eET
+ AHUsudoYWB8LiebKYakJ4qxA+ipA9xwqWrmYdRJCCzGjsoY7ekJ1iNtu8m3z1tP1ao2w
+ M8XiNvcST+QREWqfiwj8dBlIZGP2GAI/FsJanqm2BJXUL0X/18QmRfq1ofBNIrm+ocdY
+ 572NbNU8rOmQ0MjA5YzNo+/f34rXb9mvuBwLxR0En2h341ws3tuBFoXFN5in5bQjv6ai
+ saWA==
+X-Gm-Message-State: AOAM5318BxWlX6rnMyO80wtHDrU/SRqUSERxxsjem1Z6/BL4AKHL/HfW
+ haOBRYrmR3htMZhdSf5pVJpxb16VFnA=
+X-Google-Smtp-Source: ABdhPJyvWoiSUAIoP6kSXKjoeyYPNUmWS0GqhIfGQoFKKtPX8WdqHkuQdXJ6DR0/azUqhyo4s4g/qA==
+X-Received: by 2002:a05:600c:2042:: with SMTP id
+ p2mr17292922wmg.152.1608561933122; 
+ Mon, 21 Dec 2020 06:45:33 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.31
+ by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.32
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Dec 2020 06:45:31 -0800 (PST)
+ Mon, 21 Dec 2020 06:45:32 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 49/55] seccomp: convert to meson
-Date: Mon, 21 Dec 2020 15:44:41 +0100
-Message-Id: <20201221144447.26161-50-pbonzini@redhat.com>
+Subject: [PULL 50/55] virtfs: convert to meson
+Date: Mon, 21 Dec 2020 15:44:42 +0100
+Message-Id: <20201221144447.26161-51-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201221144447.26161-1-pbonzini@redhat.com>
 References: <20201221144447.26161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,183 +90,165 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure              | 32 ++++----------------------------
- meson.build            | 10 ++++++----
- meson_options.txt      |  2 ++
- softmmu/meson.build    |  2 +-
- softmmu/qemu-seccomp.c |  2 --
- tools/meson.build      |  4 ++--
- 6 files changed, 15 insertions(+), 37 deletions(-)
+ configure         | 29 ++++-------------------------
+ meson.build       | 24 ++++++++++++++++++++++--
+ meson_options.txt | 11 +++++++----
+ 3 files changed, 33 insertions(+), 31 deletions(-)
 
 diff --git a/configure b/configure
-index 0c0eef7713..ba8c6e74be 100755
+index ba8c6e74be..46ee3da40e 100755
 --- a/configure
 +++ b/configure
-@@ -413,7 +413,7 @@ debug_stack_usage="no"
- crypto_afalg="no"
- cfi="false"
- cfi_debug="false"
--seccomp="$default_feature"
-+seccomp="auto"
- glusterfs="auto"
- gtk="$default_feature"
- gtk_gl="no"
-@@ -1355,9 +1355,9 @@ for opt do
+@@ -315,7 +315,7 @@ netmap="no"
+ sdl="auto"
+ sdl_image="auto"
+ virtiofsd="auto"
+-virtfs="$default_feature"
++virtfs="auto"
+ libudev="auto"
+ mpath="auto"
+ vnc="enabled"
+@@ -1004,9 +1004,9 @@ for opt do
    ;;
-   --disable-tools) want_tools="no"
+   --enable-qom-cast-debug) qom_cast_debug="yes"
    ;;
--  --enable-seccomp) seccomp="yes"
-+  --enable-seccomp) seccomp="enabled"
+-  --disable-virtfs) virtfs="no"
++  --disable-virtfs) virtfs="disabled"
    ;;
--  --disable-seccomp) seccomp="no"
-+  --disable-seccomp) seccomp="disabled"
+-  --enable-virtfs) virtfs="yes"
++  --enable-virtfs) virtfs="enabled"
    ;;
-   --disable-glusterfs) glusterfs="disabled"
+   --disable-libudev) libudev="disabled"
    ;;
-@@ -2456,24 +2456,6 @@ EOF
-   fi
+@@ -5443,24 +5443,6 @@ if [ "$eventfd" = "yes" ]; then
+   ivshmem=yes
  fi
  
--##########################################
--# libseccomp check
--
--if test "$seccomp" != "no" ; then
--    libseccomp_minver="2.3.0"
--    if $pkg_config --atleast-version=$libseccomp_minver libseccomp ; then
--        seccomp_cflags="$($pkg_config --cflags libseccomp)"
--        seccomp_libs="$($pkg_config --libs libseccomp)"
--        seccomp="yes"
+-if test "$softmmu" = yes ; then
+-  if test "$linux" = yes; then
+-    if test "$virtfs" != no && test "$cap_ng" = yes && test "$attr" = yes ; then
+-      virtfs=yes
 -    else
--        if test "$seccomp" = "yes" ; then
--            feature_not_found "libseccomp" \
--                 "Install libseccomp devel >= $libseccomp_minver"
--        fi
--        seccomp="no"
+-      if test "$virtfs" = yes; then
+-        error_exit "VirtFS requires libcap-ng devel and libattr devel"
+-      fi
+-      virtfs=no
 -    fi
+-  else
+-    if test "$virtfs" = yes; then
+-      error_exit "VirtFS is supported only on Linux"
+-    fi
+-    virtfs=no
+-  fi
 -fi
 -
- ##########################################
- # xen probe
+ # Probe for guest agent support/options
  
-@@ -6051,12 +6033,6 @@ if test "$avx512f_opt" = "yes" ; then
-   echo "CONFIG_AVX512F_OPT=y" >> $config_host_mak
+ if [ "$guest_agent" != "no" ]; then
+@@ -5917,9 +5899,6 @@ fi
+ if test "$libattr" = "yes" ; then
+   echo "CONFIG_LIBATTR=y" >> $config_host_mak
  fi
- 
--if test "$seccomp" = "yes"; then
--  echo "CONFIG_SECCOMP=y" >> $config_host_mak
--  echo "SECCOMP_CFLAGS=$seccomp_cflags" >> $config_host_mak
--  echo "SECCOMP_LIBS=$seccomp_libs" >> $config_host_mak
+-if test "$virtfs" = "yes" ; then
+-  echo "CONFIG_VIRTFS=y" >> $config_host_mak
 -fi
--
- # XXX: suppress that
- if [ "$bsd" = "yes" ] ; then
-   echo "CONFIG_BSD=y" >> $config_host_mak
-@@ -6604,7 +6580,7 @@ NINJA=$ninja $meson setup \
+ if test "$vhost_scsi" = "yes" ; then
+   echo "CONFIG_VHOST_SCSI=y" >> $config_host_mak
+ fi
+@@ -6580,7 +6559,7 @@ NINJA=$ninja $meson setup \
          -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
          -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
          -Dlibssh=$libssh -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse \
--        -Dzstd=$zstd \
-+        -Dzstd=$zstd -Dseccomp=$seccomp \
+-        -Dzstd=$zstd -Dseccomp=$seccomp \
++        -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs \
          -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
          -Dvhost_user_blk_server=$vhost_user_blk_server \
          -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek \
 diff --git a/meson.build b/meson.build
-index b4313951a6..99c4d0dd1a 100644
+index 99c4d0dd1a..22413b4f16 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -329,9 +329,10 @@ if 'CONFIG_ATTR' in config_host
-   libattr = declare_dependency(link_args: config_host['LIBATTR_LIBS'].split())
- endif
- seccomp = not_found
--if 'CONFIG_SECCOMP' in config_host
--  seccomp = declare_dependency(compile_args: config_host['SECCOMP_CFLAGS'].split(),
--                               link_args: config_host['SECCOMP_LIBS'].split())
-+if not get_option('libiscsi').auto() or have_system or have_tools
-+  seccomp = dependency('libseccomp', version: '>=2.3.0',
-+                       required: get_option('seccomp'),
-+                       method: 'pkg-config', static: enable_static)
- endif
- libcap_ng = not_found
- if 'CONFIG_LIBCAP_NG' in config_host
-@@ -999,6 +1000,7 @@ config_host_data.set('HAVE_LIBSSH_0_8', have_libssh_0_8)
- config_host_data.set('CONFIG_RBD', rbd.found())
- config_host_data.set('CONFIG_SDL', sdl.found())
- config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
-+config_host_data.set('CONFIG_SECCOMP', seccomp.found())
- config_host_data.set('CONFIG_SNAPPY', snappy.found())
- config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
- config_host_data.set('CONFIG_VNC', vnc.found())
-@@ -2368,7 +2370,7 @@ if targetos == 'windows'
-   summary_info += {'QGA w32 disk info': config_host.has_key('CONFIG_QGA_NTDDSCSI')}
-   summary_info += {'QGA MSI support':   config_host.has_key('CONFIG_QGA_MSI')}
- endif
--summary_info += {'seccomp support':   config_host.has_key('CONFIG_SECCOMP')}
-+summary_info += {'seccomp support':   seccomp.found()}
- summary_info += {'CFI support':       get_option('cfi')}
- summary_info += {'CFI debug support': get_option('cfi_debug')}
- summary_info += {'coroutine backend': config_host['CONFIG_COROUTINE_BACKEND']}
+@@ -963,6 +963,25 @@ endif
+ # config-host.h #
+ #################
+ 
++have_virtfs = (targetos == 'linux' and
++    have_system and
++    libattr.found() and
++    libcap_ng.found())
++
++if get_option('virtfs').enabled()
++  if not have_virtfs
++    if targetos != 'linux'
++      error('virtio-9p (virtfs) requires Linux')
++    elif not libcap_ng.found() or not libattr.found()
++      error('virtio-9p (virtfs) requires libcap-ng-devel and libattr-devel')
++    elif not have_system
++      error('virtio-9p (virtfs) needs system emulation support')
++    endif
++  endif
++elif get_option('virtfs').disabled()
++  have_virtfs = false
++endif
++
+ config_host_data.set_quoted('CONFIG_BINDIR', get_option('prefix') / get_option('bindir'))
+ config_host_data.set_quoted('CONFIG_PREFIX', get_option('prefix'))
+ config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_confdir)
+@@ -1007,6 +1026,7 @@ config_host_data.set('CONFIG_VNC', vnc.found())
+ config_host_data.set('CONFIG_VNC_JPEG', jpeg.found())
+ config_host_data.set('CONFIG_VNC_PNG', png.found())
+ config_host_data.set('CONFIG_VNC_SASL', sasl.found())
++config_host_data.set('CONFIG_VIRTFS', have_virtfs)
+ config_host_data.set('CONFIG_XKBCOMMON', xkbcommon.found())
+ config_host_data.set('CONFIG_KEYUTILS', keyutils.found())
+ config_host_data.set('CONFIG_GETTID', has_gettid)
+@@ -1105,7 +1125,7 @@ host_kconfig = \
+   ('CONFIG_VHOST_USER' in config_host ? ['CONFIG_VHOST_USER=y'] : []) + \
+   ('CONFIG_VHOST_VDPA' in config_host ? ['CONFIG_VHOST_VDPA=y'] : []) + \
+   ('CONFIG_VHOST_KERNEL' in config_host ? ['CONFIG_VHOST_KERNEL=y'] : []) + \
+-  ('CONFIG_VIRTFS' in config_host ? ['CONFIG_VIRTFS=y'] : []) + \
++  (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
+   ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
+   ('CONFIG_PVRDMA' in config_host ? ['CONFIG_PVRDMA=y'] : [])
+ 
+@@ -2294,7 +2314,7 @@ summary_info += {'mingw32 support':   targetos == 'windows'}
+ summary_info += {'Audio drivers':     config_host['CONFIG_AUDIO_DRIVERS']}
+ summary_info += {'Block whitelist (rw)': config_host['CONFIG_BDRV_RW_WHITELIST']}
+ summary_info += {'Block whitelist (ro)': config_host['CONFIG_BDRV_RO_WHITELIST']}
+-summary_info += {'VirtFS support':    config_host.has_key('CONFIG_VIRTFS')}
++summary_info += {'VirtFS support':    have_virtfs}
+ summary_info += {'build virtiofs daemon': have_virtiofsd}
+ summary_info += {'Multipath support': mpathpersist.found()}
+ summary_info += {'VNC support':       vnc.found()}
 diff --git a/meson_options.txt b/meson_options.txt
-index 5a1de9b1fe..1854a9639f 100644
+index 1854a9639f..59a8a50e5b 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -74,6 +74,8 @@ option('sdl', type : 'feature', value : 'auto',
-        description: 'SDL user interface')
- option('sdl_image', type : 'feature', value : 'auto',
-        description: 'SDL Image support for icons')
-+option('seccomp', type : 'feature', value : 'auto',
-+       description: 'seccomp support')
- option('snappy', type : 'feature', value : 'auto',
-        description: 'snappy compression support')
- option('u2f', type : 'feature', value : 'auto',
-diff --git a/softmmu/meson.build b/softmmu/meson.build
-index 2dab6c7eb6..d8e03018ab 100644
---- a/softmmu/meson.build
-+++ b/softmmu/meson.build
-@@ -28,5 +28,5 @@ softmmu_ss.add(files(
- ), sdl, libpmem, libdaxctl)
+@@ -90,10 +90,6 @@ option('vnc_sasl', type : 'feature', value : 'auto',
+        description: 'SASL authentication for VNC server')
+ option('xkbcommon', type : 'feature', value : 'auto',
+        description: 'xkbcommon support')
+-option('virtiofsd', type: 'feature', value: 'auto',
+-       description: 'build virtiofs daemon (virtiofsd)')
+-option('vhost_user_blk_server', type: 'feature', value: 'auto',
+-       description: 'build vhost-user-blk server')
+ option('zstd', type : 'feature', value : 'auto',
+        description: 'zstd compression support')
+ option('fuse', type: 'feature', value: 'auto',
+@@ -101,6 +97,13 @@ option('fuse', type: 'feature', value: 'auto',
+ option('fuse_lseek', type : 'feature', value : 'auto',
+        description: 'SEEK_HOLE/SEEK_DATA support for FUSE exports')
  
- softmmu_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
--softmmu_ss.add(when: 'CONFIG_SECCOMP', if_true: [files('qemu-seccomp.c'), seccomp])
-+softmmu_ss.add(when: seccomp, if_true: files('qemu-seccomp.c'))
- softmmu_ss.add(when: fdt, if_true: files('device_tree.c'))
-diff --git a/softmmu/qemu-seccomp.c b/softmmu/qemu-seccomp.c
-index 8325ecb766..377ef6937c 100644
---- a/softmmu/qemu-seccomp.c
-+++ b/softmmu/qemu-seccomp.c
-@@ -202,7 +202,6 @@ static int seccomp_start(uint32_t seccomp_opts, Error **errp)
-     return rc < 0 ? -1 : 0;
- }
- 
--#ifdef CONFIG_SECCOMP
- int parse_sandbox(void *opaque, QemuOpts *opts, Error **errp)
- {
-     if (qemu_opt_get_bool(opts, "enable", false)) {
-@@ -328,4 +327,3 @@ static void seccomp_register(void)
-     }
- }
- opts_init(seccomp_register);
--#endif
-diff --git a/tools/meson.build b/tools/meson.build
-index 76bf84df52..5c52d79fe4 100644
---- a/tools/meson.build
-+++ b/tools/meson.build
-@@ -1,6 +1,6 @@
- have_virtiofsd = (targetos == 'linux' and
-     have_tools and
--    'CONFIG_SECCOMP' in config_host and
-+    seccomp.found() and
-     'CONFIG_LIBCAP_NG' in config_host and
-     'CONFIG_VHOST_USER' in config_host)
- 
-@@ -8,7 +8,7 @@ if get_option('virtiofsd').enabled()
-   if not have_virtiofsd
-     if targetos != 'linux'
-       error('virtiofsd requires Linux')
--    elif 'CONFIG_SECCOMP' not in config_host or 'CONFIG_LIBCAP_NG' not in config_host
-+    elif not seccomp.found() or 'CONFIG_LIBCAP_NG' not in config_host
-       error('virtiofsd requires libcap-ng-devel and seccomp-devel')
-     elif not have_tools or 'CONFIG_VHOST_USER' not in config_host
-       error('virtiofsd needs tools and vhost-user support')
++option('vhost_user_blk_server', type: 'feature', value: 'auto',
++       description: 'build vhost-user-blk server')
++option('virtfs', type: 'feature', value: 'auto',
++       description: 'virtio-9p support')
++option('virtiofsd', type: 'feature', value: 'auto',
++       description: 'build virtiofs daemon (virtiofsd)')
++
+ option('capstone', type: 'combo', value: 'auto',
+        choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
+        description: 'Whether and how to find the capstone library')
 -- 
 2.29.2
 
