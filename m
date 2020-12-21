@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E13E2E00D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 20:16:06 +0100 (CET)
-Received: from localhost ([::1]:60832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E262E00C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 20:12:16 +0100 (CET)
+Received: from localhost ([::1]:55572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krQf7-00005u-DV
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 14:16:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50348)
+	id 1krQbQ-00067f-1S
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 14:12:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1krQWN-0003HJ-4T
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 14:07:03 -0500
+ id 1krQWT-0003Jl-5R
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 14:07:09 -0500
 Received: from mail-eopbgr20090.outbound.protection.outlook.com
  ([40.107.2.90]:62614 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1krQWL-0006a3-8Y
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 14:07:02 -0500
+ id 1krQWN-0006a3-U3
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 14:07:08 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lkgi5qFXJemof1+PJFWHUWxISPfY+YBYskeY9qLeakKeSy1YLzqh3rfF76pvucacl3Z8hcCkT1pxMHCrNwooPfuweM99GGqQR9Hih5pF12t5SxtX/q8zl+w07AyJFEuAWetTJNwCuPgWzS8R2Uhyg+z3lpk/J8+HL5UhbBalCku1R8c3hZDTcrX/rQxV59oMp9JE/b0wIb6NUgKcSO1p+jj4mK23wG3gCa5BP9dHeJiWbB9SrFTGw8lv38NGYcn7dAjZMPi0NM7LiUTySwDzVCCQCCSESbHa13M9SamzOv1tUmmfSAtucU2/8DNC9g0bC7AAixfXq0fihWir0byP7A==
+ b=D0azA+fET1dWRCvd72G9Ewus50DfnLWoa7fzPLxkj/6EacqVpxmmB3qbjno2mz6vg+uuq+GqjDtWpIGrU5S4R+Gmp2h+CPYGH/2HiOSGEoAYak/Z9wlqh1r0V54RmzxzV3PNqI22yGK+2NZUIT7jf7HFDEPdSVB6tmjAF8duR3HtZ6brFYZc9oOpB2mu4+T9bVtiS04NX2FvczWlbOzS9wkv+WP3Cgn6gv0o9J/imZULiottg5Ua+tx2Iuzg23pQsfyKPQ4fO58Yu4XmR4rfv38LDDP1zEaPTzjiVJPQQRtNFfVsjKc69e0sqpZHwrNpfWJvrrTm0mM2rRUUTVZVbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k6Ys16+rUATdMCkvcsVfLfDueH9SncsVGYNMU3VmDr0=;
- b=BOjaNyYPOxtEJZosXPtf6Iueu4w40GRf7+4Lez9YCxHXmjskhDxotjyGzDAxmyiiBUNH+h73Yku6lD0X5Vwidwtvn6y2dXJpI7V4XU5OXnd2nmPMKgEOyMqxqH4mFHHeVA70AsOZ9z+QHTKjnihOiEn1k6VHt4lhCJdOU0E9p5sDvAFVNFPnff7MyarnaWIJKCeL6T0sk9Y7N7Mzrn87kL6sNJ4wNeRXTZXrO/Lkhf3p05I3qxGEDIqakbunf1OVDVZRifXE6ZjME0P/SDtF8GG+icBN3KE8PKwfpibYSq88E9wBFlpiJG7V1atUTSoqzc+x2WRYA0pDRHMIeqEtKQ==
+ bh=J3Wd1bSfd6k57AWa1n4Rw3gw3s2Tga6bMsf3Jf0I4Bc=;
+ b=UJcqaOy2uOmdTvbexzChBls/iflVCF0YW94d2uChZL/q9b1E69l5sw4XO5YBzhptZRYKNYFbUi0/7Z9YUItQ4jZyV7HO0oimPJp05eXi7P60lNmP3wO8t/imThVWY4qkRSrtqEwwPCJNZTBcOHubbHoVfJChn6VKkxWnciy8PXIvrlk68JbXbc6RcXjNVgFTwYJM3CorqANjmuh96BJReBQIaWL8SF7TORW9s2w2ZWyORZp40dsaYi60MObxht1cDeb2LAOeWjgAWHcJQWsi0HauR41sLNyrjcKIWwLuT+Up45K5anDbPBB5fnoziPvhkK9boxgNXPcGRnBopejThA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k6Ys16+rUATdMCkvcsVfLfDueH9SncsVGYNMU3VmDr0=;
- b=hPnLQ57IDK4loDLBhLedgD8veK2opuXmBLxQom55D3fE4cN405CYC/18mG0caCQlpLCIUN0zmgLfpFNEqOrHvQ1cmy0yQABm5x9Dr7UiZ5pcMAEqh3o2VhnrmO86HHHF+ajtRbDJSns2QD7G/kdA4bBwX9HKxMOIv22QvgpQ0ko=
+ bh=J3Wd1bSfd6k57AWa1n4Rw3gw3s2Tga6bMsf3Jf0I4Bc=;
+ b=KW5/sSSIrTog/L4P7cHCsnTIOo7G33svbfnzDVGAJipn/JweE0DfAyxhnIRdkgcw26lyCPzC5Pb79+0qq/8iG9ED1RPXL07YM2er9hC5aasrqB7IJzRTSaU2x6gOgzErI9YZ5unroRjeoeQRxz2oZ+LeVFCTGoy6aHrb3RTBCO4=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM5PR0801MB1652.eurprd08.prod.outlook.com (2603:10a6:203:3c::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.30; Mon, 21 Dec
- 2020 19:06:34 +0000
+ 2020 19:06:35 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3676.033; Mon, 21 Dec 2020
- 19:06:34 +0000
+ 19:06:35 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] net/tap: tap_set_sndbuf(): return status
-Date: Mon, 21 Dec 2020 22:06:07 +0300
-Message-Id: <20201221190609.93768-4-vsementsov@virtuozzo.com>
+Subject: [PATCH 4/5] net/tap: refactor and improve net_init_tap_one()
+Date: Mon, 21 Dec 2020 22:06:08 +0300
+Message-Id: <20201221190609.93768-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201221190609.93768-1-vsementsov@virtuozzo.com>
 References: <20201221190609.93768-1-vsementsov@virtuozzo.com>
@@ -66,47 +66,47 @@ Received: from kvm.sw.ru (185.215.60.92) by
  AM0PR02CA0173.eurprd02.prod.outlook.com (2603:10a6:20b:28e::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.28 via Frontend
- Transport; Mon, 21 Dec 2020 19:06:33 +0000
+ Transport; Mon, 21 Dec 2020 19:06:34 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fd00952c-6adb-42d2-389f-08d8a5e3889c
+X-MS-Office365-Filtering-Correlation-Id: f69171bc-3bfc-4379-143f-08d8a5e3898e
 X-MS-TrafficTypeDiagnostic: AM5PR0801MB1652:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB1652E886EB4CD2B1127FF318C1C00@AM5PR0801MB1652.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:220;
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB1652B4629953834BD5A4D56FC1C00@AM5PR0801MB1652.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: p2yAOjmaobO7OpohaA3IAC5BJyDSdUuNtuSAjFYJXIiMDlW0ODinvk+nmYZ7el4UU5r7tDwT5lNAdow/agjJiqUqdb2M3lo6ifgA/ynTWzXeNw7mJ1WiwK535cuk61MfJ/tG8/CKfxvx/6Tes+3AcgHbT/tO2sD/i/BTjcN2h+AMQLs5Ko2Zme94cwLXzQH7JsYy6fjsTDxgEay76DjAgS1P0m9WIDefiEiMS4vDIYce29RA3NhP9RBBnfngam/V5qYDVeWG81e/t2gLBNNqO5IFsv6ZCvoa5C1yvVMT11z9w90qPIPWkI6/HzWxo46vzt8SyENisMTYTSlKgbfYECLdGzscMf6JgRGoLMIJy1gm4SYfdgKLDnawE281x1yHsjHA4q147kmdYBVFzGrjEQ==
+X-Microsoft-Antispam-Message-Info: PRX9MCBncdsbJZPGyrt0PrmoMFfc6sXh1d7NcHXpRPHAfXoijEZ6xXnxcy2W2q2GX5GdCw2982HSut7PFPHYmh7zgu+ULzrhh1lQ43D6JldGtrXb02ChdS8aSqIw1DX3p6iTpN5jwTbT5JPY2S8PXJb6Uh9RuiNlWQUEHz/uXo4NlmG/VvJDKvIiS+/l+3K40LBzH8uvcHyaWWEUT9deTBMfCKWJyupDhQGvucgvDTfm3YkVSfWn2rw/pZfMulQWAq1s0jjt/Swsxve1By4+Obfp5zTYDv5+9lkKJnSkpldlIMEQMlEGvxdhYzqBXEg8qIXUgKSdkwjirw+DLDaO3NngZ9kebC1H0r9PIrzmM5HtPiGPBgZUOAFP4CtLIzpXTe3zYcPvwL1GeR0r20UbWA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(346002)(39840400004)(396003)(136003)(366004)(376002)(478600001)(186003)(16526019)(6506007)(6486002)(8936002)(8676002)(26005)(2616005)(956004)(1076003)(86362001)(5660300002)(4326008)(66476007)(66556008)(66946007)(107886003)(6512007)(52116002)(2906002)(6916009)(6666004)(83380400001)(36756003)(316002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?sSm3XXbFbh1cXOspHh0+kBREZKXdp+fAqAq4m6HWrPUIEEBE1kjV5yet8uTe?=
- =?us-ascii?Q?qjhdjDQSHovFJ44JbGZamQN5AZ+O3GfWFilKjSrJfOOvs+HK9GpQhx0u005r?=
- =?us-ascii?Q?g/iCjRIFejxKkJpWFOw696aETUZsBM4JeeDlQhS8dh00X4NDAquSxuWbII/C?=
- =?us-ascii?Q?xU3NOOck2XqgbIvZBLmqpVbdPjWx2shYKYC303l+k2QCznOw0aRR6W4IMu+u?=
- =?us-ascii?Q?K/BadV4CoDa9zbIfvX/uPWK57uD7MsDslRtyx2IZbVH8cAtHxKf6ULjWBdmV?=
- =?us-ascii?Q?a7OJm9+tRTDITI/mLC7A3HlJdcLR9ljwuBVOzU7mv2S7QchYxoApss8OTXoY?=
- =?us-ascii?Q?qmU2zE2zQWQJ3IWs1YYqxng9qlAaaWC2q22lyZiOMgAxKx+2w0uL3k8pz36g?=
- =?us-ascii?Q?G32qY4/IFzxBs0JAP8WkZgUhDkRBiefTZnBYcg3wFijKv2U71w7jtspfqe7l?=
- =?us-ascii?Q?Jvkp1JVsix1TZHr+yeZFP0+QgH+mN8YaLv9oeZnHzFgx++RHYlarBBBIe12U?=
- =?us-ascii?Q?uDL8L66oS2nQwm3hGSO7Pozzg2fBltRmVDCgaWl5g6xg8ko+lpOOR6i58NKp?=
- =?us-ascii?Q?WmURss1h7Wm/fzukrOxx1h+9NwCfqXGk9vHVYHh2mu9rx1pfv6fGP/7cHiuq?=
- =?us-ascii?Q?SdC9rDndcm3jN+jgzMMtYOLiBqULSJzgC9bfyPrw7nPDlr3mKMGiCMqPsuDo?=
- =?us-ascii?Q?kdoNCepNKPpMn/MgOOqnkbh+hHgfuP1HT3E50Rk7DzpirvRKmlJQB/oGYLw1?=
- =?us-ascii?Q?4q9NmCbnHh22DE9w9eAfRS0FkLSYtPmc1wugcjdgN/oWyjUU0xhOlaiH3V/8?=
- =?us-ascii?Q?wCdAKuCurX2Jf2kJeqTyahjInh29Mff+mGuVkeeYg5daqb4iG1oc1kjNkirZ?=
- =?us-ascii?Q?chgKtD+GB3iT2WyW4tFz0i/jx+Hr17yIip9kEOimQI5ybidTIJJFuwCkbHYu?=
- =?us-ascii?Q?NVUMsN46l6kkTufPP7L38FIK46BVa+ODZ4bWK0Lci5KrGQmuEjbF8Bw+aoCc?=
- =?us-ascii?Q?eDX7?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?hs4UQW1Am1MqfHIjr8QMzcoGUNbJw4jsBnTGjeeARWTj1Bjo3BeQYZ5M0a4x?=
+ =?us-ascii?Q?SFR9h+C2NcPzyu2izIMWiJify7Abg5szaRQWGVVS9UioUrJpkRhkqyxuxtdb?=
+ =?us-ascii?Q?z00wZpQm5agyqi5n/rG+HvrRBlAV8Ez56zKLmfW87NzN4ZHoAkQcoMy6Zyvw?=
+ =?us-ascii?Q?m3gvnAaxBnGz92kWhEXulO9pdIKgnDYQdvlnilSPuzYMFomYKXtzyjumLooR?=
+ =?us-ascii?Q?qwm2DGI83Ou41EG5VvdzPoTIfVyE9JdePNhVawEXC1IVZT4m7uN2EbtswsLC?=
+ =?us-ascii?Q?XkC7w9Whi8x8XnRk9F1vl/S5gOWapo9HsedYOn/6lEKtcVIi2t38RwkK12BI?=
+ =?us-ascii?Q?DmMezk9fYiye5pCRCrbj64kVwB3vSTJDJ1N5p3Ebu/iazSWIPdkv/gTaEVFO?=
+ =?us-ascii?Q?7JcryQ4lyDvbOUjqt+7RINpmeWiDA7ueqIsZnc26M6RxO3rc7C6/VCNcEbr3?=
+ =?us-ascii?Q?n7XeGZB1tDsnN2VyBPYCLYC2rwtZPQPcTTkR1zJGwspLlKod6BW0HabvU/bc?=
+ =?us-ascii?Q?Oh1D6WvTY+kjc50gkc7+jLMLYT17apMWDB7JY6fZpbZkvlU50UJwQjcmGtn8?=
+ =?us-ascii?Q?mdVx2ktFL8DDp7bcFr+9eXULzmOPmjzqEOz6hd7f8w0AoFYt9ZP7ICOsC52y?=
+ =?us-ascii?Q?+QrHOaX5Ibsia6E04tMDQs96ZU3HeaTnUIpCcaeK+1eOBc5Z6aihE2dVm8ZW?=
+ =?us-ascii?Q?hWY5lbdINb0Jg+6WK97I4+XLQos4/cfSoATOHoi/4SybOJMSExmyQ+VkFflm?=
+ =?us-ascii?Q?T9zm5Lmd+cRekk3s0SAP3Xb5FdXoxCVOq1SAYkCCmmynbbdD5fm2QTFvRuzG?=
+ =?us-ascii?Q?6YqiIwjCTgkSn5SPp/nuy9UaXr9qOpwXpoDKECJOkGUQDtfo4hvzufqoz6TW?=
+ =?us-ascii?Q?Lfl0GM0iUi6XeQmlXVw5SqaveuKATALwXc417kg9OrplCta2UNsQNgs58Shx?=
+ =?us-ascii?Q?T1CLiMfRvxf1zDrGdrQH39IJiaZWop+klbK9BaY7oM+X6fi3GiQ3Lj/Ff6f6?=
+ =?us-ascii?Q?epCI?=
 X-OriginatorOrg: virtuozzo.com
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Dec 2020 19:06:34.0197 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Dec 2020 19:06:35.5978 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: fd00952c-6adb-42d2-389f-08d8a5e3889c
+X-MS-Exchange-CrossTenant-Network-Message-Id: f69171bc-3bfc-4379-143f-08d8a5e3898e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dVn1PQ5voQgU5MDJJq31LVO+v8mA/6zas7hqRIhGd4rp60eb6l158MX8uSHLwFulLsxuI8ahHu29PcwbZAK0FQfhMzokCbktjwHX5Bm1QQc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: VqDUGSNUXJCTjKy8Hz5B6oxA5oGX4a7wEwGaRBOmLEeOTkC3iCUV0ytWf1h1Q/UujD7g7ulyd5zwp8ad8gHiGIWYedsLldkwaMS5iAuzoZk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1652
 Received-SPF: pass client-ip=40.107.2.90;
  envelope-from=vsementsov@virtuozzo.com;
@@ -135,86 +135,175 @@ Cc: den@openvz.org, jasowang@redhat.com, vsementsov@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's recommended to return a value indicating success / failure for
-functions with errp parameter (see include/qapi/error.h). Let's update
-tap_set_sndbuf().
+First, 46d4d36d0bf2b24 changed the logic of net_init_tap_one() so
+that failure of vhost initialization is ignored (still, warning
+printed) when vhostforce is not set.
 
+Then 894022e616016fe8 updated net_init_tap_one() to use
+qemu_try_set_nonblock() instead of qemu_set_nonblock(), to not crash,
+but it didn't consider the failure-ignoring logic and used wrong fd for
+error message.
+
+Let's refactor the function net_init_tap_one() splitting out vhost-net
+initialization and fixing all the issues.
+
+Error message change: we need to fix fd anyway. Also, don't want to
+pass name to the new function only for error path, so, drop it. As a
+pay, add more information on vhost fd itself.
+
+Fixes: 894022e616016fe81745753f14adfbd680a1c7ee
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- net/tap_int.h   | 2 +-
- net/tap-linux.c | 5 ++++-
- net/tap-stub.c  | 2 +-
- net/tap.c       | 6 +++---
- 4 files changed, 9 insertions(+), 6 deletions(-)
+ include/net/vhost_net.h |   3 --
+ net/tap.c               | 103 +++++++++++++++++++++-------------------
+ 2 files changed, 53 insertions(+), 53 deletions(-)
 
-diff --git a/net/tap_int.h b/net/tap_int.h
-index 225a49ea48..57567b9f24 100644
---- a/net/tap_int.h
-+++ b/net/tap_int.h
-@@ -33,7 +33,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
+diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+index 172b0051d8..c00871cd1b 100644
+--- a/include/net/vhost_net.h
++++ b/include/net/vhost_net.h
+@@ -4,9 +4,6 @@
+ #include "net/net.h"
+ #include "hw/virtio/vhost-backend.h"
  
- ssize_t tap_read_packet(int tapfd, uint8_t *buf, int maxlen);
- 
--void tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp);
-+int tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp);
- int tap_probe_vnet_hdr(int fd, Error **errp);
- int tap_probe_vnet_hdr_len(int fd, int len);
- int tap_probe_has_ufo(int fd);
-diff --git a/net/tap-linux.c b/net/tap-linux.c
-index b0635e9e32..c51bcdc2a3 100644
---- a/net/tap-linux.c
-+++ b/net/tap-linux.c
-@@ -130,7 +130,7 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
-  */
- #define TAP_DEFAULT_SNDBUF 0
- 
--void tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp)
-+int tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp)
- {
-     int sndbuf;
- 
-@@ -144,7 +144,10 @@ void tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp)
- 
-     if (ioctl(fd, TUNSETSNDBUF, &sndbuf) == -1 && tap->has_sndbuf) {
-         error_setg_errno(errp, errno, "TUNSETSNDBUF ioctl failed");
-+        return -1;
-     }
-+
-+    return 0;
- }
- 
- int tap_probe_vnet_hdr(int fd, Error **errp)
-diff --git a/net/tap-stub.c b/net/tap-stub.c
-index 6fa130758b..473d5e4afe 100644
---- a/net/tap-stub.c
-+++ b/net/tap-stub.c
-@@ -26,7 +26,7 @@
- #include "qapi/error.h"
- #include "tap_int.h"
- 
--void tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp)
-+int tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp)
- {
- }
+-#define VHOST_NET_INIT_FAILED \
+-    "vhost-net requested but could not be initialized"
+-
+ struct vhost_net;
+ typedef struct vhost_net VHostNetState;
  
 diff --git a/net/tap.c b/net/tap.c
-index 75b01d54ee..33d749c7b6 100644
+index 33d749c7b6..89ea04862b 100644
 --- a/net/tap.c
 +++ b/net/tap.c
-@@ -661,10 +661,10 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
-     Error *err = NULL;
-     TAPState *s = net_tap_fd_init(peer, model, name, fd, vnet_hdr);
-     int vhostfd;
+@@ -652,15 +652,61 @@ static int net_tap_init(const NetdevTapOptions *tap, int *vnet_hdr,
+ 
+ #define MAX_TAP_QUEUES 1024
+ 
++static int tap_init_vhost_net(TAPState *s, const NetdevTapOptions *tap,
++                              const char *vhostfdname, Error **errp)
++{
++    VhostNetOptions options;
++    int vhostfd;
 +    int ret;
++
++    options.backend_type = VHOST_BACKEND_TYPE_KERNEL;
++    options.net_backend = &s->nc;
++    if (tap->has_poll_us) {
++        options.busyloop_timeout = tap->poll_us;
++    } else {
++        options.busyloop_timeout = 0;
++    }
++
++    if (vhostfdname) {
++        vhostfd = monitor_fd_param(monitor_cur(), vhostfdname, errp);
++        if (vhostfd < 0) {
++            return -1;
++        }
++
++        ret = qemu_try_set_nonblock(vhostfd);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret,
++                             "tap: Can't use vhost file descriptor %s(%d)",
++                             vhostfdname, vhostfd);
++            return -1;
++        }
++    } else {
++        vhostfd = open("/dev/vhost-net", O_RDWR);
++        if (vhostfd < 0) {
++            error_setg_errno(errp, errno, "tap: open vhost char device failed");
++            return -1;
++        }
++        qemu_set_nonblock(vhostfd);
++    }
++
++    options.opaque = (void *)(uintptr_t)vhostfd;
++
++    s->vhost_net = vhost_net_init(&options);
++    if (!s->vhost_net) {
++        error_setg(errp, "vhost-net requested but could not be initialized");
++        return -1;
++    }
++
++    return 0;
++}
++
+ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
+                              const char *model, const char *name,
+                              const char *ifname, const char *script,
+                              const char *downscript, const char *vhostfdname,
+                              int vnet_hdr, int fd, Error **errp)
+ {
+-    Error *err = NULL;
+     TAPState *s = net_tap_fd_init(peer, model, name, fd, vnet_hdr);
+-    int vhostfd;
+     int ret;
  
--    tap_set_sndbuf(s->fd, tap, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    ret = tap_set_sndbuf(s->fd, tap, errp);
-+    if (ret < 0) {
-         return;
-     }
+     ret = tap_set_sndbuf(s->fd, tap, errp);
+@@ -687,58 +733,15 @@ static void net_init_tap_one(const NetdevTapOptions *tap, NetClientState *peer,
  
+     if (tap->has_vhost ? tap->vhost :
+         vhostfdname || (tap->has_vhostforce && tap->vhostforce)) {
+-        VhostNetOptions options;
+-
+-        options.backend_type = VHOST_BACKEND_TYPE_KERNEL;
+-        options.net_backend = &s->nc;
+-        if (tap->has_poll_us) {
+-            options.busyloop_timeout = tap->poll_us;
+-        } else {
+-            options.busyloop_timeout = 0;
+-        }
+-
+-        if (vhostfdname) {
+-            int ret;
+-
+-            vhostfd = monitor_fd_param(monitor_cur(), vhostfdname, &err);
+-            if (vhostfd == -1) {
+-                if (tap->has_vhostforce && tap->vhostforce) {
+-                    error_propagate(errp, err);
+-                } else {
+-                    warn_report_err(err);
+-                }
+-                return;
+-            }
+-            ret = qemu_try_set_nonblock(vhostfd);
+-            if (ret < 0) {
+-                error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
+-                                 name, fd);
+-                return;
+-            }
+-        } else {
+-            vhostfd = open("/dev/vhost-net", O_RDWR);
+-            if (vhostfd < 0) {
+-                if (tap->has_vhostforce && tap->vhostforce) {
+-                    error_setg_errno(errp, errno,
+-                                     "tap: open vhost char device failed");
+-                } else {
+-                    warn_report("tap: open vhost char device failed: %s",
+-                                strerror(errno));
+-                }
+-                return;
+-            }
+-            qemu_set_nonblock(vhostfd);
+-        }
+-        options.opaque = (void *)(uintptr_t)vhostfd;
++        Error *err = NULL;
+ 
+-        s->vhost_net = vhost_net_init(&options);
+-        if (!s->vhost_net) {
++        ret = tap_init_vhost_net(s, tap, vhostfdname, &err);
++        if (ret < 0) {
+             if (tap->has_vhostforce && tap->vhostforce) {
+-                error_setg(errp, VHOST_NET_INIT_FAILED);
++                error_propagate(errp, err);
+             } else {
+-                warn_report(VHOST_NET_INIT_FAILED);
++                warn_report_err(err);
+             }
+-            return;
+         }
+     } else if (vhostfdname) {
+         error_setg(errp, "vhostfd(s)= is not valid without vhost");
 -- 
 2.28.0
 
