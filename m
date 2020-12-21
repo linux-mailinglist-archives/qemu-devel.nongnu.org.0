@@ -2,73 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2FC2DFBBD
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 13:09:13 +0100 (CET)
-Received: from localhost ([::1]:41372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FAA62DFBBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 13:11:47 +0100 (CET)
+Received: from localhost ([::1]:45552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krK00-0005GG-Nq
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 07:09:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37452)
+	id 1krK2U-00077p-H7
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 07:11:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1krJxx-0004OA-AO
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:07:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52201)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1krJxv-0002T5-8f
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:07:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608552422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rGdWy0La9ud319fYu4AxGIQuQMgdGNB7X65x1HRa8ek=;
- b=Y4yrxfhBpXpDVSnhH8dGzbLWkm1Ds8/eotMQNEqtGHBq2rinoAv+ESbFRUaAbjuz3wpxa5
- Wvc9AJz6BHb/O20b3Z1aicqYg8SutMNlUDkzU+3DYyyfVM9nXBB6lYWv1D5p/ByVLe/Yov
- z2kgXlbaxYh5MTmYvRUFly0tgb9Suzo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-sTQtkXMAP4-RGDiK_Ke-cQ-1; Mon, 21 Dec 2020 07:06:59 -0500
-X-MC-Unique: sTQtkXMAP4-RGDiK_Ke-cQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29B05100C606
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 12:06:58 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-3.ams2.redhat.com
- [10.36.114.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 986985D6D1;
- Mon, 21 Dec 2020 12:06:50 +0000 (UTC)
-Subject: Re: virtiofsd: sshfs as submount?
-To: Laszlo Ersek <lersek@redhat.com>, Miklos Szeredi <mszeredi@redhat.com>
-References: <599fd4bd-2f62-1ce5-2b9c-0512ee7ead6e@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <0208dde6-df57-c27a-418f-57cb3c0173f2@redhat.com>
-Date: Mon, 21 Dec 2020 13:06:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1krK01-0005tn-Uf
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:09:13 -0500
+Received: from 8.mo52.mail-out.ovh.net ([46.105.37.156]:52928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1krJzx-0002yr-Nk
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:09:13 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.109])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 695F5227354;
+ Mon, 21 Dec 2020 13:08:57 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 21 Dec
+ 2020 13:08:56 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G0047275a6ac-0198-4f93-8c12-4b8715e7639d,
+ 0B619508FA83EFFE02DCDB9DB2C04BF8DACB1B13) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Mon, 21 Dec 2020 13:08:53 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Subject: Re: [RFC Qemu PATCH v2 1/2] spapr: drc: Add support for async
+ hcalls at the drc level
+Message-ID: <20201221130853.15c8ddfd@bahia.lan>
+In-Reply-To: <160674938210.2492771.1728601884822491679.stgit@lep8c.aus.stglabs.ibm.com>
+References: <160674929554.2492771.17651548703390170573.stgit@lep8c.aus.stglabs.ibm.com>
+ <160674938210.2492771.1728601884822491679.stgit@lep8c.aus.stglabs.ibm.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <599fd4bd-2f62-1ce5-2b9c-0512ee7ead6e@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.233, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 0df8e716-f94e-48de-ade1-7d540f1743ac
+X-Ovh-Tracer-Id: 10401344817370339771
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvddtvddggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheplhhinhhugihpphgtqdguvghvsehlihhsthhsrdhoiihlrggsshdrohhrgh
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=groug@kaod.org;
+ helo=8.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,71 +69,308 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, aneesh.kumar@linux.ibm.com,
+ linux-nvdimm@lists.01.org, qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org,
+ shivaprasadbhat@gmail.com, qemu-ppc@nongnu.org, bharata@linux.vnet.ibm.com,
+ imammedo@redhat.com, linuxppc-dev@lists.ozlabs.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.12.20 00:41, Laszlo Ersek wrote:
-> Hi Miklos,
+Hi Shiva,
 
-(I hope it’s OK for me not to be Miklos, even though I don’t have much 
-to add)
+On Mon, 30 Nov 2020 09:16:39 -0600
+Shivaprasad G Bhat <sbhat@linux.ibm.com> wrote:
 
-> the following 2019 presentation on Stefan's website:
+> The patch adds support for async hcalls at the DRC level for the
+> spapr devices. To be used by spapr-scm devices in the patch/es to follow.
 > 
->    https://vmsplice.net/
->    virtio-fs: A Shared File System for Virtual Machines at KVM Forum 2019
->    https://vmsplice.net/~stefan/virtio-fs_%20A%20Shared%20File%20System%20for%20Virtual%20Machines.pdf
+> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+> ---
+
+The overall idea looks good but I think you should consider using
+a thread pool to implement it. See below.
+
+>  hw/ppc/spapr_drc.c         |  149 ++++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/ppc/spapr_drc.h |   25 +++++++
+>  2 files changed, 174 insertions(+)
 > 
-> has a slide called "Use case: File system-as-a-service" (slide#4). It
-> seems to confirm my "grand" idea to expose an sshfs submount to the
-> guest, via virtiofsd. (The guest need not / should not know it's a
-> submount, just see the files.) Beyond the pure utility of this, it feels
-> exciting to chain FUSE to FUSE. :)
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index 77718cde1f..4ecd04f686 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -15,6 +15,7 @@
+>  #include "qapi/qmp/qnull.h"
+>  #include "cpu.h"
+>  #include "qemu/cutils.h"
+> +#include "qemu/guest-random.h"
+>  #include "hw/ppc/spapr_drc.h"
+>  #include "qom/object.h"
+>  #include "migration/vmstate.h"
+> @@ -421,6 +422,148 @@ void spapr_drc_detach(SpaprDrc *drc)
+>      spapr_drc_release(drc);
+>  }
+>  
+> +
+> +/*
+> + * @drc : device DRC targetting which the async hcalls to be made.
+> + *
+> + * All subsequent requests to run/query the status should use the
+> + * unique token returned here.
+> + */
+> +uint64_t spapr_drc_get_new_async_hcall_token(SpaprDrc *drc)
+> +{
+> +    Error *err = NULL;
+> +    uint64_t token;
+> +    SpaprDrcDeviceAsyncHCallState *tmp, *next, *state;
+> +
+> +    state = g_malloc0(sizeof(*state));
+> +    state->pending = true;
+> +
+> +    qemu_mutex_lock(&drc->async_hcall_states_lock);
+> +retry:
+> +    if (qemu_guest_getrandom(&token, sizeof(token), &err) < 0) {
+> +        error_report_err(err);
+> +        g_free(state);
+> +        qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> +        return 0;
+> +    }
+> +
+> +    if (!token) /* Token should be non-zero */
+> +        goto retry;
+> +
+> +    if (!QLIST_EMPTY(&drc->async_hcall_states)) {
+> +        QLIST_FOREACH_SAFE(tmp, &drc->async_hcall_states, node, next) {
+> +            if (tmp->continue_token == token) {
+> +                /* If the token already in use, get a new one */
+> +                goto retry;
+> +            }
+> +        }
+> +    }
+> +
+> +    state->continue_token = token;
+> +    QLIST_INSERT_HEAD(&drc->async_hcall_states, state, node);
+> +
+> +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> +
+> +    return state->continue_token;
+> +}
+> +
+> +static void *spapr_drc_async_hcall_runner(void *opaque)
+> +{
+> +    int response = -1;
+> +    SpaprDrcDeviceAsyncHCallState *state = opaque;
+> +
+> +    /*
+> +     * state is freed only after this thread finishes(after pthread_join()),
+> +     * don't worry about it becoming NULL.
+> +     */
+> +
+> +    response = state->func(state->data);
+> +
+> +    state->hcall_ret = response;
+> +    state->pending = 0;
+> +
+> +    return NULL;
+> +}
+> +
+> +/*
+> + * @drc  : device DRC targetting which the async hcalls to be made.
+> + * token : The continue token to be used for tracking as recived from
+> + *         spapr_drc_get_new_async_hcall_token
+> + * @func() : the worker function which needs to be executed asynchronously
+> + * @data : data to be passed to the asynchronous function. Worker is supposed
+> + *         to free/cleanup the data that is passed here
+
+It'd be cleaner to pass a completion callback and have free/cleanup handled there.
+
+> + */
+> +void spapr_drc_run_async_hcall(SpaprDrc *drc, uint64_t token,
+> +                               SpaprDrcAsyncHcallWorkerFunc *func, void *data)
+> +{
+> +    SpaprDrcDeviceAsyncHCallState *state;
+> +
+> +    qemu_mutex_lock(&drc->async_hcall_states_lock);
+> +    QLIST_FOREACH(state, &drc->async_hcall_states, node) {
+> +        if (state->continue_token == token) {
+> +            state->func = func;
+> +            state->data = data;
+> +            qemu_thread_create(&state->thread, "sPAPR Async HCALL",
+> +                               spapr_drc_async_hcall_runner, state,
+> +                               QEMU_THREAD_JOINABLE);
+
+qemu_thread_create() exits on failure, it shouldn't be called on
+a guest triggerable path, eg. a buggy guest could call it up to
+the point that pthread_create() returns EAGAIN.
+
+Please use a thread pool (see thread_pool_submit_aio()). This takes care
+of all the thread housekeeping for you in a safe way, and it provides a
+completion callback API. The implementation could then be just about
+having two lists: one for pending requests (fed here) and one for
+completed requests (fed by the completion callback).
+
+> +            break;
+> +        }
+> +    }
+> +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> +}
+> +
+> +/*
+> + * spapr_drc_finish_async_hcalls
+> + *      Waits for all pending async requests to complete
+> + *      thier execution and free the states
+> + */
+> +static void spapr_drc_finish_async_hcalls(SpaprDrc *drc)
+> +{
+> +    SpaprDrcDeviceAsyncHCallState *state, *next;
+> +
+> +    if (QLIST_EMPTY(&drc->async_hcall_states)) {
+> +        return;
+> +    }
+> +
+> +    qemu_mutex_lock(&drc->async_hcall_states_lock);
+> +    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, next) {
+> +        qemu_thread_join(&state->thread);
+
+With a thread-pool, you'd just need to aio_poll() until the pending list
+is empty and then clear the completed list.
+
+> +        QLIST_REMOVE(state, node);
+> +        g_free(state);
+> +    }
+> +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> +}
+> +
+> +/*
+> + * spapr_drc_get_async_hcall_status
+> + *      Fetches the status of the hcall worker and returns H_BUSY
+> + *      if the worker is still running.
+> + */
+> +int spapr_drc_get_async_hcall_status(SpaprDrc *drc, uint64_t token)
+> +{
+> +    int ret = H_PARAMETER;
+> +    SpaprDrcDeviceAsyncHCallState *state, *node;
+> +
+> +    qemu_mutex_lock(&drc->async_hcall_states_lock);
+> +    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, node) {
+> +        if (state->continue_token == token) {
+> +            if (state->pending) {
+> +                ret = H_BUSY;
+> +                break;
+> +            } else {
+> +                ret = state->hcall_ret;
+> +                qemu_thread_join(&state->thread);
+
+Like for qemu_thread_create(), the guest shouldn't be responsible for
+thread housekeeping. Getting the hcall status should just be about
+finding the token in the pending or completed lists.
+
+> +                QLIST_REMOVE(state, node);
+> +                g_free(state);
+> +                break;
+> +            }
+> +        }
+> +    }
+> +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> +
+> +    return ret;
+> +}
+> +
+>  void spapr_drc_reset(SpaprDrc *drc)
+>  {
+>      SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> @@ -448,6 +591,7 @@ void spapr_drc_reset(SpaprDrc *drc)
+>          drc->ccs_offset = -1;
+>          drc->ccs_depth = -1;
+>      }
+> +    spapr_drc_finish_async_hcalls(drc);
+>  }
+>  
+>  static bool spapr_drc_unplug_requested_needed(void *opaque)
+> @@ -558,6 +702,7 @@ SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
+>      drc->owner = owner;
+>      prop_name = g_strdup_printf("dr-connector[%"PRIu32"]",
+>                                  spapr_drc_index(drc));
+> +
+
+Unrelated change.
+
+>      object_property_add_child(owner, prop_name, OBJECT(drc));
+>      object_unref(OBJECT(drc));
+>      qdev_realize(DEVICE(drc), NULL, NULL);
+> @@ -577,6 +722,10 @@ static void spapr_dr_connector_instance_init(Object *obj)
+>      object_property_add(obj, "fdt", "struct", prop_get_fdt,
+>                          NULL, NULL, NULL);
+>      drc->state = drck->empty_state;
+> +
+> +    qemu_mutex_init(&drc->async_hcall_states_lock);
+> +    QLIST_INIT(&drc->async_hcall_states);
+> +
+
+Empty line not needed.
+
+>  }
+>  
+>  static void spapr_dr_connector_class_init(ObjectClass *k, void *data)
+> diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+> index 165b281496..77f6e4386c 100644
+> --- a/include/hw/ppc/spapr_drc.h
+> +++ b/include/hw/ppc/spapr_drc.h
+> @@ -18,6 +18,7 @@
+>  #include "sysemu/runstate.h"
+>  #include "hw/qdev-core.h"
+>  #include "qapi/error.h"
+> +#include "block/thread-pool.h"
+>  
+>  #define TYPE_SPAPR_DR_CONNECTOR "spapr-dr-connector"
+>  #define SPAPR_DR_CONNECTOR_GET_CLASS(obj) \
+> @@ -168,6 +169,21 @@ typedef enum {
+>      SPAPR_DRC_STATE_PHYSICAL_CONFIGURED = 8,
+>  } SpaprDrcState;
+>  
+> +typedef struct SpaprDrc SpaprDrc;
+> +
+> +typedef int SpaprDrcAsyncHcallWorkerFunc(void *opaque);
+> +typedef struct SpaprDrcDeviceAsyncHCallState {
+> +    uint64_t continue_token;
+> +    bool pending;
+> +
+> +    int hcall_ret;
+> +    SpaprDrcAsyncHcallWorkerFunc *func;
+> +    void *data;
+> +
+> +    QemuThread thread;
+> +
+> +    QLIST_ENTRY(SpaprDrcDeviceAsyncHCallState) node;
+> +} SpaprDrcDeviceAsyncHCallState;
+>  typedef struct SpaprDrc {
+>      /*< private >*/
+>      DeviceState parent;
+> @@ -182,6 +198,10 @@ typedef struct SpaprDrc {
+>      int ccs_offset;
+>      int ccs_depth;
+>  
+> +    /* async hcall states */
+> +    QemuMutex async_hcall_states_lock;
+> +    QLIST_HEAD(, SpaprDrcDeviceAsyncHCallState) async_hcall_states;
+> +
+>      /* device pointer, via link property */
+>      DeviceState *dev;
+>      bool unplug_requested;
+> @@ -241,6 +261,11 @@ void spapr_drc_detach(SpaprDrc *drc);
+>  /* Returns true if a hot plug/unplug request is pending */
+>  bool spapr_drc_transient(SpaprDrc *drc);
+>  
+> +uint64_t spapr_drc_get_new_async_hcall_token(SpaprDrc *drc);
+> +void spapr_drc_run_async_hcall(SpaprDrc *drc, uint64_t token,
+> +                               SpaprDrcAsyncHcallWorkerFunc, void *data);
+> +int spapr_drc_get_async_hcall_status(SpaprDrc *drc, uint64_t token);
+> +
+>  static inline bool spapr_drc_unplug_requested(SpaprDrc *drc)
+>  {
+>      return drc->unplug_requested;
 > 
-> I've tried it; the FUSE_READDIRPLUS request fails.
 > 
-> [2020-12-20 00:32:08.64+0100] [ID: 00000006] unique: 83, opcode: READDIRPLUS (44), nodeid: 1, insize: 80, pid: 1
-> [2020-12-20 00:32:08.64+0100] [ID: 00000006]    unique: 83, error: -13 (Permission denied), outsize: 16
 > 
-> More precisely, it fails on the directory entry in the containing
-> directory that is the sshfs mount point, when listing the containing
-> directory.
-
-I see the same.
-
-> I've skimmed the following thread:
-> 
->    [PATCH] virtiofsd: Show submounts
->    https://www.redhat.com/archives/virtio-fs/2020-April/msg00023.html
-> 
-> (which is now QEMU commit ace0829c0d08), and I vaguely suspect it should
-> work -- the MS_REC flag is present, and the MS_REC flag seems to be so
-> old that I think my host kernel (latest RHEL7) must support it too.
-
-It works (for me) with other mounts (like XFS or ext4), so submounts 
-shouldn’t be the problem.
-
-> So... does the sshfs filesystem present itself as unshareable? Is it
-> supposed to work? Does it break for others too?
-
-I can share sshfs through sshfs, so it must be something virtiofs-specific.
-
-I tried to debug it, but I could only find that the fstatat()/statx() on 
-it (FD opened, then stat called with that FD, an empty pathname, and 
-AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW) fails with EPERM.  I tried 
-disabling all the sandboxing, but still got that error.
-
-FWIW, I get the same error with virtiofsd-rs (and there, too, the 
-fstatat64() yields the EPERM).
-
-So far, I couldn’t reproduce it outside of virtiofsd, though...  (Like, 
-just invoking stat on the command line works; and a simple program that 
-opens the mount point FD and then stats it works, too.)
-
-Max
 
 
