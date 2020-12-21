@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E012DFD6C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:22:00 +0100 (CET)
-Received: from localhost ([::1]:50122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADCE82DFDA7
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:42:24 +0100 (CET)
+Received: from localhost ([::1]:37940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krN0Z-0004CA-7l
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:21:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
+	id 1krNKJ-0006eO-N2
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:42:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRQ-0005FE-On
+ id 1krMRQ-0005Ev-Ik
  for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:40 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40441)
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:53396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRM-0007yC-5b
+ id 1krMRM-000803-Va
  for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:40 -0500
-Received: by mail-wr1-x432.google.com with SMTP id 91so11314171wrj.7
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:35 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id k10so10103272wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=x+XV7POEVzZV9uOrwvIZLsGMYHJ/WzP2anWj6Wklw4o=;
- b=EpVJHdcrjVOeV+TcaUSqr98K+inA8CLtvlYV4nS1r/a6wbu1hYhRQdRGQIMm+dqr1N
- gNCvAdGIOrit0x8P5tdKdFhtRF387c536drwILymXUSHW7pR4Ak0t0hFpBevixCiptN1
- FAB7BqrVDJmhIWgaH1bXmX0o4yBLDIaWNcv4Lw7bR8Y39zwJhuQlnni+hD3IludyZGI5
- kNJ6CT5pE1z268xMpJ/yxk+QSt4F3w8YEEbYr13g/fBr27yO4fEME1QcQaPWf+NtbgrX
- eZuEd0xa0xIbKuQUeZ4R3mYl6BG6YZb3v9Gf2IaRT+GUg40JacK4lOfJq6BhomOayOg2
- wTHA==
+ bh=VHZYhA9oJgmEAppkwuoyrKj0wreNSbxgP7cRZdHvYKQ=;
+ b=vcHvFyZGzSldT27NNip8dv//8k36fGRgBYtOydyqbVNyPV8U7NZPsVtMQh28SIpoBk
+ YjRnJdZijIA417sXqc11CW1ndgg8IkxGh+rGoNq4Sbq0v8CWqu+MBPDMZRaB/N1lt1cg
+ edpUP8nNoRZ7XoY9LTAmMxFbOxlIpsn92ZHM3nvKJdtgsadEW9OBLvfYFKUvMuh4mhmM
+ bsR+ADEN6BAJNUiPieH0mJwzDoipQrot+ByZbRWOT6rf9b+caWIV93DY/XcqtDl+HwVj
+ cfkyOPpwBMPGeV17h5KFQV+On1yKwPJ0vtvSf1sIt6qsU4PiH+EBOGGzdZTxwOV0uAHe
+ 43WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=x+XV7POEVzZV9uOrwvIZLsGMYHJ/WzP2anWj6Wklw4o=;
- b=iHJefzhMpy7O4MmR/rcpw4PfkurjfeKeT1BxIu5y67yhwPKc+Om86cZZ04nfU9LuYp
- ZDM4gwwRgbusGwmQTUnwaUGxvchcFytepmpHNYcjFF1706CyKGiUSpcTV/HjYBSbTkd8
- R6QwCqTGAHnk8echHnOnJ26CN/6MWq1/W7MgD/Ezk/lLv7tkYVrrPyQNJ67exJ2L4MN8
- R+6h1Zhe/MJ+3/cLgz73S3Eir/cBmqxel/2CK/r3liH1ndYA3blzT7xyn13budKYfpoU
- AcBuO1NLMk0kUVlzwp1wTB3cwM7lkRj8i6N6UN6kPgZV5k/pWumCmmlsd+6m42ydHi7k
- DexQ==
-X-Gm-Message-State: AOAM531gT+U+e6jVsU3NA7D9d8n5jGCbPP7hsYpO1rtYGU58ZU2RDjmh
- jpVV+wbhlaqAcYOVOLS1zID7c/7WTpw=
-X-Google-Smtp-Source: ABdhPJzgchAneWYicCTcY6OhG+m2iBC46VsiZk0xoe9x2AK3SYrKNSt4ddJ0OHvAfVEFfuVQXrVSLQ==
-X-Received: by 2002:adf:c387:: with SMTP id p7mr18943960wrf.95.1608561934748; 
- Mon, 21 Dec 2020 06:45:34 -0800 (PST)
+ bh=VHZYhA9oJgmEAppkwuoyrKj0wreNSbxgP7cRZdHvYKQ=;
+ b=ayHHLPyoUj/7bd9Lrh23C4vzKVw8/A+H9nbJPNcrFxqR4wNk4zrfOsoO2X1a5jXNA4
+ 3t6w0JoCK63zR6PB0hIHShWhebDQXVkmAAv3scvtwtFC3NaHgW+qhMbMcLeStgYxjPUG
+ XOvT4lEVBJKN66VnYFX/WLewrdSJVmgfMddw8MGYSveNDmY/B4ayyZNWM5KMrQvKVUqG
+ Bv4SYQ9avFarZH++DXhNWqKxIIMX9cfy1iUY1dIou214whvIs+n7VXeT0iEaDbqgS5iK
+ LjsLvZy4mA68MJBkRReWqBONcnkdXT8zgVauvgh7j3wkzB1jwe0xLfpVGFw/YBeqUkNU
+ Xz7w==
+X-Gm-Message-State: AOAM531Ab6qUEnF2AFbWfdRrGXacNuu/6KFMLe5ZrTF5RdWJDrOAgxrQ
+ l/f6DTJo1F31ykx91arspNr5Tdf+stE=
+X-Google-Smtp-Source: ABdhPJwg8SqQi1A9Bsv5DwzqIC13H6TZyQg2BDCESUXr2L3AB8biyZinH/CQ666iLHHEMC5Cuc/FyA==
+X-Received: by 2002:a05:600c:208:: with SMTP id
+ 8mr17277423wmi.146.1608561935542; 
+ Mon, 21 Dec 2020 06:45:35 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.34
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Dec 2020 06:45:34 -0800 (PST)
+ Mon, 21 Dec 2020 06:45:35 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 52/55] libattr: convert to meson
-Date: Mon, 21 Dec 2020 15:44:44 +0100
-Message-Id: <20201221144447.26161-53-pbonzini@redhat.com>
+Subject: [PULL 53/55] meson.build: convert --with-default-devices to meson
+Date: Mon, 21 Dec 2020 15:44:45 +0100
+Message-Id: <20201221144447.26161-54-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201221144447.26161-1-pbonzini@redhat.com>
 References: <20201221144447.26161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,183 +88,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Pass the boolean option directly instead of writing
+CONFIG_MINIKCONF_MODE to config-host.mak.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         | 45 ++++-----------------------------------------
- meson.build       | 38 +++++++++++++++++++++++++++++++++++---
+ configure         | 13 ++++---------
+ meson.build       |  5 +++--
  meson_options.txt |  2 ++
- 3 files changed, 41 insertions(+), 44 deletions(-)
+ 3 files changed, 9 insertions(+), 11 deletions(-)
 
 diff --git a/configure b/configure
-index 569396248b..18af62a3e0 100755
+index 18af62a3e0..63ac12d5b8 100755
 --- a/configure
 +++ b/configure
-@@ -331,8 +331,7 @@ xen_pci_passthrough="auto"
- linux_aio="$default_feature"
- linux_io_uring="$default_feature"
- cap_ng="auto"
--attr="$default_feature"
--libattr="$default_feature"
-+attr="auto"
- xfs="$default_feature"
- tcg="enabled"
- membarrier="$default_feature"
-@@ -1229,9 +1228,9 @@ for opt do
+@@ -446,7 +446,7 @@ sheepdog="no"
+ libxml2="$default_feature"
+ debug_mutex="no"
+ libpmem="$default_feature"
+-default_devices="yes"
++default_devices="true"
+ plugins="no"
+ fuzzing="no"
+ rng_none="no"
+@@ -943,9 +943,9 @@ for opt do
    ;;
-   --enable-linux-io-uring) linux_io_uring="yes"
+   --with-trace-file=*) trace_file="$optarg"
    ;;
--  --disable-attr) attr="no"
-+  --disable-attr) attr="disabled"
+-  --with-default-devices) default_devices="yes"
++  --with-default-devices) default_devices="true"
    ;;
--  --enable-attr) attr="yes"
-+  --enable-attr) attr="enabled"
+-  --without-default-devices) default_devices="no"
++  --without-default-devices) default_devices="false"
    ;;
-   --disable-membarrier) membarrier="no"
+   --without-default-features) # processed above
    ;;
-@@ -3542,36 +3541,6 @@ elif test "$tpm" = "yes"; then
-   fi
- fi
+@@ -5539,11 +5539,6 @@ echo "GIT_UPDATE=$git_update" >> $config_host_mak
  
--##########################################
--# attr probe
--
--libattr_libs=
--if test "$attr" != "no" ; then
--  cat > $TMPC <<EOF
--#include <stdio.h>
--#include <sys/types.h>
--#ifdef CONFIG_LIBATTR
--#include <attr/xattr.h>
--#else
--#include <sys/xattr.h>
--#endif
--int main(void) { getxattr(NULL, NULL, NULL, 0); setxattr(NULL, NULL, NULL, 0, 0); return 0; }
--EOF
--  if compile_prog "" "" ; then
--    attr=yes
--  # Older distros have <attr/xattr.h>, and need -lattr:
--  elif compile_prog "-DCONFIG_LIBATTR" "-lattr" ; then
--    attr=yes
--    libattr_libs="-lattr"
--    libattr=yes
--  else
--    if test "$attr" = "yes" ; then
--      feature_not_found "ATTR" "Install libc6 or libattr devel"
--    fi
--    attr=no
--  fi
+ echo "ARCH=$ARCH" >> $config_host_mak
+ 
+-if test "$default_devices" = "yes" ; then
+-  echo "CONFIG_MINIKCONF_MODE=--defconfig" >> $config_host_mak
+-else
+-  echo "CONFIG_MINIKCONF_MODE=--allnoconfig" >> $config_host_mak
 -fi
--
- ##########################################
- # iovec probe
- cat > $TMPC <<EOF
-@@ -5866,13 +5835,6 @@ if test "$linux_io_uring" = "yes" ; then
-   echo "LINUX_IO_URING_CFLAGS=$linux_io_uring_cflags" >> $config_host_mak
-   echo "LINUX_IO_URING_LIBS=$linux_io_uring_libs" >> $config_host_mak
+ if test "$debug_tcg" = "yes" ; then
+   echo "CONFIG_DEBUG_TCG=y" >> $config_host_mak
  fi
--if test "$attr" = "yes" ; then
--  echo "CONFIG_ATTR=y" >> $config_host_mak
--  echo "LIBATTR_LIBS=$libattr_libs" >> $config_host_mak
--fi
--if test "$libattr" = "yes" ; then
--  echo "CONFIG_LIBATTR=y" >> $config_host_mak
--fi
- if test "$vhost_scsi" = "yes" ; then
-   echo "CONFIG_VHOST_SCSI=y" >> $config_host_mak
- fi
-@@ -6534,6 +6496,7 @@ NINJA=$ninja $meson setup \
+@@ -6496,7 +6491,7 @@ NINJA=$ninja $meson setup \
          -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
          -Dlibssh=$libssh -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse \
          -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
-+        -Dattr=$attr \
+-        -Dattr=$attr \
++        -Dattr=$attr -Ddefault_devices=$default_devices \
          -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
          -Dvhost_user_blk_server=$vhost_user_blk_server \
          -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek \
 diff --git a/meson.build b/meson.build
-index f580f2f67f..fef0c0f013 100644
+index fef0c0f013..98d302cb22 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -324,10 +324,40 @@ if not get_option('libnfs').auto() or have_block
-                       required: get_option('libnfs'),
-                       method: 'pkg-config', static: enable_static)
- endif
-+
-+libattr_test = '''
-+  #include <stddef.h>
-+  #include <sys/types.h>
-+  #ifdef CONFIG_LIBATTR
-+  #include <attr/xattr.h>
-+  #else
-+  #include <sys/xattr.h>
-+  #endif
-+  int main(void) { getxattr(NULL, NULL, NULL, 0); setxattr(NULL, NULL, NULL, 0, 0); return 0; }'''
-+
- libattr = not_found
--if 'CONFIG_ATTR' in config_host
--  libattr = declare_dependency(link_args: config_host['LIBATTR_LIBS'].split())
-+have_old_libattr = false
-+if not get_option('attr').disabled()
-+  if cc.links(libattr_test)
-+    libattr = declare_dependency()
-+  else
-+    libattr = cc.find_library('attr', has_headers: ['attr/xattr.h'],
-+                              required: get_option('attr'),
-+                              static: enable_static)
-+    if libattr.found() and not \
-+      cc.links(libattr_test, dependencies: libattr, args: '-DCONFIG_LIBATTR')
-+      libattr = not_found
-+      if get_option('attr').enabled()
-+        error('could not link libattr')
-+      else
-+        warning('could not link libattr, disabling')
-+      endif
-+    else
-+      have_old_libattr = libattr.found()
-+    endif
-+  endif
- endif
-+
- seccomp = not_found
- if not get_option('libiscsi').auto() or have_system or have_tools
-   seccomp = dependency('libseccomp', version: '>=2.3.0',
-@@ -1010,6 +1040,7 @@ config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') /
- config_host_data.set_quoted('CONFIG_QEMU_MODDIR', get_option('prefix') / qemu_moddir)
- config_host_data.set_quoted('CONFIG_SYSCONFDIR', get_option('prefix') / get_option('sysconfdir'))
+@@ -1282,7 +1282,8 @@ foreach target : target_dirs
+       output: config_devices_mak,
+       depfile: config_devices_mak + '.d',
+       capture: true,
+-      command: [minikconf, config_host['CONFIG_MINIKCONF_MODE'],
++      command: [minikconf,
++                get_option('default_devices') ? '--defconfig' : '--allnoconfig',
+                 config_devices_mak, '@DEPFILE@', '@INPUT@',
+                 host_kconfig, accel_kconfig])
  
-+config_host_data.set('CONFIG_ATTR', libattr.found())
- config_host_data.set('CONFIG_BRLAPI', brlapi.found())
- config_host_data.set('CONFIG_COCOA', cocoa.found())
- config_host_data.set('CONFIG_LIBUDEV', libudev.found())
-@@ -1027,6 +1058,7 @@ if glusterfs.found()
-   config_host_data.set('CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT', glusterfs_ftruncate_has_stat)
-   config_host_data.set('CONFIG_GLUSTERFS_IOCB_HAS_STAT', glusterfs_iocb_has_stat)
- endif
-+config_host_data.set('CONFIG_LIBATTR', have_old_libattr)
- config_host_data.set('CONFIG_LIBCAP_NG', libcap_ng.found())
- config_host_data.set('CONFIG_LIBISCSI', libiscsi.found())
- config_host_data.set('CONFIG_LIBNFS', libnfs.found())
-@@ -2350,7 +2382,7 @@ summary_info += {'vde support':       config_host.has_key('CONFIG_VDE')}
- summary_info += {'netmap support':    config_host.has_key('CONFIG_NETMAP')}
- summary_info += {'Linux AIO support': config_host.has_key('CONFIG_LINUX_AIO')}
- summary_info += {'Linux io_uring support': config_host.has_key('CONFIG_LINUX_IO_URING')}
--summary_info += {'ATTR/XATTR support': config_host.has_key('CONFIG_ATTR')}
-+summary_info += {'ATTR/XATTR support': libattr.found()}
- summary_info += {'Install blobs':     get_option('install_blobs')}
- summary_info += {'KVM support':       config_all.has_key('CONFIG_KVM')}
- summary_info += {'HAX support':       config_all.has_key('CONFIG_HAX')}
+@@ -2476,7 +2477,7 @@ summary_info += {'capstone':          capstone_opt == 'disabled' ? false : capst
+ summary_info += {'libpmem support':   config_host.has_key('CONFIG_LIBPMEM')}
+ summary_info += {'libdaxctl support': config_host.has_key('CONFIG_LIBDAXCTL')}
+ summary_info += {'libudev':           libudev.found()}
+-summary_info += {'default devices':   config_host['CONFIG_MINIKCONF_MODE'] == '--defconfig'}
++summary_info += {'default devices':   get_option('default_devices')}
+ summary_info += {'plugin support':    config_host.has_key('CONFIG_PLUGIN')}
+ summary_info += {'fuzzing support':   config_host.has_key('CONFIG_FUZZ')}
+ if config_host.has_key('HAVE_GDB_BIN')
 diff --git a/meson_options.txt b/meson_options.txt
-index 12a1872f20..8fcec056cd 100644
+index 8fcec056cd..1d4a71772e 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -40,6 +40,8 @@ option('cfi', type: 'boolean', value: 'false',
- option('cfi_debug', type: 'boolean', value: 'false',
-        description: 'Verbose errors in case of CFI violation')
+@@ -7,6 +7,8 @@ option('qemu_firmwarepath', type : 'string', value : '',
+ option('sphinx_build', type : 'string', value : '',
+        description: 'Use specified sphinx-build [$sphinx_build] for building document (default to be empty)')
  
-+option('attr', type : 'feature', value : 'auto',
-+       description: 'attr/xattr support')
- option('brlapi', type : 'feature', value : 'auto',
-        description: 'brlapi character device driver')
- option('bzip2', type : 'feature', value : 'auto',
++option('default_devices', type : 'boolean', value : true,
++       description: 'Include a default selection of devices in emulators')
+ option('docs', type : 'feature', value : 'auto',
+        description: 'Documentations build support')
+ option('gettext', type : 'feature', value : 'auto',
 -- 
 2.29.2
 
