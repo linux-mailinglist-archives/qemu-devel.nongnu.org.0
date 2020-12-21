@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BAE82DFD7C
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:26:21 +0100 (CET)
-Received: from localhost ([::1]:58958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A29E2DFD2C
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:06:43 +0100 (CET)
+Received: from localhost ([::1]:40360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krN4m-0007zv-9Y
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:26:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42556)
+	id 1krMll-0004pM-V0
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:06:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRI-0004uu-PQ
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:32 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:40582)
+ id 1krMRL-00050e-BA
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:35 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRC-0007r7-HE
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:32 -0500
-Received: by mail-wm1-x334.google.com with SMTP id r4so11156634wmh.5
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:25 -0800 (PST)
+ id 1krMRD-0007rC-MB
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:34 -0500
+Received: by mail-wm1-x334.google.com with SMTP id x22so10081179wmc.5
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MqJQF5mR+4cetOd5KHLJPsleSno/7cp2ZMdnZoPO5/4=;
- b=J/ZoQpZsZ/TifmfGKA+VR3HkyMTDr5q6wV24lFxOhF6U08Lwz8DMW7Ex/Ukr8ktKqq
- i4DZUX3mLaYv7sMUkNT5f3j0ZBLXOBKJIXE7xrBilcD9ye/+RTzoHgIOxOUOLbQ0I3ZZ
- I4fIjXVS24Fxf0svepN1V6aNJYc5vc/A5MW31EUpZWMMKtJRiRMNss3D9JEEobqXP0vb
- TLbPX5iT9co20/YUD3ZHOg1d+cGAXbRxkOtjpWc/tG/8R0pALrLfKcgFazaeFUsqYa+b
- WWFNsu/5h0AwWuLsD8aYbtPWPdQ1xz5QT/aCWB9clnlP6tZUGB3DNtcXXKfSrnoestWX
- eUfA==
+ bh=0IPpgfXJIG4wmc/dJzLIQz8n37gZPgs0r3/il0rSCBQ=;
+ b=Ooo6NM9Jcil0b4ei/71psljq9lII19QKlYtYe98l+lLaMuh0biapanfkk3231MJWVZ
+ pNp8WKRjkO4faKp45zNZ1vx1NusA4fwtGS+N99xpLg3iDfih39IWVm95Vb04/ZQp2vI6
+ sp6P/t4KB6cWWSg3blm1hDulNuF1YYQW3zOFhiipJyjJlJdpeyeGLxaTfV8cFwrlvSuT
+ 9pcMFjHZ2CtWmZykSkR0yyV8/1D8Vtw480c+oCVdi/JSfbW9aWrIA/eKS1QsxDIN7cD7
+ 2sUHKd1Dahnaxpi3QUUAgUiUmEWnxy63Th86+xk9JX+QBM8HvQTocJc/XVlmg4JPKfv4
+ rnkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MqJQF5mR+4cetOd5KHLJPsleSno/7cp2ZMdnZoPO5/4=;
- b=SHDrzQObSWD60BtOrxGZ5cZYor9RPuAXCB9VXBAd3cwxEV8Z5P/8JDUdrdkbpWIxxj
- BNah2YVganWvTqEXaxtB7cAJic/M8enpbZ1+00e8uiqw0ZdZFzoI0cElNa7M1YJgNcQW
- 5l/9keNOGP4rZdSjzrQVPlnIbJ+xptjTxLOpB5RrUOosxa7M7pR9Lh1pr/RURXyqBe+1
- CgIQm7rdJGgdoKlsiVrB5tbY/5pS4mHyt7a2tyrV7dY1OI4A1ugVXdjBrOiAMnm2J6SG
- Y11FBgIAg26z8JgmuU9CM28rCSkGceFjuAoFsQmMYxFBnuUMBSjfwDOwhWGgsyhazKnl
- gtlw==
-X-Gm-Message-State: AOAM532xHXVE+9/8fnziE922Vxog+5pYatipcL5NGiDAppa683ix7Q1Y
- OyIWdeeHJSi+moPWPNdojuRWv031egk=
-X-Google-Smtp-Source: ABdhPJxkKK64+K4IhQOGDkbDN5OmejGvXZ34nv5ZG+lxDFqjrF4l7MX27AFeY8PlXujnQcmyYmPakg==
-X-Received: by 2002:a7b:cb54:: with SMTP id v20mr10806460wmj.148.1608561924954; 
- Mon, 21 Dec 2020 06:45:24 -0800 (PST)
+ bh=0IPpgfXJIG4wmc/dJzLIQz8n37gZPgs0r3/il0rSCBQ=;
+ b=AVe4nKHECadNjiO6RwOUy21WLRNIYsZfTTXXsYX3/AepKMOXawjWs7wftiLz+o0rR6
+ UwgssOwoR5mKnrlZkIxkCUB9XEexfweTiD6oyP1cEFKe4vYW9GCyAjTfKHMpmtvIfCZy
+ 2cBEDFz/zbBSS2JrKqmueK48XbqHWTeleI2gwLKIq0nK9sS6OVUlGuddlqIJQSOa0KYS
+ b274nJFbuHff0+X4Ji5rtlucMNjVIA4UQKMBNpnbS85zp/fq0WtnYtsMrz+Q6jpF6J+Q
+ cyfQceBZoYRsUvv9mWuQ0aEpw+kn0AcFBZq0ROYwkvSz7dbP2RoZAq6HtaPTEwjDWYvc
+ fS3g==
+X-Gm-Message-State: AOAM531ErBvo7rI12QZr3K4WAjR/8A7AFDeYqikfV6SvadUEMZ70lpzD
+ WuvqlozYAne4l5MjHoq+z36L3PEHfX4=
+X-Google-Smtp-Source: ABdhPJyIZPxlGbx/e8/mgPPHTn/25KXjxdGKwIIvajT0SRnDtBGOsKyg6GNReMg7GWizdQwh8CzBKQ==
+X-Received: by 2002:a05:600c:2042:: with SMTP id
+ p2mr17292435wmg.152.1608561925764; 
+ Mon, 21 Dec 2020 06:45:25 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.24
+ by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.25
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Dec 2020 06:45:24 -0800 (PST)
+ Mon, 21 Dec 2020 06:45:25 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 40/55] bzip2: convert to meson
-Date: Mon, 21 Dec 2020 15:44:32 +0100
-Message-Id: <20201221144447.26161-41-pbonzini@redhat.com>
+Subject: [PULL 41/55] libiscsi: convert to meson
+Date: Mon, 21 Dec 2020 15:44:33 +0100
+Message-Id: <20201221144447.26161-42-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201221144447.26161-1-pbonzini@redhat.com>
 References: <20201221144447.26161-1-pbonzini@redhat.com>
@@ -89,131 +90,153 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         | 31 ++++---------------------------
- meson.build       | 18 +++++++++++++++---
- meson_options.txt |  2 ++
- 3 files changed, 21 insertions(+), 30 deletions(-)
+ block/meson.build                   |  2 +-
+ configure                           | 29 ++++-------------------------
+ contrib/vhost-user-scsi/meson.build |  2 +-
+ meson.build                         | 10 ++++++----
+ meson_options.txt                   |  2 ++
+ 5 files changed, 14 insertions(+), 31 deletions(-)
 
+diff --git a/block/meson.build b/block/meson.build
+index b02cb14aad..134034abb4 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -59,7 +59,7 @@ block_ss.add(when: 'CONFIG_QED', if_true: files(
+ block_ss.add(when: [libxml2, 'CONFIG_PARALLELS'], if_true: files('parallels.c'))
+ block_ss.add(when: 'CONFIG_WIN32', if_true: files('file-win32.c', 'win32-aio.c'))
+ block_ss.add(when: 'CONFIG_POSIX', if_true: [files('file-posix.c'), coref, iokit])
+-block_ss.add(when: 'CONFIG_LIBISCSI', if_true: files('iscsi-opts.c'))
++block_ss.add(when: libiscsi, if_true: files('iscsi-opts.c'))
+ block_ss.add(when: 'CONFIG_LINUX', if_true: files('nvme.c'))
+ block_ss.add(when: 'CONFIG_REPLICATION', if_true: files('replication.c'))
+ block_ss.add(when: 'CONFIG_SHEEPDOG', if_true: files('sheepdog.c'))
 diff --git a/configure b/configure
-index b7644cfbd9..3d65c1e196 100755
+index 3d65c1e196..30084af631 100755
 --- a/configure
 +++ b/configure
-@@ -395,7 +395,7 @@ avx2_opt="$default_feature"
- capstone="auto"
- lzo="$default_feature"
- snappy="$default_feature"
--bzip2="$default_feature"
-+bzip2="auto"
- lzfse="$default_feature"
- zstd="$default_feature"
- guest_agent="$default_feature"
-@@ -1319,9 +1319,9 @@ for opt do
+@@ -405,7 +405,7 @@ guest_agent_msi="$default_feature"
+ vss_win32_sdk="$default_feature"
+ win_sdk="no"
+ want_tools="$default_feature"
+-libiscsi="$default_feature"
++libiscsi="auto"
+ libnfs="$default_feature"
+ coroutine=""
+ coroutine_pool="$default_feature"
+@@ -1138,9 +1138,9 @@ for opt do
    ;;
-   --enable-snappy) snappy="yes"
+   --enable-spice) spice="yes"
    ;;
--  --disable-bzip2) bzip2="no"
-+  --disable-bzip2) bzip2="disabled"
+-  --disable-libiscsi) libiscsi="no"
++  --disable-libiscsi) libiscsi="disabled"
    ;;
--  --enable-bzip2) bzip2="yes"
-+  --enable-bzip2) bzip2="enabled"
+-  --enable-libiscsi) libiscsi="yes"
++  --enable-libiscsi) libiscsi="enabled"
    ;;
-   --enable-lzfse) lzfse="yes"
+   --disable-libnfs) libnfs="no"
    ;;
-@@ -2494,24 +2494,6 @@ EOF
-     fi
+@@ -4313,21 +4313,6 @@ if compile_prog "" "" ; then
+   bswap_h=yes
  fi
  
 -##########################################
--# bzip2 check
--
--if test "$bzip2" != "no" ; then
--    cat > $TMPC << EOF
--#include <bzlib.h>
--int main(void) { BZ2_bzlibVersion(); return 0; }
--EOF
--    if compile_prog "" "-lbz2" ; then
--        bzip2="yes"
--    else
--        if test "$bzip2" = "yes"; then
--            feature_not_found "libbzip2" "Install libbzip2 devel"
--        fi
--        bzip2="no"
+-# Do we have libiscsi >= 1.9.0
+-if test "$libiscsi" != "no" ; then
+-  if $pkg_config --atleast-version=1.9.0 libiscsi; then
+-    libiscsi="yes"
+-    libiscsi_cflags=$($pkg_config --cflags libiscsi)
+-    libiscsi_libs=$($pkg_config --libs libiscsi)
+-  else
+-    if test "$libiscsi" = "yes" ; then
+-      feature_not_found "libiscsi" "Install libiscsi >= 1.9.0"
 -    fi
+-    libiscsi="no"
+-  fi
 -fi
 -
  ##########################################
- # lzfse check
- 
-@@ -6236,11 +6218,6 @@ if test "$snappy" = "yes" ; then
-   echo "SNAPPY_LIBS=$snappy_libs" >> $config_host_mak
+ # Do we need librt
+ # uClibc provides 2 versions of clock_gettime(), one with realtime
+@@ -6229,12 +6214,6 @@ if test "$zstd" = "yes" ; then
+   echo "ZSTD_LIBS=$zstd_libs" >> $config_host_mak
  fi
  
--if test "$bzip2" = "yes" ; then
--  echo "CONFIG_BZIP2=y" >> $config_host_mak
--  echo "BZIP2_LIBS=-lbz2" >> $config_host_mak
+-if test "$libiscsi" = "yes" ; then
+-  echo "CONFIG_LIBISCSI=y" >> $config_host_mak
+-  echo "LIBISCSI_CFLAGS=$libiscsi_cflags" >> $config_host_mak
+-  echo "LIBISCSI_LIBS=$libiscsi_libs" >> $config_host_mak
 -fi
 -
- if test "$lzfse" = "yes" ; then
-   echo "CONFIG_LZFSE=y" >> $config_host_mak
-   echo "LZFSE_LIBS=-llzfse" >> $config_host_mak
-@@ -6823,7 +6800,7 @@ NINJA=$ninja $meson setup \
+ if test "$libnfs" = "yes" ; then
+   echo "CONFIG_LIBNFS=y" >> $config_host_mak
+   echo "LIBNFS_LIBS=$libnfs_libs" >> $config_host_mak
+@@ -6800,7 +6779,7 @@ NINJA=$ninja $meson setup \
          -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
          -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
          -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
--        -Dcurl=$curl -Dglusterfs=$glusterfs \
-+        -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 \
+-        -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 \
++        -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
          -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
          -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
          -Dvhost_user_blk_server=$vhost_user_blk_server \
+diff --git a/contrib/vhost-user-scsi/meson.build b/contrib/vhost-user-scsi/meson.build
+index 044c50bf43..cc893f6f20 100644
+--- a/contrib/vhost-user-scsi/meson.build
++++ b/contrib/vhost-user-scsi/meson.build
+@@ -1,4 +1,4 @@
+-if 'CONFIG_LIBISCSI' in config_host
++if libiscsi.found()
+   executable('vhost-user-scsi', files('vhost-user-scsi.c'),
+              dependencies: [qemuutil, libiscsi, vhost_user],
+              build_by_default: targetos == 'linux',
 diff --git a/meson.build b/meson.build
-index db52ac6bdf..66e35598ce 100644
+index 66e35598ce..d1cbea169c 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -654,8 +654,20 @@ if 'CONFIG_LIBSSH' in config_host
-                               link_args: config_host['LIBSSH_LIBS'].split())
+@@ -372,9 +372,10 @@ if 'CONFIG_PLUGIN' in config_host
+   libdl = cc.find_library('dl', required: true)
  endif
- libbzip2 = not_found
--if 'CONFIG_BZIP2' in config_host
--  libbzip2 = declare_dependency(link_args: config_host['BZIP2_LIBS'].split())
-+if not get_option('bzip2').auto() or have_block
-+  libbzip2 = cc.find_library('bz2', has_headers: ['bzlib.h'],
-+                             required: get_option('bzip2'),
-+                             static: enable_static)
-+  if libbzip2.found() and not cc.links('''
-+     #include <bzlib.h>
-+     int main(void) { BZ2_bzlibVersion(); return 0; }''', dependencies: libbzip2)
-+    libbzip2 = not_found
-+    if get_option('bzip2').enabled()
-+      error('could not link libbzip2')
-+    else
-+      warning('could not link libbzip2, disabling')
-+    endif
-+  endif
+ libiscsi = not_found
+-if 'CONFIG_LIBISCSI' in config_host
+-  libiscsi = declare_dependency(compile_args: config_host['LIBISCSI_CFLAGS'].split(),
+-                                link_args: config_host['LIBISCSI_LIBS'].split())
++if not get_option('libiscsi').auto() or have_block
++  libiscsi = dependency('libiscsi', version: '>=1.9.0',
++                         required: get_option('libiscsi'),
++                         method: 'pkg-config', static: enable_static)
  endif
- liblzfse = not_found
- if 'CONFIG_LZFSE' in config_host
-@@ -2301,7 +2313,7 @@ summary_info += {'QOM debugging':     config_host.has_key('CONFIG_QOM_CAST_DEBUG
- summary_info += {'Live block migration': config_host.has_key('CONFIG_LIVE_BLOCK_MIGRATION')}
- summary_info += {'lzo support':       config_host.has_key('CONFIG_LZO')}
- summary_info += {'snappy support':    config_host.has_key('CONFIG_SNAPPY')}
--summary_info += {'bzip2 support':     config_host.has_key('CONFIG_BZIP2')}
-+summary_info += {'bzip2 support':     libbzip2.found()}
- summary_info += {'lzfse support':     config_host.has_key('CONFIG_LZFSE')}
- summary_info += {'zstd support':      config_host.has_key('CONFIG_ZSTD')}
- summary_info += {'NUMA host support': config_host.has_key('CONFIG_NUMA')}
+ zstd = not_found
+ if 'CONFIG_ZSTD' in config_host
+@@ -928,6 +929,7 @@ if glusterfs.found()
+   config_host_data.set('CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT', glusterfs_ftruncate_has_stat)
+   config_host_data.set('CONFIG_GLUSTERFS_IOCB_HAS_STAT', glusterfs_iocb_has_stat)
+ endif
++config_host_data.set('CONFIG_LIBISCSI', libiscsi.found())
+ config_host_data.set('CONFIG_SDL', sdl.found())
+ config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
+ config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
+@@ -2286,7 +2288,7 @@ summary_info += {'libusb':            config_host.has_key('CONFIG_USB_LIBUSB')}
+ summary_info += {'usb net redir':     config_host.has_key('CONFIG_USB_REDIR')}
+ summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
+ summary_info += {'OpenGL dmabufs':    config_host.has_key('CONFIG_OPENGL_DMABUF')}
+-summary_info += {'libiscsi support':  config_host.has_key('CONFIG_LIBISCSI')}
++summary_info += {'libiscsi support':  libiscsi.found()}
+ summary_info += {'libnfs support':    config_host.has_key('CONFIG_LIBNFS')}
+ summary_info += {'build guest agent': config_host.has_key('CONFIG_GUEST_AGENT')}
+ if targetos == 'windows'
 diff --git a/meson_options.txt b/meson_options.txt
-index b5d84bb88b..fd16f3b399 100644
+index fd16f3b399..b562d4f1a6 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -42,6 +42,8 @@ option('cfi_debug', type: 'boolean', value: 'false',
- 
- option('brlapi', type : 'feature', value : 'auto',
-        description: 'brlapi character device driver')
-+option('bzip2', type : 'feature', value : 'auto',
-+       description: 'bzip2 support for DMG images')
- option('cocoa', type : 'feature', value : 'auto',
-        description: 'Cocoa user interface (macOS only)')
- option('curl', type : 'feature', value : 'auto',
+@@ -50,6 +50,8 @@ option('curl', type : 'feature', value : 'auto',
+        description: 'CURL block device driver')
+ option('glusterfs', type : 'feature', value : 'auto',
+        description: 'Glusterfs block device driver')
++option('libiscsi', type : 'feature', value : 'auto',
++       description: 'libiscsi userspace initiator')
+ option('mpath', type : 'feature', value : 'auto',
+        description: 'Multipath persistent reservation passthrough')
+ option('iconv', type : 'feature', value : 'auto',
 -- 
 2.29.2
 
