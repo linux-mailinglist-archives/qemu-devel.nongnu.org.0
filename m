@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA5832DF766
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 02:09:10 +0100 (CET)
-Received: from localhost ([::1]:43316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C828F2DF768
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 02:14:32 +0100 (CET)
+Received: from localhost ([::1]:48408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kr9hF-0000RG-Ux
-	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 20:09:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43698)
+	id 1kr9mR-0002gL-MQ
+	for lists+qemu-devel@lfdr.de; Sun, 20 Dec 2020 20:14:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kr9gJ-0008HZ-86; Sun, 20 Dec 2020 20:08:11 -0500
-Resent-Date: Sun, 20 Dec 2020 20:08:11 -0500
-Resent-Message-Id: <E1kr9gJ-0008HZ-86@lists.gnu.org>
-Received: from sender4-of-o52.zoho.com ([136.143.188.52]:21275)
+ (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
+ id 1kr9l8-0001eT-5H
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 20:13:10 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kr9gG-0001rU-KX; Sun, 20 Dec 2020 20:08:10 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1608512810; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Bzt7U2FrMLf4tJAsYbgVCgCE/CWkhRXl1v6Rj8VfXVV0YFI5FxoQ0dxAXg2KKaLQYlcN25Bc9lGHMHdf1+bcU5tv5hNQDagwoTyxu3YPvEn1Vv4QMP8kic2eDtrtCMFTfmln0yYQ2ksiTTMcOgKu/PicvoMtNtqQeoCntQyRkn0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1608512810;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=xReZONDBf5BtZhWqmLZ11SYiyUn/9i5TlxMjjJ4rZ4Q=; 
- b=KeS1lmdPlI4qgVkih7cymb3D0sPXXQmXe2kXVKqSbSwrKmnqPcmGgc8NZfQZHgn8wayFtZWmxWNDiXa4iRaaOGxobi0f8nC2mvmi8/GQp+7q5OymL2vBoqsfXrsKBP92VxKigG5jezRDkKjuklXXecxDZeBGyLGZc83nRqo727g=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1608512807934794.4072788246411;
- Sun, 20 Dec 2020 17:06:47 -0800 (PST)
-In-Reply-To: <20201221005318.11866-1-jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH 0/9] Alpine Linux build fix and CI pipeline
-Message-ID: <160851280526.21294.6201442635975331015@600e7e483b3a>
+ (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
+ id 1kr9l4-0003Ve-Qr
+ for qemu-devel@nongnu.org; Sun, 20 Dec 2020 20:13:09 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CzhJp0HhrzhrsV;
+ Mon, 21 Dec 2020 09:12:10 +0800 (CST)
+Received: from [10.174.184.155] (10.174.184.155) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 21 Dec 2020 09:12:41 +0800
+Subject: Re: [PATCH] acpi/gpex: Inform os to keep firmware resource map
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20201217132926.4812-1-cenjiahui@huawei.com>
+ <20201217144933-mutt-send-email-mst@kernel.org>
+ <0c7bcfe9-437b-f750-29d5-983d09a47b3c@huawei.com>
+ <20201218122408-mutt-send-email-mst@kernel.org>
+From: Jiahui Cen <cenjiahui@huawei.com>
+Message-ID: <95b79754-de5d-1562-b20f-a50e14f745b6@huawei.com>
+Date: Mon, 21 Dec 2020 09:12:40 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
+In-Reply-To: <20201218122408-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: jiaxun.yang@flygoat.com
-Date: Sun, 20 Dec 2020 17:06:47 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.52; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o52.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.184.155]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=cenjiahui@huawei.com;
+ helo=szxga05-in.huawei.com
+X-Spam_score_int: -74
+X-Spam_score: -7.5
+X-Spam_bar: -------
+X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.299,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,84 +63,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, fam@euphon.net, thuth@redhat.com,
- viktor.prutyanov@phystech.edu, kvm@vger.kernel.org, qemu-block@nongnu.org,
- lvivier@redhat.com, alex.bennee@linaro.org, alistair@alistair23.me,
- qemu-devel@nongnu.org, wainersm@redhat.com, groug@kaod.org,
- qemu-ppc@nongnu.org, pbonzini@redhat.com, mreitz@redhat.com, philmd@redhat.com,
- david@gibson.dropbear.id.au
+Cc: xieyingtai@huawei.com, Igor Mammedov <imammedo@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIyMTAwNTMxOC4xMTg2
-Ni0xLWppYXh1bi55YW5nQGZseWdvYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRv
-IGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1v
-cmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDEyMjEwMDUzMTgu
-MTE4NjYtMS1qaWF4dW4ueWFuZ0BmbHlnb2F0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggMC85XSBBbHBp
-bmUgTGludXggYnVpbGQgZml4IGFuZCBDSSBwaXBlbGluZQoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
-ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
-b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
-U0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4
-ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICog
-W25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMTIyMTAwNTMxOC4xMTg2Ni0xLWppYXh1bi55
-YW5nQGZseWdvYXQuY29tIC0+IHBhdGNoZXcvMjAyMDEyMjEwMDUzMTguMTE4NjYtMS1qaWF4dW4u
-eWFuZ0BmbHlnb2F0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjEwMDk1YTkg
-Z2l0bGFiLWNpOiBBZGQgYWxwaW5lIHRvIHBpcGVsaW5lCmExNzdhZjMgdGVzdHM6IFJlbmFtZSBQ
-QUdFX1NJWkUgZGVmaW5pdGlvbnMKNWZjYjBlZCBhY2NlbC9rdm06IGF2b2lkIHVzaW5nIHByZWRl
-ZmluZWQgUEFHRV9TSVpFCmU3ZmViZGYgaHcvYmxvY2svbmFuZDogUmVuYW1lIFBBR0VfU0laRSB0
-byBOQU5EX1BBR0VfU0laRQpiYTMwN2Q1IGVsZjJkbXA6IFJlbmFtZSBQQUdFX1NJWkUgdG8gRUxG
-MkRNUF9QQUdFX1NJWkUKMGNjZjkyYiBsaWJ2aG9zdC11c2VyOiBJbmNsdWRlIHBvbGwuaCBpbnN0
-ZWFkIG9mIHN5cy9wb2xsLmgKNDFhMTBkYiBjb25maWd1cmUvbWVzb246IE9ubHkgY2hlY2sgc3lz
-L3NpZ25hbC5oIG9uIG5vbi1MaW51eAowYmNkMmYyIGNvbmZpZ3VyZTogQWRkIHN5cy90aW1leC5o
-IHRvIHByb2JlIGNsa19hZGp0aW1lCmExNmM3ZmYgdGVzdHMvZG9ja2VyOiBBZGQgZG9ja2VyZmls
-ZSBmb3IgQWxwaW5lIExpbnV4Cgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzkgQ2hlY2tpbmcgY29t
-bWl0IGExNmM3ZmY3ZDg1OSAodGVzdHMvZG9ja2VyOiBBZGQgZG9ja2VyZmlsZSBmb3IgQWxwaW5l
-IExpbnV4KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1B
-SU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyMDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3Rh
-bDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDU2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvOSBoYXMg
-c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
-ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
-S1BBVENIIGluIE1BSU5UQUlORVJTLgoyLzkgQ2hlY2tpbmcgY29tbWl0IDBiY2QyZjJlYWU4NCAo
-Y29uZmlndXJlOiBBZGQgc3lzL3RpbWV4LmggdG8gcHJvYmUgY2xrX2FkanRpbWUpCjMvOSBDaGVj
-a2luZyBjb21taXQgNDFhMTBkYmRjOGRhIChjb25maWd1cmUvbWVzb246IE9ubHkgY2hlY2sgc3lz
-L3NpZ25hbC5oIG9uIG5vbi1MaW51eCkKNC85IENoZWNraW5nIGNvbW1pdCAwY2NmOTJiOGVjMzcg
-KGxpYnZob3N0LXVzZXI6IEluY2x1ZGUgcG9sbC5oIGluc3RlYWQgb2Ygc3lzL3BvbGwuaCkKNS85
-IENoZWNraW5nIGNvbW1pdCBiYTMwN2Q1YTUxYWEgKGVsZjJkbXA6IFJlbmFtZSBQQUdFX1NJWkUg
-dG8gRUxGMkRNUF9QQUdFX1NJWkUpCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM2
-OTogRklMRTogY29udHJpYi9lbGYyZG1wL21haW4uYzoyODQ6CisgICAgICAgIGguUGh5c2ljYWxN
-ZW1vcnlCbG9jay5OdW1iZXJPZlBhZ2VzICs9IHBzLT5ibG9ja1tpXS5zaXplIC8gRUxGMkRNUF9Q
-QUdFX1NJWkU7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojNzk6IEZJTEU6IGNv
-bnRyaWIvZWxmMmRtcC9tYWluLmM6MjkxOgorICAgIGguUmVxdWlyZWREdW1wU3BhY2UgKz0gaC5Q
-aHlzaWNhbE1lbW9yeUJsb2NrLk51bWJlck9mUGFnZXMgPDwgRUxGMkRNUF9QQUdFX0JJVFM7Cgp0
-b3RhbDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDcwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvOSBo
-YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
-CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
-SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo2LzkgQ2hlY2tpbmcgY29tbWl0IGU3ZmViZGYwYjA1
-NiAoaHcvYmxvY2svbmFuZDogUmVuYW1lIFBBR0VfU0laRSB0byBOQU5EX1BBR0VfU0laRSkKRVJS
-T1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMjY6IEZJTEU6IGh3L2Jsb2Nr
-L25hbmQuYzoxMTc6CisjIGRlZmluZSBQQUdFX1NUQVJUKHBhZ2UpXkkoUEFHRShwYWdlKSAqIChO
-QU5EX1BBR0VfU0laRSArIE9PQl9TSVpFKSkkCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5l
-dmVyIHVzZSB0YWJzCiM0NjogRklMRTogaHcvYmxvY2svbmFuZC5jOjEzNDoKKyMgZGVmaW5lIE5B
-TkRfUEFHRV9TSVpFXkleSTIwNDgkCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwoj
-NjU6IEZJTEU6IGh3L2Jsb2NrL25hbmQuYzo2ODQ6CisgICAgICAgIG1lbV9hbmQoaW9idWYgKyAo
-c29mZiB8IG9mZiksIHMtPmlvLCBNSU4ocy0+aW9sZW4sIE5BTkRfUEFHRV9TSVpFIC0gb2ZmKSk7
-CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojNzA6IEZJTEU6IGh3L2Jsb2NrL25h
-bmQuYzo2ODc6CisgICAgICAgICAgICBtZW1fYW5kKHMtPnN0b3JhZ2UgKyAocGFnZSA8PCBPT0Jf
-U0hJRlQpLCBzLT5pbyArIE5BTkRfUEFHRV9TSVpFIC0gb2ZmLAoKdG90YWw6IDIgZXJyb3JzLCAy
-IHdhcm5pbmdzLCAxMjAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi85IGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCgo3LzkgQ2hlY2tpbmcgY29tbWl0IDVmY2IwZWQxMzMxYSAoYWNjZWwva3ZtOiBh
-dm9pZCB1c2luZyBwcmVkZWZpbmVkIFBBR0VfU0laRSkKOC85IENoZWNraW5nIGNvbW1pdCBhMTc3
-YWYzMzkzOGQgKHRlc3RzOiBSZW5hbWUgUEFHRV9TSVpFIGRlZmluaXRpb25zKQo5LzkgQ2hlY2tp
-bmcgY29tbWl0IDEwMDk1YTkyNjQzZCAoZ2l0bGFiLWNpOiBBZGQgYWxwaW5lIHRvIHBpcGVsaW5l
-KQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoK
-VGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIw
-MTIyMTAwNTMxOC4xMTg2Ni0xLWppYXh1bi55YW5nQGZseWdvYXQuY29tL3Rlc3RpbmcuY2hlY2tw
-YXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkg
-UGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNr
-IHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Hi Michael,
+
+On 2020/12/20 3:06, Michael S. Tsirkin wrote:
+> On Fri, Dec 18, 2020 at 01:56:29PM +0800, Jiahui Cen wrote:
+>> Hi Michael,
+>>
+>> On 2020/12/18 4:04, Michael S. Tsirkin wrote:
+>>> On Thu, Dec 17, 2020 at 09:29:26PM +0800, Jiahui Cen wrote:
+>>>> There may be some differences in pci resource assignment between guest os
+>>>> and firmware.
+>>>>
+>>>> Eg. A Bridge with Bus [d2]
+>>>>     -+-[0000:d2]---01.0-[d3]----01.0
+>>>>
+>>>>     where [d2:01.00] is a pcie-pci-bridge with BAR0 (mem, 64-bit, non-pref) [size=256]
+>>>>           [d3:01.00] is a PCI Device with BAR0 (mem, 64-bit, pref) [size=128K]
+>>>>                                           BAR4 (mem, 64-bit, pref) [size=64M]
+>>>>
+>>>>     In EDK2, the Resource Map would be:
+>>>>         PciBus: Resource Map for Bridge [D2|01|00]
+>>>>         Type = PMem64; Base = 0x8004000000;     Length = 0x4100000;     Alignment = 0x3FFFFFF
+>>>>            Base = 0x8004000000; Length = 0x4000000;     Alignment = 0x3FFFFFF;  Owner = PCI [D3|01|00:20]
+>>>>            Base = 0x8008000000; Length = 0x20000;       Alignment = 0x1FFFF;    Owner = PCI [D3|01|00:10]
+>>>>         Type =  Mem64; Base = 0x8008100000;     Length = 0x100; Alignment = 0xFFF
+>>>>
+>>>>     While in Linux, kernel will use 0x2FFFFFF as the alignment to calculate
+>>>>     the PMem64 size, which would be 0x6000000.
+>>>>
+>>>> The diffences could result in resource assignment failure.
+>>>>
+>>>> Using _DSM #5 method to inform guest os not to ignore the PCI configuration
+>>>> that firmware has done at boot time could handle the differences.
+>>>>
+>>>> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+>>>> ---
+>>>>  hw/pci-host/gpex-acpi.c | 11 ++++++++++-
+>>>>  1 file changed, 10 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
+>>>> index 071aa11b5c..2b490f3379 100644
+>>>> --- a/hw/pci-host/gpex-acpi.c
+>>>> +++ b/hw/pci-host/gpex-acpi.c
+>>>> @@ -112,10 +112,19 @@ static void acpi_dsdt_add_pci_osc(Aml *dev)
+>>>>      UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
+>>>>      ifctx = aml_if(aml_equal(aml_arg(0), UUID));
+>>>>      ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(0)));
+>>>> -    uint8_t byte_list[1] = {1};
+>>>> +    uint8_t byte_list[1] = {0x21};
+>>>>      buf = aml_buffer(1, byte_list);
+>>>
+>>>
+>>> Hmm what is this change for?
+>>>
+>>> I also noticed something weird.
+>>> Spec seems to say for _DSM for PCI Express Slot Information:
+>>>
+>>>
+>>> Arguments:
+>>> Arg0: UUID: E5C937D0-3553-4d7a-9117-EA4D19C3434D
+>>> Arg1: Revision ID: 2
+>>> Arg2: Function Index: 1
+>>> Arg3: Empty Package
+>>>
+>>>
+>>> how come we are comparing function index to 0 here?
+>>>
+>>
+>> PCI Firmware Spec says in 4.6.1. _DSM for PCI Express Slot Information
+>>
+>> Note: Function 0 is a generic Query function that is supported by _DSMs with any UUID and
+>> Revision ID. The definition of function 0 is generic to _DSM and specified in the ACPI Specification,
+>> Version 3.0 (or later).
+>>
+>>
+>> And ACPI Spec says in 9.1.1 _DSM (Device Specific Method)
+>>
+>> Return Value Information:
+>> If Function Index is zero, the return is a buffer containing one bit for each function index, starting with zero. Bit 0
+>> indicates whether there is support for any functions other than function 0 for the specified UUID and Revision ID.
+>> If set to zero, no functions are supported (other than function zero) for the specified UUID and Revision ID. If set
+>> to one, at least one additional function is supported. For all other bits in the buffer, a bit is set to zero to indicate if
+>> that function index is not supported for the specific UUID and Revision ID. (For example, bit 1 set to 0 indicates that
+>> function index 1 is not supported for the specific UUID and Revision ID.)
+>>
+>>
+>> I have no idea whether the original code does aim to use _DSM #0
+>> by setting function index 0 (The return value seems not to be suitable
+>> with _DSM #1). But if it does, I think it is necessary to set bit 5
+>> in return value to indicate _DSM #5 function is supported.
+> 
+> 
+> 
+> So let's make it self documenting:
+> 
+> {
+> 	0x1 << 0 /* support for support for any functions other than function 0 */ |
+> 	0x1 << 5 /* support for function 5 */
+> }
+> 
+> 
+> 
+>>>
+>>> Also, as long as we are changing this probably shouldn't hard-code
+>>> 1 as array size ...
+>>>
+>>
+>> Is a macro enough? Like #define RET_BUF_SIZE 2
+> 
+> Better to use 
+> 
+> uint8_t byte_list[] = { ... };
+> 
+> And then ARRAY_SIZE(byte_list)
+> 
+
+Got it. I'll fix in the next patch.
+
+Thanks,
+Jiahui
+
+> 
+>>>
+>>>>      aml_append(ifctx1, aml_return(buf));
+>>>>      aml_append(ifctx, ifctx1);
+>>>> +
+>>>> +    /* PCI Firmware Specification 3.2
+>>>> +     * 4.6.5. _DSM for Ignoring PCI Boot Configurations
+>>>
+>>> Note you must always quote the most recent spec that
+>>> your change refers to. This is so people can figure out
+>>> legacy guest compatibility.
+>>>
+>>> In this case I think this first appeard in 3.1 not 3.2
+>>>
+>>
+>> OK, I'll fix this.
+>>
+>>>> +     * The UUID in _DSM in this context is
+>>>> +     * {E5C937D0-3553-4D7A-9117-EA4D19C3434D}
+>>>
+>>> This is just five lines earier, I don't think we need it here.
+>>>
+>>
+>> Will remove.
+>>
+>>>> +     */
+>>>> +    ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(5)));
+>>>
+>>> add comment:
+>>> 	/* Arg2: Function Index: 5 */
+>>
+>> Will add.
+>>
+>>>
+>>>> +    aml_append(ifctx1, aml_return(aml_int(0)));
+>>>
+>>>
+>>> add comment: /* 0 - do not ignore ... (quote spec I don't have it to hand) */
+>>>
+>>
+>> Will add.
+>>
+>> Thanks,
+>> Jiahui
+>>
+>>>
+>>>
+>>>
+>>>> +    aml_append(ifctx, ifctx1);
+>>>>      aml_append(method, ifctx);
+>>>>  
+>>>>      byte_list[0] = 0;
+>>>> -- 
+>>>> 2.28.0
+>>>
+>>> .
+>>>
+> 
+> .
+> 
 
