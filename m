@@ -2,109 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D9A2DFA25
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 09:51:30 +0100 (CET)
-Received: from localhost ([::1]:51200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D3F2DFA7B
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 10:53:44 +0100 (CET)
+Received: from localhost ([::1]:33268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krGud-0003RS-HB
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 03:51:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54692)
+	id 1krHst-0003iR-9Y
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 04:53:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1krGtp-00031k-Ke; Mon, 21 Dec 2020 03:50:37 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:21396)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1krGtn-0001dA-Md; Mon, 21 Dec 2020 03:50:37 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BL8WcOA083598; Mon, 21 Dec 2020 03:50:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : from : to : cc
- : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=a/vb/MGdYzn9sOvcsG9mVd5+YA+RZR4SmjvqtjVgYHA=;
- b=MZMwcRHnfAmygbHojP988dXtqf1eUR0DKUuk5AZzw5jsV9J8bGAxQJLUYTR3F12XPtyI
- Ha508O7HLeYDBDuDvEz9qy/YlMPuEsmYNnSj6hXAPfgpGIX3Cv3LRn/yCi7fm+c2In7o
- 0odKhCUjBgWnZL3bF1GuEihdFlEfYOi+QGbS8qEqLDi/W8rcaseyFzEI6NeXIPGxPYJz
- HNKWtuY4/rJFrix6mAk7hmJn8TYB2AN7wPhP/4TOa1UaZHwFyqmZxQqCojNJNnhyvuQh
- YDDxlt9cGmdqasBakKG2tgX+p5U9Cee8Xn6EQ9JGQc8KkvutWU4UYI9pnSZOdWlYz5CL 7w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35jjqafw6p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Dec 2020 03:50:30 -0500
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BL8WvCp084612;
- Mon, 21 Dec 2020 03:50:30 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35jjqafw5w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Dec 2020 03:50:30 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BL8kvIG027345;
- Mon, 21 Dec 2020 08:50:27 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma06ams.nl.ibm.com with ESMTP id 35h8sh1uhq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 21 Dec 2020 08:50:27 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BL8oOxJ50200954
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 21 Dec 2020 08:50:24 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9B8E94C04E;
- Mon, 21 Dec 2020 08:50:24 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2F0314C058;
- Mon, 21 Dec 2020 08:50:24 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.60.78])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 21 Dec 2020 08:50:24 +0000 (GMT)
-Subject: Re: [PATCH v2 2/2] s390x/pci: Fix memory_region_access_valid call
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-References: <1608243397-29428-1-git-send-email-mjrosato@linux.ibm.com>
- <1608243397-29428-3-git-send-email-mjrosato@linux.ibm.com>
- <72f4e03f-7208-6af0-4cd2-9715d9f9ec77@linux.ibm.com>
- <20201218120440.36b56e80.cohuck@redhat.com>
- <2c5a2ccb-dbe1-f355-3980-462be1d93942@linux.ibm.com>
- <20201218163206.7b8efa2a.cohuck@redhat.com>
- <52c93c12-b9a4-99ba-186c-4db2e6267b9f@linux.ibm.com>
- <20201218175119.5f43b378.cohuck@redhat.com>
- <608f9aff-965f-62ee-6034-c61f98213200@linux.ibm.com>
-Message-ID: <79611b57-f88d-00d0-a13b-a9acc1100781@linux.ibm.com>
-Date: Mon, 21 Dec 2020 09:50:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1krHre-0003GR-Jz
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 04:52:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44831)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1krHrb-0005iI-5M
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 04:52:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608544341;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Oq08dX7oXD3jOvz4gyEA8GxkY6wn73WXFhCKyNqiDtE=;
+ b=TrQJ1Dp62OhpJnDxVMuCgF4PmTAq8gD0mPTQqM75oQnV67BbOCm88CzmOQAVmpXzKzzJRg
+ /UMWBXK5EJyRNY1ZGdvkpO/9fwf7FPlFhREiKUpOLPw40IiLcEvAgZ8X86L7hlti2HzETr
+ wUpZjEj3x2H0jtuEMyLShVYxDVYElhM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-489-NSVmgOO5Mnatmq22fc_JTg-1; Mon, 21 Dec 2020 04:52:16 -0500
+X-MC-Unique: NSVmgOO5Mnatmq22fc_JTg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AFE81005513;
+ Mon, 21 Dec 2020 09:52:14 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
+ [10.36.112.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78F1160C67;
+ Mon, 21 Dec 2020 09:52:09 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8505A16E16; Mon, 21 Dec 2020 10:52:08 +0100 (CET)
+Date: Mon, 21 Dec 2020 10:52:08 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH v2 0/8] hm/mips/fuloong2e fixes
+Message-ID: <20201221095208.rmv3pvdy76vj7f7f@sirius.home.kraxel.org>
+References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
+ <516bc88e-d49-94f9-b4a2-a9d31e9026@eik.bme.hu>
+ <5cb09aab-f425-4faa-969d-9df324768af2@www.fastmail.com>
+ <b3e15e5d-2ecf-9364-1963-3d6dae5b7b7@eik.bme.hu>
 MIME-Version: 1.0
-In-Reply-To: <608f9aff-965f-62ee-6034-c61f98213200@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-21_02:2020-12-19,
- 2020-12-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- priorityscore=1501 adultscore=0 suspectscore=0 clxscore=1015
- lowpriorityscore=0 phishscore=0 malwarescore=0 impostorscore=0 spamscore=0
- mlxscore=0 mlxlogscore=892 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012210057
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -59
-X-Spam_score: -6.0
-X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.299,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <b3e15e5d-2ecf-9364-1963-3d6dae5b7b7@eik.bme.hu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,70 +81,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Matthew Rosato <mjrosato@linux.ibm.com>, david@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org
+Cc: chenhuacai@kernel.org, qemu-devel@nongnu.org, wainersm@redhat.com,
+ f4bug@amsat.org, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 12/18/20 6:05 PM, Pierre Morel wrote:
+> > To be more specified, our x86emu in PMON can handle i386 real mode,
+> > however vgabios-ati uses INT15h when INT10h ax=0x4f01 (Get VESA Mode)
+> > is called. And x86emu won't process INT15h properly.
+> > 
+> > My workround[1] is to allow 0x4f01 to be failed in PMON, as ax=0x4f02
+> > (Set VESA Mode) do work, it won't be a actual problem.
 > 
-> 
-> On 12/18/20 5:51 PM, Cornelia Huck wrote:
->> On Fri, 18 Dec 2020 17:40:50 +0100
->> Pierre Morel <pmorel@linux.ibm.com> wrote:
->>
->>> On 12/18/20 4:32 PM, Cornelia Huck wrote:
->>>> On Fri, 18 Dec 2020 15:32:08 +0100
->>>> Pierre Morel <pmorel@linux.ibm.com> wrote:
->>>>> On 12/18/20 12:04 PM, Cornelia Huck wrote:
->>>>>> On Fri, 18 Dec 2020 10:37:38 +0100
->>>>>> Pierre Morel <pmorel@linux.ibm.com> wrote:
->>>>>>> On 12/17/20 11:16 PM, Matthew Rosato wrote:
->>>>>>>> In pcistb_service_handler, a call is made to validate that the 
->>>>>>>> memory
->>>>>>>> region can be accessed.  However, the call is made using the 
->>>>>>>> entire length
->>>>>>>> of the pcistb operation, which can be larger than the allowed 
->>>>>>>> memory
->>>>>>>> access size (8).  Since we already know that the provided buffer 
->>>>>>>> is a
->>>>>>>> multiple of 8, fix the call to memory_region_access_valid to 
->>>>>>>> iterate
->>>>>>>> over the memory region in the same way as the subsequent call to
->>>>>>>> memory_region_dispatch_write.
->>>>>>>>
->>>>>>>> Fixes: 863f6f52b7 ("s390: implement pci instructions")
->>>>>>>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->>>>>>>> ---
+> Adding Gerd who is the vgabios maintainer and added the VESA mode support so
+> he knows about this even if no fix is needed but maybe he knows a simple way
+> to work around it anyway.
 
-...snip...
+Hmm, memcpy_high() uses int15.  memcpy_high() is used to access the
+framebuffer, and there isn't a way around it.  From a quick scan of the
+source code I can't see why "get mode" uses that though.  "set mode" will
+call it to clear the screen (unless the noclearmem flag is set).
 
->>>>
->>>
->>> The ops already exist, I thought adding a dedicated callback for s390 on
->>> every regions used by vfio_pci instead of the default.
->>> But it does not add a lot, just looks cleaner to me.
->>
->> But we end up here for every pci device, not just for vfio devices,
->> don't we?
->>
->>
-> 
-> Yes, but isn't what is done here?
-> 
+take care,
+  Gerd
 
-It was not my intention to slow the integration process.
-We can start with this fix and eventually move the code to the callback 
-in another series when/if we all agree.
-
-Acked-by: Pierre Morel <pmorel@linux.ibm.com>
-
-
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
