@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256BA2DFC67
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:49:39 +0100 (CET)
-Received: from localhost ([::1]:54308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8282DFC65
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:47:43 +0100 (CET)
+Received: from localhost ([::1]:48104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krLZC-0000yO-6K
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:49:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58340)
+	id 1krLXK-0006p3-Jo
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:47:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krLV7-0005QJ-A2
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:45:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21523)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krLV6-0005PZ-DA
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:45:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krLV3-0003XU-Kv
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:45:25 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krLV1-0003WS-SV
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:45:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608558320;
+ s=mimecast20190719; t=1608558318;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G82qgwCpQt/kqZyPE+ExwIhpZPrxCfodPJCygbB634c=;
- b=ewkgYM19GgGXQEK86pxjRBWTMrfM4Tv6NhVPJTBUCjK/E7VBAHWeABWCGI/aLiUlgZSdfB
- XspunwHKjJ19WujE2++J3IMBzpZUray7wQ+MBoELPmG6/88qqVvh84/FunBnvUs9CqLH4R
- auYW2UQ/5gQ2WRBUy+RAfxmTm5kaN1M=
+ bh=XtQzKNXjYD4lFF08F+TTwiC5ZxxU5jwPrRyrZnivy38=;
+ b=XI0Kd/Y/kaSJ8yUe0IBpDpvJVoDHozDnTEkNRCLnxnMstrs776dN+thNVORwW4GP4NWd42
+ t2RL7CiFQoe3OgyucAP22br9Svf6GGoSP7NvqrncbIWtDAuOUW7DiipJTrxl2AsCNXW70L
+ LhyOIhLv6NWXVuvhykW8YW0BGXGYI9I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-Kc_vZdC8MhivI-SuTdWELQ-1; Mon, 21 Dec 2020 08:45:14 -0500
-X-MC-Unique: Kc_vZdC8MhivI-SuTdWELQ-1
+ us-mta-343-ePtAD-PHOFKiiU2UWhBU0g-1; Mon, 21 Dec 2020 08:45:16 -0500
+X-MC-Unique: ePtAD-PHOFKiiU2UWhBU0g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68DDE107ACE6;
- Mon, 21 Dec 2020 13:45:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10D7B800D55;
+ Mon, 21 Dec 2020 13:45:15 +0000 (UTC)
 Received: from thuth.com (ovpn-113-232.ams2.redhat.com [10.36.113.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B94345D9CA;
- Mon, 21 Dec 2020 13:45:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C6F7D5D9CA;
+ Mon, 21 Dec 2020 13:45:13 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 1/5] fuzz: Add more i386 configurations for fuzzing
-Date: Mon, 21 Dec 2020 14:45:00 +0100
-Message-Id: <20201221134504.764-2-thuth@redhat.com>
+Subject: [PULL 2/5] fuzz: fix the generic-fuzz-floppy config
+Date: Mon, 21 Dec 2020 14:45:01 +0100
+Message-Id: <20201221134504.764-3-thuth@redhat.com>
 In-Reply-To: <20201221134504.764-1-thuth@redhat.com>
 References: <20201221134504.764-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -54,16 +54,16 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,129 +85,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
-This adds configurations for fuzzing the following devices on oss-fuzz:
-
-* vmxnet3
-CC: Dmitry Fleytman <dmitry.fleytman@gmail.com>
-* ne2k
-* pcnet
-* rtl8139
-CC: Jason Wang <jasowang@redhat.com>
-* eepro100
-CC: Stefan Weil <sw@weilnetz.de>
-* sdhci
-CC: Philippe Mathieu-Daudé <f4bug@amsat.org>
-* ehci
-* ohci
-* ac97
-* cs4231a
-* es1370
-* sb16
-CC: Gerd Hoffmann <kraxel@redhat.com>
-* megasas
-CC: Hannes Reinecke <hare@suse.com>
-* parallel
-CC: Michael S. Tsirkin <mst@redhat.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
+On the pc-i440fx machine, the floppy drive relies on the i8257 DMA
+controller. Add this device to the floppy fuzzer config, and silence the
+warning about a missing format specifier for the null-co:// drive.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20201123184352.242907-1-alxndr@bu.edu>
+Message-Id: <20201216203328.41112-1-alxndr@bu.edu>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/fuzz/generic_fuzz_configs.h | 80 +++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+ tests/qtest/fuzz/generic_fuzz_configs.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-index b4c5fefeca..fbc9779f7f 100644
+index fbc9779f7f..7fed035345 100644
 --- a/tests/qtest/fuzz/generic_fuzz_configs.h
 +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-@@ -114,6 +114,86 @@ const generic_fuzz_config predefined_configs[] = {
-         .name = "pc-q35",
-         .args = "-machine q35",
-         .objects = "*",
-+    },{
-+        .name = "vmxnet3",
-+        .args = "-machine q35 -nodefaults "
-+        "-device vmxnet3,netdev=net0 -netdev user,id=net0",
-+        .objects = "vmxnet3"
-+    },{
-+        .name = "ne2k_pci",
-+        .args = "-machine q35 -nodefaults "
-+        "-device ne2k_pci,netdev=net0 -netdev user,id=net0",
-+        .objects = "ne2k*"
-+    },{
-+        .name = "pcnet",
-+        .args = "-machine q35 -nodefaults "
-+        "-device pcnet,netdev=net0 -netdev user,id=net0",
-+        .objects = "pcnet"
-+    },{
-+        .name = "rtl8139",
-+        .args = "-machine q35 -nodefaults "
-+        "-device rtl8139,netdev=net0 -netdev user,id=net0",
-+        .objects = "rtl8139"
-+    },{
-+        .name = "i82550",
-+        .args = "-machine q35 -nodefaults "
-+        "-device i82550,netdev=net0 -netdev user,id=net0",
-+        .objects = "eepro*"
-+    },{
-+        .name = "sdhci-v3",
-+        .args = "-nodefaults -device sdhci-pci,sd-spec-version=3 "
-+        "-device sd-card,drive=mydrive "
-+        "-drive if=sd,index=0,file=null-co://,format=raw,id=mydrive -nographic",
-+        .objects = "sd*"
-+    },{
-+        .name = "ehci",
-+        .args = "-machine q35 -nodefaults "
-+        "-device ich9-usb-ehci1,bus=pcie.0,addr=1d.7,"
-+        "multifunction=on,id=ich9-ehci-1 "
-+        "-device ich9-usb-uhci1,bus=pcie.0,addr=1d.0,"
-+        "multifunction=on,masterbus=ich9-ehci-1.0,firstport=0 "
-+        "-device ich9-usb-uhci2,bus=pcie.0,addr=1d.1,"
-+        "multifunction=on,masterbus=ich9-ehci-1.0,firstport=2 "
-+        "-device ich9-usb-uhci3,bus=pcie.0,addr=1d.2,"
-+        "multifunction=on,masterbus=ich9-ehci-1.0,firstport=4 "
-+        "-drive if=none,id=usbcdrom,media=cdrom "
-+        "-device usb-tablet,bus=ich9-ehci-1.0,port=1,usb_version=1 "
-+        "-device usb-storage,bus=ich9-ehci-1.0,port=2,drive=usbcdrom",
-+        .objects = "*usb* *hci*",
-+    },{
-+        .name = "ohci",
-+        .args = "-machine q35 -nodefaults  -device pci-ohci -device usb-kbd",
-+        .objects = "*usb* *ohci*",
-+    },{
-+        .name = "megaraid",
-+        .args = "-machine q35 -nodefaults -device megasas -device scsi-cd,drive=null0 "
-+        "-blockdev driver=null-co,read-zeroes=on,node-name=null0",
-+        .objects = "megasas*",
-+    },{
-+        .name = "ac97",
-+        .args = "-machine q35 -nodefaults "
-+        "-device ac97,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
-+        .objects = "ac97*",
-+    },{
-+        .name = "cs4231a",
-+        .args = "-machine q35 -nodefaults "
-+        "-device cs4231a,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
-+        .objects = "cs4231a* i8257*",
-+    },{
-+        .name = "es1370",
-+        .args = "-machine q35 -nodefaults "
-+        "-device es1370,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
-+        .objects = "es1370*",
-+    },{
-+        .name = "sb16",
-+        .args = "-machine q35 -nodefaults "
-+        "-device sb16,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
-+        .objects = "sb16* i8257*",
-+    },{
-+        .name = "parallel",
-+        .args = "-machine q35 -nodefaults "
-+        "-parallel file:/dev/null",
-+        .objects = "parallel*",
-     }
- };
- 
+@@ -92,9 +92,9 @@ const generic_fuzz_config predefined_configs[] = {
+     },{
+         .name = "floppy",
+         .args = "-machine pc -nodefaults -device floppy,id=floppy0 "
+-        "-drive id=disk0,file=null-co://,file.read-zeroes=on,if=none "
++        "-drive id=disk0,file=null-co://,file.read-zeroes=on,if=none,format=raw "
+         "-device floppy,drive=disk0,drive-type=288",
+-        .objects = "fd* floppy*",
++        .objects = "fd* floppy* i8257",
+     },{
+         .name = "xhci",
+         .args = "-machine q35 -nodefaults "
 -- 
 2.27.0
 
