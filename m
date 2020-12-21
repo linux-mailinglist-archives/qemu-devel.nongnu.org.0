@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548F92DFA10
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 09:42:41 +0100 (CET)
-Received: from localhost ([::1]:44752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21AB22DFA0F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 09:42:32 +0100 (CET)
+Received: from localhost ([::1]:44106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krGm8-0000Ab-CG
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 03:42:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52810)
+	id 1krGly-0008Lh-PU
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 03:42:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1krGkb-0007kg-K8
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 03:41:05 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41904)
+ id 1krGkS-0007cW-IZ
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 03:40:56 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1krGkZ-0005RP-Nj
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 03:41:05 -0500
+ id 1krGkP-0005NP-Ox
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 03:40:56 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1krGkX-0000tb-L4
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 08:41:01 +0000
+ id 1krGkM-0000iH-5t
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 08:40:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 61B042E8148
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 08:41:01 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2AE062E8139
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 08:40:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 21 Dec 2020 08:33:02 -0000
-From: Thomas Huth <1884990@bugs.launchpad.net>
+Date: Mon, 21 Dec 2020 08:35:40 -0000
+From: Thomas Huth <1908450@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=jsnow@redhat.com; 
+X-Launchpad-Bug-Tags: ata atapi ide identify x86
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kvanals philmd th-huth
-X-Launchpad-Bug-Reporter: Kenneth Van Alstyne (kvanals)
+X-Launchpad-Bug-Commenters: gourryinverse th-huth
+X-Launchpad-Bug-Reporter: Gregory Price (gourryinverse)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159301342319.25339.2718719880566533302.malonedeb@gac.canonical.com>
-Message-Id: <160853958222.28187.4523789356940435325.malone@gac.canonical.com>
-Subject: [Bug 1884990] Re: Cirrus graphics results in monochrome colour depth
- at 640x480 resolution
+References: <160815666653.31417.1447357912774624366.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160853974077.12208.2344520758063471744.malone@chaenomeles.canonical.com>
+Subject: [Bug 1908450] Re: ide/core.c ATA Major Version reporting incorrect
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: b971b861adbed00ef94206fdd0971fe73523705c
+X-Launchpad-Hash: 5947d64600bb5cd2472c4b81b748e1fdb475361d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,45 +71,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884990 <1884990@bugs.launchpad.net>
+Reply-To: Bug 1908450 <1908450@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patch mentioned by Philippe ("vga: fix cirrus bios") has been included =
-into QEMU via this commit here:
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dde15df5ead400b7c3d0cf2
-... which has been released as part of QEMU v5.1 already. Thus this issue s=
-hould be fixed now.
+John, could you please have a look?
 
 ** Changed in: qemu
-       Status: New =3D> Fix Released
+     Assignee: (unassigned) =3D> John Snow (jnsnow)
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884990
+https://bugs.launchpad.net/bugs/1908450
 
 Title:
-  Cirrus graphics results in monochrome colour depth at 640x480
-  resolution
+  ide/core.c ATA Major Version reporting incorrect
 
 Status in QEMU:
-  Fix Released
+  New
 
 Bug description:
-  Recently we upgraded to a distribution that bundled QEMU 4.2.0.  We
-  were previously running on QEMU 3.0.0.  When booting Windows 10 VMs on
-  x86_64, users experienced slow, monochrome graphics and the resolution
-  was restricted to 640x480.  Reverting to the prior vgabios-cirrus.bin
-  from the prior source tarball remediated the issue.
+  @@ -165,7 +165,7 @@ static void ide_identify(IDEState *s)
+          put_le16(p + 76, (1 << 8));
+      }
 
-  An example QEMU command line is below, if needed:
-  /bin/qemu-system-x86_64 -vnc 0.0.0.0:100 -device cirrus-vga,id=3Dvideo0,b=
-us=3Dpci.0,addr=3D0x2  -machine pc-i440fx-4.2,accel=3Dkvm,usb=3Doff,dump-gu=
-est-core=3Doff -cpu qemu64 -m 2048 -overcommit mem-lock=3Doff -smp 1,socket=
-s=3D1,cores=3D1,threads=3D1 -no-user-config -nodefaults -hda test.raw &
+      put_le16(p + 80, 0xf0); /* ata3 -> ata6 supported */
+  -   put_le16(p + 80, 0xf0); /* ata3 -> ata6 supported */
+  +   put_le16(p + 80, ((1 << 6) | (1 << 5) (1 << 4) (1 << 3)); /* ata3 -> =
+ata6 supported */
+      put_le16(p + 81, 0x16); /* conforms to ata5 */
+      /* 14=3DNOP supported, 5=3DWCACHE supported, 0=3DSMART supported */
+      put_le16(p + 82, (1 << 14) | (1 << 5) | 1);
+
+  =
+
+  This field Major Version Number field is presently reporting support for =
+ATA-4 through ATA-7.
+  Bitfield[80] is defined in the ATA-6 specification below.
+
+  0xF0 =3D (1<<7) | (1<<6) | (1 << 5) | (1 << 4) // 4-7 - current settings
+  0x78 =3D (1<<6) | (1<<5) | (1 << 4) | (1 << 3) // 3-6 - new settings
+
+  Either the comment is wrong, or the field is wrong. If the field is
+  wrong it can cause errors in drivers that check support vs conformity.
+  This will not break most guests, since the conformity field is set to
+  ATA-5.
+
+  I'm not sure whether this component supports ATA-7, but since it's
+  commented as if it supports up through 6, correcting the field
+  assignment seems more correct.
+
+  ATA/ATAPI-6 Specification
+  https://web.archive.org/web/20200124094822/https://www.t13.org/Documents/=
+UploadedDocuments/project/d1410r3b-ATA-ATAPI-6.pdf
+
+  Page 116
+  80 - M Major version number
+  0000h or FFFFh =3D device does not report version
+  F 15 Reserved
+  F 14 Reserved for ATA/ATAPI-14
+  F 13 Reserved for ATA/ATAPI-13
+  F 12 Reserved for ATA/ATAPI-12
+  F 11 Reserved for ATA/ATAPI-11
+  F 10 Reserved for ATA/ATAPI-10
+  F 9 Reserved for ATA/ATAPI-9
+  F 8 Reserved for ATA/ATAPI-8
+  F 7 Reserved for ATA/ATAPI-7
+  F 6 1 =3D supports ATA/ATAPI-6
+  F 5 1 =3D supports ATA/ATAPI-5
+  F 4 1 =3D supports ATA/ATAPI-4
+  F 3 1 =3D supports ATA-3
+  X 2 Obsolete
+  X 1 Obsolete
+  F 0 Reserved
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884990/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1908450/+subscriptions
 
