@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040612DFC4E
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:29:38 +0100 (CET)
-Received: from localhost ([::1]:58806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F54A2DFC52
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:32:57 +0100 (CET)
+Received: from localhost ([::1]:34474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krLFp-0006Le-3p
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:29:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53746)
+	id 1krLJ0-00089O-Bx
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:32:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1krLCB-0004xT-RO
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:25:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50097)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krLEE-0005ey-MV
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:28:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1krLC6-00056N-PK
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:25:51 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krLE5-0005mP-PW
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:27:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608557145;
+ s=mimecast20190719; t=1608557269;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P+lPXiAL1rTSS5/AHiHxE3G6s4PPGu7F7Esp739Z0X0=;
- b=PmXTBDH8CLo0NzH2DfE+U5asg73Efw4qlf+b5L6qw18GeS5RyEj3AO4yfUHuFrEaR1mhea
- YJRB7FfaXedZHrMBpp5uUQVkFVicybSu2djolv7Kwr0evHFR6oyQ2c8Azs1p+56seBlo0i
- 9gz4Tz3ABNF7eFKvckMWHP48EV3udqE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-R5IYl3rcPsCNqXZNc5lsNw-1; Mon, 21 Dec 2020 08:25:43 -0500
-X-MC-Unique: R5IYl3rcPsCNqXZNc5lsNw-1
-Received: by mail-wr1-f71.google.com with SMTP id w8so8416551wrv.18
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 05:25:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=P+lPXiAL1rTSS5/AHiHxE3G6s4PPGu7F7Esp739Z0X0=;
- b=ddmoMOkcG5OIrNje2Edi3gYEMNiy/Zuun8NvsS5l77QUUjY5qJz4a6xn4L5ZEA7CMu
- I8eifNL9a7JA3EctvQGDIsuMXa/ckWyMyOmSR0l37dVvU/ueRLvFsXCT2sH67KACmUZx
- jMzJm7Ki635QhB+Z2d3xH+aY6WVsD+nutot6FZfHXPoV02gzvigMEVBGQPyoKJX9vme8
- 216+sDNw9/hfKkROYMlOxu7XeqCv0IubEKkDxYucDp6zXTvlHRH969YScOgPT+hxauUp
- 9GL4Gnw9jgEedmclroGjCQUIk4X+/hxk4jnpkITJ+Nu1h5HvN/R+d6lzEPkDB7KKhXL1
- kfTw==
-X-Gm-Message-State: AOAM532XWKzYI/iEn1jeCMUTEeNPvi23MbpfuD24aedX0pxt3OressfS
- 6bBALLxRTlfTr/kpn66cq7W7FT6AFbw7bLm054g6PUEZ0MMk8sWga8L4H1QYVDq4lBh/gbfMI0f
- 12o7eeEumD8ajgWQ=
-X-Received: by 2002:a1c:5fd4:: with SMTP id t203mr16129261wmb.15.1608557142234; 
- Mon, 21 Dec 2020 05:25:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwS4zdbPIJuttgyVd890lszMc0dQ64yf3/RVbnjEILkCcWMKHt6/o62at+CoZnkm06RTTpxIg==
-X-Received: by 2002:a1c:5fd4:: with SMTP id t203mr16129243wmb.15.1608557141995; 
- Mon, 21 Dec 2020 05:25:41 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id i16sm26247035wrx.89.2020.12.21.05.25.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Dec 2020 05:25:41 -0800 (PST)
-Subject: Re: [PATCH] Docs/RCU: Correct sample code of qatomic_rcu_set
-To: Keqian Zhu <zhukeqian1@huawei.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20201221121745.27156-1-zhukeqian1@huawei.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <2acdeb6f-6763-7332-e3f2-6d9cf9acf5ae@redhat.com>
-Date: Mon, 21 Dec 2020 14:25:39 +0100
+ bh=P9cTClNsFwFAtCANtaqSj5LQNzF5pNElQkz2VVZ8hK0=;
+ b=C29txoXNY2HnLqaU8VriuU9f3bxBbAmTD0Zoc3uFFN4lfvqgMSuND+fXCO5nVEWAiWFUoz
+ f82SdNznTmv7dwzKuYee+pXxEDM5VGZ+GfIPzkGlSens3a62NMK68XkY0QnuqZzBdJ64N9
+ 9mC/cxQHjQfmbf1IrxOsLuS+u03l25o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-360-QqJENMNGN0OotObYFzodCQ-1; Mon, 21 Dec 2020 08:27:46 -0500
+X-MC-Unique: QqJENMNGN0OotObYFzodCQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D66419251A7;
+ Mon, 21 Dec 2020 13:27:45 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-232.ams2.redhat.com [10.36.113.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0428A5C3F8;
+ Mon, 21 Dec 2020 13:27:36 +0000 (UTC)
+Subject: Re: [PATCH v2] tests/acceptance: Add a test with the Fedora 31 kernel
+ and initrd
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org, 
+ Cornelia Huck <cohuck@redhat.com>
+References: <20201217085334.211772-1-thuth@redhat.com>
+ <42f7ec3e-9e16-ea84-5ed4-566d5175390d@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <95126ee2-40a3-be4b-a1af-da973bc94f14@redhat.com>
+Date: Mon, 21 Dec 2020 14:27:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201221121745.27156-1-zhukeqian1@huawei.com>
+In-Reply-To: <42f7ec3e-9e16-ea84-5ed4-566d5175390d@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -88,7 +70,7 @@ X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-1.233, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,37 +83,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, qemu-arm@nongnu.org, wanghaibin.wang@huawei.com
+Cc: Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/12/20 13:17, Keqian Zhu wrote:
-> Correct sample code to avoid confusing readers.
+On 18/12/2020 16.05, Wainer dos Santos Moschetta wrote:
+> Hi,
 > 
-> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
-> ---
->   docs/devel/rcu.txt | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/docs/devel/rcu.txt b/docs/devel/rcu.txt
-> index cdf002edd8..2e6cc607a1 100644
-> --- a/docs/devel/rcu.txt
-> +++ b/docs/devel/rcu.txt
-> @@ -392,7 +392,7 @@ Instead, we store the size of the array with the array itself:
->   
->               /* Removal phase.  */
->               old_array = global_array;
-> -            qatomic_rcu_set(&new_array->data, new_array);
-> +            qatomic_rcu_set(&global_array, new_array);
->               synchronize_rcu();
->   
->               /* Reclamation phase.  */
-> 
+> On 12/17/20 5:53 AM, Thomas Huth wrote:
+>> This initrd contains a virtio-net and a virtio-gpu kernel module,
+>> so we can check that we can set a MAC address for the network device
+>> and whether we can hot-plug and -unplug a virtio-crypto device.
+>> But the most interesting part is maybe that we can also successfully
+>> write some stuff into the emulated framebuffer of the virtio-gpu
+>> device and make sure that we can read back that data from a screenshot.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   Based-on: 20201215183623.110128-1-thuth@redhat.com
+>>
+>>   v2:
+>>   - Uncompress the initrd on the host already to speed up the test
+>>   - Disable plymouth to seepd up the test
+>>   - Check for device numbers
+>>   - Added virtio-crypto test
+>>   - Added ":avocado: tags=device:" lines
+>>
+>>   tests/acceptance/machine_s390_ccw_virtio.py | 111 ++++++++++++++++++++
+>>   1 file changed, 111 insertions(+)
+>>
+>> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py
+>> b/tests/acceptance/machine_s390_ccw_virtio.py
+>> index abe25a08f0..a9a0f8a8e2 100644
+>> --- a/tests/acceptance/machine_s390_ccw_virtio.py
+>> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
+>> @@ -9,10 +9,14 @@
+>>   # This work is licensed under the terms of the GNU GPL, version 2 or
+>>   # later.  See the COPYING file in the top-level directory.
+>>   +import os
+>> +import re
+> 're' is not used.
 
-Cc: qemu-trivial@nongnu.org
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Right, leftover from a first try to parse the screendump file. Will remove it.
+
+>> +import tempfile
+>>     from avocado_qemu import Test
+>>   from avocado_qemu import exec_command_and_wait_for_pattern
+>>   from avocado_qemu import wait_for_console_pattern
+>> +from avocado.utils import archive
+>>     class S390CCWVirtioMachine(Test):
+>>       KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
+>> @@ -150,3 +154,110 @@ class S390CCWVirtioMachine(Test):
+>>           self.vm.command('human-monitor-command', command_line='balloon
+>> 128')
+>>           exec_command_and_wait_for_pattern(self, 'head -n 1 /proc/meminfo',
+>>                                             'MemTotal:         115640 kB')
+>> +
+>> +
+>> +    def test_s390x_fedora(self):
+>> +
+>> +        """
+>> +        :avocado: tags=arch:s390x
+>> +        :avocado: tags=machine:s390-ccw-virtio
+>> +        :avocado: tags=device:virtio-gpu
+>> +        :avocado: tags=device:virtio-crypto
+>> +        :avocado: tags=device:virtio-net
+>> +        """
+>> +
+>> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
+>> +                      '/fedora-secondary/releases/31/Server/s390x/os'
+>> +                      '/images/kernel.img')
+>> +        kernel_hash = 'b93d1efcafcf29c1673a4ce371a1f8b43941cfeb'
+>> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>> +
+>> +        initrd_url = ('https://archives.fedoraproject.org/pub/archive'
+>> +                      '/fedora-secondary/releases/31/Server/s390x/os'
+>> +                      '/images/initrd.img')
+>> +        initrd_hash = '3de45d411df5624b8d8ef21cd0b44419ab59b12f'
+>> +        initrd_path_xz = self.fetch_asset(initrd_url,
+>> asset_hash=initrd_hash)
+>> +        initrd_path = os.path.join(self.workdir, 'initrd-raw.img')
+>> +        archive.lzma_uncompress(initrd_path_xz, initrd_path)
+>> +
+>> +        self.vm.set_console()
+>> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE + ' audit=0 '
+>> +                              'rd.plymouth=0 plymouth.enable=0 rd.rescue')
+>> +        self.vm.add_args('-nographic',
+>> +                         '-smp', '4',
+>> +                         '-m', '512',
+>> +                         '-name', 'Some Guest Name',
+>> +                         '-uuid', '30de4fd9-b4d5-409e-86a5-09b387f70bfa',
+>> +                         '-kernel', kernel_path,
+>> +                         '-initrd', initrd_path,
+>> +                         '-append', kernel_command_line,
+>> +                         '-device', 'zpci,uid=7,target=n',
+>> +                         '-device',
+>> 'virtio-net-pci,id=n,mac=02:ca:fe:fa:ce:12',
+>> +                         '-device', 'virtio-rng-ccw,devno=fe.1.9876',
+>> +                         '-device', 'virtio-gpu-ccw,devno=fe.2.5432')
+>> +        self.vm.launch()
+>> +        self.wait_for_console_pattern('Entering emergency mode')
+>> +
+>> +        # Some tests to see whether the CLI options have been considered:
+>> +        exec_command_and_wait_for_pattern(self, 'lspci',
+>> +                             '0007:00:00.0 Class 0200: Device 1af4:1000')
+>> +        exec_command_and_wait_for_pattern(self,
+>> +                             'cat /sys/class/net/enP7p0s0/address',
+>> +                             '02:ca:fe:fa:ce:12')
+>> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
+>> +                             '0.1.9876')
+>> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
+>> +                             '0.2.5432')
+>> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
+>> +                             'processors    : 4')
+>> +        exec_command_and_wait_for_pattern(self, 'grep MemTotal
+>> /proc/meminfo',
+>> +                             'MemTotal:         499848 kB')
+>> +        exec_command_and_wait_for_pattern(self, 'grep Name /proc/sysinfo',
+>> +                             'Extended Name:   Some Guest Name')
+>> +        exec_command_and_wait_for_pattern(self, 'grep UUID /proc/sysinfo',
+>> +                             '30de4fd9-b4d5-409e-86a5-09b387f70bfa')
+>> +
+>> +        # Disable blinking cursor, then write some stuff into the
+>> framebuffer.
+>> +        # QEMU's PPM screendumps contain uncompressed 24-bit values,
+>> while the
+>> +        # framebuffer uses 32-bit, so we pad our text with some spaces when
+>> +        # writing to the framebuffer. Since the PPM is uncompressed, we then
+>> +        # can simply read the written "magic bytes" back from the PPM
+>> file to
+>> +        # check whether the framebuffer is working as expected.
+>> +        exec_command_and_wait_for_pattern(self,
+>> +            'echo -e "\e[?25l" > /dev/tty0', ':/#')
+>> +        exec_command_and_wait_for_pattern(self, 'for ((i=0;i<250;i++)); do '
+>> +            'echo " The  qu ick  fo x j ump s o ver  a  laz y d og" >>
+>> fox.txt;'
+>> +            'done',
+>> +            ':/#')
+>> +        exec_command_and_wait_for_pattern(self,
+>> +            'dd if=fox.txt of=/dev/fb0 bs=1000 oflag=sync,nocache ; rm
+>> fox.txt',
+>> +            '12+0 records out')
+>> +        tmpfile = tempfile.NamedTemporaryFile(suffix='.ppm',
+>> +                                              prefix='qemu-scrdump-')
+>> +        self.vm.command('screendump', filename=tmpfile.name)
+>> +        ppmfile = open(tmpfile.name, "r")
+>> +        tmpfile.close
+>> +        line = ppmfile.readline()
+>> +        self.assertEqual(line, "P6\n")
+>> +        line = ppmfile.readline()
+>> +        self.assertEqual(line, "1024 768\n")
+>> +        line = ppmfile.readline()
+>> +        self.assertEqual(line, "255\n")
+>> +        line = ppmfile.readline()
+>> +        self.assertEqual(line, "The quick fox jumps over a lazy dog\n")
+>> +        ppmfile.close
+> 
+> In case you don't want to deal with 2 tmp files (and manually close them),
+> here goes a suggestion:
+> 
+>         with tempfile.NamedTemporaryFile(suffix='.ppm',
+>                 prefix='qemu-scrdump-') as ppmfile:
+>             self.vm.command('screendump', filename=ppmfile.name)
+>             ppmfile.seek(0)
+>             line = ppmfile.readline()
+>             self.assertEqual(line, b"P6\n")
+>             line = ppmfile.readline()
+>             self.assertEqual(line, b"1024 768\n")
+>             line = ppmfile.readline()
+>             self.assertEqual(line, b"255\n")
+>             line = ppmfile.readline()
+>             self.assertEqual(line, b"The quick fox jumps over a lazy dog\n")
+
+Nice, seems to work, thanks, I'll use that instead.
+
+>> +
+>> +        # Hot-plug a virtio-crypto device and see whether it gets accepted
+> 
+> Yet another suggestion. The other day Cornelia asked how to make it easier
+> to debug those asserts since it's being tested various conditions on a
+> single test method (for the sake of speed). One simple thing would be print
+> 'info' to the test logs, e.g.:
+> 
+> self.log.info("Test hot-plug virtio-crypto device")
+
+Good idea, I'll add some of these log statements!
+
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+Thanks!
+
+ Thomas
 
 
