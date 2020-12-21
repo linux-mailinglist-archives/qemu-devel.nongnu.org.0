@@ -2,61 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FAA62DFBBE
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 13:11:47 +0100 (CET)
-Received: from localhost ([::1]:45552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A14002DFBC9
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 13:21:37 +0100 (CET)
+Received: from localhost ([::1]:48612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krK2U-00077p-H7
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 07:11:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37724)
+	id 1krKC0-0000TN-Ex
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 07:21:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1krK01-0005tn-Uf
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:09:13 -0500
-Received: from 8.mo52.mail-out.ovh.net ([46.105.37.156]:52928)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1krKAC-0008Es-4B; Mon, 21 Dec 2020 07:19:44 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1krJzx-0002yr-Nk
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 07:09:13 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.109])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 695F5227354;
- Mon, 21 Dec 2020 13:08:57 +0100 (CET)
-Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 21 Dec
- 2020 13:08:56 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G0047275a6ac-0198-4f93-8c12-4b8715e7639d,
- 0B619508FA83EFFE02DCDB9DB2C04BF8DACB1B13) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Mon, 21 Dec 2020 13:08:53 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Subject: Re: [RFC Qemu PATCH v2 1/2] spapr: drc: Add support for async
- hcalls at the drc level
-Message-ID: <20201221130853.15c8ddfd@bahia.lan>
-In-Reply-To: <160674938210.2492771.1728601884822491679.stgit@lep8c.aus.stglabs.ibm.com>
-References: <160674929554.2492771.17651548703390170573.stgit@lep8c.aus.stglabs.ibm.com>
- <160674938210.2492771.1728601884822491679.stgit@lep8c.aus.stglabs.ibm.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1krKA9-0006jv-Qy; Mon, 21 Dec 2020 07:19:43 -0500
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Czz604rV6zhwKc;
+ Mon, 21 Dec 2020 20:18:48 +0800 (CST)
+Received: from DESKTOP-5IS4806.china.huawei.com (10.174.187.37) by
+ DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 21 Dec 2020 20:19:22 +0800
+From: Keqian Zhu <zhukeqian1@huawei.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, "Stefan
+ Hajnoczi" <stefanha@redhat.com>
+Subject: [PATCH] Docs/RCU: Correct sample code of qatomic_rcu_set
+Date: Mon, 21 Dec 2020 20:17:45 +0800
+Message-ID: <20201221121745.27156-1-zhukeqian1@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 0df8e716-f94e-48de-ade1-7d540f1743ac
-X-Ovh-Tracer-Id: 10401344817370339771
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvddtvddggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheplhhinhhugihpphgtqdguvghvsehlihhsthhsrdhoiihlrggsshdrohhrgh
-Received-SPF: pass client-ip=46.105.37.156; envelope-from=groug@kaod.org;
- helo=8.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.37]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=zhukeqian1@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,308 +55,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, aneesh.kumar@linux.ibm.com,
- linux-nvdimm@lists.01.org, qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org,
- shivaprasadbhat@gmail.com, qemu-ppc@nongnu.org, bharata@linux.vnet.ibm.com,
- imammedo@redhat.com, linuxppc-dev@lists.ozlabs.org,
- david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, qemu-arm@nongnu.org, wanghaibin.wang@huawei.com,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Shiva,
+Correct sample code to avoid confusing readers.
 
-On Mon, 30 Nov 2020 09:16:39 -0600
-Shivaprasad G Bhat <sbhat@linux.ibm.com> wrote:
+Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+---
+ docs/devel/rcu.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> The patch adds support for async hcalls at the DRC level for the
-> spapr devices. To be used by spapr-scm devices in the patch/es to follow.
-> 
-> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-> ---
-
-The overall idea looks good but I think you should consider using
-a thread pool to implement it. See below.
-
->  hw/ppc/spapr_drc.c         |  149 ++++++++++++++++++++++++++++++++++++++++++++
->  include/hw/ppc/spapr_drc.h |   25 +++++++
->  2 files changed, 174 insertions(+)
-> 
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index 77718cde1f..4ecd04f686 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -15,6 +15,7 @@
->  #include "qapi/qmp/qnull.h"
->  #include "cpu.h"
->  #include "qemu/cutils.h"
-> +#include "qemu/guest-random.h"
->  #include "hw/ppc/spapr_drc.h"
->  #include "qom/object.h"
->  #include "migration/vmstate.h"
-> @@ -421,6 +422,148 @@ void spapr_drc_detach(SpaprDrc *drc)
->      spapr_drc_release(drc);
->  }
->  
-> +
-> +/*
-> + * @drc : device DRC targetting which the async hcalls to be made.
-> + *
-> + * All subsequent requests to run/query the status should use the
-> + * unique token returned here.
-> + */
-> +uint64_t spapr_drc_get_new_async_hcall_token(SpaprDrc *drc)
-> +{
-> +    Error *err = NULL;
-> +    uint64_t token;
-> +    SpaprDrcDeviceAsyncHCallState *tmp, *next, *state;
-> +
-> +    state = g_malloc0(sizeof(*state));
-> +    state->pending = true;
-> +
-> +    qemu_mutex_lock(&drc->async_hcall_states_lock);
-> +retry:
-> +    if (qemu_guest_getrandom(&token, sizeof(token), &err) < 0) {
-> +        error_report_err(err);
-> +        g_free(state);
-> +        qemu_mutex_unlock(&drc->async_hcall_states_lock);
-> +        return 0;
-> +    }
-> +
-> +    if (!token) /* Token should be non-zero */
-> +        goto retry;
-> +
-> +    if (!QLIST_EMPTY(&drc->async_hcall_states)) {
-> +        QLIST_FOREACH_SAFE(tmp, &drc->async_hcall_states, node, next) {
-> +            if (tmp->continue_token == token) {
-> +                /* If the token already in use, get a new one */
-> +                goto retry;
-> +            }
-> +        }
-> +    }
-> +
-> +    state->continue_token = token;
-> +    QLIST_INSERT_HEAD(&drc->async_hcall_states, state, node);
-> +
-> +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
-> +
-> +    return state->continue_token;
-> +}
-> +
-> +static void *spapr_drc_async_hcall_runner(void *opaque)
-> +{
-> +    int response = -1;
-> +    SpaprDrcDeviceAsyncHCallState *state = opaque;
-> +
-> +    /*
-> +     * state is freed only after this thread finishes(after pthread_join()),
-> +     * don't worry about it becoming NULL.
-> +     */
-> +
-> +    response = state->func(state->data);
-> +
-> +    state->hcall_ret = response;
-> +    state->pending = 0;
-> +
-> +    return NULL;
-> +}
-> +
-> +/*
-> + * @drc  : device DRC targetting which the async hcalls to be made.
-> + * token : The continue token to be used for tracking as recived from
-> + *         spapr_drc_get_new_async_hcall_token
-> + * @func() : the worker function which needs to be executed asynchronously
-> + * @data : data to be passed to the asynchronous function. Worker is supposed
-> + *         to free/cleanup the data that is passed here
-
-It'd be cleaner to pass a completion callback and have free/cleanup handled there.
-
-> + */
-> +void spapr_drc_run_async_hcall(SpaprDrc *drc, uint64_t token,
-> +                               SpaprDrcAsyncHcallWorkerFunc *func, void *data)
-> +{
-> +    SpaprDrcDeviceAsyncHCallState *state;
-> +
-> +    qemu_mutex_lock(&drc->async_hcall_states_lock);
-> +    QLIST_FOREACH(state, &drc->async_hcall_states, node) {
-> +        if (state->continue_token == token) {
-> +            state->func = func;
-> +            state->data = data;
-> +            qemu_thread_create(&state->thread, "sPAPR Async HCALL",
-> +                               spapr_drc_async_hcall_runner, state,
-> +                               QEMU_THREAD_JOINABLE);
-
-qemu_thread_create() exits on failure, it shouldn't be called on
-a guest triggerable path, eg. a buggy guest could call it up to
-the point that pthread_create() returns EAGAIN.
-
-Please use a thread pool (see thread_pool_submit_aio()). This takes care
-of all the thread housekeeping for you in a safe way, and it provides a
-completion callback API. The implementation could then be just about
-having two lists: one for pending requests (fed here) and one for
-completed requests (fed by the completion callback).
-
-> +            break;
-> +        }
-> +    }
-> +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
-> +}
-> +
-> +/*
-> + * spapr_drc_finish_async_hcalls
-> + *      Waits for all pending async requests to complete
-> + *      thier execution and free the states
-> + */
-> +static void spapr_drc_finish_async_hcalls(SpaprDrc *drc)
-> +{
-> +    SpaprDrcDeviceAsyncHCallState *state, *next;
-> +
-> +    if (QLIST_EMPTY(&drc->async_hcall_states)) {
-> +        return;
-> +    }
-> +
-> +    qemu_mutex_lock(&drc->async_hcall_states_lock);
-> +    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, next) {
-> +        qemu_thread_join(&state->thread);
-
-With a thread-pool, you'd just need to aio_poll() until the pending list
-is empty and then clear the completed list.
-
-> +        QLIST_REMOVE(state, node);
-> +        g_free(state);
-> +    }
-> +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
-> +}
-> +
-> +/*
-> + * spapr_drc_get_async_hcall_status
-> + *      Fetches the status of the hcall worker and returns H_BUSY
-> + *      if the worker is still running.
-> + */
-> +int spapr_drc_get_async_hcall_status(SpaprDrc *drc, uint64_t token)
-> +{
-> +    int ret = H_PARAMETER;
-> +    SpaprDrcDeviceAsyncHCallState *state, *node;
-> +
-> +    qemu_mutex_lock(&drc->async_hcall_states_lock);
-> +    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, node) {
-> +        if (state->continue_token == token) {
-> +            if (state->pending) {
-> +                ret = H_BUSY;
-> +                break;
-> +            } else {
-> +                ret = state->hcall_ret;
-> +                qemu_thread_join(&state->thread);
-
-Like for qemu_thread_create(), the guest shouldn't be responsible for
-thread housekeeping. Getting the hcall status should just be about
-finding the token in the pending or completed lists.
-
-> +                QLIST_REMOVE(state, node);
-> +                g_free(state);
-> +                break;
-> +            }
-> +        }
-> +    }
-> +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
-> +
-> +    return ret;
-> +}
-> +
->  void spapr_drc_reset(SpaprDrc *drc)
->  {
->      SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
-> @@ -448,6 +591,7 @@ void spapr_drc_reset(SpaprDrc *drc)
->          drc->ccs_offset = -1;
->          drc->ccs_depth = -1;
->      }
-> +    spapr_drc_finish_async_hcalls(drc);
->  }
->  
->  static bool spapr_drc_unplug_requested_needed(void *opaque)
-> @@ -558,6 +702,7 @@ SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
->      drc->owner = owner;
->      prop_name = g_strdup_printf("dr-connector[%"PRIu32"]",
->                                  spapr_drc_index(drc));
-> +
-
-Unrelated change.
-
->      object_property_add_child(owner, prop_name, OBJECT(drc));
->      object_unref(OBJECT(drc));
->      qdev_realize(DEVICE(drc), NULL, NULL);
-> @@ -577,6 +722,10 @@ static void spapr_dr_connector_instance_init(Object *obj)
->      object_property_add(obj, "fdt", "struct", prop_get_fdt,
->                          NULL, NULL, NULL);
->      drc->state = drck->empty_state;
-> +
-> +    qemu_mutex_init(&drc->async_hcall_states_lock);
-> +    QLIST_INIT(&drc->async_hcall_states);
-> +
-
-Empty line not needed.
-
->  }
->  
->  static void spapr_dr_connector_class_init(ObjectClass *k, void *data)
-> diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-> index 165b281496..77f6e4386c 100644
-> --- a/include/hw/ppc/spapr_drc.h
-> +++ b/include/hw/ppc/spapr_drc.h
-> @@ -18,6 +18,7 @@
->  #include "sysemu/runstate.h"
->  #include "hw/qdev-core.h"
->  #include "qapi/error.h"
-> +#include "block/thread-pool.h"
->  
->  #define TYPE_SPAPR_DR_CONNECTOR "spapr-dr-connector"
->  #define SPAPR_DR_CONNECTOR_GET_CLASS(obj) \
-> @@ -168,6 +169,21 @@ typedef enum {
->      SPAPR_DRC_STATE_PHYSICAL_CONFIGURED = 8,
->  } SpaprDrcState;
->  
-> +typedef struct SpaprDrc SpaprDrc;
-> +
-> +typedef int SpaprDrcAsyncHcallWorkerFunc(void *opaque);
-> +typedef struct SpaprDrcDeviceAsyncHCallState {
-> +    uint64_t continue_token;
-> +    bool pending;
-> +
-> +    int hcall_ret;
-> +    SpaprDrcAsyncHcallWorkerFunc *func;
-> +    void *data;
-> +
-> +    QemuThread thread;
-> +
-> +    QLIST_ENTRY(SpaprDrcDeviceAsyncHCallState) node;
-> +} SpaprDrcDeviceAsyncHCallState;
->  typedef struct SpaprDrc {
->      /*< private >*/
->      DeviceState parent;
-> @@ -182,6 +198,10 @@ typedef struct SpaprDrc {
->      int ccs_offset;
->      int ccs_depth;
->  
-> +    /* async hcall states */
-> +    QemuMutex async_hcall_states_lock;
-> +    QLIST_HEAD(, SpaprDrcDeviceAsyncHCallState) async_hcall_states;
-> +
->      /* device pointer, via link property */
->      DeviceState *dev;
->      bool unplug_requested;
-> @@ -241,6 +261,11 @@ void spapr_drc_detach(SpaprDrc *drc);
->  /* Returns true if a hot plug/unplug request is pending */
->  bool spapr_drc_transient(SpaprDrc *drc);
->  
-> +uint64_t spapr_drc_get_new_async_hcall_token(SpaprDrc *drc);
-> +void spapr_drc_run_async_hcall(SpaprDrc *drc, uint64_t token,
-> +                               SpaprDrcAsyncHcallWorkerFunc, void *data);
-> +int spapr_drc_get_async_hcall_status(SpaprDrc *drc, uint64_t token);
-> +
->  static inline bool spapr_drc_unplug_requested(SpaprDrc *drc)
->  {
->      return drc->unplug_requested;
-> 
-> 
-> 
+diff --git a/docs/devel/rcu.txt b/docs/devel/rcu.txt
+index cdf002edd8..2e6cc607a1 100644
+--- a/docs/devel/rcu.txt
++++ b/docs/devel/rcu.txt
+@@ -392,7 +392,7 @@ Instead, we store the size of the array with the array itself:
+ 
+             /* Removal phase.  */
+             old_array = global_array;
+-            qatomic_rcu_set(&new_array->data, new_array);
++            qatomic_rcu_set(&global_array, new_array);
+             synchronize_rcu();
+ 
+             /* Reclamation phase.  */
+-- 
+2.23.0
 
 
