@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6962B2DFD40
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:09:39 +0100 (CET)
-Received: from localhost ([::1]:49030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17F9D2DFD3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 16:09:18 +0100 (CET)
+Received: from localhost ([::1]:48540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krMoY-000089-GV
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:09:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42688)
+	id 1krMoH-0008NX-4N
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 10:09:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRN-000554-0k
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:37 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:35779)
+ id 1krMRL-00051a-JT
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:35 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:55818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krMRG-0007uj-O9
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:36 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id e25so11196015wme.0
+ id 1krMRG-0007un-Eq
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 09:45:35 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id x22so10081356wmc.5
  for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 06:45:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NWGI23omPGUEZY71SQdPtP5PXqGrOMFaLCwsxeEHtMo=;
- b=lHDSk4Ih/3wmMH8IeSeBOc4WeRR4GgbBWpEXgGTjL8VewHn6mbcSVVCSI1LZrCLHaJ
- bjtwZ/MwZLxn4EbzV6CBgRk/JbLHWgZgC34MMG4I670hXr025qdhdUca1g22Kx4GoPl3
- liYCHajfDVXEMGFMgj22gIo4WoegYvGg6GwBGAvM5S16NYQgjsnlJHkUJP7Pi2xRstOi
- Zku9TqMUqcW+NQ8Ah7dMYHOkKcLq53/rEIMepqi25YN2qOwqDaokftD1HM7Btp3ZyDYd
- jwa098sFG0sx6KPcvbXO8aQu4C4VfvrS9vZqv8PPoZRuetmsn1ewk4A8zFvBNqMAOouB
- xB9A==
+ bh=YskNFeL4B91Ml00lS/fJmS33X5P96iW79FRphupRrWk=;
+ b=e4F89QkCH5JhwsUUpgBMJfGYyi93dPK6F+HtN0EZ2+jdgQtCHJba0b2FLa/Urg8hAL
+ NX060dtRtph0s38aSktq8nz9EfxKGaKZrKo3Mz2kRs9ttTFzYckvZRYrufOe+qtXsEyV
+ fsHzZmTqCwcVj/J/NExz2kGpbp1iAlfUPoKeFKUPYIUZzx+QcDXLpyxnk1gfXYW7ZKB1
+ 94D8nXT/2W69LlEK9EkBxlkRoTNb7FsVsU2qRbOyE+UbDoKiyBRN66UQ03dPnOykrvgC
+ MtBs0+RbhVTFARY9I7uZiny2lFOADn9R1uunHg+RkE6aJoJz81BrydRQxbsdb2OlKO7L
+ DidA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NWGI23omPGUEZY71SQdPtP5PXqGrOMFaLCwsxeEHtMo=;
- b=fi8CcFVhAO3io38V6NV64Yg1D66kpQ9Lw29Q5Pw9JJZi3a+LUPuC94zMnV0DQNSgwO
- DfDa+Yamx1zHFtzbW3yb8G2vQe0L7sLxXSIqr/xybAAL/lADOd8fqFh5mStvkwYAsyqG
- Ev9sGCc8NPlLKNC435Pg1zkLRPWWBKThTnFhPvFIt3Wn1+5TuekN5VmeV4TGcu5SH+AC
- cGuNOKMG7AZOVzl3hN6HIGSey+aqrHdVtsJodFW/wFei4s+YK7u3acgOClummu1odqua
- ttgmtb2b7FYVgIzJsykr4cazpZ239a3T0lom+VHOP4g8jfwqCyaFwZWe8TC0vkr/BLbM
- 2q0w==
-X-Gm-Message-State: AOAM530aVJK5Qt1jw0H1Tb/AjjtXYmFJdM8qz6JS1Xx/R6Nb84aOiDyM
- lv/TfqzjlvrXhZeCO0Jh1+5dhcTxTrg=
-X-Google-Smtp-Source: ABdhPJwVUhPa86oteoYxqsvaAbycwr3/3NEOmTCBXZ29Ii8CU3a6+gFxrwcz1jmdw02lUxJ5w+0X6A==
-X-Received: by 2002:a1c:630b:: with SMTP id x11mr16835651wmb.138.1608561928389; 
- Mon, 21 Dec 2020 06:45:28 -0800 (PST)
+ bh=YskNFeL4B91Ml00lS/fJmS33X5P96iW79FRphupRrWk=;
+ b=pd9irSSc8R1Ahdc0KZ2kfzxol8FYfGaIV/N8YFY+rTwI9JTewbPJb3+jPgBdJP22Py
+ tZedGrJ7zTDsRDfUSAajsE/3u6wWVSjax6ek0MeU8TpfOwOUOBLpl3uvfC0VQDyyvugz
+ DKpRdNl2phyipjKJt4WSS5VqSFA7bPs53pNRxtPumrQoLqLobelXyoht8dUFjLAa/4gC
+ inBlAk80uzguop6TNkEgBSWTA/isPfyvy6Bk3llwkDNVbWmw0kUm5w2gLBxK9Qtm4pAB
+ K3gajjMHxeIHxgKy9fsmkK1NaOU61XwuA2DDphgswYRTRrmQiARld87cNHg7qTwHcjvM
+ Ducg==
+X-Gm-Message-State: AOAM5307ivRAkOB0/TvLbP+sQwcnh4kK+XwuzH57TNS/ru2NvGXBqcGB
+ FPCnl6LH1PrkFT7Ce5BvBDVqv1O0BkU=
+X-Google-Smtp-Source: ABdhPJz6MgGCl61CnBw4jOKNRiHCkxfrfuFMSwnrj3TTzFmbdPiiDZkCAsuoIdpHDViO7cv8Vyf5gA==
+X-Received: by 2002:a05:600c:2188:: with SMTP id
+ e8mr17076993wme.99.1608561929161; 
+ Mon, 21 Dec 2020 06:45:29 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.27
+ by smtp.gmail.com with ESMTPSA id l5sm27439627wrv.44.2020.12.21.06.45.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 21 Dec 2020 06:45:27 -0800 (PST)
+ Mon, 21 Dec 2020 06:45:28 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 44/55] rbd: convert to meson
-Date: Mon, 21 Dec 2020 15:44:36 +0100
-Message-Id: <20201221144447.26161-45-pbonzini@redhat.com>
+Subject: [PULL 45/55] lzo: convert to meson
+Date: Mon, 21 Dec 2020 15:44:37 +0100
+Message-Id: <20201221144447.26161-46-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201221144447.26161-1-pbonzini@redhat.com>
 References: <20201221144447.26161-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,147 +90,142 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure         | 35 ++++-------------------------------
- meson.build       | 22 +++++++++++++++++++---
+ configure         | 32 ++++----------------------------
+ meson.build       | 20 ++++++++++++++++----
  meson_options.txt |  2 ++
- 3 files changed, 25 insertions(+), 34 deletions(-)
+ 3 files changed, 22 insertions(+), 32 deletions(-)
 
 diff --git a/configure b/configure
-index 0350b59624..a2e4796053 100755
+index a2e4796053..1574ea8456 100755
 --- a/configure
 +++ b/configure
-@@ -383,7 +383,7 @@ qom_cast_debug="yes"
- trace_backends="log"
- trace_file="trace"
- spice="$default_feature"
--rbd="$default_feature"
-+rbd="auto"
- smartcard="$default_feature"
- u2f="auto"
- libusb="$default_feature"
-@@ -1285,9 +1285,9 @@ for opt do
+@@ -393,7 +393,7 @@ opengl_dmabuf="no"
+ cpuid_h="no"
+ avx2_opt="$default_feature"
+ capstone="auto"
+-lzo="$default_feature"
++lzo="auto"
+ snappy="$default_feature"
+ bzip2="auto"
+ lzfse="$default_feature"
+@@ -1311,9 +1311,9 @@ for opt do
    ;;
-   --enable-opengl) opengl="yes"
+   --disable-zlib-test)
    ;;
--  --disable-rbd) rbd="no"
-+  --disable-rbd) rbd="disabled"
+-  --disable-lzo) lzo="no"
++  --disable-lzo) lzo="disabled"
    ;;
--  --enable-rbd) rbd="yes"
-+  --enable-rbd) rbd="enabled"
+-  --enable-lzo) lzo="yes"
++  --enable-lzo) lzo="enabled"
    ;;
-   --disable-xfsctl) xfs="no"
+   --disable-snappy) snappy="no"
    ;;
-@@ -3605,29 +3605,6 @@ if compile_prog "" "$pthread_lib" ; then
-   pthread_setname_np_wo_tid=yes
+@@ -2456,25 +2456,6 @@ EOF
+   fi
  fi
  
 -##########################################
--# rbd probe
--if test "$rbd" != "no" ; then
--  cat > $TMPC <<EOF
--#include <stdio.h>
--#include <rbd/librbd.h>
--int main(void) {
--    rados_t cluster;
--    rados_create(&cluster, NULL);
--    return 0;
--}
+-# lzo check
+-
+-if test "$lzo" != "no" ; then
+-    cat > $TMPC << EOF
+-#include <lzo/lzo1x.h>
+-int main(void) { lzo_version(); return 0; }
 -EOF
--  rbd_libs="-lrbd -lrados"
--  if compile_prog "" "$rbd_libs" ; then
--    rbd=yes
--  else
--    if test "$rbd" = "yes" ; then
--      feature_not_found "rados block device" "Install librbd/ceph devel"
+-    if compile_prog "" "-llzo2" ; then
+-        lzo_libs="-llzo2"
+-        lzo="yes"
+-    else
+-        if test "$lzo" = "yes"; then
+-            feature_not_found "liblzo2" "Install liblzo2 devel"
+-        fi
+-        lzo="no"
 -    fi
--    rbd=no
--  fi
 -fi
 -
  ##########################################
- # linux-aio probe
+ # snappy check
  
-@@ -6182,10 +6159,6 @@ fi
- if test "$qom_cast_debug" = "yes" ; then
-   echo "CONFIG_QOM_CAST_DEBUG=y" >> $config_host_mak
+@@ -6124,11 +6105,6 @@ if test "$avx512f_opt" = "yes" ; then
+   echo "CONFIG_AVX512F_OPT=y" >> $config_host_mak
  fi
--if test "$rbd" = "yes" ; then
--  echo "CONFIG_RBD=y" >> $config_host_mak
--  echo "RBD_LIBS=$rbd_libs" >> $config_host_mak
--fi
  
- echo "CONFIG_COROUTINE_BACKEND=$coroutine" >> $config_host_mak
- if test "$coroutine_pool" = "yes" ; then
-@@ -6724,7 +6697,7 @@ NINJA=$ninja $meson setup \
+-if test "$lzo" = "yes" ; then
+-  echo "CONFIG_LZO=y" >> $config_host_mak
+-  echo "LZO_LIBS=$lzo_libs" >> $config_host_mak
+-fi
+-
+ if test "$snappy" = "yes" ; then
+   echo "CONFIG_SNAPPY=y" >> $config_host_mak
+   echo "SNAPPY_LIBS=$snappy_libs" >> $config_host_mak
+@@ -6697,7 +6673,7 @@ NINJA=$ninja $meson setup \
          -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
          -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
          -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
--        -Dlibssh=$libssh \
-+        -Dlibssh=$libssh -Drbd=$rbd \
+-        -Dlibssh=$libssh -Drbd=$rbd \
++        -Dlibssh=$libssh -Drbd=$rbd -Dlzo=$lzo \
          -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
          -Dvhost_user_blk_server=$vhost_user_blk_server \
          -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek \
 diff --git a/meson.build b/meson.build
-index e448624212..92fe7007ef 100644
+index 92fe7007ef..2a2f7d0039 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -612,9 +612,24 @@ else
+@@ -757,10 +757,21 @@ snappy = not_found
+ if 'CONFIG_SNAPPY' in config_host
+   snappy = declare_dependency(link_args: config_host['SNAPPY_LIBS'].split())
  endif
- 
- rbd = not_found
--if 'CONFIG_RBD' in config_host
--  rbd = declare_dependency(link_args: config_host['RBD_LIBS'].split())
-+if not get_option('rbd').auto() or have_block
-+  librados = cc.find_library('rados', required: get_option('rbd'),
-+                             static: enable_static)
-+  librbd = cc.find_library('rbd', has_headers: ['rbd/librbd.h'],
-+                           required: get_option('rbd'),
-+                           static: enable_static)
-+  if librados.found() and librbd.found() and cc.links('''
-+    #include <stdio.h>
-+    #include <rbd/librbd.h>
-+    int main(void) {
-+      rados_t cluster;
-+      rados_create(&cluster, NULL);
-+      return 0;
-+    }''', dependencies: [librbd, librados])
-+    rbd = declare_dependency(dependencies: [librbd, librados])
+-lzo = not_found
+-if 'CONFIG_LZO' in config_host
+-  lzo = declare_dependency(link_args: config_host['LZO_LIBS'].split())
++
++lzo = cc.find_library('lzo2', has_headers: ['lzo/lzo1x.h'],
++                      required: get_option('lzo'),
++                      static: enable_static)
++if lzo.found() and not cc.links('''
++   #include <lzo/lzo1x.h>
++   int main(void) { lzo_version(); return 0; }''', dependencies: lzo)
++  lzo = not_found
++  if get_option('lzo').enabled()
++    error('could not link liblzo2')
++  else
++    warning('could not link liblzo2, disabling')
 +  endif
  endif
 +
- glusterfs = not_found
- glusterfs_ftruncate_has_stat = false
- glusterfs_iocb_has_stat = false
-@@ -947,6 +962,7 @@ config_host_data.set('CONFIG_LIBISCSI', libiscsi.found())
- config_host_data.set('CONFIG_LIBNFS', libnfs.found())
- config_host_data.set('CONFIG_LIBSSH', libssh.found())
- config_host_data.set('HAVE_LIBSSH_0_8', have_libssh_0_8)
-+config_host_data.set('CONFIG_RBD', rbd.found())
- config_host_data.set('CONFIG_SDL', sdl.found())
- config_host_data.set('CONFIG_SDL_IMAGE', sdl_image.found())
- config_host_data.set('CONFIG_VHOST_USER_BLK_SERVER', have_vhost_user_blk_server)
-@@ -2297,7 +2313,7 @@ if config_host['TRACE_BACKENDS'].split().contains('simple')
- endif
- # TODO: add back protocol and server version
- summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
--summary_info += {'rbd support':       config_host.has_key('CONFIG_RBD')}
-+summary_info += {'rbd support':       rbd.found()}
- summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
- summary_info += {'smartcard support': config_host.has_key('CONFIG_SMARTCARD')}
- summary_info += {'U2F support':       u2f.found()}
+ rdma = not_found
+ if 'CONFIG_RDMA' in config_host
+   rdma = declare_dependency(link_args: config_host['RDMA_LIBS'].split())
+@@ -945,6 +956,7 @@ config_host_data.set_quoted('CONFIG_SYSCONFDIR', get_option('prefix') / get_opti
+ config_host_data.set('CONFIG_BRLAPI', brlapi.found())
+ config_host_data.set('CONFIG_COCOA', cocoa.found())
+ config_host_data.set('CONFIG_LIBUDEV', libudev.found())
++config_host_data.set('CONFIG_LZO', lzo.found())
+ config_host_data.set('CONFIG_MPATH', mpathpersist.found())
+ config_host_data.set('CONFIG_MPATH_NEW_API', mpathpersist_new_api)
+ config_host_data.set('CONFIG_CURL', curl.found())
+@@ -2346,7 +2358,7 @@ summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
+ summary_info += {'libssh support':    libssh.found()}
+ summary_info += {'QOM debugging':     config_host.has_key('CONFIG_QOM_CAST_DEBUG')}
+ summary_info += {'Live block migration': config_host.has_key('CONFIG_LIVE_BLOCK_MIGRATION')}
+-summary_info += {'lzo support':       config_host.has_key('CONFIG_LZO')}
++summary_info += {'lzo support':       lzo.found()}
+ summary_info += {'snappy support':    config_host.has_key('CONFIG_SNAPPY')}
+ summary_info += {'bzip2 support':     libbzip2.found()}
+ summary_info += {'lzfse support':     config_host.has_key('CONFIG_LZFSE')}
 diff --git a/meson_options.txt b/meson_options.txt
-index 6466dc67f6..630c9dceb7 100644
+index 630c9dceb7..00a5ec55bd 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
 @@ -64,6 +64,8 @@ option('curses', type : 'feature', value : 'auto',
         description: 'curses UI')
  option('libudev', type : 'feature', value : 'auto',
         description: 'Use libudev to enumerate host devices')
-+option('rbd', type : 'feature', value : 'auto',
-+       description: 'Ceph block device driver')
++option('lzo', type : 'feature', value : 'auto',
++       description: 'lzo compression support')
+ option('rbd', type : 'feature', value : 'auto',
+        description: 'Ceph block device driver')
  option('sdl', type : 'feature', value : 'auto',
-        description: 'SDL user interface')
- option('sdl_image', type : 'feature', value : 'auto',
 -- 
 2.29.2
 
