@@ -2,93 +2,176 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5742DFFB6
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 19:29:00 +0100 (CET)
-Received: from localhost ([::1]:51008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B232E006A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 19:50:06 +0100 (CET)
+Received: from localhost ([::1]:36558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krPvX-0007HM-IW
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 13:28:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41154)
+	id 1krQFx-0005bw-7M
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 13:50:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1krPuJ-0006Rm-5n
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 13:27:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32997)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1krPuE-0001P9-8B
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 13:27:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608575256;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qLVBz4ho1BlnHhOoPeVOBE0g50ai2I9miHLGNoj9sos=;
- b=U9H/kLl8rcThscIBctwHW8KFJUXIVkNM98GBUxAgY270kCxa5pL22JY/3XPRf+3hqxqCm8
- uYfvYWhZ4gmKY/QKyl+srxkEwEwbAMRdF7YvRrckh66J7T2NO6w69DEfRxdcNYrY+QueM6
- 4iG+J1lKH3wVlCg8QYgCOSsDbBfr7Yc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-XnYCMOCLNtmss8Om458SNw-1; Mon, 21 Dec 2020 13:27:34 -0500
-X-MC-Unique: XnYCMOCLNtmss8Om458SNw-1
-Received: by mail-wr1-f71.google.com with SMTP id 88so9267503wrc.17
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 10:27:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qLVBz4ho1BlnHhOoPeVOBE0g50ai2I9miHLGNoj9sos=;
- b=WjXVDUH4c2OUeEg89JbecKGv3N/ez9rSp1DdAIM6Y7QyoROo8otnl3zs+C8v5iuhyi
- QNdeuEezi0n9bihwRgvvwhG5DsKzjmB5gkSNXJ8uHDsOQBp47o9gTwHLL6n7uPQJOMT5
- 9GYMNaqavTM+xxViu9KV4pXCQYRx5w5ANWyLqgecbxIeEeFiLEqoI9I1VDEhJlPZvJRy
- Q/pDJVTlhbOnNa4e0d6yBTTyFYLkan/1pE3Z/Kth+769gh+gyDdgoE8yEcKYeSbhfnj2
- NyAfTf5r+9rdG0B6LigDJZL+RwjsISCnSZ6CjSzQjEAaldPkFofkSBx5NZgPqm/qkCtV
- l/7g==
-X-Gm-Message-State: AOAM532nF/upyVnsY9U0d9/MmmUCdJ8RcSv2GLOz0k5FhwW5/bkhG8Xl
- NBosG3c8rgHWyxtEJT3wV5j3xUqXiIOh2E2rFZxga9xXQpSUSQ/NPj5u3b2qk/3vaPCf2d5xqg5
- 64tdXeNGTMTPRn8I=
-X-Received: by 2002:a05:600c:313:: with SMTP id
- q19mr17746560wmd.126.1608575253202; 
- Mon, 21 Dec 2020 10:27:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzILDzenMjbgW+UKGSGhFwEOILSI9eEHzERWcAvdYpXhi4jEfRnwiXwXC2MSVjpblctN6cMyg==
-X-Received: by 2002:a05:600c:313:: with SMTP id
- q19mr17746536wmd.126.1608575253003; 
- Mon, 21 Dec 2020 10:27:33 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id v4sm25371434wrw.42.2020.12.21.10.27.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Dec 2020 10:27:32 -0800 (PST)
-Subject: Re: [PATCH v3] fuzz: map all BARs and enable PCI devices
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20201221181203.1853-1-alxndr@bu.edu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <86d86ea9-174d-6e11-c2bf-dac27a84abaf@redhat.com>
-Date: Mon, 21 Dec 2020 19:27:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1krQDm-0004xI-MZ
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 13:47:50 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:50881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1krQDi-0000BX-Ut
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 13:47:49 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: pool-72-93-72-163.bstnma.fios.verizon.net [72.93.72.163]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 0BLIl0dq028397
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 21 Dec 2020 13:47:15 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Qiuhao Li <Qiuhao.Li@outlook.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/4] fuzz: refine crash detection mechanism
+In-Reply-To: <ME3P282MB14924A6558A105B7FBFA579DFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-In-Reply-To: <20201221181203.1853-1-alxndr@bu.edu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.233, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+signatures: 
+https: //github.com/google/clusterfuzz/blob/master/src/python/crash_analysis/crash_analyzer.py
+ Qiuhao Li <Qiuhao.Li@outlook.com> writes:
+ > The original crash detection method is to fork a process to test our new
+ > trace input. If the child process exits in time and the second-to-last line
+ > is the same as the first crash, we think it is a crash triggered by the same
+ > bug. However, in some situations, it doesn't work since it is a
+ > hardcoded-offset string comparison. >
+ > For example, suppose an assertion failure makes the crash. In that case, the
+ > second-to-last line will be 'timeout: the monitored command dumped core',
+ > which doesn't contain any information about the assertion failure like where
+ > it happened or the assertion statement. This may lead to a minimized input
+ > triggers assertion failure but may indicate another bug. As for some
+ > sanitizers' crashes, the direct string comparison may stop us from getting a
+ > smaller input, since they may have a different leaf stack frame. >
+ > Perhaps we can detect crashes using both precise output string comparison
+ > and rough pattern string match and info the user when the trace input
+ > triggers different but a seminar output. ^^ similar > > Tested:
+ > Assertion failure, https://bugs.launchpad.net/qemu/+bug/1908062
+ > AddressSanitizer, https://bugs.launchpad.net/qemu/+bug/1907497
+ > Trace input that doesn't crash > Trace input that crashes Qtest
+ I'm not sure about this one. Is there an example where setting
+ CRASH_TOKEN is not sufficient? The current approach isn't great. It
+ relies on only a few bad assumptions and has some limitations:
+ 1. lines[-2] is often "good enough" to find a crash.
+ 2. If lines[-2] doesn't do the trick, it should be simple to identify a
+ "CRASH_TOKEN" (eg a path:line-number in the stack-trace)
+ 3. Limitation: no good way to minimize timeouts. This is a tricky one,
+ since a well-behaved QEMU will continune running after going through
+ all the qtest commands and this can be tough to distinguish from a QEMU
+ stuck in an infinite loop, or stuck in a syscall.
+ I think my main concerns are
+ * Crash_patterns might not catch everything. For example, this one
+ doesn't match either pattern https://bugs.launchpad.net/bugs/1890160
+ * SUMMARY.*Sanitizer lines often contain volatile addresses, so the
+ matching will often fallback to SUMMARY.*Sanitizer. Sometimes this
+ means that the minimized result will be another crash (I have seen this
+ happen).
+ * Maybe it is unlikely, but what will happen if ASan/UBSan etc decide
+ to change the format of their output?
+ We can look at the way ClusterFuzz (and OSS-Fuzz) identifies crash
+ It seems a lot more involved, and I'm not sure if it is necessary,
+ since at this point, the minimizer is only used manually.
+ Are there any cases, where the current approach + sometimes a fallback
+ to CRASH_TOKEN are not sufficient?
+ I like the idea of making CRASH_TOKEN/crash_pattern a regex, though I
+ would simply do a global match over the output, instead of applying it
+ to each line. Thanks -Alex >
+ > Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com> > ---
+ >  scripts/oss-fuzz/minimize_qtest_trace.py | 59 ++++++++++++++++++------
+ >  1 file changed, 46 insertions(+), 13 deletions(-) >
+ > diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py
+ b/scripts/oss-fuzz/minimize_qtest_trace.py
+ > index 5e405a0d5f..d3b09e6567 100755
+ > --- a/scripts/oss-fuzz/minimize_qtest_trace.py
+ > +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
+ > @@ -10,11 +10,16 @@ import os >  import subprocess >  import time
+ >  import struct > +import re > >  QEMU_ARGS = None >  QEMU_PATH = None
+ >  TIMEOUT = 5 > -CRASH_TOKEN = None > +
+ > +crash_patterns = ("Assertion.+failed",
+ > +                  "SUMMARY.+Sanitizer") > +crash_pattern = None
+ > +crash_string = None > >  write_suffix_lookup = {"b": (1, "B"),
+ >                         "w": (2, "H"),
+ > @@ -24,13 +29,12 @@ write_suffix_lookup = {"b": (1, "B"),
+ >  def usage(): >      sys.exit("""\
+ > Usage: QEMU_PATH="/path/to/qemu" QEMU_ARGS="args" {} input_trace
+ output_trace > -By default,
+ will try to use the second-to-last line in the output to identify
+ > -whether the crash occred. Optionally,
+ manually set a string that idenitifes the
+ > -crash by setting CRASH_TOKEN=
+ > +By default, we will try to search predefined crash patterns through the
+ > +tracing output to see whether the crash occred. Optionally, manually set a
+ > +string that idenitifes the crash by setting CRASH_PATTERN=
+ >  """.format((sys.argv[0]))) >
+ >  def check_if_trace_crashes(trace, path): > -    global CRASH_TOKEN
+ >      with open(path, "w") as tracefile:
+ >          tracefile.write("".join(trace)) >
+ > @@ -42,17 +46,47 @@ def check_if_trace_crashes(trace, path):
+ >                            shell=True,
+ >                            stdin=subprocess.PIPE,
+ >                            stdout=subprocess.PIPE)
+ > +    if rc.returncode == 137:    # Timed Out > +        return False
+ > + >      stdo = rc.communicate()[0]
+ >      output = stdo.decode('unicode_escape')
+ > -    if rc.returncode == 137:    # Timed Out > -        return False
+ > -    if len(output.splitlines()) < 2:
+ > +    output_lines = output.splitlines()
+ > +    # Usually we care about the summary info in the last few lines, reverse.
+ > +    output_lines.reverse() > +
+ > +    global crash_pattern, crash_patterns, crash_string
+ > +    if crash_pattern is None: # Initialization
+ > +        for line in output_lines:
+ > +            for c in crash_patterns:
+ > +                if re.search(c, line) is not None:
+ > +                    crash_pattern = c
+ > +                    crash_string = line
+ > +                    print("Identifying crash pattern by this string: ",\
+ > +                          crash_string)
+ > +                    print("Using regex pattern: ", crash_pattern)
+ > +                    return True
+ > +        print("Failed to initialize crash pattern: no match.")
+ >          return False > > -    if CRASH_TOKEN is None:
+ > -        CRASH_TOKEN = output.splitlines()[-2]
+ > +    # First, we search exactly the previous crash string.
+ > +    for line in output_lines: > +        if crash_string == line:
+ > +            return True > +
+ > +    # Then we decide whether a similar (same pattern) crash happened.
+ > +    # Slower now :( > +    for line in output_lines:
+ > +        if re.search(crash_pattern, line) is not None:
+ > + print("\nINFO: The crash string changed during our minimization process.")
+ > +            print("Before: ", crash_string)
+ > +            print("After: ", line)
+ > +            print("The original regex pattern can still match,
+ updated the crash string.") > +            crash_string = line
+ > +            return True > > -    return CRASH_TOKEN in output
+ > +    # The input did not trigger (the same type) bug.
+ > +    return False > > >  def minimize_trace(inpath, outpath):
+ > @@ -66,7 +100,6 @@ def minimize_trace(inpath, outpath):
+ >      print("Crashed in {} seconds".format(end-start))
+ >      TIMEOUT = (end-start)*5
+ >      print("Setting the timeout for {} seconds".format(TIMEOUT))
+ > -    print("Identifying Crashes by this string: {}".format(CRASH_TOKEN))
+ > >      i = 0 >      newtrace = trace[:]
+ > @@ -152,6 +185,6 @@ if __name__ == '__main__': >          usage()
+ >      # if "accel" not in QEMU_ARGS:
+ >      #     QEMU_ARGS += " -accel qtest"
+ > -    CRASH_TOKEN = os.getenv("CRASH_TOKEN")
+ > +    crash_pattern = os.getenv("CRASH_PATTERN")
+ >      QEMU_ARGS += " -qtest stdio -monitor none -serial none "
+ >      minimize_trace(sys.argv[1], sys.argv[2]) > -- > 2.25.1
+Date: Mon, 21 Dec 2020 13:46:40 -0500
+Message-ID: <87v9cv3skv.fsf@stormtrooper.vrmnet>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) BAYES_00=-1.9, BODY_EMPTY=1.999,
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.001, PYZOR_CHECK=1.392,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,85 +184,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Bandan Das <bsd@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: darren.kenny@oracle.com, bsd@redhat.com, thuth@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-On 21/12/20 19:12, Alexander Bulekov wrote:
-> Prior to this patch, the fuzzer found inputs to map PCI device BARs and
-> enable the device. While it is nice that the fuzzer can do this, it
-> added significant overhead, since the fuzzer needs to map all the
-> BARs (regenerating the memory topology), at the start of each input.
-> With this patch, we do this once, before fuzzing, mitigating some of
-> this overhead.
-> 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-> ---
-> 
-> v3: Plug the memory-leak pointed out by Thomas:
->      https://gitlab.com/huth/qemu/-/jobs/920543745#L309
-> 
->   tests/qtest/fuzz/generic_fuzz.c | 24 ++++++++++++++++++++++++
->   1 file changed, 24 insertions(+)
-> 
-> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-> index 07ad690683..be76d47d2d 100644
-> --- a/tests/qtest/fuzz/generic_fuzz.c
-> +++ b/tests/qtest/fuzz/generic_fuzz.c
-> @@ -16,6 +16,7 @@
->   
->   #include "hw/core/cpu.h"
->   #include "tests/qtest/libqos/libqtest.h"
-> +#include "tests/qtest/libqos/pci-pc.h"
->   #include "fuzz.h"
->   #include "fork_fuzz.h"
->   #include "exec/address-spaces.h"
-> @@ -762,10 +763,29 @@ static int locate_fuzz_objects(Object *child, void *opaque)
->       return 0;
->   }
->   
-> +
-> +static void pci_enum(gpointer pcidev, gpointer bus)
-> +{
-> +    PCIDevice *dev = pcidev;
-> +    QPCIDevice *qdev;
-> +    int i;
-> +
-> +    qdev = qpci_device_find(bus, dev->devfn);
-> +    g_assert(qdev != NULL);
-> +    for (i = 0; i < 6; i++) {
-> +        if (dev->io_regions[i].size) {
-> +            qpci_iomap(qdev, i, NULL);
-> +        }
-> +    }
-> +    qpci_device_enable(qdev);
-> +    g_free(qdev);
-> +}
-> +
->   static void generic_pre_fuzz(QTestState *s)
->   {
->       GHashTableIter iter;
->       MemoryRegion *mr;
-> +    QPCIBus *pcibus;
->       char **result;
->   
->       if (!getenv("QEMU_FUZZ_OBJECTS")) {
-> @@ -810,6 +830,10 @@ static void generic_pre_fuzz(QTestState *s)
->           exit(1);
->       }
->   
-> +    pcibus = qpci_new_pc(s, NULL);
-> +    g_ptr_array_foreach(fuzzable_pci_devices, pci_enum, pcibus);
-> +    qpci_free_pc(pcibus);
-> +
->       counter_shm_init();
->   }
->   
-> 
-
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
 
