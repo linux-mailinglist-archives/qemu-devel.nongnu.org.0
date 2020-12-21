@@ -2,73 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52CC42DFC35
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:08:22 +0100 (CET)
-Received: from localhost ([::1]:37244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4143E2DFC3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 14:10:40 +0100 (CET)
+Received: from localhost ([::1]:42718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krKvF-0004Zt-CY
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:08:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49736)
+	id 1krKxT-0006tT-AL
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 08:10:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krKtC-0003El-38
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:06:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41173)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1krKt8-0006yX-KY
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 08:06:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608555969;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SZA8d3ZGJTgPyxIgsJV03xyx7OB9/SHAdU5EyJMPhdU=;
- b=KTG86trWbTX2APLeBfmtX0H2a2uXt/eH5A4Z2YgZG/uXexGRC3DHLYISHcw1pg6QmqlOH4
- QlCol29r14/roDqjVjIXFq3PZiUkszGmoHlwDUTnDe4kvt0yNiYrNro/SI1MuUOZclLgh9
- T8F3tgIgH7yn2On85wYfwPZj+0StduU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-OEPWtLdcOSKaBXLqo2yAJw-1; Mon, 21 Dec 2020 08:06:06 -0500
-X-MC-Unique: OEPWtLdcOSKaBXLqo2yAJw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDBD3EC1A2;
- Mon, 21 Dec 2020 13:06:05 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-232.ams2.redhat.com [10.36.113.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 075635C3F8;
- Mon, 21 Dec 2020 13:05:57 +0000 (UTC)
-Subject: Re: [PATCH v2] tests/acceptance: Add a test with the Fedora 31 kernel
- and initrd
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20201217085334.211772-1-thuth@redhat.com>
- <20201218143803.0c5eecf6.cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <b209fc32-4c66-ebac-af85-4ddc2e21ee06@redhat.com>
-Date: Mon, 21 Dec 2020 14:05:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1krKuy-0005Qe-AD; Mon, 21 Dec 2020 08:08:06 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:55759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1krKup-0007Xt-M4; Mon, 21 Dec 2020 08:08:04 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.137])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 24CEB7C5D3BE;
+ Mon, 21 Dec 2020 14:07:49 +0100 (CET)
+Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 21 Dec
+ 2020 14:07:48 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G00371c404d7-b6ff-4745-9ec9-f04cbe5bd22c,
+ 0B619508FA83EFFE02DCDB9DB2C04BF8DACB1B13) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Mon, 21 Dec 2020 14:07:47 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Subject: Re: [RFC Qemu PATCH v2 2/2] spapr: nvdimm: Implement async flush
+ hcalls
+Message-ID: <20201221140747.226430f1@bahia.lan>
+In-Reply-To: <160674940727.2492771.7855399693883710135.stgit@lep8c.aus.stglabs.ibm.com>
+References: <160674929554.2492771.17651548703390170573.stgit@lep8c.aus.stglabs.ibm.com>
+ <160674940727.2492771.7855399693883710135.stgit@lep8c.aus.stglabs.ibm.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201218143803.0c5eecf6.cohuck@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.233, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 1669b459-b703-44e0-a245-36f6314b4799
+X-Ovh-Tracer-Id: 11395514435346667963
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvddtvddghedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehlihhnuhigphhptgdquggvvheslhhishhtshdrohiilhgrsghsrdhorhhg
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,192 +69,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, aneesh.kumar@linux.ibm.com,
+ linux-nvdimm@lists.01.org, qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org,
+ shivaprasadbhat@gmail.com, qemu-ppc@nongnu.org, bharata@linux.vnet.ibm.com,
+ imammedo@redhat.com, linuxppc-dev@lists.ozlabs.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/12/2020 14.38, Cornelia Huck wrote:
-> On Thu, 17 Dec 2020 09:53:34 +0100
-> Thomas Huth <thuth@redhat.com> wrote:
+On Mon, 30 Nov 2020 09:17:24 -0600
+Shivaprasad G Bhat <sbhat@linux.ibm.com> wrote:
+
+> When the persistent memory beacked by a file, a cpu cache flush instruction
+> is not sufficient to ensure the stores are correctly flushed to the media.
 > 
->> This initrd contains a virtio-net and a virtio-gpu kernel module,
->> so we can check that we can set a MAC address for the network device
->> and whether we can hot-plug and -unplug a virtio-crypto device.
->> But the most interesting part is maybe that we can also successfully
->> write some stuff into the emulated framebuffer of the virtio-gpu
->> device and make sure that we can read back that data from a screenshot.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>  Based-on: 20201215183623.110128-1-thuth@redhat.com
->>
->>  v2:
->>  - Uncompress the initrd on the host already to speed up the test
->>  - Disable plymouth to seepd up the test
->>  - Check for device numbers
->>  - Added virtio-crypto test
->>  - Added ":avocado: tags=device:" lines
->>
->>  tests/acceptance/machine_s390_ccw_virtio.py | 111 ++++++++++++++++++++
->>  1 file changed, 111 insertions(+)
->>
->> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
->> index abe25a08f0..a9a0f8a8e2 100644
->> --- a/tests/acceptance/machine_s390_ccw_virtio.py
->> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
->> @@ -9,10 +9,14 @@
->>  # This work is licensed under the terms of the GNU GPL, version 2 or
->>  # later.  See the COPYING file in the top-level directory.
->>  
->> +import os
->> +import re
->> +import tempfile
->>  
->>  from avocado_qemu import Test
->>  from avocado_qemu import exec_command_and_wait_for_pattern
->>  from avocado_qemu import wait_for_console_pattern
->> +from avocado.utils import archive
->>  
->>  class S390CCWVirtioMachine(Test):
->>      KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
->> @@ -150,3 +154,110 @@ class S390CCWVirtioMachine(Test):
->>          self.vm.command('human-monitor-command', command_line='balloon 128')
->>          exec_command_and_wait_for_pattern(self, 'head -n 1 /proc/meminfo',
->>                                            'MemTotal:         115640 kB')
->> +
->> +
->> +    def test_s390x_fedora(self):
->> +
->> +        """
->> +        :avocado: tags=arch:s390x
->> +        :avocado: tags=machine:s390-ccw-virtio
->> +        :avocado: tags=device:virtio-gpu
->> +        :avocado: tags=device:virtio-crypto
->> +        :avocado: tags=device:virtio-net
+> The patch implements the async hcalls for flush operation on demand from the
+> guest kernel.
 > 
-> Hm. I'm wondering whether we should add some of these device: tags to
-> the other test in this file as well?
-
-Yes, we could do that (in a separate patch later)
-
->> +        """
->> +
->> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive'
->> +                      '/fedora-secondary/releases/31/Server/s390x/os'
->> +                      '/images/kernel.img')
->> +        kernel_hash = 'b93d1efcafcf29c1673a4ce371a1f8b43941cfeb'
->> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
->> +
->> +        initrd_url = ('https://archives.fedoraproject.org/pub/archive'
->> +                      '/fedora-secondary/releases/31/Server/s390x/os'
->> +                      '/images/initrd.img')
->> +        initrd_hash = '3de45d411df5624b8d8ef21cd0b44419ab59b12f'
->> +        initrd_path_xz = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
->> +        initrd_path = os.path.join(self.workdir, 'initrd-raw.img')
->> +        archive.lzma_uncompress(initrd_path_xz, initrd_path)
->> +
->> +        self.vm.set_console()
->> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE + ' audit=0 '
->> +                              'rd.plymouth=0 plymouth.enable=0 rd.rescue')
->> +        self.vm.add_args('-nographic',
->> +                         '-smp', '4',
->> +                         '-m', '512',
->> +                         '-name', 'Some Guest Name',
->> +                         '-uuid', '30de4fd9-b4d5-409e-86a5-09b387f70bfa',
->> +                         '-kernel', kernel_path,
->> +                         '-initrd', initrd_path,
->> +                         '-append', kernel_command_line,
->> +                         '-device', 'zpci,uid=7,target=n',
->> +                         '-device', 'virtio-net-pci,id=n,mac=02:ca:fe:fa:ce:12',
->> +                         '-device', 'virtio-rng-ccw,devno=fe.1.9876',
->> +                         '-device', 'virtio-gpu-ccw,devno=fe.2.5432')
->> +        self.vm.launch()
->> +        self.wait_for_console_pattern('Entering emergency mode')
->> +
->> +        # Some tests to see whether the CLI options have been considered:
->> +        exec_command_and_wait_for_pattern(self, 'lspci',
->> +                             '0007:00:00.0 Class 0200: Device 1af4:1000')
->> +        exec_command_and_wait_for_pattern(self,
->> +                             'cat /sys/class/net/enP7p0s0/address',
->> +                             '02:ca:fe:fa:ce:12')
->> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
+> The device option sync-dax is by default off and enables explicit asynchronous
+> flush requests from guest. It can be disabled by setting syn-dax=on.
 > 
-> Does the Fedora image have lscss? (As it seems to have lspci.) If yes,
-> you could use it here; I only looked directly at the sysfs entry in the
-> tests above because the environment there is rather minimal.
-
-Seems like lscss is available indeed. I'll try to change this...
-
+> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+> ---
+>  hw/mem/nvdimm.c         |    1 +
+>  hw/ppc/spapr_nvdimm.c   |   79 +++++++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/mem/nvdimm.h |   10 ++++++
+>  include/hw/ppc/spapr.h  |    3 +-
+>  4 files changed, 92 insertions(+), 1 deletion(-)
 > 
->> +                             '0.1.9876')
->> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
->> +                             '0.2.5432')
->> +        exec_command_and_wait_for_pattern(self, 'cat /proc/cpuinfo',
->> +                             'processors    : 4')
->> +        exec_command_and_wait_for_pattern(self, 'grep MemTotal /proc/meminfo',
->> +                             'MemTotal:         499848 kB')
->> +        exec_command_and_wait_for_pattern(self, 'grep Name /proc/sysinfo',
->> +                             'Extended Name:   Some Guest Name')
->> +        exec_command_and_wait_for_pattern(self, 'grep UUID /proc/sysinfo',
->> +                             '30de4fd9-b4d5-409e-86a5-09b387f70bfa')
->> +
->> +        # Disable blinking cursor, then write some stuff into the framebuffer.
->> +        # QEMU's PPM screendumps contain uncompressed 24-bit values, while the
->> +        # framebuffer uses 32-bit, so we pad our text with some spaces when
->> +        # writing to the framebuffer. Since the PPM is uncompressed, we then
->> +        # can simply read the written "magic bytes" back from the PPM file to
->> +        # check whether the framebuffer is working as expected.
->> +        exec_command_and_wait_for_pattern(self,
->> +            'echo -e "\e[?25l" > /dev/tty0', ':/#')
->> +        exec_command_and_wait_for_pattern(self, 'for ((i=0;i<250;i++)); do '
->> +            'echo " The  qu ick  fo x j ump s o ver  a  laz y d og" >> fox.txt;'
->> +            'done',
->> +            ':/#')
->> +        exec_command_and_wait_for_pattern(self,
->> +            'dd if=fox.txt of=/dev/fb0 bs=1000 oflag=sync,nocache ; rm fox.txt',
->> +            '12+0 records out')
->> +        tmpfile = tempfile.NamedTemporaryFile(suffix='.ppm',
->> +                                              prefix='qemu-scrdump-')
->> +        self.vm.command('screendump', filename=tmpfile.name)
->> +        ppmfile = open(tmpfile.name, "r")
->> +        tmpfile.close
->> +        line = ppmfile.readline()
->> +        self.assertEqual(line, "P6\n")
->> +        line = ppmfile.readline()
->> +        self.assertEqual(line, "1024 768\n")
->> +        line = ppmfile.readline()
->> +        self.assertEqual(line, "255\n")
->> +        line = ppmfile.readline()
->> +        self.assertEqual(line, "The quick fox jumps over a lazy dog\n")
->> +        ppmfile.close
->> +
->> +        # Hot-plug a virtio-crypto device and see whether it gets accepted
->> +        self.clear_guest_dmesg()
->> +        self.vm.command('object-add', qom_type='cryptodev-backend-builtin',
->> +                        id='cbe0')
->> +        self.vm.command('device_add', driver='virtio-crypto-ccw', id='crypdev0',
->> +                        cryptodev='cbe0')
+> diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+> index 03c2201b56..37a4db0135 100644
+> --- a/hw/mem/nvdimm.c
+> +++ b/hw/mem/nvdimm.c
+> @@ -220,6 +220,7 @@ static void nvdimm_write_label_data(NVDIMMDevice *nvdimm, const void *buf,
+>  
+>  static Property nvdimm_properties[] = {
+>      DEFINE_PROP_BOOL(NVDIMM_UNARMED_PROP, NVDIMMDevice, unarmed, false),
+> +    DEFINE_PROP_BOOL(NVDIMM_SYNC_DAX_PROP, NVDIMMDevice, sync_dax, false),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+> index a833a63b5e..557e36aa98 100644
+> --- a/hw/ppc/spapr_nvdimm.c
+> +++ b/hw/ppc/spapr_nvdimm.c
+> @@ -22,6 +22,7 @@
+>   * THE SOFTWARE.
+>   */
+>  #include "qemu/osdep.h"
+> +#include "qemu/cutils.h"
+>  #include "qapi/error.h"
+>  #include "hw/ppc/spapr_drc.h"
+>  #include "hw/ppc/spapr_nvdimm.h"
+> @@ -155,6 +156,11 @@ static int spapr_dt_nvdimm(SpaprMachineState *spapr, void *fdt,
+>                               "operating-system")));
+>      _FDT(fdt_setprop(fdt, child_offset, "ibm,cache-flush-required", NULL, 0));
+>  
+> +    if (!nvdimm->sync_dax) {
+
+So this is done unconditionally for all machine types. This means that a
+guest started on a newer QEMU cannot be migrated to an older QEMU. This
+is annoying because people legitimately expect an existing machine type
+to be migratable to any QEMU version that supports it.
+
+This means that something like the following should be added in hw_compat_5_2[]
+to fix the property for pre-6.0 machine types:
+
+    { "nvdimm", "sync-dax", "on" },
+
+> +        _FDT(fdt_setprop(fdt, child_offset, "ibm,async-flush-required",
+> +                         NULL, 0));
+> +    }
+> +
+>      return child_offset;
+>  }
+>  
+> @@ -370,6 +376,78 @@ static target_ulong h_scm_bind_mem(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>      return H_SUCCESS;
+>  }
+>  
+> +typedef struct SCMAsyncFlushData {
+> +    int fd;
+> +    uint64_t token;
+> +} SCMAsyncFlushData;
+> +
+> +static int flush_worker_cb(void *opaque)
+> +{
+> +    int ret = H_SUCCESS;
+> +    SCMAsyncFlushData *req_data = opaque;
+> +
+> +    /* flush raw backing image */
+> +    if (qemu_fdatasync(req_data->fd) < 0) {
+> +        error_report("papr_scm: Could not sync nvdimm to backend file: %s",
+> +                     strerror(errno));
+> +        ret = H_HARDWARE;
+> +    }
+> +
+> +    g_free(req_data);
+> +
+> +    return ret;
+> +}
+> +
+> +static target_ulong h_scm_async_flush(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> +                                      target_ulong opcode, target_ulong *args)
+> +{
+> +    int ret;
+> +    uint32_t drc_index = args[0];
+> +    uint64_t continue_token = args[1];
+> +    SpaprDrc *drc = spapr_drc_by_index(drc_index);
+> +    PCDIMMDevice *dimm;
+> +    HostMemoryBackend *backend = NULL;
+> +    SCMAsyncFlushData *req_data = NULL;
+> +
+> +    if (!drc || !drc->dev ||
+> +        spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    if (continue_token != 0) {
+> +        ret = spapr_drc_get_async_hcall_status(drc, continue_token);
+> +        if (ret == H_BUSY) {
+> +            args[0] = continue_token;
+> +            return H_LONG_BUSY_ORDER_1_SEC;
+> +        }
+> +
+> +        return ret;
+> +    }
+> +
+> +    dimm = PC_DIMM(drc->dev);
+> +    backend = MEMORY_BACKEND(dimm->hostmem);
+> +
+> +    req_data = g_malloc0(sizeof(SCMAsyncFlushData));
+> +    req_data->fd = memory_region_get_fd(&backend->mr);
+> +
+> +    continue_token = spapr_drc_get_new_async_hcall_token(drc);
+> +    if (!continue_token) {
+> +        g_free(req_data);
+> +        return H_P2;
+> +    }
+> +    req_data->token = continue_token;
+> +
+> +    spapr_drc_run_async_hcall(drc, continue_token, &flush_worker_cb, req_data);
+> +
+> +    ret = spapr_drc_get_async_hcall_status(drc, continue_token);
+> +    if (ret == H_BUSY) {
+> +        args[0] = req_data->token;
+> +        return ret;
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+>  static target_ulong h_scm_unbind_mem(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>                                       target_ulong opcode, target_ulong *args)
+>  {
+> @@ -486,6 +564,7 @@ static void spapr_scm_register_types(void)
+>      spapr_register_hypercall(H_SCM_BIND_MEM, h_scm_bind_mem);
+>      spapr_register_hypercall(H_SCM_UNBIND_MEM, h_scm_unbind_mem);
+>      spapr_register_hypercall(H_SCM_UNBIND_ALL, h_scm_unbind_all);
+> +    spapr_register_hypercall(H_SCM_ASYNC_FLUSH, h_scm_async_flush);
+>  }
+>  
+>  type_init(spapr_scm_register_types)
+> diff --git a/include/hw/mem/nvdimm.h b/include/hw/mem/nvdimm.h
+> index c699842dd0..9e8795766e 100644
+> --- a/include/hw/mem/nvdimm.h
+> +++ b/include/hw/mem/nvdimm.h
+> @@ -51,6 +51,7 @@ OBJECT_DECLARE_TYPE(NVDIMMDevice, NVDIMMClass, NVDIMM)
+>  #define NVDIMM_LABEL_SIZE_PROP "label-size"
+>  #define NVDIMM_UUID_PROP       "uuid"
+>  #define NVDIMM_UNARMED_PROP    "unarmed"
+> +#define NVDIMM_SYNC_DAX_PROP    "sync-dax"
+>  
+>  struct NVDIMMDevice {
+>      /* private */
+> @@ -85,6 +86,15 @@ struct NVDIMMDevice {
+>       */
+>      bool unarmed;
+>  
+> +    /*
+> +     * On PPC64,
+> +     * The 'off' value results in the async-flush-required property set
+> +     * in the device tree for pseries machines. When 'off', the guest
+> +     * initiates explicity flush requests to the backend device ensuring
+> +     * write persistence.
+> +     */
+> +    bool sync_dax;
+> +
+>      /*
+>       * The PPC64 - spapr requires each nvdimm device have a uuid.
+>       */
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 2e89e36cfb..6d7110b7dc 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -535,8 +535,9 @@ struct SpaprMachineState {
+>  #define H_SCM_BIND_MEM          0x3EC
+>  #define H_SCM_UNBIND_MEM        0x3F0
+>  #define H_SCM_UNBIND_ALL        0x3FC
+> +#define H_SCM_ASYNC_FLUSH       0x4A0
+>  
+> -#define MAX_HCALL_OPCODE        H_SCM_UNBIND_ALL
+> +#define MAX_HCALL_OPCODE        H_SCM_ASYNC_FLUSH
+>  
+>  /* The hcalls above are standardized in PAPR and implemented by pHyp
+>   * as well.
 > 
-> Do you want to add a device number and check for it here as well? And
-> maybe wait for the CRWs here and below, although that might not be
-> strictly needed?
-
-I don't think that this is strictly necessary here, indeed, since the
-"Accelerator device is ready" already means that the device has been
-detected correctly.
-
->> +        exec_command_and_wait_for_pattern(self,
->> +                        'while ! (dmesg -c | grep Accelerator.device) ; do'
->> +                        ' sleep 1 ; done', 'Accelerator device is ready')
->> +        self.vm.command('device_del', id='crypdev0')
->> +        self.vm.command('object-del', id='cbe0')
->> +        exec_command_and_wait_for_pattern(self,
->> +                        'while ! (dmesg -c | grep Start.virtcrypto_remove) ; do'
->> +                        ' sleep 1 ; done', 'Start virtcrypto_remove.')
 > 
-
- Thomas
+> 
 
 
