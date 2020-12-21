@@ -2,46 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B8E2E01FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 22:20:05 +0100 (CET)
-Received: from localhost ([::1]:39784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE56B2E0204
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 22:20:34 +0100 (CET)
+Received: from localhost ([::1]:40626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krSb5-0008QC-Qr
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 16:20:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56992)
+	id 1krSba-0000KT-1x
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 16:20:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1krSYw-0007ir-6y
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 16:17:50 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:53474)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1krSYr-00016X-Qy
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 16:17:49 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 0BLLH4Ls030432
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 21 Dec 2020 16:17:07 -0500
-Date: Mon, 21 Dec 2020 16:17:04 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Qiuhao Li <Qiuhao.Li@outlook.com>
-Subject: Re: [PATCH 4/4] fuzz: delay IO until they can't trigger the crash
-Message-ID: <20201221211704.qiai5j75fmcqrueo@mozz.bu.edu>
-References: <ME3P282MB1492BFA2302041F2AB420EBEFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
- <ME3P282MB14920C8592A1D04D4A5685D9FCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1krSZD-0007rW-6Q
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 16:18:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57720)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1krSZ9-0001Ap-Se
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 16:18:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608585482;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UO5HjRQZTUN0tfg8FiDjOPofngmo+rIv5IuHxb0FO6Y=;
+ b=ej3HTYboJv3tHgtJUN/kSUI/l3HeuAySzAOlRp+KmvzzzNkt/H/mhWFK0nriWvX/v+HZnt
+ SNuZl97JHYUrBjahyDRPuNDxLeJQHsn+nJD6m5BQ9cLy6iyFBPbcE22i+zXFHd175rsFuS
+ 5OVuOv+/r58dC5Di2xK/eg1eeEvltNU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-572-XoHZGxyCPA2wBjjDcrZvHA-1; Mon, 21 Dec 2020 16:18:00 -0500
+X-MC-Unique: XoHZGxyCPA2wBjjDcrZvHA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB5ED1927824;
+ Mon, 21 Dec 2020 21:17:27 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-114-123.rdu2.redhat.com
+ [10.10.114.123])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 97B5010016FA;
+ Mon, 21 Dec 2020 21:17:25 +0000 (UTC)
+Subject: Re: [PATCH v2 8/8] tests/acceptance: Test boot_linux_console for
+ fuloong2e
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
+ <20201219072326.40157-2-jiaxun.yang@flygoat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <7c56e077-1b9b-31dd-ae6c-4ce7b7ec9641@redhat.com>
+Date: Mon, 21 Dec 2020 18:17:23 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ME3P282MB14920C8592A1D04D4A5685D9FCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201219072326.40157-2-jiaxun.yang@flygoat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.233, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,91 +85,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-devel@nongnu.org, darren.kenny@oracle.com,
- bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com
+Cc: chenhuacai@kernel.org, f4bug@amsat.org, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 201220 0256, Qiuhao Li wrote:
-> Since programmers usually trigger an IO just before they need it. Try to
-> delay some IO instructions may help us better understanding the timing
-> context when debug.
-> 
-> Tested with Bug 1908062. Refined vs. Original result:
-> 
-> outl 0xcf8 0x8000081c            outl 0xcf8 0x0
-> outb 0xcfc 0xc3                | outl 0xcf8 0x8000081c
-> outl 0xcf8 0x80000804          | outb 0xcfc 0xc3
-> outl 0xcfc 0x10000006          | outl 0xcf8 0x80000804
-> write 0xc300001028 0x1 0x5a    | outl 0xcfc 0x10000006
-> write 0xc300001024 0x2 0x10    | write 0xc300001028 0x1 0x5a
-> write 0xc30000101c 0x1 0x01    | writel 0xc30000100c 0x2a6f6c63
-> write 0xc300003002 0x1 0x0     v write 0xc300001024 0x2 0x10
-> write 0x5c 0x1 0x10              write 0xc30000101c 0x1 0x01
-> writel 0xc30000100c 0x2a6f6c63   write 0xc300001018 0x1 0x80
-> write 0xc300001018 0x1 0x80      write 0x5c 0x1 0x10
-> outl 0xcf8 0x0                   write 0xc300003002 0x1 0x0
-> 
+Hi,
 
-In this example, I can remove the outl 0xcf8 0x0, and I still see the
-crash, so maybe the 1st step in the minimizer is failing somewhere.. 
-
-Is the Refined one better? To me the original one read as:
-"Do a bunch of PCI configuration to map an MMIO BAR, then interact with
-the MMIO range and trigger some DMA activity". I also know exactly the
-line that will trigger the DMA activity and access 0x5c. With the
-refined one, I'm not so sure. Which line now causes the DMA read from
-0x5c? writel 0xc30000100c? write 0xc300001018?
-Is there another example where this type of reordering makes the result
-easier to read?
-
-> Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
+On 12/19/20 4:23 AM, Jiaxun Yang wrote:
+> The kernel comes from debian archive so it's trusted.
+>
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
->  scripts/oss-fuzz/minimize_qtest_trace.py | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
-> diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-> index f3e88064c4..da7aa73b3c 100755
-> --- a/scripts/oss-fuzz/minimize_qtest_trace.py
-> +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-> @@ -214,6 +214,27 @@ def minimize_trace(inpath, outpath):
->  
->      assert(check_if_trace_crashes(newtrace, outpath))
->  
-> +    # delay IO instructions until they can't trigger the crash
-> +    # Note: O(n^2) and many timeouts, kinda slow
+>   tests/acceptance/boot_linux_console.py | 21 +++++++++++++++++++++
+>   1 file changed, 21 insertions(+)
 
-Maybe do a binary search instead of a linear scan for the optimal position
-to save some time?
-Also, if you re-run this multiple times, you can end up with different
-results, since some lines might not really be tied to a position (e.g.
-the outl cf8 0x0 in your example). Maybe it's not a problem, but i'm
-still not sure that this is making the result easier to read.
--Alex
+Phillipe has already tested it, so I only reviewed the code.
 
-> +    i = len(newtrace) - 1
-> +    while i >= 0:
-> +        tmp_i = newtrace[i]
-> +        if len(tmp_i) < 2:
-> +            i -= 1
-> +            continue
-> +        print("Delaying ", newtrace[i])
-> +        for j in reversed(range(i+1, len(newtrace)+1)):
-> +            newtrace.insert(j, tmp_i)
-> +            del newtrace[i]
-> +            if check_if_trace_crashes(newtrace, outpath):
-> +                break
-> +            newtrace.insert(i, tmp_i)
-> +            del newtrace[j]
-> +        i -= 1
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+>
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+> index cc6ec0f8c1..fb41bb7144 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -170,6 +170,27 @@ class BootLinuxConsole(LinuxKernelTest):
+>           console_pattern = 'Kernel command line: %s' % kernel_command_line
+>           self.wait_for_console_pattern(console_pattern)
+>   
+> +    def test_mips64el_fuloong2e(self):
+> +        """
+> +        :avocado: tags=arch:mips64el
+> +        :avocado: tags=machine:fuloong2e
+> +        :avocado: tags=endian:little
+> +        """
+> +        deb_url = ('http://archive.debian.org/debian/pool/main/l/linux/'
+> +                   'linux-image-3.16.0-6-loongson-2e_3.16.56-1+deb8u1_mipsel.deb')
+> +        deb_hash = 'd04d446045deecf7b755ef576551de0c4184dd44'
+> +        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
+> +        kernel_path = self.extract_from_deb(deb_path,
+> +                                            '/boot/vmlinux-3.16.0-6-loongson-2e')
 > +
-> +    assert(check_if_trace_crashes(newtrace, outpath))
-> +    # maybe another removing round
+> +        self.vm.set_console()
+> +        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=ttyS0'
+> +        self.vm.add_args('-kernel', kernel_path,
+> +                         '-append', kernel_command_line)
+> +        self.vm.launch()
+> +        console_pattern = 'Kernel command line: %s' % kernel_command_line
+> +        self.wait_for_console_pattern(console_pattern)
 > +
->  
->  if __name__ == '__main__':
->      if len(sys.argv) < 3:
-> -- 
-> 2.25.1
-> 
+>       def test_mips_malta_cpio(self):
+>           """
+>           :avocado: tags=arch:mips
+
 
