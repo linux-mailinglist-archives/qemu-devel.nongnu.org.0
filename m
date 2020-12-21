@@ -2,79 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458302DFFA7
-	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 19:26:21 +0100 (CET)
-Received: from localhost ([::1]:46296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5742DFFB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 21 Dec 2020 19:29:00 +0100 (CET)
+Received: from localhost ([::1]:51008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krPsx-0005K7-SD
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 13:26:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40568)
+	id 1krPvX-0007HM-IW
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 13:28:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1krPr6-000446-Ji; Mon, 21 Dec 2020 13:24:24 -0500
-Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:45508)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1krPr4-0000CZ-PS; Mon, 21 Dec 2020 13:24:24 -0500
-Received: by mail-qv1-xf2c.google.com with SMTP id a4so4531547qvd.12;
- Mon, 21 Dec 2020 10:24:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EE5H4NJOG5aRBxXsSXcxM3eRWdq8OadfVfM9AXBRQQY=;
- b=Hi51AE5BEyxHfwMs1tcJasog8CQyiZ0x6OCXagQdZZtgcUPzFihkIRt5V+MGJftULP
- JVEBSoLfoET6+09+0G8cI99qmHgkKaxSHaHYPU+XyU8HZsvFfOQnJDVMtTOW8ayVGOrx
- hCH7yW0EPq/SfgJyDdMU31Zzp6jwXxufGHDLXE9G+/296SSPK0aVvXKvzhcxjcg40MKN
- mReZSEsgwH8BqGIU99K6ir70x+O+Og8cpw6Yq/4kc4Tg/m9hpYQQB60mNfido22XMNu/
- P86MQKejmeK6DiIE2KzLdtqld0bTWKtbXYS9IvKpAWroji2ncRVX0jHH/vQmk5M7s355
- fBog==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1krPuJ-0006Rm-5n
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 13:27:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32997)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1krPuE-0001P9-8B
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 13:27:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608575256;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qLVBz4ho1BlnHhOoPeVOBE0g50ai2I9miHLGNoj9sos=;
+ b=U9H/kLl8rcThscIBctwHW8KFJUXIVkNM98GBUxAgY270kCxa5pL22JY/3XPRf+3hqxqCm8
+ uYfvYWhZ4gmKY/QKyl+srxkEwEwbAMRdF7YvRrckh66J7T2NO6w69DEfRxdcNYrY+QueM6
+ 4iG+J1lKH3wVlCg8QYgCOSsDbBfr7Yc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-XnYCMOCLNtmss8Om458SNw-1; Mon, 21 Dec 2020 13:27:34 -0500
+X-MC-Unique: XnYCMOCLNtmss8Om458SNw-1
+Received: by mail-wr1-f71.google.com with SMTP id 88so9267503wrc.17
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 10:27:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EE5H4NJOG5aRBxXsSXcxM3eRWdq8OadfVfM9AXBRQQY=;
- b=H4fnk/9HN5jx17bbggszrTVQMTaudJt9LqBYWe9TkE3qNNYO1Uq+X0Cy318IzajJCd
- MW4FlrxncLuhPRYL7yCy5nohD12YBI5UkJKoEsrwlIbrcsuqHisk/TNkA6pn/UeA/f7g
- 9UDS9AFhJ6rPbbO3uyq6q4YKUoEzqNcvhjcZnesZi8oEHg6SIToZNE7M741x+bKb1aaN
- 0gcgI6KOAcOHBU/nOUqYh73iSqULTXAyl95ytBtu/xdf4dZuapwgiboCdoPItcaO4E33
- 44J9Zh86Nr6c2J5PDA8855Ec53oGzWEaT0TqoDE1E25g9LZdxnBiatZRQtCOkOlf5ozF
- eaJA==
-X-Gm-Message-State: AOAM532qLhndBZxSS1Akpy3V1+KumtgmRq0UHX7Au/rwrcj8P4/EKwX3
- /DK0E8cAJxwD0j6l9LHXcli6VnC7kOk=
-X-Google-Smtp-Source: ABdhPJzSWWfYw7Zr0nHrP4VvLiCERNc9HeHIDJ68w6w8amDyDEwFwWnX4e1nJhwEOjnuLa2zlFw3/A==
-X-Received: by 2002:a05:6214:20a1:: with SMTP id
- 1mr18071486qvd.61.1608575061221; 
- Mon, 21 Dec 2020 10:24:21 -0800 (PST)
-Received: from ?IPv6:2804:431:c7c6:556d:fa44:43b8:486b:f066?
- ([2804:431:c7c6:556d:fa44:43b8:486b:f066])
- by smtp.gmail.com with ESMTPSA id a194sm10866143qkc.70.2020.12.21.10.24.18
+ bh=qLVBz4ho1BlnHhOoPeVOBE0g50ai2I9miHLGNoj9sos=;
+ b=WjXVDUH4c2OUeEg89JbecKGv3N/ez9rSp1DdAIM6Y7QyoROo8otnl3zs+C8v5iuhyi
+ QNdeuEezi0n9bihwRgvvwhG5DsKzjmB5gkSNXJ8uHDsOQBp47o9gTwHLL6n7uPQJOMT5
+ 9GYMNaqavTM+xxViu9KV4pXCQYRx5w5ANWyLqgecbxIeEeFiLEqoI9I1VDEhJlPZvJRy
+ Q/pDJVTlhbOnNa4e0d6yBTTyFYLkan/1pE3Z/Kth+769gh+gyDdgoE8yEcKYeSbhfnj2
+ NyAfTf5r+9rdG0B6LigDJZL+RwjsISCnSZ6CjSzQjEAaldPkFofkSBx5NZgPqm/qkCtV
+ l/7g==
+X-Gm-Message-State: AOAM532nF/upyVnsY9U0d9/MmmUCdJ8RcSv2GLOz0k5FhwW5/bkhG8Xl
+ NBosG3c8rgHWyxtEJT3wV5j3xUqXiIOh2E2rFZxga9xXQpSUSQ/NPj5u3b2qk/3vaPCf2d5xqg5
+ 64tdXeNGTMTPRn8I=
+X-Received: by 2002:a05:600c:313:: with SMTP id
+ q19mr17746560wmd.126.1608575253202; 
+ Mon, 21 Dec 2020 10:27:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzILDzenMjbgW+UKGSGhFwEOILSI9eEHzERWcAvdYpXhi4jEfRnwiXwXC2MSVjpblctN6cMyg==
+X-Received: by 2002:a05:600c:313:: with SMTP id
+ q19mr17746536wmd.126.1608575253003; 
+ Mon, 21 Dec 2020 10:27:33 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id v4sm25371434wrw.42.2020.12.21.10.27.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 21 Dec 2020 10:24:20 -0800 (PST)
-Subject: Re: [PATCH 1/6] spapr: Call spapr_drc_reset() for all DRCs at CAS
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-References: <20201218103400.689660-1-groug@kaod.org>
- <20201218103400.689660-2-groug@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <69e292a6-7af7-999a-929c-5026032c4389@gmail.com>
-Date: Mon, 21 Dec 2020 15:24:16 -0300
+ Mon, 21 Dec 2020 10:27:32 -0800 (PST)
+Subject: Re: [PATCH v3] fuzz: map all BARs and enable PCI devices
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <20201221181203.1853-1-alxndr@bu.edu>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <86d86ea9-174d-6e11-c2bf-dac27a84abaf@redhat.com>
+Date: Mon, 21 Dec 2020 19:27:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201218103400.689660-2-groug@kaod.org>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20201221181203.1853-1-alxndr@bu.edu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf2c.google.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.233,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.233, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,89 +101,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Bandan Das <bsd@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 12/18/20 7:33 AM, Greg Kurz wrote:
-> Non-transient DRCs are either in the empty or the ready state,
-> which means spapr_drc_reset() doesn't change their state. It
-> is thus not needed to do any checking. Call spapr_drc_reset()
-> unconditionally and squash spapr_drc_transient() into its
-> only user, spapr_drc_needed().
+On 21/12/20 19:12, Alexander Bulekov wrote:
+> Prior to this patch, the fuzzer found inputs to map PCI device BARs and
+> enable the device. While it is nice that the fuzzer can do this, it
+> added significant overhead, since the fuzzer needs to map all the
+> BARs (regenerating the memory topology), at the start of each input.
+> With this patch, we do this once, before fuzzing, mitigating some of
+> this overhead.
 > 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 > ---
-
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
->   include/hw/ppc/spapr_drc.h | 3 ---
->   hw/ppc/spapr_drc.c         | 8 ++------
->   hw/ppc/spapr_hcall.c       | 7 ++++---
->   3 files changed, 6 insertions(+), 12 deletions(-)
 > 
-> diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-> index def3593adc8b..cff5e707d0d9 100644
-> --- a/include/hw/ppc/spapr_drc.h
-> +++ b/include/hw/ppc/spapr_drc.h
-> @@ -244,9 +244,6 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask);
->   void spapr_drc_attach(SpaprDrc *drc, DeviceState *d);
->   void spapr_drc_detach(SpaprDrc *drc);
+> v3: Plug the memory-leak pointed out by Thomas:
+>      https://gitlab.com/huth/qemu/-/jobs/920543745#L309
+> 
+>   tests/qtest/fuzz/generic_fuzz.c | 24 ++++++++++++++++++++++++
+>   1 file changed, 24 insertions(+)
+> 
+> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+> index 07ad690683..be76d47d2d 100644
+> --- a/tests/qtest/fuzz/generic_fuzz.c
+> +++ b/tests/qtest/fuzz/generic_fuzz.c
+> @@ -16,6 +16,7 @@
 >   
-> -/* Returns true if a hot plug/unplug request is pending */
-> -bool spapr_drc_transient(SpaprDrc *drc);
-> -
->   static inline bool spapr_drc_unplug_requested(SpaprDrc *drc)
->   {
->       return drc->unplug_requested;
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index fc7e321fcdf6..8d62f55066b6 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -462,8 +462,9 @@ static const VMStateDescription vmstate_spapr_drc_unplug_requested = {
->       }
->   };
->   
-> -bool spapr_drc_transient(SpaprDrc *drc)
-> +static bool spapr_drc_needed(void *opaque)
->   {
-> +    SpaprDrc *drc = opaque;
->       SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
->   
->       /*
-> @@ -483,11 +484,6 @@ bool spapr_drc_transient(SpaprDrc *drc)
->           spapr_drc_unplug_requested(drc);
+>   #include "hw/core/cpu.h"
+>   #include "tests/qtest/libqos/libqtest.h"
+> +#include "tests/qtest/libqos/pci-pc.h"
+>   #include "fuzz.h"
+>   #include "fork_fuzz.h"
+>   #include "exec/address-spaces.h"
+> @@ -762,10 +763,29 @@ static int locate_fuzz_objects(Object *child, void *opaque)
+>       return 0;
 >   }
 >   
-> -static bool spapr_drc_needed(void *opaque)
-> -{
-> -    return spapr_drc_transient(opaque);
-> -}
-> -
->   static const VMStateDescription vmstate_spapr_drc = {
->       .name = "spapr_drc",
->       .version_id = 1,
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index c0ea0bd5794b..4e9d50c254f0 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -1650,9 +1650,10 @@ static void spapr_handle_transient_dev_before_cas(SpaprMachineState *spapr)
->                                                             prop->name,
->                                                             &error_abort));
+> +
+> +static void pci_enum(gpointer pcidev, gpointer bus)
+> +{
+> +    PCIDevice *dev = pcidev;
+> +    QPCIDevice *qdev;
+> +    int i;
+> +
+> +    qdev = qpci_device_find(bus, dev->devfn);
+> +    g_assert(qdev != NULL);
+> +    for (i = 0; i < 6; i++) {
+> +        if (dev->io_regions[i].size) {
+> +            qpci_iomap(qdev, i, NULL);
+> +        }
+> +    }
+> +    qpci_device_enable(qdev);
+> +    g_free(qdev);
+> +}
+> +
+>   static void generic_pre_fuzz(QTestState *s)
+>   {
+>       GHashTableIter iter;
+>       MemoryRegion *mr;
+> +    QPCIBus *pcibus;
+>       char **result;
 >   
-> -        if (spapr_drc_transient(drc)) {
-> -            spapr_drc_reset(drc);
-> -        }
-> +        /*
-> +         * This will complete any pending plug/unplug requests.
-> +         */
-> +        spapr_drc_reset(drc);
+>       if (!getenv("QEMU_FUZZ_OBJECTS")) {
+> @@ -810,6 +830,10 @@ static void generic_pre_fuzz(QTestState *s)
+>           exit(1);
 >       }
 >   
->       spapr_clear_pending_hotplug_events(spapr);
+> +    pcibus = qpci_new_pc(s, NULL);
+> +    g_ptr_array_foreach(fuzzable_pci_devices, pci_enum, pcibus);
+> +    qpci_free_pc(pcibus);
+> +
+>       counter_shm_init();
+>   }
+>   
 > 
+
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+
 
