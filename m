@@ -2,121 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39892E0E18
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 19:03:06 +0100 (CET)
-Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1D12E0E19
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 19:09:09 +0100 (CET)
+Received: from localhost ([::1]:41696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krm01-0002eo-BV
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 13:03:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41958)
+	id 1krm5r-0005ej-R7
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 13:09:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1krlxZ-0001Bl-NK; Tue, 22 Dec 2020 13:00:34 -0500
-Received: from mail-eopbgr00102.outbound.protection.outlook.com
- ([40.107.0.102]:48632 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ id 1krm4E-0004u6-2f; Tue, 22 Dec 2020 13:07:26 -0500
+Received: from mail-eopbgr80114.outbound.protection.outlook.com
+ ([40.107.8.114]:23630 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1krlxN-00058p-IZ; Tue, 22 Dec 2020 13:00:32 -0500
+ id 1krm4B-00062g-EM; Tue, 22 Dec 2020 13:07:25 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MDzoKi6xRyvsg5khQY9doruQ7atxjTp3OG8a8xhORxm8xD+9zlts1mKV1C0ilicYAf0q3VWsnxP5b8yJXRI15OCC/OXAH7AgS5hNE5ElBbbr01SzsVqk/ETVlieK6/BoQU4ryM/hZjG7mHyuld9S3J552hlG+1RJ0DDTha7Ub0v/apw9UyIM6G/TNRLeiKOk0qDeuAYYu8AV/u4JCpIOC2+hZ0k8ET3Cd5Hox2fuVEy9JnvaVFv5O+BBi6djlFL2JPfDZoJkNSbdtw0M6Y2E/4Tm6Gy17SE2gfyi5DVaVwkX9OQrWjN147Ik357YzPFi81GSJK12NgL3mZgD0oEVLQ==
+ b=HudkDw4Th7jCTw3qitX/tJ0jsgyMv/MsAvNDEeJIGo7Yvw1h3boUrbSeBVOrWMYLbXmYo5JTeuhBVd1nppbiM8LHHWLjcQueqCHMydZjn8PDsD2g8S4ivnXOB0jEc3lAd3S3tylG6em8eTQkcna2eUNm+HyRs3ANC7bxIycZQpJA6r2IYB9HTFmSkowez7b/QFyYd/PRCasNEvi6xRY4DjtgpbcuLl0AAq6QLuO7kj2g7r2DTKceWCLwfosWxMYJC1RyXRwBCMqwm66HYRe0NPGabIqrd+oFYzZk6F60r4NBe++fpAHmJioUaHP/DZoLEGYUuEHP2zqvLZ6iIMhRiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xztW4bhyGBAc9doriNjPlYmc9W4LZBMp8i4BapByH4E=;
- b=my1tEB8DpI5mB2YjhXUi88OwiVWUZxy+k1NvmUmeY8R4qud59Q0kyEdJGxJQQmBFjEU8zAhxNccUDJ8n4iXBPvi8AvgxE7s533w60ih91R3/W9kcbVu4eFLFdAzqvIR1IZU09v3n2rjabvyFa+8GAlFtxt+2/zHgkiqhg8WZN2WSmJjJoLasa5TEIOLHIIKvR081bSmOcrMeCAJPjpkOjLVgxLixI0/fJB1lvwcAdDU5XVexZ+YFia3DfjX2Nrido1AKf8UQCVcBB+MdGZrC34LgDGfoQ8nmdIF5aC9R3IJXhk+qszOUCsIpj8AwpBFJUsb9Mw7yNJrVpHLGvk1lXA==
+ bh=5JTJLRXAgXAgQ4VrBETw8yxOWfjJJA0hzclnYXbdk2U=;
+ b=gUfqYcxWjj8PKpydFuQ3pLVWiCsxeaFuNiY80XtfqN8jupk8RLrquErRfizDJ0qYlPh7MTMmSli6CdpR195qLl1b/4jNUfaBhtbp1ufbJG2SrqLPFD+xwEsAV0RM18/xFY0lJrWydYn7p/HNxHT88PbdVD+xzm5JDhaAaF6UtKQzN3UtQWY8+qEbO11/ch9++1ZH/XBcC620Xr9xYhRWZ+XUffzcM4kHV8b8Ryv2SSFkEv+75rpdZ5AKSkco0gRTwF+1mMRTe7N+Ih/aOth7j6sF5fGcqDa5V63FUepD5KRmZ82oZZRhdA2PQ3rtQLUMcx2RQqz2KMJgKCb2Hi+TrA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xztW4bhyGBAc9doriNjPlYmc9W4LZBMp8i4BapByH4E=;
- b=FS6gt9pz+aUCHhLU/+scSogD8oC/FdGOk3UTPQTzJeoa4zGncL8rKIQxpPyhKnWCsuCPxH+4gyqkqsL+554+1f2y2HLwF/ToRyuGo/wyw0B4opU9mfkJtYe8eVogqiULByTrIC8+lXnTmnfe9nWNgwQRS5wrrQc5FqMP0Ue2CNQ=
+ bh=5JTJLRXAgXAgQ4VrBETw8yxOWfjJJA0hzclnYXbdk2U=;
+ b=SlwsOw8XEMWpxzCLfNZLbUJ9rCeHL8BOdhawKd8Ze7LkjNE4RfDZ0vBahzCy4RVcjr7dQdOL+v+DsV2jJ8fy3dPjAtszt/9eJDCAVgRh81XW9j0QbhV6i201PmHrO/2VJMsis53ptALxy1Rf0K993dmdb5bk4W2uCn4CpOTO91c=
 Authentication-Results: openvz.org; dkim=none (message not signed)
  header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3957.eurprd08.prod.outlook.com (2603:10a6:20b:a2::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.29; Tue, 22 Dec
- 2020 18:00:13 +0000
+ 2020 18:07:19 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3676.033; Tue, 22 Dec 2020
- 18:00:13 +0000
-Subject: Re: [PATCH v15 10/13] qapi: block-stream: add "bottom" argument
+ 18:07:19 +0000
+Subject: Re: [PATCH v15 13/13] block: apply COR-filter to block-stream jobs
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20201216061703.70908-1-vsementsov@virtuozzo.com>
- <20201216061703.70908-11-vsementsov@virtuozzo.com>
- <d7d127a1-e70b-4e1f-acc8-eaf9230dd70a@redhat.com>
+ <20201216061703.70908-14-vsementsov@virtuozzo.com>
+ <fa2c8c5e-78b5-6d4a-6e23-aaec2249debb@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <4039f38e-e519-fe51-45c8-ce761587961b@virtuozzo.com>
-Date: Tue, 22 Dec 2020 21:00:11 +0300
+Message-ID: <e1d9bfea-ff70-1a02-0422-d59ebf1dc011@virtuozzo.com>
+Date: Tue, 22 Dec 2020 21:07:16 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
-In-Reply-To: <d7d127a1-e70b-4e1f-acc8-eaf9230dd70a@redhat.com>
+In-Reply-To: <fa2c8c5e-78b5-6d4a-6e23-aaec2249debb@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [185.215.60.92]
-X-ClientProxiedBy: AM3PR05CA0126.eurprd05.prod.outlook.com
- (2603:10a6:207:2::28) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM0PR03CA0052.eurprd03.prod.outlook.com (2603:10a6:208::29)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.5] (185.215.60.92) by
- AM3PR05CA0126.eurprd05.prod.outlook.com (2603:10a6:207:2::28) with Microsoft
+ AM0PR03CA0052.eurprd03.prod.outlook.com (2603:10a6:208::29) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.18 via Frontend Transport; Tue, 22 Dec 2020 18:00:13 +0000
+ 15.20.3676.29 via Frontend Transport; Tue, 22 Dec 2020 18:07:18 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4e1610cd-8103-4ccb-cfae-08d8a6a36ea7
+X-MS-Office365-Filtering-Correlation-Id: 1095c922-31e0-43f8-1c26-08d8a6a46c11
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3957:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB395780CECC6A96B7C1735DF6C1DF0@AM6PR08MB3957.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3957C17BB14DBA40E702650CC1DF0@AM6PR08MB3957.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: A4JTVTpb1m5+wHjEpLC/9lMxniC+gP0pWFcPosZnwCD6i5DktuAeMqElPlxJ/Ug/vY8r9Eo/0tMhEY+D2A3JK/JmB25Br2YDkgOjQ7DCUTIu7hTvySG9rcVdA8jbcjYexAyPU6NIGW42qZjExYlDBvvqiOlbtkSel8Wn4Cn69NA9sdtUzVGC9YX4D7IwY/gPXY5Xqy5W6SOcueWSPiQ8P8E+t1FrDEvVPXc4PFI+03Xkk/KNJTdziQT1cyszuEUqyt2N0HLEYghU+u2zNFrCsXPsCgoyNnIC9jpGFfBGtsljwvG26TSxUBsdhaC5xyjy3paCmOfKCYF5K7cK+Zpncj6ejbyylMMuSTynDBBUZJ9tICI/GhhGlKiEHybDIc2HTKnGE9IoIq38s7AerpVXm/VMAn+VmsLU+aFeVKkKrePpU/MDDZBcrA8fbBww+oOMfNaW2yFfIhmLL8t+PyxhSFBnPLtOvvQ3m+PxpF6Q/8s=
+X-Microsoft-Antispam-Message-Info: Eiih6qm4B7GYPSyKhmKaE6TpuwzuyThR5GgjQJKasO4LTKI6Ytr8Gj5ZrLI7P+aybLBFgJvheQq5mDTmYJJOw0Eh9fcmRgYZsbZZX7MnQwv9aZCd5VF4HZL6OwYDCTK1xZFnd9afTAFjbndVTl10ljAcCNmIaM5pUzy42sCjMZQ4IU7aXO1bpcvAVR7eZYVMoVvGbBr8yLiSaa8EejPeZvcw64GHRg/wC10gqihCfWIstv1q9nadFvPQknRCzSuMeJdBrhvDMgqCLchh6os8nfJB39F80rbJn+VMaS3Tzg5i5aGUqDmDsoKdRTFlxBXonHRz0OqvhbcTqpsLcVsjvKUXccEMgMTPMpFiLJco0T2wkRI5tUgzAhi1QUk6uzKNEeCKlzH3IiG6JvN6y3Xp07HTmdxfScFOff8YY0tOk2B0X/AoeYKR1M64lOnEEi+VfLzV3o88ss27aj60v5osXArUg/Q9slyMjIzg0TPliy8=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4326008)(66556008)(83380400001)(86362001)(6486002)(66946007)(16526019)(16576012)(5660300002)(31696002)(956004)(31686004)(498600001)(2616005)(107886003)(8936002)(186003)(52116002)(66476007)(53546011)(26005)(8676002)(2906002)(36756003)(43740500002)(45980500001);
+ SFS:(4636009)(366004)(8936002)(2906002)(8676002)(36756003)(186003)(52116002)(66476007)(53546011)(26005)(86362001)(16576012)(6486002)(66946007)(16526019)(4326008)(66556008)(83380400001)(107886003)(2616005)(498600001)(31696002)(5660300002)(956004)(31686004)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Q0l6YzZvenI0OU1TZkFTN3NKWExXUVZNelFnVzlWenZLMWprK3FQUVRkNGYx?=
- =?utf-8?B?cVBVSVNPSzlDYTBmOFZyMkt0Qkh0VjlLWUQ1MzdlOEU0eS93dFJ3b0FUb1J3?=
- =?utf-8?B?VTk2aGROdzlRR09kcEpvTEYzbGl2NCtOSENndm4vSnlRWnlTdjN6ajdlSWFF?=
- =?utf-8?B?RXVyNDFZQ08rUE9WRXA0U01YQkVPdXgzSmdUUFNtSlJRKzV6cE9CTFFqdEpG?=
- =?utf-8?B?R09HNlVobFRBd1pHVzI4TWJHWG1nSXB5ZTkzdEF0YjV2L2MwMEYrMmZjSTlK?=
- =?utf-8?B?eEs2YWJRYjFla3d4NnF2Ymg5dVJjQk9rdzdEUEpIS2psSXNjRW9IRkd0R2gv?=
- =?utf-8?B?VklERzVOa2lsUExBeWZRMVhvL0lrSHliaDZXeTRPY1ZoOHNhcEdZbEc3VGN3?=
- =?utf-8?B?Vld3eFRVeEM2R2dKZGFrcm83L0FsdGNrdzBpejdFWTVxVGk4bGN4NU43Wm01?=
- =?utf-8?B?b2ZLVGtwWnR4Vy9Db0hhOXFrc01qZzlTbG9zVHVlelpTTEFyc2lqNzNncVNQ?=
- =?utf-8?B?aUtNdEI1ZnZ2dFEySGtUTVk1TGc0bXZjVFdmNy9DN3c5VU9hNllJUXFyUkZz?=
- =?utf-8?B?aVhOcnlZQVk3aHhhVTlwMVBWeGhKb0RwaWIrejQwaU44czZBdHJZZnZKWlJt?=
- =?utf-8?B?UWhCdnRCSU5EVzVLRTcxbGgrcVFUSjhkTy9Wb08vZld2Yi8zNklVMjA0K2Jz?=
- =?utf-8?B?U1hFeUt1VVpydXNONDN0WTEyNENyc3I0OVR1M1VlLzRTMG5NUU9kZUJtUi9j?=
- =?utf-8?B?ZkZhb1M2bHVRUEVwUDRUWENEdjh1VEt1YVcxeUNqdkZrVjBPaEtzeFViYzlv?=
- =?utf-8?B?dG5lanVpa2NwbVFmbTFnRDQ2RDl6TDM0bkYra3RpK05BWWF5NGZCVGlkVndo?=
- =?utf-8?B?VXpQbldpVXdzUGdPVmNIdEllbFFCUE5rSU5qNENSdlY1cTB6TGxsNG5hS3hu?=
- =?utf-8?B?Kzc1QkZrczhDNEJDaDRRR0VCM1lWaFRIcXQ1SzNEVDNvQi9nMTd2U09keEFp?=
- =?utf-8?B?YjVsMUwvallIdk1rSy8zMHVTZjUrWDR2NmliQ2pZREhPbU02K3R6WnZLdmpp?=
- =?utf-8?B?S1ZUS1ViaGhLbGZWbEYrbUlrRXZSc2tuMGlHTmZTRzV2amRxem82NW05RFE3?=
- =?utf-8?B?aU5FK0p5TXRucWtJamxsVUNYQVBmRHd3a1YyNHBTNW5iZStkRzlPTGg1NUEx?=
- =?utf-8?B?MFBPNVFkR2dLbFd3K3FaTnI0WmZNbG1EVlJpRWRLS1FId2dKa3JzMERzZm5K?=
- =?utf-8?B?WXpQYTFUa3pDemxKSjhnMWdydW5PUWdhZHh5Y1pKUGVVSDFZUFVPajJGaDNR?=
- =?utf-8?Q?qChY3xNDrGKT0J3Mxc0awoqnXA7VflxUfq?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VGRUd0VYSGRnZHpLa3BhUlloZ0l1ZGRyOFJsWmdPQUJMNVJSZTlUdHE2N0t6?=
+ =?utf-8?B?RVJQRy9XcEUvK3hNZ3dvQ0x3MTBKZjN5aVRoR0hTSnVXWFNhOEFRWkVDb2lU?=
+ =?utf-8?B?cmJCelRWTDY3OENMZ2V5d2tnUFVVeldVSXVsbENleUUrd2ZyYmxXVEFNM0Mx?=
+ =?utf-8?B?dGNEMVp2NlNzcVhJd3NRZFhsVW8vY2ZQZmRYcUhzQzdTb0J2Y3d1WDFRbUVv?=
+ =?utf-8?B?TXlQREZvNEpVZFdSdVFxaEFpTWNURTVhVDFHekVEUmdpMDFTU2xweThCWWhw?=
+ =?utf-8?B?SjZObHoxVjM2a1pqbDVHd0RGSFFPUisyc0c4SkpKM3hnMkdrdENjSS9MSVZt?=
+ =?utf-8?B?YVVCREUvVzAxSE8rK0pQN2lUUDNKMmE2cyt3OWFGUEtrcktBSk1GQTF2TzJQ?=
+ =?utf-8?B?dGQ1L3hjd2Y1clMya2d2RkhNSDNWQWJPUDdrWk9HTm5pTXVGUHROSHRyMVp3?=
+ =?utf-8?B?dXdlYkhMM3VSZ2R5bmtpSnBHLzZHZVVLR2FSQXd1NDZHUDdIRGlPMytnQ1I3?=
+ =?utf-8?B?dnhXZyt4WHMvMjdBUW93QmdmNkhkSEZSNFcwWjlqa09aeHpxVkk0V0pvQnZV?=
+ =?utf-8?B?M3d0UUkxdW1rSW5wT1I2ZDhPS2ZVWmtCczM4L2hncGxHTWVoS0R0ZTlNb0to?=
+ =?utf-8?B?Q2RMcGZoUFFVbURGYU4rc2lOU0RYcm1hR1dqaEJIVlhGc3gyYm1xNnJSTzlF?=
+ =?utf-8?B?QkJDdnlmQmxFVk5JWUZuNDlRd3psWjg1WDgrUWZJZTlhaDRUeUVLS21hZkVi?=
+ =?utf-8?B?R0k4MFJtMmtMTjBhTFgvQ2pNalZwRzhIbzdJZFRIWnFxWlVPdDN3K1JTNm4r?=
+ =?utf-8?B?YnV2YStYVG56SmdlUlA4ZjhHZ2FoSVB1all5L0FuODlhNnZSNThER2FTdHdZ?=
+ =?utf-8?B?eElMNktIVzNVOU1PRkxoZTErR2xTVFh3VE1tU2NMbE85KzRnZEhoVjJFa0xx?=
+ =?utf-8?B?eE9sbElpNHJ6T2pTUzBVWmNqQW5DTW5WVU5WSjVBNkdZbklnZy9XNkNyS2FI?=
+ =?utf-8?B?MEJOSDdXTU4vYTBVUjAzbUhKNGRlU3h0ZHJMeno5c013ZCtpRFhwaC9ZOTAz?=
+ =?utf-8?B?ODBYb2ZGQlVyUVpJWldXUHp0b216UmNiMU1YQVRnelk3VmN5bmYxaExTUHo5?=
+ =?utf-8?B?MUZZQ1YvbW43MGZKRThCMmNqVkU5SDBZR1B4RndmSVVYTXFsZFBRaTZtUUFv?=
+ =?utf-8?B?OVgvdkUrbDdCZ2pmOE01UFBSVUdzOERqZCt0YmZ1a2VsSFhGWk5TcGZlV05E?=
+ =?utf-8?B?WERBWGlwYVBBL05PYnpSOEUxbkZPUFlVdlFGYUhqSGExS2Q1R1YxTnRKM2Fx?=
+ =?utf-8?Q?3VxvqCdCFYEtDdI0vJ3FnHxXYI4e2LjKaL?=
 X-OriginatorOrg: virtuozzo.com
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 18:00:13.8818 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 18:07:18.9299 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e1610cd-8103-4ccb-cfae-08d8a6a36ea7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1095c922-31e0-43f8-1c26-08d8a6a46c11
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YM+xCpl1KPH9JlVOwLER0YxeW/4NvqTUuJ6LyKtsfxc78p+UP9Azjnv2YwhZcKtena0Eb3bqQuHeKup3MA6jawDPKeYJPhuFIQLcvakYMiQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: LlqFq44AyRMBKu2P38c0lNizozDcN/ENM8Q/NTdyYgM0jZk35Wof65R5Dw5zrVM/JOxEgWUdma7ZZgg7i/zI2X+0EnTVVT/KY+p0zrPslBc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3957
-Received-SPF: pass client-ip=40.107.0.102;
+Received-SPF: pass client-ip=40.107.8.114;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-AM5-obe.outbound.protection.outlook.com
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -52
 X-Spam_score: -5.3
 X-Spam_bar: -----
@@ -143,71 +143,74 @@ Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-22.12.2020 19:07, Max Reitz wrote:
+22.12.2020 19:20, Max Reitz wrote:
 > On 16.12.20 07:17, Vladimir Sementsov-Ogievskiy wrote:
->> The code already don't freeze base node and we try to make it prepared
->> for the situation when base node is changed during the operation. In
->> other words, block-stream doesn't own base node.
+>> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 >>
->> Let's introduce a new interface which should replace the current one,
->> which will in better relations with the code. Specifying bottom node
->> instead of base, and requiring it to be non-filter gives us the
->> following benefits:
+>> This patch completes the series with the COR-filter applied to
+>> block-stream operations.
 >>
->>   - drop difference between above_base and base_overlay, which will be
->>     renamed to just bottom, when old interface dropped
+>> Adding the filter makes it possible in future implement discarding
+>> copied regions in backing files during the block-stream job, to reduce
+>> the disk overuse (we need control on permissions).
 >>
->>   - clean way to work with parallel streams/commits on the same backing
->>     chain, which otherwise become a problem when we introduce a filter
->>     for stream job
+>> Also, the filter now is smart enough to do copy-on-read with specified
+>> base, so we have benefit on guest reads even when doing block-stream of
+>> the part of the backing chain.
 >>
->>   - cleaner interface. Nobody will surprised the fact that base node may
->>     disappear during block-stream, when there is no word about "base" in
->>     the interface.
+>> Several iotests are slightly modified due to filter insertion.
 >>
+>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 >> ---
->>   qapi/block-core.json           | 12 ++++---
->>   include/block/block_int.h      |  1 +
->>   block/monitor/block-hmp-cmds.c |  3 +-
->>   block/stream.c                 | 50 +++++++++++++++++++---------
->>   blockdev.c                     | 59 ++++++++++++++++++++++++++++------
->>   5 files changed, 94 insertions(+), 31 deletions(-)
+>>   block/stream.c             | 105 ++++++++++++++++++++++---------------
+>>   tests/qemu-iotests/030     |   8 +--
+>>   tests/qemu-iotests/141.out |   2 +-
+>>   tests/qemu-iotests/245     |  20 ++++---
+>>   4 files changed, 80 insertions(+), 55 deletions(-)
 >>
->> diff --git a/qapi/block-core.json b/qapi/block-core.json
->> index b8094a5ec7..cb0066fd5c 100644
->> --- a/qapi/block-core.json
->> +++ b/qapi/block-core.json
->> @@ -2517,10 +2517,14 @@
->>   # @device: the device or node name of the top image
->>   #
->>   # @base: the common backing file name.
->> -#        It cannot be set if @base-node is also set.
->> +#        It cannot be set if @base-node or @bottom is also set.
->>   #
->>   # @base-node: the node name of the backing file.
->> -#             It cannot be set if @base is also set. (Since 2.8)
->> +#             It cannot be set if @base or @bottom is also set. (Since 2.8)
->> +#
->> +# @bottom: the last node in the chain that should be streamed into
->> +#          top. It cannot be set if @base or @base-node is also set.
->> +#          It cannot be filter node. (Since 6.0)
+>> diff --git a/block/stream.c b/block/stream.c
+>> index 626dfa2b22..1fa742b0db 100644
+>> --- a/block/stream.c
+>> +++ b/block/stream.c
 > 
-> As far as I can make out, one of the results of our discussion on v14 was that when using backing-file + bottom, we want to require the user to specify backing-fmt as well.  Now, backing-fmt isn’t present yet. Doesn’t that mean we have to make bottom + backing-file an error until we have backing-fmt (like it was in v14)?
-
-See my answer on 09. I just have some doubts around backing-fmt and decided to keep it as is.
-
-I don't think that we really need backing-fmt. We shouldn't have use-cases when backing-fmt is set to something another than final base node. Therefore, using format_name of final base node is a correct thing to do. So, I don't see the reason now for introducing new option.
-
+> [...]
 > 
-> Or do you consider the change to patch 9 sufficient to make at least the case work for which backing-file was purportedly introduced, i.e. FD passing?  (Patch 9’s new version will just take the format of the base post-streaming, which would be most likely a correct guess when using FD passing.)
-
-Yes, I decided just to keep logic around backing-fmt as is. Hmm, definitely I should have described my decision in cover letter, for you not being surprised.
-
+>> @@ -266,30 +251,62 @@ void stream_start(const char *job_id, BlockDriverState *bs,
 > 
-> (I.e., now with patch 9 being more liberal in guessing, perhaps you decided to no longer make backing-fmt mandatory after all.)
+> [...]
+> 
+>>       /* Make sure that the image is opened in read-write mode */
+>>       bs_read_only = bdrv_is_read_only(bs);
+>>       if (bs_read_only) {
+>> -        if (bdrv_reopen_set_read_only(bs, false, errp) != 0) {
+>> -            bs_read_only = false;
+>> -            goto fail;
+>> +        int ret;
+>> +        /* Hold the chain during reopen */
+>> +        if (bdrv_freeze_backing_chain(bs, above_base, errp) < 0) {
+>> +            return;
+>> +        }
+>> +
+>> +        ret = bdrv_reopen_set_read_only(bs, false, errp);
+>> +
+>> +        /* failure, or cor-filter will hold the chain */
+>> +        bdrv_unfreeze_backing_chain(bs, above_base);
+>> +
+>> +        if (ret < 0) {
+> 
+> Shouldn’t we keep the “bs_read_only = false;” here?
+> 
+
+No, as we don't goto fail. (pre-patch, we goto fail here, and don't want fail: code path to reopend back to RW (as reopening to RO is failed anyway (and we hope it's transactional enough)))
+
+> (All the rest of this patch looks good.)
 > 
 > Max
+> 
+>> +            return;
+>>           }
+>>       }
 > 
 
 
