@@ -2,78 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3812E115F
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 02:26:30 +0100 (CET)
-Received: from localhost ([::1]:47930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C182E1176
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 02:51:42 +0100 (CET)
+Received: from localhost ([::1]:34476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krsv7-0007Fd-RU
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 20:26:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33172)
+	id 1krtJU-00073k-EM
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 20:51:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=61943049f=atish.patra@wdc.com>)
- id 1krsqy-0006Fz-IN; Tue, 22 Dec 2020 20:22:15 -0500
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:36646)
+ (Exim 4.90_1) (envelope-from <dgreid@dylanreid.com>)
+ id 1krrWH-0000pC-Ua
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 18:56:45 -0500
+Received: from mail-dm6nam11olkn2099.outbound.protection.outlook.com
+ ([40.92.19.99]:4736 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=61943049f=atish.patra@wdc.com>)
- id 1krsqu-0005Zd-A2; Tue, 22 Dec 2020 20:22:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1608686528; x=1640222528;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=E/VGK8b2YDZcqPNBX8/IqKOXpvt2J1CAIiyJJ938XLY=;
- b=fmkSwsaPn+Ybiy944I4p5Lmm/BNhqRDRCbAORnwGCxuzw7En6FO74div
- o4+P8r9CIAM1/eSv60907+xhs6hRAi5Uv6J6+T7wS17G694VkvSC6xNRc
- lFQ27BWSE/IcjujVcNOi7VBn68CuCSI8AggN1w2yGMwmrQRpzlgAr8aQi
- qswi4V1De0ncRQvDlZqp+uFqBChMh/5oMc9i3NNQ3Uhjomc9s9oxF6YsP
- dmKLz46xvK9R8wEH1fAoHKVp2GNqBOfykxB59j3Kb7dFhmJGPK474lajc
- EeyMNCVuZn1zC0avSYbmIPuvBY6JVkBeCA7Wg4wvzwDDI9ARux50txXpO A==;
-IronPort-SDR: pMd+/xZ1HoEFBsL67EP6PYTBAm8SvbMb+9KFP9f5Kh22cJ0JsFcYsFx1xPlUyj+K2hggja64qD
- 7MpnKKlsnvPOVXB6ntxBT0By2ck2ispLyrU273XLzqYC9Cx8XM40P7j8majbqfOpudRq1JNLs+
- OV7Hlvv5hymD58xKgN78eVJGYfA+BScdmS9ZjupatBz/YL3sSoThBnnu2TMNUcC758aCyOYtoD
- ABD34kWRIVTwHvGJBO9oXC0si6o17f4r5gfC1COmo3fb8sG3JkH45EZ9lD9KcoFMf3wbPw45TG
- ISw=
-X-IronPort-AV: E=Sophos;i="5.78,440,1599494400"; d="scan'208";a="266055894"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Dec 2020 09:22:04 +0800
-IronPort-SDR: hAxZmZO82LeXYdWIopcob205qe4J6YhHsOUSAhjKqjOyDA3X+QrIZj3aQweLLcGhvMg5zaSJI/
- SO4OGyEEBa88/6P0OPHr+utpkCRoSZZ7G99zAFX/acz0+UD/Zm+ApHNJ/RW8qxoMvja2BXmDj9
- cTVByhgqgksPaDxIJgjuxlWHwcyXYWaYfhhcBDxixQFj87Z2QdSAwL1FfN4D6NJc2Tj3ykULay
- IX7w+sW7JABCp/SAiCdA8xix8L48NWL5+nXhn8hkyXURUosnZGPrW2jDlM8EucSysfimuT1ZPO
- YPUSkwyobk2nElGmNBBGWcoU
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Dec 2020 17:07:14 -0800
-IronPort-SDR: 2xEY8m3S7LporWD6+2QU5nxKKb5CJ4RRD2UTAgikesMVvZRVwQe6fVTFuE8vPyv87UjmCeaST8
- IWE7oPOmtEMYyKrOkh4xC/dzc6p0khz1kU/IFE8rdlL1byZsCVCH4dBC0MN0Kc9nq/+flFSlhl
- fwZOwU4uxNwvtjfsSBJcbya5NwVAVsNyJDyW5K/LvDuAx1ULthXwnsb/jba47CYzFBBBs0oVMC
- elrNXL06AZ05OXwDf8POGUj/WHYHXcPzhxwuPko6W8FcOrOw4TIB2dR4bOjvsRa9od+PoTmg68
- GoM=
-WDCIronportException: Internal
-Received: from usa003310.ad.shared (HELO jedi-01.hgst.com) ([10.86.62.100])
- by uls-op-cesaip02.wdc.com with ESMTP; 22 Dec 2020 17:22:04 -0800
-From: Atish Patra <atish.patra@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH] target/riscv/pmp: Raise exception if no PMP entry is
- configured
-Date: Tue, 22 Dec 2020 17:21:58 -0800
-Message-Id: <20201223012158.4146439-1-atish.patra@wdc.com>
+ (Exim 4.90_1) (envelope-from <dgreid@dylanreid.com>)
+ id 1krrWE-0002Wj-7X
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 18:56:45 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NNaSMfiOFX1bSKUwLQdvo5E0SQFFLz4gWryR/QwlUXq3TtNrOXfLVwqAjm/9GtPsDAsrxqTmuIbSSpkQGZ1oNijvtMslMK299srQhkH94ACynTk9mP79HZZ3pbtzaGDKs20DM8KvuRh6mPTqykK032bUj8/GAJhZ8bpoeJSkLnYFAL9JnibUshvGR3poFu9QaYox/hmyfRBoMKkr81qbqbRhMAcs8wbJYUT+mKqCBJ59s9PRe1gd9v9Up0TxG112xr/OH62MamwnPtMbyU6R4KUS05gLbFwOEJc9msU9TyImS2Ws1+EsEO8RgMCaXaFuEMbVOSp3NwhIDkGKe/uzJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=74qPeGFTb3aEk6W25MXipI2KHCX+xLq+PmrjTnl1cMU=;
+ b=NirMp+rRrgM/g3Er7yx2K+f0oWvLMPbZJhINKK6qNTt+hYfmkMUgFmR0w8Uroxb5y/mfxttuDPueYWBlnyaYyLxOvMZCLl7VoHP3vyDArhFFchZi3mK/kGJoW9Djg/dAVYnJshlX9xb3wE99ZVGwtFzndIyr1P/9Di39l28fdpIXT6njUpPMp63km+QieGfnnlNs81B8DJ5s/Zuw4Cn38QKQ9LOpriRShUhCS+qkKIFYARCNM2hWdWjkOZ83IINpG6Hur9Xt2ZrIdpMUyeqdYmkMR7ZwY6dfQuAKULT7Ldms4aS0OJHkXJWqNWHC4NRPBuaq0yEyfcO6sX85YBs0CA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from BN8NAM11FT032.eop-nam11.prod.protection.outlook.com
+ (2a01:111:e400:fc4b::4c) by
+ BN8NAM11HT169.eop-nam11.prod.protection.outlook.com (2a01:111:e400:fc4b::360)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.25; Tue, 22 Dec
+ 2020 23:41:36 +0000
+Received: from BYAPR08MB4648.namprd08.prod.outlook.com
+ (2a01:111:e400:fc4b::52) by BN8NAM11FT032.mail.protection.outlook.com
+ (2a01:111:e400:fc4b::344) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.25 via Frontend
+ Transport; Tue, 22 Dec 2020 23:41:36 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:54A92C2258124E7B9148912CD96C39EA2EF56FCC315A1C9086C5FA0E0775D8F2;
+ UpperCasedChecksum:2A98A0DC8550B00298A594AB1ABA29100B130294E03A34B3DB729706A7921F43;
+ SizeAsReceived:7305; Count:45
+Received: from BYAPR08MB4648.namprd08.prod.outlook.com
+ ([fe80::74f4:99e9:5170:d31f]) by BYAPR08MB4648.namprd08.prod.outlook.com
+ ([fe80::74f4:99e9:5170:d31f%3]) with mapi id 15.20.3676.033; Tue, 22 Dec 2020
+ 23:41:36 +0000
+From: Dylan Reid <dgreid@dylanreid.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] vhost-user: Check vhost features for CONFIGURE_MEM_SLOTS
+Date: Tue, 22 Dec 2020 15:41:26 -0800
+Message-ID: <BYAPR08MB464854F9582554185F3B36AFC8DF0@BYAPR08MB4648.namprd08.prod.outlook.com>
 X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=61943049f=atish.patra@wdc.com; helo=esa1.hgst.iphmx.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-TMN: [0BHOfffAD/COSw3LYlw3tkm42gSAXzML]
+X-ClientProxiedBy: SJ0PR03CA0073.namprd03.prod.outlook.com
+ (2603:10b6:a03:331::18) To BYAPR08MB4648.namprd08.prod.outlook.com
+ (2603:10b6:a03:49::22)
+X-Microsoft-Original-Message-ID: <20201222234126.366676-1-dgreid@dylanreid.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from dddc1.localdomain (73.222.83.91) by
+ SJ0PR03CA0073.namprd03.prod.outlook.com (2603:10b6:a03:331::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.27 via Frontend
+ Transport; Tue, 22 Dec 2020 23:41:35 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 45
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 20226f00-2e55-4f28-32cb-08d8a6d31efc
+X-MS-TrafficTypeDiagnostic: BN8NAM11HT169:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: E1/jEbZqdKtyoyya0gaPWtiCcaAgySdWo/7/GM2OpBtkeq133r3CYTX88sI3vyQZUytPGmvj33EJwJ1HxEB9lRAIL/fXYCmvIsbWZ9u9aWVsfheDftljTxFYzPYHGSfxS65o/f/Bpj7+2m4Z0xe6AOtqQBAl9fcsnCXxjbwgqAzWAA3U43iTonnm7Ktvt8X8ODwpgomVKXYeJVlO5JxcsRSMKs82Qc7Y15fqGYjEXFowkVrjZ6PL+cUhxfPXLdYq
+X-MS-Exchange-AntiSpam-MessageData: JfVlVJer2qN+DlHUS9pVXAg2t9HZLOK3NIivG675dj7VtWSueu7UXBE1MEqFOHFGdpxFbS3uBOSYVo1oc/47MtwuHc2nha4l/RAriWwVX6jHNvg8M3jhKP1dLD/8h+fUh+OFIhZCoR2ntU0/KDrMBg==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 23:41:35.9900 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20226f00-2e55-4f28-32cb-08d8a6d31efc
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT032.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8NAM11HT169
+Received-SPF: none client-ip=40.92.19.99; envelope-from=dgreid@dylanreid.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, FORGED_SPF_HELO=1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 22 Dec 2020 20:49:09 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,73 +107,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Anup Patel <anup.patel@wdc.com>, Atish Patra <atish.patra@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Dylan Reid <dgreid@dylanreid.com>, raphael.norwitz@nutanix.com,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As per the privilege specification, any access from S/U mode should fail
-if no pmp region is configured.
+The `CONFIGURE_MEM_SLOTS` feature is specified by vhost, not by virtio.
+Check the vhost flags for it being set.
 
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
+I noticed this while testing a new vhost implementation that doesn't yet
+support configuring memory slots and retested with dpdk's block example
+as well.
+
+Signed-off-by: Dylan Reid <dgreid@dylanreid.com>
 ---
- target/riscv/op_helper.c | 5 +++++
- target/riscv/pmp.c       | 4 ++--
- target/riscv/pmp.h       | 1 +
- 3 files changed, 8 insertions(+), 2 deletions(-)
+ hw/virtio/vhost-user.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index d55def76cffd..1eddcb94de7e 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -150,6 +150,11 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 2fdd5daf74..faa0e133f2 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1860,7 +1860,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque)
+         }
  
-     uint64_t mstatus = env->mstatus;
-     target_ulong prev_priv = get_field(mstatus, MSTATUS_MPP);
-+
-+    if (!pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+    }
-+
-     target_ulong prev_virt = get_field(env->mstatus, MSTATUS_MPV);
-     mstatus = set_field(mstatus, MSTATUS_MIE,
-                         get_field(mstatus, MSTATUS_MPIE));
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 2eda8e1e2f07..fbc4073fb359 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -74,7 +74,7 @@ static inline int pmp_is_locked(CPURISCVState *env, uint32_t pmp_index)
- /*
-  * Count the number of active rules.
-  */
--static inline uint32_t pmp_get_num_rules(CPURISCVState *env)
-+inline uint32_t pmp_get_num_rules(CPURISCVState *env)
- {
-      return env->pmp_state.num_rules;
- }
-@@ -237,7 +237,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
- 
-     /* Short cut if no rules */
-     if (0 == pmp_get_num_rules(env)) {
--        return true;
-+        return (env->priv == PRV_M) ? true : false;
-     }
- 
-     if (size == 0) {
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index 6c6b4c9befe8..c8d5ef4a694e 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -64,5 +64,6 @@ bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
-                          target_ulong *tlb_size);
- void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
- void pmp_update_rule_nums(CPURISCVState *env);
-+uint32_t pmp_get_num_rules(CPURISCVState *env);
- 
- #endif
+         /* get max memory regions if backend supports configurable RAM slots */
+-        if (!virtio_has_feature(dev->protocol_features,
++        if (!virtio_has_feature(features,
+                                 VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS)) {
+             u->user->memory_slots = VHOST_MEMORY_BASELINE_NREGIONS;
+         } else {
 -- 
 2.25.1
 
