@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF3D2E036A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 01:29:42 +0100 (CET)
-Received: from localhost ([::1]:59084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C8A2E036E
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 01:30:21 +0100 (CET)
+Received: from localhost ([::1]:60742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krVYb-0003RR-Rz
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 19:29:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43090)
+	id 1krVZE-00047k-5n
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 19:30:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1krVX4-0002oV-1g
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:28:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33584)
+ id 1krVXs-0003GZ-UW
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:28:58 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1krVX1-00005Y-MQ
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:28:05 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 65060229C5
- for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 00:28:01 +0000 (UTC)
+ id 1krVXr-0000PP-GF
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:28:56 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0593E22B2D
+ for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 00:28:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608596881;
- bh=JStX7+dUIvKonoiRpd4e1RDpxzEP4ktmJ3uNhtokaL8=;
+ s=k20201202; t=1608596934;
+ bh=BMZMGgNs5iYHP55nahnrR8NIsoo4t4qF/v3Gn/TWrJs=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=EkO/TY0FDA/MDTDfcgN9eY8lwkL5gbmAZfDPjwX7Jbnzbow0U07+IB0hlGHRgl+tt
- xIUyEnjI1jLJxGGlKZQY8TZ3FBbOPFdWBeq9w/E7VdhXvyWrjNWwmFpb8JxO2LW/c7
- v03HdpGmYfbD750nTja85kRLAnaiYCfPBlN5yUjUB1Bkc8Dq5SAtioyflb9pgOiisu
- vlk9wS8QuoQsQiwOtcU8T+ZAhaDK7oFMXCFgWvDHUUtL1dOCMqnDgmpQwhGFxt/Vjb
- RwhRtF08YmF5xSt+3oWEYjO/2mk+6fpfyg99GlVKes0LTgIYQFCiqqFzmAgqkwXwR+
- OLU0jSaGf+A3A==
-Received: by mail-il1-f170.google.com with SMTP id r17so10466856ilo.11
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 16:28:01 -0800 (PST)
-X-Gm-Message-State: AOAM531ujcbbEYQpl4CYO+QDX5h0GpKqbJ1IsB4HPFTG46x0tIho0w0L
- OkGVQa0Q5ClnmELWjLvq+uQgq0SdzwgpWJEWSAI=
-X-Google-Smtp-Source: ABdhPJz5tR4gMfr2xGBZZ3uxXqbCzG4Hjvl8m/Skt1T2wrFxQE/kPVYK3fRfVojFUQbyC508uscyl1rVTYDgUqEt98A=
-X-Received: by 2002:a92:870b:: with SMTP id m11mr17946031ild.134.1608596880884; 
- Mon, 21 Dec 2020 16:28:00 -0800 (PST)
+ b=t/PgWUBS3eF8rx6XF0qcYm1kg4WjFlCDU/ULS9tul2C3aTfuFFblW9GuVzlZSlkEc
+ WMwnFge79qAJHE1j64QdznJEGuzGUvqJBqN/IepXvpHakLz5xlIgSw8fp42wyeJDOr
+ sbK12H7SRb0IAESVkcAkgq0KOcZGh7DzTRH0/WGh3uW8qQ3ZpC51nvrCXOTSeqYaGz
+ 5+mwJIdXm2CiAjqYMhAF0lPYoIsv3+52sZn7mDQKwfWAUGrmmp/ECcRDWIO7pdyVCt
+ hRAai2PS//xs7e5jfY0vxWb9PBkCY0OCz2hVQm1nPHZi5MAwDQI9fvAtHNquHDVIZS
+ +Tuoqgn16SjDw==
+Received: by mail-io1-f53.google.com with SMTP id q137so10471628iod.9
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 16:28:53 -0800 (PST)
+X-Gm-Message-State: AOAM532D9xbafoxd7pbg4UY54/RCi0sLtoW+VvGtK2evoK8n23/OxCPA
+ trA44LKz5UtrE/zsWPXo7PKUQiyEjq6hGjoD9u4=
+X-Google-Smtp-Source: ABdhPJzL/J9auO+sDL8d9m8O2w05KmXk8yTGitvLzfvDbSjoVgJ7QNh5C2FecDDsZOWjYMNht6ev4LZzTGAa3Ft2mRM=
+X-Received: by 2002:a6b:dc0f:: with SMTP id s15mr15994439ioc.180.1608596933514; 
+ Mon, 21 Dec 2020 16:28:53 -0800 (PST)
 MIME-Version: 1.0
 References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
- <20201219072139.39347-1-jiaxun.yang@flygoat.com>
-In-Reply-To: <20201219072139.39347-1-jiaxun.yang@flygoat.com>
+ <20201219072139.39347-2-jiaxun.yang@flygoat.com>
+ <7cd691f9-cad9-ebdc-6eed-4ef9eef13ec0@amsat.org>
+In-Reply-To: <7cd691f9-cad9-ebdc-6eed-4ef9eef13ec0@amsat.org>
 From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 22 Dec 2020 08:27:49 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H631FcMgQeaJW=R_fGqbUYkmuLj46jEUugiy47pT3+E=Q@mail.gmail.com>
-Message-ID: <CAAhV-H631FcMgQeaJW=R_fGqbUYkmuLj46jEUugiy47pT3+E=Q@mail.gmail.com>
-Subject: Re: [PATCH v2 5/8] hw/mips/fuloong2e: Remove unused env entry
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Date: Tue, 22 Dec 2020 08:28:42 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6npgMW0kNrBWp-Edk=jtiPerFKiqSmoWqJjqbrSYLR=w@mail.gmail.com>
+Message-ID: <CAAhV-H6npgMW0kNrBWp-Edk=jtiPerFKiqSmoWqJjqbrSYLR=w@mail.gmail.com>
+Subject: Re: [PATCH v2 6/8] hw/mips/fuloong2e: Correct cpuclock env
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
  helo=mail.kernel.org
 X-Spam_score_int: -70
@@ -71,38 +73,25 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Cleber Rosa <crosa@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
 
-On Sat, Dec 19, 2020 at 3:22 PM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
+On Sun, Dec 20, 2020 at 2:23 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
 >
-> modetty and busclock is not handled by kernel and the parameter
-> here seems unreasonable.
+> On 12/19/20 8:21 AM, Jiaxun Yang wrote:
+> > It was missed in 3ca7639ff00 ("hw/mips/fuloong2e:
+> > Set CPU frequency to 533 MHz"), we need to tell kernel
+> > correct clocks.
+> >
+> > Fixes: 3ca7639ff00 ("hw/mips/fuloong2e: Set CPU frequency to 533 MHz").
+> > Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> > ---
+> >  hw/mips/fuloong2e.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->  hw/mips/fuloong2e.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-> index d846ef7b00..c4843dd15e 100644
-> --- a/hw/mips/fuloong2e.c
-> +++ b/hw/mips/fuloong2e.c
-> @@ -159,10 +159,8 @@ static uint64_t load_kernel(CPUMIPSState *env)
->      }
->
->      /* Setup minimum environment variables */
-> -    prom_set(prom_buf, index++, "busclock=33000000");
->      prom_set(prom_buf, index++, "cpuclock=100000000");
->      prom_set(prom_buf, index++, "memsize=%"PRIi64, loaderparams.ram_size / MiB);
-> -    prom_set(prom_buf, index++, "modetty0=38400n8r");
->      prom_set(prom_buf, index++, NULL);
->
->      rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
-> --
-> 2.29.2
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
