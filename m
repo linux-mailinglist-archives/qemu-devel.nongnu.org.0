@@ -2,130 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4092E0E1E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 19:13:11 +0100 (CET)
-Received: from localhost ([::1]:48452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1792E0E32
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 19:24:52 +0100 (CET)
+Received: from localhost ([::1]:54464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krm9l-0000OA-Tl
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 13:13:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44902)
+	id 1krmL3-00046K-Ba
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 13:24:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1krm8Z-0008Il-TZ; Tue, 22 Dec 2020 13:11:55 -0500
-Received: from mail-am6eur05on2122.outbound.protection.outlook.com
- ([40.107.22.122]:20392 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1krmJh-0003cB-Fq
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 13:23:25 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:42486
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1krm8W-0006be-QA; Tue, 22 Dec 2020 13:11:55 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hU5yL0rSNgJp16qnpAd1j4fkm5zBdMag2g39LX6XAzFXkCmsj5NnbMSeSRhVmPzTBB6CQyHkO9gbKWFAZ8V02afm65gCTN+Ljbkk0XeH9pgg3W91kzD+AtL7XMm3PW2Ko3bj//upV2rfeWSAPBcuMX1OXxfaMD9LMLAt2dOvh9mjnQuJqIJFhGRozU/ZTndtMuwDLsTxdNk7onpwHMXE8e2S7HH2jT9YhPedHE7aFeB22Cug6qL/XYqHZRtZ9J0TnT4Mju65EkvutXDglXIsh23HlaB9jPwTQNFdB73ZJpGNIYCEiasffiS+Wcwmr9uXnCTxxkulXY+Z/bZPDrFqTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fRDOdlREUZyT1IOMReAFnwUVpiVc81ngDvfYD8O5+ow=;
- b=ltipTO4FhYhOoyE0LjkChsIpqDIxlXaTMCN5RcQ9xymgOAwhV+Ov4PI5P1ttaQY0mt+IMEgOfL6YHNGUspXCSILFHX9h5rgj/j9juXIM2HVHRgJwHvnGq1rOxzEFsJZKAY5ojz3QexWXpTVjNHB5FDlGMoDBNxTmgGwG6CBF5P0Yw0/vSH57qdX5YQGfTHFRlVRCUPSRZdyVQ3j6my4uAVIsGBNoakcPRgVACf6MfFk+GMZZ9m83UyMANrCdXZt/Yu7RACQCenNLNxESghCcVqncNuJdEyV2mp/mqoznC/A/zCqpGuGxTz3qGNd9K6Oh4px3XJcmlQeoIFSchXgRUg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fRDOdlREUZyT1IOMReAFnwUVpiVc81ngDvfYD8O5+ow=;
- b=ksi6zkc5CmO6cHKjELKKzxfp4y0RShHwMvtFcMY+5UhOmGoej2vioprMYre758uwtsd7LHnlgG/tZ7/B3pqPAoy/TDDAoL92NdpdRoLlNUW8XP904CPGE1/GYWGumvISXP+SuFMOD1m3Ym2qxmqr2dWLxkEWIg/UPNbo7PIRB70=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6166.eurprd08.prod.outlook.com (2603:10a6:20b:296::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.25; Tue, 22 Dec
- 2020 18:11:49 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3676.033; Tue, 22 Dec 2020
- 18:11:49 +0000
-Subject: Re: [PATCH v15 10/13] qapi: block-stream: add "bottom" argument
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20201216061703.70908-1-vsementsov@virtuozzo.com>
- <20201216061703.70908-11-vsementsov@virtuozzo.com>
- <d7d127a1-e70b-4e1f-acc8-eaf9230dd70a@redhat.com>
- <4039f38e-e519-fe51-45c8-ce761587961b@virtuozzo.com>
-Message-ID: <7b1283f5-5597-05d7-c73b-a99af9cccba7@virtuozzo.com>
-Date: Tue, 22 Dec 2020 21:11:47 +0300
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1krmJf-00083I-99
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 13:23:25 -0500
+Received: from host86-191-183-22.range86-191.btcentralplus.com
+ ([86.191.183.22] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1krmJT-0001VD-3t; Tue, 22 Dec 2020 18:23:15 +0000
+To: Guenter Roeck <linux@roeck-us.net>, QEMU Developers <qemu-devel@nongnu.org>
+References: <3f0f8fc6-6148-a76e-1088-b7882b0bbcaf@roeck-us.net>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <5ef852ee-8a53-df9d-82f4-33a68c05f53a@ilande.co.uk>
+Date: Tue, 22 Dec 2020 18:23:09 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
-In-Reply-To: <4039f38e-e519-fe51-45c8-ce761587961b@virtuozzo.com>
+MIME-Version: 1.0
+In-Reply-To: <3f0f8fc6-6148-a76e-1088-b7882b0bbcaf@roeck-us.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.92]
-X-ClientProxiedBy: FRYP281CA0018.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::28)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.92) by
- FRYP281CA0018.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3700.19 via Frontend Transport; Tue, 22 Dec 2020 18:11:49 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ba02857a-3a7b-475f-6d9b-08d8a6a50d84
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6166:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB61662F7FA4157CDEED7C1F8DC1DF0@AS8PR08MB6166.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: c4Fjr8vRq5Wag35OXb9fJpY+4qiN8hXnUltT47qi0hpGuJe2k42q1tPqrWWNRq9vS8XTxFCio1XGIUttqJU5sgkAjN6GDkQZNCfKhsLyZTL82aDt2ntIyZ+PDhpsUauAto5UvVFIiyf1gx29pSny7BPTKBjYseHGtnxOojDc5E6kZkFU8PdvpfYtbACqQbE0hdsPd83enhS0n+h8hbaief2pxXbCFr4dWXfEP+tDdm2t9YAS+00TiOZ7qTkzToMfL/1HZUnaWPEbUeTwS5Q9qiLC235s+edlRYYX6u4OBu69/+vrCi7wFkkFJxF69ERWLA6p/i3XFl/KDCVi9DNRpIQriouA+LdKGZPj6cY2qYteVGFYikM4Y2W4Np275ey/nDFi7GJ8y0E6bFCQsQ0NprZ7WGZqQe+Sqe5MnLphyLTMzYJlL/cvlwUkc6L/n58xjkfr9u2cWShDnCj7jZ0e3CbtuBjR61s1p/hEgK1gd8g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(26005)(31686004)(558084003)(8676002)(31696002)(2616005)(66476007)(52116002)(66946007)(16526019)(956004)(107886003)(5660300002)(16576012)(86362001)(36756003)(186003)(66556008)(6486002)(4326008)(2906002)(498600001)(8936002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bHBnRE14bjFLMElGbGZSUVBRRWNhUzBBRnJOb0FlL0hTR2tVWVdUdGRjSlZZ?=
- =?utf-8?B?dkdHd3VXQnppanE0VzU5eFpNd1NjL0NJREVrVHgyVVlsWVZTRHdqR3Rta05V?=
- =?utf-8?B?SUdSUkN5SWN1WS9wNXhvQmZEdUE0NkhKMFMyYnFic0tpQ1FBYXBhV0VFL1FG?=
- =?utf-8?B?NXNCUU05T0xtK1o1Z3lqT1Y0VGljd0JQME5ZUUNjOHdRVk9IejhzRVpTVUNz?=
- =?utf-8?B?R0NXTEQ2bVl1SktXdXFMbjBubWJzWVhsZkRwbEY0UXRER1dLOHQvV2Y4OGFD?=
- =?utf-8?B?R0tYcER4VTlOdXZBOTQ3MlBBeFNxRERRaEZjeDVPVFFRaEJyTk9GMTAyZzY2?=
- =?utf-8?B?UUtkMlRTVW91TVpKR1Y5K3BkK0Y4TWgvckhkV0YrOHVCeTQvQk0xdnZBc3Bk?=
- =?utf-8?B?cHpVRzVEVGRTQmJ3c2tLSkZZeUFyTDdGWDZvN0hkWU9BYlpCOU1jOE1hVEVt?=
- =?utf-8?B?UXZSOHRVQzVuRVk5WmZBOTQ0M1AxRnJrdi9BTXorOSt6NEhTZ0xmSHhsT1VP?=
- =?utf-8?B?ajFxbGR1Wm5vTUUvSk9wSmcxZi9oZU1TMm5YcFJaYy9oU3EvMVRQUHdEV29x?=
- =?utf-8?B?RGpvWFlpZVFTV3JDNUlWOGt5QzI0QjUwdlRyZkhoR1NlSThnSDFCMEc5ZUxx?=
- =?utf-8?B?cTJIQllBZ05sczVFTXhFYkxFUDZqaVB1ZU9TVHFqeWlJWEprRGtJV3NnckpU?=
- =?utf-8?B?OHJBQVhwT3RaSUdCVjVvM1lpcHlJbXlzVmowTFJ6MGgxRWswNWd6OFFIeVgy?=
- =?utf-8?B?U0xRdnBYZEJ5RWZTYVRWanByUUw5cFVXSVVRc2FOOEE2QjFNaEJ6eWJ4MUFJ?=
- =?utf-8?B?bXhMV25jcm40cGNRWVc1Y2M2dDJrUEVMMjRJZWFpL3pXa0pEOUxpbVRoSStu?=
- =?utf-8?B?amJmRmNPTWliSkRJWGFZQk1SZ3JFSEIrWjZyOXlNNU5qR2lZSFlsY2NTMDQr?=
- =?utf-8?B?dWtCUzNaMWY0cjRGOVpHRnZ5WC83QWtUdVZFQkFTZjk5WjlQU01LdWJNTWhy?=
- =?utf-8?B?bU9ucGZWZ21ReFhIYk1RZ0pDVnJrR1d6NEFPN0tueDI3ZDB3R01MSFNPWGRo?=
- =?utf-8?B?NFZDamdLVHNrWm5ZNTlubjY2M2w0R2VuQkNKQmVmRHdZR1R5dlVuRFdXdkIw?=
- =?utf-8?B?VUJKQk4yQnBqMU11N0FtWmd3TVg2b0xxL2JidU1LbW1HQ3FTNk05S3FCUy83?=
- =?utf-8?B?UXBkZmlQNHFZTHVXRjlSQmtLUGFFSVpuVDJISHpLR1l2NTZsUHRzbHNhb3Mr?=
- =?utf-8?B?bXVDVXd2cXUvdVhtT21FSjdBdGZjOVdHYjdQVFRxVXpaZkx3akRsY0FZQ1pQ?=
- =?utf-8?Q?rBQ5jY9IphgfwkTZXN8Z34P7RsudUVN/7P?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 18:11:49.8895 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba02857a-3a7b-475f-6d9b-08d8a6a50d84
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kAYPco2no+F7G3ywEwzeuGwJOHqC1Jzk7a9Rl4NDDRn5Ml9KCXOe6Vr+HCSOZ/HPT/OGteGiWcinh9Fb8xHgU8B1bRaThY17IqsGFZaRIN4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6166
-Received-SPF: pass client-ip=40.107.22.122;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.191.183.22
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: Problems with irq mapping in qemu v5.2
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.521, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.521,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,20 +63,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, den@openvz.org, andrey.shinkevich@virtuozzo.com,
- jsnow@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-22.12.2020 21:00, Vladimir Sementsov-Ogievskiy wrote:
-> We shouldn't have use-cases when backing-fmt is set to something another than final base node.
+On 22/12/2020 16:16, Guenter Roeck wrote:
 
-I mean, we shouldn't have use-cases when backing-file is [...]
+> Hi,
+> 
+> commit 459ca8bfa41 ("pci: Assert irqnum is between 0 and bus->nirqs in
+> pci_bus_change_irq_level") added sanity checks to the interrupt number passed
+> to pci_bus_change_irq_level(). That makes sense, given that bus->irq_count
+> is indexed and sized by the number of interrupts.
+> 
+> However, as it turns out, the interrupt number passed to this function
+> is the _mapped_ interrupt number. The result in assertion failures for various
+> emulations.
+
+That doesn't sound quite right. My understanding from the other boards I have been 
+working on is that they use the map_irq() functions recursively so that the final 
+set_irq() is on the physical pin, so it might just be that the assert() is simply 
+exposing an existing bug.
+
+> Examples (I don't know if there are others):
+> 
+> - ppc4xx_pci_map_irq() maps the interrupt number to "slot - 1". Obviously
+>    that isn't a good thing to do for slot 0, and indeed results in an
+>    assertion as soon as slot 0 is initialized (presumably that is the root
+>    bridge). Changing the mapping to "slot" doesn't help because valid slots
+>    are 0..4, and only four interrupts are allocated.
+> - pci_bonito_map_irq() changes the mapping all over the place. Whatever
+>    it does, it returns numbers starting with 32 for slots 5..12. With
+>    a total number of 32 interrupts, this again results in an assertion
+>    failure.
+> 
+> ppc4xx_pci_map_irq() is definitely buggy. I just don't know what the
+> correct mapping should be. slot  & 3, maybe ?
+
+Yeah that doesn't look right. Certainly both the Mac PPC machines use 
+((pci_dev->devfn >> 3)) & 3) plus the interrupt pin so I think you're right that this 
+is missing an & 3 here. Does adding this allow your image to boot?
+
+> I don't really have a good solution for pci_bonito_map_irq(). It may not
+> matter much - I have not been able to boot fuloong_2e since qemu v4.0,
+> and afaics that is the only platform using it. Maybe it is just completely
+> broken ?
+
+It looks like you want this patchset posted last week: 
+https://patchew.org/QEMU/20201216022513.89451-1-jiaxun.yang@flygoat.com/ 
+(specifically: 
+https://patchew.org/QEMU/20201216022513.89451-1-jiaxun.yang@flygoat.com/20201216022513.89451-4-jiaxun.yang@flygoat.com/). 
+Zoltan was working on the VIA southbridge wiring at the start of the year and 
+provided me a test case that would boot Linux on the fulong2e machine, so at that 
+point in time it wasn't completely broken.
+
+So far it does seem like these are existing bugs being exposed, but please do report 
+back on whether the above suggestions fix the problems you are experiencing.
 
 
+ATB,
 
--- 
-Best regards,
-Vladimir
+Mark.
 
