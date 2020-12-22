@@ -2,58 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633E02E0CDD
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 16:44:50 +0100 (CET)
-Received: from localhost ([::1]:52496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D232E0CE1
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 16:45:12 +0100 (CET)
+Received: from localhost ([::1]:53938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krjqC-0002sr-UC
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 10:44:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38884)
+	id 1krjqZ-0003Va-Cs
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 10:45:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <posteuca@mutex.one>)
- id 1krjoZ-0001po-9J; Tue, 22 Dec 2020 10:43:07 -0500
-Received: from mail.mutex.one ([62.77.152.124]:46758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <posteuca@mutex.one>)
- id 1krjoX-0008Bh-LM; Tue, 22 Dec 2020 10:43:07 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.mutex.one (Postfix) with ESMTP id 3F81FBF40375;
- Tue, 22 Dec 2020 17:43:01 +0200 (EET)
-X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
-Received: from mail.mutex.one ([127.0.0.1])
- by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id moyrh-Txwy5l; Tue, 22 Dec 2020 17:43:00 +0200 (EET)
-Received: [127.0.0.1] (localhost [127.0.0.1])nknown [79.112.42.67])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mutex.one (Postfix) with ESMTPSA id 72086BF402FC;
- Tue, 22 Dec 2020 17:43:00 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
- t=1608651780; bh=4c0z7GikZQtp0+kQ7r75UvNRsiKRmFYSiLZyq241zTw=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=DeMVnAvOL9Cj5FJaRlCgo+1tLSeJUjy9xBr8Lkob8kLuAh6RQ7ipyKVGSh++1q2dE
- NiCrSN99gr3aFPz2YxVuolvoULFKH4XQTnsTipP9NkepxrAQROWPv/HVMUsyCEURN8
- NILlK0E5+3G5+83MnEitJUpw7PgT2sp84pdgf3+Y=
-From: Marian Posteuca <posteuca@mutex.one>
-To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] acpi: Permit OEM ID and OEM table ID fields to be
- changed
-In-Reply-To: <d04375f8-f6bc-91d6-cd6e-217a689002e3@msgid.tls.msk.ru>
-References: <20201222113353.31224-1-posteuca@mutex.one>
- <d04375f8-f6bc-91d6-cd6e-217a689002e3@msgid.tls.msk.ru>
-Date: Tue, 22 Dec 2020 17:39:29 +0200
-Message-ID: <87eejh4zpq.fsf@mutex.one>
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1krjou-00024A-Aw; Tue, 22 Dec 2020 10:43:29 -0500
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:34668)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1krjor-0008IS-M6; Tue, 22 Dec 2020 10:43:28 -0500
+Received: by mail-lf1-x136.google.com with SMTP id o19so33070269lfo.1;
+ Tue, 22 Dec 2020 07:43:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=DelctIaeiY5DrybABco1WEzNbYSCk2RhBqxcqsCMEuk=;
+ b=USICWw+mfv1x41aFgw0CqsnLRp6ui8IZccB/n4NKI/zwU1/ZZA/xVefI1hVa0Zly3i
+ IewuDlfFzTSVnFvvwbB11yvk8o8hdLrGPgYokY1fzhmmJ/2jLaBpo1JKayRf9juEBY4n
+ 9VUnBEmwVTkTCCNqzGCF3HRfNj7Q9soNEuvSCkR/RBMcs+2Qzy+ua4fJDPkPXow91BE+
+ Z7U/zIg0H02vSGxfnY8XPu3/rl3tamkcpFWGc/UvKFIKKSu2KF+qToB0ZnnajWKYWW4B
+ GFrPqamI6hPhJe7bmaXqgsg+LLrzaXT9k91qXdF/bHUajZkFeICJUjdYfmzJQSewJDhx
+ ovxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=DelctIaeiY5DrybABco1WEzNbYSCk2RhBqxcqsCMEuk=;
+ b=Q+P1RmjUv5Dbb3AbfxkytkJ0UqugPoDqxnkYKeknkLWY7VaU0PW1t8aOFtTxBuw2bj
+ CRtgrfE5WCyH5USfLlVnYW4ZOmkASTwt/XI9BDveC8LGJt0Z/kJKVyRXTr3ywaFOXC07
+ 5rIX9peEAP+ORWWv9NwGwKD1JiTASbur4agfxnSQQbXsXgXvDjTr7Zmj9fTTDltXVQ92
+ OHzma39+DenQN3PJ96PnZ8boDcrd4ehplwzy/eFzA8reOjTSwWOcQ4e6DRjIp4bGLlS+
+ EclntmXgWhmD1CFU7Zhtqw1P0VDczGByq2v/1yfXik7qV9l4BTWDQ1U8Nd6Ihfc05v3g
+ SiLA==
+X-Gm-Message-State: AOAM532+kj02+qcxeuRpO/9DaPz4t0rMecBPZqg6sNJvBDGr5lBnuBFK
+ CiVyHJ8vseex5isrWB4Fg24=
+X-Google-Smtp-Source: ABdhPJx0h1ZEYBjpPzY1c6uRs731wijdGtTZl9UPKmZ1+FdBptBI5ckD3UT0BK33AAoR8JMInEDxBw==
+X-Received: by 2002:a2e:8151:: with SMTP id t17mr10429678ljg.460.1608651803262; 
+ Tue, 22 Dec 2020 07:43:23 -0800 (PST)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ o12sm2909526ljp.123.2020.12.22.07.43.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 22 Dec 2020 07:43:22 -0800 (PST)
+Date: Tue, 22 Dec 2020 16:43:20 +0100
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH v4 2/2] hw/block: m25p80: Implement AAI-WP command
+ support for SST flashes
+Message-ID: <20201222154319.GA26555@fralle-msi>
+References: <1608619520-62782-1-git-send-email-bmeng.cn@gmail.com>
+ <1608619520-62782-2-git-send-email-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=62.77.152.124; envelope-from=posteuca@mutex.one;
- helo=mail.mutex.one
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1608619520-62782-2-git-send-email-bmeng.cn@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x136.google.com
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,59 +85,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
- "Michael S.
- Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Michael Tokarev <mjt@tls.msk.ru> writes:
+Hi Bin,
 
-> 22.12.2020 14:33, Marian Posteuca wrote:
->> Qemu's ACPI table generation sets the fields OEM ID and OEM table ID
->> to "BOCHS " and "BXPCxxxx" where "xxxx" is replaced by the ACPI
->> table name.
->> 
->> Some games like Red Dead Redemption 2 seem to check the ACPI OEM ID
->> and OEM table ID for the strings "BOCHS" and "BXPC" and if they are
->> found, the game crashes(this may be an intentional detection
->> mechanism to prevent playing the game in a virtualized environment).
->
-> This isn't a technical question/comment about the patch itself, but
-> about something different.  Do we really want to play this whack-a-mole
-> game? If we change ACPI table IDs, those who want to disallow running
-> their software inside qemu/kvm will find some other way to check for
-> this environment. We will change that, - just to be found again. And
-> so on.. is it productive? I don't think so.
+A couple of minor comments only!
 
-My personal opinion is that as long as it's not too difficult to mask
-that the guest is running in a virtualized environment we should try to
-do these changes. But I guess this can only be judged on per change basis.
+On [2020 Dec 22] Tue 14:45:20, Bin Meng wrote:
+> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> 
+> Auto Address Increment (AAI) Word-Program is a special command of
+> SST flashes. AAI-WP allows multiple bytes of data to be programmed
+> without re-issuing the next sequential address location.
+> 
+> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> 
+> ---
+> 
+> Changes in v4:
+> - simplify is_valid_aai_cmd()
+> - use a subsection for s->aai_enable vm state
+> 
+> Changes in v3:
+> - initialize aai_enable to false in reset_memory()
+> 
+> Changes in v2:
+> - add aai_enable into the vmstate
+> - validate AAI command before decoding a new command
+> - log guest errors during AAI_WP command handling
+> - report AAI status in the status register
+> - abort AAI programming when address is wrapped
+> - make sure AAI programming starts from the even address
+> 
+>  hw/block/m25p80.c | 75 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+> 
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 236e1b4..d37b4d8 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -359,6 +359,7 @@ typedef enum {
+>      QPP_4 = 0x34,
+>      RDID_90 = 0x90,
+>      RDID_AB = 0xab,
+> +    AAI_WP = 0xad,
+>  
+>      ERASE_4K = 0x20,
+>      ERASE4_4K = 0x21,
+> @@ -449,6 +450,7 @@ struct Flash {
+>      bool four_bytes_address_mode;
+>      bool reset_enable;
+>      bool quad_enable;
+> +    bool aai_enable;
+>      uint8_t ear;
+>  
+>      int64_t dirty_page;
+> @@ -664,6 +666,11 @@ static void complete_collecting_data(Flash *s)
+>      case PP4_4:
+>          s->state = STATE_PAGE_PROGRAM;
+>          break;
+> +    case AAI_WP:
+> +        /* AAI programming starts from the even address */
+> +        s->cur_addr &= ~BIT(0);
+> +        s->state = STATE_PAGE_PROGRAM;
+> +        break;
+>      case READ:
+>      case READ4:
+>      case FAST_READ:
+> @@ -762,6 +769,7 @@ static void reset_memory(Flash *s)
+>      s->write_enable = false;
+>      s->reset_enable = false;
+>      s->quad_enable = false;
+> +    s->aai_enable = false;
+>  
+>      switch (get_man(s)) {
+>      case MAN_NUMONYX:
+> @@ -932,6 +940,11 @@ static void decode_qio_read_cmd(Flash *s)
+>      s->state = STATE_COLLECTING_DATA;
+>  }
+>  
+> +static bool is_valid_aai_cmd(uint32_t cmd)
+> +{
+> +    return cmd == AAI_WP || cmd == WRDI || cmd == RDSR;
+> +}
+> +
+>  static void decode_new_cmd(Flash *s, uint32_t value)
+>  {
+>      int i;
+> @@ -943,6 +956,11 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>          s->reset_enable = false;
+>      }
+>  
+> +    if (get_man(s) == MAN_SST && s->aai_enable && !is_valid_aai_cmd(value)) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "M25P80: Invalid cmd within AAI programming sequence");
+> +    }
+> +
+>      switch (value) {
+>  
+>      case ERASE_4K:
+> @@ -1008,6 +1026,9 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>  
+>      case WRDI:
+>          s->write_enable = false;
+> +        if (get_man(s) == MAN_SST) {
+> +            s->aai_enable = false;
+> +        }
+>          break;
+>      case WREN:
+>          s->write_enable = true;
+> @@ -1018,6 +1039,10 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>          if (get_man(s) == MAN_MACRONIX) {
+>              s->data[0] |= (!!s->quad_enable) << 6;
+>          }
+> +        if (get_man(s) == MAN_SST) {
+> +            s->data[0] |= (!!s->aai_enable) << 6;
+> +        }
+> +
+>          s->pos = 0;
+>          s->len = 1;
+>          s->data_read_loop = true;
+> @@ -1160,6 +1185,24 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>      case RSTQIO:
+>          s->quad_enable = false;
+>          break;
+> +    case AAI_WP:
+> +        if (get_man(s) == MAN_SST) {
+> +            if (s->write_enable) {
+> +                if (s->aai_enable) {
+> +                    s->state = STATE_PAGE_PROGRAM;
+> +                } else {
+> +                    s->aai_enable = true;
+> +                    s->needed_bytes = get_addr_length(s);
+> +                    s->state = STATE_COLLECTING_DATA;
+> +                }
+> +            } else {
+> +                qemu_log_mask(LOG_GUEST_ERROR,
+> +                              "M25P80: AAI_WP with write protect\n");
+> +            }
+> +        } else {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Unknown cmd %x\n", value);
+> +        }
+> +        break;
+>      default:
+>          s->pos = 0;
+>          s->len = 1;
+> @@ -1205,6 +1248,19 @@ static uint32_t m25p80_transfer8(SSISlave *ss, uint32_t tx)
+>          trace_m25p80_page_program(s, s->cur_addr, (uint8_t)tx);
+>          flash_write8(s, s->cur_addr, (uint8_t)tx);
+>          s->cur_addr = (s->cur_addr + 1) & (s->size - 1);
+> +
+> +        if (get_man(s) == MAN_SST && s->aai_enable && s->cur_addr == 0) {
+> +            /*
+> +             * There is no wrap mode during AAI programming once the highest
+> +             * unprotected memory address is reached. The Write-Enable-Latch
+> +             * bit is automatically reset, and AAI programming mode aborts.
+> +             */
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "M25P80: AAI highest memory address reached");
 
->
-> I'm not against this patch in any way, not at all, - having this ability
-> is good for other purpose too. But I think we can't won in this "detect
-> if we're running under qemu" battle easily. And the next version of the
-> same game will have a more sofisticated detection method and we won't
-> even know which way they used.
-People gaming in a virtualized environment, are a very small fraction of windows
-gamers, so I would assume that these companies do the bare minimum to
-detect QEMU(an exception might be online games where they have an
-incentive to prevent cheating).
+Above message will be printed after writing the highest addressed byte but
+before trying to write a byte after wrapping. Since it wouldn't be a guest
+error (to write the final byte) perhaps we should remove it?
+(An option is to swap it to a trace event instead also)
 
-Also I suppose this change could also be helpful for malware
-analysis(since it prevents one way of detecting if windows is running in
-a VM)?
+> +            s->write_enable = false;
+> +            s->aai_enable = false;
+> +        }
+> +
+>          break;
+>  
+>      case STATE_READ:
+> @@ -1350,6 +1406,24 @@ static const VMStateDescription vmstate_m25p80_data_read_loop = {
+>      }
+>  };
+>  
+> +static bool m25p80_aai_enable_needed(void *opaque)
+> +{
+> +    Flash *s = (Flash *)opaque;
+> +
+> +    return get_man(s) == MAN_SST;
 
-Would you like a more generic commit message which doesn't references gaming?
+For only using the subsection if really needed (and restricting further)
+we can swap above to:
 
->
-> Thanks,
->
-> /mjt
+return s->aai_enable;
+
+Best regards,
+Francisco Iglesias
+
+> +}
+> +
+> +static const VMStateDescription vmstate_m25p80_aai_enable = {
+> +    .name = "m25p80/aai_enable",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = m25p80_aai_enable_needed,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_BOOL(aai_enable, Flash),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static const VMStateDescription vmstate_m25p80 = {
+>      .name = "m25p80",
+>      .version_id = 0,
+> @@ -1380,6 +1454,7 @@ static const VMStateDescription vmstate_m25p80 = {
+>      },
+>      .subsections = (const VMStateDescription * []) {
+>          &vmstate_m25p80_data_read_loop,
+> +        &vmstate_m25p80_aai_enable,
+>          NULL
+>      }
+>  };
+> -- 
+> 2.7.4
+> 
 
