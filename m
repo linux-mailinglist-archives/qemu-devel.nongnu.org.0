@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869BF2E0B36
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 14:57:58 +0100 (CET)
-Received: from localhost ([::1]:59546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1EAB2E0B44
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 15:01:08 +0100 (CET)
+Received: from localhost ([::1]:40616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kriAn-0002aN-HN
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 08:57:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49066)
+	id 1kriDr-0006MQ-NX
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 09:01:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
- id 1krg0i-00017r-By
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 06:39:24 -0500
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:33023)
+ id 1krgXh-0007VI-Ly
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 07:13:29 -0500
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:42429)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
- id 1krg0g-0000lI-Ti
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 06:39:24 -0500
-Received: by mail-lf1-x134.google.com with SMTP id l11so31302765lfg.0
- for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 03:39:22 -0800 (PST)
+ id 1krgXg-00045p-Aq
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 07:13:29 -0500
+Received: by mail-lf1-x12e.google.com with SMTP id b26so21940415lff.9
+ for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 04:13:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vEOdxOf3Oi31x+Ioc56RXk7qAlmQxla1l+5+ovO2vxQ=;
- b=bWXT6Eowm2Rd2vMNa/4HwGzq4okGY37rz4xe5Zovs/UpaMZS2IisYgX5layS+oUKXj
- eDmwWYSI6zdRbOq5+iy1gclbPIKNZq0Pni9kaKBiAzDx+J9KSzRGcO7nAMIn2VOfjweL
- 29X+xUF8R0hprT20Hwa6VaFJdCaKMUy/VRKrYu2Cbg6VAwaM05YvfiXMhVW5mD3ZnLq4
- hx0JPPSzCcBl2WshQF85DQcrW8U+NDduyWp2FZWCZRzmBUE9cjEbZhCwS7z0jrfwVEiH
- 5wvx5RhalETDrCmr5gZCCXovpfEifjAC9/0hH2xTAyPc4H7IFPy2ORxvz3aZfGTqJn8C
- ALFA==
+ :cc; bh=XDqWemTZAr3Yf5zc0WPnza6SJa69M9w7Rj4fQPF3P5o=;
+ b=tPpOPFZiOO+7bXVYjFI5JFD6T6i0npRgJb2VT4lieoQIF08DoFCYSGjj9UtUf7OlOT
+ k59s2Xvq/lfysj+/GyyxJvQlfo02nL1EuA2PBhI+xh9pDS5Yg5bPQ4Zt7jO0QiFdxGdp
+ dKcuZ4zXWF5bWyAxUTzFny3vMoMajws16JY40rUn6sUIVqICCZSBYnX5i8M7E+Z0u3CT
+ lTPukRJlbMMNBCD78ibfqd94YssAxc4XtIpdyd2C7HlUWeqJ17NRIF47bAm5ugtNHU68
+ U4khUQcaFfH58dRFjW4SmhGv0p2aKTkWcwPPS4ZUSjxZrs0qCCkJW8Il2Xt6AJjLwQiX
+ KhqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vEOdxOf3Oi31x+Ioc56RXk7qAlmQxla1l+5+ovO2vxQ=;
- b=ij5lBUJeFFDYd1SLly2jq+rr5vTcZORrQaQAISdZ55D+0jm5BCH9q5L7/F4yJiiC0N
- 4hVzxo684uoWZ7DQGTAK4eljQteLyxpc2vDFeGy5Eu3WjbTfGA2V2gxqsO7uNK77e0F3
- JYa1kBYseslYCz1NxI00ZdzJU+vfG4/kwdhTxGJXbT8Q3KPIjyhJK/HaOvlFl2OwrBKR
- 0kHM4YsAw2DBSgF+iKoOZ3LYxR1rNffd4qVMGnYNPvn+/kT0w4YJh594wQH3cfjPfIHP
- 7wcsGx6TGKYNTFc3EtB4LGxPSusnSPCNLA1lr9eM0uSF9aWstcvN95l7vpGCzOhIXSfY
- BOrg==
-X-Gm-Message-State: AOAM533afJTXIhxM5SkodsA8lFZXF8tCHeOYaVGjlCcwKPclIT9mEVDf
- zRySgofmHfn/zm7gabCRFrGdCsiotU/6qJIn5pI=
-X-Google-Smtp-Source: ABdhPJxSOZZIFlE5itNqeegulycWEXMG8OkTpwJdnQNoxDMyk02F92V9oTmtGtnX+ufOiSJWRkHopx1vTFvmDN4XfzM=
-X-Received: by 2002:a19:814c:: with SMTP id c73mr8138048lfd.638.1608637160635; 
- Tue, 22 Dec 2020 03:39:20 -0800 (PST)
+ bh=XDqWemTZAr3Yf5zc0WPnza6SJa69M9w7Rj4fQPF3P5o=;
+ b=NC3irx2LJ25X8a/jDuq8kg7+GZ4X93CVtpRhu7qs+S10h09TSHMBimrriOGGVFP24S
+ BAjqWjRKVybk4SK5t/aACOb2sPwQ/L73/lJuS9KC9bOrfG5tzFps6cVrxSmp79tl0N0p
+ WK1goxlipgmZTZ2SCH0geflDom9yXWv1YFblhNws/syXaCx9cpbANcXdhbu2v8MQ4qX6
+ xaifTTtzyLJcWdGivALbmoYmLIo4GJqYSt1mqxSKeUej0mFKgpnCJRQe/utf9MTjuZYi
+ cQpVairRjb19CwrrDMXHhgte7qx3Tc+mWj0h+9MWSx898cR5yF9wap0KHbztiC+Rjj9v
+ EgXA==
+X-Gm-Message-State: AOAM5301fO3izOXaLAJKocKUGEY+2wAs7UT6SKAJBHECOg64dyfYwN8n
+ Unu2idwgkSZbVPHrAqjNvL2rGsaakE5IcT+nhi0=
+X-Google-Smtp-Source: ABdhPJy//mXDzhSL1YWk1GnMAjPpsove6BusTlVwzWEpUuwAUeHj+jE+6K6s+3pbthcvs1KaZqTkjZMhul0rQkreE6s=
+X-Received: by 2002:a2e:b8d1:: with SMTP id s17mr10053775ljp.472.1608639206075; 
+ Tue, 22 Dec 2020 04:13:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20201222074810.GA30047@open-light-1.localdomain>
- <6846ff7a-b302-a0fd-1cd9-af0f2ee733ea@redhat.com>
-In-Reply-To: <6846ff7a-b302-a0fd-1cd9-af0f2ee733ea@redhat.com>
+References: <20201222074910.GA30051@open-light-1.localdomain>
+ <585791f4-4b41-5e73-296e-691d5478a915@redhat.com>
+ <a0bee19a-0703-54b1-2903-60383ab7da64@redhat.com>
+In-Reply-To: <a0bee19a-0703-54b1-2903-60383ab7da64@redhat.com>
 From: Liang Li <liliang324@gmail.com>
-Date: Tue, 22 Dec 2020 19:39:08 +0800
-Message-ID: <CA+2MQi-qXS4BHwDuxJXN52GyA67+kv9iCoasg2knRg5ytxp1vA@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/3] virtio-balloon: add support for providing free
- huge page reports to host
+Date: Tue, 22 Dec 2020 20:13:12 +0800
+Message-ID: <CA+2MQi8kupPHetMhH97fn+toFk9HUYeVPnwdzrpyiS6Necn0CA@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/3] mm: support free hugepage pre zero out
 To: David Hildenbrand <david@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=liliang324@gmail.com; helo=mail-lf1-x134.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=liliang324@gmail.com; helo=mail-lf1-x12e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -93,19 +93,25 @@ Cc: Andrea Arcangeli <aarcange@redhat.com>, Michal Hocko <mhocko@suse.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 22, 2020 at 4:28 PM David Hildenbrand <david@redhat.com> wrote:
+> > Free page reporting in virtio-balloon doesn't give you any guarantees
+> > regarding zeroing of pages. Take a look at the QEMU implementation -
+> > e.g., with vfio all reports are simply ignored.
+> >
+> > Also, I am not sure if mangling such details ("zeroing of pages") into
+> > the page reporting infrastructure is a good idea.
+> >
 >
-> On 22.12.20 08:48, Liang Li wrote:
-> > Free page reporting only supports buddy pages, it can't report the
-> > free pages reserved for hugetlbfs case. On the other hand, hugetlbfs
+> Oh, now I get what you are doing here, you rely on zero_free_pages of
+> your other patch series and are not relying on virtio-balloon free page
+> reporting to do the zeroing.
 >
-> The virtio-balloon free page reporting interface accepts a generic sg,
-> so it isn't glue to buddy pages. There is no need for a new interface.
+> You really should have mentioned that this patch series relies on the
+> other one and in which way.
 
-OK, then there will be two workers accessing the same vq, we can add a
-lock for concurrent access.
+I am sorry for that. After I sent out the patch, I realized I should
+mention that, so I sent out an updated version which added the
+information you mentioned :)
 
-Thanks!
-
+Thanks !
 Liang
 
