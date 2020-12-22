@@ -2,76 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7BCE2E0F28
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 21:03:16 +0100 (CET)
-Received: from localhost ([::1]:33558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169452E0FD2
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 22:24:48 +0100 (CET)
+Received: from localhost ([::1]:49870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krnsJ-000867-EA
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 15:03:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43206)
+	id 1krp9C-0000gj-Ne
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 16:24:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
- id 1krnog-0006Rj-T4
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 14:59:30 -0500
-Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:34556)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1krp8O-0000GR-RU
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 16:23:56 -0500
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:43490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
- id 1krnoe-0005uD-3e
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 14:59:30 -0500
-Received: by mail-il1-x133.google.com with SMTP id x15so13076836ilq.1
- for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 11:59:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1krp8K-0001hz-UN
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 16:23:56 -0500
+Received: by mail-oi1-x236.google.com with SMTP id q25so16191589oij.10
+ for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 13:23:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=9Yk5leUX6PAFGO+LhAPPSBWBIhVvNWxazIiU7rcx2S0=;
- b=cvf3eceegxoOKIlNyNGq3609ubf15e6EGHlwVESKv5VMXDfKRGN5AjfJardxcGjuKn
- uV5DtdZQytkk/FVPv0IDckPrZ8nnTgxPqUopdFYY0lxRZIIyIXtGs/4tT8oS0ed3JKHZ
- ONmcmrpn41bzRsBMQNGLKMxz3L6DXfTPyznB34gDNUTMoCzXQ652GHC4ebmSWlVb0gbT
- b8KeGtWAtbDorPRJwi04QD1PookVb/YKPKKLc3txo6sjBjBvE8LExWqTB9ouG8gHk48y
- ISW3b+8CCPkQrI0HucLNmQBdvPaAuE2mCif5QbkDlet0utTAW9uqxj3d/oPNBgDs+1AO
- fYvg==
+ h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Fl6+i/QJgw1mCufgm79Y08RTfZhOE6UF3RtgoixsXQA=;
+ b=AqY8Dt14Q0JkoFQ9ZDBw+kvmRvG7jKmBpV1POEFBplu01XvFsmZ4uEPrYhJsRI4U++
+ OcRg3XoXhUHcyJsL7LdI0NiIbSi/ho2XBs5/mes1dRQURpgHydI6RKvQbM10/zbcsaRq
+ YI2o9T1OF0Pct8CpoueGlQM1nPzgCMGm3sybUc22o/YGCzZdH9BCewhAhBzRUI4V3ODR
+ qwf2c0Tb+yEP8h6kDOno4phtXknByCqWeP5QxEtvyw/XwQ/j8v7NQMDE0rYOqkKHm02d
+ YlXIxwctk6qajOWDSX6jfTSbisXf8GJ6rkCV9euqV+4MDcTcq7OykRfbPiPpP4P7FpAI
+ 01jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=9Yk5leUX6PAFGO+LhAPPSBWBIhVvNWxazIiU7rcx2S0=;
- b=UcvumN70QOTNuRyOcDO/zWlufFiNPxz+duffnym7q0mtCjNgG9iJaa22GkuR77FCxK
- enFcaZfYYaO5Nesrhmdrbz7R7wrmnwb0jf0UiOCyTLhzhmx28V7vAuLww2LhPfn8wMaD
- amjiDZBaOMQz6rVfUJybQ+v6K80tVzD7En6pEKgmyjMcWKPqVBQpYcX9SPgRQUkWA0/L
- 1OF9BeUVzRrkgGRVqKc9cj08HFklCysOYWUjxsWNrUrpJx16VWubEzeJGINm0kUk3ji5
- Ycb0vGGWi3v7DUdTU5lF9rf7ZpP1GsDrbrVGLFY5aDp7eqMi+ad18ic4M9Pj26xw52vu
- 1trQ==
-X-Gm-Message-State: AOAM531pI6MJDdZxhoELPj2/9MQGRKl8eYm8mFz6ioCVa6yMURwO0OHi
- QTs9n5kCdN/3ofJVb7tXNA/HOI0FBY2zLeENXnI=
-X-Google-Smtp-Source: ABdhPJxbKuhIzGW/BHOviA32FS8UJVrEmTBWeeFkSK0jO7zc2iHRkkH0v3kFdmJmRmRAMioHKm1/HM9X4EtKCRBUEY4=
-X-Received: by 2002:a92:c682:: with SMTP id o2mr22285132ilg.97.1608667166677; 
- Tue, 22 Dec 2020 11:59:26 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Fl6+i/QJgw1mCufgm79Y08RTfZhOE6UF3RtgoixsXQA=;
+ b=g/Yavo02CQ23wO4Ix4g3G9yCbRIyQnCjBFRrknw6SWdXi6/nCrBgJuYSFwsk11raDh
+ o5lOrnbLg0hEAabMy8pVkwco705+/DzbWNsSvJhzKdtJfCYhgGNW+mZYikCEsbRfyc9q
+ deynjxczOvHvUz4RsHzfn/pVd+eAawPZAMQpAK6k6KayENBxEybERYf66VsdRsRuet/3
+ fpCo1cznZre7ztBN5E8aBmZgigW+tUU0WWmMGrQxZHAdTRLXN8lu3PV2wgmnxW+sK+bq
+ pLTTaiNxAOe7fzQ2+q53tIxkZcSHyAy/TOqArMg0i+Voa0yRuv1Q8gXnpsXaQw7LW/j5
+ 5KJA==
+X-Gm-Message-State: AOAM533pgcmtpNDCWfFJNpkdozICGmkulqa+J0eJ05+Nra0oaNO9F7eJ
+ XuFpLwgQYK8f4B6oiF+M8hQ=
+X-Google-Smtp-Source: ABdhPJziZKtnGgM/L2xkXl4wdr2Z5zrXCbOBW7Rnz0DonyJ/ZRb4QZ8zHxIK6NPijsZ+NnN/YYSldQ==
+X-Received: by 2002:aca:4d08:: with SMTP id a8mr15868260oib.128.1608672231593; 
+ Tue, 22 Dec 2020 13:23:51 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ k3sm4584078oor.19.2020.12.22.13.23.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 22 Dec 2020 13:23:50 -0800 (PST)
+Subject: Re: Problems with irq mapping in qemu v5.2
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <3f0f8fc6-6148-a76e-1088-b7882b0bbcaf@roeck-us.net>
+ <5ef852ee-8a53-df9d-82f4-33a68c05f53a@ilande.co.uk>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
+ nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
+ hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
+ c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
+ 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
+ GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
+ sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
+ Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
+ HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
+ BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
+ l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
+ J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
+ cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
+ wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
+ hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
+ nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
+ QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
+ trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
+ WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
+ HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <5849da05-a063-cd56-7709-c4760c8aa71f@roeck-us.net>
+Date: Tue, 22 Dec 2020 13:23:48 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201222074656.GA30035@open-light-1.localdomain>
-In-Reply-To: <20201222074656.GA30035@open-light-1.localdomain>
-From: Alexander Duyck <alexander.duyck@gmail.com>
-Date: Tue, 22 Dec 2020 11:59:15 -0800
-Message-ID: <CAKgT0Ucs4pv0+rcPi41uNDrav0sgOmLnVaD4NNWkg7=gncidnQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] mm: support hugetlb free page reporting
-To: Alexander Duyck <alexander.h.duyck@linux.intel.com>, 
- Mel Gorman <mgorman@techsingularity.net>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Andrea Arcangeli <aarcange@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- Jason Wang <jasowang@redhat.com>, 
- Dave Hansen <dave.hansen@intel.com>, Michal Hocko <mhocko@suse.com>, 
- Liang Li <liliangleo@didiglobal.com>, Mike Kravetz <mike.kravetz@oracle.com>, 
- Liang Li <liliang324@gmail.com>, linux-mm <linux-mm@kvack.org>, 
- LKML <linux-kernel@vger.kernel.org>, virtualization@lists.linux-foundation.org,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
- envelope-from=alexander.duyck@gmail.com; helo=mail-il1-x133.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+In-Reply-To: <5ef852ee-8a53-df9d-82f4-33a68c05f53a@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=groeck7@gmail.com; helo=mail-oi1-x236.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.521,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,560 +133,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 21, 2020 at 11:47 PM Liang Li <liliang.opensource@gmail.com> wrote:
->
-> Free page reporting only supports buddy pages, it can't report the
-> free pages reserved for hugetlbfs case. On the other hand, hugetlbfs
-> is a good choice for a system with a huge amount of RAM, because it
-> can help to reduce the memory management overhead and improve system
-> performance.
-> This patch add the support for reporting hugepages in the free list
-> of hugetlb, it canbe used by virtio_balloon driver for memory
-> overcommit and pre zero out free pages for speeding up memory population.
->
-> Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>
-> Cc: Mel Gorman <mgorman@techsingularity.net>
-> Cc: Andrea Arcangeli <aarcange@redhat.com>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Dave Hansen <dave.hansen@intel.com>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Michal Hocko <mhocko@suse.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: Mike Kravetz <mike.kravetz@oracle.com>
-> Cc: Liang Li <liliang324@gmail.com>
-> Signed-off-by: Liang Li <liliangleo@didiglobal.com>
-> ---
->  include/linux/hugetlb.h        |   3 +
->  include/linux/page_reporting.h |   5 +
->  mm/hugetlb.c                   |  29 ++++
->  mm/page_reporting.c            | 287 +++++++++++++++++++++++++++++++++
->  mm/page_reporting.h            |  34 ++++
->  5 files changed, 358 insertions(+)
->
-> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> index ebca2ef02212..a72ad25501d3 100644
-> --- a/include/linux/hugetlb.h
-> +++ b/include/linux/hugetlb.h
-> @@ -11,6 +11,7 @@
->  #include <linux/kref.h>
->  #include <linux/pgtable.h>
->  #include <linux/gfp.h>
-> +#include <linux/page_reporting.h>
->
->  struct ctl_table;
->  struct user_struct;
-> @@ -114,6 +115,8 @@ int hugetlb_treat_movable_handler(struct ctl_table *, int, void *, size_t *,
->  int hugetlb_mempolicy_sysctl_handler(struct ctl_table *, int, void *, size_t *,
->                 loff_t *);
->
-> +bool isolate_free_huge_page(struct page *page, struct hstate *h, int nid);
-> +void putback_isolate_huge_page(struct hstate *h, struct page *page);
->  int copy_hugetlb_page_range(struct mm_struct *, struct mm_struct *, struct vm_area_struct *);
->  long follow_hugetlb_page(struct mm_struct *, struct vm_area_struct *,
->                          struct page **, struct vm_area_struct **,
-> diff --git a/include/linux/page_reporting.h b/include/linux/page_reporting.h
-> index 63e1e9fbcaa2..0da3d1a6f0cc 100644
-> --- a/include/linux/page_reporting.h
-> +++ b/include/linux/page_reporting.h
-> @@ -7,6 +7,7 @@
->
->  /* This value should always be a power of 2, see page_reporting_cycle() */
->  #define PAGE_REPORTING_CAPACITY                32
-> +#define HUGEPAGE_REPORTING_CAPACITY    1
->
->  struct page_reporting_dev_info {
->         /* function that alters pages to make them "reported" */
-> @@ -26,4 +27,8 @@ struct page_reporting_dev_info {
->  /* Tear-down and bring-up for page reporting devices */
->  void page_reporting_unregister(struct page_reporting_dev_info *prdev);
->  int page_reporting_register(struct page_reporting_dev_info *prdev);
-> +
-> +/* Tear-down and bring-up for hugepage reporting devices */
-> +void hugepage_reporting_unregister(struct page_reporting_dev_info *prdev);
-> +int hugepage_reporting_register(struct page_reporting_dev_info *prdev);
->  #endif /*_LINUX_PAGE_REPORTING_H */
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index cbf32d2824fd..de6ce147dfe2 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -41,6 +41,7 @@
->  #include <linux/node.h>
->  #include <linux/userfaultfd_k.h>
->  #include <linux/page_owner.h>
-> +#include "page_reporting.h"
->  #include "internal.h"
->
->  int hugetlb_max_hstate __read_mostly;
-> @@ -1028,6 +1029,11 @@ static void enqueue_huge_page(struct hstate *h, struct page *page)
->         list_move(&page->lru, &h->hugepage_freelists[nid]);
->         h->free_huge_pages++;
->         h->free_huge_pages_node[nid]++;
-> +       if (hugepage_reported(page)) {
-> +               __ClearPageReported(page);
-> +               pr_info("%s, free_huge_pages=%ld\n", __func__, h->free_huge_pages);
-> +       }
-> +       hugepage_reporting_notify_free(h->order);
->  }
->
->  static struct page *dequeue_huge_page_node_exact(struct hstate *h, int nid)
-> @@ -5531,6 +5537,29 @@ follow_huge_pgd(struct mm_struct *mm, unsigned long address, pgd_t *pgd, int fla
->         return pte_page(*(pte_t *)pgd) + ((address & ~PGDIR_MASK) >> PAGE_SHIFT);
->  }
->
-> +bool isolate_free_huge_page(struct page *page, struct hstate *h, int nid)
-> +{
-> +       bool ret = true;
-> +
-> +       VM_BUG_ON_PAGE(!PageHead(page), page);
-> +
-> +       list_move(&page->lru, &h->hugepage_activelist);
-> +       set_page_refcounted(page);
-> +       h->free_huge_pages--;
-> +       h->free_huge_pages_node[nid]--;
-> +
-> +       return ret;
-> +}
-> +
-> +void putback_isolate_huge_page(struct hstate *h, struct page *page)
-> +{
-> +       int nid = page_to_nid(page);
-> +       pr_info("%s, free_huge_pages=%ld\n", __func__, h->free_huge_pages);
-> +       list_move(&page->lru, &h->hugepage_freelists[nid]);
-> +       h->free_huge_pages++;
-> +       h->free_huge_pages_node[nid]++;
-> +}
-> +
->  bool isolate_huge_page(struct page *page, struct list_head *list)
->  {
->         bool ret = true;
-> diff --git a/mm/page_reporting.c b/mm/page_reporting.c
-> index 20ec3fb1afc4..15d4b5372df8 100644
-> --- a/mm/page_reporting.c
-> +++ b/mm/page_reporting.c
-> @@ -7,6 +7,7 @@
->  #include <linux/delay.h>
->  #include <linux/scatterlist.h>
->  #include <linux/sched.h>
-> +#include <linux/hugetlb.h>
->
->  #include "page_reporting.h"
->  #include "internal.h"
-> @@ -16,6 +17,10 @@ static struct page_reporting_dev_info __rcu *pr_dev_info __read_mostly;
->  int page_report_mini_order = pageblock_order;
->  unsigned long page_report_batch_size = 32 * 1024 * 1024;
->
-> +static struct page_reporting_dev_info __rcu *hgpr_dev_info __read_mostly;
-> +int hugepage_report_mini_order = pageblock_order;
-> +unsigned long hugepage_report_batch_size = 64 * 1024 * 1024;
-> +
->  enum {
->         PAGE_REPORTING_IDLE = 0,
->         PAGE_REPORTING_REQUESTED,
-> @@ -67,6 +72,24 @@ void __page_reporting_notify(void)
->         rcu_read_unlock();
->  }
->
-> +/* notify prdev of free hugepage reporting request */
-> +void __hugepage_reporting_notify(void)
-> +{
-> +       struct page_reporting_dev_info *prdev;
-> +
-> +       /*
-> +        * We use RCU to protect the pr_dev_info pointer. In almost all
-> +        * cases this should be present, however in the unlikely case of
-> +        * a shutdown this will be NULL and we should exit.
-> +        */
-> +       rcu_read_lock();
-> +       prdev = rcu_dereference(hgpr_dev_info);
-> +       if (likely(prdev))
-> +               __page_reporting_request(prdev);
-> +
-> +       rcu_read_unlock();
-> +}
-> +
->  static void
->  page_reporting_drain(struct page_reporting_dev_info *prdev,
->                      struct scatterlist *sgl, unsigned int nents, bool reported)
-> @@ -103,6 +126,213 @@ page_reporting_drain(struct page_reporting_dev_info *prdev,
->         sg_init_table(sgl, nents);
->  }
->
-> +static void
-> +hugepage_reporting_drain(struct page_reporting_dev_info *prdev,
-> +                        struct hstate *h, struct scatterlist *sgl,
-> +                        unsigned int nents, bool reported)
-> +{
-> +       struct scatterlist *sg = sgl;
-> +
-> +       /*
-> +        * Drain the now reported pages back into their respective
-> +        * free lists/areas. We assume at least one page is populated.
-> +        */
-> +       do {
-> +               struct page *page = sg_page(sg);
-> +
-> +               putback_isolate_huge_page(h, page);
-> +
-> +               /* If the pages were not reported due to error skip flagging */
-> +               if (!reported)
-> +                       continue;
-> +
-> +               __SetPageReported(page);
-> +       } while ((sg = sg_next(sg)));
-> +
-> +       /* reinitialize scatterlist now that it is empty */
-> +       sg_init_table(sgl, nents);
-> +}
-> +
-> +/*
-> + * The page reporting cycle consists of 4 stages, fill, report, drain, and
-> + * idle. We will cycle through the first 3 stages until we cannot obtain a
-> + * full scatterlist of pages, in that case we will switch to idle.
-> + */
-> +static int
-> +hugepage_reporting_cycle(struct page_reporting_dev_info *prdev,
-> +                        struct hstate *h, unsigned int nid,
-> +                        struct scatterlist *sgl, unsigned int *offset)
-> +{
-> +       struct list_head *list = &h->hugepage_freelists[nid];
-> +       unsigned int page_len = PAGE_SIZE << h->order;
-> +       struct page *page, *next;
-> +       long budget;
-> +       int ret = 0, scan_cnt = 0;
-> +
-> +       /*
-> +        * Perform early check, if free area is empty there is
-> +        * nothing to process so we can skip this free_list.
-> +        */
-> +       if (list_empty(list))
-> +               return ret;
-> +
-> +       spin_lock_irq(&hugetlb_lock);
-> +
-> +       if (huge_page_order(h) > MAX_ORDER)
-> +               budget = HUGEPAGE_REPORTING_CAPACITY;
-> +       else
-> +               budget = HUGEPAGE_REPORTING_CAPACITY * 32;
+On 12/22/20 10:23 AM, Mark Cave-Ayland wrote:
+> On 22/12/2020 16:16, Guenter Roeck wrote:
+> 
+>> Hi,
+>>
+>> commit 459ca8bfa41 ("pci: Assert irqnum is between 0 and bus->nirqs in
+>> pci_bus_change_irq_level") added sanity checks to the interrupt number passed
+>> to pci_bus_change_irq_level(). That makes sense, given that bus->irq_count
+>> is indexed and sized by the number of interrupts.
+>>
+>> However, as it turns out, the interrupt number passed to this function
+>> is the _mapped_ interrupt number. The result in assertion failures for various
+>> emulations.
+> 
+> That doesn't sound quite right. My understanding from the other boards I have been working on is that they use the map_irq() functions recursively so that the final set_irq() is on the physical pin, so it might just be that the assert() is simply exposing an existing bug.
+> 
+>> Examples (I don't know if there are others):
+>>
+>> - ppc4xx_pci_map_irq() maps the interrupt number to "slot - 1". Obviously
+>>    that isn't a good thing to do for slot 0, and indeed results in an
+>>    assertion as soon as slot 0 is initialized (presumably that is the root
+>>    bridge). Changing the mapping to "slot" doesn't help because valid slots
+>>    are 0..4, and only four interrupts are allocated.
+>> - pci_bonito_map_irq() changes the mapping all over the place. Whatever
+>>    it does, it returns numbers starting with 32 for slots 5..12. With
+>>    a total number of 32 interrupts, this again results in an assertion
+>>    failure.
+>>
+>> ppc4xx_pci_map_irq() is definitely buggy. I just don't know what the
+>> correct mapping should be. slot  & 3, maybe ?
+> 
+> Yeah that doesn't look right. Certainly both the Mac PPC machines use ((pci_dev->devfn >> 3)) & 3) plus the interrupt pin so I think you're right that this is missing an & 3 here. Does adding this allow your image to boot?
+> 
 
-Wouldn't huge_page_order always be more than MAX_ORDER? Seems like we
-don't even really need budget since this should probably be pulling
-out no more than one hugepage at a time.
+Actually, it does not help. This does:
 
+@@ -247,7 +247,7 @@ static int ppc4xx_pci_map_irq(PCIDevice *pci_dev, int irq_num)
 
-> +       /* loop through free list adding unreported pages to sg list */
-> +       list_for_each_entry_safe(page, next, list, lru) {
-> +               /* We are going to skip over the reported pages. */
-> +               if (PageReported(page)) {
-> +                       if (++scan_cnt >= MAX_SCAN_NUM) {
-> +                               ret = scan_cnt;
-> +                               break;
-> +                       }
-> +                       continue;
-> +               }
-> +
+     trace_ppc4xx_pci_map_irq(pci_dev->devfn, irq_num, slot);
 
-It would probably have been better to place this set before your new
-set. I don't see your new set necessarily being the best use for page
-reporting.
+-    return slot - 1;
++    return slot ? slot - 1 : slot;
+ }
 
-> +               /*
-> +                * If we fully consumed our budget then update our
-> +                * state to indicate that we are requesting additional
-> +                * processing and exit this list.
-> +                */
-> +               if (budget < 0) {
-> +                       atomic_set(&prdev->state, PAGE_REPORTING_REQUESTED);
-> +                       next = page;
-> +                       break;
-> +               }
-> +
+but I have no idea why.
 
-If budget is only ever going to be 1 then we probably could just look
-at making this the default case for any time we find a non-reported
-page.
+>> I don't really have a good solution for pci_bonito_map_irq(). It may not
+>> matter much - I have not been able to boot fuloong_2e since qemu v4.0,
+>> and afaics that is the only platform using it. Maybe it is just completely
+>> broken ?
+> 
+> It looks like you want this patchset posted last week: https://patchew.org/QEMU/20201216022513.89451-1-jiaxun.yang@flygoat.com/ (specifically: https://patchew.org/QEMU/20201216022513.89451-1-jiaxun.yang@flygoat.com/20201216022513.89451-4-jiaxun.yang@flygoat.com/). Zoltan was working on the VIA southbridge wiring at the start of the year and provided me a test case that would boot Linux on the fulong2e machine, so at that point in time it wasn't completely broken.
+> 
+Those patches don't help for my tests. Problem is that I try to boot from ide drive.
 
-> +               /* Attempt to pull page from list and place in scatterlist */
-> +               if (*offset) {
-> +                       isolate_free_huge_page(page, h, nid);
-> +                       /* Add page to scatter list */
-> +                       --(*offset);
-> +                       sg_set_page(&sgl[*offset], page, page_len, 0);
-> +
-> +                       continue;
-> +               }
-> +
+qemu-system-mips64el -M fulong2e \
+    -kernel vmlinux -no-reboot -m 256 -snapshot \
+    -drive file=rootfs.mipsel.ext3,format=raw,if=ide \
+    -vga none -nographic \
+    --append "root=/dev/sda console=ttyS0"
+    -serial stdio -monitor none
 
-There is no point in the continue case if we only have a budget of 1.
-We should probably just tighten up the loop so that all it does is
-search until it finds the 1 page it can pull, pull it, and then return
-it. The scatterlist doesn't serve much purpose and could be reduced to
-just a single entry.
+This works just fine with qemu v3.1. With qemu v5.2 (after applying the
+fuloong patch series), I get:
 
-> +               /*
-> +                * Make the first non-processed page in the free list
-> +                * the new head of the free list before we release the
-> +                * zone lock.
-> +                */
-> +               if (&page->lru != list && !list_is_first(&page->lru, list))
-> +                       list_rotate_to_front(&page->lru, list);
-> +
-> +               /* release lock before waiting on report processing */
-> +               spin_unlock_irq(&hugetlb_lock);
-> +
-> +               /* begin processing pages in local list */
-> +               ret = prdev->report(prdev, sgl, HUGEPAGE_REPORTING_CAPACITY);
-> +
-> +               /* reset offset since the full list was reported */
-> +               *offset = HUGEPAGE_REPORTING_CAPACITY;
-> +
-> +               /* update budget to reflect call to report function */
-> +               budget--;
-> +
-> +               /* reacquire zone lock and resume processing */
-> +               spin_lock_irq(&hugetlb_lock);
-> +
-> +               /* flush reported pages from the sg list */
-> +               hugepage_reporting_drain(prdev, h, sgl,
-> +                                        HUGEPAGE_REPORTING_CAPACITY, !ret);
-> +
-> +               /*
-> +                * Reset next to first entry, the old next isn't valid
-> +                * since we dropped the lock to report the pages
-> +                */
-> +               next = list_first_entry(list, struct page, lru);
-> +
-> +               /* exit on error */
-> +               if (ret)
-> +                       break;
-> +       }
-> +
-> +       /* Rotate any leftover pages to the head of the freelist */
-> +       if (&next->lru != list && !list_is_first(&next->lru, list))
-> +               list_rotate_to_front(&next->lru, list);
-> +
-> +       spin_unlock_irq(&hugetlb_lock);
-> +
-> +       return ret;
-> +}
-> +
-> +static int
-> +hugepage_reporting_process_hstate(struct page_reporting_dev_info *prdev,
-> +                           struct scatterlist *sgl, struct hstate *h)
-> +{
-> +       unsigned int leftover, offset = HUGEPAGE_REPORTING_CAPACITY;
-> +       int ret = 0, nid;
-> +
-> +       for (nid = 0; nid < MAX_NUMNODES; nid++) {
-> +               ret = hugepage_reporting_cycle(prdev, h, nid, sgl, &offset);
-> +
-> +               if (ret < 0)
-> +                       return ret;
-> +       }
-> +
-> +       /* report the leftover pages before going idle */
-> +       leftover = HUGEPAGE_REPORTING_CAPACITY - offset;
-> +       if (leftover) {
-> +               sgl = &sgl[offset];
-> +               ret = prdev->report(prdev, sgl, leftover);
-> +
-> +               /* flush any remaining pages out from the last report */
-> +               spin_lock_irq(&hugetlb_lock);
-> +               hugepage_reporting_drain(prdev, h, sgl, leftover, !ret);
-> +               spin_unlock_irq(&hugetlb_lock);
-> +       }
-> +
-> +       return ret;
-> +}
-> +
+VFS: Cannot open root device "sda" or unknown-block(0,0): error -6
 
-If HUGEPAGE_REPORTING_CAPACITY is 1 it would make more sense to
-rewrite this code to just optimize for a find and process a page
-approach rather than trying to batch pages.
+This used to work up to qemu v3.1. Since qemu v4.0, there has been a variety
+of failures. Common denominator is that the ide drive is no longer recognized,
+presumably due to related changes in the via and/or pci code between v3.1
+and v4.0.
 
-> +static void hugepage_reporting_process(struct work_struct *work)
-> +{
-> +       struct delayed_work *d_work = to_delayed_work(work);
-> +       struct page_reporting_dev_info *prdev = container_of(d_work,
-> +                                       struct page_reporting_dev_info, work);
-> +       int err = 0, state = PAGE_REPORTING_ACTIVE;
-> +       struct scatterlist *sgl;
-> +       struct hstate *h;
-> +
-> +       /*
-> +        * Change the state to "Active" so that we can track if there is
-> +        * anyone requests page reporting after we complete our pass. If
-> +        * the state is not altered by the end of the pass we will switch
-> +        * to idle and quit scheduling reporting runs.
-> +        */
-> +       atomic_set(&prdev->state, state);
-> +
-> +       /* allocate scatterlist to store pages being reported on */
-> +       sgl = kmalloc_array(HUGEPAGE_REPORTING_CAPACITY, sizeof(*sgl), GFP_KERNEL);
-> +       if (!sgl)
-> +               goto err_out;
-> +
-> +       sg_init_table(sgl, HUGEPAGE_REPORTING_CAPACITY);
-> +
-> +       for_each_hstate(h) {
-> +               err = hugepage_reporting_process_hstate(prdev, sgl, h);
-> +               if (err)
-> +                       break;
-> +       }
-> +
-> +       kfree(sgl);
-> +err_out:
-> +       /*
-> +        * If the state has reverted back to requested then there may be
-> +        * additional pages to be processed. We will defer for 2s to allow
-> +        * more pages to accumulate.
-> +        */
-> +       state = atomic_cmpxchg(&prdev->state, state, PAGE_REPORTING_IDLE);
-> +       if (state == PAGE_REPORTING_REQUESTED)
-> +               schedule_delayed_work(&prdev->work, prdev->delay_jiffies);
-> +}
-> +
->  /*
->   * The page reporting cycle consists of 4 stages, fill, report, drain, and
->   * idle. We will cycle through the first 3 stages until we cannot obtain a
-> @@ -341,6 +571,9 @@ static void page_reporting_process(struct work_struct *work)
->  static DEFINE_MUTEX(page_reporting_mutex);
->  DEFINE_STATIC_KEY_FALSE(page_reporting_enabled);
->
-> +static DEFINE_MUTEX(hugepage_reporting_mutex);
-> +DEFINE_STATIC_KEY_FALSE(hugepage_reporting_enabled);
-> +
->  int page_reporting_register(struct page_reporting_dev_info *prdev)
->  {
->         int err = 0;
-> @@ -395,3 +628,57 @@ void page_reporting_unregister(struct page_reporting_dev_info *prdev)
->         mutex_unlock(&page_reporting_mutex);
->  }
->  EXPORT_SYMBOL_GPL(page_reporting_unregister);
-> +
-> +int hugepage_reporting_register(struct page_reporting_dev_info *prdev)
-> +{
-> +       int err = 0;
-> +
-> +       mutex_lock(&hugepage_reporting_mutex);
-> +
-> +       /* nothing to do if already in use */
-> +       if (rcu_access_pointer(hgpr_dev_info)) {
-> +               err = -EBUSY;
-> +               goto err_out;
-> +       }
-> +
-> +       /* initialize state and work structures */
-> +       atomic_set(&prdev->state, PAGE_REPORTING_IDLE);
-> +       INIT_DELAYED_WORK(&prdev->work, &hugepage_reporting_process);
-> +
-> +       /* Begin initial flush of zones */
-> +       __page_reporting_request(prdev);
-> +
-> +       /* Assign device to allow notifications */
-> +       rcu_assign_pointer(hgpr_dev_info, prdev);
-> +
-> +       hugepage_report_mini_order = prdev->mini_order;
-> +       hugepage_report_batch_size = prdev->batch_size;
-> +
-> +       /* enable hugepage reporting notification */
-> +       if (!static_key_enabled(&hugepage_reporting_enabled)) {
-> +               static_branch_enable(&hugepage_reporting_enabled);
-> +               pr_info("Free hugepage reporting enabled\n");
-> +       }
-> +err_out:
-> +       mutex_unlock(&hugepage_reporting_mutex);
-> +
-> +       return err;
-> +}
-> +EXPORT_SYMBOL_GPL(hugepage_reporting_register);
-> +
-> +void hugepage_reporting_unregister(struct page_reporting_dev_info *prdev)
-> +{
-> +       mutex_lock(&hugepage_reporting_mutex);
-> +
-> +       if (rcu_access_pointer(hgpr_dev_info) == prdev) {
-> +               /* Disable page reporting notification */
-> +               RCU_INIT_POINTER(hgpr_dev_info, NULL);
-> +               synchronize_rcu();
-> +
-> +               /* Flush any existing work, and lock it out */
-> +               cancel_delayed_work_sync(&prdev->work);
-> +       }
-> +
-> +       mutex_unlock(&hugepage_reporting_mutex);
-> +}
-> +EXPORT_SYMBOL_GPL(hugepage_reporting_unregister);
-> diff --git a/mm/page_reporting.h b/mm/page_reporting.h
-> index 86ac6ffad970..271c64c3c3cb 100644
-> --- a/mm/page_reporting.h
-> +++ b/mm/page_reporting.h
-> @@ -18,12 +18,24 @@ extern unsigned long page_report_batch_size;
->  DECLARE_STATIC_KEY_FALSE(page_reporting_enabled);
->  void __page_reporting_notify(void);
->
-> +extern int hugepage_report_mini_order;
-> +extern unsigned long hugepage_report_batch_size;
-> +
-> +DECLARE_STATIC_KEY_FALSE(hugepage_reporting_enabled);
-> +void __hugepage_reporting_notify(void);
-> +
->  static inline bool page_reported(struct page *page)
->  {
->         return static_branch_unlikely(&page_reporting_enabled) &&
->                PageReported(page);
->  }
->
-> +static inline bool hugepage_reported(struct page *page)
-> +{
-> +       return static_branch_unlikely(&hugepage_reporting_enabled) &&
-> +              PageReported(page);
-> +}
-> +
->  /**
->   * page_reporting_notify_free - Free page notification to start page processing
->   *
-> @@ -52,11 +64,33 @@ static inline void page_reporting_notify_free(unsigned int order)
->                 __page_reporting_notify();
->         }
->  }
-> +
-> +static inline void hugepage_reporting_notify_free(unsigned int order)
-> +{
-> +       static long batch_size = 0;
-> +
-> +       if (!static_branch_unlikely(&hugepage_reporting_enabled))
-> +               return;
-> +
-> +       /* Determine if we have crossed reporting threshold */
-> +       if (order < hugepage_report_mini_order)
-> +               return;
-> +
-> +       batch_size += (1 << order) << PAGE_SHIFT;
-> +       if (batch_size >= hugepage_report_batch_size) {
-> +               batch_size = 0;
-> +               __hugepage_reporting_notify();
-> +       }
-> +}
->  #else /* CONFIG_PAGE_REPORTING */
->  #define page_reported(_page)   false
->
->  static inline void page_reporting_notify_free(unsigned int order)
->  {
->  }
-> +
-> +static inline void hugepage_reporting_notify_free(unsigned int order)
-> +{
-> +}
->  #endif /* CONFIG_PAGE_REPORTING */
->  #endif /*_MM_PAGE_REPORTING_H */
-> --
-> 2.18.2
->
->
+Difference in log messages:
+
+v3.1:
+
+pci 0000:00:05.1: [Firmware Bug]: reg 0x10: invalid BAR (can't size)
+pci 0000:00:05.1: [Firmware Bug]: reg 0x14: invalid BAR (can't size)
+pci 0000:00:05.1: [Firmware Bug]: reg 0x18: invalid BAR (can't size)
+pci 0000:00:05.1: reg 0x1c: [mem 0x100000370-0x10000037f 64bit]
+...
+pata_via 0000:00:05.1: BMDMA: BAR4 is zero, falling back to PIO
+ata1: PATA max PIO4 cmd 0x1f0 ctl 0x3f6 irq 14
+ata2: PATA max PIO4 cmd 0x170 ctl 0x376 irq 15
+ata1.00: ATA-7: QEMU HARDDISK, 2.5+, max UDMA/100
+...
+
+----
+
+v5.2:
+
+pci 0000:00:05.1: reg 0x10: [io  0x0000-0x0007]
+pci 0000:00:05.1: reg 0x14: [io  0x0000-0x0003]
+pci 0000:00:05.1: reg 0x18: [io  0x0000-0x0007]
+pci 0000:00:05.1: reg 0x1c: [io  0x0000-0x0003]
+pci 0000:00:05.1: reg 0x20: [io  0x0000-0x000f]
+pci 0000:00:05.1: BAR 4: assigned [io  0x4440-0x444f]
+...
+ata1: PATA max UDMA/100 cmd 0x1f0 ctl 0x3f6 bmdma 0x4440 irq 14
+ata2: PATA max UDMA/100 cmd 0x170 ctl 0x376 bmdma 0x4448 irq 15
+[and nothing else]
+
+Guenter
 
