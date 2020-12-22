@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6AC2E0B4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 15:03:36 +0100 (CET)
-Received: from localhost ([::1]:48292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B25B2E0B5B
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 15:05:56 +0100 (CET)
+Received: from localhost ([::1]:55568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kriGF-00019k-Fm
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 09:03:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41582)
+	id 1kriIV-00046h-HT
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 09:05:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
- id 1krdBX-0001kM-Jb; Tue, 22 Dec 2020 03:38:23 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2619)
+ id 1krdBW-0001jW-GB; Tue, 22 Dec 2020 03:38:22 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
- id 1krdBS-0002cY-1z; Tue, 22 Dec 2020 03:38:23 -0500
+ id 1krdBU-0002cX-U4; Tue, 22 Dec 2020 03:38:22 -0500
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4D0V7y50Lmz7JYl;
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4D0V7y4dmJz7JXT;
  Tue, 22 Dec 2020 16:37:18 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.498.0; Tue, 22 Dec 2020
- 16:37:52 +0800
+ 16:37:54 +0800
 From: Zhang Han <zhanghan64@huawei.com>
 To: <jasowang@redhat.com>
-Subject: [PATCH 3/9] net: Transfer // comments to /**/
-Date: Tue, 22 Dec 2020 16:23:34 +0800
-Message-ID: <20201222082340.67405-4-zhanghan64@huawei.com>
+Subject: [PATCH 7/9] net: Remove assignment in if condition
+Date: Tue, 22 Dec 2020 16:23:38 +0800
+Message-ID: <20201222082340.67405-8-zhanghan64@huawei.com>
 X-Mailer: git-send-email 2.29.1.59.gf9b6481aed
 In-Reply-To: <20201222082340.67405-1-zhanghan64@huawei.com>
 References: <20201222082340.67405-1-zhanghan64@huawei.com>
@@ -62,171 +62,59 @@ Cc: alex.chen@huawei.com, hunongda@huawei.com, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not use C99 // comments, thransfer // to /**/
+Put the assignment before the if condition
 
 Signed-off-by: Zhang Han <zhanghan64@huawei.com>
 ---
- net/checksum.c    |  6 ++---
- net/tap-solaris.c |  2 +-
- net/tap-win32.c   | 60 +++++++++++++++++++++++++++--------------------
- 3 files changed, 38 insertions(+), 30 deletions(-)
+ net/tap-bsd.c     | 3 ++-
+ net/tap-solaris.c | 9 ++++++---
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/net/checksum.c b/net/checksum.c
-index b78bf15098..eb2eff5fa4 100644
---- a/net/checksum.c
-+++ b/net/checksum.c
-@@ -52,9 +52,9 @@ uint16_t net_checksum_tcpudp(uint16_t length, uint16_t proto,
- {
-     uint32_t sum = 0;
+diff --git a/net/tap-bsd.c b/net/tap-bsd.c
+index dc8f9c8658..d1dca793f9 100644
+--- a/net/tap-bsd.c
++++ b/net/tap-bsd.c
+@@ -176,7 +176,8 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
  
--    sum += net_checksum_add(length, buf);         // payload
--    sum += net_checksum_add(8, addrs);            // src + dst address
--    sum += proto + length;                        // protocol & length
-+    sum += net_checksum_add(length, buf);         /* payload */
-+    sum += net_checksum_add(8, addrs);            /* src + dst address */
-+    sum += proto + length;                        /* protocol & length */
-     return net_checksum_finish(sum);
- }
- 
+     if (fd < 0) {
+         /* Tap device not specified or does not exist. */
+-        if ((fd = tap_open_clone(ifname, ifname_size, errp)) < 0) {
++        fd = tap_open_clone(ifname, ifname_size, errp);
++        if (fd < 0) {
+             return -1;
+         }
+     }
 diff --git a/net/tap-solaris.c b/net/tap-solaris.c
-index 1c8d5f7982..a0a5456ab6 100644
+index a0a5456ab6..d5af4efd60 100644
 --- a/net/tap-solaris.c
 +++ b/net/tap-solaris.c
-@@ -35,7 +35,7 @@
- #include <netinet/in.h>
- #include <netinet/in_systm.h>
- #include <netinet/ip.h>
--#include <netinet/ip_icmp.h> // must come after ip.h
-+#include <netinet/ip_icmp.h> /* must come after ip.h */
- #include <netinet/udp.h>
- #include <netinet/tcp.h>
- #include <net/if.h>
-diff --git a/net/tap-win32.c b/net/tap-win32.c
-index 0a5252ab55..0f0d95cdbb 100644
---- a/net/tap-win32.c
-+++ b/net/tap-win32.c
-@@ -38,9 +38,11 @@
- #include <windows.h>
- #include <winioctl.h>
- 
--//=============
--// TAP IOCTLs
--//=============
-+/*
-+ * =============
-+ * TAP IOCTLs
-+ * =============
-+ */
- 
- #define TAP_CONTROL_CODE(request, method) \
-   CTL_CODE(FILE_DEVICE_UNKNOWN, request, method, FILE_ANY_ACCESS)
-@@ -55,26 +57,32 @@
- #define TAP_IOCTL_GET_LOG_LINE          TAP_CONTROL_CODE(8, METHOD_BUFFERED)
- #define TAP_IOCTL_CONFIG_DHCP_SET_OPT   TAP_CONTROL_CODE(9, METHOD_BUFFERED)
- 
--//=================
--// Registry keys
--//=================
-+/*
-+ * =================
-+ * Registry keys
-+ * =================
-+ */
- 
- #define ADAPTER_KEY "SYSTEM\\CurrentControlSet\\Control\\Class\\{4D36E972-E325-11CE-BFC1-08002BE10318}"
- 
- #define NETWORK_CONNECTIONS_KEY "SYSTEM\\CurrentControlSet\\Control\\Network\\{4D36E972-E325-11CE-BFC1-08002BE10318}"
- 
--//======================
--// Filesystem prefixes
--//======================
-+/*
-+ * ======================
-+ * Filesystem prefixes
-+ * ======================
-+ */
- 
- #define USERMODEDEVICEDIR "\\\\.\\Global\\"
- #define TAPSUFFIX         ".tap"
- 
--//======================
--// Compile time configuration
--//======================
-+/*
-+ * ======================
-+ * Compile time configuration
-+ * ======================
-+ */
- 
--//#define DEBUG_TAP_WIN32
-+/* #define DEBUG_TAP_WIN32 */
- 
- /* FIXME: The asynch write path appears to be broken at
-  * present. WriteFile() ignores the lpNumberOfBytesWritten parameter
-@@ -121,7 +129,7 @@ static tun_buffer_t* get_buffer_from_free_list(tap_win32_overlapped_t* const ove
-     WaitForSingleObject(overlapped->free_list_semaphore, INFINITE);
-     EnterCriticalSection(&overlapped->free_list_cs);
-     buffer = overlapped->free_list;
--//    assert(buffer != NULL);
-+    /* assert(buffer != NULL); */
-     overlapped->free_list = buffer->next;
-     LeaveCriticalSection(&overlapped->free_list_cs);
-     buffer->next = NULL;
-@@ -142,11 +150,11 @@ static tun_buffer_t* get_buffer_from_output_queue(tap_win32_overlapped_t* const
-     tun_buffer_t* buffer = NULL;
-     DWORD result, timeout = block ? INFINITE : 0L;
- 
--    // Non-blocking call
-+    /* Non-blocking call */
-     result = WaitForSingleObject(overlapped->output_queue_semaphore, timeout);
- 
-     switch (result) {
--        // The semaphore object was signaled.
-+        /* The semaphore object was signaled. */
-         case WAIT_OBJECT_0:
-             EnterCriticalSection(&overlapped->output_queue_cs);
- 
-@@ -160,9 +168,9 @@ static tun_buffer_t* get_buffer_from_output_queue(tap_win32_overlapped_t* const
-             LeaveCriticalSection(&overlapped->output_queue_cs);
-             break;
- 
--        // Semaphore was nonsignaled, so a time-out occurred.
-+        /* Semaphore was nonsignaled, so a time-out occurred. */
-         case WAIT_TIMEOUT:
--            // Cannot open another window.
-+            /* Cannot open another window. */
-             break;
+@@ -105,7 +105,8 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
+     strioc_ppa.ic_timout = 0;
+     strioc_ppa.ic_len = sizeof(ppa);
+     strioc_ppa.ic_dp = (char *)&ppa;
+-    if ((ppa = ioctl(tap_fd, I_STR, &strioc_ppa)) < 0) {
++    ppa = ioctl(tap_fd, I_STR, &strioc_ppa));
++    if (ppa < 0) {
+         error_report("Can't assign new interface");
      }
  
-@@ -420,20 +428,20 @@ static void tap_win32_overlapped_init(tap_win32_overlapped_t* const overlapped,
-     InitializeCriticalSection(&overlapped->free_list_cs);
- 
-     overlapped->output_queue_semaphore = CreateSemaphore(
--        NULL,   // default security attributes
--        0,   // initial count
--        TUN_MAX_BUFFER_COUNT,   // maximum count
--        NULL);  // unnamed semaphore
-+        NULL,   /* default security attributes */
-+        0,   /* initial count */
-+        TUN_MAX_BUFFER_COUNT,   /* maximum count */
-+        NULL);  /* unnamed semaphore */
- 
-     if (!overlapped->output_queue_semaphore) {
-         fprintf(stderr, "error creating output queue semaphore!\n");
+@@ -162,12 +163,14 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
+         error_report("Can't set ifname to arp");
      }
  
-     overlapped->free_list_semaphore = CreateSemaphore(
--        NULL,   // default security attributes
--        TUN_MAX_BUFFER_COUNT,   // initial count
--        TUN_MAX_BUFFER_COUNT,   // maximum count
--        NULL);  // unnamed semaphore
-+        NULL,   /* default security attributes */
-+        TUN_MAX_BUFFER_COUNT,   /* initial count */
-+        TUN_MAX_BUFFER_COUNT,   /* maximum count */
-+        NULL);  /* unnamed semaphore */
+-    if ((ip_muxid = ioctl(ip_fd, I_LINK, if_fd)) < 0) {
++    ip_muxid = ioctl(ip_fd, I_LINK, if_fd);
++    if (ip_muxid < 0) {
+         error_setg(errp, "Can't link TAP device to IP");
+         return -1;
+     }
  
-     if (!overlapped->free_list_semaphore) {
-         fprintf(stderr, "error creating free list semaphore!\n");
+-    if ((arp_muxid = ioctl(ip_fd, link_type, arp_fd)) < 0) {
++    arp_muxid = ioctl(ip_fd, link_type, arp_fd);
++    if (arp_muxid < 0) {
+         error_report("Can't link TAP device to ARP");
+     }
+ 
 -- 
 2.29.1.59.gf9b6481aed
 
