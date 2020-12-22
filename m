@@ -2,50 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E630F2E0B3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 14:58:16 +0100 (CET)
-Received: from localhost ([::1]:59988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 869BF2E0B36
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 14:57:58 +0100 (CET)
+Received: from localhost ([::1]:59546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kriB5-0002lZ-W1
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 08:58:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41518)
+	id 1kriAn-0002aN-HN
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 08:57:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
- id 1krdBT-0001i9-PR; Tue, 22 Dec 2020 03:38:19 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2919)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
- id 1krdBR-0002dx-3p; Tue, 22 Dec 2020 03:38:19 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4D0V7q1rf2zM7G1;
- Tue, 22 Dec 2020 16:37:11 +0800 (CST)
-Received: from huawei.com (10.175.124.27) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.498.0; Tue, 22 Dec 2020
- 16:37:55 +0800
-From: Zhang Han <zhanghan64@huawei.com>
-To: <jasowang@redhat.com>
-Subject: [PATCH 9/9] net: Fix the indent problems
-Date: Tue, 22 Dec 2020 16:23:40 +0800
-Message-ID: <20201222082340.67405-10-zhanghan64@huawei.com>
-X-Mailer: git-send-email 2.29.1.59.gf9b6481aed
-In-Reply-To: <20201222082340.67405-1-zhanghan64@huawei.com>
-References: <20201222082340.67405-1-zhanghan64@huawei.com>
+ (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
+ id 1krg0i-00017r-By
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 06:39:24 -0500
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:33023)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
+ id 1krg0g-0000lI-Ti
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 06:39:24 -0500
+Received: by mail-lf1-x134.google.com with SMTP id l11so31302765lfg.0
+ for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 03:39:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vEOdxOf3Oi31x+Ioc56RXk7qAlmQxla1l+5+ovO2vxQ=;
+ b=bWXT6Eowm2Rd2vMNa/4HwGzq4okGY37rz4xe5Zovs/UpaMZS2IisYgX5layS+oUKXj
+ eDmwWYSI6zdRbOq5+iy1gclbPIKNZq0Pni9kaKBiAzDx+J9KSzRGcO7nAMIn2VOfjweL
+ 29X+xUF8R0hprT20Hwa6VaFJdCaKMUy/VRKrYu2Cbg6VAwaM05YvfiXMhVW5mD3ZnLq4
+ hx0JPPSzCcBl2WshQF85DQcrW8U+NDduyWp2FZWCZRzmBUE9cjEbZhCwS7z0jrfwVEiH
+ 5wvx5RhalETDrCmr5gZCCXovpfEifjAC9/0hH2xTAyPc4H7IFPy2ORxvz3aZfGTqJn8C
+ ALFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vEOdxOf3Oi31x+Ioc56RXk7qAlmQxla1l+5+ovO2vxQ=;
+ b=ij5lBUJeFFDYd1SLly2jq+rr5vTcZORrQaQAISdZ55D+0jm5BCH9q5L7/F4yJiiC0N
+ 4hVzxo684uoWZ7DQGTAK4eljQteLyxpc2vDFeGy5Eu3WjbTfGA2V2gxqsO7uNK77e0F3
+ JYa1kBYseslYCz1NxI00ZdzJU+vfG4/kwdhTxGJXbT8Q3KPIjyhJK/HaOvlFl2OwrBKR
+ 0kHM4YsAw2DBSgF+iKoOZ3LYxR1rNffd4qVMGnYNPvn+/kT0w4YJh594wQH3cfjPfIHP
+ 7wcsGx6TGKYNTFc3EtB4LGxPSusnSPCNLA1lr9eM0uSF9aWstcvN95l7vpGCzOhIXSfY
+ BOrg==
+X-Gm-Message-State: AOAM533afJTXIhxM5SkodsA8lFZXF8tCHeOYaVGjlCcwKPclIT9mEVDf
+ zRySgofmHfn/zm7gabCRFrGdCsiotU/6qJIn5pI=
+X-Google-Smtp-Source: ABdhPJxSOZZIFlE5itNqeegulycWEXMG8OkTpwJdnQNoxDMyk02F92V9oTmtGtnX+ufOiSJWRkHopx1vTFvmDN4XfzM=
+X-Received: by 2002:a19:814c:: with SMTP id c73mr8138048lfd.638.1608637160635; 
+ Tue, 22 Dec 2020 03:39:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.124.27]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=zhanghan64@huawei.com; helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20201222074810.GA30047@open-light-1.localdomain>
+ <6846ff7a-b302-a0fd-1cd9-af0f2ee733ea@redhat.com>
+In-Reply-To: <6846ff7a-b302-a0fd-1cd9-af0f2ee733ea@redhat.com>
+From: Liang Li <liliang324@gmail.com>
+Date: Tue, 22 Dec 2020 19:39:08 +0800
+Message-ID: <CA+2MQi-qXS4BHwDuxJXN52GyA67+kv9iCoasg2knRg5ytxp1vA@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/3] virtio-balloon: add support for providing free
+ huge page reports to host
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=liliang324@gmail.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 22 Dec 2020 08:55:39 -0500
+X-Mailman-Approved-At: Tue, 22 Dec 2020 08:55:38 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,117 +80,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, hunongda@huawei.com, qemu-trivial@nongnu.org,
- hang.zhanghailiang@huawei.com, qemu-devel@nongnu.org
+Cc: Andrea Arcangeli <aarcange@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
+ Liang Li <liliangleo@didiglobal.com>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, Dave Hansen <dave.hansen@intel.com>,
+ Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+ virtualization@lists.linux-foundation.org,
+ Mel Gorman <mgorman@techsingularity.net>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Mike Kravetz <mike.kravetz@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix Suspect code indent for statements
+On Tue, Dec 22, 2020 at 4:28 PM David Hildenbrand <david@redhat.com> wrote:
+>
+> On 22.12.20 08:48, Liang Li wrote:
+> > Free page reporting only supports buddy pages, it can't report the
+> > free pages reserved for hugetlbfs case. On the other hand, hugetlbfs
+>
+> The virtio-balloon free page reporting interface accepts a generic sg,
+> so it isn't glue to buddy pages. There is no need for a new interface.
 
-Signed-off-by: Zhang Han <zhanghan64@huawei.com>
----
- net/tap-solaris.c | 18 +++++++++---------
- net/tap-win32.c   | 28 ++++++++++++++--------------
- net/vde.c         |  2 +-
- 3 files changed, 24 insertions(+), 24 deletions(-)
+OK, then there will be two workers accessing the same vq, we can add a
+lock for concurrent access.
 
-diff --git a/net/tap-solaris.c b/net/tap-solaris.c
-index 0b4f709abc..fc1e796f70 100644
---- a/net/tap-solaris.c
-+++ b/net/tap-solaris.c
-@@ -76,16 +76,16 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
-     memset(&ifr, 0x0, sizeof(ifr));
- 
-     if (*dev) {
--       ptr = dev;
--       while (*ptr && !qemu_isdigit((int)*ptr)) {
--           ptr++;
--       }
--       ppa = atoi(ptr);
-+        ptr = dev;
-+        while (*ptr && !qemu_isdigit((int)*ptr)) {
-+            ptr++;
-+        }
-+        ppa = atoi(ptr);
-     }
- 
-     /* Check if IP device was opened */
-     if (ip_fd) {
--       close(ip_fd);
-+        close(ip_fd);
-     }
- 
-     TFR(ip_fd = open("/dev/udp", O_RDWR, 0));
-@@ -182,9 +182,9 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
-     ifr.lifr_arp_muxid = arp_muxid;
- 
-     if (ioctl(ip_fd, SIOCSLIFMUXID, &ifr) < 0) {
--      ioctl(ip_fd, I_PUNLINK , arp_muxid);
--      ioctl(ip_fd, I_PUNLINK, ip_muxid);
--      error_report("Can't set multiplexor id");
-+        ioctl(ip_fd, I_PUNLINK , arp_muxid);
-+        ioctl(ip_fd, I_PUNLINK, ip_muxid);
-+        error_report("Can't set multiplexor id");
-     }
- 
-     snprintf(dev, dev_size, "tap%d", ppa);
-diff --git a/net/tap-win32.c b/net/tap-win32.c
-index 107027aa24..b3af8fcba9 100644
---- a/net/tap-win32.c
-+++ b/net/tap-win32.c
-@@ -158,24 +158,24 @@ static tun_buffer_t *get_buffer_from_output_queue(tap_win32_overlapped_t *const
-     result = WaitForSingleObject(overlapped->output_queue_semaphore, timeout);
- 
-     switch (result) {
--        /* The semaphore object was signaled. */
--        case WAIT_OBJECT_0:
--            EnterCriticalSection(&overlapped->output_queue_cs);
-+    /* The semaphore object was signaled. */
-+    case WAIT_OBJECT_0:
-+        EnterCriticalSection(&overlapped->output_queue_cs);
- 
--            buffer = overlapped->output_queue_front;
--            overlapped->output_queue_front = buffer->next;
-+        buffer = overlapped->output_queue_front;
-+        overlapped->output_queue_front = buffer->next;
- 
--            if (overlapped->output_queue_front == NULL) {
--                overlapped->output_queue_back = NULL;
--            }
-+        if (overlapped->output_queue_front == NULL) {
-+            overlapped->output_queue_back = NULL;
-+        }
- 
--            LeaveCriticalSection(&overlapped->output_queue_cs);
--            break;
-+        LeaveCriticalSection(&overlapped->output_queue_cs);
-+        break;
- 
--        /* Semaphore was nonsignaled, so a time-out occurred. */
--        case WAIT_TIMEOUT:
--            /* Cannot open another window. */
--            break;
-+    /* Semaphore was nonsignaled, so a time-out occurred. */
-+    case WAIT_TIMEOUT:
-+        /* Cannot open another window. */
-+        break;
-     }
- 
-     return buffer;
-diff --git a/net/vde.c b/net/vde.c
-index 0b06464f4d..9ccedddc63 100644
---- a/net/vde.c
-+++ b/net/vde.c
-@@ -55,7 +55,7 @@ static ssize_t vde_receive(NetClientState *nc, const uint8_t *buf, size_t size)
-     ssize_t ret;
- 
-     do {
--      ret = vde_send(s->vde, (const char *)buf, size, 0);
-+        ret = vde_send(s->vde, (const char *)buf, size, 0);
-     } while (ret < 0 && errno == EINTR);
- 
-     return ret;
--- 
-2.29.1.59.gf9b6481aed
+Thanks!
 
+Liang
 
