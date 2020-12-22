@@ -2,99 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9127B2E097C
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 12:22:43 +0100 (CET)
-Received: from localhost ([::1]:45476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA78F2E0983
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 12:24:16 +0100 (CET)
+Received: from localhost ([::1]:47726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krfkY-0003pd-N8
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 06:22:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45888)
+	id 1krfm3-0004nt-Ni
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 06:24:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1krfjg-00031k-Iq
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 06:21:48 -0500
-Received: from mail-oln040092253097.outbound.protection.outlook.com
- ([40.92.253.97]:5984 helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ id 1krfky-0004Ik-Ew
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 06:23:08 -0500
+Received: from mail-oln040092254066.outbound.protection.outlook.com
+ ([40.92.254.66]:37952 helo=APC01-PU1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1krfje-0002v2-Mk
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 06:21:48 -0500
+ id 1krfkw-0003Ja-MK
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 06:23:08 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i5dIXszkP9S7WSb/heMs7GaNkZ2BwERR1/vt7mfeYTm+BW9qZ94Z0tJMeEtuu6sk7Ji6R1ucyqrAtny2rLhAaIzfr1sgfNzBtdLwcHzZrBer/9Y5L7gZLrl41VPuXf/WANZYU0JwXKtL2zBnlhCo/WziMCHPArkyWs3AKktxKISTD3oMVXJA17+TfylOXWmcQXVW5BgvXXXNVqS8TbV12kkpGxxcpIRTe5S8lQiA74hwq5UbNTJhQL1M3thUzDJq9Olv5sqBkB+pqcd4XtlcZJygNT6RyIjJS8nYcn1LLUqiZVAf4i4EPV7O247bdWh73D+ShG6aKMFwdo6E3QI+Xw==
+ b=SwO060kq40QejS0yK23XSKodCMDB5gk1Y/+KZc35C3nGoqJVYJcRe2GprRUw+W1a16vrs9yexW+lHKI/7XbpD56QMMfnj+LVP5kqJvURd9j0h1OcXCrgo4VCFRmsRUB76BUOVOdMUAnzMeWpwEPojvubQQdJCEDdw2W5zbm4YhU4iTNMxC6Q2PojFPTicgzgxE1alX4C2KCKW944EicparmrchW9k35x48teK6Kuf/ArlTYl0yylTpS/bRsZrcB+D5kV+p3mC7XY3S901oW4WikamGP+cDca6FjeOUrUFdRgf2R/C/gyiBRkvpxrd6EujKHFam0mIKTDf2K3USDb9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/Z/aGlBia3tccuyy8I/+5K/UPpKKx9FUIufyFd2pzFU=;
- b=jszuDTNelfmgzM8g0Iok5q/nxuBG1/iAjL6C9YB5JTboV0G8p/fRI3XhrC2ah1orgLPveMj2gooTaDeV9NRWczldQZdBPBsaD8MKYAYF2VKpbc/gNrRX4m5gry3A86xsK0c58XLFuPRTS6ejK7njykLJuUN3+EQUSEnDaXZqt7SlQ7PV8fbUnmofJPMzCMK8QOUK0Pl6ntg9g1QCg6DysPOmVbp14q0BlCW9/yM1gbjGlYKUuFgNGZ8LfMUN0JQTkX3jP25t6WZLoD0qzFPCeQMbVm3FDVqHv/0erZ/Bu55h9mbO3Bcl1UnO5mrt4HrtBBmgYz+zADZMxhqT9jXsjg==
+ bh=5+vBAnvFrwQooYomRRe4w3GCMsMly0M8VlPsdEoghQM=;
+ b=dCUmf/haey086MFx3qEZJQEPLWTTVffPVgfIsN1uTFiXzXhLf94Pf0rBry7MoCcPT5uB6Fcg9C9H4uW8i+AKM2LRM+UI4odJyR5lP5C4S7FOEDgEKL6KpbmSyPI89zr8iFcmZ/HYBP0WvvyEV0PWwPB/+RqwiVixsSE2WQdInjTFjPyS3fG2Z2a65sanT0aW84EFqKtW8MrVpiwHX3rKphMoNXtChoq87Pn6OX097mNLxiYMxCiVYmwCSHqEcxs9hmQW5mFHsJjjxeOVi5W370xgZg5IwcCQL8gRzDRxO7G6T9cuIUG89T2FIr3hPdOlkPNjqMfqz92719sckC2sIA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/Z/aGlBia3tccuyy8I/+5K/UPpKKx9FUIufyFd2pzFU=;
- b=TkP2tVXqtO0kcel9M+9/jTG41voQ/VVOyyy8sEQ8uMLxATsW217H2KZtJamSOo+Y6ZjhbWy/YsikhhUDRfC4iNumvaJPJ9TMSN43uKy3yCsMIGYHh0rFJVPF6WUOaD+NqYR956kbkk8dWpANmmTLTvPLk3B6+n1T3OoVqxNr9gJgNF+1KTXaUJNc4ZEi+PQUPhIxBta+/0QqhIPbGowxQfxUmLj43qQxintxU3kI+yYMSag8n1qDl+mpNTwMRXkJepF8zkxgRgtgyrMg3xodQPKlWayKT+0g8V/MmVK3/0U941AQIh8nNQyoV5UwTD/9wipj1uXB89jhdeceLYYJlw==
+ bh=5+vBAnvFrwQooYomRRe4w3GCMsMly0M8VlPsdEoghQM=;
+ b=Xn1qqZtqJgznjx1kAaPngfeAV0sCSO1Per8VGbIOid2kRUKTQ75lpxaoyJpIAysclR94dm+F6pNtluul9BQOZDK0F+5IRsQnWqYUIqyTkUtHEXD0NKlVNrrd/25LN6GGamKlMMuiuWBz6LCV5UaglI+cXFWdLzgMWlvR1BO+ZyvjlPExQtlpQKe8AbVGJm9WXgevqTSPEqIgf6/ShIHwL8lfQBYEsIND+it5SGaW+AcEAAYKXW0OubMxlHgliwJCYp5tQ5YYILFxnUEj54sgJQuEIo8Cp9M9btwjDEmN9Dt8E9ejk1mn6Os+gD6CjzdvSLmEwuHHyvptKQZ82DJapA==
 Received: from PU1APC01FT044.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebe::44) by
- PU1APC01HT216.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebe::422)
+ (2a01:111:e400:7ebe::4f) by
+ PU1APC01HT208.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebe::188)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.22; Tue, 22 Dec
- 2020 11:21:32 +0000
+ 2020 11:22:55 +0000
 Received: from SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM (2a01:111:e400:7ebe::42)
  by PU1APC01FT044.mail.protection.outlook.com
  (2a01:111:e400:7ebe::276) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.22 via Frontend
- Transport; Tue, 22 Dec 2020 11:21:32 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:7ECE12636DEF42B5912E07EBAB81E324B4A8FF7873307AA1973A138121F13EB4;
- UpperCasedChecksum:B520DD1FB4723F2B8CAABF3A644EA50D69DDB4D5F58B5CD0FA192AB7FEB11183;
- SizeAsReceived:8829; Count:47
+ Transport; Tue, 22 Dec 2020 11:22:54 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:2D5E95E677D4B194301AEFADEAE7F3F90D4E77E74D147B06439F9D543129A773;
+ UpperCasedChecksum:98AB6A953BE12D2C14F949C107DD5A4D1B83991A024EA9C6FA1B87563B11871A;
+ SizeAsReceived:8831; Count:47
 Received: from SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM
  ([fe80::55ae:9314:d035:d6d2]) by SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM
  ([fe80::55ae:9314:d035:d6d2%7]) with mapi id 15.20.3676.033; Tue, 22 Dec 2020
- 11:21:32 +0000
-Message-ID: <SYYP282MB1501A23C21301A8151E13AB1FCDF0@SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM>
-Subject: Re: [PATCH 3/4] fuzz: setting bits in operand of out/write to zero
+ 11:22:54 +0000
+Message-ID: <SYYP282MB150122E885AC35FD9E63E851FCDF0@SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH 4/4] fuzz: delay IO until they can't trigger the crash
 From: Qiuhao Li <Qiuhao.Li@outlook.com>
 To: Alexander Bulekov <alxndr@bu.edu>
-Date: Tue, 22 Dec 2020 19:21:25 +0800
-In-Reply-To: <20201221203543.vlezaw2sxiq7wpde@mozz.bu.edu>
+Date: Tue, 22 Dec 2020 19:22:45 +0800
+In-Reply-To: <20201221211704.qiai5j75fmcqrueo@mozz.bu.edu>
 References: <ME3P282MB1492BFA2302041F2AB420EBEFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
- <ME3P282MB149243C4D0FE93B71E6B8AA6FCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
- <20201221203543.vlezaw2sxiq7wpde@mozz.bu.edu>
+ <ME3P282MB14920C8592A1D04D4A5685D9FCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
+ <20201221211704.qiai5j75fmcqrueo@mozz.bu.edu>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.36.4-0ubuntu1 
 Content-Transfer-Encoding: 7bit
-X-TMN: [91JE9mEzr+rNUAIGSJiAE+0Zg9MotEOo]
-X-ClientProxiedBy: OS0P286CA0054.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:604:9e::23) To SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM
+X-TMN: [yjJClbkJq6H10BWA2mi4gWCwS+gTC+hq]
+X-ClientProxiedBy: OSAPR01CA0306.jpnprd01.prod.outlook.com
+ (2603:1096:604:2c::30) To SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM
  (2603:10c6:10:da::15)
-X-Microsoft-Original-Message-ID: <4f4d95defa9b8f7364987b1e933c3e20a446c092.camel@outlook.com>
+X-Microsoft-Original-Message-ID: <36fbd985d54468def88409bbed4f852277e7e307.camel@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost (204.124.180.84) by
- OS0P286CA0054.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:9e::23) with Microsoft
+ OSAPR01CA0306.jpnprd01.prod.outlook.com (2603:1096:604:2c::30) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3676.29 via Frontend Transport; Tue, 22 Dec 2020 11:21:30 +0000
+ 15.20.3676.29 via Frontend Transport; Tue, 22 Dec 2020 11:22:51 +0000
 X-MS-PublicTrafficType: Email
 X-IncomingHeaderCount: 47
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 88606a68-e9fe-4992-af37-08d8a66bbc83
-X-MS-TrafficTypeDiagnostic: PU1APC01HT216:
+X-MS-Office365-Filtering-Correlation-Id: 4bebe4a1-12fb-440d-3a62-08d8a66bed25
+X-MS-TrafficTypeDiagnostic: PU1APC01HT208:
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OtfiLYKsxonlzSy+z8ep+S1nJslMH31rnA3Ejf98ARbVDKiF5YYN9txEvGDz7KGt3vIZnU4eB2oLo+wgNsMFoZnol3eEU19or2rmqZxyUDgRWw5c8WyRXM5AcQm4NeXufAf9zciC22xLt2Lx6WciWA4PtTKrATCVquhMlC2J55RzSb9nDYUBdykmosOPus1okXux4tCZF+H68BnLcNEbXz1qjqBh1Y6/1iGrm5p9I3qeaOH5IY9RqLSQYfWFf3X2
-X-MS-Exchange-AntiSpam-MessageData: Ajn2zz9x02V2rXg/57lfXSFl6ydreVHFn/RLVEkIOILzpYwdWI2wosfG5X57L4X76wTFEWa9nIiAwkRKn+LnA7x9LVEqp8K8tGohca0oolnehX5hISBiY7OAlSYuJTLL9BDpMf8U/+CsgZVjF345YQ==
+X-Microsoft-Antispam-Message-Info: YLLfEwtFtvqag/NT4HwOF9K4M5EU3+P6hjPMtyvR8S10rAQTao6O+dBO1Jt9bSYYDv35xWD2uScFBNNrP2WkvGiZE+wacCK9pdz2RKXYKGxxsgiVAhXjYZbGRX8pnlKIKayCRwGe4uKhHvB0+EPzfVljGUmBOIS14yBKURg6ZcfpAiuXPzGWVM3MjmEBX8h6s/xPQS87ZjfARuvwD+kGQKzdLzYB0/jJrn/ODCZVSd5MCLNCjJDaaCQl1WxMhMiB
+X-MS-Exchange-AntiSpam-MessageData: gFFcLf+DxQ6fxgBK11YgwEDvo/2Ci9Sgm2u+CFZ7rbLAVNt37ZObxAiFQIYlL16yuAT5sskTJpbHaY8Jjd/HXwVXUpogxrqm+n1BQK8OKxwSCTEAB5sVZAxr1z2l5LYYEh6XMLZJLbT9DfAmuhsj9g==
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 11:21:32.6417 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 11:22:54.2888 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88606a68-e9fe-4992-af37-08d8a66bbc83
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4bebe4a1-12fb-440d-3a62-08d8a66bed25
 X-MS-Exchange-CrossTenant-AuthSource: PU1APC01FT044.eop-APC01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1APC01HT216
-Received-SPF: pass client-ip=40.92.253.97; envelope-from=Qiuhao.Li@outlook.com;
- helo=APC01-SG2-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1APC01HT208
+Received-SPF: pass client-ip=40.92.254.66; envelope-from=Qiuhao.Li@outlook.com;
+ helo=APC01-PU1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -120,103 +120,158 @@ Cc: thuth@redhat.com, qemu-devel@nongnu.org, darren.kenny@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2020-12-21 at 15:35 -0500, Alexander Bulekov wrote:
+On Mon, 2020-12-21 at 16:17 -0500, Alexander Bulekov wrote:
 > On 201220 0256, Qiuhao Li wrote:
-> > Simplifying the crash cases by opportunistically setting bits in
-> > operands of
-> > out/write to zero may help to debug, since usually bit one means
-> > turn on
-> > or
-> > trigger a function while zero is the default turn-off setting.
+> > Since programmers usually trigger an IO just before they need it.
+> > Try to
+> > delay some IO instructions may help us better understanding the
+> > timing
+> > context when debug.
 > > 
-> > Tested Bug 1908062. Refined vs. Original result:
+> > Tested with Bug 1908062. Refined vs. Original result:
 > > 
-> > outl 0xcf8 0x8000081c            outl 0xcf8 0x8000081c
-> > outb 0xcfc 0xc3                  outb 0xcfc 0xc3
-> > outl 0xcf8 0x0               <-- outl 0xcf8 0x8000082f
-> > outl 0xcf8 0x80000804            outl 0xcf8 0x80000804
-> > outl 0xcfc 0x10000006        <-- outl 0xcfc 0x9b2765be
-> > write 0xc300001024 0x2 0x10  <-- write 0xc300001024 0x2 0x0055
-> > write 0xc300001028 0x1 0x5a      write 0xc300001028 0x1 0x5a
-> > write 0xc30000101c 0x1 0x01      write 0xc30000101c 0x1 0x01
-> > writel 0xc30000100c 0x2a6f6c63   writel 0xc30000100c 0x2a6f6c63
-> > write 0xc300001018 0x1 0x80  <-- write 0xc300001018 0x1 0xa4
-> > write 0x5c 0x1 0x10          <-- write 0x5c 0x1 0x19
-> > write 0xc300003002 0x1 0x0   <-- write 0xc300003002 0x1 0x8a
+> > outl 0xcf8 0x8000081c            outl 0xcf8 0x0
+> > outb 0xcfc 0xc3                | outl 0xcf8 0x8000081c
+> > outl 0xcf8 0x80000804          | outb 0xcfc 0xc3
+> > outl 0xcfc 0x10000006          | outl 0xcf8 0x80000804
+> > write 0xc300001028 0x1 0x5a    | outl 0xcfc 0x10000006
+> > write 0xc300001024 0x2 0x10    | write 0xc300001028 0x1 0x5a
+> > write 0xc30000101c 0x1 0x01    | writel 0xc30000100c 0x2a6f6c63
+> > write 0xc300003002 0x1 0x0     v write 0xc300001024 0x2 0x10
+> > write 0x5c 0x1 0x10              write 0xc30000101c 0x1 0x01
+> > writel 0xc30000100c 0x2a6f6c63   write 0xc300001018 0x1 0x80
+> > write 0xc300001018 0x1 0x80      write 0x5c 0x1 0x10
+> > outl 0xcf8 0x0                   write 0xc300003002 0x1 0x0
 > > 
+> 
+> In this example, I can remove the outl 0xcf8 0x0, and I still see the
+> crash, so maybe the 1st step in the minimizer is failing somewhere.. 
+
+I think it might because of our one-time scan and remove strategy,
+which is not suitable for timing dependent instructions.
+
+For example, instruction A will indicate an address where the config
+chunk locates, and instruction B will make the configuration active. If
+we have the following instruction sequence:
+
+...
+A1
+B1
+A2
+B2
+...
+
+A2 and B2 are the actual instructions that trigger the bug.
+
+If we scan from top to bottom, after we remove A1, the behavior of B1
+might be unknowable, including not to crash the program. But we will
+successfully remove B1 later cause A2 and B2 will crash the process
+anyway:
+
+...
+A1
+A2
+B2
+...
+
+Now one more trimming will remove A1.
+
+As for the example I gave, the instructions before the delaying
+minimizer are like this:
+
+outl 0xcf8 0x8000081c
+outb 0xcfc 0xc3
+outl 0xcf8 0x0                <--- The A instruction, didn't be removed
+(outl 0xcfc 0x0)              <--- The B instruction, removed
+outl 0xcf8 0x80000804
+outl 0xcfc 0x10000006
+write 0xc300001024 0x2 0x10
+write 0xc300001028 0x1 0x5a
+write 0xc30000101c 0x1 0x01
+writel 0xc30000100c 0x2a6f6c63
+write 0xc300001018 0x1 0x80
+write 0x5c 0x1 0x10
+write 0xc300003002 0x1 0x0
+
+If we run the remove minimizer again, The A instruction outl 0xcf8 0x0
+will be removed.
+
+Since we only remove instructions, this iterative algorithm is
+converging. Maybe we can keep removing the trace until the
+len(newtrace) become unchanged.
+
+> 
+> Is the Refined one better? To me the original one read as:
+> "Do a bunch of PCI configuration to map an MMIO BAR, then interact
+> with
+> the MMIO range and trigger some DMA activity". I also know exactly
+> the
+> line that will trigger the DMA activity and access 0x5c. With the
+> refined one, I'm not so sure. Which line now causes the DMA read from
+> 0x5c? writel 0xc30000100c? write 0xc300001018?
+> Is there another example where this type of reordering makes the
+> result
+> easier to read?
+> 
 > > Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-> 
-> Looks good. One nit below.
-> 
-> Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-> 
-> 
 > > ---
-> >  scripts/oss-fuzz/minimize_qtest_trace.py | 42
-> > +++++++++++++++++++++++-
-> >  1 file changed, 41 insertions(+), 1 deletion(-)
+> >  scripts/oss-fuzz/minimize_qtest_trace.py | 21
+> > +++++++++++++++++++++
+> >  1 file changed, 21 insertions(+)
 > > 
 > > diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py
 > > b/scripts/oss-fuzz/minimize_qtest_trace.py
-> > index 855c3bcb54..f3e88064c4 100755
+> > index f3e88064c4..da7aa73b3c 100755
 > > --- a/scripts/oss-fuzz/minimize_qtest_trace.py
 > > +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-> > @@ -172,7 +172,47 @@ def minimize_trace(inpath, outpath):
-> >                      newtrace[i] = prior
-> >                      del newtrace[i+1]
-> >          i += 1
-> > -    check_if_trace_crashes(newtrace, outpath)
-> > +
-> > +    assert(check_if_trace_crashes(newtrace, outpath))
-> > +
-> > +    TIMEOUT = (end-start)*2 # input is short now
-> > +
-> > +    # try setting bits in operands of out/write to zero
-> > +    i = 0
-> > +    while i < len(newtrace):
-> > +        if (not newtrace[i].startswith("write ") and not
-> > +           newtrace[i].startswith("out")):
-> > +           i += 1
-> > +           continue
-> > +        # write ADDR SIZE DATA
-> > +        # outx ADDR VALUE
-> > +        print("\nzero setting bits: {}".format(newtrace[i]))
-> > +
-> > +        prefix = " ".join(newtrace[i].split()[:-1])
-> > +        data = newtrace[i].split()[-1]
-> > +        data_bin = bin(int(data, 16))
-> > +        data_bin_list = list(data_bin)
-> > +
-> > +        for j in range(2, len(data_bin_list)):
-> > +            prior = newtrace[i]
-> > +            if (data_bin_list[j] == '1'):
-> > +                data_bin_list[j] = '0'
-> > +                data_try = hex(int("".join(data_bin_list), 2))
-> > +                # It seems qtest only accect hex with one byte
-> > zero padding
->                                          ^^ "accepts padded hex-
-> values."
+> > @@ -214,6 +214,27 @@ def minimize_trace(inpath, outpath):
+> >  
+> >      assert(check_if_trace_crashes(newtrace, outpath))
+> >  
+> > +    # delay IO instructions until they can't trigger the crash
+> > +    # Note: O(n^2) and many timeouts, kinda slow
+> 
+> Maybe do a binary search instead of a linear scan for the optimal
+> position
+> to save some time?
+> Also, if you re-run this multiple times, you can end up with
+> different
+> results, since some lines might not really be tied to a position
+> (e.g.
+> the outl cf8 0x0 in your example). Maybe it's not a problem, but i'm
+> still not sure that this is making the result easier to read.
+> -Alex
 
-Thanks.
+I'm not familiar with the PCI configuration and DMA mechanism in QEMU.
+This patch is just random thinking based on empiricism. Maybe I should
+add the "RFC" tag :). In version 2, I won't post this patch.
+
+BTW, may I ask where I can learn about these IO emulations? How do you
+know the address corresponding to the PCI bar and DMA?
 
 > 
-> > +                if len(data_try) % 2 == 1:
-> > +                    data_try = data_try[:2] + "0" + data_try[2:-1]
-> > +
-> > +                newtrace[i] = "{prefix} {data_try}\n".format(
-> > +                        prefix=prefix,
-> > +                        data_try=data_try)
-> > +
-> > +                if not check_if_trace_crashes(newtrace, outpath):
-> > +                    data_bin_list[j] = '1'
-> > +                    newtrace[i] = prior
-> > +
-> > +        i += 1
+> > +    i = len(newtrace) - 1
+> > +    while i >= 0:
+> > +        tmp_i = newtrace[i]
+> > +        if len(tmp_i) < 2:
+> > +            i -= 1
+> > +            continue
+> > +        print("Delaying ", newtrace[i])
+> > +        for j in reversed(range(i+1, len(newtrace)+1)):
+> > +            newtrace.insert(j, tmp_i)
+> > +            del newtrace[i]
+> > +            if check_if_trace_crashes(newtrace, outpath):
+> > +                break
+> > +            newtrace.insert(i, tmp_i)
+> > +            del newtrace[j]
+> > +        i -= 1
 > > +
 > > +    assert(check_if_trace_crashes(newtrace, outpath))
-> >  
+> > +    # maybe another removing round
+> > +
 > >  
 > >  if __name__ == '__main__':
+> >      if len(sys.argv) < 3:
 > > -- 
 > > 2.25.1
 > > 
