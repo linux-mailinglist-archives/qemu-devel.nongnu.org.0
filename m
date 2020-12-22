@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8AA32E070B
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 09:08:35 +0100 (CET)
-Received: from localhost ([::1]:53696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47722E070F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 09:10:40 +0100 (CET)
+Received: from localhost ([::1]:55854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krcig-0004Cm-Lk
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 03:08:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37058)
+	id 1krckh-00059C-81
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 03:10:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liliang.opensource@gmail.com>)
- id 1krchi-0003lr-NO
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 03:07:34 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:40324)
+ id 1krcjb-0004iA-16
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 03:09:31 -0500
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:46133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <liliang.opensource@gmail.com>)
- id 1krchh-0005di-5r
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 03:07:34 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id q4so7025828plr.7
- for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 00:07:32 -0800 (PST)
+ id 1krcjZ-0006Sx-9Z
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 03:09:30 -0500
+Received: by mail-pg1-x531.google.com with SMTP id c22so7872677pgg.13
+ for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 00:09:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:date:to:cc:subject:message-id:mail-followup-to:mime-version
  :content-disposition:user-agent;
  bh=vZw5nI+kCEEx1ompDMl4HBZSoNTPvUzGrnmedcFZpg8=;
- b=JaROmKllcxZJVSF/7f9ajF4vZ/3yI3Ppuoc9yGHEnIiI0Bm+YkKpjmdV9Cl4vLEfrk
- GxXkm9MIxo35fXB1bSqq0QILocaPg8WSo56E345ryIV0sAtyi9mG3BKjKi5hcFdwehPX
- bFrwLCmhAgRsMVx4Y64dbMDB+dvj69VpdrMyYkz02CkoPFz23ssTuqCiLfZr21ZXjA7G
- oxZ7hur2XCUhVBwP9QcyLLxgpRY/A0aoR8TBCaB8Y40JdxwjLjEj0WVLo7b1d4IHib2h
- hEIr7+oTGM5fnPYVtiF/+bn7XSSqLZ1QRRsW2QC89QuWBkolBXs9JquUFPyJPfNDu3p/
- etOg==
+ b=vLBLjFXhc52zVGGaPxpIaxjR0vZSpL4RJWvs/u4ZFgQIPhGnSO8vUxUyOcQJDcwroz
+ C+CTv3VfTYEwuZT78zrciQhiqjjm9XFc64y7aLEnzHkfKaU6BF6++zXrtUq+Z46GXtOB
+ 83tycbWqXdmhMnIMeVoOtsIEzFSxkjVYZx5+qQyKUWt2KfgiAQ5bcxBoqDXLrfG4/5qR
+ yDH+Z6StmiHIPJOs9WVqVp6OjWoM0TD8ZuWL6g8zF2FM8B2otSpqjFND+l1OZECDxkc/
+ p4UBrcQV0WZZuJuQJ/ENRZJpMKr2E2AH94CsEQKR0vjN4J3Oc2XTyrm7eO0i9y+gwghf
+ 1eCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:date:to:cc:subject:message-id
  :mail-followup-to:mime-version:content-disposition:user-agent;
  bh=vZw5nI+kCEEx1ompDMl4HBZSoNTPvUzGrnmedcFZpg8=;
- b=CNeXoXa8mBy4NJ40f8Z1Z6FIoFGll2meI5iUBxKDBTQWPbTOJUYlyan9BJLB2jEUki
- Tz1aQFPQYoNCHSXE6RUD2Dqt1N5jTCPe5sDgna9d8EU4snL2zdmdTSdLUG3mh2ovu8/J
- 7MQOwZhOW+WERjRAXHRFJM06a8efaM8e1hWyIz4MQ4T5heqmlSpQc23i6Fq2Xgd+TY8e
- J6hUjs6a47ekKiz50axl6U0MzajHgED529WwKV9pBtSrZdypEmmfE8xMK4KuyU657f1m
- TBakFnVEuehIlv/DLBou8qA0ZzhON5/6qGVp7cZxghYV8N3SSB8yVyAAsN4dqsqRtAec
- XfsA==
-X-Gm-Message-State: AOAM531elOY1y8MCltk5OZ+u4Q+P29eiQM+2daPs9HggZzCyHM2hTiLE
- cRl3reilrRNb7woc1DuPDws=
-X-Google-Smtp-Source: ABdhPJw8bdnstDutKrG4AgPCG0dKtYaUoLX0FqgRoWULLnzBH3nde0MHSy5P0vurfiRkRGXT96XM3w==
-X-Received: by 2002:a17:902:b706:b029:dc:3817:4da5 with SMTP id
- d6-20020a170902b706b02900dc38174da5mr12068668pls.23.1608624450476; 
- Tue, 22 Dec 2020 00:07:30 -0800 (PST)
+ b=b+06Cp7rFd2lGev0YPwxOijd1lMvr0kYjA8qGJ0xD2YbNrHjgxnIJNZXISg7b+xX7I
+ Hya5Nl9zKekDaHjdDJx2GyX7OvW7HhRQqOQT5yFqTwy+GMfkQDiKuhIixfn2KwQOhlq3
+ Uf7YrSKuxXrOOhE4DuohxOzyJYmL3FnoWTdLveZWkzLu5bNDh7i0w3h2W3iYlTnnKxOa
+ g5qsnNYN4RuTieOHDfoItWiwWrgaaVRs8961Kntj2CL23/P/1qll1QooFMj3sXpnIdXN
+ BEDG4e/WVclv/S8WQ5Cd8FrJPuWooxS1xCQ1sfi8ShJAJzBLsmBZQwWA4sTaFgZdLdVl
+ fKfg==
+X-Gm-Message-State: AOAM533T1qIcu5GhjIiZAQp5VFtxGLiPu4JWPPLIDU/6ImbIW3TGccWa
+ tohKu07SqA1dSUpQYsQ/ft0=
+X-Google-Smtp-Source: ABdhPJyU6Wz5lVMCuCgUGh0+zuFDW8nZczDSmN1Y/AkdDSy8vvTKk3wCl/eNGH6+B3nfb09my9dzuQ==
+X-Received: by 2002:a63:1e1a:: with SMTP id e26mr4591379pge.66.1608624567657; 
+ Tue, 22 Dec 2020 00:09:27 -0800 (PST)
 Received: from open-light-1.localdomain (66.98.113.28.16clouds.com.
  [66.98.113.28])
- by smtp.gmail.com with ESMTPSA id b7sm7126753pff.96.2020.12.22.00.07.28
+ by smtp.gmail.com with ESMTPSA id r14sm13345752pgi.27.2020.12.22.00.09.26
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 22 Dec 2020 00:07:29 -0800 (PST)
+ Tue, 22 Dec 2020 00:09:27 -0800 (PST)
 From: Liang Li <liliang.opensource@gmail.com>
 X-Google-Original-From: Liang Li <liliangleo@didiglobal.com>
-Date: Tue, 22 Dec 2020 03:07:27 -0500
+Date: Tue, 22 Dec 2020 03:09:24 -0500
 To: Alexander Duyck <alexander.h.duyck@linux.intel.com>,
  Mel Gorman <mgorman@techsingularity.net>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -67,7 +66,7 @@ To: Alexander Duyck <alexander.h.duyck@linux.intel.com>,
  Liang Li <liliangleo@didiglobal.com>,
  Mike Kravetz <mike.kravetz@oracle.com>, Liang Li <liliang324@gmail.com>
 Subject: [RFC PATCH 0/3 updated] add support for free hugepage reporting
-Message-ID: <20201222080724.GA30239@open-light-1.localdomain>
+Message-ID: <20201222080921.GA30259@open-light-1.localdomain>
 Mail-Followup-To: Alexander Duyck <alexander.h.duyck@linux.intel.com>,
  Mel Gorman <mgorman@techsingularity.net>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -86,8 +85,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=liliang.opensource@gmail.com; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=liliang.opensource@gmail.com; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
