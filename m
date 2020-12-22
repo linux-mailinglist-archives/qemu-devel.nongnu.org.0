@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F6DA2E0375
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 01:38:01 +0100 (CET)
-Received: from localhost ([::1]:41544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268BB2E0379
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 01:43:36 +0100 (CET)
+Received: from localhost ([::1]:47306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krVgd-000887-Rn
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 19:37:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44872)
+	id 1krVm3-0002eD-8p
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 19:43:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1krVex-0007g7-3d
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:36:15 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:49345)
+ id 1krVj9-0001Cr-MY
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:40:35 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:52909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1krVev-0002mD-4U
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:36:14 -0500
+ id 1krVj7-0004B6-Rs
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:40:35 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3941C5803F7;
- Mon, 21 Dec 2020 19:36:12 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 21 Dec 2020 19:36:12 -0500
+ by mailnew.nyi.internal (Postfix) with ESMTP id 3219E580403;
+ Mon, 21 Dec 2020 19:40:33 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 21 Dec 2020 19:40:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  subject:to:cc:references:from:message-id:date:mime-version
- :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=3
- //LIdcIHl4cNJobiVPF6MYORvYHfTS3PNkL0cC0HaE=; b=YZ8+g7VYaCAsEFr45
- ERrFkv5ABE/brNsdBfgzvDSd5J70A25hzRwAndcrswDyUhbjS9KBitYhkTWv4e3S
- emvw9/GPxWrpibfbGVXyQR3wrAXU41DyrVTYQdAiXuyJDvaNpkpxYaoKxmuKhvw/
- rEEpxandym+Nuba5bJ8y2OkKCxjrCBluZ/I5jbrdEgP5cjLFKCi1AZiEAkNLhUb0
- 3V2AsM5Y0seO7GkeoIGc/K9QbWigHUy7s+VLlcJG03Tqt425t3rkFbqLRKzPg1VV
- 1AOuD/q7lPTSWQVJc7rqBzGleaa+7D5eBBQlgyaPdYUth3OpGkPIoM8dwrVBo/Kq
- +nrMg==
+ :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=u
+ Oo7Ajei8Ye3lpMN7dla6kdCVmG0ed5TOowTvWiFjFA=; b=c4do2k7/qq6MawmFJ
+ R6c7oGJ19os0dGN2p5eXzNNlmMXnWrFa4gueQpRqawZ5I3wECXxxdiboawW9FxB6
+ ygm6yRcQ6H8coJvBM+eaYgZCdZMWucmy9MbxapcRYPS3ly6w8NkBbBZd8IT+2CJM
+ tufIHnVvFvWsOiZQ6PNc2BXOysxbVp7nw//zUKfcLsnnrI8LQkeskQQTtjMb0waI
+ eV4eluBCy8t7y3vxI8+lkD5KjhESPYOMHCloY3sf8v53EagoW4RboRU4xoZEf6ZM
+ MJP79lYy8y/uD8N93kPCUI1Msn6pF8/mZOczdjwSZsk6k+2pkxt/aw9sCuFvuC2K
+ gVzOg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=3//LIdcIHl4cNJobiVPF6MYORvYHfTS3PNkL0cC0H
- aE=; b=i1dgbYKQUZDH8Cek3WSpQmHARbp3smj5YHQ5nU6WCgG/Mes1h1msbfbX/
- hD7upBIKXwoBnOoBkTyD/56+sPkTD6ETfxZzw99aJIIfp2Jcnq/DbNdalrZVEN+J
- M29DyyT4MI2J/IFaOPLvcJT9PDbIOB3d58XD+yYVKfWF4lc4vZ94b4xDAX6JllUh
- +0X6viOudA0/svqeHkFQkeMzdxUQNunobu7UQwWYvN8ipUqM7qC0jGYMQRNz20IO
- +EIH2Rrwg/6/AGFmd3ju0KO9qSoYpYblsTeLZVpflXblXC+gBtTBqYKFB0vBxbLr
- CNVTy+uwqhk1y9z65Qt+w4IWq39Dw==
-X-ME-Sender: <xms:ez_hX76H7KiQkpqRO9FqQDuBAG5bQ8Y-YPqmaG6P3SKt05bJVQ0rBQ>
- <xme:ez_hXw6cyJ0oTNW6Yh8GYrePxUFfwj9HgesUKW8kt5KHwu6j0HflFqPTvz8uZDt3h
- MeRkfJpJzoVnLJXwkM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtfedgvdegucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm1; bh=uOo7Ajei8Ye3lpMN7dla6kdCVmG0ed5TOowTvWiFj
+ FA=; b=ChzqSFoq6aKQq3eUQ+RA2UCNP8T096Tv08BVopb9mwn2VcRnHvbcxkUsC
+ h36AF+G/IIp8a9kDvX9e5oI6G46x7OQjWop2XDDiNLpc61Bc5mAS0lfCddHLGZzM
+ +gnyGk6BqLYHi7p/Q2zNTwSOAFQOmavRAA0t4DlmLu6+ZF3z4UKc2oPt956vWBfj
+ 64UgxLEh/2gTgtcC7vW/irGgT0yIPY7KpvSa1VTApswgHy4//7mrCIfQ5vTWUi/P
+ hdn4b/jVYkmxYSR+lX6Gj+J8dDwwwHyBV6G8XKt4SUsqCgjLR0apFbtaC2/Rv88g
+ HjdTnU6XEcDhQN70OZ1+nRh0cZNCA==
+X-ME-Sender: <xms:gEDhX_KKajbEbY-pHo7n-WY-8RzAvUVyUPDPTN_pBWXqvruahfeHJA>
+ <xme:gEDhXzKxQB80TSb3d2vqnHSvDY2-CRF9CWOD7dRtCcm_qTf7tHVT5Tpvc5XcAgXZE
+ YE75f1EjqDsSH1oDu0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtfedgvdehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefuvfhfhffkffgfgggjtgfgsehtke
- ertddtfeejnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghn
- ghesfhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepgffflefghfdvtdduve
- eggeeuvdfhgeeufeefveelveejtdfgveejteffgfekvdeinecuffhomhgrihhnpegsohho
- thhlihhnrdgtohhmnecukfhppeeghedrfeefrdehtddrvdehgeenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehf
- lhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:ez_hXyde52IjEoajiNi2T4SpMS4pemnInbHWS7td9P3O3YtxEz8ufg>
- <xmx:ez_hX8KM8d0ER4m3RW8p7KFeB_1jVJwkG6h5bddau2PDXYL49XuK-g>
- <xmx:ez_hX_L-ar_Pc8T0IcKnazjyefGnSUgpBMGBIEhrXr4dczSmMzkBxw>
- <xmx:ez_hX1iu8JO5bZQkJuRn0pbUBy9LX95EDkNGLpvVIMMSV0H9YgjBF4VgM4s>
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomheplfhirgig
+ uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
+ ggtffrrghtthgvrhhnpeeihffghfeikedugeejvefgffevgeevgeehfffhudeiieffffev
+ ffeugeevfefgfeenucfkphepgeehrdeffedrhedtrddvheegnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhl
+ hihgohgrthdrtghomh
+X-ME-Proxy: <xmx:gEDhX3u2NhsQcj47ZcKDUnLehIGlFM7DNJ4L5ilvUPl6Lgcbl6PPRQ>
+ <xmx:gEDhX4agheZVHgDxwCKa238z9mGv6UEdE6ZhL3nAbJXTRBk-ZEMqsg>
+ <xmx:gEDhX2aB6aDgYHnduz7Sr5-K7rtlMXuFMjhOkIlBUeGFEEO2K_Kqow>
+ <xmx:gUDhX2EWrzSsygSH-QKK98GP0rPh_cpXzVHeh67X6D1mmpk6DbUZHIiE7Uc>
 Received: from [0.0.0.0] (li1000-254.members.linode.com [45.33.50.254])
- by mail.messagingengine.com (Postfix) with ESMTPA id A2591108005B;
- Mon, 21 Dec 2020 19:36:08 -0500 (EST)
-Subject: Re: [PATCH v2 4/8] hw/pci-host/bonito: Fixup pci.lomem mapping
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0519D240057;
+ Mon, 21 Dec 2020 19:40:29 -0500 (EST)
+Subject: Re: [PATCH] tests/acceptance: Test PMON with Loongson-3A1000 CPU
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
- <20201219071816.37963-2-jiaxun.yang@flygoat.com>
- <05d6819c-67dd-9275-e9df-1a26baf807ee@amsat.org>
+ Huacai Chen <chenhuacai@kernel.org>, Willian Rampazzo <wrampazz@redhat.com>
+References: <20201216181759.933527-1-f4bug@amsat.org>
+ <ad7ff216-66b9-9b0c-eece-80a294240c28@redhat.com>
+ <CAAhV-H7f4Bw_+BLCC0DcrUQKK0nUanQTTQ+a272ADBheB_NBJQ@mail.gmail.com>
+ <57336906-ec68-020a-9388-4d43db937a81@amsat.org>
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <1089c6a2-e446-9312-4edb-090a6ae8bf72@flygoat.com>
-Date: Tue, 22 Dec 2020 08:36:04 +0800
+Message-ID: <ec1ac9cb-0cea-51a3-548b-08d591a6a0e0@flygoat.com>
+Date: Tue, 22 Dec 2020 08:40:26 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <05d6819c-67dd-9275-e9df-1a26baf807ee@amsat.org>
+In-Reply-To: <57336906-ec68-020a-9388-4d43db937a81@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -101,86 +102,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenhuacai@kernel.org, wainersm@redhat.com, crosa@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-在 2020/12/22 上午4:45, Philippe Mathieu-Daudé 写道:
-> On 12/19/20 8:18 AM, Jiaxun Yang wrote:
->> The original mapping had wrong base address.
->> Fix by correct the base adress and merge three alias into
->> a single.
-> Why merge? Beside, typo "address".
-
-
-Hi Philippe,
-
-Thanks for your reviewing!
-
-Because I can't understand why it was in three pieces.
-I was just trying to do what kernel as I don't have much knowledge with
-Fuloong2E.
-
-The kernel treated PCI region as a whole part[1] at 0x10000000 with size
-0x0c000000.
-
-It fixed long lasting radeonfb starting failure.
-
->
->> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> ---
->>   hw/pci-host/bonito.c | 17 ++++++-----------
->>   1 file changed, 6 insertions(+), 11 deletions(-)
+在 2020/12/21 下午11:34, Philippe Mathieu-Daudé 写道:
+> On 12/21/20 1:51 PM, Huacai Chen wrote:
+>> Hi, Philippe,
 >>
->> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
->> index 43b79448a9..3a31ba42f2 100644
->> --- a/hw/pci-host/bonito.c
->> +++ b/hw/pci-host/bonito.c
->> @@ -608,7 +608,7 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
->>   {
->>       PCIHostState *phb = PCI_HOST_BRIDGE(dev);
->>       BonitoState *bs = BONITO_PCI_HOST_BRIDGE(dev);
->> -    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 3);
->> +    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 1);
->>   
->>       memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCIHI_SIZE);
->>       phb->bus = pci_register_root_bus(dev, "pci",
->> @@ -616,16 +616,11 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
->>                                        dev, &bs->pci_mem, get_system_io(),
->>                                        0x28, 32, TYPE_PCI_BUS);
->>   
->> -    for (size_t i = 0; i < 3; i++) {
->> -        char *name = g_strdup_printf("pci.lomem%zu", i);
->> -
->> -        memory_region_init_alias(&pcimem_lo_alias[i], NULL, name,
->> -                                 &bs->pci_mem, i * 64 * MiB, 64 * MiB);
->> -        memory_region_add_subregion(get_system_memory(),
->> -                                    BONITO_PCILO_BASE + i * 64 * MiB,
->> -                                    &pcimem_lo_alias[i]);
->> -        g_free(name);
->> -    }
->> +    memory_region_init_alias(pcimem_lo_alias, OBJECT(dev), "pci.lomem",
->> +                             &bs->pci_mem, BONITO_PCILO_BASE,
->> +                             BONITO_PCILO_SIZE);
-> Why is your pci_mem mapped at 0?
+>> On Sat, Dec 19, 2020 at 4:51 AM Willian Rampazzo <wrampazz@redhat.com> wrote:
+>>> On 12/16/20 3:17 PM, Philippe Mathieu-Daudé wrote:
+>>>> Test the PMON firmware. As the firmware is not redistributable,
+>>>> it has to be downloaded manually first. Then it can be used by
+>>>> providing its path via the PMON_PATH environment variable:
+>> A1101 is a real machine type, and there is a UEFI-based bios designed
+>> for loongson3-virt machine (though it is also not redistributable),
+>> why not test that one?
+> Well, if you already shared that information, I probably missed it.
+>
+> I'm trying to add test for your machine to be able to test it regularly
+> to avoid regressions... I'd rather let you contribute the tests :)
 
-It is actually started at 0x10000000.
+Hi Huacai and Philippe,
 
-As: #define BONITO_PCILO_BASE       0x10000000
+I will contribute a test with our port of PMON.
+UEFI firmware lacks reasonable console output and interactive shell.
 
-
-Thanks.
-
-[1]: 
-https://elixir.bootlin.com/linux/latest/source/arch/mips/loongson2ef/common/pci.c
+Thanks
 
 - Jiaxun
+
 >
->> +    memory_region_add_subregion(get_system_memory(), BONITO_PCILO_BASE,
->> +                                pcimem_lo_alias);
->>   
->>       create_unimplemented_device("pci.io", BONITO_PCIIO_BASE, 1 * MiB);
->>   }
->>
+> Phil.
+>
 
 
