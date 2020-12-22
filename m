@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F252C2E0360
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 01:25:54 +0100 (CET)
-Received: from localhost ([::1]:54318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93412E0365
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 01:27:56 +0100 (CET)
+Received: from localhost ([::1]:56650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krVUv-0001HK-I6
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 19:25:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41962)
+	id 1krVWt-0002PW-Tx
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 19:27:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1krVU2-0000pE-7v
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:24:58 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60900)
+ id 1krVVf-0001xJ-GB
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:26:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1krVU0-0007Bg-LC
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:24:57 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D8E93229C6
- for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 00:24:54 +0000 (UTC)
+ id 1krVVb-0007vC-W1
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:26:39 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E5761229C5
+ for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 00:26:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608596694;
- bh=kRtXdi8cZkcQ5wOA9K0ngUzJzZCTsIZ4K9IuSNRBNDI=;
+ s=k20201202; t=1608596793;
+ bh=Wk0fRqNwcCtk9k0NW7vqyypgT28fEtxMEMxQzJmua8E=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=aqDuZNbnJF+DQk2+BAycMJtoSXVM+cF58sGKNqm3pGv+Myp+wrZ4Ghy+p7ziv+dQq
- yTdghlcPrrWtnCteQlqZJoK/o+SpDyDrwrHAgTwJwx42feULyydNZNZfQ3bfCzB6qM
- V1I8MhasiS8kAoZga05DFZr4UKy264GBxE33Cy9F94qGcytWOKrjVhrxR7DCrQQ9+H
- lmVuaXzOMF8wwgLtfrnAK2EcKad+E8uxjghNa85JDyNP/DQ1Mh0AxB7YRICFKUeHLB
- RP0kqOvz7Jtun6faUUqw+b1ZwE/4lluLL9pSY6N5PZGM1ZAlnoxhHXKGf7FPPqoghd
- JlOabE2jcxVtw==
-Received: by mail-io1-f46.google.com with SMTP id n4so10458838iow.12
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 16:24:54 -0800 (PST)
-X-Gm-Message-State: AOAM533PHfPfggp8hrkY84HZ6DhK7iaIyTNDWqhXtO752X+86TyTOk6c
- +2AKX0hpXX2iStB0Dyo6phUY1i5AUmyvzvPOOJI=
-X-Google-Smtp-Source: ABdhPJy+jtrftDfQB4XsqFVNr8yzQ4B/AbL/GTJy4MOM+2Ns01obTSADdsqhupUxySNnCMVLHVhGxdsnNXaFrBf+eq0=
-X-Received: by 2002:a5d:8a1a:: with SMTP id w26mr15985054iod.112.1608596694341; 
- Mon, 21 Dec 2020 16:24:54 -0800 (PST)
+ b=bArGgCfLnZB5SC+VH0woBk26vc5O2up5j2ZNh/PG+gpCsvqWri67U2cW741dPLMmJ
+ yMyxUIrkKG6yOZ7E68pOfOGkbYDupt+H1Mdj6dZZcvCVf00qqcLJdo4TprdX+HN7vD
+ mz8/pUPs20q0ue9kbKmeifDPRlfCBcoB/w2pyFmhNgVhNBg7ie15TBL5C88dbFQktZ
+ rEdA5SQc1OYG7gKSCArk6QL7Tt4mT9PkuMhJwoUHuQvIiKjWUjMsI6ZuDlZNoE761J
+ PxPHnR/CDPt9KCTDaBdCmKKETDQ+pYKmFLhZ3XAR6c6z1l1+2oX8s/eGqzZIdtcW2X
+ somYkGmF86KdA==
+Received: by mail-il1-f170.google.com with SMTP id q5so10480715ilc.10
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 16:26:32 -0800 (PST)
+X-Gm-Message-State: AOAM533TGMo3mCNacxcJDr6wBVUj8N39o+sgbWZH4+CUjv4rKePblb3d
+ wh46d+mBaHpCXEqkkyUBeuI5dG+mIIGYcaplIpg=
+X-Google-Smtp-Source: ABdhPJxI4T6AcjaZt+Ykg5X8lf3NLBhxLd7OSHV/532tCuJxNeLuRfVCaRj/b49Aw/ZXAVyjiAarfsWSf+NRaWGQMoA=
+X-Received: by 2002:a92:2912:: with SMTP id l18mr18507561ilg.173.1608596792335; 
+ Mon, 21 Dec 2020 16:26:32 -0800 (PST)
 MIME-Version: 1.0
 References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
- <20201219072326.40157-2-jiaxun.yang@flygoat.com>
- <CAKJDGDZ06E7YyHGQukxTZu9C6hMvXsEwS27CWkvyT8g7jwFgyw@mail.gmail.com>
-In-Reply-To: <CAKJDGDZ06E7YyHGQukxTZu9C6hMvXsEwS27CWkvyT8g7jwFgyw@mail.gmail.com>
+ <20201219071235.35040-2-jiaxun.yang@flygoat.com>
+In-Reply-To: <20201219071235.35040-2-jiaxun.yang@flygoat.com>
 From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 22 Dec 2020 08:24:42 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H45_LT5yfDNjM3DtNAFzrnW1aZCnqewpFmioZDf7J26GA@mail.gmail.com>
-Message-ID: <CAAhV-H45_LT5yfDNjM3DtNAFzrnW1aZCnqewpFmioZDf7J26GA@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] tests/acceptance: Test boot_linux_console for
- fuloong2e
-To: Willian Rampazzo <wrampazz@redhat.com>
+Date: Tue, 22 Dec 2020 08:26:21 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H49pD4bH33qg1jBrCD7eOqM20ZcR-uM=3wi9sL7N5zGXQ@mail.gmail.com>
+Message-ID: <CAAhV-H49pD4bH33qg1jBrCD7eOqM20ZcR-uM=3wi9sL7N5zGXQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/8] hw/mips/fuloong2e: Remove define
+ DEBUG_FULOONG2E_INIT
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
  helo=mail.kernel.org
 X-Spam_score_int: -70
@@ -72,26 +72,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa Junior <crosa@redhat.com>,
- Wainer Moschetta <wainersm@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+Cc: Cleber Rosa <crosa@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
 
-On Tue, Dec 22, 2020 at 5:35 AM Willian Rampazzo <wrampazz@redhat.com> wrote:
+On Sat, Dec 19, 2020 at 3:13 PM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote=
+:
 >
-> On Sat, Dec 19, 2020 at 4:30 AM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
-> >
-> > The kernel comes from debian archive so it's trusted.
-> >
-> > Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> > ---
-> >  tests/acceptance/boot_linux_console.py | 21 +++++++++++++++++++++
-> >  1 file changed, 21 insertions(+)
-> >
+> Seems useless....
 >
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> Fixes: 051c190bce5 ("MIPS: Initial support of fulong mini pc (machine con=
+struction)")
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/mips/fuloong2e.c | 2 --
+>  1 file changed, 2 deletions(-)
 >
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index 9b0eb8a314..055b99e378 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -48,8 +48,6 @@
+>  #include "sysemu/reset.h"
+>  #include "qemu/error-report.h"
+>
+> -#define DEBUG_FULOONG2E_INIT
+> -
+>  #define ENVP_PADDR              0x2000
+>  #define ENVP_VADDR              cpu_mips_phys_to_kseg0(NULL, ENVP_PADDR)
+>  #define ENVP_NB_ENTRIES         16
+> --
+> 2.29.2
 
