@@ -2,94 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC052E105F
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 23:48:38 +0100 (CET)
-Received: from localhost ([::1]:50278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0EFA2E106B
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 23:58:08 +0100 (CET)
+Received: from localhost ([::1]:52824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krqSL-0003r4-Fy
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 17:48:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55326)
+	id 1krqbX-0005to-Er
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 17:58:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1krqQS-0002zf-HD
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 17:46:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23249)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1krqQD-0004ug-Lq
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 17:46:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608677181;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Zcv+1HCD/fKgEPgvYsqqGxDRGBg/7PvlssguwhRDFLg=;
- b=HfZz97nxEcD450kN8mleH8GgJ9paIoZyz9KGEmHUcU8tyEdNlaRpXNVN/S2cw+vnqSu+zY
- zXYn7wfe/MmTwt/LsTZqsReH0cERWi5E6gaPVE9bs0ceYmPoInIwDrPDE+uJ3WSaGuWrv0
- Y/HcG5hmIUn++8h0xSj+ABYC1eqzJXQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-uni6GwcvMvaR1s44WUGaNQ-1; Tue, 22 Dec 2020 17:46:20 -0500
-X-MC-Unique: uni6GwcvMvaR1s44WUGaNQ-1
-Received: by mail-wm1-f69.google.com with SMTP id r1so2351965wmn.8
- for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 14:46:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Zcv+1HCD/fKgEPgvYsqqGxDRGBg/7PvlssguwhRDFLg=;
- b=LYem/tLYEFYhizkrpDhDS7vD9b1NzSIB16D5zExQ8ClXiVVzOQ/WReJIhl3DlLhTkn
- TG/e9Rv5mjeSlZjLzdkC95y8q/fCaejsckdPOXuhROFMROfWfaf7zrmkGNR8Q5xAeBzV
- 27VYcfP+wXu6fvWr3yu2X4Txp95zzOzT0JNIHRjABb09wV+lJOlG10eLtscVQ+UF+SoB
- OTUdb1krMsC4L1oCw1NOFiUEQUfxEjyvEBhWnRxZEXLLfM1WJYeo/CRacGaSRjEQcOZA
- YxxVXr84rgF1akYhTJMZByATlsO9dyAFZAFQ1R4Mp9Pbtllukr+fvejuuts0qBKrBX9N
- GtqQ==
-X-Gm-Message-State: AOAM530GduxezdMepXhourmOzbI5xHJv5uedFmJUrXSP6HhB4iaAqzWH
- W65iel6HhSG3AmG/AZluwIvf8SUNJxg6oOYotffCFHd06aRkW/3BXyhz5r6DGtDdMkPSxr9I/oN
- 4TxKwYqVhsrtYZ6k=
-X-Received: by 2002:a1c:454:: with SMTP id 81mr23928930wme.178.1608677178806; 
- Tue, 22 Dec 2020 14:46:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzKBR/aYaVzcOvTiYL+4W0tuJHGiPGcTG3nzOiKtS6b9eFBmcj7cdER8hrXN1Ws7seipyIWVw==
-X-Received: by 2002:a1c:454:: with SMTP id 81mr23928909wme.178.1608677178561; 
- Tue, 22 Dec 2020 14:46:18 -0800 (PST)
-Received: from [192.168.1.124] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id r20sm35103418wrg.66.2020.12.22.14.46.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Dec 2020 14:46:17 -0800 (PST)
-Subject: Re: [PATCH v2] acpi: Permit OEM ID and OEM table ID fields to be
- changed
-To: Marian Posteuca <posteuca@mutex.one>, Michael Tokarev <mjt@tls.msk.ru>,
- qemu-devel@nongnu.org
-References: <20201222113353.31224-1-posteuca@mutex.one>
- <d04375f8-f6bc-91d6-cd6e-217a689002e3@msgid.tls.msk.ru>
- <87eejh4zpq.fsf@mutex.one>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <93c58d9d-63c6-b2d8-2b12-d7ed4aa1b171@redhat.com>
-Date: Tue, 22 Dec 2020 23:46:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <mike.kravetz@oracle.com>)
+ id 1krqZP-0005Lj-S1
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 17:55:55 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:41706)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mike.kravetz@oracle.com>)
+ id 1krqZL-0007vy-AR
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 17:55:55 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BMMpWlD174018;
+ Tue, 22 Dec 2020 22:55:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=N+6K3mCeYK/CoMCgVBBUHQgK04gVj9asaTrrtBEH5II=;
+ b=xMjE8Cj23ZoYzPmldN5IYeUk4iWwtF72gnepmDtV597NPn+XfF/jb1Yqrc4kKLw8UPuO
+ PuF+Gz3HXDcBc8LC/BTKqPlOSqus6fuXw1pYdzahisjKl8VvplckbgiyU4x5/a0YAlA5
+ pvvmTYnW+6aTLZ+MmYu5u+nPG0qfNtOB+LJZVbltZ1NPMgEk+3WkY6XpZYmQqog0CkBa
+ pBHUX6Ng/TtbZo+eFfHgMj8dxB2ZNakMuz8QmkhyC2kX5wLAuh4l+nO2UADVxEcBKLAK
+ g5RCX73Cbryr+0+2pEz/MzI+NpM0d6/yup1ELAwRsjFUI1THCc84UNGYBpn1IWzB/fUQ iA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2130.oracle.com with ESMTP id 35k0d15m2k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 22 Dec 2020 22:55:35 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BMMnvTk007881;
+ Tue, 22 Dec 2020 22:55:35 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 35k0ea3sym-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 22 Dec 2020 22:55:35 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BMMtUxk026442;
+ Tue, 22 Dec 2020 22:55:31 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 22 Dec 2020 14:55:30 -0800
+Subject: Re: [RFC PATCH 1/3] mm: support hugetlb free page reporting
+To: Alexander Duyck <alexander.duyck@gmail.com>,
+ Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+ Mel Gorman <mgorman@techsingularity.net>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andrea Arcangeli <aarcange@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Dave Hansen <dave.hansen@intel.com>, Michal Hocko <mhocko@suse.com>,
+ Liang Li <liliangleo@didiglobal.com>, Liang Li <liliang324@gmail.com>,
+ linux-mm <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+ virtualization@lists.linux-foundation.org, qemu-devel@nongnu.org
+References: <20201222074656.GA30035@open-light-1.localdomain>
+ <CAKgT0Ucs4pv0+rcPi41uNDrav0sgOmLnVaD4NNWkg7=gncidnQ@mail.gmail.com>
+From: Mike Kravetz <mike.kravetz@oracle.com>
+Message-ID: <52a6cb93-1fed-dfd7-d21e-f14197a9c9dc@oracle.com>
+Date: Tue, 22 Dec 2020 14:55:28 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-In-Reply-To: <87eejh4zpq.fsf@mutex.one>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAKgT0Ucs4pv0+rcPi41uNDrav0sgOmLnVaD4NNWkg7=gncidnQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9843
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0 mlxscore=0
+ spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012220165
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9843
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 suspectscore=0
+ adultscore=0 bulkscore=0 priorityscore=1501 mlxscore=0 clxscore=1011
+ phishscore=0 mlxlogscore=999 spamscore=0 impostorscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012220165
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=mike.kravetz@oracle.com; helo=aserp2130.oracle.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.521, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-2.521, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,46 +110,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/12/20 16:39, Marian Posteuca wrote:
->>> Qemu's ACPI table generation sets the fields OEM ID and OEM table ID
->>> to "BOCHS " and "BXPCxxxx" where "xxxx" is replaced by the ACPI
->>> table name.
->>>
->>> Some games like Red Dead Redemption 2 seem to check the ACPI OEM ID
->>> and OEM table ID for the strings "BOCHS" and "BXPC" and if they are
->>> found, the game crashes(this may be an intentional detection
->>> mechanism to prevent playing the game in a virtualized environment).
->> This isn't a technical question/comment about the patch itself, but
->> about something different.  Do we really want to play this whack-a-mole
->> game? If we change ACPI table IDs, those who want to disallow running
->> their software inside qemu/kvm will find some other way to check for
->> this environment. We will change that, - just to be found again. And
->> so on.. is it productive? I don't think so.
->
-> My personal opinion is that as long as it's not too difficult to mask
-> that the guest is running in a virtualized environment we should try to
-> do these changes. But I guess this can only be judged on per change basis.
+On 12/22/20 11:59 AM, Alexander Duyck wrote:
+> On Mon, Dec 21, 2020 at 11:47 PM Liang Li <liliang.opensource@gmail.com> wrote:
+>> +
+>> +       if (huge_page_order(h) > MAX_ORDER)
+>> +               budget = HUGEPAGE_REPORTING_CAPACITY;
+>> +       else
+>> +               budget = HUGEPAGE_REPORTING_CAPACITY * 32;
+> 
+> Wouldn't huge_page_order always be more than MAX_ORDER? Seems like we
+> don't even really need budget since this should probably be pulling
+> out no more than one hugepage at a time.
 
-I don't have any particular opinion against the "arms 
-race"/"whack-a-mole" situation.  We played the game (and sort of won, 
-they got tired of changing the drivers) against NVIDIA already.
+On standard x86_64 configs, 2MB huge pages are of order 9 < MAX_ORDER (11).
+What is important for hugetlb is the largest order that can be allocated
+from buddy.  Anything bigger is considered a gigantic page and has to be
+allocated differently.
 
-For 6.0 I'm already planning to revamp a bunch of machine properties, 
-for example making -acpitable file=xxx a synonym for "-machine 
-acpi.tables.N.file=xxx".  Perhaps we could plan for that and make the 
-option "-machine acpi.oem_id".
+If the code above is trying to distinguish between huge and gigantic pages,
+it is off by 1.  The largest order that can be allocated from the buddy is
+(MAX_ORDER - 1).  So, the check should be '>='.
 
-Paolo
-
+-- 
+Mike Kravetz
 
