@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C8A2E036E
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 01:30:21 +0100 (CET)
-Received: from localhost ([::1]:60742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5AF72E036F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 01:32:45 +0100 (CET)
+Received: from localhost ([::1]:35124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krVZE-00047k-5n
-	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 19:30:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43306)
+	id 1krVbY-0005K8-Rm
+	for lists+qemu-devel@lfdr.de; Mon, 21 Dec 2020 19:32:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1krVXs-0003GZ-UW
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:28:58 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33760)
+ id 1krVZZ-0004nN-3c
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:30:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34148)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1krVXr-0000PP-GF
- for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:28:56 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0593E22B2D
- for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 00:28:54 +0000 (UTC)
+ id 1krVZV-00011I-UR
+ for qemu-devel@nongnu.org; Mon, 21 Dec 2020 19:30:40 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7EBD022AED
+ for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 00:30:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1608596934;
- bh=BMZMGgNs5iYHP55nahnrR8NIsoo4t4qF/v3Gn/TWrJs=;
+ s=k20201202; t=1608597036;
+ bh=RuMniXqBe9We0VCGtN3RL2oGrSGf3geXi4Ypxan8R6c=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=t/PgWUBS3eF8rx6XF0qcYm1kg4WjFlCDU/ULS9tul2C3aTfuFFblW9GuVzlZSlkEc
- WMwnFge79qAJHE1j64QdznJEGuzGUvqJBqN/IepXvpHakLz5xlIgSw8fp42wyeJDOr
- sbK12H7SRb0IAESVkcAkgq0KOcZGh7DzTRH0/WGh3uW8qQ3ZpC51nvrCXOTSeqYaGz
- 5+mwJIdXm2CiAjqYMhAF0lPYoIsv3+52sZn7mDQKwfWAUGrmmp/ECcRDWIO7pdyVCt
- hRAai2PS//xs7e5jfY0vxWb9PBkCY0OCz2hVQm1nPHZi5MAwDQI9fvAtHNquHDVIZS
- +Tuoqgn16SjDw==
-Received: by mail-io1-f53.google.com with SMTP id q137so10471628iod.9
- for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 16:28:53 -0800 (PST)
-X-Gm-Message-State: AOAM532D9xbafoxd7pbg4UY54/RCi0sLtoW+VvGtK2evoK8n23/OxCPA
- trA44LKz5UtrE/zsWPXo7PKUQiyEjq6hGjoD9u4=
-X-Google-Smtp-Source: ABdhPJzL/J9auO+sDL8d9m8O2w05KmXk8yTGitvLzfvDbSjoVgJ7QNh5C2FecDDsZOWjYMNht6ev4LZzTGAa3Ft2mRM=
-X-Received: by 2002:a6b:dc0f:: with SMTP id s15mr15994439ioc.180.1608596933514; 
- Mon, 21 Dec 2020 16:28:53 -0800 (PST)
+ b=F7WaPrxSDmpqJxAc5hf8xrn8GKbagHVzw8QhN93CuMZti/j26wYmVW3NLl5VfB0eF
+ +KRNi9mvDXG8hJT3bN3EYyx/7TTPoCoYZrot49WNnl4EztaNb/niIZg3NlxDSw7GeC
+ GsWEkYcRLAzRSrA4G3opZqIJ+fMPHylR/4f8rZMW5dZQIRbEKCqbLYbAgny++S//rD
+ 09wFAzSB4+v5sfWdSwDwDFM3kw6zLMXAKoqUMmUQK8GIIiiKGEfGvgyV/LTwHoV/XY
+ 5gcNONhN9Mo0Z18jPP0oseMkLgE8OEGuT/YbOscN3ZdpX7VtUsG8GSPcnFEvn2AiYh
+ Yy5A/c5ByUbAA==
+Received: by mail-il1-f170.google.com with SMTP id v3so10525935ilo.5
+ for <qemu-devel@nongnu.org>; Mon, 21 Dec 2020 16:30:36 -0800 (PST)
+X-Gm-Message-State: AOAM531A1yhYWt8wZj+gAEn3iGmhRObg1DcX/E3BgwPL1Vnq8HMEBG/s
+ KwfyxBGZsgHzqm3yn5e4+xlDkecDtSQeFbQSvlw=
+X-Google-Smtp-Source: ABdhPJxJe1U9rWbVulA2Vx95pyYWNk+Ary9x8RsExyXGJWeJmBXct0fvFGx679FKh1rc34I0vogPBiPU5Tp37rCpL0w=
+X-Received: by 2002:a92:870b:: with SMTP id m11mr17952694ild.134.1608597035876; 
+ Mon, 21 Dec 2020 16:30:35 -0800 (PST)
 MIME-Version: 1.0
 References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
- <20201219072139.39347-2-jiaxun.yang@flygoat.com>
- <7cd691f9-cad9-ebdc-6eed-4ef9eef13ec0@amsat.org>
-In-Reply-To: <7cd691f9-cad9-ebdc-6eed-4ef9eef13ec0@amsat.org>
+ <20201219071235.35040-3-jiaxun.yang@flygoat.com>
+ <835addc0-6973-9e17-2ac5-79a159fb72d2@amsat.org>
+In-Reply-To: <835addc0-6973-9e17-2ac5-79a159fb72d2@amsat.org>
 From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 22 Dec 2020 08:28:42 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6npgMW0kNrBWp-Edk=jtiPerFKiqSmoWqJjqbrSYLR=w@mail.gmail.com>
-Message-ID: <CAAhV-H6npgMW0kNrBWp-Edk=jtiPerFKiqSmoWqJjqbrSYLR=w@mail.gmail.com>
-Subject: Re: [PATCH v2 6/8] hw/mips/fuloong2e: Correct cpuclock env
+Date: Tue, 22 Dec 2020 08:30:23 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4wYw6Zfv+fg8m-jF9mdp4=VO3yiS2244_hczCLoP+RsA@mail.gmail.com>
+Message-ID: <CAAhV-H4wYw6Zfv+fg8m-jF9mdp4=VO3yiS2244_hczCLoP+RsA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/8] hw/mips/fuloong2e: Relpace fault links
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -79,19 +79,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
 
-On Sun, Dec 20, 2020 at 2:23 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+On Sun, Dec 20, 2020 at 1:52 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
 g> wrote:
 >
-> On 12/19/20 8:21 AM, Jiaxun Yang wrote:
-> > It was missed in 3ca7639ff00 ("hw/mips/fuloong2e:
-> > Set CPU frequency to 533 MHz"), we need to tell kernel
-> > correct clocks.
+> On 12/19/20 8:12 AM, Jiaxun Yang wrote:
+> > Websites are downing, but GitHub may last forever.
+> > Loongson even doesn't recogonize 2E as their products nowadays..
 > >
-> > Fixes: 3ca7639ff00 ("hw/mips/fuloong2e: Set CPU frequency to 533 MHz").
 > > Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > > ---
-> >  hw/mips/fuloong2e.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >  hw/mips/fuloong2e.c | 13 +++----------
+> >  1 file changed, 3 insertions(+), 10 deletions(-)
 >
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
