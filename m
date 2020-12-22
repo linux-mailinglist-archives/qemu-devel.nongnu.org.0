@@ -2,97 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927472E09C0
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 12:35:10 +0100 (CET)
-Received: from localhost ([::1]:51458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1469E2E097B
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 12:22:10 +0100 (CET)
+Received: from localhost ([::1]:43358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krfwb-0007ZO-5N
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 06:35:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48042)
+	id 1krfk0-0002x7-JG
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 06:22:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1krfvC-00074H-Lp
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 06:33:42 -0500
-Received: from mail-oln040092253070.outbound.protection.outlook.com
- ([40.92.253.70]:35232 helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ id 1krfio-0002W6-Fs
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 06:20:54 -0500
+Received: from mail-oln040092255045.outbound.protection.outlook.com
+ ([40.92.255.45]:30144 helo=APC01-HK2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1krfvB-0007DI-5N
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 06:33:42 -0500
+ id 1krfik-0002a3-MJ
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 06:20:54 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JllwvmPkLQJIX2U9BpgjuX+6ENx+vwlf7Ulk1NZch0SIJEHoHKb+eyc1UYUq4SYrlpn1tcVNjZMYrKMPfNgQS9gBsUg3mzfZ3YXh+WyeWNSDWsY7SIrzuqg26n+Ne5TVEhUz0h6d3Vnu++Xb8Fe5HiFR76wd+neUh6JJWbh4wkmYzrWgo1OVwHPuKxDjzs4+wLX7FMLhfv6Azs4LYc4bAio0JZqu+JAmEXKp3GRZ4x6ESZRbJ237jK1jrLWoJN6bvz9O+XPNhN+aRY9ysWbvMJ/52mFuUWskdsa74jqt0i0QZ1DhFTrEuFmbkYf80tLEBhHAIrxCv/1InC+hbB8QGA==
+ b=EXkIdpBbQG1xsXaL3Y0w/8DqD+OnjqZNLFXyq6dedZ0wo5vzP5QxImg3zeadDb1DlVX1LuFSMn/0UH4vKJT5irdfhNVFj2rF+vWvEt/+tN7Md9jwl60rDcNo8ue6FcjcwsWEpXSNyNIOJFAqpIRsVMhc2dkm2PBVexbgyO/zD2RZ5So4OK/2z263ps9HFNluA0GC+fRXGYtsJJryTRuaAto97grsgXHhy+iLJVAl+tm6Ucng7vYaIVaFvqG87GR5tlFdp3hXxXfMPDUs+Y4stG6BZNg4ob4vpy5RPRhEqcx9KVzMyhOaPxK2V+28ykJq19O/3rJ7cozjT5LJ49jpcg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jt/F9w28Ko6pcm7rqMIW2rj9j6DztPPsrknlWZyaSmA=;
- b=E06jRWaPmcCIbY54mdxA0OCT1KyDtkrhzKu9n7kjpeZtVYP6fDhvKGAJTCI7QgnAGak0Q4ChJ65BmtaVCOutoprKMG7u3oPZNLth06Xf9VjUcNsDyVnAAixbFAhPJSXdSBDZqmcXWQkM57iombbIpYAgVLqMgCOcfnaOlQ85ngM9junlPNRq+HEN2J0KE1Zt2rot0jLB795s/BiePGkjZxjxuMQtIbWAkiTvAFSXtVthG27VXYkAi30oa24V9P9obbrrKxZJSL/W+ggVoZcgK0YNwNl73hbH4+TxPdy2AHd6UFb7sY+XFfEuy34zrq9cyjeN2mhq8nfOA95ZL+RUfg==
+ bh=pWxwLcZ4J6CEmPezP1WSwYrEPsZToEb6GgAFmIo6du8=;
+ b=SaKYFW4IHd77PIyCyihx55BheBxS5t/Gr7cAQlrNJ3Jhxfv7WVXliGlv7qJ7PGN/CzF7m6UsV/Q/JbnwUxpIdjhCXZ7YfEf+vfALHAmOxtX6EKJc3K4K/M1B/5rBivk9m5iZR47cdRG3sWCO3u6wVjrDjQlLCcyT8sdgTkeqPPLzIrKy+On9VPNPYUYKbKBlWJVdLpYGReUBbczrx2D5j5Xnxq0q46KqRu8b3N9ZvuUi7bCqfRhhRBKbGaFtw3FmzyV3eV7VLone8qDAFJeaqqwqSK3R7uhIgBstp3vAIWgiI6bpCGJd+l2DNT6J/uq7o2tixOjQfLPox82prQNljQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jt/F9w28Ko6pcm7rqMIW2rj9j6DztPPsrknlWZyaSmA=;
- b=hosJU/j5FzbEkRAnQiqYOvQGYKVZ9BS24HE2hl+VsPhZyBzeeUOSg+zDML07WQKbo8Noqb7ADwV2SrwcU1VjcQ4zDT2cWI5NutIl7wmd2taCKFT8dUTvTkt0w6XKfUv8zGeOD+glckByxLg1ignGDQfI66TUP04Ox4/X18GFNHgq2zlV4OA5NGbsmoAm0dwd/6iQ596qkr5fQiiyx6YKHjSh5iEq8vclzhObjlCD5BZbkR5Q3FBslZli0o6X+3YgqhgKApXU7/vVhDtXks7ZvKOBt71ADf7EtQprdBWRSl/WlSur1ErJUgwNaI82F+OWs92VCrrGlAmk5vHSlb8m+w==
+ bh=pWxwLcZ4J6CEmPezP1WSwYrEPsZToEb6GgAFmIo6du8=;
+ b=Q8QC4Ph8o/kEEW/Kf6qMo0oaoND1+4jSyEchNce1AvZ+5xcSVVW6ajDn/PbEH4w+zQg0ttycSTO31R7xFgZHTOb+nEzPnRIqO4Rtsv34PJVNZDbmV1VX1OE709/f+u/bIqhrLcCIUb73zIR7QkNdC9Wa0faQDCggQoNAPz/hYZHojV46KX5mRscLDKKOXrO7vWgDc2ELpOfGEk47ZxYeJVF1D+SqF6V8yZFYj+bg7m3Gw6ygEbhEYPrOf8TNYMO/palshbJOrg4TIduGnvof5yByXbZ9vfMG6HtiAL/jPgTb7f6wtppk9SAzCrOY4rUkVrtJ/W4lg+C8YQ0CZWRksg==
 Received: from PU1APC01FT044.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebe::4a) by
- PU1APC01HT115.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebe::375)
+ (2a01:111:e400:7ebe::47) by
+ PU1APC01HT116.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebe::365)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.22; Tue, 22 Dec
- 2020 11:18:19 +0000
+ 2020 11:20:43 +0000
 Received: from SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM (2a01:111:e400:7ebe::42)
  by PU1APC01FT044.mail.protection.outlook.com
  (2a01:111:e400:7ebe::276) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.22 via Frontend
- Transport; Tue, 22 Dec 2020 11:18:19 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:11B02CCC7631BDEF927498A2C3AD94B858B0C26CC338AB6F9218CEC08F36E1C9;
- UpperCasedChecksum:95D12F61FB62A74CF9CB974F8B0BF6379C5EA4AB79BCEFEA1E29EE3413903295;
- SizeAsReceived:8634; Count:47
+ Transport; Tue, 22 Dec 2020 11:20:43 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:D1B150F53F46F9C19EB081379205B4953D7504162D68F45599BCE572481FEB90;
+ UpperCasedChecksum:709DE1312A8519168956FC1FC46930F7E2E18D1C7702677AA9BBEA95278268DC;
+ SizeAsReceived:8802; Count:47
 Received: from SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM
  ([fe80::55ae:9314:d035:d6d2]) by SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM
  ([fe80::55ae:9314:d035:d6d2%7]) with mapi id 15.20.3676.033; Tue, 22 Dec 2020
- 11:18:19 +0000
-Message-ID: <SYYP282MB1501CCE6246E1DA6B475804FFCDF0@SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM>
-Subject: Re: [PATCH 1/4] fuzz: refine crash detection mechanism
+ 11:20:43 +0000
+Message-ID: <SYYP282MB15010A7D93C3D85E2438B808FCDF0@SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH 2/4] fuzz: split QTest writes from the rightmost byte
 From: Qiuhao Li <Qiuhao.Li@outlook.com>
 To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Date: Tue, 22 Dec 2020 19:18:09 +0800
-In-Reply-To: <87v9cv3skv.fsf@stormtrooper.vrmnet>
-References: <87v9cv3skv.fsf@stormtrooper.vrmnet>
+Date: Tue, 22 Dec 2020 19:20:34 +0800
+In-Reply-To: <87r1nj3p4j.fsf@stormtrooper.vrmnet>
+References: <ME3P282MB1492BFA2302041F2AB420EBEFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
+ <ME3P282MB1492172012FA8E0D08819C07FCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
+ <87r1nj3p4j.fsf@stormtrooper.vrmnet>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.36.4-0ubuntu1 
 Content-Transfer-Encoding: 7bit
-X-TMN: [1bQcn9a80G/57S4ou1F7C2hSpDprFEVn]
-X-ClientProxiedBy: OS0PR01CA0078.jpnprd01.prod.outlook.com
- (2603:1096:604:99::25) To SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM
+X-TMN: [wE4wmwVAZ+Y2jCWyQsR0dpX47da2hVqd]
+X-ClientProxiedBy: OSAPR01CA0319.jpnprd01.prod.outlook.com
+ (2603:1096:604:2a::19) To SYYP282MB1501.AUSP282.PROD.OUTLOOK.COM
  (2603:10c6:10:da::15)
-X-Microsoft-Original-Message-ID: <77bb779c6e5490ad150cf950ded33a453ff59a5b.camel@outlook.com>
+X-Microsoft-Original-Message-ID: <e1d6da7f4c5362d06f1de7391f2d82e5d5842cfc.camel@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost (204.124.180.84) by
- OS0PR01CA0078.jpnprd01.prod.outlook.com (2603:1096:604:99::25) with Microsoft
+ OSAPR01CA0319.jpnprd01.prod.outlook.com (2603:1096:604:2a::19) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3676.28 via Frontend Transport; Tue, 22 Dec 2020 11:18:15 +0000
+ 15.20.3700.27 via Frontend Transport; Tue, 22 Dec 2020 11:20:40 +0000
 X-MS-PublicTrafficType: Email
 X-IncomingHeaderCount: 47
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 8c832a18-e80b-49af-a69d-08d8a66b4934
-X-MS-TrafficTypeDiagnostic: PU1APC01HT115:
+X-MS-Office365-Filtering-Correlation-Id: fd9aadba-be62-4d3d-c588-08d8a66b9f48
+X-MS-TrafficTypeDiagnostic: PU1APC01HT116:
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1PInTts/lvzUH0zkaYVPsWNvR8RxCvLhiCA2ijc/cLPOCNpDUHkJ2LvbZTy6VjojMY4vYJyOjzxhWkqjsiBTT/1bMzab74TsKYMF2DT9okyIEk9/5zi9aY6UPpKN2BGqucErvDxjHrW8j66cJKsW2JpRNJpj5wfk3cePmacsWOBaojdNfrcnf//8bvcSq4+MNs8t/+j+qK9INKYnFezPmtfRjKNZknUUy37ERqfg0kpGBldDgKxvVWc40tCvOR9F
-X-MS-Exchange-AntiSpam-MessageData: IQzmuAHhNQAye/vy3AzLusRJgzTjQzqz3znUGXfB3KpGBfcRhgu8QATargSq6BzXTkKssQNYf2DSa0MMRjkSlpMxV0zQf+sPcB7OvEuPcvYEu5qzS2Hpdiqz4k0YL3obl6tBQIAlB9wBk9PYlsUPrw==
+X-Microsoft-Antispam-Message-Info: b0hkVoPsT6qmpxagFo1T0VOB2//gkWIxBhr0x13Qgvs7D2IbNgizXNGomTjrmkdatpqIF5+iJ2BYhX4ff4PufAtFdvtj3LLNxzrodupjqPvfSKcalQE/0GlCjiqbm2fTiBUcc1WojSTRXkVUImbov6XgmFVmIW5NlO1LQgqw6cfPdlB/z0XzqFTVlGpYJmws5c1M8UHeZ3qrN71nrYys9Xh7SZjeP80K+yBAkusszB5jPmf84LOazQASmrbiQ79j
+X-MS-Exchange-AntiSpam-MessageData: 6w1ALrqk33lxqvUQGS4VaDvFsilx0Dv1FjyrBScrVczq3nbAxPeMm1ouKHEEmSkEGgyf6BnGRxkdxBdt05DqRoab9FBWxom+YFtEUf12D7eB9jW028Ppy4Mp9X0GCqa6nc6h4/p4dCQqbOAhKVL9qQ==
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 11:18:19.2037 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 11:20:43.6634 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c832a18-e80b-49af-a69d-08d8a66b4934
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd9aadba-be62-4d3d-c588-08d8a66b9f48
 X-MS-Exchange-CrossTenant-AuthSource: PU1APC01FT044.eop-APC01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1APC01HT115
-Received-SPF: pass client-ip=40.92.253.70; envelope-from=Qiuhao.Li@outlook.com;
- helo=APC01-SG2-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1APC01HT116
+Received-SPF: pass client-ip=40.92.255.45; envelope-from=Qiuhao.Li@outlook.com;
+ helo=APC01-HK2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -118,9 +120,150 @@ Cc: darren.kenny@oracle.com, bsd@redhat.com, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This email looks empty. Is this intentional?
-
-On Mon, 2020-12-21 at 13:46 -0500, Alexander Bulekov wrote:
+On Mon, 2020-12-21 at 15:01 -0500, Alexander Bulekov wrote:
+> Qiuhao Li <Qiuhao.Li@outlook.com> writes:
 > 
+> > Currently, we split the write commands' data from the middle. If it
+> > does not
+> > work, try to move the pivot "left" and retry until there is no
+> > space left.
+> > But, this is complete for ram writes but not for IO writes.
+> > 
+> > For example, there is an IO write command:
+> > 
+> >   write addr uuxxxxuu
+> > 
+> > u is the unnecessary byte for the crash. Unlike ram write commands,
+> > in most
+> > case, a split IO write won't trigger the same crash, So if we split
+> > from the
+> > middle, we will get:
+> > 
+> >   write addr uu (will be removed in next round)
+> >   write addr xxxxuu
+> > 
+> > For xxxxuu, since split it from the middle and retry to the
+> > leftmost byte
+> > won't get the same crash, we will be stopped from removing the last
+> > two
+> > bytes.
+> > 
+> 
+> Good catch! I missed this case.
+> 
+> > Therefore, we should split QTest writes from the rightmost byte.
+> > 
+> > Tested with Bug 1908062. Refined vs. Original result:
+> > 
+> > outl 0xcf8 0x8000081c            outl 0xcf8 0x8000081c
+> > outb 0xcfc 0xc3                  outb 0xcfc 0xc3
+> > outl 0xcf8 0x8000082f            outl 0xcf8 0x8000082f
+> > outl 0xcf8 0x80000804            outl 0xcf8 0x80000804
+> > outl 0xcfc 0x9b2765be            outl 0xcfc 0x9b2765be
+> > write 0xc300001024 0x2 0x0055    write 0xc300001024 0x2 0x0055
+> > write 0xc300001028 0x1 0x5a      write 0xc300001028 0x1 0x5a
+> > write 0xc30000101c 0x1 0x01      write 0xc30000101c 0x1 0x01
+> > writel 0xc30000100c 0x2a6f6c63   writel 0xc30000100c 0x2a6f6c63
+> > write 0xc300001018 0x1 0xa4  <-- write 0xc300001016 0x3 0xa4a4a4
+> > write 0x5c 0x1 0x19              write 0x5c 0x1 0x19
+> > write 0xc300003002 0x1 0x8a      write 0xc300003002 0x1 0x8a
+> > 
+> 
+> Can we wrap-around to the right when we hit the end of the input on
+> the
+> left, instead of going byte-by-byte? Otherwise, i think we would need
+> O(n) operations to reach the leftmost in a write, rather than
+> O(logN).
+> 
+> i.e.
+> xxxxuu ->
+> xxx xuu ->
+> xx xxuu ->
+> x xxxuu ->
+> xxxxu u
+> 
+> I think the case where we would need to wrap around the entire input
+> usually happens for smaller writes, so it shouldn't slow the
+> minimizer
+> down too much
+> 
+> -Alex
+
+If we want to achieve O(logN), should we change the step size besides
+using a wrap-around strategy?
+
+@@ -164,8 +164,8 @@ def minimize_trace(inpath, outpath):
+                     if check_if_trace_crashes(newtrace, outpath):
+                         break
+                     else:
+-                        leftlength -= 1
+-                        rightlength += 1
++                        leftlength -= leftlength/2
++                        rightlength = length - leftlength
+
+
+And how about using a binary search directly? Like:
+
+
+        binary_search(newtrace, i,leftlen=1, len)
+
+               base case: leftlen >= len
+
+
+                        xxxxuu len=6
+                             +
+                             |
+                             +
+                      xxx,xuu  (1+6)/2=3
+                             +
+              +--------------+-------------+
+              |                            |
+              +                            +
+       xx,xxuu (1+3)/2=2            xxxx,uu (3+6)/2=4
+              +                       success
+              |
+       +------+--------------+
+       |                     |
+       |                     |
+       +                     +
+x,xxxuu (1+2)/2=1     xx,xxuu (2+3)/2=2
+     base case            base case
+> 
+> > Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
+> > ---
+> >  scripts/oss-fuzz/minimize_qtest_trace.py | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py
+> > b/scripts/oss-fuzz/minimize_qtest_trace.py
+> > index d3b09e6567..855c3bcb54 100755
+> > --- a/scripts/oss-fuzz/minimize_qtest_trace.py
+> > +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
+> > @@ -140,7 +140,7 @@ def minimize_trace(inpath, outpath):
+> > 
+> >          # 3.) If it is a qtest write command: write addr len data,
+> > try to split
+> >          # it into two separate write commands. If splitting the
+> > write down the
+> > -        # middle does not work, try to move the pivot "left" and
+> > retry, until
+> > +        # rightmost does not work, try to move the pivot "left"
+> > and retry, until
+> >          # there is no space left. The idea is to prune
+> > unneccessary bytes from
+> >          # long writes, while accommodating arbitrary MemoryRegion
+> > access sizes
+> >          # and alignments.
+> > @@ -149,7 +149,7 @@ def minimize_trace(inpath, outpath):
+> >              length = int(newtrace[i].split()[2], 16)
+> >              data = newtrace[i].split()[3][2:]
+> >              if length > 1:
+> > -                leftlength = int(length/2)
+> > +                leftlength = length - 1
+> >                  rightlength = length - leftlength
+> >                  newtrace.insert(i+1, "")
+> >                  while leftlength > 0:
+> > --
+> > 2.25.1
 
 
