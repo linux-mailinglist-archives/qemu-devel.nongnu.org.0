@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE552E085D
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 10:57:52 +0100 (CET)
-Received: from localhost ([::1]:50414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0736A2E0871
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 11:00:06 +0100 (CET)
+Received: from localhost ([::1]:52682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kreQR-0006Db-Jn
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 04:57:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55992)
+	id 1kreSb-0007IW-4E
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 05:00:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krePB-0005kW-OY
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 04:56:33 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:35932)
+ id 1kreRp-0006sj-11
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 04:59:17 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:40370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1krePA-0006Or-6e
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 04:56:33 -0500
-Received: by mail-ed1-x529.google.com with SMTP id b2so12387306edm.3
- for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 01:56:31 -0800 (PST)
+ id 1kreRn-0007f7-BG
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 04:59:16 -0500
+Received: by mail-ej1-x635.google.com with SMTP id x16so17437720ejj.7
+ for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 01:59:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DaxZ0ngrWxh5bKo9+xoy6FdsTGmADSqA43Y6gnpEERo=;
- b=iMovsHhTLRvcSFrqeiYMf9QNE0g3ZFQxYLam0wq+9N6Zi5y9fNJ2MFM2DIWtesPxZv
- jzYDosw/33Qd02pMrXum0/a6WSXxVNf8FFqeobJq/39ZbWbifA6FHA33x/o2gR5qB2Yo
- 1aEnXxtvYWf4Mu0qbMgNnqdS77XpNXMKwO14jEuxuwMOOLkNhqG1ReE+rDH4nUrKoOtl
- D45Tdfn5GTl+sDwZyJEYicPnDE0w70IEoDIKyT/ybA1uAFUaE27ZMV2V3JtLxU48CGdx
- WcP38nHz5jVxKVPgA2gbI12EJA2s23bGrwnMOlZ+2ySvvCl2DiG86C0cHZDv5U7iu6zw
- M6mA==
+ bh=VsUxI1QlApAo/TnutrYYYrA8Iu4FJbp2BbIY2wF95Qo=;
+ b=nIeDoHq+XIDbeLpmRg6cyY7iuY4aJN3zDos+XJlx+oNC6w+odvHtCf7ksB8D+9EJXt
+ HzbZqjNs6r6/BMO4SaisrSuwMruN9sh08WFDsHEXbGHsO4gVZcHM24wD5zhj5ymsp0iB
+ l0bwkXoijZUJJnPw7+L6rPcK+vmZnk0XhtK9JqrBa1AljXPb2dglerzliEETOI+dsh4x
+ 3QMP/C+tWpE+Bf1O7XTB0+qSzS2Whmlsi+qQom28kxnCWa6cM6YQ3LKitYM6Kz2nmDPN
+ d3mokShZZXuz0v7nVwX2pKzJhTqmeBaV9MrNaAeE6nW47KZHKebQRysKQ7J9/df3MMJ+
+ q7jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DaxZ0ngrWxh5bKo9+xoy6FdsTGmADSqA43Y6gnpEERo=;
- b=bKA5AY9QAn1hr/Ci1CGiiEsqI+93xmLIx9TN8Iy7B0YufBwoLQf2e5mTTz54AZVpuK
- kgnZb/gqkW5cMAQA9B/x92IPUSqRS1vzRFYRqlCrn7Msn8AibyXoX9Uf5gcnpTDzo/+Y
- qSN06oU1PK3XWotOjZ7kfbCP2OJoL7TJGB5ekSG80NCDFOHVVEmT75amxKsbnRFGIRrP
- CwQvAWrO89AX/UjUEKv4VMOmQAcRvRl8Pq3Bd94aWQq0T0Xqs1sbzUnaHR12brJ1eIrz
- skWZqRrDdbr5dymLlqeGtFL1CqvY04CfJ3qYLPOf79AvH1NiF1bEfJbYUFXX7iQ/iSdO
- oNUA==
-X-Gm-Message-State: AOAM531Fa0lBmbWnLpzYCiZKYBEgsqv8rmZd8rT2VvPzaq0oxuKO9Rrf
- Yvcb1fW2GVVJBGBO0yhpQ9M=
-X-Google-Smtp-Source: ABdhPJxXpaiF0twXoo4InuAwS1nE15rE+YQ9rSJex2SPUeHBU3CLx28Ez7KUi6j1v5nO3QzplwJQUw==
-X-Received: by 2002:a05:6402:2066:: with SMTP id
- bd6mr19479993edb.211.1608630990739; 
- Tue, 22 Dec 2020 01:56:30 -0800 (PST)
+ bh=VsUxI1QlApAo/TnutrYYYrA8Iu4FJbp2BbIY2wF95Qo=;
+ b=j2K61SONIppS3Glazji4AqNshoW+ImQbWAh7kQmQr8cLatTp5uES0Yj26asMcXJbvH
+ UY+M1UL3qEiK4eTBzDNsr3d7JhE7POIloLEOjtBVkb/icGZScWrliu1faoBcn9oslimR
+ CgCqXgN+janEdwTM5dr4fjEVuEH6psCkqprki065j149GAFKydXgd3JvpttjTbXCGWB3
+ tJmqaySrx34ENJudkPPBL+XQywprlxKI1oMU9p667tdS6ALeUfbPsHuYoQ1A0hdqjL//
+ twkEp6AErK7ej482f4XcR/X/4aSHp4EIf68wWtIGrg+6JcAdIMiOsFsesiEjIGEo46fI
+ 02eA==
+X-Gm-Message-State: AOAM532H0SuvdLSdYyb3NX+6syW3nyLX0y29wI4ZlnDvq/OmU0rq65C/
+ LsqjsAzvwgO2xkH1X+2MXR/5ncpMOxk=
+X-Google-Smtp-Source: ABdhPJyd29xEu5+VT2KFMnx8RfVvpNEjgP/Te3rS9Qf6fpYStYd8Ugp97/Zq4gJzIZP0BYSVYd9EWw==
+X-Received: by 2002:a17:906:39d5:: with SMTP id
+ i21mr18470823eje.339.1608631153713; 
+ Tue, 22 Dec 2020 01:59:13 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id k21sm30819764edq.26.2020.12.22.01.56.29
+ by smtp.googlemail.com with ESMTPSA id s5sm10178957eju.98.2020.12.22.01.59.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Dec 2020 01:56:30 -0800 (PST)
-Subject: Re: [PATCH 18/20] keyval: Use GString to accumulate value strings
+ Tue, 22 Dec 2020 01:59:13 -0800 (PST)
+Subject: Re: [PATCH 00/20] Immutable QString, and also one JSON writer less
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20201211171152.146877-1-armbru@redhat.com>
- <20201211171152.146877-19-armbru@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ee46bd65-e6bd-929b-74d1-1fb8110879c1@redhat.com>
-Date: Tue, 22 Dec 2020 10:56:29 +0100
+Message-ID: <75457428-0e2d-58d2-57b2-ec0677f02bef@redhat.com>
+Date: Tue, 22 Dec 2020 10:59:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201211171152.146877-19-armbru@redhat.com>
+In-Reply-To: <20201211171152.146877-1-armbru@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x529.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
 X-Spam_bar: --
@@ -90,80 +89,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/12/20 18:11, Markus Armbruster wrote:
-> QString supports modifying its string, but it's quite limited: you can
-> only append.  The remaining callers use it for building an initial
-> string, never for modifying it later.
+> Based-on: <20201210161452.2813491-1-armbru@redhat.com>
 > 
-> Change keyval_parse_one() to do build the initial string with GString.
-> This is another step towards making QString immutable.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Cc: Max Reitz <mreitz@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
+> Cc: qemu-block@nongnu.org
 
-It's a bit unfortunate that the infamous "keyval: accept escaped commas 
-in implied option" patch was already getting rid of mutable QString.
-
-It used a completely different mechanism, namely unescaping the string 
-in place.  This means that my patch was doing n+1 allocations, versus a 
-best case of n and a generic case of O(n) for this patch.  The 
-difference does not really matter, though I still like my code better.
+Looks good, my only comment was on conflicts with other pending series.
 
 Paolo
 
-> ---
->   util/keyval.c | 11 ++++++-----
->   1 file changed, 6 insertions(+), 5 deletions(-)
+> Markus Armbruster (20):
+>    hmp: Simplify how qmp_human_monitor_command() gets output
+>    monitor: Use GString instead of QString for output buffer
+>    qobject: Make qobject_to_json_pretty() take a pretty argument
+>    qobject: Use GString instead of QString to accumulate JSON
+>    qobject: Change qobject_to_json()'s value to GString
+>    Revert "qstring: add qstring_free()"
+>    hw/rdma: Replace QList by GQueue
+>    qobject: Move internals to qobject-internal.h
+>    qmp: Fix tracing of non-string command IDs
+>    block: Avoid qobject_get_try_str()
+>    Revert "qobject: let object_property_get_str() use new API"
+>    qobject: Drop qobject_get_try_str()
+>    qobject: Drop qstring_get_try_str()
+>    qobject: Factor quoted_str() out of to_json()
+>    qobject: Factor JSON writer out of qobject_to_json()
+>    migration: Replace migration's JSON writer by the general one
+>    json: Use GString instead of QString to accumulate strings
+>    keyval: Use GString to accumulate value strings
+>    block: Use GString instead of QString to build filenames
+>    qobject: Make QString immutable
 > 
-> diff --git a/util/keyval.c b/util/keyval.c
-> index 7f625ad33c..be34928813 100644
-> --- a/util/keyval.c
-> +++ b/util/keyval.c
-> @@ -189,7 +189,7 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
->       QDict *cur;
->       int ret;
->       QObject *next;
-> -    QString *val;
-> +    GString *val;
->   
->       key = params;
->       val_end = NULL;
-> @@ -263,7 +263,7 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
->   
->       if (key == implied_key) {
->           assert(!*s);
-> -        val = qstring_from_substr(params, 0, val_end - params);
-> +        val = g_string_new_len(params, val_end - params);
->           s = val_end;
->           if (*s == ',') {
->               s++;
-> @@ -276,7 +276,7 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
->           }
->           s++;
->   
-> -        val = qstring_new();
-> +        val = g_string_new(NULL);
->           for (;;) {
->               if (!*s) {
->                   break;
-> @@ -286,11 +286,12 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
->                       break;
->                   }
->               }
-> -            qstring_append_chr(val, *s++);
-> +            g_string_append_c(val, *s++);
->           }
->       }
->   
-> -    if (!keyval_parse_put(cur, key_in_cur, val, key, key_end, errp)) {
-> +    if (!keyval_parse_put(cur, key_in_cur, qstring_from_gstring(val),
-> +                          key, key_end, errp)) {
->           return NULL;
->       }
->       return s;
+>   hw/rdma/rdma_backend_defs.h        |   2 +-
+>   hw/rdma/rdma_utils.h               |  15 +-
+>   include/migration/vmstate.h        |   7 +-
+>   include/qapi/qmp/json-writer.h     |  35 ++++
+>   include/qapi/qmp/qbool.h           |   2 -
+>   include/qapi/qmp/qdict.h           |   2 -
+>   include/qapi/qmp/qjson.h           |   4 +-
+>   include/qapi/qmp/qlist.h           |   2 -
+>   include/qapi/qmp/qnull.h           |   2 -
+>   include/qapi/qmp/qnum.h            |   3 -
+>   include/qapi/qmp/qobject.h         |   9 +-
+>   include/qapi/qmp/qstring.h         |  14 +-
+>   include/qemu/typedefs.h            |   4 +-
+>   migration/qjson.h                  |  29 ----
+>   monitor/monitor-internal.h         |   2 +-
+>   qobject/qobject-internal.h         |  39 +++++
+>   block.c                            |  23 +--
+>   block/rbd.c                        |   2 +-
+>   hw/display/virtio-gpu.c            |   2 +-
+>   hw/intc/s390_flic_kvm.c            |   2 +-
+>   hw/nvram/eeprom93xx.c              |   2 +-
+>   hw/nvram/fw_cfg.c                  |   2 +-
+>   hw/pci/msix.c                      |   2 +-
+>   hw/pci/pci.c                       |   4 +-
+>   hw/pci/shpc.c                      |   2 +-
+>   hw/rdma/rdma_backend.c             |  10 +-
+>   hw/rdma/rdma_utils.c               |  29 ++--
+>   hw/rtc/twl92230.c                  |   2 +-
+>   hw/scsi/scsi-bus.c                 |   2 +-
+>   hw/usb/redirect.c                  |   7 +-
+>   hw/virtio/virtio.c                 |   4 +-
+>   migration/qjson.c                  | 114 -------------
+>   migration/savevm.c                 |  53 ++++---
+>   migration/vmstate-types.c          |  38 ++---
+>   migration/vmstate.c                |  52 +++---
+>   monitor/misc.c                     |   6 +-
+>   monitor/monitor.c                  |  20 +--
+>   monitor/qmp.c                      |  46 +++---
+>   qemu-img.c                         |  33 ++--
+>   qga/main.c                         |  22 +--
+>   qobject/json-parser.c              |  30 ++--
+>   qobject/json-writer.c              | 247 +++++++++++++++++++++++++++++
+>   qobject/qbool.c                    |   1 +
+>   qobject/qdict.c                    |   1 +
+>   qobject/qjson.c                    | 144 ++++-------------
+>   qobject/qlist.c                    |   1 +
+>   qobject/qnull.c                    |   1 +
+>   qobject/qnum.c                     |   6 +-
+>   qobject/qobject.c                  |   1 +
+>   qobject/qstring.c                  | 117 +++-----------
+>   qom/object.c                       |   9 +-
+>   qom/object_interfaces.c            |   4 +-
+>   qom/qom-hmp-cmds.c                 |   7 +-
+>   target/alpha/machine.c             |   2 +-
+>   target/arm/machine.c               |   6 +-
+>   target/avr/machine.c               |   4 +-
+>   target/hppa/machine.c              |   4 +-
+>   target/microblaze/machine.c        |   2 +-
+>   target/mips/machine.c              |   4 +-
+>   target/openrisc/machine.c          |   2 +-
+>   target/ppc/machine.c               |  10 +-
+>   target/sparc/machine.c             |   2 +-
+>   tests/check-qjson.c                |  67 ++++----
+>   tests/check-qobject.c              |   3 +-
+>   tests/check-qstring.c              |  16 --
+>   tests/qtest/libqtest.c             |  20 ++-
+>   tests/test-visitor-serialization.c |   6 +-
+>   util/keyval.c                      |  11 +-
+>   migration/meson.build              |   1 -
+>   qobject/meson.build                |   5 +-
+>   70 files changed, 679 insertions(+), 705 deletions(-)
+>   create mode 100644 include/qapi/qmp/json-writer.h
+>   delete mode 100644 migration/qjson.h
+>   create mode 100644 qobject/qobject-internal.h
+>   delete mode 100644 migration/qjson.c
+>   create mode 100644 qobject/json-writer.c
 > 
 
 
