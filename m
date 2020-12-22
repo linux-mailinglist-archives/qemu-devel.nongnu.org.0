@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B25B2E0B5B
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 15:05:56 +0100 (CET)
-Received: from localhost ([::1]:55568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58EF2E0B4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 15:03:36 +0100 (CET)
+Received: from localhost ([::1]:48370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kriIV-00046h-HT
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 09:05:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41568)
+	id 1kriGF-0001Bz-Th
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 09:03:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
- id 1krdBW-0001jW-GB; Tue, 22 Dec 2020 03:38:22 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2621)
+ id 1krdBU-0001iQ-SG; Tue, 22 Dec 2020 03:38:20 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
- id 1krdBU-0002cX-U4; Tue, 22 Dec 2020 03:38:22 -0500
+ id 1krdBR-0002cZ-Uu; Tue, 22 Dec 2020 03:38:20 -0500
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4D0V7y4dmJz7JXT;
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4D0V7y4qPJz7JYV;
  Tue, 22 Dec 2020 16:37:18 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.498.0; Tue, 22 Dec 2020
  16:37:54 +0800
 From: Zhang Han <zhanghan64@huawei.com>
 To: <jasowang@redhat.com>
-Subject: [PATCH 7/9] net: Remove assignment in if condition
-Date: Tue, 22 Dec 2020 16:23:38 +0800
-Message-ID: <20201222082340.67405-8-zhanghan64@huawei.com>
+Subject: [PATCH 8/9] net: Remove initialization of static ints
+Date: Tue, 22 Dec 2020 16:23:39 +0800
+Message-ID: <20201222082340.67405-9-zhanghan64@huawei.com>
 X-Mailer: git-send-email 2.29.1.59.gf9b6481aed
 In-Reply-To: <20201222082340.67405-1-zhanghan64@huawei.com>
 References: <20201222082340.67405-1-zhanghan64@huawei.com>
@@ -45,7 +45,7 @@ X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 22 Dec 2020 08:55:42 -0500
+X-Mailman-Approved-At: Tue, 22 Dec 2020 08:55:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,59 +62,30 @@ Cc: alex.chen@huawei.com, hunongda@huawei.com, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Put the assignment before the if condition
+Do not initialise statics to 0 or NULL
 
 Signed-off-by: Zhang Han <zhanghan64@huawei.com>
 ---
- net/tap-bsd.c     | 3 ++-
- net/tap-solaris.c | 9 ++++++---
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ net/tap-solaris.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/net/tap-bsd.c b/net/tap-bsd.c
-index dc8f9c8658..d1dca793f9 100644
---- a/net/tap-bsd.c
-+++ b/net/tap-bsd.c
-@@ -176,7 +176,8 @@ int tap_open(char *ifname, int ifname_size, int *vnet_hdr,
- 
-     if (fd < 0) {
-         /* Tap device not specified or does not exist. */
--        if ((fd = tap_open_clone(ifname, ifname_size, errp)) < 0) {
-+        fd = tap_open_clone(ifname, ifname_size, errp);
-+        if (fd < 0) {
-             return -1;
-         }
-     }
 diff --git a/net/tap-solaris.c b/net/tap-solaris.c
-index a0a5456ab6..d5af4efd60 100644
+index d5af4efd60..0b4f709abc 100644
 --- a/net/tap-solaris.c
 +++ b/net/tap-solaris.c
-@@ -105,7 +105,8 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
-     strioc_ppa.ic_timout = 0;
-     strioc_ppa.ic_len = sizeof(ppa);
-     strioc_ppa.ic_dp = (char *)&ppa;
--    if ((ppa = ioctl(tap_fd, I_STR, &strioc_ppa)) < 0) {
-+    ppa = ioctl(tap_fd, I_STR, &strioc_ppa));
-+    if (ppa < 0) {
-         error_report("Can't assign new interface");
-     }
+@@ -63,10 +63,10 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
+     /* FIXME leaks like a sieve on error paths */
+     /* FIXME suspicious: many errors are reported, then ignored */
+     int tap_fd, if_fd, ppa = -1;
+-    static int ip_fd = 0;
++    static int ip_fd;
+     char *ptr;
  
-@@ -162,12 +163,14 @@ static int tap_alloc(char *dev, size_t dev_size, Error **errp)
-         error_report("Can't set ifname to arp");
-     }
- 
--    if ((ip_muxid = ioctl(ip_fd, I_LINK, if_fd)) < 0) {
-+    ip_muxid = ioctl(ip_fd, I_LINK, if_fd);
-+    if (ip_muxid < 0) {
-         error_setg(errp, "Can't link TAP device to IP");
-         return -1;
-     }
- 
--    if ((arp_muxid = ioctl(ip_fd, link_type, arp_fd)) < 0) {
-+    arp_muxid = ioctl(ip_fd, link_type, arp_fd);
-+    if (arp_muxid < 0) {
-         error_report("Can't link TAP device to ARP");
-     }
- 
+-    static int arp_fd = 0;
++    static int arp_fd;
+     int ip_muxid, arp_muxid;
+     struct strioctl  strioc_if, strioc_ppa;
+     int link_type = I_PLINK;
 -- 
 2.29.1.59.gf9b6481aed
 
