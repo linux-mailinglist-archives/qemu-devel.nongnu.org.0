@@ -2,150 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C242E0F27
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 21:02:28 +0100 (CET)
-Received: from localhost ([::1]:32878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7BCE2E0F28
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 21:03:16 +0100 (CET)
+Received: from localhost ([::1]:33558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krnrU-0007ma-TK
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 15:02:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43114)
+	id 1krnsJ-000867-EA
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 15:03:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=618cf7173=Atish.Patra@wdc.com>)
- id 1krnob-0006I7-FS; Tue, 22 Dec 2020 14:59:25 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:54029)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=618cf7173=Atish.Patra@wdc.com>)
- id 1krnoX-0005nt-Sg; Tue, 22 Dec 2020 14:59:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1608667161; x=1640203161;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=DZ9Q1zWlNdaZwZuuGuKB9IZhA6F44V12fmSKpD5MbmY=;
- b=cB5i6oScVOD21CtsvMbEAU1pOf8kMRak5sJanzOOkpm3BFCp30ITCfeY
- MWrFOfDSnjyvoRkJ3RS+2tH9mKvzeg6/XPKSFTs9+sWMMfcy3oKrltEmx
- G2LEttyhklUutn+m9OJ0/ZJRWPlfn7wA2p9qqJup5VToPoxf4R8kaDlVp
- +1NOzSeffsjoZkeUKPTVCZa+pk5idHSVIuHyCt6EKEwR+3dDOGs6qcW+p
- X1+p5YMSpnU9r0YemSGnqlotRYteBU4rYf24hZmO+vvI37sWuC3k2jk8z
- VFy0IEyYMfF7cgr5Intoen3wIOZJUUNLWSx01MyKXu75cXHOZvvrVATp0 w==;
-IronPort-SDR: 0LMADkXv46Hrefqmh6uPokPctdNaZpFpasdOm18eXo19+QB8g44JpIMnwwT9NmTMh/Mbp1hhO9
- zcoEuYLAgB9LhJDsm9aJe8cJlCaJzp8qYK2wWLjgJQ3zVC3OK9HYQXj2puEAmU3tjvgCIXTLxk
- jEqME5CFC0ZS3hNe76vwZFsE9Pf1If0dUiIx6STu5FgLWd/nAZ+4x+mpZK+miD0v4pwZIcoqE0
- 6fP8bszOkr0pXo3I0V6boWP76tip28XP3+CJiTCehjb7C1ocBlAM7qLcsPzsxZXNdtonnKeNst
- Cy0=
-X-IronPort-AV: E=Sophos;i="5.78,440,1599494400"; d="scan'208";a="155842870"
-Received: from mail-mw2nam10lp2108.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.108])
- by ob1.hgst.iphmx.com with ESMTP; 23 Dec 2020 03:59:17 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q28ztKxsnM2cxhlTc1bjkRBKkWQz4EEFngo4akyd28cmyL6SYpF7p0Xo6t1W2u8uTbGewzDDgZ93YEyK916VAOJhBWIbHYP4m4Db8Gs0KRhKFmVrJzQIYlGovr8ykgfsyYKSOimrPwagsoy247hTitXrIyhh6UwXi9ojmQdIt9fw+zp/KZHM3K8S9shtWuCv7RxzGqVyZEN9lWAj5x+kLph0/7c840vIVjMMvLGW2/nGX1b1HmCppa40h5ZhzEivUT7hxo9vxdRaKcxXltxPLG/DahZChg/XGLmVYp9B56Nys0iLdZggoIWyWaPb6QUOQEljZPZaYf8E8YpACPsHBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DZ9Q1zWlNdaZwZuuGuKB9IZhA6F44V12fmSKpD5MbmY=;
- b=Zn+Yt+QXavmJ/AYj67CThxexJEMZKZwyydv2ZUHwT3GYk7aLJ3555PGY7v1Fds5Up6tOcpr+gBirKBf7mIjixAPQ5aTEkpI7KSIZRD0jjrSJS1NVSd+AXOj+ImOn+ds9Vwr5Fr7V7dO686M2OtTgC4+/YFuo+XArG/geOCiOmggE3UaPiOjWe4+20Q0oIY3kxncJXH1gj2vGdRyXcT0LJDIkWZAqmSQtppDvn/Japdu+ohVgqAZDoQ9X+Z8hGPDz+tiph+tP1DGOSfpbvNaY/PZTrPZe3akKTFg2Nrs02HSYScjo9dXqzNmEha2Ra0qbJ7oqXm4fwdznixPRjrCpKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DZ9Q1zWlNdaZwZuuGuKB9IZhA6F44V12fmSKpD5MbmY=;
- b=ahm80gA+zMiHgH7KyjO/GAmG4R5PQFHD+EIhA/VHkeMEoQRQYfee3tr/8unf2KOyQAJ7pYJeVDsQa83jV4jj+guydrzyA9yBciNR19WnD9Sm+ir2bCRjEIWOz15soogWG8lvsCfM80/sdYcRMU9nCVGOOuIXK3YoshqJAdPqyys=
-Received: from BY5PR04MB6724.namprd04.prod.outlook.com (2603:10b6:a03:219::15)
- by BY5PR04MB6835.namprd04.prod.outlook.com (2603:10b6:a03:22e::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.25; Tue, 22 Dec
- 2020 19:59:15 +0000
-Received: from BY5PR04MB6724.namprd04.prod.outlook.com
- ([fe80::6540:dbb1:548a:fc7]) by BY5PR04MB6724.namprd04.prod.outlook.com
- ([fe80::6540:dbb1:548a:fc7%6]) with mapi id 15.20.3676.033; Tue, 22 Dec 2020
- 19:59:15 +0000
-From: Atish Patra <Atish.Patra@wdc.com>
-To: "bmeng.cn@gmail.com" <bmeng.cn@gmail.com>
-Subject: Re: [PATCH] RISC-V: Place DTB at 3GB boundary instead of 4GB
-Thread-Topic: [PATCH] RISC-V: Place DTB at 3GB boundary instead of 4GB
-Thread-Index: AQHW1L5ec6Y+NBO69E2DOYgTLRiUVan8c1OAgAABxYCAAAGkgIAAB32AgAALxwCAALltAIAFW4SAgADxaYA=
-Date: Tue, 22 Dec 2020 19:59:15 +0000
-Message-ID: <a33a44ff4ec9f16a5ff7649e2d8ed9d87c6bed64.camel@wdc.com>
-References: <20201217214826.2094617-1-atish.patra@wdc.com>
- <CAEUhbmUqJdpuqvZ6V3s9eeW=EUVXrnjbF5GRmygwaZhMGG-6sA@mail.gmail.com>
- <4f09804c0e35a45fcf3fa78b3f3ed55276d6e10f.camel@wdc.com>
- <CAEUhbmX16h5S5Y0kFsnDv6t2cnn6we-b-9U_cbnEQkrrckYy0w@mail.gmail.com>
- <67cbbde886c3ae6e57e837e79f466f4156a910f8.camel@wdc.com>
- <CAEUhbmVEAxf3OCp=89MCx7qQiN0wKd3QM4k8t20r9Sbq+JA_-w@mail.gmail.com>
- <df986ea726abea58fedd1a870095378456823d2a.camel@wdc.com>
- <CAEUhbmUK95YJ74_AJQ8wu9oBM6mDky2n5=pGR_UQE0AB4eXYtQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmUK95YJ74_AJQ8wu9oBM6mDky2n5=pGR_UQE0AB4eXYtQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.38.2 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [99.13.229.45]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: f467d163-e0ec-4f66-2f5a-08d8a6b40f73
-x-ms-traffictypediagnostic: BY5PR04MB6835:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR04MB683579B36E260B1B574098A2FADF0@BY5PR04MB6835.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:245;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 52TAr40+pB/sZb0kv69CGR4HSIe8gbXUauon4+iDM35Z9KxtSV+HDI6r+D87FpWYpdqKOSgzELmpL/nFHqDI2Aq7EfDEdrQgfjxdb6FkXWXCYhquA+zzrTIAAqn7LX7acRs7chDgB7FHOzpAe/BOjkV0PkacIMmcouHVIINOQckqQCVt28rCYsiUisIUG8ujYntT5CMJ4AAzaPWNkejwwp2Gb6lDm7YIzaiv1qMTXihCVIRkDwuzVfXKayCqKAKdQe/e/Vktqp2sRIhJtRSP976sm7QKufiOz2tCinYZWrFujmbVqwnysQFC7G/srQpi4C5vur2QClsKbswSRxl5eC5SBD+/zwkFAknL0HIHgFBKpFqf8LRmNXf1Ww1fxADT0A7dPxoWkOjn/Q6YuVYNYU8ZT+B7lQu9pdL1qS/mAHO6rjUbisBF2n0+AzTzubWfeZC0LMydVC1M69RpPXSh6A==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR04MB6724.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(396003)(346002)(366004)(136003)(39860400002)(6486002)(8936002)(6512007)(36756003)(2616005)(53546011)(4326008)(966005)(26005)(54906003)(71200400001)(6506007)(478600001)(186003)(5660300002)(2906002)(76116006)(6916009)(66946007)(86362001)(4001150100001)(66476007)(316002)(64756008)(66556008)(66446008)(8676002)(83380400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?QXhQcDF5SW9GRHA5VGMwU3YyV1lIc1o2cGhEK25tU0xqT0VoN2hHRUkvajU0?=
- =?utf-8?B?RlBUTERkZVBTL3JCNDdMVTMyQzcydERZNjJiNE1Nak5TcFBMNktHanlPMVU3?=
- =?utf-8?B?T0pCUVBva0pLY211QkVkNE9NaW1kLzRNVzAvU2dNalFPYjVwUzMxTkMyY013?=
- =?utf-8?B?RGxDRlZQQzNiWjJSOGxiVlE3UFZWMlppY1BhSWtOTFZubGU2dGVha29tdkdP?=
- =?utf-8?B?S1NGamJrT2VnVHpnUkRFVG5Qd21LcUhzTjFVY3dhbmFCbnBZd1MyTXJvWS9w?=
- =?utf-8?B?ckV0dUxYM1BaTURBREE2Q0lVSHI3VUkzVXMvUjViRW9DVXg3WWRxWVNnTFlJ?=
- =?utf-8?B?blFmTXR3cDZnMXZubzN0bnFCYjJIQ3JYYTVuZVpwOUFyMkJkNmluNFBKNWxO?=
- =?utf-8?B?eWYvM3ZNTXlhWURXamFBb2xQeVg4UDE5a1Z4RHhEcmtOMmFuY1RkbXNYaGIy?=
- =?utf-8?B?alZTZlM3anpyM1RLM2tGUXFWcE41SitUMzVqRXpvSlpmdWg3QTJrekFCdi9l?=
- =?utf-8?B?QmZWMVV2OHhYVlZvYzczZ08wQnRwcDRsZEpKYSs3SmxnWW02bHhZYUlVQys4?=
- =?utf-8?B?dDlIR2lESnNKMEx3TTd0WjkrUy9oWHhtNDZ0dlVna3lDc3FibU1tVERrU2ox?=
- =?utf-8?B?M0lxdjFyaVdDNDR4M1ZTRC94UWt2djdNSU1SNUJUTjZMc3ZoK3VFWC9zQW5O?=
- =?utf-8?B?cU5vMXZUVW03OUIvVFpwMVJNRXlWSUZabmhJbjhhS28xUXZJdGtwVTcwMkwx?=
- =?utf-8?B?b0dDUHdzU0lmZnRPcnFqYnhEZWlVODVUa0V0ay9BWFRFbCt6VGFGVjMvM1ZX?=
- =?utf-8?B?TS96bXR6dEhxTVhuM0V0UjFoMEVxUjJ0V1FUU1lzVng4ZXkxSHNBUGNwR1hB?=
- =?utf-8?B?aWJtY0RJaUZjaDJSUWJOYmYvRzk5NUN3amJHV01PbURtai9BU1NiVWNhZEdC?=
- =?utf-8?B?Ymo3NUJZNzhjdlZwajdLZC9rdG1TMEpZVndHRm82b2tMOUZMbjZyRDlKUVRB?=
- =?utf-8?B?ZW1iT3hhbnVMRWdIc0tXR3lydVp0MEVLZzR0aTNKNTZtWjNrRks2QnYzVlJk?=
- =?utf-8?B?YzVlMkR6Vm9jbEtaOCtLdCtxSEc1bzl6SnlHWUdnNlpFY3BOLzFMOXVFTlho?=
- =?utf-8?B?Tk9HSklzMllhYXNXR3NZUjg3RVBlcDVGaUlzR3NKNFIya0VKalZCMkkwQThY?=
- =?utf-8?B?OGMvVEJrdFVMTTFXU1VPYXBuaWZXL3JEcEZwUlFoUTNFa0MrTCtiU1BBZllC?=
- =?utf-8?B?aXV6UmpXbHZrY0ZjUC8zU0ZNdVpScjVtOGhDS0M1T1B3aVAzaGo2K01RaGlh?=
- =?utf-8?Q?pT48yQ3hH3cJYM4lyKUXrYNXQ6rdXv6jzT?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5C488DC22C50AA4F9566B7A990D1BE1C@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1krnog-0006Rj-T4
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 14:59:30 -0500
+Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:34556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1krnoe-0005uD-3e
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 14:59:30 -0500
+Received: by mail-il1-x133.google.com with SMTP id x15so13076836ilq.1
+ for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 11:59:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=9Yk5leUX6PAFGO+LhAPPSBWBIhVvNWxazIiU7rcx2S0=;
+ b=cvf3eceegxoOKIlNyNGq3609ubf15e6EGHlwVESKv5VMXDfKRGN5AjfJardxcGjuKn
+ uV5DtdZQytkk/FVPv0IDckPrZ8nnTgxPqUopdFYY0lxRZIIyIXtGs/4tT8oS0ed3JKHZ
+ ONmcmrpn41bzRsBMQNGLKMxz3L6DXfTPyznB34gDNUTMoCzXQ652GHC4ebmSWlVb0gbT
+ b8KeGtWAtbDorPRJwi04QD1PookVb/YKPKKLc3txo6sjBjBvE8LExWqTB9ouG8gHk48y
+ ISW3b+8CCPkQrI0HucLNmQBdvPaAuE2mCif5QbkDlet0utTAW9uqxj3d/oPNBgDs+1AO
+ fYvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=9Yk5leUX6PAFGO+LhAPPSBWBIhVvNWxazIiU7rcx2S0=;
+ b=UcvumN70QOTNuRyOcDO/zWlufFiNPxz+duffnym7q0mtCjNgG9iJaa22GkuR77FCxK
+ enFcaZfYYaO5Nesrhmdrbz7R7wrmnwb0jf0UiOCyTLhzhmx28V7vAuLww2LhPfn8wMaD
+ amjiDZBaOMQz6rVfUJybQ+v6K80tVzD7En6pEKgmyjMcWKPqVBQpYcX9SPgRQUkWA0/L
+ 1OF9BeUVzRrkgGRVqKc9cj08HFklCysOYWUjxsWNrUrpJx16VWubEzeJGINm0kUk3ji5
+ Ycb0vGGWi3v7DUdTU5lF9rf7ZpP1GsDrbrVGLFY5aDp7eqMi+ad18ic4M9Pj26xw52vu
+ 1trQ==
+X-Gm-Message-State: AOAM531pI6MJDdZxhoELPj2/9MQGRKl8eYm8mFz6ioCVa6yMURwO0OHi
+ QTs9n5kCdN/3ofJVb7tXNA/HOI0FBY2zLeENXnI=
+X-Google-Smtp-Source: ABdhPJxbKuhIzGW/BHOviA32FS8UJVrEmTBWeeFkSK0jO7zc2iHRkkH0v3kFdmJmRmRAMioHKm1/HM9X4EtKCRBUEY4=
+X-Received: by 2002:a92:c682:: with SMTP id o2mr22285132ilg.97.1608667166677; 
+ Tue, 22 Dec 2020 11:59:26 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6724.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f467d163-e0ec-4f66-2f5a-08d8a6b40f73
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Dec 2020 19:59:15.5639 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4x5qsnrsXkYclWOMlahCukAK+hTJSzk3O7+uebTBM38fydEfL6cBm9L/X4XPv6v4WwSw5I6KQqifbvQUTBkpbw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6835
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=618cf7173=Atish.Patra@wdc.com; helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+References: <20201222074656.GA30035@open-light-1.localdomain>
+In-Reply-To: <20201222074656.GA30035@open-light-1.localdomain>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Tue, 22 Dec 2020 11:59:15 -0800
+Message-ID: <CAKgT0Ucs4pv0+rcPi41uNDrav0sgOmLnVaD4NNWkg7=gncidnQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/3] mm: support hugetlb free page reporting
+To: Alexander Duyck <alexander.h.duyck@linux.intel.com>, 
+ Mel Gorman <mgorman@techsingularity.net>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Andrea Arcangeli <aarcange@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, 
+ Dave Hansen <dave.hansen@intel.com>, Michal Hocko <mhocko@suse.com>, 
+ Liang Li <liliangleo@didiglobal.com>, Mike Kravetz <mike.kravetz@oracle.com>, 
+ Liang Li <liliang324@gmail.com>, linux-mm <linux-mm@kvack.org>, 
+ LKML <linux-kernel@vger.kernel.org>, virtualization@lists.linux-foundation.org,
+ qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
+ envelope-from=alexander.duyck@gmail.com; helo=mail-il1-x133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -159,202 +86,560 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- "sagark@eecs.berkeley.edu" <sagark@eecs.berkeley.edu>,
- "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>,
- Anup Patel <Anup.Patel@wdc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gVHVlLCAyMDIwLTEyLTIyIGF0IDEzOjM1ICswODAwLCBCaW4gTWVuZyB3cm90ZToNCj4gSGkg
-QXRpc2gsDQo+IA0KPiBPbiBTYXQsIERlYyAxOSwgMjAyMCBhdCAzOjQ2IEFNIEF0aXNoIFBhdHJh
-IDxBdGlzaC5QYXRyYUB3ZGMuY29tPg0KPiB3cm90ZToNCj4gPiANCj4gPiBPbiBGcmksIDIwMjAt
-MTItMTggYXQgMTY6NDIgKzA4MDAsIEJpbiBNZW5nIHdyb3RlOg0KPiA+ID4gSGkgQXRpc2gsDQo+
-ID4gPiANCj4gPiA+IE9uIEZyaSwgRGVjIDE4LCAyMDIwIGF0IDQ6MDAgUE0gQXRpc2ggUGF0cmEg
-PEF0aXNoLlBhdHJhQHdkYy5jb20+DQo+ID4gPiB3cm90ZToNCj4gPiA+ID4gDQo+ID4gPiA+IE9u
-IEZyaSwgMjAyMC0xMi0xOCBhdCAxNTozMyArMDgwMCwgQmluIE1lbmcgd3JvdGU6DQo+ID4gPiA+
-ID4gSGkgQXRpc2gsDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gT24gRnJpLCBEZWMgMTgsIDIwMjAg
-YXQgMzoyNyBQTSBBdGlzaCBQYXRyYSA8IA0KPiA+ID4gPiA+IEF0aXNoLlBhdHJhQHdkYy5jb20+
-DQo+ID4gPiA+ID4gd3JvdGU6DQo+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IE9uIEZyaSwgMjAy
-MC0xMi0xOCBhdCAxNToyMSArMDgwMCwgQmluIE1lbmcgd3JvdGU6DQo+ID4gPiA+ID4gPiA+IEhp
-IEF0aXNoLA0KPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+ID4gT24gRnJpLCBEZWMgMTgsIDIw
-MjAgYXQgNTo0OCBBTSBBdGlzaCBQYXRyYQ0KPiA+ID4gPiA+ID4gPiA8YXRpc2gucGF0cmFAd2Rj
-LmNvbT4NCj4gPiA+ID4gPiA+ID4gd3JvdGU6DQo+ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4g
-PiA+ID4gQ3VycmVudGx5LCB3ZSBwbGFjZSB0aGUgRFRCIGF0IDJNQiBmcm9tIDRHQiBvciBlbmQg
-b2YNCj4gPiA+ID4gPiA+ID4gPiBEUkFNDQo+ID4gPiA+ID4gPiA+ID4gd2hpY2gNCj4gPiA+ID4g
-PiA+ID4gPiBldmVyIGlzDQo+ID4gPiA+ID4gPiA+ID4gbGVzc2VyLiBIb3dldmVyLCBMaW51eCBr
-ZXJuZWwgY2FuIGFkZHJlc3Mgb25seSAxR0Igb2YNCj4gPiA+ID4gPiA+ID4gPiBtZW1vcnkNCj4g
-PiA+ID4gPiA+ID4gPiBmb3INCj4gPiA+ID4gPiA+ID4gPiBSVjMyLg0KPiA+ID4gPiA+ID4gPiA+
-IFRodXMsIGl0IGNhbiBub3QgbWFwIGFueXRoaW5nIGJleW9uZCAzR0IgKGFzc3VtaW5nIDJHQg0K
-PiA+ID4gPiA+ID4gPiA+IGlzDQo+ID4gPiA+ID4gPiA+ID4gdGhlDQo+ID4gPiA+ID4gPiA+ID4g
-c3RhcnRpbmcgYWRkcmVzcykuDQo+ID4gPiA+ID4gPiA+ID4gQXMgYSByZXN1bHQsIGl0IGNhbiBu
-b3QgcHJvY2VzcyBEVCBhbmQgcGFuaWMgaWYgb3BlbnNiaQ0KPiA+ID4gPiA+ID4gPiA+IGR5bmFt
-aWMNCj4gPiA+ID4gPiA+ID4gPiBmaXJtd2FyZQ0KPiA+ID4gPiA+ID4gPiA+IGlzIHVzZWQuDQo+
-ID4gPiA+ID4gPiA+ID4gDQo+ID4gPiA+ID4gPiA+ID4gRml4IHRoaXMgYnkgcGxhY2luZyB0aGUg
-RFRCIGF0IDJNQiBmcm9tIDNHQiBvciBlbmQgb2YNCj4gPiA+ID4gPiA+ID4gPiBEUkFNDQo+ID4g
-PiA+ID4gPiA+ID4gd2hpY2hldmVyIGlzIGxvd2VyLg0KPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4g
-PiA+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEF0aXNoIFBhdHJhIDxhdGlzaC5wYXRyYUB3ZGMuY29t
-Pg0KPiA+ID4gPiA+ID4gPiA+IC0tLQ0KPiA+ID4gPiA+ID4gPiA+IMKgaHcvcmlzY3YvYm9vdC5j
-IHwgNCArKy0tDQo+ID4gPiA+ID4gPiA+ID4gwqAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25z
-KCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiANCj4g
-PiA+ID4gPiA+ID4gV2l0aCB0aGlzIHBhdGNoLCAzMi1iaXQgc2lmaXZlX3Ugc3RpbGwgZG9lcyBu
-b3QgYm9vdA0KPiA+ID4gPiA+ID4gPiBrZXJuZWwNCj4gPiA+ID4gPiA+ID4gd2l0aA0KPiA+ID4g
-PiA+ID4gPiB0aGUNCj4gPiA+ID4gPiA+ID4gZm9sbG93aW5nIHBhdGNoIGFwcGxpZWQgb24gNS4x
-MDoNCj4gPiA+ID4gPiA+ID4gIA0KPiA+ID4gPiA+ID4gPiBodHRwczovL3BhdGNod29yay5rZXJu
-ZWwub3JnL3Byb2plY3QvbGludXgtcmlzY3YvcGF0Y2gvMjAyMDEyMTcwNzQ4NTUuMTk0ODc0My0x
-LWF0aXNoLnBhdHJhQHdkYy5jb20vDQo+ID4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gPiBDb21t
-YW5kIEkgdXNlZDoNCj4gPiA+ID4gPiA+ID4gJCBxZW11LXN5c3RlbS1yaXNjdjMyIC1ub2dyYXBo
-aWMgLU0gc2lmaXZlX3UgLW0gMUcgLXNtcCA1DQo+ID4gPiA+ID4gPiA+IC0NCj4gPiA+ID4gPiA+
-ID4ga2VybmVsDQo+ID4gPiA+ID4gPiA+IGFyY2gvcmlzY3YvYm9vdC9JbWFnZQ0KPiA+ID4gPiA+
-ID4gPiANCj4gPiA+ID4gPiA+ID4gMzItYml0IHZpcnQgY2Fubm90IGJvb3QgdGhlIHNhbWUga2Vy
-bmVsIGltYWdlIHdpdGggbWVtb3J5DQo+ID4gPiA+ID4gPiA+IHNldA0KPiA+ID4gPiA+ID4gPiB0
-bw0KPiA+ID4gPiA+ID4gPiAyRw0KPiA+ID4gPiA+ID4gPiBlaXRoZXI6DQo+ID4gPiA+ID4gPiA+
-ICQgcWVtdS1zeXN0ZW0tcmlzY3YzMiAtbm9ncmFwaGljIC1NIHZpcnQgLW0gMkcgLXNtcCA0IC0N
-Cj4gPiA+ID4gPiA+ID4ga2VybmVsDQo+ID4gPiA+ID4gPiA+IGFyY2gvcmlzY3YvYm9vdC9JbWFn
-ZQ0KPiA+ID4gPiA+ID4gPiANCj4gPiA+ID4gPiA+IA0KPiA+ID4gPiA+ID4gSGkgQmluLA0KPiA+
-ID4gPiA+ID4gQXMgbWVudGlvbmVkIGluIHRoZSBlbWFpbCBvbiB0aGUgbGludXggbWFpbGluZyBs
-aXN0LCB0aGlzDQo+ID4gPiA+ID4gPiBwYXRjaA0KPiA+ID4gPiA+ID4gb25seQ0KPiA+ID4gPiA+
-ID4gc29sdmVzIDJHQiBwcm9ibGVtLiBzaWZpdmVfdSBwcm9ibGVtIGlzIHNvbHZlZCBieQ0KPiA+
-ID4gPiA+ID4gQWxpc3RhaXIncw0KPiA+ID4gPiA+ID4gcGF0Y2hbMV0uDQo+ID4gPiA+ID4gPiAN
-Cj4gPiA+ID4gPiA+IEhlIGlzIHBsYW5uaW5nIHRvIHNlbmQgdGhlIFBSIHNvb24uIFRoZSBpc3N1
-ZSB3aXRoIHNpZml2ZV91DQo+ID4gPiA+ID4gPiBib290DQo+ID4gPiA+ID4gPiB3YXMgaXQNCj4g
-PiA+ID4gPiA+IHdhcyBmYWlsaW5nIHRoZSAzMiBiaXQgdGVzdCBlYXJsaWVyIHJlc3VsdGluZyBh
-IDJNQiBhbGlnbmVkDQo+ID4gPiA+ID4gPiBhZGRyZXNzDQo+ID4gPiA+ID4gPiBpbnN0ZWFkIG9m
-IDRNQi4NCj4gPiA+ID4gPiANCj4gPiA+ID4gPiBBaCwgSSBzZWUuIEhvd2V2ZXIgbXkgdGVzdGlu
-ZyBzaG93cyB0aGF0IHZpcnQgd2l0aCAyRyBzdGlsbA0KPiA+ID4gPiA+IGRvZXMNCj4gPiA+ID4g
-PiBub3QNCj4gPiA+ID4gPiBib290IHdpdGggdGhpcyBwYXRjaC4NCj4gPiA+ID4gPiANCj4gPiA+
-ID4gDQo+ID4gPiA+IFN0cmFuZ2UuIEkgdmVyaWZpZWQgYWdhaW4gd2l0aCBmb2xsb3dpbmcgY29t
-YmluYXRpb24gd2l0aCAtYmlvcw0KPiA+ID4gPiBhbmQNCj4gPiA+ID4gd2l0aG91dCBiaW9zIHBh
-cmFtZXRlci4NCj4gPiA+ID4gDQo+ID4gPiA+IDEuIHZpcnQgMzIvNjQgd2l0aCAxR0IvMkdCIG1l
-bW9yeQ0KPiA+ID4gPiAyLiBzaWZpdmVfdSAzMi82NCBiaXQgd2l0aCAxR0IvMkdCIG1lbW9yeSAo
-QWxpc3RhaXIncyBwYXRjaA0KPiA+ID4gPiBpbmNsdWRlZCkNCj4gPiA+ID4gDQo+ID4gPiA+IENh
-biB5b3Ugc2hhcmUgdGhlIGJvb3QgbG9nIGFsb25nIHdpdGggdGhlIGhlYWQgY29tbWl0IG9mIFFl
-bXUNCj4gPiA+ID4gYW5kDQo+ID4gPiA+IGNvbW1hbmRsaW5lID8gSSBhbSB1c2luZyA1LjEwIGtl
-cm5lbCB3aXRoIG15IGtlcm5lbCBmaXguDQo+ID4gPiA+IA0KPiA+ID4gDQo+ID4gPiBJIHdhcyB1
-c2luZyBBbGlzdGFpcidzIFFFTVUgcmVwbyBmb3IgdGVzdGluZyBhbmQgNS4xMCBrZXJuZWwgd2l0
-aA0KPiA+ID4geW91cg0KPiA+ID4ga2VybmVsIGZpeDoNCj4gPiA+IA0KPiA+ID4gJCBnaXQgY2hl
-Y2tvdXQgLWIgdGVzdGluZyBwdWxsLXJpc2N2LXRvLWFwcGx5LTIwMjAxMjE3LTENCj4gPiA+ICQg
-YXBwbHkgdGhpcyBwYXRjaA0KPiA+ID4gJCBta2RpciBidWlsZDtjZCBidWlsZDsuLi9jb25maWd1
-cmUNCj4gPiA+IC0tdGFyZ2V0LWxpc3Q9cmlzY3Y2NC1zb2Z0bW11LHJpc2N2MzItc29mdG1tdTtt
-YWtlIC1qDQo+ID4gPiANCj4gPiA+ICQgLi9xZW11LXN5c3RlbS1yaXNjdjMyIC1ub2dyYXBoaWMg
-LU0gdmlydCAtbSAyRyAtc21wIDQgLWtlcm5lbA0KPiA+ID4gfi93b3JrL2dpdC9saW51eC9hcmNo
-L3Jpc2N2L2Jvb3QvSW1hZ2UNCj4gPiA+IA0KPiA+ID4gT3BlblNCSSB2MC44DQo+ID4gPiDCoMKg
-IF9fX1/CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX19fXyBfX19fIF9f
-X19fDQo+ID4gPiDCoCAvIF9fIFzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8g
-X19fX3zCoCBfIFxfwqDCoCBffA0KPiA+ID4gwqB8IHzCoCB8IHxfIF9fwqDCoCBfX18gXyBfXyB8
-IChfX18gfCB8XykgfHwgfA0KPiA+ID4gwqB8IHzCoCB8IHwgJ18gXCAvIF8gXCAnXyBcIFxfX18g
-XHzCoCBfIDwgfCB8DQo+ID4gPiDCoHwgfF9ffCB8IHxfKSB8wqAgX18vIHwgfCB8X19fXykgfCB8
-XykgfHwgfF8NCj4gPiA+IMKgIFxfX19fL3wgLl9fLyBcX19ffF98IHxffF9fX19fL3xfX19fL19f
-X19ffA0KPiA+ID4gwqDCoMKgwqDCoMKgwqAgfCB8DQo+ID4gPiDCoMKgwqDCoMKgwqDCoCB8X3wN
-Cj4gPiA+IA0KPiA+ID4gUGxhdGZvcm0gTmFtZcKgwqDCoMKgwqDCoCA6IHJpc2N2LXZpcnRpbyxx
-ZW11DQo+ID4gPiBQbGF0Zm9ybSBGZWF0dXJlc8KgwqAgOiB0aW1lcixtZmRlbGVnDQo+ID4gPiBQ
-bGF0Zm9ybSBIQVJUIENvdW50IDogNA0KPiA+ID4gQm9vdCBIQVJUIElEwqDCoMKgwqDCoMKgwqAg
-OiAzDQo+ID4gPiBCb290IEhBUlQgSVNBwqDCoMKgwqDCoMKgIDogcnYzMmltYWZkY3N1DQo+ID4g
-PiBCT09UIEhBUlQgRmVhdHVyZXPCoCA6IHBtcCxzY291bnRlcmVuLG1jb3VudGVyZW4sdGltZQ0K
-PiA+ID4gQk9PVCBIQVJUIFBNUCBDb3VudCA6IDE2DQo+ID4gPiBGaXJtd2FyZSBCYXNlwqDCoMKg
-wqDCoMKgIDogMHg4MDAwMDAwMA0KPiA+ID4gRmlybXdhcmUgU2l6ZcKgwqDCoMKgwqDCoCA6IDEw
-NCBLQg0KPiA+ID4gUnVudGltZSBTQkkgVmVyc2lvbiA6IDAuMg0KPiA+ID4gDQo+ID4gPiBNSURF
-TEVHIDogMHgwMDAwMDIyMg0KPiA+ID4gTUVERUxFRyA6IDB4MDAwMGIxMDkNCj4gPiA+IFBNUDDC
-oMKgwqAgOiAweDgwMDAwMDAwLTB4ODAwMWZmZmYgKEEpDQo+ID4gPiBQTVAxwqDCoMKgIDogMHgw
-MDAwMDAwMC0weGZmZmZmZmZmIChBLFIsVyxYKQ0KPiA+ID4gPGhhbmdzIGhlcmU+DQo+ID4gPiAN
-Cj4gPiA+ICQgLi9xZW11LXN5c3RlbS1yaXNjdjMyIC1ub2dyYXBoaWMgLU0gc2lmaXZlX3UgLW0g
-MkcgLXNtcCA1IC0NCj4gPiA+IGtlcm5lbA0KPiA+ID4gfi93b3JrL2dpdC9saW51eC9hcmNoL3Jp
-c2N2L2Jvb3QvSW1hZ2UNCj4gPiA+IA0KPiA+ID4gT3BlblNCSSB2MC44DQo+ID4gPiDCoMKgIF9f
-X1/CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX19fXyBfX19fIF9fX19f
-DQo+ID4gPiDCoCAvIF9fIFzCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8gX19f
-X3zCoCBfIFxfwqDCoCBffA0KPiA+ID4gwqB8IHzCoCB8IHxfIF9fwqDCoCBfX18gXyBfXyB8IChf
-X18gfCB8XykgfHwgfA0KPiA+ID4gwqB8IHzCoCB8IHwgJ18gXCAvIF8gXCAnXyBcIFxfX18gXHzC
-oCBfIDwgfCB8DQo+ID4gPiDCoHwgfF9ffCB8IHxfKSB8wqAgX18vIHwgfCB8X19fXykgfCB8Xykg
-fHwgfF8NCj4gPiA+IMKgIFxfX19fL3wgLl9fLyBcX19ffF98IHxffF9fX19fL3xfX19fL19fX19f
-fA0KPiA+ID4gwqDCoMKgwqDCoMKgwqAgfCB8DQo+ID4gPiDCoMKgwqDCoMKgwqDCoCB8X3wNCj4g
-PiA+IA0KPiA+ID4gUGxhdGZvcm0gTmFtZcKgwqDCoMKgwqDCoCA6IFNpRml2ZSBIaUZpdmUgVW5s
-ZWFzaGVkIEEwMA0KPiA+ID4gUGxhdGZvcm0gRmVhdHVyZXPCoMKgIDogdGltZXIsbWZkZWxlZw0K
-PiA+ID4gUGxhdGZvcm0gSEFSVCBDb3VudCA6IDUNCj4gPiA+IEJvb3QgSEFSVCBJRMKgwqDCoMKg
-wqDCoMKgIDogNA0KPiA+ID4gQm9vdCBIQVJUIElTQcKgwqDCoMKgwqDCoCA6IHJ2MzJpbWFmZGNz
-dQ0KPiA+ID4gQk9PVCBIQVJUIEZlYXR1cmVzwqAgOiBwbXAsc2NvdW50ZXJlbixtY291bnRlcmVu
-DQo+ID4gPiBCT09UIEhBUlQgUE1QIENvdW50IDogMTYNCj4gPiA+IEZpcm13YXJlIEJhc2XCoMKg
-wqDCoMKgwqAgOiAweDgwMDAwMDAwDQo+ID4gPiBGaXJtd2FyZSBTaXplwqDCoMKgwqDCoMKgIDog
-MTEyIEtCDQo+ID4gPiBSdW50aW1lIFNCSSBWZXJzaW9uIDogMC4yDQo+ID4gPiANCj4gPiA+IE1J
-REVMRUcgOiAweDAwMDAwMjIyDQo+ID4gPiBNRURFTEVHIDogMHgwMDAwYjEwOQ0KPiA+ID4gUE1Q
-MMKgwqDCoCA6IDB4ODAwMDAwMDAtMHg4MDAxZmZmZiAoQSkNCj4gPiA+IFBNUDHCoMKgwqAgOiAw
-eDAwMDAwMDAwLTB4ZmZmZmZmZmYgKEEsUixXLFgpDQo+ID4gPiA8aGFuZ3MgaGVyZT4NCj4gPiA+
-IA0KPiA+ID4gVGhlIGZvbGxvd2luZyBpcyBzaWZpdmVfdSB3aXRoIDFHOg0KPiA+ID4gDQo+ID4g
-PiAkIC4vcWVtdS1zeXN0ZW0tcmlzY3YzMiAtbm9ncmFwaGljIC1NIHNpZml2ZV91IC1tIDFHIC1z
-bXAgNSAtDQo+ID4gPiBrZXJuZWwNCj4gPiA+IH4vd29yay9naXQvbGludXgvYXJjaC9yaXNjdi9i
-b290L0ltYWdlDQo+ID4gPiANCj4gPiA+IE9wZW5TQkkgdjAuOA0KPiA+ID4gwqDCoCBfX19fwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19fX18gX19fXyBfX19fXw0KPiA+
-ID4gwqAgLyBfXyBcwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvIF9fX198wqAg
-XyBcX8KgwqAgX3wNCj4gPiA+IMKgfCB8wqAgfCB8XyBfX8KgwqAgX19fIF8gX18gfCAoX19fIHwg
-fF8pIHx8IHwNCj4gPiA+IMKgfCB8wqAgfCB8ICdfIFwgLyBfIFwgJ18gXCBcX19fIFx8wqAgXyA8
-IHwgfA0KPiA+ID4gwqB8IHxfX3wgfCB8XykgfMKgIF9fLyB8IHwgfF9fX18pIHwgfF8pIHx8IHxf
-DQo+ID4gPiDCoCBcX19fXy98IC5fXy8gXF9fX3xffCB8X3xfX19fXy98X19fXy9fX19fX3wNCj4g
-PiA+IMKgwqDCoMKgwqDCoMKgIHwgfA0KPiA+ID4gwqDCoMKgwqDCoMKgwqAgfF98DQo+ID4gPiAN
-Cj4gPiA+IFBsYXRmb3JtIE5hbWXCoMKgwqDCoMKgwqAgOiBTaUZpdmUgSGlGaXZlIFVubGVhc2hl
-ZCBBMDANCj4gPiA+IFBsYXRmb3JtIEZlYXR1cmVzwqDCoCA6IHRpbWVyLG1mZGVsZWcNCj4gPiA+
-IFBsYXRmb3JtIEhBUlQgQ291bnQgOiA1DQo+ID4gPiBCb290IEhBUlQgSUTCoMKgwqDCoMKgwqDC
-oCA6IDMNCj4gPiA+IEJvb3QgSEFSVCBJU0HCoMKgwqDCoMKgwqAgOiBydjMyaW1hZmRjc3UNCj4g
-PiA+IEJPT1QgSEFSVCBGZWF0dXJlc8KgIDogcG1wLHNjb3VudGVyZW4sbWNvdW50ZXJlbg0KPiA+
-ID4gQk9PVCBIQVJUIFBNUCBDb3VudCA6IDE2DQo+ID4gPiBGaXJtd2FyZSBCYXNlwqDCoMKgwqDC
-oMKgIDogMHg4MDAwMDAwMA0KPiA+ID4gRmlybXdhcmUgU2l6ZcKgwqDCoMKgwqDCoCA6IDExMiBL
-Qg0KPiA+ID4gUnVudGltZSBTQkkgVmVyc2lvbiA6IDAuMg0KPiA+ID4gDQo+ID4gPiBNSURFTEVH
-IDogMHgwMDAwMDIyMg0KPiA+ID4gTUVERUxFRyA6IDB4MDAwMGIxMDkNCj4gPiA+IFBNUDDCoMKg
-wqAgOiAweDgwMDAwMDAwLTB4ODAwMWZmZmYgKEEpDQo+ID4gPiBQTVAxwqDCoMKgIDogMHgwMDAw
-MDAwMC0weGZmZmZmZmZmIChBLFIsVyxYKQ0KPiA+ID4gW8KgwqDCoCAwLjAwMDAwMF0gTGludXgg
-dmVyc2lvbiA1LjEwLjAtMDAwMDEtZ2JmMGRhZDYxODk2ZA0KPiA+ID4gKGJtZW5nQHBlay12eC1i
-c3AyKSAocmlzY3Y2NC1saW51eC1nY2MgKEdDQykgOC4xLjAsIEdOVSBsZCAoR05VDQo+ID4gPiBC
-aW51dGlscykgMi4zMCkgIzEgU01QIFRodSBEZWMgMTcgMTY6NDg6MTMgQ1NUIDIwMjANCj4gPiA+
-IFvCoMKgwqAgMC4wMDAwMDBdIE9GOiBmZHQ6IElnbm9yaW5nIG1lbW9yeSByYW5nZSAweDgwMDAw
-MDAwIC0NCj4gPiA+IDB4ODA0MDAwMDANCj4gPiA+IFvCoMKgwqAgMC4wMDAwMDBdIGVmaTogVUVG
-SSBub3QgZm91bmQuDQo+ID4gPiBbwqDCoMKgIDAuMDAwMDAwXSBab25lIHJhbmdlczoNCj4gPiA+
-IFvCoMKgwqAgMC4wMDAwMDBdwqDCoCBOb3JtYWzCoMKgIFttZW0gMHgwMDAwMDAwMDgwNDAwMDAw
-LQ0KPiA+ID4gMHgwMDAwMDAwMGJmZmZmZmZmXQ0KPiA+ID4gW8KgwqDCoCAwLjAwMDAwMF0gTW92
-YWJsZSB6b25lIHN0YXJ0IGZvciBlYWNoIG5vZGUNCj4gPiA+IFvCoMKgwqAgMC4wMDAwMDBdIEVh
-cmx5IG1lbW9yeSBub2RlIHJhbmdlcw0KPiA+ID4gW8KgwqDCoCAwLjAwMDAwMF3CoMKgIG5vZGXC
-oMKgIDA6IFttZW0gMHgwMDAwMDAwMDgwNDAwMDAwLQ0KPiA+ID4gMHgwMDAwMDAwMGJmZmZmZmZm
-XQ0KPiA+ID4gW8KgwqDCoCAwLjAwMDAwMF0gSW5pdG1lbSBzZXR1cCBub2RlIDAgW21lbSAweDAw
-MDAwMDAwODA0MDAwMDAtDQo+ID4gPiAweDAwMDAwMDAwYmZmZmZmZmZdDQo+ID4gPiBbwqDCoMKg
-IDAuMDAwMDAwXSBTQkkgc3BlY2lmaWNhdGlvbiB2MC4yIGRldGVjdGVkDQo+ID4gPiBbwqDCoMKg
-IDAuMDAwMDAwXSBTQkkgaW1wbGVtZW50YXRpb24gSUQ9MHgxIFZlcnNpb249MHg4DQo+ID4gPiBb
-wqDCoMKgIDAuMDAwMDAwXSBTQkkgdjAuMiBUSU1FIGV4dGVuc2lvbiBkZXRlY3RlZA0KPiA+ID4g
-W8KgwqDCoCAwLjAwMDAwMF0gU0JJIHYwLjIgSVBJIGV4dGVuc2lvbiBkZXRlY3RlZA0KPiA+ID4g
-W8KgwqDCoCAwLjAwMDAwMF0gU0JJIHYwLjIgUkZFTkNFIGV4dGVuc2lvbiBkZXRlY3RlZA0KPiA+
-ID4gW8KgwqDCoCAwLjAwMDAwMF0gU0JJIHYwLjIgSFNNIGV4dGVuc2lvbiBkZXRlY3RlZA0KPiA+
-ID4gW8KgwqDCoCAwLjAwMDAwMF0gQ1BVIHdpdGggaGFydGlkPTAgaXMgbm90IGF2YWlsYWJsZQ0K
-PiA+ID4gW8KgwqDCoCAwLjAwMDAwMF0gQ1BVIHdpdGggaGFydGlkPTAgaXMgbm90IGF2YWlsYWJs
-ZQ0KPiA+ID4gDQo+ID4gPiBSZWdhcmRzLA0KPiA+ID4gQmluDQo+ID4gDQo+ID4gTWF5IGJlIHlv
-dSBmb3Jnb3QgdG8gYXBwbHkgdGhpcyBwYXRjaCBmb3IgMkdCIGNhc2Ugb24gdG9wIG9mDQo+ID4g
-QWxpc3RhaXIncw0KPiA+IHRyZWU/IEkgZG9uJ3Qgc2VlIGFueSBpc3N1ZXMgd2l0aCBleGFjdCBz
-YW1lIHNldHVwLg0KPiANCj4gVGhhdCdzIHJlYWxseSB3ZWlyZC4gSSBoYXZlOg0KPiANCj4gJCBn
-aXQgbG9nIC0tb25lbGluZQ0KPiAzY2VkMmZiIFJJU0MtVjogUGxhY2UgRFRCIGF0IDNHQiBib3Vu
-ZGFyeSBpbnN0ZWFkIG9mIDRHQg0KPiBkMzFlOTcwIHJpc2N2L29wZW50aXRhbjogVXBkYXRlIHRo
-ZSBPcGVuVGl0YW4gbWVtb3J5IGxheW91dA0KPiAzZWQyYjhhIGh3L3Jpc2N2OiBVc2UgdGhlIENQ
-VSB0byBkZXRlcm1pbmUgaWYgMzItYml0DQo+IDA5NGIwNzIgdGFyZ2V0L3Jpc2N2OiBjcHU6IFNl
-dCBYTEVOIGluZGVwZW5kZW50bHkgZnJvbSB0YXJnZXQNCj4gODk4N2NkYzQgdGFyZ2V0L3Jpc2N2
-OiBjc3I6IFJlbW92ZSBjb21waWxlIHRpbWUgWExFTiBjaGVja3MNCj4gDQo+IEkganVzdCByZWJ1
-aWx0IHRoZSBRRU1VIGJpbmFyaWVzIGJ1dCBzdGlsbCBoYXZlIHRoZSBzYW1lIHJlc3VsdC4gMkcN
-Cj4gZG9lcyBub3QgYm9vdCBvbiBlaXRoZXIgJ3ZpcnQnIG9yICdzaWZpdmVfdScuDQo+IA0KPiAk
-IC4vcWVtdS1zeXN0ZW0tcmlzY3YzMiAtdmVyc2lvbg0KPiBRRU1VIGVtdWxhdG9yIHZlcnNpb24g
-NS4yLjUwICh2NS4yLjAtNTUxLWczY2VkMmZiKQ0KPiBDb3B5cmlnaHQgKGMpIDIwMDMtMjAyMCBG
-YWJyaWNlIEJlbGxhcmQgYW5kIHRoZSBRRU1VIFByb2plY3QNCj4gZGV2ZWxvcGVycw0KPiANCj4g
-TWF5YmUgaXQncyB0b29sY2hhaW4gcmVsYXRlZD8gSSBhbSB1c2luZyBrZXJuZWwub3JnIHRvb2xj
-aGFpbg0KPiByaXNjdjY0LWxpbnV4LWdjYyAoR0NDKSA4LjEuMC4gSSBzZWUgeW91IHdlcmUgdXNp
-bmcNCj4gcmlzY3Y2NC11bmtub3duLWxpbnV4LWdudS1nY2MgKEdDQykgMTAuMi4wLg0KPiANCg0K
-U3RyYW5nZS4gSWYgaXQgaXMgYSB0b29sY2hhaW4gcmVsYXRlZCBpc3N1ZSwgdGhlIGNhdXNlIG1p
-Z2h0IGJlDQpjb21wbGV0ZWx5IGRpZmZlcmVudC4gQ2FuIHlvdSBnaXZlIGl0IGEgdHJ5IHRvIHdp
-dGggdXBkYXRlZCB0b29sY2hhaW4gPw0KVGhlIHByZS1idWlsdCB0b29sY2hhaW4gYXZhaWxhYmxl
-IGluIGJvb3RsaW5bMV0gaXMgMTAuMi4wLg0KDQpbMV0gaHR0cHM6Ly90b29sY2hhaW5zLmJvb3Rs
-aW4uY29tLw0KDQpDYW4gSSBkb3dubG9hZCBwcmUtYnVpbHQgZ2NjIDguMS4wIHRvb2xjaGFpbiBm
-cm9tIHNvbWV3aGVyZSA/IA0KDQo+IA0KDQo+ID4gDQo+ID4gUWVtdSBnaXQgbG9nDQo+ID4gLS0t
-LS0tDQo+ID4gODUxOTY2YzkyY2Y1IChIRUFEKSBSSVNDLVY6IFBsYWNlIERUQiBhdCAzR0IgYm91
-bmRhcnkgaW5zdGVhZCBvZg0KPiA+IDRHQg0KPiA+IGQzMWU5NzBhMDFlNyAodGFnOiBwdWxsLXJp
-c2N2LXRvLWFwcGx5LTIwMjAxMjE3LTEsIGFsaXN0YWlyL3Jpc2N2LQ0KPiA+IHRvLQ0KPiA+IGFw
-cGx5Lm5leHQsIGFsaXN0YWlyL3Jpc2N2LXRvLWFwcGx5LmZvci11cHN0cmVhbSkgcmlzY3Yvb3Bl
-bnRpdGFuOg0KPiA+IFVwZGF0ZSB0aGUgT3BlblRpdGFuIG1lbW9yeSBsYXlvdXQNCj4gPiAzZWQy
-YjhhYzJkYWMgaHcvcmlzY3Y6IFVzZSB0aGUgQ1BVIHRvIGRldGVybWluZSBpZiAzMi1iaXQNCj4g
-PiAwOTRiMDcyYzY4MTkgdGFyZ2V0L3Jpc2N2OiBjcHU6IFNldCBYTEVOIGluZGVwZW5kZW50bHkg
-ZnJvbSB0YXJnZXQNCj4gPiAtLS0tLS0tDQo+IA0KPiBSZWdhcmRzLA0KPiBCaW4NCg0KLS0gDQpS
-ZWdhcmRzLA0KQXRpc2gNCg==
+On Mon, Dec 21, 2020 at 11:47 PM Liang Li <liliang.opensource@gmail.com> wrote:
+>
+> Free page reporting only supports buddy pages, it can't report the
+> free pages reserved for hugetlbfs case. On the other hand, hugetlbfs
+> is a good choice for a system with a huge amount of RAM, because it
+> can help to reduce the memory management overhead and improve system
+> performance.
+> This patch add the support for reporting hugepages in the free list
+> of hugetlb, it canbe used by virtio_balloon driver for memory
+> overcommit and pre zero out free pages for speeding up memory population.
+>
+> Cc: Alexander Duyck <alexander.h.duyck@linux.intel.com>
+> Cc: Mel Gorman <mgorman@techsingularity.net>
+> Cc: Andrea Arcangeli <aarcange@redhat.com>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Dave Hansen <dave.hansen@intel.com>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Michal Hocko <mhocko@suse.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: Mike Kravetz <mike.kravetz@oracle.com>
+> Cc: Liang Li <liliang324@gmail.com>
+> Signed-off-by: Liang Li <liliangleo@didiglobal.com>
+> ---
+>  include/linux/hugetlb.h        |   3 +
+>  include/linux/page_reporting.h |   5 +
+>  mm/hugetlb.c                   |  29 ++++
+>  mm/page_reporting.c            | 287 +++++++++++++++++++++++++++++++++
+>  mm/page_reporting.h            |  34 ++++
+>  5 files changed, 358 insertions(+)
+>
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index ebca2ef02212..a72ad25501d3 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -11,6 +11,7 @@
+>  #include <linux/kref.h>
+>  #include <linux/pgtable.h>
+>  #include <linux/gfp.h>
+> +#include <linux/page_reporting.h>
+>
+>  struct ctl_table;
+>  struct user_struct;
+> @@ -114,6 +115,8 @@ int hugetlb_treat_movable_handler(struct ctl_table *, int, void *, size_t *,
+>  int hugetlb_mempolicy_sysctl_handler(struct ctl_table *, int, void *, size_t *,
+>                 loff_t *);
+>
+> +bool isolate_free_huge_page(struct page *page, struct hstate *h, int nid);
+> +void putback_isolate_huge_page(struct hstate *h, struct page *page);
+>  int copy_hugetlb_page_range(struct mm_struct *, struct mm_struct *, struct vm_area_struct *);
+>  long follow_hugetlb_page(struct mm_struct *, struct vm_area_struct *,
+>                          struct page **, struct vm_area_struct **,
+> diff --git a/include/linux/page_reporting.h b/include/linux/page_reporting.h
+> index 63e1e9fbcaa2..0da3d1a6f0cc 100644
+> --- a/include/linux/page_reporting.h
+> +++ b/include/linux/page_reporting.h
+> @@ -7,6 +7,7 @@
+>
+>  /* This value should always be a power of 2, see page_reporting_cycle() */
+>  #define PAGE_REPORTING_CAPACITY                32
+> +#define HUGEPAGE_REPORTING_CAPACITY    1
+>
+>  struct page_reporting_dev_info {
+>         /* function that alters pages to make them "reported" */
+> @@ -26,4 +27,8 @@ struct page_reporting_dev_info {
+>  /* Tear-down and bring-up for page reporting devices */
+>  void page_reporting_unregister(struct page_reporting_dev_info *prdev);
+>  int page_reporting_register(struct page_reporting_dev_info *prdev);
+> +
+> +/* Tear-down and bring-up for hugepage reporting devices */
+> +void hugepage_reporting_unregister(struct page_reporting_dev_info *prdev);
+> +int hugepage_reporting_register(struct page_reporting_dev_info *prdev);
+>  #endif /*_LINUX_PAGE_REPORTING_H */
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index cbf32d2824fd..de6ce147dfe2 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -41,6 +41,7 @@
+>  #include <linux/node.h>
+>  #include <linux/userfaultfd_k.h>
+>  #include <linux/page_owner.h>
+> +#include "page_reporting.h"
+>  #include "internal.h"
+>
+>  int hugetlb_max_hstate __read_mostly;
+> @@ -1028,6 +1029,11 @@ static void enqueue_huge_page(struct hstate *h, struct page *page)
+>         list_move(&page->lru, &h->hugepage_freelists[nid]);
+>         h->free_huge_pages++;
+>         h->free_huge_pages_node[nid]++;
+> +       if (hugepage_reported(page)) {
+> +               __ClearPageReported(page);
+> +               pr_info("%s, free_huge_pages=%ld\n", __func__, h->free_huge_pages);
+> +       }
+> +       hugepage_reporting_notify_free(h->order);
+>  }
+>
+>  static struct page *dequeue_huge_page_node_exact(struct hstate *h, int nid)
+> @@ -5531,6 +5537,29 @@ follow_huge_pgd(struct mm_struct *mm, unsigned long address, pgd_t *pgd, int fla
+>         return pte_page(*(pte_t *)pgd) + ((address & ~PGDIR_MASK) >> PAGE_SHIFT);
+>  }
+>
+> +bool isolate_free_huge_page(struct page *page, struct hstate *h, int nid)
+> +{
+> +       bool ret = true;
+> +
+> +       VM_BUG_ON_PAGE(!PageHead(page), page);
+> +
+> +       list_move(&page->lru, &h->hugepage_activelist);
+> +       set_page_refcounted(page);
+> +       h->free_huge_pages--;
+> +       h->free_huge_pages_node[nid]--;
+> +
+> +       return ret;
+> +}
+> +
+> +void putback_isolate_huge_page(struct hstate *h, struct page *page)
+> +{
+> +       int nid = page_to_nid(page);
+> +       pr_info("%s, free_huge_pages=%ld\n", __func__, h->free_huge_pages);
+> +       list_move(&page->lru, &h->hugepage_freelists[nid]);
+> +       h->free_huge_pages++;
+> +       h->free_huge_pages_node[nid]++;
+> +}
+> +
+>  bool isolate_huge_page(struct page *page, struct list_head *list)
+>  {
+>         bool ret = true;
+> diff --git a/mm/page_reporting.c b/mm/page_reporting.c
+> index 20ec3fb1afc4..15d4b5372df8 100644
+> --- a/mm/page_reporting.c
+> +++ b/mm/page_reporting.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/scatterlist.h>
+>  #include <linux/sched.h>
+> +#include <linux/hugetlb.h>
+>
+>  #include "page_reporting.h"
+>  #include "internal.h"
+> @@ -16,6 +17,10 @@ static struct page_reporting_dev_info __rcu *pr_dev_info __read_mostly;
+>  int page_report_mini_order = pageblock_order;
+>  unsigned long page_report_batch_size = 32 * 1024 * 1024;
+>
+> +static struct page_reporting_dev_info __rcu *hgpr_dev_info __read_mostly;
+> +int hugepage_report_mini_order = pageblock_order;
+> +unsigned long hugepage_report_batch_size = 64 * 1024 * 1024;
+> +
+>  enum {
+>         PAGE_REPORTING_IDLE = 0,
+>         PAGE_REPORTING_REQUESTED,
+> @@ -67,6 +72,24 @@ void __page_reporting_notify(void)
+>         rcu_read_unlock();
+>  }
+>
+> +/* notify prdev of free hugepage reporting request */
+> +void __hugepage_reporting_notify(void)
+> +{
+> +       struct page_reporting_dev_info *prdev;
+> +
+> +       /*
+> +        * We use RCU to protect the pr_dev_info pointer. In almost all
+> +        * cases this should be present, however in the unlikely case of
+> +        * a shutdown this will be NULL and we should exit.
+> +        */
+> +       rcu_read_lock();
+> +       prdev = rcu_dereference(hgpr_dev_info);
+> +       if (likely(prdev))
+> +               __page_reporting_request(prdev);
+> +
+> +       rcu_read_unlock();
+> +}
+> +
+>  static void
+>  page_reporting_drain(struct page_reporting_dev_info *prdev,
+>                      struct scatterlist *sgl, unsigned int nents, bool reported)
+> @@ -103,6 +126,213 @@ page_reporting_drain(struct page_reporting_dev_info *prdev,
+>         sg_init_table(sgl, nents);
+>  }
+>
+> +static void
+> +hugepage_reporting_drain(struct page_reporting_dev_info *prdev,
+> +                        struct hstate *h, struct scatterlist *sgl,
+> +                        unsigned int nents, bool reported)
+> +{
+> +       struct scatterlist *sg = sgl;
+> +
+> +       /*
+> +        * Drain the now reported pages back into their respective
+> +        * free lists/areas. We assume at least one page is populated.
+> +        */
+> +       do {
+> +               struct page *page = sg_page(sg);
+> +
+> +               putback_isolate_huge_page(h, page);
+> +
+> +               /* If the pages were not reported due to error skip flagging */
+> +               if (!reported)
+> +                       continue;
+> +
+> +               __SetPageReported(page);
+> +       } while ((sg = sg_next(sg)));
+> +
+> +       /* reinitialize scatterlist now that it is empty */
+> +       sg_init_table(sgl, nents);
+> +}
+> +
+> +/*
+> + * The page reporting cycle consists of 4 stages, fill, report, drain, and
+> + * idle. We will cycle through the first 3 stages until we cannot obtain a
+> + * full scatterlist of pages, in that case we will switch to idle.
+> + */
+> +static int
+> +hugepage_reporting_cycle(struct page_reporting_dev_info *prdev,
+> +                        struct hstate *h, unsigned int nid,
+> +                        struct scatterlist *sgl, unsigned int *offset)
+> +{
+> +       struct list_head *list = &h->hugepage_freelists[nid];
+> +       unsigned int page_len = PAGE_SIZE << h->order;
+> +       struct page *page, *next;
+> +       long budget;
+> +       int ret = 0, scan_cnt = 0;
+> +
+> +       /*
+> +        * Perform early check, if free area is empty there is
+> +        * nothing to process so we can skip this free_list.
+> +        */
+> +       if (list_empty(list))
+> +               return ret;
+> +
+> +       spin_lock_irq(&hugetlb_lock);
+> +
+> +       if (huge_page_order(h) > MAX_ORDER)
+> +               budget = HUGEPAGE_REPORTING_CAPACITY;
+> +       else
+> +               budget = HUGEPAGE_REPORTING_CAPACITY * 32;
+
+Wouldn't huge_page_order always be more than MAX_ORDER? Seems like we
+don't even really need budget since this should probably be pulling
+out no more than one hugepage at a time.
+
+
+> +       /* loop through free list adding unreported pages to sg list */
+> +       list_for_each_entry_safe(page, next, list, lru) {
+> +               /* We are going to skip over the reported pages. */
+> +               if (PageReported(page)) {
+> +                       if (++scan_cnt >= MAX_SCAN_NUM) {
+> +                               ret = scan_cnt;
+> +                               break;
+> +                       }
+> +                       continue;
+> +               }
+> +
+
+It would probably have been better to place this set before your new
+set. I don't see your new set necessarily being the best use for page
+reporting.
+
+> +               /*
+> +                * If we fully consumed our budget then update our
+> +                * state to indicate that we are requesting additional
+> +                * processing and exit this list.
+> +                */
+> +               if (budget < 0) {
+> +                       atomic_set(&prdev->state, PAGE_REPORTING_REQUESTED);
+> +                       next = page;
+> +                       break;
+> +               }
+> +
+
+If budget is only ever going to be 1 then we probably could just look
+at making this the default case for any time we find a non-reported
+page.
+
+> +               /* Attempt to pull page from list and place in scatterlist */
+> +               if (*offset) {
+> +                       isolate_free_huge_page(page, h, nid);
+> +                       /* Add page to scatter list */
+> +                       --(*offset);
+> +                       sg_set_page(&sgl[*offset], page, page_len, 0);
+> +
+> +                       continue;
+> +               }
+> +
+
+There is no point in the continue case if we only have a budget of 1.
+We should probably just tighten up the loop so that all it does is
+search until it finds the 1 page it can pull, pull it, and then return
+it. The scatterlist doesn't serve much purpose and could be reduced to
+just a single entry.
+
+> +               /*
+> +                * Make the first non-processed page in the free list
+> +                * the new head of the free list before we release the
+> +                * zone lock.
+> +                */
+> +               if (&page->lru != list && !list_is_first(&page->lru, list))
+> +                       list_rotate_to_front(&page->lru, list);
+> +
+> +               /* release lock before waiting on report processing */
+> +               spin_unlock_irq(&hugetlb_lock);
+> +
+> +               /* begin processing pages in local list */
+> +               ret = prdev->report(prdev, sgl, HUGEPAGE_REPORTING_CAPACITY);
+> +
+> +               /* reset offset since the full list was reported */
+> +               *offset = HUGEPAGE_REPORTING_CAPACITY;
+> +
+> +               /* update budget to reflect call to report function */
+> +               budget--;
+> +
+> +               /* reacquire zone lock and resume processing */
+> +               spin_lock_irq(&hugetlb_lock);
+> +
+> +               /* flush reported pages from the sg list */
+> +               hugepage_reporting_drain(prdev, h, sgl,
+> +                                        HUGEPAGE_REPORTING_CAPACITY, !ret);
+> +
+> +               /*
+> +                * Reset next to first entry, the old next isn't valid
+> +                * since we dropped the lock to report the pages
+> +                */
+> +               next = list_first_entry(list, struct page, lru);
+> +
+> +               /* exit on error */
+> +               if (ret)
+> +                       break;
+> +       }
+> +
+> +       /* Rotate any leftover pages to the head of the freelist */
+> +       if (&next->lru != list && !list_is_first(&next->lru, list))
+> +               list_rotate_to_front(&next->lru, list);
+> +
+> +       spin_unlock_irq(&hugetlb_lock);
+> +
+> +       return ret;
+> +}
+> +
+> +static int
+> +hugepage_reporting_process_hstate(struct page_reporting_dev_info *prdev,
+> +                           struct scatterlist *sgl, struct hstate *h)
+> +{
+> +       unsigned int leftover, offset = HUGEPAGE_REPORTING_CAPACITY;
+> +       int ret = 0, nid;
+> +
+> +       for (nid = 0; nid < MAX_NUMNODES; nid++) {
+> +               ret = hugepage_reporting_cycle(prdev, h, nid, sgl, &offset);
+> +
+> +               if (ret < 0)
+> +                       return ret;
+> +       }
+> +
+> +       /* report the leftover pages before going idle */
+> +       leftover = HUGEPAGE_REPORTING_CAPACITY - offset;
+> +       if (leftover) {
+> +               sgl = &sgl[offset];
+> +               ret = prdev->report(prdev, sgl, leftover);
+> +
+> +               /* flush any remaining pages out from the last report */
+> +               spin_lock_irq(&hugetlb_lock);
+> +               hugepage_reporting_drain(prdev, h, sgl, leftover, !ret);
+> +               spin_unlock_irq(&hugetlb_lock);
+> +       }
+> +
+> +       return ret;
+> +}
+> +
+
+If HUGEPAGE_REPORTING_CAPACITY is 1 it would make more sense to
+rewrite this code to just optimize for a find and process a page
+approach rather than trying to batch pages.
+
+> +static void hugepage_reporting_process(struct work_struct *work)
+> +{
+> +       struct delayed_work *d_work = to_delayed_work(work);
+> +       struct page_reporting_dev_info *prdev = container_of(d_work,
+> +                                       struct page_reporting_dev_info, work);
+> +       int err = 0, state = PAGE_REPORTING_ACTIVE;
+> +       struct scatterlist *sgl;
+> +       struct hstate *h;
+> +
+> +       /*
+> +        * Change the state to "Active" so that we can track if there is
+> +        * anyone requests page reporting after we complete our pass. If
+> +        * the state is not altered by the end of the pass we will switch
+> +        * to idle and quit scheduling reporting runs.
+> +        */
+> +       atomic_set(&prdev->state, state);
+> +
+> +       /* allocate scatterlist to store pages being reported on */
+> +       sgl = kmalloc_array(HUGEPAGE_REPORTING_CAPACITY, sizeof(*sgl), GFP_KERNEL);
+> +       if (!sgl)
+> +               goto err_out;
+> +
+> +       sg_init_table(sgl, HUGEPAGE_REPORTING_CAPACITY);
+> +
+> +       for_each_hstate(h) {
+> +               err = hugepage_reporting_process_hstate(prdev, sgl, h);
+> +               if (err)
+> +                       break;
+> +       }
+> +
+> +       kfree(sgl);
+> +err_out:
+> +       /*
+> +        * If the state has reverted back to requested then there may be
+> +        * additional pages to be processed. We will defer for 2s to allow
+> +        * more pages to accumulate.
+> +        */
+> +       state = atomic_cmpxchg(&prdev->state, state, PAGE_REPORTING_IDLE);
+> +       if (state == PAGE_REPORTING_REQUESTED)
+> +               schedule_delayed_work(&prdev->work, prdev->delay_jiffies);
+> +}
+> +
+>  /*
+>   * The page reporting cycle consists of 4 stages, fill, report, drain, and
+>   * idle. We will cycle through the first 3 stages until we cannot obtain a
+> @@ -341,6 +571,9 @@ static void page_reporting_process(struct work_struct *work)
+>  static DEFINE_MUTEX(page_reporting_mutex);
+>  DEFINE_STATIC_KEY_FALSE(page_reporting_enabled);
+>
+> +static DEFINE_MUTEX(hugepage_reporting_mutex);
+> +DEFINE_STATIC_KEY_FALSE(hugepage_reporting_enabled);
+> +
+>  int page_reporting_register(struct page_reporting_dev_info *prdev)
+>  {
+>         int err = 0;
+> @@ -395,3 +628,57 @@ void page_reporting_unregister(struct page_reporting_dev_info *prdev)
+>         mutex_unlock(&page_reporting_mutex);
+>  }
+>  EXPORT_SYMBOL_GPL(page_reporting_unregister);
+> +
+> +int hugepage_reporting_register(struct page_reporting_dev_info *prdev)
+> +{
+> +       int err = 0;
+> +
+> +       mutex_lock(&hugepage_reporting_mutex);
+> +
+> +       /* nothing to do if already in use */
+> +       if (rcu_access_pointer(hgpr_dev_info)) {
+> +               err = -EBUSY;
+> +               goto err_out;
+> +       }
+> +
+> +       /* initialize state and work structures */
+> +       atomic_set(&prdev->state, PAGE_REPORTING_IDLE);
+> +       INIT_DELAYED_WORK(&prdev->work, &hugepage_reporting_process);
+> +
+> +       /* Begin initial flush of zones */
+> +       __page_reporting_request(prdev);
+> +
+> +       /* Assign device to allow notifications */
+> +       rcu_assign_pointer(hgpr_dev_info, prdev);
+> +
+> +       hugepage_report_mini_order = prdev->mini_order;
+> +       hugepage_report_batch_size = prdev->batch_size;
+> +
+> +       /* enable hugepage reporting notification */
+> +       if (!static_key_enabled(&hugepage_reporting_enabled)) {
+> +               static_branch_enable(&hugepage_reporting_enabled);
+> +               pr_info("Free hugepage reporting enabled\n");
+> +       }
+> +err_out:
+> +       mutex_unlock(&hugepage_reporting_mutex);
+> +
+> +       return err;
+> +}
+> +EXPORT_SYMBOL_GPL(hugepage_reporting_register);
+> +
+> +void hugepage_reporting_unregister(struct page_reporting_dev_info *prdev)
+> +{
+> +       mutex_lock(&hugepage_reporting_mutex);
+> +
+> +       if (rcu_access_pointer(hgpr_dev_info) == prdev) {
+> +               /* Disable page reporting notification */
+> +               RCU_INIT_POINTER(hgpr_dev_info, NULL);
+> +               synchronize_rcu();
+> +
+> +               /* Flush any existing work, and lock it out */
+> +               cancel_delayed_work_sync(&prdev->work);
+> +       }
+> +
+> +       mutex_unlock(&hugepage_reporting_mutex);
+> +}
+> +EXPORT_SYMBOL_GPL(hugepage_reporting_unregister);
+> diff --git a/mm/page_reporting.h b/mm/page_reporting.h
+> index 86ac6ffad970..271c64c3c3cb 100644
+> --- a/mm/page_reporting.h
+> +++ b/mm/page_reporting.h
+> @@ -18,12 +18,24 @@ extern unsigned long page_report_batch_size;
+>  DECLARE_STATIC_KEY_FALSE(page_reporting_enabled);
+>  void __page_reporting_notify(void);
+>
+> +extern int hugepage_report_mini_order;
+> +extern unsigned long hugepage_report_batch_size;
+> +
+> +DECLARE_STATIC_KEY_FALSE(hugepage_reporting_enabled);
+> +void __hugepage_reporting_notify(void);
+> +
+>  static inline bool page_reported(struct page *page)
+>  {
+>         return static_branch_unlikely(&page_reporting_enabled) &&
+>                PageReported(page);
+>  }
+>
+> +static inline bool hugepage_reported(struct page *page)
+> +{
+> +       return static_branch_unlikely(&hugepage_reporting_enabled) &&
+> +              PageReported(page);
+> +}
+> +
+>  /**
+>   * page_reporting_notify_free - Free page notification to start page processing
+>   *
+> @@ -52,11 +64,33 @@ static inline void page_reporting_notify_free(unsigned int order)
+>                 __page_reporting_notify();
+>         }
+>  }
+> +
+> +static inline void hugepage_reporting_notify_free(unsigned int order)
+> +{
+> +       static long batch_size = 0;
+> +
+> +       if (!static_branch_unlikely(&hugepage_reporting_enabled))
+> +               return;
+> +
+> +       /* Determine if we have crossed reporting threshold */
+> +       if (order < hugepage_report_mini_order)
+> +               return;
+> +
+> +       batch_size += (1 << order) << PAGE_SHIFT;
+> +       if (batch_size >= hugepage_report_batch_size) {
+> +               batch_size = 0;
+> +               __hugepage_reporting_notify();
+> +       }
+> +}
+>  #else /* CONFIG_PAGE_REPORTING */
+>  #define page_reported(_page)   false
+>
+>  static inline void page_reporting_notify_free(unsigned int order)
+>  {
+>  }
+> +
+> +static inline void hugepage_reporting_notify_free(unsigned int order)
+> +{
+> +}
+>  #endif /* CONFIG_PAGE_REPORTING */
+>  #endif /*_MM_PAGE_REPORTING_H */
+> --
+> 2.18.2
+>
+>
 
