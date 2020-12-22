@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00AF52E08BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 11:27:03 +0100 (CET)
-Received: from localhost ([::1]:36962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 803D12E08BD
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 11:28:03 +0100 (CET)
+Received: from localhost ([::1]:39146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kresg-0006Ka-3h
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 05:27:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33884)
+	id 1krete-0007HD-Ji
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 05:28:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kreqU-0005MK-Kl
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 05:24:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41007)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kresk-0006kh-2Z
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 05:27:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59092)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kreqS-000870-Hj
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 05:24:46 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kresh-0000U0-PR
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 05:27:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608632683;
+ s=mimecast20190719; t=1608632822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VoLE+3ntGgagTDaie0WLPKJ3KP1Axyh/KLc0WciPQlU=;
- b=PB2r27UHOjK/XPoFvOWw7g/oq5QXXLboGGtVTkh7G9tYFqx3Yr1U0CKLwvswXAMwOmnJQw
- pYlen2kkXMOyM7xHGA5Elgw91kQ4HRrmpmkxREMYlWxmzWzwiiiB1nopu5dwU/Bf+ePhK0
- Uq2gXCrvS2p7r6Nl5doIW5i2k9G+QDA=
+ bh=CPvIkB5AAXMYM06eBlBc8vxjILcQS3bm7GIWQAn7BpI=;
+ b=WXjfTrnJpvTlVbcBdmAmZ6+dGkzk6egFU4DmYat+6ybUfyYTb+QpUyWIFhW4ziAlO7wCxe
+ nGKPpGNJ8KBBztFuKXFKduB5p6iEnLHoA0oYtec9SOgXQ7ikGoAFEtaciyPEcZEKnBFQis
+ 6ALA+FwzHVKzcKbcE1FpXVhHc0/CgeU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-kbtSm4WXN6e7KCHj_ucTow-1; Tue, 22 Dec 2020 05:24:40 -0500
-X-MC-Unique: kbtSm4WXN6e7KCHj_ucTow-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-277-SEhc4TNOODS3zZTF-Hr2Mw-1; Tue, 22 Dec 2020 05:27:00 -0500
+X-MC-Unique: SEhc4TNOODS3zZTF-Hr2Mw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E877801AA5;
- Tue, 22 Dec 2020 10:24:38 +0000 (UTC)
-Received: from localhost (ovpn-112-56.ams2.redhat.com [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB3536E707;
- Tue, 22 Dec 2020 10:24:27 +0000 (UTC)
-Date: Tue, 22 Dec 2020 10:24:26 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: elena.ufimtseva@oracle.com
-Subject: Re: [PATCH v14 RESEND 08/21] multi-process: add qio channel write
- function
-Message-ID: <20201222102426.GB105660@stefanha-x1.localdomain>
-References: <cover.1608263017.git.elena.ufimtseva@oracle.com>
- <5c5ef9d87f35255e626055af353fbc62517773ca.1608263018.git.elena.ufimtseva@oracle.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75371800D62;
+ Tue, 22 Dec 2020 10:26:59 +0000 (UTC)
+Received: from gondolin (ovpn-113-192.ams2.redhat.com [10.36.113.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 173EC794CF;
+ Tue, 22 Dec 2020 10:26:49 +0000 (UTC)
+Date: Tue, 22 Dec 2020 11:26:47 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v4] tests/acceptance: Add a test with the Fedora 31
+ kernel and initrd
+Message-ID: <20201222112647.78066319.cohuck@redhat.com>
+In-Reply-To: <20201221143423.23607-1-thuth@redhat.com>
+References: <20201221143423.23607-1-thuth@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <5c5ef9d87f35255e626055af353fbc62517773ca.1608263018.git.elena.ufimtseva@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gatW/ieO32f1wygP"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -67,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,53 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
- felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
- konrad.wilk@oracle.com, dgilbert@redhat.com, alex.williamson@redhat.com,
- pbonzini@redhat.com, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com
+Cc: Willian Rampazzo <willianr@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---gatW/ieO32f1wygP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 21 Dec 2020 15:34:23 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-On Thu, Dec 17, 2020 at 09:40:38PM -0800, elena.ufimtseva@oracle.com wrote:
-> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
->=20
-> Adds qio_channel_writev_full_all() to transmit both data and FDs.
-> Refactors existing code to use this function.
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> This initrd contains a virtio-net and a virtio-gpu kernel module,
+> so we can check that we can set a MAC address for the network device
+> and whether we can hot-plug and -unplug a virtio-crypto device.
+> But the most interesting part is maybe that we can also successfully
+> write some stuff into the emulated framebuffer of the virtio-gpu
+> device and make sure that we can read back that data from a screenshot.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  include/io/channel.h | 25 +++++++++++++++++++++++++
->  io/channel.c         | 17 ++++++++++++++++-
->  2 files changed, 41 insertions(+), 1 deletion(-)
+>  v4:
+>  - Run lscss twice, just to be sure
+> 
+>  tests/acceptance/machine_s390_ccw_virtio.py | 110 ++++++++++++++++++++
+>  1 file changed, 110 insertions(+)
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---gatW/ieO32f1wygP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/hyVoACgkQnKSrs4Gr
-c8gBvAf/dDvd7cr+6dFi0NiPG2gJeltVCgK6ERL5iulpLoJbi+W6BUIU/28qB2GC
-xzuyvRZZS18qL5seW7eOldBpQ5/wMdy8R9XXSJFc27m6JBhYVVXSW1X+bRlx5ZMG
-IR3KRjCKjdv4TwX0N6DEZl9HziNwaXt+WIGFELMSKw1cBIdOgGB6gkTz2ZvceC9J
-ByyfePUqJ1VVSJlYArI4URw02TuZ02XYmMjC0xqHdkxj4mw67s6UKmRfiIjqO5yi
-ql2nYgih2BwzcYpyESM4dE9X/6Mt8OylQiwhsfKEOGV7aHN5I8aI6J7ld46m7D9u
-G/OXc4m+nHrNcpcwaODDGSiVOcX/Cw==
-=YyJI
------END PGP SIGNATURE-----
-
---gatW/ieO32f1wygP--
+Thanks, applied.
 
 
