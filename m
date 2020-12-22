@@ -2,45 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB712E0D8B
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 17:50:08 +0100 (CET)
-Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A06EF2E0DA5
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 18:06:53 +0100 (CET)
+Received: from localhost ([::1]:53360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krkrP-0005QZ-6B
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 11:50:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54054)
+	id 1krl7c-000565-7V
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 12:06:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1krkpp-0004uS-N0
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 11:48:29 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:44602)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1krl2Y-00016e-O1; Tue, 22 Dec 2020 12:01:42 -0500
+Resent-Date: Tue, 22 Dec 2020 12:01:38 -0500
+Resent-Message-Id: <E1krl2Y-00016e-O1@lists.gnu.org>
+Received: from sender3-of-o53.zoho.com ([136.143.184.53]:21397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1krkpn-0006b3-Ee
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 11:48:29 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: pool-72-93-72-163.bstnma.fios.verizon.net [72.93.72.163]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 0BMGlxDB029423
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Tue, 22 Dec 2020 11:48:05 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Qiuhao Li <Qiuhao.Li@outlook.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/4] fuzz: refine crash detection mechanism
-In-Reply-To: <ME3P282MB14924A6558A105B7FBFA579DFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
-References: <ME3P282MB1492BFA2302041F2AB420EBEFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
- <ME3P282MB14924A6558A105B7FBFA579DFCC20@ME3P282MB1492.AUSP282.PROD.OUTLOOK.COM>
-Date: Tue, 22 Dec 2020 11:47:59 -0500
-Message-ID: <87a6u5kcsg.fsf@stormtrooper.vrmnet>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1krl2R-0003Hr-9i; Tue, 22 Dec 2020 12:01:37 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1608656451; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=VScYAuP9XxJ9vSDQxHJhtLdmysvsjDoaHQ2jttq3Ya+OwCzYDYYUW/wJR4qYSV8RN8HBm526fjBvl7gfp0+h/bI3YAmv4q5NJbrY5nsccmSIU8ALRZ905bQ5oWDZdZkkqzMrEfKchIs+NFfiqFxcLJ7x4R4KHXqrKsmcDCAqogM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1608656451;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=ubtLE1Td36g1NgzEQrf99+ENjGFzdLki50lsUe4xFHY=; 
+ b=P8psTkIXEC6cdgtLDYFJihiolNnGf201KqDoMNmKCLrbYfL2O55J8mlJvfDXk24Q5vs+w9U2iK3SKyIE9w21oaBQ6zXbfiF47Yqm5lGUsOIzPFjbTibSgYsLT+ge5vd1AaFRa75ZW1oprAJtikFXTpvU8/R2xIdUHp2oynSk44g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1608656446716195.89445185927593;
+ Tue, 22 Dec 2020 09:00:46 -0800 (PST)
+In-Reply-To: <20201222082340.67405-1-zhanghan64@huawei.com>
+Subject: Re: [PATCH 0/9] Fix some style problems in net
+Message-ID: <160865644490.22007.1893392783918998373@600e7e483b3a>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: zhanghan64@huawei.com
+Date: Tue, 22 Dec 2020 09:00:46 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.184.53; envelope-from=no-reply@patchew.org;
+ helo=sender3-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,181 +65,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: darren.kenny@oracle.com, bsd@redhat.com, thuth@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: hang.zhanghailiang@huawei.com, hunongda@huawei.com, qemu-trivial@nongnu.org,
+ jasowang@redhat.com, qemu-devel@nongnu.org, alex.chen@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Oops let me try to resend this..
-
-Qiuhao Li <Qiuhao.Li@outlook.com> writes:
-
-> The original crash detection method is to fork a process to test our new
-> trace input. If the child process exits in time and the second-to-last line
-> is the same as the first crash, we think it is a crash triggered by the same
-> bug. However, in some situations, it doesn't work since it is a
-> hardcoded-offset string comparison.
->
-> For example, suppose an assertion failure makes the crash. In that case, the
-> second-to-last line will be 'timeout: the monitored command dumped core',
->
-
-Ah - I have not encountered this message. Are you running an
---enable-sanitizers build? I believe ASAN disables coredumps, by
-default. I have to turn them on with:
-ASAN_OPTIONS=abort_on_error=1:disable_coredump=0:unmap_shadow_on_exit=1
-
-Maybe this is a matter of setting the correct env variables/disabling
-coredumps?
-
-I like the idea of switching out CRASH_TOKEN for a regex, however I am
-not sure about using the hardcoded crash_patterns to perform matching:
-
-1.) You risk missing some crash pattern. E.g. I don't think
-abort()/hw_error() are covered right now.
-2.) At some point ASAN/compiler-rt might change the way it outputs
-crashes.
-
-I think the current lines[-2] approach is ugly, but it is small, works
-in most cases (when coredumps are disabled), and has a simple
-CRASH_TOKEN fallback mechanism. We should fix the coredump problem.
-
-Is there any way to do this without hardcoding patterns (or at least
-fall-back to something if you don't find a pattern)?
-
--Alex
-
-> which doesn't contain any information about the assertion failure like where
-> it happened or the assertion statement. This may lead to a minimized input
-> triggers assertion failure but may indicate another bug. As for some
-> sanitizers' crashes, the direct string comparison may stop us from getting a
-> smaller input, since they may have a different leaf stack frame.
->
-> Perhaps we can detect crashes using both precise output string comparison
-> and rough pattern string match and info the user when the trace input
-> triggers different but a seminar output.
->
-> Tested:
-> Assertion failure, https://bugs.launchpad.net/qemu/+bug/1908062
-> AddressSanitizer, https://bugs.launchpad.net/qemu/+bug/1907497
-> Trace input that doesn't crash
-> Trace input that crashes Qtest
->
-> Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-> ---
->  scripts/oss-fuzz/minimize_qtest_trace.py | 59 ++++++++++++++++++------
->  1 file changed, 46 insertions(+), 13 deletions(-)
->
-> diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-> index 5e405a0d5f..d3b09e6567 100755
-> --- a/scripts/oss-fuzz/minimize_qtest_trace.py
-> +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-> @@ -10,11 +10,16 @@ import os
->  import subprocess
->  import time
->  import struct
-> +import re
->
->  QEMU_ARGS = None
->  QEMU_PATH = None
->  TIMEOUT = 5
-> -CRASH_TOKEN = None
-> +
-> +crash_patterns = ("Assertion.+failed",
-> +                  "SUMMARY.+Sanitizer")
-> +crash_pattern = None
-> +crash_string = None
->
->  write_suffix_lookup = {"b": (1, "B"),
->                         "w": (2, "H"),
-> @@ -24,13 +29,12 @@ write_suffix_lookup = {"b": (1, "B"),
->  def usage():
->      sys.exit("""\
->  Usage: QEMU_PATH="/path/to/qemu" QEMU_ARGS="args" {} input_trace output_trace
-> -By default, will try to use the second-to-last line in the output to identify
-> -whether the crash occred. Optionally, manually set a string that idenitifes the
-> -crash by setting CRASH_TOKEN=
-> +By default, we will try to search predefined crash patterns through the
-> +tracing output to see whether the crash occred. Optionally, manually set a
-> +string that idenitifes the crash by setting CRASH_PATTERN=
->  """.format((sys.argv[0])))
->
->  def check_if_trace_crashes(trace, path):
-> -    global CRASH_TOKEN
->      with open(path, "w") as tracefile:
->          tracefile.write("".join(trace))
->
-> @@ -42,17 +46,47 @@ def check_if_trace_crashes(trace, path):
->                            shell=True,
->                            stdin=subprocess.PIPE,
->                            stdout=subprocess.PIPE)
-> +    if rc.returncode == 137:    # Timed Out
-> +        return False
-> +
->      stdo = rc.communicate()[0]
->      output = stdo.decode('unicode_escape')
->      > -    if rc.returncode == 137:    # Timed Out
-> -        return False
-> -    if len(output.splitlines()) < 2:
-> +    output_lines = output.splitlines()
-> +    # Usually we care about the summary info in the last few lines, reverse.
-> +    output_lines.reverse()
-> +
-> +    global crash_pattern, crash_patterns, crash_string
-> +    if crash_pattern is None: # Initialization
-> +        for line in output_lines:
-> +            for c in crash_patterns:
-> +                if re.search(c, line) is not None:
-> +                    crash_pattern = c
-> +                    crash_string = line
-> +                    print("Identifying crash pattern by this string: ",\
-> +                          crash_string)
-> +                    print("Using regex pattern: ", crash_pattern)
-> +                    return True
-> +        print("Failed to initialize crash pattern: no match.")
->          return False
->
-> -    if CRASH_TOKEN is None:
-> -        CRASH_TOKEN = output.splitlines()[-2]
-> +    # First, we search exactly the previous crash string.
-> +    for line in output_lines:
-> +        if crash_string == line:
-> +            return True
-> +
-> +    # Then we decide whether a similar (same pattern) crash happened.
-> +    # Slower now :(
-> +    for line in output_lines:
-> +        if re.search(crash_pattern, line) is not None:
-> +            print("\nINFO: The crash string changed during our minimization process.")
-> +            print("Before: ", crash_string)
-> +            print("After: ", line)
-> +            print("The original regex pattern can still match, updated the crash string.")
-> +            crash_string = line
-> +            return True
->
-> -    return CRASH_TOKEN in output
-> +    # The input did not trigger (the same type) bug.
-> +    return False
->
->
->  def minimize_trace(inpath, outpath):
-> @@ -66,7 +100,6 @@ def minimize_trace(inpath, outpath):
->      print("Crashed in {} seconds".format(end-start))
->      TIMEOUT = (end-start)*5
->      print("Setting the timeout for {} seconds".format(TIMEOUT))
-> -    print("Identifying Crashes by this string: {}".format(CRASH_TOKEN))
->
->      i = 0
->      newtrace = trace[:]
-> @@ -152,6 +185,6 @@ if __name__ == '__main__':
->          usage()
->      # if "accel" not in QEMU_ARGS:
->      #     QEMU_ARGS += " -accel qtest"
-> -    CRASH_TOKEN = os.getenv("CRASH_TOKEN")
-> +    crash_pattern = os.getenv("CRASH_PATTERN")
->      QEMU_ARGS += " -qtest stdio -monitor none -serial none "
->      minimize_trace(sys.argv[1], sys.argv[2])
-> --
-> 2.25.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIyMjA4MjM0MC42NzQw
+NS0xLXpoYW5naGFuNjRAaHVhd2VpLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAxMjIyMDgyMzQwLjY3
+NDA1LTEtemhhbmdoYW42NEBodWF3ZWkuY29tClN1YmplY3Q6IFtQQVRDSCAwLzldIEZpeCBzb21l
+IHN0eWxlIHByb2JsZW1zIGluIG5ldAoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4v
+YmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcg
+LS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1l
+cyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3Jp
+cHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9
+PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJv
+bSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0gW3RhZyB1cGRhdGVd
+ICAgICAgcGF0Y2hldy8yMDIwMTIyMTEzNDkzMS4xMTk0ODA2LTEtZGF2aWQuZWRtb25kc29uQG9y
+YWNsZS5jb20gLT4gcGF0Y2hldy8yMDIwMTIyMTEzNDkzMS4xMTk0ODA2LTEtZGF2aWQuZWRtb25k
+c29uQG9yYWNsZS5jb20KICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMTIyMjA4MjM0
+MC42NzQwNS0xLXpoYW5naGFuNjRAaHVhd2VpLmNvbSAtPiBwYXRjaGV3LzIwMjAxMjIyMDgyMzQw
+LjY3NDA1LTEtemhhbmdoYW42NEBodWF3ZWkuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAn
+dGVzdCcKYTFlODAzMSBuZXQ6IEZpeCB0aGUgaW5kZW50IHByb2JsZW1zCjNhOWEyMzUgbmV0OiBS
+ZW1vdmUgaW5pdGlhbGl6YXRpb24gb2Ygc3RhdGljIGludHMKZTFjMzZlMSBuZXQ6IFJlbW92ZSBh
+c3NpZ25tZW50IGluIGlmIGNvbmRpdGlvbgo1NWZjNTY3IG5ldDogVHJhbnNmZXIgdGFicyB0byBz
+cGNhZXMKYzk2ZWM4ZSBuZXQ6IEZpeCBsaW5lcyBvdmVyIDkwIGNoYXJhY3RlcnMKYTliMjUwMiBu
+ZXQ6IFRyYW5zZmVyICJmb28qICIgdG8gImZvbyAqIgo5ZGQ1YjgwIG5ldDogVHJhbnNmZXIgLy8g
+Y29tbWVudHMgdG8gLyoqLwpjYjVhNjYzIG5ldDogQWRkIGJyYWNlcyBmb3Igc3RhdGVtZW50cy9m
+aXggYnJhY2VzJyBwb3NpdGlvbgozMjU2ZDU4IG5ldDogQWRkIHNwYWNlcyBhcm91bmQgb3BlcmF0
+b3IvZGVsZXRlIHJlZHVuZGFudCBzcGFjZXMKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvOSBDaGVj
+a2luZyBjb21taXQgMzI1NmQ1ODlkNDdjIChuZXQ6IEFkZCBzcGFjZXMgYXJvdW5kIG9wZXJhdG9y
+L2RlbGV0ZSByZWR1bmRhbnQgc3BhY2VzKQpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3Nhcnkg
+Zm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiMyNDogRklMRTogbmV0L2NoZWNrc3VtLmM6
+NDQ6CisgICAgd2hpbGUgKHN1bSA+PiAxNikKWy4uLl0KCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5k
+ZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRzICg0LCA3KQojMTI4OiBGSUxFOiBuZXQvdGFw
+LXNvbGFyaXMuYzo3ODoKKyAgICBpZiAoKmRldikgewogICAgICAgIHB0ciA9IGRldjsKCkVSUk9S
+OiB0cmFpbGluZyBzdGF0ZW1lbnRzIHNob3VsZCBiZSBvbiBuZXh0IGxpbmUKIzEzMTogRklMRTog
+bmV0L3RhcC1zb2xhcmlzLmM6ODA6CisgICAgICAgd2hpbGUgKCpwdHIgJiYgIXFlbXVfaXNkaWdp
+dCgoaW50KSpwdHIpKSBwdHIrKzsKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3Ig
+YWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzEzMTogRklMRTogbmV0L3RhcC1zb2xhcmlzLmM6
+ODA6CisgICAgICAgd2hpbGUgKCpwdHIgJiYgIXFlbXVfaXNkaWdpdCgoaW50KSpwdHIpKSBwdHIr
+KzsKWy4uLl0KCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0
+ZW1lbnRzICg0LCA3KQojMTM3OiBGSUxFOiBuZXQvdGFwLXNvbGFyaXMuYzo4NToKKyAgICBpZiAo
+aXBfZmQpCiAgICAgICAgY2xvc2UoaXBfZmQpOwoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNz
+YXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMTM3OiBGSUxFOiBuZXQvdGFwLXNv
+bGFyaXMuYzo4NToKKyAgICBpZiAoaXBfZmQpClsuLi5dCgpFUlJPUjogZG8gbm90IHVzZSBhc3Np
+Z25tZW50IGluIGlmIGNvbmRpdGlvbgojMTQ2OiBGSUxFOiBuZXQvdGFwLXNvbGFyaXMuYzoxMDU6
+CisgICAgaWYgKChwcGEgPSBpb2N0bCh0YXBfZmQsIElfU1RSLCAmc3RyaW9jX3BwYSkpIDwgMCkK
+CkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0
+ZW1lbnQKIzE0NjogRklMRTogbmV0L3RhcC1zb2xhcmlzLmM6MTA1OgorICAgIGlmICgocHBhID0g
+aW9jdGwodGFwX2ZkLCBJX1NUUiwgJnN0cmlvY19wcGEpKSA8IDApClsuLi5dCgpFUlJPUjogYnJh
+Y2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiMxNzE6
+IEZJTEU6IG5ldC90YXAtc29sYXJpcy5jOjEyNzoKKyAgICBpZiAoaW9jdGwoaWZfZmQsIFNJT0NT
+TElGTkFNRSwgJmlmcikgPCAwKQpbLi4uXQoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5
+IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMTc0OiBGSUxFOiBuZXQvdGFwLXNvbGFy
+aXMuYzoxMjk6CisgICAgaWYgKGlvY3RsKGlmX2ZkLCBTSU9DR0xJRkZMQUdTLCAmaWZyKSA8IDAp
+ClsuLi5dCgpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRo
+aXMgc3RhdGVtZW50CiMxNzg6IEZJTEU6IG5ldC90YXAtc29sYXJpcy5jOjEzMjoKKyAgICBpZiAo
+aW9jdGwoaWZfZmQsIElfUFVTSCwgImFycCIpIDwgMCkKWy4uLl0KCkVSUk9SOiBicmFjZXMge30g
+YXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzE4MzogRklMRTog
+bmV0L3RhcC1zb2xhcmlzLmM6MTM2OgorICAgIGlmIChpb2N0bChpcF9mZCwgSV9QT1AsIE5VTEwp
+IDwgMCkKWy4uLl0KCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMg
+b2YgdGhpcyBzdGF0ZW1lbnQKIzE4NjogRklMRTogbmV0L3RhcC1zb2xhcmlzLmM6MTM4OgorICAg
+IGlmIChpb2N0bChpcF9mZCwgSV9QVVNILCAiYXJwIikgPCAwKQpbLi4uXQoKRVJST1I6IGRvIG5v
+dCB1c2UgYXNzaWdubWVudCBpbiBpZiBjb25kaXRpb24KIzIwNDogRklMRTogbmV0L3RhcC1zb2xh
+cmlzLmM6MTU0OgorICAgIGlmICgoaXBfbXV4aWQgPSBpb2N0bChpcF9mZCwgSV9MSU5LLCBpZl9m
+ZCkpIDwgMCkgewoKRVJST1I6IGRvIG5vdCB1c2UgYXNzaWdubWVudCBpbiBpZiBjb25kaXRpb24K
+IzIxMDogRklMRTogbmV0L3RhcC1zb2xhcmlzLmM6MTU5OgorICAgIGlmICgoYXJwX211eGlkID0g
+aW9jdGwoaXBfZmQsIGxpbmtfdHlwZSwgYXJwX2ZkKSkgPCAwKQoKRVJST1I6IGJyYWNlcyB7fSBh
+cmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMjEwOiBGSUxFOiBu
+ZXQvdGFwLXNvbGFyaXMuYzoxNTk6CisgICAgaWYgKChhcnBfbXV4aWQgPSBpb2N0bChpcF9mZCwg
+bGlua190eXBlLCBhcnBfZmQpKSA8IDApClsuLi5dCgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVu
+dCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAoNCwgNikKIzIyMjogRklMRTogbmV0L3RhcC1z
+b2xhcmlzLmM6MTY5OgorICAgIGlmIChpb2N0bChpcF9mZCwgU0lPQ1NMSUZNVVhJRCwgJmlmcikg
+PCAwKQogICAgIHsKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMjk3OiBGSUxFOiBu
+ZXQvdGFwLXdpbjMyLmM6MTc0Ogorc3RhdGljIHR1bl9idWZmZXJfdCogZ2V0X2J1ZmZlcl9mcm9t
+X291dHB1dF9xdWV1ZV9pbW1lZGlhdGUodGFwX3dpbjMyX292ZXJsYXBwZWRfdCogY29uc3Qgb3Zl
+cmxhcHBlZCkKCkVSUk9SOiAiZm9vKiBiYXIiIHNob3VsZCBiZSAiZm9vICpiYXIiCiMyOTc6IEZJ
+TEU6IG5ldC90YXAtd2luMzIuYzoxNzQ6CitzdGF0aWMgdHVuX2J1ZmZlcl90KiBnZXRfYnVmZmVy
+X2Zyb21fb3V0cHV0X3F1ZXVlX2ltbWVkaWF0ZSh0YXBfd2luMzJfb3ZlcmxhcHBlZF90KiBjb25z
+dCBvdmVybGFwcGVkKQoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMwNjogRklM
+RTogbmV0L3RhcC13aW4zMi5jOjE4MzoKKyAgICBpZiAob3ZlcmxhcHBlZC0+b3V0cHV0X3F1ZXVl
+X2Zyb250ID09IE5VTEwgJiYgb3ZlcmxhcHBlZC0+b3V0cHV0X3F1ZXVlX2JhY2sgPT0gTlVMTCkg
+ewoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0
+YXRlbWVudAojNDE2OiBGSUxFOiBuZXQvdGFwLXdpbjMyLmM6NDU4OgorICAgIGlmICghb3Zlcmxh
+cHBlZC0+dGFwX3NlbWFwaG9yZSkKWy4uLl0KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0
+ZXJzCiM0MjU6IEZJTEU6IG5ldC90YXAtd2luMzIuYzo0NzA6CisgICAgcmVzdWx0ID0gR2V0T3Zl
+cmxhcHBlZFJlc3VsdChvdmVybGFwcGVkLT5oYW5kbGUsICZvdmVybGFwcGVkLT53cml0ZV9vdmVy
+bGFwcGVkLAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzQzNDogRklMRTogbmV0
+L3RhcC13aW4zMi5jOjUwMzoKKyAgICAgICAgRm9ybWF0TWVzc2FnZShGT1JNQVRfTUVTU0FHRV9B
+TExPQ0FURV9CVUZGRVIgfCBGT1JNQVRfTUVTU0FHRV9GUk9NX1NZU1RFTSwKCkVSUk9SOiBsaW5l
+IG92ZXIgOTAgY2hhcmFjdGVycwojNDQzOiBGSUxFOiBuZXQvdGFwLXdpbjMyLmM6NTM0OgorICAg
+ICAgICAgICAgICAgIHJlc3VsdCA9IEdldE92ZXJsYXBwZWRSZXN1bHQob3ZlcmxhcHBlZC0+aGFu
+ZGxlLCAmb3ZlcmxhcHBlZC0+cmVhZF9vdmVybGFwcGVkLAoKRVJST1I6IGxpbmUgb3ZlciA5MCBj
+aGFyYWN0ZXJzCiM0NTA6IEZJTEU6IG5ldC90YXAtd2luMzIuYzo1NDA6CisgICAgICAgICAgICAg
+ICAgICAgIEZvcm1hdE1lc3NhZ2UoRk9STUFUX01FU1NBR0VfQUxMT0NBVEVfQlVGRkVSIHwgRk9S
+TUFUX01FU1NBR0VfRlJPTV9TWVNURU0sCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
+cwojNDYzOiBGSUxFOiBuZXQvdGFwLXdpbjMyLmM6NTUwOgorICAgICAgICAgICAgICAgIEZvcm1h
+dE1lc3NhZ2UoRk9STUFUX01FU1NBR0VfQUxMT0NBVEVfQlVGRkVSIHwgRk9STUFUX01FU1NBR0Vf
+RlJPTV9TWVNURU0sCgp0b3RhbDogMjIgZXJyb3JzLCA0IHdhcm5pbmdzLCA0NTcgbGluZXMgY2hl
+Y2tlZAoKUGF0Y2ggMS85IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFu
+eSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUg
+bWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyLzkgQ2hlY2tpbmcg
+Y29tbWl0IGNiNWE2NjMyNjI0YSAobmV0OiBBZGQgYnJhY2VzIGZvciBzdGF0ZW1lbnRzL2ZpeCBi
+cmFjZXMnIHBvc2l0aW9uKQpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9u
+YWwgc3RhdGVtZW50cyAoNywgMTEpCiMyNTE6IEZJTEU6IG5ldC90YXAtc29sYXJpcy5jOjgwOgor
+ICAgICAgIHdoaWxlICgqcHRyICYmICFxZW11X2lzZGlnaXQoKGludCkqcHRyKSkgeworICAgICAg
+ICAgICBwdHIrKzsKCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBz
+dGF0ZW1lbnRzICg0LCA3KQojMjU5OiBGSUxFOiBuZXQvdGFwLXNvbGFyaXMuYzo4NzoKKyAgICBp
+ZiAoaXBfZmQpIHsKICAgICAgICBjbG9zZShpcF9mZCk7CgpFUlJPUjogZG8gbm90IHVzZSBhc3Np
+Z25tZW50IGluIGlmIGNvbmRpdGlvbgojMjcwOiBGSUxFOiBuZXQvdGFwLXNvbGFyaXMuYzoxMDg6
+CisgICAgaWYgKChwcGEgPSBpb2N0bCh0YXBfZmQsIElfU1RSLCAmc3RyaW9jX3BwYSkpIDwgMCkg
+ewoKRVJST1I6IGRvIG5vdCB1c2UgYXNzaWdubWVudCBpbiBpZiBjb25kaXRpb24KIzMyODogRklM
+RTogbmV0L3RhcC1zb2xhcmlzLmM6MTcwOgorICAgIGlmICgoYXJwX211eGlkID0gaW9jdGwoaXBf
+ZmQsIGxpbmtfdHlwZSwgYXJwX2ZkKSkgPCAwKSB7CgpFUlJPUjogc3VzcGVjdCBjb2RlIGluZGVu
+dCBmb3IgY29uZGl0aW9uYWwgc3RhdGVtZW50cyAoNCwgNikKIzM0MDogRklMRTogbmV0L3RhcC1z
+b2xhcmlzLmM6MTgxOgorICAgIGlmIChpb2N0bChpcF9mZCwgU0lPQ1NMSUZNVVhJRCwgJmlmcikg
+PCAwKSB7CiAgICAgICBpb2N0bChpcF9mZCwgSV9QVU5MSU5LICwgYXJwX211eGlkKTsKCnRvdGFs
+OiA1IGVycm9ycywgMCB3YXJuaW5ncywgMzgxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvOSBoYXMg
+c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
+ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
+S1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy85IENoZWNraW5nIGNvbW1pdCA5ZGQ1YjgwZWMwNmQg
+KG5ldDogVHJhbnNmZXIgLy8gY29tbWVudHMgdG8gLyoqLykKNC85IENoZWNraW5nIGNvbW1pdCBh
+OWIyNTAyZmNiOTIgKG5ldDogVHJhbnNmZXIgImZvbyogIiB0byAiZm9vICoiKQpXQVJOSU5HOiBs
+aW5lIG92ZXIgODAgY2hhcmFjdGVycwojNTY6IEZJTEU6IG5ldC90YXAtd2luMzIuYzoxMjY6Citz
+dGF0aWMgdHVuX2J1ZmZlcl90ICpnZXRfYnVmZmVyX2Zyb21fZnJlZV9saXN0KHRhcF93aW4zMl9v
+dmVybGFwcGVkX3QgKmNvbnN0IG92ZXJsYXBwZWQpCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJh
+Y3RlcnMKIzY4OiBGSUxFOiBuZXQvdGFwLXdpbjMyLmM6MTM5Ogorc3RhdGljIHZvaWQgcHV0X2J1
+ZmZlcl9vbl9mcmVlX2xpc3QodGFwX3dpbjMyX292ZXJsYXBwZWRfdCAqY29uc3Qgb3ZlcmxhcHBl
+ZCwgdHVuX2J1ZmZlcl90ICpjb25zdCBidWZmZXIpCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJh
+Y3RlcnMKIzc3OiBGSUxFOiBuZXQvdGFwLXdpbjMyLmM6MTQ4Ogorc3RhdGljIHR1bl9idWZmZXJf
+dCAqZ2V0X2J1ZmZlcl9mcm9tX291dHB1dF9xdWV1ZSh0YXBfd2luMzJfb3ZlcmxhcHBlZF90ICpj
+b25zdCBvdmVybGFwcGVkLCBjb25zdCBpbnQgYmxvY2spCgpFUlJPUjogbGluZSBvdmVyIDkwIGNo
+YXJhY3RlcnMKIzg5OiBGSUxFOiBuZXQvdGFwLXdpbjMyLmM6MTgwOgorc3RhdGljIHR1bl9idWZm
+ZXJfdCAqZ2V0X2J1ZmZlcl9mcm9tX291dHB1dF9xdWV1ZV9pbW1lZGlhdGUodGFwX3dpbjMyX292
+ZXJsYXBwZWRfdCAqY29uc3Qgb3ZlcmxhcHBlZCkKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFj
+dGVycwojOTU6IEZJTEU6IG5ldC90YXAtd2luMzIuYzoxODU6CitzdGF0aWMgdm9pZCBwdXRfYnVm
+ZmVyX29uX291dHB1dF9xdWV1ZSh0YXBfd2luMzJfb3ZlcmxhcHBlZF90ICpjb25zdCBvdmVybGFw
+cGVkLCB0dW5fYnVmZmVyX3QgKmNvbnN0IGJ1ZmZlcikKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hh
+cmFjdGVycwojMTA0OiBGSUxFOiBuZXQvdGFwLXdpbjMyLmM6NDEyOgorc3RhdGljIHZvaWQgdGFw
+X3dpbjMyX292ZXJsYXBwZWRfaW5pdCh0YXBfd2luMzJfb3ZlcmxhcHBlZF90ICpjb25zdCBvdmVy
+bGFwcGVkLCBjb25zdCBIQU5ETEUgaGFuZGxlKQoKdG90YWw6IDUgZXJyb3JzLCAxIHdhcm5pbmdz
+LCAxMTUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC85IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNl
+IHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBv
+cnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMu
+Cgo1LzkgQ2hlY2tpbmcgY29tbWl0IGM5NmVjOGU3Zjk3NCAobmV0OiBGaXggbGluZXMgb3ZlciA5
+MCBjaGFyYWN0ZXJzKQpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9u
+IGEgc2VwYXJhdGUgbGluZQojMzQ6IEZJTEU6IG5ldC9zb2NrZXQuYzozNTg6CisgICAgLyogZmQg
+cGFzc2VkOiBtdWx0aWNhc3Q6ICJsZWFybiIgZGdyYW1fZHN0IGFkZHJlc3MgZnJvbSBib3VuZCBh
+ZGRyZXNzCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzc0OiBGSUxFOiBuZXQvdGFw
+LXdpbjMyLmM6MTUxOgorc3RhdGljIHR1bl9idWZmZXJfdCAqZ2V0X2J1ZmZlcl9mcm9tX291dHB1
+dF9xdWV1ZSh0YXBfd2luMzJfb3ZlcmxhcHBlZF90ICpjb25zdCBvdmVybGFwcGVkLAoKV0FSTklO
+RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzEzOTogRklMRTogbmV0L3RhcC13aW4zMi5jOjU2
+MDoKKyAgICAgICAgICAgICAgICAgICAgZnByaW50ZihzdGRlcnIsICJUYXAtV2luMzI6IEVycm9y
+IEdldE92ZXJsYXBwZWRSZXN1bHQgJWQgLSAlc1xuIiwKCnRvdGFsOiAxIGVycm9ycywgMiB3YXJu
+aW5ncywgMTIzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDUvOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
+ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
+cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
+RVJTLgoKNi85IENoZWNraW5nIGNvbW1pdCA1NWZjNTY3Mzc2Y2QgKG5ldDogVHJhbnNmZXIgdGFi
+cyB0byBzcGNhZXMpCjcvOSBDaGVja2luZyBjb21taXQgZTFjMzZlMTE1Yzk5IChuZXQ6IFJlbW92
+ZSBhc3NpZ25tZW50IGluIGlmIGNvbmRpdGlvbikKOC85IENoZWNraW5nIGNvbW1pdCAzYTlhMjM1
+ZjVlNmYgKG5ldDogUmVtb3ZlIGluaXRpYWxpemF0aW9uIG9mIHN0YXRpYyBpbnRzKQo5LzkgQ2hl
+Y2tpbmcgY29tbWl0IGExZTgwMzFkOTY3ZSAobmV0OiBGaXggdGhlIGluZGVudCBwcm9ibGVtcykK
+PT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRo
+ZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDEy
+MjIwODIzNDAuNjc0MDUtMS16aGFuZ2hhbjY0QGh1YXdlaS5jb20vdGVzdGluZy5jaGVja3BhdGNo
+Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
+aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
+cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
