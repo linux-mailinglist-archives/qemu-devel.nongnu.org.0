@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0736A2E0871
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 11:00:06 +0100 (CET)
-Received: from localhost ([::1]:52682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD45A2E08A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 11:17:12 +0100 (CET)
+Received: from localhost ([::1]:57772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kreSb-0007IW-4E
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 05:00:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56726)
+	id 1krej9-0002Wl-GZ
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 05:17:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kreRp-0006sj-11
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 04:59:17 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:40370)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kregj-0001dr-08; Tue, 22 Dec 2020 05:14:41 -0500
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:45144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kreRn-0007f7-BG
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 04:59:16 -0500
-Received: by mail-ej1-x635.google.com with SMTP id x16so17437720ejj.7
- for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 01:59:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kregh-0004kj-0d; Tue, 22 Dec 2020 05:14:40 -0500
+Received: by mail-io1-xd2d.google.com with SMTP id n4so11484594iow.12;
+ Tue, 22 Dec 2020 02:14:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VsUxI1QlApAo/TnutrYYYrA8Iu4FJbp2BbIY2wF95Qo=;
- b=nIeDoHq+XIDbeLpmRg6cyY7iuY4aJN3zDos+XJlx+oNC6w+odvHtCf7ksB8D+9EJXt
- HzbZqjNs6r6/BMO4SaisrSuwMruN9sh08WFDsHEXbGHsO4gVZcHM24wD5zhj5ymsp0iB
- l0bwkXoijZUJJnPw7+L6rPcK+vmZnk0XhtK9JqrBa1AljXPb2dglerzliEETOI+dsh4x
- 3QMP/C+tWpE+Bf1O7XTB0+qSzS2Whmlsi+qQom28kxnCWa6cM6YQ3LKitYM6Kz2nmDPN
- d3mokShZZXuz0v7nVwX2pKzJhTqmeBaV9MrNaAeE6nW47KZHKebQRysKQ7J9/df3MMJ+
- q7jg==
+ bh=GWm0IArsIsWtOxoX0B6WgQRSLc6shUXnS7+qBR9mty4=;
+ b=ll7xqe0RavJEGnLnYj1ntmt50L7yZd0+OZ1bP4yNcgQXPTEcnJRFS7faZZTfF5AAQi
+ aOSAD3xf2DJAYk4fJaz/PcpqdobbfQ3UMI6aN/wkq3fffZoSpxkoBYg7bQeIe4jRU8Zb
+ PtZqSkqdC6zxcFOh0L3KK7yo8viRTMXpgG5g0cYSzlkOJsgIZLQQz8v74vzfng7mR4cz
+ wQD6tXBGUPiGXRmrgz5NPOOntyj7RymvsMPdFdxJJ56ajLv5U9RKZmcQQ4R1oaakbAVG
+ Is3zuvGbwpT1JlHoYNbINq6K1NKL5ctlBuz2cHo8gjp987sjYHloohSZYUcuuVB8Mvn0
+ 9qWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VsUxI1QlApAo/TnutrYYYrA8Iu4FJbp2BbIY2wF95Qo=;
- b=j2K61SONIppS3Glazji4AqNshoW+ImQbWAh7kQmQr8cLatTp5uES0Yj26asMcXJbvH
- UY+M1UL3qEiK4eTBzDNsr3d7JhE7POIloLEOjtBVkb/icGZScWrliu1faoBcn9oslimR
- CgCqXgN+janEdwTM5dr4fjEVuEH6psCkqprki065j149GAFKydXgd3JvpttjTbXCGWB3
- tJmqaySrx34ENJudkPPBL+XQywprlxKI1oMU9p667tdS6ALeUfbPsHuYoQ1A0hdqjL//
- twkEp6AErK7ej482f4XcR/X/4aSHp4EIf68wWtIGrg+6JcAdIMiOsFsesiEjIGEo46fI
- 02eA==
-X-Gm-Message-State: AOAM532H0SuvdLSdYyb3NX+6syW3nyLX0y29wI4ZlnDvq/OmU0rq65C/
- LsqjsAzvwgO2xkH1X+2MXR/5ncpMOxk=
-X-Google-Smtp-Source: ABdhPJyd29xEu5+VT2KFMnx8RfVvpNEjgP/Te3rS9Qf6fpYStYd8Ugp97/Zq4gJzIZP0BYSVYd9EWw==
-X-Received: by 2002:a17:906:39d5:: with SMTP id
- i21mr18470823eje.339.1608631153713; 
- Tue, 22 Dec 2020 01:59:13 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id s5sm10178957eju.98.2020.12.22.01.59.12
+ bh=GWm0IArsIsWtOxoX0B6WgQRSLc6shUXnS7+qBR9mty4=;
+ b=hxgIGvDA7/8Zwa0/ketX7pTSJ9+PHUU4JfzIUAJVY2yn+bRnmvN/30pWaUdNyJHRBo
+ lSPq5a6dL4usqB4+GEjt7A6eNgGFenU1MW6ScwonyRpdokstbpZPRPGsbtmvhGLIfWcg
+ J1PK58ISv2q/tetbjMxUq0ZjhbczP4YckaPWJ3AiQa7BLllN58pJktRBh0PmGcwrrqpc
+ mTqnxp40dU6XdNNCqmSuHC8K5NGnJvWymQKzqPElF+H/O7wcyAfiFV7DnYe761GJnAWn
+ fzOqLnmhZjkGRbDqyecdRi5JqKg2uYF7aDnm/QMFf3LBgHVjZK8aJEzy4nRtmZ30hwuJ
+ pGdw==
+X-Gm-Message-State: AOAM532EOn9IDoiqEqzRKAlet+vme+Naa8xUpZDuxrx3LSpqnS+yRP5p
+ hqCecJQ7agOio0SQuhPsLrk=
+X-Google-Smtp-Source: ABdhPJwVml3aEYQT2p2pA2JejXO8A1SJ+ChHi6jVEZ9YfwYdAbKap8qPsNQg1jRv2UoTBZYSvZXqGg==
+X-Received: by 2002:a5d:8a1a:: with SMTP id w26mr17251297iod.112.1608632077302; 
+ Tue, 22 Dec 2020 02:14:37 -0800 (PST)
+Received: from ?IPv6:2804:431:c7c6:556d:fa44:43b8:486b:f066?
+ ([2804:431:c7c6:556d:fa44:43b8:486b:f066])
+ by smtp.gmail.com with ESMTPSA id v3sm14778944ilj.28.2020.12.22.02.14.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Dec 2020 01:59:13 -0800 (PST)
-Subject: Re: [PATCH 00/20] Immutable QString, and also one JSON writer less
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20201211171152.146877-1-armbru@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <75457428-0e2d-58d2-57b2-ec0677f02bef@redhat.com>
-Date: Tue, 22 Dec 2020 10:59:12 +0100
+ Tue, 22 Dec 2020 02:14:36 -0800 (PST)
+Subject: Re: [PATCH 0/6] spapr: Fix visibility and traversal of DR connectors
+To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+References: <20201218103400.689660-1-groug@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <4c99523f-7540-7518-7ad0-1750257d2491@gmail.com>
+Date: Tue, 22 Dec 2020 07:14:33 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201211171152.146877-1-armbru@redhat.com>
+In-Reply-To: <20201218103400.689660-1-groug@kaod.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.233,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=danielhb413@gmail.com; helo=mail-io1-xd2d.google.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.233,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,125 +86,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/12/20 18:11, Markus Armbruster wrote:
-> Based-on: <20201210161452.2813491-1-armbru@redhat.com>
+
+
+On 12/18/20 7:33 AM, Greg Kurz wrote:
+> Setting a high maxmem value seriously degrades the guest's boot
+> time, from 3 seconds for 1T up to more than 3 minutes for 8T.
+> All this time is spent during initial machine setup and CAS,
+> preventing use of the QEMU monitor in the meantime.
 > 
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> Cc: Max Reitz <mreitz@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
-> Cc: qemu-block@nongnu.org
-
-Looks good, my only comment was on conflicts with other pending series.
-
-Paolo
-
-> Markus Armbruster (20):
->    hmp: Simplify how qmp_human_monitor_command() gets output
->    monitor: Use GString instead of QString for output buffer
->    qobject: Make qobject_to_json_pretty() take a pretty argument
->    qobject: Use GString instead of QString to accumulate JSON
->    qobject: Change qobject_to_json()'s value to GString
->    Revert "qstring: add qstring_free()"
->    hw/rdma: Replace QList by GQueue
->    qobject: Move internals to qobject-internal.h
->    qmp: Fix tracing of non-string command IDs
->    block: Avoid qobject_get_try_str()
->    Revert "qobject: let object_property_get_str() use new API"
->    qobject: Drop qobject_get_try_str()
->    qobject: Drop qstring_get_try_str()
->    qobject: Factor quoted_str() out of to_json()
->    qobject: Factor JSON writer out of qobject_to_json()
->    migration: Replace migration's JSON writer by the general one
->    json: Use GString instead of QString to accumulate strings
->    keyval: Use GString to accumulate value strings
->    block: Use GString instead of QString to build filenames
->    qobject: Make QString immutable
+> Profiling reveals:
 > 
->   hw/rdma/rdma_backend_defs.h        |   2 +-
->   hw/rdma/rdma_utils.h               |  15 +-
->   include/migration/vmstate.h        |   7 +-
->   include/qapi/qmp/json-writer.h     |  35 ++++
->   include/qapi/qmp/qbool.h           |   2 -
->   include/qapi/qmp/qdict.h           |   2 -
->   include/qapi/qmp/qjson.h           |   4 +-
->   include/qapi/qmp/qlist.h           |   2 -
->   include/qapi/qmp/qnull.h           |   2 -
->   include/qapi/qmp/qnum.h            |   3 -
->   include/qapi/qmp/qobject.h         |   9 +-
->   include/qapi/qmp/qstring.h         |  14 +-
->   include/qemu/typedefs.h            |   4 +-
->   migration/qjson.h                  |  29 ----
->   monitor/monitor-internal.h         |   2 +-
->   qobject/qobject-internal.h         |  39 +++++
->   block.c                            |  23 +--
->   block/rbd.c                        |   2 +-
->   hw/display/virtio-gpu.c            |   2 +-
->   hw/intc/s390_flic_kvm.c            |   2 +-
->   hw/nvram/eeprom93xx.c              |   2 +-
->   hw/nvram/fw_cfg.c                  |   2 +-
->   hw/pci/msix.c                      |   2 +-
->   hw/pci/pci.c                       |   4 +-
->   hw/pci/shpc.c                      |   2 +-
->   hw/rdma/rdma_backend.c             |  10 +-
->   hw/rdma/rdma_utils.c               |  29 ++--
->   hw/rtc/twl92230.c                  |   2 +-
->   hw/scsi/scsi-bus.c                 |   2 +-
->   hw/usb/redirect.c                  |   7 +-
->   hw/virtio/virtio.c                 |   4 +-
->   migration/qjson.c                  | 114 -------------
->   migration/savevm.c                 |  53 ++++---
->   migration/vmstate-types.c          |  38 ++---
->   migration/vmstate.c                |  52 +++---
->   monitor/misc.c                     |   6 +-
->   monitor/monitor.c                  |  20 +--
->   monitor/qmp.c                      |  46 +++---
->   qemu-img.c                         |  33 ++--
->   qga/main.c                         |  22 +--
->   qobject/json-parser.c              |  30 ++--
->   qobject/json-writer.c              | 247 +++++++++++++++++++++++++++++
->   qobject/qbool.c                    |   1 +
->   qobject/qdict.c                    |   1 +
->   qobject/qjson.c                    | 144 ++++-------------
->   qobject/qlist.c                    |   1 +
->   qobject/qnull.c                    |   1 +
->   qobject/qnum.c                     |   6 +-
->   qobject/qobject.c                  |   1 +
->   qobject/qstring.c                  | 117 +++-----------
->   qom/object.c                       |   9 +-
->   qom/object_interfaces.c            |   4 +-
->   qom/qom-hmp-cmds.c                 |   7 +-
->   target/alpha/machine.c             |   2 +-
->   target/arm/machine.c               |   6 +-
->   target/avr/machine.c               |   4 +-
->   target/hppa/machine.c              |   4 +-
->   target/microblaze/machine.c        |   2 +-
->   target/mips/machine.c              |   4 +-
->   target/openrisc/machine.c          |   2 +-
->   target/ppc/machine.c               |  10 +-
->   target/sparc/machine.c             |   2 +-
->   tests/check-qjson.c                |  67 ++++----
->   tests/check-qobject.c              |   3 +-
->   tests/check-qstring.c              |  16 --
->   tests/qtest/libqtest.c             |  20 ++-
->   tests/test-visitor-serialization.c |   6 +-
->   util/keyval.c                      |  11 +-
->   migration/meson.build              |   1 -
->   qobject/meson.build                |   5 +-
->   70 files changed, 679 insertions(+), 705 deletions(-)
->   create mode 100644 include/qapi/qmp/json-writer.h
->   delete mode 100644 migration/qjson.h
->   create mode 100644 qobject/qobject-internal.h
->   delete mode 100644 migration/qjson.c
->   create mode 100644 qobject/json-writer.c
+>    %   cumulative   self              self     total
+>   time   seconds   seconds    calls   s/call   s/call  name
+>   85.48     24.08    24.08   566117     0.00     0.00  object_get_canonical_path_component
+>   13.67     27.93     3.85 57623944     0.00     0.00  strstart
 > 
+> -----------------------------------------------
+>                  0.00    0.00       1/566117      host_memory_backend_get_name [270]
+>                  1.41    0.22   33054/566117      drc_realize <cycle 1> [23]
+>                 22.67    3.51  533062/566117      object_get_canonical_path <cycle 1> [3]
+> [2]     98.7   24.08    3.73  566117         object_get_canonical_path_component [2]
+>                  3.73    0.00 55802324/57623944     strstart [19]
+> -----------------------------------------------
+>                                    12             object_property_set_link <cycle 1> [1267]
+>                                 33074             device_set_realized <cycle 1> [138]
+>                                231378             object_get_child_property <cycle 1> [652]
+> [3]     93.0    0.01   26.18  264464         object_get_canonical_path <cycle 1> [3]
+>                 22.67    3.51  533062/566117      object_get_canonical_path_component [2]
+>                                264464             object_get_root <cycle 1> [629]
+> -----------------------------------------------
+> 
+> This is because an 8T maxmem means QEMU can create up to 32768
+> LMB DRC objects, each tracking the hot-plug/unplug state of 256M
+> of contiguous RAM. These objects are all created during machine
+> init for the machine lifetime. Their realize path involves
+> several calls to object_get_canonical_path_component(), which
+> itself traverses all properties of the parent node. This results
+> in a quadratic operation. Worse, the full list of DRCs is traversed
+> 7 times during the boot process, eg. to populate the device tree,
+> calling object_get_canonical_path_component() on each DRC again.
+> Yet even more costly quadratic traversals.
+> 
+> Modeling DR connectors as individual devices raises some
+> concerns, as already discussed a year ago in this thread:
+> 
+> https://patchew.org/QEMU/20191017205953.13122-1-cheloha@linux.vnet.ibm.com/
+> 
+> First, having so many devices to track the DRC states is excessive
+> and can cause scalability issues in various ways. This bites again
+> with this quadratic traversal issue. Second, DR connectors are really
+> PAPR internals that shouldn't be exposed at all in the composition
+> tree.
+> 
+> This series converts DR connectors to be simple unparented
+> objects tracked in a separate hash table, rather than
+> actual devices exposed in the QOM tree. This doesn't address
+> the overall concern on scalability, but this brings linear
+> traversal of the DR connectors. The time penalty with a
+> 8T maxmem is reduced to less than 1 second, and we get
+> a much shorter 'info qom-tree' output.
+> 
+> This is transparent to migration.
 
+
+Tested in a P9 host with a 512Gb initial mem RAM guest in regular mode and P8
+compat mode. Without this series, the guest takes on average 35 seconds to
+start booting. With this series the boot starts in 5 seconds for the same
+guest.
+
+
+Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+> 
+> Greg Kurz (6):
+>    spapr: Call spapr_drc_reset() for all DRCs at CAS
+>    spapr: Fix reset of transient DR connectors
+>    spapr: Introduce spapr_drc_reset_all()
+>    spapr: Use spapr_drc_reset_all() at machine reset
+>    spapr: Add drc_ prefix to the DRC realize and unrealize functions
+>    spapr: Model DR connectors as simple objects
+> 
+>   include/hw/ppc/spapr_drc.h |  18 +++-
+>   hw/ppc/spapr.c             |  15 +--
+>   hw/ppc/spapr_drc.c         | 181 +++++++++++++++++--------------------
+>   hw/ppc/spapr_hcall.c       |  33 ++-----
+>   hw/ppc/spapr_pci.c         |   2 +-
+>   5 files changed, 106 insertions(+), 143 deletions(-)
+> 
 
