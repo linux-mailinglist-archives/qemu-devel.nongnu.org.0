@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 661502E0D13
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 17:08:12 +0100 (CET)
-Received: from localhost ([::1]:59444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FF32E0D14
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 17:09:11 +0100 (CET)
+Received: from localhost ([::1]:34132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krkCo-0002u0-Vc
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 11:08:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44228)
+	id 1krkDm-0004ju-NA
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 11:09:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1krkAJ-0001ZJ-N3
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 11:05:37 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:54784)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1krkAH-0007q6-FE
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 11:05:35 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BMG4cu8120034;
- Tue, 22 Dec 2020 16:05:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- content-transfer-encoding : from : mime-version : subject : date :
- message-id : references : cc : in-reply-to : to; s=corp-2020-01-29;
- bh=pw4fExT0ZF0fnQ2babVp/BuAsaQ0FyfHedOkwYxIohQ=;
- b=IHz+3tAID/dqhLopo8t/CZg6SpF7cWBkLpsoClPR43OjbdwYzMYNUP4orgGdiZGB/4+G
- on2fcp2O1JXFR9QyZuVMZXEyMxDrArLOIfrfhiPZsv80rILztoxutRJ41x4lHxviXSKQ
- SUUSLC/oBtrkiMxpjMj0WbRYaPYdUk3RRyCJSF4xNaUIthLLiKqzEmYfHUQyQCdBbZEP
- IH10D6aUnwBaz1rSIrPuTzRRqNQjfhocSFrDdnrPM0ePgBhtYqW8delDcLHFa+wrmOEn
- k+l0GBMn6qDKEYNa7VjquCDggDRurZ7qyY9KuiD/oivPf2Numb6Z6XXoaPsaXCilz3go 6w== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 35k0d8c4dj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 22 Dec 2020 16:05:28 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BMG1aIZ192634;
- Tue, 22 Dec 2020 16:03:28 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 35k0e1gq0g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 22 Dec 2020 16:03:28 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BMG3RsM009744;
- Tue, 22 Dec 2020 16:03:27 GMT
-Received: from [10.139.169.170] (/109.166.128.2)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 22 Dec 2020 08:03:27 -0800
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Mihai Carabas <mihai.carabas@oracle.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 2/3] hw/misc/pvpanic: add PCI interface support
-Date: Tue, 22 Dec 2020 18:03:24 +0200
-Message-Id: <9C823DFA-9E6A-4D38-AB50-EFB6528124DD@oracle.com>
-References: <20201222153034.r7lgpmrycx6k6kr4@sirius.home.kraxel.org>
-In-Reply-To: <20201222153034.r7lgpmrycx6k6kr4@sirius.home.kraxel.org>
-To: Gerd Hoffmann <kraxel@redhat.com>
-X-Mailer: iPhone Mail (17H35)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9842
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- bulkscore=0
- malwarescore=0 phishscore=0 mlxscore=0 adultscore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012220118
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9842
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- priorityscore=1501
- impostorscore=0 malwarescore=0 suspectscore=0 mlxlogscore=999 mlxscore=0
- spamscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012220119
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=mihai.carabas@oracle.com; helo=userp2130.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1krkCE-0003d8-Fo
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 11:07:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49673)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1krkCC-0000aM-4b
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 11:07:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608653251;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tr0RF5mNK3Z7XmBCMZCf7xz6qy3jLZC7WGPVXd2VIdU=;
+ b=S9kQx+Y3NMFMRL2HxX9iS3+YLg9NQxftJi155lgjB+5qzR72Q27cT/Lgo1B4oGvEJ2nnJx
+ 6ytOkAEW41TruyMetwyIxQezg+W8y6bgMq+NfceIR8pEW0oU26os59HGDk1l9bHFutgZ1M
+ 50vinS5s5YCEmQGzzmMFSjfQalCRYlc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-V_3a2XQnNzebM20Bz_sraQ-1; Tue, 22 Dec 2020 11:07:27 -0500
+X-MC-Unique: V_3a2XQnNzebM20Bz_sraQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB0E8800D53;
+ Tue, 22 Dec 2020 16:07:25 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-113-243.ams2.redhat.com
+ [10.36.113.243])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E1D5779CD;
+ Tue, 22 Dec 2020 16:07:20 +0000 (UTC)
+Subject: Re: [PATCH v15 10/13] qapi: block-stream: add "bottom" argument
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201216061703.70908-1-vsementsov@virtuozzo.com>
+ <20201216061703.70908-11-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <d7d127a1-e70b-4e1f-acc8-eaf9230dd70a@redhat.com>
+Date: Tue, 22 Dec 2020 17:07:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
+MIME-Version: 1.0
+In-Reply-To: <20201216061703.70908-11-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ NICE_REPLY_A=-2.521, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,40 +83,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, den@openvz.org, andrey.shinkevich@virtuozzo.com,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 16.12.20 07:17, Vladimir Sementsov-Ogievskiy wrote:
+> The code already don't freeze base node and we try to make it prepared
+> for the situation when base node is changed during the operation. In
+> other words, block-stream doesn't own base node.
+> 
+> Let's introduce a new interface which should replace the current one,
+> which will in better relations with the code. Specifying bottom node
+> instead of base, and requiring it to be non-filter gives us the
+> following benefits:
+> 
+>   - drop difference between above_base and base_overlay, which will be
+>     renamed to just bottom, when old interface dropped
+> 
+>   - clean way to work with parallel streams/commits on the same backing
+>     chain, which otherwise become a problem when we introduce a filter
+>     for stream job
+> 
+>   - cleaner interface. Nobody will surprised the fact that base node may
+>     disappear during block-stream, when there is no word about "base" in
+>     the interface.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   qapi/block-core.json           | 12 ++++---
+>   include/block/block_int.h      |  1 +
+>   block/monitor/block-hmp-cmds.c |  3 +-
+>   block/stream.c                 | 50 +++++++++++++++++++---------
+>   blockdev.c                     | 59 ++++++++++++++++++++++++++++------
+>   5 files changed, 94 insertions(+), 31 deletions(-)
+> 
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index b8094a5ec7..cb0066fd5c 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2517,10 +2517,14 @@
+>   # @device: the device or node name of the top image
+>   #
+>   # @base: the common backing file name.
+> -#        It cannot be set if @base-node is also set.
+> +#        It cannot be set if @base-node or @bottom is also set.
+>   #
+>   # @base-node: the node name of the backing file.
+> -#             It cannot be set if @base is also set. (Since 2.8)
+> +#             It cannot be set if @base or @bottom is also set. (Since 2.8)
+> +#
+> +# @bottom: the last node in the chain that should be streamed into
+> +#          top. It cannot be set if @base or @base-node is also set.
+> +#          It cannot be filter node. (Since 6.0)
 
+As far as I can make out, one of the results of our discussion on v14 
+was that when using backing-file + bottom, we want to require the user 
+to specify backing-fmt as well.  Now, backing-fmt isn’t present yet. 
+Doesn’t that mean we have to make bottom + backing-file an error until 
+we have backing-fmt (like it was in v14)?
 
-> On 22 Dec 2020, at 17:30, Gerd Hoffmann <kraxel@redhat.com> wrote:
->=20
-> =EF=BB=BF
->>=20
->> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
->> index 259f9c9..e9512ab 100644
->> --- a/include/hw/pci/pci.h
->> +++ b/include/hw/pci/pci.h
->> @@ -108,6 +108,7 @@ extern bool pci_available;
->> #define PCI_DEVICE_ID_REDHAT_MDPY        0x000f
->> #define PCI_DEVICE_ID_REDHAT_NVME        0x0010
->> #define PCI_DEVICE_ID_REDHAT_QXL         0x0100
->> +#define PCI_DEVICE_ID_REDHAT_PVPANIC     0x0101
->=20
-> qxl has 0x100 for historical reasons, otherwise devices are simply
-> enumerated upwards.  NVME has 0x10, so PVPANIC should simply take
-> the next free which is 0x11.  Didn't I mention that in my last mail?
->=20
-> thanks,
->  Gerd
-Sorry, my mistake. I did not read your email carefully. Consider this modifi=
-cation done.
+Or do you consider the change to patch 9 sufficient to make at least the 
+case work for which backing-file was purportedly introduced, i.e. FD 
+passing?  (Patch 9’s new version will just take the format of the base 
+post-streaming, which would be most likely a correct guess when using FD 
+passing.)
 
-Waiting for other feedback a couple of days and I will send a new revision w=
-ith this update.
+(I.e., now with patch 9 being more liberal in guessing, perhaps you 
+decided to no longer make backing-fmt mandatory after all.)
 
-Thank you,
-Mihai
->=20
+Max
 
 
