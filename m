@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1A22E0BB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 15:32:31 +0100 (CET)
-Received: from localhost ([::1]:44166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8432A2E0BF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 22 Dec 2020 15:44:25 +0100 (CET)
+Received: from localhost ([::1]:53236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kriiE-0004f8-9S
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 09:32:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51294)
+	id 1kritk-000154-A7
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 09:44:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1krih0-00041L-SP; Tue, 22 Dec 2020 09:31:14 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35077)
+ id 1krisN-0000f3-KB
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 09:42:59 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:41178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1krigy-0000O2-RU; Tue, 22 Dec 2020 09:31:14 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id r3so14731686wrt.2;
- Tue, 22 Dec 2020 06:31:12 -0800 (PST)
+ id 1krisL-0004U0-Vq
+ for qemu-devel@nongnu.org; Tue, 22 Dec 2020 09:42:59 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id i24so13135909edj.8
+ for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 06:42:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ujFknXpq40I/eDpO2DbCGxz+omHeT5UdEFV3r7gJ6hM=;
- b=TEaTjlp4nYFb5TcREKvHR/yGCNbL98sohfABRAV9zcWJEbmcN35Qg3aaL2xOkur9oV
- 9CaAGZxP9viBCv1wRQIIxxGOVFrR70chhDY0YqTw4ZEEDR+1uhsk22eslFx+AoiEy1Dq
- jMN/R+v+PhUAMt07Jz2YkfTSO7VbmQWZqlCjBh6wk5fmPVE9fMhfo69PGiNK6SaGjVbI
- Cjo8fTRNf49581+QpxUMjAsSn/820v1SnbuKuibeP/xtfkIJT9avnlmp+EzNEBGTSAqD
- 1LYXZrWz+n7pram2/BuBCy98OrF9EgIVlpvB1QdCfsPs+4rc1/U2it+vOtY9ZZ+/kyUQ
- evcQ==
+ bh=4D6ClPpWuZ3at/37vYebPZf16teiA65qRQwmVtXmycs=;
+ b=Xft7wdKg1/g420i3fy19+uDPKmqpwp60dxPRNHmriCDk5EZz9EHdBeYBXWUzZ/OTTi
+ Yjfs7u4CJGDJWQmpKruscRxpO0OyfGqQ9hIMuuQ5a6PuTCmOmc5HcKOybdPv6AlIkR9R
+ hXM6vrDgD89y0Yk08LSPFiU7vyfoVyJU570OZB6NROU6GUrYJAvEabHNeETWdv1hBjM1
+ fUoNi1P5s1BWDDMXyfR8Lg6WF8dXOnPLsrig33/JZAhE5aYY6gRCt6XyFV2wOCSixTcg
+ 2dtfdKNqpWy3XaYG6Yv9eivmBT0Xs7l6ZIf3t9FpW8LslzF7v+Lm705tEuHdDQUZAj8N
+ 6GbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ujFknXpq40I/eDpO2DbCGxz+omHeT5UdEFV3r7gJ6hM=;
- b=o8bTQQ0CWx7/hadAWL6too+yGJjCP/Cjqh/c0yv7RaPbTsrVDionkG0fXQPszx+jAx
- jbvBu2OnUxytGORgWqPmOWnbtK8SAHiXqcF+TBqK/Iyn7bWamSKJzh3ibdPJu82u72r8
- qt8FMUigtSMRdQMumqkt1SdbenpahJpeO0I2NA+LWk4uPBx9Tc6FzFrW1sPieYrI/tHF
- hwvF0f9+8ai73BUkGtlreg3DPeUgHwa51HQgwOeka+kgdrlYiESQQlKfd4abL3SQGUZ/
- UUOYqTjYB6/HjRy1RaNIOD44TvnPkNW+jZ5x8G7sk5vtaOF7WLAq5Ffm9gHxfh+SJL+E
- HiiQ==
-X-Gm-Message-State: AOAM532CkZES8RBWC/rYv3iSMs0hTEDKAlRqfewv6wHwFanSX9WbSFgU
- SCuDt6Xxp/MZRcyI48Duw4I=
-X-Google-Smtp-Source: ABdhPJyOAVbQ6lHfPzayBBBfBvqKaHm7MqqoG1VoUHFFsmES1r30Z0HzejSbg1YXmz+DI67Xy4jnyA==
-X-Received: by 2002:a5d:5146:: with SMTP id u6mr24461525wrt.46.1608647470945; 
- Tue, 22 Dec 2020 06:31:10 -0800 (PST)
+ bh=4D6ClPpWuZ3at/37vYebPZf16teiA65qRQwmVtXmycs=;
+ b=hO9ewvEmt7mcfor0beCKCPl14Vu/6lZixGKY5UqkYSBWInlcdfw7bVrdgNO7gz7q5z
+ 1GrcqKX9Plu70lP5VHZMp1H0eNCAB0/PF+/l5BFJ8eNXXoARaTMh9LFXCPwf7tvf56+S
+ H4kfAvqai2sehw205F13Dvlu9xtHkMnNWDFhdyrp3SOiTQrzPFZw4bPhw4vB20pv3+H1
+ Vyv2wKTTucqVtRrPLyeUV9DLA9QokIxrKxUCQE8Unl1RnluWEyaS/zDOVigRv3b5uase
+ FPOrJeUDutZKtIu/00R+tFdxGx5f5B+7EYZtodtHja6qBpK1PXYiOiLKu97kmq2QrnRX
+ s0SA==
+X-Gm-Message-State: AOAM532QDWdNXyrQDaaOezQqJ9z75LT7jfEpiQmqCaJEX2DoOfr1B63O
+ zsvrQUV5zIDUhjZvh0j1K30=
+X-Google-Smtp-Source: ABdhPJw+yCtnacEanQ8D3aJ06JU9Oyon8N4AWaAkE4aj9P4/De2WZQtE5UeyvQ45brLsJCaMIHQ8tw==
+X-Received: by 2002:aa7:c2d8:: with SMTP id m24mr20428142edp.300.1608648176514; 
+ Tue, 22 Dec 2020 06:42:56 -0800 (PST)
 Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
  ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
- by smtp.gmail.com with ESMTPSA id q1sm30148250wrj.8.2020.12.22.06.31.09
+ by smtp.gmail.com with ESMTPSA id k21sm10360046ejv.80.2020.12.22.06.42.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Dec 2020 06:31:10 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] block: report errno when flock fcntl fails
-To: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
-References: <20201221134931.1194806-1-david.edmondson@oracle.com>
- <20201221134931.1194806-2-david.edmondson@oracle.com>
+ Tue, 22 Dec 2020 06:42:55 -0800 (PST)
+Subject: Re: [PATCH v2 5/8] hw/mips/fuloong2e: Remove unused env entry
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20201219071235.35040-1-jiaxun.yang@flygoat.com>
+ <20201219072139.39347-1-jiaxun.yang@flygoat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <67730878-e090-d107-1fb1-b93a5d93ba2e@amsat.org>
-Date: Tue, 22 Dec 2020 15:31:09 +0100
+Message-ID: <c3a21b9d-cd7a-63c3-6c40-e80509da5aa4@amsat.org>
+Date: Tue, 22 Dec 2020 15:42:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201221134931.1194806-2-david.edmondson@oracle.com>
+In-Reply-To: <20201219072139.39347-1-jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
 X-Spam_bar: ----
@@ -87,21 +89,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: chenhuacai@kernel.org, wainersm@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/21/20 2:49 PM, David Edmondson wrote:
-> When a call to fcntl(2) for the purpose of manipulating file locks
-> fails, report the error returned by fcntl.
-> 
-> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
-> ---
->  block/file-posix.c         | 20 +++++-----
->  tests/qemu-iotests/153.out | 76 +++++++++++++++++++-------------------
->  tests/qemu-iotests/182.out |  2 +-
->  3 files changed, 49 insertions(+), 49 deletions(-)
+On 12/19/20 8:21 AM, Jiaxun Yang wrote:
+> modetty and busclock is not handled by kernel and the parameter
+> here seems unreasonable.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+'busclock' is used by old kernels:
+https://elixir.bootlin.com/linux/v3.1/source/arch/mips/loongson/common/env.c#L51
+
+'modetty' is likely here because this code was started using
+the YAMON load_kernel() code from malta.c as template.
+
+> 
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>  hw/mips/fuloong2e.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index d846ef7b00..c4843dd15e 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -159,10 +159,8 @@ static uint64_t load_kernel(CPUMIPSState *env)
+>      }
+>  
+>      /* Setup minimum environment variables */
+> -    prom_set(prom_buf, index++, "busclock=33000000");
+>      prom_set(prom_buf, index++, "cpuclock=100000000");
+>      prom_set(prom_buf, index++, "memsize=%"PRIi64, loaderparams.ram_size / MiB);
+> -    prom_set(prom_buf, index++, "modetty0=38400n8r");
+>      prom_set(prom_buf, index++, NULL);
+>  
+>      rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
+> 
 
