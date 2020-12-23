@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347D12E1AC9
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 11:18:43 +0100 (CET)
-Received: from localhost ([::1]:48104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18DC02E1AEA
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 11:26:15 +0100 (CET)
+Received: from localhost ([::1]:54582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ks1E9-0008SW-OA
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 05:18:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42394)
+	id 1ks1LR-000398-Mp
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 05:26:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ks1DE-00081y-1P
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 05:17:44 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43096
+ id 1ks1KG-0002cz-KH
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 05:25:02 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:43134
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ks1DB-0000rD-QF
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 05:17:43 -0500
+ id 1ks1KC-0004DQ-8m
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 05:24:59 -0500
 Received: from host86-184-125-210.range86-184.btcentralplus.com
  ([86.184.125.210] helo=[192.168.1.65])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1ks1D0-0007wu-U9; Wed, 23 Dec 2020 10:17:37 +0000
+ id 1ks1K1-0007yC-DD; Wed, 23 Dec 2020 10:24:50 +0000
 To: Guenter Roeck <linux@roeck-us.net>, QEMU Developers <qemu-devel@nongnu.org>
 References: <3f0f8fc6-6148-a76e-1088-b7882b0bbcaf@roeck-us.net>
  <5ef852ee-8a53-df9d-82f4-33a68c05f53a@ilande.co.uk>
  <5849da05-a063-cd56-7709-c4760c8aa71f@roeck-us.net>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <25ff573c-9b27-31c1-5aef-7cee3495d61e@ilande.co.uk>
-Date: Wed, 23 Dec 2020 10:17:26 +0000
+Message-ID: <ee005fd0-1eb0-2bfd-6be3-10f616cc7aad@ilande.co.uk>
+Date: Wed, 23 Dec 2020 10:24:43 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
 In-Reply-To: <5849da05-a063-cd56-7709-c4760c8aa71f@roeck-us.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 86.184.125.210
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
 Subject: Re: Problems with irq mapping in qemu v5.2
@@ -72,29 +72,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 22/12/2020 21:23, Guenter Roeck wrote:
 
->>> ppc4xx_pci_map_irq() is definitely buggy. I just don't know what the
->>> correct mapping should be. slot  & 3, maybe ?
->>
->> Yeah that doesn't look right. Certainly both the Mac PPC machines use ((pci_dev->devfn >> 3)) & 3) plus the interrupt pin so I think you're right that this is missing an & 3 here. Does adding this allow your image to boot?
->>
-> 
-> Actually, it does not help. This does:
-> 
-> @@ -247,7 +247,7 @@ static int ppc4xx_pci_map_irq(PCIDevice *pci_dev, int irq_num)
-> 
->       trace_ppc4xx_pci_map_irq(pci_dev->devfn, irq_num, slot);
-> 
-> -    return slot - 1;
-> +    return slot ? slot - 1 : slot;
->   }
-> 
-> but I have no idea why.
-
-That's interesting. I had a look at bamboo.dts in Linux and the interrupt-map 
-property suggests there are 4 fixed PCI slots available 1 to 4, so it shouldn't be 
-possible for slot 0 to generate an IRQ as nothing can be plugged there.
-
-Can you share your reproducer? Feel free to send me links off-list if you prefer.
+(Added jiaxun.yang@flygoat.com as CC)
 
 >>> I don't really have a good solution for pci_bonito_map_irq(). It may not
 >>> matter much - I have not been able to boot fuloong_2e since qemu v4.0,
@@ -151,11 +129,13 @@ Can you share your reproducer? Feel free to send me links off-list if you prefer
 > ata1: PATA max UDMA/100 cmd 0x1f0 ctl 0x3f6 bmdma 0x4440 irq 14
 > ata2: PATA max UDMA/100 cmd 0x170 ctl 0x376 bmdma 0x4448 irq 15
 > [and nothing else]
+> 
+> Guenter
 
-Again, can you share the files that you are using here? I think it's worth adding 
-Jiaxun Yang to this thread since the original cover letter at 
-https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg04293.html states that this 
-latest series allows the Debian installer to boot.
+Jiaxun: Guenter is reporting that even with your latest series at 
+https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg04293.html he is unable to 
+boot from an IDE drive. Your cover letter suggests that it should be possible to boot 
+the Debian installer: can you provide any insight here?
 
 
 ATB,
