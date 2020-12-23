@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7FC22E18BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 07:05:23 +0100 (CET)
-Received: from localhost ([::1]:54198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEB12E18C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 07:08:44 +0100 (CET)
+Received: from localhost ([::1]:34326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krxH0-0001ip-U2
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 01:05:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39262)
+	id 1krxKF-0005Ea-Lt
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 01:08:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1krxE3-0008Pm-E6
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:02:21 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:38060)
+ id 1krxE3-0008PT-2K
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:02:19 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:35131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1krxDx-0000Lg-RN
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:02:19 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id e2so9935531pgi.5
- for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 22:02:11 -0800 (PST)
+ id 1krxDy-0000Lm-6a
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:02:18 -0500
+Received: by mail-pg1-x535.google.com with SMTP id n7so9945172pgg.2
+ for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 22:02:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=NrM0nd/vAh/xuPN3ZjF7gS1lRQ4hob266SPoNoDOWZg=;
- b=e1QjAbrDjap8Bhe5I/9ZYUCAgbFvY4cHi6/QGrJca3jf884Qyx621atDZlskr6bnAE
- M51PajNTADzngm11Kc3hkwpDAAT2yTs8sOWWZPjQTX2c8qLGxKjpFK4i3+PFsGxQ7m0v
- vkGx9AgMQCEUuAmN1LFWZnzqwadt28EJONNxk6YrtN5joCy9uAq6oXO+Fl8nLZ4GWj9z
- 0rzbzvJ7saazeUJMgMw/PEJ1AWoDR3r2PkmWaa2YhmXR2csBw+O9qs33JJyRgMDgHSSH
- dXG1Bmkhs4m4NOWjCYFG3Q9wlCT03Z4Y/I3kUw1VPuh9C4RQxdXIpkFZeVx7qEESLbnQ
- UPNQ==
+ bh=VcKfT6vwgUeZ7feGstLlA+QUgIS4eK/5KKU+ui6/cwM=;
+ b=ujFg8D9zvtNG7kUdwVq9oAg1YD+3UrAP6h105lEW/KukJAKVk9QpsbpeXPe5a9hNJ4
+ x7U/hXz9UhDDzjJEFkj7sRUNBBuZ0sQKFEQdlu6gPHFrAEDkwlZKU+tZ17uetE2rjn1U
+ cfdb5obpWuAiFOXI9JfWxLeWRr38RsVhLXJqC+388HUsWQZO1J4KP4INoYQj1seQhlfl
+ Z4JHhYQWwy19Ilj3dSop3uUbdxWObBT3uWQ9zUzhZ75DvGjkDFewZC+eg6O5ILzb+FQY
+ P4ZhuVGWLh3Ab1+MzIpuLGhJzZh1RuThMQ7rif/atKwB17Ku84YLX0LExkjqNw5D1j5e
+ MxSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NrM0nd/vAh/xuPN3ZjF7gS1lRQ4hob266SPoNoDOWZg=;
- b=un+Fr87aEm6LR6l0pG+mbTm7ISsZ1b9aHkkx8QYCdw9lwfOObie71+Pi0JCtgIKbev
- L9obhiTCUF4dfni1EWl9zK34XjtnbVL7H0DsOWSptJKVgQEuPZdVtz3EbEgZePuGKuNL
- AAUUdKnPCBK8xWeHDGt5ppD7khA0z/lcL/2V/F7H2XWFQllPmZrN2qWGhgWtrC4Hu2W0
- BLv/fA7qKhLsTb9AtcewMvUunu7jtT9iUpiAiVD5OMJY6ZAeWopqiUpZuK572YvUvQl5
- dBH3e5wKgmPinKAAYMQG9RFfC/gzu0eGxGjNW65MmsTbgIK9uqiBR5bK2woaHV6ijtzS
- dKkQ==
-X-Gm-Message-State: AOAM530wgz8fY8OvTw+LvlYtSPeNP+Hjn/kG2K/BlMJGc4fT1/vXjU6l
- GRCoYQfueza8wVnp3vo6wykyjOCAA3Lwrw==
-X-Google-Smtp-Source: ABdhPJztYZdPons8yK21ln+cYyXaR2nLQ39QApPopFobtIzGBLGcNA1v2r9VwByIx2vFjt7N9BPw+A==
-X-Received: by 2002:a63:db57:: with SMTP id x23mr22929793pgi.131.1608703330793; 
- Tue, 22 Dec 2020 22:02:10 -0800 (PST)
+ bh=VcKfT6vwgUeZ7feGstLlA+QUgIS4eK/5KKU+ui6/cwM=;
+ b=g+r3m06iuB5toXlSyntNMU0/QPRlsTIpShfGqTCVcKXL4rqDewYDj18+cZtlJ0Dh1v
+ gma3MVhnuW87i59S+RusyrPghJXrEGoHJdrb7Pb+RvCyRHOetGC/y5L9+c0b6zOX/gL0
+ +gwFnSsCvqaFZSumPP9klNW6UgUK+XmfPSInue1yjobnlJAuUq2w8hkhq4TkpSSof4Sl
+ QLizs+qjlNspkWpTVtf7fe0SRv7tOfOKjdOhiT09GuB1BYPlUYL/w2dJl8sH7HSPCLaD
+ sYZvdkhTi4cxTT+/HTGcUSqz6G1U3P94l4hORNV1hx0dEGdw7fbEYlx1uD7/9FXeZYnI
+ cefA==
+X-Gm-Message-State: AOAM531x2KBlSQBOH8KJRT8ba5ZIr7vKd/zQajL1qenVHCqnMFgLrQfd
+ BYFdJvuDIsQodvr5+95yNYhnBj//blQDlw==
+X-Google-Smtp-Source: ABdhPJx3wVOmuhKV9E5a2hGoUbRE8YSORIiSLBJC+p/rgZ8dE+cYgpU4yCwMTyJR0Q8n5Makgq4Xmw==
+X-Received: by 2002:a63:551f:: with SMTP id j31mr4098850pgb.432.1608703332061; 
+ Tue, 22 Dec 2020 22:02:12 -0800 (PST)
 Received: from localhost.localdomain (174-21-139-177.tukw.qwest.net.
  [174.21.139.177])
- by smtp.gmail.com with ESMTPSA id s1sm21943620pfb.103.2020.12.22.22.02.09
+ by smtp.gmail.com with ESMTPSA id s1sm21943620pfb.103.2020.12.22.22.02.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 22 Dec 2020 22:02:10 -0800 (PST)
+ Tue, 22 Dec 2020 22:02:11 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/22] tcg/arm: Convert to tcg-target-constr.h
-Date: Tue, 22 Dec 2020 22:01:46 -0800
-Message-Id: <20201223060204.576856-5-richard.henderson@linaro.org>
+Subject: [PATCH 05/22] tcg/aarch64: Convert to tcg-target-constr.h
+Date: Tue, 22 Dec 2020 22:01:47 -0800
+Message-Id: <20201223060204.576856-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201223060204.576856-1-richard.henderson@linaro.org>
 References: <20201223060204.576856-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,131 +89,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/arm/tcg-target-constr.h | 31 +++++++++++++++++++
- tcg/arm/tcg-target.h        |  1 +
- tcg/arm/tcg-target.c.inc    | 60 -------------------------------------
- 3 files changed, 32 insertions(+), 60 deletions(-)
- create mode 100644 tcg/arm/tcg-target-constr.h
+ tcg/aarch64/tcg-target-constr.h | 27 +++++++++++++++++++
+ tcg/aarch64/tcg-target.h        |  1 +
+ tcg/aarch64/tcg-target.c.inc    | 46 ---------------------------------
+ 3 files changed, 28 insertions(+), 46 deletions(-)
+ create mode 100644 tcg/aarch64/tcg-target-constr.h
 
-diff --git a/tcg/arm/tcg-target-constr.h b/tcg/arm/tcg-target-constr.h
+diff --git a/tcg/aarch64/tcg-target-constr.h b/tcg/aarch64/tcg-target-constr.h
 new file mode 100644
-index 0000000000..15c5e53406
+index 0000000000..28f7aa6f03
 --- /dev/null
-+++ b/tcg/arm/tcg-target-constr.h
-@@ -0,0 +1,31 @@
-+/* SPDX-License-Identifier: MIT */
++++ b/tcg/aarch64/tcg-target-constr.h
+@@ -0,0 +1,27 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
-+ * Arm target-specific operand constaints.
++ * AArch64 target-specific operand constaints.
 + * Copyright (c) 2020 Linaro
 + */
 +
-+#define ALL_GENERAL_REGS  0xffffu
++#define ALL_GENERAL_REGS  0xffffffffu
++#define ALL_VECTOR_REGS   0xffffffff00000000ull
 +
 +#ifdef CONFIG_SOFTMMU
-+#define ALL_QLOAD_REGS \
-+    (ALL_GENERAL_REGS & ~((1 << TCG_REG_R0) | (1 << TCG_REG_R1) | \
-+                          (1 << TCG_REG_R2) | (1 << TCG_REG_R3) | \
-+                          (1 << TCG_REG_R14)))
-+#define ALL_QSTORE_REGS \
-+    (ALL_GENERAL_REGS & ~((1 << TCG_REG_R0) | (1 << TCG_REG_R1) | \
-+                          (1 << TCG_REG_R2) | (1 << TCG_REG_R14) | \
-+                          ((TARGET_LONG_BITS == 64) << TCG_REG_R3)))
++#define ALL_QLDST_REGS \
++    (ALL_GENERAL_REGS & ~((1 << TCG_REG_X0) | (1 << TCG_REG_X1) | \
++                          (1 << TCG_REG_X2) | (1 << TCG_REG_X3)))
 +#else
-+#define ALL_QLOAD_REGS   ALL_GENERAL_REGS
-+#define ALL_QSTORE_REGS \
-+    (ALL_GENERAL_REGS & ~((1 << TCG_REG_R0) | (1 << TCG_REG_R1)))
++#define ALL_QLDST_REGS   ALL_GENERAL_REGS
 +#endif
 +
 +REGS('r', ALL_GENERAL_REGS)
-+REGS('l', ALL_QLOAD_REGS)
-+REGS('s', ALL_QSTORE_REGS)
++REGS('l', ALL_QLDST_REGS)
++REGS('w', ALL_VECTOR_REGS)
 +
-+CONST('I', TCG_CT_CONST_ARM)
-+CONST('K', TCG_CT_CONST_INV)
-+CONST('N', TCG_CT_CONST_NEG)
++CONST('A', TCG_CT_CONST_AIMM)
++CONST('L', TCG_CT_CONST_LIMM)
++CONST('M', TCG_CT_CONST_MONE)
++CONST('O', TCG_CT_CONST_ORRI)
++CONST('N', TCG_CT_CONST_ANDI)
 +CONST('Z', TCG_CT_CONST_ZERO)
-diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-index 17e771374d..6f058d6d9b 100644
---- a/tcg/arm/tcg-target.h
-+++ b/tcg/arm/tcg-target.h
-@@ -146,5 +146,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+index 663dd0b95e..ca7af5a589 100644
+--- a/tcg/aarch64/tcg-target.h
++++ b/tcg/aarch64/tcg-target.h
+@@ -159,5 +159,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
  #define TCG_TARGET_NEED_LDST_LABELS
  #endif
  #define TCG_TARGET_NEED_POOL_LABELS
 +#define TCG_TARGET_CONSTR_H
  
- #endif
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index 62c37a954b..ab1b295293 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -234,66 +234,6 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
- #define TCG_CT_CONST_NEG  0x400
- #define TCG_CT_CONST_ZERO 0x800
+ #endif /* AARCH64_TCG_TARGET_H */
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 26f71cb599..310bc972e3 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -122,52 +122,6 @@ static inline bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+ #define TCG_CT_CONST_ORRI 0x1000
+ #define TCG_CT_CONST_ANDI 0x2000
  
 -/* parse target specific constraints */
 -static const char *target_parse_constraint(TCGArgConstraint *ct,
 -                                           const char *ct_str, TCGType type)
 -{
 -    switch (*ct_str++) {
--    case 'I':
--        ct->ct |= TCG_CT_CONST_ARM;
+-    case 'r': /* general registers */
+-        ct->regs |= 0xffffffffu;
 -        break;
--    case 'K':
--        ct->ct |= TCG_CT_CONST_INV;
+-    case 'w': /* advsimd registers */
+-        ct->regs |= 0xffffffff00000000ull;
 -        break;
--    case 'N': /* The gcc constraint letter is L, already used here.  */
--        ct->ct |= TCG_CT_CONST_NEG;
+-    case 'l': /* qemu_ld / qemu_st address, data_reg */
+-        ct->regs = 0xffffffffu;
+-#ifdef CONFIG_SOFTMMU
+-        /* x0 and x1 will be overwritten when reading the tlb entry,
+-           and x2, and x3 for helper args, better to avoid using them. */
+-        tcg_regset_reset_reg(ct->regs, TCG_REG_X0);
+-        tcg_regset_reset_reg(ct->regs, TCG_REG_X1);
+-        tcg_regset_reset_reg(ct->regs, TCG_REG_X2);
+-        tcg_regset_reset_reg(ct->regs, TCG_REG_X3);
+-#endif
 -        break;
--    case 'Z':
+-    case 'A': /* Valid for arithmetic immediate (positive or negative).  */
+-        ct->ct |= TCG_CT_CONST_AIMM;
+-        break;
+-    case 'L': /* Valid for logical immediate.  */
+-        ct->ct |= TCG_CT_CONST_LIMM;
+-        break;
+-    case 'M': /* minus one */
+-        ct->ct |= TCG_CT_CONST_MONE;
+-        break;
+-    case 'O': /* vector orr/bic immediate */
+-        ct->ct |= TCG_CT_CONST_ORRI;
+-        break;
+-    case 'N': /* vector orr/bic immediate, inverted */
+-        ct->ct |= TCG_CT_CONST_ANDI;
+-        break;
+-    case 'Z': /* zero */
 -        ct->ct |= TCG_CT_CONST_ZERO;
 -        break;
--
--    case 'r':
--        ct->regs = 0xffff;
--        break;
--
--    /* qemu_ld address */
--    case 'l':
--        ct->regs = 0xffff;
--#ifdef CONFIG_SOFTMMU
--        /* r0-r2,lr will be overwritten when reading the tlb entry,
--           so don't use these. */
--        tcg_regset_reset_reg(ct->regs, TCG_REG_R0);
--        tcg_regset_reset_reg(ct->regs, TCG_REG_R1);
--        tcg_regset_reset_reg(ct->regs, TCG_REG_R2);
--        tcg_regset_reset_reg(ct->regs, TCG_REG_R3);
--        tcg_regset_reset_reg(ct->regs, TCG_REG_R14);
--#endif
--        break;
--
--    /* qemu_st address & data */
--    case 's':
--        ct->regs = 0xffff;
--        /* r0-r2 will be overwritten when reading the tlb entry (softmmu only)
--           and r0-r1 doing the byte swapping, so don't use these. */
--        tcg_regset_reset_reg(ct->regs, TCG_REG_R0);
--        tcg_regset_reset_reg(ct->regs, TCG_REG_R1);
--#if defined(CONFIG_SOFTMMU)
--        /* Avoid clashes with registers being used for helper args */
--        tcg_regset_reset_reg(ct->regs, TCG_REG_R2);
--#if TARGET_LONG_BITS == 64
--        /* Avoid clashes with registers being used for helper args */
--        tcg_regset_reset_reg(ct->regs, TCG_REG_R3);
--#endif
--        tcg_regset_reset_reg(ct->regs, TCG_REG_R14);
--#endif
--        break;
--
 -    default:
 -        return NULL;
 -    }
 -    return ct_str;
 -}
 -
- static inline uint32_t rotl(uint32_t val, int n)
+ /* Match a constant valid for addition (12-bit, optionally shifted).  */
+ static inline bool is_aimm(uint64_t val)
  {
-   return (val << n) | (val >> (32 - n));
 -- 
 2.25.1
 
