@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F662E2268
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 23:24:16 +0100 (CET)
-Received: from localhost ([::1]:53110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B4C2E2292
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 23:49:46 +0100 (CET)
+Received: from localhost ([::1]:34170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksCYJ-000624-1M
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 17:24:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54534)
+	id 1ksCwz-00045A-6Y
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 17:49:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ksCNo-0006YV-Fo
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 17:13:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37451)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1ksCNm-0002RV-Sm
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 17:13:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608761602;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ykHO//S7u8AD+LXzO9OQbG0rzEONeo+T4hjt5EE78as=;
- b=ENO9TnrIErCMpNzWE7+7F4clLzwE4dshlNlQf9q/31LiSVWIsnJCp0wsX6eDO7IF7QZFup
- S/iaGG8GtD3TrxziBnrHd2W3/kxg66PcAA8JLDGGL5U4yv6k0sbZEfQ6F4UQgTCQhvE28X
- dKvbFikTDpWxq3P7RliiGGM0S+pJ3uE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-0o19qSpBOgy3KIIguIbDeA-1; Wed, 23 Dec 2020 17:13:18 -0500
-X-MC-Unique: 0o19qSpBOgy3KIIguIbDeA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28CD2801817;
- Wed, 23 Dec 2020 22:13:17 +0000 (UTC)
-Received: from [10.3.113.9] (ovpn-113-9.phx2.redhat.com [10.3.113.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D470066D2E;
- Wed, 23 Dec 2020 22:13:13 +0000 (UTC)
-Subject: Re: [PATCH v1 1/1] chardev: enable guest socket status/crontrol via
- DTR and DCD
-To: "Darrin M. Gorski" <darrin@gorski.net>, qemu-devel@nongnu.org
-References: <CACdcevLHrP_HZED=SHMUzpF5vfFawJ3gYOKdeH1X1PHRFpWLgg@mail.gmail.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <fd3a6a86-ead8-9ad2-c7e6-d67c8dc60afd@redhat.com>
-Date: Wed, 23 Dec 2020 16:13:12 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1ksCv1-0003SB-HM
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 17:47:43 -0500
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:42749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1ksCuz-0005iS-3l
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 17:47:42 -0500
+Received: by mail-oi1-x22e.google.com with SMTP id l200so680104oig.9
+ for <qemu-devel@nongnu.org>; Wed, 23 Dec 2020 14:47:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=3ymv/KKD2i9VAg3mkyhlEHnhKHAyB+WmL9zRyE//E6U=;
+ b=PiX9ew1s7CaQgACtutkDlzxkNNzXJLRPz5ShwMSuvf06NNNhUlyDEEH+EEULSmSs66
+ HPe977yHIGBnsj4gG992CUBSD22oZwzDLSITNraZwM7ZAxDMx4GBnvvAAdzss1weNYb5
+ LECrplt1HMSMG5m8xSNLNaVNUI8eY7Eaj0hA1HsBQXvHkyH+s/Ulm+RF4REg43eIkfyn
+ sTIm9b4XctAODt4l4l38teFYHzcjfTPo/lBVrXT4kSMMor1y712J3LuLaN1iC8uNC4yZ
+ +had3X9fn4jWZeXCGSnobnRgTfX6j5/cvZT98NAvdFKEluGGG82q/i9yD6h6AKmLidSy
+ sICg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=3ymv/KKD2i9VAg3mkyhlEHnhKHAyB+WmL9zRyE//E6U=;
+ b=l9CF+FsPnli669vDDM/KY/HaxZhAscys/7ptXsPQDIA7m8JzJZOqvfp9SsBDT9RFjL
+ RFSWcWvRuE7hP4bnMboWvW5IWxXjRw2tIt/sMbcDrsy01WqbXG8eldm0FrdLFrwW8oEe
+ 8l4ymIOBwSA6uWwr2fXXmERp1wopKmIk5wveFDyVdAJdDBN+ceDUHc09FHSpWZRqPSXm
+ r0iFHTvq4NcCvGcFceZ936qDMPe1A+xXw3PZQRDZQ1eGfLMdODnAEXjgeBm091FY55QR
+ Xm2E50z2T6Pl/Tql03IZCyNNBgjU3CpMHn79ARVp2NQ36+CjTzLhRpwYOCD/FK9z6Qi5
+ Q7dQ==
+X-Gm-Message-State: AOAM533sagOWXHQPFWujuUPutzYf5GrkVTK669QGzrPl6qIArGpOy0Ht
+ HnTPuYumI7H5YlRCC3/m+hQ=
+X-Google-Smtp-Source: ABdhPJxsKt65rPzWW2hs5x0J7YdJNuG2nbHHbNNGL0kgNJshQB5bDo5SYkscDITOIhzbG8grmMoYwA==
+X-Received: by 2002:aca:c1d6:: with SMTP id r205mr1284838oif.37.1608763659903; 
+ Wed, 23 Dec 2020 14:47:39 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id z3sm6106693otq.22.2020.12.23.14.47.38
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 23 Dec 2020 14:47:38 -0800 (PST)
+Date: Wed, 23 Dec 2020 14:47:37 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: Problems with irq mapping in qemu v5.2
+Message-ID: <20201223224737.GA184012@roeck-us.net>
+References: <3f0f8fc6-6148-a76e-1088-b7882b0bbcaf@roeck-us.net>
+ <e90b9df0-5173-6e2b-3572-4f21ac318231@amsat.org>
+ <2c478b3e-5098-1887-73b3-90f91a808ad8@ilande.co.uk>
+ <1d33fa46-2079-ad40-d579-6e827543de50@roeck-us.net>
+ <f04ae64-fa4a-2e21-1468-cf37315ec9b2@eik.bme.hu>
+ <c64fe3a4-cd9c-b455-53ce-c53fb6cf0632@roeck-us.net>
+ <536fedf3-d61a-39cf-b806-c282a124e202@ilande.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <CACdcevLHrP_HZED=SHMUzpF5vfFawJ3gYOKdeH1X1PHRFpWLgg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.521, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <536fedf3-d61a-39cf-b806-c282a124e202@ilande.co.uk>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=groeck7@gmail.com; helo=mail-oi1-x22e.google.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,47 +88,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/20 4:06 PM, Darrin M. Gorski wrote:
-> This patch adds a 'modemctl' option to "-chardev socket" to enable control
-> of the socket via the guest serial port.
-> The default state of the option is disabled.
+On Wed, Dec 23, 2020 at 10:05:12PM +0000, Mark Cave-Ayland wrote:
+> On 23/12/2020 21:01, Guenter Roeck wrote:
 > 
-> 1. disconnect a connected socket when DTR transitions to low, also reject
-> new connections while DTR is low.
-> 2. provide socket connection status through the carrier detect line (CD or
-> DCD) on the guest serial port
+> > I don't have a real machine, and therefore did not test it on one.
+> > 
+> > I tried with Linux mainline (v5.10-12913-g614cb5894306), v3.16.85, v4.4.248,
+> > and v4.14.212. I can't test older version because my cross compiler is too
+> > new. Each of those kernel versions shows exactly the same behavior.
 > 
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1213196
+> Is it possible for you to provide links to your drive image and kernel so
+> that we can reproduce the same environment to investigate?
 > 
-> Signed-off-by: Darrin M. Gorski <darrin@gorski.net>
-> 
-> 
-> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
 
-Hmm - your workflow did not produce the usual --- marker and a diffstat
-of which files were in the patch; this makes it easier for reviewers to
-see at a glance what the rest of the email will contain.  It's not
-essential, but it does help.
+The root file system is available from
+https://github.com/groeck/linux-build-test/blob/master/rootfs/mipsel64/rootfs.mipsel.ext3.gz
 
+The script used to build the kernel is in available in
+the same directory, though building fuloong2e_defconfig
+should do it, possibly with CONFIG_DEVTMPFS=y added.
 
-> +++ b/qapi/char.json
-> @@ -271,6 +271,9 @@
->  #             then attempt a reconnect after the given number of seconds.
->  #             Setting this to zero disables this function. (default: 0)
->  #             (Since: 2.2)
-> +# @modemctl: allow guest to use modem control signals to control/monitor
-> +#            the socket state (CD follows is_connected, DTR influences
-> +#            connect/accept) (default: false) (Since: 5.2)
-
-The next release will by 6.0, not 5.2.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+Guenter
 
