@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 530972E1F8E
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 17:41:48 +0100 (CET)
-Received: from localhost ([::1]:51260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D353E2E1FB9
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 18:09:14 +0100 (CET)
+Received: from localhost ([::1]:56012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ks7Cs-0003qy-QO
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 11:41:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37464)
+	id 1ks7dR-0003Ju-KO
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 12:09:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
- id 1ks7B2-0002xI-Cm
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 11:39:52 -0500
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:36787)
+ (Exim 4.90_1) (envelope-from <sylvain.pelissier@gmail.com>)
+ id 1ks701-00088U-Aa; Wed, 23 Dec 2020 11:28:29 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:38810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
- id 1ks7B0-0001oH-H8
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 11:39:52 -0500
-Received: by mail-io1-xd35.google.com with SMTP id z136so15627134iof.3
- for <qemu-devel@nongnu.org>; Wed, 23 Dec 2020 08:39:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <sylvain.pelissier@gmail.com>)
+ id 1ks6zz-0006FY-Pp; Wed, 23 Dec 2020 11:28:29 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id cw27so16751065edb.5;
+ Wed, 23 Dec 2020 08:28:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rVatYmYCMQJMPjerzko57jobHUoXj+DHRjujys0dqAg=;
- b=CMoRHJGuB1XkSbypZBbRm5Lmn/sYHKrrdSCLcYKUgSpGp/iIxUWpK7MqDlEpZGZ/ZD
- SMUgmlHBkjZAhgOYfKLrsAQQ2mMDkqHE13F3DRTjxTcGD7l658kjyqkYC81jcTfgm40h
- ngdZ8ggxsn4jQ9lLSvbc41CsNjCnD70y41Fcq+PlRGEb+3XfAxEra5cNugupWtTuptdk
- ZOJocOMNm0WBUDIT6NlQuhYN35JEon7iB0ECIKD+pwOL3niu5vO44NxBWPUa6+gdBhE6
- d31sf7OTkUeHc1/u00+DUii7nWaEIpW5kk/NmXqi4ND+8t/dRs77wgI+xsDHUWMmfyDt
- odyQ==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=tp6cAhQ6bC+F9AdbGmF40NgniF1lEuyW8r53rI/N8IU=;
+ b=V7A013Faw3pNvERhCEfeGSpUsjSwG6r5sKy9exZG9U4rY+peKhY63CG8OORdUm0r39
+ YgfzccKzzJFa33icLC1Gq9W80aTirOqj1yq9L7DiQUo/p2Vhfv8gRgVHTIdZwe9jBQQo
+ mTqp0bRL/cJN893UB5XzXzuOIxNvDPOwFIRJSS3GTJXKe3TG63/LwcRcgKB7pxq5R8mc
+ YCRk5Q+nm6moRX7nIWe6coDrLiLWS9N5uB3I/Y3+D6AqAvjXfMoUtmdooiLGCK6YHvWE
+ nqqBMr+V5Ep6uk++D3fylLuIeI589RMUhCuFnvLVaiTg5ILg0MW7HJ/JzFDjk3f1+Gsa
+ 1dEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rVatYmYCMQJMPjerzko57jobHUoXj+DHRjujys0dqAg=;
- b=D0cTXE5+jPb+paoPZj6RmaeDmOSA6Ap5B5vCbJV4kj9sWj+XGRwhOcFdoXjUARG00n
- shu8taRSPo2nt1CxUi+INh/fLBnZrxvXb7ppsE+g1W5PT5dqfYT+6dWUhXwOT2yGVUtM
- wvUlCT7QkyUAysD236bkdz01k5tpbqnJz+8sgdsaEgmRkuMQjCA4mX3XqkyEzmLt1czj
- 3xat5fr/txxka9FAJTUeusjaFJgJLh99tFh6yo4ce5JS2rC/Nrugl2b+wG2mPb+2+hWr
- SCt1vuoppiof6SrIwl4Pr/AgrcKlWaNzeRmcaiOtiYFzwYtrXbnnrsc7T9holG4gfDfv
- qVPg==
-X-Gm-Message-State: AOAM530pd+Dj9Esy5SlmvAFU2gA8PT3F977a2fAh4H/F7TwBR4Mfn3P3
- 7BAGgUf0sWq65CJNDepod/KlY/P95iXDGC3mRhc=
-X-Google-Smtp-Source: ABdhPJxyAnwmJZzZB1b22WrZzw7BIjDXYDFpaPAmxIgWuUHQ3FHGoOFNR3974ncYPlecPN6dclod2ICJWmOPjDwyEvk=
-X-Received: by 2002:a02:5d85:: with SMTP id w127mr23645424jaa.83.1608741587758; 
- Wed, 23 Dec 2020 08:39:47 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=tp6cAhQ6bC+F9AdbGmF40NgniF1lEuyW8r53rI/N8IU=;
+ b=GBC8nczr77xg4Hd3CdwsBnjlL7lFifNeqV2H8xJOueMSB5wdsbhC/Rq5QypZFeXyRZ
+ EFf57P0romBwMneV8DvHEA1E/5Uc1KwmQdU6lS6zFngRH5F9PgkMbV7uV/f10nzZAfIx
+ hR7jF3tCpJIQodPsfIjkPVIUnYzOhE6RH/2SB1Q3FaOqk1kJaEJExv8+3BlMm5OEP6K6
+ sZVvET/RgqzzDPPTnL3pJffB0cJGzbVPe/kAPt6a95D65lGO7hhA7VxlwdE3Kf3XhkmV
+ mV8v3cj2B0gXaR5FGS4tIE2/SIzqRhO9XYRmlLV5YD9pVigGQXIrIMcdkh/TE/h87U2v
+ HT2A==
+X-Gm-Message-State: AOAM533JXSHNckcLS2gB597x/AFm7uPpu1ualS1FtQNTa51W94plQsKp
+ zsvqT73oXjaJipWt4qitFgTBwYCKShFfEolHBHlMKI0rtHV9OPLT
+X-Google-Smtp-Source: ABdhPJw22FaUFN/xLPF3zT5RxluO4CiPxt0zlMqkOK4CQXLs5dm+v8XKoyOPyFDUD8jLMpTu/SfKU5i2uOXwlk+4OeE=
+X-Received: by 2002:aa7:d5d2:: with SMTP id d18mr26168140eds.126.1608740904744; 
+ Wed, 23 Dec 2020 08:28:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20201222074656.GA30035@open-light-1.localdomain>
- <CAKgT0Ucs4pv0+rcPi41uNDrav0sgOmLnVaD4NNWkg7=gncidnQ@mail.gmail.com>
- <CA+2MQi_b98v+vS9J+FnovPe5avNv4WSeD2KoQycdQAG4c3Hxpg@mail.gmail.com>
-In-Reply-To: <CA+2MQi_b98v+vS9J+FnovPe5avNv4WSeD2KoQycdQAG4c3Hxpg@mail.gmail.com>
-From: Alexander Duyck <alexander.duyck@gmail.com>
-Date: Wed, 23 Dec 2020 08:39:36 -0800
-Message-ID: <CAKgT0Ue2+eV22kAt-DmsTZqRvXGdxQXa8uVEbD0cmmFP22-r5A@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] mm: support hugetlb free page reporting
-To: Liang Li <liliang324@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alexander.duyck@gmail.com; helo=mail-io1-xd35.google.com
+From: Sylvain Pelissier <sylvain.pelissier@gmail.com>
+Date: Wed, 23 Dec 2020 17:28:13 +0100
+Message-ID: <CAOkUe-DTG1yU-z4SF-+nBeEJUWdx5gctLMSNp8f1+_7FpWG4aA@mail.gmail.com>
+Subject: [PATCH] gdb: riscv: Add target description
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000029bb1505b7242e5f"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=sylvain.pelissier@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 23 Dec 2020 12:06:55 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,196 +72,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrea Arcangeli <aarcange@redhat.com>, Michal Hocko <mhocko@suse.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>, Liang Li <liliangleo@didiglobal.com>,
- LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
- Dave Hansen <dave.hansen@intel.com>,
- Alexander Duyck <alexander.h.duyck@linux.intel.com>,
- virtualization@lists.linux-foundation.org,
- Mel Gorman <mgorman@techsingularity.net>,
- Andrew Morton <akpm@linux-foundation.org>,
- Mike Kravetz <mike.kravetz@oracle.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 22, 2020 at 7:39 PM Liang Li <liliang324@gmail.com> wrote:
->
-> > > +hugepage_reporting_cycle(struct page_reporting_dev_info *prdev,
-> > > +                        struct hstate *h, unsigned int nid,
-> > > +                        struct scatterlist *sgl, unsigned int *offset)
-> > > +{
-> > > +       struct list_head *list = &h->hugepage_freelists[nid];
-> > > +       unsigned int page_len = PAGE_SIZE << h->order;
-> > > +       struct page *page, *next;
-> > > +       long budget;
-> > > +       int ret = 0, scan_cnt = 0;
-> > > +
-> > > +       /*
-> > > +        * Perform early check, if free area is empty there is
-> > > +        * nothing to process so we can skip this free_list.
-> > > +        */
-> > > +       if (list_empty(list))
-> > > +               return ret;
-> > > +
-> > > +       spin_lock_irq(&hugetlb_lock);
-> > > +
-> > > +       if (huge_page_order(h) > MAX_ORDER)
-> > > +               budget = HUGEPAGE_REPORTING_CAPACITY;
-> > > +       else
-> > > +               budget = HUGEPAGE_REPORTING_CAPACITY * 32;
-> >
-> > Wouldn't huge_page_order always be more than MAX_ORDER? Seems like we
-> > don't even really need budget since this should probably be pulling
-> > out no more than one hugepage at a time.
->
-> I want to disting a 2M page and 1GB page here. The order of 1GB page is greater
-> than MAX_ORDER while 2M page's order is less than MAX_ORDER.
+--00000000000029bb1505b7242e5f
+Content-Type: text/plain; charset="UTF-8"
 
-The budget here is broken. When I put the budget in page reporting it
-was so that we wouldn't try to report all of the memory in a given
-region. It is meant to hold us to no more than one pass through 1/16
-of the free memory. So essentially we will be slowly processing all of
-memory and it will take 16 calls (32 seconds) for us to process a
-system that is sitting completely idle. It is meant to pace us so we
-don't spend a ton of time doing work that will be undone, not to
-prevent us from burying a CPU which is what seems to be implied here.
+Target description is not currently implemented in RISC-V architecture.
+Thus GDB won't set it properly when attached. The patch implements the
+target description response.
 
-Using HUGEPAGE_REPORTING_CAPACITY makes no sense here. I was using it
-in the original definition because it was how many pages we could
-scoop out at a time and then I was aiming for a 16th of that. Here you
-are arbitrarily squaring HUGEPAGE_REPORTING_CAPACITY in terms of the
-amount of work you will doo since you are using it as a multiple
-instead of a divisor.
+Signed-off-by: Sylvain Pelissier <sylvain.pelissier@gmail.com>
+---
+ target/riscv/cpu.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-> >
-> > > +       /* loop through free list adding unreported pages to sg list */
-> > > +       list_for_each_entry_safe(page, next, list, lru) {
-> > > +               /* We are going to skip over the reported pages. */
-> > > +               if (PageReported(page)) {
-> > > +                       if (++scan_cnt >= MAX_SCAN_NUM) {
-> > > +                               ret = scan_cnt;
-> > > +                               break;
-> > > +                       }
-> > > +                       continue;
-> > > +               }
-> > > +
-> >
-> > It would probably have been better to place this set before your new
-> > set. I don't see your new set necessarily being the best use for page
-> > reporting.
->
-> I haven't really latched on to what you mean, could you explain it again?
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 254cd83f8b..489d66038c 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -556,6 +556,15 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
 
-It would be better for you to spend time understanding how this patch
-set works before you go about expanding it to do other things.
-Mistakes like the budget one above kind of point out the fact that you
-don't understand how this code was supposed to work and just kind of
-shoehorned you page zeroing code onto it.
++static gchar *riscv_gdb_arch_name(CPUState *cs)
++{
++    #ifdef TARGET_RISCV64
++        return g_strdup("riscv:rv64");
++    #else
++        return g_strdup("riscv:rv32");
++    #endif
++}
++
+ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+ {
+     RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
+@@ -591,6 +600,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void
+*data)
+     /* For now, mark unmigratable: */
+     cc->vmsd = &vmstate_riscv_cpu;
+ #endif
++    cc->gdb_arch_name = riscv_gdb_arch_name;
+ #ifdef CONFIG_TCG
+     cc->tcg_initialize = riscv_translate_init;
+     cc->tlb_fill = riscv_cpu_tlb_fill;
+-- 
+2.25.1
 
-It would be better to look at trying to understand this code first
-before you extend it to support your zeroing use case. So adding huge
-pages first might make more sense than trying to zero and push the
-order down. The fact is the page reporting extension should be minimal
-for huge pages since they are just passed as a scatterlist so you
-should only need to add a small bit to page_reporting.c to extend it
-to support this use case.
+--00000000000029bb1505b7242e5f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> >
-> > > +               /*
-> > > +                * If we fully consumed our budget then update our
-> > > +                * state to indicate that we are requesting additional
-> > > +                * processing and exit this list.
-> > > +                */
-> > > +               if (budget < 0) {
-> > > +                       atomic_set(&prdev->state, PAGE_REPORTING_REQUESTED);
-> > > +                       next = page;
-> > > +                       break;
-> > > +               }
-> > > +
-> >
-> > If budget is only ever going to be 1 then we probably could just look
-> > at making this the default case for any time we find a non-reported
-> > page.
->
-> and here again.
+<div dir=3D"ltr"><div>Target description is not currently implemented in RI=
+SC-V architecture. Thus GDB won&#39;t set it properly when attached. The pa=
+tch implements the target description response.<br></div><div><br></div><di=
+v>Signed-off-by: Sylvain Pelissier &lt;<a href=3D"mailto:sylvain.pelissier@=
+gmail.com">sylvain.pelissier@gmail.com</a>&gt;<br>---<br>=C2=A0target/riscv=
+/cpu.c | 10 ++++++++++<br>=C2=A01 file changed, 10 insertions(+)<br><br>dif=
+f --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>index 254cd83f8b..489d=
+66038c 100644<br>--- a/target/riscv/cpu.c<br>+++ b/target/riscv/cpu.c<br>@@=
+ -556,6 +556,15 @@ static Property riscv_cpu_properties[] =3D {<br>=C2=A0 =
+=C2=A0 =C2=A0DEFINE_PROP_END_OF_LIST(),<br>=C2=A0};<br>=C2=A0<br>+static gc=
+har *riscv_gdb_arch_name(CPUState *cs)<br>+{<br>+ =C2=A0 =C2=A0#ifdef TARGE=
+T_RISCV64<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0return g_strdup(&quot;riscv:rv64&=
+quot;);<br>+ =C2=A0 =C2=A0#else<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0return g_st=
+rdup(&quot;riscv:rv32&quot;);<br>+ =C2=A0 =C2=A0#endif<br>+}<br>+<br>=C2=A0=
+static void riscv_cpu_class_init(ObjectClass *c, void *data)<br>=C2=A0{<br>=
+=C2=A0 =C2=A0 =C2=A0RISCVCPUClass *mcc =3D RISCV_CPU_CLASS(c);<br>@@ -591,6=
+ +600,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)<br>=
+=C2=A0 =C2=A0 =C2=A0/* For now, mark unmigratable: */<br>=C2=A0 =C2=A0 =C2=
+=A0cc-&gt;vmsd =3D &amp;vmstate_riscv_cpu;<br>=C2=A0#endif<br>+ =C2=A0 =C2=
+=A0cc-&gt;gdb_arch_name =3D riscv_gdb_arch_name;<br>=C2=A0#ifdef CONFIG_TCG=
+<br>=C2=A0 =C2=A0 =C2=A0cc-&gt;tcg_initialize =3D riscv_translate_init;<br>=
+=C2=A0 =C2=A0 =C2=A0cc-&gt;tlb_fill =3D riscv_cpu_tlb_fill;<br>-- <br>2.25.=
+1</div><div><br></div></div>
 
-It comes down to the fact that the changes you made have a significant
-impact on how this is supposed to function. Reducing the scatterlist
-to a size of one makes the whole point of doing batching kind of
-pointless. Basically the code should be rewritten with the assumption
-that if you find a page you report it.
-
-The old code would batch things up because there is significant
-overhead to be addressed when going to the hypervisor to report said
-memory. Your code doesn't seem to really take anything like that into
-account and instead is using an arbitrary budget value based on the
-page size.
-
-> > > +               /* Attempt to pull page from list and place in scatterlist */
-> > > +               if (*offset) {
-> > > +                       isolate_free_huge_page(page, h, nid);
-> > > +                       /* Add page to scatter list */
-> > > +                       --(*offset);
-> > > +                       sg_set_page(&sgl[*offset], page, page_len, 0);
-> > > +
-> > > +                       continue;
-> > > +               }
-> > > +
-> >
-> > There is no point in the continue case if we only have a budget of 1.
-> > We should probably just tighten up the loop so that all it does is
-> > search until it finds the 1 page it can pull, pull it, and then return
-> > it. The scatterlist doesn't serve much purpose and could be reduced to
-> > just a single entry.
->
-> I will think about it more.
->
-> > > +static int
-> > > +hugepage_reporting_process_hstate(struct page_reporting_dev_info *prdev,
-> > > +                           struct scatterlist *sgl, struct hstate *h)
-> > > +{
-> > > +       unsigned int leftover, offset = HUGEPAGE_REPORTING_CAPACITY;
-> > > +       int ret = 0, nid;
-> > > +
-> > > +       for (nid = 0; nid < MAX_NUMNODES; nid++) {
-> > > +               ret = hugepage_reporting_cycle(prdev, h, nid, sgl, &offset);
-> > > +
-> > > +               if (ret < 0)
-> > > +                       return ret;
-> > > +       }
-> > > +
-> > > +       /* report the leftover pages before going idle */
-> > > +       leftover = HUGEPAGE_REPORTING_CAPACITY - offset;
-> > > +       if (leftover) {
-> > > +               sgl = &sgl[offset];
-> > > +               ret = prdev->report(prdev, sgl, leftover);
-> > > +
-> > > +               /* flush any remaining pages out from the last report */
-> > > +               spin_lock_irq(&hugetlb_lock);
-> > > +               hugepage_reporting_drain(prdev, h, sgl, leftover, !ret);
-> > > +               spin_unlock_irq(&hugetlb_lock);
-> > > +       }
-> > > +
-> > > +       return ret;
-> > > +}
-> > > +
-> >
-> > If HUGEPAGE_REPORTING_CAPACITY is 1 it would make more sense to
-> > rewrite this code to just optimize for a find and process a page
-> > approach rather than trying to batch pages.
->
-> Yes, I will make a change. Thanks for your comments!
-
-Lastly I would recommend setting up and testing page reporting with
-the virtio-balloon driver. I worry that your patch set would have a
-significant negative impact on the performance of it. As I mentioned
-before it was designed to be more of a leaky bucket solution to
-reporting memory and was supposed to take about 30 seconds for it to
-flush all of the memory in a guest. Your changes seem to be trying to
-do a much more aggressive task and I worry that what you are going to
-find is that it will easily push CPUs to 100% on an active system
-since it will be aggressively trying to zero memory as soon as it is
-freed rather than taking it at a slower pace.
+--00000000000029bb1505b7242e5f--
 
