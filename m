@@ -2,80 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23FF2E19F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 09:29:40 +0100 (CET)
-Received: from localhost ([::1]:51384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE7A2E1A37
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 09:57:12 +0100 (CET)
+Received: from localhost ([::1]:33082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krzWd-0003Dr-DI
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 03:29:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36610)
+	id 1krzxG-0001Ib-SL
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 03:57:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1krzVr-0002iO-Mu
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 03:28:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59241)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1krzwK-0000m9-Sv
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 03:56:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1krzVo-0007hN-8E
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 03:28:51 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1krzwF-0004NF-Fr
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 03:56:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608712125;
+ s=mimecast20190719; t=1608713765;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xQFw7SyYE9jDVH/AuywH2uMkjLhb7ncaHln8NmO0aEA=;
- b=HXNMCCAQc8yRfzLpdWzBTTArGDY6FNrykwn8QKa4K/EyUhTnv/oeNTHkZ7l3M6IGVqY9Qs
- kDmavFQpbhXufYtmsV3jBUFt6JoTnYX3ESnGcc8xLt/iKhyWHrzbDtdXX/H9FEL+xMcg8S
- DQmU2/+SZY7AFmrihWvh29zekRLnft0=
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-bwACVPptOUmzPdZ7aMAUXw-1; Wed, 23 Dec 2020 03:28:42 -0500
-X-MC-Unique: bwACVPptOUmzPdZ7aMAUXw-1
-Received: by mail-il1-f198.google.com with SMTP id s23so13709205ilk.14
- for <qemu-devel@nongnu.org>; Wed, 23 Dec 2020 00:28:42 -0800 (PST)
+ bh=YDhJ2ytTBcsqqtoAKeQE/fnroSxxMTsieyKyV1vACIk=;
+ b=eo8kyJHg+EZN5xmabGB1kBUiCvgnfwGBO6OZqYyAIraapxbinrf9M76z9z5RJLdBAvaxkz
+ dmb1NMjxfAOoTrygzZgrkCQqx58+fLS9N4ockJF6wciPb0BxNm4K1Z/gSmxLlI/T/R0GIJ
+ xEvdIrdlt1J4dh0oxcARvVstkK/SqhE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-r-ARvPdRNKCWakbSzbGSKw-1; Wed, 23 Dec 2020 03:56:01 -0500
+X-MC-Unique: r-ARvPdRNKCWakbSzbGSKw-1
+Received: by mail-wr1-f70.google.com with SMTP id 88so12212409wrc.17
+ for <qemu-devel@nongnu.org>; Wed, 23 Dec 2020 00:56:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xQFw7SyYE9jDVH/AuywH2uMkjLhb7ncaHln8NmO0aEA=;
- b=jzPgnMt3lP+R+i2Av559qPmyEnFvlJyVi99yqJXSMNChRWVCtFJXYRhJa+entqnjmx
- wjQz54w6q/EGcW1TrJORJMNcBolXDBo0610SULPkyVv8Etfnl1jqXNL6fq9hX9B+jjgu
- NquKVp8zhc3zy5SXzq70YFSRzd9Ovgzb/vrFcfgRQ6eaIsC6mKGAg1FY4v/LfBeXKWOE
- rN+lyg4axG63dmPrYLtsWVl+qhrSS7CqtqSvQaG7WOYpXpeBO+veCyzDz5hDTj+JXI0f
- jkogwCInq7dB4DKOsEVM0moVnCVp0OiU5dnmzL+UfAtTLe62zYxzAwC8HFsS8a0LRTiY
- VgYw==
-X-Gm-Message-State: AOAM531F3GjqNBHd1bVHt24V79sTWLqcP1eGXXPsGQoCTTxzVdDgZL3x
- GjmaxQuoCcB53+tCa7oZH47/4hPLcZ+yNihAusqFKvxpMJLYrm0ieatYYEZ4cqRmHX5a/aU59Mh
- NRJFQScKtESF2Xceb092ARiS5T941tYc=
-X-Received: by 2002:a02:a88c:: with SMTP id l12mr22808482jam.53.1608712121716; 
- Wed, 23 Dec 2020 00:28:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzX2B0VAkNvjlyUjm43ipGmNaf14f3HfFlE8nWUgZQxHpphdBtPG40P1tbPax6fVvEn60LsAGmic+OM7dMkyRI=
-X-Received: by 2002:a02:a88c:: with SMTP id l12mr22808465jam.53.1608712121489; 
- Wed, 23 Dec 2020 00:28:41 -0800 (PST)
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YDhJ2ytTBcsqqtoAKeQE/fnroSxxMTsieyKyV1vACIk=;
+ b=dwZTkXF2zpW2srvK9OMsdDOP2sfiRnrXRnZ8glSk+Wm+XlrTynULD3MHfW3IGvO3ka
+ 1nOo2YJWurqJcpbkMgYpwsjusdFRFNecm0S1z9Qch5eTVmHMbDcjOijDgtQ4RxKVcT3m
+ bBP/WUwYi87n6OCPG78p0/IwxP6T2b/k8ck0nzCJVrByr8apQhgLbo4NwyqdylRd7bdJ
+ ONTGLPDq8WvZ8z//MYoCPAFdk1YBshKNmUA1X46txTQT2wR7q9JAI+lbkFt0oWiW+u3a
+ iE5sBKNI0FVDb/mKG6wraw/DLvjGoPLq0G03gVpR1vVYelnEDIKQMdQ6WI9qCYGLmaXj
+ 93Ww==
+X-Gm-Message-State: AOAM5313lssmt/qiV0h7NSU58rKK2ewZMkbkLh4Mv9Xu4heLi9/8AbZ4
+ KHuhcI+ysvYrM4nX2+MNkjzAo19GCQTPuLsKeAwhl1Y/wibRQPJ8WZwxfbDb2GSQdZy2MvZ3IUv
+ 2GGShsf2mNpGvyz0=
+X-Received: by 2002:adf:ab56:: with SMTP id r22mr16934823wrc.351.1608713760578; 
+ Wed, 23 Dec 2020 00:56:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwe0bDgq29Zu7Q1TrDILoxQM68K0pabT3MlIaIBv+nXOp9UiKCCoP63ONZtN/9gdyQzNONKhg==
+X-Received: by 2002:adf:ab56:: with SMTP id r22mr16934801wrc.351.1608713760242; 
+ Wed, 23 Dec 2020 00:56:00 -0800 (PST)
+Received: from [192.168.1.124] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id h29sm37460587wrc.68.2020.12.23.00.55.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Dec 2020 00:55:59 -0800 (PST)
+To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+References: <160871104474.106117.16441172468969132477.stgit@bahia.lan>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] ppc: Fix build with --without-default-devices
+Message-ID: <7bafab63-659d-a8e9-a2d1-36483b226bf0@redhat.com>
+Date: Wed, 23 Dec 2020 09:55:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <20201221134957.1353-1-wangxinxin.wang@huawei.com>
-In-Reply-To: <20201221134957.1353-1-wangxinxin.wang@huawei.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 23 Dec 2020 12:28:30 +0400
-Message-ID: <CAMxuvaxMDTY81W6vg+C3MgGXRZ0JXn222FcJ=Qm5f4bQBcQM6A@mail.gmail.com>
-Subject: Re: [PATCH] char-socket: disable reconnect timer in the sync connect
-To: Wang Xin <wangxinxin.wang@huawei.com>
+In-Reply-To: <160871104474.106117.16441172468969132477.stgit@bahia.lan>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000008c329905b71d7a31"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.521,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,244 +97,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: suruifeng <suruifeng@huawei.com>, weidong.huang@huawei.com,
- qemu-devel <qemu-devel@nongnu.org>, lidonglin@huawei.com
+Cc: qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008c329905b71d7a31
-Content-Type: text/plain; charset="UTF-8"
+On 23/12/20 09:10, Greg Kurz wrote:
+> Linking of the qemu-system-ppc64 fails on a POWER9 host when
+> --without-default-devices is passed to configure:
+> 
+> $ ./configure --without-default-devices \
+>                --target-list=ppc64-softmmu && make
+> 
+> ...
+> 
+> libqemu-ppc64-softmmu.fa.p/hw_ppc_e500.c.o: In function `ppce500_init_mpic_kvm':
+> /home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/e500.c:777: undefined reference to `kvm_openpic_connect_vcpu'
+> libqemu-ppc64-softmmu.fa.p/hw_ppc_spapr_irq.c.o: In function `spapr_irq_check':
+> /home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/spapr_irq.c:189: undefined reference to `xics_kvm_has_broken_disconnect'
+> libqemu-ppc64-softmmu.fa.p/hw_intc_spapr_xive.c.o: In function `spapr_xive_post_load':
+> /home/greg/Work/qemu/qemu-ppc/build/../hw/intc/spapr_xive.c:530: undefined reference to `kvmppc_xive_post_load'
+> 
+> ... and tons of other symbols belonging to the KVM backend of the
+> openpic, XICS and XIVE interrupt controllers.
+> 
+> It turns out that OPENPIC_KVM, XICS_KVM and XIVE_KVM are marked
+> to depend on KVM but this has no effect when minikconf runs in
+> allnoconfig mode. The correct way to express that some configuration
+> A requires some other configuration B to be true is "A select B".
+> 
+> Have OPENPIC, XICS and XIVE to select their KVM counterpart if KVM
+> is set. While here, fix POWERNV to select XIVE and XICS, just like
+> PSERIES, and drop the now useless XIVE related config clauses from
+> hw/ppc/Kconfig.
+> 
+> This went unnoticed so far because CI doesn't test the build with
+> --without-default-devices and KVM enabled on a POWER host.
+> 
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-Hi
+It is also possible to remove the *_KVM symbols and just use
 
-On Mon, Dec 21, 2020 at 6:06 PM Wang Xin <wangxinxin.wang@huawei.com> wrote:
+     when: ['CONFIG_KVM', 'CONFIG_OPENPIC']
+     when: ['CONFIG_XICS', 'CONFIG_OPENPIC']
+     when: ['CONFIG_XIVE', 'CONFIG_OPENPIC']
 
-> From: suruifeng <suruifeng@huawei.com>
->
-> The qio_channel_socket_connect_sync maybe called twice if the
-> openvswitchd restart during we attaching a vhost-user nic.
->
-> -> call trace 1:
->   net_vhost_user_init
->     tcp_chr_wait_connected //loop call sync connect until socekt connected
->       tcp_chr_connect_client_sync //return, but socekt state still
-> disconnected
->         qio_channel_socket_connect_sync //socket connect sucess
->           tcp_chr_new_client
->             tcp_chr_connect
->               qemu_chr_be_event
->                 net_vhost_user_event //CHR_EVENT_OPENED
->                   vhost_user_start
->                     tcp_chr_write  //Broken Pipe, as peer restart
->                       tcp_chr_disconnect_locked //disconnect & reconnect
-> timer create
->
-> -> call trace 2:
->   socket_reconnect_timeout //timeout, and the peer restart just finished
->     tcp_chr_connect_client_async //concurrent with
-> tcp_chr_connect_client_sync
->
+in the meson.build files.  Which one is preferrable depends on personal 
+taste, and I do not myself lean in one direction or the other---I 
+mention it just in case _you_ find that one preferrable.
 
-What do you mean by "concurrent with tcp_chr_connect_client_sync"? Are we
-talking about threads? If not, could you provide the full backtrace?
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-       tcp_chr_connect_client_task
->           qio_channel_socket_connect_sync //try connect same socket
+Thanks!
 
-This patch disabled tcp reconnect timer when we try to connect in
-> synchronous mode,
->
-it seems to work.
->
-> Signed-off-by: suruifeng <suruifeng@huawei.com>
-> Signed-off-by: Wang Xin <wangxinxin.wang@huawei.com>
->
-> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> index 213a4c8dd0..da1befca9e 100644
-> --- a/chardev/char-socket.c
-> +++ b/chardev/char-socket.c
-> @@ -80,6 +80,7 @@ struct SocketChardev {
->
->      bool is_websock;
->
-> +    bool async_reconnect_disable;
->      GSource *reconnect_timer;
->      int64_t reconnect_time;
->      bool connect_err_reported;
-> @@ -506,7 +507,9 @@ static void tcp_chr_disconnect_locked(Chardev *chr)
->      if (emit_close) {
->          qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
->      }
-> -    if (s->reconnect_time && !s->reconnect_timer) {
-> +    if (s->reconnect_time &&
-> +        !s->reconnect_timer &&
-> +        !s->async_reconnect_disable) {
->          qemu_chr_socket_restart_timer(chr);
->      }
->  }
-> @@ -954,15 +957,23 @@ static int tcp_chr_connect_client_sync(Chardev *chr,
-> Error **errp)
->  {
->      SocketChardev *s = SOCKET_CHARDEV(chr);
->      QIOChannelSocket *sioc = qio_channel_socket_new();
+Paolo
+
+> ---
+>   hw/intc/Kconfig |   18 +++++++++++++-----
+>   hw/ppc/Kconfig  |   17 ++---------------
+>   2 files changed, 15 insertions(+), 20 deletions(-)
+> 
+> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+> index 468d548ca771..0a5c080c4f5c 100644
+> --- a/hw/intc/Kconfig
+> +++ b/hw/intc/Kconfig
+> @@ -19,6 +19,7 @@ config ARM_GIC
+>   config OPENPIC
+>       bool
+>       select MSI_NONBROKEN
+> +    select OPENPIC_KVM if KVM
+>   
+>   config APIC
+>       bool
+> @@ -32,21 +33,28 @@ config ARM_GIC_KVM
+>   
+>   config OPENPIC_KVM
+>       bool
+> -    default y
+> -    depends on OPENPIC && KVM
+>   
+>   config XICS
+>       bool
+> -    depends on POWERNV || PSERIES
+> +    select XICS_KVM if KVM
+>   
+>   config XICS_SPAPR
+>       bool
+>       select XICS
+>   
+> +config XIVE
+> +    bool
+> +    select XIVE_KVM if KVM
 > +
-> +    s->async_reconnect_disable = true;
->
-
-Instead of having a new field, we could probably zero s->reconnect_timer
-temporarily.
-
-     tcp_chr_change_state(s, TCP_CHARDEV_STATE_CONNECTING);
->      tcp_chr_set_client_ioc_name(chr, sioc);
->      if (qio_channel_socket_connect_sync(sioc, s->addr, errp) < 0) {
->          tcp_chr_change_state(s, TCP_CHARDEV_STATE_DISCONNECTED);
->          object_unref(OBJECT(sioc));
-> +        s->async_reconnect_disable = false;
->          return -1;
->      }
->      tcp_chr_new_client(chr, sioc);
->      object_unref(OBJECT(sioc));
-> +    s->async_reconnect_disable = false;
+> +config XIVE_SPAPR
+> +    bool
+> +    select XIVE
 > +
-> +    if (s->state != TCP_CHARDEV_STATE_CONNECTED) {
-> +        return -1;
-> +    }
->
-
-How is this related?
-
-     return 0;
->  }
->
-> --
-> 2.26.0.windows.1
->
->
-
---0000000000008c329905b71d7a31
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 21, 2020 at 6:06 PM Wan=
-g Xin &lt;<a href=3D"mailto:wangxinxin.wang@huawei.com">wangxinxin.wang@hua=
-wei.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">From: suruifeng &lt;<a href=3D"mailto:suruifeng@huawei.com" target=
-=3D"_blank">suruifeng@huawei.com</a>&gt;<br>
-<br>
-The qio_channel_socket_connect_sync maybe called twice if the<br>
-openvswitchd restart during we attaching a vhost-user nic.<br>
-<br>
--&gt; call trace 1:<br>
-=C2=A0 net_vhost_user_init<br>
-=C2=A0 =C2=A0 tcp_chr_wait_connected //loop call sync connect until socekt =
-connected<br>
-=C2=A0 =C2=A0 =C2=A0 tcp_chr_connect_client_sync //return, but socekt state=
- still disconnected<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_socket_connect_sync //socket connec=
-t sucess<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcp_chr_new_client<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcp_chr_connect<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_chr_be_event<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 net_vhost_user_even=
-t //CHR_EVENT_OPENED<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vhost_user_s=
-tart<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcp_c=
-hr_write=C2=A0 //Broken Pipe, as peer restart<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 tcp_chr_disconnect_locked //disconnect &amp; reconnect timer create<br>
-<br>
--&gt; call trace 2:<br>
-=C2=A0 socket_reconnect_timeout //timeout, and the peer restart just finish=
-ed<br>
-=C2=A0 =C2=A0 tcp_chr_connect_client_async //concurrent with tcp_chr_connec=
-t_client_sync<br></blockquote><div><br></div><div>What do you mean by &quot=
-;concurrent with  tcp_chr_connect_client_sync&quot;? Are we talking about t=
-hreads? If not, could you provide the full backtrace?<br></div><div><br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0tcp_chr_connect_client_task<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_socket_connect_sync //try co=
-nnect same socket=C2=A0</blockquote><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">This patch disabled tcp reconnect timer when we try to connect i=
-n synchronous mode,<br></blockquote><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-it seems to work.<br>
-<br>
-Signed-off-by: suruifeng &lt;<a href=3D"mailto:suruifeng@huawei.com" target=
-=3D"_blank">suruifeng@huawei.com</a>&gt;<br>
-Signed-off-by: Wang Xin &lt;<a href=3D"mailto:wangxinxin.wang@huawei.com" t=
-arget=3D"_blank">wangxinxin.wang@huawei.com</a>&gt;<br>
-<br>
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c<br>
-index 213a4c8dd0..da1befca9e 100644<br>
---- a/chardev/char-socket.c<br>
-+++ b/chardev/char-socket.c<br>
-@@ -80,6 +80,7 @@ struct SocketChardev {<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0bool is_websock;<br>
-<br>
-+=C2=A0 =C2=A0 bool async_reconnect_disable;<br>
-=C2=A0 =C2=A0 =C2=A0GSource *reconnect_timer;<br>
-=C2=A0 =C2=A0 =C2=A0int64_t reconnect_time;<br>
-=C2=A0 =C2=A0 =C2=A0bool connect_err_reported;<br>
-@@ -506,7 +507,9 @@ static void tcp_chr_disconnect_locked(Chardev *chr)<br>
-=C2=A0 =C2=A0 =C2=A0if (emit_close) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_chr_be_event(chr, CHR_EVENT_CLOSED);=
-<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 if (s-&gt;reconnect_time &amp;&amp; !s-&gt;reconnect_timer) =
-{<br>
-+=C2=A0 =C2=A0 if (s-&gt;reconnect_time &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 !s-&gt;reconnect_timer &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 !s-&gt;async_reconnect_disable) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_chr_socket_restart_timer(chr);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-@@ -954,15 +957,23 @@ static int tcp_chr_connect_client_sync(Chardev *chr, =
-Error **errp)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0SocketChardev *s =3D SOCKET_CHARDEV(chr);<br>
-=C2=A0 =C2=A0 =C2=A0QIOChannelSocket *sioc =3D qio_channel_socket_new();<br=
->
-+<br>
-+=C2=A0 =C2=A0 s-&gt;async_reconnect_disable =3D true;<br></blockquote><div=
-><br></div><div>Instead of having a new field, we could probably zero s-&gt=
-;reconnect_timer temporarily.</div><div> <br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0tcp_chr_change_state(s, TCP_CHARDEV_STATE_CONNECTING);<=
-br>
-=C2=A0 =C2=A0 =C2=A0tcp_chr_set_client_ioc_name(chr, sioc);<br>
-=C2=A0 =C2=A0 =C2=A0if (qio_channel_socket_connect_sync(sioc, s-&gt;addr, e=
-rrp) &lt; 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tcp_chr_change_state(s, TCP_CHARDEV_STATE=
-_DISCONNECTED);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0object_unref(OBJECT(sioc));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;async_reconnect_disable =3D false;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0tcp_chr_new_client(chr, sioc);<br>
-=C2=A0 =C2=A0 =C2=A0object_unref(OBJECT(sioc));<br>
-+=C2=A0 =C2=A0 s-&gt;async_reconnect_disable =3D false;<br>
-+<br>
-+=C2=A0 =C2=A0 if (s-&gt;state !=3D TCP_CHARDEV_STATE_CONNECTED) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 }<br></blockquote><div><br></div><div>How is this related?</=
-div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-<br>
--- <br>
-2.26.0.windows.1<br>
-<br>
-</blockquote></div></div>
-
---0000000000008c329905b71d7a31--
+>   config XICS_KVM
+>       bool
+> -    default y
+> -    depends on XICS && KVM
+> +
+> +config XIVE_KVM
+> +    bool
+>   
+>   config ALLWINNER_A10_PIC
+>       bool
+> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> index 982d55f5875c..037d9332e994 100644
+> --- a/hw/ppc/Kconfig
+> +++ b/hw/ppc/Kconfig
+> @@ -31,6 +31,8 @@ config POWERNV
+>       select FDT_PPC
+>       select PCI_EXPRESS
+>       select MSI_NONBROKEN
+> +    select XIVE
+> +    select XICS
+>   
+>   config PPC405
+>       bool
+> @@ -129,21 +131,6 @@ config VIRTEX
+>       select XILINX_ETHLITE
+>       select FDT_PPC
+>   
+> -config XIVE
+> -    bool
+> -    depends on POWERNV || PSERIES
+> -
+> -config XIVE_SPAPR
+> -    bool
+> -    default y
+> -    depends on PSERIES
+> -    select XIVE
+> -
+> -config XIVE_KVM
+> -    bool
+> -    default y
+> -    depends on XIVE_SPAPR && KVM
+> -
+>   # Only used by 64-bit targets
+>   config FW_CFG_PPC
+>       bool
+> 
+> 
 
 
