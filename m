@@ -2,149 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918982E20E1
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 20:30:31 +0100 (CET)
-Received: from localhost ([::1]:38130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 659122E20DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 20:29:13 +0100 (CET)
+Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ks9qA-0005tj-Gz
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 14:30:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45742)
+	id 1ks9ou-0004Qi-Fb
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 14:29:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=61943049f=Atish.Patra@wdc.com>)
- id 1ks9mI-0002pK-JD; Wed, 23 Dec 2020 14:26:30 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:59603)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=61943049f=Atish.Patra@wdc.com>)
- id 1ks9mG-0003Wl-4l; Wed, 23 Dec 2020 14:26:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1608752654; x=1640288654;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=pRlQgXSA4RAvO/ZZEkzUtRhSXunLU4uvkNokHkL61Q0=;
- b=LWH+kEKcZo5GBvb8jO8RkcSHCLQKmjaUCoDt8HzZS7Ui1nJ3r7J2/cHK
- erDris3uvobwDcw4OdEG4KRQJ8gT4XEveGJQz/5OkklLhoxrg8j/wFLcN
- nmlK0u4GWzNNGft9W6L4VoiSBGuKmqV+zBMBMZRjkXN1OMjzdkaHtpXLT
- xAtqAZmeOGgchdhTMBF/DW41FG9/bDsxYr3Szy2FwM9f32PmMSiZYzQDQ
- CIUTMwaJlZYMqNw51HrdPr1Qg9WHNnqHxsQoI3KlB+nEv/lNJR2mwAOLJ
- ikk7WekwG7OayemCG5hdpS3aFUnoFowCqxIBDMCplkg+b+KPsVYQ9yYrm A==;
-IronPort-SDR: NeFe74ToyuQ1/T0GJ4Ey+p8Wq1JqPDoLw/i6uQl+Oba2T1sYN9VpKteYVYubfkrcyS5YGZlV6+
- 2egwtR5KaDjCgbeuorgSNOJLmrSuBnc4dW3L89MHgGO0qHf37x4664LPzg7lemAuly0YIHzPG7
- CGuHDrTclfln53+V2YMNs/NFBcCfPPcL1Rn4N6OOls4fuSQXcoa4osgg4FqwmwoLn73oxJ+6LS
- +M3pqdEg/IAqeTYCk0ns19z27uvEbtb9jweyQg8yvYYIw0dFsT0I4yllNZQZJFn4xDdz3rABPY
- MeA=
-X-IronPort-AV: E=Sophos;i="5.78,442,1599494400"; d="scan'208";a="259736116"
-Received: from mail-mw2nam10lp2106.outbound.protection.outlook.com (HELO
- NAM10-MW2-obe.outbound.protection.outlook.com) ([104.47.55.106])
- by ob1.hgst.iphmx.com with ESMTP; 24 Dec 2020 03:44:09 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fICSdbdsGDvfHa92KT8Tgga3WO/smYOy9uk+A4iieTGmdcTlhMsGszl6+2sqxrwBD1f57c6wtcU2/2aDj12Ck9nBuauiYGX5bphMOqu0UpPwcHcq1tXOK4WFNM1LOdMXyCImGw0cAV0WevnfP2MB0LdKOlxUa5EoJpF7gJ74R003C5UOSSWHZBVC1J4lg0LxEMbS5FwaGadO3GdGHVi4X5oeZKOfTgVDaQJOAmNOc/ADXLqbJ1SBSwof7H0e3wJ/NsigmHxQ0hYuGQNrisKuUAvfL9v9fvv56r6GHa7j2IdyDXmK2oxzUc1NqNoSb5qMErdi/3kPvC2WNzpfILkR5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pRlQgXSA4RAvO/ZZEkzUtRhSXunLU4uvkNokHkL61Q0=;
- b=XeVwgrKom9mjaMkBVWfN+WsETt3zRaV3xege3PewszAaeyopDQo7u3m3R5faxnDneHXA+N4dnsfAWGTiG4Igrpik+UXS9+xpfze8ABembQj+HhGPnqQxU/6UjRJg64o7sWIZu6H+aiKZUY+6uo3+tJEa+XxcpxG/gb8VFjSCUSJAB2uWYLFtF0d8uflkOTShTWJMXIwkxxvGiGBAtCT0nTmA33jZL7TT/2VgN/oikMITLIjUlZQtDVYUgZZo8/CV7dkuag0AmcTQ7dX5n3AMBiVcIc+l4okoG5QptNoPX6JKKrPDgZWeLwFWKEJSdpsdw2sB1avms7P4fc0FaMDZCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pRlQgXSA4RAvO/ZZEkzUtRhSXunLU4uvkNokHkL61Q0=;
- b=dyqemBv61bmm6KpiHlAxkFOItIkpR4wbG+vSGmFBnKosmb9fkClby78Ly6RmyqYxn/dAhBQdtem7F1d9I/yEtm3lKhj5SH0SRl28LOtjhRagGiS/eddmhU8ZsR7o4Yp+Xs3ScuwNo3ABpyPFIy9HFkuNOdtgADrDHZrY15aNCoo=
-Received: from BY5PR04MB6724.namprd04.prod.outlook.com (2603:10b6:a03:219::15)
- by BYAPR04MB3992.namprd04.prod.outlook.com (2603:10b6:a02:b8::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.15; Wed, 23 Dec
- 2020 19:26:24 +0000
-Received: from BY5PR04MB6724.namprd04.prod.outlook.com
- ([fe80::6540:dbb1:548a:fc7]) by BY5PR04MB6724.namprd04.prod.outlook.com
- ([fe80::6540:dbb1:548a:fc7%6]) with mapi id 15.20.3676.033; Wed, 23 Dec 2020
- 19:26:23 +0000
-From: Atish Patra <Atish.Patra@wdc.com>
-To: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH] target/riscv/pmp: Raise exception if no PMP entry is
- configured
-Thread-Topic: [PATCH] target/riscv/pmp: Raise exception if no PMP entry is
- configured
-Thread-Index: AQHW2MoJ8Xl14B3D6EG3P+iEPv/08qoD+wMAgAEWZgA=
-Date: Wed, 23 Dec 2020 19:26:23 +0000
-Message-ID: <f83f0478bb9bfce8906e65196dcd2d176ea3dee2.camel@wdc.com>
-References: <20201223012158.4146439-1-atish.patra@wdc.com>
- <a8b4471a-dc22-2dba-a3fb-cc13c308c236@linaro.org>
-In-Reply-To: <a8b4471a-dc22-2dba-a3fb-cc13c308c236@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.38.2 
-authentication-results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [99.13.229.45]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 63b40ff5-0c03-4c93-5b2d-08d8a778a2a2
-x-ms-traffictypediagnostic: BYAPR04MB3992:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR04MB399239550425B8D9BAD0CD75FADE0@BYAPR04MB3992.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: a4dRhXgM+eeI3dPghVhuiwkoIO/Jaxt30gE9Mhh3OUOL4JQFXMpNs8rXJRXiY+TnC5L38z1Omfg9wsMLLrsTNDSWL+ygLe77BR7vKtjhjqINc4B6Va8d0ujgC2kEWZF5xuuS9wLNwLvaT23XjNxmDfI4BRcn0oSVKfpmb0G95SLvgcpoWytwJNqc/mbUDUqSEIz34cLeLZWSl9n8WcTKxNDuZx7b8ivMl7JRVCUai7u7QxMjxjCZYidxUemhO/v6o63bWuyu1R8b0vemr6D6EknJkuosFLn6GjaDP6aNsQKtRBPhHUhAKKTDgOg4JLpajIgohKH6crFdhIeEnRgScA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR04MB6724.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(396003)(346002)(366004)(136003)(39860400002)(26005)(6506007)(83380400001)(53546011)(6486002)(76116006)(186003)(110136005)(6512007)(36756003)(66476007)(478600001)(54906003)(5660300002)(8676002)(64756008)(2906002)(66946007)(4001150100001)(4326008)(316002)(2616005)(66446008)(66556008)(71200400001)(8936002)(4744005)(86362001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?bTh1bzB5aS9Ra0NySzNtZHlwSVJmOWUvMEEwWHVTRkRJTXl2a0w3c3VIQ3NX?=
- =?utf-8?B?a3N5NWdFOW9QQWhIWXc2eHorN3MwSktRUUhaSjErbXhQT0xQeFBXaEIwVW42?=
- =?utf-8?B?UnQ1QUdubkR2UTFORTVlMzZ2TnNHMkdMaFROZnVTTGttemVzWUIzU3RPdjlG?=
- =?utf-8?B?VW84QTh5WituL0pBMWNaZzhpdFZzYWVFRWxxOG5zcTArVXRVMVRMS0Uyc0h3?=
- =?utf-8?B?cjFRcFgvYzRXSVFoM3I3aVVDUWNiV2g2RVk0YnNZOGZtN1Rra3RYSVFqWkkv?=
- =?utf-8?B?cUx6WFM1aEZJU0RDa1ptd2F0WW5PWFZTSnZOOXF2c0JmNmRYR0xtQVhmRytH?=
- =?utf-8?B?VzVpdzRWSmRlT3JTdlY1aUVLeHhhOU1MR2s4TnF4MjMxQ1JaTGlCWnlBS0NH?=
- =?utf-8?B?L0syT2E3RS9IOEd1WnorQkNDRzluRTg1RHYxUFBiVFlTMzVkMUxCNHp1K1g0?=
- =?utf-8?B?YkQxQzE0NGNiWkFPdFROc201UWR3cG9KMnhnY20vNUJiZ3o0cTBCQW5Ta0hz?=
- =?utf-8?B?aUMxTEtEa21ybXo2eG45TTM0Z0NNWkdzMnNmYnBIY2RDa201blpNMnkrZzhH?=
- =?utf-8?B?aXljUzZSTXZJd0RlMFA3NFZHVmFxMnVqb2pjVjBEaWxDTjZ5dlArYUlram05?=
- =?utf-8?B?VjUyZmE2UVBwdEladVdnREhPenFOWEhadFlwcGc5emk2TEJ3NDc2ZDlDSnJY?=
- =?utf-8?B?cEI1cEFBNm90U1l6QVZhZUZ1K3VRdk5Ob1lSOEZqRDFVeXlwSmEzU3ZhOHc5?=
- =?utf-8?B?T2FoVWZGbXA0V3VhbFhXTXNzWHRhVWtRMUk5QzR4cWdlbDJ4dzZlT01VQ1VV?=
- =?utf-8?B?dWFhYTIzS0dEQXk4anNaTUtvQlpla20xSlNCeWRQQnVLczdiTkRhWlFnYjlQ?=
- =?utf-8?B?SHRjT1lpSUJnZFlLbXJ0cnVvLyt5ZThQSkZ0dFdZaDB4SEZ6dVg3ZEZ0UmU4?=
- =?utf-8?B?dlpTY0pOK1R0YU00V29FeEs3VTN2akpvZk9UL1pRSURxT3ZqdG01aHErSWRO?=
- =?utf-8?B?Q3dPbWR2MStjUUVRTVB4VEFSK1huLzA1YUlrV0FrcXdnbFR2bGRzcVlURGNm?=
- =?utf-8?B?UjlYTU04cjRJODNSUUhoN01QbzdNU3M2cHIyR1JBU1VPWVRpbmNlOFlhdk5F?=
- =?utf-8?B?TVJ6RWY4dEsyanUyV011K2ttVENHUGl5c29zR04xZWx6TVVvSnZaVWhRSW9p?=
- =?utf-8?B?eVZCbGYrZGVmNnRZamhjN1BrdGtMN2RueENxNk41NHR1ckdWYitYMmttOVVS?=
- =?utf-8?B?bG5zM252Q1EvbmtOUkxYbTY5WHpRaWdDaFRUN0RRUEtPbmFjWjk4S2V1dWs4?=
- =?utf-8?Q?jjRBNJyjvBx/Wd3wpzHFPi3eT63UMWo8QM?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4139FAED32420C4B9D73D0D1F8601342@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ks9mj-00031z-FE
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 14:26:58 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:57212)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ks9mh-0003hs-94
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 14:26:57 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-591-z_oto0nrPry1-2fGJ5gAhg-1; Wed, 23 Dec 2020 14:26:51 -0500
+X-MC-Unique: z_oto0nrPry1-2fGJ5gAhg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B89159;
+ Wed, 23 Dec 2020 19:26:50 +0000 (UTC)
+Received: from bahia.lan (ovpn-113-185.ams2.redhat.com [10.36.113.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7747560C04;
+ Wed, 23 Dec 2020 19:26:48 +0000 (UTC)
+Subject: [PATCH v2 1/2] ppc: Fix build with --without-default-devices
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Date: Wed, 23 Dec 2020 20:26:47 +0100
+Message-ID: <160875160729.98237.3219319022197329254.stgit@bahia.lan>
+User-Agent: StGit/0.21
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6724.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63b40ff5-0c03-4c93-5b2d-08d8a778a2a2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Dec 2020 19:26:23.8024 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RhaWMNZv2NwKFeXoqN5LzXV0N194sXX644J1+HOU/uxxLZwYZnrKD3aEoVl49cONbOuZa1mUyP/ia75ffYLGSA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB3992
-Received-SPF: pass client-ip=68.232.143.124;
- envelope-from=prvs=61943049f=Atish.Patra@wdc.com; helo=esa2.hgst.iphmx.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -157,30 +61,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>, Anup Patel <Anup.Patel@wdc.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>,
- "sagark@eecs.berkeley.edu" <sagark@eecs.berkeley.edu>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
+ =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gVHVlLCAyMDIwLTEyLTIyIGF0IDE4OjQ5IC0wODAwLCBSaWNoYXJkIEhlbmRlcnNvbiB3cm90
-ZToNCj4gT24gMTIvMjIvMjAgNToyMSBQTSwgQXRpc2ggUGF0cmEgd3JvdGU6DQo+ID4gKysrIGIv
-dGFyZ2V0L3Jpc2N2L3BtcC5jDQo+ID4gQEAgLTc0LDcgKzc0LDcgQEAgc3RhdGljIGlubGluZSBp
-bnQgcG1wX2lzX2xvY2tlZChDUFVSSVNDVlN0YXRlDQo+ID4gKmVudiwgdWludDMyX3QgcG1wX2lu
-ZGV4KQ0KPiA+IMKgLyoNCj4gPiDCoCAqIENvdW50IHRoZSBudW1iZXIgb2YgYWN0aXZlIHJ1bGVz
-Lg0KPiA+IMKgICovDQo+ID4gLXN0YXRpYyBpbmxpbmUgdWludDMyX3QgcG1wX2dldF9udW1fcnVs
-ZXMoQ1BVUklTQ1ZTdGF0ZSAqZW52KQ0KPiA+ICtpbmxpbmUgdWludDMyX3QgcG1wX2dldF9udW1f
-cnVsZXMoQ1BVUklTQ1ZTdGF0ZSAqZW52KQ0KPiA+IMKgew0KPiA+IMKgwqDCoMKgwqAgcmV0dXJu
-IGVudi0+cG1wX3N0YXRlLm51bV9ydWxlczsNCj4gPiDCoH0NCj4gLi4uDQo+ID4gLS0tIGEvdGFy
-Z2V0L3Jpc2N2L3BtcC5oDQo+ID4gKysrIGIvdGFyZ2V0L3Jpc2N2L3BtcC5oDQo+ID4gQEAgLTY0
-LDUgKzY0LDYgQEAgYm9vbCBwbXBfaXNfcmFuZ2VfaW5fdGxiKENQVVJJU0NWU3RhdGUgKmVudiwN
-Cj4gPiBod2FkZHIgdGxiX3NhLA0KPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIHRhcmdldF91bG9uZyAqdGxiX3NpemUpOw0KPiA+IMKgdm9pZCBw
-bXBfdXBkYXRlX3J1bGVfYWRkcihDUFVSSVNDVlN0YXRlICplbnYsIHVpbnQzMl90IHBtcF9pbmRl
-eCk7DQo+ID4gwqB2b2lkIHBtcF91cGRhdGVfcnVsZV9udW1zKENQVVJJU0NWU3RhdGUgKmVudik7
-DQo+ID4gK3VpbnQzMl90IHBtcF9nZXRfbnVtX3J1bGVzKENQVVJJU0NWU3RhdGUgKmVudik7DQo+
-IA0KPiBZb3UgbmVlZCB0byByZW1vdmUgdGhlIGlubGluZSBhcyB3ZWxsLg0KPiANCg0KT2YgY291
-cnNlLiBGaXhlZCBpbiB2Mi4gVGhhbmtzLg0KDQo+IA0KPiByfg0KDQotLSANClJlZ2FyZHMsDQpB
-dGlzaA0K
+Linking of the qemu-system-ppc64 fails on a POWER9 host when
+--without-default-devices is passed to configure:
+
+$ ./configure --without-default-devices \
+              --target-list=3Dppc64-softmmu && make
+
+...
+
+libqemu-ppc64-softmmu.fa.p/hw_ppc_e500.c.o: In function `ppce500_init_mpic_=
+kvm':
+/home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/e500.c:777: undefined referen=
+ce to `kvm_openpic_connect_vcpu'
+libqemu-ppc64-softmmu.fa.p/hw_ppc_spapr_irq.c.o: In function `spapr_irq_che=
+ck':
+/home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/spapr_irq.c:189: undefined re=
+ference to `xics_kvm_has_broken_disconnect'
+libqemu-ppc64-softmmu.fa.p/hw_intc_spapr_xive.c.o: In function `spapr_xive_=
+post_load':
+/home/greg/Work/qemu/qemu-ppc/build/../hw/intc/spapr_xive.c:530: undefined =
+reference to `kvmppc_xive_post_load'
+
+... and tons of other symbols belonging to the KVM backend of the
+openpic, XICS and XIVE interrupt controllers.
+
+It turns out that OPENPIC_KVM, XICS_KVM and XIVE_KVM are marked
+to depend on KVM but this has no effect when minikconf runs in
+allnoconfig mode. Such reverse dependencies should rather be
+handled with a 'select' statement, eg.
+
+config OPENPIC
+    select OPENPIC_KVM if KVM
+
+or even better by getting rid of the intermediate _KVM config
+and directly checking CONFIG_KVM in the meson.build file:
+
+specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_OPENPIC'],
+=09=09if_true: files('openpic_kvm.c'))
+
+Go for the latter with OPENPIC, XICS and XIVE. While here also move
+XIVE_SPAPR to hw/intc/Kconfig where it belongs.
+
+This went unnoticed so far because CI doesn't test the build with
+--without-default-devices and KVM enabled on a POWER host.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+v2: - check CONFIG_KVM in the meson.build as suggested by Paolo
+---
+ hw/intc/Kconfig     |   14 +++++---------
+ hw/intc/meson.build |    9 ++++++---
+ hw/ppc/Kconfig      |   15 ---------------
+ 3 files changed, 11 insertions(+), 27 deletions(-)
+
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index 468d548ca771..ee60d4bf7857 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -30,23 +30,19 @@ config ARM_GIC_KVM
+     default y
+     depends on ARM_GIC && KVM
+=20
+-config OPENPIC_KVM
+-    bool
+-    default y
+-    depends on OPENPIC && KVM
+-
+ config XICS
+     bool
+-    depends on POWERNV || PSERIES
+=20
+ config XICS_SPAPR
+     bool
+     select XICS
+=20
+-config XICS_KVM
++config XIVE
+     bool
+-    default y
+-    depends on XICS && KVM
++
++config XIVE_SPAPR
++    bool
++    select XIVE
+=20
+ config ALLWINNER_A10_PIC
+     bool
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index 68da782ad2c5..b6c9218908e3 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -39,7 +39,8 @@ specific_ss.add(when: 'CONFIG_LOONGSON_LIOINTC', if_true:=
+ files('loongson_lioint
+ specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_gic.c'))
+ specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_intc.c'))
+ specific_ss.add(when: 'CONFIG_OMPIC', if_true: files('ompic.c'))
+-specific_ss.add(when: 'CONFIG_OPENPIC_KVM', if_true: files('openpic_kvm.c'=
+))
++specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_OPENPIC'],
++=09=09if_true: files('openpic_kvm.c'))
+ specific_ss.add(when: 'CONFIG_POWERNV', if_true: files('xics_pnv.c', 'pnv_=
+xive.c'))
+ specific_ss.add(when: 'CONFIG_PPC_UIC', if_true: files('ppc-uic.c'))
+ specific_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_ic.c', 'bcm2=
+836_control.c'))
+@@ -50,8 +51,10 @@ specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_i=
+ntc.c'))
+ specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clint.=
+c'))
+ specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'=
+))
+ specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
+-specific_ss.add(when: 'CONFIG_XICS_KVM', if_true: files('xics_kvm.c'))
++specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XICS'],
++=09=09if_true: files('xics_kvm.c'))
+ specific_ss.add(when: 'CONFIG_XICS_SPAPR', if_true: files('xics_spapr.c'))
+ specific_ss.add(when: 'CONFIG_XIVE', if_true: files('xive.c'))
+-specific_ss.add(when: 'CONFIG_XIVE_KVM', if_true: files('spapr_xive_kvm.c'=
+))
++specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
++=09=09if_true: files('spapr_xive_kvm.c'))
+ specific_ss.add(when: 'CONFIG_XIVE_SPAPR', if_true: files('spapr_xive.c'))
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index 982d55f5875c..064bd6edd83d 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -129,21 +129,6 @@ config VIRTEX
+     select XILINX_ETHLITE
+     select FDT_PPC
+=20
+-config XIVE
+-    bool
+-    depends on POWERNV || PSERIES
+-
+-config XIVE_SPAPR
+-    bool
+-    default y
+-    depends on PSERIES
+-    select XIVE
+-
+-config XIVE_KVM
+-    bool
+-    default y
+-    depends on XIVE_SPAPR && KVM
+-
+ # Only used by 64-bit targets
+ config FW_CFG_PPC
+     bool
+
+
 
