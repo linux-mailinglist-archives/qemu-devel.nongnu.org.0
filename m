@@ -2,71 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7892E17F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 04:59:10 +0100 (CET)
-Received: from localhost ([::1]:54688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6D52E183F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 06:08:18 +0100 (CET)
+Received: from localhost ([::1]:56910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krvIr-0003k1-BO
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 22:59:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44484)
+	id 1krwNl-0004TL-5r
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 00:08:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
- id 1krvHW-0003J7-BM
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 22:57:46 -0500
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:44207)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
- id 1krvHU-0008Ly-G9
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 22:57:46 -0500
-Received: by mail-lf1-x12c.google.com with SMTP id m25so36900399lfc.11
- for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 19:57:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=enuHhNBx3erTv6NGu3mnW7SPnLxGpEoV7bQL4nKhqzc=;
- b=VA1JPRz3K+EPcAExLpHvImEKhTkZKKlFdfj/D85QkXAxWQfXv3NhMFQjOjsPDmbib4
- TTMVjd/41mO7CUjSZveAq8PN7jv+07omfCXAEn/XS0PEmibkdGHTIV6xMkpM4Z0vdLWr
- uMY5ZscGmuwOHcf+O7m9nVa2ImfQWUDxqypaqEdzsfBGgXdGn07TRdEwSEaMLOLgRmfK
- YkfYygjWIfGtiS2jSsvLR9myX1+K3N7TdcbfzSh2q0saW6mvepJQIRqgE/DXzXMhFwJ/
- hc/03ydcIRVUdRyKQAtqG+E+MTaVllURwLkiu8kuuM9KyNdWgBjzOKV04LHTUQDHFk+0
- jOoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=enuHhNBx3erTv6NGu3mnW7SPnLxGpEoV7bQL4nKhqzc=;
- b=CHPG20AX5S8V5Bz5KnvTjlGbaOWcKskHtNBMrozlqmOAzxqfxZZsRaEee1zxMUIA8T
- SAmTKtxSC9mj9k20zvlwUecgj9O3/Fo1+Rjjgl5ZBULxFG363Hsa8OZqewVzRmwJvGfn
- dX+9RFBblm5clU4NsJV5cZ/SSmBfGUW4ABmiPjE/RZgv6TlthNP9xQwfg2XyzZwloWBW
- Xxrp0utcSQjL8H9yWNb83quxAtV2t/pwNaFE8a8buSO3EUgQx/tzG2r/9DzuSZah9gER
- 99zrY97cTOtJiSq2FEQOj1jLwesc/2npWJU9IEpLvusuOBVQDkeBZubpVOSGociL/otG
- Kw6A==
-X-Gm-Message-State: AOAM532L583//8CCSSEmLeNc8DrU9Q42oMC4Pym36sr/jbFrg6EXLQwU
- 3zX0yyUNcLKd6nRvAuRVjdmDDIaqqN6/RHp+fI0=
-X-Google-Smtp-Source: ABdhPJxeb9uR35SLDkEHQkSFzjI6GJGZz5VYrcM5t1drBy2nU9D3Lmn1TDuOZuq9KEJJ3obKbiwEa4Kg14NvoKT3LmY=
-X-Received: by 2002:a05:6512:1112:: with SMTP id
- l18mr9559659lfg.538.1608695862702; 
- Tue, 22 Dec 2020 19:57:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1krwMd-00040a-E5
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 00:07:07 -0500
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:40820)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
+ id 1krwMU-00088a-Mc
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 00:07:07 -0500
+Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 0BN53kOl014922; Tue, 22 Dec 2020 21:06:53 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=ulw9FJnRzc3rOBSehpw1C5Sm1AHvFLLEPf65aFK5BRI=;
+ b=S2hkxicIj0uF9UHr4o5HIAaXqxSZE/o/9xhuFCOoXvedVknn0DjAGSNfvkwKkpvQW/Jd
+ YbqC7yoUR+QcsHP4cI4jQ0Hxrdcfpn4xXXQd8rESr+tForymQXbi3OSgqqyzj26eP9Qb
+ c0WO7JF50ahrHG6a+3eZBZDzVRdZOMD0GiaZ3M05sfMI6FZ7oTIkTXa4PPGKUU/icR92
+ l5j+Ypx+RTrUWv9xTHQtdQ/zcwAcKfjDkSB2C2nJ5Oe8sP0ZwarDO62VmWzh3WmkuDf1
+ Yr/5wm6K9MCT4Vea/BzeK5VYVW4z2PV4/crAfhtIW8kL31wH9FMYK8dXcl8U7G080NTK KQ== 
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2177.outbound.protection.outlook.com [104.47.58.177])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 35k0qjkbbs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 22 Dec 2020 21:06:53 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PrNNQ+FKALdifft2+6zHf3DGI6g3sYxpbkZooV+B+IxRyMD865f9I+wEtmwUxFcV6srfF7ToeSHLZKrP1tL5DZvcJbAoQyRLCAARUEerxSKsdtstDSduuLoRDxz/Y/WXVUlqyYTGfeLmFAfAG2c9d5grtLigk67E3dJUtU09Adp/k2l/LKVyT2hDsU29VoKOLSmy3kHgCSqlNbClX50LKzFGtxri82EIkeVDlcMNHpULsrcG0vLCiHqaoHgpaPS2Wq+2JcMDEUiVYDKbCrG9nOOt8i3GgNjmq1c37ywxkmp4bzAi96dD8ic2isLocZTZ9Jc6t26pHW5s08uTD12bqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ulw9FJnRzc3rOBSehpw1C5Sm1AHvFLLEPf65aFK5BRI=;
+ b=Uv510hi0voI8B6BjZ200dKf88x7kiEyzQhMx5uYEFSROHY8RseDSKIDaLoZRd6vpkbarZjadqg1OU7k6/QYTPABtmRQpATxl4JqGmUkqV1us4hKVRS9tzOSgKIMV/Setla7411gSZOS4tq2fudhknk62nbhmv+lML/Yg6tZVtiluJRJIMU94zwQ9+7e9O5DchpURBfbJhN6Z5pfpfdT6jPUs9MV8EB/kEvAAZGSahUgDIyRQgX5LRp+6MXruwdzvkPK2jlKa3J6XnibcTxKWSHaUGkB5Tm+D7VU/rHYX5zSyMoqbq5mf2OD+6XJl68ihWQgvoe5Mi9yJs2W4SIueFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from MN2PR02MB6159.namprd02.prod.outlook.com (2603:10b6:208:184::12)
+ by BL0PR02MB4403.namprd02.prod.outlook.com (2603:10b6:208:47::30)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.33; Wed, 23 Dec
+ 2020 05:06:51 +0000
+Received: from MN2PR02MB6159.namprd02.prod.outlook.com
+ ([fe80::c921:e745:9890:d7c8]) by MN2PR02MB6159.namprd02.prod.outlook.com
+ ([fe80::c921:e745:9890:d7c8%7]) with mapi id 15.20.3676.033; Wed, 23 Dec 2020
+ 05:06:51 +0000
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>
+To: Dylan Reid <dgreid@dylanreid.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: Re: [PATCH] vhost-user: Check vhost features for CONFIGURE_MEM_SLOTS
+Thread-Topic: [PATCH] vhost-user: Check vhost features for CONFIGURE_MEM_SLOTS
+Thread-Index: AQHW2LwCXvx/gQKKS0i8CQRWnHZ6/KoDzY0A
+Date: Wed, 23 Dec 2020 05:06:51 +0000
+Message-ID: <55D3E635-B98B-467F-8A73-D15F20965983@nutanix.com>
+References: <BYAPR08MB464854F9582554185F3B36AFC8DF0@BYAPR08MB4648.namprd08.prod.outlook.com>
+In-Reply-To: <BYAPR08MB464854F9582554185F3B36AFC8DF0@BYAPR08MB4648.namprd08.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/16.43.20110804
+authentication-results: dylanreid.com; dkim=none (message not signed)
+ header.d=none;dylanreid.com; dmarc=none action=none header.from=nutanix.com;
+x-originating-ip: [69.122.45.60]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 305d965e-9440-4359-9a5b-08d8a7008f44
+x-ms-traffictypediagnostic: BL0PR02MB4403:
+x-microsoft-antispam-prvs: <BL0PR02MB440391400CE4289B22B9F690EADE0@BL0PR02MB4403.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:3044;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fhyZOLEgdpeyYmIB356R8KjC/WK/TRZX+cPk00aBnr/uwF48uPJb7NXKxkIb3kuaxoZWAxbFJzd8XrT8ZW216QJTeMVQxm5a46qTTuEB8kqwcunOEJ6jGDbVXrJ9nMTytX803ageJcNQ4TVoJEmKZX1ZoiTdrpWM/qzI9wR33/JwM4WClp8+wiGrhYaEzBb7f/rdCD5cZp+U0kt0ZcLDl93Iqn3FqT1tZ+tKh4+KJ77QjyDUrzaXehaTsTc1Ug4NTZ5qyjEbODFZjN3Ww7GEYKTMwuZDsCOdwLXRa3IXqkeEShdyl2mZZnEZoOgwf2CPjfuj4WRV2bkZF7R0l41NfzE9iZShkyzTZYfvqJWrrQkmCcw/l/oQdYpJA9yJyowZ0zF13VyxN3OKt4OXYlBrBDX9UpEoZaguolAwlqCbMiaofIcVeEwpRIaqzIosr8iy
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR02MB6159.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(376002)(366004)(39860400002)(346002)(136003)(396003)(6506007)(478600001)(64756008)(36756003)(4326008)(186003)(8676002)(26005)(71200400001)(2906002)(2616005)(6486002)(6512007)(83380400001)(8936002)(66946007)(76116006)(33656002)(316002)(66446008)(66476007)(86362001)(5660300002)(44832011)(91956017)(66556008)(110136005)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?Z1BXMUZ1SFh6WTBRQnFaeDBwUFBwclEvRElDaUFmSjRSSUZBcnF2TFhNdFhP?=
+ =?utf-8?B?WUhBc2lhN0U5NnF5UkNiVCtsaFl2TXUvYVJ5NW5adVZyMW5ET1JwakIyU0Js?=
+ =?utf-8?B?Mi9Kcm9qUWpONldFb0laZGNtalpuOThzdllWRWh6ZlJ0Qi9VNHNMUklQb2di?=
+ =?utf-8?B?RDZWUzVRTXJ4dXA0eFRZV2NYenNQV2hGZm9veWhST2FHc2JId0pTZXBYQkl5?=
+ =?utf-8?B?SEMzZUFOVEJ4dm03SkltY0M0dytwNGV5anIvelhKUjNHQ05aNnAyRDlDTWJN?=
+ =?utf-8?B?eXViV0tIQUFKRzJyMDFZMkVDK0NNK0xMeVZrdzV5NTNHSGp2VlV4dk50WGVy?=
+ =?utf-8?B?YVJBekkyTzVQZWUvSkN2NHl4RGlxUnVkTGFjdjgvaUJJRkhVK3R1K2JDajhB?=
+ =?utf-8?B?aHh2SFJXUjBkWW5XeGMrbnNnb3NRbGpOenpUMHBHYnRrMyt6K2diQjFsYzRF?=
+ =?utf-8?B?UGZBRzE2VEJiNm5QU0JqNFFKZ3RKQ2xqQXJaOXJFTmJRaDJJa1hmdjZsYTJM?=
+ =?utf-8?B?bENtL1hvdTVtaE9CUjg3VDJpY3EwMEZ3czQxcUNIb0cyNk9Ddmp1RUhJNU51?=
+ =?utf-8?B?bUg0MFNCMWNVS0ZjZTRXSVhFVVBGSFVJbTVvanoxZk1HK0ZvcXJrbkxtZDM5?=
+ =?utf-8?B?QW1qTHJtMFNtSWRSaFE1Qit5L090S084UmJ0SEFxSDNzTWIxV2ZDbVdUM1lY?=
+ =?utf-8?B?OTVuTUVmdjVLUHprSE5zOFhUSi9sRFgwMG41N3huQnRKalFmcjZKcC9zS3pZ?=
+ =?utf-8?B?RzRXNy9hUnRwTmZQOGd3T1kzcjZuQWQ5MEkzcDJLWGtzT24wOHZ1aElPUHlL?=
+ =?utf-8?B?WE5DdzBNRWVFeEZQWEdVblBaeGltZlc3a3J2ZGZWdlpJdmRjYnFhZ01ud2tE?=
+ =?utf-8?B?YjZBeHRGcWpZaEMxYzN5bWxCektIZTZ0d1FXMlBNMGhWNWR5Umd2NXRCS1I0?=
+ =?utf-8?B?WEFiODZCWEtkamJSa1gvZEUwSVRYdlJ1ZnBKQStnbVY2eWVNckV2K3hPeWND?=
+ =?utf-8?B?dmQwclhqcER5UUNFaVhPSW0zWk01K0hNOW9Kd3hqNC96R1FjR3hjSkNja0FP?=
+ =?utf-8?B?U1ZyQk9wYnZtbER0TEhJNUs1cjF6NkNFRnovbWFZNDVpSUhzWGNaNjc2V1dz?=
+ =?utf-8?B?VmtyTVVVclVLeXZXMFIvdEdiUVVOd3I5Y3BNWUlSREpscFBUWU83TlNXWHp1?=
+ =?utf-8?B?RkQzcjRLRUNjcjk2UnNyUXN0RTlIbXY0M05IZXpiWDYrTmFOMSttWitSaWRy?=
+ =?utf-8?B?Ym0wSGdOYU1MdEgxZllvTVQ3aTNybFAxc2NLM0E0d2ZPZjlmVEZHWFpENGFj?=
+ =?utf-8?Q?qsJgRuB8JIpyzo3qFLlJ0Sx5i8waD1YaKF?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <948549E21E465147ABBD573A5E3610A2@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20201222074656.GA30035@open-light-1.localdomain>
- <63318bf1-21ea-7202-e060-b4b2517c684e@oracle.com>
-In-Reply-To: <63318bf1-21ea-7202-e060-b4b2517c684e@oracle.com>
-From: Liang Li <liliang324@gmail.com>
-Date: Wed, 23 Dec 2020 11:57:31 +0800
-Message-ID: <CA+2MQi_QDnnsbMdOH5B4Hhak-CWA-Xs6PLhxoGq2f+Vv13sgyg@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] mm: support hugetlb free page reporting
-To: Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=liliang324@gmail.com; helo=mail-lf1-x12c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR02MB6159.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 305d965e-9440-4359-9a5b-08d8a7008f44
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Dec 2020 05:06:51.6672 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RMXnrlFxecIpKK133sMY8JlzA194bEYo4CbaISd3EcwBXiX/BOD3f3IuGkHM13PFu1ofutpyTyNFZBlW48FKHHRNkR4RNW1ucipYFWIHFV0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB4403
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-23_01:2020-12-21,
+ 2020-12-23 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,177 +150,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrea Arcangeli <aarcange@redhat.com>, Michal Hocko <mhocko@suse.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>, Liang Li <liliangleo@didiglobal.com>,
- LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
- Dave Hansen <dave.hansen@intel.com>,
- Alexander Duyck <alexander.h.duyck@linux.intel.com>,
- virtualization@lists.linux-foundation.org,
- Mel Gorman <mgorman@techsingularity.net>,
- Andrew Morton <akpm@linux-foundation.org>
+Cc: "mst@redhat.com" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> On 12/21/20 11:46 PM, Liang Li wrote:
-> > Free page reporting only supports buddy pages, it can't report the
-> > free pages reserved for hugetlbfs case. On the other hand, hugetlbfs
-> > is a good choice for a system with a huge amount of RAM, because it
-> > can help to reduce the memory management overhead and improve system
-> > performance.
-> > This patch add the support for reporting hugepages in the free list
-> > of hugetlb, it canbe used by virtio_balloon driver for memory
-> > overcommit and pre zero out free pages for speeding up memory population.
->
-> My apologies as I do not follow virtio_balloon driver.  Comments from
-> the hugetlb perspective.
-
-Any comments are welcome.
-
-
-> >  static struct page *dequeue_huge_page_node_exact(struct hstate *h, int nid)
-> > @@ -5531,6 +5537,29 @@ follow_huge_pgd(struct mm_struct *mm, unsigned long address, pgd_t *pgd, int fla
-> >       return pte_page(*(pte_t *)pgd) + ((address & ~PGDIR_MASK) >> PAGE_SHIFT);
-> >  }
-> >
-> > +bool isolate_free_huge_page(struct page *page, struct hstate *h, int nid)
->
-> Looks like this always returns true.  Should it be type void?
-
-will change in the next revision.
-
-> > +{
-> > +     bool ret = true;
-> > +
-> > +     VM_BUG_ON_PAGE(!PageHead(page), page);
-> > +
-> > +     list_move(&page->lru, &h->hugepage_activelist);
-> > +     set_page_refcounted(page);
-> > +     h->free_huge_pages--;
-> > +     h->free_huge_pages_node[nid]--;
-> > +
-> > +     return ret;
-> > +}
-> > +
->
-> ...
-
-> > +static void
-> > +hugepage_reporting_drain(struct page_reporting_dev_info *prdev,
-> > +                      struct hstate *h, struct scatterlist *sgl,
-> > +                      unsigned int nents, bool reported)
-> > +{
-> > +     struct scatterlist *sg = sgl;
-> > +
-> > +     /*
-> > +      * Drain the now reported pages back into their respective
-> > +      * free lists/areas. We assume at least one page is populated.
-> > +      */
-> > +     do {
-> > +             struct page *page = sg_page(sg);
-> > +
-> > +             putback_isolate_huge_page(h, page);
-> > +
-> > +             /* If the pages were not reported due to error skip flagging */
-> > +             if (!reported)
-> > +                     continue;
-> > +
-> > +             __SetPageReported(page);
-> > +     } while ((sg = sg_next(sg)));
-> > +
-> > +     /* reinitialize scatterlist now that it is empty */
-> > +     sg_init_table(sgl, nents);
-> > +}
-> > +
-> > +/*
-> > + * The page reporting cycle consists of 4 stages, fill, report, drain, and
-> > + * idle. We will cycle through the first 3 stages until we cannot obtain a
-> > + * full scatterlist of pages, in that case we will switch to idle.
-> > + */
->
-> As mentioned, I am not familiar with virtio_balloon and the overall design.
-> So, some of this does not make sense to me.
->
-> > +static int
-> > +hugepage_reporting_cycle(struct page_reporting_dev_info *prdev,
-> > +                      struct hstate *h, unsigned int nid,
-> > +                      struct scatterlist *sgl, unsigned int *offset)
-> > +{
-> > +     struct list_head *list = &h->hugepage_freelists[nid];
-> > +     unsigned int page_len = PAGE_SIZE << h->order;
-> > +     struct page *page, *next;
-> > +     long budget;
-> > +     int ret = 0, scan_cnt = 0;
-> > +
-> > +     /*
-> > +      * Perform early check, if free area is empty there is
-> > +      * nothing to process so we can skip this free_list.
-> > +      */
-> > +     if (list_empty(list))
-> > +             return ret;
->
-> Do note that not all entries on the hugetlb free lists are free.  Reserved
-> entries are also on the free list.  The actual number of free entries is
-> 'h->free_huge_pages - h->resv_huge_pages'.
-> Is the intention to process reserved pages as well as free pages?
-
-Yes, Reserved pages was treated as 'free pages'
-
-> > +
-> > +     spin_lock_irq(&hugetlb_lock);
-> > +
-> > +     if (huge_page_order(h) > MAX_ORDER)
-> > +             budget = HUGEPAGE_REPORTING_CAPACITY;
-> > +     else
-> > +             budget = HUGEPAGE_REPORTING_CAPACITY * 32;
-> > +
-> > +     /* loop through free list adding unreported pages to sg list */
-> > +     list_for_each_entry_safe(page, next, list, lru) {
-> > +             /* We are going to skip over the reported pages. */
-> > +             if (PageReported(page)) {
-> > +                     if (++scan_cnt >= MAX_SCAN_NUM) {
-> > +                             ret = scan_cnt;
-> > +                             break;
-> > +                     }
-> > +                     continue;
-> > +             }
-> > +
-> > +             /*
-> > +              * If we fully consumed our budget then update our
-> > +              * state to indicate that we are requesting additional
-> > +              * processing and exit this list.
-> > +              */
-> > +             if (budget < 0) {
-> > +                     atomic_set(&prdev->state, PAGE_REPORTING_REQUESTED);
-> > +                     next = page;
-> > +                     break;
-> > +             }
-> > +
-> > +             /* Attempt to pull page from list and place in scatterlist */
-> > +             if (*offset) {
-> > +                     isolate_free_huge_page(page, h, nid);
->
-> Once a hugetlb page is isolated, it can not be used and applications that
-> depend on hugetlb pages can start to fail.
-> I assume that is acceptable/expected behavior.  Correct?
-> On some systems, hugetlb pages are a precious resource and the sysadmin
-> carefully configures the number needed by applications.  Removing a hugetlb
-> page (even for a very short period of time) could cause serious application
-> failure.
-
-That' true, especially for 1G pages. Any suggestions?
-Let the hugepage allocator be aware of this situation and retry ?
-
-> My apologies if that is a stupid question.  I really have no knowledge of
-> this area.
->
-> Mike Kravetz
-
-Thanks for your comments, Mike
-
-Liang
-
--- 
->
+SSBkb24ndCB0aGluayB0aGlzIGlzIHJpZ2h0Lg0KDQpPbiBUdWUsIERlYyAyMiwgMjAyMCBhdCAw
+Mzo0MToyNlBNIC0wODAwLCBEeWxhbiBSZWlkIHdyb3RlOg0KPiANCj4gVGhlIGBDT05GSUdVUkVf
+TUVNX1NMT1RTYCBmZWF0dXJlIGlzIHNwZWNpZmllZCBieSB2aG9zdCwgbm90IGJ5IHZpcnRpby4N
+Cj4gQ2hlY2sgdGhlIHZob3N0IGZsYWdzIGZvciBpdCBiZWluZyBzZXQuDQo+DQoNCkFncmVlZCAt
+IFZIT1NUX1VTRVJfUFJPVENPTF9GX0NPTkZJR1VSRV9NRU1fU0xPVFMgaXMgbmVnb3RpYXRlZCBh
+dCB0aGUgDQp2aG9zdC11c2VyLCBub3QgdmlydGlvIGxheWVyLiBUaGUgZGV2LT5wcm90b2NvbF9m
+ZWF0dXJlcyBmbGFncyBhcmUgdGFrZW4NCmZyb20gdGhlIFZIT1NUX1VTRVJfR0VUX1BST1RPQ09M
+X0ZFQVRVUkVTIG1lc3NhZ2UsIHdoaWNoIHJldHJpZXZlcyB0aGUgDQpzdXBwb3J0ZWQgdmhvc3Qt
+dXNlciBmZWF0dXJlcyBmcm9tIHRoZSBiYWNrZW5kLiBTZWUgbGlidmhvc3QtdXNlciBmb3IgYQ0K
+c2ltcGxlIHJlZmVyZW5jZSBpbXBsZW1lbnRhdGlvbi4NCg0KVGhlIFZIT1NUX1VTRVJfR0VUX0ZF
+QVRVUkVTIG1lc3NhZ2UgcmV0cmlldmVzIHRoZSB2aXJ0aW8gcHJvdG9jb2wNCmZlYXR1cmVzLCBz
+byBjaGVja2luZyBmZWF0dXJlcyBpbnN0ZWFkIG9mIGRldi0+cHJvdG9jb2xfZmVhdHVyZXMgd291
+bGQNCmluY29ycmVjdGx5IGNoZWNrIHRoZSBzdXBwb3J0ZWQgdmlydGlvIGZlYXR1cmVzIGluc3Rl
+YWQgb2YgdGhlIHZob3N0LXVzZXINCm9uZXMuDQoNCkFtIEkgbWlzc2luZyBzb21ldGhpbmcgaGVy
+ZT8NCg0KPiBJIG5vdGljZWQgdGhpcyB3aGlsZSB0ZXN0aW5nIGEgbmV3IHZob3N0IGltcGxlbWVu
+dGF0aW9uIHRoYXQgZG9lc24ndCB5ZXQNCj4gc3VwcG9ydCBjb25maWd1cmluZyBtZW1vcnkgc2xv
+dHMgYW5kIHJldGVzdGVkIHdpdGggZHBkaydzIGJsb2NrIGV4YW1wbGUNCj4gYXMgd2VsbC4NCg0K
+Q291bGQgeW91IGNsYXJpZnkgd2hhdCB5b3UgdGVzdGVkIHdpdGggRFBESz8gSSBoYXZlbid0IGhh
+ZCBwcm9ibGVtcyANCnRlc3Rpbmcgb3RoZXIgYmFja2VuZHMgd2hpY2ggZG8gbm90IHN1cHBvcnQg
+Y29uZmlndXJpbmcgbWVtb3J5IHNsb3RzLiANCg0KPiANCj4gU2lnbmVkLW9mZi1ieTogRHlsYW4g
+UmVpZCA8ZGdyZWlkQGR5bGFucmVpZC5jb20+DQo+IC0tLQ0KPiAgaHcvdmlydGlvL3Zob3N0LXVz
+ZXIuYyB8IDIgKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
+bigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2h3L3ZpcnRpby92aG9zdC11c2VyLmMgYi9ody92aXJ0
+aW8vdmhvc3QtdXNlci5jDQo+IGluZGV4IDJmZGQ1ZGFmNzQuLmZhYTBlMTMzZjIgMTAwNjQ0DQo+
+IC0tLSBhL2h3L3ZpcnRpby92aG9zdC11c2VyLmMNCj4gKysrIGIvaHcvdmlydGlvL3Zob3N0LXVz
+ZXIuYw0KPiBAQCAtMTg2MCw3ICsxODYwLDcgQEAgc3RhdGljIGludCB2aG9zdF91c2VyX2JhY2tl
+bmRfaW5pdChzdHJ1Y3Qgdmhvc3RfZGV2ICpkZXYsIHZvaWQgKm9wYXF1ZSkNCj4gICAgICAgICAg
+fQ0KPiAgDQo+ICAgICAgICAgIC8qIGdldCBtYXggbWVtb3J5IHJlZ2lvbnMgaWYgYmFja2VuZCBz
+dXBwb3J0cyBjb25maWd1cmFibGUgUkFNIHNsb3RzICovDQo+IC0gICAgICAgIGlmICghdmlydGlv
+X2hhc19mZWF0dXJlKGRldi0+cHJvdG9jb2xfZmVhdHVyZXMsDQo+ICsgICAgICAgIGlmICghdmly
+dGlvX2hhc19mZWF0dXJlKGZlYXR1cmVzLA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBWSE9TVF9VU0VSX1BST1RPQ09MX0ZfQ09ORklHVVJFX01FTV9TTE9UUykpIHsNCj4gICAg
+ICAgICAgICAgIHUtPnVzZXItPm1lbW9yeV9zbG90cyA9IFZIT1NUX01FTU9SWV9CQVNFTElORV9O
+UkVHSU9OUzsNCj4gICAgICAgICAgfSBlbHNlIHsNCj4gLS0gDQo+IDIuMjUuMQ0KPiANCj4gDQp+
+ICAgIA0KDQo=
 
