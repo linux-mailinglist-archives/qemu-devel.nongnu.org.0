@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815122E18E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 07:25:57 +0100 (CET)
-Received: from localhost ([::1]:43740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B242E18EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 07:29:24 +0100 (CET)
+Received: from localhost ([::1]:52242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krxau-0004QO-Fm
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 01:25:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41102)
+	id 1krxeF-00085z-4G
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 01:29:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1krxQz-0005vL-Mu
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:15:43 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:55202)
+ id 1krxR1-0005wG-An
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:15:44 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:33252)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1krxQr-0006BZ-Ox
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:15:39 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN6A3L6043102;
- Wed, 23 Dec 2020 06:15:21 GMT
+ id 1krxQz-0006Gv-5W
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:15:43 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN6AhcY094802;
+ Wed, 23 Dec 2020 06:15:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=TJHMwMIrEKjjlKepFri72E22BxuOCFA4gjfcrJJHKtc=;
- b=vfgXEhdA8wWV3wuoFvj3KF458JW1QZ3w/VmABfSBkPDaSvn0IwHRvc8hwE0KLYKshgL7
- 61tlC53uKmyoleZStLrRNWBwhLovY3syCBqxvxj2y6bAfACAl122JC6ShxRhL+qwk99+
- J7ZvI7z6G7N6D/v7pm9LeUYYuRQ0iaFgefPedTvsxCJETotxh+ouzuKfiaQDfkqJy2SE
- DekGrUroH2HDckA0WmvBy21EUaeidxfPvFzCuUEXdAIVa5jiL0WM7eJ2lY3Wr5a13vwM
- slutQg0v2K5Ei8rC4v/GYQREJSC7wNJ0LVAi1vsLXdhvdHRUnZLDxgsfE1/ewiWsv+/X gQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2130.oracle.com with ESMTP id 35k0d16fpv-1
+ bh=0UU8abyvKyiEOlgVS8yAEwTdTMFleTsF2NVus+m/g54=;
+ b=u8eshaFr5mCliL1jfj2Eu/MeLtO/1vxJlkk9qqBI7rNurnEwLiJhsTH5MgjvsfTw1cep
+ nIrC541aOiFQLT43nZqdAwij667w8Nv9cQTCLTB9+YRALa0iaRCc6gMV7F7R/Mz3vPMX
+ FUHO1VVsA5I0r9YoVZO4EFKgh0IAOlQwRQ7x65KYlFHsGTY+ngt0QvuJOd3fed5qn5CV
+ 3acptKTRYKFhA75nyE0I0LbJ09ZjZg4JkLSZ6u+fbdj3F+aR2oEx3vxNViord6ljML5n
+ QmZlGdSPbsNHgVIhQezy+7QWfLLyVBhJ5I8EiL0hiCkUsohQA271sK0OTATb+ypxz/f6 Qg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 35k0cw6f3k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 23 Dec 2020 06:15:21 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN69ddH135331;
- Wed, 23 Dec 2020 06:15:20 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 35k0e9dvun-1
+ Wed, 23 Dec 2020 06:15:34 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN6A1jL085291;
+ Wed, 23 Dec 2020 06:15:34 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 35k0eah1xa-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Dec 2020 06:15:20 +0000
+ Wed, 23 Dec 2020 06:15:34 +0000
 Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BN6FJPU000902;
- Wed, 23 Dec 2020 06:15:19 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BN6FWE3003085;
+ Wed, 23 Dec 2020 06:15:32 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 22 Dec 2020 22:15:19 -0800
+ with ESMTP ; Tue, 22 Dec 2020 22:15:31 -0800
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v15 05/20] multi-process: setup PCI host bridge for remote
- device
-Date: Tue, 22 Dec 2020 22:14:40 -0800
-Message-Id: <10950ccf589d46f36323ca0d0b6c429f950fe5ce.1608702853.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v15 11/20] multi-process: Associate fd of a PCIDevice with its
+ object
+Date: Tue, 22 Dec 2020 22:14:46 -0800
+Message-Id: <692ffd957512b720627dbe5e1a85827cbc8dd53b.1608702853.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1608702853.git.elena.ufimtseva@oracle.com>
 References: <cover.1608702853.git.elena.ufimtseva@oracle.com>
@@ -63,21 +63,21 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9843
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0 bulkscore=0
- mlxlogscore=999 phishscore=0 mlxscore=0 spamscore=0 malwarescore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0 mlxscore=0
+ spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2012230046
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9843
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 suspectscore=0
- adultscore=0 bulkscore=0 priorityscore=1501 mlxscore=0 clxscore=1015
- phishscore=0 mlxlogscore=999 spamscore=0 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 mlxlogscore=999
+ mlxscore=0 priorityscore=1501 impostorscore=0 suspectscore=0 phishscore=0
+ spamscore=0 clxscore=1015 malwarescore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2012230046
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=elena.ufimtseva@oracle.com; helo=aserp2130.oracle.com
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=elena.ufimtseva@oracle.com; helo=aserp2120.oracle.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -110,88 +110,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jagannathan Raman <jag.raman@oracle.com>
 
-PCI host bridge is setup for the remote device process. It is
-implemented using remote-pcihost object. It is an extension of the PCI
-host bridge setup by QEMU.
-Remote-pcihost configures a PCI bus which could be used by the remote
-PCI device to latch on to.
+Associate the file descriptor for a PCIDevice in remote process with
+DeviceState object.
 
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/hw/pci-host/remote.h | 30 +++++++++++++++
- hw/pci-host/remote.c         | 75 ++++++++++++++++++++++++++++++++++++
- MAINTAINERS                  |  2 +
- hw/pci-host/Kconfig          |  3 ++
- hw/pci-host/meson.build      |  1 +
- hw/remote/Kconfig            |  1 +
- 6 files changed, 112 insertions(+)
- create mode 100644 include/hw/pci-host/remote.h
- create mode 100644 hw/pci-host/remote.c
+ hw/remote/remote-obj.c | 208 +++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS            |   1 +
+ hw/remote/meson.build  |   1 +
+ 3 files changed, 210 insertions(+)
+ create mode 100644 hw/remote/remote-obj.c
 
-diff --git a/include/hw/pci-host/remote.h b/include/hw/pci-host/remote.h
+diff --git a/hw/remote/remote-obj.c b/hw/remote/remote-obj.c
 new file mode 100644
-index 0000000000..2017422b42
+index 0000000000..048e343525
 --- /dev/null
-+++ b/include/hw/pci-host/remote.h
-@@ -0,0 +1,30 @@
++++ b/hw/remote/remote-obj.c
+@@ -0,0 +1,208 @@
 +/*
-+ * PCI Host for remote device
++ * Copyright © 2020 Oracle and/or its affiliates.
 + *
-+ * Copyright © 2018, 2020 Oracle and/or its affiliates.
++ * This work is licensed under the terms of the GNU GPL-v2, version 2 or later.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef REMOTE_PCIHOST_H
-+#define REMOTE_PCIHOST_H
-+
-+#include "exec/memory.h"
-+#include "hw/pci/pcie_host.h"
-+
-+#define TYPE_REMOTE_PCIHOST "remote-pcihost"
-+#define REMOTE_PCIHOST(obj) \
-+    OBJECT_CHECK(RemotePCIHost, (obj), TYPE_REMOTE_PCIHOST)
-+
-+typedef struct RemotePCIHost {
-+    /*< private >*/
-+    PCIExpressHost parent_obj;
-+    /*< public >*/
-+
-+    MemoryRegion *mr_pci_mem;
-+    MemoryRegion *mr_sys_io;
-+} RemotePCIHost;
-+
-+#endif
-diff --git a/hw/pci-host/remote.c b/hw/pci-host/remote.c
-new file mode 100644
-index 0000000000..14462e49d0
---- /dev/null
-+++ b/hw/pci-host/remote.c
-@@ -0,0 +1,75 @@
-+/*
-+ * Remote PCI host device
-+ *
-+ * Unlike PCI host devices that model physical hardware, the purpose
-+ * of this PCI host is to host multi-process QEMU devices.
-+ *
-+ * Multi-process QEMU extends the PCI host of a QEMU machine into a
-+ * remote process. Any PCI device attached to the remote process is
-+ * visible in the QEMU guest. This allows existing QEMU device models
-+ * to be reused in the remote process.
-+ *
-+ * This PCI host is purely a container for PCI devices. It's fake in the
-+ * sense that the guest never sees this PCI host and has no way of
-+ * accessing it. Its job is just to provide the environment that QEMU
-+ * PCI device models need when running in a remote process.
-+ *
-+ * Copyright © 2018, 2020 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + *
 + */
@@ -199,100 +142,225 @@ index 0000000000..14462e49d0
 +#include "qemu/osdep.h"
 +#include "qemu-common.h"
 +
++#include "qemu/error-report.h"
++#include "qemu/notify.h"
++#include "qom/object_interfaces.h"
++#include "hw/qdev-core.h"
++#include "io/channel.h"
++#include "hw/qdev-core.h"
++#include "hw/remote/machine.h"
++#include "io/channel-util.h"
++#include "qapi/error.h"
++#include "sysemu/sysemu.h"
 +#include "hw/pci/pci.h"
-+#include "hw/pci/pci_host.h"
-+#include "hw/pci/pcie_host.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/pci-host/remote.h"
-+#include "exec/memory.h"
++#include "qemu/sockets.h"
++#include "monitor/monitor.h"
 +
-+static const char *remote_pcihost_root_bus_path(PCIHostState *host_bridge,
-+                                                PCIBus *rootbus)
++#define TYPE_REMOTE_OBJECT "x-remote-object"
++#define REMOTE_OBJECT(obj) \
++    OBJECT_CHECK(RemoteObject, (obj), TYPE_REMOTE_OBJECT)
++#define REMOTE_OBJECT_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(RemoteObjectClass, (obj), TYPE_REMOTE_OBJECT)
++#define REMOTE_OBJECT_CLASS(klass) \
++    OBJECT_CLASS_CHECK(RemoteObjectClass, (klass), TYPE_REMOTE_OBJECT)
++
++typedef struct {
++    ObjectClass parent_class;
++
++    unsigned int nr_devs;
++    unsigned int max_devs;
++} RemoteObjectClass;
++
++typedef struct {
++    /* private */
++    Object parent;
++
++    Notifier machine_done;
++
++    int32_t fd;
++    char *devid;
++
++    QIOChannel *ioc;
++
++    DeviceState *dev;
++    DeviceListener listener;
++} RemoteObject;
++
++static void remote_object_set_fd(Object *obj, const char *str, Error **errp)
 +{
-+    return "0000:00";
++    RemoteObject *o = REMOTE_OBJECT(obj);
++    int fd = -1;
++
++    fd = monitor_fd_param(monitor_cur(), str, errp);
++    if (fd == -1) {
++        error_prepend(errp, "Could not parse remote object fd %s:", str);
++        return;
++    }
++
++    if (!fd_is_socket(fd)) {
++        error_setg(errp, "File descriptor '%s' is not a socket", str);
++        close(fd);
++        return;
++    }
++
++    o->fd = fd;
 +}
 +
-+static void remote_pcihost_realize(DeviceState *dev, Error **errp)
++static void remote_object_set_devid(Object *obj, const char *str, Error **errp)
 +{
-+    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
-+    RemotePCIHost *s = REMOTE_PCIHOST(dev);
++    RemoteObject *o = REMOTE_OBJECT(obj);
 +
-+    pci->bus = pci_root_bus_new(DEVICE(s), "remote-pci",
-+                                s->mr_pci_mem, s->mr_sys_io,
-+                                0, TYPE_PCIE_BUS);
++    g_free(o->devid);
++
++    o->devid = g_strdup(str);
 +}
 +
-+static void remote_pcihost_class_init(ObjectClass *klass, void *data)
++static void remote_object_unrealize_listener(DeviceListener *listener,
++                                             DeviceState *dev)
 +{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(klass);
++    RemoteObject *o = container_of(listener, RemoteObject, listener);
 +
-+    hc->root_bus_path = remote_pcihost_root_bus_path;
-+    dc->realize = remote_pcihost_realize;
-+
-+    dc->user_creatable = false;
-+    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+    dc->fw_name = "pci";
++    if (o->dev == dev) {
++        object_unref(OBJECT(o));
++    }
 +}
 +
-+static const TypeInfo remote_pcihost_info = {
-+    .name = TYPE_REMOTE_PCIHOST,
-+    .parent = TYPE_PCIE_HOST_BRIDGE,
-+    .instance_size = sizeof(RemotePCIHost),
-+    .class_init = remote_pcihost_class_init,
++static void remote_object_machine_done(Notifier *notifier, void *data)
++{
++    RemoteObject *o = container_of(notifier, RemoteObject, machine_done);
++    DeviceState *dev = NULL;
++    QIOChannel *ioc = NULL;
++    Coroutine *co = NULL;
++    RemoteCommDev *comdev = NULL;
++    Error *err = NULL;
++
++    dev = qdev_find_recursive(sysbus_get_default(), o->devid);
++    if (!dev || !object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
++        error_report("%s is not a PCI device", o->devid);
++        return;
++    }
++
++    ioc = qio_channel_new_fd(o->fd, &err);
++    if (!ioc) {
++        error_report_err(err);
++        return;
++    }
++    qio_channel_set_blocking(ioc, false, NULL);
++
++    o->dev = dev;
++
++    o->listener.unrealize = remote_object_unrealize_listener;
++    device_listener_register(&o->listener);
++
++    /* co-routine should free this. */
++    comdev = g_new0(RemoteCommDev, 1);
++    *comdev = (RemoteCommDev) {
++        .ioc = ioc,
++        .dev = PCI_DEVICE(dev),
++    };
++
++    co = qemu_coroutine_create(mpqemu_remote_msg_loop_co, comdev);
++    qemu_coroutine_enter(co);
++}
++
++static void remote_object_init(Object *obj)
++{
++    RemoteObjectClass *k = REMOTE_OBJECT_GET_CLASS(obj);
++    RemoteObject *o = REMOTE_OBJECT(obj);
++
++    if (k->nr_devs >= k->max_devs) {
++        error_report("Reached maximum number of devices: %u", k->max_devs);
++        return;
++    }
++
++    o->ioc = NULL;
++    o->fd = -1;
++    o->devid = NULL;
++
++    k->nr_devs++;
++
++    o->machine_done.notify = remote_object_machine_done;
++    qemu_add_machine_init_done_notifier(&o->machine_done);
++}
++
++static void remote_object_finalize(Object *obj)
++{
++    RemoteObjectClass *k = REMOTE_OBJECT_GET_CLASS(obj);
++    RemoteObject *o = REMOTE_OBJECT(obj);
++
++    device_listener_unregister(&o->listener);
++
++    if (o->ioc) {
++        qio_channel_shutdown(o->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
++        qio_channel_close(o->ioc, NULL);
++    }
++
++    object_unref(OBJECT(o->ioc));
++
++    k->nr_devs--;
++    g_free(o->devid);
++}
++
++static void remote_object_class_init(ObjectClass *klass, void *data)
++{
++    RemoteObjectClass *k = REMOTE_OBJECT_CLASS(klass);
++
++    /*
++     * Limit number of supported devices to 1. This is done to avoid devices
++     * from one VM accessing the RAM of another VM. This is done until we
++     * start using separate address spaces for individual devices.
++     */
++    k->max_devs = 1;
++    k->nr_devs = 0;
++
++    object_class_property_add_str(klass, "fd", NULL, remote_object_set_fd);
++    object_class_property_add_str(klass, "devid", NULL,
++                                  remote_object_set_devid);
++}
++
++static const TypeInfo remote_object_info = {
++    .name = TYPE_REMOTE_OBJECT,
++    .parent = TYPE_OBJECT,
++    .instance_size = sizeof(RemoteObject),
++    .instance_init = remote_object_init,
++    .instance_finalize = remote_object_finalize,
++    .class_size = sizeof(RemoteObjectClass),
++    .class_init = remote_object_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_USER_CREATABLE },
++        { }
++    }
 +};
 +
-+static void remote_pcihost_register(void)
++static void register_types(void)
 +{
-+    type_register_static(&remote_pcihost_info);
++    type_register_static(&remote_object_info);
 +}
 +
-+type_init(remote_pcihost_register)
++type_init(register_types);
 diff --git a/MAINTAINERS b/MAINTAINERS
-index c9f7024943..8e556e3323 100644
+index 9e89e4c121..ed89e3df5d 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -3164,6 +3164,8 @@ M: John G Johnson <john.g.johnson@oracle.com>
- S: Maintained
- F: docs/devel/multi-process.rst
- F: docs/multi-process.rst
-+F: hw/pci-host/remote.c
-+F: include/hw/pci-host/remote.h
+@@ -3171,6 +3171,7 @@ F: include/hw/remote/machine.h
+ F: hw/remote/mpqemu-link.c
+ F: include/hw/remote/mpqemu-link.h
+ F: hw/remote/message.c
++F: hw/remote/remote-obj.c
  
  Build and test automation
  -------------------------
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index 036a61877a..26054c878f 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -60,3 +60,6 @@ config PCI_BONITO
-     select PCI
-     select UNIMP
-     bool
-+
-+config REMOTE_PCIHOST
-+    bool
-diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
-index e6d1b89684..b76e844857 100644
---- a/hw/pci-host/meson.build
-+++ b/hw/pci-host/meson.build
-@@ -9,6 +9,7 @@ pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true: files('xilinx-pcie.c'))
- pci_ss.add(when: 'CONFIG_PCI_I440FX', if_true: files('i440fx.c'))
- pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
- pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true: files('xen_igd_pt.c'))
-+pci_ss.add(when: 'CONFIG_REMOTE_PCIHOST', if_true: files('remote.c'))
+diff --git a/hw/remote/meson.build b/hw/remote/meson.build
+index 9f5c57f35a..71d0a5689e 100644
+--- a/hw/remote/meson.build
++++ b/hw/remote/meson.build
+@@ -3,5 +3,6 @@ remote_ss = ss.source_set()
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('mpqemu-link.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
++remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
  
- # PPC devices
- pci_ss.add(when: 'CONFIG_PREP_PCI', if_true: files('prep.c'))
-diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
-index 54844467a0..504fd6a098 100644
---- a/hw/remote/Kconfig
-+++ b/hw/remote/Kconfig
-@@ -1,3 +1,4 @@
- config MULTIPROCESS
-     bool
-     depends on PCI && KVM
-+    select REMOTE_PCIHOST
+ softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
 -- 
 2.25.GIT
 
