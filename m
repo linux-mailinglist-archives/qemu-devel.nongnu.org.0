@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFAB82E1C97
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 14:37:00 +0100 (CET)
-Received: from localhost ([::1]:38024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D748B2E1CB2
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 14:41:12 +0100 (CET)
+Received: from localhost ([::1]:40714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ks4K3-0006xa-A5
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 08:36:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54560)
+	id 1ks4O7-0008Kr-5z
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 08:41:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ks4IW-000624-QP
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 08:35:24 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:14944)
+ id 1ks4Mo-0007tQ-Cb; Wed, 23 Dec 2020 08:39:50 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:44000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ks4IT-0002Xu-TG
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 08:35:24 -0500
+ id 1ks4Mm-00041d-M0; Wed, 23 Dec 2020 08:39:50 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7C01E746552;
- Wed, 23 Dec 2020 14:35:18 +0100 (CET)
+ by localhost (Postfix) with SMTP id 3B149746553;
+ Wed, 23 Dec 2020 14:39:45 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 35DB574646C; Wed, 23 Dec 2020 14:35:18 +0100 (CET)
+ id 0208874646C; Wed, 23 Dec 2020 14:39:45 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 346FB746383;
- Wed, 23 Dec 2020 14:35:18 +0100 (CET)
-Date: Wed, 23 Dec 2020 14:35:18 +0100 (CET)
-To: Guenter Roeck <linux@roeck-us.net>
+ by zero.eik.bme.hu (Postfix) with ESMTP id 0074A746383;
+ Wed, 23 Dec 2020 14:39:44 +0100 (CET)
+Date: Wed, 23 Dec 2020 14:39:44 +0100 (CET)
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Subject: Re: Problems with irq mapping in qemu v5.2
-In-Reply-To: <d337ba4c-3cd2-eb1a-4867-5e93bf510e4d@roeck-us.net>
-Message-ID: <4ed9333-ae6b-a36d-861e-6a4bc541a898@eik.bme.hu>
+In-Reply-To: <2e2c1337-0d23-29fb-3b5e-cd45ee862052@ilande.co.uk>
+Message-ID: <bad83a50-7ef9-9490-5c46-29dd63d24c1@eik.bme.hu>
 References: <3f0f8fc6-6148-a76e-1088-b7882b0bbcaf@roeck-us.net>
- <5ef852ee-8a53-df9d-82f4-33a68c05f53a@ilande.co.uk>
- <5849da05-a063-cd56-7709-c4760c8aa71f@roeck-us.net>
- <e2a1818e-366d-8a58-ce-e3eacb6787d7@eik.bme.hu>
- <d337ba4c-3cd2-eb1a-4867-5e93bf510e4d@roeck-us.net>
+ <93a88d8e-89d0-96d4-15bc-47edfc68b5d8@eik.bme.hu>
+ <5fb9653-ac95-ecfb-229e-848bdebd839c@eik.bme.hu>
+ <2e2c1337-0d23-29fb-3b5e-cd45ee862052@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-Spam-Probability: 10%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,66 +56,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Guenter Roeck <linux@roeck-us.net>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On Tue, 22 Dec 2020, Guenter Roeck wrote:
-> On 12/22/20 2:57 PM, BALATON Zoltan wrote:
+On Wed, 23 Dec 2020, Mark Cave-Ayland wrote:
+> On 22/12/2020 22:23, BALATON Zoltan via wrote:
+>> I've just remembered that for sam460ex we had this commit: 484ab3dffadc 
+>> (sam460ex: Fix PCI interrupts with multiple devices) that changed that 
+>> mapping for that machine so I guess you got the exception with the bamboo 
+>> board then. I'm not sure though that similar fix is applicable fot that or 
+>> even that this fix is correct for sam460ex but appears to work so far.
 >
-> [ ... ]
->
->> I've already forgot about the details but we have analysed it quite throughly back when the via ide changes were made. Here are some random pointers to threads that could have some info:
->> This was the final solution that was merged as the simplest that worked for all cases we've tried to fix:
->> https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg03977.html
->>
-> This set of patches is in v5.2, yet I can still not instantiate an IDE drive, at least
-> not with "-drive file=<filename>,if=ide". Is there some other means to instantiate
-> an ide drive with the fuloong2e emulation ?
->
-> For reference, here is my qemu command line:
->
-> qemu-system-mips64el -M fulong2e \
->    -kernel vmlinux -no-reboot -m 256 \
->    -snapshot -drive file=rootfs.mipsel.ext3,format=raw,if=ide \
->    -vga none \
->    --append "root=/dev/sda console=ttyS0" \
->    -nographic -serial stdio -monitor none
+> FWIW you might want to review this commit: as Peter noticed it is possible to 
+> lose interrupts here since if one PCI interrupt is already asserted and then 
+> another comes along, the second PCI interrupt will unintentionally clear the 
+> first which could cause problems.
 
-This is what worked the last time we've tried:
-
-https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg04086.html
-
-and this was my understanding of the issues with this VIA IDE function of 
-these integrated southbridge/superio chips and Linux's approach to them 
-that may be relevant to debug this:
-
-https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg00019.html
-
-We've found that pegasos2 PPC board uses this "half-native" mode where 
-IRQs are using ISA IRQs but not sure what the fuloong2e has. Linux did not 
-seem to care as long as there's no mismatch between config bits and IRQ 
-routing. Although we've also found some comments in Linux may be 
-misleading:
-
-https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg02349.html
-
-For the command line I never know which of these work for which machines 
-so I just avoid using -drive if=... If the machine has 4 IDE ports then 
--hda -hdb -cdrom usually works, otherwise the most verbose form should 
-always work which is:
-
--drive if=none,id=cd,file=some.iso,format=raw \
--device ide-cd,drive=cd,bus=ide.1
-
-and similar for HD image with ide-hd and bus=ide.0 or wherever you want to 
-connect it.
+Yes, thanks for reminding. I think this was also raised back then but for 
+some reason we thought this should not be an issue in this case but I'll 
+give it a try and see if using an or-gate would be better. The only 
+possible IRQ related problem I know about is choppy sound with an emulated 
+PCI sound card but that may be because some other audio related problem as 
+well.
 
 Regards,
 BALATON Zoltan
+
+> You probably want to keep the 4 separate PCI interrupts but feed them into an 
+> OR IRQ, the output of which gets fed into the UIC. Have a look at 
+> https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg05503.html for the 
+> sun4m variant of this based upon Peter's original example.
+>
+>
+> ATB,
+>
+> Mark.
+>
+>
 
