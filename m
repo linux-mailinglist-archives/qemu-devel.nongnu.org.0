@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982582E1A65
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 10:12:33 +0100 (CET)
-Received: from localhost ([::1]:39992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7802E1A71
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 10:14:15 +0100 (CET)
+Received: from localhost ([::1]:48486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ks0C8-00055x-2o
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 04:12:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52336)
+	id 1ks0Dm-0000E0-GY
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 04:14:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1ks09u-0003h4-5K
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 04:10:14 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2901)
+ id 1ks0A6-0003jq-CF
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 04:10:27 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1ks09q-0002ZW-Pg
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 04:10:13 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D16pQ4RNqz15hM8;
- Wed, 23 Dec 2020 17:09:18 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.498.0; Wed, 23 Dec 2020
- 17:09:55 +0800
+ id 1ks09u-0002bB-Iq
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 04:10:26 -0500
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D16pX45Mmz15hVK;
+ Wed, 23 Dec 2020 17:09:24 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS408-HUB.china.huawei.com
+ (10.3.19.208) with Microsoft SMTP Server id 14.3.498.0; Wed, 23 Dec 2020
+ 17:09:56 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3 6/8] Kconfig: Enable PXB for ARM_VIRT by default
-Date: Wed, 23 Dec 2020 17:08:34 +0800
-Message-ID: <20201223090836.9075-7-cenjiahui@huawei.com>
+Subject: [PATCH v3 7/8] acpi: Enable pxb unit-test for ARM virt machine
+Date: Wed, 23 Dec 2020 17:08:35 +0800
+Message-ID: <20201223090836.9075-8-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201223090836.9075-1-cenjiahui@huawei.com>
 References: <20201223090836.9075-1-cenjiahui@huawei.com>
@@ -67,26 +67,45 @@ Cc: xieyingtai@huawei.com, Jiahui Cen <cenjiahui@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PXB is now supported on ARM, so let's enable it by default.
+No matter whether the pxb is enabled or not, the CONFIG_PXB macro in test
+would keep undefined. And since pxb is now enabled for ARM Virt machine
+by default, let's enable pxb unit-test by removing the CONFIG_PXB.
 
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 ---
- hw/pci-bridge/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/bios-tables-test.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/hw/pci-bridge/Kconfig b/hw/pci-bridge/Kconfig
-index a51ec716f5..f8df4315ba 100644
---- a/hw/pci-bridge/Kconfig
-+++ b/hw/pci-bridge/Kconfig
-@@ -5,7 +5,7 @@ config PCIE_PORT
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 4e026f90d0..669202fc95 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1196,7 +1196,6 @@ static void test_acpi_virt_tcg_numamem(void)
  
- config PXB
-     bool
--    default y if Q35
-+    default y if Q35 || ARM_VIRT
+ }
  
- config XIO3130
-     bool
+-#ifdef CONFIG_PXB
+ static void test_acpi_virt_tcg_pxb(void)
+ {
+     test_data data = {
+@@ -1228,7 +1227,6 @@ static void test_acpi_virt_tcg_pxb(void)
+ 
+     free_test_data(&data);
+ }
+-#endif
+ 
+ static void test_acpi_tcg_acpi_hmat(const char *machine)
+ {
+@@ -1342,9 +1340,7 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+         qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+-#ifdef CONFIG_PXB
+         qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
+-#endif
+     }
+     ret = g_test_run();
+     boot_sector_cleanup(disk);
 -- 
 2.29.2
 
