@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F262E191C
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 07:50:39 +0100 (CET)
-Received: from localhost ([::1]:45122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B5E2E1907
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 07:40:21 +0100 (CET)
+Received: from localhost ([::1]:51204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krxyo-0004IU-Od
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 01:50:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41486)
+	id 1krxoq-00034y-P5
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 01:40:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1krxTB-0007Sw-3u
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:17:57 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:38314)
+ id 1krxTJ-0007aP-9s
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:18:07 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:38576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1krxT5-00070p-5k
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:17:56 -0500
+ id 1krxTE-00075S-TK
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:18:05 -0500
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN68utC153340;
- Wed, 23 Dec 2020 06:17:44 GMT
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN68dMS153261;
+ Wed, 23 Dec 2020 06:17:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=QeKPJ3ZGXhNIPKihGFo+MSkLyS835O6uVJ1x75Fq4TA=;
- b=yfYVN7HawSo+fWJ8uwGhsUQ2XdpPmM/JXT0nvPfLu3iaTrT8p8YnefzJqqt8udd0ssrc
- 81+XiFicMX7AP8gSaeimHtkc6S21tWJ3AYru3J6lg/45p9J4e7bA8mmVifn1yi4Xf7EG
- fbg6DjloieyaSxCClrX8nGU6eTxJFO2u4khPiPuRPkbzC2DFt0IgeawNLXkm98TJlswv
- nFaUx563mLaKR839cAiwGyS3biXyO94IHw5B6HpfYuXhy9a9VlV0wQmlqYKql90t6olC
- OA91U1S5Yv/3pdsFRAYRTCDT7gBv7IHJaKBMd9fxlnCNbnSvbhS28eRclA5M40X0+8kJ 7A== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 35ku8drp69-1
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=a1Bxi18DJSTSywsMn37Uefui4lxIgQeANd5KnVlU49M=;
+ b=ZwA6/P2btrh5PfH31VQVJuEww7utKZVTjEScttC6SdXLj8WXjKxEucimp4b7fCJE6nJh
+ 8tZS+XmGdfvrLOjbOwRRMfGXrotnVDgmGk8sNTbhSjAkN6VZoLaPxoasP/NtZs76JUom
+ SOgHrWUT58FTovLNFZgkV4VrhXacPNy0x9Aqbbmu8wCIqihIpAA6qrPT9Iv98VB33xuN
+ bZfB2tbop4IkVkO7pHi2DHi2av3rhhWw1qhNEqelSWhejvX3JZPRAEMgII29Tx2QWqrg
+ w466wdG77+nMD1GezAwkRV1nEkSDp5rHLzdQ4A0kLAd/AeXT943ZoyxwdbI5KwYtzjyM jg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 35ku8drp6d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 23 Dec 2020 06:17:43 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN6EbsE160987;
- Wed, 23 Dec 2020 06:15:43 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 35k0eu22ub-1
+ Wed, 23 Dec 2020 06:17:48 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN6A1Jj085319;
+ Wed, 23 Dec 2020 06:15:48 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 35k0eah299-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Dec 2020 06:15:43 +0000
+ Wed, 23 Dec 2020 06:15:48 +0000
 Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BN6Fgvo031947;
- Wed, 23 Dec 2020 06:15:42 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BN6FjYK003197;
+ Wed, 23 Dec 2020 06:15:45 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 22 Dec 2020 22:15:41 -0800
+ with ESMTP ; Tue, 22 Dec 2020 22:15:45 -0800
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v15 16/20] multi-process: PCI BAR read/write handling for
- proxy & remote endpoints
-Date: Tue, 22 Dec 2020 22:14:51 -0800
-Message-Id: <9bfb1253f306d79419b47803b6a2c1fdd5618ffd.1608702853.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v15 17/20] multi-process: Synchronize remote memory
+Date: Tue, 22 Dec 2020 22:14:52 -0800
+Message-Id: <c7dc66ccc59aa69804caabfe6e3065969b94f60a.1608702853.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
 In-Reply-To: <cover.1608702853.git.elena.ufimtseva@oracle.com>
 References: <cover.1608702853.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9843
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- spamscore=0 phishscore=0
- suspectscore=0 mlxlogscore=999 mlxscore=0 bulkscore=0 malwarescore=0
+ phishscore=0 mlxscore=0
+ spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012230047
+ definitions=main-2012230046
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9843
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
@@ -109,284 +109,393 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jagannathan Raman <jag.raman@oracle.com>
 
-Proxy device object implements handler for PCI BAR writes and reads.
-The handler uses BAR_WRITE/BAR_READ message to communicate to the
-remote process with the BAR address and value to be written/read.
-The remote process implements handler for BAR_WRITE/BAR_READ
-message.
+Add ProxyMemoryListener object which is used to keep the view of the RAM
+in sync between QEMU and remote process.
+A MemoryListener is registered for system-memory AddressSpace. The
+listener sends SYNC_SYSMEM message to the remote process when memory
+listener commits the changes to memory, the remote process receives
+the message and processes it in the handler for SYNC_SYSMEM message.
 
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/hw/remote/mpqemu-link.h | 10 ++++
- include/hw/remote/proxy.h       | 10 ++++
- hw/remote/message.c             | 83 +++++++++++++++++++++++++++++++++
- hw/remote/mpqemu-link.c         |  6 +++
- hw/remote/proxy.c               | 60 ++++++++++++++++++++++++
- 5 files changed, 169 insertions(+)
+ include/hw/remote/proxy-memory-listener.h |  28 +++
+ include/hw/remote/proxy.h                 |   2 +
+ hw/remote/message.c                       |   4 +
+ hw/remote/proxy-memory-listener.c         | 227 ++++++++++++++++++++++
+ hw/remote/proxy.c                         |   6 +
+ MAINTAINERS                               |   2 +
+ hw/remote/meson.build                     |   1 +
+ 7 files changed, 270 insertions(+)
+ create mode 100644 include/hw/remote/proxy-memory-listener.h
+ create mode 100644 hw/remote/proxy-memory-listener.c
 
-diff --git a/include/hw/remote/mpqemu-link.h b/include/hw/remote/mpqemu-link.h
-index 1f35568ed0..caa40da029 100644
---- a/include/hw/remote/mpqemu-link.h
-+++ b/include/hw/remote/mpqemu-link.h
-@@ -37,6 +37,8 @@ typedef enum {
-     MPQEMU_CMD_RET,
-     MPQEMU_CMD_PCI_CFGWRITE,
-     MPQEMU_CMD_PCI_CFGREAD,
-+    MPQEMU_CMD_BAR_WRITE,
-+    MPQEMU_CMD_BAR_READ,
-     MPQEMU_CMD_MAX,
- } MPQemuCmd;
- 
-@@ -52,6 +54,13 @@ typedef struct {
-     int len;
- } PciConfDataMsg;
- 
-+typedef struct {
-+    hwaddr addr;
-+    uint64_t val;
-+    unsigned size;
-+    bool memory;
-+} BarAccessMsg;
+diff --git a/include/hw/remote/proxy-memory-listener.h b/include/hw/remote/proxy-memory-listener.h
+new file mode 100644
+index 0000000000..874ea9bbdd
+--- /dev/null
++++ b/include/hw/remote/proxy-memory-listener.h
+@@ -0,0 +1,28 @@
++/*
++ * Copyright © 2018, 2020 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
 +
- /**
-  * MPQemuMsg:
-  * @cmd: The remote command
-@@ -71,6 +80,7 @@ typedef struct {
-         uint64_t u64;
-         PciConfDataMsg pci_conf_data;
-         SyncSysmemMsg sync_sysmem;
-+        BarAccessMsg bar_access;
-     } data;
- 
-     int fds[REMOTE_MAX_FDS];
++#ifndef PROXY_MEMORY_LISTENER_H
++#define PROXY_MEMORY_LISTENER_H
++
++#include "exec/memory.h"
++#include "io/channel.h"
++
++typedef struct ProxyMemoryListener {
++    MemoryListener listener;
++
++    int n_mr_sections;
++    MemoryRegionSection *mr_sections;
++
++    QIOChannel *ioc;
++} ProxyMemoryListener;
++
++void proxy_memory_listener_configure(ProxyMemoryListener *proxy_listener,
++                                     QIOChannel *ioc);
++void proxy_memory_listener_deconfigure(ProxyMemoryListener *proxy_listener);
++
++#endif
 diff --git a/include/hw/remote/proxy.h b/include/hw/remote/proxy.h
-index 923432ac87..e29c61b73f 100644
+index e29c61b73f..5f35b3b641 100644
 --- a/include/hw/remote/proxy.h
 +++ b/include/hw/remote/proxy.h
-@@ -16,8 +16,17 @@
+@@ -11,6 +11,7 @@
  
- #define PCI_PROXY_DEV(obj) \
-             OBJECT_CHECK(PCIProxyDev, (obj), TYPE_PCI_PROXY_DEV)
-+
- typedef struct PCIProxyDev PCIProxyDev;
+ #include "hw/pci/pci.h"
+ #include "io/channel.h"
++#include "hw/remote/proxy-memory-listener.h"
  
-+typedef struct ProxyMemoryRegion {
-+    PCIProxyDev *dev;
-+    MemoryRegion mr;
-+    bool memory;
-+    bool present;
-+    uint8_t type;
-+} ProxyMemoryRegion;
-+
- struct PCIProxyDev {
-     PCIDevice parent_dev;
-     char *fd;
-@@ -31,6 +40,7 @@ struct PCIProxyDev {
+ #define TYPE_PCI_PROXY_DEV "x-pci-proxy-dev"
+ 
+@@ -40,6 +41,7 @@ struct PCIProxyDev {
      QemuMutex io_mutex;
      QIOChannel *ioc;
      Error *migration_blocker;
-+    ProxyMemoryRegion region[PCI_NUM_REGIONS];
++    ProxyMemoryListener proxy_listener;
+     ProxyMemoryRegion region[PCI_NUM_REGIONS];
  };
  
- #endif /* PROXY_H */
 diff --git a/hw/remote/message.c b/hw/remote/message.c
-index 82f85c9f09..40740e23c0 100644
+index 40740e23c0..54003b5dfe 100644
 --- a/hw/remote/message.c
 +++ b/hw/remote/message.c
-@@ -16,11 +16,14 @@
- #include "qapi/error.h"
+@@ -17,6 +17,7 @@
  #include "sysemu/runstate.h"
  #include "hw/pci/pci.h"
-+#include "exec/memattrs.h"
+ #include "exec/memattrs.h"
++#include "hw/remote/memory.h"
  
  static void process_config_write(QIOChannel *ioc, PCIDevice *dev,
                                   MPQemuMsg *msg, Error **errp);
- static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
-                                 MPQemuMsg *msg, Error **errp);
-+static void process_bar_write(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
-+static void process_bar_read(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
- 
- void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
- {
-@@ -52,6 +55,12 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
-         case MPQEMU_CMD_PCI_CFGREAD:
-             process_config_read(com->ioc, pci_dev, &msg, &local_err);
+@@ -61,6 +62,9 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
+         case MPQEMU_CMD_BAR_READ:
+             process_bar_read(com->ioc, &msg, &local_err);
              break;
-+        case MPQEMU_CMD_BAR_WRITE:
-+            process_bar_write(com->ioc, &msg, &local_err);
-+            break;
-+        case MPQEMU_CMD_BAR_READ:
-+            process_bar_read(com->ioc, &msg, &local_err);
++        case MPQEMU_CMD_SYNC_SYSMEM:
++            remote_sysmem_reconfig(&msg, &local_err);
 +            break;
          default:
              error_setg(&local_err,
                         "Unknown command (%d) received for device %s"
-@@ -115,3 +124,77 @@ static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
-                       getpid());
-     }
- }
+diff --git a/hw/remote/proxy-memory-listener.c b/hw/remote/proxy-memory-listener.c
+new file mode 100644
+index 0000000000..10726981b2
+--- /dev/null
++++ b/hw/remote/proxy-memory-listener.c
+@@ -0,0 +1,227 @@
++/*
++ * Copyright © 2018, 2020 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
 +
-+static void process_bar_write(QIOChannel *ioc, MPQemuMsg *msg, Error **errp)
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include "qemu/compiler.h"
++#include "qemu/int128.h"
++#include "qemu/range.h"
++#include "exec/memory.h"
++#include "exec/cpu-common.h"
++#include "cpu.h"
++#include "exec/ram_addr.h"
++#include "exec/address-spaces.h"
++#include "qapi/error.h"
++#include "hw/remote/mpqemu-link.h"
++#include "hw/remote/proxy-memory-listener.h"
++
++/*
++ * TODO: get_fd_from_hostaddr(), proxy_mrs_can_merge() and
++ * proxy_memory_listener_commit() defined below perform tasks similar to the
++ * functions defined in vhost-user.c. These functions are good candidates
++ * for refactoring.
++ *
++ */
++
++static void proxy_memory_listener_reset(MemoryListener *listener)
 +{
-+    ERRP_GUARD();
-+    BarAccessMsg *bar_access = &msg->data.bar_access;
-+    AddressSpace *as =
-+        bar_access->memory ? &address_space_memory : &address_space_io;
-+    MPQemuMsg ret = { 0 };
-+    MemTxResult res;
-+    uint64_t val;
++    ProxyMemoryListener *proxy_listener = container_of(listener,
++                                                       ProxyMemoryListener,
++                                                       listener);
++    int mrs;
 +
-+    if (!is_power_of_2(bar_access->size) ||
-+       (bar_access->size > sizeof(uint64_t))) {
-+        ret.data.u64 = UINT64_MAX;
-+        goto fail;
++    for (mrs = 0; mrs < proxy_listener->n_mr_sections; mrs++) {
++        memory_region_unref(proxy_listener->mr_sections[mrs].mr);
 +    }
 +
-+    val = cpu_to_le64(bar_access->val);
-+
-+    res = address_space_rw(as, bar_access->addr, MEMTXATTRS_UNSPECIFIED,
-+                           (void *)&val, bar_access->size, true);
-+
-+    if (res != MEMTX_OK) {
-+        error_setg(errp, "Bad address %"PRIx64" for mem write, pid "FMT_pid".",
-+                   bar_access->addr, getpid());
-+        ret.data.u64 = -1;
-+    }
-+
-+fail:
-+    ret.cmd = MPQEMU_CMD_RET;
-+    ret.size = sizeof(ret.data.u64);
-+
-+    if (!mpqemu_msg_send(&ret, ioc, NULL)) {
-+        error_prepend(errp, "Error returning code to proxy, pid "FMT_pid": ",
-+                      getpid());
-+    }
++    g_free(proxy_listener->mr_sections);
++    proxy_listener->mr_sections = NULL;
++    proxy_listener->n_mr_sections = 0;
 +}
 +
-+static void process_bar_read(QIOChannel *ioc, MPQemuMsg *msg, Error **errp)
++static int get_fd_from_hostaddr(uint64_t host, ram_addr_t *offset)
 +{
-+    ERRP_GUARD();
-+    BarAccessMsg *bar_access = &msg->data.bar_access;
-+    MPQemuMsg ret = { 0 };
-+    AddressSpace *as;
-+    MemTxResult res;
-+    uint64_t val = 0;
++    MemoryRegion *mr;
++    ram_addr_t off;
 +
-+    as = bar_access->memory ? &address_space_memory : &address_space_io;
++    /**
++     * Assumes that the host address is a valid address as it's
++     * coming from the MemoryListener system. In the case host
++     * address is not valid, the following call would return
++     * the default subregion of "system_memory" region, and
++     * not NULL. So it's not possible to check for NULL here.
++     */
++    mr = memory_region_from_host((void *)(uintptr_t)host, &off);
 +
-+    if (!is_power_of_2(bar_access->size) ||
-+       (bar_access->size > sizeof(uint64_t))) {
-+        val = UINT64_MAX;
-+        goto fail;
++    if (offset) {
++        *offset = off;
 +    }
 +
-+    res = address_space_rw(as, bar_access->addr, MEMTXATTRS_UNSPECIFIED,
-+                           (void *)&val, bar_access->size, false);
-+
-+    if (res != MEMTX_OK) {
-+        error_setg(errp, "Bad address %"PRIx64" for mem read, pid "FMT_pid".",
-+                   bar_access->addr, getpid());
-+        val = UINT64_MAX;
-+    }
-+
-+fail:
-+    ret.cmd = MPQEMU_CMD_RET;
-+    ret.data.u64 = le64_to_cpu(val);
-+    ret.size = sizeof(ret.data.u64);
-+
-+    if (!mpqemu_msg_send(&ret, ioc, NULL)) {
-+        error_prepend(errp, "Error returning code to proxy, pid "FMT_pid": ",
-+                      getpid());
-+    }
++    return memory_region_get_fd(mr);
 +}
-diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
-index d7672bc1a8..139a69f3db 100644
---- a/hw/remote/mpqemu-link.c
-+++ b/hw/remote/mpqemu-link.c
-@@ -248,6 +248,12 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
-             return false;
-         }
-         break;
-+    case MPQEMU_CMD_BAR_WRITE:
-+    case MPQEMU_CMD_BAR_READ:
-+        if ((msg->size != sizeof(BarAccessMsg)) || (msg->num_fds != 0)) {
-+            return false;
++
++static bool proxy_mrs_can_merge(uint64_t host, uint64_t prev_host, size_t size)
++{
++    if (((prev_host + size) != host)) {
++        return false;
++    }
++
++    if (get_fd_from_hostaddr(host, NULL) !=
++            get_fd_from_hostaddr(prev_host, NULL)) {
++        return false;
++    }
++
++    return true;
++}
++
++static bool try_merge(ProxyMemoryListener *proxy_listener,
++                      MemoryRegionSection *section)
++{
++    uint64_t mrs_size, mrs_gpa, mrs_page;
++    MemoryRegionSection *prev_sec;
++    bool merged = false;
++    uintptr_t mrs_host;
++    RAMBlock *mrs_rb;
++
++    if (!proxy_listener->n_mr_sections) {
++        return false;
++    }
++
++    mrs_rb = section->mr->ram_block;
++    mrs_page = (uint64_t)qemu_ram_pagesize(mrs_rb);
++    mrs_size = int128_get64(section->size);
++    mrs_gpa = section->offset_within_address_space;
++    mrs_host = (uintptr_t)memory_region_get_ram_ptr(section->mr) +
++               section->offset_within_region;
++
++    if (get_fd_from_hostaddr(mrs_host, NULL) < 0) {
++        return true;
++    }
++
++    mrs_host = mrs_host & ~(mrs_page - 1);
++    mrs_gpa = mrs_gpa & ~(mrs_page - 1);
++    mrs_size = ROUND_UP(mrs_size, mrs_page);
++
++    prev_sec = proxy_listener->mr_sections +
++               (proxy_listener->n_mr_sections - 1);
++    uint64_t prev_gpa_start = prev_sec->offset_within_address_space;
++    uint64_t prev_size = int128_get64(prev_sec->size);
++    uint64_t prev_gpa_end   = range_get_last(prev_gpa_start, prev_size);
++    uint64_t prev_host_start =
++        (uintptr_t)memory_region_get_ram_ptr(prev_sec->mr) +
++        prev_sec->offset_within_region;
++    uint64_t prev_host_end = range_get_last(prev_host_start, prev_size);
++
++    if (mrs_gpa <= (prev_gpa_end + 1)) {
++        g_assert(mrs_gpa > prev_gpa_start);
++
++        if ((section->mr == prev_sec->mr) &&
++            proxy_mrs_can_merge(mrs_host, prev_host_start,
++                                (mrs_gpa - prev_gpa_start))) {
++            uint64_t max_end = MAX(prev_host_end, mrs_host + mrs_size);
++            merged = true;
++            prev_sec->offset_within_address_space =
++                MIN(prev_gpa_start, mrs_gpa);
++            prev_sec->offset_within_region =
++                MIN(prev_host_start, mrs_host) -
++                (uintptr_t)memory_region_get_ram_ptr(prev_sec->mr);
++            prev_sec->size = int128_make64(max_end - MIN(prev_host_start,
++                                                         mrs_host));
 +        }
-+        break;
-     default:
-         break;
-     }
-diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-index eee680bb88..1d2623a782 100644
---- a/hw/remote/proxy.c
-+++ b/hw/remote/proxy.c
-@@ -152,3 +152,63 @@ static void pci_proxy_dev_register_types(void)
- }
- 
- type_init(pci_proxy_dev_register_types)
++    }
 +
-+static void send_bar_access_msg(PCIProxyDev *pdev, MemoryRegion *mr,
-+                                bool write, hwaddr addr, uint64_t *val,
-+                                unsigned size, bool memory)
++    return merged;
++}
++
++static void proxy_memory_listener_region_addnop(MemoryListener *listener,
++                                                MemoryRegionSection *section)
 +{
-+    MPQemuMsg msg = { 0 };
-+    long ret = -EINVAL;
++    ProxyMemoryListener *proxy_listener = container_of(listener,
++                                                       ProxyMemoryListener,
++                                                       listener);
++
++    if (!memory_region_is_ram(section->mr) ||
++            memory_region_is_rom(section->mr)) {
++        return;
++    }
++
++    if (try_merge(proxy_listener, section)) {
++        return;
++    }
++
++    ++proxy_listener->n_mr_sections;
++    proxy_listener->mr_sections = g_renew(MemoryRegionSection,
++                                          proxy_listener->mr_sections,
++                                          proxy_listener->n_mr_sections);
++    proxy_listener->mr_sections[proxy_listener->n_mr_sections - 1] = *section;
++    proxy_listener->mr_sections[proxy_listener->n_mr_sections - 1].fv = NULL;
++    memory_region_ref(section->mr);
++}
++
++static void proxy_memory_listener_commit(MemoryListener *listener)
++{
++    ProxyMemoryListener *proxy_listener = container_of(listener,
++                                                       ProxyMemoryListener,
++                                                       listener);
++    MPQemuMsg msg;
++    MemoryRegionSection *section;
++    ram_addr_t offset;
++    uintptr_t host_addr;
++    int region;
 +    Error *local_err = NULL;
 +
-+    msg.size = sizeof(BarAccessMsg);
-+    msg.data.bar_access.addr = mr->addr + addr;
-+    msg.data.bar_access.size = size;
-+    msg.data.bar_access.memory = memory;
++    memset(&msg, 0, sizeof(MPQemuMsg));
 +
-+    if (write) {
-+        msg.cmd = MPQEMU_CMD_BAR_WRITE;
-+        msg.data.bar_access.val = *val;
-+    } else {
-+        msg.cmd = MPQEMU_CMD_BAR_READ;
++    msg.cmd = MPQEMU_CMD_SYNC_SYSMEM;
++    msg.num_fds = proxy_listener->n_mr_sections;
++    msg.size = sizeof(SyncSysmemMsg);
++    if (msg.num_fds > REMOTE_MAX_FDS) {
++        error_report("Number of fds is more than %d", REMOTE_MAX_FDS);
++        return;
 +    }
 +
-+    ret = mpqemu_msg_send_and_await_reply(&msg, pdev, &local_err);
-+    if (local_err) {
++    for (region = 0; region < proxy_listener->n_mr_sections; region++) {
++        section = &proxy_listener->mr_sections[region];
++        msg.data.sync_sysmem.gpas[region] =
++            section->offset_within_address_space;
++        msg.data.sync_sysmem.sizes[region] = int128_get64(section->size);
++        host_addr = (uintptr_t)memory_region_get_ram_ptr(section->mr) +
++                    section->offset_within_region;
++        msg.fds[region] = get_fd_from_hostaddr(host_addr, &offset);
++        msg.data.sync_sysmem.offsets[region] = offset;
++    }
++    if (!mpqemu_msg_send(&msg, proxy_listener->ioc, &local_err)) {
 +        error_report_err(local_err);
 +    }
-+
-+    if (!write) {
-+        *val = ret;
-+    }
 +}
 +
-+static void proxy_bar_write(void *opaque, hwaddr addr, uint64_t val,
-+                            unsigned size)
++void proxy_memory_listener_deconfigure(ProxyMemoryListener *proxy_listener)
 +{
-+    ProxyMemoryRegion *pmr = opaque;
++    memory_listener_unregister(&proxy_listener->listener);
 +
-+    send_bar_access_msg(pmr->dev, &pmr->mr, true, addr, &val, size,
-+                        pmr->memory);
++    proxy_memory_listener_reset(&proxy_listener->listener);
 +}
 +
-+static uint64_t proxy_bar_read(void *opaque, hwaddr addr, unsigned size)
++void proxy_memory_listener_configure(ProxyMemoryListener *proxy_listener,
++                                     QIOChannel *ioc)
 +{
-+    ProxyMemoryRegion *pmr = opaque;
-+    uint64_t val;
++    proxy_listener->n_mr_sections = 0;
++    proxy_listener->mr_sections = NULL;
 +
-+    send_bar_access_msg(pmr->dev, &pmr->mr, false, addr, &val, size,
-+                        pmr->memory);
++    proxy_listener->ioc = ioc;
 +
-+    return val;
++    proxy_listener->listener.begin = proxy_memory_listener_reset;
++    proxy_listener->listener.commit = proxy_memory_listener_commit;
++    proxy_listener->listener.region_add = proxy_memory_listener_region_addnop;
++    proxy_listener->listener.region_nop = proxy_memory_listener_region_addnop;
++    proxy_listener->listener.priority = 10;
++
++    memory_listener_register(&proxy_listener->listener,
++                             &address_space_memory);
 +}
+diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
+index 1d2623a782..ea4dd4a672 100644
+--- a/hw/remote/proxy.c
++++ b/hw/remote/proxy.c
+@@ -19,6 +19,8 @@
+ #include "qemu/sockets.h"
+ #include "hw/remote/mpqemu-link.h"
+ #include "qemu/error-report.h"
++#include "hw/remote/proxy-memory-listener.h"
++#include "qom/object.h"
+ 
+ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
+ {
+@@ -52,6 +54,8 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
+ 
+     qemu_mutex_init(&dev->io_mutex);
+     qio_channel_set_blocking(dev->ioc, true, NULL);
 +
-+const MemoryRegionOps proxy_mr_ops = {
-+    .read = proxy_bar_read,
-+    .write = proxy_bar_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 8,
-+    },
-+};
++    proxy_memory_listener_configure(&dev->proxy_listener, dev->ioc);
+ }
+ 
+ static void pci_proxy_dev_exit(PCIDevice *pdev)
+@@ -65,6 +69,8 @@ static void pci_proxy_dev_exit(PCIDevice *pdev)
+     migrate_del_blocker(dev->migration_blocker);
+ 
+     error_free(dev->migration_blocker);
++
++    proxy_memory_listener_deconfigure(&dev->proxy_listener);
+ }
+ 
+ static void config_op_send(PCIProxyDev *pdev, uint32_t addr, uint32_t *val,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c4c7cd9cad..f9b4a60bcb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3176,6 +3176,8 @@ F: include/hw/remote/memory.h
+ F: hw/remote/memory.c
+ F: hw/remote/proxy.c
+ F: include/hw/remote/proxy.h
++F: hw/remote/proxy-memory-listener.c
++F: include/hw/remote/proxy-memory-listener.h
+ 
+ Build and test automation
+ -------------------------
+diff --git a/hw/remote/meson.build b/hw/remote/meson.build
+index 569cd20edf..7f11be4736 100644
+--- a/hw/remote/meson.build
++++ b/hw/remote/meson.build
+@@ -7,5 +7,6 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
+ 
+ specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('memory.c'))
++specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy-memory-listener.c'))
+ 
+ softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
 -- 
 2.25.GIT
 
