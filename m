@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A87A2E20C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 20:19:21 +0100 (CET)
-Received: from localhost ([::1]:53618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 630912E20DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 20:28:18 +0100 (CET)
+Received: from localhost ([::1]:59534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ks9fL-0000CI-Nw
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 14:19:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43532)
+	id 1ks9o0-00039Q-V6
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 14:28:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1ks9d8-0007sa-6y
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 14:17:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27892)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1ks9d4-0000dy-HP
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 14:17:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608751016;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1SbTJd64CiQdt+Mw1Mjdpc862JJbZiRtoCMimN8ZYfY=;
- b=GvcKZs849xW7Ds6Pv8x8Z7afM2+WIATmNQeeQl9YZFGEDJY7wVuBQJwPVDJjPIdszJubbz
- fGKqFDnWyBwxPV8IihZJxmc5X00ju0+onXZyV8QyLZu4mJdSZHaIJfZlUxyXXTk1pTkFTe
- D60uW/ZxHxkKCSER0qO4tSS2w1uCSMI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-3SHLm-KjMkaLYmHAYMDytA-1; Wed, 23 Dec 2020 14:16:52 -0500
-X-MC-Unique: 3SHLm-KjMkaLYmHAYMDytA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFBFB803626;
- Wed, 23 Dec 2020 19:16:50 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-175.gru2.redhat.com
- [10.97.116.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1832C6F810;
- Wed, 23 Dec 2020 19:16:20 +0000 (UTC)
-Subject: Re: [PATCH] multi-process: Acceptance test for multiprocess QEMU
-To: elena.ufimtseva@oracle.com, qemu-devel@nongnu.org
-References: <785772783205140e219b8bfe7f793305ee768f03.1608705805.git.elena.ufimtseva@oracle.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <ceb573a1-0abc-9ff1-b9c4-58a072d98913@redhat.com>
-Date: Wed, 23 Dec 2020 16:16:17 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <prvs=61943049f=atish.patra@wdc.com>)
+ id 1ks9ls-0002Y5-O6; Wed, 23 Dec 2020 14:26:06 -0500
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:14003)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=61943049f=atish.patra@wdc.com>)
+ id 1ks9ln-0003Iy-T2; Wed, 23 Dec 2020 14:26:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1608751559; x=1640287559;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=rgf0670fK3UUJx+iJXjY0Y0fZYzckxK+BriKxQnA4fs=;
+ b=TCf0ozZlYshZyMonr3uTLezBFu1cf1CDRY1JmAaXAWzElKRpYc76IAGh
+ bqLCWNGLYp4oHLkFRgxBH06HrPIzko1dMy6ZY9LGvaBi2VGEmQ1yDd7e2
+ lV7Ky9hAiqap4TAiOOzn+37N7ZQONYgBjfTVE0AZMpBwG8d3wE89gDPpw
+ GEXPVs87ELusz13dtWCN3midSyI0s5GCU/v9pgNAXccye3/9ZtXKcYPxX
+ PHkCCedeysDy2xUdwEzdq/TXxm0rwRiz41CYWKSGSh3YEiwVmuM0uWMG2
+ dgptAKg0HdqWYuSPtdQ18B528F+5/RcxolL1r4AjKfhIVSm6EQQREMpGu Q==;
+IronPort-SDR: idrPPvMk0E0h0AWv6TTxM4+20pLXRSgwWBkdfWUX1Cxa0qb8GIUC95d0Wxz9B38D7yuyRYwqpz
+ O7NLlmQCznoPsoHcZPBZk0HHNjY+T0W+YgaTV6FYvMmMzOn6doawlN9XvIkjDFKYcZHF4c/RVj
+ rf7s2iUFF0WWz1zNP7n4ti8nS5t+qe6L08eZvXTJF5t70AmgfedYAaORozcTEYYoNuVosXSsMq
+ elkTq3SQBg+jTzKO5sxixy/2KUHjFeRod/4btDFuia4HRc/gDmvqez6wT7ZkxlfrENZO6urSEf
+ Tsw=
+X-IronPort-AV: E=Sophos;i="5.78,442,1599494400"; d="scan'208";a="266121597"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 24 Dec 2020 03:25:56 +0800
+IronPort-SDR: twyhVDOiIv+6d745PspYIKROl8NlQ/i9n+BA/09zCmo0D3YeSQTY1A7gr3IPunLOzLYUeWcEDK
+ Zgo4D6CfG6RU/uv9mISeAu6P6MCwi6NJUqCD5OyEG+F+qvzI7BvLptqKm2eG8+cD9RHxrmddi+
+ lxXvjR8Nhqnu8P2bhWBhIUwEN9+QGRlSoirczalZbjCJswiAs0HVOU0JKALPlSEaPUOLKgR/ih
+ 4IMoLkKCTBZe/ZlVKegymD9PpbX2VAQcBN+QLSVa3yHYfbTkJAHzji3gFZ9VtUzaqYah24YJkw
+ SdCcaPQO4svK212A5ZiG5ML7
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2020 11:09:22 -0800
+IronPort-SDR: H+Y4x6EKpiN4gj9OGxUNCzfEsBqJYQGOlRtj73592LMs9nnDuz+BhOPZSEmtMu4WZShb1KOUyl
+ s4WSyTwdbrv06wt8xRq574s7pQUC4vn2NRxnTiTv2v6AdQ58+NhVDbDU3Yup/g8lHjGPWbJtbd
+ //KOkANyZV9V7Jg7IE0HNvr2MO/sbIq/iTlxQPkpAgXz+TPyhrTLgddp0ai4VuwG7yarMtWZU9
+ YNosG26IIw4Ce+0ojB6s5wMIqCieY0IfU+n+TsP/xodf9Oj+zlmSgBxpfkNfc/OjzwLZcxzgtU
+ w14=
+WDCIronportException: Internal
+Received: from usa003310.ad.shared (HELO jedi-01.hgst.com) ([10.86.62.100])
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Dec 2020 11:25:56 -0800
+From: Atish Patra <atish.patra@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2] target/riscv/pmp: Raise exception if no PMP entry is
+ configured
+Date: Wed, 23 Dec 2020 11:25:53 -0800
+Message-Id: <20201223192553.332508-1-atish.patra@wdc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <785772783205140e219b8bfe7f793305ee768f03.1608705805.git.elena.ufimtseva@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.521, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=61943049f=atish.patra@wdc.com; helo=esa1.hgst.iphmx.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,146 +85,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, kraxel@redhat.com, jag.raman@oracle.com, quintela@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
- thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- dgilbert@redhat.com, alex.williamson@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Anup Patel <anup.patel@wdc.com>, Atish Patra <atish.patra@wdc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+As per the privilege specification, any access from S/U mode should fail
+if no pmp region is configured.
 
-On 12/23/20 3:44 AM, elena.ufimtseva@oracle.com wrote:
-> From: Jagannathan Raman <jag.raman@oracle.com>
->
-> Runs the Avocado acceptance test to check if a
-> remote lsi53c895a device gets identified by the guest.
->
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->   tests/acceptance/multiprocess.py | 104 +++++++++++++++++++++++++++++++
->   1 file changed, 104 insertions(+)
->   create mode 100644 tests/acceptance/multiprocess.py
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
+---
+Changes from v2->v1
+1. Removed the static from the function definition
+---
+ target/riscv/op_helper.c | 5 +++++
+ target/riscv/pmp.c       | 4 ++--
+ target/riscv/pmp.h       | 1 +
+ 3 files changed, 8 insertions(+), 2 deletions(-)
 
-The test looks good. Thanks for contributing it!
-
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
->
-> diff --git a/tests/acceptance/multiprocess.py b/tests/acceptance/multiprocess.py
-> new file mode 100644
-> index 0000000000..d10b4d2c05
-> --- /dev/null
-> +++ b/tests/acceptance/multiprocess.py
-> @@ -0,0 +1,104 @@
-> +# Test for multiprocess qemu
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later.  See the COPYING file in the top-level directory.
-> +
-> +
-> +from avocado_qemu import Test
-> +from avocado_qemu import wait_for_console_pattern
-> +from avocado_qemu import exec_command_and_wait_for_pattern
-> +
-> +from qemu.accel import kvm_available
-> +
-> +import os
-> +import socket
-> +
-> +ACCEL_NOT_AVAILABLE_FMT = "%s accelerator does not seem to be available"
-> +KVM_NOT_AVAILABLE = ACCEL_NOT_AVAILABLE_FMT % "KVM"
-> +
-> +class Multiprocess(Test):
-> +    """
-> +    :avocado: tags=multiprocess
-> +    """
-> +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-> +
-> +    def wait_for_console_pattern(self, success_message, vm=None):
-> +        wait_for_console_pattern(self, success_message,
-> +                                 failure_message='Kernel panic - not syncing',
-> +                                 vm=vm)
-> +
-> +    def do_test(self, kernel_url, initrd_url, kernel_command_line,
-> +                machine_type):
-> +        if not kvm_available(self.arch, self.qemu_bin):
-> +            self.cancel(KVM_NOT_AVAILABLE)
-> +
-> +        # Create socketpair to connect proxy and remote processes
-> +        proxy_sock, remote_sock = socket.socketpair(socket.AF_UNIX,
-> +                                                    socket.SOCK_STREAM)
-> +        os.set_inheritable(proxy_sock.fileno(), True)
-> +        os.set_inheritable(remote_sock.fileno(), True)
-> +
-> +        kernel_path = self.fetch_asset(kernel_url)
-> +        initrd_path = self.fetch_asset(initrd_url)
-> +
-> +        # Create remote process
-> +        remote_vm = self.get_vm()
-> +        remote_vm.add_args('-machine', 'x-remote')
-> +        remote_vm.add_args('-nodefaults')
-> +        remote_vm.add_args('-device', 'lsi53c895a,id=lsi1')
-> +        remote_vm.add_args('-object', 'x-remote-object,id=robj1,'
-> +                           'devid=lsi1,fd='+str(remote_sock.fileno()))
-> +        remote_vm.launch()
-> +
-> +        # Create proxy process
-> +        self.vm.set_console()
-> +        self.vm.add_args('-machine', machine_type)
-> +        self.vm.add_args('-accel', 'kvm')
-> +        self.vm.add_args('-cpu', 'host')
-> +        self.vm.add_args("-object",
-> +                         "memory-backend-memfd,id=sysmem-file,size=2G")
-> +        self.vm.add_args("--numa", "node,memdev=sysmem-file")
-> +        self.vm.add_args("-m", "2048")
-> +        self.vm.add_args('-kernel', kernel_path,
-> +                         '-initrd', initrd_path,
-> +                         '-append', kernel_command_line)
-> +        self.vm.add_args('-device',
-> +                         'x-pci-proxy-dev,'
-> +                         'id=lsi1,fd='+str(proxy_sock.fileno()))
-> +        self.vm.launch()
-> +        self.wait_for_console_pattern("as init process")
-> +        exec_command_and_wait_for_pattern(self, "mount -t sysfs sysfs /sys",
-> +                                          '', '')
-> +        exec_command_and_wait_for_pattern(self,
-> +                                          "cat /sys/bus/pci/devices/*/uevent",
-> +                                          "PCI_ID=1000:0012", '')
-> +
-> +    def test_multiprocess_x86_64(self):
-> +        """
-> +        :avocado: tags=arch:x86_64
-> +        """
-> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-> +                      '/linux/releases/31/Everything/x86_64/os/images'
-> +                      '/pxeboot/vmlinuz')
-> +        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-> +                      '/linux/releases/31/Everything/x86_64/os/images'
-> +                      '/pxeboot/initrd.img')
-> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-> +                               'console=ttyS0 rdinit=/bin/bash')
-> +        machine = 'pc'
-> +        self.do_test(kernel_url, initrd_url, kernel_command_line, machine)
-> +
-> +    def test_multiprocess_aarch64(self):
-> +        """
-> +        :avocado: tags=arch:aarch64
-> +        """
-> +        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-> +                      '/linux/releases/31/Everything/aarch64/os/images'
-> +                      '/pxeboot/vmlinuz')
-> +        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-> +                      '/linux/releases/31/Everything/aarch64/os/images'
-> +                      '/pxeboot/initrd.img')
-> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-> +                               'rdinit=/bin/bash console=ttyAMA0')
-> +        machine_type = 'virt,gic-version=3'
-> +        self.do_test(kernel_url, initrd_url, kernel_command_line, machine_type)
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index d55def76cffd..1eddcb94de7e 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -150,6 +150,11 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
+ 
+     uint64_t mstatus = env->mstatus;
+     target_ulong prev_priv = get_field(mstatus, MSTATUS_MPP);
++
++    if (!pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
++        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++    }
++
+     target_ulong prev_virt = get_field(env->mstatus, MSTATUS_MPV);
+     mstatus = set_field(mstatus, MSTATUS_MIE,
+                         get_field(mstatus, MSTATUS_MPIE));
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 2eda8e1e2f07..80d0334e1bfc 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -74,7 +74,7 @@ static inline int pmp_is_locked(CPURISCVState *env, uint32_t pmp_index)
+ /*
+  * Count the number of active rules.
+  */
+-static inline uint32_t pmp_get_num_rules(CPURISCVState *env)
++uint32_t pmp_get_num_rules(CPURISCVState *env)
+ {
+      return env->pmp_state.num_rules;
+ }
+@@ -237,7 +237,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+ 
+     /* Short cut if no rules */
+     if (0 == pmp_get_num_rules(env)) {
+-        return true;
++        return (env->priv == PRV_M) ? true : false;
+     }
+ 
+     if (size == 0) {
+diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+index 6c6b4c9befe8..c8d5ef4a694e 100644
+--- a/target/riscv/pmp.h
++++ b/target/riscv/pmp.h
+@@ -64,5 +64,6 @@ bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
+                          target_ulong *tlb_size);
+ void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
+ void pmp_update_rule_nums(CPURISCVState *env);
++uint32_t pmp_get_num_rules(CPURISCVState *env);
+ 
+ #endif
+-- 
+2.25.1
 
 
