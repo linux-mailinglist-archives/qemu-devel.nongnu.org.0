@@ -2,51 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FBEC2E2135
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 21:22:07 +0100 (CET)
-Received: from localhost ([::1]:32952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7F52E21D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 22:03:56 +0100 (CET)
+Received: from localhost ([::1]:45990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksAe5-0003IN-Up
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 15:22:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56804)
+	id 1ksBIZ-00047c-61
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 16:03:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ksAcx-0002sl-AQ
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 15:20:55 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:52179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ksAct-0005OQ-Th
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 15:20:54 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 89BFA746383;
- Wed, 23 Dec 2020 21:20:48 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 366147470E1; Wed, 23 Dec 2020 21:20:48 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 348E27470DF;
- Wed, 23 Dec 2020 21:20:48 +0100 (CET)
-Date: Wed, 23 Dec 2020 21:20:48 +0100 (CET)
-To: Guenter Roeck <linux@roeck-us.net>
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1ksBGC-0003ck-Sl
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 16:01:28 -0500
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:39965)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1ksBG5-0003P4-HR
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 16:01:27 -0500
+Received: by mail-ot1-x330.google.com with SMTP id j12so212571ota.7
+ for <qemu-devel@nongnu.org>; Wed, 23 Dec 2020 13:01:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xjBqUUFiaS0nTdWCd1IEBpE24qjKxfZ0mgcdFB11fkc=;
+ b=BhO083DmLvqhXM4ZWwOOyON/33d3/a+22y6HL2OA5f33jIQFq+wjxaGNhNBh3ryU2t
+ Cw4Zu2GHqHQxXW8wEMnIRlFUxBzNSM4RsNLdC/ibn6nkJpd0zadnpxan8TogHpuHaNWy
+ z5v5wuMAFZqj4nzR7d1FYJplGESek0z8lwP8zXrryJt+eeLqnn+aX+di60HLo0tJQJhg
+ QrkxDTBNd83f4YNT/HaugHKcMvXKP32t4pH6oPtdm7YwDrl/07/sWn0J2XI0SvHORZGc
+ jV1gzKA1foonpVneqQW3ouFc9hU6i2Vc62D9ZnTaOrB1SIGnbp204smoBfsVUeHPinn7
+ hZiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=xjBqUUFiaS0nTdWCd1IEBpE24qjKxfZ0mgcdFB11fkc=;
+ b=BaDDP3sFzsN7xCO4YR0evpKjhZs6x+XzR8gXT/of+g8/Miw1gjFsn2ICeSz1XA6iB2
+ d9L/ig41cJtDeDjjtOGmmz4ubk8fQtYgPf6M+ePaMaPRpTzTiPuXV2zUi92dGBlMvmad
+ 1O8RCbUQeOIIt+V7VVD3zWM+8KxAHLOfPsOLhK8ExQMrU/heMrdaIcvBUqsBa9M+m9RO
+ eDDngEfJLoIieojVa04gYuXvQWFSV/5ej8W7teIVfrInqI1T0ByboDhN3ubnJbsINO9C
+ apBd+8fZqI6cCLAgYPwCv9EC/e5heO/Rfd0DbRFc+DCKCXfRLiHFuY/AG3Ey9fEQVJe5
+ 42fA==
+X-Gm-Message-State: AOAM530NOrC3twx9qS11fkNNVzAQNDYaEoBf+qjU18dONT/vmdAOWBK2
+ 2Rg0efWpS/NY1WmovaTCP1E=
+X-Google-Smtp-Source: ABdhPJxWsen7zY/EMhKAJnVrg6bLbaCqhj0BeuKm4iNRJG1cfQ3Q1AECu1a6e0CyRirU/GQ41AIA+Q==
+X-Received: by 2002:a9d:7e8c:: with SMTP id m12mr20982064otp.38.1608757278928; 
+ Wed, 23 Dec 2020 13:01:18 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ n93sm3435995ota.37.2020.12.23.13.01.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 23 Dec 2020 13:01:17 -0800 (PST)
 Subject: Re: Problems with irq mapping in qemu v5.2
-In-Reply-To: <1d33fa46-2079-ad40-d579-6e827543de50@roeck-us.net>
-Message-ID: <f04ae64-fa4a-2e21-1468-cf37315ec9b2@eik.bme.hu>
+To: BALATON Zoltan <balaton@eik.bme.hu>
 References: <3f0f8fc6-6148-a76e-1088-b7882b0bbcaf@roeck-us.net>
  <e90b9df0-5173-6e2b-3572-4f21ac318231@amsat.org>
  <2c478b3e-5098-1887-73b3-90f91a808ad8@ilande.co.uk>
  <1d33fa46-2079-ad40-d579-6e827543de50@roeck-us.net>
+ <f04ae64-fa4a-2e21-1468-cf37315ec9b2@eik.bme.hu>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <c64fe3a4-cd9c-b455-53ce-c53fb6cf0632@roeck-us.net>
+Date: Wed, 23 Dec 2020 13:01:14 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="3866299591-1820610419-1608754239=:95188"
-Content-ID: <d5b837da-669b-d4b1-caf6-c532c5fd6323@eik.bme.hu>
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <f04ae64-fa4a-2e21-1468-cf37315ec9b2@eik.bme.hu>
+Content-Type: text/plain; charset=iso-8859-15
+Content-Language: en-US
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=groeck7@gmail.com; helo=mail-ot1-x330.google.com
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.521,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,146 +137,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  QEMU Developers <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-1820610419-1608754239=:95188
-Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
-Content-ID: <c6156a3-6d7a-d459-7d47-4f546a119b40@eik.bme.hu>
-
-On Wed, 23 Dec 2020, Guenter Roeck wrote:
-> On 12/23/20 8:09 AM, Mark Cave-Ayland wrote:
->> On 23/12/2020 15:21, Philippe Mathieu-Daudé wrote:
->>
->>> On 12/22/20 5:16 PM, Guenter Roeck wrote:
->>>> Hi,
->>>>
->>>> commit 459ca8bfa41 ("pci: Assert irqnum is between 0 and bus->nirqs in
->>>> pci_bus_change_irq_level") added sanity checks to the interrupt number passed
->>>> to pci_bus_change_irq_level(). That makes sense, given that bus->irq_count
->>>> is indexed and sized by the number of interrupts.
->>>>
->>>> However, as it turns out, the interrupt number passed to this function
->>>> is the _mapped_ interrupt number. The result in assertion failures for various
->>>> emulations.
->>>>
->>>> Examples (I don't know if there are others):
->>>>
->>>> - ppc4xx_pci_map_irq() maps the interrupt number to "slot - 1". Obviously
->>>>    that isn't a good thing to do for slot 0, and indeed results in an
->>>>    assertion as soon as slot 0 is initialized (presumably that is the root
->>>>    bridge). Changing the mapping to "slot" doesn't help because valid slots
->>>>    are 0..4, and only four interrupts are allocated.
->>>> - pci_bonito_map_irq() changes the mapping all over the place. Whatever
->>>>    it does, it returns numbers starting with 32 for slots 5..12. With
->>>>    a total number of 32 interrupts, this again results in an assertion
->>>>    failure.
->>>>
->>>> ppc4xx_pci_map_irq() is definitely buggy. I just don't know what the
->>>> correct mapping should be. slot  & 3, maybe ?
->>>>
->>>> I don't really have a good solution for pci_bonito_map_irq(). It may not
->>>> matter much - I have not been able to boot fuloong_2e since qemu v4.0,
->>>> and afaics that is the only platform using it. Maybe it is just completely
->>>> broken ?
->>>
->>> FWIW bisecting Fuloong2E starts failing here:
->>>
->>> 4ea98d317eb442c738f898f16cfdd47a18b7ca49 is the first bad commit
->>> commit 4ea98d317eb442c738f898f16cfdd47a18b7ca49
->>> Author: BALATON Zoltan <balaton@eik.bme.hu>
->>> Date:   Fri Jan 25 14:52:12 2019 -0500
->>>
->>>      ide/via: Implement and use native PCI IDE mode
->>>
->>>      This device only implemented ISA compatibility mode and native PCI IDE
->>>      mode was missing but no clients actually need ISA mode but to the
->>>      contrary, they usually want to switch to and use device in native
->>>      PCI IDE mode. Therefore implement native PCI mode and switch default
->>>      to that.
->>>
->>>      Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>      Message-id:
->>> c323f08c59b9931310c5d92503d370f77ce3a557.1548160772.git.balaton@eik.bme.hu
->>>      Signed-off-by: John Snow <jsnow@redhat.com>
->>>
->>>   hw/ide/via.c | 52 ++++++++++++++++++++++++++++++++++++++--------------
->>>   1 file changed, 38 insertions(+), 14 deletions(-)
->>
->> I think the original version of the patch broke fuloong2e, however that should have been fixed by my patchset here: https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg03936.html. It might be that there are multiple regressions located during a full bisect :/
->>
->
-> Not really. The following patch on top of qemu 5.2 results in the ide drive
-> being detected and working.
->
-> diff --git a/hw/ide/via.c b/hw/ide/via.c
-> index be09912b33..1bfdc422ee 100644
-> --- a/hw/ide/via.c
-> +++ b/hw/ide/via.c
-> @@ -186,11 +186,14 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
->     pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[1]);
->
->     bmdma_setup_bar(d);
-> +#if 0
->     pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
-> +#endif
->
->     qdev_init_gpio_in(ds, via_ide_set_irq, 2);
->     for (i = 0; i < 2; i++) {
->         ide_bus_new(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
-> +        ide_init_ioport(&d->bus[i], NULL, i ? 0x170 : 0x1f0, i ? 0x376 : 0x3f6);
->         ide_init2(&d->bus[i], qdev_get_gpio_in(ds, i));
->
->         bmdma_init(&d->bus[i], &d->bmdma[i], d);
->
-> With the added ide_init_ioport(), the drive is detected. With the #if 0,
-
-This breaks MorphOS on pegasos2 so it's not acceptable for me as a fix. 
-(Actually this just reverts my commit in a cryptic way.)
-
-> it actually starts working. So there are two problems: 1) The qemu ide
-> subsystem isn't informed about the io addresses, and 2) bmdma isn't working.
-
-The problem rather seems to be that whatever you're trying to run can only 
-handle legacy mode and does not correctly detect or work with native mode 
-of this IDE controller. The real chip can switch between these modes and 
-starts in legacy mode but most OSes with a better driver will switch to 
-native mode during boot (in some cases the firmware will switch already). 
-But we can't emulate that in QEMU easily because of how the IDE emulation 
-is implemented: we either set up legacy ioports or use PCI BMDMA, I don't 
-see a way to deregister legacy ports and irqs once the config reg is 
-flipped to native mode. Therefore I've chosen to only emulate native mode 
-which is what most guests want to use and some only work with that and 
-I've tested this with the previously mentioned Linux version that it still 
-detected and worked with the IDE ports. During testing I've found that 
-Linux will use either native or legacy modes if the appropriate config 
-bits are set but for some boards there may be work arounds for specific 
-quirks such as the case for pegasos2 with IRQs hardwired to legacy 
-interrupts even in native mode where we need to follow what hardware does 
-otherwise one or the other guest breaks. Maybe there's a similar quirk for 
-the fuloong2e?
-
-What guest OS are you running and did you confirm that it runs on the real 
-machine? If you run recent Linux kernels and don't know if those still 
-work with real hardware could this be a bug in the guest driver and not in 
-QEMU? We know that we don't fully emulate this controller but there should 
-be a way to set things up in a way that satisfies all guests and I've 
-tried to do that when touching this part but possibly I did not have the 
-right Linux version for the real machine as it was hard to find one distro 
-that worked with it. Maybe Jiaxun has a known working Linux distro or 
-kernel that we can use to check emulation with or knows more about how the 
-VIA IDE port IRQs are wired on this board. (I've added Jiaxun again but 
-the list seems to strip his addess.)
-
-Regards,
-BALATON Zoltan
---3866299591-1820610419-1608754239=:95188--
+T24gMTIvMjMvMjAgMTI6MjAgUE0sIEJBTEFUT04gWm9sdGFuIHdyb3RlOg0KPiBPbiBXZWQs
+IDIzIERlYyAyMDIwLCBHdWVudGVyIFJvZWNrIHdyb3RlOg0KPj4gT24gMTIvMjMvMjAgODow
+OSBBTSwgTWFyayBDYXZlLUF5bGFuZCB3cm90ZToNCj4+PiBPbiAyMy8xMi8yMDIwIDE1OjIx
+LCBQaGlsaXBwZSBNYXRoaWV1LURhdWTpIHdyb3RlOg0KPj4+DQo+Pj4+IE9uIDEyLzIyLzIw
+IDU6MTYgUE0sIEd1ZW50ZXIgUm9lY2sgd3JvdGU6DQo+Pj4+PiBIaSwNCj4+Pj4+DQo+Pj4+
+PiBjb21taXQgNDU5Y2E4YmZhNDEgKCJwY2k6IEFzc2VydCBpcnFudW0gaXMgYmV0d2VlbiAw
+IGFuZCBidXMtPm5pcnFzIGluDQo+Pj4+PiBwY2lfYnVzX2NoYW5nZV9pcnFfbGV2ZWwiKSBh
+ZGRlZCBzYW5pdHkgY2hlY2tzIHRvIHRoZSBpbnRlcnJ1cHQgbnVtYmVyIHBhc3NlZA0KPj4+
+Pj4gdG8gcGNpX2J1c19jaGFuZ2VfaXJxX2xldmVsKCkuIFRoYXQgbWFrZXMgc2Vuc2UsIGdp
+dmVuIHRoYXQgYnVzLT5pcnFfY291bnQNCj4+Pj4+IGlzIGluZGV4ZWQgYW5kIHNpemVkIGJ5
+IHRoZSBudW1iZXIgb2YgaW50ZXJydXB0cy4NCj4+Pj4+DQo+Pj4+PiBIb3dldmVyLCBhcyBp
+dCB0dXJucyBvdXQsIHRoZSBpbnRlcnJ1cHQgbnVtYmVyIHBhc3NlZCB0byB0aGlzIGZ1bmN0
+aW9uDQo+Pj4+PiBpcyB0aGUgX21hcHBlZF8gaW50ZXJydXB0IG51bWJlci4gVGhlIHJlc3Vs
+dCBpbiBhc3NlcnRpb24gZmFpbHVyZXMgZm9yIHZhcmlvdXMNCj4+Pj4+IGVtdWxhdGlvbnMu
+DQo+Pj4+Pg0KPj4+Pj4gRXhhbXBsZXMgKEkgZG9uJ3Qga25vdyBpZiB0aGVyZSBhcmUgb3Ro
+ZXJzKToNCj4+Pj4+DQo+Pj4+PiAtIHBwYzR4eF9wY2lfbWFwX2lycSgpIG1hcHMgdGhlIGlu
+dGVycnVwdCBudW1iZXIgdG8gInNsb3QgLSAxIi4gT2J2aW91c2x5DQo+Pj4+PiCgoCB0aGF0
+IGlzbid0IGEgZ29vZCB0aGluZyB0byBkbyBmb3Igc2xvdCAwLCBhbmQgaW5kZWVkIHJlc3Vs
+dHMgaW4gYW4NCj4+Pj4+IKCgIGFzc2VydGlvbiBhcyBzb29uIGFzIHNsb3QgMCBpcyBpbml0
+aWFsaXplZCAocHJlc3VtYWJseSB0aGF0IGlzIHRoZSByb290DQo+Pj4+PiCgoCBicmlkZ2Up
+LiBDaGFuZ2luZyB0aGUgbWFwcGluZyB0byAic2xvdCIgZG9lc24ndCBoZWxwIGJlY2F1c2Ug
+dmFsaWQgc2xvdHMNCj4+Pj4+IKCgIGFyZSAwLi40LCBhbmQgb25seSBmb3VyIGludGVycnVw
+dHMgYXJlIGFsbG9jYXRlZC4NCj4+Pj4+IC0gcGNpX2Jvbml0b19tYXBfaXJxKCkgY2hhbmdl
+cyB0aGUgbWFwcGluZyBhbGwgb3ZlciB0aGUgcGxhY2UuIFdoYXRldmVyDQo+Pj4+PiCgoCBp
+dCBkb2VzLCBpdCByZXR1cm5zIG51bWJlcnMgc3RhcnRpbmcgd2l0aCAzMiBmb3Igc2xvdHMg
+NS4uMTIuIFdpdGgNCj4+Pj4+IKCgIGEgdG90YWwgbnVtYmVyIG9mIDMyIGludGVycnVwdHMs
+IHRoaXMgYWdhaW4gcmVzdWx0cyBpbiBhbiBhc3NlcnRpb24NCj4+Pj4+IKCgIGZhaWx1cmUu
+DQo+Pj4+Pg0KPj4+Pj4gcHBjNHh4X3BjaV9tYXBfaXJxKCkgaXMgZGVmaW5pdGVseSBidWdn
+eS4gSSBqdXN0IGRvbid0IGtub3cgd2hhdCB0aGUNCj4+Pj4+IGNvcnJlY3QgbWFwcGluZyBz
+aG91bGQgYmUuIHNsb3SgICYgMywgbWF5YmUgPw0KPj4+Pj4NCj4+Pj4+IEkgZG9uJ3QgcmVh
+bGx5IGhhdmUgYSBnb29kIHNvbHV0aW9uIGZvciBwY2lfYm9uaXRvX21hcF9pcnEoKS4gSXQg
+bWF5IG5vdA0KPj4+Pj4gbWF0dGVyIG11Y2ggLSBJIGhhdmUgbm90IGJlZW4gYWJsZSB0byBi
+b290IGZ1bG9vbmdfMmUgc2luY2UgcWVtdSB2NC4wLA0KPj4+Pj4gYW5kIGFmYWljcyB0aGF0
+IGlzIHRoZSBvbmx5IHBsYXRmb3JtIHVzaW5nIGl0LiBNYXliZSBpdCBpcyBqdXN0IGNvbXBs
+ZXRlbHkNCj4+Pj4+IGJyb2tlbiA/DQo+Pj4+DQo+Pj4+IEZXSVcgYmlzZWN0aW5nIEZ1bG9v
+bmcyRSBzdGFydHMgZmFpbGluZyBoZXJlOg0KPj4+Pg0KPj4+PiA0ZWE5OGQzMTdlYjQ0MmM3
+MzhmODk4ZjE2Y2ZkZDQ3YTE4YjdjYTQ5IGlzIHRoZSBmaXJzdCBiYWQgY29tbWl0DQo+Pj4+
+IGNvbW1pdCA0ZWE5OGQzMTdlYjQ0MmM3MzhmODk4ZjE2Y2ZkZDQ3YTE4YjdjYTQ5DQo+Pj4+
+IEF1dGhvcjogQkFMQVRPTiBab2x0YW4gPGJhbGF0b25AZWlrLmJtZS5odT4NCj4+Pj4gRGF0
+ZTqgoCBGcmkgSmFuIDI1IDE0OjUyOjEyIDIwMTkgLTA1MDANCj4+Pj4NCj4+Pj4goKCgoCBp
+ZGUvdmlhOiBJbXBsZW1lbnQgYW5kIHVzZSBuYXRpdmUgUENJIElERSBtb2RlDQo+Pj4+DQo+
+Pj4+IKCgoKAgVGhpcyBkZXZpY2Ugb25seSBpbXBsZW1lbnRlZCBJU0EgY29tcGF0aWJpbGl0
+eSBtb2RlIGFuZCBuYXRpdmUgUENJIElERQ0KPj4+PiCgoKCgIG1vZGUgd2FzIG1pc3Npbmcg
+YnV0IG5vIGNsaWVudHMgYWN0dWFsbHkgbmVlZCBJU0EgbW9kZSBidXQgdG8gdGhlDQo+Pj4+
+IKCgoKAgY29udHJhcnksIHRoZXkgdXN1YWxseSB3YW50IHRvIHN3aXRjaCB0byBhbmQgdXNl
+IGRldmljZSBpbiBuYXRpdmUNCj4+Pj4goKCgoCBQQ0kgSURFIG1vZGUuIFRoZXJlZm9yZSBp
+bXBsZW1lbnQgbmF0aXZlIFBDSSBtb2RlIGFuZCBzd2l0Y2ggZGVmYXVsdA0KPj4+PiCgoKCg
+IHRvIHRoYXQuDQo+Pj4+DQo+Pj4+IKCgoKAgU2lnbmVkLW9mZi1ieTogQkFMQVRPTiBab2x0
+YW4gPGJhbGF0b25AZWlrLmJtZS5odT4NCj4+Pj4goKCgoCBNZXNzYWdlLWlkOg0KPj4+PiBj
+MzIzZjA4YzU5Yjk5MzEzMTBjNWQ5MjUwM2QzNzBmNzdjZTNhNTU3LjE1NDgxNjA3NzIuZ2l0
+LmJhbGF0b25AZWlrLmJtZS5odQ0KPj4+PiCgoKCgIFNpZ25lZC1vZmYtYnk6IEpvaG4gU25v
+dyA8anNub3dAcmVkaGF0LmNvbT4NCj4+Pj4NCj4+Pj4goCBody9pZGUvdmlhLmMgfCA1MiAr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tDQo+
+Pj4+IKAgMSBmaWxlIGNoYW5nZWQsIDM4IGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygt
+KQ0KPj4+DQo+Pj4gSSB0aGluayB0aGUgb3JpZ2luYWwgdmVyc2lvbiBvZiB0aGUgcGF0Y2gg
+YnJva2UgZnVsb29uZzJlLCBob3dldmVyIHRoYXQgc2hvdWxkIGhhdmUgYmVlbiBmaXhlZCBi
+eSBteSBwYXRjaHNldCBoZXJlOiBodHRwczovL2xpc3RzLmdudS5vcmcvYXJjaGl2ZS9odG1s
+L3FlbXUtZGV2ZWwvMjAyMC0wMy9tc2cwMzkzNi5odG1sLiBJdCBtaWdodCBiZSB0aGF0IHRo
+ZXJlIGFyZSBtdWx0aXBsZSByZWdyZXNzaW9ucyBsb2NhdGVkIGR1cmluZyBhIGZ1bGwgYmlz
+ZWN0IDovDQo+Pj4NCj4+DQo+PiBOb3QgcmVhbGx5LiBUaGUgZm9sbG93aW5nIHBhdGNoIG9u
+IHRvcCBvZiBxZW11IDUuMiByZXN1bHRzIGluIHRoZSBpZGUgZHJpdmUNCj4+IGJlaW5nIGRl
+dGVjdGVkIGFuZCB3b3JraW5nLg0KPj4NCj4+IGRpZmYgLS1naXQgYS9ody9pZGUvdmlhLmMg
+Yi9ody9pZGUvdmlhLmMNCj4+IGluZGV4IGJlMDk5MTJiMzMuLjFiZmRjNDIyZWUgMTAwNjQ0
+DQo+PiAtLS0gYS9ody9pZGUvdmlhLmMNCj4+ICsrKyBiL2h3L2lkZS92aWEuYw0KPj4gQEAg
+LTE4NiwxMSArMTg2LDE0IEBAIHN0YXRpYyB2b2lkIHZpYV9pZGVfcmVhbGl6ZShQQ0lEZXZp
+Y2UgKmRldiwgRXJyb3IgKiplcnJwKQ0KPj4goKCgIHBjaV9yZWdpc3Rlcl9iYXIoZGV2LCAz
+LCBQQ0lfQkFTRV9BRERSRVNTX1NQQUNFX0lPLCAmZC0+Y21kX2JhclsxXSk7DQo+Pg0KPj4g
+oKCgIGJtZG1hX3NldHVwX2JhcihkKTsNCj4+ICsjaWYgMA0KPj4goKCgIHBjaV9yZWdpc3Rl
+cl9iYXIoZGV2LCA0LCBQQ0lfQkFTRV9BRERSRVNTX1NQQUNFX0lPLCAmZC0+Ym1kbWFfYmFy
+KTsNCj4+ICsjZW5kaWYNCj4+DQo+PiCgoKAgcWRldl9pbml0X2dwaW9faW4oZHMsIHZpYV9p
+ZGVfc2V0X2lycSwgMik7DQo+PiCgoKAgZm9yIChpID0gMDsgaSA8IDI7IGkrKykgew0KPj4g
+oKCgoKCgoCBpZGVfYnVzX25ldygmZC0+YnVzW2ldLCBzaXplb2YoZC0+YnVzW2ldKSwgZHMs
+IGksIDIpOw0KPj4gK6CgoKCgoKAgaWRlX2luaXRfaW9wb3J0KCZkLT5idXNbaV0sIE5VTEws
+IGkgPyAweDE3MCA6IDB4MWYwLCBpID8gMHgzNzYgOiAweDNmNik7DQo+PiCgoKCgoKCgIGlk
+ZV9pbml0MigmZC0+YnVzW2ldLCBxZGV2X2dldF9ncGlvX2luKGRzLCBpKSk7DQo+Pg0KPj4g
+oKCgoKCgoCBibWRtYV9pbml0KCZkLT5idXNbaV0sICZkLT5ibWRtYVtpXSwgZCk7DQo+Pg0K
+Pj4gV2l0aCB0aGUgYWRkZWQgaWRlX2luaXRfaW9wb3J0KCksIHRoZSBkcml2ZSBpcyBkZXRl
+Y3RlZC4gV2l0aCB0aGUgI2lmIDAsDQo+IA0KPiBUaGlzIGJyZWFrcyBNb3JwaE9TIG9uIHBl
+Z2Fzb3MyIHNvIGl0J3Mgbm90IGFjY2VwdGFibGUgZm9yIG1lIGFzIGEgZml4LiAoQWN0dWFs
+bHkgdGhpcyBqdXN0IHJldmVydHMgbXkgY29tbWl0IGluIGEgY3J5cHRpYyB3YXkuKQ0KPiAN
+Cj4+IGl0IGFjdHVhbGx5IHN0YXJ0cyB3b3JraW5nLiBTbyB0aGVyZSBhcmUgdHdvIHByb2Js
+ZW1zOiAxKSBUaGUgcWVtdSBpZGUNCj4+IHN1YnN5c3RlbSBpc24ndCBpbmZvcm1lZCBhYm91
+dCB0aGUgaW8gYWRkcmVzc2VzLCBhbmQgMikgYm1kbWEgaXNuJ3Qgd29ya2luZy4NCj4gDQo+
+IFRoZSBwcm9ibGVtIHJhdGhlciBzZWVtcyB0byBiZSB0aGF0IHdoYXRldmVyIHlvdSdyZSB0
+cnlpbmcgdG8gcnVuIGNhbiBvbmx5IGhhbmRsZSBsZWdhY3kgbW9kZSBhbmQgZG9lcyBub3Qg
+Y29ycmVjdGx5IGRldGVjdCBvciB3b3JrIHdpdGggbmF0aXZlIG1vZGUgb2YgdGhpcyBJREUg
+Y29udHJvbGxlci4gVGhlIHJlYWwgY2hpcCBjYW4gc3dpdGNoIGJldHdlZW4gdGhlc2UgbW9k
+ZXMgYW5kIHN0YXJ0cyBpbiBsZWdhY3kgbW9kZSBidXQgbW9zdCBPU2VzIHdpdGggYSBiZXR0
+ZXIgZHJpdmVyIHdpbGwgc3dpdGNoIHRvIG5hdGl2ZSBtb2RlIGR1cmluZyBib290IChpbiBz
+b21lIGNhc2VzIHRoZSBmaXJtd2FyZSB3aWxsIHN3aXRjaCBhbHJlYWR5KS4gQnV0IHdlIGNh
+bid0IGVtdWxhdGUgdGhhdCBpbiBRRU1VIGVhc2lseSBiZWNhdXNlIG9mIGhvdyB0aGUgSURF
+IGVtdWxhdGlvbiBpcyBpbXBsZW1lbnRlZDogd2UgZWl0aGVyIHNldCB1cCBsZWdhY3kgaW9w
+b3J0cyBvciB1c2UgUENJIEJNRE1BLCBJIGRvbid0IHNlZSBhIHdheSB0byBkZXJlZ2lzdGVy
+IGxlZ2FjeSBwb3J0cyBhbmQgaXJxcyBvbmNlIHRoZSBjb25maWcgcmVnIGlzIGZsaXBwZWQg
+dG8gbmF0aXZlIG1vZGUuIFRoZXJlZm9yZSBJJ3ZlIGNob3NlbiB0byBvbmx5IGVtdWxhdGUg
+bmF0aXZlIG1vZGUgd2hpY2ggaXMgd2hhdCBtb3N0IGd1ZXN0cyB3YW50IHRvIHVzZSBhbmQg
+c29tZSBvbmx5IHdvcmsgd2l0aCB0aGF0IGFuZCBJJ3ZlIHRlc3RlZCB0aGlzIHdpdGggdGhl
+IHByZXZpb3VzbHkgbWVudGlvbmVkIExpbnV4IHZlcnNpb24gdGhhdCBpdCBzdGlsbCBkZXRl
+Y3RlZCBhbmQgd29ya2VkIHdpdGggdGhlIElERSBwb3J0cy4gRHVyaW5nIHRlc3RpbmcgSSd2
+ZSBmb3VuZCB0aGF0IExpbnV4IHdpbGwgdXNlIGVpdGhlciBuYXRpdmUgb3IgbGVnYWN5IG1v
+ZGVzIGlmIHRoZSBhcHByb3ByaWF0ZSBjb25maWcgYml0cyBhcmUgc2V0IGJ1dCBmb3Igc29t
+ZSBib2FyZHMgdGhlcmUgbWF5DQo+IGJlIHdvcmsgYXJvdW5kcyBmb3Igc3BlY2lmaWMgcXVp
+cmtzIHN1Y2ggYXMgdGhlIGNhc2UgZm9yIHBlZ2Fzb3MyIHdpdGggSVJRcyBoYXJkd2lyZWQg
+dG8gbGVnYWN5IGludGVycnVwdHMgZXZlbiBpbiBuYXRpdmUgbW9kZSB3aGVyZSB3ZSBuZWVk
+IHRvIGZvbGxvdyB3aGF0IGhhcmR3YXJlIGRvZXMgb3RoZXJ3aXNlIG9uZSBvciB0aGUgb3Ro
+ZXIgZ3Vlc3QgYnJlYWtzLiBNYXliZSB0aGVyZSdzIGEgc2ltaWxhciBxdWlyayBmb3IgdGhl
+IGZ1bG9vbmcyZT8NCj4gDQo+IFdoYXQgZ3Vlc3QgT1MgYXJlIHlvdSBydW5uaW5nIGFuZCBk
+aWQgeW91IGNvbmZpcm0gdGhhdCBpdCBydW5zIG9uIHRoZSByZWFsIG1hY2hpbmU/IElmIHlv
+dSBydW4gcmVjZW50IExpbnV4IGtlcm5lbHMgYW5kIGRvbid0IGtub3cgaWYgdGhvc2Ugc3Rp
+bGwgd29yayB3aXRoIHJlYWwgaGFyZHdhcmUgY291bGQgdGhpcyBiZSBhIGJ1ZyBpbiB0aGUg
+Z3Vlc3QgZHJpdmVyIGFuZCBub3QgaW4gUUVNVT8gV2Uga25vdyB0aGF0IHdlIGRvbid0IGZ1
+bGx5IGVtdWxhdGUgdGhpcyBjb250cm9sbGVyIGJ1dCB0aGVyZSBzaG91bGQgYmUgYSB3YXkg
+dG8gc2V0IHRoaW5ncyB1cCBpbiBhIHdheSB0aGF0IHNhdGlzZmllcyBhbGwgZ3Vlc3RzIGFu
+ZCBJJ3ZlIHRyaWVkIHRvIGRvIHRoYXQgd2hlbiB0b3VjaGluZyB0aGlzIHBhcnQgYnV0IHBv
+c3NpYmx5IEkgZGlkIG5vdCBoYXZlIHRoZSByaWdodCBMaW51eCB2ZXJzaW9uIGZvciB0aGUg
+cmVhbCBtYWNoaW5lIGFzIGl0IHdhcyBoYXJkIHRvIGZpbmQgb25lIGRpc3RybyB0aGF0IHdv
+cmtlZCB3aXRoIGl0LiBNYXliZSBKaWF4dW4gaGFzIGEga25vd24gd29ya2luZyBMaW51eCBk
+aXN0cm8gb3Iga2VybmVsIHRoYXQgd2UgY2FuIHVzZSB0byBjaGVjayBlbXVsYXRpb24gd2l0
+aCBvciBrbm93cyBtb3JlIGFib3V0IGhvdyB0aGUgVklBIElERSBwb3J0IElSUXMgYXJlIHdp
+cmVkIG9uIHRoaXMgYm9hcmQuIChJJ3ZlIGFkZGVkIEppYXh1biBhZ2FpbiBidXQgdGhlIGxp
+c3Qgc2VlbXMgdG8gc3RyaXAgaGlzIGFkZGVzcy4pDQo+IA0KDQpJIGRvbid0IGhhdmUgYSBy
+ZWFsIG1hY2hpbmUsIGFuZCB0aGVyZWZvcmUgZGlkIG5vdCB0ZXN0IGl0IG9uIG9uZS4NCg0K
+SSB0cmllZCB3aXRoIExpbnV4IG1haW5saW5lICh2NS4xMC0xMjkxMy1nNjE0Y2I1ODk0MzA2
+KSwgdjMuMTYuODUsIHY0LjQuMjQ4LA0KYW5kIHY0LjE0LjIxMi4gSSBjYW4ndCB0ZXN0IG9s
+ZGVyIHZlcnNpb24gYmVjYXVzZSBteSBjcm9zcyBjb21waWxlciBpcyB0b28NCm5ldy4gRWFj
+aCBvZiB0aG9zZSBrZXJuZWwgdmVyc2lvbnMgc2hvd3MgZXhhY3RseSB0aGUgc2FtZSBiZWhh
+dmlvci4NCg0KR3VlbnRlcg0K
 
