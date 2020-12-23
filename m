@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B242E18EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 07:29:24 +0100 (CET)
-Received: from localhost ([::1]:52242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F346E2E18FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 07:35:52 +0100 (CET)
+Received: from localhost ([::1]:40856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krxeF-00085z-4G
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 01:29:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41136)
+	id 1krxkV-00079W-MS
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 01:35:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1krxR1-0005wG-An
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:15:44 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:33252)
+ id 1krxR9-0005zD-H6
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:15:54 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:33132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1krxQz-0006Gv-5W
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:15:43 -0500
+ id 1krxQv-0006Bb-IG
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:15:50 -0500
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN6AhcY094802;
- Wed, 23 Dec 2020 06:15:34 GMT
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN6A9Za094534;
+ Wed, 23 Dec 2020 06:15:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=0UU8abyvKyiEOlgVS8yAEwTdTMFleTsF2NVus+m/g54=;
- b=u8eshaFr5mCliL1jfj2Eu/MeLtO/1vxJlkk9qqBI7rNurnEwLiJhsTH5MgjvsfTw1cep
- nIrC541aOiFQLT43nZqdAwij667w8Nv9cQTCLTB9+YRALa0iaRCc6gMV7F7R/Mz3vPMX
- FUHO1VVsA5I0r9YoVZO4EFKgh0IAOlQwRQ7x65KYlFHsGTY+ngt0QvuJOd3fed5qn5CV
- 3acptKTRYKFhA75nyE0I0LbJ09ZjZg4JkLSZ6u+fbdj3F+aR2oEx3vxNViord6ljML5n
- QmZlGdSPbsNHgVIhQezy+7QWfLLyVBhJ5I8EiL0hiCkUsohQA271sK0OTATb+ypxz/f6 Qg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 35k0cw6f3k-1
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2020-01-29; bh=/NpOEMHGPIUwHBPxk1e2xFeEWwG2wzhIjnSRwZbdyHI=;
+ b=HnALuk1m0wUB7yR5RFkuqWNSF3cF9Z8t6A2zHzu8tnZxWCUMVr3z4Rki4FpnkLoEO21R
+ t90nbA7IuAlMraxcu6eLmmypuZA2qsOyxrtquTJnwR1qGsfqC8Z156EfXtc66TV1XSbO
+ n7gpKgFlREykcgS2mAC4Rp28UMjGLbN91H3H7Yqp0UVUsmidxYtERoC0DLYjeXeRDXjZ
+ rUtk0PDGSSXBfbz5Vo9gaPxvHdH8obrwF6VmPjFHfTdaaPtPsUfaL6MiYzF8eSxU7vm9
+ iQD767/sVRfWdXllXKFHlgemBSDnVPTI2sf+B+mefquxWBOh4kl34a1PWCHrysBP+3AM cg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 35k0cw6f0g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 23 Dec 2020 06:15:34 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN6A1jL085291;
- Wed, 23 Dec 2020 06:15:34 GMT
+ Wed, 23 Dec 2020 06:15:12 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN69aO2101103;
+ Wed, 23 Dec 2020 06:15:11 GMT
 Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 35k0eah1xa-1
+ by userp3020.oracle.com with ESMTP id 35k0e2kpq0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Dec 2020 06:15:34 +0000
+ Wed, 23 Dec 2020 06:15:10 +0000
 Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BN6FWE3003085;
- Wed, 23 Dec 2020 06:15:32 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BN6F8wJ002837;
+ Wed, 23 Dec 2020 06:15:08 GMT
 Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 22 Dec 2020 22:15:31 -0800
+ with ESMTP ; Tue, 22 Dec 2020 22:15:07 -0800
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v15 11/20] multi-process: Associate fd of a PCIDevice with its
- object
-Date: Tue, 22 Dec 2020 22:14:46 -0800
-Message-Id: <692ffd957512b720627dbe5e1a85827cbc8dd53b.1608702853.git.elena.ufimtseva@oracle.com>
+Subject: [PATCH v15 00/20] Initial support for multi-process Qemu
+Date: Tue, 22 Dec 2020 22:14:35 -0800
+Message-Id: <cover.1608702853.git.elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.25.GIT
-In-Reply-To: <cover.1608702853.git.elena.ufimtseva@oracle.com>
-References: <cover.1608702853.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9843
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0 mlxscore=0
- spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012230046
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ bulkscore=0
+ malwarescore=0 phishscore=0 mlxscore=0 adultscore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012230046
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9843
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
@@ -84,7 +79,8 @@ X-Spam_bar: ----
 X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,259 +104,172 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jagannathan Raman <jag.raman@oracle.com>
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Associate the file descriptor for a PCIDevice in remote process with
-DeviceState object.
+Hi
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- hw/remote/remote-obj.c | 208 +++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS            |   1 +
- hw/remote/meson.build  |   1 +
- 3 files changed, 210 insertions(+)
+This is the v15 of the patchset.
+Thank you for your time reviewing v14.
+
+This version has the following changes:
+
+- [PATCH v15 08/20] multi-process: add qio channel read function
+  Prevent memory leaks by closing file descriptors and freeing memory
+  for fd array on failure in qio_channel_readv_full_all(..).
+
+- The patch from v14 was dropped (See [PATCH v14 04/21] socket: export
+  socket_get_fd() function) and instead the monitor_fd_param(..) and
+  fd_is_socket(..) are used in the patches:
+  [PATCH v15 11/20] "multi-process: Associate fd of a PCIDevice with its
+  object"
+  and
+  [PATCH v15 13/20] "multi-process: introduce proxy object".
+
+In addition, we will be sending a follow-up patch with the acceptance
+test that can be used to verify that this feature is working correctly.
+
+
+From the previous reviews the TODOs are:
+- Prefix log messages with PID in the logging subsystem.
+- Refactor the MemoryListener code in vfio-user and multi-process code
+  to avoid logic duplication.
+
+To touch upon the history of this project, we posted the Proof Of Concept
+patches before the BoF session in 2018. Subsequently, we have posted 14
+versions on the qemu-devel mailing list. You can find them by following the
+links below ([1] - [14]). Following people contributed to the design and
+implementation of this project:
+Jagannathan Raman <jag.raman@oracle.com>
+Elena Ufimtseva <elena.ufimtseva@oracle.com>
+John G Johnson <john.g.johnson@oracle.com>
+Stefan Hajnoczi <stefanha@redhat.com>
+Konrad Wilk <konrad.wilk@oracle.com>
+Kanth Ghatraju <kanth.ghatraju@oracle.com>
+
+We would like to thank the QEMU community for your feedback in the
+design and implementation of this project. Qemu wiki page:
+https://wiki.qemu.org/Features/MultiProcessQEMU
+
+For the full concept writeup about QEMU multi-process, please
+refer to docs/devel/qemu-multiprocess.rst. Also, see
+docs/qemu-multiprocess.txt for usage information.
+
+Thank you for reviewing these series.
+
+
+[POC]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.html
+[1]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg602285.html
+[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg624877.html
+[3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.html
+[4]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg655118.html
+[5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg682429.html
+[6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg697484.html
+[7]: https://patchew.org/QEMU/cover.1593273671.git.elena.ufimtseva@oracle.com/
+[8]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg727007.html
+[9]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg734275.html
+[10]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg747638.html
+[11]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg750972.html
+[12]: https://patchew.org/QEMU/cover.1606853298.git.jag.raman@oracle.com/
+[13]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg766825.html
+[14]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg768376.html
+
+Elena Ufimtseva (8):
+  multi-process: add configure and usage information
+  multi-process: add qio channel write function
+  multi-process: add qio channel read function
+  multi-process: define MPQemuMsg format and transmission functions
+  multi-process: introduce proxy object
+  multi-process: add proxy communication functions
+  multi-process: Forward PCI config space acceses to the remote process
+  multi-process: perform device reset in the remote process
+
+Jagannathan Raman (11):
+  memory: alloc RAM from file at offset
+  multi-process: Add config option for multi-process QEMU
+  multi-process: setup PCI host bridge for remote device
+  multi-process: setup a machine object for remote device process
+  multi-process: Initialize message handler in remote device
+  multi-process: Associate fd of a PCIDevice with its object
+  multi-process: setup memory manager for remote device
+  multi-process: PCI BAR read/write handling for proxy & remote
+    endpoints
+  multi-process: Synchronize remote memory
+  multi-process: create IOHUB object to handle irq
+  multi-process: Retrieve PCI info from remote process
+
+John G Johnson (1):
+  multi-process: add the concept description to
+    docs/devel/qemu-multiprocess
+
+ docs/devel/index.rst                      |   1 +
+ docs/devel/multi-process.rst              | 966 ++++++++++++++++++++++
+ docs/multi-process.rst                    |  64 ++
+ configure                                 |  10 +
+ meson.build                               |   3 +
+ hw/remote/trace.h                         |   1 +
+ include/exec/memory.h                     |   2 +
+ include/exec/ram_addr.h                   |   2 +-
+ include/hw/pci-host/remote.h              |  31 +
+ include/hw/pci/pci_ids.h                  |   3 +
+ include/hw/remote/iohub.h                 |  42 +
+ include/hw/remote/machine.h               |  40 +
+ include/hw/remote/memory.h                |  19 +
+ include/hw/remote/mpqemu-link.h           |  99 +++
+ include/hw/remote/proxy-memory-listener.h |  28 +
+ include/hw/remote/proxy.h                 |  52 ++
+ include/io/channel.h                      |  50 ++
+ include/qemu/mmap-alloc.h                 |   4 +-
+ include/sysemu/iothread.h                 |   6 +
+ backends/hostmem-memfd.c                  |   2 +-
+ hw/misc/ivshmem.c                         |   3 +-
+ hw/pci-host/remote.c                      |  75 ++
+ hw/remote/iohub.c                         | 119 +++
+ hw/remote/machine.c                       |  80 ++
+ hw/remote/memory.c                        |  65 ++
+ hw/remote/message.c                       | 230 ++++++
+ hw/remote/mpqemu-link.c                   | 267 ++++++
+ hw/remote/proxy-memory-listener.c         | 227 +++++
+ hw/remote/proxy.c                         | 379 +++++++++
+ hw/remote/remote-obj.c                    | 208 +++++
+ io/channel.c                              | 102 ++-
+ iothread.c                                |   6 +
+ softmmu/memory.c                          |   3 +-
+ softmmu/physmem.c                         |  11 +-
+ util/mmap-alloc.c                         |   7 +-
+ util/oslib-posix.c                        |   2 +-
+ Kconfig.host                              |   4 +
+ MAINTAINERS                               |  24 +
+ hw/Kconfig                                |   1 +
+ hw/meson.build                            |   1 +
+ hw/pci-host/Kconfig                       |   3 +
+ hw/pci-host/meson.build                   |   1 +
+ hw/remote/Kconfig                         |   4 +
+ hw/remote/meson.build                     |  13 +
+ hw/remote/trace-events                    |   4 +
+ 45 files changed, 3225 insertions(+), 39 deletions(-)
+ create mode 100644 docs/devel/multi-process.rst
+ create mode 100644 docs/multi-process.rst
+ create mode 100644 hw/remote/trace.h
+ create mode 100644 include/hw/pci-host/remote.h
+ create mode 100644 include/hw/remote/iohub.h
+ create mode 100644 include/hw/remote/machine.h
+ create mode 100644 include/hw/remote/memory.h
+ create mode 100644 include/hw/remote/mpqemu-link.h
+ create mode 100644 include/hw/remote/proxy-memory-listener.h
+ create mode 100644 include/hw/remote/proxy.h
+ create mode 100644 hw/pci-host/remote.c
+ create mode 100644 hw/remote/iohub.c
+ create mode 100644 hw/remote/machine.c
+ create mode 100644 hw/remote/memory.c
+ create mode 100644 hw/remote/message.c
+ create mode 100644 hw/remote/mpqemu-link.c
+ create mode 100644 hw/remote/proxy-memory-listener.c
+ create mode 100644 hw/remote/proxy.c
  create mode 100644 hw/remote/remote-obj.c
+ create mode 100644 hw/remote/Kconfig
+ create mode 100644 hw/remote/meson.build
+ create mode 100644 hw/remote/trace-events
 
-diff --git a/hw/remote/remote-obj.c b/hw/remote/remote-obj.c
-new file mode 100644
-index 0000000000..048e343525
---- /dev/null
-+++ b/hw/remote/remote-obj.c
-@@ -0,0 +1,208 @@
-+/*
-+ * Copyright © 2020 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL-v2, version 2 or later.
-+ *
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "qemu/error-report.h"
-+#include "qemu/notify.h"
-+#include "qom/object_interfaces.h"
-+#include "hw/qdev-core.h"
-+#include "io/channel.h"
-+#include "hw/qdev-core.h"
-+#include "hw/remote/machine.h"
-+#include "io/channel-util.h"
-+#include "qapi/error.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/pci/pci.h"
-+#include "qemu/sockets.h"
-+#include "monitor/monitor.h"
-+
-+#define TYPE_REMOTE_OBJECT "x-remote-object"
-+#define REMOTE_OBJECT(obj) \
-+    OBJECT_CHECK(RemoteObject, (obj), TYPE_REMOTE_OBJECT)
-+#define REMOTE_OBJECT_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(RemoteObjectClass, (obj), TYPE_REMOTE_OBJECT)
-+#define REMOTE_OBJECT_CLASS(klass) \
-+    OBJECT_CLASS_CHECK(RemoteObjectClass, (klass), TYPE_REMOTE_OBJECT)
-+
-+typedef struct {
-+    ObjectClass parent_class;
-+
-+    unsigned int nr_devs;
-+    unsigned int max_devs;
-+} RemoteObjectClass;
-+
-+typedef struct {
-+    /* private */
-+    Object parent;
-+
-+    Notifier machine_done;
-+
-+    int32_t fd;
-+    char *devid;
-+
-+    QIOChannel *ioc;
-+
-+    DeviceState *dev;
-+    DeviceListener listener;
-+} RemoteObject;
-+
-+static void remote_object_set_fd(Object *obj, const char *str, Error **errp)
-+{
-+    RemoteObject *o = REMOTE_OBJECT(obj);
-+    int fd = -1;
-+
-+    fd = monitor_fd_param(monitor_cur(), str, errp);
-+    if (fd == -1) {
-+        error_prepend(errp, "Could not parse remote object fd %s:", str);
-+        return;
-+    }
-+
-+    if (!fd_is_socket(fd)) {
-+        error_setg(errp, "File descriptor '%s' is not a socket", str);
-+        close(fd);
-+        return;
-+    }
-+
-+    o->fd = fd;
-+}
-+
-+static void remote_object_set_devid(Object *obj, const char *str, Error **errp)
-+{
-+    RemoteObject *o = REMOTE_OBJECT(obj);
-+
-+    g_free(o->devid);
-+
-+    o->devid = g_strdup(str);
-+}
-+
-+static void remote_object_unrealize_listener(DeviceListener *listener,
-+                                             DeviceState *dev)
-+{
-+    RemoteObject *o = container_of(listener, RemoteObject, listener);
-+
-+    if (o->dev == dev) {
-+        object_unref(OBJECT(o));
-+    }
-+}
-+
-+static void remote_object_machine_done(Notifier *notifier, void *data)
-+{
-+    RemoteObject *o = container_of(notifier, RemoteObject, machine_done);
-+    DeviceState *dev = NULL;
-+    QIOChannel *ioc = NULL;
-+    Coroutine *co = NULL;
-+    RemoteCommDev *comdev = NULL;
-+    Error *err = NULL;
-+
-+    dev = qdev_find_recursive(sysbus_get_default(), o->devid);
-+    if (!dev || !object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-+        error_report("%s is not a PCI device", o->devid);
-+        return;
-+    }
-+
-+    ioc = qio_channel_new_fd(o->fd, &err);
-+    if (!ioc) {
-+        error_report_err(err);
-+        return;
-+    }
-+    qio_channel_set_blocking(ioc, false, NULL);
-+
-+    o->dev = dev;
-+
-+    o->listener.unrealize = remote_object_unrealize_listener;
-+    device_listener_register(&o->listener);
-+
-+    /* co-routine should free this. */
-+    comdev = g_new0(RemoteCommDev, 1);
-+    *comdev = (RemoteCommDev) {
-+        .ioc = ioc,
-+        .dev = PCI_DEVICE(dev),
-+    };
-+
-+    co = qemu_coroutine_create(mpqemu_remote_msg_loop_co, comdev);
-+    qemu_coroutine_enter(co);
-+}
-+
-+static void remote_object_init(Object *obj)
-+{
-+    RemoteObjectClass *k = REMOTE_OBJECT_GET_CLASS(obj);
-+    RemoteObject *o = REMOTE_OBJECT(obj);
-+
-+    if (k->nr_devs >= k->max_devs) {
-+        error_report("Reached maximum number of devices: %u", k->max_devs);
-+        return;
-+    }
-+
-+    o->ioc = NULL;
-+    o->fd = -1;
-+    o->devid = NULL;
-+
-+    k->nr_devs++;
-+
-+    o->machine_done.notify = remote_object_machine_done;
-+    qemu_add_machine_init_done_notifier(&o->machine_done);
-+}
-+
-+static void remote_object_finalize(Object *obj)
-+{
-+    RemoteObjectClass *k = REMOTE_OBJECT_GET_CLASS(obj);
-+    RemoteObject *o = REMOTE_OBJECT(obj);
-+
-+    device_listener_unregister(&o->listener);
-+
-+    if (o->ioc) {
-+        qio_channel_shutdown(o->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-+        qio_channel_close(o->ioc, NULL);
-+    }
-+
-+    object_unref(OBJECT(o->ioc));
-+
-+    k->nr_devs--;
-+    g_free(o->devid);
-+}
-+
-+static void remote_object_class_init(ObjectClass *klass, void *data)
-+{
-+    RemoteObjectClass *k = REMOTE_OBJECT_CLASS(klass);
-+
-+    /*
-+     * Limit number of supported devices to 1. This is done to avoid devices
-+     * from one VM accessing the RAM of another VM. This is done until we
-+     * start using separate address spaces for individual devices.
-+     */
-+    k->max_devs = 1;
-+    k->nr_devs = 0;
-+
-+    object_class_property_add_str(klass, "fd", NULL, remote_object_set_fd);
-+    object_class_property_add_str(klass, "devid", NULL,
-+                                  remote_object_set_devid);
-+}
-+
-+static const TypeInfo remote_object_info = {
-+    .name = TYPE_REMOTE_OBJECT,
-+    .parent = TYPE_OBJECT,
-+    .instance_size = sizeof(RemoteObject),
-+    .instance_init = remote_object_init,
-+    .instance_finalize = remote_object_finalize,
-+    .class_size = sizeof(RemoteObjectClass),
-+    .class_init = remote_object_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_USER_CREATABLE },
-+        { }
-+    }
-+};
-+
-+static void register_types(void)
-+{
-+    type_register_static(&remote_object_info);
-+}
-+
-+type_init(register_types);
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9e89e4c121..ed89e3df5d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3171,6 +3171,7 @@ F: include/hw/remote/machine.h
- F: hw/remote/mpqemu-link.c
- F: include/hw/remote/mpqemu-link.h
- F: hw/remote/message.c
-+F: hw/remote/remote-obj.c
- 
- Build and test automation
- -------------------------
-diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-index 9f5c57f35a..71d0a5689e 100644
---- a/hw/remote/meson.build
-+++ b/hw/remote/meson.build
-@@ -3,5 +3,6 @@ remote_ss = ss.source_set()
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('mpqemu-link.c'))
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
-+remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
- 
- softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
 -- 
 2.25.GIT
 
