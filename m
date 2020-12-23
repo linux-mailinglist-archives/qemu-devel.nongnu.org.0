@@ -2,124 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38D1F2E10FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 02:03:23 +0100 (CET)
-Received: from localhost ([::1]:42512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08142E1158
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 02:23:57 +0100 (CET)
+Received: from localhost ([::1]:46250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krsYj-0003PC-Pw
-	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 20:03:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57876)
+	id 1krsse-0006Y6-EY
+	for lists+qemu-devel@lfdr.de; Tue, 22 Dec 2020 20:23:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1krsWr-0002vI-Vs
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 20:01:29 -0500
-Received: from mail-oo1-xc2a.google.com ([2607:f8b0:4864:20::c2a]:43847)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1krspe-0005iI-10; Tue, 22 Dec 2020 20:20:50 -0500
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:37166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1krsWo-0007TA-2r
- for qemu-devel@nongnu.org; Tue, 22 Dec 2020 20:01:24 -0500
-Received: by mail-oo1-xc2a.google.com with SMTP id y14so3358299oom.10
- for <qemu-devel@nongnu.org>; Tue, 22 Dec 2020 17:01:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1krspa-00056H-Eq; Tue, 22 Dec 2020 20:20:49 -0500
+Received: by mail-yb1-xb32.google.com with SMTP id d37so13288463ybi.4;
+ Tue, 22 Dec 2020 17:20:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EQAyLC7kxYPIYl6NHOL3wHxxomzOA+9wdpBm72JR8zw=;
- b=GuPDRrNYbX9PaUgTNWcjAd31vGnZHuK61Ds4nSY/Oj5NNaLMW8Xp7f/tRON1TuSoAw
- SUuhA5rSgFsUxSML1bIC2hItRq1s8voGS8McaWnvoMQrVbPA8uiSGfShrZbuHA1j52zW
- YvVyewdqBFrljCMSDb9xFMbKJbQBZlGxnCDa1+nBnvm9Mtm0p16FqLEhuesGqxxvYxXA
- 4eAzxbrbqd3dMBTFNbgSBhAE6lvncVNPVTmIO34bBPP6Y+b0bALxEG8tKUCvWovbMLXZ
- A6OFK28tlhfO+9yLGwp1kUjoFm1E1phmU+ar5n20Swmemn0T0xUzBZ+PUP5tmvhhY6Wo
- 7x7g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=unN07d1QJCsb1dLFtpfYgzja2nZOXbTD0XGI6NFQTKw=;
+ b=Kg42lbwSHu69EcvF3u/21ZW3bJ35clxexl2HGLW938Urk5c5PO57tVPWwwMRaV0H0N
+ F+jcyHfqEcan0JbfvrMt3dJXnbkb6/TZriZItGpk0Lbw8/ujmPDrpvVDh3SH3XeN65MO
+ 3symdlm0L41MlFDjFr0fTbenTnyU6oCIAosER1Bv5j2Zs+KhcmNhnMvO/k1awANF/Bf5
+ E/n1zmLmIp40l6E6FHduqdTcX68vUE8n3QESZ6a6gx1qob3tjszDOmMvE31mg6XGRgow
+ mithhdV37TOugy9ViUPOHQ/B9YmgLqjIavPU0sANI43cOdbAbGTRSJufL0HUF+KLs76P
+ hR3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=EQAyLC7kxYPIYl6NHOL3wHxxomzOA+9wdpBm72JR8zw=;
- b=VBdb6Gj52w6IJyZgumR5OSpC/R05XizLngSI+/VnzaMWojYs3+aFWCAJLQrsR5oBwt
- 5Y0u63HdxYZZC29vlpR6cYRhHDEt6NnyW8ahAGCgGGOmY9mFEPQBQVrwTCNodkFckJ1X
- i4w0zQYaNXCyx2BX/tb2EgsZxisKEho3RB0ueakknLfrHtyshugJ7rnqFKk/dun3fCGC
- SkUIYTIO+shb6v6gilou+yD5Z1zIPEGkMdY2a5KZZ0Ma5xswuiZ0jJctFq+lXv7KQOLG
- biREIIFsSwzmzR5Fl83JTd3OmemgV/6UxXlxglHgoVcC5KvfZnHPmEiv7bK6YSWD661e
- Lvlw==
-X-Gm-Message-State: AOAM531H9h6TVxWiSuvgKfxBp2aiIn26dfurO7sU41KqqZpleOk40ejY
- ODoqBpram+0eL4m2KozwLq8=
-X-Google-Smtp-Source: ABdhPJxpthH9t9Bjy7vNcNzF3f725cflVjaCwmA6gIfTYX3IJ51WyEh1e060MquGnsLBBMn7X7JL9g==
-X-Received: by 2002:a4a:e687:: with SMTP id u7mr16772408oot.20.1608685279891; 
- Tue, 22 Dec 2020 17:01:19 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- t26sm4850034otm.17.2020.12.22.17.01.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 22 Dec 2020 17:01:18 -0800 (PST)
-Subject: Re: Problems with irq mapping in qemu v5.2
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <3f0f8fc6-6148-a76e-1088-b7882b0bbcaf@roeck-us.net>
- <5ef852ee-8a53-df9d-82f4-33a68c05f53a@ilande.co.uk>
- <5849da05-a063-cd56-7709-c4760c8aa71f@roeck-us.net>
- <e2a1818e-366d-8a58-ce-e3eacb6787d7@eik.bme.hu>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <d337ba4c-3cd2-eb1a-4867-5e93bf510e4d@roeck-us.net>
-Date: Tue, 22 Dec 2020 17:01:16 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=unN07d1QJCsb1dLFtpfYgzja2nZOXbTD0XGI6NFQTKw=;
+ b=mtttsx07W1EwPo9OV2D+87eXEn4x2dmncsKzi2vjWkAzXWQ++uOncUf5qZgT+NvxQh
+ SECb/B3+bLPUEJepDbcpMVixQhvcJGZFAxLyS3qaCDNlRh+ymIddy7VYbYJ7qjEiR2HJ
+ 3UKZxQf5FGN5ai+4UDzH9LlK0N2m4IVFVLwj8aeCeWrwvxxEGZJkAtlmdvldcV/NmPPB
+ /q42nOU6DcFTYSwAQOD+nKJFt1YRycv9iFMiQX4d1DGZyNfOSrZ0N58l9fcVy0t1gIMt
+ mvR6/Z0QXvNapzo7YzJKcy/a01ewX4hOd83PTR2GzYMArvXGdMDjfQaJpVm8ZCwluOX8
+ O2pg==
+X-Gm-Message-State: AOAM533RPcjpEOxDdM2u4fF22AlnugF4/rkVrUyh3TxVeMLcasNcejrK
+ COU8LzLEsdVr5b3ye47vFc1B+5T2MzhrPLDiCdY=
+X-Google-Smtp-Source: ABdhPJyIfUlCCQ+Eg8UCWALFIPRfMIvSevKQKvNGWWyeFdh1VOOF7yx3lM58Md3cArOUGFMa0lnW1BIb4W5z5afw8l0=
+X-Received: by 2002:a25:4d7:: with SMTP id 206mr34215807ybe.306.1608686445206; 
+ Tue, 22 Dec 2020 17:20:45 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <e2a1818e-366d-8a58-ce-e3eacb6787d7@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2a;
- envelope-from=groeck7@gmail.com; helo=mail-oo1-xc2a.google.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.521,
+References: <20201217214826.2094617-1-atish.patra@wdc.com>
+ <CAEUhbmUqJdpuqvZ6V3s9eeW=EUVXrnjbF5GRmygwaZhMGG-6sA@mail.gmail.com>
+ <4f09804c0e35a45fcf3fa78b3f3ed55276d6e10f.camel@wdc.com>
+ <CAEUhbmX16h5S5Y0kFsnDv6t2cnn6we-b-9U_cbnEQkrrckYy0w@mail.gmail.com>
+ <67cbbde886c3ae6e57e837e79f466f4156a910f8.camel@wdc.com>
+ <CAEUhbmVEAxf3OCp=89MCx7qQiN0wKd3QM4k8t20r9Sbq+JA_-w@mail.gmail.com>
+ <df986ea726abea58fedd1a870095378456823d2a.camel@wdc.com>
+ <CAEUhbmUK95YJ74_AJQ8wu9oBM6mDky2n5=pGR_UQE0AB4eXYtQ@mail.gmail.com>
+ <a33a44ff4ec9f16a5ff7649e2d8ed9d87c6bed64.camel@wdc.com>
+In-Reply-To: <a33a44ff4ec9f16a5ff7649e2d8ed9d87c6bed64.camel@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 23 Dec 2020 09:20:33 +0800
+Message-ID: <CAEUhbmXCyrAZzVzvSMSf+FOt5g-jHpk2X6j=00rQNmJKYoXSAA@mail.gmail.com>
+Subject: Re: [PATCH] RISC-V: Place DTB at 3GB boundary instead of 4GB
+To: Atish Patra <Atish.Patra@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -134,34 +82,299 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ "sagark@eecs.berkeley.edu" <sagark@eecs.berkeley.edu>,
+ "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>,
+ Anup Patel <Anup.Patel@wdc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/22/20 2:57 PM, BALATON Zoltan wrote:
+Hi Atish,
 
-[ ... ]
+On Wed, Dec 23, 2020 at 3:59 AM Atish Patra <Atish.Patra@wdc.com> wrote:
+>
+> On Tue, 2020-12-22 at 13:35 +0800, Bin Meng wrote:
+> > Hi Atish,
+> >
+> > On Sat, Dec 19, 2020 at 3:46 AM Atish Patra <Atish.Patra@wdc.com>
+> > wrote:
+> > >
+> > > On Fri, 2020-12-18 at 16:42 +0800, Bin Meng wrote:
+> > > > Hi Atish,
+> > > >
+> > > > On Fri, Dec 18, 2020 at 4:00 PM Atish Patra <Atish.Patra@wdc.com>
+> > > > wrote:
+> > > > >
+> > > > > On Fri, 2020-12-18 at 15:33 +0800, Bin Meng wrote:
+> > > > > > Hi Atish,
+> > > > > >
+> > > > > > On Fri, Dec 18, 2020 at 3:27 PM Atish Patra <
+> > > > > > Atish.Patra@wdc.com>
+> > > > > > wrote:
+> > > > > > >
+> > > > > > > On Fri, 2020-12-18 at 15:21 +0800, Bin Meng wrote:
+> > > > > > > > Hi Atish,
+> > > > > > > >
+> > > > > > > > On Fri, Dec 18, 2020 at 5:48 AM Atish Patra
+> > > > > > > > <atish.patra@wdc.com>
+> > > > > > > > wrote:
+> > > > > > > > >
+> > > > > > > > > Currently, we place the DTB at 2MB from 4GB or end of
+> > > > > > > > > DRAM
+> > > > > > > > > which
+> > > > > > > > > ever is
+> > > > > > > > > lesser. However, Linux kernel can address only 1GB of
+> > > > > > > > > memory
+> > > > > > > > > for
+> > > > > > > > > RV32.
+> > > > > > > > > Thus, it can not map anything beyond 3GB (assuming 2GB
+> > > > > > > > > is
+> > > > > > > > > the
+> > > > > > > > > starting address).
+> > > > > > > > > As a result, it can not process DT and panic if opensbi
+> > > > > > > > > dynamic
+> > > > > > > > > firmware
+> > > > > > > > > is used.
+> > > > > > > > >
+> > > > > > > > > Fix this by placing the DTB at 2MB from 3GB or end of
+> > > > > > > > > DRAM
+> > > > > > > > > whichever is lower.
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> > > > > > > > > ---
+> > > > > > > > >  hw/riscv/boot.c | 4 ++--
+> > > > > > > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > With this patch, 32-bit sifive_u still does not boot
+> > > > > > > > kernel
+> > > > > > > > with
+> > > > > > > > the
+> > > > > > > > following patch applied on 5.10:
+> > > > > > > >
+> > > > > > > > https://patchwork.kernel.org/project/linux-riscv/patch/20201217074855.1948743-1-atish.patra@wdc.com/
+> > > > > > > >
+> > > > > > > > Command I used:
+> > > > > > > > $ qemu-system-riscv32 -nographic -M sifive_u -m 1G -smp 5
+> > > > > > > > -
+> > > > > > > > kernel
+> > > > > > > > arch/riscv/boot/Image
+> > > > > > > >
+> > > > > > > > 32-bit virt cannot boot the same kernel image with memory
+> > > > > > > > set
+> > > > > > > > to
+> > > > > > > > 2G
+> > > > > > > > either:
+> > > > > > > > $ qemu-system-riscv32 -nographic -M virt -m 2G -smp 4 -
+> > > > > > > > kernel
+> > > > > > > > arch/riscv/boot/Image
+> > > > > > > >
+> > > > > > >
+> > > > > > > Hi Bin,
+> > > > > > > As mentioned in the email on the linux mailing list, this
+> > > > > > > patch
+> > > > > > > only
+> > > > > > > solves 2GB problem. sifive_u problem is solved by
+> > > > > > > Alistair's
+> > > > > > > patch[1].
+> > > > > > >
+> > > > > > > He is planning to send the PR soon. The issue with sifive_u
+> > > > > > > boot
+> > > > > > > was it
+> > > > > > > was failing the 32 bit test earlier resulting a 2MB aligned
+> > > > > > > address
+> > > > > > > instead of 4MB.
+> > > > > >
+> > > > > > Ah, I see. However my testing shows that virt with 2G still
+> > > > > > does
+> > > > > > not
+> > > > > > boot with this patch.
+> > > > > >
+> > > > >
+> > > > > Strange. I verified again with following combination with -bios
+> > > > > and
+> > > > > without bios parameter.
+> > > > >
+> > > > > 1. virt 32/64 with 1GB/2GB memory
+> > > > > 2. sifive_u 32/64 bit with 1GB/2GB memory (Alistair's patch
+> > > > > included)
+> > > > >
+> > > > > Can you share the boot log along with the head commit of Qemu
+> > > > > and
+> > > > > commandline ? I am using 5.10 kernel with my kernel fix.
+> > > > >
+> > > >
+> > > > I was using Alistair's QEMU repo for testing and 5.10 kernel with
+> > > > your
+> > > > kernel fix:
+> > > >
+> > > > $ git checkout -b testing pull-riscv-to-apply-20201217-1
+> > > > $ apply this patch
+> > > > $ mkdir build;cd build;../configure
+> > > > --target-list=riscv64-softmmu,riscv32-softmmu;make -j
+> > > >
+> > > > $ ./qemu-system-riscv32 -nographic -M virt -m 2G -smp 4 -kernel
+> > > > ~/work/git/linux/arch/riscv/boot/Image
+> > > >
+> > > > OpenSBI v0.8
+> > > >    ____                    _____ ____ _____
+> > > >   / __ \                  / ____|  _ \_   _|
+> > > >  | |  | |_ __   ___ _ __ | (___ | |_) || |
+> > > >  | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+> > > >  | |__| | |_) |  __/ | | |____) | |_) || |_
+> > > >   \____/| .__/ \___|_| |_|_____/|____/_____|
+> > > >         | |
+> > > >         |_|
+> > > >
+> > > > Platform Name       : riscv-virtio,qemu
+> > > > Platform Features   : timer,mfdeleg
+> > > > Platform HART Count : 4
+> > > > Boot HART ID        : 3
+> > > > Boot HART ISA       : rv32imafdcsu
+> > > > BOOT HART Features  : pmp,scounteren,mcounteren,time
+> > > > BOOT HART PMP Count : 16
+> > > > Firmware Base       : 0x80000000
+> > > > Firmware Size       : 104 KB
+> > > > Runtime SBI Version : 0.2
+> > > >
+> > > > MIDELEG : 0x00000222
+> > > > MEDELEG : 0x0000b109
+> > > > PMP0    : 0x80000000-0x8001ffff (A)
+> > > > PMP1    : 0x00000000-0xffffffff (A,R,W,X)
+> > > > <hangs here>
+> > > >
+> > > > $ ./qemu-system-riscv32 -nographic -M sifive_u -m 2G -smp 5 -
+> > > > kernel
+> > > > ~/work/git/linux/arch/riscv/boot/Image
+> > > >
+> > > > OpenSBI v0.8
+> > > >    ____                    _____ ____ _____
+> > > >   / __ \                  / ____|  _ \_   _|
+> > > >  | |  | |_ __   ___ _ __ | (___ | |_) || |
+> > > >  | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+> > > >  | |__| | |_) |  __/ | | |____) | |_) || |_
+> > > >   \____/| .__/ \___|_| |_|_____/|____/_____|
+> > > >         | |
+> > > >         |_|
+> > > >
+> > > > Platform Name       : SiFive HiFive Unleashed A00
+> > > > Platform Features   : timer,mfdeleg
+> > > > Platform HART Count : 5
+> > > > Boot HART ID        : 4
+> > > > Boot HART ISA       : rv32imafdcsu
+> > > > BOOT HART Features  : pmp,scounteren,mcounteren
+> > > > BOOT HART PMP Count : 16
+> > > > Firmware Base       : 0x80000000
+> > > > Firmware Size       : 112 KB
+> > > > Runtime SBI Version : 0.2
+> > > >
+> > > > MIDELEG : 0x00000222
+> > > > MEDELEG : 0x0000b109
+> > > > PMP0    : 0x80000000-0x8001ffff (A)
+> > > > PMP1    : 0x00000000-0xffffffff (A,R,W,X)
+> > > > <hangs here>
+> > > >
+> > > > The following is sifive_u with 1G:
+> > > >
+> > > > $ ./qemu-system-riscv32 -nographic -M sifive_u -m 1G -smp 5 -
+> > > > kernel
+> > > > ~/work/git/linux/arch/riscv/boot/Image
+> > > >
+> > > > OpenSBI v0.8
+> > > >    ____                    _____ ____ _____
+> > > >   / __ \                  / ____|  _ \_   _|
+> > > >  | |  | |_ __   ___ _ __ | (___ | |_) || |
+> > > >  | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+> > > >  | |__| | |_) |  __/ | | |____) | |_) || |_
+> > > >   \____/| .__/ \___|_| |_|_____/|____/_____|
+> > > >         | |
+> > > >         |_|
+> > > >
+> > > > Platform Name       : SiFive HiFive Unleashed A00
+> > > > Platform Features   : timer,mfdeleg
+> > > > Platform HART Count : 5
+> > > > Boot HART ID        : 3
+> > > > Boot HART ISA       : rv32imafdcsu
+> > > > BOOT HART Features  : pmp,scounteren,mcounteren
+> > > > BOOT HART PMP Count : 16
+> > > > Firmware Base       : 0x80000000
+> > > > Firmware Size       : 112 KB
+> > > > Runtime SBI Version : 0.2
+> > > >
+> > > > MIDELEG : 0x00000222
+> > > > MEDELEG : 0x0000b109
+> > > > PMP0    : 0x80000000-0x8001ffff (A)
+> > > > PMP1    : 0x00000000-0xffffffff (A,R,W,X)
+> > > > [    0.000000] Linux version 5.10.0-00001-gbf0dad61896d
+> > > > (bmeng@pek-vx-bsp2) (riscv64-linux-gcc (GCC) 8.1.0, GNU ld (GNU
+> > > > Binutils) 2.30) #1 SMP Thu Dec 17 16:48:13 CST 2020
+> > > > [    0.000000] OF: fdt: Ignoring memory range 0x80000000 -
+> > > > 0x80400000
+> > > > [    0.000000] efi: UEFI not found.
+> > > > [    0.000000] Zone ranges:
+> > > > [    0.000000]   Normal   [mem 0x0000000080400000-
+> > > > 0x00000000bfffffff]
+> > > > [    0.000000] Movable zone start for each node
+> > > > [    0.000000] Early memory node ranges
+> > > > [    0.000000]   node   0: [mem 0x0000000080400000-
+> > > > 0x00000000bfffffff]
+> > > > [    0.000000] Initmem setup node 0 [mem 0x0000000080400000-
+> > > > 0x00000000bfffffff]
+> > > > [    0.000000] SBI specification v0.2 detected
+> > > > [    0.000000] SBI implementation ID=0x1 Version=0x8
+> > > > [    0.000000] SBI v0.2 TIME extension detected
+> > > > [    0.000000] SBI v0.2 IPI extension detected
+> > > > [    0.000000] SBI v0.2 RFENCE extension detected
+> > > > [    0.000000] SBI v0.2 HSM extension detected
+> > > > [    0.000000] CPU with hartid=0 is not available
+> > > > [    0.000000] CPU with hartid=0 is not available
+> > > >
+> > > > Regards,
+> > > > Bin
+> > >
+> > > May be you forgot to apply this patch for 2GB case on top of
+> > > Alistair's
+> > > tree? I don't see any issues with exact same setup.
+> >
+> > That's really weird. I have:
+> >
+> > $ git log --oneline
+> > 3ced2fb RISC-V: Place DTB at 3GB boundary instead of 4GB
+> > d31e970 riscv/opentitan: Update the OpenTitan memory layout
+> > 3ed2b8a hw/riscv: Use the CPU to determine if 32-bit
+> > 094b072 target/riscv: cpu: Set XLEN independently from target
+> > 8987cdc4 target/riscv: csr: Remove compile time XLEN checks
+> >
+> > I just rebuilt the QEMU binaries but still have the same result. 2G
+> > does not boot on either 'virt' or 'sifive_u'.
+> >
+> > $ ./qemu-system-riscv32 -version
+> > QEMU emulator version 5.2.50 (v5.2.0-551-g3ced2fb)
+> > Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project
+> > developers
+> >
+> > Maybe it's toolchain related? I am using kernel.org toolchain
+> > riscv64-linux-gcc (GCC) 8.1.0. I see you were using
+> > riscv64-unknown-linux-gnu-gcc (GCC) 10.2.0.
+> >
+>
+> Strange. If it is a toolchain related issue, the cause might be
+> completely different. Can you give it a try to with updated toolchain ?
+> The pre-built toolchain available in bootlin[1] is 10.2.0.
+>
+> [1] https://toolchains.bootlin.com/
 
-> I've already forgot about the details but we have analysed it quite throughly back when the via ide changes were made. Here are some random pointers to threads that could have some info:
-> This was the final solution that was merged as the simplest that worked for all cases we've tried to fix:
-> https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg03977.html
-> 
-This set of patches is in v5.2, yet I can still not instantiate an IDE drive, at least
-not with "-drive file=<filename>,if=ide". Is there some other means to instantiate
-an ide drive with the fuloong2e emulation ?
+I will give it a try.
 
-For reference, here is my qemu command line:
+>
+> Can I download pre-built gcc 8.1.0 toolchain from somewhere ?
 
-qemu-system-mips64el -M fulong2e \
-    -kernel vmlinux -no-reboot -m 256 \
-    -snapshot -drive file=rootfs.mipsel.ext3,format=raw,if=ide \
-    -vga none \
-    --append "root=/dev/sda console=ttyS0" \
-    -nographic -serial stdio -monitor none
+Yes, you can download it from
+http://cdn.kernel.org/pub/tools/crosstool/files/bin/x86_64/8.1.0/x86_64-gcc-8.1.0-nolibc-riscv64-linux.tar.xz
 
-Thanks,
-Guenter
+Regards,
+Bin
 
