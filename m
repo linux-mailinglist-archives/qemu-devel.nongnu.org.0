@@ -2,89 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE7A2E1A37
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 09:57:12 +0100 (CET)
-Received: from localhost ([::1]:33082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF542E1A6F
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 10:14:12 +0100 (CET)
+Received: from localhost ([::1]:48278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krzxG-0001Ib-SL
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 03:57:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47064)
+	id 1ks0Dj-00008h-S6
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 04:14:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1krzwK-0000m9-Sv
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 03:56:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48175)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1krzwF-0004NF-Fr
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 03:56:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608713765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YDhJ2ytTBcsqqtoAKeQE/fnroSxxMTsieyKyV1vACIk=;
- b=eo8kyJHg+EZN5xmabGB1kBUiCvgnfwGBO6OZqYyAIraapxbinrf9M76z9z5RJLdBAvaxkz
- dmb1NMjxfAOoTrygzZgrkCQqx58+fLS9N4ockJF6wciPb0BxNm4K1Z/gSmxLlI/T/R0GIJ
- xEvdIrdlt1J4dh0oxcARvVstkK/SqhE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-r-ARvPdRNKCWakbSzbGSKw-1; Wed, 23 Dec 2020 03:56:01 -0500
-X-MC-Unique: r-ARvPdRNKCWakbSzbGSKw-1
-Received: by mail-wr1-f70.google.com with SMTP id 88so12212409wrc.17
- for <qemu-devel@nongnu.org>; Wed, 23 Dec 2020 00:56:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YDhJ2ytTBcsqqtoAKeQE/fnroSxxMTsieyKyV1vACIk=;
- b=dwZTkXF2zpW2srvK9OMsdDOP2sfiRnrXRnZ8glSk+Wm+XlrTynULD3MHfW3IGvO3ka
- 1nOo2YJWurqJcpbkMgYpwsjusdFRFNecm0S1z9Qch5eTVmHMbDcjOijDgtQ4RxKVcT3m
- bBP/WUwYi87n6OCPG78p0/IwxP6T2b/k8ck0nzCJVrByr8apQhgLbo4NwyqdylRd7bdJ
- ONTGLPDq8WvZ8z//MYoCPAFdk1YBshKNmUA1X46txTQT2wR7q9JAI+lbkFt0oWiW+u3a
- iE5sBKNI0FVDb/mKG6wraw/DLvjGoPLq0G03gVpR1vVYelnEDIKQMdQ6WI9qCYGLmaXj
- 93Ww==
-X-Gm-Message-State: AOAM5313lssmt/qiV0h7NSU58rKK2ewZMkbkLh4Mv9Xu4heLi9/8AbZ4
- KHuhcI+ysvYrM4nX2+MNkjzAo19GCQTPuLsKeAwhl1Y/wibRQPJ8WZwxfbDb2GSQdZy2MvZ3IUv
- 2GGShsf2mNpGvyz0=
-X-Received: by 2002:adf:ab56:: with SMTP id r22mr16934823wrc.351.1608713760578; 
- Wed, 23 Dec 2020 00:56:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwe0bDgq29Zu7Q1TrDILoxQM68K0pabT3MlIaIBv+nXOp9UiKCCoP63ONZtN/9gdyQzNONKhg==
-X-Received: by 2002:adf:ab56:: with SMTP id r22mr16934801wrc.351.1608713760242; 
- Wed, 23 Dec 2020 00:56:00 -0800 (PST)
-Received: from [192.168.1.124] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id h29sm37460587wrc.68.2020.12.23.00.55.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 23 Dec 2020 00:55:59 -0800 (PST)
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-References: <160871104474.106117.16441172468969132477.stgit@bahia.lan>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] ppc: Fix build with --without-default-devices
-Message-ID: <7bafab63-659d-a8e9-a2d1-36483b226bf0@redhat.com>
-Date: Wed, 23 Dec 2020 09:55:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
+ id 1ks0A1-0003j3-6s
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 04:10:22 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3006)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
+ id 1ks09r-0002XB-9k
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 04:10:19 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4D16pK4HGrzhrv5;
+ Wed, 23 Dec 2020 17:09:13 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.498.0; Wed, 23 Dec 2020
+ 17:09:51 +0800
+From: Jiahui Cen <cenjiahui@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v3 0/8] acpi: Some fixes for pxb support for ARM virt machine
+Date: Wed, 23 Dec 2020 17:08:28 +0800
+Message-ID: <20201223090836.9075-1-cenjiahui@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <160871104474.106117.16441172468969132477.stgit@bahia.lan>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
+Content-Type: text/plain
+X-Originating-IP: [10.174.184.155]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=cenjiahui@huawei.com;
+ helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.521,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,148 +56,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: xieyingtai@huawei.com, Jiahui Cen <cenjiahui@huawei.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Ard Biesheuvel <ard.biesheuvel@arm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Paolo
+ Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, wu.wubin@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/12/20 09:10, Greg Kurz wrote:
-> Linking of the qemu-system-ppc64 fails on a POWER9 host when
-> --without-default-devices is passed to configure:
-> 
-> $ ./configure --without-default-devices \
->                --target-list=ppc64-softmmu && make
-> 
-> ...
-> 
-> libqemu-ppc64-softmmu.fa.p/hw_ppc_e500.c.o: In function `ppce500_init_mpic_kvm':
-> /home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/e500.c:777: undefined reference to `kvm_openpic_connect_vcpu'
-> libqemu-ppc64-softmmu.fa.p/hw_ppc_spapr_irq.c.o: In function `spapr_irq_check':
-> /home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/spapr_irq.c:189: undefined reference to `xics_kvm_has_broken_disconnect'
-> libqemu-ppc64-softmmu.fa.p/hw_intc_spapr_xive.c.o: In function `spapr_xive_post_load':
-> /home/greg/Work/qemu/qemu-ppc/build/../hw/intc/spapr_xive.c:530: undefined reference to `kvmppc_xive_post_load'
-> 
-> ... and tons of other symbols belonging to the KVM backend of the
-> openpic, XICS and XIVE interrupt controllers.
-> 
-> It turns out that OPENPIC_KVM, XICS_KVM and XIVE_KVM are marked
-> to depend on KVM but this has no effect when minikconf runs in
-> allnoconfig mode. The correct way to express that some configuration
-> A requires some other configuration B to be true is "A select B".
-> 
-> Have OPENPIC, XICS and XIVE to select their KVM counterpart if KVM
-> is set. While here, fix POWERNV to select XIVE and XICS, just like
-> PSERIES, and drop the now useless XIVE related config clauses from
-> hw/ppc/Kconfig.
-> 
-> This went unnoticed so far because CI doesn't test the build with
-> --without-default-devices and KVM enabled on a POWER host.
-> 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+This patch series adds some fixes for ARM virt machine pxb support.
+1. Pass addr offset for IO, MMIO and bus number when builing crs, because
+the addr_trans is needed to describe an addr resource. [1]
+2. Inform guest os not to ignore the resource map generated by firmware as
+the x86 default way. [2]
+3. Reorder the root bridges [3] and exclude resources of extra root bridges
+from main root bridge's _CRS.
+4. Enable pxb for ARM virt machine by default.
+5. Update expected DSDT files with the above changes and enable the pxb
+unit-test.
 
-It is also possible to remove the *_KVM symbols and just use
+v2->v3:
+* Reorder the root bridges.
+* Exclude resources of extra root bridges from main root bridge's _CRS.
 
-     when: ['CONFIG_KVM', 'CONFIG_OPENPIC']
-     when: ['CONFIG_XICS', 'CONFIG_OPENPIC']
-     when: ['CONFIG_XIVE', 'CONFIG_OPENPIC']
+v1->v2:
+* Update expected DSDT files.
+* Quote PCI Firmware spec as comments.
 
-in the meson.build files.  Which one is preferrable depends on personal 
-taste, and I do not myself lean in one direction or the other---I 
-mention it just in case _you_ find that one preferrable.
+[1]: https://lore.kernel.org/qemu-devel/20201217132747.4744-1-cenjiahui@huawei.com/
+[2]: https://lore.kernel.org/qemu-devel/20201217132926.4812-1-cenjiahui@huawei.com/
+[3]: https://lore.kernel.org/lkml/20201218062335.5320-1-cenjiahui@huawei.com/
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Jiahui Cen (8):
+  acpi: Allow DSDT acpi table changes
+  acpi: Add addr offset in build_crs
+  acpi/gpex: Inform os to keep firmware resource map
+  acpi/gpex: Exclude pxb's resources from PCI0
+  acpi/gpex: Append pxb devs in ascending order
+  Kconfig: Enable PXB for ARM_VIRT by default
+  acpi: Enable pxb unit-test for ARM virt machine
+  acpi: Update addr_trans and _DSM in expected files
 
-Thanks!
+ hw/acpi/aml-build.c               |  18 ++--
+ hw/i386/acpi-build.c              |   3 +-
+ hw/pci-bridge/Kconfig             |   2 +-
+ hw/pci-host/gpex-acpi.c           |  96 ++++++++++++++------
+ include/hw/acpi/aml-build.h       |   4 +-
+ tests/data/acpi/microvm/DSDT.pcie | Bin 3023 -> 3031 bytes
+ tests/data/acpi/virt/DSDT         | Bin 5196 -> 5204 bytes
+ tests/data/acpi/virt/DSDT.memhp   | Bin 6557 -> 6565 bytes
+ tests/data/acpi/virt/DSDT.numamem | Bin 5196 -> 5204 bytes
+ tests/data/acpi/virt/DSDT.pxb     | Bin 7802 -> 7689 bytes
+ tests/qtest/bios-tables-test.c    |   4 -
+ 11 files changed, 86 insertions(+), 41 deletions(-)
 
-Paolo
-
-> ---
->   hw/intc/Kconfig |   18 +++++++++++++-----
->   hw/ppc/Kconfig  |   17 ++---------------
->   2 files changed, 15 insertions(+), 20 deletions(-)
-> 
-> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-> index 468d548ca771..0a5c080c4f5c 100644
-> --- a/hw/intc/Kconfig
-> +++ b/hw/intc/Kconfig
-> @@ -19,6 +19,7 @@ config ARM_GIC
->   config OPENPIC
->       bool
->       select MSI_NONBROKEN
-> +    select OPENPIC_KVM if KVM
->   
->   config APIC
->       bool
-> @@ -32,21 +33,28 @@ config ARM_GIC_KVM
->   
->   config OPENPIC_KVM
->       bool
-> -    default y
-> -    depends on OPENPIC && KVM
->   
->   config XICS
->       bool
-> -    depends on POWERNV || PSERIES
-> +    select XICS_KVM if KVM
->   
->   config XICS_SPAPR
->       bool
->       select XICS
->   
-> +config XIVE
-> +    bool
-> +    select XIVE_KVM if KVM
-> +
-> +config XIVE_SPAPR
-> +    bool
-> +    select XIVE
-> +
->   config XICS_KVM
->       bool
-> -    default y
-> -    depends on XICS && KVM
-> +
-> +config XIVE_KVM
-> +    bool
->   
->   config ALLWINNER_A10_PIC
->       bool
-> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index 982d55f5875c..037d9332e994 100644
-> --- a/hw/ppc/Kconfig
-> +++ b/hw/ppc/Kconfig
-> @@ -31,6 +31,8 @@ config POWERNV
->       select FDT_PPC
->       select PCI_EXPRESS
->       select MSI_NONBROKEN
-> +    select XIVE
-> +    select XICS
->   
->   config PPC405
->       bool
-> @@ -129,21 +131,6 @@ config VIRTEX
->       select XILINX_ETHLITE
->       select FDT_PPC
->   
-> -config XIVE
-> -    bool
-> -    depends on POWERNV || PSERIES
-> -
-> -config XIVE_SPAPR
-> -    bool
-> -    default y
-> -    depends on PSERIES
-> -    select XIVE
-> -
-> -config XIVE_KVM
-> -    bool
-> -    default y
-> -    depends on XIVE_SPAPR && KVM
-> -
->   # Only used by 64-bit targets
->   config FW_CFG_PPC
->       bool
-> 
-> 
+-- 
+2.29.2
 
 
