@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC13D2E1917
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 07:48:35 +0100 (CET)
-Received: from localhost ([::1]:38998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5602E1934
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 08:02:38 +0100 (CET)
+Received: from localhost ([::1]:38406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1krxwo-0001jj-QP
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 01:48:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45476)
+	id 1kryAQ-0005Wq-0v
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 02:02:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1krxu5-0008Vt-6i
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:45:45 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:45676)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1krxu1-00027i-22
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 01:45:44 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN6ej7E022917;
- Wed, 23 Dec 2020 06:45:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2020-01-29; bh=o6TLE2x0SQVdxKOKxrXYNuNMPVxTwytPPIThpURRfoI=;
- b=h4F3lRgEUhOppWhS73GTU9pDI7pMGNgws0OfjJVrw4wgndl9SVxYiaqrrGGElOAzQXe1
- aC85Xo7lGLjs1Hy4BuLKroYs5Kq4q3RB7e2HP89YSLQu0FMGp5TWAtUlA247icKO2P7w
- /Asvc9Iz3dlO0YHiHhHPrgR5gxmz0AsYSGPXWOSbteZd0bAN2ZRL2W6WT/jRhHXjBC4Q
- kOEVQUquhyuEy8muDjjsAsPcp7AFJLJ/t6PqOO9AAKhsTFDyjZraUQCXRG//JGFEwj6H
- oKN9+RlPmYCWgJpEiPgi45rLi57ZCvGug9aLEMyWzau+UAqX7GHESW2YAAmNomsZVBaY qA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 35ku8drr78-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 23 Dec 2020 06:45:24 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BN6ecBU023506;
- Wed, 23 Dec 2020 06:45:23 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 35k0eu41e1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 23 Dec 2020 06:45:23 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BN6jKrt012414;
- Wed, 23 Dec 2020 06:45:20 GMT
-Received: from flaka.hsd1.ca.comcast.net (/67.180.143.163)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 22 Dec 2020 22:45:19 -0800
-From: elena.ufimtseva@oracle.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH] multi-process: Acceptance test for multiprocess QEMU
-Date: Tue, 22 Dec 2020 22:44:25 -0800
-Message-Id: <785772783205140e219b8bfe7f793305ee768f03.1608705805.git.elena.ufimtseva@oracle.com>
-X-Mailer: git-send-email 2.25.GIT
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9843
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- spamscore=0 phishscore=0
- suspectscore=0 mlxlogscore=999 mlxscore=0 bulkscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012230050
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9843
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- adultscore=0
- mlxlogscore=999 priorityscore=1501 impostorscore=0 phishscore=0
- malwarescore=0 suspectscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012230050
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=elena.ufimtseva@oracle.com; helo=userp2130.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1krxbW-0006Az-2e; Wed, 23 Dec 2020 01:26:34 -0500
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:33419)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1krxbU-00021J-34; Wed, 23 Dec 2020 01:26:33 -0500
+Received: by mail-qt1-x82c.google.com with SMTP id c14so10710240qtn.0;
+ Tue, 22 Dec 2020 22:26:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=ea300HOW8ofLPhUdOkUc6i+pqGe3xUrkR+h2FXHkW9Y=;
+ b=ObNgumNLd+bUAV74TogOAQDr+wP6wP0cQ/3chCX/rBr85CIMBgPwd9bKTTYzJO5RMp
+ 0glu1+cgLTwCKrJvdqEQOkLOFbEZSi3u+K04bWWakvj+SJ/KEOUvCmsMMkhuQrtB9d3K
+ 4/ThHgYL10cOhRCqXGRCXInbelxmu43T/sZW0SyemAcpLpw1iUQP0iN/Zn2NhgVIXr+e
+ XSJ6qZTkEGgzRvoKin+e1Zmd0dEZrHqIE3hd69/I2Dz4lcoQlVNAzV4qkAadLHGF4A2n
+ y3NVmpqZ4S41x224+qLuyYrSHlI0SMWNxtdAxWm9Ltq43YZNi0lW4CJhUA/ymLiEH2sC
+ jMAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=ea300HOW8ofLPhUdOkUc6i+pqGe3xUrkR+h2FXHkW9Y=;
+ b=BqfCBUbB18Q0Lo0PH5w/OPVIfkii5lnTamRNDWJtmyxBHSCsj9vs3dtKcxzriBEd3/
+ nWpxhhuLJF7MP2zeqnfS6nBA3a+aDuWR3dsZ4zHRq25vBpmOzXqfCG37+vpaSYxLedI8
+ aYVFYvpLjF9uNZDngshhcgjLIBAS1Cbya9h/Uf+NgeiNXANYdwT7xJWbvWRfhpNaRxue
+ 12A55XzBFOY7LmFFs/d896j1w7AlaBJwfaZD6L0XhWU0nspa/ZCvlZlLJbbCggTZ3OpE
+ g7ThCBfLI0BDyBRKsRyoxKaYoUuHgXmUtXlCH0gffCLQmb1TMbAnL8PudPTJCSk4Q65s
+ k2XQ==
+X-Gm-Message-State: AOAM532Sb+WIn3Yy8Kw3w3KQJUiIIlWhE8aVx4p1+VTK9eLsbXq/Z6LH
+ vYdLinyHYIBaIelByqHBT/Q=
+X-Google-Smtp-Source: ABdhPJwK81CR7eCyMnY6CNaSfSLP2Xv7Z/zqEPlnhEMLtzsldzR0hS7iAJVdWAcm7pbLNazeSbtv2A==
+X-Received: by 2002:ac8:5a90:: with SMTP id c16mr24560007qtc.331.1608704790879; 
+ Tue, 22 Dec 2020 22:26:30 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com (unknown-124-94.windriver.com.
+ [147.11.124.94])
+ by smtp.gmail.com with ESMTPSA id q32sm14518589qtb.0.2020.12.22.22.26.27
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 22 Dec 2020 22:26:30 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v2 4/4] docs/system: arm: Add sabrelite board description
+Date: Wed, 23 Dec 2020 14:26:07 +0800
+Message-Id: <1608704767-9317-5-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1608704767-9317-1-git-send-email-bmeng.cn@gmail.com>
+References: <1608704767-9317-1-git-send-email-bmeng.cn@gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,141 +81,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jagannathan Raman <jag.raman@oracle.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-Runs the Avocado acceptance test to check if a
-remote lsi53c895a device gets identified by the guest.
+This adds the target guide for SABRE Lite board, and documents how
+to boot a Linux kernel and U-Boot bootloader.
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+
 ---
- tests/acceptance/multiprocess.py | 104 +++++++++++++++++++++++++++++++
- 1 file changed, 104 insertions(+)
- create mode 100644 tests/acceptance/multiprocess.py
 
-diff --git a/tests/acceptance/multiprocess.py b/tests/acceptance/multiprocess.py
+Changes in v2:
+- new patch: add sabrelite target guide
+
+ docs/system/arm/sabrelite.rst | 119 ++++++++++++++++++++++++++++++++++++++++++
+ docs/system/target-arm.rst    |   1 +
+ 2 files changed, 120 insertions(+)
+ create mode 100644 docs/system/arm/sabrelite.rst
+
+diff --git a/docs/system/arm/sabrelite.rst b/docs/system/arm/sabrelite.rst
 new file mode 100644
-index 0000000000..d10b4d2c05
+index 0000000..4c5d101
 --- /dev/null
-+++ b/tests/acceptance/multiprocess.py
-@@ -0,0 +1,104 @@
-+# Test for multiprocess qemu
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
++++ b/docs/system/arm/sabrelite.rst
+@@ -0,0 +1,119 @@
++Boundary Devices SABRE Lite (``sabrelite``)
++===========================================
 +
++Boundary Devices SABRE Lite i.MX6 Development Board is a low-cost development
++platform featuring the powerful Freescale / NXP Semiconductor's i.MX 6 Quad
++Applications Processor.
 +
-+from avocado_qemu import Test
-+from avocado_qemu import wait_for_console_pattern
-+from avocado_qemu import exec_command_and_wait_for_pattern
++Supported devices
++-----------------
 +
-+from qemu.accel import kvm_available
++The SABRE Lite machine supports the following devices:
 +
-+import os
-+import socket
++ * Up to 4 Cortex A9 cores
++ * Generic Interrupt Controller
++ * 1 Clock Controller Module
++ * 1 System Reset Controller
++ * 5 UARTs
++ * 2 EPIC timers
++ * 1 GPT timer
++ * 2 Watchdog timers
++ * 1 FEC ethernet controller
++ * 3 I2C controllers
++ * 7 GPIO controllers
++ * 4 SDHC storage controllers
++ * 4 USB 2.0 host controllers
++ * 5 ECSPI controllers
++ * 1 SST 25VF016B flash
 +
-+ACCEL_NOT_AVAILABLE_FMT = "%s accelerator does not seem to be available"
-+KVM_NOT_AVAILABLE = ACCEL_NOT_AVAILABLE_FMT % "KVM"
++Please note above list is a complete superset the QEMU SABRE Lite machine can
++support. For a normal use case, a device tree blob that reprents a real world
++SABRE Lite board, only exposes a subset of devices to the guest software.
 +
-+class Multiprocess(Test):
-+    """
-+    :avocado: tags=multiprocess
-+    """
-+    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
++Boot options
++------------
 +
-+    def wait_for_console_pattern(self, success_message, vm=None):
-+        wait_for_console_pattern(self, success_message,
-+                                 failure_message='Kernel panic - not syncing',
-+                                 vm=vm)
++The SABRE Lite machine can start using the standard -kernel functionality
++for loading a Linux kernel, U-Boot bootloader or ELF executable.
 +
-+    def do_test(self, kernel_url, initrd_url, kernel_command_line,
-+                machine_type):
-+        if not kvm_available(self.arch, self.qemu_bin):
-+            self.cancel(KVM_NOT_AVAILABLE)
++Running Linux kernel
++--------------------
 +
-+        # Create socketpair to connect proxy and remote processes
-+        proxy_sock, remote_sock = socket.socketpair(socket.AF_UNIX,
-+                                                    socket.SOCK_STREAM)
-+        os.set_inheritable(proxy_sock.fileno(), True)
-+        os.set_inheritable(remote_sock.fileno(), True)
++Linux mainline v5.10 release is tested at the time of writing. To build a Linux
++mainline kernel that can be booted by the SABRE Lite machine, simply configure
++the kernel using the imx_v6_v7_defconfig configuration:
 +
-+        kernel_path = self.fetch_asset(kernel_url)
-+        initrd_path = self.fetch_asset(initrd_url)
++.. code-block:: bash
 +
-+        # Create remote process
-+        remote_vm = self.get_vm()
-+        remote_vm.add_args('-machine', 'x-remote')
-+        remote_vm.add_args('-nodefaults')
-+        remote_vm.add_args('-device', 'lsi53c895a,id=lsi1')
-+        remote_vm.add_args('-object', 'x-remote-object,id=robj1,'
-+                           'devid=lsi1,fd='+str(remote_sock.fileno()))
-+        remote_vm.launch()
++  $ export ARCH=arm
++  $ export CROSS_COMPILE=arm-linux-gnueabihf-
++  $ make imx_v6_v7_defconfig
++  $ make
 +
-+        # Create proxy process
-+        self.vm.set_console()
-+        self.vm.add_args('-machine', machine_type)
-+        self.vm.add_args('-accel', 'kvm')
-+        self.vm.add_args('-cpu', 'host')
-+        self.vm.add_args("-object",
-+                         "memory-backend-memfd,id=sysmem-file,size=2G")
-+        self.vm.add_args("--numa", "node,memdev=sysmem-file")
-+        self.vm.add_args("-m", "2048")
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-initrd', initrd_path,
-+                         '-append', kernel_command_line)
-+        self.vm.add_args('-device',
-+                         'x-pci-proxy-dev,'
-+                         'id=lsi1,fd='+str(proxy_sock.fileno()))
-+        self.vm.launch()
-+        self.wait_for_console_pattern("as init process")
-+        exec_command_and_wait_for_pattern(self, "mount -t sysfs sysfs /sys",
-+                                          '', '')
-+        exec_command_and_wait_for_pattern(self,
-+                                          "cat /sys/bus/pci/devices/*/uevent",
-+                                          "PCI_ID=1000:0012", '')
++To boot the newly built Linux kernel in QEMU with the SABRE Lite machine, use:
 +
-+    def test_multiprocess_x86_64(self):
-+        """
-+        :avocado: tags=arch:x86_64
-+        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/x86_64/os/images'
-+                      '/pxeboot/vmlinuz')
-+        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/x86_64/os/images'
-+                      '/pxeboot/initrd.img')
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0 rdinit=/bin/bash')
-+        machine = 'pc'
-+        self.do_test(kernel_url, initrd_url, kernel_command_line, machine)
++.. code-block:: bash
 +
-+    def test_multiprocess_aarch64(self):
-+        """
-+        :avocado: tags=arch:aarch64
-+        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/aarch64/os/images'
-+                      '/pxeboot/vmlinuz')
-+        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/aarch64/os/images'
-+                      '/pxeboot/initrd.img')
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'rdinit=/bin/bash console=ttyAMA0')
-+        machine_type = 'virt,gic-version=3'
-+        self.do_test(kernel_url, initrd_url, kernel_command_line, machine_type)
++  $ qemu-system-arm -M sabrelite -smp 4 -m 1G \
++      -display none -serial null -serial stdio \
++      -kernel arch/arm/boot/zImage \
++      -dtb arch/arm/boot/dts/imx6q-sabrelite.dtb \
++      -initrd /path/to/rootfs.ext4 \
++      -append "root=/dev/ram"
++
++Running U-Boot
++--------------
++
++U-Boot mainline v2020.10 release is tested at the time of writing. To build a
++U-Boot mainline bootloader that can be booted by the SABRE Lite machine, use
++the mx6qsabrelite_defconfig with similar commands as described above for Linux:
++
++.. code-block:: bash
++
++  $ export CROSS_COMPILE=arm-linux-gnueabihf-
++  $ make mx6qsabrelite_defconfig
++
++Note we need to adjust settings by:
++
++.. code-block:: bash
++
++  $ make menuconfig
++
++then manually select the following configuration in U-Boot:
++
++  Device Tree Control > Provider of DTB for DT Control > Embedded DTB
++
++To start U-Boot using the SABRE Lite machine, provide the u-boot binary to
++the -kernel argument, along with an SD card image with rootfs:
++
++.. code-block:: bash
++
++  $ qemu-system-arm -M sabrelite -smp 4 -m 1G \
++      -display none -serial null -serial stdio \
++      -kernel u-boot
++
++The following example shows booting Linux kernel from dhcp, and uses the
++rootfs on an SD card. This requies some additional command line parameters
++for QEMU:
++
++.. code-block:: none
++
++  -nic user,tftp=/path/to/kernel/zImage \
++  -drive file=sdcard.img,id=rootfs -device sd-card,drive=rootfs
++
++The directory for the built-in TFTP server should also contain the device tree
++blob of the SABRE Lite board. The sample SD card image was populated with the
++root file system with one single partition. You may adjust the kernel "root="
++boot parameter accordingly.
++
++After U-Boot boots, type the following commands in the U-Boot command shell to
++boot the Linux kernel:
++
++.. code-block:: none
++
++  => setenv ethaddr 00:11:22:33:44:55
++  => setenv bootfile zImage
++  => dhcp
++  => tftpboot 14000000 imx6q-sabrelite.dtb
++  => setenv bootargs root=/dev/mmcblk3p1
++  => bootz 12000000 - 14000000
+diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+index bde4b8e..edd013c 100644
+--- a/docs/system/target-arm.rst
++++ b/docs/system/target-arm.rst
+@@ -83,6 +83,7 @@ undocumented; you can get a complete list by running
+    arm/versatile
+    arm/vexpress
+    arm/aspeed
++   arm/sabrelite
+    arm/digic
+    arm/musicpal
+    arm/gumstix
 -- 
-2.25.GIT
+2.7.4
 
 
