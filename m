@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2D72E1BF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 12:35:18 +0100 (CET)
-Received: from localhost ([::1]:45200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5D82E1C04
+	for <lists+qemu-devel@lfdr.de>; Wed, 23 Dec 2020 12:56:07 +0100 (CET)
+Received: from localhost ([::1]:50784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ks2QH-0002tk-03
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 06:35:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59628)
+	id 1ks2kP-0006Fc-Tb
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 06:56:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1ks2PV-0002LD-Tt; Wed, 23 Dec 2020 06:34:29 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:44676
- helo=v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1ks2jS-0005Rs-AY; Wed, 23 Dec 2020 06:55:06 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:55839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1ks2PS-0003bc-SF; Wed, 23 Dec 2020 06:34:29 -0500
-Received: from localhost (localhost [127.0.0.1])
- by v2201612906741603.powersrv.de (Postfix) with ESMTP id 47DE9DB39AB;
- Wed, 23 Dec 2020 12:34:19 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at v2201612906741603.powersrv.de
-Received: from v2201612906741603.powersrv.de ([127.0.0.1])
- by localhost (v2201612906741603.powersrv.de [127.0.0.1]) (amavisd-new,
- port 10024)
- with ESMTP id eIGqQagKWQSU; Wed, 23 Dec 2020 12:32:17 +0100 (CET)
-Received: from mobile-149-057.wlan.uni-mannheim.de
- (mobile-149-057.wlan.uni-mannheim.de [134.155.149.57])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 642F3DB3FCC;
- Wed, 23 Dec 2020 12:28:51 +0100 (CET)
-Subject: Re: Various spelling fixes
-To: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org
-References: <20201223105845.8543-1-mjt@msgid.tls.msk.ru>
-From: Stefan Weil <sw@weilnetz.de>
-Message-ID: <8997e300-f8a9-a642-ee30-717478b54f2e@weilnetz.de>
-Date: Wed, 23 Dec 2020 12:28:50 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.5.1
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1ks2jQ-00059p-1K; Wed, 23 Dec 2020 06:55:06 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.10])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0CFB97668A6B;
+ Wed, 23 Dec 2020 12:54:59 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 23 Dec
+ 2020 12:54:55 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G00475ed607e-8dd4-49cd-8d26-fd9b878b3610,
+ 59BCD474BAB9721FDBC8144ACC8A5B67F1E31CEB) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Wed, 23 Dec 2020 12:54:51 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] ppc: Fix build with --without-default-devices
+Message-ID: <20201223125451.6ca277b9@bahia.lan>
+In-Reply-To: <7bafab63-659d-a8e9-a2d1-36483b226bf0@redhat.com>
+References: <160871104474.106117.16441172468969132477.stgit@bahia.lan>
+ <7bafab63-659d-a8e9-a2d1-36483b226bf0@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201223105845.8543-1-mjt@msgid.tls.msk.ru>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=v2201612906741603.powersrv.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.521,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: c25104e0-52a9-432f-901e-7b35a4b9c9c7
+X-Ovh-Tracer-Id: 3463831067259083171
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvddtjedgfeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,126 +68,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.12.20 um 11:58 schrieb Michael Tokarev:
+On Wed, 23 Dec 2020 09:55:58 +0100
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> An assorted set of spelling fixes in various places.
->
-> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
->
-> diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
-> index 90e63b83674..2b096552719 100644
-> --- a/disas/nanomips.cpp
-> +++ b/disas/nanomips.cpp
-> @@ -840 +840 @@ int NMD::Disassemble(const uint16 * data, std::string & dis,
-> -                                dis = "ASE attribute missmatch";
-> +                                dis = "ASE attribute mismatch";
-> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-> index b5118acd3fd..155733646d8 100644
-> --- a/hw/misc/trace-events
-> +++ b/hw/misc/trace-events
-> @@ -124 +124 @@ npcm7xx_rng_write(uint64_t offset, uint64_t value, unsigned size) "offset: 0x%04
-> -stm32f4xx_syscfg_set_irq(int gpio, int line, int level) "Interupt: GPIO: %d, Line: %d; Level: %d"
-> +stm32f4xx_syscfg_set_irq(int gpio, int line, int level) "Interrupt: GPIO: %d, Line: %d; Level: %d"
-> diff --git a/hw/net/allwinner-sun8i-emac.c b/hw/net/allwinner-sun8i-emac.c
-> index 38d328587e3..27b0c37943b 100644
-> --- a/hw/net/allwinner-sun8i-emac.c
-> +++ b/hw/net/allwinner-sun8i-emac.c
-> @@ -582 +582 @@ static uint64_t allwinner_sun8i_emac_read(void *opaque, hwaddr offset,
-> -    case REG_INT_EN:            /* Interupt Enable */
-> +    case REG_INT_EN:            /* Interrupt Enable */
-> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
-> index 67ebb16c4d5..8fbadaf03d7 100644
-> --- a/hw/ppc/pnv_bmc.c
-> +++ b/hw/ppc/pnv_bmc.c
-> @@ -227 +227 @@ static void hiomap_cmd(IPMIBmcSim *ibs, uint8_t *cmd, unsigned int cmd_len,
-> -        qemu_log_mask(LOG_GUEST_ERROR, "HIOMAP: unknow command %02X\n", cmd[2]);
-> +        qemu_log_mask(LOG_GUEST_ERROR, "HIOMAP: unknown command %02X\n", cmd[2]);
-> diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
-> index 2d566f7db10..5c76bed77aa 100644
-> --- a/hw/usb/ccid-card-emulated.c
-> +++ b/hw/usb/ccid-card-emulated.c
-> @@ -304 +304 @@ static void *event_thread(void *arg)
-> -                        "ERROR: wrong reader: quiting event_thread\n");
-> +                        "ERROR: wrong reader: quitting event_thread\n");
-> diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-> index f8c64c8b95b..1cf2816772c 100644
-> --- a/hw/usb/hcd-ohci.c
-> +++ b/hw/usb/hcd-ohci.c
-> @@ -1129 +1129 @@ static int ohci_service_td(OHCIState *ohci, struct ohci_ed *ed)
-> -            /* An error occured so we have to clear the interrupt counter. See
-> +            /* An error occurred so we have to clear the interrupt counter. See
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index 614ccc2bcb6..87fa7b40419 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -903 +903 @@ check_dev_state:
-> -        /* An error is occured. */
-> +        /* An error is occurred. */
+> On 23/12/20 09:10, Greg Kurz wrote:
+> > Linking of the qemu-system-ppc64 fails on a POWER9 host when
+> > --without-default-devices is passed to configure:
+> > 
+> > $ ./configure --without-default-devices \
+> >                --target-list=ppc64-softmmu && make
+> > 
+> > ...
+> > 
+> > libqemu-ppc64-softmmu.fa.p/hw_ppc_e500.c.o: In function `ppce500_init_mpic_kvm':
+> > /home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/e500.c:777: undefined reference to `kvm_openpic_connect_vcpu'
+> > libqemu-ppc64-softmmu.fa.p/hw_ppc_spapr_irq.c.o: In function `spapr_irq_check':
+> > /home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/spapr_irq.c:189: undefined reference to `xics_kvm_has_broken_disconnect'
+> > libqemu-ppc64-softmmu.fa.p/hw_intc_spapr_xive.c.o: In function `spapr_xive_post_load':
+> > /home/greg/Work/qemu/qemu-ppc/build/../hw/intc/spapr_xive.c:530: undefined reference to `kvmppc_xive_post_load'
+> > 
+> > ... and tons of other symbols belonging to the KVM backend of the
+> > openpic, XICS and XIVE interrupt controllers.
+> > 
+> > It turns out that OPENPIC_KVM, XICS_KVM and XIVE_KVM are marked
+> > to depend on KVM but this has no effect when minikconf runs in
+> > allnoconfig mode. The correct way to express that some configuration
+> > A requires some other configuration B to be true is "A select B".
+> > 
+> > Have OPENPIC, XICS and XIVE to select their KVM counterpart if KVM
+> > is set. While here, fix POWERNV to select XIVE and XICS, just like
+> > PSERIES, and drop the now useless XIVE related config clauses from
+> > hw/ppc/Kconfig.
+> > 
+> > This went unnoticed so far because CI doesn't test the build with
+> > --without-default-devices and KVM enabled on a POWER host.
+> > 
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> 
+> It is also possible to remove the *_KVM symbols and just use
+> 
+>      when: ['CONFIG_KVM', 'CONFIG_OPENPIC']
+>      when: ['CONFIG_XICS', 'CONFIG_OPENPIC']
+>      when: ['CONFIG_XIVE', 'CONFIG_OPENPIC']
+> 
 
+Good idea. I'll go for that. And it seems more fixing is need
+around --without-default-devices so I'll need to repost anyway,
 
-"has occurred" or better simply "occurred"
+Thanks for the suggestion !
 
-
-> diff --git a/include/hw/s390x/css.h b/include/hw/s390x/css.h
-> index 08c869ab0af..7901ab276ce 100644
-> --- a/include/hw/s390x/css.h
-> +++ b/include/hw/s390x/css.h
-> @@ -136 +136 @@ struct SubchDev {
-> -    uint16_t migrated_schid; /* used for missmatch detection */
-> +    uint16_t migrated_schid; /* used for mismatch detection */
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 104632ea343..fd5e384d98e 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -148 +148 @@ SRST
-> -        there will be one thread per vCPU therefor taking advantage of
-> +        there will be one thread per vCPU therefore taking advantage of
-> @@ -2406 +2406 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
-> -    "                use 'poll-us=n' to speciy the maximum number of microseconds that could be\n"
-> +    "                use 'poll-us=n' to specify the maximum number of microseconds that could be\n"
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 5a8c96072e4..9e24e2c4822 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -6916 +6916 @@ static void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
-> -        error_setg(errp, "No crash occured");
-> +        error_setg(errp, "No crash occurred");
-> diff --git a/target/i386/machine.c b/target/i386/machine.c
-> index 233e46bb70b..43a63c6e25d 100644
-> --- a/target/i386/machine.c
-> +++ b/target/i386/machine.c
-> @@ -1159 +1159 @@ static int nested_state_post_load(void *opaque, int version_id)
-> -        error_report("Recieved unsupported nested state size: "
-> +        error_report("Received unsupported nested state size: "
-> diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-> index 202498deb51..c9728651f00 100644
-> --- a/target/m68k/op_helper.c
-> +++ b/target/m68k/op_helper.c
-> @@ -120 +120 @@ static const char *m68k_exception_name(int index)
-> -        return "Unitialized Interruot";
-> +        return "Uninitialized Interruot";
-
-
-s/Interruot/interrupt/
-
-
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 6a0264fc6b1..d39d560cf47 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -478 +478 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-> -                qemu_log("vector verison is not specified, "
-> +                qemu_log("vector version is not specified, "
-
-
-With both additional modification (see comments above) which can be 
-applied before merging (no need to resend the patch)
-
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
-
+> in the meson.build files.  Which one is preferrable depends on personal 
+> taste, and I do not myself lean in one direction or the other---I 
+> mention it just in case _you_ find that one preferrable.
+> 
+> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> 
+> Thanks!
+> 
+> Paolo
+> 
+> > ---
+> >   hw/intc/Kconfig |   18 +++++++++++++-----
+> >   hw/ppc/Kconfig  |   17 ++---------------
+> >   2 files changed, 15 insertions(+), 20 deletions(-)
+> > 
+> > diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+> > index 468d548ca771..0a5c080c4f5c 100644
+> > --- a/hw/intc/Kconfig
+> > +++ b/hw/intc/Kconfig
+> > @@ -19,6 +19,7 @@ config ARM_GIC
+> >   config OPENPIC
+> >       bool
+> >       select MSI_NONBROKEN
+> > +    select OPENPIC_KVM if KVM
+> >   
+> >   config APIC
+> >       bool
+> > @@ -32,21 +33,28 @@ config ARM_GIC_KVM
+> >   
+> >   config OPENPIC_KVM
+> >       bool
+> > -    default y
+> > -    depends on OPENPIC && KVM
+> >   
+> >   config XICS
+> >       bool
+> > -    depends on POWERNV || PSERIES
+> > +    select XICS_KVM if KVM
+> >   
+> >   config XICS_SPAPR
+> >       bool
+> >       select XICS
+> >   
+> > +config XIVE
+> > +    bool
+> > +    select XIVE_KVM if KVM
+> > +
+> > +config XIVE_SPAPR
+> > +    bool
+> > +    select XIVE
+> > +
+> >   config XICS_KVM
+> >       bool
+> > -    default y
+> > -    depends on XICS && KVM
+> > +
+> > +config XIVE_KVM
+> > +    bool
+> >   
+> >   config ALLWINNER_A10_PIC
+> >       bool
+> > diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> > index 982d55f5875c..037d9332e994 100644
+> > --- a/hw/ppc/Kconfig
+> > +++ b/hw/ppc/Kconfig
+> > @@ -31,6 +31,8 @@ config POWERNV
+> >       select FDT_PPC
+> >       select PCI_EXPRESS
+> >       select MSI_NONBROKEN
+> > +    select XIVE
+> > +    select XICS
+> >   
+> >   config PPC405
+> >       bool
+> > @@ -129,21 +131,6 @@ config VIRTEX
+> >       select XILINX_ETHLITE
+> >       select FDT_PPC
+> >   
+> > -config XIVE
+> > -    bool
+> > -    depends on POWERNV || PSERIES
+> > -
+> > -config XIVE_SPAPR
+> > -    bool
+> > -    default y
+> > -    depends on PSERIES
+> > -    select XIVE
+> > -
+> > -config XIVE_KVM
+> > -    bool
+> > -    default y
+> > -    depends on XIVE_SPAPR && KVM
+> > -
+> >   # Only used by 64-bit targets
+> >   config FW_CFG_PPC
+> >       bool
+> > 
+> > 
+> 
 
 
