@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B2F2E240F
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 04:26:28 +0100 (CET)
-Received: from localhost ([::1]:59442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C872E240B
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 04:23:50 +0100 (CET)
+Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksHGl-0000tv-Aj
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 22:26:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40884)
+	id 1ksHED-0006CJ-Cu
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 22:23:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ksH96-0001WY-Kd
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:32 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:56103)
+ id 1ksH9B-0001h3-PJ
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:37 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:45063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ksH94-0003db-Vf
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:32 -0500
+ id 1ksH99-0003ez-P4
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:37 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 8089558037A;
- Wed, 23 Dec 2020 22:18:30 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 3A37958037C;
+ Wed, 23 Dec 2020 22:18:35 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 23 Dec 2020 22:18:30 -0500
+ by compute6.internal (MEProxy); Wed, 23 Dec 2020 22:18:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=qqFEscVG+bgxX
- D41y6VOa/Ihx+II+1KvEVbjUp3LV4E=; b=ylu/DWTp1xNp8FEwUWyCo6Ag2LX2z
- qXKoZhr7gXhjvA66heXHis2Q6nIuotB5cHWXWSjKCaCLhtWnMUgk/yfsxNT5+zE0
- DD2w7dE97/ntI0QL40p/4zyU7A8royJ/R8RlBg5yCei9jUpVHpH6rIEwCC9dtF2J
- C8xs23qMGhprqHdPXKx1C/jZafPNu63zyWP/sEaj3dYE+KKKHV1di+u4MxNuXX1+
- 8JX7FpkEVj71+24KLe/GEk2K2d/h8WX3TEk6npw/FMehGUKzfkoU7p3QL7PYhc7R
- GOHOK37hdue9aENyBlfuyD6O+Q8Oh72iAyjNBiCo3AjCqmupmnwyigiEA==
+ :mime-version:content-transfer-encoding; s=fm1; bh=FU4aJSFS5rFt3
+ bqnOeKFgnYE4Dzduj1nMiub1KL2uww=; b=X1yafc7oTjHA2jsY7Oz4xni54/NhD
+ tBLrlnFkFILmNOjLUtREcZ/OLPLaTgxNeqw44LEC+ScO99Xqo0TRnGiWZxPtcshX
+ YLTLA8XDQpYeQuEYy/+n+R8zQbmsujCtApugErXeHucfecj2DTWawGrg+Ser1zA5
+ +u5c/rPgySKWO83k/BfmnDbDDSsSGXqXpjQHk4wWrWEbL1ke5JYbQPuQuo6Z1RyP
+ DoGTmLsifUjNfdKAmjCh4ipnoWU/njt0p8tfmuFVwd8dHOVByEjD5G2wfAaiGWwj
+ gE3FOiYsV439P0CgnCSg49p38xX60f03xwvMqP29d10Z7kxIx95jsPnyQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=qqFEscVG+bgxXD41y6VOa/Ihx+II+1KvEVbjUp3LV4E=; b=RWdPskv7
- lnWghvYbek9srSlqwdmSXXtO22LGnrMLONSfwZ//o4dOEdQ4KMAt2kGSakOQcr87
- 78nGaarnjgKqXuQDrjPL6seF8OtU/nj0a9ziDWgcdH8WCypcrvxMvQ6BPgOgyPCa
- MACKiIrSVhYeyN39KzwQCXiRONAL9XMw5IkKGVOsX8D3gFBVfm2p58wmEoXdvP8I
- E7QqgrLltyvijnV2ONFoMThKShBe458HKnBvU+35zo8B/+cdyicb7jvMcH8kmQso
- 4uBRzAnyiRtF9n0bHvAS1egACSLpNpbGv/pLyC48S/xy/HAALSH+qLs05y2cdHfA
- FflPZCzdUt/dFw==
-X-ME-Sender: <xms:hgjkX6vOVJIA40MRTqiBAFiSxCuU4smveL2m0_Omw6atmiUgOF40BA>
- <xme:hgjkX_e8Y5dy5Xqi8w2uRBS5xpuFUdk8y8Gzt_xy9o6TuS9w5IIvvP6datSvVvCtU
- 8UuMBMzpap3QLsBIbw>
+ fm1; bh=FU4aJSFS5rFt3bqnOeKFgnYE4Dzduj1nMiub1KL2uww=; b=NbYuGM5z
+ T2pXNqmn6l/VDECQeHHrRT/TZR25A0mwe/RhOHzLyCRp3QWrOadF2ISfvp0qB5uM
+ 3p7W7ZJmLnOsqxDH21foLr/hBfpR+VW3jpu/vApVthGlKXM6FmsafgcKHrlPfyGS
+ ojTpG1VxKcAXtqCn/HcfJmHLBAKdAGmT41h0EwN6fudFtZdvP3FzrkO6uGHda4jY
+ Nj1gyTctzejxEE2MG9c14WtB8TV8pN1TosSz2mazsNilNouNbxGXM5EwgUwJCsC6
+ WhvzNPhC9oV8VBywxknh7mtpgN0sa2ligaDkpslYle3JNRO1zDNq/0Y5lQ2c79/i
+ 8fNlF9LF1ZxgrQ==
+X-ME-Sender: <xms:igjkX8eJjh95CYEDjdoCsVANLT1W8A0xJA-c3JwjIGIOLZ35viPm9A>
+ <xme:igjkX-OP41yM4J1YOnXOWf8Nujvj0IWImYqzl-jhI9zr1ciafa0__q0_RDeeoSide
+ qu7D_I0EHgaztLbzyM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtkedgheejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -56,18 +56,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtkedgheejucetufdoteggod
  udetgfdtffeunecukfhppedvvdefrddutdegrddvuddvrdehleenucevlhhushhtvghruf
  hiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehf
  lhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:hgjkX1y3UW44oi13fRcP_1a3Jle9zwa_PK91MctZZsbE4KHiGPwaNA>
- <xmx:hgjkX1MmO3ltQs6qsjDn0zYh74-Muayth1YWBGGlWUjXeZ6eOLq5Rg>
- <xmx:hgjkX6-nZU3YnmwOR9U_PBkVSHo0uvgr_Q6awZU2keC0gnIrNIw0bw>
- <xmx:hgjkX-ZHwZaKyUxyhr_WlzbXbQ43MW1kDn3G0wgRHq_QbxVHMHwuq1E0EjQ>
+X-ME-Proxy: <xmx:igjkX9iNznak5_-Fy_XiFCuUUjFlOeijac7W4G9LkMU5KNFBDhIwnQ>
+ <xmx:igjkXx_hZYHYD0sFZ-0T6RTm9Rdsu7QZVVCOuGVFxSTkn4MnMm-ghw>
+ <xmx:igjkX4t4ekce4Z4xG8vDiWNKY0lNxiabmMfsJcDrQJOtcjfoD2THew>
+ <xmx:iwjkX6IVC7BPnBu1gYZ6cO_jbd067p91bj9s5LcGhUIVwtAj_zv2TUBijxE>
 Received: from localhost.localdomain (unknown [223.104.212.59])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0E1E51080057;
- Wed, 23 Dec 2020 22:18:25 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id F00C0108005F;
+ Wed, 23 Dec 2020 22:18:30 -0500 (EST)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/8] hw/pci-host/bonito: Fixup pci.lomem mapping
-Date: Thu, 24 Dec 2020 11:17:46 +0800
-Message-Id: <20201224031750.52146-5-jiaxun.yang@flygoat.com>
+Subject: [PATCH v3 5/8] hw/mips/fuloong2e: Remove unused env entry
+Date: Thu, 24 Dec 2020 11:17:47 +0800
+Message-Id: <20201224031750.52146-6-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201224031750.52146-1-jiaxun.yang@flygoat.com>
 References: <20201224031750.52146-1-jiaxun.yang@flygoat.com>
@@ -102,51 +102,31 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The original mapping had wrong base address.
+modetty is not handled by kernel and the parameter
+here seems unreasonable.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- hw/pci-host/bonito.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+v3: Bring busclock back
+---
+ hw/mips/fuloong2e.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index 3fad470fc6..737ee131e1 100644
---- a/hw/pci-host/bonito.c
-+++ b/hw/pci-host/bonito.c
-@@ -85,9 +85,8 @@
- #define BONITO_PCILO_BASE_VA    0xb0000000
- #define BONITO_PCILO_SIZE       0x0c000000
- #define BONITO_PCILO_TOP        (BONITO_PCILO_BASE + BONITO_PCILO_SIZE - 1)
--#define BONITO_PCILO0_BASE      0x10000000
--#define BONITO_PCILO1_BASE      0x14000000
--#define BONITO_PCILO2_BASE      0x18000000
-+#define BONITO_PCILOx_BASE(x)   (BONITO_PCILO_BASE + BONITO_PCILOx_SIZE * x)
-+#define BONITO_PCILOx_SIZE      0x04000000
- #define BONITO_PCIHI_BASE       0x20000000
- #define BONITO_PCIHI_SIZE       0x60000000
- #define BONITO_PCIHI_TOP        (BONITO_PCIHI_BASE + BONITO_PCIHI_SIZE - 1)
-@@ -610,7 +609,7 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
- {
-     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
-     BonitoState *bs = BONITO_PCI_HOST_BRIDGE(dev);
--    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 3);
-+    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 1);
- 
-     memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCIHI_SIZE);
-     phb->bus = pci_register_root_bus(dev, "pci",
-@@ -622,9 +621,10 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
-         char *name = g_strdup_printf("pci.lomem%zu", i);
- 
-         memory_region_init_alias(&pcimem_lo_alias[i], NULL, name,
--                                 &bs->pci_mem, i * 64 * MiB, 64 * MiB);
-+                                 &bs->pci_mem, BONITO_PCILOx_BASE(i),
-+                                 BONITO_PCILOx_SIZE);
-         memory_region_add_subregion(get_system_memory(),
--                                    BONITO_PCILO_BASE + i * 64 * MiB,
-+                                    BONITO_PCILOx_BASE(i),
-                                     &pcimem_lo_alias[i]);
-         g_free(name);
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index d846ef7b00..c4843dd15e 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -159,10 +159,8 @@ static uint64_t load_kernel(CPUMIPSState *env)
      }
+ 
+     /* Setup minimum environment variables */
+-    prom_set(prom_buf, index++, "busclock=33000000");
+     prom_set(prom_buf, index++, "cpuclock=100000000");
+     prom_set(prom_buf, index++, "memsize=%"PRIi64, loaderparams.ram_size / MiB);
+-    prom_set(prom_buf, index++, "modetty0=38400n8r");
+     prom_set(prom_buf, index++, NULL);
+ 
+     rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
 -- 
 2.29.2
 
