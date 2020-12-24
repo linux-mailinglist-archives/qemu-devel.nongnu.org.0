@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C872E240B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 04:23:50 +0100 (CET)
-Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F012E2407
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 04:21:57 +0100 (CET)
+Received: from localhost ([::1]:47946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksHED-0006CJ-Cu
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 22:23:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40948)
+	id 1ksHCO-0004Mw-F3
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 22:21:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ksH9B-0001h3-PJ
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:37 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:45063)
+ id 1ksH9I-0001js-P4
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:45 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:42719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ksH99-0003ez-P4
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:37 -0500
+ id 1ksH9F-0003gu-50
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:44 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3A37958037C;
- Wed, 23 Dec 2020 22:18:35 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 74C0158037F;
+ Wed, 23 Dec 2020 22:18:40 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 23 Dec 2020 22:18:35 -0500
+ by compute6.internal (MEProxy); Wed, 23 Dec 2020 22:18:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=FU4aJSFS5rFt3
- bqnOeKFgnYE4Dzduj1nMiub1KL2uww=; b=X1yafc7oTjHA2jsY7Oz4xni54/NhD
- tBLrlnFkFILmNOjLUtREcZ/OLPLaTgxNeqw44LEC+ScO99Xqo0TRnGiWZxPtcshX
- YLTLA8XDQpYeQuEYy/+n+R8zQbmsujCtApugErXeHucfecj2DTWawGrg+Ser1zA5
- +u5c/rPgySKWO83k/BfmnDbDDSsSGXqXpjQHk4wWrWEbL1ke5JYbQPuQuo6Z1RyP
- DoGTmLsifUjNfdKAmjCh4ipnoWU/njt0p8tfmuFVwd8dHOVByEjD5G2wfAaiGWwj
- gE3FOiYsV439P0CgnCSg49p38xX60f03xwvMqP29d10Z7kxIx95jsPnyQ==
+ :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+ gRq/lWzmDb1ZoTgIPUIUxeQUs3mr1jtWNyEoDlXS4o8=; b=vBOSIKNr3Tmc2gVh
+ 4SCdfyCZit4umfhebTnO4hmUbpUcL7p3awWbrVDwrlbaN8z68vPLYxxoLzLd/mRA
+ Vbn2Tc/yGJyf1T4t6cZUIICSoi+5a/vRLnz2Sl6tXs7bc4pf7N24CoB2f8kbSsZb
+ 6QAwB1vMl0ZCRAYNEAyUM7gHAKKUgd0OsFB5mlEcESZPiiHJWa5QWit3OyJ7L93y
+ siXo3Yysc87BnRh1rFvms+HkOm51Jfi4mi3B9Uuaazap7P/zgiuxi4wXg7DZBgjW
+ gVnd8lvPZgpeE3aPZQN9/IdRZ/RxNv0edJXUFclNGEH/Stlz8kgDDk88kIevXzAZ
+ FPSejg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=FU4aJSFS5rFt3bqnOeKFgnYE4Dzduj1nMiub1KL2uww=; b=NbYuGM5z
- T2pXNqmn6l/VDECQeHHrRT/TZR25A0mwe/RhOHzLyCRp3QWrOadF2ISfvp0qB5uM
- 3p7W7ZJmLnOsqxDH21foLr/hBfpR+VW3jpu/vApVthGlKXM6FmsafgcKHrlPfyGS
- ojTpG1VxKcAXtqCn/HcfJmHLBAKdAGmT41h0EwN6fudFtZdvP3FzrkO6uGHda4jY
- Nj1gyTctzejxEE2MG9c14WtB8TV8pN1TosSz2mazsNilNouNbxGXM5EwgUwJCsC6
- WhvzNPhC9oV8VBywxknh7mtpgN0sa2ligaDkpslYle3JNRO1zDNq/0Y5lQ2c79/i
- 8fNlF9LF1ZxgrQ==
-X-ME-Sender: <xms:igjkX8eJjh95CYEDjdoCsVANLT1W8A0xJA-c3JwjIGIOLZ35viPm9A>
- <xme:igjkX-OP41yM4J1YOnXOWf8Nujvj0IWImYqzl-jhI9zr1ciafa0__q0_RDeeoSide
- qu7D_I0EHgaztLbzyM>
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=gRq/lWzmDb1ZoTgIPUIUxeQUs3mr1jtWNyEoDlXS4
+ o8=; b=N5axCj8mkRfn0rbTwzOV/CXtSJlBkzAwd2aPGNiA6qKIpr3msI3un+MDY
+ kKGOcvi5DrXvZwXmokvis6HnWnQzhWdGZr4yup6ceBMAybs5e87ukBspFjoj7D0J
+ iLoPP7+s0r85U8VOjNg6dIcLEz//1Gj5mUF6Oiovmr/2kOigS9pqdo49Ma6Pjw36
+ jP5kdm1w8mEtI1Mkyin6CjaJ2nJ5LrvyzXt2mqbMsnqYSs/1v9n03fzHzmU+kwOx
+ 4MIX0A7yfmJBensr+kMgTG90uaKN3nmspC67xxXsGOx4mVyujiVU2Zlb99ezKoaf
+ 9/Cz8w+RkwDJLdlwsrRV82975UznQ==
+X-ME-Sender: <xms:jwjkX6YNcAHpomwIsQYfPp2Qefqzw6HeRuL-ey9AIU4mDVlZjp1ytQ>
+ <xme:jwjkX9YP9xnBp_tEcm_L9V7shRiHYZfeo5RcPouKyDmjIwYerK-BwtPLEvV6hjZFb
+ TwvVcmC9ky_T5lkQ6s>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtkedgheejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeflihgrgihu
- nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
- ftrfgrthhtvghrnhepjeeihffgteelkeelffdukedtheevudejvdegkeekjeefhffhhfet
- udetgfdtffeunecukfhppedvvdefrddutdegrddvuddvrdehleenucevlhhushhtvghruf
- hiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehf
- lhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:igjkX9iNznak5_-Fy_XiFCuUUjFlOeijac7W4G9LkMU5KNFBDhIwnQ>
- <xmx:igjkXx_hZYHYD0sFZ-0T6RTm9Rdsu7QZVVCOuGVFxSTkn4MnMm-ghw>
- <xmx:igjkX4t4ekce4Z4xG8vDiWNKY0lNxiabmMfsJcDrQJOtcjfoD2THew>
- <xmx:iwjkX6IVC7BPnBu1gYZ6cO_jbd067p91bj9s5LcGhUIVwtAj_zv2TUBijxE>
+ cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomheplfhirgig
+ uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
+ ggtffrrghtthgvrhhnpeehuddvtedtleehhefggeevteekkefhjedvjedtgfeugfekjedt
+ vdevueejveekleenucfkphepvddvfedruddtgedrvdduvddrheelnecuvehluhhsthgvrh
+ fuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghes
+ fhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:jwjkX09aFCsjTrftk0mZ8KaosCmT2CPvBc-6LmjbK12NvT4ZKT3Mfg>
+ <xmx:jwjkX8rZhKjOH-AoCNnWD8VEfEt3-bq-6rdl2-XTgUt7-j6cGqX2KQ>
+ <xmx:jwjkX1r7t0ojM-gzLgdZt2swCaOfhej0ezbJsG6zMRqgN5N9yxC84g>
+ <xmx:kAjkX2noj6nxwioeLZp1gBJ9Kuv3gyYzStLdiPg9T4KS8PjCuTSHhV4weGQ>
 Received: from localhost.localdomain (unknown [223.104.212.59])
- by mail.messagingengine.com (Postfix) with ESMTPA id F00C0108005F;
- Wed, 23 Dec 2020 22:18:30 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id BA4031080059;
+ Wed, 23 Dec 2020 22:18:35 -0500 (EST)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 5/8] hw/mips/fuloong2e: Remove unused env entry
-Date: Thu, 24 Dec 2020 11:17:47 +0800
-Message-Id: <20201224031750.52146-6-jiaxun.yang@flygoat.com>
+Subject: [PATCH v3 6/8] hw/mips/fuloong2e: Correct cpuclock env
+Date: Thu, 24 Dec 2020 11:17:48 +0800
+Message-Id: <20201224031750.52146-7-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201224031750.52146-1-jiaxun.yang@flygoat.com>
 References: <20201224031750.52146-1-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: permerror client-ip=66.111.4.229;
  envelope-from=jiaxun.yang@flygoat.com; helo=new3-smtp.messagingengine.com
@@ -102,31 +104,49 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-modetty is not handled by kernel and the parameter
-here seems unreasonable.
+It was missed in 3ca7639ff00 ("hw/mips/fuloong2e:
+Set CPU frequency to 533 MHz"), we need to tell kernel
+correct clocks.
 
+Fixes: 3ca7639ff00 ("hw/mips/fuloong2e: Set CPU frequency to 533 MHz").
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v3: Bring busclock back
----
- hw/mips/fuloong2e.c | 2 --
- 1 file changed, 2 deletions(-)
+ hw/mips/fuloong2e.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index d846ef7b00..c4843dd15e 100644
+index c4843dd15e..2744b211fd 100644
 --- a/hw/mips/fuloong2e.c
 +++ b/hw/mips/fuloong2e.c
-@@ -159,10 +159,8 @@ static uint64_t load_kernel(CPUMIPSState *env)
+@@ -100,7 +100,7 @@ static void GCC_FMT_ATTR(3, 4) prom_set(uint32_t *prom_buf, int index,
+     va_end(ap);
+ }
+ 
+-static uint64_t load_kernel(CPUMIPSState *env)
++static uint64_t load_kernel(MIPSCPU *cpu)
+ {
+     uint64_t kernel_entry, kernel_high, initrd_size;
+     int index = 0;
+@@ -159,7 +159,7 @@ static uint64_t load_kernel(CPUMIPSState *env)
      }
  
      /* Setup minimum environment variables */
--    prom_set(prom_buf, index++, "busclock=33000000");
-     prom_set(prom_buf, index++, "cpuclock=100000000");
+-    prom_set(prom_buf, index++, "cpuclock=100000000");
++    prom_set(prom_buf, index++, "cpuclock=%u", clock_get_hz(cpu->clock));
      prom_set(prom_buf, index++, "memsize=%"PRIi64, loaderparams.ram_size / MiB);
--    prom_set(prom_buf, index++, "modetty0=38400n8r");
      prom_set(prom_buf, index++, NULL);
  
-     rom_add_blob_fixed("prom", prom_buf, prom_size, ENVP_PADDR);
+@@ -304,7 +304,7 @@ static void mips_fuloong2e_init(MachineState *machine)
+         loaderparams.kernel_filename = kernel_filename;
+         loaderparams.kernel_cmdline = kernel_cmdline;
+         loaderparams.initrd_filename = initrd_filename;
+-        kernel_entry = load_kernel(env);
++        kernel_entry = load_kernel(cpu);
+         write_bootloader(env, memory_region_get_ram_ptr(bios), kernel_entry);
+     } else {
+         filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
 -- 
 2.29.2
 
