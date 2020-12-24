@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A2E2E2941
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Dec 2020 00:35:50 +0100 (CET)
-Received: from localhost ([::1]:42958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2A622E2942
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Dec 2020 00:37:33 +0100 (CET)
+Received: from localhost ([::1]:46226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksa97-0006F9-P4
-	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 18:35:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41438)
+	id 1ksaAl-0007gJ-JE
+	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 18:37:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ksa7R-0005JQ-J8
- for qemu-devel@nongnu.org; Thu, 24 Dec 2020 18:34:05 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:33903)
+ id 1ksa7Q-0005JD-Qk
+ for qemu-devel@nongnu.org; Thu, 24 Dec 2020 18:34:04 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:33896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ksa7N-0007MU-VF
- for qemu-devel@nongnu.org; Thu, 24 Dec 2020 18:34:05 -0500
+ id 1ksa7N-0007MT-Va
+ for qemu-devel@nongnu.org; Thu, 24 Dec 2020 18:34:04 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2FC667470E4;
+ by localhost (Postfix) with SMTP id 1CACE7470E1;
  Fri, 25 Dec 2020 00:33:57 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8DD367470DC; Fri, 25 Dec 2020 00:33:56 +0100 (CET)
-Message-Id: <796292ea92f3f00e696b1eea33ef0c6815002bf0.1608852217.git.balaton@eik.bme.hu>
+ id 883FB746557; Fri, 25 Dec 2020 00:33:56 +0100 (CET)
+Message-Id: <47c59c404e979f6ad2eaf2be776f1a56cabe7671.1608852217.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1608852217.git.balaton@eik.bme.hu>
 References: <cover.1608852217.git.balaton@eik.bme.hu>
-Subject: [PATCH 2/2] via-ide: Fix fuloong2e support
+Subject: [PATCH 1/2] ide: Make room for flags in PCIIDEState and add one for
+ legacy mode
 Date: Fri, 25 Dec 2020 00:23:37 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -61,90 +62,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-From: Guenter Roeck <linux@roeck-us.net>
+We'll need a flag for implementing some device specific behaviour in
+via-ide but we already have a currently CMD646 specific field that can
+be repurposed for this and leave room for furhter flags if needed in
+the future. This patch changes the "secondary" field to "flags" and
+change CMD646 and its users accordingly and define a new flag for
+forcing legacy mode that will be used by via-ide for now.
 
-Fuloong2e needs to use legacy mode for IDE support to work with Linux.
-Add property to via-ide driver to make the mode configurable, and set
-legacy mode for Fuloong2e.
-
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-[balaton: Use bit in flags for property, add comment for missing BAR4]
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ide/via.c        | 19 +++++++++++++++++--
- hw/mips/fuloong2e.c |  4 +++-
- 2 files changed, 20 insertions(+), 3 deletions(-)
+ hw/ide/cmd646.c      | 4 ++--
+ hw/sparc64/sun4u.c   | 2 +-
+ include/hw/ide/pci.h | 7 ++++++-
+ 3 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index be09912b33..7d54d7e829 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -26,6 +26,7 @@
+diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
+index c254631485..7a96016116 100644
+--- a/hw/ide/cmd646.c
++++ b/hw/ide/cmd646.c
+@@ -256,7 +256,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
+     pci_conf[PCI_CLASS_PROG] = 0x8f;
  
- #include "qemu/osdep.h"
- #include "hw/pci/pci.h"
-+#include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "qemu/module.h"
- #include "sysemu/dma.h"
-@@ -185,12 +186,19 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
-                           &d->bus[1], "via-ide1-cmd", 4);
-     pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[1]);
- 
--    bmdma_setup_bar(d);
--    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
-+    if (!(d->flags & BIT(PCI_IDE_LEGACY_MODE))) {
-+        /* Missing BAR4 will make Linux driver fall back to legacy PIO mode */
-+        bmdma_setup_bar(d);
-+        pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
-+    }
- 
-     qdev_init_gpio_in(ds, via_ide_set_irq, 2);
-     for (i = 0; i < 2; i++) {
-         ide_bus_new(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
-+        if (d->flags & BIT(PCI_IDE_LEGACY_MODE)) {
-+            ide_init_ioport(&d->bus[i], NULL, i ? 0x170 : 0x1f0,
-+                            i ? 0x376 : 0x3f6);
-+        }
-         ide_init2(&d->bus[i], qdev_get_gpio_in(ds, i));
- 
-         bmdma_init(&d->bus[i], &d->bmdma[i], d);
-@@ -210,6 +218,12 @@ static void via_ide_exitfn(PCIDevice *dev)
+     pci_conf[CNTRL] = CNTRL_EN_CH0; // enable IDE0
+-    if (d->secondary) {
++    if (d->flags & BIT(PCI_IDE_SECONDARY)) {
+         /* XXX: if not enabled, really disable the seconday IDE controller */
+         pci_conf[CNTRL] |= CNTRL_EN_CH1; /* enable IDE1 */
      }
+@@ -314,7 +314,7 @@ static void pci_cmd646_ide_exitfn(PCIDevice *dev)
  }
  
-+static Property via_ide_properties[] = {
-+    DEFINE_PROP_BIT("legacy_mode", PCIIDEState, flags, PCI_IDE_LEGACY_MODE,
-+                    false),
-+    DEFINE_PROP_END_OF_LIST(),
+ static Property cmd646_ide_properties[] = {
+-    DEFINE_PROP_UINT32("secondary", PCIIDEState, secondary, 0),
++    DEFINE_PROP_BIT("secondary", PCIIDEState, flags, PCI_IDE_SECONDARY, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 0fa13a7330..c46baa9f48 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -674,7 +674,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
+     }
+ 
+     pci_dev = pci_new(PCI_DEVFN(3, 0), "cmd646-ide");
+-    qdev_prop_set_uint32(&pci_dev->qdev, "secondary", 1);
++    qdev_prop_set_bit(&pci_dev->qdev, "secondary", true);
+     pci_realize_and_unref(pci_dev, pci_busA, &error_fatal);
+     pci_ide_create_devs(pci_dev);
+ 
+diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+index d8384e1c42..75d1a32f6d 100644
+--- a/include/hw/ide/pci.h
++++ b/include/hw/ide/pci.h
+@@ -42,6 +42,11 @@ typedef struct BMDMAState {
+ #define TYPE_PCI_IDE "pci-ide"
+ OBJECT_DECLARE_SIMPLE_TYPE(PCIIDEState, PCI_IDE)
+ 
++enum {
++    PCI_IDE_SECONDARY, /* used only for cmd646 */
++    PCI_IDE_LEGACY_MODE
 +};
 +
- static void via_ide_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -223,6 +237,7 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
-     k->device_id = PCI_DEVICE_ID_VIA_IDE;
-     k->revision = 0x06;
-     k->class_id = PCI_CLASS_STORAGE_IDE;
-+    device_class_set_props(dc, via_ide_properties);
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
- }
+ struct PCIIDEState {
+     /*< private >*/
+     PCIDevice parent_obj;
+@@ -49,7 +54,7 @@ struct PCIIDEState {
  
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 45c596f4fe..f0733e87b7 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -253,7 +253,9 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
-     /* Super I/O */
-     isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
- 
--    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
-+    dev = pci_new(PCI_DEVFN(slot, 1), "via-ide");
-+    qdev_prop_set_bit(&dev->qdev, "legacy_mode", true);
-+    pci_realize_and_unref(dev, pci_bus, &error_fatal);
-     pci_ide_create_devs(dev);
- 
-     pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+     IDEBus bus[2];
+     BMDMAState bmdma[2];
+-    uint32_t secondary; /* used only for cmd646 */
++    uint32_t flags;
+     MemoryRegion bmdma_bar;
+     MemoryRegion cmd_bar[2];
+     MemoryRegion data_bar[2];
 -- 
 2.21.3
 
