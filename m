@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BDF2E235E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 02:17:25 +0100 (CET)
-Received: from localhost ([::1]:34358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F292E2362
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 02:20:59 +0100 (CET)
+Received: from localhost ([::1]:39326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksFFs-0002mn-8x
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 20:17:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42362)
+	id 1ksFJK-0004xX-Pq
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 20:20:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1ksFCE-0001V6-Uk
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 20:13:39 -0500
-Received: from mga06.intel.com ([134.134.136.31]:46595)
+ id 1ksFCH-0001YK-Po
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 20:13:41 -0500
+Received: from mga06.intel.com ([134.134.136.31]:46615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1ksFCD-0004bX-C8
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 20:13:38 -0500
-IronPort-SDR: w56iw+EwSXsDCZCQAX6KJFzhcxV0JvYDdeliuw5B54cPx7HIUaRxOTfZ1XNBSImqNFmEkNI6aP
- PC0N8soDVdJw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9844"; a="237652001"
-X-IronPort-AV: E=Sophos;i="5.78,443,1599548400"; d="scan'208";a="237652001"
+ id 1ksFCG-0004fL-4G
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 20:13:41 -0500
+IronPort-SDR: hvk5R0i4h2p4VGNZPf2psTl0h/3d6OcDZGPlAkQ0V66kFQKc+JuNGbllFl04zM9ebigDG4sPLg
+ 6bplRds3OLXQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9844"; a="237652006"
+X-IronPort-AV: E=Sophos;i="5.78,443,1599548400"; d="scan'208";a="237652006"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2020 17:13:18 -0800
-IronPort-SDR: fs3DsK8KtByJhO4tgB6lihn1b82LUlhHxBy7ufkd5rSKM2pEiGWrm0VSCKzf1JZXv61L3OCQn9
- Zjx04dixQGwA==
-X-IronPort-AV: E=Sophos;i="5.78,443,1599548400"; d="scan'208";a="565580016"
+ 23 Dec 2020 17:13:20 -0800
+IronPort-SDR: ATn0tyQkUGgb571GD/HTj1x7lsn5TZbRSgYjlvKhqtnLqEkgY8wjE/mBdZ2RkkKwwGMflQglJH
+ BykC9oS7mmOg==
+X-IronPort-AV: E=Sophos;i="5.78,443,1599548400"; d="scan'208";a="565580039"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2020 17:13:16 -0800
+ 23 Dec 2020 17:13:18 -0800
 From: Zhang Chen <chen.zhang@intel.com >
 To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>,
  Eric Blake <eblake@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH 1/3] qapi/net: Add new QMP command for COLO passthrough
-Date: Thu, 24 Dec 2020 09:09:16 +0800
-Message-Id: <20201224010918.19275-2-chen.zhang@intel.com>
+Subject: [PATCH 2/3] hmp-commands: Add new HMP command for COLO passthrough
+Date: Thu, 24 Dec 2020 09:09:17 +0800
+Message-Id: <20201224010918.19275-3-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201224010918.19275-1-chen.zhang@intel.com>
 References: <20201224010918.19275-1-chen.zhang@intel.com>
@@ -70,93 +70,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Chen <chen.zhang@intel.com>
 
-Since the real user scenario does not need to monitor all traffic.
-Add colo-passthrough-add and colo-passthrough-del to maintain
-a COLO network passthrough list.
+Add hmp_colo_passthrough_add and hmp_colo_passthrough_del make user
+can maintain COLO network passthrough list in human monitor.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- net/net.c     | 12 ++++++++++++
- qapi/net.json | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 58 insertions(+)
+ hmp-commands.hx       | 26 ++++++++++++++++++++++++++
+ include/monitor/hmp.h |  2 ++
+ monitor/hmp-cmds.c    | 20 ++++++++++++++++++++
+ 3 files changed, 48 insertions(+)
 
-diff --git a/net/net.c b/net/net.c
-index e1035f21d1..eac7a92618 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -1151,6 +1151,18 @@ void qmp_netdev_del(const char *id, Error **errp)
-     qemu_del_net_client(nc);
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 470a420c2d..f5790782d6 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1341,6 +1341,32 @@ SRST
+   Remove host network device.
+ ERST
+ 
++    {
++        .name       = "colo_passthrough_add",
++        .args_type  = "protocol:s,port:i",
++        .params     = "protocol port",
++        .help       = "Add network stream to colo passthrough list",
++        .cmd        = hmp_colo_passthrough_add,
++    },
++
++SRST
++``colo_passthrough_add``
++  Add network stream to colo passthrough list.
++ERST
++
++    {
++        .name       = "colo_passthrough_del",
++        .args_type  = "protocol:s,port:i",
++        .params     = "protocol port",
++        .help       = "Delete network stream from colo passthrough list",
++        .cmd        = hmp_colo_passthrough_del,
++    },
++
++SRST
++``colo_passthrough_del``
++  Delete network stream from colo passthrough list.
++ERST
++
+     {
+         .name       = "object_add",
+         .args_type  = "object:O",
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index ed2913fd18..3c4943b09f 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -81,6 +81,8 @@ void hmp_device_del(Monitor *mon, const QDict *qdict);
+ void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict);
+ void hmp_netdev_add(Monitor *mon, const QDict *qdict);
+ void hmp_netdev_del(Monitor *mon, const QDict *qdict);
++void hmp_colo_passthrough_add(Monitor *mon, const QDict *qdict);
++void hmp_colo_passthrough_del(Monitor *mon, const QDict *qdict);
+ void hmp_getfd(Monitor *mon, const QDict *qdict);
+ void hmp_closefd(Monitor *mon, const QDict *qdict);
+ void hmp_sendkey(Monitor *mon, const QDict *qdict);
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 65d8ff4849..ab98a6b77d 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1661,6 +1661,26 @@ void hmp_netdev_del(Monitor *mon, const QDict *qdict)
+     hmp_handle_error(mon, err);
  }
  
-+void qmp_colo_passthrough_add(const char *prot, const uint32_t port,
-+                              Error **errp)
++void hmp_colo_passthrough_add(Monitor *mon, const QDict *qdict)
 +{
-+    /* Setup passthrough connection */
++    const char *prot = qdict_get_str(qdict, "protocol");
++    uint32_t port = qdict_get_int(qdict, "port");
++    Error *err = NULL;
++
++    qmp_colo_passthrough_add(prot, port, &err);
++    hmp_handle_error(mon, err);
 +}
 +
-+void qmp_colo_passthrough_del(const char *prot, const uint32_t port,
-+                              Error **errp)
++void hmp_colo_passthrough_del(Monitor *mon, const QDict *qdict)
 +{
-+    /* Delete passthrough connection */
++    const char *prot = qdict_get_str(qdict, "protocol");
++    uint32_t port = qdict_get_int(qdict, "port");
++    Error *err = NULL;
++
++    qmp_colo_passthrough_del(prot, port, &err);
++    hmp_handle_error(mon, err);
 +}
 +
- static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
+ void hmp_object_add(Monitor *mon, const QDict *qdict)
  {
-     char *str;
-diff --git a/qapi/net.json b/qapi/net.json
-index c31748c87f..466c29714e 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -714,3 +714,49 @@
- ##
- { 'event': 'FAILOVER_NEGOTIATED',
-   'data': {'device-id': 'str'} }
-+
-+##
-+# @colo-passthrough-add:
-+#
-+# Add passthrough entry according to customer's needs in COLO-compare.
-+#
-+# @protocol: COLO passthrough just support TCP and UDP.
-+#
-+# @port: TCP or UDP port number.
-+#
-+# Returns: Nothing on success
-+#
-+# Since: 5.3
-+#
-+# Example:
-+#
-+# -> { "execute": "colo-passthrough-add",
-+#      "arguments": { "protocol": "tcp", "port": 3389 } }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'colo-passthrough-add',
-+     'data': {'protocol': 'str', 'port': 'uint32'} }
-+
-+##
-+# @colo-passthrough-del:
-+#
-+# Delete passthrough entry according to customer's needs in COLO-compare.
-+#
-+# @protocol: COLO passthrough just support TCP and UDP.
-+#
-+# @port: TCP or UDP port number.
-+#
-+# Returns: Nothing on success
-+#
-+# Since: 5.3
-+#
-+# Example:
-+#
-+# -> { "execute": "colo-passthrough-del",
-+#      "arguments": { "protocol": "tcp", "port": 3389 } }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'colo-passthrough-del',
-+     'data': {'protocol': 'str', 'port': 'uint32'} }
+     Error *err = NULL;
 -- 
 2.17.1
 
