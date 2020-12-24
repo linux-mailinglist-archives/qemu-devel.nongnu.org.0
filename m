@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30CEB2E287C
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 19:08:01 +0100 (CET)
-Received: from localhost ([::1]:36010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC6B2E28D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 21:56:39 +0100 (CET)
+Received: from localhost ([::1]:41510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksV1r-0003Dn-OK
-	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 13:07:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53164)
+	id 1ksXf4-0004jw-HL
+	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 15:56:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1ksV0h-0002n4-Dx
- for qemu-devel@nongnu.org; Thu, 24 Dec 2020 13:06:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45475)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1ksV0d-0005K4-4f
- for qemu-devel@nongnu.org; Thu, 24 Dec 2020 13:06:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608833200;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=w1pSUwEDbX/yj7IvCEhpvF4T9xKJRc2up64NlKJ8rh8=;
- b=B+tAAYHh7Q4d/Jx7UC+BYlffjrMY5tQRa/fpi8EFvu3rtGDYMu++ptbT0QaED12VVtDXcv
- BPX8mjOeRg5xXRwE9U+pQl1UozMuxdCZOwa8ExgNuLb6Vvyo9Ktq0JR0+iXyzjiHVnMg7r
- Z/4xlaL9aLttMN7aBgaaoFqFeRbEb9k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-vwFG6p0GODuiiPQpOZY7tw-1; Thu, 24 Dec 2020 13:06:38 -0500
-X-MC-Unique: vwFG6p0GODuiiPQpOZY7tw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14EE4800D53;
- Thu, 24 Dec 2020 18:06:37 +0000 (UTC)
-Received: from localhost (ovpn-113-96.rdu2.redhat.com [10.10.113.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 804B310013C0;
- Thu, 24 Dec 2020 18:06:33 +0000 (UTC)
-Date: Thu, 24 Dec 2020 13:06:32 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Zhenyu Ye <yezhenyu2@huawei.com>
-Subject: Re: [RFC PATCH v2] x86/cpu: initialize the CPU concurrently
-Message-ID: <20201224180632.GF286050@habkost.net>
-References: <90be4860-cbe0-25d4-ccca-75b96ecb4a3c@huawei.com>
- <20201221213620.GF6040@habkost.net>
- <e823060d-1a8a-a1d8-aa2f-1394c118bdae@huawei.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ksXe8-0004Dy-IX
+ for qemu-devel@nongnu.org; Thu, 24 Dec 2020 15:55:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45018)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ksXe6-0004jH-0s
+ for qemu-devel@nongnu.org; Thu, 24 Dec 2020 15:55:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ksXe4-0004Sf-2l
+ for <qemu-devel@nongnu.org>; Thu, 24 Dec 2020 20:55:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 10B122E8060
+ for <qemu-devel@nongnu.org>; Thu, 24 Dec 2020 20:55:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <e823060d-1a8a-a1d8-aa2f-1394c118bdae@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 24 Dec 2020 20:49:28 -0000
+From: Peter Maydell <1909256@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pmaydell
+X-Launchpad-Bug-Reporter: Peter Maydell (pmaydell)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+Message-Id: <160884296870.1780.12540070136312087397.malonedeb@soybean.canonical.com>
+Subject: [Bug 1909256] [NEW] compile failure if gnutls headers not on default
+ include path
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
+X-Launchpad-Hash: b4a75cafd98c030fed7eb5de5618692889c0f90c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,108 +69,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>, "S. Tsirkin,
- Michael" <mst@redhat.com>, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Xiexiangyou <xiexiangyou@huawei.com>, yebiaoxiang <yebiaoxiang@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1909256 <1909256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 24, 2020 at 09:41:10PM +0800, Zhenyu Ye wrote:
-> Hi Eduardo,
-> 
-> Sorry for the delay.
-> 
-> On 2020/12/22 5:36, Eduardo Habkost wrote:
-> > On Mon, Dec 21, 2020 at 07:36:18PM +0800, Zhenyu Ye wrote:
-> >> Providing a optional mechanism to wait for all VCPU threads be
-> >> created out of qemu_init_vcpu(), then we can initialize the cpu
-> >> concurrently on the x86 architecture.
-> >>
-> >> This reduces the time of creating virtual machines. For example, when
-> >> the haxm is used as the accelerator, cpus_accel->create_vcpu_thread()
-> >> will cause at least 200ms for each cpu, extremely prolong the boot
-> >> time.
-> >>
+Public bug reported:
 
-I have just realized one thing: all VCPU thread function
-(including hax) keeps holding qemu_global_mutex most of the time.
-Are you sure your patch is really making VCPU initialization run
-in parallel?  Do you have numbers showing this patch really
-improves boot time?
+If the gnutls headers are not on the default compiler include path, then
+configure correctly finds them and config-host.mak sets up the
+variables:
+
+GNUTLS_CFLAGS=3D-I/opt/homebrew/Cellar/gnutls/3.6.15/include -I/opt/homebre=
+w/Cellar/nettle/3.6/include -I/opt/homebrew/Cellar/libtasn1/4.16.0/include =
+-I/opt/homebrew/Cellar/libidn2/2.3.0/include -I/opt/homebrew/Cellar/p11-kit=
+/0.23.22/include/p11-kit-1
+GNUTLS_LIBS=3D-L/opt/homebrew/Cellar/gnutls/3.6.15/lib -lgnutls
+
+but meson fails to put GNUTLS_CFLAGS in the compiler arguments and so
+you get compile failures like:
+
+[2/1865] Compiling C object qemu-nbd.p/qemu-nbd.c.o
+FAILED: qemu-nbd.p/qemu-nbd.c.o =
+
+cc -Iqemu-nbd.p -I. -I../.. -Iqapi -Itrace -Iui -Iui/shader -I/opt/homebrew=
+/Cellar/glib/2.66.4/include -I/opt/homebrew/Cellar/glib/2.66.4/include/glib=
+-2.0 -I/opt/homebrew/Cellar/glib/2.66.4/lib/glib-2.0/include -I/opt/homebre=
+w/opt/gettext/include -I/opt/homebrew/Cellar/pcre/8.44/include -Xclang -fco=
+lor-diagnostics -pipe -Wall -Winvalid-pch -std=3Dgnu99 -g -DOS_OBJECT_USE_O=
+BJC=3D0 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict=
+-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes =
+-fno-strict-aliasing -fno-common -fwrapv -Wold-style-definition -Wtype-limi=
+ts -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-=
+body -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wno-initialize=
+r-overrides -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-string=
+-plus-int -Wno-typedef-redefinition -Wno-tautological-type-limit-compare -f=
+stack-protector-strong -iquote /Users/pm215/qemu/tcg/aarch64 -iquote . -iqu=
+ote /Users/pm215/qemu -iquote /Users/pm215/qemu/accel/tcg -iquote /Users/pm=
+215/qemu/include -iquote /Users/pm215/qemu/disas/libvixl -MD -MQ qemu-nbd.p=
+/qemu-nbd.c.o -MF qemu-nbd.p/qemu-nbd.c.o.d -o qemu-nbd.p/qemu-nbd.c.o -c .=
+./../qemu-nbd.c
+In file included from ../../qemu-nbd.c:30:
+In file included from /Users/pm215/qemu/include/block/nbd.h:25:
+/Users/pm215/qemu/include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/gnu=
+tls.h' file not found
+#include <gnutls/gnutls.h>
+         ^~~~~~~~~~~~~~~~~
+1 error generated.
 
 
-> >> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> >> Signed-off-by: eillon <yezhenyu2@huawei.com>
-> > 
-> > The patch is easier to follow now, but I have a question that may
-> > be difficult to answer:
-> > 
-> > What exactly is the meaning of cpu->created=true, and what
-> > exactly would break if we never wait for cpu->created==true at all?
-> > 
-> > I'm asking that because we might be introducing subtle races
-> > here, if some of the remaining CPU initialization code in
-> > x86_cpu_realizefn() [1] expects the VCPU thread to be already
-> > initialized.
-> > 
-> > The cpu_reset() call below is one such example (but probably not
-> > the only one).  cpu_reset() ends up calling
-> > kvm_arch_reset_vcpu(), which seems to assume kvm_init_vcpu() was
-> > already called.  With your patch, kvm_init_vcpu() might end up
-> > being called after kvm_arch_reset_vcpu().
-> > 
-> 
-> There's a chance that this happens.
-> Could we move these (after qemu_init_vcpu()) out of x86_cpu_realizefn()
-> to the x86_cpus_init(), after qemu_wait_all_vcpu_threads_init()?
-> Such as:
-> 
-> void x86_cpus_init()
-> {
-> 	foreach (cpu) {
-> 		x86_cpu_new();
-> 	}
-> 
-> 	qemu_wait_all_vcpu_threads_init();
-> 
-> 	foreach (cpu) {
-> 		x86_cpu_new_post();
-> 	}
-> }
+The compiler errors happen for any .c file that includes block/nbd.h and al=
+so for files in tests that include gnutls.h directly, and for files that di=
+rectly or indirectly include crypto/tlssession.c.
 
-Maybe that would work, if the caveats are clearly documented.
-I'm worried about bugs being introduced if people assume the VCPU
-will always be fully initialized and ready to run after
-qemu_init_vcpu() is called and qdev_realize() returns.
+My meson-foo is insufficient to suggest the correct fix...
 
-> 
-> > Maybe a simpler alternative is to keep the existing thread
-> > creation logic, but changing hax_cpu_thread_fn() to do less work
-> > before calling cpu_thread_signal_created()?
-> > 
-> > In my testing (without this patch), creation of 8 KVM VCPU
-> > threads in a 4 core machine takes less than 3 ms.  Why is
-> > qemu_init_vcpu() taking so long on haxm?  Which parts of haxm
-> > initialization can be moved after cpu_thread_signal_created(), to
-> > make this better?
-> > 
-> 
-> The most time-consuming operation in haxm is ioctl(HAX_VM_IOCTL_VCPU_CREATE).
-> Saddly this can not be split.
-> 
-> Even if we fix the problem in haxm, other accelerators may also have
-> this problem.  So I think if we can make the x86_cpu_new() concurrently,
-> we should try to do it.
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-Changing the code to run all VCPU initialization actions for all
-accelerators concurrently would require carefully reviewing the
-VCPU thread code for all accelerators, looking for races.  Sounds
-like a challenging task.  We could avoid that if we do something
-that will parallelize only what we really need (and know to be
-safe).
+-- =
 
--- 
-Eduardo
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1909256
 
+Title:
+  compile failure if gnutls headers not on default include path
+
+Status in QEMU:
+  New
+
+Bug description:
+  If the gnutls headers are not on the default compiler include path,
+  then configure correctly finds them and config-host.mak sets up the
+  variables:
+
+  GNUTLS_CFLAGS=3D-I/opt/homebrew/Cellar/gnutls/3.6.15/include -I/opt/homeb=
+rew/Cellar/nettle/3.6/include -I/opt/homebrew/Cellar/libtasn1/4.16.0/includ=
+e -I/opt/homebrew/Cellar/libidn2/2.3.0/include -I/opt/homebrew/Cellar/p11-k=
+it/0.23.22/include/p11-kit-1
+  GNUTLS_LIBS=3D-L/opt/homebrew/Cellar/gnutls/3.6.15/lib -lgnutls
+
+  but meson fails to put GNUTLS_CFLAGS in the compiler arguments and so
+  you get compile failures like:
+
+  [2/1865] Compiling C object qemu-nbd.p/qemu-nbd.c.o
+  FAILED: qemu-nbd.p/qemu-nbd.c.o =
+
+  cc -Iqemu-nbd.p -I. -I../.. -Iqapi -Itrace -Iui -Iui/shader -I/opt/homebr=
+ew/Cellar/glib/2.66.4/include -I/opt/homebrew/Cellar/glib/2.66.4/include/gl=
+ib-2.0 -I/opt/homebrew/Cellar/glib/2.66.4/lib/glib-2.0/include -I/opt/homeb=
+rew/opt/gettext/include -I/opt/homebrew/Cellar/pcre/8.44/include -Xclang -f=
+color-diagnostics -pipe -Wall -Winvalid-pch -std=3Dgnu99 -g -DOS_OBJECT_USE=
+_OBJC=3D0 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstri=
+ct-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototype=
+s -fno-strict-aliasing -fno-common -fwrapv -Wold-style-definition -Wtype-li=
+mits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempt=
+y-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wno-initiali=
+zer-overrides -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-stri=
+ng-plus-int -Wno-typedef-redefinition -Wno-tautological-type-limit-compare =
+-fstack-protector-strong -iquote /Users/pm215/qemu/tcg/aarch64 -iquote . -i=
+quote /Users/pm215/qemu -iquote /Users/pm215/qemu/accel/tcg -iquote /Users/=
+pm215/qemu/include -iquote /Users/pm215/qemu/disas/libvixl -MD -MQ qemu-nbd=
+.p/qemu-nbd.c.o -MF qemu-nbd.p/qemu-nbd.c.o.d -o qemu-nbd.p/qemu-nbd.c.o -c=
+ ../../qemu-nbd.c
+  In file included from ../../qemu-nbd.c:30:
+  In file included from /Users/pm215/qemu/include/block/nbd.h:25:
+  /Users/pm215/qemu/include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/g=
+nutls.h' file not found
+  #include <gnutls/gnutls.h>
+           ^~~~~~~~~~~~~~~~~
+  1 error generated.
+
+  =
+
+  The compiler errors happen for any .c file that includes block/nbd.h and =
+also for files in tests that include gnutls.h directly, and for files that =
+directly or indirectly include crypto/tlssession.c.
+
+  My meson-foo is insufficient to suggest the correct fix...
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1909256/+subscriptions
 
