@@ -2,71 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BAD72E236B
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 02:34:43 +0100 (CET)
-Received: from localhost ([::1]:42298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A3C2E236C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 02:35:33 +0100 (CET)
+Received: from localhost ([::1]:44466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksFWb-00070C-J8
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 20:34:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45294)
+	id 1ksFXQ-0007ve-Bu
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 20:35:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
- id 1ksFTd-0006Um-Hd
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 20:31:37 -0500
-Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:32895)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liliang324@gmail.com>)
- id 1ksFTb-0001rT-I7
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 20:31:37 -0500
-Received: by mail-lf1-x136.google.com with SMTP id l11so1668785lfg.0
- for <qemu-devel@nongnu.org>; Wed, 23 Dec 2020 17:31:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0ylr8xtf0vRN/65EDusgs3mZeJJKO/MAb2WdRIppjm8=;
- b=ZV8b8FbD8TZ+50o8AlHdgL2kIgkNMvx3LcjGzyZAsPuEMA5CNGfZyMP42jf59G8GcA
- tfP+6Egyecm0W5A3t3olaLiu22+SWaHeAz3DJi3oYyjuWwVOpOIOcoSxYbJHEgLDcuSS
- z5V2vCaoE0IcDE0LkHffO+li2Qr4KVhUEU09Ixf8a5qy4UQBWUVv0sr1V5GYSzQx38iV
- rp05h/UT506EY6YXwo2ppzxhkjMvFkeW/yEVhAgWa3PhzQaiX0lOt6YelYkyTj06NB2/
- gbS8IFmMhBHLxOYXDgBo9VSfQoezSICh4YRiWEz5Qx0geh5rFAr/dfK/j8NUy6xf1l7g
- mjow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0ylr8xtf0vRN/65EDusgs3mZeJJKO/MAb2WdRIppjm8=;
- b=IxFQLobNuZcvuJNWH8UsUrCBGvJYvVvR6gvjrDcAp3V9ULOWfWzqqRwPM2MGTyZcp/
- y181u4K/8yZnNzBUO//dBQkRlPMzFPmljKj8aDKi81LI/OKoncf8Xj/yFjfA+VtrG4fg
- ogn3XIIq8pTRfWhUiYz9vCKG4T8t6S0qIdjCgo/M60prODLDv6zaOm9MMHQPG4ENTm1W
- Gpdi76Ct0VIyVPDdrWQP4dL1XyJzlEzqHqP0hpcpoJZbV0qUvsj8ZENqfwSkaUNbA6lX
- CTARfDFpiAHDNXxjyPbRXmwkw+HaMCnYQE2dN1wtEm9ZOpmMjixnAXANz3vcCWmRoIKt
- 2i5Q==
-X-Gm-Message-State: AOAM530iJyS5TYhXKwohEwi3TDyilr2l8jCSxjwcLQStfTQ6MdS+KkNA
- G7HMpLudaRSYPa/27AYiJPial2W00jQIySl2WJg=
-X-Google-Smtp-Source: ABdhPJyEG+SjICWUo3m2UZWlLl0MO437nGTfmoHzp8M/Z0PaDq7bPPDKbJxvN7AIsNn5Z4VtDFOo7tJri5HZhvYInsM=
-X-Received: by 2002:a19:814c:: with SMTP id c73mr11053100lfd.638.1608773493512; 
- Wed, 23 Dec 2020 17:31:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ksFWD-0007Bl-31
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 20:34:21 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:45822)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ksFW8-0002Vs-Fl
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 20:34:16 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 64EEA746553;
+ Thu, 24 Dec 2020 02:34:09 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id F2075746552; Thu, 24 Dec 2020 02:34:07 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id EFE86746383;
+ Thu, 24 Dec 2020 02:34:07 +0100 (CET)
+Date: Thu, 24 Dec 2020 02:34:07 +0100 (CET)
+To: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: Problems with irq mapping in qemu v5.2
+In-Reply-To: <8a3b2030-8ee6-fd56-6bfa-206457db84f@eik.bme.hu>
+Message-ID: <165973a-135e-3072-ee2c-afda64844770@eik.bme.hu>
+References: <3f0f8fc6-6148-a76e-1088-b7882b0bbcaf@roeck-us.net>
+ <e90b9df0-5173-6e2b-3572-4f21ac318231@amsat.org>
+ <2c478b3e-5098-1887-73b3-90f91a808ad8@ilande.co.uk>
+ <1d33fa46-2079-ad40-d579-6e827543de50@roeck-us.net>
+ <f04ae64-fa4a-2e21-1468-cf37315ec9b2@eik.bme.hu>
+ <c64fe3a4-cd9c-b455-53ce-c53fb6cf0632@roeck-us.net>
+ <8a3b2030-8ee6-fd56-6bfa-206457db84f@eik.bme.hu>
 MIME-Version: 1.0
-References: <20201222074656.GA30035@open-light-1.localdomain>
- <63318bf1-21ea-7202-e060-b4b2517c684e@oracle.com>
- <CA+2MQi_QDnnsbMdOH5B4Hhak-CWA-Xs6PLhxoGq2f+Vv13sgyg@mail.gmail.com>
- <e9d835e1-5d7f-d0ca-bf42-1cfa64416db6@oracle.com>
-In-Reply-To: <e9d835e1-5d7f-d0ca-bf42-1cfa64416db6@oracle.com>
-From: Liang Li <liliang324@gmail.com>
-Date: Thu, 24 Dec 2020 09:31:21 +0800
-Message-ID: <CA+2MQi_bxnzgS+S=GqL7UCYUKqAHZ7VC_ZTHCHcfrBHPsY+9Pg@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] mm: support hugetlb free page reporting
-To: Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=liliang324@gmail.com; helo=mail-lf1-x136.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,88 +61,204 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrea Arcangeli <aarcange@redhat.com>, Michal Hocko <mhocko@suse.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Liang Li <liliangleo@didiglobal.com>,
- Alexander Duyck <alexander.duyck@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
- Dave Hansen <dave.hansen@intel.com>, Andrew Morton <akpm@linux-foundation.org>,
- virtualization@lists.linux-foundation.org,
- Mel Gorman <mgorman@techsingularity.net>,
- Dan Williams <dan.j.williams@intel.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, chenhuacai@kernel.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-> >>> +static int
-> >>> +hugepage_reporting_cycle(struct page_reporting_dev_info *prdev,
-> >>> +                      struct hstate *h, unsigned int nid,
-> >>> +                      struct scatterlist *sgl, unsigned int *offset)
-> >>> +{
-> >>> +     struct list_head *list = &h->hugepage_freelists[nid];
-> >>> +     unsigned int page_len = PAGE_SIZE << h->order;
-> >>> +     struct page *page, *next;
-> >>> +     long budget;
-> >>> +     int ret = 0, scan_cnt = 0;
-> >>> +
-> >>> +     /*
-> >>> +      * Perform early check, if free area is empty there is
-> >>> +      * nothing to process so we can skip this free_list.
-> >>> +      */
-> >>> +     if (list_empty(list))
-> >>> +             return ret;
-> >>
-> >> Do note that not all entries on the hugetlb free lists are free.  Reserved
-> >> entries are also on the free list.  The actual number of free entries is
-> >> 'h->free_huge_pages - h->resv_huge_pages'.
-> >> Is the intention to process reserved pages as well as free pages?
-> >
-> > Yes, Reserved pages was treated as 'free pages'
+On Thu, 24 Dec 2020, BALATON Zoltan wrote:
+> On Wed, 23 Dec 2020, Guenter Roeck wrote:
+>> v3.1:
+>> 
+>> pci 0000:00:05.1: [Firmware Bug]: reg 0x10: invalid BAR (can't size)
+>> pci 0000:00:05.1: [Firmware Bug]: reg 0x14: invalid BAR (can't size)
+>> pci 0000:00:05.1: [Firmware Bug]: reg 0x18: invalid BAR (can't size)
+>> pci 0000:00:05.1: reg 0x1c: [mem 0x100000370-0x10000037f 64bit]
+>> ...
+>> pata_via 0000:00:05.1: BMDMA: BAR4 is zero, falling back to PIO
+>> ata1: PATA max PIO4 cmd 0x1f0 ctl 0x3f6 irq 14
+>> ata2: PATA max PIO4 cmd 0x170 ctl 0x376 irq 15
+>> ata1.00: ATA-7: QEMU HARDDISK, 2.5+, max UDMA/100
+>> ...
 >
-> If that is true, then this code breaks hugetlb.  hugetlb code assumes that
-> h->free_huge_pages is ALWAYS >= h->resv_huge_pages.  This code would break
-> that assumption.  If you really want to add support for hugetlb pages, then
-> you will need to take reserved pages into account.
-
-I didn't know that. thanks!
-
-> P.S. There might be some confusion about 'reservations' based on the
-> commit message.  My comments are directed at hugetlb reservations described
-> in Documentation/vm/hugetlbfs_reserv.rst.
+> This is the previous state only emulating legacy mode and since none of the 
+> native mode BARs are there Linux fails to enable native mode and falls back 
+> to legacy so it ends up working but probably not how this should work on real 
+> machine.
 >
-> >>> +             /* Attempt to pull page from list and place in scatterlist */
-> >>> +             if (*offset) {
-> >>> +                     isolate_free_huge_page(page, h, nid);
-> >>
-> >> Once a hugetlb page is isolated, it can not be used and applications that
-> >> depend on hugetlb pages can start to fail.
-> >> I assume that is acceptable/expected behavior.  Correct?
-> >> On some systems, hugetlb pages are a precious resource and the sysadmin
-> >> carefully configures the number needed by applications.  Removing a hugetlb
-> >> page (even for a very short period of time) could cause serious application
-> >> failure.
-> >
-> > That' true, especially for 1G pages. Any suggestions?
-> > Let the hugepage allocator be aware of this situation and retry ?
+>> ----
+>> 
+>> v5.2:
+>> 
+>> pci 0000:00:05.1: reg 0x10: [io  0x0000-0x0007]
+>> pci 0000:00:05.1: reg 0x14: [io  0x0000-0x0003]
+>> pci 0000:00:05.1: reg 0x18: [io  0x0000-0x0007]
+>> pci 0000:00:05.1: reg 0x1c: [io  0x0000-0x0003]
+>> pci 0000:00:05.1: reg 0x20: [io  0x0000-0x000f]
+>> pci 0000:00:05.1: BAR 4: assigned [io  0x4440-0x444f]
+>> ...
+>> ata1: PATA max UDMA/100 cmd 0x1f0 ctl 0x3f6 bmdma 0x4440 irq 14
+>> ata2: PATA max UDMA/100 cmd 0x170 ctl 0x376 bmdma 0x4448 irq 15
+>> [and nothing else]
 >
-> I would hate to add that complexity to the allocator.
+> Now we emulate native mode and Linux seems to program the BARs (although I'm 
+> not sure all these should be starting at 0) but then still tries to access 
+> the device in legacy mode as shown by ports and IRQs.
 >
-> This question is likely based on my lack of understanding of virtio-balloon
-> usage and this reporting mechanism.  But, why do the hugetlb pages have to
-> be 'temporarily' allocated for reporting purposes?
+> If someone has logs from original machine it would be interesting to see how 
+> IDE ports are detected there. I'll try with the kernel from debian and see 
+> what that does but maybe it tries to use legacy mode too then it won't work.
+>
+> With the original image I used for testing described here:
+> https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg04086.html
+> I now get:
+>
+> $ qemu-system-mips64el -M fuloong2e -serial stdio -net none -vga none -kernel 
+> gentoo-loongson-2.6.22.6-20070902 -cdrom debian-8.11.0-mipsel-netinst.iso
 
-The link here will give your more detail about how page reporting
-works, https://www.kernel.org/doc/html/latest//vm/free_page_reporting.html
-the virtio-balloon driver is based on this framework and will report the
-free pages information to QEMU&KVM, host can unmap the memory
-region corresponding to reported free pages and reclaim the memory
-for other use, it's useful for memory overcommit.
-Allocated the pages 'temporarily' before reporting is necessary, it make
-sure guests will not use the page when the host side unmap the region.
-or it will break the guest.
+> scsi0 : pata_via
+> scsi1 : pata_via
+> ata1: PATA max UDMA/100 cmd 0xffffffffbfd001f0 ctl 0xffffffffbfd003f6 bmdma 0xffffffffbfd04040 irq 14
+> ata2: PATA max UDMA/100 cmd 0xffffffffbfd00170 ctl 0xffffffffbfd00376 bmdma 0xffffffffbfd04048 irq 15
 
-Now I realized we should solve this issue first, it seems adding a lock
-will help.
+> 2. The Linux driver you use wants to use legacy mode of the IDE that we don't 
+> emulate. The linux/arch/mips/pci/fixup-fuloong2e.c does mention legacy mode 
+> but I think I've found previously that if we hard code native mode, Linux 
+> would detect it and use it anyway. I think this worked with my original 
+> series but may have been broken during the rework. I'd have to dig up those
 
-Thanks
+Here's my original series from March 10:
+http://patchwork.ozlabs.org/project/qemu-devel/list/?series=163521
+this applies on a checkout from that time such as 7f368aed672117
+and with that it works with the gentoo kernel above:
+
+Linux version 2.6.22.6-mipsgit-20070902-lm2e-liveusb (stuartl@zhenghe) (gcc version 4.1.2 (Gentoo 4.1.2 p1.0.1)) #5 Fri Jan 25 11:19:12 EST 2008
+[...]
+SCSI subsystem initialized
+via686b fix: ISA bridge
+via686b fix: ISA bridge done
+via686b fix: IDE
+via686b fix: IDE done
+PCI quirk: region eee0-eeef claimed by vt82c686 SMB
+ac97 interrupt = 9
+[...]
+scsi0 : pata_via
+scsi1 : pata_via
+ata1: PATA max UDMA/100 cmd 0xffffffffbfd04050 ctl 0xffffffffbfd04062 bmdma 0xffffffffbfd04040 irq 14
+ata2: PATA max UDMA/100 cmd 0xffffffffbfd04058 ctl 0xffffffffbfd04066 bmdma 0xffffffffbfd04048 irq 14
+ata2.00: ATAPI: QEMU DVD-ROM, 2.5+, max UDMA/100
+ata2.00: limited to UDMA/33 due to 40-wire cable
+ata2.00: configured for UDMA/33
+scsi 1:0:0:0: CD-ROM            QEMU     QEMU DVD-ROM     2.5+ PQ: 0 ANSI: 5
+
+Note that both channels using irq 14 which means fully native mode but 
+that would not work for pegasos2 where we need half-native mode (PCI BARs 
+with IRQ 14/15) hence we need the property and flag to enable that mode 
+for pegasos2. Without that flag we now only really emulate half-native 
+mode which is fine for pegasos2 but seems Linux on fuloong2e does not like 
+that. The gentoo kernel seems to like either legacy or full native mode, 
+however with the debian kernel from Philippe even full native mode fails:
+
+[    0.000000] Linux version 3.16.0-6-loongson-2e (debian-kernel@lists.debian.org) (gcc version 4.8.4 (Debian 4.8.4-1) ) #1 Debian 3.16.56-1+deb8u1 (2018-05-08)
+[...]
+[    0.196000] SCSI subsystem initialized
+[    0.200000] PCI host bridge to bus 0000:00
+[    0.200000] pci_bus 0000:00: root bus resource [mem 0x14000000-0x1c000000]
+[    0.200000] pci_bus 0000:00: root bus resource [io  0x4000-0xffff]
+[    0.200000] pci_bus 0000:00: No busn resource found for root bus, will use [bus 00-ff]
+[    0.208000] via686b fix: ISA bridge
+[    0.208000] via686b fix: ISA bridge done
+[    0.208000] via686b fix: IDE
+[    0.208000] via686b fix: IDE done
+[    0.208000] pci 0000:00:05.4: quirk: [io  0xeee0-0xeeef] claimed by vt82c686 SMB
+[    0.212000] pci 0000:00:05.2: BAR 4: assigned [io  0x4000-0x401f]
+[    0.216000] pci 0000:00:05.3: BAR 4: assigned [io  0x4020-0x403f]
+[    0.216000] pci 0000:00:05.1: BAR 4: assigned [io  0x4040-0x404f]
+[    0.216000] pci 0000:00:05.1: BAR 0: assigned [io  0x4050-0x4057]
+[    0.216000] pci 0000:00:05.1: BAR 2: assigned [io  0x4058-0x405f]
+[    0.216000] pci 0000:00:05.1: BAR 1: assigned [io  0x4060-0x4063]
+[    0.216000] pci 0000:00:05.1: BAR 3: assigned [io  0x4064-0x4067]
+[    0.224000] Switched to clocksource MIPS
+[...]
+[    0.404000] scsi0 : pata_via
+[    0.404000] scsi1 : pata_via
+[    0.404000] ata1: PATA max UDMA/100 cmd 0x4050 ctl 0x4060 bmdma 0x4040
+[    0.404000] ata2: PATA max UDMA/100 cmd 0x4058 ctl 0x4064 bmdma 0x4048
+[...]
+[    0.728000] ata2.00: ATAPI: QEMU DVD-ROM, 2.5+, max UDMA/100
+[    0.728000] ata2.00: limited to UDMA/33 due to 40-wire cable
+[    0.732000] ata2.00: configured for UDMA/33
+[    1.356000] input: ImExPS/2 Generic Explorer Mouse as /devices/platform/i8042/serio1/input/input2
+[    5.732000] ata2.00: qc timeout (cmd 0xa0)
+[    5.732000] ata2.00: TEST_UNIT_READY failed (err_mask=0x4)
+[    5.888000] ata2.00: configured for UDMA/33
+[   10.888000] ata2.00: qc timeout (cmd 0xa0)
+[   10.888000] ata2.00: TEST_UNIT_READY failed (err_mask=0x4)
+[   10.888000] ata2.00: limiting speed to UDMA/33:PIO3
+[   11.044000] ata2.00: configured for UDMA/33
+[   16.044000] ata2.00: qc timeout (cmd 0xa0)
+[   16.044000] ata2.00: TEST_UNIT_READY failed (err_mask=0x4)
+[   16.044000] ata2.00: disabled
+[   16.044000] ata2: soft resetting link
+[   16.200000] ata2: EH complete
+
+It does not say which interrupts are used so can't tell if it's trying 
+native or legacy mode but I think it may want to use legacy mode (based on 
+the comment in the fixup-fulong2 function) but then I'm not sure why it 
+sets up BMDMA and PCI BARs which is an indication of using native mode. 
+Something seems to be mixed up here. The comment in the qtest this kernel 
+comes from says it's trusted because it comes from Debian. Well, I'd only 
+trust it if it was confirmed to run on real hardware but unfortunately we 
+don't have that confirmation for any of these kernels so we really don't 
+know what we're doing here. I think we need a known working, tested on 
+real machine kernel so we know that our test case is correct in the first 
+place. Does anybody have access to real hardware to test?
+
+Now I remember that the issue here was basically the following:
+
+- The chip can be used in 3 modes on different boards:
+1. legacy ports and IRQ 14/15
+2. native mode in which it behaves as a PCI IDE controller with BARs and 
+IRQ set via a register
+3. but on some machines like pegasos2 there's half-native or non-100% 
+native mode as Linux calls it which is like native but IRQs hard wired to 
+ISA 14/15 regardless of the register that select IRQ line in native mode.
+
+- Guest OSes on these machines have all kinds of fixups and assumptions on 
+how the chip works on that machine and so only work if we emulate that 
+closely enough because they don't read config bits of the device just 
+program them or expect some specific behaviour.
+
+- It's not easy to fully emulate all this in QEMU given the current low 
+level IDE emulation, in particular changing between legacy and IDE modes 
+is not supported by low level functions and so instead of risking breaking 
+low level IDE code used by almost all machines I've opted to try only 
+partially implement it so guests would run. (Besides it's not enough to 
+switch between legacy and native modes but also need the 3rd mode.) This 
+seemed to work for the test cases we had but now we have Linux kernels 
+that have different assumptions so now we have a conflict: fuloong2e 
+needing legacy mode and pegasos2 needing half-native mode.
+
+To resolve this conflict I'd like to know if the assumption of needing 
+legacy mode on fuloong is valid or could it be lifted in Linux so it works 
+with half-native or native mode as that would avoid the need to emulate 
+legacy mode as well in QEMU. (Although I'm not sure about that, maybe on 
+real hardware legacy mode is used as some of these VIA chips had known 
+problems with DMA so to avoid that it's not used but those problems don't 
+affect QEMU. But this is not confirmed either so only guessing here.)
+
+If we need legacy mode then we may be able to emulate that by setting BARs 
+to legacy ports ignoring what values are written to them if legacy mode 
+config is set (which may be what the real chip does) and we already have 
+IRQs hard wired to legacy values so that would give us legacy and 
+half-native mode which is enough for both fuloong2e and pegasos2 but I'm 
+not sure how can we fix BARs in QEMU because that's also handled by 
+generic PCI code which I also don't want to break.
+
+Regards,
+BALATON Zoltan
 
