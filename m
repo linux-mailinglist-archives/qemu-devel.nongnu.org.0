@@ -2,47 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA71C2E285D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 18:24:25 +0100 (CET)
-Received: from localhost ([::1]:43876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4EEF2E285E
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 18:26:21 +0100 (CET)
+Received: from localhost ([::1]:47244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksULg-0008L0-Un
-	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 12:24:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46202)
+	id 1ksUNY-0001Rg-VF
+	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 12:26:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ksUKP-0006bn-4n
- for qemu-devel@nongnu.org; Thu, 24 Dec 2020 12:23:05 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:43055)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ksUKX-0006yi-2h
+ for qemu-devel@nongnu.org; Thu, 24 Dec 2020 12:23:13 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:58845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ksUKN-0007cF-9L
- for qemu-devel@nongnu.org; Thu, 24 Dec 2020 12:23:04 -0500
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ksUKV-0007er-H3
+ for qemu-devel@nongnu.org; Thu, 24 Dec 2020 12:23:12 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-540-4mVpu6rmNoqny9GP02pPSg-1; Thu, 24 Dec 2020 12:22:58 -0500
-X-MC-Unique: 4mVpu6rmNoqny9GP02pPSg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-342-BJrDzNZ-PXSzJfMgdRz66w-1; Thu, 24 Dec 2020 12:23:06 -0500
+X-MC-Unique: BJrDzNZ-PXSzJfMgdRz66w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA604800D55;
- Thu, 24 Dec 2020 17:22:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15C4CDF8A4;
+ Thu, 24 Dec 2020 17:23:05 +0000 (UTC)
 Received: from bahia.lan (ovpn-113-185.ams2.redhat.com [10.36.113.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BC3910016F4;
- Thu, 24 Dec 2020 17:22:56 +0000 (UTC)
-Subject: [PATCH v3 2/3] ppc: Simplify reverse dependencies of POWERNV and
- PSERIES on XICS and XIVE
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D8D551A8A9;
+ Thu, 24 Dec 2020 17:23:03 +0000 (UTC)
+Subject: [PATCH v3 3/3] pnv: Fix reverse dependency on PCI express root ports
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 24 Dec 2020 18:22:55 +0100
-Message-ID: <160883057560.253005.4206568349917633920.stgit@bahia.lan>
+Date: Thu, 24 Dec 2020 18:23:03 +0100
+Message-ID: <160883058299.253005.342913177952681375.stgit@bahia.lan>
 In-Reply-To: <160883056791.253005.14924294027763955653.stgit@bahia.lan>
 References: <160883056791.253005.14924294027763955653.stgit@bahia.lan>
 User-Agent: StGit/0.21
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=UTF-8
@@ -73,82 +70,65 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Have PSERIES to select XICS and XIVE, and directly check PSERIES
-in hw/intc/meson.build to enable build of the XICS and XIVE sPAPR
-backends, like POWERNV already does. This allows to get rid of the
-intermediate XICS_SPAPR and XIVE_SPAPR.
+qemu-system-ppc64 built with --without-default-devices crashes:
+
+Type 'pnv-phb4-root-port' is missing its parent 'pcie-root-port-base'
+Aborted (core dumped)
+
+Have POWERNV to select PCIE_PORT. This is done through a
+new PCI_POWERNV config in hw/pci-host/Kconfig since POWERNV
+doesn't have a direct dependency on PCI. For this reason,
+PCI_EXPRESS and MSI_NONBROKEN are also moved under
+PCI_POWERNV.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/intc/Kconfig     |    4 +---
- hw/intc/meson.build |    3 +--
- hw/ppc/Kconfig      |   14 ++------------
- 3 files changed, 4 insertions(+), 17 deletions(-)
+ hw/pci-host/Kconfig     |    5 +++++
+ hw/pci-host/meson.build |    2 +-
+ hw/ppc/Kconfig          |    3 +--
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index fa2695e58d56..c18d11142a8f 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -32,11 +32,9 @@ config ARM_GIC_KVM
-=20
- config XICS
+diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+index 036a61877a73..eb03f0489d08 100644
+--- a/hw/pci-host/Kconfig
++++ b/hw/pci-host/Kconfig
+@@ -60,3 +60,8 @@ config PCI_BONITO
+     select PCI
+     select UNIMP
      bool
--    depends on POWERNV || PSERIES
++
++config PCI_POWERNV
++    select PCI_EXPRESS
++    select MSI_NONBROKEN
++    select PCIE_PORT
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+index e6d1b896848c..da9d1a9964a8 100644
+--- a/hw/pci-host/meson.build
++++ b/hw/pci-host/meson.build
+@@ -23,7 +23,7 @@ pci_ss.add(when: 'CONFIG_VERSATILE_PCI', if_true: files('=
+versatile.c'))
 =20
--config XICS_SPAPR
-+config XIVE
-     bool
--    select XICS
+ softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
 =20
- config ALLWINNER_A10_PIC
-     bool
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index b6c9218908e3..53cba115690f 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -53,8 +53,7 @@ specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: file=
-s('sifive_plic.c'))
- specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
- specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XICS'],
- =09=09if_true: files('xics_kvm.c'))
--specific_ss.add(when: 'CONFIG_XICS_SPAPR', if_true: files('xics_spapr.c'))
-+specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('xics_spapr.c', 'sp=
-apr_xive.c'))
- specific_ss.add(when: 'CONFIG_XIVE', if_true: files('xive.c'))
- specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
- =09=09if_true: files('spapr_xive_kvm.c'))
--specific_ss.add(when: 'CONFIG_XIVE_SPAPR', if_true: files('spapr_xive.c'))
+-specific_ss.add(when: 'CONFIG_POWERNV', if_true: files(
++specific_ss.add(when: 'CONFIG_PCI_POWERNV', if_true: files(
+   'pnv_phb3.c',
+   'pnv_phb3_msi.c',
+   'pnv_phb3_pbcq.c',
 diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index e35710c7c368..a213994ebf5d 100644
+index a213994ebf5d..d11dc30509df 100644
 --- a/hw/ppc/Kconfig
 +++ b/hw/ppc/Kconfig
-@@ -7,8 +7,8 @@ config PSERIES
-     select PCI
-     select SPAPR_VSCSI
-     select VFIO if LINUX   # needed by spapr_pci_vfio.c
--    select XICS_SPAPR
--    select XIVE_SPAPR
-+    select XICS
-+    select XIVE
-     select MSI_NONBROKEN
+@@ -29,8 +29,7 @@ config POWERNV
+     select XICS
+     select XIVE
      select FDT_PPC
-     select CHRP_NVRAM
-@@ -129,16 +129,6 @@ config VIRTEX
-     select XILINX_ETHLITE
-     select FDT_PPC
+-    select PCI_EXPRESS
+-    select MSI_NONBROKEN
++    select PCI_POWERNV
 =20
--config XIVE
--    bool
--    depends on POWERNV || PSERIES
--
--config XIVE_SPAPR
--    bool
--    default y
--    depends on PSERIES
--    select XIVE
--
- # Only used by 64-bit targets
- config FW_CFG_PPC
+ config PPC405
      bool
 
 
