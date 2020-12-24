@@ -2,55 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EEF2E285E
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 18:26:21 +0100 (CET)
-Received: from localhost ([::1]:47244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1055F2E2876
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 18:56:12 +0100 (CET)
+Received: from localhost ([::1]:57164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksUNY-0001Rg-VF
-	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 12:26:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46258)
+	id 1ksUqQ-0007oZ-Km
+	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 12:56:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ksUKX-0006yi-2h
- for qemu-devel@nongnu.org; Thu, 24 Dec 2020 12:23:13 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:58845)
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1ksUpP-0007O7-7N
+ for qemu-devel@nongnu.org; Thu, 24 Dec 2020 12:55:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ksUKV-0007er-H3
- for qemu-devel@nongnu.org; Thu, 24 Dec 2020 12:23:12 -0500
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1ksUpM-0003j2-0V
+ for qemu-devel@nongnu.org; Thu, 24 Dec 2020 12:55:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608832503;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ckZy26XJkoskhjMUieOzT+Jdw0tSsf6MFkyUrDkYOZQ=;
+ b=LQxTcOUwwkqgIgPECNiN1Tae3zP2VvqkPVnivFEB8pNcoM/m6bNM8Co4/Mwy/DKPsj0EHV
+ Np5GoWekLA2nR9bVMHBLODHl+codRkTlbOzo+lxt1QLw/8YTgxafFYxiKzzCepXdLosuD2
+ kYGw8Eh7ga9168S7ihCaCt1zyGbcOV4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-BJrDzNZ-PXSzJfMgdRz66w-1; Thu, 24 Dec 2020 12:23:06 -0500
-X-MC-Unique: BJrDzNZ-PXSzJfMgdRz66w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-590-Zo114LkGNbedbLrDY0m6jA-1; Thu, 24 Dec 2020 12:54:58 -0500
+X-MC-Unique: Zo114LkGNbedbLrDY0m6jA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15C4CDF8A4;
- Thu, 24 Dec 2020 17:23:05 +0000 (UTC)
-Received: from bahia.lan (ovpn-113-185.ams2.redhat.com [10.36.113.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D8D551A8A9;
- Thu, 24 Dec 2020 17:23:03 +0000 (UTC)
-Subject: [PATCH v3 3/3] pnv: Fix reverse dependency on PCI express root ports
-From: Greg Kurz <groug@kaod.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76B77C281;
+ Thu, 24 Dec 2020 17:54:57 +0000 (UTC)
+Received: from f32-work.redhat.com (ovpn-112-240.ams2.redhat.com
+ [10.36.112.240])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FF5F57;
+ Thu, 24 Dec 2020 17:54:55 +0000 (UTC)
+From: Mauro Matteo Cascella <mcascell@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 24 Dec 2020 18:23:03 +0100
-Message-ID: <160883058299.253005.342913177952681375.stgit@bahia.lan>
-In-Reply-To: <160883056791.253005.14924294027763955653.stgit@bahia.lan>
-References: <160883056791.253005.14924294027763955653.stgit@bahia.lan>
-User-Agent: StGit/0.21
+Subject: [PATCH] hw/scsi/megasas: check for NULL frame in
+ megasas_command_cancelled()
+Date: Thu, 24 Dec 2020 18:54:41 +0100
+Message-Id: <20201224175441.67538-1-mcascell@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mcascell@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,73 +77,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: cwmyung@snu.ac.kr, hare@suse.com, mcascell@redhat.com,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu-system-ppc64 built with --without-default-devices crashes:
+Ensure that 'cmd->frame' is not NULL before accessing the 'header' field.
+This check prevents a potential NULL pointer dereference issue.
 
-Type 'pnv-phb4-root-port' is missing its parent 'pcie-root-port-base'
-Aborted (core dumped)
-
-Have POWERNV to select PCIE_PORT. This is done through a
-new PCI_POWERNV config in hw/pci-host/Kconfig since POWERNV
-doesn't have a direct dependency on PCI. For this reason,
-PCI_EXPRESS and MSI_NONBROKEN are also moved under
-PCI_POWERNV.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=1910346
+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
 ---
- hw/pci-host/Kconfig     |    5 +++++
- hw/pci-host/meson.build |    2 +-
- hw/ppc/Kconfig          |    3 +--
- 3 files changed, 7 insertions(+), 3 deletions(-)
+ hw/scsi/megasas.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index 036a61877a73..eb03f0489d08 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -60,3 +60,8 @@ config PCI_BONITO
-     select PCI
-     select UNIMP
-     bool
-+
-+config PCI_POWERNV
-+    select PCI_EXPRESS
-+    select MSI_NONBROKEN
-+    select PCIE_PORT
-diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
-index e6d1b896848c..da9d1a9964a8 100644
---- a/hw/pci-host/meson.build
-+++ b/hw/pci-host/meson.build
-@@ -23,7 +23,7 @@ pci_ss.add(when: 'CONFIG_VERSATILE_PCI', if_true: files('=
-versatile.c'))
-=20
- softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
-=20
--specific_ss.add(when: 'CONFIG_POWERNV', if_true: files(
-+specific_ss.add(when: 'CONFIG_PCI_POWERNV', if_true: files(
-   'pnv_phb3.c',
-   'pnv_phb3_msi.c',
-   'pnv_phb3_pbcq.c',
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index a213994ebf5d..d11dc30509df 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -29,8 +29,7 @@ config POWERNV
-     select XICS
-     select XIVE
-     select FDT_PPC
--    select PCI_EXPRESS
--    select MSI_NONBROKEN
-+    select PCI_POWERNV
-=20
- config PPC405
-     bool
-
+diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+index 1a5fc5857d..77510e120c 100644
+--- a/hw/scsi/megasas.c
++++ b/hw/scsi/megasas.c
+@@ -1893,7 +1893,7 @@ static void megasas_command_cancelled(SCSIRequest *req)
+ {
+     MegasasCmd *cmd = req->hba_private;
+ 
+-    if (!cmd) {
++    if (!cmd || !cmd->frame) {
+         return;
+     }
+     cmd->frame->header.cmd_status = MFI_STAT_SCSI_IO_FAILED;
+-- 
+2.29.2
 
 
