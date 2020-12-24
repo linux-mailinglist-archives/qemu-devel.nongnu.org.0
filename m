@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709F92E240D
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 04:24:03 +0100 (CET)
-Received: from localhost ([::1]:53086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B2F2E240F
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 04:26:28 +0100 (CET)
+Received: from localhost ([::1]:59442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksHEQ-0006WG-G6
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 22:24:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40866)
+	id 1ksHGl-0000tv-Aj
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 22:26:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ksH91-0001M6-K4
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:27 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:54799)
+ id 1ksH96-0001WY-Kd
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:32 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:56103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ksH90-0003bm-1i
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:27 -0500
+ id 1ksH94-0003db-Vf
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:32 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 9A47F580378;
- Wed, 23 Dec 2020 22:18:25 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 8089558037A;
+ Wed, 23 Dec 2020 22:18:30 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 23 Dec 2020 22:18:25 -0500
+ by compute6.internal (MEProxy); Wed, 23 Dec 2020 22:18:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=lwQBPSZsDvt18
- JuHo+yXJWbMqTcbBHyGLTFqhtMJHBg=; b=DpjNeHS5OG+tLSuKs7vwW2teHCwQr
- cYP63oIdlmHZVa8N3kEXMiChHAanfnIDbTUQry3tiU6aZzo39fG+OHdjQ8kqK9dF
- rgJ/gPizQ7w0x0xr7noAcBD/mynb8cTDYXPwTDYWY9LI7ACQ5x5tEvY3uvpUcn9s
- az2wns/SpYRwHbgvqcTsq+EFlsz2x6skL0gk2b5PDcBYLkDh/ept7V3BzZQI7EYw
- K3jsGa2A/LY1y8l2Li5bj7lbeDSJ713liSk4TlDwoikumb18r7tOCOqa6uYiFOe0
- aQOk3LsetcMeE8EwG+XMB6NpWvAKZH28wNnyeXWi6My58OUuQ/v1IrsTA==
+ :mime-version:content-transfer-encoding; s=fm1; bh=qqFEscVG+bgxX
+ D41y6VOa/Ihx+II+1KvEVbjUp3LV4E=; b=ylu/DWTp1xNp8FEwUWyCo6Ag2LX2z
+ qXKoZhr7gXhjvA66heXHis2Q6nIuotB5cHWXWSjKCaCLhtWnMUgk/yfsxNT5+zE0
+ DD2w7dE97/ntI0QL40p/4zyU7A8royJ/R8RlBg5yCei9jUpVHpH6rIEwCC9dtF2J
+ C8xs23qMGhprqHdPXKx1C/jZafPNu63zyWP/sEaj3dYE+KKKHV1di+u4MxNuXX1+
+ 8JX7FpkEVj71+24KLe/GEk2K2d/h8WX3TEk6npw/FMehGUKzfkoU7p3QL7PYhc7R
+ GOHOK37hdue9aENyBlfuyD6O+Q8Oh72iAyjNBiCo3AjCqmupmnwyigiEA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=lwQBPSZsDvt18JuHo+yXJWbMqTcbBHyGLTFqhtMJHBg=; b=piE6eIbA
- ceMjIm5xEL2dnEQfH3kkY4OOfIDHjV902HjdDJOK1UA9XLCPOgVXCt1Q4MJudrhZ
- r3vU1fin0V2NdNHn+DeKUPso95UDZB8QxsRXPSgDeQLHldK64GQI3zuEyOXYdREU
- GO/o2EfI1xUMffQK8ZJOqpiA2A6ah3q+ynPi036a8D8wb6AVz8itIXdOddEmpj5L
- nrI8A1zHuW/yFydUBcAEG/qpxVtFNAgN802xTR4uSM9/nhU4DZFNTL/XT/84Aw4D
- XS5EnggJQst+rV3wRSrCsU/4xJTF5oi/BIjOAy146bZ/RMbXt+mc7NL4sEHpGCBP
- /t2NPoL0d02NIQ==
-X-ME-Sender: <xms:gQjkX6Hg5iGTo2-RlEeAPO-XylmbbOPYwfMyW26jg1B11jbQoPUXIg>
- <xme:gQjkX7VmgNcEU3KQ1SM2FGGxh44Vd7VwH88z-c7g8dFCqK-oYizlitFcGfFPqsIkC
- 80ncsPijOkX1uNvHb8>
+ fm1; bh=qqFEscVG+bgxXD41y6VOa/Ihx+II+1KvEVbjUp3LV4E=; b=RWdPskv7
+ lnWghvYbek9srSlqwdmSXXtO22LGnrMLONSfwZ//o4dOEdQ4KMAt2kGSakOQcr87
+ 78nGaarnjgKqXuQDrjPL6seF8OtU/nj0a9ziDWgcdH8WCypcrvxMvQ6BPgOgyPCa
+ MACKiIrSVhYeyN39KzwQCXiRONAL9XMw5IkKGVOsX8D3gFBVfm2p58wmEoXdvP8I
+ E7QqgrLltyvijnV2ONFoMThKShBe458HKnBvU+35zo8B/+cdyicb7jvMcH8kmQso
+ 4uBRzAnyiRtF9n0bHvAS1egACSLpNpbGv/pLyC48S/xy/HAALSH+qLs05y2cdHfA
+ FflPZCzdUt/dFw==
+X-ME-Sender: <xms:hgjkX6vOVJIA40MRTqiBAFiSxCuU4smveL2m0_Omw6atmiUgOF40BA>
+ <xme:hgjkX_e8Y5dy5Xqi8w2uRBS5xpuFUdk8y8Gzt_xy9o6TuS9w5IIvvP6datSvVvCtU
+ 8UuMBMzpap3QLsBIbw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtkedgheejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,20 +54,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtkedgheejucetufdoteggod
  nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
  ftrfgrthhtvghrnhepjeeihffgteelkeelffdukedtheevudejvdegkeekjeefhffhhfet
  udetgfdtffeunecukfhppedvvdefrddutdegrddvuddvrdehleenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehf
+ hiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehf
  lhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:gQjkX0KxLroGhviYMB9QPB-ZkSV0CDBBVKT7YpoOMbqXsb2g90e8NA>
- <xmx:gQjkX0Ex3iKXp5tarL2coAElKE62uBw2PuLkKOinaH7brbwqr92x5A>
- <xmx:gQjkXwUjC3sKjRsQw_iXaLS8JL3HA9sweaA1OviotmwnX3q-kKC0TQ>
- <xmx:gQjkX-z8Z6HVoIItICMz_nrL9ea7gT4fzkuDtn-aL1OBgiKO-4pd5P1vls0>
+X-ME-Proxy: <xmx:hgjkX1y3UW44oi13fRcP_1a3Jle9zwa_PK91MctZZsbE4KHiGPwaNA>
+ <xmx:hgjkX1MmO3ltQs6qsjDn0zYh74-Muayth1YWBGGlWUjXeZ6eOLq5Rg>
+ <xmx:hgjkX6-nZU3YnmwOR9U_PBkVSHo0uvgr_Q6awZU2keC0gnIrNIw0bw>
+ <xmx:hgjkX-ZHwZaKyUxyhr_WlzbXbQ43MW1kDn3G0wgRHq_QbxVHMHwuq1E0EjQ>
 Received: from localhost.localdomain (unknown [223.104.212.59])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0F5DA1080063;
- Wed, 23 Dec 2020 22:18:20 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0E1E51080057;
+ Wed, 23 Dec 2020 22:18:25 -0500 (EST)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/8] hw/pci-host/bonito: Fixup IRQ mapping
-Date: Thu, 24 Dec 2020 11:17:45 +0800
-Message-Id: <20201224031750.52146-4-jiaxun.yang@flygoat.com>
+Subject: [PATCH v3 4/8] hw/pci-host/bonito: Fixup pci.lomem mapping
+Date: Thu, 24 Dec 2020 11:17:46 +0800
+Message-Id: <20201224031750.52146-5-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201224031750.52146-1-jiaxun.yang@flygoat.com>
 References: <20201224031750.52146-1-jiaxun.yang@flygoat.com>
@@ -102,84 +102,51 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Accroading to arch/mips/pci/fixup-fuloong2e.c in kernel,
-despites south bridge IRQs needs special care, all other
-IRQ pins are mapped by 'LOONGSON_IRQ_BASE + 25 + pin'.
-
-As south bridge IRQs are all handled by ISA bus, we can
-make a simple direct mapping.
+The original mapping had wrong base address.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
-v3: Define BONITO_PCI_IRQ_BASE for readability (f4bug)
----
- hw/pci-host/bonito.c | 30 +++++++-----------------------
- 1 file changed, 7 insertions(+), 23 deletions(-)
+ hw/pci-host/bonito.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index a99eced065..3fad470fc6 100644
+index 3fad470fc6..737ee131e1 100644
 --- a/hw/pci-host/bonito.c
 +++ b/hw/pci-host/bonito.c
-@@ -62,6 +62,9 @@
- #define DPRINTF(fmt, ...)
- #endif
- 
-+/* PCI slots IRQ pins start position */
-+#define BONITO_PCI_IRQ_BASE         25
-+
- /* from linux soure code. include/asm-mips/mips-boards/bonito64.h*/
- #define BONITO_BOOT_BASE        0x1fc00000
- #define BONITO_BOOT_SIZE        0x00100000
-@@ -546,19 +549,16 @@ static const MemoryRegionOps bonito_spciconf_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
--#define BONITO_IRQ_BASE 32
--
- static void pci_bonito_set_irq(void *opaque, int irq_num, int level)
+@@ -85,9 +85,8 @@
+ #define BONITO_PCILO_BASE_VA    0xb0000000
+ #define BONITO_PCILO_SIZE       0x0c000000
+ #define BONITO_PCILO_TOP        (BONITO_PCILO_BASE + BONITO_PCILO_SIZE - 1)
+-#define BONITO_PCILO0_BASE      0x10000000
+-#define BONITO_PCILO1_BASE      0x14000000
+-#define BONITO_PCILO2_BASE      0x18000000
++#define BONITO_PCILOx_BASE(x)   (BONITO_PCILO_BASE + BONITO_PCILOx_SIZE * x)
++#define BONITO_PCILOx_SIZE      0x04000000
+ #define BONITO_PCIHI_BASE       0x20000000
+ #define BONITO_PCIHI_SIZE       0x60000000
+ #define BONITO_PCIHI_TOP        (BONITO_PCIHI_BASE + BONITO_PCIHI_SIZE - 1)
+@@ -610,7 +609,7 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
  {
-     BonitoState *s = opaque;
-     qemu_irq *pic = s->pic;
-     PCIBonitoState *bonito_state = s->pci_dev;
--    int internal_irq = irq_num - BONITO_IRQ_BASE;
+     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
+     BonitoState *bs = BONITO_PCI_HOST_BRIDGE(dev);
+-    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 3);
++    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 1);
  
--    if (bonito_state->regs[BONITO_INTEDGE] & (1 << internal_irq)) {
-+    if (bonito_state->regs[BONITO_INTEDGE] & (1 << irq_num)) {
-         qemu_irq_pulse(*pic);
-     } else {   /* level triggered */
--        if (bonito_state->regs[BONITO_INTPOL] & (1 << internal_irq)) {
-+        if (bonito_state->regs[BONITO_INTPOL] & (1 << irq_num)) {
-             qemu_irq_raise(*pic);
-         } else {
-             qemu_irq_lower(*pic);
-@@ -566,25 +566,9 @@ static void pci_bonito_set_irq(void *opaque, int irq_num, int level)
+     memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCIHI_SIZE);
+     phb->bus = pci_register_root_bus(dev, "pci",
+@@ -622,9 +621,10 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
+         char *name = g_strdup_printf("pci.lomem%zu", i);
+ 
+         memory_region_init_alias(&pcimem_lo_alias[i], NULL, name,
+-                                 &bs->pci_mem, i * 64 * MiB, 64 * MiB);
++                                 &bs->pci_mem, BONITO_PCILOx_BASE(i),
++                                 BONITO_PCILOx_SIZE);
+         memory_region_add_subregion(get_system_memory(),
+-                                    BONITO_PCILO_BASE + i * 64 * MiB,
++                                    BONITO_PCILOx_BASE(i),
+                                     &pcimem_lo_alias[i]);
+         g_free(name);
      }
- }
- 
--/* map the original irq (0~3) to bonito irq (16~47, but 16~31 are unused) */
--static int pci_bonito_map_irq(PCIDevice *pci_dev, int irq_num)
-+static int pci_bonito_map_irq(PCIDevice *pci_dev, int pin)
- {
--    int slot;
--
--    slot = (pci_dev->devfn >> 3);
--
--    switch (slot) {
--    case 5:   /* FULOONG2E_VIA_SLOT, SouthBridge, IDE, USB, ACPI, AC97, MC97 */
--        return irq_num % 4 + BONITO_IRQ_BASE;
--    case 6:   /* FULOONG2E_ATI_SLOT, VGA */
--        return 4 + BONITO_IRQ_BASE;
--    case 7:   /* FULOONG2E_RTL_SLOT, RTL8139 */
--        return 5 + BONITO_IRQ_BASE;
--    case 8 ... 12: /* PCI slot 1 to 4 */
--        return (slot - 8 + irq_num) + 6 + BONITO_IRQ_BASE;
--    default:  /* Unknown device, don't do any translation */
--        return irq_num;
--    }
-+    return BONITO_PCI_IRQ_BASE + pin;
- }
- 
- static void bonito_reset(void *opaque)
 -- 
 2.29.2
 
