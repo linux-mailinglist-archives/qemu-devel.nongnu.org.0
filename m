@@ -2,67 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2389C2E285A
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 18:22:57 +0100 (CET)
-Received: from localhost ([::1]:36544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 286232E285C
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 18:24:25 +0100 (CET)
+Received: from localhost ([::1]:43838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksUKG-0005Ar-6a
-	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 12:22:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45708)
+	id 1ksULg-0008K1-8h
+	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 12:24:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ksUIA-00040i-LD
- for qemu-devel@nongnu.org; Thu, 24 Dec 2020 12:20:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39334)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ksUI8-0007Ml-Jp
- for qemu-devel@nongnu.org; Thu, 24 Dec 2020 12:20:46 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ksUI6-0005V4-Gd
- for <qemu-devel@nongnu.org>; Thu, 24 Dec 2020 17:20:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7929D2E804A
- for <qemu-devel@nongnu.org>; Thu, 24 Dec 2020 17:20:42 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 24 Dec 2020 17:09:13 -0000
-From: Mauro Matteo Cascella <1909247@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ksUKN-0006Yg-Ug
+ for qemu-devel@nongnu.org; Thu, 24 Dec 2020 12:23:03 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:46618)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1ksUKL-0007bc-SC
+ for qemu-devel@nongnu.org; Thu, 24 Dec 2020 12:23:03 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-rEkQyie9OmmcInGxtxxi5w-1; Thu, 24 Dec 2020 12:22:51 -0500
+X-MC-Unique: rEkQyie9OmmcInGxtxxi5w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B8C1800D55;
+ Thu, 24 Dec 2020 17:22:50 +0000 (UTC)
+Received: from bahia.lan (ovpn-113-185.ams2.redhat.com [10.36.113.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC0596F927;
+ Thu, 24 Dec 2020 17:22:48 +0000 (UTC)
+Subject: [PATCH v3 1/3] ppc: Fix build with --without-default-devices
+From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: cve qemu security
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: mauro-cascella
-X-Launchpad-Bug-Reporter: Mauro Matteo Cascella (mauro-cascella)
-X-Launchpad-Bug-Modifier: Mauro Matteo Cascella (mauro-cascella)
-References: <160882932286.4370.15587232403500958955.malonedeb@wampee.canonical.com>
-Message-Id: <160882975384.4622.10860504954508467713.malone@wampee.canonical.com>
-Subject: [Bug 1909247] Re: QEMU: use after free vulnerability in esp_do_dma()
- in hw/scsi/esp.c
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 25f1dfea87c7cca1fca3e9dd3db4e5fecb0cc5a3
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Date: Thu, 24 Dec 2020 18:22:47 +0100
+Message-ID: <160883056791.253005.14924294027763955653.stgit@bahia.lan>
+User-Agent: StGit/0.21
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,61 +63,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1909247 <1909247@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1909996
+Linking of the qemu-system-ppc64 fails on a POWER9 host when
+--without-default-devices is passed to configure:
 
--- =
+$ ./configure --without-default-devices \
+              --target-list=3Dppc64-softmmu && make
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1909247
+...
 
-Title:
-  QEMU: use after free vulnerability in esp_do_dma() in hw/scsi/esp.c
+libqemu-ppc64-softmmu.fa.p/hw_ppc_e500.c.o: In function `ppce500_init_mpic_=
+kvm':
+/home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/e500.c:777: undefined referen=
+ce to `kvm_openpic_connect_vcpu'
+libqemu-ppc64-softmmu.fa.p/hw_ppc_spapr_irq.c.o: In function `spapr_irq_che=
+ck':
+/home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/spapr_irq.c:189: undefined re=
+ference to `xics_kvm_has_broken_disconnect'
+libqemu-ppc64-softmmu.fa.p/hw_intc_spapr_xive.c.o: In function `spapr_xive_=
+post_load':
+/home/greg/Work/qemu/qemu-ppc/build/../hw/intc/spapr_xive.c:530: undefined =
+reference to `kvmppc_xive_post_load'
 
-Status in QEMU:
-  New
+... and tons of other symbols belonging to the KVM backend of the
+openpic, XICS and XIVE interrupt controllers.
 
-Bug description:
-  A use-after-free vulnerability was found in the am53c974 SCSI host bus
-  adapter emulation of QEMU. It could occur in the esp_do_dma() function
-  in hw/scsi/esp.c while handling the 'Information Transfer' command
-  (CMD_TI). A privileged guest user may abuse this flaw to crash the
-  QEMU process on the host, resulting in a denial of service or
-  potential code execution with the privileges of the QEMU process.
+It turns out that OPENPIC_KVM, XICS_KVM and XIVE_KVM are marked
+to depend on KVM but this has no effect when minikconf runs in
+allnoconfig mode. Such reverse dependencies should rather be
+handled with a 'select' statement, eg.
 
-  This issue was reported by Cheolwoo Myung (Seoul National University).
+config OPENPIC
+    select OPENPIC_KVM if KVM
 
-  Original report:
-  Using hypervisor fuzzer, hyfuzz, I found a use-after-free issue in
-  am53c974 emulator of QEMU enabled ASan.
+or even better by getting rid of the intermediate _KVM config
+and directly checking CONFIG_KVM in the meson.build file:
 
-  It occurs while transferring information, as it does not check the
-  buffer to be transferred.
+specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_OPENPIC'],
+=09=09if_true: files('openpic_kvm.c'))
 
-  A malicious guest user/process could use this flaw to crash the QEMU
-  process resulting in DoS scenario.
+Go for the latter with OPENPIC, XICS and XIVE.
 
-  To reproduce this issue, please run the QEMU with the following command
-  line.
+This went unnoticed so far because CI doesn't test the build with
+--without-default-devices and KVM enabled on a POWER host.
 
-  # To enable ASan option, please set configuration with the following
-  $ ./configure --target-list=3Di386-softmmu --disable-werror --enable-sani=
-tizers
-  $ make
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
 
-  # To reproduce this issue, please run the QEMU process with the following=
- command line
-  $ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3D=
-disk,format=3Draw \
-  -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk \
-  -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
+The various comments motivated me enough for another round,
+which is basically to split the cleanup out to a separate
+patch and use CONFIG_PSERIES in hw/intc/meson.build as
+suggested by Cedric.
 
-  Please find attached the disk images to reproduce this issue.
+v3: - move cleanup to a separate patch
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1909247/+subscriptions
+v2: - check CONFIG_KVM in the meson.build as suggested by Paolo
+---
+ hw/intc/Kconfig     |   10 ----------
+ hw/intc/meson.build |    9 ++++++---
+ hw/ppc/Kconfig      |    5 -----
+ 3 files changed, 6 insertions(+), 18 deletions(-)
+
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index 468d548ca771..fa2695e58d56 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -30,11 +30,6 @@ config ARM_GIC_KVM
+     default y
+     depends on ARM_GIC && KVM
+=20
+-config OPENPIC_KVM
+-    bool
+-    default y
+-    depends on OPENPIC && KVM
+-
+ config XICS
+     bool
+     depends on POWERNV || PSERIES
+@@ -43,11 +38,6 @@ config XICS_SPAPR
+     bool
+     select XICS
+=20
+-config XICS_KVM
+-    bool
+-    default y
+-    depends on XICS && KVM
+-
+ config ALLWINNER_A10_PIC
+     bool
+=20
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index 68da782ad2c5..b6c9218908e3 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -39,7 +39,8 @@ specific_ss.add(when: 'CONFIG_LOONGSON_LIOINTC', if_true:=
+ files('loongson_lioint
+ specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_gic.c'))
+ specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_intc.c'))
+ specific_ss.add(when: 'CONFIG_OMPIC', if_true: files('ompic.c'))
+-specific_ss.add(when: 'CONFIG_OPENPIC_KVM', if_true: files('openpic_kvm.c'=
+))
++specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_OPENPIC'],
++=09=09if_true: files('openpic_kvm.c'))
+ specific_ss.add(when: 'CONFIG_POWERNV', if_true: files('xics_pnv.c', 'pnv_=
+xive.c'))
+ specific_ss.add(when: 'CONFIG_PPC_UIC', if_true: files('ppc-uic.c'))
+ specific_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_ic.c', 'bcm2=
+836_control.c'))
+@@ -50,8 +51,10 @@ specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_i=
+ntc.c'))
+ specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clint.=
+c'))
+ specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'=
+))
+ specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
+-specific_ss.add(when: 'CONFIG_XICS_KVM', if_true: files('xics_kvm.c'))
++specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XICS'],
++=09=09if_true: files('xics_kvm.c'))
+ specific_ss.add(when: 'CONFIG_XICS_SPAPR', if_true: files('xics_spapr.c'))
+ specific_ss.add(when: 'CONFIG_XIVE', if_true: files('xive.c'))
+-specific_ss.add(when: 'CONFIG_XIVE_KVM', if_true: files('spapr_xive_kvm.c'=
+))
++specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
++=09=09if_true: files('spapr_xive_kvm.c'))
+ specific_ss.add(when: 'CONFIG_XIVE_SPAPR', if_true: files('spapr_xive.c'))
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index 982d55f5875c..e35710c7c368 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -139,11 +139,6 @@ config XIVE_SPAPR
+     depends on PSERIES
+     select XIVE
+=20
+-config XIVE_KVM
+-    bool
+-    default y
+-    depends on XIVE_SPAPR && KVM
+-
+ # Only used by 64-bit targets
+ config FW_CFG_PPC
+     bool
+
+
 
