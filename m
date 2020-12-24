@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32982E25F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 11:36:16 +0100 (CET)
-Received: from localhost ([::1]:56664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2642E25F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 11:36:38 +0100 (CET)
+Received: from localhost ([::1]:57464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksNyi-0004W4-0j
-	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 05:36:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52652)
+	id 1ksNz3-0004rV-Gf
+	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 05:36:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1ksNws-0003bi-7S; Thu, 24 Dec 2020 05:34:22 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:53995)
+ id 1ksNxg-0003qA-DV; Thu, 24 Dec 2020 05:35:14 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:60723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1ksNwp-0002FK-1B; Thu, 24 Dec 2020 05:34:21 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.3])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B1120769ED50;
- Thu, 24 Dec 2020 11:34:15 +0100 (CET)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ id 1ksNxb-0002ee-9w; Thu, 24 Dec 2020 05:35:12 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.89])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 47040769EE12;
+ Thu, 24 Dec 2020 11:35:04 +0100 (CET)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 24 Dec
- 2020 11:34:14 +0100
+ 2020 11:35:03 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006da33c1e5-5133-42f8-a184-d86475672b79,
+ (GARM-98R002d71fecd8-4f20-4e11-960a-354aa7f7dfb9,
  1EADCDB2D537A6DD3E80F364D97246EF8095A17C) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH v2 1/2] ppc: Fix build with --without-default-devices
-To: Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
- <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v2 2/2] pnv: Fix reverse dependency on PCI express root
+ ports
+To: Greg Kurz <groug@kaod.org>, <qemu-devel@nongnu.org>
 References: <160875160729.98237.3219319022197329254.stgit@bahia.lan>
- <490464a3-d8a6-1814-2a5c-681eca3b96fa@kaod.org>
- <e84ce18f-5d8d-7ac5-3b3a-0dd9f0c939d1@redhat.com>
+ <160875161547.98237.12463124171004809427.stgit@bahia.lan>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <8bd28b65-35d7-8913-9cd9-27798ab48605@kaod.org>
-Date: Thu, 24 Dec 2020 11:34:09 +0100
+Message-ID: <50a0a3bc-6e11-43db-48dd-851fb43f052c@kaod.org>
+Date: Thu, 24 Dec 2020 11:35:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <e84ce18f-5d8d-7ac5-3b3a-0dd9f0c939d1@redhat.com>
+In-Reply-To: <160875161547.98237.12463124171004809427.stgit@bahia.lan>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: a021be20-8d79-43ce-9cad-24b08620066f
-X-Ovh-Tracer-Id: 7973341669018995619
+X-Ovh-Tracer-GUID: face9104-b9fd-4f28-9d6c-6d67539ae78c
+X-Ovh-Tracer-Id: 7987133943093037987
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvddtledgudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvddtledgudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
 Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
  helo=smtpout1.mo529.mail-out.ovh.net
 X-Spam_score_int: -43
@@ -72,47 +71,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/24/20 11:29 AM, Paolo Bonzini wrote:
-> On 24/12/20 09:26, Cédric Le Goater wrote:
->> In hw/ppc/Kconfig :
->>
->>    config POWERNV
->>        ...
->>        select XICS
->>        select XIVE
->>
->>    config PSERIES
->>        ...
->>        select XICS_SPAPR
->>        select XIVE_SPAPR
->>
->> and in hw/intc/meson.build :
->>
->>    specific_ss.add(when: 'CONFIG_POWERNV', if_true: files('xics_pnv.c', 'pnv_xive.c'))
->>    ...
->>    specific_ss.add(when: 'CONFIG_XICS_SPAPR', if_true: files('xics_spapr.c'))
->>    specific_ss.add(when: 'CONFIG_XIVE_SPAPR', if_true: files('spapr_xive.c'))
->>    ...
->>
->>
->> Couldn't we simply select XICS and XIVE in the PSERIES machine and
->> compile 'xics_spapr.c' and 'spapr_xive.c'  when CONFIG_PSERIES is
->> defined ? This to be in sync with the POWERNV machine.
->> or introduce 'CONFIG_XICS_PNV 'CONFIG_XIVE_PNV' ?
+On 12/23/20 8:26 PM, Greg Kurz wrote:
+> qemu-system-ppc64 built with --without-default-devices crashes:
 > 
-> I think just using CONFIG_PSERIES is the simplest.  But it's just a cleanup, not a bugfix.
-
-
-yes. No big deal and it can come later.
+> Type 'pnv-phb4-root-port' is missing its parent 'pcie-root-port-base'
+> Aborted (core dumped)
+> 
+> Have POWERNV to select PCIE_PORT. This is done through a
+> new PCI_POWERNV config in hw/pci-host/Kconfig since POWERNV
+> doesn't have a direct dependency on PCI. For this reason,
+> PCI_EXPRESS and MSI_NONBROKEN are also moved under
+> PCI_POWERNV.
+> 
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-Cheers,
+Thanks,
 
 C. 
+
+> ---
+>  hw/pci-host/Kconfig     |    5 +++++
+>  hw/pci-host/meson.build |    2 +-
+>  hw/ppc/Kconfig          |    3 +--
+>  3 files changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+> index 036a61877a73..eb03f0489d08 100644
+> --- a/hw/pci-host/Kconfig
+> +++ b/hw/pci-host/Kconfig
+> @@ -60,3 +60,8 @@ config PCI_BONITO
+>      select PCI
+>      select UNIMP
+>      bool
+> +
+> +config PCI_POWERNV
+> +    select PCI_EXPRESS
+> +    select MSI_NONBROKEN
+> +    select PCIE_PORT
+> diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+> index e6d1b896848c..da9d1a9964a8 100644
+> --- a/hw/pci-host/meson.build
+> +++ b/hw/pci-host/meson.build
+> @@ -23,7 +23,7 @@ pci_ss.add(when: 'CONFIG_VERSATILE_PCI', if_true: files('versatile.c'))
+>  
+>  softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
+>  
+> -specific_ss.add(when: 'CONFIG_POWERNV', if_true: files(
+> +specific_ss.add(when: 'CONFIG_PCI_POWERNV', if_true: files(
+>    'pnv_phb3.c',
+>    'pnv_phb3_msi.c',
+>    'pnv_phb3_pbcq.c',
+> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> index 064bd6edd83d..501b9868568e 100644
+> --- a/hw/ppc/Kconfig
+> +++ b/hw/ppc/Kconfig
+> @@ -29,8 +29,7 @@ config POWERNV
+>      select XICS
+>      select XIVE
+>      select FDT_PPC
+> -    select PCI_EXPRESS
+> -    select MSI_NONBROKEN
+> +    select PCI_POWERNV
+>  
+>  config PPC405
+>      bool
+> 
+> 
 
 
