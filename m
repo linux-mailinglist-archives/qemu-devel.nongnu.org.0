@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334CC2E2405
-	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 04:20:55 +0100 (CET)
-Received: from localhost ([::1]:43982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF6F2E2404
+	for <lists+qemu-devel@lfdr.de>; Thu, 24 Dec 2020 04:20:53 +0100 (CET)
+Received: from localhost ([::1]:43948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksHBO-0002e1-8j
-	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 22:20:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40736)
+	id 1ksHBK-0002dK-FS
+	for lists+qemu-devel@lfdr.de; Wed, 23 Dec 2020 22:20:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ksH8s-00019G-CE
+ id 1ksH8s-00019D-6I
  for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:18 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:43439)
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:47053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ksH8m-0003XL-Lf
- for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:18 -0500
+ id 1ksH8q-0003YQ-HE
+ for qemu-devel@nongnu.org; Wed, 23 Dec 2020 22:18:17 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id B25D058032F;
- Wed, 23 Dec 2020 22:18:11 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id C2B96580372;
+ Wed, 23 Dec 2020 22:18:15 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 23 Dec 2020 22:18:11 -0500
+ by compute6.internal (MEProxy); Wed, 23 Dec 2020 22:18:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- from:to:cc:subject:date:message-id:mime-version:content-type
- :content-transfer-encoding; s=fm1; bh=7CC1xyZjVdwBaXEcN6maONscl+
- huf7lbcAzDDky9JaI=; b=NmpiPqmEb9OHadHkNXvTG0k4a2+qukI9r0R5YQXYC8
- n1/iZ7QDxmAKxN/hE3zT75Lp4RHcm8EdNE+Oo++V8hU7qoLWsxz1IMp+xCa0bSKY
- Rm4Dzv9W8ct8+YdVnXDIlNtxqVuHqD1CrEisOzA3ZhRvEFuyPQm+TAwhf5e/zMWt
- 6pbcIAiFY3cu7ZEnipCBdDKthN47JYiRhiide0w4stZVzpqCjuGNiLIJ9JHqmHiN
- lrWCMFlE3DfX7bBF/mZIW/4SV9KsY/ZVU3C1ouOXWYJjl86KBKIoqJ6vOO9u8xWC
- CDT6k7FfzHbyYNkLRobOak2J6yi3Z6g8IW/OJD8w1eTg==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+ DHvt6MI2JLWRt1yuHru/PbKgRfOr7OvUo2XE4nbTxoI=; b=yeqKWEcDjKtzLoHM
+ SO+X2mOFFPMOzGRb/KPzdVjx9JZA6I5D0+rtaGMTJS2C2OaEZlFKLCT1HD1Eq7AF
+ aKhw40RsrRdD9SanQbX8Xgrr1YeILEVyhJ4Q9pxBbb7xX8lCHVMCUCAaef0O4/WH
+ apT3FhuhRoE/sJVBM1B0jrBlfkpa7KZLZKh/53t4bVm6+OXBbWmL26+Pq1VEiSzd
+ gMJjOYGFqLBUEWArJnS4NWjuvX1XbwwE1do6V8FIvKxP8exzH1S3TcIprR7E4SsI
+ pYlcVba7KZnUiHkm4IdddkZ3NBZKSt0oX/4vFYuqwxlYQWXT3Ir6kDUex+AXMwck
+ BLQVNg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=7CC1xy
- ZjVdwBaXEcN6maONscl+huf7lbcAzDDky9JaI=; b=jGDMHWiXIFwgQbg+0io8xT
- A+ZEPsoHXlBfn4hgILalFd4milKck72i/SV52hvSL0b1g3O7FWakG5ErUOEEIco6
- q9HW6wtDH3zlxT/spBYshV9OhCsoN0BkTKB2Ddcsg8o2T6lPsUrdmGGfdICe4HMH
- RFMx6i4E84dzMFrVWLqkqXHlZOnPsdWDZZzi9TUWgQLUXuKJOChfJkmTDm3Nkd/7
- vUQRMwimUM9SCSVAq0Ct7LOaxoDMkiPBOEFByq68wBoF+sw/JWrawpFn+G2WQU13
- 2R0hbUYVBkBd7Z4o08jElCQafh0DgufeYIGowHCsebIl0LG2i4wvuLMDtZ9Xwv1g
- ==
-X-ME-Sender: <xms:cgjkXwSjZe1srwAJiHdUBpxWK26y2Gn6NDv9aM_w0znbDHHFLH-zoQ>
- <xme:cgjkX9wcYmw-yov_nB6qCMh5-rrlOAkKdPrDo2XEo5htuI5epGCQSPE15rR6BOiEk
- CqgAp_dW278knMEw2s>
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=DHvt6MI2JLWRt1yuHru/PbKgRfOr7OvUo2XE4nbTx
+ oI=; b=HpDNXtymGAUVOk6FkzFwK8j+SGtmkVngoS4fMadKL71x6biVWRIE0wBpl
+ IV0UK2OkdJGcOrV9xjUVLZAq5agGpaTDI+DLYacYUPF2S9UvyQR2hrOVE03F6K3z
+ iV27gDcOcbBcQE/uG125+6IJBaDjPKnS1WeSmxeE0eary3x8TkufwbrI57hJMYy0
+ qMciMLM7tY8DALmh5iDELGNm3CRBKNQYZ11zYTdLHcWAXxT57IqCckByeifJmQe/
+ XU7qsXMg68cZBqcrgpF7fnojPMVlNyKkBWBfOiSWWE4AfGg3iMpc/jb6PN3ORCf2
+ 0ozzdZ5qsidOHe3GQQZTaVZTShKeA==
+X-ME-Sender: <xms:dwjkX9Xo-2xE1tiCVAuLPcKsKLO1hL6entT5DWIGiRdGpveuxbaOrQ>
+ <xme:dwjkX9mcw1xXU21PkEh2mNC2nUoPOvI5hTzd7rjjl_1MRY3XxBNtoiB9WfJLyeFB_
+ oqsNZgDrHOwxXZjYRk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddtkedgheejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomheplfhirgiguhhn
- ucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenucggtf
- frrghtthgvrhhnpefgfeeivdeugfeuvefhleffveffleevueeiieeuteetheejueeuhefg
- tdeiledvudenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppedvvdefrddutd
- egrddvuddvrdehleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
- fhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:cgjkX91J5KU2m1iBNApMpC9ifyXmYp02LMhjNQSdvY_gFdGklUtnBQ>
- <xmx:cgjkX0BtL78N9tsu0AkfPS352_yHOFHKWBExwlfJKGxBR9jbX2uYMg>
- <xmx:cgjkX5jInHZzxxd8ZMoUWreFAONARXwZrGcWd-6sjg4jNcx2o1u_aA>
- <xmx:cwjkX5ciEJXqz4c_YUKUgLmtfwfyLWzoB48vWrhD8R87T43Rou0O4HNxFHc>
+ cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomheplfhirgig
+ uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
+ ggtffrrghtthgvrhhnpeehuddvtedtleehhefggeevteekkefhjedvjedtgfeugfekjedt
+ vdevueejveekleenucfkphepvddvfedruddtgedrvdduvddrheelnecuvehluhhsthgvrh
+ fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghes
+ fhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:dwjkX5YWofuncEC6MWw1SBzbm9xbXvvxVDWRxSwCGUAnQ50yiNDsmg>
+ <xmx:dwjkXwXODAktj28ticXY9_q91noNTskvpvAr4_euRC-LC7p-Vs-KfQ>
+ <xmx:dwjkX3n6a9qSbfD2zIeQt3RRdCNuRFrt8qG5vtpeQy32FEdmUvp3uQ>
+ <xmx:dwjkXwCiAaXFBH1X9lR3VKE3bzLIrng7-iWmTEaRIJGYN7ohWXEdGtUpWRw>
 Received: from localhost.localdomain (unknown [223.104.212.59])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1962F1080059;
- Wed, 23 Dec 2020 22:18:05 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 366D31080063;
+ Wed, 23 Dec 2020 22:18:10 -0500 (EST)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/8] hw/mips/fuloong2e fixes
-Date: Thu, 24 Dec 2020 11:17:42 +0800
-Message-Id: <20201224031750.52146-1-jiaxun.yang@flygoat.com>
+Subject: [PATCH v3 1/8] hw/mips/fuloong2e: Remove define DEBUG_FULOONG2E_INIT
+Date: Thu, 24 Dec 2020 11:17:43 +0800
+Message-Id: <20201224031750.52146-2-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201224031750.52146-1-jiaxun.yang@flygoat.com>
+References: <20201224031750.52146-1-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -101,40 +104,29 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It can now boot Debian installer[1] as well as a custom PMON bootloader
-distribution[2].
+Seems useless....
 
-Note that it can't boot PMON shipped with actual machine as our ATI vgabios
-is using some x86 hack that can't be handled by x86emu in original PMON. 
+Fixes: 051c190bce5 ("MIPS: Initial support of fulong mini pc (machine construction)")
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
+---
+ hw/mips/fuloong2e.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-
-Tree avilable at: https://gitlab.com/FlyGoat/qemu/-/tree/fuloong_fixes_v2
-
-v2:
- - Collect review tags.
- - Get CPU clock via elegant method. (philmd)
- - Add boot_linux_console scceptance test
-
-v3:
- - Collect review tags
- - Typo corrections
- - Rewrite PCI Lomem
-
-Jiaxun Yang (8):
-  hw/mips/fuloong2e: Remove define DEBUG_FULOONG2E_INIT
-  hw/mips/fuloong2e: Relpace fault links
-  hw/pci-host/bonito: Fixup IRQ mapping
-  hw/pci-host/bonito: Fixup pci.lomem mapping
-  hw/mips/fuloong2e: Remove unused env entry
-  hw/mips/fuloong2e: Correct cpuclock env
-  hw/mips/fuloong2e: Add highmem support
-  tests/acceptance: Test boot_linux_console for fuloong2e
-
- hw/mips/fuloong2e.c                    | 84 +++++++++++++++++---------
- hw/pci-host/bonito.c                   | 42 ++++---------
- tests/acceptance/boot_linux_console.py | 21 +++++++
- 3 files changed, 89 insertions(+), 58 deletions(-)
-
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 9b0eb8a314..055b99e378 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -48,8 +48,6 @@
+ #include "sysemu/reset.h"
+ #include "qemu/error-report.h"
+ 
+-#define DEBUG_FULOONG2E_INIT
+-
+ #define ENVP_PADDR              0x2000
+ #define ENVP_VADDR              cpu_mips_phys_to_kseg0(NULL, ENVP_PADDR)
+ #define ENVP_NB_ENTRIES         16
 -- 
 2.29.2
 
