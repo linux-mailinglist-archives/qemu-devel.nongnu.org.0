@@ -2,75 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B8D2E29F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Dec 2020 07:24:24 +0100 (CET)
-Received: from localhost ([::1]:43140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68ADA2E2B0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Dec 2020 10:52:12 +0100 (CET)
+Received: from localhost ([::1]:57610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksgWV-0008VR-L1
-	for lists+qemu-devel@lfdr.de; Fri, 25 Dec 2020 01:24:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49728)
+	id 1ksjla-00067M-Ve
+	for lists+qemu-devel@lfdr.de; Fri, 25 Dec 2020 04:52:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ksgVY-0007zf-0i
- for qemu-devel@nongnu.org; Fri, 25 Dec 2020 01:23:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20462)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ksgVV-00013I-Vd
- for qemu-devel@nongnu.org; Fri, 25 Dec 2020 01:23:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608877400;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Fi0h43yKUCWAyp9pN52omxE5Zybtx/xSdkefcBYH8oI=;
- b=Hlo6P3XyngvWeBwudBUev3WLxOqYerv5kHPVVGJ8jEz3z76C0DyGd4NowzFjAFmIVVg6Wm
- RJ/alJl7kteaIRVg4lrtL6zT7BGTqoRpMNf1U8KtO1XR+ucVPuZEFjqbYybNK3zmAp1rZt
- NzOZnVWMNlFONVcgo2XESBuT5McFUDg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-9HPtJo_jOa-5y_jHF8U4BQ-1; Fri, 25 Dec 2020 01:23:18 -0500
-X-MC-Unique: 9HPtJo_jOa-5y_jHF8U4BQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 970F110051A6;
- Fri, 25 Dec 2020 06:23:17 +0000 (UTC)
-Received: from [10.72.12.166] (ovpn-12-166.pek2.redhat.com [10.72.12.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 97F165D9CC;
- Fri, 25 Dec 2020 06:23:15 +0000 (UTC)
-Subject: Re: [PATCH 0/3] Bypass specific network traffic in COLO
-To: Zhang Chen <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20201224010918.19275-1-chen.zhang@intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <247fcbaf-4772-1bf9-db97-471649ce30b0@redhat.com>
-Date: Fri, 25 Dec 2020 14:23:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1ksjkD-0005Zq-Pa; Fri, 25 Dec 2020 04:50:45 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2573)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1ksjkB-0003OE-0z; Fri, 25 Dec 2020 04:50:45 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4D2McL3ddyzhwsq;
+ Fri, 25 Dec 2020 17:49:54 +0800 (CST)
+Received: from DESKTOP-8RFUVS3.china.huawei.com (10.174.185.179) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 25 Dec 2020 17:50:20 +0800
+From: Zenghui Yu <yuzenghui@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
+ <peter.maydell@linaro.org>
+Subject: [PATCH] hw/arm/smmuv3: Fix addr_mask for range-based invalidation
+Date: Fri, 25 Dec 2020 17:50:15 +0800
+Message-ID: <20201225095015.609-1-yuzenghui@huawei.com>
+X-Mailer: git-send-email 2.23.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20201224010918.19275-1-chen.zhang@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
+Content-Type: text/plain
+X-Originating-IP: [10.174.185.179]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=yuzenghui@huawei.com;
+ helo=szxga06-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.825, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,40 +55,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <zhangckid@gmail.com>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When performing range-based IOTLB invalidation, we should decode the TG
+field into the corresponding translation granule size so that we can pass
+the correct invalidation range to backend. Set @granule to (tg * 2 + 10) to
+properly emulate the architecture.
 
-On 2020/12/24 上午9:09, Zhang Chen wrote:
-> From: Zhang Chen <chen.zhang@intel.com>
->
-> Since the real user scenario does not need to monitor all traffic.
+Fixes: d52915616c05 ("hw/arm/smmuv3: Get prepared for range invalidation")
+Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+---
+ hw/arm/smmuv3.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-
-Hi Chen:
-
-It would be better to elaborate more on this. E.g what scenario and who 
-will use those new QMP/HMP commands.
-
-Thanks
-
-
-> This series give user ability to bypass kinds of network stream.
->
-> Zhang Chen (3):
->    qapi/net: Add new QMP command for COLO passthrough
->    hmp-commands: Add new HMP command for COLO passthrough
->    net/colo-compare: Add handler for passthrough connection
->
->   hmp-commands.hx       | 26 +++++++++++++++++++++++
->   include/monitor/hmp.h |  2 ++
->   monitor/hmp-cmds.c    | 20 ++++++++++++++++++
->   net/colo-compare.c    | 49 +++++++++++++++++++++++++++++++++++++++++++
->   net/colo-compare.h    |  2 ++
->   net/net.c             | 39 ++++++++++++++++++++++++++++++++++
->   qapi/net.json         | 46 ++++++++++++++++++++++++++++++++++++++++
->   7 files changed, 184 insertions(+)
->
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index bbca0e9f20..65231c7d52 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -801,7 +801,7 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
+ {
+     SMMUDevice *sdev = container_of(mr, SMMUDevice, iommu);
+     IOMMUTLBEvent event;
+-    uint8_t granule = tg;
++    uint8_t granule;
+ 
+     if (!tg) {
+         SMMUEventInfo event = {.inval_ste_allowed = true};
+@@ -821,6 +821,8 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
+             return;
+         }
+         granule = tt->granule_sz;
++    } else {
++        guanule = tg * 2 + 10;
+     }
+ 
+     event.type = IOMMU_NOTIFIER_UNMAP;
+-- 
+2.19.1
 
 
