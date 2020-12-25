@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEAE2E2C60
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Dec 2020 21:35:29 +0100 (CET)
-Received: from localhost ([::1]:34312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC502E2C51
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Dec 2020 21:26:19 +0100 (CET)
+Received: from localhost ([::1]:38248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksto8-0001DL-85
-	for lists+qemu-devel@lfdr.de; Fri, 25 Dec 2020 15:35:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38636)
+	id 1kstfG-000876-HX
+	for lists+qemu-devel@lfdr.de; Fri, 25 Dec 2020 15:26:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kstZS-0003Gs-2k
+ id 1kstZS-0003Ie-Nw
  for qemu-devel@nongnu.org; Fri, 25 Dec 2020 15:20:18 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:40310)
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:45386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kstZP-0005GA-M9
- for qemu-devel@nongnu.org; Fri, 25 Dec 2020 15:20:17 -0500
-Received: by mail-pl1-x630.google.com with SMTP id q4so2714971plr.7
- for <qemu-devel@nongnu.org>; Fri, 25 Dec 2020 12:20:15 -0800 (PST)
+ id 1kstZQ-0005Gy-LF
+ for qemu-devel@nongnu.org; Fri, 25 Dec 2020 15:20:18 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id v19so3477132pgj.12
+ for <qemu-devel@nongnu.org>; Fri, 25 Dec 2020 12:20:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=4hWRe/MilldCXwfwUKlxB4qn+rTkcTstfPjX6z+KyaY=;
- b=uNLUB6weJ/Q5Tt+x0xIgwzbVq1ME1fVhTB9UIbMUlkBP8orIX5RsvOK2Vx91KJv/e8
- z9f5AIXxnwE8j0oN4CuUUDBNaLDTIgaXHUF0ZOiPMH//9BeK9XyYbsxX+KQETHgAbUNx
- xajZvh9qnvdRtal/FpRdDBkRlbvRmrpoZaitgf/6w8qkbPlaCIXw5bc8tj6lVCZWb0tE
- h/DdLsmSxGxK2XQv2qODvklLGTeNnHx5BW3KaYZhHwAzNR1UZ+yjfgUDIUUWZWx/wxkQ
- DSGZbaPj3JCU25Hd2XYla/QdIvEg+jM7byocdMhTRlQDR84F1TFUhGNP2Y3wpWOw2UzA
- C5Og==
+ bh=jlVa78AQQNkl87QPxsSEB+lmpeBmWuJ4zOM7kPKIAtQ=;
+ b=zShr/Aaj+MSeA4JPkE6XYW9tyi8EoxNFnR7evJhBGPBsq3gkfR2frS0b0HPvU373D+
+ m8P770mNv7SVlCdkFo62qcSOq4fPuig7xClLms5PUl96ONxr1Z/Yx6SAwXDxINyrCeT3
+ x8I5L32C57IqT2GJA5DfW/aQDGwoTIQwITEZJyacn05Ilgt7BCK/H0r3QbbaqbxOtTc7
+ 9GV4oxq6iQXIx/miXpAEV1RaF3YSU/MnI6GRnLJv/lLiilWBCzvwufg0o/GI0gKGBoQQ
+ k+iJ5636dBoRNKBx54AZyhBFnGs36JsK8duqcbd5pkouIh0fMcd927yDzqGIQNc2y7RD
+ wb3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4hWRe/MilldCXwfwUKlxB4qn+rTkcTstfPjX6z+KyaY=;
- b=sfXqn3hoxcu43IuQHHJ1uEO6OWvV+3KlxnlLBwR7vB+tQdhfRuQQ20PW4i3fc8AwJ7
- tmB6ApjrqatV6b8qNMoXLuLTCjVWHDqIt8L3becSuy7eMK8aGC0C5i9wPlnaO51vcaVJ
- r1OiC3aWuplWU/Av6ShCiepf94IxPlqHaUV1TEW+XjuZYu/6akz1QmuhshceQ+B/IJW7
- +CyRdDz0AMSjNdJpdGqI8UR+cnKUTCf2JCFUKsgsbOklVVhKsyhT0+3q8y/4EQ1M7Pf9
- xHyZdSSjkMAkZSDuV1LeYt7uB6aV+SQdM8/7z9BxsE7H+bu5hQBnUNPfAz8e6+3xgCIe
- irJw==
-X-Gm-Message-State: AOAM532nereU8g113vtuhbO5dBfvlhhrClujNgqgNUjBTTpBL3M4Rfd7
- q8wwT/a/UX7F5e4yZPTGq6oJ5s4rqmn5TA==
-X-Google-Smtp-Source: ABdhPJw9Lsh2NM7VPOce0LR+YpOf+J4DgMT13F8+57aF8LpJcXyoKt/ZbEQCIPjgOO07q12Wj9Z4fw==
-X-Received: by 2002:a17:902:b943:b029:dc:6bd:5562 with SMTP id
- h3-20020a170902b943b02900dc06bd5562mr34498103pls.59.1608927613851; 
- Fri, 25 Dec 2020 12:20:13 -0800 (PST)
+ bh=jlVa78AQQNkl87QPxsSEB+lmpeBmWuJ4zOM7kPKIAtQ=;
+ b=Thw0r96uRAxVjzdbB1vfAFnIWfEFSsN6tnQEanySjBe388gVf7whgZkH7TuaGxjbSg
+ 1/4ekrA8yBN914vSh9BTqu+hlE2lKFSPPxUZ/XZOw4kA1P+VI84a70IwhNZXy5S+u8Uu
+ Sk1jcAyfjHehtpt7l0seD7mZpARttdJbDtjlwG/Dyjs1lxfppZTy5ZJrEVQJ/0WhgCat
+ qmSpP1kcblEgGfM3nNHHqm4IIVkK91t8bc0QDMkwQ/3ETDuW9PdO57DRcihAeVMD9kyn
+ FxzOgIo/HhUur82eC/UjfLdFXkraBzjErXDxckzlrTbjYk6EVmhrarIgrBANEx+iMmnz
+ VKzg==
+X-Gm-Message-State: AOAM530ut3qQhxPuAa0xM2ev4FYzLFhIU66N43NSIn7AkLqHqkZKpqgc
+ i+eA+eAIk5fD06XjDuzO/LiFBgYpb3M95Q==
+X-Google-Smtp-Source: ABdhPJzDBIuAFbqOV3ea3GSFUbhPu/VdVy3KHIO4c51SQc6ydRGnETUhs4fRXn2v/HMM6UoGvWMSrQ==
+X-Received: by 2002:a63:d305:: with SMTP id b5mr10165429pgg.452.1608927614966; 
+ Fri, 25 Dec 2020 12:20:14 -0800 (PST)
 Received: from localhost.localdomain (174-21-150-71.tukw.qwest.net.
  [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id l8sm5816497pjt.32.2020.12.25.12.20.13
+ by smtp.gmail.com with ESMTPSA id l8sm5816497pjt.32.2020.12.25.12.20.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Dec 2020 12:20:13 -0800 (PST)
+ Fri, 25 Dec 2020 12:20:14 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/16] tcg/s390x: Implement TCG_TARGET_HAS_sat_vec
-Date: Fri, 25 Dec 2020 12:19:54 -0800
-Message-Id: <20201225201956.692861-15-richard.henderson@linaro.org>
+Subject: [PATCH 15/16] tcg/s390x: Implement TCG_TARGET_HAS_bitsel_vec
+Date: Fri, 25 Dec 2020 12:19:55 -0800
+Message-Id: <20201225201956.692861-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201225201956.692861-1-richard.henderson@linaro.org>
 References: <20201225201956.692861-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,147 +87,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The unsigned saturations are handled via generic code
-using min/max.  The signed saturations are expanded using
-double-sized arithmetic and a saturating pack.
-
-Since all operations are done via expansion, do not
-actually set TCG_TARGET_HAS_sat_vec.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.opc.h |  3 ++
- tcg/s390x/tcg-target.c.inc | 63 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 66 insertions(+)
+ tcg/s390x/tcg-target-conset.h |  1 +
+ tcg/s390x/tcg-target.h        |  2 +-
+ tcg/s390x/tcg-target.c.inc    | 20 ++++++++++++++++++++
+ 3 files changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/tcg/s390x/tcg-target.opc.h b/tcg/s390x/tcg-target.opc.h
-index 7a4578e9b4..85d51cd65e 100644
---- a/tcg/s390x/tcg-target.opc.h
-+++ b/tcg/s390x/tcg-target.opc.h
-@@ -10,3 +10,6 @@
-  * emitted by tcg_expand_vec_op.  For those familiar with GCC internals,
-  * consider these to be UNSPEC with names.
-  */
-+DEF(s390_vuph_vec, 1, 1, 0, IMPLVEC)
-+DEF(s390_vupl_vec, 1, 1, 0, IMPLVEC)
-+DEF(s390_vpks_vec, 1, 2, 0, IMPLVEC)
+diff --git a/tcg/s390x/tcg-target-conset.h b/tcg/s390x/tcg-target-conset.h
+index 9c7dd85eac..4890dbf807 100644
+--- a/tcg/s390x/tcg-target-conset.h
++++ b/tcg/s390x/tcg-target-conset.h
+@@ -21,6 +21,7 @@ C_O1_I2(r, r, ri)
+ C_O1_I2(r, rZ, r)
+ C_O1_I2(v, v, r)
+ C_O1_I2(v, v, v)
++C_O1_I3(v, v, v, v)
+ C_O1_I4(r, r, ri, r, 0)
+ C_O1_I4(r, r, ri, rI, 0)
+ C_O2_I2(b, a, 0, r)
+diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
+index acea745016..afd90788c0 100644
+--- a/tcg/s390x/tcg-target.h
++++ b/tcg/s390x/tcg-target.h
+@@ -153,7 +153,7 @@ extern uint64_t s390_facilities[3];
+ #define TCG_TARGET_HAS_mul_vec        1
+ #define TCG_TARGET_HAS_sat_vec        0
+ #define TCG_TARGET_HAS_minmax_vec     1
+-#define TCG_TARGET_HAS_bitsel_vec     0
++#define TCG_TARGET_HAS_bitsel_vec     1
+ #define TCG_TARGET_HAS_cmpsel_vec     0
+ 
+ /* used for function call generation */
 diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index 36e5924353..ab53c8a05c 100644
+index ab53c8a05c..251287dd29 100644
 --- a/tcg/s390x/tcg-target.c.inc
 +++ b/tcg/s390x/tcg-target.c.inc
-@@ -276,7 +276,10 @@ typedef enum S390Opcode {
-     VRRc_VNO    = 0xe76b,
-     VRRc_VO     = 0xe76a,
-     VRRc_VOC    = 0xe76f,
-+    VRRc_VPKS   = 0xe797,   /* we leave the m5 cs field 0 */
-     VRRc_VS     = 0xe7f7,
-+    VRRa_VUPH   = 0xe7d7,
-+    VRRa_VUPL   = 0xe7d6,
+@@ -281,6 +281,7 @@ typedef enum S390Opcode {
+     VRRa_VUPH   = 0xe7d7,
+     VRRa_VUPL   = 0xe7d6,
      VRRc_VX     = 0xe76d,
++    VRRe_VSEL   = 0xe78d,
      VRRf_VLVGP  = 0xe762,
  
-@@ -2761,6 +2764,16 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-         }
-         break;
- 
-+    case INDEX_op_s390_vuph_vec:
-+        tcg_out_insn(s, VRRa, VUPH, a0, a1, vece);
-+        break;
-+    case INDEX_op_s390_vupl_vec:
-+        tcg_out_insn(s, VRRa, VUPL, a0, a1, vece);
-+        break;
-+    case INDEX_op_s390_vpks_vec:
-+        tcg_out_insn(s, VRRc, VPKS, a0, a1, a2, vece);
-+        break;
-+
-     case INDEX_op_mov_vec:   /* Always emitted via tcg_out_mov.  */
-     case INDEX_op_dup_vec:   /* Always emitted via tcg_out_dup_vec.  */
-     default:
-@@ -2803,6 +2816,9 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-         return -1;
-     case INDEX_op_mul_vec:
-         return vece < MO_64;
-+    case INDEX_op_ssadd_vec:
-+    case INDEX_op_sssub_vec:
-+        return vece < MO_64 ? -1 : 0;
-     default:
-         return 0;
-     }
-@@ -2858,6 +2874,43 @@ static void expand_vec_cmp(TCGType type, unsigned vece, TCGv_vec v0,
-     }
+     VRSa_VERLL  = 0xe733,
+@@ -619,6 +620,18 @@ static void tcg_out_insn_VRRc(TCGContext *s, S390Opcode op,
+     tcg_out16(s, (op & 0x00ff) | RXB(v1, v2, v3, 0) | (m4 << 12));
  }
  
-+static void expand_vec_sat(TCGType type, unsigned vece, TCGv_vec v0,
-+                           TCGv_vec v1, TCGv_vec v2, TCGOpcode add_sub_opc)
++static void tcg_out_insn_VRRe(TCGContext *s, S390Opcode op,
++                              TCGReg v1, TCGReg v2, TCGReg v3, TCGReg v4)
 +{
-+    TCGv_vec h1 = tcg_temp_new_vec(type);
-+    TCGv_vec h2 = tcg_temp_new_vec(type);
-+    TCGv_vec l1 = tcg_temp_new_vec(type);
-+    TCGv_vec l2 = tcg_temp_new_vec(type);
-+
-+    tcg_debug_assert (vece < MO_64);
-+
-+    /* Unpack with sign-extension. */
-+    vec_gen_2(INDEX_op_s390_vuph_vec, type, vece,
-+              tcgv_vec_arg(h1), tcgv_vec_arg(v1));
-+    vec_gen_2(INDEX_op_s390_vuph_vec, type, vece,
-+              tcgv_vec_arg(h2), tcgv_vec_arg(v2));
-+
-+    vec_gen_2(INDEX_op_s390_vupl_vec, type, vece,
-+              tcgv_vec_arg(l1), tcgv_vec_arg(v1));
-+    vec_gen_2(INDEX_op_s390_vupl_vec, type, vece,
-+              tcgv_vec_arg(l2), tcgv_vec_arg(v2));
-+
-+    /* Arithmetic on a wider element size. */
-+    vec_gen_3(add_sub_opc, type, vece + 1, tcgv_vec_arg(h1),
-+              tcgv_vec_arg(h1), tcgv_vec_arg(h2));
-+    vec_gen_3(add_sub_opc, type, vece + 1, tcgv_vec_arg(l1),
-+              tcgv_vec_arg(l1), tcgv_vec_arg(l2));
-+
-+    /* Pack with saturation. */
-+    vec_gen_3(INDEX_op_s390_vpks_vec, type, vece + 1,
-+              tcgv_vec_arg(v0), tcgv_vec_arg(h1), tcgv_vec_arg(l1));
-+
-+    tcg_temp_free_vec(h1);
-+    tcg_temp_free_vec(h2);
-+    tcg_temp_free_vec(l1);
-+    tcg_temp_free_vec(l2);
++    tcg_debug_assert(v1 >= TCG_REG_V0 && v1 <= TCG_REG_V31);
++    tcg_debug_assert(v2 >= TCG_REG_V0 && v2 <= TCG_REG_V31);
++    tcg_debug_assert(v3 >= TCG_REG_V0 && v3 <= TCG_REG_V31);
++    tcg_debug_assert(v4 >= TCG_REG_V0 && v4 <= TCG_REG_V31);
++    tcg_out16(s, (op & 0xff00) | ((v1 & 15) << 4) | (v2 & 15));
++    tcg_out16(s, v3 << 12);
++    tcg_out16(s, (op & 0x00ff) | RXB(v1, v2, v3, v4) | ((v4 & 15) << 12));
 +}
 +
- void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
-                        TCGArg a0, ...)
+ static void tcg_out_insn_VRRf(TCGContext *s, S390Opcode op,
+                               TCGReg v1, TCGReg r2, TCGReg r3)
  {
-@@ -2881,6 +2934,13 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
-         tcg_temp_free_vec(t0);
+@@ -2748,6 +2761,10 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+         tcg_out_insn(s, VRRc, VMXL, a0, a1, a2, vece);
          break;
  
-+    case INDEX_op_ssadd_vec:
-+        expand_vec_sat(type, vece, v0, v1, v2, INDEX_op_add_vec);
-+        break;
-+    case INDEX_op_sssub_vec:
-+        expand_vec_sat(type, vece, v0, v1, v2, INDEX_op_sub_vec);
++    case INDEX_op_bitsel_vec:
++        tcg_out_insn(s, VRRe, VSEL, a0, a1, a2, args[3]);
 +        break;
 +
+     case INDEX_op_cmp_vec:
+         switch ((TCGCond)args[3]) {
+         case TCG_COND_EQ:
+@@ -2788,6 +2805,7 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
+     case INDEX_op_add_vec:
+     case INDEX_op_and_vec:
+     case INDEX_op_andc_vec:
++    case INDEX_op_bitsel_vec:
+     case INDEX_op_neg_vec:
+     case INDEX_op_not_vec:
+     case INDEX_op_or_vec:
+@@ -3129,6 +3147,8 @@ static int tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_shrs_vec:
+     case INDEX_op_sars_vec:
+         return C_O1_I2(v, v, r);
++    case INDEX_op_bitsel_vec:
++        return C_O1_I3(v, v, v, v);
+ 
      default:
          g_assert_not_reached();
-     }
-@@ -3041,6 +3101,8 @@ static int tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_sari_vec:
-     case INDEX_op_shli_vec:
-     case INDEX_op_shri_vec:
-+    case INDEX_op_s390_vuph_vec:
-+    case INDEX_op_s390_vupl_vec:
-         return C_O1_I1(v, v);
-     case INDEX_op_add_vec:
-     case INDEX_op_sub_vec:
-@@ -3060,6 +3122,7 @@ static int tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_smin_vec:
-     case INDEX_op_umax_vec:
-     case INDEX_op_umin_vec:
-+    case INDEX_op_s390_vpks_vec:
-         return C_O1_I2(v, v, v);
-     case INDEX_op_rotls_vec:
-     case INDEX_op_shls_vec:
 -- 
 2.25.1
 
