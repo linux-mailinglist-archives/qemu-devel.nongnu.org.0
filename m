@@ -2,50 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2A622E2942
-	for <lists+qemu-devel@lfdr.de>; Fri, 25 Dec 2020 00:37:33 +0100 (CET)
-Received: from localhost ([::1]:46226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39FC62E294C
+	for <lists+qemu-devel@lfdr.de>; Fri, 25 Dec 2020 01:22:13 +0100 (CET)
+Received: from localhost ([::1]:55308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ksaAl-0007gJ-JE
-	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 18:37:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41412)
+	id 1ksarz-0006Cz-L4
+	for lists+qemu-devel@lfdr.de; Thu, 24 Dec 2020 19:22:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ksa7Q-0005JD-Qk
- for qemu-devel@nongnu.org; Thu, 24 Dec 2020 18:34:04 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:33896)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ksa7N-0007MT-Va
- for qemu-devel@nongnu.org; Thu, 24 Dec 2020 18:34:04 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1CACE7470E1;
- Fri, 25 Dec 2020 00:33:57 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 883FB746557; Fri, 25 Dec 2020 00:33:56 +0100 (CET)
-Message-Id: <47c59c404e979f6ad2eaf2be776f1a56cabe7671.1608852217.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1608852217.git.balaton@eik.bme.hu>
-References: <cover.1608852217.git.balaton@eik.bme.hu>
-Subject: [PATCH 1/2] ide: Make room for flags in PCIIDEState and add one for
- legacy mode
-Date: Fri, 25 Dec 2020 00:23:37 +0100
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ksaqa-0005MK-JR
+ for qemu-devel@nongnu.org; Thu, 24 Dec 2020 19:20:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51580)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ksaqV-0005rl-PS
+ for qemu-devel@nongnu.org; Thu, 24 Dec 2020 19:20:44 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ksaqT-00041p-PO
+ for <qemu-devel@nongnu.org>; Fri, 25 Dec 2020 00:20:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AE9592E8048
+ for <qemu-devel@nongnu.org>; Fri, 25 Dec 2020 00:20:37 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 25 Dec 2020 00:10:33 -0000
+From: Alexander Bulekov <1909261@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+Message-Id: <160885503385.2425.14204282087842438729.malonedeb@soybean.canonical.com>
+Subject: [Bug 1909261] [NEW] [OSS-Fuzz] Issue 28929 xhci: ASSERT:
+ xfer->packet.status != USB_RET_NAK
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
+X-Launchpad-Hash: 92376021c5ab9d08193e5f5cbe3d965fe9aa99b0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -54,89 +69,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, Huacai Chen <chenhuacai@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, John Snow <jsnow@redhat.com>,
- Guenter Roeck <linux@roeck-us.net>
+Reply-To: Bug 1909261 <1909261@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-We'll need a flag for implementing some device specific behaviour in
-via-ide but we already have a currently CMD646 specific field that can
-be repurposed for this and leave room for furhter flags if needed in
-the future. This patch changes the "secondary" field to "flags" and
-change CMD646 and its users accordingly and define a new flag for
-forcing legacy mode that will be used by via-ide for now.
+Public bug reported:
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ide/cmd646.c      | 4 ++--
- hw/sparc64/sun4u.c   | 2 +-
- include/hw/ide/pci.h | 7 ++++++-
- 3 files changed, 9 insertions(+), 4 deletions(-)
+=3D=3D=3D Reproducer =3D=3D=3D
 
-diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
-index c254631485..7a96016116 100644
---- a/hw/ide/cmd646.c
-+++ b/hw/ide/cmd646.c
-@@ -256,7 +256,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
-     pci_conf[PCI_CLASS_PROG] = 0x8f;
- 
-     pci_conf[CNTRL] = CNTRL_EN_CH0; // enable IDE0
--    if (d->secondary) {
-+    if (d->flags & BIT(PCI_IDE_SECONDARY)) {
-         /* XXX: if not enabled, really disable the seconday IDE controller */
-         pci_conf[CNTRL] |= CNTRL_EN_CH1; /* enable IDE1 */
-     }
-@@ -314,7 +314,7 @@ static void pci_cmd646_ide_exitfn(PCIDevice *dev)
- }
- 
- static Property cmd646_ide_properties[] = {
--    DEFINE_PROP_UINT32("secondary", PCIIDEState, secondary, 0),
-+    DEFINE_PROP_BIT("secondary", PCIIDEState, flags, PCI_IDE_SECONDARY, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index 0fa13a7330..c46baa9f48 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -674,7 +674,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
-     }
- 
-     pci_dev = pci_new(PCI_DEVFN(3, 0), "cmd646-ide");
--    qdev_prop_set_uint32(&pci_dev->qdev, "secondary", 1);
-+    qdev_prop_set_bit(&pci_dev->qdev, "secondary", true);
-     pci_realize_and_unref(pci_dev, pci_busA, &error_fatal);
-     pci_ide_create_devs(pci_dev);
- 
-diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-index d8384e1c42..75d1a32f6d 100644
---- a/include/hw/ide/pci.h
-+++ b/include/hw/ide/pci.h
-@@ -42,6 +42,11 @@ typedef struct BMDMAState {
- #define TYPE_PCI_IDE "pci-ide"
- OBJECT_DECLARE_SIMPLE_TYPE(PCIIDEState, PCI_IDE)
- 
-+enum {
-+    PCI_IDE_SECONDARY, /* used only for cmd646 */
-+    PCI_IDE_LEGACY_MODE
-+};
-+
- struct PCIIDEState {
-     /*< private >*/
-     PCIDevice parent_obj;
-@@ -49,7 +54,7 @@ struct PCIIDEState {
- 
-     IDEBus bus[2];
-     BMDMAState bmdma[2];
--    uint32_t secondary; /* used only for cmd646 */
-+    uint32_t flags;
-     MemoryRegion bmdma_bar;
-     MemoryRegion cmd_bar[2];
-     MemoryRegion data_bar[2];
--- 
-2.21.3
+./qemu-system-i386 -m 512M -machine q35,accel=3Dqtest \
+ -drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
+-device qemu-xhci,id=3Dxhci -device usb-tablet,bus=3Dxhci.0 \
+-device usb-bot -device usb-storage,drive=3Ddisk0 \
+-chardev null,id=3Dcd0 -chardev null,id=3Dcd1 \
+-device usb-braille,chardev=3Dcd0 -device usb-ccid \
+-device usb-ccid -device usb-kbd -device usb-mouse \
+-device usb-serial,chardev=3Dcd1 -device usb-tablet \
+-device usb-wacom-tablet -device usb-audio \
+-qtest stdio -nographic -nodefaults < attachment
 
+=3D=3D=3D Stack Trace =3D=3D=3D
+#0 raise
+#1 abort
+#2 libc.so.6
+#3 __assert_fail
+#4 xhci_kick_epctx /src/qemu/hw/usb/hcd-xhci.c:1865:13
+#5 xhci_ep_kick_timer /src/qemu/hw/usb/hcd-xhci.c:1034:5
+#6 timerlist_run_timers /src/qemu/util/qemu-timer.c:574:9
+#7 qemu_clock_run_timers /src/qemu/util/qemu-timer.c:588:12
+#8 qtest_clock_warp /src/qemu/softmmu/qtest.c:356:9
+#9 qtest_process_command /src/qemu/softmmu/qtest.c:752:9
+#10 qtest_process_inbuf /src/qemu/softmmu/qtest.c:797:9
+#11 qtest_server_inproc_recv /src/qemu/softmmu/qtest.c:904:9
+#12 send_wrapper /src/qemu/tests/qtest/libqtest.c:1390:5
+#13 qtest_sendf /src/qemu/tests/qtest/libqtest.c:438:5
+#14 qtest_clock_step_next /src/qemu/tests/qtest/libqtest.c:912:5
+#15 op_clock_step /src/qemu/tests/qtest/fuzz/generic_fuzz.c:574:5
+
+OSS-Fuzz Report:
+https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D28929
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "reproducer"
+   https://bugs.launchpad.net/bugs/1909261/+attachment/5446640/+files/attac=
+hment
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1909261
+
+Title:
+  [OSS-Fuzz]  Issue 28929 xhci: ASSERT: xfer->packet.status !=3D
+  USB_RET_NAK
+
+Status in QEMU:
+  New
+
+Bug description:
+  =3D=3D=3D Reproducer =3D=3D=3D
+
+  ./qemu-system-i386 -m 512M -machine q35,accel=3Dqtest \
+   -drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
+  -device qemu-xhci,id=3Dxhci -device usb-tablet,bus=3Dxhci.0 \
+  -device usb-bot -device usb-storage,drive=3Ddisk0 \
+  -chardev null,id=3Dcd0 -chardev null,id=3Dcd1 \
+  -device usb-braille,chardev=3Dcd0 -device usb-ccid \
+  -device usb-ccid -device usb-kbd -device usb-mouse \
+  -device usb-serial,chardev=3Dcd1 -device usb-tablet \
+  -device usb-wacom-tablet -device usb-audio \
+  -qtest stdio -nographic -nodefaults < attachment
+
+  =3D=3D=3D Stack Trace =3D=3D=3D
+  #0 raise
+  #1 abort
+  #2 libc.so.6
+  #3 __assert_fail
+  #4 xhci_kick_epctx /src/qemu/hw/usb/hcd-xhci.c:1865:13
+  #5 xhci_ep_kick_timer /src/qemu/hw/usb/hcd-xhci.c:1034:5
+  #6 timerlist_run_timers /src/qemu/util/qemu-timer.c:574:9
+  #7 qemu_clock_run_timers /src/qemu/util/qemu-timer.c:588:12
+  #8 qtest_clock_warp /src/qemu/softmmu/qtest.c:356:9
+  #9 qtest_process_command /src/qemu/softmmu/qtest.c:752:9
+  #10 qtest_process_inbuf /src/qemu/softmmu/qtest.c:797:9
+  #11 qtest_server_inproc_recv /src/qemu/softmmu/qtest.c:904:9
+  #12 send_wrapper /src/qemu/tests/qtest/libqtest.c:1390:5
+  #13 qtest_sendf /src/qemu/tests/qtest/libqtest.c:438:5
+  #14 qtest_clock_step_next /src/qemu/tests/qtest/libqtest.c:912:5
+  #15 op_clock_step /src/qemu/tests/qtest/fuzz/generic_fuzz.c:574:5
+
+  OSS-Fuzz Report:
+  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D28929
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1909261/+subscriptions
 
