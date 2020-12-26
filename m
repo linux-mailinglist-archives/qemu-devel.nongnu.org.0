@@ -2,57 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100572E2EE7
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Dec 2020 19:02:59 +0100 (CET)
-Received: from localhost ([::1]:41156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981972E2F09
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Dec 2020 20:42:38 +0100 (CET)
+Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktDu5-0000su-LR
-	for lists+qemu-devel@lfdr.de; Sat, 26 Dec 2020 13:02:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58748)
+	id 1ktFSX-0007a0-8V
+	for lists+qemu-devel@lfdr.de; Sat, 26 Dec 2020 14:42:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ktDsB-0000Ol-CX
- for qemu-devel@nongnu.org; Sat, 26 Dec 2020 13:00:59 -0500
-Received: from indium.canonical.com ([91.189.90.7]:36312)
+ id 1ktFQv-00076T-7U
+ for qemu-devel@nongnu.org; Sat, 26 Dec 2020 14:40:57 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ktDs7-0002SO-FB
- for qemu-devel@nongnu.org; Sat, 26 Dec 2020 13:00:58 -0500
+ id 1ktFQs-0005VD-SE
+ for qemu-devel@nongnu.org; Sat, 26 Dec 2020 14:40:57 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ktDs4-0002jI-GE
- for <qemu-devel@nongnu.org>; Sat, 26 Dec 2020 18:00:52 +0000
+ id 1ktFQp-0007IY-Ro
+ for <qemu-devel@nongnu.org>; Sat, 26 Dec 2020 19:40:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 781442E8137
- for <qemu-devel@nongnu.org>; Sat, 26 Dec 2020 18:00:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CEDA92E813D
+ for <qemu-devel@nongnu.org>; Sat, 26 Dec 2020 19:40:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 26 Dec 2020 17:53:21 -0000
-From: =?utf-8?q?Andreas_K=2E_H=C3=BCttel?= <1906193@bugs.launchpad.net>
+Date: Sat, 26 Dec 2020 19:33:31 -0000
+From: Peter Maydell <1908369@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=pgn@zju.edu.cn; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alistair2323 dilfridge
-X-Launchpad-Bug-Reporter: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
- =?utf-8?q?=29?=
-References: <160669515259.21126.12178770886175022752.malonedeb@gac.canonical.com>
-Message-Id: <160900520121.4506.920868464547325376.malone@wampee.canonical.com>
-Subject: [Bug 1906193] Re: riscv32 user mode emulation: fork return values
- broken
+X-Launchpad-Bug-Commenters: hades0506
+X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <160810887564.16424.16206895369407245317.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160901121276.12763.1801162461192894136.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1908369] Re: deleted
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 70a90a3b5193f91ad06662dbde559bc6e86225f8
+X-Launchpad-Hash: 6fb98a9b63fcc2426b580381df2eac0b5180ec74
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,96 +70,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906193 <1906193@bugs.launchpad.net>
+Reply-To: Bug 1908369 <1908369@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just as a general remark, while this specific problem seems to be
-solved, there may still be issues surrounding waitid().
-
-(With this patch applied, in a rather complex environment I see bash
-processes hanging in an infinite loop, with waitid involved. I am
-working on isolating the problem and providing a simple test case, but
-so far I have not even found the code triggering it.)
+** Changed in: qemu
+       Status: New =3D> Invalid
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906193
+https://bugs.launchpad.net/bugs/1908369
 
 Title:
-  riscv32 user mode emulation: fork return values broken
+  deleted
 
 Status in QEMU:
-  Confirmed
+  Invalid
 
 Bug description:
-  When running in a chroot with riscv32 (on x86_64; qemu git master as
-  of today):
-
-  The following short program forks; the child immediately returns with
-  exit(42). The parent checks for the return value - and obtains 40!
-
-  gcc-10.2
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  #include <stdlib.h>
-  #include <unistd.h>
-  #include <stdio.h>
-  #include <sys/wait.h>
-
-  main(c, v)
-       int c;
-       char **v;
-  {
-    pid_t pid, p;
-    int s, i, n;
-
-    s =3D 0;
-    pid =3D fork();
-    if (pid =3D=3D 0)
-      exit(42);
-
-    /* wait for the process */
-    p =3D wait(&s);
-    if (p !=3D pid)
-      exit (255);
-
-    if (WIFEXITED(s))
-    {
-       int r=3DWEXITSTATUS(s);
-       if (r!=3D42) {
-        printf("child wants to return %i (0x%X), parent received %i (0x%X),=
- difference %i\n",42,42,r,r,r-42);
-       }
-    }
-  }
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  (riscv-ilp32 chroot) farino /tmp # ./wait-test-short =
-
-  child wants to return 42 (0x2A), parent received 40 (0x28), difference -2
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  (riscv-ilp32 chroot) farino /tmp # gcc --version
-  gcc (Gentoo 10.2.0-r1 p2) 10.2.0
-  Copyright (C) 2020 Free Software Foundation, Inc.
-  Dies ist freie Software; die Kopierbedingungen stehen in den Quellen. Es
-  gibt KEINE Garantie; auch nicht f=C3=BCr MARKTG=C3=84NGIGKEIT oder F=C3=
-=9CR SPEZIELLE ZWECKE.
-
-  (riscv-ilp32 chroot) farino /tmp # ld --version
-  GNU ld (Gentoo 2.34 p6) 2.34.0
-  Copyright (C) 2020 Free Software Foundation, Inc.
-  This program is free software; you may redistribute it under the terms of
-  the GNU General Public License version 3 or (at your option) a later vers=
-ion.
-  This program has absolutely no warranty.
+  sorry
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906193/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1908369/+subscriptions
 
