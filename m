@@ -2,55 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CBE12E2D8F
-	for <lists+qemu-devel@lfdr.de>; Sat, 26 Dec 2020 08:14:06 +0100 (CET)
-Received: from localhost ([::1]:46556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CA82E2DB5
+	for <lists+qemu-devel@lfdr.de>; Sat, 26 Dec 2020 09:41:37 +0100 (CET)
+Received: from localhost ([::1]:58254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kt3m8-00034P-N6
-	for lists+qemu-devel@lfdr.de; Sat, 26 Dec 2020 02:14:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54114)
+	id 1kt58q-0004qu-CO
+	for lists+qemu-devel@lfdr.de; Sat, 26 Dec 2020 03:41:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1kt3kT-00027w-Em; Sat, 26 Dec 2020 02:12:21 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1kt3kQ-0007aL-I7; Sat, 26 Dec 2020 02:12:21 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4D2w3132c3zhwKn;
- Sat, 26 Dec 2020 15:11:25 +0800 (CST)
-Received: from [10.174.187.37] (10.174.187.37) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.498.0; Sat, 26 Dec 2020 15:11:53 +0800
-Subject: Re: [PATCH v2 1/2] ramlist: Make dirty bitmap blocks of ramlist
- resizable
-To: Stefan Hajnoczi <stefanha@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Fam Zheng <famz@redhat.com>, "Dr . David Alan
- Gilbert" <dgilbert@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20201130131104.10600-1-zhukeqian1@huawei.com>
- <20201130131104.10600-2-zhukeqian1@huawei.com>
- <20201217100501.GE4338@stefanha-x1.localdomain>
- <7306ed10-871a-58ab-06d4-daa1efc5c9a7@huawei.com>
-From: Keqian Zhu <zhukeqian1@huawei.com>
-Message-ID: <bbfc0b13-0917-6851-e10f-c7001ff9fd22@huawei.com>
-Date: Sat, 26 Dec 2020 15:11:53 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kt57J-0003wO-Um
+ for qemu-devel@nongnu.org; Sat, 26 Dec 2020 03:40:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37616)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kt57H-0005J4-8y
+ for qemu-devel@nongnu.org; Sat, 26 Dec 2020 03:40:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1608971996;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e+e+6WAWzmBeAvIBII5LS0I0agURPoFp04OYRKS5Ohs=;
+ b=Fh7IeoKJ1W5ahx0PD/JjUPnoRo1zrw/ozjfRwNikRhGuv9v5Jk73ee3tFKsMHixGbjkNy/
+ l1DKqIWYV/XkFAw9OXbLYyNDtvZ1J8r/exODzrvcRiR803YkUq9Lq7VRf6ry4z9BJyi5Qa
+ vFr+u47J6ThSh53hiIYFwx936vk+gKA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-Tv9zhH2ePtylOmxHAtRayw-1; Sat, 26 Dec 2020 03:39:53 -0500
+X-MC-Unique: Tv9zhH2ePtylOmxHAtRayw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DDF9801817;
+ Sat, 26 Dec 2020 08:39:52 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-33.ams2.redhat.com [10.36.112.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B3ED77046F;
+ Sat, 26 Dec 2020 08:39:50 +0000 (UTC)
+Subject: Re: Deprecation of the LM32 target
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <49c3d04e-a94c-cf77-4df9-5ceb8c9c7f80@physik.fu-berlin.de>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <86690c16-3bc9-9c77-f720-64db14d0cf72@redhat.com>
+Date: Sat, 26 Dec 2020 09:39:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <7306ed10-871a-58ab-06d4-daa1efc5c9a7@huawei.com>
-Content-Type: text/plain; charset="windows-1252"
+In-Reply-To: <49c3d04e-a94c-cf77-4df9-5ceb8c9c7f80@physik.fu-berlin.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.37]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhukeqian1@huawei.com;
- helo=szxga06-in.huawei.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.561,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.561, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,76 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kuhn.chenqun@huawei.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- wanghaibin.wang@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Michael Walle <michael@walle.cc>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-[...]
-
->>> -        for (j = old_num_blocks; j < new_num_blocks; j++) {
->>> -            new_blocks->blocks[j] = bitmap_new(DIRTY_MEMORY_BLOCK_SIZE);
->>> +        if (extend) {
->>> +            for (j = cpy_num_blocks; j < new_num_blocks; j++) {
->>> +                new_blocks->blocks[j] = bitmap_new(DIRTY_MEMORY_BLOCK_SIZE);
->>> +            }
->>> +        } else {
->>> +            for (j = cpy_num_blocks; j < old_num_blocks; j++) {
->>> +                /* We are safe to free it, for that it is out-of-use */
->>> +                g_free(old_blocks->blocks[j]);
->>
->> This looks unsafe because this code uses Read Copy Update (RCU):
->>
->>   old_blocks = qatomic_rcu_read(&ram_list.dirty_memory[i]);
->>
->> Other threads may still be accessing old_blocks so we cannot modify it
->> immediately. Changes need to be deferred until the next RCU period.
->> g_free_rcu() needs to be used to do this.
->>
-> Hi Stefan,
+On 24/12/2020 10.53, John Paul Adrian Glaubitz wrote:
+> Hello!
 > 
-> You are right. I was thinking about the VM life cycle before. We shrink the dirty_memory
-> when we are removing unused ramblock. However we can not rely on this.
+> I was just browsing through the QEMU Christmas Calendar [1] and noticed
+> the announcement for the deprecation of the LM32 target.
 > 
-> I also notice that "Organization into blocks allows dirty memory to grow (but not shrink)
-> under RCU". Why "but not shrink"? Any thoughts?
-Hi,
+> I'm not sure what the motivation of the deprecation is, but isn't one of
+> the big selling points of QEMU to support deprecated targets?
+> 
+> If QEMU eventually ends up supporting commercially available targets only
+> and kicking out everything that is obsolete, I'm not sure what the point
+> of QEMU would be in the first place as products like VMWare and VirtualBox
+> already provide virtualization functionality.
+> 
+> Please don't deprecate targets just because they're old.
 
-After my analysis, it's both unsafe to grow or shrink under RCU.
+  Hi,
 
-ram_list.blocks and ram_list.dirty_memory[X] are closely related and
-both protected by RCU. For the lockless RCU readers, we can't promise they
-always see consistent version of the two structures.
+the problem is not that the target CPU is old, but rather that according to 
+the (former?) maintainer, there are no users left:
 
-For grow, a reader may see un-growed @dirty_memory and growed @blocks, causing out-of-bound access.
-For shrink, a reader may see shrinked @dirty_memory and un-shrinked @blocks, causing out-of-bound access too.
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg605024.html
 
-I think it's a design problem, RCU can just protect one structure, not two.
+So it got marked as deprecated in this commit here:
 
-Thanks,
-Keqian.
-> 
-> [...]
->  * Organization into blocks allows dirty memory to grow (but not shrink) under
->  * RCU.  When adding new RAMBlocks requires the dirty memory to grow, a new
->  * DirtyMemoryBlocks array is allocated with pointers to existing blocks kept
->  * the same.  Other threads can safely access existing blocks while dirty
->  * memory is being grown.  When no threads are using the old DirtyMemoryBlocks
->  * anymore it is freed by RCU (but the underlying blocks stay because they are
->  * pointed to from the new DirtyMemoryBlocks).
->  */
-> #define DIRTY_MEMORY_BLOCK_SIZE ((ram_addr_t)256 * 1024 * 8)
-> typedef struct {
->     struct rcu_head rcu;
->     unsigned long *blocks[];
-> } DirtyMemoryBlocks;
-> [...]
-> 
-> Thanks,
-> Keqian
-> 
-> 
-> .
-> 
+  https://git.qemu.org/?p=qemu.git;a=commitdiff;h=d84980051229fa43c96b3
+
+Without maintainer and without users, there is no point in keeping this 
+target, is there?
+
+  Thomas
+
 
