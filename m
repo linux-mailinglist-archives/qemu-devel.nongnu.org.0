@@ -2,43 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02002E3317
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 23:26:07 +0100 (CET)
-Received: from localhost ([::1]:49400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F672E3318
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 23:26:08 +0100 (CET)
+Received: from localhost ([::1]:49418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kteUI-0001Za-Eu
-	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 17:26:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34816)
+	id 1kteUJ-0001Zy-Et
+	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 17:26:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kteSp-0000Lu-5O
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 17:24:36 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:21905)
+ id 1kteSs-0000MP-GK
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 17:24:38 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:21904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kteSk-0007zq-Kj
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 17:24:34 -0500
+ id 1kteSk-0007zr-L4
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 17:24:38 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 0DBB47470E3;
+ by localhost (Postfix) with SMTP id 26DD374645B;
  Sun, 27 Dec 2020 23:24:27 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 85A8E74646C; Sun, 27 Dec 2020 23:24:26 +0100 (CET)
-Message-Id: <cover.1609107222.git.balaton@eik.bme.hu>
-Subject: [PATCH v2 0/2] Fix via-ide for fuloong2e
+ id 8D1927470DB; Sun, 27 Dec 2020 23:24:26 +0100 (CET)
+Message-Id: <19d68b4da7fc8dbffe3308c661143584ac830f29.1609107222.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1609107222.git.balaton@eik.bme.hu>
+References: <cover.1609107222.git.balaton@eik.bme.hu>
+Subject: [PATCH v2 1/2] ide: Make room for flags in PCIIDEState and add one
+ for legacy mode
 Date: Sun, 27 Dec 2020 23:13:42 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,25 +62,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-This implements the legacy-mode emulation option for via-ide which is
-needed for Linux on fuloong2e. I've tested that the Debian kernel now
-finds CD ROM and MorphOS on pegasos2 is not affected by this.
+We'll need a flag for implementing some device specific behaviour in
+via-ide but we already have a currently CMD646 specific field that can
+be repurposed for this and leave room for further flags if needed in
+the future. This patch changes the "secondary" field to "flags" and
+change CMD646 and its users accordingly and define a new flag for
+forcing legacy mode that will be used by via-ide for now.
 
-v2 adds review tags and fixes
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Tested-by: Guenter Roeck <linux@roeck-us.net>
+---
+v2: Fixed typo in commit message
 
-BALATON Zoltan (1):
-  ide: Make room for flags in PCIIDEState and add one for legacy mode
+ hw/ide/cmd646.c      | 4 ++--
+ hw/sparc64/sun4u.c   | 2 +-
+ include/hw/ide/pci.h | 7 ++++++-
+ 3 files changed, 9 insertions(+), 4 deletions(-)
 
-Guenter Roeck (1):
-  via-ide: Fix fuloong2e support
-
- hw/ide/cmd646.c      |  4 ++--
- hw/ide/via.c         | 19 +++++++++++++++++--
- hw/mips/fuloong2e.c  |  4 +++-
- hw/sparc64/sun4u.c   |  2 +-
- include/hw/ide/pci.h |  7 ++++++-
- 5 files changed, 29 insertions(+), 7 deletions(-)
-
+diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
+index c254631485..7a96016116 100644
+--- a/hw/ide/cmd646.c
++++ b/hw/ide/cmd646.c
+@@ -256,7 +256,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
+     pci_conf[PCI_CLASS_PROG] = 0x8f;
+ 
+     pci_conf[CNTRL] = CNTRL_EN_CH0; // enable IDE0
+-    if (d->secondary) {
++    if (d->flags & BIT(PCI_IDE_SECONDARY)) {
+         /* XXX: if not enabled, really disable the seconday IDE controller */
+         pci_conf[CNTRL] |= CNTRL_EN_CH1; /* enable IDE1 */
+     }
+@@ -314,7 +314,7 @@ static void pci_cmd646_ide_exitfn(PCIDevice *dev)
+ }
+ 
+ static Property cmd646_ide_properties[] = {
+-    DEFINE_PROP_UINT32("secondary", PCIIDEState, secondary, 0),
++    DEFINE_PROP_BIT("secondary", PCIIDEState, flags, PCI_IDE_SECONDARY, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 0fa13a7330..c46baa9f48 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -674,7 +674,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
+     }
+ 
+     pci_dev = pci_new(PCI_DEVFN(3, 0), "cmd646-ide");
+-    qdev_prop_set_uint32(&pci_dev->qdev, "secondary", 1);
++    qdev_prop_set_bit(&pci_dev->qdev, "secondary", true);
+     pci_realize_and_unref(pci_dev, pci_busA, &error_fatal);
+     pci_ide_create_devs(pci_dev);
+ 
+diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+index d8384e1c42..75d1a32f6d 100644
+--- a/include/hw/ide/pci.h
++++ b/include/hw/ide/pci.h
+@@ -42,6 +42,11 @@ typedef struct BMDMAState {
+ #define TYPE_PCI_IDE "pci-ide"
+ OBJECT_DECLARE_SIMPLE_TYPE(PCIIDEState, PCI_IDE)
+ 
++enum {
++    PCI_IDE_SECONDARY, /* used only for cmd646 */
++    PCI_IDE_LEGACY_MODE
++};
++
+ struct PCIIDEState {
+     /*< private >*/
+     PCIDevice parent_obj;
+@@ -49,7 +54,7 @@ struct PCIIDEState {
+ 
+     IDEBus bus[2];
+     BMDMAState bmdma[2];
+-    uint32_t secondary; /* used only for cmd646 */
++    uint32_t flags;
+     MemoryRegion bmdma_bar;
+     MemoryRegion cmd_bar[2];
+     MemoryRegion data_bar[2];
 -- 
 2.21.3
 
