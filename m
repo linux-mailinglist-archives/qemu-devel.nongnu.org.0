@@ -2,49 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7BC02E31ED
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 17:54:55 +0100 (CET)
-Received: from localhost ([::1]:45928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9591C2E321F
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 18:26:51 +0100 (CET)
+Received: from localhost ([::1]:50796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktZJm-0002RK-VY
-	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 11:54:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44658)
+	id 1ktZog-0002Tc-5p
+	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 12:26:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktZHe-0001Q7-N0
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 11:52:44 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57873)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktZHa-0007B4-UR
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 11:52:42 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A76EC7470E6;
- Sun, 27 Dec 2020 17:52:36 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 759D27470E3; Sun, 27 Dec 2020 17:52:36 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 73E287470DB;
- Sun, 27 Dec 2020 17:52:36 +0100 (CET)
-Date: Sun, 27 Dec 2020 17:52:36 +0100 (CET)
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 07/12] vt82c686: Remove vt82c686b_isa_init() function
-In-Reply-To: <2ba49ba3-c202-c498-0284-991e87f78fda@amsat.org>
-Message-ID: <dd9dfa8-a3cb-2d90-dad3-c74a035fee8@eik.bme.hu>
-References: <cover.1609031406.git.balaton@eik.bme.hu>
- <9258083b42c06413f79cbe9340731345948db5b5.1609031406.git.balaton@eik.bme.hu>
- <2ba49ba3-c202-c498-0284-991e87f78fda@amsat.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ktZmU-0001Cw-10
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 12:24:34 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33825)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1ktZmR-0006Bx-Tn
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 12:24:33 -0500
+Received: by mail-wr1-x429.google.com with SMTP id q18so8582558wrn.1
+ for <qemu-devel@nongnu.org>; Sun, 27 Dec 2020 09:24:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EWdL+aq8vFTT65j8T1mjSKpQaPv3MWTyT7ymBR5jy2I=;
+ b=uotbPecIzxBT4mnII9mvp2g62wq8zh1HdxpeUppr0RrATM43BEbwR+atjwGk9VLLVo
+ 8c7s8exp2i6k59u64TYkANdyOEuJkwCg5wekdq/jogE05XCSq+Ea1YFcKRfCb715eegb
+ jzZrcc8b8l+i4OYPIMixqerF9lkim11GUHuRnD/51PH78jWjlcf/wARkDpkK3dzkPgS8
+ VVqCj40QJvo2KLzSfIX57FZDEgkci4rmpQ+PNWAIn3JvPIwpeHuAWQ3aHJDFe4nNDZt5
+ TYq3YHBCqIWWDz9Bw2Yvu2AkpBOv9AkRAHRLZHJJ/uDQkFaBrIzo0xE3wNnuP7CeAyx4
+ Z3sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EWdL+aq8vFTT65j8T1mjSKpQaPv3MWTyT7ymBR5jy2I=;
+ b=I5XHrEs0NhZN1EBGuN8eO7lRMv2fo5+LPqIHa9TWFqYRHceTJ9nBsp9jX9WCH2zz9r
+ P3inRTh6UeaiahdA8tLBzSGmoaZihxlnt5EJI7eUTa/PMzFj2Kol5OtPDuehHGmRmYGD
+ mN12FHnm1Km9rf/TkloDek3Xg87H/dzQ4UtXr7zjRoTyTHxxbDI+rlkPEN3VS75MajMa
+ tkvBJdXoO1eECyVo1PVhQOxpVQYK3sL325Xg1VuSNufhUvGZER+fxpdc1p2siyKgw6EW
+ 4V6m4bpIq2X0PanTw+JpxMP/NZc4AlzPztYFDPLbqYqMd3vS+4jQAG5iRqXDdQU8VjbY
+ BMPQ==
+X-Gm-Message-State: AOAM531qdYenCxi/Z5JlK0sN5sXJaiJeeh7rC11vy5ldcCwLZ4IlFVzj
+ 0FN+1I2ps3KFxJ1CNQaM7kI=
+X-Google-Smtp-Source: ABdhPJzpqVtbZ4eiWAjcH0Syvx4n6l4Lm/TS+56i9TWoZQ+D+nofkCXGvDb9KkFo+304Qbb/FxG3AQ==
+X-Received: by 2002:adf:f6cc:: with SMTP id y12mr47320190wrp.35.1609089870467; 
+ Sun, 27 Dec 2020 09:24:30 -0800 (PST)
+Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
+ ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
+ by smtp.gmail.com with ESMTPSA id y13sm48980649wrl.63.2020.12.27.09.24.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 27 Dec 2020 09:24:29 -0800 (PST)
+Subject: Re: [PATCH 2/2] via-ide: Fix fuloong2e support
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <cover.1608852217.git.balaton@eik.bme.hu>
+ <796292ea92f3f00e696b1eea33ef0c6815002bf0.1608852217.git.balaton@eik.bme.hu>
+ <00c994c9-99d8-5b34-3976-4e6617b794a2@amsat.org>
+ <8c7e7487-3cb8-5df3-2ce7-5b4bb1b698c2@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <cdf2cf0e-bde8-a854-5206-4e55bdcc733f@amsat.org>
+Date: Sun, 27 Dec 2020 18:24:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1253815910-1609087956=:84491"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <8c7e7487-3cb8-5df3-2ce7-5b4bb1b698c2@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.829,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,112 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 12/27/20 5:40 PM, BALATON Zoltan via wrote:
+> On Sun, 27 Dec 2020, Philippe Mathieu-Daudé wrote:
+>> On 12/25/20 12:23 AM, BALATON Zoltan wrote:
+>>> From: Guenter Roeck <linux@roeck-us.net>
+>>>
+>>> Fuloong2e needs to use legacy mode for IDE support to work with Linux.
+>>> Add property to via-ide driver to make the mode configurable, and set
+>>> legacy mode for Fuloong2e.
+>>>
+>>
+>> Fixes: 4ea98d317eb ("ide/via: Implement and use native PCI IDE mode")?
+> 
+> Not really. That patch did what it said (only emulating (half) native
+> mode instead of only emulating legacy mode) so it wasn't broken per se
+> but it turned out that approach wasn't good enough for all use cases so
+> this now takes a different turn (emulating either legacy or half-native
+> mode based on option property). Therefore. I don't think Fixes: applies
+> in this case. It fixes an issue with a guest but replaces previous patch
+> with different approach. (Even though it reuses most of it.)
 
---3866299591-1253815910-1609087956=:84491
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Well, if Linux guest got broken by this commit, why not name it a "fix"?
+Anyway I don't mind how it is called. I find important to refer to the
+commit hash to help navigating between commits while reviewing history.
 
-On Sun, 27 Dec 2020, Philippe Mathieu-Daudé wrote:
-> On 12/27/20 2:10 AM, BALATON Zoltan via wrote:
->> Also rename VT82C686B type to lower case to match other device names.
->
-> If possible do not split the commit description in 2 (one part in
-> subject and the other part here) as this is annoying to read.
+What about:
 
-Not so much in the commit log but maybe indeed on the list in email. I did 
-not want to repeat subject in the description but can if you prefer.
+'''
+The legacy mode for IDE support has been removed in commit 4ea98d317eb
+("ide/via: Implement and use native PCI IDE mode"). When using a Linux
+guest, the Fuloong2e machine requires the legacy mode.
+Add property to via-ide driver to make the mode configurable, and set
+legacy mode for Fuloong2e.
+'''
 
-Thanks for reviewing these, I'll wait a few days to see if there are any 
-other comments then will send v2 with suggested changes.
+Guenter, is that OK with you? (I can update when applying this series
+via the MIPS tree).
 
-Regards,
-BALATON Zoltan
+Thanks,
 
->>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>  hw/isa/vt82c686.c         | 9 ---------
->>  hw/mips/fuloong2e.c       | 4 +++-
->>  include/hw/isa/vt82c686.h | 3 +--
->>  3 files changed, 4 insertions(+), 12 deletions(-)
->>
->> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->> index 758c54172b..1c1239cade 100644
->> --- a/hw/isa/vt82c686.c
->> +++ b/hw/isa/vt82c686.c
->> @@ -49,7 +49,6 @@ struct VT82C686BState {
->>      SuperIOConfig superio_conf;
->>  };
->>
->> -#define TYPE_VT82C686B "VT82C686B"
->>  OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BState, VT82C686B)
->>
->>  static void superio_ioport_writeb(void *opaque, hwaddr addr, uint64_t data,
->> @@ -367,14 +366,6 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
->>                                  &vt82c->superio);
->>  }
->>
->> -ISABus *vt82c686b_isa_init(PCIBus *bus, int devfn)
->> -{
->> -    PCIDevice *d;
->> -
->> -    d = pci_create_simple_multifunction(bus, devfn, true, TYPE_VT82C686B);
->> -    return ISA_BUS(qdev_get_child_bus(DEVICE(d), "isa.0"));
->> -}
->> -
->>  static void via_class_init(ObjectClass *klass, void *data)
->>  {
->>      DeviceClass *dc = DEVICE_CLASS(klass);
->> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
->> index 3b0489f781..60d2020033 100644
->> --- a/hw/mips/fuloong2e.c
->> +++ b/hw/mips/fuloong2e.c
->> @@ -240,7 +240,9 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
->>      ISABus *isa_bus;
->>      PCIDevice *dev;
->>
->> -    isa_bus = vt82c686b_isa_init(pci_bus, PCI_DEVFN(slot, 0));
->> +    dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot, 0), true,
->> +                                          TYPE_VT82C686B);
->
-> Good cleanup.
->
-> Preferably using TYPE_VT82C686B_ISA:
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->
->> +    isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(dev), "isa.0"));
->>      assert(isa_bus);
->>      *p_isa_bus = isa_bus;
->>      /* Interrupt controller */
->> diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
->> index ff80a926dc..89e205a1be 100644
->> --- a/include/hw/isa/vt82c686.h
->> +++ b/include/hw/isa/vt82c686.h
->> @@ -1,13 +1,12 @@
->>  #ifndef HW_VT82C686_H
->>  #define HW_VT82C686_H
->>
->> -
->> +#define TYPE_VT82C686B "vt82c686b"
->>  #define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
->>  #define TYPE_VIA_AC97 "via-ac97"
->>  #define TYPE_VIA_MC97 "via-mc97"
->>
->>  /* vt82c686.c */
->> -ISABus *vt82c686b_isa_init(PCIBus * bus, int devfn);
->>  I2CBus *vt82c686b_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
->>                            qemu_irq sci_irq);
->>
->>
->
->
---3866299591-1253815910-1609087956=:84491--
+Phil.
+
+> 
+> Regards,
+> BALATON Zoltan
 
