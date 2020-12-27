@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813282E2F94
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 02:29:55 +0100 (CET)
-Received: from localhost ([::1]:50124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06FB32E2F8D
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 02:24:45 +0100 (CET)
+Received: from localhost ([::1]:37144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktKsc-0007FL-Ix
-	for lists+qemu-devel@lfdr.de; Sat, 26 Dec 2020 20:29:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33200)
+	id 1ktKnb-0001jq-En
+	for lists+qemu-devel@lfdr.de; Sat, 26 Dec 2020 20:24:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktKkS-0008QW-0L
- for qemu-devel@nongnu.org; Sat, 26 Dec 2020 20:21:28 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:61477)
+ id 1ktKkR-0008QA-5N
+ for qemu-devel@nongnu.org; Sat, 26 Dec 2020 20:21:27 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:61478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktKkN-0001AP-4p
- for qemu-devel@nongnu.org; Sat, 26 Dec 2020 20:21:27 -0500
+ id 1ktKkN-0001AN-4s
+ for qemu-devel@nongnu.org; Sat, 26 Dec 2020 20:21:26 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D9BD57470F3;
+ by localhost (Postfix) with SMTP id DBB517470F4;
  Sun, 27 Dec 2020 02:21:17 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id AD70C74646C; Sun, 27 Dec 2020 02:21:17 +0100 (CET)
-Message-Id: <cover.1609031406.git.balaton@eik.bme.hu>
-Date: Sun, 27 Dec 2020 02:10:06 +0100
-Subject: [PATCH 00/12] Misc vt82c686b clean ups
+ id B342F7470DF; Sun, 27 Dec 2020 02:21:17 +0100 (CET)
+Message-Id: <2157782addb379824c71edd301108f7799302694.1609031406.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1609031406.git.balaton@eik.bme.hu>
+References: <cover.1609031406.git.balaton@eik.bme.hu>
+Subject: [PATCH 01/12] vt82c686: Add APM and ACPI dependencies for VT82C686
 Date: Sun, 27 Dec 2020 02:10:06 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, INVALID_DATE=1.096,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,38 +59,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-This series are some small clean ups to the vt82c686b south bridge and
-superio chip model that is only used by the mips/fuloong2e machine.
-These are also in preparation to add emulation of the very similar
-vt8231 later that will be used by ppc/pegasos2.
+Compiling vt82c686.c fails without APM and ACPI_PM functions. Add
+dependency on these in Kconfig to fix this.
 
-Regards,
-BALATON Zoltan
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/isa/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-BALATON Zoltan (12):
-  vt82c686: Add APM and ACPI dependencies for VT82C686
-  vt82c686: Rename AC97/MC97 parts from VT82C686B to VIA
-  vt82c686: Remove unnecessary _DEVICE suffix from type macros
-  vt82c686: Remove vt82c686b_[am]c97_init() functions
-  vt82c686: Split off via-[am]c97 into separate file in hw/audio
-  audio/via-ac97: Simplify code and set user_creatable to false
-  vt82c686: Remove vt82c686b_isa_init() function
-  vt82c686: Remove vt82c686b_pm_init() function
-  vt82c686: Convert debug printf to trace points
-  vt82c686: Remove unneeded includes and defines
-  vt82c686: Rename some functions to better show where they belong
-  vt82c686: Do not add floppy
-
- hw/audio/meson.build      |   1 +
- hw/audio/via-ac97.c       |  93 ++++++++++++++
- hw/isa/Kconfig            |   2 +
- hw/isa/trace-events       |   6 +
- hw/isa/vt82c686.c         | 258 +++++++-------------------------------
- hw/mips/fuloong2e.c       |  13 +-
- include/hw/isa/vt82c686.h |  12 +-
- 7 files changed, 161 insertions(+), 224 deletions(-)
- create mode 100644 hw/audio/via-ac97.c
-
+diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+index c7f07854f7..2ca2593ee6 100644
+--- a/hw/isa/Kconfig
++++ b/hw/isa/Kconfig
+@@ -47,6 +47,8 @@ config VT82C686
+     select ACPI_SMBUS
+     select SERIAL_ISA
+     select FDC
++    select APM
++    select ACPI_X86
+ 
+ config SMC37C669
+     bool
 -- 
 2.21.3
 
