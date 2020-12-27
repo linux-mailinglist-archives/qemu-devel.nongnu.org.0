@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D98E2E31E5
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 17:47:05 +0100 (CET)
-Received: from localhost ([::1]:34352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DC32E31E0
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 17:44:45 +0100 (CET)
+Received: from localhost ([::1]:56282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktZCC-0005ky-Lu
-	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 11:47:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43268)
+	id 1ktZ9w-0002xs-IT
+	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 11:44:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1ktZ8D-0001OZ-Gr
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1ktZ8C-0001OV-35
  for qemu-devel@nongnu.org; Sun, 27 Dec 2020 11:42:57 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:33892)
+Received: from kerio.kamp.de ([195.62.97.192]:33894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1ktZ89-0003wr-PK
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 11:42:57 -0500
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1ktZ89-0003wt-Pk
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 11:42:55 -0500
 X-Footer: a2FtcC5kZQ==
 Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
  for qemu-devel@nongnu.org; Sun, 27 Dec 2020 17:42:42 +0100
-Received: (qmail 22366 invoked from network); 27 Dec 2020 16:42:44 -0000
+Received: (qmail 22374 invoked from network); 27 Dec 2020 16:42:44 -0000
 Received: from lieven-pc.kamp-intra.net (HELO lieven-pc)
  (relay@kamp.de@::ffff:172.21.12.60)
  by submission.kamp.de with ESMTPS (DHE-RSA-AES256-GCM-SHA384 encrypted) ESMTPA;
  27 Dec 2020 16:42:44 -0000
 Received: by lieven-pc (Postfix, from userid 1060)
- id 64E4E13DD27; Sun, 27 Dec 2020 17:42:44 +0100 (CET)
+ id 6772013DD28; Sun, 27 Dec 2020 17:42:44 +0100 (CET)
 From: Peter Lieven <pl@kamp.de>
 To: qemu-block@nongnu.org
-Subject: [PATCH 6/7] block/rbd: add write zeroes support
-Date: Sun, 27 Dec 2020 17:42:35 +0100
-Message-Id: <20201227164236.10143-7-pl@kamp.de>
+Subject: [PATCH 7/7] block/rbd: change request alignment to 1 byte
+Date: Sun, 27 Dec 2020 17:42:36 +0100
+Message-Id: <20201227164236.10143-8-pl@kamp.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201227164236.10143-1-pl@kamp.de>
 References: <20201227164236.10143-1-pl@kamp.de>
@@ -60,90 +60,27 @@ Cc: kwolf@redhat.com, Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+since we implement byte interfaces and librbd supports aio on byte granularity we can lift
+the 512 byte alignment.
+
 Signed-off-by: Peter Lieven <pl@kamp.de>
 ---
- block/rbd.c | 31 ++++++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+ block/rbd.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/block/rbd.c b/block/rbd.c
-index 2d77d0007f..27b4404adf 100644
+index 27b4404adf..8673e8f553 100644
 --- a/block/rbd.c
 +++ b/block/rbd.c
-@@ -63,7 +63,8 @@ typedef enum {
-     RBD_AIO_READ,
-     RBD_AIO_WRITE,
-     RBD_AIO_DISCARD,
--    RBD_AIO_FLUSH
-+    RBD_AIO_FLUSH,
-+    RBD_AIO_WRITE_ZEROES
- } RBDAIOCmd;
- 
- typedef struct BDRVRBDState {
-@@ -221,8 +222,12 @@ done:
- 
+@@ -223,8 +223,6 @@ done:
  static void qemu_rbd_refresh_limits(BlockDriverState *bs, Error **errp)
  {
-+    BDRVRBDState *s = bs->opaque;
-     /* XXX Does RBD support AIO on less than 512-byte alignment? */
-     bs->bl.request_alignment = 512;
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+    bs->bl.pwrite_zeroes_alignment = s->object_size;
-+#endif
- }
- 
- 
-@@ -695,6 +700,9 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
-     }
- 
-     s->aio_context = bdrv_get_aio_context(bs);
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+    bs->supported_zero_flags = BDRV_REQ_MAY_UNMAP;
-+#endif
- 
-     /* When extending regular files, we get zeros from the OS */
-     bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
-@@ -808,6 +816,11 @@ static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
-     case RBD_AIO_FLUSH:
-         r = rbd_aio_flush(s->image, c);
-         break;
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+    case RBD_AIO_WRITE_ZEROES:
-+        r = rbd_aio_write_zeroes(s->image, offset, bytes, c, 0, 0);
-+        break;
-+#endif
-     default:
-         r = -EINVAL;
-     }
-@@ -880,6 +893,19 @@ static int coroutine_fn qemu_rbd_co_pdiscard(BlockDriverState *bs,
-     return qemu_rbd_start_co(bs, offset, count, NULL, 0, RBD_AIO_DISCARD);
- }
- 
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+static int
-+coroutine_fn qemu_rbd_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset,
-+                                      int count, BdrvRequestFlags flags)
-+{
-+    if (!(flags & BDRV_REQ_MAY_UNMAP)) {
-+        return -ENOTSUP;
-+    }
-+    return qemu_rbd_start_co(bs, offset, count, NULL, flags,
-+                             RBD_AIO_WRITE_ZEROES);
-+}
-+#endif
-+
- static int qemu_rbd_getinfo(BlockDriverState *bs, BlockDriverInfo *bdi)
- {
      BDRVRBDState *s = bs->opaque;
-@@ -1108,6 +1134,9 @@ static BlockDriver bdrv_rbd = {
-     .bdrv_co_pwritev        = qemu_rbd_co_pwritev,
-     .bdrv_co_flush_to_disk  = qemu_rbd_co_flush,
-     .bdrv_co_pdiscard       = qemu_rbd_co_pdiscard,
-+#ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-+    .bdrv_co_pwrite_zeroes  = qemu_rbd_co_pwrite_zeroes,
-+#endif
- 
-     .bdrv_snapshot_create   = qemu_rbd_snap_create,
-     .bdrv_snapshot_delete   = qemu_rbd_snap_remove,
+-    /* XXX Does RBD support AIO on less than 512-byte alignment? */
+-    bs->bl.request_alignment = 512;
+ #ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
+     bs->bl.pwrite_zeroes_alignment = s->object_size;
+ #endif
 -- 
 2.17.1
 
