@@ -2,47 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90DC32E31E0
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 17:44:45 +0100 (CET)
-Received: from localhost ([::1]:56282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7A4F2E31EB
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 17:53:00 +0100 (CET)
+Received: from localhost ([::1]:42558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktZ9w-0002xs-IT
-	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 11:44:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43242)
+	id 1ktZHv-0000zt-P0
+	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 11:52:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1ktZ8C-0001OV-35
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 11:42:57 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:33894)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ktZCD-00065H-2a
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 11:47:05 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:26176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1ktZ89-0003wt-Pk
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 11:42:55 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 17:42:42 +0100
-Received: (qmail 22374 invoked from network); 27 Dec 2020 16:42:44 -0000
-Received: from lieven-pc.kamp-intra.net (HELO lieven-pc)
- (relay@kamp.de@::ffff:172.21.12.60)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES256-GCM-SHA384 encrypted) ESMTPA;
- 27 Dec 2020 16:42:44 -0000
-Received: by lieven-pc (Postfix, from userid 1060)
- id 6772013DD28; Sun, 27 Dec 2020 17:42:44 +0100 (CET)
-From: Peter Lieven <pl@kamp.de>
-To: qemu-block@nongnu.org
-Subject: [PATCH 7/7] block/rbd: change request alignment to 1 byte
-Date: Sun, 27 Dec 2020 17:42:36 +0100
-Message-Id: <20201227164236.10143-8-pl@kamp.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201227164236.10143-1-pl@kamp.de>
-References: <20201227164236.10143-1-pl@kamp.de>
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1ktZCB-0005Or-HK
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 11:47:04 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A47117470DB;
+ Sun, 27 Dec 2020 17:47:01 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 217C274646C; Sun, 27 Dec 2020 17:47:01 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 204F874645F;
+ Sun, 27 Dec 2020 17:47:01 +0100 (CET)
+Date: Sun, 27 Dec 2020 17:47:01 +0100 (CET)
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 06/12] audio/via-ac97: Simplify code and set user_creatable
+ to false
+In-Reply-To: <59478f83-35ab-6610-5233-dd300fc8cb27@amsat.org>
+Message-ID: <4a618736-44bb-ccf3-b5bd-e443ab5502b@eik.bme.hu>
+References: <cover.1609031406.git.balaton@eik.bme.hu>
+ <717bd2ed67a42476fdb4c6132d7c351eb9f54282.1609031406.git.balaton@eik.bme.hu>
+ <59478f83-35ab-6610-5233-dd300fc8cb27@amsat.org>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="3866299591-437266030-1609087621=:84491"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,34 +59,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
- ct@flyingcircus.io, mreitz@redhat.com, dillaman@redhat.com
+Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-since we implement byte interfaces and librbd supports aio on byte granularity we can lift
-the 512 byte alignment.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Peter Lieven <pl@kamp.de>
----
- block/rbd.c | 2 --
- 1 file changed, 2 deletions(-)
+--3866299591-437266030-1609087621=:84491
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/block/rbd.c b/block/rbd.c
-index 27b4404adf..8673e8f553 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -223,8 +223,6 @@ done:
- static void qemu_rbd_refresh_limits(BlockDriverState *bs, Error **errp)
- {
-     BDRVRBDState *s = bs->opaque;
--    /* XXX Does RBD support AIO on less than 512-byte alignment? */
--    bs->bl.request_alignment = 512;
- #ifdef LIBRBD_SUPPORTS_WRITE_ZEROES
-     bs->bl.pwrite_zeroes_alignment = s->object_size;
- #endif
--- 
-2.17.1
+On Sun, 27 Dec 2020, Philippe Mathieu-Daudé wrote:
+> Hi Zoltan,
+>
+> On 12/27/20 2:10 AM, BALATON Zoltan via wrote:
+>> Remove some unneded, empty code and set user_creatable to false
+>> (besides being not implemented yet, so does nothing anyway) it's also
+>> normally part of VIA south bridge chips so no need to confuse users
+>> showing them these devices.
+>
+> After contributing during more than 8 years you should know we try
+> to avoid to do multiples changes in the same patch ;)
 
+Yes, in my understanding patches should be split if
 
+- it makes bisecting easier or
+- makes reviewing easier
+
+Which of the above appies in this case? I think these are changes that 
+should neither brake anything (as this device doesn't don't do anyting 
+yet) and adding user_creatable false is a one line change that's easy to 
+review even with the other changes. If you insist I can split this into 
+two but I didn't think that would be any better and the series was long 
+enough already.
+
+Regards,
+BALATON Zoltan
+
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  hw/audio/via-ac97.c | 51 +++++++++++++++++----------------------------
+>>  1 file changed, 19 insertions(+), 32 deletions(-)
+>
+>
+--3866299591-437266030-1609087621=:84491--
 
