@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558CD2E31A9
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 16:19:48 +0100 (CET)
-Received: from localhost ([::1]:34474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFA22E31AB
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 16:21:44 +0100 (CET)
+Received: from localhost ([::1]:36626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktXpi-0000wA-Ug
-	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 10:19:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60656)
+	id 1ktXrb-0001xU-Ak
+	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 10:21:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ktXol-0000Uc-R6
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 10:18:47 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50746)
+ id 1ktXqQ-0001Ux-G1
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 10:20:30 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:50757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ktXoj-000875-U2
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 10:18:47 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id 190so7419350wmz.0
- for <qemu-devel@nongnu.org>; Sun, 27 Dec 2020 07:18:45 -0800 (PST)
+ id 1ktXqO-0000B0-Bt
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 10:20:30 -0500
+Received: by mail-wm1-x333.google.com with SMTP id 190so7421437wmz.0
+ for <qemu-devel@nongnu.org>; Sun, 27 Dec 2020 07:20:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ihEh+66RDrlAeqbFLP+FLA0QLHiw+HTgaJjrSxkb3X8=;
- b=IeCytoYZ6uksMzH/T4RjREYCfs3lvR02kEiGZ+f9JnrvCrawYrg+yFmaKCjtsqWh6E
- Lum5NKoNjeIu8N2Xg44BRnpr72H0X8bqRWnSSzgI4NPYQ2ydr8ogzC2jyuRN3aM0DGbg
- sG50wPSQQGnfoNWby535IyjIZIdCTxBV/aNvoITQJagGBxS6XmKh2m2uz96ijruc61Uu
- l6bz1CYDbMIW1BqPFOvEXagIsmXSlwqBNTKfsl4ulxFjGN/Dq/pvrwUWOw8g3iFP3dJG
- ILr8dK8Q3qIGz2BQS0kBX9+HgNnqEDyHtaMmHmsvjKplubTM7RqiWbskO4EirFBkjcYM
- CWsA==
+ bh=4gL1zsAamTvSZJzc+izv2MFjL0DCvLpuRWzBVRDN1B8=;
+ b=cXx4ivtHErVjMl0kQOn2drlMheia6ZkE4UuottH/JMy1jbCl3lduz1Kd0WXd8Gw8VZ
+ dhduF8SmXG556K4PyYABLqrrodHEIqv2BwjI9KGeZFWnFzeWw9dgBVCsP3SewYEfr/s5
+ Q4TQ4j+zedSE6+DNhuUbKcGzzmBOcHzZhKbsEkz6A7H8FEQNs9wiHARCctFc33skDzWh
+ Rj6BUQoO+xndVtoyBy1j7W+vSajJJydsxRASY99D3MTBgIDbVWAAtdnkguYF87+7hpL3
+ LKe/l3TIorZrdP59XThlSWVt+RABiDivA8OQW7AMkmUFR/iwSZk2G6JYLMT8h1Rf6CwN
+ 0Y9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ihEh+66RDrlAeqbFLP+FLA0QLHiw+HTgaJjrSxkb3X8=;
- b=Rj4/8kLZE/eh2QIPPZnT15M+A9Y/ALhQIm+j87+C0JEbrHzDII5YitcNj/IXI8Ui3s
- 57sT79rmsagf4rLmTR0ZWhZbG4MECdYtcAvguayrNSNXBILJRIXCvdWXb/t/zJEQAToJ
- RsnjFotxrZsYhLOEQbkX/I3LZ+fa9ZyfavgJ3JlW/0Oh7W3INrMkY1WDrbh5lhZN/fzy
- W+rc9lVII5LC56sZWjbxpOW84B9e0TNFugdTNc/mfV5R9CE9clD6/B31LgIIdcxJSjmi
- pw7Arwc3xvPwnFnssduJOXlMPM5b4vCISVO/IHR+bmrDfqYbSWBhm4TZGmOukBileLB3
- MwXw==
-X-Gm-Message-State: AOAM5312wPtypr2uINEI598wIctxYzcjPo9rRYEvywajaHnvaC4z5RAE
- xMS+oHFDaSE9kyoOfqJAz+I=
-X-Google-Smtp-Source: ABdhPJy0t73lNNDe+YL4ywFCZl5jcRqj1NEpk5CyuOoxXnRdJEEO5imnSohau09IYu5By3pfL0H3VA==
-X-Received: by 2002:a7b:cb93:: with SMTP id m19mr16660051wmi.128.1609082324402; 
- Sun, 27 Dec 2020 07:18:44 -0800 (PST)
+ bh=4gL1zsAamTvSZJzc+izv2MFjL0DCvLpuRWzBVRDN1B8=;
+ b=Q1dyaWsz3aVZ/DffahmB6IzaS6cVCfXljMbUOcLHJkq4PS6bK3Ug3W3u7xEcATH4Fr
+ WcMyS9apxRdLd79VoOeyWsSSH97DOvNPd4D4uqPFA8/RLZdbP+G8YbPgCOYjFbR6QM+0
+ dXgfhUhi2Rh+WsH8HM0KGROI9HVabHjjhbs3SjLaUp6bjIDr5dTONPDB0lTxNWRksh9F
+ 5hUXw6/mdnBI2PVV236Zcd24b/+Pme3FaLCgNh6ZcbA+qnswaNPgOLsKJiktnss4tJN4
+ mD0GdN8z6mF0Trikh0Fj9N/GpwJYEvB1A2lf6xdO1Q46s6q2/xzVmsfyYWWXQTsWkf7W
+ y0qg==
+X-Gm-Message-State: AOAM530AK1RjAFH10YwgdnOmTWanv5DVRYZ4gdG0cUNk8QVH15aKISd9
+ jWZkVpVeD7Wc3GQgJ2vJMAi0fp8nH2o=
+X-Google-Smtp-Source: ABdhPJwOus5IkZDiq0Zr3ydAgMOQFxlPHuMPt4tsuBzf2h31F92VG8a8eeJLH+SssXsQetLNgJjBsg==
+X-Received: by 2002:a1c:9684:: with SMTP id y126mr16181465wmd.2.1609082425335; 
+ Sun, 27 Dec 2020 07:20:25 -0800 (PST)
 Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
  ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
- by smtp.gmail.com with ESMTPSA id w8sm51091568wrl.91.2020.12.27.07.18.43
+ by smtp.gmail.com with ESMTPSA id g192sm16022255wme.48.2020.12.27.07.20.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Dec 2020 07:18:43 -0800 (PST)
-Subject: Re: [PATCH 2/2] via-ide: Fix fuloong2e support
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>
-References: <cover.1608852217.git.balaton@eik.bme.hu>
- <796292ea92f3f00e696b1eea33ef0c6815002bf0.1608852217.git.balaton@eik.bme.hu>
+ Sun, 27 Dec 2020 07:20:24 -0800 (PST)
+Subject: Re: [PATCH 01/16] tcg/s390x: Rename from tcg/s390
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20201225201956.692861-1-richard.henderson@linaro.org>
+ <20201225201956.692861-2-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <00c994c9-99d8-5b34-3976-4e6617b794a2@amsat.org>
-Date: Sun, 27 Dec 2020 16:18:42 +0100
+Message-ID: <d3c4dd1e-3b8d-bca7-54f6-f5456b6c29cf@amsat.org>
+Date: Sun, 27 Dec 2020 16:20:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <796292ea92f3f00e696b1eea33ef0c6815002bf0.1608852217.git.balaton@eik.bme.hu>
+In-Reply-To: <20201225201956.692861-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -90,101 +89,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Huacai Chen <chenhuacai@kernel.org>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/25/20 12:23 AM, BALATON Zoltan wrote:
-> From: Guenter Roeck <linux@roeck-us.net>
+On 12/25/20 9:19 PM, Richard Henderson wrote:
+> This emphasizes that we don't support s390, only 64-bit s390x hosts.
 > 
-> Fuloong2e needs to use legacy mode for IDE support to work with Linux.
-> Add property to via-ide driver to make the mode configurable, and set
-> legacy mode for Fuloong2e.
-> 
-
-Fixes: 4ea98d317eb ("ide/via: Implement and use native PCI IDE mode")?
-
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> [balaton: Use bit in flags for property, add comment for missing BAR4]
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/ide/via.c        | 19 +++++++++++++++++--
->  hw/mips/fuloong2e.c |  4 +++-
->  2 files changed, 20 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/ide/via.c b/hw/ide/via.c
-> index be09912b33..7d54d7e829 100644
-> --- a/hw/ide/via.c
-> +++ b/hw/ide/via.c
-> @@ -26,6 +26,7 @@
->  
->  #include "qemu/osdep.h"
->  #include "hw/pci/pci.h"
-> +#include "hw/qdev-properties.h"
->  #include "migration/vmstate.h"
->  #include "qemu/module.h"
->  #include "sysemu/dma.h"
-> @@ -185,12 +186,19 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
->                            &d->bus[1], "via-ide1-cmd", 4);
->      pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[1]);
->  
-> -    bmdma_setup_bar(d);
-> -    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
-> +    if (!(d->flags & BIT(PCI_IDE_LEGACY_MODE))) {
-> +        /* Missing BAR4 will make Linux driver fall back to legacy PIO mode */
-> +        bmdma_setup_bar(d);
-> +        pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
-> +    }
->  
->      qdev_init_gpio_in(ds, via_ide_set_irq, 2);
->      for (i = 0; i < 2; i++) {
->          ide_bus_new(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
-> +        if (d->flags & BIT(PCI_IDE_LEGACY_MODE)) {
-> +            ide_init_ioport(&d->bus[i], NULL, i ? 0x170 : 0x1f0,
-> +                            i ? 0x376 : 0x3f6);
-> +        }
->          ide_init2(&d->bus[i], qdev_get_gpio_in(ds, i));
->  
->          bmdma_init(&d->bus[i], &d->bmdma[i], d);
-> @@ -210,6 +218,12 @@ static void via_ide_exitfn(PCIDevice *dev)
->      }
->  }
->  
-> +static Property via_ide_properties[] = {
-> +    DEFINE_PROP_BIT("legacy_mode", PCIIDEState, flags, PCI_IDE_LEGACY_MODE,
-> +                    false),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
->  static void via_ide_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -223,6 +237,7 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
->      k->device_id = PCI_DEVICE_ID_VIA_IDE;
->      k->revision = 0x06;
->      k->class_id = PCI_CLASS_STORAGE_IDE;
-> +    device_class_set_props(dc, via_ide_properties);
->      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
->  }
->  
-> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-> index 45c596f4fe..f0733e87b7 100644
-> --- a/hw/mips/fuloong2e.c
-> +++ b/hw/mips/fuloong2e.c
-> @@ -253,7 +253,9 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
->      /* Super I/O */
->      isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
->  
-> -    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
-> +    dev = pci_new(PCI_DEVFN(slot, 1), "via-ide");
-> +    qdev_prop_set_bit(&dev->qdev, "legacy_mode", true);
-> +    pci_realize_and_unref(dev, pci_bus, &error_fatal);
->      pci_ide_create_devs(dev);
->  
->      pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
-> 
+>  meson.build                             | 2 --
+>  tcg/{s390 => s390x}/tcg-target-conset.h | 0
+>  tcg/{s390 => s390x}/tcg-target-constr.h | 0
+>  tcg/{s390 => s390x}/tcg-target.h        | 0
+>  tcg/{s390 => s390x}/tcg-target.c.inc    | 0
+>  5 files changed, 2 deletions(-)
+>  rename tcg/{s390 => s390x}/tcg-target-conset.h (100%)
+>  rename tcg/{s390 => s390x}/tcg-target-constr.h (100%)
+>  rename tcg/{s390 => s390x}/tcg-target.h (100%)
+>  rename tcg/{s390 => s390x}/tcg-target.c.inc (100%)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
 
