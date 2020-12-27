@@ -2,51 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A1F2E331C
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 23:29:20 +0100 (CET)
-Received: from localhost ([::1]:56462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 852492E332E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 00:14:09 +0100 (CET)
+Received: from localhost ([::1]:38460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kteXP-0004by-3n
-	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 17:29:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35448)
+	id 1ktfEm-0006eB-4V
+	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 18:14:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kteWC-0003XE-U2
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 17:28:05 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:36612)
+ (Exim 4.90_1) (envelope-from <posteuca@mutex.one>)
+ id 1ktfDX-00066B-EY; Sun, 27 Dec 2020 18:12:51 -0500
+Received: from mail.mutex.one ([62.77.152.124]:35832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kteW8-0000oN-PZ
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 17:28:04 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 9990F74646C;
- Sun, 27 Dec 2020 23:27:59 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 680A074645F; Sun, 27 Dec 2020 23:27:59 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 667E074645B;
- Sun, 27 Dec 2020 23:27:59 +0100 (CET)
-Date: Sun, 27 Dec 2020 23:27:59 +0100 (CET)
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 2/2] via-ide: Fix fuloong2e support
-In-Reply-To: <cdf2cf0e-bde8-a854-5206-4e55bdcc733f@amsat.org>
-Message-ID: <ecf2dfd6-b38-a2f7-68d-6164f15b6710@eik.bme.hu>
-References: <cover.1608852217.git.balaton@eik.bme.hu>
- <796292ea92f3f00e696b1eea33ef0c6815002bf0.1608852217.git.balaton@eik.bme.hu>
- <00c994c9-99d8-5b34-3976-4e6617b794a2@amsat.org>
- <8c7e7487-3cb8-5df3-2ce7-5b4bb1b698c2@eik.bme.hu>
- <cdf2cf0e-bde8-a854-5206-4e55bdcc733f@amsat.org>
+ (Exim 4.90_1) (envelope-from <posteuca@mutex.one>)
+ id 1ktfDV-00074Q-Px; Sun, 27 Dec 2020 18:12:51 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.mutex.one (Postfix) with ESMTP id 4577CBF426F7;
+ Mon, 28 Dec 2020 01:12:45 +0200 (EET)
+X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
+Received: from mail.mutex.one ([127.0.0.1])
+ by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5lUszS5YsjFg; Mon, 28 Dec 2020 01:12:44 +0200 (EET)
+Received: [127.0.0.1] (localhost [127.0.0.1])nknown [109.103.89.101])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mutex.one (Postfix) with ESMTPSA id 580F9BF426BC;
+ Mon, 28 Dec 2020 01:12:44 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
+ t=1609110764; bh=xS/FIkdJMUsq++QyeLG4EutDW3emZ/ZZcdspCegkC5M=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=B2gMQXZpuHAWmgeYVTeBlV3KvhmHi3E09VoFGO0zMnXdyeGXujvrIKwDTrDroiGOZ
+ H8iztdTKIiBBWZUOMjvpkXI/fMNsGxUjAvrxiOVJJqxeI+ChLbYSTzvdIdY+o2T58X
+ UuOqg8NADFsStj2WtTEi/wUD/q1LCZiVxBYxgN5I=
+From: Marian Posteuca <posteuca@mutex.one>
+To: Paolo Bonzini <pbonzini@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] acpi: Permit OEM ID and OEM table ID fields to be
+ changed
+In-Reply-To: <93c58d9d-63c6-b2d8-2b12-d7ed4aa1b171@redhat.com>
+References: <20201222113353.31224-1-posteuca@mutex.one>
+ <d04375f8-f6bc-91d6-cd6e-217a689002e3@msgid.tls.msk.ru>
+ <87eejh4zpq.fsf@mutex.one>
+ <93c58d9d-63c6-b2d8-2b12-d7ed4aa1b171@redhat.com>
+Date: Mon, 28 Dec 2020 01:12:40 +0200
+Message-ID: <87tus64zdj.fsf@mutex.one>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1733261998-1609108079=:33939"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=62.77.152.124; envelope-from=posteuca@mutex.one;
+ helo=mail.mutex.one
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,68 +69,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
---3866299591-1733261998-1609108079=:33939
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Sun, 27 Dec 2020, Philippe Mathieu-Daudé wrote:
-> On 12/27/20 5:40 PM, BALATON Zoltan via wrote:
->> On Sun, 27 Dec 2020, Philippe Mathieu-Daudé wrote:
->>> On 12/25/20 12:23 AM, BALATON Zoltan wrote:
->>>> From: Guenter Roeck <linux@roeck-us.net>
+> On 22/12/20 16:39, Marian Posteuca wrote:
+>>>> Qemu's ACPI table generation sets the fields OEM ID and OEM table ID
+>>>> to "BOCHS " and "BXPCxxxx" where "xxxx" is replaced by the ACPI
+>>>> table name.
 >>>>
->>>> Fuloong2e needs to use legacy mode for IDE support to work with Linux.
->>>> Add property to via-ide driver to make the mode configurable, and set
->>>> legacy mode for Fuloong2e.
->>>>
->>>
->>> Fixes: 4ea98d317eb ("ide/via: Implement and use native PCI IDE mode")?
+>>>> Some games like Red Dead Redemption 2 seem to check the ACPI OEM ID
+>>>> and OEM table ID for the strings "BOCHS" and "BXPC" and if they are
+>>>> found, the game crashes(this may be an intentional detection
+>>>> mechanism to prevent playing the game in a virtualized environment).
+>>> This isn't a technical question/comment about the patch itself, but
+>>> about something different.  Do we really want to play this whack-a-mole
+>>> game? If we change ACPI table IDs, those who want to disallow running
+>>> their software inside qemu/kvm will find some other way to check for
+>>> this environment. We will change that, - just to be found again. And
+>>> so on.. is it productive? I don't think so.
 >>
->> Not really. That patch did what it said (only emulating (half) native
->> mode instead of only emulating legacy mode) so it wasn't broken per se
->> but it turned out that approach wasn't good enough for all use cases so
->> this now takes a different turn (emulating either legacy or half-native
->> mode based on option property). Therefore. I don't think Fixes: applies
->> in this case. It fixes an issue with a guest but replaces previous patch
->> with different approach. (Even though it reuses most of it.)
+>> My personal opinion is that as long as it's not too difficult to mask
+>> that the guest is running in a virtualized environment we should try to
+>> do these changes. But I guess this can only be judged on per change basis.
 >
-> Well, if Linux guest got broken by this commit, why not name it a "fix"?
-
-We do call it a fix in the patch title. I just thought Fixes: tag was more 
-for either security fixes or cases when original commit had a bug that's 
-fixed up by this patch which is not exactly the case here.
-
-> Anyway I don't mind how it is called. I find important to refer to the
-> commit hash to help navigating between commits while reviewing history.
+> I don't have any particular opinion against the "arms 
+> race"/"whack-a-mole" situation.  We played the game (and sort of won, 
+> they got tired of changing the drivers) against NVIDIA already.
 >
-> What about:
+> For 6.0 I'm already planning to revamp a bunch of machine properties, 
+> for example making -acpitable file=xxx a synonym for "-machine 
+> acpi.tables.N.file=xxx".  Perhaps we could plan for that and make the 
+> option "-machine acpi.oem_id".
+This looks like a great idea.
+Noob question here, should I change my patch in any way for this to happen?
 >
-> '''
-> The legacy mode for IDE support has been removed in commit 4ea98d317eb
-> ("ide/via: Implement and use native PCI IDE mode"). When using a Linux
-> guest, the Fuloong2e machine requires the legacy mode.
-> Add property to via-ide driver to make the mode configurable, and set
-> legacy mode for Fuloong2e.
-> '''
->
-> Guenter, is that OK with you? (I can update when applying this series
-> via the MIPS tree).
-
-I've submitted v2 with this commit message (slightly edited) mentioning 
-the original commit for tracking.
-
-Regards,
-BALATON Zoltan
---3866299591-1733261998-1609108079=:33939--
+> Paolo
 
