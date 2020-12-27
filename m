@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414772E3249
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 18:44:44 +0100 (CET)
-Received: from localhost ([::1]:57934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB6E2E3257
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 19:03:28 +0100 (CET)
+Received: from localhost ([::1]:41654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kta5y-000711-Ta
-	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 12:44:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51540)
+	id 1ktaO6-00055d-PG
+	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 13:03:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1kta4d-0006ZF-Kc
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 12:43:19 -0500
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:36226)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1ktaLi-0004R8-7R; Sun, 27 Dec 2020 13:00:58 -0500
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:39338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>) id 1kta4b-0000Oc-KP
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 12:43:19 -0500
-Received: by mail-ot1-x329.google.com with SMTP id d20so7462326otl.3
- for <qemu-devel@nongnu.org>; Sun, 27 Dec 2020 09:43:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1ktaLg-0002Z9-2i; Sun, 27 Dec 2020 13:00:57 -0500
+Received: by mail-ot1-x32b.google.com with SMTP id d8so7467714otq.6;
+ Sun, 27 Dec 2020 10:00:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:autocrypt:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lNqkdnppUlZjpiFgWHgRFJZO1SgvYPBWDe1pqUSlh40=;
- b=jHpKnrqvmySJ9PH5hzyuz2YidkH8d081E63sBJGXcG8ONFdWKzbUUs05X+TLg019Ox
- fWysXbqqzS53bNAWt7dpD4tq4rLMlmH1xutt0ywl1i2xuA3ycuSwZ981/0NGs55BwFLh
- 8zcZwzkyIZRfsvR7Lg2Sckgjps7yAFHJ+BU7yQPwYrBG9GZodYUD/zPcyA2vxgey/Uzv
- aOHu/5aBWqVaBxRTzmL1KJ1trreyLyQToFtCBa6dnzvGwicpDksgqZYxCn/NRmAmxMnH
- VSCMbQe/jrxxeAc07LJJbAhd7dt7Y5nhxd77BzT1N3hQIUAkErNBgFCCLD39CgtqvbhV
- qJjQ==
+ bh=6VT8Btqnd8MclzMV3AxnNTYtKnKHspSSR+8y44hWJ6s=;
+ b=qK6Kp490+ix44bIchx2VjCVOqad7mkSFzgZ3A5pjyyYaqm2zQF4hTcBVnsaHI29C1A
+ Bv5heM/kICM2wVNTfte53uhmtmWYTZ56c8vr2/EplLR90VdCrnvGbpax8uXTSgh8fnly
+ kAAUki+Jkb6vIP89OL1Hx1ch6/aRZ6LciM1+UuRHuC3+gXOrL+B6Wjau5/wmU4msPHNu
+ SwBVgOEzV5DhvF2yzgrCdVCRdlDt38OsAAmRrVeJSYzz/jpfKr9mJQT0sa+tH1+BlA8H
+ 4vq41tXZSuw2cMtA+HuAGExd2fWC/2hTgFp4Mz+uokf6kBWwjRuzY6aXvcGvpDvC0Lzw
+ IVmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=lNqkdnppUlZjpiFgWHgRFJZO1SgvYPBWDe1pqUSlh40=;
- b=c8UagzypavIIWkIOm4jo88zq7VwFY3zvFfW20PB/B3D2gRm7PR2yUUzEkR18H3JzRI
- EGSEntK3NhBZp7je5OsnGcrtjMVniEL41zdJQLuk3m0uZxojDVC4zv6+nWXERzTz1wj3
- QA3gilvcPUv9XOArVZ4km1FArWQ9V31gvuIZ03u89Df490qyzzvxpnlfPZyV289h9VRE
- /K0BvzhMooKrmkQpl1E6Fv/+T67zqHOba0qOfKUd5jaWFvOUGQt601Zgbr7Z0EeeJcoL
- M5ha46UEIQVPFutFtO3ZE5wlHj7PwzMNgJTZ4NadYn3+sYNosOmgti0mp6tmCtHXYGyF
- rEmg==
-X-Gm-Message-State: AOAM532eTRzBvNHBdpE55Yvt0eAf9XTZq1kMwTBFNC1Ivx8OwmgUPO8h
- P2zGCAZmJOJz4ckKL7+Nrgw=
-X-Google-Smtp-Source: ABdhPJzEl+bWGw13N3FYSzjZRDNidQ13sMHvElDWPMPsByaAcAZZKrGZKgswaF/H+UiSJvSZmRMdgQ==
-X-Received: by 2002:a9d:1c6:: with SMTP id e64mr23497630ote.50.1609090995703; 
- Sun, 27 Dec 2020 09:43:15 -0800 (PST)
+ bh=6VT8Btqnd8MclzMV3AxnNTYtKnKHspSSR+8y44hWJ6s=;
+ b=scqvXwGBZYuLBAez1tb9j7GDaK9xrX6sKl7mzKbgniaKjUBkgHWZxeIQt62gawWo2b
+ qi+f58vy9Pyb8gMom0tFQUVGyvPLlNV+KFwNYimHcTbPsa6rqkrlKwPviauTlI/vYKbs
+ arEXuYGV1G5SuczgMAN9rqPOD0JQQXOzpZFJlnBrLL/PiTxC3MsGMWQXBi2jRzRNTayH
+ FSEnUD8x/Nb49cHRyEkrn6ZSfDBXEcTMzFFPS+dFZfiTG+zkDZHdCNHeW+j5CB1SIbXZ
+ vrau67acjdcM8Kcub7xKt/u7QLoi+byGsS6FIt4UpbAMbaJIdjwGp+ZZShz38enJVMUV
+ Miiw==
+X-Gm-Message-State: AOAM531mYu5K8NmxnzBa4ssSPNHoSO0E8vRKS2A23GPKVGC2LsdDiIgw
+ XTD37cp+2FzFcNIXAarYAhY=
+X-Google-Smtp-Source: ABdhPJzZwdT+ufxexdCXVAUrozIbsQOFuXFLXJkquBvDC5QCJPxmOnLYlFkxXs47Krm6KROdcN0BGQ==
+X-Received: by 2002:a9d:6a97:: with SMTP id l23mr30840243otq.58.1609092054534; 
+ Sun, 27 Dec 2020 10:00:54 -0800 (PST)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
  by smtp.gmail.com with ESMTPSA id
- a24sm8470954oop.40.2020.12.27.09.43.13
+ s24sm5365826oij.20.2020.12.27.10.00.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Dec 2020 09:43:14 -0800 (PST)
-Subject: Re: [PATCH 2/2] via-ide: Fix fuloong2e support
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <cover.1608852217.git.balaton@eik.bme.hu>
- <796292ea92f3f00e696b1eea33ef0c6815002bf0.1608852217.git.balaton@eik.bme.hu>
- <00c994c9-99d8-5b34-3976-4e6617b794a2@amsat.org>
- <8c7e7487-3cb8-5df3-2ce7-5b4bb1b698c2@eik.bme.hu>
- <cdf2cf0e-bde8-a854-5206-4e55bdcc733f@amsat.org>
+ Sun, 27 Dec 2020 10:00:53 -0800 (PST)
+Subject: Re: [PATCH 3/3] sam460ex: Clean up irq mapping
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1608937677.git.balaton@eik.bme.hu>
+ <7df2e39f5229780c2ebf05b2efe0d8ce12d0766a.1608937677.git.balaton@eik.bme.hu>
 From: Guenter Roeck <linux@roeck-us.net>
 Autocrypt: addr=linux@roeck-us.net; keydata=
  xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
@@ -104,17 +101,17 @@ Autocrypt: addr=linux@roeck-us.net; keydata=
  WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
  HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
  mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <f7e3aa00-ef00-612c-6f8c-86bd19986b98@roeck-us.net>
-Date: Sun, 27 Dec 2020 09:43:12 -0800
+Message-ID: <52a86ee8-3e0a-b842-e4a8-b4d9e5bf7c41@roeck-us.net>
+Date: Sun, 27 Dec 2020 10:00:52 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <cdf2cf0e-bde8-a854-5206-4e55bdcc733f@amsat.org>
+In-Reply-To: <7df2e39f5229780c2ebf05b2efe0d8ce12d0766a.1608937677.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
- envelope-from=groeck7@gmail.com; helo=mail-ot1-x329.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=groeck7@gmail.com; helo=mail-ot1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -136,52 +133,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/27/20 9:24 AM, Philippe Mathieu-Daudé wrote:
-> On 12/27/20 5:40 PM, BALATON Zoltan via wrote:
->> On Sun, 27 Dec 2020, Philippe Mathieu-Daudé wrote:
->>> On 12/25/20 12:23 AM, BALATON Zoltan wrote:
->>>> From: Guenter Roeck <linux@roeck-us.net>
->>>>
->>>> Fuloong2e needs to use legacy mode for IDE support to work with Linux.
->>>> Add property to via-ide driver to make the mode configurable, and set
->>>> legacy mode for Fuloong2e.
->>>>
->>>
->>> Fixes: 4ea98d317eb ("ide/via: Implement and use native PCI IDE mode")?
->>
->> Not really. That patch did what it said (only emulating (half) native
->> mode instead of only emulating legacy mode) so it wasn't broken per se
->> but it turned out that approach wasn't good enough for all use cases so
->> this now takes a different turn (emulating either legacy or half-native
->> mode based on option property). Therefore. I don't think Fixes: applies
->> in this case. It fixes an issue with a guest but replaces previous patch
->> with different approach. (Even though it reuses most of it.)
+On 12/25/20 3:07 PM, BALATON Zoltan wrote:
+> Avoid mapping multiple interrupts to the same irq. Instead map them to
+> the 4 PCI interrupts and use an or-gate in the board to connect them
+> to the interrupt controller. This does not fix any known problem but
+> does not seem to cause a new problem either and may be cleaner at least.
 > 
-> Well, if Linux guest got broken by this commit, why not name it a "fix"?
-> Anyway I don't mind how it is called. I find important to refer to the
-> commit hash to help navigating between commits while reviewing history.
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+Tested-by: Guenter Roeck <linux@roeck-us.net>
+
+> ---
+>  hw/ppc/Kconfig       |  1 +
+>  hw/ppc/ppc440_pcix.c | 28 ++++++++++++++--------------
+>  hw/ppc/sam460ex.c    | 16 +++++++++++++---
+>  3 files changed, 28 insertions(+), 17 deletions(-)
 > 
-> What about:
-> 
-> '''
-> The legacy mode for IDE support has been removed in commit 4ea98d317eb
-> ("ide/via: Implement and use native PCI IDE mode"). When using a Linux
-> guest, the Fuloong2e machine requires the legacy mode.
-> Add property to via-ide driver to make the mode configurable, and set
-> legacy mode for Fuloong2e.
-> '''
-> 
-> Guenter, is that OK with you? (I can update when applying this series
-> via the MIPS tree).
+> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+> index 5893f80909..fabdb1a96f 100644
+> --- a/hw/ppc/Kconfig
+> +++ b/hw/ppc/Kconfig
+> @@ -58,6 +58,7 @@ config SAM460EX
+>      select PFLASH_CFI01
+>      select IDE_SII3112
+>      select M41T80
+> +    select OR_IRQ
+>      select PPC440
+>      select SM501
+>      select SMBUS_EEPROM
+> diff --git a/hw/ppc/ppc440_pcix.c b/hw/ppc/ppc440_pcix.c
+> index ee952314c8..504decbbc2 100644
+> --- a/hw/ppc/ppc440_pcix.c
+> +++ b/hw/ppc/ppc440_pcix.c
+> @@ -57,8 +57,8 @@ struct PPC440PCIXState {
+>      PCIDevice *dev;
+>      struct PLBOutMap pom[PPC440_PCIX_NR_POMS];
+>      struct PLBInMap pim[PPC440_PCIX_NR_PIMS];
+> +    qemu_irq irq[PCI_NUM_PINS];
+>      uint32_t sts;
+> -    qemu_irq irq;
+>      AddressSpace bm_as;
+>      MemoryRegion bm;
+>  
+> @@ -415,24 +415,20 @@ static void ppc440_pcix_reset(DeviceState *dev)
+>      s->sts = 0;
+>  }
+>  
+> -/* All pins from each slot are tied to a single board IRQ.
+> - * This may need further refactoring for other boards. */
+>  static int ppc440_pcix_map_irq(PCIDevice *pci_dev, int irq_num)
+>  {
+> -    trace_ppc440_pcix_map_irq(pci_dev->devfn, irq_num, 0);
+> -    return 0;
+> +    int n = (irq_num + PCI_SLOT(pci_dev->devfn)) % PCI_NUM_PINS;
+> +
+> +    trace_ppc440_pcix_map_irq(pci_dev->devfn, irq_num, n);
+> +    return n;
+>  }
+>  
+>  static void ppc440_pcix_set_irq(void *opaque, int irq_num, int level)
+>  {
+> -    qemu_irq *pci_irq = opaque;
+> +    qemu_irq *pci_irqs = opaque;
+>  
+>      trace_ppc440_pcix_set_irq(irq_num);
+> -    if (irq_num < 0) {
+> -        error_report("%s: PCI irq %d", __func__, irq_num);
+> -        return;
+> -    }
+> -    qemu_set_irq(*pci_irq, level);
+> +    qemu_set_irq(pci_irqs[irq_num], level);
+>  }
+>  
+>  static AddressSpace *ppc440_pcix_set_iommu(PCIBus *b, void *opaque, int devfn)
+> @@ -472,15 +468,19 @@ static void ppc440_pcix_realize(DeviceState *dev, Error **errp)
+>      SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+>      PPC440PCIXState *s;
+>      PCIHostState *h;
+> +    int i;
+>  
+>      h = PCI_HOST_BRIDGE(dev);
+>      s = PPC440_PCIX_HOST_BRIDGE(dev);
+>  
+> -    sysbus_init_irq(sbd, &s->irq);
+> +    for (i = 0; i < ARRAY_SIZE(s->irq); i++) {
+> +        sysbus_init_irq(sbd, &s->irq[i]);
+> +    }
+>      memory_region_init(&s->busmem, OBJECT(dev), "pci bus memory", UINT64_MAX);
+>      h->bus = pci_register_root_bus(dev, NULL, ppc440_pcix_set_irq,
+> -                         ppc440_pcix_map_irq, &s->irq, &s->busmem,
+> -                         get_system_io(), PCI_DEVFN(0, 0), 1, TYPE_PCI_BUS);
+> +                         ppc440_pcix_map_irq, s->irq, &s->busmem,
+> +                         get_system_io(), PCI_DEVFN(0, 0), ARRAY_SIZE(s->irq),
+> +                         TYPE_PCI_BUS);
+>  
+>      s->dev = pci_create_simple(h->bus, PCI_DEVFN(0, 0), "ppc4xx-host-bridge");
+>  
+> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+> index 14e6583eb0..59b19fbca1 100644
+> --- a/hw/ppc/sam460ex.c
+> +++ b/hw/ppc/sam460ex.c
+> @@ -33,6 +33,7 @@
+>  #include "sysemu/qtest.h"
+>  #include "sysemu/reset.h"
+>  #include "hw/sysbus.h"
+> +#include "hw/or-irq.h"
+>  #include "hw/char/serial.h"
+>  #include "hw/i2c/ppc4xx_i2c.h"
+>  #include "hw/i2c/smbus_eeprom.h"
+> @@ -292,7 +293,7 @@ static void sam460ex_init(MachineState *machine)
+>      SysBusDevice *sbdev;
+>      struct boot_info *boot_info;
+>      uint8_t *spd_data;
+> -    int success;
+> +    int i, success;
+>  
+>      cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
+>      env = &cpu->env;
+> @@ -382,13 +383,22 @@ static void sam460ex_init(MachineState *machine)
+>  
+>      /* PCI bus */
+>      ppc460ex_pcie_init(env);
+> -    /* All PCI irqs are connected to the same UIC pin (cf. UBoot source) */
+> -    dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000, uic[1][0]);
+> +    dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000, NULL);
+>      pci_bus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
+>      if (!pci_bus) {
+>          error_report("couldn't create PCI controller!");
+>          exit(1);
+>      }
+> +    /* All PCI irqs are connected to the same UIC pin (cf. UBoot source) */
+> +    sbdev = SYS_BUS_DEVICE(dev);
+> +    dev = qdev_new(TYPE_OR_IRQ);
+> +    object_property_set_int(OBJECT(dev), "num-lines", PCI_NUM_PINS,
+> +                            &error_fatal);
+> +    qdev_realize_and_unref(dev, NULL, &error_fatal);
+> +    for (i = 0; i < PCI_NUM_PINS; i++) {
+> +        sysbus_connect_irq(sbdev, i, qdev_get_gpio_in(dev, i));
+> +    }
+> +    qdev_connect_gpio_out(dev, 0, uic[1][0]);
+>      memory_region_init_alias(isa, NULL, "isa_mmio", get_system_io(),
+>                               0, 0x10000);
+>      memory_region_add_subregion(get_system_memory(), 0xc08000000, isa);
 > 
 
-Sure, I don't really care about the commit message as long as the problem
-is fixed.
-
-Guenter
 
