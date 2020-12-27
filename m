@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0C62E31A5
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 16:09:56 +0100 (CET)
-Received: from localhost ([::1]:54736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 558CD2E31A9
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 16:19:48 +0100 (CET)
+Received: from localhost ([::1]:34474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktXgB-0005NE-8i
-	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 10:09:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59290)
+	id 1ktXpi-0000wA-Ug
+	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 10:19:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ktXeW-0004tq-Kp
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 10:08:12 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46099)
+ id 1ktXol-0000Uc-R6
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 10:18:47 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ktXeV-0004ep-4j
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 10:08:12 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id d13so8286396wrc.13
- for <qemu-devel@nongnu.org>; Sun, 27 Dec 2020 07:08:10 -0800 (PST)
+ id 1ktXoj-000875-U2
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 10:18:47 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id 190so7419350wmz.0
+ for <qemu-devel@nongnu.org>; Sun, 27 Dec 2020 07:18:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lJ4rV62j7ang9SUvL6PL0Iofa9pkrCSnCO4gMWh2SG8=;
- b=SWaweCMhbWcMX/ywwPEYhZOi/PUyxmOxuD1dacbe9SEArpQnQNzD/82V6WfnsIou9t
- 0s0x/9mANjOk3FJlB1FbnOjhVqXnX2Kc7fkx0lD9DQ/UfAf+eEUYcvgjp5aIYiZUDHMT
- 9hP0ZcRI3McFohaIdd2ajBfVe1FN47tbHOQF41C9H8TO/K4kgPgAdS20CYsccLKGzZ0o
- QDP3Xh+hCIcasHS6HoeVqflLfZ2abklB1Wmc/rbvrkHZwZ5wcTSNb6e91MXEXcprncat
- eV8kgAq9/o/+xniQPIQZmLmpUBW9RZoE2aAU0lBYVtPdb/sO4bsU+Jvq8SxFTzedvGdx
- l47Q==
+ bh=ihEh+66RDrlAeqbFLP+FLA0QLHiw+HTgaJjrSxkb3X8=;
+ b=IeCytoYZ6uksMzH/T4RjREYCfs3lvR02kEiGZ+f9JnrvCrawYrg+yFmaKCjtsqWh6E
+ Lum5NKoNjeIu8N2Xg44BRnpr72H0X8bqRWnSSzgI4NPYQ2ydr8ogzC2jyuRN3aM0DGbg
+ sG50wPSQQGnfoNWby535IyjIZIdCTxBV/aNvoITQJagGBxS6XmKh2m2uz96ijruc61Uu
+ l6bz1CYDbMIW1BqPFOvEXagIsmXSlwqBNTKfsl4ulxFjGN/Dq/pvrwUWOw8g3iFP3dJG
+ ILr8dK8Q3qIGz2BQS0kBX9+HgNnqEDyHtaMmHmsvjKplubTM7RqiWbskO4EirFBkjcYM
+ CWsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lJ4rV62j7ang9SUvL6PL0Iofa9pkrCSnCO4gMWh2SG8=;
- b=mN4aQfxXdzs91UTT6PQOxcSpzHd8pQ6IheKLyhZRfyl1GZYEdM715MV9ACAfDLZE0v
- dbusnJFy6NOrHm6/jge8RffuyGspTUOCq2ypysGBgPwmy9c9ciqOuvUWMPBVr+A4tr1Q
- p9I7n2h2bd4nFFThLO9XKsOKwSLNvjyBPbMnL3Xe9tdP6Nk4riyIDUW7MocQBLNnYGXK
- OT3C+0hG084SoaiObPJ6nv3d9xsS74G6ICKxjAm/eLFHkCitbTBgumcmszkjHzmulFuB
- omBDZBXVtceq37ikFf5WWrmMUc7C3TfDPsjlZTU18tusPKtcHdp46kCwniZ2YlIj5If3
- uk2A==
-X-Gm-Message-State: AOAM530uV/4aFIzpMkYZdNu6p9Q7BVGHZoY8jyuXwlfKD1l7sXLXGd4i
- h7P2YkWjg+J3EKOn5AnJ4+WHMuxIhgc=
-X-Google-Smtp-Source: ABdhPJyj2au/2uDCXA00nyF9Or1wzv/ti3CzjJNIoZsVHRrt6tpaEJvyOIWjduVKE77aVlg2kVwfeg==
-X-Received: by 2002:adf:9cca:: with SMTP id h10mr47071593wre.77.1609081689804; 
- Sun, 27 Dec 2020 07:08:09 -0800 (PST)
+ bh=ihEh+66RDrlAeqbFLP+FLA0QLHiw+HTgaJjrSxkb3X8=;
+ b=Rj4/8kLZE/eh2QIPPZnT15M+A9Y/ALhQIm+j87+C0JEbrHzDII5YitcNj/IXI8Ui3s
+ 57sT79rmsagf4rLmTR0ZWhZbG4MECdYtcAvguayrNSNXBILJRIXCvdWXb/t/zJEQAToJ
+ RsnjFotxrZsYhLOEQbkX/I3LZ+fa9ZyfavgJ3JlW/0Oh7W3INrMkY1WDrbh5lhZN/fzy
+ W+rc9lVII5LC56sZWjbxpOW84B9e0TNFugdTNc/mfV5R9CE9clD6/B31LgIIdcxJSjmi
+ pw7Arwc3xvPwnFnssduJOXlMPM5b4vCISVO/IHR+bmrDfqYbSWBhm4TZGmOukBileLB3
+ MwXw==
+X-Gm-Message-State: AOAM5312wPtypr2uINEI598wIctxYzcjPo9rRYEvywajaHnvaC4z5RAE
+ xMS+oHFDaSE9kyoOfqJAz+I=
+X-Google-Smtp-Source: ABdhPJy0t73lNNDe+YL4ywFCZl5jcRqj1NEpk5CyuOoxXnRdJEEO5imnSohau09IYu5By3pfL0H3VA==
+X-Received: by 2002:a7b:cb93:: with SMTP id m19mr16660051wmi.128.1609082324402; 
+ Sun, 27 Dec 2020 07:18:44 -0800 (PST)
 Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
  ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
- by smtp.gmail.com with ESMTPSA id y7sm15831527wmb.37.2020.12.27.07.08.08
+ by smtp.gmail.com with ESMTPSA id w8sm51091568wrl.91.2020.12.27.07.18.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 27 Dec 2020 07:08:09 -0800 (PST)
-Subject: Re: [PATCH 09/12] vt82c686: Convert debug printf to trace points
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1609031406.git.balaton@eik.bme.hu>
- <d404014f90d8ba9d09d4c000ca599dea86992864.1609031406.git.balaton@eik.bme.hu>
+ Sun, 27 Dec 2020 07:18:43 -0800 (PST)
+Subject: Re: [PATCH 2/2] via-ide: Fix fuloong2e support
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ Guenter Roeck <linux@roeck-us.net>
+References: <cover.1608852217.git.balaton@eik.bme.hu>
+ <796292ea92f3f00e696b1eea33ef0c6815002bf0.1608852217.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7d9d823d-d75b-c586-218a-e40de35d8b6d@amsat.org>
-Date: Sun, 27 Dec 2020 16:08:08 +0100
+Message-ID: <00c994c9-99d8-5b34-3976-4e6617b794a2@amsat.org>
+Date: Sun, 27 Dec 2020 16:18:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <d404014f90d8ba9d09d4c000ca599dea86992864.1609031406.git.balaton@eik.bme.hu>
+In-Reply-To: <796292ea92f3f00e696b1eea33ef0c6815002bf0.1608852217.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -89,45 +90,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Huacai Chen <chenhuacai@kernel.org>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/27/20 2:10 AM, BALATON Zoltan via wrote:
+On 12/25/20 12:23 AM, BALATON Zoltan wrote:
+> From: Guenter Roeck <linux@roeck-us.net>
+> 
+> Fuloong2e needs to use legacy mode for IDE support to work with Linux.
+> Add property to via-ide driver to make the mode configurable, and set
+> legacy mode for Fuloong2e.
+> 
+
+Fixes: 4ea98d317eb ("ide/via: Implement and use native PCI IDE mode")?
+
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> [balaton: Use bit in flags for property, add comment for missing BAR4]
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  hw/isa/trace-events |  6 ++++++
->  hw/isa/vt82c686.c   | 51 +++++++++++++--------------------------------
->  2 files changed, 21 insertions(+), 36 deletions(-)
-...
+>  hw/ide/via.c        | 19 +++++++++++++++++--
+>  hw/mips/fuloong2e.c |  4 +++-
+>  2 files changed, 20 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/ide/via.c b/hw/ide/via.c
+> index be09912b33..7d54d7e829 100644
+> --- a/hw/ide/via.c
+> +++ b/hw/ide/via.c
+> @@ -26,6 +26,7 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "hw/pci/pci.h"
+> +#include "hw/qdev-properties.h"
+>  #include "migration/vmstate.h"
+>  #include "qemu/module.h"
+>  #include "sysemu/dma.h"
+> @@ -185,12 +186,19 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
+>                            &d->bus[1], "via-ide1-cmd", 4);
+>      pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[1]);
+>  
+> -    bmdma_setup_bar(d);
+> -    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
+> +    if (!(d->flags & BIT(PCI_IDE_LEGACY_MODE))) {
+> +        /* Missing BAR4 will make Linux driver fall back to legacy PIO mode */
+> +        bmdma_setup_bar(d);
+> +        pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
+> +    }
+>  
+>      qdev_init_gpio_in(ds, via_ide_set_irq, 2);
+>      for (i = 0; i < 2; i++) {
+>          ide_bus_new(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
+> +        if (d->flags & BIT(PCI_IDE_LEGACY_MODE)) {
+> +            ide_init_ioport(&d->bus[i], NULL, i ? 0x170 : 0x1f0,
+> +                            i ? 0x376 : 0x3f6);
+> +        }
+>          ide_init2(&d->bus[i], qdev_get_gpio_in(ds, i));
+>  
+>          bmdma_init(&d->bus[i], &d->bmdma[i], d);
+> @@ -210,6 +218,12 @@ static void via_ide_exitfn(PCIDevice *dev)
+>      }
+>  }
+>  
+> +static Property via_ide_properties[] = {
+> +    DEFINE_PROP_BIT("legacy_mode", PCIIDEState, flags, PCI_IDE_LEGACY_MODE,
+> +                    false),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+>  static void via_ide_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -223,6 +237,7 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
+>      k->device_id = PCI_DEVICE_ID_VIA_IDE;
+>      k->revision = 0x06;
+>      k->class_id = PCI_CLASS_STORAGE_IDE;
+> +    device_class_set_props(dc, via_ide_properties);
+>      set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+>  }
+>  
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index 45c596f4fe..f0733e87b7 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -253,7 +253,9 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+>      /* Super I/O */
+>      isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
+>  
+> -    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
+> +    dev = pci_new(PCI_DEVFN(slot, 1), "via-ide");
+> +    qdev_prop_set_bit(&dev->qdev, "legacy_mode", true);
+> +    pci_realize_and_unref(dev, pci_bus, &error_fatal);
+>      pci_ide_create_devs(dev);
+>  
+>      pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+> 
 
->          switch (superio_conf->index) {
->          case 0x00 ... 0xdf:
->          case 0xe4:
->          case 0xe5:
-> +        case 0xe6 ... 0xe8: /* Should set base port of parallel and serial */
->          case 0xe9 ... 0xed:
->          case 0xf3:
->          case 0xf5:
-> @@ -74,18 +68,6 @@ static void superio_ioport_writeb(void *opaque, hwaddr addr, uint64_t data,
->          case 0xfd ... 0xff:
->              can_write = false;
->              break;
-> -        case 0xe7:
-> -            if ((data & 0xff) != 0xfe) {
-> -                DPRINTF("change uart 1 base. unsupported yet\n");
-> -                can_write = false;
-> -            }
-> -            break;
-> -        case 0xe8:
-> -            if ((data & 0xff) != 0xbe) {
-> -                DPRINTF("change uart 2 base. unsupported yet\n");
-> -                can_write = false;
-> -            }
-> -            break;
->          default:
->              break;
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-This hunk belong to a different patch (does not match the patch
-description).
 
