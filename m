@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957952E2F95
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 02:29:55 +0100 (CET)
-Received: from localhost ([::1]:50154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EEB42E2F9A
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 02:34:28 +0100 (CET)
+Received: from localhost ([::1]:55894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktKsc-0007G6-MN
-	for lists+qemu-devel@lfdr.de; Sat, 26 Dec 2020 20:29:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33300)
+	id 1ktKx1-0001QY-4u
+	for lists+qemu-devel@lfdr.de; Sat, 26 Dec 2020 20:34:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktKkX-0008SR-EV
- for qemu-devel@nongnu.org; Sat, 26 Dec 2020 20:21:33 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:61511)
+ id 1ktKkU-0008Qx-4A
+ for qemu-devel@nongnu.org; Sat, 26 Dec 2020 20:21:30 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:61513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktKkR-0001DI-RW
- for qemu-devel@nongnu.org; Sat, 26 Dec 2020 20:21:33 -0500
+ id 1ktKkR-0001DP-Qy
+ for qemu-devel@nongnu.org; Sat, 26 Dec 2020 20:21:29 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5CD197470ED;
+ by localhost (Postfix) with SMTP id 7E4087470EE;
  Sun, 27 Dec 2020 02:21:18 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C12E47470EE; Sun, 27 Dec 2020 02:21:17 +0100 (CET)
-Message-Id: <f4697f5ba4c8bae032234f48a91e074fb3d62a91.1609031406.git.balaton@eik.bme.hu>
+ id DEB217470F1; Sun, 27 Dec 2020 02:21:17 +0100 (CET)
+Message-Id: <5959fddaa1ae4b2b9b95954bcda8e468460affb0.1609031406.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609031406.git.balaton@eik.bme.hu>
 References: <cover.1609031406.git.balaton@eik.bme.hu>
-Subject: [PATCH 03/12] vt82c686: Remove unnecessary _DEVICE suffix from type
- macros
+Subject: [PATCH 08/12] vt82c686: Remove vt82c686b_pm_init() function
 Date: Sun, 27 Dec 2020 02:10:06 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -60,182 +59,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-There's no reason to suffix everything with _DEVICE when the names are
-already unique without it and shorter names are more readable.
+Also rename VT82C686B_PM to match other device names.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/isa/vt82c686.c | 48 +++++++++++++++++++++++------------------------
- 1 file changed, 23 insertions(+), 25 deletions(-)
+ hw/isa/vt82c686.c         | 17 -----------------
+ hw/mips/fuloong2e.c       |  5 ++++-
+ include/hw/isa/vt82c686.h |  5 +----
+ 3 files changed, 5 insertions(+), 22 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 2a0f85dea9..1be1169f83 100644
+index 1c1239cade..b138838400 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -49,8 +49,8 @@ struct VT82C686BState {
-     SuperIOConfig superio_conf;
+@@ -167,7 +167,6 @@ struct VT686PMState {
+     uint32_t smb_io_base;
  };
  
--#define TYPE_VT82C686B_DEVICE "VT82C686B"
--OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BState, VT82C686B_DEVICE)
-+#define TYPE_VT82C686B "VT82C686B"
-+OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BState, VT82C686B)
- 
- static void superio_ioport_writeb(void *opaque, hwaddr addr, uint64_t data,
-                                   unsigned size)
-@@ -117,7 +117,7 @@ static const MemoryRegionOps superio_ops = {
- 
- static void vt82c686b_isa_reset(DeviceState *dev)
- {
--    VT82C686BState *vt82c = VT82C686B_DEVICE(dev);
-+    VT82C686BState *vt82c = VT82C686B(dev);
-     uint8_t *pci_conf = vt82c->dev.config;
- 
-     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
-@@ -146,7 +146,7 @@ static void vt82c686b_isa_reset(DeviceState *dev)
- static void vt82c686b_write_config(PCIDevice *d, uint32_t address,
-                                    uint32_t val, int len)
- {
--    VT82C686BState *vt686 = VT82C686B_DEVICE(d);
-+    VT82C686BState *vt686 = VT82C686B(d);
- 
-     DPRINTF("vt82c686b_write_config  address 0x%x  val 0x%x len 0x%x\n",
-            address, val, len);
-@@ -176,14 +176,14 @@ struct VIAMC97State {
-     PCIDevice dev;
- };
- 
--#define TYPE_VT82C686B_PM_DEVICE "VT82C686B_PM"
--OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM_DEVICE)
-+#define TYPE_VT82C686B_PM "VT82C686B_PM"
-+OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
- 
--#define TYPE_VIA_MC97_DEVICE "VIA_MC97"
--OBJECT_DECLARE_SIMPLE_TYPE(VIAMC97State, VIA_MC97_DEVICE)
-+#define TYPE_VIA_MC97 "VIA_MC97"
-+OBJECT_DECLARE_SIMPLE_TYPE(VIAMC97State, VIA_MC97)
- 
--#define TYPE_VIA_AC97_DEVICE "VIA_AC97"
--OBJECT_DECLARE_SIMPLE_TYPE(VIAAC97State, VIA_AC97_DEVICE)
-+#define TYPE_VIA_AC97 "VIA_AC97"
-+OBJECT_DECLARE_SIMPLE_TYPE(VIAAC97State, VIA_AC97)
+-#define TYPE_VT82C686B_PM "VT82C686B_PM"
+ OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
  
  static void pm_update_sci(VT686PMState *s)
- {
-@@ -260,7 +260,7 @@ static const VMStateDescription vmstate_acpi = {
- 
- static void vt82c686b_ac97_realize(PCIDevice *dev, Error **errp)
- {
--    VIAAC97State *s = VIA_AC97_DEVICE(dev);
-+    VIAAC97State *s = VIA_AC97(dev);
-     uint8_t *pci_conf = s->dev.config;
- 
-     pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_INVALIDATE |
-@@ -274,7 +274,7 @@ void vt82c686b_ac97_init(PCIBus *bus, int devfn)
- {
-     PCIDevice *dev;
- 
--    dev = pci_new(devfn, TYPE_VIA_AC97_DEVICE);
-+    dev = pci_new(devfn, TYPE_VIA_AC97);
-     pci_realize_and_unref(dev, bus, &error_fatal);
+@@ -271,22 +270,6 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+     acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
  }
  
-@@ -293,7 +293,7 @@ static void via_ac97_class_init(ObjectClass *klass, void *data)
- }
- 
- static const TypeInfo via_ac97_info = {
--    .name          = TYPE_VIA_AC97_DEVICE,
-+    .name          = TYPE_VIA_AC97,
-     .parent        = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(VIAAC97State),
-     .class_init    = via_ac97_class_init,
-@@ -305,7 +305,7 @@ static const TypeInfo via_ac97_info = {
- 
- static void vt82c686b_mc97_realize(PCIDevice *dev, Error **errp)
- {
--    VIAMC97State *s = VIA_MC97_DEVICE(dev);
-+    VIAMC97State *s = VIA_MC97(dev);
-     uint8_t *pci_conf = s->dev.config;
- 
-     pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_INVALIDATE |
-@@ -318,7 +318,7 @@ void vt82c686b_mc97_init(PCIBus *bus, int devfn)
- {
-     PCIDevice *dev;
- 
--    dev = pci_new(devfn, TYPE_VIA_MC97_DEVICE);
-+    dev = pci_new(devfn, TYPE_VIA_MC97);
-     pci_realize_and_unref(dev, bus, &error_fatal);
- }
- 
-@@ -337,7 +337,7 @@ static void via_mc97_class_init(ObjectClass *klass, void *data)
- }
- 
- static const TypeInfo via_mc97_info = {
--    .name          = TYPE_VIA_MC97_DEVICE,
-+    .name          = TYPE_VIA_MC97,
-     .parent        = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(VIAMC97State),
-     .class_init    = via_mc97_class_init,
-@@ -350,7 +350,7 @@ static const TypeInfo via_mc97_info = {
- /* vt82c686 pm init */
- static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
- {
--    VT686PMState *s = VT82C686B_PM_DEVICE(dev);
-+    VT686PMState *s = VT82C686B_PM(dev);
-     uint8_t *pci_conf;
- 
-     pci_conf = s->dev.config;
-@@ -386,10 +386,10 @@ I2CBus *vt82c686b_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
-     PCIDevice *dev;
-     VT686PMState *s;
- 
--    dev = pci_new(devfn, TYPE_VT82C686B_PM_DEVICE);
-+    dev = pci_new(devfn, TYPE_VT82C686B_PM);
-     qdev_prop_set_uint32(&dev->qdev, "smb_io_base", smb_io_base);
- 
--    s = VT82C686B_PM_DEVICE(dev);
-+    s = VT82C686B_PM(dev);
- 
-     pci_realize_and_unref(dev, bus, &error_fatal);
- 
-@@ -419,7 +419,7 @@ static void via_pm_class_init(ObjectClass *klass, void *data)
- }
- 
- static const TypeInfo via_pm_info = {
--    .name          = TYPE_VT82C686B_PM_DEVICE,
-+    .name          = TYPE_VT82C686B_PM,
-     .parent        = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(VT686PMState),
-     .class_init    = via_pm_class_init,
-@@ -442,7 +442,7 @@ static const VMStateDescription vmstate_via = {
- /* init the PCI-to-ISA bridge */
- static void vt82c686b_realize(PCIDevice *d, Error **errp)
- {
--    VT82C686BState *vt82c = VT82C686B_DEVICE(d);
-+    VT82C686BState *vt82c = VT82C686B(d);
-     uint8_t *pci_conf;
-     ISABus *isa_bus;
-     uint8_t *wmask;
-@@ -479,9 +479,7 @@ ISABus *vt82c686b_isa_init(PCIBus *bus, int devfn)
- {
-     PCIDevice *d;
- 
--    d = pci_create_simple_multifunction(bus, devfn, true,
--                                        TYPE_VT82C686B_DEVICE);
+-I2CBus *vt82c686b_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+-                          qemu_irq sci_irq)
+-{
+-    PCIDevice *dev;
+-    VT686PMState *s;
 -
-+    d = pci_create_simple_multifunction(bus, devfn, true, TYPE_VT82C686B);
-     return ISA_BUS(qdev_get_child_bus(DEVICE(d), "isa.0"));
- }
+-    dev = pci_new(devfn, TYPE_VT82C686B_PM);
+-    qdev_prop_set_uint32(&dev->qdev, "smb_io_base", smb_io_base);
+-
+-    s = VT82C686B_PM(dev);
+-
+-    pci_realize_and_unref(dev, bus, &error_fatal);
+-
+-    return s->smb.smbus;
+-}
+-
+ static Property via_pm_properties[] = {
+     DEFINE_PROP_UINT32("smb_io_base", VT686PMState, smb_io_base, 0),
+     DEFINE_PROP_END_OF_LIST(),
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 60d2020033..d275038830 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -263,7 +263,10 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+     pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+     pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
  
-@@ -507,7 +505,7 @@ static void via_class_init(ObjectClass *klass, void *data)
- }
+-    *i2c_bus = vt82c686b_pm_init(pci_bus, PCI_DEVFN(slot, 4), 0xeee1, NULL);
++    dev = pci_new(PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
++    qdev_prop_set_uint32(DEVICE(dev), "smb_io_base", 0xeee1);
++    pci_realize_and_unref(dev, pci_bus, &error_fatal);
++    *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
  
- static const TypeInfo via_info = {
--    .name          = TYPE_VT82C686B_DEVICE,
-+    .name          = TYPE_VT82C686B,
-     .parent        = TYPE_PCI_DEVICE,
-     .instance_size = sizeof(VT82C686BState),
-     .class_init    = via_class_init,
+     /* Audio support */
+     pci_create_simple(pci_bus, PCI_DEVFN(slot, 5), TYPE_VIA_AC97);
+diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+index 89e205a1be..080ee8fc59 100644
+--- a/include/hw/isa/vt82c686.h
++++ b/include/hw/isa/vt82c686.h
+@@ -3,11 +3,8 @@
+ 
+ #define TYPE_VT82C686B "vt82c686b"
+ #define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
++#define TYPE_VT82C686B_PM "vt82c686b-pm"
+ #define TYPE_VIA_AC97 "via-ac97"
+ #define TYPE_VIA_MC97 "via-mc97"
+ 
+-/* vt82c686.c */
+-I2CBus *vt82c686b_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+-                          qemu_irq sci_irq);
+-
+ #endif
 -- 
 2.21.3
 
