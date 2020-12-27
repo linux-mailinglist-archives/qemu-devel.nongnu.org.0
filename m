@@ -2,49 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D8272E2F90
-	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 02:27:51 +0100 (CET)
-Received: from localhost ([::1]:44738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3862E30A4
+	for <lists+qemu-devel@lfdr.de>; Sun, 27 Dec 2020 10:51:47 +0100 (CET)
+Received: from localhost ([::1]:55894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktKqc-0004y2-NZ
-	for lists+qemu-devel@lfdr.de; Sat, 26 Dec 2020 20:27:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33288)
+	id 1ktSiI-0000pm-0o
+	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 04:51:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktKkV-0008RN-Sg
- for qemu-devel@nongnu.org; Sat, 26 Dec 2020 20:21:31 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:61516)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktKkR-0001DW-UR
- for qemu-devel@nongnu.org; Sat, 26 Dec 2020 20:21:31 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 9079A7470F0;
- Sun, 27 Dec 2020 02:21:18 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E56EE7470F2; Sun, 27 Dec 2020 02:21:17 +0100 (CET)
-Message-Id: <d404014f90d8ba9d09d4c000ca599dea86992864.1609031406.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1609031406.git.balaton@eik.bme.hu>
-References: <cover.1609031406.git.balaton@eik.bme.hu>
-Subject: [PATCH 09/12] vt82c686: Convert debug printf to trace points
-Date: Sun, 27 Dec 2020 02:10:06 +0100
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ktShD-0000J3-VM
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 04:50:39 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42546)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ktShB-0001u1-NH
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 04:50:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ktSh9-000863-IN
+ for <qemu-devel@nongnu.org>; Sun, 27 Dec 2020 09:50:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 800522E8058
+ for <qemu-devel@nongnu.org>; Sun, 27 Dec 2020 09:50:35 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 27 Dec 2020 09:41:04 -0000
+From: Pawel Juszczyk <1909392@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: faust1002
+X-Launchpad-Bug-Reporter: Pawel Juszczyk (faust1002)
+X-Launchpad-Bug-Modifier: Pawel Juszczyk (faust1002)
+Message-Id: <160906206462.3532.14301931036322231609.malonedeb@wampee.canonical.com>
+Subject: [Bug 1909392] [NEW] qemu-arm crashes (SIGSEGV) when executing push
+ instruction
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
+X-Launchpad-Hash: a8e7505d7d13fa722c030b52064517bb3b1fc48e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -53,143 +69,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, f4bug@amsat.org
+Reply-To: Bug 1909392 <1909392@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/isa/trace-events |  6 ++++++
- hw/isa/vt82c686.c   | 51 +++++++++++++--------------------------------
- 2 files changed, 21 insertions(+), 36 deletions(-)
+Public bug reported:
 
-diff --git a/hw/isa/trace-events b/hw/isa/trace-events
-index 3544c6213c..d267d3e652 100644
---- a/hw/isa/trace-events
-+++ b/hw/isa/trace-events
-@@ -13,3 +13,9 @@ pc87312_io_write(uint32_t addr, uint32_t val) "write addr=0x%x val=0x%x"
- # apm.c
- apm_io_read(uint8_t addr, uint8_t val) "read addr=0x%x val=0x%02x"
- apm_io_write(uint8_t addr, uint8_t val) "write addr=0x%x val=0x%02x"
-+
-+# vt82c686.c
-+via_isa_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
-+via_pm_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
-+via_superio_read(uint8_t addr, uint8_t val) "addr 0x%x val 0x%x"
-+via_superio_write(uint8_t addr, uint32_t val) "addr 0x%x val 0x%x"
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index b138838400..789459bcae 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -28,14 +28,7 @@
- #include "qemu/timer.h"
- #include "exec/address-spaces.h"
- #include "qom/object.h"
--
--/* #define DEBUG_VT82C686B */
--
--#ifdef DEBUG_VT82C686B
--#define DPRINTF(fmt, ...) fprintf(stderr, "%s: " fmt, __func__, ##__VA_ARGS__)
--#else
--#define DPRINTF(fmt, ...)
--#endif
-+#include "trace.h"
- 
- typedef struct SuperIOConfig {
-     uint8_t config[0x100];
-@@ -56,16 +49,17 @@ static void superio_ioport_writeb(void *opaque, hwaddr addr, uint64_t data,
- {
-     SuperIOConfig *superio_conf = opaque;
- 
--    DPRINTF("superio_ioport_writeb  address 0x%x  val 0x%x\n", addr, data);
--    if (addr == 0x3f0) {
-+    if (addr == 0x3f0) { /* config index register */
-         superio_conf->index = data & 0xff;
-     } else {
-         bool can_write = true;
--        /* 0x3f1 */
-+        /* 0x3f1, config data register */
-+        trace_via_superio_write(superio_conf->index, data & 0xff);
-         switch (superio_conf->index) {
-         case 0x00 ... 0xdf:
-         case 0xe4:
-         case 0xe5:
-+        case 0xe6 ... 0xe8: /* Should set base port of parallel and serial */
-         case 0xe9 ... 0xed:
-         case 0xf3:
-         case 0xf5:
-@@ -74,18 +68,6 @@ static void superio_ioport_writeb(void *opaque, hwaddr addr, uint64_t data,
-         case 0xfd ... 0xff:
-             can_write = false;
-             break;
--        case 0xe7:
--            if ((data & 0xff) != 0xfe) {
--                DPRINTF("change uart 1 base. unsupported yet\n");
--                can_write = false;
--            }
--            break;
--        case 0xe8:
--            if ((data & 0xff) != 0xbe) {
--                DPRINTF("change uart 2 base. unsupported yet\n");
--                can_write = false;
--            }
--            break;
-         default:
-             break;
- 
-@@ -99,9 +81,10 @@ static void superio_ioport_writeb(void *opaque, hwaddr addr, uint64_t data,
- static uint64_t superio_ioport_readb(void *opaque, hwaddr addr, unsigned size)
- {
-     SuperIOConfig *superio_conf = opaque;
-+    uint8_t val = superio_conf->config[superio_conf->index];
- 
--    DPRINTF("superio_ioport_readb  address 0x%x\n", addr);
--    return superio_conf->config[superio_conf->index];
-+    trace_via_superio_read(superio_conf->index, val);
-+    return val;
- }
- 
- static const MemoryRegionOps superio_ops = {
-@@ -142,16 +125,14 @@ static void vt82c686b_isa_reset(DeviceState *dev)
- }
- 
- /* write config pci function0 registers. PCI-ISA bridge */
--static void vt82c686b_write_config(PCIDevice *d, uint32_t address,
-+static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
-                                    uint32_t val, int len)
- {
-     VT82C686BState *vt686 = VT82C686B(d);
- 
--    DPRINTF("vt82c686b_write_config  address 0x%x  val 0x%x len 0x%x\n",
--           address, val, len);
--
--    pci_default_write_config(d, address, val, len);
--    if (address == 0x85) {  /* enable or disable super IO configure */
-+    trace_via_isa_write(addr, val, len);
-+    pci_default_write_config(d, addr, val, len);
-+    if (addr == 0x85) {  /* enable or disable super IO configure */
-         memory_region_set_enabled(&vt686->superio, val & 0x2);
-     }
- }
-@@ -204,12 +185,10 @@ static void pm_io_space_update(VT686PMState *s)
-     memory_region_transaction_commit();
- }
- 
--static void pm_write_config(PCIDevice *d,
--                            uint32_t address, uint32_t val, int len)
-+static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
- {
--    DPRINTF("pm_write_config  address 0x%x  val 0x%x len 0x%x\n",
--           address, val, len);
--    pci_default_write_config(d, address, val, len);
-+    trace_via_pm_write(addr, val, len);
-+    pci_default_write_config(d, addr, val, len);
- }
- 
- static int vmstate_acpi_post_load(void *opaque, int version_id)
--- 
-2.21.3
+Dear all,
+I am afraid I found a problem, it seems like qemu-arm crashes when executin=
+g assembly push instruction.
+I use qemu version 5.2.0, but it checked an older version (4.2.1) and the p=
+roblem was also present. I start qemu using "qemu-arm -cpu cortex-m4 -singl=
+estep -g 1234 <path to elf file>"
+Callstack before crash (host)
+#0  0x000055555575961f in stl_he_p (ptr=3D0x2002fffc, v=3D0) at /home/faust=
+1002/Programming/qemu/qemu-5.2.0/include/qemu/bswap.h:353
+#1  0x0000555555759716 in stl_le_p (ptr=3D0x2002fffc, v=3D0) at /home/faust=
+1002/Programming/qemu/qemu-5.2.0/include/qemu/bswap.h:395
+#2  0x000055555575d3c3 in tcg_qemu_tb_exec (env=3D0x555555d28050, tb_ptr=3D=
+0x7fffe800010a "\r\b") at ../tcg/tci.c:1221
+#3  0x00005555556bd982 in cpu_tb_exec (cpu=3D0x555555d1fd70, itb=3D0x7fffe8=
+000000) at ../accel/tcg/cpu-exec.c:178
+#4  0x00005555556be57e in cpu_loop_exec_tb (cpu=3D0x555555d1fd70, tb=3D0x7f=
+ffe8000000, last_tb=3D0x7fffffffd8a8, tb_exit=3D0x7fffffffd8a0) at ../accel=
+/tcg/cpu-exec.c:658
+#5  0x00005555556be7ea in cpu_exec (cpu=3D0x555555d1fd70) at ../accel/tcg/c=
+pu-exec.c:771
+#6  0x000055555560af1d in cpu_loop (env=3D0x555555d28050) at ../linux-user/=
+arm/cpu_loop.c:237
+#7  0x00005555557415a7 in main (argc=3D7, argv=3D0x7fffffffe0f8, envp=3D0x7=
+fffffffe138) at ../linux-user/main.c:861
+Callstack before crash (target)
+Program received signal SIGSEGV, Segmentation fault.
+Reset_Handler () at startup.s:48
+48        push {r14}
+Please find the elf file I use attached.
+Kind regards
 
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "test_binary.elf"
+   https://bugs.launchpad.net/bugs/1909392/+attachment/5447174/+files/test_=
+binary.elf
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1909392
+
+Title:
+  qemu-arm crashes (SIGSEGV) when executing push instruction
+
+Status in QEMU:
+  New
+
+Bug description:
+  Dear all,
+  I am afraid I found a problem, it seems like qemu-arm crashes when execut=
+ing assembly push instruction.
+  I use qemu version 5.2.0, but it checked an older version (4.2.1) and the=
+ problem was also present. I start qemu using "qemu-arm -cpu cortex-m4 -sin=
+glestep -g 1234 <path to elf file>"
+  Callstack before crash (host)
+  #0  0x000055555575961f in stl_he_p (ptr=3D0x2002fffc, v=3D0) at /home/fau=
+st1002/Programming/qemu/qemu-5.2.0/include/qemu/bswap.h:353
+  #1  0x0000555555759716 in stl_le_p (ptr=3D0x2002fffc, v=3D0) at /home/fau=
+st1002/Programming/qemu/qemu-5.2.0/include/qemu/bswap.h:395
+  #2  0x000055555575d3c3 in tcg_qemu_tb_exec (env=3D0x555555d28050, tb_ptr=
+=3D0x7fffe800010a "\r\b") at ../tcg/tci.c:1221
+  #3  0x00005555556bd982 in cpu_tb_exec (cpu=3D0x555555d1fd70, itb=3D0x7fff=
+e8000000) at ../accel/tcg/cpu-exec.c:178
+  #4  0x00005555556be57e in cpu_loop_exec_tb (cpu=3D0x555555d1fd70, tb=3D0x=
+7fffe8000000, last_tb=3D0x7fffffffd8a8, tb_exit=3D0x7fffffffd8a0) at ../acc=
+el/tcg/cpu-exec.c:658
+  #5  0x00005555556be7ea in cpu_exec (cpu=3D0x555555d1fd70) at ../accel/tcg=
+/cpu-exec.c:771
+  #6  0x000055555560af1d in cpu_loop (env=3D0x555555d28050) at ../linux-use=
+r/arm/cpu_loop.c:237
+  #7  0x00005555557415a7 in main (argc=3D7, argv=3D0x7fffffffe0f8, envp=3D0=
+x7fffffffe138) at ../linux-user/main.c:861
+  Callstack before crash (target)
+  Program received signal SIGSEGV, Segmentation fault.
+  Reset_Handler () at startup.s:48
+  48        push {r14}
+  Please find the elf file I use attached.
+  Kind regards
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1909392/+subscriptions
 
