@@ -2,107 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D02C2E346F
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 07:05:46 +0100 (CET)
-Received: from localhost ([::1]:44330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0E52E3489
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 07:38:18 +0100 (CET)
+Received: from localhost ([::1]:51894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktlf7-0000Vy-BD
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 01:05:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38846)
+	id 1ktmAb-0006W9-AE
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 01:38:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1ktlXf-00032L-JZ
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 00:58:03 -0500
-Received: from mail-oln040092254014.outbound.protection.outlook.com
- ([40.92.254.14]:44241 helo=APC01-PU1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ktm9a-00065T-T6
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 01:37:15 -0500
+Resent-Date: Mon, 28 Dec 2020 01:37:14 -0500
+Resent-Message-Id: <E1ktm9a-00065T-T6@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1ktlXd-0001k9-OZ
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 00:58:03 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nJK46GGvXZCxXmmYI9FQfEuadMICE9Ru9oAkMd29AeSsjKbTZgq9pauxep08+0RECpZzXwUQkfvazsRP9u2x8JebICGzP6mLyfemQGKv0XayRltiNbrNqmaZ/lpHPqUteF6dqvuOq4agGJMCFgwUcv6joZedczMjn9wL45JO3Rf08qGTfrg5m3MLrGWmAe/uunY6ha/liDEem7oNB4JO+xnt0uW4cCAaLOgBFzl+1ZfxdwOuaMGvfLPLX47zkNsKSKuBSQNQYuyhSn+boW85gg3yA2i/apEOqutg2mESetB4MWUU5AjMjb02iMfjlPDUCnPz42uClIy53yHtTa03Ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kukI1o8KbIFeNFPrMKG/4Qht3ke+jRbT5E51xZ+sfMQ=;
- b=SPcg5NwKuTxZu6pvTRovSqkv+X3E7Anpj6J+fXJnex90zLqsCdTbCMhlh6IdkSeP6M9pgOKgPIjFaOPFwUYYtxA5U4b729Xx3s3PvIbWchxTsM2jQN1djKPgVVHv1W+cHMpaSaDuqs9RDlcIYWycmmG7Nt5y24ndVA6pyGe2fdyZ0wgxx/bjE7yozMYzZhE5eoxqAreM6lbYltiF3vH0npWNRlaqFWoR4p40D2nWchOAZ84xNxjM30g8k6+LoyJDs5caxlBci2+/UlN3+BqnB0t6jkETn2NdS6oypmaVfJp/j67mYgvVBdsGAenB1aeIB7XWGEBfu+gkMNT0IJgHHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kukI1o8KbIFeNFPrMKG/4Qht3ke+jRbT5E51xZ+sfMQ=;
- b=EvadugHKvrPr74FHkEqLlk9YpparnswU8JLI/I2zkMAFNfKIPwNzy/WK+UI0UJI4Hi0KBvkD6Q4VAhAssENm05CeN10UL8tuvY1K0I8suT6YhwD+jCdS7P2fg5bLyFeKmdbXYD2ZcuLMd9lC8O/952jFMMirz/xRHnjHq+a4FD1Vi+Zbe3OVM3NUWZr+jS1OfJ2eJ+klYfZmwfrTiXKzmJBu0KU1/D9bsL2PjvrQyTTQ8xqNmvfWODJFZvtXqdilZ47F/yd07Q94Z8EWfDhhmuLyGNUQBF1Vgk+/YaAAJbTLg0OpqrsG4tS3pl5izloZ/Sp/YpQ3hLV5g8o3XEms6A==
-Received: from SG2APC01FT037.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebd::46) by
- SG2APC01HT086.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebd::278)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.27; Mon, 28 Dec
- 2020 05:57:48 +0000
-Received: from ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM (2a01:111:e400:7ebd::48)
- by SG2APC01FT037.mail.protection.outlook.com
- (2a01:111:e400:7ebd::367) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.27 via Frontend
- Transport; Mon, 28 Dec 2020 05:57:48 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:27114EAC282DA4FC7C3132E8674F750045C638B50FCCAB488104C8C24BA61E17;
- UpperCasedChecksum:0C78EA6D43D6E512E11F4AE64040A69792D32F10B8FA83A5947D3B522F6A16FD;
- SizeAsReceived:7658; Count:47
-Received: from ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
- ([fe80::88cb:2262:60f7:7d1e]) by ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
- ([fe80::88cb:2262:60f7:7d1e%8]) with mapi id 15.20.3700.031; Mon, 28 Dec 2020
- 05:57:48 +0000
-From: Qiuhao Li <Qiuhao.Li@outlook.com>
-To: alxndr@bu.edu,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 7/7] fuzz: heuristic split write based on past IOs
-Date: Mon, 28 Dec 2020 13:56:46 +0800
-Message-ID: <ME3P282MB1745A7A4C940E515BBECBD43FCD90@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1ktm9Y-0002yX-5G
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 01:37:14 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1609137412; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=FmGjLAAWGgaXBU7jSRDiS1BY04mucRbmL15x7MK4wMN83L6iS5e5GeEOgjtcmFxaOF676Wrzn+nimZstfXFJIP2NFLh4Cxwb+QPKR5YiUeaYak0I5NWyY6aizwZYThMk3dX9DTWKdLpwIct/Q/ASiIrkm/BpkPHjc/ElGvzG7s4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1609137412;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=lfnom0tONwm39hOUaXKeiBgQLbTxK9Vx6z/Y10orF2E=; 
+ b=Wt06Q8nVaynEUwk6pefil2uEqCacCPNMO8Spp8EBkhALJ06SAWbIeQbKjiGNJzPmnGW+EAUzT7pOSRWxqcmMeJHZUWW7YH3xy6t0dqqCgzo6QS9gaOzkLtmTUxaVk7Kyw8zLOjt6D+j+SL5BvPe/5BK3CjwbhikKIp2h2M1/uBE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1609137405365210.11860196775137;
+ Sun, 27 Dec 2020 22:36:45 -0800 (PST)
 In-Reply-To: <ME3P282MB17458B2705C43E860A26171DFCD90@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
-References: <ME3P282MB17458B2705C43E860A26171DFCD90@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [nwPTw1kI7r45AX7Ixklljl2O1QzpmU1rcLj6ieNn2NFkJImxZtjncAgdBsVZ/JHV]
-X-ClientProxiedBy: HKAPR04CA0005.apcprd04.prod.outlook.com
- (2603:1096:203:d0::15) To ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:220:ac::12)
-X-Microsoft-Original-Message-ID: <20201228055645.3666065-7-Qiuhao.Li@outlook.com>
+Subject: Re: [PATCH v2 0/7] fuzz: improve crash case minimization
+Message-ID: <160913740414.10865.3882457129063578218@600e7e483b3a>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pc (2001:250:fe01:130:2110:d78f:cec3:aac7) by
- HKAPR04CA0005.apcprd04.prod.outlook.com (2603:1096:203:d0::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3700.27 via Frontend Transport; Mon, 28 Dec 2020 05:57:48 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 47
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 214c03ba-801b-44a3-e223-08d8aaf5816c
-X-MS-Exchange-SLBlob-MailProps: S/btQ8cKWiQjHo/KsCc3LvvB0a1Ll3PYS95vrscV5B+BJ/DRHyxuxnsK4sI+pjoqvNEYv1WlCfvVfXv5T9bmD55+ttracWgF+YcqGWkiIRclMrzZRbxoDzP6NPBrSI5uBzruEfzqiEwP2mM8bE6kb3QKh16mw9FFdXy04TmuylbAArC0xNLQ3MggG59bI9VfzehJxQbvBeV8GgtXyspXzRyx7y4qksI0uu8rQPDuBNsSTviubz/Gkz3iCkUyV//ELvq0kIaLMTY8owFjICw8NmCxPwWnMzhJficgQ3w9Q7HF20PEbRJ26ebIYrQieE/0vUOQ8F73NBqhMny5DV4qPeTnIpLksg4/OId3izRj4+S5nN49EVgnk5Qipl6vKC7I6SMPtuo6j/qbCoyOCX8HmXqGcIQXxzp0X0HVuLTfe/4QQcCMVO9I/eJSoE71n+YdoS15ZyP+7sE/cMTla9g52vx+qDfo20/bXUsrOg/Vr+JMs+8IOikIhqJerTUawfIZV64gOAuugOpRwe9NEzze2HkvL9239cK/+kHpEm4UTOP47g8yy45FJjXsLi0ktENDynKuoXUsNA3sBhuGp7soOuLThq6TH1slbz+lFXfWs4gutEOHKpYq3zZdx3zWicSogLrNT1Z7fOD2wDqEfnt9zFiKae7eedO2lVkt2Ce95s5XAzsjVbT+22LoPoZ0y8ECmkioATVXsuPPNIHIj7dV3CCfUYGmSUIYTaaRF1nUDnzRH/V77rHBHpTsRKerog7IZhFA9nLHjEA=
-X-MS-TrafficTypeDiagnostic: SG2APC01HT086:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CJATc8QT46LbixW0JvI4kBYC6bmEa+LJ1jnjeuoTL2m+0Kwk2eruHpxJrdxqHBBwK3aOC+cAP+yo/QwkU+JfLW3TQa/gpWch+F0X6aCym5dJzg7DNI6/A4x3JkCwoWcRYktET389D0wQNVP8kxI2QGWwyz+GJwTbhO0pHGXMSMjETEeHTWswfri2omNtwedyyXLk41+Qv2eNLywYlXItkZAMs/SdRFRFDJZOxZ0BRYpm/d6Uv0a+oCOlhzBLPrr5
-X-MS-Exchange-AntiSpam-MessageData: Yp8qYUorWvkKmE38q/V4wwE+qlDvc3umyp+SnScQZyq4Ov8XgXIItgafLmtJMl+k3gShNn0SWZDdQudLkTZYAudzhXBy9lqj2/jTa+uI/9xKOCksp6mvXtF8e5bsr7Lq5TomMJn8ahlj267riFDpkw1OMW0MouQwM1Bse/h+06M6DlzPhBwgkBjH4OebX0pJnkmhOMib0NMNpVQv0+tTMg==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2020 05:57:48.7095 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: 214c03ba-801b-44a3-e223-08d8aaf5816c
-X-MS-Exchange-CrossTenant-AuthSource: SG2APC01FT037.eop-APC01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT086
-Received-SPF: pass client-ip=40.92.254.14; envelope-from=Qiuhao.Li@outlook.com;
- helo=APC01-PU1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: Qiuhao.Li@outlook.com
+Date: Sun, 27 Dec 2020 22:36:45 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,94 +66,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Qiuhao Li <Qiuhao.Li@outlook.com>,
- darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: thuth@redhat.com, darren.kenny@oracle.com, qemu-devel@nongnu.org,
+ alxndr@bu.edu, bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If previous write commands write the same length of data with the same step,
-we view it as a hint.
-
-Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
----
- scripts/oss-fuzz/minimize_qtest_trace.py | 55 ++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
-
-diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-index 7947eb1d40..98bcd0cc8a 100755
---- a/scripts/oss-fuzz/minimize_qtest_trace.py
-+++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-@@ -83,6 +83,42 @@ def check_if_trace_crashes(trace, path):
- 
-     return False
- 
-+# If previous write commands write the same length of data at the same
-+# interval, we view it as a hint.
-+def split_write_hint(newtrace, i):
-+    HINT_LEN = 3 # > 2
-+    if i <=(HINT_LEN-1):
-+        return None
-+
-+    #find previous continuous write traces
-+    k = 0
-+    l = i-1
-+    writes = []
-+    while (k != HINT_LEN and l >= 0):
-+        if newtrace[l].startswith("write "):
-+            writes.append(newtrace[l])
-+            k += 1
-+            l -= 1
-+        elif newtrace[l] == "":
-+            l -= 1
-+        else:
-+            return None
-+    if k != HINT_LEN:
-+        return None
-+
-+    length = int(writes[0].split()[2], 16)
-+    for j in range(1, HINT_LEN):
-+        if length != int(writes[j].split()[2], 16):
-+            return None
-+    
-+    step = int(writes[0].split()[1], 16) - int(writes[1].split()[1], 16)
-+    for j in range(1, HINT_LEN-1):
-+        if step != int(writes[j].split()[1], 16) - \
-+            int(writes[j+1].split()[1], 16):
-+            return None
-+    
-+    return (int(writes[0].split()[1], 16)+step, length)
-+
- 
- def remove_minimizer(newtrace, outpath):
-     remove_step = 1
-@@ -147,6 +183,25 @@ def remove_minimizer(newtrace, outpath):
-             length = int(newtrace[i].split()[2], 16)
-             data = newtrace[i].split()[3][2:]
-             if length > 1:
-+
-+                # Can we get a hint from previous writes?
-+                hint = split_write_hint(newtrace, i)
-+                if hint is not None:
-+                    hint_addr = hint[0]
-+                    hint_len = hint[1]
-+                    if hint_addr >= addr and hint_addr+hint_len <= addr+length:
-+                        newtrace[i] = "write {addr} {size} 0x{data}\n".format(
-+                            addr=hex(hint_addr),
-+                            size=hex(hint_len),
-+                            data=data[(hint_addr-addr)*2:\
-+                                (hint_addr-addr)*2+hint_len*2])
-+                        if check_if_trace_crashes(newtrace, outpath):
-+                            # next round
-+                            i += 1
-+                            continue
-+                        newtrace[i] = prior[0]
-+
-+                # Try splitting it using a binary approach
-                 leftlength = int(length/2)
-                 rightlength = length - leftlength
-                 newtrace.insert(i+1, "")
--- 
-2.25.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9NRTNQMjgyTUIxNzQ1OEIyNzA1
+QzQzRTg2MEEyNjE3MURGQ0Q5MEBNRTNQMjgyTUIxNzQ1LkFVU1AyODIuUFJPRC5PVVRMT09LLkNP
+TS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHBy
+b2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2Vy
+aWVzCk1lc3NhZ2UtaWQ6IE1FM1AyODJNQjE3NDU4QjI3MDVDNDNFODYwQTI2MTcxREZDRDkwQE1F
+M1AyODJNQjE3NDUuQVVTUDI4Mi5QUk9ELk9VVExPT0suQ09NClN1YmplY3Q6IFtQQVRDSCB2MiAw
+LzddIGZ1eno6IGltcHJvdmUgY3Jhc2ggY2FzZSBtaW5pbWl6YXRpb24KCj09PSBURVNUIFNDUklQ
+VCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8
+IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcg
+LS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0
+aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09
+PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVm
+N2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9x
+ZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvTUUzUDI4Mk1CMTc0NThCMjcwNUM0M0U4
+NjBBMjYxNzFERkNEOTBATUUzUDI4Mk1CMTc0NS5BVVNQMjgyLlBST0QuT1VUTE9PSy5DT00gLT4g
+cGF0Y2hldy9NRTNQMjgyTUIxNzQ1OEIyNzA1QzQzRTg2MEEyNjE3MURGQ0Q5MEBNRTNQMjgyTUIx
+NzQ1LkFVU1AyODIuUFJPRC5PVVRMT09LLkNPTQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rl
+c3QnCmRkYWQ5YjkgZnV6ejogaGV1cmlzdGljIHNwbGl0IHdyaXRlIGJhc2VkIG9uIHBhc3QgSU9z
+CjlmZjk5ZjggZnV6ejogYWRkIG1pbmltaXphdGlvbiBvcHRpb25zCmZmMDE1ZDEgZnV6ejogc2V0
+IGJpdHMgaW4gb3BlcmFuZCBvZiB3cml0ZS9vdXQgdG8gemVybwpmZDU3MjI3IGZ1eno6IGxvb3Ag
+dGhlIHJlbW92ZSBtaW5pbWl6ZXIgYW5kIHJlZmFjdG9yaW5nCmQ5NTZmMzggZnV6ejogc3BsaXQg
+d3JpdGUgb3BlcmFuZCB1c2luZyBiaW5hcnkgYXBwcm9hY2gKMDZlYTYyMiBmdXp6OiBkb3VibGUg
+dGhlIElPcyB0byByZW1vdmUgZm9yIGV2ZXJ5IGxvb3AKNmU3NzA4ZCBmdXp6OiBhY2NlbGVyYXRl
+IG5vbi1jcmFzaCBkZXRlY3Rpb24KCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvNyBDaGVja2luZyBj
+b21taXQgNmU3NzA4ZGIzMmQzIChmdXp6OiBhY2NlbGVyYXRlIG5vbi1jcmFzaCBkZXRlY3Rpb24p
+CkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMzODogRklMRTogc2NyaXB0cy9vc3MtZnV6ei9t
+aW5pbWl6ZV9xdGVzdF90cmFjZS5weTozNDoKK2NyYXNoIG91dHB1dCBidXQgaW5kaWNhdGVzIHRo
+ZSBzYW1lIGJ1Zy4gVW5kZXIgdGhpcyBzaXR1YXRpb24sIG91ciBtaW5pbWl6ZXIgaXMgJAoKRVJS
+T1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzM5OiBGSUxFOiBzY3JpcHRzL29zcy1mdXp6L21pbmlt
+aXplX3F0ZXN0X3RyYWNlLnB5OjM1OgoraW5jYXBhYmxlIG9mIHJlY29nbml6aW5nIGFuZCBzdG9w
+cGVkIGZyb20gcmVtb3ZpbmcgaXQuIEluIHRoZSBmdXR1cmUsIHdlIG1heSAkCgp0b3RhbDogMiBl
+cnJvcnMsIDAgd2FybmluZ3MsIDY1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvNyBoYXMgc3R5bGUg
+cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
+ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
+IGluIE1BSU5UQUlORVJTLgoKMi83IENoZWNraW5nIGNvbW1pdCAwNmVhNjIyMWE0OTIgKGZ1eno6
+IGRvdWJsZSB0aGUgSU9zIHRvIHJlbW92ZSBmb3IgZXZlcnkgbG9vcCkKMy83IENoZWNraW5nIGNv
+bW1pdCBkOTU2ZjM4N2ZhZDkgKGZ1eno6IHNwbGl0IHdyaXRlIG9wZXJhbmQgdXNpbmcgYmluYXJ5
+IGFwcHJvYWNoKQpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojMTA0OiBGSUxFOiBzY3JpcHRz
+L29zcy1mdXp6L21pbmltaXplX3F0ZXN0X3RyYWNlLnB5OjEzNToKKyAgICAgICAgIyBpdCBpbnRv
+IHR3byBzZXBhcmF0ZSB3cml0ZSBjb21tYW5kcy4gSWYgc3BsaXR0aW5nIHRoZSBkYXRhIG9wZXJh
+bmQgJAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzEwNzogRklMRTogc2NyaXB0cy9vc3Mt
+ZnV6ei9taW5pbWl6ZV9xdGVzdF90cmFjZS5weToxMzg6CisgICAgICAgICMgaXMgdG8gcHJ1bmUg
+dW5uZWNjZXNzYXJ5IGJ5dGVzIGZyb20gbG9uZyB3cml0ZXMsIHdoaWxlIGFjY29tbW9kYXRpbmcg
+JAoKdG90YWw6IDIgZXJyb3JzLCAwIHdhcm5pbmdzLCA2MiBsaW5lcyBjaGVja2VkCgpQYXRjaCAz
+LzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
+cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
+ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjQvNyBDaGVja2luZyBjb21taXQgZmQ1NzIy
+NzIzN2MxIChmdXp6OiBsb29wIHRoZSByZW1vdmUgbWluaW1pemVyIGFuZCByZWZhY3RvcmluZykK
+RVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzEwMTogRklMRTogc2NyaXB0cy9vc3MtZnV6ei9t
+aW5pbWl6ZV9xdGVzdF90cmFjZS5weToxODc6CisgICAgJAoKdG90YWw6IDEgZXJyb3JzLCAwIHdh
+cm5pbmdzLCA1NCBsaW5lcyBjaGVja2VkCgpQYXRjaCA0LzcgaGFzIHN0eWxlIHByb2JsZW1zLCBw
+bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
+IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
+TkVSUy4KCjUvNyBDaGVja2luZyBjb21taXQgZmYwMTVkMWYzOTQ1IChmdXp6OiBzZXQgYml0cyBp
+biBvcGVyYW5kIG9mIHdyaXRlL291dCB0byB6ZXJvKQo2LzcgQ2hlY2tpbmcgY29tbWl0IDlmZjk5
+Zjg2ZDM0YiAoZnV6ejogYWRkIG1pbmltaXphdGlvbiBvcHRpb25zKQo3LzcgQ2hlY2tpbmcgY29t
+bWl0IGRkYWQ5YjkxMWFkMSAoZnV6ejogaGV1cmlzdGljIHNwbGl0IHdyaXRlIGJhc2VkIG9uIHBh
+c3QgSU9zKQpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojNDg6IEZJTEU6IHNjcmlwdHMvb3Nz
+LWZ1enovbWluaW1pemVfcXRlc3RfdHJhY2UucHk6MTEzOgorICAgICQKCkVSUk9SOiB0cmFpbGlu
+ZyB3aGl0ZXNwYWNlCiM1NDogRklMRTogc2NyaXB0cy9vc3MtZnV6ei9taW5pbWl6ZV9xdGVzdF90
+cmFjZS5weToxMTk6CisgICAgJAoKdG90YWw6IDIgZXJyb3JzLCAwIHdhcm5pbmdzLCA2NyBsaW5l
+cyBjaGVja2VkCgpQYXRjaCA3LzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
+SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
+IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQ
+VVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBs
+b2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzL01FM1AyODJNQjE3NDU4
+QjI3MDVDNDNFODYwQTI2MTcxREZDRDkwQE1FM1AyODJNQjE3NDUuQVVTUDI4Mi5QUk9ELk9VVExP
+T0suQ09NL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJh
+dGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVh
+c2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
