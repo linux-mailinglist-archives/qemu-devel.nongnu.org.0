@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6382E33A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 03:33:43 +0100 (CET)
-Received: from localhost ([::1]:32786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 990612E3398
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 03:27:37 +0100 (CET)
+Received: from localhost ([::1]:44660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktiLt-0007aM-Sh
-	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 21:33:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40934)
+	id 1ktiG0-0000oh-K4
+	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 21:27:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktiD3-0007V0-6U
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 21:24:33 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57231)
+ id 1ktiD0-0007SH-Rc
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 21:24:30 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktiD0-0003wS-DH
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 21:24:32 -0500
+ id 1ktiCx-0003v7-7N
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 21:24:30 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 0FE237470DD;
- Mon, 28 Dec 2020 03:24:24 +0100 (CET)
+ by localhost (Postfix) with SMTP id EA4D17470F5;
+ Mon, 28 Dec 2020 03:24:23 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 560257470E6; Mon, 28 Dec 2020 03:24:23 +0100 (CET)
-Message-Id: <1ebc069cbab65386d01125f6b0997a88e560d582.1609121293.git.balaton@eik.bme.hu>
+ id 495097470DB; Mon, 28 Dec 2020 03:24:23 +0100 (CET)
+Message-Id: <0df2885abd286feab5d8edf864afa65bf35c6f95.1609121293.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609121293.git.balaton@eik.bme.hu>
 References: <cover.1609121293.git.balaton@eik.bme.hu>
-Subject: [PATCH v2 06/10] audio/via-ac97: Simplify code and set user_creatable
- to false
+Subject: [PATCH v2 04/10] vt82c686: Remove vt82c686b_[am]c97_init() functions
 Date: Mon, 28 Dec 2020 03:08:13 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
-X-Spam-Probability: 9%
+X-Spam-Probability: 8%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
@@ -60,111 +59,112 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-Remove some unneded, empty code and set user_creatable to false
-(besides being not implemented yet, so does nothing anyway) it's also
-normally part of VIA south bridge chips so no need to confuse users
-showing them these devices.
+These are legacy init functions that are just equivalent to directly
+calling pci_create_simple so do that instead. Also rename objects to
+lower case via-ac97 and via-mc97 matching naming of other devices.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/audio/via-ac97.c | 51 +++++++++++++++++----------------------------
- 1 file changed, 19 insertions(+), 32 deletions(-)
+ hw/isa/vt82c686.c         | 27 ++++-----------------------
+ hw/mips/fuloong2e.c       |  4 ++--
+ include/hw/isa/vt82c686.h |  4 ++--
+ 3 files changed, 8 insertions(+), 27 deletions(-)
 
-diff --git a/hw/audio/via-ac97.c b/hw/audio/via-ac97.c
-index e617416ff7..6d556f74fc 100644
---- a/hw/audio/via-ac97.c
-+++ b/hw/audio/via-ac97.c
-@@ -13,27 +13,13 @@
- #include "hw/isa/vt82c686.h"
- #include "hw/pci/pci.h"
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index d40599c7da..8677a2d212 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -179,12 +179,6 @@ struct VIAMC97State {
+ #define TYPE_VT82C686B_PM "VT82C686B_PM"
+ OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
  
--struct VIAAC97State {
--    PCIDevice dev;
--};
--
--struct VIAMC97State {
--    PCIDevice dev;
--};
--
--OBJECT_DECLARE_SIMPLE_TYPE(VIAAC97State, VIA_AC97)
+-#define TYPE_VIA_MC97 "VIA_MC97"
 -OBJECT_DECLARE_SIMPLE_TYPE(VIAMC97State, VIA_MC97)
 -
--static void via_ac97_realize(PCIDevice *dev, Error **errp)
-+static void via_ac97_realize(PCIDevice *pci_dev, Error **errp)
- {
--    VIAAC97State *s = VIA_AC97(dev);
--    uint8_t *pci_conf = s->dev.config;
+-#define TYPE_VIA_AC97 "VIA_AC97"
+-OBJECT_DECLARE_SIMPLE_TYPE(VIAAC97State, VIA_AC97)
 -
--    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_INVALIDATE |
--                 PCI_COMMAND_PARITY);
--    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_CAP_LIST |
--                 PCI_STATUS_DEVSEL_MEDIUM);
--    pci_set_long(pci_conf + PCI_INTERRUPT_PIN, 0x03);
-+    pci_set_word(pci_dev->config + PCI_COMMAND,
-+                 PCI_COMMAND_INVALIDATE | PCI_COMMAND_PARITY);
-+    pci_set_word(pci_dev->config + PCI_STATUS,
-+                 PCI_STATUS_CAP_LIST | PCI_STATUS_DEVSEL_MEDIUM);
-+    pci_set_long(pci_dev->config + PCI_INTERRUPT_PIN, 0x03);
- }
- 
- static void via_ac97_class_init(ObjectClass *klass, void *data)
-@@ -47,13 +33,15 @@ static void via_ac97_class_init(ObjectClass *klass, void *data)
-     k->revision = 0x50;
-     k->class_id = PCI_CLASS_MULTIMEDIA_AUDIO;
-     set_bit(DEVICE_CATEGORY_SOUND, dc->categories);
--    dc->desc = "AC97";
-+    dc->desc = "VIA AC97";
-+    /* Reason: Part of a south bridge chip */
-+    dc->user_creatable = false;
- }
- 
- static const TypeInfo via_ac97_info = {
-     .name          = TYPE_VIA_AC97,
-     .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VIAAC97State),
-+    .instance_size = sizeof(PCIDevice),
-     .class_init    = via_ac97_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-@@ -61,15 +49,12 @@ static const TypeInfo via_ac97_info = {
-     },
+ static void pm_update_sci(VT686PMState *s)
+ {
+     int sci_level, pmsts;
+@@ -254,10 +248,13 @@ static const VMStateDescription vmstate_acpi = {
  };
  
--static void via_mc97_realize(PCIDevice *dev, Error **errp)
-+static void via_mc97_realize(PCIDevice *pci_dev, Error **errp)
+ /*
+- * TODO: vt82c686b_ac97_init() and vt82c686b_mc97_init()
++ * TODO: VIA_AC97 and VIA_MC97
+  * just register a PCI device now, functionalities will be implemented later.
+  */
+ 
++OBJECT_DECLARE_SIMPLE_TYPE(VIAMC97State, VIA_MC97)
++OBJECT_DECLARE_SIMPLE_TYPE(VIAAC97State, VIA_AC97)
++
+ static void vt82c686b_ac97_realize(PCIDevice *dev, Error **errp)
  {
--    VIAMC97State *s = VIA_MC97(dev);
--    uint8_t *pci_conf = s->dev.config;
+     VIAAC97State *s = VIA_AC97(dev);
+@@ -270,14 +267,6 @@ static void vt82c686b_ac97_realize(PCIDevice *dev, Error **errp)
+     pci_set_long(pci_conf + PCI_INTERRUPT_PIN, 0x03);
+ }
+ 
+-void vt82c686b_ac97_init(PCIBus *bus, int devfn)
+-{
+-    PCIDevice *dev;
 -
--    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_INVALIDATE |
--                 PCI_COMMAND_VGA_PALETTE);
--    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
--    pci_set_long(pci_conf + PCI_INTERRUPT_PIN, 0x03);
-+    pci_set_word(pci_dev->config + PCI_COMMAND,
-+                 PCI_COMMAND_INVALIDATE | PCI_COMMAND_VGA_PALETTE);
-+    pci_set_word(pci_dev->config + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
-+    pci_set_long(pci_dev->config + PCI_INTERRUPT_PIN, 0x03);
+-    dev = pci_new(devfn, TYPE_VIA_AC97);
+-    pci_realize_and_unref(dev, bus, &error_fatal);
+-}
+-
+ static void via_ac97_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -314,14 +303,6 @@ static void vt82c686b_mc97_realize(PCIDevice *dev, Error **errp)
+     pci_set_long(pci_conf + PCI_INTERRUPT_PIN, 0x03);
  }
  
+-void vt82c686b_mc97_init(PCIBus *bus, int devfn)
+-{
+-    PCIDevice *dev;
+-
+-    dev = pci_new(devfn, TYPE_VIA_MC97);
+-    pci_realize_and_unref(dev, bus, &error_fatal);
+-}
+-
  static void via_mc97_class_init(ObjectClass *klass, void *data)
-@@ -83,13 +68,15 @@ static void via_mc97_class_init(ObjectClass *klass, void *data)
-     k->class_id = PCI_CLASS_COMMUNICATION_OTHER;
-     k->revision = 0x30;
-     set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
--    dc->desc = "MC97";
-+    dc->desc = "VIA MC97";
-+    /* Reason: Part of a south bridge chip */
-+    dc->user_creatable = false;
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index f0733e87b7..3b0489f781 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -264,8 +264,8 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+     *i2c_bus = vt82c686b_pm_init(pci_bus, PCI_DEVFN(slot, 4), 0xeee1, NULL);
+ 
+     /* Audio support */
+-    vt82c686b_ac97_init(pci_bus, PCI_DEVFN(slot, 5));
+-    vt82c686b_mc97_init(pci_bus, PCI_DEVFN(slot, 6));
++    pci_create_simple(pci_bus, PCI_DEVFN(slot, 5), TYPE_VIA_AC97);
++    pci_create_simple(pci_bus, PCI_DEVFN(slot, 6), TYPE_VIA_MC97);
  }
  
- static const TypeInfo via_mc97_info = {
-     .name          = TYPE_VIA_MC97,
-     .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VIAMC97State),
-+    .instance_size = sizeof(PCIDevice),
-     .class_init    = via_mc97_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+ /* Network support */
+diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+index f23f45dfb1..ff80a926dc 100644
+--- a/include/hw/isa/vt82c686.h
++++ b/include/hw/isa/vt82c686.h
+@@ -3,11 +3,11 @@
+ 
+ 
+ #define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
++#define TYPE_VIA_AC97 "via-ac97"
++#define TYPE_VIA_MC97 "via-mc97"
+ 
+ /* vt82c686.c */
+ ISABus *vt82c686b_isa_init(PCIBus * bus, int devfn);
+-void vt82c686b_ac97_init(PCIBus *bus, int devfn);
+-void vt82c686b_mc97_init(PCIBus *bus, int devfn);
+ I2CBus *vt82c686b_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+                           qemu_irq sci_irq);
+ 
 -- 
 2.21.3
 
