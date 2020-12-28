@@ -2,68 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DBE12E6986
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 18:02:37 +0100 (CET)
-Received: from localhost ([::1]:50266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF342E699F
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 18:17:46 +0100 (CET)
+Received: from localhost ([::1]:45380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktvum-0008IF-4u
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 12:02:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43950)
+	id 1ktw9Q-0002xf-Mj
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 12:17:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1ktvrm-0007kM-5w
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 11:59:30 -0500
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:46398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1ktvrk-0003rA-0j
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 11:59:29 -0500
-Received: by mail-qk1-x72d.google.com with SMTP id d14so9246566qkc.13
- for <qemu-devel@nongnu.org>; Mon, 28 Dec 2020 08:59:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4nnJIwkLFeX3Fq70HwRs76kbbpNE/NvCaPaaXPCOYLY=;
- b=wrGpaYtPYprYnHZrvJLWcYafyfFua1M8QuPlf7vfUanXQ09tOItewN+BfJmnwSqbTE
- vNI5bhayFkk6Y3VmzM6NfJthZEGVSzE0rmVg7JRt9/hgpHpK2HodMCa/cabbJnpY01zZ
- EHRXM32QPRD9AKVV4GJjRTyEYOdL83TKOU25G8m0Euiny0tMEIVa2rGvHEjgDr01K7K9
- mvZnDIAIF0wR27iW2f755AwfbjF9Kd7/CJo9BD6OR6FlzJERtnNt5KkQhT5HHp+XMw/m
- SZtvAKyVBjuKLHBBtDYR4nyV66Y/mcmhXVULiZN9PH7isfq2Dbw9XtCCI+1ef2ggInPh
- 7NCg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ktw7y-0002La-4Y
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 12:16:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ktw7v-0007NV-BM
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 12:16:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609175769;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JoRPp2DkT8Xon7HlnW+0Ndmusha4GWVpen/8P2ucKiI=;
+ b=MkC8KUu4eakyTqgCoJMwGGYqfABMtTIHMwPfq6GSiwt4ejzp92V3cyPdVhv0J5CJigNnN9
+ C01/jeYySPgbEWnxfEYo4i0Gfgm8GRrcPRqraSPI0bz/qF85d0Eo0yxXJoDInz4HiIInM/
+ rEtXN7D3AvLhImP+kpdgzucFNpZPMO8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-YMqDZmwpMe6T8Lk9WH23KA-1; Mon, 28 Dec 2020 12:16:03 -0500
+X-MC-Unique: YMqDZmwpMe6T8Lk9WH23KA-1
+Received: by mail-wr1-f72.google.com with SMTP id v7so6536724wra.3
+ for <qemu-devel@nongnu.org>; Mon, 28 Dec 2020 09:16:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4nnJIwkLFeX3Fq70HwRs76kbbpNE/NvCaPaaXPCOYLY=;
- b=huAgtVOjf//57vhPe+tbIpGMTUrZI5SWxXSjUs2mEVB26CSEN/HRR82R9I8++e0V/h
- DsYLF0cGy+tH2IMJBSSo0JbSbw8Icmclq6xuM5ai9GPCKuQnl9+Di0YcpcGbtuv/nVpB
- KZMLf/7Hkehm1ka/iRGJ0HipMsWUKHYncJ4ytaOu90N2gOhhI31xXPXtgQpZn0Awvo84
- qV6SELdDJJoOMZQCJwC2G2TXBCk+5fCx+VCHqOR1hGbNlaSQ2YBudU6rd7dHjbFjFVsu
- O7ptvcRtCedPlJS9geSWbnBS9EmSXuPMWGNXAZoXT16Fxd5waw8LuBFAAroxxy8bHEn4
- Wmjg==
-X-Gm-Message-State: AOAM532O6DCg0C7Q4DRjxBQO1CQjWbJ1c1JSgbcK5Tdy4AYA1HHZftgq
- EL3nBuJ1/rtM1o90kWRzaWHuRiwY9RUm3TKLAQPWHg==
-X-Google-Smtp-Source: ABdhPJyk9PbKN4STzV9r/utaZOE7u/Co+RsrJFq712zy3hLx+IJAOc4Sszi3cE0rsuyMb7egnGChWfI5lOVSJbRdMt0=
-X-Received: by 2002:a37:a614:: with SMTP id p20mr44291657qke.359.1609174766810; 
- Mon, 28 Dec 2020 08:59:26 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JoRPp2DkT8Xon7HlnW+0Ndmusha4GWVpen/8P2ucKiI=;
+ b=PH7+t+cPMAMa1uXkwVfcRL3Dr2xCCFrx31hOpSSplLFv3Fu9XhmuGmDka57iySC3NU
+ W5C9ojk0CvyOfU2zbLkgKVq+qY/7sACcq4w72fWLIzMKlralS/xBLe3Zu7uusjsxfem5
+ fJmW69EHtFcvxvodVxw4B7aBFMgIpRHpLBneQgeBLg16oLSWFisjxPh3lcN4ELpT0Fi5
+ thEVSCSON5KpcDavpcXv7XHqwSN3hw6EOAdOWdE+I8FbYIrw9TffCXcq5TnxWq/794nj
+ TbbuKw8ZqBVlXOnX94HfBdIH7B/vghstuDRjoQst/N1VCS+GhawSvbRnvAc5QtTNyiK5
+ UbTA==
+X-Gm-Message-State: AOAM533o+EDzJR5hlmdo3fD9iXnN1ch3HUmq7Oi9OblM0uoEAxBBlVnV
+ 9zL+YF8Qpi5m9flq57b/jeOzTlnKBIuNJft06Z0FUKjpfSQ8ZiCovm98h0qPud8pE1al6FOReWl
+ osOoDNzJ9S+n7YSA=
+X-Received: by 2002:a5d:6751:: with SMTP id l17mr51447140wrw.73.1609175761846; 
+ Mon, 28 Dec 2020 09:16:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxWoS/bxiNi097Ft32afRT8J9WKjFguco5BACdYXsx0UufP7mCpYwcTM1Ix3fTUGYKUksIhAw==
+X-Received: by 2002:a5d:6751:: with SMTP id l17mr51447127wrw.73.1609175761638; 
+ Mon, 28 Dec 2020 09:16:01 -0800 (PST)
+Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
+ ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
+ by smtp.gmail.com with ESMTPSA id s133sm20540774wmf.38.2020.12.28.09.16.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Dec 2020 09:16:00 -0800 (PST)
+Subject: Re: [PATCH] meson: fix Cocoa option in summary
+To: Chris Hofstaedtler <zeha@debian.org>, qemu-devel@nongnu.org
+References: <20201228150958.232564-1-zeha@debian.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <8bb0e3b7-3d15-3dfd-6ef9-fc639a07ed48@redhat.com>
+Date: Mon, 28 Dec 2020 18:15:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <CA+XhMqwjq99QdTKntxbQ_rZ-L3bQX7D3WHLkwMdK6zmiP=_56w@mail.gmail.com>
- <CANCZdfpt0vEvJR7BYpPSxKdHs6r0BoUtXsHL1gi+x6ZopzZ1OA@mail.gmail.com>
- <CA+XhMqwVS7nOCdf0Ji_=ZpWQYp03z4dcTwkHqBwOCCkEQv8_sQ@mail.gmail.com>
-In-Reply-To: <CA+XhMqwVS7nOCdf0Ji_=ZpWQYp03z4dcTwkHqBwOCCkEQv8_sQ@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 28 Dec 2020 09:59:15 -0700
-Message-ID: <CANCZdfp5QQpK-GmNZ-j0Pak5RRXruYcHSV0sGrT75YnUMT0zbw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] bsd-user, FreeBSD update
-To: David CARLIER <devnexen@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000005b8c7d05b7893226"
-Received-SPF: none client-ip=2607:f8b0:4864:20::72d;
- envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x72d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201228150958.232564-1-zeha@debian.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.178,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.698, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,162 +97,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, Chris Hofstaedtler <chris@hofstaedtler.name>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005b8c7d05b7893226
-Content-Type: text/plain; charset="UTF-8"
+Hi Chris,
 
-Yes. I've picked 4 changes to make sure that I've got the size and
-groupings of patches right for this project. I've heard nothing back on
-them, so I'll try again after the first of the year.
+On 12/28/20 4:09 PM, Chris Hofstaedtler wrote:
+> From: Chris Hofstaedtler <chris@hofstaedtler.name>
+> 
+> Regression introduced in f9332757898.
 
-I'd thought about just removing it all and pushing up the current state,
-but I think even that might be unreviewable.
+Isn't it commit b4e312e953b? If so you could add:
 
-Warner
+Fixes: b4e312e953b ("configure: move cocoa option to Meson")
 
-On Mon, Dec 28, 2020 at 9:39 AM David CARLIER <devnexen@gmail.com> wrote:
+> Signed-off-by: Chris Hofstaedtler <chris@hofstaedtler.name>
+> ---
+>  meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meson.build b/meson.build
+> index e864cdd155..9c152a85bd 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2112,7 +2112,7 @@ summary_info += {'strip binaries':    get_option('strip')}
+>  summary_info += {'profiler':          config_host.has_key('CONFIG_PROFILER')}
+>  summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
+>  if targetos == 'darwin'
+> -  summary_info += {'Cocoa support': config_host.has_key('CONFIG_COCOA')}
+> +  summary_info += {'Cocoa support': config_host_data.get('CONFIG_COCOA', false)}
+>  endif
+>  # TODO: add back version
+>  summary_info += {'SDL support':       sdl.found()}
+> 
 
-> Oh good to know I understand better why syscalls not updated for so long.
->
-> To upstream I would suggest not to push straight all these changes in
-> one shot and focus on FreeBSD at first, much less to review and so on.
->
-> Regards.
->
-> On Mon, 28 Dec 2020 at 16:21, Warner Losh <imp@bsdimp.com> wrote:
-> >
-> >
-> >
-> > On Mon, Dec 28, 2020 at 1:15 AM David CARLIER <devnexen@gmail.com>
-> wrote:
-> >>
-> >> From 10b13162949debdbbd8394bc1047511d1a900176 Mon Sep 17 00:00:00 2001
-> >> From: David Carlier <devnexen@gmail.com>
-> >> Date: Mon, 28 Dec 2020 08:10:43 +0000
-> >> Subject: [PATCH 0/2] *** SUBJECT HERE ***
-> >>
-> >> bsd-user, FreeBSD update.
-> >>
-> >> David Carlier (2):
-> >>   bsd-user, updating the FreeBSD's syscall list, based on the 11.x
-> >>   bsd-user, Adding more strace support for a handful of syscalls.
-> >>
-> >>  bsd-user/freebsd/strace.list  | 12 ++++++++++++
-> >>  bsd-user/freebsd/syscall_nr.h | 25 ++++++++++++++++++++++---
-> >>  2 files changed, 34 insertions(+), 3 deletions(-)
-> >
-> >
-> > Have you seen my patches in this area? Are you familiar with the
-> bsd-user efforts we've been doing at
-> https://github.com/qemu-bsd-user/qemu-bsd-user We have about 300 patches
-> in the queue and the more that others change things, the harder it is to
-> get them in. They are a twisty maze of conflicts early in the series and
-> some not-updated API calls dealing with the evolution of the qemu cpu model
-> as well.
-> >
-> > I posted this series two weeks ago:
-> https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg05528.html
-> >
-> > This part
-> https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg05530.html
-> updates the system call numbers to the latest FreeBSD 13 numbers.
-> >
-> > Perhaps you could help in these efforts? They have been going on since
-> around Qemu 1.0 and we were bad about getting them upstreamed early, and so
-> are paying the price now. We use the code in the above repo to build about
-> 40k packages for a couple of different architectures.
-> >
-> > Warner
-> >
-> >>
-> >> --
-> >> 2.30.0.rc2
-> >>
->
-
---0000000000005b8c7d05b7893226
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Yes. I&#39;ve picked 4 changes to make sure that I&#39;ve =
-got the size and groupings of patches right for this project. I&#39;ve hear=
-d nothing back on them, so I&#39;ll try again after the first of the year.<=
-div><br></div><div>I&#39;d thought about just removing it all and pushing u=
-p the current state, but I think even that might be unreviewable.</div><div=
-><br></div><div>Warner</div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Mon, Dec 28, 2020 at 9:39 AM David CARLIER=
- &lt;<a href=3D"mailto:devnexen@gmail.com">devnexen@gmail.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Oh good to kno=
-w I understand better why syscalls not updated for so long.<br>
-<br>
-To upstream I would suggest not to push straight all these changes in<br>
-one shot and focus on FreeBSD at first, much less to review and so on.<br>
-<br>
-Regards.<br>
-<br>
-On Mon, 28 Dec 2020 at 16:21, Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.=
-com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; On Mon, Dec 28, 2020 at 1:15 AM David CARLIER &lt;<a href=3D"mailto:de=
-vnexen@gmail.com" target=3D"_blank">devnexen@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; From 10b13162949debdbbd8394bc1047511d1a900176 Mon Sep 17 00:00:00 =
-2001<br>
-&gt;&gt; From: David Carlier &lt;<a href=3D"mailto:devnexen@gmail.com" targ=
-et=3D"_blank">devnexen@gmail.com</a>&gt;<br>
-&gt;&gt; Date: Mon, 28 Dec 2020 08:10:43 +0000<br>
-&gt;&gt; Subject: [PATCH 0/2] *** SUBJECT HERE ***<br>
-&gt;&gt;<br>
-&gt;&gt; bsd-user, FreeBSD update.<br>
-&gt;&gt;<br>
-&gt;&gt; David Carlier (2):<br>
-&gt;&gt;=C2=A0 =C2=A0bsd-user, updating the FreeBSD&#39;s syscall list, bas=
-ed on the 11.x<br>
-&gt;&gt;=C2=A0 =C2=A0bsd-user, Adding more strace support for a handful of =
-syscalls.<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 bsd-user/freebsd/strace.list=C2=A0 | 12 ++++++++++++<br>
-&gt;&gt;=C2=A0 bsd-user/freebsd/syscall_nr.h | 25 ++++++++++++++++++++++---=
-<br>
-&gt;&gt;=C2=A0 2 files changed, 34 insertions(+), 3 deletions(-)<br>
-&gt;<br>
-&gt;<br>
-&gt; Have you seen my patches in this area? Are you familiar with the bsd-u=
-ser efforts we&#39;ve been doing at <a href=3D"https://github.com/qemu-bsd-=
-user/qemu-bsd-user" rel=3D"noreferrer" target=3D"_blank">https://github.com=
-/qemu-bsd-user/qemu-bsd-user</a> We have about 300 patches in the queue and=
- the more that others change things, the harder it is to get them in. They =
-are a twisty maze of conflicts early in the series and some not-updated API=
- calls dealing with the evolution of the qemu cpu model as well.<br>
-&gt;<br>
-&gt; I posted this series two weeks ago: <a href=3D"https://lists.gnu.org/a=
-rchive/html/qemu-devel/2020-12/msg05528.html" rel=3D"noreferrer" target=3D"=
-_blank">https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg05528.html=
-</a><br>
-&gt;<br>
-&gt; This part <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/202=
-0-12/msg05530.html" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.=
-org/archive/html/qemu-devel/2020-12/msg05530.html</a> updates the system ca=
-ll numbers to the latest FreeBSD 13 numbers.<br>
-&gt;<br>
-&gt; Perhaps you could help in these efforts? They have been going on since=
- around Qemu 1.0 and we were bad about getting them upstreamed early, and s=
-o are paying the price now. We use the code in the above repo to build abou=
-t 40k packages for a couple of different architectures.<br>
-&gt;<br>
-&gt; Warner<br>
-&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.30.0.rc2<br>
-&gt;&gt;<br>
-</blockquote></div>
-
---0000000000005b8c7d05b7893226--
 
