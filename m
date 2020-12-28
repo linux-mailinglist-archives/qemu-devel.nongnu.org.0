@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44B5B2E4147
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 16:05:38 +0100 (CET)
-Received: from localhost ([::1]:38560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2BD72E4175
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 16:08:16 +0100 (CET)
+Received: from localhost ([::1]:45530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktu5Z-0008Sb-9I
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 10:05:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47768)
+	id 1ktu87-0003C9-P0
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 10:08:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kttzC-00034W-BM; Mon, 28 Dec 2020 09:59:03 -0500
-Received: from mout.web.de ([212.227.15.14]:37419)
+ id 1kttzH-00039R-BF; Mon, 28 Dec 2020 09:59:07 -0500
+Received: from mout.web.de ([212.227.15.4]:52939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kttzA-0006b5-N3; Mon, 28 Dec 2020 09:59:02 -0500
+ id 1kttzE-0006c1-RX; Mon, 28 Dec 2020 09:59:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1609167535;
- bh=QI3mrNzj10vI74Bk2dsysQrsN0HaknZHWM9x8Uj2gFQ=;
+ s=dbaedf251592; t=1609167538;
+ bh=ipBmsX1SFyAij89NB6kxoOpqTTdNm75hepOGVJoieTA=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=SU+sOdTQ+YOmRiMuVdSjXnLpc186keWvf3HsjDTxMB6HF6XWaREUI4Ple45u6apja
- c/tBOlDv0zoXU9SwQyjnWcqDA2GusGuwUw0ZfSbp4Cm54D00HfBgW4mG2Qi0Gl3Eb/
- NgCrBNwxW4TN73GoQ8cTc1FudlwR0wcRfBohnll8=
+ b=lgHODEMwIBYTs2U0Twxbv7frDFEc/gs2942//wkYIJ0uepUETGrevHwrhFGutZsYC
+ 50ltj3ISUsMWqcAT2N+9Ia53e3pOyC9/Ous2fg1uQnLr3N2EB4robZc1O/fuISGt43
+ A7VfqqVjnbhZ1TV+9wjbUUDya12w0Xtm0yzmWCqA=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([94.134.180.94]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MJFhX-1kaJjI0e2l-00KXg3; Mon, 28
- Dec 2020 15:58:55 +0100
-Date: Mon, 28 Dec 2020 15:58:53 +0100
+Received: from gecko.fritz.box ([94.134.180.94]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MCXVX-1klLGL2qDz-009SnD; Mon, 28
+ Dec 2020 15:58:58 +0100
+Date: Mon, 28 Dec 2020 15:58:57 +0100
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v13 6/7] io: Document qmp oob suitability of
- qio_channel_shutdown and io_shutdown
-Message-ID: <4bb8a3f8653353f03cbc796b96871ca3c1925a8d.1609166587.git.lukasstraub2@web.de>
+Subject: [PATCH v13 7/7] tests/test-char.c: Wait for the chardev to connect
+ in char_socket_client_dupid_test
+Message-ID: <164d36294fb8d85727e9561ed26e449514f719ff.1609166587.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1609166587.git.lukasstraub2@web.de>
 References: <cover.1609166587.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/TfPekmIxY3g.3UgTV.YJgxz";
+Content-Type: multipart/signed; boundary="Sig_/G9s=tPd95V5mxr=7vco_rF1";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:BkGuW1TGI1SKPefLGGhR51hSelAGPd72ry/Iq/SD+JnPoyRKeAo
- WR6S6/ZMl8inQ859TiD1lRU1et/7/KSUPCrpNQZH7Hatk35aVEhSRBtEC7E00yY2PbeZqvg
- jk8PoievXn0qcQu7+lNbv/r08mrJac+Ug7+5ror0zb6bXL66HpLK9EtcNe2Kt0oTlxJy1Hj
- 8WSntlyjukZ8GD64jqQUg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7FUe3J/NMhI=:aPpOCjoU5QNM3H7vlJz5fh
- JAFkEU5KRn2wzmI3wn+zsgX0ZETvHmpIEHm3MOaTz3Z0d4Hc4hq2yDtprMR3rtvZui00Gbg3w
- iAwr78yMhLq51hTIVxhghF2WePGQxwCwH9PBT7xTFaVWpg5+mOsu+NsIQdPCeV2Gv8g0dT9XL
- u6MWA+KwzmNjK4jYHB8zmoc/iAg7XIJX8ztrgGPSRs5t+ig/z8JznmbK1vIB56MnmFXkrqcDe
- K9VvEoJsRM5LXh8kF+8qEqpYLk8UkQHFnJbDI0zpbCSnj9OB4j2+bClC6x2WzFlSXQB/jdnGo
- uIiKw+e4SWo1DH1FOcW/V7Jogcj0bxrzOPYHtLv38lMEmYS7tfM+lOVkwLm6Acjmb3sfxhqyU
- qjcoulbVUWtrze/Z4is6tq0g7GxvLatzCZC35eewuaNlMNgWdsRqQCwnw6oYjIZoayIXr3T20
- eL7ViYIJcX7TCJlZVrdsF3RKCBSLYTeoA2vy7j3bf2yJgGx+NZ53H2I/FlIgsPEdMiW/JYUiq
- 4erKdpmNtTcfdk1baQMuApsQg8YKX0Rbpu9CaHjAv6NKq9/Nm80sJ7KKpAjzzbLhLPNd2A0tp
- eBD0cFIf1+ckV5H42g2tHlcihU1OgNgIXAec609aGG95bYBu7HJOxpXfUNeC9JFETmuP6+BTh
- k6e6AL6NrQIebQok6N+/F5+MrDHEggt6Kcz1RLBjB2vmLCoEEKQwldpjtdl4Zr5L+w1ODjH+v
- NTAZwpQquypHIPYnCZ45Mwv/SieK+JPRfgR7Ah4ZaIgYK47jK2TdB2PX+3xS0ETDCbrCfZxdU
- QsMJuJsBANmgzjrJW7aJznh5TMRWi5JOqg+9/uK/lDnAYgBDqYdkOyHA31FUYYfWBLgPnRheH
- PLqfgdN2jIrY5lnn3tS4XMGMezmWbt8KTF3zR6K0k=
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:DGCGrIHVEJ69kqZBeKPYSSR++LiiAPZjDAQ2kTpqyYvvAaWfj8P
+ XJJxS/GKWB9bJPJUpqzSWI2lNwBeKS6qGd0b+vFuPXgH+7LbYLFXGdPj2E/RSUmRyYtKkkk
+ DDIE9P2FlJ0x9INvMk5ZkDfApG7WyarD/Bh3frP+MhhiBjM3pkYTBjb2aWIK4bt6r/3BQrj
+ OJa8/9jHyN2mQujJW4SAA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DMHKrTPWo38=:hlhWgb+p+SYiB1S5oXXcFj
+ Hi1bXRDiqe9ofhV5DSBEADzekLqV/ycEwcwu/saZSY9wJnbEXQUi5VD1qMr3FzQdD0ddRHPmt
+ 2prNv23FGKBa+jTYvHfJ/Jtduy4c0PBS0vVbA+mhZFOKKdqvSiFGjbrqYcF/q9KTAjqLCiscJ
+ 5ejp5SxFSkSEMEKQct5NfRD7W5IOkig5nzZb2L9+eONDtktHJ+vsRh8Vi5kpkGfr6Lujo9L/0
+ 7MO2mnW/grz6Zc6YZ4gCaDGC+5TFM/ni7Nuzg8KrlM3E4LcvOFa6JNkRfqPFS/LrAzrJN+Ces
+ YN+gth/5Im87wRVETAEd9zlcEb5jkygVkvOHLGyFMUHHp5o99lFkxCuwAlC+ijnJ+LP4LFkgH
+ 6Pk7Lj2TqOl34EoYn68NbSY6tPGF9ONXG++QLJONry+YR6UbHbNPWD9ivYCE5HhXQEWbSy6dr
+ /IskCBicHKB+KXlTRPTftHg8lgcE8hekhESl20X8QcMJoY2lHieLkZ2VSnUni6wg5yBraxCPl
+ FU7GN4n4jP9vkHQxa5T8BxAeLFI96A7dRbLKZgPcQpSjGFIc+iulmae/OasDquRiwvnXgKzRa
+ Q5gs+nFQpaqxlTYVKj575IaaQcRTGf98Gg4vLZHyvE8nf0YzLNmkSoLoicKm1+HbNgUXSZCP0
+ WpT0gya3Sp5P8Grv6AN5hA638oFIRL8HjA8AGxnOe1BQWO8F198uCEZAWQvKIHNCeCyFJQUcD
+ Ah3Azc5hqc6V7QtdwNgiuRIs6K9iLyEGAlI6VMoGi/sXBjjV/WU++u07/IBANE0MIoAq+U3QV
+ 8Akn8vRC4bzgpSJlpA2DiSqAByDnPMPFXVUHnhh2g/R6tuaV7x/TELkTmt9O+Q/L0S4bq19C9
+ +CyNY/DNtXoaY6F96xau6Jdeohc73/DWTLHNcG15s=
+Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, RCVD_IN_SORBS_WEB=1.5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,68 +90,59 @@ Cc: Kevin Wolf <kwolf@redhat.com>, "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/TfPekmIxY3g.3UgTV.YJgxz
+--Sig_/G9s=tPd95V5mxr=7vco_rF1
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Migration and yank code assume that qio_channel_shutdown is thread
--safe and can be called from qmp oob handler. Document this after
-checking the code.
+A connecting chardev object has an additional reference by the connecting
+thread, so if the chardev is still connecting by the end of the test,
+then the chardev object won't be freed. This in turn means that the yank
+instance won't be unregistered and when running the next test-case
+yank_register_instance will abort, because the yank instance is
+already/still registered.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- include/io/channel.h | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ tests/test-char.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/io/channel.h b/include/io/channel.h
-index 4d6fe45f63..ab9ea77959 100644
---- a/include/io/channel.h
-+++ b/include/io/channel.h
-@@ -92,7 +92,8 @@ struct QIOChannel {
-  * provide additional optional features.
-  *
-  * Consult the corresponding public API docs for a description
-- * of the semantics of each callback
-+ * of the semantics of each callback. io_shutdown in particular
-+ * must be thread-safe, terminate quickly and must not block.
-  */
- struct QIOChannelClass {
-     ObjectClass parent;
-@@ -510,6 +511,8 @@ int qio_channel_close(QIOChannel *ioc,
-  * QIO_CHANNEL_FEATURE_SHUTDOWN prior to calling
-  * this method.
-  *
-+ * This function is thread-safe, terminates quickly and does not block.
-+ *
-  * Returns: 0 on success, -1 on error
-  */
- int qio_channel_shutdown(QIOChannel *ioc,
+diff --git a/tests/test-char.c b/tests/test-char.c
+index 953e0d1c1f..41a76410d8 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -937,6 +937,7 @@ static void char_socket_client_dupid_test(gconstpointer=
+ opaque)
+     g_assert_nonnull(opts);
+     chr1 =3D qemu_chr_new_from_opts(opts, NULL, &error_abort);
+     g_assert_nonnull(chr1);
++    qemu_chr_wait_connected(chr1, &error_abort);
+
+     chr2 =3D qemu_chr_new_from_opts(opts, NULL, &local_err);
+     g_assert_null(chr2);
 --
 2.29.2
 
-
---Sig_/TfPekmIxY3g.3UgTV.YJgxz
+--Sig_/G9s=tPd95V5mxr=7vco_rF1
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl/p8q0ACgkQNasLKJxd
-slgcjA/9FZ9QtcrreXZj2Jy/65hiYC2bbeg9ZnTLu1TfKS3JdnTiudVQf1S0sdAg
-JheAevF+0lUdzDMeM3yLkxC+s73X+c6ZSHl39o3SW7XVoHCcHzcFLhgwslm2wkKF
-/TPt2/fOqD8FDjxZLdwBc0AWbq7g7v+cuRHQ4PtXChBnisMIkrsjtYfcwSzRrefZ
-T6+TQwJhf6+Yc4tXJsauPdVrElTXjm8TUOPQm1RyMHgMhayKOA696900JCZy4oOX
-vU1NvyNf9ZFelI12yAw4Nf3N7KieyRkwgW1mpgTIxmQfEoWBX1hjbdOipE0Wgxpf
-zkv1Y6XiDe3Hb78sRnngew/yf8N6ydKMAinh/eWr2jxr2ETf3qEc37s2ON55hJvA
-dwJWeXNCM7W25PlwJD3QdtTxu4T5b3oHtza7V7gg8Hw6gs1mmjT5cjS3j+7fuFcT
-6Su/sxMw4SHfQa+aRkQAIURIQQ9EtmIoBDzO/yJLMTusLOoKzwi3TrqgyWsh2foX
-uy68rmOAJDvh3QZeukA6yL5qhXVA7BMAW9wwWjKf18zOCE6Q2qj+pZ1Jf6lIu7VZ
-Czqs/ysUo5OYvWzfzX7QXaYxLydEdZsMEadN44TwXGBDPpfReMvlVpziqfS0fhuu
-XUJfz+DNxmxMUQzKWazjYNrqOdSJdTtSca3b2STWbEvzPJZ8hNQ=
-=uORr
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl/p8rEACgkQNasLKJxd
+slj63A//f4EPdB1qdhJtdwpPuLXxpuhAl6SXnejqopIpjLlpxD8oC2nXOHQTqyJo
+mKoJ18VzaAmAaObWorZncAw1+tiohy8hgqTD6PJ3LhGTvfQy8lqEuCbsPVTh21Ye
+XG+7hbHJYQnm8ev7YmJjqD9B/tLNRxmKCsSl6MX6s1NJ2NxZB0Vfa2IVQaFkAvRz
+16p4bxyBm/NWdO/iynRMu1ur02fZGdGIoBHnzfCONr2ScOIZYGmXZnpqv7Hpbg2e
+VtMj6riWYEhZLPm4dWb7O1W0c3tuvwqIKjDYcgm4xnwyKHPdfNpA0+ZQh7OFsF1U
+Chw2RVKFblwlCfUHgDsbNZlEuI9y+jQjIEJK5l/8l3h9da9VL3QP1O9jWwit5ePR
+kpPe5dC8vhb8a++JaJW7S9lelWGwKeDiFVR0eIvQsZDxl/aEQZn5Rjx6ZACl+/hD
+O6VJjfnhpdSKO4SbzXEZ3CPpsmHYaHKNRyrdMJxW7g4Rv0CK6/iJLw7IW56jHQNR
+XaRiGGMCOeOP2HqOczCnrvOwYCUDaR2J8XJ1MwXogk+mV/GqZP65WKoxQTRT+LH1
+VRZzwHGDTJF+CbT/47LAVp2D4JUXRg5JzWWgraAorhVXuZ50xWpdwDvW4qUDV5lE
+D6htXOvYEyLHFiiN+rxvDpUcgkK64T3rFpo+QWVVYAYvmwNOatQ=
+=g8bo
 -----END PGP SIGNATURE-----
 
---Sig_/TfPekmIxY3g.3UgTV.YJgxz--
+--Sig_/G9s=tPd95V5mxr=7vco_rF1--
 
