@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8968A2E367B
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 12:32:38 +0100 (CET)
-Received: from localhost ([::1]:39366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A060C2E3684
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 12:34:55 +0100 (CET)
+Received: from localhost ([::1]:41672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktqlR-0006uf-43
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 06:32:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34340)
+	id 1ktqne-0007ur-Ot
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 06:34:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ktqk3-0006SD-CO
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 06:31:11 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42111)
+ id 1ktqka-0006gj-VZ
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 06:31:45 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ktqk1-0003Ls-Ll
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 06:31:11 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id m5so11025646wrx.9
- for <qemu-devel@nongnu.org>; Mon, 28 Dec 2020 03:31:08 -0800 (PST)
+ id 1ktqkZ-0003Uf-6S
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 06:31:44 -0500
+Received: by mail-wr1-x433.google.com with SMTP id d26so11023741wrb.12
+ for <qemu-devel@nongnu.org>; Mon, 28 Dec 2020 03:31:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kXvGsV6xYQwqRsx9gRxqYbyHrZ+1sBdguTHEEPGEEzE=;
- b=BA1BY3IwwcAepaKOhK1zL+XaQgiXFRon970/UASw1P4vg75Ht0aCdFq/UJyZuefWU+
- CUI5KtH8VimZNB6lzy12v8pahSodta/icAFJp1RxN0APUeYgXIxKsmwnwCBux829qovu
- T2qFyxK7oyZUutJSIUhPFa/Db2/f22dGnChf6FoeuhdkE4yd8ywW6a0kDR7261XFCgiQ
- 8Xm91vOTumHt/NmhnC0VrNb/pIvlERGU9rHgXyRpJ6M56B8OUe1L31zGnCevqOZX3ObD
- 0SwsBGfHKmkVcVSfHc6Z8pubOxXeQ/9Uc63TvSQEXYhhdgvfTqIb0/odm4Ifru4OT0g2
- C5SQ==
+ bh=HpGl+L/T3VRCPNSaP2HN/EWNHGf2QEfHXGop8nPGAtU=;
+ b=qgabh27W+XOx6aojVpwJxhu1XXbg4PK7EnTiN0QotBgvGov/Ps5W6y7D5IvYP+ea0r
+ jHbaZzVoD32GlNpV3jpRWkcyP4lJtuhTBSnOHxS2BHlCuWBztET8ucgjVfJ+2HBLrAB1
+ S8japi8p5qT1a+P7coSLimAzntjNGv0yE3LK3Apax69vS3RGEuca8rjriiqdAXFAorT7
+ 3S8G/3cstj/4Pga62mZkOqH41rYLtkBeVhVii4cby86Vv0wOPRh9PdPqmBcLMtp7PDsz
+ 7H1hDfrreRYcnPQ03ZBqhjgTPe/iH0l4bUmGeXe2pEKg2zmib95sw47XNw46Mhuame2a
+ rnMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kXvGsV6xYQwqRsx9gRxqYbyHrZ+1sBdguTHEEPGEEzE=;
- b=Qh2R99tK9KLlDilzsTJpqEf7g7FNXExsXi5VsHTO7+FRl7aEdr03EwD2CE3hrsIgus
- f6FXu+4LJVHh6DoNB5Tr1RCFvIy/8uZ9Bu3zskQlaIu44O0Xgj9F8KmR+6IYWV39ogLI
- vbDTZCPaYG4sklZ1XstyBjRwFU1GubgUuW4I2oRehOmn4ILDr0sBcv8lTDAZj3nH9/eu
- QYF+jFTic6CoztGn5yxobBJ1Eej0R6V1loSDOyk9NZ+zfvnXt/SUITJsYQwArZK4s/wj
- pvgJoqhPJg9ryCRaaLI5yHuyekc9zpNTh/82GaMheh64w4HOGMeOa0Cvvf8iye3Ab1f8
- m7/g==
-X-Gm-Message-State: AOAM531M0KXbnMu1otW2JhDRenepEFKeuVI1bLSmp8ZnEU92LtaWgASL
- y/KWOywevqstytzgs+9aKU4=
-X-Google-Smtp-Source: ABdhPJxotwNZPEXMVHrryB6IJWLbLEfJdcSOhkvV1Z2OUAdbq6RCgMc/QTzO4XhoT+QINVBSOUMI9Q==
-X-Received: by 2002:adf:df03:: with SMTP id y3mr50852546wrl.102.1609155067951; 
- Mon, 28 Dec 2020 03:31:07 -0800 (PST)
+ bh=HpGl+L/T3VRCPNSaP2HN/EWNHGf2QEfHXGop8nPGAtU=;
+ b=nEn+XM264cdUuZEXNdnFoYmc4jDfrvQfT0C8WEYCikLLjFI+DYVmpazLT1CkvHKu01
+ UNSK2ENac4Eov4+SobmI+ZfGawEVZSeRjemisFaEXEnBzJiqon4NIOibUMh67E9bvCP8
+ 57xzeNl0/KlO2uRTmvxnuuY0tbEP2UYMddeFkXxMiB0ShdkoQnUjT7iWMy2yqd+PdoNt
+ fp67Et5Xjq70LYb0i9mSc0NbEgPvPu1YkgMIS+ytu71ja2QGTdnhWtmbdnXloGSsyxvS
+ bpOmSut65VTIBqNFQCBbRzBxl4Zm/I3+zRf1D1ir2RrgDqC6CJkohGFSgp5rAwBYOfCZ
+ uG9w==
+X-Gm-Message-State: AOAM530eNfPs0Ihq9WL8RcSZ1FSjV8pp2cEKnCTDAR6EqnA64cguH3+p
+ tEfEcb/r/8GdE6ZPmCZcTq4=
+X-Google-Smtp-Source: ABdhPJxbcetEfyllg3iBR37qeEuKnYs2gxg+DZNDQAg5/Ei8nVMV7w48MfwBI922SphlV3g7ZyHC2g==
+X-Received: by 2002:a5d:5917:: with SMTP id v23mr49144382wrd.308.1609155101839; 
+ Mon, 28 Dec 2020 03:31:41 -0800 (PST)
 Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
  ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
- by smtp.gmail.com with ESMTPSA id s3sm18070352wmc.44.2020.12.28.03.31.06
+ by smtp.gmail.com with ESMTPSA id h16sm19943333wmb.41.2020.12.28.03.31.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Dec 2020 03:31:07 -0800 (PST)
-Subject: Re: [PATCH v2 03/10] vt82c686b: Rename VT82C686B to VT82C686B_ISA
+ Mon, 28 Dec 2020 03:31:41 -0800 (PST)
+Subject: Re: [PATCH v2 10/10] vt82c686: Remove unneeded includes and defines
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1609121293.git.balaton@eik.bme.hu>
- <ede62ad54154ca9b33badc1476ee95e016cf8e72.1609121293.git.balaton@eik.bme.hu>
+ <56a23e0638fb15b5bc4177a0bec836a7e000083c.1609121293.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9527eb28-e083-3ad7-14c2-2a00374f2b02@amsat.org>
-Date: Mon, 28 Dec 2020 12:31:06 +0100
+Message-ID: <d00b7a2b-ce8c-6271-e191-0eb59729b84d@amsat.org>
+Date: Mon, 28 Dec 2020 12:31:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <ede62ad54154ca9b33badc1476ee95e016cf8e72.1609121293.git.balaton@eik.bme.hu>
+In-Reply-To: <56a23e0638fb15b5bc4177a0bec836a7e000083c.1609121293.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -94,12 +94,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/28/20 3:08 AM, BALATON Zoltan via wrote:
-> This is really the ISA bridge part so name the type accordingly.
+> These are not used or not needed.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  hw/isa/vt82c686.c | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
+> v2: Added back a few that we get indirectly but keep it explicit
+> 
+>  hw/isa/vt82c686.c | 5 -----
+>  1 file changed, 5 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
