@@ -2,33 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B6F2E354D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 10:07:26 +0100 (CET)
-Received: from localhost ([::1]:59104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7D42E3550
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 10:08:41 +0100 (CET)
+Received: from localhost ([::1]:37594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktoUu-0003la-Kh
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 04:07:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36868)
+	id 1ktoW8-0006l0-PO
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 04:08:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaojinhao@huawei.com>)
- id 1ktoT2-0002ai-Ne; Mon, 28 Dec 2020 04:05:28 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2579)
+ id 1ktoTD-0002jW-5o; Mon, 28 Dec 2020 04:05:39 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaojinhao@huawei.com>)
- id 1ktoSz-0002Xo-SX; Mon, 28 Dec 2020 04:05:28 -0500
+ id 1ktoTA-0002Xm-NL; Mon, 28 Dec 2020 04:05:38 -0500
 Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4D4BSl6196zhyR6;
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4D4BSl5jG5zhyR2;
  Mon, 28 Dec 2020 17:04:39 +0800 (CST)
 Received: from DESKTOP-EDHIELA.china.huawei.com (10.174.187.50) by
  DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
  14.3.498.0; Mon, 28 Dec 2020 17:05:07 +0800
 From: g00517791 <gaojinhao@huawei.com>
 To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH v2 0/3] Fix memory leak of some device state in migration
-Date: Mon, 28 Dec 2020 17:00:50 +0800
-Message-ID: <20201228090053.346-1-gaojinhao@huawei.com>
+Subject: [PATCH v2 1/3] spapr_pci: Fix memory leak of vmstate_spapr_pci
+Date: Mon, 28 Dec 2020 17:00:51 +0800
+Message-ID: <20201228090053.346-2-gaojinhao@huawei.com>
 X-Mailer: git-send-email 2.29.2.windows.2
+In-Reply-To: <20201228090053.346-1-gaojinhao@huawei.com>
+References: <20201228090053.346-1-gaojinhao@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -66,26 +68,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jinhao Gao <gaojinhao@huawei.com>
 
-For some device state having some fields of VMS_ALLOC flag, they
-don't free memory allocated for the fields in vmstate_save_state
-and vmstate_load_state. We add funcs or sentences of free memory
-before and after VM saves or loads device state to avoid memory leak.
+When VM migrate VMState of spapr_pci, the field(msi_devs) of spapr_pci
+having a flag of VMS_ALLOC need to allocate memory. If the src doesn't free
+memory of msi_devs in SaveStateEntry of spapr_pci after QEMUFile save
+VMState of spapr_pci, it may result in memory leak of msi_devs. We add the
+post_save func to free memory, which prevents memory leak.
 
-v2
- - Drop patch1-3,6-8 of v1
- - Address Michael's comment (free memory before load vmsd centrally)
- - Add David's Acked-by and Michael's Signed-off-by
+Signed-off-by: Jinhao Gao <gaojinhao@huawei.com>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/ppc/spapr_pci.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Jinhao Gao (3):
-  spapr_pci: Fix memory leak of vmstate_spapr_pci
-  savevm: Fix memory leak of vmstate_configuration
-  vmstate: Fix memory leak in vmstate_handle_alloc()
-
- hw/ppc/spapr_pci.c  | 11 +++++++++++
- migration/savevm.c  | 31 +++++++++++++++++++++++++++----
- migration/vmstate.c |  1 +
- 3 files changed, 39 insertions(+), 4 deletions(-)
-
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index 76d7c91e9c..1b2b940606 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -2173,6 +2173,16 @@ static int spapr_pci_pre_save(void *opaque)
+     return 0;
+ }
+ 
++static int spapr_pci_post_save(void *opaque)
++{
++    SpaprPhbState *sphb = opaque;
++
++    g_free(sphb->msi_devs);
++    sphb->msi_devs = NULL;
++    sphb->msi_devs_num = 0;
++    return 0;
++}
++
+ static int spapr_pci_post_load(void *opaque, int version_id)
+ {
+     SpaprPhbState *sphb = opaque;
+@@ -2205,6 +2215,7 @@ static const VMStateDescription vmstate_spapr_pci = {
+     .version_id = 2,
+     .minimum_version_id = 2,
+     .pre_save = spapr_pci_pre_save,
++    .post_save = spapr_pci_post_save,
+     .post_load = spapr_pci_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINT64_EQUAL(buid, SpaprPhbState, NULL),
 -- 
 2.23.0
 
