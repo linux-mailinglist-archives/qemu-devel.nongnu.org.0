@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F1B2E354E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 10:07:27 +0100 (CET)
-Received: from localhost ([::1]:59240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D432E354F
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 10:08:34 +0100 (CET)
+Received: from localhost ([::1]:37142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktoUw-0003op-Lk
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 04:07:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36874)
+	id 1ktoW1-0006Uf-GJ
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 04:08:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaojinhao@huawei.com>)
- id 1ktoT3-0002bK-IW; Mon, 28 Dec 2020 04:05:29 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2577)
+ id 1ktoT5-0002cJ-7x; Mon, 28 Dec 2020 04:05:31 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaojinhao@huawei.com>)
- id 1ktoT0-0002Xn-HR; Mon, 28 Dec 2020 04:05:29 -0500
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4D4BSl6HqxzhyRG;
- Mon, 28 Dec 2020 17:04:39 +0800 (CST)
+ id 1ktoSz-0002Xl-NC; Mon, 28 Dec 2020 04:05:31 -0500
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4D4BSZ2zdSzj0HC;
+ Mon, 28 Dec 2020 17:04:30 +0800 (CST)
 Received: from DESKTOP-EDHIELA.china.huawei.com (10.174.187.50) by
  DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 28 Dec 2020 17:05:08 +0800
+ 14.3.498.0; Mon, 28 Dec 2020 17:05:09 +0800
 From: g00517791 <gaojinhao@huawei.com>
 To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH v2 2/3] savevm: Fix memory leak of vmstate_configuration
-Date: Mon, 28 Dec 2020 17:00:52 +0800
-Message-ID: <20201228090053.346-3-gaojinhao@huawei.com>
+Subject: [PATCH v2 3/3] vmstate: Fix memory leak in vmstate_handle_alloc()
+Date: Mon, 28 Dec 2020 17:00:53 +0800
+Message-ID: <20201228090053.346-4-gaojinhao@huawei.com>
 X-Mailer: git-send-email 2.29.2.windows.2
 In-Reply-To: <20201228090053.346-1-gaojinhao@huawei.com>
 References: <20201228090053.346-1-gaojinhao@huawei.com>
@@ -36,13 +36,13 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.187.50]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=gaojinhao@huawei.com;
- helo=szxga06-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=gaojinhao@huawei.com;
+ helo=szxga05-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,89 +68,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jinhao Gao <gaojinhao@huawei.com>
 
-When VM migrate VMState of configuration, the fields(name and capabilities)
-of configuration having a flag of VMS_ALLOC need to allocate memory. If the
-src doesn't free memory of capabilities in SaveState after save VMState of
-configuration, or the dst doesn't free memory of name and capabilities in post
-load of configuration, it may result in memory leak of name and capabilities.
-We free memory in configuration_post_save and configuration_post_load func,
-which prevents memory leak.
+Some memory allocated for fields having a flag of VMS_ALLOC in SaveState
+may not free before VM load vmsd in migration. So we pre-free memory before
+allocation in vmstate_handle_alloc() to avoid memleaks.
 
 Signed-off-by: Jinhao Gao <gaojinhao@huawei.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- migration/savevm.c | 31 +++++++++++++++++++++++++++----
- 1 file changed, 27 insertions(+), 4 deletions(-)
+ migration/vmstate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 5f937a2762..13f1a5dab7 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -314,6 +314,16 @@ static int configuration_pre_save(void *opaque)
-     return 0;
- }
- 
-+static int configuration_post_save(void *opaque)
-+{
-+    SaveState *state = opaque;
-+
-+    g_free(state->capabilities);
-+    state->capabilities = NULL;
-+    state->caps_count = 0;
-+    return 0;
-+}
-+
- static int configuration_pre_load(void *opaque)
- {
-     SaveState *state = opaque;
-@@ -364,24 +374,36 @@ static int configuration_post_load(void *opaque, int version_id)
- {
-     SaveState *state = opaque;
-     const char *current_name = MACHINE_GET_CLASS(current_machine)->name;
-+    int ret = 0;
- 
-     if (strncmp(state->name, current_name, state->len) != 0) {
-         error_report("Machine type received is '%.*s' and local is '%s'",
-                      (int) state->len, state->name, current_name);
--        return -EINVAL;
-+        ret = -EINVAL;
-+        goto out;
+diff --git a/migration/vmstate.c b/migration/vmstate.c
+index e9d2aef66b..873f76739f 100644
+--- a/migration/vmstate.c
++++ b/migration/vmstate.c
+@@ -70,6 +70,7 @@ static void vmstate_handle_alloc(void *ptr, const VMStateField *field,
+         gsize size = vmstate_size(opaque, field);
+         size *= vmstate_n_elems(opaque, field);
+         if (size) {
++            g_free(*(void **)ptr);
+             *(void **)ptr = g_malloc(size);
+         }
      }
- 
-     if (state->target_page_bits != qemu_target_page_bits()) {
-         error_report("Received TARGET_PAGE_BITS is %d but local is %d",
-                      state->target_page_bits, qemu_target_page_bits());
--        return -EINVAL;
-+        ret = -EINVAL;
-+        goto out;
-     }
- 
-     if (!configuration_validate_capabilities(state)) {
--        return -EINVAL;
-+        ret = -EINVAL;
-+        goto out;
-     }
- 
--    return 0;
-+out:
-+    g_free((void *)state->name);
-+    state->name = NULL;
-+    state->len = 0;
-+    g_free(state->capabilities);
-+    state->capabilities = NULL;
-+    state->caps_count = 0;
-+
-+    return ret;
- }
- 
- static int get_capability(QEMUFile *f, void *pv, size_t size,
-@@ -515,6 +537,7 @@ static const VMStateDescription vmstate_configuration = {
-     .pre_load = configuration_pre_load,
-     .post_load = configuration_post_load,
-     .pre_save = configuration_pre_save,
-+    .post_save = configuration_post_save,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(len, SaveState),
-         VMSTATE_VBUFFER_ALLOC_UINT32(name, SaveState, 0, NULL, len),
 -- 
 2.23.0
 
