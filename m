@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC142E3499
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 08:01:49 +0100 (CET)
-Received: from localhost ([::1]:59248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD28F2E3498
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 08:01:11 +0100 (CET)
+Received: from localhost ([::1]:58112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktmXM-00027n-3t
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 02:01:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45180)
+	id 1ktmWk-0001dY-EB
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 02:01:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ktmUo-0000e1-SV; Mon, 28 Dec 2020 01:59:10 -0500
-Received: from ozlabs.org ([203.11.71.1]:34251)
+ id 1ktmUo-0000dj-MU; Mon, 28 Dec 2020 01:59:10 -0500
+Received: from ozlabs.org ([203.11.71.1]:47913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ktmUl-0003qJ-Sz; Mon, 28 Dec 2020 01:59:10 -0500
+ id 1ktmUm-0003pl-0F; Mon, 28 Dec 2020 01:59:10 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D47gg4v6kz9sWb; Mon, 28 Dec 2020 17:58:55 +1100 (AEDT)
+ id 4D47gg5VF9z9sWR; Mon, 28 Dec 2020 17:58:55 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609138735;
- bh=rIV/2XZN2IQOlRKINGhJQUJVhqy9+ixInWkD6Hk+kiw=;
+ bh=2ITqsK2hZYxtmIYEvd5ZoLRe/q6Vefm2S7pt3JbM2Lg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QarZM2bslZUOpuL6OnmAV5Hg777/91w7beCCpovpyUEabMd8l7JcHW9iClEPXZ7xz
- O05zWQrei6/O1CXjx1wp9lM2ZBiZFMf5YYcwtdn/FtaqW/JcFaV48YCfz4mEm5h1Kd
- gDe18CwGggugTPCUb8FvFowBiH0UtaaMQ3de1yk0=
-Date: Mon, 28 Dec 2020 17:56:35 +1100
+ b=LlRFXhPrugaLza0bYuVTlqQr1/99n84/bqmLkxmEtcHRuP+uEps56ABhKV9iQyW6r
+ SUbJKkzNgvb8OsKq9r9FV8zhToNtsMwz++8f+wG/a+779Ko/bDGH/pgM5bS4vDj5gl
+ SP9FiWHb/QgEWkeyzhaHMoMSdbPn+BPln39YESh4=
+Date: Mon, 28 Dec 2020 17:58:24 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: g00517791 <gaojinhao@huawei.com>
-Subject: Re: [PATCH 3/8] spapr: Fix memory leak of vmstate_spapr_event_entry
-Message-ID: <20201228065635.GA6952@yekko.fritz.box>
+Subject: Re: [PATCH 4/8] spapr_pci: Fix memory leak of vmstate_spapr_pci
+Message-ID: <20201228065824.GB6952@yekko.fritz.box>
 References: <20201226103347.868-1-gaojinhao@huawei.com>
- <20201226103347.868-4-gaojinhao@huawei.com>
+ <20201226103347.868-5-gaojinhao@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ew6BAiZeqk4r7MaW"
+ protocol="application/pgp-signature"; boundary="zx4FCpZtqtKETZ7O"
 Content-Disposition: inline
-In-Reply-To: <20201226103347.868-4-gaojinhao@huawei.com>
+In-Reply-To: <20201226103347.868-5-gaojinhao@huawei.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -68,57 +68,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ew6BAiZeqk4r7MaW
+--zx4FCpZtqtKETZ7O
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 26, 2020 at 06:33:42PM +0800, g00517791 wrote:
+On Sat, Dec 26, 2020 at 06:33:43PM +0800, g00517791 wrote:
 > From: Jinhao Gao <gaojinhao@huawei.com>
 >=20
-> When VM migrate VMState of spapr_event_log_entry, the field(extended_log)
-> of spapr_event_log_entry having a flag of VMS_ALLOC needs to allocate
-> memory. If the dst doesn't free memory which has been allocated for
-> SaveStateEntry of spapr_event_log_entry before dst loads device state,
-> it may result that the pointer of extended_log is overlaid when vm loads.
-> We add the pre_load func to free memory, which prevents memory leak.
+> When VM migrate VMState of spapr_pci, the field(msi_devs) of spapr_pci
+> having a flag of VMS_ALLOC need to allocate memory. If the src doesn't fr=
+ee
+> memory of msi_devs in SaveStateEntry of spapr_pci after QEMUFile save
+> VMState of spapr_pci, it may result in memory leak of msi_devs. We add the
+> post_save func to free memory, which prevents memory leak.
 >=20
 > Signed-off-by: Jinhao Gao <gaojinhao@huawei.com>
+
+Not really a memory leak, since it will get freed on the next
+pre_save.  But, we might as well free it earlier if we can ,so
 
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  hw/ppc/spapr.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  hw/ppc/spapr_pci.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 489cefcb81..ddfed1e7ca 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1799,10 +1799,22 @@ static bool spapr_pending_events_needed(void *opa=
-que)
->      return !QTAILQ_EMPTY(&spapr->pending_events);
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 76d7c91e9c..1b2b940606 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -2173,6 +2173,16 @@ static int spapr_pci_pre_save(void *opaque)
+>      return 0;
 >  }
 > =20
-> +static int spapr_event_log_entry_pre_load(void *opaque)
+> +static int spapr_pci_post_save(void *opaque)
 > +{
-> +    SpaprEventLogEntry *entry =3D opaque;
+> +    SpaprPhbState *sphb =3D opaque;
 > +
-> +    g_free(entry->extended_log);
-> +    entry->extended_log =3D NULL;
-> +    entry->extended_length =3D 0;
-> +
+> +    g_free(sphb->msi_devs);
+> +    sphb->msi_devs =3D NULL;
+> +    sphb->msi_devs_num =3D 0;
 > +    return 0;
 > +}
 > +
->  static const VMStateDescription vmstate_spapr_event_entry =3D {
->      .name =3D "spapr_event_log_entry",
->      .version_id =3D 1,
->      .minimum_version_id =3D 1,
-> +    .pre_load =3D spapr_event_log_entry_pre_load,
+>  static int spapr_pci_post_load(void *opaque, int version_id)
+>  {
+>      SpaprPhbState *sphb =3D opaque;
+> @@ -2205,6 +2215,7 @@ static const VMStateDescription vmstate_spapr_pci =
+=3D {
+>      .version_id =3D 2,
+>      .minimum_version_id =3D 2,
+>      .pre_save =3D spapr_pci_pre_save,
+> +    .post_save =3D spapr_pci_post_save,
+>      .post_load =3D spapr_pci_post_load,
 >      .fields =3D (VMStateField[]) {
->          VMSTATE_UINT32(summary, SpaprEventLogEntry),
->          VMSTATE_UINT32(extended_length, SpaprEventLogEntry),
+>          VMSTATE_UINT64_EQUAL(buid, SpaprPhbState, NULL),
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -126,25 +131,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---ew6BAiZeqk4r7MaW
+--zx4FCpZtqtKETZ7O
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/pgaEACgkQbDjKyiDZ
-s5IZdRAAoqLIlV2q8aTwf7ZEkGTkMA8ePF+9hULBI4k7irlEQt3qlr2oNhJkGak+
-hFBQXC+xdPg8wh0pxxwKkjGNABKWh8SiSZMPNz8SccTQ91sgs8E7yXm0/4GY9SsH
-cuoczhaUqs/4YHbpL0L8pgmZTUnqDwLqMhT1td7e2Rj0GVfiqhRDx9wZwCibamMz
-bAXIQg5Wcgq7Iem4OM2FWU6KrC9NBkM+25DzxwQXAn3A+m0ERHsAbanzBOh+9Q8k
-vRqTnPR6D9jl7eYBiAjDM1t0hi9YC8kel2TCLUtsdEVY3lWUOxAYYwptSaLDktRy
-O70zPu4iFgdBd+ALnbw3phkMct6U4k2c5balkR9SmfQukR0VdzQfKwJEyjtVQwUG
-3qAuHfwqhoiIo/OiymPGYu9eZTGhyL972eqMFzKicWGk6AM368zaVo5cfLfKnYbm
-qWhF5qWh7iBRKmtklFLZgmwacSZUncfxV7VBGWpvI+toM2zOZa8Nn6HYnPy9kTfT
-gfYADTI8C1pRoxF4kyNagyis7xpnrfT6zGeO8yLunx6wBwZW4oGGHKbIpgPEBRUE
-BCUdCOU+YN9wofQ2TmOeH5l867TDqTGHGePvP8CB93gX8sMyGA3xnmzn/56576NJ
-/rgDKCxQNd4wZG/e1wvNPmSoCiX7liK53UG26zCUglWCzk2+dqI=
-=5nUm
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/pgg8ACgkQbDjKyiDZ
+s5KFqxAAu19amYibbvM+fCmCkAyoUEayjBKnkriB2L7EsXc5z9CxiWtodslwJ04D
+AIBH5DtQN6tsT76ScGVrNO65U4fAKX0ZTEtJCpbDtNYOLOgE63IJ/xgGuTulHj8p
+1KEV+WABzoJq8gQPEfaCW5lyJg7A7cd60zkXvm1mUgwgNO1/2Afba3+fn2yvR+dK
+qBeLMqkYHmK2YR+YshDZM4MI5DLSwCwSN4EuDWVPe8rgW6Afwlm+JymrjOcdVLeP
+5+EDREb3GbbtozxfcmyqHuUv/Yqrt16q4N3lxghyNVMZqFJR+pIFFDe/+PjevNxX
+idSq/IjqQYaUPww76a4AiDFV5B53lEK9cK+zlQjclZQ/mt0ElbqOMqeP+16/1Hkf
+SVstXFQ3BmwuaEz9u6/p98Eifly3lpqaSKsS87HYE48RtJot6oJm1wQT0mCkn3kB
+QiRx9VZB1qG/E5sgvKyMMMwN9HJapQqtfiDmgbt2K2Zx+o/P+7kMTsHNi2V5W64q
+x9pqeVSoBqdswO693VfcZcLoeZ/XCa+Sum8pA/q/cYBRgVgmEqF6nI1jV9cIDdRp
+0CJ7A4Uo2f20Ik2J8fHVfZMVvV59El7z2aSPmwqBs9OyzbFYcBNLETVcZF6SR7MD
+FdsTcvTUr8meLlUUeeWbMueITDBqAbQFNd+O1r/33RO1/MlbLMQ=
+=4t62
 -----END PGP SIGNATURE-----
 
---ew6BAiZeqk4r7MaW--
+--zx4FCpZtqtKETZ7O--
 
