@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA38A2E3701
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 13:12:50 +0100 (CET)
-Received: from localhost ([::1]:52186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4059E2E371E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 13:29:23 +0100 (CET)
+Received: from localhost ([::1]:33990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktrOL-0006Gd-Qy
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 07:12:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41652)
+	id 1ktreL-0002xM-QB
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 07:29:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ktrMW-0005JB-45
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 07:10:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47516)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ktrMU-0000PA-GL
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 07:10:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609157453;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=txEAA3vFeMV03zebGgLu27hIwt08jkSfRHQQkXoQtwY=;
- b=XNY1S4FYR6DjIHRmGUL3SnA2F4dd4WMZ6nZVZQljRMpMu9cFE5WfoNCR2hDWraYGbD2618
- 2KGgMJ7WKFwz2ntesaIRk+QOnN/MYdDtWPRgTSSt7e1HxFECH8rPOvp8LpNbTOJJVfWTWi
- XJL1fZR1OPhdBVNQhao5o8wv9Olg/3o=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-CiEkrfbeN_-ucyNPv6bgAw-1; Mon, 28 Dec 2020 07:10:49 -0500
-X-MC-Unique: CiEkrfbeN_-ucyNPv6bgAw-1
-Received: by mail-wr1-f71.google.com with SMTP id i4so6310810wrm.21
- for <qemu-devel@nongnu.org>; Mon, 28 Dec 2020 04:10:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=txEAA3vFeMV03zebGgLu27hIwt08jkSfRHQQkXoQtwY=;
- b=hhJaLBd+OWCnDKDzNZDUUyAexRYrSgfX94tuUc7myQ6lmioiBU3jlDmVF7ejeKi73S
- FzeYePgSwjtyImfABY+FBXWijUjdxJa58JvrwkV0z1eHgsf4BNMWF+4CwLO5NHVxOzax
- 3ZTMTr2lJC6FEY5WUFsNL6jT4hDVS8XvNt5lweiK6B421WQcLmc0UdFyzn2cCIckfAL7
- ME1ZW1QEle+c2K1hHC41m/PZRgLkg3QiQkFmQeuu/44u62CUct60edsHpLeyvq1NFb0a
- Ne3iGn7eYZ2lHvxIUjEzHFwj4fPuEr+uPivU4mUw4csbYcDM29mZlHkO9lJW/ixwkzrs
- IyKQ==
-X-Gm-Message-State: AOAM530gCxDicRjtcDDNKfqB7vm2dVSKUZwcOe3ZeZz6hWNPabs/+usB
- zYxBB4ydFUt7WIPeLzB8gqo54lFjR+RvoaiQSFFgOUidEUXq+sTZbFH+SgwO3ELPfeOb5VShkOB
- w+9jnm1LoZfsM+qU=
-X-Received: by 2002:a5d:69cf:: with SMTP id s15mr50373180wrw.372.1609157448717; 
- Mon, 28 Dec 2020 04:10:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx5lGICpulURpxuf7QkbBYwdeOwWVPIknPsuouAhvFVrJC4Fktb/62c0hVMV9CyOiyxSOMInw==
-X-Received: by 2002:a5d:69cf:: with SMTP id s15mr50373158wrw.372.1609157448514; 
- Mon, 28 Dec 2020 04:10:48 -0800 (PST)
-Received: from redhat.com (bzq-79-178-32-166.red.bezeqint.net. [79.178.32.166])
- by smtp.gmail.com with ESMTPSA id l8sm61240341wrb.73.2020.12.28.04.10.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 28 Dec 2020 04:10:47 -0800 (PST)
-Date: Mon, 28 Dec 2020 07:10:45 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: g00517791 <gaojinhao@huawei.com>
-Subject: Re: [PATCH v2 2/3] savevm: Fix memory leak of vmstate_configuration
-Message-ID: <20201228071039-mutt-send-email-mst@kernel.org>
-References: <20201228090053.346-1-gaojinhao@huawei.com>
- <20201228090053.346-3-gaojinhao@huawei.com>
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1ktrco-0002Vq-Ul
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 07:27:46 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:47473)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1ktrcn-0005rb-7l
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 07:27:46 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 61C1A58032E;
+ Mon, 28 Dec 2020 07:27:43 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Mon, 28 Dec 2020 07:27:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ subject:to:cc:references:from:message-id:date:mime-version
+ :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=V
+ eE3urBzmODdNuO/7hK7VGRL+LhKYAKW3TT5MBiKpx4=; b=NXutpD9wX7KO6+upr
+ guSZm/vStpPNvpPOs4cyM2WENlcEtf8CFS27KVP+BiOeoBkEp8DtCnQJMku4bY1n
+ KjhlfT3coJ1vLUgIcwnI44fUVBudccnXvvD58fTfa2Pe2dwvOm31n1RqUaIUedgX
+ KNFaYlaKrNnS0WM04UXAK9nzj2HW9Rns7s1oRTdfUu9AP+hvGFid6ggkp0K1aq71
+ RrGV3qh4StJDnWWcz8dkvh7EtH+90FwEgGs59FTFjqEiPiwBG1Lfg9SGMnWUFYJV
+ kjI5TN/lJAESeHn0lZAs4FC19FqIqGPZUYd9zIaWB6N2sWrz3L1T80CPjGJ3VTBy
+ pFzrA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=VeE3urBzmODdNuO/7hK7VGRL+LhKYAKW3TT5MBiKp
+ x4=; b=p+Yi4i8LcBascBLZmA6JXWd/tP5eN+VAVbvRHnb2t4TRVVSyripQ0AIXL
+ ZwlufOGCP4CzQI9eN4UaKiKmEdjPqUZ3hgG+ZxVQPlf1UAFVY7n9O8drK1uKtHXK
+ s+Akqis+gl8dAsq5SFVl3D34Zg4EWPJpLr10m+BD1f4vCjnIRf+4FqxsXJa8qm8t
+ /AOT9OHlHCaRId5kgtwrAuDY7xrD4H0KhGBn6ZFSIb0bBO0smobe9qpZEkgJnvHc
+ q9KujxlftHpA8tdesatuxpFdWeumZFnD1wTkhdtoiVAwGPNYHcPzsIx47iTXHSVD
+ WiJqyO8vEaKkRQYE79DI9P3IZ4pQg==
+X-ME-Sender: <xms:Pc_pX8oZVsFuWJu7Z3eQQsimOi4cYwiP_dye4HS3_3aAHBFmmTW1cA>
+ <xme:Pc_pXyqTAuepu3D9ZTpJ5Txdx8Q1lEZdNO3j3oBIghl_YMLjWMwWsS36zycCYc_-i
+ UwmupWbYyWQ_cz7ya8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdduledggeefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomheplfhirgig
+ uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
+ ggtffrrghtthgvrhhnpeeihffghfeikedugeejvefgffevgeevgeehfffhudeiieffffev
+ ffeugeevfefgfeenucfkphepgeehrdeffedrhedtrddvheegnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhl
+ hihgohgrthdrtghomh
+X-ME-Proxy: <xmx:Pc_pXxO9aLrAnUkNXX7zaneRoWA3Hv5max1QWy-m6bALn6NTrnH9WQ>
+ <xmx:Pc_pXz7_3oT4zT4WdUJ_Ce3bVwWnR_p7o1hKfNoZJ0O_Ivb7y0e4Wg>
+ <xmx:Pc_pX74lsDlI5zqpuo_qmuiOdsdoFfZbcJxiIpXbQ4sLi3Ep2SdMtA>
+ <xmx:Ps_pX9nWpKb6wTJdlbIElebz77Ku_pcMhG9j54m_pMJBMyNaN2FJCw>
+Received: from [0.0.0.0] (li1000-254.members.linode.com [45.33.50.254])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 83E351080057;
+ Mon, 28 Dec 2020 07:27:39 -0500 (EST)
+Subject: Re: [PATCH v2 2/2] via-ide: Fix fuloong2e support
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cover.1609107222.git.balaton@eik.bme.hu>
+ <8e58807dd2ba46866e7f152244e4541e6425177d.1609107222.git.balaton@eik.bme.hu>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-ID: <9f4cb580-9d3a-3048-d3a4-80bfd7628bb7@flygoat.com>
+Date: Mon, 28 Dec 2020 20:27:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201228090053.346-3-gaojinhao@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.178,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <8e58807dd2ba46866e7f152244e4541e6425177d.1609107222.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: permerror client-ip=66.111.4.230;
+ envelope-from=jiaxun.yang@flygoat.com; helo=new4-smtp.messagingengine.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.698,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,107 +99,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- wanghaibin.wang@huawei.com,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- zhukeqian1@huawei.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Huacai Chen <chenhuacai@kernel.org>, John Snow <jsnow@redhat.com>,
+ f4bug@amsat.org, Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 28, 2020 at 05:00:52PM +0800, g00517791 wrote:
-> From: Jinhao Gao <gaojinhao@huawei.com>
-> 
-> When VM migrate VMState of configuration, the fields(name and capabilities)
-> of configuration having a flag of VMS_ALLOC need to allocate memory. If the
-> src doesn't free memory of capabilities in SaveState after save VMState of
-> configuration, or the dst doesn't free memory of name and capabilities in post
-> load of configuration, it may result in memory leak of name and capabilities.
-> We free memory in configuration_post_save and configuration_post_load func,
-> which prevents memory leak.
-> 
-> Signed-off-by: Jinhao Gao <gaojinhao@huawei.com>
+在 2020/12/28 上午6:13, BALATON Zoltan 写道:
+> From: Guenter Roeck <linux@roeck-us.net>
+>
+> The IDE legacy mode emulation has been removed in commit 4ea98d317eb
+> ("ide/via: Implement and use native PCI IDE mode") but some Linux
+> kernels (probably including def_config) require legacy mode on the
+> Fuloong2e so only emulating native mode did not turn out feasible.
+> Add property to via-ide model to make the mode configurable, and set
+> legacy mode for Fuloong2e.
+>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> [balaton: Use bit in flags for property, add comment for missing BAR4]
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Tested-by: Guenter Roeck <linux@roeck-us.net>
 
-
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
 > ---
->  migration/savevm.c | 31 +++++++++++++++++++++++++++----
->  1 file changed, 27 insertions(+), 4 deletions(-)
-> 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 5f937a2762..13f1a5dab7 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -314,6 +314,16 @@ static int configuration_pre_save(void *opaque)
->      return 0;
->  }
->  
-> +static int configuration_post_save(void *opaque)
-> +{
-> +    SaveState *state = opaque;
-> +
-> +    g_free(state->capabilities);
-> +    state->capabilities = NULL;
-> +    state->caps_count = 0;
-> +    return 0;
-> +}
-> +
->  static int configuration_pre_load(void *opaque)
->  {
->      SaveState *state = opaque;
-> @@ -364,24 +374,36 @@ static int configuration_post_load(void *opaque, int version_id)
->  {
->      SaveState *state = opaque;
->      const char *current_name = MACHINE_GET_CLASS(current_machine)->name;
-> +    int ret = 0;
->  
->      if (strncmp(state->name, current_name, state->len) != 0) {
->          error_report("Machine type received is '%.*s' and local is '%s'",
->                       (int) state->len, state->name, current_name);
-> -        return -EINVAL;
-> +        ret = -EINVAL;
-> +        goto out;
->      }
->  
->      if (state->target_page_bits != qemu_target_page_bits()) {
->          error_report("Received TARGET_PAGE_BITS is %d but local is %d",
->                       state->target_page_bits, qemu_target_page_bits());
-> -        return -EINVAL;
-> +        ret = -EINVAL;
-> +        goto out;
->      }
->  
->      if (!configuration_validate_capabilities(state)) {
-> -        return -EINVAL;
-> +        ret = -EINVAL;
-> +        goto out;
->      }
->  
-> -    return 0;
-> +out:
-> +    g_free((void *)state->name);
-> +    state->name = NULL;
-> +    state->len = 0;
-> +    g_free(state->capabilities);
-> +    state->capabilities = NULL;
-> +    state->caps_count = 0;
-> +
-> +    return ret;
->  }
->  
->  static int get_capability(QEMUFile *f, void *pv, size_t size,
-> @@ -515,6 +537,7 @@ static const VMStateDescription vmstate_configuration = {
->      .pre_load = configuration_pre_load,
->      .post_load = configuration_post_load,
->      .pre_save = configuration_pre_save,
-> +    .post_save = configuration_post_save,
->      .fields = (VMStateField[]) {
->          VMSTATE_UINT32(len, SaveState),
->          VMSTATE_VBUFFER_ALLOC_UINT32(name, SaveState, 0, NULL, len),
-> -- 
-> 2.23.0
-
+> v2: Reworded commit message
+>
+>
 
