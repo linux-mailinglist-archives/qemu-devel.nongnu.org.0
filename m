@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3872E34C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 08:33:38 +0100 (CET)
-Received: from localhost ([::1]:51660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 363692E34C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 08:34:56 +0100 (CET)
+Received: from localhost ([::1]:54134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktn29-0004Gi-1E
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 02:33:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49820)
+	id 1ktn3P-0005J7-AK
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 02:34:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ktmy3-0002IU-K4; Mon, 28 Dec 2020 02:29:23 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:56243 helo=ozlabs.org)
+ id 1ktmy3-0002I1-Dw; Mon, 28 Dec 2020 02:29:23 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:34541 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ktmy0-0000Lh-Ib; Mon, 28 Dec 2020 02:29:23 -0500
+ id 1ktmy0-0000Lk-Aj; Mon, 28 Dec 2020 02:29:23 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D48Lg4QyMz9sWb; Mon, 28 Dec 2020 18:29:15 +1100 (AEDT)
+ id 4D48Lg4xNyz9sWV; Mon, 28 Dec 2020 18:29:15 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609140555;
- bh=N24vzNGulezPmUe/55qnU/Qtc/JJFe8FqqZgeG5RBek=;
+ bh=0gLP76x88pDCjCGsvXd1PSKP1zEiIBJtDKRIgZclNZs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VjoQ4cVPGrW+DrWu5M/QS8r5Dg7QXLHSeae7RHuBtL2k+houU5QOMG7c0tnmRhkOr
- /DkqnpGoHtzJp9FlBpWmUTCQ+pAHALZpQMKsUlpaQceTDh8qzmcJeJWTW/6KAxo8tR
- xlbEkynhCbhP9Tw4VFXkgHMm9yr8LoU7Egs/f4EA=
-Date: Mon, 28 Dec 2020 18:07:34 +1100
+ b=ddDR2LCUN4nGkd2u617OR5ttnA57H83t1K40cjxEIlC9YoJ/Z3uFSevasXcjZD//b
+ nr+mq6qEKh5MQXffZHyezPN3+3okQ1NCiH8B8iA4VVydhZlhny5/BEt6bp/tiwuKxT
+ JpXhA5nJGfPD0/hS+DBpDrP1r2L3flXkH5QuM7ZM=
+Date: Mon, 28 Dec 2020 18:08:33 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 2/7] mac_oldworld: move initialisation of grackle before
- heathrow
-Message-ID: <20201228070734.GD6952@yekko.fritz.box>
+Subject: Re: [PATCH 3/7] macio: move heathrow PIC inside macio-oldworld device
+Message-ID: <20201228070833.GE6952@yekko.fritz.box>
 References: <20201219104229.1964-1-mark.cave-ayland@ilande.co.uk>
- <20201219104229.1964-3-mark.cave-ayland@ilande.co.uk>
+ <20201219104229.1964-4-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LTeJQqWS0MN7I/qa"
+ protocol="application/pgp-signature"; boundary="6e7ZaeXHKrTJCxdu"
 Content-Disposition: inline
-In-Reply-To: <20201219104229.1964-3-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20201219104229.1964-4-mark.cave-ayland@ilande.co.uk>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -64,70 +63,210 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---LTeJQqWS0MN7I/qa
+--6e7ZaeXHKrTJCxdu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 19, 2020 at 10:42:24AM +0000, Mark Cave-Ayland wrote:
+On Sat, Dec 19, 2020 at 10:42:25AM +0000, Mark Cave-Ayland wrote:
+
+Really needs a commit message.
+
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-
-Looks correct, but it could really do with a rationale in the commit messag=
-e.
-
 > ---
->  hw/ppc/mac_oldworld.c | 30 +++++++++++++++---------------
->  1 file changed, 15 insertions(+), 15 deletions(-)
+>  hw/misc/macio/macio.c         | 20 +++++------
+>  hw/ppc/mac_oldworld.c         | 66 +++++++++++++++++------------------
+>  include/hw/misc/macio/macio.h |  2 +-
+>  3 files changed, 43 insertions(+), 45 deletions(-)
 >=20
+> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+> index bb601f782c..cfb87da6c9 100644
+> --- a/hw/misc/macio/macio.c
+> +++ b/hw/misc/macio/macio.c
+> @@ -140,7 +140,7 @@ static void macio_oldworld_realize(PCIDevice *d, Erro=
+r **errp)
+>  {
+>      MacIOState *s =3D MACIO(d);
+>      OldWorldMacIOState *os =3D OLDWORLD_MACIO(d);
+> -    DeviceState *pic_dev =3D DEVICE(os->pic);
+> +    DeviceState *pic_dev =3D DEVICE(&os->pic);
+>      Error *err =3D NULL;
+>      SysBusDevice *sysbus_dev;
+> =20
+> @@ -150,6 +150,14 @@ static void macio_oldworld_realize(PCIDevice *d, Err=
+or **errp)
+>          return;
+>      }
+> =20
+> +    /* Heathrow PIC */
+> +    if (!qdev_realize(DEVICE(&os->pic), BUS(&s->macio_bus), errp)) {
+> +        return;
+> +    }
+> +    sysbus_dev =3D SYS_BUS_DEVICE(&os->pic);
+> +    memory_region_add_subregion(&s->bar, 0x0,
+> +                                sysbus_mmio_get_region(sysbus_dev, 0));
+> +
+>      qdev_prop_set_uint64(DEVICE(&s->cuda), "timebase-frequency",
+>                           s->frequency);
+>      if (!qdev_realize(DEVICE(&s->cuda), BUS(&s->macio_bus), errp)) {
+> @@ -175,11 +183,6 @@ static void macio_oldworld_realize(PCIDevice *d, Err=
+or **errp)
+>                                  sysbus_mmio_get_region(sysbus_dev, 0));
+>      pmac_format_nvram_partition(&os->nvram, os->nvram.size);
+> =20
+> -    /* Heathrow PIC */
+> -    sysbus_dev =3D SYS_BUS_DEVICE(os->pic);
+> -    memory_region_add_subregion(&s->bar, 0x0,
+> -                                sysbus_mmio_get_region(sysbus_dev, 0));
+> -
+>      /* IDE buses */
+>      macio_realize_ide(s, &os->ide[0],
+>                        qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_IRQ),
+> @@ -218,10 +221,7 @@ static void macio_oldworld_init(Object *obj)
+>      DeviceState *dev;
+>      int i;
+> =20
+> -    object_property_add_link(obj, "pic", TYPE_HEATHROW,
+> -                             (Object **) &os->pic,
+> -                             qdev_prop_allow_set_link_before_realize,
+> -                             0);
+> +    object_initialize_child(OBJECT(s), "pic", &os->pic, TYPE_HEATHROW);
+> =20
+>      object_initialize_child(OBJECT(s), "cuda", &s->cuda, TYPE_CUDA);
+> =20
 > diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-> index 2ead34bdf1..e58e0525fe 100644
+> index e58e0525fe..44ee99be88 100644
 > --- a/hw/ppc/mac_oldworld.c
 > +++ b/hw/ppc/mac_oldworld.c
-> @@ -227,6 +227,21 @@ static void ppc_heathrow_init(MachineState *machine)
+> @@ -98,7 +98,7 @@ static void ppc_heathrow_init(MachineState *machine)
+>      MACIOIDEState *macio_ide;
+>      ESCCState *escc;
+>      SysBusDevice *s;
+> -    DeviceState *dev, *pic_dev;
+> +    DeviceState *dev, *pic_dev, *grackle_dev;
+>      BusState *adb_bus;
+>      uint64_t bios_addr;
+>      int bios_size;
+> @@ -227,10 +227,17 @@ static void ppc_heathrow_init(MachineState *machine)
 >          }
 >      }
 > =20
-> +    /* Grackle PCI host bridge */
-> +    dev =3D qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
-> +    qdev_prop_set_uint32(dev, "ofw-addr", 0x80000000);
-> +    s =3D SYS_BUS_DEVICE(dev);
-> +    sysbus_realize_and_unref(s, &error_fatal);
+> +    /* Timebase Frequency */
+> +    if (kvm_enabled()) {
+> +        tbfreq =3D kvmppc_get_tbfreq();
+> +    } else {
+> +        tbfreq =3D TBFREQ;
+> +    }
 > +
-> +    sysbus_mmio_map(s, 0, GRACKLE_BASE);
-> +    sysbus_mmio_map(s, 1, GRACKLE_BASE + 0x200000);
-> +    /* PCI hole */
-> +    memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
-> +                                sysbus_mmio_get_region(s, 2));
-> +    /* Register 2 MB of ISA IO space */
-> +    memory_region_add_subregion(get_system_memory(), 0xfe000000,
-> +                                sysbus_mmio_get_region(s, 3));
-> +
->      /* XXX: we register only 1 output pin for heathrow PIC */
->      pic_dev =3D qdev_new(TYPE_HEATHROW);
->      sysbus_realize_and_unref(SYS_BUS_DEVICE(pic_dev), &error_fatal);
-> @@ -251,21 +266,6 @@ static void ppc_heathrow_init(MachineState *machine)
->          tbfreq =3D TBFREQ;
->      }
-> =20
-> -    /* Grackle PCI host bridge */
+>      /* Grackle PCI host bridge */
 > -    dev =3D qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
 > -    qdev_prop_set_uint32(dev, "ofw-addr", 0x80000000);
 > -    s =3D SYS_BUS_DEVICE(dev);
-> -    sysbus_realize_and_unref(s, &error_fatal);
-> -
-> -    sysbus_mmio_map(s, 0, GRACKLE_BASE);
-> -    sysbus_mmio_map(s, 1, GRACKLE_BASE + 0x200000);
-> -    /* PCI hole */
-> -    memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
-> -                                sysbus_mmio_get_region(s, 2));
-> -    /* Register 2 MB of ISA IO space */
-> -    memory_region_add_subregion(get_system_memory(), 0xfe000000,
-> -                                sysbus_mmio_get_region(s, 3));
-> -
->      for (i =3D 0; i < 4; i++) {
->          qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x15 + i=
-));
+> +    grackle_dev =3D qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
+> +    qdev_prop_set_uint32(grackle_dev, "ofw-addr", 0x80000000);
+> +    s =3D SYS_BUS_DEVICE(grackle_dev);
+>      sysbus_realize_and_unref(s, &error_fatal);
+> =20
+>      sysbus_mmio_map(s, 0, GRACKLE_BASE);
+> @@ -242,14 +249,30 @@ static void ppc_heathrow_init(MachineState *machine)
+>      memory_region_add_subregion(get_system_memory(), 0xfe000000,
+>                                  sysbus_mmio_get_region(s, 3));
+> =20
+> -    /* XXX: we register only 1 output pin for heathrow PIC */
+> -    pic_dev =3D qdev_new(TYPE_HEATHROW);
+> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(pic_dev), &error_fatal);
+> +    pci_bus =3D PCI_HOST_BRIDGE(grackle_dev)->bus;
+> +
+> +    /* MacIO */
+> +    macio =3D pci_new(PCI_DEVFN(16, 0), TYPE_OLDWORLD_MACIO);
+> +    dev =3D DEVICE(macio);
+> +    qdev_prop_set_uint64(dev, "frequency", tbfreq);
+> +
+> +    escc =3D ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
+> +    qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
+> +    qdev_prop_set_chr(DEVICE(escc), "chrB", serial_hd(1));
+> +
+> +    pci_realize_and_unref(macio, pci_bus, &error_fatal);
+> +
+> +    pic_dev =3D DEVICE(object_resolve_path_component(OBJECT(macio), "pic=
+"));
+> +    for (i =3D 0; i < 4; i++) {
+> +        qdev_connect_gpio_out(grackle_dev, i,
+> +                              qdev_get_gpio_in(pic_dev, 0x15 + i));
+> +    }
+> =20
+>      /* Connect the heathrow PIC outputs to the 6xx bus */
+>      for (i =3D 0; i < smp_cpus; i++) {
+>          switch (PPC_INPUT(env)) {
+>          case PPC_FLAGS_INPUT_6xx:
+> +            /* XXX: we register only 1 output pin for heathrow PIC */
+>              qdev_connect_gpio_out(pic_dev, 0,
+>                  ((qemu_irq *)env->irq_inputs)[PPC6xx_INPUT_INT]);
+>              break;
+> @@ -259,40 +282,14 @@ static void ppc_heathrow_init(MachineState *machine)
+>          }
 >      }
+> =20
+> -    /* Timebase Frequency */
+> -    if (kvm_enabled()) {
+> -        tbfreq =3D kvmppc_get_tbfreq();
+> -    } else {
+> -        tbfreq =3D TBFREQ;
+> -    }
+> -
+> -    for (i =3D 0; i < 4; i++) {
+> -        qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x15 + i=
+));
+> -    }
+> -
+> -    pci_bus =3D PCI_HOST_BRIDGE(dev)->bus;
+> -
+>      pci_vga_init(pci_bus);
+> =20
+>      for (i =3D 0; i < nb_nics; i++) {
+>          pci_nic_init_nofail(&nd_table[i], pci_bus, "ne2k_pci", NULL);
+>      }
+> =20
+> +    /* MacIO IDE */
+>      ide_drive_get(hd, ARRAY_SIZE(hd));
+> -
+> -    /* MacIO */
+> -    macio =3D pci_new(PCI_DEVFN(16, 0), TYPE_OLDWORLD_MACIO);
+> -    dev =3D DEVICE(macio);
+> -    qdev_prop_set_uint64(dev, "frequency", tbfreq);
+> -    object_property_set_link(OBJECT(macio), "pic", OBJECT(pic_dev),
+> -                             &error_abort);
+> -
+> -    escc =3D ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
+> -    qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
+> -    qdev_prop_set_chr(DEVICE(escc), "chrB", serial_hd(1));
+> -
+> -    pci_realize_and_unref(macio, pci_bus, &error_fatal);
+> -
+>      macio_ide =3D MACIO_IDE(object_resolve_path_component(OBJECT(macio),
+>                                                          "ide[0]"));
+>      macio_ide_init_drives(macio_ide, hd);
+> @@ -301,6 +298,7 @@ static void ppc_heathrow_init(MachineState *machine)
+>                                                          "ide[1]"));
+>      macio_ide_init_drives(macio_ide, &hd[MAX_IDE_DEVS]);
+> =20
+> +    /* MacIO CUDA/ADB */
+>      dev =3D DEVICE(object_resolve_path_component(OBJECT(macio), "cuda"));
+>      adb_bus =3D qdev_get_child_bus(dev, "adb.0");
+>      dev =3D qdev_new(TYPE_ADB_KEYBOARD);
+> diff --git a/include/hw/misc/macio/macio.h b/include/hw/misc/macio/macio.h
+> index 22b4e64b2c..707dfab50c 100644
+> --- a/include/hw/misc/macio/macio.h
+> +++ b/include/hw/misc/macio/macio.h
+> @@ -99,7 +99,7 @@ struct OldWorldMacIOState {
+>      MacIOState parent_obj;
+>      /*< public >*/
+> =20
+> -    HeathrowState *pic;
+> +    HeathrowState pic;
+> =20
+>      MacIONVRAMState nvram;
+>      MACIOIDEState ide[2];
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -135,25 +274,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---LTeJQqWS0MN7I/qa
+--6e7ZaeXHKrTJCxdu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/phDYACgkQbDjKyiDZ
-s5KJlRAA2rq22poAG3B5bbiGI16V3krSy5p2mvfedMc6Gx/9pkwWbbry+tAzjG9X
-dB2UatJrW85AH1v/qtmx4RxkBseXSWzhvvVna/k1OHWitsgoU1Uh/4gJIM5bmAOM
-QIWxbJ8uwLA8X08lp1tcj7aX/ODBfVejxJS6yf51oycEY0lHkfBaYhPD5wen/Ahq
-PKkUPUp3d1Tj/l42Y/zBh3dvxmF3UOUiKp6H6mBz8VLlf4LyMnvKzoyuqyxWHgd0
-QmsPgdr9OUH6uXb5ZHz5bppQnllfeWorAQ5o0JsgihvAOARepOKjfe0qmyJW2h6E
-cvUhqjoZB1sPbUCUhU5n8kGxh0By73HzadEnfdqz8LTTQggXTgv47vNVAKg7bNpv
-B3qZHN430DTHt3BN2IPUApYlqvbC0GBsQaviuVO4poZx9ZNaNB+KM3SPI83wUSMD
-XS4naGgQFYscricesyAdPVqylfgk4Ol6okCLkUHXGGwvqLRCBX1mXm62ocyy5i+g
-OmGmhKKQLXWeTjSqKZeESmE5yM2ELtHTrb9eYe3sUYB4UFD3dAPHuIVR6AkQ16KB
-qB/36Sqd61w3849uiv3ZTa0xL6svZztKvUgUqDUgJBnWj314D+Q5V9JQfQ5NCoMe
-16myOExyH+HZ5BtKSdKhvpqaKRZjy7ACAzv6NOBVwEkB45LLEYk=
-=IUsM
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/phHEACgkQbDjKyiDZ
+s5Ja7BAAqbwJQ63vP3BmgQWLtnRipPNLDYQ8gEFJFanZEW/zg233uuuDWP/hkjiP
+w8Ozyb7Rwh1ggIdE/PrCMx2yV6UA0FuIq/L7oGeZ9HJz3ePtBac4rJgsSBLdXCwv
+doz8hFJAyQhkIJNBIipaxAS9PHBl6yGxVvGPg0/wI7SpdkedWczekrIAA77iBCqc
+8EKCpjE8X2blFO3ni30GtjQ1EpNafYptCvseFH7gBfuOEsI5f+RsK3tvjX92cx0K
+JHL/s7qmUvl37t0YcZoU1UjO58YZfPfVBsoI6Sw1HbKruR1/7SosTjavro85FRxC
+mrfLx3Irga+81vE2sKh7J1cytg2QrfwRKvJuESb5MWMeLq8QkG708OTr8C+FI0Ya
+FYIlJ07VFaQlm1dtQ+YIu1l3pEdBZGdTexwSaLT1zNSHVXWUS8eDg5D8EtnhtBDc
+i9jw1F8SRmIZ1Rlf/phTEChi2UvpoxtVXuGdkbaZvj1tN9yPiFGNIWauD8oanJ6V
+lqxX3UMrvXobJZaP4er4t9Rldknktt9OI/usSBc0LF4oRtWAGtwJmb7707WUPx+h
+RNKAmJDELazzmAWZZNekrY002NGdzdxUJ6IncdFMmg9IMUqZx30uAH2I7jmM3YeF
+jQION1LnRcXm1MceMgITfBAM5aqAhn9PFEAdazdT/+8OoPWcz+0=
+=6Xjm
 -----END PGP SIGNATURE-----
 
---LTeJQqWS0MN7I/qa--
+--6e7ZaeXHKrTJCxdu--
 
