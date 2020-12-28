@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82702E34F5
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 09:16:29 +0100 (CET)
-Received: from localhost ([::1]:40184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD91A2E34FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 09:18:00 +0100 (CET)
+Received: from localhost ([::1]:43926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktnhc-0000fB-Uv
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 03:16:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58220)
+	id 1ktnj5-0002JS-Ox
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 03:17:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1ktnfy-00089q-6f; Mon, 28 Dec 2020 03:14:46 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:44576)
+ id 1ktng5-0008L9-4q; Mon, 28 Dec 2020 03:14:53 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:41372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
- id 1ktnfv-0004dp-Sd; Mon, 28 Dec 2020 03:14:45 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id p22so9000552edu.11;
- Mon, 28 Dec 2020 00:14:42 -0800 (PST)
+ id 1ktng3-0004iM-Mj; Mon, 28 Dec 2020 03:14:52 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id i24so9022380edj.8;
+ Mon, 28 Dec 2020 00:14:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:from:date:message-id:subject:to;
- bh=bZPdva3rrEvtWTVI5+0aCjnTV2tMqJ91QjYptzh0T6k=;
- b=VgslnLbiUFtY9XC1A3QJ05ExgDU1KcSlh2GuJ8YaXRvdw7WMeqNmm6qMqXT+pzyTkg
- pKgYkUat+Zstl2+WVkj2VYzG7k+sAqol0DNw1Eo5R+nPZTNs5qsaBjgalodu9D7zbVOC
- pX8R3u337FhTW0NklJzPCFBAWkTrG+Pf/MzVWIfZUEKd4ObTAhfzV7cRb1kBOv+i449a
- hDtmzpZA6rAn8mhcM2x5c7FZrWa29qFZrFCgf95ri9JhnR+a4jEOKOcu7H/2yQPGQfYv
- kkGKmyUxzqEa+6r3CwAnWBAcisr6u1iyXxQQLVWSLKTsHyU7r/Uu7jtapn/ZnjJ1cORO
- j1pw==
+ bh=fuBoN8O92mxATBxE1t605VssJxkUfPn5J1youTtn9Ds=;
+ b=bXUfu8dI7QB99A8C0ufFAfVwd/rGPFXfyi2SWBQaLcUxUz2BTzyYZoG0PS9wJTLqAc
+ 6ii08K6/1D6HsOh0rk/a+L49zlsHtq4w8M21S5MiEGox1ngwkmr+aQdTlUR04u3pvBLh
+ TI59enyZE/m2m1i/LMpiJB+hOrr3rAV7n9A4KYDv5lR2FXq2LhIWo0EwJ5GaNudBrbEz
+ BZzxohEOUhz2rnAgDAYID4iqeNCdyHqmHMdghE5O7AWcpFF7CbvbsBt1vvz9Kt6wEaTa
+ Pk4L2La1BPFu+SuuUZsNm9qdKazVsPjUc9evtP+HCnK80ekYH0FvuyCNqveuuO6DmTql
+ lPPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=bZPdva3rrEvtWTVI5+0aCjnTV2tMqJ91QjYptzh0T6k=;
- b=C+JWrl2b0+qrDKdqFANihfldHT9yQ6rfXAZgJoyzE8fShjmqw8EstYNZZllVrmhkej
- 7Ep7e9QFno9frGvgR53/yjhoFIhIo7EX6ACvGCY9QS5+ka98L3++DXYpm4TsugW9Qq5k
- QB+SwqPuMxHOmh0PDay5Qnh2xawuc8ZwUDM847DvhLhcBnpyvFWGteWbWXICX+7gRp39
- 18u2pOAFl70i+MDAk5cjKJ1e+DrimM8TcAMY8mRKTjDSo3GcDZeDnMOzLgDUZaG/lbBj
- wWWyAUFklPndvUkldvHZjbV0a6eF8Dtlv6XRUK6X1fE3YKREGZaj2C/iOj98qTuImMRG
- 0FtA==
-X-Gm-Message-State: AOAM5339PxREuWBaqreusT6tUD+z5hveXn1dQf0lVb4rNIn33auNZEbG
- i+7ed7X0neS+hszpStshozIvjCQ56pAtFDevydABmxhW+/Q6lw==
-X-Google-Smtp-Source: ABdhPJxAeeTIut19lP8uLRPFLZZWA9g4l2a1kiwO7RXX/hLiMDV7Bdzi7QpECiZMxxJGEEU+mJUOjUU2LAoTiCUG97Q=
-X-Received: by 2002:a05:6402:354e:: with SMTP id
- f14mr33753298edd.183.1609143280682; 
- Mon, 28 Dec 2020 00:14:40 -0800 (PST)
+ bh=fuBoN8O92mxATBxE1t605VssJxkUfPn5J1youTtn9Ds=;
+ b=cglacu9GOeQjsDj0p0W0ymKLR1yeoaary9j3JFRJfJqdlNhXc4SNrRb7vnpB3/wwjW
+ EFzvAwQt7gFBeJfPEg63TdoyYRNRoSYdxHEe0O7i4Hh6NUjhwPu3PE08sJwBe0unFY9p
+ CEQ5IsBWhOdMOPY/GKzIbnCslAJ5xJOFOJSOdxe5r3O0IZfrFn4L7sDHCzx65rvf6J8x
+ vW8vvX4+YWvI2Klymn7ZaUesjJXmh7fHyzpyvChK6HoNLXYKKHm2YVign1dS6Ojn67Mk
+ n+5PAZtiWq2rMIQJsh0le7UHei8Ii47siQX+hN2i/6jRZGFwFM1GNAnpAkSSP7X4jqiJ
+ +pwQ==
+X-Gm-Message-State: AOAM531KNtrU4Pe7y28nhLjpI1XGd/btfhTaBKoMjKzOF/pnRYjVF4od
+ bgwC2IqVGkVbzfloFdfrk0t7hhBP604TxuKWBAC5KDusYAdqAQ==
+X-Google-Smtp-Source: ABdhPJxIo3JrI9GfBzP4Z9aYTgs0HH1gm+TxfKd7DHkgL8oeH4Fctga+WOJx6m2DqsudAkG6nboxjfiyXsOmirN7BLs=
+X-Received: by 2002:a50:f9cc:: with SMTP id a12mr40505131edq.335.1609143289298; 
+ Mon, 28 Dec 2020 00:14:49 -0800 (PST)
 MIME-Version: 1.0
 From: David CARLIER <devnexen@gmail.com>
-Date: Mon, 28 Dec 2020 08:14:29 +0000
-Message-ID: <CA+XhMqwjq99QdTKntxbQ_rZ-L3bQX7D3WHLkwMdK6zmiP=_56w@mail.gmail.com>
-Subject: [PATCH 0/2] bsd-user, FreeBSD update
+Date: Mon, 28 Dec 2020 08:14:38 +0000
+Message-ID: <CA+XhMqwrOBC49TKgX2o1qSx_tBMQfeFZOTr3m5ShxrUCuMw-4w@mail.gmail.com>
+Subject: [PATCH 1/2] bsd-user, updating the FreeBSD's syscall list, based on
+ the 11.x
 To: qemu-devel <qemu-devel@nongnu.org>, QEMU Trivial <qemu-trivial@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
@@ -75,21 +75,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From 10b13162949debdbbd8394bc1047511d1a900176 Mon Sep 17 00:00:00 2001
-From: David Carlier <devnexen@gmail.com>
-Date: Mon, 28 Dec 2020 08:10:43 +0000
-Subject: [PATCH 0/2] *** SUBJECT HERE ***
-
-bsd-user, FreeBSD update.
-
-David Carlier (2):
-  bsd-user, updating the FreeBSD's syscall list, based on the 11.x
-  bsd-user, Adding more strace support for a handful of syscalls.
-
- bsd-user/freebsd/strace.list  | 12 ++++++++++++
+---
  bsd-user/freebsd/syscall_nr.h | 25 ++++++++++++++++++++++---
- 2 files changed, 34 insertions(+), 3 deletions(-)
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
+diff --git a/bsd-user/freebsd/syscall_nr.h b/bsd-user/freebsd/syscall_nr.h
+index d849024792..14d2465858 100644
+--- a/bsd-user/freebsd/syscall_nr.h
++++ b/bsd-user/freebsd/syscall_nr.h
+@@ -1,8 +1,8 @@
+ /*
+  * System call numbers.
+  *
+- * created from FreeBSD: releng/9.1/sys/kern/syscalls.master 229723
+- * 2012-01-06 19:29:16Z jhb
++ * created from FreeBSD: stable/11/sys/kern/syscalls.master a61bf07
++ * 2019-04-28 emaste
+  */
+
+ #define TARGET_FREEBSD_NR_syscall   0
+@@ -447,4 +447,23 @@
+ #define TARGET_FREEBSD_NR_rctl_remove_rule  529
+ #define TARGET_FREEBSD_NR_posix_fallocate   530
+ #define TARGET_FREEBSD_NR_posix_fadvise 531
+-#define TARGET_FREEBSD_NR_MAXSYSCALL    532
++#define TARGET_FREEBSD_NR_wait6 532
++#define TARGET_FREEBSD_NR_cap_rights_limit 533
++#define TARGET_FREEBSD_NR_cap_ioctls_limit 534
++#define TARGET_FREEBSD_NR_cap_ioctls_get 535
++#define TARGET_FREEBSD_NR_cap_fcntls_limit 536
++#define TARGET_FREEBSD_NR_cap_fcntls_get 537
++#define TARGET_FREEBSD_NR_bindat 538
++#define TARGET_FREEBSD_NR_connectat 539
++#define TARGET_FREEBSD_NR_chflagsat 540
++#define TARGET_FREEBSD_NR_acceptat 541
++#define TARGET_FREEBSD_NR_pipe2 542
++#define TARGET_FREEBSD_NR_aio_mlock 543
++#define TARGET_FREEBSD_NR_procctl 544
++#define TARGET_FREEBSD_NR_ppoll 545
++#define TARGET_FREEBSD_NR_futimens 546
++#define TARGET_FREEBSD_NR_utimensat 547
++#define TARGET_FREEBSD_NR_numa_getaffinity 548
++#define TARGET_FREEBSD_NR_numa_setaffinity 549
++#define TARGET_FREEBSD_NR_fdatasync 550
++#define TARGET_FREEBSD_NR_MAXSYSCALL    551
 -- 
 2.30.0.rc2
 
