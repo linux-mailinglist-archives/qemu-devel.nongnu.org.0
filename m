@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9942E3515
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 09:32:34 +0100 (CET)
-Received: from localhost ([::1]:52612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FD12E3585
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 10:32:47 +0100 (CET)
+Received: from localhost ([::1]:52258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktnxB-0007GL-Rt
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 03:32:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60138)
+	id 1ktotR-0005xw-SU
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 04:32:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ktnvZ-0006Hx-H0; Mon, 28 Dec 2020 03:30:53 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:35243)
+ id 1ktoqd-0005Lu-Hv; Mon, 28 Dec 2020 04:29:51 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58521 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ktnvX-0003je-Gc; Mon, 28 Dec 2020 03:30:53 -0500
+ id 1ktoqW-0005nk-6L; Mon, 28 Dec 2020 04:29:47 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D49jN0xhjz9sVq; Mon, 28 Dec 2020 19:30:32 +1100 (AEDT)
+ id 4D4C1Y2N7jz9sW8; Mon, 28 Dec 2020 20:29:37 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1609144232;
- bh=1qZyNMgc94i78U/KEd/D5rAoal0+xVVkgBAcENIujKM=;
+ d=gibson.dropbear.id.au; s=201602; t=1609147777;
+ bh=8A/a80aMSVI1J6qMz+x23Z7MlE9J/dHR1C8PKR0mx7g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PW+4t8Xm0aUJOmAfWdsagvW8mtYtKDNknRBjaq5z+Z2xaBgIemexF0LVuBTVmFLBR
- r71PYJyd46AkQ5KL5MdwPLdljHD+Je8PXE0ZRgLhng1BxYzZLA3XXAWVaFqbava3yX
- yeC/fOHjxCYhmx4SsV1rEN4GT72t0WHanOFz0pbY=
-Date: Mon, 28 Dec 2020 19:30:13 +1100
+ b=ACnzM7EBLzvIRbjra1YNBVRqPCA6uKsh8ZLirYDRaPPkQACyCtEi5cDH12E0M4QJV
+ zEVOGz//eOYTvJvHONwUP2Mt5WkWO0U8GoubhOQZQRY/aHT3yF8WkzQdRBsj+nKTMT
+ rpGsx00eourdncSSSJfLn7GMxqFHhqrywMhCquoQ=
+Date: Mon, 28 Dec 2020 19:38:00 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: gaojinhao <gaojinhao@huawei.com>
-Subject: Re: [PATCH 4/8] spapr_pci: Fix memory leak of vmstate_spapr_pci
-Message-ID: <20201228083013.GM6952@yekko.fritz.box>
-References: <20201226103347.868-1-gaojinhao@huawei.com>
- <20201226103347.868-5-gaojinhao@huawei.com>
- <20201228065824.GB6952@yekko.fritz.box>
- <013a231c9cab4f3da7be9d88d87f34ae@huawei.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [RFC Qemu PATCH v2 1/2] spapr: drc: Add support for async hcalls
+ at the drc level
+Message-ID: <20201228083800.GN6952@yekko.fritz.box>
+References: <160674929554.2492771.17651548703390170573.stgit@lep8c.aus.stglabs.ibm.com>
+ <160674938210.2492771.1728601884822491679.stgit@lep8c.aus.stglabs.ibm.com>
+ <20201221130853.15c8ddfd@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Pz/qqzCPDfGwIFOg"
+ protocol="application/pgp-signature"; boundary="nRwNdQxTdQ7rZk9A"
 Content-Disposition: inline
-In-Reply-To: <013a231c9cab4f3da7be9d88d87f34ae@huawei.com>
+In-Reply-To: <20201221130853.15c8ddfd@bahia.lan>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -60,98 +60,333 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Juan Quintela <quintela@redhat.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- zhukeqian <zhukeqian1@huawei.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: xiaoguangrong.eric@gmail.com, Shivaprasad G Bhat <sbhat@linux.ibm.com>,
+ mst@redhat.com, aneesh.kumar@linux.ibm.com, linux-nvdimm@lists.01.org,
+ qemu-devel@nongnu.org, kvm-ppc@vger.kernel.org, shivaprasadbhat@gmail.com,
+ qemu-ppc@nongnu.org, bharata@linux.vnet.ibm.com, imammedo@redhat.com,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Pz/qqzCPDfGwIFOg
-Content-Type: text/plain; charset=iso-8859-1
+--nRwNdQxTdQ7rZk9A
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 28, 2020 at 08:10:31AM +0000, gaojinhao wrote:
-> Hi David,
-> Firstly, thank you for you review. And then for your review, I worry
-> that a memory leak will occur if QEMU exits after saves vmsd. So, we
-> free it in post_save func.
-
-If qemu exits, all its memory will be freed, so we don't care.
-
+On Mon, Dec 21, 2020 at 01:08:53PM +0100, Greg Kurz wrote:
+> Hi Shiva,
 >=20
-> Jinhao Gao
+> On Mon, 30 Nov 2020 09:16:39 -0600
+> Shivaprasad G Bhat <sbhat@linux.ibm.com> wrote:
 >=20
-> -----Original Message-----
-> From: David Gibson [mailto:david@gibson.dropbear.id.au]=20
-> Sent: 2020-12-28 14:58
-> To: gaojinhao <gaojinhao@huawei.com>
-> Cc: qemu-devel@nongnu.org; qemu-ppc@nongnu.org; Marc-Andr=E9 Lureau <marc=
-andre.lureau@redhat.com>; Stefan Berger <stefanb@linux.vnet.ibm.com>; Micha=
-el S . Tsirkin <mst@redhat.com>; Jason Wang <jasowang@redhat.com>; Greg Kur=
-z <groug@kaod.org>; Juan Quintela <quintela@redhat.com>; Dr . David Alan Gi=
-lbert <dgilbert@redhat.com>; Wanghaibin (D) <wanghaibin.wang@huawei.com>; z=
-hukeqian <zhukeqian1@huawei.com>
-> Subject: Re: [PATCH 4/8] spapr_pci: Fix memory leak of vmstate_spapr_pci
->=20
-> On Sat, Dec 26, 2020 at 06:33:43PM +0800, g00517791 wrote:
-> > From: Jinhao Gao <gaojinhao@huawei.com>
+> > The patch adds support for async hcalls at the DRC level for the
+> > spapr devices. To be used by spapr-scm devices in the patch/es to follo=
+w.
 > >=20
-> > When VM migrate VMState of spapr_pci, the field(msi_devs) of spapr_pci=
-=20
-> > having a flag of VMS_ALLOC need to allocate memory. If the src doesn't=
-=20
-> > free memory of msi_devs in SaveStateEntry of spapr_pci after QEMUFile=
-=20
-> > save VMState of spapr_pci, it may result in memory leak of msi_devs.=20
-> > We add the post_save func to free memory, which prevents memory leak.
-> >=20
-> > Signed-off-by: Jinhao Gao <gaojinhao@huawei.com>
->=20
-> Not really a memory leak, since it will get freed on the next pre_save.  =
-But, we might as well free it earlier if we can ,so
->=20
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
->=20
+> > Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
 > > ---
-> >  hw/ppc/spapr_pci.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
+>=20
+> The overall idea looks good but I think you should consider using
+> a thread pool to implement it. See below.
+
+I am not convinced, however.  Specifically, attaching this to the DRC
+doesn't make sense to me.  We're adding exactly one DRC related async
+hcall, and I can't really see much call for another one.  We could
+have other async hcalls - indeed we already have one for HPT resizing
+- but attaching this to DRCs doesn't help for those.
+
+>=20
+> >  hw/ppc/spapr_drc.c         |  149 ++++++++++++++++++++++++++++++++++++=
+++++++++
+> >  include/hw/ppc/spapr_drc.h |   25 +++++++
+> >  2 files changed, 174 insertions(+)
 > >=20
-> > diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c index=20
-> > 76d7c91e9c..1b2b940606 100644
-> > --- a/hw/ppc/spapr_pci.c
-> > +++ b/hw/ppc/spapr_pci.c
-> > @@ -2173,6 +2173,16 @@ static int spapr_pci_pre_save(void *opaque)
-> >      return 0;
+> > diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> > index 77718cde1f..4ecd04f686 100644
+> > --- a/hw/ppc/spapr_drc.c
+> > +++ b/hw/ppc/spapr_drc.c
+> > @@ -15,6 +15,7 @@
+> >  #include "qapi/qmp/qnull.h"
+> >  #include "cpu.h"
+> >  #include "qemu/cutils.h"
+> > +#include "qemu/guest-random.h"
+> >  #include "hw/ppc/spapr_drc.h"
+> >  #include "qom/object.h"
+> >  #include "migration/vmstate.h"
+> > @@ -421,6 +422,148 @@ void spapr_drc_detach(SpaprDrc *drc)
+> >      spapr_drc_release(drc);
 > >  }
 > > =20
-> > +static int spapr_pci_post_save(void *opaque) {
-> > +    SpaprPhbState *sphb =3D opaque;
 > > +
-> > +    g_free(sphb->msi_devs);
-> > +    sphb->msi_devs =3D NULL;
-> > +    sphb->msi_devs_num =3D 0;
-> > +    return 0;
+> > +/*
+> > + * @drc : device DRC targetting which the async hcalls to be made.
+> > + *
+> > + * All subsequent requests to run/query the status should use the
+> > + * unique token returned here.
+> > + */
+> > +uint64_t spapr_drc_get_new_async_hcall_token(SpaprDrc *drc)
+> > +{
+> > +    Error *err =3D NULL;
+> > +    uint64_t token;
+> > +    SpaprDrcDeviceAsyncHCallState *tmp, *next, *state;
+> > +
+> > +    state =3D g_malloc0(sizeof(*state));
+> > +    state->pending =3D true;
+> > +
+> > +    qemu_mutex_lock(&drc->async_hcall_states_lock);
+> > +retry:
+> > +    if (qemu_guest_getrandom(&token, sizeof(token), &err) < 0) {
+> > +        error_report_err(err);
+> > +        g_free(state);
+> > +        qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> > +        return 0;
+> > +    }
+> > +
+> > +    if (!token) /* Token should be non-zero */
+> > +        goto retry;
+> > +
+> > +    if (!QLIST_EMPTY(&drc->async_hcall_states)) {
+> > +        QLIST_FOREACH_SAFE(tmp, &drc->async_hcall_states, node, next) {
+> > +            if (tmp->continue_token =3D=3D token) {
+> > +                /* If the token already in use, get a new one */
+> > +                goto retry;
+> > +            }
+> > +        }
+> > +    }
+> > +
+> > +    state->continue_token =3D token;
+> > +    QLIST_INSERT_HEAD(&drc->async_hcall_states, state, node);
+> > +
+> > +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> > +
+> > +    return state->continue_token;
 > > +}
 > > +
-> >  static int spapr_pci_post_load(void *opaque, int version_id)  {
-> >      SpaprPhbState *sphb =3D opaque;
-> > @@ -2205,6 +2215,7 @@ static const VMStateDescription vmstate_spapr_pci=
- =3D {
-> >      .version_id =3D 2,
-> >      .minimum_version_id =3D 2,
-> >      .pre_save =3D spapr_pci_pre_save,
-> > +    .post_save =3D spapr_pci_post_save,
-> >      .post_load =3D spapr_pci_post_load,
-> >      .fields =3D (VMStateField[]) {
-> >          VMSTATE_UINT64_EQUAL(buid, SpaprPhbState, NULL),
+> > +static void *spapr_drc_async_hcall_runner(void *opaque)
+> > +{
+> > +    int response =3D -1;
+> > +    SpaprDrcDeviceAsyncHCallState *state =3D opaque;
+> > +
+> > +    /*
+> > +     * state is freed only after this thread finishes(after pthread_jo=
+in()),
+> > +     * don't worry about it becoming NULL.
+> > +     */
+> > +
+> > +    response =3D state->func(state->data);
+> > +
+> > +    state->hcall_ret =3D response;
+> > +    state->pending =3D 0;
+> > +
+> > +    return NULL;
+> > +}
+> > +
+> > +/*
+> > + * @drc  : device DRC targetting which the async hcalls to be made.
+> > + * token : The continue token to be used for tracking as recived from
+> > + *         spapr_drc_get_new_async_hcall_token
+> > + * @func() : the worker function which needs to be executed asynchrono=
+usly
+> > + * @data : data to be passed to the asynchronous function. Worker is s=
+upposed
+> > + *         to free/cleanup the data that is passed here
+>=20
+> It'd be cleaner to pass a completion callback and have free/cleanup handl=
+ed there.
+>=20
+> > + */
+> > +void spapr_drc_run_async_hcall(SpaprDrc *drc, uint64_t token,
+> > +                               SpaprDrcAsyncHcallWorkerFunc *func, voi=
+d *data)
+> > +{
+> > +    SpaprDrcDeviceAsyncHCallState *state;
+> > +
+> > +    qemu_mutex_lock(&drc->async_hcall_states_lock);
+> > +    QLIST_FOREACH(state, &drc->async_hcall_states, node) {
+> > +        if (state->continue_token =3D=3D token) {
+> > +            state->func =3D func;
+> > +            state->data =3D data;
+> > +            qemu_thread_create(&state->thread, "sPAPR Async HCALL",
+> > +                               spapr_drc_async_hcall_runner, state,
+> > +                               QEMU_THREAD_JOINABLE);
+>=20
+> qemu_thread_create() exits on failure, it shouldn't be called on
+> a guest triggerable path, eg. a buggy guest could call it up to
+> the point that pthread_create() returns EAGAIN.
+>=20
+> Please use a thread pool (see thread_pool_submit_aio()). This takes care
+> of all the thread housekeeping for you in a safe way, and it provides a
+> completion callback API. The implementation could then be just about
+> having two lists: one for pending requests (fed here) and one for
+> completed requests (fed by the completion callback).
+>=20
+> > +            break;
+> > +        }
+> > +    }
+> > +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> > +}
+> > +
+> > +/*
+> > + * spapr_drc_finish_async_hcalls
+> > + *      Waits for all pending async requests to complete
+> > + *      thier execution and free the states
+> > + */
+> > +static void spapr_drc_finish_async_hcalls(SpaprDrc *drc)
+> > +{
+> > +    SpaprDrcDeviceAsyncHCallState *state, *next;
+> > +
+> > +    if (QLIST_EMPTY(&drc->async_hcall_states)) {
+> > +        return;
+> > +    }
+> > +
+> > +    qemu_mutex_lock(&drc->async_hcall_states_lock);
+> > +    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, next) {
+> > +        qemu_thread_join(&state->thread);
+>=20
+> With a thread-pool, you'd just need to aio_poll() until the pending list
+> is empty and then clear the completed list.
+>=20
+> > +        QLIST_REMOVE(state, node);
+> > +        g_free(state);
+> > +    }
+> > +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> > +}
+> > +
+> > +/*
+> > + * spapr_drc_get_async_hcall_status
+> > + *      Fetches the status of the hcall worker and returns H_BUSY
+> > + *      if the worker is still running.
+> > + */
+> > +int spapr_drc_get_async_hcall_status(SpaprDrc *drc, uint64_t token)
+> > +{
+> > +    int ret =3D H_PARAMETER;
+> > +    SpaprDrcDeviceAsyncHCallState *state, *node;
+> > +
+> > +    qemu_mutex_lock(&drc->async_hcall_states_lock);
+> > +    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, node) {
+> > +        if (state->continue_token =3D=3D token) {
+> > +            if (state->pending) {
+> > +                ret =3D H_BUSY;
+> > +                break;
+> > +            } else {
+> > +                ret =3D state->hcall_ret;
+> > +                qemu_thread_join(&state->thread);
+>=20
+> Like for qemu_thread_create(), the guest shouldn't be responsible for
+> thread housekeeping. Getting the hcall status should just be about
+> finding the token in the pending or completed lists.
+>=20
+> > +                QLIST_REMOVE(state, node);
+> > +                g_free(state);
+> > +                break;
+> > +            }
+> > +        }
+> > +    }
+> > +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
+> > +
+> > +    return ret;
+> > +}
+> > +
+> >  void spapr_drc_reset(SpaprDrc *drc)
+> >  {
+> >      SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> > @@ -448,6 +591,7 @@ void spapr_drc_reset(SpaprDrc *drc)
+> >          drc->ccs_offset =3D -1;
+> >          drc->ccs_depth =3D -1;
+> >      }
+> > +    spapr_drc_finish_async_hcalls(drc);
+> >  }
+> > =20
+> >  static bool spapr_drc_unplug_requested_needed(void *opaque)
+> > @@ -558,6 +702,7 @@ SpaprDrc *spapr_dr_connector_new(Object *owner, con=
+st char *type,
+> >      drc->owner =3D owner;
+> >      prop_name =3D g_strdup_printf("dr-connector[%"PRIu32"]",
+> >                                  spapr_drc_index(drc));
+> > +
+>=20
+> Unrelated change.
+>=20
+> >      object_property_add_child(owner, prop_name, OBJECT(drc));
+> >      object_unref(OBJECT(drc));
+> >      qdev_realize(DEVICE(drc), NULL, NULL);
+> > @@ -577,6 +722,10 @@ static void spapr_dr_connector_instance_init(Objec=
+t *obj)
+> >      object_property_add(obj, "fdt", "struct", prop_get_fdt,
+> >                          NULL, NULL, NULL);
+> >      drc->state =3D drck->empty_state;
+> > +
+> > +    qemu_mutex_init(&drc->async_hcall_states_lock);
+> > +    QLIST_INIT(&drc->async_hcall_states);
+> > +
+>=20
+> Empty line not needed.
+>=20
+> >  }
+> > =20
+> >  static void spapr_dr_connector_class_init(ObjectClass *k, void *data)
+> > diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+> > index 165b281496..77f6e4386c 100644
+> > --- a/include/hw/ppc/spapr_drc.h
+> > +++ b/include/hw/ppc/spapr_drc.h
+> > @@ -18,6 +18,7 @@
+> >  #include "sysemu/runstate.h"
+> >  #include "hw/qdev-core.h"
+> >  #include "qapi/error.h"
+> > +#include "block/thread-pool.h"
+> > =20
+> >  #define TYPE_SPAPR_DR_CONNECTOR "spapr-dr-connector"
+> >  #define SPAPR_DR_CONNECTOR_GET_CLASS(obj) \
+> > @@ -168,6 +169,21 @@ typedef enum {
+> >      SPAPR_DRC_STATE_PHYSICAL_CONFIGURED =3D 8,
+> >  } SpaprDrcState;
+> > =20
+> > +typedef struct SpaprDrc SpaprDrc;
+> > +
+> > +typedef int SpaprDrcAsyncHcallWorkerFunc(void *opaque);
+> > +typedef struct SpaprDrcDeviceAsyncHCallState {
+> > +    uint64_t continue_token;
+> > +    bool pending;
+> > +
+> > +    int hcall_ret;
+> > +    SpaprDrcAsyncHcallWorkerFunc *func;
+> > +    void *data;
+> > +
+> > +    QemuThread thread;
+> > +
+> > +    QLIST_ENTRY(SpaprDrcDeviceAsyncHCallState) node;
+> > +} SpaprDrcDeviceAsyncHCallState;
+> >  typedef struct SpaprDrc {
+> >      /*< private >*/
+> >      DeviceState parent;
+> > @@ -182,6 +198,10 @@ typedef struct SpaprDrc {
+> >      int ccs_offset;
+> >      int ccs_depth;
+> > =20
+> > +    /* async hcall states */
+> > +    QemuMutex async_hcall_states_lock;
+> > +    QLIST_HEAD(, SpaprDrcDeviceAsyncHCallState) async_hcall_states;
+> > +
+> >      /* device pointer, via link property */
+> >      DeviceState *dev;
+> >      bool unplug_requested;
+> > @@ -241,6 +261,11 @@ void spapr_drc_detach(SpaprDrc *drc);
+> >  /* Returns true if a hot plug/unplug request is pending */
+> >  bool spapr_drc_transient(SpaprDrc *drc);
+> > =20
+> > +uint64_t spapr_drc_get_new_async_hcall_token(SpaprDrc *drc);
+> > +void spapr_drc_run_async_hcall(SpaprDrc *drc, uint64_t token,
+> > +                               SpaprDrcAsyncHcallWorkerFunc, void *dat=
+a);
+> > +int spapr_drc_get_async_hcall_status(SpaprDrc *drc, uint64_t token);
+> > +
+> >  static inline bool spapr_drc_unplug_requested(SpaprDrc *drc)
+> >  {
+> >      return drc->unplug_requested;
+> >=20
+> >=20
+> >=20
 >=20
 
 --=20
@@ -160,25 +395,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Pz/qqzCPDfGwIFOg
+--nRwNdQxTdQ7rZk9A
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/pl5QACgkQbDjKyiDZ
-s5IXlg//adZNglOtqLqkdDXXmIpZ3cB59bkaD6qCQOdpaOZm+Tqzq9h3mvKnZnk8
-uQXzlJvcQdpVIOKrECpSH2T4ZKCppBvGrcGS20IpVxR3NVOe9blzTVrMu0ID2kAb
-3KWaqE3oxB8Bb5YHAR+6F4E3c78AT+gipJZ0YcZ9l6YzgQVrQqTGvidwVB95V7Qa
-oJfDHljMXsHCWcpdEpI7wHhq2rzVSkS4tEk7luLwJYT8hv45wgXTnoGKQEO3HNhE
-J2ZG1xEWTZxUkhbrkoIc0kySHNiglr9Bpcl1orJbspVoIujOuxvCuTJpIpqgMdbJ
-D7RB48HVgpO+jta4qPZT66E69AVVAGFMbFxajyon/sICIrV8L7/tQIodQA3ngx2n
-dU0VGK8ZJ+M7TuLVF0liqS9BmebfqI9QM5QYytY0uzIsYPhyQ9yVcTYVXzsunZVM
-+LMDCC2CIh05BW1Rcyznpk5PcD4g41y6g4J52zvelmqE3nz+Pi7kivHBVo5qQ4n2
-krMG4AzgmuDZdEiJPEJ4StPwsOYJYk4bUEaqrq8OgIw/A5qBrjZvEpKYvSF22jrT
-tAvj2h3a24cOdHriGy52TxZU0tfbEmYBpgzbLZZw9J/fzLvfDb6eByVQhuPx9MZi
-klFxDxgvSOdX0vJgdzzzzTCp9Olez25NTJVWWxUDZbLJEQz6hyQ=
-=3Ydb
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/pmWcACgkQbDjKyiDZ
+s5Iohg//USPWwzRXy6Htm1lgHOQkkmLnhCUkh2zL/mCm4+N3YI8qPPuR+X/LVg1Y
+VevigW5RoUsgrw0QJyAhvjiBJJHwT1ZRzui+t5X0dxVGyMz2MAZmEIUCe9+v38R5
+eCd3H0gyWQh3MT2bxjFlUDM6PWGIUhirxilOfzK2GJrSYcX6/XYbSZ70n1ooEb8P
+rZLOe0BLG4woWRD5U7/s81fiG/mH8pCeUrG55kG2tLI50cIOHM0kH9CimIG4Sd+E
+oXZUVdDvA/gNS51QxQnevqkFglvx9e2JuCxzo02X/fdMJOmGakxdH2Z5fnsDUELp
+HAPLpTexg6LcKBy2wyfTZylWeXj58r/2GfXd2FTTAOnUhOOWbCCQNltemRxl/91q
+MiMLi/wIlP+xboanOP5ryBwPtOUqFjUtF2GP1dSbtJ+YJI6EuFeOEuxCQTMBkQHR
+WUYDvGIaWxotfTl7+5qK7NNS8XdykdH6zZGBUgTBcb6XnQCQ7M0CTwuAKq936MaP
+3g/ldjIfBvwopbzDWRGXfI1qiGsnylZQLfna/DFIAD3mbX+bVjGi+oteVozJUzun
+h7i0IxTf9EyRHAc8BXBS+8isB6HQIYxOKqPqnZC7WNKUtwMdGWn/chYbNLiCwhm5
+wuNRcRgn5iKixi4V9r7ug0NcZS1WtX0nVJXbsVLEXH7qMQLxaCw=
+=i1pT
 -----END PGP SIGNATURE-----
 
---Pz/qqzCPDfGwIFOg--
+--nRwNdQxTdQ7rZk9A--
 
