@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190F92E339D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 03:29:48 +0100 (CET)
-Received: from localhost ([::1]:53104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD1D2E33A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 03:33:42 +0100 (CET)
+Received: from localhost ([::1]:32798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktiI6-0004DY-Ox
-	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 21:29:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40948)
+	id 1ktiLs-0007ag-4T
+	for lists+qemu-devel@lfdr.de; Sun, 27 Dec 2020 21:33:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktiD4-0007X4-2N
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 21:24:34 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:57233)
+ id 1ktiD5-0007Zr-1t
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 21:24:39 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:57232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktiD2-0003xV-Dg
- for qemu-devel@nongnu.org; Sun, 27 Dec 2020 21:24:33 -0500
+ id 1ktiD2-0003xU-9a
+ for qemu-devel@nongnu.org; Sun, 27 Dec 2020 21:24:34 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 3A9387470E6;
+ by localhost (Postfix) with SMTP id 2364D7470DB;
  Mon, 28 Dec 2020 03:24:24 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 6C40A7470EF; Mon, 28 Dec 2020 03:24:23 +0100 (CET)
-Message-Id: <56a23e0638fb15b5bc4177a0bec836a7e000083c.1609121293.git.balaton@eik.bme.hu>
+ id 625F87470ED; Mon, 28 Dec 2020 03:24:23 +0100 (CET)
+Message-Id: <95cbca5085fd2063f606c1a06c85b63ae06996e6.1609121293.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609121293.git.balaton@eik.bme.hu>
 References: <cover.1609121293.git.balaton@eik.bme.hu>
-Subject: [PATCH v2 10/10] vt82c686: Remove unneeded includes and defines
+Subject: [PATCH v2 08/10] vt82c686: Remove legacy vt82c686b_pm_init() function
 Date: Mon, 28 Dec 2020 03:08:13 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,46 +59,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-These are not used or not needed.
+Remove legacy vt82c686b_pm_init() function and also rename
+VT82C686B_PM type name to match other device names.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v2: Added back a few that we get indirectly but keep it explicit
+v2: Reworded commit message, delete i2c include here
 
- hw/isa/vt82c686.c | 5 -----
- 1 file changed, 5 deletions(-)
+ hw/isa/vt82c686.c         | 18 ------------------
+ hw/mips/fuloong2e.c       |  5 ++++-
+ include/hw/isa/vt82c686.h |  5 +----
+ 3 files changed, 5 insertions(+), 23 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index d7ce15bf9f..02d6759c00 100644
+index 2912c253dc..cd87ec0103 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -16,9 +16,7 @@
+@@ -12,7 +12,6 @@
+ 
+ #include "qemu/osdep.h"
+ #include "hw/isa/vt82c686.h"
+-#include "hw/i2c/i2c.h"
+ #include "hw/pci/pci.h"
  #include "hw/qdev-properties.h"
  #include "hw/isa/isa.h"
- #include "hw/isa/superio.h"
--#include "hw/sysbus.h"
- #include "migration/vmstate.h"
--#include "hw/mips/mips.h"
- #include "hw/isa/apm.h"
- #include "hw/acpi/acpi.h"
- #include "hw/i2c/pm_smbus.h"
-@@ -26,7 +24,6 @@
- #include "qemu/module.h"
- #include "qemu/timer.h"
- #include "exec/address-spaces.h"
--#include "qom/object.h"
- #include "trace.h"
+@@ -167,7 +166,6 @@ struct VT686PMState {
+     uint32_t smb_io_base;
+ };
  
- typedef struct SuperIOConfig {
-@@ -136,8 +133,6 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
-     }
+-#define TYPE_VT82C686B_PM "VT82C686B_PM"
+ OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
+ 
+ static void pm_update_sci(VT686PMState *s)
+@@ -271,22 +269,6 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+     acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
  }
  
--#define ACPI_DBG_IO_ADDR  0xb044
+-I2CBus *vt82c686b_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+-                          qemu_irq sci_irq)
+-{
+-    PCIDevice *dev;
+-    VT686PMState *s;
 -
- struct VT686PMState {
-     PCIDevice dev;
-     MemoryRegion io;
+-    dev = pci_new(devfn, TYPE_VT82C686B_PM);
+-    qdev_prop_set_uint32(&dev->qdev, "smb_io_base", smb_io_base);
+-
+-    s = VT82C686B_PM(dev);
+-
+-    pci_realize_and_unref(dev, bus, &error_fatal);
+-
+-    return s->smb.smbus;
+-}
+-
+ static Property via_pm_properties[] = {
+     DEFINE_PROP_UINT32("smb_io_base", VT686PMState, smb_io_base, 0),
+     DEFINE_PROP_END_OF_LIST(),
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index d123e34d9e..a2b69a3a7a 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -263,7 +263,10 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+     pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+     pci_create_simple(pci_bus, PCI_DEVFN(slot, 3), "vt82c686b-usb-uhci");
+ 
+-    *i2c_bus = vt82c686b_pm_init(pci_bus, PCI_DEVFN(slot, 4), 0xeee1, NULL);
++    dev = pci_new(PCI_DEVFN(slot, 4), TYPE_VT82C686B_PM);
++    qdev_prop_set_uint32(DEVICE(dev), "smb_io_base", 0xeee1);
++    pci_realize_and_unref(dev, pci_bus, &error_fatal);
++    *i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
+ 
+     /* Audio support */
+     pci_create_simple(pci_bus, PCI_DEVFN(slot, 5), TYPE_VIA_AC97);
+diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+index 8d2d276fe1..5b0a1ffe72 100644
+--- a/include/hw/isa/vt82c686.h
++++ b/include/hw/isa/vt82c686.h
+@@ -3,11 +3,8 @@
+ 
+ #define TYPE_VT82C686B_ISA "vt82c686b-isa"
+ #define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
++#define TYPE_VT82C686B_PM "vt82c686b-pm"
+ #define TYPE_VIA_AC97 "via-ac97"
+ #define TYPE_VIA_MC97 "via-mc97"
+ 
+-/* vt82c686.c */
+-I2CBus *vt82c686b_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+-                          qemu_irq sci_irq);
+-
+ #endif
 -- 
 2.21.3
 
