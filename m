@@ -2,49 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91072E6AFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 22:19:36 +0100 (CET)
-Received: from localhost ([::1]:32986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE76B2E6B0E
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 22:47:49 +0100 (CET)
+Received: from localhost ([::1]:42378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktzvT-0001kQ-G1
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 16:19:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35244)
+	id 1ku0Mn-00084L-13
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 16:47:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktzuE-0001Hx-0A
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 16:18:18 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:17705)
+ id 1ku0KL-0006z7-5W
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 16:45:18 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:28763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ktzu9-0000bx-B4
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 16:18:17 -0500
+ id 1ku0KH-0001I0-Dw
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 16:45:16 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C8242746552;
- Mon, 28 Dec 2020 22:18:09 +0100 (CET)
+ by localhost (Postfix) with SMTP id 59DD07470E8;
+ Mon, 28 Dec 2020 22:45:10 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 7CB4D74645B; Mon, 28 Dec 2020 22:18:09 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 7A3BA74645F;
- Mon, 28 Dec 2020 22:18:09 +0100 (CET)
-Date: Mon, 28 Dec 2020 22:18:09 +0100 (CET)
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: Problems with irq mapping in qemu v5.2
-In-Reply-To: <a22dd574-adc6-5adf-1031-05a0ae359bbb@ilande.co.uk>
-Message-ID: <39b5b09-37ab-4f77-feac-17b9349d5c0@eik.bme.hu>
-References: <3f0f8fc6-6148-a76e-1088-b7882b0bbcaf@roeck-us.net>
- <e90b9df0-5173-6e2b-3572-4f21ac318231@amsat.org>
- <2c478b3e-5098-1887-73b3-90f91a808ad8@ilande.co.uk>
- <1d33fa46-2079-ad40-d579-6e827543de50@roeck-us.net>
- <f04ae64-fa4a-2e21-1468-cf37315ec9b2@eik.bme.hu>
- <c64fe3a4-cd9c-b455-53ce-c53fb6cf0632@roeck-us.net>
- <8a3b2030-8ee6-fd56-6bfa-206457db84f@eik.bme.hu>
- <165973a-135e-3072-ee2c-afda64844770@eik.bme.hu>
- <20201224053216.GA60462@roeck-us.net>
- <88314cc3-6219-3dc-2981-279ef6442514@eik.bme.hu>
- <a22dd574-adc6-5adf-1031-05a0ae359bbb@ilande.co.uk>
+ id BAD2C7470E0; Mon, 28 Dec 2020 22:45:09 +0100 (CET)
+Message-Id: <17a50e58e6baa26440c7dac83f07fdbba1595439.1609191252.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1609191252.git.balaton@eik.bme.hu>
+References: <cover.1609191252.git.balaton@eik.bme.hu>
+Subject: [PATCH v3 2/2] via-ide: Fix fuloong2e support
+Date: Mon, 28 Dec 2020 22:34:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -65,183 +53,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, chenhuacai@kernel.org,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, f4bug@amsat.org,
  John Snow <jsnow@redhat.com>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On Mon, 28 Dec 2020, Mark Cave-Ayland wrote:
-> On 24/12/2020 08:11, BALATON Zoltan via wrote:
->
->> On Wed, 23 Dec 2020, Guenter Roeck wrote:
->>> On Thu, Dec 24, 2020 at 02:34:07AM +0100, BALATON Zoltan wrote:
->>> [ ... ]
->>>> 
->>>> If we need legacy mode then we may be able to emulate that by setting 
->>>> BARs
->>>> to legacy ports ignoring what values are written to them if legacy mode
->>>> config is set (which may be what the real chip does) and we already have
->>>> IRQs hard wired to legacy values so that would give us legacy and
->>>> half-native mode which is enough for both fuloong2e and pegasos2 but I'm 
->>>> not
->>>> sure how can we fix BARs in QEMU because that's also handled by generic 
->>>> PCI
->>>> code which I also don't want to break.
->>> 
->>> The code below works for booting Linux while at the same time not 
->>> affecting
->>> any other emulation. I don't claim it to be a perfect fix, and overloading
->>> the existing property is a bit hackish, but it does work.
->> 
->> Yes, maybe combining it with my original patch 1 to change secondary to 
->> flags to make it a bit cleaner would work for me. Then we would either only 
->> emulate legacy or half-native mode which is sufficient for these two 
->> machines we have. If Mark or others do not object it this time, I can 
->> update my patch and resubmit with this one to fix this issue, otherwise 
->> let's wait what idea do they have because I hate to spend time with 
->> something only to be discarded again. I think we don't need more complete 
->> emulation of this chip than this for now but if somebody wants to attempt 
->> that I don't mind as long as it does not break pegasos2.
->
-> I had a play with your patches this afternoon, and spent some time performing 
-> some experiments and also reading various PCI bus master specifications and 
-> datasheets: this helped me understand a lot more about the theory of IRQ 
-> routing and compatible vs. legacy mode.
->
-> From reading all the documentation (including the VIA and other datasheets) I 
-> cannot find any reference to a half-native mode which makes me think
+From: Guenter Roeck <linux@roeck-us.net>
 
-The half-native mode is my simpler term for Linux's "non 100% native 
-mode". This may not exist in hardware but exists as a concept in some 
-Linux (and maybe other) drivers so emulating it just means we do what 
-these drivers expect to work correctly.
+The IDE legacy mode emulation has been removed in commit 4ea98d317eb
+("ide/via: Implement and use native PCI IDE mode") but some Linux
+kernels (probably including def_config) require legacy mode on the
+Fuloong2e so only emulating native mode did not turn out feasible.
+Add property to via-ide model to make the mode configurable, and set
+legacy mode for Fuloong2e.
 
-How this maps to hardware and what interactions are there with firmware 
-may be interesting but I'm not interested to find out as long as all 
-guests we care about work because adding more complexity just for the sake 
-of correctly modeling hardware seems like a waste of time in this case. 
-Thanks for taking the time to find and document these though, it may be 
-useful if someone wants to clean this up further. I'm satisfied with 
-getting it in good enough shape for fuloong2e and pegasos2 to boot the 
-guests we want, because I'd rather spend time on other, more interesting 
-stuff such as writing replacement firmware for pegasos2 to avoid needing 
-an undistributable ROM, implementing missing sound support, improving 
-ati-vga or getting the Mac ROM work with g3beige, and also FPU emulation 
-on PPC (and these are just the QEMU related stuff, I can think of others 
-too). All of those seem time better spent than beating this via-ide model 
-further now just for the sake of perfection without any gain, because 
-guests will not work better even after spending more time with this. 
-That's why I call it a waste of time. I know you prefer perfect patches 
-but as they say "Perfect is the enemy of good." (I could think of better 
-use of your time too such as finishing your screamer patches or improving 
-OpenBIOS or your original sparc interest but that's for you to decide what 
-you do.)
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+[balaton: Use bit in flags for property, add comment for missing BAR4]
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+v3: Use dash in property name
+v2: Reworded commit message
 
-I also try to improve these models and add missing stuff as needed but my 
-goal is not perfection because I don't have that much time, just reaching 
-good enough. It can always be improved later (or corrected if it turns out 
-to be needed as in this case) but if we always hold back until getting it 
-perfect we wont get anywhere. If your level of perfection was a 
-requirement in QEMU a lot of devices would not be there as they could not 
-get in in the first place which means other people cannot improve it as 
-there's nothing there to start with. So I think something that is good 
-enough is at least a good start towards perfection.
+ hw/ide/via.c        | 19 +++++++++++++++++--
+ hw/mips/fuloong2e.c |  4 +++-
+ 2 files changed, 20 insertions(+), 3 deletions(-)
 
-We can argue what level is good enough. I think if it makes guests work 
-which seems to be the general approach in QEMU as a lot of devices don't 
-actually model real hardware correctly but just so that guests run with 
-it. Of course we should make it clean and follow hardware where possible 
-but a lot of models don't do that (maybe actually very few are anywhere 
-near perfect).
+diff --git a/hw/ide/via.c b/hw/ide/via.c
+index be09912b33..2d935b910f 100644
+--- a/hw/ide/via.c
++++ b/hw/ide/via.c
+@@ -26,6 +26,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "hw/pci/pci.h"
++#include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
+ #include "sysemu/dma.h"
+@@ -185,12 +186,19 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
+                           &d->bus[1], "via-ide1-cmd", 4);
+     pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[1]);
+ 
+-    bmdma_setup_bar(d);
+-    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
++    if (!(d->flags & BIT(PCI_IDE_LEGACY_MODE))) {
++        /* Missing BAR4 will make Linux driver fall back to legacy PIO mode */
++        bmdma_setup_bar(d);
++        pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
++    }
+ 
+     qdev_init_gpio_in(ds, via_ide_set_irq, 2);
+     for (i = 0; i < 2; i++) {
+         ide_bus_new(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
++        if (d->flags & BIT(PCI_IDE_LEGACY_MODE)) {
++            ide_init_ioport(&d->bus[i], NULL, i ? 0x170 : 0x1f0,
++                            i ? 0x376 : 0x3f6);
++        }
+         ide_init2(&d->bus[i], qdev_get_gpio_in(ds, i));
+ 
+         bmdma_init(&d->bus[i], &d->bmdma[i], d);
+@@ -210,6 +218,12 @@ static void via_ide_exitfn(PCIDevice *dev)
+     }
+ }
+ 
++static Property via_ide_properties[] = {
++    DEFINE_PROP_BIT("legacy-mode", PCIIDEState, flags, PCI_IDE_LEGACY_MODE,
++                    false),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void via_ide_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -223,6 +237,7 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
+     k->device_id = PCI_DEVICE_ID_VIA_IDE;
+     k->revision = 0x06;
+     k->class_id = PCI_CLASS_STORAGE_IDE;
++    device_class_set_props(dc, via_ide_properties);
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+ }
+ 
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 45c596f4fe..d334fde389 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -253,7 +253,9 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+     /* Super I/O */
+     isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
+ 
+-    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
++    dev = pci_new(PCI_DEVFN(slot, 1), "via-ide");
++    qdev_prop_set_bit(&dev->qdev, "legacy-mode", true);
++    pci_realize_and_unref(dev, pci_bus, &error_fatal);
+     pci_ide_create_devs(dev);
+ 
+     pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
+-- 
+2.21.3
 
-> something else is wrong here. At the simplest level it could simply be that 
-> the VIA doesn't tri-state its legacy IRQ lines whilst the device is in native 
-> mode (the SI controller has an option for this), or it could indicate there 
-> is a PCI IRQ routing problem somewhere else that hasn't been picked up yet.
->
-> All of the datasheets suggest that legacy vs. native mode is selected by 
-> setting the correct bits in PCI_CLASS_PROG, and Linux reads this byte and 
-> configures itself to use legacy or native mode accordingly. Since the current 
-> default for the VIA is 0x8a then it should default to legacy mode, but we're 
-> immediately hitting some issues here: I've summarised my notes below for 
-> those interested.
->
->
-> 1) PCI bus reset loses the default BAR addresses
->
-> The first problem we find is that the initialisation of the PCI bus erases 
-> the default BAR addresses: that's to say lines 133-137 in hw/ide/via.c will 
-> in effect do nothing:
->
-> 133     pci_set_long(pci_conf + PCI_BASE_ADDRESS_0, 0x000001f0);
-> 134     pci_set_long(pci_conf + PCI_BASE_ADDRESS_1, 0x000003f4);
-> 135     pci_set_long(pci_conf + PCI_BASE_ADDRESS_2, 0x00000170);
-> 136     pci_set_long(pci_conf + PCI_BASE_ADDRESS_3, 0x00000374);
-> 137     pci_set_long(pci_conf + PCI_BASE_ADDRESS_4, 0x0000cc01); /* BMIBA: 
-> 20-23h */
->
-> The lifecycle of the VIA IDE device goes like this: init() -> realize() -> 
-> reset() but then the PCI bus reset in pci_do_device_reset() immediately wipes 
-> the BAR addresses. This is why the legacy IDE ports currently don't appear at 
-> startup. Note I do see that other devices do try this e.g. 
-> gt64120_pci_realize() so it's an easy mistake to make.
-
-This is from the original commit 10 years ago so I think QEMU may have 
-worked differently back then and possibly this worked and just left there 
-because nobody noticed until now. I did notice PCI config values are reset 
-when starting to work on this and on your suggestion fixed the problem for 
-that one register in PCI reset code that I've worked around first in this 
-model.
-
-> 2) -kernel doesn't initialise the VIA device
->
-> If you take a look at the PMON source it is possible to see that the firmware 
-> explicitly sets the PCI_CLASS_PROG to compatibility mode and disables the 
-> native PCI interrupt 
-> (https://github.com/loongson-community/pmon-2ef/blob/master/sys/dev/pci/vt82c686.c#L82).
->
-> Since Linux reads this byte on startup then this is why the kernel switches 
-> to compatibility mode by default. However the point here is that booting a 
-> kernel directly without firmware means the VIA IDE device isn't initialised 
-> as it would be in real life, and that's why there are attempts to 
-> pre-configure the device accordingly in via_ide_realize()/via_ide_reset().
-
-Isn't this worked around by setting the mode to legacy at start up? Maybe 
-you could emulate firmware in load_kernel() but I leave that exercise to 
-somebody who is interested in running Linux on fuloong2e.
-
-> 3) QEMU doesn't (easily) enable a BAR to be disabled
->
-> The ideal situation would be for QEMU's VIA IDE device to check 
-> PCI_CLASS_PROG and configure itself dynamically: with PCI_CLASS_PROG set for 
-> legacy mode by default, the device can disable its BARs until they are 
-> explicitly enabled.
->
-> According to the PCI bus master specification the recommended behaviour for a 
-> device in compatible mode is to ignore all writes to the BARs, and for all 
-> BAR reads to return 0. This fits nicely with Guenter's finding that the BMDMA 
-> BAR should not return a value in order for Linux to boot correctly in legacy 
-> mode.
->
-> Unfortunately there is no existing functionality for this in QEMU which means 
-> you would have to do this manually by overriding the PCI config read/write 
-> functions. This is trickier than it sounds because the reads/writes don't 
-> necessarily have to be aligned to the BAR addresses in configuration space.
-
-I did go through this too when I've prepared my original patches and got 
-to the same conclusion.
-
-> In summary whilst I'm not keen on the series in its current form, it 
-> seems the best solution for now. I've got a few comments on the latest 
-> version of the series which I will send along shortly.
-
-Glad you've got to this at last. Would have probably saved some time if 
-you accepted it back in March but that's gone now.
-
-Regards,
-BALATON Zoltan
 
