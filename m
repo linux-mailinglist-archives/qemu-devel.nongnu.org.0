@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7562E34F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 09:11:50 +0100 (CET)
-Received: from localhost ([::1]:35638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D82702E34F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 09:16:29 +0100 (CET)
+Received: from localhost ([::1]:40184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktnd6-00075u-MW
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 03:11:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57526)
+	id 1ktnhc-0000fB-Uv
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 03:16:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaojinhao@huawei.com>)
- id 1ktnc7-0006XO-6j; Mon, 28 Dec 2020 03:10:47 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2063)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaojinhao@huawei.com>)
- id 1ktnc3-0002lC-9A; Mon, 28 Dec 2020 03:10:46 -0500
-Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4D49FS3mS0zQxY2;
- Mon, 28 Dec 2020 16:09:48 +0800 (CST)
-Received: from dggpemm000004.china.huawei.com (7.185.36.154) by
- DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Mon, 28 Dec 2020 16:10:30 +0800
-Received: from dggeme770-chm.china.huawei.com (10.3.19.116) by
- dggpemm000004.china.huawei.com (7.185.36.154) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.1913.5; Mon, 28 Dec 2020 16:10:31 +0800
-Received: from dggeme770-chm.china.huawei.com ([10.8.68.58]) by
- dggeme770-chm.china.huawei.com ([10.8.68.58]) with mapi id 15.01.1913.007;
- Mon, 28 Dec 2020 16:10:31 +0800
-From: gaojinhao <gaojinhao@huawei.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: RE: [PATCH 4/8] spapr_pci: Fix memory leak of vmstate_spapr_pci
-Thread-Topic: [PATCH 4/8] spapr_pci: Fix memory leak of vmstate_spapr_pci
-Thread-Index: AQHW3OcZQWt+nwvkI0aSp0n3c7YGkqoMIswg
-Date: Mon, 28 Dec 2020 08:10:31 +0000
-Message-ID: <013a231c9cab4f3da7be9d88d87f34ae@huawei.com>
-References: <20201226103347.868-1-gaojinhao@huawei.com>
- <20201226103347.868-5-gaojinhao@huawei.com>
- <20201228065824.GB6952@yekko.fritz.box>
-In-Reply-To: <20201228065824.GB6952@yekko.fritz.box>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.187.50]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
+ id 1ktnfy-00089q-6f; Mon, 28 Dec 2020 03:14:46 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:44576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <devnexen@gmail.com>)
+ id 1ktnfv-0004dp-Sd; Mon, 28 Dec 2020 03:14:45 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id p22so9000552edu.11;
+ Mon, 28 Dec 2020 00:14:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=bZPdva3rrEvtWTVI5+0aCjnTV2tMqJ91QjYptzh0T6k=;
+ b=VgslnLbiUFtY9XC1A3QJ05ExgDU1KcSlh2GuJ8YaXRvdw7WMeqNmm6qMqXT+pzyTkg
+ pKgYkUat+Zstl2+WVkj2VYzG7k+sAqol0DNw1Eo5R+nPZTNs5qsaBjgalodu9D7zbVOC
+ pX8R3u337FhTW0NklJzPCFBAWkTrG+Pf/MzVWIfZUEKd4ObTAhfzV7cRb1kBOv+i449a
+ hDtmzpZA6rAn8mhcM2x5c7FZrWa29qFZrFCgf95ri9JhnR+a4jEOKOcu7H/2yQPGQfYv
+ kkGKmyUxzqEa+6r3CwAnWBAcisr6u1iyXxQQLVWSLKTsHyU7r/Uu7jtapn/ZnjJ1cORO
+ j1pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=bZPdva3rrEvtWTVI5+0aCjnTV2tMqJ91QjYptzh0T6k=;
+ b=C+JWrl2b0+qrDKdqFANihfldHT9yQ6rfXAZgJoyzE8fShjmqw8EstYNZZllVrmhkej
+ 7Ep7e9QFno9frGvgR53/yjhoFIhIo7EX6ACvGCY9QS5+ka98L3++DXYpm4TsugW9Qq5k
+ QB+SwqPuMxHOmh0PDay5Qnh2xawuc8ZwUDM847DvhLhcBnpyvFWGteWbWXICX+7gRp39
+ 18u2pOAFl70i+MDAk5cjKJ1e+DrimM8TcAMY8mRKTjDSo3GcDZeDnMOzLgDUZaG/lbBj
+ wWWyAUFklPndvUkldvHZjbV0a6eF8Dtlv6XRUK6X1fE3YKREGZaj2C/iOj98qTuImMRG
+ 0FtA==
+X-Gm-Message-State: AOAM5339PxREuWBaqreusT6tUD+z5hveXn1dQf0lVb4rNIn33auNZEbG
+ i+7ed7X0neS+hszpStshozIvjCQ56pAtFDevydABmxhW+/Q6lw==
+X-Google-Smtp-Source: ABdhPJxAeeTIut19lP8uLRPFLZZWA9g4l2a1kiwO7RXX/hLiMDV7Bdzi7QpECiZMxxJGEEU+mJUOjUU2LAoTiCUG97Q=
+X-Received: by 2002:a05:6402:354e:: with SMTP id
+ f14mr33753298edd.183.1609143280682; 
+ Mon, 28 Dec 2020 00:14:40 -0800 (PST)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=gaojinhao@huawei.com;
- helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: David CARLIER <devnexen@gmail.com>
+Date: Mon, 28 Dec 2020 08:14:29 +0000
+Message-ID: <CA+XhMqwjq99QdTKntxbQ_rZ-L3bQX7D3WHLkwMdK6zmiP=_56w@mail.gmail.com>
+Subject: [PATCH 0/2] bsd-user, FreeBSD update
+To: qemu-devel <qemu-devel@nongnu.org>, QEMU Trivial <qemu-trivial@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=devnexen@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,89 +72,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Juan Quintela <quintela@redhat.com>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
- =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>,
- zhukeqian <zhukeqian1@huawei.com>, "Dr . David
- Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi David,
-Firstly, thank you for you review. And then for your review, I worry that a=
- memory leak will occur if QEMU exits after saves vmsd. So, we free it in p=
-ost_save func.
+From 10b13162949debdbbd8394bc1047511d1a900176 Mon Sep 17 00:00:00 2001
+From: David Carlier <devnexen@gmail.com>
+Date: Mon, 28 Dec 2020 08:10:43 +0000
+Subject: [PATCH 0/2] *** SUBJECT HERE ***
 
-Jinhao Gao
+bsd-user, FreeBSD update.
 
------Original Message-----
-From: David Gibson [mailto:david@gibson.dropbear.id.au]=20
-Sent: 2020-12-28 14:58
-To: gaojinhao <gaojinhao@huawei.com>
-Cc: qemu-devel@nongnu.org; qemu-ppc@nongnu.org; Marc-Andr=E9 Lureau <marcan=
-dre.lureau@redhat.com>; Stefan Berger <stefanb@linux.vnet.ibm.com>; Michael=
- S . Tsirkin <mst@redhat.com>; Jason Wang <jasowang@redhat.com>; Greg Kurz =
-<groug@kaod.org>; Juan Quintela <quintela@redhat.com>; Dr . David Alan Gilb=
-ert <dgilbert@redhat.com>; Wanghaibin (D) <wanghaibin.wang@huawei.com>; zhu=
-keqian <zhukeqian1@huawei.com>
-Subject: Re: [PATCH 4/8] spapr_pci: Fix memory leak of vmstate_spapr_pci
+David Carlier (2):
+  bsd-user, updating the FreeBSD's syscall list, based on the 11.x
+  bsd-user, Adding more strace support for a handful of syscalls.
 
-On Sat, Dec 26, 2020 at 06:33:43PM +0800, g00517791 wrote:
-> From: Jinhao Gao <gaojinhao@huawei.com>
->=20
-> When VM migrate VMState of spapr_pci, the field(msi_devs) of spapr_pci=20
-> having a flag of VMS_ALLOC need to allocate memory. If the src doesn't=20
-> free memory of msi_devs in SaveStateEntry of spapr_pci after QEMUFile=20
-> save VMState of spapr_pci, it may result in memory leak of msi_devs.=20
-> We add the post_save func to free memory, which prevents memory leak.
->=20
-> Signed-off-by: Jinhao Gao <gaojinhao@huawei.com>
+ bsd-user/freebsd/strace.list  | 12 ++++++++++++
+ bsd-user/freebsd/syscall_nr.h | 25 ++++++++++++++++++++++---
+ 2 files changed, 34 insertions(+), 3 deletions(-)
 
-Not really a memory leak, since it will get freed on the next pre_save.  Bu=
-t, we might as well free it earlier if we can ,so
-
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
->  hw/ppc/spapr_pci.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c index=20
-> 76d7c91e9c..1b2b940606 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -2173,6 +2173,16 @@ static int spapr_pci_pre_save(void *opaque)
->      return 0;
->  }
-> =20
-> +static int spapr_pci_post_save(void *opaque) {
-> +    SpaprPhbState *sphb =3D opaque;
-> +
-> +    g_free(sphb->msi_devs);
-> +    sphb->msi_devs =3D NULL;
-> +    sphb->msi_devs_num =3D 0;
-> +    return 0;
-> +}
-> +
->  static int spapr_pci_post_load(void *opaque, int version_id)  {
->      SpaprPhbState *sphb =3D opaque;
-> @@ -2205,6 +2215,7 @@ static const VMStateDescription vmstate_spapr_pci =
-=3D {
->      .version_id =3D 2,
->      .minimum_version_id =3D 2,
->      .pre_save =3D spapr_pci_pre_save,
-> +    .post_save =3D spapr_pci_post_save,
->      .post_load =3D spapr_pci_post_load,
->      .fields =3D (VMStateField[]) {
->          VMSTATE_UINT64_EQUAL(buid, SpaprPhbState, NULL),
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+-- 
+2.30.0.rc2
 
