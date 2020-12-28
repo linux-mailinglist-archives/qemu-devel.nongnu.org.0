@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4546E2E34CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 08:44:17 +0100 (CET)
-Received: from localhost ([::1]:44104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614792E34C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 08:37:51 +0100 (CET)
+Received: from localhost ([::1]:60636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktnCS-0005Ja-Aq
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 02:44:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49816)
+	id 1ktn6E-0008SS-Cz
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 02:37:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ktmy3-0002IS-IK; Mon, 28 Dec 2020 02:29:23 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:50995)
+ id 1ktmy3-0002IT-Ic; Mon, 28 Dec 2020 02:29:23 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:44759 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ktmy0-0000M4-Qr; Mon, 28 Dec 2020 02:29:23 -0500
+ id 1ktmy0-0000M5-F9; Mon, 28 Dec 2020 02:29:23 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D48Lg5jnBz9sWd; Mon, 28 Dec 2020 18:29:15 +1100 (AEDT)
+ id 4D48Lg71hvz9sWj; Mon, 28 Dec 2020 18:29:15 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609140555;
- bh=UNYG3MSF635yhF5ehONQwmJK2PUtifCtuLT5dOsU9Ms=;
+ bh=ZSdWhKOIprmEZAEyZ9S1wlKIp+9MUW8C23kfh9LcIrk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SnatpgQIHDwupOWLbpdGhoQlPttgKFoG3WaUfOU8o/jlD1EFFPX7jXjw9OUo2Og0u
- +zvL1qJUKPs7Hlzkd2zFFqBAiX21d15W8Upn5GShwON/6hF4EfYF6tBKUNeaMomLla
- ekI0bha7BQHzIHIoQuNWCytjk4FmqNKW7gKjLX+0=
-Date: Mon, 28 Dec 2020 18:13:58 +1100
+ b=Q6MS7VMkgUeOJuUVjYeKUzYogZWVMRFkeaT8DI/0ZLKQwFRDImAokKGvaw+ltlWqu
+ n95vJscl+JEmNayxou6isK9/c6I3L3KDdQWYrfdsODVTBU6S0qJ3/EJ5oRL7FK4FF9
+ 3mErezX3rK2wzIY6yitbWKv9BgqgxRghmty7U13s=
+Date: Mon, 28 Dec 2020 18:20:14 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] spapr: Fix buffer overflow in
- spapr_numa_associativity_init()
-Message-ID: <20201228071358.GF6952@yekko.fritz.box>
-References: <160829960428.734871.12634150161215429514.stgit@bahia.lan>
+Subject: Re: [PATCH 1/6] spapr: Call spapr_drc_reset() for all DRCs at CAS
+Message-ID: <20201228072014.GG6952@yekko.fritz.box>
+References: <20201218103400.689660-1-groug@kaod.org>
+ <20201218103400.689660-2-groug@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="924gEkU1VlJlwnwX"
+ protocol="application/pgp-signature"; boundary="9/eUdp+dLtKXvemk"
 Content-Disposition: inline
-In-Reply-To: <160829960428.734871.12634150161215429514.stgit@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20201218103400.689660-2-groug@kaod.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,133 +59,95 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---924gEkU1VlJlwnwX
+--9/eUdp+dLtKXvemk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 18, 2020 at 02:53:24PM +0100, Greg Kurz wrote:
-> Running a guest with 128 NUMA nodes crashes QEMU:
+On Fri, Dec 18, 2020 at 11:33:55AM +0100, Greg Kurz wrote:
+> Non-transient DRCs are either in the empty or the ready state,
+> which means spapr_drc_reset() doesn't change their state. It
+> is thus not needed to do any checking. Call spapr_drc_reset()
+> unconditionally and squash spapr_drc_transient() into its
+> only user, spapr_drc_needed().
 >=20
-> ../../util/error.c:59: error_setv: Assertion `*errp =3D=3D NULL' failed.
->=20
-> The crash happens when setting the FWNMI migration blocker:
->=20
-> 2861	    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) =3D=3D SPAPR_CAP_ON) {
-> 2862	        /* Create the error string for live migration blocker */
-> 2863	        error_setg(&spapr->fwnmi_migration_blocker,
-> 2864	            "A machine check is being handled during migration. The =
-handler"
-> 2865	            "may run and log hardware error on the destination");
-> 2866	    }
->=20
-> Inspection reveals that papr->fwnmi_migration_blocker isn't NULL:
->=20
-> (gdb) p spapr->fwnmi_migration_blocker
-> $1 =3D (Error *) 0x8000000004000000
->=20
-> Since this is the only place where papr->fwnmi_migration_blocker is
-> set, this means someone wrote there in our back. Further analysis
-> points to spapr_numa_associativity_init(), especially the part
-> that initializes the associative arrays for NVLink GPUs:
->=20
->     max_nodes_with_gpus =3D nb_numa_nodes + NVGPU_MAX_NUM;
->=20
-> ie. max_nodes_with_gpus =3D 128 + 6, but the array isn't sized to
-> accommodate the 6 extra nodes:
->=20
-> #define MAX_NODES 128
->=20
-> struct SpaprMachineState {
->     .
->     .
->     .
->     uint32_t numa_assoc_array[MAX_NODES][NUMA_ASSOC_SIZE];
->=20
->     Error *fwnmi_migration_blocker;
-> };
->=20
-> and the following loops happily overwrite spapr->fwnmi_migration_blocker,
-> and probably more:
->=20
->     for (i =3D nb_numa_nodes; i < max_nodes_with_gpus; i++) {
->         spapr->numa_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_REF_PO=
-INTS);
->=20
->         for (j =3D 1; j < MAX_DISTANCE_REF_POINTS; j++) {
->             uint32_t gpu_assoc =3D smc->pre_5_1_assoc_refpoints ?
->                                  SPAPR_GPU_NUMA_ID : cpu_to_be32(i);
->             spapr->numa_assoc_array[i][j] =3D gpu_assoc;
->         }
->=20
->         spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_be=
-32(i);
->     }
->=20
-> Fix the size of the array. This requires "hw/ppc/spapr.h" to see
-> NVGPU_MAX_NUM. Including "hw/pci-host/spapr.h" introduces a
-> circular dependency that breaks the build, so this moves the
-> definition of NVGPU_MAX_NUM to "hw/ppc/spapr.h" instead.
->=20
-> Reported-by: Min Deng <mdeng@redhat.com>
-> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1908693
-> Fixes: dd7e1d7ae431 ("spapr_numa: move NVLink2 associativity handling to =
-spapr_numa.c")
-> Cc: danielhb413@gmail.com
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 
-Oof.  Applied.
+Applied to ppc-fof-6.0, thanks.
 
 > ---
->  include/hw/pci-host/spapr.h |    2 --
->  include/hw/ppc/spapr.h      |    5 ++++-
->  2 files changed, 4 insertions(+), 3 deletions(-)
+>  include/hw/ppc/spapr_drc.h | 3 ---
+>  hw/ppc/spapr_drc.c         | 8 ++------
+>  hw/ppc/spapr_hcall.c       | 7 ++++---
+>  3 files changed, 6 insertions(+), 12 deletions(-)
 >=20
-> diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
-> index 4f58f0223b56..bd014823a933 100644
-> --- a/include/hw/pci-host/spapr.h
-> +++ b/include/hw/pci-host/spapr.h
-> @@ -115,8 +115,6 @@ struct SpaprPhbState {
->  #define SPAPR_PCI_NV2RAM64_WIN_BASE  SPAPR_PCI_LIMIT
->  #define SPAPR_PCI_NV2RAM64_WIN_SIZE  (2 * TiB) /* For up to 6 GPUs 256GB=
- each */
+> diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+> index def3593adc8b..cff5e707d0d9 100644
+> --- a/include/hw/ppc/spapr_drc.h
+> +++ b/include/hw/ppc/spapr_drc.h
+> @@ -244,9 +244,6 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner=
+, uint32_t drc_type_mask);
+>  void spapr_drc_attach(SpaprDrc *drc, DeviceState *d);
+>  void spapr_drc_detach(SpaprDrc *drc);
 > =20
-> -/* Max number of these GPUsper a physical box */
-> -#define NVGPU_MAX_NUM                6
->  /* Max number of NVLinks per GPU in any physical box */
->  #define NVGPU_MAX_LINKS              3
-> =20
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 06a5b4259f20..1cc19575f548 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -112,6 +112,9 @@ typedef enum {
->  #define NUMA_ASSOC_SIZE            (MAX_DISTANCE_REF_POINTS + 1)
->  #define VCPU_ASSOC_SIZE            (NUMA_ASSOC_SIZE + 1)
-> =20
-> +/* Max number of these GPUsper a physical box */
-> +#define NVGPU_MAX_NUM                6
-> +
->  typedef struct SpaprCapabilities SpaprCapabilities;
->  struct SpaprCapabilities {
->      uint8_t caps[SPAPR_CAP_NUM];
-> @@ -240,7 +243,7 @@ struct SpaprMachineState {
->      unsigned gpu_numa_id;
->      SpaprTpmProxy *tpm_proxy;
-> =20
-> -    uint32_t numa_assoc_array[MAX_NODES][NUMA_ASSOC_SIZE];
-> +    uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE=
-];
-> =20
->      Error *fwnmi_migration_blocker;
+> -/* Returns true if a hot plug/unplug request is pending */
+> -bool spapr_drc_transient(SpaprDrc *drc);
+> -
+>  static inline bool spapr_drc_unplug_requested(SpaprDrc *drc)
+>  {
+>      return drc->unplug_requested;
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index fc7e321fcdf6..8d62f55066b6 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -462,8 +462,9 @@ static const VMStateDescription vmstate_spapr_drc_unp=
+lug_requested =3D {
+>      }
 >  };
->=20
->=20
+> =20
+> -bool spapr_drc_transient(SpaprDrc *drc)
+> +static bool spapr_drc_needed(void *opaque)
+>  {
+> +    SpaprDrc *drc =3D opaque;
+>      SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> =20
+>      /*
+> @@ -483,11 +484,6 @@ bool spapr_drc_transient(SpaprDrc *drc)
+>          spapr_drc_unplug_requested(drc);
+>  }
+> =20
+> -static bool spapr_drc_needed(void *opaque)
+> -{
+> -    return spapr_drc_transient(opaque);
+> -}
+> -
+>  static const VMStateDescription vmstate_spapr_drc =3D {
+>      .name =3D "spapr_drc",
+>      .version_id =3D 1,
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index c0ea0bd5794b..4e9d50c254f0 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1650,9 +1650,10 @@ static void spapr_handle_transient_dev_before_cas(=
+SpaprMachineState *spapr)
+>                                                            prop->name,
+>                                                            &error_abort));
+> =20
+> -        if (spapr_drc_transient(drc)) {
+> -            spapr_drc_reset(drc);
+> -        }
+> +        /*
+> +         * This will complete any pending plug/unplug requests.
+> +         */
+> +        spapr_drc_reset(drc);
+>      }
+> =20
+>      spapr_clear_pending_hotplug_events(spapr);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -193,25 +155,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---924gEkU1VlJlwnwX
+--9/eUdp+dLtKXvemk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/phbYACgkQbDjKyiDZ
-s5LLyw//SRD85mRgKIH+T6hvWsMpsxi2WVxjj2jW8O/xu7v6VfWKLhQHWWm7LUTq
-k58IHAqK5+NOvEPSvkKnOJ8bIxLMOBLdhIo5w4hmykiDCD46bIZZbGi3SCKhzmGS
-GefzZdPum1ad5QmJcnDwGzbP7LSMw5/eAQzsY2+Zv3s0bYW3J3lACTksNjVf4ou1
-R026+L7uZOlBKD+Ik9T4aaUU0HmZjwMEPbWW80BBxqwJD5oGpzTNANO0pmq/AjH1
-IR8c3dPsu8Q36XdUz++zwsqwo2+zLyQXhPiGR9YSEpRTLuqYalcGObyxJvu7ikvh
-yW4vYnX4a1JNNsHeXs7eP0W9mVa1pyxvg0hF/Aex1PMVb7jS0KY/nx0a0USIWQwV
-JDP7Nb3/dSolCwt2z/b/2AJsussp5dJ0cfucB7nutGqCh5JYocJG9Pkj3KToVUhF
-XZf11L57NHF0sBtnKeKV/BTnF4nKSGrBQu6Pcg0bbamjSGV20xSCSpbH2mNHAMj/
-1Bp2GeCG723DmtMVHU0kTAQnrv05Hpmae/9ADdOKd1OGZQvdFk+9gODvdOwsWkfw
-iLsElxo7Nd7f7rElNTDcLcCireXGwqlMpGG+3eDFgKLzMDg/mVguE8zrwKQ0+2wJ
-gEAAD3GxwLv6YRJOsGyPj1m2xDpRXUitUV8Y95Gqs/F3PMibJQs=
-=MTRS
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/phy4ACgkQbDjKyiDZ
+s5IwDBAAvAGfundB4LwE/eOjuJwT009elxrhKBhrOwIHNe/P5B7ghgG/6NeLuU47
+slWlVxwMoYgeddVKbXSoOqkF9LZSFnv7b/h5toepgpWTXrW+uvNMjfCtnAdHQxLt
+YZd8kWZHyTq3u03yf/VxVkyf8eUCrOi3T9if16xcdHu0S/lygYcoVw+abKghGS+k
+YUoePFeLsd+AzNCooKW3zb3uyo0PrfvqYMGqKddumGCOZvTmfSColVum2CD8FbuH
+SZYbtkILK4xh6v+71or2aSYOITP9k4A8/v7TsznNGl5b8Brx8VRYBSrH+7Ux2pQp
+ID8PVBA5cKQfH863E8PpcoBoA0GE2xO6G84iXn3Tb1XaOmPjyyTeIYyD+JqdEpT9
+bjqB7DZCSve2ANZ1K8oSRkva8Mzf9BDAcpJxZGp9nG/zOQPFkc7PfBj42tpCeqfo
+6wpQhMYxDhB9TUhmTwnfdO7EpOSmsTDQI7OYkxNXseJN5+Jl+KBXwCQL0afsoWXr
+RGL8FL74mhxEaKgGPq3fMbClpbbS/ZYRRibNklktYLg/eN/RVhYble2+Za5/wcmt
+ep2UXPe/D7oR1m2I+6fR7HoaI5qYfJ0GGfqT0UedDAC4x3Zhg3phmqTf3eDey8aP
+U11GEOpwdOoLtCFEqab3u4sGx7I6bPiWlXR529gH1Wj9c2wKwng=
+=7brj
 -----END PGP SIGNATURE-----
 
---924gEkU1VlJlwnwX--
+--9/eUdp+dLtKXvemk--
 
