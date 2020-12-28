@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924902E34C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 08:36:57 +0100 (CET)
-Received: from localhost ([::1]:58266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28DFD2E34D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 08:47:21 +0100 (CET)
+Received: from localhost ([::1]:49318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktn5M-0007To-LN
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 02:36:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49824)
+	id 1ktnFQ-0007hC-7O
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 02:47:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ktmy3-0002Ig-M3; Mon, 28 Dec 2020 02:29:23 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52825 helo=ozlabs.org)
+ id 1ktmy7-0002UX-Mi; Mon, 28 Dec 2020 02:29:27 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:47855 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ktmy0-0000Mc-Ep; Mon, 28 Dec 2020 02:29:23 -0500
+ id 1ktmy5-0000PU-Oz; Mon, 28 Dec 2020 02:29:27 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D48Lh0Ls8z9sWh; Mon, 28 Dec 2020 18:29:15 +1100 (AEDT)
+ id 4D48Lh160Cz9sWs; Mon, 28 Dec 2020 18:29:16 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609140556;
- bh=KpvegEa7eNS9vEEkKXY+tKjjLIbgftOeHAfLI/SpSgE=;
+ bh=aW1Lwzrl5PIjqDYtTT/PBBu3qD3Bw0FqFd1PhnBOLrU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BDSC9yrIaFqrEzxcK8GBYN2UcU/PNIFAoK73RFc8iWfYTWce0A2wFDhwDHWdGJnjR
- K2jvx2uu78E4qmpmHrsXCneQsBH+0udGebh+9X5QrMvAsy+GAzhhODInD46jw/nCGw
- V+oYs78HtNp3h/5aHBimIdKo/FD0fMP2LP5x5mHY=
-Date: Mon, 28 Dec 2020 18:24:31 +1100
+ b=fFZMl/H5NTxkwXv4jp2uxvZZHd0i0yuh+z3TiX/kC3tevovVkJ+fm4ovIfauPivBN
+ MNHwBaXDe1H/RtyXi5l6y7lqBHR7X4jsVScIMxz0NrmJokwYRQAL/rWEHzJ/qxz5uQ
+ Ebw+PbGZ6yx0RiPw6/E+pDwFjCFAbfktpDxgSmoQ=
+Date: Mon, 28 Dec 2020 18:26:44 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 2/6] spapr: Fix reset of transient DR connectors
-Message-ID: <20201228072431.GH6952@yekko.fritz.box>
+Subject: Re: [PATCH 3/6] spapr: Introduce spapr_drc_reset_all()
+Message-ID: <20201228072644.GI6952@yekko.fritz.box>
 References: <20201218103400.689660-1-groug@kaod.org>
- <20201218103400.689660-3-groug@kaod.org>
+ <20201218103400.689660-4-groug@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/9ZOS6odDaRI+0hI"
+ protocol="application/pgp-signature"; boundary="qVyHzDF4yf4A8jkR"
 Content-Disposition: inline
-In-Reply-To: <20201218103400.689660-3-groug@kaod.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20201218103400.689660-4-groug@kaod.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,113 +64,148 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---/9ZOS6odDaRI+0hI
+--qVyHzDF4yf4A8jkR
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 18, 2020 at 11:33:56AM +0100, Greg Kurz wrote:
-> Documentation of object_property_iter_init() clearly stipulates that
-> "it is forbidden to modify the property list while iterating". But this
-> is exactly what we do when resetting transient DR connectors during CAS.
-> The call to spapr_drc_reset() can finalize the hot-unplug sequence of a
-> PHB or a PCI bridge, both of which will then in turn destroy their PCI
-> DRCs. This could potentially invalidate the iterator. It is pure luck
-> that this haven't caused any issues so far.
->=20
-> Change spapr_drc_reset() to return true if it caused a device to be
-> removed. Restart from scratch in this case. This can potentially
-> increase the overall DRC reset time, especially with a high maxmem
-> which generates a lot of LMB DRCs. But this kind of setup is rare,
-> and so is the use case of rebooting a guest while doing hot-unplug.
+On Fri, Dec 18, 2020 at 11:33:57AM +0100, Greg Kurz wrote:
+> No need to expose the way DRCs are traversed outside of spapr_drc.c.
 >=20
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 
 Applied, thanks.
 
 > ---
->  include/hw/ppc/spapr_drc.h | 3 ++-
->  hw/ppc/spapr_drc.c         | 6 +++++-
->  hw/ppc/spapr_hcall.c       | 8 +++++++-
->  3 files changed, 14 insertions(+), 3 deletions(-)
+>  include/hw/ppc/spapr_drc.h |  6 ++++++
+>  hw/ppc/spapr_drc.c         | 31 +++++++++++++++++++++++++++++
+>  hw/ppc/spapr_hcall.c       | 40 ++++++--------------------------------
+>  3 files changed, 43 insertions(+), 34 deletions(-)
 >=20
 > diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-> index cff5e707d0d9..5d80019f82e2 100644
+> index 5d80019f82e2..8982927d5c24 100644
 > --- a/include/hw/ppc/spapr_drc.h
 > +++ b/include/hw/ppc/spapr_drc.h
-> @@ -224,7 +224,8 @@ static inline bool spapr_drc_hotplugged(DeviceState *=
-dev)
->      return dev->hotplugged && !runstate_check(RUN_STATE_INMIGRATE);
->  }
+> @@ -245,6 +245,12 @@ int spapr_dt_drc(void *fdt, int offset, Object *owne=
+r, uint32_t drc_type_mask);
+>  void spapr_drc_attach(SpaprDrc *drc, DeviceState *d);
+>  void spapr_drc_detach(SpaprDrc *drc);
 > =20
-> -void spapr_drc_reset(SpaprDrc *drc);
-> +/* Returns true if an unplug request completed */
-> +bool spapr_drc_reset(SpaprDrc *drc);
-> =20
->  uint32_t spapr_drc_index(SpaprDrc *drc);
->  SpaprDrcType spapr_drc_type(SpaprDrc *drc);
+> +/*
+> + * Reset all DRCs, causing pending hot-plug/unplug requests to complete.
+> + * Safely handles potential DRC removal (eg. PHBs or PCI bridges).
+> + */
+> +void spapr_drc_reset_all(struct SpaprMachineState *spapr);
+> +
+>  static inline bool spapr_drc_unplug_requested(SpaprDrc *drc)
+>  {
+>      return drc->unplug_requested;
 > diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index 8d62f55066b6..5b5e2ac58a7e 100644
+> index 5b5e2ac58a7e..a4d2608017c5 100644
 > --- a/hw/ppc/spapr_drc.c
 > +++ b/hw/ppc/spapr_drc.c
-> @@ -417,9 +417,10 @@ void spapr_drc_detach(SpaprDrc *drc)
->      spapr_drc_release(drc);
+> @@ -949,6 +949,37 @@ out:
+>      return ret;
 >  }
 > =20
-> -void spapr_drc_reset(SpaprDrc *drc)
-> +bool spapr_drc_reset(SpaprDrc *drc)
->  {
->      SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
-> +    bool unplug_completed =3D false;
-> =20
->      trace_spapr_drc_reset(spapr_drc_index(drc));
-> =20
-> @@ -428,6 +429,7 @@ void spapr_drc_reset(SpaprDrc *drc)
->       */
->      if (drc->unplug_requested) {
->          spapr_drc_release(drc);
-> +        unplug_completed =3D true;
->      }
-> =20
->      if (drc->dev) {
-> @@ -444,6 +446,8 @@ void spapr_drc_reset(SpaprDrc *drc)
->          drc->ccs_offset =3D -1;
->          drc->ccs_depth =3D -1;
->      }
+> +void spapr_drc_reset_all(SpaprMachineState *spapr)
+> +{
+> +    Object *drc_container;
+> +    ObjectProperty *prop;
+> +    ObjectPropertyIterator iter;
 > +
-> +    return unplug_completed;
->  }
-> =20
->  static bool spapr_drc_unplug_requested_needed(void *opaque)
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index 4e9d50c254f0..aa22830ac4bd 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -1639,6 +1639,7 @@ static void spapr_handle_transient_dev_before_cas(S=
-paprMachineState *spapr)
->      ObjectPropertyIterator iter;
-> =20
->      drc_container =3D container_get(object_get_root(), "/dr-connector");
+> +    drc_container =3D container_get(object_get_root(), DRC_CONTAINER_PAT=
+H);
 > +restart:
->      object_property_iter_init(&iter, drc_container);
->      while ((prop =3D object_property_iter_next(&iter))) {
->          SpaprDrc *drc;
-> @@ -1652,8 +1653,13 @@ static void spapr_handle_transient_dev_before_cas(=
-SpaprMachineState *spapr)
-> =20
->          /*
->           * This will complete any pending plug/unplug requests.
+> +    object_property_iter_init(&iter, drc_container);
+> +    while ((prop =3D object_property_iter_next(&iter))) {
+> +        SpaprDrc *drc;
+> +
+> +        if (!strstart(prop->type, "link<", NULL)) {
+> +            continue;
+> +        }
+> +        drc =3D SPAPR_DR_CONNECTOR(object_property_get_link(drc_containe=
+r,
+> +                                                          prop->name,
+> +                                                          &error_abort));
+> +
+> +        /*
+> +         * This will complete any pending plug/unplug requests.
 > +         * In case of a unplugged PHB or PCI bridge, this will
 > +         * cause some DRCs to be destroyed and thus potentially
 > +         * invalidate the iterator.
->           */
-> -        spapr_drc_reset(drc);
+> +         */
 > +        if (spapr_drc_reset(drc)) {
 > +            goto restart;
 > +        }
->      }
+> +    }
+> +}
+> +
+>  /*
+>   * RTAS calls
+>   */
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index aa22830ac4bd..e5dfc1ba7acc 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1632,39 +1632,6 @@ static uint32_t cas_check_pvr(PowerPCCPU *cpu, uin=
+t32_t max_compat,
+>      return best_compat;
+>  }
 > =20
->      spapr_clear_pending_hotplug_events(spapr);
+> -static void spapr_handle_transient_dev_before_cas(SpaprMachineState *spa=
+pr)
+> -{
+> -    Object *drc_container;
+> -    ObjectProperty *prop;
+> -    ObjectPropertyIterator iter;
+> -
+> -    drc_container =3D container_get(object_get_root(), "/dr-connector");
+> -restart:
+> -    object_property_iter_init(&iter, drc_container);
+> -    while ((prop =3D object_property_iter_next(&iter))) {
+> -        SpaprDrc *drc;
+> -
+> -        if (!strstart(prop->type, "link<", NULL)) {
+> -            continue;
+> -        }
+> -        drc =3D SPAPR_DR_CONNECTOR(object_property_get_link(drc_containe=
+r,
+> -                                                          prop->name,
+> -                                                          &error_abort));
+> -
+> -        /*
+> -         * This will complete any pending plug/unplug requests.
+> -         * In case of a unplugged PHB or PCI bridge, this will
+> -         * cause some DRCs to be destroyed and thus potentially
+> -         * invalidate the iterator.
+> -         */
+> -        if (spapr_drc_reset(drc)) {
+> -            goto restart;
+> -        }
+> -    }
+> -
+> -    spapr_clear_pending_hotplug_events(spapr);
+> -}
+> -
+>  target_ulong do_client_architecture_support(PowerPCCPU *cpu,
+>                                              SpaprMachineState *spapr,
+>                                              target_ulong vec,
+> @@ -1822,7 +1789,12 @@ target_ulong do_client_architecture_support(PowerP=
+CCPU *cpu,
+> =20
+>      spapr_irq_update_active_intc(spapr);
+> =20
+> -    spapr_handle_transient_dev_before_cas(spapr);
+> +    /*
+> +     * Process all pending hot-plug/unplug requests now. An updated full
+> +     * rendered FDT will be returned to the guest.
+> +     */
+> +    spapr_drc_reset_all(spapr);
+> +    spapr_clear_pending_hotplug_events(spapr);
+> =20
+>      /*
+>       * If spapr_machine_reset() did not set up a HPT but one is necessary
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -178,25 +213,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---/9ZOS6odDaRI+0hI
+--qVyHzDF4yf4A8jkR
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/piC8ACgkQbDjKyiDZ
-s5I2bxAAmw+O1LDjW9ZgExv1g6XCakIggGWksjmbtJapaHTSaWmlSi9US51EhT0c
-WwvKsapQJrETRxS5ajJEZG9XVCY39bO2vZBOs0d6O6dCwiMYcKRRe4NmS4CjDBiy
-pS1neUvOl03OKKMD7q5bG0Lyt12g+nBKSWMr3snI0F+dwRvbFcFrwSmR/VUlhOe2
-u2mWgbs3B8WDy5dhiGYCKIV+ConFzw+wU54nozTQtWewp0D5XTzYcKxpxcEAFqWh
-eRgr21s3MjzMVw7jE9lelyW1Tdzo+zwpIw/DGTb+LYQhgtHfXlgSFzJNTy0RzdnA
-XTGRMIVbC9xOKqMFr2wknmol/AnYKc2RrYQivlZWMA9uNVuyHaB93739dRQ6nfOw
-3d72+QBkkJeGT30rexdEONhUEv1eaFxok9V94no1Tr1Pv72xfnkHugWAHAY9RKtD
-H4XRyCc4YuJkI4nNF4+/G/6aPMh3yrK6CEtFBpMdkukN7E4RRXBd1xRezJx5dVdT
-DZdBB0Nc824/kyIIZUyLWZGe6t07GRu6aAw3Vf3+Fth0PdrinbdjKnH8M4KUR3yF
-aYpxsGUG1fPybRBOdr5mScRh/Q/dv8wo4YAdmb0nT3zklryc79GetzXh9v/TddlN
-OJOukSjnfG5ylAofi/S0yCRQQHS2/KuBCuO4ZM6R7rjoAYYt/Bo=
-=xDQN
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/piLQACgkQbDjKyiDZ
+s5L/PBAAgwQRkfAVdH5Kp9yIwMU8chyoE1jtRFI4WSyt3EyBBWtGylprKBJ/jfJo
+gMuupHrsQe7KPti/3sXv9evgt6xnhvY2p4tQ94hOfs8aqaO1rblZKfnTfhSdxI2B
+2rhlQ4MF689N8VejVPUC2fHM9X/Lao3jkYAPhFq11n+NMN3hiJTDmRBaRUriFaqw
+c2ayvf/NJERdGulES9aWBslXmK1N/xHjrobQzEDIkGXSkjTWnPpJsXsxgn2+GW+Y
+qJ1+/TDgOhZGt5NzVHZJ2IVKX2PawYFxor4JOfhxgb5vmO23dOrqgG2r8wdNbfwm
+AaQQ4+Fgg/d/KtdHB2xK0eMLlDmNhHWixUm0wiJeRN2HwlXvyHJn+2R6kxNY+2Mg
+dZPpAogKDMbs+dIEkYbrR0+I9fp8akLssu1ZqzFZb/NpojcPSlEr1lTLfJIKUG2s
+99vVB9jTZsE6BrY/My6cUP/P3380p5kcnHEKF143Yd3YQpOKqIYKjoui2LEpSGZz
+4wI0T/bvPUBDidXZGwtmr8PQxAfQI9+St2XkVxWJ84ygtFMLYnkI0otpK0X2wZnw
+h8MHxJeVl8O+unF1U1t0JVlO0DmOuOK8jYb75JvG4HNB9oklYl/RpOAqplxVY+H/
+kCq0euIGWKhnEBdYGXmxXY57Jjo10jAt/U9xByTwDMWzRWyjr8I=
+=q3A1
 -----END PGP SIGNATURE-----
 
---/9ZOS6odDaRI+0hI--
+--qVyHzDF4yf4A8jkR--
 
