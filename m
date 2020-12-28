@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4059E2E371E
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 13:29:23 +0100 (CET)
-Received: from localhost ([::1]:33990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6311C2E3D1F
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 15:12:21 +0100 (CET)
+Received: from localhost ([::1]:58532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktreL-0002xM-QB
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 07:29:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44310)
+	id 1kttFz-0006fd-VS
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 09:12:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ktrco-0002Vq-Ul
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 07:27:46 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:47473)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1ktrcn-0005rb-7l
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 07:27:46 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 61C1A58032E;
- Mon, 28 Dec 2020 07:27:43 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 28 Dec 2020 07:27:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- subject:to:cc:references:from:message-id:date:mime-version
- :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=V
- eE3urBzmODdNuO/7hK7VGRL+LhKYAKW3TT5MBiKpx4=; b=NXutpD9wX7KO6+upr
- guSZm/vStpPNvpPOs4cyM2WENlcEtf8CFS27KVP+BiOeoBkEp8DtCnQJMku4bY1n
- KjhlfT3coJ1vLUgIcwnI44fUVBudccnXvvD58fTfa2Pe2dwvOm31n1RqUaIUedgX
- KNFaYlaKrNnS0WM04UXAK9nzj2HW9Rns7s1oRTdfUu9AP+hvGFid6ggkp0K1aq71
- RrGV3qh4StJDnWWcz8dkvh7EtH+90FwEgGs59FTFjqEiPiwBG1Lfg9SGMnWUFYJV
- kjI5TN/lJAESeHn0lZAs4FC19FqIqGPZUYd9zIaWB6N2sWrz3L1T80CPjGJ3VTBy
- pFzrA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=VeE3urBzmODdNuO/7hK7VGRL+LhKYAKW3TT5MBiKp
- x4=; b=p+Yi4i8LcBascBLZmA6JXWd/tP5eN+VAVbvRHnb2t4TRVVSyripQ0AIXL
- ZwlufOGCP4CzQI9eN4UaKiKmEdjPqUZ3hgG+ZxVQPlf1UAFVY7n9O8drK1uKtHXK
- s+Akqis+gl8dAsq5SFVl3D34Zg4EWPJpLr10m+BD1f4vCjnIRf+4FqxsXJa8qm8t
- /AOT9OHlHCaRId5kgtwrAuDY7xrD4H0KhGBn6ZFSIb0bBO0smobe9qpZEkgJnvHc
- q9KujxlftHpA8tdesatuxpFdWeumZFnD1wTkhdtoiVAwGPNYHcPzsIx47iTXHSVD
- WiJqyO8vEaKkRQYE79DI9P3IZ4pQg==
-X-ME-Sender: <xms:Pc_pX8oZVsFuWJu7Z3eQQsimOi4cYwiP_dye4HS3_3aAHBFmmTW1cA>
- <xme:Pc_pXyqTAuepu3D9ZTpJ5Txdx8Q1lEZdNO3j3oBIghl_YMLjWMwWsS36zycCYc_-i
- UwmupWbYyWQ_cz7ya8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdduledggeefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomheplfhirgig
- uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
- ggtffrrghtthgvrhhnpeeihffghfeikedugeejvefgffevgeevgeehfffhudeiieffffev
- ffeugeevfefgfeenucfkphepgeehrdeffedrhedtrddvheegnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhl
- hihgohgrthdrtghomh
-X-ME-Proxy: <xmx:Pc_pXxO9aLrAnUkNXX7zaneRoWA3Hv5max1QWy-m6bALn6NTrnH9WQ>
- <xmx:Pc_pXz7_3oT4zT4WdUJ_Ce3bVwWnR_p7o1hKfNoZJ0O_Ivb7y0e4Wg>
- <xmx:Pc_pX74lsDlI5zqpuo_qmuiOdsdoFfZbcJxiIpXbQ4sLi3Ep2SdMtA>
- <xmx:Ps_pX9nWpKb6wTJdlbIElebz77Ku_pcMhG9j54m_pMJBMyNaN2FJCw>
-Received: from [0.0.0.0] (li1000-254.members.linode.com [45.33.50.254])
- by mail.messagingengine.com (Postfix) with ESMTPA id 83E351080057;
- Mon, 28 Dec 2020 07:27:39 -0500 (EST)
-Subject: Re: [PATCH v2 2/2] via-ide: Fix fuloong2e support
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1609107222.git.balaton@eik.bme.hu>
- <8e58807dd2ba46866e7f152244e4541e6425177d.1609107222.git.balaton@eik.bme.hu>
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <9f4cb580-9d3a-3048-d3a4-80bfd7628bb7@flygoat.com>
-Date: Mon, 28 Dec 2020 20:27:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <czh648639425@gmail.com>)
+ id 1kts7w-0001Fx-JV
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 07:59:56 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:50254)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <czh648639425@gmail.com>)
+ id 1kts7v-0008CO-A8
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 07:59:56 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id lj6so5907043pjb.0
+ for <qemu-devel@nongnu.org>; Mon, 28 Dec 2020 04:59:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:subject:message-id:from:to:mime-version
+ :content-transfer-encoding;
+ bh=Xp0SmjlvPzEwqlBtdJAfosjtl3rkk+LHK+4649vmTyY=;
+ b=RGyDYdAwAIVoqd6Yj6xkGOWFh5XtyZoE/Arf4v5uBsCDthoSHrFemVdGBmCw5ku1u4
+ dztUQimaBQA5vjttuXY3aovrYrKtOeWrLRiou6AWmVI3+sQOXUTg6cdn0DnWUlspCmJm
+ XH1E9LWBl0w0UZKSyeA9zNwVlyNIpQ0mi1VqgkjvLycV3EAOd6qgvMnUDMuBInJ/SnhL
+ 3vF9vXyMWmB9gM2JjC0Xufs3LO1iMWBlBXwV/xjtVC1X9ccsUsKNb2aLJEaCswAo/Yin
+ mVMoSow4IDBocRE+potlP+CZVcXEdLv0Hk5NSfKwTxYzot8HRxaTTeofAeJFyfqqSDF2
+ er2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:message-id:from:to:mime-version
+ :content-transfer-encoding;
+ bh=Xp0SmjlvPzEwqlBtdJAfosjtl3rkk+LHK+4649vmTyY=;
+ b=W/lb2UtHyRBROtJoILn3XME+TdBUaR6z2HgnARnccYGLXBje/qwUEu6CF21zdTq2Tb
+ 6Rnngtwicy9WZ28sx6WsIBLDHpGnceGijDlawGzaFZHMq5R+juUV8VTWKoXnxeUFI9ZJ
+ 5rK/hTpDyhUgGO+JySygPcMGhT6wVzaeP9OZ64l20wCfO/WSm5Ifk2BGZwBFAVxFn4Wo
+ J3zXUE9uyRT6ASUX6V08DzF+S5szos22U4bJaNJ+MLe6w9qrqeoR+x747nj6vggFdV56
+ mM69ABDA9k6iuYbIu5JbFmczaEdUxat+H7ZCRGbh1S5Rc6K0+/dq5P+gqkbKoTqEOXr+
+ FVjQ==
+X-Gm-Message-State: AOAM532L5Sc5AldbPqus46k3oNPO4lGN9c2dEZtaY7iiRocAN2Phvbfl
+ kWEoR/NE6yKIjQRxCtX8rPNHubWaQQ1vHg==
+X-Google-Smtp-Source: ABdhPJw29b53MLKwAwMjcRs4fU4jrvjsqXKEOrW988pDnALlM9Msvm1hjmUsNmHuNQByzEPLEvdwFQ==
+X-Received: by 2002:a17:90a:c20b:: with SMTP id
+ e11mr20595483pjt.43.1609160393362; 
+ Mon, 28 Dec 2020 04:59:53 -0800 (PST)
+Received: from [172.31.255.253]
+ (ec2-52-38-10-170.us-west-2.compute.amazonaws.com. [52.38.10.170])
+ by smtp.gmail.com with ESMTPSA id b19sm35091049pfo.24.2020.12.28.04.59.51
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 28 Dec 2020 04:59:52 -0800 (PST)
+Date: Mon, 28 Dec 2020 20:59:39 +0800
+Subject: [Question] VNC CA certificate update live
+X-Priority: 3
+Message-ID: <-9hr4cg-d4yk46-3dd17uwyp2nz-55r6nkouccbe-md34fa5rys74-ydxc1l9fwp3o-h74zi8-5f2vsfpu8ul36vw8shpq5qlmcu1zwg-ifrvh5nktjt6z00lli1hyz8oze8hzn-oteilg-yts4god4aig3.1609160379148@email.android.com>
+From: zihao chang <czh648639425@gmail.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 MIME-Version: 1.0
-In-Reply-To: <8e58807dd2ba46866e7f152244e4541e6425177d.1609107222.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: permerror client-ip=66.111.4.230;
- envelope-from=jiaxun.yang@flygoat.com; helo=new4-smtp.messagingengine.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.698,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=czh648639425@gmail.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ HTML_MIME_NO_HTML_TAG=0.377, MIME_HTML_ONLY=0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 28 Dec 2020 09:11:04 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,32 +86,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Huacai Chen <chenhuacai@kernel.org>, John Snow <jsnow@redhat.com>,
- f4bug@amsat.org, Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-在 2020/12/28 上午6:13, BALATON Zoltan 写道:
-> From: Guenter Roeck <linux@roeck-us.net>
->
-> The IDE legacy mode emulation has been removed in commit 4ea98d317eb
-> ("ide/via: Implement and use native PCI IDE mode") but some Linux
-> kernels (probably including def_config) require legacy mode on the
-> Fuloong2e so only emulating native mode did not turn out feasible.
-> Add property to via-ide model to make the mode configurable, and set
-> legacy mode for Fuloong2e.
->
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> [balaton: Use bit in flags for property, add comment for missing BAR4]
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Tested-by: Guenter Roeck <linux@roeck-us.net>
+PGRpdiBkaXI9ImF1dG8iPjxkaXYgc3R5bGU9ImZvbnQtZmFtaWx5OnNhbnMtc2VyaWY7Zm9udC1z
+aXplOjE2cHgiPjxkaXYgc3R5bGU9Im1hcmdpbjowcHg7d2lkdGg6Mzc4cHgiPjxkaXYgZGlyPSJh
+dXRvIiBzdHlsZT0iZm9udC1zaXplOjExLjAwM3B0Ij5IaSBhbGw6PGRpdj48YnIgLz48L2Rpdj48
+ZGl2IHN0eWxlPSJmb250LXNpemU6MTEuMDAzcHQiPlRoZSBWTkMgb2YgUUVNVSBzdXBwb3RzIFRM
+UyBlbmNyeXB0aW9uLiBUaGUgY2xpZW50ICZhbXA7IHNlcnZlciBjYW4gdXNlIGFyYml0cmFyeSBj
+ZXJ0aWZpY2F0ZXMgZnJvbSBDQSBjZXJ0aWZpY2F0ZXMgdGhlIHJ1bm5pbmcgVk0gbG9hZGVkKHVz
+ZXIgY2FuIHVzZSBuZXcgY2VydGlmaWNhdGVzIGltbWVkaWF0ZWx5KSwgYnV0IGlmIHRoZSBDQSBj
+ZXJ0aWZpY2F0ZSBpcyBjaGFuZ2VkIHRvIGEgbmV3IG9uZSYjeGZmMGM7dGhlIHJ1bm5pbmcgVk0g
+c3RpbGwgdXNlIHRoZSBvbGQgQ0EuwqA8L2Rpdj48ZGl2IHN0eWxlPSJmb250LXNpemU6MTEuMDAz
+cHQiPklzIGl0IHJlYXNvbmFibGUgdG8gcHJvdmlkZSBhbiBBUEkoZS5nLlFNUCkgdG8gcmVwbGFj
+ZSB0aGUgQ0EgY2VydGlmaWNhdGUgZm9yIHJ1bm5pbmcgVk0gbGl2ZSYjeGZmMWY7QW55IHNlY3Vy
+aXR5IHByb2JsZW0/PC9kaXY+PGRpdj48YnIgLz48L2Rpdj48ZGl2PjxiciAvPjwvZGl2PjxkaXYg
+c3R5bGU9ImZvbnQtc2l6ZToxMS4wMDNwdCI+UmVnYXJkcyw8L2Rpdj48ZGl2IHN0eWxlPSJmb250
+LXNpemU6MTEuMDAzcHQiPlppaGFvPC9kaXY+PGRpdj48YnIgLz48L2Rpdj48L2Rpdj48L2Rpdj48
+ZGl2IHN0eWxlPSJoZWlnaHQ6MHB4Ij48L2Rpdj48L2Rpdj48L2Rpdj4=
 
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-
-> ---
-> v2: Reworded commit message
->
->
 
