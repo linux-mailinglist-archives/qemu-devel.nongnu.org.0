@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A060C2E3684
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 12:34:55 +0100 (CET)
-Received: from localhost ([::1]:41672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A07B2E3700
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 13:12:44 +0100 (CET)
+Received: from localhost ([::1]:51740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktqne-0007ur-Ot
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 06:34:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34446)
+	id 1ktrOE-00065S-TJ
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 07:12:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ktqka-0006gj-VZ
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 06:31:45 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45142)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ktqkZ-0003Uf-6S
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 06:31:44 -0500
-Received: by mail-wr1-x433.google.com with SMTP id d26so11023741wrb.12
- for <qemu-devel@nongnu.org>; Mon, 28 Dec 2020 03:31:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HpGl+L/T3VRCPNSaP2HN/EWNHGf2QEfHXGop8nPGAtU=;
- b=qgabh27W+XOx6aojVpwJxhu1XXbg4PK7EnTiN0QotBgvGov/Ps5W6y7D5IvYP+ea0r
- jHbaZzVoD32GlNpV3jpRWkcyP4lJtuhTBSnOHxS2BHlCuWBztET8ucgjVfJ+2HBLrAB1
- S8japi8p5qT1a+P7coSLimAzntjNGv0yE3LK3Apax69vS3RGEuca8rjriiqdAXFAorT7
- 3S8G/3cstj/4Pga62mZkOqH41rYLtkBeVhVii4cby86Vv0wOPRh9PdPqmBcLMtp7PDsz
- 7H1hDfrreRYcnPQ03ZBqhjgTPe/iH0l4bUmGeXe2pEKg2zmib95sw47XNw46Mhuame2a
- rnMQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ktrMK-000557-7g
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 07:10:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54172)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1ktrMH-0000Ji-Br
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 07:10:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609157439;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=f2qLjn2szjEJbyUsN17OtZQZWI6GfDY9C7+l7kZF27g=;
+ b=JDKoY7NgNN7/CtBjyRwvpGPMgGHc+jiI5gKQtc52jybwsUbRKIXNrTmemDWkaXoS3ZArbe
+ XfSdFyxDlCEVDjmWmOmfIxjWxtwcF8RHALI9A5aKWdI0QuszABHJ/Wf6A5HOJreyBorRDj
+ X2Umsx+R0y8FuePFEBat5JmAA5xSve0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-FBQtM4diO0W8-NMS3w2MGw-1; Mon, 28 Dec 2020 07:10:37 -0500
+X-MC-Unique: FBQtM4diO0W8-NMS3w2MGw-1
+Received: by mail-wr1-f72.google.com with SMTP id g16so6375628wrv.1
+ for <qemu-devel@nongnu.org>; Mon, 28 Dec 2020 04:10:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HpGl+L/T3VRCPNSaP2HN/EWNHGf2QEfHXGop8nPGAtU=;
- b=nEn+XM264cdUuZEXNdnFoYmc4jDfrvQfT0C8WEYCikLLjFI+DYVmpazLT1CkvHKu01
- UNSK2ENac4Eov4+SobmI+ZfGawEVZSeRjemisFaEXEnBzJiqon4NIOibUMh67E9bvCP8
- 57xzeNl0/KlO2uRTmvxnuuY0tbEP2UYMddeFkXxMiB0ShdkoQnUjT7iWMy2yqd+PdoNt
- fp67Et5Xjq70LYb0i9mSc0NbEgPvPu1YkgMIS+ytu71ja2QGTdnhWtmbdnXloGSsyxvS
- bpOmSut65VTIBqNFQCBbRzBxl4Zm/I3+zRf1D1ir2RrgDqC6CJkohGFSgp5rAwBYOfCZ
- uG9w==
-X-Gm-Message-State: AOAM530eNfPs0Ihq9WL8RcSZ1FSjV8pp2cEKnCTDAR6EqnA64cguH3+p
- tEfEcb/r/8GdE6ZPmCZcTq4=
-X-Google-Smtp-Source: ABdhPJxbcetEfyllg3iBR37qeEuKnYs2gxg+DZNDQAg5/Ei8nVMV7w48MfwBI922SphlV3g7ZyHC2g==
-X-Received: by 2002:a5d:5917:: with SMTP id v23mr49144382wrd.308.1609155101839; 
- Mon, 28 Dec 2020 03:31:41 -0800 (PST)
-Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
- ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
- by smtp.gmail.com with ESMTPSA id h16sm19943333wmb.41.2020.12.28.03.31.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 28 Dec 2020 03:31:41 -0800 (PST)
-Subject: Re: [PATCH v2 10/10] vt82c686: Remove unneeded includes and defines
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1609121293.git.balaton@eik.bme.hu>
- <56a23e0638fb15b5bc4177a0bec836a7e000083c.1609121293.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d00b7a2b-ce8c-6271-e191-0eb59729b84d@amsat.org>
-Date: Mon, 28 Dec 2020 12:31:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=f2qLjn2szjEJbyUsN17OtZQZWI6GfDY9C7+l7kZF27g=;
+ b=H+WcyrCuYVnvnhVYkQGBYQTrkrhAeVkjZeX7KhevxbwQy11j/BdC9Q252kSOzKLUKr
+ nYCI24/tNjv8JBsANhkrlFzBEHhPHTPcBB4OH44zo0gly0x0zWD2T4zcWQ6I92U3OG1n
+ 3VJKyscB67kfQtowjAoMdDFtYsTcGLkIfNhCEz5QOuCcRnZsHAbd6m0FCkG0d895BZtE
+ +SRhnfR/MZrVEhAeiin40ZcH2i3/ATBLLbUSw7l4t9jG3fdYGQkjDOFymv42akcoygol
+ FjKqMxKLAHnuL6DvRnlSwko7CnBo3HU1n9NUNN1/YTI8LJ9RcDiC+fyLvl9k9UhdvCTk
+ veLg==
+X-Gm-Message-State: AOAM531oMH9tKFLpB3yl8Dy6W/5VEWJ+48AOwJJyK9KIf2Q7kvYaihYN
+ Ssui0/8CfhbedOlWhua1CYv+deyBBlLKA/J9YM0zi/aE4ax56wdgSCTCeWEd03kp/0L9V75zF0W
+ QW8uuW3k9wSu1+iI=
+X-Received: by 2002:a1c:5fd4:: with SMTP id t203mr19579730wmb.15.1609157436712; 
+ Mon, 28 Dec 2020 04:10:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzuMoDKe6Ye1VZgHjhcxp03QVFGy8nWmR+GicU77lvIe2ykJGlWuebvtwFlDPusNeWlEM1OGw==
+X-Received: by 2002:a1c:5fd4:: with SMTP id t203mr19579704wmb.15.1609157436523; 
+ Mon, 28 Dec 2020 04:10:36 -0800 (PST)
+Received: from redhat.com (bzq-79-178-32-166.red.bezeqint.net. [79.178.32.166])
+ by smtp.gmail.com with ESMTPSA id z22sm19067022wml.1.2020.12.28.04.10.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Dec 2020 04:10:34 -0800 (PST)
+Date: Mon, 28 Dec 2020 07:10:31 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: g00517791 <gaojinhao@huawei.com>
+Subject: Re: [PATCH v2 1/3] spapr_pci: Fix memory leak of vmstate_spapr_pci
+Message-ID: <20201228071024-mutt-send-email-mst@kernel.org>
+References: <20201228090053.346-1-gaojinhao@huawei.com>
+ <20201228090053.346-2-gaojinhao@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <56a23e0638fb15b5bc4177a0bec836a7e000083c.1609121293.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.829,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201228090053.346-2-gaojinhao@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.178,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,19 +91,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ wanghaibin.wang@huawei.com,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ zhukeqian1@huawei.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/28/20 3:08 AM, BALATON Zoltan via wrote:
-> These are not used or not needed.
+On Mon, Dec 28, 2020 at 05:00:51PM +0800, g00517791 wrote:
+> From: Jinhao Gao <gaojinhao@huawei.com>
 > 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
-> v2: Added back a few that we get indirectly but keep it explicit
+> When VM migrate VMState of spapr_pci, the field(msi_devs) of spapr_pci
+> having a flag of VMS_ALLOC need to allocate memory. If the src doesn't free
+> memory of msi_devs in SaveStateEntry of spapr_pci after QEMUFile save
+> VMState of spapr_pci, it may result in memory leak of msi_devs. We add the
+> post_save func to free memory, which prevents memory leak.
 > 
->  hw/isa/vt82c686.c | 5 -----
->  1 file changed, 5 deletions(-)
+> Signed-off-by: Jinhao Gao <gaojinhao@huawei.com>
+> Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+> ---
+>  hw/ppc/spapr_pci.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 76d7c91e9c..1b2b940606 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -2173,6 +2173,16 @@ static int spapr_pci_pre_save(void *opaque)
+>      return 0;
+>  }
+>  
+> +static int spapr_pci_post_save(void *opaque)
+> +{
+> +    SpaprPhbState *sphb = opaque;
+> +
+> +    g_free(sphb->msi_devs);
+> +    sphb->msi_devs = NULL;
+> +    sphb->msi_devs_num = 0;
+> +    return 0;
+> +}
+> +
+>  static int spapr_pci_post_load(void *opaque, int version_id)
+>  {
+>      SpaprPhbState *sphb = opaque;
+> @@ -2205,6 +2215,7 @@ static const VMStateDescription vmstate_spapr_pci = {
+>      .version_id = 2,
+>      .minimum_version_id = 2,
+>      .pre_save = spapr_pci_pre_save,
+> +    .post_save = spapr_pci_post_save,
+>      .post_load = spapr_pci_post_load,
+>      .fields = (VMStateField[]) {
+>          VMSTATE_UINT64_EQUAL(buid, SpaprPhbState, NULL),
+> -- 
+> 2.23.0
+
 
