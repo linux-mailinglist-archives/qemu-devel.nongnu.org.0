@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ACC62E34BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 08:30:08 +0100 (CET)
-Received: from localhost ([::1]:46474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 226092E34C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 08:34:36 +0100 (CET)
+Received: from localhost ([::1]:53040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktmyl-0001yF-E9
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 02:30:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49392)
+	id 1ktn35-0004q3-56
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 02:34:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
- id 1ktmvY-0000Ee-Nu; Mon, 28 Dec 2020 02:26:48 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2907)
+ id 1ktmvY-0000ES-AU; Mon, 28 Dec 2020 02:26:48 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
- id 1ktmvI-0007lK-Dw; Mon, 28 Dec 2020 02:26:48 -0500
+ id 1ktmvI-0007lI-Dd; Mon, 28 Dec 2020 02:26:48 -0500
 Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D48GL70Bkz15kqQ;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D48GL6qY5z15kqN;
  Mon, 28 Dec 2020 15:25:30 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS405-HUB.china.huawei.com
  (10.3.19.205) with Microsoft SMTP Server id 14.3.498.0; Mon, 28 Dec 2020
- 15:26:07 +0800
+ 15:26:08 +0800
 From: Zhang Han <zhanghan64@huawei.com>
 To: <armbru@redhat.com>
-Subject: [PATCH 2/4] qobject: code indent should never use tabs
-Date: Mon, 28 Dec 2020 15:11:27 +0800
-Message-ID: <20201228071129.24563-3-zhanghan64@huawei.com>
+Subject: [PATCH 3/4] qobject: spaces required around that operators
+Date: Mon, 28 Dec 2020 15:11:28 +0800
+Message-ID: <20201228071129.24563-4-zhanghan64@huawei.com>
 X-Mailer: git-send-email 2.29.1.59.gf9b6481aed
 In-Reply-To: <20201228071129.24563-1-zhanghan64@huawei.com>
 References: <20201228071129.24563-1-zhanghan64@huawei.com>
@@ -61,7 +61,7 @@ Cc: alex.chen@huawei.com, hunongda@huawei.com, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Transfer tabs to spaces.
+Add spaces around operators.
 
 Signed-off-by: Zhang Han <zhanghan64@huawei.com>
 ---
@@ -69,20 +69,20 @@ Signed-off-by: Zhang Han <zhanghan64@huawei.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/qobject/qdict.c b/qobject/qdict.c
-index 1079bd3f6f..2c07b3c87f 100644
+index 2c07b3c87f..05ec950e05 100644
 --- a/qobject/qdict.c
 +++ b/qobject/qdict.c
-@@ -38,8 +38,8 @@ QDict *qdict_new(void)
-  */
- static unsigned int tdb_hash(const char *name)
- {
--    unsigned value;	/* Used to compute the hash value.  */
--    unsigned   i;	/* Used to cycle through random values. */
-+    unsigned value;    /* Used to compute the hash value.  */
-+    unsigned   i;      /* Used to cycle through random values. */
+@@ -42,8 +42,8 @@ static unsigned int tdb_hash(const char *name)
+     unsigned   i;      /* Used to cycle through random values. */
  
      /* Set the initial value from the key size. */
-     for (value = 0x238F13AF * strlen(name), i=0; name[i]; i++)
+-    for (value = 0x238F13AF * strlen(name), i=0; name[i]; i++)
+-        value = (value + (((const unsigned char *)name)[i] << (i*5 % 24)));
++    for (value = 0x238F13AF * strlen(name), i = 0; name[i]; i++)
++        value = (value + (((const unsigned char *)name)[i] << (i * 5 % 24)));
+ 
+     return (1103515243 * value + 12345);
+ }
 -- 
 2.29.1.59.gf9b6481aed
 
