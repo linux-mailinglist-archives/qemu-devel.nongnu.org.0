@@ -2,30 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8949F2E6B0D
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 22:47:49 +0100 (CET)
-Received: from localhost ([::1]:42354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEFFE2E6B0F
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 22:48:53 +0100 (CET)
+Received: from localhost ([::1]:45842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ku0Mm-00083h-6R
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 16:47:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39658)
+	id 1ku0No-000153-Un
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 16:48:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ku0KK-0006yv-4w
+ id 1ku0KK-0006yz-9m
  for qemu-devel@nongnu.org; Mon, 28 Dec 2020 16:45:16 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28750)
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ku0KH-0001Hy-E8
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 16:45:15 -0500
+ id 1ku0KH-0001Hz-Ds
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 16:45:16 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D58A67470E3;
- Mon, 28 Dec 2020 22:45:09 +0100 (CET)
+ by localhost (Postfix) with SMTP id 4E09D7470E6;
+ Mon, 28 Dec 2020 22:45:10 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id AEA3174646C; Mon, 28 Dec 2020 22:45:09 +0100 (CET)
-Message-Id: <cover.1609191252.git.balaton@eik.bme.hu>
-Subject: [PATCH v3 0/2] Fix via-ide for fuloong2e
+ id B542D7470DB; Mon, 28 Dec 2020 22:45:09 +0100 (CET)
+Message-Id: <28150c05831caea5926d4c6a881f448c2827703d.1609191252.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1609191252.git.balaton@eik.bme.hu>
+References: <cover.1609191252.git.balaton@eik.bme.hu>
+Subject: [PATCH v3 1/2] ide: Make room for flags in PCIIDEState and add one
+ for legacy mode
 Date: Mon, 28 Dec 2020 22:34:12 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,21 +62,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-v3 with review comments from Mark addressed
+We'll need a flag for implementing some device specific behaviour in
+via-ide but we already have a currently CMD646 specific field that can
+be repurposed for this and leave room for further flags if needed in
+the future. This patch changes the "secondary" field to "flags" and
+change CMD646 and its users accordingly and define a new flag for
+forcing legacy mode that will be used by via-ide for now.
 
-BALATON Zoltan (1):
-  ide: Make room for flags in PCIIDEState and add one for legacy mode
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Tested-by: Guenter Roeck <linux@roeck-us.net>
+---
+v3: Convert // comment in context
+v2: Fixed typo in commit message
 
-Guenter Roeck (1):
-  via-ide: Fix fuloong2e support
+ hw/ide/cmd646.c      | 6 +++---
+ hw/sparc64/sun4u.c   | 2 +-
+ include/hw/ide/pci.h | 7 ++++++-
+ 3 files changed, 10 insertions(+), 5 deletions(-)
 
- hw/ide/cmd646.c      |  6 +++---
- hw/ide/via.c         | 19 +++++++++++++++++--
- hw/mips/fuloong2e.c  |  4 +++-
- hw/sparc64/sun4u.c   |  2 +-
- include/hw/ide/pci.h |  7 ++++++-
- 5 files changed, 30 insertions(+), 8 deletions(-)
-
+diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
+index c254631485..cfea7fca06 100644
+--- a/hw/ide/cmd646.c
++++ b/hw/ide/cmd646.c
+@@ -255,8 +255,8 @@ static void pci_cmd646_ide_realize(PCIDevice *dev, Error **errp)
+ 
+     pci_conf[PCI_CLASS_PROG] = 0x8f;
+ 
+-    pci_conf[CNTRL] = CNTRL_EN_CH0; // enable IDE0
+-    if (d->secondary) {
++    pci_conf[CNTRL] = CNTRL_EN_CH0; /* enable IDE0 */
++    if (d->flags & BIT(PCI_IDE_SECONDARY)) {
+         /* XXX: if not enabled, really disable the seconday IDE controller */
+         pci_conf[CNTRL] |= CNTRL_EN_CH1; /* enable IDE1 */
+     }
+@@ -314,7 +314,7 @@ static void pci_cmd646_ide_exitfn(PCIDevice *dev)
+ }
+ 
+ static Property cmd646_ide_properties[] = {
+-    DEFINE_PROP_UINT32("secondary", PCIIDEState, secondary, 0),
++    DEFINE_PROP_BIT("secondary", PCIIDEState, flags, PCI_IDE_SECONDARY, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 0fa13a7330..c46baa9f48 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -674,7 +674,7 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
+     }
+ 
+     pci_dev = pci_new(PCI_DEVFN(3, 0), "cmd646-ide");
+-    qdev_prop_set_uint32(&pci_dev->qdev, "secondary", 1);
++    qdev_prop_set_bit(&pci_dev->qdev, "secondary", true);
+     pci_realize_and_unref(pci_dev, pci_busA, &error_fatal);
+     pci_ide_create_devs(pci_dev);
+ 
+diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
+index d8384e1c42..75d1a32f6d 100644
+--- a/include/hw/ide/pci.h
++++ b/include/hw/ide/pci.h
+@@ -42,6 +42,11 @@ typedef struct BMDMAState {
+ #define TYPE_PCI_IDE "pci-ide"
+ OBJECT_DECLARE_SIMPLE_TYPE(PCIIDEState, PCI_IDE)
+ 
++enum {
++    PCI_IDE_SECONDARY, /* used only for cmd646 */
++    PCI_IDE_LEGACY_MODE
++};
++
+ struct PCIIDEState {
+     /*< private >*/
+     PCIDevice parent_obj;
+@@ -49,7 +54,7 @@ struct PCIIDEState {
+ 
+     IDEBus bus[2];
+     BMDMAState bmdma[2];
+-    uint32_t secondary; /* used only for cmd646 */
++    uint32_t flags;
+     MemoryRegion bmdma_bar;
+     MemoryRegion cmd_bar[2];
+     MemoryRegion data_bar[2];
 -- 
 2.21.3
 
