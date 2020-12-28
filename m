@@ -2,98 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9032E346B
-	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 07:01:58 +0100 (CET)
-Received: from localhost ([::1]:37514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3BA2E3465
+	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 06:59:07 +0100 (CET)
+Received: from localhost ([::1]:60404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ktlbR-0005pa-8H
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 01:01:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38746)
+	id 1ktlYg-0003a5-7i
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 00:59:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1ktlXJ-0002JH-Qt
+ id 1ktlXI-0002Iy-W1
  for qemu-devel@nongnu.org; Mon, 28 Dec 2020 00:57:41 -0500
-Received: from mail-oln040092253015.outbound.protection.outlook.com
- ([40.92.253.15]:53207 helo=APC01-SG2-obe.outbound.protection.outlook.com)
+Received: from mail-oln040092253038.outbound.protection.outlook.com
+ ([40.92.253.38]:20256 helo=APC01-SG2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1ktlXE-0001Xw-0Q
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 00:57:41 -0500
+ id 1ktlXG-0001ZQ-8M
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 00:57:40 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mgpFR3Sf1ei9lwxMdcxy0/eylLGeNyivKswS9tZbwA6g2DEJjqzKfAI4WyYbmYHpSMh62LYMkyCQ8dmI0EnXVFNfg0frhOjLtInbnqDQUt5ljTYnSZXVULVpHqtdabe+0OHZ2uP/p3VPTxDH1XdTbjoh1ay/zo98LcG9fCzLmudlPE7Lu+TIOdnupiubUjk0k83DeRGRKui/z8tcQKoxbgPLNK3P8Qd26mvUivEj3PY+Qa+e9EH74uiC+/eivEUFqjWc2D1Q8ztvHDW6sclrOPc3WwXthBI3E/d+wxZua4HlMUGTLczDQuHOIVY+KKZRm32THyGEzliFAipRVFC7Gw==
+ b=hD7abYTCibCSKotqCNLDirQySv7XSKbRAk/b9KRlDI+6eKCR+pZqPfl8aexBA+FH3h/zFhyQvsz4MBLadPzs2esddLj1GCrKBROM4KSWQH+2+Q7iplhDcLPknRhQBcvodbxUAhNA60pT7TfJ//JFRZegiOti4n4nC3RBXryiO92cnsDgzYOo2NNRu6cUxqupsYYUUYA6+3Q7s14qRkYxupjpNG5ZrgRrvV9Sg9xQ5l2Z2njLRS8Tvg9gAFU92n/+4Z5s5InJvoPQRGFg0hjXCPYkbheRPF+fyx1/5W34cGkppaUjFpuVkFS6AFechd42QyynRX9Sb8Q5uh5RQJ6eCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e6Uoex6Bcow+egTwG4xV6wycu4ec4nZsiO8l8ynn6No=;
- b=TLRFqpqlmBHEPmsJLjrO8Lam6QTM40N0OJZ0El9jKk8WW8DqDUFP3Cfy3Mv3Hokqfg3oNQpzrYWYP8ToYogqA22O5Ror1SKdMzPGGZKT/0QAfy2Rn5XC84/dFnH4pf0nIDDrkBOoMVI98InDoJ4eG9pylHt0ol7PMqRuhXxi7xwF8dgRhmvtlNIYJ6oiC2nYScuuRRtM78oHFFiuOPz1ThDgvZrE55CcP2VmW2IR84blXv6LpbT09mpaZQ/HbKYA+FakhemEqobAlCZxOJy9wtP1Xmgt+SiGjAo33rnZxr8IV7kW1/br/M6ykdD9w1UqitHoJ4pmoVDpFXt9wQIMaQ==
+ bh=rIPe3sz5ECsb2/9POlh44cNXGX8W9h6zsP1DhXTkAHs=;
+ b=Tneh8qIbYyMEQlNMYaFG/CEkW/BB7t3hLZJ/mhEnGGl6fXzxvt8V5iLmX8PaKN36SkNsH0YV6ObQXl4WgNNJogzBDCteSqIEVzV4ESdT25lAx/jbt4p8HCoyADrxQwZT2/EUcPGcyuPj1V/3yodz4JJJKeAdGYJjUtxGgedBClQKur48hZA4pYzImSJySbHna7Y4la/4Uje8k2TtNK73IR4ftOThPXE7MjD0qM8igTl54mbW+/T/krj2WRaajIz3WcAwDdbT0yo6SXt060KE27DY2Q5XRhDfnFEdgJ66fbJJREESY/0b6h0oVqhY9ItziCAv2ML+U4zAt+c/UtDJRQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e6Uoex6Bcow+egTwG4xV6wycu4ec4nZsiO8l8ynn6No=;
- b=Yma2KHCKT4WNT3H7HqX1aoPmrBunq92JaBkd/kPnIy7bF0NEFpOkDEN8SEp3lUtr6frw9d6KNGtadGlksiuud9vzGN+fY7ywmBJHIZ7L5YoyhlbTNokmuuf9C52WoEO+ZLdFxYiWexkNzUcT+ZrHG/pwqSUbGGY38ulDhObrjdxQKRB8FQgMIJEcg7sTxg02fdeju3BjYsWY2lkrd1wmX0j8fuFCFWi4MvQ90Rpv5p2ftUNT9WCTvc5jWSYvu3rnjAqH6qLoaYx8ajMup0rSiXIbPnTCrARuvrXgzPlVWRm6vsk2HN9dJF0q6RVC/VjFpZneZmk0il28zxD+kjJJ7A==
+ bh=rIPe3sz5ECsb2/9POlh44cNXGX8W9h6zsP1DhXTkAHs=;
+ b=eyJxoNl0MaBoWQPXwyHB2vtVb8hXvrbwDAZ2lcoy4OzZd8u5AelvncQMlDfBeOI6GogAr+ge51fEMuVBP2MexS/sRH1vcrYSKmjHtcVjoiux2A2F2LNZ6EnTDZnqr7vUAbwmqjy3urURWL5RYBTD7r5DZ7buZVmL5aAAJMRSnkFBgSBxNRngZMrY1Y4rKNKENAFq+Pa6xfbXYailH4jxcFCivnGQtWUnk5AyBa6L02pUho2AxOPnYNXoaN/85cfg8ftt5CR/y372OO+GPbZAKDIPx7XEBAA7TjD0bmjASLXHTgGp88DBsKKSHyjBlRdxCDNiEGcsB1yiwrj8ZAzutw==
 Received: from SG2APC01FT037.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebd::48) by
- SG2APC01HT178.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebd::397)
+ (2a01:111:e400:7ebd::47) by
+ SG2APC01HT171.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebd::256)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.27; Mon, 28 Dec
- 2020 05:57:24 +0000
+ 2020 05:57:28 +0000
 Received: from ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM (2a01:111:e400:7ebd::48)
  by SG2APC01FT037.mail.protection.outlook.com
  (2a01:111:e400:7ebd::367) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.27 via Frontend
- Transport; Mon, 28 Dec 2020 05:57:24 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:2A178126F2552A1BD6C29AAAD3B075BD698D5C30690016E88943A7F7BE893DFF;
- UpperCasedChecksum:41EB4CDFF177B12D7DDB454F9043F4024B98EACDE41857639E9AC45DCDAF5D75;
- SizeAsReceived:7677; Count:47
+ Transport; Mon, 28 Dec 2020 05:57:28 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:A2035B9978E04D838858834F1224601E377F5A16D5B7E4F5263C1D67EE6ACC50;
+ UpperCasedChecksum:F61A523463E7FB4F127B1DA3175435B46CB291A7BE456B445F7A7E9292A5553D;
+ SizeAsReceived:7660; Count:47
 Received: from ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
  ([fe80::88cb:2262:60f7:7d1e]) by ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
  ([fe80::88cb:2262:60f7:7d1e%8]) with mapi id 15.20.3700.031; Mon, 28 Dec 2020
- 05:57:23 +0000
+ 05:57:28 +0000
 From: Qiuhao Li <Qiuhao.Li@outlook.com>
 To: alxndr@bu.edu,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 2/7] fuzz: double the IOs to remove for every loop
-Date: Mon, 28 Dec 2020 13:56:41 +0800
-Message-ID: <ME3P282MB17451BBF43D35A0E67F10C98FCD90@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
+Subject: [PATCH v2 3/7] fuzz: split write operand using binary approach
+Date: Mon, 28 Dec 2020 13:56:42 +0800
+Message-ID: <ME3P282MB1745BCFADCF23D090E89E0FEFCD90@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <ME3P282MB17458B2705C43E860A26171DFCD90@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
 References: <ME3P282MB17458B2705C43E860A26171DFCD90@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [kdvaz1c35+0B/RjEAc9jA3F5Yxi1gthVEEDONDjWGwVlDvr/ZxlRwT0/x3V6uGWV]
+X-TMN: [E5pmyutdy+mwnKoYh9xatxv61HkPg+IFQChE1H2/tFXdKFmVgeGFNVxHBsPAECIi]
 X-ClientProxiedBy: HKAPR04CA0006.apcprd04.prod.outlook.com
  (2603:1096:203:d0::16) To ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
  (2603:10c6:220:ac::12)
-X-Microsoft-Original-Message-ID: <20201228055645.3666065-2-Qiuhao.Li@outlook.com>
+X-Microsoft-Original-Message-ID: <20201228055645.3666065-3-Qiuhao.Li@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from pc (2001:250:fe01:130:2110:d78f:cec3:aac7) by
  HKAPR04CA0006.apcprd04.prod.outlook.com (2603:1096:203:d0::16) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3700.27 via Frontend Transport; Mon, 28 Dec 2020 05:57:22 +0000
+ 15.20.3700.27 via Frontend Transport; Mon, 28 Dec 2020 05:57:27 +0000
 X-MS-PublicTrafficType: Email
 X-IncomingHeaderCount: 47
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: f5cc260a-5ad2-4e12-f065-08d8aaf5726c
-X-MS-Exchange-SLBlob-MailProps: pt8ZUcDWjMXJ9A9ttpcs4oXvu424G+c84rcNKPtQbKBjAUO0G33MY4V+3fze0hZJ1E6tTsToQ7ZWbDLON/y6K8tz57YQVS74YBJYNsWtD/twBIkynFbh3Tejx8fTZnQL9hkjs4mpjyUaxpzrmsAuHeZinF2VrDp28XGe/BKyDXrY9HQP+RH5pryPljVp6YRAvbZs2ynlA7CtUHsKFDwka6U2/YHdHAVQO62lWCiEDIRdlAOVVXqGdyU9ZXCyxAzLfxKUrXovsRGInhrrrDXngvMlm5b3kmZZ0HxoJPDNIeQHIUugdPMkC1IOAmzzzRjCXA8cXGJrZHKTMcX5bTPYxk9xqZVyUY895lcBAg5qv2wWygnaI/4ptsTXExJAVuUeF0PpwkRZy3wru0PR/5jm4aQNKZbANUA9CXrqYerlQUiYWko7qbxxB9qH8eu9P6sDKrkvwxfgnTJrTnli7QJAKojmw1wyt0WQzjUDQRvoK+tx9teFOFJTog2MnCXG8PxaeM7FzHb+aSjVgqSxeSdpyWTT9IFGfqMFsacEBiXJmXD2SURCNXFGRJEcjJuKonH60e5HYv76aIKkajoPGxGqJ2CuzwLDJBIE1vKNTldni4cXRYotwJKoLjJbyo1W8Ymr/tNi96M6R4Up1QIPkekXKQsRV3RL+jnItqeYxfJtvZ8psg9NZuq0v9aAbAr6XbioUCAY77JrD/wTDu4e6e7fCdwCrMYY2Xv5Kc8+WV5Af2OspxOgzl01GcFgZPI9llRCj2bncA3iKvYl2QKpTQSuFAo7dR8oYu+LxYAQlOUfYg7gE/nonLzAKYRYYQUUba3o5e70AEzvOTPtYF0h8SAh7/gxh67pn15CORe++jMjeVklFHdavqh2P/fsYsBoeTVVCNJo0opBTVToQnGmO2J+NgvE+Ahwge2Vm5rEkHaRmfvV7+XlqP1q993gV8lzELDl
-X-MS-TrafficTypeDiagnostic: SG2APC01HT178:
+X-MS-Office365-Filtering-Correlation-Id: 7f3458eb-0712-4858-d436-08d8aaf57547
+X-MS-Exchange-SLBlob-MailProps: q+fD6XS3/UI4W5gxJ7aMBVnMbxNbPZnDQiDRL0dxvih6pz4BHG+zkZOL48qvsulrDAX1nNg+1Dj/sTNTuCGAKGlc81s1FO+MpYpTG8IxRl5zgNI6zafyk+U816x2Ey63dFGRiFDiOWSCxYOgbjX6fi1R0dnGuP6EYbbR+HnEQp7OV+fMuHGanpPUUpjizY/ccuri00kuXf0zbjmZdtqcoq13dbO0QOJi5AhvPHXWk50wo2LM2naGN9T5QQ9TQ5PWkzp4S6pYp3RZg0wuulCIQgz6SF2EeExH/2O6f+E3qZNh9fYzsljvg/7BNN/j6WzEIaWc+G0YYsOFSmqpSwWnTkN3wQ+EeuACjQJhthRld0pX33gSovsadcTbM+sQCJ2CLpAhk7lROPzeliu2ZSFmvgHExcXlBvpt/4gDAdTLuuaCyoHoAeuvFh3QhKKzJrjGUOuSDzsv1GGkKmYiCND0GdBs7ztKFACZUvGIpLQJa0nJzUvEK+LLTpuoCtMT0rK/yuSLMO4M+9KL/mAYzsVB/SKNv57Pt0B8TA0ZvMMjsosGx67A3dmNtUq7hxiPWyjuh7Hd39DvQzAGfwGdrQZ97bOu3NBRH/eAKWKRFxu+BwaHnQG/l0RudwJlh7Ve6S7vI7uw5LyWIydQ2jtSKD8Yvf8hikYLpHH85ZgvQu7XQ7LrxrA8PKBP9LMPlyuKj/Ap48TOQHW0vLF6jRq62x9B9Q==
+X-MS-TrafficTypeDiagnostic: SG2APC01HT171:
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xKiF+rgbFTdmHweBuu2C//dkRjmhOp3d46IwpATlpcFo7zwHhc5PSmkss2RxTGUazgZVzHIG72jguq+WLVLiJD47LZXVFeD84WCDRuM1lxSZvw+vLcU/9MsTSelO6Mimzbq2NOCTeomC5Xh2I++JAZLh/291Q29HZXlPoStah3GT2crFV91vxLR2UrB1EAagBtER1U273V1jmPtjXg9FzeAJPlDntyGjoD4AdMH/f1C+NVUEpy2y3R0aiMPeTXulIA/QR9aQqEluWWv85JqsViiopMhJ6lvQq4vd5i12zyM=
-X-MS-Exchange-AntiSpam-MessageData: PID2cq9JMhx9O3M3PUugBrq9RvidErkhVFHwpz8zKGl/kEDStW+7QLAAf/x1Rzr7bZdANdKhKpZupLTCnDIUkI2XWBeXkI54yTwl6bmct/1fBbFTF9giq34Y7RQZ1xNK3iieqXQW4vVhvKWJlozw1I2sp4yWfXARbHQhZZADyiI/PUSFfl8ICBseH4SnhBtBOh8jRGCDpJhOCUUrQ/SDUQ==
+X-Microsoft-Antispam-Message-Info: y1PEe3/lyfbzJUc/Bt2UunptmCI5auL7QkGKXJs9kRqA6J7xelJOL/jKYbub/cAG53pAGIHOiNf81P8r9U+pcbOz8Su3llM53+4rgBmwjJF9iPA/bPCDUMfHRQZ4IfwQBoNGSB35i9fCw3AkGYUIaZDlqvd/OhC1+wxGsj2d2QCF86ljzkjWHvlMk9uvfq7wZOPz0a8HWyWUZGzz+Gk7U7WkaheEhyWLukD82HeRQFchwAFmFE8RxI36PyL8gfxM
+X-MS-Exchange-AntiSpam-MessageData: +HjGNDgykJ+Cwx+bQa/VYkqlsMaXQhxM7HyiLLH3nmPLXElTeFyNFVynDgL1fGWUJRIKN2D32PPmjVkkRjukBUeHZu8GqHGZlX+wvRaHt/i0nqv+TYr/EHF0FCBmIOLM+N+hhaC6+RVrMl2eV434dTBOOjJECae+08woiqqZYlBtaSao109bacsbLnMFS/f1hYfaJ2FM+a8Nx1GVuWuCFQ==
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2020 05:57:23.5450 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2020 05:57:28.3330 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5cc260a-5ad2-4e12-f065-08d8aaf5726c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f3458eb-0712-4858-d436-08d8aaf57547
 X-MS-Exchange-CrossTenant-AuthSource: SG2APC01FT037.eop-APC01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT178
-Received-SPF: pass client-ip=40.92.253.15; envelope-from=Qiuhao.Li@outlook.com;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT171
+Received-SPF: pass client-ip=40.92.253.38; envelope-from=Qiuhao.Li@outlook.com;
  helo=APC01-SG2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -121,92 +121,142 @@ Cc: thuth@redhat.com, Qiuhao Li <Qiuhao.Li@outlook.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of removing IO instructions one by one, we can try deleting multiple
-instructions at once. According to the locality of reference, we double the
-number of instructions to remove for the next round and recover it to one
-once we fail.
+Currently, we split the write commands' data from the middle. If it does not
+work, try to move the pivot left by one byte and retry until there is no
+space.
 
-This patch is usually significant for large input.
+But, this method has two flaws:
 
-Test with quadrupled trace input at:
-  https://bugs.launchpad.net/qemu/+bug/1890333/comments/1
+1. It may fail to trim all unnecessary bytes on the right side.
 
-Patched 1/6 version:
-  real  0m45.904s
-  user  0m16.874s
-  sys   0m10.042s
+For example, there is an IO write command:
 
-Refined version:
-  real  0m11.412s
-  user  0m6.888s
-  sys   0m3.325s
+  write addr uuxxxxuu
+
+u is the unnecessary byte for the crash. Unlike ram write commands, in most
+case, a split IO write won't trigger the same crash, So if we split from the
+middle, we will get:
+
+  write addr uu (will be removed in next round)
+  write addr xxxxuu
+
+For xxxxuu, since split it from the middle and retry to the leftmost byte
+won't get the same crash, we will be stopped from removing the last two
+bytes.
+
+2. The algorithm complexity is O(n) since we move the pivot byte by byte.
+
+To solve the first issue, we can try a symmetrical position on the right if
+we fail on the left. As for the second issue, instead moving by one byte, we
+can approach the boundary exponentially, achieving O(log(n)).
+
+Give an example:
+
+                   xxxxuu len=6
+                        +
+                        |
+                        +
+                 xxx,xuu 6/2=3 fail
+                        +
+         +--------------+-------------+
+         |                            |
+         +                            +
+  xx,xxuu 6/2^2=1 fail         xxxxu,u 6-1=5 success
+                                 +   +
+         +------------------+----+   |
+         |                  |        +-------------+ u removed
+         +                  +
+   xx,xxu 5/2=2 fail  xxxx,u 6-2=4 success
+                           +
+                           |
+                           +-----------+ u removed
+
+In some rare case, this algorithm will fail to trim all unnecessary bytes:
+
+  xxxxxxxxxuxxxxxx
+  xxxxxxxx-xuxxxxxx Fail
+  xxxx-xxxxxuxxxxxx Fail
+  xxxxxxxxxuxx-xxxx Fail
+  ...
+
+I think the trade-off is worth it.
 
 Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
 ---
- scripts/oss-fuzz/minimize_qtest_trace.py | 33 +++++++++++++++---------
- 1 file changed, 21 insertions(+), 12 deletions(-)
+ scripts/oss-fuzz/minimize_qtest_trace.py | 29 ++++++++++++++++--------
+ 1 file changed, 20 insertions(+), 9 deletions(-)
 
 diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-index a290dc0579..71fb0cef32 100755
+index 71fb0cef32..dd6eeb7258 100755
 --- a/scripts/oss-fuzz/minimize_qtest_trace.py
 +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-@@ -85,19 +85,28 @@ def minimize_trace(inpath, outpath):
- 
-     i = 0
-     newtrace = trace[:]
--    # For each line
-+    remove_step = 1
-     while i < len(newtrace):
--        # 1.) Try to remove it completely and reproduce the crash. If it works,
--        # we're done.
--        prior = newtrace[i]
--        print("Trying to remove {}".format(newtrace[i]))
--        # Try to remove the line completely
--        newtrace[i] = ""
-+        # 1.) Try to remove lines completely and reproduce the crash.
-+        # If it works, we're done.
-+        if (i+remove_step) >= len(newtrace):
-+            remove_step = 1
-+        prior = newtrace[i:i+remove_step]
-+        for j in range(i, i+remove_step):
-+            newtrace[j] = ""
-+        print("Removing {lines} ...".format(lines=prior))
+@@ -94,7 +94,7 @@ def minimize_trace(inpath, outpath):
+         prior = newtrace[i:i+remove_step]
+         for j in range(i, i+remove_step):
+             newtrace[j] = ""
+-        print("Removing {lines} ...".format(lines=prior))
++        print("Removing {lines} ...\n".format(lines=prior))
          if check_if_trace_crashes(newtrace, outpath):
--            i += 1
-+            i += remove_step
-+            # Double the number of lines to remove for next round
-+            remove_step *= 2
+             i += remove_step
+             # Double the number of lines to remove for next round
+@@ -107,9 +107,11 @@ def minimize_trace(inpath, outpath):
+             remove_step = 1
              continue
--        newtrace[i] = prior
--
-+        # Failed to remove multiple IOs, fast recovery
-+        if remove_step > 1:
-+            for j in range(i, i+remove_step):
-+                newtrace[j] = prior[j-i]
-+            remove_step = 1
-+            continue
-+        newtrace[i] = prior[0] # remove_step = 1
+         newtrace[i] = prior[0] # remove_step = 1
++
          # 2.) Try to replace write{bwlq} commands with a write addr, len
          # command. Since this can require swapping endianness, try both LE and
          # BE options. We do this, so we can "trim" the writes in (3)
-@@ -118,7 +127,7 @@ def minimize_trace(inpath, outpath):
-                 if(check_if_trace_crashes(newtrace, outpath)):
-                     break
-             else:
--                newtrace[i] = prior
-+                newtrace[i] = prior[0]
++
+         if (newtrace[i].startswith("write") and not
+             newtrace[i].startswith("write ")):
+             suffix = newtrace[i].split()[0][-1]
+@@ -130,11 +132,15 @@ def minimize_trace(inpath, outpath):
+                 newtrace[i] = prior[0]
  
          # 3.) If it is a qtest write command: write addr len data, try to split
-         # it into two separate write commands. If splitting the write down the
-@@ -151,7 +160,7 @@ def minimize_trace(inpath, outpath):
+-        # it into two separate write commands. If splitting the write down the
+-        # middle does not work, try to move the pivot "left" and retry, until
+-        # there is no space left. The idea is to prune unneccessary bytes from
+-        # long writes, while accommodating arbitrary MemoryRegion access sizes
+-        # and alignments.
++        # it into two separate write commands. If splitting the data operand 
++        # from length/2^n bytes to the left does not work, try to move the pivot
++        # to the right side, then add one to n, until length/2^n == 0. The idea
++        # is to prune unneccessary bytes from long writes, while accommodating 
++        # arbitrary MemoryRegion access sizes and alignments.
++
++        # This algorithm will fail under some rare situations.
++        # e.g., xxxxxxxxxuxxxxxx (u is the unnecessary byte)
++
+         if newtrace[i].startswith("write "):
+             addr = int(newtrace[i].split()[1], 16)
+             length = int(newtrace[i].split()[2], 16)
+@@ -143,6 +149,7 @@ def minimize_trace(inpath, outpath):
+                 leftlength = int(length/2)
+                 rightlength = length - leftlength
+                 newtrace.insert(i+1, "")
++                power = 1
+                 while leftlength > 0:
+                     newtrace[i] = "write {addr} {size} 0x{data}\n".format(
+                             addr=hex(addr),
+@@ -154,9 +161,13 @@ def minimize_trace(inpath, outpath):
+                             data=data[leftlength*2:])
+                     if check_if_trace_crashes(newtrace, outpath):
+                         break
+-                    else:
+-                        leftlength -= 1
+-                        rightlength += 1
++                    # move the pivot to right side
++                    if leftlength < rightlength:
++                        rightlength, leftlength = leftlength, rightlength
++                        continue
++                    power += 1
++                    leftlength = int(length/pow(2, power))
++                    rightlength = length - leftlength
                  if check_if_trace_crashes(newtrace, outpath):
                      i -= 1
                  else:
--                    newtrace[i] = prior
-+                    newtrace[i] = prior[0]
-                     del newtrace[i+1]
-         i += 1
-     check_if_trace_crashes(newtrace, outpath)
 -- 
 2.25.1
 
