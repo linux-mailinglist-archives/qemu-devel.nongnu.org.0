@@ -2,45 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE76B2E6B0E
+	by mail.lfdr.de (Postfix) with ESMTPS id 8949F2E6B0D
 	for <lists+qemu-devel@lfdr.de>; Mon, 28 Dec 2020 22:47:49 +0100 (CET)
-Received: from localhost ([::1]:42378 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ku0Mn-00084L-13
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 16:47:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39694)
+	id 1ku0Mm-00083h-6R
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 16:47:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ku0KL-0006z7-5W
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 16:45:18 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:28763)
+ id 1ku0KK-0006yv-4w
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 16:45:16 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:28750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ku0KH-0001I0-Dw
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 16:45:16 -0500
+ id 1ku0KH-0001Hy-E8
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 16:45:15 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 59DD07470E8;
- Mon, 28 Dec 2020 22:45:10 +0100 (CET)
+ by localhost (Postfix) with SMTP id D58A67470E3;
+ Mon, 28 Dec 2020 22:45:09 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id BAD2C7470E0; Mon, 28 Dec 2020 22:45:09 +0100 (CET)
-Message-Id: <17a50e58e6baa26440c7dac83f07fdbba1595439.1609191252.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1609191252.git.balaton@eik.bme.hu>
-References: <cover.1609191252.git.balaton@eik.bme.hu>
-Subject: [PATCH v3 2/2] via-ide: Fix fuloong2e support
+ id AEA3174646C; Mon, 28 Dec 2020 22:45:09 +0100 (CET)
+Message-Id: <cover.1609191252.git.balaton@eik.bme.hu>
+Subject: [PATCH v3 0/2] Fix via-ide for fuloong2e
 Date: Mon, 28 Dec 2020 22:34:12 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,99 +59,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-From: Guenter Roeck <linux@roeck-us.net>
+v3 with review comments from Mark addressed
 
-The IDE legacy mode emulation has been removed in commit 4ea98d317eb
-("ide/via: Implement and use native PCI IDE mode") but some Linux
-kernels (probably including def_config) require legacy mode on the
-Fuloong2e so only emulating native mode did not turn out feasible.
-Add property to via-ide model to make the mode configurable, and set
-legacy mode for Fuloong2e.
+BALATON Zoltan (1):
+  ide: Make room for flags in PCIIDEState and add one for legacy mode
 
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-[balaton: Use bit in flags for property, add comment for missing BAR4]
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
-v3: Use dash in property name
-v2: Reworded commit message
+Guenter Roeck (1):
+  via-ide: Fix fuloong2e support
 
- hw/ide/via.c        | 19 +++++++++++++++++--
- hw/mips/fuloong2e.c |  4 +++-
- 2 files changed, 20 insertions(+), 3 deletions(-)
+ hw/ide/cmd646.c      |  6 +++---
+ hw/ide/via.c         | 19 +++++++++++++++++--
+ hw/mips/fuloong2e.c  |  4 +++-
+ hw/sparc64/sun4u.c   |  2 +-
+ include/hw/ide/pci.h |  7 ++++++-
+ 5 files changed, 30 insertions(+), 8 deletions(-)
 
-diff --git a/hw/ide/via.c b/hw/ide/via.c
-index be09912b33..2d935b910f 100644
---- a/hw/ide/via.c
-+++ b/hw/ide/via.c
-@@ -26,6 +26,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/pci/pci.h"
-+#include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
- #include "qemu/module.h"
- #include "sysemu/dma.h"
-@@ -185,12 +186,19 @@ static void via_ide_realize(PCIDevice *dev, Error **errp)
-                           &d->bus[1], "via-ide1-cmd", 4);
-     pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO, &d->cmd_bar[1]);
- 
--    bmdma_setup_bar(d);
--    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
-+    if (!(d->flags & BIT(PCI_IDE_LEGACY_MODE))) {
-+        /* Missing BAR4 will make Linux driver fall back to legacy PIO mode */
-+        bmdma_setup_bar(d);
-+        pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
-+    }
- 
-     qdev_init_gpio_in(ds, via_ide_set_irq, 2);
-     for (i = 0; i < 2; i++) {
-         ide_bus_new(&d->bus[i], sizeof(d->bus[i]), ds, i, 2);
-+        if (d->flags & BIT(PCI_IDE_LEGACY_MODE)) {
-+            ide_init_ioport(&d->bus[i], NULL, i ? 0x170 : 0x1f0,
-+                            i ? 0x376 : 0x3f6);
-+        }
-         ide_init2(&d->bus[i], qdev_get_gpio_in(ds, i));
- 
-         bmdma_init(&d->bus[i], &d->bmdma[i], d);
-@@ -210,6 +218,12 @@ static void via_ide_exitfn(PCIDevice *dev)
-     }
- }
- 
-+static Property via_ide_properties[] = {
-+    DEFINE_PROP_BIT("legacy-mode", PCIIDEState, flags, PCI_IDE_LEGACY_MODE,
-+                    false),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void via_ide_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -223,6 +237,7 @@ static void via_ide_class_init(ObjectClass *klass, void *data)
-     k->device_id = PCI_DEVICE_ID_VIA_IDE;
-     k->revision = 0x06;
-     k->class_id = PCI_CLASS_STORAGE_IDE;
-+    device_class_set_props(dc, via_ide_properties);
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
- }
- 
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 45c596f4fe..d334fde389 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -253,7 +253,9 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
-     /* Super I/O */
-     isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
- 
--    dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
-+    dev = pci_new(PCI_DEVFN(slot, 1), "via-ide");
-+    qdev_prop_set_bit(&dev->qdev, "legacy-mode", true);
-+    pci_realize_and_unref(dev, pci_bus, &error_fatal);
-     pci_ide_create_devs(dev);
- 
-     pci_create_simple(pci_bus, PCI_DEVFN(slot, 2), "vt82c686b-usb-uhci");
 -- 
 2.21.3
 
