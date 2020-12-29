@@ -2,91 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB412E7236
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 17:21:41 +0100 (CET)
-Received: from localhost ([::1]:52366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFA32E725E
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 17:38:11 +0100 (CET)
+Received: from localhost ([::1]:35682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuHki-0000IP-Dh
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 11:21:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39898)
+	id 1kuI0f-0006L0-J9
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 11:38:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kuHj6-0008Ax-Vw
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 11:20:01 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:57352)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kuHj4-0008KA-Iu
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 11:20:00 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BTGARjd080633;
- Tue, 29 Dec 2020 16:19:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=7lnUwgzL71hq8UfoLtDp6cunTYS2Wr18vskDpxS8TRc=;
- b=YLrLrMZHKM/OxKismic5A7X/w4+6QLRu9WLNva2O+UjVGWOWOr90Z+aRxnHB5f9BxM1J
- JEyDEOo8vbtx5q37dXNPy1gIITzcJIpAS2gcQgoB9AZXVj9s5sCtzuW2TCcuuGc1TNh/
- Wf8ATqYuYHrkS2uuMCRNHI3RH5tT2djwNf5tPi+RwZAmKAuSk4WByvSudeOwxSB1FXxI
- g+MC3GON/Tsd98CNp7T1GVZnPaU21RmWon5+l+A6M1bq2X775tzZC0wxT04YcrycFlx/
- e4foRPOl2kuQeslf/IvkrQAcG0BjCb54QjS+rkad+c/IsFT0h0MZf3tn/IGTRYjUeBTl ug== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2130.oracle.com with ESMTP id 35ntpapu84-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 29 Dec 2020 16:19:38 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BTGB3U3084650;
- Tue, 29 Dec 2020 16:17:37 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3030.oracle.com with ESMTP id 35pf3wt6qq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 29 Dec 2020 16:17:37 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BTGHY3v002128;
- Tue, 29 Dec 2020 16:17:34 GMT
-Received: from dhcp-10-39-219-163.vpn.oracle.com (/10.39.219.163)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 29 Dec 2020 08:17:33 -0800
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: [PATCH] multi-process: Acceptance test for multiprocess QEMU
-From: Jag Raman <jag.raman@oracle.com>
-In-Reply-To: <20201223184940.GA251460@heatpipe>
-Date: Tue, 29 Dec 2020 11:17:30 -0500
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <1CFD4614-B351-487A-B01D-1F2D0E282FC5@oracle.com>
-References: <785772783205140e219b8bfe7f793305ee768f03.1608705805.git.elena.ufimtseva@oracle.com>
- <CAJ+F1C+D6zjN-exiJnevB_GB58xCPcP7TpCHHzYxWm7BvOi3dw@mail.gmail.com>
- <20201223184940.GA251460@heatpipe>
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9849
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- malwarescore=0 adultscore=0
- mlxlogscore=999 suspectscore=0 spamscore=0 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012290101
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9849
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- suspectscore=0
- malwarescore=0 adultscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015
- phishscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012290101
-Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
- helo=aserp2130.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <sylvain.pelissier@gmail.com>)
+ id 1kuHzk-0005r4-SB; Tue, 29 Dec 2020 11:37:12 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:46862)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sylvain.pelissier@gmail.com>)
+ id 1kuHzh-00021D-Ca; Tue, 29 Dec 2020 11:37:11 -0500
+Received: by mail-ed1-x532.google.com with SMTP id b73so13051704edf.13;
+ Tue, 29 Dec 2020 08:37:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2XT2FdV5wWIy/gTC3KJ+nwVAuXNYihAu5Q3n90B8RKw=;
+ b=i3u0h2ysY19JrO9kfr0QTLVj2evGA26yTPfOOMJORBY21sBSpqO8rH/+g7Ad9iz5cl
+ WOOt4L9YZ8hJde9d7lZ6E9njFDE/EF6C2dMmynGAgd5nGlFeUHkYgOSzY7TUFQEczkLD
+ 5Y6aTJERss78cnLhATHDWmkoaex2mAQN5v6fCCnXf7du+PuFrMjXwIGr4og1Z0rnkXTp
+ uMDf11aj2qDxAdcLG8JMoaEuuwiWIwOw2SH+g9HlDvCcQN4deepKc56Als0JET3MIP0s
+ PZuAFSsxQPk6rqKrIwx3p1XN1IKd9sFWuxwkFnwjMxBobvWtFfw+HgdlIj02NdaWXOIJ
+ zmHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2XT2FdV5wWIy/gTC3KJ+nwVAuXNYihAu5Q3n90B8RKw=;
+ b=NetWVzd54GsrwRyz8kjP5tSxQI5nFQ1Zu3Dns1csSj2ufb3mzbawrKE5w+vQg4dwvS
+ OUJNotCK6horfcu5lpTPeUJx65+k5YVvs/Px1yoS3qWxEkw+y7YEVTI771XEliiuAwK8
+ CZh01kS0XTufi2gE2k5EOg5OZ9HR7s1EIs3rX2zdOXDAiqJbTI/Ir/MVOswycX8bI9z2
+ wT3hNhPoj7u608jS9QB0DnoAEDZE37xXgUIuMW3I1dZZySeJ5ZI2PvEC4bh6O5QAu1SQ
+ qULv31R5XKgfByIEuQT1aLOgb3Vn0gWRCESwK7muVtRt4/TyAU7SL3qZ6EZJpAp3dJtE
+ v8JA==
+X-Gm-Message-State: AOAM530Cdxz30o1KCX+crUUNOkI/0LmECnM0+INmEu2tef9Je0rq1LX5
+ 4Q1MaTee139Y7IUyJ1siQKiDbk2x7um7gr68UnY=
+X-Google-Smtp-Source: ABdhPJz/l2PGiFQPF6H9suh+lcfNDUS/pCElZTrd3BMyMdS3KUmFsQqtK3dM62eed+/yPwCnyVcvA/fXBFBRPgEKreA=
+X-Received: by 2002:aa7:dc0d:: with SMTP id b13mr46979854edu.170.1609259826415; 
+ Tue, 29 Dec 2020 08:37:06 -0800 (PST)
+MIME-Version: 1.0
+References: <CAOkUe-DTG1yU-z4SF-+nBeEJUWdx5gctLMSNp8f1+_7FpWG4aA@mail.gmail.com>
+ <CAEUhbmV5oMNW3fS7v81vgB-j0NbAnRnMB-ehm5BT8rk4uWGdYg@mail.gmail.com>
+In-Reply-To: <CAEUhbmV5oMNW3fS7v81vgB-j0NbAnRnMB-ehm5BT8rk4uWGdYg@mail.gmail.com>
+From: Sylvain Pelissier <sylvain.pelissier@gmail.com>
+Date: Tue, 29 Dec 2020 17:36:55 +0100
+Message-ID: <CAOkUe-BWEVpzwHLPzUMzuUK12RQdUds-tCEWcyhrZeWDh9AaHw@mail.gmail.com>
+Subject: Re: [PATCH] gdb: riscv: Add target description
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000004e0a8b05b79d00ba"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=sylvain.pelissier@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,222 +75,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, John G Johnson <john.g.johnson@oracle.com>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Ross Lagerwall <ross.lagerwall@citrix.com>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--0000000000004e0a8b05b79d00ba
+Content-Type: text/plain; charset="UTF-8"
 
+Thank you for your remark here is the new patch:
 
-> On Dec 23, 2020, at 1:49 PM, Elena Ufimtseva =
-<elena.ufimtseva@oracle.com> wrote:
->=20
-> On Wed, Dec 23, 2020 at 03:01:24PM +0400, Marc-Andr=C3=A9 Lureau =
-wrote:
->> Hi
->>=20
->> On Wed, Dec 23, 2020 at 10:45 AM <elena.ufimtseva@oracle.com> wrote:
->>=20
->>> From: Jagannathan Raman <jag.raman@oracle.com>
->>>=20
->>> Runs the Avocado acceptance test to check if a
->>> remote lsi53c895a device gets identified by the guest.
->>>=20
->>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
->>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
->>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
->>> ---
->>> tests/acceptance/multiprocess.py | 104 =
-+++++++++++++++++++++++++++++++
->>> 1 file changed, 104 insertions(+)
->>> create mode 100644 tests/acceptance/multiprocess.py
->>>=20
->>> diff --git a/tests/acceptance/multiprocess.py
->>> b/tests/acceptance/multiprocess.py
->>> new file mode 100644
->>> index 0000000000..d10b4d2c05
->>> --- /dev/null
->>> +++ b/tests/acceptance/multiprocess.py
->>> @@ -0,0 +1,104 @@
->>> +# Test for multiprocess qemu
->>> +#
->>> +# This work is licensed under the terms of the GNU GPL, version 2 =
-or
->>> +# later.  See the COPYING file in the top-level directory.
->>> +
->>> +
->>> +from avocado_qemu import Test
->>> +from avocado_qemu import wait_for_console_pattern
->>> +from avocado_qemu import exec_command_and_wait_for_pattern
->>> +
->>> +from qemu.accel import kvm_available
->>> +
->>> +import os
->>> +import socket
->>> +
->>> +ACCEL_NOT_AVAILABLE_FMT =3D "%s accelerator does not seem to be =
-available"
->>> +KVM_NOT_AVAILABLE =3D ACCEL_NOT_AVAILABLE_FMT % "KVM"
->>> +
->>> +class Multiprocess(Test):
->>> +    """
->>> +    :avocado: tags=3Dmultiprocess
->>> +    """
->>> +    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
->>> +
->>> +    def wait_for_console_pattern(self, success_message, vm=3DNone):
->>> +        wait_for_console_pattern(self, success_message,
->>> +                                 failure_message=3D'Kernel panic - =
-not
->>> syncing',
->>> +                                 vm=3Dvm)
->>> +
->>> +    def do_test(self, kernel_url, initrd_url, kernel_command_line,
->>> +                machine_type):
->>> +        if not kvm_available(self.arch, self.qemu_bin):
->>> +            self.cancel(KVM_NOT_AVAILABLE)
->>> +
->>> +        # Create socketpair to connect proxy and remote processes
->>> +        proxy_sock, remote_sock =3D =
-socket.socketpair(socket.AF_UNIX,
->>> +                                                    =
-socket.SOCK_STREAM)
->>> +        os.set_inheritable(proxy_sock.fileno(), True)
->>> +        os.set_inheritable(remote_sock.fileno(), True)
->>> +
->>> +        kernel_path =3D self.fetch_asset(kernel_url)
->>> +        initrd_path =3D self.fetch_asset(initrd_url)
->>> +
->>> +        # Create remote process
->>> +        remote_vm =3D self.get_vm()
->>> +        remote_vm.add_args('-machine', 'x-remote')
->>> +        remote_vm.add_args('-nodefaults')
->>> +        remote_vm.add_args('-device', 'lsi53c895a,id=3Dlsi1')
->>> +        remote_vm.add_args('-object', 'x-remote-object,id=3Drobj1,'
->>> +                           =
-'devid=3Dlsi1,fd=3D'+str(remote_sock.fileno()))
->>> +        remote_vm.launch()
->>> +
->>> +        # Create proxy process
->>> +        self.vm.set_console()
->>> +        self.vm.add_args('-machine', machine_type)
->>> +        self.vm.add_args('-accel', 'kvm')
->>> +        self.vm.add_args('-cpu', 'host')
->>> +        self.vm.add_args("-object",
->>> +                         =
-"memory-backend-memfd,id=3Dsysmem-file,size=3D2G")
->>> +        self.vm.add_args("--numa", "node,memdev=3Dsysmem-file")
->>> +        self.vm.add_args("-m", "2048")
->>> +        self.vm.add_args('-kernel', kernel_path,
->>> +                         '-initrd', initrd_path,
->>> +                         '-append', kernel_command_line)
->>> +        self.vm.add_args('-device',
->>> +                         'x-pci-proxy-dev,'
->>> +                         'id=3Dlsi1,fd=3D'+str(proxy_sock.fileno()))
->>> +        self.vm.launch()
->>> +        self.wait_for_console_pattern("as init process")
->>> +        exec_command_and_wait_for_pattern(self, "mount -t sysfs =
-sysfs
->>> /sys",
->>> +                                          '', '')
->>> +        exec_command_and_wait_for_pattern(self,
->>> +                                          "cat
->>> /sys/bus/pci/devices/*/uevent",
->>> +                                          "PCI_ID=3D1000:0012", '')
->>> +
->>> +    def test_multiprocess_x86_64(self):
->>> +        """
->>> +        :avocado: tags=3Darch:x86_64
->>> +        """
->>> +        kernel_url =3D ('
->>> https://archives.fedoraproject.org/pub/archive/fedora'
->>> +                      =
-'/linux/releases/31/Everything/x86_64/os/images'
->>> +                      '/pxeboot/vmlinuz')
->>> +        initrd_url =3D ('
->>> https://archives.fedoraproject.org/pub/archive/fedora'
->>> +                      =
-'/linux/releases/31/Everything/x86_64/os/images'
->>> +                      '/pxeboot/initrd.img')
->>> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
->>> +                               'console=3DttyS0 rdinit=3D/bin/bash')
->>> +        machine =3D 'pc'
->>> +        self.do_test(kernel_url, initrd_url, kernel_command_line, =
-machine)
->>> +
->>> +    def test_multiprocess_aarch64(self):
->>> +        """
->>> +        :avocado: tags=3Darch:aarch64
->>> +        """
->>> +        kernel_url =3D ('
->>> https://archives.fedoraproject.org/pub/archive/fedora'
->>> +                      =
-'/linux/releases/31/Everything/aarch64/os/images'
->>> +                      '/pxeboot/vmlinuz')
->>> +        initrd_url =3D ('
->>> https://archives.fedoraproject.org/pub/archive/fedora'
->>> +                      =
-'/linux/releases/31/Everything/aarch64/os/images'
->>> +                      '/pxeboot/initrd.img')
->>> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
->>> +                               'rdinit=3D/bin/bash =
-console=3DttyAMA0')
->>> +        machine_type =3D 'virt,gic-version=3D3'
->>> +        self.do_test(kernel_url, initrd_url, kernel_command_line,
->>> machine_type)
->>> --
->>> 2.25.GIT
->>>=20
->>>=20
->> The test looks quite nice, thanks. However, it times out for me. I =
-have
->> very limited experience with avocado. Any idea?
->=20
-> Thanks Marc-Andre!
->=20
->> (13/40)
->> =
-tests/acceptance/multiprocess.py:Multiprocess.test_multiprocess_x86_64:
->> ERROR: timed out (211.81 s)
->=20
-> Can you check what is in the log file?
-> Should show the log file name before it gets cancelled.
->=20
-> I have it on my system at =
-$HOME/avocado/job-results/job-2020-12-23T10.37-452c8ab/job.log.
+Signed-off-by: Sylvain Pelissier <sylvain.pelissier@gmail.com>
+---
+ target/riscv/cpu.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Hi Marc-Andre,
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 254cd83f8b..ed4971978b 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -556,6 +556,18 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
 
-Thank you very much for taking a loot at it. If you are able to share =
-the test log,
-that would be helpful to see what is causing the timeout.
++static gchar *riscv_gdb_arch_name(CPUState *cs)
++{
++    RISCVCPU *cpu = RISCV_CPU(cs);
++    CPURISCVState *env = &cpu->env;
++
++    if (riscv_cpu_is_32bit(env)) {
++        return g_strdup("riscv:rv32");
++    } else {
++        return g_strdup("riscv:rv64");
++    }
++}
++
+ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+ {
+     RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
+@@ -591,6 +603,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void
+*data)
+     /* For now, mark unmigratable: */
+     cc->vmsd = &vmstate_riscv_cpu;
+ #endif
++    cc->gdb_arch_name = riscv_gdb_arch_name;
+ #ifdef CONFIG_TCG
+     cc->tcg_initialize = riscv_translate_init;
+     cc->tlb_fill = riscv_cpu_tlb_fill;
+-- 
+2.25.1
 
-=E2=80=94
-Jag
+Regards
 
->=20
-> Thank you!
->=20
-> Elena
->>=20
->>=20
->> --=20
->> Marc-Andr=C3=A9 Lureau
->=20
+Sylvain
 
+On Tue, 29 Dec 2020 at 05:11, Bin Meng <bmeng.cn@gmail.com> wrote:
+
+> On Thu, Dec 24, 2020 at 1:09 AM Sylvain Pelissier
+> <sylvain.pelissier@gmail.com> wrote:
+> >
+> > Target description is not currently implemented in RISC-V architecture.
+> Thus GDB won't set it properly when attached. The patch implements the
+> target description response.
+> >
+> > Signed-off-by: Sylvain Pelissier <sylvain.pelissier@gmail.com>
+> > ---
+> >  target/riscv/cpu.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index 254cd83f8b..489d66038c 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -556,6 +556,15 @@ static Property riscv_cpu_properties[] = {
+> >      DEFINE_PROP_END_OF_LIST(),
+> >  };
+> >
+> > +static gchar *riscv_gdb_arch_name(CPUState *cs)
+> > +{
+> > +    #ifdef TARGET_RISCV64
+>
+> Use riscv_cpu_is_32bit() instead of #ifdefs
+>
+> > +        return g_strdup("riscv:rv64");
+> > +    #else
+> > +        return g_strdup("riscv:rv32");
+> > +    #endif
+> > +}
+> > +
+> >  static void riscv_cpu_class_init(ObjectClass *c, void *data)
+> >  {
+> >      RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
+> > @@ -591,6 +600,7 @@ static void riscv_cpu_class_init(ObjectClass *c,
+> void *data)
+> >      /* For now, mark unmigratable: */
+> >      cc->vmsd = &vmstate_riscv_cpu;
+> >  #endif
+> > +    cc->gdb_arch_name = riscv_gdb_arch_name;
+> >  #ifdef CONFIG_TCG
+> >      cc->tcg_initialize = riscv_translate_init;
+> >      cc->tlb_fill = riscv_cpu_tlb_fill;
+> > --
+>
+> Regards,
+> Bin
+>
+
+--0000000000004e0a8b05b79d00ba
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thank you for your remark here is the new patch:</div=
+><div><br></div><div>Signed-off-by: Sylvain Pelissier &lt;<a href=3D"mailto=
+:sylvain.pelissier@gmail.com">sylvain.pelissier@gmail.com</a>&gt;<br>---<br=
+>=C2=A0target/riscv/cpu.c | 13 +++++++++++++<br>=C2=A01 file changed, 13 in=
+sertions(+)<br><br>diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>=
+index 254cd83f8b..ed4971978b 100644<br>--- a/target/riscv/cpu.c<br>+++ b/ta=
+rget/riscv/cpu.c<br>@@ -556,6 +556,18 @@ static Property riscv_cpu_properti=
+es[] =3D {<br>=C2=A0 =C2=A0 =C2=A0DEFINE_PROP_END_OF_LIST(),<br>=C2=A0};<br=
+>=C2=A0<br>+static gchar *riscv_gdb_arch_name(CPUState *cs)<br>+{<br>+ =C2=
+=A0 =C2=A0RISCVCPU *cpu =3D RISCV_CPU(cs);<br>+ =C2=A0 =C2=A0CPURISCVState =
+*env =3D &amp;cpu-&gt;env;<br>+<br>+ =C2=A0 =C2=A0if (riscv_cpu_is_32bit(en=
+v)) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0return g_strdup(&quot;riscv:rv32&quot=
+;);<br>+ =C2=A0 =C2=A0} else {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0return g_str=
+dup(&quot;riscv:rv64&quot;);<br>+ =C2=A0 =C2=A0}<br>+}<br>+<br>=C2=A0static=
+ void riscv_cpu_class_init(ObjectClass *c, void *data)<br>=C2=A0{<br>=C2=A0=
+ =C2=A0 =C2=A0RISCVCPUClass *mcc =3D RISCV_CPU_CLASS(c);<br>@@ -591,6 +603,=
+7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)<br>=C2=A0=
+ =C2=A0 =C2=A0/* For now, mark unmigratable: */<br>=C2=A0 =C2=A0 =C2=A0cc-&=
+gt;vmsd =3D &amp;vmstate_riscv_cpu;<br>=C2=A0#endif<br>+ =C2=A0 =C2=A0cc-&g=
+t;gdb_arch_name =3D riscv_gdb_arch_name;<br>=C2=A0#ifdef CONFIG_TCG<br>=C2=
+=A0 =C2=A0 =C2=A0cc-&gt;tcg_initialize =3D riscv_translate_init;<br>=C2=A0 =
+=C2=A0 =C2=A0cc-&gt;tlb_fill =3D riscv_cpu_tlb_fill;<br>-- <br>2.25.1</div>=
+<div><br></div><div>Regards</div><div><br></div><div>Sylvain<br></div></div=
+><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tu=
+e, 29 Dec 2020 at 05:11, Bin Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com"=
+>bmeng.cn@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">On Thu, Dec 24, 2020 at 1:09 AM Sylvain Pelissier<br>
+&lt;<a href=3D"mailto:sylvain.pelissier@gmail.com" target=3D"_blank">sylvai=
+n.pelissier@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Target description is not currently implemented in RISC-V architecture=
+. Thus GDB won&#39;t set it properly when attached. The patch implements th=
+e target description response.<br>
+&gt;<br>
+&gt; Signed-off-by: Sylvain Pelissier &lt;<a href=3D"mailto:sylvain.pelissi=
+er@gmail.com" target=3D"_blank">sylvain.pelissier@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 target/riscv/cpu.c | 10 ++++++++++<br>
+&gt;=C2=A0 1 file changed, 10 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+&gt; index 254cd83f8b..489d66038c 100644<br>
+&gt; --- a/target/riscv/cpu.c<br>
+&gt; +++ b/target/riscv/cpu.c<br>
+&gt; @@ -556,6 +556,15 @@ static Property riscv_cpu_properties[] =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_END_OF_LIST(),<br>
+&gt;=C2=A0 };<br>
+&gt;<br>
+&gt; +static gchar *riscv_gdb_arch_name(CPUState *cs)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 #ifdef TARGET_RISCV64<br>
+<br>
+Use riscv_cpu_is_32bit() instead of #ifdefs<br>
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return g_strdup(&quot;riscv:rv64&quot;);<=
+br>
+&gt; +=C2=A0 =C2=A0 #else<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return g_strdup(&quot;riscv:rv32&quot;);<=
+br>
+&gt; +=C2=A0 =C2=A0 #endif<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 static void riscv_cpu_class_init(ObjectClass *c, void *data)<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 RISCVCPUClass *mcc =3D RISCV_CPU_CLASS(c);<br>
+&gt; @@ -591,6 +600,7 @@ static void riscv_cpu_class_init(ObjectClass *c, v=
+oid *data)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 /* For now, mark unmigratable: */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 cc-&gt;vmsd =3D &amp;vmstate_riscv_cpu;<br>
+&gt;=C2=A0 #endif<br>
+&gt; +=C2=A0 =C2=A0 cc-&gt;gdb_arch_name =3D riscv_gdb_arch_name;<br>
+&gt;=C2=A0 #ifdef CONFIG_TCG<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 cc-&gt;tcg_initialize =3D riscv_translate_init;<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 cc-&gt;tlb_fill =3D riscv_cpu_tlb_fill;<br>
+&gt; --<br>
+<br>
+Regards,<br>
+Bin<br>
+</blockquote></div>
+
+--0000000000004e0a8b05b79d00ba--
 
