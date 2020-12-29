@@ -2,97 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8381B2E6D35
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 03:17:51 +0100 (CET)
-Received: from localhost ([::1]:47820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA4B2E6D32
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 03:16:01 +0100 (CET)
+Received: from localhost ([::1]:44626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ku4a6-0004PV-A0
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 21:17:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49110)
+	id 1ku4YK-00030C-8v
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 21:16:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1ku4TC-0007GY-5t
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 21:10:42 -0500
-Received: from mail-oln040092255086.outbound.protection.outlook.com
- ([40.92.255.86]:24420 helo=APC01-HK2-obe.outbound.protection.outlook.com)
+ id 1ku4Tu-0008CE-KM
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 21:11:26 -0500
+Received: from mail-oln040092255056.outbound.protection.outlook.com
+ ([40.92.255.56]:56960 helo=APC01-HK2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1ku4TA-0005Ql-Iz
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 21:10:41 -0500
+ id 1ku4Tr-0005hc-J4
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 21:11:26 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=doprTGn4uyexKvBctHFzDU2zZYQCX1HFyOErEOjLm3yEpbMQNJ/9ul+R6J4Lo+CraOc8q1CL1lc4Vulzuebeeu3pfQwyvXwgnlr9g+b+CX+E1uzSf+yd0ti4cPpohTDd8GSISef7nfwx7gD+YVrQievmXFQC+AAtj0wd1izDqUG2lnLka6Ha6VewhHZ+jLKxvCIBskrIpO6PtFJpucT9SJ0qUea9WCig3oGwXeUNNijem1pl6ewOr6bYjYScJPDaYKwha9gja0norpIksAX2xk9i6qeNvR7SZbDiaZvhFYkCLDoj10ZkVnTk2nR0amytO3q6Etd6TwLgisxZ4daBAw==
+ b=Fu+b6B6gfwV5wZDqpwLd7rLCngzFvwplMd9LJlc4kh6HkMmGKg78RbX5VZUuJpkSYsdq2w0OAxY95ATqbewnRa9Uysj2va3KguXhb8SJxYebHjn0/Emlr7KPXxl3wWeFae2W/OlI+G+b3kcvDBMKCKeICxrg54nhHsP7w8ypBkp0B7lGhzAYMl4+6eYpuWYqj9+HN3VTJcAcHhW7ONU1PnTI5aRR7WZ4hE0RQiMmj0ftXjMhIWLwqZjIHrlQcyYuIIZ/GTthgWS4cTPhLNK1YMuQfF5OePBNAl1RCOAeo9p49o6vhHC2rTPgsbCHqlBbaHUFKuKPNZ9G5RtnnCKViA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hFFrsXyOqwEN+9+LuRl97Z4XXwqRLuRZWbhWWfOejTY=;
- b=IDDJJ1UkZFBGhbXOXsWsTPkrD+OoHT6AZUUkLE+m1+JiN7GYjnInCOBge1wHJ7DhnTJwD+7yxMKJ7zrYwp1tOJHfmytHDjtzwrkMfzTj9KFR78Fz7CvbCiB1M3My33+EsrWDLNwuWlj9VeaEBYGSLug3Zy4oF9SMBayl1uCluLk93o0iRQGJsNHfAP3AZZoMkWR1xHK3quDOsCPsHXjH2bERBl6ypFoRBNoVECh783gqLHpquNbmy/GgZAO14Z/NaLnni26yaKVImT5L4A2CCqLeMLAaVdnTD+8Z5yG48kRYViO9cBP7HaPhxkQZaJ0RCbIXGxor0C7bDfkJP/tR7A==
+ bh=Lwq/Wv2Xi8oD+fI0lO/167munApcJZXUgnXwZCDlFZA=;
+ b=SyNSwqwZdO9lyOsEUWeiUG0TIU2NlrmzFuXKqH7dRq0xNCUw7A6w0bQJr+jXydnOLrhiAfO9cGBwpkGs7sgPuRWHsZo2DeRiGoFhosOZ4kNcoh+e/+0j7F2AiAsz4wa6Hk0V59AdDmmWiCOr7B6fioM4kehI72/3wwia16t26y3TStdFFurlydzywepW4BEH2RjUKKCFwRsRL8ROVRuubp2khJ+2nJcJse5S6XZZFzLEzOPkRS8qI3HUFUedaLoALYzstfqVffN/KFgTihIXaS2Jg5hQrpLyNPEabudYcB8xN+V4oUP1zVG6M9jWDg5vzzLc3k8L5JyDm49cSxGXog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hFFrsXyOqwEN+9+LuRl97Z4XXwqRLuRZWbhWWfOejTY=;
- b=WRPp5ATFALcy2D8G1v3JMEdRMD0tZeWNDp4j5ijJLQNpREq15Amzqb3bK0OSnZmBhUOpO32Ic0APa9Bu6+sMFX1Vnk+PZhsFyj5a3K2Od5EEvvTF6pwlDrJBGagnYw3hbTHpEDrJ02BuiZFAr3KkFE8YOLK6jRz9hUlFb5u2q11y1RfXo9Bdl/cCPZXOWMg4/CN8WVvutn4qHEOpL7FAn3/gUsVg3gPwQKk2v7eyo+224BSgeikq5xRfORQ2zhmfxe3kx7qb9pLMkJ+VdsJun+k+mbM8GoHqy6IVi0UlaT4Ta9g8sMSKGM6dL3MZ2mL5Sk1s73+ZJnep9P2WY/3YsA==
+ bh=Lwq/Wv2Xi8oD+fI0lO/167munApcJZXUgnXwZCDlFZA=;
+ b=W5dyoRKyEoxeoRanUza0PeEeqG5BI884e5PaFcQ35kdDvdGlmkraIpl52MGUBDUASeZE995bzmQqqtmk3Cq9AIOWM0QJkjyI/8KOBV++p5HzEGHtpwnmOV+VTw9gO3pZ+HPolPGyFDyR8xm7M5wXODf9dR0xCNWCm62J4o9cY9MTrv0hs/jUeD7EQBgrwllYmoQrIamkVZPAG4EgeX9HaSQc2VYD4EB7Ekoohb5KRKuA5kV1C+z9l05h0ELLWn12Z7WrI2z0bGBGm6j23RAMP4t/JgdLwdAFTVY0pEgRVrIHjZJijHCTpIP+5ITi/JWbCll3L7223Mw3NR3enKRcAw==
 Received: from SG2APC01FT031.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebd::4a) by
- SG2APC01HT127.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebd::299)
+ (2a01:111:e400:7ebd::43) by
+ SG2APC01HT210.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebd::471)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.27; Tue, 29 Dec
- 2020 02:10:32 +0000
+ 2020 02:11:06 +0000
 Received: from ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM (10.152.250.54) by
  SG2APC01FT031.mail.protection.outlook.com (10.152.250.217) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3700.27 via Frontend Transport; Tue, 29 Dec 2020 02:10:32 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:15B8999518A8AE751B818D7F2963264CA6EB3A95F3BE2E67200B4C73B5D4A0D1;
- UpperCasedChecksum:6ED3CCCC2516E34B0CB248DC617314B265F5B9BAD001CBFE0D488BFCF0BEA42D;
- SizeAsReceived:7678; Count:47
+ 15.20.3700.27 via Frontend Transport; Tue, 29 Dec 2020 02:11:06 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:BA458ADE3EA70CC96A43C445345A00FA1FE4A7C7EB8667D0FA476AB308339114;
+ UpperCasedChecksum:421C27A553187A4AB298E339C731E45B812E419DC0D65EF0D2E904424B17DFEC;
+ SizeAsReceived:7657; Count:47
 Received: from ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
  ([fe80::88cb:2262:60f7:7d1e]) by ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
  ([fe80::88cb:2262:60f7:7d1e%8]) with mapi id 15.20.3700.031; Tue, 29 Dec 2020
- 02:10:32 +0000
+ 02:11:06 +0000
 From: Qiuhao Li <Qiuhao.Li@outlook.com>
 To: alxndr@bu.edu,
 	qemu-devel@nongnu.org
-Subject: [PATCH v3 6/7] fuzz: set bits in operand of write/out to zero
-Date: Tue, 29 Dec 2020 10:07:12 +0800
-Message-ID: <ME3P282MB17450BF9D0CA83A197CD2550FCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
+Subject: [PATCH v3 7/7] fuzz: heuristic split write based on past IOs
+Date: Tue, 29 Dec 2020 10:07:13 +0800
+Message-ID: <ME3P282MB17458346D25787EE6C301F5AFCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <ME3P282MB17451412C0E506C9D5108B35FCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
 References: <ME3P282MB17451412C0E506C9D5108B35FCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [dDuz+XTxC8iulmyDdc4PAyWGXlvaEOBRDGBU71KPz1vG/knrMy3KLnD27EAFrPkd]
-X-ClientProxiedBy: TYAPR01CA0151.jpnprd01.prod.outlook.com
- (2603:1096:404:7e::19) To ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
+X-TMN: [w0Z9rD0rmFIWf+z3KjOnoGyiOj9hQaDfwDBzmTdDSl8LqEK6skroAcMCVQmkmXff]
+X-ClientProxiedBy: TY2PR02CA0057.apcprd02.prod.outlook.com
+ (2603:1096:404:e2::21) To ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
  (2603:10c6:220:ac::12)
-X-Microsoft-Original-Message-ID: <20201229020713.3699486-6-Qiuhao.Li@outlook.com>
+X-Microsoft-Original-Message-ID: <20201229020713.3699486-7-Qiuhao.Li@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from pc (2001:250:fe01:130:6d26:2348:77a5:f7ed) by
- TYAPR01CA0151.jpnprd01.prod.outlook.com (2603:1096:404:7e::19) with Microsoft
+ TY2PR02CA0057.apcprd02.prod.outlook.com (2603:1096:404:e2::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3700.27 via Frontend Transport; Tue, 29 Dec 2020 02:10:31 +0000
+ 15.20.3700.27 via Frontend Transport; Tue, 29 Dec 2020 02:11:05 +0000
 X-MS-PublicTrafficType: Email
 X-IncomingHeaderCount: 47
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 4faaeb05-87d6-4eaa-e6ae-08d8ab9eebcf
-X-MS-Exchange-SLBlob-MailProps: S/btQ8cKWiRaJ+ox6yOiFxhBa7ZFYMmiFdisKjXH2mGj/R4HiUiBkxcRJasARBjKNv58/WNGBNCOC5XQLUx7qBk+SnL5A7QQk4/o4R80kf30dTnV4zGzu0GDfHH3KDQwM6ct4XQy46XciXuQZ/zO7xMe99Lu2SdOKjdaSPZCYSrRWkZykNUD3B9hXWF+is1UYSM8zqivQv9XRFF+MpXQoMB7wcyRa83xiDAEgUxECta24N81xgjIrMu8rXZMdTvZZ1bxhUeU/Nkno2SRljMXh1FY21f9bxVoH03+05zI4o2wX82GJvEDMoQSkBpAFG5KYy82GRTRR7fUSV622rt5Mnv+OCa27rLBTZTOqWej0Mt3QGLtlbi992jqF9kT8LTGZjNqCFd8P+nXhjwnwkegQEeslTIXQg7w4umI8m0nzlSgjCpEU6DL6ElhvB51uAkAHVgr42T7yNP8CUdjjk5WwXiPD5izF5oNAnZxDssuezhgEl0hfuQ3v0HcbO35hUt8n/v8+Tq3FnB5GamDj1UuYGL6WReO+c3L9yRdx6DA+cDCAn7i2E9W2yOjigYWZTHyhCQIpjVEQTSjBk03DmXcAsle3WEPQJqfUPB5BqsW2z/AMi9iQcqrFOFbaJrX0/Ioc6e4bPyyYSSTQtXvzCSD44lny8BYXhn6BAZe9V1psYS9Kq4fyW8L7qz+37D/y7GuU3ff1av83Q+UKftAoFGa5znKG4RnvrLRMVtXisVNyiQaM0XUMiOHc+Xx4GybR6Kc0zDYigNVMqc=
-X-MS-TrafficTypeDiagnostic: SG2APC01HT127:
+X-MS-Office365-Filtering-Correlation-Id: e631d7d5-d9f9-42b8-6468-08d8ab9f0067
+X-MS-Exchange-SLBlob-MailProps: S/btQ8cKWiRaJ+ox6yOiFxhBa7ZFYMmi4iQ5j3/PO1qZZR1+ERXa7c14KBiBQlvjDnb1ohQ3kuy+SB5vrHLJ+v24C9Hm8k13v1X+ylqaNTZKUMXW1QawnWHwrt3OPIa+80kJWe56nSfVYP/9hAHCr40CDF0/hmMMn/ql8W+mRtsoxwxM1ayXYR4AqRvg87/hVLrAJB4+k1duZG6kW+eYxQP5iucEEze8SAMW4RTFEyqvLa4318g9s3jkEISmEPDYg4qvDNXKBo+AGY2uhYwb5Nn4N/t8NzfB4zm/DbZWTit007t/RUL4vcAsjoxDWv9Cbi+f+cwD2O0SMjrlWKmCARYUL1Kf9XmT5YfSHRHvAFr4ggA47Rg0dL9Bv5sj1/+qf2pNQgkRhWbOdzT679fYlpnOmBvaUxmeQDcjPubE6mcUJQM7DV+hH0VxFAbXV6QOZ8x2whzM4FTlUjNhFwrsrMVp4IoEIhm7gcJiUWXnnrz4BHAh6jbYcrrsxxEdfVmv8UtpzXSTGYG0GqXU15udWTvkXPVRUXw7G2qLjNgE8IZJFfsRmC/VAUKmz79aWh3pQHmKZmVOTKT33KgeoK4lNMbpBxyu01TMXOw33vj7Uqef0XmxA7xgNfgNXifCCxvbCXrTvu/RAvtRQvfpvKakH8rQAMWKTZjhaQFOGLMmTqKFzk0SVFbnxhtuc62HTbCpUHGjLJVFv0N407UiG1XgMnMUMeg5O1XoHte0c0RP29Ss7YWuNb4OwEj8qaPKCX5HR/ytEj560gc=
+X-MS-TrafficTypeDiagnostic: SG2APC01HT210:
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BYNPc4r3JQtulz3jw0OTNLCpVQ/dMLUGw4MU1+Ddkbroy5nTjOKdYYl+C+06B48y7FeRa3VDr+xUphyYV2J4/gSlalnFNfuHDF/fxwPxD7SH9GA4MxbTXoYQjXw/yBN5EB5r3W+CSq6Z1wJIoaL3TRh6FTSRfdl023XsUrixxHeFlGXhQRT1SP0+fo0qWG6/B1Zo5YnZZZIywcR6Extlcai9UqswjnLaM+Sh2oCtupvGFR/9IuetwJMnxh9dwihe
-X-MS-Exchange-AntiSpam-MessageData: SPDBEf3gB13q8sDnXD979G1zBsL2JK/z4auDj9S52prFP3TTJSx68K78US6Ck9tsqfHbv6XHrCMva0vINc/97cKOpG7rAcxU4VFIBiCU9ovrBMMDe49udDB7xgKbPFkArxRkJbg30EpnKaQTiA+HT5UIlTILj7rXzGGKDg/2y5+FFw/gbHJukYZbdXNgjc0xz0TCMvyKdZfRWVDJ1Uv9AQ==
+X-Microsoft-Antispam-Message-Info: yY8yHRpDCWSTEOigbASp9eaXtj2qSsWWtWUJ7jLxBzHPC7kbfxZ6Gxu59Foj6+am+RNoIA74K/jHVCFYCiX1NxA5UCzVuG4HhtGZ3EdSh9fgS103ss0hdfwb2/dWjSs3Urz1kO74Mr7HT+Q64hzQRpuLe8D3OjtbCK05Kshe4xG990E0qe2Tjuk1DLmoJZlerdm2wkRjJo0ntFgoDy7acsftQSq8rYGF6gtKFXmYbCxSyDU8zqgBPgAd5EmGSGRT
+X-MS-Exchange-AntiSpam-MessageData: 59dUYIHR9dmbz+qezYUjvpCwJLoF2A6UinQHh2f3qKm+hQ0pK0OPejdhCh/sNa7alzMshKOHgFyGAdIY+RmpEdDZN2h1lKfrw6ZNH0Bh6YnIJZPwcTJZuydfPRrz/BPiSG0f4yXAEhcdSMQaPCSCx+sikmbm/ca2Te8gOYkKQitZDkQz0JisBipoX/rjuRrCAbyOhe6Xp978KpipAjoEUw==
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2020 02:10:32.1562 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2020 02:11:06.6705 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4faaeb05-87d6-4eaa-e6ae-08d8ab9eebcf
+X-MS-Exchange-CrossTenant-Network-Message-Id: e631d7d5-d9f9-42b8-6468-08d8ab9f0067
 X-MS-Exchange-CrossTenant-AuthSource: SG2APC01FT031.eop-APC01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT127
-Received-SPF: pass client-ip=40.92.255.86; envelope-from=Qiuhao.Li@outlook.com;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT210
+Received-SPF: pass client-ip=40.92.255.56; envelope-from=Qiuhao.Li@outlook.com;
  helo=APC01-HK2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -120,32 +120,87 @@ Cc: thuth@redhat.com, Qiuhao Li <Qiuhao.Li@outlook.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplifying the crash cases by opportunistically setting bits in operands of
-out/write to zero may help to debug, since usually bit one means turn on or
-trigger a function while zero is the default turn-off setting.
-
-Tested Bug 1908062.
+If previous write commands write the same length of data with the same step,
+we view it as a hint.
 
 Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
 ---
- scripts/oss-fuzz/minimize_qtest_trace.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/oss-fuzz/minimize_qtest_trace.py | 55 ++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
 
 diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-index 4273ee7505..050b9f2195 100755
+index 050b9f2195..5a8e90a604 100755
 --- a/scripts/oss-fuzz/minimize_qtest_trace.py
 +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-@@ -243,6 +243,10 @@ def minimize_trace(inpath, outpath):
-         set_zero_minimizer(newtrace, outpath)
-     assert(check_if_trace_crashes(newtrace, outpath))
+@@ -83,6 +83,42 @@ def check_if_trace_crashes(trace, path):
  
-+    # set zero minimizer
-+    set_zero_minimizer(newtrace, outpath)
-+    assert(check_if_trace_crashes(newtrace, outpath))
+     return False
+ 
++# If previous write commands write the same length of data at the same
++# interval, we view it as a hint.
++def split_write_hint(newtrace, i):
++    HINT_LEN = 3 # > 2
++    if i <=(HINT_LEN-1):
++        return None
++
++    #find previous continuous write traces
++    k = 0
++    l = i-1
++    writes = []
++    while (k != HINT_LEN and l >= 0):
++        if newtrace[l].startswith("write "):
++            writes.append(newtrace[l])
++            k += 1
++            l -= 1
++        elif newtrace[l] == "":
++            l -= 1
++        else:
++            return None
++    if k != HINT_LEN:
++        return None
++
++    length = int(writes[0].split()[2], 16)
++    for j in range(1, HINT_LEN):
++        if length != int(writes[j].split()[2], 16):
++            return None
++
++    step = int(writes[0].split()[1], 16) - int(writes[1].split()[1], 16)
++    for j in range(1, HINT_LEN-1):
++        if step != int(writes[j].split()[1], 16) - \
++            int(writes[j+1].split()[1], 16):
++            return None
++
++    return (int(writes[0].split()[1], 16)+step, length)
 +
  
- if __name__ == '__main__':
-     if len(sys.argv) < 3:
+ def remove_minimizer(newtrace, outpath):
+     remove_step = 1
+@@ -147,6 +183,25 @@ def remove_minimizer(newtrace, outpath):
+             length = int(newtrace[i].split()[2], 16)
+             data = newtrace[i].split()[3][2:]
+             if length > 1:
++
++                # Can we get a hint from previous writes?
++                hint = split_write_hint(newtrace, i)
++                if hint is not None:
++                    hint_addr = hint[0]
++                    hint_len = hint[1]
++                    if hint_addr >= addr and hint_addr+hint_len <= addr+length:
++                        newtrace[i] = "write {addr} {size} 0x{data}\n".format(
++                            addr=hex(hint_addr),
++                            size=hex(hint_len),
++                            data=data[(hint_addr-addr)*2:\
++                                (hint_addr-addr)*2+hint_len*2])
++                        if check_if_trace_crashes(newtrace, outpath):
++                            # next round
++                            i += 1
++                            continue
++                        newtrace[i] = prior[0]
++
++                # Try splitting it using a binary approach
+                 leftlength = int(length/2)
+                 rightlength = length - leftlength
+                 newtrace.insert(i+1, "")
 -- 
 2.25.1
 
