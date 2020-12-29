@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D09312E6FB5
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 11:49:40 +0100 (CET)
-Received: from localhost ([::1]:60404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 662762E6FC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 11:53:52 +0100 (CET)
+Received: from localhost ([::1]:34756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuCZP-00021E-Lf
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 05:49:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34958)
+	id 1kuCdT-0003IZ-F8
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 05:53:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kuCXt-0001Ok-PB
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 05:48:05 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40837)
+ id 1kuCcM-0002rk-9e
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 05:52:42 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:52037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kuCXr-0004lC-TF
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 05:48:05 -0500
-Received: by mail-wm1-x330.google.com with SMTP id r4so1976284wmh.5
- for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 02:48:01 -0800 (PST)
+ id 1kuCcI-0006qu-M5
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 05:52:41 -0500
+Received: by mail-wm1-x336.google.com with SMTP id v14so2302299wml.1
+ for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 02:52:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5TH5bxxKnd7DH0To/SINsZbn9kIsb7NxqBc+u0C1i5Y=;
- b=jbaOc+edM4yE2Ue9naSTmXIwh3ZRc3Y3GqLQNzJqIW29jU84JrFmZoe6F6upijL6eG
- IbErTI9Yr0cChLRCemNjKxer9Fybem/uI2mn2DcfJPB97nPVI05mW8h8dgR/PYXbYDFE
- khYyu16PpFerXNshQE+EDe386wXuaVCwiqfzRstjDwMLjAoeTflb5xs90b1JzQyeOXU/
- 99TI247H8SslMGo9mRGnufADBwG6C81/WDCvsO689K+OUzXhmNrCtygj+z78uCe0mPCS
- v1TavqJtGbQoyHdEPqitoQwI2cvC2TehHENm7MLDFUtJog3JRQ5b+X8f3XaDs/CW8ZAk
- jMJQ==
+ bh=Y4TZztekjXxHdYhczZepGnee6FqUDlKjOAp3ofXf2pU=;
+ b=CIRC6adz9Il8vR0iQ0lOlj8gH4S53EsBKY+4Jq7ukmqbQ495xnaPmnuIuI9GIHRT9z
+ Ivtk5W5uGWkJPo1jlpAaPg7YtlLORU8lbU7pxPcwPN/TdCP3YMw4gck37skeKZ/rrOs2
+ lrjnlNoPf9X587UUifs3zp0euMjJwXLNXvDR80lmVN/juTOrtkK6QAs79RBMq1ErnPKd
+ 9FkWrxdYH+y+fAGXa0QOpBdEEKe9l4CkX00cyk76SwymGvUeQUhVr/2n3YTCrUzZ1OUG
+ dpjSkTHtpYzphMj21vJk3YZAQu1/prp8kWX0y+g7HY337eeZDvkb2/F6qv4/ROhsTbwS
+ 9/hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5TH5bxxKnd7DH0To/SINsZbn9kIsb7NxqBc+u0C1i5Y=;
- b=tc0MQkAmCyQog+qwcyeTmhPSlfgtjGKy4YjbEo61aI1OQ2cIXkUAUaN3YyE+KywJ5v
- p0cWSvRNtF4fA5CjbIHRgjGMUPJbC73NlbiDnIcfPj9ZsDmlX7HWJUD5L6ubDzEt//sz
- rP6rJIvNLvISAbNxd32wo9KCB9ZP33Rn+BFzaLXxbXJvFoPfwkUXuS/hGsIWG0Vq8oHw
- E5InPfrdRDBrw3wj/bIPG9Pf0PxuFYi871PZ+dxO51BOK0Gwx7eJ72weGaYWgDol1fT7
- CBYfTMkES7UdILyBe/xmBJO1S7JLUSPRMf74FVB7WePq0lfVm6alWqVL020uEB1naory
- xBoA==
-X-Gm-Message-State: AOAM532sY1gNeWUMcY8PypAqDu63Qcfap8qr78GBUkd4FcA6PsR82JDn
- v1jM9jhlj70hxQ2lB06uwXA=
-X-Google-Smtp-Source: ABdhPJwcsYlHlTKTSUCWlGder/89aIWBBS+/rTqdgSuf0DT7aObTldD1u4b/SAEos4aeR2j7REM8bQ==
-X-Received: by 2002:a1c:6056:: with SMTP id u83mr2914545wmb.90.1609238880798; 
- Tue, 29 Dec 2020 02:48:00 -0800 (PST)
+ bh=Y4TZztekjXxHdYhczZepGnee6FqUDlKjOAp3ofXf2pU=;
+ b=qPZiZ6pM5D/rgI804SuGlcfDD80qSGxTs/norFmcrBWETGcqycvd3vvjFXyqoGieTA
+ Hs/dlcUfD1NzDBBqcpOCKvCM0+mys5vJpVpnkS2d+ChQ1js+4t4uTG9hDVCoFUCnILnh
+ CIgg0Vwcx2jYJZOHcKGWEpyCdZ7ci+c1/1mumYdaqLN0SmEM+Mx50LtrHUVC11qo+K76
+ 2XjzZAbPPcGzDWoNxD8oQVaHoUNpXcFcmtwtjrORsyMyDCYvlqfN6rvOIXBbWYMm230+
+ Sxs91fkhLPY5mW0s+YmlIoYH8H6Bjn9wjKnEkKM5Cs8dARpeHbt+YNKlDlaia5u0fVmq
+ zRXQ==
+X-Gm-Message-State: AOAM531jRuIvfc8i4/PVUstzMkV2dPkHLRi74isLRGnbmpeGvhTRvSL5
+ WzyqHcY5OFpknm6m8ECKp70=
+X-Google-Smtp-Source: ABdhPJzENZUzX+ciYffvofqbR1IFCbIdO9hVD7yaZIiCS5slXPTIte9OG5/s7NbbMDBDkMzbMyLe3A==
+X-Received: by 2002:a1c:4604:: with SMTP id t4mr2852830wma.17.1609239156606;
+ Tue, 29 Dec 2020 02:52:36 -0800 (PST)
 Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
  ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
- by smtp.gmail.com with ESMTPSA id n189sm2983006wmf.20.2020.12.29.02.47.59
+ by smtp.gmail.com with ESMTPSA id f7sm4060680wmc.1.2020.12.29.02.52.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Dec 2020 02:47:59 -0800 (PST)
-Subject: Re: Bug in Bonito? (mips/fuloong2e)
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, BALATON Zoltan
- <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <771a6cd4-90a7-662e-5a5b-e8a9395a875@eik.bme.hu>
- <c655a692-991e-b633-456a-6fb149520a37@flygoat.com>
+ Tue, 29 Dec 2020 02:52:35 -0800 (PST)
+Subject: Re: [PATCH v2 1/2] ide: Make room for flags in PCIIDEState and add
+ one for legacy mode
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cover.1609107222.git.balaton@eik.bme.hu>
+ <19d68b4da7fc8dbffe3308c661143584ac830f29.1609107222.git.balaton@eik.bme.hu>
+ <080a04e0-e162-e80a-db6a-53bf4b43c9cb@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <511225e2-f074-4318-4fb0-f695ca6befe0@amsat.org>
-Date: Tue, 29 Dec 2020 11:47:59 +0100
+Message-ID: <09dfce33-caed-1940-c849-8f1d8516a133@amsat.org>
+Date: Tue, 29 Dec 2020 11:52:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <c655a692-991e-b633-456a-6fb149520a37@flygoat.com>
+In-Reply-To: <080a04e0-e162-e80a-db6a-53bf4b43c9cb@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -90,58 +92,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Huacai Chen <chenhuacai@kernel.org>, John Snow <jsnow@redhat.com>,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/29/20 6:26 AM, Jiaxun Yang wrote:
-> 在 2020/12/29 上午11:26, BALATON Zoltan 写道:
->> Hello,
->>
->> While continuing with part two of my vt82c686b clean ups I've tried to
->> implement SMBus IO base configuration in the vt82c686b-pm part that
->> I've already done for vt8231 for pegasos2 and it should be the same
->> for 686B. (In short, writing address to pm config 0x90 sets base
->> address of smbus regs and bit 0 of 0xd2 enables/disables it.) This is
->> what the firmware does first and it would allow removing hard coded
->> 0xeee1 value and the property to set it and then I could reuse the
->> same PM part in VT8231.
->>
-> [...]
->>
->> Any idea what this is trying to do and how to fix it?
+On 12/28/20 8:30 PM, Mark Cave-Ayland wrote:
+> On 27/12/2020 22:13, BALATON Zoltan wrote:
 > 
-> It's trying to translate Bonito style PCI config space r/w to standard PCI
-> config space R/W.
+>> We'll need a flag for implementing some device specific behaviour in
+>> via-ide but we already have a currently CMD646 specific field that can
+>> be repurposed for this and leave room for further flags if needed in
+>> the future. This patch changes the "secondary" field to "flags" and
+>> change CMD646 and its users accordingly and define a new flag for
+>> forcing legacy mode that will be used by via-ide for now.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+>> Tested-by: Guenter Roeck <linux@roeck-us.net>
+>> ---
+>> v2: Fixed typo in commit message
+>>
+>>   hw/ide/cmd646.c      | 4 ++--
+>>   hw/sparc64/sun4u.c   | 2 +-
+>>   include/hw/ide/pci.h | 7 ++++++-
+>>   3 files changed, 9 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
+>> index c254631485..7a96016116 100644
+>> --- a/hw/ide/cmd646.c
+>> +++ b/hw/ide/cmd646.c
+>> @@ -256,7 +256,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev,
+>> Error **errp)
+>>       pci_conf[PCI_CLASS_PROG] = 0x8f;
+>>         pci_conf[CNTRL] = CNTRL_EN_CH0; // enable IDE0
 > 
-> A quick galance told me change BONITO_PCICONF_REG_MASK to 0xff
-> may help.
+> Doesn't the existing comment above cause checkpatch to fail?
 
-Per the datasheet section "5.7.5. Accessing PCI configuration space"
-0xfc is the correct value, but the register number starts at the 2nd
-bit. So this is not a write access to register 0xd2 but 0x34?
-
-If you can test, this is the snippet I plan to send later:
-
--- >8 --
-diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index a99eced0657..65953766dd0 100644
---- a/hw/pci-host/bonito.c
-+++ b/hw/pci-host/bonito.c
-@@ -189,3 +189,3 @@ FIELD(BONGENCFG, PCIQUEUE,      12, 1)
- #define BONITO_PCICONF_REG_MASK        0xFC
--#define BONITO_PCICONF_REG_OFFSET      0
-+#define BONITO_PCICONF_REG_OFFSET      2
----
+The comment is old and Balaton didn't modified it. Usually I'd prefer
+to address style change in a separate commit, ...
 
 > 
-> Thanks.
-> 
-> - Jiaxun
-> 
->>
->> Regards,
->> BALATON Zoltan
-> 
-> 
+>> -    if (d->secondary) {
+>> +    if (d->flags & BIT(PCI_IDE_SECONDARY)) {
+>>           /* XXX: if not enabled, really disable the seconday IDE
+>> controller */
+>>           pci_conf[CNTRL] |= CNTRL_EN_CH1; /* enable IDE1 */
+
+... but since a similar comment is added here, it might be acceptable
+to fix the style of the former one here too. I noted Balaton already
+addressed your comment in a v3.
+
+>>       }
+>> @@ -314,7 +314,7 @@ static void pci_cmd646_ide_exitfn(PCIDevice *dev)
+>>   }
+>>     static Property cmd646_ide_properties[] = {
+>> -    DEFINE_PROP_UINT32("secondary", PCIIDEState, secondary, 0),
+>> +    DEFINE_PROP_BIT("secondary", PCIIDEState, flags,
+>> PCI_IDE_SECONDARY, false),
+>>       DEFINE_PROP_END_OF_LIST(),
+>>   };
 
