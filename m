@@ -2,51 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C45B2E6FFD
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 12:36:53 +0100 (CET)
-Received: from localhost ([::1]:49486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA30E2E700C
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 12:44:52 +0100 (CET)
+Received: from localhost ([::1]:52062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuDJ6-0003hb-8Y
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 06:36:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43874)
+	id 1kuDQp-0005b7-Ut
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 06:44:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kuDI5-0003Dz-Ar
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 06:35:49 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:53249)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kuDQ6-0005CO-T2
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 06:44:06 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49576
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kuDI2-0001JR-Gh
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 06:35:48 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7AB7C746552;
- Tue, 29 Dec 2020 12:35:43 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4533A74645F; Tue, 29 Dec 2020 12:35:43 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 4330374645B;
- Tue, 29 Dec 2020 12:35:43 +0100 (CET)
-Date: Tue, 29 Dec 2020 12:35:43 +0100 (CET)
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 2/2] via-ide: Fix fuloong2e support
-In-Reply-To: <7bd3e7e0-73be-5602-90d7-6fc67968b163@amsat.org>
-Message-ID: <2851515-6d1b-11f0-d6ac-f2dd37b17f5c@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kuDQ4-0005B4-UI
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 06:44:06 -0500
+Received: from host86-148-34-1.range86-148.btcentralplus.com ([86.148.34.1]
+ helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kuDPy-0006PK-1d; Tue, 29 Dec 2020 11:43:58 +0000
+To: BALATON Zoltan <balaton@eik.bme.hu>
 References: <cover.1609107222.git.balaton@eik.bme.hu>
  <8e58807dd2ba46866e7f152244e4541e6425177d.1609107222.git.balaton@eik.bme.hu>
  <a7b14637-4a3e-1635-a0c2-da9ee48022a8@ilande.co.uk>
  <ab55636b-9ba7-6e38-8d62-31ef1a11c455@eik.bme.hu>
- <7bd3e7e0-73be-5602-90d7-6fc67968b163@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <59564814-9b82-7f9d-7535-201a9ca5189a@ilande.co.uk>
+Date: Tue, 29 Dec 2020 11:43:52 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1811939737-1609241743=:96981"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+In-Reply-To: <ab55636b-9ba7-6e38-8d62-31ef1a11c455@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.148.34.1
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 2/2] via-ide: Fix fuloong2e support
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -45
+X-Spam_score: -4.6
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.698,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,61 +65,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Willian Rampazzo <wrampazz@redhat.com>, John Snow <jsnow@redhat.com>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: Huacai Chen <chenhuacai@kernel.org>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 28/12/2020 20:50, BALATON Zoltan via wrote:
 
---3866299591-1811939737-1609241743=:96981
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+> I think leaving the legacy ports enabled is a bad idea for at least two reasons: 1) 
+> It may clash with other io ports on other machines, e.g. I'm not sure on PPC where 
+> firmware or OS does not expect to see legacy ISA ports won't map some io BAR of a PCI 
+> card there. 2) If this is left enabled there would be two ports poking the same 
+> registers so if that does not cause a problem by itself, writing to one accidentally 
+> (like when something is mapped over it) could cause corruption of IDE state so I 
+> think it's much better to protect this than later trying to debug such problems.
 
-On Tue, 29 Dec 2020, Philippe Mathieu-Daudé wrote:
->> I think this casued problems before because if it's not set to 0x8a
->> (legacy) at start then guests may assume it's already switched to native
->> mode by firmware and won't program the BARs and it will not work. This
->> way, even if it looks odd all guests I've tested work so I don't want to
->> touch this, because I don't want to test all guests again.
->
-> If you can describe on the list how you do your testing (mostly
-> command line used, where image/demo can be downloaded), we might help
-> writing an integration test to automate the testing. Don't worry if
-> it involves using close-source binaries, we'll try to figure out a
-> way.
+Legacy ioports originate in the x86 world, however all the PCI bus enumeration code 
+I've seen reserves the lower part of the IO address space to prevent such problems 
+with e.g. a BIOS starting up in legacy mode.
 
-It's documented here:
 
-https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2#h2-Current.20status.20and.20outstanding.20issues
+ATB,
 
-but pegasos2 is not in QEMU master yet, I'm just trying to clean it up and 
-submit it so testing likely comes after I have a set of patches to send to 
-add pegasos2. The version in qmiga repo is not the latest but one that 
-works in itself, my current vt82c686c work is to upstream the vt8231 part. 
-After that the rest should be simple: add mv64361 model and pegasos2 board 
-code. The only problem I see with those is if it's OK to have board 
-needing ROM image or if Mark torpedoes it for some reason :-). For the ROM 
-I have plans to use vof (virtual open firmware emulation within QEMU, 
-unmerged on qemu-ppc list currently for a while) but I couldn't get to 
-that yet. Maybe Linux can be used via -kernel but I think it also needs 
-Open Firmware client interface on pegasos2 so it won't work without some 
-kind of firmware. (All this is also documented on above page if you scroll 
-up.)
-
-(By the way I've created the qmiga.osdn.net project with the intent to 
-share work with interested people on these but so far nobody seemed to be 
-interested enough to join and help. There were about 2 or 3 people 
-interested in ati-vga but got scared away when saw how much work is needed 
-yet. Contributions are still welcome otherwise it will take another few 
-years to finish.)
-
-Regards,
-BALATON Zoltan
---3866299591-1811939737-1609241743=:96981--
+Mark.
 
