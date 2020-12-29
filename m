@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0498B2E72DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 19:01:30 +0100 (CET)
-Received: from localhost ([::1]:33854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C51B2E72E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 19:03:39 +0100 (CET)
+Received: from localhost ([::1]:37644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuJJI-0003yT-7M
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 13:01:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56374)
+	id 1kuJLN-00064L-LU
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 13:03:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kuJEw-0007On-Ul; Tue, 29 Dec 2020 12:56:59 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49882
+ id 1kuJF4-0007YV-BP; Tue, 29 Dec 2020 12:57:06 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49898
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kuJEt-00054T-Cj; Tue, 29 Dec 2020 12:56:58 -0500
+ id 1kuJF1-00057z-Kb; Tue, 29 Dec 2020 12:57:06 -0500
 Received: from host86-148-34-1.range86-148.btcentralplus.com ([86.148.34.1]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kuJEp-0007wV-W6; Tue, 29 Dec 2020 17:56:56 +0000
+ id 1kuJF0-0007wV-2A; Tue, 29 Dec 2020 17:57:06 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
  thuth@redhat.com
-Date: Tue, 29 Dec 2020 17:56:17 +0000
-Message-Id: <20201229175619.6051-6-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 29 Dec 2020 17:56:19 +0000
+Message-Id: <20201229175619.6051-8-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201229175619.6051-1-mark.cave-ayland@ilande.co.uk>
 References: <20201229175619.6051-1-mark.cave-ayland@ilande.co.uk>
@@ -35,7 +35,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 5/7] macio: move OpenPIC inside macio-newworld device
+Subject: [PATCH v2 7/7] macio: don't set user_creatable to false
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -61,138 +61,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The OpenPIC device is located within the macio device on real hardware so make it
-a child of the macio-newworld device. This also removes the need for setting and
-checking a separate PIC object property link on the macio-newworld device which
-currently causes the automated QOM introspection tests to fail.
+Now that all of the object property links to the heathrow PIC and OpenPIC have
+been removed from the macio devices, it is safe to allow the macio-oldworld
+and macio-neworld devices to be marked as user_creatable.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/misc/macio/macio.c         | 19 +++++++++----------
- hw/ppc/mac_newworld.c         | 25 +++++++++++--------------
- include/hw/misc/macio/macio.h |  2 +-
- 3 files changed, 21 insertions(+), 25 deletions(-)
+ hw/misc/macio/macio.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index cfb87da6c9..36be77cede 100644
+index d17cffd868..e6eeb575d5 100644
 --- a/hw/misc/macio/macio.c
 +++ b/hw/misc/macio/macio.c
-@@ -273,7 +273,7 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
- {
-     MacIOState *s = MACIO(d);
-     NewWorldMacIOState *ns = NEWWORLD_MACIO(d);
--    DeviceState *pic_dev = DEVICE(ns->pic);
-+    DeviceState *pic_dev = DEVICE(&ns->pic);
-     Error *err = NULL;
-     SysBusDevice *sysbus_dev;
-     MemoryRegion *timer_memory = NULL;
-@@ -284,17 +284,19 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
-         return;
-     }
+@@ -457,8 +457,6 @@ static void macio_class_init(ObjectClass *klass, void *data)
+     k->class_id = PCI_CLASS_OTHERS << 8;
+     device_class_set_props(dc, macio_properties);
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+-    /* Reason: requires PIC property links to be set in macio_*_realize() */
+-    dc->user_creatable = false;
+ }
  
-+    /* OpenPIC */
-+    qdev_prop_set_uint32(pic_dev, "model", OPENPIC_MODEL_KEYLARGO);
-+    sysbus_dev = SYS_BUS_DEVICE(&ns->pic);
-+    sysbus_realize_and_unref(sysbus_dev, &error_fatal);
-+    memory_region_add_subregion(&s->bar, 0x40000,
-+                                sysbus_mmio_get_region(sysbus_dev, 0));
-+
-     sysbus_dev = SYS_BUS_DEVICE(&s->escc);
-     sysbus_connect_irq(sysbus_dev, 0, qdev_get_gpio_in(pic_dev,
-                                                        NEWWORLD_ESCCB_IRQ));
-     sysbus_connect_irq(sysbus_dev, 1, qdev_get_gpio_in(pic_dev,
-                                                        NEWWORLD_ESCCA_IRQ));
- 
--    /* OpenPIC */
--    sysbus_dev = SYS_BUS_DEVICE(ns->pic);
--    memory_region_add_subregion(&s->bar, 0x40000,
--                                sysbus_mmio_get_region(sysbus_dev, 0));
--
-     /* IDE buses */
-     macio_realize_ide(s, &ns->ide[0],
-                       qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_IRQ),
-@@ -369,10 +371,7 @@ static void macio_newworld_init(Object *obj)
-     NewWorldMacIOState *ns = NEWWORLD_MACIO(obj);
-     int i;
- 
--    object_property_add_link(obj, "pic", TYPE_OPENPIC,
--                             (Object **) &ns->pic,
--                             qdev_prop_allow_set_link_before_realize,
--                             0);
-+    object_initialize_child(OBJECT(s), "pic", &ns->pic, TYPE_OPENPIC);
- 
-     object_initialize_child(OBJECT(s), "gpio", &ns->gpio, TYPE_MACIO_GPIO);
- 
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 708bb2f1ab..e991db4add 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -293,18 +293,6 @@ static void ppc_core99_init(MachineState *machine)
-         }
-     }
- 
--    pic_dev = qdev_new(TYPE_OPENPIC);
--    qdev_prop_set_uint32(pic_dev, "model", OPENPIC_MODEL_KEYLARGO);
--    s = SYS_BUS_DEVICE(pic_dev);
--    sysbus_realize_and_unref(s, &error_fatal);
--    k = 0;
--    for (i = 0; i < smp_cpus; i++) {
--        for (j = 0; j < OPENPIC_OUTPUT_NB; j++) {
--            sysbus_connect_irq(s, k++, openpic_irqs[i].irq[j]);
--        }
--    }
--    g_free(openpic_irqs);
--
-     if (PPC_INPUT(env) == PPC_FLAGS_INPUT_970) {
-         /* 970 gets a U3 bus */
-         /* Uninorth AGP bus */
-@@ -378,8 +366,6 @@ static void ppc_core99_init(MachineState *machine)
-     qdev_prop_set_uint64(dev, "frequency", tbfreq);
-     qdev_prop_set_bit(dev, "has-pmu", has_pmu);
-     qdev_prop_set_bit(dev, "has-adb", has_adb);
--    object_property_set_link(OBJECT(macio), "pic", OBJECT(pic_dev),
--                             &error_abort);
- 
-     escc = ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
-     qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
-@@ -387,6 +373,7 @@ static void ppc_core99_init(MachineState *machine)
- 
-     pci_realize_and_unref(macio, pci_bus, &error_fatal);
- 
-+    pic_dev = DEVICE(object_resolve_path_component(OBJECT(macio), "pic"));
-     for (i = 0; i < 4; i++) {
-         qdev_connect_gpio_out(DEVICE(uninorth_pci), i,
-                               qdev_get_gpio_in(pic_dev, 0x1b + i));
-@@ -407,6 +394,16 @@ static void ppc_core99_init(MachineState *machine)
-         }
-     }
- 
-+    /* OpenPIC */
-+    s = SYS_BUS_DEVICE(pic_dev);
-+    k = 0;
-+    for (i = 0; i < smp_cpus; i++) {
-+        for (j = 0; j < OPENPIC_OUTPUT_NB; j++) {
-+            sysbus_connect_irq(s, k++, openpic_irqs[i].irq[j]);
-+        }
-+    }
-+    g_free(openpic_irqs);
-+
-     /* We only emulate 2 out of 3 IDE controllers for now */
-     ide_drive_get(hd, ARRAY_SIZE(hd));
- 
-diff --git a/include/hw/misc/macio/macio.h b/include/hw/misc/macio/macio.h
-index 707dfab50c..6c05f3bfd2 100644
---- a/include/hw/misc/macio/macio.h
-+++ b/include/hw/misc/macio/macio.h
-@@ -115,7 +115,7 @@ struct NewWorldMacIOState {
- 
-     bool has_pmu;
-     bool has_adb;
--    OpenPICState *pic;
-+    OpenPICState pic;
-     MACIOIDEState ide[2];
-     MacIOGPIOState gpio;
- };
+ static const TypeInfo macio_bus_info = {
 -- 
 2.20.1
 
