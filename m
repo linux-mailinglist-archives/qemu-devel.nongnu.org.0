@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1202E7525
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 00:12:29 +0100 (CET)
-Received: from localhost ([::1]:41344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D970E2E7529
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 00:14:50 +0100 (CET)
+Received: from localhost ([::1]:49974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuOAG-00021n-BM
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 18:12:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53714)
+	id 1kuOCX-0005ea-Ub
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 18:14:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kuO7u-0008TB-EJ
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 18:10:02 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:48954)
+ id 1kuO7y-0008VK-IM
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 18:10:06 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:48973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kuO7n-0006bg-9A
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 18:10:02 -0500
+ id 1kuO7t-0006dm-RH
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 18:10:06 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 676377470DB;
+ by localhost (Postfix) with SMTP id 720B37470DF;
  Wed, 30 Dec 2020 00:09:52 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A36857470DF; Wed, 30 Dec 2020 00:09:51 +0100 (CET)
-Message-Id: <0912c67fe6e99fd085e804288773d3f865b4b4a8.1609282253.git.balaton@eik.bme.hu>
+ id AE7027470E8; Wed, 30 Dec 2020 00:09:51 +0100 (CET)
+Message-Id: <4e434754b18bf16ca5d48c8bb22b5aefb375f368.1609282253.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609282253.git.balaton@eik.bme.hu>
 References: <cover.1609282253.git.balaton@eik.bme.hu>
-Subject: [PATCH 4/7] vt82c686: Reorganise code
+Subject: [PATCH 6/7] vt82c686: Fix up power management io base and config
 Date: Tue, 29 Dec 2020 23:50:53 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,271 +59,99 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-Move lines around so that object definitions become consecutive and
-not scattered around. This brings functions belonging to an object
-together so it's clearer what's defined and what parts belong to which
-object.
+Similar to the SMBus io registers there is a power management io range
+that's set via similar base address reg and enable bit. Some handling
+of this was already there but with several problems: using the wrong
+registers and bits, wrong size range, not acually updating mapping and
+handling reset correctly or emulating any of the acrual io registers.
+Some of these are fixed up here.
+
+After this patch we use the correct base address register, enable bit
+and region size and allow guests to map/unmap this region and
+correctly reset all registers to default values on reset but we still
+don't emulate any of the registers in this range.
+
+Previously just an empty RAM region was mapped on realize, now I've
+added empty io range logging access. I think the pm timer should be
+hooked up here but not sure guests need it. PMON on fuloong2e sets
+base address but does not seem to enable region; the pegasos2 firmware
+pokes some regs but continues anyway so don't know if anything would
+make use of these facilities. Therefore this is just a clean up of
+previous state for now and not intending to fully implement missing
+functionality which could be done later if some guests need it.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/isa/vt82c686.c | 279 +++++++++++++++++++++++-----------------------
- 1 file changed, 140 insertions(+), 139 deletions(-)
+ hw/isa/trace-events |  2 ++
+ hw/isa/vt82c686.c   | 56 ++++++++++++++++++++++++++++++++-------------
+ 2 files changed, 42 insertions(+), 16 deletions(-)
 
+diff --git a/hw/isa/trace-events b/hw/isa/trace-events
+index d267d3e652..641d69eedf 100644
+--- a/hw/isa/trace-events
++++ b/hw/isa/trace-events
+@@ -17,5 +17,7 @@ apm_io_write(uint8_t addr, uint8_t val) "write addr=0x%x val=0x%02x"
+ # vt82c686.c
+ via_isa_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
+ via_pm_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
++via_pm_io_read(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
++via_pm_io_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
+ via_superio_read(uint8_t addr, uint8_t val) "addr 0x%x val 0x%x"
+ via_superio_write(uint8_t addr, uint32_t val) "addr 0x%x val 0x%x"
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 30fe02f4c6..fe8961b057 100644
+index 9c4d153022..fc2a1f4430 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -26,112 +26,7 @@
- #include "exec/address-spaces.h"
- #include "trace.h"
+@@ -39,14 +39,11 @@ struct VT686PMState {
  
--typedef struct SuperIOConfig {
--    uint8_t regs[0x100];
--    uint8_t index;
--    MemoryRegion io;
--} SuperIOConfig;
--
--struct VT82C686BISAState {
--    PCIDevice dev;
--    SuperIOConfig superio_cfg;
--};
--
--OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
--
--static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
--                              unsigned size)
--{
--    SuperIOConfig *sc = opaque;
--
--    if (addr == 0x3f0) { /* config index register */
--        sc->index = data & 0xff;
--    } else {
--        bool can_write = true;
--        /* 0x3f1, config data register */
--        trace_via_superio_write(sc->index, data & 0xff);
--        switch (sc->index) {
--        case 0x00 ... 0xdf:
--        case 0xe4:
--        case 0xe5:
--        case 0xe9 ... 0xed:
--        case 0xf3:
--        case 0xf5:
--        case 0xf7:
--        case 0xf9 ... 0xfb:
--        case 0xfd ... 0xff:
--            can_write = false;
--            break;
--        /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
--        default:
--            break;
--
--        }
--        if (can_write) {
--            sc->regs[sc->index] = data & 0xff;
--        }
--    }
--}
--
--static uint64_t superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
--{
--    SuperIOConfig *sc = opaque;
--    uint8_t val = sc->regs[sc->index];
--
--    trace_via_superio_read(sc->index, val);
--    return val;
--}
--
--static const MemoryRegionOps superio_cfg_ops = {
--    .read = superio_cfg_read,
--    .write = superio_cfg_write,
--    .endianness = DEVICE_NATIVE_ENDIAN,
--    .impl = {
--        .min_access_size = 1,
--        .max_access_size = 1,
--    },
--};
--
--static void vt82c686b_isa_reset(DeviceState *dev)
--{
--    VT82C686BISAState *s = VT82C686B_ISA(dev);
--    uint8_t *pci_conf = s->dev.config;
--
--    pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
--    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_IO | PCI_COMMAND_MEMORY |
--                 PCI_COMMAND_MASTER | PCI_COMMAND_SPECIAL);
--    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
--
--    pci_conf[0x48] = 0x01; /* Miscellaneous Control 3 */
--    pci_conf[0x4a] = 0x04; /* IDE interrupt Routing */
--    pci_conf[0x4f] = 0x03; /* DMA/Master Mem Access Control 3 */
--    pci_conf[0x50] = 0x2d; /* PnP DMA Request Control */
--    pci_conf[0x59] = 0x04;
--    pci_conf[0x5a] = 0x04; /* KBC/RTC Control*/
--    pci_conf[0x5f] = 0x04;
--    pci_conf[0x77] = 0x10; /* GPIO Control 1/2/3/4 */
--
--    s->superio_cfg.regs[0xe0] = 0x3c; /* Device ID */
--    s->superio_cfg.regs[0xe2] = 0x03; /* Function select */
--    s->superio_cfg.regs[0xe3] = 0xfc; /* Floppy ctrl base addr */
--    s->superio_cfg.regs[0xe6] = 0xde; /* Parallel port base addr */
--    s->superio_cfg.regs[0xe7] = 0xfe; /* Serial port 1 base addr */
--    s->superio_cfg.regs[0xe8] = 0xbe; /* Serial port 2 base addr */
--}
--
--/* write config pci function0 registers. PCI-ISA bridge */
--static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
--                                   uint32_t val, int len)
--{
--    VT82C686BISAState *s = VT82C686B_ISA(d);
--
--    trace_via_isa_write(addr, val, len);
--    pci_default_write_config(d, addr, val, len);
--    if (addr == 0x85) {
--        /* BIT(1): enable or disable superio config io ports */
--        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
--    }
--}
-+OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
- 
- struct VT686PMState {
-     PCIDevice dev;
-@@ -142,30 +37,6 @@ struct VT686PMState {
-     uint32_t smb_io_base;
- };
- 
--OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
--
--static void pm_update_sci(VT686PMState *s)
--{
--    int sci_level, pmsts;
--
--    pmsts = acpi_pm1_evt_get_sts(&s->ar);
--    sci_level = (((pmsts & s->ar.pm1.evt.en) &
--                  (ACPI_BITMASK_RT_CLOCK_ENABLE |
--                   ACPI_BITMASK_POWER_BUTTON_ENABLE |
--                   ACPI_BITMASK_GLOBAL_LOCK_ENABLE |
--                   ACPI_BITMASK_TIMER_ENABLE)) != 0);
--    pci_set_irq(&s->dev, sci_level);
--    /* schedule a timer interruption if needed */
--    acpi_pm_tmr_update(&s->ar, (s->ar.pm1.evt.en & ACPI_BITMASK_TIMER_ENABLE) &&
--                       !(pmsts & ACPI_BITMASK_TIMER_STATUS));
--}
--
--static void pm_tmr_timer(ACPIREGS *ar)
--{
--    VT686PMState *s = container_of(ar, VT686PMState, ar);
--    pm_update_sci(s);
--}
--
  static void pm_io_space_update(VT686PMState *s)
  {
-     uint32_t pm_io_base;
-@@ -179,12 +50,6 @@ static void pm_io_space_update(VT686PMState *s)
+-    uint32_t pm_io_base;
+-
+-    pm_io_base = pci_get_long(s->dev.config + 0x40);
+-    pm_io_base &= 0xffc0;
++    uint32_t pmbase = pci_get_long(s->dev.config + 0x48) & 0xff80UL;
+ 
+     memory_region_transaction_begin();
+-    memory_region_set_enabled(&s->io, s->dev.config[0x80] & 1);
+-    memory_region_set_address(&s->io, pm_io_base);
++    memory_region_set_address(&s->io, pmbase);
++    memory_region_set_enabled(&s->io, s->dev.config[0x41] & BIT(7));
      memory_region_transaction_commit();
  }
  
--static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
--{
--    trace_via_pm_write(addr, val, len);
--    pci_default_write_config(d, addr, val, len);
--}
--
- static int vmstate_acpi_post_load(void *opaque, int version_id)
- {
-     VT686PMState *s = opaque;
-@@ -210,7 +75,34 @@ static const VMStateDescription vmstate_acpi = {
-     }
- };
+@@ -92,6 +89,13 @@ static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
  
--/* vt82c686 pm init */
-+static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
-+{
-+    trace_via_pm_write(addr, val, len);
-+    pci_default_write_config(d, addr, val, len);
-+}
-+
-+static void pm_update_sci(VT686PMState *s)
-+{
-+    int sci_level, pmsts;
-+
-+    pmsts = acpi_pm1_evt_get_sts(&s->ar);
-+    sci_level = (((pmsts & s->ar.pm1.evt.en) &
-+                  (ACPI_BITMASK_RT_CLOCK_ENABLE |
-+                   ACPI_BITMASK_POWER_BUTTON_ENABLE |
-+                   ACPI_BITMASK_GLOBAL_LOCK_ENABLE |
-+                   ACPI_BITMASK_TIMER_ENABLE)) != 0);
-+    pci_set_irq(&s->dev, sci_level);
-+    /* schedule a timer interruption if needed */
-+    acpi_pm_tmr_update(&s->ar, (s->ar.pm1.evt.en & ACPI_BITMASK_TIMER_ENABLE) &&
-+                       !(pmsts & ACPI_BITMASK_TIMER_STATUS));
-+}
-+
-+static void pm_tmr_timer(ACPIREGS *ar)
-+{
-+    VT686PMState *s = container_of(ar, VT686PMState, ar);
-+    pm_update_sci(s);
-+}
-+
- static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
- {
-     VT686PMState *s = VT82C686B_PM(dev);
-@@ -276,6 +168,87 @@ static const TypeInfo via_pm_info = {
-     },
- };
- 
-+
-+typedef struct SuperIOConfig {
-+    uint8_t regs[0x100];
-+    uint8_t index;
-+    MemoryRegion io;
-+} SuperIOConfig;
-+
-+static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
-+                              unsigned size)
-+{
-+    SuperIOConfig *sc = opaque;
-+
-+    if (addr == 0x3f0) { /* config index register */
-+        sc->index = data & 0xff;
-+    } else {
-+        bool can_write = true;
-+        /* 0x3f1, config data register */
-+        trace_via_superio_write(sc->index, data & 0xff);
-+        switch (sc->index) {
-+        case 0x00 ... 0xdf:
-+        case 0xe4:
-+        case 0xe5:
-+        case 0xe9 ... 0xed:
-+        case 0xf3:
-+        case 0xf5:
-+        case 0xf7:
-+        case 0xf9 ... 0xfb:
-+        case 0xfd ... 0xff:
-+            can_write = false;
-+            break;
-+        /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
-+        default:
-+            break;
-+
-+        }
-+        if (can_write) {
-+            sc->regs[sc->index] = data & 0xff;
-+        }
+     trace_via_pm_write(addr, val, len);
+     pci_default_write_config(d, addr, val, len);
++    if (ranges_overlap(addr, len, 0x48, 4)) {
++        uint32_t v = pci_get_long(s->dev.config + 0x48);
++        pci_set_long(s->dev.config + 0x48, (v & 0xff80UL) | 1);
 +    }
-+}
-+
-+static uint64_t superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
++    if (range_covers_byte(addr, len, 0x41)) {
++        pm_io_space_update(s);
++    }
+     if (ranges_overlap(addr, len, 0x90, 4)) {
+         uint32_t v = pci_get_long(s->dev.config + 0x90);
+         pci_set_long(s->dev.config + 0x90, (v & 0xfff0UL) | 1);
+@@ -102,6 +106,27 @@ static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
+     }
+ }
+ 
++static void pm_io_write(void *op, hwaddr addr, uint64_t data, unsigned size)
 +{
-+    SuperIOConfig *sc = opaque;
-+    uint8_t val = sc->regs[sc->index];
-+
-+    trace_via_superio_read(sc->index, val);
-+    return val;
++    trace_via_pm_io_write(addr, data, size);
 +}
 +
-+static const MemoryRegionOps superio_cfg_ops = {
-+    .read = superio_cfg_read,
-+    .write = superio_cfg_write,
++static uint64_t pm_io_read(void *op, hwaddr addr, unsigned size)
++{
++    trace_via_pm_io_read(addr, 0, size);
++    return 0;
++}
++
++static const MemoryRegionOps pm_io_ops = {
++    .read = pm_io_read,
++    .write = pm_io_write,
 +    .endianness = DEVICE_NATIVE_ENDIAN,
 +    .impl = {
 +        .min_access_size = 1,
@@ -331,87 +159,54 @@ index 30fe02f4c6..fe8961b057 100644
 +    },
 +};
 +
-+
-+OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
-+
-+struct VT82C686BISAState {
-+    PCIDevice dev;
-+    SuperIOConfig superio_cfg;
-+};
-+
-+static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
-+                                   uint32_t val, int len)
-+{
-+    VT82C686BISAState *s = VT82C686B_ISA(d);
-+
-+    trace_via_isa_write(addr, val, len);
-+    pci_default_write_config(d, addr, val, len);
-+    if (addr == 0x85) {
-+        /* BIT(1): enable or disable superio config io ports */
-+        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
-+    }
-+}
-+
- static const VMStateDescription vmstate_via = {
-     .name = "vt82c686b",
-     .version_id = 1,
-@@ -286,7 +259,33 @@ static const VMStateDescription vmstate_via = {
-     }
- };
- 
--/* init the PCI-to-ISA bridge */
-+static void vt82c686b_isa_reset(DeviceState *dev)
-+{
-+    VT82C686BISAState *s = VT82C686B_ISA(dev);
-+    uint8_t *pci_conf = s->dev.config;
-+
-+    pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
-+    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_IO | PCI_COMMAND_MEMORY |
-+                 PCI_COMMAND_MASTER | PCI_COMMAND_SPECIAL);
-+    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
-+
-+    pci_conf[0x48] = 0x01; /* Miscellaneous Control 3 */
-+    pci_conf[0x4a] = 0x04; /* IDE interrupt Routing */
-+    pci_conf[0x4f] = 0x03; /* DMA/Master Mem Access Control 3 */
-+    pci_conf[0x50] = 0x2d; /* PnP DMA Request Control */
-+    pci_conf[0x59] = 0x04;
-+    pci_conf[0x5a] = 0x04; /* KBC/RTC Control*/
-+    pci_conf[0x5f] = 0x04;
-+    pci_conf[0x77] = 0x10; /* GPIO Control 1/2/3/4 */
-+
-+    s->superio_cfg.regs[0xe0] = 0x3c; /* Device ID */
-+    s->superio_cfg.regs[0xe2] = 0x03; /* Function select */
-+    s->superio_cfg.regs[0xe3] = 0xfc; /* Floppy ctrl base addr */
-+    s->superio_cfg.regs[0xe6] = 0xde; /* Parallel port base addr */
-+    s->superio_cfg.regs[0xe7] = 0xfe; /* Serial port 1 base addr */
-+    s->superio_cfg.regs[0xe8] = 0xbe; /* Serial port 2 base addr */
-+}
-+
- static void vt82c686b_realize(PCIDevice *d, Error **errp)
+ static void pm_update_sci(VT686PMState *s)
  {
-     VT82C686BISAState *s = VT82C686B_ISA(d);
-@@ -354,6 +353,7 @@ static const TypeInfo via_info = {
-     },
- };
- 
-+
- static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
+     int sci_level, pmsts;
+@@ -128,35 +153,34 @@ static void vt82c686b_pm_reset(DeviceState *d)
  {
-     ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
-@@ -372,11 +372,12 @@ static const TypeInfo via_superio_info = {
-     .class_init    = vt82c686b_superio_class_init,
- };
+     VT686PMState *s = VT82C686B_PM(d);
  
-+
- static void vt82c686b_register_types(void)
- {
-     type_register_static(&via_pm_info);
--    type_register_static(&via_superio_info);
-     type_register_static(&via_info);
-+    type_register_static(&via_superio_info);
++    memset(s->dev.config + PCI_CONFIG_HEADER_SIZE, 0,
++           PCI_CONFIG_SPACE_SIZE - PCI_CONFIG_HEADER_SIZE);
++    /* Power Management IO base */
++    pci_set_long(s->dev.config + 0x48, 1);
+     /* SMBus IO base */
+     pci_set_long(s->dev.config + 0x90, 1);
+-    s->dev.config[0xd2] = 0;
+ 
++    pm_io_space_update(s);
+     smb_io_space_update(s);
  }
  
- type_init(vt82c686b_register_types)
+ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+ {
+     VT686PMState *s = VT82C686B_PM(dev);
+-    uint8_t *pci_conf;
+ 
+-    pci_conf = s->dev.config;
+-    pci_set_word(pci_conf + PCI_COMMAND, 0);
+-    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_FAST_BACK |
++    pci_set_word(dev->config + PCI_STATUS, PCI_STATUS_FAST_BACK |
+                  PCI_STATUS_DEVSEL_MEDIUM);
+ 
+-    /* 0x48-0x4B is Power Management I/O Base */
+-    pci_set_long(pci_conf + 0x48, 0x00000001);
+-
+     pm_smbus_init(DEVICE(s), &s->smb, false);
+     memory_region_add_subregion(pci_address_space_io(dev), 0, &s->smb.io);
+     memory_region_set_enabled(&s->smb.io, false);
+ 
+     apm_init(dev, &s->apm, NULL, s);
+ 
+-    memory_region_init(&s->io, OBJECT(dev), "vt82c686-pm", 64);
++    memory_region_init_io(&s->io, OBJECT(dev), &pm_io_ops, s,
++                          "vt82c686-pm", 0x100);
++    memory_region_add_subregion(pci_address_space_io(dev), 0, &s->io);
+     memory_region_set_enabled(&s->io, false);
+-    memory_region_add_subregion(get_system_io(), 0, &s->io);
+ 
+     acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
+     acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
 -- 
 2.21.3
 
