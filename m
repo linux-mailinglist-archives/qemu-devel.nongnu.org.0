@@ -2,38 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 178C52E72DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 19:00:45 +0100 (CET)
-Received: from localhost ([::1]:59678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B755C2E72D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 18:58:03 +0100 (CET)
+Received: from localhost ([::1]:53522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuJIa-0002lh-4R
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 13:00:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56204)
+	id 1kuJFx-00007Q-SI
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 12:58:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kuJEX-0006gR-9F; Tue, 29 Dec 2020 12:56:33 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49844
+ id 1kuJEd-0006tk-2t; Tue, 29 Dec 2020 12:56:39 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49858
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kuJEV-0004zV-54; Tue, 29 Dec 2020 12:56:33 -0500
+ id 1kuJEb-00050n-IC; Tue, 29 Dec 2020 12:56:38 -0500
 Received: from host86-148-34-1.range86-148.btcentralplus.com ([86.148.34.1]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kuJER-0007wV-3E; Tue, 29 Dec 2020 17:56:30 +0000
+ id 1kuJEZ-0007wV-Nl; Tue, 29 Dec 2020 17:56:40 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
  thuth@redhat.com
-Date: Tue, 29 Dec 2020 17:56:12 +0000
-Message-Id: <20201229175619.6051-1-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 29 Dec 2020 17:56:14 +0000
+Message-Id: <20201229175619.6051-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201229175619.6051-1-mark.cave-ayland@ilande.co.uk>
+References: <20201229175619.6051-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 0/7] macio: remove PIC object property links
+Subject: [PATCH v2 2/7] mac_oldworld: move initialisation of grackle before
+ heathrow
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -59,47 +62,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset follows on from the dicussion at https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg02630.html
-where the user_creatable flag for the macio devices was set back to false just
-before the 5.2 release.
-
-The underlying cause was that the PIC object property links were not being set
-before realise. Whilst this cannot happen when launching the g3beige and mac99
-machines from qemu-system-ppc, it caused some automated tests to fail.
-
-Here we fix the real problem which is to move the PIC for both machines into the
-macio device, which not only matches real hardware but also enables the PIC object
-property links to be completely removed.
-
-Patch 6 rewires the macio gpios for the mac99 machine as per Ben's original comment
-after the OpenPIC device has been moved into the macio-newworld device, and then
-finally patch 7 removes setting the user_creatable flag to false on the macio devices
-once again.
+In order to move the heathrow PIC to the macio device, the PCI bus needs to be
+initialised before the macio device and also before wiring the PIC IRQs.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/ppc/mac_oldworld.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-v2:
-- Add R-B tag for patch 1 from David
-- Update commit messages to included more detail as requested by David
-
-
-Mark Cave-Ayland (7):
-  mac_oldworld: remove duplicate bus check for PPC_INPUT(env)
-  mac_oldworld: move initialisation of grackle before heathrow
-  macio: move heathrow PIC inside macio-oldworld device
-  mac_newworld: delay wiring of PCI IRQs in New World machine
-  macio: move OpenPIC inside macio-newworld device
-  macio: wire macio GPIOs to OpenPIC using sysbus IRQs
-  macio: don't set user_creatable to false
-
- hw/misc/macio/gpio.c          | 24 +++--------
- hw/misc/macio/macio.c         | 53 ++++++++++++------------
- hw/ppc/mac_newworld.c         | 71 ++++++++++++++++----------------
- hw/ppc/mac_oldworld.c         | 76 ++++++++++++++++-------------------
- include/hw/misc/macio/gpio.h  |  2 -
- include/hw/misc/macio/macio.h |  4 +-
- 6 files changed, 104 insertions(+), 126 deletions(-)
-
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 2ead34bdf1..e58e0525fe 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -227,6 +227,21 @@ static void ppc_heathrow_init(MachineState *machine)
+         }
+     }
+ 
++    /* Grackle PCI host bridge */
++    dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
++    qdev_prop_set_uint32(dev, "ofw-addr", 0x80000000);
++    s = SYS_BUS_DEVICE(dev);
++    sysbus_realize_and_unref(s, &error_fatal);
++
++    sysbus_mmio_map(s, 0, GRACKLE_BASE);
++    sysbus_mmio_map(s, 1, GRACKLE_BASE + 0x200000);
++    /* PCI hole */
++    memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
++                                sysbus_mmio_get_region(s, 2));
++    /* Register 2 MB of ISA IO space */
++    memory_region_add_subregion(get_system_memory(), 0xfe000000,
++                                sysbus_mmio_get_region(s, 3));
++
+     /* XXX: we register only 1 output pin for heathrow PIC */
+     pic_dev = qdev_new(TYPE_HEATHROW);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(pic_dev), &error_fatal);
+@@ -251,21 +266,6 @@ static void ppc_heathrow_init(MachineState *machine)
+         tbfreq = TBFREQ;
+     }
+ 
+-    /* Grackle PCI host bridge */
+-    dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
+-    qdev_prop_set_uint32(dev, "ofw-addr", 0x80000000);
+-    s = SYS_BUS_DEVICE(dev);
+-    sysbus_realize_and_unref(s, &error_fatal);
+-
+-    sysbus_mmio_map(s, 0, GRACKLE_BASE);
+-    sysbus_mmio_map(s, 1, GRACKLE_BASE + 0x200000);
+-    /* PCI hole */
+-    memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
+-                                sysbus_mmio_get_region(s, 2));
+-    /* Register 2 MB of ISA IO space */
+-    memory_region_add_subregion(get_system_memory(), 0xfe000000,
+-                                sysbus_mmio_get_region(s, 3));
+-
+     for (i = 0; i < 4; i++) {
+         qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x15 + i));
+     }
 -- 
 2.20.1
 
