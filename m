@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F7B2E7374
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 21:17:32 +0100 (CET)
-Received: from localhost ([::1]:55620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD052E7357
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 21:13:12 +0100 (CET)
+Received: from localhost ([::1]:51956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuLQx-00048r-U4
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 15:17:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54338)
+	id 1kuLMl-00021w-3B
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 15:13:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kuLPH-0003ey-9l
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 15:15:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:36896)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kuLPF-0007Ij-5E
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 15:15:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kuLPC-0005eh-6s
- for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 20:15:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 32D152E813A
- for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 20:15:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kuLLF-0001aX-HV
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 15:11:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27232)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kuLL7-0005yL-Ip
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 15:11:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609272687;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ncZCk6+fLdaPlckvThIpBmlwUnigar8sg12Y93MdUTQ=;
+ b=OQQdtFzU1KfDbCnxObHixObXtTNRwtZyzMQgI4fOKnBi+ibUz9BFT7vSjjFOoX1lpc9CU7
+ gTkDp5g1uX4P3jwdojVmMPcoz5T5NSprPONeeEpG5nviDieaL8U9PRA2ipmmyULxoLkiVL
+ 6gW8UFh1Sf1lqvuNh5cUQbiXfw7bbOA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-SXpM9ineMvGwsXCdnFB7LA-1; Tue, 29 Dec 2020 15:11:25 -0500
+X-MC-Unique: SXpM9ineMvGwsXCdnFB7LA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 749F81800D42;
+ Tue, 29 Dec 2020 20:11:24 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8FB10E155;
+ Tue, 29 Dec 2020 20:11:19 +0000 (UTC)
+Date: Tue, 29 Dec 2020 21:11:17 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH] Deprecate pmem=on with non-DAX capable backend file
+Message-ID: <20201229211117.1e900ec6@redhat.com>
+In-Reply-To: <328c04e7-4ddb-82f6-16e4-ce8f692ff753@redhat.com>
+References: <20201229172900.571309-1-imammedo@redhat.com>
+ <328c04e7-4ddb-82f6-16e4-ce8f692ff753@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 29 Dec 2020 20:08:17 -0000
-From: Richard Henderson <1909392@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: faust1002 rth
-X-Launchpad-Bug-Reporter: Pawel Juszczyk (faust1002)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <160906206462.3532.14301931036322231609.malonedeb@wampee.canonical.com>
-Message-Id: <160927249767.28580.7032909127937685580.malone@gac.canonical.com>
-Subject: [Bug 1909392] Re: qemu-arm crashes (SIGSEGV) when executing push
- instruction
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 68913b7ce1889fe4b59d6958d4978b10ed1fcc71
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,69 +79,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1909392 <1909392@bugs.launchpad.net>
+Cc: libvir-list@redhat.com, haozhong.zhang@intel.com,
+ yi.z.zhang@linux.intel.com, qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The program is buggy.
+On Tue, 29 Dec 2020 19:04:58 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-The first instruction sets the stack to 0x20020000,
-but that address is not mapped.
+> On 12/29/20 6:29 PM, Igor Mammedov wrote:
+> > It is not safe to pretend that emulated NVDIMM supports
+> > persistence while backend actually failed to enable it
+> > and used non-persistent mapping as fall back.
+> > Instead of falling-back, QEMU should be more strict and
+> > error out with clear message that it's not supported.
+> > So if user asks for persistence (pmem=3Don), they should
+> > store backing file on NVDIMM.
+> >=20
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> >  docs/system/deprecated.rst | 14 ++++++++++++++
+> >  util/mmap-alloc.c          |  3 +++
+> >  2 files changed, 17 insertions(+)
+> >=20
+> > diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> > index bacd76d7a5..ba4f6ed2fe 100644
+> > --- a/docs/system/deprecated.rst
+> > +++ b/docs/system/deprecated.rst
+> > @@ -327,6 +327,20 @@ The Raspberry Pi machines come in various models (=
+A, A+, B, B+). To be able
+> >  to distinguish which model QEMU is implementing, the ``raspi2`` and ``=
+raspi3``
+> >  machines have been renamed ``raspi2b`` and ``raspi3b``.
+> > =20
+> > +Backend options
+> > +---------------
+> > +
+> > +Using non-persistent backing file with pmem=3Don (since 6.0)
+> > +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> > +
+> > +This option is used when ``memory-backend-file`` is consumed by emulat=
+ed NVDIMM
+> > +device. However enabling ``memory-backend-file.pmem`` option, when bac=
+king file
+> > +is not DAX capable or not on a filesystem that support direct mapping =
+of persistent =20
+>=20
+> Maybe clearer enumerating? As:
+> "is a) not DAX capable or b) not on a filesystem that support direct
+> mapping of persistent"
 
-Program Headers:
-  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-  LOAD           0x010000 0x08000000 0x08000000 0x0025c 0x0025c R E 0x10000
-  LOAD           0x020000 0x20000000 0x0800025c 0x00000 0x00600 RW  0x10000
+will change it to your variant in v2
 
-The data segment only goes from 0x20000000 - 0x20000600.
+>=20
+> > +memory, is not safe and may lead to data loss or corruption in case of=
+ host crash.
+> > +Using pmem=3Don option with such file will return error, instead of a =
+warning. =20
+>=20
+> Not sure the difference between warn/err is important in the doc.
+not many care about warnings until QEMU starts fine,
+I've mentioned error here so that whomever reading this would know what to =
+expect
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+>=20
+> > +Options are to move backing file to NVDIMM storage or modify VM config=
+uration
+> > +to set ``pmem=3Doff`` to continue using fake NVDIMM without persistenc=
+e guaranties. =20
+>=20
+> Maybe:
+>=20
+> The possibilities to continue using fake NVDIMM (without persistence
+> guaranties) are:
+> - move backing file to NVDIMM storage
+> - modify VM configuration to set ``pmem=3Doff``
 
--- =
+only the later is faking nvdimm, the first is properly emulated one with pe=
+rsistence guaranties.
+Maybe:
+ Options are:
+    - modify VM configuration to set ``pmem=3Doff`` to continue using fake =
+NVDIMM
+      (without persistence guaranties) on with backing file on non DAX stor=
+age
+    - move backing file to NVDIMM storage and keep ``pmem=3Don``,
+      to have NVDIMM with persistence guaranties.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1909392
+> > +
+> >  Device options
+> >  --------------
+> > =20
+> > diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+> > index 27dcccd8ec..d226273a98 100644
+> > --- a/util/mmap-alloc.c
+> > +++ b/util/mmap-alloc.c
+> > @@ -20,6 +20,7 @@
+> >  #include "qemu/osdep.h"
+> >  #include "qemu/mmap-alloc.h"
+> >  #include "qemu/host-utils.h"
+> > +#include "qemu/error-report.h"
+> > =20
+> >  #define HUGETLBFS_MAGIC       0x958458f6
+> > =20
+> > @@ -166,6 +167,8 @@ void *qemu_ram_mmap(int fd,
+> >                      "crash.\n", file_name);
+> >              g_free(proc_link);
+> >              g_free(file_name);
+> > +            warn_report("Deprecated using non DAX backing file with"
+> > +                        " pmem=3Don option"); =20
+>=20
+> Maybe "Using non DAX backing file with 'pmem=3Don' option is deprecated"?
+ok
 
-Title:
-  qemu-arm crashes (SIGSEGV) when executing push instruction
+>=20
+> Beside the nitpicking comments,
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>=20
+> >          }
+> >          /*
+> >           * if map failed with MAP_SHARED_VALIDATE | MAP_SYNC,
+> >  =20
+>=20
 
-Status in QEMU:
-  Invalid
-
-Bug description:
-  Dear all,
-  I am afraid I found a problem, it seems like qemu-arm crashes when execut=
-ing assembly push instruction.
-  I use qemu version 5.2.0, but it checked an older version (4.2.1) and the=
- problem was also present. I start qemu using "qemu-arm -cpu cortex-m4 -sin=
-glestep -g 1234 <path to elf file>"
-  Callstack before crash (host)
-  #0  0x000055555575961f in stl_he_p (ptr=3D0x2002fffc, v=3D0) at /home/fau=
-st1002/Programming/qemu/qemu-5.2.0/include/qemu/bswap.h:353
-  #1  0x0000555555759716 in stl_le_p (ptr=3D0x2002fffc, v=3D0) at /home/fau=
-st1002/Programming/qemu/qemu-5.2.0/include/qemu/bswap.h:395
-  #2  0x000055555575d3c3 in tcg_qemu_tb_exec (env=3D0x555555d28050, tb_ptr=
-=3D0x7fffe800010a "\r\b") at ../tcg/tci.c:1221
-  #3  0x00005555556bd982 in cpu_tb_exec (cpu=3D0x555555d1fd70, itb=3D0x7fff=
-e8000000) at ../accel/tcg/cpu-exec.c:178
-  #4  0x00005555556be57e in cpu_loop_exec_tb (cpu=3D0x555555d1fd70, tb=3D0x=
-7fffe8000000, last_tb=3D0x7fffffffd8a8, tb_exit=3D0x7fffffffd8a0) at ../acc=
-el/tcg/cpu-exec.c:658
-  #5  0x00005555556be7ea in cpu_exec (cpu=3D0x555555d1fd70) at ../accel/tcg=
-/cpu-exec.c:771
-  #6  0x000055555560af1d in cpu_loop (env=3D0x555555d28050) at ../linux-use=
-r/arm/cpu_loop.c:237
-  #7  0x00005555557415a7 in main (argc=3D7, argv=3D0x7fffffffe0f8, envp=3D0=
-x7fffffffe138) at ../linux-user/main.c:861
-  Callstack before crash (target)
-  Program received signal SIGSEGV, Segmentation fault.
-  Reset_Handler () at startup.s:48
-  48        push {r14}
-  Please find the elf file I use attached.
-  Kind regards
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1909392/+subscriptions
 
