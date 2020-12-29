@@ -2,105 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA4B2E6D32
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 03:16:01 +0100 (CET)
-Received: from localhost ([::1]:44626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01CDB2E6D63
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 03:57:58 +0100 (CET)
+Received: from localhost ([::1]:36612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ku4YK-00030C-8v
-	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 21:16:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49238)
+	id 1ku5Cv-0005tu-Iv
+	for lists+qemu-devel@lfdr.de; Mon, 28 Dec 2020 21:57:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1ku4Tu-0008CE-KM
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 21:11:26 -0500
-Received: from mail-oln040092255056.outbound.protection.outlook.com
- ([40.92.255.56]:56960 helo=APC01-HK2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1ku5C3-0005Ui-37
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 21:57:03 -0500
+Received: from mga03.intel.com ([134.134.136.65]:40737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1ku4Tr-0005hc-J4
- for qemu-devel@nongnu.org; Mon, 28 Dec 2020 21:11:26 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fu+b6B6gfwV5wZDqpwLd7rLCngzFvwplMd9LJlc4kh6HkMmGKg78RbX5VZUuJpkSYsdq2w0OAxY95ATqbewnRa9Uysj2va3KguXhb8SJxYebHjn0/Emlr7KPXxl3wWeFae2W/OlI+G+b3kcvDBMKCKeICxrg54nhHsP7w8ypBkp0B7lGhzAYMl4+6eYpuWYqj9+HN3VTJcAcHhW7ONU1PnTI5aRR7WZ4hE0RQiMmj0ftXjMhIWLwqZjIHrlQcyYuIIZ/GTthgWS4cTPhLNK1YMuQfF5OePBNAl1RCOAeo9p49o6vhHC2rTPgsbCHqlBbaHUFKuKPNZ9G5RtnnCKViA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lwq/Wv2Xi8oD+fI0lO/167munApcJZXUgnXwZCDlFZA=;
- b=SyNSwqwZdO9lyOsEUWeiUG0TIU2NlrmzFuXKqH7dRq0xNCUw7A6w0bQJr+jXydnOLrhiAfO9cGBwpkGs7sgPuRWHsZo2DeRiGoFhosOZ4kNcoh+e/+0j7F2AiAsz4wa6Hk0V59AdDmmWiCOr7B6fioM4kehI72/3wwia16t26y3TStdFFurlydzywepW4BEH2RjUKKCFwRsRL8ROVRuubp2khJ+2nJcJse5S6XZZFzLEzOPkRS8qI3HUFUedaLoALYzstfqVffN/KFgTihIXaS2Jg5hQrpLyNPEabudYcB8xN+V4oUP1zVG6M9jWDg5vzzLc3k8L5JyDm49cSxGXog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lwq/Wv2Xi8oD+fI0lO/167munApcJZXUgnXwZCDlFZA=;
- b=W5dyoRKyEoxeoRanUza0PeEeqG5BI884e5PaFcQ35kdDvdGlmkraIpl52MGUBDUASeZE995bzmQqqtmk3Cq9AIOWM0QJkjyI/8KOBV++p5HzEGHtpwnmOV+VTw9gO3pZ+HPolPGyFDyR8xm7M5wXODf9dR0xCNWCm62J4o9cY9MTrv0hs/jUeD7EQBgrwllYmoQrIamkVZPAG4EgeX9HaSQc2VYD4EB7Ekoohb5KRKuA5kV1C+z9l05h0ELLWn12Z7WrI2z0bGBGm6j23RAMP4t/JgdLwdAFTVY0pEgRVrIHjZJijHCTpIP+5ITi/JWbCll3L7223Mw3NR3enKRcAw==
-Received: from SG2APC01FT031.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebd::43) by
- SG2APC01HT210.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebd::471)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.27; Tue, 29 Dec
- 2020 02:11:06 +0000
-Received: from ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM (10.152.250.54) by
- SG2APC01FT031.mail.protection.outlook.com (10.152.250.217) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3700.27 via Frontend Transport; Tue, 29 Dec 2020 02:11:06 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:BA458ADE3EA70CC96A43C445345A00FA1FE4A7C7EB8667D0FA476AB308339114;
- UpperCasedChecksum:421C27A553187A4AB298E339C731E45B812E419DC0D65EF0D2E904424B17DFEC;
- SizeAsReceived:7657; Count:47
-Received: from ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
- ([fe80::88cb:2262:60f7:7d1e]) by ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
- ([fe80::88cb:2262:60f7:7d1e%8]) with mapi id 15.20.3700.031; Tue, 29 Dec 2020
- 02:11:06 +0000
-From: Qiuhao Li <Qiuhao.Li@outlook.com>
-To: alxndr@bu.edu,
-	qemu-devel@nongnu.org
-Subject: [PATCH v3 7/7] fuzz: heuristic split write based on past IOs
-Date: Tue, 29 Dec 2020 10:07:13 +0800
-Message-ID: <ME3P282MB17458346D25787EE6C301F5AFCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <ME3P282MB17451412C0E506C9D5108B35FCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
-References: <ME3P282MB17451412C0E506C9D5108B35FCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [w0Z9rD0rmFIWf+z3KjOnoGyiOj9hQaDfwDBzmTdDSl8LqEK6skroAcMCVQmkmXff]
-X-ClientProxiedBy: TY2PR02CA0057.apcprd02.prod.outlook.com
- (2603:1096:404:e2::21) To ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:220:ac::12)
-X-Microsoft-Original-Message-ID: <20201229020713.3699486-7-Qiuhao.Li@outlook.com>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1ku5Bz-00048I-M5
+ for qemu-devel@nongnu.org; Mon, 28 Dec 2020 21:57:02 -0500
+IronPort-SDR: zVSrrPe7ltvjKhv7nXXbipgUsyvyLgp8xrMCbK1K5byJv6W3lgdQxOQb9izOIXpj173enhSk/9
+ eeVyX1VQ2mww==
+X-IronPort-AV: E=McAfee;i="6000,8403,9848"; a="176547007"
+X-IronPort-AV: E=Sophos;i="5.78,456,1599548400"; d="scan'208";a="176547007"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Dec 2020 18:56:52 -0800
+IronPort-SDR: kFU9l2aKsFJnbfslkUfa5bRz0B/LIiF00fBR+QixVjgl/gnApD4+y10SQKU+fTjKbckqNYaxU3
+ nvbZRT+IfK/Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,456,1599548400"; d="scan'208";a="567611194"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga005.fm.intel.com with ESMTP; 28 Dec 2020 18:56:51 -0800
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 28 Dec 2020 18:56:51 -0800
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ SHSMSX605.ccr.corp.intel.com (10.109.6.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 29 Dec 2020 10:56:49 +0800
+Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
+ SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.1713.004;
+ Tue, 29 Dec 2020 10:56:49 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>, "Eric
+ Blake" <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Subject: RE: [PATCH 1/3] qapi/net: Add new QMP command for COLO passthrough
+Thread-Topic: [PATCH 1/3] qapi/net: Add new QMP command for COLO passthrough
+Thread-Index: AQHW2ZH35CoUMePT00WBg9eX6s7M0aoG0rqAgATaJwD//+sqgIABz6ig
+Date: Tue, 29 Dec 2020 02:56:49 +0000
+Message-ID: <704028b0dbf843ed9ae64b93ecd1db13@intel.com>
+References: <20201224010918.19275-1-chen.zhang@intel.com>
+ <20201224010918.19275-2-chen.zhang@intel.com>
+ <08fe5c51-1383-12dd-b255-151a868cd6d9@redhat.com>
+ <a4adb965911348f4901f72e7e472c07e@intel.com>
+ <97d593c2-222d-a3cf-e797-8d77b8701bed@redhat.com>
+In-Reply-To: <97d593c2-222d-a3cf-e797-8d77b8701bed@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pc (2001:250:fe01:130:6d26:2348:77a5:f7ed) by
- TY2PR02CA0057.apcprd02.prod.outlook.com (2603:1096:404:e2::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3700.27 via Frontend Transport; Tue, 29 Dec 2020 02:11:05 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 47
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: e631d7d5-d9f9-42b8-6468-08d8ab9f0067
-X-MS-Exchange-SLBlob-MailProps: S/btQ8cKWiRaJ+ox6yOiFxhBa7ZFYMmi4iQ5j3/PO1qZZR1+ERXa7c14KBiBQlvjDnb1ohQ3kuy+SB5vrHLJ+v24C9Hm8k13v1X+ylqaNTZKUMXW1QawnWHwrt3OPIa+80kJWe56nSfVYP/9hAHCr40CDF0/hmMMn/ql8W+mRtsoxwxM1ayXYR4AqRvg87/hVLrAJB4+k1duZG6kW+eYxQP5iucEEze8SAMW4RTFEyqvLa4318g9s3jkEISmEPDYg4qvDNXKBo+AGY2uhYwb5Nn4N/t8NzfB4zm/DbZWTit007t/RUL4vcAsjoxDWv9Cbi+f+cwD2O0SMjrlWKmCARYUL1Kf9XmT5YfSHRHvAFr4ggA47Rg0dL9Bv5sj1/+qf2pNQgkRhWbOdzT679fYlpnOmBvaUxmeQDcjPubE6mcUJQM7DV+hH0VxFAbXV6QOZ8x2whzM4FTlUjNhFwrsrMVp4IoEIhm7gcJiUWXnnrz4BHAh6jbYcrrsxxEdfVmv8UtpzXSTGYG0GqXU15udWTvkXPVRUXw7G2qLjNgE8IZJFfsRmC/VAUKmz79aWh3pQHmKZmVOTKT33KgeoK4lNMbpBxyu01TMXOw33vj7Uqef0XmxA7xgNfgNXifCCxvbCXrTvu/RAvtRQvfpvKakH8rQAMWKTZjhaQFOGLMmTqKFzk0SVFbnxhtuc62HTbCpUHGjLJVFv0N407UiG1XgMnMUMeg5O1XoHte0c0RP29Ss7YWuNb4OwEj8qaPKCX5HR/ytEj560gc=
-X-MS-TrafficTypeDiagnostic: SG2APC01HT210:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yY8yHRpDCWSTEOigbASp9eaXtj2qSsWWtWUJ7jLxBzHPC7kbfxZ6Gxu59Foj6+am+RNoIA74K/jHVCFYCiX1NxA5UCzVuG4HhtGZ3EdSh9fgS103ss0hdfwb2/dWjSs3Urz1kO74Mr7HT+Q64hzQRpuLe8D3OjtbCK05Kshe4xG990E0qe2Tjuk1DLmoJZlerdm2wkRjJo0ntFgoDy7acsftQSq8rYGF6gtKFXmYbCxSyDU8zqgBPgAd5EmGSGRT
-X-MS-Exchange-AntiSpam-MessageData: 59dUYIHR9dmbz+qezYUjvpCwJLoF2A6UinQHh2f3qKm+hQ0pK0OPejdhCh/sNa7alzMshKOHgFyGAdIY+RmpEdDZN2h1lKfrw6ZNH0Bh6YnIJZPwcTJZuydfPRrz/BPiSG0f4yXAEhcdSMQaPCSCx+sikmbm/ca2Te8gOYkKQitZDkQz0JisBipoX/rjuRrCAbyOhe6Xp978KpipAjoEUw==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Dec 2020 02:11:06.6705 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: e631d7d5-d9f9-42b8-6468-08d8ab9f0067
-X-MS-Exchange-CrossTenant-AuthSource: SG2APC01FT031.eop-APC01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT210
-Received-SPF: pass client-ip=40.92.255.56; envelope-from=Qiuhao.Li@outlook.com;
- helo=APC01-HK2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=134.134.136.65; envelope-from=chen.zhang@intel.com;
+ helo=mga03.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,94 +89,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Qiuhao Li <Qiuhao.Li@outlook.com>,
- darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com
+Cc: Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If previous write commands write the same length of data with the same step,
-we view it as a hint.
-
-Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
----
- scripts/oss-fuzz/minimize_qtest_trace.py | 55 ++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
-
-diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-index 050b9f2195..5a8e90a604 100755
---- a/scripts/oss-fuzz/minimize_qtest_trace.py
-+++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-@@ -83,6 +83,42 @@ def check_if_trace_crashes(trace, path):
- 
-     return False
- 
-+# If previous write commands write the same length of data at the same
-+# interval, we view it as a hint.
-+def split_write_hint(newtrace, i):
-+    HINT_LEN = 3 # > 2
-+    if i <=(HINT_LEN-1):
-+        return None
-+
-+    #find previous continuous write traces
-+    k = 0
-+    l = i-1
-+    writes = []
-+    while (k != HINT_LEN and l >= 0):
-+        if newtrace[l].startswith("write "):
-+            writes.append(newtrace[l])
-+            k += 1
-+            l -= 1
-+        elif newtrace[l] == "":
-+            l -= 1
-+        else:
-+            return None
-+    if k != HINT_LEN:
-+        return None
-+
-+    length = int(writes[0].split()[2], 16)
-+    for j in range(1, HINT_LEN):
-+        if length != int(writes[j].split()[2], 16):
-+            return None
-+
-+    step = int(writes[0].split()[1], 16) - int(writes[1].split()[1], 16)
-+    for j in range(1, HINT_LEN-1):
-+        if step != int(writes[j].split()[1], 16) - \
-+            int(writes[j+1].split()[1], 16):
-+            return None
-+
-+    return (int(writes[0].split()[1], 16)+step, length)
-+
- 
- def remove_minimizer(newtrace, outpath):
-     remove_step = 1
-@@ -147,6 +183,25 @@ def remove_minimizer(newtrace, outpath):
-             length = int(newtrace[i].split()[2], 16)
-             data = newtrace[i].split()[3][2:]
-             if length > 1:
-+
-+                # Can we get a hint from previous writes?
-+                hint = split_write_hint(newtrace, i)
-+                if hint is not None:
-+                    hint_addr = hint[0]
-+                    hint_len = hint[1]
-+                    if hint_addr >= addr and hint_addr+hint_len <= addr+length:
-+                        newtrace[i] = "write {addr} {size} 0x{data}\n".format(
-+                            addr=hex(hint_addr),
-+                            size=hex(hint_len),
-+                            data=data[(hint_addr-addr)*2:\
-+                                (hint_addr-addr)*2+hint_len*2])
-+                        if check_if_trace_crashes(newtrace, outpath):
-+                            # next round
-+                            i += 1
-+                            continue
-+                        newtrace[i] = prior[0]
-+
-+                # Try splitting it using a binary approach
-                 leftlength = int(length/2)
-                 rightlength = length - leftlength
-                 newtrace.insert(i+1, "")
--- 
-2.25.1
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSmFzb24gV2FuZyA8amFz
+b3dhbmdAcmVkaGF0LmNvbT4NCj4gU2VudDogTW9uZGF5LCBEZWNlbWJlciAyOCwgMjAyMCAzOjEx
+IFBNDQo+IFRvOiBaaGFuZywgQ2hlbiA8Y2hlbi56aGFuZ0BpbnRlbC5jb20+OyBxZW11LWRldiA8
+cWVtdS0NCj4gZGV2ZWxAbm9uZ251Lm9yZz47IEVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29t
+PjsgRHIuIERhdmlkIEFsYW4NCj4gR2lsYmVydCA8ZGdpbGJlcnRAcmVkaGF0LmNvbT47IE1hcmt1
+cyBBcm1icnVzdGVyIDxhcm1icnVAcmVkaGF0LmNvbT4NCj4gQ2M6IFpoYW5nIENoZW4gPHpoYW5n
+Y2tpZEBnbWFpbC5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMS8zXSBxYXBpL25ldDogQWRk
+IG5ldyBRTVAgY29tbWFuZCBmb3IgQ09MTw0KPiBwYXNzdGhyb3VnaA0KPiANCj4gDQo+IE9uIDIw
+MjAvMTIvMjgg5LiK5Y2IODozOCwgWmhhbmcsIENoZW4gd3JvdGU6DQo+ID4NCj4gPj4gLS0tLS1P
+cmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogSmFzb24gV2FuZyA8amFzb3dhbmdAcmVk
+aGF0LmNvbT4NCj4gPj4gU2VudDogRnJpZGF5LCBEZWNlbWJlciAyNSwgMjAyMCAyOjIwIFBNDQo+
+ID4+IFRvOiBaaGFuZywgQ2hlbiA8Y2hlbi56aGFuZ0BpbnRlbC5jb20+OyBxZW11LWRldiA8cWVt
+dS0NCj4gPj4gZGV2ZWxAbm9uZ251Lm9yZz47IEVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29t
+PjsgRHIuIERhdmlkIEFsYW4NCj4gPj4gR2lsYmVydCA8ZGdpbGJlcnRAcmVkaGF0LmNvbT47IE1h
+cmt1cyBBcm1icnVzdGVyDQo+IDxhcm1icnVAcmVkaGF0LmNvbT4NCj4gPj4gQ2M6IFpoYW5nIENo
+ZW4gPHpoYW5nY2tpZEBnbWFpbC5jb20+DQo+ID4+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMS8zXSBx
+YXBpL25ldDogQWRkIG5ldyBRTVAgY29tbWFuZCBmb3IgQ09MTw0KPiA+PiBwYXNzdGhyb3VnaA0K
+PiA+Pg0KPiA+Pg0KPiA+PiBPbiAyMDIwLzEyLzI0IOS4iuWNiDk6MDksIFpoYW5nIENoZW4gd3Jv
+dGU6DQo+ID4+PiBGcm9tOiBaaGFuZyBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT4NCj4gPj4+
+DQo+ID4+PiBTaW5jZSB0aGUgcmVhbCB1c2VyIHNjZW5hcmlvIGRvZXMgbm90IG5lZWQgdG8gbW9u
+aXRvciBhbGwgdHJhZmZpYy4NCj4gPj4+IEFkZCBjb2xvLXBhc3N0aHJvdWdoLWFkZCBhbmQgY29s
+by1wYXNzdGhyb3VnaC1kZWwgdG8gbWFpbnRhaW4gYSBDT0xPDQo+ID4+PiBuZXR3b3JrIHBhc3N0
+aHJvdWdoIGxpc3QuDQo+ID4+Pg0KPiA+Pj4gU2lnbmVkLW9mZi1ieTogWmhhbmcgQ2hlbiA8Y2hl
+bi56aGFuZ0BpbnRlbC5jb20+DQo+ID4+PiAtLS0NCj4gPj4+ICAgIG5ldC9uZXQuYyAgICAgfCAx
+MiArKysrKysrKysrKysNCj4gPj4+ICAgIHFhcGkvbmV0Lmpzb24gfCA0Ng0KPiA+PiArKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4+PiAgICAyIGZpbGVz
+IGNoYW5nZWQsIDU4IGluc2VydGlvbnMoKykNCj4gPj4+DQo+ID4+PiBkaWZmIC0tZ2l0IGEvbmV0
+L25ldC5jIGIvbmV0L25ldC5jDQo+ID4+PiBpbmRleCBlMTAzNWYyMWQxLi5lYWM3YTkyNjE4IDEw
+MDY0NA0KPiA+Pj4gLS0tIGEvbmV0L25ldC5jDQo+ID4+PiArKysgYi9uZXQvbmV0LmMNCj4gPj4+
+IEBAIC0xMTUxLDYgKzExNTEsMTggQEAgdm9pZCBxbXBfbmV0ZGV2X2RlbChjb25zdCBjaGFyICpp
+ZCwgRXJyb3INCj4gPj4gKiplcnJwKQ0KPiA+Pj4gICAgICAgIHFlbXVfZGVsX25ldF9jbGllbnQo
+bmMpOw0KPiA+Pj4gICAgfQ0KPiA+Pj4NCj4gPj4+ICt2b2lkIHFtcF9jb2xvX3Bhc3N0aHJvdWdo
+X2FkZChjb25zdCBjaGFyICpwcm90LCBjb25zdCB1aW50MzJfdCBwb3J0LA0KPiA+Pj4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIEVycm9yICoqZXJycCkgew0KPiA+Pj4gKyAgICAvKiBT
+ZXR1cCBwYXNzdGhyb3VnaCBjb25uZWN0aW9uICovIH0NCj4gPj4+ICsNCj4gPj4+ICt2b2lkIHFt
+cF9jb2xvX3Bhc3N0aHJvdWdoX2RlbChjb25zdCBjaGFyICpwcm90LCBjb25zdCB1aW50MzJfdCBw
+b3J0LA0KPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEVycm9yICoqZXJycCkg
+ew0KPiA+Pj4gKyAgICAvKiBEZWxldGUgcGFzc3Rocm91Z2ggY29ubmVjdGlvbiAqLyB9DQo+ID4+
+PiArDQo+ID4+PiAgICBzdGF0aWMgdm9pZCBuZXRmaWx0ZXJfcHJpbnRfaW5mbyhNb25pdG9yICpt
+b24sIE5ldEZpbHRlclN0YXRlICpuZikNCj4gPj4+ICAgIHsNCj4gPj4+ICAgICAgICBjaGFyICpz
+dHI7DQo+ID4+PiBkaWZmIC0tZ2l0IGEvcWFwaS9uZXQuanNvbiBiL3FhcGkvbmV0Lmpzb24gaW5k
+ZXgNCj4gPj4+IGMzMTc0OGM4N2YuLjQ2NmMyOTcxNGUgMTAwNjQ0DQo+ID4+PiAtLS0gYS9xYXBp
+L25ldC5qc29uDQo+ID4+PiArKysgYi9xYXBpL25ldC5qc29uDQo+ID4+PiBAQCAtNzE0LDMgKzcx
+NCw0OSBAQA0KPiA+Pj4gICAgIyMNCj4gPj4+ICAgIHsgJ2V2ZW50JzogJ0ZBSUxPVkVSX05FR09U
+SUFURUQnLA0KPiA+Pj4gICAgICAnZGF0YSc6IHsnZGV2aWNlLWlkJzogJ3N0cid9IH0NCj4gPj4+
+ICsNCj4gPj4+ICsjIw0KPiA+Pj4gKyMgQGNvbG8tcGFzc3Rocm91Z2gtYWRkOg0KPiA+Pj4gKyMN
+Cj4gPj4+ICsjIEFkZCBwYXNzdGhyb3VnaCBlbnRyeSBhY2NvcmRpbmcgdG8gY3VzdG9tZXIncyBu
+ZWVkcyBpbiBDT0xPLQ0KPiBjb21wYXJlLg0KPiA+Pj4gKyMNCj4gPj4+ICsjIEBwcm90b2NvbDog
+Q09MTyBwYXNzdGhyb3VnaCBqdXN0IHN1cHBvcnQgVENQIGFuZCBVRFAuDQo+ID4+PiArIw0KPiA+
+Pj4gKyMgQHBvcnQ6IFRDUCBvciBVRFAgcG9ydCBudW1iZXIuDQo+ID4+PiArIw0KPiA+Pj4gKyMg
+UmV0dXJuczogTm90aGluZyBvbiBzdWNjZXNzDQo+ID4+PiArIw0KPiA+Pj4gKyMgU2luY2U6IDUu
+Mw0KPiA+Pj4gKyMNCj4gPj4+ICsjIEV4YW1wbGU6DQo+ID4+PiArIw0KPiA+Pj4gKyMgLT4geyAi
+ZXhlY3V0ZSI6ICJjb2xvLXBhc3N0aHJvdWdoLWFkZCIsDQo+ID4+PiArIyAgICAgICJhcmd1bWVu
+dHMiOiB7ICJwcm90b2NvbCI6ICJ0Y3AiLCAicG9ydCI6IDMzODkgfSB9DQo+ID4+PiArIyA8LSB7
+ICJyZXR1cm4iOiB7fSB9DQo+ID4+PiArIw0KPiA+Pj4gKyMjDQo+ID4+PiAreyAnY29tbWFuZCc6
+ICdjb2xvLXBhc3N0aHJvdWdoLWFkZCcsDQo+ID4+PiArICAgICAnZGF0YSc6IHsncHJvdG9jb2wn
+OiAnc3RyJywgJ3BvcnQnOiAndWludDMyJ30gfQ0KPiA+Pg0KPiA+PiBEbyB3ZSBwbGFuIHRvIHN1
+cHBvcnQgNC10dXBsZSAoc3JjIGlwLHNyYyBwb3J0LCBkc3QgaXAsIGRzdCBwb3J0KSBpbg0KPiA+
+PiB0aGUgZnV0dXJlPyBJZiB5ZXMsIGxldCdzIGFkZCB0aGVtIG5vdy4NCj4gPj4NCj4gPj4gQW5k
+IGRvIHdlIHBsYW4gdG8gc3VwcG9ydCB3aWxkY2FyZCBoZXJlPw0KPiA+IEkgdGhpbmsganVzdCB1
+c2luZyB0aGUgcG9ydCBpcyBlbm91Z2ggZm9yIENPTE8gY29tcGFyZS4NCj4gPiBCZWNhdXNlIGlu
+IHRoaXMgY2FzZSwgdXNlcnMgbmVlZCBwYXNzdGhyb3VnaCBzb21lIGd1ZXN0IHNlcnZpY2VzIGFy
+ZQ0KPiBkaXN0aW5ndWlzaGVkIGJ5IHN0YXRpYyBwb3J0cy4NCj4gPiBBbmQgZm9yIHN1cHBvcnQg
+NC10dXBsZSBhbmQgd2lsZGNhcmQgYXJlIGEgZ29vZCBxdWVzdGlvbiwgZG8geW91IHRoaW5rDQo+
+ID4gd2Ugc2hvdWxkIGFkZCBzb21lIHBhc3N0aHJvdWdoIE1lY2hhbmlzbSBmb3IgYWxsIFFlbXUg
+bmV0IGZpbHRlcj8gSWYgeWVzLA0KPiB3ZSBzaG91bGQgc3VwcG9ydCB0aGF0IGluIHRoZSBmdXR1
+cmUuDQo+IA0KPiANCj4gSSB0aGluayB3ZSBjYW4gc3RhcnQgZm9ybSBDT0xPLiBUbyBhdm9pZCBR
+TVAgY29tcGF0aWJpbGl0eSBpc3N1ZXMsIEkgd291bGQNCj4gbGlrZSB0byBhZGQgdGhlIG4gdHVw
+bGUgYW5kIHdpbGRjYXJkIHN1cHBvcnQgbm93Lg0KDQpPSywgSSB3aWxsIGRvIHRoaXMgam9iIGlu
+IG5leHQgdmVyc2lvbi4NCkZvciB0aGUgUU1QIGNvbXBhdGliaWxpdHkgaXNzdWVzLCBwbGVhc2Ug
+Z2l2ZSBtZSBhIGRlbW8gb2Ygd2hhdCB3ZSB3YW50IHRvIHNlZSwgTGlrZSBzb21lIGV4aXN0aW5n
+IGNvbW1hbmRzLg0KDQpUaGFua3MNCkNoZW4NCg0KPiANCj4gVGhhbmtzDQo+IA0KPiANCj4gPg0K
+PiA+IFRoYW5rcw0KPiA+IENoZW4NCj4gPg0KPiA+PiBUaGFua3MNCj4gPj4NCj4gPj4NCj4gPj4+
+ICsNCj4gPj4+ICsjIw0KPiA+Pj4gKyMgQGNvbG8tcGFzc3Rocm91Z2gtZGVsOg0KPiA+Pj4gKyMN
+Cj4gPj4+ICsjIERlbGV0ZSBwYXNzdGhyb3VnaCBlbnRyeSBhY2NvcmRpbmcgdG8gY3VzdG9tZXIn
+cyBuZWVkcyBpbiBDT0xPLQ0KPiA+PiBjb21wYXJlLg0KPiA+Pj4gKyMNCj4gPj4+ICsjIEBwcm90
+b2NvbDogQ09MTyBwYXNzdGhyb3VnaCBqdXN0IHN1cHBvcnQgVENQIGFuZCBVRFAuDQo+ID4+PiAr
+Iw0KPiA+Pj4gKyMgQHBvcnQ6IFRDUCBvciBVRFAgcG9ydCBudW1iZXIuDQo+ID4+PiArIw0KPiA+
+Pj4gKyMgUmV0dXJuczogTm90aGluZyBvbiBzdWNjZXNzDQo+ID4+PiArIw0KPiA+Pj4gKyMgU2lu
+Y2U6IDUuMw0KPiA+Pj4gKyMNCj4gPj4+ICsjIEV4YW1wbGU6DQo+ID4+PiArIw0KPiA+Pj4gKyMg
+LT4geyAiZXhlY3V0ZSI6ICJjb2xvLXBhc3N0aHJvdWdoLWRlbCIsDQo+ID4+PiArIyAgICAgICJh
+cmd1bWVudHMiOiB7ICJwcm90b2NvbCI6ICJ0Y3AiLCAicG9ydCI6IDMzODkgfSB9DQo+ID4+PiAr
+IyA8LSB7ICJyZXR1cm4iOiB7fSB9DQo+ID4+PiArIw0KPiA+Pj4gKyMjDQo+ID4+PiAreyAnY29t
+bWFuZCc6ICdjb2xvLXBhc3N0aHJvdWdoLWRlbCcsDQo+ID4+PiArICAgICAnZGF0YSc6IHsncHJv
+dG9jb2wnOiAnc3RyJywgJ3BvcnQnOiAndWludDMyJ30gfQ0KDQo=
 
