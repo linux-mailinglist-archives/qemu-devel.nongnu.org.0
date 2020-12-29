@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 950602E7304
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 19:32:58 +0100 (CET)
-Received: from localhost ([::1]:60240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 913162E730A
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 19:43:08 +0100 (CET)
+Received: from localhost ([::1]:37614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuJnl-0008Lw-6s
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 13:32:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34444)
+	id 1kuJxb-0002zS-BH
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 13:43:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kuJlj-0007u2-KK
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 13:30:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54646)
+ id 1kuJvY-0002WK-7S
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 13:41:00 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kuJlg-0006F4-MC
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 13:30:51 -0500
+ id 1kuJvW-0000jG-6g
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 13:41:00 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kuJle-000058-Ju
- for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 18:30:46 +0000
+ id 1kuJvU-0000Vx-20
+ for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 18:40:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9567B2E8137
- for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 18:30:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0D44E2E813A
+ for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 18:40:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 29 Dec 2020 18:25:11 -0000
+Date: Tue, 29 Dec 2020 18:34:33 -0000
 From: Richard Henderson <1908551@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,14 +42,14 @@ X-Launchpad-Bug-Commenters: nsz rth
 X-Launchpad-Bug-Reporter: Szabolcs Nagy (nsz)
 X-Launchpad-Bug-Modifier: Richard Henderson (rth)
 References: <160822351418.3694.12914163160887636672.malonedeb@gac.canonical.com>
-Message-Id: <160926631170.1489.793118387537287158.malone@soybean.canonical.com>
+Message-Id: <160926687362.1414.1395967890018733030.malone@soybean.canonical.com>
 Subject: [Bug 1908551] Re: aarch64 SVE emulation breaks strnlen and strrchr
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: cc39693bc3ecf9f688c8a809bb2d8e22da788d12
+X-Launchpad-Hash: c8a490e350099716d9fe2905293feba84c8753d8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,19 +74,12 @@ Reply-To: Bug 1908551 <1908551@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I don't know why the test worked previously, and I did not
-investigate, but as far as I can tell, the test is broken.
+FWIW, as I think on this further, this probably isn't the
+ideal fix -- I recall now that INCP is a "reduction" class
+instruction and thus its overhead is non-trivial.
 
-The test is returning a value >=3D maxlen because it it using
-the wrong increment.  Fixed thus.
-
-
-** Patch added: "z.patch"
-   https://bugs.launchpad.net/qemu/+bug/1908551/+attachment/5447723/+files/=
-z.patch
-
-** Changed in: qemu
-       Status: Confirmed =3D> Invalid
+We could instead add an integer min operation at label 9,
+which is outside of the main loop.
 
 -- =
 
