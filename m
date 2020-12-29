@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B4BB2E72DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 18:59:41 +0100 (CET)
-Received: from localhost ([::1]:57208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F312E72E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 19:04:09 +0100 (CET)
+Received: from localhost ([::1]:39604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuJHY-0001et-De
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 12:59:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56398)
+	id 1kuJLs-0006v8-Kk
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 13:04:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kuJEy-0007S9-Vr; Tue, 29 Dec 2020 12:57:01 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49892
+ id 1kuJEY-0006jR-IV; Tue, 29 Dec 2020 12:56:34 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49850
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kuJEx-00055k-Bu; Tue, 29 Dec 2020 12:57:00 -0500
+ id 1kuJEW-0004zs-Pd; Tue, 29 Dec 2020 12:56:34 -0500
 Received: from host86-148-34-1.range86-148.btcentralplus.com ([86.148.34.1]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kuJEv-0007wV-24; Tue, 29 Dec 2020 17:57:01 +0000
+ id 1kuJEU-0007wV-QD; Tue, 29 Dec 2020 17:56:35 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
  thuth@redhat.com
-Date: Tue, 29 Dec 2020 17:56:18 +0000
-Message-Id: <20201229175619.6051-7-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 29 Dec 2020 17:56:13 +0000
+Message-Id: <20201229175619.6051-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201229175619.6051-1-mark.cave-ayland@ilande.co.uk>
 References: <20201229175619.6051-1-mark.cave-ayland@ilande.co.uk>
@@ -35,7 +35,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 6/7] macio: wire macio GPIOs to OpenPIC using sysbus IRQs
+Subject: [PATCH v2 1/7] mac_oldworld: remove duplicate bus check for
+ PPC_INPUT(env)
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -61,109 +62,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This both allows the wiring to be done as Ben suggested in his original comment in
-gpio.c and also enables the OpenPIC object property link to be removed.
+This condition will have already been caught when wiring the heathrow PIC
+IRQs to the CPU.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/misc/macio/gpio.c         | 24 +++++-------------------
- hw/misc/macio/macio.c        | 12 +++++++-----
- include/hw/misc/macio/gpio.h |  2 --
- 3 files changed, 12 insertions(+), 26 deletions(-)
+ hw/ppc/mac_oldworld.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/hw/misc/macio/gpio.c b/hw/misc/macio/gpio.c
-index 0fef8fb335..b1bcf830c3 100644
---- a/hw/misc/macio/gpio.c
-+++ b/hw/misc/macio/gpio.c
-@@ -57,10 +57,7 @@ void macio_set_gpio(MacIOGPIOState *s, uint32_t gpio, bool state)
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 04f98a4d81..2ead34bdf1 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -251,12 +251,6 @@ static void ppc_heathrow_init(MachineState *machine)
+         tbfreq = TBFREQ;
+     }
  
-     s->gpio_regs[gpio] = new_reg;
- 
--    /* This is will work until we fix the binding between MacIO and
--     * the MPIC properly so we can route all GPIOs and avoid going
--     * via the top level platform code.
--     *
-+    /*
-      * Note that we probably need to get access to the MPIC config to
-      * decode polarity since qemu always use "raise" regardless.
-      *
-@@ -152,25 +149,15 @@ static const MemoryRegionOps macio_gpio_ops = {
-     },
- };
- 
--static void macio_gpio_realize(DeviceState *dev, Error **errp)
--{
--    MacIOGPIOState *s = MACIO_GPIO(dev);
+-    /* init basic PC hardware */
+-    if (PPC_INPUT(env) != PPC_FLAGS_INPUT_6xx) {
+-        error_report("Only 6xx bus is supported on heathrow machine");
+-        exit(1);
+-    }
 -
--    s->gpio_extirqs[1] = qdev_get_gpio_in(DEVICE(s->pic),
--                                          NEWWORLD_EXTING_GPIO1);
--    s->gpio_extirqs[9] = qdev_get_gpio_in(DEVICE(s->pic),
--                                          NEWWORLD_EXTING_GPIO9);
--}
--
- static void macio_gpio_init(Object *obj)
- {
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-     MacIOGPIOState *s = MACIO_GPIO(obj);
-+    int i;
- 
--    object_property_add_link(obj, "pic", TYPE_OPENPIC,
--                             (Object **) &s->pic,
--                             qdev_prop_allow_set_link_before_realize,
--                             0);
-+    for (i = 0; i < 10; i++) {
-+        sysbus_init_irq(sbd, &s->gpio_extirqs[i]);
-+    }
- 
-     memory_region_init_io(&s->gpiomem, OBJECT(s), &macio_gpio_ops, obj,
-                           "gpio", 0x30);
-@@ -207,7 +194,6 @@ static void macio_gpio_class_init(ObjectClass *oc, void *data)
-     DeviceClass *dc = DEVICE_CLASS(oc);
-     NMIClass *nc = NMI_CLASS(oc);
- 
--    dc->realize = macio_gpio_realize;
-     dc->reset = macio_gpio_reset;
-     dc->vmsd = &vmstate_macio_gpio;
-     nc->nmi_monitor_handler = macio_gpio_nmi;
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 36be77cede..d17cffd868 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -324,14 +324,16 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
- 
-     if (ns->has_pmu) {
-         /* GPIOs */
--        sysbus_dev = SYS_BUS_DEVICE(&ns->gpio);
--        object_property_set_link(OBJECT(&ns->gpio), "pic", OBJECT(pic_dev),
--                                 &error_abort);
--        memory_region_add_subregion(&s->bar, 0x50,
--                                    sysbus_mmio_get_region(sysbus_dev, 0));
-         if (!qdev_realize(DEVICE(&ns->gpio), BUS(&s->macio_bus), errp)) {
-             return;
-         }
-+        sysbus_dev = SYS_BUS_DEVICE(&ns->gpio);
-+        sysbus_connect_irq(sysbus_dev, 1, qdev_get_gpio_in(pic_dev,
-+                           NEWWORLD_EXTING_GPIO1));
-+        sysbus_connect_irq(sysbus_dev, 9, qdev_get_gpio_in(pic_dev,
-+                           NEWWORLD_EXTING_GPIO9));
-+        memory_region_add_subregion(&s->bar, 0x50,
-+                                    sysbus_mmio_get_region(sysbus_dev, 0));
- 
-         /* PMU */
-         object_initialize_child(OBJECT(s), "pmu", &s->pmu, TYPE_VIA_PMU);
-diff --git a/include/hw/misc/macio/gpio.h b/include/hw/misc/macio/gpio.h
-index 4dee09a9dd..7d2aa886c2 100644
---- a/include/hw/misc/macio/gpio.h
-+++ b/include/hw/misc/macio/gpio.h
-@@ -38,8 +38,6 @@ struct MacIOGPIOState {
-     SysBusDevice parent;
-     /*< public >*/
- 
--    OpenPICState *pic;
--
-     MemoryRegion gpiomem;
-     qemu_irq gpio_extirqs[10];
-     uint8_t gpio_levels[8];
+     /* Grackle PCI host bridge */
+     dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
+     qdev_prop_set_uint32(dev, "ofw-addr", 0x80000000);
 -- 
 2.20.1
 
