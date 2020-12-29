@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662762E6FC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 11:53:52 +0100 (CET)
-Received: from localhost ([::1]:34756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71DDD2E6FC9
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 11:57:47 +0100 (CET)
+Received: from localhost ([::1]:37064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuCdT-0003IZ-F8
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 05:53:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35930)
+	id 1kuChG-0004T7-Hn
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 05:57:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kuCcM-0002rk-9e
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 05:52:42 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:52037)
+ id 1kuCgV-000444-Cb
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 05:56:59 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kuCcI-0006qu-M5
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 05:52:41 -0500
-Received: by mail-wm1-x336.google.com with SMTP id v14so2302299wml.1
- for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 02:52:37 -0800 (PST)
+ id 1kuCgT-0000Jx-IR
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 05:56:59 -0500
+Received: by mail-wr1-x433.google.com with SMTP id d26so14253367wrb.12
+ for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 02:56:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Y4TZztekjXxHdYhczZepGnee6FqUDlKjOAp3ofXf2pU=;
- b=CIRC6adz9Il8vR0iQ0lOlj8gH4S53EsBKY+4Jq7ukmqbQ495xnaPmnuIuI9GIHRT9z
- Ivtk5W5uGWkJPo1jlpAaPg7YtlLORU8lbU7pxPcwPN/TdCP3YMw4gck37skeKZ/rrOs2
- lrjnlNoPf9X587UUifs3zp0euMjJwXLNXvDR80lmVN/juTOrtkK6QAs79RBMq1ErnPKd
- 9FkWrxdYH+y+fAGXa0QOpBdEEKe9l4CkX00cyk76SwymGvUeQUhVr/2n3YTCrUzZ1OUG
- dpjSkTHtpYzphMj21vJk3YZAQu1/prp8kWX0y+g7HY337eeZDvkb2/F6qv4/ROhsTbwS
- 9/hQ==
+ bh=rk0jLeA7ORkDmJiMzEfLIK8J60NjVfnAmjkVUQUhtfk=;
+ b=Jkwln3i5Ads/qci3Nj4f/RHRlVhq9yAUWYwqPc5WSpaNSdPHrUzz5kpOisZjZ5Amv6
+ t4nOT/O3vENGuydtQNUkWXzRcAfUR3C5rDKk9EZV+OzGIXs7uyfkFHW/azxEpOxI+U1X
+ 1qmDzqK2+JE67I+iHvvMQnkpBGHxonAcMEg43qY7x/oWM5/kUzZZdv9n8buMLTSc56WD
+ 0mHvcdqZPdqBHLXbrgigDtTl+N9gjWRqyK8iPmXaCYCnlSIhXV1DspAJh41fgg/TTmoY
+ 31xISanq40rJgbUUMIoChjcH3wsab9zapMabf/QfNfU+C7dTN7C7AKlqO/xjn/7PzhoR
+ 5Yjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Y4TZztekjXxHdYhczZepGnee6FqUDlKjOAp3ofXf2pU=;
- b=qPZiZ6pM5D/rgI804SuGlcfDD80qSGxTs/norFmcrBWETGcqycvd3vvjFXyqoGieTA
- Hs/dlcUfD1NzDBBqcpOCKvCM0+mys5vJpVpnkS2d+ChQ1js+4t4uTG9hDVCoFUCnILnh
- CIgg0Vwcx2jYJZOHcKGWEpyCdZ7ci+c1/1mumYdaqLN0SmEM+Mx50LtrHUVC11qo+K76
- 2XjzZAbPPcGzDWoNxD8oQVaHoUNpXcFcmtwtjrORsyMyDCYvlqfN6rvOIXBbWYMm230+
- Sxs91fkhLPY5mW0s+YmlIoYH8H6Bjn9wjKnEkKM5Cs8dARpeHbt+YNKlDlaia5u0fVmq
- zRXQ==
-X-Gm-Message-State: AOAM531jRuIvfc8i4/PVUstzMkV2dPkHLRi74isLRGnbmpeGvhTRvSL5
- WzyqHcY5OFpknm6m8ECKp70=
-X-Google-Smtp-Source: ABdhPJzENZUzX+ciYffvofqbR1IFCbIdO9hVD7yaZIiCS5slXPTIte9OG5/s7NbbMDBDkMzbMyLe3A==
-X-Received: by 2002:a1c:4604:: with SMTP id t4mr2852830wma.17.1609239156606;
- Tue, 29 Dec 2020 02:52:36 -0800 (PST)
+ bh=rk0jLeA7ORkDmJiMzEfLIK8J60NjVfnAmjkVUQUhtfk=;
+ b=UJf0Sg9JdIh99HtiORyfK684lgt0y54QCOMXJpe9j2I0Vowm+bsndd/t5SmJAx56w9
+ LrsiUBwFWyOAlumEx4px/LyITn9If7a2so2eKPvZ+4NvD9bEhldD6bIfpOEyVXLj0C9u
+ wgZaMwaKYh/7bIIo4p4EPJN8JOcuvakPTW1cDFIZi15VSEylRQRrdNbUqyCC+fT6UqWa
+ WRC4Rr19M2dP6AuG7bW7Ia08kaUO5eU3sjRJpjy4nxlMf0aiuprft46kVc4mSCHhJ/E9
+ Tb+gzXQl3nmjuKiosZ9DdHSlYo8LfIfh7VtPGFvKO6M7X0CLDxo7ApBsM15Qriey1aYn
+ hSLw==
+X-Gm-Message-State: AOAM531m4yYVhxzH/TezmBYi5Aew0s1R7LHCYvXVjcSn0orhxLlqNmtU
+ GmBjyutvnW7uW8eLrL4h3GA=
+X-Google-Smtp-Source: ABdhPJyJmgPjTz403DAYcMr58SIeiJxjKm7uKI4R+VdkxufDhSQy1zgBeP8FFgmdgESunRQP4sZJ9g==
+X-Received: by 2002:adf:ee90:: with SMTP id b16mr55516527wro.221.1609239416080; 
+ Tue, 29 Dec 2020 02:56:56 -0800 (PST)
 Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
  ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
- by smtp.gmail.com with ESMTPSA id f7sm4060680wmc.1.2020.12.29.02.52.35
+ by smtp.gmail.com with ESMTPSA id a17sm62259312wrs.20.2020.12.29.02.56.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 29 Dec 2020 02:52:35 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] ide: Make room for flags in PCIIDEState and add
- one for legacy mode
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+ Tue, 29 Dec 2020 02:56:55 -0800 (PST)
+Subject: Re: [PATCH v2 2/2] via-ide: Fix fuloong2e support
+To: BALATON Zoltan <balaton@eik.bme.hu>, Willian Rampazzo <wrampazz@redhat.com>
 References: <cover.1609107222.git.balaton@eik.bme.hu>
- <19d68b4da7fc8dbffe3308c661143584ac830f29.1609107222.git.balaton@eik.bme.hu>
- <080a04e0-e162-e80a-db6a-53bf4b43c9cb@ilande.co.uk>
+ <8e58807dd2ba46866e7f152244e4541e6425177d.1609107222.git.balaton@eik.bme.hu>
+ <a7b14637-4a3e-1635-a0c2-da9ee48022a8@ilande.co.uk>
+ <ab55636b-9ba7-6e38-8d62-31ef1a11c455@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <09dfce33-caed-1940-c849-8f1d8516a133@amsat.org>
-Date: Tue, 29 Dec 2020 11:52:34 +0100
+Message-ID: <7bd3e7e0-73be-5602-90d7-6fc67968b163@amsat.org>
+Date: Tue, 29 Dec 2020 11:56:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <080a04e0-e162-e80a-db6a-53bf4b43c9cb@ilande.co.uk>
+In-Reply-To: <ab55636b-9ba7-6e38-8d62-31ef1a11c455@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -92,65 +91,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, John Snow <jsnow@redhat.com>,
+Cc: John Snow <jsnow@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/28/20 8:30 PM, Mark Cave-Ayland wrote:
-> On 27/12/2020 22:13, BALATON Zoltan wrote:
-> 
->> We'll need a flag for implementing some device specific behaviour in
->> via-ide but we already have a currently CMD646 specific field that can
->> be repurposed for this and leave room for further flags if needed in
->> the future. This patch changes the "secondary" field to "flags" and
->> change CMD646 and its users accordingly and define a new flag for
->> forcing legacy mode that will be used by via-ide for now.
+On 12/28/20 9:50 PM, BALATON Zoltan via wrote:
+> On Mon, 28 Dec 2020, Mark Cave-Ayland wrote:
+>> On 27/12/2020 22:13, BALATON Zoltan via wrote:
 >>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
->> Tested-by: Guenter Roeck <linux@roeck-us.net>
->> ---
->> v2: Fixed typo in commit message
+>>> From: Guenter Roeck <linux@roeck-us.net>
+>>>
+>>> The IDE legacy mode emulation has been removed in commit 4ea98d317eb
+>>> ("ide/via: Implement and use native PCI IDE mode") but some Linux
+>>> kernels (probably including def_config) require legacy mode on the
+>>> Fuloong2e so only emulating native mode did not turn out feasible.
+>>> Add property to via-ide model to make the mode configurable, and set
+>>> legacy mode for Fuloong2e.
+>>>
+>>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>>> [balaton: Use bit in flags for property, add comment for missing BAR4]
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> Tested-by: Guenter Roeck <linux@roeck-us.net>
+>>> ---
+>>> v2: Reworded commit message
+>>>
+>>>   hw/ide/via.c        | 19 +++++++++++++++++--
+>>>   hw/mips/fuloong2e.c |  4 +++-
+>>>   2 files changed, 20 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/hw/ide/via.c b/hw/ide/via.c
+>>> index be09912b33..7d54d7e829 100644
+>>> --- a/hw/ide/via.c
+>>> +++ b/hw/ide/via.c
+>>> @@ -26,6 +26,7 @@
+>>>     #include "qemu/osdep.h"
+>>>   #include "hw/pci/pci.h"
+>>> +#include "hw/qdev-properties.h"
+>>>   #include "migration/vmstate.h"
+>>>   #include "qemu/module.h"
+>>>   #include "sysemu/dma.h"
+>>> @@ -185,12 +186,19 @@ static void via_ide_realize(PCIDevice *dev,
+>>> Error **errp)
+>>>                             &d->bus[1], "via-ide1-cmd", 4);
+>>>       pci_register_bar(dev, 3, PCI_BASE_ADDRESS_SPACE_IO,
+>>> &d->cmd_bar[1]);
+>>>   -    bmdma_setup_bar(d);
+>>> -    pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO, &d->bmdma_bar);
+>>> +    if (!(d->flags & BIT(PCI_IDE_LEGACY_MODE))) {
+>>> +        /* Missing BAR4 will make Linux driver fall back to legacy
+>>> PIO mode */
+>>> +        bmdma_setup_bar(d);
+>>> +        pci_register_bar(dev, 4, PCI_BASE_ADDRESS_SPACE_IO,
+>>> &d->bmdma_bar);
+>>> +    }
 >>
->>   hw/ide/cmd646.c      | 4 ++--
->>   hw/sparc64/sun4u.c   | 2 +-
->>   include/hw/ide/pci.h | 7 ++++++-
->>   3 files changed, 9 insertions(+), 4 deletions(-)
->>
->> diff --git a/hw/ide/cmd646.c b/hw/ide/cmd646.c
->> index c254631485..7a96016116 100644
->> --- a/hw/ide/cmd646.c
->> +++ b/hw/ide/cmd646.c
->> @@ -256,7 +256,7 @@ static void pci_cmd646_ide_realize(PCIDevice *dev,
->> Error **errp)
->>       pci_conf[PCI_CLASS_PROG] = 0x8f;
->>         pci_conf[CNTRL] = CNTRL_EN_CH0; // enable IDE0
+>> Since the default value of the legacy mode parameter is false, then
+>> this means the device assumes native mode by default. Therefore
+>> PCI_CLASS_PROG should be set to 0x8f unless legacy mode is being used,
+>> in which case it should be 0x8a.
 > 
-> Doesn't the existing comment above cause checkpatch to fail?
+> I think this casued problems before because if it's not set to 0x8a
+> (legacy) at start then guests may assume it's already switched to native
+> mode by firmware and won't program the BARs and it will not work. This
+> way, even if it looks odd all guests I've tested work so I don't want to
+> touch this, because I don't want to test all guests again.
 
-The comment is old and Balaton didn't modified it. Usually I'd prefer
-to address style change in a separate commit, ...
+If you can describe on the list how you do your testing (mostly
+command line used, where image/demo can be downloaded), we might help
+writing an integration test to automate the testing. Don't worry if
+it involves using close-source binaries, we'll try to figure out a
+way.
 
-> 
->> -    if (d->secondary) {
->> +    if (d->flags & BIT(PCI_IDE_SECONDARY)) {
->>           /* XXX: if not enabled, really disable the seconday IDE
->> controller */
->>           pci_conf[CNTRL] |= CNTRL_EN_CH1; /* enable IDE1 */
+Regards,
 
-... but since a similar comment is added here, it might be acceptable
-to fix the style of the former one here too. I noted Balaton already
-addressed your comment in a v3.
-
->>       }
->> @@ -314,7 +314,7 @@ static void pci_cmd646_ide_exitfn(PCIDevice *dev)
->>   }
->>     static Property cmd646_ide_properties[] = {
->> -    DEFINE_PROP_UINT32("secondary", PCIIDEState, secondary, 0),
->> +    DEFINE_PROP_BIT("secondary", PCIIDEState, flags,
->> PCI_IDE_SECONDARY, false),
->>       DEFINE_PROP_END_OF_LIST(),
->>   };
+Phil.
 
