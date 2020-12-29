@@ -2,46 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A6C2E7528
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 00:14:48 +0100 (CET)
-Received: from localhost ([::1]:49806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3D92E7526
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 00:12:30 +0100 (CET)
+Received: from localhost ([::1]:41606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuOCV-0005aS-9q
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 18:14:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53712)
+	id 1kuOAH-0002A3-SO
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 18:12:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kuO7u-0008Sy-Ax
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 18:10:02 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:48958)
+ id 1kuO7w-0008Tg-Ez
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 18:10:04 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:48955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kuO7n-0006bi-8l
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 18:10:01 -0500
+ id 1kuO7o-0006be-Ij
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 18:10:04 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2AE667470EE;
+ by localhost (Postfix) with SMTP id 1F46F7470F0;
  Wed, 30 Dec 2020 00:09:52 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9D4837470E6; Wed, 30 Dec 2020 00:09:51 +0100 (CET)
-Message-Id: <bcbf0b8fe18a7db051ad852247901e7b5412c434.1609282253.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1609282253.git.balaton@eik.bme.hu>
-References: <cover.1609282253.git.balaton@eik.bme.hu>
-Subject: [PATCH 3/7] vt82c686: Move superio memory region to SuperIOConfig
- struct
+ id 8EFB874646C; Wed, 30 Dec 2020 00:09:51 +0100 (CET)
+Message-Id: <cover.1609282253.git.balaton@eik.bme.hu>
+Subject: [PATCH 0/7] vt82c686b clean ups - part II
 Date: Tue, 29 Dec 2020 23:50:53 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,68 +57,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-The superio memory region holds the io space index/data registers used
-to access the superio config registers that are implemented in struct
-SuperIOConfig. To keep these related things together move the memory
-region to SuperIOConfig and rename it accordingly.
-Also remove the unused data member of SuperIOConfig which is not
-needed as we store actual data values in the regs array.
+This is continuing cleaning up the vt82c686b model with the aim to add
+vt8231 emulation without too much duplication, reusing or fixing the
+existing model where possible. (DISCALIMER: It does not aim to fix all
+existing bugs or make the model perfectly emulate the real chip.) This
+series continues general clean up and finishes the power management
+part. It is based on previous series and also needs Bonito fix
+(currently tested with Jiaxun's proposal).
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/isa/vt82c686.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Still to go are superio and isa bridge parts that will be addressed in
+some later series but this and previous series could be merged so far
+independently of those future series so I'd appreciate if this could
+be reviewed and merged to keep outstanding patches managable.
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index a6f5a0843d..30fe02f4c6 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -29,12 +29,11 @@
- typedef struct SuperIOConfig {
-     uint8_t regs[0x100];
-     uint8_t index;
--    uint8_t data;
-+    MemoryRegion io;
- } SuperIOConfig;
- 
- struct VT82C686BISAState {
-     PCIDevice dev;
--    MemoryRegion superio;
-     SuperIOConfig superio_cfg;
- };
- 
-@@ -128,8 +127,9 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
- 
-     trace_via_isa_write(addr, val, len);
-     pci_default_write_config(d, addr, val, len);
--    if (addr == 0x85) {  /* enable or disable super IO configure */
--        memory_region_set_enabled(&s->superio, val & 0x2);
-+    if (addr == 0x85) {
-+        /* BIT(1): enable or disable superio config io ports */
-+        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
-     }
- }
- 
-@@ -311,15 +311,15 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-         }
-     }
- 
--    memory_region_init_io(&s->superio, OBJECT(d), &superio_cfg_ops,
--                          &s->superio_cfg, "superio", 2);
--    memory_region_set_enabled(&s->superio, false);
-+    memory_region_init_io(&s->superio_cfg.io, OBJECT(d), &superio_cfg_ops,
-+                          &s->superio_cfg, "superio_cfg", 2);
-+    memory_region_set_enabled(&s->superio_cfg.io, false);
-     /*
-      * The floppy also uses 0x3f0 and 0x3f1.
-      * But we do not emulate a floppy, so just set it here.
-      */
-     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
--                                &s->superio);
-+                                &s->superio_cfg.io);
- }
- 
- static void via_class_init(ObjectClass *klass, void *data)
+I can submit this and previous series together as one series if that
+helps.
+
+Regards,
+BALATON Zoltan
+
+BALATON Zoltan (7):
+  vt82c686: Use shorter name for local variable holding object state
+  vt82c686: Rename superio config related parts
+  vt82c686: Move superio memory region to SuperIOConfig struct
+  vt82c686: Reorganise code
+  vt82c686: Fix SMBus IO base and configuration registers
+  vt82c686: Fix up power management io base and config
+  vt82c686: Make vt82c686b-pm an abstract base class and add vt8231-pm
+    based on it
+
+ hw/isa/trace-events       |   2 +
+ hw/isa/vt82c686.c         | 417 ++++++++++++++++++++++----------------
+ hw/mips/fuloong2e.c       |   4 +-
+ include/hw/isa/vt82c686.h |   1 +
+ 4 files changed, 251 insertions(+), 173 deletions(-)
+
 -- 
 2.21.3
 
