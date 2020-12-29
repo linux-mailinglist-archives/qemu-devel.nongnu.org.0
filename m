@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C9D2E7327
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 20:02:55 +0100 (CET)
-Received: from localhost ([::1]:44528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1F7B2E7374
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 21:17:32 +0100 (CET)
+Received: from localhost ([::1]:55620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuKGk-0007ZA-Bd
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 14:02:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40150)
+	id 1kuLQx-00048r-U4
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 15:17:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kuKEt-0006vn-7w
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 14:01:01 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55544)
+ id 1kuLPH-0003ey-9l
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 15:15:47 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kuKEq-0007gC-VJ
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 14:00:58 -0500
+ id 1kuLPF-0007Ij-5E
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 15:15:47 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kuKEk-00019D-U8
- for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 19:00:50 +0000
+ id 1kuLPC-0005eh-6s
+ for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 20:15:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E08092E8139
- for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 19:00:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 32D152E813A
+ for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 20:15:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 29 Dec 2020 18:54:38 -0000
-From: Richard Henderson <1908551@bugs.launchpad.net>
+Date: Tue, 29 Dec 2020 20:08:17 -0000
+From: Richard Henderson <1909392@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=rth@twiddle.net; 
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nsz rth
-X-Launchpad-Bug-Reporter: Szabolcs Nagy (nsz)
+X-Launchpad-Bug-Commenters: faust1002 rth
+X-Launchpad-Bug-Reporter: Pawel Juszczyk (faust1002)
 X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <160822351418.3694.12914163160887636672.malonedeb@gac.canonical.com>
-Message-Id: <160926807850.11628.17610430291747429044.malone@chaenomeles.canonical.com>
-Subject: [Bug 1908551] Re: aarch64 SVE emulation breaks strnlen and strrchr
+References: <160906206462.3532.14301931036322231609.malonedeb@wampee.canonical.com>
+Message-Id: <160927249767.28580.7032909127937685580.malone@gac.canonical.com>
+Subject: [Bug 1909392] Re: qemu-arm crashes (SIGSEGV) when executing push
+ instruction
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 05a1359718bfb243563ac476c11372f182eaaf91
+X-Launchpad-Hash: 68913b7ce1889fe4b59d6958d4978b10ed1fcc71
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,83 +71,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908551 <1908551@bugs.launchpad.net>
+Reply-To: Bug 1909392 <1909392@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bah.  The code at label 9 does not match the comment.
-Best fixed thus.
+The program is buggy.
 
-** Patch added: "z.patch"
-   https://bugs.launchpad.net/qemu/+bug/1908551/+attachment/5447736/+files/=
-z.patch
+The first instruction sets the stack to 0x20020000,
+but that address is not mapped.
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  LOAD           0x010000 0x08000000 0x08000000 0x0025c 0x0025c R E 0x10000
+  LOAD           0x020000 0x20000000 0x0800025c 0x00000 0x00600 RW  0x10000
+
+The data segment only goes from 0x20000000 - 0x20000600.
+
+** Changed in: qemu
+       Status: New =3D> Invalid
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908551
+https://bugs.launchpad.net/bugs/1909392
 
 Title:
-  aarch64 SVE emulation breaks strnlen and strrchr
+  qemu-arm crashes (SIGSEGV) when executing push instruction
 
 Status in QEMU:
   Invalid
 
 Bug description:
-  arm optimized-routines have sve string functions with test code.
-
-  the test worked up until recently: with qemu-5.2.0 i see
-
-  $ qemu-aarch64 build/bin/test/strnlen
-  PASS strnlen
-  PASS __strnlen_aarch64
-  __strnlen_aarch64_sve (0x490fa0, 32) len 32 returned 64, expected 32
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80"
-  __strnlen_aarch64_sve (0x490fa0, 32) len 33 returned 64, expected 32
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80a"
-  __strnlen_aarch64_sve (0x490fa0, 33) len 33 returned 64, expected 33
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80a"
-  __strnlen_aarch64_sve (0x490fa0, 32) len 34 returned 64, expected 32
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80ab"
-  __strnlen_aarch64_sve (0x490fa0, 33) len 34 returned 64, expected 33
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80ab"
-  __strnlen_aarch64_sve (0x490fa0, 34) len 34 returned 64, expected 34
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80ab"
-  __strnlen_aarch64_sve (0x490fa0, 32) len 35 returned 64, expected 32
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80a\x00c"
-  __strnlen_aarch64_sve (0x490fa0, 33) len 35 returned 64, expected 33
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80ab\x00"
-  __strnlen_aarch64_sve (0x490fa0, 34) len 35 returned 64, expected 34
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80abc"
-  __strnlen_aarch64_sve (0x490fa0, 35) len 35 returned 64, expected 35
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80abc"
-  FAIL __strnlen_aarch64_sve
-
-  however the test passes with
-
-  qemu-aarch64 -cpu max,sve-max-vq=3D2
-
-  there should be nothing vector length specific in the code.
-
-  i haven't debugged it further, to reproduce the issue clone
-  https://github.com/ARM-software/optimized-routines
-
-  and run 'make build/bin/test/strnlen' with a config.mk like
-
-  SUBS =3D string
-  ARCH =3D aarch64
-  CROSS_COMPILE =3D aarch64-none-linux-gnu-
-  CC =3D $(CROSS_COMPILE)gcc
-  CFLAGS =3D -std=3Dc99 -pipe -O3
-  CFLAGS +=3D -march=3Darmv8.2-a+sve
-  EMULATOR =3D qemu-aarch64
-
-  (native compilation works too, and you can run 'make check' to
-  run all string tests) this will build a static linked executable
-  into build/bin/test. if you want a smaller test case edit
-  string/test/strnlen.c
+  Dear all,
+  I am afraid I found a problem, it seems like qemu-arm crashes when execut=
+ing assembly push instruction.
+  I use qemu version 5.2.0, but it checked an older version (4.2.1) and the=
+ problem was also present. I start qemu using "qemu-arm -cpu cortex-m4 -sin=
+glestep -g 1234 <path to elf file>"
+  Callstack before crash (host)
+  #0  0x000055555575961f in stl_he_p (ptr=3D0x2002fffc, v=3D0) at /home/fau=
+st1002/Programming/qemu/qemu-5.2.0/include/qemu/bswap.h:353
+  #1  0x0000555555759716 in stl_le_p (ptr=3D0x2002fffc, v=3D0) at /home/fau=
+st1002/Programming/qemu/qemu-5.2.0/include/qemu/bswap.h:395
+  #2  0x000055555575d3c3 in tcg_qemu_tb_exec (env=3D0x555555d28050, tb_ptr=
+=3D0x7fffe800010a "\r\b") at ../tcg/tci.c:1221
+  #3  0x00005555556bd982 in cpu_tb_exec (cpu=3D0x555555d1fd70, itb=3D0x7fff=
+e8000000) at ../accel/tcg/cpu-exec.c:178
+  #4  0x00005555556be57e in cpu_loop_exec_tb (cpu=3D0x555555d1fd70, tb=3D0x=
+7fffe8000000, last_tb=3D0x7fffffffd8a8, tb_exit=3D0x7fffffffd8a0) at ../acc=
+el/tcg/cpu-exec.c:658
+  #5  0x00005555556be7ea in cpu_exec (cpu=3D0x555555d1fd70) at ../accel/tcg=
+/cpu-exec.c:771
+  #6  0x000055555560af1d in cpu_loop (env=3D0x555555d28050) at ../linux-use=
+r/arm/cpu_loop.c:237
+  #7  0x00005555557415a7 in main (argc=3D7, argv=3D0x7fffffffe0f8, envp=3D0=
+x7fffffffe138) at ../linux-user/main.c:861
+  Callstack before crash (target)
+  Program received signal SIGSEGV, Segmentation fault.
+  Reset_Handler () at startup.s:48
+  48        push {r14}
+  Please find the elf file I use attached.
+  Kind regards
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908551/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1909392/+subscriptions
 
