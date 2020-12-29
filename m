@@ -2,54 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB21B2E7148
-	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 15:14:58 +0100 (CET)
-Received: from localhost ([::1]:38612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52BEC2E719B
+	for <lists+qemu-devel@lfdr.de>; Tue, 29 Dec 2020 16:14:01 +0100 (CET)
+Received: from localhost ([::1]:40396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuFm6-0002o1-29
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 09:14:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44602)
+	id 1kuGhD-00034t-Lo
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 10:13:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kuFk5-0001nG-8U; Tue, 29 Dec 2020 09:12:53 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49716
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kuFk2-0001Jw-1A; Tue, 29 Dec 2020 09:12:53 -0500
-Received: from host86-148-34-1.range86-148.btcentralplus.com ([86.148.34.1]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kuFk0-000708-Ke; Tue, 29 Dec 2020 14:12:52 +0000
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20201219104229.1964-1-mark.cave-ayland@ilande.co.uk>
- <20201219104229.1964-4-mark.cave-ayland@ilande.co.uk>
- <20201228070833.GE6952@yekko.fritz.box>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <640f8263-b996-620b-6687-85f29beb662f@ilande.co.uk>
-Date: Tue, 29 Dec 2020 14:12:43 +0000
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kuGeI-0001k9-Fg
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 10:10:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30904)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kuGeF-0003hr-N6
+ for qemu-devel@nongnu.org; Tue, 29 Dec 2020 10:10:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609254654;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7SwhaOIlTkv9QP8a3UFA8Swo1TVOqoGRsxP6/lSEPEE=;
+ b=CdFl8AlCmwMYVYLYjhOl6CM5uo6mK0akS1+lHjmfEstWHeZVo67ahhGC7prhlAmjyWLWUX
+ G2Rq/EzxhMgKv4Pt1XHpg1C1TCYs/AGj2p38xNnOC8sXGMby1l5BCa0sUmu0et75U9kkRx
+ wH48lp9zpz0oQnHrQQcSeG3a9K4wQHM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-455-k4azXfuWMC67GL810s7KQg-1; Tue, 29 Dec 2020 10:10:50 -0500
+X-MC-Unique: k4azXfuWMC67GL810s7KQg-1
+Received: by mail-wm1-f69.google.com with SMTP id g82so1355413wmg.6
+ for <qemu-devel@nongnu.org>; Tue, 29 Dec 2020 07:10:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7SwhaOIlTkv9QP8a3UFA8Swo1TVOqoGRsxP6/lSEPEE=;
+ b=e5QDrGyYsF05uZhtEbRoo783O5UCPuC6Ax9d/2QiDtWL11uyV0mL4zCtcl6eZTsiwd
+ +0sjE/12H0V7EH6UKP58zb+ZBQS6szK855e6RsKxX5eOrrLwP1jj5m4aGqsNNY+Z3QkC
+ Rx5ui2XBNwxR0MeAHhANCFQxptYp25PQ/dOlQG5nPrdKigvC5vU9ZuJrxmU54oIqp8VM
+ VollYPIW1fTEX/tr6E6cB8jtKn/+n4f3aa7urOJlrbLvdrdxv/UXT9MULIrg1s5OSFoZ
+ vG2hwD4h5HRkpiIJ3IjAnd2OLvl/YdywTjmH7A09YfHq/MrATrwK7W52Ri6AnBOY07rh
+ y3jg==
+X-Gm-Message-State: AOAM530uK4cdhywulma7V4RbRoCMEKWMt5h+evE0MQsgpAZ/KKYXpdtx
+ s7OP5Ibhh4Qve+MnkE1DhFxDod8d0lkDmDChcEFxFgcQAqI5nlhbJF+wyxpUzT6MZPZO6so3ib+
+ VCFf8wGz3PDLqdK4=
+X-Received: by 2002:a1c:3987:: with SMTP id g129mr3813591wma.86.1609254649314; 
+ Tue, 29 Dec 2020 07:10:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz4EN527b2fWrlWr6SgP7Pc6BDSwryOWeW90KGfJeBL2lmFJ/rRtmMy/Pk9eoi3ptyMCovTBg==
+X-Received: by 2002:a1c:3987:: with SMTP id g129mr3813569wma.86.1609254649090; 
+ Tue, 29 Dec 2020 07:10:49 -0800 (PST)
+Received: from ?IPv6:2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b?
+ ([2a01:e35:2fb0:49e0:98dc:fe2:8fe8:bc3b])
+ by smtp.gmail.com with ESMTPSA id b12sm5224778wmj.2.2020.12.29.07.10.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 29 Dec 2020 07:10:48 -0800 (PST)
+Subject: Re: [PATCH v2 0/3] pc: Support configuration of SMBIOS entry point
+ type
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20201214205029.2991222-1-ehabkost@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <328375f8-772f-c2b7-38d9-8b8dfe0e33b1@redhat.com>
+Date: Tue, 29 Dec 2020 16:10:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201228070833.GE6952@yekko.fritz.box>
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20201214205029.2991222-1-ehabkost@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 86.148.34.1
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 3/7] macio: move heathrow PIC inside macio-oldworld device
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.07,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.07, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,213 +98,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/12/2020 07:08, David Gibson wrote:
-
-> On Sat, Dec 19, 2020 at 10:42:25AM +0000, Mark Cave-Ayland wrote:
+On 12/14/20 9:50 PM, Eduardo Habkost wrote:
+> This includes code previously submitted[1] by Daniel P. Berrangé
+> to add a "smbios-ep" machine property on PC.
 > 
-> Really needs a commit message.
+> SMBIOS 3.0 is necessary to support more than ~720 VCPUs, as a
+> large number of VCPUs can easily hit the table size limit of
+> SMBIOS 2.1 entry points.
+> 
+> [1] https://lore.kernel.org/qemu-devel/20200908165438.1008942-5-berrange@redhat.com
+>     https://lore.kernel.org/qemu-devel/20200908165438.1008942-6-berrange@redhat.com
+> 
+> Daniel P. Berrangé (1):
+>   hw/i386: expose a "smbios-ep" PC machine property
+> 
+> Eduardo Habkost (2):
+>   smbios: Rename SMBIOS_ENTRY_POINT_* enums
+>   hw/smbios: Use qapi for SmbiosEntryPointType
+> 
+>  qapi/qapi-schema.json        |  1 +
+>  qapi/smbios.json             | 11 +++++++++++
+>  include/hw/firmware/smbios.h | 10 ++--------
+>  include/hw/i386/pc.h         |  3 +++
+>  hw/arm/virt.c                |  2 +-
+>  hw/i386/pc.c                 | 26 ++++++++++++++++++++++++++
+>  hw/i386/pc_piix.c            |  2 +-
+>  hw/i386/pc_q35.c             |  2 +-
+>  hw/smbios/smbios.c           |  8 ++++----
+>  qapi/meson.build             |  1 +
+>  10 files changed, 51 insertions(+), 15 deletions(-)
+>  create mode 100644 qapi/smbios.json
 
-This is currently explained in the cover letter: it's moving the PIC to the macio 
-device as per real hardware (which also nicely removes the need for compulsory object 
-property links which currently trip up some of the automated QOM introspection 
-tests). I'll add something along these lines for the next revision.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hw/misc/macio/macio.c         | 20 +++++------
->>   hw/ppc/mac_oldworld.c         | 66 +++++++++++++++++------------------
->>   include/hw/misc/macio/macio.h |  2 +-
->>   3 files changed, 43 insertions(+), 45 deletions(-)
->>
->> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
->> index bb601f782c..cfb87da6c9 100644
->> --- a/hw/misc/macio/macio.c
->> +++ b/hw/misc/macio/macio.c
->> @@ -140,7 +140,7 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
->>   {
->>       MacIOState *s = MACIO(d);
->>       OldWorldMacIOState *os = OLDWORLD_MACIO(d);
->> -    DeviceState *pic_dev = DEVICE(os->pic);
->> +    DeviceState *pic_dev = DEVICE(&os->pic);
->>       Error *err = NULL;
->>       SysBusDevice *sysbus_dev;
->>   
->> @@ -150,6 +150,14 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
->>           return;
->>       }
->>   
->> +    /* Heathrow PIC */
->> +    if (!qdev_realize(DEVICE(&os->pic), BUS(&s->macio_bus), errp)) {
->> +        return;
->> +    }
->> +    sysbus_dev = SYS_BUS_DEVICE(&os->pic);
->> +    memory_region_add_subregion(&s->bar, 0x0,
->> +                                sysbus_mmio_get_region(sysbus_dev, 0));
->> +
->>       qdev_prop_set_uint64(DEVICE(&s->cuda), "timebase-frequency",
->>                            s->frequency);
->>       if (!qdev_realize(DEVICE(&s->cuda), BUS(&s->macio_bus), errp)) {
->> @@ -175,11 +183,6 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
->>                                   sysbus_mmio_get_region(sysbus_dev, 0));
->>       pmac_format_nvram_partition(&os->nvram, os->nvram.size);
->>   
->> -    /* Heathrow PIC */
->> -    sysbus_dev = SYS_BUS_DEVICE(os->pic);
->> -    memory_region_add_subregion(&s->bar, 0x0,
->> -                                sysbus_mmio_get_region(sysbus_dev, 0));
->> -
->>       /* IDE buses */
->>       macio_realize_ide(s, &os->ide[0],
->>                         qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_IRQ),
->> @@ -218,10 +221,7 @@ static void macio_oldworld_init(Object *obj)
->>       DeviceState *dev;
->>       int i;
->>   
->> -    object_property_add_link(obj, "pic", TYPE_HEATHROW,
->> -                             (Object **) &os->pic,
->> -                             qdev_prop_allow_set_link_before_realize,
->> -                             0);
->> +    object_initialize_child(OBJECT(s), "pic", &os->pic, TYPE_HEATHROW);
->>   
->>       object_initialize_child(OBJECT(s), "cuda", &s->cuda, TYPE_CUDA);
->>   
->> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
->> index e58e0525fe..44ee99be88 100644
->> --- a/hw/ppc/mac_oldworld.c
->> +++ b/hw/ppc/mac_oldworld.c
->> @@ -98,7 +98,7 @@ static void ppc_heathrow_init(MachineState *machine)
->>       MACIOIDEState *macio_ide;
->>       ESCCState *escc;
->>       SysBusDevice *s;
->> -    DeviceState *dev, *pic_dev;
->> +    DeviceState *dev, *pic_dev, *grackle_dev;
->>       BusState *adb_bus;
->>       uint64_t bios_addr;
->>       int bios_size;
->> @@ -227,10 +227,17 @@ static void ppc_heathrow_init(MachineState *machine)
->>           }
->>       }
->>   
->> +    /* Timebase Frequency */
->> +    if (kvm_enabled()) {
->> +        tbfreq = kvmppc_get_tbfreq();
->> +    } else {
->> +        tbfreq = TBFREQ;
->> +    }
->> +
->>       /* Grackle PCI host bridge */
->> -    dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
->> -    qdev_prop_set_uint32(dev, "ofw-addr", 0x80000000);
->> -    s = SYS_BUS_DEVICE(dev);
->> +    grackle_dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
->> +    qdev_prop_set_uint32(grackle_dev, "ofw-addr", 0x80000000);
->> +    s = SYS_BUS_DEVICE(grackle_dev);
->>       sysbus_realize_and_unref(s, &error_fatal);
->>   
->>       sysbus_mmio_map(s, 0, GRACKLE_BASE);
->> @@ -242,14 +249,30 @@ static void ppc_heathrow_init(MachineState *machine)
->>       memory_region_add_subregion(get_system_memory(), 0xfe000000,
->>                                   sysbus_mmio_get_region(s, 3));
->>   
->> -    /* XXX: we register only 1 output pin for heathrow PIC */
->> -    pic_dev = qdev_new(TYPE_HEATHROW);
->> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(pic_dev), &error_fatal);
->> +    pci_bus = PCI_HOST_BRIDGE(grackle_dev)->bus;
->> +
->> +    /* MacIO */
->> +    macio = pci_new(PCI_DEVFN(16, 0), TYPE_OLDWORLD_MACIO);
->> +    dev = DEVICE(macio);
->> +    qdev_prop_set_uint64(dev, "frequency", tbfreq);
->> +
->> +    escc = ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
->> +    qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
->> +    qdev_prop_set_chr(DEVICE(escc), "chrB", serial_hd(1));
->> +
->> +    pci_realize_and_unref(macio, pci_bus, &error_fatal);
->> +
->> +    pic_dev = DEVICE(object_resolve_path_component(OBJECT(macio), "pic"));
->> +    for (i = 0; i < 4; i++) {
->> +        qdev_connect_gpio_out(grackle_dev, i,
->> +                              qdev_get_gpio_in(pic_dev, 0x15 + i));
->> +    }
->>   
->>       /* Connect the heathrow PIC outputs to the 6xx bus */
->>       for (i = 0; i < smp_cpus; i++) {
->>           switch (PPC_INPUT(env)) {
->>           case PPC_FLAGS_INPUT_6xx:
->> +            /* XXX: we register only 1 output pin for heathrow PIC */
->>               qdev_connect_gpio_out(pic_dev, 0,
->>                   ((qemu_irq *)env->irq_inputs)[PPC6xx_INPUT_INT]);
->>               break;
->> @@ -259,40 +282,14 @@ static void ppc_heathrow_init(MachineState *machine)
->>           }
->>       }
->>   
->> -    /* Timebase Frequency */
->> -    if (kvm_enabled()) {
->> -        tbfreq = kvmppc_get_tbfreq();
->> -    } else {
->> -        tbfreq = TBFREQ;
->> -    }
->> -
->> -    for (i = 0; i < 4; i++) {
->> -        qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x15 + i));
->> -    }
->> -
->> -    pci_bus = PCI_HOST_BRIDGE(dev)->bus;
->> -
->>       pci_vga_init(pci_bus);
->>   
->>       for (i = 0; i < nb_nics; i++) {
->>           pci_nic_init_nofail(&nd_table[i], pci_bus, "ne2k_pci", NULL);
->>       }
->>   
->> +    /* MacIO IDE */
->>       ide_drive_get(hd, ARRAY_SIZE(hd));
->> -
->> -    /* MacIO */
->> -    macio = pci_new(PCI_DEVFN(16, 0), TYPE_OLDWORLD_MACIO);
->> -    dev = DEVICE(macio);
->> -    qdev_prop_set_uint64(dev, "frequency", tbfreq);
->> -    object_property_set_link(OBJECT(macio), "pic", OBJECT(pic_dev),
->> -                             &error_abort);
->> -
->> -    escc = ESCC(object_resolve_path_component(OBJECT(macio), "escc"));
->> -    qdev_prop_set_chr(DEVICE(escc), "chrA", serial_hd(0));
->> -    qdev_prop_set_chr(DEVICE(escc), "chrB", serial_hd(1));
->> -
->> -    pci_realize_and_unref(macio, pci_bus, &error_fatal);
->> -
->>       macio_ide = MACIO_IDE(object_resolve_path_component(OBJECT(macio),
->>                                                           "ide[0]"));
->>       macio_ide_init_drives(macio_ide, hd);
->> @@ -301,6 +298,7 @@ static void ppc_heathrow_init(MachineState *machine)
->>                                                           "ide[1]"));
->>       macio_ide_init_drives(macio_ide, &hd[MAX_IDE_DEVS]);
->>   
->> +    /* MacIO CUDA/ADB */
->>       dev = DEVICE(object_resolve_path_component(OBJECT(macio), "cuda"));
->>       adb_bus = qdev_get_child_bus(dev, "adb.0");
->>       dev = qdev_new(TYPE_ADB_KEYBOARD);
->> diff --git a/include/hw/misc/macio/macio.h b/include/hw/misc/macio/macio.h
->> index 22b4e64b2c..707dfab50c 100644
->> --- a/include/hw/misc/macio/macio.h
->> +++ b/include/hw/misc/macio/macio.h
->> @@ -99,7 +99,7 @@ struct OldWorldMacIOState {
->>       MacIOState parent_obj;
->>       /*< public >*/
->>   
->> -    HeathrowState *pic;
->> +    HeathrowState pic;
->>   
->>       MacIONVRAMState nvram;
->>       MACIOIDEState ide[2];
-
-ATB,
-
-Mark.
 
