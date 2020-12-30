@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85982E7A79
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 16:41:25 +0100 (CET)
-Received: from localhost ([::1]:42274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DFC82E7A7B
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 16:41:26 +0100 (CET)
+Received: from localhost ([::1]:42302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kudbI-0001m9-Dj
-	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 10:41:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50866)
+	id 1kudbI-0001mi-WA
+	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 10:41:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kudYC-00008O-A7
+ id 1kudYC-00008U-SJ
  for qemu-devel@nongnu.org; Wed, 30 Dec 2020 10:38:12 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50714
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50710
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kudY7-0001vm-Jf
+ id 1kudY7-0001vu-Jg
  for qemu-devel@nongnu.org; Wed, 30 Dec 2020 10:38:12 -0500
 Received: from host86-148-34-1.range86-148.btcentralplus.com ([86.148.34.1]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kudXu-00070L-F7; Wed, 30 Dec 2020 15:38:00 +0000
+ id 1kudY0-00070L-SS; Wed, 30 Dec 2020 15:38:05 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu
-Date: Wed, 30 Dec 2020 15:37:20 +0000
-Message-Id: <20201230153745.30241-1-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 30 Dec 2020 15:37:21 +0000
+Message-Id: <20201230153745.30241-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201230153745.30241-1-mark.cave-ayland@ilande.co.uk>
+References: <20201230153745.30241-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 00/25] esp: consolidate PDMA transfer buffers
+Subject: [PATCH 01/25] esp: checkpatch fixes
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -61,130 +63,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series comes from an experimental branch that I've been working on
-to try and boot a MacOS toolbox ROM under the QEMU q800 machine. The effort is
-far from complete, but it seems worth submitting these patches separately since
-they are limited to the ESP device and form a substantial part of the work to
-date.
-
-As part of Laurent's recent q800 work so-called PDMA (pseudo-DMA) support was
-added to the ESP device. This is whereby the DREQ (DMA request) line is used
-to signal to the host CPU that it can transfer data to/from the device over
-the SCSI bus.
-
-The existing PDMA tracks 4 separate transfer data sources as indicated by the
-ESP pdma_origin variable: PDMA, TI, CMD and ASYNC with an independent variable
-pdma_len to store the transfer length. This works well with Linux which uses a
-single PDMA request to transfer a number of sectors in a single request.
-
-Unfortunately the MacOS toolbox ROM has other ideas here: it sends data to the
-ESP as a mixture of FIFO and PDMA transfers and then uses a mixture of the FIFO
-and DMA counters to confirm that the correct number of bytes have been
-transferred. For this to work correctly the PDMA buffers and separate pdma_len
-transfer counter must be consolidated into the FIFO to allow mixing of both
-types of transfer within a single request.
-
-The patchset is split into several sections:
-
-- Patches 1-4 are minor patches which make esp.c checkpatch friendly whilst also
-  fixing up some trace events ready for later patches in the series
-  
-- Patches 5-11 unify the DMA transfer count. In particular there are 2 synthetic
-  variables dma_counter and dma_left within ESPState which do not need to exist. 
-  DMA transfer lengths are programmed into the TC (transfer count) register which is 
-  decremented for each byte transferred, generating an interrupt when it reaches zero.
-  These patches add helper functions to read the TC and STC registers directly and
-  remove these synthetic variables so that the DMA transfer length is now tracked in
-  a single place.
-
-- Now that the TC register represents the authoritative DMA transfer length, patches
-  12-20 work to eliminate the separate PDMA variables pdma_start, pdma_cur, pdma_len
-  and separate PDMA buffers PDMA and CMD. The PDMA position variables can be replaced
-  by the existing ESP cmdlen and ti_wptr/ti_rptr, whilst the FIFO (TI) buffer is used
-  for incoming data with commands being accumulated in cmdbuf as per standard DMA
-  requests.
-
-- Patches 21 and 22 fix the detection of missing SCSI targets by the MacOS toolbox ROM
-  on startup at which point it will attempt to start reading information from a CDROM
-  attached to the q800 machine.
-
-- Patch 23 is the main rework of the PDMA buffer transfers: instead of tracking the
-  SCSI transfers using a separate ASYNC pdma_origin, the contents of the ESPState
-  async_buf are copied to the FIFO buffer in 16-byte chunks with the transfer status
-  and IRQs being set accordingly.
-
-- Patch 24 removes the last separate PDMA variable pdma_origin, including the separate
-  PDMA migration subsection which is no longer required (see note below about migration
-  compatibility).
-  
-- Finally patch 25 enables 4 byte PDMA reads/writes over the SCSI bus which are used
-  by MacOS when reading the next stage bootloader from CDROM (this is an increase from
-  2 bytes currently implemented and used by Linux).
-
-
-Testing
-=======
-
-I've tested this on my SPARC32 OpenBIOS images which include Linux, OpenBSD, NetBSD,
-and Solaris and all of these continue to boot as before.
-
-Similarly the q800 m68k Linux test image still boots as before with these patches
-applied. It is possible with lots of hacks to load Laurent's EMILE bootloader using
-a MacOS toolbox ROM - the hope is to try and start upstreaming more of these changes
-as time allows.
-
-
-Migration
-=========
-
-The patchset ensures that ESP devices without PDMA (i.e. everything except the q800
-machine) will migrate successfully. This is fairly simple: the only change required
-here is to copy the old synthetic dma_left value over into the TC.
-
-Unfortunately migrating the PDMA subsection is a lot harder due to the change in the
-way that the DMA TC and changes to the point at which transfer counters are updated.
-For this reason the patchset will not migrate from older q800 snapshots: I don't
-believe this to be a problem since some devices are still missing VMStateDescription
-plus there are likely to be more breaking changes as the q800 machine matures.
-
-
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/scsi/esp.c | 52 ++++++++++++++++++++++++++++++---------------------
+ 1 file changed, 31 insertions(+), 21 deletions(-)
 
-
-Mark Cave-Ayland (25):
-  esp: checkpatch fixes
-  esp: add trace event when receiving a TI command
-  esp: fix esp_reg_read() trace event
-  esp: add PDMA trace events
-  esp: determine transfer direction directly from SCSI phase
-  esp: introduce esp_get_tc() and esp_set_tc()
-  esp: introduce esp_get_stc()
-  esp: apply transfer length adjustment when STC is zero at TC load time
-  esp: remove dma_counter from ESPState
-  esp: remove dma_left from ESPState
-  esp: remove minlen restriction in handle_ti
-  esp: introduce esp_pdma_read() and esp_pdma_write() functions
-  esp: use pdma_origin directly in esp_pdma_read()/esp_pdma_write()
-  esp: move pdma_len and TC logic into esp_pdma_read()/esp_pdma_write()
-  esp: accumulate SCSI commands for PDMA transfers in cmdbuf instead of
-    pdma_buf
-  esp: remove redundant pdma_start from ESPState
-  esp: move PDMA length adjustments into
-    esp_pdma_read()/esp_pdma_write()
-  esp: use ti_wptr/ti_rptr to manage the current FIFO position for PDMA
-  esp: use in-built TC to determine PDMA transfer length
-  esp: remove CMD pdma_origin
-  esp: rename get_cmd_cb() to esp_select()
-  esp: fix PDMA target selection
-  esp: use FIFO for PDMA transfers between initiator and device
-  esp: remove pdma_origin from ESPState
-  esp: add 4 byte PDMA read and write transfers
-
- hw/scsi/esp.c         | 461 +++++++++++++++++++++++++-----------------
- hw/scsi/trace-events  |   5 +
- include/hw/scsi/esp.h |  20 +-
- 3 files changed, 279 insertions(+), 207 deletions(-)
-
+diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+index b84e0fe33e..7073166ad1 100644
+--- a/hw/scsi/esp.c
++++ b/hw/scsi/esp.c
+@@ -241,8 +241,9 @@ static void handle_satn(ESPState *s)
+     }
+     s->pdma_cb = satn_pdma_cb;
+     len = get_cmd(s, buf, sizeof(buf));
+-    if (len)
++    if (len) {
+         do_cmd(s, buf);
++    }
+ }
+ 
+ static void s_without_satn_pdma_cb(ESPState *s)
+@@ -398,8 +399,8 @@ static void esp_do_dma(ESPState *s)
+          * handle_ti_cmd() with do_cmd != NULL (see the assert())
+          */
+         trace_esp_do_dma(s->cmdlen, len);
+-        assert (s->cmdlen <= sizeof(s->cmdbuf) &&
+-                len <= sizeof(s->cmdbuf) - s->cmdlen);
++        assert(s->cmdlen <= sizeof(s->cmdbuf) &&
++               len <= sizeof(s->cmdbuf) - s->cmdlen);
+         if (s->dma_memory_read) {
+             s->dma_memory_read(s->dma_opaque, &s->cmdbuf[s->cmdlen], len);
+         } else {
+@@ -445,15 +446,18 @@ static void esp_do_dma(ESPState *s)
+     s->dma_left -= len;
+     s->async_buf += len;
+     s->async_len -= len;
+-    if (to_device)
++    if (to_device) {
+         s->ti_size += len;
+-    else
++    } else {
+         s->ti_size -= len;
++    }
+     if (s->async_len == 0) {
+         scsi_req_continue(s->current_req);
+-        /* If there is still data to be read from the device then
+-           complete the DMA operation immediately.  Otherwise defer
+-           until the scsi layer has completed.  */
++        /*
++         * If there is still data to be read from the device then
++         * complete the DMA operation immediately.  Otherwise defer
++         * until the scsi layer has completed.
++         */
+         if (to_device || s->dma_left != 0 || s->ti_size == 0) {
+             return;
+         }
+@@ -491,7 +495,8 @@ void esp_command_complete(SCSIRequest *req, uint32_t status,
+     ESPState *s = req->hba_private;
+ 
+     if (s->rregs[ESP_RSTAT] & STAT_INT) {
+-        /* Defer handling command complete until the previous
++        /*
++         * Defer handling command complete until the previous
+          * interrupt has been handled.
+          */
+         trace_esp_command_complete_deferred();
+@@ -513,8 +518,10 @@ void esp_transfer_data(SCSIRequest *req, uint32_t len)
+     if (s->dma_left) {
+         esp_do_dma(s);
+     } else if (s->dma_counter != 0 && s->ti_size <= 0) {
+-        /* If this was the last part of a DMA transfer then the
+-           completion interrupt is deferred to here.  */
++        /*
++         * If this was the last part of a DMA transfer then the
++         * completion interrupt is deferred to here.
++         */
+         esp_dma_done(s);
+     }
+ }
+@@ -531,17 +538,18 @@ static void handle_ti(ESPState *s)
+     dmalen = s->rregs[ESP_TCLO];
+     dmalen |= s->rregs[ESP_TCMID] << 8;
+     dmalen |= s->rregs[ESP_TCHI] << 16;
+-    if (dmalen==0) {
+-      dmalen=0x10000;
++    if (dmalen == 0) {
++        dmalen = 0x10000;
+     }
+     s->dma_counter = dmalen;
+ 
+-    if (s->do_cmd)
++    if (s->do_cmd) {
+         minlen = (dmalen < ESP_CMDBUF_SZ) ? dmalen : ESP_CMDBUF_SZ;
+-    else if (s->ti_size < 0)
++    } else if (s->ti_size < 0) {
+         minlen = (dmalen < -s->ti_size) ? dmalen : -s->ti_size;
+-    else
++    } else {
+         minlen = (dmalen < s->ti_size) ? dmalen : s->ti_size;
++    }
+     trace_esp_handle_ti(minlen);
+     if (s->dma) {
+         s->dma_left = minlen;
+@@ -606,8 +614,10 @@ uint64_t esp_reg_read(ESPState *s, uint32_t saddr)
+         }
+         break;
+     case ESP_RINTR:
+-        /* Clear sequence step, interrupt register and all status bits
+-           except TC */
++        /*
++         * Clear sequence step, interrupt register and all status bits
++         * except TC
++         */
+         old_val = s->rregs[ESP_RINTR];
+         s->rregs[ESP_RINTR] = 0;
+         s->rregs[ESP_RSTAT] &= ~STAT_TC;
+@@ -665,13 +675,13 @@ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val)
+         } else {
+             s->dma = 0;
+         }
+-        switch(val & CMD_CMD) {
++        switch (val & CMD_CMD) {
+         case CMD_NOP:
+             trace_esp_mem_writeb_cmd_nop(val);
+             break;
+         case CMD_FLUSH:
+             trace_esp_mem_writeb_cmd_flush(val);
+-            //s->ti_size = 0;
++            /*s->ti_size = 0;*/
+             s->rregs[ESP_RINTR] = INTR_FC;
+             s->rregs[ESP_RSEQ] = 0;
+             s->rregs[ESP_RFLAGS] = 0;
+@@ -787,7 +797,7 @@ static const VMStateDescription vmstate_esp_pdma = {
+ };
+ 
+ const VMStateDescription vmstate_esp = {
+-    .name ="esp",
++    .name = "esp",
+     .version_id = 4,
+     .minimum_version_id = 3,
+     .fields = (VMStateField[]) {
 -- 
 2.20.1
 
