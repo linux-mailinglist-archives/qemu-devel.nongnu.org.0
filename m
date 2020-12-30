@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F622E75E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 04:57:50 +0100 (CET)
-Received: from localhost ([::1]:55044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 776B42E76E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 08:45:17 +0100 (CET)
+Received: from localhost ([::1]:36088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuScP-0001p4-9h
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 22:57:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34428)
+	id 1kuWAW-0000gA-5A
+	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 02:45:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kuSbc-0001QE-PM
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 22:57:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kuSbZ-0004B4-UR
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 22:57:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609300615;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cKKZobjVj3zj4UC7f+EmPdp/ceWXyPbdY/n5Gi/+Pfs=;
- b=bYfYNHKMKi3tUxfrbfhMfLkdDNLOnV/EuSzA2ylV4AmNo3Go0lLauy9mJeAd7D6qRmkXD5
- 6GxHJgX70rLWaPtivZlpWBB1RTZ7XBg8kvoNgOMo76sGbLs6kZ7peFGgDOrQwer32C92ok
- D48GxzUjID1mVT+9o+pOptXIwE1WnVI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-8dRuE1B2OLeToBEdqP-Mow-1; Tue, 29 Dec 2020 22:56:53 -0500
-X-MC-Unique: 8dRuE1B2OLeToBEdqP-Mow-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EC19180A087;
- Wed, 30 Dec 2020 03:56:52 +0000 (UTC)
-Received: from [10.72.13.30] (ovpn-13-30.pek2.redhat.com [10.72.13.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 547A060BFA;
- Wed, 30 Dec 2020 03:56:50 +0000 (UTC)
-Subject: Re: [PATCH 1/3] qapi/net: Add new QMP command for COLO passthrough
-To: "Zhang, Chen" <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20201224010918.19275-1-chen.zhang@intel.com>
- <20201224010918.19275-2-chen.zhang@intel.com>
- <08fe5c51-1383-12dd-b255-151a868cd6d9@redhat.com>
- <a4adb965911348f4901f72e7e472c07e@intel.com>
- <97d593c2-222d-a3cf-e797-8d77b8701bed@redhat.com>
- <704028b0dbf843ed9ae64b93ecd1db13@intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <05999128-75c0-aeaf-255f-8c1ec7699eab@redhat.com>
-Date: Wed, 30 Dec 2020 11:56:49 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <sylvain.pelissier@gmail.com>)
+ id 1kuW8P-0000B6-Ry; Wed, 30 Dec 2020 02:43:05 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:34280)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sylvain.pelissier@gmail.com>)
+ id 1kuW8N-0001ZL-UF; Wed, 30 Dec 2020 02:43:05 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id g20so20970175ejb.1;
+ Tue, 29 Dec 2020 23:42:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sNXJIheqruGF+MzYZKYf6nU73TSEzWxlDdTECQXnOsc=;
+ b=OsghoqpigfHbXTOafiAuyYQEMJ1dklmXhUksHBSc7Cg0OS5e1kXTfebfj9gW5dY+hL
+ Kg0Fa1hjOIHd3KXrIzrR42SK0uUj26QUtrWEGBwGbLceEMKv3aOOei+ZklGkH8nt1xzi
+ /xXgTLtvy5ZYZrMofx5cMCD8y/JWLUzZxstjoKygR6oyZrJMSNo06rpFsQod4d8ZKip+
+ Gl4+d449Jg7ob1KNFzuyA/n3d/1FrYnXwrMN2xgSlIwH+TYCgmyTsgKrpOhQP6EKKG27
+ 1PHYOMhUrXTyku3Yh1Fl2+HyZAfPmDBedGCuK3T1SwuGGIyeipvHUdn6YUvdcwnegkO8
+ L2mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sNXJIheqruGF+MzYZKYf6nU73TSEzWxlDdTECQXnOsc=;
+ b=k38+/eRvvVVeeMlshNjwXxczakeAdd+hpyNkYbo2yFZ2U8eL5NfAbZY3K9XhglyVos
+ /KP2XwpMcZgzH6+J6EYp+bD4LPXPBCePDpWgBEKoV7qjUaifn/dao44VbDNaVSXXA3zY
+ QomQOYyDfi6WYIPjbiNdibEsTxvpFAXWEoLMTa8IU0oGgYwPlUfE2UV/GGrdqsibEbdR
+ 5xOonoxpR410OGEznpYbb3uZ1Tbsmnoa9TojlfVRWsGjtxxy5y9I/MOEqEEQFUJ0WRAt
+ FeGuOaQoIX6NxNZ+Ed6LEzpYSmmwN2b+sYw5lBlhTl84dhVkEat6PRFghJd6fs4JBLMX
+ GnkA==
+X-Gm-Message-State: AOAM531ytXlv9MfD4LVG3nrOyEHPiNeJ9ObfREer9xFoKdFkVzyWN3z7
+ kDeNbNtC4oQmrNlLKhbZOYRdyU+Em3h739yeI/c=
+X-Google-Smtp-Source: ABdhPJzKAHjwr0jNIpbq//nCMYOjw1x0LJdXEAd+hWRXNvPdNEBIRh5Y2gFVfFWsF/2iY/KNv7LQvd6pN5uE3nnjPTQ=
+X-Received: by 2002:a17:906:6b88:: with SMTP id
+ l8mr48521836ejr.482.1609314176999; 
+ Tue, 29 Dec 2020 23:42:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <704028b0dbf843ed9ae64b93ecd1db13@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.07, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <CAOkUe-DTG1yU-z4SF-+nBeEJUWdx5gctLMSNp8f1+_7FpWG4aA@mail.gmail.com>
+ <CAEUhbmV5oMNW3fS7v81vgB-j0NbAnRnMB-ehm5BT8rk4uWGdYg@mail.gmail.com>
+ <CAOkUe-BWEVpzwHLPzUMzuUK12RQdUds-tCEWcyhrZeWDh9AaHw@mail.gmail.com>
+ <CAEUhbmWcNqNMzipVvYMgVsJH7dTwZv8qMYFdpzvCSNRGVH0NsA@mail.gmail.com>
+In-Reply-To: <CAEUhbmWcNqNMzipVvYMgVsJH7dTwZv8qMYFdpzvCSNRGVH0NsA@mail.gmail.com>
+From: Sylvain Pelissier <sylvain.pelissier@gmail.com>
+Date: Wed, 30 Dec 2020 08:42:46 +0100
+Message-ID: <CAOkUe-DyJLEiHK4hmxEtfVwTV_3rb-RXAgRS2Ojtk5krctVBGA@mail.gmail.com>
+Subject: Re: [PATCH] gdb: riscv: Add target description
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000da258d05b7a9a767"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=sylvain.pelissier@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,28 +78,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <zhangckid@gmail.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000da258d05b7a9a767
+Content-Type: text/plain; charset="UTF-8"
 
-On 2020/12/29 上午10:56, Zhang, Chen wrote:
->> I think we can start form COLO. To avoid QMP compatibility issues, I would
->> like to add the n tuple and wildcard support now.
-> OK, I will do this job in next version.
-> For the QMP compatibility issues, please give me a demo of what we want to see, Like some existing commands.
+Target description is not currently implemented in RISC-V architecture.
+Thus GDB won't set it properly when attached. The patch implements the
+target description response.
 
+Signed-off-by: Sylvain Pelissier <sylvain.pelissier@gmail.com>
+---
+ target/riscv/cpu.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-I meant if we start from port and then want to add e.g n-tuple support. 
-Do we need to introduce another command? Or is there any introspection 
-that can let management layer know about this?
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 254cd83f8b..ed4971978b 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -556,6 +556,18 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
 
-Thanks
++static gchar *riscv_gdb_arch_name(CPUState *cs)
++{
++    RISCVCPU *cpu = RISCV_CPU(cs);
++    CPURISCVState *env = &cpu->env;
++
++    if (riscv_cpu_is_32bit(env)) {
++        return g_strdup("riscv:rv32");
++    } else {
++        return g_strdup("riscv:rv64");
++    }
++}
++
+ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+ {
+     RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
+@@ -591,6 +603,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void
+*data)
+     /* For now, mark unmigratable: */
+     cc->vmsd = &vmstate_riscv_cpu;
+ #endif
++    cc->gdb_arch_name = riscv_gdb_arch_name;
+ #ifdef CONFIG_TCG
+     cc->tcg_initialize = riscv_translate_init;
+     cc->tlb_fill = riscv_cpu_tlb_fill;
+-- 
+2.25.1
 
+On Wed, 30 Dec 2020 at 01:26, Bin Meng <bmeng.cn@gmail.com> wrote:
 
+> Hi Sylvain,
 >
-> Thanks
-> Chen
+> On Wed, Dec 30, 2020 at 12:37 AM Sylvain Pelissier
+> <sylvain.pelissier@gmail.com> wrote:
+> >
+> > Thank you for your remark here is the new patch:
+>
+> This should not be put into the commit message.
+>
+> Previous commit message is missing.
+>
+> >
+> > Signed-off-by: Sylvain Pelissier <sylvain.pelissier@gmail.com>
+> > ---
+> >  target/riscv/cpu.c | 13 +++++++++++++
+> >  1 file changed, 13 insertions(+)
+> >
+>
+> Regards,
+> Bin
 >
 
+--000000000000da258d05b7a9a767
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Target description is not currently implemented in RI=
+SC-V architecture. Thus GDB won&#39;t set it properly when attached. The pa=
+tch implements the target description response.<br><br>Signed-off-by: Sylva=
+in Pelissier &lt;<a href=3D"mailto:sylvain.pelissier@gmail.com">sylvain.pel=
+issier@gmail.com</a>&gt;<br>---<br>=C2=A0target/riscv/cpu.c | 13 ++++++++++=
++++<br>=C2=A01 file changed, 13 insertions(+)<br><br>diff --git a/target/ri=
+scv/cpu.c b/target/riscv/cpu.c<br>index 254cd83f8b..ed4971978b 100644<br>--=
+- a/target/riscv/cpu.c<br>+++ b/target/riscv/cpu.c<br>@@ -556,6 +556,18 @@ =
+static Property riscv_cpu_properties[] =3D {<br>=C2=A0 =C2=A0 =C2=A0DEFINE_=
+PROP_END_OF_LIST(),<br>=C2=A0};<br>=C2=A0<br>+static gchar *riscv_gdb_arch_=
+name(CPUState *cs)<br>+{<br>+ =C2=A0 =C2=A0RISCVCPU *cpu =3D RISCV_CPU(cs);=
+<br>+ =C2=A0 =C2=A0CPURISCVState *env =3D &amp;cpu-&gt;env;<br>+<br>+ =C2=
+=A0 =C2=A0if (riscv_cpu_is_32bit(env)) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0re=
+turn g_strdup(&quot;riscv:rv32&quot;);<br>+ =C2=A0 =C2=A0} else {<br>+ =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0return g_strdup(&quot;riscv:rv64&quot;);<br>+ =C2=
+=A0 =C2=A0}<br>+}<br>+<br>=C2=A0static void riscv_cpu_class_init(ObjectClas=
+s *c, void *data)<br>=C2=A0{<br>=C2=A0 =C2=A0 =C2=A0RISCVCPUClass *mcc =3D =
+RISCV_CPU_CLASS(c);<br>@@ -591,6 +603,7 @@ static void riscv_cpu_class_init=
+(ObjectClass *c, void *data)<br>=C2=A0 =C2=A0 =C2=A0/* For now, mark unmigr=
+atable: */<br>=C2=A0 =C2=A0 =C2=A0cc-&gt;vmsd =3D &amp;vmstate_riscv_cpu;<b=
+r>=C2=A0#endif<br>+ =C2=A0 =C2=A0cc-&gt;gdb_arch_name =3D riscv_gdb_arch_na=
+me;<br>=C2=A0#ifdef CONFIG_TCG<br>=C2=A0 =C2=A0 =C2=A0cc-&gt;tcg_initialize=
+ =3D riscv_translate_init;<br>=C2=A0 =C2=A0 =C2=A0cc-&gt;tlb_fill =3D riscv=
+_cpu_tlb_fill;<br>-- <br>2.25.1</div></div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Wed, 30 Dec 2020 at 01:26, Bin Meng=
+ &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Sylvain,<br=
+>
+<br>
+On Wed, Dec 30, 2020 at 12:37 AM Sylvain Pelissier<br>
+&lt;<a href=3D"mailto:sylvain.pelissier@gmail.com" target=3D"_blank">sylvai=
+n.pelissier@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Thank you for your remark here is the new patch:<br>
+<br>
+This should not be put into the commit message.<br>
+<br>
+Previous commit message is missing.<br>
+<br>
+&gt;<br>
+&gt; Signed-off-by: Sylvain Pelissier &lt;<a href=3D"mailto:sylvain.pelissi=
+er@gmail.com" target=3D"_blank">sylvain.pelissier@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 target/riscv/cpu.c | 13 +++++++++++++<br>
+&gt;=C2=A0 1 file changed, 13 insertions(+)<br>
+&gt;<br>
+<br>
+Regards,<br>
+Bin<br>
+</blockquote></div>
+
+--000000000000da258d05b7a9a767--
 
