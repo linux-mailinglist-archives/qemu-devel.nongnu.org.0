@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2FE2E7A95
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 16:46:22 +0100 (CET)
-Received: from localhost ([::1]:59438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5A62E7AAE
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 16:50:34 +0100 (CET)
+Received: from localhost ([::1]:39696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kudg5-0000SP-Iu
-	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 10:46:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51262)
+	id 1kudk8-00047N-Vl
+	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 10:50:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kudZb-0001VB-Ay
- for qemu-devel@nongnu.org; Wed, 30 Dec 2020 10:39:39 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50916
+ id 1kudZe-0001Y2-5k
+ for qemu-devel@nongnu.org; Wed, 30 Dec 2020 10:39:42 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50926
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kudZW-0002Gf-5b
- for qemu-devel@nongnu.org; Wed, 30 Dec 2020 10:39:39 -0500
+ id 1kudZb-0002Hd-PY
+ for qemu-devel@nongnu.org; Wed, 30 Dec 2020 10:39:41 -0500
 Received: from host86-148-34-1.range86-148.btcentralplus.com ([86.148.34.1]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kudZL-00070L-2b; Wed, 30 Dec 2020 15:39:27 +0000
+ id 1kudZP-00070L-Sp; Wed, 30 Dec 2020 15:39:32 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu
-Date: Wed, 30 Dec 2020 15:37:41 +0000
-Message-Id: <20201230153745.30241-22-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 30 Dec 2020 15:37:42 +0000
+Message-Id: <20201230153745.30241-23-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201230153745.30241-1-mark.cave-ayland@ilande.co.uk>
 References: <20201230153745.30241-1-mark.cave-ayland@ilande.co.uk>
@@ -37,7 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 21/25] esp: rename get_cmd_cb() to esp_select()
+Subject: [PATCH 22/25] esp: fix PDMA target selection
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -63,62 +63,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This better describes the purpose of the function.
+Currently the target selection for PDMA is done after the SCSI command has been
+delivered which is not correct. Perform target selection as part of the initial
+get_cmd() call when the command is submitted: if no target is present, don't
+raise DRQ.
+
+If the target is present then switch to the command phase since the MacOS toolbox
+ROM checks for this before attempting to submit the SCSI command.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hw/scsi/esp.c | 55 ++++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 35 insertions(+), 20 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 33e3cf657b..50bddc7d68 100644
+index 50bddc7d68..69c03e59f0 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -199,7 +199,7 @@ static void esp_pdma_write(ESPState *s, uint8_t val)
-     esp_set_tc(s, dmalen);
+@@ -227,7 +227,7 @@ static int esp_select(ESPState *s)
+     return 0;
  }
  
--static int get_cmd_cb(ESPState *s)
-+static int esp_select(ESPState *s)
+-static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
++static int32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
  {
+     uint32_t dmalen;
      int target;
- 
-@@ -255,7 +255,7 @@ static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
-     }
+@@ -242,6 +242,9 @@ static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
+             s->dma_memory_read(s->dma_opaque, buf, dmalen);
+         } else {
+             set_pdma(s, TI);
++            if (esp_select(s) < 0) {
++                return -1;
++            }
+             esp_raise_drq(s);
+             return 0;
+         }
+@@ -256,7 +259,7 @@ static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
      trace_esp_get_cmd(dmalen, target);
  
--    if (get_cmd_cb(s) < 0) {
-+    if (esp_select(s) < 0) {
-         return 0;
+     if (esp_select(s) < 0) {
+-        return 0;
++        return -1;
      }
      return dmalen;
-@@ -297,7 +297,7 @@ static void do_cmd(ESPState *s, uint8_t *buf)
+ }
+@@ -297,9 +300,6 @@ static void do_cmd(ESPState *s, uint8_t *buf)
  
  static void satn_pdma_cb(ESPState *s)
  {
--    if (get_cmd_cb(s) < 0) {
-+    if (esp_select(s) < 0) {
+-    if (esp_select(s) < 0) {
+-        return;
+-    }
+     s->do_cmd = 0;
+     if (s->cmdlen) {
+         do_cmd(s, s->cmdbuf);
+@@ -308,24 +308,28 @@ static void satn_pdma_cb(ESPState *s)
+ 
+ static void handle_satn(ESPState *s)
+ {
++    int32_t cmdlen;
++
+     if (s->dma && !s->dma_enabled) {
+         s->dma_cb = handle_satn;
          return;
      }
-     s->do_cmd = 0;
-@@ -323,7 +323,7 @@ static void handle_satn(ESPState *s)
+     s->pdma_cb = satn_pdma_cb;
+-    s->cmdlen = get_cmd(s, s->cmdbuf, sizeof(s->cmdbuf));
+-    if (s->cmdlen) {
++    cmdlen = get_cmd(s, s->cmdbuf, sizeof(s->cmdbuf));
++    if (cmdlen > 0) {
++        s->cmdlen = cmdlen;
+         do_cmd(s, s->cmdbuf);
+-    } else {
++    } else if (cmdlen == 0) {
++        s->cmdlen = 0;
+         s->do_cmd = 1;
++        /* Target present, but no cmd yet - switch to command phase */
++        s->rregs[ESP_RSEQ] = SEQ_CD;
++        s->rregs[ESP_RSTAT] = STAT_CD;
+     }
+ }
  
  static void s_without_satn_pdma_cb(ESPState *s)
  {
--    if (get_cmd_cb(s) < 0) {
-+    if (esp_select(s) < 0) {
+-    if (esp_select(s) < 0) {
+-        return;
+-    }
+     s->do_cmd = 0;
+     if (s->cmdlen) {
+         do_busid_cmd(s, s->cmdbuf, 0);
+@@ -334,24 +338,28 @@ static void s_without_satn_pdma_cb(ESPState *s)
+ 
+ static void handle_s_without_atn(ESPState *s)
+ {
++    int32_t cmdlen;
++
+     if (s->dma && !s->dma_enabled) {
+         s->dma_cb = handle_s_without_atn;
          return;
      }
-     s->do_cmd = 0;
-@@ -349,7 +349,7 @@ static void handle_s_without_atn(ESPState *s)
+     s->pdma_cb = s_without_satn_pdma_cb;
+-    s->cmdlen = get_cmd(s, s->cmdbuf, sizeof(s->cmdbuf));
+-    if (s->cmdlen) {
++    cmdlen = get_cmd(s, s->cmdbuf, sizeof(s->cmdbuf));
++    if (cmdlen > 0) {
++        s->cmdlen = cmdlen;
+         do_busid_cmd(s, s->cmdbuf, 0);
+-    } else {
++    } else if (cmdlen == 0) {
++        s->cmdlen = 0;
+         s->do_cmd = 1;
++        /* Target present, but no cmd yet - switch to command phase */
++        s->rregs[ESP_RSEQ] = SEQ_CD;
++        s->rregs[ESP_RSTAT] = STAT_CD;
+     }
+ }
  
  static void satn_stop_pdma_cb(ESPState *s)
  {
--    if (get_cmd_cb(s) < 0) {
-+    if (esp_select(s) < 0) {
+-    if (esp_select(s) < 0) {
+-        return;
+-    }
+     s->do_cmd = 0;
+     if (s->cmdlen) {
+         trace_esp_handle_satn_stop(s->cmdlen);
+@@ -365,21 +373,28 @@ static void satn_stop_pdma_cb(ESPState *s)
+ 
+ static void handle_satn_stop(ESPState *s)
+ {
++    int32_t cmdlen;
++
+     if (s->dma && !s->dma_enabled) {
+         s->dma_cb = handle_satn_stop;
          return;
      }
-     s->do_cmd = 0;
+     s->pdma_cb = satn_stop_pdma_cb;
+-    s->cmdlen = get_cmd(s, s->cmdbuf, sizeof(s->cmdbuf));
+-    if (s->cmdlen) {
++    cmdlen = get_cmd(s, s->cmdbuf, sizeof(s->cmdbuf));
++    if (cmdlen > 0) {
+         trace_esp_handle_satn_stop(s->cmdlen);
++        s->cmdlen = cmdlen;
+         s->do_cmd = 1;
+         s->rregs[ESP_RSTAT] = STAT_TC | STAT_CD;
+         s->rregs[ESP_RINTR] = INTR_BS | INTR_FC;
+         s->rregs[ESP_RSEQ] = SEQ_CD;
+         esp_raise_irq(s);
+-    } else {
++    } else if (cmdlen == 0) {
++        s->cmdlen = 0;
+         s->do_cmd = 1;
++        /* Target present, but no cmd yet - switch to command phase */
++        s->rregs[ESP_RSEQ] = SEQ_CD;
++        s->rregs[ESP_RSTAT] = STAT_CD;
+     }
+ }
+ 
 -- 
 2.20.1
 
