@@ -2,57 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1112E7CF4
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 23:21:35 +0100 (CET)
-Received: from localhost ([::1]:46936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747412E7CFD
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 23:38:15 +0100 (CET)
+Received: from localhost ([::1]:52266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kujqY-00010t-4K
-	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 17:21:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51258)
+	id 1kuk6g-0004XU-4x
+	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 17:38:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1kujoz-0000Te-L4
- for qemu-devel@nongnu.org; Wed, 30 Dec 2020 17:19:57 -0500
-Received: from hera.aquilenet.fr ([185.233.100.1]:55326)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1kujoy-0002oc-1s
- for qemu-devel@nongnu.org; Wed, 30 Dec 2020 17:19:57 -0500
-Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id 9840F509;
- Wed, 30 Dec 2020 23:19:53 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
- by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tgRAp_XJRnrx; Wed, 30 Dec 2020 23:19:52 +0100 (CET)
-Received: from function.youpi.perso.aquilenet.fr
- (lfbn-bor-1-56-204.w90-50.abo.wanadoo.fr [90.50.148.204])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id 9BDB523C;
- Wed, 30 Dec 2020 23:19:52 +0100 (CET)
-Received: from samy by function.youpi.perso.aquilenet.fr with local (Exim 4.94)
- (envelope-from <samuel.thibault@gnu.org>)
- id 1kujos-00C6zv-VS; Wed, 30 Dec 2020 23:19:50 +0100
-Date: Wed, 30 Dec 2020 23:19:50 +0100
-From: Samuel Thibault <samuel.thibault@gnu.org>
-To: Chris Hofstaedtler <chris@hofstaedtler.name>
-Subject: Re: [PATCH v2] meson: fix ncurses detection on macOS
-Message-ID: <20201230221950.m4ila6u5k56zg353@function>
-References: <20201230221727.60579-1-chris@hofstaedtler.name>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kuk57-0003iD-CM
+ for qemu-devel@nongnu.org; Wed, 30 Dec 2020 17:36:37 -0500
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:46752)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kuk55-0000Ws-8p
+ for qemu-devel@nongnu.org; Wed, 30 Dec 2020 17:36:37 -0500
+Received: by mail-pf1-x434.google.com with SMTP id s21so10344053pfu.13
+ for <qemu-devel@nongnu.org>; Wed, 30 Dec 2020 14:36:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=OyjdfDwERMLG6x3pGPpeUjZ/46ETxripnbSBpTFfDDI=;
+ b=e8WHeLkOtC4ZwG4iVT7m4A4qXDUyLx1QsbzvQ5PmuXsX2kw8gqhkb4JR68Ghs4ClRP
+ mZIhU68YbQp0a2nYnIezX2zUgfdUo+GomjbE4oHCfNQzTDD5wU4MwzA3hNRZ1vsc2BU1
+ 4V28pMQ2raaGx/PeDWa1LSRpHlyLHi0amCJZvu1310U9iWWDZt5/IpD6+R2BDtPIUs1u
+ okY+RuPMhSFtcroxZwZP4lgDCo4bmV7m5/17QAH4nw/e//VzapRyPZhUfns0arV37UuI
+ 3/pER4aigq11ZC2Dkc5T3XMMUkMCRkpLWDqTVTbnu9f5dwG6Ge354N0lOj1SQQhUHydU
+ qqgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OyjdfDwERMLG6x3pGPpeUjZ/46ETxripnbSBpTFfDDI=;
+ b=c0W96MOJwyCFEjsWqKVuuiYsyRR8R/0SfsCDhDAK1MVQvn0qZOXQwvFSwMVX3M2z8C
+ X3vvmUedNl+TRHcwqI5Es+Pk74V36lrF2abDrBDsC85mn8I1amT88hVK2gzPmKFbflrj
+ FcO53NRllWridukKmPL/EGFzN08XMIByEK2GnhpR9zHsAmw8JXJUeYv4KQCpXqUmi8UZ
+ U1TgiqOCJJJiGuw3TzeD5d7cAuGhooUvEFV+wZ22tR9Ea+4W8z0NrQ2MajforURYrCHo
+ dAbRnP5x2BG/ZgZLIbFOLQFlbr309RH93rP1PPGYRSxShOGPU+TC4U1Dg/HlWeUTvb1P
+ lNjw==
+X-Gm-Message-State: AOAM531oWYwkW+HuwlzO1Oc2cJArX3ZJ6MjOHDBhgKGHmkQjzW2qkd8I
+ Qts9F8g68F4KdXh/FZGVgdnAPGKihn+CJQ==
+X-Google-Smtp-Source: ABdhPJz2IQHG2bVou+LN1mnu7nmZEnGOYWjghXZllyOaroVEQUH02p3qwaMBw7IeG9ugA5XELUty/Q==
+X-Received: by 2002:a62:864e:0:b029:1ab:e82c:d724 with SMTP id
+ x75-20020a62864e0000b02901abe82cd724mr47315218pfd.9.1609367793402; 
+ Wed, 30 Dec 2020 14:36:33 -0800 (PST)
+Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
+ by smtp.gmail.com with ESMTPSA id
+ jz20sm8088039pjb.4.2020.12.30.14.36.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Dec 2020 14:36:32 -0800 (PST)
+Subject: Re: [PATCH 2/3] target/arm: ARMv8.4-TTST extension
+To: remi.denis.courmont@huawei.com, qemu-arm@nongnu.org
+References: <7884934.NyiUUSuA9g@basile.remlab.net>
+ <20201218143321.102872-2-remi.denis.courmont@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3505851a-caa0-698d-49da-49beca168a54@linaro.org>
+Date: Wed, 30 Dec 2020 14:36:31 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20201218143321.102872-2-remi.denis.courmont@huawei.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201230221727.60579-1-chris@hofstaedtler.name>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-Received-SPF: softfail client-ip=185.233.100.1;
- envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.399,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,59 +89,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Yonggang Luo <luoyonggang@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Chris Hofstaedtler, le mer. 30 déc. 2020 23:17:27 +0100, a ecrit:
-> Without this, meson fails with "curses package not usable" when using ncurses
-> 6.2. Apparently the wide functions (addwstr, etc) are hidden behind the extra
-> define, and meson does not define it at that detection stage.
+On 12/18/20 6:33 AM, remi.denis.courmont@huawei.com wrote:
+> From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 > 
-> Regression from b01a4fd3bd7d6f2 ("configure: Define NCURSES_WIDECHAR if we're
-> using curses"). The meson conversion has seen many iterations of the curses
-> check, so pinpointing the exact commit breaking this is not so easy.
+> This adds for the Small Translation tables extension in AArch64 state.
 > 
-> Signed-off-by: Chris Hofstaedtler <chris@hofstaedtler.name>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Cc: Samuel Thibault <samuel.thibault@gnu.org>
-> Cc: Yonggang Luo <luoyonggang@gmail.com>
-
-Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-
+> Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 > ---
->  meson.build | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  target/arm/cpu.h    |  5 +++++
+>  target/arm/helper.c | 13 ++++++++++---
+>  2 files changed, 15 insertions(+), 3 deletions(-)
 > 
-> diff --git a/meson.build b/meson.build
-> index 372576f82c..fd74728674 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -500,16 +500,16 @@ if have_system and not get_option('curses').disabled()
->      endif
->    endforeach
->    msg = get_option('curses').enabled() ? 'curses library not found' : ''
-> +  curses_compile_args = ['-DNCURSES_WIDECHAR']
->    if curses.found()
-> -    if cc.links(curses_test, dependencies: [curses])
-> -      curses = declare_dependency(compile_args: '-DNCURSES_WIDECHAR', dependencies: [curses])
-> +    if cc.links(curses_test, args: curses_compile_args, dependencies: [curses])
-> +      curses = declare_dependency(compile_args: curses_compile_args, dependencies: [curses])
->      else
->        msg = 'curses package not usable'
->        curses = not_found
->      endif
->    endif
->    if not curses.found()
-> -    curses_compile_args = ['-DNCURSES_WIDECHAR']
->      has_curses_h = cc.has_header('curses.h', args: curses_compile_args)
->      if targetos != 'windows' and not has_curses_h
->        message('Trying with /usr/include/ncursesw')
-> -- 
-> 2.29.2
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 39abb2a36b..604b9cdd0e 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -3991,6 +3991,11 @@ static inline bool isar_feature_aa64_uao(const ARMISARegisters *id)
+>      return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, UAO) != 0;
+>  }
+>  
+> +static inline bool isar_feature_aa64_st(const ARMISARegisters *id)
+> +{
+> +    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, ST) != 0;
+> +}
+> +
+>  static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
+>  {
+>      return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) != 0;
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index b927e53ab0..c3a186db35 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -10851,7 +10851,7 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, uint32_t level,
+>              if (level == 0 && pamax <= 42) {
+>                  return false;
+>              }
+> -            if (level == 3) {
+> +            if (level == 3 && !cpu_isar_feature(aa64_st, cpu)) {
+>                  return false;
+>              }
+>              break;
+
+As mentioned vs patch 1, I think this hunk should be handled differently.
+
+> @@ -10946,7 +10946,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+>  {
+>      uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
+>      bool epd, hpd, using16k, using64k;
+> -    int select, tsz, tbi;
+> +    int select, tsz, tbi, max_tsz;
+>  
+>      if (!regime_has_2_ranges(mmu_idx)) {
+>          select = 0;
+> @@ -10981,7 +10981,14 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+>              hpd = extract64(tcr, 42, 1);
+>          }
+>      }
+> -    tsz = MIN(tsz, 39);  /* TODO: ARMv8.4-TTST */
+> +
+> +    if (cpu_isar_feature(aa64_st, env_archcpu(env))) {
+> +        max_tsz = 48 - using64k;
+> +    } else {
+> +        max_tsz = 39;
+> +    }
+> +
+> +    tsz = MIN(tsz, max_tsz);
+>      tsz = MAX(tsz, 16);  /* TODO: ARMv8.2-LVA  */
+>  
+>      /* Present TBI as a composite with TBID.  */
 > 
+
+But the rest of the patch looks good.
+
+
+r~
 
