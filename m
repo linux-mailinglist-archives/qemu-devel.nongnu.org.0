@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EBDB2E77E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 11:59:25 +0100 (CET)
-Received: from localhost ([::1]:33102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A93B2E77E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 11:59:31 +0100 (CET)
+Received: from localhost ([::1]:33770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuZCO-0006Ee-Ao
-	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 05:59:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41588)
+	id 1kuZCU-0006Ur-Ho
+	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 05:59:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kuZB8-0004WT-5z; Wed, 30 Dec 2020 05:58:06 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:53079)
+ id 1kuZB9-0004Yj-9X; Wed, 30 Dec 2020 05:58:07 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:60349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kuZB5-0007as-2Z; Wed, 30 Dec 2020 05:58:05 -0500
+ id 1kuZB5-0007at-M1; Wed, 30 Dec 2020 05:58:07 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D5StZ0dZTz9sVm; Wed, 30 Dec 2020 21:57:58 +1100 (AEDT)
+ id 4D5StZ2JDbz9sVq; Wed, 30 Dec 2020 21:57:58 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609325878;
- bh=aTK+EHvd0bXodr5GHbJw4eashOa3pV3FtII7n8f+SS8=;
+ bh=0z/VZRESy/6tpJKe1H20BQF556tPCYFQW9FCKCySfkU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XySh6Gkm6xf9zKN+8p8mfAx3bFHkBTFvq7qA40Kc+E/asWEhVNpk3lQC7+M8fiyoj
- 2vQQTPGlUcqk7LvCZEvWCnEN6Xu9UVb/P8wE7u0fHMCWGfD+5YUZ0Yvzx/64jFIQ/L
- GXTfw0ia3iP5NqHsp6C2mTaBBZrg2sZvUVwrab+A=
-Date: Wed, 30 Dec 2020 18:55:32 +1100
+ b=oWiWoTNMFrXS4I6q9yVuLvmUS5eLsLw/XkCBfg8M8Fu9tC3084BNvzyQiyCoRcGcT
+ VbIUK2fyJDE+ly8LTckB/k6T83zObbCLTpwrGFX9RfVonxa3X7qTL7tvWQjdnLJNGb
+ idWtw9+y3k/e132TayIBOLfehIYPeQSlxLNdz8LM=
+Date: Wed, 30 Dec 2020 18:58:01 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v3 1/3] ppc: Fix build with --without-default-devices
-Message-ID: <20201230075532.GC5490@yekko.fritz.box>
+Subject: Re: [PATCH v3 3/3] pnv: Fix reverse dependency on PCI express root
+ ports
+Message-ID: <20201230075801.GE5490@yekko.fritz.box>
 References: <160883056791.253005.14924294027763955653.stgit@bahia.lan>
+ <160883058299.253005.342913177952681375.stgit@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xesSdrSSBC0PokLI"
+ protocol="application/pgp-signature"; boundary="AsxXAMtlQ5JHofzM"
 Content-Disposition: inline
-In-Reply-To: <160883056791.253005.14924294027763955653.stgit@bahia.lan>
+In-Reply-To: <160883058299.253005.342913177952681375.stgit@bahia.lan>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,155 +67,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---xesSdrSSBC0PokLI
-Content-Type: text/plain; charset=us-ascii
+--AsxXAMtlQ5JHofzM
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 24, 2020 at 06:22:47PM +0100, Greg Kurz wrote:
-> Linking of the qemu-system-ppc64 fails on a POWER9 host when
-> --without-default-devices is passed to configure:
+On Thu, Dec 24, 2020 at 06:23:03PM +0100, Greg Kurz wrote:
+> qemu-system-ppc64 built with --without-default-devices crashes:
 >=20
-> $ ./configure --without-default-devices \
->               --target-list=3Dppc64-softmmu && make
+> Type 'pnv-phb4-root-port' is missing its parent 'pcie-root-port-base'
+> Aborted (core dumped)
 >=20
-> ...
->=20
-> libqemu-ppc64-softmmu.fa.p/hw_ppc_e500.c.o: In function `ppce500_init_mpi=
-c_kvm':
-> /home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/e500.c:777: undefined refer=
-ence to `kvm_openpic_connect_vcpu'
-> libqemu-ppc64-softmmu.fa.p/hw_ppc_spapr_irq.c.o: In function `spapr_irq_c=
-heck':
-> /home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/spapr_irq.c:189: undefined =
-reference to `xics_kvm_has_broken_disconnect'
-> libqemu-ppc64-softmmu.fa.p/hw_intc_spapr_xive.c.o: In function `spapr_xiv=
-e_post_load':
-> /home/greg/Work/qemu/qemu-ppc/build/../hw/intc/spapr_xive.c:530: undefine=
-d reference to `kvmppc_xive_post_load'
->=20
-> ... and tons of other symbols belonging to the KVM backend of the
-> openpic, XICS and XIVE interrupt controllers.
->=20
-> It turns out that OPENPIC_KVM, XICS_KVM and XIVE_KVM are marked
-> to depend on KVM but this has no effect when minikconf runs in
-> allnoconfig mode. Such reverse dependencies should rather be
-> handled with a 'select' statement, eg.
->=20
-> config OPENPIC
->     select OPENPIC_KVM if KVM
->=20
-> or even better by getting rid of the intermediate _KVM config
-> and directly checking CONFIG_KVM in the meson.build file:
->=20
-> specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_OPENPIC'],
-> 		if_true: files('openpic_kvm.c'))
->=20
-> Go for the latter with OPENPIC, XICS and XIVE.
->=20
-> This went unnoticed so far because CI doesn't test the build with
-> --without-default-devices and KVM enabled on a POWER host.
+> Have POWERNV to select PCIE_PORT. This is done through a
+> new PCI_POWERNV config in hw/pci-host/Kconfig since POWERNV
+> doesn't have a direct dependency on PCI. For this reason,
+> PCI_EXPRESS and MSI_NONBROKEN are also moved under
+> PCI_POWERNV.
 >=20
 > Signed-off-by: Greg Kurz <groug@kaod.org>
+> Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
 
 Applied, thanks.
 
 > ---
+>  hw/pci-host/Kconfig     |    5 +++++
+>  hw/pci-host/meson.build |    2 +-
+>  hw/ppc/Kconfig          |    3 +--
+>  3 files changed, 7 insertions(+), 3 deletions(-)
 >=20
-> The various comments motivated me enough for another round,
-> which is basically to split the cleanup out to a separate
-> patch and use CONFIG_PSERIES in hw/intc/meson.build as
-> suggested by Cedric.
->=20
-> v3: - move cleanup to a separate patch
->=20
-> v2: - check CONFIG_KVM in the meson.build as suggested by Paolo
-> ---
->  hw/intc/Kconfig     |   10 ----------
->  hw/intc/meson.build |    9 ++++++---
->  hw/ppc/Kconfig      |    5 -----
->  3 files changed, 6 insertions(+), 18 deletions(-)
->=20
-> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-> index 468d548ca771..fa2695e58d56 100644
-> --- a/hw/intc/Kconfig
-> +++ b/hw/intc/Kconfig
-> @@ -30,11 +30,6 @@ config ARM_GIC_KVM
->      default y
->      depends on ARM_GIC && KVM
-> =20
-> -config OPENPIC_KVM
-> -    bool
-> -    default y
-> -    depends on OPENPIC && KVM
-> -
->  config XICS
+> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+> index 036a61877a73..eb03f0489d08 100644
+> --- a/hw/pci-host/Kconfig
+> +++ b/hw/pci-host/Kconfig
+> @@ -60,3 +60,8 @@ config PCI_BONITO
+>      select PCI
+>      select UNIMP
 >      bool
->      depends on POWERNV || PSERIES
-> @@ -43,11 +38,6 @@ config XICS_SPAPR
->      bool
->      select XICS
+> +
+> +config PCI_POWERNV
+> +    select PCI_EXPRESS
+> +    select MSI_NONBROKEN
+> +    select PCIE_PORT
+> diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+> index e6d1b896848c..da9d1a9964a8 100644
+> --- a/hw/pci-host/meson.build
+> +++ b/hw/pci-host/meson.build
+> @@ -23,7 +23,7 @@ pci_ss.add(when: 'CONFIG_VERSATILE_PCI', if_true: files=
+('versatile.c'))
 > =20
-> -config XICS_KVM
-> -    bool
-> -    default y
-> -    depends on XICS && KVM
-> -
->  config ALLWINNER_A10_PIC
->      bool
+>  softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
 > =20
-> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-> index 68da782ad2c5..b6c9218908e3 100644
-> --- a/hw/intc/meson.build
-> +++ b/hw/intc/meson.build
-> @@ -39,7 +39,8 @@ specific_ss.add(when: 'CONFIG_LOONGSON_LIOINTC', if_tru=
-e: files('loongson_lioint
->  specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_gic.c'))
->  specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_intc.c'))
->  specific_ss.add(when: 'CONFIG_OMPIC', if_true: files('ompic.c'))
-> -specific_ss.add(when: 'CONFIG_OPENPIC_KVM', if_true: files('openpic_kvm.=
-c'))
-> +specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_OPENPIC'],
-> +		if_true: files('openpic_kvm.c'))
->  specific_ss.add(when: 'CONFIG_POWERNV', if_true: files('xics_pnv.c', 'pn=
-v_xive.c'))
->  specific_ss.add(when: 'CONFIG_PPC_UIC', if_true: files('ppc-uic.c'))
->  specific_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_ic.c', 'bc=
-m2836_control.c'))
-> @@ -50,8 +51,10 @@ specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh=
-_intc.c'))
->  specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clin=
-t.c'))
->  specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.=
-c'))
->  specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
-> -specific_ss.add(when: 'CONFIG_XICS_KVM', if_true: files('xics_kvm.c'))
-> +specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XICS'],
-> +		if_true: files('xics_kvm.c'))
->  specific_ss.add(when: 'CONFIG_XICS_SPAPR', if_true: files('xics_spapr.c'=
-))
->  specific_ss.add(when: 'CONFIG_XIVE', if_true: files('xive.c'))
-> -specific_ss.add(when: 'CONFIG_XIVE_KVM', if_true: files('spapr_xive_kvm.=
-c'))
-> +specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
-> +		if_true: files('spapr_xive_kvm.c'))
->  specific_ss.add(when: 'CONFIG_XIVE_SPAPR', if_true: files('spapr_xive.c'=
-))
+> -specific_ss.add(when: 'CONFIG_POWERNV', if_true: files(
+> +specific_ss.add(when: 'CONFIG_PCI_POWERNV', if_true: files(
+>    'pnv_phb3.c',
+>    'pnv_phb3_msi.c',
+>    'pnv_phb3_pbcq.c',
 > diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index 982d55f5875c..e35710c7c368 100644
+> index a213994ebf5d..d11dc30509df 100644
 > --- a/hw/ppc/Kconfig
 > +++ b/hw/ppc/Kconfig
-> @@ -139,11 +139,6 @@ config XIVE_SPAPR
->      depends on PSERIES
+> @@ -29,8 +29,7 @@ config POWERNV
+>      select XICS
 >      select XIVE
+>      select FDT_PPC
+> -    select PCI_EXPRESS
+> -    select MSI_NONBROKEN
+> +    select PCI_POWERNV
 > =20
-> -config XIVE_KVM
-> -    bool
-> -    default y
-> -    depends on XIVE_SPAPR && KVM
-> -
->  # Only used by 64-bit targets
->  config FW_CFG_PPC
+>  config PPC405
 >      bool
 >=20
 >=20
@@ -225,25 +145,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---xesSdrSSBC0PokLI
+--AsxXAMtlQ5JHofzM
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/sMnEACgkQbDjKyiDZ
-s5IAEQ/+KP/ngoIscqEuiLy+8Cy2XrCbKOiKXzTlA18fuT6e4Dhmd3mIdbQYwT73
-QzH9hl9Ry5JXNT3bkmy4G1siMM7GIUuygISIIifyUGj+D8vYvxSTSz/iRByHuZv5
-o/Fq3fq+Q8qsQFaPev+hPrOCQaz/peDNOqBx8u+6X96giNsSBGhRO0jaQXWDuCk7
-DqMbk9HlRD1CB/r6orap7Sfw4C46+fvk/l9xxOUyRbto2s61nU6SAonPKRFPID8s
-0EQ3pDJohFxCPfedavH+eHm5YmCI1AdeZVo6PRNZDi7RyMVBemF+KJxBoB56RCU2
-SEiDf/eQMRzmJ//QSVhYhirmngG4MYOU7D4f21R4sWQHFbxfJ2Yqbe8n+j9epOfN
-5y2jRIYu6I36MI62f3RjJ3t2MzOfBsOYddmBRHgkEVHR7GExoYGJImuvGg1jTj9V
-KJnn0RsukyXpERg/T9T+jOcP5SVJv6O2AJIc8oO1nA7xxCcXYPv6KBhlbPfUgfRZ
-QBBSU4gnc5CiYxiOpsgcWDOpd/dJvQm+cGpDiX1NBrxjp6DVHfwx4lDHMIBdqKCu
-p9+yBh4RL0WcBXxJNauY5I76s8CaKuWbgUL7BqvXeayF+5jnWHBZM9qLrcAUmO72
-fJd9PdcYG4GdbkwqHw1E6d+jts6TQmuPbTLVSa08dv9o3WxZbDI=
-=QD/q
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/sMwkACgkQbDjKyiDZ
+s5L3jxAAp3VqB8Er3KQdJSXNnRFZiM/ZJjjMPfXp5zzq+G7rFK2ZXel/aZelG+Lu
+sPpXLR+7pChnz2k0UmoePcmxrdPVt+iaL/PD9pd/I8bgFGH1kZna9Fm1bHJ9jXmF
+d8n1TKl3ZMtuRJ8TpQEWNA06rLY0P4Ru8OcqyhPqzTKQ/KFi6pkHTZqmFrBD8T6a
+a5cPQjPO85ZIrOa8yffedObEo61B6RNj/0G/x/TddmDYm1HLOdEo2zDUYN595r8N
+0EDI6Nxv6i0yL/oODlwLbtYpc0tPhNXs9EMhf27ZlYn2OxJI+SJ9r0k1pKxB+yKT
+D37RAkekWkYwrXFBiBwyiOU/qTAwb/wSkmzoUTX2coK5lQo8w/57CAeeZ4xIQURZ
+6verCySW6NoLp/BCdnazP6NVDhDK0ZpqDs0U2rZ8TkL1lMSxe9EpKyqGX5KG/7Cx
+3+vlNdsOp7vQgGVH+IRO9POX/CXL3w62jXINTKF8SvbGOdpiamU0rAIT9Z4X9svJ
+wLU+y5oPlIUG32u7H8Mj4CFsGEgKYvHHXEWId/uCN46V9saOwTew/cdIksYkmXJz
+daRAtWcF8Xr4MEq4D/ZYPoJpguCzG4NViRVF2R4ifTGK7uQHFTaMNzd/uEZu61QO
+xArnVLJmT1tg2gI7SkTS9pBi3IyAro/E1J3lUiwmp/SqvzMpuIU=
+=YtBH
 -----END PGP SIGNATURE-----
 
---xesSdrSSBC0PokLI--
+--AsxXAMtlQ5JHofzM--
 
