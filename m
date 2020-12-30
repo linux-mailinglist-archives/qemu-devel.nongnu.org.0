@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072082E7AB0
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 16:51:43 +0100 (CET)
-Received: from localhost ([::1]:42586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 317E82E7AC3
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 16:54:26 +0100 (CET)
+Received: from localhost ([::1]:50862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kudlF-0005KR-NY
-	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 10:51:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50932)
+	id 1kudnt-0000T7-8c
+	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 10:54:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kudYR-0000GK-2G
- for qemu-devel@nongnu.org; Wed, 30 Dec 2020 10:38:27 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50754
+ id 1kudYS-0000Hb-8K
+ for qemu-devel@nongnu.org; Wed, 30 Dec 2020 10:38:29 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50766
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kudYN-0001zu-FY
- for qemu-devel@nongnu.org; Wed, 30 Dec 2020 10:38:26 -0500
+ id 1kudYQ-000209-QC
+ for qemu-devel@nongnu.org; Wed, 30 Dec 2020 10:38:28 -0500
 Received: from host86-148-34-1.range86-148.btcentralplus.com ([86.148.34.1]
  helo=kentang.home) by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kudYL-00070L-RG; Wed, 30 Dec 2020 15:38:25 +0000
+ id 1kudYP-00070L-62; Wed, 30 Dec 2020 15:38:29 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
  laurent@vivier.eu
-Date: Wed, 30 Dec 2020 15:37:25 +0000
-Message-Id: <20201230153745.30241-6-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 30 Dec 2020 15:37:26 +0000
+Message-Id: <20201230153745.30241-7-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201230153745.30241-1-mark.cave-ayland@ilande.co.uk>
 References: <20201230153745.30241-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.34.1
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 05/25] esp: determine transfer direction directly from SCSI
- phase
+Subject: [PATCH 06/25] esp: introduce esp_get_tc() and esp_set_tc()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,47 +63,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The transfer direction is currently determined by checking the sign of ti_size
-but as this series progresses ti_size can be zero at the end of the transfer.
-
-Use the SCSI phase to determine the transfer direction as used in other SCSI
-controller implementations.
+This simplifies reading and writing the TC register value without having to
+manually shift each individual 8-bit value.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/scsi/esp.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/scsi/esp.c | 34 ++++++++++++++++++++++------------
+ 1 file changed, 22 insertions(+), 12 deletions(-)
 
 diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index 619c3e9e28..7169294437 100644
+index 7169294437..42cbc1da9b 100644
 --- a/hw/scsi/esp.c
 +++ b/hw/scsi/esp.c
-@@ -356,7 +356,7 @@ static void esp_dma_done(ESPState *s)
- 
- static void do_dma_pdma_cb(ESPState *s)
- {
--    int to_device = (s->ti_size < 0);
-+    int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
-     int len = s->pdma_cur - s->pdma_start;
-     if (s->do_cmd) {
-         s->ti_size = 0;
-@@ -392,7 +392,7 @@ static void do_dma_pdma_cb(ESPState *s)
- static void esp_do_dma(ESPState *s)
- {
-     uint32_t len;
--    int to_device;
-+    int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
- 
-     len = s->dma_left;
-     if (s->do_cmd) {
-@@ -425,7 +425,6 @@ static void esp_do_dma(ESPState *s)
-     if (len > s->async_len) {
-         len = s->async_len;
+@@ -98,6 +98,24 @@ void esp_request_cancelled(SCSIRequest *req)
      }
--    to_device = (s->ti_size < 0);
-     if (to_device) {
-         if (s->dma_memory_read) {
-             s->dma_memory_read(s->dma_opaque, s->async_buf, len);
+ }
+ 
++static uint32_t esp_get_tc(ESPState *s)
++{
++    uint32_t dmalen;
++
++    dmalen = s->rregs[ESP_TCLO];
++    dmalen |= s->rregs[ESP_TCMID] << 8;
++    dmalen |= s->rregs[ESP_TCHI] << 16;
++
++    return dmalen;
++}
++
++static void esp_set_tc(ESPState *s, uint32_t dmalen)
++{
++    s->rregs[ESP_TCLO] = dmalen & 0xff;
++    s->rregs[ESP_TCMID] = dmalen >> 8;
++    s->rregs[ESP_TCHI] = dmalen >> 16;
++}
++
+ static void set_pdma(ESPState *s, enum pdma_origin_id origin,
+                      uint32_t index, uint32_t len)
+ {
+@@ -157,9 +175,7 @@ static uint32_t get_cmd(ESPState *s, uint8_t *buf, uint8_t buflen)
+ 
+     target = s->wregs[ESP_WBUSID] & BUSID_DID;
+     if (s->dma) {
+-        dmalen = s->rregs[ESP_TCLO];
+-        dmalen |= s->rregs[ESP_TCMID] << 8;
+-        dmalen |= s->rregs[ESP_TCHI] << 16;
++        dmalen = esp_get_tc(s);
+         if (dmalen > buflen) {
+             return 0;
+         }
+@@ -536,9 +552,7 @@ static void handle_ti(ESPState *s)
+         return;
+     }
+ 
+-    dmalen = s->rregs[ESP_TCLO];
+-    dmalen |= s->rregs[ESP_TCMID] << 8;
+-    dmalen |= s->rregs[ESP_TCHI] << 16;
++    dmalen = esp_get_tc(s);
+     if (dmalen == 0) {
+         dmalen = 0x10000;
+     }
+@@ -869,9 +883,7 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
+ 
+     trace_esp_pdma_write(size);
+ 
+-    dmalen = s->rregs[ESP_TCLO];
+-    dmalen |= s->rregs[ESP_TCMID] << 8;
+-    dmalen |= s->rregs[ESP_TCHI] << 16;
++    dmalen = esp_get_tc(s);
+     if (dmalen == 0 || s->pdma_len == 0) {
+         return;
+     }
+@@ -888,9 +900,7 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
+         dmalen -= 2;
+         break;
+     }
+-    s->rregs[ESP_TCLO] = dmalen & 0xff;
+-    s->rregs[ESP_TCMID] = dmalen >> 8;
+-    s->rregs[ESP_TCHI] = dmalen >> 16;
++    esp_set_tc(s, dmalen);
+     if (s->pdma_len == 0 && s->pdma_cb) {
+         esp_lower_drq(s);
+         s->pdma_cb(s);
 -- 
 2.20.1
 
