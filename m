@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16922E7CF1
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 23:18:12 +0100 (CET)
-Received: from localhost ([::1]:42552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D8B2E7CF3
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 23:19:40 +0100 (CET)
+Received: from localhost ([::1]:44692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kujnH-0007R3-UB
-	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 17:18:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50466)
+	id 1kujoh-0008L5-VF
+	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 17:19:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chris@hofstaedtler.name>)
- id 1kujlm-0006rC-SN
- for qemu-devel@nongnu.org; Wed, 30 Dec 2020 17:16:41 -0500
-Received: from mail.namespace.at ([2a01:190:1801:100::235]:40328)
+ id 1kujmm-0007cx-BE
+ for qemu-devel@nongnu.org; Wed, 30 Dec 2020 17:17:43 -0500
+Received: from mail.namespace.at ([2a01:190:1801:100::235]:40368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chris@hofstaedtler.name>)
- id 1kujlk-0001mn-80
- for qemu-devel@nongnu.org; Wed, 30 Dec 2020 17:16:37 -0500
+ id 1kujmk-00027w-LM; Wed, 30 Dec 2020 17:17:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=hofstaedtler.name; s=a; h=Content-Transfer-Encoding:Content-Type:
  MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=rgtaYSrVc+o8RX+T+kdMBWVHNDU1RdsXVl0ZEAHclg0=; b=XEiy4YOD0nd6xfZpX1U5hyTo13
- AKlgcs7HSzq+Jce+9FJREVISMADlp+vwlVJTiD0aQP/6gUcdVRozOAKoJNtSocgcCxdDqmmhxBnaR
- HCpOItN9Ty76pdHxZJUvjFp2NX//Jc8g74UF2YhzrbG8BvBCJ9ObAyKenqIhx1H6J4bKfw/iDQS7x
- U1yvKuj1/6LvBM4KtUeb+D70/ksPSJ2dStm1gFyQiyXOdYFXCSxNa9XDpsN8D3orW9VrtB/Et2dcz
- ww9dBjbG+plXkj0juBftv2gCGm9NY4kFQzhdFpPEd7RaUyFBKn+/JbC4ZVlSaI9uLAWlxHqRMm68A
- GRH43ASA==;
+ bh=CZM6X1HG2XgdbArzslYvL7Ro945zOiEzB64apMgKPyo=; b=lYkqNHIiGHSurdCbz8h8ntSAnQ
+ LeADRDyws7lTW4ePf7aU2llhbuoWLqaXMLvYv94N2binnW3c0nEAg6OoPoDqYEgT/Rgq9Bp5KZcP7
+ ghM8G+KIiHseCCCwWVTPe0+Ez5B6waQzlXWRnL50GJjxGbwv234xLJTBQ6bGB4J485abhXs0j19l7
+ 09Q1Dz/czI0KP30FD/leLvTuJA8Hd++1fE33+P+AAwXirnESOsZBpLZde7v1Sv2drDeOj/RyR9qsZ
+ 1/tjv/lzocHB+yubXqJkGpqvqMvbFn3OGRqqzZt7dOEvR/3Be4UU1678bjNBQnjzrfVtqdry9rnpy
+ z4iv9GUw==;
 From: Chris Hofstaedtler <chris@hofstaedtler.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] meson: fix Cocoa option in summary
-Date: Wed, 30 Dec 2020 23:16:23 +0100
-Message-Id: <20201230221623.60423-1-chris@hofstaedtler.name>
+Subject: [PATCH v2] meson: fix ncurses detection on macOS
+Date: Wed, 30 Dec 2020 23:17:27 +0100
+Message-Id: <20201230221727.60579-1-chris@hofstaedtler.name>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -60,37 +59,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Yonggang Luo <luoyonggang@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Chris Hofstaedtler <chris@hofstaedtler.name>,
- Peter Maydell <peter.maydell@linaro.org>
+ Samuel Thibault <samuel.thibault@gnu.org>,
+ Chris Hofstaedtler <chris@hofstaedtler.name>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cocoa support was always shown as "no", even it if was enabled.
+Without this, meson fails with "curses package not usable" when using ncurses
+6.2. Apparently the wide functions (addwstr, etc) are hidden behind the extra
+define, and meson does not define it at that detection stage.
 
-Fixes: b4e312e953b ("configure: move cocoa option to Meson")
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Regression from b01a4fd3bd7d6f2 ("configure: Define NCURSES_WIDECHAR if we're
+using curses"). The meson conversion has seen many iterations of the curses
+check, so pinpointing the exact commit breaking this is not so easy.
+
+Signed-off-by: Chris Hofstaedtler <chris@hofstaedtler.name>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Chris Hofstaedtler <chris@hofstaedtler.name>
+Cc: Samuel Thibault <samuel.thibault@gnu.org>
+Cc: Yonggang Luo <luoyonggang@gmail.com>
 ---
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meson.build | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 372576f82c..1112ca8fc2 100644
+index 372576f82c..fd74728674 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2082,7 +2082,7 @@ summary_info += {'strip binaries':    get_option('strip')}
- summary_info += {'profiler':          config_host.has_key('CONFIG_PROFILER')}
- summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
- if targetos == 'darwin'
--  summary_info += {'Cocoa support': config_host.has_key('CONFIG_COCOA')}
-+  summary_info += {'Cocoa support': config_host_data.get('CONFIG_COCOA', false)}
- endif
- # TODO: add back version
- summary_info += {'SDL support':       sdl.found()}
+@@ -500,16 +500,16 @@ if have_system and not get_option('curses').disabled()
+     endif
+   endforeach
+   msg = get_option('curses').enabled() ? 'curses library not found' : ''
++  curses_compile_args = ['-DNCURSES_WIDECHAR']
+   if curses.found()
+-    if cc.links(curses_test, dependencies: [curses])
+-      curses = declare_dependency(compile_args: '-DNCURSES_WIDECHAR', dependencies: [curses])
++    if cc.links(curses_test, args: curses_compile_args, dependencies: [curses])
++      curses = declare_dependency(compile_args: curses_compile_args, dependencies: [curses])
+     else
+       msg = 'curses package not usable'
+       curses = not_found
+     endif
+   endif
+   if not curses.found()
+-    curses_compile_args = ['-DNCURSES_WIDECHAR']
+     has_curses_h = cc.has_header('curses.h', args: curses_compile_args)
+     if targetos != 'windows' and not has_curses_h
+       message('Trying with /usr/include/ncursesw')
 -- 
 2.29.2
 
