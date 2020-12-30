@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191C72E7B0F
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 17:30:38 +0100 (CET)
-Received: from localhost ([::1]:47910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3096F2E7B15
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 17:36:21 +0100 (CET)
+Received: from localhost ([::1]:50476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kueMt-00062X-Qn
-	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 11:30:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33372)
+	id 1kueSS-0007cZ-9L
+	for lists+qemu-devel@lfdr.de; Wed, 30 Dec 2020 11:36:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kueLF-0005ZG-Dp
- for qemu-devel@nongnu.org; Wed, 30 Dec 2020 11:28:53 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:40342)
+ id 1kueQt-0006zv-OX
+ for qemu-devel@nongnu.org; Wed, 30 Dec 2020 11:34:43 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:46558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kueLD-00089b-PV
- for qemu-devel@nongnu.org; Wed, 30 Dec 2020 11:28:52 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id x16so22526970ejj.7
- for <qemu-devel@nongnu.org>; Wed, 30 Dec 2020 08:28:50 -0800 (PST)
+ id 1kueQq-0001qD-8q
+ for qemu-devel@nongnu.org; Wed, 30 Dec 2020 11:34:43 -0500
+Received: by mail-ej1-x629.google.com with SMTP id j22so22486112eja.13
+ for <qemu-devel@nongnu.org>; Wed, 30 Dec 2020 08:34:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OL1gDXaUL94xAFvFqeyz5h7saOREKl+cmP/wEvLz8M0=;
- b=q/KpaEeit/1G67lcTxKRkHMO+CDKqeSgTtjnFVmQ4nP3YAbHBY0K+xuq1v4i/0Rh77
- cF0z5/2+Spn5HIL5nTYJdn/kPWnL0hSmXWxKEfz6zoD5qJctFZUfJ0bR0vGNeLS0EftR
- qoiTKMWsWa+AjtoszrExVmYt+NMWch7hAf6XY8dgJJq3kr9jO7DJZZ4+9hngWIxu/EoV
- zVDvqOg8PqPAPWvjKPdZo9ktkk9YUl1fOin7cHMjo7PMJYDMgeZ73KqNJ9nk1ue2i5SB
- gkk0w5aeX+u6ngG7wy9K+mxNQ8vK/+AWzo97MSjg1NZxWvac88Mpc3fIm0dFGO0A1LMN
- 0PmA==
+ :cc; bh=H1ljqjT3ypvZHiBeEJkNjIrFyVq+eB/b+gK4dVWjVCc=;
+ b=TnIF1sPjLSaPBZ1DiSTD9N8zbZE1GZ0pIIUq/Ng4oQyc/4KV5NR51+LaS8GAzlJySO
+ MfqCAqiHOLTUNiPNDl937rTO+MK3RqqTvCuAZc1cdke7ZcrmWIFWGsBGAtYq89B237nC
+ mN/cLuGK74tvFRTzbdUvR0DkqbqdTexobppqq8wWRUn7dHQH5tNRf6Z1oeidHyOJFp48
+ HVYNL5JutRbLsmmS139fl1nxKWJYOzPpbwd/8pgOVJqJnyRdVfMWB327GS3r08qwmTJd
+ WLiZD7ZyjIcm4F5zNRGReJBCpw7spV0WKRQLnRRcIsJlk3Rlf+UN1NV3DM/B9YNAkKMl
+ AfUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=OL1gDXaUL94xAFvFqeyz5h7saOREKl+cmP/wEvLz8M0=;
- b=fq+cDnUPXt5aa2JYCb7ccLjaJx+s2ElvLUfez0V6c8bn2wQKYnZezUkl2xZgbYOQZf
- ixuUCAc7Qi/iKvWsAb67amYtUd/PN7ScN3EKLiIpgjXCIqeAPa4XXEsYu0+9jU2XQIzp
- gXnMjDJP2PIP2OUTicSBmWUtMWozq8/ZVKwADpQGXr3pY0oUo2DM+fA06mDi3x3Z+owd
- LID8glBU06goTaSbXCz3z4343UCtLJffox7tVDZScUXrf9uCFI9TWsNhdjdhstNe1hDI
- UKK5PHGG5qREK7/wuqnmJoNga6donJ4m6rQZyU55r8sfekQP52/tvssdT60oBCmrBkoq
- rI+w==
-X-Gm-Message-State: AOAM532UoDXEhmcldxlqBSwvG7csF5xdPpk69dqtstb6PNzzjCT254zQ
- aQpINaWUknhHczedCsbuei9bg84ZsviIpvCcaiUqvA==
-X-Google-Smtp-Source: ABdhPJyvzJFiK6R4F7ayzrD2usWFwaFRBBU8ox8sXv7UsW4Z5nOuf8HKJDUTe+6V/xfHrM8dYTaAoGU/r4jNGVvfE1k=
-X-Received: by 2002:a17:906:31d2:: with SMTP id
- f18mr49801478ejf.407.1609345729370; 
- Wed, 30 Dec 2020 08:28:49 -0800 (PST)
+ bh=H1ljqjT3ypvZHiBeEJkNjIrFyVq+eB/b+gK4dVWjVCc=;
+ b=Xoe4XnAlv8/RyO3DMwO+FMQP0nMJWsFfS8R3FF5/Cs3h2m5Tdne+8uUzHtjTvi45gy
+ Ioy6xI5oc4vVfOhOFo84lBXnY08YmcmNXOuyUusCBrtifRLtLqVvLzjBOpR6cZ49AoGl
+ SiEIrM1IXQh4AqXqdOhIrPJyb9j4vuemDbZFmN8JsUusrSUrj2xDv4+nVy0A4TfAY57Q
+ 25Z60Hr0HnyCQH1NJq8q0sBeJYFy7SBIFISryBmPYNW5vkmz3ZISEiczHFk9+g+0DjDh
+ HimmuNDhWQ9qfy4iRaQeWAYFj7CAdHbKle32/67QszjmQmP8T0i6FkrDvbCaHnbnJUlo
+ TgsQ==
+X-Gm-Message-State: AOAM530N4rm2FDFBJ6Zew7yZEgTSLfNlo2qvlcjf/7k5SL3eOPQ48Y7J
+ yYLcOMSoOpMjimFcCIYys3B9f5SJO+pafxNbhzds6A==
+X-Google-Smtp-Source: ABdhPJzKSqV1Gi1UlgbYvhfhhzAJhzoMLWm1wk0qWyoEZWQ8SzOsHAryTFB3hBKuSVL2OudI5vvGNyP4I3SnOTz3EzA=
+X-Received: by 2002:a17:906:e250:: with SMTP id
+ gq16mr48680861ejb.382.1609346078070; 
+ Wed, 30 Dec 2020 08:34:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20201228151652.235542-1-chris@hofstaedtler.name>
-In-Reply-To: <20201228151652.235542-1-chris@hofstaedtler.name>
+References: <49c3d04e-a94c-cf77-4df9-5ceb8c9c7f80@physik.fu-berlin.de>
+ <86690c16-3bc9-9c77-f720-64db14d0cf72@redhat.com>
+ <d8bbe81c-3446-8d83-3f34-f29156cf4f01@physik.fu-berlin.de>
+ <559bbdfa-3876-ab22-445f-4bb59d9b4979@redhat.com>
+In-Reply-To: <559bbdfa-3876-ab22-445f-4bb59d9b4979@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 30 Dec 2020 16:28:38 +0000
-Message-ID: <CAFEAcA-2V2W+WuewsY1a0bd_AEbotkzwy7-Qz2eVt-Jzq=6tUw@mail.gmail.com>
-Subject: Re: [PATCH] meson: fix ncurses detection on macOS
-To: Chris Hofstaedtler <chris@hofstaedtler.name>
+Date: Wed, 30 Dec 2020 16:34:27 +0000
+Message-ID: <CAFEAcA-q=V2gfYtN=LvexhRq1o45SV_Ov1k0CdsdEN=Hj6uG9A@mail.gmail.com>
+Subject: Re: Deprecation of the LM32 target
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,42 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Michael Walle <michael@walle.cc>, QEMU Developers <qemu-devel@nongnu.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 28 Dec 2020 at 15:52, Chris Hofstaedtler
-<chris@hofstaedtler.name> wrote:
+On Tue, 29 Dec 2020 at 10:38, Thomas Huth <thuth@redhat.com> wrote:
+> On 26/12/2020 10.06, John Paul Adrian Glaubitz wrote:
+> > I mean, the whole point of an emulator is being able to run existing code on modern hardware,
+> > usually because the old hardware is no longer available. And as long as the target is
+> > functional, I don't see a point in taking away the functionality.
 >
-> Without this, meson fails with "curses package not usable"
-> when using ncurses 6.2. Apparently the wide functions
-> (addwstr, etc) are hidden behind the extra define, and
-> meson does not define it at that detection stage.
->
-> Signed-off-by: Chris Hofstaedtler <chris@hofstaedtler.name>
-> ---
->  meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meson.build b/meson.build
-> index 9c152a85bd..7b9d92c14a 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -510,7 +510,7 @@ if have_system and not get_option('curses').disabled()
->    endforeach
->    msg = get_option('curses').enabled() ? 'curses library not found' : ''
->    if curses.found()
-> -    if cc.links(curses_test, dependencies: [curses])
-> +    if cc.links(curses_test, args: '-DNCURSES_WIDECHAR', dependencies: [curses])
->        curses = declare_dependency(compile_args: '-DNCURSES_WIDECHAR', dependencies: [curses])
->      else
->        msg = 'curses package not usable'
-> --
+> You also have to consider that it takes some effort to keep code up to date,
+> e.g. if there is a bigger restructuring of the code base going on, you also
+> have to work on neglected targets, too. If there is no active maintainer
+> left anymore, it's quite a burden for all the other developers.
+> So if there is no known user left (are *you* using lm32?), and there is no
+> active maintainer anymore, it's IMHO adequate to mark a target as
+> deprecated.
 
-This sounds like the Meson conversion regressed the fix made
-in commit b01a4fd3bd7d6f2 in 2017 to the configure version of
-this test...
+Right, the issue is not that the hardware being emulated is old,
+it's that the code in QEMU to do that emulation is old and there's
+no active maintainer for it and nobody helping to keep it up to
+date with the rest of QEMU and its evolving APIs and practices.
+"And we don't think there are likely to be any serious users either"
+is just the cherry on the cake...
+
+> If someone still wants to run old lm32 code, they still can use
+> older versions of QEMU to do this.
+
+Or they could put in the work to be the maintainer :-)
 
 thanks
 -- PMM
