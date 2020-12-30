@@ -2,66 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375C32E7598
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 02:57:38 +0100 (CET)
-Received: from localhost ([::1]:48586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2D22E759C
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 03:02:08 +0100 (CET)
+Received: from localhost ([::1]:51592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuQk4-0003a9-S4
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 20:57:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46626)
+	id 1kuQoR-0005Z0-5v
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 21:02:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kuQiF-00038N-4L
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 20:55:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48256)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kuQiD-0002eV-0I
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 20:55:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kuQiA-0008GI-RM
- for <qemu-devel@nongnu.org>; Wed, 30 Dec 2020 01:55:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C662F2E8138
- for <qemu-devel@nongnu.org>; Wed, 30 Dec 2020 01:55:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kuQn3-0004we-Sq; Tue, 29 Dec 2020 21:00:41 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:54145 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kuQn1-0004NI-D4; Tue, 29 Dec 2020 21:00:41 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4D5DyP6nLSz9sVS; Wed, 30 Dec 2020 13:00:29 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1609293629;
+ bh=nmIGAleV5HpUUk7woqzE9HDPUIEDLH+ICmbMI9ROLy8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Ir9EO59/bNdUUfeXf7Pl7xUTKjnT/IFby1uR44WCTuZic6J6PywSDDwlkvp7Wg8v4
+ WPxCNNFRCB8j8hxvwFCUY4/WkBWlhwsa9oHo5xUAXRog+CsaXDiQmjeyzbC5qao5y2
+ fcAUqGYD8VQaKlurzkVF2voaElWkEMsvVsK7tzgM=
+Date: Wed, 30 Dec 2020 12:25:25 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v2 2/7] mac_oldworld: move initialisation of grackle
+ before heathrow
+Message-ID: <20201230012525.GA5490@yekko.fritz.box>
+References: <20201229175619.6051-1-mark.cave-ayland@ilande.co.uk>
+ <20201229175619.6051-3-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 30 Dec 2020 01:46:07 -0000
-From: Richard Henderson <1908551@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nsz rth
-X-Launchpad-Bug-Reporter: Szabolcs Nagy (nsz)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <160822351418.3694.12914163160887636672.malonedeb@gac.canonical.com>
-Message-Id: <160929276723.3894.4708211476879020427.malone@wampee.canonical.com>
-Subject: [Bug 1908551] Re: aarch64 SVE emulation breaks strnlen and strrchr
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: fe711108da284bd16993ebaeffe240b9948efee3
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="k+w/mQv8wyuph6w0"
+Content-Disposition: inline
+In-Reply-To: <20201229175619.6051-3-mark.cave-ayland@ilande.co.uk>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,84 +59,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908551 <1908551@bugs.launchpad.net>
+Cc: thuth@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-... but you also mentioned strrchr, and there is a qemu bug there.  The
-REV (predicate) instruction doesn't seem to be doing the right thing --
-input 0x1 -> output 0x80000000 which is not correct for the current
-vector length (64).
 
-** Changed in: qemu
-       Status: Invalid =3D> Confirmed
+--k+w/mQv8wyuph6w0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On Tue, Dec 29, 2020 at 05:56:14PM +0000, Mark Cave-Ayland wrote:
+> In order to move the heathrow PIC to the macio device, the PCI bus needs =
+to be
+> initialised before the macio device and also before wiring the PIC IRQs.
+>=20
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908551
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-Title:
-  aarch64 SVE emulation breaks strnlen and strrchr
+> ---
+>  hw/ppc/mac_oldworld.c | 30 +++++++++++++++---------------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+> index 2ead34bdf1..e58e0525fe 100644
+> --- a/hw/ppc/mac_oldworld.c
+> +++ b/hw/ppc/mac_oldworld.c
+> @@ -227,6 +227,21 @@ static void ppc_heathrow_init(MachineState *machine)
+>          }
+>      }
+> =20
+> +    /* Grackle PCI host bridge */
+> +    dev =3D qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
+> +    qdev_prop_set_uint32(dev, "ofw-addr", 0x80000000);
+> +    s =3D SYS_BUS_DEVICE(dev);
+> +    sysbus_realize_and_unref(s, &error_fatal);
+> +
+> +    sysbus_mmio_map(s, 0, GRACKLE_BASE);
+> +    sysbus_mmio_map(s, 1, GRACKLE_BASE + 0x200000);
+> +    /* PCI hole */
+> +    memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
+> +                                sysbus_mmio_get_region(s, 2));
+> +    /* Register 2 MB of ISA IO space */
+> +    memory_region_add_subregion(get_system_memory(), 0xfe000000,
+> +                                sysbus_mmio_get_region(s, 3));
+> +
+>      /* XXX: we register only 1 output pin for heathrow PIC */
+>      pic_dev =3D qdev_new(TYPE_HEATHROW);
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(pic_dev), &error_fatal);
+> @@ -251,21 +266,6 @@ static void ppc_heathrow_init(MachineState *machine)
+>          tbfreq =3D TBFREQ;
+>      }
+> =20
+> -    /* Grackle PCI host bridge */
+> -    dev =3D qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
+> -    qdev_prop_set_uint32(dev, "ofw-addr", 0x80000000);
+> -    s =3D SYS_BUS_DEVICE(dev);
+> -    sysbus_realize_and_unref(s, &error_fatal);
+> -
+> -    sysbus_mmio_map(s, 0, GRACKLE_BASE);
+> -    sysbus_mmio_map(s, 1, GRACKLE_BASE + 0x200000);
+> -    /* PCI hole */
+> -    memory_region_add_subregion(get_system_memory(), 0x80000000ULL,
+> -                                sysbus_mmio_get_region(s, 2));
+> -    /* Register 2 MB of ISA IO space */
+> -    memory_region_add_subregion(get_system_memory(), 0xfe000000,
+> -                                sysbus_mmio_get_region(s, 3));
+> -
+>      for (i =3D 0; i < 4; i++) {
+>          qdev_connect_gpio_out(dev, i, qdev_get_gpio_in(pic_dev, 0x15 + i=
+));
+>      }
 
-Status in QEMU:
-  Confirmed
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Bug description:
-  arm optimized-routines have sve string functions with test code.
+--k+w/mQv8wyuph6w0
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  the test worked up until recently: with qemu-5.2.0 i see
+-----BEGIN PGP SIGNATURE-----
 
-  $ qemu-aarch64 build/bin/test/strnlen
-  PASS strnlen
-  PASS __strnlen_aarch64
-  __strnlen_aarch64_sve (0x490fa0, 32) len 32 returned 64, expected 32
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80"
-  __strnlen_aarch64_sve (0x490fa0, 32) len 33 returned 64, expected 32
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80a"
-  __strnlen_aarch64_sve (0x490fa0, 33) len 33 returned 64, expected 33
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80a"
-  __strnlen_aarch64_sve (0x490fa0, 32) len 34 returned 64, expected 32
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80ab"
-  __strnlen_aarch64_sve (0x490fa0, 33) len 34 returned 64, expected 33
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80ab"
-  __strnlen_aarch64_sve (0x490fa0, 34) len 34 returned 64, expected 34
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80ab"
-  __strnlen_aarch64_sve (0x490fa0, 32) len 35 returned 64, expected 32
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80a\x00c"
-  __strnlen_aarch64_sve (0x490fa0, 33) len 35 returned 64, expected 33
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80ab\x00"
-  __strnlen_aarch64_sve (0x490fa0, 34) len 35 returned 64, expected 34
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80abc"
-  __strnlen_aarch64_sve (0x490fa0, 35) len 35 returned 64, expected 35
-  input: "abcdefghijklmnopqrstuvwxyz\{|}~\x7f\x80abc"
-  FAIL __strnlen_aarch64_sve
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/r1wMACgkQbDjKyiDZ
+s5LK0Q/+Li5ZXddoeWlBpks74l/YRs9yFOJbYIRmN0dpnkvX0fhNVM1fNems5Dgs
+JLUGmJHFbDboukb9MW+Y2ChdvWkc5Ea5vsFAQnDnj1Ufcet7zvU4z78emh1WP7Dl
+EGAp7lHwaTSTtzETsLkiuXiP4IlXJOI/K0clAR3fyq+g23HTmVTafN5aRJaYjMGS
+xRMdaBKb6WJvU87tI2CLaO9CFCuNSKbLIxMXNHV5a4Hr6a3WWifUPGmo1lMe5zS4
+8qoKjYy3NAsYavOPZQ20IfOXDA+8wQ2H2bQJLIVZILALwAm0V3qRqkLmw5w+B08+
+kKUM+hJC5raggSPb7pBz+ctxkqOac8E6f/HA3xUXl7BxS2wl15tTqXVqBoKbvlef
+Fdf3GPqy+cA72/qn1kgNQjXM6HteZ6IyhJHLQC7K/HILj6+ujvFF3NPOVi0ClOND
+SZbp+l16oVjFGjMxttsphJxe3f5o4Pg3kHAjWrR3fc0npeGkS6wYv2TDnKQwsc01
+CnuEIY0UTAUz8zObAe2NtP0v677bjMjs2KdMYrv+zlKOHHoCRHWWIVvGA/YG1Ozi
+EobcHvc+sjIOzyeXXqDzFASUBFKxZjo1KysMbTkYZ9So1P2EHyXFXUwIE7LHOueo
+zfQ81QgRxY3in5nKzXGF3EzfmrjOSyqlpFUgmsImHFs4IK6jtRU=
+=FpWo
+-----END PGP SIGNATURE-----
 
-  however the test passes with
-
-  qemu-aarch64 -cpu max,sve-max-vq=3D2
-
-  there should be nothing vector length specific in the code.
-
-  i haven't debugged it further, to reproduce the issue clone
-  https://github.com/ARM-software/optimized-routines
-
-  and run 'make build/bin/test/strnlen' with a config.mk like
-
-  SUBS =3D string
-  ARCH =3D aarch64
-  CROSS_COMPILE =3D aarch64-none-linux-gnu-
-  CC =3D $(CROSS_COMPILE)gcc
-  CFLAGS =3D -std=3Dc99 -pipe -O3
-  CFLAGS +=3D -march=3Darmv8.2-a+sve
-  EMULATOR =3D qemu-aarch64
-
-  (native compilation works too, and you can run 'make check' to
-  run all string tests) this will build a static linked executable
-  into build/bin/test. if you want a smaller test case edit
-  string/test/strnlen.c
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908551/+subscriptions
+--k+w/mQv8wyuph6w0--
 
