@@ -2,45 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8012C2E752A
-	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 00:14:51 +0100 (CET)
-Received: from localhost ([::1]:50142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46FF2E7557
+	for <lists+qemu-devel@lfdr.de>; Wed, 30 Dec 2020 01:28:06 +0100 (CET)
+Received: from localhost ([::1]:42216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuOCY-0005iX-H2
-	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 18:14:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53760)
+	id 1kuPLR-0003Jv-9U
+	for lists+qemu-devel@lfdr.de; Tue, 29 Dec 2020 19:28:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kuO7z-0008WN-Ab
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 18:10:08 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:48976)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kuO7v-0006fA-KJ
- for qemu-devel@nongnu.org; Tue, 29 Dec 2020 18:10:07 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 865117470E0;
- Wed, 30 Dec 2020 00:09:52 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B2DD07470ED; Wed, 30 Dec 2020 00:09:51 +0100 (CET)
-Message-Id: <6b036c8a332155373d8e23ba64204a8b5ba23053.1609282253.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1609282253.git.balaton@eik.bme.hu>
-References: <cover.1609282253.git.balaton@eik.bme.hu>
-Subject: [PATCH 7/7] vt82c686: Make vt82c686b-pm an abstract base class and
- add vt8231-pm based on it
-Date: Tue, 29 Dec 2020 23:50:53 +0100
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kuPKO-0002tq-BV; Tue, 29 Dec 2020 19:27:00 -0500
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:46575)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kuPKL-00077C-3f; Tue, 29 Dec 2020 19:27:00 -0500
+Received: by mail-yb1-xb2a.google.com with SMTP id f6so13632833ybq.13;
+ Tue, 29 Dec 2020 16:26:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=n9Gayo8SON4ARYVcEAffYy9bjn3xlJFO9Q7xDae2CzY=;
+ b=inb367k+n+MwUzXNecwfZmhBz5935jGvg2IQujVhQbSKQLPc77E0hWRW6rgHmMqMyI
+ rP61s9j75DIvVNqbGh10Ls63t3Z9Nc3MEdAf74BYOwh6EcHPmoKMO4cX88tropY6AvLI
+ 1odQhF2JKfJ1RLwj/eFu5PgMHXfNbh4rHKt6Ws4ZrTR1xd97T+gQgpefWBoAxksMYx8D
+ FkHP18Jk5aQVas2IGW7O2Z4xJrwDDDwL2KovNUP8G/Jdt2k5Lcb72BOnyqF1Q73TJYNW
+ fYkbMZq7sED2LXP41qivVBagBlFPv4976JJ2cEDitn9d+77vDSk7kLCIRRWIG3BnhuSU
+ wVkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=n9Gayo8SON4ARYVcEAffYy9bjn3xlJFO9Q7xDae2CzY=;
+ b=B2tySd/1NWTLBY8sd7dVDbdWI4kPq7MlalOFUs++KRVkeP48St2O6M9BZqNGqVYDyW
+ 2rLXFDA3rnzv/Pi38Sqy0WSe6FLDvOzK0x1lwvWC9+hmoDVon6guu9ITO7dCEw3a5S69
+ hpACBcU741J2D8zIbVgxMWtzQwH2bGlf6SLHefmyzF0+hqmreGgBXjqEtuEHLJTOfFhT
+ 6KNclvBA7FdqrpZ8O2NRRbeTcv+BL3EELho9sV4cWOF90IhzXwVYOJXr3gg8ySrRWf+x
+ sYu3m/YwSC+oxaVoUdOwlTlA/dWn3YCxMgiXAA4FG888t1w3cffMWqsAvCrlv5HDgjYT
+ nqiQ==
+X-Gm-Message-State: AOAM53216pggOqZBC058bwIqeOnLMvrWRfCLBQ64/G/Z/nSUueSrPYvT
+ yY1zpN7lSb9Be20ytGsBTjCsBcMzsT1+yEvp5Yw=
+X-Google-Smtp-Source: ABdhPJy1ZncBparQ1ffd5OuDewEHiFLnjBJ/xLnKrMBrE/aPGIzQbfq0ugEZ1KiSCzdHNpAVLipCNeVOr0yrUyAUN1c=
+X-Received: by 2002:a25:aaee:: with SMTP id
+ t101mr69451137ybi.517.1609288015808; 
+ Tue, 29 Dec 2020 16:26:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <CAOkUe-DTG1yU-z4SF-+nBeEJUWdx5gctLMSNp8f1+_7FpWG4aA@mail.gmail.com>
+ <CAEUhbmV5oMNW3fS7v81vgB-j0NbAnRnMB-ehm5BT8rk4uWGdYg@mail.gmail.com>
+ <CAOkUe-BWEVpzwHLPzUMzuUK12RQdUds-tCEWcyhrZeWDh9AaHw@mail.gmail.com>
+In-Reply-To: <CAOkUe-BWEVpzwHLPzUMzuUK12RQdUds-tCEWcyhrZeWDh9AaHw@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 30 Dec 2020 08:26:45 +0800
+Message-ID: <CAEUhbmWcNqNMzipVvYMgVsJH7dTwZv8qMYFdpzvCSNRGVH0NsA@mail.gmail.com>
+Subject: Re: [PATCH] gdb: riscv: Add target description
+To: Sylvain Pelissier <sylvain.pelissier@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,236 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, f4bug@amsat.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-The vt82c686b-pm model can be shared between VT82C686B and VT8231. The
-only difference between the two is the device id in what we model so
-make an abstract via-pm model by renaming appropriately and add types
-for vt82c686b-pm and vt8231-pm based on it.
+Hi Sylvain,
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/isa/vt82c686.c         | 87 ++++++++++++++++++++++++++-------------
- include/hw/isa/vt82c686.h |  1 +
- 2 files changed, 59 insertions(+), 29 deletions(-)
+On Wed, Dec 30, 2020 at 12:37 AM Sylvain Pelissier
+<sylvain.pelissier@gmail.com> wrote:
+>
+> Thank you for your remark here is the new patch:
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index fc2a1f4430..2e269a2c0f 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -27,9 +27,10 @@
- #include "exec/address-spaces.h"
- #include "trace.h"
- 
--OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
-+#define TYPE_VIA_PM "via-pm"
-+OBJECT_DECLARE_SIMPLE_TYPE(ViaPMState, VIA_PM)
- 
--struct VT686PMState {
-+struct ViaPMState {
-     PCIDevice dev;
-     MemoryRegion io;
-     ACPIREGS ar;
-@@ -37,7 +38,7 @@ struct VT686PMState {
-     PMSMBus smb;
- };
- 
--static void pm_io_space_update(VT686PMState *s)
-+static void pm_io_space_update(ViaPMState *s)
- {
-     uint32_t pmbase = pci_get_long(s->dev.config + 0x48) & 0xff80UL;
- 
-@@ -47,7 +48,7 @@ static void pm_io_space_update(VT686PMState *s)
-     memory_region_transaction_commit();
- }
- 
--static void smb_io_space_update(VT686PMState *s)
-+static void smb_io_space_update(ViaPMState *s)
- {
-     uint32_t smbase = pci_get_long(s->dev.config + 0x90) & 0xfff0UL;
- 
-@@ -59,7 +60,7 @@ static void smb_io_space_update(VT686PMState *s)
- 
- static int vmstate_acpi_post_load(void *opaque, int version_id)
- {
--    VT686PMState *s = opaque;
-+    ViaPMState *s = opaque;
- 
-     pm_io_space_update(s);
-     smb_io_space_update(s);
-@@ -72,20 +73,20 @@ static const VMStateDescription vmstate_acpi = {
-     .minimum_version_id = 1,
-     .post_load = vmstate_acpi_post_load,
-     .fields = (VMStateField[]) {
--        VMSTATE_PCI_DEVICE(dev, VT686PMState),
--        VMSTATE_UINT16(ar.pm1.evt.sts, VT686PMState),
--        VMSTATE_UINT16(ar.pm1.evt.en, VT686PMState),
--        VMSTATE_UINT16(ar.pm1.cnt.cnt, VT686PMState),
--        VMSTATE_STRUCT(apm, VT686PMState, 0, vmstate_apm, APMState),
--        VMSTATE_TIMER_PTR(ar.tmr.timer, VT686PMState),
--        VMSTATE_INT64(ar.tmr.overflow_time, VT686PMState),
-+        VMSTATE_PCI_DEVICE(dev, ViaPMState),
-+        VMSTATE_UINT16(ar.pm1.evt.sts, ViaPMState),
-+        VMSTATE_UINT16(ar.pm1.evt.en, ViaPMState),
-+        VMSTATE_UINT16(ar.pm1.cnt.cnt, ViaPMState),
-+        VMSTATE_STRUCT(apm, ViaPMState, 0, vmstate_apm, APMState),
-+        VMSTATE_TIMER_PTR(ar.tmr.timer, ViaPMState),
-+        VMSTATE_INT64(ar.tmr.overflow_time, ViaPMState),
-         VMSTATE_END_OF_LIST()
-     }
- };
- 
- static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
- {
--    VT686PMState *s = VT82C686B_PM(d);
-+    ViaPMState *s = VIA_PM(d);
- 
-     trace_via_pm_write(addr, val, len);
-     pci_default_write_config(d, addr, val, len);
-@@ -127,7 +128,7 @@ static const MemoryRegionOps pm_io_ops = {
-     },
- };
- 
--static void pm_update_sci(VT686PMState *s)
-+static void pm_update_sci(ViaPMState *s)
- {
-     int sci_level, pmsts;
- 
-@@ -145,13 +146,13 @@ static void pm_update_sci(VT686PMState *s)
- 
- static void pm_tmr_timer(ACPIREGS *ar)
- {
--    VT686PMState *s = container_of(ar, VT686PMState, ar);
-+    ViaPMState *s = container_of(ar, ViaPMState, ar);
-     pm_update_sci(s);
- }
- 
--static void vt82c686b_pm_reset(DeviceState *d)
-+static void via_pm_reset(DeviceState *d)
- {
--    VT686PMState *s = VT82C686B_PM(d);
-+    ViaPMState *s = VIA_PM(d);
- 
-     memset(s->dev.config + PCI_CONFIG_HEADER_SIZE, 0,
-            PCI_CONFIG_SPACE_SIZE - PCI_CONFIG_HEADER_SIZE);
-@@ -164,9 +165,9 @@ static void vt82c686b_pm_reset(DeviceState *d)
-     smb_io_space_update(s);
- }
- 
--static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
-+static void via_pm_realize(PCIDevice *dev, Error **errp)
- {
--    VT686PMState *s = VT82C686B_PM(dev);
-+    ViaPMState *s = VIA_PM(dev);
- 
-     pci_set_word(dev->config + PCI_STATUS, PCI_STATUS_FAST_BACK |
-                  PCI_STATUS_DEVSEL_MEDIUM);
-@@ -177,8 +178,7 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
- 
-     apm_init(dev, &s->apm, NULL, s);
- 
--    memory_region_init_io(&s->io, OBJECT(dev), &pm_io_ops, s,
--                          "vt82c686-pm", 0x100);
-+    memory_region_init_io(&s->io, OBJECT(dev), &pm_io_ops, s, "via-pm", 0x100);
-     memory_region_add_subregion(pci_address_space_io(dev), 0, &s->io);
-     memory_region_set_enabled(&s->io, false);
- 
-@@ -187,34 +187,61 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
-     acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
- }
- 
-+typedef struct via_pm_init_info {
-+    uint16_t device_id;
-+} ViaPMInitInfo;
-+
- static void via_pm_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+    ViaPMInitInfo *info = data;
- 
--    k->realize = vt82c686b_pm_realize;
-+    k->realize = via_pm_realize;
-     k->config_write = pm_write_config;
-     k->vendor_id = PCI_VENDOR_ID_VIA;
--    k->device_id = PCI_DEVICE_ID_VIA_ACPI;
-+    k->device_id = info->device_id;
-     k->class_id = PCI_CLASS_BRIDGE_OTHER;
-     k->revision = 0x40;
--    dc->reset = vt82c686b_pm_reset;
--    dc->desc = "PM";
-+    dc->reset = via_pm_reset;
-+    /* Reason: part of VIA south bridge, does not exist stand alone */
-+    dc->user_creatable = false;
-     dc->vmsd = &vmstate_acpi;
--    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
- }
- 
- static const TypeInfo via_pm_info = {
--    .name          = TYPE_VT82C686B_PM,
-+    .name          = TYPE_VIA_PM,
-     .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VT686PMState),
--    .class_init    = via_pm_class_init,
-+    .instance_size = sizeof(ViaPMState),
-+    .abstract      = true,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-         { },
-     },
- };
- 
-+static const ViaPMInitInfo vt82c686b_init_info = {
-+    .device_id = PCI_DEVICE_ID_VIA_ACPI,
-+};
-+
-+static const TypeInfo vt82c686b_pm_info = {
-+    .name          = TYPE_VT82C686B_PM,
-+    .parent        = TYPE_VIA_PM,
-+    .class_init    = via_pm_class_init,
-+    .class_data    = (void *)&vt82c686b_init_info,
-+};
-+
-+static const ViaPMInitInfo vt8231_init_info = {
-+    .device_id = 0x8235,
-+};
-+
-+static const TypeInfo vt8231_pm_info = {
-+    .name          = TYPE_VT8231_PM,
-+    .parent        = TYPE_VIA_PM,
-+    .class_init    = via_pm_class_init,
-+    .class_data    = (void *)&vt8231_init_info,
-+};
-+
- 
- typedef struct SuperIOConfig {
-     uint8_t regs[0x100];
-@@ -423,6 +450,8 @@ static const TypeInfo via_superio_info = {
- static void vt82c686b_register_types(void)
- {
-     type_register_static(&via_pm_info);
-+    type_register_static(&vt82c686b_pm_info);
-+    type_register_static(&vt8231_pm_info);
-     type_register_static(&via_info);
-     type_register_static(&via_superio_info);
- }
-diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
-index 5b0a1ffe72..9b6d610e83 100644
---- a/include/hw/isa/vt82c686.h
-+++ b/include/hw/isa/vt82c686.h
-@@ -4,6 +4,7 @@
- #define TYPE_VT82C686B_ISA "vt82c686b-isa"
- #define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
- #define TYPE_VT82C686B_PM "vt82c686b-pm"
-+#define TYPE_VT8231_PM "vt8231-pm"
- #define TYPE_VIA_AC97 "via-ac97"
- #define TYPE_VIA_MC97 "via-mc97"
- 
--- 
-2.21.3
+This should not be put into the commit message.
 
+Previous commit message is missing.
+
+>
+> Signed-off-by: Sylvain Pelissier <sylvain.pelissier@gmail.com>
+> ---
+>  target/riscv/cpu.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+
+Regards,
+Bin
 
