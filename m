@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA20B2E81D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 20:33:46 +0100 (CET)
-Received: from localhost ([::1]:33880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E122E81ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 21:33:41 +0100 (CET)
+Received: from localhost ([::1]:59540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kv3hh-00048f-Bo
-	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 14:33:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43422)
+	id 1kv4df-0003uz-MM
+	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 15:33:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kv3eu-0003MZ-1g
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 14:30:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58558)
+ id 1kv4as-0002zi-LJ
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 15:30:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kv3er-0003zS-6Y
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 14:30:51 -0500
+ id 1kv4an-0007f5-Q6
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 15:30:46 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kv3em-0002W3-G3
- for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 19:30:44 +0000
+ id 1kv4al-0005po-JS
+ for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 20:30:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 775112E804B
- for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 19:30:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 836AC2E8137
+ for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 20:30:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 31 Dec 2020 19:21:03 -0000
-From: Peter Maydell <1909770@bugs.launchpad.net>
+Date: Thu, 31 Dec 2020 20:20:50 -0000
+From: ON7WPI <1909770@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -40,16 +40,16 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: on7wpi pmaydell
 X-Launchpad-Bug-Reporter: ON7WPI (on7wpi)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+X-Launchpad-Bug-Modifier: ON7WPI (on7wpi)
 References: <160943407589.12883.6323653042448683983.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160944246365.6445.9314381313225839117.malone@wampee.canonical.com>
+Message-Id: <160944605086.16372.16168663876981260924.malone@gac.canonical.com>
 Subject: [Bug 1909770] Re: qemu-cris segfaults upon loading userspace binary
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 4399172619975fa1501db7643113eaa41d58abcb
+X-Launchpad-Hash: 5f95ae12ad56f136e17b15e584947891b01b1775
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,13 +74,7 @@ Reply-To: Bug 1909770 <1909770@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sounds like it's probably the bug where we don't correctly handle ELF BSS s=
-egments which have no content in the file at all (ie they're just "zero thi=
-s memory" with no content). If so, this patch (currently in review) will fi=
-x it:
-https://patchew.org/QEMU/c9106487-dc4d-120a-bd48-665b3c617287@gmail.com/
-and you could also work around it by making sure your guest binary has some=
- r/w data so it doesn't have a segment that's purely BSS.
+That did indeed fix it, thank you!
 
 -- =
 
