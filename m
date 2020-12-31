@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3BB2E7E63
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 07:13:21 +0100 (CET)
-Received: from localhost ([::1]:54088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216EA2E7E65
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 07:13:28 +0100 (CET)
+Received: from localhost ([::1]:54730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kurD6-0004lV-D5
-	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 01:13:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33954)
+	id 1kurDD-00051I-3x
+	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 01:13:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaojinhao@huawei.com>)
- id 1kurAx-0003Vr-3j; Thu, 31 Dec 2020 01:11:07 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2838)
+ id 1kurB4-0003ZJ-37; Thu, 31 Dec 2020 01:11:14 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaojinhao@huawei.com>)
- id 1kurAr-0005cV-J8; Thu, 31 Dec 2020 01:11:06 -0500
+ id 1kurAs-0005cW-Gn; Thu, 31 Dec 2020 01:11:13 -0500
 Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D5yRX5wL0zkycB;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D5yRX6Brfzkybk;
  Thu, 31 Dec 2020 14:09:44 +0800 (CST)
 Received: from DESKTOP-EDHIELA.china.huawei.com (10.174.187.50) by
  DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 31 Dec 2020 14:10:40 +0800
+ 14.3.498.0; Thu, 31 Dec 2020 14:10:41 +0800
 From: Jinhao Gao <gaojinhao@huawei.com>
 To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [PATCH v3 1/3] spapr_pci: Fix memory leak of vmstate_spapr_pci
-Date: Thu, 31 Dec 2020 14:10:18 +0800
-Message-ID: <20201231061020.828-2-gaojinhao@huawei.com>
+Subject: [PATCH v3 2/3] savevm: Fix memory leak of vmstate_configuration
+Date: Thu, 31 Dec 2020 14:10:19 +0800
+Message-ID: <20201231061020.828-3-gaojinhao@huawei.com>
 X-Mailer: git-send-email 2.29.2.windows.2
 In-Reply-To: <20201231061020.828-1-gaojinhao@huawei.com>
 References: <20201231061020.828-1-gaojinhao@huawei.com>
@@ -66,49 +66,91 @@ Cc: Stefan
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When VM migrate VMState of spapr_pci, the field(msi_devs) of spapr_pci
-having a flag of VMS_ALLOC need to allocate memory. If the src doesn't free
-memory of msi_devs in SaveStateEntry of spapr_pci after QEMUFile save
-VMState of spapr_pci, it may result in memory leak of msi_devs. We add the
-post_save func to free memory, which prevents memory leak.
+When VM migrate VMState of configuration, the fields(name and capabilities)
+of configuration having a flag of VMS_ALLOC need to allocate memory. If the
+src doesn't free memory of capabilities in SaveState after save VMState of
+configuration, or the dst doesn't free memory of name and capabilities in post
+load of configuration, it may result in memory leak of name and capabilities.
+We free memory in configuration_post_save and configuration_post_load func,
+which prevents memory leak.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Jinhao Gao <gaojinhao@huawei.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/ppc/spapr_pci.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ migration/savevm.c | 31 +++++++++++++++++++++++++++----
+ 1 file changed, 27 insertions(+), 4 deletions(-)
 
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 76d7c91e9c..1b2b940606 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -2173,6 +2173,16 @@ static int spapr_pci_pre_save(void *opaque)
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 5f937a2762..13f1a5dab7 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -314,6 +314,16 @@ static int configuration_pre_save(void *opaque)
      return 0;
  }
  
-+static int spapr_pci_post_save(void *opaque)
++static int configuration_post_save(void *opaque)
 +{
-+    SpaprPhbState *sphb = opaque;
++    SaveState *state = opaque;
 +
-+    g_free(sphb->msi_devs);
-+    sphb->msi_devs = NULL;
-+    sphb->msi_devs_num = 0;
++    g_free(state->capabilities);
++    state->capabilities = NULL;
++    state->caps_count = 0;
 +    return 0;
 +}
 +
- static int spapr_pci_post_load(void *opaque, int version_id)
+ static int configuration_pre_load(void *opaque)
  {
-     SpaprPhbState *sphb = opaque;
-@@ -2205,6 +2215,7 @@ static const VMStateDescription vmstate_spapr_pci = {
-     .version_id = 2,
-     .minimum_version_id = 2,
-     .pre_save = spapr_pci_pre_save,
-+    .post_save = spapr_pci_post_save,
-     .post_load = spapr_pci_post_load,
+     SaveState *state = opaque;
+@@ -364,24 +374,36 @@ static int configuration_post_load(void *opaque, int version_id)
+ {
+     SaveState *state = opaque;
+     const char *current_name = MACHINE_GET_CLASS(current_machine)->name;
++    int ret = 0;
+ 
+     if (strncmp(state->name, current_name, state->len) != 0) {
+         error_report("Machine type received is '%.*s' and local is '%s'",
+                      (int) state->len, state->name, current_name);
+-        return -EINVAL;
++        ret = -EINVAL;
++        goto out;
+     }
+ 
+     if (state->target_page_bits != qemu_target_page_bits()) {
+         error_report("Received TARGET_PAGE_BITS is %d but local is %d",
+                      state->target_page_bits, qemu_target_page_bits());
+-        return -EINVAL;
++        ret = -EINVAL;
++        goto out;
+     }
+ 
+     if (!configuration_validate_capabilities(state)) {
+-        return -EINVAL;
++        ret = -EINVAL;
++        goto out;
+     }
+ 
+-    return 0;
++out:
++    g_free((void *)state->name);
++    state->name = NULL;
++    state->len = 0;
++    g_free(state->capabilities);
++    state->capabilities = NULL;
++    state->caps_count = 0;
++
++    return ret;
+ }
+ 
+ static int get_capability(QEMUFile *f, void *pv, size_t size,
+@@ -515,6 +537,7 @@ static const VMStateDescription vmstate_configuration = {
+     .pre_load = configuration_pre_load,
+     .post_load = configuration_post_load,
+     .pre_save = configuration_pre_save,
++    .post_save = configuration_post_save,
      .fields = (VMStateField[]) {
-         VMSTATE_UINT64_EQUAL(buid, SpaprPhbState, NULL),
+         VMSTATE_UINT32(len, SaveState),
+         VMSTATE_VBUFFER_ALLOC_UINT32(name, SaveState, 0, NULL, len),
 -- 
 2.23.0
 
