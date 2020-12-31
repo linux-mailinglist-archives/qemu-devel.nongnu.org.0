@@ -2,87 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019E52E814E
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 17:55:44 +0100 (CET)
-Received: from localhost ([::1]:38124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 407C22E815B
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 18:12:04 +0100 (CET)
+Received: from localhost ([::1]:32970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kv1El-0004up-Gr
-	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 11:55:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40760)
+	id 1kv1UY-0000RM-Tu
+	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 12:12:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kv1DH-0004TD-AH
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 11:54:11 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:36043)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kv1TN-0007wH-0n
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 12:10:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kv1DE-0006Y0-OF
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 11:54:10 -0500
-Received: by mail-pl1-x636.google.com with SMTP id j1so10228778pld.3
- for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 08:54:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CKfheC59BGt/6C8UT2qsOGgSTCopxYQWqnzmELqJLzQ=;
- b=Viio9fHIZ/ljdj0PcgUEMAcwYVskZS3487/IldWUDM8QWLqh2RSVQyIPhg5CDMZwUv
- kd+AltPDuWGo2AVdraVO0e45upbeYtq4ahtnzLVqDJ6jf/OGC6OYBLIgEMJwkSVGOrqY
- 5UZknS+Z9zNZGGBPwyrH9iMyHHo50YRH6I5Q+oVtDnS2HvGSLRHx29TWtIpcCCMf0Dzd
- 4eVUKA2Yr5KJ2uuUEScbYlMx+vhuEJwAefztQyokop5RdMBHUW6grHRetaPMAbThTQBg
- IblKWcUo1m5rZALyMBGYdlPrDZVdIH+tOvwrUz6sY6ZTGLe0HntwI9wJSWq8Z6+kQO+z
- bEHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CKfheC59BGt/6C8UT2qsOGgSTCopxYQWqnzmELqJLzQ=;
- b=shk11T+W7pcFle63rh/jsnlMl8NE0YIPs8OOgj+rp3eSHtJGs1MErk6DMFXf4tcfYJ
- ysFdH+fAUxKt+bYwJJDD3PpIHVjlzfEYtzQsCJ05KH1xI6sMpUkg6C2D+TIvRJAjkK9a
- pRyqqqGrqBT/mNsvA2lC2hojMQ3Sd7lXDkPhNH9G4HBnk+FjR+jI+Z4hG1EoNf2h4qXh
- 7da/u6UiU9wJk5EVNfmMCZmrtBI8DQNNf8kPP0G7yWyW/E5E5TWQIfPdLeCxDWP7fBll
- kPCilviJkxyCl5vroz8L51eBvg9EOmcTitgdJJV2WfcLiBAGx8LW9oUIrAgnyggbUOp6
- iQNA==
-X-Gm-Message-State: AOAM533Mlchyv3wh/MqE4z6b6n05RyNogwOxptMuC61tnNXJ8tKMyTs+
- zU4T4RtKCHJuJQ+L9uqg+bu5tv6rXo2UCw==
-X-Google-Smtp-Source: ABdhPJyRwJgwN4gFb+0DFeSBeiVRVz8XhWYyhXP98HkR3DBux1k3q8Dd8hsFLYGdSFtqIEHo3MsgUg==
-X-Received: by 2002:a17:902:7d88:b029:db:7aa4:864c with SMTP id
- a8-20020a1709027d88b02900db7aa4864cmr35687143plm.34.1609433647058; 
- Thu, 31 Dec 2020 08:54:07 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- gw7sm10902133pjb.36.2020.12.31.08.54.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Dec 2020 08:54:06 -0800 (PST)
-Subject: Re: [PATCH 1/3] target/arm: keep translation start level unsigned
-To: =?UTF-8?Q?R=c3=a9mi_Denis-Courmont?= <remi@remlab.net>, qemu-arm@nongnu.org
-References: <7884934.NyiUUSuA9g@basile.remlab.net>
- <20201218143321.102872-1-remi.denis.courmont@huawei.com>
- <c2af03a8-9f56-fb43-485c-91ec0fbdef31@linaro.org>
- <3026104.eZJBrJkB2l@philogene>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <78facaff-d2b8-fcb0-bec9-537a84a3c3b5@linaro.org>
-Date: Thu, 31 Dec 2020 08:54:04 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kv1TJ-0004p5-UV
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 12:10:48 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kv1TH-0003J9-AD
+ for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 17:10:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 488B92E8042
+ for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 17:10:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <3026104.eZJBrJkB2l@philogene>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.399,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 31 Dec 2020 17:01:15 -0000
+From: ON7WPI <1909770@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: cris
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: on7wpi
+X-Launchpad-Bug-Reporter: ON7WPI (on7wpi)
+X-Launchpad-Bug-Modifier: ON7WPI (on7wpi)
+Message-Id: <160943407589.12883.6323653042448683983.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1909770] [NEW] qemu-cris segfaults upon loading userspace binary
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
+X-Launchpad-Hash: 44ec3fdbcfaa43e6ffd80c296846926e77021f84
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,31 +69,530 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, remi.denis.courmont@huawei.com
+Reply-To: Bug 1909770 <1909770@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/31/20 1:55 AM, Rémi Denis-Courmont wrote:
-> Le jeudi 31 décembre 2020, 00:10:09 EET Richard Henderson a écrit :
->> On 12/18/20 6:33 AM, remi.denis.courmont@huawei.com wrote:
->>> From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
->>>
->>> Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
->>> ---
->>>
->>>  target/arm/helper.c | 14 ++++++--------
->>>  1 file changed, 6 insertions(+), 8 deletions(-)
->>
->> The patch does more than what is described above.
-> 
-> No? It removes generating negative values, and handling them, for translation 
-> levels.
+Public bug reported:
 
-But the removal of generating negative values, i.e. the mask with 3, is clearly
-tied to TTST and makes no sense by itself.
+I am on commit 65a3c5984074313602fb5f61cc5f464abfb020c7 (latest as far
+as I know). I compiled qemu with --enable-debug.
 
-Maybe the whole thing is clearer all squashed together...
+I'm trying to run a userspace CRIS binary (`./qemu-cris -cpu crisv10
+./basic`), but this segfaults. When opening the coredump in gdb, I get
+
+gdb-peda$ bt
+#0  0x00007f272a2e1ee1 in __memset_avx2_erms () from /usr/lib/libc.so.6
+#1  0x0000564a2f7bcda7 in zero_bss (elf_bss=3D0x82134, last_bss=3D0x84000, =
+
+    prot=3D0x3) at ../linux-user/elfload.c:1865
+#2  0x0000564a2f7bff65 in load_elf_image (
+    image_name=3D0x7fffe9f5703d "./basic", image_fd=3D0x3, =
+
+    info=3D0x7fffe9f547c0, pinterp_name=3D0x7fffe9f545b0, =
+
+    bprm_buf=3D0x7fffe9f54920 "\177ELF\001\001\001")
+    at ../linux-user/elfload.c:2801
+#3  0x0000564a2f7c0a12 in load_elf_binary (bprm=3D0x7fffe9f54920, =
+
+    info=3D0x7fffe9f547c0) at ../linux-user/elfload.c:3104
+#4  0x0000564a2f81f290 in loader_exec (fdexec=3D0x3, =
+
+    filename=3D0x7fffe9f5703d "./basic", argv=3D0x564a2f9f3cc0, =
+
+    envp=3D0x564a2fa12600, regs=3D0x7fffe9f54860, infop=3D0x7fffe9f547c0, =
+
+    bprm=3D0x7fffe9f54920) at ../linux-user/linuxload.c:147
+#5  0x0000564a2f7c4f9f in main (argc=3D0x4, argv=3D0x7fffe9f54e78, =
+
+    envp=3D0x7fffe9f54ea0) at ../linux-user/main.c:808
+#6  0x00007f272a1a4152 in __libc_start_main () from /usr/lib/libc.so.6
+#7  0x0000564a2f786cee in _start ()
+
+Or as a full backtrace:
+gdb-peda$ bt full
+#0  0x00007f272a2e1ee1 in __memset_avx2_erms () from /usr/lib/libc.so.6
+No symbol table info available.
+#1  0x0000564a2f7bcda7 in zero_bss (elf_bss=3D0x82134, last_bss=3D0x84000, =
+
+    prot=3D0x3) at ../linux-user/elfload.c:1865
+        host_start =3D 0x92134
+        host_map_start =3D 0x93000
+        host_end =3D 0x94000
+#2  0x0000564a2f7bff65 in load_elf_image (
+    image_name=3D0x7fffe9f5703d "./basic", image_fd=3D0x3, =
+
+    info=3D0x7fffe9f547c0, pinterp_name=3D0x7fffe9f545b0, =
+
+    bprm_buf=3D0x7fffe9f54920 "\177ELF\001\001\001")
+    at ../linux-user/elfload.c:2801
+        vaddr =3D 0x82134
+        vaddr_em =3D 0x82140
+        vaddr_len =3D 0x2000
+        vaddr_po =3D 0x134
+        vaddr_ps =3D 0x82000
+        vaddr_ef =3D 0x82134
+        elf_prot =3D 0x3
+        eppnt =3D 0x7fffe9f54974
+        ehdr =3D 0x7fffe9f54920
+        phdr =3D 0x7fffe9f54954
+        load_addr =3D 0x80000
+        load_bias =3D 0x0
+        loaddr =3D 0x80000
+        hiaddr =3D 0x1082140
+        error =3D 0x80000
+        i =3D 0x1
+        retval =3D 0x273d2e9c
+        prot_exec =3D 0x4
+        err =3D 0x0
+        __func__ =3D "load_elf_image"
+#3  0x0000564a2f7c0a12 in load_elf_binary (bprm=3D0x7fffe9f54920, =
+
+    info=3D0x7fffe9f547c0) at ../linux-user/elfload.c:3104
+        interp_info =3D {
+          load_bias =3D 0x0,
+          load_addr =3D 0x0,
+          start_code =3D 0x0,
+          end_code =3D 0x0,
+          start_data =3D 0x0,
+          end_data =3D 0x0,
+          start_brk =3D 0x0,
+          brk =3D 0x0,
+          reserve_brk =3D 0x0,
+          start_mmap =3D 0x0,
+          start_stack =3D 0x0,
+          stack_limit =3D 0x0,
+          entry =3D 0x0,
+          code_offset =3D 0x0,
+          data_offset =3D 0x0,
+          saved_auxv =3D 0x0,
+          auxv_len =3D 0x0,
+          arg_start =3D 0x0,
+          arg_end =3D 0x0,
+          arg_strings =3D 0x0,
+          env_strings =3D 0x0,
+          file_string =3D 0x0,
+          elf_flags =3D 0x0,
+          personality =3D 0x0,
+          alignment =3D 0x0,
+          loadmap_addr =3D 0x0,
+          nsegs =3D 0x0,
+          loadsegs =3D 0x0,
+          pt_dynamic_addr =3D 0x0,
+          interpreter_loadmap_addr =3D 0x0,
+          interpreter_pt_dynamic_addr =3D 0x0,
+          other_info =3D 0x0,
+          note_flags =3D 0x0
+        }
+        elf_ex =3D {
+          e_ident =3D "|\214\t1\000\000\000\000\262\002\356_\000\000\000",
+          e_type =3D 0x8c7c,
+          e_machine =3D 0x3109,
+          e_version =3D 0x0,
+          e_entry =3D 0x5fee02b2,
+          e_phoff =3D 0x0,
+          e_shoff =3D 0x31098c7c,
+          e_flags =3D 0x0,
+          e_ehsize =3D 0x0,
+          e_phentsize =3D 0x0,
+          e_phnum =3D 0x0,
+          e_shentsize =3D 0x0,
+          e_shnum =3D 0x0,
+          e_shstrndx =3D 0x0
+        }
+        elf_interpreter =3D 0x0
+        scratch =3D 0x7f272a358021 <read+97> "H\213D$\bH\203\304(\303\017\0=
+37D"
+#4  0x0000564a2f81f290 in loader_exec (fdexec=3D0x3, =
+
+    filename=3D0x7fffe9f5703d "./basic", argv=3D0x564a2f9f3cc0, =
+
+    envp=3D0x564a2fa12600, regs=3D0x7fffe9f54860, infop=3D0x7fffe9f547c0, =
+
+    bprm=3D0x7fffe9f54920) at ../linux-user/linuxload.c:147
+        retval =3D 0x400
+#5  0x0000564a2f7c4f9f in main (argc=3D0x4, argv=3D0x7fffe9f54e78, =
+
+    envp=3D0x7fffe9f54ea0) at ../linux-user/main.c:808
+        regs1 =3D {
+          orig_r10 =3D 0x0,
+          r0 =3D 0x0,
+          r1 =3D 0x0,
+          r2 =3D 0x0,
+          r3 =3D 0x0,
+          r4 =3D 0x0,
+          r5 =3D 0x0,
+          r6 =3D 0x0,
+          r7 =3D 0x0,
+          r8 =3D 0x0,
+          r9 =3D 0x0,
+          r10 =3D 0x0,
+          r11 =3D 0x0,
+          r12 =3D 0x0,
+          r13 =3D 0x0,
+          acr =3D 0x0,
+          srs =3D 0x0,
+          mof =3D 0x0,
+          spc =3D 0x0,
+          ccs =3D 0x0,
+          srp =3D 0x0,
+          erp =3D 0x0,
+          exs =3D 0x0,
+          eda =3D 0x0
+        }
+        regs =3D 0x7fffe9f54860
+        info1 =3D {
+          load_bias =3D 0x0,
+          load_addr =3D 0x80000,
+          start_code =3D 0x80000,
+          end_code =3D 0x80133,
+          start_data =3D 0xffffffff,
+          end_data =3D 0x0,
+          start_brk =3D 0x0,
+          brk =3D 0x80133,
+          reserve_brk =3D 0x1000000,
+          start_mmap =3D 0x80000000,
+          start_stack =3D 0x0,
+          stack_limit =3D 0x0,
+          entry =3D 0x80106,
+          code_offset =3D 0x0,
+          data_offset =3D 0x0,
+          saved_auxv =3D 0x0,
+          auxv_len =3D 0x0,
+          arg_start =3D 0x0,
+          arg_end =3D 0x0,
+          arg_strings =3D 0x0,
+          env_strings =3D 0x0,
+          file_string =3D 0x0,
+          elf_flags =3D 0x0,
+          personality =3D 0x0,
+          alignment =3D 0x2000,
+          loadmap_addr =3D 0x0,
+          nsegs =3D 0x2,
+          loadsegs =3D 0x0,
+          pt_dynamic_addr =3D 0x0,
+          interpreter_loadmap_addr =3D 0x0,
+          interpreter_pt_dynamic_addr =3D 0x0,
+          other_info =3D 0x0,
+          note_flags =3D 0x0
+        }
+        info =3D 0x7fffe9f547c0
+        bprm =3D {
+          buf =3D "\177ELF\001\001\001\000\000\000\000\000\000\000\000\000\=
+002\000L\000\001\000\000\000\006\001\b\000\064\000\000\000\264\006\000\000\=
+000\000\000\000\064\000 \000\003\000(\000\016\000\r\000\001\000\000\000\000=
+\000\000\000\000\000\b\000\000\000\b\000\063\001\000\000\063\001\000\000\00=
+5\000\000\000\000 \000\000\001\000\000\000\064\001\000\000\064!\b\000\064!\=
+b\000\000\000\000\000\f\000\000\000\006\000\000\000\000 \000\000\004\000\00=
+0\000\224\000\000\000\224\000\b\000\224\000\b\000$\000\000\000$\000\000\000=
+\004\000\000\000\004\000\000\000\004\000\000\000\024\000\000\000\003\000\00=
+0\000GNU\000PH\017'i\204\231\070e\000\247\376\211\230\236\336Nf7\372\204\34=
+2\356\213n\206\214\342\374\201\352\253\370\201\353\273"...,
+          p =3D 0x0,
+          fd =3D 0x3,
+          e_uid =3D 0x3e8,
+          e_gid =3D 0x3d9,
+          argc =3D 0x1,
+          envc =3D 0x43,
+          argv =3D 0x564a2f9f3cc0,
+          envp =3D 0x564a2fa12600,
+          filename =3D 0x7fffe9f5703d "./basic",
+          core_dump =3D 0x0
+        }
+        ts =3D 0x564a2fa25400
+        env =3D 0x564a2fa24a08
+        cpu =3D 0x564a2fa1c730
+        optind =3D 0x3
+        target_environ =3D 0x564a2fa12600
+        wrk =3D 0x7fffe9f550b8
+        target_argv =3D 0x564a2f9f3cc0
+        target_argc =3D 0x1
+        i =3D 0x1
+        ret =3D 0x7fff
+        execfd =3D 0x3
+        log_mask =3D 0x0
+        max_reserved_va =3D 0xffffe000
+#6  0x00007f272a1a4152 in __libc_start_main () from /usr/lib/libc.so.6
+No symbol table info available.
+#7  0x0000564a2f786cee in _start ()
+No symbol table info available.
 
 
-r~
+The binary itself is just a basic binary that prints "hello\n" to stdout. I=
+ have attached it.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: cris
+
+** Attachment added: "basic"
+   https://bugs.launchpad.net/bugs/1909770/+attachment/5448329/+files/basic
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1909770
+
+Title:
+  qemu-cris segfaults upon loading userspace binary
+
+Status in QEMU:
+  New
+
+Bug description:
+  I am on commit 65a3c5984074313602fb5f61cc5f464abfb020c7 (latest as far
+  as I know). I compiled qemu with --enable-debug.
+
+  I'm trying to run a userspace CRIS binary (`./qemu-cris -cpu crisv10
+  ./basic`), but this segfaults. When opening the coredump in gdb, I get
+
+  gdb-peda$ bt
+  #0  0x00007f272a2e1ee1 in __memset_avx2_erms () from /usr/lib/libc.so.6
+  #1  0x0000564a2f7bcda7 in zero_bss (elf_bss=3D0x82134, last_bss=3D0x84000=
+, =
+
+      prot=3D0x3) at ../linux-user/elfload.c:1865
+  #2  0x0000564a2f7bff65 in load_elf_image (
+      image_name=3D0x7fffe9f5703d "./basic", image_fd=3D0x3, =
+
+      info=3D0x7fffe9f547c0, pinterp_name=3D0x7fffe9f545b0, =
+
+      bprm_buf=3D0x7fffe9f54920 "\177ELF\001\001\001")
+      at ../linux-user/elfload.c:2801
+  #3  0x0000564a2f7c0a12 in load_elf_binary (bprm=3D0x7fffe9f54920, =
+
+      info=3D0x7fffe9f547c0) at ../linux-user/elfload.c:3104
+  #4  0x0000564a2f81f290 in loader_exec (fdexec=3D0x3, =
+
+      filename=3D0x7fffe9f5703d "./basic", argv=3D0x564a2f9f3cc0, =
+
+      envp=3D0x564a2fa12600, regs=3D0x7fffe9f54860, infop=3D0x7fffe9f547c0, =
+
+      bprm=3D0x7fffe9f54920) at ../linux-user/linuxload.c:147
+  #5  0x0000564a2f7c4f9f in main (argc=3D0x4, argv=3D0x7fffe9f54e78, =
+
+      envp=3D0x7fffe9f54ea0) at ../linux-user/main.c:808
+  #6  0x00007f272a1a4152 in __libc_start_main () from /usr/lib/libc.so.6
+  #7  0x0000564a2f786cee in _start ()
+
+  Or as a full backtrace:
+  gdb-peda$ bt full
+  #0  0x00007f272a2e1ee1 in __memset_avx2_erms () from /usr/lib/libc.so.6
+  No symbol table info available.
+  #1  0x0000564a2f7bcda7 in zero_bss (elf_bss=3D0x82134, last_bss=3D0x84000=
+, =
+
+      prot=3D0x3) at ../linux-user/elfload.c:1865
+          host_start =3D 0x92134
+          host_map_start =3D 0x93000
+          host_end =3D 0x94000
+  #2  0x0000564a2f7bff65 in load_elf_image (
+      image_name=3D0x7fffe9f5703d "./basic", image_fd=3D0x3, =
+
+      info=3D0x7fffe9f547c0, pinterp_name=3D0x7fffe9f545b0, =
+
+      bprm_buf=3D0x7fffe9f54920 "\177ELF\001\001\001")
+      at ../linux-user/elfload.c:2801
+          vaddr =3D 0x82134
+          vaddr_em =3D 0x82140
+          vaddr_len =3D 0x2000
+          vaddr_po =3D 0x134
+          vaddr_ps =3D 0x82000
+          vaddr_ef =3D 0x82134
+          elf_prot =3D 0x3
+          eppnt =3D 0x7fffe9f54974
+          ehdr =3D 0x7fffe9f54920
+          phdr =3D 0x7fffe9f54954
+          load_addr =3D 0x80000
+          load_bias =3D 0x0
+          loaddr =3D 0x80000
+          hiaddr =3D 0x1082140
+          error =3D 0x80000
+          i =3D 0x1
+          retval =3D 0x273d2e9c
+          prot_exec =3D 0x4
+          err =3D 0x0
+          __func__ =3D "load_elf_image"
+  #3  0x0000564a2f7c0a12 in load_elf_binary (bprm=3D0x7fffe9f54920, =
+
+      info=3D0x7fffe9f547c0) at ../linux-user/elfload.c:3104
+          interp_info =3D {
+            load_bias =3D 0x0,
+            load_addr =3D 0x0,
+            start_code =3D 0x0,
+            end_code =3D 0x0,
+            start_data =3D 0x0,
+            end_data =3D 0x0,
+            start_brk =3D 0x0,
+            brk =3D 0x0,
+            reserve_brk =3D 0x0,
+            start_mmap =3D 0x0,
+            start_stack =3D 0x0,
+            stack_limit =3D 0x0,
+            entry =3D 0x0,
+            code_offset =3D 0x0,
+            data_offset =3D 0x0,
+            saved_auxv =3D 0x0,
+            auxv_len =3D 0x0,
+            arg_start =3D 0x0,
+            arg_end =3D 0x0,
+            arg_strings =3D 0x0,
+            env_strings =3D 0x0,
+            file_string =3D 0x0,
+            elf_flags =3D 0x0,
+            personality =3D 0x0,
+            alignment =3D 0x0,
+            loadmap_addr =3D 0x0,
+            nsegs =3D 0x0,
+            loadsegs =3D 0x0,
+            pt_dynamic_addr =3D 0x0,
+            interpreter_loadmap_addr =3D 0x0,
+            interpreter_pt_dynamic_addr =3D 0x0,
+            other_info =3D 0x0,
+            note_flags =3D 0x0
+          }
+          elf_ex =3D {
+            e_ident =3D "|\214\t1\000\000\000\000\262\002\356_\000\000\000",
+            e_type =3D 0x8c7c,
+            e_machine =3D 0x3109,
+            e_version =3D 0x0,
+            e_entry =3D 0x5fee02b2,
+            e_phoff =3D 0x0,
+            e_shoff =3D 0x31098c7c,
+            e_flags =3D 0x0,
+            e_ehsize =3D 0x0,
+            e_phentsize =3D 0x0,
+            e_phnum =3D 0x0,
+            e_shentsize =3D 0x0,
+            e_shnum =3D 0x0,
+            e_shstrndx =3D 0x0
+          }
+          elf_interpreter =3D 0x0
+          scratch =3D 0x7f272a358021 <read+97> "H\213D$\bH\203\304(\303\017=
+\037D"
+  #4  0x0000564a2f81f290 in loader_exec (fdexec=3D0x3, =
+
+      filename=3D0x7fffe9f5703d "./basic", argv=3D0x564a2f9f3cc0, =
+
+      envp=3D0x564a2fa12600, regs=3D0x7fffe9f54860, infop=3D0x7fffe9f547c0, =
+
+      bprm=3D0x7fffe9f54920) at ../linux-user/linuxload.c:147
+          retval =3D 0x400
+  #5  0x0000564a2f7c4f9f in main (argc=3D0x4, argv=3D0x7fffe9f54e78, =
+
+      envp=3D0x7fffe9f54ea0) at ../linux-user/main.c:808
+          regs1 =3D {
+            orig_r10 =3D 0x0,
+            r0 =3D 0x0,
+            r1 =3D 0x0,
+            r2 =3D 0x0,
+            r3 =3D 0x0,
+            r4 =3D 0x0,
+            r5 =3D 0x0,
+            r6 =3D 0x0,
+            r7 =3D 0x0,
+            r8 =3D 0x0,
+            r9 =3D 0x0,
+            r10 =3D 0x0,
+            r11 =3D 0x0,
+            r12 =3D 0x0,
+            r13 =3D 0x0,
+            acr =3D 0x0,
+            srs =3D 0x0,
+            mof =3D 0x0,
+            spc =3D 0x0,
+            ccs =3D 0x0,
+            srp =3D 0x0,
+            erp =3D 0x0,
+            exs =3D 0x0,
+            eda =3D 0x0
+          }
+          regs =3D 0x7fffe9f54860
+          info1 =3D {
+            load_bias =3D 0x0,
+            load_addr =3D 0x80000,
+            start_code =3D 0x80000,
+            end_code =3D 0x80133,
+            start_data =3D 0xffffffff,
+            end_data =3D 0x0,
+            start_brk =3D 0x0,
+            brk =3D 0x80133,
+            reserve_brk =3D 0x1000000,
+            start_mmap =3D 0x80000000,
+            start_stack =3D 0x0,
+            stack_limit =3D 0x0,
+            entry =3D 0x80106,
+            code_offset =3D 0x0,
+            data_offset =3D 0x0,
+            saved_auxv =3D 0x0,
+            auxv_len =3D 0x0,
+            arg_start =3D 0x0,
+            arg_end =3D 0x0,
+            arg_strings =3D 0x0,
+            env_strings =3D 0x0,
+            file_string =3D 0x0,
+            elf_flags =3D 0x0,
+            personality =3D 0x0,
+            alignment =3D 0x2000,
+            loadmap_addr =3D 0x0,
+            nsegs =3D 0x2,
+            loadsegs =3D 0x0,
+            pt_dynamic_addr =3D 0x0,
+            interpreter_loadmap_addr =3D 0x0,
+            interpreter_pt_dynamic_addr =3D 0x0,
+            other_info =3D 0x0,
+            note_flags =3D 0x0
+          }
+          info =3D 0x7fffe9f547c0
+          bprm =3D {
+            buf =3D "\177ELF\001\001\001\000\000\000\000\000\000\000\000\00=
+0\002\000L\000\001\000\000\000\006\001\b\000\064\000\000\000\264\006\000\00=
+0\000\000\000\000\064\000 \000\003\000(\000\016\000\r\000\001\000\000\000\0=
+00\000\000\000\000\000\b\000\000\000\b\000\063\001\000\000\063\001\000\000\=
+005\000\000\000\000 \000\000\001\000\000\000\064\001\000\000\064!\b\000\064=
+!\b\000\000\000\000\000\f\000\000\000\006\000\000\000\000 \000\000\004\000\=
+000\000\224\000\000\000\224\000\b\000\224\000\b\000$\000\000\000$\000\000\0=
+00\004\000\000\000\004\000\000\000\004\000\000\000\024\000\000\000\003\000\=
+000\000GNU\000PH\017'i\204\231\070e\000\247\376\211\230\236\336Nf7\372\204\=
+342\356\213n\206\214\342\374\201\352\253\370\201\353\273"...,
+            p =3D 0x0,
+            fd =3D 0x3,
+            e_uid =3D 0x3e8,
+            e_gid =3D 0x3d9,
+            argc =3D 0x1,
+            envc =3D 0x43,
+            argv =3D 0x564a2f9f3cc0,
+            envp =3D 0x564a2fa12600,
+            filename =3D 0x7fffe9f5703d "./basic",
+            core_dump =3D 0x0
+          }
+          ts =3D 0x564a2fa25400
+          env =3D 0x564a2fa24a08
+          cpu =3D 0x564a2fa1c730
+          optind =3D 0x3
+          target_environ =3D 0x564a2fa12600
+          wrk =3D 0x7fffe9f550b8
+          target_argv =3D 0x564a2f9f3cc0
+          target_argc =3D 0x1
+          i =3D 0x1
+          ret =3D 0x7fff
+          execfd =3D 0x3
+          log_mask =3D 0x0
+          max_reserved_va =3D 0xffffe000
+  #6  0x00007f272a1a4152 in __libc_start_main () from /usr/lib/libc.so.6
+  No symbol table info available.
+  #7  0x0000564a2f786cee in _start ()
+  No symbol table info available.
+
+  =
+
+  The binary itself is just a basic binary that prints "hello\n" to stdout.=
+ I have attached it.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1909770/+subscriptions
 
