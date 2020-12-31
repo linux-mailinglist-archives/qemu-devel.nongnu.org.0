@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C1F2E7F24
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 10:56:49 +0100 (CET)
-Received: from localhost ([::1]:49072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A8A2E7F29
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 11:01:16 +0100 (CET)
+Received: from localhost ([::1]:51538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuuhL-0007Bq-TN
-	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 04:56:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35474)
+	id 1kuule-0008OG-VC
+	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 05:01:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kuugb-0006dW-6o; Thu, 31 Dec 2020 04:56:01 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:45296
+ id 1kuuk5-0007pq-Jj; Thu, 31 Dec 2020 04:59:37 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:45334
  helo=ns207790.ip-94-23-215.eu)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <remi@remlab.net>)
- id 1kuugZ-0003rD-4e; Thu, 31 Dec 2020 04:56:00 -0500
+ id 1kuuk3-0005Xy-To; Thu, 31 Dec 2020 04:59:37 -0500
 Received: from philogene.localnet (ip6-localhost [IPv6:::1])
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 211115FAD0;
- Thu, 31 Dec 2020 10:55:51 +0100 (CET)
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 782565FAD0;
+ Thu, 31 Dec 2020 10:59:34 +0100 (CET)
 From: =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi@remlab.net>
 To: qemu-arm@nongnu.org
 Subject: Re: [PATCH 1/3] target/arm: keep translation start level unsigned
-Date: Thu, 31 Dec 2020 11:55:50 +0200
-Message-ID: <3026104.eZJBrJkB2l@philogene>
+Date: Thu, 31 Dec 2020 11:59:34 +0200
+Message-ID: <9468010.vzF1F9XyNR@philogene>
 Organization: Remlab Tmi
-In-Reply-To: <c2af03a8-9f56-fb43-485c-91ec0fbdef31@linaro.org>
+In-Reply-To: <002743e6-10d3-88b3-961a-8571efb4d1ed@linaro.org>
 References: <7884934.NyiUUSuA9g@basile.remlab.net>
- <20201218143321.102872-1-remi.denis.courmont@huawei.com>
  <c2af03a8-9f56-fb43-485c-91ec0fbdef31@linaro.org>
+ <002743e6-10d3-88b3-961a-8571efb4d1ed@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="iso-8859-1"
@@ -58,109 +58,84 @@ Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le jeudi 31 d=E9cembre 2020, 00:10:09 EET Richard Henderson a =E9crit :
-> On 12/18/20 6:33 AM, remi.denis.courmont@huawei.com wrote:
-> > From: R=E9mi Denis-Courmont <remi.denis.courmont@huawei.com>
+Le jeudi 31 d=E9cembre 2020, 00:38:14 EET Richard Henderson a =E9crit :
+> On 12/30/20 2:10 PM, Richard Henderson wrote:
+> > On 12/18/20 6:33 AM, remi.denis.courmont@huawei.com wrote:
+> >> From: R=E9mi Denis-Courmont <remi.denis.courmont@huawei.com>
+> >>=20
+> >> Signed-off-by: R=E9mi Denis-Courmont <remi.denis.courmont@huawei.com>
+> >> ---
+> >>=20
+> >>  target/arm/helper.c | 14 ++++++--------
+> >>  1 file changed, 6 insertions(+), 8 deletions(-)
 > >=20
-> > Signed-off-by: R=E9mi Denis-Courmont <remi.denis.courmont@huawei.com>
-> > ---
+> > The patch does more than what is described above.
 > >=20
-> >  target/arm/helper.c | 14 ++++++--------
-> >  1 file changed, 6 insertions(+), 8 deletions(-)
+> >> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> >> index df195c314c..b927e53ab0 100644
+> >> --- a/target/arm/helper.c
+> >> +++ b/target/arm/helper.c
+> >>=20
+> >> @@ -10821,17 +10821,12 @@ do_fault:
+> >>   * Returns true if the suggested S2 translation parameters are OK and
+> >>   * false otherwise.
+> >>   */
+> >>=20
+> >> -static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+> >> +static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, uint32_t
+> >> level,
+> >>=20
+> >>                                 int inputsize, int stride)
+> >> =20
+> >>  {
+> >> =20
+> >>      const int grainsize =3D stride + 3;
+> >>      int startsizecheck;
+> >>=20
+> >> -    /* Negative levels are never allowed.  */
+> >> -    if (level < 0) {
+> >> -        return false;
+> >> -    }
+> >> -
+> >=20
+> > I would expect this to be the only hunk from the patch description.=20
+> > Probably changing this negative check to a >=3D 3 check.
 >=20
-> The patch does more than what is described above.
-
-No? It removes generating negative values, and handling them, for translati=
-on=20
-levels.
-
-> > diff --git a/target/arm/helper.c b/target/arm/helper.c
-> > index df195c314c..b927e53ab0 100644
-> > --- a/target/arm/helper.c
-> > +++ b/target/arm/helper.c
-> >=20
-> > @@ -10821,17 +10821,12 @@ do_fault:
-> >   * Returns true if the suggested S2 translation parameters are OK and
-> >   * false otherwise.
-> >   */
-> >=20
-> > -static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
-> > +static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, uint32_t lev=
-el,
-> >=20
-> >                                 int inputsize, int stride)
-> > =20
-> >  {
-> > =20
-> >      const int grainsize =3D stride + 3;
-> >      int startsizecheck;
-> >=20
-> > -    /* Negative levels are never allowed.  */
-> > -    if (level < 0) {
-> > -        return false;
-> > -    }
-> > -
+> Having read the next patch, I think you should drop this type change.
 >=20
-> I would expect this to be the only hunk from the patch description.=20
-> Probably changing this negative check to a >=3D 3 check.
+> >> @@ -11203,7 +11201,7 @@ static bool get_phys_addr_lpae(CPUARMState *en=
+v,
+> >> uint64_t address,>>=20
+> >>          if (!aarch64 || stride =3D=3D 9) {
+> >>         =20
+> >>              /* AArch32 or 4KB pages */
+> >>=20
+> >> -            startlevel =3D 2 - sl0;
+> >> +            startlevel =3D (2 - sl0) & 3;
+>=20
+> This hunk belongs with the next patch, implementing TTST, and should be
+> conditional.  I.e.
+>=20
+>     if (stride =3D=3D 9) {
+>         startlevel =3D 2 - sl0;
+>         if (aarch64 &&
+>             cpu_isar_feature(aa64_st, env_archcpu(env)) {
+>             startlevel &=3D 3;
+>         }
 
-You could do that but you'd end up relying on implicity conversion from sig=
-ned=20
-to unsigned negative. That seems needlessly confusing to me in this case,=20
-considering that (positive) values larger than 3 cannot actually happen.
+You can do that but:
+1) Nothing in the spec says that SL0 =3D=3D b11 without ST means start leve=
+l -1.=20
+It's undefined, and I don't see any reasons to treat it differently than wi=
+th=20
+ST.
+2) Functionally, checking for ST seems to belong naturally within=20
+check_s2_mmu_setup() in this particular case.
 
+>     ...
+>=20
 >=20
 > r~
->=20
-> >      startsizecheck =3D inputsize - ((3 - level) * stride + grainsize);
-> >      if (startsizecheck < 1 || startsizecheck > stride + 4) {
-> >     =20
-> >          return false;
-> >=20
-> > @@ -10856,6 +10851,9 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool
-> > is_aa64, int level,>=20
-> >              if (level =3D=3D 0 && pamax <=3D 42) {
-> >             =20
-> >                  return false;
-> >             =20
-> >              }
-> >=20
-> > +            if (level =3D=3D 3) {
-> > +                return false;
-> > +            }
-> >=20
-> >              break;
-> >         =20
-> >          default:
-> >              g_assert_not_reached();
-> >=20
-> > @@ -10871,7 +10869,7 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool
-> > is_aa64, int level,>=20
-> >          /* AArch32 only supports 4KB pages. Assert on that.  */
-> >          assert(stride =3D=3D 9);
-> >=20
-> > -        if (level =3D=3D 0) {
-> > +        if (level =3D=3D 0 || level >=3D 3) {
-> >=20
-> >              return false;
-> >         =20
-> >          }
-> >     =20
-> >      }
-> >=20
-> > @@ -11203,7 +11201,7 @@ static bool get_phys_addr_lpae(CPUARMState *env,
-> > uint64_t address,>=20
-> >          if (!aarch64 || stride =3D=3D 9) {
-> >         =20
-> >              /* AArch32 or 4KB pages */
-> >=20
-> > -            startlevel =3D 2 - sl0;
-> > +            startlevel =3D (2 - sl0) & 3;
-> >=20
-> >          } else {
-> >         =20
-> >              /* 16KB or 64KB pages */
-> >              startlevel =3D 3 - sl0;
 
 
 =2D-=20
