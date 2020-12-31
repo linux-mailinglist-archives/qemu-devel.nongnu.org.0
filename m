@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B0E2E8291
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 23:56:19 +0100 (CET)
-Received: from localhost ([::1]:35420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5BED2E8290
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 23:55:42 +0100 (CET)
+Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kv6ri-00012x-Tf
-	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 17:56:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48986)
+	id 1kv6r7-0000cw-SO
+	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 17:55:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kv6ld-00022b-9u
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:50:01 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:40494)
+ id 1kv6lj-0002FN-7W
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:50:07 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kv6lb-0006V6-SA
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:50:00 -0500
-Received: by mail-wr1-x429.google.com with SMTP id 91so21025228wrj.7
- for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 14:49:59 -0800 (PST)
+ id 1kv6lh-0006X2-N9
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:50:06 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id c133so8143290wme.4
+ for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 14:50:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zpXgP9moZBrSC473lu7QGvZbzGR5/trPsHw8SfcFSaA=;
- b=c2NUqgSeZEiaA5RZAU2EyMjQN3wcDgK6nBfaToXNSTYmyzmKnEjkUHMpyRGsCuAoCO
- Aq3QtK/exYVGj7R33s+5mX4SqvICgEwfhVgoh3M1cRYz/0Y6ode+XchEkGMnaUXn2O7x
- szqyHrRaPkmUbMd/e0jE1WsECGTBEyfEbyfOjMGrzRAtIZ83h0tLOXDv9cuVC38LG+k8
- nUQvkEqStchVnsvba5cthZfUVZU2WVreDszqD12wdQ/SRuHRc9B4h7yNYKsCb/VH9Brx
- jQufP5voa6CRoroWtfU1cPylkzkpDb5YeKx6EbEt3CYZF7LnXU4aNvyMUX4wZx3Gte6i
- Jvng==
+ bh=B6/juozgCAEtqAlqqeCmHKGqNvNofCEfutV+ADMnaIU=;
+ b=b/v6BaEyBbvTf1K8UoFZMv/bKU0SCRamDxou769Qu9Dih+fuS4SrqBmnJg+kEbbpPj
+ WsjVFJmzKlZl+Fw4YsKiT9pnBYlXNHLee11LqLvCh5wBPAShEw57/6nWgBpCxf6GatFX
+ in5in1BN0RAx7OJKHnahB6t5oXQ6S4OdGAMFDY4wmDXKciOzG2ieR+0YNjJDuLlyVLod
+ WnclR76YyZXPk8kPpY4hRTKq5kZ3OH2KUnGpH+W6EiBWkDZ4aYsedvfqeWVSX+vIYj4k
+ Zw7Hp/B2NOb6xEeWEnxD6wgp1a/k2XArKxI+A5EnqogmAHTndkfRq4p95Epxrt8uixNK
+ l5Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zpXgP9moZBrSC473lu7QGvZbzGR5/trPsHw8SfcFSaA=;
- b=RJbnD7viz/eZ4982VyrAuX2SVtFpDnFRacAscbX36ztPd6rkeO/xwZl5iLdPwiYQJg
- DVRaz8snho2+yb2wYPKj/HewnN3PxE3G/9YTuhQiIiPEG5yM8xO+CxdJbxnzov0suLoG
- G38c0GJgLqH4/w5MPO99tCISU9fXGQeyNRS2ppCgCvKxTp1QUbwzRp2/atp3fqR46ku4
- ml3YFvBfknH1NjKEn8sLX1e2LlnLSY4PAQ9AHncmU2UF96iwRFyX3SYAAsr4rCrR6qk3
- m06AqMnKdwWM2m47bqUUO1MIVcSjWy6SNpnDt1IX6G6yP0H/qnaPkGCjSsUicHwJ+Ixs
- X4aQ==
-X-Gm-Message-State: AOAM532d/DJvdbMICI2luLRmfpe0exHYWOsbwVf/pu6qEAgcp6t0tic5
- Uci7ulOt6EIRK+zkPZEdOdZW/M77Eh8=
-X-Google-Smtp-Source: ABdhPJxVy8JZj8s35RJPmonjGj9EwE0mzrxii/EQKK2hMbyhMcP4V0BvmK30W2pHAqmfdue7pQvcvg==
-X-Received: by 2002:a05:6000:10c4:: with SMTP id
- b4mr67406710wrx.170.1609454998452; 
- Thu, 31 Dec 2020 14:49:58 -0800 (PST)
+ bh=B6/juozgCAEtqAlqqeCmHKGqNvNofCEfutV+ADMnaIU=;
+ b=ghaW4oa566rLoZoUcqhIYP+9o4YmewlKJ2m1402f77G+B6m+MIMJZ6iCQyheGMuMKM
+ cNOID7qHoGSJ9MT6odXwAwFXJK8933B4a8Zq7g1BpXbFgiiaFSOWS9w6DQf1lm6QZDG1
+ wPFs1ozfaEhcSBbgFL1GntxoCh3T4dSOP6wPdlmP8Cm+vsA580iNHqHvvTR5YoUu2z2r
+ nlvFCuiLTIO+WEVXAZv32CVjioZtH8L66qFce4Xq7RDNojqRsNiFHgYi2FoE0u+dSVod
+ xKr6I/EfVtXY04mGsR1kAzCvf1xjTQJLVGlgMn8t9v2TgvYPFmJrn5kSJVFmmprEbpRG
+ ccQw==
+X-Gm-Message-State: AOAM531EyANhaezQF2DhuX3lj0+Zjf/Jrw8Kb0veVxqZDR0l3xqdfrbz
+ LDuzhW1Lg7qEdI8JqgCfNmr5bstGToE=
+X-Google-Smtp-Source: ABdhPJxDGgpdFWNz+fyfE5DGnBLV6bvlpnhyp1R7v1YCn+ek5MfCFNd7I9Y/AaD4p436azzS3iUMoQ==
+X-Received: by 2002:a1c:1bc6:: with SMTP id b189mr13096299wmb.71.1609455003272; 
+ Thu, 31 Dec 2020 14:50:03 -0800 (PST)
 Received: from localhost.localdomain (239.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.239])
- by smtp.gmail.com with ESMTPSA id s1sm73228987wrv.97.2020.12.31.14.49.57
+ by smtp.gmail.com with ESMTPSA id m17sm78156359wrn.0.2020.12.31.14.50.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Dec 2020 14:49:57 -0800 (PST)
+ Thu, 31 Dec 2020 14:50:02 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/18] hw/pci-host/bonito: Rename north bridge helpers
-Date: Thu, 31 Dec 2020 23:49:02 +0100
-Message-Id: <20201231224911.1467352-10-f4bug@amsat.org>
+Subject: [PATCH 10/18] hw/pci-host/bonito: Rename PCI host helpers
+Date: Thu, 31 Dec 2020 23:49:03 +0100
+Message-Id: <20201231224911.1467352-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201231224911.1467352-1-f4bug@amsat.org>
 References: <20201231224911.1467352-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,57 +92,81 @@ Cc: Aurelien Jarno <aurelien@aurel32.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename north bridge related helpers as 'bonito_northbridge_*'.
+Rename PCI host side related helpers as 'bonito_host_*'.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/bonito.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/pci-host/bonito.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index a091ef15d27..d91ed82c99e 100644
+index d91ed82c99e..45f31512b25 100644
 --- a/hw/pci-host/bonito.c
 +++ b/hw/pci-host/bonito.c
-@@ -270,7 +270,7 @@ static void bonito_remap(PCIBonitoState *s)
-     }
- }
+@@ -574,7 +574,7 @@ static const MemoryRegionOps bonito_spciconf_ops = {
  
--static void bonito_writel(void *opaque, hwaddr addr,
-+static void bonito_northbridge_write(void *opaque, hwaddr addr,
-                           uint64_t val, unsigned size)
+ #define BONITO_IRQ_BASE 32
+ 
+-static void pci_bonito_set_irq(void *opaque, int irq_num, int level)
++static void bonito_host_set_irq(void *opaque, int irq_num, int level)
  {
-     PCIBonitoState *s = opaque;
-@@ -335,7 +335,7 @@ static void bonito_writel(void *opaque, hwaddr addr,
-     }
+     BonitoState *s = opaque;
+     qemu_irq *pic = s->pic;
+@@ -593,7 +593,7 @@ static void pci_bonito_set_irq(void *opaque, int irq_num, int level)
  }
  
--static uint64_t bonito_readl(void *opaque, hwaddr addr,
-+static uint64_t bonito_northbridge_read(void *opaque, hwaddr addr,
-                              unsigned size)
+ /* map the original irq (0~3) to bonito irq (16~47, but 16~31 are unused) */
+-static int pci_bonito_map_irq(PCIDevice *pci_dev, int irq_num)
++static int bonito_host_map_irq(PCIDevice *pci_dev, int irq_num)
  {
-     PCIBonitoState *s = opaque;
-@@ -352,9 +352,9 @@ static uint64_t bonito_readl(void *opaque, hwaddr addr,
+     int slot;
+ 
+@@ -650,14 +650,14 @@ static const VMStateDescription vmstate_bonito = {
      }
+ };
+ 
+-static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
++static void bonito_host_realize(DeviceState *dev, Error **errp)
+ {
+     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
+     BonitoState *bs = BONITO_PCI_HOST_BRIDGE(dev);
+ 
+     memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCIHI_SIZE);
+     phb->bus = pci_register_root_bus(dev, "pci",
+-                                     pci_bonito_set_irq, pci_bonito_map_irq,
++                                     bonito_host_set_irq, bonito_host_map_irq,
+                                      dev, &bs->pci_mem, get_system_io(),
+                                      PCI_DEVFN(5, 0), 32, TYPE_PCI_BUS);
+ 
+@@ -808,23 +808,23 @@ static const TypeInfo bonito_info = {
+     },
+ };
+ 
+-static void bonito_pcihost_class_init(ObjectClass *klass, void *data)
++static void bonito_host_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+-    dc->realize = bonito_pcihost_realize;
++    dc->realize = bonito_host_realize;
  }
  
--static const MemoryRegionOps bonito_ops = {
--    .read = bonito_readl,
--    .write = bonito_writel,
-+static const MemoryRegionOps bonito_northbridge_ops = {
-+    .read = bonito_northbridge_read,
-+    .write = bonito_northbridge_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
-     .valid = {
-         .min_access_size = 4,
-@@ -681,7 +681,7 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
-     pci_config_set_prog_interface(dev->config, 0x00);
+-static const TypeInfo bonito_pcihost_info = {
++static const TypeInfo bonito_host_info = {
+     .name          = TYPE_BONITO_PCI_HOST_BRIDGE,
+     .parent        = TYPE_PCI_HOST_BRIDGE,
+     .instance_size = sizeof(BonitoState),
+-    .class_init    = bonito_pcihost_class_init,
++    .class_init    = bonito_host_class_init,
+ };
  
-     /* set the north bridge register mapping */
--    memory_region_init_io(&s->iomem, OBJECT(s), &bonito_ops, s,
-+    memory_region_init_io(&s->iomem, OBJECT(s), &bonito_northbridge_ops, s,
-                           "north-bridge-register", BONITO_INTERNAL_REG_SIZE);
-     sysbus_init_mmio(sysbus, &s->iomem);
-     sysbus_mmio_map(sysbus, 0, BONITO_INTERNAL_REG_BASE);
+ static void bonito_register_types(void)
+ {
+-    type_register_static(&bonito_pcihost_info);
++    type_register_static(&bonito_host_info);
+     type_register_static(&bonito_info);
+ }
+ 
 -- 
 2.26.2
 
