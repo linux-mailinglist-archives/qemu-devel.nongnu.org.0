@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3762E7FC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 12:48:17 +0100 (CET)
-Received: from localhost ([::1]:55854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D18332E7FBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 12:47:06 +0100 (CET)
+Received: from localhost ([::1]:51686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuwRE-00027D-VC
-	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 06:48:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58402)
+	id 1kuwQ5-0000Jc-SR
+	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 06:47:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kuwAj-0007s9-5m; Thu, 31 Dec 2020 06:31:13 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:33829)
+ id 1kuwAj-0007tB-Iy; Thu, 31 Dec 2020 06:31:13 -0500
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:42478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kuwAc-0007KH-48; Thu, 31 Dec 2020 06:31:12 -0500
-Received: by mail-pl1-x630.google.com with SMTP id t6so9943761plq.1;
- Thu, 31 Dec 2020 03:31:03 -0800 (PST)
+ id 1kuwAe-0007Kz-8e; Thu, 31 Dec 2020 06:31:13 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id h10so10190270pfo.9;
+ Thu, 31 Dec 2020 03:31:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9NyACXhLTu4f5dkh4QFmGIUbis3QARakLx03R/Yz9iI=;
- b=lHgrammZLDBf6U/mIyvFKJeWYSyzfb23XFSUwbxY5JErL3EZ6u1YdbPYKYfqUHT/4S
- otN5OEMt5JtSt4afWu51oJVxS5FADnaO7gnrEJcG+xQZXo90giGL++wMjkFD1aaB3ts3
- bEX/8OdWkYBhQBPim2JQn90Y8srzGyAX1zGDb+zbzJG0nCKhnRqosVjZdq9g8EJJ675O
- Mo+8yAELwapvJQRZh+6SLTWN8EWbUMpTjhhJXDl3Pf1TTaqT50ZeC63Iedl1ODSBIYC8
- KFymoR2hEU4KHqY58O0wkrvHq/p20YklSZpEA4BwevfyWIvcn7wij8JsbKEMuX2eirqP
- G2Sw==
+ bh=+MRQ94HqNQPfotzejyTazGvZctafoVB2L4SztQ4M9ow=;
+ b=A+5KL/qQp+JrEavt6VofFwmYL8hSRgXaMqEpkN/iEdSQ8Cbu442JAj5LOOYKVhlPBJ
+ mDvvVxVxdFP/X8Q6Gtk8qjpnCCd3aZZb+Doo003esU0EPuu/uAzsZ8DA/+wglXk6FPVv
+ 7pQ9rTrGdNt2m0X7+QQdzdecc37gz85UTmK0GaYeLeDUQuubqqjCXSMneqZm/bxgTdi5
+ oED2q6DicFIu7JWEIvVdCnEp0Gl39PnHWNQRhq+G7V0CqiTmF612UXtatsCMCdK/jvPB
+ A/yGqH3hPV89yYWOOgLPqeM/AdIK3uJq1lh2zROCyaEL81p+nwE1Ka5n0xx5X7qqSkZs
+ NGyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9NyACXhLTu4f5dkh4QFmGIUbis3QARakLx03R/Yz9iI=;
- b=fm8aP1xx/a3kKbDS/hpN36jz0Lq+GxlCUDgKrDyM1LJ/LBecxKTqcOvUQ4YwoP9MrJ
- JlUMEgsBzqdsDC/NdMZU+ZCRtjZUPNU867rLHfuJzZW/ngdZmTHjpp2jpKFn7htzSeWm
- tdvWAq0k1i1joasrtYmRHCoMiraucCgj1oJrUGGh5+rnT85lDpij6SIxm2LEqLROk16q
- xq4ykhLQ1+siQwbFWEccE0TgHJBNsA2eOQ4I3rnY1pJwr9VgDdWBt+zmF59IM0YdJFy0
- mMd/h2BssZvXB4j0qzj1ta91TQWlP62r381IOrZaklzE94hqW+tIFhHCct1MMK7mv7C9
- NUtw==
-X-Gm-Message-State: AOAM5310ouIpCknd6kO0Z6WQTLGlIg/CvcbQjOb4tXjZoo5wf3qCMEbD
- RKLVrMmDbnn4uQ1atcjw5V0=
-X-Google-Smtp-Source: ABdhPJzlKfOCS2440a7bdtGeWd6CbzmXAn5qFMu5SBimKIwdgAkZEzp+d+61+8X09IoWkNZ7lo47GA==
-X-Received: by 2002:a17:902:d202:b029:da:d86b:78be with SMTP id
- t2-20020a170902d202b02900dad86b78bemr38216753ply.0.1609414262879; 
- Thu, 31 Dec 2020 03:31:02 -0800 (PST)
+ bh=+MRQ94HqNQPfotzejyTazGvZctafoVB2L4SztQ4M9ow=;
+ b=n/MVrtYeg/uoWdYzR1EenFt/SoZe4DT+yosST2F6yIZjA8n1BTWknng96IklmViiAX
+ NLSOr0mGwVzncVj42GhvVWR0a4IE+ZVolMji49as3ubUAJf0V5JIgMo/A3yaviX58JOY
+ l52zSHxr9ve8Ue+4xaKNBQbg0BEzgRk7SOzn0gHTzqhI29yoBB2gWWzmL4R/+Gc5K7eR
+ iTG982beJZJyaVyUwBT/aDu38g7O8dl2RPKwruoo5HtTL5Hk4wwYZPcdtpIAXy41j81/
+ T3/nOfByRtWiKjKmztv+HtbV8to4MyHoMJRkjKGhOXZ5Jh3TSxzAqwHC7unQCJQC9d+f
+ FIug==
+X-Gm-Message-State: AOAM532oFP6RLRsY8VVaunO+BJtc8xW2sB5XX6jtREnxv4vs7/g1dC9M
+ hpczxcvnMd8St4ffh+tQU9k=
+X-Google-Smtp-Source: ABdhPJy6XqcFmGXDv63ehn9ROdGwSdhgKDeCio+CzWSQLCH+bh6ZRGCC+CKG6qMdXiZCEoqZ1Ji1Dw==
+X-Received: by 2002:a05:6a00:148d:b029:19d:9622:bf7 with SMTP id
+ v13-20020a056a00148db029019d96220bf7mr52470016pfu.11.1609414265776; 
+ Thu, 31 Dec 2020 03:31:05 -0800 (PST)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id t23sm45957591pfc.0.2020.12.31.03.31.00
+ by smtp.gmail.com with ESMTPSA id t23sm45957591pfc.0.2020.12.31.03.31.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Dec 2020 03:31:02 -0800 (PST)
+ Thu, 31 Dec 2020 03:31:05 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Alistair Francis <alistair.francis@wdc.com>, qemu-block@nongnu.org,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 12/22] hw/sd: sd.h: Cosmetic change of using spaces
-Date: Thu, 31 Dec 2020 19:30:00 +0800
-Message-Id: <20201231113010.27108-13-bmeng.cn@gmail.com>
+Subject: [PATCH 13/22] hw/sd: Introduce receive_ready() callback
+Date: Thu, 31 Dec 2020 19:30:01 +0800
+Message-Id: <20201231113010.27108-14-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201231113010.27108-1-bmeng.cn@gmail.com>
 References: <20201231113010.27108-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,67 +90,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-QEMU conding convention prefers spaces over tabs.
+At present there is a data_ready() callback for the SD data read
+path. Let's add a receive_ready() for the SD data write path.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- include/hw/sd/sd.h | 42 +++++++++++++++++++++---------------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+ include/hw/sd/sd.h |  2 ++
+ hw/sd/core.c       | 13 +++++++++++++
+ hw/sd/sd.c         |  6 ++++++
+ 3 files changed, 21 insertions(+)
 
 diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
-index 59d108d453..05ef9b73e5 100644
+index 05ef9b73e5..47360ba4ee 100644
 --- a/include/hw/sd/sd.h
 +++ b/include/hw/sd/sd.h
-@@ -33,27 +33,27 @@
- #include "hw/qdev-core.h"
- #include "qom/object.h"
+@@ -116,6 +116,7 @@ struct SDCardClass {
+      * Return: byte value read
+      */
+     uint8_t (*read_byte)(SDState *sd);
++    bool (*receive_ready)(SDState *sd);
+     bool (*data_ready)(SDState *sd);
+     void (*set_voltage)(SDState *sd, uint16_t millivolts);
+     uint8_t (*get_dat_lines)(SDState *sd);
+@@ -187,6 +188,7 @@ void sdbus_write_data(SDBus *sdbus, const void *buf, size_t length);
+  * Read multiple bytes of data on the data lines of a SD bus.
+  */
+ void sdbus_read_data(SDBus *sdbus, void *buf, size_t length);
++bool sdbus_receive_ready(SDBus *sd);
+ bool sdbus_data_ready(SDBus *sd);
+ bool sdbus_get_inserted(SDBus *sd);
+ bool sdbus_get_readonly(SDBus *sd);
+diff --git a/hw/sd/core.c b/hw/sd/core.c
+index 08c93b5903..30ee62c510 100644
+--- a/hw/sd/core.c
++++ b/hw/sd/core.c
+@@ -160,6 +160,19 @@ void sdbus_read_data(SDBus *sdbus, void *buf, size_t length)
+     }
+ }
  
--#define OUT_OF_RANGE		(1 << 31)
--#define ADDRESS_ERROR		(1 << 30)
--#define BLOCK_LEN_ERROR		(1 << 29)
--#define ERASE_SEQ_ERROR		(1 << 28)
--#define ERASE_PARAM		(1 << 27)
--#define WP_VIOLATION		(1 << 26)
--#define CARD_IS_LOCKED		(1 << 25)
--#define LOCK_UNLOCK_FAILED	(1 << 24)
--#define COM_CRC_ERROR		(1 << 23)
--#define ILLEGAL_COMMAND		(1 << 22)
--#define CARD_ECC_FAILED		(1 << 21)
--#define CC_ERROR		(1 << 20)
--#define SD_ERROR		(1 << 19)
--#define CID_CSD_OVERWRITE	(1 << 16)
--#define WP_ERASE_SKIP		(1 << 15)
--#define CARD_ECC_DISABLED	(1 << 14)
--#define ERASE_RESET		(1 << 13)
--#define CURRENT_STATE		(7 << 9)
--#define READY_FOR_DATA		(1 << 8)
--#define APP_CMD			(1 << 5)
--#define AKE_SEQ_ERROR		(1 << 3)
-+#define OUT_OF_RANGE            (1 << 31)
-+#define ADDRESS_ERROR           (1 << 30)
-+#define BLOCK_LEN_ERROR         (1 << 29)
-+#define ERASE_SEQ_ERROR         (1 << 28)
-+#define ERASE_PARAM             (1 << 27)
-+#define WP_VIOLATION            (1 << 26)
-+#define CARD_IS_LOCKED          (1 << 25)
-+#define LOCK_UNLOCK_FAILED      (1 << 24)
-+#define COM_CRC_ERROR           (1 << 23)
-+#define ILLEGAL_COMMAND         (1 << 22)
-+#define CARD_ECC_FAILED         (1 << 21)
-+#define CC_ERROR                (1 << 20)
-+#define SD_ERROR                (1 << 19)
-+#define CID_CSD_OVERWRITE       (1 << 16)
-+#define WP_ERASE_SKIP           (1 << 15)
-+#define CARD_ECC_DISABLED       (1 << 14)
-+#define ERASE_RESET             (1 << 13)
-+#define CURRENT_STATE           (7 << 9)
-+#define READY_FOR_DATA          (1 << 8)
-+#define APP_CMD                 (1 << 5)
-+#define AKE_SEQ_ERROR           (1 << 3)
++bool sdbus_receive_ready(SDBus *sdbus)
++{
++    SDState *card = get_card(sdbus);
++
++    if (card) {
++        SDCardClass *sc = SD_CARD_GET_CLASS(card);
++
++        return sc->receive_ready(card);
++    }
++
++    return false;
++}
++
+ bool sdbus_data_ready(SDBus *sdbus)
+ {
+     SDState *card = get_card(sdbus);
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index 67e5f7c05d..f19e38625a 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -2036,6 +2036,11 @@ uint8_t sd_read_byte(SDState *sd)
+     return ret;
+ }
  
- enum SDPhySpecificationVersion {
-     SD_PHY_SPECv1_10_VERS     = 1,
++static bool sd_receive_ready(SDState *sd)
++{
++    return sd->state == sd_receivingdata_state;
++}
++
+ static bool sd_data_ready(SDState *sd)
+ {
+     return sd->state == sd_sendingdata_state;
+@@ -2147,6 +2152,7 @@ static void sd_class_init(ObjectClass *klass, void *data)
+     sc->do_command = sd_do_command;
+     sc->write_byte = sd_write_byte;
+     sc->read_byte = sd_read_byte;
++    sc->receive_ready = sd_receive_ready;
+     sc->data_ready = sd_data_ready;
+     sc->enable = sd_enable;
+     sc->get_inserted = sd_get_inserted;
 -- 
 2.25.1
 
