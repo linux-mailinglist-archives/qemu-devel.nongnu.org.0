@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F5D02E828A
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 23:53:53 +0100 (CET)
-Received: from localhost ([::1]:55758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639B42E8285
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 23:53:30 +0100 (CET)
+Received: from localhost ([::1]:53986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kv6pM-0006KO-B9
-	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 17:53:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48886)
+	id 1kv6oz-0005N0-EP
+	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 17:53:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kv6lE-0000zT-Pz
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:49:36 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:56012)
+ id 1kv6lJ-0001D1-Rb
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:49:41 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kv6lD-0006Lg-Fh
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:49:36 -0500
-Received: by mail-wm1-x330.google.com with SMTP id c124so8138289wma.5
- for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 14:49:35 -0800 (PST)
+ id 1kv6lI-0006N0-E0
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:49:41 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id r3so21064445wrt.2
+ for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 14:49:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HCV6hM+D7eP0IiKfRG2kbILOOq4+o/HRgbbPJbxLHKY=;
- b=qrQIJXU5zI+od83uHpIwGReSAKMqujZWIDkpoYJvIKqm7ofx79Yd69un4MwrmyNnZO
- bqL4dmhX+eNeKenj/f+wFAg8ywHck9ANSrCmegZ7ghV4fy+/Te91EG96Se/lzEvpXlgt
- jIv/rFkoam/nI6UhNfUt7bSfQ9bj1Ifb8whDoH2ScXqNaufYaipFBxZ4KwlqIul7hn2r
- F7XAA8kw+rEKDMMUwygXKkAku1PR3KXLjGlaJdL3Sj2F3ucvkNWAtwik9fBcTbgKSxfl
- VBhbgA+UeOV9PtbJjI6QzOWhbx1u8uoIRsxZf38sgTLn/qQo5S2458SpbCT/lEvxQvkN
- 4m/Q==
+ bh=9dbQcqp+ljH9dixNyANVfZXDH8+4pVph9oe3JUeTn5w=;
+ b=KTkMcdaLQ+M+6Ujn+w8NnLe6S5cMiDheHSv5aKm6zbRR4jXPap3Aks7r2G383Y/PXa
+ 4LGFww/mf7y96WMTwJXDMoe/iz2LfAIlu/ty5PSiF5EgY49r8MWFVRPhRlf2YlvOeKxw
+ SAZhQcU9Dtzyeiv/xzhO1ACYq/iugoh5QP32MIZpDyVf2vPRWNHiaB7XxU9x+1E9Ok39
+ 2kEKchFOMTC6YxuzpBg3TIkbV3VQoGO6J3JchDFerNW4e5Y/BBDrsDhSD4VzYcPGzG28
+ Yhh8XkBcjt/9f4KtMKUaOA8ZEaBXVQfTu/YYM8lS4iW2fLseOecllO1xo3hbnlonHCQg
+ 4dLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HCV6hM+D7eP0IiKfRG2kbILOOq4+o/HRgbbPJbxLHKY=;
- b=rCuwDoT/ks7wGr1RuD14j5QsCzx3cRedwhv/ZYqAz3OZdl9z5KCtpg5aFDD27ZeK2u
- fir3348dlRpyHfJAxOkTUGjN1jDhyk265PqiqApFpB0BnmVfWieZBjjcFgxYo3LAEfDP
- /tcjmD8eVst4mQXJux6Y1RVwvPCaGei8dRSPkjcyWIm5YLK2O0kChsh2RRT2/MGBxh6r
- rTQyxdV9rbaszcwWJCEkw1gLhbtSpT3hyKB2flZDpiXp2DVbyriGhmIdeHOTcLdEo/e4
- kKanDZYNHLRqNWYAFjOIaKkLFKDNksHY2KEPA3Pa9CDUnfwRc0WKIrTxg9UfkjZNCuJg
- ubZw==
-X-Gm-Message-State: AOAM530IkeWMkXWZKMrzJBjknWNLbC7HtIbN3iQfqM/QKeQzi+XDF/XE
- AGHzvD25SpreAt6MR75cyk0z69nhnTI=
-X-Google-Smtp-Source: ABdhPJwb+22KqIXjUg51dPk2CF7bVRFAnblDdwgi/CnnwgSMXGL+KYIQbVY5P9mSo2CUMoelDzLFtQ==
-X-Received: by 2002:a1c:9e86:: with SMTP id
- h128mr13817940wme.171.1609454974071; 
- Thu, 31 Dec 2020 14:49:34 -0800 (PST)
+ bh=9dbQcqp+ljH9dixNyANVfZXDH8+4pVph9oe3JUeTn5w=;
+ b=spvZSR/gIQ9/d+xpJvFfaaT5rEqgiAi325tC7cg1Fit03c1oX9vDdpoPgkXQyYTy1+
+ ETffCRxOXk+tLFemH7YgPbn+5ZJQpSHEzQjc7uNgr6PG6c+nmgWsc7H/T9Hm2O9HCF+M
+ t6GMQ8p+3nASkFEIxASjD0dsUVtqZu7SuDTNV5W6zKah2lvKzT/i3UQOobkuj73pfML3
+ 9ycotz6m6bjdIjP2iG36guHvPi4LanTeehaid5bk7soNNzAlHgNSYE1cwnvICAGJ/wM5
+ h3OQjfdIes9iz6L7ZeU8exbRt/P0xCi6jgm6+V7JhTszhUzgmczCRq4OG9e95/aMFh6s
+ KhgA==
+X-Gm-Message-State: AOAM530KwD9KzK1L1t731JXF6KWTCS+bpB/Tv7kRSU05oPNx8fw21moD
+ 0JhpqL++RoMeCByzOZ08rReaaqYuzdI=
+X-Google-Smtp-Source: ABdhPJz2XQ//XEm+IRLh1Rvisu6ftnBMqMOTpVRXTV/2Ql2zgghbFzJkvhvddkkYz5IjAIKtbtrYFQ==
+X-Received: by 2002:a5d:540f:: with SMTP id g15mr66744461wrv.397.1609454978926; 
+ Thu, 31 Dec 2020 14:49:38 -0800 (PST)
 Received: from localhost.localdomain (239.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.239])
- by smtp.gmail.com with ESMTPSA id n16sm33339556wrj.26.2020.12.31.14.49.32
+ by smtp.gmail.com with ESMTPSA id f14sm14235284wme.14.2020.12.31.14.49.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Dec 2020 14:49:33 -0800 (PST)
+ Thu, 31 Dec 2020 14:49:38 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/18] hw/pci-host/bonito: Use pci_config_set_interrupt_pin()
-Date: Thu, 31 Dec 2020 23:48:57 +0100
-Message-Id: <20201231224911.1467352-5-f4bug@amsat.org>
+Subject: [PATCH 05/18] hw/pci-host/bonito: Simplify soft reset using
+ FIELD_EX32()
+Date: Thu, 31 Dec 2020 23:48:58 +0100
+Message-Id: <20201231224911.1467352-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201231224911.1467352-1-f4bug@amsat.org>
 References: <20201231224911.1467352-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,28 +93,41 @@ Cc: Aurelien Jarno <aurelien@aurel32.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace pci_set_byte(PCI_INTERRUPT_PIN) by
-pci_config_set_interrupt_pin().
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/bonito.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/pci-host/bonito.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index 4c903d4f682..fe94e6740b5 100644
+index fe94e6740b5..104c58331d0 100644
 --- a/hw/pci-host/bonito.c
 +++ b/hw/pci-host/bonito.c
-@@ -723,7 +723,8 @@ static void bonito_realize(PCIDevice *dev, Error **errp)
-     pci_set_word(dev->config + PCI_SUBSYSTEM_ID, 0x0000);
+@@ -244,7 +244,6 @@ static void bonito_writel(void *opaque, hwaddr addr,
+ {
+     PCIBonitoState *s = opaque;
+     uint32_t saddr;
+-    int reset = 0;
  
-     pci_set_byte(dev->config + PCI_INTERRUPT_LINE, 0x00);
--    pci_set_byte(dev->config + PCI_INTERRUPT_PIN, 0x01);
-+    pci_config_set_interrupt_pin(dev->config, 0x01); /* interrupt pin A */
-+
-     pci_set_byte(dev->config + PCI_MIN_GNT, 0x3c);
-     pci_set_byte(dev->config + PCI_MAX_LAT, 0x00);
+     saddr = addr >> 2;
  
+@@ -277,13 +276,12 @@ static void bonito_writel(void *opaque, hwaddr addr,
+         s->regs[saddr] = val;
+         break;
+     case BONITO_BONGENCFG:
+-        if (!(s->regs[saddr] & 0x04) && (val & 0x04)) {
+-            reset = 1; /* bit 2 jump from 0 to 1 cause reset */
+-        }
+-        s->regs[saddr] = val;
+-        if (reset) {
++        if (!FIELD_EX32(s->regs[saddr], BONGENCFG, CPUSELFRESET)
++                && FIELD_EX32(val, BONGENCFG, CPUSELFRESET)) {
++            /* bit 2 jump from 0 to 1 cause reset */
+             qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+         }
++        s->regs[saddr] = val;
+         break;
+     case BONITO_INTENSET:
+         s->regs[BONITO_INTENSET] = val;
 -- 
 2.26.2
 
