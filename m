@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF1D2E827B
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 23:50:45 +0100 (CET)
-Received: from localhost ([::1]:45424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6292E827C
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 23:50:53 +0100 (CET)
+Received: from localhost ([::1]:46284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kv6mJ-0001cs-MY
-	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 17:50:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48830)
+	id 1kv6mS-0001yB-7W
+	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 17:50:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kv6kw-0000QA-7C
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:49:18 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51688)
+ id 1kv6l0-0000UN-By
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:49:22 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kv6ku-0006Fe-H0
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:49:17 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id v14so8146766wml.1
- for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 14:49:16 -0800 (PST)
+ id 1kv6kz-0006H1-1I
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:49:22 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id d13so21001140wrc.13
+ for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 14:49:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Bk0tYZBjX7UVR6Ibma6lL1omMrXDLuBQAWgVPIYBj4U=;
- b=dNWyF8JVwpw6CDErbPsCJiVvMc4SkCRDbGXDq4bIMgZHWxjufiuM3X017a6Nja/GjG
- wVEFvGtKNCVOa+uJB41/42Em9cuzkEaWp6rYYn9uJrw8J5tDoUqxBm/r01ROX6RUCZwh
- Ixe0COE/XPvj4dGSOxnvXEkJ3nmRSjLW5kMmofWzHpMlbYaTbXiu4swF+MlQ2p75wYNW
- i+1mX3ju7gQlWimeAS7H6R6q7/nWGJjq+0cUGVbb17bVKU9oHgUDV3FLr17L8RXC8rvF
- PsiilWQv5RiF7xC286V4CJ1fgqOnNjCXX9zR4V1jzQUhDL+hkF5QXTGFAFmfJ2jZKKjU
- KgUA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SOhKBz9bQ6VQPdGkLKDSp+AoU5nJP8IFyHDySBpgUlw=;
+ b=VTJkgzymKsJFiPovzuEyYLOZRbtxsP0BcwV+kaCkZcP8o/6ATiRnOiF5TeaXiHEo7Q
+ sgt5i/qF61zbyTY3XhmFKJd3N7hNcWgdeDUhUpgZti5XdLB/rw57tffgn00zcvY2tWKh
+ wu+grp0vgKdXvBF2GOKLzMp9Gpn8/9F3ztoSYVimO26govlg9OVHP4SF+iXw09Bg+edH
+ 3MU+MBvkKIoxoNuitBGlul6Z/6bgxd1M5rw+QPlN3md0lx3n930ROY7rB/N8N7ynWRMs
+ AKiaYU+hGfOQNEZLY7+13wsp+4J4m3jE6LUsZ1JbV5LyuvWo5J+vKzglg79FjKK4O4Sd
+ okeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Bk0tYZBjX7UVR6Ibma6lL1omMrXDLuBQAWgVPIYBj4U=;
- b=FgdkPhKEhQMb/M1r5qUc3Lv0z/gHCj+1cKuqXKrUBptz8NnZk3IxAXfDRn7z4mwfqc
- ssjqr6d1deHhEPq3gYdmwjnpBDkZmCC+8pteXPB5DXnDJuPQU6A9EAs1hkHc1DNvfpKZ
- 7w2GZwyrIpv9okNdu7+juXRDYh7xKkBjnZIAkiN+O1h6xoQV4soLzBzAOYfrDEsarQh3
- n8uLKeUzULwTd7RKEJfbaPvC4laWEd6fM71j44vmfBYMjWnLBJoGVoTXUFIATc8yqtZU
- SqmVr1QXWWTnG+mvjvHvaxvz8pM0yKwqQzqb6JYjPikYKL0Uqb/D8tJlhkrRqVBcmI4w
- z0bg==
-X-Gm-Message-State: AOAM532TQ/vFqmsOyKmGMnoqV4UWOWZXySkJ7qR6iH7vXxbYBCTVH2MN
- ALy6hrU1eucFy70fwFn3ZCkklqPxKxo=
-X-Google-Smtp-Source: ABdhPJwgmGzf6D4j0J7ZSLYab1KxPAPDRx32w7Q7LlsqB/EYiB3gzCK42COpmhzHUPKg7zguQmCkIw==
-X-Received: by 2002:a7b:cf30:: with SMTP id m16mr13144343wmg.145.1609454954663; 
- Thu, 31 Dec 2020 14:49:14 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=SOhKBz9bQ6VQPdGkLKDSp+AoU5nJP8IFyHDySBpgUlw=;
+ b=sszKF0QeEaXEPZBGXwIf/rAtu24uEJhAIrN9GpVcTlDeO+zew3MNN/NFuyF1JFiWDb
+ 6d04wRa2XjKsdgVKKT7ElW0UpCESXxGS4kdTKRAM+q62ZiPMc0i0seQIIsfwhNzLo4x9
+ 7v+Fdi1vkkScAbDngNJJj9cwT2TDlw8zu1OxNdDVXp+gxaPGy1q9/nmMD96gbjIUhjb+
+ 4UtZXhT4YS7Vj0wBrf4pNgLKE0j4ZPNwWa0Erjl3V70Eh/E+/XuVcrIemWwBYtgdDsBv
+ 9Q05vbrMrj4eOQ8E1cPuPTnQau9HjFKjPTvs0T3/2hogzuhxBCO010+oAZmKWHbMbj6u
+ dhGQ==
+X-Gm-Message-State: AOAM533281I1hV4lAqQpX3BBWIVi3klo1WgkGn+fjjJ648nzvekpb0Ht
+ hQs7m4OwII7TIsHesmuBeRDVCr6aaBg=
+X-Google-Smtp-Source: ABdhPJy7gNWuIxWfnM+zbZPWMebEMV1VJxglH4vLVmd+6/JbMZSao2Y6FSi5dLn7psDcF6gOErLA+g==
+X-Received: by 2002:adf:a34d:: with SMTP id d13mr66754667wrb.194.1609454959508; 
+ Thu, 31 Dec 2020 14:49:19 -0800 (PST)
 Received: from localhost.localdomain (239.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.239])
- by smtp.gmail.com with ESMTPSA id n11sm58473427wra.9.2020.12.31.14.49.13
+ by smtp.gmail.com with ESMTPSA id l20sm77266228wrh.82.2020.12.31.14.49.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Dec 2020 14:49:13 -0800 (PST)
+ Thu, 31 Dec 2020 14:49:18 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/18] hw/pci-host/bonito: Remap PCI "lo" regions when
- PCIMAP reg is modified
-Date: Thu, 31 Dec 2020 23:48:53 +0100
-Message-Id: <20201231224911.1467352-1-f4bug@amsat.org>
+Subject: [PATCH 01/18] hw/pci-host/bonito: Remove unused definitions
+Date: Thu, 31 Dec 2020 23:48:54 +0100
+Message-Id: <20201231224911.1467352-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201231224911.1467352-1-f4bug@amsat.org>
+References: <20201231224911.1467352-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,50 +92,29 @@ Cc: Aurelien Jarno <aurelien@aurel32.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patches I wrote while reviewing/testing Jiaxun's v3 [1] trying=0D
-to understand the problem with "Fixup pci.lomem mapping" [2].=0D
-=0D
-The issue should be fixed by patch #8 of this series:=0D
-'Remap PCI "lo" regions when PCIMAP reg is modified'.=0D
-The rest are cleanups patches.=0D
-=0D
-Happy new year,=0D
-=0D
-Phil.=0D
-=0D
-[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg769286.html=0D
-[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg769294.html=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (18):=0D
-  hw/pci-host/bonito: Remove unused definitions=0D
-  hw/pci-host/bonito: Display hexadecimal value with '0x' prefix=0D
-  hw/pci-host/bonito: Use PCI_DEVFN() macro=0D
-  hw/pci-host/bonito: Use pci_config_set_interrupt_pin()=0D
-  hw/pci-host/bonito: Simplify soft reset using FIELD_EX32()=0D
-  hw/pci-host/bonito: Do not allow big-endian targets=0D
-  hw/pci-host/bonito: Make BONPONCFG register read-only=0D
-  hw/pci-host/bonito: Remap PCI "lo" regions when PCIMAP reg is modified=0D
-  hw/pci-host/bonito: Rename north bridge helpers=0D
-  hw/pci-host/bonito: Rename PCI host helpers=0D
-  hw/pci-host/bonito: Rename PCI function helpers=0D
-  hw/pci-host/bonito: Rename PCIBonitoState -> BonitoPciState=0D
-  hw/pci-host/bonito: Create PCI regions in bonito_host_realize()=0D
-  hw/pci-host/bonito: Simplify using pci_host_conf_le_ops=0D
-    MemoryRegionOps=0D
-  hw/pci-host/bonito: Map north bridge region in bonito_host_realize()=0D
-  hw/pci-host/bonito: Create TYPE_PCI_BONITO in bonito_host_realize()=0D
-  hw/pci-host/bonito: Declare TYPE_BONITO_PCI_HOST_BRIDGE in include/=0D
-  hw/mips/fuloong2e: Inline bonito_init()=0D
-=0D
- include/hw/mips/mips.h       |   3 -=0D
- include/hw/pci-host/bonito.h |  34 ++++=0D
- hw/mips/fuloong2e.c          |   7 +-=0D
- hw/pci-host/bonito.c         | 357 +++++++++++++++--------------------=0D
- MAINTAINERS                  |   1 +=0D
- 5 files changed, 197 insertions(+), 205 deletions(-)=0D
- create mode 100644 include/hw/pci-host/bonito.h=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/pci-host/bonito.c | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
+index a99eced0657..0634f3289c4 100644
+--- a/hw/pci-host/bonito.c
++++ b/hw/pci-host/bonito.c
+@@ -189,12 +189,6 @@ FIELD(BONGENCFG, PCIQUEUE,      12, 1)
+ #define BONITO_PCICONF_REG_MASK        0xFC
+ #define BONITO_PCICONF_REG_OFFSET      0
+ 
+-
+-/* idsel BIT = pci slot number +12 */
+-#define PCI_SLOT_BASE              12
+-#define PCI_IDSEL_VIA686B_BIT      (17)
+-#define PCI_IDSEL_VIA686B          (1 << PCI_IDSEL_VIA686B_BIT)
+-
+ #define PCI_ADDR(busno , devno , funno , regno)  \
+     ((((busno) << 16) & 0xff0000) + (((devno) << 11) & 0xf800) + \
+     (((funno) << 8) & 0x700) + (regno))
+-- 
+2.26.2
+
 
