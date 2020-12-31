@@ -2,66 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E122E81ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 21:33:41 +0100 (CET)
-Received: from localhost ([::1]:59540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477D12E81F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 21:39:53 +0100 (CET)
+Received: from localhost ([::1]:41926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kv4df-0003uz-MM
-	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 15:33:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52814)
+	id 1kv4jf-0001QL-RD
+	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 15:39:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kv4as-0002zi-LJ
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 15:30:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kv4an-0007f5-Q6
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 15:30:46 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kv4al-0005po-JS
- for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 20:30:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 836AC2E8137
- for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 20:30:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kv4gq-0006Sm-P6
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 15:36:56 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:33610)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kv4gn-0001WX-6S
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 15:36:55 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id EE4EF7470F2;
+ Thu, 31 Dec 2020 21:36:50 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B4FFD7470E4; Thu, 31 Dec 2020 21:36:50 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id AFF2474645F;
+ Thu, 31 Dec 2020 21:36:50 +0100 (CET)
+Date: Thu, 31 Dec 2020 21:36:50 +0100 (CET)
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 3/3] trace: recommend "log" backend for getting started
+ with tracing
+In-Reply-To: <CAFEAcA8_cFGtU=_6a7XzD6ky-fvn1k9_usjaKrwjBxAP2Ls3Yg@mail.gmail.com>
+Message-ID: <8b81184b-b0b6-2b1b-62c-8de94c279e70@eik.bme.hu>
+References: <20201216160923.722894-1-stefanha@redhat.com>
+ <20201216160923.722894-4-stefanha@redhat.com>
+ <CAFEAcA8_cFGtU=_6a7XzD6ky-fvn1k9_usjaKrwjBxAP2Ls3Yg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 31 Dec 2020 20:20:50 -0000
-From: ON7WPI <1909770@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: cris linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: on7wpi pmaydell
-X-Launchpad-Bug-Reporter: ON7WPI (on7wpi)
-X-Launchpad-Bug-Modifier: ON7WPI (on7wpi)
-References: <160943407589.12883.6323653042448683983.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160944605086.16372.16168663876981260924.malone@gac.canonical.com>
-Subject: [Bug 1909770] Re: qemu-cris segfaults upon loading userspace binary
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 5f95ae12ad56f136e17b15e584947891b01b1775
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,274 +58,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1909770 <1909770@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-That did indeed fix it, thank you!
+On Thu, 31 Dec 2020, Peter Maydell wrote:
+> On Wed, 16 Dec 2020 at 16:09, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>>
+>> The "simple" backend is actually more complicated to use than the "log"
+>> backend. Update the quickstart documentation to feature the "log"
+>> backend instead of the "simple" backend.
+>>
+>> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>> ---
+>>  docs/devel/tracing.rst | 35 ++++++++++++++++++-----------------
+>>  1 file changed, 18 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
+>> index 76cc1b24fa..e60058bf55 100644
+>> --- a/docs/devel/tracing.rst
+>> +++ b/docs/devel/tracing.rst
+>> @@ -11,22 +11,22 @@ for debugging, profiling, and observing execution.
+>>  Quickstart
+>>  ==========
+>>
+>> -1. Build with the 'simple' trace backend::
+>> +Enable tracing of ``memory_region_ops_read`` and ``memory_region_ops_write``
+>> +events::
+>>
+>> -    ./configure --enable-trace-backends=simple
+>> -    make
+>> +    $ qemu --trace "memory_region_ops_*" ...
+>> +    ...
+>> +    719585@1608130130.441188:memory_region_ops_read cpu 0 mr 0x562fdfbb3820 addr 0x3cc value 0x67 size 1
+>> +    719585@1608130130.441190:memory_region_ops_write cpu 0 mr 0x562fdfbd2f00 addr 0x3d4 value 0x70e size 2
+>>
+>> -2. Create a file with the events you want to trace::
+>> +This output comes from the "log" trace backend that is enabled by default when
+>> +``./configure --enable-trace-backends=BACKENDS`` was not explicitly specified.
+>>
+>> -    echo memory_region_ops_read >/tmp/events
+>> +More than one trace event pattern can be specified by providing a file
+>> +instead::
+>
+> Does --trace really not let you specify more than one pattern
+> without resorting to putting them into a file? That sounds like a
+> deficiency compared to -d (which allows -d trace:PATTERN,trace:PATTERN...)
+> that we could look at fixing...
 
--- =
+Ir's possible to give more patterns in multiple options, I'm using that, 
+such as:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1909770
+-trace enable="pci*" -trace enable="ide*"
 
-Title:
-  qemu-cris segfaults upon loading userspace binary
+For a lot of patterns using a file may be clearer though.
 
-Status in QEMU:
-  New
+This reminds me to the plainlog backend I've submitted. What happened to 
+that? See:
 
-Bug description:
-  I am on commit 65a3c5984074313602fb5f61cc5f464abfb020c7 (latest as far
-  as I know). I compiled qemu with --enable-debug.
+https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg07296.html
 
-  I'm trying to run a userspace CRIS binary (`./qemu-cris -cpu crisv10
-  ./basic`), but this segfaults. When opening the coredump in gdb, I get
+I'd like a solution that can be set at compile time and does not need 
+another command line option to turn off time stamps. (Timestamps are 
+annoyong when comparing logs that's often necessary to check changes.) I'm 
+still using my plainlog patch but I have to disable that when bisecting.
 
-  gdb-peda$ bt
-  #0  0x00007f272a2e1ee1 in __memset_avx2_erms () from /usr/lib/libc.so.6
-  #1  0x0000564a2f7bcda7 in zero_bss (elf_bss=3D0x82134, last_bss=3D0x84000=
-, =
+Regards,
+BALATON Zoltan
 
-      prot=3D0x3) at ../linux-user/elfload.c:1865
-  #2  0x0000564a2f7bff65 in load_elf_image (
-      image_name=3D0x7fffe9f5703d "./basic", image_fd=3D0x3, =
-
-      info=3D0x7fffe9f547c0, pinterp_name=3D0x7fffe9f545b0, =
-
-      bprm_buf=3D0x7fffe9f54920 "\177ELF\001\001\001")
-      at ../linux-user/elfload.c:2801
-  #3  0x0000564a2f7c0a12 in load_elf_binary (bprm=3D0x7fffe9f54920, =
-
-      info=3D0x7fffe9f547c0) at ../linux-user/elfload.c:3104
-  #4  0x0000564a2f81f290 in loader_exec (fdexec=3D0x3, =
-
-      filename=3D0x7fffe9f5703d "./basic", argv=3D0x564a2f9f3cc0, =
-
-      envp=3D0x564a2fa12600, regs=3D0x7fffe9f54860, infop=3D0x7fffe9f547c0, =
-
-      bprm=3D0x7fffe9f54920) at ../linux-user/linuxload.c:147
-  #5  0x0000564a2f7c4f9f in main (argc=3D0x4, argv=3D0x7fffe9f54e78, =
-
-      envp=3D0x7fffe9f54ea0) at ../linux-user/main.c:808
-  #6  0x00007f272a1a4152 in __libc_start_main () from /usr/lib/libc.so.6
-  #7  0x0000564a2f786cee in _start ()
-
-  Or as a full backtrace:
-  gdb-peda$ bt full
-  #0  0x00007f272a2e1ee1 in __memset_avx2_erms () from /usr/lib/libc.so.6
-  No symbol table info available.
-  #1  0x0000564a2f7bcda7 in zero_bss (elf_bss=3D0x82134, last_bss=3D0x84000=
-, =
-
-      prot=3D0x3) at ../linux-user/elfload.c:1865
-          host_start =3D 0x92134
-          host_map_start =3D 0x93000
-          host_end =3D 0x94000
-  #2  0x0000564a2f7bff65 in load_elf_image (
-      image_name=3D0x7fffe9f5703d "./basic", image_fd=3D0x3, =
-
-      info=3D0x7fffe9f547c0, pinterp_name=3D0x7fffe9f545b0, =
-
-      bprm_buf=3D0x7fffe9f54920 "\177ELF\001\001\001")
-      at ../linux-user/elfload.c:2801
-          vaddr =3D 0x82134
-          vaddr_em =3D 0x82140
-          vaddr_len =3D 0x2000
-          vaddr_po =3D 0x134
-          vaddr_ps =3D 0x82000
-          vaddr_ef =3D 0x82134
-          elf_prot =3D 0x3
-          eppnt =3D 0x7fffe9f54974
-          ehdr =3D 0x7fffe9f54920
-          phdr =3D 0x7fffe9f54954
-          load_addr =3D 0x80000
-          load_bias =3D 0x0
-          loaddr =3D 0x80000
-          hiaddr =3D 0x1082140
-          error =3D 0x80000
-          i =3D 0x1
-          retval =3D 0x273d2e9c
-          prot_exec =3D 0x4
-          err =3D 0x0
-          __func__ =3D "load_elf_image"
-  #3  0x0000564a2f7c0a12 in load_elf_binary (bprm=3D0x7fffe9f54920, =
-
-      info=3D0x7fffe9f547c0) at ../linux-user/elfload.c:3104
-          interp_info =3D {
-            load_bias =3D 0x0,
-            load_addr =3D 0x0,
-            start_code =3D 0x0,
-            end_code =3D 0x0,
-            start_data =3D 0x0,
-            end_data =3D 0x0,
-            start_brk =3D 0x0,
-            brk =3D 0x0,
-            reserve_brk =3D 0x0,
-            start_mmap =3D 0x0,
-            start_stack =3D 0x0,
-            stack_limit =3D 0x0,
-            entry =3D 0x0,
-            code_offset =3D 0x0,
-            data_offset =3D 0x0,
-            saved_auxv =3D 0x0,
-            auxv_len =3D 0x0,
-            arg_start =3D 0x0,
-            arg_end =3D 0x0,
-            arg_strings =3D 0x0,
-            env_strings =3D 0x0,
-            file_string =3D 0x0,
-            elf_flags =3D 0x0,
-            personality =3D 0x0,
-            alignment =3D 0x0,
-            loadmap_addr =3D 0x0,
-            nsegs =3D 0x0,
-            loadsegs =3D 0x0,
-            pt_dynamic_addr =3D 0x0,
-            interpreter_loadmap_addr =3D 0x0,
-            interpreter_pt_dynamic_addr =3D 0x0,
-            other_info =3D 0x0,
-            note_flags =3D 0x0
-          }
-          elf_ex =3D {
-            e_ident =3D "|\214\t1\000\000\000\000\262\002\356_\000\000\000",
-            e_type =3D 0x8c7c,
-            e_machine =3D 0x3109,
-            e_version =3D 0x0,
-            e_entry =3D 0x5fee02b2,
-            e_phoff =3D 0x0,
-            e_shoff =3D 0x31098c7c,
-            e_flags =3D 0x0,
-            e_ehsize =3D 0x0,
-            e_phentsize =3D 0x0,
-            e_phnum =3D 0x0,
-            e_shentsize =3D 0x0,
-            e_shnum =3D 0x0,
-            e_shstrndx =3D 0x0
-          }
-          elf_interpreter =3D 0x0
-          scratch =3D 0x7f272a358021 <read+97> "H\213D$\bH\203\304(\303\017=
-\037D"
-  #4  0x0000564a2f81f290 in loader_exec (fdexec=3D0x3, =
-
-      filename=3D0x7fffe9f5703d "./basic", argv=3D0x564a2f9f3cc0, =
-
-      envp=3D0x564a2fa12600, regs=3D0x7fffe9f54860, infop=3D0x7fffe9f547c0, =
-
-      bprm=3D0x7fffe9f54920) at ../linux-user/linuxload.c:147
-          retval =3D 0x400
-  #5  0x0000564a2f7c4f9f in main (argc=3D0x4, argv=3D0x7fffe9f54e78, =
-
-      envp=3D0x7fffe9f54ea0) at ../linux-user/main.c:808
-          regs1 =3D {
-            orig_r10 =3D 0x0,
-            r0 =3D 0x0,
-            r1 =3D 0x0,
-            r2 =3D 0x0,
-            r3 =3D 0x0,
-            r4 =3D 0x0,
-            r5 =3D 0x0,
-            r6 =3D 0x0,
-            r7 =3D 0x0,
-            r8 =3D 0x0,
-            r9 =3D 0x0,
-            r10 =3D 0x0,
-            r11 =3D 0x0,
-            r12 =3D 0x0,
-            r13 =3D 0x0,
-            acr =3D 0x0,
-            srs =3D 0x0,
-            mof =3D 0x0,
-            spc =3D 0x0,
-            ccs =3D 0x0,
-            srp =3D 0x0,
-            erp =3D 0x0,
-            exs =3D 0x0,
-            eda =3D 0x0
-          }
-          regs =3D 0x7fffe9f54860
-          info1 =3D {
-            load_bias =3D 0x0,
-            load_addr =3D 0x80000,
-            start_code =3D 0x80000,
-            end_code =3D 0x80133,
-            start_data =3D 0xffffffff,
-            end_data =3D 0x0,
-            start_brk =3D 0x0,
-            brk =3D 0x80133,
-            reserve_brk =3D 0x1000000,
-            start_mmap =3D 0x80000000,
-            start_stack =3D 0x0,
-            stack_limit =3D 0x0,
-            entry =3D 0x80106,
-            code_offset =3D 0x0,
-            data_offset =3D 0x0,
-            saved_auxv =3D 0x0,
-            auxv_len =3D 0x0,
-            arg_start =3D 0x0,
-            arg_end =3D 0x0,
-            arg_strings =3D 0x0,
-            env_strings =3D 0x0,
-            file_string =3D 0x0,
-            elf_flags =3D 0x0,
-            personality =3D 0x0,
-            alignment =3D 0x2000,
-            loadmap_addr =3D 0x0,
-            nsegs =3D 0x2,
-            loadsegs =3D 0x0,
-            pt_dynamic_addr =3D 0x0,
-            interpreter_loadmap_addr =3D 0x0,
-            interpreter_pt_dynamic_addr =3D 0x0,
-            other_info =3D 0x0,
-            note_flags =3D 0x0
-          }
-          info =3D 0x7fffe9f547c0
-          bprm =3D {
-            buf =3D "\177ELF\001\001\001\000\000\000\000\000\000\000\000\00=
-0\002\000L\000\001\000\000\000\006\001\b\000\064\000\000\000\264\006\000\00=
-0\000\000\000\000\064\000 \000\003\000(\000\016\000\r\000\001\000\000\000\0=
-00\000\000\000\000\000\b\000\000\000\b\000\063\001\000\000\063\001\000\000\=
-005\000\000\000\000 \000\000\001\000\000\000\064\001\000\000\064!\b\000\064=
-!\b\000\000\000\000\000\f\000\000\000\006\000\000\000\000 \000\000\004\000\=
-000\000\224\000\000\000\224\000\b\000\224\000\b\000$\000\000\000$\000\000\0=
-00\004\000\000\000\004\000\000\000\004\000\000\000\024\000\000\000\003\000\=
-000\000GNU\000PH\017'i\204\231\070e\000\247\376\211\230\236\336Nf7\372\204\=
-342\356\213n\206\214\342\374\201\352\253\370\201\353\273"...,
-            p =3D 0x0,
-            fd =3D 0x3,
-            e_uid =3D 0x3e8,
-            e_gid =3D 0x3d9,
-            argc =3D 0x1,
-            envc =3D 0x43,
-            argv =3D 0x564a2f9f3cc0,
-            envp =3D 0x564a2fa12600,
-            filename =3D 0x7fffe9f5703d "./basic",
-            core_dump =3D 0x0
-          }
-          ts =3D 0x564a2fa25400
-          env =3D 0x564a2fa24a08
-          cpu =3D 0x564a2fa1c730
-          optind =3D 0x3
-          target_environ =3D 0x564a2fa12600
-          wrk =3D 0x7fffe9f550b8
-          target_argv =3D 0x564a2f9f3cc0
-          target_argc =3D 0x1
-          i =3D 0x1
-          ret =3D 0x7fff
-          execfd =3D 0x3
-          log_mask =3D 0x0
-          max_reserved_va =3D 0xffffe000
-  #6  0x00007f272a1a4152 in __libc_start_main () from /usr/lib/libc.so.6
-  No symbol table info available.
-  #7  0x0000564a2f786cee in _start ()
-  No symbol table info available.
-
-  =
-
-  The binary itself is just a basic binary that prints "hello\n" to stdout.=
- I have attached it.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1909770/+subscriptions
+> Anyway,
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>
+> thanks
+> -- PMM
+>
+>
 
