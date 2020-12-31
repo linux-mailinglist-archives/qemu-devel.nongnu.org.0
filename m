@@ -2,49 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E6D2E8212
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 21:59:20 +0100 (CET)
-Received: from localhost ([::1]:48984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF1D2E827B
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 23:50:45 +0100 (CET)
+Received: from localhost ([::1]:45424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kv52V-0005hD-Ta
-	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 15:59:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57910)
+	id 1kv6mJ-0001cs-MY
+	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 17:50:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kv51T-0005FR-96; Thu, 31 Dec 2020 15:58:15 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:51870)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kv51R-0000l9-KI; Thu, 31 Dec 2020 15:58:15 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A8AC17470F3;
- Thu, 31 Dec 2020 21:58:11 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 77BB37470F2; Thu, 31 Dec 2020 21:58:11 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 75B1074645F;
- Thu, 31 Dec 2020 21:58:11 +0100 (CET)
-Date: Thu, 31 Dec 2020 21:58:11 +0100 (CET)
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 3/3] sam460ex: Clean up irq mapping
-In-Reply-To: <79681dc2-d689-4518-a83-dead38dd6e8@eik.bme.hu>
-Message-ID: <c1ab3a3b-1357-fdea-e042-28945e19319@eik.bme.hu>
-References: <cover.1609413115.git.balaton@eik.bme.hu>
- <6892fc8ac57283bf7ba27fe89ea9dbdd6a37f988.1609413115.git.balaton@eik.bme.hu>
- <CAFEAcA96wr_+DmXfR5ba_MEPB+sBow-QR1wpvSvKawus7qzKVg@mail.gmail.com>
- <CAFEAcA_bAjvx1oWO1DGimmThE7BhGHE0EqCoCR4nhuO3DMY_2g@mail.gmail.com>
- <79681dc2-d689-4518-a83-dead38dd6e8@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kv6kw-0000QA-7C
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:49:18 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51688)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kv6ku-0006Fe-H0
+ for qemu-devel@nongnu.org; Thu, 31 Dec 2020 17:49:17 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id v14so8146766wml.1
+ for <qemu-devel@nongnu.org>; Thu, 31 Dec 2020 14:49:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Bk0tYZBjX7UVR6Ibma6lL1omMrXDLuBQAWgVPIYBj4U=;
+ b=dNWyF8JVwpw6CDErbPsCJiVvMc4SkCRDbGXDq4bIMgZHWxjufiuM3X017a6Nja/GjG
+ wVEFvGtKNCVOa+uJB41/42Em9cuzkEaWp6rYYn9uJrw8J5tDoUqxBm/r01ROX6RUCZwh
+ Ixe0COE/XPvj4dGSOxnvXEkJ3nmRSjLW5kMmofWzHpMlbYaTbXiu4swF+MlQ2p75wYNW
+ i+1mX3ju7gQlWimeAS7H6R6q7/nWGJjq+0cUGVbb17bVKU9oHgUDV3FLr17L8RXC8rvF
+ PsiilWQv5RiF7xC286V4CJ1fgqOnNjCXX9zR4V1jzQUhDL+hkF5QXTGFAFmfJ2jZKKjU
+ KgUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Bk0tYZBjX7UVR6Ibma6lL1omMrXDLuBQAWgVPIYBj4U=;
+ b=FgdkPhKEhQMb/M1r5qUc3Lv0z/gHCj+1cKuqXKrUBptz8NnZk3IxAXfDRn7z4mwfqc
+ ssjqr6d1deHhEPq3gYdmwjnpBDkZmCC+8pteXPB5DXnDJuPQU6A9EAs1hkHc1DNvfpKZ
+ 7w2GZwyrIpv9okNdu7+juXRDYh7xKkBjnZIAkiN+O1h6xoQV4soLzBzAOYfrDEsarQh3
+ n8uLKeUzULwTd7RKEJfbaPvC4laWEd6fM71j44vmfBYMjWnLBJoGVoTXUFIATc8yqtZU
+ SqmVr1QXWWTnG+mvjvHvaxvz8pM0yKwqQzqb6JYjPikYKL0Uqb/D8tJlhkrRqVBcmI4w
+ z0bg==
+X-Gm-Message-State: AOAM532TQ/vFqmsOyKmGMnoqV4UWOWZXySkJ7qR6iH7vXxbYBCTVH2MN
+ ALy6hrU1eucFy70fwFn3ZCkklqPxKxo=
+X-Google-Smtp-Source: ABdhPJwgmGzf6D4j0J7ZSLYab1KxPAPDRx32w7Q7LlsqB/EYiB3gzCK42COpmhzHUPKg7zguQmCkIw==
+X-Received: by 2002:a7b:cf30:: with SMTP id m16mr13144343wmg.145.1609454954663; 
+ Thu, 31 Dec 2020 14:49:14 -0800 (PST)
+Received: from localhost.localdomain (239.red-83-42-57.dynamicip.rima-tde.net.
+ [83.42.57.239])
+ by smtp.gmail.com with ESMTPSA id n11sm58473427wra.9.2020.12.31.14.49.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 31 Dec 2020 14:49:13 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/18] hw/pci-host/bonito: Remap PCI "lo" regions when
+ PCIMAP reg is modified
+Date: Thu, 31 Dec 2020 23:48:53 +0100
+Message-Id: <20201231224911.1467352-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,67 +84,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Guenter Roeck <linux@roeck-us.net>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On Thu, 31 Dec 2020, BALATON Zoltan via wrote:
-> On Thu, 31 Dec 2020, Peter Maydell wrote:
->> On Thu, 31 Dec 2020 at 15:11, Peter Maydell <peter.maydell@linaro.org> 
->> wrote:
->>> On Thu, 31 Dec 2020 at 11:20, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>>> 
->>>> Avoid mapping multiple interrupts to the same irq. Instead map them to
->>>> the 4 PCI interrupts and use an or-gate in the board to connect them
->>>> to the interrupt controller. This does not fix any known problem but
->>>> does not seem to cause a new problem either and may be cleaner at least.
->>>> 
->>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>> Tested-by: Guenter Roeck <linux@roeck-us.net>
->>> 
->>> So, this patch is a behavioural change, but I think it's
->>> probably a change to the right behaviour. The difference
->>> is relatively slight, but you would see it if there are two
->>> different PCI cards and they both assert a different PCI
->>> interrupt, and then one of them lowers the interrupt
->>> before the other:
->> 
->> This turns out to be wrong -- I hadn't looked at the QEMU PCI
->> code, but it has an internal implementation of logic that
->> gives the same behaviour as an explicit OR gate. Basically
->> pci_change_irq_level() tracks how many assert/deasserts of
->> the (mapped) IRQ lines have happened, so it only calls the
->> controller's set_irq function when the count of asserted
->> inputs goes down to 0. So both the current code and this
->> patch's change are functionally correct.
->
-> I've remembered we had this discussion before and arrived to the same 
-> conclusion that current code was equivalently working but could not recall 
-> the reason.
->
->> I'm not sure which would be nominally closer to the "real hardware":
->> the 440ex CPU/SoC datasheet lists a single PCI0INT signal, but
->> it says it is an output, not an input, so I'm pretty sure there's
->> something I don't understand about PCI here. (Also, unlike the
->> 440EP it provides PCI Express as well as PCI.)
->
-> The SoC is called 460EX (despite having a PPC 440 core not 460 one) but I 
-> think you've looked at the right data sheet and it's just a typo. I also 
-> don't know how the board is wired so I think in this case I prefer dropping 
-> this patch and keeping the current code just for simplicity but to avoid 
-> going through this again maybe we should add a comment saying why it's 
-> working. Can you please suggest a test for such comment pointing to the
-
-I mean "text" not "test" above.
-
-> relevant part of pci_change_irq_level() you refer to above? I don't think I 
-> understand it enough to document it.
->
-> Thank you,
-> BALATON Zoltan
->
->
+Patches I wrote while reviewing/testing Jiaxun's v3 [1] trying=0D
+to understand the problem with "Fixup pci.lomem mapping" [2].=0D
+=0D
+The issue should be fixed by patch #8 of this series:=0D
+'Remap PCI "lo" regions when PCIMAP reg is modified'.=0D
+The rest are cleanups patches.=0D
+=0D
+Happy new year,=0D
+=0D
+Phil.=0D
+=0D
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg769286.html=0D
+[2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg769294.html=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (18):=0D
+  hw/pci-host/bonito: Remove unused definitions=0D
+  hw/pci-host/bonito: Display hexadecimal value with '0x' prefix=0D
+  hw/pci-host/bonito: Use PCI_DEVFN() macro=0D
+  hw/pci-host/bonito: Use pci_config_set_interrupt_pin()=0D
+  hw/pci-host/bonito: Simplify soft reset using FIELD_EX32()=0D
+  hw/pci-host/bonito: Do not allow big-endian targets=0D
+  hw/pci-host/bonito: Make BONPONCFG register read-only=0D
+  hw/pci-host/bonito: Remap PCI "lo" regions when PCIMAP reg is modified=0D
+  hw/pci-host/bonito: Rename north bridge helpers=0D
+  hw/pci-host/bonito: Rename PCI host helpers=0D
+  hw/pci-host/bonito: Rename PCI function helpers=0D
+  hw/pci-host/bonito: Rename PCIBonitoState -> BonitoPciState=0D
+  hw/pci-host/bonito: Create PCI regions in bonito_host_realize()=0D
+  hw/pci-host/bonito: Simplify using pci_host_conf_le_ops=0D
+    MemoryRegionOps=0D
+  hw/pci-host/bonito: Map north bridge region in bonito_host_realize()=0D
+  hw/pci-host/bonito: Create TYPE_PCI_BONITO in bonito_host_realize()=0D
+  hw/pci-host/bonito: Declare TYPE_BONITO_PCI_HOST_BRIDGE in include/=0D
+  hw/mips/fuloong2e: Inline bonito_init()=0D
+=0D
+ include/hw/mips/mips.h       |   3 -=0D
+ include/hw/pci-host/bonito.h |  34 ++++=0D
+ hw/mips/fuloong2e.c          |   7 +-=0D
+ hw/pci-host/bonito.c         | 357 +++++++++++++++--------------------=0D
+ MAINTAINERS                  |   1 +=0D
+ 5 files changed, 197 insertions(+), 205 deletions(-)=0D
+ create mode 100644 include/hw/pci-host/bonito.h=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
