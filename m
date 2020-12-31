@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75CB82E7FB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 12:40:37 +0100 (CET)
-Received: from localhost ([::1]:34624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A132E7FC8
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 12:52:15 +0100 (CET)
+Received: from localhost ([::1]:37516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuwJo-0001of-I9
-	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 06:40:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58476)
+	id 1kuwV4-0006CA-G6
+	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 06:52:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kuwAx-0008Og-H8; Thu, 31 Dec 2020 06:31:27 -0500
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:41097)
+ id 1kuwB7-000084-8n; Thu, 31 Dec 2020 06:31:38 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:45347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kuwAv-0007Qz-1J; Thu, 31 Dec 2020 06:31:27 -0500
-Received: by mail-pg1-x535.google.com with SMTP id i7so12955354pgc.8;
- Thu, 31 Dec 2020 03:31:23 -0800 (PST)
+ id 1kuwB1-0007TA-QC; Thu, 31 Dec 2020 06:31:37 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id q22so11128893pfk.12;
+ Thu, 31 Dec 2020 03:31:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JWM+kTYjj9Bpljg79k7k668oCfycu7Qc997VeKfS2hw=;
- b=OilKDSvmHFw7CJOIQGGaWwf7EE53Cny9C2j58ozoR1HUNhtZ6Wq5XQXfGElAmj47X6
- Gxpsd6+eRQNK/0VPhzsde3B21A5jCJnYEtT54TbWyJ+Q+u69MWJZ3zhNo5KhH/Jhxfiu
- llPzHtSKHvL3wYC3p7EntHZ63JCjSpcZuSLxfMbd7sBJCFPEMz5PyqzrQKjRRiwIe6sz
- zXHBtVvUM84lKnlNUXsGSDKbWKt7qGq0nsb1O1uqkZQPJjjs6y+df/fR1CXG8c6obD3T
- rcw+cIVfpUL8YzOsXBnbxrqEOwt3ok2L7URPN6u0JRuYqIMKTGnzhFEEMDhKCjJ9w+Op
- RgzQ==
+ bh=rcaVKYOKC0zw0322A/CSsJ4a3JkSb99+ebegG5WHvn0=;
+ b=s6DT+aTMRODhzaiPeIqgwBwelAj0F0qrz//Hmgv40OiR7Z5kdf2g3P0+k3R7tc4SSw
+ fSMBA7UC9nQjRfHnY5XOnfJjrBn1/s/kjX1GFCK/Bstcw3sP0ei3kAlQphY2DZPZAGh1
+ bmXuQou4YPvCBOjdmGks0B7iqz+fYz7r58JIvLp2YDay2rXLdcE8eeicu92TDO2yPEoa
+ hDOfMDuBtuEOnVpuahcsmX8G+wFGyNDKJ0CqKggPAMfX2MhdvhSgezici3vuBzMLCB7J
+ rpY7UYVAbtZCqE6vqEfPU0RyJNxXyuPb5a7Y2ztA9WGzHCMN3I2Pwr+yWD9JatckHhra
+ Mb1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JWM+kTYjj9Bpljg79k7k668oCfycu7Qc997VeKfS2hw=;
- b=tj7ibC8Xapv01kr7BhYfuiYuKBNFOupu6Ct0IlZ4WLSS8Qj6i6TkknTnjJO+gPQsFB
- nL9G+sFVhakkc9N33lL9HqayP8WVAotqzmb09wq2IiLwK3c7bqIuAePaJKObQSO9hGNq
- 8bdnvp8RCL/JvOmsVcGOn6bny7Uwq2KvSiDtmULp70RuIcby9s6FPxjLs1bOBO72EK4e
- s5tNFB0T/hNDyQD3ekivrLDPFM4Qu05ovVyfncePm9xz2/nVTn2LWHAZNiJuBSJ7g9oE
- RHmFTrP6sSGSXKOPhduqS1fv/X9O8FBdqtfr2NKKvkYDMRx2UGg9kHHIDYLgDzrChU+6
- Smrg==
-X-Gm-Message-State: AOAM531n8FZOB9dlTGJkP9Tt7ewwGJPN0b+16dHDy5EzFC20QcQnpwTL
- z9YxW7r8r2rQO2ZWksWl5WI4CKJfnRo=
-X-Google-Smtp-Source: ABdhPJyxYU6clzd5LRZpAwC1wsOXm5cB9TGOY1O2BojzmigilAYq+SoBn9xiQ+MIsuyY2Ob73U5RgQ==
-X-Received: by 2002:a62:7c01:0:b029:19e:1e23:1821 with SMTP id
- x1-20020a627c010000b029019e1e231821mr52728938pfc.72.1609414282965; 
- Thu, 31 Dec 2020 03:31:22 -0800 (PST)
+ bh=rcaVKYOKC0zw0322A/CSsJ4a3JkSb99+ebegG5WHvn0=;
+ b=N2gYp58lz/hVY2UahYxEJwMp0sDYlreaGlk4/RtfdmFgrYnqxefX3kcCKInCf6i3KP
+ u3MXe6WQ4RKGsALb9e5eFjJ7eLlpyAp3yA+aWITvtcDciDeXMf4FMNyLPiAYjwGS4uAx
+ VwPRoKxDVVEhuhDgjFb6qoiL/Uz307JZMpSWpz9t02vhe/gV7eLq986emOTzTGWsVxev
+ zVXvUlyYm4brJK3yUvsnF64di69H6R5vGnhmCErBK3wLB0o77MDGbTWulA4I5BxXGsR3
+ Ks9ohd0nXVJC3s9FIKzdI3KXsP4jeAmoulLZMrl8zFQJV8c1LOZzsS9g1rd4Y2Bn0Rn5
+ ZJlQ==
+X-Gm-Message-State: AOAM532dxRpy1c+xw4D9VmEvukVhLL0Oauz8yZQfUdCpWwYysgMc1Hb1
+ yS6usrqoQMYVaMuFzidfZMA=
+X-Google-Smtp-Source: ABdhPJyP305uQiYtJogj3+v477I4OH/plvvQIdE8GuhcHAECmewg9pKsrfaYxMRAqvQCmbdy8jgnZA==
+X-Received: by 2002:a62:8205:0:b029:19e:717c:d647 with SMTP id
+ w5-20020a6282050000b029019e717cd647mr51812784pfd.50.1609414286818; 
+ Thu, 31 Dec 2020 03:31:26 -0800 (PST)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id t23sm45957591pfc.0.2020.12.31.03.31.20
+ by smtp.gmail.com with ESMTPSA id t23sm45957591pfc.0.2020.12.31.03.31.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Dec 2020 03:31:22 -0800 (PST)
+ Thu, 31 Dec 2020 03:31:26 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Alistair Francis <alistair.francis@wdc.com>, qemu-block@nongnu.org,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 19/22] hw/riscv: sifive_u: Change SIFIVE_U_GEM_IRQ to decimal
- value
-Date: Thu, 31 Dec 2020 19:30:07 +0800
-Message-Id: <20201231113010.27108-20-bmeng.cn@gmail.com>
+Subject: [PATCH 20/22] docs/system: Sort targets in alphabetical order
+Date: Thu, 31 Dec 2020 19:30:08 +0800
+Message-Id: <20201231113010.27108-21-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201231113010.27108-1-bmeng.cn@gmail.com>
 References: <20201231113010.27108-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,28 +90,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-All other peripherals' IRQs are in the format of decimal value.
-Change SIFIVE_U_GEM_IRQ to be consistent.
-
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- include/hw/riscv/sifive_u.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/system/targets.rst | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index de1464a2ce..2656b39808 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -127,7 +127,7 @@ enum {
-     SIFIVE_U_PDMA_IRQ6 = 29,
-     SIFIVE_U_PDMA_IRQ7 = 30,
-     SIFIVE_U_QSPI0_IRQ = 51,
--    SIFIVE_U_GEM_IRQ = 0x35
-+    SIFIVE_U_GEM_IRQ = 53
- };
+diff --git a/docs/system/targets.rst b/docs/system/targets.rst
+index 560783644d..564cea9a9b 100644
+--- a/docs/system/targets.rst
++++ b/docs/system/targets.rst
+@@ -7,16 +7,21 @@ various targets are mentioned in the following sections.
  
- enum {
+ Contents:
+ 
++..
++   This table of contents should be kept sorted alphabetically
++   by the title text of each file, which isn't the same ordering
++   as an alphabetical sort by filename.
++
+ .. toctree::
+ 
+-   target-i386
++   target-arm
++   target-avr
++   target-m68k
++   target-mips
+    target-ppc
++   target-rx
++   target-s390x
+    target-sparc
+    target-sparc64
+-   target-mips
+-   target-arm
+-   target-m68k
++   target-i386
+    target-xtensa
+-   target-s390x
+-   target-rx
+-   target-avr
 -- 
 2.25.1
 
