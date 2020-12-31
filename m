@@ -2,54 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D0A2E7EFE
-	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 10:36:45 +0100 (CET)
-Received: from localhost ([::1]:44870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C1F2E7F24
+	for <lists+qemu-devel@lfdr.de>; Thu, 31 Dec 2020 10:56:49 +0100 (CET)
+Received: from localhost ([::1]:49072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kuuNv-0003yT-N5
-	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 04:36:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33242)
+	id 1kuuhL-0007Bq-TN
+	for lists+qemu-devel@lfdr.de; Thu, 31 Dec 2020 04:56:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhenyu2@huawei.com>)
- id 1kuuMH-000343-DE
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 04:35:01 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yezhenyu2@huawei.com>)
- id 1kuuME-00025k-Re
- for qemu-devel@nongnu.org; Thu, 31 Dec 2020 04:35:01 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4D62yr33txzkyW6;
- Thu, 31 Dec 2020 17:33:40 +0800 (CST)
-Received: from [10.174.186.6] (10.174.186.6) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.498.0;
- Thu, 31 Dec 2020 17:34:36 +0800
-From: Zhenyu Ye <yezhenyu2@huawei.com>
-Subject: Re: [RFC PATCH v2] x86/cpu: initialize the CPU concurrently
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <90be4860-cbe0-25d4-ccca-75b96ecb4a3c@huawei.com>
- <20201221213620.GF6040@habkost.net>
- <e823060d-1a8a-a1d8-aa2f-1394c118bdae@huawei.com>
- <20201224180632.GF286050@habkost.net>
-Message-ID: <694fb450-7f46-ef3f-e0eb-d5f5df99700a@huawei.com>
-Date: Thu, 31 Dec 2020 17:34:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+ (Exim 4.90_1) (envelope-from <remi@remlab.net>)
+ id 1kuugb-0006dW-6o; Thu, 31 Dec 2020 04:56:01 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:45296
+ helo=ns207790.ip-94-23-215.eu)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <remi@remlab.net>)
+ id 1kuugZ-0003rD-4e; Thu, 31 Dec 2020 04:56:00 -0500
+Received: from philogene.localnet (ip6-localhost [IPv6:::1])
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 211115FAD0;
+ Thu, 31 Dec 2020 10:55:51 +0100 (CET)
+From: =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi@remlab.net>
+To: qemu-arm@nongnu.org
+Subject: Re: [PATCH 1/3] target/arm: keep translation start level unsigned
+Date: Thu, 31 Dec 2020 11:55:50 +0200
+Message-ID: <3026104.eZJBrJkB2l@philogene>
+Organization: Remlab Tmi
+In-Reply-To: <c2af03a8-9f56-fb43-485c-91ec0fbdef31@linaro.org>
+References: <7884934.NyiUUSuA9g@basile.remlab.net>
+ <20201218143321.102872-1-remi.denis.courmont@huawei.com>
+ <c2af03a8-9f56-fb43-485c-91ec0fbdef31@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201224180632.GF286050@habkost.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=yezhenyu2@huawei.com;
- helo=szxga04-in.huawei.com
-X-Spam_score_int: -75
-X-Spam_score: -7.6
-X-Spam_bar: -------
-X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.399,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=2001:41d0:2:5a1a::; envelope-from=remi@remlab.net;
+ helo=ns207790.ip-94-23-215.eu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,45 +53,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "S. Tsirkin, Michael" <mst@redhat.com>, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, Xiexiangyou <xiexiangyou@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ remi.denis.courmont@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eduardo,
+Le jeudi 31 d=E9cembre 2020, 00:10:09 EET Richard Henderson a =E9crit :
+> On 12/18/20 6:33 AM, remi.denis.courmont@huawei.com wrote:
+> > From: R=E9mi Denis-Courmont <remi.denis.courmont@huawei.com>
+> >=20
+> > Signed-off-by: R=E9mi Denis-Courmont <remi.denis.courmont@huawei.com>
+> > ---
+> >=20
+> >  target/arm/helper.c | 14 ++++++--------
+> >  1 file changed, 6 insertions(+), 8 deletions(-)
+>=20
+> The patch does more than what is described above.
 
-On 2020/12/25 2:06, Eduardo Habkost wrote:
->>
->> The most time-consuming operation in haxm is ioctl(HAX_VM_IOCTL_VCPU_CREATE).
->> Saddly this can not be split.
->>
->> Even if we fix the problem in haxm, other accelerators may also have
->> this problem.  So I think if we can make the x86_cpu_new() concurrently,
->> we should try to do it.
-> 
-> Changing the code to run all VCPU initialization actions for all
-> accelerators concurrently would require carefully reviewing the
-> VCPU thread code for all accelerators, looking for races.  Sounds
-> like a challenging task.  We could avoid that if we do something
-> that will parallelize only what we really need (and know to be
-> safe).
-> 
+No? It removes generating negative values, and handling them, for translati=
+on=20
+levels.
 
-Yes, we must make sure that all accelerators could work parallelly,
-even including the corresponding VCPU_CREATE_IOCTL, which is not
-under qemu's control.
+> > diff --git a/target/arm/helper.c b/target/arm/helper.c
+> > index df195c314c..b927e53ab0 100644
+> > --- a/target/arm/helper.c
+> > +++ b/target/arm/helper.c
+> >=20
+> > @@ -10821,17 +10821,12 @@ do_fault:
+> >   * Returns true if the suggested S2 translation parameters are OK and
+> >   * false otherwise.
+> >   */
+> >=20
+> > -static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+> > +static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, uint32_t lev=
+el,
+> >=20
+> >                                 int inputsize, int stride)
+> > =20
+> >  {
+> > =20
+> >      const int grainsize =3D stride + 3;
+> >      int startsizecheck;
+> >=20
+> > -    /* Negative levels are never allowed.  */
+> > -    if (level < 0) {
+> > -        return false;
+> > -    }
+> > -
+>=20
+> I would expect this to be the only hunk from the patch description.=20
+> Probably changing this negative check to a >=3D 3 check.
 
-Fortunately, we have found out why ioctl(HAX_VM_IOCTL_VCPU_CREATE)
-in haxm took such a long time.  It alloced vtlb when doing vcpu_create(),
-which has been discarded and is useless.  After removing corresponding
-operation, the vcpu initialization time is reduced to within 10ms.
+You could do that but you'd end up relying on implicity conversion from sig=
+ned=20
+to unsigned negative. That seems needlessly confusing to me in this case,=20
+considering that (positive) values larger than 3 cannot actually happen.
 
-Thanks for your attention and discussion.
+>=20
+> r~
+>=20
+> >      startsizecheck =3D inputsize - ((3 - level) * stride + grainsize);
+> >      if (startsizecheck < 1 || startsizecheck > stride + 4) {
+> >     =20
+> >          return false;
+> >=20
+> > @@ -10856,6 +10851,9 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool
+> > is_aa64, int level,>=20
+> >              if (level =3D=3D 0 && pamax <=3D 42) {
+> >             =20
+> >                  return false;
+> >             =20
+> >              }
+> >=20
+> > +            if (level =3D=3D 3) {
+> > +                return false;
+> > +            }
+> >=20
+> >              break;
+> >         =20
+> >          default:
+> >              g_assert_not_reached();
+> >=20
+> > @@ -10871,7 +10869,7 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool
+> > is_aa64, int level,>=20
+> >          /* AArch32 only supports 4KB pages. Assert on that.  */
+> >          assert(stride =3D=3D 9);
+> >=20
+> > -        if (level =3D=3D 0) {
+> > +        if (level =3D=3D 0 || level >=3D 3) {
+> >=20
+> >              return false;
+> >         =20
+> >          }
+> >     =20
+> >      }
+> >=20
+> > @@ -11203,7 +11201,7 @@ static bool get_phys_addr_lpae(CPUARMState *env,
+> > uint64_t address,>=20
+> >          if (!aarch64 || stride =3D=3D 9) {
+> >         =20
+> >              /* AArch32 or 4KB pages */
+> >=20
+> > -            startlevel =3D 2 - sl0;
+> > +            startlevel =3D (2 - sl0) & 3;
+> >=20
+> >          } else {
+> >         =20
+> >              /* 16KB or 64KB pages */
+> >              startlevel =3D 3 - sl0;
 
-Thanks,
-Zhenyu
 
+=2D-=20
+R=E9mi Denis-Courmont
 
 
 
