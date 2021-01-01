@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D592E8594
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jan 2021 21:41:24 +0100 (CET)
-Received: from localhost ([::1]:44594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 969332E8595
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jan 2021 21:43:08 +0100 (CET)
+Received: from localhost ([::1]:47536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvREh-0008SI-St
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 15:41:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47992)
+	id 1kvRGN-0001Et-Na
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 15:43:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvRDY-0007wX-OU
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 15:40:12 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43313)
+ id 1kvRFR-0000qC-3p
+ for qemu-devel@nongnu.org; Fri, 01 Jan 2021 15:42:09 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvRDX-0006Zi-7l
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 15:40:12 -0500
-Received: by mail-wr1-x434.google.com with SMTP id y17so22698021wrr.10
- for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 12:40:10 -0800 (PST)
+ id 1kvRFP-0007JU-En
+ for qemu-devel@nongnu.org; Fri, 01 Jan 2021 15:42:08 -0500
+Received: by mail-wm1-x335.google.com with SMTP id g185so9747701wmf.3
+ for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 12:42:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=l9YsjDYF+kuxocNfj5mXal2TeM+Ur9axLXzlj4Og0uE=;
- b=bjP0f8QZXPhC90YlMH588bk2SxqEx+9/8WcaFX4EXBohGJmr0jV1rlxc9HXojN5nhU
- x6fCqfIxujHd9xNGcwIUzi41kKmhYGFcneRgyFrEO1rmVJwjJVYMeeBhFEuChqZnb0Ab
- iyf8ikdOyzqXz1Vl34+dzTWS9/O1TDql2q7PeYhXFb+af9YtTnq5WxGujcxnCK4NukWD
- xYPeXsi7T9czEHlRo/LxROOB+nfj7Y250xTMW38q0xCklfR+ZE99qdosGqMBZabE2wrf
- GF9KXVUTcGH2xGZp70DOT89ij/OjoqoBc3UfLYm8MaYdI6LBZGXJNUHHRneUYAC44Ggt
- UzdA==
+ bh=rhunFZpXQRkpbWnsy2gGzHdbr4OOh/71kLu6+YIMByw=;
+ b=YxB26IU6VkZyVckrcU14nBYzBzFqs1Jeb+fEv7OmwaH3Kp6dD42v5gKZjih1GZ8Tnv
+ kiUm7RXwr9JtD3eDue9S7F4hl4zcI0iHrN3GjR+j74Z7y3f4ezzJ2WwcbgSCVkapi1jW
+ ePg4CImYqw1MHlsiy5L0ZLcsejeBMYMsyGiO+B+gXi7+QAFBH2mWHdgTzVyAOJmP8/Jf
+ H93qJoGEnk5aYk5v3MoU5UbHE2kggrFElOoHHfUUTWRs0GpUigAix0fnJ6KSkuAb5Izv
+ xvlc+BstcGlKFOBMhiE8R3GwmOyAZBMs1I8RHWXG+MUTJPI5XoeqikmBvPLySM370AiE
+ 5D4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=l9YsjDYF+kuxocNfj5mXal2TeM+Ur9axLXzlj4Og0uE=;
- b=T26h0s9EQsX7meSvs3pQimVGNGquPUtgFYlaStqAode/YecyVBpp+28iuzoYOX34DZ
- r8gw6QoKyty1tniI9Za99/R9Cpy01b4tiRJpD4hxtLnTqwj9YBhNbuRtwp6J6rfmWOxV
- B43o8khPkOt2P94G0S722rt48xlOZwyB60p431UXp7Oq9rhnZFLIt7jfjdl+iM89yDMI
- an9cG3eC4BV/WK84O2KT9NJIvCAMITgnIA4NlZy2R1TNH+fTkmYXPe+Tz+t5SfAmbEN2
- JCQc6RtbF4G1RS0jm6EcRRx9w5Jv0kXtPxL/7EISeDeiF8AdP1BDzqDp254XHIF8vVHB
- javw==
-X-Gm-Message-State: AOAM531LTH8i/OUkG8HR/4Vyyv7kMAOGNfdd2dR0vW/AvbKfznXp5Q1Q
- IEbLKTsOrYfg6IOXzYf4qMgY9m+2M+w=
-X-Google-Smtp-Source: ABdhPJxp3xHgvJNPeHRhCj4pgfBxgezWSbIS1P45+hasd9qfMvNjeefS28bysRPrcqOahC3sJXHlig==
-X-Received: by 2002:adf:ba49:: with SMTP id t9mr70456401wrg.183.1609533609971; 
- Fri, 01 Jan 2021 12:40:09 -0800 (PST)
+ bh=rhunFZpXQRkpbWnsy2gGzHdbr4OOh/71kLu6+YIMByw=;
+ b=g9+NXcYzrbfs6JMtwPzITqPkxEduqpb6eMkMB8uGywC7tt9Yh5pKQNbzQSCJVOdtEY
+ 8cEss/KCHjaVRX4u6p4/p0hb7AqzsIxISENAli0C7Rlv50tlNNwSGriFIRXdvOL1n+t9
+ eEnsYTvkiaVeV6lrQYVQUFNwlNkNzsUD1BxQoNlKwDG6uF7PRhtBb1VFJE/oTHMrvQlb
+ fjSyKxAdhUAGIQpbMtwHoJOES3FA0EsvQnkdhRlyGzV6dxw4daDrDPOSUYeAK4VacRJM
+ 5EoqCzgOh/rcTT+JsJCGl+aWVepLauMQeOm4rWkAjtnnBSU67bw4/mhRXwLWpN50vtVo
+ GABg==
+X-Gm-Message-State: AOAM530jqdKFk2WAdOTxvavGLw/mJi/cGdtBeLxOP5MArWem+z+rGWnY
+ 7yJvB/Lefm2R4R1FWnvaAsc=
+X-Google-Smtp-Source: ABdhPJwyMb5ChRNnQovlKH3zRQld/F7AFvSnNWz6BknGWBW+dMf8M8wAVKDCqsLZTC+JHshnErSPkQ==
+X-Received: by 2002:a1c:7f83:: with SMTP id a125mr17093180wmd.86.1609533725714; 
+ Fri, 01 Jan 2021 12:42:05 -0800 (PST)
 Received: from [192.168.1.34] (239.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.239])
- by smtp.gmail.com with ESMTPSA id s63sm20001076wms.18.2021.01.01.12.40.09
+ by smtp.gmail.com with ESMTPSA id w17sm18542978wmk.12.2021.01.01.12.42.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Jan 2021 12:40:09 -0800 (PST)
-Subject: Re: [PATCH v2 2/8] hw/mips/malta: Use address translation helper to
- calculate bootloader_run_addr
+ Fri, 01 Jan 2021 12:42:05 -0800 (PST)
+Subject: Re: [PATCH v2 6/8] target/mips/addr: Add translation helpers for KSEG1
 To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
 References: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
- <20201215064200.28751-3-jiaxun.yang@flygoat.com>
+ <20201215064507.30148-3-jiaxun.yang@flygoat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e2ddd755-63a7-5eae-d872-92faec3c24b4@amsat.org>
-Date: Fri, 1 Jan 2021 21:40:08 +0100
+Message-ID: <6dda6b4b-5808-3e01-b5a8-8ab562a167a9@amsat.org>
+Date: Fri, 1 Jan 2021 21:42:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201215064200.28751-3-jiaxun.yang@flygoat.com>
+In-Reply-To: <20201215064507.30148-3-jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -94,13 +93,15 @@ Cc: chenhuacai@kernel.org, paulburton@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/15/20 7:41 AM, Jiaxun Yang wrote:
-> So it will sign extend adresses properly.
+On 12/15/20 7:45 AM, Jiaxun Yang wrote:
+> It's useful for bootloader to do IO opreations.
 > 
 > Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
->  hw/mips/malta.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  target/mips/addr.c | 10 ++++++++++
+>  target/mips/cpu.h  |  2 ++
+>  2 files changed, 12 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
