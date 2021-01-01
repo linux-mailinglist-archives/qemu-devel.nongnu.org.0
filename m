@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C482E8435
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jan 2021 17:56:05 +0100 (CET)
-Received: from localhost ([::1]:36344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5D02E8437
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jan 2021 17:56:30 +0100 (CET)
+Received: from localhost ([::1]:39130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvNie-00022c-1I
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 11:56:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41338)
+	id 1kvNj3-0003FR-Jx
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 11:56:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvNgl-0000tW-Qv
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 11:54:07 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:34836)
+ id 1kvNhP-0001UT-OY
+ for qemu-devel@nongnu.org; Fri, 01 Jan 2021 11:54:49 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44079)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvNgk-0001uR-FA
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 11:54:07 -0500
-Received: by mail-wm1-x333.google.com with SMTP id e25so9357046wme.0
- for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 08:54:06 -0800 (PST)
+ id 1kvNhN-0001w6-Kh
+ for qemu-devel@nongnu.org; Fri, 01 Jan 2021 11:54:47 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id w5so22277846wrm.11
+ for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 08:54:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=aE7xBvlS7Eo1NVXvztT0ZcDxci7G+JLwgMOsVz/Odrk=;
- b=BR+ZgkD5zMDtbsjn+H2bpUX8hIHCgCRqoc94ElnuWNauV4B/LCsebAJoALqK+ocKk6
- IlOCUvSaxOqF7l0S2zdFE33Q6BMPlLVZW80XEZmcbT5PwIJLneqHfPht5FcP8zUsDhNr
- yjA1Syy378OIHZEv1ALCkixf3CAztChIjtCXUr+Ev9WDLevtxs3t7179PUINtLoQtb7S
- o0DUVTEZwBZ0FBgPkmUi0Eg+iCISLXMSYzjNJcfIHPgpzpq4XSG1d4VQFeb76qKQucPe
- 0ycE4ByaXNkCEVrAQq9CdKFscLYe4lBkTRGSfCk66r7dbglfYoF4A+bCZl5cWWriGnxJ
- wrJA==
+ bh=L1Ln9Zdd2AJ+Ckna7C1VbO1ZG0PxmepmdWbu7Nr8S9M=;
+ b=AIy1usEpjlB0UTFSk8vk2tjzA/mGNI295UkHZ72eMJYKirkFPNJc1SIbnqJ58Xtvug
+ uMvwfsAMfUdo3PSi1AlFk/NXiI8XlAC30hVz3ncaJYoyjaikCi5/uXQ0JEHwJxtdE2lA
+ 7QrYiDQBSPYfWRgPwhh34FVGPs5PFHw3EzIxe9uWE1FOYStYxsdIJES51kc613Gx/nH/
+ 7S8jsB2bEHiAzyDQVrvwBjpI/rNv/jB7WZczDDJ70zeNn3e5gig1V1gFp+ZiYbextqtv
+ XX8U4lBmNFRaNc1q/rUjS760eRRTd4U7X15WDzallKp3tUGcCiIyZLfZ+lBg08wDu8m2
+ Q/vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=aE7xBvlS7Eo1NVXvztT0ZcDxci7G+JLwgMOsVz/Odrk=;
- b=UuAe5ixz/3dSDjJ7bb/5f8LSRQTj90D3sTRsokMLaufZUkY88zkTyR7B2XekVk068b
- 6hDz2mubgCNw7gT49Ylh//Tqtn04i2fESUYKjB2a1v1z4jI0rWFAwPLaFcRFR9it89O8
- LaV4YgFMDCr7jvi0W8pPFAR6x0cAh605+tHtlTSBCRzCQ25DKVP45E2EwyEXUPbsYATz
- CP0/wlqswSaxGfqXF3yR4olRFe8YgDxgcgcn9/E0OaXi79NbXZ+f2Kca4dDG1PcFxb0A
- 58TRbgOj47LRV22k/zXM+0fsWg2rcXKLk0vxKY+EvtxJxUBoudCovQ9N8dhu3uDYscAb
- HS3g==
-X-Gm-Message-State: AOAM5307zAunQUyGDAdyn9sk40xnxD/on2dcymLD6oE9FnwL7jkeuGpC
- MIvSLxOMMTUdRr3YUeTGhz4=
-X-Google-Smtp-Source: ABdhPJz2pXwbuTf/lVUy2Y6KA/iE0ClIbpLIWELWJ8Gh8eQzP7BAOkZ7xQTfklh7TRn2a62RJ6ObjQ==
-X-Received: by 2002:a1c:6741:: with SMTP id b62mr16469775wmc.21.1609520045097; 
- Fri, 01 Jan 2021 08:54:05 -0800 (PST)
+ bh=L1Ln9Zdd2AJ+Ckna7C1VbO1ZG0PxmepmdWbu7Nr8S9M=;
+ b=n7RkA+44D6S+QKOL/LRX/rhD3j1n10EK8lNrNNZ12p9GJ7I9PpAhwzIk+CixBAPXmT
+ jhFeRlpWWpsp/oWm9XNN2cF84jhd8MRcNGC9QIazwXYsH+8A/oxa7d+XG5LYMNk9W1TK
+ bn3nxMnoenCX3hiWfiiK0mjepj2pG1XAAv4t5UTQdZM+xTSQbfXvpVSY0ScHzF9LHi7E
+ f49RRc23jXJiXNTl9c1V7N8V21gPKfclFG0a/V6SdnsZotouHUCv8ekHXDxubHvJqM8A
+ Fr2D8zQR64l3qCHn8EJjDM67lemr6P0fsSOv6km+5fBLkkd4lYG12Yk91RRRIrdS7dix
+ fQiQ==
+X-Gm-Message-State: AOAM533akkSvGi6821I8euOgrlGEyiqpDp8aBZ19tmCZyyc2c+qyZ1S+
+ Xcx+YI7pkYDCoedSCwS/o+k=
+X-Google-Smtp-Source: ABdhPJxx451K0rgFwtLwtReCn9OVZi3ZhCkjUeHbWV/DQl4T8Kk1qHJ8rk1i+Vxv2ABdwHY1C2JeWQ==
+X-Received: by 2002:adf:fd0c:: with SMTP id e12mr69208586wrr.61.1609520083962; 
+ Fri, 01 Jan 2021 08:54:43 -0800 (PST)
 Received: from [192.168.1.34] (239.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.239])
- by smtp.gmail.com with ESMTPSA id x7sm16853327wmi.11.2021.01.01.08.54.03
+ by smtp.gmail.com with ESMTPSA id b127sm19705605wmc.45.2021.01.01.08.54.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Jan 2021 08:54:04 -0800 (PST)
-Subject: Re: [PATCH 02/25] esp: add trace event when receiving a TI command
+ Fri, 01 Jan 2021 08:54:43 -0800 (PST)
+Subject: Re: [PATCH 03/25] esp: fix esp_reg_read() trace event
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  pbonzini@redhat.com, fam@euphon.net, laurent@vivier.eu
 References: <20201230153745.30241-1-mark.cave-ayland@ilande.co.uk>
- <20201230153745.30241-3-mark.cave-ayland@ilande.co.uk>
+ <20201230153745.30241-4-mark.cave-ayland@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5580e8ee-6c22-e787-6fa8-15f557d000d1@amsat.org>
-Date: Fri, 1 Jan 2021 17:54:03 +0100
+Message-ID: <6dd56e77-aac3-e648-9943-39fb2e5a9715@amsat.org>
+Date: Fri, 1 Jan 2021 17:54:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201230153745.30241-3-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20201230153745.30241-4-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -94,14 +94,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/30/20 4:37 PM, Mark Cave-Ayland wrote:
-> This enables us to determine whether the command being issued is for a DMA or a
-> non-DMA transfer.
+> Move the trace event to the end of the function so that it correctly reports
+> the returned value if it doesn't come directly from the rregs array.
 > 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/scsi/esp.c        | 1 +
->  hw/scsi/trace-events | 1 +
->  2 files changed, 2 insertions(+)
+>  hw/scsi/esp.c | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
