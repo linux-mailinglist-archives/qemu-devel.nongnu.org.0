@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C0D2E859C
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jan 2021 21:49:58 +0100 (CET)
-Received: from localhost ([::1]:50696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0682E859D
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jan 2021 21:51:12 +0100 (CET)
+Received: from localhost ([::1]:52866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvRMz-0002uM-85
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 15:49:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49226)
+	id 1kvROB-0003s9-Nu
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 15:51:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvRMG-0002U9-IV
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 15:49:12 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:54790)
+ id 1kvRMf-0002si-R6
+ for qemu-devel@nongnu.org; Fri, 01 Jan 2021 15:49:37 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:56186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvRME-0001Ek-OR
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 15:49:12 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id c133so9691277wme.4
- for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 12:49:10 -0800 (PST)
+ id 1kvRMe-0001N3-4D
+ for qemu-devel@nongnu.org; Fri, 01 Jan 2021 15:49:37 -0500
+Received: by mail-wm1-x336.google.com with SMTP id c124so9684386wma.5
+ for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 12:49:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=EG2uooXrSX3BNaDjyWNewt1Bi4cIWodBvhrVsBcXXiE=;
- b=YjDy+bc27u0t7e9lL+nBPa07XQjMGwTDWLHBli2Ef8yyldRK3p1tZfPZBWuLzAs+vz
- oNr1MmvH4b+WeTON2XaKTwkt8PqdNwWLeqa4I5P6XDP4Rwnyleh87sVYhA8A4oRQalyk
- tsMi5XbGPieTqm0d/nX/pc3PaUogmu55T4RZnWbsOg8y7yKYz3iyJRq2dNpOknEAgAGV
- aChcoIsrYEg2S/AiWX+NJDpqHgl7D0di9gUKK+FnosR3AsoxZfWroKKNSEuWgvMgSBik
- LJ1EaOEneTmagt17uNUfwbElhsVpV6CKwG29voGOF4lMRoMiW3Gh13WNfgRNdQqKZSKH
- lFlw==
+ bh=n/P67jR4r1KKhccgEHGFcNHoACGvzUMDoS9v8MyrnMU=;
+ b=ILrWoGSlYOrSwajehF2avEY/lRxJ9l9Z5ksvuS49xLr+QrlIA0wifCoEovb/Fgahcy
+ /cPS+6OdOX5WGBmFVSyqzCP3/pR5gEgqsAR//hIGIs0rFT3QcWVCh8D6ex9UduHsC35K
+ 1ip8y1364Ukt7S/9vjFzmXEM78TWXV+cWP8ot39B7nGZdAMmAs4Vy8zW6w5605G84ARb
+ R/SuR2y1si+IEXWKP/gWp26aUDSTlVbVIuLdG8QfQ2KQQyT7bEo5oNX/686aWSszjCBv
+ as0verKXNTZ9Hpi0MvJdMxVkK6Wkm2o/HmgIEUO+tTwHATAbGb1jjmYoPTzm4TIA5Rrm
+ tyXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=EG2uooXrSX3BNaDjyWNewt1Bi4cIWodBvhrVsBcXXiE=;
- b=YtT/2IOI9TQRL4MnH1MkVIrSdSjvK5WjAai02nqhheU4ZA0jc2jL9NszUsZjkx5ivY
- kyMTUYA2/6vLiB6ilyB6HaBBCwXM4soRBTPlFXPoq4p7epD5TedPDBnLlvLWak7GcrxJ
- h9GuYD/704rPYZbXjdnqQytrAWusafc65lTJhSem6rpPeBjTVxDn4QdlAUI+klasQ4MF
- MEINhgMnb54SjIRRrO0hg86FvXd4GDpsXej+WK1lS3g0Y5vmPOHuQYCcwhlJBjrA/nUu
- C1oJkkfKFnsdkO92EHtnr2/3cuFKoX3MwoVpWieL5rmqTtutfq5zHZKuGburAfg6fgRh
- 7Efw==
-X-Gm-Message-State: AOAM530EkTFn4e1bw03Z3sdX8Vg4uX74PjOijlVXz8Z3lmwIT+Rb0XQs
- yY0DiB1xkcNt+yy3y4QO9+I=
-X-Google-Smtp-Source: ABdhPJzpJvdzlZ0DOqnAHC3weM4+CyfXDnYalzonRJ1613knBaqWxLwBxaq+xUlvVPC8EpBbIBrNBw==
-X-Received: by 2002:a7b:c5d6:: with SMTP id n22mr16459103wmk.70.1609534149275; 
- Fri, 01 Jan 2021 12:49:09 -0800 (PST)
+ bh=n/P67jR4r1KKhccgEHGFcNHoACGvzUMDoS9v8MyrnMU=;
+ b=XGPHCSrYM57V12DQgnig/fhXZ2XbPg8IaVLQMYKngLkierOpd7z51jXJIPkxJDbIkC
+ bS8Odzz9ZWMbQptTDfMvyQ6BiTCZTntHE05hoI5q5fBd0w+D7Dq256AM5E4KUZAKMH7e
+ wa5gLhpkpc1ny7pPJifGJbI+IgUINVsmtc6/wBtiDsJADt3rEvLMOVHOCfIHJQe/C5ne
+ IDoyLGodW9lySPvhkE7gE21I+Vwv3cUV9J2UrHmCJfn/70msT9JyaiTRfhcwXHCQ582d
+ EFLTevLC0f6sImbjdLYADsKpl1fjsQka2TY/jGuZAdY9VKo8i0INnOBw2vs13/TJ7Adh
+ BK4w==
+X-Gm-Message-State: AOAM532xSzHYdTyfRwmO1+KKgNNLvuv6RhuyX3WmfyIuwUV1jFWJ1NNn
+ DxAvQqmRkam6W9DBbHsVSco=
+X-Google-Smtp-Source: ABdhPJzt+0xw9tcDEMRF7ZfBj4jaNRBts+lUiYgAiUqIq2Se2ZJ0D4pBZViiq5K3h3WcBAbYR9Sz0Q==
+X-Received: by 2002:a05:600c:2903:: with SMTP id
+ i3mr16711367wmd.41.1609534174780; 
+ Fri, 01 Jan 2021 12:49:34 -0800 (PST)
 Received: from [192.168.1.34] (239.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.239])
- by smtp.gmail.com with ESMTPSA id a25sm18137992wmb.25.2021.01.01.12.49.07
+ by smtp.gmail.com with ESMTPSA id c20sm18484828wmb.38.2021.01.01.12.49.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Jan 2021 12:49:08 -0800 (PST)
-Subject: Re: [PATCH V19 3/5] hw/mips: Add Loongson-3 boot parameter helpers
+ Fri, 01 Jan 2021 12:49:34 -0800 (PST)
+Subject: Re: [PATCH V19 4/5] hw/mips: Add Loongson-3 machine support
 To: Huacai Chen <chenhuacai@kernel.org>
 References: <20201221110538.3186646-1-chenhuacai@kernel.org>
- <20201221110538.3186646-4-chenhuacai@kernel.org>
+ <20201221110538.3186646-5-chenhuacai@kernel.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c9b6985b-aa86-b5ea-48b3-b35b8f75321b@amsat.org>
-Date: Fri, 1 Jan 2021 21:49:07 +0100
+Message-ID: <fe9f5f3c-1a45-139d-7620-0cd2032db191@amsat.org>
+Date: Fri, 1 Jan 2021 21:49:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201221110538.3186646-4-chenhuacai@kernel.org>
+In-Reply-To: <20201221110538.3186646-5-chenhuacai@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -96,31 +97,49 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/21/20 12:05 PM, Huacai Chen wrote:
-> Preparing to add Loongson-3 machine support, add Loongson-3's LEFI (a
-> UEFI-like interface for BIOS-Kernel boot parameters) helpers first.
+> Add Loongson-3 based machine support, it use liointc as the interrupt
+> controler and use GPEX as the pci controller. Currently it can work with
+> both TCG and KVM.
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> As the machine model is not based on any exiting physical hardware, the
+> name of the machine is "loongson3-virt". It may be superseded in future
+> by a real machine model. If this happens, then a regular deprecation
+> procedure shall occur for "loongson3-virt" machine.
+> 
+> We now already have a full functional Linux kernel (based on Linux-5.4.x
+> LTS) here:
+> 
+> https://github.com/chenhuacai/linux
+> 
+> Of course the upstream kernel is also usable (the kvm host side and
+> guest side have both been upstream in Linux-5.9):
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> 
+> How to use QEMU/Loongson-3?
+> 1, Download kernel source from the above URL;
+> 2, Build a kernel with arch/mips/configs/loongson3_defconfig;
+> 3, Boot a Loongson-3A4000 host with this kernel (for KVM mode);
+> 4, Build QEMU-master with this patchset;
+> 5, modprobe kvm (only necessary for KVM mode);
+> 6, Use QEMU with TCG:
+>        qemu-system-mips64el -M loongson3-virt,accel=tcg -cpu Loongson-3A1000 -kernel <path_to_kernel> -append ...
+>    Use QEMU with KVM:
+>        qemu-system-mips64el -M loongson3-virt,accel=kvm -cpu Loongson-3A4000 -kernel <path_to_kernel> -append ...
+> 
+>    The "-cpu" parameter is optional here and QEMU will use the correct type for TCG/KVM automatically.
+> 
 > Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
 > Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
->  MAINTAINERS               |   2 +
->  hw/mips/loongson3_bootp.c | 151 ++++++++++++++++++++++++
->  hw/mips/loongson3_bootp.h | 241 ++++++++++++++++++++++++++++++++++++++
->  hw/mips/meson.build       |   1 +
->  4 files changed, 395 insertions(+)
->  create mode 100644 hw/mips/loongson3_bootp.c
->  create mode 100644 hw/mips/loongson3_bootp.h
-...
+>  MAINTAINERS                                  |   1 +
+>  default-configs/devices/mips64el-softmmu.mak |   1 +
+>  hw/mips/Kconfig                              |  11 +
+>  hw/mips/loongson3_virt.c                     | 621 +++++++++++++++++++
+>  hw/mips/meson.build                          |   2 +-
+>  5 files changed, 635 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/mips/loongson3_virt.c
 
-> +struct MemmapEntry {
-> +    hwaddr base;
-> +    hwaddr size;
-> +};
-> +
-> +extern const struct MemmapEntry virt_memmap[];
-
-I'd rather avoid this extern (pass MemmapEntry as argument?).
-Anyhow, not a big deal ;)
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
