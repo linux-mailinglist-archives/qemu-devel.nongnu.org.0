@@ -2,73 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4505D2E85E9
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 00:21:58 +0100 (CET)
-Received: from localhost ([::1]:56278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 667602E85F1
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 00:58:04 +0100 (CET)
+Received: from localhost ([::1]:41568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvTk5-0005vP-9n
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 18:21:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45000)
+	id 1kvUJ1-0004tw-0l
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 18:58:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kvTiA-0004z1-OP
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 18:19:58 -0500
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:38303)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kvTi7-0004H5-R7
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 18:19:58 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id 6so29222174ejz.5
- for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 15:19:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=eZ3QSTN4QxfV/GqUtlwWUBM52za3ZrdHoMyooyuOTXk=;
- b=kRVLvPmswiDV7objgXkMUduKuYqGA7NR97mqL7RKxOVZACSW8gxHV2owuVxwjtaKdV
- SOUE4sXTOCK1te/wzywTLijGdbJ0BtqbDe1l9FnC4UomaODFOWIW0BYtdMg2b8pGRVQv
- bLYbHKWM7pzuvPZoTSAmAGQPmQwhXCGVytjkuQqPmkB1aJakwJ4S3MC/s9zfxVi2KiBT
- iF6pnSPf8QVg5Pt2BYfjAF2G8Tmqq4wmE8lSiiweIagolFTEbQdMO+aXYcbaJl6x6eCI
- WQe9gF9fNfEHyiGtioAfjx1D/hMIWpOqIaEHkD7LbTIUVUORd0fIux673AzQ6ndzZlet
- ZQ8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=eZ3QSTN4QxfV/GqUtlwWUBM52za3ZrdHoMyooyuOTXk=;
- b=ZiuvaZrjNdItVUdx0tj9mbWnT5oCY47Usn5nmijOkcq9FBQxLsAohTZzatNhu5BTu5
- 5nvCzY6m+y0B9QXgSYGNbQIFH7poxLcEV1LxVbAgdchhHB27450NlrQSzxmV5C07MlZH
- zQRl+qhiP1ieXoru1F9kVN4Y7sIEWQC3HaJs2mp0Y6gOmyVoHpIifMqfLMLDyuUjsuwg
- Md81V2Nux+Od2cpW3stEj5qNTGsloGp/tMxIW93EGnWqOywPiN/7nGeInNhmt/lDKMBe
- eqGlauT0kwSp+22hLeAv+ZoRaYEl8t4un94ePaRNLW7oOGmYGtOF76lxq/B4Ibd8gyhC
- Nl/w==
-X-Gm-Message-State: AOAM532qspXth2Eb3sfXP2GHegMUFUpJRp7ON5N9wsPiqXvy9fM9fLbw
- t6jsJEfBx1G/mttR3xkw+c75fMjv9GNetBp35hZqyQ==
-X-Google-Smtp-Source: ABdhPJyP6EDOPDF3jCtM844nesYdbkE7wr3rMCBiLTNF6IOMCvyeR2zdHLew9P7Ao78of6Q3nbEJi26qX5k5MBh7d3c=
-X-Received: by 2002:a17:906:e94c:: with SMTP id
- jw12mr60000631ejb.56.1609543194208; 
- Fri, 01 Jan 2021 15:19:54 -0800 (PST)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kvUHu-0003vG-1t; Fri, 01 Jan 2021 18:56:54 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:46766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kvUHq-00008j-JX; Fri, 01 Jan 2021 18:56:53 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 2320F7470F9;
+ Sat,  2 Jan 2021 00:56:45 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B10EE7470E2; Sat,  2 Jan 2021 00:56:44 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id AD43874645F;
+ Sat,  2 Jan 2021 00:56:44 +0100 (CET)
+Date: Sat, 2 Jan 2021 00:56:44 +0100 (CET)
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 0/5] hw/mips: Fix Fuloong2E to boot Linux guest again
+In-Reply-To: <20210101231215.1870611-1-f4bug@amsat.org>
+Message-ID: <eb1af512-943e-f65c-d867-3ead1eccb5d5@eik.bme.hu>
 References: <20210101231215.1870611-1-f4bug@amsat.org>
- <20210101231215.1870611-4-f4bug@amsat.org>
-In-Reply-To: <20210101231215.1870611-4-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 1 Jan 2021 23:19:43 +0000
-Message-ID: <CAFEAcA_Hi+4BAPL+0BhDgbsXtzDQjiCs0SAs44mKgUbcSE+XCg@mail.gmail.com>
-Subject: Re: [RFC PATCH 3/5] hw/pci-host/bonito: Remap PCI "lo" regions when
- PCIMAP reg is modified
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="3866299591-487390931-1609545404=:18952"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,96 +54,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Qemu-block <qemu-block@nongnu.org>, Huacai Chen <chenhuacai@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On Fri, 1 Jan 2021 at 23:12, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
->
-> Per the datasheet (Chapter 5.7.1. "PCI address regions"),
-> the PCIMAP register:
->
->   Map the 64Mbyte regions marked "PCI_Lo" in the CPU's memory map,
->   each of which can be assigned to any 64 Mbyte-aligned region of
->   PCI memory. The address appearing on the PCI bus consists of the
->   low 26 bits of the CPU physical address, with the high 6 bits
->   coming from the appropriate base6 field. Each of the three regions
->   is an independent window onto PCI memory, and can be positioned on
->   any 64Mbyte boundary in PCI space.
->
-> Remap the 3 regions on reset and when PCIMAP is updated.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/pci-host/bonito.c | 49 ++++++++++++++++++++++++++++++++------------
->  1 file changed, 36 insertions(+), 13 deletions(-)
->
-> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-> index a99eced0657..c58eeaf504c 100644
-> --- a/hw/pci-host/bonito.c
-> +++ b/hw/pci-host/bonito.c
-> @@ -137,6 +137,10 @@ FIELD(BONGENCFG, PCIQUEUE,      12, 1)
->
->  /* 4. PCI address map control */
->  #define BONITO_PCIMAP           (0x10 >> 2)      /* 0x110 */
-> +FIELD(PCIMAP, LO0,               0, 6)
-> +FIELD(PCIMAP, LO1,               6, 6)
-> +FIELD(PCIMAP, LO2,              12, 6)
-> +FIELD(PCIMAP, 2G,               18, 1)
->  #define BONITO_PCIMEMBASECFG    (0x14 >> 2)      /* 0x114 */
->  #define BONITO_PCIMAP_CFG       (0x18 >> 2)      /* 0x118 */
->
-> @@ -237,6 +241,7 @@ struct BonitoState {
->      qemu_irq *pic;
->      PCIBonitoState *pci_dev;
->      MemoryRegion pci_mem;
-> +    MemoryRegion pcimem_lo_alias[3];
->  };
->
->  #define TYPE_BONITO_PCI_HOST_BRIDGE "Bonito-pcihost"
-> @@ -245,6 +250,31 @@ OBJECT_DECLARE_SIMPLE_TYPE(BonitoState, BONITO_PCI_H=
-OST_BRIDGE)
->  #define TYPE_PCI_BONITO "Bonito"
->  OBJECT_DECLARE_SIMPLE_TYPE(PCIBonitoState, PCI_BONITO)
->
-> +static void bonito_remap(PCIBonitoState *s)
-> +{
-> +    static const char *const region_name[3] =3D {
-> +        "pci.lomem0", "pci.lomem1", "pci.lomem2"
-> +    };
-> +    BonitoState *bs =3D BONITO_PCI_HOST_BRIDGE(s->pcihost);
-> +
-> +    for (size_t i =3D 0; i < 3; i++) {
-> +        uint32_t offset =3D extract32(s->regs[BONITO_PCIMAP], 6 * i, 6) =
-<< 26;
-> +
-> +        if (memory_region_is_mapped(&bs->pcimem_lo_alias[i])) {
-> +            memory_region_del_subregion(get_system_memory(),
-> +                                        &bs->pcimem_lo_alias[i]);
-> +            object_unparent(OBJECT(&bs->pcimem_lo_alias[i]));
-> +        }
-> +
-> +        memory_region_init_alias(&bs->pcimem_lo_alias[i], OBJECT(s),
-> +                                 region_name[i], &bs->pci_mem,
-> +                                 offset, 64 * MiB);
-> +        memory_region_add_subregion(get_system_memory(),
-> +                                    BONITO_PCILO_BASE + i * 64 * MiB,
-> +                                    &bs->pcimem_lo_alias[i]);
-> +    }
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Rather than delete-and-reinit-and-add, it's probably better to
-just create the subregions once at device startup, and then use
-memory_region_set_enabled() and memory_region_set_address()
-to manipulate whether the subregion is visible and what address
-in the system memory it is mapped at.
+--3866299591-487390931-1609545404=:18952
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-thanks
--- PMM
+On Sat, 2 Jan 2021, Philippe Mathieu-Daudé wrote:
+> We closed 2020 with few discussions about the Fuloong 2E board
+> (see [1] and [2]).
+>
+> This series collect the minimum set of patch to have the machine
+> booting Linux guest again, including integration tests.
+>
+> This is sent as RFC because Mark raised some issues in (see [3]
+> and previous in this thread) and I don't understand PCI enough
+> to intervene.
+
+Thanks for collecting these. Let me summarise the discussion because the 
+meaning may have been lost in the seamingly heated debate but I think 
+Mark's main concern was that he does not like having a feature flag and 
+property setting the emulation to partially emulate the device: either 
+only emulating legacy mode or native mode that this patch does but he 
+would prefer to faithfully emulate the device preferably allowing 
+switching between modes. But that's not easily possible without rewritig 
+either the ISA emulation or PCI emulation in QEMU because current code 
+does not allow these to be switched once created. That's way more work and 
+risk of breaking other things using these fundamental parts that I would 
+want to take on. My goal was only to allow using this (otherwise quite 
+unused and deglected) device model in pegasos2 emulation which needs 
+native mode. But turns out fuloong2e Linux wants legacy mode so we need a 
+way to resolve this conflict and the solution was this flag and keeping 
+partial emulation depending on machine.
+
+But Mark still considered that a horrible hack but after looking more 
+closely he also found the difficulty of implementing a more faithful 
+emulation so he would accept the flag at the end but still wanted 
+registers to be set more consistently matching what the data sheet and 
+whatever ideals would dictate. However I've spent a lot of time before 
+finding these values that work with all clients and found some of these 
+clients have assumptions instead of working in an ideal world following 
+what data sheets say and I don't want to make any changes to this now 
+before we also have pegasos2 upstreamed so any change can be more 
+throughly tested and I don't have to retest everything for every small 
+change just to find something broke,
+
+This was the main reason for disagreement and I think Mark's standards for 
+this device was way higher than necessary in this situation and I may have 
+got upset to have this pushed back again when we've already went through 
+this last March where we also had a long discussion after which Mark 
+managed to get rid of the flag but that now came back in a different form. 
+(Previously it was switching between fully native and non-100% native 
+mode, now it selects legacy or non-100% native mode where legacy is needed 
+for fuloong2e linux and non-100% native mode is needed for pegasos2 
+guests.) This may not be how the real device work (Mark also has concerns 
+about what exactly is non-100% native mode) and it may be a horrible hack 
+but it's probably the best that can be done with current QEMU facilities 
+and in the time I had and since this is only used on fuloong2e and 
+pegasos2 for a few obscure guests I think it does not need any more 
+complex solution at the moment.
+
+It seems this disagreement on what's good enough for a device model to get 
+in QEMU is the source of disagreement between us with Mark but we'll sort 
+that out off list once I finish preparing my pegasos2 patches that will 
+finally show where these changes go and oters can also test any proposed 
+changes.
+
+Regards,
+BALATON Zoltan
+
+> Peter commented a similar PCI issue with the Sam460ex [4] so might
+> be able to help us here.
+>
+> Anyhow, sharing this PoC on the list with the test, the avoid boring
+> manual testing.
+>
+> Regards,
+>
+> Phil.
+>
+> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg769105.html
+> [2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg769557.html
+> [3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg769593.html
+> [4] https://www.mail-archive.com/qemu-devel@nongnu.org/msg769697.html
+>
+> BALATON Zoltan (1):
+>  ide: Make room for flags in PCIIDEState and add one for legacy mode
+>
+> Guenter Roeck (1):
+>  via-ide: Fix fuloong2e support
+>
+> Jiaxun Yang (1):
+>  tests/acceptance: Test boot_linux_console for fuloong2e
+>
+> Philippe Mathieu-Daudé (2):
+>  hw/pci-host/bonito: Remap PCI "lo" regions when PCIMAP reg is modified
+>  tests/integration: Test Fuloong2E IDE drive, run userspace commands
+>
+> include/hw/ide/pci.h                   |  7 +++-
+> hw/ide/cmd646.c                        |  6 ++--
+> hw/ide/via.c                           | 19 ++++++++--
+> hw/mips/fuloong2e.c                    |  4 ++-
+> hw/pci-host/bonito.c                   | 49 +++++++++++++++++++-------
+> hw/sparc64/sun4u.c                     |  2 +-
+> tests/acceptance/boot_linux_console.py | 47 ++++++++++++++++++++++++
+> 7 files changed, 113 insertions(+), 21 deletions(-)
+>
+> --
+> 2.26.2
+>
+>
+>
+--3866299591-487390931-1609545404=:18952--
 
