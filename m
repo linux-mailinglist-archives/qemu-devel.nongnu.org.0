@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E9D2E85AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jan 2021 22:20:42 +0100 (CET)
-Received: from localhost ([::1]:43076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86AA92E85B9
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jan 2021 22:33:39 +0100 (CET)
+Received: from localhost ([::1]:46168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvRqj-0004dM-IW
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 16:20:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53338)
+	id 1kvS3G-0006df-1A
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 16:33:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvRpm-0004Dy-DJ
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 16:19:42 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:54906)
+ id 1kvS2O-0006Ec-U2
+ for qemu-devel@nongnu.org; Fri, 01 Jan 2021 16:32:46 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:38997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvRpk-0003OK-Vh
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 16:19:42 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id c133so9795443wme.4
- for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 13:19:40 -0800 (PST)
+ id 1kvS2L-000841-Qu
+ for qemu-devel@nongnu.org; Fri, 01 Jan 2021 16:32:44 -0500
+Received: by mail-wm1-x331.google.com with SMTP id 3so9933310wmg.4
+ for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 13:32:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rqZOQPcgjmowePA1PArXCWV9Lf4fa2atdUCBVyfTut0=;
- b=bkqW/elSmaXxj3qmLsVqgFSpX6dNRPOU0dqT+t2yllOFWSdMVSRLjFIoKO7X29useu
- QRzFnOBXSltZjRcQH2H0rXCwl78bw1nlOZVb55dckUX7K+9ngYBlCW748+MHcenhAZtB
- DUt7SzHVnJKqMlH8Gx/FQYCIa9brdrQxnLbj1FpKriMAolXiJdVdPzcP5cti/Rec04Ey
- EMxWMcEruvt0O6wnXQoISdfpfiwaPEDvrNoJUm1zUXb3DroJydgKOdQ6ljvmSAbDVdtw
- HzLgi3BhKdVgJ6EFMHPB7iNJbZ8OUQF/FK+tPCVCM+ejT8LoJ+9ZfuqBnTnVma0YZTDY
- 0vAQ==
+ bh=KgL2ePEMp0JfeG5rSbbcR8LgyAD2jBdAL6rNQo+/SFs=;
+ b=pmmCmizMdGHDII5MHAm876cem+YVP8ltZik0dPAUIThwg9SDt4fxfDHPWEORJp08H6
+ hai2loZnk2WrICJ0+BP/jdV8Vl/RKpsDqv6TY2CjYgvgZT0aaM2Kle31i/vYSafv9fC3
+ 79v2tvr7N/zUSeJ3E34O+jx7RuGWNJGI0HFrqoHE1sZRBy2/RXL7nEf2zGwUa9ULebyh
+ rl0/BPJ0LAUX3CqKdhO65KPn4Q/APPnkyJy2im4sjlFhwdn0rkWJkhlp5o1M5N4mYuPC
+ IUDOYWTTef0j3H4af7RAG0Jm7sr0Fr3z09886Vtsbg6fBo6F2DFrbiYoDlGXpCdMmzFe
+ a8BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rqZOQPcgjmowePA1PArXCWV9Lf4fa2atdUCBVyfTut0=;
- b=boFcLoGO6oJtgkCUrJXf0GGzyTY2/miAxIIg0v7L7HbSDx0lNySZEli1F+aeKwNHEB
- vlFSNTRH1iLnQljGSvGWXWokGZjZN7yi6rcHnNYadZgQy1YvRxF5HR5ShPiAuZE2mgXk
- hl6EQ/HdFvRfuEeq1yED2pJzJ6G/qXIrlkCF8l/JUKXdC6Bk2uXRlPb1bFRdIb91NdGa
- pUuklC+CJVE+5BaNi59hPYnicnrWdkiZUka/gF8vRDZsQEnB7GiBV3Vlfl4EhJj5Gi2V
- zx8eIW96b2F1P6pdRTbhld7pgCcjIVe2qviDb+nw5A63rkRIcBUXTWYd9tqUwDyXFFZw
- qUXA==
-X-Gm-Message-State: AOAM532wLpcq0tQoXSyzZ25yIG5xCF6ZUyS5F0vqkTFvrUUrmzSvMBXR
- YAKrzqv5qxW93HNJnYve4jY=
-X-Google-Smtp-Source: ABdhPJxX7TibJffLagA+L+HooKSA7VH/GwUU+/qEK5ms/h7H+3dZzVkY3gQlfumf1ZjMZft8sptaeg==
-X-Received: by 2002:a05:600c:410d:: with SMTP id
- j13mr17132377wmi.95.1609535979460; 
- Fri, 01 Jan 2021 13:19:39 -0800 (PST)
+ bh=KgL2ePEMp0JfeG5rSbbcR8LgyAD2jBdAL6rNQo+/SFs=;
+ b=jQUU+Medv4hJYqfEKw4foP81tvImmrBIQ0Qu/JnT3GQyUVzQjSDva+zmbiJcUmcJLR
+ ID9Wao03qnNWkHt7kL+elJXoNn2MDX3VePU2f9IGNluGE5M7cLyE6kgHWmKOxxOxSbnT
+ oshlooSUHGAz3XGLvqR377DpkA17A/yz9jioZZkw0Hkwvm+rNNFKV6dsSCV2WUV7TUwy
+ /842q+kDQQBJPjOeKGqp8/lmCqnXfDtKQu3c3X0mfi4pAoAX9Jj3AzPGnu+Z275yqywh
+ 3aASAca25hWOCq8Bz9qSvQCoQM7h5XGii4Kumga5JsPkndy7bCNtl01uwFb8p5XYBXLw
+ xzZA==
+X-Gm-Message-State: AOAM532Mf4uXktit2dHfsdJDVEEuaOo/plEJKDxu8oX3jszUXyJukpdL
+ P186glS4xWDitvSIV7jOqXo=
+X-Google-Smtp-Source: ABdhPJzIO/a3ZnDJRIuKd9vRsvbQS4lvSuMEUpdnhRo76tv6o8pa+KlYnuN6mQjDBSS+rIjNhs/+lg==
+X-Received: by 2002:a1c:7f8c:: with SMTP id
+ a134mr17257460wmd.184.1609536760299; 
+ Fri, 01 Jan 2021 13:32:40 -0800 (PST)
 Received: from [192.168.1.34] (239.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.239])
- by smtp.gmail.com with ESMTPSA id r15sm74143923wrq.1.2021.01.01.13.19.38
+ by smtp.gmail.com with ESMTPSA id z21sm18212021wmk.20.2021.01.01.13.32.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Jan 2021 13:19:38 -0800 (PST)
-Subject: Re: [PATCH v2 06/10] audio/via-ac97: Simplify code and set
- user_creatable to false
+ Fri, 01 Jan 2021 13:32:39 -0800 (PST)
+Subject: Re: [PATCH v2 09/10] vt82c686: Convert debug printf to trace points
 To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
 References: <cover.1609121293.git.balaton@eik.bme.hu>
- <1ebc069cbab65386d01125f6b0997a88e560d582.1609121293.git.balaton@eik.bme.hu>
+ <28d9455165261a9cfd2cc4a650b25f987e60295c.1609121293.git.balaton@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <acda35c2-9c82-e8e1-ee41-32fc92e07a93@amsat.org>
-Date: Fri, 1 Jan 2021 22:19:37 +0100
+Message-ID: <3088f630-ffc4-22e8-e04b-c3eff09bd9c4@amsat.org>
+Date: Fri, 1 Jan 2021 22:32:38 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <1ebc069cbab65386d01125f6b0997a88e560d582.1609121293.git.balaton@eik.bme.hu>
+In-Reply-To: <28d9455165261a9cfd2cc4a650b25f987e60295c.1609121293.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -96,15 +95,127 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/28/20 3:08 AM, BALATON Zoltan via wrote:
-> Remove some unneded, empty code and set user_creatable to false
-> (besides being not implemented yet, so does nothing anyway) it's also
-> normally part of VIA south bridge chips so no need to confuse users
-> showing them these devices.
+> Drop DPRINTF and use trace functions instead. Two debug messages about
+> unimplemented registers could be converted to qemu_log_mask() but in
+> reality all registers are currently unimplemented (we just store and
+> return values of writable regs but do nothing with them). As we
+> already trace register access there's no need for additional debug
+> messages so these are just removed and a comment is added as a reminder.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->  hw/audio/via-ac97.c | 51 +++++++++++++++++----------------------------
->  1 file changed, 19 insertions(+), 32 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> ---
+> v2: Extended commit message
+> 
+>  hw/isa/trace-events |  6 ++++++
+>  hw/isa/vt82c686.c   | 51 +++++++++++++--------------------------------
+>  2 files changed, 21 insertions(+), 36 deletions(-)
+> 
+> diff --git a/hw/isa/trace-events b/hw/isa/trace-events
+> index 3544c6213c..d267d3e652 100644
+> --- a/hw/isa/trace-events
+> +++ b/hw/isa/trace-events
+> @@ -13,3 +13,9 @@ pc87312_io_write(uint32_t addr, uint32_t val) "write addr=0x%x val=0x%x"
+>  # apm.c
+>  apm_io_read(uint8_t addr, uint8_t val) "read addr=0x%x val=0x%02x"
+>  apm_io_write(uint8_t addr, uint8_t val) "write addr=0x%x val=0x%02x"
+> +
+> +# vt82c686.c
+> +via_isa_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
+> +via_pm_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
+> +via_superio_read(uint8_t addr, uint8_t val) "addr 0x%x val 0x%x"
+> +via_superio_write(uint8_t addr, uint32_t val) "addr 0x%x val 0x%x"
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index cd87ec0103..d7ce15bf9f 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -27,14 +27,7 @@
+>  #include "qemu/timer.h"
+>  #include "exec/address-spaces.h"
+>  #include "qom/object.h"
+> -
+> -/* #define DEBUG_VT82C686B */
+> -
+> -#ifdef DEBUG_VT82C686B
+> -#define DPRINTF(fmt, ...) fprintf(stderr, "%s: " fmt, __func__, ##__VA_ARGS__)
+> -#else
+> -#define DPRINTF(fmt, ...)
+> -#endif
+> +#include "trace.h"
+>  
+>  typedef struct SuperIOConfig {
+>      uint8_t config[0x100];
+> @@ -55,12 +48,12 @@ static void superio_ioport_writeb(void *opaque, hwaddr addr, uint64_t data,
+>  {
+>      SuperIOConfig *superio_conf = opaque;
+>  
+> -    DPRINTF("superio_ioport_writeb  address 0x%x  val 0x%x\n", addr, data);
+> -    if (addr == 0x3f0) {
+> +    if (addr == 0x3f0) { /* config index register */
+>          superio_conf->index = data & 0xff;
+>      } else {
+>          bool can_write = true;
+> -        /* 0x3f1 */
+> +        /* 0x3f1, config data register */
+> +        trace_via_superio_write(superio_conf->index, data & 0xff);
+>          switch (superio_conf->index) {
+>          case 0x00 ... 0xdf:
+>          case 0xe4:
+> @@ -73,18 +66,7 @@ static void superio_ioport_writeb(void *opaque, hwaddr addr, uint64_t data,
+>          case 0xfd ... 0xff:
+>              can_write = false;
+>              break;
+> -        case 0xe7:
+> -            if ((data & 0xff) != 0xfe) {
+> -                DPRINTF("change uart 1 base. unsupported yet\n");
+> -                can_write = false;
+> -            }
+> -            break;
+> -        case 0xe8:
+> -            if ((data & 0xff) != 0xbe) {
+> -                DPRINTF("change uart 2 base. unsupported yet\n");
+> -                can_write = false;
+> -            }
+> -            break;
+> +        /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
+
+If you don't mind I'll prepend this patch:
+-- >8 --
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index cd87ec01039..23b4deaac93 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -25,6 +25,7 @@
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+ #include "qemu/timer.h"
++#include "qemu/log.h"
+ #include "exec/address-spaces.h"
+ #include "qom/object.h"
+
+@@ -73,17 +74,9 @@ static void superio_ioport_writeb(void *opaque,
+hwaddr addr, uint64_t data,
+         case 0xfd ... 0xff:
+             can_write = false;
+             break;
+-        case 0xe7:
+-            if ((data & 0xff) != 0xfe) {
+-                DPRINTF("change uart 1 base. unsupported yet\n");
+-                can_write = false;
+-            }
+-            break;
+-        case 0xe8:
+-            if ((data & 0xff) != 0xbe) {
+-                DPRINTF("change uart 2 base. unsupported yet\n");
+-                can_write = false;
+-            }
++        case 0xe6 ... 0xe8: /* set base port of parallel and serial */
++            qemu_log_mask(LOG_UNIMP, "change base port not implemented\n");
++            can_write = false;
+             break;
+         default:
+             break;
+---
 
