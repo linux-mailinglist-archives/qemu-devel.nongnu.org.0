@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34862E85E0
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 00:13:51 +0100 (CET)
-Received: from localhost ([::1]:35306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647032E85E3
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 00:15:43 +0100 (CET)
+Received: from localhost ([::1]:41702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvTcE-0005kK-Ur
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 18:13:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44092)
+	id 1kvTe2-0008H8-FC
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 18:15:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvTb3-0004Ku-37; Fri, 01 Jan 2021 18:12:38 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:55666)
+ id 1kvTbD-0004O5-Jg; Fri, 01 Jan 2021 18:12:47 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvTb1-0001vW-8z; Fri, 01 Jan 2021 18:12:36 -0500
-Received: by mail-wm1-x331.google.com with SMTP id c124so10249692wma.5;
- Fri, 01 Jan 2021 15:12:34 -0800 (PST)
+ id 1kvTb7-0001wZ-1g; Fri, 01 Jan 2021 18:12:44 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id r3so23400438wrt.2;
+ Fri, 01 Jan 2021 15:12:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ljyxQOUNZGYTQa01IhKR46X5cyTNgh71UVYnn7BF/T8=;
- b=gj9aAg3lEBFkGyYqrbofjYq+WHyHo97p20dac3t2B96uP7gx03O3DbJSfL06Pw4afl
- MKvcuJc5BIUJnRGBt8TknJzZLRHJ4ZBZCkyCUiFbPJzwDZhWJFWUW3rjrWUYDn/B+i3F
- b5ml/yS0rBVKipruBt9vHyoysstW/DlKg5HsomBxyGUmXSvQEJ02pNtUbVshBeDIjCM8
- wgKY2L0xufQM3LH5F11hSDb+f0v/7Fg9X6hv3/BWvxJfMvogvZIP4dkTZW5N2MwOxUFf
- Q5Y5dTuSiuj0rawNaIJRY3b7/jaGQgXkbW6n9xbQhS+3pzi+ioohk7ekWaKxWCcdPFS1
- kiZg==
+ bh=Qro7y7rQW9N9QQR+C1gkV1wlCAwyhKQjnQXxujG4TJI=;
+ b=HDAm5rn7idftaY29oAM293BL0vR3TKj0WppYi74Z3/mFRzKAtHacrD14NBUavxQPRC
+ TfPxhuV9Xe1MQ4phseclN5A5N/fLr/gTk0wqNwmzr6c1SCoXE102T/fvjwQ/DWw58QxM
+ qtPZvZ+sM88qrzapOyXMvI6VRdH//2NzvXdPTopfRTUl9Lnm6gU+G0k8Ds0CTkCXinEY
+ RUHH3obI98nzYfU0oEMz4QU9actTLdKLWOATlBGZrc7/WDG1NNjpEjUxXfmTpBaHDyRB
+ Kyn/m4BNr2GsntvdWTdST0GJYFvugPVNG+S8UjVjfbelXnM/1C2JJFWZ0+gAD3dxlw6L
+ VUgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ljyxQOUNZGYTQa01IhKR46X5cyTNgh71UVYnn7BF/T8=;
- b=Tg2HPUn4EZBefl9JwC4cAYhjkMUGSOgJg/bLaZ55NwZwl8dqO907BckC3Izyu7oGhq
- MbDjz0WKy6QMAIqhJnzkIMZOS86voH8BSiN4JOgnQ/u/gPLuzLELxMjd4sxq2A/7ypyM
- gxpYfHsldS1NtRN334owYumxSDMqxNQSN6ihO5bb+Vux2/dnxRFZgEMB09HGq3Dvcd+7
- GjETY5bdkQbIbVXVbOqCfdGyNj6cjCPUnLd4nfq7utoZOQCtV8iF/ZRS48ABqPQPUnvP
- pURHAQcWYHYjQQFsIK7RXBV+dYoaSKkzb1jbXpyWplZZQ02g+RBav4ezsqGJbp2CbrC+
- ayKw==
-X-Gm-Message-State: AOAM531tYlyZK3EjAHxeULkZSOWyaxHeEaSbn2GFfnhjbgBKpac40dx8
- Hs7VmK0VB73phteV+ncMIfc0oysS3L8=
-X-Google-Smtp-Source: ABdhPJzHbswv049B7rC0m2xISqgFQL9fayJbvpZrC9bXRYHh2Z9ZhTl7pJUSHkxPK8VFQWoxe/7oiw==
-X-Received: by 2002:a1c:24c4:: with SMTP id k187mr17661109wmk.14.1609542753397; 
- Fri, 01 Jan 2021 15:12:33 -0800 (PST)
+ bh=Qro7y7rQW9N9QQR+C1gkV1wlCAwyhKQjnQXxujG4TJI=;
+ b=Ceq4VWWlfw2eACgoB9CHZwVHu9uYpW1QKi889n8XOfFMUyn8ytBcJLxnWavAel8ecx
+ q8pbHste6G/G4v/fveyksG0N9tULCWkonaCPU93SWhFGHk+tOxD4cD6TTkiLCeK5w0Tb
+ 4O4zd0L8EswZ/8HfeWACz4ds3QH64F6Yw7IL7RQOYQnkGVzTAmzT/62pbjMb2VfVV5pW
+ 1q8dx5St+aOu1VyuwdMsn9BPzwv8LOzBv2CF2bLP1+7D65Tx83aQHofD1GzNw//bt5wU
+ iYjI8wQbrsl0kEnrxaAjYvc6zrbcOUma5Q8Xj0CdCn7zwDTFNijL7tZsb/crcSF3PmHd
+ XLLw==
+X-Gm-Message-State: AOAM530f8UYkhc06RZByWXrJsSCfYpFIElv7+LUV1PGTQvuSGZTR9s6q
+ E1aOvk4jrPXgX+8UYHkHL8LtE1zJJh4=
+X-Google-Smtp-Source: ABdhPJxuKYkrI5XgnghK4rBv+8okos6om53py2Aai9snCIeVnvUODPXI9blMLZH457FWvPbIUM9z/g==
+X-Received: by 2002:adf:ee90:: with SMTP id b16mr70508430wro.221.1609542758551; 
+ Fri, 01 Jan 2021 15:12:38 -0800 (PST)
 Received: from x1w.redhat.com (239.red-83-42-57.dynamicip.rima-tde.net.
  [83.42.57.239])
- by smtp.gmail.com with ESMTPSA id x17sm76034444wro.40.2021.01.01.15.12.32
+ by smtp.gmail.com with ESMTPSA id k18sm83074047wrd.45.2021.01.01.15.12.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Jan 2021 15:12:32 -0800 (PST)
+ Fri, 01 Jan 2021 15:12:37 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 3/5] hw/pci-host/bonito: Remap PCI "lo" regions when
- PCIMAP reg is modified
-Date: Sat,  2 Jan 2021 00:12:13 +0100
-Message-Id: <20210101231215.1870611-4-f4bug@amsat.org>
+Subject: [RFC PATCH 4/5] tests/acceptance: Test boot_linux_console for
+ fuloong2e
+Date: Sat,  2 Jan 2021 00:12:14 +0100
+Message-Id: <20210101231215.1870611-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210101231215.1870611-1-f4bug@amsat.org>
 References: <20210101231215.1870611-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,139 +89,59 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Huacai Chen <chenhuacai@kernel.org>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Willian Rampazzo <willianr@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the datasheet (Chapter 5.7.1. "PCI address regions"),
-the PCIMAP register:
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-  Map the 64Mbyte regions marked "PCI_Lo" in the CPU's memory map,
-  each of which can be assigned to any 64 Mbyte-aligned region of
-  PCI memory. The address appearing on the PCI bus consists of the
-  low 26 bits of the CPU physical address, with the high 6 bits
-  coming from the appropriate base6 field. Each of the three regions
-  is an independent window onto PCI memory, and can be positioned on
-  any 64Mbyte boundary in PCI space.
+The kernel comes from debian archive so it's trusted.
 
-Remap the 3 regions on reset and when PCIMAP is updated.
-
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
+Message-Id: <20201224031750.52146-9-jiaxun.yang@flygoat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/pci-host/bonito.c | 49 ++++++++++++++++++++++++++++++++------------
- 1 file changed, 36 insertions(+), 13 deletions(-)
+ tests/acceptance/boot_linux_console.py | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-index a99eced0657..c58eeaf504c 100644
---- a/hw/pci-host/bonito.c
-+++ b/hw/pci-host/bonito.c
-@@ -137,6 +137,10 @@ FIELD(BONGENCFG, PCIQUEUE,      12, 1)
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index cc6ec0f8c15..fb41bb7144b 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -170,6 +170,27 @@ def test_mips64el_malta(self):
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+         self.wait_for_console_pattern(console_pattern)
  
- /* 4. PCI address map control */
- #define BONITO_PCIMAP           (0x10 >> 2)      /* 0x110 */
-+FIELD(PCIMAP, LO0,               0, 6)
-+FIELD(PCIMAP, LO1,               6, 6)
-+FIELD(PCIMAP, LO2,              12, 6)
-+FIELD(PCIMAP, 2G,               18, 1)
- #define BONITO_PCIMEMBASECFG    (0x14 >> 2)      /* 0x114 */
- #define BONITO_PCIMAP_CFG       (0x18 >> 2)      /* 0x118 */
- 
-@@ -237,6 +241,7 @@ struct BonitoState {
-     qemu_irq *pic;
-     PCIBonitoState *pci_dev;
-     MemoryRegion pci_mem;
-+    MemoryRegion pcimem_lo_alias[3];
- };
- 
- #define TYPE_BONITO_PCI_HOST_BRIDGE "Bonito-pcihost"
-@@ -245,6 +250,31 @@ OBJECT_DECLARE_SIMPLE_TYPE(BonitoState, BONITO_PCI_HOST_BRIDGE)
- #define TYPE_PCI_BONITO "Bonito"
- OBJECT_DECLARE_SIMPLE_TYPE(PCIBonitoState, PCI_BONITO)
- 
-+static void bonito_remap(PCIBonitoState *s)
-+{
-+    static const char *const region_name[3] = {
-+        "pci.lomem0", "pci.lomem1", "pci.lomem2"
-+    };
-+    BonitoState *bs = BONITO_PCI_HOST_BRIDGE(s->pcihost);
++    def test_mips64el_fuloong2e(self):
++        """
++        :avocado: tags=arch:mips64el
++        :avocado: tags=machine:fuloong2e
++        :avocado: tags=endian:little
++        """
++        deb_url = ('http://archive.debian.org/debian/pool/main/l/linux/'
++                   'linux-image-3.16.0-6-loongson-2e_3.16.56-1+deb8u1_mipsel.deb')
++        deb_hash = 'd04d446045deecf7b755ef576551de0c4184dd44'
++        deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash)
++        kernel_path = self.extract_from_deb(deb_path,
++                                            '/boot/vmlinux-3.16.0-6-loongson-2e')
 +
-+    for (size_t i = 0; i < 3; i++) {
-+        uint32_t offset = extract32(s->regs[BONITO_PCIMAP], 6 * i, 6) << 26;
++        self.vm.set_console()
++        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=ttyS0'
++        self.vm.add_args('-kernel', kernel_path,
++                         '-append', kernel_command_line)
++        self.vm.launch()
++        console_pattern = 'Kernel command line: %s' % kernel_command_line
++        self.wait_for_console_pattern(console_pattern)
 +
-+        if (memory_region_is_mapped(&bs->pcimem_lo_alias[i])) {
-+            memory_region_del_subregion(get_system_memory(),
-+                                        &bs->pcimem_lo_alias[i]);
-+            object_unparent(OBJECT(&bs->pcimem_lo_alias[i]));
-+        }
-+
-+        memory_region_init_alias(&bs->pcimem_lo_alias[i], OBJECT(s),
-+                                 region_name[i], &bs->pci_mem,
-+                                 offset, 64 * MiB);
-+        memory_region_add_subregion(get_system_memory(),
-+                                    BONITO_PCILO_BASE + i * 64 * MiB,
-+                                    &bs->pcimem_lo_alias[i]);
-+    }
-+}
-+
- static void bonito_writel(void *opaque, hwaddr addr,
-                           uint64_t val, unsigned size)
- {
-@@ -260,7 +290,6 @@ static void bonito_writel(void *opaque, hwaddr addr,
-     case BONITO_BONPONCFG:
-     case BONITO_IODEVCFG:
-     case BONITO_SDCFG:
--    case BONITO_PCIMAP:
-     case BONITO_PCIMEMBASECFG:
-     case BONITO_PCIMAP_CFG:
-     case BONITO_GPIODATA:
-@@ -282,6 +311,10 @@ static void bonito_writel(void *opaque, hwaddr addr,
-     case BONITO_MEMSIZE:
-         s->regs[saddr] = val;
-         break;
-+    case BONITO_PCIMAP:
-+        s->regs[saddr] = val;
-+        bonito_remap(s);
-+        break;
-     case BONITO_BONGENCFG:
-         if (!(s->regs[saddr] & 0x04) && (val & 0x04)) {
-             reset = 1; /* bit 2 jump from 0 to 1 cause reset */
-@@ -610,6 +643,8 @@ static void bonito_reset(void *opaque)
-     s->regs[BONITO_DQCFG] = 0x8;
-     s->regs[BONITO_MEMSIZE] = 0x10000000;
-     s->regs[BONITO_PCIMAP] = 0x6140;
-+
-+    bonito_remap(s);
- }
- 
- static const VMStateDescription vmstate_bonito = {
-@@ -626,7 +661,6 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
- {
-     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
-     BonitoState *bs = BONITO_PCI_HOST_BRIDGE(dev);
--    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 3);
- 
-     memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCIHI_SIZE);
-     phb->bus = pci_register_root_bus(dev, "pci",
-@@ -634,17 +668,6 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
-                                      dev, &bs->pci_mem, get_system_io(),
-                                      0x28, 32, TYPE_PCI_BUS);
- 
--    for (size_t i = 0; i < 3; i++) {
--        char *name = g_strdup_printf("pci.lomem%zu", i);
--
--        memory_region_init_alias(&pcimem_lo_alias[i], NULL, name,
--                                 &bs->pci_mem, i * 64 * MiB, 64 * MiB);
--        memory_region_add_subregion(get_system_memory(),
--                                    BONITO_PCILO_BASE + i * 64 * MiB,
--                                    &pcimem_lo_alias[i]);
--        g_free(name);
--    }
--
-     create_unimplemented_device("pci.io", BONITO_PCIIO_BASE, 1 * MiB);
- }
- 
+     def test_mips_malta_cpio(self):
+         """
+         :avocado: tags=arch:mips
 -- 
 2.26.2
 
