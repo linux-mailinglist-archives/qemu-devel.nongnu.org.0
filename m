@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30B32E8388
-	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jan 2021 12:08:30 +0100 (CET)
-Received: from localhost ([::1]:33278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B1D2E839B
+	for <lists+qemu-devel@lfdr.de>; Fri,  1 Jan 2021 13:04:24 +0100 (CET)
+Received: from localhost ([::1]:50054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvIIH-0006H0-Pg
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 06:08:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46158)
+	id 1kvJAM-00085z-Ns
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 07:04:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvIH4-0005ng-KL
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 06:07:14 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41903)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kvJ9N-0007fS-Nb
+ for qemu-devel@nongnu.org; Fri, 01 Jan 2021 07:03:21 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:37635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvIH2-0008GB-Pj
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 06:07:14 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id a12so21772375wrv.8
- for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 03:07:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Km/0KHdZXQ0Nj+EUzVVyBeVLfcQKujVir2MpxaVOLKk=;
- b=TzsbGKBbpHQYoyEpp1LEaTHh71NNRffwTsEpZenEXTGhOe3wHz3octupBO3VY1zYQ+
- TFkOS7zESh98I3DzG33icDDeWjnc0WQL481pMHizUlx5ROBqhGKI3MxH2IUoWYloEPgP
- o0jpmy9En36XWP3DxsSjTNd7IRpfcqQiU2Ta5j184I4YzgzVLXn3PjR/wq5CXaHfgKAi
- u5TfEJWz7c88vsc9bH0pbWeT875Qwi1ErG3gGE00Tuhj5b7DMyFFQQikS5CugkV5WBB2
- BmoDxwVuQ+149RbZE6abFMXvIELDdJguicODUAZ7WFST0eQFkGuXig7lTL+wJdJZNsif
- UoQA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kvJ9M-0002VC-1T
+ for qemu-devel@nongnu.org; Fri, 01 Jan 2021 07:03:21 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id ga15so27893090ejb.4
+ for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 04:03:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ppveAjEpvQyjxsj/0lwZhLu2sxlDqyE4w/x/BAJMrFM=;
+ b=r1hZR4Rix+60NQSp7hsIhQRgmwtOIMShnl5Xppv0/0QrHJJ6txFX3Ic/jmimUdhAHa
+ Kh7+IL2ai69FWqL8JfMqjwbvHj6myiyqt0zz8SexW/slbnb4L/NBEyRs5hJVV+niNZK9
+ CsoUY9SqwO+bG7r4eAk0DiwKtfQHr3XTz6zPJiftdWiCv6mNybLr7mfsjrsv7DhFD0hF
+ 2H93+kSxTz+ljXauQFIspK/G5PzxzjJwNTlSvnY5KT4abvCeYY36h0zyf4WXB4GNiDPI
+ WD/4Qi4+SOoUdZpspu88YEMJ68Oj81W5bVBTsSB84l1frf/Zvg47BEKUajPKfnv5jji6
+ 7vbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Km/0KHdZXQ0Nj+EUzVVyBeVLfcQKujVir2MpxaVOLKk=;
- b=E7d5hwDo1aBIYMRySG0kKo0yhmlBtURKSzU1ngfFd98xUoWeU6+2V5mU18xHoWZE0t
- iYBuEzAgvPb5mlJyHY2EjC4Z0XhyDltf0kyeuhaIJl3xkDEaluAnl382VNBdyt/ewNQ9
- odQkgRbRzadITGP6ia1zCP+wY6B9ej9JRkOjSy6nlGvZj5yq8qROGwE8Owx1v8xcrCi6
- 2Ru/ZBSfqswxeBBHi96of3S2jLPm01dVWVO84wypVdzHJhE12ecHPWBDV3zCj6XZ20Vq
- XXioOJjY0ge0nZCCWZ1pe8cd+Kd9D30lWu2lYdeEWqlXjCTYmF3i9T/s04k6pU1XRufY
- KEjg==
-X-Gm-Message-State: AOAM530mRV35za4LF9Wu5WFmz+GaMh5ctucmmp3IYfLzNXweWp1qKoNq
- /Ll0AfUTX76f6Ia9pwoEqv5BzGM2sH0=
-X-Google-Smtp-Source: ABdhPJxBZIzuZh6Mw4yoDbHLsIKbjfaPHHtB2D+9MFVKraOOwv3Cy0gHjnEcaRlRrCFydtmpbUY36Q==
-X-Received: by 2002:adf:97dd:: with SMTP id t29mr68122944wrb.357.1609499230727; 
- Fri, 01 Jan 2021 03:07:10 -0800 (PST)
-Received: from [192.168.1.34] (239.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.239])
- by smtp.gmail.com with ESMTPSA id p7sm1346240wmp.3.2021.01.01.03.07.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Jan 2021 03:07:09 -0800 (PST)
-Subject: Re: [PATCH v3 4/8] hw/pci-host/bonito: Fixup pci.lomem mapping
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20201224031750.52146-1-jiaxun.yang@flygoat.com>
- <20201224031750.52146-5-jiaxun.yang@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <835ce7dc-9efb-3b67-d324-b9891a87eed2@amsat.org>
-Date: Fri, 1 Jan 2021 12:07:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ppveAjEpvQyjxsj/0lwZhLu2sxlDqyE4w/x/BAJMrFM=;
+ b=lj/tBRUACZcOQ3KchlLvO9gApnl+S6iPSVysolEWWlPHyPugDOPytWFyG3iXbYHp7t
+ M+6XQudjxAjSy4BR7WixvEjD0+Q7UG1f+BkkWBRLK2aeUpw5K+2wvp3CWusk24dI/q5W
+ re54Je81cgKeyxhdHF1bejgEMtdu/CYO1AZahiNukAgFvjTMF5n6G6J9PaaiZ+m0/zB/
+ MkPCMz+DcSzKiR+uOFjXRAmfgQlPH3wJJ3tbS5zlVqXjPvEE/NhACgreP6y6eTA9656V
+ CXBKjBT3N65njxMeuooHm+3kziNWMC0DYzX65MaEtbNoPnDNcquZzsYT74t+waBxWjf6
+ Ln1A==
+X-Gm-Message-State: AOAM532+mRAuaKxLwlh31rLrK004rzF4KBdtQfdeLwPF0ZymuU4VPZGC
+ cE7Oj7TuV9cP4mqJwlDRswZy+FF47T7x7JSYUI7heA==
+X-Google-Smtp-Source: ABdhPJygPwlX5CfkG+om7m+d70GjeVr+39CSp23Vyeo0WAefWnHJPaT7JSQYBoOMCP6iS5eNLbcGwCBjaCVdwSgDhsI=
+X-Received: by 2002:a17:906:195a:: with SMTP id
+ b26mr56207378eje.4.1609502598042; 
+ Fri, 01 Jan 2021 04:03:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201224031750.52146-5-jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-3.399,
+References: <cover.1609413115.git.balaton@eik.bme.hu>
+ <6892fc8ac57283bf7ba27fe89ea9dbdd6a37f988.1609413115.git.balaton@eik.bme.hu>
+ <CAFEAcA96wr_+DmXfR5ba_MEPB+sBow-QR1wpvSvKawus7qzKVg@mail.gmail.com>
+ <CAFEAcA_bAjvx1oWO1DGimmThE7BhGHE0EqCoCR4nhuO3DMY_2g@mail.gmail.com>
+ <79681dc2-d689-4518-a83-dead38dd6e8@eik.bme.hu>
+In-Reply-To: <79681dc2-d689-4518-a83-dead38dd6e8@eik.bme.hu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 1 Jan 2021 12:03:07 +0000
+Message-ID: <CAFEAcA_hROTuxFmXZq7dyp931XWr3reXHUtqzDLdQu0ynixUHQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] sam460ex: Clean up irq mapping
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,68 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Guenter Roeck <linux@roeck-us.net>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/24/20 4:17 AM, Jiaxun Yang wrote:
-> The original mapping had wrong base address.
+On Thu, 31 Dec 2020 at 20:55, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+> The SoC is called 460EX (despite having a PPC 440 core not 460 one) but I
+> think you've looked at the right data sheet and it's just a typo. I also
+> don't know how the board is wired so I think in this case I prefer
+> dropping this patch and keeping the current code just for simplicity but
+> to avoid going through this again maybe we should add a comment saying why
+> it's working. Can you please suggest a text for such comment pointing to
+> the relevant part of pci_change_irq_level() you refer to above? I don't
+> think I understand it enough to document it.
 
-TBO this rational is a bit scarce ;)
+How about:
 
-I sent a patch implementing the REMAP register:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg769751.html
+/*
+ * All four IRQ[ABCD] pins from all slots are tied to a single board
+ * IRQ, so our mapping function here maps everything to IRQ 0.
+ * The code in pci_change_irq_level() tracks the number of times
+ * the mapped IRQ is asserted and deasserted, so if multiple devices
+ * assert an IRQ at the same time the behaviour is correct.
+ */
 
-If this isn't enough with a Linux kernel because it expects
-the the Bonito being configured by the bootloader, then we
-need to do the mapping in write_bootloader().
+?
 
-> 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->  hw/pci-host/bonito.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-> index 3fad470fc6..737ee131e1 100644
-> --- a/hw/pci-host/bonito.c
-> +++ b/hw/pci-host/bonito.c
-> @@ -85,9 +85,8 @@
->  #define BONITO_PCILO_BASE_VA    0xb0000000
->  #define BONITO_PCILO_SIZE       0x0c000000
->  #define BONITO_PCILO_TOP        (BONITO_PCILO_BASE + BONITO_PCILO_SIZE - 1)
-> -#define BONITO_PCILO0_BASE      0x10000000
-> -#define BONITO_PCILO1_BASE      0x14000000
-> -#define BONITO_PCILO2_BASE      0x18000000
-> +#define BONITO_PCILOx_BASE(x)   (BONITO_PCILO_BASE + BONITO_PCILOx_SIZE * x)
-> +#define BONITO_PCILOx_SIZE      0x04000000
->  #define BONITO_PCIHI_BASE       0x20000000
->  #define BONITO_PCIHI_SIZE       0x60000000
->  #define BONITO_PCIHI_TOP        (BONITO_PCIHI_BASE + BONITO_PCIHI_SIZE - 1)
-> @@ -610,7 +609,7 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
->  {
->      PCIHostState *phb = PCI_HOST_BRIDGE(dev);
->      BonitoState *bs = BONITO_PCI_HOST_BRIDGE(dev);
-> -    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 3);
-> +    MemoryRegion *pcimem_lo_alias = g_new(MemoryRegion, 1);
->  
->      memory_region_init(&bs->pci_mem, OBJECT(dev), "pci.mem", BONITO_PCIHI_SIZE);
->      phb->bus = pci_register_root_bus(dev, "pci",
-> @@ -622,9 +621,10 @@ static void bonito_pcihost_realize(DeviceState *dev, Error **errp)
->          char *name = g_strdup_printf("pci.lomem%zu", i);
->  
->          memory_region_init_alias(&pcimem_lo_alias[i], NULL, name,
-> -                                 &bs->pci_mem, i * 64 * MiB, 64 * MiB);
-> +                                 &bs->pci_mem, BONITO_PCILOx_BASE(i),
-> +                                 BONITO_PCILOx_SIZE);
->          memory_region_add_subregion(get_system_memory(),
-> -                                    BONITO_PCILO_BASE + i * 64 * MiB,
-> +                                    BONITO_PCILOx_BASE(i),
->                                      &pcimem_lo_alias[i]);
->          g_free(name);
->      }
-> 
+thanks
+-- PMM
 
