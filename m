@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B4A2E85E7
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 00:18:41 +0100 (CET)
-Received: from localhost ([::1]:49144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4505D2E85E9
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 00:21:58 +0100 (CET)
+Received: from localhost ([::1]:56278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvTgu-0002x9-UK
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 18:18:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44680)
+	id 1kvTk5-0005vP-9n
+	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 18:21:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvTfJ-00023a-Qb
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 18:17:01 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38572)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kvTiA-0004z1-OP
+ for qemu-devel@nongnu.org; Fri, 01 Jan 2021 18:19:58 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:38303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kvTfI-0003OZ-CA
- for qemu-devel@nongnu.org; Fri, 01 Jan 2021 18:17:01 -0500
-Received: by mail-wm1-x336.google.com with SMTP id g185so10486444wmf.3
- for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 15:16:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=h/JqWn6/2SoAPuY2pL31ugZHQChSVZj1ZEJHoVJ7xoE=;
- b=K0DD9LfmJfWxlpHgWNUH/Zi3KNd028OqBX3Y4HC+pYXIqvGkqCIQ2OJpXUr6BSO8Wk
- wPZ2f04i29Wrlky+2m3LgEhiahidnObG87uYK/kKAVDpkQYzNRusKD6BveIquA7EgNhK
- KXx5YwWDJsYdMUR0Lf92wkj6QXCt64UETux9Ycp07+uFmGN9kxvCo/z9PkkYLKskbXTV
- 81qHFC1bk08BPQLPNBigHmE1vd2UFpj5Y0VJHWHFidirj74Y7gL7I514lT44fNmudfyw
- 9JsQnpyyRmr7CoS+ng5YLYh7YzV8BMVr4J7Ag+/1Dpcxiafx8DEa1EGXROdcqk7Rl/IV
- 31yA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kvTi7-0004H5-R7
+ for qemu-devel@nongnu.org; Fri, 01 Jan 2021 18:19:58 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id 6so29222174ejz.5
+ for <qemu-devel@nongnu.org>; Fri, 01 Jan 2021 15:19:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=eZ3QSTN4QxfV/GqUtlwWUBM52za3ZrdHoMyooyuOTXk=;
+ b=kRVLvPmswiDV7objgXkMUduKuYqGA7NR97mqL7RKxOVZACSW8gxHV2owuVxwjtaKdV
+ SOUE4sXTOCK1te/wzywTLijGdbJ0BtqbDe1l9FnC4UomaODFOWIW0BYtdMg2b8pGRVQv
+ bLYbHKWM7pzuvPZoTSAmAGQPmQwhXCGVytjkuQqPmkB1aJakwJ4S3MC/s9zfxVi2KiBT
+ iF6pnSPf8QVg5Pt2BYfjAF2G8Tmqq4wmE8lSiiweIagolFTEbQdMO+aXYcbaJl6x6eCI
+ WQe9gF9fNfEHyiGtioAfjx1D/hMIWpOqIaEHkD7LbTIUVUORd0fIux673AzQ6ndzZlet
+ ZQ8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=h/JqWn6/2SoAPuY2pL31ugZHQChSVZj1ZEJHoVJ7xoE=;
- b=svYpSNoRRuxbPVLZBham27m9CH/AAQLKMeNUgsU1Dy6L48auyEKYPiJCvtRHxdI/IN
- TdEx1HYTGNLznOdOm0SFETHHnRlfu18DB8u+mpRKbfb7VmgMyVJH+l+gp34O52rQqQlT
- n0b6T1xJbjOjcY8vTNiIsbtfpy0uBh+/8G+/fw4wWkvyP7o+Oq6SbtVJGkviNjZKqKPG
- jwL66INP2v3GrFYFclY/zosFtD9MAeQ4EvSFU23YMlPY0M55jbQUz1wJAf9DRGaRY6t0
- MX9uLDEC9MfdXhkXy3o/D0GAYnu0YfRlZ7UOeodeube0kYuAqPlqEea3SQwt8Uryezqj
- n07g==
-X-Gm-Message-State: AOAM530yggNGyoNEhk0OtwYbEXXEmBMR5KFwU27fEs6hLsySwVKwzcE3
- FwyP7kHMU+D36FMV4qP02k9NjPQHH38=
-X-Google-Smtp-Source: ABdhPJwivoKKZRsc0CYXFHoE0r7WSnn4dgBkZeL4YUAXduba/vYDGgtj4VYl7Mul6Ui6y/eqppeMoA==
-X-Received: by 2002:a05:600c:258:: with SMTP id
- 24mr17629173wmj.16.1609543019259; 
- Fri, 01 Jan 2021 15:16:59 -0800 (PST)
-Received: from [192.168.1.34] (239.red-83-42-57.dynamicip.rima-tde.net.
- [83.42.57.239])
- by smtp.gmail.com with ESMTPSA id o124sm20110129wmb.5.2021.01.01.15.16.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Jan 2021 15:16:58 -0800 (PST)
-Subject: Re: [PATCH v2 6/8] target/mips/addr: Add translation helpers for KSEG1
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
- <20201215064507.30148-3-jiaxun.yang@flygoat.com>
- <6dda6b4b-5808-3e01-b5a8-8ab562a167a9@amsat.org>
-Message-ID: <b08929ca-d7f1-b6eb-2223-5ea56033a591@amsat.org>
-Date: Sat, 2 Jan 2021 00:16:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=eZ3QSTN4QxfV/GqUtlwWUBM52za3ZrdHoMyooyuOTXk=;
+ b=ZiuvaZrjNdItVUdx0tj9mbWnT5oCY47Usn5nmijOkcq9FBQxLsAohTZzatNhu5BTu5
+ 5nvCzY6m+y0B9QXgSYGNbQIFH7poxLcEV1LxVbAgdchhHB27450NlrQSzxmV5C07MlZH
+ zQRl+qhiP1ieXoru1F9kVN4Y7sIEWQC3HaJs2mp0Y6gOmyVoHpIifMqfLMLDyuUjsuwg
+ Md81V2Nux+Od2cpW3stEj5qNTGsloGp/tMxIW93EGnWqOywPiN/7nGeInNhmt/lDKMBe
+ eqGlauT0kwSp+22hLeAv+ZoRaYEl8t4un94ePaRNLW7oOGmYGtOF76lxq/B4Ibd8gyhC
+ Nl/w==
+X-Gm-Message-State: AOAM532qspXth2Eb3sfXP2GHegMUFUpJRp7ON5N9wsPiqXvy9fM9fLbw
+ t6jsJEfBx1G/mttR3xkw+c75fMjv9GNetBp35hZqyQ==
+X-Google-Smtp-Source: ABdhPJyP6EDOPDF3jCtM844nesYdbkE7wr3rMCBiLTNF6IOMCvyeR2zdHLew9P7Ao78of6Q3nbEJi26qX5k5MBh7d3c=
+X-Received: by 2002:a17:906:e94c:: with SMTP id
+ jw12mr60000631ejb.56.1609543194208; 
+ Fri, 01 Jan 2021 15:19:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6dda6b4b-5808-3e01-b5a8-8ab562a167a9@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.749,
+References: <20210101231215.1870611-1-f4bug@amsat.org>
+ <20210101231215.1870611-4-f4bug@amsat.org>
+In-Reply-To: <20210101231215.1870611-4-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 1 Jan 2021 23:19:43 +0000
+Message-ID: <CAFEAcA_Hi+4BAPL+0BhDgbsXtzDQjiCs0SAs44mKgUbcSE+XCg@mail.gmail.com>
+Subject: Re: [RFC PATCH 3/5] hw/pci-host/bonito: Remap PCI "lo" regions when
+ PCIMAP reg is modified
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,22 +81,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenhuacai@kernel.org, paulburton@kernel.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Qemu-block <qemu-block@nongnu.org>, Huacai Chen <chenhuacai@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/1/21 9:42 PM, Philippe Mathieu-Daudé wrote:
-> On 12/15/20 7:45 AM, Jiaxun Yang wrote:
->> It's useful for bootloader to do IO opreations.
->>
->> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> ---
->>  target/mips/addr.c | 10 ++++++++++
->>  target/mips/cpu.h  |  2 ++
->>  2 files changed, 12 insertions(+)
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Fri, 1 Jan 2021 at 23:12, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> Per the datasheet (Chapter 5.7.1. "PCI address regions"),
+> the PCIMAP register:
+>
+>   Map the 64Mbyte regions marked "PCI_Lo" in the CPU's memory map,
+>   each of which can be assigned to any 64 Mbyte-aligned region of
+>   PCI memory. The address appearing on the PCI bus consists of the
+>   low 26 bits of the CPU physical address, with the high 6 bits
+>   coming from the appropriate base6 field. Each of the three regions
+>   is an independent window onto PCI memory, and can be positioned on
+>   any 64Mbyte boundary in PCI space.
+>
+> Remap the 3 regions on reset and when PCIMAP is updated.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/pci-host/bonito.c | 49 ++++++++++++++++++++++++++++++++------------
+>  1 file changed, 36 insertions(+), 13 deletions(-)
+>
+> diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
+> index a99eced0657..c58eeaf504c 100644
+> --- a/hw/pci-host/bonito.c
+> +++ b/hw/pci-host/bonito.c
+> @@ -137,6 +137,10 @@ FIELD(BONGENCFG, PCIQUEUE,      12, 1)
+>
+>  /* 4. PCI address map control */
+>  #define BONITO_PCIMAP           (0x10 >> 2)      /* 0x110 */
+> +FIELD(PCIMAP, LO0,               0, 6)
+> +FIELD(PCIMAP, LO1,               6, 6)
+> +FIELD(PCIMAP, LO2,              12, 6)
+> +FIELD(PCIMAP, 2G,               18, 1)
+>  #define BONITO_PCIMEMBASECFG    (0x14 >> 2)      /* 0x114 */
+>  #define BONITO_PCIMAP_CFG       (0x18 >> 2)      /* 0x118 */
+>
+> @@ -237,6 +241,7 @@ struct BonitoState {
+>      qemu_irq *pic;
+>      PCIBonitoState *pci_dev;
+>      MemoryRegion pci_mem;
+> +    MemoryRegion pcimem_lo_alias[3];
+>  };
+>
+>  #define TYPE_BONITO_PCI_HOST_BRIDGE "Bonito-pcihost"
+> @@ -245,6 +250,31 @@ OBJECT_DECLARE_SIMPLE_TYPE(BonitoState, BONITO_PCI_H=
+OST_BRIDGE)
+>  #define TYPE_PCI_BONITO "Bonito"
+>  OBJECT_DECLARE_SIMPLE_TYPE(PCIBonitoState, PCI_BONITO)
+>
+> +static void bonito_remap(PCIBonitoState *s)
+> +{
+> +    static const char *const region_name[3] =3D {
+> +        "pci.lomem0", "pci.lomem1", "pci.lomem2"
+> +    };
+> +    BonitoState *bs =3D BONITO_PCI_HOST_BRIDGE(s->pcihost);
+> +
+> +    for (size_t i =3D 0; i < 3; i++) {
+> +        uint32_t offset =3D extract32(s->regs[BONITO_PCIMAP], 6 * i, 6) =
+<< 26;
+> +
+> +        if (memory_region_is_mapped(&bs->pcimem_lo_alias[i])) {
+> +            memory_region_del_subregion(get_system_memory(),
+> +                                        &bs->pcimem_lo_alias[i]);
+> +            object_unparent(OBJECT(&bs->pcimem_lo_alias[i]));
+> +        }
+> +
+> +        memory_region_init_alias(&bs->pcimem_lo_alias[i], OBJECT(s),
+> +                                 region_name[i], &bs->pci_mem,
+> +                                 offset, 64 * MiB);
+> +        memory_region_add_subregion(get_system_memory(),
+> +                                    BONITO_PCILO_BASE + i * 64 * MiB,
+> +                                    &bs->pcimem_lo_alias[i]);
+> +    }
 
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Rather than delete-and-reinit-and-add, it's probably better to
+just create the subregions once at device startup, and then use
+memory_region_set_enabled() and memory_region_set_address()
+to manipulate whether the subregion is visible and what address
+in the system memory it is mapped at.
 
+thanks
+-- PMM
 
