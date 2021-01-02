@@ -2,53 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120832E8758
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 13:53:21 +0100 (CET)
-Received: from localhost ([::1]:51288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FDA2E8759
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 13:54:34 +0100 (CET)
+Received: from localhost ([::1]:53972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvgPI-00011V-4B
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 07:53:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49350)
+	id 1kvgQT-000260-Cr
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 07:54:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kvgO3-00088R-Sl
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 07:52:03 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:38176 helo=mta-01.yadro.com)
+ id 1kvgOM-00005C-Po; Sat, 02 Jan 2021 07:52:22 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:38192 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kvgO1-0000Be-N0
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 07:52:03 -0500
+ id 1kvgOK-0000HS-Jb; Sat, 02 Jan 2021 07:52:22 -0500
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id B165F41314;
- Sat,  2 Jan 2021 12:51:59 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 1DF7541317;
+ Sat,  2 Jan 2021 12:52:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  content-type:content-type:content-transfer-encoding:mime-version
  :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1609591918; x=
- 1611406319; bh=va2ozV8Us0AzAdw7mz1jvVr34g+0rSaiXr4pGYzirnA=; b=G
- tmuy2CPABiD4nb5TDTrXb3QQDIclZESpT53R38ymUQQnjjIvlxUmuW+rB9vhftfy
- YnFWwyIS7y/2KgQ3b/esg63c9BatQxCSH+8pQbwi/uumcRLHu1hUw4m4u36Lipj9
- z3U2D1xK88luuctpu+a5SDKUq5xyvuyUiWySkEYoo4=
+ :received:received:received; s=mta-01; t=1609591936; x=
+ 1611406337; bh=1UPTzxjLx3pC3bzB9AMpf02WJ5avAKXZg6ODxlGNZgo=; b=m
+ jLHt2iIni0qFMr57Ekjc2DotcraaiyTaHuHmYLBsPQwBQH+JINI1z6ydO0c7rezU
+ vO1rvEgaZbpCiTlXhU1XUxV/qMPyqQCHZfpCMuNYWLb+/aKm6Orb74sa2MBjvZu7
+ T1qUw1oTTXTJO9OlWPbD3eI9Jot+2Oem25AQHvJoE0=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Lfu13PtABgrd; Sat,  2 Jan 2021 15:51:58 +0300 (MSK)
+ with ESMTP id 3ia6uzZLJrX7; Sat,  2 Jan 2021 15:52:16 +0300 (MSK)
 Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
  [172.17.100.103])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 3AF30412DB;
- Sat,  2 Jan 2021 15:51:58 +0300 (MSK)
+ by mta-01.yadro.com (Postfix) with ESMTPS id D16FD4130C;
+ Sat,  2 Jan 2021 15:52:16 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
  (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Sat, 2 Jan
- 2021 15:51:58 +0300
+ 2021 15:52:16 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH] ui/cocoa: Fix openFile: deprecation on Big Sur
-Date: Sat, 2 Jan 2021 15:51:54 +0300
-Message-ID: <20210102125154.41182-1-r.bolshakov@yadro.com>
+Subject: [PATCH] meson: Propagate gnutls dependency
+Date: Sat, 2 Jan 2021 15:52:13 +0300
+Message-ID: <20210102125213.41279-1-r.bolshakov@yadro.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -76,47 +74,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "open list:Block
+ layer core" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ui/cocoa.m:1188:44: warning: 'openFile:' is deprecated: first deprecated in macOS 11.0 - Use -[NSWorkspace openURL:] instead.
-      [-Wdeprecated-declarations]
-        if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
-                                           ^
-/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWorkspace.h:350:1: note:
-      'openFile:' has been explicitly marked deprecated here
-- (BOOL)openFile:(NSString *)fullPath API_DEPRECATED("Use -[NSWorkspace openURL:] instead.", macos(10.0, 11.0));
-^
+crypto/tlscreds.h includes GnuTLS headers if CONFIG_GNUTLS is set, but
+GNUTLS_CFLAGS, that describe include path, are not propagated
+transitively to all users of crypto and build fails if GnuTLS headers
+reside in non-standard directory (which is a case for homebrew on Apple
+Silicon).
 
 Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
 ---
- ui/cocoa.m | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ block/meson.build          | 2 +-
+ io/meson.build             | 2 +-
+ meson.build                | 5 +++--
+ storage-daemon/meson.build | 2 +-
+ tests/meson.build          | 6 +++---
+ ui/meson.build             | 2 +-
+ 6 files changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index f32adc3074..5909758a09 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -1178,6 +1178,7 @@ QemuCocoaView *cocoaView;
-     /* Where to look for local files */
-     NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"../docs/"};
-     NSString *full_file_path;
-+    NSURL *full_file_url;
+diff --git a/block/meson.build b/block/meson.build
+index 5dcc1e5cce..61fc5e5955 100644
+--- a/block/meson.build
++++ b/block/meson.build
+@@ -39,7 +39,7 @@ block_ss.add(files(
+   'vmdk.c',
+   'vpc.c',
+   'write-threshold.c',
+-), zstd, zlib)
++), zstd, zlib, gnutls)
  
-     /* iterate thru the possible paths until the file is found */
-     int index;
-@@ -1186,7 +1187,8 @@ QemuCocoaView *cocoaView;
-         full_file_path = [full_file_path stringByDeletingLastPathComponent];
-         full_file_path = [NSString stringWithFormat: @"%@/%@%@", full_file_path,
-                           path_array[index], filename];
--        if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
-+        full_file_url = [NSURL URLWithString: full_file_path];
-+        if ([[NSWorkspace sharedWorkspace] openURL: full_file_url] == YES) {
-             return;
-         }
-     }
+ softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('blkreplay.c'))
+ 
+diff --git a/io/meson.build b/io/meson.build
+index bcd8b1e737..bbcd3c53a4 100644
+--- a/io/meson.build
++++ b/io/meson.build
+@@ -12,4 +12,4 @@ io_ss.add(files(
+   'dns-resolver.c',
+   'net-listener.c',
+   'task.c',
+-))
++), gnutls)
+diff --git a/meson.build b/meson.build
+index 372576f82c..d39fc018f4 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1567,7 +1567,7 @@ blockdev_ss.add(files(
+   'blockdev-nbd.c',
+   'iothread.c',
+   'job-qmp.c',
+-))
++), gnutls)
+ 
+ # os-posix.c contains POSIX-specific functions used by qemu-storage-daemon,
+ # os-win32.c does not
+@@ -1723,6 +1723,7 @@ qmp = declare_dependency(link_whole: [libqmp])
+ 
+ libchardev = static_library('chardev', chardev_ss.sources() + genh,
+                             name_suffix: 'fa',
++                            dependencies: [gnutls],
+                             build_by_default: false)
+ 
+ chardev = declare_dependency(link_whole: libchardev)
+@@ -1941,7 +1942,7 @@ if have_tools
+   qemu_io = executable('qemu-io', files('qemu-io.c'),
+              dependencies: [block, qemuutil], install: true)
+   qemu_nbd = executable('qemu-nbd', files('qemu-nbd.c'),
+-               dependencies: [blockdev, qemuutil], install: true)
++               dependencies: [blockdev, qemuutil, gnutls], install: true)
+ 
+   subdir('storage-daemon')
+   subdir('contrib/rdmacm-mux')
+diff --git a/storage-daemon/meson.build b/storage-daemon/meson.build
+index c5adce81c3..68852f3d25 100644
+--- a/storage-daemon/meson.build
++++ b/storage-daemon/meson.build
+@@ -1,6 +1,6 @@
+ qsd_ss = ss.source_set()
+ qsd_ss.add(files('qemu-storage-daemon.c'))
+-qsd_ss.add(blockdev, chardev, qmp, qom, qemuutil)
++qsd_ss.add(blockdev, chardev, qmp, qom, qemuutil, gnutls)
+ 
+ subdir('qapi')
+ 
+diff --git a/tests/meson.build b/tests/meson.build
+index 1fa068f27b..29ebaba48d 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -159,11 +159,11 @@ if have_block
+      'CONFIG_POSIX' in config_host
+     tests += {
+       'test-crypto-tlscredsx509': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
+-                                   tasn1, crypto],
++                                   tasn1, crypto, gnutls],
+       'test-crypto-tlssession': ['crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c', 'crypto-tls-psk-helpers.c',
+-                                 tasn1, crypto],
++                                 tasn1, crypto, gnutls],
+       'test-io-channel-tls': ['io-channel-helpers.c', 'crypto-tls-x509-helpers.c', 'pkix_asn1_tab.c',
+-                              tasn1, io, crypto]}
++                              tasn1, io, crypto, gnutls]}
+   endif
+   if 'CONFIG_AUTH_PAM' in config_host
+     tests += {'test-authz-pam': [authz]}
+diff --git a/ui/meson.build b/ui/meson.build
+index 013258a01c..e6655c94a6 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -29,7 +29,7 @@ vnc_ss.add(files(
+   'vnc-ws.c',
+   'vnc-jobs.c',
+ ))
+-vnc_ss.add(zlib, png, jpeg)
++vnc_ss.add(zlib, png, jpeg, gnutls)
+ vnc_ss.add(when: sasl, if_true: files('vnc-auth-sasl.c'))
+ softmmu_ss.add_all(when: vnc, if_true: vnc_ss)
+ softmmu_ss.add(when: vnc, if_false: files('vnc-stubs.c'))
 -- 
 2.29.2
 
