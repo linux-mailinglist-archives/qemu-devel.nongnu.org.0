@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C788A2E8704
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 12:24:31 +0100 (CET)
-Received: from localhost ([::1]:46794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 153BF2E86FD
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 12:20:54 +0100 (CET)
+Received: from localhost ([::1]:37970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvf1K-0004cb-RL
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 06:24:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33248)
+	id 1kvexo-0000w6-W7
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 06:20:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kveqy-0000uQ-7v
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:48 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:56514)
+ id 1kveqt-0000qA-5e
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:43 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:56507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kveqr-000792-Uv
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:48 -0500
+ id 1kveqp-00077i-M6
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:42 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 00E0A747610;
- Sat,  2 Jan 2021 12:13:32 +0100 (CET)
+ by localhost (Postfix) with SMTP id 1D917747603;
+ Sat,  2 Jan 2021 12:13:31 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 33B01747636; Sat,  2 Jan 2021 12:13:30 +0100 (CET)
-Message-Id: <e90987d5a129756619884000ec70709a11af1726.1609584216.git.balaton@eik.bme.hu>
+ id 0D01774760C; Sat,  2 Jan 2021 12:13:30 +0100 (CET)
+Message-Id: <4d30a2b4b771b2ad651509885daae79d7c4fe7a8.1609584216.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609584215.git.balaton@eik.bme.hu>
 References: <cover.1609584215.git.balaton@eik.bme.hu>
-Subject: [PATCH 21/24] vt82c686: Implement control of serial port io ranges
- via config regs
+Subject: [PATCH 12/24] vt82c686: Rename superio config related parts
 Date: Sat, 02 Jan 2021 11:43:35 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -60,156 +59,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-In VIA super south bridge the io ranges of superio components
-(parallel and serial ports and FDC) can be controlled by superio
-config registers to set their base address and enable/disable them.
-This is not easy to implement in QEMU because ISA emulation is only
-designed to set io base address once on creating the device and io
-ranges are registered at creation and cannot easily be disabled or
-moved later.
-
-In this patch we hack around that but only for serial ports because
-those have a single io range at port base that's relatively easy to
-handle and it's what guests actually use and set address different
-than the default.
-
-We do not attempt to handle controlling the parallel and FDC regions
-because those have multiple io ranges so handling them would be messy
-and guests either don't change their deafult or don't care. We could
-even get away with disabling and not emulating them, but since they
-are already there, this patch leaves them mapped at their default
-address just in case this could be useful for a guest in the future.
+Use less confusing naming for superio config register handling related
+parts that makes it clearer what belongs to this part.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/isa/vt82c686.c | 84 +++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 82 insertions(+), 2 deletions(-)
+ hw/isa/vt82c686.c | 48 +++++++++++++++++++++++------------------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 1a876a1fbf..26db1a18e2 100644
+index 2633cfe7dc..a6f5a0843d 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -252,8 +252,24 @@ static const TypeInfo vt8231_pm_info = {
+@@ -27,7 +27,7 @@
+ #include "trace.h"
+ 
  typedef struct SuperIOConfig {
-     uint8_t regs[0x100];
-     MemoryRegion io;
-+    ISASuperIODevice *superio;
-+    MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
+-    uint8_t config[0x100];
++    uint8_t regs[0x100];
+     uint8_t index;
+     uint8_t data;
  } SuperIOConfig;
+@@ -35,23 +35,23 @@ typedef struct SuperIOConfig {
+ struct VT82C686BISAState {
+     PCIDevice dev;
+     MemoryRegion superio;
+-    SuperIOConfig superio_conf;
++    SuperIOConfig superio_cfg;
+ };
  
-+static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
-+                                    int offs)
-+{
-+    MemoryRegion *subregion, *mr = NULL;
-+
-+    QTAILQ_FOREACH(subregion, &parent->subregions, subregions_link) {
-+        if (subregion->addr == offs) {
-+            mr = subregion;
-+            break;
-+        }
-+    }
-+    return mr;
-+}
-+
- static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
-                               unsigned size)
+ OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
+ 
+-static void superio_ioport_writeb(void *opaque, hwaddr addr, uint64_t data,
+-                                  unsigned size)
++static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
++                              unsigned size)
  {
-@@ -279,7 +295,53 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
-     case 0xfd ... 0xff:
-         /* ignore write to read only registers */
-         return;
--    /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
-+    case 0xe2:
-+    {
-+        data &= 0x1f;
-+        if (data & BIT(2)) { /* Serial port 1 enable */
-+            ISADevice *dev = sc->superio->serial[0];
-+            if (!memory_region_is_mapped(sc->serial_io[0])) {
-+                memory_region_add_subregion(isa_address_space_io(dev),
-+                                            dev->ioport_id, sc->serial_io[0]);
-+            }
-+        } else {
-+            MemoryRegion *io = isa_address_space_io(sc->superio->serial[0]);
-+            if (memory_region_is_mapped(sc->serial_io[0])) {
-+                memory_region_del_subregion(io, sc->serial_io[0]);
-+            }
-+        }
-+        if (data & BIT(3)) { /* Serial port 2 enable */
-+            ISADevice *dev = sc->superio->serial[1];
-+            if (!memory_region_is_mapped(sc->serial_io[1])) {
-+                memory_region_add_subregion(isa_address_space_io(dev),
-+                                            dev->ioport_id, sc->serial_io[1]);
-+            }
-+        } else {
-+            MemoryRegion *io = isa_address_space_io(sc->superio->serial[1]);
-+            if (memory_region_is_mapped(sc->serial_io[1])) {
-+                memory_region_del_subregion(io, sc->serial_io[1]);
-+            }
-+        }
-+        break;
-+    }
-+    case 0xe7: /* Serial port 1 io base address */
-+    {
-+        data &= 0xfe;
-+        sc->superio->serial[0]->ioport_id = data << 2;
-+        if (memory_region_is_mapped(sc->serial_io[0])) {
-+            memory_region_set_address(sc->serial_io[0], data << 2);
-+        }
-+        break;
-+    }
-+    case 0xe8: /* Serial port 2 io base address */
-+    {
-+        data &= 0xfe;
-+        sc->superio->serial[1]->ioport_id = data << 2;
-+        if (memory_region_is_mapped(sc->serial_io[1])) {
-+            memory_region_set_address(sc->serial_io[1], data << 2);
-+        }
-+        break;
-+    }
-     default:
-         qemu_log_mask(LOG_UNIMP,
-                       "via_superio_cfg: unimplemented register 0x%x\n", idx);
-@@ -385,6 +447,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-     DeviceState *dev = DEVICE(d);
-     ISABus *isa_bus;
-     qemu_irq *isa_irq;
-+    ISASuperIOClass *ic;
-     int i;
+-    SuperIOConfig *superio_conf = opaque;
++    SuperIOConfig *sc = opaque;
  
-     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-@@ -394,7 +457,9 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-     isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
-     i8254_pit_init(isa_bus, 0x40, 0, NULL);
-     i8257_dma_init(isa_bus, 0);
--    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
-+    s->superio_cfg.superio = ISA_SUPERIO(isa_create_simple(isa_bus,
-+                                                      TYPE_VT82C686B_SUPERIO));
-+    ic = ISA_SUPERIO_GET_CLASS(s->superio_cfg.superio);
-     mc146818_rtc_init(isa_bus, 2000, NULL);
+     if (addr == 0x3f0) { /* config index register */
+-        superio_conf->index = data & 0xff;
++        sc->index = data & 0xff;
+     } else {
+         bool can_write = true;
+         /* 0x3f1, config data register */
+-        trace_via_superio_write(superio_conf->index, data & 0xff);
+-        switch (superio_conf->index) {
++        trace_via_superio_write(sc->index, data & 0xff);
++        switch (sc->index) {
+         case 0x00 ... 0xdf:
+         case 0xe4:
+         case 0xe5:
+@@ -69,23 +69,23 @@ static void superio_ioport_writeb(void *opaque, hwaddr addr, uint64_t data,
  
-     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-@@ -412,6 +477,21 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-      */
-     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
-                                 &s->superio_cfg.io);
-+
-+    /* Grab io regions of serial devices so we can control them */
-+    for (i = 0; i < ic->serial.count; i++) {
-+        ISADevice *sd = s->superio_cfg.superio->serial[i];
-+        MemoryRegion *io = isa_address_space_io(sd);
-+        MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
-+        if (!mr) {
-+            error_setg(errp, "Could not get io region for serial %d", i);
-+            return;
-+        }
-+        s->superio_cfg.serial_io[i] = mr;
-+        if (memory_region_is_mapped(mr)) {
-+            memory_region_del_subregion(io, mr);
-+        }
-+    }
+         }
+         if (can_write) {
+-            superio_conf->config[superio_conf->index] = data & 0xff;
++            sc->regs[sc->index] = data & 0xff;
+         }
+     }
  }
  
- static void via_class_init(ObjectClass *klass, void *data)
+-static uint64_t superio_ioport_readb(void *opaque, hwaddr addr, unsigned size)
++static uint64_t superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
+ {
+-    SuperIOConfig *superio_conf = opaque;
+-    uint8_t val = superio_conf->config[superio_conf->index];
++    SuperIOConfig *sc = opaque;
++    uint8_t val = sc->regs[sc->index];
+ 
+-    trace_via_superio_read(superio_conf->index, val);
++    trace_via_superio_read(sc->index, val);
+     return val;
+ }
+ 
+-static const MemoryRegionOps superio_ops = {
+-    .read = superio_ioport_readb,
+-    .write = superio_ioport_writeb,
++static const MemoryRegionOps superio_cfg_ops = {
++    .read = superio_cfg_read,
++    .write = superio_cfg_write,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+     .impl = {
+         .min_access_size = 1,
+@@ -112,12 +112,12 @@ static void vt82c686b_isa_reset(DeviceState *dev)
+     pci_conf[0x5f] = 0x04;
+     pci_conf[0x77] = 0x10; /* GPIO Control 1/2/3/4 */
+ 
+-    s->superio_conf.config[0xe0] = 0x3c;
+-    s->superio_conf.config[0xe2] = 0x03;
+-    s->superio_conf.config[0xe3] = 0xfc;
+-    s->superio_conf.config[0xe6] = 0xde;
+-    s->superio_conf.config[0xe7] = 0xfe;
+-    s->superio_conf.config[0xe8] = 0xbe;
++    s->superio_cfg.regs[0xe0] = 0x3c; /* Device ID */
++    s->superio_cfg.regs[0xe2] = 0x03; /* Function select */
++    s->superio_cfg.regs[0xe3] = 0xfc; /* Floppy ctrl base addr */
++    s->superio_cfg.regs[0xe6] = 0xde; /* Parallel port base addr */
++    s->superio_cfg.regs[0xe7] = 0xfe; /* Serial port 1 base addr */
++    s->superio_cfg.regs[0xe8] = 0xbe; /* Serial port 2 base addr */
+ }
+ 
+ /* write config pci function0 registers. PCI-ISA bridge */
+@@ -311,8 +311,8 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+         }
+     }
+ 
+-    memory_region_init_io(&s->superio, OBJECT(d), &superio_ops,
+-                          &s->superio_conf, "superio", 2);
++    memory_region_init_io(&s->superio, OBJECT(d), &superio_cfg_ops,
++                          &s->superio_cfg, "superio", 2);
+     memory_region_set_enabled(&s->superio, false);
+     /*
+      * The floppy also uses 0x3f0 and 0x3f1.
 -- 
 2.21.3
 
