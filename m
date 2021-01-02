@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41872E8861
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 21:05:31 +0100 (CET)
-Received: from localhost ([::1]:52428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6612E8863
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 21:07:33 +0100 (CET)
+Received: from localhost ([::1]:57106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvn9W-0005cF-TV
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 15:05:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34606)
+	id 1kvnBU-0007gD-Ei
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 15:07:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kvn7P-00045T-2V
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 15:03:20 -0500
-Received: from mail-io1-f44.google.com ([209.85.166.44]:32862)
+ id 1kvn7y-0004vO-Ek
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 15:03:54 -0500
+Received: from mail-il1-f170.google.com ([209.85.166.170]:36973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kvn7N-0006wH-HT
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 15:03:18 -0500
-Received: by mail-io1-f44.google.com with SMTP id w18so21498984iot.0
- for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 12:03:17 -0800 (PST)
+ id 1kvn7x-00077I-3p
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 15:03:54 -0500
+Received: by mail-il1-f170.google.com with SMTP id k8so21736404ilr.4
+ for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 12:03:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KUvQJmltrro1Yp8RNv/Kuvv1s0qHzO3wciahMTm/WV4=;
- b=FkRxYXdFVgE4TxlW8uCZWJnJnhM7Zp843/iadIEv8GV0n3rvtIZmFi8lv8Jm6I3jW3
- UE3cBW22v2eQheiJ97cQFrsiZmqAbRAcNkgcH9qoAvSH+nEsva9DQ1Kc5DWhPShDY0my
- AVUuxSTMJW3qKUSnBcoZhfnEM110A6oeJUa89/nniPUiVcKZEWf5FaIUmGXjWDN0oBFL
- HC5W+Ea1LKA8n6IiROwK4HWzBIK5nQc/pTv+FAYZlzewR9YFAOBDXJX+m7PTeodXPXRS
- zgQmZeKEMk/d2hFHUpUVG3Rj4fgW6w2Sb22VUY1nS6LIYvvZ2+OmNa6h2UO5H6UWsoB9
- 617Q==
-X-Gm-Message-State: AOAM532ywR8t5gLLEKvQzGo0O7iL94ue4cHUTfu522U8hS5gSIzpwSLt
- zpNs+7WZh9f8/6MfDDQnXbNPsTWrC2Q=
-X-Google-Smtp-Source: ABdhPJxObVq57f+Tx/dvb1anyjE9hHGgdcZ/p4iPuJUbUgoMc6bTxKtrelqS1RMQNwkzXFRARvpYGQ==
-X-Received: by 2002:a02:969a:: with SMTP id w26mr56170255jai.96.1609617796530; 
- Sat, 02 Jan 2021 12:03:16 -0800 (PST)
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com.
- [209.85.166.49])
- by smtp.gmail.com with ESMTPSA id k76sm41294505ilk.36.2021.01.02.12.03.16
+ bh=lVSaQ8Bk6XGFw6dGid96cyZAaUnsqFuub7yOWLpuyCs=;
+ b=jCKGnRfVx22BnPiNvppMYrjhdAz0YzVS3sUoClGOJ6CHWnoj6eYiq9O0yT+xSms6Pz
+ 3KsyUjDx2t3WY7hbLaMqtzfxaox8pDqFT7CAr99w3ls2g+jqAQ9MAzjH33dTQa16Mh4u
+ NwJfFtNoZaUlAnGfE5CLHteuIahX7s0uV9JxZ4ySQAYp3jack7JFvCSta1qedX9RMuEw
+ exPjDBfHvk5kWDM4IKWM5sN52oHq5uhpK1Mcy8M7sMNvcPciZUq2dNgXfbdoz+PFiPII
+ SWDXRdHV0tYWSSkugPDBb3S0qwnRtm+/bJNnpwR/a103D+nLB38mVvr3ORUQdf+XnFu8
+ OrjQ==
+X-Gm-Message-State: AOAM530O5kZeJcCCFyt189+6nlu54jqW859NRyxQNCSta1vNvCXF7nDu
+ hqWXOI98X4lDdg5cdPtJm4UNFBzamUo=
+X-Google-Smtp-Source: ABdhPJzc0kk1hpSD5h5kK1vm4Uwnl3tW3ZE5efyvJw4K0j6Ab2v29L4XY30k8LdcUtegx1MjeUgacQ==
+X-Received: by 2002:a92:2912:: with SMTP id l18mr63961858ilg.173.1609617832142; 
+ Sat, 02 Jan 2021 12:03:52 -0800 (PST)
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com.
+ [209.85.166.175])
+ by smtp.gmail.com with ESMTPSA id h2sm35238935ili.56.2021.01.02.12.03.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Jan 2021 12:03:16 -0800 (PST)
-Received: by mail-io1-f49.google.com with SMTP id z5so21446676iob.11
- for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 12:03:16 -0800 (PST)
-X-Received: by 2002:a02:b607:: with SMTP id h7mr57778330jam.120.1609617796128; 
- Sat, 02 Jan 2021 12:03:16 -0800 (PST)
+ Sat, 02 Jan 2021 12:03:52 -0800 (PST)
+Received: by mail-il1-f175.google.com with SMTP id k8so21736395ilr.4
+ for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 12:03:52 -0800 (PST)
+X-Received: by 2002:a92:2912:: with SMTP id l18mr63961841ilg.173.1609617831850; 
+ Sat, 02 Jan 2021 12:03:51 -0800 (PST)
 MIME-Version: 1.0
 References: <20201214140314.18544-1-richard.henderson@linaro.org>
- <20201214140314.18544-12-richard.henderson@linaro.org>
-In-Reply-To: <20201214140314.18544-12-richard.henderson@linaro.org>
+ <20201214140314.18544-13-richard.henderson@linaro.org>
+In-Reply-To: <20201214140314.18544-13-richard.henderson@linaro.org>
 From: Joelle van Dyne <j@getutm.app>
-Date: Sat, 2 Jan 2021 12:03:05 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSC0L6Ut3k8wu-CC9rVZ8r9HcDi062PgsL=jc_enRiBMJA@mail.gmail.com>
-Message-ID: <CA+E+eSC0L6Ut3k8wu-CC9rVZ8r9HcDi062PgsL=jc_enRiBMJA@mail.gmail.com>
-Subject: Re: [PATCH v4 11/43] tcg: Adjust tcg_out_label for const
+Date: Sat, 2 Jan 2021 12:03:41 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSCj4U+wHxBa71SxrZBUFftDTw8ytxctDs=TO7a22xQ-8g@mail.gmail.com>
+Message-ID: <CA+E+eSCj4U+wHxBa71SxrZBUFftDTw8ytxctDs=TO7a22xQ-8g@mail.gmail.com>
+Subject: Re: [PATCH v4 12/43] tcg: Adjust tcg_register_jit for const
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.44; envelope-from=osy86dev@gmail.com;
- helo=mail-io1-f44.google.com
+Received-SPF: pass client-ip=209.85.166.170; envelope-from=osy86dev@gmail.com;
+ helo=mail-il1-f170.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -87,15 +87,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, Dec 14, 2020 at 6:02 AM Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Simplify the arguments to always use s->code_ptr instead of
-> take it as an argument.  That makes it easy to ensure that
-> the value_ptr is always the rx version.
+> We must change all targets at once, since all must match
+> the declaration in tcg.c.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/tcg.c                 |  6 +++---
->  tcg/i386/tcg-target.c.inc | 10 +++++-----
->  2 files changed, 8 insertions(+), 8 deletions(-)
+>  include/tcg/tcg.h            |  2 +-
+>  tcg/tcg.c                    | 10 +++++-----
+>  tcg/aarch64/tcg-target.c.inc |  2 +-
+>  tcg/arm/tcg-target.c.inc     |  2 +-
+>  tcg/i386/tcg-target.c.inc    |  2 +-
+>  tcg/mips/tcg-target.c.inc    |  2 +-
+>  tcg/ppc/tcg-target.c.inc     |  2 +-
+>  tcg/riscv/tcg-target.c.inc   |  2 +-
+>  tcg/s390/tcg-target.c.inc    |  2 +-
+>  tcg/sparc/tcg-target.c.inc   |  2 +-
+>  10 files changed, 14 insertions(+), 14 deletions(-)
 
 Reviewed-by: Joelle van Dyne <j@getutm.app>
 
