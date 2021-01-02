@@ -2,72 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A962E87A2
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 15:30:03 +0100 (CET)
-Received: from localhost ([::1]:58576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F69C2E8795
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 15:13:51 +0100 (CET)
+Received: from localhost ([::1]:60234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvhus-0007oD-2b
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 09:30:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60600)
+	id 1kvhfB-0004Om-WC
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 09:13:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pragnesh.patel@sifive.com>)
- id 1kvhLK-00018T-DH
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 08:53:18 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:45525)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pragnesh.patel@sifive.com>)
- id 1kvhLH-0004BO-On
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 08:53:18 -0500
-Received: by mail-ej1-x631.google.com with SMTP id qw4so30497727ejb.12
- for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 05:53:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4h4CzpHASV+CdAekwQaUgBD7hx+1FXnti+a1XA5oAJU=;
- b=PRZW2wqpX7MoSBdUIhJQvz1yRCMUhRDE6Fp8iwJ6pLnyrbeFacI5+3y6x950tlDceD
- 2pT/qJsMbQGDNqoP8pZIyn/bbHG4F+SECV0Rx8nsekGDkjr6sJ3HXmNgOEYdZLLgttCE
- o6jokymiNi4zmboHPROXGTra1BykOrbznhb/uxxKUZaC3ZfDzpTu3A8Ebn8gjZQesRXc
- qH7k7s/Xk5o8tbjVqA10GgqToHkDZZ/+kQBpxeEJZxbxTZUfTN9XG3nYhi7k1SUHoJw2
- Fvxh/KlWY0qG3NY2E+E5HHCz0JCtsnSAUm4bCnpMhPyeSyO7PWUhG9B30vJcwd3BWXJ5
- Y5rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4h4CzpHASV+CdAekwQaUgBD7hx+1FXnti+a1XA5oAJU=;
- b=X3MR7dAPQEg3dcs6W7m9SyGRyTC0T6Ysx7UuYF1xgV9suzx/1zzf55WNnLxHxnZVcO
- iIjTT+qr9MzrQpJaTwzQboEPfMWUGqNwBnKucbmPfe5P45WrlB8BjPp/ZaaKlFcFFk2g
- RSTdgZzYkcPSzcqsr0chQzpnutAkfNxD4qEUN+w0Sko+388uSNu5+JXlRvJffSSfOdf9
- JffiZmzpnkIS8Um+zFWPRlhQxtlBdQhGC7KHdtUwXJOXF5Qk+20pcW5ZCZ+x0JMfpZz1
- JkyDxlUeAg8bmpuni2dBrrnQbTOAiaDgH+k+79yYKp2MYYDng+yIJIjOcl2CSHk/qMs7
- PyBg==
-X-Gm-Message-State: AOAM532/iE2sXhvI0QA9aeXmuoi/Cve0g94hkLuoVbgnt7bl2aPshZU4
- 9jYzTCDQAvSs8vhkhVgnRccDDH7ZFfAosopyZaVm9w==
-X-Google-Smtp-Source: ABdhPJzIEytmZQxMuyrWUWYZ0gs48Wzh4UPMDH7wzPi02jHynq4gEVF/ktXcp2sW0bP5uXbhchFodoUT2yhBS2n5V4w=
-X-Received: by 2002:a17:906:9888:: with SMTP id
- zc8mr58998283ejb.42.1609595594188; 
- Sat, 02 Jan 2021 05:53:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kvhdl-0003cO-E1; Sat, 02 Jan 2021 09:12:21 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:13745)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kvhdi-0002Lp-F3; Sat, 02 Jan 2021 09:12:20 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 6DAAA7470FD;
+ Sat,  2 Jan 2021 15:12:14 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 359247470DD; Sat,  2 Jan 2021 15:12:14 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 3396574645F;
+ Sat,  2 Jan 2021 15:12:14 +0100 (CET)
+Date: Sat, 2 Jan 2021 15:12:14 +0100 (CET)
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC PATCH 3/5] hw/pci-host/bonito: Remap PCI "lo" regions when
+ PCIMAP reg is modified
+In-Reply-To: <CAFEAcA_s_jOhL+1rVqvCHAEJHU-aAp2-1_zpQ1rC8Hjt_6H4KA@mail.gmail.com>
+Message-ID: <8e9f16e-2f17-4f99-d0ee-96df2ad76d3e@eik.bme.hu>
+References: <20210101231215.1870611-1-f4bug@amsat.org>
+ <20210101231215.1870611-4-f4bug@amsat.org>
+ <CAFEAcA_Hi+4BAPL+0BhDgbsXtzDQjiCs0SAs44mKgUbcSE+XCg@mail.gmail.com>
+ <2da14074-a4ef-e90c-ea42-74d48ca06afd@amsat.org>
+ <293aa484-89c8-acc2-b9a3-37f17a506a2d@eik.bme.hu>
+ <CAFEAcA_s_jOhL+1rVqvCHAEJHU-aAp2-1_zpQ1rC8Hjt_6H4KA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201231113010.27108-1-bmeng.cn@gmail.com>
- <20201231113010.27108-6-bmeng.cn@gmail.com>
-In-Reply-To: <20201231113010.27108-6-bmeng.cn@gmail.com>
-From: Pragnesh Patel <pragnesh.patel@sifive.com>
-Date: Sat, 2 Jan 2021 19:23:02 +0530
-Message-ID: <CAN8ut8Ka6qhPT8vKwebkaH3McCcNSB9k3HhDeffnrubFmFWcLA@mail.gmail.com>
-Subject: Re: [PATCH 05/22] hw/sd: sd: Drop sd_crc16()
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=pragnesh.patel@sifive.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sat, 02 Jan 2021 09:24:39 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,42 +59,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Qemu-block <qemu-block@nongnu.org>, Huacai Chen <chenhuacai@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On Thu, Dec 31, 2020 at 5:04 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Sat, 2 Jan 2021, Peter Maydell wrote:
+> On Sat, 2 Jan 2021 at 11:22, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>> I have similar code in the series I've just posted where I'm mapping
+>> regions of serial devices. I did consider using set_enabled and
+>> set_address but ended up with removing and adding regions because I'm not
+>> sure what happens if guest tries to move one region over another like
+>> having one region at a default location while guest tries to map the other
+>> one there (the pegasos2 maps serial at 0x2f8 which is normally COM2 on a
+>> PC). This should not happen in theory but when removing disabled regions
+>> it cannot happen so that looks safer therefore I chose to do that. Not
+>> sure if this could be a problem here just shared my thughts about this.
 >
-> From: Bin Meng <bin.meng@windriver.com>
->
-> commit f6fb1f9b319f ("sdcard: Correct CRC16 offset in sd_function_switch()")
-> changed the 16-bit CRC to be stored at offset 64. In fact, this CRC
-> calculation is completely wrong. From the original codes, it wants
-> to calculate the CRC16 of the first 64 bytes of sd->data[], however
-> passing 64 as the `width` to sd_crc16() actually counts 256 bytes
-> starting from the `message` for the CRC16 calculation, which is not
-> what we want.
->
-> Besides that, it seems exisitng sd_crc16() algorithm does not match
-> the SD spec, which says CRC16 is the CCITT one but the calculation
-> does not produce expected result. It turns out the CRC16 was never
-> transfered outside the sd core, as in sd_read_byte() we see:
->
->     if (sd->data_offset >= 64)
->         sd->state = sd_transfer_state;
->
-> Given above reaons, let's drop it.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
->
->  hw/sd/sd.c | 18 ------------------
->  1 file changed, 18 deletions(-)
+> I'm not sure what you have in mind -- could you explain further?
+> There should be no difference as far as the MemoryRegion handling
+> code is concerned between "this memory region is marked disabled" and
+> "the memory region was deleted and will be created from fresh and added
+> back later" -- an MR that's in the hierarchy but not enabled is
+> entirely ignored, as if it wasn't there at all, when creating the
+> flat-view.
 
-Reviewed-by: Pragnesh Patel <pragnesh.patel@sifive.com>
-Tested-by: Pragnesh Patel <pragnesh.patel@sifive.com>
+The device I was implementing has two registers one to set base address of 
+io region and another with bits to enable/disable the regions so I could 
+do set_address for base regs and set_enabled for control reg bits but I've 
+seen guests first flipping the enable bits on then setting the base 
+address so I thought it might cause problems with regions added to their 
+parent but thinking about it more it's probably the same if we remove 
+regions and add them instead of just set_enabled because they should be 
+readded when control reg bits are set so they'll end up at the same 
+default address.
+
+> That said, doing memory_region_del_subregion()/memory_region_add_subregion()
+> I think is also OK -- what's definitely not required is actually
+> deleting and recreating the MRs the way this code is doing.
+
+Anyway that's what I ended up doing and did not notice that this patch was 
+also deleting and recreating the memory regions which I did not do just 
+removing from parent when they are disabled but using set_address if they 
+are enabled and new base is set. Removing inactive regions maybe better 
+for debugging because they show up in info mtree so one can see which one 
+is enabled/disabled not sure how disabled regions show up though.
+
+All in all I probably have nothing to add to this so just disregard my 
+comment.
+
+Regards,
+BALATON Zoltan
 
