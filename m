@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B282E86FA
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 12:19:04 +0100 (CET)
-Received: from localhost ([::1]:57888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D972E86F6
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 12:16:40 +0100 (CET)
+Received: from localhost ([::1]:49240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvew4-000648-18
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 06:19:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33190)
+	id 1kvetj-0002RS-AG
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 06:16:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kveqs-0000pu-SH
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:43 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:56506)
+ id 1kveqn-0000eK-92
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:37 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:56421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kveqp-00077k-PA
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:42 -0500
+ id 1kveqj-00073S-EO
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:36 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2E4D5747645;
- Sat,  2 Jan 2021 12:13:31 +0100 (CET)
+ by localhost (Postfix) with SMTP id 6BF2274763D;
+ Sat,  2 Jan 2021 12:13:30 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 10948747605; Sat,  2 Jan 2021 12:13:30 +0100 (CET)
-Message-Id: <0c0558581fd1e9e0d2ee8b32e996618cc6c0ef76.1609584216.git.balaton@eik.bme.hu>
+ id DB2E97470E2; Sat,  2 Jan 2021 12:13:29 +0100 (CET)
+Message-Id: <78db2ced4b41a8a775dbc6c97a90db683952c2cb.1609584216.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609584215.git.balaton@eik.bme.hu>
 References: <cover.1609584215.git.balaton@eik.bme.hu>
-Subject: [PATCH 13/24] vt82c686: Move superio memory region to SuperIOConfig
- struct
+Subject: [PATCH 03/24] vt82c686b: Rename VT82C686B to VT82C686B_ISA
 Date: Sat, 02 Jan 2021 11:43:35 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -60,68 +59,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-The superio memory region holds the io space index/data registers used
-to access the superio config registers that are implemented in struct
-SuperIOConfig. To keep these related things together move the memory
-region to SuperIOConfig and rename it accordingly.
-Also remove the unused "data" member of SuperIOConfig which is not
-needed as we store actual data values in the regs array.
+This is really the ISA bridge part so name the type accordingly.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/vt82c686.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ hw/isa/vt82c686.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index a6f5a0843d..30fe02f4c6 100644
+index 1be1169f83..d40599c7da 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -29,12 +29,11 @@
- typedef struct SuperIOConfig {
-     uint8_t regs[0x100];
-     uint8_t index;
--    uint8_t data;
-+    MemoryRegion io;
+@@ -43,14 +43,14 @@ typedef struct SuperIOConfig {
+     uint8_t data;
  } SuperIOConfig;
  
- struct VT82C686BISAState {
+-struct VT82C686BState {
++struct VT82C686BISAState {
      PCIDevice dev;
--    MemoryRegion superio;
-     SuperIOConfig superio_cfg;
+     MemoryRegion superio;
+     SuperIOConfig superio_conf;
  };
  
-@@ -128,8 +127,9 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+-#define TYPE_VT82C686B "VT82C686B"
+-OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BState, VT82C686B)
++#define TYPE_VT82C686B_ISA "vt82c686b-isa"
++OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
  
-     trace_via_isa_write(addr, val, len);
-     pci_default_write_config(d, addr, val, len);
--    if (addr == 0x85) {  /* enable or disable super IO configure */
--        memory_region_set_enabled(&s->superio, val & 0x2);
-+    if (addr == 0x85) {
-+        /* BIT(1): enable or disable superio config io ports */
-+        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
+ static void superio_ioport_writeb(void *opaque, hwaddr addr, uint64_t data,
+                                   unsigned size)
+@@ -117,7 +117,7 @@ static const MemoryRegionOps superio_ops = {
+ 
+ static void vt82c686b_isa_reset(DeviceState *dev)
+ {
+-    VT82C686BState *vt82c = VT82C686B(dev);
++    VT82C686BISAState *vt82c = VT82C686B_ISA(dev);
+     uint8_t *pci_conf = vt82c->dev.config;
+ 
+     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+@@ -146,7 +146,7 @@ static void vt82c686b_isa_reset(DeviceState *dev)
+ static void vt82c686b_write_config(PCIDevice *d, uint32_t address,
+                                    uint32_t val, int len)
+ {
+-    VT82C686BState *vt686 = VT82C686B(d);
++    VT82C686BISAState *vt686 = VT82C686B_ISA(d);
+ 
+     DPRINTF("vt82c686b_write_config  address 0x%x  val 0x%x len 0x%x\n",
+            address, val, len);
+@@ -434,7 +434,7 @@ static const VMStateDescription vmstate_via = {
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+-        VMSTATE_PCI_DEVICE(dev, VT82C686BState),
++        VMSTATE_PCI_DEVICE(dev, VT82C686BISAState),
+         VMSTATE_END_OF_LIST()
      }
+ };
+@@ -442,7 +442,7 @@ static const VMStateDescription vmstate_via = {
+ /* init the PCI-to-ISA bridge */
+ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+ {
+-    VT82C686BState *vt82c = VT82C686B(d);
++    VT82C686BISAState *vt82c = VT82C686B_ISA(d);
+     uint8_t *pci_conf;
+     ISABus *isa_bus;
+     uint8_t *wmask;
+@@ -479,7 +479,7 @@ ISABus *vt82c686b_isa_init(PCIBus *bus, int devfn)
+ {
+     PCIDevice *d;
+ 
+-    d = pci_create_simple_multifunction(bus, devfn, true, TYPE_VT82C686B);
++    d = pci_create_simple_multifunction(bus, devfn, true, TYPE_VT82C686B_ISA);
+     return ISA_BUS(qdev_get_child_bus(DEVICE(d), "isa.0"));
  }
  
-@@ -311,15 +311,15 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-         }
-     }
- 
--    memory_region_init_io(&s->superio, OBJECT(d), &superio_cfg_ops,
--                          &s->superio_cfg, "superio", 2);
--    memory_region_set_enabled(&s->superio, false);
-+    memory_region_init_io(&s->superio_cfg.io, OBJECT(d), &superio_cfg_ops,
-+                          &s->superio_cfg, "superio_cfg", 2);
-+    memory_region_set_enabled(&s->superio_cfg.io, false);
-     /*
-      * The floppy also uses 0x3f0 and 0x3f1.
-      * But we do not emulate a floppy, so just set it here.
-      */
-     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
--                                &s->superio);
-+                                &s->superio_cfg.io);
+@@ -505,9 +505,9 @@ static void via_class_init(ObjectClass *klass, void *data)
  }
  
- static void via_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo via_info = {
+-    .name          = TYPE_VT82C686B,
++    .name          = TYPE_VT82C686B_ISA,
+     .parent        = TYPE_PCI_DEVICE,
+-    .instance_size = sizeof(VT82C686BState),
++    .instance_size = sizeof(VT82C686BISAState),
+     .class_init    = via_class_init,
+     .interfaces = (InterfaceInfo[]) {
+         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
 -- 
 2.21.3
 
