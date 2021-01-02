@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1878E2E8772
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 14:20:23 +0100 (CET)
-Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25EED2E8773
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 14:20:44 +0100 (CET)
+Received: from localhost ([::1]:39856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvgpO-0000m7-1w
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 08:20:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55216)
+	id 1kvgpn-0001A0-7r
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 08:20:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kvglJ-0008I9-Ep; Sat, 02 Jan 2021 08:16:05 -0500
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:44301)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kvgmK-0000DT-OB
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 08:17:10 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:35346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kvglH-0000bT-Ky; Sat, 02 Jan 2021 08:16:05 -0500
-Received: by mail-yb1-xb30.google.com with SMTP id x2so21580810ybt.11;
- Sat, 02 Jan 2021 05:16:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kvgmE-0000sR-49
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 08:17:08 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id q22so30497444eja.2
+ for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 05:17:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+x0ngIwQ/DPLvEpEaM6SnFpnMA5HovoPhZ6V/u9Uaxc=;
- b=R6ELi3pVlO3oeRgr8qGvxfc28iae/7DxzzhWYR3e1eFipA8fy7zJqSD0r6p8vChszn
- N4h8NiT6CKM/lF9bdAFthEdorolecUhLyt5Fx75OaK+sPA1OKbUqywKOmFedSnfokck7
- GpOPYlHjePsjkCZAEoDs7r9Bb9AJTZwneLv2xMtry+o8B/UyqRS2YUSIN6HyHzvXbf+m
- 8Ny78M3c/jcQVjJp6qfTUXw0V865Mm0VYfKye9OMa3wl6zTkCO/IUm0b0EudNAFOWT6U
- Ka6ZtHmB25jxSb5yi4GlU2RA5Qm3ppPppocMf/plKOfhqu+OgF7YuE9/iV7O8DclXmhC
- yd9w==
+ :cc; bh=+Vu/dcABqb0MzI75FHAFPcY8gchkySpCEtt60bb3XMc=;
+ b=zAhMH4lnjaYHw5pcie/jRBXo1wzrGeX1g/4H2p1Ol0FJDxdw0A3PthebTyvCtLvBca
+ jKK4cm4cy3YzgFDvGYrgiUBQMeQLruBwoYg0G9hPfpYhRfh4a287/FNsk2APFSXpM8MI
+ GAvN+7WfgvCim+cM61HU/Dy+L94HCW4WStlycThtT2Xt/0MZtnUiUdjjtIGIuVxUlBUj
+ QE50MaA4A9HHdRjdx3PURYu26gbsdRoU+Bm8BUalTqN+dOjlh+uw9iCnBdBjYoEhw8gA
+ y2lekllqcWWJcYqvSfzpFnRPjUThCS0m5zIchW/AGVXCgKDTRfOCpEuXbfPC6fG9rEoJ
+ KxFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+x0ngIwQ/DPLvEpEaM6SnFpnMA5HovoPhZ6V/u9Uaxc=;
- b=OJG/5JviBzdCE9YYHZa4i7XadzQUv6CccJlCvIpjegBVZzsG+lTJey/vTvLVWDZzEH
- IWzQRRv4CjNnDWchlsy6L/hfuaKYP9eplWGvPokSKfMNeZZu/wXLzwQilLUhUdh8F3u8
- kMW9ZtGgOIotrJKgmHRJzy3H12tuJcHS5XNJmCq2c+4Ks34tEM7teYqul+nJURF61Pru
- r3jlLCrfeNCbq8AUqovXQAPtv6ZN7qqrTKgkNuipWvIabekKqy4qCtMMpBSYIeSf91gv
- VdBph0kgMjS+QO9z7LbStA+Ae0WkHzCC2TMidnkpeEDSX0Ea2BzcxhilnxxOh4oIRfHv
- 6MTg==
-X-Gm-Message-State: AOAM5318/3VwqSWlHSbb1xINO1ikgGFxIoMoGzyo26CS1bIa5kyPTWuE
- LZWkahoGwh8OWbEJyuD6ZWeJs8FbU6UCAJBuxjE=
-X-Google-Smtp-Source: ABdhPJwKWAPsusZG4ToVX3zdz+6wcQb0EgLgsZC6bDIonUmdxMubMAZlh2Dcj4JyVdXQiNgg9RMoWyaxgItdh72Jm1g=
-X-Received: by 2002:a25:4d7:: with SMTP id 206mr97285921ybe.306.1609593361577; 
- Sat, 02 Jan 2021 05:16:01 -0800 (PST)
+ bh=+Vu/dcABqb0MzI75FHAFPcY8gchkySpCEtt60bb3XMc=;
+ b=VNkgL2KoN6blbMObmks/AmUyLLvT1Mb8aa0WO6whw2I+dt7VpiNR3QzxZ0rQeEC7CF
+ mhtX0rerC2J2V5DTpzMYSxq2ZQg65PtKcC2ivdQUNFBVuoEdNZv3whA+Nwkk9+WgordI
+ UzwF/9kl984tf4B28DXWklPyAJQ3Ve9XXL4s1jJIIX0jiibkCOmtHJS6x2wke2A4B+7v
+ pYyE2Tcl0komGyVWi/jkbTEbiVnoi4Rulb+XLOMbDO/a4kFTpaRWrS2IYwMH4HNLO4uJ
+ cx/tqD9RdMiPhM00GiV/nWJWTgo0ErVzdxHQT7zGvT+dRRDUFu8HeiY1HenZwgpKhDqk
+ zOAA==
+X-Gm-Message-State: AOAM531isPHv8Jvv4MYXqvRqApyTlHF2em+qFs3fxqLeqD0R1Ku+DamC
+ g4YY4c5ShCEi3T9TLIp/oHOqMjy6CFYGspnMFcRmjA==
+X-Google-Smtp-Source: ABdhPJy52f7ClXvsLuLwUJS2QrQ5ifQlzjH7ukl3XVJp5WhqOuRqVXmxdCxauUbEMP+ZAXz6erxk9QMiP99Bqc8RqOg=
+X-Received: by 2002:a17:906:6b88:: with SMTP id
+ l8mr60239800ejr.482.1609593419768; 
+ Sat, 02 Jan 2021 05:16:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20201231113010.27108-1-bmeng.cn@gmail.com>
- <CAN8ut8Lt8dbmayZE9YCzVpoddaTefnoFazKqB=CvP9DTAF+n1Q@mail.gmail.com>
-In-Reply-To: <CAN8ut8Lt8dbmayZE9YCzVpoddaTefnoFazKqB=CvP9DTAF+n1Q@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 2 Jan 2021 21:15:50 +0800
-Message-ID: <CAEUhbmWH80=9nkDU+Ca01C9JMhPcJoCijbrL6VVtQbWD55a_Yw@mail.gmail.com>
-Subject: Re: [PATCH 00/22] hw/riscv: sifive_u: Add missing SPI support
-To: Pragnesh Patel <pragnesh.patel@sifive.com>
+References: <20210102125154.41182-1-r.bolshakov@yadro.com>
+In-Reply-To: <20210102125154.41182-1-r.bolshakov@yadro.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 2 Jan 2021 13:16:48 +0000
+Message-ID: <CAFEAcA_jTfLjgwPFXQ9TYv1hNK-G1HsXYq7m_eJodDtTPhuH2A@mail.gmail.com>
+Subject: Re: [PATCH] ui/cocoa: Fix openFile: deprecation on Big Sur
+To: Roman Bolshakov <r.bolshakov@yadro.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb30.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -75,102 +77,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Pragnesh,
+On Sat, 2 Jan 2021 at 12:52, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+>
+> ui/cocoa.m:1188:44: warning: 'openFile:' is deprecated: first deprecated in macOS 11.0 - Use -[NSWorkspace openURL:] instead.
+>       [-Wdeprecated-declarations]
+>         if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
+>                                            ^
+> /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWorkspace.h:350:1: note:
+>       'openFile:' has been explicitly marked deprecated here
+> - (BOOL)openFile:(NSString *)fullPath API_DEPRECATED("Use -[NSWorkspace openURL:] instead.", macos(10.0, 11.0));
+> ^
+>
+> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> ---
+>  ui/cocoa.m | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index f32adc3074..5909758a09 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -1178,6 +1178,7 @@ QemuCocoaView *cocoaView;
+>      /* Where to look for local files */
+>      NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"../docs/"};
+>      NSString *full_file_path;
+> +    NSURL *full_file_url;
+>
+>      /* iterate thru the possible paths until the file is found */
+>      int index;
+> @@ -1186,7 +1187,8 @@ QemuCocoaView *cocoaView;
+>          full_file_path = [full_file_path stringByDeletingLastPathComponent];
+>          full_file_path = [NSString stringWithFormat: @"%@/%@%@", full_file_path,
+>                            path_array[index], filename];
+> -        if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
+> +        full_file_url = [NSURL URLWithString: full_file_path];
+> +        if ([[NSWorkspace sharedWorkspace] openURL: full_file_url] == YES) {
+>              return;
+>          }
 
-On Sat, Jan 2, 2021 at 8:27 PM Pragnesh Patel <pragnesh.patel@sifive.com> wrote:
->
-> Hi BIn,
->
-> 1) Please rebase this series on master.
+The NSURL URLWithString method documentation:
+https://developer.apple.com/documentation/foundation/nsurl/1572047-urlwithstring
+says:
+# Important
+# To create NSURL objects for file system paths, use
+fileURLWithPath:isDirectory:
+# instead.
 
-I remember I rebased it on master already.
+Should we be doing that instead ?
 
->
-> 2) When i tried to boot from SD card image it shows below,
->
-> pragneshp:sifive-qemu$ ./build/riscv64-softmmu/qemu-system-riscv64 -M
-> sifive_u,msel=11 -m 4G -nographic -bios
-> ~/opensource/u-boot/spl/u-boot-spl.bin -device
-> sd-card,spi=true,drive=mycard -drive
-> file=~/opensource/u-boot/fsbl.gpt,id=mycard,format=raw,if=none
-
-The command is not correct. Please check the commit message of:
-[18/22] hw/riscv: sifive_u: Add QSPI2 controller and connect an SD card
-
-The command should be:
-
-$ qemu-system-riscv64 -nographic -M sifive_u,msel=11 -smp 5 -m 8G \
-    -bios u-boot-spl.bin -drive file=sdcard.img,if=sd
-
-Note the memory should be 8G and the SD card is already connected by
-the sifive_u machine codes. No need to create it via "-device
-sd-card".
-
-> qemu-system-riscv64: -device sd-card,spi=true,drive=mycard: Drive
-> 'mycard' is already in use by another device
->
->
-> I hacked the qemu code temporary and able to boot U-Boot from SD card,
-> below is my hack
->
-> pragneshp:sifive-qemu$ git diff
-> diff --git a/block/block-backend.c b/block/block-backend.c
-> index ce78d30794..cfa739fa40 100644
-> --- a/block/block-backend.c
-> +++ b/block/block-backend.c
-> @@ -888,10 +888,11 @@ void blk_get_perm(BlockBackend *blk, uint64_t
-> *perm, uint64_t *shared_perm)
->   */
->  int blk_attach_dev(BlockBackend *blk, DeviceState *dev)
->  {
-> +#if 0
->      if (blk->dev) {
->          return -EBUSY;
->      }
-> -
-> +#endif
->
-> After applying this hack, I was able to boot U-Boot from Sd card
->
-> Bootlogs:
->
-> pragneshp:sifive-qemu$ ./build/riscv64-softmmu/qemu-system-riscv64 -M
-> sifive_u,msel=11 -m 4G -nographic -bios
-> ~/opensource/u-boot/spl/u-boot-spl.bin -device
-> sd-card,spi=true,drive=mycard -drive
-> file=~/opensource/u-boot/fsbl.gpt,id=mycard,format=raw,if=none
->
-> U-Boot SPL 2020.10-rc5-00007-gf9aadb57b1 (Dec 29 2020 - 17:48:05 +0530)
-> Trying to boot from MMC1
->
->
-> U-Boot 2020.10-rc5-00007-gf9aadb57b1 (Dec 29 2020 - 17:48:05 +0530)
->
-> CPU:   rv64imafdc
-> Model: SiFive HiFive Unleashed A00
-> DRAM:  4 GiB
-> MMC:   spi@10050000:mmc@0: 0
-> Loading Environment from SPIFlash... Invalid bus 0 (err=-19)
-> *** Warning - spi_flash_probe_bus_cs() failed, using default environment
->
-> In:    serial@10010000
-> Out:   serial@10010000
-> Err:   serial@10010000
-> Net:   eth0: ethernet@10090000
-> Hit any key to stop autoboot:  0
-> =>
->
-> Thanks for the series.
->
-
-Regards,
-Bin
+thanks
+-- PMM
 
