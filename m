@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05072E874B
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 13:37:06 +0100 (CET)
-Received: from localhost ([::1]:36064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6EC2E879E
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 15:26:54 +0100 (CET)
+Received: from localhost ([::1]:47650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvg9Z-0002AS-74
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 07:37:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45996)
+	id 1kvhrp-0003O4-Se
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 09:26:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kvg88-0001es-PP
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 07:35:38 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:37416 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kvg84-0002o4-AS
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 07:35:36 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 94C2741303;
- Sat,  2 Jan 2021 12:35:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1609590923; x=
- 1611405324; bh=cMsuux9VflfH4AEUAcSAoAWG0svv9U25j6xt+cnm75I=; b=m
- +hU73G2Uj2rvklV2dxqDy47aFdsPZ46WDKmQERWycBisUL8hw/T4260CbH7jbBPR
- Byc89qligSSj0Kil+EiW8wwAZIqcVAmFY5JWZ8rhnN+i8eZecj3hFk1FgPGBB2R5
- kOOtMHTAPnQHDvRQEuUgWbyNgzW/E3IYh9jT+rpKAw=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E2Q33hnsZlLE; Sat,  2 Jan 2021 15:35:23 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 72B0B412DB;
- Sat,  2 Jan 2021 15:35:23 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Sat, 2 Jan
- 2021 15:35:23 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] tcg: Fix execution on Apple Silicon
-Date: Sat, 2 Jan 2021 15:21:02 +0300
-Message-ID: <20210102122101.39617-1-r.bolshakov@yadro.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <pragnesh.patel@sifive.com>)
+ id 1kvg01-0007hI-KL
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 07:27:13 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:35496)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pragnesh.patel@sifive.com>)
+ id 1kvfzz-00007J-Be
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 07:27:12 -0500
+Received: by mail-ed1-x536.google.com with SMTP id u19so22114522edx.2
+ for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 04:27:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=K/htrcXeCpjvrhOLbTXk+fyb4hY+QV9O4MANPprpwYk=;
+ b=TZi7DUWGk4ZG3dPivCJGpJzR5e2J69NiHE5T/VqrntcuZp7N893cyOTmWrKkY3aCky
+ ToJ+LNI01DC3xIvYEXPBdGvdcJ/ygcpCbKm/389flYKqGpwwzhIpZuMrdiK59D+7dif4
+ TJWNeHoK3WVrN612sQKbZr1t6X1DIRaUh9mneFR+HORcE0WKK46nID5yslB679Wh4XQZ
+ em5m9AHqE7sAkd0kXLuY/wLIFGszw+xc38YyM3AMQmMuc290YC9DnDUUpS2EWiH/gg94
+ SswJwiAraW0ce0QE4+OG/wAmIBjWdF2AJ6rmZbo3GMrP1Ss9D9CmcBkOYhJd8bDsyYx7
+ 7/fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=K/htrcXeCpjvrhOLbTXk+fyb4hY+QV9O4MANPprpwYk=;
+ b=s6DMGETd9DauKRtEvpqypQh2UY27Uvo7xsURAY7dSmFeR3b4Lv9UWSgsKvat1yDTDI
+ VCu2XlJkiZ461fPWJ520/l9NcrY2hJv74eVp1V3zmkjfozoWFrqdB5Mf43UKw37kYLeI
+ 7zH4Ek862lPf+lVRGeA412HISA/q8Vc2yqwSoi/ZmaPe02WTvbFCFjM/Pey8ZSEjoOkq
+ wEyaJ2uk03hM6ADriNJ1FEOmJOAiBKa7piAkAtxn7KgebXqHfFJYJIXyC5VB+mAPx0R5
+ Uz/eB3ozEsNZEHVg6GviKq/07+BwyDmaqAo/XR1Nine9kFjlg73sqopsly5gN6czt5hd
+ YEhA==
+X-Gm-Message-State: AOAM533ldb6Hfw39ZbsCsG0gzYK+Ei/BEjnudmMELAlZb+NC1OBU56eK
+ iQiu+jpqcYA7wXlM06fwPOEsOg0A1z6Dd809h7okLQ==
+X-Google-Smtp-Source: ABdhPJxIpHG8PtuaKwTfEQ39j/YAA447IE4HHQ2v/KqJUAbJF4H0fURvH+JY4Kp0wW7ZMCr6QAjzEw8bO8BrGACpy6s=
+X-Received: by 2002:aa7:d1c2:: with SMTP id g2mr64152680edp.8.1609590428960;
+ Sat, 02 Jan 2021 04:27:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
+References: <20201231113010.27108-1-bmeng.cn@gmail.com>
+In-Reply-To: <20201231113010.27108-1-bmeng.cn@gmail.com>
+From: Pragnesh Patel <pragnesh.patel@sifive.com>
+Date: Sat, 2 Jan 2021 17:56:56 +0530
+Message-ID: <CAN8ut8Lt8dbmayZE9YCzVpoddaTefnoFazKqB=CvP9DTAF+n1Q@mail.gmail.com>
+Subject: Re: [PATCH 00/22] hw/riscv: sifive_u: Add missing SPI support
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=pragnesh.patel@sifive.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sat, 02 Jan 2021 09:24:39 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,172 +77,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- Joelle van Dyne <j@getutm.app>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-riscv@nongnu.org, qemu-block@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pages can't be both write and executable at the same time on Apple
-Silicon. macOS provides public API to switch write protection [1] for
-JIT applications, like TCG.
+Hi BIn,
 
-1. https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
+1) Please rebase this series on master.
 
-Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
----
+2) When i tried to boot from SD card image it shows below,
 
-Happy holidays, everyone.
+pragneshp:sifive-qemu$ ./build/riscv64-softmmu/qemu-system-riscv64 -M
+sifive_u,msel=11 -m 4G -nographic -bios
+~/opensource/u-boot/spl/u-boot-spl.bin -device
+sd-card,spi=true,drive=mycard -drive
+file=~/opensource/u-boot/fsbl.gpt,id=mycard,format=raw,if=none
+qemu-system-riscv64: -device sd-card,spi=true,drive=mycard: Drive
+'mycard' is already in use by another device
 
-This is somewhat similar to https://patchwork.kernel.org/project/qemu-devel/patch/20201108232425.1705-7-j@getutm.app/
-but I couldn't apply the series so I started from scratch.
 
-The primary difference from the patch above is that public API is used.
-Other differences:
-  * TB pages are mostly kept write-locked except around tcg_qemu_tb_exec()
-  * x86_64 macOS doesn't use MAP_JIT and W^X switches
+I hacked the qemu code temporary and able to boot U-Boot from SD card,
+below is my hack
 
-Regards,
-Roman
-
- accel/tcg/cpu-exec.c      | 10 ++++++++++
- accel/tcg/translate-all.c | 26 ++++++++++++++++++++++++++
- include/exec/exec-all.h   |  2 ++
- tcg/tcg.c                 |  1 +
- 4 files changed, 39 insertions(+)
-
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 8689c54499..0042fc9f2b 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -175,7 +175,9 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
-     }
- #endif /* DEBUG_DISAS */
- 
-+    tb_write_lock();
-     ret = tcg_qemu_tb_exec(env, tb_ptr);
-+    tb_write_unlock();
-     cpu->can_do_io = 1;
-     last_tb = (TranslationBlock *)(ret & ~TB_EXIT_MASK);
-     tb_exit = ret & TB_EXIT_MASK;
-@@ -220,9 +222,11 @@ static void cpu_exec_nocache(CPUState *cpu, int max_cycles,
-     cflags |= MIN(max_cycles, CF_COUNT_MASK);
- 
-     mmap_lock();
-+    tb_write_unlock();
-     tb = tb_gen_code(cpu, orig_tb->pc, orig_tb->cs_base,
-                      orig_tb->flags, cflags);
-     tb->orig_tb = orig_tb;
-+    tb_write_lock();
-     mmap_unlock();
- 
-     /* execute the generated code */
-@@ -268,7 +272,9 @@ void cpu_exec_step_atomic(CPUState *cpu)
-         tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
-         if (tb == NULL) {
-             mmap_lock();
-+            tb_write_unlock();
-             tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
-+            tb_write_lock();
-             mmap_unlock();
-         }
- 
-@@ -428,7 +434,9 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
-     tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
-     if (tb == NULL) {
-         mmap_lock();
-+        tb_write_unlock();
-         tb = tb_gen_code(cpu, pc, cs_base, flags, cf_mask);
-+        tb_write_lock();
-         mmap_unlock();
-         /* We add the TB in the virtual pc hash table for the fast lookup */
-         qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(pc)], tb);
-@@ -444,7 +452,9 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
- #endif
-     /* See if we can patch the calling TB. */
-     if (last_tb) {
-+        tb_write_unlock();
-         tb_add_jump(last_tb, tb_exit, tb);
-+        tb_write_lock();
-     }
-     return tb;
- }
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index b7d50a73d4..1562076ffb 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1072,6 +1072,9 @@ static inline void *alloc_code_gen_buffer(void)
-     size_t size = tcg_ctx->code_gen_buffer_size;
-     void *buf;
- 
-+#if defined(__APPLE__) && defined(__aarch64__)
-+    flags |= MAP_JIT;
-+#endif
-     buf = mmap(NULL, size, prot, flags, -1, 0);
-     if (buf == MAP_FAILED) {
-         return NULL;
-@@ -1485,7 +1488,9 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
- 
- static void tb_phys_invalidate__locked(TranslationBlock *tb)
+pragneshp:sifive-qemu$ git diff
+diff --git a/block/block-backend.c b/block/block-backend.c
+index ce78d30794..cfa739fa40 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -888,10 +888,11 @@ void blk_get_perm(BlockBackend *blk, uint64_t
+*perm, uint64_t *shared_perm)
+  */
+ int blk_attach_dev(BlockBackend *blk, DeviceState *dev)
  {
-+    tb_write_unlock();
-     do_tb_phys_invalidate(tb, true);
-+    tb_write_lock();
- }
- 
- /* invalidate one TB
-@@ -2722,3 +2727,24 @@ void tcg_flush_softmmu_tlb(CPUState *cs)
-     tlb_flush(cs);
- #endif
- }
-+
-+#if defined(__APPLE__) && defined(__aarch64__)
-+static void tb_write_protect(bool locked)
-+{
-+    if (pthread_jit_write_protect_supported_np()){
-+        pthread_jit_write_protect_np(locked);
-+    }
-+}
-+#else
-+static void tb_write_protect(bool locked) {}
++#if 0
+     if (blk->dev) {
+         return -EBUSY;
+     }
+-
 +#endif
-+
-+void tb_write_lock(void)
-+{
-+    tb_write_protect(true);
-+}
-+
-+void tb_write_unlock(void)
-+{
-+    tb_write_protect(false);
-+}
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index fab573da06..962dca0975 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -549,6 +549,8 @@ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
-                                    target_ulong cs_base, uint32_t flags,
-                                    uint32_t cf_mask);
- void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
-+void tb_write_lock(void);
-+void tb_write_unlock(void);
- 
- /* GETPC is the true target of the return instruction that we'll execute.  */
- #if defined(CONFIG_TCG_INTERPRETER)
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 43c6cf8f52..303bb436bd 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1065,6 +1065,7 @@ void tcg_prologue_init(TCGContext *s)
-     s->pool_labels = NULL;
- #endif
- 
-+    tb_write_unlock();
-     /* Generate the prologue.  */
-     tcg_target_qemu_prologue(s);
- 
--- 
-2.29.2
 
+After applying this hack, I was able to boot U-Boot from Sd card
+
+Bootlogs:
+
+pragneshp:sifive-qemu$ ./build/riscv64-softmmu/qemu-system-riscv64 -M
+sifive_u,msel=11 -m 4G -nographic -bios
+~/opensource/u-boot/spl/u-boot-spl.bin -device
+sd-card,spi=true,drive=mycard -drive
+file=~/opensource/u-boot/fsbl.gpt,id=mycard,format=raw,if=none
+
+U-Boot SPL 2020.10-rc5-00007-gf9aadb57b1 (Dec 29 2020 - 17:48:05 +0530)
+Trying to boot from MMC1
+
+
+U-Boot 2020.10-rc5-00007-gf9aadb57b1 (Dec 29 2020 - 17:48:05 +0530)
+
+CPU:   rv64imafdc
+Model: SiFive HiFive Unleashed A00
+DRAM:  4 GiB
+MMC:   spi@10050000:mmc@0: 0
+Loading Environment from SPIFlash... Invalid bus 0 (err=-19)
+*** Warning - spi_flash_probe_bus_cs() failed, using default environment
+
+In:    serial@10010000
+Out:   serial@10010000
+Err:   serial@10010000
+Net:   eth0: ethernet@10090000
+Hit any key to stop autoboot:  0
+=>
+
+Thanks for the series.
+
+On Thu, Dec 31, 2020 at 5:00 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> This adds the missing SPI support to the `sifive_u` machine in the QEMU
+> mainline. With this series, upstream U-Boot for the SiFive HiFive Unleashed
+> board can boot on QEMU `sifive_u` out of the box. This allows users to
+> develop and test the recommended RISC-V boot flow with a real world use
+> case: ZSBL (in QEMU) loads U-Boot SPL from SD card or SPI flash to L2LIM,
+> then U-Boot SPL loads the payload from SD card or SPI flash that is a
+> combination of OpenSBI fw_dynamic firmware and U-Boot proper.
+>
+> The m25p80 model is updated to support ISSI flash series. A bunch of
+> ssi-sd issues are fixed, and writing to SD card in SPI mode is supported.
+>
+> reST documentation for RISC-V is added. Currently only `sifive_u`
+> machine is documented, but more to come.
+>
+>
+> Bin Meng (22):
+>   hw/block: m25p80: Add ISSI SPI flash support
+>   hw/block: m25p80: Add various ISSI flash information
+>   hw/sd: ssi-sd: Fix incorrect card response sequence
+>   hw/sd: sd: Support CMD59 for SPI mode
+>   hw/sd: sd: Drop sd_crc16()
+>   util: Add CRC16 (CCITT) calculation routines
+>   hw/sd: ssi-sd: Suffix a data block with CRC16
+>   hw/sd: ssi-sd: Support multiple block read (CMD18)
+>   hw/sd: ssi-sd: Use macros for the dummy value and tokens in the
+>     transfer
+>   hw/sd: sd: Remove duplicated codes in single/multiple block read/write
+>   hw/sd: sd: Allow single/multiple block write for SPI mode
+>   hw/sd: sd.h: Cosmetic change of using spaces
+>   hw/sd: Introduce receive_ready() callback
+>   hw/sd: ssi-sd: Support single block write
+>   hw/sd: ssi-sd: Support multiple block write
+>   hw/ssi: Add SiFive SPI controller support
+>   hw/riscv: sifive_u: Add QSPI0 controller and connect a flash
+>   hw/riscv: sifive_u: Add QSPI2 controller and connect an SD card
+>   hw/riscv: sifive_u: Change SIFIVE_U_GEM_IRQ to decimal value
+>   docs/system: Sort targets in alphabetical order
+>   docs/system: Add RISC-V documentation
+>   docs/system: riscv: Add documentation for sifive_u machine
+>
+>  docs/system/riscv/sifive_u.rst | 336 +++++++++++++++++++++++++++++++++
+>  docs/system/target-riscv.rst   |  72 +++++++
+>  docs/system/targets.rst        |  20 +-
+>  include/hw/riscv/sifive_u.h    |   9 +-
+>  include/hw/sd/sd.h             |  44 ++---
+>  include/hw/ssi/sifive_spi.h    |  47 +++++
+>  include/qemu/crc-ccitt.h       |  33 ++++
+>  hw/block/m25p80.c              |  51 ++++-
+>  hw/riscv/sifive_u.c            |  91 +++++++++
+>  hw/sd/core.c                   |  13 ++
+>  hw/sd/sd.c                     |  82 +-------
+>  hw/sd/ssi-sd.c                 | 127 +++++++++++--
+>  hw/ssi/sifive_spi.c            | 290 ++++++++++++++++++++++++++++
+>  util/crc-ccitt.c               | 127 +++++++++++++
+>  hw/riscv/Kconfig               |   3 +
+>  hw/ssi/Kconfig                 |   4 +
+>  hw/ssi/meson.build             |   1 +
+>  util/meson.build               |   1 +
+>  18 files changed, 1232 insertions(+), 119 deletions(-)
+>  create mode 100644 docs/system/riscv/sifive_u.rst
+>  create mode 100644 docs/system/target-riscv.rst
+>  create mode 100644 include/hw/ssi/sifive_spi.h
+>  create mode 100644 include/qemu/crc-ccitt.h
+>  create mode 100644 hw/ssi/sifive_spi.c
+>  create mode 100644 util/crc-ccitt.c
+>
+> --
+> 2.25.1
+>
+>
 
