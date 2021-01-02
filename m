@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC0D2E86FB
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 12:19:05 +0100 (CET)
-Received: from localhost ([::1]:57868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9B282E86FA
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 12:19:04 +0100 (CET)
+Received: from localhost ([::1]:57888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvew5-00063l-1E
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 06:19:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33076)
+	id 1kvew4-000648-18
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 06:19:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kveqo-0000h0-OY
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:38 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:56418)
+ id 1kveqs-0000pu-SH
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:43 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:56506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kveqj-00073R-DB
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:38 -0500
+ id 1kveqp-00077k-PA
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:42 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A675974763F;
- Sat,  2 Jan 2021 12:13:30 +0100 (CET)
+ by localhost (Postfix) with SMTP id 2E4D5747645;
+ Sat,  2 Jan 2021 12:13:31 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E70127470FD; Sat,  2 Jan 2021 12:13:29 +0100 (CET)
-Message-Id: <c7a5b1ee4c02e304ff70ebfbf269544f3c1f8412.1609584216.git.balaton@eik.bme.hu>
+ id 10948747605; Sat,  2 Jan 2021 12:13:30 +0100 (CET)
+Message-Id: <0c0558581fd1e9e0d2ee8b32e996618cc6c0ef76.1609584216.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609584215.git.balaton@eik.bme.hu>
 References: <cover.1609584215.git.balaton@eik.bme.hu>
-Subject: [PATCH 06/24] audio/via-ac97: Simplify code and set user_creatable to
- false
+Subject: [PATCH 13/24] vt82c686: Move superio memory region to SuperIOConfig
+ struct
 Date: Sat, 02 Jan 2021 11:43:35 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
-X-Spam-Probability: 9%
+X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
 X-Spam_score_int: -41
@@ -60,112 +60,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-Remove some unneded, empty code and set user_creatable to false
-(besides being not implemented yet, so does nothing anyway) it's also
-normally part of VIA south bridge chips so no need to confuse users
-showing them these devices.
+The superio memory region holds the io space index/data registers used
+to access the superio config registers that are implemented in struct
+SuperIOConfig. To keep these related things together move the memory
+region to SuperIOConfig and rename it accordingly.
+Also remove the unused "data" member of SuperIOConfig which is not
+needed as we store actual data values in the regs array.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/audio/via-ac97.c | 51 +++++++++++++++++----------------------------
- 1 file changed, 19 insertions(+), 32 deletions(-)
+ hw/isa/vt82c686.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/hw/audio/via-ac97.c b/hw/audio/via-ac97.c
-index e617416ff7..6d556f74fc 100644
---- a/hw/audio/via-ac97.c
-+++ b/hw/audio/via-ac97.c
-@@ -13,27 +13,13 @@
- #include "hw/isa/vt82c686.h"
- #include "hw/pci/pci.h"
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index a6f5a0843d..30fe02f4c6 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -29,12 +29,11 @@
+ typedef struct SuperIOConfig {
+     uint8_t regs[0x100];
+     uint8_t index;
+-    uint8_t data;
++    MemoryRegion io;
+ } SuperIOConfig;
  
--struct VIAAC97State {
--    PCIDevice dev;
--};
--
--struct VIAMC97State {
--    PCIDevice dev;
--};
--
--OBJECT_DECLARE_SIMPLE_TYPE(VIAAC97State, VIA_AC97)
--OBJECT_DECLARE_SIMPLE_TYPE(VIAMC97State, VIA_MC97)
--
--static void via_ac97_realize(PCIDevice *dev, Error **errp)
-+static void via_ac97_realize(PCIDevice *pci_dev, Error **errp)
- {
--    VIAAC97State *s = VIA_AC97(dev);
--    uint8_t *pci_conf = s->dev.config;
--
--    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_INVALIDATE |
--                 PCI_COMMAND_PARITY);
--    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_CAP_LIST |
--                 PCI_STATUS_DEVSEL_MEDIUM);
--    pci_set_long(pci_conf + PCI_INTERRUPT_PIN, 0x03);
-+    pci_set_word(pci_dev->config + PCI_COMMAND,
-+                 PCI_COMMAND_INVALIDATE | PCI_COMMAND_PARITY);
-+    pci_set_word(pci_dev->config + PCI_STATUS,
-+                 PCI_STATUS_CAP_LIST | PCI_STATUS_DEVSEL_MEDIUM);
-+    pci_set_long(pci_dev->config + PCI_INTERRUPT_PIN, 0x03);
- }
- 
- static void via_ac97_class_init(ObjectClass *klass, void *data)
-@@ -47,13 +33,15 @@ static void via_ac97_class_init(ObjectClass *klass, void *data)
-     k->revision = 0x50;
-     k->class_id = PCI_CLASS_MULTIMEDIA_AUDIO;
-     set_bit(DEVICE_CATEGORY_SOUND, dc->categories);
--    dc->desc = "AC97";
-+    dc->desc = "VIA AC97";
-+    /* Reason: Part of a south bridge chip */
-+    dc->user_creatable = false;
- }
- 
- static const TypeInfo via_ac97_info = {
-     .name          = TYPE_VIA_AC97,
-     .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VIAAC97State),
-+    .instance_size = sizeof(PCIDevice),
-     .class_init    = via_ac97_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-@@ -61,15 +49,12 @@ static const TypeInfo via_ac97_info = {
-     },
+ struct VT82C686BISAState {
+     PCIDevice dev;
+-    MemoryRegion superio;
+     SuperIOConfig superio_cfg;
  };
  
--static void via_mc97_realize(PCIDevice *dev, Error **errp)
-+static void via_mc97_realize(PCIDevice *pci_dev, Error **errp)
- {
--    VIAMC97State *s = VIA_MC97(dev);
--    uint8_t *pci_conf = s->dev.config;
--
--    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_INVALIDATE |
--                 PCI_COMMAND_VGA_PALETTE);
--    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
--    pci_set_long(pci_conf + PCI_INTERRUPT_PIN, 0x03);
-+    pci_set_word(pci_dev->config + PCI_COMMAND,
-+                 PCI_COMMAND_INVALIDATE | PCI_COMMAND_VGA_PALETTE);
-+    pci_set_word(pci_dev->config + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
-+    pci_set_long(pci_dev->config + PCI_INTERRUPT_PIN, 0x03);
+@@ -128,8 +127,9 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+ 
+     trace_via_isa_write(addr, val, len);
+     pci_default_write_config(d, addr, val, len);
+-    if (addr == 0x85) {  /* enable or disable super IO configure */
+-        memory_region_set_enabled(&s->superio, val & 0x2);
++    if (addr == 0x85) {
++        /* BIT(1): enable or disable superio config io ports */
++        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
+     }
  }
  
- static void via_mc97_class_init(ObjectClass *klass, void *data)
-@@ -83,13 +68,15 @@ static void via_mc97_class_init(ObjectClass *klass, void *data)
-     k->class_id = PCI_CLASS_COMMUNICATION_OTHER;
-     k->revision = 0x30;
-     set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
--    dc->desc = "MC97";
-+    dc->desc = "VIA MC97";
-+    /* Reason: Part of a south bridge chip */
-+    dc->user_creatable = false;
+@@ -311,15 +311,15 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+         }
+     }
+ 
+-    memory_region_init_io(&s->superio, OBJECT(d), &superio_cfg_ops,
+-                          &s->superio_cfg, "superio", 2);
+-    memory_region_set_enabled(&s->superio, false);
++    memory_region_init_io(&s->superio_cfg.io, OBJECT(d), &superio_cfg_ops,
++                          &s->superio_cfg, "superio_cfg", 2);
++    memory_region_set_enabled(&s->superio_cfg.io, false);
+     /*
+      * The floppy also uses 0x3f0 and 0x3f1.
+      * But we do not emulate a floppy, so just set it here.
+      */
+     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
+-                                &s->superio);
++                                &s->superio_cfg.io);
  }
  
- static const TypeInfo via_mc97_info = {
-     .name          = TYPE_VIA_MC97,
-     .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VIAMC97State),
-+    .instance_size = sizeof(PCIDevice),
-     .class_init    = via_mc97_class_init,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+ static void via_class_init(ObjectClass *klass, void *data)
 -- 
 2.21.3
 
