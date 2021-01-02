@@ -2,45 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667602E85F1
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 00:58:04 +0100 (CET)
-Received: from localhost ([::1]:41568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 119C02E86CE
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 09:45:13 +0100 (CET)
+Received: from localhost ([::1]:46070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvUJ1-0004tw-0l
-	for lists+qemu-devel@lfdr.de; Fri, 01 Jan 2021 18:58:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49208)
+	id 1kvcX9-0001DB-O5
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 03:45:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kvUHu-0003vG-1t; Fri, 01 Jan 2021 18:56:54 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:46766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kvUHq-00008j-JX; Fri, 01 Jan 2021 18:56:53 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2320F7470F9;
- Sat,  2 Jan 2021 00:56:45 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B10EE7470E2; Sat,  2 Jan 2021 00:56:44 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id AD43874645F;
- Sat,  2 Jan 2021 00:56:44 +0100 (CET)
-Date: Sat, 2 Jan 2021 00:56:44 +0100 (CET)
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 0/5] hw/mips: Fix Fuloong2E to boot Linux guest again
-In-Reply-To: <20210101231215.1870611-1-f4bug@amsat.org>
-Message-ID: <eb1af512-943e-f65c-d867-3ead1eccb5d5@eik.bme.hu>
-References: <20210101231215.1870611-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kvcW4-0000lc-72
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 03:44:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56121)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kvcW1-00005D-DG
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 03:44:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609577038;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qu8X8xqbrCEDA5oU6+djhmrGn+6quVz3xMo5Vld+DLo=;
+ b=R5pzzxRTZnrdd/r6KYpLkAQL3B8I5JlsyVs2HB5ScHL7iVVRpx9AjF6QemoE4dht957yEP
+ xKOeOWStoXuSqP9xC2NOiNazPEZNhOLYwVI1B4hIPhZ0FUh/D1rvBBOT0koRT4EDnwzosR
+ Wpsq9cnt+/4Xcb4buJn6g8KkarHrMHg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-328-M9Zqai-fMEqFOy4vh4T2vw-1; Sat, 02 Jan 2021 03:43:54 -0500
+X-MC-Unique: M9Zqai-fMEqFOy4vh4T2vw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB3E7801A9E;
+ Sat,  2 Jan 2021 08:43:53 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-13.ams2.redhat.com [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B739660BF3;
+ Sat,  2 Jan 2021 08:43:49 +0000 (UTC)
+Subject: Re: [PATCH 01/16] tcg/s390x: Rename from tcg/s390
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20201225201956.692861-1-richard.henderson@linaro.org>
+ <20201225201956.692861-2-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <c1a50435-51d8-fb24-65ae-2c474e1aa5b0@redhat.com>
+Date: Sat, 2 Jan 2021 09:43:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-487390931-1609545404=:18952"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201225201956.692861-2-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.749, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,129 +81,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
- Huacai Chen <chenhuacai@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 25/12/2020 21.19, Richard Henderson wrote:
+> This emphasizes that we don't support s390, only 64-bit s390x hosts.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   meson.build                             | 2 --
+>   tcg/{s390 => s390x}/tcg-target-conset.h | 0
+>   tcg/{s390 => s390x}/tcg-target-constr.h | 0
+>   tcg/{s390 => s390x}/tcg-target.h        | 0
+>   tcg/{s390 => s390x}/tcg-target.c.inc    | 0
+>   5 files changed, 2 deletions(-)
+>   rename tcg/{s390 => s390x}/tcg-target-conset.h (100%)
+>   rename tcg/{s390 => s390x}/tcg-target-constr.h (100%)
+>   rename tcg/{s390 => s390x}/tcg-target.h (100%)
+>   rename tcg/{s390 => s390x}/tcg-target.c.inc (100%)
+> 
+> diff --git a/meson.build b/meson.build
+> index 372576f82c..a6c8b4d431 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -117,8 +117,6 @@ if 'CONFIG_TCG_INTERPRETER' in config_host
+>     tcg_arch = 'tci'
+>   elif config_host['ARCH'] == 'sparc64'
+>     tcg_arch = 'sparc'
+> -elif config_host['ARCH'] == 's390x'
+> -  tcg_arch = 's390'
+>   elif config_host['ARCH'] in ['x86_64', 'x32']
+>     tcg_arch = 'i386'
+>   elif config_host['ARCH'] == 'ppc64'
+> diff --git a/tcg/s390/tcg-target-conset.h b/tcg/s390x/tcg-target-conset.h
+> similarity index 100%
+> rename from tcg/s390/tcg-target-conset.h
+> rename to tcg/s390x/tcg-target-conset.h
+> diff --git a/tcg/s390/tcg-target-constr.h b/tcg/s390x/tcg-target-constr.h
+> similarity index 100%
+> rename from tcg/s390/tcg-target-constr.h
+> rename to tcg/s390x/tcg-target-constr.h
+> diff --git a/tcg/s390/tcg-target.h b/tcg/s390x/tcg-target.h
+> similarity index 100%
+> rename from tcg/s390/tcg-target.h
+> rename to tcg/s390x/tcg-target.h
+> diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
+> similarity index 100%
+> rename from tcg/s390/tcg-target.c.inc
+> rename to tcg/s390x/tcg-target.c.inc
+> 
 
---3866299591-487390931-1609545404=:18952
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-On Sat, 2 Jan 2021, Philippe Mathieu-Daudé wrote:
-> We closed 2020 with few discussions about the Fuloong 2E board
-> (see [1] and [2]).
->
-> This series collect the minimum set of patch to have the machine
-> booting Linux guest again, including integration tests.
->
-> This is sent as RFC because Mark raised some issues in (see [3]
-> and previous in this thread) and I don't understand PCI enough
-> to intervene.
-
-Thanks for collecting these. Let me summarise the discussion because the 
-meaning may have been lost in the seamingly heated debate but I think 
-Mark's main concern was that he does not like having a feature flag and 
-property setting the emulation to partially emulate the device: either 
-only emulating legacy mode or native mode that this patch does but he 
-would prefer to faithfully emulate the device preferably allowing 
-switching between modes. But that's not easily possible without rewritig 
-either the ISA emulation or PCI emulation in QEMU because current code 
-does not allow these to be switched once created. That's way more work and 
-risk of breaking other things using these fundamental parts that I would 
-want to take on. My goal was only to allow using this (otherwise quite 
-unused and deglected) device model in pegasos2 emulation which needs 
-native mode. But turns out fuloong2e Linux wants legacy mode so we need a 
-way to resolve this conflict and the solution was this flag and keeping 
-partial emulation depending on machine.
-
-But Mark still considered that a horrible hack but after looking more 
-closely he also found the difficulty of implementing a more faithful 
-emulation so he would accept the flag at the end but still wanted 
-registers to be set more consistently matching what the data sheet and 
-whatever ideals would dictate. However I've spent a lot of time before 
-finding these values that work with all clients and found some of these 
-clients have assumptions instead of working in an ideal world following 
-what data sheets say and I don't want to make any changes to this now 
-before we also have pegasos2 upstreamed so any change can be more 
-throughly tested and I don't have to retest everything for every small 
-change just to find something broke,
-
-This was the main reason for disagreement and I think Mark's standards for 
-this device was way higher than necessary in this situation and I may have 
-got upset to have this pushed back again when we've already went through 
-this last March where we also had a long discussion after which Mark 
-managed to get rid of the flag but that now came back in a different form. 
-(Previously it was switching between fully native and non-100% native 
-mode, now it selects legacy or non-100% native mode where legacy is needed 
-for fuloong2e linux and non-100% native mode is needed for pegasos2 
-guests.) This may not be how the real device work (Mark also has concerns 
-about what exactly is non-100% native mode) and it may be a horrible hack 
-but it's probably the best that can be done with current QEMU facilities 
-and in the time I had and since this is only used on fuloong2e and 
-pegasos2 for a few obscure guests I think it does not need any more 
-complex solution at the moment.
-
-It seems this disagreement on what's good enough for a device model to get 
-in QEMU is the source of disagreement between us with Mark but we'll sort 
-that out off list once I finish preparing my pegasos2 patches that will 
-finally show where these changes go and oters can also test any proposed 
-changes.
-
-Regards,
-BALATON Zoltan
-
-> Peter commented a similar PCI issue with the Sam460ex [4] so might
-> be able to help us here.
->
-> Anyhow, sharing this PoC on the list with the test, the avoid boring
-> manual testing.
->
-> Regards,
->
-> Phil.
->
-> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg769105.html
-> [2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg769557.html
-> [3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg769593.html
-> [4] https://www.mail-archive.com/qemu-devel@nongnu.org/msg769697.html
->
-> BALATON Zoltan (1):
->  ide: Make room for flags in PCIIDEState and add one for legacy mode
->
-> Guenter Roeck (1):
->  via-ide: Fix fuloong2e support
->
-> Jiaxun Yang (1):
->  tests/acceptance: Test boot_linux_console for fuloong2e
->
-> Philippe Mathieu-Daudé (2):
->  hw/pci-host/bonito: Remap PCI "lo" regions when PCIMAP reg is modified
->  tests/integration: Test Fuloong2E IDE drive, run userspace commands
->
-> include/hw/ide/pci.h                   |  7 +++-
-> hw/ide/cmd646.c                        |  6 ++--
-> hw/ide/via.c                           | 19 ++++++++--
-> hw/mips/fuloong2e.c                    |  4 ++-
-> hw/pci-host/bonito.c                   | 49 +++++++++++++++++++-------
-> hw/sparc64/sun4u.c                     |  2 +-
-> tests/acceptance/boot_linux_console.py | 47 ++++++++++++++++++++++++
-> 7 files changed, 113 insertions(+), 21 deletions(-)
->
-> --
-> 2.26.2
->
->
->
---3866299591-487390931-1609545404=:18952--
 
