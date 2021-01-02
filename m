@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25EED2E8773
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 14:20:44 +0100 (CET)
-Received: from localhost ([::1]:39856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E77782E877C
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 14:27:44 +0100 (CET)
+Received: from localhost ([::1]:43504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvgpn-0001A0-7r
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 08:20:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55416)
+	id 1kvgwZ-00035t-Mk
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 08:27:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kvgmK-0000DT-OB
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 08:17:10 -0500
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:35346)
+ id 1kvguJ-0002Po-2o
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 08:25:23 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:42274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kvgmE-0000sR-49
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 08:17:08 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id q22so30497444eja.2
- for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 05:17:00 -0800 (PST)
+ id 1kvguG-0003Xk-I3
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 08:25:22 -0500
+Received: by mail-ed1-x530.google.com with SMTP id g24so22155472edw.9
+ for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 05:25:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+Vu/dcABqb0MzI75FHAFPcY8gchkySpCEtt60bb3XMc=;
- b=zAhMH4lnjaYHw5pcie/jRBXo1wzrGeX1g/4H2p1Ol0FJDxdw0A3PthebTyvCtLvBca
- jKK4cm4cy3YzgFDvGYrgiUBQMeQLruBwoYg0G9hPfpYhRfh4a287/FNsk2APFSXpM8MI
- GAvN+7WfgvCim+cM61HU/Dy+L94HCW4WStlycThtT2Xt/0MZtnUiUdjjtIGIuVxUlBUj
- QE50MaA4A9HHdRjdx3PURYu26gbsdRoU+Bm8BUalTqN+dOjlh+uw9iCnBdBjYoEhw8gA
- y2lekllqcWWJcYqvSfzpFnRPjUThCS0m5zIchW/AGVXCgKDTRfOCpEuXbfPC6fG9rEoJ
- KxFQ==
+ :cc; bh=C7pIaNgW+iHZ5anVt66RQzXcltVlE6J+x7M9S0DBSEU=;
+ b=iE8D5SP2or0152G9bvOTCTE7EnMfyvady8dJyt+nxMi3rZeSV/80NkU9W96bMoovRL
+ UEmv1GppN0fUiY2rdZ/E1emJLzPHR7iaojATHybx7Alqydlvz1ZOQXbeH6j+R2/bPzQo
+ 8VqmU2KtPumiWPqBxALadHg3OefsWZDug723lOiutej1o5tAESHcbB9JSfX/6dp1XzWY
+ SXg+2Otr8xNjet2XYfzFz1518SYZH9WSQHXEz2K988td0xzw41drQ11qut2AR7U7wbAS
+ eFFc2AGco15jvviq7QbNN2AxqHqIcZRxoE3lxd47ha/HRDH2LlisX54stFI4VrrWoguL
+ DEnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+Vu/dcABqb0MzI75FHAFPcY8gchkySpCEtt60bb3XMc=;
- b=VNkgL2KoN6blbMObmks/AmUyLLvT1Mb8aa0WO6whw2I+dt7VpiNR3QzxZ0rQeEC7CF
- mhtX0rerC2J2V5DTpzMYSxq2ZQg65PtKcC2ivdQUNFBVuoEdNZv3whA+Nwkk9+WgordI
- UzwF/9kl984tf4B28DXWklPyAJQ3Ve9XXL4s1jJIIX0jiibkCOmtHJS6x2wke2A4B+7v
- pYyE2Tcl0komGyVWi/jkbTEbiVnoi4Rulb+XLOMbDO/a4kFTpaRWrS2IYwMH4HNLO4uJ
- cx/tqD9RdMiPhM00GiV/nWJWTgo0ErVzdxHQT7zGvT+dRRDUFu8HeiY1HenZwgpKhDqk
- zOAA==
-X-Gm-Message-State: AOAM531isPHv8Jvv4MYXqvRqApyTlHF2em+qFs3fxqLeqD0R1Ku+DamC
- g4YY4c5ShCEi3T9TLIp/oHOqMjy6CFYGspnMFcRmjA==
-X-Google-Smtp-Source: ABdhPJy52f7ClXvsLuLwUJS2QrQ5ifQlzjH7ukl3XVJp5WhqOuRqVXmxdCxauUbEMP+ZAXz6erxk9QMiP99Bqc8RqOg=
-X-Received: by 2002:a17:906:6b88:: with SMTP id
- l8mr60239800ejr.482.1609593419768; 
- Sat, 02 Jan 2021 05:16:59 -0800 (PST)
+ bh=C7pIaNgW+iHZ5anVt66RQzXcltVlE6J+x7M9S0DBSEU=;
+ b=dh76LHI15pBj5qYcy9MDxX+rS2B6xm116NEgOSkEC3D/3M4qdKOmfyfd1q6yI6zMon
+ g+qf3j1Zf8lrejbwSbXFELBNym0BcEG1GYKJCJZtVe7iAn51mkZKQiiaOGXqf2qPKm3h
+ R630PDsu0SQ6bWpaRSwkhIsKIfc2CnjELWt9yc1jr8M5DB1M4DWQvciSynfJp0TMbMMQ
+ iQAo7dHSHx4+f9d62+sva35AxiKzc/YNTRUVtEQvL+N4UC5wfZ8i33Zf8MegXtPF8Qx1
+ G/I8ahJOYFsV9zf612lLDxjDR3xiYD5+mgpWksmRvsurziyyqXchUQEdwVbLY4588/LD
+ SkDw==
+X-Gm-Message-State: AOAM531PI57qkB5RH0Fj7nn/lprzy2m2Fpb6iF7yyBle0QRkugyxEjTy
+ xYV6iNpmHlNWwF+da0RrpDdzB+E7cVE0e15unhkwVQ==
+X-Google-Smtp-Source: ABdhPJwZo5wgCvYNg3LYI9ez5rzVGLMO+j57UKG3JLbLPenGssRbgB2f5Jk4AUIXD7pozag3zCQCVf2k5HvZsbuw5Wk=
+X-Received: by 2002:a05:6402:1383:: with SMTP id
+ b3mr62088817edv.100.1609593918619; 
+ Sat, 02 Jan 2021 05:25:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20210102125154.41182-1-r.bolshakov@yadro.com>
-In-Reply-To: <20210102125154.41182-1-r.bolshakov@yadro.com>
+References: <20210102125213.41279-1-r.bolshakov@yadro.com>
+In-Reply-To: <20210102125213.41279-1-r.bolshakov@yadro.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 2 Jan 2021 13:16:48 +0000
-Message-ID: <CAFEAcA_jTfLjgwPFXQ9TYv1hNK-G1HsXYq7m_eJodDtTPhuH2A@mail.gmail.com>
-Subject: Re: [PATCH] ui/cocoa: Fix openFile: deprecation on Big Sur
+Date: Sat, 2 Jan 2021 13:25:07 +0000
+Message-ID: <CAFEAcA-X6DSKeyS4bbNe3tu-QFGxc1VM+Eoz_UMk-8jb--zq9g@mail.gmail.com>
+Subject: Re: [PATCH] meson: Propagate gnutls dependency
 To: Roman Bolshakov <r.bolshakov@yadro.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,57 +77,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 2 Jan 2021 at 12:52, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+On Sat, 2 Jan 2021 at 12:54, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
 >
-> ui/cocoa.m:1188:44: warning: 'openFile:' is deprecated: first deprecated in macOS 11.0 - Use -[NSWorkspace openURL:] instead.
->       [-Wdeprecated-declarations]
->         if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
->                                            ^
-> /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWorkspace.h:350:1: note:
->       'openFile:' has been explicitly marked deprecated here
-> - (BOOL)openFile:(NSString *)fullPath API_DEPRECATED("Use -[NSWorkspace openURL:] instead.", macos(10.0, 11.0));
-> ^
+> crypto/tlscreds.h includes GnuTLS headers if CONFIG_GNUTLS is set, but
+> GNUTLS_CFLAGS, that describe include path, are not propagated
+> transitively to all users of crypto and build fails if GnuTLS headers
+> reside in non-standard directory (which is a case for homebrew on Apple
+> Silicon).
 >
 > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+
+Ah, this is https://bugs.launchpad.net/qemu/+bug/1909256
+-- thanks for finding a fix.
+
 > ---
->  ui/cocoa.m | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index f32adc3074..5909758a09 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -1178,6 +1178,7 @@ QemuCocoaView *cocoaView;
->      /* Where to look for local files */
->      NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"../docs/"};
->      NSString *full_file_path;
-> +    NSURL *full_file_url;
->
->      /* iterate thru the possible paths until the file is found */
->      int index;
-> @@ -1186,7 +1187,8 @@ QemuCocoaView *cocoaView;
->          full_file_path = [full_file_path stringByDeletingLastPathComponent];
->          full_file_path = [NSString stringWithFormat: @"%@/%@%@", full_file_path,
->                            path_array[index], filename];
-> -        if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
-> +        full_file_url = [NSURL URLWithString: full_file_path];
-> +        if ([[NSWorkspace sharedWorkspace] openURL: full_file_url] == YES) {
->              return;
->          }
+>  block/meson.build          | 2 +-
+>  io/meson.build             | 2 +-
+>  meson.build                | 5 +++--
+>  storage-daemon/meson.build | 2 +-
+>  tests/meson.build          | 6 +++---
+>  ui/meson.build             | 2 +-
+>  6 files changed, 10 insertions(+), 9 deletions(-)
 
-The NSURL URLWithString method documentation:
-https://developer.apple.com/documentation/foundation/nsurl/1572047-urlwithstring
-says:
-# Important
-# To create NSURL objects for file system paths, use
-fileURLWithPath:isDirectory:
-# instead.
+> diff --git a/ui/meson.build b/ui/meson.build
+> index 013258a01c..e6655c94a6 100644
+> --- a/ui/meson.build
+> +++ b/ui/meson.build
+> @@ -29,7 +29,7 @@ vnc_ss.add(files(
+>    'vnc-ws.c',
+>    'vnc-jobs.c',
+>  ))
+> -vnc_ss.add(zlib, png, jpeg)
+> +vnc_ss.add(zlib, png, jpeg, gnutls)
+>  vnc_ss.add(when: sasl, if_true: files('vnc-auth-sasl.c'))
+>  softmmu_ss.add_all(when: vnc, if_true: vnc_ss)
+>  softmmu_ss.add(when: vnc, if_false: files('vnc-stubs.c'))
 
-Should we be doing that instead ?
+Question to Paolo -- it seems pretty fragile to have to explicitly
+list "these source files need these extra CFLAGS" in half a dozen
+meson.build files, because it's pretty non-obvious that adding
+eg '#include "block/nbd.h"' to a .c file means that you also
+need to update the meson.build file to say "and now it needs these
+extra CFLAGS". Isn't there some way we can just have the CFLAGS
+added more globally so that if we use gnutls.h directly or
+indirectly from more .c files in future it Just Works ?
+
+If the build failed for the common Linux case then it would be
+at least more obvious that you needed to update the meson.build
+files. I think it's better to avoid "you need to do this special
+thing that you'll only notice you're missing if you happen to test
+on a somewhat obscure host configuration" where we can.
+
+(We don't want to link helper binaries etc against gnutls if
+they don't need it, but that's LDFLAGS, not CFLAGS.)
 
 thanks
 -- PMM
