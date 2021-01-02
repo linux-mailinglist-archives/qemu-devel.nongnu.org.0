@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD142E86FE
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 12:20:56 +0100 (CET)
-Received: from localhost ([::1]:38204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2D42E8717
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 12:31:38 +0100 (CET)
+Received: from localhost ([::1]:40878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvexr-00011p-FI
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 06:20:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33244)
+	id 1kvf8D-0005RW-Lj
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 06:31:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kveqw-0000ss-UY
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:47 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:56513)
+ id 1kveqt-0000qc-WC
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:44 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:56511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kveqr-00078t-NC
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:46 -0500
+ id 1kveqr-00078m-HB
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:43 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C80D274760E;
+ by localhost (Postfix) with SMTP id 6573E747646;
  Sat,  2 Jan 2021 12:13:31 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 217CD747610; Sat,  2 Jan 2021 12:13:30 +0100 (CET)
-Message-Id: <4a5584e436ab30731abac5bf5fab7f389683c1c6.1609584216.git.balaton@eik.bme.hu>
+ id 1D8C674760F; Sat,  2 Jan 2021 12:13:30 +0100 (CET)
+Message-Id: <89c6abccb540e0b2159e1609782bfaf52c83187d.1609584216.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609584215.git.balaton@eik.bme.hu>
 References: <cover.1609584215.git.balaton@eik.bme.hu>
-Subject: [PATCH 17/24] vt82c686: Make vt82c686b-pm an abstract base class and
- add vt8231-pm based on it
+Subject: [PATCH 16/24] vt82c686: Fix up power management io base and config
 Date: Sat, 02 Jan 2021 11:43:35 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -60,229 +59,155 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-The vt82c686b-pm model can be shared between VT82C686B and VT8231. The
-only difference between the two is the device id in what we emulate so
-make an abstract via-pm model by renaming appropriately and add types
-for vt82c686b-pm and vt8231-pm based on it.
+Similar to the SMBus io registers there is a power management io range
+that is set via similar base address reg and enable bit. Some handling
+of this was already there but with several problems: using the wrong
+registers and bits, wrong size range, not acually updating mapping and
+handling reset correctly, nor emulating any of the actual io
+registers. Some of these errors are fixed up here.
+
+After this patch we use the correct base address register, enable bit
+and region size and allow guests to map/unmap this region and
+correctly reset all registers to default values on reset but we still
+don't emulate any of the registers in this range.
+
+Previously just an empty RAM region was mapped on realize, now we add
+an empty io range logging access instead. I think the pm timer should
+be hooked up here but not sure guests need it. PMON on fuloong2e sets
+a base address but does not seem to enable region; the pegasos2
+firmware pokes some regs but continues anyway so don't know if
+anything would make use of these facilities. Therefore this is just a
+clean up of previous state for now and not intending to fully
+implement missing functionality which could be done later if some
+guests need it.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/isa/vt82c686.c         | 87 ++++++++++++++++++++++++++-------------
- include/hw/isa/vt82c686.h |  1 +
- 2 files changed, 59 insertions(+), 29 deletions(-)
+ hw/isa/trace-events |  2 ++
+ hw/isa/vt82c686.c   | 56 ++++++++++++++++++++++++++++++++-------------
+ 2 files changed, 42 insertions(+), 16 deletions(-)
 
+diff --git a/hw/isa/trace-events b/hw/isa/trace-events
+index d267d3e652..641d69eedf 100644
+--- a/hw/isa/trace-events
++++ b/hw/isa/trace-events
+@@ -17,5 +17,7 @@ apm_io_write(uint8_t addr, uint8_t val) "write addr=0x%x val=0x%02x"
+ # vt82c686.c
+ via_isa_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
+ via_pm_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
++via_pm_io_read(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
++via_pm_io_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
+ via_superio_read(uint8_t addr, uint8_t val) "addr 0x%x val 0x%x"
+ via_superio_write(uint8_t addr, uint32_t val) "addr 0x%x val 0x%x"
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index fc2a1f4430..a989e29fe5 100644
+index 9c4d153022..fc2a1f4430 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -27,9 +27,10 @@
- #include "exec/address-spaces.h"
- #include "trace.h"
+@@ -39,14 +39,11 @@ struct VT686PMState {
  
--OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
-+#define TYPE_VIA_PM "via-pm"
-+OBJECT_DECLARE_SIMPLE_TYPE(ViaPMState, VIA_PM)
- 
--struct VT686PMState {
-+struct ViaPMState {
-     PCIDevice dev;
-     MemoryRegion io;
-     ACPIREGS ar;
-@@ -37,7 +38,7 @@ struct VT686PMState {
-     PMSMBus smb;
- };
- 
--static void pm_io_space_update(VT686PMState *s)
-+static void pm_io_space_update(ViaPMState *s)
+ static void pm_io_space_update(VT686PMState *s)
  {
-     uint32_t pmbase = pci_get_long(s->dev.config + 0x48) & 0xff80UL;
+-    uint32_t pm_io_base;
+-
+-    pm_io_base = pci_get_long(s->dev.config + 0x40);
+-    pm_io_base &= 0xffc0;
++    uint32_t pmbase = pci_get_long(s->dev.config + 0x48) & 0xff80UL;
  
-@@ -47,7 +48,7 @@ static void pm_io_space_update(VT686PMState *s)
+     memory_region_transaction_begin();
+-    memory_region_set_enabled(&s->io, s->dev.config[0x80] & 1);
+-    memory_region_set_address(&s->io, pm_io_base);
++    memory_region_set_address(&s->io, pmbase);
++    memory_region_set_enabled(&s->io, s->dev.config[0x41] & BIT(7));
      memory_region_transaction_commit();
  }
  
--static void smb_io_space_update(VT686PMState *s)
-+static void smb_io_space_update(ViaPMState *s)
- {
-     uint32_t smbase = pci_get_long(s->dev.config + 0x90) & 0xfff0UL;
- 
-@@ -59,7 +60,7 @@ static void smb_io_space_update(VT686PMState *s)
- 
- static int vmstate_acpi_post_load(void *opaque, int version_id)
- {
--    VT686PMState *s = opaque;
-+    ViaPMState *s = opaque;
- 
-     pm_io_space_update(s);
-     smb_io_space_update(s);
-@@ -72,20 +73,20 @@ static const VMStateDescription vmstate_acpi = {
-     .minimum_version_id = 1,
-     .post_load = vmstate_acpi_post_load,
-     .fields = (VMStateField[]) {
--        VMSTATE_PCI_DEVICE(dev, VT686PMState),
--        VMSTATE_UINT16(ar.pm1.evt.sts, VT686PMState),
--        VMSTATE_UINT16(ar.pm1.evt.en, VT686PMState),
--        VMSTATE_UINT16(ar.pm1.cnt.cnt, VT686PMState),
--        VMSTATE_STRUCT(apm, VT686PMState, 0, vmstate_apm, APMState),
--        VMSTATE_TIMER_PTR(ar.tmr.timer, VT686PMState),
--        VMSTATE_INT64(ar.tmr.overflow_time, VT686PMState),
-+        VMSTATE_PCI_DEVICE(dev, ViaPMState),
-+        VMSTATE_UINT16(ar.pm1.evt.sts, ViaPMState),
-+        VMSTATE_UINT16(ar.pm1.evt.en, ViaPMState),
-+        VMSTATE_UINT16(ar.pm1.cnt.cnt, ViaPMState),
-+        VMSTATE_STRUCT(apm, ViaPMState, 0, vmstate_apm, APMState),
-+        VMSTATE_TIMER_PTR(ar.tmr.timer, ViaPMState),
-+        VMSTATE_INT64(ar.tmr.overflow_time, ViaPMState),
-         VMSTATE_END_OF_LIST()
-     }
- };
- 
- static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
- {
--    VT686PMState *s = VT82C686B_PM(d);
-+    ViaPMState *s = VIA_PM(d);
+@@ -92,6 +89,13 @@ static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
  
      trace_via_pm_write(addr, val, len);
      pci_default_write_config(d, addr, val, len);
-@@ -127,7 +128,7 @@ static const MemoryRegionOps pm_io_ops = {
-     },
- };
- 
--static void pm_update_sci(VT686PMState *s)
-+static void pm_update_sci(ViaPMState *s)
- {
-     int sci_level, pmsts;
- 
-@@ -145,13 +146,13 @@ static void pm_update_sci(VT686PMState *s)
- 
- static void pm_tmr_timer(ACPIREGS *ar)
- {
--    VT686PMState *s = container_of(ar, VT686PMState, ar);
-+    ViaPMState *s = container_of(ar, ViaPMState, ar);
-     pm_update_sci(s);
++    if (ranges_overlap(addr, len, 0x48, 4)) {
++        uint32_t v = pci_get_long(s->dev.config + 0x48);
++        pci_set_long(s->dev.config + 0x48, (v & 0xff80UL) | 1);
++    }
++    if (range_covers_byte(addr, len, 0x41)) {
++        pm_io_space_update(s);
++    }
+     if (ranges_overlap(addr, len, 0x90, 4)) {
+         uint32_t v = pci_get_long(s->dev.config + 0x90);
+         pci_set_long(s->dev.config + 0x90, (v & 0xfff0UL) | 1);
+@@ -102,6 +106,27 @@ static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
+     }
  }
  
--static void vt82c686b_pm_reset(DeviceState *d)
-+static void via_pm_reset(DeviceState *d)
++static void pm_io_write(void *op, hwaddr addr, uint64_t data, unsigned size)
++{
++    trace_via_pm_io_write(addr, data, size);
++}
++
++static uint64_t pm_io_read(void *op, hwaddr addr, unsigned size)
++{
++    trace_via_pm_io_read(addr, 0, size);
++    return 0;
++}
++
++static const MemoryRegionOps pm_io_ops = {
++    .read = pm_io_read,
++    .write = pm_io_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++    },
++};
++
+ static void pm_update_sci(VT686PMState *s)
  {
--    VT686PMState *s = VT82C686B_PM(d);
-+    ViaPMState *s = VIA_PM(d);
+     int sci_level, pmsts;
+@@ -128,35 +153,34 @@ static void vt82c686b_pm_reset(DeviceState *d)
+ {
+     VT686PMState *s = VT82C686B_PM(d);
  
-     memset(s->dev.config + PCI_CONFIG_HEADER_SIZE, 0,
-            PCI_CONFIG_SPACE_SIZE - PCI_CONFIG_HEADER_SIZE);
-@@ -164,9 +165,9 @@ static void vt82c686b_pm_reset(DeviceState *d)
++    memset(s->dev.config + PCI_CONFIG_HEADER_SIZE, 0,
++           PCI_CONFIG_SPACE_SIZE - PCI_CONFIG_HEADER_SIZE);
++    /* Power Management IO base */
++    pci_set_long(s->dev.config + 0x48, 1);
+     /* SMBus IO base */
+     pci_set_long(s->dev.config + 0x90, 1);
+-    s->dev.config[0xd2] = 0;
+ 
++    pm_io_space_update(s);
      smb_io_space_update(s);
  }
  
--static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
-+static void via_pm_realize(PCIDevice *dev, Error **errp)
+ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
  {
--    VT686PMState *s = VT82C686B_PM(dev);
-+    ViaPMState *s = VIA_PM(dev);
+     VT686PMState *s = VT82C686B_PM(dev);
+-    uint8_t *pci_conf;
  
-     pci_set_word(dev->config + PCI_STATUS, PCI_STATUS_FAST_BACK |
+-    pci_conf = s->dev.config;
+-    pci_set_word(pci_conf + PCI_COMMAND, 0);
+-    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_FAST_BACK |
++    pci_set_word(dev->config + PCI_STATUS, PCI_STATUS_FAST_BACK |
                   PCI_STATUS_DEVSEL_MEDIUM);
-@@ -177,8 +178,7 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+ 
+-    /* 0x48-0x4B is Power Management I/O Base */
+-    pci_set_long(pci_conf + 0x48, 0x00000001);
+-
+     pm_smbus_init(DEVICE(s), &s->smb, false);
+     memory_region_add_subregion(pci_address_space_io(dev), 0, &s->smb.io);
+     memory_region_set_enabled(&s->smb.io, false);
  
      apm_init(dev, &s->apm, NULL, s);
  
--    memory_region_init_io(&s->io, OBJECT(dev), &pm_io_ops, s,
--                          "vt82c686-pm", 0x100);
-+    memory_region_init_io(&s->io, OBJECT(dev), &pm_io_ops, s, "via-pm", 0x100);
-     memory_region_add_subregion(pci_address_space_io(dev), 0, &s->io);
+-    memory_region_init(&s->io, OBJECT(dev), "vt82c686-pm", 64);
++    memory_region_init_io(&s->io, OBJECT(dev), &pm_io_ops, s,
++                          "vt82c686-pm", 0x100);
++    memory_region_add_subregion(pci_address_space_io(dev), 0, &s->io);
      memory_region_set_enabled(&s->io, false);
+-    memory_region_add_subregion(get_system_io(), 0, &s->io);
  
-@@ -187,34 +187,61 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
-     acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
- }
- 
-+typedef struct via_pm_init_info {
-+    uint16_t device_id;
-+} ViaPMInitInfo;
-+
- static void via_pm_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+    ViaPMInitInfo *info = data;
- 
--    k->realize = vt82c686b_pm_realize;
-+    k->realize = via_pm_realize;
-     k->config_write = pm_write_config;
-     k->vendor_id = PCI_VENDOR_ID_VIA;
--    k->device_id = PCI_DEVICE_ID_VIA_ACPI;
-+    k->device_id = info->device_id;
-     k->class_id = PCI_CLASS_BRIDGE_OTHER;
-     k->revision = 0x40;
--    dc->reset = vt82c686b_pm_reset;
--    dc->desc = "PM";
-+    dc->reset = via_pm_reset;
-+    /* Reason: part of VIA south bridge, does not exist stand alone */
-+    dc->user_creatable = false;
-     dc->vmsd = &vmstate_acpi;
--    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
- }
- 
- static const TypeInfo via_pm_info = {
--    .name          = TYPE_VT82C686B_PM,
-+    .name          = TYPE_VIA_PM,
-     .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VT686PMState),
--    .class_init    = via_pm_class_init,
-+    .instance_size = sizeof(ViaPMState),
-+    .abstract      = true,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-         { },
-     },
- };
- 
-+static const ViaPMInitInfo vt82c686b_pm_init_info = {
-+    .device_id = PCI_DEVICE_ID_VIA_ACPI,
-+};
-+
-+static const TypeInfo vt82c686b_pm_info = {
-+    .name          = TYPE_VT82C686B_PM,
-+    .parent        = TYPE_VIA_PM,
-+    .class_init    = via_pm_class_init,
-+    .class_data    = (void *)&vt82c686b_pm_init_info,
-+};
-+
-+static const ViaPMInitInfo vt8231_pm_init_info = {
-+    .device_id = 0x8235,
-+};
-+
-+static const TypeInfo vt8231_pm_info = {
-+    .name          = TYPE_VT8231_PM,
-+    .parent        = TYPE_VIA_PM,
-+    .class_init    = via_pm_class_init,
-+    .class_data    = (void *)&vt8231_pm_init_info,
-+};
-+
- 
- typedef struct SuperIOConfig {
-     uint8_t regs[0x100];
-@@ -423,6 +450,8 @@ static const TypeInfo via_superio_info = {
- static void vt82c686b_register_types(void)
- {
-     type_register_static(&via_pm_info);
-+    type_register_static(&vt82c686b_pm_info);
-+    type_register_static(&vt8231_pm_info);
-     type_register_static(&via_info);
-     type_register_static(&via_superio_info);
- }
-diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
-index 5b0a1ffe72..9b6d610e83 100644
---- a/include/hw/isa/vt82c686.h
-+++ b/include/hw/isa/vt82c686.h
-@@ -4,6 +4,7 @@
- #define TYPE_VT82C686B_ISA "vt82c686b-isa"
- #define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
- #define TYPE_VT82C686B_PM "vt82c686b-pm"
-+#define TYPE_VT8231_PM "vt8231-pm"
- #define TYPE_VIA_AC97 "via-ac97"
- #define TYPE_VIA_MC97 "via-mc97"
- 
+     acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
+     acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
 -- 
 2.21.3
 
