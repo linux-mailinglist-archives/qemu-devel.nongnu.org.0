@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F69C2E8795
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 15:13:51 +0100 (CET)
-Received: from localhost ([::1]:60234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94002E8799
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 15:18:09 +0100 (CET)
+Received: from localhost ([::1]:35960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvhfB-0004Om-WC
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 09:13:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35676)
+	id 1kvhjM-0006GV-8F
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 09:18:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kvhdl-0003cO-E1; Sat, 02 Jan 2021 09:12:21 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:13745)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kvhi3-0005ja-G9; Sat, 02 Jan 2021 09:16:48 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:41458 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kvhdi-0002Lp-F3; Sat, 02 Jan 2021 09:12:20 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6DAAA7470FD;
- Sat,  2 Jan 2021 15:12:14 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 359247470DD; Sat,  2 Jan 2021 15:12:14 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 3396574645F;
- Sat,  2 Jan 2021 15:12:14 +0100 (CET)
-Date: Sat, 2 Jan 2021 15:12:14 +0100 (CET)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kvhhz-0003td-ST; Sat, 02 Jan 2021 09:16:46 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 6366241303;
+ Sat,  2 Jan 2021 14:16:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1609596999;
+ x=1611411400; bh=poNrHgbN/WHDVYtaHsmEPwIoA0kNGy5ug5R37XAMnwQ=; b=
+ vdLJsQmfT9AlNCCLnwPVGOWdQ57nU0Zi+CB2WxVbGYDEH5n81f1V9L8oz0vYhMHL
+ vX0yoCQgZADIX0d9DLIlAujfiBvFJqxFn5q9j0YFmzT2qXnqMvUFrJY+JTcuv4Ct
+ p+EIi34QY4o0kK07T7fLXQsfj6/h9GfI6jxR7t/pLf4=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id uAt86KKTm6Ww; Sat,  2 Jan 2021 17:16:39 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 9AD53412FD;
+ Sat,  2 Jan 2021 17:16:39 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Sat, 2 Jan
+ 2021 17:16:39 +0300
+Date: Sat, 2 Jan 2021 17:16:44 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH 3/5] hw/pci-host/bonito: Remap PCI "lo" regions when
- PCIMAP reg is modified
-In-Reply-To: <CAFEAcA_s_jOhL+1rVqvCHAEJHU-aAp2-1_zpQ1rC8Hjt_6H4KA@mail.gmail.com>
-Message-ID: <8e9f16e-2f17-4f99-d0ee-96df2ad76d3e@eik.bme.hu>
-References: <20210101231215.1870611-1-f4bug@amsat.org>
- <20210101231215.1870611-4-f4bug@amsat.org>
- <CAFEAcA_Hi+4BAPL+0BhDgbsXtzDQjiCs0SAs44mKgUbcSE+XCg@mail.gmail.com>
- <2da14074-a4ef-e90c-ea42-74d48ca06afd@amsat.org>
- <293aa484-89c8-acc2-b9a3-37f17a506a2d@eik.bme.hu>
- <CAFEAcA_s_jOhL+1rVqvCHAEJHU-aAp2-1_zpQ1rC8Hjt_6H4KA@mail.gmail.com>
+Subject: Re: [PATCH] meson: Propagate gnutls dependency
+Message-ID: <X/CATD8eBc/szGmM@SPB-NB-133.local>
+References: <20210102125213.41279-1-r.bolshakov@yadro.com>
+ <CAFEAcA-X6DSKeyS4bbNe3tu-QFGxc1VM+Eoz_UMk-8jb--zq9g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-X6DSKeyS4bbNe3tu-QFGxc1VM+Eoz_UMk-8jb--zq9g@mail.gmail.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,63 +76,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Qemu-block <qemu-block@nongnu.org>, Huacai Chen <chenhuacai@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>, "open
+ list:Block layer core" <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On Sat, 2 Jan 2021, Peter Maydell wrote:
-> On Sat, 2 Jan 2021 at 11:22, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->> I have similar code in the series I've just posted where I'm mapping
->> regions of serial devices. I did consider using set_enabled and
->> set_address but ended up with removing and adding regions because I'm not
->> sure what happens if guest tries to move one region over another like
->> having one region at a default location while guest tries to map the other
->> one there (the pegasos2 maps serial at 0x2f8 which is normally COM2 on a
->> PC). This should not happen in theory but when removing disabled regions
->> it cannot happen so that looks safer therefore I chose to do that. Not
->> sure if this could be a problem here just shared my thughts about this.
->
-> I'm not sure what you have in mind -- could you explain further?
-> There should be no difference as far as the MemoryRegion handling
-> code is concerned between "this memory region is marked disabled" and
-> "the memory region was deleted and will be created from fresh and added
-> back later" -- an MR that's in the hierarchy but not enabled is
-> entirely ignored, as if it wasn't there at all, when creating the
-> flat-view.
+On Sat, Jan 02, 2021 at 01:25:07PM +0000, Peter Maydell wrote:
+> On Sat, 2 Jan 2021 at 12:54, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+> >
+> > crypto/tlscreds.h includes GnuTLS headers if CONFIG_GNUTLS is set, but
+> > GNUTLS_CFLAGS, that describe include path, are not propagated
+> > transitively to all users of crypto and build fails if GnuTLS headers
+> > reside in non-standard directory (which is a case for homebrew on Apple
+> > Silicon).
+> >
+> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> 
+> Ah, this is https://bugs.launchpad.net/qemu/+bug/1909256
+> -- thanks for finding a fix.
+> 
 
-The device I was implementing has two registers one to set base address of 
-io region and another with bits to enable/disable the regions so I could 
-do set_address for base regs and set_enabled for control reg bits but I've 
-seen guests first flipping the enable bits on then setting the base 
-address so I thought it might cause problems with regions added to their 
-parent but thinking about it more it's probably the same if we remove 
-regions and add them instead of just set_enabled because they should be 
-readded when control reg bits are set so they'll end up at the same 
-default address.
+No problem :)
 
-> That said, doing memory_region_del_subregion()/memory_region_add_subregion()
-> I think is also OK -- what's definitely not required is actually
-> deleting and recreating the MRs the way this code is doing.
+> > ---
+> >  block/meson.build          | 2 +-
+> >  io/meson.build             | 2 +-
+> >  meson.build                | 5 +++--
+> >  storage-daemon/meson.build | 2 +-
+> >  tests/meson.build          | 6 +++---
+> >  ui/meson.build             | 2 +-
+> >  6 files changed, 10 insertions(+), 9 deletions(-)
+> 
+> > diff --git a/ui/meson.build b/ui/meson.build
+> > index 013258a01c..e6655c94a6 100644
+> > --- a/ui/meson.build
+> > +++ b/ui/meson.build
+> > @@ -29,7 +29,7 @@ vnc_ss.add(files(
+> >    'vnc-ws.c',
+> >    'vnc-jobs.c',
+> >  ))
+> > -vnc_ss.add(zlib, png, jpeg)
+> > +vnc_ss.add(zlib, png, jpeg, gnutls)
+> >  vnc_ss.add(when: sasl, if_true: files('vnc-auth-sasl.c'))
+> >  softmmu_ss.add_all(when: vnc, if_true: vnc_ss)
+> >  softmmu_ss.add(when: vnc, if_false: files('vnc-stubs.c'))
+> 
+> Question to Paolo -- it seems pretty fragile to have to explicitly
+> list "these source files need these extra CFLAGS" in half a dozen
+> meson.build files, because it's pretty non-obvious that adding
+> eg '#include "block/nbd.h"' to a .c file means that you also
+> need to update the meson.build file to say "and now it needs these
+> extra CFLAGS". Isn't there some way we can just have the CFLAGS
+> added more globally so that if we use gnutls.h directly or
+> indirectly from more .c files in future it Just Works ?
+> 
 
-Anyway that's what I ended up doing and did not notice that this patch was 
-also deleting and recreating the memory regions which I did not do just 
-removing from parent when they are disabled but using set_address if they 
-are enabled and new base is set. Removing inactive regions maybe better 
-for debugging because they show up in info mtree so one can see which one 
-is enabled/disabled not sure how disabled regions show up though.
+Right. I converted a big C++ project to CMake 3 a few years ago and was
+able to solve the problem in CMake because it properly supports
+transitive dependencies.
 
-All in all I probably have nothing to add to this so just disregard my 
-comment.
+In CMake I'd specify that crypto has public dependency on gnutls only
+once and then all users of crypto (direct or indirect) would get
+required CFLAGS, LDFLAGS and include directories.
 
-Regards,
-BALATON Zoltan
+I spent a few hours trying to figure out how to achieve the same in
+meson (without code duplication and failed miserably). Here's a meson
+project test that illustrates the problem of dependency duplication:
+
+https://github.com/mesonbuild/meson/commit/ff5dc65ef841857dd306694dff1fb1cd2bf801e4
+
+The project doesn't build because dependency on foo is not propagated
+beyond foobar.
+
+The only way to build it is to specify foo twice - in source set of
+foobar and in declared_dependency (i.e. appending "dependencies: [foo]"
+to declare_dependency helps).
+
+Unfortunately, the approach doesn't work for meson/qemu because it
+introduces duplicate symbols in different static libraries. That's why I
+used much more uglier "specify headers where needed all over the code
+base".
+
+I'd be happy to hear what's the proper way to fix it.
+
+Thanks,
+Roman
+
+> If the build failed for the common Linux case then it would be
+> at least more obvious that you needed to update the meson.build
+> files. I think it's better to avoid "you need to do this special
+> thing that you'll only notice you're missing if you happen to test
+> on a somewhat obscure host configuration" where we can.
+> 
+> (We don't want to link helper binaries etc against gnutls if
+> they don't need it, but that's LDFLAGS, not CFLAGS.)
+> 
+> thanks
+> -- PMM
 
