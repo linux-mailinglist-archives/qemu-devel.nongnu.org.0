@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5552E885E
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 21:03:40 +0100 (CET)
-Received: from localhost ([::1]:48134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FA42E885F
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 21:05:01 +0100 (CET)
+Received: from localhost ([::1]:51778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvn7j-0003sV-LW
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 15:03:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34392)
+	id 1kvn92-0005MJ-QO
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 15:05:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kvn5u-00031Z-Jp
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 15:01:46 -0500
-Received: from mail-il1-f176.google.com ([209.85.166.176]:34695)
+ id 1kvn6e-0003YU-7g
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 15:02:33 -0500
+Received: from mail-il1-f171.google.com ([209.85.166.171]:38590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kvn5p-0006Vd-Ku
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 15:01:43 -0500
-Received: by mail-il1-f176.google.com with SMTP id x15so21750798ilq.1
- for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 12:01:41 -0800 (PST)
+ id 1kvn6c-0006hj-S6
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 15:02:32 -0500
+Received: by mail-il1-f171.google.com with SMTP id v3so21733799ilo.5
+ for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 12:02:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/lw212Yxdo7GfHemy0idAtolWXN++yK10X6LqFGYpO4=;
- b=B+JyemaGElLcitmUG7bTA+2PQM3kl3pkyHZretX64VCbAIkGvfz3zOfSFgmdS3KEOB
- 8942Pp3gg2wllMeq91+BUjd9oQYaxAQfBxFVBS+IpGDyHW67jIf0k5hfNJqKLktGKswG
- XNOcd786N1grSPRKhwLotuASA/2+3SERya1bgekEv2sv40BTN804/o8usSicK2uv4KYO
- aF+3tJIjdmCE7oFlNKp0y/lYWMPI4WgITSVpfUzXZjh9pSOMsdbm7hsd2WeSvMR+RlIu
- 38q/bLCKPlwrigObA4HlST+NDbSoFeE7NBECN1XuPykSfypgYsWx1Ydtl6dOkksTRGRa
- 0Cgg==
-X-Gm-Message-State: AOAM5319JC/UOr8CZ1Y50tAsVko2kB4I1Tlx9aEt4Ajh4S/dKYyQzfOz
- qjlvyLiH90AanmQOY/wEC07tPlaUy+g=
-X-Google-Smtp-Source: ABdhPJzXgc1BJADKSnJyB+vThhjHOxshgqrRz9CDTleXXecRqBxCWSxgrcW2s9gZ4xUjIU786WzvXA==
-X-Received: by 2002:a92:d151:: with SMTP id t17mr66014618ilg.108.1609617700479; 
- Sat, 02 Jan 2021 12:01:40 -0800 (PST)
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com.
- [209.85.166.172])
- by smtp.gmail.com with ESMTPSA id j65sm38954130ilg.53.2021.01.02.12.01.40
+ bh=j16Wo5TQqHVNjFksbzxfHz2us1bp7Ok1cINPNfFgoOg=;
+ b=ZHWyIqYMitrBiiFyONknJx0WieHIzOXEyc4najRwUvxi122sdpdTPljlOZdGS1cjXD
+ mkiDaMo6oNNhYIya4Wn73zDAX8CQ0hXNcnDQRYy3LoUtvjDJrteFXoi89jpkEGsnu9Kq
+ QEVsBlwyGwFLuB4+K3yJ0nwIldHHWJZOGBBJIJxj47Hx+ou2Wp7HyFChaltu7edS4a89
+ Te7mMp0SXqC2DsQrmoUJnXDLSmY8BjBe4ptmfDuc7vuQrtkQCHOroH8S9NaXrE1GGNfN
+ b78VNGpNEU7qDb17+LavntN1UVAxVtGGl/UZc+vwwhK3XIyZrv6QYoPDV9NWWwdLqf9a
+ JGlg==
+X-Gm-Message-State: AOAM5316vDm4kKyCcesrKH1nb1BqwaWivu5vrzvbTJA4Zhl+o5O0tlra
+ jO0mNj7paPokoj8SVta2bejI8/r/yR0=
+X-Google-Smtp-Source: ABdhPJzJNyOuX7lvng7EI4ZyC10aPf+28bVQqg6hHm3gTr3SUwDrWaMq6kQ8QwGiHsvIKZyrgddOKQ==
+X-Received: by 2002:a92:c04f:: with SMTP id o15mr66037781ilf.31.1609617749944; 
+ Sat, 02 Jan 2021 12:02:29 -0800 (PST)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com.
+ [209.85.166.49])
+ by smtp.gmail.com with ESMTPSA id c15sm36674844ils.87.2021.01.02.12.02.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Jan 2021 12:01:40 -0800 (PST)
-Received: by mail-il1-f172.google.com with SMTP id w12so21696702ilm.12
- for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 12:01:40 -0800 (PST)
-X-Received: by 2002:a05:6e02:154c:: with SMTP id
- j12mr36290988ilu.33.1609617700214; 
- Sat, 02 Jan 2021 12:01:40 -0800 (PST)
+ Sat, 02 Jan 2021 12:02:29 -0800 (PST)
+Received: by mail-io1-f49.google.com with SMTP id m23so21505950ioy.2
+ for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 12:02:29 -0800 (PST)
+X-Received: by 2002:a02:6cd4:: with SMTP id w203mr28633258jab.89.1609617749725; 
+ Sat, 02 Jan 2021 12:02:29 -0800 (PST)
 MIME-Version: 1.0
 References: <20201214140314.18544-1-richard.henderson@linaro.org>
- <20201214140314.18544-10-richard.henderson@linaro.org>
-In-Reply-To: <20201214140314.18544-10-richard.henderson@linaro.org>
+ <20201214140314.18544-11-richard.henderson@linaro.org>
+In-Reply-To: <20201214140314.18544-11-richard.henderson@linaro.org>
 From: Joelle van Dyne <j@getutm.app>
-Date: Sat, 2 Jan 2021 12:01:29 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSBviu5fji=h9ZF6ZxBmd36tG31i+MApCU=Oompq13qWPg@mail.gmail.com>
-Message-ID: <CA+E+eSBviu5fji=h9ZF6ZxBmd36tG31i+MApCU=Oompq13qWPg@mail.gmail.com>
-Subject: Re: [PATCH v4 09/43] tcg: Adjust TCGLabel for const
+Date: Sat, 2 Jan 2021 12:02:19 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSAJK2dW71V+gDN-TaV2Nhx3L_v8onQ_hrZafLUy4qjHKg@mail.gmail.com>
+Message-ID: <CA+E+eSAJK2dW71V+gDN-TaV2Nhx3L_v8onQ_hrZafLUy4qjHKg@mail.gmail.com>
+Subject: Re: [PATCH v4 10/43] tcg: Adjust tcg_out_call for const
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.176; envelope-from=osy86dev@gmail.com;
- helo=mail-il1-f176.google.com
+Received-SPF: pass client-ip=209.85.166.171; envelope-from=osy86dev@gmail.com;
+ helo=mail-il1-f171.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -88,20 +87,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, Dec 14, 2020 at 6:02 AM Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Change TCGLabel.u.value_ptr to const, and initialize it with
-> tcg_splitwx_to_rx.  Propagate const through tcg/host/ only
-> as far as needed to avoid errors from the value_ptr change.
+> We must change all targets at once, since all must match
+> the declaration in tcg.c.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/tcg/tcg.h            | 2 +-
 >  tcg/tcg.c                    | 2 +-
 >  tcg/aarch64/tcg-target.c.inc | 2 +-
 >  tcg/arm/tcg-target.c.inc     | 2 +-
->  tcg/mips/tcg-target.c.inc    | 5 +++--
->  tcg/ppc/tcg-target.c.inc     | 4 ++--
+>  tcg/i386/tcg-target.c.inc    | 4 ++--
+>  tcg/mips/tcg-target.c.inc    | 6 +++---
+>  tcg/ppc/tcg-target.c.inc     | 8 ++++----
+>  tcg/riscv/tcg-target.c.inc   | 6 +++---
 >  tcg/s390/tcg-target.c.inc    | 2 +-
->  7 files changed, 10 insertions(+), 9 deletions(-)
+>  tcg/sparc/tcg-target.c.inc   | 4 ++--
+>  tcg/tci/tcg-target.c.inc     | 2 +-
+>  10 files changed, 19 insertions(+), 19 deletions(-)
 
 Reviewed-by: Joelle van Dyne <j@getutm.app>
 
