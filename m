@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A38522E86F4
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 12:16:39 +0100 (CET)
-Received: from localhost ([::1]:49196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C788A2E8704
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 12:24:31 +0100 (CET)
+Received: from localhost ([::1]:46794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kveti-0002QU-6p
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 06:16:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33066)
+	id 1kvf1K-0004cb-RL
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 06:24:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kveqo-0000g6-04
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:38 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:56422)
+ id 1kveqy-0000uQ-7v
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:48 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:56514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kveqj-00073P-EN
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:37 -0500
+ id 1kveqr-000792-Uv
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 06:13:48 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A27BB74763E;
- Sat,  2 Jan 2021 12:13:30 +0100 (CET)
+ by localhost (Postfix) with SMTP id 00E0A747610;
+ Sat,  2 Jan 2021 12:13:32 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id DF0D77475F6; Sat,  2 Jan 2021 12:13:29 +0100 (CET)
-Message-Id: <1c4373c8aeb6c4fb2a8df2c864b0e91a977a3d7b.1609584216.git.balaton@eik.bme.hu>
+ id 33B01747636; Sat,  2 Jan 2021 12:13:30 +0100 (CET)
+Message-Id: <e90987d5a129756619884000ec70709a11af1726.1609584216.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609584215.git.balaton@eik.bme.hu>
 References: <cover.1609584215.git.balaton@eik.bme.hu>
-Subject: [PATCH 04/24] vt82c686: Remove vt82c686b_[am]c97_init() functions
+Subject: [PATCH 21/24] vt82c686: Implement control of serial port io ranges
+ via config regs
 Date: Sat, 02 Jan 2021 11:43:35 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,113 +60,156 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-These are legacy init functions that are just equivalent to directly
-calling pci_create_simple so do that instead. Also rename objects to
-lower case via-ac97 and via-mc97 matching naming of other devices.
+In VIA super south bridge the io ranges of superio components
+(parallel and serial ports and FDC) can be controlled by superio
+config registers to set their base address and enable/disable them.
+This is not easy to implement in QEMU because ISA emulation is only
+designed to set io base address once on creating the device and io
+ranges are registered at creation and cannot easily be disabled or
+moved later.
+
+In this patch we hack around that but only for serial ports because
+those have a single io range at port base that's relatively easy to
+handle and it's what guests actually use and set address different
+than the default.
+
+We do not attempt to handle controlling the parallel and FDC regions
+because those have multiple io ranges so handling them would be messy
+and guests either don't change their deafult or don't care. We could
+even get away with disabling and not emulating them, but since they
+are already there, this patch leaves them mapped at their default
+address just in case this could be useful for a guest in the future.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/vt82c686.c         | 27 ++++-----------------------
- hw/mips/fuloong2e.c       |  4 ++--
- include/hw/isa/vt82c686.h |  4 ++--
- 3 files changed, 8 insertions(+), 27 deletions(-)
+ hw/isa/vt82c686.c | 84 +++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 82 insertions(+), 2 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index d40599c7da..8677a2d212 100644
+index 1a876a1fbf..26db1a18e2 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -179,12 +179,6 @@ struct VIAMC97State {
- #define TYPE_VT82C686B_PM "VT82C686B_PM"
- OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
+@@ -252,8 +252,24 @@ static const TypeInfo vt8231_pm_info = {
+ typedef struct SuperIOConfig {
+     uint8_t regs[0x100];
+     MemoryRegion io;
++    ISASuperIODevice *superio;
++    MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
+ } SuperIOConfig;
  
--#define TYPE_VIA_MC97 "VIA_MC97"
--OBJECT_DECLARE_SIMPLE_TYPE(VIAMC97State, VIA_MC97)
--
--#define TYPE_VIA_AC97 "VIA_AC97"
--OBJECT_DECLARE_SIMPLE_TYPE(VIAAC97State, VIA_AC97)
--
- static void pm_update_sci(VT686PMState *s)
- {
-     int sci_level, pmsts;
-@@ -254,10 +248,13 @@ static const VMStateDescription vmstate_acpi = {
- };
- 
- /*
-- * TODO: vt82c686b_ac97_init() and vt82c686b_mc97_init()
-+ * TODO: VIA_AC97 and VIA_MC97
-  * just register a PCI device now, functionalities will be implemented later.
-  */
- 
-+OBJECT_DECLARE_SIMPLE_TYPE(VIAMC97State, VIA_MC97)
-+OBJECT_DECLARE_SIMPLE_TYPE(VIAAC97State, VIA_AC97)
++static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
++                                    int offs)
++{
++    MemoryRegion *subregion, *mr = NULL;
 +
- static void vt82c686b_ac97_realize(PCIDevice *dev, Error **errp)
++    QTAILQ_FOREACH(subregion, &parent->subregions, subregions_link) {
++        if (subregion->addr == offs) {
++            mr = subregion;
++            break;
++        }
++    }
++    return mr;
++}
++
+ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+                               unsigned size)
  {
-     VIAAC97State *s = VIA_AC97(dev);
-@@ -270,14 +267,6 @@ static void vt82c686b_ac97_realize(PCIDevice *dev, Error **errp)
-     pci_set_long(pci_conf + PCI_INTERRUPT_PIN, 0x03);
+@@ -279,7 +295,53 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+     case 0xfd ... 0xff:
+         /* ignore write to read only registers */
+         return;
+-    /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
++    case 0xe2:
++    {
++        data &= 0x1f;
++        if (data & BIT(2)) { /* Serial port 1 enable */
++            ISADevice *dev = sc->superio->serial[0];
++            if (!memory_region_is_mapped(sc->serial_io[0])) {
++                memory_region_add_subregion(isa_address_space_io(dev),
++                                            dev->ioport_id, sc->serial_io[0]);
++            }
++        } else {
++            MemoryRegion *io = isa_address_space_io(sc->superio->serial[0]);
++            if (memory_region_is_mapped(sc->serial_io[0])) {
++                memory_region_del_subregion(io, sc->serial_io[0]);
++            }
++        }
++        if (data & BIT(3)) { /* Serial port 2 enable */
++            ISADevice *dev = sc->superio->serial[1];
++            if (!memory_region_is_mapped(sc->serial_io[1])) {
++                memory_region_add_subregion(isa_address_space_io(dev),
++                                            dev->ioport_id, sc->serial_io[1]);
++            }
++        } else {
++            MemoryRegion *io = isa_address_space_io(sc->superio->serial[1]);
++            if (memory_region_is_mapped(sc->serial_io[1])) {
++                memory_region_del_subregion(io, sc->serial_io[1]);
++            }
++        }
++        break;
++    }
++    case 0xe7: /* Serial port 1 io base address */
++    {
++        data &= 0xfe;
++        sc->superio->serial[0]->ioport_id = data << 2;
++        if (memory_region_is_mapped(sc->serial_io[0])) {
++            memory_region_set_address(sc->serial_io[0], data << 2);
++        }
++        break;
++    }
++    case 0xe8: /* Serial port 2 io base address */
++    {
++        data &= 0xfe;
++        sc->superio->serial[1]->ioport_id = data << 2;
++        if (memory_region_is_mapped(sc->serial_io[1])) {
++            memory_region_set_address(sc->serial_io[1], data << 2);
++        }
++        break;
++    }
+     default:
+         qemu_log_mask(LOG_UNIMP,
+                       "via_superio_cfg: unimplemented register 0x%x\n", idx);
+@@ -385,6 +447,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+     DeviceState *dev = DEVICE(d);
+     ISABus *isa_bus;
+     qemu_irq *isa_irq;
++    ISASuperIOClass *ic;
+     int i;
+ 
+     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+@@ -394,7 +457,9 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+     isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+     i8257_dma_init(isa_bus, 0);
+-    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
++    s->superio_cfg.superio = ISA_SUPERIO(isa_create_simple(isa_bus,
++                                                      TYPE_VT82C686B_SUPERIO));
++    ic = ISA_SUPERIO_GET_CLASS(s->superio_cfg.superio);
+     mc146818_rtc_init(isa_bus, 2000, NULL);
+ 
+     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+@@ -412,6 +477,21 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+      */
+     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
+                                 &s->superio_cfg.io);
++
++    /* Grab io regions of serial devices so we can control them */
++    for (i = 0; i < ic->serial.count; i++) {
++        ISADevice *sd = s->superio_cfg.superio->serial[i];
++        MemoryRegion *io = isa_address_space_io(sd);
++        MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
++        if (!mr) {
++            error_setg(errp, "Could not get io region for serial %d", i);
++            return;
++        }
++        s->superio_cfg.serial_io[i] = mr;
++        if (memory_region_is_mapped(mr)) {
++            memory_region_del_subregion(io, mr);
++        }
++    }
  }
  
--void vt82c686b_ac97_init(PCIBus *bus, int devfn)
--{
--    PCIDevice *dev;
--
--    dev = pci_new(devfn, TYPE_VIA_AC97);
--    pci_realize_and_unref(dev, bus, &error_fatal);
--}
--
- static void via_ac97_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -314,14 +303,6 @@ static void vt82c686b_mc97_realize(PCIDevice *dev, Error **errp)
-     pci_set_long(pci_conf + PCI_INTERRUPT_PIN, 0x03);
- }
- 
--void vt82c686b_mc97_init(PCIBus *bus, int devfn)
--{
--    PCIDevice *dev;
--
--    dev = pci_new(devfn, TYPE_VIA_MC97);
--    pci_realize_and_unref(dev, bus, &error_fatal);
--}
--
- static void via_mc97_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index d334fde389..941d6642c3 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -264,8 +264,8 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
-     *i2c_bus = vt82c686b_pm_init(pci_bus, PCI_DEVFN(slot, 4), 0xeee1, NULL);
- 
-     /* Audio support */
--    vt82c686b_ac97_init(pci_bus, PCI_DEVFN(slot, 5));
--    vt82c686b_mc97_init(pci_bus, PCI_DEVFN(slot, 6));
-+    pci_create_simple(pci_bus, PCI_DEVFN(slot, 5), TYPE_VIA_AC97);
-+    pci_create_simple(pci_bus, PCI_DEVFN(slot, 6), TYPE_VIA_MC97);
- }
- 
- /* Network support */
-diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
-index f23f45dfb1..ff80a926dc 100644
---- a/include/hw/isa/vt82c686.h
-+++ b/include/hw/isa/vt82c686.h
-@@ -3,11 +3,11 @@
- 
- 
- #define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
-+#define TYPE_VIA_AC97 "via-ac97"
-+#define TYPE_VIA_MC97 "via-mc97"
- 
- /* vt82c686.c */
- ISABus *vt82c686b_isa_init(PCIBus * bus, int devfn);
--void vt82c686b_ac97_init(PCIBus *bus, int devfn);
--void vt82c686b_mc97_init(PCIBus *bus, int devfn);
- I2CBus *vt82c686b_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
-                           qemu_irq sci_irq);
- 
+ static void via_class_init(ObjectClass *klass, void *data)
 -- 
 2.21.3
 
