@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3282E87A9
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 16:15:07 +0100 (CET)
-Received: from localhost ([::1]:33528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 273972E8809
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 17:15:13 +0100 (CET)
+Received: from localhost ([::1]:54532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvicT-0006Sn-IM
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 10:15:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44206)
+	id 1kvjYd-0003CG-Oc
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 11:15:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kvibh-00062h-J4
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 10:14:17 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:44082 helo=mta-01.yadro.com)
+ id 1kvjXB-0002hP-Km
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 11:13:41 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:50010 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kvibf-0006MD-O2
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 10:14:17 -0500
+ id 1kvjX9-0001B0-8f
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 11:13:41 -0500
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 80DDF412FD;
- Sat,  2 Jan 2021 15:14:13 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id DAD03412FD;
+ Sat,  2 Jan 2021 16:13:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1609600452; x=
- 1611414853; bh=6VC+20pFRfr229zX6ogdC9BeDocARBwVHtqonjdNkh8=; b=b
- PXELUqbKczN6mjq6wAAmH4vVF4U8aPZAPQgTw2/UT2eqUTFk0FDJGRDw4msCtbZ9
- B+16m7r+hxnwfZBAUJAuxPNHHgSCKT2vIBcqOAzDylVJCFzu+q0i+F27JonLC59y
- QvFZxUMf6nkQP3beQtuUrX4GRBrfuooqAeb+DmG2cs=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1609604015;
+ x=1611418416; bh=vZ9PvhRe1f3qqg7v78qlS3w5LnGX5rpwrPyby4ihYWQ=; b=
+ hkHdLNcnlygjFJHxVOCyvlCW3A3raDMCdJUIHHWjMcHfQWDOR5pvh/P/DCytfzCv
+ nzQe2rrGkx/N7+ZzhuUCfTsX9RvCAWWPQLBjuzb+0maJgT7+9tFbiyp+QrqfiYIG
+ 8t7oBm4Bt7JgxkCgyljCevXomrItMnGJEJXwLq09/84=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id t1upiqZZRh-G; Sat,  2 Jan 2021 18:14:12 +0300 (MSK)
+ with ESMTP id n6drT2tYBI5T; Sat,  2 Jan 2021 19:13:35 +0300 (MSK)
 Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
  [172.17.100.103])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 0D1B241281;
- Sat,  2 Jan 2021 18:14:11 +0300 (MSK)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 9F59C4124F;
+ Sat,  2 Jan 2021 19:13:34 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
  (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Sat, 2 Jan
- 2021 18:14:11 +0300
+ 2021 19:13:34 +0300
+Date: Sat, 2 Jan 2021 19:13:39 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2] ui/cocoa: Fix openFile: deprecation on Big Sur
-Date: Sat, 2 Jan 2021 18:07:21 +0300
-Message-ID: <20210102150718.47618-1-r.bolshakov@yadro.com>
-X-Mailer: git-send-email 2.29.2
+Subject: Re: [PATCH] tcg: Fix execution on Apple Silicon
+Message-ID: <X/Cbs4IX2Oisd0U8@SPB-NB-133.local>
+References: <20210102122101.39617-1-r.bolshakov@yadro.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20210102122101.39617-1-r.bolshakov@yadro.com>
 X-Originating-IP: [172.17.204.212]
 X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
  T-EXCH-03.corp.yadro.com (172.17.100.103)
@@ -76,52 +77,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Joelle van Dyne <j@getutm.app>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ui/cocoa.m:1188:44: warning: 'openFile:' is deprecated: first deprecated in macOS 11.0 - Use -[NSWorkspace openURL:] instead.
-      [-Wdeprecated-declarations]
-        if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
-                                           ^
-/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWorkspace.h:350:1: note:
-      'openFile:' has been explicitly marked deprecated here
-- (BOOL)openFile:(NSString *)fullPath API_DEPRECATED("Use -[NSWorkspace openURL:] instead.", macos(10.0, 11.0));
-^
+On Sat, Jan 02, 2021 at 03:21:02PM +0300, Roman Bolshakov wrote:
+> Pages can't be both write and executable at the same time on Apple
+> Silicon. macOS provides public API to switch write protection [1] for
+> JIT applications, like TCG.
+> 
+> 1. https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
+> 
+> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> ---
+> 
+> Happy holidays, everyone.
+> 
+> This is somewhat similar to https://patchwork.kernel.org/project/qemu-devel/patch/20201108232425.1705-7-j@getutm.app/
+> but I couldn't apply the series so I started from scratch.
+> 
+> The primary difference from the patch above is that public API is used.
+> Other differences:
+>   * TB pages are mostly kept write-locked except around tcg_qemu_tb_exec()
+>   * x86_64 macOS doesn't use MAP_JIT and W^X switches
+> 
+> Regards,
+> Roman
+> 
+>  accel/tcg/cpu-exec.c      | 10 ++++++++++
+>  accel/tcg/translate-all.c | 26 ++++++++++++++++++++++++++
+>  include/exec/exec-all.h   |  2 ++
+>  tcg/tcg.c                 |  1 +
+>  4 files changed, 39 insertions(+)
+> 
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index 8689c54499..0042fc9f2b 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -175,7 +175,9 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
+>      }
+>  #endif /* DEBUG_DISAS */
+>  
+> +    tb_write_lock();
+>      ret = tcg_qemu_tb_exec(env, tb_ptr);
+> +    tb_write_unlock();
+>      cpu->can_do_io = 1;
+>      last_tb = (TranslationBlock *)(ret & ~TB_EXIT_MASK);
+>      tb_exit = ret & TB_EXIT_MASK;
+> @@ -220,9 +222,11 @@ static void cpu_exec_nocache(CPUState *cpu, int max_cycles,
+>      cflags |= MIN(max_cycles, CF_COUNT_MASK);
+>  
+>      mmap_lock();
+> +    tb_write_unlock();
+>      tb = tb_gen_code(cpu, orig_tb->pc, orig_tb->cs_base,
+>                       orig_tb->flags, cflags);
+>      tb->orig_tb = orig_tb;
+> +    tb_write_lock();
+>      mmap_unlock();
+>  
+>      /* execute the generated code */
+> @@ -268,7 +272,9 @@ void cpu_exec_step_atomic(CPUState *cpu)
+>          tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
+>          if (tb == NULL) {
+>              mmap_lock();
+> +            tb_write_unlock();
+>              tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
+> +            tb_write_lock();
+>              mmap_unlock();
+>          }
+>  
+> @@ -428,7 +434,9 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
+>      tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
+>      if (tb == NULL) {
+>          mmap_lock();
+> +        tb_write_unlock();
+>          tb = tb_gen_code(cpu, pc, cs_base, flags, cf_mask);
+> +        tb_write_lock();
+>          mmap_unlock();
+>          /* We add the TB in the virtual pc hash table for the fast lookup */
+>          qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(pc)], tb);
+> @@ -444,7 +452,9 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
+>  #endif
+>      /* See if we can patch the calling TB. */
+>      if (last_tb) {
+> +        tb_write_unlock();
+>          tb_add_jump(last_tb, tb_exit, tb);
+> +        tb_write_lock();
+>      }
+>      return tb;
+>  }
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index b7d50a73d4..1562076ffb 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -1072,6 +1072,9 @@ static inline void *alloc_code_gen_buffer(void)
+>      size_t size = tcg_ctx->code_gen_buffer_size;
+>      void *buf;
+>  
+> +#if defined(__APPLE__) && defined(__aarch64__)
+> +    flags |= MAP_JIT;
+> +#endif
+>      buf = mmap(NULL, size, prot, flags, -1, 0);
+>      if (buf == MAP_FAILED) {
+>          return NULL;
+> @@ -1485,7 +1488,9 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+>  
+>  static void tb_phys_invalidate__locked(TranslationBlock *tb)
+>  {
+> +    tb_write_unlock();
+>      do_tb_phys_invalidate(tb, true);
+> +    tb_write_lock();
+>  }
+>  
+>  /* invalidate one TB
+> @@ -2722,3 +2727,24 @@ void tcg_flush_softmmu_tlb(CPUState *cs)
+>      tlb_flush(cs);
+>  #endif
+>  }
+> +
+> +#if defined(__APPLE__) && defined(__aarch64__)
+> +static void tb_write_protect(bool locked)
+> +{
+> +    if (pthread_jit_write_protect_supported_np()){
+> +        pthread_jit_write_protect_np(locked);
+> +    }
+> +}
+> +#else
+> +static void tb_write_protect(bool locked) {}
+> +#endif
+> +
+> +void tb_write_lock(void)
+> +{
+> +    tb_write_protect(true);
+> +}
+> +
+> +void tb_write_unlock(void)
+> +{
+> +    tb_write_protect(false);
+> +}
+> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> index fab573da06..962dca0975 100644
+> --- a/include/exec/exec-all.h
+> +++ b/include/exec/exec-all.h
+> @@ -549,6 +549,8 @@ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+>                                     target_ulong cs_base, uint32_t flags,
+>                                     uint32_t cf_mask);
+>  void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
+> +void tb_write_lock(void);
+> +void tb_write_unlock(void);
+>  
+>  /* GETPC is the true target of the return instruction that we'll execute.  */
+>  #if defined(CONFIG_TCG_INTERPRETER)
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 43c6cf8f52..303bb436bd 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -1065,6 +1065,7 @@ void tcg_prologue_init(TCGContext *s)
+>      s->pool_labels = NULL;
+>  #endif
+>  
+> +    tb_write_unlock();
+>      /* Generate the prologue.  */
+>      tcg_target_qemu_prologue(s);
+>  
+> -- 
+> 2.29.2
+> 
 
-Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
----
-Changes since v1:
- - Changed URLWithString: to fileURLWithPath:isDirectory: (Peter)
+I've also noticed that Apple doesn't worry about sticking to particular
+W^X mode:
 
- ui/cocoa.m | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+https://bugs.webkit.org/attachment.cgi?id=402515&action=prettypatch
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index f32adc3074..ea3b845b53 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -1178,6 +1178,7 @@ QemuCocoaView *cocoaView;
-     /* Where to look for local files */
-     NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"../docs/"};
-     NSString *full_file_path;
-+    NSURL *full_file_url;
- 
-     /* iterate thru the possible paths until the file is found */
-     int index;
-@@ -1186,7 +1187,9 @@ QemuCocoaView *cocoaView;
-         full_file_path = [full_file_path stringByDeletingLastPathComponent];
-         full_file_path = [NSString stringWithFormat: @"%@/%@%@", full_file_path,
-                           path_array[index], filename];
--        if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
-+        full_file_url = [NSURL fileURLWithPath: full_file_path
-+                                   isDirectory: false];
-+        if ([[NSWorkspace sharedWorkspace] openURL: full_file_url] == YES) {
-             return;
-         }
-     }
--- 
-2.29.2
+We might also drop lock/unlock symmetry from here. E.g. we can have two
+functions that switch the mode (they might be moved to util/osdep.c):
 
+  qemu_jit_write();
+  qemu_jit_execute();
+
+Then we use them just before writing or before executing like advised on
+their documentation page.
+
+-Roman
 
