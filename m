@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FBD2E8857
-	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 20:56:51 +0100 (CET)
-Received: from localhost ([::1]:44290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 308542E885D
+	for <lists+qemu-devel@lfdr.de>; Sat,  2 Jan 2021 21:03:31 +0100 (CET)
+Received: from localhost ([::1]:47470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvn17-0001pP-Sg
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 14:56:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33628)
+	id 1kvn7a-0003cC-8b
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 15:03:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kvn07-0001J7-1S
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 14:55:47 -0500
-Received: from mail-il1-f172.google.com ([209.85.166.172]:44349)
+ id 1kvn53-0002rV-M4
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 15:00:53 -0500
+Received: from mail-io1-f48.google.com ([209.85.166.48]:43877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kvn03-0004Y0-L3
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 14:55:45 -0500
-Received: by mail-il1-f172.google.com with SMTP id r17so21671512ilo.11
- for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 11:55:41 -0800 (PST)
+ id 1kvn4y-0006Bf-FW
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 15:00:49 -0500
+Received: by mail-io1-f48.google.com with SMTP id o6so21412093iob.10
+ for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 12:00:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Zm1J6eveS0Y7Axaynk4ivyMPouwxU1M2ozmnrpkcwyk=;
- b=a8Zh2OC5X2NpAucfLRpUogob45DeVvcOf6q+nrESIuRWb3mNsf9/jnXzUWYYUgOUvu
- hz42Gy6kkd3TanMeATui9IGXFlAIyaezBeNnuwSSvPyurj87bBjLzNoCf7mQRG6WDPiZ
- Fu15lJWEZdgZ8r/hnON1ccQOTcTwSBXxbpt72zZD5sbzqMTLaERp0U9cMcKRZdlm1RSt
- x4X+Tq56kb5udO3TqUzJS+H51oZWQA3bZf4aPk0TE3WSLfShHF/WMpPtLvzYMt0gzPwn
- 9dBCpF5ICobj2L+/cJfy9FlAD5YgThDpFZncDuOymLY4BifQjhyQ+DAntx0O8AsbI8Wt
- rWfw==
-X-Gm-Message-State: AOAM533EmYJWonapG7wwdOQe/NUFS7po0v1NGVEzRe1/RiVDD+L1LPpT
- uEF8YeFQkR8SIFwEE6kX4QwfprMMV7w=
-X-Google-Smtp-Source: ABdhPJxaO3llRdb9bjFY8IKbTyGjUk+jTYRhNRE3fv8KGK70yrpBTPL18VHVRSTHg5QbIJdKhoqgxg==
-X-Received: by 2002:a05:6e02:1b8a:: with SMTP id
- h10mr65615903ili.141.1609617340611; 
- Sat, 02 Jan 2021 11:55:40 -0800 (PST)
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com.
- [209.85.166.173])
- by smtp.gmail.com with ESMTPSA id r8sm36453924ilb.75.2021.01.02.11.55.40
+ bh=pOojvXcDTUNkRviV7XiDmKL1Pky8JmvqO2IpHqMK17w=;
+ b=cR9wF7TmdbGqnS+bzF8JxmA1cjdKBKdS3dj1al9LMyFDPh8ZZtuV/j4kVkN9ZaGc97
+ jKTkk+k4Dsxn4ckHz95lnUk45r0utDtFpzhBaxsiSb/hUU01pyC1NdR0keTo9FKcFdh8
+ dmsphCTIQH+Of0jaAkw48mGJSBef3ir1FCQovtfX7TYZw61GmUptYN4bGEu2e3M5jUq4
+ yGC6HFvGMBSpESe9Pv5WIASkNLdYsGs3Xh1oQ+f/IEaGc0MUrmIZCFf38Iv3u5WBgSVA
+ EknjGYnDnCUpAAyise3F+JzVI0OtyLxcaaEb1bwseSRi8BCDMcc6XfcQhRPPJ8moXbMK
+ 4HTA==
+X-Gm-Message-State: AOAM533u358V/YtJopLwqAWIEWFAfLH7FvKGl7g5nIUsfwPKB/7THMU1
+ LHbh55t6pWdnytJGQTXQCdrmcwAXmPg=
+X-Google-Smtp-Source: ABdhPJypXL+aP9uFccc6OgmxDZ4gLvC9kUCVRx4qb+qdQAC6M4Yql0jJZ9sA75LSPrgjTRalPw66Jw==
+X-Received: by 2002:a05:6602:1d4:: with SMTP id
+ w20mr54575663iot.25.1609617647187; 
+ Sat, 02 Jan 2021 12:00:47 -0800 (PST)
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com.
+ [209.85.166.172])
+ by smtp.gmail.com with ESMTPSA id o195sm37808718ila.38.2021.01.02.12.00.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Jan 2021 11:55:40 -0800 (PST)
-Received: by mail-il1-f173.google.com with SMTP id 75so21667204ilv.13
- for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 11:55:40 -0800 (PST)
-X-Received: by 2002:a92:2912:: with SMTP id l18mr63941845ilg.173.1609617339967; 
- Sat, 02 Jan 2021 11:55:39 -0800 (PST)
+ Sat, 02 Jan 2021 12:00:46 -0800 (PST)
+Received: by mail-il1-f172.google.com with SMTP id w17so21697447ilj.8
+ for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 12:00:46 -0800 (PST)
+X-Received: by 2002:a92:84c1:: with SMTP id y62mr63483271ilk.191.1609617646749; 
+ Sat, 02 Jan 2021 12:00:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20210102122101.39617-1-r.bolshakov@yadro.com>
- <X/Cbs4IX2Oisd0U8@SPB-NB-133.local>
-In-Reply-To: <X/Cbs4IX2Oisd0U8@SPB-NB-133.local>
+References: <20201214140314.18544-1-richard.henderson@linaro.org>
+ <20201214140314.18544-9-richard.henderson@linaro.org>
+In-Reply-To: <20201214140314.18544-9-richard.henderson@linaro.org>
 From: Joelle van Dyne <j@getutm.app>
-Date: Sat, 2 Jan 2021 11:55:29 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSDtxomevXzFsB3h=w_3gjxshNKTRDzb9C7x7E1vMVHorA@mail.gmail.com>
-Message-ID: <CA+E+eSDtxomevXzFsB3h=w_3gjxshNKTRDzb9C7x7E1vMVHorA@mail.gmail.com>
-Subject: Re: [PATCH] tcg: Fix execution on Apple Silicon
-To: Roman Bolshakov <r.bolshakov@yadro.com>
+Date: Sat, 2 Jan 2021 12:00:35 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSAYbr76MK7rOLRjLq8e+E_MOsTthDD6YrpL_q0K7Tu6qw@mail.gmail.com>
+Message-ID: <CA+E+eSAYbr76MK7rOLRjLq8e+E_MOsTthDD6YrpL_q0K7Tu6qw@mail.gmail.com>
+Subject: Re: [PATCH v4 08/43] tcg: Introduce tcg_splitwx_to_{rx,rw}
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.172; envelope-from=osy86dev@gmail.com;
- helo=mail-il1-f172.google.com
+Received-SPF: pass client-ip=209.85.166.48; envelope-from=osy86dev@gmail.com;
+ helo=mail-io1-f48.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -85,193 +85,31 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I see you didn't touch cpu_loop_exit() and I'm curious how async
-interrupts are handled. Have you tested this and it works i.e. booting
-Windows 7 or Ubuntu 20.04? Also I've seen do_tb_phys_invalidate()
-called both from code generation context (write unlocked) and
-execution context (write locked), how does this patch differentiate
-the two?
+On Mon, Dec 14, 2020 at 6:02 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Add two helper functions, using a global variable to hold
+> the displacement.  The displacement is currently always 0,
+> so no change in behaviour.
+>
+> Begin using the functions in tcg common code only.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  accel/tcg/tcg-runtime.h   |  2 +-
+>  include/disas/disas.h     |  2 +-
+>  include/exec/exec-all.h   |  2 +-
+>  include/exec/log.h        |  2 +-
+>  include/tcg/tcg.h         | 26 ++++++++++++++----
+>  accel/tcg/cpu-exec.c      |  2 +-
+>  accel/tcg/tcg-runtime.c   |  2 +-
+>  accel/tcg/translate-all.c | 33 +++++++++++------------
+>  disas.c                   |  4 ++-
+>  tcg/tcg.c                 | 56 ++++++++++++++++++++++++++++++++++-----
+>  tcg/tci.c                 |  5 ++--
+>  accel/tcg/trace-events    |  2 +-
+>  tcg/tcg-pool.c.inc        |  6 ++++-
+>  13 files changed, 104 insertions(+), 40 deletions(-)
 
--j
-
-On Sat, Jan 2, 2021 at 8:13 AM Roman Bolshakov <r.bolshakov@yadro.com> wrote:
->
-> On Sat, Jan 02, 2021 at 03:21:02PM +0300, Roman Bolshakov wrote:
-> > Pages can't be both write and executable at the same time on Apple
-> > Silicon. macOS provides public API to switch write protection [1] for
-> > JIT applications, like TCG.
-> >
-> > 1. https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
-> >
-> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > ---
-> >
-> > Happy holidays, everyone.
-> >
-> > This is somewhat similar to https://patchwork.kernel.org/project/qemu-devel/patch/20201108232425.1705-7-j@getutm.app/
-> > but I couldn't apply the series so I started from scratch.
-> >
-> > The primary difference from the patch above is that public API is used.
-> > Other differences:
-> >   * TB pages are mostly kept write-locked except around tcg_qemu_tb_exec()
-> >   * x86_64 macOS doesn't use MAP_JIT and W^X switches
-> >
-> > Regards,
-> > Roman
-> >
-> >  accel/tcg/cpu-exec.c      | 10 ++++++++++
-> >  accel/tcg/translate-all.c | 26 ++++++++++++++++++++++++++
-> >  include/exec/exec-all.h   |  2 ++
-> >  tcg/tcg.c                 |  1 +
-> >  4 files changed, 39 insertions(+)
-> >
-> > diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> > index 8689c54499..0042fc9f2b 100644
-> > --- a/accel/tcg/cpu-exec.c
-> > +++ b/accel/tcg/cpu-exec.c
-> > @@ -175,7 +175,9 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
-> >      }
-> >  #endif /* DEBUG_DISAS */
-> >
-> > +    tb_write_lock();
-> >      ret = tcg_qemu_tb_exec(env, tb_ptr);
-> > +    tb_write_unlock();
-> >      cpu->can_do_io = 1;
-> >      last_tb = (TranslationBlock *)(ret & ~TB_EXIT_MASK);
-> >      tb_exit = ret & TB_EXIT_MASK;
-> > @@ -220,9 +222,11 @@ static void cpu_exec_nocache(CPUState *cpu, int max_cycles,
-> >      cflags |= MIN(max_cycles, CF_COUNT_MASK);
-> >
-> >      mmap_lock();
-> > +    tb_write_unlock();
-> >      tb = tb_gen_code(cpu, orig_tb->pc, orig_tb->cs_base,
-> >                       orig_tb->flags, cflags);
-> >      tb->orig_tb = orig_tb;
-> > +    tb_write_lock();
-> >      mmap_unlock();
-> >
-> >      /* execute the generated code */
-> > @@ -268,7 +272,9 @@ void cpu_exec_step_atomic(CPUState *cpu)
-> >          tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
-> >          if (tb == NULL) {
-> >              mmap_lock();
-> > +            tb_write_unlock();
-> >              tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
-> > +            tb_write_lock();
-> >              mmap_unlock();
-> >          }
-> >
-> > @@ -428,7 +434,9 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
-> >      tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
-> >      if (tb == NULL) {
-> >          mmap_lock();
-> > +        tb_write_unlock();
-> >          tb = tb_gen_code(cpu, pc, cs_base, flags, cf_mask);
-> > +        tb_write_lock();
-> >          mmap_unlock();
-> >          /* We add the TB in the virtual pc hash table for the fast lookup */
-> >          qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(pc)], tb);
-> > @@ -444,7 +452,9 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
-> >  #endif
-> >      /* See if we can patch the calling TB. */
-> >      if (last_tb) {
-> > +        tb_write_unlock();
-> >          tb_add_jump(last_tb, tb_exit, tb);
-> > +        tb_write_lock();
-> >      }
-> >      return tb;
-> >  }
-> > diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> > index b7d50a73d4..1562076ffb 100644
-> > --- a/accel/tcg/translate-all.c
-> > +++ b/accel/tcg/translate-all.c
-> > @@ -1072,6 +1072,9 @@ static inline void *alloc_code_gen_buffer(void)
-> >      size_t size = tcg_ctx->code_gen_buffer_size;
-> >      void *buf;
-> >
-> > +#if defined(__APPLE__) && defined(__aarch64__)
-> > +    flags |= MAP_JIT;
-> > +#endif
-> >      buf = mmap(NULL, size, prot, flags, -1, 0);
-> >      if (buf == MAP_FAILED) {
-> >          return NULL;
-> > @@ -1485,7 +1488,9 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
-> >
-> >  static void tb_phys_invalidate__locked(TranslationBlock *tb)
-> >  {
-> > +    tb_write_unlock();
-> >      do_tb_phys_invalidate(tb, true);
-> > +    tb_write_lock();
-> >  }
-> >
-> >  /* invalidate one TB
-> > @@ -2722,3 +2727,24 @@ void tcg_flush_softmmu_tlb(CPUState *cs)
-> >      tlb_flush(cs);
-> >  #endif
-> >  }
-> > +
-> > +#if defined(__APPLE__) && defined(__aarch64__)
-> > +static void tb_write_protect(bool locked)
-> > +{
-> > +    if (pthread_jit_write_protect_supported_np()){
-> > +        pthread_jit_write_protect_np(locked);
-> > +    }
-> > +}
-> > +#else
-> > +static void tb_write_protect(bool locked) {}
-> > +#endif
-> > +
-> > +void tb_write_lock(void)
-> > +{
-> > +    tb_write_protect(true);
-> > +}
-> > +
-> > +void tb_write_unlock(void)
-> > +{
-> > +    tb_write_protect(false);
-> > +}
-> > diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-> > index fab573da06..962dca0975 100644
-> > --- a/include/exec/exec-all.h
-> > +++ b/include/exec/exec-all.h
-> > @@ -549,6 +549,8 @@ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
-> >                                     target_ulong cs_base, uint32_t flags,
-> >                                     uint32_t cf_mask);
-> >  void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
-> > +void tb_write_lock(void);
-> > +void tb_write_unlock(void);
-> >
-> >  /* GETPC is the true target of the return instruction that we'll execute.  */
-> >  #if defined(CONFIG_TCG_INTERPRETER)
-> > diff --git a/tcg/tcg.c b/tcg/tcg.c
-> > index 43c6cf8f52..303bb436bd 100644
-> > --- a/tcg/tcg.c
-> > +++ b/tcg/tcg.c
-> > @@ -1065,6 +1065,7 @@ void tcg_prologue_init(TCGContext *s)
-> >      s->pool_labels = NULL;
-> >  #endif
-> >
-> > +    tb_write_unlock();
-> >      /* Generate the prologue.  */
-> >      tcg_target_qemu_prologue(s);
-> >
-> > --
-> > 2.29.2
-> >
->
-> I've also noticed that Apple doesn't worry about sticking to particular
-> W^X mode:
->
-> https://bugs.webkit.org/attachment.cgi?id=402515&action=prettypatch
->
-> We might also drop lock/unlock symmetry from here. E.g. we can have two
-> functions that switch the mode (they might be moved to util/osdep.c):
->
->   qemu_jit_write();
->   qemu_jit_execute();
->
-> Then we use them just before writing or before executing like advised on
-> their documentation page.
->
-> -Roman
+Reviewed-by: Joelle van Dyne <j@getutm.app>
 
