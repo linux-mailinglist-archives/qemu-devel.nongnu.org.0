@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42BE72E8E51
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 22:11:09 +0100 (CET)
-Received: from localhost ([::1]:34082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE2922E8E5E
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 22:19:54 +0100 (CET)
+Received: from localhost ([::1]:34238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwAea-00005Y-AW
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 16:11:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37844)
+	id 1kwAn3-0003aZ-Jq
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 16:19:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwAMO-0004H9-0N
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 15:52:20 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38738)
+ id 1kwAMQ-0004M1-T1
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 15:52:22 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:53520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwAMK-0006Eg-Qo
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 15:52:19 -0500
-Received: by mail-wm1-x336.google.com with SMTP id g185so16658000wmf.3
- for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 12:52:16 -0800 (PST)
+ id 1kwAMP-0006GA-9g
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 15:52:22 -0500
+Received: by mail-wm1-x333.google.com with SMTP id k10so15971075wmi.3
+ for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 12:52:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ojhC/M+0W8vFwZN1jjIy9RKgtD0KzrFoNNVj6x+2kmE=;
- b=k3yfD31dKhRgHTGcfJ1GMORS+vCW0IevfCtv9z66HDRS8DK/luFRPLcQ3H9+AmlUTO
- Aj/+UHO50rye36TDJwlL40YpEynVrrTYKJWa+YIZlAFT2N21PRSWJM1x4yDGtms6cLJP
- IrJJdY2s3L77ZpDWfTVvITM5QajHDo/WkjajtVQeTXb382G/Bh4Ckb8DIQ+xvul5pIVg
- YygTtSHXViUqrjqqigV9/8KJszQeZo3oH1Lm8xmGIz183MzD5NvPOFlJBE5p1vwHFVNL
- sJSFSQp8rH5JHsLSXRTd/hYDvCA7EoxOyoSYKparqTda4/oVDafr1/rCYvM9fftB6QML
- khvw==
+ bh=+YR78/DI/zhbyQEiorzjQWihYyclw/vAey+LLLhqz3U=;
+ b=QMpHhP1au0ADhTZt4oNXMyqjY6kxlTyVgwlV9PvlS1FbJO5g8UYfehIq5Ts7RJCAu1
+ JBqYQY4tT+u1N+NYTtWshb1oJAjypEtkFpYCZWW4sWSwrVZXUWeWY0hYsgE6849hWcJd
+ U6c5/11SgEoZ7KPVhOV2sq/ygkVtSDhFHZZQJ5x1+jPKLhr/sY8PY7SR89qrSYPtkUf/
+ 7Gs5bcGPXnxOLT2Xf01BPxVW/q8g7n1piezf5G5NgufsGxMSwH3gvI06dB8JpXCaUOuT
+ 83zzUCyLUJLWb1xiC2g4LaXlsL0DdXAtTzwXgNTwfP+/tF6qXHMW/keYaES4rh0Gh1SK
+ h1XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ojhC/M+0W8vFwZN1jjIy9RKgtD0KzrFoNNVj6x+2kmE=;
- b=DReBLl+iLjrVTkBN50mqUCHgh8Psh9GDeB1nZ9yx5npq2Eu+jsqnBPSO216UcrRV/Y
- PTQWOAR+htLkCJIMWAi2qVjAEaFZBcgV0JHC2L5T1XjjNeVsDOwHmNqH4xgKhQ3RAMZE
- 8tUs5rlB7cV12NPCZ5UrabMe7Tcn4MHE34UPhqYc2oSVlR2gWteG0V4qB3kHwxCDuyqJ
- /vOWQYxsy3GUp8MvUKPveCVAA/V23J7jp/GiZjVj4yjIr7eXU0fQHaMlWEf7gWESxnBw
- WYByWXB/6Ls+Td3qcupN4Ww8ODOiO3dkJlqyZjx6Vd60/jdASRaLldPO6gTSL+oCD+Bm
- EJ6Q==
-X-Gm-Message-State: AOAM532Y92liQd7lJVkBEBDs8Rlv+2NzIEQ3YvCX1tFcCwZner07bDMG
- nV4THClryARWOj6d5cMd1CW8wglVSHg=
-X-Google-Smtp-Source: ABdhPJwPdUDC+//PKGaxDb41MsBnWOxRLO+GFYvtRxSYbSm1ZL7E7SdfZzErWCXNuS+U1H2pPWhxjg==
-X-Received: by 2002:a05:600c:2188:: with SMTP id
- e8mr24393409wme.182.1609707135117; 
- Sun, 03 Jan 2021 12:52:15 -0800 (PST)
+ bh=+YR78/DI/zhbyQEiorzjQWihYyclw/vAey+LLLhqz3U=;
+ b=ZelHzrwqVtgBcGSyCAazXhINChNN6RPO30YVNcv9GCRd6NjVKMx641qMamxkam49AN
+ n5zbOIUWRVjiUwniXINvuksv782XVTDE4DNvLR52w7yJhA2YgwmxI6tauQJPzZHTejoG
+ 9QrxtjslgzYUfQzwiwCej9XfXlEYHZeSH90yjUxut83t+Z4vkhs1XgYehfKXx1ziq5FQ
+ Q8BiQVdLHAWBBjTkF/nC02GVtbqQVpzGyGdX53mqZZGcTe8O3++kKg8QPJ+R4XwdyTBz
+ Reh/sf3gXAu0HpKJwCtnI4FKSZRwX0zXkuQ7J0s9u8NNUSWuHZPplxFMWEkYA8U5lqhq
+ W3IA==
+X-Gm-Message-State: AOAM530XR6PFG1g9dViNFuiSGtXTF8kbuiDy70CIBBNPBsiOppw21YXP
+ XkEWJTx8rNenrshR+sWTeK9LNGOs8dU=
+X-Google-Smtp-Source: ABdhPJxCz4p4d74u/c2ZDk8nKSx9qWtWmV58MtnlRI0uNvflJntf8j1LFyjvb65lsSNNeCVO8+zdmQ==
+X-Received: by 2002:a1c:356:: with SMTP id 83mr24961640wmd.31.1609707139861;
+ Sun, 03 Jan 2021 12:52:19 -0800 (PST)
 Received: from localhost.localdomain
  (194.red-83-57-172.dynamicip.rima-tde.net. [83.57.172.194])
- by smtp.gmail.com with ESMTPSA id 189sm29798832wma.22.2021.01.03.12.52.14
+ by smtp.gmail.com with ESMTPSA id a62sm30534517wmf.7.2021.01.03.12.52.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jan 2021 12:52:14 -0800 (PST)
+ Sun, 03 Jan 2021 12:52:19 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/35] hw/intc: Rework Loongson LIOINTC
-Date: Sun,  3 Jan 2021 21:50:09 +0100
-Message-Id: <20210103205021.2837760-24-f4bug@amsat.org>
+Subject: [PULL 24/35] hw/mips: Implement fw_cfg_arch_key_name()
+Date: Sun,  3 Jan 2021 21:50:10 +0100
+Message-Id: <20210103205021.2837760-25-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210103205021.2837760-1-f4bug@amsat.org>
 References: <20210103205021.2837760-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,160 +92,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Huacai Chen <chenhuacai@kernel.org>
 
-As suggested by Philippe Mathieu-Daudé, rework Loongson's liointc:
-1, Move macro definitions to loongson_liointc.h;
-2, Remove magic values and use macros instead;
-3, Replace dead D() code by trace events.
+Implement fw_cfg_arch_key_name(), which returns the name of a
+mips-specific key.
 
-Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201221110538.3186646-2-chenhuacai@kernel.org>
+Message-Id: <20201221110538.3186646-3-chenhuacai@kernel.org>
+[PMD: Add FW_CFG_MIPS Kconfig selector]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/intc/loongson_liointc.h | 22 ++++++++++++++++++
- hw/intc/loongson_liointc.c         | 36 +++++++++++++-----------------
- 2 files changed, 38 insertions(+), 20 deletions(-)
- create mode 100644 include/hw/intc/loongson_liointc.h
+ hw/mips/fw_cfg.h    | 19 +++++++++++++++++++
+ hw/mips/fw_cfg.c    | 35 +++++++++++++++++++++++++++++++++++
+ hw/mips/Kconfig     |  3 +++
+ hw/mips/meson.build |  1 +
+ 4 files changed, 58 insertions(+)
+ create mode 100644 hw/mips/fw_cfg.h
+ create mode 100644 hw/mips/fw_cfg.c
 
-diff --git a/include/hw/intc/loongson_liointc.h b/include/hw/intc/loongson_liointc.h
+diff --git a/hw/mips/fw_cfg.h b/hw/mips/fw_cfg.h
 new file mode 100644
-index 00000000000..848e65eb359
+index 00000000000..e317d5b9a3e
 --- /dev/null
-+++ b/include/hw/intc/loongson_liointc.h
-@@ -0,0 +1,22 @@
++++ b/hw/mips/fw_cfg.h
+@@ -0,0 +1,19 @@
 +/*
-+ * This file is subject to the terms and conditions of the GNU General Public
-+ * License.  See the file "COPYING" in the main directory of this archive
-+ * for more details.
++ * QEMU fw_cfg helpers (MIPS specific)
 + *
-+ * Copyright (c) 2020 Huacai Chen <chenhc@lemote.com>
-+ * Copyright (c) 2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
++ * Copyright (c) 2020 Huacai Chen
 + *
++ * SPDX-License-Identifier: MIT
 + */
 +
-+#ifndef LOONGSON_LIOINTC_H
-+#define LOONGSON_LIOINTC_H
++#ifndef HW_MIPS_FW_CFG_H
++#define HW_MIPS_FW_CFG_H
 +
-+#include "qemu/units.h"
-+#include "hw/sysbus.h"
-+#include "qom/object.h"
++#include "hw/boards.h"
++#include "hw/nvram/fw_cfg.h"
 +
-+#define TYPE_LOONGSON_LIOINTC "loongson.liointc"
-+DECLARE_INSTANCE_CHECKER(struct loongson_liointc, LOONGSON_LIOINTC,
-+                         TYPE_LOONGSON_LIOINTC)
++/* Data for BIOS to identify machine */
++#define FW_CFG_MACHINE_VERSION  (FW_CFG_ARCH_LOCAL + 0)
++#define FW_CFG_CPU_FREQ         (FW_CFG_ARCH_LOCAL + 1)
 +
-+#endif /* LOONGSON_LIOINTC_H */
-diff --git a/hw/intc/loongson_liointc.c b/hw/intc/loongson_liointc.c
-index fbbfb57ee9c..f823d484e08 100644
---- a/hw/intc/loongson_liointc.c
-+++ b/hw/intc/loongson_liointc.c
-@@ -1,6 +1,7 @@
- /*
-  * QEMU Loongson Local I/O interrupt controler.
-  *
-+ * Copyright (c) 2020 Huacai Chen <chenhc@lemote.com>
-  * Copyright (c) 2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
-  *
-  * This program is free software: you can redistribute it and/or modify
-@@ -19,13 +20,11 @@
-  */
++#endif
+diff --git a/hw/mips/fw_cfg.c b/hw/mips/fw_cfg.c
+new file mode 100644
+index 00000000000..67c4a74f4be
+--- /dev/null
++++ b/hw/mips/fw_cfg.c
+@@ -0,0 +1,35 @@
++/*
++ * QEMU fw_cfg helpers (MIPS specific)
++ *
++ * Copyright (c) 2020 Lemote, Inc.
++ *
++ * Author:
++ *   Huacai Chen (chenhc@lemote.com)
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/mips/fw_cfg.h"
++#include "hw/nvram/fw_cfg.h"
++
++const char *fw_cfg_arch_key_name(uint16_t key)
++{
++    static const struct {
++        uint16_t key;
++        const char *name;
++    } fw_cfg_arch_wellknown_keys[] = {
++        {FW_CFG_MACHINE_VERSION, "machine_version"},
++        {FW_CFG_CPU_FREQ, "cpu_frequency"},
++    };
++
++    for (size_t i = 0; i < ARRAY_SIZE(fw_cfg_arch_wellknown_keys); i++) {
++        if (fw_cfg_arch_wellknown_keys[i].key == key) {
++            return fw_cfg_arch_wellknown_keys[i].name;
++        }
++    }
++    return NULL;
++}
+diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+index 8be70122f4c..64ef42dd3fd 100644
+--- a/hw/mips/Kconfig
++++ b/hw/mips/Kconfig
+@@ -38,3 +38,6 @@ config MIPS_CPS
  
- #include "qemu/osdep.h"
--#include "hw/sysbus.h"
- #include "qemu/module.h"
-+#include "qemu/log.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
--#include "qom/object.h"
--
--#define D(x)
-+#include "hw/intc/loongson_liointc.h"
- 
- #define NUM_IRQS                32
- 
-@@ -40,13 +39,10 @@
- #define R_IEN                   0x24
- #define R_IEN_SET               0x28
- #define R_IEN_CLR               0x2c
--#define R_PERCORE_ISR(x)        (0x40 + 0x8 * x)
-+#define R_ISR_SIZE              0x8
-+#define R_START                 0x40
- #define R_END                   0x64
- 
--#define TYPE_LOONGSON_LIOINTC "loongson.liointc"
--DECLARE_INSTANCE_CHECKER(struct loongson_liointc, LOONGSON_LIOINTC,
--                         TYPE_LOONGSON_LIOINTC)
--
- struct loongson_liointc {
-     SysBusDevice parent_obj;
- 
-@@ -123,14 +119,13 @@ liointc_read(void *opaque, hwaddr addr, unsigned int size)
-         goto out;
-     }
- 
--    /* Rest is 4 byte */
-+    /* Rest are 4 bytes */
-     if (size != 4 || (addr % 4)) {
-         goto out;
-     }
- 
--    if (addr >= R_PERCORE_ISR(0) &&
--        addr < R_PERCORE_ISR(NUM_CORES)) {
--        int core = (addr - R_PERCORE_ISR(0)) / 8;
-+    if (addr >= R_START && addr < R_END) {
-+        int core = (addr - R_START) / R_ISR_SIZE;
-         r = p->per_core_isr[core];
-         goto out;
-     }
-@@ -147,7 +142,8 @@ liointc_read(void *opaque, hwaddr addr, unsigned int size)
-     }
- 
- out:
--    D(qemu_log("%s: size=%d addr=%lx val=%x\n", __func__, size, addr, r));
-+    qemu_log_mask(CPU_LOG_INT, "%s: size=%d, addr=%"HWADDR_PRIx", val=%x\n",
-+                  __func__, size, addr, r);
-     return r;
- }
- 
-@@ -158,7 +154,8 @@ liointc_write(void *opaque, hwaddr addr,
-     struct loongson_liointc *p = opaque;
-     uint32_t value = val64;
- 
--    D(qemu_log("%s: size=%d, addr=%lx val=%x\n", __func__, size, addr, value));
-+    qemu_log_mask(CPU_LOG_INT, "%s: size=%d, addr=%"HWADDR_PRIx", val=%x\n",
-+                  __func__, size, addr, value);
- 
-     /* Mapper is 1 byte */
-     if (size == 1 && addr < R_MAPPER_END) {
-@@ -166,14 +163,13 @@ liointc_write(void *opaque, hwaddr addr,
-         goto out;
-     }
- 
--    /* Rest is 4 byte */
-+    /* Rest are 4 bytes */
-     if (size != 4 || (addr % 4)) {
-         goto out;
-     }
- 
--    if (addr >= R_PERCORE_ISR(0) &&
--        addr < R_PERCORE_ISR(NUM_CORES)) {
--        int core = (addr - R_PERCORE_ISR(0)) / 8;
-+    if (addr >= R_START && addr < R_END) {
-+        int core = (addr - R_START) / R_ISR_SIZE;
-         p->per_core_isr[core] = value;
-         goto out;
-     }
-@@ -224,7 +220,7 @@ static void loongson_liointc_init(Object *obj)
-     }
- 
-     memory_region_init_io(&p->mmio, obj, &pic_ops, p,
--                         "loongson.liointc", R_END);
-+                         TYPE_LOONGSON_LIOINTC, R_END);
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &p->mmio);
- }
- 
+ config MIPS_BOSTON
+     bool
++
++config FW_CFG_MIPS
++    bool
+diff --git a/hw/mips/meson.build b/hw/mips/meson.build
+index 77b4d8f365e..ca5e4d0f943 100644
+--- a/hw/mips/meson.build
++++ b/hw/mips/meson.build
+@@ -1,5 +1,6 @@
+ mips_ss = ss.source_set()
+ mips_ss.add(files('mips_int.c'))
++mips_ss.add(when: 'CONFIG_FW_CFG_MIPS', if_true: files('fw_cfg.c'))
+ mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
+ mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('jazz.c'))
+ mips_ss.add(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci.c', 'malta.c'))
 -- 
 2.26.2
 
