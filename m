@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C8B2E89E6
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 02:41:30 +0100 (CET)
-Received: from localhost ([::1]:47754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2302E89E7
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 02:42:11 +0100 (CET)
+Received: from localhost ([::1]:49852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvsOZ-00068y-7y
-	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 20:41:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42898)
+	id 1kvsPK-00074W-FP
+	for lists+qemu-devel@lfdr.de; Sat, 02 Jan 2021 20:42:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1kvsMN-0005Ak-Fz
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 20:39:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54904)
+ id 1kvsMw-0005k5-8t
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 20:39:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1kvsML-0005Kx-JQ
- for qemu-devel@nongnu.org; Sat, 02 Jan 2021 20:39:07 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3A9DC207A5
- for <qemu-devel@nongnu.org>; Sun,  3 Jan 2021 01:39:04 +0000 (UTC)
+ id 1kvsMt-0005V6-Jd
+ for qemu-devel@nongnu.org; Sat, 02 Jan 2021 20:39:42 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D161207A5
+ for <qemu-devel@nongnu.org>; Sun,  3 Jan 2021 01:39:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1609637944;
- bh=nNZanTODyHAWwDKIjwnEa7r7ATaNNtSJaDXvDwsu3Ew=;
+ s=k20201202; t=1609637977;
+ bh=DdiV0466w6ksGEilSaCQtQjypNtQ16QtHij1MlUGVUE=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=NNDMPpNZ7/1M4pjL79Uz5o2QNdTlGde2M2U/dewu+C04AFI/h891sXbfdUrpolJ+5
- +cyKkZeWtcpRgvxu3f8Pwt865ArN36CukRgsAwUwZnioebjXeZSnRFxSZvzKlcn/lD
- YlZmEbVS3Mucjxhb1A8Z3/9Wbsi9xATw05OdeMJ9HX+gud6zVdH9u6XiKckF3AATkE
- cllzwxfSAd2llEhIbcOLw3T6YrCuVFC1c3UVpuwfWtXSc6oxVE8VOe8sO6Zo1nglgH
- Y2/7eBCn4w5+AJrCleIHfddEo27mT2YZPSONt+OlZ1CNo14KY0C605PbRXg8nB4Mhu
- YqFhvTOecbwhg==
-Received: by mail-io1-f43.google.com with SMTP id z5so21831462iob.11
- for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 17:39:04 -0800 (PST)
-X-Gm-Message-State: AOAM5303dR7ynVj1IY5bFkivik1Plaqb4F1TI6hEFBDNKvmb5ODZrgqb
- 1Hi8Y3R1pIFIIdaA4K3iJtykCYcPc6Mqs0JKmD0=
-X-Google-Smtp-Source: ABdhPJzIS7dTPUGlD3dgE5hHuQMgrVYIsxNS54FrYWdBZdAPQ2QTKnLvNBXKWYDSSD69K+StNqYSoLsEWs4RRCd3yUE=
-X-Received: by 2002:a5d:8a1a:: with SMTP id w26mr54141250iod.112.1609637943693; 
- Sat, 02 Jan 2021 17:39:03 -0800 (PST)
+ b=alD7UL6s9heTGODcekBIc/Ti8vwvDfr1D/nP1aLCX4uoO0DcefkLA4BsMF1UaxqHL
+ 3f1ONXCVXztWqinaLBFybw1II0fn42YsCssdyU/9SY9Y+8ElIeKXz38ahP6sPs/D31
+ h3YE0HjTbp6tjDwOiPOgjV8azYBaYlI68IMWFJsru1XlqeGcZzANjlDuSQWl3Q60Tx
+ eGur5fEXJ9wZnLYxDYsech3q15GsKv3ZeO9+J6fHIUUxGem9FhU8rmQlDRWDSOEFP4
+ 0e3dyYfk+C06R498b6Qm/2OW2Du1Z1FVyByrLQAGcYN41GGsHdX0eLMJQyN45W6O2Q
+ zFK9sRbQ8Deaw==
+Received: by mail-io1-f41.google.com with SMTP id u26so19138939iof.3
+ for <qemu-devel@nongnu.org>; Sat, 02 Jan 2021 17:39:37 -0800 (PST)
+X-Gm-Message-State: AOAM531+8a6u9NEV8gcBysRC6j9A6ZbifYWDeK8dLEAcrD/zejewqdbU
+ VNq9C7VKaIt+Qr2CKyN4zYLGHw+bP4lSuUefpoQ=
+X-Google-Smtp-Source: ABdhPJwPp7lviBcz5bbvGOIIm+zG5JowozKlGKQeimnBDsg6oIXoFB87w+2G5gHwvv4FF6+M0Aql7kS686B13ygM7Bk=
+X-Received: by 2002:a6b:dc0f:: with SMTP id s15mr54158065ioc.180.1609637977029; 
+ Sat, 02 Jan 2021 17:39:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20201231224911.1467352-1-f4bug@amsat.org>
- <20201231224911.1467352-4-f4bug@amsat.org>
-In-Reply-To: <20201231224911.1467352-4-f4bug@amsat.org>
+ <20201231224911.1467352-5-f4bug@amsat.org>
+In-Reply-To: <20201231224911.1467352-5-f4bug@amsat.org>
 From: Huacai Chen <chenhuacai@kernel.org>
-Date: Sun, 3 Jan 2021 09:38:52 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H7WmK77DeancYAbrQ4UD5mwQ1CNP+SAiMLh7Hd=fZYG_g@mail.gmail.com>
-Message-ID: <CAAhV-H7WmK77DeancYAbrQ4UD5mwQ1CNP+SAiMLh7Hd=fZYG_g@mail.gmail.com>
-Subject: Re: [PATCH 03/18] hw/pci-host/bonito: Use PCI_DEVFN() macro
+Date: Sun, 3 Jan 2021 09:39:25 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6n8ocQNaieJfiWb6qFGLoFnpQs2dbCNz2jb+dOEPDarw@mail.gmail.com>
+Message-ID: <CAAhV-H6n8ocQNaieJfiWb6qFGLoFnpQs2dbCNz2jb+dOEPDarw@mail.gmail.com>
+Subject: Re: [PATCH 04/18] hw/pci-host/bonito: Use
+ pci_config_set_interrupt_pin()
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -82,29 +83,30 @@ Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
 On Fri, Jan 1, 2021 at 6:49 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
 > wrote:
 >
-> Use the PCI_DEVFN() macro to replace the '0x28' magic value,
-> this way it is clearer we access PCI function #0 of slot #5.
+> Replace pci_set_byte(PCI_INTERRUPT_PIN) by
+> pci_config_set_interrupt_pin().
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  hw/pci-host/bonito.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/pci-host/bonito.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
 > diff --git a/hw/pci-host/bonito.c b/hw/pci-host/bonito.c
-> index efeba29011f..4c903d4f682 100644
+> index 4c903d4f682..fe94e6740b5 100644
 > --- a/hw/pci-host/bonito.c
 > +++ b/hw/pci-host/bonito.c
-> @@ -626,7 +626,7 @@ static void bonito_pcihost_realize(DeviceState *dev, =
-Error **errp)
->      phb->bus =3D pci_register_root_bus(dev, "pci",
->                                       pci_bonito_set_irq, pci_bonito_map_=
-irq,
->                                       dev, &bs->pci_mem, get_system_io(),
-> -                                     0x28, 32, TYPE_PCI_BUS);
-> +                                     PCI_DEVFN(5, 0), 32, TYPE_PCI_BUS);
+> @@ -723,7 +723,8 @@ static void bonito_realize(PCIDevice *dev, Error **er=
+rp)
+>      pci_set_word(dev->config + PCI_SUBSYSTEM_ID, 0x0000);
 >
->      for (size_t i =3D 0; i < 3; i++) {
->          char *name =3D g_strdup_printf("pci.lomem%zu", i);
+>      pci_set_byte(dev->config + PCI_INTERRUPT_LINE, 0x00);
+> -    pci_set_byte(dev->config + PCI_INTERRUPT_PIN, 0x01);
+> +    pci_config_set_interrupt_pin(dev->config, 0x01); /* interrupt pin A =
+*/
+> +
+>      pci_set_byte(dev->config + PCI_MIN_GNT, 0x3c);
+>      pci_set_byte(dev->config + PCI_MAX_LAT, 0x00);
+>
 > --
 > 2.26.2
 >
