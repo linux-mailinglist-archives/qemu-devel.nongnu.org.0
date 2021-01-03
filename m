@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AE972E8E3A
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 21:59:50 +0100 (CET)
-Received: from localhost ([::1]:58200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE782E8E2F
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 21:56:55 +0100 (CET)
+Received: from localhost ([::1]:51140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwATd-00031l-GI
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 15:59:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37552)
+	id 1kwAQo-0008SW-Ro
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 15:56:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwALQ-0003Gu-CX
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 15:51:20 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40088)
+ id 1kwALa-0003PI-TY
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 15:51:31 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwALO-0005wc-Gt
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 15:51:20 -0500
-Received: by mail-wr1-x430.google.com with SMTP id 91so29445501wrj.7
- for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 12:51:18 -0800 (PST)
+ id 1kwALZ-0005zQ-5u
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 15:51:30 -0500
+Received: by mail-wm1-x332.google.com with SMTP id r4so16632552wmh.5
+ for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 12:51:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xkAWBB0fCP8oR4s0bz1IL0feMKGP5FSRQjkwoaDMIDQ=;
- b=ZTZXGFGaXkVU/ZHDY4aU/GSrpW18xclGnlYSWDNe98gr4dvj1rsRPiTwOpoxKN6m52
- jNebBo9bVAZmUjzJIVJ+2T5aOPkNSaI5SAJEjtDXBdsRLrUj8P0dkd0QYhKG1YMdu/PB
- KCke/aj4+WAlG5aK8FzI0bWmZGHqtkwJ1mOGlkDo0qfiRYAQFG14+F0C/JQGCT73q2WO
- KdRYR25fjM/qU6PFCNXq/7eG+K9Jp3vVJfB35EA6x+R/3R/qEQ+FNSglhw7GiXOVPUol
- LL1SUbPOJ0LdOTX6jsV1nrOPZdhy0OS4LgQX7+rE4zeaMt042bmbZgcPcIVqW1VcCOx8
- xMxQ==
+ bh=O2gt3iQC5/uG1rR4b3ZU58jd9X7v2XF7iZC6cSzs7Hk=;
+ b=o7gC1ysL9YsWwSAyvJMzLQroh/sgbA+FhjxxKkrpxG1CfbLTz5A3aH26Fvt8DcsVpz
+ EjSzUMStqLlTZE2Rn9tbS2WMVWtLWwoz/k7WUYQgFBK/vG9UNnk/VV8jXdxg8HCbmbxh
+ +sNFHW+0DLNP3xR4/eAzi1mOYe0Z62zlD6BzAmKgGGoQ6hGxJyGkdVwD8o7KSYIWHjmC
+ 9MIvZq3j/5iC2cw0/MGYbVsq6xnfIvXNJLRhNEl6+W68zCKINSy+O9PSMWzFzuglf4oT
+ fJvoI4GC2GLeSqlviOs3xYcvWn0nHD2mGsALa+sFCc3MK6lW3b1r1zWG2t/xoz5sb8mj
+ 0M3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xkAWBB0fCP8oR4s0bz1IL0feMKGP5FSRQjkwoaDMIDQ=;
- b=Cu/MKhJBiUOSa0Pcq2nXuY5eSIbQ4wysy83cKQ12wjVi/G7ngd+4jpmFucX4dDxoio
- HxpOSjGX2E86wA8rcqc7N/T5sz0MVAcWSKvK29mSan6Frpu4pCutdeRUNhQVY+21jNJy
- kexqCqDd01YI7RSyQiM4SyTiJYfB3Cb6lqO/9B/Ij8lMeHjWq/Rls012ZUTq/GAYcuSp
- dWfaha9WJ0DG55mhYGPjtdnYCHf65by+mmBzm4P8TTg2XuxWPn1GSPPKlQDm0Njmhpii
- Agn+1nrMWKFs2+Z3oWjOamYzUHRlaKaius4z20JFwxFXIwNZ1CfKUdNd/UvjN351d4gG
- qxgg==
-X-Gm-Message-State: AOAM5312KraPE1ErV7TQzuFUPceNsUBYf1SirgvGUikET/jHlU2kpgx+
- n5bUYHLdR0+OJ4AITSV3LOYZxENGMU8=
-X-Google-Smtp-Source: ABdhPJzo6LCf4mytO+6npZ1V9YQJxFr5mWMpGvgDdfl7aNkJgWsVRnvHKOC54TR37780TaHHcOOTFQ==
-X-Received: by 2002:adf:9506:: with SMTP id 6mr76437798wrs.172.1609707077100; 
- Sun, 03 Jan 2021 12:51:17 -0800 (PST)
+ bh=O2gt3iQC5/uG1rR4b3ZU58jd9X7v2XF7iZC6cSzs7Hk=;
+ b=FL2iSsktc62GNBtD/5P1zht0G8JLVbESH8XTsAmeBNBkEbllZsMuQWddUzkJGv1Eof
+ UWEEXTY5a6RdJ5tVIwfAvgPusxzG6H2rzbpyXQpD+Ld3ExHHOkd7/Vbr2TLKvQOgkjBu
+ HHsL1FITwYG5tsC3h5JLsiI/d9/dy6KqIT1B49vPkMYOk4nB9af5REFvqyVNsOXXCZ8J
+ YVV8hJ3z87/QdaN8EJ4p6IMA1iMlJXnnti4hpuS45v5GqQn1f8dp4t4GhRMnzKGueq54
+ pCT3e5nfuKwjGWKGp16O5CB4pNq4XRBEJzO3JFqrb29fmHaJfCLCCEBC0GwlYPAOsXLQ
+ 4NhA==
+X-Gm-Message-State: AOAM532eCk7DE3JiuVwTNq+f6kzEwnc3Ole2dFUA5ON0RxFb97LZKonH
+ Ui2c3U4qkMd5pN17v8dI0/49CB9row4=
+X-Google-Smtp-Source: ABdhPJxKLGCJBhoScMbmykwz0K2/+IEs5YmogdUwphwyerumyTrByy1CPMwzEsCX4ohX0UlKNtjyNQ==
+X-Received: by 2002:a05:600c:2106:: with SMTP id
+ u6mr24436020wml.4.1609707086496; 
+ Sun, 03 Jan 2021 12:51:26 -0800 (PST)
 Received: from localhost.localdomain
  (194.red-83-57-172.dynamicip.rima-tde.net. [83.57.172.194])
- by smtp.gmail.com with ESMTPSA id y11sm29615018wmi.0.2021.01.03.12.51.16
+ by smtp.gmail.com with ESMTPSA id l8sm30138875wmf.35.2021.01.03.12.51.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jan 2021 12:51:16 -0800 (PST)
+ Sun, 03 Jan 2021 12:51:25 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/35] vt82c686: Split off via-[am]c97 into separate file in
- hw/audio
-Date: Sun,  3 Jan 2021 21:49:57 +0100
-Message-Id: <20210103205021.2837760-12-f4bug@amsat.org>
+Subject: [PULL 13/35] vt82c686: Remove legacy vt82c686b_isa_init() function
+Date: Sun,  3 Jan 2021 21:49:59 +0100
+Message-Id: <20210103205021.2837760-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210103205021.2837760-1-f4bug@amsat.org>
 References: <20210103205021.2837760-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,259 +93,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-The via-[am]c97 code is supposed to implement the audio part of VIA
-south bridge chips so it is better placed under hw/audio/. Split it
-off into a separate file.
-
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <af083634e3b9efe67e6c4247cf0185d3fa7b1810.1609584216.git.balaton@eik.bme.hu>
+Message-Id: <58d7585f979f154b1f1e69fdc026eed6dbc7996f.1609584216.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/audio/via-ac97.c  | 106 +++++++++++++++++++++++++++++++++++++++++++
- hw/isa/vt82c686.c    |  91 -------------------------------------
- hw/audio/meson.build |   1 +
- 3 files changed, 107 insertions(+), 91 deletions(-)
- create mode 100644 hw/audio/via-ac97.c
+ include/hw/isa/vt82c686.h | 3 +--
+ hw/isa/vt82c686.c         | 9 ---------
+ hw/mips/fuloong2e.c       | 4 +++-
+ 3 files changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/hw/audio/via-ac97.c b/hw/audio/via-ac97.c
-new file mode 100644
-index 00000000000..e617416ff76
---- /dev/null
-+++ b/hw/audio/via-ac97.c
-@@ -0,0 +1,106 @@
-+/*
-+ * VIA south bridges sound support
-+ *
-+ * This work is licensed under the GNU GPL license version 2 or later.
-+ */
-+
-+/*
-+ * TODO: This is entirely boiler plate just registering empty PCI devices
-+ * with the right ID guests expect, functionality should be added here.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/isa/vt82c686.h"
-+#include "hw/pci/pci.h"
-+
-+struct VIAAC97State {
-+    PCIDevice dev;
-+};
-+
-+struct VIAMC97State {
-+    PCIDevice dev;
-+};
-+
-+OBJECT_DECLARE_SIMPLE_TYPE(VIAAC97State, VIA_AC97)
-+OBJECT_DECLARE_SIMPLE_TYPE(VIAMC97State, VIA_MC97)
-+
-+static void via_ac97_realize(PCIDevice *dev, Error **errp)
-+{
-+    VIAAC97State *s = VIA_AC97(dev);
-+    uint8_t *pci_conf = s->dev.config;
-+
-+    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_INVALIDATE |
-+                 PCI_COMMAND_PARITY);
-+    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_CAP_LIST |
-+                 PCI_STATUS_DEVSEL_MEDIUM);
-+    pci_set_long(pci_conf + PCI_INTERRUPT_PIN, 0x03);
-+}
-+
-+static void via_ac97_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+
-+    k->realize = via_ac97_realize;
-+    k->vendor_id = PCI_VENDOR_ID_VIA;
-+    k->device_id = PCI_DEVICE_ID_VIA_AC97;
-+    k->revision = 0x50;
-+    k->class_id = PCI_CLASS_MULTIMEDIA_AUDIO;
-+    set_bit(DEVICE_CATEGORY_SOUND, dc->categories);
-+    dc->desc = "AC97";
-+}
-+
-+static const TypeInfo via_ac97_info = {
-+    .name          = TYPE_VIA_AC97,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(VIAAC97State),
-+    .class_init    = via_ac97_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { },
-+    },
-+};
-+
-+static void via_mc97_realize(PCIDevice *dev, Error **errp)
-+{
-+    VIAMC97State *s = VIA_MC97(dev);
-+    uint8_t *pci_conf = s->dev.config;
-+
-+    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_INVALIDATE |
-+                 PCI_COMMAND_VGA_PALETTE);
-+    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
-+    pci_set_long(pci_conf + PCI_INTERRUPT_PIN, 0x03);
-+}
-+
-+static void via_mc97_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+
-+    k->realize = via_mc97_realize;
-+    k->vendor_id = PCI_VENDOR_ID_VIA;
-+    k->device_id = PCI_DEVICE_ID_VIA_MC97;
-+    k->class_id = PCI_CLASS_COMMUNICATION_OTHER;
-+    k->revision = 0x30;
-+    set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
-+    dc->desc = "MC97";
-+}
-+
-+static const TypeInfo via_mc97_info = {
-+    .name          = TYPE_VIA_MC97,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(VIAMC97State),
-+    .class_init    = via_mc97_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { },
-+    },
-+};
-+
-+static void via_ac97_register_types(void)
-+{
-+    type_register_static(&via_ac97_info);
-+    type_register_static(&via_mc97_info);
-+}
-+
-+type_init(via_ac97_register_types)
+diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+index ff80a926dcb..8d2d276fe16 100644
+--- a/include/hw/isa/vt82c686.h
++++ b/include/hw/isa/vt82c686.h
+@@ -1,13 +1,12 @@
+ #ifndef HW_VT82C686_H
+ #define HW_VT82C686_H
+ 
+-
++#define TYPE_VT82C686B_ISA "vt82c686b-isa"
+ #define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
+ #define TYPE_VIA_AC97 "via-ac97"
+ #define TYPE_VIA_MC97 "via-mc97"
+ 
+ /* vt82c686.c */
+-ISABus *vt82c686b_isa_init(PCIBus * bus, int devfn);
+ I2CBus *vt82c686b_pm_init(PCIBus *bus, int devfn, uint32_t smb_io_base,
+                           qemu_irq sci_irq);
+ 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 8677a2d212b..9567326d8e2 100644
+index 9567326d8e2..2912c253dca 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -168,14 +168,6 @@ struct VT686PMState {
-     uint32_t smb_io_base;
+@@ -49,7 +49,6 @@ struct VT82C686BISAState {
+     SuperIOConfig superio_conf;
  };
  
--struct VIAAC97State {
--    PCIDevice dev;
--};
--
--struct VIAMC97State {
--    PCIDevice dev;
--};
--
- #define TYPE_VT82C686B_PM "VT82C686B_PM"
- OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
+-#define TYPE_VT82C686B_ISA "vt82c686b-isa"
+ OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
  
-@@ -247,87 +239,6 @@ static const VMStateDescription vmstate_acpi = {
-     }
- };
+ static void superio_ioport_writeb(void *opaque, hwaddr addr, uint64_t data,
+@@ -367,14 +366,6 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+                                 &vt82c->superio);
+ }
  
--/*
-- * TODO: VIA_AC97 and VIA_MC97
-- * just register a PCI device now, functionalities will be implemented later.
-- */
--
--OBJECT_DECLARE_SIMPLE_TYPE(VIAMC97State, VIA_MC97)
--OBJECT_DECLARE_SIMPLE_TYPE(VIAAC97State, VIA_AC97)
--
--static void vt82c686b_ac97_realize(PCIDevice *dev, Error **errp)
+-ISABus *vt82c686b_isa_init(PCIBus *bus, int devfn)
 -{
--    VIAAC97State *s = VIA_AC97(dev);
--    uint8_t *pci_conf = s->dev.config;
+-    PCIDevice *d;
 -
--    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_INVALIDATE |
--                 PCI_COMMAND_PARITY);
--    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_CAP_LIST |
--                 PCI_STATUS_DEVSEL_MEDIUM);
--    pci_set_long(pci_conf + PCI_INTERRUPT_PIN, 0x03);
+-    d = pci_create_simple_multifunction(bus, devfn, true, TYPE_VT82C686B_ISA);
+-    return ISA_BUS(qdev_get_child_bus(DEVICE(d), "isa.0"));
 -}
 -
--static void via_ac97_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
--
--    k->realize = vt82c686b_ac97_realize;
--    k->vendor_id = PCI_VENDOR_ID_VIA;
--    k->device_id = PCI_DEVICE_ID_VIA_AC97;
--    k->revision = 0x50;
--    k->class_id = PCI_CLASS_MULTIMEDIA_AUDIO;
--    set_bit(DEVICE_CATEGORY_SOUND, dc->categories);
--    dc->desc = "AC97";
--}
--
--static const TypeInfo via_ac97_info = {
--    .name          = TYPE_VIA_AC97,
--    .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VIAAC97State),
--    .class_init    = via_ac97_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
--        { },
--    },
--};
--
--static void vt82c686b_mc97_realize(PCIDevice *dev, Error **errp)
--{
--    VIAMC97State *s = VIA_MC97(dev);
--    uint8_t *pci_conf = s->dev.config;
--
--    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_INVALIDATE |
--                 PCI_COMMAND_VGA_PALETTE);
--    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
--    pci_set_long(pci_conf + PCI_INTERRUPT_PIN, 0x03);
--}
--
--static void via_mc97_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
--
--    k->realize = vt82c686b_mc97_realize;
--    k->vendor_id = PCI_VENDOR_ID_VIA;
--    k->device_id = PCI_DEVICE_ID_VIA_MC97;
--    k->class_id = PCI_CLASS_COMMUNICATION_OTHER;
--    k->revision = 0x30;
--    set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
--    dc->desc = "MC97";
--}
--
--static const TypeInfo via_mc97_info = {
--    .name          = TYPE_VIA_MC97,
--    .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VIAMC97State),
--    .class_init    = via_mc97_class_init,
--    .interfaces = (InterfaceInfo[]) {
--        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
--        { },
--    },
--};
--
- /* vt82c686 pm init */
- static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+ static void via_class_init(ObjectClass *klass, void *data)
  {
-@@ -516,8 +427,6 @@ static const TypeInfo via_superio_info = {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index 8287e65c52c..435f0e5be5b 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -240,7 +240,9 @@ static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+     ISABus *isa_bus;
+     PCIDevice *dev;
  
- static void vt82c686b_register_types(void)
- {
--    type_register_static(&via_ac97_info);
--    type_register_static(&via_mc97_info);
-     type_register_static(&via_pm_info);
-     type_register_static(&via_superio_info);
-     type_register_static(&via_info);
-diff --git a/hw/audio/meson.build b/hw/audio/meson.build
-index 549e9a0396a..32c42bdebe4 100644
---- a/hw/audio/meson.build
-+++ b/hw/audio/meson.build
-@@ -11,4 +11,5 @@
- softmmu_ss.add(when: 'CONFIG_PCSPK', if_true: files('pcspk.c'))
- softmmu_ss.add(when: 'CONFIG_PL041', if_true: files('pl041.c', 'lm4549.c'))
- softmmu_ss.add(when: 'CONFIG_SB16', if_true: files('sb16.c'))
-+softmmu_ss.add(when: 'CONFIG_VT82C686', if_true: files('via-ac97.c'))
- softmmu_ss.add(when: 'CONFIG_WM8750', if_true: files('wm8750.c'))
+-    isa_bus = vt82c686b_isa_init(pci_bus, PCI_DEVFN(slot, 0));
++    dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot, 0), true,
++                                          TYPE_VT82C686B_ISA);
++    isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(dev), "isa.0"));
+     assert(isa_bus);
+     *p_isa_bus = isa_bus;
+     /* Interrupt controller */
 -- 
 2.26.2
 
