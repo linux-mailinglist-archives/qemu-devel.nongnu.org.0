@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9912E8BBC
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 11:36:51 +0100 (CET)
-Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A01E2E8C19
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 13:19:33 +0100 (CET)
+Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kw0kj-00019e-JP
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 05:36:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43170)
+	id 1kw2M7-0005Wo-Ty
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 07:19:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevinnguetchouang@gmail.com>)
- id 1kw0k0-0000ho-5K
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 05:36:04 -0500
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:39116)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kw2Is-0004mW-60
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 07:16:10 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kevinnguetchouang@gmail.com>)
- id 1kw0jy-0005wA-Kx
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 05:36:03 -0500
-Received: by mail-oi1-x22d.google.com with SMTP id w124so28843505oia.6
- for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 02:36:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kw2Ip-0004eM-CH
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 07:16:09 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id t30so28162979wrb.0
+ for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 04:16:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=jYce6uxoW35u971AUnJVhD4H0WhEiWeZlRl3HtZKiGc=;
- b=Huhrbd63w6FzUZ/coBs4Jqce3+MPb3rzrcSf08X0rsw9gl71Qkf4CSZMJ5eJ7oGL5K
- K37fxcPrho8s4OUTeKUrOIDMOBR2hNMKCzTVwCKftWBoURkzLeT3CIri9K2NiGPKh8ej
- M2TbG4jolkqT+cR3/nvernBzsdetPDRYiBoySookiFPXFXoXZWm80YMtvIvevELwQXbg
- KuzbPKW+nhviITlN1C63uUxILtkR3DQuHAZVeVfGMonEex8+5TTvYYtVjMDo2kjVXjAT
- 1CmFQofGm0ApBfpkB2I+ZOcpzF1upcvJlnE44NVUjPwLrftaIPiglVrWDqAIg6/q32TG
- ikvQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=GLYs+IO/fWDXeR7JWvdSzlLaBKLKrfzG+8k/S6MJkYI=;
+ b=B+UJ5wuX5KCaNjGshAkyin8fMlKnllw6RU35shzUBDP/DhUVLHObPWiCRFdj/QwMKf
+ wzf081nzMnD2gzSmhOHOiTdzwTs35sx50KEALPrGNki/aJdyu7Gh/D+WN8J5ppNQsshU
+ uDpnrUKno9THh6BBJk2JS32ZU0IFUP9gzm7gv18cA65W3XqeSQuOaL9BhY4vrGXiX+Vg
+ boAPm0kWug9cKjMP11oeSS5SSoj0I7Grwy3a14rVtAKbl+UToO5kpEAM6qaXuYFJYyir
+ fsqzbG9ZocYJo3fp3cykPCBkzJ98PvcLtYTzBR+LMlHPkj+vR8kiuzqp9aRha3yINVRi
+ 23yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=jYce6uxoW35u971AUnJVhD4H0WhEiWeZlRl3HtZKiGc=;
- b=KnSh6vIWPtV30TCWAAoTIf9BnyIlIoA9OzIHFanY3mtGgI9/a+CbD9oSbjCrQ9bT53
- sv5BZcv+uHX4s5SulBceS6JxUtyCP3+htoqiT6wNyNs/0HL9EwYdC56Si7T3G2kPHMg4
- mpRa0O1tOMkY5QRoxRKdGStm6cV47gWdZ8+0poW9K6s3s2s25dSohQteIgr5KKSFpHvn
- VZlbqqICW7t96nk9LYbMP5Gga+Waf0VSlw5AbO0TcGcnmpoOQ9HoHJ6yFVmIUIGVQRnF
- hNrYujwYiIi2rfbyJhv/UCXNwnp8f2shqetDLY7dQsATZP92XuGP8ULpN65vh7WSfm29
- WTqA==
-X-Gm-Message-State: AOAM532qbGziCvKyoMQIH/1wcp4ude1F9d/02Kyfeg/j9sMFgVleU+ze
- DtPhYywSxKsciU6sM7D5Ee4AGDbszCajqTYm50DubRD9gy4=
-X-Google-Smtp-Source: ABdhPJzfiQnuZdOTXcYcfSV7seURVwp2O3P8K0R6ZmeoBG6Cw+OUQLuxlvS1YpSDjcavfqf8gBx7J2418FysYOQIq0o=
-X-Received: by 2002:aca:cf0f:: with SMTP id f15mr15391010oig.44.1609670161087; 
- Sun, 03 Jan 2021 02:36:01 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GLYs+IO/fWDXeR7JWvdSzlLaBKLKrfzG+8k/S6MJkYI=;
+ b=EXUhGk3EATmASTRz0i6OKR2Ix0T5yESPQnRLpBE3nQc+LzDu6lWImAv96SM71sDstA
+ jha595y+KhGSPqqNEP2te6d6jmwUibGxFr0j4cWF7xCx8z+diW/ilown1oSiyOfBgtFR
+ /fqBP31Dzzc/A9Tui294+bBK/DkuPzcJayIB4bo+7uCrivQ3t0GEmbsbiWA3TnR5ilpS
+ 2vXJMGUvo117s3/fFErJKe23B1V4ou90pl124tnr5/Koc/1IlpX2XPvJtrSdk20HhSz+
+ /KDpoP4EACLOTVnF7fWPJ4OpebNilhOKakCKMAyZ8J45AzE5WmJHHsY5lfzHquGAAdOO
+ tWEA==
+X-Gm-Message-State: AOAM533PHa4tmIHO5f3WRz6KzJwTfvfp71KJTxeils8bPaT5wjAiqg3h
+ lHkjNlMgRa12qcoyK8QCAa0=
+X-Google-Smtp-Source: ABdhPJz4dKwXzwxGBXUI40i/a60Q1XZolMATaVUIYO2x+LlRQT1GxJy2wc/PbcITLjHVo7A42sHy7w==
+X-Received: by 2002:adf:8145:: with SMTP id 63mr73471810wrm.8.1609676165642;
+ Sun, 03 Jan 2021 04:16:05 -0800 (PST)
+Received: from [192.168.1.34] (194.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.194])
+ by smtp.gmail.com with ESMTPSA id l7sm27987017wme.4.2021.01.03.04.16.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 03 Jan 2021 04:16:04 -0800 (PST)
+Subject: Re: [PATCH 11/24] vt82c686: Use shorter name for local variable
+ holding object state
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cover.1609584215.git.balaton@eik.bme.hu>
+ <69655b23df2ecebbf0aff29726f4b4746f5b74de.1609584216.git.balaton@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <949691e9-9f5b-17aa-88f3-951a12d6b6ff@amsat.org>
+Date: Sun, 3 Jan 2021 13:16:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <CAFoyTzs4m1KeoFgyxmsKPr15HTToNLskib2_OyyW82yS3+z4aA@mail.gmail.com>
-In-Reply-To: <CAFoyTzs4m1KeoFgyxmsKPr15HTToNLskib2_OyyW82yS3+z4aA@mail.gmail.com>
-From: Kevin Nguetchouang <kevinnguetchouang@gmail.com>
-Date: Sun, 3 Jan 2021 11:35:49 +0100
-Message-ID: <CAFoyTztccVkkFZbEsM3ZfHT3QdFxwvk1ntDy-_0zun4x=G4btQ@mail.gmail.com>
-Subject: Re: Question: How to change backing file ?
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000002844a205b7fc8a58"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=kevinnguetchouang@gmail.com; helo=mail-oi1-x22d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <69655b23df2ecebbf0aff29726f4b4746f5b74de.1609584216.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.118,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,60 +90,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Huacai Chen <chenhuacai@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002844a205b7fc8a58
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 1/2/21 11:43 AM, BALATON Zoltan via wrote:
+> Rename local variable holding object state for readability and
+> consistency.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>  hw/isa/vt82c686.c | 30 +++++++++++++++---------------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
 
-nobody then ?
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Le lun. 28 d=C3=A9c. 2020 =C3=A0 19:03, Kevin Nguetchouang <
-kevinnguetchouang@gmail.com> a =C3=A9crit :
-
-> Hello everyone, in a class project, i would like to change the backing
-> file of the current image opened with a particular path file.
->
-> I try differents functions i saw in the source code
-> - bdrv_change_backing_file
-> - bdrv_open
-> - bdrv_open_child
->
-> but no one work... from segmentation fault error to bdrv_attach_backing
-> passing through parent->blocking_error, i don't know how to achieve what =
-i
-> want.
->
-> --
-> *Kevin Nguetchouang.*
->
-
-
---=20
-*Kevin Nguetchouang.*
-
---0000000000002844a205b7fc8a58
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">nobody then ?<br></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0lun. 28 d=C3=A9c. 2020 =C3=A0=C2=
-=A019:03, Kevin Nguetchouang &lt;<a href=3D"mailto:kevinnguetchouang@gmail.=
-com">kevinnguetchouang@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Hello ev=
-eryone, in a class project, i would like to change the backing file of the =
-current image opened with a particular path file.<br></div><div><br></div><=
-div>I try differents functions i saw in the source code</div><div>- bdrv_ch=
-ange_backing_file</div><div>- bdrv_open</div><div>- bdrv_open_child</div><d=
-iv><br></div><div>but no one work... from segmentation fault error to bdrv_=
-attach_backing passing through parent-&gt;blocking_error, i don&#39;t know =
-how to achieve what i want.<br></div><div><br>-- <br><div dir=3D"ltr"><div =
-dir=3D"ltr"><div><i>Kevin Nguetchouang.</i></div></div></div></div></div>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div><i>Kevin Nguetchouang.</i></div></div=
-></div>
-
---0000000000002844a205b7fc8a58--
 
