@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5842E8B21
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 07:21:16 +0100 (CET)
-Received: from localhost ([::1]:50016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9912E8BBC
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 11:36:51 +0100 (CET)
+Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kvwlO-0004Y1-Pn
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 01:21:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42784)
+	id 1kw0kj-00019e-JP
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 05:36:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kvwkG-0003wz-O9
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 01:20:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54696)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kvwkD-0004Ke-PL
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 01:20:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609654799;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9ZV4ESUTEm4/NFs9xk2SVzg76VPanAnOXfaOCXfwdcI=;
- b=iHQZXPueZevcs0HcRixx+J6X8QLWvZiA8/J/Xx5ZC5Z4mf3yUmy9CqTvBTAz3cM9KKzl3d
- KSViT4jFtI5l3FlROOgxlVLWI75jc1dfEMQSnJ079NwnBUAeE/Ec8upMZ5gCOtVOP3pVBm
- l60k58wkcOiy9WRF4yyJNBb77zaPUIs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-7niGeP92OOW8Pgev4lacQA-1; Sun, 03 Jan 2021 01:19:55 -0500
-X-MC-Unique: 7niGeP92OOW8Pgev4lacQA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF035107ACE6;
- Sun,  3 Jan 2021 06:19:53 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-10.ams2.redhat.com [10.36.112.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF5936F447;
- Sun,  3 Jan 2021 06:19:50 +0000 (UTC)
-Subject: Re: [PATCH v3 1/5] ppc4xx: Move common dependency on serial to common
- option
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <cover.1609636173.git.balaton@eik.bme.hu>
- <94f1eb7cfb7f315bd883d825f3ce7e0cfc2f2b69.1609636173.git.balaton@eik.bme.hu>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <2f801d9c-abe9-95c7-9b6a-ec1d66f83286@redhat.com>
-Date: Sun, 3 Jan 2021 07:19:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <kevinnguetchouang@gmail.com>)
+ id 1kw0k0-0000ho-5K
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 05:36:04 -0500
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:39116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kevinnguetchouang@gmail.com>)
+ id 1kw0jy-0005wA-Kx
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 05:36:03 -0500
+Received: by mail-oi1-x22d.google.com with SMTP id w124so28843505oia.6
+ for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 02:36:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=jYce6uxoW35u971AUnJVhD4H0WhEiWeZlRl3HtZKiGc=;
+ b=Huhrbd63w6FzUZ/coBs4Jqce3+MPb3rzrcSf08X0rsw9gl71Qkf4CSZMJ5eJ7oGL5K
+ K37fxcPrho8s4OUTeKUrOIDMOBR2hNMKCzTVwCKftWBoURkzLeT3CIri9K2NiGPKh8ej
+ M2TbG4jolkqT+cR3/nvernBzsdetPDRYiBoySookiFPXFXoXZWm80YMtvIvevELwQXbg
+ KuzbPKW+nhviITlN1C63uUxILtkR3DQuHAZVeVfGMonEex8+5TTvYYtVjMDo2kjVXjAT
+ 1CmFQofGm0ApBfpkB2I+ZOcpzF1upcvJlnE44NVUjPwLrftaIPiglVrWDqAIg6/q32TG
+ ikvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=jYce6uxoW35u971AUnJVhD4H0WhEiWeZlRl3HtZKiGc=;
+ b=KnSh6vIWPtV30TCWAAoTIf9BnyIlIoA9OzIHFanY3mtGgI9/a+CbD9oSbjCrQ9bT53
+ sv5BZcv+uHX4s5SulBceS6JxUtyCP3+htoqiT6wNyNs/0HL9EwYdC56Si7T3G2kPHMg4
+ mpRa0O1tOMkY5QRoxRKdGStm6cV47gWdZ8+0poW9K6s3s2s25dSohQteIgr5KKSFpHvn
+ VZlbqqICW7t96nk9LYbMP5Gga+Waf0VSlw5AbO0TcGcnmpoOQ9HoHJ6yFVmIUIGVQRnF
+ hNrYujwYiIi2rfbyJhv/UCXNwnp8f2shqetDLY7dQsATZP92XuGP8ULpN65vh7WSfm29
+ WTqA==
+X-Gm-Message-State: AOAM532qbGziCvKyoMQIH/1wcp4ude1F9d/02Kyfeg/j9sMFgVleU+ze
+ DtPhYywSxKsciU6sM7D5Ee4AGDbszCajqTYm50DubRD9gy4=
+X-Google-Smtp-Source: ABdhPJzfiQnuZdOTXcYcfSV7seURVwp2O3P8K0R6ZmeoBG6Cw+OUQLuxlvS1YpSDjcavfqf8gBx7J2418FysYOQIq0o=
+X-Received: by 2002:aca:cf0f:: with SMTP id f15mr15391010oig.44.1609670161087; 
+ Sun, 03 Jan 2021 02:36:01 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <94f1eb7cfb7f315bd883d825f3ce7e0cfc2f2b69.1609636173.git.balaton@eik.bme.hu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.118, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <CAFoyTzs4m1KeoFgyxmsKPr15HTToNLskib2_OyyW82yS3+z4aA@mail.gmail.com>
+In-Reply-To: <CAFoyTzs4m1KeoFgyxmsKPr15HTToNLskib2_OyyW82yS3+z4aA@mail.gmail.com>
+From: Kevin Nguetchouang <kevinnguetchouang@gmail.com>
+Date: Sun, 3 Jan 2021 11:35:49 +0100
+Message-ID: <CAFoyTztccVkkFZbEsM3ZfHT3QdFxwvk1ntDy-_0zun4x=G4btQ@mail.gmail.com>
+Subject: Re: Question: How to change backing file ?
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000002844a205b7fc8a58"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=kevinnguetchouang@gmail.com; helo=mail-oi1-x22d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,76 +76,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, f4bug@amsat.org,
- Guenter Roeck <linux@roeck-us.net>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/01/2021 02.09, BALATON Zoltan via wrote:
-> All machines that select SERIAL also select PPC4XX so we can just add
-> this common dependency there once.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->   hw/ppc/Kconfig | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index dd86e664d2..8548f42b0d 100644
-> --- a/hw/ppc/Kconfig
-> +++ b/hw/ppc/Kconfig
-> @@ -37,7 +37,6 @@ config PPC405
->       select M48T59
->       select PFLASH_CFI02
->       select PPC4XX
-> -    select SERIAL
->   
->   config PPC440
->       bool
-> @@ -46,13 +45,13 @@ config PPC440
->       imply E1000_PCI
->       select PCI_EXPRESS
->       select PPC4XX
-> -    select SERIAL
->       select FDT_PPC
->   
->   config PPC4XX
->       bool
->       select BITBANG_I2C
->       select PCI
-> +    select SERIAL
+--0000000000002844a205b7fc8a58
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Not sure whether this is really the right way to go... serial_hd() and 
-serial_mm_init() are only used in ppc405_uc.c
-and ppc440_bamboo.c, so IMHO it does make sense to keep the SERIAL setting 
-with PPC405 and PPC440.
+nobody then ?
+
+Le lun. 28 d=C3=A9c. 2020 =C3=A0 19:03, Kevin Nguetchouang <
+kevinnguetchouang@gmail.com> a =C3=A9crit :
+
+> Hello everyone, in a class project, i would like to change the backing
+> file of the current image opened with a particular path file.
+>
+> I try differents functions i saw in the source code
+> - bdrv_change_backing_file
+> - bdrv_open
+> - bdrv_open_child
+>
+> but no one work... from segmentation fault error to bdrv_attach_backing
+> passing through parent->blocking_error, i don't know how to achieve what =
+i
+> want.
+>
+> --
+> *Kevin Nguetchouang.*
+>
 
 
->   config SAM460EX
->       bool
-> @@ -61,7 +60,6 @@ config SAM460EX
->       select IDE_SII3112
->       select M41T80
->       select PPC440
-> -    select SERIAL
+--=20
+*Kevin Nguetchouang.*
 
-But this hunk here should be fine, I think, since PPC440 already includes 
-the SERIAL switch.
+--0000000000002844a205b7fc8a58
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  Thomas
+<div dir=3D"ltr">nobody then ?<br></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0lun. 28 d=C3=A9c. 2020 =C3=A0=C2=
+=A019:03, Kevin Nguetchouang &lt;<a href=3D"mailto:kevinnguetchouang@gmail.=
+com">kevinnguetchouang@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Hello ev=
+eryone, in a class project, i would like to change the backing file of the =
+current image opened with a particular path file.<br></div><div><br></div><=
+div>I try differents functions i saw in the source code</div><div>- bdrv_ch=
+ange_backing_file</div><div>- bdrv_open</div><div>- bdrv_open_child</div><d=
+iv><br></div><div>but no one work... from segmentation fault error to bdrv_=
+attach_backing passing through parent-&gt;blocking_error, i don&#39;t know =
+how to achieve what i want.<br></div><div><br>-- <br><div dir=3D"ltr"><div =
+dir=3D"ltr"><div><i>Kevin Nguetchouang.</i></div></div></div></div></div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature"><div dir=3D"ltr"><div><i>Kevin Nguetchouang.</i></div></div=
+></div>
 
-
->       select SM501
->       select SMBUS_EEPROM
->       select USB_EHCI_SYSBUS
-> @@ -123,7 +121,6 @@ config VIRTEX
->       bool
->       select PPC4XX
->       select PFLASH_CFI01
-> -    select SERIAL
->       select XILINX
->       select XILINX_ETHLITE
->       select FDT_PPC
-> 
-
+--0000000000002844a205b7fc8a58--
 
