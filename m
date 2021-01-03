@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1072E8CF4
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 16:40:36 +0100 (CET)
-Received: from localhost ([::1]:47956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9040A2E8CFA
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 16:48:17 +0100 (CET)
+Received: from localhost ([::1]:57466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kw5Ug-0006JG-Qz
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 10:40:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57802)
+	id 1kw5c8-00027C-4T
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 10:48:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kw5SR-0005O9-Ks
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 10:38:16 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34923)
+ id 1kw5Zj-0001C6-I3
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 10:45:47 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kw5SP-0003N5-VF
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 10:38:15 -0500
-Received: by mail-wr1-x430.google.com with SMTP id r3so28444408wrt.2
- for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 07:38:13 -0800 (PST)
+ id 1kw5Zf-0005lu-Bh
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 10:45:47 -0500
+Received: by mail-wr1-x434.google.com with SMTP id c5so28423658wrp.6
+ for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 07:45:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=V/bRpr+NKzOYYo6iHGTymEdjLu5fxQEpLhvnSWuz8ss=;
- b=mTaZjL4MnHeUpqETR3p2WEUJIpVNB+QzPXpKG3pD2f0d/y/J92D+SA/RGkx3Qj8Z6q
- b3Mv0f3egbnu9r+m3bfzgIpS4en4xu9BZ8Hyt5wG03HnMnLRmXm/RqMYlxvmQ6XW7BUz
- KqdWY3Md0/FHFDYJkzI3gPjmfcL5SsXUe9tZwasHmloWDZuparyweN/LVoGAi7X7pYD7
- Y6utHkSQaywPDdJC55NvtXC5K5T6T+7COcMlCxseEC3JDcySkDcshrwQW9QK9Ii2GO04
- 9GfqG8gGOUAXwRTOnlQbYo1VxURyknhdr296JmtQou1X5wexnINt73T+Z4sMgYmt+6Ii
- cRCw==
+ bh=JTGnPlKwAjwMdMd3VpM3baFeLVB9w4XTscza+bDFFjk=;
+ b=aGl7Z7o7SP6YxQEtDghYzLpdUw+UHI1hTErkjZ9CC836W/OY9Es0LuyUAganRw1feK
+ A1NeOVV28u+0UrludrFiYhpiE89xrE76/wTi8pipYKyd2+rXD0GGCST8UhIcXRjWGHsP
+ wYgGo2+lwYE4Rc+O6WDcqTaLXP7M+9BzpEHLWJXDDYIVqL4ZDBvcb/pevMeWaNN2y09q
+ 2iT/75exWgXGZZy3kmQjMghWjulSdMAaLo/DIvzNzzE03dPstR4ny6tXHQYWS/AMjNBc
+ L5f/DKW9EsC+VuYaDDpjMYG3/Jl0BwCxP1jxp4wyUruhX9STYuw1sWeVvKX6yAuY8FVk
+ CCjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=V/bRpr+NKzOYYo6iHGTymEdjLu5fxQEpLhvnSWuz8ss=;
- b=aYaxbTm7W9CO1smwSlgWtcwc/7ifVbZDcfVVfpHbu3cCCOvh1Kv0wXSetpZsHsVFj+
- Vm908AhH0xWequJTLSFewPvwatDpU9WCFLz2ntV4S2ISlRvmBCTzivoZohP9rG98xcdt
- ZWL9t0ZIFJrz5QgVap6fbV5DRFv+Me7+2iFZcHx/SM+hKSp5D1DAPauhRG2W1iUksoPr
- FoJ8dDeo3tmoEdeuTurV2RyWqUF6oad8wOK6Ob7Ty6jo7/j2AdOO9edbH8qg3HbI7+hU
- C9gBlooL1/KZv8099MkXR7iH8va9g87/dSuMGICt82z/wlf+ri0VSrS70FgKDltQMoH1
- Ot3w==
-X-Gm-Message-State: AOAM532c2PcnOu9ayNjNwJAtf7g3VrRiVCxhD3mjiZObLbp46RAC9xxv
- gKSnH33kKOr3jQUASEhe9F4=
-X-Google-Smtp-Source: ABdhPJyn4e4Fefb22smm0uu5tZDHzAc59TcySBoxV9oA09nK10ZuHSPl7o+yIqpE39fmkVK6fPeUiQ==
-X-Received: by 2002:a5d:4d45:: with SMTP id a5mr78119688wru.380.1609688292560; 
- Sun, 03 Jan 2021 07:38:12 -0800 (PST)
+ bh=JTGnPlKwAjwMdMd3VpM3baFeLVB9w4XTscza+bDFFjk=;
+ b=NzwLsddp4YTZUm5cY1PUmaib8VvZOSW4nO2x94yVGXGgpS/EKy1JX89Ehu5PiqZfVK
+ 00VJ1F8PHQBO9+9JAjWI7fKzJSNKK0gpOBP90ddYTMkt6uqYSRPMjyK5lE4PG3Qdwm7c
+ Sx92cnuTPNqs7Fi7HGPSj/R5o7MisGIcuCyzUqKTfwjYuj6t+9K0dF7df09E7juvfgxU
+ h9VllKjhpLaCw75mrEogofyxgYBAuRpiC7JRe+qoj+F9JtYNeQ0voTy+/X61UY9YZNhz
+ J7CmxmogmghATDWH1tgr9R2j6No+X7rPgvfu0dZ0BiODbMDzYRt73JPrCaHoYBNheKTC
+ k+Vg==
+X-Gm-Message-State: AOAM53300iZhB3/FxKovai+h9QnIzTK8nWiYg49MU5JAICU4T5X7E4Ef
+ lPZ/xpH7dL5Ivqsaf45SQ5QZXPvo2Mw=
+X-Google-Smtp-Source: ABdhPJyzSOB2A30ti1+2ULKjZvIR1u5qyDbypdYvn+8hJPgz9ctdiG+jodS72+XSZ+XnI58n9i1x8g==
+X-Received: by 2002:a05:6000:368:: with SMTP id
+ f8mr76367308wrf.150.1609688740916; 
+ Sun, 03 Jan 2021 07:45:40 -0800 (PST)
 Received: from [192.168.1.34] (194.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.194])
- by smtp.gmail.com with ESMTPSA id c6sm64951700wrh.7.2021.01.03.07.38.11
+ by smtp.gmail.com with ESMTPSA id k18sm93826283wrd.45.2021.01.03.07.45.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 03 Jan 2021 07:38:11 -0800 (PST)
-Subject: Re: [PATCH V19 4/5] hw/mips: Add Loongson-3 machine support
-To: Huacai Chen <chenhuacai@kernel.org>
-References: <20201221110538.3186646-1-chenhuacai@kernel.org>
- <20201221110538.3186646-5-chenhuacai@kernel.org>
+ Sun, 03 Jan 2021 07:45:40 -0800 (PST)
+Subject: Re: [PATCH 00/24] vt82c686b clean ups and vt8231 emulation - all in
+ one
+To: BALATON Zoltan <balaton@eik.bme.hu>, Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <cover.1609584215.git.balaton@eik.bme.hu>
+ <6f66caae-64fb-6325-9950-8ff52f1b13eb@amsat.org>
+ <43d1085-572e-4bc4-c28-66478848e83f@eik.bme.hu>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <049c6932-ef3c-4658-06a1-799dc2607631@amsat.org>
-Date: Sun, 3 Jan 2021 16:38:10 +0100
+Message-ID: <3a8f9b76-6e26-f483-3252-e1fd7f0c888d@amsat.org>
+Date: Sun, 3 Jan 2021 16:45:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201221110538.3186646-5-chenhuacai@kernel.org>
+In-Reply-To: <43d1085-572e-4bc4-c28-66478848e83f@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -89,114 +92,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Huacai,
-
-On 12/21/20 12:05 PM, Huacai Chen wrote:
-> Add Loongson-3 based machine support, it use liointc as the interrupt
-> controler and use GPEX as the pci controller. Currently it can work with
-> both TCG and KVM.
+On 1/3/21 3:27 PM, BALATON Zoltan via wrote:
+> On Sun, 3 Jan 2021, Philippe Mathieu-Daudé wrote:
+>> On 1/2/21 11:43 AM, BALATON Zoltan via wrote:
+>>> Hello,
+>>>
+>>> This is an all in one series containing all the patches from my
+>>> previous part I and part II vt82c686b clean up series plus the end of
+>>> it to finally add vt8231 emulation that will be used by subsequent
+>>> ppc/pegasos2 emulation. I consider this finished for now and good
+>>> enough to get in also cleaning up and improving fuloong2e emulation a
+>>> bit but previous disclaimer is still valid: It does not aim to fix all
+>>> existing bugs or make the model perfectly emulate the real chip just
+>>> reach the level where we can have working emulation to boot guests
+>>> which can then be improved later. (E.g. I think state saving was
+>>> broken before and it remains broken after because I don't know all the
+>>> details how to add vmstate for all kinds of data structures and this
+>>> could be addressed separately when fixing the already broken state
+>>> saving if someone wants to test and fix it.) With this it boots at
+>>> least MorphOS on pegasos2 and works with the pmon_2e.bin for fuloong2e
+>>> which needs more fixes for Linux that are currently under review. More
+>>> testing is welcome.
+>>>
+>>> It still needs the Bonito BONITO_PCICONF_REG_MASK fix for fuloong2e
+>>> because it no longer maps SMBus but due to the Bonito bug guest cannot
+>>> write register 0xd2 to map it. With that fix pmon_2e.bin from here:
+>>> http://www.anheng.com.cn/loongson/pmon/ works for me with this
+>>> command: qemu-system-mips64el -M fuloong2e -net none -bios pmon_2e.bin
+>>>
+>>> After rolling this for two years now I hope it can finally be merged
+>>> and eventually also get pegasos2 emulation that will need this.
+>>>
+>>> Regards,
+>>> BALATON Zoltan
+>>>
+>>> BALATON Zoltan (24):
+>>>   vt82c686: Rename AC97/MC97 parts from VT82C686B to VIA
+>>>   vt82c686: Remove unnecessary _DEVICE suffix from type macros
+>>>   vt82c686b: Rename VT82C686B to VT82C686B_ISA
+>>>   vt82c686: Remove vt82c686b_[am]c97_init() functions
+>>>   vt82c686: Split off via-[am]c97 into separate file in hw/audio
+>>>   audio/via-ac97: Simplify code and set user_creatable to false
+>>>   vt82c686: Remove legacy vt82c686b_isa_init() function
+>>>   vt82c686: Remove legacy vt82c686b_pm_init() function
+>>>   vt82c686: Convert debug printf to trace points
+>>>   vt82c686: Remove unneeded includes and defines
+>>>   vt82c686: Use shorter name for local variable holding object state
+>>>   vt82c686: Rename superio config related parts
+>>
+>> As the first half of this series is reviewed, I'm queuing it
+>> (patches 1-12) via mips-next.
 > 
-> As the machine model is not based on any exiting physical hardware, the
-> name of the machine is "loongson3-virt". It may be superseded in future
-> by a real machine model. If this happens, then a regular deprecation
-> procedure shall occur for "loongson3-virt" machine.
-> 
-> We now already have a full functional Linux kernel (based on Linux-5.4.x
-> LTS) here:
-> 
-> https://github.com/chenhuacai/linux
+> Thanks, You may want to fix the single vt82c686b: in the above commit
+> title that was a typo, just for consistency.
 
-Can you point to a tag/commit? (Thinking about looking at this
-commit in few years from now).
+Fixed (along with your git author email, instead of the list).
 
-> Of course the upstream kernel is also usable (the kvm host side and
-> guest side have both been upstream in Linux-5.9):
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> 
-> How to use QEMU/Loongson-3?
-> 1, Download kernel source from the above URL;
-> 2, Build a kernel with arch/mips/configs/loongson3_defconfig;
-> 3, Boot a Loongson-3A4000 host with this kernel (for KVM mode);
-> 4, Build QEMU-master with this patchset;
-> 5, modprobe kvm (only necessary for KVM mode);
-> 6, Use QEMU with TCG:
->        qemu-system-mips64el -M loongson3-virt,accel=tcg -cpu Loongson-3A1000 -kernel <path_to_kernel> -append ...
->    Use QEMU with KVM:
->        qemu-system-mips64el -M loongson3-virt,accel=kvm -cpu Loongson-3A4000 -kernel <path_to_kernel> -append ...
-> 
->    The "-cpu" parameter is optional here and QEMU will use the correct type for TCG/KVM automatically.
-> 
-> Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
-> Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->  MAINTAINERS                                  |   1 +
->  default-configs/devices/mips64el-softmmu.mak |   1 +
->  hw/mips/Kconfig                              |  11 +
->  hw/mips/loongson3_virt.c                     | 621 +++++++++++++++++++
->  hw/mips/meson.build                          |   2 +-
->  5 files changed, 635 insertions(+), 1 deletion(-)
->  create mode 100644 hw/mips/loongson3_virt.c
-...
+> Will this pull include the
+> Bonito BONITO_PCICONF_REG_MASK fix or some replacement for that? That
+> would be needed to get the rest of this series starting with 15/24
+> working. Up to that it's just clean up which should be OK.
 
-> +    /*
-> +     * The whole MMIO range among configure registers doesn't generate
-> +     * exception when accessing invalid memory. Create some unimplememted
-> +     * devices to emulate this feature.
-> +     */
-> +    create_unimplemented_device("mmio fallback 0", 0x10000000, 256 * MiB);
-> +    create_unimplemented_device("mmio fallback 1", 0x30000000, 256 * MiB);
-> +
-> +    liointc = qdev_new("loongson.liointc");
-> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(liointc), &error_fatal);
-> +
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(liointc), 0, virt_memmap[VIRT_LIOINTC].base);
-> +
-> +    serial_mm_init(address_space_mem, virt_memmap[VIRT_UART].base, 0,
-> +                   qdev_get_gpio_in(liointc, UART_IRQ), 115200, serial_hd(0),
-> +                   DEVICE_NATIVE_ENDIAN);
-> +
-> +    sysbus_create_simple("goldfish_rtc", virt_memmap[VIRT_RTC].base,
-> +                         qdev_get_gpio_in(liointc, RTC_IRQ));
-> +
-> +    cpuclk = clock_new(OBJECT(machine), "cpu-refclk");
-> +    clock_set_hz(cpuclk, DEF_LOONGSON3_FREQ);
+I checked the Bonito(32) ASIC and Bonito64 (FPGA) manuals, and
+for (vendor_id = 0xdf53, device_id = 0x00d5) our implementation
+is correct. I am waiting for further news from Jiaxun who asked
+someone at Loongson for a manual of their Bonito variant.
 
-Shouldn't this be:
+I expect a different PCI device_id, so we can add it with your
+change.
 
-       clock_set_hz(cpuclk, get_cpu_freq_hz());
+> I can repost
+> the remaining patches rebased once it's merged in master or if you tell
+> me which branch should I use.
 
-?
+IMHO no need (at least not worthwhile until mips/next is merged).
 
-> +
-> +    for (i = 0; i < machine->smp.cpus; i++) {
-> +        int ip;
-> +
-> +        /* init CPUs */
-> +        cpu = mips_cpu_create_with_clock(machine->cpu_type, cpuclk);
-> +
-> +        /* Init internal devices */
-> +        cpu_mips_irq_init_cpu(cpu);
-> +        cpu_mips_clock_init(cpu);
-> +        qemu_register_reset(main_cpu_reset, cpu);
-> +
-> +        if (i >= 4) {
-> +            continue; /* Only node-0 can be connected to LIOINTC */
-> +        }
-> +
-> +        for (ip = 0; ip < 4 ; ip++) {
-> +            int pin = i * 4 + ip;
-> +            sysbus_connect_irq(SYS_BUS_DEVICE(liointc),
-> +                               pin, cpu->env.irq[ip + 2]);
-> +        }
-> +    }
-> +    env = &MIPS_CPU(first_cpu)->env;
-...
+Regards,
+
+Phil.
 
