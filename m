@@ -2,51 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AD2F2E8D72
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 18:08:57 +0100 (CET)
-Received: from localhost ([::1]:50326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB172E8DA6
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 18:30:06 +0100 (CET)
+Received: from localhost ([::1]:40072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kw6sC-0004vL-OX
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 12:08:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54278)
+	id 1kw7Cf-0005BK-10
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 12:30:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kw6rA-0004MY-4U
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 12:07:52 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:33825)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kw6r5-0003BQ-6I
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 12:07:51 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 19BA5747100;
- Sun,  3 Jan 2021 18:07:43 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CD05C7470DD; Sun,  3 Jan 2021 18:07:42 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id CB2A774645F;
- Sun,  3 Jan 2021 18:07:42 +0100 (CET)
-Date: Sun, 3 Jan 2021 18:07:42 +0100 (CET)
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 00/24] vt82c686b clean ups and vt8231 emulation - all in
- one
-In-Reply-To: <3a8f9b76-6e26-f483-3252-e1fd7f0c888d@amsat.org>
-Message-ID: <d39c8f3c-6eac-1cb5-481-f5ef9b7a312a@eik.bme.hu>
-References: <cover.1609584215.git.balaton@eik.bme.hu>
- <6f66caae-64fb-6325-9950-8ff52f1b13eb@amsat.org>
- <43d1085-572e-4bc4-c28-66478848e83f@eik.bme.hu>
- <3a8f9b76-6e26-f483-3252-e1fd7f0c888d@amsat.org>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kw7B0-0004Xb-JJ
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 12:28:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41873)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kw7Ax-0002DH-Bw
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 12:28:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609694896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VVa/oFE765Ck7q2AaJD1033VoWvKmXWI/fHy9riV+oE=;
+ b=cbducTZEp7QVNCHZ0+XimmPpklDvYDNELFvCWyHcbK67zHNVPkZe9P0BrQhAlKn2a6+6Hg
+ nemb0Q3lQdE2Qlk3l4Sizmyn2ijFh9/kOT1H3m+CtUirQeixF2g10Z0BqR94CDGGZn/UJQ
+ KEVQOi7n5ZQQEhSnvyVZvezmBmX7GjI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-y_oiw6aJP7e9tsRsSm5Oeg-1; Sun, 03 Jan 2021 12:28:14 -0500
+X-MC-Unique: y_oiw6aJP7e9tsRsSm5Oeg-1
+Received: by mail-wm1-f70.google.com with SMTP id f187so8950745wme.3
+ for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 09:28:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VVa/oFE765Ck7q2AaJD1033VoWvKmXWI/fHy9riV+oE=;
+ b=nnH2bleVRBGYBjOXd9A+CmiSh8xW5CNvEiLoDMCYbI2ORAqmmQ9BOlppevImAUvegP
+ iBX11zUjHXvs01+OOuXsAG8C71KCRfC+wJ1pEmptwybjGdBH39tw5diOLTkYT7cXBdGf
+ 5X+6XqSdGGTMGBwWI2S2Vc3gl9nNcQN8M7T3AnSEn44Qt+mcWtXeE7uI607h4zs4xIoa
+ KazDcL6IDo2p5micotbu1Q7+iG+eACaqWyHxF1+uUueMqq7bj+X+ejvbYLu9tVzdOgfk
+ CqqD+94f/kyoYudrj/hGe3a3htPoqIyXVz0jaRfwSC5K9BkluqAALLq+aL4Y9mIbMzio
+ 6MWQ==
+X-Gm-Message-State: AOAM5317hkSS1BKDcZczM0eFEGzOIDnMxTyykIPa1sq5IwrI/eev7N0r
+ i0OEzsSbDkerWW10lqHhZSmGGsiHJ0VuMudYoN5jqQTb6PbpWTBPrpuUGlklRLfhDOxR4ZJCLHc
+ JIaJZqyege/GacKM=
+X-Received: by 2002:a5d:43d2:: with SMTP id v18mr76958763wrr.326.1609694892914; 
+ Sun, 03 Jan 2021 09:28:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxzAyDXjQLU19pdVNtNmGloR3mMrkxsOW0JhzK5O2YEZPeMUVar5pTREZdgPfXmjvHVkPCinA==
+X-Received: by 2002:a5d:43d2:: with SMTP id v18mr76958749wrr.326.1609694892792; 
+ Sun, 03 Jan 2021 09:28:12 -0800 (PST)
+Received: from [192.168.1.34] (194.red-83-57-172.dynamicip.rima-tde.net.
+ [83.57.172.194])
+ by smtp.gmail.com with ESMTPSA id b83sm31588086wmd.48.2021.01.03.09.28.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 03 Jan 2021 09:28:12 -0800 (PST)
+Subject: Re: [BUG] qemu git error with virgl
+To: Torsten Wohlfarth <towo@siduction.org>
+References: <30eb4fc7-ef1f-4e92-4e1f-46b71ae8d9f0@siduction.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a6651e26-58b8-cee0-bb15-198e6fb64d48@redhat.com>
+Date: Sun, 3 Jan 2021 18:28:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-154345205-1609693662=:62321"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <30eb4fc7-ef1f-4e92-4e1f-46b71ae8d9f0@siduction.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.262, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,109 +97,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Cc'ing Gerd + patch author/reviewer.
 
---3866299591-154345205-1609693662=:62321
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+On 1/2/21 2:11 PM, Torsten Wohlfarth wrote:
+> Hello,
+> 
+> i can't start any system if i use virgl. I get the following error:
+> 
+> qemu-x86_64: ../ui/console.c:1791: dpy_gl_ctx_create: Assertion
+> `con->gl' failed.
+> ./and.sh: line 27: 3337167 Aborted                 qemu-x86_64 -m 4096
+> -smp cores=4,sockets=1 -cpu host -machine pc-q35-4.0,accel=kvm -device
+> virtio-vga,virgl=on,xres=1280,yres=800 -display sdl,gl=on -device
+> intel-hda,id=sound0,msi=on -device
+> hda-micro,id=sound0-codec0,bus=sound0.0,cad=0 -device qemu-xhci,id=xhci
+> -device usb-tablet,bus=xhci.0 -net
+> nic,macaddr=52:54:00:12:34:62,model=e1000 -net
+> tap,ifname=$INTERFACE,script=no,downscript=no -drive
+> file=/media/daten2/image/lineageos.qcow2,if=virtio,index=1,media=disk,cache=none,aio=threads
+> 
+> Set 'tap3' nonpersistent
+> 
+> i have bicected the issue:
+> 
+> towo:Defiant> git bisect good
+> b4e1a342112e50e05b609e857f38c1f2b7aafdc4 is the first bad commit
+> commit b4e1a342112e50e05b609e857f38c1f2b7aafdc4
+> Author: Paolo Bonzini <pbonzini@redhat.com>
+> Date:   Tue Oct 27 08:44:23 2020 -0400
+> 
+>     vl: remove separate preconfig main_loop
+> 
+>     Move post-preconfig initialization to the x-exit-preconfig. If
+> preconfig
+>     is not requested, just exit preconfig mode immediately with the QMP
+>     command.
+> 
+>     As a result, the preconfig loop will run with accel_setup_post
+>     and os_setup_post restrictions (xen_restrict, chroot, etc.)
+>     already done.
+> 
+>     Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+>     Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> 
+>  include/sysemu/runstate.h |  1 -
+>  monitor/qmp-cmds.c        |  9 -----
+>  softmmu/vl.c              | 95
+> ++++++++++++++++++++---------------------------
+>  3 files changed, 41 insertions(+), 64 deletions(-)
+> 
+> Regards,
+> 
+> Torsten Wohlfarth
+> 
+> 
+> 
 
-On Sun, 3 Jan 2021, Philippe Mathieu-Daudé wrote:
-> On 1/3/21 3:27 PM, BALATON Zoltan via wrote:
->> On Sun, 3 Jan 2021, Philippe Mathieu-Daudé wrote:
->>> On 1/2/21 11:43 AM, BALATON Zoltan via wrote:
->>>> Hello,
->>>>
->>>> This is an all in one series containing all the patches from my
->>>> previous part I and part II vt82c686b clean up series plus the end of
->>>> it to finally add vt8231 emulation that will be used by subsequent
->>>> ppc/pegasos2 emulation. I consider this finished for now and good
->>>> enough to get in also cleaning up and improving fuloong2e emulation a
->>>> bit but previous disclaimer is still valid: It does not aim to fix all
->>>> existing bugs or make the model perfectly emulate the real chip just
->>>> reach the level where we can have working emulation to boot guests
->>>> which can then be improved later. (E.g. I think state saving was
->>>> broken before and it remains broken after because I don't know all the
->>>> details how to add vmstate for all kinds of data structures and this
->>>> could be addressed separately when fixing the already broken state
->>>> saving if someone wants to test and fix it.) With this it boots at
->>>> least MorphOS on pegasos2 and works with the pmon_2e.bin for fuloong2e
->>>> which needs more fixes for Linux that are currently under review. More
->>>> testing is welcome.
->>>>
->>>> It still needs the Bonito BONITO_PCICONF_REG_MASK fix for fuloong2e
->>>> because it no longer maps SMBus but due to the Bonito bug guest cannot
->>>> write register 0xd2 to map it. With that fix pmon_2e.bin from here:
->>>> http://www.anheng.com.cn/loongson/pmon/ works for me with this
->>>> command: qemu-system-mips64el -M fuloong2e -net none -bios pmon_2e.bin
->>>>
->>>> After rolling this for two years now I hope it can finally be merged
->>>> and eventually also get pegasos2 emulation that will need this.
->>>>
->>>> Regards,
->>>> BALATON Zoltan
->>>>
->>>> BALATON Zoltan (24):
->>>>   vt82c686: Rename AC97/MC97 parts from VT82C686B to VIA
->>>>   vt82c686: Remove unnecessary _DEVICE suffix from type macros
->>>>   vt82c686b: Rename VT82C686B to VT82C686B_ISA
->>>>   vt82c686: Remove vt82c686b_[am]c97_init() functions
->>>>   vt82c686: Split off via-[am]c97 into separate file in hw/audio
->>>>   audio/via-ac97: Simplify code and set user_creatable to false
->>>>   vt82c686: Remove legacy vt82c686b_isa_init() function
->>>>   vt82c686: Remove legacy vt82c686b_pm_init() function
->>>>   vt82c686: Convert debug printf to trace points
->>>>   vt82c686: Remove unneeded includes and defines
->>>>   vt82c686: Use shorter name for local variable holding object state
->>>>   vt82c686: Rename superio config related parts
->>>
->>> As the first half of this series is reviewed, I'm queuing it
->>> (patches 1-12) via mips-next.
->>
->> Thanks, You may want to fix the single vt82c686b: in the above commit
->> title that was a typo, just for consistency.
->
-> Fixed (along with your git author email, instead of the list).
-
-Thanks, sorry for the email address, that's something that seems to have 
-changed last August without me doing anthing differently and I still don't 
-know if it's something with the list or my mail provider. I've asked them 
-both but I guess it's still holidays so haven't got an answer yet.
-
->> Will this pull include the
->> Bonito BONITO_PCICONF_REG_MASK fix or some replacement for that? That
->> would be needed to get the rest of this series starting with 15/24
->> working. Up to that it's just clean up which should be OK.
->
-> I checked the Bonito(32) ASIC and Bonito64 (FPGA) manuals, and
-> for (vendor_id = 0xdf53, device_id = 0x00d5) our implementation
-> is correct. I am waiting for further news from Jiaxun who asked
-> someone at Loongson for a manual of their Bonito variant.
->
-> I expect a different PCI device_id, so we can add it with your
-> change.
-
-It's not my change, Jiaxun suggested it but fixes the problem with 
-accessing register at 0xd2 that's needed on fuloong2e to get SMBus mapped 
-after my series (patch 15 to be exact).
-
->> I can repost
->> the remaining patches rebased once it's merged in master or if you tell
->> me which branch should I use.
->
-> IMHO no need (at least not worthwhile until mips/next is merged).
-
-OK, I'll wait for that then before posting the remaining patches again. If 
-you can have a look at them anyway I can make any necessary changes by 
-then.
-
-Regards,
-BALATON Zoltan
---3866299591-154345205-1609693662=:62321--
 
