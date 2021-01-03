@@ -2,47 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366032E8D02
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 17:06:39 +0100 (CET)
-Received: from localhost ([::1]:44606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4552E8D4D
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 17:48:19 +0100 (CET)
+Received: from localhost ([::1]:59138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kw5tt-0001Ok-Ql
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 11:06:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33700)
+	id 1kw6YE-0003AG-Fz
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 11:48:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kw5sO-0000hi-3U; Sun, 03 Jan 2021 11:05:04 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:42309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kw5sJ-0003qF-SM; Sun, 03 Jan 2021 11:05:03 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5B403747601;
- Sun,  3 Jan 2021 17:04:56 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E004A7470DD; Sun,  3 Jan 2021 17:04:55 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id DDBE074645F;
- Sun,  3 Jan 2021 17:04:55 +0100 (CET)
-Date: Sun, 3 Jan 2021 17:04:55 +0100 (CET)
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [RFC PATCH 0/5] hw/mips: Fix Fuloong2E to boot Linux guest again
-In-Reply-To: <e6f09fc9-0247-d99d-4823-9cae8f7a568f@ilande.co.uk>
-Message-ID: <586540eb-1985-418f-d2fe-4da83f3be8c@eik.bme.hu>
-References: <20210101231215.1870611-1-f4bug@amsat.org>
- <eb1af512-943e-f65c-d867-3ead1eccb5d5@eik.bme.hu>
- <e6f09fc9-0247-d99d-4823-9cae8f7a568f@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kw6Wg-0002W0-9e
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 11:46:42 -0500
+Received: from mail-io1-f49.google.com ([209.85.166.49]:41462)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kw6We-0003UT-7p
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 11:46:42 -0500
+Received: by mail-io1-f49.google.com with SMTP id t8so22887845iov.8
+ for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 08:46:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=M1DCh8l8WQWsZQjifgToaanDdB307HzTRNvEj/R1Rrk=;
+ b=swhTL0BkY5ZQaal6sIoh8BMYxXIF8ue+BM5ikXZ8f0Wh+RcfessSJzq3QkmB1NrXe2
+ +YHf5LFNOTQ1i35ahj3sZ98yrRWnMS1ETHYrqchO/D2Ln/1ExAiSrLpH5p5T2A93g+48
+ t92KsbJi9evQraL95moSo7v4id7l8ixtQAd5gDoc+Bl55cBg26q3F0yv98xJneF4xbYZ
+ VL4FCkcfC69yA58htRySd8sDPxPvmQUWe3+f12JJLypqM3azw0fjItI7Th6DECvR/fPW
+ PY3R/SM+HD3nlg2PdWvyaPIUC1oyhjs5zorg1ciKOgcz1OWLMl9cmSScbZHIXdVRDjJa
+ EwYA==
+X-Gm-Message-State: AOAM532YmN3ULz+NX829q/UgPVO6tzRSvn8JlJB3HlHzlcbVwbCUHGZ+
+ iJ807Gp09AuJtxs2TzHrDlE4Mk+mWB4=
+X-Google-Smtp-Source: ABdhPJz/jkR4zPeS5zsapo72porwYUcV2tF4IvdHWIPzfMU2g6zFo6cEfg+Hrrh1tDzPQCxDjeko8Q==
+X-Received: by 2002:a05:6638:b16:: with SMTP id
+ a22mr59364725jab.56.1609692398966; 
+ Sun, 03 Jan 2021 08:46:38 -0800 (PST)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com.
+ [209.85.166.45])
+ by smtp.gmail.com with ESMTPSA id y3sm40201238ilq.9.2021.01.03.08.46.38
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 03 Jan 2021 08:46:38 -0800 (PST)
+Received: by mail-io1-f45.google.com with SMTP id u26so20195817iof.3
+ for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 08:46:38 -0800 (PST)
+X-Received: by 2002:a05:6638:5b2:: with SMTP id
+ b18mr59029870jar.69.1609692398448; 
+ Sun, 03 Jan 2021 08:46:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210102122101.39617-1-r.bolshakov@yadro.com>
+ <X/Cbs4IX2Oisd0U8@SPB-NB-133.local>
+ <CA+E+eSDtxomevXzFsB3h=w_3gjxshNKTRDzb9C7x7E1vMVHorA@mail.gmail.com>
+ <X/HSr0q0ihc9uBUO@SPB-NB-133.local>
+In-Reply-To: <X/HSr0q0ihc9uBUO@SPB-NB-133.local>
+From: Joelle van Dyne <j@getutm.app>
+Date: Sun, 3 Jan 2021 08:46:27 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSBtxV996L+vNo5DBdrgafH=CX+TooRjj0KsfOtcvqYxWQ@mail.gmail.com>
+Message-ID: <CA+E+eSBtxV996L+vNo5DBdrgafH=CX+TooRjj0KsfOtcvqYxWQ@mail.gmail.com>
+Subject: Re: [PATCH] tcg: Fix execution on Apple Silicon
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.166.49; envelope-from=osy86dev@gmail.com;
+ helo=mail-io1-f49.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,140 +84,230 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-block@nongnu.org,
- Huacai Chen <chenhuacai@kernel.org>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On Sun, 3 Jan 2021, Mark Cave-Ayland wrote:
-> On 01/01/2021 23:56, BALATON Zoltan via wrote:
->> But Mark still considered that a horrible hack but after looking more 
->> closely he also found the difficulty of implementing a more faithful 
->> emulation so he would accept the flag at the end but still wanted registers 
->> to be set more consistently matching what the data sheet and whatever 
->> ideals would dictate. However I've spent a lot of time before finding these 
->> values that work with all clients and found some of these clients have 
->> assumptions instead of working in an ideal world following what data sheets 
->> say and I don't want to make any changes to this now before we also have 
->> pegasos2 upstreamed so any change can be more throughly tested and I don't 
->> have to retest everything for every small change just to find something 
->> broke,
+Can you test with a low memory (-m 512) and also with single threaded
+SMP (-smp 4)? Wondering if you're hitting all the edge cases because
+there's oddities with cache flushing (can be done both in code gen and
+code exec) and interrupt handling that caused issues for me.
+
+-j
+
+On Sun, Jan 3, 2021 at 6:20 AM Roman Bolshakov <r.bolshakov@yadro.com> wrote:
 >
-> I'll reply briefly to this:
-
-I'm also trying to keep on technical terms, will write a separate letter 
-off-list about the rest.
-
-> from the latest analysis the part that's missing 
-> from QEMU is the ability to disable/enable PCI BARs. But this is only 
-> something that has come to light during the past week from Guenter's bug
-
-It did come to light (at least to me) in first iteration of these via-ide 
-patches in March and I did tell you about it because I though it may help 
-finding a problem with CMD646 that is used on a Sparc machine that to my 
-knowledge you're interested in. See this thread:
-
-https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg00776.html
-
-(Probably that's how you got involved with the via-ide stuff in the first 
-place, as otherwise I've only cc-d you for CMD646 related changes.)
-
-> reports, as it is now clear the Gentoo image you were using for a test case 
-> (which you also provided to me) was not sufficient to test the VIA IDE 
-> functionality.
-
-That's true. It wasn't easy to find an image for fuloong2e as this was 
-only ever popular in China and has been long discontinued it seems so the 
-manufacturer's site that everything linked to was down. Therefore I could 
-only find this gentoo image that said it should work on real hardware. 
-Later Jiaxun and Huacai came back with other Linux images that we did not 
-have in March and Guenter updated his QEMU version now to find this 
-problem so now we have new, better test cases which showed we can't keep 
-the approach of only emulating (half-)native mode but also need legacy 
-mode for fuloong2e because while the beta gentoo kernel worked with native 
-mode other Linux kernels seem to want legacy mode on fuloong2e. (Pegasos2 
-guests still want half-native mode so we need both and can't keep the 
-original version that only emulated legacy mode.)
-
-> I've already said that we can make use of a temporary hack for now, but the 
-> patch in its current form is still not right. I'll send a follow-up again to 
-> this thread so it is in one place for Phil's reference.
-
-Thanks, I appreciate if this solution of having the legacy-mode flag can 
-get in now, even if you think it's not perfect. But it would allow to get 
-pegasos2 working while getting fuloong2e back the way it was and not 
-making it any worse than it was already (in fact I think it does improve 
-it a little even if not going the whole way). This can always be improved 
-later but I'd appreciate if you could also test your proposed solutions 
-with pegasos2 which will be easier once that's upstream otherwise I'll 
-have to do all the testing again and get pushed back from being able to 
-finally upstream this board that I've stared working on 2 years ago. 
-That's why I get upset if you demand more clean ups than absolutely 
-necessary to reach the minimum acceptable level.
-
-If you can't wait until pegasos2 lands maybe you could experiment with 
-CMD646 which I think may be somewhat similar and used by boards you 
-maintain so it may be easier to experiment with without getting in the way 
-of each other. That one I think only emulates native mode that may be 
-enough for guests but also has a legacy mode that may be needed by some 
-boot loaders or different boards so you could try to find a way to 
-implement it cleanly in CMD646 then similar approach could be used for 
-via-ide.
-
-As for the way to solve legacy/native mode switching I think going from 
-the ISA side is probably better than from the PCI side, i.e. instead of 
-disabling PCI BARs that you mention above it would be better to fix the 
-ISA emulation to allow deregistering previously added devices and allow 
-changing their parameters. I think so for the following reasons:
-
-- PCI BAR regions are already disabled until something programs their BARs 
-and all of these IDE controllers start in legacy mode and guests change it 
-to native mode and unlikely to change back to legacy so we don't really 
-need to disable BARs once they are set up but we need to be able to turn 
-off legacy ISA IDE emulation when switching to native mode.
-
-- Other parts of the via south bridge have similar problems that are ISA 
-devices that can be disabled or their base address changed such as serial, 
-parallel ports and FDC (I've found these while cleaning up vt82c686 as 
-part of merging my vt8231 emulation last week). So having a way to 
-enable/disable ISA devices or set their parameters after they are set up 
-could help better emulating those as well. (It may not be a problem though 
-as most guests set it up once at start and either use default values or 
-known values so we could map these there and get the guests work from 
-where it's questionable if it's worth the effort to emulate this better 
-but if QEMU had a way to do it in a simple way it could be done.)
-
-- ISA is used by less machines then PCI so changing it probably has less 
-risk of breaking everything so may be easier to do. Although it is used by 
-the default pc machine and some fundamental machines so this should be 
-done more carefully than what I have time for. That's why I did not 
-attempt to do it and settled with what you call hacks to avoid having to 
-change a lot of low level QEMU stuff that would take ages to test, review 
-and get upstream. As long as those hacks work and not much worse than what 
-we already have in QEMU then this should not be a problem and these can be 
-cleaned up when somebody takes the time to clean up the other low level 
-parts.
-
-I did not think about it much but I think the problem may be because of 
-ISA emulation dating back to the beginning and is still not fully 
-qdev-ified so it's using globals and has an API that was only designed for 
-creating devices at start but not change anything later. Qdev-ifying ISA 
-may be the way to go but that's a road I don't want to walk down as I'm 
-not interested in that apart from getting my guests boot and work so I'd 
-leave that to whoever is bothered enough by it to change it. I still think 
-cleaning it up now is not that high priority and could be done later when 
-more high priority issues are fixed (which I think are better sound and 
-gfx support for example) so spending time with those higher prirority 
-issues would be better than polishing low level stuff that at the end 
-don't make a difference in how guests run.
-
-Regards,
-BALATON Zoltan
+> On Sat, Jan 02, 2021 at 11:55:29AM -0800, Joelle van Dyne wrote:
+> > I see you didn't touch cpu_loop_exit() and I'm curious how async
+> > interrupts are handled. Have you tested this and it works i.e. booting
+> > Windows 7 or Ubuntu 20.04? Also I've seen do_tb_phys_invalidate()
+> > called both from code generation context (write unlocked) and
+> > execution context (write locked), how does this patch differentiate
+> > the two?
+> >
+>
+> Hi Joelle,
+>
+> I used the following rule of thumb when finding places where exec/write
+> protection has to be lifted. If it returns EXC_BAD_ACCESS under lldb and
+> stack backtrace is meaningful, then a write-protected region is
+> accessed. If the stack couldn't be unwinded and EXC_BAD_ACCESS is
+> returned then the region has exec restrictions.
+>
+> With the patch I wasn't able to see any EXC_BAD_ACCESS.
+>
+> I've tested x86_64 Ubuntu 20.04 Desktop. It boots but it's very slow
+> (but faster than TCG on x86). Windows XP is much faster and quite
+> responsive. I also tested Windows 95. I'll test Win 7/Win 10 a bit
+> later.
+>
+> I'm going to update v2 shortly and going to introduce assymetric changes of
+> permissions akin to Apple's JavaScriptCore. In v2, I'm not changing
+> permission back and force unless it's needed to avoid EXC_BAD_ACCESS.
+>
+> Regards,
+> Roman
+>
+> > -j
+> >
+> > On Sat, Jan 2, 2021 at 8:13 AM Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+> > >
+> > > On Sat, Jan 02, 2021 at 03:21:02PM +0300, Roman Bolshakov wrote:
+> > > > Pages can't be both write and executable at the same time on Apple
+> > > > Silicon. macOS provides public API to switch write protection [1] for
+> > > > JIT applications, like TCG.
+> > > >
+> > > > 1. https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
+> > > >
+> > > > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> > > > ---
+> > > >
+> > > > Happy holidays, everyone.
+> > > >
+> > > > This is somewhat similar to https://patchwork.kernel.org/project/qemu-devel/patch/20201108232425.1705-7-j@getutm.app/
+> > > > but I couldn't apply the series so I started from scratch.
+> > > >
+> > > > The primary difference from the patch above is that public API is used.
+> > > > Other differences:
+> > > >   * TB pages are mostly kept write-locked except around tcg_qemu_tb_exec()
+> > > >   * x86_64 macOS doesn't use MAP_JIT and W^X switches
+> > > >
+> > > > Regards,
+> > > > Roman
+> > > >
+> > > >  accel/tcg/cpu-exec.c      | 10 ++++++++++
+> > > >  accel/tcg/translate-all.c | 26 ++++++++++++++++++++++++++
+> > > >  include/exec/exec-all.h   |  2 ++
+> > > >  tcg/tcg.c                 |  1 +
+> > > >  4 files changed, 39 insertions(+)
+> > > >
+> > > > diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> > > > index 8689c54499..0042fc9f2b 100644
+> > > > --- a/accel/tcg/cpu-exec.c
+> > > > +++ b/accel/tcg/cpu-exec.c
+> > > > @@ -175,7 +175,9 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
+> > > >      }
+> > > >  #endif /* DEBUG_DISAS */
+> > > >
+> > > > +    tb_write_lock();
+> > > >      ret = tcg_qemu_tb_exec(env, tb_ptr);
+> > > > +    tb_write_unlock();
+> > > >      cpu->can_do_io = 1;
+> > > >      last_tb = (TranslationBlock *)(ret & ~TB_EXIT_MASK);
+> > > >      tb_exit = ret & TB_EXIT_MASK;
+> > > > @@ -220,9 +222,11 @@ static void cpu_exec_nocache(CPUState *cpu, int max_cycles,
+> > > >      cflags |= MIN(max_cycles, CF_COUNT_MASK);
+> > > >
+> > > >      mmap_lock();
+> > > > +    tb_write_unlock();
+> > > >      tb = tb_gen_code(cpu, orig_tb->pc, orig_tb->cs_base,
+> > > >                       orig_tb->flags, cflags);
+> > > >      tb->orig_tb = orig_tb;
+> > > > +    tb_write_lock();
+> > > >      mmap_unlock();
+> > > >
+> > > >      /* execute the generated code */
+> > > > @@ -268,7 +272,9 @@ void cpu_exec_step_atomic(CPUState *cpu)
+> > > >          tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
+> > > >          if (tb == NULL) {
+> > > >              mmap_lock();
+> > > > +            tb_write_unlock();
+> > > >              tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
+> > > > +            tb_write_lock();
+> > > >              mmap_unlock();
+> > > >          }
+> > > >
+> > > > @@ -428,7 +434,9 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
+> > > >      tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
+> > > >      if (tb == NULL) {
+> > > >          mmap_lock();
+> > > > +        tb_write_unlock();
+> > > >          tb = tb_gen_code(cpu, pc, cs_base, flags, cf_mask);
+> > > > +        tb_write_lock();
+> > > >          mmap_unlock();
+> > > >          /* We add the TB in the virtual pc hash table for the fast lookup */
+> > > >          qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(pc)], tb);
+> > > > @@ -444,7 +452,9 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
+> > > >  #endif
+> > > >      /* See if we can patch the calling TB. */
+> > > >      if (last_tb) {
+> > > > +        tb_write_unlock();
+> > > >          tb_add_jump(last_tb, tb_exit, tb);
+> > > > +        tb_write_lock();
+> > > >      }
+> > > >      return tb;
+> > > >  }
+> > > > diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> > > > index b7d50a73d4..1562076ffb 100644
+> > > > --- a/accel/tcg/translate-all.c
+> > > > +++ b/accel/tcg/translate-all.c
+> > > > @@ -1072,6 +1072,9 @@ static inline void *alloc_code_gen_buffer(void)
+> > > >      size_t size = tcg_ctx->code_gen_buffer_size;
+> > > >      void *buf;
+> > > >
+> > > > +#if defined(__APPLE__) && defined(__aarch64__)
+> > > > +    flags |= MAP_JIT;
+> > > > +#endif
+> > > >      buf = mmap(NULL, size, prot, flags, -1, 0);
+> > > >      if (buf == MAP_FAILED) {
+> > > >          return NULL;
+> > > > @@ -1485,7 +1488,9 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+> > > >
+> > > >  static void tb_phys_invalidate__locked(TranslationBlock *tb)
+> > > >  {
+> > > > +    tb_write_unlock();
+> > > >      do_tb_phys_invalidate(tb, true);
+> > > > +    tb_write_lock();
+> > > >  }
+> > > >
+> > > >  /* invalidate one TB
+> > > > @@ -2722,3 +2727,24 @@ void tcg_flush_softmmu_tlb(CPUState *cs)
+> > > >      tlb_flush(cs);
+> > > >  #endif
+> > > >  }
+> > > > +
+> > > > +#if defined(__APPLE__) && defined(__aarch64__)
+> > > > +static void tb_write_protect(bool locked)
+> > > > +{
+> > > > +    if (pthread_jit_write_protect_supported_np()){
+> > > > +        pthread_jit_write_protect_np(locked);
+> > > > +    }
+> > > > +}
+> > > > +#else
+> > > > +static void tb_write_protect(bool locked) {}
+> > > > +#endif
+> > > > +
+> > > > +void tb_write_lock(void)
+> > > > +{
+> > > > +    tb_write_protect(true);
+> > > > +}
+> > > > +
+> > > > +void tb_write_unlock(void)
+> > > > +{
+> > > > +    tb_write_protect(false);
+> > > > +}
+> > > > diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> > > > index fab573da06..962dca0975 100644
+> > > > --- a/include/exec/exec-all.h
+> > > > +++ b/include/exec/exec-all.h
+> > > > @@ -549,6 +549,8 @@ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+> > > >                                     target_ulong cs_base, uint32_t flags,
+> > > >                                     uint32_t cf_mask);
+> > > >  void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
+> > > > +void tb_write_lock(void);
+> > > > +void tb_write_unlock(void);
+> > > >
+> > > >  /* GETPC is the true target of the return instruction that we'll execute.  */
+> > > >  #if defined(CONFIG_TCG_INTERPRETER)
+> > > > diff --git a/tcg/tcg.c b/tcg/tcg.c
+> > > > index 43c6cf8f52..303bb436bd 100644
+> > > > --- a/tcg/tcg.c
+> > > > +++ b/tcg/tcg.c
+> > > > @@ -1065,6 +1065,7 @@ void tcg_prologue_init(TCGContext *s)
+> > > >      s->pool_labels = NULL;
+> > > >  #endif
+> > > >
+> > > > +    tb_write_unlock();
+> > > >      /* Generate the prologue.  */
+> > > >      tcg_target_qemu_prologue(s);
+> > > >
+> > > > --
+> > > > 2.29.2
+> > > >
+> > >
+> > > I've also noticed that Apple doesn't worry about sticking to particular
+> > > W^X mode:
+> > >
+> > > https://bugs.webkit.org/attachment.cgi?id=402515&action=prettypatch
+> > >
+> > > We might also drop lock/unlock symmetry from here. E.g. we can have two
+> > > functions that switch the mode (they might be moved to util/osdep.c):
+> > >
+> > >   qemu_jit_write();
+> > >   qemu_jit_execute();
+> > >
+> > > Then we use them just before writing or before executing like advised on
+> > > their documentation page.
+> > >
+> > > -Roman
 
