@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168872E8E69
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 22:25:42 +0100 (CET)
-Received: from localhost ([::1]:47142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C565E2E8EBB
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 23:56:06 +0100 (CET)
+Received: from localhost ([::1]:46912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwAse-0000fC-M8
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 16:25:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41646)
+	id 1kwCI9-00029c-Ed
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 17:56:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kwAor-000638-Pc
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 16:21:46 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:51292 helo=mta-01.yadro.com)
+ id 1kwCGv-0001iX-Fv
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 17:54:49 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:56440 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kwAop-0007K8-4A
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 16:21:45 -0500
+ id 1kwCGs-0005np-NR
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 17:54:49 -0500
 Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 27F7A41281;
- Sun,  3 Jan 2021 21:21:41 +0000 (UTC)
+ by mta-01.yadro.com (Postfix) with ESMTP id 3F98341273;
+ Sun,  3 Jan 2021 22:54:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
  in-reply-to:content-disposition:content-type:content-type
  :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1609708899;
- x=1611523300; bh=JKgE80RPRGZLtWvlZAJvi74fnoirFOan07jWJSWLepQ=; b=
- dR49BQTOLFqVrGK19Eshdn66WDbPECNBY9KX5nCSaXYh3pHLMmuK34zZ1hDDm9M8
- kW6EaZDyAUm1k7oLmZ1jnb55Sp18I8E+unvizgq6zMm/vMMSg4dQZuZ2pvu0Q936
- wsLc3p+evEFkOUiH/IOGf96entkBVQOoYpnv2/eQXgA=
+ :date:date:received:received:received; s=mta-01; t=1609714482;
+ x=1611528883; bh=8htcXrr49/aAXpWu8TJr9kpmfZeMGovJQSo/vpOWiZY=; b=
+ g/5cm+vp4gt9okvVLz5n3txGk2MlGqeHypc9tJE0DFfMTB8te3DnoPa9c1tfjOSh
+ 3VsmGe7H4ZiTfAnN0u1tIShc8fE1aOev0yaa52uOboO7zcmYQqM+dAjVTBXr+pN5
+ ZykdVx/dkyzhi0efwwsuxknokzIy91j79ecDJx8EhxM=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
  by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SmNk0p-IbJ01; Mon,  4 Jan 2021 00:21:39 +0300 (MSK)
+ with ESMTP id DbLe1YYVXorU; Mon,  4 Jan 2021 01:54:42 +0300 (MSK)
 Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
  [172.17.100.103])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id CC43441253;
- Mon,  4 Jan 2021 00:21:39 +0300 (MSK)
+ by mta-01.yadro.com (Postfix) with ESMTPS id D909141253;
+ Mon,  4 Jan 2021 01:54:41 +0300 (MSK)
 Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
  (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 4 Jan
- 2021 00:21:39 +0300
-Date: Mon, 4 Jan 2021 00:21:47 +0300
+ 2021 01:54:41 +0300
+Date: Mon, 4 Jan 2021 01:54:49 +0300
 From: Roman Bolshakov <r.bolshakov@yadro.com>
 To: Joelle van Dyne <j@getutm.app>
-Subject: Re: [PATCH v2] tcg: Fix execution on Apple Silicon
-Message-ID: <X/I1a6HFZTkj/ILK@SPB-NB-133.local>
-References: <20210103145055.11074-1-r.bolshakov@yadro.com>
- <CA+E+eSA_a3hJ26c6kjLm4yvsHALjKMHn3MOX5hg2-u0yqamd=w@mail.gmail.com>
+Subject: Re: [PATCH] tcg: Fix execution on Apple Silicon
+Message-ID: <X/JLOe+LTWalY8h6@SPB-NB-133.local>
+References: <20210102122101.39617-1-r.bolshakov@yadro.com>
+ <X/Cbs4IX2Oisd0U8@SPB-NB-133.local>
+ <CA+E+eSDtxomevXzFsB3h=w_3gjxshNKTRDzb9C7x7E1vMVHorA@mail.gmail.com>
+ <X/HSr0q0ihc9uBUO@SPB-NB-133.local>
+ <CA+E+eSBtxV996L+vNo5DBdrgafH=CX+TooRjj0KsfOtcvqYxWQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <CA+E+eSA_a3hJ26c6kjLm4yvsHALjKMHn3MOX5hg2-u0yqamd=w@mail.gmail.com>
+In-Reply-To: <CA+E+eSBtxV996L+vNo5DBdrgafH=CX+TooRjj0KsfOtcvqYxWQ@mail.gmail.com>
 X-Originating-IP: [172.17.204.212]
 X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
  T-EXCH-03.corp.yadro.com (172.17.100.103)
@@ -82,50 +85,268 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jan 03, 2021 at 08:52:52AM -0800, Joelle van Dyne wrote:
-> MAC_OS_VERSION_11_0 is always defined. You can see in
-> usr/include/AvailabilityVersions.h
+On Sun, Jan 03, 2021 at 08:46:27AM -0800, Joelle van Dyne wrote:
+> Can you test with a low memory (-m 512) and also with single threaded
+> SMP (-smp 4)? Wondering if you're hitting all the edge cases because
+> there's oddities with cache flushing (can be done both in code gen and
+> code exec) and interrupt handling that caused issues for me.
 > 
 
-It's not defined on my old MPB that has Catalina (10.15.7). The last
-entries are:
+I tested XP with default memory (128m) and -m 512. I did run Ubuntu with with
+-smp 1/2/4 and multiple variants of memory (2048,4096). I've just
+installed Windows 10 and it somehow works noticably faster than Ubuntu
+20.04 (what makes me wonder why Ubuntu 20.04 peforms worse).
 
-#define MAC_OS_X_VERSION_10_15      101500
-#define MAC_OS_X_VERSION_10_15_1    101501
+But you know, I've noticed that MTTCG is disabled by default on arm
+hosts, so -smp 4 has no effect (it should print a warning IMO that smp
+is noop, or even quit from qemu to disallow single-threaded TCG and -smp
+flag with a value beyond 1).
 
-I was able to compile the patch on Catalina without any issues (and I've
-checked Catalina SDK doesn't provide pthread_jit_write_protect).
+If I try to enable MTTCG, I get a warning from QEMU and only one CPU
+inside VM (according to Windows Task Manager).
 
-> ...
-> 
-> #define MAC_OS_X_VERSION_10_15      101500
-> #define MAC_OS_X_VERSION_10_15_1    101501
-> #define MAC_OS_X_VERSION_10_16      101600
-> #define MAC_OS_VERSION_11_0         110000
-> 
-> The proper way is to do an __builtin_available check but that assumes
-> you have the symbol for pthread_jit_write_protect_np which you won't
-> if building on 10.15, so you need a configure time check as well.
+$ build/qemu-system-x86_64 -cpu Nehalem -accel tcg,thread=multi -smp 4 -m 4096 -hda ~/vms/win10.qcow2
 
-__builtin_available is a clang extension and I'm not sure if it's
-available on GCC. But I can surely add a config-time check in v3 if you
-find it more preferred for iOS host support.
+qemu-system-x86_64: -accel tcg,thread=multi: warning: Guest expects a stronger memory ordering than the host provides
+This may cause strange/hard to debug errors
 
-> I have a newer version of my patch that I haven't submitted yet
-> because I was waiting for some other patches to go in first, but I can
-> decouple it from the iOS stuff and submit it as a separate patchset.
-> 
+As far as I understand from the ticket below this is intentional:
+https://bugs.launchpad.net/qemu/+bug/1824768
 
-I'm sorry I stepped in... I didn't want to bother anyone during NY
-holidays and couldn't ask for new patch revision. So I hacked it for
-myself because I recently got M1 laptop and some spare time off work. In
-the patch I wanted to avoid conflicts with your iOS host support patches
-by limiting the patch only to macOS.
+> There aren't many people overall who want to try to run emulation on
+> anything other than x86 host.
 
-Hopefully, qemu_thread_jit_write/execute provides the room to add
-reverse-enginereed implementation of pthread_jit_write_protect_np for
-iOS 13 in UTM app.
+Perhaps we could enable MTTCG by enabling TSO in M1 like it's done in
+Rosetta to avoid performance overheads of implicit barriers?
 
-Thanks,
+BTW, I wonder if you tried my patch? Do you hit the mentioned issues?
+
+With regards to do_tb_phys_invalidate(), the function doesn't care
+about whether it was write or exec locked. It needs write permissions
+at least for TB spin lock. And something after return from
+tb_phys_invalidate() needs exec permssions. I can try to find "that
+something" and move change of permissions to rx closer to the place that
+needs exec permissions. And then, move change of permissions to rw
+inside do_tb_phys_invalidate() just before TB spin lock is acquired.
+
+Regards,
 Roman
+
+> -j
+> 
+> On Sun, Jan 3, 2021 at 6:20 AM Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+> >
+> > On Sat, Jan 02, 2021 at 11:55:29AM -0800, Joelle van Dyne wrote:
+> > > I see you didn't touch cpu_loop_exit() and I'm curious how async
+> > > interrupts are handled. Have you tested this and it works i.e. booting
+> > > Windows 7 or Ubuntu 20.04? Also I've seen do_tb_phys_invalidate()
+> > > called both from code generation context (write unlocked) and
+> > > execution context (write locked), how does this patch differentiate
+> > > the two?
+> > >
+> >
+> > Hi Joelle,
+> >
+> > I used the following rule of thumb when finding places where exec/write
+> > protection has to be lifted. If it returns EXC_BAD_ACCESS under lldb and
+> > stack backtrace is meaningful, then a write-protected region is
+> > accessed. If the stack couldn't be unwinded and EXC_BAD_ACCESS is
+> > returned then the region has exec restrictions.
+> >
+> > With the patch I wasn't able to see any EXC_BAD_ACCESS.
+> >
+> > I've tested x86_64 Ubuntu 20.04 Desktop. It boots but it's very slow
+> > (but faster than TCG on x86). Windows XP is much faster and quite
+> > responsive. I also tested Windows 95. I'll test Win 7/Win 10 a bit
+> > later.
+> >
+> > I'm going to update v2 shortly and going to introduce assymetric changes of
+> > permissions akin to Apple's JavaScriptCore. In v2, I'm not changing
+> > permission back and force unless it's needed to avoid EXC_BAD_ACCESS.
+> >
+> > Regards,
+> > Roman
+> >
+> > > -j
+> > >
+> > > On Sat, Jan 2, 2021 at 8:13 AM Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+> > > >
+> > > > On Sat, Jan 02, 2021 at 03:21:02PM +0300, Roman Bolshakov wrote:
+> > > > > Pages can't be both write and executable at the same time on Apple
+> > > > > Silicon. macOS provides public API to switch write protection [1] for
+> > > > > JIT applications, like TCG.
+> > > > >
+> > > > > 1. https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
+> > > > >
+> > > > > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> > > > > ---
+> > > > >
+> > > > > Happy holidays, everyone.
+> > > > >
+> > > > > This is somewhat similar to https://patchwork.kernel.org/project/qemu-devel/patch/20201108232425.1705-7-j@getutm.app/
+> > > > > but I couldn't apply the series so I started from scratch.
+> > > > >
+> > > > > The primary difference from the patch above is that public API is used.
+> > > > > Other differences:
+> > > > >   * TB pages are mostly kept write-locked except around tcg_qemu_tb_exec()
+> > > > >   * x86_64 macOS doesn't use MAP_JIT and W^X switches
+> > > > >
+> > > > > Regards,
+> > > > > Roman
+> > > > >
+> > > > >  accel/tcg/cpu-exec.c      | 10 ++++++++++
+> > > > >  accel/tcg/translate-all.c | 26 ++++++++++++++++++++++++++
+> > > > >  include/exec/exec-all.h   |  2 ++
+> > > > >  tcg/tcg.c                 |  1 +
+> > > > >  4 files changed, 39 insertions(+)
+> > > > >
+> > > > > diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> > > > > index 8689c54499..0042fc9f2b 100644
+> > > > > --- a/accel/tcg/cpu-exec.c
+> > > > > +++ b/accel/tcg/cpu-exec.c
+> > > > > @@ -175,7 +175,9 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
+> > > > >      }
+> > > > >  #endif /* DEBUG_DISAS */
+> > > > >
+> > > > > +    tb_write_lock();
+> > > > >      ret = tcg_qemu_tb_exec(env, tb_ptr);
+> > > > > +    tb_write_unlock();
+> > > > >      cpu->can_do_io = 1;
+> > > > >      last_tb = (TranslationBlock *)(ret & ~TB_EXIT_MASK);
+> > > > >      tb_exit = ret & TB_EXIT_MASK;
+> > > > > @@ -220,9 +222,11 @@ static void cpu_exec_nocache(CPUState *cpu, int max_cycles,
+> > > > >      cflags |= MIN(max_cycles, CF_COUNT_MASK);
+> > > > >
+> > > > >      mmap_lock();
+> > > > > +    tb_write_unlock();
+> > > > >      tb = tb_gen_code(cpu, orig_tb->pc, orig_tb->cs_base,
+> > > > >                       orig_tb->flags, cflags);
+> > > > >      tb->orig_tb = orig_tb;
+> > > > > +    tb_write_lock();
+> > > > >      mmap_unlock();
+> > > > >
+> > > > >      /* execute the generated code */
+> > > > > @@ -268,7 +272,9 @@ void cpu_exec_step_atomic(CPUState *cpu)
+> > > > >          tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
+> > > > >          if (tb == NULL) {
+> > > > >              mmap_lock();
+> > > > > +            tb_write_unlock();
+> > > > >              tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
+> > > > > +            tb_write_lock();
+> > > > >              mmap_unlock();
+> > > > >          }
+> > > > >
+> > > > > @@ -428,7 +434,9 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
+> > > > >      tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
+> > > > >      if (tb == NULL) {
+> > > > >          mmap_lock();
+> > > > > +        tb_write_unlock();
+> > > > >          tb = tb_gen_code(cpu, pc, cs_base, flags, cf_mask);
+> > > > > +        tb_write_lock();
+> > > > >          mmap_unlock();
+> > > > >          /* We add the TB in the virtual pc hash table for the fast lookup */
+> > > > >          qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(pc)], tb);
+> > > > > @@ -444,7 +452,9 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
+> > > > >  #endif
+> > > > >      /* See if we can patch the calling TB. */
+> > > > >      if (last_tb) {
+> > > > > +        tb_write_unlock();
+> > > > >          tb_add_jump(last_tb, tb_exit, tb);
+> > > > > +        tb_write_lock();
+> > > > >      }
+> > > > >      return tb;
+> > > > >  }
+> > > > > diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> > > > > index b7d50a73d4..1562076ffb 100644
+> > > > > --- a/accel/tcg/translate-all.c
+> > > > > +++ b/accel/tcg/translate-all.c
+> > > > > @@ -1072,6 +1072,9 @@ static inline void *alloc_code_gen_buffer(void)
+> > > > >      size_t size = tcg_ctx->code_gen_buffer_size;
+> > > > >      void *buf;
+> > > > >
+> > > > > +#if defined(__APPLE__) && defined(__aarch64__)
+> > > > > +    flags |= MAP_JIT;
+> > > > > +#endif
+> > > > >      buf = mmap(NULL, size, prot, flags, -1, 0);
+> > > > >      if (buf == MAP_FAILED) {
+> > > > >          return NULL;
+> > > > > @@ -1485,7 +1488,9 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+> > > > >
+> > > > >  static void tb_phys_invalidate__locked(TranslationBlock *tb)
+> > > > >  {
+> > > > > +    tb_write_unlock();
+> > > > >      do_tb_phys_invalidate(tb, true);
+> > > > > +    tb_write_lock();
+> > > > >  }
+> > > > >
+> > > > >  /* invalidate one TB
+> > > > > @@ -2722,3 +2727,24 @@ void tcg_flush_softmmu_tlb(CPUState *cs)
+> > > > >      tlb_flush(cs);
+> > > > >  #endif
+> > > > >  }
+> > > > > +
+> > > > > +#if defined(__APPLE__) && defined(__aarch64__)
+> > > > > +static void tb_write_protect(bool locked)
+> > > > > +{
+> > > > > +    if (pthread_jit_write_protect_supported_np()){
+> > > > > +        pthread_jit_write_protect_np(locked);
+> > > > > +    }
+> > > > > +}
+> > > > > +#else
+> > > > > +static void tb_write_protect(bool locked) {}
+> > > > > +#endif
+> > > > > +
+> > > > > +void tb_write_lock(void)
+> > > > > +{
+> > > > > +    tb_write_protect(true);
+> > > > > +}
+> > > > > +
+> > > > > +void tb_write_unlock(void)
+> > > > > +{
+> > > > > +    tb_write_protect(false);
+> > > > > +}
+> > > > > diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> > > > > index fab573da06..962dca0975 100644
+> > > > > --- a/include/exec/exec-all.h
+> > > > > +++ b/include/exec/exec-all.h
+> > > > > @@ -549,6 +549,8 @@ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+> > > > >                                     target_ulong cs_base, uint32_t flags,
+> > > > >                                     uint32_t cf_mask);
+> > > > >  void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
+> > > > > +void tb_write_lock(void);
+> > > > > +void tb_write_unlock(void);
+> > > > >
+> > > > >  /* GETPC is the true target of the return instruction that we'll execute.  */
+> > > > >  #if defined(CONFIG_TCG_INTERPRETER)
+> > > > > diff --git a/tcg/tcg.c b/tcg/tcg.c
+> > > > > index 43c6cf8f52..303bb436bd 100644
+> > > > > --- a/tcg/tcg.c
+> > > > > +++ b/tcg/tcg.c
+> > > > > @@ -1065,6 +1065,7 @@ void tcg_prologue_init(TCGContext *s)
+> > > > >      s->pool_labels = NULL;
+> > > > >  #endif
+> > > > >
+> > > > > +    tb_write_unlock();
+> > > > >      /* Generate the prologue.  */
+> > > > >      tcg_target_qemu_prologue(s);
+> > > > >
+> > > > > --
+> > > > > 2.29.2
+> > > > >
+> > > >
+> > > > I've also noticed that Apple doesn't worry about sticking to particular
+> > > > W^X mode:
+> > > >
+> > > > https://bugs.webkit.org/attachment.cgi?id=402515&action=prettypatch
+> > > >
+> > > > We might also drop lock/unlock symmetry from here. E.g. we can have two
+> > > > functions that switch the mode (they might be moved to util/osdep.c):
+> > > >
+> > > >   qemu_jit_write();
+> > > >   qemu_jit_execute();
+> > > >
+> > > > Then we use them just before writing or before executing like advised on
+> > > > their documentation page.
+> > > >
+> > > > -Roman
 
