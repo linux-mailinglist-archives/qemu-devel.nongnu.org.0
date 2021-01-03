@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7B332E8E22
-	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 21:42:58 +0100 (CET)
-Received: from localhost ([::1]:54876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4AE72E8E23
+	for <lists+qemu-devel@lfdr.de>; Sun,  3 Jan 2021 21:43:32 +0100 (CET)
+Received: from localhost ([::1]:57052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwADJ-00066K-6n
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 15:42:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36100)
+	id 1kwADr-0006zI-RD
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 15:43:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwAC7-0005YL-BA
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 15:41:43 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40054)
+ id 1kwACv-0006G5-LA
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 15:42:33 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwAC5-0002Xw-VQ
- for qemu-devel@nongnu.org; Sun, 03 Jan 2021 15:41:43 -0500
-Received: by mail-wr1-x433.google.com with SMTP id 91so29399578wrj.7
- for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 12:41:41 -0800 (PST)
+ id 1kwACu-0002nk-7p
+ for qemu-devel@nongnu.org; Sun, 03 Jan 2021 15:42:33 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id w5so29395778wrm.11
+ for <qemu-devel@nongnu.org>; Sun, 03 Jan 2021 12:42:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yXTafer0TMhsWzQMk1Mc/gl2BDYaaDGOr3JhKwQHfoE=;
- b=fFqOH1V8yyMohMQBMLrebAUy8Z9d/tpB2oH8ti979EcOItgTHG33hPmjN5O/nm1cRR
- 0vBdPDEKto1BilbJNBjPE8YHJ3AN3DN7IeEXADJ6Wm73aaFrDvBifRpT7Di62oORGBYd
- TzBLaDlSb93yKmOVkUiEQhnPmICk/U1zceGLoEenNM8pc5E6xSjdA7IJosJJ6kDaLN0w
- 9Sv9rrIuhElK+wO+ll4dQHry4KxyT5m8tphb8BcL+GCki6WVb+y+HkTsMpfwtIVKL4QL
- lR7UYnIZhjrlFf72IizsA9W0KFkDIG0UsUskJPi+NLdjXhtUdUxld3+3Hw5o6Y2A/1ro
- +org==
+ bh=14YGCyQcsTpUXqnLyua3YyqyXQgpQUbwAidVZPQRmp8=;
+ b=NyjTdAlVVl8OxJNjKlIS0wUtSjVNhphapn5tov6fKn1LBfVEEbW8JsAp2MueDOrSQz
+ upj6+3ojZUJFBQ7pPHrUotzn3Q+phIC3w7XNJrcWZRupOl+99uTq/FCmxdU2QcxaDJON
+ 0cmF3rZ3AG+34Mi5XDWpCwBXsDAhvcBCCNiP3yAvmyXi8YeIeSaqnHmBeygpYNhxJW0x
+ 3jDCKGFFiizxhwYRrGDl8MvciTMHwesGUX+ZiFdyMorPEmFrpOMx7UC2G9lAe2hRRULU
+ Wtd20LB1gxR9icp/oU0OUg72UXJQlnYiEKLN4lFIIPayB509giMB7m5ZLSWy3iXXMrDM
+ ROYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yXTafer0TMhsWzQMk1Mc/gl2BDYaaDGOr3JhKwQHfoE=;
- b=ppXPPS/2qPz6qLygGBv8Q0ZF4gpKNHrDNn8fRrSou9P9i0R4RXtKiXrETdoNmuad+6
- uYCYWlUYkvOkGBloDZILP/NnUd9rsjyapG21FtEDS0YkkJI5QTDaHZ+kTATFGLf5U8w4
- 6Qft8y5l5ap+r5EFKoVBbdGpdYWi1GLs1uSDHmPYZkjVs/++AKSjn5g87GFgvqQYqfET
- c32/dPlzwmYDOmNnzZYY9KhkKfCAN/EBFGH5X1UWqcYzG8Zh9e7JJF/Y/QZQeWfEEqBA
- 7bo088YOV+3WVrnKbHDRCEZXSH7QBJK1QmOgDcJqJasidVa9meLtvslAbR/MRU5bvfH2
- 4IrQ==
-X-Gm-Message-State: AOAM5332rjZhXvfEU3Rt8oCPKx+8m0zqE2sa8ETFi5EHwCeaJ/6qd+D6
- rNsJGvWiMvJmc0YSq4a5yuo=
-X-Google-Smtp-Source: ABdhPJxehwJEAK257P7+HmAwdtKY9Yd13Sur+b1n/62ExAb+mZcGrqm054YQTy5wkqRN8zF053q3BA==
-X-Received: by 2002:a5d:67c3:: with SMTP id n3mr76851964wrw.297.1609706500604; 
- Sun, 03 Jan 2021 12:41:40 -0800 (PST)
+ bh=14YGCyQcsTpUXqnLyua3YyqyXQgpQUbwAidVZPQRmp8=;
+ b=n6WZ2kCQKTc2ntYk3pdrLEipdhhb4rF2dmxbu32oUd5spbT1GgKNpcuXdI13NOGSEk
+ YxZhLL+IDk7Wclq93/KrGXvuOY/Mj9Ij7J2rg6wHueAISr9LVnWwTgcHL8W+Ib9mHs3s
+ z8hAbRW9NeG2tjyTr8K1LsplRqQcbmczXaqCeop3XN+NGEy3RzIMDonoO9tJiraawTuT
+ /f1MakARvVH7Tcs4ylg5jgar5wh47MV2RqQpGAdebC4tDk4r0e07i7Bi0+PJBR6bydQC
+ L3K53+OMwOQLJzXU75paEaYjlmSgaInRlsVptZsZQoI3Td0yZG/62cRj0DFXux9sw9CE
+ SOdA==
+X-Gm-Message-State: AOAM533M0PMYA3PCHSOFcKZKDeWLraRJ8gv3CbNrJ0eB/qbWZZIYp2JG
+ ljuESNaNIEYf4hdArb8D3CI=
+X-Google-Smtp-Source: ABdhPJzanoWAuxuu/s3GT2qz5UUn2JkD7CtuDj7gzaEep1jldjaUEXUdcOt3hOPp96GaXijwS8gydA==
+X-Received: by 2002:adf:fd42:: with SMTP id h2mr76692296wrs.142.1609706550873; 
+ Sun, 03 Jan 2021 12:42:30 -0800 (PST)
 Received: from [192.168.1.34] (194.red-83-57-172.dynamicip.rima-tde.net.
  [83.57.172.194])
- by smtp.gmail.com with ESMTPSA id n8sm85130003wrs.34.2021.01.03.12.41.39
+ by smtp.gmail.com with ESMTPSA id n14sm29245425wmi.1.2021.01.03.12.42.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 03 Jan 2021 12:41:39 -0800 (PST)
-Subject: Re: [PATCH v2 1/8] hw/mips: Make bootloader addresses unsgined
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+ Sun, 03 Jan 2021 12:42:30 -0800 (PST)
+Subject: Re: [PATCH v2 0/8] MIPS Bootloader helper
 To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
 References: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
- <20201215064200.28751-2-jiaxun.yang@flygoat.com>
- <53e9a3a5-7581-7f52-ea75-88d230d8aa1b@amsat.org>
- <4bd1150d-02eb-21e4-b56e-43b21c53e40d@amsat.org>
-Message-ID: <f2d03d33-43a1-5c22-c1f2-d3a2f395cefd@amsat.org>
-Date: Sun, 3 Jan 2021 21:41:38 +0100
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f96001e4-5ef4-3d22-5372-45687761a951@amsat.org>
+Date: Sun, 3 Jan 2021 21:42:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <4bd1150d-02eb-21e4-b56e-43b21c53e40d@amsat.org>
+In-Reply-To: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -95,23 +92,33 @@ Cc: chenhuacai@kernel.org, paulburton@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/3/21 4:57 PM, Philippe Mathieu-Daudé wrote:
-> On 1/2/21 12:15 AM, Philippe Mathieu-Daudé wrote:
->> On 12/15/20 7:41 AM, Jiaxun Yang wrote:
->>> Address should be unsigned anyway, otherwise it may carry
->>> calculations wrongly.
->>>
->>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->>> ---
->>>  hw/mips/fuloong2e.c | 12 ++++++------
->>>  hw/mips/malta.c     | 22 +++++++++++-----------
->>>  2 files changed, 17 insertions(+), 17 deletions(-)
->>
->> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 12/15/20 7:41 AM, Jiaxun Yang wrote:
+> v2:
+> A big reconstruction. rewrite helpers with CPU feature and sepreate
+> changesets.
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Jiaxun Yang (8):
+>   hw/mips: Make bootloader addresses unsgined
+>   hw/mips/malta: Use address translation helper to calculate
+>     bootloader_run_addr
+>   hw/mips: Use address translation helper to handle ENVP_ADDR
+>   hw/mips: Add a bootloader helper
+>   hw/mips: Use bl_gen_kernel_jump to generate bootloaders
+>   target/mips/addr: Add translation helpers for KSEG1
+>   hw/mips/malta: Use bootloader helper to set BAR resgiters
+>   hw/mips/boston: Use bootloader helper to set GCRs
 > 
-> Can you send a follow-up patch for hw/mips/mipssim.c?
+>  hw/mips/bootloader.c         | 157 ++++++++++++++++++++++++++++++++
+>  hw/mips/boston.c             |  62 +++----------
+>  hw/mips/fuloong2e.c          |  48 +++-------
+>  hw/mips/malta.c              | 171 ++++++++++++-----------------------
+>  hw/mips/meson.build          |   2 +-
+>  include/hw/mips/bootloader.h |  48 ++++++++++
+>  target/mips/addr.c           |  10 ++
+>  target/mips/cpu.h            |   2 +
+>  8 files changed, 306 insertions(+), 194 deletions(-)
+>  create mode 100644 hw/mips/bootloader.c
+>  create mode 100644 include/hw/mips/bootloader.h
 
-Bah as it is trivial, I will squash in your patch.
+Patches 1-3 queued to mips-next.
 
