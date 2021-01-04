@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0E72E9FE3
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 23:18:35 +0100 (CET)
-Received: from localhost ([::1]:59674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B22A2E9FEE
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 23:22:38 +0100 (CET)
+Received: from localhost ([::1]:39804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwYBO-0003TR-SX
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 17:18:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41950)
+	id 1kwYFJ-00071r-L6
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 17:22:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwY5S-0006aH-1c
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:12:26 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55295)
+ id 1kwY5T-0006cH-Vt
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:12:28 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwY5O-0007sM-Uc
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:12:25 -0500
-Received: by mail-wm1-x334.google.com with SMTP id c133so607443wme.4
- for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 14:12:19 -0800 (PST)
+ id 1kwY5R-0007tX-GR
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:12:26 -0500
+Received: by mail-wm1-x331.google.com with SMTP id r4so633681wmh.5
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 14:12:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FY8utL4BuRYo0iYGKc1d1mWLl6o5xAsuE1shmmN0tBE=;
- b=rYljLbzXCIn1OMxz2HKqwSXUZPYzBaGTmBMjCppocVx5ov25p1TQVdgmQOIzgPq+9s
- ojnS+MLn9TtFN6SVgmQv/+VYLPKFLVsz9J9pl1qsEEakYkExmH6JO7yYTSlEhLlBV7gW
- 6bJJ0fBQLMO5WjZSQPN+emsRNvfHuFNpEu924S+uTmRKXwSfeJ9H+zN334Rpjm9BGs1q
- a5Nkq7RrOXMovfCacBzUc04aqzLG/16KF3bnj4QIINg4NjDDCqM5lEh/MqWRWPORumK6
- SrizRJiI3Zc9R5jkCh0K5DwbyVVqKqxQ55R2fnMHZqMpL/xaLpFH5tBWZZ+yuVWmpMvq
- DxoA==
+ bh=DwLakVX9UEsAH+MmXq72YbVgXyrXxgRV9mVJnolEV3k=;
+ b=Gmi94JhBkJXrVi0c/wi1jjurTWq1ybMc3PfRGPvjqZGeA88mzEBZ8Bp+ZvYFjAkmjV
+ pm84gSTq4o6pG/1lTesmqZnUDekfh5VhAkY4TlPDIwTGC5WeTYucoEfwjVo3NwB6FBpO
+ c3Hm9LLPkvWasM0mL2D+4x7yj3iV7vb914ZAlJ1DXYthZbzrfpeqCJUBSepkjc2EVqtd
+ sBDXBPDgy3qRnOD1jaT0OXcnGISrTsw7jTiQ2H3yyngmtf7ZqRbQZHIAbh+nLxoKcV7p
+ GgVZooE2mfQHNVpyV8m80QEJmZgXnGGPT253na5zu0MbhS/O0ty+G8FkLCNndfMwQe6Z
+ NPmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FY8utL4BuRYo0iYGKc1d1mWLl6o5xAsuE1shmmN0tBE=;
- b=B4Lvle3NZgdTJHwvpNUgfUHEue4cx89jljRzwAn5XqG+h/qc+OGYs8dK4cvsh263Cq
- I0B13vgWMDIYmEuaYGC0dWdUevTVttzJWv7I7CtEXO9ar9u4TcVTlVOZ8igybgBANjnb
- SE7AEgCKKtH3+AS9jAleMWSUkbhQqg+RcJ9WK8TLQrCS/KPoI6C+cfmuCrGV73Un3H5p
- VjpGTMD47nHKmpyoxyrb3WYUTl+/WmWjrXPN2buaCUOndsQWILbrQeYvYKPUxmDJ2W30
- ttNn2Rmt4n6ciCvdqFuLw1h+e2OHi9HGbcd3Zw7jjoO6rf2Y+zaF+lcq7mUHasN9GrbU
- wcoA==
-X-Gm-Message-State: AOAM531dbiX22j+bkd3Mr705FE26ciiLGmwI07x7ngkSYAbuZgoClCrE
- NeMM1y/y4XIw1IbUCphvpE4bgTBEIfo=
-X-Google-Smtp-Source: ABdhPJzJIzvHrCKuPQkN5VHW9V+bBtdou94beS/hCueb9r5G8JOJfGSm+T6AzPVdyBB1UuW6qswjdQ==
-X-Received: by 2002:a7b:c157:: with SMTP id z23mr774658wmi.35.1609798338727;
- Mon, 04 Jan 2021 14:12:18 -0800 (PST)
+ bh=DwLakVX9UEsAH+MmXq72YbVgXyrXxgRV9mVJnolEV3k=;
+ b=rqu29qfCELYMpaqHxLvcaBhucGhNnAjqdLRa6+8HKyJSRhQX9Mc/5NyYfanaULpgV3
+ HotLogAnOTbjeNJbJ+lrLgzkwpDCTjft0MeptpimOfkg8Hqss9lfk9uA5Qkbvaj1VEO+
+ 4ZlCcS5RRIHTYevaVGLhN6VlhdHSS/4RrG3rjuxjGXew6NE7nXCMEjpRfIIuDvio/q1v
+ D9epzVchX8ExQ9qch8haLplQseCdULCRsa/J2zMrD5khUTZbmRIMwfBMond2rx09hb9O
+ mqcw5zqdSY7p4eX5aYlQLbmuNQKRz0ZpKzhLxjutJYpmcjBbSeI8ftoc23I4dFVHFSHE
+ Jpsg==
+X-Gm-Message-State: AOAM531Yiecfxn3ioYfOwh5BXvSMakIh6XFK3vOZZh8wp/2Q39NE9F1I
+ kczih/tEVph1veAjyqG1dxvxt4T9jzQ=
+X-Google-Smtp-Source: ABdhPJwIK4BbFoJSoDNkYMQ+vRP1jUMVACf3J2HYogGdJlUZV83i0q2BZQ96oYsRigUS2VsRcWoAZA==
+X-Received: by 2002:a7b:cb93:: with SMTP id m19mr809192wmi.45.1609798344054;
+ Mon, 04 Jan 2021 14:12:24 -0800 (PST)
 Received: from x1w.redhat.com (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id p15sm88509150wrt.15.2021.01.04.14.12.17
+ by smtp.gmail.com with ESMTPSA id 189sm1164064wma.22.2021.01.04.14.12.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jan 2021 14:12:18 -0800 (PST)
+ Mon, 04 Jan 2021 14:12:23 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/15] target/mips/mips-defs: Introduce CPU_MIPS64 and
+Subject: [PATCH v3 05/15] hw/mips/boston: Check 64-bit support with
  cpu_type_is_64bit()
-Date: Mon,  4 Jan 2021 23:11:43 +0100
-Message-Id: <20210104221154.3127610-5-f4bug@amsat.org>
+Date: Mon,  4 Jan 2021 23:11:44 +0100
+Message-Id: <20210104221154.3127610-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210104221154.3127610-1-f4bug@amsat.org>
 References: <20210104221154.3127610-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,57 +94,45 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MIPS 64-bit ISA is introduced with MIPS3.
+Directly check if the CPU supports 64-bit with the recently
+added cpu_type_is_64bit() helper (inlined).
 
-Introduce the CPU_MIPS64 definition aliased to the MIPS3 ISA,
-and the cpu_type_is_64bit() method to check if a CPU supports
-this ISA (thus is 64-bit).
-
-Suggested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/cpu.h       | 5 +++++
- target/mips/mips-defs.h | 4 +++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ hw/mips/boston.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 4cbc31c3e8d..7c60a335f97 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -1297,6 +1297,11 @@ static inline bool ase_mt_available(CPUMIPSState *env)
-     return env->CP0_Config3 & (1 << CP0C3_MT);
- }
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index c3b94c68e1b..467fbc1c8be 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -444,7 +444,6 @@ static void boston_mach_init(MachineState *machine)
+     DriveInfo *hd[6];
+     Chardev *chr;
+     int fw_size, fit_err;
+-    bool is_64b;
  
-+static inline bool cpu_type_is_64bit(const char *cpu_type)
-+{
-+    return cpu_type_supports_isa(cpu_type, CPU_MIPS64);
-+}
-+
- void cpu_set_exception_base(int vp_index, target_ulong address);
+     if ((machine->ram_size % GiB) ||
+         (machine->ram_size > (2 * GiB))) {
+@@ -463,8 +462,6 @@ static void boston_mach_init(MachineState *machine)
+         exit(1);
+     }
  
- /* addr.c */
-diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
-index 1630ae20d59..89a9a4dda31 100644
---- a/target/mips/mips-defs.h
-+++ b/target/mips/mips-defs.h
-@@ -13,7 +13,7 @@
-  */
- #define ISA_MIPS1         0x0000000000000001ULL
- #define ISA_MIPS2         0x0000000000000002ULL
--#define ISA_MIPS3         0x0000000000000004ULL
-+#define ISA_MIPS3         0x0000000000000004ULL /* 64-bit */
- #define ISA_MIPS4         0x0000000000000008ULL
- #define ISA_MIPS5         0x0000000000000010ULL
- #define ISA_MIPS32        0x0000000000000020ULL
-@@ -71,6 +71,8 @@
- #define CPU_LOONGSON2E  (CPU_MIPS3 | INSN_LOONGSON2E)
- #define CPU_LOONGSON2F  (CPU_MIPS3 | INSN_LOONGSON2F | ASE_LMMI)
+-    is_64b = cpu_type_supports_isa(machine->cpu_type, ISA_MIPS64);
+-
+     object_initialize_child(OBJECT(machine), "cps", &s->cps, TYPE_MIPS_CPS);
+     object_property_set_str(OBJECT(&s->cps), "cpu-type", machine->cpu_type,
+                             &error_fatal);
+@@ -545,7 +542,8 @@ static void boston_mach_init(MachineState *machine)
+         }
  
-+#define CPU_MIPS64      (ISA_MIPS3)
-+
- /* MIPS Technologies "Release 1" */
- #define CPU_MIPS32R1    (CPU_MIPS2 | ISA_MIPS32)
- #define CPU_MIPS64R1    (CPU_MIPS5 | CPU_MIPS32R1 | ISA_MIPS64)
+         gen_firmware(memory_region_get_ram_ptr(flash) + 0x7c00000,
+-                     s->kernel_entry, s->fdt_base, is_64b);
++                     s->kernel_entry, s->fdt_base,
++                     cpu_type_is_64bit(machine->cpu_type));
+     } else if (!qtest_enabled()) {
+         error_report("Please provide either a -kernel or -bios argument");
+         exit(1);
 -- 
 2.26.2
 
