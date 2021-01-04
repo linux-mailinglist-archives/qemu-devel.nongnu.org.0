@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786422E9A69
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 17:13:11 +0100 (CET)
-Received: from localhost ([::1]:45990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B6F2E9B1C
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 17:33:42 +0100 (CET)
+Received: from localhost ([::1]:58162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwSTm-0002g9-0N
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 11:13:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41086)
+	id 1kwSnd-0001K2-6m
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 11:33:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kwSSk-000225-Gv
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 11:12:06 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:37185)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kwSSi-00011D-NC
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 11:12:06 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id q75so19860588wme.2
- for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 08:12:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=h8pNyJ836HLzEfXpdcCWNxjo3UWXVl+yWbBekmEdz4A=;
- b=zuL19lO2wYFJJokJ6C4AgI/DfbwFQJEQqYVOlTRU9q1XyDc7v6qANVOVaKsPLmBKEM
- l/sA9CHPoT1ZQgNT7nY8emC3TlbTZ4yXU/UvVxzABo5fF/2oNDrD91IPZGUsq0XjZ5lk
- k2cbkxhs5TuTKTxXMkybovHUHXo1420mYi3BNrK08obq5gAY9aOZ0qVOqevuSq0gWxJ9
- jdw3wFBsZzxTcQcQKqBPviBcrBIzcXsomU0wuG89SgKlYvT9xP3R1/SFkabXOd2ZBONG
- A1wl8LWukq9JO8wiB740yEKN63u4UhzsxXwBDtxQKiQASRQyMRWtWgK7sDqw5GMVmpPg
- fN7w==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kwSky-0000J6-WB
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 11:30:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34999)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kwSkv-0003UR-Fz
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 11:30:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609777849;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UxOk+fGO/nWkmP5hb+Dwuv1UJevJr3sRFQ0aTzKul6k=;
+ b=QPZ0WrHONWEjJZV+IIKQfawazsE0EsLjUlH8hapxSxgzMLSK7NEoS/3X43XkPeb0PWDM7l
+ cG14YVeupCiKdQ/fCPrgLNu4GgTvase3MfY7gTODmJsBOEVvNi7bsk4IYW2JMq8hQHohpf
+ c7cUU3e2uuFsLATp9g5cAVpLvu5OEbQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-JcJBvA8RPvKy9Afg4yO4YA-1; Mon, 04 Jan 2021 11:30:47 -0500
+X-MC-Unique: JcJBvA8RPvKy9Afg4yO4YA-1
+Received: by mail-wr1-f70.google.com with SMTP id r11so13466661wrs.23
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 08:30:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=h8pNyJ836HLzEfXpdcCWNxjo3UWXVl+yWbBekmEdz4A=;
- b=hm5r3colKbvocdC3Jjzg6M1TU2+Dg4ahKGrmfBOqONYXS5M8znj4UD5MwJDxiYKZjN
- NI+D7Z7+CJ/6cTmKnkJvAXnxyrTPJF+jp9gf0Oz6UJieXfmRxSqfMEWlmLrdFaIjTkJs
- N1d/gZadRFWnRHQTwRtoUfanFH/tnUC7fG3f9R5EdN8N0IpmddsIsg80suxBBGJSCD8r
- 1jv3fLIpLRCWmdzrZ2rUZXcFCCpBv/rqB9txAxTblyl1okWcVIm6zHx87QDjGO3NbHJ8
- 73t2LfDFhg7SjjYU6GIvk/4+mnU7q7spvGa8NdTD8VByU6DUE6o0zFC31j/Ebvh4B0aH
- Q6tg==
-X-Gm-Message-State: AOAM531pvslYbJS5Uz3n2mQ0LhpDBql/NYkEGVC3CISBfQc3dtV21xup
- Vj6vGsK3TGHDfzPISDSe1YA6mNMpqz0oQQ==
-X-Google-Smtp-Source: ABdhPJwuz9jcjzmrLJ3HZrKrytCHXn8JwLwysEoRudPzIX6UNcEt2jqBAfEPXjvnQwjfYgUmdKHHxA==
-X-Received: by 2002:a1c:7f52:: with SMTP id a79mr27078446wmd.157.1609776722479; 
- Mon, 04 Jan 2021 08:12:02 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b19sm34249812wmj.37.2021.01.04.08.12.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jan 2021 08:12:01 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] monitor/qmp-cmds.c: Don't include ui/vnc.h
-Date: Mon,  4 Jan 2021 16:12:00 +0000
-Message-Id: <20210104161200.15068-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ bh=UxOk+fGO/nWkmP5hb+Dwuv1UJevJr3sRFQ0aTzKul6k=;
+ b=NZMrke5337hMBM2jXOWWcri+XfAW7tRdeTNnUZN7cx7qHHYrF4cARxndKlenmlRzGT
+ BxupN/sIi/1rAY7mzb+LfZAvP/OjaMGjMpGYXz6f6oWYsWV/UmxlIPSfNlSZPnwVPXba
+ /HmMUdNBhPE1ZwfJtIRLmG9msUNwzMOXu6ujMFImwRBMr1Y7UtGmu3wUVAdjRp5AeLKW
+ sHphzQdaoJr2S8yBO3tyEFXFKPDlG9AURsklJDrxqhSTZN2R8q/u7zLIs/CtK+ZB9yk+
+ kkHGme7QtxPk7lmkDCPidSQVdusSE0Xx+43bReBqA5mCa+Uv96xEpka25vRI8pY/dTyW
+ +pGA==
+X-Gm-Message-State: AOAM532mgV8qjYG91CZ0nJqElrni2sY0Z3GL4JLRyjhvPo4dBjcgU2dw
+ NDiorUaT4OQYdY27lO4WM07yaBsCGc0UMQ3BqxveCX5yr+slV5uGe8/NALsBxxXKURizDkrM7cb
+ i1LDaLIvo3y+jMVs=
+X-Received: by 2002:a1c:6056:: with SMTP id u83mr26791553wmb.90.1609777845481; 
+ Mon, 04 Jan 2021 08:30:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx9jiLGAITvg8frAwKIF2/PXY9C23Ql9gQ3+QDfEdxtVuYXosnvx4O0MaB8VkmT753HUvXy3w==
+X-Received: by 2002:a1c:6056:: with SMTP id u83mr26791538wmb.90.1609777845246; 
+ Mon, 04 Jan 2021 08:30:45 -0800 (PST)
+Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.241])
+ by smtp.gmail.com with ESMTPSA id c7sm103442099wro.16.2021.01.04.08.30.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jan 2021 08:30:44 -0800 (PST)
+Subject: Re: [PATCH] monitor/qmp-cmds.c: Don't include ui/vnc.h
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210104161200.15068-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <94abce4f-0cfc-2b3a-c571-ccdbfd0c501c@redhat.com>
+Date: Mon, 4 Jan 2021 17:30:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210104161200.15068-1-peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,37 +101,46 @@ Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qmp-cmds.c file currently includes ui/vnc.h, which (being located
-in the ui/ directory rather than include) is really supposed to be
-for use only by the ui subsystem.  In fact the function prototypes we
-need (vnc_display_password(), etc) are all declared in
-include/ui/console.h, so we can switch to including that instead.
+On 1/4/21 5:12 PM, Peter Maydell wrote:
+> The qmp-cmds.c file currently includes ui/vnc.h, which (being located
+> in the ui/ directory rather than include) is really supposed to be
+> for use only by the ui subsystem.
 
-(ui/vnc.h includes include/ui/console.h, so this change strictly
-reduces the quantity of headers qmp-cmds.c pulls in.)
+That makes me remember yet another cleanup series I started few months
+ago to remove -I$(srcdir) from $CFLAGS. Now that Meson is in, I might
+eventually refresh it.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-Spotted while trying to reduce the number of source files that
-indirectly include <gnutls.h>...
----
- monitor/qmp-cmds.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> In fact the function prototypes we
+> need (vnc_display_password(), etc) are all declared in
+> include/ui/console.h, so we can switch to including that instead.
+> 
+> (ui/vnc.h includes include/ui/console.h, so this change strictly
+> reduces the quantity of headers qmp-cmds.c pulls in.)
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 34f7e75b7bf..c95e5001d72 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -23,7 +23,7 @@
- #include "qemu/uuid.h"
- #include "chardev/char.h"
- #include "ui/qemu-spice.h"
--#include "ui/vnc.h"
-+#include "ui/console.h"
- #include "sysemu/kvm.h"
- #include "sysemu/runstate.h"
- #include "sysemu/runstate-action.h"
--- 
-2.20.1
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> ---
+> Spotted while trying to reduce the number of source files that
+> indirectly include <gnutls.h>...
+> ---
+>  monitor/qmp-cmds.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index 34f7e75b7bf..c95e5001d72 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -23,7 +23,7 @@
+>  #include "qemu/uuid.h"
+>  #include "chardev/char.h"
+>  #include "ui/qemu-spice.h"
+> -#include "ui/vnc.h"
+> +#include "ui/console.h"
+>  #include "sysemu/kvm.h"
+>  #include "sysemu/runstate.h"
+>  #include "sysemu/runstate-action.h"
+> 
 
 
