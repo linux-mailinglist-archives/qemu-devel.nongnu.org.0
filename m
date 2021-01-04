@@ -2,49 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9652E948C
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 13:09:43 +0100 (CET)
-Received: from localhost ([::1]:37370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB00C2E94A8
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 13:19:56 +0100 (CET)
+Received: from localhost ([::1]:45278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwOg9-0003mX-Ug
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 07:09:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41532)
+	id 1kwOq3-0007Uk-9g
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 07:19:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kwOfD-0003Gi-A8; Mon, 04 Jan 2021 07:08:43 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:60554
- helo=ns207790.ip-94-23-215.eu)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <remi@remlab.net>)
- id 1kwOf9-0002xT-Mq; Mon, 04 Jan 2021 07:08:43 -0500
-Received: from basile.remlab.net (dzyqn8ypzhx7l91mxjsvy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:a01a:be01:9434:f69e:d553:3be2])
- (Authenticated sender: remi)
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTPSA id 591405FC99;
- Mon,  4 Jan 2021 13:08:34 +0100 (CET)
-From: =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi.denis.courmont@huawei.com>
-To: qemu-arm@nongnu.org
-Subject: Re: [PATCH 03/18] target/arm: use arm_is_el2_enabled() where
- applicable
-Date: Mon, 04 Jan 2021 14:08:31 +0200
-Message-ID: <5669299.lOV4Wx5bFT@basile.remlab.net>
-Organization: Huawei Technologies, Finland
-In-Reply-To: <6f114b65-e6e8-e9a2-41f0-c3fda14680d0@linaro.org>
-References: <3337797.iIbC2pHGDl@basile.remlab.net>
- <20201218103759.19929-3-remi.denis.courmont@huawei.com>
- <6f114b65-e6e8-e9a2-41f0-c3fda14680d0@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kwOoz-000723-L7
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 07:18:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34910)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kwOow-0006VU-0O
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 07:18:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609762722;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VHtlcU5LaBRMQSEyYG47KRXnt2tY54PhWgunxElnQX8=;
+ b=B7zD73V0CdWrf6fQErhHRGKfmNkgjpvIgLXiMx6zTa70rpQHGp9I1bcFyDDEzSx/au1LJl
+ A8kH2efOvicJBSo3L1waZrmy3fDGzpPEp7VNLy72RH7YUStmlMoKe0hRXnbP9GIACSDswu
+ TMx03RBtUu/Ripm17Nk0fWgt6dNAQj4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-qqAP2EbhOgeah18kcMk-dw-1; Mon, 04 Jan 2021 07:18:40 -0500
+X-MC-Unique: qqAP2EbhOgeah18kcMk-dw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D505192CC44;
+ Mon,  4 Jan 2021 12:18:39 +0000 (UTC)
+Received: from redhat.com (ovpn-114-43.ams2.redhat.com [10.36.114.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B8BD25D9C6;
+ Mon,  4 Jan 2021 12:18:38 +0000 (UTC)
+Date: Mon, 4 Jan 2021 12:18:35 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: zihao chang <czh648639425@gmail.com>
+Subject: Re: [Question] VNC CA certificate update live
+Message-ID: <20210104121835.GG640208@redhat.com>
+References: <-9hr4cg-d4yk46-3dd17uwyp2nz-55r6nkouccbe-md34fa5rys74-ydxc1l9fwp3o-h74zi8-5f2vsfpu8ul36vw8shpq5qlmcu1zwg-ifrvh5nktjt6z00lli1hyz8oze8hzn-oteilg-yts4god4aig3.1609160379148@email.android.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2001:41d0:2:5a1a::; envelope-from=remi@remlab.net;
- helo=ns207790.ip-94-23-215.eu
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <-9hr4cg-d4yk46-3dd17uwyp2nz-55r6nkouccbe-md34fa5rys74-ydxc1l9fwp3o-h74zi8-5f2vsfpu8ul36vw8shpq5qlmcu1zwg-ifrvh5nktjt6z00lli1hyz8oze8hzn-oteilg-yts4god4aig3.1609160379148@email.android.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,41 +81,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le maanantaina 21. joulukuuta 2020, 22.54.08 EET Richard Henderson a =C3=A9=
-crit :
-> On 12/18/20 2:37 AM, remi.denis.courmont@huawei.com wrote:
-> > From: R=C3=A9mi Denis-Courmont <remi.denis.courmont@huawei.com>
-> >=20
-> > Do not assume that EL2 is available in non-secure context.
->=20
-> Just noticed this wording is off.  Should be
-> "Do not assume that EL2 is unavailable in a secure context"
+On Mon, Dec 28, 2020 at 08:59:39PM +0800, zihao chang wrote:
+>    Hi all:
+>    The VNC of QEMU suppots TLS encryption. The client & server can use
+>    arbitrary certificates from CA certificates the running VM loaded(user can
+>    use new certificates immediately), but if the CA certificate is changed to
+>    a new one，the running VM still use the old CA. 
+>    Is it reasonable to provide an API(e.g.QMP) to replace the CA certificate
+>    for running VM live？Any security problem?
 
-It would be clearer, but I'd hate to rereresend the patchset just for this.
+It makes sense as a concept. Just needs someone to write the code to
+deal with it.
 
-Indeed, the second sentence clarifies that this was meant reciprocally, i.e=
-=2E=20
-that it should not be assumed that EL2 is always and only available in non-
-secure context:
-
-> > That equivalence is broken by ARMv8.4-SEL2.
-> >=20
-> > Signed-off-by: R=C3=A9mi Denis-Courmont <remi.denis.courmont@huawei.com>
-> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> > ---
-> >=20
-> >  target/arm/cpu.h        |  4 ++--
-> >  target/arm/helper-a64.c |  8 +-------
-> >  target/arm/helper.c     | 33 +++++++++++++--------------------
-> >  3 files changed, 16 insertions(+), 29 deletions(-)
-
-
-=2D-=20
-R=C3=A9mi Denis-Courmont
-
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
