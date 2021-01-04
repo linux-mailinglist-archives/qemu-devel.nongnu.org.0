@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0232E993A
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 16:53:38 +0100 (CET)
-Received: from localhost ([::1]:56650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32B42E99A3
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 17:02:59 +0100 (CET)
+Received: from localhost ([::1]:34032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwSAr-0001eJ-GC
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 10:53:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36376)
+	id 1kwSJu-0004hz-7Z
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 11:02:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kwS9g-0000pq-30
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:52:24 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:41610)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1kwSHV-0003vv-01; Mon, 04 Jan 2021 11:00:29 -0500
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:40265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kwS9a-0002vs-HT
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:52:23 -0500
-Received: by mail-ej1-x630.google.com with SMTP id ce23so37392506ejb.8
- for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 07:52:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CNmtiEXw0p5LzgHqN+TQ3esT0GI5K9vd80M0gaqPntA=;
- b=OkJS5qdsYWG2OWxi0vrDbxNP9pK57y/x7fKbWugM/eMra1BUEJloBLad2thy80sgQ4
- 30/1WcWn8A6ZNqIJfwV4paG1hOgvJMpdDQKT+XoMkxgZDm3R836OQuGW/YPFtT9SmKEV
- MOzfaRQ8IwC0l5HO1tyrihKTjP4A+Ka4B+VYxmaVZAVvtbqhHKrb7LETjADlhxaVxNTD
- 6pJu1e43WZN/FwupkK/h7lhRyAtCvXLRRYv+7gmN0r2XAaCmcKkPU28tQLDiFSuwci9I
- Ms1kU7Iz64NCfM0aq80C6xIhekYvNfiOQjr2owkjrCR84LOkTzm2i/VJH8akxirmHZIl
- +lMA==
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1kwSHS-0005Xn-TA; Mon, 04 Jan 2021 11:00:28 -0500
+Received: by mail-lf1-x12a.google.com with SMTP id m12so65460757lfo.7;
+ Mon, 04 Jan 2021 08:00:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=7NHtbq/b4F3O2vUwQ2+EAzuTSWvTaUtcYqWOjaCNidg=;
+ b=X3XZDNsrvf1Jxfz4IPWnnrb93QnAyO045zqLYwzKdXAUp4FPaE6eWIM/GqqedHfB/s
+ I3BF3cpaP4YQ8S58Ak+wmHEdgRnuDdilQVVvTMeEddF3n8tig2OQkMo0mGy/REwQY6cV
+ AONWQj05iZNBNFAsrf8JjifivkJssLv7dAeSKt0Ud5cow0Dnzpl8/+LGFYaiZTsudXVp
+ RPRFdXtopNw7H3FILKDuDApGyofoCh4vRYpJf/yGV3bCBvnWqD+ysdgaqOVUGXnoNTdV
+ Vxq3txpoZnohLr3OyGcO43tAmX+LqaL6gKztTtkWF1bXpkZXB6tVXorEkUOn5beFOOL6
+ XR8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CNmtiEXw0p5LzgHqN+TQ3esT0GI5K9vd80M0gaqPntA=;
- b=BWGge4HnBjXG3m+tYaiCxhDrhoUSsReFPr6ysjvjqhcRuXqar1Gg0XpbNkY257iQRP
- BCHL6ZSA/g/U372tlwGb3Jdo9Puu33Pl68pO2pKsKKmC4bp/XuZ4d9in2s7FML8/A9rF
- 7npmb9RtmVxWvtJ4dG+96UT35WMoidaM5VGOKAgTNJ+kxWelO0hSNcRhRhVroMoL4L5c
- I4pE/cQp4y1A+eZroK9dAzpErF/qFJmmv4M3KILHINkJ6LifFNR7MFV0psoOd5St/C9q
- dtLxG0nLdsGLIS3vEkBtVUldOO5VqaROA6lwGCFC9ApMJKs1arPN5pQNYHAe6T+ceuxg
- BeQg==
-X-Gm-Message-State: AOAM533ISyDRDm/4Oh3NoVGOyS/JFmRzJL37RglAJgAm9xssKtOgJott
- PfloYOJe9FTDR1tI2pdW36r44iL+hgHJ78XqvTGXJQ==
-X-Google-Smtp-Source: ABdhPJwm/7e9/8jVIwAEslGdaybGENbS+2fGZJSAX1J4Ptym8urP4TX8HPlPBAbUc3krJ4gOTatKcsLh7oVO5Zud/K0=
-X-Received: by 2002:a17:906:3d4a:: with SMTP id
- q10mr42067193ejf.85.1609775536880; 
- Mon, 04 Jan 2021 07:52:16 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=7NHtbq/b4F3O2vUwQ2+EAzuTSWvTaUtcYqWOjaCNidg=;
+ b=hxU4vweffq4/LEjmOuzuWaDEj6+xkMpN9u4TVeojKWrFbYoa7gnBmiFD4UjB7e4P1g
+ WlnlqjoyB5UldPvGAVgaV7OTVAgThpWAzEEdvvzQkIwGDwUpC02ckkV5Qwyee6v3zYhl
+ gCQ/FjafeW/q9y4SoBr0PpU3FeInd5NODFZHctJN2zFUvzQAEpDPYCst+dXaMTbq2aK2
+ 7t+fq05FwC5cA7kYgXEq1iCtdHtF4ZAHTbwJxtbc5A4Gv7xqBf5Hjv/DtVFeKaKEWCEt
+ LDU5TBqaU3SEpmYGnSPB5gFE23cLkgdQDaMhVOaIMFkZgx9BVC6KghrWw9dqISuqNILB
+ 3JLA==
+X-Gm-Message-State: AOAM533GR06/rWl/XT/5IBpKSdy7SijjjT1EA9Ppfs37DLYCXfpkSk4F
+ S103NV7jpeLCJsTKXCCHtPM=
+X-Google-Smtp-Source: ABdhPJzC1xIKXvJcL4gNBpuEigswXgAmIEnLu5iGDeZVs+q9KgSuY+j+jn4u/CrRV36IgQBDIgKGlA==
+X-Received: by 2002:a2e:b5cb:: with SMTP id g11mr34326846ljn.502.1609776019215; 
+ Mon, 04 Jan 2021 08:00:19 -0800 (PST)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ 68sm8612142ljj.23.2021.01.04.08.00.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Jan 2021 08:00:18 -0800 (PST)
+Date: Mon, 4 Jan 2021 17:00:16 +0100
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH 01/22] hw/block: m25p80: Add ISSI SPI flash support
+Message-ID: <20210104160015.GA26719@fralle-msi>
+References: <20201231113010.27108-1-bmeng.cn@gmail.com>
+ <20201231113010.27108-2-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-References: <1395127548-32670-1-git-send-email-kraxel@redhat.com>
- <1395127548-32670-2-git-send-email-kraxel@redhat.com>
-In-Reply-To: <1395127548-32670-2-git-send-email-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 4 Jan 2021 15:52:05 +0000
-Message-ID: <CAFEAcA--LaTy3P+o8DJXzaLj72RGdZQ1rVr1nzw+WpBObEU3gg@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PULL 1/1] ui/vnc: fix vmware VGA incompatiblities
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201231113010.27108-2-bmeng.cn@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x12a.google.com
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,82 +84,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Lieven <pl@kamp.de>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-riscv@nongnu.org, qemu-block@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Mar 2014 at 07:26, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> From: Peter Lieven <pl@kamp.de>
->
-> this fixes invalid rectangle updates observed after commit 12b316d
-> with the vmware VGA driver. The issues occured because the server
-> and client surface update seems to be out of sync at some points
-> and the max width of the surface is not dividable by
-> VNC_DIRTY_BITS_PER_PIXEL (16).
->
-> Reported-by: Serge Hallyn <serge.hallyn@ubuntu.com>
-> Signed-off-by: Peter Lieven <pl@kamp.de>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Hi Bin,
 
-Hi all; I know this is a 6-year-old patch (now commit
-2f487a3d40faff1 in git), but I was just looking
-through some header file dependencies, and I noticed that
-hw/display/vmware_vga.c includes ui/vnc.h, and that struck
-me as pretty odd... I'm sending this email in the hope that
-people might remember something of the situation beyond what's
-described in the commit message.
-
+On [2020 Dec 31] Thu 19:29:49, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
+> 
+> This adds the ISSI SPI flash support. The number of dummy cycles in
+> fast read, fast read dual output and fast read quad output commands
+> is currently using the default 8. Per the datasheet [1], the number
+> of dummy cycles configurable, but this is not modeled.
+> 
+> For flash whose size is larger than 16 MiB, the sequence of 3-byte
+> address along with EXTADD bit in the bank address register (BAR) is
+> not supported. Currently we assume that guest software will alawys
+> use op codes with 4-byte address sequence. Fortunately this is the
+> case for both U-Boot and Linux.
+> 
+> [1] http://www.issi.com/WW/pdf/25LP-WP256.pdf
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
->  hw/display/vmware_vga.c |  3 ++-
->  ui/vnc.c                | 10 +++++++---
->  2 files changed, 9 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-> index bd2c108..6ae3348 100644
-> --- a/hw/display/vmware_vga.c
-> +++ b/hw/display/vmware_vga.c
-> @@ -25,6 +25,7 @@
->  #include "hw/loader.h"
->  #include "trace.h"
->  #include "ui/console.h"
-> +#include "ui/vnc.h"
->  #include "hw/pci/pci.h"
->
->  #undef VERBOSE
-> @@ -218,7 +219,7 @@ enum {
->
->  /* These values can probably be changed arbitrarily.  */
->  #define SVGA_SCRATCH_SIZE               0x8000
-> -#define SVGA_MAX_WIDTH                  2360
-> +#define SVGA_MAX_WIDTH                  ROUND_UP(2360, VNC_DIRTY_PIXELS_PER_BIT)
->  #define SVGA_MAX_HEIGHT                 1770
->
->  #ifdef VERBOSE
+> 
+>  hw/block/m25p80.c | 38 +++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 37 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 844cabea21..8a62bc4bc4 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -411,6 +411,7 @@ typedef enum {
+>      MAN_NUMONYX,
+>      MAN_WINBOND,
+>      MAN_SST,
+> +    MAN_ISSI,
+>      MAN_GENERIC,
+>  } Manufacturer;
+>  
+> @@ -486,6 +487,8 @@ static inline Manufacturer get_man(Flash *s)
+>          return MAN_MACRONIX;
+>      case 0xBF:
+>          return MAN_SST;
+> +    case 0x9D:
+> +        return MAN_ISSI;
+>      default:
+>          return MAN_GENERIC;
+>      }
+> @@ -705,6 +708,9 @@ static void complete_collecting_data(Flash *s)
+>          case MAN_SPANSION:
+>              s->quad_enable = !!(s->data[1] & 0x02);
+>              break;
+> +        case MAN_ISSI:
+> +            s->quad_enable = extract32(s->data[0], 6, 1);
+> +            break;
+>          case MAN_MACRONIX:
+>              s->quad_enable = extract32(s->data[0], 6, 1);
+>              if (s->len > 1) {
+> @@ -897,6 +903,16 @@ static void decode_fast_read_cmd(Flash *s)
+>                                      SPANSION_DUMMY_CLK_LEN
+>                                      );
+>          break;
+> +    case MAN_ISSI:
+> +        /*
+> +         * The fast read instruction code is followed by address bytes and
+> +         * dummy cycles, transmitted via the SI line.
+> +         *
+> +         * The number of dummy cycles are configurable but this is currently
+> +         * unmodeled, hence the default value 8 is used.
+> +         */
+> +        s->needed_bytes += ((8 * 1) / 8);
 
-Here we pull in the VNC header in order to get the definition
-of the VNC_DIRTY_PIXELS_PER_BIT constant, but I don't understand
-why. The hw/display code should be agnostic of whatever the
-UI display front-end is. Why does vmware_vga.c need to care
-but not any other device?
+According to how m25p80 models dummy clock cycles above
+means that the command is being modeled with 1 dummy clock cycle (and below is
+modeling the dio/qio commands with 1 and 3 dummy clock cycles). To model
+the command with 8 dummy clock cycles you only add +8 above (+4 and +6
+would be the values to add below). One can look into how one of the other
+flashes model the commands for examples. This might also mean that the
+controller will need a change and do the opposite what above calculation
+does, and convert the dummy bytes into dummy clock cycles (when
+transmitting on 1 line it generates 8 dummy clock cycles for each dummy
+byte, when it uses 2 lines it generates 4 etc..).
 
-Moreover, looking at the vmware_vga.c code, although the
-SVGA_MAX_WIDTH value is made to be a multiple of VNC_DIRTY_PIXELS_PER_BIT
-(which is 16), there seems to be nothing preventing the guest itself
-from programming the device to some other width that isn't
-a multiple of 16. So either this device needs to guard against
-bad widths generally, or the problem is really in the VNC code.
-I can't find anything in the vmware VGA device docs (though they
-are pretty meagre) suggesting that there's a requirement for
-the surface to be a multiple of 16, so I think that the VNC code
-needs to be able to cope. (This should be no different from any other
-display device model setting a non-multiple-of-16 width.)
+Best regards,
+Francisco Iglesias
 
-So my feeling is that this vmware_vga.c portion of this commit
-should be reverted, and if there's still a problem with non-multiple-of-16
-surface widths then it needs to be handled in the common or VNC
-specific UI code...
-
-thanks
--- PMM
+> +        break;
+>      default:
+>          break;
+>      }
+> @@ -936,6 +952,16 @@ static void decode_dio_read_cmd(Flash *s)
+>              break;
+>          }
+>          break;
+> +    case MAN_ISSI:
+> +        /*
+> +         * The fast read dual I/O instruction code is followed by address bytes
+> +         * and dummy cycles, transmitted via the IO1 and IO0 line.
+> +         *
+> +         * The number of dummy cycles are configurable but this is currently
+> +         * unmodeled, hence the default value 4 is used.
+> +         */
+> +        s->needed_bytes += ((4 * 2) / 8);
+> +        break;
+>      default:
+>          break;
+>      }
+> @@ -976,6 +1002,16 @@ static void decode_qio_read_cmd(Flash *s)
+>              break;
+>          }
+>          break;
+> +    case MAN_ISSI:
+> +        /*
+> +         * The fast read quad I/O instruction code is followed by address bytes
+> +         * and dummy cycles, transmitted via the IO3, IO2, IO1 and IO0 line.
+> +         *
+> +         * The number of dummy cycles are configurable but this is currently
+> +         * unmodeled, hence the default value 6 is used.
+> +         */
+> +        s->needed_bytes += ((6 * 4) / 8);
+> +        break;
+>      default:
+>          break;
+>      }
+> @@ -1134,7 +1170,7 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>  
+>      case RDSR:
+>          s->data[0] = (!!s->write_enable) << 1;
+> -        if (get_man(s) == MAN_MACRONIX) {
+> +        if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
+>              s->data[0] |= (!!s->quad_enable) << 6;
+>          }
+>          if (get_man(s) == MAN_SST) {
+> -- 
+> 2.25.1
+> 
+> 
 
