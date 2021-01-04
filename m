@@ -2,70 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2660D2E94D8
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 13:29:27 +0100 (CET)
-Received: from localhost ([::1]:52724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71572E94E0
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 13:32:01 +0100 (CET)
+Received: from localhost ([::1]:55070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwOzG-0002UG-7C
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 07:29:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46150)
+	id 1kwP1k-0003eR-SO
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 07:32:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kwOxn-00025M-PE
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 07:27:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26669)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kwP0T-00031w-0M
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 07:30:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kwOxl-00017k-88
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 07:27:54 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kwP0Q-0002AH-Nu
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 07:30:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609763272;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=LF3p4OfJNcCTSp0efHyfWeshXnhrMmxD8N7N+TlRDQo=;
- b=B+KWFx5UcD0T1u7E+OWzCyDo2VgIqycFMpcn1s1gY6Fm39tAPxrxvAAENETWjUf0wN8Tnd
- jYe5WOh7MIdrm3fx3THcVZ7UMoPR6RJEzj/5uwDjHk5WpCgOPs4sNE9jqVhRgefEN30/lZ
- xSECsw/seyNovmAha6i0KHMmycTh014=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-6mkR-OWqOHaClabYPXS6IA-1; Mon, 04 Jan 2021 07:27:50 -0500
-X-MC-Unique: 6mkR-OWqOHaClabYPXS6IA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CD79B8100;
- Mon,  4 Jan 2021 12:27:49 +0000 (UTC)
-Received: from redhat.com (ovpn-114-43.ams2.redhat.com [10.36.114.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0D3660BE5;
- Mon,  4 Jan 2021 12:27:43 +0000 (UTC)
-Date: Mon, 4 Jan 2021 12:27:40 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Zihao Chang <changzihao1@huawei.com>
-Subject: Re: [PATCH] vnc: add qmp to support reload vnc tls certificates
-Message-ID: <20210104122740.GI640208@redhat.com>
-References: <20210104071128.754-1-changzihao1@huawei.com>
+ s=mimecast20190719; t=1609763437;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SCaiyx5ga8SM5676+QxSmbuO8CB1SJHf21b5GZZXifM=;
+ b=iy7B5Haxfp5rO6KWf3Xf1tHx97y1/23m6uPJys0DXGkKDZdCOA0v73VlkVYxbW0mD0qNNn
+ Ix1jk7B2YeSPOfKUBu+MSD8/KiZtqKs1Hjr3DH3L8SK0WhS2nkWzPyyg8/GZdGbvZ4BdBm
+ kok9Kk+Fq7V3+tCu9a/8tI9TQF2zlgI=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-48-rOyOps-HMQmcnZuLa7n28Q-1; Mon, 04 Jan 2021 07:30:35 -0500
+X-MC-Unique: rOyOps-HMQmcnZuLa7n28Q-1
+Received: by mail-ej1-f70.google.com with SMTP id gu19so6931874ejb.13
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 04:30:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SCaiyx5ga8SM5676+QxSmbuO8CB1SJHf21b5GZZXifM=;
+ b=ZsI80C5FLbEq+sagparT/9g//dgmuxNJ/UyZdShqJnoKslsZIA/i5SVo+vY1CPVH++
+ Wc6Txl2PS3ZNSJGmujXDSR/8AhKsWroXaNmUMadG8BAKqtvPclp+1EQWVUSPIYEV8L4x
+ AWK+ixiX/Ih822FxC4toYjGz7OuWvGDAdUrn4JEXrYt/qN5nKdoGpGyZp/sej55IUltq
+ x7aCDlTKaWcW6Sw/hC3rBKEBdeeCot/SkTDy0R57OwV+/pJ7DvCm/5j7mMGQl0NpkeCR
+ hWZBVY09zD1tVJe48sw5r1HOCOWBfvqJzk1/I7pf4d9U+urr0SHTn9VByPxkKa41MQVE
+ OiCw==
+X-Gm-Message-State: AOAM532MusYON6UXmDkwlzSYw8I+P0sVdPQaj8SvFxdOM/BZLVBA7jhY
+ S1T0ztPRs8Ms1AabXvmVlP4XcrxbBWsMzhh3u3FtqjxnE5haAG8S93Z1WO1pJD/zAznJgFBwxNz
+ cAGiMC541u0g8Dkg=
+X-Received: by 2002:aa7:d5d2:: with SMTP id d18mr73177046eds.126.1609763434565; 
+ Mon, 04 Jan 2021 04:30:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxfeSZz9jzv7nbnREtcaew3+Vmu1mu+dciJG3Qsv8reMnPfY+NYo3lgnXurMdKrMtG1ESJI/w==
+X-Received: by 2002:aa7:d5d2:: with SMTP id d18mr73177021eds.126.1609763434320; 
+ Mon, 04 Jan 2021 04:30:34 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id n9sm43326924edy.83.2021.01.04.04.30.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jan 2021 04:30:33 -0800 (PST)
+Subject: Re: [PATCH] meson: Propagate gnutls dependency
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210102125213.41279-1-r.bolshakov@yadro.com>
+ <CAFEAcA-X6DSKeyS4bbNe3tu-QFGxc1VM+Eoz_UMk-8jb--zq9g@mail.gmail.com>
+ <20210104122149.GH640208@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <dbb8613e-5e84-7ac5-e3c0-84a888605c7d@redhat.com>
+Date: Mon, 4 Jan 2021 13:30:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20210104071128.754-1-changzihao1@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210104122149.GH640208@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,126 +102,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: oscar.zhangbo@huawei.com, kraxel@redhat.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, armbru@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 04, 2021 at 03:11:28PM +0800, Zihao Chang wrote:
-> QEMU loads vnc tls certificates only when vm is started. This patch
-> provides a new qmp command to reload vnc tls certificates without
-> restart vnc-server/VM.
+On 04/01/21 13:21, Daniel P. Berrangé wrote:
+> The actual usage of gnutls should be confined to the crypto/ code.
 > 
-> Signed-off-by: Zihao Chang <changzihao1@huawei.com>
-> ---
->  include/ui/console.h |  1 +
->  monitor/qmp-cmds.c   |  7 +++++++
->  qapi/ui.json         | 17 +++++++++++++++++
->  ui/vnc.c             | 20 ++++++++++++++++++++
->  4 files changed, 45 insertions(+)
-> 
-> diff --git a/include/ui/console.h b/include/ui/console.h
-> index 5dd21976a3..f05140b662 100644
-> --- a/include/ui/console.h
-> +++ b/include/ui/console.h
-> @@ -441,6 +441,7 @@ int vnc_display_password(const char *id, const char *password);
->  int vnc_display_pw_expire(const char *id, time_t expires);
->  QemuOpts *vnc_parse(const char *str, Error **errp);
->  int vnc_init_func(void *opaque, QemuOpts *opts, Error **errp);
-> +int vnc_display_reload_cert(const char *id,  Error **errp);
->  
->  /* input.c */
->  int index_from_key(const char *key, size_t key_length);
-> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> index 34f7e75b7b..90bd08c8ed 100644
-> --- a/monitor/qmp-cmds.c
-> +++ b/monitor/qmp-cmds.c
-> @@ -287,6 +287,13 @@ static void qmp_change_vnc(const char *target, bool has_arg, const char *arg,
->          qmp_change_vnc_listen(target, errp);
->      }
->  }
-> +
-> +void qmp_reload_vnc_cert(Error **errp)
-> +{
-> +    if (vnc_display_reload_cert(NULL, errp) < 0) {
-> +        error_setg(errp, "Reload vnc tls cert failed");
+> The rest of QEMU should only ever be using QEMU's TLS abstractions
+> and not directly be tied to GNUTLS. So ideally the gnutls flags
+> should only ever be added in the crypto/meson.build, and anything
+> which depends on that should then get the flags indirectly.
 
-This error message is entirely useless at helping diagnose what
-failed. We need to propagate real error messages from the root
-cause.
+Right, see my reply.
 
-> +    }
-> +}
->  #endif /* !CONFIG_VNC */
->  
->  void qmp_change(const char *device, const char *target,
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index d08d72b439..bc3ffdb20f 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -1179,3 +1179,20 @@
->  ##
->  { 'command': 'query-display-options',
->    'returns': 'DisplayOptions' }
-> +
-> +##
-> +# @reload-vnc-cert:
-> +#
-> +# Reload certificates for vnc.
-> +#
-> +# Returns: nothing
-> +#
-> +# Since: 5.2
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "reload-vnc-cert" }
-> +# <- { "return": {} }
-> +#
-> +##
-> +{ 'command': 'reload-vnc-cert' }
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index 7452ac7df2..b0cfbcf47c 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -582,6 +582,26 @@ VncInfo2List *qmp_query_vnc_servers(Error **errp)
->      return prev;
->  }
->  
-> +int vnc_display_reload_cert(const char *id, Error **errp)
-> +{
-> +    VncDisplay *vd = vnc_display_find(id);
-> +
-> +    if (!vd) {
-> +        return -EINVAL;
-> +    }
-> +
-> +    if (!vd->tlscreds) {
-> +        error_printf_unless_qmp("If you want use vnc tls  please enable "
-> +                                "vnc tls using '-vnc tls-creds=${tls-obj-id}'.\n");
-> +        return -EPERM;
-
-You're passing in a 'Error' object, so use that and don't retyrn errnos
-
-> +    }
-> +
-> +    object_property_set_bool(OBJECT(vd->tlscreds), "loaded", false, NULL);
-> +    object_property_set_bool(OBJECT(vd->tlscreds), "loaded", true, NULL);
-
-This is ignoring all errors which is not at all acceptable. It means on
-failure to load the new certs, we're left with a broken creds object
-which callers will not expect.
-
-We need to be able to do this in a safe way such that we carry on using
-the original TLS certs if loading the new ones fails. This can't be done
-using the 'loaded' property- we need an explicit API to reload things.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Paolo
 
 
