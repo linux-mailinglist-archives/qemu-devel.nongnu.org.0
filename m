@@ -2,74 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA5F2E9812
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 16:07:30 +0100 (CET)
-Received: from localhost ([::1]:53694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DAF42E9828
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 16:14:25 +0100 (CET)
+Received: from localhost ([::1]:38544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwRSD-0008V8-3S
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 10:07:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51246)
+	id 1kwRYt-0005kT-PZ
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 10:14:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kwRNb-0004tx-KO
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:02:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30226)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kwRWp-0004Bv-NO
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:12:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kwRNX-0002UA-Qd
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:02:42 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kwRWm-0005k8-7F
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:12:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609772558;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1609773130;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TBTjoxBNCRgAeE2hy5gXUSfqj/3+BAUspBw9XpugdDQ=;
- b=YiDzTSusT30YLfLVvEPfm5BZn1d72JJsA4x4Ihxv8WI5xVgOUsR/AJqEvvAGEFkiCzouzW
- wH0oR4qnxSEq/fceaEzm5DFTcouMnUClyg+Q2l+syqLo4HpmyTcLpb64uN2Wpry4zCvX0T
- uWztfGGDZ9ormFV9CRGJ9zbR0OevzoY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-G2tmT7fpOy21yykYsi-q2w-1; Mon, 04 Jan 2021 10:02:24 -0500
-X-MC-Unique: G2tmT7fpOy21yykYsi-q2w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 942C559;
- Mon,  4 Jan 2021 15:02:22 +0000 (UTC)
-Received: from redhat.com (ovpn-114-43.ams2.redhat.com [10.36.114.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 803E35D768;
- Mon,  4 Jan 2021 15:02:07 +0000 (UTC)
-Date: Mon, 4 Jan 2021 15:02:04 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: elena.ufimtseva@oracle.com
-Subject: Re: [PATCH v15 07/20] multi-process: add qio channel write function
-Message-ID: <20210104150204.GL640208@redhat.com>
-References: <cover.1608702853.git.elena.ufimtseva@oracle.com>
- <5326844a151bf409842c8df343a47d019ec9e633.1608702853.git.elena.ufimtseva@oracle.com>
+ bh=jakqKe5FgH5rgsYPbyWPFEb1YK9GEqQ6HEYYf9tjfeY=;
+ b=NeeMVQXfyi+Yx4JnodRrqHolUicsxw7oomuh+jGwxCom6sDjD7H0bagVa/IJBeA36yZpL3
+ prLbccTvq22CrlPur1QeeDSKykGjwJQ2XoK3TCFFu9lxG+onN+0L1/9gNloeotjVq/N58O
+ b57mArTrAK2Y2cEteriR7zqs7Vgzf4s=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-414-ihz6AmDqO1K7m4LlO95Erw-1; Mon, 04 Jan 2021 10:12:05 -0500
+X-MC-Unique: ihz6AmDqO1K7m4LlO95Erw-1
+Received: by mail-wr1-f70.google.com with SMTP id n11so13326200wro.7
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 07:12:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jakqKe5FgH5rgsYPbyWPFEb1YK9GEqQ6HEYYf9tjfeY=;
+ b=YJm1kjUAkpieVTeM41OyJMAzou3fjSP7rRful9aL1rLSnN//qIQ6utPXCyud32jpnM
+ mtQCTOTJTXP07pbDxY9sn5CX7A6wDI4BSV89ONs3KRKUgspSbeXkUOmM+2R2IOoOCz26
+ G7bJKxGA3/hlbgapAgdyxNC8jDqexp+t7lKE7xFDgO02c2lT3wLnBN9sgamXYJULNKI9
+ gJb8BPnLC9+93TMKfXmToBX2uvuwcz/L8TlLdSQBNORmePcI+KRvMLqaBDSaH0QiiQFJ
+ lJG3vCMJ/K+lPZ9vqz9zsS3Kx+ScH/01rAq3WceeMoPqU3x81iKXmP8VgUF8j/KSxDYb
+ Lb7A==
+X-Gm-Message-State: AOAM533Lx9BpLP+DYx67wYvkEHwFDl72iIieKZ3teB6aD9BQzoeY5h+8
+ nysZYlwbZUf3GFlnMYVVGEBXzik0dSfHOCan9PzJM5fbmGr40pxolGaKYY7ANRHXjeBsxGfWnDd
+ ymWSo+VvG70/y1cY=
+X-Received: by 2002:a1c:9684:: with SMTP id y126mr27816706wmd.2.1609773124433; 
+ Mon, 04 Jan 2021 07:12:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxD2laqLGiAs7o7tVT7JWcFlV7IickjiubasaRFHRGnAK6NFMdfGPO6ayvNYhLladJfFLm5ZA==
+X-Received: by 2002:a1c:9684:: with SMTP id y126mr27816678wmd.2.1609773124119; 
+ Mon, 04 Jan 2021 07:12:04 -0800 (PST)
+Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.241])
+ by smtp.gmail.com with ESMTPSA id o8sm89828798wrm.17.2021.01.04.07.12.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jan 2021 07:12:03 -0800 (PST)
+Subject: Re: [PULL 1/5] trace: Send "-d trace:help" output to stdout
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20210104143154.462212-1-stefanha@redhat.com>
+ <20210104143154.462212-2-stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3ad97bd8-d83d-27dd-0ac5-25766a31df8b@redhat.com>
+Date: Mon, 4 Jan 2021 16:12:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <5326844a151bf409842c8df343a47d019ec9e633.1608702853.git.elena.ufimtseva@oracle.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210104143154.462212-2-stefanha@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,136 +98,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
- felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
- konrad.wilk@oracle.com, dgilbert@redhat.com, alex.williamson@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, kwolf@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Doug Evans <dje@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since this is independent of the multi-process code, it
-should have a subject prefix of "io:". I'd suggest
-
-   io: add qio_channel_writev_full_all helper
-
-On Tue, Dec 22, 2020 at 10:14:42PM -0800, elena.ufimtseva@oracle.com wrote:
-> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+On 1/4/21 3:31 PM, Stefan Hajnoczi wrote:
+> From: Doug Evans <dje@google.com>
 > 
-> Adds qio_channel_writev_full_all() to transmit both data and FDs.
-> Refactors existing code to use this function.
+> ... for consistency with "-d help".
+
+Doh the request to make sense with this comment
+got lost :/
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg765789.html
+
+Not a big deal as the patch is trivial.
+
 > 
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Doug Evans <dje@google.com>
+> Message-id: 20201125215245.3514695-1-dje@google.com
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  include/io/channel.h | 25 +++++++++++++++++++++++++
->  io/channel.c         | 17 ++++++++++++++++-
->  2 files changed, 41 insertions(+), 1 deletion(-)
+>  trace/control.h |  3 ++-
+>  trace/control.c | 12 ++++++------
+>  2 files changed, 8 insertions(+), 7 deletions(-)
 > 
-> diff --git a/include/io/channel.h b/include/io/channel.h
-> index 4d6fe45f63..2378567d4b 100644
-> --- a/include/io/channel.h
-> +++ b/include/io/channel.h
-> @@ -774,4 +774,29 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
->                                      IOHandler *io_write,
->                                      void *opaque);
+> diff --git a/trace/control.h b/trace/control.h
+> index 05b95ea453..9522a7b318 100644
+> --- a/trace/control.h
+> +++ b/trace/control.h
+> @@ -201,10 +201,11 @@ void trace_fini_vcpu(CPUState *vcpu);
 >  
-> +/**
-> + * qio_channel_writev_full_all:
-> + * @ioc: the channel object
-> + * @iov: the array of memory regions to write data from
-> + * @niov: the length of the @iov array
-> + * @fds: an array of file handles to send
-> + * @nfds: number of file handles in @fds
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + *
-> + * Behaves like qio_channel_writev_full but will attempt
-> + * to send all data passed (file handles and memory regions).
-> + * The function will wait for all requested data
-> + * to be written, yielding from the current coroutine
-> + * if required.
-> + *
-> + * Returns: 0 if all bytes were written, or -1 on error
-> + */
-> +
-> +int qio_channel_writev_full_all(QIOChannel *ioc,
-> +                           const struct iovec *iov,
-> +                           size_t niov,
-> +                           int *fds, size_t nfds,
-> +                           Error **errp);
-
-Copy-paste mistake - alignment of parameters is incorrect now.
-
-> +
->  #endif /* QIO_CHANNEL_H */
-> diff --git a/io/channel.c b/io/channel.c
-> index 93d449dee2..bde1f6d0f4 100644
-> --- a/io/channel.c
-> +++ b/io/channel.c
-> @@ -156,11 +156,22 @@ int qio_channel_writev_all(QIOChannel *ioc,
->                             const struct iovec *iov,
->                             size_t niov,
->                             Error **errp)
-> +{
-> +    return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, errp);
-> +}
-> +
-> +int qio_channel_writev_full_all(QIOChannel *ioc,
-> +                                const struct iovec *iov,
-> +                                size_t niov,
-> +                                int *fds, size_t nfds,
-> +                                Error **errp)
+>  /**
+>   * trace_list_events:
+> + * @f: Where to send output.
+>   *
+>   * List all available events.
+>   */
+> -void trace_list_events(void);
+> +void trace_list_events(FILE *f);
+>  
+>  /**
+>   * trace_enable_events:
+> diff --git a/trace/control.c b/trace/control.c
+> index b82fb87316..cd04dd4e0c 100644
+> --- a/trace/control.c
+> +++ b/trace/control.c
+> @@ -125,18 +125,18 @@ TraceEvent *trace_event_iter_next(TraceEventIter *iter)
+>      return NULL;
+>  }
+>  
+> -void trace_list_events(void)
+> +void trace_list_events(FILE *f)
 >  {
->      int ret = -1;
->      struct iovec *local_iov = g_new(struct iovec, niov);
->      struct iovec *local_iov_head = local_iov;
->      unsigned int nlocal_iov = niov;
-> +    int *local_fds = fds;
-> +    size_t local_nfds = nfds;
-
-I don't see any need for these extra variables - just
-use the parameters in place
-
->  
->      nlocal_iov = iov_copy(local_iov, nlocal_iov,
->                            iov, niov,
-> @@ -168,7 +179,8 @@ int qio_channel_writev_all(QIOChannel *ioc,
->  
->      while (nlocal_iov > 0) {
->          ssize_t len;
-> -        len = qio_channel_writev(ioc, local_iov, nlocal_iov, errp);
-> +        len = qio_channel_writev_full(ioc, local_iov, nlocal_iov, local_fds,
-> +                                      local_nfds, errp);
->          if (len == QIO_CHANNEL_ERR_BLOCK) {
->              if (qemu_in_coroutine()) {
->                  qio_channel_yield(ioc, G_IO_OUT);
-> @@ -182,6 +194,9 @@ int qio_channel_writev_all(QIOChannel *ioc,
->          }
->  
->          iov_discard_front(&local_iov, &nlocal_iov, len);
-> +
-> +        local_fds = NULL;
-> +        local_nfds = 0;
+>      TraceEventIter iter;
+>      TraceEvent *ev;
+>      trace_event_iter_init(&iter, NULL);
+>      while ((ev = trace_event_iter_next(&iter)) != NULL) {
+> -        fprintf(stderr, "%s\n", trace_event_get_name(ev));
+> +        fprintf(f, "%s\n", trace_event_get_name(ev));
 >      }
->  
->      ret = 0;
-
-If the above tweaks are made then
-
-   Acked-by: Daniel P. Berrangé <berrange@redhat.com>
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>  #ifdef CONFIG_TRACE_DTRACE
+> -    fprintf(stderr, "This list of names of trace points may be incomplete "
+> -                    "when using the DTrace/SystemTap backends.\n"
+> -                    "Run 'qemu-trace-stap list %s' to print the full list.\n",
+> +    fprintf(f, "This list of names of trace points may be incomplete "
+> +               "when using the DTrace/SystemTap backends.\n"
+> +               "Run 'qemu-trace-stap list %s' to print the full list.\n",
+>              error_get_progname());
+>  #endif
+>  }
+> @@ -176,7 +176,7 @@ static void do_trace_enable_events(const char *line_buf)
+>  void trace_enable_events(const char *line_buf)
+>  {
+>      if (is_help_option(line_buf)) {
+> -        trace_list_events();
+> +        trace_list_events(stdout);
+>          if (monitor_cur() == NULL) {
+>              exit(0);
+>          }
+> 
 
 
