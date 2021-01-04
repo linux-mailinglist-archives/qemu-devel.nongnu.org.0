@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C404D2E9FE2
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 23:18:04 +0100 (CET)
-Received: from localhost ([::1]:58696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367072E9FDC
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 23:14:55 +0100 (CET)
+Received: from localhost ([::1]:51082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwYAt-00035b-PZ
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 17:18:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41768)
+	id 1kwY7q-0008LI-5L
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 17:14:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwY5D-0006NS-CV
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:12:11 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42185)
+ id 1kwY5I-0006Xp-To
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:12:22 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwY5C-0007nD-0g
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:12:11 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id m5so33592953wrx.9
- for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 14:12:09 -0800 (PST)
+ id 1kwY5H-0007pW-Bz
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:12:16 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id y17so33638013wrr.10
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 14:12:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1xSZWIVn+fZ9mZfvZyHB6Qw66SpG//htqcx68delhkw=;
- b=GROh1aZtRvffQCAgbfubLpHMJUjqJ4/eab8wE/js2x3/hhhQ6CKN4r+8Wu1cj8sW9h
- fuGjEFDq0OzM224vobuVADHRYeYTE82tp8kQTe56wddY7b0tLwJlmNForoParHk03oF3
- zmjh9rR6tbrLsSya1LCiWHy63PCY8DWMmurRQL21mo7xWiic86uCQ8zqZVHxtFNbMUnd
- Ga6kZUjpaLgZl0bNlj7rD3aNiYqTorNuEAsjVuDg2SK+WNl6fnpuCv1xC+6HOtjG0SrC
- a1irVpI2pDfOvdgp+81xL1N1aoNaOeeZj4YMsGtM+5ONZdEtPsuAzt3GS1Vs/0/g303S
- 0cHw==
+ bh=Mf1NXGoh/iaVlyRR50VUiVMtSin249waJuI6gSQgqVE=;
+ b=DM7inBfD0ZeQVZvEtUgTlMRGd524a1scT+jy3CY95rtTR+sX3H5MvOPXYYuZ3lfdsg
+ pK3UoqFyp72AQ7gaZjbGmlcHBEadM+KTStVmalT8PVdfHqQHfpv3/KAZLMatKwK29G74
+ WDswOMqefSDOeuV1H274rc8W4aalI3OWjjNZpPDmN3mK7SJzEWgQsiYISEF2p5tenKlr
+ 5WsD8tBDAtdBefnF7AUh1rNEqO+ET0ly2EtMAxW2gwgehQAYoEnDAOl5XhwqI3bCb/TL
+ /G44rN+SqhI+lV0ME66aA5ome6xNLC/9gCElU+xB+FyXcf4eIAMllbdgF1P9hQGdBkL1
+ oIdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=1xSZWIVn+fZ9mZfvZyHB6Qw66SpG//htqcx68delhkw=;
- b=LBmInPLiyC9aXW/aQ+fTg0HPBr3ymrtawwvb4Ty9Y0h/3WQ0IeqOYgGtZkh9tjHdmH
- 4ArE6vq/GRvzEZzNR3CMjHWpFA5nNgToZCdarawoavlLDQs7JP8uRoMMlB/9mxp7NikH
- xH+r90IhQac5iegKzUsjJ0kgqRjS4gZty+zEIYON/WFAV/dpx0WGZW3tZK7t4NgzBeKi
- KlH2jOf4AaDWyLcehzqOY/oX3BsfsMoMWcCZCXiuWv70Y7RnQWceyRIq1g3mUy0volCX
- re9aJft63yJA8wN/4Kti4eMlNNYNXeCvvr5jukNJffP1D09r9dbwAbnCpV7bGJRdInzN
- medA==
-X-Gm-Message-State: AOAM531kbwLDeT2SXEuXHCcZ+WdCCxqEKhvBLBjmLDSnkGp68WfoNayd
- y/pdZHFNFY8hKchHxoxmNyqOr2lYgag=
-X-Google-Smtp-Source: ABdhPJwugpLFpTrOd/MIMlxZ+LbvUp/F9kYOvaXpTYCCj9W5N/Cdgd+GwJd9q9oI5hpC/aRb+gWUhA==
-X-Received: by 2002:adf:b343:: with SMTP id k3mr80617323wrd.202.1609798328315; 
- Mon, 04 Jan 2021 14:12:08 -0800 (PST)
+ bh=Mf1NXGoh/iaVlyRR50VUiVMtSin249waJuI6gSQgqVE=;
+ b=VAvIEU6Bi5lNfzAIBN4SkLoi3Fpukw0JoA0xYgsBjOYW1zAyNYnq82F74jkcR3ik0V
+ GyJKcVSSB0F7BReFzP5JTIcIq4ndw1bYfKhHypRLq6NrL8AuYiQgKSLJxZaU49MG1Q+y
+ dZGM3R+dAnxk99ug8NdZZrjCdxrP75I0TlPRAtewPz5SOB1poDgQ48zkl8YcSNAeQ6LA
+ ytNfBxsyE2bIzw+t0C60ob2eh4t3elw8s65I8xa9GfyMiX3j2Wk26FQNWPyv+jih6/bO
+ FB4hRPdJcpt4hM8Nu87vRm2hiqL1KFVrw1yj+8e8TOwuX2BRfe5LbLHPHlbWJXaDXZqJ
+ a0EQ==
+X-Gm-Message-State: AOAM5311BhTqQpUYCQFr7bbelXxfuz+2kEBRaAexBwnvvIwPEWo1N1Dx
+ EKD3lzUSsgP2uT5nB7/3HkGVkjU5HJI=
+X-Google-Smtp-Source: ABdhPJxwmS9rZkEH6IGUSP5JK/jfE1ZrxdgxLd2vFraY1LTgj81LEL+G79Ud2mLAmUtclbKVmrYP9Q==
+X-Received: by 2002:a5d:4a44:: with SMTP id v4mr84457957wrs.106.1609798333853; 
+ Mon, 04 Jan 2021 14:12:13 -0800 (PST)
 Received: from x1w.redhat.com (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id s6sm102192699wro.79.2021.01.04.14.12.06
+ by smtp.gmail.com with ESMTPSA id k10sm87981974wrq.38.2021.01.04.14.12.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jan 2021 14:12:07 -0800 (PST)
+ Mon, 04 Jan 2021 14:12:13 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/15] target/mips/mips-defs: Reorder CPU_MIPS5 definition
-Date: Mon,  4 Jan 2021 23:11:41 +0100
-Message-Id: <20210104221154.3127610-3-f4bug@amsat.org>
+Subject: [PATCH v3 03/15] target/mips/mips-defs: Rename CPU_MIPSxx Release 1
+ as CPU_MIPSxxR1
+Date: Mon,  4 Jan 2021 23:11:42 +0100
+Message-Id: <20210104221154.3127610-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210104221154.3127610-1-f4bug@amsat.org>
 References: <20210104221154.3127610-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,34 +94,104 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move CPU_MIPS5 after CPU_MIPS4 :)
+'CPU_MIPS32' and 'CPU_MIPS64' definitions concern CPUs implementing
+the "Release 1" ISA. Rename it with the 'R1' suffix, as the other
+CPU definitions do.
 
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/mips-defs.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ target/mips/mips-defs.h          |  8 ++++----
+ target/mips/translate_init.c.inc | 14 +++++++-------
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
-index 555e165fb01..48544ba73b4 100644
+index 48544ba73b4..1630ae20d59 100644
 --- a/target/mips/mips-defs.h
 +++ b/target/mips/mips-defs.h
-@@ -65,13 +65,12 @@
- #define CPU_MIPS2       (CPU_MIPS1 | ISA_MIPS2)
- #define CPU_MIPS3       (CPU_MIPS2 | ISA_MIPS3)
- #define CPU_MIPS4       (CPU_MIPS3 | ISA_MIPS4)
-+#define CPU_MIPS5       (CPU_MIPS4 | ISA_MIPS5)
- #define CPU_VR54XX      (CPU_MIPS4 | INSN_VR54XX)
- #define CPU_R5900       (CPU_MIPS3 | INSN_R5900)
- #define CPU_LOONGSON2E  (CPU_MIPS3 | INSN_LOONGSON2E)
+@@ -72,12 +72,12 @@
  #define CPU_LOONGSON2F  (CPU_MIPS3 | INSN_LOONGSON2F | ASE_LMMI)
  
--#define CPU_MIPS5       (CPU_MIPS4 | ISA_MIPS5)
--
  /* MIPS Technologies "Release 1" */
- #define CPU_MIPS32      (CPU_MIPS2 | ISA_MIPS32)
- #define CPU_MIPS64      (CPU_MIPS5 | CPU_MIPS32 | ISA_MIPS64)
+-#define CPU_MIPS32      (CPU_MIPS2 | ISA_MIPS32)
+-#define CPU_MIPS64      (CPU_MIPS5 | CPU_MIPS32 | ISA_MIPS64)
++#define CPU_MIPS32R1    (CPU_MIPS2 | ISA_MIPS32)
++#define CPU_MIPS64R1    (CPU_MIPS5 | CPU_MIPS32R1 | ISA_MIPS64)
+ 
+ /* MIPS Technologies "Release 2" */
+-#define CPU_MIPS32R2    (CPU_MIPS32 | ISA_MIPS32R2)
+-#define CPU_MIPS64R2    (CPU_MIPS64 | CPU_MIPS32R2 | ISA_MIPS64R2)
++#define CPU_MIPS32R2    (CPU_MIPS32R1 | ISA_MIPS32R2)
++#define CPU_MIPS64R2    (CPU_MIPS64R1 | CPU_MIPS32R2 | ISA_MIPS64R2)
+ 
+ /* MIPS Technologies "Release 3" */
+ #define CPU_MIPS32R3    (CPU_MIPS32R2 | ISA_MIPS32R3)
+diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
+index f72fee3b40a..427da84768b 100644
+--- a/target/mips/translate_init.c.inc
++++ b/target/mips/translate_init.c.inc
+@@ -72,7 +72,7 @@ const mips_def_t mips_defs[] =
+         .CP0_Status_rw_bitmask = 0x1278FF17,
+         .SEGBITS = 32,
+         .PABITS = 32,
+-        .insn_flags = CPU_MIPS32,
++        .insn_flags = CPU_MIPS32R1,
+         .mmu_type = MMU_TYPE_R4000,
+     },
+     {
+@@ -94,7 +94,7 @@ const mips_def_t mips_defs[] =
+         .CP0_Status_rw_bitmask = 0x1258FF17,
+         .SEGBITS = 32,
+         .PABITS = 32,
+-        .insn_flags = CPU_MIPS32 | ASE_MIPS16,
++        .insn_flags = CPU_MIPS32R1 | ASE_MIPS16,
+         .mmu_type = MMU_TYPE_FMT,
+     },
+     {
+@@ -114,7 +114,7 @@ const mips_def_t mips_defs[] =
+         .CP0_Status_rw_bitmask = 0x1278FF17,
+         .SEGBITS = 32,
+         .PABITS = 32,
+-        .insn_flags = CPU_MIPS32,
++        .insn_flags = CPU_MIPS32R1,
+         .mmu_type = MMU_TYPE_R4000,
+     },
+     {
+@@ -134,7 +134,7 @@ const mips_def_t mips_defs[] =
+         .CP0_Status_rw_bitmask = 0x1258FF17,
+         .SEGBITS = 32,
+         .PABITS = 32,
+-        .insn_flags = CPU_MIPS32 | ASE_MIPS16,
++        .insn_flags = CPU_MIPS32R1 | ASE_MIPS16,
+         .mmu_type = MMU_TYPE_FMT,
+     },
+     {
+@@ -550,7 +550,7 @@ const mips_def_t mips_defs[] =
+         .CP0_Status_rw_bitmask = 0x12F8FFFF,
+         .SEGBITS = 42,
+         .PABITS = 36,
+-        .insn_flags = CPU_MIPS64,
++        .insn_flags = CPU_MIPS64R1,
+         .mmu_type = MMU_TYPE_R4000,
+     },
+     {
+@@ -576,7 +576,7 @@ const mips_def_t mips_defs[] =
+         .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
+         .SEGBITS = 42,
+         .PABITS = 36,
+-        .insn_flags = CPU_MIPS64,
++        .insn_flags = CPU_MIPS64R1,
+         .mmu_type = MMU_TYPE_R4000,
+     },
+     {
+@@ -605,7 +605,7 @@ const mips_def_t mips_defs[] =
+         .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
+         .SEGBITS = 40,
+         .PABITS = 36,
+-        .insn_flags = CPU_MIPS64 | ASE_MIPS3D,
++        .insn_flags = CPU_MIPS64R1 | ASE_MIPS3D,
+         .mmu_type = MMU_TYPE_R4000,
+     },
+     {
 -- 
 2.26.2
 
