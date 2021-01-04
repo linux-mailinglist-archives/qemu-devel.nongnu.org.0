@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB812E9435
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 12:42:56 +0100 (CET)
-Received: from localhost ([::1]:49854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A562E944D
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 12:51:09 +0100 (CET)
+Received: from localhost ([::1]:58154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwOGF-0004ce-KB
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 06:42:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36192)
+	id 1kwOOC-0008Lh-Da
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 06:51:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kwOFR-0004CU-Lu
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 06:42:05 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:34288)
+ id 1kwOMA-0007TN-J2
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 06:49:02 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:40989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kwOFM-0002G8-At
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 06:42:04 -0500
-Received: by mail-ej1-x634.google.com with SMTP id g20so36438109ejb.1
- for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 03:41:59 -0800 (PST)
+ id 1kwOM6-0004SC-VP
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 06:49:02 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id i24so27011679edj.8
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 03:48:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=2PZB7CFxUiQhHqh+6HRrKqpZKirPEUsItKKtTMkOpu8=;
- b=jWTq669gpdltqAUEdXY0J8tr6IijVxozjEo39FbaeWlTSeuntrHjzLEoIURoQlXJXw
- 3XF8m2lFAKZiy6QdpBclX48v74LqGG0H53TgY5L95c6Lj4xsxLYUOboeQpBhxJVbUzIa
- 4OodEnSaTEpPpbOkillimQkadEXoFMMPdd2u03rqeWPpn3vAxIphyPKSjWJQdG2hVOUE
- giowhX7WymHNKzLAdYNHBDW8HRdMtsTbImYmuHaH9I+uI7JOp5Uf4FMei3Y30Wyx7Vlf
- hNmM9o0smQUWvyAG6skY79bAL4gVlA6OCOP132Q7GvdNwmPWssJOR/Xrb1idIS1t6OJA
- vZ9Q==
+ :cc; bh=fKCnx/I9P/UrRwpnQl2g55m3YR0ss5fvnhnmrp8Uk5A=;
+ b=Z8mBiAxlBIZbUCAgEdZsIJv5ggsF9z4K6AI7nGMT44ZgCh5Mr3kRreBjTpnhmqQcCD
+ ro15gS+4ZmSFu6bFaOO9SJCnsjBROiEYzXDd3D3a0/ofoskbg5Ku1las+D1cf57UmMZA
+ tZKYkczvkfLgUSw/Pa6AnjSebDhWWchSh9EkzQTnYNUXbD8e4f2ecmadY3zRGx0WNP0y
+ 5ZmcwvFOBXtA+K/KBrMWZHPr1rhvb7OuqE8lE9tBqFoRdohC9b9xkd06ydXT+7PQuAA+
+ 2z2Ml5BWvRrG9Ip4Ycp3ImKlbOIUlMaWOPAURzuwAtDHmz7n4/6XjgB3SIa66L+gIlLm
+ I8vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2PZB7CFxUiQhHqh+6HRrKqpZKirPEUsItKKtTMkOpu8=;
- b=uX0FKXQVyyqWbYN+832iaX6Q4yqyBRJNFabx5biOGKWNON4iiL3nfu7FPA3v4bAibg
- Swf2iVZEpO+YuEReEAIMxqqz5szKn7K0vF3Y2w0FtyGikG6FQTebqxjP74EUijR6D4jQ
- rA93sro6YyS6nasSxSWwxan0oA2E39nBFRPb9JLPKczREwNETfMnD7IQRd0sZuTxDvbI
- IiG4lTlLa36Bcp1UJ6h5Y2nReDiE6bCd7kARq4ZUoAq+cpXpth0aGc0SmeW0kaqcz1aY
- i3vh4Z4J5L9YMSvbenia6SjJpr9jb425agvQvN8mcI5fy/uJakBvEgoWpaXxIEwI1w8K
- dZ2w==
-X-Gm-Message-State: AOAM531HOSllC2c7HJrm3uMsAoRoeqJ/SJNs8P0N/QPpObpPrQQ9m1Rc
- PnNj/vO3SL10haSx1nSaVM+eqz4bVDbJWpUTSkTfiA==
-X-Google-Smtp-Source: ABdhPJwMjF6ujCK7RvPi9q22HIYnr7Y08lF5+EosjW8fJGeyy5ufXwBBQdWY/GrgbqjGDE1FsFdhVMYjv3zb8MiXQFU=
-X-Received: by 2002:a17:906:3d4a:: with SMTP id
- q10mr41216423ejf.85.1609760518083; 
- Mon, 04 Jan 2021 03:41:58 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=fKCnx/I9P/UrRwpnQl2g55m3YR0ss5fvnhnmrp8Uk5A=;
+ b=R05owUFx99KcQjAAljP7bVfgOzXuYH9Qgnn9feUBsypYdRiCwt+dZ0eZKNoifzEgj7
+ YaLJ6g89tVvAn44ekfWDwQwxF9kYandY3ar+VJmNvA9b0exqhFBatI8KAbc5/0OXfqWW
+ 8fG78NgWk8KglD6bYLmXoFCciIZnRFWES+WYFCC7lPglR3KGk92DD2drDL2EB+TsxdXk
+ xZdQ/EP1fMnprm6tWhwUSuXv1FI2askTbCoDRLrhT96VD1YgM8uy43+neNQI/7niWcAN
+ PoZh/K+Es9O5XjzKY3Iu/edJIqgxCXchiLjPGlmD+7/Pv8HEFa62Vl6LZhrI0K9au1VX
+ swYQ==
+X-Gm-Message-State: AOAM5322PXSLYkpPOkHdo8jaGOjZ+u24xdJfIxbhyHNXdWy1E1U0NnTe
+ 9V1LVF6/8ia8Majnuai7dtTblp9Hdb/BouOWJGtsQw==
+X-Google-Smtp-Source: ABdhPJwAuoJdCT+Vvl+yzSfH6cu9jGxgUdPK9NytRBUkVOmbAIIdeObu9EnzSKc5ceSMDWOZbUIM44YRQjCbCeNfG9c=
+X-Received: by 2002:aa7:cdc3:: with SMTP id h3mr15586134edw.52.1609760937015; 
+ Mon, 04 Jan 2021 03:48:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20210103205021.2837760-1-f4bug@amsat.org>
-In-Reply-To: <20210103205021.2837760-1-f4bug@amsat.org>
+References: <cover.1609413115.git.balaton@eik.bme.hu>
+ <a55cd539835084bd322695c483273dc4b144ccbc.1609413115.git.balaton@eik.bme.hu>
+ <41b3af5a-2f2b-41eb-98f1-909e80b26ff@eik.bme.hu>
+In-Reply-To: <41b3af5a-2f2b-41eb-98f1-909e80b26ff@eik.bme.hu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 4 Jan 2021 11:41:47 +0000
-Message-ID: <CAFEAcA--dkcqBJr=b1LcNpLtctYJewuT8Yvx9Uo47YC6JGgR-Q@mail.gmail.com>
-Subject: Re: [PULL 00/35] MIPS patches for 2021-01-03
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 4 Jan 2021 11:48:45 +0000
+Message-ID: <CAFEAcA8Et5z+ixLosVTf2SU9K7_fJ4BmzLwCtkchvbS15SsCjg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] sam460ex: Remove FDT_PPC dependency from KConfig
+To: BALATON Zoltan <balaton@eik.bme.hu>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,58 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 3 Jan 2021 at 20:53, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
+On Mon, 4 Jan 2021 at 01:51, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+> Something is still not right with this, I've noticed that a few other
+> boards also have this option selected but they don't need fdt.o that's
+> gated by this option in meson.build. That fdt.o is only needed by PSERIES
+> and POWERNV but removing FDT_PPC from other boards I get:
 >
-> The following changes since commit 83734919c408ba02adb6ea616d68cd1a72837f=
-be:
+> ../hw/ppc/sam460ex.c:43:10: fatal error: libfdt.h: No such file or directory
+>   #include <libfdt.h>
 >
->   Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20201222=
-' into staging (2021-01-01 18:19:44 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/philmd/qemu.git tags/mips-20210103
->
-> for you to fetch changes up to 9c592996981fcb37fef011d7e9603cb31f8ef29f:
->
->   tests/acceptance: Test boot_linux_console for fuloong2e (2021-01-03 21:=
-41:03 +0100)
->
-> ----------------------------------------------------------------
-> MIPS patches queue
->
-> - Use PCI macros (Philippe Mathieu-Daud=C3=A9)
-> - Clean up VT82C686B south bridge (BALATON Zoltan)
-> - Introduce clock_ticks_to_ns() (Peter Maydell)
-> - Add Loongson-3 machine (Huacai Chen)
-> - Make addresses used by bootloader unsigned (Jiaxun Yang)
-> - Clean fuloong2e PROM environment (Jiaxun Yang)
-> - Add integration test of fuloong2e booting Linux (Jiaxun Yang)
+> so apparently this switch also pulls in the necessary CPPFLAGS or libfdt
+> dependency. Is there a separate switch for that or we can only get it with
+> fdt.o. Not a big deal just not trivial why we need an option that at first
+> sight select a source file which we don't need. I think I'll drop this
+> patch for now when resending the series.
 
+This happens because hw/ppc/meson.build does:
 
-This fails 'make check' (consistently) on the aarch32-chroot-on-aarch64
-host:
+ppc_ss.add(when: 'CONFIG_FDT_PPC', if_true: [files(
+  'fdt.c',
+), fdt])
 
-PASS 51 qtest-mips64el/qmp-cmd-test /mips64el/qmp/query-command-line-option=
-s
-PASS 52 qtest-mips64el/qmp-cmd-test /mips64el/qmp/query-acpi-ospm-status
-PASS 53 qtest-mips64el/qmp-cmd-test /mips64el/qmp/object-add-failure-modes
-MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-QTEST_QEMU_IMG=3D./qemu-img
-G_TEST_DBUS_DAEMON=3D/home/peter.maydell/qemu/tests/dbus-vmstate-daemon.sh
-QTEST_QEMU_BINARY=3D./qemu-system-mips64el tests/qtest/qom-test --tap -k
-double free or corruption (out)
-../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
-signal 6 (Aborted)
-ERROR qtest-mips64el/qom-test - too few tests run (expected 8, got 0)
-Makefile.mtest:2249: recipe for target 'run-test-279' failed
-make: *** [run-test-279] Error 1
+ie if CONFIG_FDT_PPC is set then both
+ * add fdt.c to the build
+ * add the 'fdt' dependency (which brings in the CFLAGS and
+   LDFLAGS necessary for libfdt).
+
+So yes, at the moment for PPC there are only two options:
+ * board doesn't use FDT at all
+ * board uses FDT and gets hw/ppc/fdt.c linked in even if it
+   doesn't use the functions there
+
+Since fdt.c currently has just one not very large function (which
+is only even present if TARGET_PPC64) this doesn't seem like a big
+deal, but in theory the "need libfdt" and "need fdt.c" parts could
+be decoupled.
 
 thanks
 -- PMM
