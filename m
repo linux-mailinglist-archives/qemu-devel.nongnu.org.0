@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AA812EA0F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 00:36:16 +0100 (CET)
-Received: from localhost ([::1]:55416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B5CF2EA0E0
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 00:33:44 +0100 (CET)
+Received: from localhost ([::1]:49710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwZOZ-0007Tg-82
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 18:36:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
+	id 1kwZM7-00057W-LQ
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 18:33:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kwZEU-0008KL-V1
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 18:25:50 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:38714)
+ id 1kwZIi-0003cx-K4
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 18:30:12 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:45438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kwZET-0000Ob-Ab
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 18:25:50 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id j13so567273pjz.3
- for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 15:25:45 -0800 (PST)
+ id 1kwZIg-0001dv-U0
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 18:30:12 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id q22so17306820pfk.12
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 15:30:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=j9+H48URuLcD6S4ntQCEnlLysJkqbtZlOYGuLEzy+5E=;
- b=fQ3E6Ah9s3vpcxhkCq0jirjZeCScIidNgP4b2ELbHuOUT6md4ik9JE3msP3DUyXdtA
- IwL9V3LovWbESSIKNQFOSd2w9XqQ480YdBkjk89rQKXc+Sl3g8ws6OJ9Uyw0kXPYRoJD
- VXOtgkfRrlCzvw/n24XbvRkkP6u7itA4KaQGoVL8xVX+ZwkMq0TjE2llSAxr4zTe6Vfs
- 3DX/vv87GwWHhf+ySSMDjEL8QYLidrfHR3L6RBsZIBv5ipNcgAo1iS+4jVHQKPxOzdS+
- YIGDS5a7/I0u2YA3+8mUNlk68eNR4oERsc2apCr6EkdORGY3FxJYydNZatKaCgQPmhdS
- yH0Q==
+ bh=TLUDCa07Zx01yRbNm5aS3FZ2iLpzJskWF/eE6BOOAIA=;
+ b=waqb2DF+J5KKMcV/65j0kGUH9xP8TPgQA4EcmTF1KPHBdsyGqmDsHBtNy/tVJ7XXz0
+ o7yi/MTzKsxEwKnEkdv+8L7fQtRIJ+gfvyZLZkW65tt4EIJuqEeDlu4DDOd8Hiju/oqI
+ mtDHD6sr266b0lpiBigptDJ7ZZf+dXA7Ix41ZnLP0442OOADJFRJeZuBKwRBtdTv8kWE
+ +R0bY/csY0fI6ULV13P6v+xYCIuy/TdfuL3bHyr09Lkj0ydLGylPibkL+SwYXHnGzzXT
+ 3cAIxyI02eyYaH8f2QsG5RhGUEcj/IMa3AsZkF3lwTzME7vnWgt+7JS/PksNoetqwHut
+ uUiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=j9+H48URuLcD6S4ntQCEnlLysJkqbtZlOYGuLEzy+5E=;
- b=LTP26ymqB6Q0gpIVf+LUjcoWSAH6dHXs/MiK+/ISl198PX0zyqcGd9CmEG0xWjtSA3
- ir+5QV3GRMm/KRDNUZaQHZH5148cCFfiNGTc1wzpeBgWka2HXad9mttQymOchrpr0cuI
- n19csfTu7ervMyOepp8ImSizwhovKWChwyI2HGeQa0jZ7EHA37FH24pX1cZTmPx8Qgzr
- wh2L7jsosmpW+SjjsDO4GnSvdpXLQT82k+N8fRY+tjcnvmuLgv6Wx7LvVf2UHrm52sAd
- b7B4Q7zbGigh/JeeAGkXTCVb+aFsKAk6Gc4QiV+4Oc893h982L64WbUwam6vlwVGHulJ
- 9wGQ==
-X-Gm-Message-State: AOAM531vJ1XCPkFa40vsYZ/sBo6uAsmgnHw2UQScWJhVtAIUzIa5aXPK
- UvTkBOl1foHxoQVCZxiA+qkPew==
-X-Google-Smtp-Source: ABdhPJxKZN29ECJP/eAta2iSkbWeQFTbe+gm4DtS+d/KegN+BgpwttG4hTJFbgGao/XPfvgHnbGggw==
-X-Received: by 2002:a17:902:7592:b029:dc:3c87:1c63 with SMTP id
- j18-20020a1709027592b02900dc3c871c63mr62910866pll.47.1609802744645; 
- Mon, 04 Jan 2021 15:25:44 -0800 (PST)
+ bh=TLUDCa07Zx01yRbNm5aS3FZ2iLpzJskWF/eE6BOOAIA=;
+ b=WrM+/yb9YNwY93P6X7IHhbyZGSgLNy1Pw51O/F/ClxjEIpejpoPuM9lpbZUZIvqlYj
+ KzH8YSesOe77DZSaXE4jFFoK2NW1OwIe6nxrqqoTGO8fR5ZN8rNIsOz2GB4D3PEHDxdT
+ /tnG/HDnLNKcpFHwqcQdMNDAtuOOZ8YLrXR2wovoffKFSIJSex2SU6+P89MismbTv5Rt
+ TXPD0elMenEqbLsTPB475kNjA7RrsHxc7v0mFb3Tom4jTxBAjC7FOoWeYNPV6vQdsPSN
+ a+94DCbxQXfhjBz2/L4WCaaQxVrCcPvqtgh7upCyfUg3rWvbr3RT5k1hrAgf0h4ZhNWG
+ GFew==
+X-Gm-Message-State: AOAM530j/N+btoTIXUVKqAbBd4cma32PhaTt8vFsafP49R2TUpZIDUwt
+ p7hT/yR5F9xCQTw4Zol84uXjEQ==
+X-Google-Smtp-Source: ABdhPJxsMQwssuWEjHXwFybMJSUB/yT7CAN9ZaTi8er5/ZP/0n002q0ASEpOcQOmfMmGPhwq63RS0g==
+X-Received: by 2002:a62:cf02:0:b029:1a4:6899:618e with SMTP id
+ b2-20020a62cf020000b02901a46899618emr45250781pfg.70.1609803009131; 
+ Mon, 04 Jan 2021 15:30:09 -0800 (PST)
 Received: from [10.25.18.35] (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id a23sm415351pju.31.2021.01.04.15.25.43
+ by smtp.gmail.com with ESMTPSA id p16sm410265pju.47.2021.01.04.15.30.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jan 2021 15:25:44 -0800 (PST)
-Subject: Re: [PATCH v3 03/15] target/mips/mips-defs: Rename CPU_MIPSxx Release
- 1 as CPU_MIPSxxR1
+ Mon, 04 Jan 2021 15:30:08 -0800 (PST)
+Subject: Re: [PATCH v3 04/15] target/mips/mips-defs: Introduce CPU_MIPS64 and
+ cpu_type_is_64bit()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210104221154.3127610-1-f4bug@amsat.org>
- <20210104221154.3127610-4-f4bug@amsat.org>
+ <20210104221154.3127610-5-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c3928b6c-7524-2d1b-4e30-9863d81afb63@linaro.org>
-Date: Mon, 4 Jan 2021 13:25:40 -1000
+Message-ID: <aee2c3f4-f4b0-1d1a-2029-3c027d6cd724@linaro.org>
+Date: Mon, 4 Jan 2021 13:30:05 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210104221154.3127610-4-f4bug@amsat.org>
+In-Reply-To: <20210104221154.3127610-5-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,19 +97,25 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/4/21 12:11 PM, Philippe Mathieu-Daudé wrote:
-> 'CPU_MIPS32' and 'CPU_MIPS64' definitions concern CPUs implementing
-> the "Release 1" ISA. Rename it with the 'R1' suffix, as the other
-> CPU definitions do.
+> MIPS 64-bit ISA is introduced with MIPS3.
 > 
+> Introduce the CPU_MIPS64 definition aliased to the MIPS3 ISA,
+> and the cpu_type_is_64bit() method to check if a CPU supports
+> this ISA (thus is 64-bit).
+> 
+> Suggested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/mips-defs.h          |  8 ++++----
->  target/mips/translate_init.c.inc | 14 +++++++-------
->  2 files changed, 11 insertions(+), 11 deletions(-)
+>  target/mips/cpu.h       | 5 +++++
+>  target/mips/mips-defs.h | 4 +++-
+>  2 files changed, 8 insertions(+), 1 deletion(-)
 
+I still don't understand this as an alias, as opposed to a separate bit.
+(ISA_MIPS3 | CPU_MIPS64R6) does not make sense, because R6 removes instructions.
+
+But if this is an intermediate step,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
-
 
