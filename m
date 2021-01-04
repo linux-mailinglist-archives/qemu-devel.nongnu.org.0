@@ -2,105 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE9622E90D9
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 08:20:13 +0100 (CET)
-Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18842E92A2
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 10:34:21 +0100 (CET)
+Received: from localhost ([::1]:53748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwKA0-0006aU-HB
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 02:20:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38472)
+	id 1kwMFo-0000pU-DV
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 04:34:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
- id 1kwK6U-0005HF-ET; Mon, 04 Jan 2021 02:16:36 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:65126)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
- id 1kwK6J-0003Pe-GD; Mon, 04 Jan 2021 02:16:32 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10473EwP011904; Mon, 4 Jan 2021 02:16:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- message-id : reply-to : references : mime-version : content-type :
- in-reply-to : subject; s=pp1;
- bh=UPh3XwP1kEMkh2iasn5Ypwtn/eLjqUiyXcFMlS70N3c=;
- b=BcSWJXD+9OOxcrLXXfBOGVp74TrlDBtqF+u5KkGPmJBzks4+GXV66PAEUFYHc0r2Pj0X
- 1bxMOHpwpecMeGTLYtJt7KVyRueL3cbn3rFmdJDf6U/etLHyk6LqlsCwCEJ0iVfmoF7S
- teuxn6KR8oEE/8/cQEDVHxT4yoW15tBLETXeiYw49V8vlR+CveuT+MCxM3uDkYXHHr6+
- 7kvy2EWO5/MxKTiwS0WV/hs8I2yD4Mf7txuL9eM8tMTzYpaHRby2xyp/207Z0QNBLeFz
- wmDHgxkwcUSSPNaX7IkyTfhuzixdEjtggy2rDL3PObtbP5QPdPw9MGcZcPfC7oaj8YST Rw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35uva8jphb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 04 Jan 2021 02:16:03 -0500
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10473wDK014152;
- Mon, 4 Jan 2021 02:16:03 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35uva8jpgu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 04 Jan 2021 02:16:03 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 1047Dnap002886;
- Mon, 4 Jan 2021 07:16:01 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 35tg3h9m4k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 04 Jan 2021 07:16:01 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1047Ftfd24772880
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 4 Jan 2021 07:15:55 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 39AFFA4057;
- Mon,  4 Jan 2021 07:15:58 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BA254A4055;
- Mon,  4 Jan 2021 07:15:53 +0000 (GMT)
-Received: from ram-ibm-com.ibm.com (unknown [9.163.29.145])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Mon,  4 Jan 2021 07:15:53 +0000 (GMT)
-Date: Sun, 3 Jan 2021 23:15:50 -0800
-From: Ram Pai <linuxram@us.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Message-ID: <20210104071550.GA22585@ram-ibm-com.ibm.com>
-References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <20201204054415.579042-12-david@gibson.dropbear.id.au>
- <20201214182240.2abd85eb.cohuck@redhat.com>
- <20201217054736.GH310465@yekko.fritz.box>
- <20201217123842.51063918.cohuck@redhat.com>
- <20201217151530.54431f0e@bahia.lan>
- <20201218124111.4957eb50.cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kwMEA-00089M-0j
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 04:32:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kwME6-0000d9-Bo
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 04:32:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609752752;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HxTr71QZaT90y8c2vL2GVs5Sp2A5X0ewvCwxjpolVVQ=;
+ b=NHK+gnlrU8EKoI41UYBKe5QrUiHgBVPTSxUAMMVwelG/Epygvbi5U8ydwZDREQ1zhqsqt3
+ RFyp/aeUkxc2v7O2L0/pFWJi+LHkovUbSJwLoqdHcPaOGlzp+bPf5FOVotu7f44w7Y+sja
+ h7fJcE/iQvKfwFJ1c81LMPKp2n4U1EM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-9Uq7xHMtNTWSbqcs2QKCEw-1; Mon, 04 Jan 2021 04:32:31 -0500
+X-MC-Unique: 9Uq7xHMtNTWSbqcs2QKCEw-1
+Received: by mail-wr1-f71.google.com with SMTP id g17so12932804wrr.11
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 01:32:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=tn7hDzxpKrM1swuwnw3aSgEMZIORK6hhOk9QF/UxR54=;
+ b=PWxGPIe8eOv7EaYzn9BKyP+Px2dHkf6VTB5+Dwavd1p8EVvJoMbrFb7MbmfgTLf3cZ
+ BE0ZjPb3zUWPXBJmD1Je/fYiiT0CGgwYLip9X1Q3mYD9hSK0kHJOrK7zTovcbmW2w5JE
+ JMnfugPsJHF71VetkAPREdlA9iZjYL0Q7rgOupI0+s0rrvhYVx2kCIGmGtAJ+laY2WJp
+ uqTsDeVOm2Qq3JDF6HRhlI+7WXHzoOxsm+KrX/4sQmaV7nKONy5UYBlG01pjMn34ML3W
+ lE+VAW58Gz++pIL1K+xxU0J3QnmT+ZzWsZo6uvBiTLk2Yg47um2HNmswEYyhbNERltva
+ 7Xew==
+X-Gm-Message-State: AOAM532GQn3nWA+339PYpw7cdbUkr7adZSjswU250IWTATCtAoMWwlq1
+ DPyebYGABT6oqid6s7knjrPRgUifKecx2sys8HoaCOnlzoL6rz47YImkZup791Gl/orfSuCiChD
+ FwSL4SVT46Dok9SI=
+X-Received: by 2002:a05:6000:10c4:: with SMTP id
+ b4mr80539860wrx.170.1609752749938; 
+ Mon, 04 Jan 2021 01:32:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx4JuLN6jtROkA0DcLhevcSrtv/oKG8Fo13+2fbLpVuH3BNDwBHHvd1SgSdxKPaKWu9HdWnpw==
+X-Received: by 2002:a05:6000:10c4:: with SMTP id
+ b4mr80539832wrx.170.1609752749696; 
+ Mon, 04 Jan 2021 01:32:29 -0800 (PST)
+Received: from redhat.com (bzq-79-178-32-166.red.bezeqint.net. [79.178.32.166])
+ by smtp.gmail.com with ESMTPSA id n9sm88912868wrq.41.2021.01.04.01.32.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Jan 2021 01:32:28 -0800 (PST)
+Date: Mon, 4 Jan 2021 04:32:25 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 0/5] hw: Use PCI macros from 'hw/pci/pci.h'
+Message-ID: <20210104043218-mutt-send-email-mst@kernel.org>
+References: <20201012124506.3406909-1-philmd@redhat.com>
+ <04b12adf-39ad-dc19-0458-74b0db809a95@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <04b12adf-39ad-dc19-0458-74b0db809a95@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20201218124111.4957eb50.cohuck@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-Subject: Re:  Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-04_04:2020-12-31,
- 2021-01-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 impostorscore=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0
- mlxlogscore=999 spamscore=0 priorityscore=1501 phishscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101040047
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=linuxram@us.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,122 +96,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Ram Pai <linuxram@us.ibm.com>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- frankja@linux.ibm.com, david@redhat.com, mdroth@linux.vnet.ibm.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>, thuth@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- dgilbert@redhat.com, qemu-s390x@nongnu.org, rth@twiddle.net,
- berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-ppc@nongnu.org, pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Huacai Chen <chenhc@lemote.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-trivial@nongnu.org,
+ Helge Deller <deller@gmx.de>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-arm@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Richard Henderson <rth@twiddle.net>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 18, 2020 at 12:41:11PM +0100, Cornelia Huck wrote:
-> On Thu, 17 Dec 2020 15:15:30 +0100
-> Greg Kurz <groug@kaod.org> wrote:
-> 
-> > On Thu, 17 Dec 2020 12:38:42 +0100
-> > Cornelia Huck <cohuck@redhat.com> wrote:
+On Sun, Jan 03, 2021 at 02:04:53PM +0100, Philippe Mathieu-Daudé wrote:
+> On 10/12/20 2:45 PM, Philippe Mathieu-Daudé wrote:
+> > Trivial patches using the generic PCI macros from "hw/pci/pci.h".
 > > 
-> > > On Thu, 17 Dec 2020 16:47:36 +1100
-> > > David Gibson <david@gibson.dropbear.id.au> wrote:
-> > >   
-> > > > On Mon, Dec 14, 2020 at 06:22:40PM +0100, Cornelia Huck wrote:  
-> > > > > On Fri,  4 Dec 2020 16:44:13 +1100
-> > > > > David Gibson <david@gibson.dropbear.id.au> wrote:
-> > > > >     
-> > > > > > We haven't yet implemented the fairly involved handshaking that will be
-> > > > > > needed to migrate PEF protected guests.  For now, just use a migration
-> > > > > > blocker so we get a meaningful error if someone attempts this (this is the
-> > > > > > same approach used by AMD SEV).
-> > > > > > 
-> > > > > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > > > > > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > > > > > ---
-> > > > > >  hw/ppc/pef.c | 9 +++++++++
-> > > > > >  1 file changed, 9 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
-> > > > > > index 3ae3059cfe..edc3e744ba 100644
-> > > > > > --- a/hw/ppc/pef.c
-> > > > > > +++ b/hw/ppc/pef.c
-> > > > > > @@ -38,7 +38,11 @@ struct PefGuestState {
-> > > > > >  };
-> > > > > >  
-> > > > > >  #ifdef CONFIG_KVM
-> > > > > > +static Error *pef_mig_blocker;
-> > > > > > +
-> > > > > >  static int kvmppc_svm_init(Error **errp)    
-> > > > > 
-> > > > > This looks weird?    
-> > > > 
-> > > > Oops.  Not sure how that made it past even my rudimentary compile
-> > > > testing.
-> > > >   
-> > > > > > +
-> > > > > > +int kvmppc_svm_init(SecurableGuestMemory *sgm, Error **errp)
-> > > > > >  {
-> > > > > >      if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURABLE_GUEST)) {
-> > > > > >          error_setg(errp,
-> > > > > > @@ -54,6 +58,11 @@ static int kvmppc_svm_init(Error **errp)
-> > > > > >          }
-> > > > > >      }
-> > > > > >  
-> > > > > > +    /* add migration blocker */
-> > > > > > +    error_setg(&pef_mig_blocker, "PEF: Migration is not implemented");
-> > > > > > +    /* NB: This can fail if --only-migratable is used */
-> > > > > > +    migrate_add_blocker(pef_mig_blocker, &error_fatal);    
-> > > > > 
-> > > > > Just so that I understand: is PEF something that is enabled by the host
-> > > > > (and the guest is either secured or doesn't start), or is it using a
-> > > > > model like s390x PV where the guest initiates the transition into
-> > > > > secured mode?    
-> > > > 
-> > > > Like s390x PV it's initiated by the guest.
-> > > >   
-> > > > > Asking because s390x adds the migration blocker only when the
-> > > > > transition is actually happening (i.e. guests that do not transition
-> > > > > into secure mode remain migratable.) This has the side effect that you
-> > > > > might be able to start a machine with --only-migratable that
-> > > > > transitions into a non-migratable machine via a guest action, if I'm
-> > > > > not mistaken. Without the new object, I don't see a way to block with
-> > > > > --only-migratable; with it, we should be able to do that. Not sure what
-> > > > > the desirable behaviour is here.    
-> > > >   
-> > 
-> > The purpose of --only-migratable is specifically to prevent the machine
-> > to transition to a non-migrate state IIUC. The guest transition to
-> > secure mode should be nacked in this case.
+> > Philippe Mathieu-Daudé (5):
+> >   hw/pci-host/bonito: Make PCI_ADDR() macro more readable
+> >   hw/pci-host: Use the PCI_BUILD_BDF() macro from 'hw/pci/pci.h'
+> >   hw/pci-host/uninorth: Use the PCI_FUNC() macro from 'hw/pci/pci.h'
+> >   hw: Use the PCI_SLOT() macro from 'hw/pci/pci.h'
+> >   hw: Use the PCI_DEVFN() macro from 'hw/pci/pci.h'
 > 
-> Yes, that's what happens for s390x: The guest tries to transition, QEMU
-> can't add a migration blocker and fails the instruction used for
-> transitioning, the guest sees the error.
+> As this series are trivial and Acked, I'm going to queue
+> it via the mips-tree, as other reviewed patches depend
+> on it.
 > 
-> The drawback is that we see the failure only when we already launched
-> the machine and the guest tries to transition. If I start QEMU with
-> --only-migratable, it will refuse to start when non-migratable devices
-> are configured in the command line, so I see the issue right from the
-> start. (For s390x, that would possibly mean that we should not even
-> present the cpu feature bit when only_migratable is set?)
+> Thanks,
+> 
+> Phil.
 
-What happens in s390x,  if the guest tries to transition to secure, when
-the secure object is NOT configured on the machine?
+Fine.
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-On PEF systems, the transition fails and the guest is terminated.
-
-My point is -- QEMU will not be able to predict in advance, what the
-guest might or might not do, regardless of what devices and objects are
-configured in the machine.   If the guest does something unexpected, it
-has to be terminated. 
-
-So one possible design choice is to let the guest know that migration
-must be facilitated. It can then decide if it wants to continue as a
-normal VM or terminate itself, or take the plunge and switch to secure.
-A well behaving guest will not switch to secure.
-
-RP
 
