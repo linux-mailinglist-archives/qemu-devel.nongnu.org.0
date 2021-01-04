@@ -2,55 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70CD2E9E41
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 20:39:35 +0100 (CET)
-Received: from localhost ([::1]:56150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1FC92E9EC7
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 21:24:51 +0100 (CET)
+Received: from localhost ([::1]:47468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwVhW-0007S2-7o
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 14:39:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40708)
+	id 1kwWPK-00026J-7s
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 15:24:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <towo@siduction.org>)
- id 1kwVgI-0006xJ-DJ
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 14:38:18 -0500
-Received: from www226.your-server.de ([188.40.28.6]:50056)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1kwWLm-0000D6-WA; Mon, 04 Jan 2021 15:21:11 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61510
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <towo@siduction.org>)
- id 1kwVg9-0006uz-VH
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 14:38:18 -0500
-Received: from sslproxy01.your-server.de ([78.46.139.224])
- by www226.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.92.3) (envelope-from <towo@siduction.org>)
- id 1kwVfu-000EZg-Cq; Mon, 04 Jan 2021 20:37:54 +0100
-Received: from [31.16.171.184] (helo=[192.168.178.10])
- by sslproxy01.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <towo@siduction.org>)
- id 1kwVfu-0000sr-7y; Mon, 04 Jan 2021 20:37:54 +0100
-Subject: Re: [BUG] qemu git error with virgl
-To: Igor Mammedov <imammedo@redhat.com>
-References: <30eb4fc7-ef1f-4e92-4e1f-46b71ae8d9f0@siduction.org>
- <a6651e26-58b8-cee0-bb15-198e6fb64d48@redhat.com>
- <20210104195055.7d60dbc4@redhat.com>
-From: Torsten Wohlfarth <towo@siduction.org>
-Message-ID: <54ca995e-d7b4-d278-cc6c-019bcbef4dfd@siduction.org>
-Date: Mon, 4 Jan 2021 20:37:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <20210104195055.7d60dbc4@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: towo@siduction.org
-X-Virus-Scanned: Clear (ClamAV 0.102.4/26038/Mon Jan  4 13:38:27 2021)
-Received-SPF: none client-ip=188.40.28.6; envelope-from=towo@siduction.org;
- helo=www226.your-server.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1kwWLi-0004z5-MS; Mon, 04 Jan 2021 15:21:10 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 104K1Mwa168600; Mon, 4 Jan 2021 15:21:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject : date : message-id; s=pp1;
+ bh=9XV5DKYf7edzP8zi8fH5Pij+uwiMDDdg9J09KgrTriQ=;
+ b=oZhOm48m3fyU5fjXnBBOgBhexDnTkwJ0hS8KKhLEK/M1Y72mZFMhHCWXmHEASCxMj4aF
+ 6TEY+Q9YK6Nn/Kc5v+jm0f9WDJRewQbtDsKZC215xH/3YNuag2DNaeDwxMrKPjHLcTZM
+ qPUcNpQ/rmz+ZYo2QemCcIT6ctdWvfHYC4GTzOrJ+TEQDfwzwO5Ey5+ug/vaqybz003y
+ EPXjm+euIffIBEGAbX2UfoKpsv7BpAICZ6TsNeuobLJqUXjt3jpFrcBzz0nBE4HQ7A3V
+ QK8Rdu6awwLH2mhNW29ROR56GDrGttAPcYDiUhH9/cOz62cOPWR7ZjoFKpUtvis5Uf7y CA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35v9e80sk4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Jan 2021 15:21:04 -0500
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 104K6ZoO000673;
+ Mon, 4 Jan 2021 15:21:03 -0500
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35v9e80sjp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Jan 2021 15:21:03 -0500
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 104K8ATO012704;
+ Mon, 4 Jan 2021 20:21:01 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma01fra.de.ibm.com with ESMTP id 35tgf7s5fj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 04 Jan 2021 20:21:01 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 104KKxZ717170748
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 4 Jan 2021 20:20:59 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 29272A4062;
+ Mon,  4 Jan 2021 20:20:59 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 14777A405C;
+ Mon,  4 Jan 2021 20:20:59 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Mon,  4 Jan 2021 20:20:59 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 4958)
+ id B3680E02A6; Mon,  4 Jan 2021 21:20:58 +0100 (CET)
+From: Eric Farman <farman@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v3 0/3] vfio-ccw: Implement request notifier
+Date: Mon,  4 Jan 2021 21:20:54 +0100
+Message-Id: <20210104202057.48048-1-farman@linux.ibm.com>
+X-Mailer: git-send-email 2.17.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-04_12:2021-01-04,
+ 2021-01-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 suspectscore=0 spamscore=0 bulkscore=0
+ clxscore=1011 mlxlogscore=999 mlxscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101040123
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,78 +104,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+Cc: qemu-s390x@nongnu.org, Eric Farman <farman@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Thomas Huth <thuth@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor,
+Conny, et al,
 
-yes, that fixes my issue.
+Here is an updated (final?) version of the QEMU series for the vfio-ccw
+request notifier now that the kernel code landed upstream [1]. The actual
+meat (patch 3) is identical to its counterpart in v2 [2].
 
-Regards, Torsten
+Earlier versions didn't use update-linux-headers.sh; they just carried a
+dummy patch with the define that was needed to work, without the noise.
+Here, I have run the script properly and patch 2 is its output.
 
-Am 04.01.21 um 19:50 schrieb Igor Mammedov:
-> On Sun, 3 Jan 2021 18:28:11 +0100
-> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->
->> Cc'ing Gerd + patch author/reviewer.
->>
->> On 1/2/21 2:11 PM, Torsten Wohlfarth wrote:
->>> Hello,
->>>
->>> i can't start any system if i use virgl. I get the following error:
->>>
->>> qemu-x86_64: ../ui/console.c:1791: dpy_gl_ctx_create: Assertion
->>> `con->gl' failed.
-> Does following fix issue:
->    [PULL 12/55] vl: initialize displays _after_ exiting preconfiguration
->
->>> ./and.sh: line 27: 3337167 Aborted                 qemu-x86_64 -m 4096
->>> -smp cores=4,sockets=1 -cpu host -machine pc-q35-4.0,accel=kvm -device
->>> virtio-vga,virgl=on,xres=1280,yres=800 -display sdl,gl=on -device
->>> intel-hda,id=sound0,msi=on -device
->>> hda-micro,id=sound0-codec0,bus=sound0.0,cad=0 -device qemu-xhci,id=xhci
->>> -device usb-tablet,bus=xhci.0 -net
->>> nic,macaddr=52:54:00:12:34:62,model=e1000 -net
->>> tap,ifname=$INTERFACE,script=no,downscript=no -drive
->>> file=/media/daten2/image/lineageos.qcow2,if=virtio,index=1,media=disk,cache=none,aio=threads
->>>
->>> Set 'tap3' nonpersistent
->>>
->>> i have bicected the issue:
->>>    
->>> towo:Defiant> git bisect good
->>> b4e1a342112e50e05b609e857f38c1f2b7aafdc4 is the first bad commit
->>> commit b4e1a342112e50e05b609e857f38c1f2b7aafdc4
->>> Author: Paolo Bonzini <pbonzini@redhat.com>
->>> Date:   Tue Oct 27 08:44:23 2020 -0400
->>>
->>>      vl: remove separate preconfig main_loop
->>>
->>>      Move post-preconfig initialization to the x-exit-preconfig. If
->>> preconfig
->>>      is not requested, just exit preconfig mode immediately with the QMP
->>>      command.
->>>
->>>      As a result, the preconfig loop will run with accel_setup_post
->>>      and os_setup_post restrictions (xen_restrict, chroot, etc.)
->>>      already done.
->>>
->>>      Reviewed-by: Igor Mammedov <imammedo@redhat.com>
->>>      Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->>>
->>>   include/sysemu/runstate.h |  1 -
->>>   monitor/qmp-cmds.c        |  9 -----
->>>   softmmu/vl.c              | 95
->>> ++++++++++++++++++++---------------------------
->>>   3 files changed, 41 insertions(+), 64 deletions(-)
->>>
->>> Regards,
->>>
->>> Torsten Wohlfarth
->>>
->>>
->>>    
->>
+Of course it wasn't that simple, as a change on the kernel side of
+things breaks the script and causes processing to end prematurely as
+cp_portable() takes its error exit. So I am adding a small patch to
+the front of this series to accommodate that, and hopefully isn't
+goofed up too badly. :)
+
+[1] https://lore.kernel.org/kvm/20201216123701.00517b52@omen.home/
+[2] https://lore.kernel.org/qemu-devel/20201120181526.96446-1-farman@linux.ibm.com/
+
+Eric Farman (3):
+  update-linux-headers: Include const.h
+  Update linux headers to 5.11-rc2
+  vfio-ccw: Connect the device request notifier
+
+ hw/vfio/ccw.c                                 |  40 +++-
+ .../infiniband/hw/vmw_pvrdma/pvrdma_ring.h    |  14 +-
+ .../infiniband/hw/vmw_pvrdma/pvrdma_verbs.h   |   2 +-
+ include/standard-headers/drm/drm_fourcc.h     | 175 +++++++++++++++++-
+ include/standard-headers/linux/const.h        |  36 ++++
+ include/standard-headers/linux/ethtool.h      |   2 +-
+ include/standard-headers/linux/fuse.h         |  30 ++-
+ include/standard-headers/linux/kernel.h       |   9 +-
+ include/standard-headers/linux/pci_regs.h     |  16 ++
+ include/standard-headers/linux/vhost_types.h  |   9 +
+ include/standard-headers/linux/virtio_gpu.h   |  82 ++++++++
+ include/standard-headers/linux/virtio_ids.h   |  44 +++--
+ linux-headers/asm-arm64/kvm.h                 |   3 -
+ linux-headers/asm-generic/unistd.h            |   6 +-
+ linux-headers/asm-mips/unistd_n32.h           |   1 +
+ linux-headers/asm-mips/unistd_n64.h           |   1 +
+ linux-headers/asm-mips/unistd_o32.h           |   1 +
+ linux-headers/asm-powerpc/unistd_32.h         |   1 +
+ linux-headers/asm-powerpc/unistd_64.h         |   1 +
+ linux-headers/asm-s390/unistd_32.h            |   1 +
+ linux-headers/asm-s390/unistd_64.h            |   1 +
+ linux-headers/asm-x86/kvm.h                   |   1 +
+ linux-headers/asm-x86/unistd_32.h             |   1 +
+ linux-headers/asm-x86/unistd_64.h             |   1 +
+ linux-headers/asm-x86/unistd_x32.h            |   1 +
+ linux-headers/linux/kvm.h                     |  56 +++++-
+ linux-headers/linux/userfaultfd.h             |   9 +
+ linux-headers/linux/vfio.h                    |   1 +
+ linux-headers/linux/vhost.h                   |   4 +
+ scripts/update-linux-headers.sh               |   5 +-
+ 30 files changed, 501 insertions(+), 53 deletions(-)
+ create mode 100644 include/standard-headers/linux/const.h
+
+-- 
+2.17.1
+
 
