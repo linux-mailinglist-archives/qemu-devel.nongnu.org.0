@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583532E9FFB
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 23:26:20 +0100 (CET)
-Received: from localhost ([::1]:50228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6742E9FDD
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 23:16:02 +0100 (CET)
+Received: from localhost ([::1]:53978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwYIt-000333-E9
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 17:26:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42158)
+	id 1kwY8v-00016S-MY
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 17:16:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwY5u-0007YM-0o
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:12:54 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37218)
+ id 1kwY5z-0007nZ-8m
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:12:59 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwY5r-00080w-Sf
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:12:53 -0500
-Received: by mail-wr1-x430.google.com with SMTP id i9so33650761wrc.4
- for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 14:12:51 -0800 (PST)
+ id 1kwY5x-00082u-9y
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:12:59 -0500
+Received: by mail-wr1-x432.google.com with SMTP id c5so33628331wrp.6
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 14:12:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b89sinWdwnRaR4NOd/DWOz5P627eErMVEbtVQAm5vR4=;
- b=mFQ66HgUEH1VSy7mQoonZ6iC92jq6SdwfXdQ5Nxf5fDEDXepk+1HxvHqAJteeLSbly
- jBKbwBvdO6zTIY3ZnwZpTB45rnm95qpc8kXk1jJsG8Y2Si6t92rInjLkGp5IbRKMS/Mi
- EQgzp5/nNtMcBwySLyuUL0r/uXLTmhIwQJtpW/dadfupidr9nmDSqagwu2rQT8eSqesX
- UQRpomHH94cTXKc3oVVrH7PcRsuWif4DUFZewadI4t27lkVWLiO6/Zs6iGdzrrPvG3QB
- u9Jgf1J500rvRoCutiteYmKlaUy1bgQ48pxB6hiKcO5A8rbbAA4YrsWRsZtI9xXPuGEP
- nmBw==
+ bh=U1becq45UPDqSn7+EhIiJXXnxLnIRFVYNM6dDyz1HXk=;
+ b=N81PYBGArNHD5Ww8H1IK709UhOVM22hQ9Zq3TcQ9GrO+St+/0GNeffhEz9ECEdSnHL
+ 3GFk+gq972pjmjBrC6lelpet2uWLvKefhy9zK/hFrbTmzH3RHtr1YYlfpCaYLM/dCWmX
+ Me8aMTWfo1T8FaSz/j6Xr3cztewOHTHbfSQFRYNnwSkbkWOuYwAl81BVsGYzysE5+V8E
+ zXM5tI8hdx5XzPsHCwD+LMqV6HB1DJaUQX7W+RNSv+ltHXNoEUVkBlXJ+UK1zFDcRPpQ
+ z01pQeRw3ZSTz3bq1hCnNVgopNox+KeOl5VXAonGffI5KQotoxoxvR8QP2V8vMtj52fn
+ DxDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=b89sinWdwnRaR4NOd/DWOz5P627eErMVEbtVQAm5vR4=;
- b=D3LYZ1hgZZcSKw20Byg8wVSKVGSdK1pB2PANECtXZo3ZunCkixqAdiS1/TGfUegHuy
- +xuA8NukHqrK3RML/Pc6+2M54iKwZ3HFe1CIrYyN5MNIaG1JsUMDqMCeHN50MPBshibc
- Mz8lVkQXfifixex6VzICQz8OMdqbB+wzP4NhbpmDbB9O+x4jHgke5K+QFM4DHioeahiH
- m9bw1ML14CkLPVH3yP8iC7APcFFJXYJWbxlMRkNi5q0hevSe3+NYXCXTaZ/grhYJ3xYt
- ZdrWTFJhps8CBYFIm8X3Nb5nYaa24GJKcq+KOuofjLpdmTHJmtuVAxPeMk4wZ0r5Lm92
- BZRw==
-X-Gm-Message-State: AOAM533UeCEYT9X6oMp/4XG0U0jNhkFan2AOl2w4VGqXHwdrcCvY/gEH
- ggBOOuCL7ffm4dp4gH8bEx39q2bgcd4=
-X-Google-Smtp-Source: ABdhPJyZzr40x+ZZbPMqjzlXIzRjSJz5ZeXla1+uHP/pg2bEXS5guMqjKr/y4nyNnDsdWqqviFXVDQ==
-X-Received: by 2002:a5d:40ce:: with SMTP id b14mr80470579wrq.350.1609798370305; 
- Mon, 04 Jan 2021 14:12:50 -0800 (PST)
+ bh=U1becq45UPDqSn7+EhIiJXXnxLnIRFVYNM6dDyz1HXk=;
+ b=X++IDz95XnXMekusV15CRn15HQohNxGbz941NgfP5+3r5oFmLQOhl0Uq/BjrxClrq/
+ jc7Q/XdqpcoDzuoR4oh5D/qQBL04G7I7ykjVq8lrEcyTXf0o5HOzfam55oXiWIlDGN1S
+ 273KDo/EdcyRuD/XCe6PAgo8vkgxDZFt6ofrJiyl/6kJg3Ws/FOhqIbZ5at4Fq18HAWd
+ 6DIvZ9wHkCVDCZ6P0gExCs3Mt+CphnGL0dQzwOilEuuNxt5He89mhMpb4jU3Uv5M5P5S
+ /OVhvvR7TD6GC1OmmvAJea9Nz2cqCHUdiYIMSt9tD2boD9Hy5rOevNvZww5ouVrdvXSu
+ Abnw==
+X-Gm-Message-State: AOAM532ximHfu2IVsJlGUw2CFpa1jTZiE79dNciB288I+LTXonzSyCok
+ rhvk9/ajp5IMc/uAXmqEyBvBA42RWBI=
+X-Google-Smtp-Source: ABdhPJxssliuFblttFZcZ1LyHjUr08MTAA0x1KCO8A+uMBg9o29JRPrwv45T67axcXQriWg2QqPQcA==
+X-Received: by 2002:adf:dc10:: with SMTP id t16mr77561595wri.345.1609798375624; 
+ Mon, 04 Jan 2021 14:12:55 -0800 (PST)
 Received: from x1w.redhat.com (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id m8sm1021961wmc.27.2021.01.04.14.12.49
+ by smtp.gmail.com with ESMTPSA id r15sm91888771wrq.1.2021.01.04.14.12.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jan 2021 14:12:49 -0800 (PST)
+ Mon, 04 Jan 2021 14:12:55 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/15] target/mips/mips-defs: Use ISA_MIPS32R6 definition
- to check Release 6
-Date: Mon,  4 Jan 2021 23:11:49 +0100
-Message-Id: <20210104221154.3127610-11-f4bug@amsat.org>
+Subject: [PATCH v3 11/15] target/mips/mips-defs: Rename ISA_MIPS32 as
+ ISA_MIPS_R1
+Date: Mon,  4 Jan 2021 23:11:50 +0100
+Message-Id: <20210104221154.3127610-12-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210104221154.3127610-1-f4bug@amsat.org>
 References: <20210104221154.3127610-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,114 +94,294 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the single ISA_MIPS32R6 definition to check if the Release 6
-ISA is supported, whether the CPU support 32/64-bit.
-
-For now we keep '32' in the definition name, we will rename it
-as ISA_MIPS_R6 in few commits.
+The MIPS ISA release '1' is common to 32/64-bit CPUs.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h     | 2 +-
- target/mips/mips-defs.h    | 3 +--
- linux-user/mips/cpu_loop.c | 3 +--
- target/mips/helper.c       | 6 +++---
- target/mips/translate.c    | 2 +-
- 5 files changed, 7 insertions(+), 9 deletions(-)
+ target/mips/internal.h  |  2 +-
+ target/mips/mips-defs.h |  4 +--
+ target/mips/translate.c | 54 ++++++++++++++++++++---------------------
+ 3 files changed, 30 insertions(+), 30 deletions(-)
 
 diff --git a/target/mips/internal.h b/target/mips/internal.h
-index e4d2d9f44f9..3466725b761 100644
+index 3466725b761..94910f75a61 100644
 --- a/target/mips/internal.h
 +++ b/target/mips/internal.h
-@@ -354,7 +354,7 @@ static inline void compute_hflags(CPUMIPSState *env)
-     } else if (((env->hflags & MIPS_HFLAG_KSU) == MIPS_HFLAG_UM) &&
-                !(env->CP0_Status & (1 << CP0St_UX))) {
-         env->hflags |= MIPS_HFLAG_AWRAP;
--    } else if (env->insn_flags & ISA_MIPS64R6) {
-+    } else if (env->insn_flags & ISA_MIPS32R6) {
-         /* Address wrapping for Supervisor and Kernel is specified in R6 */
-         if ((((env->hflags & MIPS_HFLAG_KSU) == MIPS_HFLAG_SM) &&
-              !(env->CP0_Status & (1 << CP0St_SX))) ||
+@@ -411,7 +411,7 @@ static inline void compute_hflags(CPUMIPSState *env)
+         if (env->active_fpu.fcr0 & (1 << FCR0_F64)) {
+             env->hflags |= MIPS_HFLAG_COP1X;
+         }
+-    } else if (env->insn_flags & ISA_MIPS32) {
++    } else if (env->insn_flags & ISA_MIPS_R1) {
+         if (env->hflags & MIPS_HFLAG_64) {
+             env->hflags |= MIPS_HFLAG_COP1X;
+         }
 diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
-index b71127ddd7c..fea547508f0 100644
+index fea547508f0..a7048ffaffe 100644
 --- a/target/mips/mips-defs.h
 +++ b/target/mips/mips-defs.h
-@@ -21,7 +21,6 @@
+@@ -16,7 +16,7 @@
+ #define ISA_MIPS3         0x0000000000000004ULL /* 64-bit */
+ #define ISA_MIPS4         0x0000000000000008ULL
+ #define ISA_MIPS5         0x0000000000000010ULL
+-#define ISA_MIPS32        0x0000000000000020ULL
++#define ISA_MIPS_R1       0x0000000000000020ULL
+ #define ISA_MIPS32R2      0x0000000000000040ULL
  #define ISA_MIPS32R3      0x0000000000000200ULL
  #define ISA_MIPS32R5      0x0000000000000800ULL
- #define ISA_MIPS32R6      0x0000000000002000ULL
--#define ISA_MIPS64R6      0x0000000000004000ULL
- #define ISA_NANOMIPS32    0x0000000000008000ULL
- /*
-  *   bits 24-39: MIPS ASEs
-@@ -87,7 +86,7 @@
+@@ -69,7 +69,7 @@
+ #define CPU_MIPS64      (ISA_MIPS3)
  
- /* MIPS Technologies "Release 6" */
- #define CPU_MIPS32R6    (CPU_MIPS32R5 | ISA_MIPS32R6)
--#define CPU_MIPS64R6    (CPU_MIPS64R5 | CPU_MIPS32R6 | ISA_MIPS64R6)
-+#define CPU_MIPS64R6    (CPU_MIPS64R5 | CPU_MIPS32R6)
+ /* MIPS Technologies "Release 1" */
+-#define CPU_MIPS32R1    (CPU_MIPS2 | ISA_MIPS32)
++#define CPU_MIPS32R1    (CPU_MIPS2 | ISA_MIPS_R1)
+ #define CPU_MIPS64R1    (CPU_MIPS5 | CPU_MIPS32R1)
  
- /* Wave Computing: "nanoMIPS" */
- #define CPU_NANOMIPS32  (CPU_MIPS32R6 | ISA_NANOMIPS32)
-diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-index f0831379cc4..e400166c583 100644
---- a/linux-user/mips/cpu_loop.c
-+++ b/linux-user/mips/cpu_loop.c
-@@ -385,8 +385,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
-     prog_req.fre &= interp_req.fre;
- 
-     bool cpu_has_mips_r2_r6 = env->insn_flags & ISA_MIPS32R2 ||
--                              env->insn_flags & ISA_MIPS32R6 ||
--                              env->insn_flags & ISA_MIPS64R6;
-+                              env->insn_flags & ISA_MIPS32R6;
- 
-     if (prog_req.fre && !prog_req.frdefault && !prog_req.fr1) {
-         env->CP0_Config5 |= (1 << CP0C5_FRE);
-diff --git a/target/mips/helper.c b/target/mips/helper.c
-index 87296fbad69..5b74815beb0 100644
---- a/target/mips/helper.c
-+++ b/target/mips/helper.c
-@@ -1145,7 +1145,7 @@ void mips_cpu_do_interrupt(CPUState *cs)
-  enter_debug_mode:
-         if (env->insn_flags & ISA_MIPS3) {
-             env->hflags |= MIPS_HFLAG_64;
--            if (!(env->insn_flags & ISA_MIPS64R6) ||
-+            if (!(env->insn_flags & ISA_MIPS32R6) ||
-                 env->CP0_Status & (1 << CP0St_KX)) {
-                 env->hflags &= ~MIPS_HFLAG_AWRAP;
-             }
-@@ -1174,7 +1174,7 @@ void mips_cpu_do_interrupt(CPUState *cs)
-         env->CP0_Status |= (1 << CP0St_ERL) | (1 << CP0St_BEV);
-         if (env->insn_flags & ISA_MIPS3) {
-             env->hflags |= MIPS_HFLAG_64;
--            if (!(env->insn_flags & ISA_MIPS64R6) ||
-+            if (!(env->insn_flags & ISA_MIPS32R6) ||
-                 env->CP0_Status & (1 << CP0St_KX)) {
-                 env->hflags &= ~MIPS_HFLAG_AWRAP;
-             }
-@@ -1360,7 +1360,7 @@ void mips_cpu_do_interrupt(CPUState *cs)
-             env->CP0_Status |= (1 << CP0St_EXL);
-             if (env->insn_flags & ISA_MIPS3) {
-                 env->hflags |= MIPS_HFLAG_64;
--                if (!(env->insn_flags & ISA_MIPS64R6) ||
-+                if (!(env->insn_flags & ISA_MIPS32R6) ||
-                     env->CP0_Status & (1 << CP0St_KX)) {
-                     env->hflags &= ~MIPS_HFLAG_AWRAP;
-                 }
+ /* MIPS Technologies "Release 2" */
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 9fc9dedf30d..fc93b9da8eb 100644
+index fc93b9da8eb..a59fbd94bac 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -31438,7 +31438,7 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- #else
-         ctx->mem_idx = hflags_mmu_index(ctx->hflags);
- #endif
--    ctx->default_tcg_memop_mask = (ctx->insn_flags & (ISA_MIPS32R6 | ISA_MIPS64R6 |
-+    ctx->default_tcg_memop_mask = (ctx->insn_flags & (ISA_MIPS32R6 |
-                                   INSN_LOONGSON3A)) ? MO_UNALN : MO_ALIGN;
+@@ -7411,7 +7411,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+     const char *register_name = "invalid";
  
-     LOG_DISAS("\ntb %p idx %d hflags %04x\n", ctx->base.tb, ctx->mem_idx,
+     if (sel != 0) {
+-        check_insn(ctx, ISA_MIPS32);
++        check_insn(ctx, ISA_MIPS_R1);
+     }
+ 
+     switch (reg) {
+@@ -8179,7 +8179,7 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+     const char *register_name = "invalid";
+ 
+     if (sel != 0) {
+-        check_insn(ctx, ISA_MIPS32);
++        check_insn(ctx, ISA_MIPS_R1);
+     }
+ 
+     if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+@@ -8943,7 +8943,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+     const char *register_name = "invalid";
+ 
+     if (sel != 0) {
+-        check_insn(ctx, ISA_MIPS32);
++        check_insn(ctx, ISA_MIPS_R1);
+     }
+ 
+     switch (reg) {
+@@ -9669,7 +9669,7 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
+     const char *register_name = "invalid";
+ 
+     if (sel != 0) {
+-        check_insn(ctx, ISA_MIPS32);
++        check_insn(ctx, ISA_MIPS_R1);
+     }
+ 
+     if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+@@ -11006,7 +11006,7 @@ static void gen_cp0(CPUMIPSState *env, DisasContext *ctx, uint32_t opc,
+         break;
+     case OPC_DERET:
+         opn = "deret";
+-        check_insn(ctx, ISA_MIPS32);
++        check_insn(ctx, ISA_MIPS_R1);
+         if ((ctx->insn_flags & ISA_MIPS32R6) &&
+             (ctx->hflags & MIPS_HFLAG_BMASK)) {
+             goto die;
+@@ -11021,7 +11021,7 @@ static void gen_cp0(CPUMIPSState *env, DisasContext *ctx, uint32_t opc,
+         break;
+     case OPC_WAIT:
+         opn = "wait";
+-        check_insn(ctx, ISA_MIPS3 | ISA_MIPS32);
++        check_insn(ctx, ISA_MIPS3 | ISA_MIPS_R1);
+         if ((ctx->insn_flags & ISA_MIPS32R6) &&
+             (ctx->hflags & MIPS_HFLAG_BMASK)) {
+             goto die;
+@@ -11056,7 +11056,7 @@ static void gen_compute_branch1(DisasContext *ctx, uint32_t op,
+     }
+ 
+     if (cc != 0) {
+-        check_insn(ctx, ISA_MIPS4 | ISA_MIPS32);
++        check_insn(ctx, ISA_MIPS4 | ISA_MIPS_R1);
+     }
+ 
+     btarget = ctx->base.pc_next + 4 + offset;
+@@ -14425,7 +14425,7 @@ static int decode_extended_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
+             gen_arith_imm(ctx, OPC_ADDIU, 29, 29, imm);
+             break;
+         case I8_SVRS:
+-            check_insn(ctx, ISA_MIPS32);
++            check_insn(ctx, ISA_MIPS_R1);
+             {
+                 int xsregs = (ctx->opcode >> 24) & 0x7;
+                 int aregs = (ctx->opcode >> 16) & 0xf;
+@@ -14675,7 +14675,7 @@ static int decode_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
+                               ((int8_t)ctx->opcode) << 3);
+                 break;
+             case I8_SVRS:
+-                check_insn(ctx, ISA_MIPS32);
++                check_insn(ctx, ISA_MIPS_R1);
+                 {
+                     int do_ra = ctx->opcode & (1 << 6);
+                     int do_s0 = ctx->opcode & (1 << 5);
+@@ -14819,7 +14819,7 @@ static int decode_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
+                 int ra = (ctx->opcode >> 5) & 0x1;
+ 
+                 if (nd) {
+-                    check_insn(ctx, ISA_MIPS32);
++                    check_insn(ctx, ISA_MIPS_R1);
+                 }
+ 
+                 if (link) {
+@@ -14840,7 +14840,7 @@ static int decode_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
+                  * XXX: not clear which exception should be raised
+                  *      when in debug mode...
+                  */
+-                check_insn(ctx, ISA_MIPS32);
++                check_insn(ctx, ISA_MIPS_R1);
+                 generate_exception_end(ctx, EXCP_DBp);
+             }
+             break;
+@@ -14891,7 +14891,7 @@ static int decode_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
+             gen_HILO(ctx, OPC_MFHI, 0, rx);
+             break;
+         case RR_CNVT:
+-            check_insn(ctx, ISA_MIPS32);
++            check_insn(ctx, ISA_MIPS_R1);
+             switch (cnvt_op) {
+             case RR_RY_CNVT_ZEB:
+                 tcg_gen_ext8u_tl(cpu_gpr[rx], cpu_gpr[rx]);
+@@ -14907,12 +14907,12 @@ static int decode_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
+                 break;
+ #if defined(TARGET_MIPS64)
+             case RR_RY_CNVT_ZEW:
+-                check_insn(ctx, ISA_MIPS32);
++                check_insn(ctx, ISA_MIPS_R1);
+                 check_mips_64(ctx);
+                 tcg_gen_ext32u_tl(cpu_gpr[rx], cpu_gpr[rx]);
+                 break;
+             case RR_RY_CNVT_SEW:
+-                check_insn(ctx, ISA_MIPS32);
++                check_insn(ctx, ISA_MIPS_R1);
+                 check_mips_64(ctx);
+                 tcg_gen_ext32s_tl(cpu_gpr[rx], cpu_gpr[rx]);
+                 break;
+@@ -15831,7 +15831,7 @@ static void gen_pool16c_insn(DisasContext *ctx)
+              * XXX: not clear which exception should be raised
+              *      when in debug mode...
+              */
+-            check_insn(ctx, ISA_MIPS32);
++            check_insn(ctx, ISA_MIPS_R1);
+             generate_exception_end(ctx, EXCP_DBp);
+         }
+         break;
+@@ -16175,7 +16175,7 @@ static void gen_pool32axf(CPUMIPSState *env, DisasContext *ctx, int rt, int rs)
+         case CLZ:
+             mips32_op = OPC_CLZ;
+         do_cl:
+-            check_insn(ctx, ISA_MIPS32);
++            check_insn(ctx, ISA_MIPS_R1);
+             gen_cl(ctx, mips32_op, rt, rs);
+             break;
+         case RDHWR:
+@@ -16202,7 +16202,7 @@ static void gen_pool32axf(CPUMIPSState *env, DisasContext *ctx, int rt, int rs)
+             mips32_op = OPC_DIVU;
+             goto do_div;
+         do_div:
+-            check_insn(ctx, ISA_MIPS32);
++            check_insn(ctx, ISA_MIPS_R1);
+             gen_muldiv(ctx, mips32_op, 0, rs, rt);
+             break;
+         case MADD:
+@@ -16221,7 +16221,7 @@ static void gen_pool32axf(CPUMIPSState *env, DisasContext *ctx, int rt, int rs)
+             check_insn_opc_removed(ctx, ISA_MIPS32R6);
+             mips32_op = OPC_MSUBU;
+         do_mul:
+-            check_insn(ctx, ISA_MIPS32);
++            check_insn(ctx, ISA_MIPS_R1);
+             gen_muldiv(ctx, mips32_op, 0, rs, rt);
+             break;
+         default:
+@@ -16369,7 +16369,7 @@ static void gen_pool32axf(CPUMIPSState *env, DisasContext *ctx, int rt, int rs)
+             if (is_uhi(extract32(ctx->opcode, 16, 10))) {
+                 gen_helper_do_semihosting(cpu_env);
+             } else {
+-                check_insn(ctx, ISA_MIPS32);
++                check_insn(ctx, ISA_MIPS_R1);
+                 if (ctx->hflags & MIPS_HFLAG_SBRI) {
+                     generate_exception_end(ctx, EXCP_RI);
+                 } else {
+@@ -24889,7 +24889,7 @@ static void decode_opc_special_legacy(CPUMIPSState *env, DisasContext *ctx)
+     switch (op1) {
+     case OPC_MOVN:         /* Conditional move */
+     case OPC_MOVZ:
+-        check_insn(ctx, ISA_MIPS4 | ISA_MIPS32 |
++        check_insn(ctx, ISA_MIPS4 | ISA_MIPS_R1 |
+                    INSN_LOONGSON2E | INSN_LOONGSON2F);
+         gen_cond_move(ctx, op1, rd, rs, rt);
+         break;
+@@ -24902,7 +24902,7 @@ static void decode_opc_special_legacy(CPUMIPSState *env, DisasContext *ctx)
+         gen_HILO(ctx, op1, rd & 3, rs);
+         break;
+     case OPC_MOVCI:
+-        check_insn(ctx, ISA_MIPS4 | ISA_MIPS32);
++        check_insn(ctx, ISA_MIPS4 | ISA_MIPS_R1);
+         if (env->CP0_Config1 & (1 << CP0C1_FP)) {
+             check_cp1_enabled(ctx);
+             gen_movci(ctx, rd, rs, (ctx->opcode >> 18) & 0x7,
+@@ -27577,7 +27577,7 @@ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
+     case OPC_MADDU:
+     case OPC_MSUB:
+     case OPC_MSUBU:
+-        check_insn(ctx, ISA_MIPS32);
++        check_insn(ctx, ISA_MIPS_R1);
+         gen_muldiv(ctx, op1, rd & 3, rs, rt);
+         break;
+     case OPC_MUL:
+@@ -27594,7 +27594,7 @@ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
+         break;
+     case OPC_CLO:
+     case OPC_CLZ:
+-        check_insn(ctx, ISA_MIPS32);
++        check_insn(ctx, ISA_MIPS_R1);
+         gen_cl(ctx, op1, rd, rs);
+         break;
+     case OPC_SDBBP:
+@@ -27605,14 +27605,14 @@ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
+              * XXX: not clear which exception should be raised
+              *      when in debug mode...
+              */
+-            check_insn(ctx, ISA_MIPS32);
++            check_insn(ctx, ISA_MIPS_R1);
+             generate_exception_end(ctx, EXCP_DBp);
+         }
+         break;
+ #if defined(TARGET_MIPS64)
+     case OPC_DCLO:
+     case OPC_DCLZ:
+-        check_insn(ctx, ISA_MIPS32);
++        check_insn(ctx, ISA_MIPS_R1);
+         check_mips_64(ctx);
+         gen_cl(ctx, op1, rd, rs);
+         break;
+@@ -31025,7 +31025,7 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
+     case OPC_CACHE:
+         check_insn_opc_removed(ctx, ISA_MIPS32R6);
+         check_cp0_enabled(ctx);
+-        check_insn(ctx, ISA_MIPS3 | ISA_MIPS32);
++        check_insn(ctx, ISA_MIPS3 | ISA_MIPS_R1);
+         if (ctx->hflags & MIPS_HFLAG_ITC_CACHE) {
+             gen_cache_operation(ctx, rt, rs, imm);
+         }
+@@ -31036,7 +31036,7 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
+         if (ctx->insn_flags & INSN_R5900) {
+             /* Treat as NOP. */
+         } else {
+-            check_insn(ctx, ISA_MIPS4 | ISA_MIPS32);
++            check_insn(ctx, ISA_MIPS4 | ISA_MIPS_R1);
+             /* Treat as NOP. */
+         }
+         break;
 -- 
 2.26.2
 
