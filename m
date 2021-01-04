@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E0662E9620
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 14:37:03 +0100 (CET)
-Received: from localhost ([::1]:36680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4AA42E9666
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 14:54:17 +0100 (CET)
+Received: from localhost ([::1]:40252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwQ2g-00074m-Fb
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 08:37:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32846)
+	id 1kwQJM-00013k-E6
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 08:54:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kwQ1b-0006Y9-Dx; Mon, 04 Jan 2021 08:35:55 -0500
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:36242)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kwQIF-0000aM-MS
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 08:53:07 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:50800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kwQ1Z-0006uC-CW; Mon, 04 Jan 2021 08:35:55 -0500
-Received: by mail-qk1-x730.google.com with SMTP id 186so23335664qkj.3;
- Mon, 04 Jan 2021 05:35:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kwQIE-0004aa-1t
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 08:53:07 -0500
+Received: by mail-wm1-x336.google.com with SMTP id 190so18512763wmz.0
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 05:53:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=to:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=X6AzKiJ+qgNfRAmX68nI6n5kFLC+eQ6kRyAd8XkgsrE=;
- b=j4Y52u1NKfNM0qSt7jcSq7x+gsNhfuddf3bDvcoglHTH1dT59/xp0abIWxTZ3YFsjs
- 2HJEngMe5RcbGubFV7LCHr2Yq9us/0m2pbRneWSth5B5eUfLChNihT/m7JWtLSIReocq
- Iua8bkKkyHUaswlmpeAwJsQUjppjP6HaDnwbr88tO9rXFio0Gm980J6sAX+4mazQbMmb
- zU1+eqDmaY/o4mKVsXQ7S1dZgZUg0qrVhATowAzCNjMImJrdmJRtwRsgBGz/Via7N5SP
- jPsQcbKxtyaRh8MkOgzOqZOg8EwwtQPs7RXKOughwaue+PhPbqADSF6pSV5eVIVYqG+J
- LNHw==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=iui01j9Nhzl7HyBFnLxTnv7ShZm4bRY6ajm7tG8eYtY=;
+ b=o3Yi2kxQfNiBdkSsS9tW7QnCAAOks3zTWwt8nSZT4ahBd+MPtyAiTjkpGOXTrHkRf3
+ EosFxxsJHwZNj7nZkZnMDjsfgCCc4iq00jKM+lMG/M/7BitLP368BJ6dvYhX+We83gcM
+ HzZ2KmpiDIm9iK5ATmD30r2dlTIevw318dDwNOVfhT0H8xnh5q97ApxS6g0yCwsWJyjJ
+ BgqUmRnySjU9Kx4fZkFluIIoepD5rvBZygaOo8pZlDCONXszCHuwSHegI9+gayCcAMko
+ GkYfFfS7kb8tXcLeijT/pEyObLhhesmBSFyD/KD+GOlLQsgCzYr2vVK01UUJl2kKath1
+ XC5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:from:subject:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=X6AzKiJ+qgNfRAmX68nI6n5kFLC+eQ6kRyAd8XkgsrE=;
- b=Tyd9MLlODlToqB+E5GSx2EEnC+0wHSsKb/bwStPhvbA/qkri9rq0Zma526pVwK8ZPX
- ha66rvMS4bcTzkELTiHKaJt7LstordIlNr6cDDERtf2in2aYWva8sBvDymZTtyqvufMV
- DA6q8JuOGwksZi1+BP+bwyRJiO0nu6Jz7Atp0Yj3MNIvXbBaMjdsoBKZiwGSsaG8wOkh
- z66/EwhLKcR5Q2oYAazdaGzu4Gj+IukSXbpB24Hg/5hdy4IXxKBR0t4kcr8F4As0c83w
- gG43Psngcf5SBArSsZOR/0NBdveGtHBPhwmRJcU2I/71/vDb3ldiR7aL4ZtP3ECfJi1P
- zoFw==
-X-Gm-Message-State: AOAM532mg4DhbUO80HeT29/uxc7opiJlSmVGIKNKKAlwNz09xHdz+d6I
- MQTYD72uXPOtUAw9gQwCmd2j/yoaDMdOzQ==
-X-Google-Smtp-Source: ABdhPJw2ltiJB4r8yCHpU4c4dmxkXJoc1LGRBDqcUtarNA9P7UNblCT90lEVlcjGUW+wpzn1U3cvIw==
-X-Received: by 2002:a37:9505:: with SMTP id x5mr67063367qkd.295.1609767351346; 
- Mon, 04 Jan 2021 05:35:51 -0800 (PST)
-Received: from ?IPv6:2804:431:c7c6:ca55:7a5d:da5b:906f:bedd?
- ([2804:431:c7c6:ca55:7a5d:da5b:906f:bedd])
- by smtp.gmail.com with ESMTPSA id p75sm38150071qka.72.2021.01.04.05.35.49
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iui01j9Nhzl7HyBFnLxTnv7ShZm4bRY6ajm7tG8eYtY=;
+ b=mIUP0WhDRyAgP/s7fEst2hH8vwpMlYWRoszgG7dxYKYJMl13wvtz5gjgUZsSg9/5Dj
+ 8xMh90WvIgcv7NVDRg4GATOpnD6ArPrG3D1YqjalZUfcjiv6ZGjej7E8O6kx2fPAyV8w
+ xGurHhi/FVFPQ52sNtwY12wiwbYo41HBCGWEHWhjlrUJ+OyiZ+1WqFz5fGX469aZKYPl
+ T7jHLSUiA7SPpuI0KpKVbz0DA/q8EkSzj5xVuukD8opbJLUm0fA41kBEEPRWLVKaXGo+
+ ocFePeCS271YSqL44jTWXA/wwkfyxsfPXNdE065pYbjC3Pc3PA6hxrcdmKcvTnKcRhGf
+ CSIQ==
+X-Gm-Message-State: AOAM5310otBZKn19fmhPaUPWXtS8ejwgxCMVNuRjQlYGrIggUmoXPWFP
+ gz/sAvhMxfn2Ps5/X4c7DMk=
+X-Google-Smtp-Source: ABdhPJwJYQV6klmcz69GVMYxwdnE2Cm15vo02Jbo5lK7VOx2vs20cJOPV/RkcT3QV7/5e58liFKz4g==
+X-Received: by 2002:a1c:5447:: with SMTP id p7mr27002349wmi.116.1609768384296; 
+ Mon, 04 Jan 2021 05:53:04 -0800 (PST)
+Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.241])
+ by smtp.gmail.com with ESMTPSA id m81sm31765689wmf.29.2021.01.04.05.53.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jan 2021 05:35:50 -0800 (PST)
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [Question] SR-IOV VF 'surprise removal' and vfio_reset behavior in
- pSeries
-Message-ID: <6fd0ed1a-0ac8-af97-88ad-ffaba34e92e6@gmail.com>
-Date: Mon, 4 Jan 2021 10:35:45 -0300
+ Mon, 04 Jan 2021 05:53:03 -0800 (PST)
+Subject: Re: [PULL 00/35] MIPS patches for 2021-01-03
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210103205021.2837760-1-f4bug@amsat.org>
+ <CAFEAcA--dkcqBJr=b1LcNpLtctYJewuT8Yvx9Uo47YC6JGgR-Q@mail.gmail.com>
+ <CAFEAcA-HXHrXwGywi0MkxFhCCW3fk91Xr4yHA1--tiSqN2_HWQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <790b031a-2be6-82d0-565d-f7595e95c077@amsat.org>
+Date: Mon, 4 Jan 2021 14:53:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAFEAcA-HXHrXwGywi0MkxFhCCW3fk91Xr4yHA1--tiSqN2_HWQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x730.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,109 +90,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Hi Peter,
 
-This question came up while I was investigating a Libvirt bug [1], where an user is removing
-VFs from the host while Libvirt domains was using them, causing Libvirt to remain in
-an inconsistent state. I'm trying to alleviate the effects of this in Libvirt (see [2] if curious),
-but QEMU is throwing some messages in the terminal that, although it appears to be benign,
-I'm not sure if it's a symptom of something that should be fixed.
+On 1/4/21 12:50 PM, Peter Maydell wrote:
+> On Mon, 4 Jan 2021 at 11:41, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> On Sun, 3 Jan 2021 at 20:53, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>>
+>>> The following changes since commit 83734919c408ba02adb6ea616d68cd1a72837fbe:
+>>>
+>>>   Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20201222' into staging (2021-01-01 18:19:44 +0000)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>   https://gitlab.com/philmd/qemu.git tags/mips-20210103
+>>>
+>>> for you to fetch changes up to 9c592996981fcb37fef011d7e9603cb31f8ef29f:
+>>>
+>>>   tests/acceptance: Test boot_linux_console for fuloong2e (2021-01-03 21:41:03 +0100)
+>>>
+>>> ----------------------------------------------------------------
+>>> MIPS patches queue
+>>>
+>>> - Use PCI macros (Philippe Mathieu-Daudé)
+>>> - Clean up VT82C686B south bridge (BALATON Zoltan)
+>>> - Introduce clock_ticks_to_ns() (Peter Maydell)
+>>> - Add Loongson-3 machine (Huacai Chen)
+>>> - Make addresses used by bootloader unsigned (Jiaxun Yang)
+>>> - Clean fuloong2e PROM environment (Jiaxun Yang)
+>>> - Add integration test of fuloong2e booting Linux (Jiaxun Yang)
+>>
+>>
+>> This fails 'make check' (consistently) on the aarch32-chroot-on-aarch64
+>> host:
+>>
+>> PASS 51 qtest-mips64el/qmp-cmd-test /mips64el/qmp/query-command-line-options
+>> PASS 52 qtest-mips64el/qmp-cmd-test /mips64el/qmp/query-acpi-ospm-status
+>> PASS 53 qtest-mips64el/qmp-cmd-test /mips64el/qmp/object-add-failure-modes
+>> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+>> QTEST_QEMU_IMG=./qemu-img
+>> G_TEST_DBUS_DAEMON=/home/peter.maydell/qemu/tests/dbus-vmstate-daemon.sh
+>> QTEST_QEMU_BINARY=./qemu-system-mips64el tests/qtest/qom-test --tap -k
+>> double free or corruption (out)
+>> ../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
+>> signal 6 (Aborted)
+>> ERROR qtest-mips64el/qom-test - too few tests run (expected 8, got 0)
+>> Makefile.mtest:2249: recipe for target 'run-test-279' failed
+>> make: *** [run-test-279] Error 1
+> 
+> Also on OSX, likely the same bug:
+> 
+> Broken pipe
+> ../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
+> signal 11 (Segmentation fault: 11)
+> ERROR qtest-mips64el/qom-test - too few tests run (expected 8, got 1)
 
-In a Power 9 server running a Mellanox MT28800 SR-IOV netcard I have the following IOMMU
-settings, where the physical card is at Group 0 and all the VFs are allocated from Group 12 and
-onwards:
-
-IOMMU Group 0 0000:01:00.0 Infiniband controller [0207]: Mellanox Technologies MT28800 Family [ConnectX-5 Ex] [15b3:1019]
-(...)
-IOMMU Group 12 0000:01:00.2 Infiniband controller [0207]: Mellanox Technologies MT27800 Family [ConnectX-5 Virtual Function] [15b3:1018]
-IOMMU Group 13 0000:01:00.3 Infiniband controller [0207]: Mellanox Technologies MT27800 Family [ConnectX-5 Virtual Function] [15b3:1018]
-(...)
-
-
-Creating a guest with the Group 12 VF and trying to remove the VF from the host via
-
-echo 0 > /sys/bus/pci/devices/0000\:01\:00.0/sriov_numvfs
-
-
-Makes the guest remove the VF card, but throwing a warning/error message in QEMU log:
-
-"qemu-system-ppc64: vfio: Cannot reset device 0000:01:00.2, depends on group 0 which is not owned."
-
-
-I found this message confusing because the VF was occupying IOMMU group 12, but the message is
-claiming that the reset wasn't possible because Group 0 wasn't owned by the process.
-
-Digging it a bit, the hotunplug is fired up via the poweroff state of the card triggering pSeries internals,
-and then reaching spapr_pci_unplug() in hw/ppc/spapr_pci.c. The body of the function reads:
-
--------
-     /* some version guests do not wait for completion of a device
-      * cleanup (generally done asynchronously by the kernel) before
-      * signaling to QEMU that the device is safe, but instead sleep
-      * for some 'safe' period of time. unfortunately on a busy host
-      * this sleep isn't guaranteed to be long enough, resulting in
-      * bad things like IRQ lines being left asserted during final
-      * device removal. to deal with this we call reset just prior
-      * to finalizing the device, which will put the device back into
-      * an 'idle' state, as the device cleanup code expects.
-      */
-     pci_device_reset(PCI_DEVICE(plugged_dev));
--------
-
-My first question is right at this point: do we need PCI reset for a VF removal?  I am not sure about
-handling IRQ lines asserted for a device that the kernel is going to remove.
-
-Going on further to the origin on the warning message we get to hw/vfio/pci.c, vfio_pci_hot_reset().
-The VFIO_DEVICE_GET_PCI_HOT_RESET_INFO ioctl() is returning all VFs of the card, including
-the physical function, in the vfio_pci_hot_reset_info struct. Then, down where it verifies if all
-IOMMU groups required for reset belongs to the process, it fails to reset the VF because QEMU
-does not have Group 0 ownership:
-
--------
-     ret = ioctl(vdev->vbasedev.fd, VFIO_DEVICE_GET_PCI_HOT_RESET_INFO, info);
-     if (ret) {
-         ret = -errno;
-         error_report("vfio: hot reset info failed: %m");
-         goto out_single;
-     }
-
-(...)
-
-         QLIST_FOREACH(group, &vfio_group_list, next) {
-             if (group->groupid == devices[i].group_id) {
-                 break;
-             }
-         }
-
-         if (!group) {
-             if (!vdev->has_pm_reset) {
-                 error_report("vfio: Cannot reset device %s, "
-                              "depends on group %d which is not owned.",
-                              vdev->vbasedev.name, devices[i].group_id);
-             }
-             ret = -EPERM;
-             goto out;
-         }
--------
-
-This message is not clear to me because I'm aware that the VF was in Group 12, but apparently the
-code is demanding ownership of all IOMMU Groups related to the card to allow the reset.
-
-The second question: is this intended?  If not, then someone is behaving badly (perhaps the card driver,
-mlx5_core) and reporting wrong info to that VFIO ioctl(). If this reset behavior is intended, then I
-might insert a code in spapr_pci_unplug() to skip resetting the VF in this particular case to avoid the
-error message (assuming that we really can live without a reset in this case).
-
-
-Thanks,
-
-
-DHB
-
-
-[1] https://gitlab.com/libvirt/libvirt/-/issues/72
-[2] https://www.redhat.com/archives/libvir-list/2021-January/msg00028.html
+Thanks. I am using the ubuntu-i386-guestcan not reproduce with the
+> 
+> thanks
+> -- PMM
+> 
 
