@@ -2,30 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FBED2EA0B3
+	by mail.lfdr.de (Postfix) with ESMTPS id 91C412EA0B4
 	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 00:26:24 +0100 (CET)
-Received: from localhost ([::1]:36222 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:36204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwZF1-0007n3-6m
+	id 1kwZF1-0007mW-5k
 	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 18:26:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35614)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kwZCA-00065p-MZ; Mon, 04 Jan 2021 18:23:26 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:55660)
+ id 1kwZCB-00066F-3w; Mon, 04 Jan 2021 18:23:28 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:55653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kwZC7-0007yl-PB; Mon, 04 Jan 2021 18:23:25 -0500
+ id 1kwZC7-0007yi-Th; Mon, 04 Jan 2021 18:23:26 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 95DE57470EE;
+ by localhost (Postfix) with SMTP id 3085E7470ED;
  Tue,  5 Jan 2021 00:23:20 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 116DF7470E0; Tue,  5 Jan 2021 00:23:20 +0100 (CET)
-Message-Id: <49fd899c9767a5ed08905b7bbb2b19d0531cf7ec.1609802040.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1609802040.git.balaton@eik.bme.hu>
-References: <cover.1609802040.git.balaton@eik.bme.hu>
-Subject: [PATCH v4 1/4] ppc440_pcix: Improve comment for IRQ mapping
+ id 0A00374646C; Tue,  5 Jan 2021 00:23:20 +0100 (CET)
+Message-Id: <cover.1609802040.git.balaton@eik.bme.hu>
+Subject: [PATCH v4 0/4] Misc sam460ex fixes (was: Clean up sam460ex irq
+ mapping)
 Date: Tue, 05 Jan 2021 00:14:00 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,36 +58,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-The code mapping all PCI interrupts to a single CPU IRQ works but is
-not trivial so document it in a comment.
+Changes from v3:
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/ppc440_pcix.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+- removed first two patches changing Kconfig because the FDT one seems
+to be needed so we should not remove those from KConfig and there was
+some question about patch 1
 
-diff --git a/hw/ppc/ppc440_pcix.c b/hw/ppc/ppc440_pcix.c
-index ee952314c8..eb1290ffc8 100644
---- a/hw/ppc/ppc440_pcix.c
-+++ b/hw/ppc/ppc440_pcix.c
-@@ -415,8 +415,15 @@ static void ppc440_pcix_reset(DeviceState *dev)
-     s->sts = 0;
- }
- 
--/* All pins from each slot are tied to a single board IRQ.
-- * This may need further refactoring for other boards. */
-+/*
-+ * All four IRQ[ABCD] pins from all slots are tied to a single board
-+ * IRQ, so our mapping function here maps everything to IRQ 0.
-+ * The code in pci_change_irq_level() tracks the number of times
-+ * the mapped IRQ is asserted and deasserted, so if multiple devices
-+ * assert an IRQ at the same time the behaviour is correct.
-+ *
-+ * This may need further refactoring for boards that use multiple IRQ lines.
-+ */
- static int ppc440_pcix_map_irq(PCIDevice *pci_dev, int irq_num)
- {
-     trace_ppc440_pcix_map_irq(pci_dev->devfn, irq_num, 0);
+- added a new patch to use type cast macro in sam460ex.c
+
+- the other 3 patches should be the same as in v3
+
+Regards,
+BALATON Zoltan
+
+BALATON Zoltan (4):
+  ppc440_pcix: Improve comment for IRQ mapping
+  ppc440_pcix: Fix register write trace event
+  ppc440_pcix: Fix up pci config access
+  sam460ex: Use type cast macro instead of simple cast
+
+ hw/ppc/ppc440_pcix.c | 50 ++++++++++++++++++++++++++++----------------
+ hw/ppc/sam460ex.c    |  7 ++-----
+ hw/ppc/trace-events  |  1 +
+ 3 files changed, 35 insertions(+), 23 deletions(-)
+
 -- 
 2.21.3
 
