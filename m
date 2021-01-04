@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFFC52E8F2F
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 02:28:19 +0100 (CET)
-Received: from localhost ([::1]:34246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 645182E8F35
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 02:31:14 +0100 (CET)
+Received: from localhost ([::1]:36630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwEfS-0004Gc-Br
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 20:28:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46462)
+	id 1kwEiH-0005J4-GI
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 20:31:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kwEdK-0003im-4Y; Sun, 03 Jan 2021 20:26:07 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:17281)
+ id 1kwEg4-0004m7-RY; Sun, 03 Jan 2021 20:28:56 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:41597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kwEdG-0007bf-Nz; Sun, 03 Jan 2021 20:26:05 -0500
+ id 1kwEg3-0008VL-9f; Sun, 03 Jan 2021 20:28:56 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 89B1D747608;
- Mon,  4 Jan 2021 02:25:55 +0100 (CET)
+ by localhost (Postfix) with SMTP id 676F87470DD;
+ Mon,  4 Jan 2021 02:28:53 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5D165747602; Mon,  4 Jan 2021 02:25:55 +0100 (CET)
+ id 3B9E074645F; Mon,  4 Jan 2021 02:28:53 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 5B2A6747601;
- Mon,  4 Jan 2021 02:25:55 +0100 (CET)
-Date: Mon, 4 Jan 2021 02:25:55 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 39F1274645B;
+ Mon,  4 Jan 2021 02:28:53 +0100 (CET)
+Date: Mon, 4 Jan 2021 02:28:53 +0100 (CET)
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v2 1/3] ppc4xx: Move common dependency on serial to common
- option
-In-Reply-To: <20210104003147.GA1915@yekko.fritz.box>
-Message-ID: <eaedeb61-e193-d02c-6dce-7a6d7e51dced@eik.bme.hu>
-References: <cover.1609413115.git.balaton@eik.bme.hu>
- <9c0b7267edf1dc4624702a29101154a8910682f2.1609413115.git.balaton@eik.bme.hu>
- <20210104003147.GA1915@yekko.fritz.box>
+Subject: Re: [PATCH v3 0/5] Misc sam460ex fixes (was: Clean up sam460ex irq
+ mapping)
+In-Reply-To: <20210104010532.GB1915@yekko.fritz.box>
+Message-ID: <c6a1a134-6f1b-a1ed-6d7e-dbd9e8ce40f1@eik.bme.hu>
+References: <cover.1609636173.git.balaton@eik.bme.hu>
+ <20210104010532.GB1915@yekko.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,76 +56,35 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>
+ qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
 On Mon, 4 Jan 2021, David Gibson wrote:
-> On Thu, Dec 31, 2020 at 12:11:55PM +0100, BALATON Zoltan via wrote:
->> All machines that select SERIAL also select PPC4XX so we can just add
->> this common dependency there once.
->>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> On Sun, Jan 03, 2021 at 02:09:33AM +0100, BALATON Zoltan via wrote:
+>> So this is v3 of a series that started to fix a potential problem with
+>> irq mapping in pci440_pcix (used by sam460ex) that got some other
+>> fixes along the way as by-products. But it turns out the irq issue
+>> this was trying to fix is not really a problem so finally we just
+>> update the comment for now documenting why it works and only the
+>> by-products remain in this series. Of which there are two more in this
+>> v3 finally fixing a long standing problem booting MorphOS on sam460ex
+>> (which I've got after debugging similar problem with pegasos2/vt8231
+>> that gave me an idea how to debug this.)
 >
 > Applied to ppc-for-6.0.
+>
+> So.. you're pretty much the only person who's shown any interest in
+> the embedded ppc stuff in qemu for a pretty long time.  Any chance I
+> could convince you to be ppc4xx submaintainer?
 
-Not yet please, I'll send another version with changes suggested by 
-Thomas. and also noticed another patch in this series needs update so I'll 
-wait until tomorrow to see if anybody else has anything to say then will 
-send and updated series.
+Not if it involves testing or sending pull requests because I don't have 
+time for that. I'm already listed as maintainer for stuff I contributed 
+and try to review and test changes to that (i.e. sam460ex) but I'm afraid 
+that's all I can do.
 
 Regards,
-BALATON Zoltan.
-
->> ---
->>  hw/ppc/Kconfig | 5 +----
->>  1 file changed, 1 insertion(+), 4 deletions(-)
->>
->> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
->> index dd86e664d2..8548f42b0d 100644
->> --- a/hw/ppc/Kconfig
->> +++ b/hw/ppc/Kconfig
->> @@ -37,7 +37,6 @@ config PPC405
->>      select M48T59
->>      select PFLASH_CFI02
->>      select PPC4XX
->> -    select SERIAL
->>
->>  config PPC440
->>      bool
->> @@ -46,13 +45,13 @@ config PPC440
->>      imply E1000_PCI
->>      select PCI_EXPRESS
->>      select PPC4XX
->> -    select SERIAL
->>      select FDT_PPC
->>
->>  config PPC4XX
->>      bool
->>      select BITBANG_I2C
->>      select PCI
->> +    select SERIAL
->>
->>  config SAM460EX
->>      bool
->> @@ -61,7 +60,6 @@ config SAM460EX
->>      select IDE_SII3112
->>      select M41T80
->>      select PPC440
->> -    select SERIAL
->>      select SM501
->>      select SMBUS_EEPROM
->>      select USB_EHCI_SYSBUS
->> @@ -123,7 +121,6 @@ config VIRTEX
->>      bool
->>      select PPC4XX
->>      select PFLASH_CFI01
->> -    select SERIAL
->>      select XILINX
->>      select XILINX_ETHLITE
->>      select FDT_PPC
->
->
+BALATON Zoltan
 
