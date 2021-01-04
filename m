@@ -2,95 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130682E9776
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 15:41:56 +0100 (CET)
-Received: from localhost ([::1]:56412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B30B2E9782
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 15:43:58 +0100 (CET)
+Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwR3T-0005J1-68
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 09:41:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46372)
+	id 1kwR5R-0006Nf-Mp
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 09:43:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kwR2G-0004X7-N0
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 09:40:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kwR2E-0003f9-CO
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 09:40:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609771236;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9DxMeXU+4BVgjX4T/7Hg82ySVjrwMZpgdBB+pUaB40s=;
- b=Y8Q8EUxq9Jwtu9ClZgJKzV1u+Hm5cyx57RbDAYQJxNO6ZF3DbtMQiS7aEX1g1tqqCk0DBp
- H2duLYABhxQ7qck+lpGnRpvjzfKaP7QPgFi++aUc2U8ZaTMGd50rzoZs/RZ8isPVXe/RTK
- taDKBmcf1dQ/6yZJHnGJcvCtHXixFCA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-rHipKEGMPSeHU57krK3Dhw-1; Mon, 04 Jan 2021 09:40:35 -0500
-X-MC-Unique: rHipKEGMPSeHU57krK3Dhw-1
-Received: by mail-wr1-f70.google.com with SMTP id r8so13298295wro.22
- for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 06:40:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kwR4J-0005nO-Hy
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 09:42:47 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:36483)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1kwR4H-0004Lb-CX
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 09:42:47 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id y23so19555879wmi.1
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 06:42:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=16i9d4d7aU1uhBdlUVeJW7tR/LZGwnQhkEcP2yoQyzI=;
+ b=GfD5D4sRj4/14l7zgyjUxm/84HeQBgiG6FoijRxmZbHuQAT+h6d3CcojyLR+euPSEC
+ efQcvmxkRMM53eGmKjL1lW+BOriIJjEqvCdCfAMWbxJW/6CDqwHcYDvHxvVtPykvg+5M
+ HC0KTWZ9hbjvoOXF9nHF6Btyxe1MGMpn4XNBrnsvFeYimXSisZ+ZPuNzDB0axX8cniVs
+ gnN5YQAqhovvLDY0PzAGQTC7DIwUxxBbHSlGH86yDksALCP24zSCfzQnOEQev1uecv9J
+ xBfHYAVFGvCnrM1DD4ADA6/5cfSaGCbF0aPDIMPrvUQBaU++xv42eefRyyyZSdW8vRy2
+ qfZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9DxMeXU+4BVgjX4T/7Hg82ySVjrwMZpgdBB+pUaB40s=;
- b=JZU3ZIGqvFa9EPoaMRIC4Uz06VySN1lZNgRGpXl7BwRc8Z/nV+nulxHnTuWI8vR1Xt
- 8ZHyh7gaVRLxDD1ERv0GtK6lKapN4ZsrksLimwGuFo+8a3q18+Mmyb0ZkTS1iz1GJda8
- RebFXRspLsIhKIQzGUEGGnpnKz7mh69cyBqza4abiiGK01RD5ybKBnGNj5fxtY++uVh6
- xTuQnUPQD5iE2Xkrqjw9gIrOVtbJ6Mw9wSpMjjWHp9ambM3dM1LqwsvVJX5k+FwjX2kS
- Xc2Djf8KNesOhNDLfGmBdaQKh14zBlUMXz5AbCXmiC/f4dOFWqMcuaMscYARqnoUSdlo
- I9pg==
-X-Gm-Message-State: AOAM530l3/qh9QbtbCOcUYkIdMQCGJ8tQA0ixRQbaaTRF0k2bURLjdH+
- I5LEw59pGomo6rWAOCgCuIqyQxx1ElWAWW3LV+MRMrl4GBFZ6SALUydPhWA2aGvtnwhZYrqYENm
- UzRzeJQP8nPUdIqw=
-X-Received: by 2002:adf:c14d:: with SMTP id w13mr78870679wre.383.1609771234175; 
- Mon, 04 Jan 2021 06:40:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzBNzWdYoOR1uUS3TnFRDRXnNaN3RRZXTkv1V9TaFrStZjrLU9Gxfj8jIcz/hbHoM7oypUlzg==
-X-Received: by 2002:adf:c14d:: with SMTP id w13mr78870652wre.383.1609771233924; 
- Mon, 04 Jan 2021 06:40:33 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m2sm33864818wml.34.2021.01.04.06.40.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jan 2021 06:40:33 -0800 (PST)
-Subject: Re: [PATCH] meson: Propagate gnutls dependency
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210102125213.41279-1-r.bolshakov@yadro.com>
- <CAFEAcA-X6DSKeyS4bbNe3tu-QFGxc1VM+Eoz_UMk-8jb--zq9g@mail.gmail.com>
- <20210104122149.GH640208@redhat.com>
- <CAFEAcA_3nv2N7zY5kwGWPLRx2dY3KB8wMAFX-MMrk_kXK1SUVg@mail.gmail.com>
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=16i9d4d7aU1uhBdlUVeJW7tR/LZGwnQhkEcP2yoQyzI=;
+ b=XO151lqMFjtgiCiNwqGO+zl7Rlsd9ZnXqMhsyTm6Z1/0+7Oey7MKDvDZVPeH17/gIo
+ 6lStEbZj8UZQYxJ5zWX8tMkRd8Bc+JGILVYe7Ulep98e0AFMjnLN62KpAAy1mFfW9lp2
+ Waden06AsW2JM78PtA/hV5hSW3P5WyLJnN5P4Vy7i9oiAoOCBabzQUnZsZgrSUYTP5JX
+ wN+3Kl5JrKO6rOLv/Mz9bMm1CoJP3rz7Owpm87rCZlAo5f5ODJ8EXLysSxq3ZpobEBSq
+ l7dJ1psEDPH48wWGzacFc2HZ8OF2+S2H6629pJ/1uGQc5N9ZjPCLfxB9BnR/fm4H31Qi
+ KaiQ==
+X-Gm-Message-State: AOAM533Sj8d5Pv5oW+PaWD1rKzBNJ1oWFXR9GYvUbdRZMHed+aI/jloa
+ f5R/oUPNG9/hVcJ+k6YGQA8K37eOA389dw==
+X-Google-Smtp-Source: ABdhPJzN5suDCPxawVVV71QA5sHB0q37FIT1sAemOP12gChpM7SrAwIHzslMY05F3TtDo5GrcIIdKw==
+X-Received: by 2002:a7b:cb93:: with SMTP id m19mr28003578wmi.45.1609771363271; 
+ Mon, 04 Jan 2021 06:42:43 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id v11sm90331029wrt.25.2021.01.04.06.42.41
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Jan 2021 06:42:42 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7493bddf-d915-8faa-5612-f14a3067a574@redhat.com>
-Date: Mon, 4 Jan 2021 15:40:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 00/53] Misc patches for 2020-12-21
+Date: Mon,  4 Jan 2021 15:42:41 +0100
+Message-Id: <20210104144241.343186-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_3nv2N7zY5kwGWPLRx2dY3KB8wMAFX-MMrk_kXK1SUVg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,31 +83,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/01/21 14:21, Peter Maydell wrote:
->> The rest of QEMU should only ever be using QEMU's TLS abstractions
->> and not directly be tied to GNUTLS. So ideally the gnutls flags
->> should only ever be added in the crypto/meson.build, and anything
->> which depends on that should then get the flags indirectly.
-> Unfortunately include/crypto/tlscreds.h leaks this implementation
-> detail
+The following changes since commit 41192db338588051f21501abc13743e62b0a5605:
 
-That is not a problem.  As Daniel said, anything depending on crypto can 
-still get the gnutls flags _indirectly_.
+  Merge remote-tracking branch 'remotes/ehabkost-gl/tags/machine-next-pull-request' into staging (2021-01-01 22:57:15 +0000)
 
-In my proposed solution to the bug you'd get that via
+are available in the Git repository at:
 
-     io_ss.add(crypto, qom)
-     libio = static_library(..., dependencies: io_ss.dependencies())
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-for example.
+for you to fetch changes up to bac87e979fcca9f884e1c9190132c51d99a86984:
+
+  win32: drop fd registration to the main-loop on setting non-block (2021-01-02 21:03:38 +0100)
+
+----------------------------------------------------------------
+From Alex's pull request:
+* improve cross-build KVM coverage
+* new --without-default-features configure flag
+* add __repr__ for ConsoleSocket for debugging
+* build tcg tests with -Werror
+* test 32 bit builds with fedora
+* remove last traces of debian9
+* hotfix for centos8 powertools repo
+
+* Move lots of feature detection code to meson (Alex, myself)
+* CFI and LTO support (Daniele)
+* test-char dangling pointer (Eduardo)
+* Build system and win32 fixes (Marc-André)
+* Initialization fixes (myself)
+* TCG include cleanup (Richard, myself)
+* x86 'int N' fix (Peter)
+
+----------------------------------------------------------------
+
+For v2, I just dropped the 0.55->0.56 upgrade and will include it later.
+The remaining patches are the same as before.
 
 Paolo
 
+Alex Bennée (7):
+      gitlab: include aarch64-softmmu and ppc64-softmmu cross-system-build
+      configure: move gettext detection to meson.build
+      configure: add --without-default-features
+      python: add __repr__ to ConsoleSocket to aid debugging
+      gitlab: move --without-default-devices build from Travis
+      gitlab: add --without-default-features build
+      tests/tcg: build tests with -Werror
+
+Daniel P. Berrangé (1):
+      tests: update for rename of CentOS8 PowerTools repo
+
+Daniele Buono (5):
+      configure,meson: add option to enable LTO
+      cfi: Initial support for cfi-icall in QEMU
+      check-block: enable iotests with cfi-icall
+      configure,meson: support Control-Flow Integrity
+      docs: Add CFI Documentation
+
+Eduardo Habkost (2):
+      test-char: Destroy chardev correctly at char_file_test_internal()
+      qom: Assert that objects being destroyed have no parent
+
+Marc-André Lureau (2):
+      build-sys: fix -static linking of libvhost-user
+      win32: drop fd registration to the main-loop on setting non-block
+
+Paolo Bonzini (32):
+      configure: document --without-default-{features,devices}
+      vl: initialize displays _after_ exiting preconfiguration
+      remove TCG includes from common code
+      trace: do not include TCG helper tracepoints in no-TCG builds
+      Makefile: add dummy target for build.ninja dependencies
+      meson: fix detection of curses with pkgconfig
+      meson: use pkg-config method for libudev
+      meson: use dependency to gate block modules
+      meson: cleanup Kconfig.host handling
+      configure: remove useless code to check for Xen PCI passthrough
+      configure: remove variable bogus_os
+      configure: accept --enable-slirp
+      configure: remove CONFIG_FILEVERSION and CONFIG_PRODUCTVERSION
+      brlapi: convert to meson
+      curl: remove compatibility code, require 7.29.0
+      curl: convert to meson
+      glusterfs: convert to meson
+      bzip2: convert to meson
+      libiscsi: convert to meson
+      libnfs: convert to meson
+      libssh: convert to meson
+      rbd: convert to meson
+      lzo: convert to meson
+      snappy: convert to meson
+      lzfse: convert to meson
+      zstd: convert to meson
+      seccomp: convert to meson
+      virtfs: convert to meson
+      cap_ng: convert to meson
+      libattr: convert to meson
+      meson.build: convert --with-default-devices to meson
+      configure: move tests/qemu-iotests/common.env generation to meson
+
+Peter Maydell (1):
+      target/i386: Check privilege level for protected mode 'int N' task gate
+
+Richard Henderson (1):
+      util: Extract flush_icache_range to cacheflush.c
+
+Thomas Huth (2):
+      gitlab-CI: Test 32-bit builds with the fedora-i386-cross container
+      tests/docker: Remove the remainders of debian9 containers from the Makefile
+
+ .gitlab-ci.d/crossbuilds.yml                      |  22 +-
+ .gitlab-ci.yml                                    |  14 +
+ .travis.yml                                       |   8 -
+ MAINTAINERS                                       |   2 +
+ Makefile                                          |   1 +
+ accel/Kconfig                                     |   9 +
+ accel/stubs/tcg-stub.c                            |   1 -
+ accel/tcg/cpu-exec.c                              |  11 +
+ accel/tcg/cputlb.c                                |   2 +-
+ accel/tcg/translate-all.c                         |   2 +-
+ accel/tcg/user-exec.c                             |   2 +-
+ block/curl.c                                      |  28 -
+ block/meson.build                                 |  22 +-
+ chardev/meson.build                               |   2 +-
+ configure                                         | 798 +++++-----------------
+ contrib/elf2dmp/meson.build                       |   2 +-
+ contrib/vhost-user-scsi/meson.build               |   2 +-
+ cpu.c                                             |   2 +-
+ docs/devel/control-flow-integrity.rst             | 137 ++++
+ docs/devel/index.rst                              |   5 +-
+ docs/devel/kconfig.rst                            |  19 +-
+ hw/i386/kvmvapic.c                                |   1 -
+ {accel/tcg => include/exec}/translate-all.h       |   0
+ include/qemu/cacheflush.h                         |  24 +
+ include/qemu/compiler.h                           |  11 +
+ meson.build                                       | 430 +++++++++---
+ meson_options.txt                                 |  49 +-
+ migration/meson.build                             |   2 +-
+ monitor/misc.c                                    |   1 -
+ plugins/core.c                                    |  37 +
+ plugins/loader.c                                  |   7 +
+ po/meson.build                                    |   2 +-
+ python/qemu/console_socket.py                     |   7 +
+ qom/object.c                                      |   1 +
+ softmmu/meson.build                               |   2 +-
+ softmmu/physmem.c                                 |   4 +-
+ softmmu/qemu-seccomp.c                            |   2 -
+ softmmu/vl.c                                      |   2 +-
+ target/i386/tcg/seg_helper.c                      |  35 +-
+ tcg/aarch64/tcg-target.h                          |   5 -
+ tcg/arm/tcg-target.h                              |   5 -
+ tcg/i386/tcg-target.h                             |   4 -
+ tcg/mips/tcg-target.h                             |  11 -
+ tcg/ppc/tcg-target.c.inc                          |  22 -
+ tcg/ppc/tcg-target.h                              |   1 -
+ tcg/riscv/tcg-target.h                            |   5 -
+ tcg/s390/tcg-target.h                             |   4 -
+ tcg/sparc/tcg-target.h                            |   8 -
+ tcg/tcg.c                                         |   1 +
+ tcg/tci.c                                         |   7 +
+ tcg/tci/tcg-target.h                              |   4 -
+ tests/check-block.sh                              |  18 +-
+ tests/docker/Makefile.include                     |   6 +-
+ tests/docker/dockerfiles/centos8.docker           |   5 +-
+ tests/docker/dockerfiles/fedora-i386-cross.docker |  18 +-
+ tests/qemu-iotests/common.env.in                  |   3 +
+ tests/qemu-iotests/meson.build                    |   3 +
+ tests/tcg/Makefile.target                         |   2 +-
+ tests/test-char.c                                 |   2 +-
+ tools/meson.build                                 |   6 +-
+ trace/meson.build                                 |   2 +-
+ util/cacheflush.c                                 |  71 ++
+ util/main-loop.c                                  |  11 +
+ util/meson.build                                  |   2 +-
+ util/oslib-posix.c                                |  11 +
+ util/oslib-win32.c                                |   1 -
+ version.rc                                        |   4 +-
+ 67 files changed, 1027 insertions(+), 923 deletions(-)
+ create mode 100644 docs/devel/control-flow-integrity.rst
+ rename {accel/tcg => include/exec}/translate-all.h (100%)
+ create mode 100644 include/qemu/cacheflush.h
+ create mode 100644 tests/qemu-iotests/common.env.in
+ create mode 100644 util/cacheflush.c
+-- 
+2.29.2
 
