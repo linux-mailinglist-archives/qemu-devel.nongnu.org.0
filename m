@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32B42E99A3
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 17:02:59 +0100 (CET)
-Received: from localhost ([::1]:34032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F7D2E9A18
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 17:07:42 +0100 (CET)
+Received: from localhost ([::1]:36944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwSJu-0004hz-7Z
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 11:02:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38038)
+	id 1kwSOS-0006Oy-LP
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 11:07:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1kwSHV-0003vv-01; Mon, 04 Jan 2021 11:00:29 -0500
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:40265)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1kwSHS-0005Xn-TA; Mon, 04 Jan 2021 11:00:28 -0500
-Received: by mail-lf1-x12a.google.com with SMTP id m12so65460757lfo.7;
- Mon, 04 Jan 2021 08:00:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=7NHtbq/b4F3O2vUwQ2+EAzuTSWvTaUtcYqWOjaCNidg=;
- b=X3XZDNsrvf1Jxfz4IPWnnrb93QnAyO045zqLYwzKdXAUp4FPaE6eWIM/GqqedHfB/s
- I3BF3cpaP4YQ8S58Ak+wmHEdgRnuDdilQVVvTMeEddF3n8tig2OQkMo0mGy/REwQY6cV
- AONWQj05iZNBNFAsrf8JjifivkJssLv7dAeSKt0Ud5cow0Dnzpl8/+LGFYaiZTsudXVp
- RPRFdXtopNw7H3FILKDuDApGyofoCh4vRYpJf/yGV3bCBvnWqD+ysdgaqOVUGXnoNTdV
- Vxq3txpoZnohLr3OyGcO43tAmX+LqaL6gKztTtkWF1bXpkZXB6tVXorEkUOn5beFOOL6
- XR8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=7NHtbq/b4F3O2vUwQ2+EAzuTSWvTaUtcYqWOjaCNidg=;
- b=hxU4vweffq4/LEjmOuzuWaDEj6+xkMpN9u4TVeojKWrFbYoa7gnBmiFD4UjB7e4P1g
- WlnlqjoyB5UldPvGAVgaV7OTVAgThpWAzEEdvvzQkIwGDwUpC02ckkV5Qwyee6v3zYhl
- gCQ/FjafeW/q9y4SoBr0PpU3FeInd5NODFZHctJN2zFUvzQAEpDPYCst+dXaMTbq2aK2
- 7t+fq05FwC5cA7kYgXEq1iCtdHtF4ZAHTbwJxtbc5A4Gv7xqBf5Hjv/DtVFeKaKEWCEt
- LDU5TBqaU3SEpmYGnSPB5gFE23cLkgdQDaMhVOaIMFkZgx9BVC6KghrWw9dqISuqNILB
- 3JLA==
-X-Gm-Message-State: AOAM533GR06/rWl/XT/5IBpKSdy7SijjjT1EA9Ppfs37DLYCXfpkSk4F
- S103NV7jpeLCJsTKXCCHtPM=
-X-Google-Smtp-Source: ABdhPJzC1xIKXvJcL4gNBpuEigswXgAmIEnLu5iGDeZVs+q9KgSuY+j+jn4u/CrRV36IgQBDIgKGlA==
-X-Received: by 2002:a2e:b5cb:: with SMTP id g11mr34326846ljn.502.1609776019215; 
- Mon, 04 Jan 2021 08:00:19 -0800 (PST)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- 68sm8612142ljj.23.2021.01.04.08.00.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jan 2021 08:00:18 -0800 (PST)
-Date: Mon, 4 Jan 2021 17:00:16 +0100
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH 01/22] hw/block: m25p80: Add ISSI SPI flash support
-Message-ID: <20210104160015.GA26719@fralle-msi>
-References: <20201231113010.27108-1-bmeng.cn@gmail.com>
- <20201231113010.27108-2-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kwSMa-0005xk-Bd
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 11:05:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28584)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kwSMX-0007ec-O4
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 11:05:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609776341;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FToyL89gW1ENSk439t03yC1Llax4Z7Uh1zupHhV5+tI=;
+ b=OVstlAKJCyDM4gR/YrAYFoM5F1tgN4IMpMKGeNFwo5xIOPilnAeLWzjOGnqdcYlkKp2Diq
+ zgKFzSfI8DHFzqu8b0Ta5zUpkn+cdLKPeLSECqxb8BJrtW9a97sK5n0gotLcwwOe+I7I1f
+ +3QvZ+tke6TzS+M9osDZEnO3O3tr3mA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-46-i63qn00HPfKBkQY9rXTQWg-1; Mon, 04 Jan 2021 11:05:37 -0500
+X-MC-Unique: i63qn00HPfKBkQY9rXTQWg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3A52801AC1;
+ Mon,  4 Jan 2021 16:05:35 +0000 (UTC)
+Received: from localhost (ovpn-113-37.ams2.redhat.com [10.36.113.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F1AEA61D31;
+ Mon,  4 Jan 2021 16:05:31 +0000 (UTC)
+Date: Mon, 4 Jan 2021 16:05:30 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v2 3/3] nvdimm: honor -object memory-backend-file,
+ readonly=on option
+Message-ID: <20210104160530.GE344891@stefanha-x1.localdomain>
+References: <20200916095150.755714-1-stefanha@redhat.com>
+ <20200916095150.755714-4-stefanha@redhat.com>
+ <20201214121905.45bf4d13@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20201214121905.45bf4d13@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="so9zsI5B81VjUb/o"
 Content-Disposition: inline
-In-Reply-To: <20201231113010.27108-2-bmeng.cn@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x12a.google.com
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,145 +81,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, qemu-block@nongnu.org,
- Bin Meng <bin.meng@windriver.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
+Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Julio Montes <julio.montes@intel.com>,
+ qemu-devel@nongnu.org, eric.g.ernst@gmail.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bin,
+--so9zsI5B81VjUb/o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On [2020 Dec 31] Thu 19:29:49, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> This adds the ISSI SPI flash support. The number of dummy cycles in
-> fast read, fast read dual output and fast read quad output commands
-> is currently using the default 8. Per the datasheet [1], the number
-> of dummy cycles configurable, but this is not modeled.
-> 
-> For flash whose size is larger than 16 MiB, the sequence of 3-byte
-> address along with EXTADD bit in the bank address register (BAR) is
-> not supported. Currently we assume that guest software will alawys
-> use op codes with 4-byte address sequence. Fortunately this is the
-> case for both U-Boot and Linux.
-> 
-> [1] http://www.issi.com/WW/pdf/25LP-WP256.pdf
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
->  hw/block/m25p80.c | 38 +++++++++++++++++++++++++++++++++++++-
->  1 file changed, 37 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 844cabea21..8a62bc4bc4 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -411,6 +411,7 @@ typedef enum {
->      MAN_NUMONYX,
->      MAN_WINBOND,
->      MAN_SST,
-> +    MAN_ISSI,
->      MAN_GENERIC,
->  } Manufacturer;
->  
-> @@ -486,6 +487,8 @@ static inline Manufacturer get_man(Flash *s)
->          return MAN_MACRONIX;
->      case 0xBF:
->          return MAN_SST;
-> +    case 0x9D:
-> +        return MAN_ISSI;
->      default:
->          return MAN_GENERIC;
->      }
-> @@ -705,6 +708,9 @@ static void complete_collecting_data(Flash *s)
->          case MAN_SPANSION:
->              s->quad_enable = !!(s->data[1] & 0x02);
->              break;
-> +        case MAN_ISSI:
-> +            s->quad_enable = extract32(s->data[0], 6, 1);
-> +            break;
->          case MAN_MACRONIX:
->              s->quad_enable = extract32(s->data[0], 6, 1);
->              if (s->len > 1) {
-> @@ -897,6 +903,16 @@ static void decode_fast_read_cmd(Flash *s)
->                                      SPANSION_DUMMY_CLK_LEN
->                                      );
->          break;
-> +    case MAN_ISSI:
-> +        /*
-> +         * The fast read instruction code is followed by address bytes and
-> +         * dummy cycles, transmitted via the SI line.
-> +         *
-> +         * The number of dummy cycles are configurable but this is currently
-> +         * unmodeled, hence the default value 8 is used.
-> +         */
-> +        s->needed_bytes += ((8 * 1) / 8);
+On Mon, Dec 14, 2020 at 12:19:05PM +0100, Igor Mammedov wrote:
+> On Wed, 16 Sep 2020 10:51:50 +0100
+> Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+> > index e1574bc07c..848cd65917 100644
+> > --- a/hw/mem/nvdimm.c
+> > +++ b/hw/mem/nvdimm.c
+> > @@ -146,6 +146,10 @@ static void nvdimm_prepare_memory_region(NVDIMMDev=
+ice *nvdimm, Error **errp)
+> >          return;
+> >      }
+> > =20
+> > +    if (memory_region_is_rom(mr)) {
+> > +        nvdimm->unarmed =3D true; /* this device is read-only */
+> > +    }
+> we probably should error out in case 'backend,readonly=3Dtrue + nvdimm,un=
+armed=3Dfalse'
+> instead of silently ignoring user's input
 
-According to how m25p80 models dummy clock cycles above
-means that the command is being modeled with 1 dummy clock cycle (and below is
-modeling the dio/qio commands with 1 and 3 dummy clock cycles). To model
-the command with 8 dummy clock cycles you only add +8 above (+4 and +6
-would be the values to add below). One can look into how one of the other
-flashes model the commands for examples. This might also mean that the
-controller will need a change and do the opposite what above calculation
-does, and convert the dummy bytes into dummy clock cycles (when
-transmitting on 1 line it generates 8 dummy clock cycles for each dummy
-byte, when it uses 2 lines it generates 4 etc..).
+Will fix.
 
-Best regards,
-Francisco Iglesias
+--so9zsI5B81VjUb/o
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +        break;
->      default:
->          break;
->      }
-> @@ -936,6 +952,16 @@ static void decode_dio_read_cmd(Flash *s)
->              break;
->          }
->          break;
-> +    case MAN_ISSI:
-> +        /*
-> +         * The fast read dual I/O instruction code is followed by address bytes
-> +         * and dummy cycles, transmitted via the IO1 and IO0 line.
-> +         *
-> +         * The number of dummy cycles are configurable but this is currently
-> +         * unmodeled, hence the default value 4 is used.
-> +         */
-> +        s->needed_bytes += ((4 * 2) / 8);
-> +        break;
->      default:
->          break;
->      }
-> @@ -976,6 +1002,16 @@ static void decode_qio_read_cmd(Flash *s)
->              break;
->          }
->          break;
-> +    case MAN_ISSI:
-> +        /*
-> +         * The fast read quad I/O instruction code is followed by address bytes
-> +         * and dummy cycles, transmitted via the IO3, IO2, IO1 and IO0 line.
-> +         *
-> +         * The number of dummy cycles are configurable but this is currently
-> +         * unmodeled, hence the default value 6 is used.
-> +         */
-> +        s->needed_bytes += ((6 * 4) / 8);
-> +        break;
->      default:
->          break;
->      }
-> @@ -1134,7 +1170,7 @@ static void decode_new_cmd(Flash *s, uint32_t value)
->  
->      case RDSR:
->          s->data[0] = (!!s->write_enable) << 1;
-> -        if (get_man(s) == MAN_MACRONIX) {
-> +        if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
->              s->data[0] |= (!!s->quad_enable) << 6;
->          }
->          if (get_man(s) == MAN_SST) {
-> -- 
-> 2.25.1
-> 
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/zPMoACgkQnKSrs4Gr
+c8jEyQf/do2NvkdOSv3QxrR8zbr6LfXtJ1TL3dIg4pMqwpbigs+rULS5SzFWwEVo
+KkYONVayz8o2NrL+jchhg/a+hxpFBoM//qIkWhdTRJSCng1zYKwvkgJUfbtPv675
+gPg+bA/BSQ6bQI6kVGVUafL8JzZTrAMjotLIGCLY1xdubq/bLQppyhbYaAfU4M3d
+eFYRNjrP2Ng5s4H5pw6oFoWoIGMA+xw2MBjdJ8i6MWk+bozSs5jpw5e0EI+wnK1a
+64pTrRc9i5tJft3r7VzSyYt/A7naV8kinSG1WmAw2yQc/pGwKeafDfQkt+DxlqB+
+pjlKEhEBuUVR7wrbNqgNgKSH5u31wQ==
+=HYYi
+-----END PGP SIGNATURE-----
+
+--so9zsI5B81VjUb/o--
+
 
