@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3472E9F7A
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 22:22:26 +0100 (CET)
-Received: from localhost ([::1]:57744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E285D2E9FD9
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 23:12:39 +0100 (CET)
+Received: from localhost ([::1]:46046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwXJ3-0004qf-2D
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 16:22:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33042)
+	id 1kwY5e-00067i-F1
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 17:12:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kwXHl-0004Kf-D0
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 16:21:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35924)
+ id 1kwY3X-0005OI-OU
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:10:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kwXHi-0008IE-2U
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 16:21:03 -0500
+ id 1kwY3T-0007Bo-Fy
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:10:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609795260;
+ s=mimecast20190719; t=1609798221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nFbOmj7L4eYxV1Pa9YWktYBfovlirllbaINQouFm1Hs=;
- b=SYjQZ8v/MaBzHEiVb550oioLdie1P37Ia2y+WZN0St1a3H9lVcTIDqR9CUGQnNi2/Mrl9I
- WbEVMJu7EK2h1d07cZvpvNuLwR2lr25c1yaQ8MhEBSch4FlHWOCZ8T85b6uMxjcIpHrk7o
- J39hJpkSJq562pJWyvP06dZCcOG0bMw=
+ bh=+B+r0+4aZaYYBaD8upICaTg7dnMjcQT09LwD9q+xk6I=;
+ b=iSLIQFc9PA+rJAztwnahxf74XhW8a/TvSa+gLmyebgEh88oH4ZPE8QxmpdrWPJs7f5Ob8E
+ NHYDUVqRKugM9yhsHQWaTMH+yIyVd4y4W5cxjw9fvQpvR5itfqltlhdqv9HygpferWYigO
+ oCHDu+tfHjj/A+8fauNwGF9teR/hoWI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-P6M7Dgi0MoyFFJyCq6On1g-1; Mon, 04 Jan 2021 16:20:59 -0500
-X-MC-Unique: P6M7Dgi0MoyFFJyCq6On1g-1
+ us-mta-417-ycQTF7KoNlGtDn5EJgAHLQ-1; Mon, 04 Jan 2021 17:10:19 -0500
+X-MC-Unique: ycQTF7KoNlGtDn5EJgAHLQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A05B8BBEE0;
- Mon,  4 Jan 2021 21:20:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9B7A107B45F;
+ Mon,  4 Jan 2021 22:10:17 +0000 (UTC)
 Received: from localhost (ovpn-116-153.rdu2.redhat.com [10.10.116.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DAD645D9C6;
- Mon,  4 Jan 2021 21:20:50 +0000 (UTC)
-Date: Mon, 4 Jan 2021 16:20:49 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 28D2E5D9D5;
+ Mon,  4 Jan 2021 22:10:14 +0000 (UTC)
+Date: Mon, 4 Jan 2021 17:10:13 -0500
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2 2/3] hostmem-file: add readonly=on|off option
-Message-ID: <20210104212049.GJ18467@habkost.net>
-References: <20200916095150.755714-1-stefanha@redhat.com>
- <20200916095150.755714-3-stefanha@redhat.com>
- <20201214121015.592aaef0@redhat.com>
- <20210104154223.GC344891@stefanha-x1.localdomain>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v2 0/3] pc: Support configuration of SMBIOS entry point
+ type
+Message-ID: <20210104221013.GK18467@habkost.net>
+References: <20201214205029.2991222-1-ehabkost@redhat.com>
+ <20201229142001.3b28fdf2@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210104154223.GC344891@stefanha-x1.localdomain>
+In-Reply-To: <20201229142001.3b28fdf2@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
@@ -82,58 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Julio Montes <julio.montes@intel.com>,
- qemu-devel@nongnu.org, eric.g.ernst@gmail.com,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 04, 2021 at 03:42:23PM +0000, Stefan Hajnoczi wrote:
-> On Mon, Dec 14, 2020 at 12:10:15PM +0100, Igor Mammedov wrote:
-> > On Wed, 16 Sep 2020 10:51:49 +0100
-> > Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> > 
-> > > Let -object memory-backend-file work on read-only files when the
-> > > readonly=on option is given. This can be used to share the contents of a
-> > > file between multiple guests while preventing them from consuming
-> > > Copy-on-Write memory if guests dirty the pages, for example.
-> > > 
-> > > Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> > > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > 
-> > cosmetic/style nits only
-> > 
-> > s/Object *o/Object *obj/
-> > 
-> > for consistency with the rest of the code in file.
+On Tue, Dec 29, 2020 at 02:20:01PM +0100, Igor Mammedov wrote:
+> On Mon, 14 Dec 2020 15:50:26 -0500
+> Eduardo Habkost <ehabkost@redhat.com> wrote:
 > 
-> Will fix.
+> > This includes code previously submitted[1] by Daniel P. Berrangé
+> > to add a "smbios-ep" machine property on PC.
+> > 
+> > SMBIOS 3.0 is necessary to support more than ~720 VCPUs, as a
+> > large number of VCPUs can easily hit the table size limit of
+> > SMBIOS 2.1 entry points.
 > 
-> > > @@ -153,6 +154,26 @@ static void file_memory_backend_set_pmem(Object *o, bool value, Error **errp)
-> > >      fb->is_pmem = value;
-> > >  }
-> > >  
-> > > +static bool file_memory_backend_get_readonly(Object *o, Error **errp)
-> > > +{
-> > > +    return MEMORY_BACKEND_FILE(o)->readonly;
-> > 
-> > I thought using macro this way not acceptable and one should use
-> > 
-> > HostMemoryBackendFile *fb = MEMORY_BACKEND_FILE(o);
-> > 
-> > return fb->readonly;
-> 
-> I'm not sure where this is forbidden or why? I've updated the patch as
-> suggested anyway.
+> Eduardo,
+> do you plan to submit Seabios patches for SMBIOS 3.0?
+> will OVMF pick up new tables automatically?
 
-I have a vague memory of seeing this documented somewhere, but I
-can't find it anywhere in the QOM documentation or git log.
+OVMF will pick the new tables automatically.
 
-I don't think we need to make this a rule, though.
+SeaBIOS patches are at:
+https://www.mail-archive.com/search?l=mid&q=20201210212640.2023885-1-ehabkost@redhat.com
 
 -- 
 Eduardo
