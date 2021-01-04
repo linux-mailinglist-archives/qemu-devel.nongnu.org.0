@@ -2,88 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18842E92A2
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 10:34:21 +0100 (CET)
-Received: from localhost ([::1]:53748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB812E9435
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 12:42:56 +0100 (CET)
+Received: from localhost ([::1]:49854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwMFo-0000pU-DV
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 04:34:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39934)
+	id 1kwOGF-0004ce-KB
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 06:42:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kwMEA-00089M-0j
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 04:32:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30879)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kwME6-0000d9-Bo
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 04:32:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609752752;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HxTr71QZaT90y8c2vL2GVs5Sp2A5X0ewvCwxjpolVVQ=;
- b=NHK+gnlrU8EKoI41UYBKe5QrUiHgBVPTSxUAMMVwelG/Epygvbi5U8ydwZDREQ1zhqsqt3
- RFyp/aeUkxc2v7O2L0/pFWJi+LHkovUbSJwLoqdHcPaOGlzp+bPf5FOVotu7f44w7Y+sja
- h7fJcE/iQvKfwFJ1c81LMPKp2n4U1EM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-9Uq7xHMtNTWSbqcs2QKCEw-1; Mon, 04 Jan 2021 04:32:31 -0500
-X-MC-Unique: 9Uq7xHMtNTWSbqcs2QKCEw-1
-Received: by mail-wr1-f71.google.com with SMTP id g17so12932804wrr.11
- for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 01:32:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kwOFR-0004CU-Lu
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 06:42:05 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:34288)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kwOFM-0002G8-At
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 06:42:04 -0500
+Received: by mail-ej1-x634.google.com with SMTP id g20so36438109ejb.1
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 03:41:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2PZB7CFxUiQhHqh+6HRrKqpZKirPEUsItKKtTMkOpu8=;
+ b=jWTq669gpdltqAUEdXY0J8tr6IijVxozjEo39FbaeWlTSeuntrHjzLEoIURoQlXJXw
+ 3XF8m2lFAKZiy6QdpBclX48v74LqGG0H53TgY5L95c6Lj4xsxLYUOboeQpBhxJVbUzIa
+ 4OodEnSaTEpPpbOkillimQkadEXoFMMPdd2u03rqeWPpn3vAxIphyPKSjWJQdG2hVOUE
+ giowhX7WymHNKzLAdYNHBDW8HRdMtsTbImYmuHaH9I+uI7JOp5Uf4FMei3Y30Wyx7Vlf
+ hNmM9o0smQUWvyAG6skY79bAL4gVlA6OCOP132Q7GvdNwmPWssJOR/Xrb1idIS1t6OJA
+ vZ9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=tn7hDzxpKrM1swuwnw3aSgEMZIORK6hhOk9QF/UxR54=;
- b=PWxGPIe8eOv7EaYzn9BKyP+Px2dHkf6VTB5+Dwavd1p8EVvJoMbrFb7MbmfgTLf3cZ
- BE0ZjPb3zUWPXBJmD1Je/fYiiT0CGgwYLip9X1Q3mYD9hSK0kHJOrK7zTovcbmW2w5JE
- JMnfugPsJHF71VetkAPREdlA9iZjYL0Q7rgOupI0+s0rrvhYVx2kCIGmGtAJ+laY2WJp
- uqTsDeVOm2Qq3JDF6HRhlI+7WXHzoOxsm+KrX/4sQmaV7nKONy5UYBlG01pjMn34ML3W
- lE+VAW58Gz++pIL1K+xxU0J3QnmT+ZzWsZo6uvBiTLk2Yg47um2HNmswEYyhbNERltva
- 7Xew==
-X-Gm-Message-State: AOAM532GQn3nWA+339PYpw7cdbUkr7adZSjswU250IWTATCtAoMWwlq1
- DPyebYGABT6oqid6s7knjrPRgUifKecx2sys8HoaCOnlzoL6rz47YImkZup791Gl/orfSuCiChD
- FwSL4SVT46Dok9SI=
-X-Received: by 2002:a05:6000:10c4:: with SMTP id
- b4mr80539860wrx.170.1609752749938; 
- Mon, 04 Jan 2021 01:32:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx4JuLN6jtROkA0DcLhevcSrtv/oKG8Fo13+2fbLpVuH3BNDwBHHvd1SgSdxKPaKWu9HdWnpw==
-X-Received: by 2002:a05:6000:10c4:: with SMTP id
- b4mr80539832wrx.170.1609752749696; 
- Mon, 04 Jan 2021 01:32:29 -0800 (PST)
-Received: from redhat.com (bzq-79-178-32-166.red.bezeqint.net. [79.178.32.166])
- by smtp.gmail.com with ESMTPSA id n9sm88912868wrq.41.2021.01.04.01.32.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jan 2021 01:32:28 -0800 (PST)
-Date: Mon, 4 Jan 2021 04:32:25 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 0/5] hw: Use PCI macros from 'hw/pci/pci.h'
-Message-ID: <20210104043218-mutt-send-email-mst@kernel.org>
-References: <20201012124506.3406909-1-philmd@redhat.com>
- <04b12adf-39ad-dc19-0458-74b0db809a95@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2PZB7CFxUiQhHqh+6HRrKqpZKirPEUsItKKtTMkOpu8=;
+ b=uX0FKXQVyyqWbYN+832iaX6Q4yqyBRJNFabx5biOGKWNON4iiL3nfu7FPA3v4bAibg
+ Swf2iVZEpO+YuEReEAIMxqqz5szKn7K0vF3Y2w0FtyGikG6FQTebqxjP74EUijR6D4jQ
+ rA93sro6YyS6nasSxSWwxan0oA2E39nBFRPb9JLPKczREwNETfMnD7IQRd0sZuTxDvbI
+ IiG4lTlLa36Bcp1UJ6h5Y2nReDiE6bCd7kARq4ZUoAq+cpXpth0aGc0SmeW0kaqcz1aY
+ i3vh4Z4J5L9YMSvbenia6SjJpr9jb425agvQvN8mcI5fy/uJakBvEgoWpaXxIEwI1w8K
+ dZ2w==
+X-Gm-Message-State: AOAM531HOSllC2c7HJrm3uMsAoRoeqJ/SJNs8P0N/QPpObpPrQQ9m1Rc
+ PnNj/vO3SL10haSx1nSaVM+eqz4bVDbJWpUTSkTfiA==
+X-Google-Smtp-Source: ABdhPJwMjF6ujCK7RvPi9q22HIYnr7Y08lF5+EosjW8fJGeyy5ufXwBBQdWY/GrgbqjGDE1FsFdhVMYjv3zb8MiXQFU=
+X-Received: by 2002:a17:906:3d4a:: with SMTP id
+ q10mr41216423ejf.85.1609760518083; 
+ Mon, 04 Jan 2021 03:41:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <04b12adf-39ad-dc19-0458-74b0db809a95@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210103205021.2837760-1-f4bug@amsat.org>
+In-Reply-To: <20210103205021.2837760-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 4 Jan 2021 11:41:47 +0000
+Message-ID: <CAFEAcA--dkcqBJr=b1LcNpLtctYJewuT8Yvx9Uo47YC6JGgR-Q@mail.gmail.com>
+Subject: Re: [PULL 00/35] MIPS patches for 2021-01-03
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,43 +79,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Huacai Chen <chenhc@lemote.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-trivial@nongnu.org,
- Helge Deller <deller@gmx.de>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- David Gibson <david@gibson.dropbear.id.au>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-arm@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Richard Henderson <rth@twiddle.net>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jan 03, 2021 at 02:04:53PM +0100, Philippe Mathieu-Daudé wrote:
-> On 10/12/20 2:45 PM, Philippe Mathieu-Daudé wrote:
-> > Trivial patches using the generic PCI macros from "hw/pci/pci.h".
-> > 
-> > Philippe Mathieu-Daudé (5):
-> >   hw/pci-host/bonito: Make PCI_ADDR() macro more readable
-> >   hw/pci-host: Use the PCI_BUILD_BDF() macro from 'hw/pci/pci.h'
-> >   hw/pci-host/uninorth: Use the PCI_FUNC() macro from 'hw/pci/pci.h'
-> >   hw: Use the PCI_SLOT() macro from 'hw/pci/pci.h'
-> >   hw: Use the PCI_DEVFN() macro from 'hw/pci/pci.h'
-> 
-> As this series are trivial and Acked, I'm going to queue
-> it via the mips-tree, as other reviewed patches depend
-> on it.
-> 
-> Thanks,
-> 
-> Phil.
+On Sun, 3 Jan 2021 at 20:53, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> The following changes since commit 83734919c408ba02adb6ea616d68cd1a72837f=
+be:
+>
+>   Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20201222=
+' into staging (2021-01-01 18:19:44 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/philmd/qemu.git tags/mips-20210103
+>
+> for you to fetch changes up to 9c592996981fcb37fef011d7e9603cb31f8ef29f:
+>
+>   tests/acceptance: Test boot_linux_console for fuloong2e (2021-01-03 21:=
+41:03 +0100)
+>
+> ----------------------------------------------------------------
+> MIPS patches queue
+>
+> - Use PCI macros (Philippe Mathieu-Daud=C3=A9)
+> - Clean up VT82C686B south bridge (BALATON Zoltan)
+> - Introduce clock_ticks_to_ns() (Peter Maydell)
+> - Add Loongson-3 machine (Huacai Chen)
+> - Make addresses used by bootloader unsigned (Jiaxun Yang)
+> - Clean fuloong2e PROM environment (Jiaxun Yang)
+> - Add integration test of fuloong2e booting Linux (Jiaxun Yang)
 
-Fine.
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
+This fails 'make check' (consistently) on the aarch32-chroot-on-aarch64
+host:
+
+PASS 51 qtest-mips64el/qmp-cmd-test /mips64el/qmp/query-command-line-option=
+s
+PASS 52 qtest-mips64el/qmp-cmd-test /mips64el/qmp/query-acpi-ospm-status
+PASS 53 qtest-mips64el/qmp-cmd-test /mips64el/qmp/object-add-failure-modes
+MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+QTEST_QEMU_IMG=3D./qemu-img
+G_TEST_DBUS_DAEMON=3D/home/peter.maydell/qemu/tests/dbus-vmstate-daemon.sh
+QTEST_QEMU_BINARY=3D./qemu-system-mips64el tests/qtest/qom-test --tap -k
+double free or corruption (out)
+../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
+signal 6 (Aborted)
+ERROR qtest-mips64el/qom-test - too few tests run (expected 8, got 0)
+Makefile.mtest:2249: recipe for target 'run-test-279' failed
+make: *** [run-test-279] Error 1
+
+thanks
+-- PMM
 
