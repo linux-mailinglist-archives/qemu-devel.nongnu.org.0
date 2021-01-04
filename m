@@ -2,56 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199982E9783
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 15:44:13 +0100 (CET)
-Received: from localhost ([::1]:60144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A402E980A
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 16:05:46 +0100 (CET)
+Received: from localhost ([::1]:49852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwR5g-0006qG-6z
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 09:44:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46914)
+	id 1kwRQX-0006mC-7c
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 10:05:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kwR4Z-00061g-Ij; Mon, 04 Jan 2021 09:43:03 -0500
-Resent-Date: Mon, 04 Jan 2021 09:43:03 -0500
-Resent-Message-Id: <E1kwR4Z-00061g-Ij@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21382)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kwR4V-0004P4-JW; Mon, 04 Jan 2021 09:43:02 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1609771367; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Vl+80UGZ1Mxfd8WvJmVL24ws/aFup4dO5VFzHynrJWcjuLgWZyP6wn9Fa7nzANE0RcGblUUD2Al3m/kGK7utUOKkzXMaBhiDWmcPcuvMFqpGbfFH47/G+mc7WzmVh6KKSi+Tch5WRGzbzwQWzIl8nDQTR+mtoAZzaPFOm7Efjqo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1609771367;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=/IqQ8WWvBh9PRiddOtQpzDC9I0iN5qT4t8aPM78ilj8=; 
- b=dem30qkFBDXN4tLOGJUO2vjkfz9bJ5rP5zPjXxS35PHEC+auEujHTdZtRElJDdkhgJWElwUn6g9c0loegTLaOgRkK4TTE16oQRVj2a/q5J/h492GIVlqjgubWZkpqbameHhYAHIv2Fugf2Vic4+4MSkkfxHzA3A+MRSXPZW9jK0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1609771365966806.6308980683825;
- Mon, 4 Jan 2021 06:42:45 -0800 (PST)
-In-Reply-To: <20210104143154.462212-1-stefanha@redhat.com>
-Subject: Re: [PULL 0/5] Tracing patches
-Message-ID: <160977136391.13070.3982684701794238349@600e7e483b3a>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kwRN0-0004CW-Pv
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:02:06 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:38120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kwRMv-0002Gv-7o
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:02:06 -0500
+Received: by mail-ej1-x634.google.com with SMTP id 6so37169422ejz.5
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 07:02:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=62kJC8MhpjTdhDAhauDoZet/7ufJi9wKK4JzbblNYjQ=;
+ b=qPSgjO46wiix9Un8c+HqrMAKza5nNmboyhBOm1ON+leG0TWUGpPJX85k2u+1gc1AzK
+ cOq0NAwnZBIMYAJl0KS/6Zncu9KhDLtftjataoPqz2lPmWZAZzyDt6wfnV8IMRhgUmmR
+ CCv3tHQLhtWpAy/4KS+O/h3hjNl+vV267u9U6bnQOM7rfzNms0ZNb3+GfwPB1NHXGAeV
+ G4sRESlil9XUoAc2lvLwMpw1Agio5J87F3YCsV4b7am5XDQTi0MTtfbY80mCHVxZNkhn
+ qJSVM6Ps9ZFZAkiYfb0j+BO1vBT3rZmDM5D2JkqaYmW5LxB/soN4+O4BuaezvZIgimJ8
+ N7Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=62kJC8MhpjTdhDAhauDoZet/7ufJi9wKK4JzbblNYjQ=;
+ b=AgDP48h4mXU4ijKl9xsxiAUQ8aOSbeTAwEnc0AiPMnfC8jJK3Hw6g2kv5NSN3mixD9
+ yl3FhuJd6QcFF53SFN2ol68bXRp86HZvaAIc+W2oT5LL3BI/VaeiB8Rj5XGIb9BukM57
+ rBNFqZvyZz0VIkX/WxtZIxAQB01uggocrXCdw4VNihsaeVXCFAowKNxtaL9RhjK/hKv9
+ 5g/CCAWC38lagr/PM9aQc1OjOWJckVn88aEfr3qEhVab8o2RL0CDY9xuSPZvCyYfIwC3
+ BDZW+D8/i+7r3EC+tSqGKqkZg0UXqpO7hU5saNTmN+aBDU+k1ZZIci+q6T82E53LXH+7
+ t1kQ==
+X-Gm-Message-State: AOAM5312PAc+clWxBQ5mosrYeef/4y8KSSpxmsiWBVSlDzSEHaKs+OjY
+ py0X12M8cEwS6A9OX3Jm4DUVwWqKlJ/5a14qmR1slg==
+X-Google-Smtp-Source: ABdhPJwSaR56KbMlehdWFCznSYoye4LDV+h5uJ8K2QjF6dfxyxgMYTx7d1lJ64GNQ2+0az1kwuWw6n72SgcvVfZ1GGA=
+X-Received: by 2002:a17:906:6b88:: with SMTP id
+ l8mr66883803ejr.482.1609772519504; 
+ Mon, 04 Jan 2021 07:01:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: stefanha@redhat.com
-Date: Mon, 4 Jan 2021 06:42:45 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210103205021.2837760-1-f4bug@amsat.org>
+ <CAFEAcA--dkcqBJr=b1LcNpLtctYJewuT8Yvx9Uo47YC6JGgR-Q@mail.gmail.com>
+ <CAFEAcA-HXHrXwGywi0MkxFhCCW3fk91Xr4yHA1--tiSqN2_HWQ@mail.gmail.com>
+ <790b031a-2be6-82d0-565d-f7595e95c077@amsat.org>
+ <CAAdtpL53Ngj3zc0ZtxEvHed0hAxYN0RZ7G2eiL_izuTSWBMM2A@mail.gmail.com>
+In-Reply-To: <CAAdtpL53Ngj3zc0ZtxEvHed0hAxYN0RZ7G2eiL_izuTSWBMM2A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 4 Jan 2021 15:01:48 +0000
+Message-ID: <CAFEAcA-mTCyahsvVaD3PsOA4P8erDXmbLJCDtWaUFFoFiR4r=Q@mail.gmail.com>
+Subject: Re: [PULL 00/35] MIPS patches for 2021-01-03
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,50 +83,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, stefanha@redhat.com, crosa@redhat.com
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDEwNDE0MzE1NC40NjIy
-MTItMS1zdGVmYW5oYUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAxMDQxNDMxNTQuNDYy
-MjEyLTEtc3RlZmFuaGFAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUFVMTCAwLzVdIFRyYWNpbmcgcGF0
-Y2hlcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNl
-IGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
-ZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcg
-LS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwg
-LS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNm
-NWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5j
-b20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIx
-MDEwNDE0MzE1NC40NjIyMTItMS1zdGVmYW5oYUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAx
-MDQxNDMxNTQuNDYyMjEyLTEtc3RlZmFuaGFAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBi
-cmFuY2ggJ3Rlc3QnCjZiMTczOGYgdHJhY2V0b29sOiBzaG93IHRyYWNlLWV2ZW50cyBmaWxlbmFt
-ZS9saW5lbm8gaW4gZm10IHN0cmluZyBlcnJvcnMKZDY2YTlmYyB0cmFjZXRvb2w6IGFkZCBpbnB1
-dCBmaWxlbmFtZSBhbmQgbGluZSBudW1iZXIgdG8gRXZlbnQKMDI2MmEyOCB0cmFjZXRvb2w6IGFk
-ZCBvdXRfbGluZW5vIGFuZCBvdXRfbmV4dF9saW5lbm8gdG8gb3V0KCkKOTViZDA1OCB0cmFjZXRv
-b2w6IGFkZCBvdXRwdXQgZmlsZW5hbWUgY29tbWFuZC1saW5lIGFyZ3VtZW50CmY4Y2ZiNDcgdHJh
-Y2U6IFNlbmQgIi1kIHRyYWNlOmhlbHAiIG91dHB1dCB0byBzdGRvdXQKCj09PSBPVVRQVVQgQkVH
-SU4gPT09CjEvNSBDaGVja2luZyBjb21taXQgZjhjZmI0N2UzYWUyICh0cmFjZTogU2VuZCAiLWQg
-dHJhY2U6aGVscCIgb3V0cHV0IHRvIHN0ZG91dCkKMi81IENoZWNraW5nIGNvbW1pdCA5NWJkMDU4
-Y2VmODggKHRyYWNldG9vbDogYWRkIG91dHB1dCBmaWxlbmFtZSBjb21tYW5kLWxpbmUgYXJndW1l
-bnQpCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojNzM6IEZJTEU6IHNjcmlwdHMvdHJh
-Y2V0b29sLnB5OjM1OgorVXNhZ2U6ICUoc2NyaXB0KXMgLS1mb3JtYXQ9PGZvcm1hdD4gLS1iYWNr
-ZW5kcz08YmFja2VuZHM+IFs8b3B0aW9ucz5dIDx0cmFjZS1ldmVudHM+IC4uLiA8b3V0cHV0PgoK
-dG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxNDQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi81
-IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
-cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
-CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgozLzUgQ2hlY2tpbmcgY29tbWl0IDAyNjJhMjhl
-ODdkMCAodHJhY2V0b29sOiBhZGQgb3V0X2xpbmVubyBhbmQgb3V0X25leHRfbGluZW5vIHRvIG91
-dCgpKQo0LzUgQ2hlY2tpbmcgY29tbWl0IGQ2NmE5ZmM0ZTYyZiAodHJhY2V0b29sOiBhZGQgaW5w
-dXQgZmlsZW5hbWUgYW5kIGxpbmUgbnVtYmVyIHRvIEV2ZW50KQo1LzUgQ2hlY2tpbmcgY29tbWl0
-IDZiMTczOGY1MDhhZCAodHJhY2V0b29sOiBzaG93IHRyYWNlLWV2ZW50cyBmaWxlbmFtZS9saW5l
-bm8gaW4gZm10IHN0cmluZyBlcnJvcnMpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5k
-IGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6
-Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMTA0MTQzMTU0LjQ2MjIxMi0xLXN0ZWZhbmhhQHJlZGhh
-dC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0
-ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFz
-ZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On Mon, 4 Jan 2021 at 13:59, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+> I don't have access to OSX host. I'll see to install an aarch32 chroot an=
+d
+> keep testing (not sure what can differ from an i386 guest).
+> If I can't find anything I'll resend the same series without the Loongson=
+-3
+> machine, which is the single part adding QOM objects.
+
+You might also try using valgrind/address-sanitizer/etc, which can
+sometimes flag up this kind of bug on x86-64 even if by default
+it happens to work.
+
+thanks
+-- PMM
 
