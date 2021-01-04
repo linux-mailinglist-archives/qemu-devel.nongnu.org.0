@@ -2,74 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FCB02E9D0B
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 19:31:20 +0100 (CET)
-Received: from localhost ([::1]:60960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4709C2E9D16
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 19:33:01 +0100 (CET)
+Received: from localhost ([::1]:35452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwUdR-0006Ph-1a
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 13:31:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52814)
+	id 1kwUf6-0007e2-BR
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 13:33:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kwUbX-0005eo-St
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 13:29:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49045)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kwUbQ-0000HN-HC
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 13:29:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609784949;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=H1+mhsgheS86cvlVGs4Uzh3qfyVBuk3U376R2uePSGY=;
- b=JTOFuWSWxuxh1YxuM1KuznvrvlI/ibKe1qF11ZNkHPUVtCzu5V9HC6cdoP3aX7nflJCrfF
- pGGTHNZTf8tCLuvsc6e+4lYYUTYC4AaBV1q2Owvu7tTYIlcX0qq2EupK6E1u9gvvrsd6tA
- 08QZB04xHWiVp+lXQP0n8C3LF/2+e6g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-PUy5c4_KNRe6jC3NsiDuDQ-1; Mon, 04 Jan 2021 13:29:08 -0500
-X-MC-Unique: PUy5c4_KNRe6jC3NsiDuDQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D99A107ACE3
- for <qemu-devel@nongnu.org>; Mon,  4 Jan 2021 18:29:07 +0000 (UTC)
-Received: from localhost (ovpn-116-153.rdu2.redhat.com [10.10.116.153])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0518B74AA0;
- Mon,  4 Jan 2021 18:29:06 +0000 (UTC)
-Date: Mon, 4 Jan 2021 13:29:06 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86
- machine types
-Message-ID: <20210104182906.GD18467@habkost.net>
-References: <20201119103221.1665171-1-vkuznets@redhat.com>
- <20201119103221.1665171-6-vkuznets@redhat.com>
- <20201216205202.GJ3140057@habkost.net>
- <20201218181340.5e398280@redhat.com>
- <87r1n0j20n.fsf@vitty.brq.redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kwUci-0006aR-Ef
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 13:30:32 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37917)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kwUcg-0000kR-Ny
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 13:30:32 -0500
+Received: by mail-wm1-x329.google.com with SMTP id g185so164806wmf.3
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 10:30:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=er8tIdt3pFpQS5r4cVaZt2QmC5yshMGQ189qP0RcDQw=;
+ b=nslimqeashgAwKo0gtkDGG10qCQ9pJ26ch3R+mkApzpErZ/1yArg1ExZuxXkwCOsvQ
+ GcSWy8pymtwY8KyjyvJ5LESoYuW6WvhoKe6xqlZ3sx56a2CVuhS626tynfQNUFMq99c8
+ r46F2fj6KHpt+tOfDF+YABUT64hBydaL5foXz100VVwbQoCN47eL+EcN7w3FtX3U1iuD
+ WH0HkuLwZPOrAlql8X8kNPA5ZIMUNDC21lInqcNhiaGnGduUW/F8+1A+No5TchQhG4e9
+ +wN0bOIkmbmma8xa2SXyxEZAl0BFWf2hLalGipNbKE4ha4WSlHzUjwlQgwUzpipiIZZp
+ zyMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=er8tIdt3pFpQS5r4cVaZt2QmC5yshMGQ189qP0RcDQw=;
+ b=o0hEJpBYZRNyRX65hKsIi9fJH7Wj6h0tPVYU40i7w3uBlSp1B3wc65tgKx8oPpRMv9
+ AYVkJn3bLvNQct6LC/p9KHYKxpnU0/TRhn7ue58vc6vuIKx0YA49dH1WVvnFJZv36fo9
+ a7fWSkedL/TuCcLSdTxNtmPeCK5IM/72ooOeCjvhqe8BFAZtyYjkj5HMzt+dTZIEPTHd
+ CfJoRQEtslhiIGbWqgTt0UycUIQhiybKHT38nboSQrbOOb+QI25pfjvD8iRS+fdW/A/1
+ aNqJQjjzwCl+nxIPQ0rMSwM9vZWmJuSzaGrUmbBjhpo6hdqHqfS9dRzOmi+Hc6ogTDrZ
+ lYGQ==
+X-Gm-Message-State: AOAM533PiS8NVpOLKImICQzFwEe+kVxfsmdvSAGs1ZTAHR7QVTCbPeUy
+ zj9uDJjNYG1dVM//YPr2uns=
+X-Google-Smtp-Source: ABdhPJz6gMcrA3D2fXN4KtSRTY/RyDYANLmujlItwhpdyM+vvhVG/zyloy1ueU/Hl1lccNr7aRW7Yg==
+X-Received: by 2002:a1c:4907:: with SMTP id w7mr145141wma.175.1609785028816;
+ Mon, 04 Jan 2021 10:30:28 -0800 (PST)
+Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.241])
+ by smtp.gmail.com with ESMTPSA id z21sm241130wmk.20.2021.01.04.10.30.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jan 2021 10:30:28 -0800 (PST)
+Subject: Re: [PULL 00/35] MIPS patches for 2021-01-03
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210103205021.2837760-1-f4bug@amsat.org>
+ <CAFEAcA--dkcqBJr=b1LcNpLtctYJewuT8Yvx9Uo47YC6JGgR-Q@mail.gmail.com>
+ <CAFEAcA-HXHrXwGywi0MkxFhCCW3fk91Xr4yHA1--tiSqN2_HWQ@mail.gmail.com>
+ <790b031a-2be6-82d0-565d-f7595e95c077@amsat.org>
+ <CAAdtpL53Ngj3zc0ZtxEvHed0hAxYN0RZ7G2eiL_izuTSWBMM2A@mail.gmail.com>
+ <CAFEAcA-mTCyahsvVaD3PsOA4P8erDXmbLJCDtWaUFFoFiR4r=Q@mail.gmail.com>
+ <47b22eb2-8600-b34f-371f-517804b9cb49@amsat.org>
+ <1b7c8f3c-f124-ad59-6eb0-ce29803b1327@amsat.org>
+Message-ID: <61fb784c-0e96-b1ad-31c1-4ada4e849864@amsat.org>
+Date: Mon, 4 Jan 2021 19:30:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <87r1n0j20n.fsf@vitty.brq.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1b7c8f3c-f124-ad59-6eb0-ce29803b1327@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,107 +95,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 04, 2021 at 01:54:32PM +0100, Vitaly Kuznetsov wrote:
-> Igor Mammedov <imammedo@redhat.com> writes:
+On 1/4/21 7:24 PM, Philippe Mathieu-Daudé wrote:
+> On 1/4/21 6:39 PM, Philippe Mathieu-Daudé wrote:
+>> On 1/4/21 4:01 PM, Peter Maydell wrote:
+>>> On Mon, 4 Jan 2021 at 13:59, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>>> I don't have access to OSX host. I'll see to install an aarch32 chroot and
+>>>> keep testing (not sure what can differ from an i386 guest).
+>>>> If I can't find anything I'll resend the same series without the Loongson-3
+>>>> machine, which is the single part adding QOM objects.
 > 
-> >> >  
-> >> > +    /* Hyper-V features enabled with 'hyperv=on' */
-> >> > +    x86mc->default_hyperv_features = BIT(HYPERV_FEAT_RELAXED) |
-> >> > +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
-> >> > +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
-> >> > +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
-> >> > +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
-> >> > +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
-> >> > +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_EVMCS) |
-> >> > +        BIT(HYPERV_FEAT_IPI) | BIT(HYPERV_FEAT_STIMER_DIRECT);
-> > I'd argue that feature bits do not belong to machine code at all.
-> > If we have to involve machine at all then it should be a set property/value pairs
-> > that machine will set on CPU object (I'm not convinced that doing it
-> > from machine code is good idea though).
-> >
+> OK I guess I found the problem, we have:
 > 
-> These are 'features' and not feature bits. 'Bits' here are just our
-> internal (to QEMU) representation of which features are enable and which
-> are not, we could've just used booleans instead. These feature, when
-> enabled, will result in some CPUID changes (not 1:1) but I don't see how
-> it's different from
->   
-> " -machine q35,accel=kvm "
+> struct LoongsonMachineState {
+>     MachineState parent_obj;
+>     MemoryRegion *pio_alias;
+>     MemoryRegion *mmio_alias;
+>     MemoryRegion *ecam_alias;
+> };
 > 
-> which also results in CPUID changes.
-
-This is a good point, although having accel affect CPUID bits was
-also a source of complexity for query-cpu-model-expansion and
-other QMP queries.
-
+> Then:
 > 
-> The main reason for putting this to x86 machine type is versioning, as
-> we go along we will (hopefully) be implementing more and more Hyper-V
-> features but we want to provide 'one knob to rule them all' but do it in
-> a way that will allow migration. We already have 'hv_passthrough' for
-> CPU.
-
-I agree completely that the set of bits needs to be on
-MachineClass.  We just need to agree on the external interface.
-
+> static inline void loongson3_virt_devices_init(MachineState *machine,
+>                                                DeviceState *pic)
+> {
+>     int i;
+>     qemu_irq irq;
+>     PCIBus *pci_bus;
+>     DeviceState *dev;
+>     MemoryRegion *mmio_reg, *ecam_reg;
+>     LoongsonMachineState *s = LOONGSON_MACHINE(machine);
 > 
-> >> >  
-> >> > +    if (x86ms->hyperv_enabled) {
-> >> > +        feat = x86mc->default_hyperv_features;
-> >> > +        /* Enlightened VMCS is only available on Intel/VMX */
-> >> > +        if (!cpu_has_vmx(&cpu->env)) {
-> >> > +            feat &= ~BIT(HYPERV_FEAT_EVMCS);
-> >> > +        }
-> >> > +
-> >> > +        cpu->hyperv_features |= feat;
-> > that will ignore features user explicitly doesn't want,
-> > ex:
-> >  -machine hyperv=on -cpu foo,hv-foo=off
-> >
-> 
-> Existing 'hv_passthrough' mode can also affect the result. Personally, I
-> don't see where 'hv-foo=off' is needed outside of debugging and these
-> use-cases can probably be covered by explicitly listing required
-> features but I'm not against making this work, shouldn't be hard.
+> LoongsonMachineState is never allocated... Accessing its MR lead
+> to BOF.
 
-I'm all for not wasting time supporting use cases that are not
-necessary in practice.  We just need to document the expected
-behavior clearly, whatever we decide to do.
+I'm going to respin with this (pass 32-bit tests):
 
-> 
-> > not sure we would like to introduce such invariant,
-> > in normal qom property handling the latest set property should have effect
-> > (all other invariants we have in x86 cpu property semantics are comming from legacy handling
-> > and I plan to deprecate them (it will affect x86 and sparc cpus) so CPUs will behave like
-> > any other QOM object when it come to property handling)
-> >  
-> > anyways it's confusing a bit to have cpu flags to come from 2 different places
-> >
-> > -cpu hyperv-use-preset=on,hv-foo=off
-> >
-> > looks less confusing and will heave expected effect
-> >
-> 
-> Honestly, 'hyperv-use-preset' is confusing even to me :-)
-> 
-> What if we for a second stop thinking about Hyper-V features being CPU
-> features only, e.g. if we want to create Dynamic Memory or PTP or any
-> other Hyper-V specific device in a simple way? We'll have to put these
-> under machine type.
+-- >8 --
+diff --git a/hw/mips/loongson3_virt.c b/hw/mips/loongson3_virt.c
+index e3723d3dd0f..d4a82fa5367 100644
+--- a/hw/mips/loongson3_virt.c
++++ b/hw/mips/loongson3_virt.c
+@@ -612,8 +612,10 @@ static void mips_loongson3_virt_init(MachineState
+*machine)
+     loongson3_virt_devices_init(machine, liointc);
+ }
 
-I agree.  Hyper-V is not just a set of CPU features.
+-static void mips_loongson3_virt_machine_init(MachineClass *mc)
++static void loongson3v_machine_class_init(ObjectClass *oc, void *data)
+ {
++    MachineClass *mc = MACHINE_CLASS(oc);
++
+     mc->desc = "Loongson-3 Virtualization Platform";
+     mc->init = mips_loongson3_virt_init;
+     mc->block_default_type = IF_IDE;
+@@ -624,4 +626,13 @@ static void
+mips_loongson3_virt_machine_init(MachineClass *mc)
+     mc->minimum_page_bits = 14;
+ }
 
-Also, those two approaches are not mutually exclusive.
-"-machine hyperv=on" can be implemented internally using
-"hyperv-use-preset=on" if necessary.  I don't think it has to,
-however.
+-DEFINE_MACHINE("loongson3-virt", mips_loongson3_virt_machine_init)
++static const TypeInfo loongson3_machine_types[] = {
++    {
++        .name           = TYPE_LOONGSON_MACHINE,
++        .parent         = TYPE_MACHINE,
++        .instance_size  = sizeof(LoongsonMachineState),
++        .class_init     = loongson3v_machine_class_init,
++    }
++};
++
++DEFINE_TYPES(loongson3_machine_types)
+---
 
--- 
-Eduardo
+Thanks Peter for catching this (we really need a 32-bit host runner
+on GitLab...).
 
+Phil.
 
