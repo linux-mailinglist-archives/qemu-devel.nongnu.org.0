@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6742E8F13
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 01:58:11 +0100 (CET)
-Received: from localhost ([::1]:51520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DAA2E8F26
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 02:07:07 +0100 (CET)
+Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwECI-0006SH-Hm
-	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 19:58:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42318)
+	id 1kwEKv-0000vM-Jr
+	for lists+qemu-devel@lfdr.de; Sun, 03 Jan 2021 20:07:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwEB6-0005vs-As; Sun, 03 Jan 2021 19:56:56 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:55533 helo=ozlabs.org)
+ id 1kwEJq-0000IS-Li; Sun, 03 Jan 2021 20:05:58 -0500
+Received: from ozlabs.org ([203.11.71.1]:57795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwEB3-00060R-J7; Sun, 03 Jan 2021 19:56:56 -0500
+ id 1kwEJo-0000rU-PH; Sun, 03 Jan 2021 20:05:58 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D8HJV4sT0z9sSs; Mon,  4 Jan 2021 11:56:42 +1100 (AEDT)
+ id 4D8HW40JF4z9sSC; Mon,  4 Jan 2021 12:05:51 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1609721802;
- bh=fyv8gYd6i3HM546G8nXo2Omf/kCwVdQ46o2UC+Jm28E=;
+ d=gibson.dropbear.id.au; s=201602; t=1609722352;
+ bh=rwH0atFBoH3mQUgH+wm/tr+Pbh2VvezW/OU73AWNnsQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IU7WOeEy1rVwvk9qhSU026ZJ2jzC8tIGHrx/3gf6w8ibLuc03mf3sFjPyH4hC+SUU
- Kqva04QrCILLDITfMm8Z+2lcsPoqnNvUSKkNhq2JfnNE5ouq197vHmUB5ZGG07xJBZ
- YpcdbPrwtvo6L1D11FtBiKh+1THge1Z1CG/ZSANY=
-Date: Mon, 4 Jan 2021 11:31:47 +1100
+ b=D4S2tFSIW9KGEdqJF8RBFcZiLRT81h6u24N8E0tu/l0jPK/QLwUK/ftQIZRDzWCLg
+ Rn0UliOh9yYKMcbWN/+iSKFUU638L8VhHv9PcmwgjdRqRV9bIJRoAGbW0YbaNuuB9S
+ XHHaf/WXstW0FGHdQ37j19c4wuOVjn0TZZvPYnlI=
+Date: Mon, 4 Jan 2021 12:05:32 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH v2 1/3] ppc4xx: Move common dependency on serial to
- common option
-Message-ID: <20210104003147.GA1915@yekko.fritz.box>
-References: <cover.1609413115.git.balaton@eik.bme.hu>
- <9c0b7267edf1dc4624702a29101154a8910682f2.1609413115.git.balaton@eik.bme.hu>
+Subject: Re: [PATCH v3 0/5] Misc sam460ex fixes (was: Clean up sam460ex irq
+ mapping)
+Message-ID: <20210104010532.GB1915@yekko.fritz.box>
+References: <cover.1609636173.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
+ protocol="application/pgp-signature"; boundary="/WwmFnJnmDyWGHa4"
 Content-Disposition: inline
-In-Reply-To: <9c0b7267edf1dc4624702a29101154a8910682f2.1609413115.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1609636173.git.balaton@eik.bme.hu>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -60,71 +59,32 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>
+ qemu-devel@nongnu.org, Guenter Roeck <linux@roeck-us.net>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---J2SCkAp4GZ/dPZZf
+--/WwmFnJnmDyWGHa4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 31, 2020 at 12:11:55PM +0100, BALATON Zoltan via wrote:
-> All machines that select SERIAL also select PPC4XX so we can just add
-> this common dependency there once.
->=20
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+On Sun, Jan 03, 2021 at 02:09:33AM +0100, BALATON Zoltan via wrote:
+> So this is v3 of a series that started to fix a potential problem with
+> irq mapping in pci440_pcix (used by sam460ex) that got some other
+> fixes along the way as by-products. But it turns out the irq issue
+> this was trying to fix is not really a problem so finally we just
+> update the comment for now documenting why it works and only the
+> by-products remain in this series. Of which there are two more in this
+> v3 finally fixing a long standing problem booting MorphOS on sam460ex
+> (which I've got after debugging similar problem with pegasos2/vt8231
+> that gave me an idea how to debug this.)
 
 Applied to ppc-for-6.0.
 
-> ---
->  hw/ppc/Kconfig | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-> index dd86e664d2..8548f42b0d 100644
-> --- a/hw/ppc/Kconfig
-> +++ b/hw/ppc/Kconfig
-> @@ -37,7 +37,6 @@ config PPC405
->      select M48T59
->      select PFLASH_CFI02
->      select PPC4XX
-> -    select SERIAL
-> =20
->  config PPC440
->      bool
-> @@ -46,13 +45,13 @@ config PPC440
->      imply E1000_PCI
->      select PCI_EXPRESS
->      select PPC4XX
-> -    select SERIAL
->      select FDT_PPC
-> =20
->  config PPC4XX
->      bool
->      select BITBANG_I2C
->      select PCI
-> +    select SERIAL
-> =20
->  config SAM460EX
->      bool
-> @@ -61,7 +60,6 @@ config SAM460EX
->      select IDE_SII3112
->      select M41T80
->      select PPC440
-> -    select SERIAL
->      select SM501
->      select SMBUS_EEPROM
->      select USB_EHCI_SYSBUS
-> @@ -123,7 +121,6 @@ config VIRTEX
->      bool
->      select PPC4XX
->      select PFLASH_CFI01
-> -    select SERIAL
->      select XILINX
->      select XILINX_ETHLITE
->      select FDT_PPC
+So.. you're pretty much the only person who's shown any interest in
+the embedded ppc stuff in qemu for a pretty long time.  Any chance I
+could convince you to be ppc4xx submaintainer?
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -132,25 +92,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---J2SCkAp4GZ/dPZZf
+--/WwmFnJnmDyWGHa4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/yYfAACgkQbDjKyiDZ
-s5JwDQ/+Jp5MxBOg10z5blF3W6chn0QTWGSAD61Vh7gTbSkRPijJxWUDst4BfybX
-uR8Ji4nrJA8UswMhbq33U3u99HS1nXOPBsAswjzZvaYRIspjx5dtF1ym+WmUZKCl
-swAPXba03h6B0w+HTLvp6o8C4gtkp3FViogAvYc+EP7rU9r//xfode19fwvN0RkP
-HS0CgbrMl+HJpV0rvb7tPryoitaLxRL9mS0AHvCJrt2JehKrFOEDGfq1KTmqSIdn
-EwC/n5Wy5a32skvEzkT8aUROJdHXWj0YLo9UXF/w8Q3xXNzN3DT70/XrQ2CqItyI
-aFHoWhV4e+RnV8tUi8MpEc+l1m88Oyak6+zFbGj7sHwxakdQR1LvBTg0ruxug4rw
-azzsDqozLhCASwoxRKHoHYooV/+tid2tevWL8WUBNiIfyrysMMInz9mjNkO9r81n
-ulV3nrDbOxCntLGpwuoyEwAcVVI7INyYERmCjFmQIXizigOI/AaMSa09hSkjpyx7
-sRwYAR/t19Fz1G+C+qrsq1wQZ7bjeQ2GEledHc0WLEHOtW0VGIo2ThheVM0Hl4aA
-MenzuZQYjgWpzZwCZsbhQ+8/8pScPF/r2LiW231iniH821vDc20e+xXkTQ71ZTN2
-blQgTfmlKuin0R+2Jhq8iK0gSm4+ydhGuKXZyRG/PB9Cxhfu01s=
-=7Am5
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/yadoACgkQbDjKyiDZ
+s5K5KBAAzlOItaM7nyS/C9wgYIRyFIfNkO6AJmKyDKNaHKwkHs8p6Jh7sYQVMPFE
+wJTBgviJl5rf7dN5XsPvjm1IZ2Ef6IuTkhM0NCGJxoZcir01zrv0qfTi/eKTXOUt
+IgrZuaykCxM2WcMBM0ot+9MaIxAn+f5HufgBUs3aG2t5bYSIqUToRnoH8Pxs2RL8
+jFfY67+2SgEEx3XOFNUeDgSyubmZFg7pyxl8cxyENfm+fQpGrWTadaLKn5ZNlZhC
+IsqkgLcks4nvrld3v44IwXTU1fjUxblcCbX3UW4zX5Pc+ehrHpEtSI9SfOb/8qE8
+5hxLOyywCPni4Uwq4qThvcloPj46yTOBnNbbz1C6zW01Dz2tVEXAsUbAvENmntW+
+3Ug5u9Eq8LqAbj+1gfA76JUAnvWLvqBHCU9c/nSQPKhT5U7/xylmN/bYJksREZ7R
+BdkDShJ4NKUpAp/zw/MEwM7k9+1K06DE5nnoG2VbkVxe09eoHn8C37Eyg8FQs0NP
+zBpWabx3ExhnhqyjSaCAUEe9DlJtSe7yowv3OvTxyRyMn7Iyd+i7pLpu+HPMaKiq
+E+KF3u/JPm6Aw05282eNHIDvaV8PgynQZVL4+BXIqbpXbpCX+vvSpuFDFzdLFdJi
+awcW9piJVPG817h4WgekbHN/Z2YS16T8rtcYihP/JMMVtZHrhE8=
+=5cxn
 -----END PGP SIGNATURE-----
 
---J2SCkAp4GZ/dPZZf--
+--/WwmFnJnmDyWGHa4--
 
