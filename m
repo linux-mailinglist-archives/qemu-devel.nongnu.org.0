@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E84B2E9FF8
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 23:25:38 +0100 (CET)
-Received: from localhost ([::1]:47358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 654D12EA003
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 23:29:00 +0100 (CET)
+Received: from localhost ([::1]:54926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwYID-0001pA-4i
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 17:25:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42230)
+	id 1kwYLT-00058H-EW
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 17:28:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwY68-0007rS-8u
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:13:08 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42201)
+ id 1kwY69-0007sJ-8y
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:13:09 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwY64-00084p-KD
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:13:08 -0500
-Received: by mail-wr1-x436.google.com with SMTP id m5so33594654wrx.9
- for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 14:13:02 -0800 (PST)
+ id 1kwY67-00085G-Th
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:13:09 -0500
+Received: by mail-wr1-x431.google.com with SMTP id w5so33599769wrm.11
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 14:13:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XnjdGrLq3Lb9SW/8nNHP28HRwNkyifegoyRQR3pYkYc=;
- b=PQMRVoQ24gvQXvPGst7S7Ok8+ijffLcQW6UDF/nILulSnQo28iCPQYgop+62ECUaRM
- jY4u42xqir7tu0YXTbVtHskXlcRW3FKoo/2jSkUnBIgCfjSJRI9PFVsF/PRVHCHPsBlV
- vE4er/Td5lCKVjcyIOGNwmGlZvIWLBnmEhrpH1qlvfrVdUd7GoC6hbEO+E3Ig9JkUaxt
- 6/t0mb4sCv/XcELCuM7ojxmOOyWzsSKz4oBlrbEUpYcJveSYl+EFXDamddcaI1aOk40E
- T+uuWxArlx33LtenYs2mATYhu9wg8ouPYvJP9vIYjPRxpSkwHHxpTcRrIqDSBxEnB06j
- D/hQ==
+ bh=Lb2RZp/b5dZkU06uPS3u8Lf6yQtKDoxin1D5fr6aVsg=;
+ b=UTU3FK1HtbBl3rg7EkbGFAJ6TfVzTXxOxgCyUrMdjffFP4VOGHL29DyXG5BRMDMMJl
+ CGi1N6USF6rieGDkUp5LXrwwjbe6n8Y40/t74OpPdA3sICRYl1q4gYkWOXk11vvnCJpN
+ jZuQUxnBreXdf39WjrSvnjwXdTPyntWpyVHFJtFgqxNOjDsME6EoKon+OxXLWcyzkkUk
+ +qqZ8RfSTrW3+kq27z19Stq3Co2PY0+H0Gtw49MeBhNkdp1NhPCxKVbuf3pJHgIPV9JB
+ 6yCMP4f0atTeyUZi3BQhtKT9Q4Ms7ufuIZXKCTTjD1uu5bsE8qCWjbqqz+HaFPj6dqEb
+ uo4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XnjdGrLq3Lb9SW/8nNHP28HRwNkyifegoyRQR3pYkYc=;
- b=UdOBE9BEHYFZa5iNChojfimJuYRtV4lXoKVMsN6xMUPKRNgcM6UsytMuXHKnAh/Wnd
- C/8M6mmdeqJeAWFNhAodk8OTIDrRDWFBLm+f3NXTRFEL0inA23HZDg/MOVuZlcJvJY4J
- X6SZuj+uFZFBNiPuGrXyR2jEm/IzX/EXTCZ5+CPmvss2fevQ0S8plAVT2sRmd6z0pTKg
- WC1oO4JJomqt4OXWL9sIoW1jFWcRQh0Qd6qp+wgGz8B2+IxAE8UTNWf0wWYKyd9A3cIb
- GOHUrOFD8JpEL3GU0o1pgp8mThQN7VdMBoTRg4fHFK66XdVpKmispH91H27PGe2Cb612
- m5hQ==
-X-Gm-Message-State: AOAM530to5ZqkkBt1KaQz4D/DlAGs5gVy14033qOUOmFcZkTEuYjl+Bw
- LdL5FHK4kZp353zTSmvmnu52gZogOUA=
-X-Google-Smtp-Source: ABdhPJxU+XhSjJ5137mI4WqUHG5jHUXv8KH7My1UYV+HMbgqJuYps27tLacNhUVf1Q93/3HB+GBMYQ==
-X-Received: by 2002:a5d:5442:: with SMTP id w2mr81696385wrv.418.1609798381007; 
- Mon, 04 Jan 2021 14:13:01 -0800 (PST)
+ bh=Lb2RZp/b5dZkU06uPS3u8Lf6yQtKDoxin1D5fr6aVsg=;
+ b=fiCiaHGG74cCI997N7bOiXYNCMMCZaFATtFikNi6ta8F+iadb9O3A+802kFzkNfawD
+ RW4/dBzV19oEfNBt0uuWZ1AanxhhErdmHFG5RB58TDhZeRnOcA08DCaZdJPrqdHoNftU
+ Jjlsu5biAPN0pjeKy//h1KXbVozvWJI2/kijtnKctEZFRdpcjfDlOfEarHR2Y/ufax8N
+ K/pfQxUMvC1R1IuVcrQPco7RFCqWj/2K2Kyi3wrnGOPWV5xpRK2h2/UK4tNF7zK9x/Ho
+ mESwTtEnDRf+XZ0Y/TAdE47pDtY39bRuiGAayk9csMLy7wpLB4qOSwhUALZbhpdE5upf
+ XRdA==
+X-Gm-Message-State: AOAM533m+Jg5Wh+elR9zj+FwEOvz2r+klh9oiekuaT0Oz0/niMqyDJuK
+ kX7Faf25ND6fBbkfXMb866oaMnFEEGw=
+X-Google-Smtp-Source: ABdhPJwCwKGvxTFO88kjPjeU6cxlRMLo10cUttc7MHHeG4qNKS9urwckYKVzFjQJmJAjEU+z+IeUlA==
+X-Received: by 2002:a5d:660b:: with SMTP id n11mr81968492wru.407.1609798386313; 
+ Mon, 04 Jan 2021 14:13:06 -0800 (PST)
 Received: from x1w.redhat.com (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id j2sm92145503wrt.35.2021.01.04.14.12.59
+ by smtp.gmail.com with ESMTPSA id u66sm1264709wmg.2.2021.01.04.14.13.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jan 2021 14:13:00 -0800 (PST)
+ Mon, 04 Jan 2021 14:13:05 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/15] target/mips/mips-defs: Rename ISA_MIPS32R2 as
- ISA_MIPS_R2
-Date: Mon,  4 Jan 2021 23:11:51 +0100
-Message-Id: <20210104221154.3127610-13-f4bug@amsat.org>
+Subject: [PATCH v3 13/15] target/mips/mips-defs: Rename ISA_MIPS32R3 as
+ ISA_MIPS_R3
+Date: Mon,  4 Jan 2021 23:11:52 +0100
+Message-Id: <20210104221154.3127610-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210104221154.3127610-1-f4bug@amsat.org>
 References: <20210104221154.3127610-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,641 +94,39 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MIPS ISA release 2 is common to 32/64-bit CPUs.
+The MIPS ISA release 3 is common to 32/64-bit CPUs.
+
+To avoid holes in the insn_flags type, update the
+definition with the next available bit.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/internal.h     |   2 +-
- target/mips/mips-defs.h    |   4 +-
- linux-user/mips/cpu_loop.c |   2 +-
- target/mips/cp0_timer.c    |   4 +-
- target/mips/helper.c       |   2 +-
- target/mips/translate.c    | 138 ++++++++++++++++++-------------------
- 6 files changed, 76 insertions(+), 76 deletions(-)
+ target/mips/mips-defs.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 94910f75a61..23ae31ef989 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -407,7 +407,7 @@ static inline void compute_hflags(CPUMIPSState *env)
-         }
- 
-     }
--    if (env->insn_flags & ISA_MIPS32R2) {
-+    if (env->insn_flags & ISA_MIPS_R2) {
-         if (env->active_fpu.fcr0 & (1 << FCR0_F64)) {
-             env->hflags |= MIPS_HFLAG_COP1X;
-         }
 diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
-index a7048ffaffe..d1eeb69dfd7 100644
+index d1eeb69dfd7..12ff2b3280c 100644
 --- a/target/mips/mips-defs.h
 +++ b/target/mips/mips-defs.h
-@@ -17,7 +17,7 @@
- #define ISA_MIPS4         0x0000000000000008ULL
+@@ -18,7 +18,7 @@
  #define ISA_MIPS5         0x0000000000000010ULL
  #define ISA_MIPS_R1       0x0000000000000020ULL
--#define ISA_MIPS32R2      0x0000000000000040ULL
-+#define ISA_MIPS_R2       0x0000000000000040ULL
- #define ISA_MIPS32R3      0x0000000000000200ULL
+ #define ISA_MIPS_R2       0x0000000000000040ULL
+-#define ISA_MIPS32R3      0x0000000000000200ULL
++#define ISA_MIPS_R3       0x0000000000000080ULL
  #define ISA_MIPS32R5      0x0000000000000800ULL
  #define ISA_MIPS32R6      0x0000000000002000ULL
-@@ -73,7 +73,7 @@
- #define CPU_MIPS64R1    (CPU_MIPS5 | CPU_MIPS32R1)
- 
- /* MIPS Technologies "Release 2" */
--#define CPU_MIPS32R2    (CPU_MIPS32R1 | ISA_MIPS32R2)
-+#define CPU_MIPS32R2    (CPU_MIPS32R1 | ISA_MIPS_R2)
+ #define ISA_NANOMIPS32    0x0000000000008000ULL
+@@ -77,7 +77,7 @@
  #define CPU_MIPS64R2    (CPU_MIPS64R1 | CPU_MIPS32R2)
  
  /* MIPS Technologies "Release 3" */
-diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-index e400166c583..748e1c664f1 100644
---- a/linux-user/mips/cpu_loop.c
-+++ b/linux-user/mips/cpu_loop.c
-@@ -384,7 +384,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
-     prog_req.frdefault &= interp_req.frdefault;
-     prog_req.fre &= interp_req.fre;
+-#define CPU_MIPS32R3    (CPU_MIPS32R2 | ISA_MIPS32R3)
++#define CPU_MIPS32R3    (CPU_MIPS32R2 | ISA_MIPS_R3)
+ #define CPU_MIPS64R3    (CPU_MIPS64R2 | CPU_MIPS32R3)
  
--    bool cpu_has_mips_r2_r6 = env->insn_flags & ISA_MIPS32R2 ||
-+    bool cpu_has_mips_r2_r6 = env->insn_flags & ISA_MIPS_R2 ||
-                               env->insn_flags & ISA_MIPS32R6;
- 
-     if (prog_req.fre && !prog_req.frdefault && !prog_req.fr1) {
-diff --git a/target/mips/cp0_timer.c b/target/mips/cp0_timer.c
-index 5ec0d6249e9..70de95d338f 100644
---- a/target/mips/cp0_timer.c
-+++ b/target/mips/cp0_timer.c
-@@ -44,7 +44,7 @@ static void cpu_mips_timer_update(CPUMIPSState *env)
- static void cpu_mips_timer_expire(CPUMIPSState *env)
- {
-     cpu_mips_timer_update(env);
--    if (env->insn_flags & ISA_MIPS32R2) {
-+    if (env->insn_flags & ISA_MIPS_R2) {
-         env->CP0_Cause |= 1 << CP0Ca_TI;
-     }
-     qemu_irq_raise(env->irq[(env->CP0_IntCtl >> CP0IntCtl_IPTI) & 0x7]);
-@@ -93,7 +93,7 @@ void cpu_mips_store_compare(CPUMIPSState *env, uint32_t value)
-     if (!(env->CP0_Cause & (1 << CP0Ca_DC))) {
-         cpu_mips_timer_update(env);
-     }
--    if (env->insn_flags & ISA_MIPS32R2) {
-+    if (env->insn_flags & ISA_MIPS_R2) {
-         env->CP0_Cause &= ~(1 << CP0Ca_TI);
-     }
-     qemu_irq_lower(env->irq[(env->CP0_IntCtl >> CP0IntCtl_IPTI) & 0x7]);
-diff --git a/target/mips/helper.c b/target/mips/helper.c
-index 5b74815beb0..98d6ecaa65e 100644
---- a/target/mips/helper.c
-+++ b/target/mips/helper.c
-@@ -431,7 +431,7 @@ void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val)
-     uint32_t old = env->CP0_Cause;
-     int i;
- 
--    if (env->insn_flags & ISA_MIPS32R2) {
-+    if (env->insn_flags & ISA_MIPS_R2) {
-         mask |= 1 << CP0Ca_DC;
-     }
-     if (env->insn_flags & ISA_MIPS32R6) {
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index a59fbd94bac..9c71d306ee5 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -7612,7 +7612,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "PageMask";
-             break;
-         case CP0_REG05__PAGEGRAIN:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_PageGrain));
-             register_name = "PageGrain";
-             break;
-@@ -7660,27 +7660,27 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "Wired";
-             break;
-         case CP0_REG06__SRSCONF0:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf0));
-             register_name = "SRSConf0";
-             break;
-         case CP0_REG06__SRSCONF1:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf1));
-             register_name = "SRSConf1";
-             break;
-         case CP0_REG06__SRSCONF2:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf2));
-             register_name = "SRSConf2";
-             break;
-         case CP0_REG06__SRSCONF3:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf3));
-             register_name = "SRSConf3";
-             break;
-         case CP0_REG06__SRSCONF4:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf4));
-             register_name = "SRSConf4";
-             break;
-@@ -7696,7 +7696,7 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-     case CP0_REGISTER_07:
-         switch (sel) {
-         case CP0_REG07__HWRENA:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_HWREna));
-             register_name = "HWREna";
-             break;
-@@ -7791,17 +7791,17 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "Status";
-             break;
-         case CP0_REG12__INTCTL:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_IntCtl));
-             register_name = "IntCtl";
-             break;
-         case CP0_REG12__SRSCTL:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSCtl));
-             register_name = "SRSCtl";
-             break;
-         case CP0_REG12__SRSMAP:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSMap));
-             register_name = "SRSMap";
-             break;
-@@ -7837,13 +7837,13 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "PRid";
-             break;
-         case CP0_REG15__EBASE:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_EBase));
-             tcg_gen_ext32s_tl(arg, arg);
-             register_name = "EBase";
-             break;
-         case CP0_REG15__CMGCRBASE:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             CP0_CHECK(ctx->cmgcr);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_CMGCRBase));
-             tcg_gen_ext32s_tl(arg, arg);
-@@ -8357,7 +8357,7 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "PageMask";
-             break;
-         case CP0_REG05__PAGEGRAIN:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_pagegrain(cpu_env, arg);
-             register_name = "PageGrain";
-             ctx->base.is_jmp = DISAS_STOP;
-@@ -8403,27 +8403,27 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "Wired";
-             break;
-         case CP0_REG06__SRSCONF0:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_srsconf0(cpu_env, arg);
-             register_name = "SRSConf0";
-             break;
-         case CP0_REG06__SRSCONF1:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_srsconf1(cpu_env, arg);
-             register_name = "SRSConf1";
-             break;
-         case CP0_REG06__SRSCONF2:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_srsconf2(cpu_env, arg);
-             register_name = "SRSConf2";
-             break;
-         case CP0_REG06__SRSCONF3:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_srsconf3(cpu_env, arg);
-             register_name = "SRSConf3";
-             break;
-         case CP0_REG06__SRSCONF4:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_srsconf4(cpu_env, arg);
-             register_name = "SRSConf4";
-             break;
-@@ -8439,7 +8439,7 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-     case CP0_REGISTER_07:
-         switch (sel) {
-         case CP0_REG07__HWRENA:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_hwrena(cpu_env, arg);
-             ctx->base.is_jmp = DISAS_STOP;
-             register_name = "HWREna";
-@@ -8522,21 +8522,21 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "Status";
-             break;
-         case CP0_REG12__INTCTL:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_intctl(cpu_env, arg);
-             /* Stop translation as we may have switched the execution mode */
-             ctx->base.is_jmp = DISAS_STOP;
-             register_name = "IntCtl";
-             break;
-         case CP0_REG12__SRSCTL:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_srsctl(cpu_env, arg);
-             /* Stop translation as we may have switched the execution mode */
-             ctx->base.is_jmp = DISAS_STOP;
-             register_name = "SRSCtl";
-             break;
-         case CP0_REG12__SRSMAP:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mtc0_store32(arg, offsetof(CPUMIPSState, CP0_SRSMap));
-             /* Stop translation as we may have switched the execution mode */
-             ctx->base.is_jmp = DISAS_STOP;
-@@ -8581,7 +8581,7 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "PRid";
-             break;
-         case CP0_REG15__EBASE:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_ebase(cpu_env, arg);
-             register_name = "EBase";
-             break;
-@@ -9120,7 +9120,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "PageMask";
-             break;
-         case CP0_REG05__PAGEGRAIN:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_PageGrain));
-             register_name = "PageGrain";
-             break;
-@@ -9165,27 +9165,27 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "Wired";
-             break;
-         case CP0_REG06__SRSCONF0:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf0));
-             register_name = "SRSConf0";
-             break;
-         case CP0_REG06__SRSCONF1:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf1));
-             register_name = "SRSConf1";
-             break;
-         case CP0_REG06__SRSCONF2:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf2));
-             register_name = "SRSConf2";
-             break;
-         case CP0_REG06__SRSCONF3:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf3));
-             register_name = "SRSConf3";
-             break;
-         case CP0_REG06__SRSCONF4:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSConf4));
-             register_name = "SRSConf4";
-             break;
-@@ -9201,7 +9201,7 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-     case CP0_REGISTER_07:
-         switch (sel) {
-         case CP0_REG07__HWRENA:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_HWREna));
-             register_name = "HWREna";
-             break;
-@@ -9294,17 +9294,17 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "Status";
-             break;
-         case CP0_REG12__INTCTL:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_IntCtl));
-             register_name = "IntCtl";
-             break;
-         case CP0_REG12__SRSCTL:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSCtl));
-             register_name = "SRSCtl";
-             break;
-         case CP0_REG12__SRSMAP:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mfc0_load32(arg, offsetof(CPUMIPSState, CP0_SRSMap));
-             register_name = "SRSMap";
-             break;
-@@ -9339,12 +9339,12 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "PRid";
-             break;
-         case CP0_REG15__EBASE:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_EBase));
-             register_name = "EBase";
-             break;
-         case CP0_REG15__CMGCRBASE:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             CP0_CHECK(ctx->cmgcr);
-             tcg_gen_ld_tl(arg, cpu_env, offsetof(CPUMIPSState, CP0_CMGCRBase));
-             register_name = "CMGCRBase";
-@@ -9847,7 +9847,7 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "PageMask";
-             break;
-         case CP0_REG05__PAGEGRAIN:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_pagegrain(cpu_env, arg);
-             register_name = "PageGrain";
-             break;
-@@ -9892,27 +9892,27 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "Wired";
-             break;
-         case CP0_REG06__SRSCONF0:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_srsconf0(cpu_env, arg);
-             register_name = "SRSConf0";
-             break;
-         case CP0_REG06__SRSCONF1:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_srsconf1(cpu_env, arg);
-             register_name = "SRSConf1";
-             break;
-         case CP0_REG06__SRSCONF2:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_srsconf2(cpu_env, arg);
-             register_name = "SRSConf2";
-             break;
-         case CP0_REG06__SRSCONF3:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_srsconf3(cpu_env, arg);
-             register_name = "SRSConf3";
-             break;
-         case CP0_REG06__SRSCONF4:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_srsconf4(cpu_env, arg);
-             register_name = "SRSConf4";
-             break;
-@@ -9928,7 +9928,7 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-     case CP0_REGISTER_07:
-         switch (sel) {
-         case CP0_REG07__HWRENA:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_hwrena(cpu_env, arg);
-             ctx->base.is_jmp = DISAS_STOP;
-             register_name = "HWREna";
-@@ -10015,21 +10015,21 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "Status";
-             break;
-         case CP0_REG12__INTCTL:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_intctl(cpu_env, arg);
-             /* Stop translation as we may have switched the execution mode */
-             ctx->base.is_jmp = DISAS_STOP;
-             register_name = "IntCtl";
-             break;
-         case CP0_REG12__SRSCTL:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_srsctl(cpu_env, arg);
-             /* Stop translation as we may have switched the execution mode */
-             ctx->base.is_jmp = DISAS_STOP;
-             register_name = "SRSCtl";
-             break;
-         case CP0_REG12__SRSMAP:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_mtc0_store32(arg, offsetof(CPUMIPSState, CP0_SRSMap));
-             /* Stop translation as we may have switched the execution mode */
-             ctx->base.is_jmp = DISAS_STOP;
-@@ -10074,7 +10074,7 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
-             register_name = "PRid";
-             break;
-         case CP0_REG15__EBASE:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_helper_mtc0_ebase(cpu_env, arg);
-             register_name = "EBase";
-             break;
-@@ -13453,7 +13453,7 @@ static void gen_rdhwr(DisasContext *ctx, int rt, int rd, int sel)
-      * The Linux kernel will emulate rdhwr if it's not supported natively.
-      * Therefore only check the ISA in system mode.
-      */
--    check_insn(ctx, ISA_MIPS32R2);
-+    check_insn(ctx, ISA_MIPS_R2);
- #endif
-     t0 = tcg_temp_new();
- 
-@@ -16269,12 +16269,12 @@ static void gen_pool32axf(CPUMIPSState *env, DisasContext *ctx, int rt, int rs)
-         switch (minor) {
-         case RDPGPR:
-             check_cp0_enabled(ctx);
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_load_srsgpr(rs, rt);
-             break;
-         case WRPGPR:
-             check_cp0_enabled(ctx);
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_store_srsgpr(rs, rt);
-             break;
-         default:
-@@ -24984,7 +24984,7 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
-         switch ((ctx->opcode >> 21) & 0x1f) {
-         case 1:
-             /* rotr is decoded as srl on non-R2 CPUs */
--            if (ctx->insn_flags & ISA_MIPS32R2) {
-+            if (ctx->insn_flags & ISA_MIPS_R2) {
-                 op1 = OPC_ROTR;
-             }
-             /* Fallthrough */
-@@ -25010,7 +25010,7 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
-         switch ((ctx->opcode >> 6) & 0x1f) {
-         case 1:
-             /* rotrv is decoded as srlv on non-R2 CPUs */
--            if (ctx->insn_flags & ISA_MIPS32R2) {
-+            if (ctx->insn_flags & ISA_MIPS_R2) {
-                 op1 = OPC_ROTRV;
-             }
-             /* Fallthrough */
-@@ -25083,7 +25083,7 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
-         switch ((ctx->opcode >> 21) & 0x1f) {
-         case 1:
-             /* drotr is decoded as dsrl on non-R2 CPUs */
--            if (ctx->insn_flags & ISA_MIPS32R2) {
-+            if (ctx->insn_flags & ISA_MIPS_R2) {
-                 op1 = OPC_DROTR;
-             }
-             /* Fallthrough */
-@@ -25101,7 +25101,7 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
-         switch ((ctx->opcode >> 21) & 0x1f) {
-         case 1:
-             /* drotr32 is decoded as dsrl32 on non-R2 CPUs */
--            if (ctx->insn_flags & ISA_MIPS32R2) {
-+            if (ctx->insn_flags & ISA_MIPS_R2) {
-                 op1 = OPC_DROTR32;
-             }
-             /* Fallthrough */
-@@ -25133,7 +25133,7 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
-         switch ((ctx->opcode >> 6) & 0x1f) {
-         case 1:
-             /* drotrv is decoded as dsrlv on non-R2 CPUs */
--            if (ctx->insn_flags & ISA_MIPS32R2) {
-+            if (ctx->insn_flags & ISA_MIPS_R2) {
-                 op1 = OPC_DROTRV;
-             }
-             /* Fallthrough */
-@@ -28594,7 +28594,7 @@ static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
-     switch (op1) {
-     case OPC_EXT:
-     case OPC_INS:
--        check_insn(ctx, ISA_MIPS32R2);
-+        check_insn(ctx, ISA_MIPS_R2);
-         gen_bitops(ctx, op1, rt, rs, sa, rd);
-         break;
-     case OPC_BSHFL:
-@@ -28609,7 +28609,7 @@ static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
-             decode_opc_special3_r6(env, ctx);
-             break;
-         default:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_bshfl(ctx, op2, rt, rd);
-             break;
-         }
-@@ -28621,7 +28621,7 @@ static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
-     case OPC_DINSM:
-     case OPC_DINSU:
-     case OPC_DINS:
--        check_insn(ctx, ISA_MIPS32R2);
-+        check_insn(ctx, ISA_MIPS_R2);
-         check_mips_64(ctx);
-         gen_bitops(ctx, op1, rt, rs, sa, rd);
-         break;
-@@ -28641,7 +28641,7 @@ static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
-             decode_opc_special3_r6(env, ctx);
-             break;
-         default:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             check_mips_64(ctx);
-             op2 = MASK_DBSHFL(ctx->opcode);
-             gen_bshfl(ctx, op2, rt, rd);
-@@ -30741,7 +30741,7 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-             generate_exception_end(ctx, EXCP_RI);
-             break;
-         case OPC_SYNCI:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             /*
-              * Break the TB to be able to sync copied instructions
-              * immediately.
-@@ -30858,7 +30858,7 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-                     }
-                     break;
-                 case OPC_DI:
--                    check_insn(ctx, ISA_MIPS32R2);
-+                    check_insn(ctx, ISA_MIPS_R2);
-                     save_cpu_state(ctx, 1);
-                     gen_helper_di(t0, cpu_env);
-                     gen_store_gpr(t0, rt);
-@@ -30869,7 +30869,7 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-                     ctx->base.is_jmp = DISAS_STOP;
-                     break;
-                 case OPC_EI:
--                    check_insn(ctx, ISA_MIPS32R2);
-+                    check_insn(ctx, ISA_MIPS_R2);
-                     save_cpu_state(ctx, 1);
-                     gen_helper_ei(t0, cpu_env);
-                     gen_store_gpr(t0, rt);
-@@ -30890,11 +30890,11 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
- #endif /* !CONFIG_USER_ONLY */
-             break;
-         case OPC_RDPGPR:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_load_srsgpr(rt, rd);
-             break;
-         case OPC_WRPGPR:
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             gen_store_srsgpr(rt, rd);
-             break;
-         default:
-@@ -31056,7 +31056,7 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-         case OPC_MFHC1:
-         case OPC_MTHC1:
-             check_cp1_enabled(ctx);
--            check_insn(ctx, ISA_MIPS32R2);
-+            check_insn(ctx, ISA_MIPS_R2);
-             /* fall through */
-         case OPC_MFC1:
-         case OPC_CFC1:
-@@ -31250,21 +31250,21 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-             switch (op1) {
-             case OPC_LUXC1:
-             case OPC_SUXC1:
--                check_insn(ctx, ISA_MIPS5 | ISA_MIPS32R2);
-+                check_insn(ctx, ISA_MIPS5 | ISA_MIPS_R2);
-                 /* Fallthrough */
-             case OPC_LWXC1:
-             case OPC_LDXC1:
-             case OPC_SWXC1:
-             case OPC_SDXC1:
--                check_insn(ctx, ISA_MIPS4 | ISA_MIPS32R2);
-+                check_insn(ctx, ISA_MIPS4 | ISA_MIPS_R2);
-                 gen_flt3_ldst(ctx, op1, sa, rd, rs, rt);
-                 break;
-             case OPC_PREFX:
--                check_insn(ctx, ISA_MIPS4 | ISA_MIPS32R2);
-+                check_insn(ctx, ISA_MIPS4 | ISA_MIPS_R2);
-                 /* Treat as NOP. */
-                 break;
-             case OPC_ALNV_PS:
--                check_insn(ctx, ISA_MIPS5 | ISA_MIPS32R2);
-+                check_insn(ctx, ISA_MIPS5 | ISA_MIPS_R2);
-                 /* Fallthrough */
-             case OPC_MADD_S:
-             case OPC_MADD_D:
-@@ -31278,7 +31278,7 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-             case OPC_NMSUB_S:
-             case OPC_NMSUB_D:
-             case OPC_NMSUB_PS:
--                check_insn(ctx, ISA_MIPS4 | ISA_MIPS32R2);
-+                check_insn(ctx, ISA_MIPS4 | ISA_MIPS_R2);
-                 gen_flt3_arith(ctx, op1, sa, rs, rd, rt);
-                 break;
-             default:
+ /* MIPS Technologies "Release 5" */
 -- 
 2.26.2
 
