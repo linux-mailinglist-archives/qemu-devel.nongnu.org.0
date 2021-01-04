@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB3FE2EA0C9
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 00:29:30 +0100 (CET)
-Received: from localhost ([::1]:43792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D562EA0C8
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 00:26:57 +0100 (CET)
+Received: from localhost ([::1]:38516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwZI1-0002XY-RQ
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 18:29:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35646)
+	id 1kwZFY-0000OV-DK
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 18:26:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kwZCD-00067N-Hf; Mon, 04 Jan 2021 18:23:34 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:55654)
+ id 1kwZCB-00066E-35; Mon, 04 Jan 2021 18:23:28 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:55658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kwZC7-0007yj-PY; Mon, 04 Jan 2021 18:23:29 -0500
+ id 1kwZC7-0007yk-PE; Mon, 04 Jan 2021 18:23:26 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6DA8A7470E8;
+ by localhost (Postfix) with SMTP id 9BA387470EF;
  Tue,  5 Jan 2021 00:23:20 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 21EBA7470E2; Tue,  5 Jan 2021 00:23:20 +0100 (CET)
-Message-Id: <10c86eeab2090f81cdccb1f2197287ba4d799319.1609802040.git.balaton@eik.bme.hu>
+ id 176DA7470E6; Tue,  5 Jan 2021 00:23:20 +0100 (CET)
+Message-Id: <783ab6ddf9920774805db48bdbf0cc4acff6af79.1609802040.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609802040.git.balaton@eik.bme.hu>
 References: <cover.1609802040.git.balaton@eik.bme.hu>
-Subject: [PATCH v4 4/4] sam460ex: Use type cast macro instead of simple cast
+Subject: [PATCH v4 2/4] ppc440_pcix: Fix register write trace event
 Date: Tue, 05 Jan 2021 00:14:00 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,35 +59,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-Use the PCI_BUS type cast macro to convert result of
-qdev_get_child_bus(). Also remove the check for NULL afterwards which
-should not be needed because sysbus_create_simple() uses error_abort
-and PCI_BUS macro also checks its argument by default so this
-shouldn't fail here.
+The trace event for pci_host_config_write() was also using the trace
+event for read. Add corresponding trace and correct this.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ppc/sam460ex.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ hw/ppc/ppc440_pcix.c | 2 +-
+ hw/ppc/trace-events  | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-index 14e6583eb0..cc67e9c39b 100644
---- a/hw/ppc/sam460ex.c
-+++ b/hw/ppc/sam460ex.c
-@@ -384,11 +384,8 @@ static void sam460ex_init(MachineState *machine)
-     ppc460ex_pcie_init(env);
-     /* All PCI irqs are connected to the same UIC pin (cf. UBoot source) */
-     dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000, uic[1][0]);
--    pci_bus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
--    if (!pci_bus) {
--        error_report("couldn't create PCI controller!");
--        exit(1);
--    }
-+    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci.0"));
-+
-     memory_region_init_alias(isa, NULL, "isa_mmio", get_system_io(),
-                              0, 0x10000);
-     memory_region_add_subregion(get_system_memory(), 0xc08000000, isa);
+diff --git a/hw/ppc/ppc440_pcix.c b/hw/ppc/ppc440_pcix.c
+index eb1290ffc8..7829d3e556 100644
+--- a/hw/ppc/ppc440_pcix.c
++++ b/hw/ppc/ppc440_pcix.c
+@@ -169,7 +169,7 @@ static void ppc440_pcix_reg_write4(void *opaque, hwaddr addr,
+ {
+     struct PPC440PCIXState *s = opaque;
+ 
+-    trace_ppc440_pcix_reg_read(addr, val);
++    trace_ppc440_pcix_reg_write(addr, val, size);
+     switch (addr) {
+     case PCI_VENDOR_ID ... PCI_MAX_LAT:
+         stl_le_p(s->dev->config + addr, val);
+diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+index ed05f2fc9a..017c48624f 100644
+--- a/hw/ppc/trace-events
++++ b/hw/ppc/trace-events
+@@ -117,3 +117,4 @@ ppc440_pcix_set_irq(int irq_num) "PCI irq %d"
+ ppc440_pcix_update_pim(int idx, uint64_t size, uint64_t la) "Added window %d of size=0x%" PRIx64 " to CPU=0x%" PRIx64
+ ppc440_pcix_update_pom(int idx, uint32_t size, uint64_t la, uint64_t pcia) "Added window %d of size=0x%x from CPU=0x%" PRIx64 " to PCI=0x%" PRIx64
+ ppc440_pcix_reg_read(uint64_t addr, uint32_t val) "addr 0x%" PRIx64 " = 0x%" PRIx32
++ppc440_pcix_reg_write(uint64_t addr, uint32_t val, uint32_t size) "addr 0x%" PRIx64 " = 0x%" PRIx32 " size 0x%" PRIx32
 -- 
 2.21.3
 
