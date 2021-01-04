@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 707782E9840
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 16:18:49 +0100 (CET)
-Received: from localhost ([::1]:43326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5D12E984A
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 16:20:49 +0100 (CET)
+Received: from localhost ([::1]:48440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwRdA-0007zk-84
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 10:18:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55186)
+	id 1kwRf6-0001jw-Ts
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 10:20:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kwRbz-0007ZB-Fl
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:17:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33861)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kwRbw-0007Y3-Jd
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:17:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609773451;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=dqnDTZrNodWjgcuLyV9KwUrxGrsW6aL6wUkxskQX4JU=;
- b=Yzl/5ZyFU2lDasnjJ9PpFEKriLDD4nftF8zZyYO5D8csF7iCsGuObjjcoUD8luG0P42LrX
- t8lNdgA6ddolykapSVH1a1dvfECr7D1lIThunqyzvwtZx2A2twRrAVcraPDI8eyEfwFHNA
- GBgXihKwhEB+QEHG4VYXpB6RGU+EpNM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551--icnRImIPkyIBNa3Me5iWw-1; Mon, 04 Jan 2021 10:17:26 -0500
-X-MC-Unique: -icnRImIPkyIBNa3Me5iWw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2829107ACE6;
- Mon,  4 Jan 2021 15:17:23 +0000 (UTC)
-Received: from redhat.com (ovpn-114-43.ams2.redhat.com [10.36.114.43])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E27E5C8AA;
- Mon,  4 Jan 2021 15:16:56 +0000 (UTC)
-Date: Mon, 4 Jan 2021 15:16:53 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: elena.ufimtseva@oracle.com
-Subject: Re: [PATCH v15 08/20] multi-process: add qio channel read function
-Message-ID: <20210104151653.GM640208@redhat.com>
-References: <cover.1608702853.git.elena.ufimtseva@oracle.com>
- <42569c768066e334186ea8567847d96c8ebb0ad9.1608702853.git.elena.ufimtseva@oracle.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kwRe5-0001DL-0u
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:19:45 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:47034)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kwRe2-0008Ew-On
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:19:44 -0500
+Received: by mail-ej1-x631.google.com with SMTP id t16so7688148ejf.13
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 07:19:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ofmynd4FtmqI9xTAugifhWXeFOl9+D0lPRKKIHLRDAg=;
+ b=bmYQCRsLTgGMKfuflYSMmVIYsLYZmFLKa1r01tbHetYJK3UsyIu2ZIqMOm1NQusL8x
+ gMRvc+NOtGqUolKvUOsOgsamTS14hVY32GBC9oEJ20HbOaJBdRd52n9gN/Fc2OvrxipB
+ W20RDrwD0b2kmtDqKkJlVMj2lNeXb/2GBtCgz250Yx0gusZ7v9fEQo94meB4mGc6RZMC
+ 5VoHW9G+RU/GXvFX7MVVdsT7Zh31+BNOcRbiznbM/k5hH5+EBBGWfEeoUYekschuM2l9
+ x8AsujT8E1Lc9J+As06rk4vzhk3uG4K+6TT+p+VVQGKXZJ6kBJ2jevKNWRiu9AnrWo8a
+ DPtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ofmynd4FtmqI9xTAugifhWXeFOl9+D0lPRKKIHLRDAg=;
+ b=RJ5/UWCmoPeW5rtmsxhOFr+btkVeobKj1UkEAzH1rBfxJ8BgKDJS7CS85MKHZDPhHV
+ WT2x/7Xakj6TjgQJjjxMlsYZGfMo5nbv82ff992G2yy6vIeiGiD2K+M6yWQtG/VrWHE9
+ mhX3tZadT2xr+OSNixrbmsmSrM6VzqSRHC75I+HfDnvhOvR8sXuXtU5CF0YsTbgXYS8m
+ KC6TQjEyTKDsH615jN2OXPoBxsb+OQp01z9LJopv56zxRNJDWF5YARcDXvFt1xhlVHWp
+ FZAgmYaVlItKB5zcAbuhH30gv1+QjIHb82mOvPtdcCVJnpJ4XLvxndCzT+PNLsjoEO7p
+ voJg==
+X-Gm-Message-State: AOAM530FxRTpaxvs/v8UQ5koMHNn3Ze3E/QO7w1iPvKFjhlp5KOGIjRw
+ FPZiozLgC5W/YUPPxnBKtV1ANeekxzcWVlBWVjh+ZA==
+X-Google-Smtp-Source: ABdhPJyrcg6uzolfMolNfcefz3h7/zKoA6yI2uAYomST+x37pyIFEJzgAfve/e/talqWenvks3HeUAH/8D/0Fe4JtRI=
+X-Received: by 2002:a17:906:3d4a:: with SMTP id
+ q10mr41952351ejf.85.1609773580659; 
+ Mon, 04 Jan 2021 07:19:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <42569c768066e334186ea8567847d96c8ebb0ad9.1608702853.git.elena.ufimtseva@oracle.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210102125213.41279-1-r.bolshakov@yadro.com>
+ <CAFEAcA-X6DSKeyS4bbNe3tu-QFGxc1VM+Eoz_UMk-8jb--zq9g@mail.gmail.com>
+ <20210104122149.GH640208@redhat.com>
+ <CAFEAcA_3nv2N7zY5kwGWPLRx2dY3KB8wMAFX-MMrk_kXK1SUVg@mail.gmail.com>
+ <7493bddf-d915-8faa-5612-f14a3067a574@redhat.com>
+In-Reply-To: <7493bddf-d915-8faa-5612-f14a3067a574@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 4 Jan 2021 15:19:29 +0000
+Message-ID: <CAFEAcA8e916+AU4Ebvie504AOoOBP8wZ8rC90=Hcws76wpkMTQ@mail.gmail.com>
+Subject: Re: [PATCH] meson: Propagate gnutls dependency
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,234 +81,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: fam@euphon.net, john.g.johnson@oracle.com, swapnil.ingle@nutanix.com,
- mst@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
- felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
- konrad.wilk@oracle.com, dgilbert@redhat.com, alex.williamson@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, kwolf@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 22, 2020 at 10:14:43PM -0800, elena.ufimtseva@oracle.com wrote:
-> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> 
-> Adds qio_channel_readv_full_all() to read both data and FDs.
-> Refactors existing code to use this function.
-> 
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  include/io/channel.h | 25 +++++++++++++
->  io/channel.c         | 85 +++++++++++++++++++++++++++++++-------------
->  2 files changed, 85 insertions(+), 25 deletions(-)
-> 
-> diff --git a/include/io/channel.h b/include/io/channel.h
-> index 2378567d4b..429ece9a05 100644
-> --- a/include/io/channel.h
-> +++ b/include/io/channel.h
-> @@ -774,6 +774,31 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
->                                      IOHandler *io_write,
->                                      void *opaque);
->  
-> +/**
-> + * qio_channel_readv_full_all:
-> + * @ioc: the channel object
-> + * @iov: the array of memory regions to read data to
-> + * @niov: the length of the @iov array
-> + * @fds: an array of file handles to read
-> + * @nfds: number of file handles in @fds
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + *
-> + * Behaves like qio_channel_readv_full but will attempt
-> + * to read all data specified (file handles and memory regions).
-> + * The function will wait for all requested data
-> + * to be read, yielding from the current coroutine
-> + * if required.
-> + *
-> + * Returns: 0 if all bytes were read, or -1 on error
-> + */
-> +
-> +int qio_channel_readv_full_all(QIOChannel *ioc,
-> +                                const struct iovec *iov,
-> +                                size_t niov,
-> +                                int **fds, size_t *nfds,
-> +                                Error **errp);
+On Mon, 4 Jan 2021 at 14:40, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 04/01/21 14:21, Peter Maydell wrote:
+> >> The rest of QEMU should only ever be using QEMU's TLS abstractions
+> >> and not directly be tied to GNUTLS. So ideally the gnutls flags
+> >> should only ever be added in the crypto/meson.build, and anything
+> >> which depends on that should then get the flags indirectly.
+> > Unfortunately include/crypto/tlscreds.h leaks this implementation
+> > detail
+>
+> That is not a problem.  As Daniel said, anything depending on crypto can
+> still get the gnutls flags _indirectly_.
+>
+> In my proposed solution to the bug you'd get that via
+>
+>      io_ss.add(crypto, qom)
+>      libio = static_library(..., dependencies: io_ss.dependencies())
 
-There parameters are one character mis-aligned here.
+Does this work recursively? For instance monitor/qmp-cmds.c
+needs the gnutls CFLAGS because:
+ * qmp-cmds.c includes ui/vnc.h
+ * ui/vnc.h includes include/crypto/tlssession.h
+ * include/crypto/tlssession.h includes gnutls.h
 
-> diff --git a/io/channel.c b/io/channel.c
-> index bde1f6d0f4..5edaea1fac 100644
-> --- a/io/channel.c
-> +++ b/io/channel.c
-> @@ -91,11 +91,49 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
->                                const struct iovec *iov,
->                                size_t niov,
->                                Error **errp)
-> +{
-> +    int ret = qio_channel_readv_full_all(ioc, iov, niov, NULL, NULL, errp);
-> +
-> +    if (ret == -ECANCELED) {
-> +        error_prepend(errp,
-> +                      "Unexpected end-of-file before all bytes were read: ");
-> +        ret = -1;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +int qio_channel_readv_all(QIOChannel *ioc,
-> +                          const struct iovec *iov,
-> +                          size_t niov,
-> +                          Error **errp)
-> +{
-> +    int ret = qio_channel_readv_all_eof(ioc, iov, niov, errp);
-> +
-> +    if (ret == 0) {
-> +        error_setg(errp,
-> +                   "Unexpected end-of-file before all bytes were read");
-> +        return -1;
-> +    }
-> +    if (ret == 1) {
-> +        return 0;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +int qio_channel_readv_full_all(QIOChannel *ioc,
-> +                                const struct iovec *iov,
-> +                                size_t niov,
-> +                                int **fds, size_t *nfds,
-> +                                Error **errp)
->  {
->      int ret = -1;
->      struct iovec *local_iov = g_new(struct iovec, niov);
->      struct iovec *local_iov_head = local_iov;
->      unsigned int nlocal_iov = niov;
-> +    int **local_fds = fds;
-> +    size_t *local_nfds = nfds;
+I don't see anything in monitor/meson.build that says "qmp-cmds.c
+needs whatever ui's dependencies are".
 
-It doesn't look like we actually need these as local variables,
-as opposed to just replacing the parameters.
-
->      bool partial = false;
->  
->      nlocal_iov = iov_copy(local_iov, nlocal_iov,
-> @@ -104,7 +142,8 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
->  
->      while (nlocal_iov > 0) {
->          ssize_t len;
-> -        len = qio_channel_readv(ioc, local_iov, nlocal_iov, errp);
-> +        len = qio_channel_readv_full(ioc, local_iov, nlocal_iov, local_fds,
-> +                                     local_nfds, errp);
->          if (len == QIO_CHANNEL_ERR_BLOCK) {
->              if (qemu_in_coroutine()) {
->                  qio_channel_yield(ioc, G_IO_IN);
-> @@ -112,20 +151,33 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
->                  qio_channel_wait(ioc, G_IO_IN);
->              }
->              continue;
-> -        } else if (len < 0) {
-> -            goto cleanup;
-> -        } else if (len == 0) {
-> -            if (partial) {
-> -                error_setg(errp,
-> -                           "Unexpected end-of-file before all bytes were read");
-> +        }
-> +
-> +        if (len <= 0) {
-> +            size_t fd_idx = nfds ? *nfds : 0;
-> +            if (partial && (len == 0)) {
-> +                ret = -ECANCELED;
-
-As Marc-Andre mentioned, we intentionally avoid returning 'errno' from
-any of the QIO functions, so I definitely don't want to see this added.
-
-If I look at the current set of APIs:
-
-qio_channel_readv_full
-
-qio_channel_readv
-qio_channel_readv_all
-qio_channel_readv_all_eof
-
-qio_channel_read
-qio_channel_read_all
-qio_channel_read_all_eof
-
-I think the problem is that you're introducing just 1 new function,
-when we really should have two in order to complete the code pattern
-we have. ie
-
-  qio_channel_readv_full_all
-  qio_channel_readv_full_all_eof
-
-the former should call the latter.
-
-
->              } else {
-> -                ret = 0;
-> +                ret = len;
-> +            }
-> +
-> +            while (fds && fd_idx) {
-> +                close(*fds[fd_idx - 1]);
-> +                fd_idx--;
-> +            }
-> +
-> +            if (fds) {
-> +                g_free(*fds);
->              }
-> +
->              goto cleanup;
->          }
->  
->          partial = true;
->          iov_discard_front(&local_iov, &nlocal_iov, len);
-> +
-> +        local_fds = NULL;
-> +        local_nfds = 0;
->      }
->  
->      ret = 1;
-> @@ -135,23 +187,6 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
->      return ret;
->  }
->  
-> -int qio_channel_readv_all(QIOChannel *ioc,
-> -                          const struct iovec *iov,
-> -                          size_t niov,
-> -                          Error **errp)
-> -{
-> -    int ret = qio_channel_readv_all_eof(ioc, iov, niov, errp);
-> -
-> -    if (ret == 0) {
-> -        ret = -1;
-> -        error_setg(errp,
-> -                   "Unexpected end-of-file before all bytes were read");
-> -    } else if (ret == 1) {
-> -        ret = 0;
-> -    }
-> -    return ret;
-> -}
-> -
-
-Try not to mix in code movement with functional changes, as it obscures
-the diffs. IOW, if you want to re-arrange funtions in the file, do this
-as a separate patch first.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
