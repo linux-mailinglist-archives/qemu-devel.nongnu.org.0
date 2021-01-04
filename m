@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F056D2E991A
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 16:46:38 +0100 (CET)
-Received: from localhost ([::1]:47360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0232E993A
+	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 16:53:38 +0100 (CET)
+Received: from localhost ([::1]:56650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwS45-0005f0-IF
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 10:46:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33698)
+	id 1kwSAr-0001eJ-GC
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 10:53:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kwS1m-0005EO-TY
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:44:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28109)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kwS1l-0008RL-3j
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:44:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609775052;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LHDzQp8uW6jsEoorVRzEk0WNPPWUmKb3b69ncDdja6c=;
- b=H18id1G80hza+9vSqIxrU1Cf5eKWThLwmToK+Eg16GGYXD/0wfxR+UBzs60YT6uVbezinP
- XhkjNRWdvVXOwQDsTQO1nOA3M5ImApq9HBqCKQ6/Y0uQ9adh5e5QGktVkPbdIGtg4n6kZs
- reQDpzW+2wsq9iecv+lihSvzevvrBnw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-TXGN1XZIMHm_VuAcksAmeQ-1; Mon, 04 Jan 2021 10:44:08 -0500
-X-MC-Unique: TXGN1XZIMHm_VuAcksAmeQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 700C110054FF;
- Mon,  4 Jan 2021 15:44:07 +0000 (UTC)
-Received: from localhost (ovpn-113-37.ams2.redhat.com [10.36.113.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2FDD81001281;
- Mon,  4 Jan 2021 15:43:57 +0000 (UTC)
-Date: Mon, 4 Jan 2021 15:43:56 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Liam Merwick <liam.merwick@oracle.com>
-Subject: Re: [PATCH v2 0/3] nvdimm: read-only file support
-Message-ID: <20210104154356.GD344891@stefanha-x1.localdomain>
-References: <20200916095150.755714-1-stefanha@redhat.com>
- <fe1dca5a-a373-7634-7e11-5dee6019036e@oracle.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kwS9g-0000pq-30
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:52:24 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:41610)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kwS9a-0002vs-HT
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 10:52:23 -0500
+Received: by mail-ej1-x630.google.com with SMTP id ce23so37392506ejb.8
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 07:52:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CNmtiEXw0p5LzgHqN+TQ3esT0GI5K9vd80M0gaqPntA=;
+ b=OkJS5qdsYWG2OWxi0vrDbxNP9pK57y/x7fKbWugM/eMra1BUEJloBLad2thy80sgQ4
+ 30/1WcWn8A6ZNqIJfwV4paG1hOgvJMpdDQKT+XoMkxgZDm3R836OQuGW/YPFtT9SmKEV
+ MOzfaRQ8IwC0l5HO1tyrihKTjP4A+Ka4B+VYxmaVZAVvtbqhHKrb7LETjADlhxaVxNTD
+ 6pJu1e43WZN/FwupkK/h7lhRyAtCvXLRRYv+7gmN0r2XAaCmcKkPU28tQLDiFSuwci9I
+ Ms1kU7Iz64NCfM0aq80C6xIhekYvNfiOQjr2owkjrCR84LOkTzm2i/VJH8akxirmHZIl
+ +lMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CNmtiEXw0p5LzgHqN+TQ3esT0GI5K9vd80M0gaqPntA=;
+ b=BWGge4HnBjXG3m+tYaiCxhDrhoUSsReFPr6ysjvjqhcRuXqar1Gg0XpbNkY257iQRP
+ BCHL6ZSA/g/U372tlwGb3Jdo9Puu33Pl68pO2pKsKKmC4bp/XuZ4d9in2s7FML8/A9rF
+ 7npmb9RtmVxWvtJ4dG+96UT35WMoidaM5VGOKAgTNJ+kxWelO0hSNcRhRhVroMoL4L5c
+ I4pE/cQp4y1A+eZroK9dAzpErF/qFJmmv4M3KILHINkJ6LifFNR7MFV0psoOd5St/C9q
+ dtLxG0nLdsGLIS3vEkBtVUldOO5VqaROA6lwGCFC9ApMJKs1arPN5pQNYHAe6T+ceuxg
+ BeQg==
+X-Gm-Message-State: AOAM533ISyDRDm/4Oh3NoVGOyS/JFmRzJL37RglAJgAm9xssKtOgJott
+ PfloYOJe9FTDR1tI2pdW36r44iL+hgHJ78XqvTGXJQ==
+X-Google-Smtp-Source: ABdhPJwm/7e9/8jVIwAEslGdaybGENbS+2fGZJSAX1J4Ptym8urP4TX8HPlPBAbUc3krJ4gOTatKcsLh7oVO5Zud/K0=
+X-Received: by 2002:a17:906:3d4a:: with SMTP id
+ q10mr42067193ejf.85.1609775536880; 
+ Mon, 04 Jan 2021 07:52:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <fe1dca5a-a373-7634-7e11-5dee6019036e@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9dgjiU4MmWPVapMU"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1395127548-32670-1-git-send-email-kraxel@redhat.com>
+ <1395127548-32670-2-git-send-email-kraxel@redhat.com>
+In-Reply-To: <1395127548-32670-2-git-send-email-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 4 Jan 2021 15:52:05 +0000
+Message-ID: <CAFEAcA--LaTy3P+o8DJXzaLj72RGdZQ1rVr1nzw+WpBObEU3gg@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PULL 1/1] ui/vnc: fix vmware VGA incompatiblities
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,72 +78,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Julio Montes <julio.montes@intel.com>,
- qemu-devel@nongnu.org, eric.g.ernst@gmail.com,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Lieven <pl@kamp.de>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---9dgjiU4MmWPVapMU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 18 Mar 2014 at 07:26, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> From: Peter Lieven <pl@kamp.de>
+>
+> this fixes invalid rectangle updates observed after commit 12b316d
+> with the vmware VGA driver. The issues occured because the server
+> and client surface update seems to be out of sync at some points
+> and the max width of the surface is not dividable by
+> VNC_DIRTY_BITS_PER_PIXEL (16).
+>
+> Reported-by: Serge Hallyn <serge.hallyn@ubuntu.com>
+> Signed-off-by: Peter Lieven <pl@kamp.de>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
-On Thu, Dec 10, 2020 at 04:48:57PM +0000, Liam Merwick wrote:
-> On 16/09/2020 10:51, Stefan Hajnoczi wrote:
-> > v2:
-> >   * s/the the/the/ in documentation [Philippe]
-> >   * Assign nvdimm->unarmed earlier [Philippe]
-> >=20
-> > There is currently no way to back an NVDIMM with a read-only file so it=
- can be
-> > safely shared between untrusted guests.
-> >=20
-> > Introduce an -object memory-backend-file,readonly=3Don|off option.
-> >=20
-> > Julio Montes sent an earlier patch here:
-> > https://patchew.org/QEMU/20190708211936.8037-1-julio.montes@intel.com/
-> >=20
-> > Eric Ernst requested this feature again for Kata Containers so I gave i=
-t a try.
-> >=20
-> > Stefan Hajnoczi (3):
-> >    memory: add readonly support to memory_region_init_ram_from_file()
-> >    hostmem-file: add readonly=3Don|off option
-> >    nvdimm: honor -object memory-backend-file,readonly=3Don option
-> >=20
->=20
->=20
-> Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
-> Tested-by: Liam Merwick <liam.merwick@oracle.com>
->=20
-> (I just quickly modified kata-runtime to unconditionally pass readonly=3D=
-on
-> and verified that the root filesystem couldn't be remounted as rw)
->=20
-> Is this a candidate for 6.0?
+Hi all; I know this is a 6-year-old patch (now commit
+2f487a3d40faff1 in git), but I was just looking
+through some header file dependencies, and I noticed that
+hw/display/vmware_vga.c includes ui/vnc.h, and that struck
+me as pretty odd... I'm sending this email in the hope that
+people might remember something of the situation beyond what's
+described in the commit message.
 
-Thanks! Yes, this is for 6.0.
+> ---
+>  hw/display/vmware_vga.c |  3 ++-
+>  ui/vnc.c                | 10 +++++++---
+>  2 files changed, 9 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
+> index bd2c108..6ae3348 100644
+> --- a/hw/display/vmware_vga.c
+> +++ b/hw/display/vmware_vga.c
+> @@ -25,6 +25,7 @@
+>  #include "hw/loader.h"
+>  #include "trace.h"
+>  #include "ui/console.h"
+> +#include "ui/vnc.h"
+>  #include "hw/pci/pci.h"
+>
+>  #undef VERBOSE
+> @@ -218,7 +219,7 @@ enum {
+>
+>  /* These values can probably be changed arbitrarily.  */
+>  #define SVGA_SCRATCH_SIZE               0x8000
+> -#define SVGA_MAX_WIDTH                  2360
+> +#define SVGA_MAX_WIDTH                  ROUND_UP(2360, VNC_DIRTY_PIXELS_PER_BIT)
+>  #define SVGA_MAX_HEIGHT                 1770
+>
+>  #ifdef VERBOSE
 
-Stefan
+Here we pull in the VNC header in order to get the definition
+of the VNC_DIRTY_PIXELS_PER_BIT constant, but I don't understand
+why. The hw/display code should be agnostic of whatever the
+UI display front-end is. Why does vmware_vga.c need to care
+but not any other device?
 
---9dgjiU4MmWPVapMU
-Content-Type: application/pgp-signature; name="signature.asc"
+Moreover, looking at the vmware_vga.c code, although the
+SVGA_MAX_WIDTH value is made to be a multiple of VNC_DIRTY_PIXELS_PER_BIT
+(which is 16), there seems to be nothing preventing the guest itself
+from programming the device to some other width that isn't
+a multiple of 16. So either this device needs to guard against
+bad widths generally, or the problem is really in the VNC code.
+I can't find anything in the vmware VGA device docs (though they
+are pretty meagre) suggesting that there's a requirement for
+the surface to be a multiple of 16, so I think that the VNC code
+needs to be able to cope. (This should be no different from any other
+display device model setting a non-multiple-of-16 width.)
 
------BEGIN PGP SIGNATURE-----
+So my feeling is that this vmware_vga.c portion of this commit
+should be reverted, and if there's still a problem with non-multiple-of-16
+surface widths then it needs to be handled in the common or VNC
+specific UI code...
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/zN7wACgkQnKSrs4Gr
-c8i+vAgAv3OTjSR/fH8lEMo3dhrjiEaSzl7/JwxkJDaulmfUCNGGyMK5nk1EmrJD
-QgOzje9PN3XO/qU3KJ8+QrrqWs+1cRq+UgQHVC2HBF+LBkuUG0ha0bpYfu5JnVKO
-pU1ut/hv7l7rZ55jtn+1Mu95wRiFrInk48ZNwOooHMuXi6x8zz7Yk9h6kOlYMKFT
-p83VgNFt/8UwWZAlnKI8zwq4hpItC9d/PeANa+inXNDiA1Wpqrc6+RBxOSGjZd4C
-Mi/SunAwZWujGpJatSJWaPkIDSJ0TGoJdDKHXUR5yWnv91MuX3sEMH0Qghn3KUV5
-s7pxhwSKvfXDx1U4mpC85IfnC6Hx6g==
-=osuy
------END PGP SIGNATURE-----
-
---9dgjiU4MmWPVapMU--
-
+thanks
+-- PMM
 
