@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B652EA024
-	for <lists+qemu-devel@lfdr.de>; Mon,  4 Jan 2021 23:48:17 +0100 (CET)
-Received: from localhost ([::1]:51864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE742EA062
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 00:06:06 +0100 (CET)
+Received: from localhost ([::1]:57118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwYe7-0008Tl-Ts
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 17:48:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53404)
+	id 1kwYvN-0003Vz-1x
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 18:06:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kwYav-0007KZ-U0
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:44:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46938)
+ id 1kwYuA-0002vU-LO
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 18:04:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kwYar-0002tu-5N
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 17:44:56 -0500
+ id 1kwYu4-0001M6-Hp
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 18:04:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609800291;
+ s=mimecast20190719; t=1609801481;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DPSU4RfLlMfVmTuHkZt3krQO84SIfrjmyUkgiA27jE8=;
- b=BkRtX679UoRCHyxwjYAlmwP2K+Bw4VXm72rCbm3JwzAgwWl8173wGhAhAbFgxGP4vbrpMw
- WZOG9N+B0LEAhi/ZM4TIhJ69Z9sUg5/xJM0O+zgmXKagopXsRzwj1Ky70yVndijxUjiTtf
- 66QPAewUiZUevOgReUCjvlIZRTQr3J4=
+ bh=QukMenQIVBy1/aIuvY5RElW6wJQg3MdyDO0Jsz2JxPE=;
+ b=VqVM46ZHf7OiutfJHp3VisaDkNLSUl20YMIU6OcMLzKQFAjsvzj1c6W0lkRx/W9bTuZbVf
+ muB3zkfmsmaQ+SbiRY4d2Ej54ZIsEScwaNThsHj1KogVePqvrKV4y9ORyHCGzUKc/D+sOf
+ Jv2KO0XlW6G1TjkTMm5q4xBHJ1cnsT0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-50gZDxyPOpC1L-ahRxkO0Q-1; Mon, 04 Jan 2021 17:44:50 -0500
-X-MC-Unique: 50gZDxyPOpC1L-ahRxkO0Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-451-wL9NlrVgPoC-HNeifxRUUg-1; Mon, 04 Jan 2021 18:04:39 -0500
+X-MC-Unique: wL9NlrVgPoC-HNeifxRUUg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A208D801A9D;
- Mon,  4 Jan 2021 22:44:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4AFD107ACE3
+ for <qemu-devel@nongnu.org>; Mon,  4 Jan 2021 23:04:38 +0000 (UTC)
 Received: from localhost (unknown [10.40.208.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9438610027A5;
- Mon,  4 Jan 2021 22:44:42 +0000 (UTC)
-Date: Mon, 4 Jan 2021 23:44:40 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 567D460BE5;
+ Mon,  4 Jan 2021 23:04:37 +0000 (UTC)
+Date: Tue, 5 Jan 2021 00:04:35 +0100
 From: Igor Mammedov <imammedo@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 3/3] hw/i386: expose a "smbios-ep" PC machine property
-Message-ID: <20210104234440.2da6c503@redhat.com>
-In-Reply-To: <20201214205029.2991222-4-ehabkost@redhat.com>
-References: <20201214205029.2991222-1-ehabkost@redhat.com>
- <20201214205029.2991222-4-ehabkost@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86
+ machine types
+Message-ID: <20210105000435.1cf4c6f6@redhat.com>
+In-Reply-To: <87r1n0j20n.fsf@vitty.brq.redhat.com>
+References: <20201119103221.1665171-1-vkuznets@redhat.com>
+ <20201119103221.1665171-6-vkuznets@redhat.com>
+ <20201216205202.GJ3140057@habkost.net>
+ <20201218181340.5e398280@redhat.com>
+ <87r1n0j20n.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -79,170 +83,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, "Daniel
- P. Berrange" <berrange@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Michael Roth <mdroth@linux.vnet.ibm.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 14 Dec 2020 15:50:29 -0500
-Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Mon, 04 Jan 2021 13:54:32 +0100
+Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
 
-> From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->=20
-> The i440fx and Q35 machine types are both hardcoded to use the legacy
-> SMBIOS 2.1 entry point. This is a sensible conservative choice because
-> SeaBIOS only supports SMBIOS 2.1
->=20
-> EDK2, however, can also support SMBIOS 3.0 and QEMU already uses this on
-> the ARM virt machine type.
->=20
-> This adds a property to allow the choice of SMBIOS entry point versions
-> For example to opt in to version 3.0
->=20
->    $QEMU -machine q35,smbios-ep=3D3_0
->=20
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> Igor Mammedov <imammedo@redhat.com> writes:
+> 
+> >> >  
+> >> > +    /* Hyper-V features enabled with 'hyperv=on' */
+> >> > +    x86mc->default_hyperv_features = BIT(HYPERV_FEAT_RELAXED) |
+> >> > +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
+> >> > +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
+> >> > +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
+> >> > +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
+> >> > +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
+> >> > +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_EVMCS) |
+> >> > +        BIT(HYPERV_FEAT_IPI) | BIT(HYPERV_FEAT_STIMER_DIRECT);  
+> > I'd argue that feature bits do not belong to machine code at all.
+> > If we have to involve machine at all then it should be a set property/value pairs
+> > that machine will set on CPU object (I'm not convinced that doing it
+> > from machine code is good idea though).
+> >  
+> 
+> These are 'features' and not feature bits. 'Bits' here are just our
+> internal (to QEMU) representation of which features are enable and which
+> are not, we could've just used booleans instead. These feature, when
+> enabled, will result in some CPUID changes (not 1:1) but I don't see how
+> it's different from
+>   
+> " -machine q35,accel=kvm "
+> 
+> which also results in CPUID changes.
+> 
+> The main reason for putting this to x86 machine type is versioning, as
+> we go along we will (hopefully) be implementing more and more Hyper-V
+> features but we want to provide 'one knob to rule them all' but do it in
+> a way that will allow migration. We already have 'hv_passthrough' for
+> CPU.
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+for versioning device models (cpu included), we typically set some default in
+device's ininfn, and if later on we need to change it to another default
+we use compat properties to keep old default to old machine types.
 
-> ---
-> This is patch was previously submitted at:
-> https://lore.kernel.org/qemu-devel/20200908165438.1008942-6-berrange@redh=
-at.com
->=20
-> Changes from v1:
-> * Include qapi-visit-smbios.h instead of qapi-visit-machine.h
-> * Commit message fix: s/smbios_ep/smbios-ep/
-> ---
->  include/hw/i386/pc.h |  3 +++
->  hw/i386/pc.c         | 26 ++++++++++++++++++++++++++
->  hw/i386/pc_piix.c    |  2 +-
->  hw/i386/pc_q35.c     |  2 +-
->  4 files changed, 31 insertions(+), 2 deletions(-)
->=20
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 2aa8797c6e..2075093b32 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -11,6 +11,7 @@
->  #include "hw/acpi/acpi_dev_interface.h"
->  #include "hw/hotplug.h"
->  #include "qom/object.h"
-> +#include "hw/firmware/smbios.h"
-> =20
->  #define HPET_INTCAP "hpet-intcap"
-> =20
-> @@ -38,6 +39,7 @@ typedef struct PCMachineState {
->      /* Configuration options: */
->      uint64_t max_ram_below_4g;
->      OnOffAuto vmport;
-> +    SmbiosEntryPointType smbios_ep;
-> =20
->      bool acpi_build_enabled;
->      bool smbus_enabled;
-> @@ -62,6 +64,7 @@ typedef struct PCMachineState {
->  #define PC_MACHINE_SATA             "sata"
->  #define PC_MACHINE_PIT              "pit"
->  #define PC_MACHINE_MAX_FW_SIZE      "max-fw-size"
-> +#define PC_MACHINE_SMBIOS_EP        "smbios-ep"
-> =20
->  /**
->   * PCMachineClass:
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 640fb5b0b7..3cc559e0d9 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -81,6 +81,7 @@
->  #include "hw/mem/nvdimm.h"
->  #include "qapi/error.h"
->  #include "qapi/qapi-visit-common.h"
-> +#include "qapi/qapi-visit-smbios.h"
->  #include "qapi/visitor.h"
->  #include "hw/core/cpu.h"
->  #include "hw/usb.h"
-> @@ -1532,6 +1533,23 @@ static void pc_machine_set_hpet(Object *obj, bool =
-value, Error **errp)
->      pcms->hpet_enabled =3D value;
->  }
-> =20
-> +static void pc_machine_get_smbios_ep(Object *obj, Visitor *v, const char=
- *name,
-> +                                     void *opaque, Error **errp)
-> +{
-> +    PCMachineState *pcms =3D PC_MACHINE(obj);
-> +    SmbiosEntryPointType smbios_ep =3D pcms->smbios_ep;
-> +
-> +    visit_type_SmbiosEntryPointType(v, name, &smbios_ep, errp);
-> +}
-> +
-> +static void pc_machine_set_smbios_ep(Object *obj, Visitor *v, const char=
- *name,
-> +                                     void *opaque, Error **errp)
-> +{
-> +    PCMachineState *pcms =3D PC_MACHINE(obj);
-> +
-> +    visit_type_SmbiosEntryPointType(v, name, &pcms->smbios_ep, errp);
-> +}
-> +
->  static void pc_machine_get_max_ram_below_4g(Object *obj, Visitor *v,
->                                              const char *name, void *opaq=
-ue,
->                                              Error **errp)
-> @@ -1621,6 +1639,8 @@ static void pc_machine_initfn(Object *obj)
->      pcms->vmport =3D ON_OFF_AUTO_OFF;
->  #endif /* CONFIG_VMPORT */
->      pcms->max_ram_below_4g =3D 0; /* use default */
-> +    pcms->smbios_ep =3D SMBIOS_ENTRY_POINT_TYPE_2_1;
-> +
->      /* acpi build is enabled by default if machine supports it */
->      pcms->acpi_build_enabled =3D PC_MACHINE_GET_CLASS(pcms)->has_acpi_bu=
-ild;
->      pcms->smbus_enabled =3D true;
-> @@ -1759,6 +1779,12 @@ static void pc_machine_class_init(ObjectClass *oc,=
- void *data)
->          NULL, NULL);
->      object_class_property_set_description(oc, PC_MACHINE_MAX_FW_SIZE,
->          "Maximum combined firmware size");
-> +
-> +    object_class_property_add(oc, PC_MACHINE_SMBIOS_EP, "str",
-> +        pc_machine_get_smbios_ep, pc_machine_set_smbios_ep,
-> +        NULL, NULL);
-> +    object_class_property_set_description(oc, PC_MACHINE_SMBIOS_EP,
-> +        "SMBIOS Entry Point version [v2_1, v3_0]");
->  }
-> =20
->  static const TypeInfo pc_machine_info =3D {
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 08b82df4d1..30ae7f27af 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -179,7 +179,7 @@ static void pc_init1(MachineState *machine,
->          smbios_set_defaults("QEMU", "Standard PC (i440FX + PIIX, 1996)",
->                              mc->name, pcmc->smbios_legacy_mode,
->                              pcmc->smbios_uuid_encoded,
-> -                            SMBIOS_ENTRY_POINT_TYPE_2_1);
-> +                            pcms->smbios_ep);
->      }
-> =20
->      /* allocate ram and load rom/bios */
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index f71b1e2dcf..9974426806 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -198,7 +198,7 @@ static void pc_q35_init(MachineState *machine)
->          smbios_set_defaults("QEMU", "Standard PC (Q35 + ICH9, 2009)",
->                              mc->name, pcmc->smbios_legacy_mode,
->                              pcmc->smbios_uuid_encoded,
-> -                            SMBIOS_ENTRY_POINT_TYPE_2_1);
-> +                            pcms->smbios_ep);
->      }
-> =20
->      /* allocate ram and load rom/bios */
+For example using it with CPU look at pc_compat_3_1
+
+> 
+> >> >  
+> >> > +    if (x86ms->hyperv_enabled) {
+> >> > +        feat = x86mc->default_hyperv_features;
+> >> > +        /* Enlightened VMCS is only available on Intel/VMX */
+> >> > +        if (!cpu_has_vmx(&cpu->env)) {
+> >> > +            feat &= ~BIT(HYPERV_FEAT_EVMCS);
+> >> > +        }
+> >> > +
+> >> > +        cpu->hyperv_features |= feat;  
+> > that will ignore features user explicitly doesn't want,
+> > ex:
+> >  -machine hyperv=on -cpu foo,hv-foo=off
+> >  
+> 
+> Existing 'hv_passthrough' mode can also affect the result. Personally, I
+> don't see where 'hv-foo=off' is needed outside of debugging and these
+> use-cases can probably be covered by explicitly listing required
+> features but I'm not against making this work, shouldn't be hard.
+there is a lot of way to implement something, in this case point is to
+keep it consistent with the way we handle cpu features/properties.
+And not to make up new semantics unless there is no other way.
+
+> > not sure we would like to introduce such invariant,
+> > in normal qom property handling the latest set property should have effect
+> > (all other invariants we have in x86 cpu property semantics are comming from legacy handling
+> > and I plan to deprecate them (it will affect x86 and sparc cpus) so CPUs will behave like
+> > any other QOM object when it come to property handling)
+> >  
+> > anyways it's confusing a bit to have cpu flags to come from 2 different places
+> >
+> > -cpu hyperv-use-preset=on,hv-foo=off
+> >
+> > looks less confusing and will heave expected effect
+> >  
+> 
+> Honestly, 'hyperv-use-preset' is confusing even to me :-)
+that was just an example
+
+> 
+> What if we for a second stop thinking about Hyper-V features being CPU
+> features only, e.g. if we want to create Dynamic Memory or PTP or any
+> other Hyper-V specific device in a simple way? We'll have to put these
+> under machine type.
+ideally it would be a property of device that implements the feature
+and machine might enable it depending on its own properties defaults,
+but if you change the default behavior of the device model, you do
+it in device model and use compat properties infrastructure to keep
+old machine types happy.
+
+> 
 
 
