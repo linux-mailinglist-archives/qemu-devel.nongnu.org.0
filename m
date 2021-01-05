@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334402EB105
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:08:13 +0100 (CET)
-Received: from localhost ([::1]:36532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9180A2EB10A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:09:45 +0100 (CET)
+Received: from localhost ([::1]:45112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwpoZ-0006Kl-UL
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:08:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41910)
+	id 1kwpq4-0001vh-Jb
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:09:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kwpc8-00016f-QA
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:55:24 -0500
+ id 1kwpcS-0001Ga-Pa
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:55:43 -0500
 Received: from mga11.intel.com ([192.55.52.93]:21242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kwpc3-00012E-Bg
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:55:20 -0500
-IronPort-SDR: FTddpgbaXCsnlo1O3QlvkmfWr3rZuA+D3u2tOPQAIu+1K91LDDCePMgn130zpyRiWA/ZxOrmuh
- Kixq76Bg9CUw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9855"; a="173629571"
-X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="173629571"
+ id 1kwpcL-00012E-Rv
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:55:40 -0500
+IronPort-SDR: iDnY5euDzfb2TdkB4sVao25mRE0XEGbg9tfd6gCKV2A2sn1O5lsEIPysltKLG3yTTAiwFvf8Mw
+ pQ/rI656xwUw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9855"; a="173629575"
+X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="173629575"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  05 Jan 2021 08:54:05 -0800
-IronPort-SDR: i0NwePPMUZmUmyMrOd/06thRucyCPaLKFduDqhh82eL2XrPaksI7x6Xp5gqGzi/jH/1/vWuVCb
- ISNro/AHe/Hw==
-X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="346338072"
+IronPort-SDR: XmmizUBilqklKTm4K3sxvMb5ASnqAtyEUCY1h/O1l9Yty+kzyd+CLq24Krq0P38as+/71VpX/g
+ XA9ZoypPAe3Q==
+X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="346338076"
 Received: from tgeddam-mobl.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
  ([10.252.140.57])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2021 08:54:04 -0800
+ 05 Jan 2021 08:54:05 -0800
 From: Ben Widawsky <ben.widawsky@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 25/32] hw/cxl/device: Implement MMIO HDM decoding
- (8.2.5.12)
-Date: Tue,  5 Jan 2021 08:53:16 -0800
-Message-Id: <20210105165323.783725-26-ben.widawsky@intel.com>
+Subject: [RFC PATCH v2 26/32] acpi/cxl: Add _OSC implementation (9.14.2)
+Date: Tue,  5 Jan 2021 08:53:17 -0800
+Message-Id: <20210105165323.783725-27-ben.widawsky@intel.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210105165323.783725-1-ben.widawsky@intel.com>
 References: <20210105165323.783725-1-ben.widawsky@intel.com>
@@ -73,153 +72,229 @@ Cc: Thomas Huth <thuth@redhat.com>, Ben Widawsky <ben.widawsky@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A device's volatile and persistent memory are known Host Defined Memory
-(HDM) regions. The mechanism by which the device is programmed to claim
-the addresses associated with those regions is through dedicated logic
-known as the HDM decoder. In order to allow the OS to properly program
-the HDMs, the HDM decoders must be modeled.
+CXL 2.0 specification adds 2 new dwords to the existing _OSC definition
+from PCIe. The new dwords are accessed with a new uuid. This
+implementation supports what is in the specification.
 
-There are two ways the HDM decoders can be implemented, the legacy
-mechanism is through the PCIe DVSEC programming from CXL 1.1 (8.1.3.8),
-and MMIO is found in 8.2.5.12 of the spec. For now, 8.1.3.8 is not
-implemented.
-
-Much of CXL device logic is implemented in cxl-utils. The HDM decoder
-however is implemented directly by the device implementation. The
-generic cxl-utils probably should be the correct place to put this since
-HDM decoders aren't unique to a type3 device. It is however easier at
-the moment, and requires less design consideration to simply implement
-it in the device, and figure out how to consolidate it later.
+We are currently in the process of trying to define a new definition for
+_OSC. See later work for an explanation.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 ---
- hw/mem/cxl_type3.c | 82 +++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 77 insertions(+), 5 deletions(-)
+ hw/acpi/Kconfig       |   5 ++
+ hw/acpi/cxl.c         | 104 ++++++++++++++++++++++++++++++++++++++++++
+ hw/acpi/meson.build   |   1 +
+ hw/i386/acpi-build.c  |  12 ++++-
+ include/hw/acpi/cxl.h |  23 ++++++++++
+ 5 files changed, 144 insertions(+), 1 deletion(-)
+ create mode 100644 hw/acpi/cxl.c
+ create mode 100644 include/hw/acpi/cxl.h
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 3985bb8d0b..dee5a8884b 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -57,6 +57,71 @@ static void build_dvsecs(CXLType3Dev *ct3d)
-                                REG_LOC_DVSEC_REVID, dvsec);
- }
+diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
+index 1932f66af8..b27907953e 100644
+--- a/hw/acpi/Kconfig
++++ b/hw/acpi/Kconfig
+@@ -5,6 +5,7 @@ config ACPI_X86
+     bool
+     select ACPI
+     select ACPI_NVDIMM
++    select ACPI_CXL
+     select ACPI_CPU_HOTPLUG
+     select ACPI_MEMORY_HOTPLUG
+     select ACPI_HMAT
+@@ -42,3 +43,7 @@ config ACPI_VMGENID
+     depends on PC
  
-+static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
+ config ACPI_HW_REDUCED
++
++config ACPI_CXL
++    bool
++    depends on ACPI
+diff --git a/hw/acpi/cxl.c b/hw/acpi/cxl.c
+new file mode 100644
+index 0000000000..7124d5a1a3
+--- /dev/null
++++ b/hw/acpi/cxl.c
+@@ -0,0 +1,104 @@
++/*
++ * CXL ACPI Implementation
++ *
++ * Copyright(C) 2020 Intel Corporation.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>
++ */
++
++#include "qemu/osdep.h"
++#include "hw/cxl/cxl.h"
++#include "hw/acpi/acpi.h"
++#include "hw/acpi/aml-build.h"
++#include "hw/acpi/bios-linker-loader.h"
++#include "hw/acpi/cxl.h"
++#include "qapi/error.h"
++#include "qemu/uuid.h"
++
++static Aml *__build_cxl_osc_method(void)
 +{
-+    MemoryRegion *pmem = ct3d->cxl_dstate.pmem;
-+    MemoryRegion *mr = host_memory_backend_get_memory(ct3d->hostmem);
-+    Range window, device;
-+    ComponentRegisters *cregs = &ct3d->cxl_cstate.crb;
-+    uint32_t *cache_mem = cregs->cache_mem_registers;
-+    uint64_t offset, size;
-+    Error *err = NULL;
++    Aml *method, *if_uuid, *else_uuid, *if_arg1_not_1, *if_cxl, *if_caps_masked;
++    Aml *a_ctrl = aml_local(0);
++    Aml *a_cdw1 = aml_name("CDW1");
 +
-+    assert(which == 0);
++    method = aml_method("_OSC", 4, AML_NOTSERIALIZED);
++    aml_append(method, aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
 +
-+    ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMIT, 0);
-+    ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, ERROR, 0);
++    /* 9.14.2.1.4 */
++    if_uuid = aml_if(
++        aml_lor(aml_equal(aml_arg(0),
++                          aml_touuid("33DB4D5B-1FF7-401C-9657-7441C03DD766")),
++                aml_equal(aml_arg(0),
++                          aml_touuid("68F2D50B-C469-4D8A-BD3D-941A103FD3FC"))));
++    aml_append(if_uuid, aml_create_dword_field(aml_arg(3), aml_int(4), "CDW2"));
++    aml_append(if_uuid, aml_create_dword_field(aml_arg(3), aml_int(8), "CDW3"));
 +
-+    offset = ((uint64_t)cache_mem[R_CXL_HDM_DECODER0_BASE_HI] << 32) |
-+             cache_mem[R_CXL_HDM_DECODER0_BASE_LO];
-+    size = ((uint64_t)cache_mem[R_CXL_HDM_DECODER0_SIZE_HI] << 32) |
-+           cache_mem[R_CXL_HDM_DECODER0_SIZE_LO];
++    aml_append(if_uuid, aml_store(aml_name("CDW3"), a_ctrl));
 +
-+    range_init_nofail(&window, mr->addr, memory_region_size(mr));
-+    range_init_nofail(&device, offset, size);
++    /* This is all the same as what's used for PCIe */
++    aml_append(if_uuid,
++               aml_and(aml_name("CTRL"), aml_int(0x1F), aml_name("CTRL")));
 +
-+    if (!range_contains_range(&window, &device)) {
-+        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, ERROR, 1);
-+        return;
-+    }
++    if_arg1_not_1 = aml_if(aml_lnot(aml_equal(aml_arg(1), aml_int(0x1))));
++    /* Unknown revision */
++    aml_append(if_arg1_not_1, aml_or(a_cdw1, aml_int(0x08), a_cdw1));
++    aml_append(if_uuid, if_arg1_not_1);
 +
-+    memory_region_ram_resize(pmem, size, &err);
-+    if (err) {
-+        ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, ERROR, 1);
-+        return;
-+    }
++    if_caps_masked = aml_if(aml_lnot(aml_equal(aml_name("CDW3"), a_ctrl)));
++    /* Capability bits were masked */
++    aml_append(if_caps_masked, aml_or(a_cdw1, aml_int(0x10), a_cdw1));
++    aml_append(if_uuid, if_caps_masked);
 +
-+    offset -= mr->addr;
-+    memory_region_add_subregion(mr, offset, pmem);
++    aml_append(if_uuid, aml_store(aml_name("CDW2"), aml_name("SUPP")));
++    aml_append(if_uuid, aml_store(aml_name("CDW3"), aml_name("CTRL")));
 +
-+    ARRAY_FIELD_DP32(cache_mem, CXL_HDM_DECODER0_CTRL, COMMITTED, 1);
++    if_cxl = aml_if(aml_equal(
++        aml_arg(0), aml_touuid("68F2D50B-C469-4D8A-BD3D-941A103FD3FC")));
++    /* CXL support field */
++    aml_append(if_cxl, aml_create_dword_field(aml_arg(3), aml_int(12), "CDW4"));
++    /* CXL capabilities */
++    aml_append(if_cxl, aml_create_dword_field(aml_arg(3), aml_int(16), "CDW5"));
++    aml_append(if_cxl, aml_store(aml_name("CDW4"), aml_name("SUPC")));
++    aml_append(if_cxl, aml_store(aml_name("CDW5"), aml_name("CTRC")));
++
++    /* CXL 2.0 Port/Device Register access */
++    aml_append(if_cxl,
++               aml_or(aml_name("CDW5"), aml_int(0x1), aml_name("CDW5")));
++    aml_append(if_uuid, if_cxl);
++
++    /* Update DWORD3 (the return value) */
++    aml_append(if_uuid, aml_store(a_ctrl, aml_name("CDW3")));
++
++    aml_append(if_uuid, aml_return(aml_arg(3)));
++    aml_append(method, if_uuid);
++
++    else_uuid = aml_else();
++
++    /* unrecognized uuid */
++    aml_append(else_uuid,
++               aml_or(aml_name("CDW1"), aml_int(0x4), aml_name("CDW1")));
++    aml_append(else_uuid, aml_return(aml_arg(3)));
++    aml_append(method, else_uuid);
++
++    return method;
 +}
 +
-+static void ct3d_reg_write(void *opaque, hwaddr offset, uint64_t value, unsigned size)
++void build_cxl_osc_method(Aml *dev)
 +{
-+    CXLComponentState *cxl_cstate = opaque;
-+    ComponentRegisters *cregs = &cxl_cstate->crb;
-+    CXLType3Dev *ct3d = container_of(cxl_cstate, CXLType3Dev, cxl_cstate);
-+    uint32_t *cache_mem = cregs->cache_mem_registers;
-+    bool should_commit = false;
-+    int which_hdm = -1;
-+
-+    assert(size == 4);
-+
-+    switch (offset) {
-+    case A_CXL_HDM_DECODER0_CTRL:
-+        should_commit = FIELD_EX32(value, CXL_HDM_DECODER0_CTRL, COMMIT);
-+        which_hdm = 0;
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    stl_le_p((uint8_t *)cache_mem + offset, value);
-+    if (should_commit)
-+        hdm_decoder_commit(ct3d, which_hdm);
++    aml_append(dev, aml_name_decl("SUPP", aml_int(0)));
++    aml_append(dev, aml_name_decl("CTRL", aml_int(0)));
++    aml_append(dev, aml_name_decl("SUPC", aml_int(0)));
++    aml_append(dev, aml_name_decl("CTRC", aml_int(0)));
++    aml_append(dev, __build_cxl_osc_method());
 +}
+diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+index dd69577212..9f5c5ced28 100644
+--- a/hw/acpi/meson.build
++++ b/hw/acpi/meson.build
+@@ -10,6 +10,7 @@ acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu_hotplug.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_MEMORY_HOTPLUG', if_true: files('memory_hotplug.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_true: files('nvdimm.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_PCI', if_true: files('pci.c'))
++acpi_ss.add(when: 'CONFIG_ACPI_CXL', if_true: files('cxl.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_VMGENID', if_true: files('vmgenid.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
+ acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 16cde677a0..3eb07b9741 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -66,6 +66,7 @@
+ #include "hw/acpi/aml-build.h"
+ #include "hw/acpi/utils.h"
+ #include "hw/acpi/pci.h"
++#include "hw/acpi/cxl.h"
+ 
+ #include "qom/qom-qobject.h"
+ #include "hw/i386/amd_iommu.h"
+@@ -1201,11 +1202,20 @@ static void init_pci_acpi(Aml *dev, int uid, int type)
+     if (type == PCI) {
+         aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+         aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
+-    } else {
++    } else if (type == PCIE) {
+         aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+         aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+         aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
+         aml_append(dev, build_q35_osc_method());
++    } else /* CXL */ {
++        struct Aml *pkg = aml_package(2);
 +
- static void ct3_instance_init(Object *obj)
- {
-     /* MemoryDeviceClass *mdc = MEMORY_DEVICE_GET_CLASS(obj); */
-@@ -65,7 +130,10 @@ static void ct3_instance_init(Object *obj)
- static void ct3_finalize(Object *obj)
- {
-     CXLType3Dev *ct3d = CT3(obj);
-+    CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
-+    ComponentRegisters *regs = &cxl_cstate->crb;
- 
-+    g_free((void *)regs->special_ops);
-     g_free(ct3d->cxl_dstate.pmem);
- }
- 
-@@ -81,11 +149,12 @@ static void cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
-         return;
++        aml_append(dev, aml_name_decl("_HID", aml_string("ACPI0016")));
++        aml_append(pkg, aml_eisaid("PNP0A08"));
++        aml_append(pkg, aml_eisaid("PNP0A03"));
++        aml_append(dev, aml_name_decl("_CID", pkg));
++        aml_append(dev, aml_name_decl("_UID", aml_int(uid)));
++        build_cxl_osc_method(dev);
      }
+ }
  
--    /* FIXME: need to check mr is the host bridge's MR */
--    mr = host_memory_backend_get_memory(ct3d->hostmem);
--
-     /* Create our new subregion */
-     ct3d->cxl_dstate.pmem = g_new(MemoryRegion, 1);
-+    memory_region_set_nonvolatile(ct3d->cxl_dstate.pmem, true);
+diff --git a/include/hw/acpi/cxl.h b/include/hw/acpi/cxl.h
+new file mode 100644
+index 0000000000..7b8f3b8a2e
+--- /dev/null
++++ b/include/hw/acpi/cxl.h
+@@ -0,0 +1,23 @@
++/*
++ * Copyright (C) 2020 Intel Corporation
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
 +
-+    /* FIXME: need to check mr is the host bridge's MR */
-+    mr = host_memory_backend_get_memory(ct3d->hostmem);
- 
-     /* Find the first free space in the window */
-     WITH_RCU_READ_LOCK_GUARD()
-@@ -108,8 +177,6 @@ static void cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
-     /* Register our subregion as non-volatile */
-     memory_region_init_ram(ct3d->cxl_dstate.pmem, OBJECT(ct3d),
-                            "cxl_type3-memory", ct3d->size, errp);
--    memory_region_set_nonvolatile(ct3d->cxl_dstate.pmem, true);
--
- #ifdef SET_PMEM_PADDR
-     memory_region_add_subregion(mr, offset, ct3d->cxl_dstate.pmem);
- #endif
-@@ -148,6 +215,11 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-     ct3d->cxl_cstate.pdev = pci_dev;
-     build_dvsecs(ct3d);
- 
-+#ifndef SET_PMEM_PADDR
-+    regs->special_ops = g_new0(MemoryRegionOps, 1);
-+    regs->special_ops->write = ct3d_reg_write;
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef HW_ACPI_CXL_H
++#define HW_ACPI_CXL_H
++
++void build_cxl_osc_method(Aml *dev);
++
 +#endif
-+
-     cxl_component_register_block_init(OBJECT(pci_dev), cxl_cstate,
-                                       TYPE_CXL_TYPE3_DEV);
- 
 -- 
 2.30.0
 
