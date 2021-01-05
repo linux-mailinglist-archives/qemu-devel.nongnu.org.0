@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3862EB4BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 22:13:52 +0100 (CET)
-Received: from localhost ([::1]:46080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6245C2EB4C0
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 22:15:09 +0100 (CET)
+Received: from localhost ([::1]:48430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwteJ-0005o0-F5
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 16:13:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51832)
+	id 1kwtfY-0006pd-FB
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 16:15:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kwtdJ-00057q-EE; Tue, 05 Jan 2021 16:12:49 -0500
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:37334)
+ id 1kwtel-0006Kp-VA; Tue, 05 Jan 2021 16:14:20 -0500
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:42155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kwtdH-0005vM-QO; Tue, 05 Jan 2021 16:12:49 -0500
-Received: by mail-il1-x132.google.com with SMTP id k8so1070622ilr.4;
- Tue, 05 Jan 2021 13:12:46 -0800 (PST)
+ id 1kwtej-0006Lu-Cz; Tue, 05 Jan 2021 16:14:19 -0500
+Received: by mail-io1-xd2f.google.com with SMTP id q137so687282iod.9;
+ Tue, 05 Jan 2021 13:14:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CJzM8vGuJJ7uphomVoIK3FvyeywCzrMEff/uX/RUGhQ=;
- b=nQoLdb9HSjZeeEmET9F+xZE56nPZqliJIuRKKXgFOdKhGagTfNZ0qEN+AtOWa48GzE
- T7c+xuq6FfNPxyJ1WeonzqRCIJDY9Qiwjb9aV11C5bY8YM1ALCb95amsyED28LAt8rjY
- FxHQ66FEzKu2fmhEb2g8LhFyx+pTSJf6U1JJUAebc+mv+0h4fSmk4bX4N9WBi0NJKgGJ
- 2SJjVBosLF1XejAKXA9oNPTf6Jhx1V9vPyOA5dY/MvRuak1igQbxBLlWTh12qs3UkFnK
- o56Wdsv6WEJi7td88Ym4aAzwpmqgieiSe2ZK5p1tDVH4SHLflCmWoIMpqv3Kmf/ntBa6
- o44w==
+ :cc:content-transfer-encoding;
+ bh=u8bkEcY9B5zzzhLfsnMK2fEzrzmbzsGtE4FqWt5aNoU=;
+ b=unE+eRnJNp3LNmBfhxnb5DPIXBPBfuJqyoHVJlyZeBoWS704y/llHmEsboa8Ii/Nlh
+ Rq++4+NzcMpTyWnLl0o+kFeRpzdY88zR2tCOQ2CnEkncyK9tXitAx0tnWV9P6XFy6wLb
+ Ue0fAfoHq9jtObA5e1XZ1WWP3zeAL0utUkSSzTVryTBFKqGC7fEk+cuo0ocpKsYRe2vJ
+ /MVe+s/dXP+0Qn+jbSe43+4cXV+AZhbNYP3CxI5KeK2KPEclsVH562NOjJyjxIOy1vyS
+ +LqfJ7J9MkamKpb4h/B/+MUY6wJGlI+ghU2dfq2gP+kAngsAujc5XIS1ONjS3It3wZ49
+ lyWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CJzM8vGuJJ7uphomVoIK3FvyeywCzrMEff/uX/RUGhQ=;
- b=Wn0nZBS1ExFgINeFwwdUZKgLX9S4916cD/zwGCEt2PBf2bLXegft5qaMf8rHPmcOsh
- a8kVPaKEZpmo1ArsKDvebwTCmXCSmXjPPc9UPvfmheM2iwPBQT4H1pd3cwT3IkNYJRDg
- KjrO+O5tOImah8s4DnIAcOZYh/2RTift1uGFlZi+wJiOkZLXo+Qsnbs+1bGEAbpHLU5Y
- BQELvfihQYOG0QHWsVjdvI6i2v4g/t+f+Y3VNYkUwkly1FGxSaTHBmKGtQtNgaM686d8
- qTWKt4KMUSvoilqzsoRK8Hf90ZNN3RImqfnXHd+TPFCgbA/E0RyFWtjC4pxY8gvYtrf8
- vLxg==
-X-Gm-Message-State: AOAM531h8fUSgZ9QEqccm/7gM1KTVlILtIB6KzL4iseIssNz7TC2vVSg
- Pu0m0arV89dmQdX0JPKoQmDh8f5IfgoWkNV9bouCGVasp0Q=
-X-Google-Smtp-Source: ABdhPJyV//J91oUbSy46/5/647p/q40XVfqntZEWZZNiqAeoBgj1nhnyYGvhL38IHUi/i9ofPpYBbf9Wo34Aq1er4CM=
-X-Received: by 2002:a05:6e02:ca5:: with SMTP id 5mr1471370ilg.40.1609881166022; 
- Tue, 05 Jan 2021 13:12:46 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=u8bkEcY9B5zzzhLfsnMK2fEzrzmbzsGtE4FqWt5aNoU=;
+ b=YwXAY8tv+wQUpIbJLA3rVNWZafEz+YleYYKZFRIyz1/2Uy+c5lzDdLClSiqzcd85n7
+ f8WZEoFWn+KNfgn/32zI5xx71nZ8qCGnTRhs+l9vH5AEuWFot28Tz0UJGBLM7OKfewVP
+ xPizjaQVj3zmH96ilafgb4UQXDjLQgVRb9ZfpDQhxDjy8EXzgf1WIFG0Y4lyyKdAw84K
+ yhrx3xwt8ekvEmU0u28u3LD6zPGB/CJs1WkYOcioI75XZo01J9KarZrSaUHbm6BbopBD
+ jqtEM8JoYytndOjaS8E76Ftnkd8b7Uy8krnv/1Gqe0qALZWsURsoEDNWqQAXmpc8CdVW
+ I3dw==
+X-Gm-Message-State: AOAM530X2RcZyYDNSXE+wfWWkMNAG8chJ9yqBfWikCLTt+wQCGY9qXy0
+ XH3u5qZABLJv1QWtLrL3maHYdbOKlvI/4tsD9Xk=
+X-Google-Smtp-Source: ABdhPJzyucAK3OVTN5A0rZ4pg5/R/Upe36eX3vqVi2vmsCytj7u3kdzIP92slyjgnJS7FQjpBfrtCz14Y0bH9OlMnYM=
+X-Received: by 2002:a5e:9242:: with SMTP id z2mr746654iop.175.1609881255612;
+ Tue, 05 Jan 2021 13:14:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20201202144523.24526-1-bmeng.cn@gmail.com>
- <CAEUhbmUtCvXCKoQGU9b6+UX1juChVfHkugODjo2psBnRw+7NTw@mail.gmail.com>
- <CAKmqyKPy-V77t-COOb2Vp5DasfduC49Uy51EcCfSRos+M-JkKw@mail.gmail.com>
-In-Reply-To: <CAKmqyKPy-V77t-COOb2Vp5DasfduC49Uy51EcCfSRos+M-JkKw@mail.gmail.com>
+References: <1608688825-81519-1-git-send-email-bmeng.cn@gmail.com>
+ <CAEUhbmVU=f_tfJFMcCErnY+qS00QLoKVGcezoVc-WoaTtB1eBQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmVU=f_tfJFMcCErnY+qS00QLoKVGcezoVc-WoaTtB1eBQ@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 5 Jan 2021 13:12:19 -0800
-Message-ID: <CAKmqyKPGpNvvhvsZ_vUrjasj_sjy+yHP0n5VdkNnBpv3CfbwRw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] hw/ssi: imx_spi: Use a macro for number of chip
- selects supported
+Date: Tue, 5 Jan 2021 13:13:49 -0800
+Message-ID: <CAKmqyKMT83hV=DpFkZGRNTZMGnOMUHc+=px3omJWDb+BhFB-0w@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] hw/block: m25p80: Don't write to flash if write is
+ disabled
 To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -78,54 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Qemu-block <qemu-block@nongnu.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Alistair Francis <alistair.francis@wdc.com>
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 5, 2021 at 1:08 PM Alistair Francis <alistair23@gmail.com> wrote:
+On Mon, Jan 4, 2021 at 7:50 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> On Wed, Dec 16, 2020 at 2:25 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> On Wed, Dec 23, 2020 at 10:00 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 > >
-> > Hi Alistair, Peter,
+> > From: Bin Meng <bin.meng@windriver.com>
 > >
-> > On Wed, Dec 2, 2020 at 10:45 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >
-> > > From: Bin Meng <bin.meng@windriver.com>
-> > >
-> > > Avoid using a magic number (4) everywhere for the number of chip
-> > > selects supported.
-> > >
-> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > > ---
-> > >
-> > > (no changes since v1)
-> > >
-> > >  hw/ssi/imx_spi.c         | 4 ++--
-> > >  include/hw/ssi/imx_spi.h | 5 ++++-
-> > >  2 files changed, 6 insertions(+), 3 deletions(-)
-> > >
+> > When write is disabled, the write to flash should be avoided
+> > in flash_write8().
 > >
-> > Ping, not sure who is going to pick up this series?
+> > Fixes: 82a2499011a7 ("m25p80: Initial implementation of SPI flash devic=
+e")
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+> >
+> > ---
+> >
+> > (no changes since v2)
+> >
+> > Changes in v2:
+> > - new patch: honor write enable flag in flash write
+> >
+> >  hw/block/m25p80.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
 >
-> It should be reviewed by Jean-Christophe and then probably go via the ARM tree.
+> Ping?
 
-Ah, I just realised I apparently have `hw/ssi/*` listed in
-MAINTAINERS. As this file is specifically mentioned somewhere else in
-MAINTAINERS and I know very little about IMX I'm going to leave this
-alone still.
+Thanks!
+
+Applied to riscv-to-apply.next
 
 Alistair
 
 >
-> Alistair
->
-> >
-> > Regards,
-> > Bin
-> >
 
