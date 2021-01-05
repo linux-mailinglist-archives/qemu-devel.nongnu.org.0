@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4672EAFF0
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:23:02 +0100 (CET)
-Received: from localhost ([::1]:47178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDEEB2EAFCD
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:13:33 +0100 (CET)
+Received: from localhost ([::1]:46642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwp6r-0005fE-Qf
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:23:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52688)
+	id 1kwoxg-0001YZ-WF
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:13:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwotd-00044Q-PM
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:22 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:50686)
+ id 1kwote-00044r-Ek
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:23 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:34610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwotb-00042g-W4
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:21 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FthBi138091;
- Tue, 5 Jan 2021 16:09:15 GMT
+ id 1kwotc-00043s-ET
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:22 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FssIm094377;
+ Tue, 5 Jan 2021 16:09:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=q/vz0IewlY4mi+tBEmho5coXQntgOjzIgUaKOiSWXpc=;
- b=psZJ8BRlbCCe1HuJ5+6IWHxfKBHhgfiPDIIKrHC5G6Ziy+a1btOgS5ZKYfs+CDvkCxSV
- 0FxE6NIrhvnHQUTArnaY7+lvnMJBfx1yjHee+u+X4lBdh+KdsL1mztwRpJHTtLL8qCIO
- EwIXYjIBk1dqzjCQ3q/xoil9jQE9q/StoLWOM6SrXPCpzaYGcoxr8p1+oFdrK8zH6p7K
- brBBADVE9Duju+Z8s4TkkKMSbl1escuXdMrtEER/Hndm64cOzqP/snvqfqhtd1GYWkAw
- X0VMYKGrw4GKjOV86SG+VfjgDSKUo24CmQPmmV3ojae8NQJZfVzFKq572Gfh9WkL5gSO TQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 35tg8r1h03-1
+ bh=JQJnPEZDvQ1M9ymRyKSvIWA8GKzZCqefysF6L/x0eic=;
+ b=TGWV1+rRrtBVfnX4jfTLtosgs4rkvKk5MrdaxtZXf6sBQLFULqKS0r5SflWyXNXyFtaz
+ KJ7HFA3CBlLc1hd17jCtQ9kZpLFf9e/ikmjNJxJk1rsmc07ZTyIhXMJFXvndk8/2e4Fn
+ mtIOvUoenSyu4UDTjaGzfysBSwQx5JyeWYq/z8fNTpFVzB8UsoDHrFx4cW9SM9BaOYyq
+ lGMEIAxpguvtVIGToOKQNPgdx67E2SZyA4M9D9JobADgiQmNoraqByW44BgXpWrK7LE8
+ 8KN1JHjE/Mbq5uvs8JLurYyhmU81iJeVHOrv9lu78FePvFiDZBSgWDKKNULj9p/Poe0g qA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2130.oracle.com with ESMTP id 35tebasjvx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 05 Jan 2021 16:09:15 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FtKBK175799;
- Tue, 5 Jan 2021 16:09:14 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 35vct61vtw-1
+ Tue, 05 Jan 2021 16:09:16 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FuNl6029067;
+ Tue, 5 Jan 2021 16:09:15 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 35uxnsvb7y-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 05 Jan 2021 16:09:14 +0000
+ Tue, 05 Jan 2021 16:09:15 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 105G9DXe018402;
- Tue, 5 Jan 2021 16:09:13 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 105G9EL6003485;
+ Tue, 5 Jan 2021 16:09:14 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
  with ESMTP ; Tue, 05 Jan 2021 08:09:13 -0800
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V2 16/22] chardev: cpr for pty
-Date: Tue,  5 Jan 2021 07:42:04 -0800
-Message-Id: <1609861330-129855-17-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V2 17/22] chardev: socket accept subroutine
+Date: Tue,  5 Jan 2021 07:42:05 -0800
+Message-Id: <1609861330-129855-18-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 References: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101050099
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
- phishscore=0 bulkscore=0
- spamscore=0 impostorscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
- mlxscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
+ phishscore=0 spamscore=0
+ malwarescore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2101050099
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ phishscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1015 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101050099
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2130.oracle.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -107,71 +107,84 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Save and restore pty descriptors across cprsave and cprload.
+Factor out the post-accept actions into a subroutine that can be used in a
+subsequent patch.  No functional change.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- chardev/char-pty.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ io/channel-socket.c | 43 ++++++++++++++++++++++++-------------------
+ 1 file changed, 24 insertions(+), 19 deletions(-)
 
-diff --git a/chardev/char-pty.c b/chardev/char-pty.c
-index 1cc501a..0916f9e 100644
---- a/chardev/char-pty.c
-+++ b/chardev/char-pty.c
-@@ -30,6 +30,7 @@
- #include "qemu/sockets.h"
- #include "qemu/error-report.h"
- #include "qemu/module.h"
-+#include "qemu/env.h"
- #include "qemu/qemu-print.h"
- 
- #include "chardev/char-io.h"
-@@ -188,12 +189,14 @@ static void char_pty_finalize(Object *obj)
-     Chardev *chr = CHARDEV(obj);
-     PtyChardev *s = PTY_CHARDEV(obj);
- 
-+    unsetenv_fd(chr->label);
-     pty_chr_state(chr, 0);
-     object_unref(OBJECT(s->ioc));
-     pty_chr_timer_cancel(s);
-     qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
+diff --git a/io/channel-socket.c b/io/channel-socket.c
+index e1b4667..de49880 100644
+--- a/io/channel-socket.c
++++ b/io/channel-socket.c
+@@ -349,16 +349,34 @@ void qio_channel_socket_dgram_async(QIOChannelSocket *ioc,
+                            context);
  }
  
-+
- static void char_pty_open(Chardev *chr,
-                           ChardevBackend *backend,
-                           bool *be_opened,
-@@ -204,19 +207,28 @@ static void char_pty_open(Chardev *chr,
-     char pty_name[PATH_MAX];
-     char *name;
- 
-+    master_fd = getenv_fd(chr->label);
-+    if (master_fd >= 0) {
-+        chr->filename = g_strdup_printf("pty:unknown");
-+        goto have_fd;
++static int qio_channel_socket_post_accept(QIOChannelSocket *cioc,
++                                           Error **errp)
++{
++    cioc->localAddrLen = sizeof(cioc->localAddr);
++    if (getsockname(cioc->fd, (struct sockaddr *)&cioc->localAddr,
++                    &cioc->localAddrLen) < 0) {
++        error_setg_errno(errp, errno,
++                         "Unable to query local socket address");
++        return 1;
 +    }
 +
-     master_fd = qemu_openpty_raw(&slave_fd, pty_name);
-     if (master_fd < 0) {
-         error_setg_errno(errp, errno, "Failed to create PTY");
-         return;
++#ifndef WIN32
++    if (cioc->localAddr.ss_family == AF_UNIX) {
++        QIOChannel *ioc_local = QIO_CHANNEL(cioc);
++        qio_channel_set_feature(ioc_local, QIO_CHANNEL_FEATURE_FD_PASS);
++    }
++#endif /* WIN32 */
++
++    return 0;
++}
+ 
+ QIOChannelSocket *
+ qio_channel_socket_accept(QIOChannelSocket *ioc,
+                           Error **errp)
+ {
+-    QIOChannelSocket *cioc;
++    QIOChannelSocket *cioc = qio_channel_socket_new();
+ 
+-    cioc = qio_channel_socket_new();
+     cioc->remoteAddrLen = sizeof(ioc->remoteAddr);
+-    cioc->localAddrLen = sizeof(ioc->localAddr);
+ 
+  retry:
+     trace_qio_channel_socket_accept(ioc);
+@@ -372,24 +390,11 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
+         trace_qio_channel_socket_accept_fail(ioc);
+         goto error;
      }
 -
-+    if (!chr->close_on_cpr) {
-+        setenv_fd(chr->label, master_fd);
-+    }
-     close(slave_fd);
-     qemu_set_nonblock(master_fd);
--
-     chr->filename = g_strdup_printf("pty:%s", pty_name);
-     qemu_printf("char device redirected to %s (label %s)\n",
-                 pty_name, chr->label);
+-    if (getsockname(cioc->fd, (struct sockaddr *)&cioc->localAddr,
+-                    &cioc->localAddrLen) < 0) {
+-        error_setg_errno(errp, errno,
+-                         "Unable to query local socket address");
+-        goto error;
++    if (!qio_channel_socket_post_accept(cioc, errp)) {
++        trace_qio_channel_socket_accept_complete(ioc, cioc, cioc->fd);
++        return cioc;
+     }
  
-+have_fd:
-+    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
-     s = PTY_CHARDEV(chr);
-     s->ioc = QIO_CHANNEL(qio_channel_file_new_fd(master_fd));
-     name = g_strdup_printf("chardev-pty-%s", chr->label);
+-#ifndef WIN32
+-    if (cioc->localAddr.ss_family == AF_UNIX) {
+-        QIOChannel *ioc_local = QIO_CHANNEL(cioc);
+-        qio_channel_set_feature(ioc_local, QIO_CHANNEL_FEATURE_FD_PASS);
+-    }
+-#endif /* WIN32 */
+-
+-    trace_qio_channel_socket_accept_complete(ioc, cioc, cioc->fd);
+-    return cioc;
+-
+  error:
+     object_unref(OBJECT(cioc));
+     return NULL;
 -- 
 1.8.3.1
 
