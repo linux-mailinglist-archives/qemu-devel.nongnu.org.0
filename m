@@ -2,79 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8421C2EB03A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:38:43 +0100 (CET)
-Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F33942EB04D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:40:37 +0100 (CET)
+Received: from localhost ([::1]:54980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwpM2-0003dp-Jo
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:38:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60980)
+	id 1kwpNt-0004dt-1X
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:40:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kwpHf-0007d3-D6
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:34:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35448)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kwpHd-0003d7-BE
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:34:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609864448;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S2gw8mEJSc7DJMJJ12Kk50aiY/R/YH+0OL5guzAknTo=;
- b=RfUldfS5NHKvYslwIM1poVUJ+YEvIOSt7qy7Mo0lEWl5MdG6P/gU/LgOmWkKrdeI4R+bQG
- SBGENI8tTyu/GBPo4o5AKUA5qJqg/PzAjDpWOG1y5bruB3M6rnA2oS0oIBqhoN0P2In5El
- 8NRTEK2OSsUJUXSp13XVFyqWrmYX4eM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-9YGqG3RuMzSh9iwc-PGnBQ-1; Tue, 05 Jan 2021 11:34:05 -0500
-X-MC-Unique: 9YGqG3RuMzSh9iwc-PGnBQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3720100559A
- for <qemu-devel@nongnu.org>; Tue,  5 Jan 2021 16:33:53 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B85D62677;
- Tue,  5 Jan 2021 16:33:51 +0000 (UTC)
-Date: Tue, 5 Jan 2021 17:33:50 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86
- machine types
-Message-ID: <20210105173350.01366101@redhat.com>
-In-Reply-To: <87czyjifmb.fsf@vitty.brq.redhat.com>
-References: <20201119103221.1665171-1-vkuznets@redhat.com>
- <20201119103221.1665171-6-vkuznets@redhat.com>
- <20201216205202.GJ3140057@habkost.net>
- <20201218181340.5e398280@redhat.com>
- <87r1n0j20n.fsf@vitty.brq.redhat.com>
- <20210104182906.GD18467@habkost.net>
- <20210105003650.71f39045@redhat.com>
- <20210105143431.GL18467@habkost.net>
- <87czyjifmb.fsf@vitty.brq.redhat.com>
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1kwpIm-0000Wa-3B
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:35:20 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:58774)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1kwpIk-00046q-Di
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:35:19 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105GIkxJ036102;
+ Tue, 5 Jan 2021 16:35:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=BculOCjTE3EzHuXSJDxGdkbxdvYEBBsY24JXdzH0GGA=;
+ b=fonZUZBOACTGbYHTQLiUnBKnqKYTESKHaJvICX3PX/koSHOyxPNIRLFxl5sQaga+3WIM
+ h/Fz9mJ2D8hZ3pqW298cmNfYe991rzuVQkMmeD56WF+6rG3OquB1zuC1/KwkNXa9R5X0
+ KHDIxAVZHX0uiDsBmlXR/5oKezZ41FnMtIukbx1KhFHbp4DlwhV46QA0+3kGKQEUxbc3
+ ryC5EhScX/MhpXSlz0u9UL7NWIu0cUaapqAN/HJr0hMgQA+QTVazdRvAA7Xcg8XQhw4+
+ GG/nzPoAS5GAFK8/sHl8oSy/G/H/FIqJA8771uL5TVRtk7w9QJ2Iook12UDS06Sg/w6d /w== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2130.oracle.com with ESMTP id 35tebaspxs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 05 Jan 2021 16:35:15 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105GKmWQ087116;
+ Tue, 5 Jan 2021 16:35:14 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 35v1f8tn91-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 05 Jan 2021 16:35:14 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 105GZDNA029466;
+ Tue, 5 Jan 2021 16:35:13 GMT
+Received: from [10.39.222.70] (/10.39.222.70)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 05 Jan 2021 16:35:13 +0000
+Subject: Re: [PATCH V2 18/22] chardev: cpr for sockets
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
+ <1609861330-129855-19-git-send-email-steven.sistare@oracle.com>
+ <20210105162243.GG724458@redhat.com>
+From: Steven Sistare <steven.sistare@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <c91f963a-09ea-9fef-3664-527f27e60742@oracle.com>
+Date: Tue, 5 Jan 2021 11:35:10 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+In-Reply-To: <20210105162243.GG724458@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ phishscore=0
+ suspectscore=0 spamscore=0 bulkscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101050100
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ phishscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1015 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101050100
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2130.oracle.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,85 +101,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 05 Jan 2021 16:10:36 +0100
-Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+On 1/5/2021 11:22 AM, Daniel P. Berrangé wrote:
+> On Tue, Jan 05, 2021 at 07:42:06AM -0800, Steve Sistare wrote:
+>> Define qio_channel_socket_reuse to initialize a channel based on an existing
+>> socket fd.  Save accepted socket fds in the environment before cprsave, and
+>> look for fds in the environment after cprload.  Reject cprsave if a socket
+>> enables the TLS or websocket option.
+>>
+>> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+>> ---
+>>  chardev/char-socket.c       | 30 ++++++++++++++++++++++++++++++
+>>  include/io/channel-socket.h | 12 ++++++++++++
+>>  io/channel-socket.c         |  9 +++++++++
+>>  stubs/Makefile.objs         |  1 +
+>>  stubs/cpr.c                 |  3 +++
+>>  5 files changed, 55 insertions(+)
+>>  create mode 100644 stubs/cpr.c
+>>
+> 
+>> diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
+>> index 777ff59..e425a01 100644
+>> --- a/include/io/channel-socket.h
+>> +++ b/include/io/channel-socket.h
+>> @@ -260,5 +260,17 @@ QIOChannelSocket *
+>>  qio_channel_socket_accept(QIOChannelSocket *ioc,
+>>                            Error **errp);
+>>  
+>> +/**
+>> + * qio_channel_socket_reuse:
+>> + * @fd: existing client socket descriptor
+>> + * @errp: pointer to a NULL-initialized error object
+>> + *
+>> + * Construct a client channel using @fd.
+>> + *
+>> + * Returns: the new client channel, or NULL on error
+>> + */
+>> +QIOChannelSocket *
+>> +qio_channel_socket_reuse(int fd,
+>> +                         Error **errp);
+>>  
+>>  #endif /* QIO_CHANNEL_SOCKET_H */
+>> diff --git a/io/channel-socket.c b/io/channel-socket.c
+>> index de49880..07981be 100644
+>> --- a/io/channel-socket.c
+>> +++ b/io/channel-socket.c
+>> @@ -400,6 +400,15 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
+>>      return NULL;
+>>  }
+>>  
+>> +QIOChannelSocket *
+>> +qio_channel_socket_reuse(int fd,
+>> +                         Error **errp)
+>> +{
+>> +    QIOChannelSocket *cioc = qio_channel_socket_new();
+>> +    cioc->fd = fd;
+>> +    return qio_channel_socket_post_accept(cioc, errp) ? 0 : cioc;
+>> +}
+> 
+> Why do we need to add this new API when we already have
+> 
+>  qio_channel_socket_new_fd(int fd, Error **errp)
+> 
+> which accepts a pre-opened socket FD ?
 
-> Eduardo Habkost <ehabkost@redhat.com> writes:
-> 
-> > On Tue, Jan 05, 2021 at 12:36:50AM +0100, Igor Mammedov wrote:  
-> >> 
-> >> documenting is good, but if it adds new semantics to how CPU features are handled
-> >> users up the stack will need code it up as well and juggle with
-> >>  -machine + -cpu + -device cpu-foo
-> >> not to mention poor developers who will have to figure out why we do
-> >> set CPU properties in multiple different ways.
-> >> 
-> >> however if we add it as CPU properties that behave the same way as other
-> >> properties, all mgmt has to do is expose new property to user for usage.  
-> >
-> > I think we need to be careful here.  Sometimes just exposing the
-> > QOM properties used to implemented a feature is not the best user
-> > interface.  e.g.: even if using compat_props for implementing the
-> > hyperv features preset, that doesn't automatically mean we want
-> > hyperv=on to be a -cpu option.
-> >
-> > I would even argue we shouldn't be focusing on implementation
-> > details (like we are doing right now) until the desired external
-> > interface is described clearly.  
-> 
-> I agree, the interface is definitely more important than the
-> implementation here. AFAIU we have two options suggested:
-> 
-> 1) 'hyperv=on' option for x86 machine types.
-> 
-> Pros: we can use it later to create non-CPU Hyper-V devices
-> (e.g. Vmbus).
-> Cons: two different places for the currently existing Hyper-V features
-> enablement (-cpu and -machine), non-standard way of doing things
-> (code-wise).
-> 
-> 2) 'hv_default=on' -cpu option
-> 
-> Pros: Single place to enable all Hyper-V enlightenments, we can make it
-> mutually exclusive with other hv_* options including hv_passthrough
-> (clear semantics).
-> 
-> Cons: This can't be reused to create non-CPU objects in the future and
-> so upper layers will (again) need to be modified.
-> 
-> There's probably more, please feel free to add.
-#1 can be implemented on top of #2, when it becomes necessary.
+That was fast!
+Good call, thanks.  I missed that qio_channel_socket_new_fd calls qio_channel_socket_set_fd and
+the latter performs the necessary post-accept actions.  I will also delete patch 17.
 
-
-> >> however in this case we are talking about a set of cpu features,
-> >> if there is no way to implement it as cpu properties + compat properties
-> >> and requires opencodding it within machine code it might be fine
-> >> but I fail to see a very good reason for doing that at this momment.  
-> >
-> > The reason would be just simplicity of implementation.
-> >
-> > I understand there are reasons to suggest using compat_props if
-> > it makes things simpler, but I don't see why we would reject a
-> > patch because the implementation is not based purely on
-> > compat_props.
-> >
-> > I will let Vitaly to decide how to proceed, based on our
-> > feedback.  I encourage him to use compat_props like you suggest,
-> > but I don't plan to make this a requirement.
-> >  
-> 
-> Like I replied to Igor in a parallel thread, I hardly see how using
-> compat_props can simplify things in case we decide to keep 'hyperv=on' a
-> machine type option. It doesn't seem to fit our use-case when we need a
-> mechanism to alter CPU properties for the current machine type as well
-> as subtract some features for the old ones. If we, however, decide that
-> '-cpu' option is better, then we can try to make it work (but the
-> implementation won't be straitforward either). 
-lets discuss it in that thread.
-
+- Steve
 
