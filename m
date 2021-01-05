@@ -2,67 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4412C2EB3AB
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 20:52:14 +0100 (CET)
-Received: from localhost ([::1]:45568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C872EB399
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 20:47:00 +0100 (CET)
+Received: from localhost ([::1]:38926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwsNJ-00021O-CI
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 14:52:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55140)
+	id 1kwsIF-0007CU-9Z
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 14:46:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kwsMF-0001ZK-Bn
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:51:07 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49416)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kwsM9-0000ZV-KN
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:51:07 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kwsM5-000715-9h
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 19:50:57 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0B5952E813B
- for <qemu-devel@nongnu.org>; Tue,  5 Jan 2021 19:50:57 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kwsFs-0006ek-Ka
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:44:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kwsFq-0006kB-3W
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:44:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609875869;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0vgsQoqvTQUA4WPjEWBVGISbNwt4yTcHvaZ1w1+OuVY=;
+ b=ZVaVVAvwTmS9RRHAEMX6qCVDillcOr4aQ6e5nxE32UbILh0BrbGzFqEmuKGh1/CEh8tBSH
+ 4rnRhQqT14vt1mS6ZC6OnSeI4ypzEI8QqHL10hxItObGeG2gucYSExZFtV59S5ANQR6P0+
+ Th4arXQTOB3tUhqiN4kEWWmshPxhlmI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-514-zMiC1wqHP_q12RWSdbdwVg-1; Tue, 05 Jan 2021 14:44:26 -0500
+X-MC-Unique: zMiC1wqHP_q12RWSdbdwVg-1
+Received: by mail-wm1-f72.google.com with SMTP id b184so69609wmh.6
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 11:44:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0vgsQoqvTQUA4WPjEWBVGISbNwt4yTcHvaZ1w1+OuVY=;
+ b=FsMw9o/bR0ui1mRof1GFZ1UqVjYGD5AaksyT3vjcFGNQ6IIKzlV0stRdmogl2/GFxz
+ Duhf10GyoVr+eA/tr2Z5C6go9U7StxcoaBR8P+ivIVpVmUILvipgz79IjcSPM5VHMRPP
+ kzssF3rdjYeQd3N49rYzIhN/hIAX3P3B5/yYo93BTfYhTv97EtfzyV3MZh1jjrIY4mhf
+ kfokao1gNohz1Hir82kJEfhK8jlJJSWi7f0eha5nBulJUqvBN4vvZMxOAKWJ4gnN/rXB
+ +wVqOcrqiSB0ypOdhHCGGehkgdsutDbGZKMfFd1BUPVz+O7wNQMk+qBiNpyMhDQStM/b
+ s2YQ==
+X-Gm-Message-State: AOAM532hAgcej9vI4IYLuVU7jxDHas1ZgRg6RF6rQGBc4GMB7tWfg+9Z
+ x6hUs3JOEVRfi5kMZatikkuZ4zi8mWMNpQtgb6D4MYpquxai14UazYrRlVLpEo5qLa6io8wkKBZ
+ G1gzFL71SlER9n0I=
+X-Received: by 2002:adf:a29d:: with SMTP id s29mr1062427wra.272.1609875865149; 
+ Tue, 05 Jan 2021 11:44:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxsxtANu100iblEgmlONC87hgri1684NaIYVp45co6KoeBfrKwIixBg9D++HfNcri8G2iZCMg==
+X-Received: by 2002:adf:a29d:: with SMTP id s29mr1062411wra.272.1609875864976; 
+ Tue, 05 Jan 2021 11:44:24 -0800 (PST)
+Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.241])
+ by smtp.gmail.com with ESMTPSA id f14sm249499wme.14.2021.01.05.11.44.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jan 2021 11:44:24 -0800 (PST)
+Subject: Re: [PATCH 2/2] tracetool: fix "PRI" macro decoding
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+References: <20210105191721.120463-1-lvivier@redhat.com>
+ <20210105191721.120463-3-lvivier@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <05a63a0f-dee5-68b6-5bba-7c74b55ddc99@redhat.com>
+Date: Tue, 5 Jan 2021 20:44:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 05 Jan 2021 19:42:21 -0000
-From: Matevz Langus <1779634@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: matevz-langus pmaydell yihe01
-X-Launchpad-Bug-Reporter: He Yi (yihe01)
-X-Launchpad-Bug-Modifier: Matevz Langus (matevz-langus)
-References: <153052346519.30029.15773821079672320069.malonedeb@wampee.canonical.com>
-Message-Id: <160987574123.3872.9791485793510570120.malone@wampee.canonical.com>
-Subject: [Bug 1779634] Re: qemu-x86_64 on aarch64 reports "Synchronous
- External Abort"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: ffc48b50c93a7e20f2eda543b6d3d6649861fce2
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210105191721.120463-3-lvivier@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,85 +98,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1779634 <1779634@bugs.launchpad.net>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 1/5/21 8:17 PM, Laurent Vivier wrote:
+> macro is not reset after use, so the format decoded is always the
+> one of the first "PRI" in the format string.
+> 
+> For instance:
+> 
+>   vhost_vdpa_set_config(void *dev, uint32_t offset, uint32_t size, \
+>                         uint32_t flags) "dev: %p offset: %"PRIu32" \
+>                         size: %"PRIu32" flags: 0x%"PRIx32
+> 
+> generates:
+> 
+>   printf("%d@%d vhost_vdpa_set_config dev: %p offset: %u size: %u \
+>           flags: 0x%u\n", pid(), gettimeofday_ns(), dev, offset, \
+>           size, flags)
+> 
+> for the "flags" parameter, we can see a "0x%u" rather than a "0x%x"
+> because the first macro was "PRIu32" (for offset).
+> 
+> In the loop, macro becomes "PRIu32PRIu32PRIx32", and c_macro_to_format()
+> returns always macro[3] ('u' in this case). This patch resets macro after
+> the format has been decoded.
+> 
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>  scripts/tracetool/format/log_stap.py | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/scripts/tracetool/format/log_stap.py b/scripts/tracetool/format/log_stap.py
+> index b486beb67239..3e1186ae9cc2 100644
+> --- a/scripts/tracetool/format/log_stap.py
+> +++ b/scripts/tracetool/format/log_stap.py
+> @@ -54,6 +54,7 @@ def c_fmt_to_stap(fmt):
+>              else:
+>                  if state == STATE_MACRO:
+>                      bits.append(c_macro_to_format(macro))
+> +                    macro = ""
+>                  state = STATE_LITERAL
+>          elif fmt[i] == ' ' or fmt[i] == '\t':
+>              if state == STATE_MACRO:
 
-if of interest to anyone...
-we were able to successfully upgrade firmware of Intel XL710 on aarch64 pla=
-tform.
+What about the 'else' case?
 
-Two major items were required:
-- small qemu change: https://lists.gnu.org/archive/html/qemu-devel/2021-01/=
-msg00553.html
-- hack in Linux kernel /dev/mem driver in mmap function to catch wrong addr=
-esses nvmupdate64e asked for thru qemu. For some reason only lower 32-bit p=
-ortion of actual physical address came to linux kernel. /dev/mem driver in =
-kernel was changed to add missing upper 32 bits of address
-
-best regards,
-Matevz
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1779634
-
-Title:
-  qemu-x86_64 on aarch64 reports "Synchronous External Abort"
-
-Status in QEMU:
-  Invalid
-
-Bug description:
-  Purpose: to run x86_64 utilities on aarch64 platform (Intel/Dell network =
-adapters' firmware upgrade tools)
-  System: aarch64 server platform, with ubuntu 16.04 (xenial) Linux 4.13.0-=
-45-generic #50~16.04.1-Ubuntu SMP Wed May 30 11:14:25 UTC 2018 aarch64 aarc=
-h64 aarch64 GNU/Linux
-
-  Reproduce:
-  1) build linux-user qemu-x86_64 static from source (tried both version 2.=
-12.0 & 2.11.2)
-  =C2=A0=C2=A0=C2=A0./configure --target-list=3Dx86_64-linux-user --disable=
--system --static --enable-linux-user
-
-  2) install the interpreter into binfmt_misc filesystem
-  =C2=A0=C2=A0=C2=A0$ cat /proc/sys/fs/binfmt_misc/qemu-x86_64
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0enabled
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0interpreter /usr/local/bin/qemu-x86_64
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0flags:
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0offset 0
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0magic 7f454c4602010100000000000000000002003=
-e00
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mask fffffffffffefefcfffffffffffffffffeffff=
-ff
-
-  3) packaging Intel/Dell upgrade utilities into docker images, I've publis=
-hed two on docker hub:
-  =C2=A0=C2=A0=C2=A0REPOSITORY          TAG
-  =C2=A0=C2=A0=C2=A0heyi/dellupdate     latest
-  =C2=A0=C2=A0=C2=A0heyi/nvmupdate64e   latest
-
-  4) run the docker container on aarch64 server platform:
-  =C2=A0=C2=A0=C2=A0docker run -it --privileged --network host --volume /us=
-r/local/bin/qemu-x86_64:/usr/local/bin/qemu-x86_64 heyi/dellupdate:latest
-
-  5) finally, within docker container run the upgrade tool:
-  =C2=A0=C2=A0=C2=A0# ./Network_Firmware_T6VN9_LN_18.5.17_A00.BIN
-
-  Errors: in dmesg it reports excessive 'Synchronous External Abort':
-
-  kernel: [242850.159893] Synchronous External Abort: synchronous external =
-abort (0x92000610) at 0x0000000000429958
-  kernel: [242850.169199] Unhandled fault: synchronous external abort (0x92=
-000610) at 0x0000000000429958
-
-  thanks and best regards, Yi
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1779634/+subscriptions
 
