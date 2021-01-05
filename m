@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7B52EB018
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:31:16 +0100 (CET)
-Received: from localhost ([::1]:33458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E972EB01D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:33:48 +0100 (CET)
+Received: from localhost ([::1]:38850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwpEp-0003Yd-GP
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:31:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53204)
+	id 1kwpHH-00067Z-PC
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:33:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwovM-00079Q-9t
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:11:08 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:36170)
+ id 1kwouZ-0005XW-Gc
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:10:19 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:52620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwovK-0005UD-Hl
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:11:08 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FsjfW094282;
- Tue, 5 Jan 2021 16:11:03 GMT
+ id 1kwouX-0004re-4o
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:10:18 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FtPhi137982;
+ Tue, 5 Jan 2021 16:09:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=xGxUrL2p7kReaYTonVCM7YEX96cymyrpmYU+usiceHg=;
- b=xoqD92iVpHqREL3SsFkOPAtZwyCv8s67UiIRRX5jWMzlEB1kmgD+3q7YPR8l4JvJoJfy
- Go4/e3R8LzruS1wgiCLvVsbs+nOce0kZnJOy3+ETPy3fQTcWaW6azmz+9UiizoYRAp8g
- YQv/0aadQk9ycjtZm31W48lXSJNF51n6qUtqBb8G1dkqrlN25qX240pxtiy8iKgmyjdL
- 2/rMlvBulNe1fDTPi9v+k9F4ohEk1v/eVkXtVBSqOpBIqax8nEruGSLkadIlfZNEv5WY
- 2hZQmBz7EbYuVquE4CupPv0pzyzoQdvv0L06I7XvzJbaWn43U9sSHgbia2TBGJtrGCav qw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2130.oracle.com with ESMTP id 35tebask5q-1
+ bh=PaFOwWLpXtDTZgReHTfB+E7OcXOa+oo5kFUt4EuarxA=;
+ b=EhwR1u0gdxoZWeMZCtKh9rWnXfhmhchVpA3NpgQzIXFpGGUmoYQ4BDtkyiMKWVOJG5Q3
+ smDvG7iVxCE+z8rkzbRw5KEHXySMlFDUJj9aWwPwwMGtcYo3pFUA7/txB1IL8w9jpkPL
+ 4WSU/O1E5du7SNnrTpocYZWHtn0DST2Y2R14r+ThCHcKpgXggNka6e7A48BWQGtdq73i
+ mxBF5dnJnlV3FC0SHdpB+s8FcBoZELWMKhzaORGfzo3DQ2oUblQ7W9fbkivHfB4LTU3y
+ XMWquj4YGzTMPT3uBkP6w9gibQM6rdWZOGnPmZ7u0vAS8NMDvggjlOzBLzul4ciA065N PA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 35tg8r1gyt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 05 Jan 2021 16:11:03 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FtLBr175897;
- Tue, 5 Jan 2021 16:09:02 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 35vct61vhf-1
+ Tue, 05 Jan 2021 16:09:12 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FuNBn029086;
+ Tue, 5 Jan 2021 16:09:12 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 35uxnsvb63-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 05 Jan 2021 16:09:02 +0000
+ Tue, 05 Jan 2021 16:09:12 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 105G90J6003312;
- Tue, 5 Jan 2021 16:09:00 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 105G9Aba018379;
+ Tue, 5 Jan 2021 16:09:10 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 05 Jan 2021 08:09:00 -0800
+ with ESMTP ; Tue, 05 Jan 2021 08:09:10 -0800
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V2 01/22] as_flat_walk
-Date: Tue,  5 Jan 2021 07:41:49 -0800
-Message-Id: <1609861330-129855-2-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V2 13/22] vhost: reset vhost devices upon cprsave
+Date: Tue,  5 Jan 2021 07:42:01 -0800
+Message-Id: <1609861330-129855-14-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 References: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101050099
+ phishscore=0 spamscore=0
+ malwarescore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101050099
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- phishscore=0
- priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1015 bulkscore=0
- lowpriorityscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101050099
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=steven.sistare@oracle.com; helo=aserp2130.oracle.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
+ phishscore=0 bulkscore=0
+ spamscore=0 impostorscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
+ mlxscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101050099
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -107,56 +107,66 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an iterator over the sections of a flattened address space.
+A vhost device is implicitly preserved across re-exec because its fd is not
+closed, and the value of the fd is specified on the command line for the
+new qemu to find.  However, new qemu issues an VHOST_RESET_OWNER ioctl,
+which fails because the device already has an owner.  To fix, reset the
+owner prior to exec.
 
+Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- include/exec/memory.h |  3 +++
- softmmu/memory.c      | 17 +++++++++++++++++
- 2 files changed, 20 insertions(+)
+ hw/virtio/vhost.c         | 11 +++++++++++
+ include/hw/virtio/vhost.h |  1 +
+ migration/cpr.c           |  1 +
+ 3 files changed, 13 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 307e527..8dba065 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -1894,6 +1894,9 @@ bool memory_region_present(MemoryRegion *container, hwaddr addr);
-  */
- bool memory_region_is_mapped(MemoryRegion *mr);
- 
-+typedef int (*qemu_flat_walk_cb)(MemoryRegionSection *s, void *handle);
-+int as_flat_walk(AddressSpace *as, qemu_flat_walk_cb func, void *handle);
-+
- /**
-  * memory_region_find: translate an address/size relative to a
-  * MemoryRegion into a #MemoryRegionSection.
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index af25987..8cac3bc 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2513,6 +2513,23 @@ bool memory_region_is_mapped(MemoryRegion *mr)
-     return mr->container ? true : false;
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 1a1384e..42aa44c 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1764,6 +1764,17 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
+     hdev->vdev = NULL;
  }
  
-+int as_flat_walk(AddressSpace *as, qemu_flat_walk_cb func, void *handle)
++void vhost_dev_reset_all(void)
 +{
-+    FlatView *view = address_space_get_flatview(as);
-+    FlatRange *fr;
-+    int ret;
++    struct vhost_dev *dev;
 +
-+    FOR_EACH_FLAT_RANGE(fr, view) {
-+        MemoryRegionSection section = section_from_flat_range(fr, view);
-+        ret = func(&section, handle);
-+        if (ret) {
-+            return ret;
++    QLIST_FOREACH(dev, &vhost_devices, entry) {
++        if (dev->vhost_ops->vhost_reset_device(dev) < 0) {
++            VHOST_OPS_DEBUG("vhost_reset_device failed");
 +        }
 +    }
-+
-+    return 0;
 +}
 +
- /* Same as memory_region_find, but it does not add a reference to the
-  * returned region.  It must be called from an RCU critical section.
-  */
+ int vhost_net_set_backend(struct vhost_dev *hdev,
+                           struct vhost_vring_file *file)
+ {
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 767a95e..5fef8bd 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -105,6 +105,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+ void vhost_dev_cleanup(struct vhost_dev *hdev);
+ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
+ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
++void vhost_dev_reset_all(void);
+ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
+ void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
+ 
+diff --git a/migration/cpr.c b/migration/cpr.c
+index 045ebc5..13c5d7c 100644
+--- a/migration/cpr.c
++++ b/migration/cpr.c
+@@ -135,6 +135,7 @@ void cprsave(const char *file, CprMode mode, Error **errp)
+             goto err;
+         }
+         walkenv(FD_PREFIX, preserve_fd, 0);
++        vhost_dev_reset_all();
+         setenv("QEMU_START_FREEZE", "", 1);
+         qemu_system_exec_request();
+     }
 -- 
 1.8.3.1
 
