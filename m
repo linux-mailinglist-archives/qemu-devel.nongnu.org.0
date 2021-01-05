@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460242EB229
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 19:13:42 +0100 (CET)
-Received: from localhost ([::1]:57800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACA02EB224
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 19:11:08 +0100 (CET)
+Received: from localhost ([::1]:51746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwqpx-0004d9-CX
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 13:13:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40250)
+	id 1kwqnT-00026R-KL
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 13:11:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kwqgL-0005fm-0T
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 13:03:46 -0500
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:39509)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kwqgJ-0003At-AT
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 13:03:44 -0500
-Received: by mail-qk1-x730.google.com with SMTP id p14so113334qke.6
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 10:03:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+66N5UB+2up5WcCaQC/Of5cbsmB93iil3mqXIx4Gh9Q=;
- b=SdMfXJFHfbv576AUIZ959O99pxU+HpogsSRQPj8DX7UQF/6JYA5tNZCMKtOYnUnjdR
- juFw7EVsgCjAAkYMHBuk3lpy62+o3WzlbSDWec2kFz4ReSdlYhyizVQnyHTwxbuVLd4I
- 1wkGVMFYjdpqqYyINBtzSr7jk4aiKG6nD9cnHiVTbSSnkuik/qOeiNa5GCdgDiFRGZqF
- 9rmwEqtQlPlDk7ZYHM5OgkOFL3lSn2ZgKZx0hF5mfy9fKqW/0XNiSHc6xwRajEvm7e7z
- 86htvzpCpjNG4E6+suXt9EnXXrFsMmdIKTNM03RguB/4yZ8xQuWOgfjYBtwaFXMd579s
- oLuw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kwqmF-00018s-JU
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 13:09:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58335)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kwqm7-00045S-Hn
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 13:09:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609870181;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TE00O/hBJEJed1l9AiByyou3X1WoJJGN3KHFRFtT6Fk=;
+ b=g39Cae0n3UG20pHDwjDKY7C1Opx7Nk97lq7wcn/E8wEyocbDfa3yjfFspVyAjnhfz2krye
+ vYCOBhQQskvrfizjjcAour54c4Xlq9+g9FSn5x3+9EMnUvAOrrLweTGwoxpoDHUCBmBhRC
+ v5oPJ4e/GtTkXmCu47SOWi6n9mfFyag=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-425-dYc3y7QuOom3gcl6xzEQNw-1; Tue, 05 Jan 2021 13:09:39 -0500
+X-MC-Unique: dYc3y7QuOom3gcl6xzEQNw-1
+Received: by mail-wm1-f69.google.com with SMTP id s130so152086wme.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 10:09:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+66N5UB+2up5WcCaQC/Of5cbsmB93iil3mqXIx4Gh9Q=;
- b=Pp/cM0Ge+ncksJ1BtQp8sf44q0xHx4IVnWtz4mUeqyK3mE8++1urMJYeZF8niRNNiU
- 03WV4f7bpuNrqPK+3m0cOcPvUjZBrVOfHAcrEx/0Z5sd1zuVRoqP2cYduJBiwrV0iA/X
- HrfMnPPtzbPwoweVBLg6BdHFVskrmBNO4JfTbcCZVETw5K7lVUkM+JiJc03iKTD+kicC
- Ox/R/Eu5KqSRlKhtKDHWZf1U3C2fK8xSZEtqwIcps9G6ULdUtij2xOcPVavgAd6MMA77
- Cj6xhDldj6l+aaLCpWfVXZEmbHbTKFvMqQTYDVwxVANls/6X6+IHSDB4SPOHx6lJXPoz
- fWSQ==
-X-Gm-Message-State: AOAM531E5D30d/AC790377CrVZLCQRbHjrV1ggaaQEPvHG9xiyd/cAf9
- PyHYzq6RbzmOYxq+/J1Qe5eoZF/atoI=
-X-Google-Smtp-Source: ABdhPJxnra8F5mk8MIkvhHNGlYShaa++lLncbGMVzcyEt5Y+0FHnW/IZTCefHGUwyCZu6+nGt3iayA==
-X-Received: by 2002:a37:2742:: with SMTP id n63mr715902qkn.390.1609869819919; 
- Tue, 05 Jan 2021 10:03:39 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c7:63d2:cecd:bc88:6607:5111])
- by smtp.gmail.com with ESMTPSA id y17sm423550qki.48.2021.01.05.10.03.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jan 2021 10:03:39 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] vl.c: do not execute trace_init_backends() before
+ bh=TE00O/hBJEJed1l9AiByyou3X1WoJJGN3KHFRFtT6Fk=;
+ b=cjvFZN/ibxmeUWO+w0zH8xDLm/ZI0p6MKrfQSWRQA2dbYRCF4pJE5yKaKjNgRCHJ4w
+ dRcEZZCzGDIQ74WMHWR8tA3T3HdHhqsVRqJKo3StHO90/+mAbvj3boVE6P2Njt3nPkbt
+ Tvz8/4W1STpszOU89y1aov/RoNpNaj3BRaOrsn9L6XDmJHDZRr6tJG1/Yc1QB6plXJaR
+ MrOktQvQgrwqSjQUoHKhkbGXVMjS27Bo2NBfxrWicQaaaXP7OBI6QetIb2moGZ4LsRW3
+ pbUCSUvV6AZaOnA9DAonHGCna0gLGqeeveW+yXmZK6rmw4samR/VGrwFQzdkoNDnkyES
+ 33Fg==
+X-Gm-Message-State: AOAM530kuSe5YEdo98VxdgwAvxFOlf6mUfkyI7FrQARu7kUIHap5AuDb
+ 9EYdBcP3Uf4NNmHkv/rdGqj1MzBTHUAMMKhZr93gTVpkAy4hnFhap8J5NUHfuEvJa2KvSxrGcvt
+ e3wRiUZxeWd/sAXQ=
+X-Received: by 2002:a05:600c:208:: with SMTP id 8mr306022wmi.143.1609870178101; 
+ Tue, 05 Jan 2021 10:09:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxhpZg+qmF+gwW89U14p9rXfip1zlEpdKVsrPJ4vJO4IMx99LzOfeDMIOYVjlRkBzOP/bgoBg==
+X-Received: by 2002:a05:600c:208:: with SMTP id 8mr306011wmi.143.1609870177959; 
+ Tue, 05 Jan 2021 10:09:37 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id b10sm378137wmj.5.2021.01.05.10.09.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jan 2021 10:09:37 -0800 (PST)
+Subject: Re: [PATCH 1/1] vl.c: do not execute trace_init_backends() before
  daemonizing
-Date: Tue,  5 Jan 2021 15:03:25 -0300
-Message-Id: <20210105180325.536160-1-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.26.2
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <20210105180325.536160-1-danielhb413@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6637b86c-d0f9-4253-2f04-3ceec1a6edc2@redhat.com>
+Date: Tue, 5 Jan 2021 19:09:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x730.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210105180325.536160-1-danielhb413@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,102 +101,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit v5.2.0-190-g0546c0609c ("vl: split various early command line
-options to a separate function") moved the trace backend init code to
-the qemu_process_early_options(). Which is now being called before
-os_daemonize() via qemu_maybe_daemonize().
+On 05/01/21 19:03, Daniel Henrique Barboza wrote:
+> +    /*
+> +     * The trace backend must be initialized before daemonizing.
 
-Turns out that this change of order causes a problem when executing
-QEMU in daemon mode and with CONFIG_TRACE_SIMPLE. The trace thread
-is now being created by the parent, and the parent is left waiting for
-a trace file flush that was registered via st_init(). The result is
-that the parent process never exits.
+after, not before. :)
 
-To reproduce, fire up a QEMU process with -daemonize and with
-CONFIG_TRACE_SIMPLE enabled. Two QEMU process will be left in the
-host:
+With this fixed,
 
-$ sudo ./x86_64-softmmu/qemu-system-x86_64 -S -no-user-config -nodefaults \
-  -nographic -machine none,accel=kvm:tcg -daemonize
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-$ ps axf | grep qemu
- 529710 pts/3    S+     0:00  |       \_ grep --color=auto qemu
- 529697 ?        Ssl    0:00  \_ ./x86_64-softmmu/qemu-system-x86_64 -S -no-user-config -nodefaults -nographic -machine none,accel=kvm:tcg -daemonize
- 529699 ?        Sl     0:00      \_ ./x86_64-softmmu/qemu-system-x86_64 -S -no-user-config -nodefaults -nographic -machine none,accel=kvm:tcg -daemonize
-
-The parent thread is hang in flush_trace_file:
-
-$ sudo gdb ./x86_64-softmmu/qemu-system-x86_64 529697
-(..)
-(gdb) bt
- #0  0x00007f9dac6a137d in syscall () at /lib64/libc.so.6
- #1  0x00007f9dacc3c4f3 in g_cond_wait () at /lib64/libglib-2.0.so.0
- #2  0x0000555d12f952da in flush_trace_file (wait=true) at ../trace/simple.c:140
- #3  0x0000555d12f95b4c in st_flush_trace_buffer () at ../trace/simple.c:383
- #4  0x00007f9dac5e43a7 in __run_exit_handlers () at /lib64/libc.so.6
- #5  0x00007f9dac5e4550 in on_exit () at /lib64/libc.so.6
- #6  0x0000555d12d454de in os_daemonize () at ../os-posix.c:255
- #7  0x0000555d12d0bd5c in qemu_maybe_daemonize (pid_file=0x0) at ../softmmu/vl.c:2408
- #8  0x0000555d12d0e566 in qemu_init (argc=8, argv=0x7fffc594d9b8, envp=0x7fffc594da00) at ../softmmu/vl.c:3459
- #9  0x0000555d128edac1 in main (argc=8, argv=0x7fffc594d9b8, envp=0x7fffc594da00) at ../softmmu/main.c:49
-(gdb)
-
-Aside from the 'zombie' process in the host, this is directly impacting
-Libvirt. Libvirt waits for the parent process to exit to be sure that the
-QMP monitor is available in the daemonized process to fetch QEMU
-capabilities, and as is now Libvirt hangs at daemon start waiting
-for the parent thread to exit.
-
-The fix is simple: just move the trace backend related code back to
-be executed after daemonizing.
-
-Fixes: 0546c0609cb5a8d90c1cbac8e0d64b5a048bbb19
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- softmmu/vl.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
-
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 0ed5c5ba93..646cd3378f 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2354,11 +2354,6 @@ static void qemu_process_early_options(void)
-                       cleanup_add_fd, NULL, &error_fatal);
- #endif
- 
--    if (!trace_init_backends()) {
--        exit(1);
--    }
--    trace_init_file();
--
-     /* Open the logfile at this point and set the log mask if necessary.  */
-     qemu_set_log_filename(log_file, &error_fatal);
-     if (log_mask) {
-@@ -3458,6 +3453,19 @@ void qemu_init(int argc, char **argv, char **envp)
-     qemu_process_help_options();
-     qemu_maybe_daemonize(pid_file);
- 
-+    /*
-+     * The trace backend must be initialized before daemonizing.
-+     * trace_init_backends() will call st_init(), which will create the
-+     * trace thread in the parent, and also register st_flush_trace_buffer()
-+     * in atexit(). This function will force the parent to wait for the
-+     * writeout thread to finish, which will not occur, and the parent
-+     * process will be left in the host.
-+     */
-+    if (!trace_init_backends()) {
-+        exit(1);
-+    }
-+    trace_init_file();
-+
-     qemu_init_main_loop(&error_fatal);
-     cpu_timers_init();
- 
--- 
-2.26.2
+> +     * trace_init_backends() will call st_init(), which will create the
+> +     * trace thread in the parent, and also register st_flush_trace_buffer()
+> +     * in atexit(). This function will force the parent to wait for the
+> +     * writeout thread to finish, which will not occur, and the parent
+> +     * process will be left in the host.
+> +     */
+> +    if (!trace_init_backends()) {
+> +        exit(1);
+> +    }
+> +    trace_init_file();
+> +
 
 
