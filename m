@@ -2,71 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737032EB452
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 21:35:43 +0100 (CET)
-Received: from localhost ([::1]:52466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 935552EB45D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 21:42:56 +0100 (CET)
+Received: from localhost ([::1]:55608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwt3O-0001nK-Ib
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 15:35:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41130)
+	id 1kwtAN-0003Wz-LV
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 15:42:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kwt2K-0000xx-Ab
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 15:34:36 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:32902 helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
+ id 1kwt9T-0002zA-Vf; Tue, 05 Jan 2021 15:41:59 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58890
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kwt2F-0000FV-SC
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 15:34:35 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 711484124F;
- Tue,  5 Jan 2021 20:34:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-transfer-encoding:content-disposition
- :content-type:content-type:mime-version:references:message-id
- :subject:subject:from:from:date:date:received:received:received;
- s=mta-01; t=1609878866; x=1611693267; bh=CrZW3AE5rLvtD15kTa6zBk
- i1U4hMlkiamycPrQfr8hg=; b=fk3u7K7yo9aHaVP7rDInEzu/VThhqPN+JjB+q6
- IxLQQEzEVoNZTCzJqlFYg6eWM2+R2UG3kTjCfwBSFBsJQSLmsOCcLhJuIs94Sehy
- Ox7KN+UhgzXh/sCEsL8q5FyLm/CCWlt/HkeXoA9Hfm+KlZBpc3SPCF8yD6lYUDzy
- hbzYM=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XcI8ShQiCwVp; Tue,  5 Jan 2021 23:34:26 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id DBD9A4120E;
- Tue,  5 Jan 2021 23:34:25 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 5 Jan
- 2021 23:34:25 +0300
-Date: Tue, 5 Jan 2021 23:34:38 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2] tcg: Fix execution on Apple Silicon
-Message-ID: <X/TNXssb7NRw45g5@SPB-NB-133.local>
-References: <20210103145055.11074-1-r.bolshakov@yadro.com>
- <87zh1o3epo.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
+ id 1kwt9R-0002to-1u; Tue, 05 Jan 2021 15:41:59 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 105KVGJX130187; Tue, 5 Jan 2021 15:41:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ message-id : reply-to : references : mime-version : content-type :
+ in-reply-to : subject; s=pp1;
+ bh=phc0tnMpOo5J27tJHmUZkv7jbvSFzzbE53ug8/HImdo=;
+ b=TvljTEBe7b+oFxuKzoseHqyK3WNnBnmy2Y7LrcU73O3Lav+2krXWlOqDDPCe37LHeonv
+ dOpnLAJLmp9F2PG6F7fu8mohXF2so13sRi/IoO/yt8MYrv0xT5T0a4BqnUiRgpcED3f7
+ V9xHeHGMD75lwdE/Mr3OaSt+Psdrwy+c0GLIQzL1X/66cYS6GmAiKJgNU2qz734AAwrk
+ dvfrfOovDwx61a/EvSdAqnTn4eaeoiftC8g/tUM9sNQssnSEDZuv2aS70z84DcCm/MT0
+ LQHHQuytu0Wen8AES+onGLywMJHyCv/mShTkIgUpr3jPNImyVvhSZNj9cNxFkwBdfgfb Hg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35vy4y8bcr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Jan 2021 15:41:37 -0500
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 105KWGtd136573;
+ Tue, 5 Jan 2021 15:41:36 -0500
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35vy4y8bbn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Jan 2021 15:41:36 -0500
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 105KcaFD020824;
+ Tue, 5 Jan 2021 20:41:34 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 35tgf8b7b3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Jan 2021 20:41:34 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 105KfVHc37880148
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 5 Jan 2021 20:41:31 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ADEF45204F;
+ Tue,  5 Jan 2021 20:41:31 +0000 (GMT)
+Received: from ram-ibm-com.ibm.com (unknown [9.163.29.145])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id 8D1215204E;
+ Tue,  5 Jan 2021 20:41:27 +0000 (GMT)
+Date: Tue, 5 Jan 2021 12:41:25 -0800
+From: Ram Pai <linuxram@us.ibm.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Message-ID: <20210105204125.GE4102@ram-ibm-com.ibm.com>
+References: <20201204054415.579042-12-david@gibson.dropbear.id.au>
+ <20201214182240.2abd85eb.cohuck@redhat.com>
+ <20201217054736.GH310465@yekko.fritz.box>
+ <20201217123842.51063918.cohuck@redhat.com>
+ <20201217151530.54431f0e@bahia.lan>
+ <20201218124111.4957eb50.cohuck@redhat.com>
+ <20210104071550.GA22585@ram-ibm-com.ibm.com>
+ <20210104134629.49997b53.pasic@linux.ibm.com>
+ <20210104184026.GD4102@ram-ibm-com.ibm.com>
+ <20210105115614.7daaadd6.pasic@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87zh1o3epo.fsf@linaro.org>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210105115614.7daaadd6.pasic@linux.ibm.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+Subject: RE: [for-6.0 v5 11/13] spapr: PEF: prevent migration
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-05_06:2021-01-05,
+ 2021-01-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 spamscore=0
+ priorityscore=1501 adultscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ mlxlogscore=999 impostorscore=0 lowpriorityscore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101050116
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=linuxram@us.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,193 +114,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Alexander Graf <agraf@csgraf.de>, Joelle van Dyne <j@getutm.app>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Ram Pai <linuxram@us.ibm.com>
+Cc: pair@us.ibm.com, Cornelia Huck <cohuck@redhat.com>, brijesh.singh@amd.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, david@redhat.com,
+ mdroth@linux.vnet.ibm.com, borntraeger@de.ibm.com,
+ David Gibson <david@gibson.dropbear.id.au>, thuth@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ dgilbert@redhat.com, qemu-s390x@nongnu.org, rth@twiddle.net,
+ berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 04, 2021 at 03:23:07PM +0000, Alex Bennée wrote:
+On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:
+> On Mon, 4 Jan 2021 10:40:26 -0800
+> Ram Pai <linuxram@us.ibm.com> wrote:
 > 
-> Roman Bolshakov <r.bolshakov@yadro.com> writes:
+> > On Mon, Jan 04, 2021 at 01:46:29PM +0100, Halil Pasic wrote:
+> > > On Sun, 3 Jan 2021 23:15:50 -0800
+> > > Ram Pai <linuxram@us.ibm.com> wrote:
+> > >   
+> > > > On Fri, Dec 18, 2020 at 12:41:11PM +0100, Cornelia Huck wrote:  
+> > > > > On Thu, 17 Dec 2020 15:15:30 +0100  
+> > > [..]  
+> > > > > > > > > > +int kvmppc_svm_init(SecurableGuestMemory *sgm, Error **errp)
+> > > > > > > > > >  {
+> > > > > > > > > >      if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURABLE_GUEST)) {
+> > > > > > > > > >          error_setg(errp,
+> > > > > > > > > > @@ -54,6 +58,11 @@ static int kvmppc_svm_init(Error **errp)
+> > > > > > > > > >          }
+> > > > > > > > > >      }
+> > > > > > > > > >  
+> > > > > > > > > > +    /* add migration blocker */
+> > > > > > > > > > +    error_setg(&pef_mig_blocker, "PEF: Migration is not implemented");
+> > > > > > > > > > +    /* NB: This can fail if --only-migratable is used */
+> > > > > > > > > > +    migrate_add_blocker(pef_mig_blocker, &error_fatal);        
+> > > > > > > > > 
+> > > > > > > > > Just so that I understand: is PEF something that is enabled by the host
+> > > > > > > > > (and the guest is either secured or doesn't start), or is it using a
+> > > > > > > > > model like s390x PV where the guest initiates the transition into
+> > > > > > > > > secured mode?        
+> > > > > > > > 
+> > > > > > > > Like s390x PV it's initiated by the guest.
+> > > > > > > >       
+> > > > > > > > > Asking because s390x adds the migration blocker only when the
+> > > > > > > > > transition is actually happening (i.e. guests that do not transition
+> > > > > > > > > into secure mode remain migratable.) This has the side effect that you
+> > > > > > > > > might be able to start a machine with --only-migratable that
+> > > > > > > > > transitions into a non-migratable machine via a guest action, if I'm
+> > > > > > > > > not mistaken. Without the new object, I don't see a way to block with
+> > > > > > > > > --only-migratable; with it, we should be able to do that. Not sure what
+> > > > > > > > > the desirable behaviour is here.        
+> > > > > > > >       
+> > > > > > 
+> > > > > > The purpose of --only-migratable is specifically to prevent the machine
+> > > > > > to transition to a non-migrate state IIUC. The guest transition to
+> > > > > > secure mode should be nacked in this case.    
+> > > > > 
+> > > > > Yes, that's what happens for s390x: The guest tries to transition, QEMU
+> > > > > can't add a migration blocker and fails the instruction used for
+> > > > > transitioning, the guest sees the error.
+> > > > > 
+> > > > > The drawback is that we see the failure only when we already launched
+> > > > > the machine and the guest tries to transition. If I start QEMU with
+> > > > > --only-migratable, it will refuse to start when non-migratable devices
+> > > > > are configured in the command line, so I see the issue right from the
+> > > > > start. (For s390x, that would possibly mean that we should not even
+> > > > > present the cpu feature bit when only_migratable is set?)    
+> > > > 
+> > > > What happens in s390x,  if the guest tries to transition to secure, when
+> > > > the secure object is NOT configured on the machine?
+> > > >   
+> > > 
+> > > Nothing in particular.
+> > >   
+> > > > On PEF systems, the transition fails and the guest is terminated.
+> > > > 
+> > > > My point is -- QEMU will not be able to predict in advance, what the
+> > > > guest might or might not do, regardless of what devices and objects are
+> > > > configured in the machine.   If the guest does something unexpected, it
+> > > > has to be terminated.  
+> > > 
+> > > We can't fail transition to secure when the secure object is not
+> > > configured on the machine, because that would break pre-existing
+> > > setups.  
+> > 
+> > So the instruction to switch-to-secure; which I believe is a ultracall
+> > on S390,  
 > 
-> > Pages can't be both write and executable at the same time on Apple
-> > Silicon. macOS provides public API to switch write protection [1] for
-> > JIT applications, like TCG.
-> >
-> > 1. https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
-> >
-> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > ---
-> > v1: https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00073.html
-> > Changes since v1:
-> >
-> >  - Pruned not needed fiddling with W^X and dropped symmetry from write
-> >    lock/unlock and renamed related functions.
-> >    Similar approach is used in JavaScriptCore [1].
-> >
-> >  - Moved jit helper functions to util/osdep
-> >                                                                                                                                                   As outlined in osdep.h, this matches to (2):                                                                                                                                                                                                                                                    * In an ideal world this header would contain only:                                                                                            *  (1) things which everybody needs                                                                                                            *  (2) things without which code would work on most platforms but                                                                              *      fail to compile or misbehave on a minority of host OSes
-> >
-> >  - Fixed a checkpatch error
-> >
-> >  - Limit new behaviour only to macOS 11.0 and above, because of the
-> >    following declarations:
-> >
-> >    __API_AVAILABLE(macos(11.0))
-> >    __API_UNAVAILABLE(ios, tvos, watchos)
-> >    void pthread_jit_write_protect_np(int enabled);
-> >
-> >    __API_AVAILABLE(macos(11.0))
-> >    __API_UNAVAILABLE(ios, tvos, watchos)
-> >    int pthread_jit_write_protect_supported_np(void);
-> >
-> >  1. https://bugs.webkit.org/attachment.cgi?id=402515&action=prettypatch
-> >
-> >  accel/tcg/cpu-exec.c      |  2 ++
-> >  accel/tcg/translate-all.c |  6 ++++++
-> >  include/qemu/osdep.h      |  3 +++
-> >  tcg/tcg.c                 |  1 +
-> >  util/osdep.c              | 22 ++++++++++++++++++++++
-> >  5 files changed, 34 insertions(+)
-> >
-> > diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> > index 8689c54499..374060eb45 100644
-> > --- a/accel/tcg/cpu-exec.c
-> > +++ b/accel/tcg/cpu-exec.c
-> > @@ -175,6 +175,7 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
-> >      }
-> >  #endif /* DEBUG_DISAS */
-> >  
-> > +    qemu_thread_jit_execute();
-> >      ret = tcg_qemu_tb_exec(env, tb_ptr);
-> >      cpu->can_do_io = 1;
-> >      last_tb = (TranslationBlock *)(ret & ~TB_EXIT_MASK);
-> > @@ -382,6 +383,7 @@ static inline void tb_add_jump(TranslationBlock *tb, int n,
-> >  {
-> >      uintptr_t old;
-> >  
-> > +    qemu_thread_jit_write();
-> >      assert(n < ARRAY_SIZE(tb->jmp_list_next));
-> >      qemu_spin_lock(&tb_next->jmp_lock);
-> >  
-> > diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> > index b7d50a73d4..88ae5d35ef 100644
-> > --- a/accel/tcg/translate-all.c
-> > +++ b/accel/tcg/translate-all.c
-> > @@ -1072,6 +1072,9 @@ static inline void *alloc_code_gen_buffer(void)
-> >      size_t size = tcg_ctx->code_gen_buffer_size;
-> >      void *buf;
-> >  
-> > +#if defined(__APPLE__) && defined(MAC_OS_VERSION_11_0)
-> > +    flags |= MAP_JIT;
-> > +#endif
-> >      buf = mmap(NULL, size, prot, flags, -1, 0);
-> >      if (buf == MAP_FAILED) {
-> >          return NULL;
-> > @@ -1485,7 +1488,9 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
-> >  
-> >  static void tb_phys_invalidate__locked(TranslationBlock *tb)
-> >  {
-> > +    qemu_thread_jit_write();
-> >      do_tb_phys_invalidate(tb, true);
-> > +    qemu_thread_jit_execute();
-> >  }
-> >  
-> >  /* invalidate one TB
-> > @@ -1687,6 +1692,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-> >  #endif
-> >  
-> >      assert_memory_lock();
-> > +    qemu_thread_jit_write();
-> >  
-> >      phys_pc = get_page_addr_code(env, pc);
-> >  
-> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> > index f9ec8c84e9..89abebcf5d 100644
-> > --- a/include/qemu/osdep.h
-> > +++ b/include/qemu/osdep.h
-> > @@ -686,4 +686,7 @@ char *qemu_get_host_name(Error **errp);
-> >   */
-> >  size_t qemu_get_host_physmem(void);
-> >  
-> > +void qemu_thread_jit_write(void);
-> > +void qemu_thread_jit_execute(void);
-> > +
-> >  #endif
-> > diff --git a/tcg/tcg.c b/tcg/tcg.c
-> > index 43c6cf8f52..ab8488f5d5 100644
-> > --- a/tcg/tcg.c
-> > +++ b/tcg/tcg.c
-> > @@ -1065,6 +1065,7 @@ void tcg_prologue_init(TCGContext *s)
-> >      s->pool_labels = NULL;
-> >  #endif
-> >  
-> > +    qemu_thread_jit_write();
-> >      /* Generate the prologue.  */
-> >      tcg_target_qemu_prologue(s);
-> >  
-> > diff --git a/util/osdep.c b/util/osdep.c
-> > index 66d01b9160..80ec7185da 100644
-> > --- a/util/osdep.c
-> > +++ b/util/osdep.c
-> > @@ -606,3 +606,25 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
-> >      return readv_writev(fd, iov, iov_cnt, true);
-> >  }
-> >  #endif
-> > +
-> > +#if defined(__APPLE__) && defined(MAC_OS_VERSION_11_0)
-> > +static inline void qemu_thread_jit_write_protect(bool enabled)
-> > +{
-> > +    if (pthread_jit_write_protect_supported_np()) {
-> > +        pthread_jit_write_protect_np(enabled);
-> > +    }
-> > +}
-> > +
-> > +void qemu_thread_jit_execute(void)
-> > +{
-> > +    qemu_thread_jit_write_protect(true);
-> > +}
-> > +
-> > +void qemu_thread_jit_write(void)
-> > +{
-> > +    qemu_thread_jit_write_protect(false);
-> > +}
+> Yes it is an ultravisor call. 
 > 
-> What happens if you emulate a -smp 2 ARM guest? In this case MTTCG
-> should be enabled (same guest ordering) but you run a risk of attempting
-> to execute code while write is enabled.
+> > will return success even though the switch-to-secure has failed?
 > 
+> No, I don't think so.
+> 
+> > Will the guest continue as a normal guest or as a secure guest?
+> > 
+> 
+> I think the guest will give up. It definitely can't continue as secure
+> because the conversion to secure failed. And it should not continue as
+> non-secure because that's not what the user asked for.
+> 
+> I'm not sure you got my point. My point is: we may not break existing
+> setups when adding new features. Secure execution can work without secure
+> object today, and what works today shall keep working tomorrow and
+> beyond.
+> 
+> > > This feature is still to be shipped, but secure execution has
+> > > already been shipped, but without migration support.
+> > > 
+> > > That's why when you have both the secure object configured, and mandate
+> > > migratability, the we can fail. Actually we should fail now, because the
+> > > two options are not compatible: you can't have a qemu that is guaranteed
+> > > to be migratable, and guaranteed to be able to operate in secure
+> > > execution mode today. Failing early, and not on the guests opt-in would
+> > > be preferable.
+> > > 
+> > > After migration support is added, the combo should be fine, and probably
+> > > also the default for secure execution machines.
+> > >   
+> > > > 
+> > > > So one possible design choice is to let the guest know that migration
+> > > > must be facilitated. It can then decide if it wants to continue as a
+> > > > normal VM or terminate itself, or take the plunge and switch to secure.
+> > > > A well behaving guest will not switch to secure.
+> > > >   
+> > > 
+> > > I don't understand this point. Sorry.  
+> > 
+> > Qemu will present the 'must-support-migrate' and the 'secure-object' capability
+> > to the guest.
+> 
+> How does the qemu preset the 'must-support-migrate' and the
+> 'secure-object' capability to the guest on (PPC and especially on s390)? 
 
-Hi Alex,
+This can be modeled with device tree properties on PPC. However, I
+figure, my proposal has its own flaws; as admitted below.
 
-Thanks for providing a hint. Ubuntu ARM with -smp 4 boots and works. I
-can see 4 CPU in the guest and use the VM without any crashes (but it
-requires patience as it's much slower compared to hvf).
 
-> Is there any way to only change the mapping for the parts of the TB
-> cache used by a thread? Otherwise we'll need additional logic in
-> default_mttcg_enabled to ensure we don't accidentally enable it on Apple
-> silicon.
+> And
+> please clarify what do you mean by 'secure-object'. I used to believe I
+> understood, but now I have the feeling I don't understand.
 
-I'm not sure I understand the question. The mappings are changed only
-for the thread that invokes pthread_jit_write_protect_np(). Each thread
-has its own permissions for MAP_JIT region. As far as I understand MTTCG
-works fine with the series as I've seen 376% CPU utilization at times
-with -smp 4, regardless whether MTTCG is specified explicitly
-(-accel tcg,thread=multi) or not. Respectively, default ARM on ARM is
-MTTCG and it works fine, we don't need to disable it :)
+Its the feature that enables the machine to be capable of running secure
+guests.
 
-Thanks,
-Roman
 
 > 
-> > +#else
-> > +void qemu_thread_jit_write(void) {}
-> > +void qemu_thread_jit_execute(void) {}
-> > +#endif
+> > 
+> > The secure-aware guest, has three choices
+> >    (a) terminate itself. OR
+> >    (b) not call the switch-to-secure ucall, and continue as normal guest. OR
+> >    (c) call the switch-to-secure ucall.
+> > 
+> > Legacy guests which are not aware of secure-object, will continue to do
+> > (b).   
+> > New Guests which are secure-object aware, will observe that 
+> > 'must-support-migrate' and 'secure-object' capabilities are
+> > incompatible.  Hence will choose (a) or (b), but will never choose
+> > (c).
+> > 
 > 
+> The first problem is, IMHO, that you want to expose QEMU internals to the
+> guest. For the guest, there is no such thing as 'must-support-migrate'
+> (AFAIK).
+
+right. good point.  The key point is, migration must be
+transparent to the guest. And that is where; I realize, my proposal falters.
+
 > 
-> -- 
-> Alex Bennée
+> The other problem is, that migration and secure are not inherently
+> incompatible. On s390x it is the property of the current host
+> implementation, that we can't do migration for secure. But this can
+> change in the future. 
+
+> 
+> > 
+> > 
+> > The main difference between my proposal and the other proposal is...
+> > 
+> >   In my proposal the guest makes the compatibility decision and acts
+> >   accordingly.  In the other proposal QEMU makes the compatibility
+> >   decision and acts accordingly. I argue that QEMU cannot make a good
+> >   compatibility decision, because it wont know in advance, if the guest
+> >   will or will-not switch-to-secure.
+> > 
+> 
+> You have a point there when you say that QEMU does not know in advance,
+> if the guest will or will-not switch-to-secure. I made that argument
+> regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
+> was to flip that property on demand when the conversion occurs. David
+> explained to me that this is not possible for ppc, and that having the
+> "securable-guest-memory" property (or whatever the name will be)
+> specified is a strong indication, that the VM is intended to be used as
+> a secure VM (thus it is OK to hurt the case where the guest does not
+> try to transition). That argument applies here as well.
+
+As suggested by Cornelia Huck, what if QEMU disabled the
+"securable-guest-memory" property if 'must-support-migrate' is enabled?
+Offcourse; this has to be done with a big fat warning stating
+"secure-guest-memory" feature is disabled on the machine.
+Doing so, will continue to support guest that do not try to transition.
+Guest that try to transition will fail and terminate themselves.
+
+> 
+> But more importantly, as I explained above, the guest does not know if
+> migration and secure are incompatible or not. So the guest can't make a
+> good decision.
+
+Agree.
+
+RP
 
