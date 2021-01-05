@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6103A2EB179
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:36:51 +0100 (CET)
-Received: from localhost ([::1]:44840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFFF2EB1E0
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:57:36 +0100 (CET)
+Received: from localhost ([::1]:58438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwqGI-0004PZ-Ew
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:36:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51480)
+	id 1kwqaN-0000zg-NE
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:57:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kwq0V-0002Nc-N3
+ id 1kwq0W-0002Nd-1e
  for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:20:32 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:34004)
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:33414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kwq0P-0006Zp-9N
+ id 1kwq0Q-0006ap-Bj
  for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:20:31 -0500
-Received: by mail-pl1-x630.google.com with SMTP id t6so74340plq.1
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 09:20:24 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id b8so77403plx.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 09:20:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eilLw9ZK6iSUvH1D+Vc53ITHJN75NUB/4q2IHZwdzjI=;
- b=QbBo3ru8E3tumRDsMi+pScCctikjWpFcDQsvCVEE2OXUbYNpsIu7C1+M3JdtKJf0PZ
- hiLxvMeAwJIN180hv5cw0HTf5dCY4tnm8UL99qr/fmIVaHjcyTWn6wqC0ZuGiCh+fAey
- c6R5cC+8+xnaU3aGg/NlKTuBJcPXVlmA3e4t9JoyiUuBPURYnOGdyZXSBgpSpzvYbfL0
- bE8tBhv0rq5OVIAbvFjAzYmSVLRxTyh/o19Tct4fINEPkt/DrTZlvcn3mMkftu2Zg7ZW
- 1Vceil519g7u5noyNspYieKQrJurqVOZCGGWh3QNPK5FI1f9OoCX1rv+xXFqXzKXrls4
- wntg==
+ bh=GOc/QdYClClYlMp2dKbUVjQGtFUnV184hz1wUbaQM2s=;
+ b=E8HzXHV0hUWHkYw2rZ10TU4XOaQQx1E0CtiGqek0mN4dRfx5Ncvv++NuFmiAsf5poQ
+ rRPxqCErNAiqesQxr58Fri0+sFX6IdmEK/0hCV6LjCsLbQes31bYn+nB2iEsssWaGDzS
+ 4LAtOTDaoBp7yP+DxdA27cMIBppP19Opeibo1/t/eoft4zquMJ3jJBUmIXK3u0mKgKqo
+ d3g2VwgyGDuDjphWGLqs5CChCSgLeUriSPbLU50H0AdCX8w+26ePU68YnhnT+pSvVmTw
+ WN1TdyYl+iVqcQO7KDBV+HKLout8CXGN0XH0qW8UYvmdv1vsYCOGAoLgvyNy7l9pPMiw
+ PfqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eilLw9ZK6iSUvH1D+Vc53ITHJN75NUB/4q2IHZwdzjI=;
- b=c9Qhe2dEAOQ7zIIf8gk5CfA6wVGSigww4BOBmyhVD+M6JfR6uHklXeyTtXEX2BR2e5
- Hb2KlDAO1DDaqBRqgcC6iswJptkB50la0Oz7XMdkkAJspLRGKVa6y6sbS36XbM4Pn2T1
- FuIcrt0d4adtqe7v64BSEBmjIPj/8ER/7TXLARfFqTa0PeeKWSL7ijDaxsKG3R2UuYvy
- gNaazjTHu9CIaqD4evcRfbrCUakH1X5CJb8V1Di5eMnqqNwpi38X77uQgBtQ87qCgGTb
- 4eQl48ObsvOWtYzhgZLDJVQ1yeY+3O4rAmBHdIgkxYvibZ8FZMjwy7MOxF4meCXQ24Kt
- hQaA==
-X-Gm-Message-State: AOAM533AbHMoiJpi3dT74UgJr6vsOZqTo2pua019xVZLPpFgq446Ix4u
- 7KohOQ6ZISoBibRSoe3xgWCGcLDBStFOcg==
-X-Google-Smtp-Source: ABdhPJycisSQtPgeIBF2+k9387hDLaLUkjRm/nyXriwi3irkahSrmoUAS9aKaNF5oDQkOUqxDJUTBQ==
-X-Received: by 2002:a17:902:b282:b029:da:fd05:7766 with SMTP id
- u2-20020a170902b282b02900dafd057766mr636321plr.52.1609867222911; 
- Tue, 05 Jan 2021 09:20:22 -0800 (PST)
+ bh=GOc/QdYClClYlMp2dKbUVjQGtFUnV184hz1wUbaQM2s=;
+ b=NsknMu7hrsa0cAsde/fP+f4gdBXHjakFPrkqeNmlpQsJmPiLhnGAT2Aynlp5bIJ3pW
+ y/fkw6GDD956jqgwZX7KYL9nLxIhhPYhfIMdVPuh9FMRxLIwL/REF11zfu0SykUxn2vp
+ rDDAJuPSG+E8OYvLNmQR6h4qbaXNCHMJ+Ic63hIgAW994drn/pz9D4yOExyGGbga9tlx
+ HjnOivHX5ArTd7gg5E9TGY9GAhI0X0hvaRfTPDlk1l8VAmb+hiW0KCs9cDC5bj1QleEj
+ oBWZmGhoPzpCmNf8bgzYROUSHQTj11ZYqpxM6T+llL6oPAtbO7ytPNrPSD6hYr1rvVGE
+ N7wg==
+X-Gm-Message-State: AOAM532Rjbc4nfLBK1txBgtoG192iKp6Cf06/7M2cFRcobartGYMIVpc
+ rc/2jyOI+KmDQnUxi1y6PTP2OEq0kLf/6g==
+X-Google-Smtp-Source: ABdhPJzlVLMnoZ0bi+N9XNwXjZhT+AbHAmMOASDFLXHKjxpxovXTqVzb4utlFqLo08446pGG9Hm5Cw==
+X-Received: by 2002:a17:902:7242:b029:db:d1ae:46bb with SMTP id
+ c2-20020a1709027242b02900dbd1ae46bbmr313961pll.77.1609867224667; 
+ Tue, 05 Jan 2021 09:20:24 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id u12sm2010pfh.98.2021.01.05.09.20.21
+ by smtp.gmail.com with ESMTPSA id u12sm2010pfh.98.2021.01.05.09.20.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jan 2021 09:20:22 -0800 (PST)
+ Tue, 05 Jan 2021 09:20:24 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 15/43] tcg: Make tb arg to synchronize_from_tb const
-Date: Tue,  5 Jan 2021 07:19:22 -1000
-Message-Id: <20210105171950.415486-16-richard.henderson@linaro.org>
+Subject: [PATCH v5 16/43] tcg: Use Error with alloc_code_gen_buffer
+Date: Tue,  5 Jan 2021 07:19:23 -1000
+Message-Id: <20210105171950.415486-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210105171950.415486-1-richard.henderson@linaro.org>
 References: <20210105171950.415486-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,202 +84,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joelle van Dyne <j@getutm.app>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is nothing within the translators that ought to be
-changing the TranslationBlock data, so make it const.
-
-This does not actually use the read-only copy of the
-data structure that exists within the rx region.
+Report better error messages than just "could not allocate".
+Let alloc_code_gen_buffer set ctx->code_gen_buffer_size
+and ctx->code_gen_buffer, and simply return bool.
 
 Reviewed-by: Joelle van Dyne <j@getutm.app>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h     | 3 ++-
- target/arm/cpu.c          | 3 ++-
- target/avr/cpu.c          | 3 ++-
- target/hppa/cpu.c         | 3 ++-
- target/i386/tcg/tcg-cpu.c | 3 ++-
- target/microblaze/cpu.c   | 3 ++-
- target/mips/cpu.c         | 3 ++-
- target/riscv/cpu.c        | 3 ++-
- target/rx/cpu.c           | 3 ++-
- target/sh4/cpu.c          | 3 ++-
- target/sparc/cpu.c        | 3 ++-
- target/tricore/cpu.c      | 2 +-
- 12 files changed, 23 insertions(+), 12 deletions(-)
+ accel/tcg/translate-all.c | 60 ++++++++++++++++++++++-----------------
+ 1 file changed, 34 insertions(+), 26 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 8e7552910d..140fa32a5e 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -189,7 +189,8 @@ struct CPUClass {
-     void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
-                                Error **errp);
-     void (*set_pc)(CPUState *cpu, vaddr value);
--    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
-+    void (*synchronize_from_tb)(CPUState *cpu,
-+                                const struct TranslationBlock *tb);
-     bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
-                      MMUAccessType access_type, int mmu_idx,
-                      bool probe, uintptr_t retaddr);
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index d6188f6566..62e319eb6a 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -54,7 +54,8 @@ static void arm_cpu_set_pc(CPUState *cs, vaddr value)
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 224821943b..77444ddbbd 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -59,6 +59,7 @@
+ #include "sysemu/cpus.h"
+ #include "sysemu/cpu-timers.h"
+ #include "sysemu/tcg.h"
++#include "qapi/error.h"
+ 
+ /* #define DEBUG_TB_INVALIDATE */
+ /* #define DEBUG_TB_FLUSH */
+@@ -963,7 +964,7 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
+   (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
+    ? DEFAULT_CODE_GEN_BUFFER_SIZE_1 : MAX_CODE_GEN_BUFFER_SIZE)
+ 
+-static inline size_t size_code_gen_buffer(size_t tb_size)
++static size_t size_code_gen_buffer(size_t tb_size)
+ {
+     /* Size the buffer.  */
+     if (tb_size == 0) {
+@@ -1014,7 +1015,7 @@ static inline void *split_cross_256mb(void *buf1, size_t size1)
+ static uint8_t static_code_gen_buffer[DEFAULT_CODE_GEN_BUFFER_SIZE]
+     __attribute__((aligned(CODE_GEN_ALIGN)));
+ 
+-static inline void *alloc_code_gen_buffer(void)
++static bool alloc_code_gen_buffer(size_t tb_size, Error **errp)
+ {
+     void *buf = static_code_gen_buffer;
+     void *end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
+@@ -1027,9 +1028,8 @@ static inline void *alloc_code_gen_buffer(void)
+     size = end - buf;
+ 
+     /* Honor a command-line option limiting the size of the buffer.  */
+-    if (size > tcg_ctx->code_gen_buffer_size) {
+-        size = QEMU_ALIGN_DOWN(tcg_ctx->code_gen_buffer_size,
+-                               qemu_real_host_page_size);
++    if (size > tb_size) {
++        size = QEMU_ALIGN_DOWN(tb_size, qemu_real_host_page_size);
      }
- }
+     tcg_ctx->code_gen_buffer_size = size;
  
--static void arm_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void arm_cpu_synchronize_from_tb(CPUState *cs,
-+                                        const TranslationBlock *tb)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-     CPUARMState *env = &cpu->env;
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 5d9c4ad5bf..6f3d5a9e4a 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -41,7 +41,8 @@ static bool avr_cpu_has_work(CPUState *cs)
-             && cpu_interrupts_enabled(env);
- }
+@@ -1041,31 +1041,43 @@ static inline void *alloc_code_gen_buffer(void)
+ #endif
  
--static void avr_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void avr_cpu_synchronize_from_tb(CPUState *cs,
-+                                        const TranslationBlock *tb)
- {
-     AVRCPU *cpu = AVR_CPU(cs);
-     CPUAVRState *env = &cpu->env;
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index 71b6aca45d..e28f047d10 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -35,7 +35,8 @@ static void hppa_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.iaoq_b = value + 4;
- }
- 
--static void hppa_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void hppa_cpu_synchronize_from_tb(CPUState *cs,
-+                                         const TranslationBlock *tb)
- {
-     HPPACPU *cpu = HPPA_CPU(cs);
- 
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 628dd29fe7..4fa013720e 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -49,7 +49,8 @@ static void x86_cpu_exec_exit(CPUState *cs)
-     env->eflags = cpu_compute_eflags(env);
- }
- 
--static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void x86_cpu_synchronize_from_tb(CPUState *cs,
-+                                        const TranslationBlock *tb)
- {
-     X86CPU *cpu = X86_CPU(cs);
- 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 9b2482159d..c8e754cfb1 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -83,7 +83,8 @@ static void mb_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.iflags = 0;
- }
- 
--static void mb_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void mb_cpu_synchronize_from_tb(CPUState *cs,
-+                                       const TranslationBlock *tb)
- {
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
- 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index b2cd69ff7f..318e0360ac 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -47,7 +47,8 @@ static void mips_cpu_set_pc(CPUState *cs, vaddr value)
+     if (qemu_mprotect_rwx(buf, size)) {
+-        abort();
++        error_setg_errno(errp, errno, "mprotect of jit buffer");
++        return false;
      }
+     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
+ 
+-    return buf;
++    tcg_ctx->code_gen_buffer = buf;
++    return true;
  }
- 
--static void mips_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void mips_cpu_synchronize_from_tb(CPUState *cs,
-+                                         const TranslationBlock *tb)
+ #elif defined(_WIN32)
+-static inline void *alloc_code_gen_buffer(void)
++static bool alloc_code_gen_buffer(size_t size, Error **errp)
  {
-     MIPSCPU *cpu = MIPS_CPU(cs);
-     CPUMIPSState *env = &cpu->env;
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 254cd83f8b..8227d7aea9 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -314,7 +314,8 @@ static void riscv_cpu_set_pc(CPUState *cs, vaddr value)
-     env->pc = value;
+-    size_t size = tcg_ctx->code_gen_buffer_size;
+-    return VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
+-                        PAGE_EXECUTE_READWRITE);
++    void *buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
++                             PAGE_EXECUTE_READWRITE);
++    if (buf == NULL) {
++        error_setg_win32(errp, GetLastError(),
++                         "allocate %zu bytes for jit buffer", size);
++        return false;
++    }
++
++    tcg_ctx->code_gen_buffer = buf;
++    tcg_ctx->code_gen_buffer_size = size;
++    return true;
  }
- 
--static void riscv_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void riscv_cpu_synchronize_from_tb(CPUState *cs,
-+                                          const TranslationBlock *tb)
+ #else
+-static inline void *alloc_code_gen_buffer(void)
++static bool alloc_code_gen_buffer(size_t size, Error **errp)
  {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index 23ee17a701..2bb14144a7 100644
---- a/target/rx/cpu.c
-+++ b/target/rx/cpu.c
-@@ -33,7 +33,8 @@ static void rx_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.pc = value;
+     int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
+     int flags = MAP_PRIVATE | MAP_ANONYMOUS;
+-    size_t size = tcg_ctx->code_gen_buffer_size;
+     void *buf;
+ 
+     buf = mmap(NULL, size, prot, flags, -1, 0);
+     if (buf == MAP_FAILED) {
+-        return NULL;
++        error_setg_errno(errp, errno,
++                         "allocate %zu bytes for jit buffer", size);
++        return false;
+     }
++    tcg_ctx->code_gen_buffer_size = size;
+ 
+ #ifdef __mips__
+     if (cross_256mb(buf, size)) {
+@@ -1104,20 +1116,11 @@ static inline void *alloc_code_gen_buffer(void)
+     /* Request large pages for the buffer.  */
+     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
+ 
+-    return buf;
++    tcg_ctx->code_gen_buffer = buf;
++    return true;
  }
+ #endif /* USE_STATIC_CODE_GEN_BUFFER, WIN32, POSIX */
  
--static void rx_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void rx_cpu_synchronize_from_tb(CPUState *cs,
-+                                       const TranslationBlock *tb)
+-static inline void code_gen_alloc(size_t tb_size)
+-{
+-    tcg_ctx->code_gen_buffer_size = size_code_gen_buffer(tb_size);
+-    tcg_ctx->code_gen_buffer = alloc_code_gen_buffer();
+-    if (tcg_ctx->code_gen_buffer == NULL) {
+-        fprintf(stderr, "Could not allocate dynamic translator buffer\n");
+-        exit(1);
+-    }
+-}
+-
+ static bool tb_cmp(const void *ap, const void *bp)
  {
-     RXCPU *cpu = RX_CPU(cs);
- 
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 3c68021c56..1e0f05a15b 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -34,7 +34,8 @@ static void superh_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.pc = value;
- }
- 
--static void superh_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void superh_cpu_synchronize_from_tb(CPUState *cs,
-+                                           const TranslationBlock *tb)
+     const TranslationBlock *a = ap;
+@@ -1144,11 +1147,16 @@ static void tb_htable_init(void)
+    size. */
+ void tcg_exec_init(unsigned long tb_size)
  {
-     SuperHCPU *cpu = SUPERH_CPU(cs);
- 
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index d8a8bb1dda..6f14e370ed 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -691,7 +691,8 @@ static void sparc_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.npc = value + 4;
- }
- 
--static void sparc_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void sparc_cpu_synchronize_from_tb(CPUState *cs,
-+                                          const TranslationBlock *tb)
- {
-     SPARCCPU *cpu = SPARC_CPU(cs);
- 
-diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-index 2f2e5b029f..4bff1d4718 100644
---- a/target/tricore/cpu.c
-+++ b/target/tricore/cpu.c
-@@ -42,7 +42,7 @@ static void tricore_cpu_set_pc(CPUState *cs, vaddr value)
- }
- 
- static void tricore_cpu_synchronize_from_tb(CPUState *cs,
--                                            TranslationBlock *tb)
-+                                            const TranslationBlock *tb)
- {
-     TriCoreCPU *cpu = TRICORE_CPU(cs);
-     CPUTriCoreState *env = &cpu->env;
++    bool ok;
++
+     tcg_allowed = true;
+     cpu_gen_init();
+     page_init();
+     tb_htable_init();
+-    code_gen_alloc(tb_size);
++
++    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size), &error_fatal);
++    assert(ok);
++
+ #if defined(CONFIG_SOFTMMU)
+     /* There's no guest base to take into account, so go ahead and
+        initialize the prologue now.  */
 -- 
 2.25.1
 
