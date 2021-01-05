@@ -2,96 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4D42EB226
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 19:12:18 +0100 (CET)
-Received: from localhost ([::1]:55220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460242EB229
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 19:13:42 +0100 (CET)
+Received: from localhost ([::1]:57800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwqob-0003Wa-99
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 13:12:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58874)
+	id 1kwqpx-0004d9-CX
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 13:13:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kwqL8-0006Aj-Mu
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:41:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50168)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kwqL5-0001XI-A3
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:41:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609868506;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pmpf1YmolH18+Qtn7MDxWafKLVLo4r74GHQ0m4FctLE=;
- b=SlEsyZNW/gAWjUeuRhlqmcIBDIIxyIITPiDx6HIm3APQ0m/hN1GPU4fRO0Pq7+m8iBzbbM
- 877WyGGQ1BrpUKquBao8l4hgCx5mcvneb5/2DMjbdPcDNHP3h7g6nquDm/fimkASA0o93L
- rRfgqRtaTQoBhcMiHszWz/E9TQTK/8c=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-3SxovBmpPFGSuDuNOwzatQ-1; Tue, 05 Jan 2021 12:41:45 -0500
-X-MC-Unique: 3SxovBmpPFGSuDuNOwzatQ-1
-Received: by mail-wr1-f71.google.com with SMTP id e12so127177wrp.10
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 09:41:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kwqgL-0005fm-0T
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 13:03:46 -0500
+Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:39509)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1kwqgJ-0003At-AT
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 13:03:44 -0500
+Received: by mail-qk1-x730.google.com with SMTP id p14so113334qke.6
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 10:03:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+66N5UB+2up5WcCaQC/Of5cbsmB93iil3mqXIx4Gh9Q=;
+ b=SdMfXJFHfbv576AUIZ959O99pxU+HpogsSRQPj8DX7UQF/6JYA5tNZCMKtOYnUnjdR
+ juFw7EVsgCjAAkYMHBuk3lpy62+o3WzlbSDWec2kFz4ReSdlYhyizVQnyHTwxbuVLd4I
+ 1wkGVMFYjdpqqYyINBtzSr7jk4aiKG6nD9cnHiVTbSSnkuik/qOeiNa5GCdgDiFRGZqF
+ 9rmwEqtQlPlDk7ZYHM5OgkOFL3lSn2ZgKZx0hF5mfy9fKqW/0XNiSHc6xwRajEvm7e7z
+ 86htvzpCpjNG4E6+suXt9EnXXrFsMmdIKTNM03RguB/4yZ8xQuWOgfjYBtwaFXMd579s
+ oLuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=pmpf1YmolH18+Qtn7MDxWafKLVLo4r74GHQ0m4FctLE=;
- b=Wl8DpnJJVPznX/A8MxHf+kW6ZI/BXeM+ifuE3dtALYBfcNiZSDCcvA9cw8RBJcMskb
- mJv4cieQ7ODbWcMD5NElH+xZNL1tvVtXkFGl7Dr2ic//dDg8XYL/WEFl/Wr/kSjdiqT/
- vEeAb6XmVmsHHGM8pfh/0VmWTqsoW6YHGB3/YZiXo+RPI4/LlyBqbMbzIMpcb1HSHffr
- lap3Knvg6yK0osoWJWr2iRF+oFJ2O6UiVLhsSfD3ZBZNutwa51BKB+s8BPY8RTCktvqf
- 0pLaF6bU2qAPxjBz9rvcEaI8ZEVNNBiBiKQ80kPAlAe8xE5oifdm+iCy7Vcjmk7601Hk
- DbDA==
-X-Gm-Message-State: AOAM531oFwxzJ49AaqfU2m6f5kikfokXNJmAOn+mhbZdp8pM4HRrjqfc
- zDkk89pz7aXtsBrINf52XTnECsII0aW81tqeQBD0C86/NojIYbmNRqGyOayRanydmhxr2O9XsKS
- 5OmPGh3shaJklMaI=
-X-Received: by 2002:a05:6000:c9:: with SMTP id q9mr618981wrx.259.1609868503943; 
- Tue, 05 Jan 2021 09:41:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwVM/6wQRYcrEywwOcEdQMQPWAdxeLqPRTD5f6ZVI8Ymhzxmh6Yylt4NXtZBC+jgn0hpfSh/w==
-X-Received: by 2002:a05:6000:c9:: with SMTP id q9mr618953wrx.259.1609868503668; 
- Tue, 05 Jan 2021 09:41:43 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id s13sm676348wra.53.2021.01.05.09.41.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jan 2021 09:41:42 -0800 (PST)
-Subject: Re: [PATCH] meson: Propagate gnutls dependency
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-References: <20210102125213.41279-1-r.bolshakov@yadro.com>
- <CAFEAcA-X6DSKeyS4bbNe3tu-QFGxc1VM+Eoz_UMk-8jb--zq9g@mail.gmail.com>
- <ea49da2a-47f9-8ffe-8dbc-1974f34cb6f1@redhat.com>
- <X/NPRqMkdM0/IxTh@SPB-NB-133.local>
- <af0194cd-cdcc-44a3-f023-80d73d96c9e8@redhat.com>
- <X/R5xtvMn4PcSkTf@SPB-NB-133.local>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <359133ac-9fd0-8fea-14ac-9c422bd85185@redhat.com>
-Date: Tue, 5 Jan 2021 18:41:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ bh=+66N5UB+2up5WcCaQC/Of5cbsmB93iil3mqXIx4Gh9Q=;
+ b=Pp/cM0Ge+ncksJ1BtQp8sf44q0xHx4IVnWtz4mUeqyK3mE8++1urMJYeZF8niRNNiU
+ 03WV4f7bpuNrqPK+3m0cOcPvUjZBrVOfHAcrEx/0Z5sd1zuVRoqP2cYduJBiwrV0iA/X
+ HrfMnPPtzbPwoweVBLg6BdHFVskrmBNO4JfTbcCZVETw5K7lVUkM+JiJc03iKTD+kicC
+ Ox/R/Eu5KqSRlKhtKDHWZf1U3C2fK8xSZEtqwIcps9G6ULdUtij2xOcPVavgAd6MMA77
+ Cj6xhDldj6l+aaLCpWfVXZEmbHbTKFvMqQTYDVwxVANls/6X6+IHSDB4SPOHx6lJXPoz
+ fWSQ==
+X-Gm-Message-State: AOAM531E5D30d/AC790377CrVZLCQRbHjrV1ggaaQEPvHG9xiyd/cAf9
+ PyHYzq6RbzmOYxq+/J1Qe5eoZF/atoI=
+X-Google-Smtp-Source: ABdhPJxnra8F5mk8MIkvhHNGlYShaa++lLncbGMVzcyEt5Y+0FHnW/IZTCefHGUwyCZu6+nGt3iayA==
+X-Received: by 2002:a37:2742:: with SMTP id n63mr715902qkn.390.1609869819919; 
+ Tue, 05 Jan 2021 10:03:39 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:63d2:cecd:bc88:6607:5111])
+ by smtp.gmail.com with ESMTPSA id y17sm423550qki.48.2021.01.05.10.03.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jan 2021 10:03:39 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/1] vl.c: do not execute trace_init_backends() before
+ daemonizing
+Date: Tue,  5 Jan 2021 15:03:25 -0300
+Message-Id: <20210105180325.536160-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <X/R5xtvMn4PcSkTf@SPB-NB-133.local>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x730.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,147 +82,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: pbonzini@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/01/21 15:37, Roman Bolshakov wrote:
->> Does it work if you do:
->>
->> crypto_ss.add(authz, qom)
->> libcrypto = static_library('crypto', crypto_ss.sources() + genh,
->>                             dependencies: crypto_ss.dependencies(),
->>                             ...)
->> crypto = declare_dependency(link_whole: libcrypto,
->>                              dependencies: crypto_ss.dependencies())
->>
-> 
-> I tried that approach before I sent the patch in the subject. It
-> produces duplicate symbols:
-> 
->    duplicate symbol '_qauthz_pam_new' in:
->        libcrypto.fa(authz_pamacct.c.o)
->        libauthz.fa(authz_pamacct.c.o)
->    [...]
->    duplicate symbol '_object_property_set_qobject' in:
->        libcrypto.fa(qom_qom-qobject.c.o)                                                                                                                                                                                                                            libqom.fa(qom_qom-qobject.c.o)
-> 
-> My impression that it links in every static library that's mentioned in
-> dependencies of static_library, so they grow like a snow ball. Patch
-> below:
+Commit v5.2.0-190-g0546c0609c ("vl: split various early command line
+options to a separate function") moved the trace backend init code to
+the qemu_process_early_options(). Which is now being called before
+os_daemonize() via qemu_maybe_daemonize().
 
-Okay, I'll look more into it.
+Turns out that this change of order causes a problem when executing
+QEMU in daemon mode and with CONFIG_TRACE_SIMPLE. The trace thread
+is now being created by the parent, and the parent is left waiting for
+a trace file flush that was registered via st_init(). The result is
+that the parent process never exits.
 
-Paolo
+To reproduce, fire up a QEMU process with -daemonize and with
+CONFIG_TRACE_SIMPLE enabled. Two QEMU process will be left in the
+host:
 
-> diff --git a/block/meson.build b/block/meson.build
-> index 7595d86c41..7eaf48c6dc 100644
-> --- a/block/meson.build
-> +++ b/block/meson.build
-> @@ -40,7 +40,7 @@ block_ss.add(files(
->     'vmdk.c',
->     'vpc.c',
->     'write-threshold.c',
-> -), zstd, zlib)
-> +), crypto, zstd, zlib)
->   
->   softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('blkreplay.c'))
->   
-> diff --git a/hw/nvram/meson.build b/hw/nvram/meson.build
-> index fd2951a860..1f2ed013b2 100644
-> --- a/hw/nvram/meson.build
-> +++ b/hw/nvram/meson.build
-> @@ -1,6 +1,3 @@
-> -# QOM interfaces must be available anytime QOM is used.
-> -qom_ss.add(files('fw_cfg-interface.c'))
-> -
->   softmmu_ss.add(files('fw_cfg.c'))
->   softmmu_ss.add(when: 'CONFIG_CHRP_NVRAM', if_true: files('chrp_nvram.c'))
->   softmmu_ss.add(when: 'CONFIG_DS1225Y', if_true: files('ds1225y.c'))
-> diff --git a/io/meson.build b/io/meson.build
-> index bcd8b1e737..a844271b17 100644
-> --- a/io/meson.build
-> +++ b/io/meson.build
-> @@ -12,4 +12,4 @@ io_ss.add(files(
->     'dns-resolver.c',
->     'net-listener.c',
->     'task.c',
-> -))
-> +), crypto)
-> diff --git a/meson.build b/meson.build
-> index 372576f82c..1a8c653067 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1538,6 +1538,34 @@ libqemuutil = static_library('qemuutil',
->   qemuutil = declare_dependency(link_with: libqemuutil,
->                                 sources: genh + version_res)
->   
-> +# QOM interfaces must be available anytime QOM is used.
-> +qom_ss.add(files('hw/nvram/fw_cfg-interface.c'))
-> +qom_ss = qom_ss.apply(config_host, strict: false)
-> +libqom = static_library('qom', qom_ss.sources() + genh,
-> +                        dependencies: [qom_ss.dependencies()],
-> +                        name_suffix: 'fa')
-> +
-> +qom = declare_dependency(link_whole: libqom)
-> +
-> +authz_ss = authz_ss.apply(config_host, strict: false)
-> +libauthz = static_library('authz', authz_ss.sources() + genh,
-> +                          dependencies: [authz_ss.dependencies()],
-> +                          name_suffix: 'fa',
-> +                          build_by_default: false)
-> +
-> +authz = declare_dependency(link_whole: libauthz,
-> +                           dependencies: qom)
-> +
-> +crypto_ss.add(authz)
-> +crypto_ss = crypto_ss.apply(config_host, strict: false)
-> +libcrypto = static_library('crypto', crypto_ss.sources() + genh,
-> +                           dependencies: crypto_ss.dependencies(),
-> +                           name_suffix: 'fa',
-> +                           build_by_default: false)
-> +
-> +crypto = declare_dependency(link_whole: libcrypto,
-> +                            dependencies: crypto_ss.dependencies())
-> +
->   decodetree = generator(find_program('scripts/decodetree.py'),
->                          output: 'decode-@BASENAME@.c.inc',
->                          arguments: ['@INPUT@', '@EXTRA_ARGS@', '-o', '@OUTPUT@'])
-> @@ -1652,31 +1680,6 @@ qemu_syms = custom_target('qemu.syms', output: 'qemu.syms',
->                                capture: true,
->                                command: [undefsym, nm, '@INPUT@'])
->   
-> -qom_ss = qom_ss.apply(config_host, strict: false)
-> -libqom = static_library('qom', qom_ss.sources() + genh,
-> -                        dependencies: [qom_ss.dependencies()],
-> -                        name_suffix: 'fa')
-> -
-> -qom = declare_dependency(link_whole: libqom)
-> -
-> -authz_ss = authz_ss.apply(config_host, strict: false)
-> -libauthz = static_library('authz', authz_ss.sources() + genh,
-> -                          dependencies: [authz_ss.dependencies()],
-> -                          name_suffix: 'fa',
-> -                          build_by_default: false)
-> -
-> -authz = declare_dependency(link_whole: libauthz,
-> -                           dependencies: qom)
-> -
-> -crypto_ss = crypto_ss.apply(config_host, strict: false)
-> -libcrypto = static_library('crypto', crypto_ss.sources() + genh,
-> -                           dependencies: [crypto_ss.dependencies()],
-> -                           name_suffix: 'fa',
-> -                           build_by_default: false)
-> -
-> -crypto = declare_dependency(link_whole: libcrypto,
-> -                            dependencies: [authz, qom])
-> -
->   io_ss = io_ss.apply(config_host, strict: false)
->   libio = static_library('io', io_ss.sources() + genh,
->                          dependencies: [io_ss.dependencies()],
+$ sudo ./x86_64-softmmu/qemu-system-x86_64 -S -no-user-config -nodefaults \
+  -nographic -machine none,accel=kvm:tcg -daemonize
+
+$ ps axf | grep qemu
+ 529710 pts/3    S+     0:00  |       \_ grep --color=auto qemu
+ 529697 ?        Ssl    0:00  \_ ./x86_64-softmmu/qemu-system-x86_64 -S -no-user-config -nodefaults -nographic -machine none,accel=kvm:tcg -daemonize
+ 529699 ?        Sl     0:00      \_ ./x86_64-softmmu/qemu-system-x86_64 -S -no-user-config -nodefaults -nographic -machine none,accel=kvm:tcg -daemonize
+
+The parent thread is hang in flush_trace_file:
+
+$ sudo gdb ./x86_64-softmmu/qemu-system-x86_64 529697
+(..)
+(gdb) bt
+ #0  0x00007f9dac6a137d in syscall () at /lib64/libc.so.6
+ #1  0x00007f9dacc3c4f3 in g_cond_wait () at /lib64/libglib-2.0.so.0
+ #2  0x0000555d12f952da in flush_trace_file (wait=true) at ../trace/simple.c:140
+ #3  0x0000555d12f95b4c in st_flush_trace_buffer () at ../trace/simple.c:383
+ #4  0x00007f9dac5e43a7 in __run_exit_handlers () at /lib64/libc.so.6
+ #5  0x00007f9dac5e4550 in on_exit () at /lib64/libc.so.6
+ #6  0x0000555d12d454de in os_daemonize () at ../os-posix.c:255
+ #7  0x0000555d12d0bd5c in qemu_maybe_daemonize (pid_file=0x0) at ../softmmu/vl.c:2408
+ #8  0x0000555d12d0e566 in qemu_init (argc=8, argv=0x7fffc594d9b8, envp=0x7fffc594da00) at ../softmmu/vl.c:3459
+ #9  0x0000555d128edac1 in main (argc=8, argv=0x7fffc594d9b8, envp=0x7fffc594da00) at ../softmmu/main.c:49
+(gdb)
+
+Aside from the 'zombie' process in the host, this is directly impacting
+Libvirt. Libvirt waits for the parent process to exit to be sure that the
+QMP monitor is available in the daemonized process to fetch QEMU
+capabilities, and as is now Libvirt hangs at daemon start waiting
+for the parent thread to exit.
+
+The fix is simple: just move the trace backend related code back to
+be executed after daemonizing.
+
+Fixes: 0546c0609cb5a8d90c1cbac8e0d64b5a048bbb19
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ softmmu/vl.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
+
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 0ed5c5ba93..646cd3378f 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2354,11 +2354,6 @@ static void qemu_process_early_options(void)
+                       cleanup_add_fd, NULL, &error_fatal);
+ #endif
+ 
+-    if (!trace_init_backends()) {
+-        exit(1);
+-    }
+-    trace_init_file();
+-
+     /* Open the logfile at this point and set the log mask if necessary.  */
+     qemu_set_log_filename(log_file, &error_fatal);
+     if (log_mask) {
+@@ -3458,6 +3453,19 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_process_help_options();
+     qemu_maybe_daemonize(pid_file);
+ 
++    /*
++     * The trace backend must be initialized before daemonizing.
++     * trace_init_backends() will call st_init(), which will create the
++     * trace thread in the parent, and also register st_flush_trace_buffer()
++     * in atexit(). This function will force the parent to wait for the
++     * writeout thread to finish, which will not occur, and the parent
++     * process will be left in the host.
++     */
++    if (!trace_init_backends()) {
++        exit(1);
++    }
++    trace_init_file();
++
+     qemu_init_main_loop(&error_fatal);
+     cpu_timers_init();
+ 
+-- 
+2.26.2
 
 
