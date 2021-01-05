@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880782EAFD5
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:16:09 +0100 (CET)
-Received: from localhost ([::1]:55454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A48512EAFEF
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:23:02 +0100 (CET)
+Received: from localhost ([::1]:47114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwp0C-0005Ea-Hs
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:16:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52608)
+	id 1kwp6r-0005dh-OV
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:23:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwota-0003yE-9n
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:18 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:34458)
+ id 1kwovT-0007GR-Lw
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:11:15 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:36236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwotV-0003tW-Qi
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:18 -0500
+ id 1kwovR-0005bC-JC
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:11:15 -0500
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FsjBG094307;
- Tue, 5 Jan 2021 16:09:10 GMT
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FsjxD094287;
+ Tue, 5 Jan 2021 16:11:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=NGyyMYC4NX25akUfdhxaZx7oWjC1IY23mvLcE6D2HUo=;
- b=owCisJxf5HenCB6g26Dq4aQHRJUvbggF+nHlV2hRieXJWxvQipcSBjCwh0dbSpASMwIM
- 7S9o2KDufdmV3g8Z/gMCXRXURSZHJH4vMkD9Rk6+FeKKCl03yuDtBlcWAD/PiwB09T1E
- 6mizt4E5FfNiX97rFIQKDzjoY4Q0d8pM/hMqWA9spjUJhWo9ug8ns9duWusUWq7dH7gR
- ScBFaonK26lNJWP7xOhvL38ajeUk7I7l8iBI+z2rNoDEhR5v6wMldkoyrhGzaHyBvblq
- Qr2YBFWtCxeiEf0BxI4VLhXrkR7Bm3txonSX2vl1ItK2mG8NQPTBGaNEfCw5qgDqADIq 4g== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2130.oracle.com with ESMTP id 35tebasjvg-1
+ bh=z85cdhwotBobm6YDCbt1oMvBoAzWYnbUbEJ6VIxWcfk=;
+ b=k5iHWbD5lTEOArbR13Yx5fbQLzJ/9LBORpXQma5FeS8pu9xCRVtsYlmt0sErFhjF2J8c
+ pusGxWkxNSivqw6CHHGIiVMIKVakWDSoLv8jbMWLKLuVmp4e2Hwz6FZesCLixatbpi2C
+ FZwtHZGaI2bqgcqxX5KwhNT0YyLCzqTAxgXCqJHIOwxEQqoY9R59XjdV0/XRG21N+xCL
+ 6tRwylcYLMPqO/0Ymm++oUb9a21thZACF42DZ/v92/1UElRoQIgc27Ys6mWJIW4fslNW
+ Z8uhPLJjfXjv70z93qSMpb2l6EglAgCL4YgQG/Ri94Rxz7OlJoe172cPVx1wFEJXs6Ou +g== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2130.oracle.com with ESMTP id 35tebask64-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 05 Jan 2021 16:09:10 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FuOrS029185;
+ Tue, 05 Jan 2021 16:11:10 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FuRAF026647;
  Tue, 5 Jan 2021 16:09:09 GMT
 Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 35uxnsvb3t-1
+ by aserp3030.oracle.com with ESMTP id 35v4rbjffa-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 05 Jan 2021 16:09:09 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 105G98Lw003432;
- Tue, 5 Jan 2021 16:09:08 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 105G99ug003462;
+ Tue, 5 Jan 2021 16:09:09 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
  with ESMTP ; Tue, 05 Jan 2021 08:09:08 -0800
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V2 10/22] pci: export functions for cpr
-Date: Tue,  5 Jan 2021 07:41:58 -0800
-Message-Id: <1609861330-129855-11-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V2 11/22] vfio-pci: refactor for cpr
+Date: Tue,  5 Jan 2021 07:41:59 -0800
+Message-Id: <1609861330-129855-12-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 References: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0 spamscore=0
- malwarescore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0 bulkscore=0
+ suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2101050099
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
@@ -107,117 +107,144 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Export msix_is_pending and msix_init_vector_notifiers for use by cpr.
-No functional change.
+Export vfio_address_spaces and vfio_listener_skipped_section.
+Add optional eventfd arg to vfio_add_kvm_msi_virq.
+Refactor vector use into a helper vfio_vector_init.
+All for use by cpr in a subsequent patch.  No functional change.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- hw/pci/msix.c         | 20 ++++++++++++++------
- hw/pci/pci.c          |  3 +--
- include/hw/pci/msix.h |  5 +++++
- include/hw/pci/pci.h  |  1 +
- 4 files changed, 21 insertions(+), 8 deletions(-)
+ hw/vfio/common.c              |  4 ++--
+ hw/vfio/pci.c                 | 36 +++++++++++++++++++++++++-----------
+ include/hw/vfio/vfio-common.h |  3 +++
+ 3 files changed, 30 insertions(+), 13 deletions(-)
 
-diff --git a/hw/pci/msix.c b/hw/pci/msix.c
-index 67e34f3..52c8949 100644
---- a/hw/pci/msix.c
-+++ b/hw/pci/msix.c
-@@ -64,7 +64,7 @@ static uint8_t *msix_pending_byte(PCIDevice *dev, int vector)
-     return dev->msix_pba + vector / 8;
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 3335714..7f8768d 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -40,7 +40,7 @@
+ 
+ VFIOGroupList vfio_group_list =
+     QLIST_HEAD_INITIALIZER(vfio_group_list);
+-static QLIST_HEAD(, VFIOAddressSpace) vfio_address_spaces =
++VFIOAddressSpaceList vfio_address_spaces =
+     QLIST_HEAD_INITIALIZER(vfio_address_spaces);
+ 
+ #ifdef CONFIG_KVM
+@@ -393,7 +393,7 @@ static int vfio_host_win_del(VFIOContainer *container, hwaddr min_iova,
+     return -1;
  }
  
--static int msix_is_pending(PCIDevice *dev, int vector)
-+int msix_is_pending(PCIDevice *dev, unsigned int vector)
+-static bool vfio_listener_skipped_section(MemoryRegionSection *section)
++bool vfio_listener_skipped_section(MemoryRegionSection *section)
  {
-     return *msix_pending_byte(dev, vector) & msix_pending_mask(vector);
- }
-@@ -576,6 +576,17 @@ static void msix_unset_notifier_for_vector(PCIDevice *dev, unsigned int vector)
-     dev->msix_vector_release_notifier(dev, vector);
+     return (!memory_region_is_ram(section->mr) &&
+             !memory_region_is_iommu(section->mr)) ||
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 2e561c0..9b57ffa 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -412,7 +412,7 @@ static int vfio_enable_vectors(VFIOPCIDevice *vdev, bool msix)
  }
  
-+void msix_init_vector_notifiers(PCIDevice *dev,
-+                                MSIVectorUseNotifier use_notifier,
-+                                MSIVectorReleaseNotifier release_notifier,
-+                                MSIVectorPollNotifier poll_notifier)
+ static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector,
+-                                  int vector_n, bool msix)
++                                  int vector_n, bool msix, int eventfd)
+ {
+     int virq;
+ 
+@@ -420,7 +420,9 @@ static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector,
+         return;
+     }
+ 
+-    if (event_notifier_init(&vector->kvm_interrupt, 0)) {
++    if (eventfd >= 0) {
++        event_notifier_init_fd(&vector->kvm_interrupt, eventfd);
++    } else if (event_notifier_init(&vector->kvm_interrupt, 0)) {
+         return;
+     }
+ 
+@@ -456,6 +458,22 @@ static void vfio_update_kvm_msi_virq(VFIOMSIVector *vector, MSIMessage msg,
+     kvm_irqchip_commit_routes(kvm_state);
+ }
+ 
++static void vfio_vector_init(VFIOPCIDevice *vdev, int nr, int eventfd)
 +{
-+    assert(use_notifier && release_notifier);
-+    dev->msix_vector_use_notifier = use_notifier;
-+    dev->msix_vector_release_notifier = release_notifier;
-+    dev->msix_vector_poll_notifier = poll_notifier;
++    VFIOMSIVector *vector = &vdev->msi_vectors[nr];
++    PCIDevice *pdev = &vdev->pdev;
++
++    vector->vdev = vdev;
++    vector->virq = -1;
++    if (eventfd >= 0) {
++        event_notifier_init_fd(&vector->interrupt, eventfd);
++    } else if (event_notifier_init(&vector->interrupt, 0)) {
++        error_report("vfio: Error: event_notifier_init failed");
++    }
++    vector->use = true;
++    msix_vector_use(pdev, nr);
 +}
 +
- int msix_set_vector_notifiers(PCIDevice *dev,
-                               MSIVectorUseNotifier use_notifier,
-                               MSIVectorReleaseNotifier release_notifier,
-@@ -583,11 +594,8 @@ int msix_set_vector_notifiers(PCIDevice *dev,
+ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
+                                    MSIMessage *msg, IOHandler *handler)
  {
-     int vector, ret;
+@@ -467,14 +485,10 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
  
--    assert(use_notifier && release_notifier);
--
--    dev->msix_vector_use_notifier = use_notifier;
--    dev->msix_vector_release_notifier = release_notifier;
--    dev->msix_vector_poll_notifier = poll_notifier;
-+    msix_init_vector_notifiers(dev, use_notifier, release_notifier,
-+                               poll_notifier);
+     vector = &vdev->msi_vectors[nr];
  
-     if ((dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] &
-         (MSIX_ENABLE_MASK | MSIX_MASKALL_MASK)) == MSIX_ENABLE_MASK) {
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index de0fae1..7343e00 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -216,7 +216,6 @@ static const TypeInfo pcie_bus_info = {
- };
++    vfio_vector_init(vdev, nr, -1);
++
+     if (!vector->use) {
+-        vector->vdev = vdev;
+-        vector->virq = -1;
+-        if (event_notifier_init(&vector->interrupt, 0)) {
+-            error_report("vfio: Error: event_notifier_init failed");
+-        }
+-        vector->use = true;
+-        msix_vector_use(pdev, nr);
++        vfio_vector_init(vdev, nr, -1);
+     }
  
- static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
--static void pci_update_mappings(PCIDevice *d);
- static void pci_irq_handler(void *opaque, int irq_num, int level);
- static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom, Error **);
- static void pci_del_option_rom(PCIDevice *pdev);
-@@ -1316,7 +1315,7 @@ static pcibus_t pci_bar_address(PCIDevice *d,
-     return new_addr;
- }
+     qemu_set_fd_handler(event_notifier_get_fd(&vector->interrupt),
+@@ -492,7 +506,7 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
+         }
+     } else {
+         if (msg) {
+-            vfio_add_kvm_msi_virq(vdev, vector, nr, true);
++            vfio_add_kvm_msi_virq(vdev, vector, nr, true, -1);
+         }
+     }
  
--static void pci_update_mappings(PCIDevice *d)
-+void pci_update_mappings(PCIDevice *d)
- {
-     PCIIORegion *r;
-     int i;
-diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
-index 4c4a60c..46606cf 100644
---- a/include/hw/pci/msix.h
-+++ b/include/hw/pci/msix.h
-@@ -32,6 +32,7 @@ int msix_present(PCIDevice *dev);
- bool msix_is_masked(PCIDevice *dev, unsigned vector);
- void msix_set_pending(PCIDevice *dev, unsigned vector);
- void msix_clr_pending(PCIDevice *dev, int vector);
-+int msix_is_pending(PCIDevice *dev, unsigned vector);
+@@ -628,7 +642,7 @@ retry:
+          * Attempt to enable route through KVM irqchip,
+          * default to userspace handling if unavailable.
+          */
+-        vfio_add_kvm_msi_virq(vdev, vector, i, false);
++        vfio_add_kvm_msi_virq(vdev, vector, i, false, -1);
+     }
  
- int msix_vector_use(PCIDevice *dev, unsigned vector);
- void msix_vector_unuse(PCIDevice *dev, unsigned vector);
-@@ -41,6 +42,10 @@ void msix_notify(PCIDevice *dev, unsigned vector);
+     /* Set interrupt type prior to possible interrupts */
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index c78f3ff..ab87df4 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -182,6 +182,8 @@ int vfio_get_device(VFIOGroup *group, const char *name,
+ extern const MemoryRegionOps vfio_region_ops;
+ typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
+ extern VFIOGroupList vfio_group_list;
++typedef QLIST_HEAD(, VFIOAddressSpace) VFIOAddressSpaceList;
++extern VFIOAddressSpaceList vfio_address_spaces;
  
- void msix_reset(PCIDevice *dev);
- 
-+void msix_init_vector_notifiers(PCIDevice *dev,
-+                                MSIVectorUseNotifier use_notifier,
-+                                MSIVectorReleaseNotifier release_notifier,
-+                                MSIVectorPollNotifier poll_notifier);
- int msix_set_vector_notifiers(PCIDevice *dev,
-                               MSIVectorUseNotifier use_notifier,
-                               MSIVectorReleaseNotifier release_notifier,
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index c1bf7d5..bd07c86 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -865,5 +865,6 @@ extern const VMStateDescription vmstate_pci_device;
- }
- 
- MSIMessage pci_get_msi_message(PCIDevice *dev, int vector);
-+void pci_update_mappings(PCIDevice *d);
- 
+ #ifdef CONFIG_LINUX
+ int vfio_get_region_info(VFIODevice *vbasedev, int index,
+@@ -193,6 +195,7 @@ struct vfio_info_cap_header *
+ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id);
  #endif
+ extern const MemoryListener vfio_prereg_listener;
++bool vfio_listener_skipped_section(MemoryRegionSection *section);
+ 
+ int vfio_spapr_create_window(VFIOContainer *container,
+                              MemoryRegionSection *section,
 -- 
 1.8.3.1
 
