@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0592EAFDE
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:18:26 +0100 (CET)
-Received: from localhost ([::1]:35786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880782EAFD5
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:16:09 +0100 (CET)
+Received: from localhost ([::1]:55454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwp2P-0000Tq-1V
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:18:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52624)
+	id 1kwp0C-0005Ea-Hs
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:16:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwotb-0003ya-2E
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:19 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:34454)
+ id 1kwota-0003yE-9n
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:18 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:34458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwotV-0003rn-5r
+ id 1kwotV-0003tW-Qi
  for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:18 -0500
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105Ft4EL094589;
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FsjBG094307;
  Tue, 5 Jan 2021 16:09:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=7i4w3KiW8uVoEnJ0gDLqxwKqNbmMawd7mp9fpN9woeI=;
- b=vpjL8+tNQFGJN/9NfcotAQ+V9VQrJCIAA7mqO20Of1aBLnnMSbzsvhf3Jdja9XZyk4jI
- MEIqbD0Ni/6w9y6pqHaEsQnYtHP6RTXIliGrUlURhdYcSZwD7Hbtca7VKb+GrWUEsZ7g
- flI7x6LUlYlfZUCqlfFSmB7qpJfCLKDGDh6vJ9xnQJoPQO/HD5lH4zncpuukiPkcAE3r
- IsaL9/kcrk5POk277/k26OcTXRmSKTZXp+m2Krc+spF3de8tS4sM5VW3vCsX2ojsZv0F
- ikS1bD6jeqMkn97OwPdyA4OYiIovDh7cMouvNNuzyWQXVj5Lr2ZyDG7oZETVpoeOhiVM Fg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2130.oracle.com with ESMTP id 35tebasjve-1
+ bh=NGyyMYC4NX25akUfdhxaZx7oWjC1IY23mvLcE6D2HUo=;
+ b=owCisJxf5HenCB6g26Dq4aQHRJUvbggF+nHlV2hRieXJWxvQipcSBjCwh0dbSpASMwIM
+ 7S9o2KDufdmV3g8Z/gMCXRXURSZHJH4vMkD9Rk6+FeKKCl03yuDtBlcWAD/PiwB09T1E
+ 6mizt4E5FfNiX97rFIQKDzjoY4Q0d8pM/hMqWA9spjUJhWo9ug8ns9duWusUWq7dH7gR
+ ScBFaonK26lNJWP7xOhvL38ajeUk7I7l8iBI+z2rNoDEhR5v6wMldkoyrhGzaHyBvblq
+ Qr2YBFWtCxeiEf0BxI4VLhXrkR7Bm3txonSX2vl1ItK2mG8NQPTBGaNEfCw5qgDqADIq 4g== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2130.oracle.com with ESMTP id 35tebasjvg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 05 Jan 2021 16:09:09 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FtKvd175795;
+ Tue, 05 Jan 2021 16:09:10 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FuOrS029185;
  Tue, 5 Jan 2021 16:09:09 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3030.oracle.com with ESMTP id 35vct61vq6-1
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 35uxnsvb3t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 05 Jan 2021 16:09:09 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 105G97E0020434;
- Tue, 5 Jan 2021 16:09:07 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 105G98Lw003432;
+ Tue, 5 Jan 2021 16:09:08 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 05 Jan 2021 08:09:07 -0800
+ with ESMTP ; Tue, 05 Jan 2021 08:09:08 -0800
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V2 09/22] cpr: HMP interfaces
-Date: Tue,  5 Jan 2021 07:41:57 -0800
-Message-Id: <1609861330-129855-10-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V2 10/22] pci: export functions for cpr
+Date: Tue,  5 Jan 2021 07:41:58 -0800
+Message-Id: <1609861330-129855-11-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 References: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101050099
+ phishscore=0 spamscore=0
+ malwarescore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101050099
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
@@ -107,164 +107,117 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cprsave <file> <mode>
-  Call cprsave().
-  Arguments:
-    file : save vmstate to this file name
-    mode: "reboot" or "restart"
+Export msix_is_pending and msix_init_vector_notifiers for use by cpr.
+No functional change.
 
-cprload <file>
-  Call cprload().
-  Arguments:
-    file : load vmstate from this file name
-
-cprinfo
-  Print to stdout a space-delimited list of modes supported by cprsave.
-  Arguments: none
-
-Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- hmp-commands.hx       | 44 ++++++++++++++++++++++++++++++++++++++++++++
- include/monitor/hmp.h |  3 +++
- monitor/hmp-cmds.c    | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 95 insertions(+)
+ hw/pci/msix.c         | 20 ++++++++++++++------
+ hw/pci/pci.c          |  3 +--
+ include/hw/pci/msix.h |  5 +++++
+ include/hw/pci/pci.h  |  1 +
+ 4 files changed, 21 insertions(+), 8 deletions(-)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 60f395c..8577850 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -354,6 +354,50 @@ SRST
- ERST
- 
-     {
-+        .name       = "cprinfo",
-+        .args_type  = "",
-+        .params     = "",
-+        .help       = "return list of modes supported by cprsave",
-+        .cmd        = hmp_cprinfo,
-+    },
-+
-+SRST
-+``cprinfo``
-+    Return a space-delimited list of modes supported by cprsave.
-+ERST
-+
-+    {
-+        .name       = "cprsave",
-+        .args_type  = "file:s,mode:s",
-+        .params     = "file 'restart'|'reboot'",
-+        .help       = "create a checkpoint of the VM in file",
-+        .cmd        = hmp_cprsave,
-+    },
-+
-+SRST
-+``cprsave`` *file* *mode*
-+    Create a checkpoint of the whole virtual machine and save it in *file*.
-+    If *mode* is 'reboot', the checkpoint remains valid after a host kexec
-+    reboot.  Guest ram must be backed by persistant shared memory.
-+    If *mode* is 'restart', pause the VCPUs, exec /usr/bin/qemu-exec if it
-+    exists, else exec argv[0], passing all the original command line arguments.
-+    Guest ram must be allocated with the memfd-anon option.
-+ERST
-+
-+    {
-+        .name       = "cprload",
-+        .args_type  = "file:s",
-+        .params     = "file",
-+        .help       = "load VM checkpoint from file",
-+        .cmd        = hmp_cprload,
-+    },
-+
-+SRST
-+``cprload`` *file*
-+Load a virtual machine from checkpoint file *file* and continue VCPUs.
-+ERST
-+
-+    {
-         .name       = "delvm",
-         .args_type  = "name:s",
-         .params     = "tag",
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index c986cfd..919b9a9 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -59,6 +59,9 @@ void hmp_balloon(Monitor *mon, const QDict *qdict);
- void hmp_loadvm(Monitor *mon, const QDict *qdict);
- void hmp_savevm(Monitor *mon, const QDict *qdict);
- void hmp_delvm(Monitor *mon, const QDict *qdict);
-+void hmp_cprinfo(Monitor *mon, const QDict *qdict);
-+void hmp_cprsave(Monitor *mon, const QDict *qdict);
-+void hmp_cprload(Monitor *mon, const QDict *qdict);
- void hmp_migrate_cancel(Monitor *mon, const QDict *qdict);
- void hmp_migrate_continue(Monitor *mon, const QDict *qdict);
- void hmp_migrate_incoming(Monitor *mon, const QDict *qdict);
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index ae4b6a4..e64b754 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -32,6 +32,7 @@
- #include "qapi/qapi-commands-block.h"
- #include "qapi/qapi-commands-char.h"
- #include "qapi/qapi-commands-control.h"
-+#include "qapi/qapi-commands-cpr.h"
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-net.h"
-@@ -1139,6 +1140,53 @@ void hmp_announce_self(Monitor *mon, const QDict *qdict)
-     qapi_free_AnnounceParameters(params);
+diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+index 67e34f3..52c8949 100644
+--- a/hw/pci/msix.c
++++ b/hw/pci/msix.c
+@@ -64,7 +64,7 @@ static uint8_t *msix_pending_byte(PCIDevice *dev, int vector)
+     return dev->msix_pba + vector / 8;
  }
  
-+void hmp_cprinfo(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err = NULL;
-+    CprInfo *cprinfo;
-+    CprModeList *mode;
-+
-+    cprinfo = qmp_cprinfo(&err);
-+    if (err) {
-+        goto out;
-+    }
-+
-+    for (mode = cprinfo->modes; mode; mode = mode->next) {
-+        monitor_printf(mon, "%s ", CprMode_str(mode->value));
-+    }
-+
-+out:
-+    hmp_handle_error(mon, err);
-+    qapi_free_CprInfo(cprinfo);
-+}
-+
-+void hmp_cprsave(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err = NULL;
-+    const char *mode;
-+    int val;
-+
-+    mode = qdict_get_try_str(qdict, "mode");
-+    val = qapi_enum_parse(&CprMode_lookup, mode, -1, &err);
-+
-+    if (val == -1) {
-+        goto out;
-+    }
-+
-+    qmp_cprsave(qdict_get_try_str(qdict, "file"), val, &err);
-+
-+out:
-+    hmp_handle_error(mon, err);
-+}
-+
-+void hmp_cprload(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err = NULL;
-+
-+    qmp_cprload(qdict_get_try_str(qdict, "file"), &err);
-+    hmp_handle_error(mon, err);
-+}
-+
- void hmp_migrate_cancel(Monitor *mon, const QDict *qdict)
+-static int msix_is_pending(PCIDevice *dev, int vector)
++int msix_is_pending(PCIDevice *dev, unsigned int vector)
  {
-     qmp_migrate_cancel(NULL);
+     return *msix_pending_byte(dev, vector) & msix_pending_mask(vector);
+ }
+@@ -576,6 +576,17 @@ static void msix_unset_notifier_for_vector(PCIDevice *dev, unsigned int vector)
+     dev->msix_vector_release_notifier(dev, vector);
+ }
+ 
++void msix_init_vector_notifiers(PCIDevice *dev,
++                                MSIVectorUseNotifier use_notifier,
++                                MSIVectorReleaseNotifier release_notifier,
++                                MSIVectorPollNotifier poll_notifier)
++{
++    assert(use_notifier && release_notifier);
++    dev->msix_vector_use_notifier = use_notifier;
++    dev->msix_vector_release_notifier = release_notifier;
++    dev->msix_vector_poll_notifier = poll_notifier;
++}
++
+ int msix_set_vector_notifiers(PCIDevice *dev,
+                               MSIVectorUseNotifier use_notifier,
+                               MSIVectorReleaseNotifier release_notifier,
+@@ -583,11 +594,8 @@ int msix_set_vector_notifiers(PCIDevice *dev,
+ {
+     int vector, ret;
+ 
+-    assert(use_notifier && release_notifier);
+-
+-    dev->msix_vector_use_notifier = use_notifier;
+-    dev->msix_vector_release_notifier = release_notifier;
+-    dev->msix_vector_poll_notifier = poll_notifier;
++    msix_init_vector_notifiers(dev, use_notifier, release_notifier,
++                               poll_notifier);
+ 
+     if ((dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] &
+         (MSIX_ENABLE_MASK | MSIX_MASKALL_MASK)) == MSIX_ENABLE_MASK) {
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index de0fae1..7343e00 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -216,7 +216,6 @@ static const TypeInfo pcie_bus_info = {
+ };
+ 
+ static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
+-static void pci_update_mappings(PCIDevice *d);
+ static void pci_irq_handler(void *opaque, int irq_num, int level);
+ static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom, Error **);
+ static void pci_del_option_rom(PCIDevice *pdev);
+@@ -1316,7 +1315,7 @@ static pcibus_t pci_bar_address(PCIDevice *d,
+     return new_addr;
+ }
+ 
+-static void pci_update_mappings(PCIDevice *d)
++void pci_update_mappings(PCIDevice *d)
+ {
+     PCIIORegion *r;
+     int i;
+diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
+index 4c4a60c..46606cf 100644
+--- a/include/hw/pci/msix.h
++++ b/include/hw/pci/msix.h
+@@ -32,6 +32,7 @@ int msix_present(PCIDevice *dev);
+ bool msix_is_masked(PCIDevice *dev, unsigned vector);
+ void msix_set_pending(PCIDevice *dev, unsigned vector);
+ void msix_clr_pending(PCIDevice *dev, int vector);
++int msix_is_pending(PCIDevice *dev, unsigned vector);
+ 
+ int msix_vector_use(PCIDevice *dev, unsigned vector);
+ void msix_vector_unuse(PCIDevice *dev, unsigned vector);
+@@ -41,6 +42,10 @@ void msix_notify(PCIDevice *dev, unsigned vector);
+ 
+ void msix_reset(PCIDevice *dev);
+ 
++void msix_init_vector_notifiers(PCIDevice *dev,
++                                MSIVectorUseNotifier use_notifier,
++                                MSIVectorReleaseNotifier release_notifier,
++                                MSIVectorPollNotifier poll_notifier);
+ int msix_set_vector_notifiers(PCIDevice *dev,
+                               MSIVectorUseNotifier use_notifier,
+                               MSIVectorReleaseNotifier release_notifier,
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index c1bf7d5..bd07c86 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -865,5 +865,6 @@ extern const VMStateDescription vmstate_pci_device;
+ }
+ 
+ MSIMessage pci_get_msi_message(PCIDevice *dev, int vector);
++void pci_update_mappings(PCIDevice *d);
+ 
+ #endif
 -- 
 1.8.3.1
 
