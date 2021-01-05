@@ -2,78 +2,144 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D25F2EB65A
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 00:39:38 +0100 (CET)
-Received: from localhost ([::1]:48690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E55BC2EB66F
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 00:46:16 +0100 (CET)
+Received: from localhost ([::1]:52214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwvvN-0007TQ-6M
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 18:39:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58786)
+	id 1kww1n-0000wf-I1
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 18:46:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kwvuC-0006ji-2z
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 18:38:24 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34018)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kwvu9-0007WX-Vq
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 18:38:23 -0500
-Received: by mail-wr1-x432.google.com with SMTP id q18so847619wrn.1
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 15:38:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=CpH7CkspaxkNNb80BvPcfWh/Op+ohGvOsymfk/Fel5E=;
- b=Tw/Je0CrfNL4Yq5P5TugRlAoXjcoBBonHTlkZzJLQFaot/wMb636PGG6CiYyn5ZOGp
- vC4XJmNm1mKhO9KddKxGTIrYktO88EJCWy24LdavETdyF3gW8NE+kmmlC9hdgbhPWQ9n
- hYiQfeYggXAf+o5E2JGCPaFdc71c8nJUOzyoR70WSYpxDzXkYbjuFlUxU4UjdfGm/g+t
- +z4gGyKMCbfz791zlk7p65Hvs0OKkw8FohAJ85jeaoBVLrinB+XO+56oIrISPF2uNlMr
- /jz95DJXnNc7CTI0cEuJ8+mSP7cnuqoD7TFIXrUBL1KF35v9U/JU+RnooriArjedIM8x
- 9pbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=CpH7CkspaxkNNb80BvPcfWh/Op+ohGvOsymfk/Fel5E=;
- b=nbdg2kyzzjdIbl8oQAev05WiqtFQVsNZFsthuwrujVQmVIg2d+rEl8N5GPVPHbTvmF
- gesBQDl2qKZ+9kr67yqBO3dQao1uxdMhIh6LeGJeYeb6KhDaDn//C+I20rU3RA7JKaS9
- dA+Ae69uSUSxwcvF3CHIO0Yk9rc4IDNSwBXHzuunGzhkdz4gRAj3p025/MF5YEJhZvkG
- L7yJNnRorvp/SZUY8NEdvLFNqrJYeklOdYzo4uhIysAXsOmS0Y6gz2DRoNoF/knVtqvU
- JEpY/bQSxuXS/YzYDkUaST0Emb5pAjplmjf/P2sY+kst1D/sCoSLZtucCpg47lAbAfXL
- Q8zA==
-X-Gm-Message-State: AOAM531wZ2XX+QSUm2ZQme6ECkR4WaOnJCkMfCuFluD2m0P8tMBuWjBB
- 9O/V/yQ6lpSA2ZoGegAeTUM04g==
-X-Google-Smtp-Source: ABdhPJw1HSL79H9exHu2PAzwRby8QbOLnp9PjsMLniEhxOdFvEks55MeI16KWcQRc9CDiUZMUzgX9w==
-X-Received: by 2002:a5d:5112:: with SMTP id s18mr1616224wrt.267.1609889899830; 
- Tue, 05 Jan 2021 15:38:19 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k1sm766986wrn.46.2021.01.05.15.38.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jan 2021 15:38:18 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D09E71FF7E;
- Tue,  5 Jan 2021 23:38:17 +0000 (GMT)
-References: <20210103145055.11074-1-r.bolshakov@yadro.com>
- <87zh1o3epo.fsf@linaro.org> <X/TNXssb7NRw45g5@SPB-NB-133.local>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-Subject: Re: [PATCH v2] tcg: Fix execution on Apple Silicon
-Date: Tue, 05 Jan 2021 23:37:26 +0000
-In-reply-to: <X/TNXssb7NRw45g5@SPB-NB-133.local>
-Message-ID: <87ft3f2bva.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <prvs=632ae7187=Atish.Patra@wdc.com>)
+ id 1kwvzm-0000DZ-9q; Tue, 05 Jan 2021 18:44:10 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:37193)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=632ae7187=Atish.Patra@wdc.com>)
+ id 1kwvzj-0001C5-DF; Tue, 05 Jan 2021 18:44:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1609890247; x=1641426247;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=U4o+hvEejHgKToaqfVvWikZD0jo+nxX2hrg7TKe+/jc=;
+ b=OhJJGLL2oLu9ffiuCZaXibYJ3VPiEssc9An+0yMlNGVy0qjVKQeeIS/K
+ QCQ7InoMcUFWH/8XtaNB/S5ASv+6CnHGx5fRnWEwb7Z4fqqxV3z/1cwYa
+ l190H0qI7MeJ/9EEWLV8Kv0JN2n9Rhxh+jYxyet/5wu+nLl7YfN7ERaH/
+ ATqlGADzsXo0FnuhEsN6Pl7VYIW8y0EvufE1OGKVa/q1TGSSv9neKohCq
+ FuxSzRt6xNbmBrQc0WHMn7DOZT7Vx6XaXt73nRCaFxAkNI/5+YfUgxFOg
+ drR/wxFf4pMC0EgcKjgbCFUgnpKZZTJRBNk9xYdIsxX6Sdz3UaWNxbsHa g==;
+IronPort-SDR: 0DmcNbykZ3YiG1iC7yJ897C3yZFp0fiPC7/0d/vnRSwyjrKlNTe+cv3aOqGCQNhZ8ujKPd0uFZ
+ Vr+bo2CAQsNZvhFtIJ3n6LqbdE8AvWkMb9o/WWjgnIAEXkskFo5v3AaGTAzjRi+CD8XmpswPZ1
+ G9qB4WjfCX6C28gllu0Qce9IllK0Fw/e5h/AZuB1OYwbS/GscMuUKVn7SH5J/OHMzsbkevnVa/
+ lNVIAtewLtmJraBuF48t6XehBC64a8TRlgUbFG7dWbV/QDkRkgonSgFKTYkwRoWoEBGrSKwdDd
+ rIs=
+X-IronPort-AV: E=Sophos;i="5.78,478,1599494400"; d="scan'208";a="156572144"
+Received: from mail-bn8nam12lp2177.outbound.protection.outlook.com (HELO
+ NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.177])
+ by ob1.hgst.iphmx.com with ESMTP; 06 Jan 2021 07:44:02 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nLuZ8LmLZaOLSAfmATIMvoLi73LyI2wuR580kOCgLiyGpVVRngAxjEX3rDqyGBzvgl7M5uD951p5q5Zl43Q1g8kK/XlnXJY2uF9+6zZk47UBYTbAkTjQIdHRcMDrmxlWD21FCgEVIoYq5p+omz5OidG2UfeSkZSw/X5WkX5a6dV+9gY5zCE+AENBozGaVtmHC9fkjdJe98I9WM2HkWZhFebmS/L3q5+/Q9ugLmdzyTp5YLJmsXQKD2TC3dfp4nkCuuJDPdXtFrotsr2/TiQL2iTARw0lm5+o6hHEofOXCJiQxj9ss/pC5Vz1LhlBlWI6P/TDF6DoDgBn94iHQyZSvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U4o+hvEejHgKToaqfVvWikZD0jo+nxX2hrg7TKe+/jc=;
+ b=Q0hxprPOgTKRsVaPwH+15GZS61Sa625xrtyi2SdXm7I3EEHnuewsMFQMpPHm+elAJP+lbspRVvGT8evhzLnZhNGG5PX+921sKErp1UDrhpEJgnNm3VHj9dTmW5QxHGVyMOvMed4Xwj5egO75SiQ8AKbNMWPPx0pfZy/U9zcozaWeisB8yqIOonA3O83637JmUD67eAh6ugPKen0uExKF0dk7A8hZXKUe/okiBUn/5jkL3C2fYqQAnplSM/jMVYK8iOVf6uIqdId7f+zZEkE85XYuNGT9jUKkUYCvX1w9mx1ftLgkx1+t8OwGAYJDKU+jDa3ZLfydgagB51xs5djXiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U4o+hvEejHgKToaqfVvWikZD0jo+nxX2hrg7TKe+/jc=;
+ b=loIvze7H6DIvnoq4pCVYEAMUZdHrKRAV/ZD1Q29jfyOfNKA22VD+f+XXkfJ2Ai6WPUkn0C3qrUcvHBe86+nS7tHtbpzMWlu7QSDvEB+Zul8HWE0aW+1IEarGfHc1glCtLbCP8apEjlMMXs/cqCre4Fh3RVzIPEA3UCVjA+HCDow=
+Received: from BY5PR04MB6724.namprd04.prod.outlook.com (2603:10b6:a03:219::15)
+ by BY5PR04MB6455.namprd04.prod.outlook.com (2603:10b6:a03:1ed::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.23; Tue, 5 Jan
+ 2021 23:44:00 +0000
+Received: from BY5PR04MB6724.namprd04.prod.outlook.com
+ ([fe80::6540:dbb1:548a:fc7]) by BY5PR04MB6724.namprd04.prod.outlook.com
+ ([fe80::6540:dbb1:548a:fc7%7]) with mapi id 15.20.3721.024; Tue, 5 Jan 2021
+ 23:44:00 +0000
+From: Atish Patra <Atish.Patra@wdc.com>
+To: "bmeng.cn@gmail.com" <bmeng.cn@gmail.com>
+Subject: Re: [PATCH] RISC-V: Place DTB at 3GB boundary instead of 4GB
+Thread-Topic: [PATCH] RISC-V: Place DTB at 3GB boundary instead of 4GB
+Thread-Index: AQHW1L5ec6Y+NBO69E2DOYgTLRiUVaoYd1uAgAFYcAA=
+Date: Tue, 5 Jan 2021 23:44:00 +0000
+Message-ID: <76741a2677ed1d7ae0fc4ff887e5eede58275734.camel@wdc.com>
+References: <20201217214826.2094617-1-atish.patra@wdc.com>
+ <CAEUhbmVc_SABW_0PKgDMY8t3zTujo4xUnNW3fz1YuWhqXWnV2A@mail.gmail.com>
+In-Reply-To: <CAEUhbmVc_SABW_0PKgDMY8t3zTujo4xUnNW3fz1YuWhqXWnV2A@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.38.2 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=wdc.com;
+x-originating-ip: [99.13.229.45]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 7ece031d-f403-446e-eb95-08d8b1d3c6f8
+x-ms-traffictypediagnostic: BY5PR04MB6455:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR04MB6455AFFAD3C40CCA0CC7FEECFAD10@BY5PR04MB6455.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: +lv0J6KFZcAv450mgEouGdGSZYOzaZmhfn79B1ymPUXBXTlukN5VyI4NiZ+5y7gC73JRZC0B1ttF9vdvWZ3Kv3D151pnqtvPxnfVs5HzvHBqPvIfBYbUHZHH3sbdPa2pfPDqqD5YfiW4qYmlIaPxz8I5JMLCTtFPTLx0K/eSgK+BC3RkI7YdQvtPYKdLBxk2Awc+9v8Tp8LnYQ4gfz4flDfz+kANHYEjsUKtjfV1pXoiDrBKl8WKK4ly0hTZiL+uBIh2y370bb4GGptvVZxt/xQLirmSXzwdqlvgp32IgM3WZ0T3m0MdCIdiHffPUL4+AzqZLEgNsy0ipg5RWN7iv0ign6cJ/1S2PlNt7+FvhBdYGhL9dBXsBZ19H7iBiiw2x9INgvwXH1el72UGfZ1FFA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR04MB6724.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(346002)(136003)(376002)(366004)(86362001)(186003)(6486002)(66446008)(76116006)(8676002)(5660300002)(478600001)(66556008)(64756008)(66946007)(26005)(66476007)(36756003)(2616005)(53546011)(316002)(6512007)(6916009)(6506007)(83380400001)(8936002)(54906003)(2906002)(4326008)(71200400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?RlgrdEExb3JlSS9kQXVCTjJHWmdTektaZGVMSlMwdGVSUHJsWnkwRllRd0N3?=
+ =?utf-8?B?bXZMd0lCa0czSm80QXlpTkRnT2g1bXBNa1IxVHhCRm5jejZBTFAvWGJ1ZXMz?=
+ =?utf-8?B?TThBUnRoSHlCVjB5VXNnK0lYS3IwbXk1TTZFalBVK2ZlTDE3ZDk4TnE1R1ht?=
+ =?utf-8?B?SU8xNUdOOURFRDZzckgzMmZOUjNaSlNvS0t1MHFBazVTM2RYZnAvKzJiVTRF?=
+ =?utf-8?B?NE5GdGR6N1J4LzBoREEyNXlVQWJVckZqRk40bC9Wc0pnVmdtSEFiVS9qZ0pW?=
+ =?utf-8?B?dHczeUZkRXJIWUNWdEN5VjdNcTY4T1VPNE0vUEtkY1FtVU1OS3F6ZzhjQUoy?=
+ =?utf-8?B?VFZZVDdiVkljVmVFeEdIaG5QUWplVk5STUJ4Mk1Edk95OWszTWtTeDlrcXgv?=
+ =?utf-8?B?bFZ6N1JsVEF0NHRxZnVOVUh6V0hqSks3ZlFqR2Z6N3V4VEdBeWhLYk95UGZY?=
+ =?utf-8?B?YzRSMWE1NTFiZ0JuTW5FWmpSNmh0eEdVOGRnUE5PYlljallHOXVWMEtOOVEv?=
+ =?utf-8?B?Wmx2ek5FSW9JMmZtRklzTkdmQ2d6MFNjR01mRWhha1lPUGx6SVdoTlJVSTF2?=
+ =?utf-8?B?VVdhNlFnbVhTY1kyYVdtNkZmYTlJMFpLblpJL0tJa3Q2ZWwzaVpROFZrRFhr?=
+ =?utf-8?B?cVcrdUwrMTZQNEphdnpPMVF5cWJpQWpyT1V3MmdtVVgvaEt2Y2pSNGxuUHFN?=
+ =?utf-8?B?TFp1LzBQQ2ZkL0U3bGIzUEIxNmpKRTNFYlB5V3UvVnEvdCsxN0F2RVFhRjFN?=
+ =?utf-8?B?WU8zSlluV1Qzd2FsVFZYOEVTVnFoemFNalp3RTU4MmlDSDJRYlozNnhiNks4?=
+ =?utf-8?B?anE0d256VGZXQmhrUnpBZGh2NXNadVBhaEpyTHVOdjhXb3FGaTF5WENQM1c4?=
+ =?utf-8?B?emZFTjJ1WncxSXBBYzRGN0NMdzM0ZERJZWd5ZkxoLzhHTmltc2RmVDFFei93?=
+ =?utf-8?B?YXJOaXUyenRDUFVPa2d0RndMaTQzRTVlelMwdWpVQThmcllWand3ZnN0Z0xq?=
+ =?utf-8?B?dDhEcjhNSnpkOWtFOXdtbC92WFZzcGliTi82RW9XNmI2cHJoRjRFS1JnTCti?=
+ =?utf-8?B?VU1SRDRVZkJ1NmRRLzd4UUdKYm96QnEzZ0FhNFJpOUZMdElGWWFBbktvdDdw?=
+ =?utf-8?B?ajFmeUU2Sld4SzFWV0NWQzVCd1VyQ21zdWFDU0JUbjJyMi91U0lqWEQ2aENS?=
+ =?utf-8?B?N21pcmhYR0x0Z1pncUQvdFE3WjJKcGJsdXVqbkxYS3kwaWdYOTQvYjU1QWMy?=
+ =?utf-8?B?V2MzV09iUTR1Uk55WFBmV3AvRVhUQWdrTHplVzFSVXhNS2N2VzM5ZVdCVk1z?=
+ =?utf-8?Q?DmG5o0zA9qvNU8JTmzGPRzgTKg+Pz3jDTM?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <AF2FC6502B033647A12AAD5142C13EF1@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6724.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ece031d-f403-446e-eb95-08d8b1d3c6f8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jan 2021 23:44:00.6665 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XTWxMPCn/2CPU1+dcJpu0p4kv3hi25phg2gtYzGLxYtEf66bK8jG9dmiObutdYUDDQa8aLInEFCrOmlKADZKug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR04MB6455
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=632ae7187=Atish.Patra@wdc.com; helo=esa5.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,224 +153,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Alexander Graf <agraf@csgraf.de>, Joelle van Dyne <j@getutm.app>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ "sagark@eecs.berkeley.edu" <sagark@eecs.berkeley.edu>,
+ "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>,
+ Anup Patel <Anup.Patel@wdc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Roman Bolshakov <r.bolshakov@yadro.com> writes:
-
-> On Mon, Jan 04, 2021 at 03:23:07PM +0000, Alex Benn=C3=A9e wrote:
->>=20
->> Roman Bolshakov <r.bolshakov@yadro.com> writes:
->>=20
->> > Pages can't be both write and executable at the same time on Apple
->> > Silicon. macOS provides public API to switch write protection [1] for
->> > JIT applications, like TCG.
->> >
->> > 1. https://developer.apple.com/documentation/apple_silicon/porting_jus=
-t-in-time_compilers_to_apple_silicon
->> >
->> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
->> > ---
->> > v1: https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00073.html
->> > Changes since v1:
->> >
->> >  - Pruned not needed fiddling with W^X and dropped symmetry from write
->> >    lock/unlock and renamed related functions.
->> >    Similar approach is used in JavaScriptCore [1].
->> >
->> >  - Moved jit helper functions to util/osdep
->> >                                                                       =
-                                                                           =
- As outlined in osdep.h, this matches to (2):                              =
-                                                                           =
-                                                                           =
-                                                                * In an ide=
-al world this header would contain only:                                   =
-                                                         *  (1) things whic=
-h everybody needs                                                          =
-                                                  *  (2) things without whi=
-ch code would work on most platforms but                                   =
-                                           *      fail to compile or misbeh=
-ave on a minority of host OSes
->> >
->> >  - Fixed a checkpatch error
->> >
->> >  - Limit new behaviour only to macOS 11.0 and above, because of the
->> >    following declarations:
->> >
->> >    __API_AVAILABLE(macos(11.0))
->> >    __API_UNAVAILABLE(ios, tvos, watchos)
->> >    void pthread_jit_write_protect_np(int enabled);
->> >
->> >    __API_AVAILABLE(macos(11.0))
->> >    __API_UNAVAILABLE(ios, tvos, watchos)
->> >    int pthread_jit_write_protect_supported_np(void);
->> >
->> >  1. https://bugs.webkit.org/attachment.cgi?id=3D402515&action=3Dpretty=
-patch
->> >
->> >  accel/tcg/cpu-exec.c      |  2 ++
->> >  accel/tcg/translate-all.c |  6 ++++++
->> >  include/qemu/osdep.h      |  3 +++
->> >  tcg/tcg.c                 |  1 +
->> >  util/osdep.c              | 22 ++++++++++++++++++++++
->> >  5 files changed, 34 insertions(+)
->> >
->> > diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
->> > index 8689c54499..374060eb45 100644
->> > --- a/accel/tcg/cpu-exec.c
->> > +++ b/accel/tcg/cpu-exec.c
->> > @@ -175,6 +175,7 @@ static inline tcg_target_ulong cpu_tb_exec(CPUStat=
-e *cpu, TranslationBlock *itb)
->> >      }
->> >  #endif /* DEBUG_DISAS */
->> >=20=20
->> > +    qemu_thread_jit_execute();
->> >      ret =3D tcg_qemu_tb_exec(env, tb_ptr);
->> >      cpu->can_do_io =3D 1;
->> >      last_tb =3D (TranslationBlock *)(ret & ~TB_EXIT_MASK);
->> > @@ -382,6 +383,7 @@ static inline void tb_add_jump(TranslationBlock *t=
-b, int n,
->> >  {
->> >      uintptr_t old;
->> >=20=20
->> > +    qemu_thread_jit_write();
->> >      assert(n < ARRAY_SIZE(tb->jmp_list_next));
->> >      qemu_spin_lock(&tb_next->jmp_lock);
->> >=20=20
->> > diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
->> > index b7d50a73d4..88ae5d35ef 100644
->> > --- a/accel/tcg/translate-all.c
->> > +++ b/accel/tcg/translate-all.c
->> > @@ -1072,6 +1072,9 @@ static inline void *alloc_code_gen_buffer(void)
->> >      size_t size =3D tcg_ctx->code_gen_buffer_size;
->> >      void *buf;
->> >=20=20
->> > +#if defined(__APPLE__) && defined(MAC_OS_VERSION_11_0)
->> > +    flags |=3D MAP_JIT;
->> > +#endif
->> >      buf =3D mmap(NULL, size, prot, flags, -1, 0);
->> >      if (buf =3D=3D MAP_FAILED) {
->> >          return NULL;
->> > @@ -1485,7 +1488,9 @@ static void do_tb_phys_invalidate(TranslationBlo=
-ck *tb, bool rm_from_page_list)
->> >=20=20
->> >  static void tb_phys_invalidate__locked(TranslationBlock *tb)
->> >  {
->> > +    qemu_thread_jit_write();
->> >      do_tb_phys_invalidate(tb, true);
->> > +    qemu_thread_jit_execute();
->> >  }
->> >=20=20
->> >  /* invalidate one TB
->> > @@ -1687,6 +1692,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->> >  #endif
->> >=20=20
->> >      assert_memory_lock();
->> > +    qemu_thread_jit_write();
->> >=20=20
->> >      phys_pc =3D get_page_addr_code(env, pc);
->> >=20=20
->> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
->> > index f9ec8c84e9..89abebcf5d 100644
->> > --- a/include/qemu/osdep.h
->> > +++ b/include/qemu/osdep.h
->> > @@ -686,4 +686,7 @@ char *qemu_get_host_name(Error **errp);
->> >   */
->> >  size_t qemu_get_host_physmem(void);
->> >=20=20
->> > +void qemu_thread_jit_write(void);
->> > +void qemu_thread_jit_execute(void);
->> > +
->> >  #endif
->> > diff --git a/tcg/tcg.c b/tcg/tcg.c
->> > index 43c6cf8f52..ab8488f5d5 100644
->> > --- a/tcg/tcg.c
->> > +++ b/tcg/tcg.c
->> > @@ -1065,6 +1065,7 @@ void tcg_prologue_init(TCGContext *s)
->> >      s->pool_labels =3D NULL;
->> >  #endif
->> >=20=20
->> > +    qemu_thread_jit_write();
->> >      /* Generate the prologue.  */
->> >      tcg_target_qemu_prologue(s);
->> >=20=20
->> > diff --git a/util/osdep.c b/util/osdep.c
->> > index 66d01b9160..80ec7185da 100644
->> > --- a/util/osdep.c
->> > +++ b/util/osdep.c
->> > @@ -606,3 +606,25 @@ writev(int fd, const struct iovec *iov, int iov_c=
-nt)
->> >      return readv_writev(fd, iov, iov_cnt, true);
->> >  }
->> >  #endif
->> > +
->> > +#if defined(__APPLE__) && defined(MAC_OS_VERSION_11_0)
->> > +static inline void qemu_thread_jit_write_protect(bool enabled)
->> > +{
->> > +    if (pthread_jit_write_protect_supported_np()) {
->> > +        pthread_jit_write_protect_np(enabled);
->> > +    }
->> > +}
->> > +
->> > +void qemu_thread_jit_execute(void)
->> > +{
->> > +    qemu_thread_jit_write_protect(true);
->> > +}
->> > +
->> > +void qemu_thread_jit_write(void)
->> > +{
->> > +    qemu_thread_jit_write_protect(false);
->> > +}
->>=20
->> What happens if you emulate a -smp 2 ARM guest? In this case MTTCG
->> should be enabled (same guest ordering) but you run a risk of attempting
->> to execute code while write is enabled.
->>=20
->
-> Hi Alex,
->
-> Thanks for providing a hint. Ubuntu ARM with -smp 4 boots and works. I
-> can see 4 CPU in the guest and use the VM without any crashes (but it
-> requires patience as it's much slower compared to hvf).
->
->> Is there any way to only change the mapping for the parts of the TB
->> cache used by a thread? Otherwise we'll need additional logic in
->> default_mttcg_enabled to ensure we don't accidentally enable it on Apple
->> silicon.
->
-> I'm not sure I understand the question. The mappings are changed only
-> for the thread that invokes pthread_jit_write_protect_np(). Each thread
-> has its own permissions for MAP_JIT region.
-
-Ahh that was the bit I was unsure of. If two threads can have different
-permissions at the same time then it will be fine ;-)
-
-
-> As far as I understand MTTCG
-> works fine with the series as I've seen 376% CPU utilization at times
-> with -smp 4, regardless whether MTTCG is specified explicitly
-> (-accel tcg,thread=3Dmulti) or not. Respectively, default ARM on ARM is
-> MTTCG and it works fine, we don't need to disable it :)
->
-> Thanks,
-> Roman
->
->>=20
->> > +#else
->> > +void qemu_thread_jit_write(void) {}
->> > +void qemu_thread_jit_execute(void) {}
->> > +#endif
->>=20
->>=20
->> --=20
->> Alex Benn=C3=A9e
-
-
---=20
-Alex Benn=C3=A9e
+T24gVHVlLCAyMDIxLTAxLTA1IGF0IDExOjExICswODAwLCBCaW4gTWVuZyB3cm90ZToNCj4gT24g
+RnJpLCBEZWMgMTgsIDIwMjAgYXQgNTo0OCBBTSBBdGlzaCBQYXRyYSA8YXRpc2gucGF0cmFAd2Rj
+LmNvbT4NCj4gd3JvdGU6DQo+ID4gDQo+ID4gQ3VycmVudGx5LCB3ZSBwbGFjZSB0aGUgRFRCIGF0
+IDJNQiBmcm9tIDRHQiBvciBlbmQgb2YgRFJBTSB3aGljaA0KPiA+IGV2ZXIgaXMNCj4gPiBsZXNz
+ZXIuIEhvd2V2ZXIsIExpbnV4IGtlcm5lbCBjYW4gYWRkcmVzcyBvbmx5IDFHQiBvZiBtZW1vcnkg
+Zm9yDQo+ID4gUlYzMi4NCj4gPiBUaHVzLCBpdCBjYW4gbm90IG1hcCBhbnl0aGluZyBiZXlvbmQg
+M0dCIChhc3N1bWluZyAyR0IgaXMgdGhlDQo+ID4gc3RhcnRpbmcgYWRkcmVzcykuDQo+ID4gQXMg
+YSByZXN1bHQsIGl0IGNhbiBub3QgcHJvY2VzcyBEVCBhbmQgcGFuaWMgaWYgb3BlbnNiaSBkeW5h
+bWljDQo+ID4gZmlybXdhcmUNCj4gPiBpcyB1c2VkLg0KPiA+IA0KPiA+IEZpeCB0aGlzIGJ5IHBs
+YWNpbmcgdGhlIERUQiBhdCAyTUIgZnJvbSAzR0Igb3IgZW5kIG9mIERSQU0NCj4gPiB3aGljaGV2
+ZXIgaXMgbG93ZXIuDQo+ID4gDQo+IA0KPiBGaXhlczogNjZiMTIwNWJjNWFiICgiUklTQy1WOiBD
+b3B5IHRoZSBmZHQgaW4gZHJhbSBpbnN0ZWFkIG9mIFJPTSIpDQo+IA0KDQpKdXN0IHRvIGNsYXJp
+ZnksIGl0IGlzIG5vdCBhIGJ1ZyBpbiB0aGUgb3JpZ2luYWwgcGF0Y2guIFRoaXMgYnVnDQphcHBl
+YXJlZCBpbiByZWNlbnQga2VybmVsIGJlY2F1c2Uga2VybmVsKGZyb20gdjUuMTApIGRvZXNuJ3Qg
+dXNlIGZpeG1hcA0KZm9yIERUIHByb2Nlc3NpbmcgYW55bW9yZS4gVGh1cywgdGhlIERUIGhhcyB0
+byBiZSBwbGFjZWQgYXQgbG9jYXRpb24NCnRoYXQgY2FuIGJlIGFkZHJlc3NlZCBieSBrZXJuZWwu
+wqANCg0KSSB3aWxsIGFkZCB0aGUgZml4ZXMgdGFnLg0KDQo+ID4gU2lnbmVkLW9mZi1ieTogQXRp
+c2ggUGF0cmEgPGF0aXNoLnBhdHJhQHdkYy5jb20+DQo+ID4gLS0tDQo+ID4gwqBody9yaXNjdi9i
+b290LmMgfCA0ICsrLS0NCj4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIg
+ZGVsZXRpb25zKC0pDQo+ID4gDQo+IA0KPiBSZXZpZXdlZC1ieTogQmluIE1lbmcgPGJpbi5tZW5n
+QHdpbmRyaXZlci5jb20+DQo+IFRlc3RlZC1ieTogQmluIE1lbmcgPGJpbi5tZW5nQHdpbmRyaXZl
+ci5jb20+DQoNClRoYW5rcy4NCg0KLS0gDQpSZWdhcmRzLA0KQXRpc2gNCg==
 
