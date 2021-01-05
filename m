@@ -2,55 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901382EB0B0
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:58:19 +0100 (CET)
-Received: from localhost ([::1]:36202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D5F2EB135
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:18:56 +0100 (CET)
+Received: from localhost ([::1]:51386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwpf0-0001uC-Gk
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:58:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40722)
+	id 1kwpyx-0008Fq-OD
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:18:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kwpap-0008Az-7V
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:53:59 -0500
-Received: from mga11.intel.com ([192.55.52.93]:21248)
+ (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
+ id 1kwpcH-0001Ay-4i
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:55:29 -0500
+Received: from mail-bn7nam10on2051.outbound.protection.outlook.com
+ ([40.107.92.51]:17504 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kwpam-00012W-0t
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:53:59 -0500
-IronPort-SDR: h5i2TE5DZO5B0CsCEOYdgcYmU1POPgtzK0KgJ6GQcFen96gqxzEGsxN73PpzcT7r07Po78ksmQ
- djvVFjBkjmNA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9855"; a="173629500"
-X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="173629500"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2021 08:53:51 -0800
-IronPort-SDR: YneYSoLt8zZqx3Azi+W9TBbT/A2881cIdNMODqX6/phKsOk/qrecyQAYRbg6iZN5v19p6Iww6o
- DOrfM0WiYC4Q==
-X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="346337939"
-Received: from tgeddam-mobl.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
- ([10.252.140.57])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2021 08:53:50 -0800
-From: Ben Widawsky <ben.widawsky@intel.com>
+ (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
+ id 1kwpc7-0001Kg-Js
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:55:28 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jyyKzOFdP9cS01Or/CNvAJp/iE9I97KNj2+cRhqnfiHbw46ZrBYEj4oYOWn8gnNFOozm8r2mHN/fGNsEczm4M1ZE9rX4IDlNBqLd9oFfd9tzBJWonx1fbMjZNLG2IhN5Kd6cJtx/jZaUXXD1BQ62CgD7GEfJ3PKSxUu6VZgH5Yox23ksSTAdhacRx191UaiqVGcU4GYbj4LCkWVXK/Bfnur+0xuwBQre0ie6lIqvm0MoGtRWKw7waUOu4vo064jyAdjjccF0nnOUcRidZ+yeDaJrUH+400UubgGJLdTyOtB5tUgeugYUgCHYny/XhettBv5HAJ6q3kUIv0LuQNESdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p/Nq6ERcvzdMzZjHNW8sKgBleQmIGLKc/KsoKWIOhMY=;
+ b=FF09nivEQp9s8MPAZDdUbTlvauFYHprxC7vD7NL8IwjC3inS6jOpdJOmqSmIPbhPANVTlhoX8omsRoTfKS22M4woqWV8q8o1mPVXrfYPQhrNxIf+6tYdS3VohyAkv9jfm8Nm4BPKPN3UuPyCiRC1Up1zEWTvKNFouZXxH/Y257fUdLc/L78pg/CMwun/No5lrS7WUvxuf0CFdlHYzKqwLyEcI5GFfl5oTRrPXS3mAdkrrGNy/iWuYv2CSVOeJDdVK6Vucj3rvFA4vlJOHPuT7jsCJRMZ79r5txnctJfmvukHIePFD5zwq+oJ9HnCbXYYqoRTuHrb/MLduVY+zZs41g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p/Nq6ERcvzdMzZjHNW8sKgBleQmIGLKc/KsoKWIOhMY=;
+ b=ZL2FU1Vz5vASiCkoYNcEf0Zi7Z8pfJqFrklWRunxtiocdzkrBN0Vannx4dxx4nwfQSga4PrKkUmnHNs7c9+rmkUnUNuhWEceubZxrqGYIsrNfvbFL7ab+zeJqQJ1pmbX5Ttd8UJ585goSVRI8dwhWkfxCLz0T7iblNmle/7yuNY=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
+ by SA0PR12MB4431.namprd12.prod.outlook.com (2603:10b6:806:95::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.20; Tue, 5 Jan
+ 2021 16:40:13 +0000
+Received: from SN6PR12MB2718.namprd12.prod.outlook.com
+ ([fe80::18a2:699:70b3:2b8a]) by SN6PR12MB2718.namprd12.prod.outlook.com
+ ([fe80::18a2:699:70b3:2b8a%6]) with mapi id 15.20.3721.024; Tue, 5 Jan 2021
+ 16:40:13 +0000
+From: Brijesh Singh <brijesh.singh@amd.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 03/32] hw/cxl/component: Introduce CXL components
- (8.1.x, 8.2.5)
-Date: Tue,  5 Jan 2021 08:52:54 -0800
-Message-Id: <20210105165323.783725-4-ben.widawsky@intel.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210105165323.783725-1-ben.widawsky@intel.com>
-References: <20210105165323.783725-1-ben.widawsky@intel.com>
+Subject: [PATCH v2] target/i386/sev: add support to query the attestation
+ report
+Date: Tue,  5 Jan 2021 10:39:42 -0600
+Message-Id: <20210105163943.30510-1-brijesh.singh@amd.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-Originating-IP: [165.204.77.1]
+X-ClientProxiedBy: SN4PR0201CA0049.namprd02.prod.outlook.com
+ (2603:10b6:803:20::11) To SN6PR12MB2718.namprd12.prod.outlook.com
+ (2603:10b6:805:6f::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=ben.widawsky@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from sbrijesh-desktop.amd.com (165.204.77.1) by
+ SN4PR0201CA0049.namprd02.prod.outlook.com (2603:10b6:803:20::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
+ Transport; Tue, 5 Jan 2021 16:40:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 142e6d6e-c3cc-4ea8-384d-08d8b198930d
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4431:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR12MB44319E3BDF6878AFD21BCDE2E5D10@SA0PR12MB4431.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1265;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OYdiYNyoizsQe1EbeOct7ZsJettbtXu+kGhYBo4UEoCRKHDYgVhsbSkJcpTiUr+Bw0ok+ZdB4VdLG+QpWmkZ2QSjVV0jGqtP16Bc141n6prpFbc5bukXw9gHh8ZuEm9GXMJVxQc0uQo0z6lgQGrCerBFJgbc0P63L71oNO+Aw+EoJdtJ/zkrD/LTFZ9B9bERHsHOzYMLDyjuF6/lJR1qAsKt02BafEMS1EKr+qLEhTBRAi4AaqzZaAoeg6xnan4tFVRUBKzMplmJEG9sVCAvfRUD6rI3qsKIl2rDUWY4NURCSohl453TjQ/k1t96kLQ0Gb1HSgWJPmPf/r+Rl0Zsjoi+w29jNPcPULfPH51cEp2HYnXkTPQRx8g12sRB1NVVD9hKB4FR9C6m2YzgJIzX4w==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2718.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(346002)(366004)(376002)(39850400004)(6666004)(316002)(66476007)(86362001)(2616005)(16526019)(26005)(6486002)(4326008)(8676002)(8936002)(2906002)(54906003)(83380400001)(36756003)(6916009)(52116002)(186003)(66556008)(7696005)(66946007)(5660300002)(478600001)(956004)(1076003)(44832011);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?8pxezmSwdLCH7/BmG7CCI5QNAjjI4hwqjWm0jsvL3cKvdrcqpraynw12B963?=
+ =?us-ascii?Q?fIVnTN3jDsMWLPmbmrWaLICeB//D3vLPNwWE0jMROBl9s7r5QO8tVSPVYQUi?=
+ =?us-ascii?Q?GUfRPHiLfqw6e1COtyCEYF86I9BKeBovefC6JciLFgWdU8RV+FbkB+fGGZbx?=
+ =?us-ascii?Q?0rIGYFOrn6LLKIfyQAqtsj1D61AIRgrE1zdbLTNFoXpeukvG+PHHKVjRastY?=
+ =?us-ascii?Q?fktGC5ykPAHzv2IynZ3BYsks0U5DURKw5hnLGaRd4mBQWRSSeR66uQoO71uH?=
+ =?us-ascii?Q?lPYzamzKRJ6IvgZSDsGkeSJYSXruW2RVuASem10Bqz0z+DrIrcGPZ7L3joq4?=
+ =?us-ascii?Q?pjTflhEiLPiLE8ILy4fX9ZaJ+jcZzuSARvnIDxCEnY7xwJdSVmNpXZjanuOl?=
+ =?us-ascii?Q?9NhWLRezEl5y+tbvMt1IN5e9EL43Nxhzp1/eAlawLrKtp5vIc/5kkozj+thm?=
+ =?us-ascii?Q?Kx3JRcK7jWx6udKuu6766RP8fYAo6ZOJcvcSDKcw7crXgWlnMbK+2fjxI8/Q?=
+ =?us-ascii?Q?wpA9ZynKQyWK3y8aSepXDhwOu9IWBjfjbD4KvbqvwtCihc8whM5jl8c+wOKm?=
+ =?us-ascii?Q?ECQRYF1HxriHMDn5s5FPuhNtH73zb1bEflLVL+rCc5GG7Hz4J1opa9x2WQHY?=
+ =?us-ascii?Q?FJUTk/wUmQt8Vdel3wG1B03RA4tDl6qcT+a9+BjJAPe4fSoznWnmPpsK5G0h?=
+ =?us-ascii?Q?XG2ycw+4Co6fM10dzLylb5398FxxVeVUThkEIeEQtMNJkl56ANQut9kbv/PV?=
+ =?us-ascii?Q?hpFNXD272RV856JRegIUoxwphIPnfFbWzG0Nk2TjKMwDKqoOjdIJmZKQgDS7?=
+ =?us-ascii?Q?zZ5JEmUDd8M+DuP0vpNMMih+w+ozU1j+eKBkyV250JSewrF/DnNkz46ebeQM?=
+ =?us-ascii?Q?wz+X4oQBzPX84XVUdHzeCQNorEeaRElbSsL9ERpOZbU/3iamATItMzIOi1Wq?=
+ =?us-ascii?Q?y1Ku+5P3XfpXTL8AX1gN7WW/ZktUMJdEEDju+7EV4VfVaCN2q7wzgkwF8Tck?=
+ =?us-ascii?Q?BCiw?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2021 16:40:13.2418 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 142e6d6e-c3cc-4ea8-384d-08d8b198930d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yWsRJGt7YjtVzkFDD2XUH3WnO/QVU0p0h3tZ5+mcxSc1Hdet1/LS4PQUzH6IsJKr+oq4WGhW+Pr5mLsX9aZODw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4431
+Received-SPF: softfail client-ip=40.107.92.51;
+ envelope-from=brijesh.singh@amd.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,680 +129,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Ben Widawsky <ben.widawsky@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
- Chris Browy <cbrowy@avery-design.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
- Prashant V Agarwal <agpr123@gmail.com>,
- Dan Williams <dan.j.williams@intel.com>
+Cc: Tom Lendacky <Thomas.Lendacky@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, kvm@vger.kernel.org,
+ James Bottomley <jejb@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A CXL 2.0 component is any entity in the CXL topology. All components
-have a analogous function in PCIe. Except for the CXL host bridge, all
-have a PCIe config space that is accessible via the common PCIe
-mechanisms. CXL components are enumerated via DVSEC fields in the
-extended PCIe header space. CXL components will minimally implement some
-subset of CXL.mem and CXL.cache registers defined in 8.2.5 of the CXL
-2.0 specification. Two headers and a utility library are introduced to
-support the minimum functionality needed to enumerate components.
+The SEV FW >= 0.23 added a new command that can be used to query the
+attestation report containing the SHA-256 digest of the guest memory
+and VMSA encrypted with the LAUNCH_UPDATE and sign it with the PEK.
 
-The cxl_pci header manages bits associated with PCI, specifically the
-DVSEC and related fields. The cxl_component.h variant has data
-structures and APIs that are useful for drivers implementing any of the
-CXL 2.0 components. The library takes care of making use of the DVSEC
-bits and the CXL.[mem|cache] regisetrs.
+Note, we already have a command (LAUNCH_MEASURE) that can be used to
+query the SHA-256 digest of the guest memory encrypted through the
+LAUNCH_UPDATE. The main difference between previous and this command
+is that the report is signed with the PEK and unlike the LAUNCH_MEASURE
+command the ATTESATION_REPORT command can be called while the guest
+is running.
 
-None of the mechanisms required to enumerate a CXL capable hostbridge
-are introduced at this point.
+Add a QMP interface "query-sev-attestation-report" that can be used
+to get the report encoded in base64.
 
-Note that the CXL.mem and CXL.cache registers used are always 4B wide.
-It's possible in the future that this constraint will not hold.
-
-v2: Improve assertions in DVSEC creation (Jonathan)
-    Use 'n' for HDM register offsets (Jonathan)
-    Correct revision ID for extensions (Jonathan)
-    Minor cleanups and clarifications (Jonathan)
-
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+Cc: James Bottomley <jejb@linux.ibm.com>
+Cc: Tom Lendacky <Thomas.Lendacky@amd.com>
+Cc: Eric Blake <eblake@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: kvm@vger.kernel.org
+Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
 ---
- MAINTAINERS                    |   6 +
- hw/Kconfig                     |   1 +
- hw/cxl/Kconfig                 |   3 +
- hw/cxl/cxl-component-utils.c   | 193 +++++++++++++++++++++++++++++++++
- hw/cxl/meson.build             |   3 +
- hw/meson.build                 |   1 +
- include/hw/cxl/cxl.h           |  17 +++
- include/hw/cxl/cxl_component.h | 187 ++++++++++++++++++++++++++++++++
- include/hw/cxl/cxl_pci.h       | 138 +++++++++++++++++++++++
- 9 files changed, 549 insertions(+)
- create mode 100644 hw/cxl/Kconfig
- create mode 100644 hw/cxl/cxl-component-utils.c
- create mode 100644 hw/cxl/meson.build
- create mode 100644 include/hw/cxl/cxl.h
- create mode 100644 include/hw/cxl/cxl_component.h
- create mode 100644 include/hw/cxl/cxl_pci.h
+v2:
+  * add trace event.
+  * fix the goto to return NULL on failure.
+  * make the mnonce as a base64 encoded string
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 42fedf91e7..1f5fc033b4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2225,6 +2225,12 @@ F: qapi/block*.json
- F: qapi/transaction.json
- T: git https://repo.or.cz/qemu/armbru.git block-next
+ linux-headers/linux/kvm.h |  8 +++++
+ qapi/misc-target.json     | 38 ++++++++++++++++++++++
+ target/i386/monitor.c     |  6 ++++
+ target/i386/sev-stub.c    |  7 +++++
+ target/i386/sev.c         | 66 +++++++++++++++++++++++++++++++++++++++
+ target/i386/sev_i386.h    |  2 ++
+ target/i386/trace-events  |  1 +
+ 7 files changed, 128 insertions(+)
+
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 56ce14ad20..6d0f8101ba 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1585,6 +1585,8 @@ enum sev_cmd_id {
+ 	KVM_SEV_DBG_ENCRYPT,
+ 	/* Guest certificates commands */
+ 	KVM_SEV_CERT_EXPORT,
++	/* Attestation report */
++	KVM_SEV_GET_ATTESTATION_REPORT,
  
-+Compute Express Link
-+M: Ben Widawsky <ben.widawsky@intel.com>
-+S: Supported
-+F: hw/cxl/
-+F: include/hw/cxl/
-+
- Dirty Bitmaps
- M: Eric Blake <eblake@redhat.com>
- M: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-diff --git a/hw/Kconfig b/hw/Kconfig
-index 5ad3c6b5a4..c03650c5ed 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -6,6 +6,7 @@ source audio/Kconfig
- source block/Kconfig
- source char/Kconfig
- source core/Kconfig
-+source cxl/Kconfig
- source display/Kconfig
- source dma/Kconfig
- source gpio/Kconfig
-diff --git a/hw/cxl/Kconfig b/hw/cxl/Kconfig
-new file mode 100644
-index 0000000000..8e67519b16
---- /dev/null
-+++ b/hw/cxl/Kconfig
-@@ -0,0 +1,3 @@
-+config CXL
-+    bool
-+    default y if PCI_EXPRESS
-diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-new file mode 100644
-index 0000000000..a95c16505c
---- /dev/null
-+++ b/hw/cxl/cxl-component-utils.c
-@@ -0,0 +1,193 @@
-+/*
-+ * CXL Utility library for components
-+ *
-+ * Copyright(C) 2020 Intel Corporation.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2. See the
-+ * COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "hw/pci/pci.h"
-+#include "hw/cxl/cxl.h"
-+
-+static uint64_t cxl_cache_mem_read_reg(void *opaque, hwaddr offset,
-+                                       unsigned size)
-+{
-+    CXLComponentState *cxl_cstate = opaque;
-+    ComponentRegisters *cregs = &cxl_cstate->crb;
-+    uint32_t *cache_mem = cregs->cache_mem_registers;
-+
-+    if (size != 4) {
-+        qemu_log_mask(LOG_UNIMP, "%uB component register read (RAZ)\n", size);
-+        return 0;
-+    }
-+
-+    if (cregs->special_ops && cregs->special_ops->read) {
-+        return cregs->special_ops->read(cxl_cstate, offset, size);
-+    } else {
-+        return cache_mem[offset >> 2];
-+    }
-+}
-+
-+static void cxl_cache_mem_write_reg(void *opaque, hwaddr offset, uint64_t value,
-+                                    unsigned size)
-+{
-+    CXLComponentState *cxl_cstate = opaque;
-+    ComponentRegisters *cregs = &cxl_cstate->crb;
-+
-+    if (size != 4) {
-+        qemu_log_mask(LOG_UNIMP, "%uB component register write (WI)\n", size);
-+        return;
-+    }
-+
-+    if (cregs->special_ops && cregs->special_ops->write) {
-+        cregs->special_ops->write(cxl_cstate, offset, value, size);
-+    }
-+}
-+
-+static const MemoryRegionOps cache_mem_ops = {
-+    .read = cxl_cache_mem_read_reg,
-+    .write = cxl_cache_mem_write_reg,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
-+    },
-+    .impl = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
-+    },
+ 	KVM_SEV_NR_MAX,
+ };
+@@ -1637,6 +1639,12 @@ struct kvm_sev_dbg {
+ 	__u32 len;
+ };
+ 
++struct kvm_sev_attestation_report {
++	__u8 mnonce[16];
++	__u64 uaddr;
++	__u32 len;
 +};
 +
-+void cxl_component_register_block_init(Object *obj,
-+                                       CXLComponentState *cxl_cstate,
-+                                       const char *type)
+ #define KVM_DEV_ASSIGN_ENABLE_IOMMU	(1 << 0)
+ #define KVM_DEV_ASSIGN_PCI_2_3		(1 << 1)
+ #define KVM_DEV_ASSIGN_MASK_INTX	(1 << 2)
+diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+index 06ef8757f0..5907a2dfaa 100644
+--- a/qapi/misc-target.json
++++ b/qapi/misc-target.json
+@@ -285,3 +285,41 @@
+ ##
+ { 'command': 'query-gic-capabilities', 'returns': ['GICCapability'],
+   'if': 'defined(TARGET_ARM)' }
++
++
++##
++# @SevAttestationReport:
++#
++# The struct describes attestation report for a Secure Encrypted Virtualization
++# feature.
++#
++# @data:  guest attestation report (base64 encoded)
++#
++#
++# Since: 5.2
++##
++{ 'struct': 'SevAttestationReport',
++  'data': { 'data': 'str'},
++  'if': 'defined(TARGET_I386)' }
++
++##
++# @query-sev-attestation-report:
++#
++# This command is used to get the SEV attestation report, and is supported on AMD
++# X86 platforms only.
++#
++# @mnonce: a random 16 bytes value encoded in base64 (it will be included in report)
++#
++# Returns: SevAttestationReport objects.
++#
++# Since: 5.3
++#
++# Example:
++#
++# -> { "execute" : "query-sev-attestation-report", "arguments": { "mnonce": "aaaaaaa" } }
++# <- { "return" : { "data": "aaaaaaaabbbddddd"} }
++#
++##
++{ 'command': 'query-sev-attestation-report', 'data': { 'mnonce': 'str' },
++  'returns': 'SevAttestationReport',
++  'if': 'defined(TARGET_I386)' }
+diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+index 1bc91442b1..0c8377f900 100644
+--- a/target/i386/monitor.c
++++ b/target/i386/monitor.c
+@@ -736,3 +736,9 @@ void qmp_sev_inject_launch_secret(const char *packet_hdr,
+ {
+     sev_inject_launch_secret(packet_hdr, secret, gpa, errp);
+ }
++
++SevAttestationReport *
++qmp_query_sev_attestation_report(const char *mnonce, Error **errp)
 +{
-+    ComponentRegisters *cregs = &cxl_cstate->crb;
-+
-+    memory_region_init(&cregs->component_registers, obj, type, 0x10000);
-+    memory_region_init_io(&cregs->io, obj, NULL, cregs, ".io", 0x1000);
-+    memory_region_init_io(&cregs->cache_mem, obj, &cache_mem_ops, cregs,
-+                          ".cache_mem", 0x1000);
-+
-+    memory_region_add_subregion(&cregs->component_registers, 0, &cregs->io);
-+    memory_region_add_subregion(&cregs->component_registers, 0x1000,
-+                                &cregs->cache_mem);
++    return sev_get_attestation_report(mnonce, errp);
 +}
+diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+index c1fecc2101..cdc9a014ee 100644
+--- a/target/i386/sev-stub.c
++++ b/target/i386/sev-stub.c
+@@ -54,3 +54,10 @@ int sev_inject_launch_secret(const char *hdr, const char *secret,
+ {
+     return 1;
+ }
 +
-+static void ras_init_common(uint32_t *reg_state)
++SevAttestationReport *
++sev_get_attestation_report(const char *mnonce, Error **errp)
 +{
-+    reg_state[R_CXL_RAS_UNC_ERR_STATUS] = 0;
-+    reg_state[R_CXL_RAS_UNC_ERR_MASK] = 0x1efff;
-+    reg_state[R_CXL_RAS_UNC_ERR_SEVERITY] = 0x1efff;
-+    reg_state[R_CXL_RAS_COR_ERR_STATUS] = 0;
-+    reg_state[R_CXL_RAS_COR_ERR_MASK] = 0x3f;
-+    reg_state[R_CXL_RAS_ERR_CAP_CTRL] = 0; /* CXL switches and devices must set */
++    error_setg(errp, "SEV is not available in this QEMU");
++    return NULL;
 +}
-+
-+static void hdm_init_common(uint32_t *reg_state)
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 1546606811..d1f90a1d8a 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -492,6 +492,72 @@ out:
+     return cap;
+ }
+ 
++SevAttestationReport *
++sev_get_attestation_report(const char *mnonce, Error **errp)
 +{
-+    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, DECODER_COUNT, 0);
-+    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_GLOBAL_CONTROL, HDM_DECODER_ENABLE, 0);
-+}
++    struct kvm_sev_attestation_report input = {};
++    SevAttestationReport *report = NULL;
++    SevGuestState *sev = sev_guest;
++    guchar *data;
++    guchar *buf;
++    gsize len;
++    int err = 0, ret;
 +
-+void cxl_component_register_init_common(uint32_t *reg_state, enum reg_type type)
-+{
-+    int caps = 0;
-+    switch (type) {
-+    case CXL2_DOWNSTREAM_PORT:
-+    case CXL2_DEVICE:
-+        /* CAP, RAS, Link */
-+        caps = 2;
-+        break;
-+    case CXL2_UPSTREAM_PORT:
-+    case CXL2_TYPE3_DEVICE:
-+    case CXL2_LOGICAL_DEVICE:
-+        /* + HDM */
-+        caps = 3;
-+        break;
-+    case CXL2_ROOT_PORT:
-+        /* + Extended Security, + Snoop */
-+        caps = 5;
-+        break;
-+    default:
-+        abort();
++    if (!sev_enabled()) {
++        error_setg(errp, "SEV is not enabled");
++        return NULL;
 +    }
 +
-+    memset(reg_state, 0, 0x1000);
-+
-+    /* CXL Capability Header Register */
-+    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, ID, 1);
-+    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, VERSION, 1);
-+    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, CACHE_MEM_VERSION, 1);
-+    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, ARRAY_SIZE, caps);
-+
-+
-+#define init_cap_reg(reg, id, version)                                        \
-+    do {                                                                      \
-+        int which = R_CXL_##reg##_CAPABILITY_HEADER;                          \
-+        reg_state[which] = FIELD_DP32(reg_state[which],                       \
-+                                      CXL_##reg##_CAPABILITY_HEADER, ID, id); \
-+        reg_state[which] =                                                    \
-+            FIELD_DP32(reg_state[which], CXL_##reg##_CAPABILITY_HEADER,       \
-+                       VERSION, version);                                     \
-+        reg_state[which] =                                                    \
-+            FIELD_DP32(reg_state[which], CXL_##reg##_CAPABILITY_HEADER, PTR,  \
-+                       CXL_##reg##_REGISTERS_OFFSET);                         \
-+    } while (0)
-+
-+    init_cap_reg(RAS, 2, 1);
-+    ras_init_common(reg_state);
-+
-+    init_cap_reg(LINK, 4, 2);
-+
-+    if (caps < 4) {
-+        return;
++    /* lets decode the mnonce string */
++    buf = g_base64_decode(mnonce, &len);
++    if (!buf) {
++        error_setg(errp, "SEV: failed to decode mnonce input");
++        return NULL;
 +    }
 +
-+    init_cap_reg(HDM, 5, 1);
-+    hdm_init_common(reg_state);
-+
-+    if (caps < 6) {
-+        return;
++    /* verify the input mnonce length */
++    if (len != sizeof(input.mnonce)) {
++        error_setg(errp, "SEV: mnonce must be %ld bytes (got %ld)",
++                sizeof(input.mnonce), len);
++        g_free(buf);
++        return NULL;
 +    }
 +
-+    init_cap_reg(EXTSEC, 6, 1);
-+    init_cap_reg(SNOOP, 8, 1);
++    /* Query the report length */
++    ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
++            &input, &err);
++    if (ret < 0) {
++        if (err != SEV_RET_INVALID_LEN) {
++            error_setg(errp, "failed to query the attestation report length "
++                    "ret=%d fw_err=%d (%s)", ret, err, fw_error_to_str(err));
++            return NULL;
++        }
++    }
 +
-+#undef init_cap_reg
++    data = g_malloc(input.len);
++    input.uaddr = (unsigned long)data;
++    memcpy(input.mnonce, buf, sizeof(input.mnonce));
++
++    /* Query the report */
++    ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
++            &input, &err);
++    if (ret) {
++        error_setg_errno(errp, errno, "Failed to get attestation report"
++                " ret=%d fw_err=%d (%s)", ret, err, fw_error_to_str(err));
++        goto e_free_data;
++    }
++
++    report = g_new0(SevAttestationReport, 1);
++    report->data = g_base64_encode(data, input.len);
++
++    trace_kvm_sev_attestation_report(mnonce, report->data);
++
++e_free_data:
++    g_free(data);
++    g_free(buf);
++    return report;
 +}
 +
-+/*
-+ * Helper to creates a DVSEC header for a CXL entity. The caller is responsible
-+ * for tracking the valid offset.
-+ *
-+ * This function will build the DVSEC header on behalf of the caller and then
-+ * copy in the remaining data for the vendor specific bits.
-+ */
-+void cxl_component_create_dvsec(CXLComponentState *cxl, uint16_t length,
-+                                uint16_t type, uint8_t rev, uint8_t *body)
-+{
-+    PCIDevice *pdev = cxl->pdev;
-+    uint16_t offset = cxl->dvsec_offset;
-+
-+    assert(offset >= PCI_CFG_SPACE_SIZE &&
-+           ((offset + length) < PCI_CFG_SPACE_EXP_SIZE));
-+    assert((length & 0xf000) == 0);
-+    assert((rev & ~0xf) == 0);
-+
-+    /* Create the DVSEC in the MCFG space */
-+    pcie_add_capability(pdev, PCI_EXT_CAP_ID_DVSEC, 1, offset, length);
-+    pci_set_long(pdev->config + offset + PCIE_DVSEC_HEADER1_OFFSET,
-+                 (length << 20) | (rev << 16) | CXL_VENDOR_ID);
-+    pci_set_word(pdev->config + offset + PCIE_DVSEC_ID_OFFSET, type);
-+    memcpy(pdev->config + offset + sizeof(struct dvsec_header),
-+           body + sizeof(struct dvsec_header),
-+           length - sizeof(struct dvsec_header));
-+
-+    /* Update state for future DVSEC additions */
-+    range_init_nofail(&cxl->dvsecs[type], cxl->dvsec_offset, length);
-+    cxl->dvsec_offset += length;
-+}
-diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
-new file mode 100644
-index 0000000000..00c3876a0f
---- /dev/null
-+++ b/hw/cxl/meson.build
-@@ -0,0 +1,3 @@
-+softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
-+  'cxl-component-utils.c',
-+))
-diff --git a/hw/meson.build b/hw/meson.build
-index 010de7219c..3e440c341a 100644
---- a/hw/meson.build
-+++ b/hw/meson.build
-@@ -6,6 +6,7 @@ subdir('block')
- subdir('char')
- subdir('core')
- subdir('cpu')
-+subdir('cxl')
- subdir('display')
- subdir('dma')
- subdir('gpio')
-diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-new file mode 100644
-index 0000000000..55f6cc30a5
---- /dev/null
-+++ b/include/hw/cxl/cxl.h
-@@ -0,0 +1,17 @@
-+/*
-+ * QEMU CXL Support
-+ *
-+ * Copyright (c) 2020 Intel
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2. See the
-+ * COPYING file in the top-level directory.
-+ */
-+
-+#ifndef CXL_H
-+#define CXL_H
-+
-+#include "cxl_pci.h"
-+#include "cxl_component.h"
-+
-+#endif
-+
-diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
-new file mode 100644
-index 0000000000..8b40360c22
---- /dev/null
-+++ b/include/hw/cxl/cxl_component.h
-@@ -0,0 +1,187 @@
-+/*
-+ * QEMU CXL Component
-+ *
-+ * Copyright (c) 2020 Intel
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2. See the
-+ * COPYING file in the top-level directory.
-+ */
-+
-+#ifndef CXL_COMPONENT_H
-+#define CXL_COMPONENT_H
-+
-+/* CXL 2.0 - 8.2.4 */
-+#define CXL2_COMPONENT_IO_REGION_SIZE 0x1000
-+#define CXL2_COMPONENT_CM_REGION_SIZE 0x1000
-+#define CXL2_COMPONENT_BLOCK_SIZE 0x10000
-+
-+#include "qemu/range.h"
-+#include "qemu/typedefs.h"
-+#include "hw/register.h"
-+
-+enum reg_type {
-+    CXL2_DEVICE,
-+    CXL2_TYPE3_DEVICE,
-+    CXL2_LOGICAL_DEVICE,
-+    CXL2_ROOT_PORT,
-+    CXL2_UPSTREAM_PORT,
-+    CXL2_DOWNSTREAM_PORT
-+};
-+
-+/*
-+ * Capability registers are defined at the top of the CXL.cache/mem region and
-+ * are packed. For our purposes we will always define the caps in the same
-+ * order.
-+ * CXL 2.0 - 8.2.5 Table 142 for details.
-+ */
-+
-+/* CXL 2.0 - 8.2.5.1 */
-+REG32(CXL_CAPABILITY_HEADER, 0)
-+    FIELD(CXL_CAPABILITY_HEADER, ID, 0, 16)
-+    FIELD(CXL_CAPABILITY_HEADER, VERSION, 16, 4)
-+    FIELD(CXL_CAPABILITY_HEADER, CACHE_MEM_VERSION, 20, 4)
-+    FIELD(CXL_CAPABILITY_HEADER, ARRAY_SIZE, 24, 8)
-+
-+#define CXLx_CAPABILITY_HEADER(type, offset)                  \
-+    REG32(CXL_##type##_CAPABILITY_HEADER, offset)             \
-+        FIELD(CXL_##type##_CAPABILITY_HEADER, ID, 0, 16)      \
-+        FIELD(CXL_##type##_CAPABILITY_HEADER, VERSION, 16, 4) \
-+        FIELD(CXL_##type##_CAPABILITY_HEADER, PTR, 20, 12)
-+CXLx_CAPABILITY_HEADER(RAS, 0x4)
-+CXLx_CAPABILITY_HEADER(LINK, 0x8)
-+CXLx_CAPABILITY_HEADER(HDM, 0xc)
-+CXLx_CAPABILITY_HEADER(EXTSEC, 0x10)
-+CXLx_CAPABILITY_HEADER(SNOOP, 0x14)
-+
-+/*
-+ * Capability structures contain the actual registers that the CXL component
-+ * implements. Some of these are specific to certain types of components, but
-+ * this implementation leaves enough space regardless.
-+ */
-+/* 8.2.5.9 - CXL RAS Capability Structure */
-+#define CXL_RAS_REGISTERS_OFFSET 0x80 /* Give ample space for caps before this */
-+#define CXL_RAS_REGISTERS_SIZE   0x58
-+REG32(CXL_RAS_UNC_ERR_STATUS, CXL_RAS_REGISTERS_OFFSET)
-+REG32(CXL_RAS_UNC_ERR_MASK, CXL_RAS_REGISTERS_OFFSET + 0x4)
-+REG32(CXL_RAS_UNC_ERR_SEVERITY, CXL_RAS_REGISTERS_OFFSET + 0x8)
-+REG32(CXL_RAS_COR_ERR_STATUS, CXL_RAS_REGISTERS_OFFSET + 0xc)
-+REG32(CXL_RAS_COR_ERR_MASK, CXL_RAS_REGISTERS_OFFSET + 0x10)
-+REG32(CXL_RAS_ERR_CAP_CTRL, CXL_RAS_REGISTERS_OFFSET + 0x14)
-+/* Offset 0x18 - 0x58 reserved for RAS logs */
-+
-+/* 8.2.5.10 - CXL Security Capability Structure */
-+#define CXL_SEC_REGISTERS_OFFSET (CXL_RAS_REGISTERS_OFFSET + CXL_RAS_REGISTERS_SIZE)
-+#define CXL_SEC_REGISTERS_SIZE   0 /* We don't implement 1.1 downstream ports */
-+
-+/* 8.2.5.11 - CXL Link Capability Structure */
-+#define CXL_LINK_REGISTERS_OFFSET (CXL_SEC_REGISTERS_OFFSET + CXL_SEC_REGISTERS_SIZE)
-+#define CXL_LINK_REGISTERS_SIZE   0x38
-+
-+/* 8.2.5.12 - CXL HDM Decoder Capability Structure */
-+#define HDM_DECODE_MAX 10 /* 8.2.5.12.1 */
-+#define CXL_HDM_REGISTERS_OFFSET \
-+    (CXL_LINK_REGISTERS_OFFSET + CXL_LINK_REGISTERS_SIZE) /* 8.2.5.12 */
-+#define CXL_HDM_REGISTERS_SIZE (0x20 + HDM_DECODE_MAX * 10)
-+#define HDM_DECODER_INIT(n)                                                    \
-+  REG32(CXL_HDM_DECODER##n##_BASE_LO,                                          \
-+        CXL_HDM_REGISTERS_OFFSET + (0x20 * n) + 0x10)                          \
-+            FIELD(CXL_HDM_DECODER##n##_BASE_LO, L, 28, 4)                      \
-+  REG32(CXL_HDM_DECODER##n##_BASE_HI,                                          \
-+        CXL_HDM_REGISTERS_OFFSET + (0x20 * n) + 0x14)                          \
-+  REG32(CXL_HDM_DECODER##n##_SIZE_LO,                                          \
-+        CXL_HDM_REGISTERS_OFFSET + (0x20 * n) + 0x18)                          \
-+  REG32(CXL_HDM_DECODER##n##_SIZE_HI,                                          \
-+        CXL_HDM_REGISTERS_OFFSET + (0x20 * n) + 0x1C)                          \
-+  REG32(CXL_HDM_DECODER##n##_CTRL,                                             \
-+        CXL_HDM_REGISTERS_OFFSET + (0x20 * n) + 0x20)                          \
-+            FIELD(CXL_HDM_DECODER##n##_CTRL, IG, 0, 4)                         \
-+            FIELD(CXL_HDM_DECODER##n##_CTRL, IW, 4, 4)                         \
-+            FIELD(CXL_HDM_DECODER##n##_CTRL, LOCK_ON_COMMIT, 8, 1)             \
-+            FIELD(CXL_HDM_DECODER##n##_CTRL, COMMIT, 9, 1)                     \
-+            FIELD(CXL_HDM_DECODER##n##_CTRL, COMMITTED, 10, 1)                 \
-+            FIELD(CXL_HDM_DECODER##n##_CTRL, ERROR, 11, 1)                     \
-+            FIELD(CXL_HDM_DECODER##n##_CTRL, TYPE, 12, 1)                      \
-+  REG32(CXL_HDM_DECODER##n##_TARGET_LIST_LO, 0x24)                             \
-+  REG32(CXL_HDM_DECODER##n##_TARGET_LIST_HI, 0x28)
-+
-+REG32(CXL_HDM_DECODER_CAPABILITY, 0)
-+    FIELD(CXL_HDM_DECODER_CAPABILITY, DECODER_COUNT, 0, 4)
-+    FIELD(CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT, 4, 4)
-+    FIELD(CXL_HDM_DECODER_CAPABILITY, INTERLEAVE_256B, 8, 1)
-+    FIELD(CXL_HDM_DECODER_CAPABILITY, INTELEAVE_4K, 9, 1)
-+    FIELD(CXL_HDM_DECODER_CAPABILITY, POISON_ON_ERR_CAP, 10, 1)
-+REG32(CXL_HDM_DECODER_GLOBAL_CONTROL, 0)
-+    FIELD(CXL_HDM_DECODER_GLOBAL_CONTROL, POISON_ON_ERR_EN, 0, 1)
-+    FIELD(CXL_HDM_DECODER_GLOBAL_CONTROL, HDM_DECODER_ENABLE, 1, 1)
-+
-+HDM_DECODER_INIT(0);
-+
-+/* 8.2.5.13 - CXL Extended Security Capability Structure (Root complex only) */
-+#define EXTSEC_ENTRY_MAX        256
-+#define CXL_EXTSEC_REGISTERS_OFFSET (CXL_HDM_REGISTERS_OFFSET + CXL_HDM_REGISTERS_SIZE)
-+#define CXL_EXTSEC_REGISTERS_SIZE   (8 * EXTSEC_ENTRY_MAX + 4)
-+
-+/* 8.2.5.14 - CXL IDE Capability Structure */
-+#define CXL_IDE_REGISTERS_OFFSET (CXL_EXTSEC_REGISTERS_OFFSET + CXL_EXTSEC_REGISTERS_SIZE)
-+#define CXL_IDE_REGISTERS_SIZE   0
-+
-+/* 8.2.5.15 - CXL Snoop Filter Capability Structure */
-+#define CXL_SNOOP_REGISTERS_OFFSET (CXL_IDE_REGISTERS_OFFSET + CXL_IDE_REGISTERS_SIZE)
-+#define CXL_SNOOP_REGISTERS_SIZE   0x8
-+
-+_Static_assert((CXL_SNOOP_REGISTERS_OFFSET + CXL_SNOOP_REGISTERS_SIZE) < 0x1000,
-+               "No space for registers");
-+
-+typedef struct component_registers {
-+    /*
-+     * Main memory region to be registered with QEMU core.
-+     */
-+    MemoryRegion component_registers;
-+
-+    /*
-+     * 8.2.4 Table 141:
-+     *   0x0000 - 0x0fff CXL.io registers
-+     *   0x1000 - 0x1fff CXL.cache and CXL.mem
-+     *   0x2000 - 0xdfff Implementation specific
-+     *   0xe000 - 0xe3ff CXL ARB/MUX registers
-+     *   0xe400 - 0xffff RSVD
-+     */
-+    uint32_t io_registers[CXL2_COMPONENT_IO_REGION_SIZE >> 2];
-+    MemoryRegion io;
-+
-+    uint32_t cache_mem_registers[CXL2_COMPONENT_CM_REGION_SIZE >> 2];
-+    MemoryRegion cache_mem;
-+
-+    MemoryRegion impl_specific;
-+    MemoryRegion arb_mux;
-+    MemoryRegion rsvd;
-+
-+    /* special_ops is used for any component that needs any specific handling */
-+    MemoryRegionOps *special_ops;
-+} ComponentRegisters;
-+
-+/*
-+ * A CXL component represents all entities in a CXL hierarchy. This includes,
-+ * host bridges, root ports, upstream/downstream switch ports, and devices
-+ */
-+typedef struct cxl_component {
-+    ComponentRegisters crb;
-+    union {
-+        struct {
-+            Range dvsecs[CXL20_MAX_DVSEC];
-+            uint16_t dvsec_offset;
-+            struct PCIDevice *pdev;
-+        };
-+    };
-+} CXLComponentState;
-+
-+void cxl_component_register_block_init(Object *obj,
-+                                       CXLComponentState *cxl_cstate,
-+                                       const char *type);
-+void cxl_component_register_init_common(uint32_t *reg_state,
-+                                        enum reg_type type);
-+
-+void cxl_component_create_dvsec(CXLComponentState *cxl_cstate, uint16_t length,
-+                                uint16_t type, uint8_t rev, uint8_t *body);
-+
-+#endif
-diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
-new file mode 100644
-index 0000000000..a53c2e5ae7
---- /dev/null
-+++ b/include/hw/cxl/cxl_pci.h
-@@ -0,0 +1,138 @@
-+/*
-+ * QEMU CXL PCI interfaces
-+ *
-+ * Copyright (c) 2020 Intel
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2. See the
-+ * COPYING file in the top-level directory.
-+ */
-+
-+#ifndef CXL_PCI_H
-+#define CXL_PCI_H
-+
-+#include "hw/pci/pci.h"
-+#include "hw/pci/pcie.h"
-+
-+#define CXL_VENDOR_ID 0x1e98
-+
-+#define PCIE_DVSEC_HEADER1_OFFSET 0x4 /* Offset from start of extend cap */
-+#define PCIE_DVSEC_ID_OFFSET 0x8
-+
-+#define PCIE_CXL_DEVICE_DVSEC_LENGTH 0x38
-+#define PCIE_CXL1_DEVICE_DVSEC_REVID 0
-+#define PCIE_CXL2_DEVICE_DVSEC_REVID 1
-+
-+#define EXTENSIONS_PORT_DVSEC_LENGTH 0x28
-+#define EXTENSIONS_PORT_DVSEC_REVID 0
-+
-+#define GPF_PORT_DVSEC_LENGTH 0x10
-+#define GPF_PORT_DVSEC_REVID  0
-+
-+#define PCIE_FLEXBUS_PORT_DVSEC_LENGTH_2_0 0x14
-+#define PCIE_FLEXBUS_PORT_DVSEC_REVID_2_0  1
-+
-+#define REG_LOC_DVSEC_LENGTH 0x24
-+#define REG_LOC_DVSEC_REVID  0
-+
-+enum {
-+    PCIE_CXL_DEVICE_DVSEC      = 0,
-+    NON_CXL_FUNCTION_MAP_DVSEC = 2,
-+    EXTENSIONS_PORT_DVSEC      = 3,
-+    GPF_PORT_DVSEC             = 4,
-+    GPF_DEVICE_DVSEC           = 5,
-+    PCIE_FLEXBUS_PORT_DVSEC    = 7,
-+    REG_LOC_DVSEC              = 8,
-+    MLD_DVSEC                  = 9,
-+    CXL20_MAX_DVSEC
-+};
-+
-+struct dvsec_header {
-+    uint32_t cap_hdr;
-+    uint32_t dv_hdr1;
-+    uint16_t dv_hdr2;
-+} __attribute__((__packed__));
-+_Static_assert(sizeof(struct dvsec_header) == 10,
-+               "dvsec header size incorrect");
-+
-+/*
-+ * CXL 2.0 devices must implement certain DVSEC IDs, and can [optionally]
-+ * implement others.
-+ *
-+ * CXL 2.0 Device: 0, [2], 5, 8
-+ * CXL 2.0 RP: 3, 4, 7, 8
-+ * CXL 2.0 Upstream Port: [2], 7, 8
-+ * CXL 2.0 Downstream Port: 3, 4, 7, 8
-+ */
-+
-+/* CXL 2.0 - 8.1.5 (ID 0003) */
-+struct extensions_dvsec_port {
-+    struct dvsec_header hdr;
-+    uint16_t status;
-+    uint16_t control;
-+    uint8_t alt_bus_base;
-+    uint8_t alt_bus_limit;
-+    uint16_t alt_memory_base;
-+    uint16_t alt_memory_limit;
-+    uint16_t alt_prefetch_base;
-+    uint16_t alt_prefetch_limit;
-+    uint32_t alt_prefetch_base_high;
-+    uint32_t alt_prefetch_base_low;
-+    uint32_t rcrb_base;
-+    uint32_t rcrb_base_high;
-+};
-+_Static_assert(sizeof(struct extensions_dvsec_port) == 0x28,
-+               "extensions dvsec port size incorrect");
-+#define PORT_CONTROL_OVERRIDE_OFFSET 0xc
-+#define PORT_CONTROL_UNMASK_SBR      1
-+#define PORT_CONTROL_ALT_MEMID_EN    4
-+
-+/* CXL 2.0 - 8.1.6 GPF DVSEC (ID 0004) */
-+struct dvsec_port_gpf {
-+    struct dvsec_header hdr;
-+    uint16_t rsvd;
-+    uint16_t phase1_ctrl;
-+    uint16_t phase2_ctrl;
-+};
-+_Static_assert(sizeof(struct dvsec_port_gpf) == 0x10,
-+               "dvsec port GPF size incorrect");
-+
-+/* CXL 2.0 - 8.1.8/8.2.1.3 Flexbus DVSEC (ID 0007) */
-+struct dvsec_port_flexbus {
-+    struct dvsec_header hdr;
-+    uint16_t cap;
-+    uint16_t ctrl;
-+    uint16_t status;
-+    uint32_t rcvd_mod_ts_data;
-+};
-+_Static_assert(sizeof(struct dvsec_port_flexbus) == 0x14,
-+               "dvsec port flexbus size incorrect");
-+
-+/* CXL 2.0 - 8.1.9 Register Locator DVSEC (ID 0008) */
-+struct dvsec_register_locator {
-+    struct dvsec_header hdr;
-+    uint16_t rsvd;
-+    uint32_t reg0_base_lo;
-+    uint32_t reg0_base_hi;
-+    uint32_t reg1_base_lo;
-+    uint32_t reg1_base_hi;
-+    uint32_t reg2_base_lo;
-+    uint32_t reg2_base_hi;
-+};
-+_Static_assert(sizeof(struct dvsec_register_locator) == 0x24,
-+               "dvsec register locator size incorrect");
-+
-+/* BAR Equivalence Indicator */
-+#define BEI_BAR_10H 0
-+#define BEI_BAR_14H 1
-+#define BEI_BAR_18H 2
-+#define BEI_BAR_1cH 3
-+#define BEI_BAR_20H 4
-+#define BEI_BAR_24H 5
-+
-+/* Register Block Identifier */
-+#define RBI_EMPTY          0
-+#define RBI_COMPONENT_REG  (1 << 8)
-+#define RBI_BAR_VIRT_ACL   (2 << 8)
-+#define RBI_CXL_DEVICE_REG (3 << 8)
-+
-+#endif
+ static int
+ sev_read_file_base64(const char *filename, guchar **data, gsize *len)
+ {
+diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+index 4db6960f60..e2d0774708 100644
+--- a/target/i386/sev_i386.h
++++ b/target/i386/sev_i386.h
+@@ -35,5 +35,7 @@ extern uint32_t sev_get_cbit_position(void);
+ extern uint32_t sev_get_reduced_phys_bits(void);
+ extern char *sev_get_launch_measurement(void);
+ extern SevCapability *sev_get_capabilities(Error **errp);
++extern SevAttestationReport *
++sev_get_attestation_report(const char *mnonce, Error **errp);
+ 
+ #endif
+diff --git a/target/i386/trace-events b/target/i386/trace-events
+index a22ab24e21..8d6437404d 100644
+--- a/target/i386/trace-events
++++ b/target/i386/trace-events
+@@ -10,3 +10,4 @@ kvm_sev_launch_update_data(void *addr, uint64_t len) "addr %p len 0x%" PRIx64
+ kvm_sev_launch_measurement(const char *value) "data %s"
+ kvm_sev_launch_finish(void) ""
+ kvm_sev_launch_secret(uint64_t hpa, uint64_t hva, uint64_t secret, int len) "hpa 0x%" PRIx64 " hva 0x%" PRIx64 " data 0x%" PRIx64 " len %d"
++kvm_sev_attestation_report(const char *mnonce, const char *data) "mnonce %s data %s"
 -- 
-2.30.0
+2.17.1
 
 
